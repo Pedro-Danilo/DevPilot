@@ -1,0 +1,20 @@
+{
+  "project": "DevPilot Local",
+  "standard": "MIPSoftware",
+  "extension": "MIASI",
+  "version": "0.1.0",
+  "status": "draft",
+  "created": "2026-06-01",
+  "contains": [
+    "product vision",
+    "business case",
+    "mvp scope",
+    "requirements",
+    "architecture",
+    "threat model",
+    "test strategy",
+    "pre-code checklist",
+    "minimal CLI",
+    "pytest test"
+  ]
+}
