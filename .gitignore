@@ -28,3 +28,10 @@ outputs/reports/*.md
 Thumbs.db
 .vscode/
 .idea/
+
+# Python packaging metadata
+*.egg-info/
+src/*.egg-info/
+
+# Local exported archives
+DevPilot_Local*.zip
