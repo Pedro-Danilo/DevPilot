@@ -1,0 +1,42 @@
+{
+  "id": "SPRINT-PRECODE-01",
+  "title": "Producto, negocio y alcance MVP/MVP+",
+  "status": "approved",
+  "version": "1.0.0",
+  "updated": "2026-06-02",
+  "refinement": "DEVPL-PRE-0107 — MVP+ y visión completa de plataforma",
+  "documents": [
+    "docs/00_product/product_vision.md",
+    "docs/00_product/business_case.md",
+    "docs/00_product/stakeholder_map.md",
+    "docs/00_product/mvp_scope.md",
+    "docs/00_product/product_roadmap.md",
+    "docs/00_product/sprint_precode_01_product_baseline_review.md",
+    "docs/00_product/devpl_pre_0107_refinement_review.md"
+  ],
+  "applied_refinements": [
+    "Entorno virtual de desarrollo",
+    "Producción, análisis, codificación, despliegue y control de repos reales",
+    "Refactor seguro",
+    "Validación de patches",
+    "Revisión de código",
+    "Propuestas de ajustes",
+    "Semiautomatización mediante agentes IA",
+    "Integración con Git",
+    "Justificación del MVP acotado",
+    "Definición de MVP+",
+    "Compromiso CLI → desktop → web",
+    "Definición local-first",
+    "Viabilidad y naturaleza híbrida tradicional/agentic",
+    "Visión de workspaces"
+  ],
+  "verdict": "ready_for_owner_approval",
+  "next_sprint": "SPRINT-PRECODE-02 — Requerimientos, historias, casos de uso y trazabilidad",
+  "doc_id": "DEVPL-PRECODE-01-MANIFEST",
+  "sprint": "SPRINT-PRECODE-01",
+  "approved_by": "Ordóñez",
+  "approved_at": "2026-06-02",
+  "approval_scope": "product_baseline",
+  "controlled_changes_allowed": true,
+  "notes": "La baseline de producto queda aprobada como entrada para SPRINT-PRECODE-02; puede ajustarse de forma controlada si las fases posteriores evidencian cambios necesarios."
+}

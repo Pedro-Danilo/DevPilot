@@ -1,0 +1,29 @@
+{
+  "doc_id": "DEVPL-PRECODE-02-MANIFEST",
+  "sprint": "SPRINT-PRECODE-02",
+  "title": "Requerimientos, historias, casos de uso y trazabilidad",
+  "status": "reviewed",
+  "version": "0.1.0",
+  "owner": "Ordóñez",
+  "updated": "2026-06-02",
+  "approval": "ready_for_owner_approval",
+  "source_baseline": "SPRINT-PRECODE-01 product baseline approved",
+  "files": [
+    "docs/01_requirements/requirements_specification.md",
+    "docs/01_requirements/user_stories.md",
+    "docs/01_requirements/use_cases.md",
+    "docs/01_requirements/acceptance_criteria.md",
+    "docs/01_requirements/traceability_matrix.md",
+    "docs/01_requirements/sprint_precode_02_requirements_baseline_review.md"
+  ],
+  "checks": {
+    "mvp_requirements": "PASS",
+    "mvp_plus_requirements": "PASS",
+    "user_stories": "PASS",
+    "use_cases": "PASS",
+    "acceptance_criteria": "PASS",
+    "traceability": "PASS",
+    "workspace_concept": "PASS",
+    "miasi_activation": "PASS"
+  }
+}
