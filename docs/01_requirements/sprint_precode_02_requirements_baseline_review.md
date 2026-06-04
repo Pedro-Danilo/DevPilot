@@ -1,14 +1,14 @@
 ---
 title: "SPRINT-PRECODE-02 Review — Requerimientos, historias, casos de uso y trazabilidad"
 doc_id: "DEVPL-PRECODE-02-REVIEW"
-status: "reviewed"
-version: "0.1.0"
+status: "approved"
+version: "1.0.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
 phase: "SPRINT-PRECODE-02"
 updated: "2026-06-02"
-approval: "ready_for_owner_approval"
+approval: "approved_by_owner_pending_commit"
 source_baseline: "SPRINT-PRECODE-01 product baseline approved"
 ---
 # SPRINT-PRECODE-02 Review — Requerimientos, historias, casos de uso y trazabilidad
@@ -52,3 +52,8 @@ Recomendación: si el owner acepta estos documentos, promover su estado a `appro
 ## 5. Criterio de no avance
 
 No avanzar a arquitectura final ni desarrollo funcional fuerte si existen requerimientos críticos sin criterio de aceptación o sin trazabilidad hacia producto/prueba.
+
+
+## Nota de promoción
+
+Este documento de revisión se promueve a `approved` para mantener consistencia con `sprint_precode_02_approval_audit.md` y con el estado aprobado de los artefactos principales de `01_requirements`. La aprobación queda sujeta a cambios controlados hasta el cierre completo de la baseline pre-code.

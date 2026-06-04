@@ -1,0 +1,32 @@
+{
+  "doc_id": "MIPS-DOC-010",
+  "title": "Seguridad, privacidad y compliance",
+  "version": "0.1.0",
+  "status": "draft",
+  "created": "2026-05-31",
+  "updated": "2026-05-31",
+  "main_file": "docs/software_engineering_model/09_seguridad_privacidad_compliance.md",
+  "templates_created": [
+    "templates/threat_model.md",
+    "templates/security_requirements.md",
+    "templates/privacy_assessment.md",
+    "templates/vulnerability_register.md",
+    "templates/security_test_plan.md",
+    "templates/security_exception.md"
+  ],
+  "references": [
+    "NIST SSDF",
+    "OWASP SAMM",
+    "OWASP ASVS",
+    "OWASP Top 10",
+    "ISO/IEC 27001",
+    "MIASI v1.0.0"
+  ],
+  "acceptance_criteria": {
+    "threat_model_minimum": true,
+    "secrets_outside_code": true,
+    "personal_data_policy": true,
+    "minimum_security_release_gate": true,
+    "miasi_extension_for_llm_agentic_risks": true
+  }
+}

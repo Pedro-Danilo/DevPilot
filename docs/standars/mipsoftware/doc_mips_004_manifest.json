@@ -1,0 +1,33 @@
+{
+  "id": "MIPS-DOC-004",
+  "title": "Ingeniería de producto, negocio y stakeholders",
+  "version": "0.1.0",
+  "status": "draft",
+  "created": "2026-05-31",
+  "updated": "2026-05-31",
+  "main_document": "docs/software_engineering_model/03_producto_negocio_stakeholders.md",
+  "templates": [
+    "docs/software_engineering_model/templates/product_vision.md",
+    "docs/software_engineering_model/templates/business_case.md",
+    "docs/software_engineering_model/templates/stakeholder_map.md",
+    "docs/software_engineering_model/templates/user_personas.md",
+    "docs/software_engineering_model/templates/mvp_scope.md",
+    "docs/software_engineering_model/templates/product_roadmap.md"
+  ],
+  "quality_criteria": [
+    "evita construir software sin problema claro",
+    "permite decidir si el proyecto pasa a requerimientos",
+    "incluye criterios de abandono o pausa",
+    "incluye trazabilidad negocio a requerimientos",
+    "incluye regla de activacion MIASI"
+  ],
+  "external_references": [
+    "ISO/IEC/IEEE 12207",
+    "ISO/IEC/IEEE 29148",
+    "Product Vision Board",
+    "Business Model Canvas",
+    "Value Proposition Canvas",
+    "Jobs To Be Done",
+    "Lean Startup MVP"
+  ]
+}

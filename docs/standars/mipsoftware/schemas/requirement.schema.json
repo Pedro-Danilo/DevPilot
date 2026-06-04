@@ -1,0 +1,89 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mipsoftware.local/schemas/requirement.schema.json",
+  "title": "MIPSoftware Requirement Schema",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "id",
+    "title",
+    "owner",
+    "status",
+    "version",
+    "type",
+    "statement",
+    "acceptance_criteria",
+    "priority",
+    "verification_method"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1
+    },
+    "owner": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "reviewed",
+        "approved",
+        "deprecated"
+      ]
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
+    "updated": {
+      "type": "string",
+      "minLength": 1
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "business",
+        "user",
+        "system",
+        "functional",
+        "non_functional",
+        "constraint",
+        "interface",
+        "data",
+        "security",
+        "operation"
+      ]
+    },
+    "statement": {
+      "type": "string",
+      "minLength": 10
+    },
+    "acceptance_criteria": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1
+    },
+    "priority": {
+      "type": "string",
+      "enum": [
+        "critical",
+        "high",
+        "medium",
+        "low"
+      ]
+    },
+    "verification_method": {
+      "type": "string",
+      "minLength": 1
+    }
+  }
+}

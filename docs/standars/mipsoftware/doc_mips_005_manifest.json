@@ -1,0 +1,47 @@
+{
+  "id": "MIPS-DOC-005",
+  "title": "Ingeniería profesional de requerimientos",
+  "version": "0.1.0",
+  "status": "draft",
+  "created": "2026-05-31",
+  "main_document": "docs/software_engineering_model/04_ingenieria_requerimientos.md",
+  "templates": [
+    "docs/software_engineering_model/templates/requirements_specification.md",
+    "docs/software_engineering_model/templates/user_story.md",
+    "docs/software_engineering_model/templates/use_case.md",
+    "docs/software_engineering_model/templates/acceptance_criteria.md",
+    "docs/software_engineering_model/templates/business_rule.md",
+    "docs/software_engineering_model/templates/traceability_matrix.md"
+  ],
+  "required_sections_covered": [
+    "tipos de requerimientos",
+    "estructura de buen requerimiento",
+    "atributos de calidad",
+    "historias de usuario",
+    "casos de uso",
+    "criterios de aceptación",
+    "reglas de negocio",
+    "matriz de trazabilidad",
+    "priorización",
+    "gestión de cambios",
+    "validación con stakeholders",
+    "relación con backlog",
+    "relación con pruebas",
+    "relación con arquitectura"
+  ],
+  "external_references": [
+    "ISO/IEC/IEEE 29148",
+    "ISO/IEC/IEEE 12207",
+    "ISO/IEC/IEEE 15288",
+    "ISO/IEC 25010",
+    "ISO/IEC/IEEE 29119",
+    "NIST SSDF"
+  ],
+  "miasi_relation": "MIASI se activa para requerimientos con IA, agentes, LLMs, RAG, memoria, tool calling, automatización inteligente o decisiones asistidas.",
+  "acceptance_criteria": {
+    "idea_to_backlog": true,
+    "acceptance_criteria_required": true,
+    "nfr_measurable": true,
+    "traceability_required": true
+  }
+}

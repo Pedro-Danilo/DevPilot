@@ -178,7 +178,7 @@ La utilidad se concentra en la combinación: reglas determinísticas para PASS/F
 | Git local | 0 | 0 | Control de versiones. |
 | pytest | 0 | 0 | Pruebas offline. |
 | Markdown/JSON | 0 | 0 | Documentación y reportes. |
-| LLM/API | 0 | Opcional | No obligatorio. |
+| LLM/API | 0 | Opcional | Opcional bajo CostGuard. |
 | Modelo local | No requerido | Opcional | Ollama/LM Studio futuro. |
 | Desktop UI | No | Futuro | Fase posterior. |
 | Web UI | No | Futuro | Fase posterior al desktop. |

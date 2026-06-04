@@ -1,0 +1,36 @@
+{
+  "id": "DOC-AI-008",
+  "title": "Auditoría editorial, técnica y de trazabilidad de la documentación MIASI",
+  "version": "0.1.0",
+  "status": "draft",
+  "path": "docs/engineering_model/07_auditoria_miasi.md",
+  "created_at": "2026-05-30",
+  "scope": "engineering-model-audit",
+  "audited_documents": [
+    "docs/engineering_model/README.md",
+    "docs/engineering_model/00_manifesto.md",
+    "docs/engineering_model/01_modelo_ingenieria_sistemas_agenticos.md",
+    "docs/engineering_model/02_arquitectura_referencia.md",
+    "docs/engineering_model/03_agentic_sdlc.md",
+    "docs/engineering_model/04_estandares_tecnicos_transversales.md",
+    "docs/engineering_model/05_plantillas_checklists_controles.md",
+    "docs/engineering_model/06_integracion_devpilot_local.md",
+    "docs/engineering_model/templates/*",
+    "docs/engineering_model/checklists/*",
+    "docs/engineering_model/adrs/*"
+  ],
+  "verdict": "approved_with_adjustments",
+  "findings_total": 16,
+  "critical_findings": 0,
+  "high_findings": 1,
+  "medium_findings": 12,
+  "low_findings": 3,
+  "recommended_next_patches": [
+    "PATCH-MIASI-001",
+    "PATCH-MIASI-002",
+    "PATCH-MIASI-003",
+    "PATCH-MIASI-006"
+  ],
+  "readiness_for_devpilot_mvp_design": true,
+  "notes": "La documentación es suficiente para iniciar el diseño del MVP de DevPilot Local, pero requiere patches antes de promover MIASI a reviewed/approved."
+}

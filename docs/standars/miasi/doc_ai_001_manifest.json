@@ -1,0 +1,21 @@
+{
+  "package": "DOC-AI-001 — MIASI docs-as-code foundation",
+  "version": "0.1.0",
+  "created": "2026-05-30",
+  "source_repo_zip": "copia_full_repo_AI_agents_75.zip",
+  "files": [
+    "docs/engineering_model/00_manifesto.md",
+    "docs/engineering_model/README.md",
+    "docs/engineering_model/adrs/ADR-0001-docs-as-code.md",
+    "docs/engineering_model/adrs/ADR-0002-markdown-como-formato-base.md",
+    "docs/engineering_model/adrs/ADR-0003-uso-de-c4-y-mermaid.md",
+    "docs/engineering_model/adrs/ADR-0004-uso-de-diataxis.md",
+    "docs/engineering_model/adrs/ADR-0005-adaptacion-de-arc42.md",
+    "docs/engineering_model/checklists/README.md",
+    "docs/engineering_model/explanations/README.md",
+    "docs/engineering_model/how_to/README.md",
+    "docs/engineering_model/reference/README.md",
+    "docs/engineering_model/templates/README.md",
+    "docs/engineering_model/tutorials/README.md"
+  ]
+}

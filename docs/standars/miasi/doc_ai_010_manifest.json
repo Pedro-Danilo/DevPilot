@@ -1,0 +1,16 @@
+{
+  "document_id": "DOC-AI-010",
+  "title": "Auditoría final de promoción MIASI v1.0.0",
+  "version": "1.0.0",
+  "status": "approved",
+  "created": "2026-05-31",
+  "updated": "2026-05-31",
+  "files": [
+    "10_auditoria_final_promocion_miasi_v1.md",
+    "reference/software_engineering_documentation_stack.md",
+    "reference/final_promotion_decision.md",
+    "README.md"
+  ],
+  "decision": "approved_as_internal_professional_standard_for_agentic_intelligent_systems",
+  "boundary": "not_a_complete_general_software_engineering_standard"
+}

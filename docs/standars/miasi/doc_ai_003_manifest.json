@@ -1,0 +1,39 @@
+{
+  "doc_id": "DOC-AI-003",
+  "title": "Arquitectura de referencia para sistemas agénticos inteligentes",
+  "model": "MIASI",
+  "version": "0.1.0",
+  "status": "draft",
+  "created": "2026-05-30",
+  "updated": "2026-05-30",
+  "path": "docs/engineering_model/02_arquitectura_referencia.md",
+  "purpose": "Definir una arquitectura de referencia profesional para sistemas agénticos inteligentes con agentes, modelos, herramientas, RAG, memoria, evaluación, seguridad, observabilidad, CI/CD y gobernanza.",
+  "applies_to": [
+    "DevPilot Local",
+    "FreelanceOps Agent",
+    "MicroVenta Agent"
+  ],
+  "quality_checks": {
+    "frontmatter_yaml": true,
+    "mandatory_sections": true,
+    "mermaid_diagrams": true,
+    "c4_views": true,
+    "reference_layers": true,
+    "main_flows": true,
+    "deployment_patterns": true,
+    "security_control_points": true,
+    "observable_events": true,
+    "external_references": true
+  },
+  "external_references": [
+    "C4 Model",
+    "arc42",
+    "OpenAI Agents SDK",
+    "LangGraph",
+    "MCP Specification",
+    "OpenTelemetry GenAI",
+    "OWASP Top 10 for LLM Applications",
+    "NIST AI RMF / GenAI Profile",
+    "ISO/IEC 42001"
+  ]
+}

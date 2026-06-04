@@ -1,0 +1,33 @@
+{
+  "doc_id": "MIPS-DOC-009",
+  "title": "Calidad, testing y verificación",
+  "version": "0.1.0",
+  "status": "draft",
+  "created": "2026-05-31",
+  "updated": "2026-05-31",
+  "main_document": "docs/software_engineering_model/08_calidad_testing_verificacion.md",
+  "templates_created": [
+    "docs/software_engineering_model/templates/test_strategy.md",
+    "docs/software_engineering_model/templates/test_plan.md",
+    "docs/software_engineering_model/templates/test_case.md",
+    "docs/software_engineering_model/templates/defect_report.md",
+    "docs/software_engineering_model/templates/quality_gate_report.md",
+    "docs/software_engineering_model/templates/release_test_report.md"
+  ],
+  "standards_referenced": [
+    "ISO/IEC 25010",
+    "ISO/IEC/IEEE 29119",
+    "SWEBOK",
+    "NIST SSDF",
+    "OWASP ASVS",
+    "WCAG",
+    "MIASI v1.0.0"
+  ],
+  "acceptance_criteria": {
+    "no_release_without_quality_gate": true,
+    "critical_requirement_requires_test": true,
+    "critical_bug_requires_regression_test": true,
+    "nfrs_have_metrics_thresholds": true,
+    "miasi_agentic_tests_when_applicable": true
+  }
+}

@@ -1,0 +1,93 @@
+{
+  "doc_id": "DOC-AI-002",
+  "title": "Modelo de Ingeniería de Sistemas Agénticos Inteligentes",
+  "path": "docs/engineering_model/01_modelo_ingenieria_sistemas_agenticos.md",
+  "version": "0.1.0",
+  "status": "draft",
+  "created": "2026-05-30",
+  "source_baseline": "AI_agents LAB-AI-001..LAB-AI-080; LAB-AI-080 local_first_operational_baseline",
+  "acceptance_criteria": [
+    "frontmatter YAML presente",
+    "estructura obligatoria cubierta",
+    "principios normativos definidos",
+    "definiciones y taxonomía incluidas",
+    "niveles de autonomía A0-A7 definidos",
+    "matriz laboratorio-capacidad incluida para 80 laboratorios",
+    "criterios de readiness y bloqueo incluidos",
+    "referencias externas oficiales incluidas"
+  ],
+  "external_references": [
+    {
+      "name": "NIST AI RMF 1.0",
+      "url": "https://www.nist.gov/itl/ai-risk-management-framework"
+    },
+    {
+      "name": "NIST AI 600-1 GenAI Profile",
+      "url": "https://www.nist.gov/publications/artificial-intelligence-risk-management-framework-generative-artificial-intelligence"
+    },
+    {
+      "name": "ISO/IEC 42001:2023",
+      "url": "https://www.iso.org/standard/42001"
+    },
+    {
+      "name": "OWASP Top 10 for LLM Applications 2025",
+      "url": "https://owasp.org/www-project-top-10-for-large-language-model-applications/"
+    },
+    {
+      "name": "OpenAI Agents SDK",
+      "url": "https://developers.openai.com/api/docs/guides/agents"
+    },
+    {
+      "name": "OpenAI Guardrails and human review",
+      "url": "https://developers.openai.com/api/docs/guides/agents/guardrails-approvals"
+    },
+    {
+      "name": "LangGraph overview",
+      "url": "https://docs.langchain.com/oss/python/langgraph/overview"
+    },
+    {
+      "name": "LangGraph durable execution",
+      "url": "https://docs.langchain.com/oss/python/langgraph/durable-execution"
+    },
+    {
+      "name": "Microsoft Foundry Agent Evaluators",
+      "url": "https://learn.microsoft.com/en-us/azure/foundry/concepts/evaluation-evaluators/agent-evaluators"
+    },
+    {
+      "name": "OpenTelemetry GenAI semantic conventions",
+      "url": "https://opentelemetry.io/docs/specs/semconv/gen-ai/"
+    },
+    {
+      "name": "OpenTelemetry GenAI agent spans",
+      "url": "https://opentelemetry.io/docs/specs/semconv/gen-ai/gen-ai-agent-spans/"
+    },
+    {
+      "name": "Model Context Protocol specification",
+      "url": "https://modelcontextprotocol.io/specification/2025-06-18"
+    },
+    {
+      "name": "NIST SSDF SP 800-218",
+      "url": "https://csrc.nist.gov/pubs/sp/800/218/final"
+    },
+    {
+      "name": "SLSA",
+      "url": "https://slsa.dev/"
+    },
+    {
+      "name": "CycloneDX",
+      "url": "https://cyclonedx.org/"
+    },
+    {
+      "name": "arc42",
+      "url": "https://arc42.org/"
+    },
+    {
+      "name": "C4 Model",
+      "url": "https://c4model.com/"
+    },
+    {
+      "name": "Diátaxis",
+      "url": "https://diataxis.fr/"
+    }
+  ]
+}

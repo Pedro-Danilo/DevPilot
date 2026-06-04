@@ -1,0 +1,49 @@
+{
+  "doc_id": "MIPS-DOC-007",
+  "title": "Modelo de dominio, datos e integraciones",
+  "version": "0.1.0",
+  "status": "draft",
+  "created": "2026-05-31",
+  "updated": "2026-05-31",
+  "primary_document": "docs/software_engineering_model/06_dominio_datos_integraciones.md",
+  "templates_created": [
+    "api_contract.md",
+    "data_dictionary.md",
+    "data_model.md",
+    "domain_model.md",
+    "event_contract.md",
+    "integration_contract.md",
+    "migration_plan.md"
+  ],
+  "scope": [
+    "domain model",
+    "entities",
+    "aggregates",
+    "business rules",
+    "invariants",
+    "conceptual data model",
+    "logical data model",
+    "physical data model",
+    "migrations",
+    "data catalog",
+    "retention",
+    "deletion",
+    "API contracts",
+    "event contracts",
+    "API versioning",
+    "error handling",
+    "external integrations",
+    "webhooks",
+    "idempotency",
+    "audit log"
+  ],
+  "external_references": [
+    "OpenAPI Specification",
+    "CloudEvents Specification",
+    "Domain-Driven Design",
+    "ISO 8000",
+    "ISO/IEC/IEEE 12207",
+    "ISO/IEC/IEEE 29148"
+  ],
+  "miasi_activation": true
+}

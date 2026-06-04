@@ -1,0 +1,41 @@
+{
+  "doc_id": "MIPS-DOC-016",
+  "title": "Auditoría final de MIPSoftware",
+  "version": "0.1.0",
+  "status": "reviewed",
+  "verdict": "approved_with_exceptions",
+  "created": "2026-05-31",
+  "updated": "2026-05-31",
+  "files_created": [
+    "docs/software_engineering_model/15_auditoria_final_mipsoftware.md",
+    "docs/software_engineering_model/reference/final_promotion_decision.md",
+    "docs/software_engineering_model/reference/mipsoftware_exception_register.md",
+    "docs/software_engineering_model/reference/devpilot_validation_backlog.md"
+  ],
+  "files_updated": [
+    "docs/software_engineering_model/README.md"
+  ],
+  "audit_scope": [
+    "README",
+    "manifesto",
+    "doc rector",
+    "lifecycle",
+    "product",
+    "requirements",
+    "architecture",
+    "domain-data-api",
+    "ux-ui",
+    "quality-testing",
+    "security",
+    "devops",
+    "observability",
+    "maintenance-retirement",
+    "MIASI integration",
+    "templates",
+    "checklists",
+    "schemas"
+  ],
+  "critical_findings": 0,
+  "open_non_blocking_exceptions": 5,
+  "ready_for_devpilot_local": true
+}

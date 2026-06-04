@@ -1,0 +1,62 @@
+{
+  "doc_id": "MIPS-DOC-015",
+  "title": "Plantillas, checklists y schemas operativos de MIPSoftware",
+  "version": "0.1.0",
+  "status": "draft",
+  "created_at": "2026-05-31",
+  "main_document": "docs/software_engineering_model/14_plantillas_checklists_schemas_operativos.md",
+  "templates_created": [
+    "acceptance_criteria.md",
+    "adr_template.md",
+    "api_contract.md",
+    "architecture_document.md",
+    "business_case.md",
+    "ci_cd_strategy.md",
+    "data_model.md",
+    "deployment_checklist.md",
+    "domain_model.md",
+    "incident_report.md",
+    "maintenance_plan.md",
+    "postmortem.md",
+    "privacy_assessment.md",
+    "product_vision.md",
+    "release_plan.md",
+    "requirements_specification.md",
+    "retirement_plan.md",
+    "runbook.md",
+    "security_threat_model.md",
+    "stakeholder_map.md",
+    "test_case.md",
+    "test_strategy.md",
+    "use_case.md",
+    "user_story.md",
+    "ux_screen_spec.md"
+  ],
+  "checklists_created": [
+    "checklist_architecture_ready.md",
+    "checklist_miasi_required.md",
+    "checklist_operational_ready.md",
+    "checklist_pre_code.md",
+    "checklist_production_ready.md",
+    "checklist_release_ready.md",
+    "checklist_requirements_ready.md",
+    "checklist_security_ready.md",
+    "checklist_testing_ready.md"
+  ],
+  "schemas_created": [
+    "adr.schema.json",
+    "api_contract.schema.json",
+    "product_vision.schema.json",
+    "production_readiness.schema.json",
+    "release_plan.schema.json",
+    "requirement.schema.json",
+    "security_threat_model.schema.json",
+    "test_case.schema.json"
+  ],
+  "criteria": {
+    "manual_use": true,
+    "devpilot_automation_ready": true,
+    "real_project_applicability": true,
+    "miasi_integration": true
+  }
+}

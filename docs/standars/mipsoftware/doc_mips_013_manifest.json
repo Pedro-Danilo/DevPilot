@@ -1,0 +1,46 @@
+{
+  "doc_id": "MIPS-DOC-013",
+  "title": "Mantenimiento, evolución, deuda técnica y retiro",
+  "version": "0.1.0",
+  "status": "draft",
+  "created": "2026-05-31",
+  "updated": "2026-05-31",
+  "main_document": "docs/software_engineering_model/12_mantenimiento_evolucion_retiro.md",
+  "templates_created": [
+    "docs/software_engineering_model/templates/maintenance_plan.md",
+    "docs/software_engineering_model/templates/technical_debt_register.md",
+    "docs/software_engineering_model/templates/refactoring_plan.md",
+    "docs/software_engineering_model/templates/deprecation_notice.md",
+    "docs/software_engineering_model/templates/retirement_plan.md"
+  ],
+  "coverage": [
+    "mantenimiento correctivo",
+    "mantenimiento evolutivo",
+    "mantenimiento preventivo",
+    "mantenimiento adaptativo",
+    "technical debt register",
+    "refactoring policy",
+    "deprecation policy",
+    "version support policy",
+    "migration policy",
+    "data migration",
+    "sunset plan",
+    "retirement checklist",
+    "user communication",
+    "archiving",
+    "compliance retention",
+    "MIASI activation"
+  ],
+  "acceptance_criteria": {
+    "maintenance_policy_required": true,
+    "critical_debt_must_be_registered": true,
+    "retirement_must_protect_data_and_users": true
+  },
+  "external_references": [
+    "ISO/IEC/IEEE 12207",
+    "ISO/IEC/IEEE 14764",
+    "ISO/IEC 25010",
+    "SEBoK",
+    "NIST SSDF"
+  ]
+}

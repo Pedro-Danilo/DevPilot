@@ -1,0 +1,31 @@
+{
+  "document_id": "PATCH-MIASI-POST-AUDIT",
+  "title": "Remediación post-auditoría MIASI",
+  "version": "0.1.0",
+  "status": "draft",
+  "updated": "2026-05-30",
+  "created_files": [
+    "docs/engineering_model/08_remediacion_post_auditoria_miasi.md",
+    "docs/engineering_model/reference/README.md",
+    "docs/engineering_model/reference/glosario_normativo.md",
+    "docs/engineering_model/reference/politica_referencias.md",
+    "docs/engineering_model/reference/control_catalog.md",
+    "docs/engineering_model/reference/privacy_data_governance.md",
+    "docs/engineering_model/reference/contrato_cli_devpilot.md",
+    "docs/engineering_model/reference/modelo_logico_devpilot.md",
+    "docs/engineering_model/reference/taxonomia_incidentes_slo_sla.md",
+    "docs/engineering_model/reference/supply_chain_provenance_roadmap.md",
+    "docs/engineering_model/reference/validacion_diagramas_mermaid.md",
+    "docs/engineering_model/reference/lab_traceability_annex.md",
+    "docs/engineering_model/checklists/waiver_exception_policy.md",
+    "docs/engineering_model/schemas/README.md",
+    "docs/engineering_model/schemas/agent_card.schema.json",
+    "docs/engineering_model/schemas/tool_card.schema.json",
+    "docs/engineering_model/schemas/eval_card.schema.json",
+    "docs/engineering_model/schemas/policy_card.schema.json",
+    "docs/engineering_model/schemas/readiness_checklist.schema.json"
+  ],
+  "updated_files": [
+    "docs/engineering_model/README.md"
+  ]
+}

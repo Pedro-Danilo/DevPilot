@@ -1,0 +1,19 @@
+{
+  "doc_id": "DEVPL-AUDIT-PRECODE-0001",
+  "created": "2026-06-04",
+  "source_zip": "DevPilot_Local-docs_03.zip",
+  "changes": [
+    "Added docs/README.md",
+    "Added docs/estándares/README.md",
+    "Added docs/reference/standards_inside_docs_decision.md",
+    "Updated docs/reference/mipsoftware_adoption.md",
+    "Added docs/precode_coordination_audit.md",
+    "Aligned 01_requirements/sprint_precode_02_requirements_baseline_review.md to approved"
+  ],
+  "verdict": {
+    "standards_inside_docs": "pertinent_with_policy",
+    "00_product": "approved",
+    "01_requirements": "approved",
+    "02_architecture": "reviewed_pending_owner_adrs"
+  }
+}

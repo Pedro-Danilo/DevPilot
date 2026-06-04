@@ -1,0 +1,44 @@
+{
+  "document_id": "DOC-AI-005",
+  "title": "Estándares técnicos transversales para sistemas agénticos inteligentes",
+  "version": "0.1.0",
+  "status": "draft",
+  "path": "docs/engineering_model/04_estandares_tecnicos_transversales.md",
+  "created": "2026-05-31",
+  "updated": "2026-05-31",
+  "type": "technical_standards",
+  "related_documents": [
+    "docs/engineering_model/01_modelo_ingenieria_sistemas_agenticos.md",
+    "docs/engineering_model/02_arquitectura_referencia.md",
+    "docs/engineering_model/03_agentic_sdlc.md"
+  ],
+  "required_sections": [
+    "Agent Contract",
+    "ModelAdapter",
+    "Tool Contract",
+    "Tool Registry",
+    "Permisos y side effects",
+    "Dry-run y execute",
+    "RAG",
+    "Memoria",
+    "Evaluación",
+    "Trazas y logs",
+    "Métricas",
+    "Secret management",
+    "SAST/SBOM",
+    "Policy-as-code",
+    "Human approval",
+    "CI/CD",
+    "Documentación técnica",
+    "Errores y fallback",
+    "Costos",
+    "Integración con MCP/API/tools"
+  ],
+  "validation": {
+    "frontmatter_yaml": true,
+    "markdown": true,
+    "examples_yaml_json_markdown": true,
+    "matrices_included": true,
+    "lab_traceability": true
+  }
+}

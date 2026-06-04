@@ -1,0 +1,30 @@
+{
+  "doc_id": "MIPS-DOC-008",
+  "title": "UX/UI, accesibilidad y experiencia de usuario",
+  "version": "0.1.0",
+  "status": "draft",
+  "created": "2026-05-31",
+  "updated": "2026-05-31",
+  "main_document": "docs/software_engineering_model/07_ux_ui_accesibilidad.md",
+  "templates_created": [
+    "templates/ux_research.md",
+    "templates/user_journey.md",
+    "templates/screen_spec.md",
+    "templates/form_spec.md",
+    "templates/accessibility_checklist.md",
+    "templates/design_system.md"
+  ],
+  "acceptance_criteria": {
+    "visible_functionality_has_user_flow": true,
+    "forms_have_validation_and_error_handling": true,
+    "basic_accessibility_considered": true,
+    "miasi_activation_rules_for_ai_ux": true
+  },
+  "external_references": [
+    "ISO 9241-210",
+    "W3C WCAG 2.2",
+    "W3C WAI Forms Tutorial",
+    "Nielsen Norman Group 10 Usability Heuristics",
+    "ISO/IEC 25010"
+  ]
+}

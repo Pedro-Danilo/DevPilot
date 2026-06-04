@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "MIASI Tool Card",
+  "type": "object",
+  "required": [
+    "tool_id",
+    "name",
+    "purpose",
+    "input_schema",
+    "output_schema",
+    "side_effects",
+    "risk_level",
+    "dry_run_supported"
+  ],
+  "properties": {
+    "tool_id": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "purpose": {
+      "type": "string"
+    },
+    "input_schema": {
+      "type": "object"
+    },
+    "output_schema": {
+      "type": "object"
+    },
+    "side_effects": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "risk_level": {
+      "type": "string",
+      "enum": [
+        "low",
+        "medium",
+        "high",
+        "critical"
+      ]
+    },
+    "dry_run_supported": {
+      "type": "boolean"
+    }
+  },
+  "additionalProperties": true
+}

@@ -1,0 +1,24 @@
+{
+  "doc_id": "MIPS-DOC-017",
+  "title": "Auditoría post-integración repo 77 de MIPSoftware",
+  "version": "0.1.0",
+  "status": "reviewed",
+  "created": "2026-06-01",
+  "updated": "2026-06-01",
+  "files_created": [
+    "docs/software_engineering_model/16_auditoria_post_repo77_mipsoftware.md",
+    "docs/software_engineering_model/reference/procedimiento_aplicacion_mipsoftware_devpilot.md",
+    "docs/software_engineering_model/doc_mips_017_manifest.json"
+  ],
+  "files_modified": [
+    "docs/software_engineering_model/README.md",
+    "docs/software_engineering_model/reference/README.md",
+    "multiple docs/templates/checklists normalized with frontmatter YAML"
+  ],
+  "verdict": "reviewed / approved with exceptions",
+  "remaining_exceptions": [
+    "schemas parciales",
+    "validadores CLI pendientes",
+    "validación end-to-end en DevPilot Local pendiente"
+  ]
+}

@@ -1,29 +1,23 @@
 {
   "doc_id": "DEVPL-PRECODE-02-MANIFEST",
-  "sprint": "SPRINT-PRECODE-02",
-  "title": "Requerimientos, historias, casos de uso y trazabilidad",
-  "status": "reviewed",
-  "version": "0.1.0",
-  "owner": "Ordóñez",
+  "title": "SPRINT-PRECODE-02 Requirements Baseline Manifest",
+  "status": "approved",
+  "version": "1.0.0",
   "updated": "2026-06-02",
-  "approval": "ready_for_owner_approval",
-  "source_baseline": "SPRINT-PRECODE-01 product baseline approved",
-  "files": [
-    "docs/01_requirements/requirements_specification.md",
-    "docs/01_requirements/user_stories.md",
-    "docs/01_requirements/use_cases.md",
-    "docs/01_requirements/acceptance_criteria.md",
-    "docs/01_requirements/traceability_matrix.md",
-    "docs/01_requirements/sprint_precode_02_requirements_baseline_review.md"
+  "documents": [
+    "requirements_specification.md",
+    "user_stories.md",
+    "use_cases.md",
+    "acceptance_criteria.md",
+    "traceability_matrix.md",
+    "sprint_precode_02_approval_audit.md"
   ],
-  "checks": {
-    "mvp_requirements": "PASS",
-    "mvp_plus_requirements": "PASS",
-    "user_stories": "PASS",
-    "use_cases": "PASS",
-    "acceptance_criteria": "PASS",
-    "traceability": "PASS",
-    "workspace_concept": "PASS",
-    "miasi_activation": "PASS"
-  }
+  "key_adjustments": [
+    "MVP clarified as more than document existence checking",
+    "MVP includes controlled pre-code documentation and audit agents",
+    "workspace minimal capability moved into MVP",
+    "MVP+ keeps Git, repo analysis, patches, code review and safe refactor",
+    "traceability expanded to agent-related requirements"
+  ],
+  "ready_for_architecture_sprint": true
 }

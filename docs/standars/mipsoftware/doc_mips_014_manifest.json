@@ -1,0 +1,50 @@
+{
+  "doc_id": "MIPS-DOC-014",
+  "title": "Integración formal de MIASI como extensión inteligente de MIPSoftware",
+  "version": "0.1.0",
+  "status": "draft",
+  "created": "2026-05-31",
+  "updated": "2026-05-31",
+  "path": "docs/software_engineering_model/13_extension_miasi.md",
+  "scope": "software-engineering-model / intelligent-systems-extension",
+  "purpose": "Definir cuándo y cómo se activa MIASI dentro de MIPSoftware.",
+  "mandatory_sections": [
+    "Cuándo se activa MIASI",
+    "Documentos MIASI obligatorios",
+    "Integración Agentic SDLC con SDLC general",
+    "Quality gates MIASI con gates generales",
+    "Trazas AgentOps con observabilidad general",
+    "Seguridad LLM con seguridad de software",
+    "Evaluaciones agentic con testing general",
+    "Costos de modelos",
+    "Aprobaciones humanas",
+    "Riesgo específico IA"
+  ],
+  "created_files": [
+    "docs/software_engineering_model/13_extension_miasi.md",
+    "docs/software_engineering_model/doc_mips_014_manifest.json"
+  ],
+  "updated_files": [
+    "docs/software_engineering_model/README.md"
+  ],
+  "external_references": [
+    "NIST AI RMF / GenAI Profile",
+    "ISO/IEC 42001",
+    "OWASP Top 10 for LLM Applications",
+    "OpenAI Agents SDK",
+    "LangGraph",
+    "Microsoft Foundry Agent Evaluators",
+    "OpenTelemetry GenAI Semantic Conventions",
+    "MCP Specification"
+  ],
+  "acceptance_checks": {
+    "miasi_not_replacing_mipsoftware": true,
+    "all_ai_apps_must_comply_with_both": true,
+    "auditable_miasi_activation": true,
+    "mermaid_flow_included": true,
+    "mipsoftware_to_miasi_matrix_included": true,
+    "system_type_to_required_docs_matrix_included": true,
+    "ai_risk_to_controls_matrix_included": true,
+    "pass_fail_block_criteria_included": true
+  }
+}

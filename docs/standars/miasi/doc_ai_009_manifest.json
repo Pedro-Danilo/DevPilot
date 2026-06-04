@@ -1,0 +1,28 @@
+{
+  "document_id": "DOC-AI-009",
+  "title": "Auditoría final y decisión de promoción MIASI",
+  "version": "0.1.0",
+  "status": "reviewed",
+  "baseline": "MIASI v0.3.0",
+  "decision": "aprobado_para_uso_como_estandar_profesional_de_trabajo",
+  "files_created": [
+    "09_auditoria_final_miasi.md",
+    "reference/final_promotion_decision.md"
+  ],
+  "files_updated": [
+    "README.md",
+    "00_manifesto.md",
+    "02_arquitectura_referencia.md",
+    "04_estandares_tecnicos_transversales.md",
+    "07_auditoria_miasi.md",
+    "08_remediacion_post_auditoria_miasi.md",
+    "reference/README.md"
+  ],
+  "non_blocking_residual_gaps": [
+    "tutorials/how_to/explanations can be expanded during DevPilot",
+    "schemas need CLI validators",
+    "Mermaid validation should be automated in CI",
+    "supply chain advanced controls require production context"
+  ],
+  "next_step": "Diseñar APPLIED-AI-001 DevPilot Local usando MIASI v0.3.0 como estándar de trabajo."
+}

@@ -1,0 +1,31 @@
+{
+  "doc_id": "DEVPL-PRECODE-03-MANIFEST",
+  "status": "reviewed",
+  "version": "0.2.0",
+  "updated": "2026-06-02",
+  "approval": "ready_for_owner_approval",
+  "changes": [
+    "Clarified architecture baseline covers MVP, MVP+ and post-MVP.",
+    "Defined local-first hybrid strategy with ModelAdapter and CostGuard.",
+    "Expanded industrial agent runtime under MIASI.",
+    "Defined local persistence strategy with filesystem, SQLite and JSONL.",
+    "Expanded security architecture with Policy Engine, SecretGuard, approvals and observability.",
+    "Added ADR-0006 to ADR-0009."
+  ],
+  "files": [
+    "docs/02_architecture/architecture_document.md",
+    "docs/02_architecture/c4_context.md",
+    "docs/02_architecture/c4_container.md",
+    "docs/02_architecture/adrs/ADR-0001-adoptar-mipsoftware-y-miasi.md",
+    "docs/02_architecture/adrs/ADR-0002-core-local-first-cli-ui-futura.md",
+    "docs/02_architecture/adrs/ADR-0003-workspaces-como-unidad-operativa.md",
+    "docs/02_architecture/adrs/ADR-0004-agentes-documentales-controlados-mvp.md",
+    "docs/02_architecture/adrs/ADR-0005-git-adapter-read-only-mvp-plus.md",
+    "docs/02_architecture/adrs/ADR-0006-local-first-hibrido-modeladapter-costguard.md",
+    "docs/02_architecture/adrs/ADR-0007-persistencia-local-filesystem-sqlite-jsonl.md",
+    "docs/02_architecture/adrs/ADR-0008-agent-runtime-industrial-bajo-miasi.md",
+    "docs/02_architecture/adrs/ADR-0009-seguridad-policy-engine-approval-observabilidad.md",
+    "docs/02_architecture/sprint_precode_03_architecture_baseline_review.md",
+    "docs/02_architecture/sprint_precode_03_architecture_audit_post_owner_feedback.md"
+  ]
+}

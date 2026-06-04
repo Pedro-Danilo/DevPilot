@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "MIASI Agent Card",
+  "type": "object",
+  "required": [
+    "agent_id",
+    "name",
+    "purpose",
+    "autonomy_level",
+    "tools",
+    "evaluation",
+    "observability",
+    "security"
+  ],
+  "properties": {
+    "agent_id": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "purpose": {
+      "type": "string"
+    },
+    "autonomy_level": {
+      "type": "string",
+      "enum": [
+        "A0",
+        "A1",
+        "A2",
+        "A3",
+        "A4",
+        "A5",
+        "A6",
+        "A7"
+      ]
+    },
+    "tools": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "evaluation": {
+      "type": "object"
+    },
+    "observability": {
+      "type": "object"
+    },
+    "security": {
+      "type": "object"
+    }
+  },
+  "additionalProperties": true
+}

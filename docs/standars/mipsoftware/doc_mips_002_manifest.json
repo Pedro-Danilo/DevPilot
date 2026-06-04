@@ -1,0 +1,55 @@
+{
+  "doc_id": "MIPS-DOC-002",
+  "title": "Modelo de Ingeniería Profesional de Software",
+  "version": "0.1.0",
+  "status": "draft",
+  "created": "2026-05-31",
+  "updated": "2026-05-31",
+  "paths": [
+    "docs/software_engineering_model/01_modelo_ingenieria_profesional_software.md",
+    "docs/software_engineering_model/README.md"
+  ],
+  "required_sections": [
+    "frontmatter_yaml",
+    "resumen_ejecutivo",
+    "proposito",
+    "alcance",
+    "audiencia",
+    "principios_rectores",
+    "definiciones",
+    "ciclo_de_vida_general",
+    "dominios_del_modelo",
+    "niveles_de_madurez",
+    "criterios_minimos_para_iniciar_codigo",
+    "criterios_minimos_para_pasar_a_produccion",
+    "prototipo_mvp_production_ready",
+    "relacion_estandares_externos",
+    "relacion_miasi",
+    "referencias",
+    "changelog"
+  ],
+  "external_references": [
+    "ISO/IEC/IEEE 12207",
+    "ISO/IEC/IEEE 15288",
+    "ISO/IEC/IEEE 29148",
+    "ISO/IEC 25010",
+    "ISO/IEC/IEEE 29119",
+    "SWEBOK",
+    "SEBoK",
+    "NIST SSDF",
+    "OWASP SAMM",
+    "OWASP ASVS",
+    "SLSA",
+    "CycloneDX",
+    "arc42",
+    "C4 Model",
+    "Diátaxis",
+    "MIASI v1.0.0"
+  ],
+  "acceptance_status": {
+    "normative": true,
+    "applies_to_general_software": true,
+    "miasi_activation_defined": true,
+    "devpilot_ready": true
+  }
+}

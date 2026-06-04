@@ -1,0 +1,37 @@
+{
+  "doc_id": "MIPS-DOC-012",
+  "title": "Observabilidad, operación, SRE e incidentes",
+  "version": "0.1.0",
+  "status": "draft",
+  "created": "2026-05-31",
+  "updated": "2026-05-31",
+  "main_document": "docs/software_engineering_model/11_observabilidad_operacion_sre.md",
+  "templates": [
+    "docs/software_engineering_model/templates/observability_plan.md",
+    "docs/software_engineering_model/templates/runbook.md",
+    "docs/software_engineering_model/templates/incident_report.md",
+    "docs/software_engineering_model/templates/postmortem.md",
+    "docs/software_engineering_model/templates/slo_sla.md",
+    "docs/software_engineering_model/templates/backup_restore_plan.md",
+    "docs/software_engineering_model/templates/operational_readiness_review.md"
+  ],
+  "updated_files": [
+    "docs/software_engineering_model/README.md",
+    "docs/software_engineering_model/templates/README.md"
+  ],
+  "references": [
+    "Google SRE Book / Workbook",
+    "OpenTelemetry",
+    "NIST SP 800-34",
+    "ISO/IEC/IEEE 12207",
+    "MIASI v1.0.0"
+  ],
+  "quality_checks": [
+    "frontmatter_yaml_present",
+    "required_sections_present",
+    "required_templates_created",
+    "mermaid_diagrams_present",
+    "pass_fail_block_criteria_present",
+    "miasi_activation_rules_present"
+  ]
+}

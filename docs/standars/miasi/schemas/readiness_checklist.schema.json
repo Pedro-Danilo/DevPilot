@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "MIASI Production Readiness Checklist",
+  "type": "object",
+  "required": [
+    "project",
+    "target_level",
+    "checks",
+    "decision"
+  ],
+  "properties": {
+    "project": {
+      "type": "string"
+    },
+    "target_level": {
+      "type": "string"
+    },
+    "checks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "status"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "pass",
+              "fail",
+              "waived",
+              "not_applicable"
+            ]
+          }
+        }
+      }
+    },
+    "decision": {
+      "type": "string",
+      "enum": [
+        "go",
+        "no_go",
+        "go_with_conditions"
+      ]
+    }
+  },
+  "additionalProperties": true
+}

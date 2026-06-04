@@ -1,0 +1,34 @@
+{
+  "doc_id": "MIPS-DOC-006",
+  "title": "Arquitectura profesional de software",
+  "version": "0.1.0",
+  "status": "draft",
+  "created": "2026-05-31",
+  "updated": "2026-05-31",
+  "main_file": "docs/software_engineering_model/05_arquitectura_software.md",
+  "templates_created": [
+    "docs/software_engineering_model/templates/architecture_document.md",
+    "docs/software_engineering_model/templates/c4_context.md",
+    "docs/software_engineering_model/templates/c4_container.md",
+    "docs/software_engineering_model/templates/c4_component.md",
+    "docs/software_engineering_model/templates/adr.md",
+    "docs/software_engineering_model/templates/architecture_risk_log.md"
+  ],
+  "references": [
+    "arc42",
+    "C4 Model",
+    "ISO/IEC 25010",
+    "SEBoK",
+    "ISO/IEC/IEEE 12207",
+    "ISO/IEC/IEEE 29148",
+    "MIASI v1.0.0"
+  ],
+  "quality_gates": [
+    "arquitectura mínima antes de implementación",
+    "ADRs para decisiones relevantes",
+    "atributos de calidad medibles",
+    "vistas de datos/seguridad/despliegue/observabilidad/operación",
+    "activación MIASI cuando aplique"
+  ],
+  "acceptance_status": "created"
+}

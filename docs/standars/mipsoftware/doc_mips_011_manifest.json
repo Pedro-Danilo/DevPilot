@@ -1,0 +1,50 @@
+{
+  "doc_id": "MIPS-DOC-011",
+  "title": "DevOps, CI/CD, release y supply chain",
+  "version": "0.1.0",
+  "status": "draft",
+  "created": "2026-05-31",
+  "updated": "2026-05-31",
+  "main_document": "docs/software_engineering_model/10_devops_ci_cd_supply_chain.md",
+  "templates": [
+    "docs/software_engineering_model/templates/ci_cd_strategy.md",
+    "docs/software_engineering_model/templates/release_plan.md",
+    "docs/software_engineering_model/templates/rollback_plan.md",
+    "docs/software_engineering_model/templates/deployment_checklist.md",
+    "docs/software_engineering_model/templates/sbom_policy.md",
+    "docs/software_engineering_model/templates/supply_chain_report.md"
+  ],
+  "mandatory_sections": [
+    "Branching strategy",
+    "Commit standards",
+    "Pull request workflow",
+    "CI pipeline",
+    "CD pipeline",
+    "Quality gates",
+    "Artifact management",
+    "Versioning",
+    "Release notes",
+    "Rollback",
+    "Environment strategy",
+    "Secrets in CI/CD",
+    "SBOM",
+    "Provenance",
+    "Signing",
+    "Dependency management",
+    "Container scanning",
+    "Deployment checklist",
+    "Release checklist",
+    "Post-release verification"
+  ],
+  "external_references": [
+    "NIST SSDF SP 800-218",
+    "SLSA",
+    "CycloneDX",
+    "ISO/IEC/IEEE 12207",
+    "Semantic Versioning",
+    "Conventional Commits",
+    "GitHub Actions",
+    "GitLab CI/CD"
+  ],
+  "miasi_activation": "Required when releases include AI, agents, LLMs, RAG, memory, tool calling, model artifacts, policies or intelligent automation."
+}

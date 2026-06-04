@@ -43,7 +43,7 @@ El MVP+ será la expansión inmediata del MVP hacia capacidades reales de SDLC s
 
 ## 4. Objetivo del MVP
 
-> Validar que DevPilot Local puede guiar un proyecto de software desde la apertura formal hasta un readiness pre-code verificable, sin depender de API keys, servicios pagos ni agentes autónomos.
+> Validar que DevPilot Local puede guiar un proyecto de software desde la apertura formal hasta un readiness pre-code verificable, sin depender de API keys ni servicios pagos, aunque preparada para APIs externas opcionales bajo CostGuard cuando aporten calidad.
 
 ## 5. Objetivo del MVP+
 
@@ -184,3 +184,8 @@ El MVP debe preparar la noción de workspace, aunque no implemente toda su gesti
 ## 16. Decisión de alcance
 
 El MVP queda acotado a CLI + validadores, pero la visión aprobada exige MVP+ como siguiente evolución obligatoria antes de desktop/web.
+
+
+## 16. Nota sobre costo, calidad y APIs externas
+
+El enfoque local-first no prohíbe APIs externas. El MVP debe funcionar sin API keys obligatorias, pero la plataforma madura podrá usar modelos locales o APIs externas cuando mejoren la calidad. Todo uso externo debe estar gobernado por CostGuard, SecretGuard, ProviderPolicy, evaluación y aprobación explícita del owner.

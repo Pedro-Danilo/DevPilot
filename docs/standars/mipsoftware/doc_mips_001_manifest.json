@@ -1,0 +1,53 @@
+{
+  "doc_id": "MIPS-DOC-001",
+  "title": "Estructura documental docs-as-code y manifiesto de MIPSoftware",
+  "version": "0.1.0",
+  "status": "draft",
+  "created": "2026-05-31",
+  "updated": "2026-05-31",
+  "root": "docs/software_engineering_model",
+  "created_files": [
+    "README.md",
+    "00_manifesto.md",
+    "adrs/ADR-0001-docs-as-code.md",
+    "adrs/ADR-0002-markdown-como-formato-base.md",
+    "adrs/ADR-0003-c4-arc42-como-base-arquitectonica.md",
+    "adrs/ADR-0004-diataxis-para-organizacion-documental.md",
+    "adrs/ADR-0005-miasi-como-extension-inteligente.md",
+    "templates/README.md",
+    "checklists/README.md",
+    "reference/README.md",
+    "schemas/README.md",
+    "tutorials/README.md",
+    "how_to/README.md",
+    "explanations/README.md"
+  ],
+  "external_references": [
+    "ISO/IEC/IEEE 12207",
+    "ISO/IEC/IEEE 15288",
+    "ISO/IEC/IEEE 29148",
+    "ISO/IEC 25010",
+    "ISO/IEC/IEEE 29119",
+    "SWEBOK",
+    "SEBoK",
+    "NIST SSDF",
+    "OWASP SAMM",
+    "OWASP ASVS",
+    "SLSA",
+    "CycloneDX",
+    "arc42",
+    "C4 Model",
+    "Diataxis",
+    "MIASI v1.0.0"
+  ],
+  "acceptance_criteria": {
+    "versionable_in_git": true,
+    "reviewable_by_pull_request": true,
+    "separates_mipsoftware_from_miasi": true,
+    "defines_miasi_as_specialized_extension": true,
+    "uses_markdown_frontmatter": true,
+    "defines_document_states": true,
+    "defines_semver": true,
+    "creates_initial_adrs": true
+  }
+}
