@@ -1,16 +1,17 @@
 ---
 title: "Tool Card — DevPilot Local"
 doc_id: "DEVPL-MIASI-TOOL"
-status: "reviewed"
-version: "0.6.0"
+status: "approved"
+version: "1.0.0"
 owner: "Ordóñez"
 standard: "MIASI"
 parent_standard: "MIPSoftware"
-phase: "SPRINT-PRECODE-06"
+phase: "SPRINT-PRECODE-07"
 updated: "2026-06-05"
-approval: "ready_for_owner_approval"
+approval: "approved_by_owner_direction"
 source_baseline: "arquitectura approved + seguridad approved + calidad/operación approved"
 change_policy: "controlled_changes_allowed_until_precode_baseline"
+baseline_role: "precode_approved_baseline"
 ---
 
 # Tool Card — DevPilot Local

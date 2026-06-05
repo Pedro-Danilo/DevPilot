@@ -2,10 +2,10 @@
   "doc_id": "DEVPL-MIASI-MANIFEST-006",
   "sprint": "SPRINT-PRECODE-06",
   "title": "MIASI aplicado a DevPilot Local",
-  "status": "reviewed",
-  "version": "0.6.0",
+  "status": "approved",
+  "version": "1.0.0",
   "updated": "2026-06-05",
-  "approval": "ready_for_owner_approval",
+  "approval": "approved_by_owner_direction",
   "artifacts": [
     "docs/06_miasi/agent_card.md",
     "docs/06_miasi/tool_card.md",
@@ -17,7 +17,8 @@
     "docs/06_miasi/agent_registry.md",
     "docs/06_miasi/tool_registry.md",
     "docs/06_miasi/policy_matrix.md",
-    "docs/06_miasi/sprint_precode_06_miasi_baseline_review.md"
+    "docs/06_miasi/sprint_precode_06_miasi_baseline_review.md",
+    "docs/06_miasi/sprint_precode_06_miasi_approval_audit.md"
   ],
   "coverage": {
     "agents": "PASS",
@@ -29,5 +30,6 @@
     "cost_control": "PASS",
     "secret_management": "PASS"
   },
-  "next_sprint": "SPRINT-PRECODE-07 — Auditoría documental y promoción a baseline aprobada"
+  "next_sprint": "SPRINT-PRECODE-07 — Auditoría documental y promoción a baseline aprobada",
+  "phase": "SPRINT-PRECODE-07"
 }

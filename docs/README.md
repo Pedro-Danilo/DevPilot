@@ -1,21 +1,21 @@
 ---
 title: "DevPilot Local — Documentación docs-as-code"
 doc_id: "DEVPL-DOCS-README"
-status: "reviewed"
-version: "0.6.0"
+status: "approved"
+version: "1.0.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "SPRINT-PRECODE-06"
+phase: "SPRINT-PRECODE-07"
 updated: "2026-06-05"
-approval: "ready_for_owner_approval"
+approval: "approved_by_owner_direction"
 ---
- 
+
 # DevPilot Local — Documentación docs-as-code
 
 ## 1. Propósito
 
-Esta carpeta contiene la documentación viva del proyecto **DevPilot Local / Agent-assisted SDLC personal**. La documentación forma parte del producto, no es un anexo decorativo. Todo artefacto relevante debe poder versionarse, revisarse, auditarse y convertirse progresivamente en validaciones ejecutables.
+Esta carpeta contiene la documentación viva del proyecto **DevPilot Local / Agent-assisted SDLC personal**. La documentación forma parte del producto: debe poder versionarse, revisarse, auditarse y convertirse progresivamente en validaciones ejecutables.
 
 DevPilot Local aplica dos estándares internos:
 
@@ -40,7 +40,7 @@ docs/
 
 ## 3. Decisión sobre estándares dentro de `docs/`
 
-Se decidió incluir MIPSoftware y MIASI dentro de `docs/standards/` para que el proyecto tenga una fuente local, versionada y auditable de los estándares que lo gobiernan. Esta decisión es pertinente para un enfoque docs-as-code, siempre que se mantengan reglas claras de sincronización, ownership y referencia.
+Se decidió incluir MIPSoftware y MIASI dentro de `docs/standards/` para que el proyecto tenga una fuente local, versionada y auditable de los estándares que lo gobiernan.
 
 La decisión formal se documenta en:
 
@@ -53,28 +53,11 @@ docs/reference/standards_inside_docs_decision.md
 | Estado | Significado |
 |---|---|
 | `draft` | Documento incompleto o en elaboración. |
-| `reviewed` | Documento revisado técnicamente, pendiente de aprobación owner o de dependencias. |
+| `reviewed` | Documento revisado técnicamente, pendiente de aprobación owner o dependencias. |
 | `approved` | Documento aprobado como baseline vigente. |
 | `deprecated` | Documento reemplazado o no vigente. |
 
-## 5. Regla de trabajo
-
-Ningún sprint funcional fuerte debe avanzar si sus documentos pre-code obligatorios están incompletos, no trazados o sin revisión.
-
-
-
-## 8. Nota sobre la ruta `docs/standards/`
-
-La carpeta física actual de estándares es:
-
-```text
-docs/standards/
-```
-
-La grafía correcta en inglés sería `docs/standards/`. Se conserva temporalmente la ruta existente para evitar una migración estructural durante la fase pre-code. La decisión queda documentada como brecha menor controlada; si los validadores, scripts o empaquetado lo requieren, se recomienda migrar en una tarea dedicada, con patch explícito, actualización de referencias y verificación de enlaces internos.
-
-
-## 8. Estado pre-code al cierre de SPRINT-PRECODE-05
+## 5. Estado pre-code final
 
 | Bloque | Estado |
 |---|---|
@@ -82,8 +65,21 @@ La grafía correcta en inglés sería `docs/standards/`. Se conserva temporalmen
 | `01_requirements` | approved |
 | `02_architecture` | approved |
 | `03_security` | approved |
-| `04_quality` | reviewed |
-| `05_operations` | reviewed |
-| `06_miasi` | draft / pendiente de desarrollo específico |
+| `04_quality` | approved |
+| `05_operations` | approved |
+| `06_miasi` | approved |
+| `checklists/checklist_pre_code.md` | approved |
+| `precode_audit_report.md` | approved |
+| `precode_baseline_decision.md` | approved |
 
-Siguiente paso recomendado: revisar y aprobar `04_quality` y `05_operations`, y luego avanzar a `SPRINT-PRECODE-06 — MIASI aplicado a DevPilot Local`.
+## 6. Decisión de baseline
+
+La fase pre-code queda cerrada y DevPilot Local queda habilitado para iniciar el primer sprint funcional fuerte con alcance controlado:
+
+```text
+FUNC-SPRINT-01 — Core CLI de validación MIPSoftware/MIASI
+```
+
+## 7. Regla de trabajo
+
+Ningún sprint funcional debe habilitar acciones destructivas, agentes ejecutores, APIs externas con costo o escritura sobre repos reales sin pasar por Policy Engine, SecretGuard, CostGuard, trazas y aprobación humana cuando aplique.

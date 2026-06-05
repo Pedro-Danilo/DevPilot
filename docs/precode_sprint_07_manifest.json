@@ -1,0 +1,31 @@
+{
+  "doc_id": "DEVPL-SPRINT-PRECODE-07-MANIFEST",
+  "sprint": "SPRINT-PRECODE-07",
+  "title": "Auditoría documental y promoción a baseline aprobada",
+  "status": "approved",
+  "version": "1.0.0",
+  "updated": "2026-06-05",
+  "approval": "approved_by_owner_direction",
+  "precode_closed": true,
+  "ready_for_functional_sprint": true,
+  "approved_blocks": [
+    "00_product",
+    "01_requirements",
+    "02_architecture",
+    "03_security",
+    "04_quality",
+    "05_operations",
+    "06_miasi",
+    "checklists"
+  ],
+  "created_or_updated": [
+    "docs/README.md",
+    "docs/checklists/checklist_pre_code.md",
+    "docs/precode_audit_report.md",
+    "docs/precode_baseline_decision.md",
+    "docs/functional_backlog_after_precode.md",
+    "docs/06_miasi/sprint_precode_06_miasi_approval_audit.md",
+    "docs/06_miasi/sprint_precode_06_manifest.json"
+  ],
+  "next_sprint": "FUNC-SPRINT-01 — Core CLI de validación MIPSoftware/MIASI"
+}

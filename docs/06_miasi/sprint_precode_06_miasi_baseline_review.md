@@ -1,14 +1,15 @@
 ---
 title: "SPRINT-PRECODE-06 — Revisión de baseline MIASI"
 doc_id: "DEVPL-MIASI-REV-006"
-status: "reviewed"
-version: "0.6.0"
+status: "approved"
+version: "1.0.0"
 owner: "Ordóñez"
 standard: "MIASI"
 parent_standard: "MIPSoftware"
-phase: "SPRINT-PRECODE-06"
+phase: "SPRINT-PRECODE-07"
 updated: "2026-06-05"
-approval: "ready_for_owner_approval"
+approval: "approved_by_owner_direction"
+baseline_role: "precode_approved_baseline"
 ---
 
 # SPRINT-PRECODE-06 — Revisión de baseline MIASI
