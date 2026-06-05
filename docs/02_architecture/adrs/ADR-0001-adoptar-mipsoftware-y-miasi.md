@@ -7,7 +7,10 @@ owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
 phase: "SPRINT-PRECODE-03"
-updated: "2026-06-02"
+updated: "2026-06-04"
+accepted_by: "Ordóñez"
+accepted_at: "2026-06-04"
+acceptance_scope: "SPRINT-PRECODE-03 architecture baseline"
 ---
 # ADR-0001 — Adoptar MIPSoftware y MIASI
 

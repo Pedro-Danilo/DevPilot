@@ -1,16 +1,20 @@
 ---
 title: "Architecture Document — DevPilot Local"
 doc_id: "DEVPL-ARCH-001"
-status: "reviewed"
-version: "0.4.0"
+status: "approved"
+version: "1.0.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
 phase: "SPRINT-PRECODE-03"
-updated: "2026-06-02"
-approval: "ready_for_owner_approval"
+updated: "2026-06-04"
+approval: "approved_by_owner_direction"
 source_baseline: "SPRINT-PRECODE-01 product baseline approved + SPRINT-PRECODE-02 requirements baseline approved"
 change_reason: "Architecture audit after owner feedback: hybrid LLM strategy, persistence, industrial agents, security and technology stack expanded."
+approved_by: "Ordóñez"
+approved_at: "2026-06-04"
+approval_scope: "SPRINT-PRECODE-03 architecture baseline"
+change_policy: "controlled_changes_allowed_until_precode_baseline"
 ---
 # Architecture Document — DevPilot Local
 

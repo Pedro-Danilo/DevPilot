@@ -2,12 +2,12 @@
 title: "DevPilot Local — Documentación docs-as-code"
 doc_id: "DEVPL-DOCS-README"
 status: "reviewed"
-version: "0.1.0"
+version: "0.2.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
 phase: "PRECODE"
-updated: "2026-06-04"
+updated: "2026-06-05"
 approval: "ready_for_owner_approval"
 ---
  
@@ -34,13 +34,13 @@ docs/
   05_operations/       # observabilidad y runbook
   06_miasi/            # artefactos MIASI aplicados a DevPilot
   checklists/          # checklists del proyecto
-  estándares/          # copia versionada de MIPSoftware y MIASI
+  standards/           # copia versionada actual de MIPSoftware y MIASI
   reference/           # decisiones y procedimientos de adopción
 ```
 
 ## 3. Decisión sobre estándares dentro de `docs/`
 
-Se decidió incluir MIPSoftware y MIASI dentro de `docs/estándares/` para que el proyecto tenga una fuente local, versionada y auditable de los estándares que lo gobiernan. Esta decisión es pertinente para un enfoque docs-as-code, siempre que se mantengan reglas claras de sincronización, ownership y referencia.
+Se decidió incluir MIPSoftware y MIASI dentro de `docs/standards/` para que el proyecto tenga una fuente local, versionada y auditable de los estándares que lo gobiernan. Esta decisión es pertinente para un enfoque docs-as-code, siempre que se mantengan reglas claras de sincronización, ownership y referencia.
 
 La decisión formal se documenta en:
 
@@ -61,3 +61,29 @@ docs/reference/standards_inside_docs_decision.md
 
 Ningún sprint funcional fuerte debe avanzar si sus documentos pre-code obligatorios están incompletos, no trazados o sin revisión.
 
+
+
+## 8. Nota sobre la ruta `docs/standards/`
+
+La carpeta física actual de estándares es:
+
+```text
+docs/standards/
+```
+
+La grafía correcta en inglés sería `docs/standards/`. Se conserva temporalmente la ruta existente para evitar una migración estructural durante la fase pre-code. La decisión queda documentada como brecha menor controlada; si los validadores, scripts o empaquetado lo requieren, se recomienda migrar en una tarea dedicada, con patch explícito, actualización de referencias y verificación de enlaces internos.
+
+
+## 8. Estado pre-code al cierre de SPRINT-PRECODE-05
+
+| Bloque | Estado |
+|---|---|
+| `00_product` | approved |
+| `01_requirements` | approved |
+| `02_architecture` | approved |
+| `03_security` | approved |
+| `04_quality` | reviewed |
+| `05_operations` | reviewed |
+| `06_miasi` | draft / pendiente de desarrollo específico |
+
+Siguiente paso recomendado: revisar y aprobar `04_quality` y `05_operations`, y luego avanzar a `SPRINT-PRECODE-06 — MIASI aplicado a DevPilot Local`.

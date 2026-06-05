@@ -2,7 +2,7 @@
 title: "Estándares internos versionados — MIPSoftware y MIASI"
 doc_id: "DEVPL-STANDARDS-README"
 status: "reviewed"
-version: "0.1.0"
+version: "0.2.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
@@ -10,7 +10,6 @@ phase: "PRECODE"
 updated: "2026-06-04"
 approval: "ready_for_owner_approval"
 ---
-
 # Estándares internos versionados
 
 ## 1. Propósito
@@ -18,7 +17,7 @@ approval: "ready_for_owner_approval"
 Esta carpeta contiene una copia versionada de los estándares internos que gobiernan DevPilot Local:
 
 ```text
-estándares/
+standars/
   mipsoftware/
   miasi/
 ```
@@ -39,3 +38,8 @@ La inclusión de MIPSoftware y MIASI dentro del repositorio de DevPilot Local es
 
 MIPSoftware y MIASI no deben editarse ad hoc dentro de un proyecto aplicado sin registrar decisión. Si se detecta una mejora del estándar, debe abrirse una tarea explícita para actualizar el estándar fuente y luego sincronizar la copia local.
 
+
+
+## 4. Nota de nomenclatura
+
+La carpeta se mantiene como `standars/` por compatibilidad con la estructura vigente del repositorio. La grafía correcta en inglés es `standards/`; cualquier migración debe hacerse mediante tarea dedicada, no como efecto lateral de un sprint documental.

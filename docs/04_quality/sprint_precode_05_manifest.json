@@ -1,0 +1,22 @@
+{
+  "doc_id": "DEVPL-SPRINT-PRECODE-05-MANIFEST",
+  "sprint": "SPRINT-PRECODE-05",
+  "title": "Calidad, pruebas, operación y runbook",
+  "status": "reviewed",
+  "version": "0.5.0",
+  "updated": "2026-06-05",
+  "artifacts": [
+    "docs/04_quality/test_strategy.md",
+    "docs/04_quality/sprint_precode_05_quality_baseline_review.md",
+    "docs/05_operations/observability_plan.md",
+    "docs/05_operations/runbook.md",
+    "docs/05_operations/sprint_precode_05_operations_baseline_review.md"
+  ],
+  "approval": "ready_for_owner_approval",
+  "depends_on": [
+    "00_product approved",
+    "01_requirements approved",
+    "02_architecture approved",
+    "03_security approved"
+  ]
+}

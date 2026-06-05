@@ -1,14 +1,17 @@
 ---
 title: "ADR-0007 — Persistencia local con filesystem, SQLite y JSONL"
 doc_id: "DEVPL-ADR-0007"
-status: "proposed"
-version: "0.1.0"
+status: "accepted"
+version: "1.0.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
 phase: "SPRINT-PRECODE-03"
-updated: "2026-06-02"
-approval: "pending_owner_decision"
+updated: "2026-06-04"
+approval: "approved_by_owner_direction"
+accepted_by: "Ordóñez"
+accepted_at: "2026-06-04"
+acceptance_scope: "SPRINT-PRECODE-03 architecture baseline"
 ---
 # ADR-0007 — Persistencia local con filesystem, SQLite y JSONL
 

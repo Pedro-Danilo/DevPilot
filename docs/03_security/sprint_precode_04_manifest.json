@@ -1,0 +1,28 @@
+{
+  "doc_id": "DEVPL-PRECODE-04-MANIFEST",
+  "status": "approved",
+  "version": "1.0.0",
+  "updated": "2026-06-05",
+  "approval": "approved_by_owner_direction",
+  "source_baseline": "00_product approved + 01_requirements approved + 02_architecture approved",
+  "files": [
+    "docs/03_security/security_threat_model.md",
+    "docs/03_security/privacy_assessment.md",
+    "docs/03_security/sprint_precode_04_security_baseline_review.md",
+    "docs/precode_coordination_audit_sprint04_entry.md",
+    "docs/02_architecture/sprint_precode_03_architecture_approval_audit.md"
+  ],
+  "security_decisions": [
+    "deny_by_default",
+    "dry_run_by_default",
+    "path_sandbox",
+    "secret_redaction",
+    "cost_guard_for_external_llm_apis",
+    "human_approval_for_critical_actions",
+    "policy_engine",
+    "git_adapter_read_only_initially",
+    "no_auto_patch_application",
+    "traceable_security_gates"
+  ],
+  "verdict": "SPRINT-PRECODE-04 reviewed and ready for owner approval"
+}

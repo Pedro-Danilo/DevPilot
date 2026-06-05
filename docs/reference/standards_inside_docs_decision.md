@@ -2,7 +2,7 @@
 title: "Decisión — Incluir MIPSoftware y MIASI dentro de docs/"
 doc_id: "DEVPL-REF-002"
 status: "reviewed"
-version: "0.1.0"
+version: "0.2.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
@@ -11,7 +11,6 @@ updated: "2026-06-04"
 approval: "ready_for_owner_approval"
 decision_type: "documentation-architecture"
 ---
-
 # Decisión — Incluir MIPSoftware y MIASI dentro de `docs/`
 
 ## 1. Contexto
@@ -21,7 +20,7 @@ DevPilot Local se está construyendo bajo un enfoque **docs-as-code**. El proyec
 Durante la fase pre-code se decidió incorporar copias versionadas de ambos estándares dentro de:
 
 ```text
-docs/estándares/
+docs/standars/
   mipsoftware/
   miasi/
 ```
@@ -66,3 +65,19 @@ status: reviewed
 pending: owner approval
 ```
 
+
+
+## 8. Nota de ruta heredada
+
+En el ZIP fuente vigente la carpeta aparece como:
+
+```text
+docs/standars/
+```
+
+Se identifica como una ruta heredada con grafía no ideal. No se renombra en este sprint para evitar duplicidad de carpetas o pérdida de trazabilidad al aplicar patches por `Expand-Archive`. La política adoptada es:
+
+1. Tratar `docs/standars/` como ruta canónica temporal.
+2. No crear una segunda carpeta `docs/standards/` sin migración controlada.
+3. Programar una tarea técnica futura para migrar la ruta si el tooling lo exige.
+4. Mientras tanto, todo documento nuevo debe referenciar la ruta física real.

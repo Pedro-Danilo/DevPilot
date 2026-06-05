@@ -1,31 +1,280 @@
 ---
 title: "Runbook — DevPilot Local"
 doc_id: "DEVPL-OPS-002"
-status: "draft"
-version: "0.1.0"
+status: "reviewed"
+version: "0.5.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
-updated: "2026-06-01"
+extension: "MIASI"
+phase: "SPRINT-PRECODE-05"
+updated: "2026-06-05"
+approval: "ready_for_owner_approval"
+source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved + 03_security approved"
+change_policy: "controlled_changes_allowed_until_precode_baseline"
 ---
 
-# Runbook
+# Runbook — DevPilot Local
 
-## Instalación
+## 1. Propósito
+
+Este runbook define cómo instalar, validar, operar, diagnosticar y recuperar **DevPilot Local** durante la fase pre-code y las primeras fases funcionales.
+
+El runbook no reemplaza la arquitectura ni la estrategia de pruebas. Su función es permitir que el owner opere el proyecto de forma repetible, con comandos claros, criterios de recuperación y reglas de seguridad.
+
+## 2. Entorno base
+
+| Elemento | Valor esperado |
+|---|---|
+| Sistema operativo inicial | Windows |
+| Ruta principal | `D:\Projects\DevPilot_Local` |
+| Python | 3.12 recomendado |
+| Entorno virtual | `.venv` |
+| Instalación | editable local |
+| Pruebas | `pytest` |
+| Red externa | no requerida por defecto |
+| API keys | no requeridas por defecto |
+
+## 3. Instalación inicial
 
 ```powershell
+cd D:\Projects\DevPilot_Local
+
 py -3.12 -m venv .venv
 .\.venv\Scripts\Activate.ps1
+
+python -m pip install --upgrade pip
 python -m pip install -e .[dev]
 ```
 
-## Validación
+## 4. Validación mínima
 
 ```powershell
 pytest -q
+python -m devpilot_core --version
 python -m devpilot_core readiness-check
 python -m devpilot_core miasi-required
+git status
 ```
 
-## Recuperación básica
+Criterio PASS:
 
-Si el entorno falla, eliminar `.venv`, recrearlo y reinstalar dependencias.
+```text
+pytest PASS
+readiness-check ok=true
+miasi-required true
+git status limpio o cambios esperados
+```
+
+## 5. Aplicación segura de patches documentales
+
+```powershell
+cd D:\Projects\DevPilot_Local
+
+Expand-Archive `
+  -Path "$env:USERPROFILE\Downloads\patch_NAME.zip" `
+  -DestinationPath "D:\Projects\DevPilot_Local" `
+  -Force
+
+pytest -q
+python -m devpilot_core readiness-check
+python -m devpilot_core miasi-required
+git status
+```
+
+Regla:
+
+```text
+No hacer commit sin revisar git diff.
+```
+
+Comandos:
+
+```powershell
+git diff -- docs
+git status
+git add docs
+git commit -m "docs: describe change"
+```
+
+## 6. Operación pre-code
+
+| Acción | Comando actual o futuro |
+|---|---|
+| Verificar tests | `pytest -q` |
+| Verificar readiness | `python -m devpilot_core readiness-check` |
+| Verificar MIASI | `python -m devpilot_core miasi-required` |
+| Revisar cambios | `git diff` |
+| Confirmar estado | `git status` |
+| Validar frontmatter futuro | `python -m devpilot_core validate-frontmatter ...` |
+| Validar artefacto futuro | `python -m devpilot_core validate-artifact ...` |
+| Ejecutar gate futuro | `python -m devpilot_core checklist pre-code` |
+
+## 7. Fallos comunes y recuperación
+
+| Falla | Síntoma | Recuperación |
+|---|---|---|
+| `.venv` roto | imports fallan | recrear entorno virtual |
+| paquete no instalado | `No module named devpilot_core` | `python -m pip install -e .[dev]` |
+| tests fallan | `pytest` FAIL | revisar traceback, no commitear |
+| readiness FAIL | falta artefacto | restaurar documento o actualizar gate |
+| MIASI false | detección incorrecta | revisar docs/06_miasi y comando |
+| patch mal aplicado | archivos duplicados | `git restore` o revert |
+| ZIP dentro del repo | `git status` muestra `.zip` | borrar y actualizar `.gitignore` |
+| egg-info rastreado | metadata generada | borrar y agregar a `.gitignore` |
+| secretos detectados | token en archivo/log | revocar secreto, limpiar historia si aplica |
+
+## 8. Recuperación de entorno virtual
+
+```powershell
+deactivate
+Remove-Item -Recurse -Force .venv
+py -3.12 -m venv .venv
+.\.venv\Scripts\Activate.ps1
+python -m pip install --upgrade pip
+python -m pip install -e .[dev]
+pytest -q
+```
+
+## 9. Recuperación Git
+
+### Descartar cambios no deseados
+
+```powershell
+git status
+git restore path\to\file
+```
+
+### Revisar último commit
+
+```powershell
+git log --oneline -5
+git show --stat HEAD
+```
+
+### Crear punto de seguridad
+
+```powershell
+git tag devpilot-precode-checkpoint-YYYYMMDD
+```
+
+## 10. Operación con workspaces futuros
+
+Cuando existan workspaces, el flujo será:
+
+```powershell
+devpilot init-workspace D:\Projects\MyApp
+devpilot workspace status
+devpilot readiness-check --workspace D:\Projects\MyApp
+devpilot security-check --workspace D:\Projects\MyApp
+devpilot miasi-required --workspace D:\Projects\MyApp
+```
+
+Reglas:
+
+```text
+Cada workspace debe tener descriptor local.
+Cada workspace debe declarar estándar aplicable.
+Cada workspace debe separar source, docs, outputs y estado DevPilot.
+```
+
+## 11. Operación con agentes futuros
+
+Los agentes no deben ejecutarse sin:
+
+```text
+Agent Card
+Tool Card
+Policy Card
+Eval Card
+Human Approval Card
+Observability Card
+```
+
+Flujo esperado:
+
+```text
+1. Usuario solicita análisis o generación.
+2. Agente produce propuesta en dry-run.
+3. Policy Engine evalúa.
+4. Human approval decide si aplica.
+5. Tool ejecuta si está permitido.
+6. Reporte, traza y evidencia quedan guardados.
+```
+
+## 12. Incidentes
+
+### Incidente de seguridad
+
+Ejemplos:
+
+```text
+secreto expuesto
+archivo sobrescrito
+patch aplicado incorrectamente
+API externa usada sin consentimiento
+traza con datos sensibles
+```
+
+Procedimiento:
+
+```text
+1. Detener ejecución.
+2. No hacer commit.
+3. Guardar evidencia mínima redactada.
+4. Revocar secretos si aplica.
+5. Restaurar desde Git o backup.
+6. Documentar incidente.
+7. Crear prueba de regresión si corresponde.
+```
+
+### Incidente operacional
+
+Ejemplos:
+
+```text
+outputs corruptos
+SQLite futura bloqueada
+workspace inconsistente
+CLI falla por rutas
+```
+
+Procedimiento:
+
+```text
+1. Revisar logs.
+2. Reproducir con comando mínimo.
+3. Ejecutar tests.
+4. Restaurar desde Git o backup.
+5. Registrar hallazgo.
+```
+
+## 13. Backup y restore
+
+| Elemento | Backup |
+|---|---|
+| `docs/` | Git |
+| `src/` | Git |
+| `tests/` | Git |
+| `outputs/` | selectivo, no todo |
+| `.devpilot/` futuro | definir por workspace |
+| SQLite futura | backup antes de migraciones |
+| `.env` | no versionar; documentar `.env.example` |
+
+## 14. Criterios operativos mínimos
+
+| Criterio | Estado esperado |
+|---|---|
+| Tests pasan | obligatorio |
+| Readiness pasa | obligatorio para pre-code |
+| MIASI requerido detectado | obligatorio |
+| Git limpio antes de finalizar sprint | obligatorio |
+| No secretos en repo | obligatorio |
+| Reportes reproducibles | obligatorio |
+| Runbook actualizado | obligatorio |
+
+## 15. Changelog
+
+| Versión | Cambio |
+|---|---|
+| 0.1.0 | Borrador bootstrap inicial. |
+| 0.5.0 | Runbook operativo completo para SPRINT-PRECODE-05. |

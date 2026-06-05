@@ -8,7 +8,7 @@ standard: "MIPSoftware"
 extension: "MIASI"
 phase: "SPRINT-PRECODE-02"
 updated: "2026-06-02"
-approval: "approved_by_owner_pending_commit"
+approval: "approved_by_owner_direction"
 source_baseline: "SPRINT-PRECODE-01 product baseline approved"
 ---
 # SPRINT-PRECODE-02 Review — Requerimientos, historias, casos de uso y trazabilidad

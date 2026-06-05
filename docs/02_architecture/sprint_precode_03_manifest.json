@@ -1,16 +1,19 @@
 {
   "doc_id": "DEVPL-PRECODE-03-MANIFEST",
-  "status": "reviewed",
-  "version": "0.2.0",
-  "updated": "2026-06-02",
-  "approval": "ready_for_owner_approval",
+  "status": "approved",
+  "version": "1.0.0",
+  "updated": "2026-06-04",
+  "approval": "approved_by_owner_direction",
   "changes": [
     "Clarified architecture baseline covers MVP, MVP+ and post-MVP.",
     "Defined local-first hybrid strategy with ModelAdapter and CostGuard.",
     "Expanded industrial agent runtime under MIASI.",
     "Defined local persistence strategy with filesystem, SQLite and JSONL.",
     "Expanded security architecture with Policy Engine, SecretGuard, approvals and observability.",
-    "Added ADR-0006 to ADR-0009."
+    "Added ADR-0006 to ADR-0009.",
+    "Promoted ADR-0002 to ADR-0009 from proposed to accepted.",
+    "Promoted architecture baseline to approved for SPRINT-PRECODE-03.",
+    "Confirmed architecture is aligned with MIPSoftware and MIASI and can support SPRINT-PRECODE-04 security work."
   ],
   "files": [
     "docs/02_architecture/architecture_document.md",
@@ -27,5 +30,8 @@
     "docs/02_architecture/adrs/ADR-0009-seguridad-policy-engine-approval-observabilidad.md",
     "docs/02_architecture/sprint_precode_03_architecture_baseline_review.md",
     "docs/02_architecture/sprint_precode_03_architecture_audit_post_owner_feedback.md"
-  ]
+  ],
+  "approved_by": "Ordóñez",
+  "approved_at": "2026-06-04",
+  "verdict": "Architecture baseline approved after audit of 00_product, 01_requirements and 02_architecture."
 }

@@ -1,12 +1,15 @@
 ---
 title: "ADR-0003 — Workspaces como unidad operativa"
 doc_id: "DEVPL-ADR-0003"
-status: "proposed"
-version: "0.1.0"
+status: "accepted"
+version: "1.0.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 phase: "SPRINT-PRECODE-03"
-updated: "2026-06-02"
+updated: "2026-06-04"
+accepted_by: "Ordóñez"
+accepted_at: "2026-06-04"
+acceptance_scope: "SPRINT-PRECODE-03 architecture baseline"
 ---
 # ADR-0003 — Workspaces como unidad operativa
 

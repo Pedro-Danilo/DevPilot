@@ -1,14 +1,18 @@
 ---
 title: "SPRINT-PRECODE-03 Architecture Audit — Post owner feedback"
 doc_id: "DEVPL-PRECODE-03-AUDIT-002"
-status: "reviewed"
-version: "0.1.0"
+status: "approved"
+version: "1.0.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
 phase: "SPRINT-PRECODE-03"
-updated: "2026-06-02"
-approval: "ready_for_owner_review"
+updated: "2026-06-04"
+approval: "approved_by_owner_direction"
+approved_by: "Ordóñez"
+approved_at: "2026-06-04"
+approval_scope: "SPRINT-PRECODE-03 architecture baseline"
+change_policy: "controlled_changes_allowed_until_precode_baseline"
 ---
 # SPRINT-PRECODE-03 Architecture Audit — Post owner feedback
 
