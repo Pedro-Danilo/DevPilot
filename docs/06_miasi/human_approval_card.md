@@ -1,26 +1,134 @@
 ---
 title: "Human Approval Card — DevPilot Local"
 doc_id: "DEVPL-MIASI-HUMAN_APPROVAL"
-status: "draft"
-version: "0.1.0"
+status: "reviewed"
+version: "0.6.0"
 owner: "Ordóñez"
 standard: "MIASI"
-updated: "2026-06-01"
+parent_standard: "MIPSoftware"
+phase: "SPRINT-PRECODE-06"
+updated: "2026-06-05"
+approval: "ready_for_owner_approval"
+source_baseline: "security approved + policy card reviewed"
+change_policy: "controlled_changes_allowed_until_precode_baseline"
 ---
 
 # Human Approval Card — DevPilot Local
 
-## Propósito
+## 1. Propósito
 
-Artefacto inicial para activar MIASI en DevPilot Local.
+Este documento define cuándo y cómo DevPilot Local debe solicitar aprobación humana para acciones propuestas por agentes, herramientas o flujos automatizados.
 
-## Alcance MVP
+La regla central es:
 
-- Local-first.
-- Sin API keys.
-- Dry-run por defecto.
-- Sin acciones destructivas.
+> Ninguna acción con impacto material sobre archivos, repositorios, costos, datos sensibles, configuración, despliegue o historial Git puede ejecutarse sin aprobación humana explícita y trazable.
 
-## Criterio PASS
+## 2. Estados de aprobación
 
-El artefacto identifica responsabilidades, límites, riesgos y evidencia mínima antes de habilitar capacidades agent-assisted.
+| Estado | Descripción |
+|---|---|
+| `not_required` | La acción es de lectura/validación sin riesgo. |
+| `required` | La acción necesita revisión humana. |
+| `pending` | La solicitud fue creada y espera decisión. |
+| `approved` | El owner autorizó la acción. |
+| `rejected` | El owner rechazó la acción. |
+| `expired` | La solicitud venció. |
+| `revoked` | Una aprobación previa fue anulada. |
+
+## 3. Acciones que requieren aprobación
+
+| Acción | Fase | Motivo |
+|---|---|---|
+| Escribir o sobrescribir documento fuente | MVP | Riesgo de pérdida de contenido. |
+| Crear borrador en zona versionable | MVP | Cambio en repo. |
+| Aplicar patch | MVP+ | Riesgo de modificación de código. |
+| Ejecutar pruebas con comandos no triviales | MVP+ | Riesgo operacional. |
+| Crear commit/tag/branch | MVP+ | Impacto en trazabilidad. |
+| Enviar código o docs a API externa | MVP/MVP+ | Privacidad/costo. |
+| Usar modelo externo con costo | MVP/MVP+ | CostGuard. |
+| Activar tool de alto riesgo | MVP+ | Side effects. |
+| Modificar policies | MVP+ | Cambio de seguridad. |
+| Desplegar o publicar artefactos | Post-MVP | Impacto externo. |
+
+## 4. Formato de solicitud
+
+```json
+{
+  "approval_id": "APR-0001",
+  "workspace_id": "devpilot-local",
+  "requested_by": "ArchitectureAgent",
+  "action_type": "apply_patch",
+  "risk_level": "high",
+  "summary": "Aplicar patch de refactor sobre módulo de validación",
+  "affected_files": ["src/devpilot_core/validators.py"],
+  "policy_checks": ["dry_run_passed", "no_secret_detected"],
+  "cost_estimate": null,
+  "rollback_plan": "git restore src/devpilot_core/validators.py",
+  "expires_at": "2026-06-05T23:59:59-05:00"
+}
+```
+
+## 5. Criterios de revisión humana
+
+Antes de aprobar, el owner debe verificar:
+
+- propósito de la acción;
+- archivos afectados;
+- diff o descripción del cambio;
+- riesgo declarado;
+- policy checks;
+- resultados de pruebas;
+- plan de rollback;
+- impacto en secretos/datos;
+- costo si usa API;
+- trazabilidad en Git.
+
+## 6. Registro de decisión
+
+Toda decisión debe registrar:
+
+```json
+{
+  "approval_id": "APR-0001",
+  "decision": "approved",
+  "decided_by": "owner",
+  "decided_at": "2026-06-05T10:00:00-05:00",
+  "conditions": ["run_pytest_after_apply"],
+  "notes": "Aprobado solo si el patch coincide con el diff revisado."
+}
+```
+
+## 7. Matriz de aprobación
+
+| Riesgo | Ejemplo | Aprobación |
+|---|---|---:|
+| Bajo | Validar frontmatter | No |
+| Medio | Generar reporte | No si ruta segura |
+| Medio | Crear borrador documental | Sí si escribe en docs |
+| Alto | Aplicar patch | Sí |
+| Alto | Llamar API externa con código | Sí |
+| Crítico | Desplegar, borrar, reescribir Git history | Bloqueado en MVP/MVP+ |
+
+## 8. Criterios PASS
+
+El flujo de aprobación es aceptable si:
+
+- define triggers;
+- genera solicitud estructurada;
+- conserva evidencia;
+- permite rechazo;
+- permite condiciones;
+- exige rollback para acciones críticas;
+- no permite autoaprobación del agente.
+
+## 9. Criterios BLOCK
+
+Bloquear acción si:
+
+- falta aprobación requerida;
+- el agente intenta aprobarse a sí mismo;
+- no hay plan de rollback;
+- no hay diff o evidencia;
+- se detectan secretos;
+- el costo no está estimado;
+- el riesgo declarado es menor al riesgo real.

@@ -1,16 +1,17 @@
 ---
 title: "Test Strategy — DevPilot Local"
 doc_id: "DEVPL-QUAL-001"
-status: "reviewed"
-version: "0.5.0"
+status: "approved"
+version: "1.0.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
 phase: "SPRINT-PRECODE-05"
 updated: "2026-06-05"
-approval: "ready_for_owner_approval"
+approval: "approved_by_owner"
 source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved + 03_security approved"
 change_policy: "controlled_changes_allowed_until_precode_baseline"
+approval_scope: "SPRINT-PRECODE-05 quality operations baseline"
 ---
 
 # Test Strategy — DevPilot Local

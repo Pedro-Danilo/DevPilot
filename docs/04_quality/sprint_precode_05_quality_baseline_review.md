@@ -1,21 +1,22 @@
 ---
 title: "SPRINT-PRECODE-05 — Revisión de baseline de calidad"
 doc_id: "DEVPL-QUAL-REV-005"
-status: "reviewed"
-version: "0.5.0"
+status: "approved"
+version: "1.0.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
 phase: "SPRINT-PRECODE-05"
 updated: "2026-06-05"
-approval: "ready_for_owner_approval"
+approval: "approved_by_owner"
+approval_scope: "SPRINT-PRECODE-05 quality operations baseline"
 ---
 
 # SPRINT-PRECODE-05 — Revisión de baseline de calidad
 
 ## 1. Veredicto
 
-`docs/04_quality/test_strategy.md` queda en estado **reviewed** y listo para aprobación del owner.
+`docs/04_quality/test_strategy.md` queda en estado **approved** como baseline de trabajo pre-code.
 
 ## 2. Cobertura
 

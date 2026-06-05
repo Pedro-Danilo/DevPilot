@@ -2,11 +2,11 @@
 title: "DevPilot Local — Documentación docs-as-code"
 doc_id: "DEVPL-DOCS-README"
 status: "reviewed"
-version: "0.2.0"
+version: "0.6.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "PRECODE"
+phase: "SPRINT-PRECODE-06"
 updated: "2026-06-05"
 approval: "ready_for_owner_approval"
 ---

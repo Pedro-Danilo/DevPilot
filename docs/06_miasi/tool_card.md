@@ -1,26 +1,139 @@
 ---
 title: "Tool Card — DevPilot Local"
 doc_id: "DEVPL-MIASI-TOOL"
-status: "draft"
-version: "0.1.0"
+status: "reviewed"
+version: "0.6.0"
 owner: "Ordóñez"
 standard: "MIASI"
-updated: "2026-06-01"
+parent_standard: "MIPSoftware"
+phase: "SPRINT-PRECODE-06"
+updated: "2026-06-05"
+approval: "ready_for_owner_approval"
+source_baseline: "arquitectura approved + seguridad approved + calidad/operación approved"
+change_policy: "controlled_changes_allowed_until_precode_baseline"
 ---
 
 # Tool Card — DevPilot Local
 
-## Propósito
+## 1. Propósito
 
-Artefacto inicial para activar MIASI en DevPilot Local.
+Este documento define el estándar de herramientas que podrán usar los agentes y flujos de DevPilot Local. Las herramientas son capacidades invocables por agentes, CLI o validadores: leer documentos, validar artefactos, inspeccionar Git, analizar repositorios, generar reportes, proponer patches, ejecutar pruebas o solicitar aprobación.
 
-## Alcance MVP
+La regla central es:
 
-- Local-first.
-- Sin API keys.
-- Dry-run por defecto.
-- Sin acciones destructivas.
+> Ninguna herramienta puede modificar archivos, repositorios, configuración, dependencias, ambientes o despliegues sin modo dry-run, política explícita y aprobación humana cuando el riesgo lo exija.
 
-## Criterio PASS
+## 2. Categorías de herramientas
 
-El artefacto identifica responsabilidades, límites, riesgos y evidencia mínima antes de habilitar capacidades agent-assisted.
+| Categoría | Ejemplos | Fase | Riesgo |
+|---|---|---|---:|
+| Document tools | `read_artifact`, `validate_frontmatter`, `validate_template`, `generate_report` | MVP | Bajo/Medio |
+| Checklist tools | `run_checklist`, `evaluate_gate`, `export_findings` | MVP | Bajo |
+| Workspace tools | `detect_workspace`, `read_project_descriptor`, `list_docs` | MVP/MVP+ | Medio |
+| Git tools | `git_status`, `git_diff`, `git_branch_info`, `git_log_summary` | MVP+ | Medio |
+| Repo tools | `repo_tree`, `repo_inventory`, `dependency_inventory`, `risk_scan` | MVP+ | Medio/Alto |
+| Patch tools | `parse_patch`, `patch_dry_run`, `patch_risk_score`, `rollback_plan` | MVP+ | Alto |
+| Code tools | `code_review`, `static_check`, `refactor_plan`, `test_gap_analysis` | MVP+ | Alto |
+| Test tools | `pytest_plan`, `run_tests_dry_run`, `collect_results` | MVP+ | Medio/Alto |
+| Model tools | `call_model_mock`, `call_local_model`, `call_external_model` | MVP/MVP+ | Medio/Alto |
+| Persistence tools | `write_report`, `append_trace`, `record_gate_result`, `read_sqlite_state` | MVP+ | Medio |
+| Approval tools | `create_approval_request`, `record_decision` | MVP+ | Alto |
+| MCP/API tools | `discover_connector`, `call_connector_dry_run` | Post-MVP | Alto |
+
+## 3. Tool contract mínimo
+
+Todo tool debe declarar:
+
+| Campo | Obligatorio | Descripción |
+|---|---:|---|
+| `tool_id` | Sí | Identificador estable. |
+| `name` | Sí | Nombre invocable. |
+| `purpose` | Sí | Propósito técnico. |
+| `risk_level` | Sí | Bajo, medio, alto, crítico. |
+| `side_effects` | Sí | Ninguno, lectura, escritura, ejecución, red. |
+| `default_mode` | Sí | `dry_run` salvo justificación. |
+| `allowed_paths` | Sí si toca filesystem | Rutas permitidas. |
+| `forbidden_paths` | Sí si toca filesystem | Rutas prohibidas. |
+| `requires_approval` | Sí | Reglas de aprobación. |
+| `input_schema` | Sí | Estructura de entrada. |
+| `output_schema` | Sí | Estructura de salida. |
+| `error_schema` | Sí | Errores normalizados. |
+| `observability_events` | Sí | Eventos requeridos. |
+| `tests_required` | Sí | Pruebas mínimas. |
+
+## 4. Herramientas permitidas en MVP
+
+| Tool | Propósito | Side effect | Approval | Estado |
+|---|---|---|---:|---|
+| `read_artifact` | Leer documentos del workspace. | lectura | No | MVP |
+| `validate_frontmatter` | Validar frontmatter YAML. | ninguno | No | MVP |
+| `validate_artifact_structure` | Validar secciones obligatorias. | ninguno | No | MVP |
+| `run_precode_checklist` | Ejecutar checklist pre-code. | ninguno | No | MVP |
+| `miasi_required` | Determinar activación MIASI. | ninguno | No | MVP |
+| `generate_draft_document` | Crear propuesta de documento en memoria o output seguro. | escritura controlada | Sí si escribe | MVP |
+| `audit_documentation` | Generar hallazgos y recomendaciones. | ninguno/escritura reporte | No/Sí |
+| `write_report` | Escribir reporte en `outputs/reports`. | escritura controlada | No si ruta segura | MVP |
+| `append_trace_event` | Agregar evento JSONL. | escritura controlada | No si ruta segura | MVP |
+
+## 5. Herramientas MVP+ con restricciones
+
+| Tool | Propósito | Restricción |
+|---|---|---|
+| `git_status` | Leer estado Git. | Solo lectura. |
+| `git_diff` | Leer diferencias. | Solo lectura. |
+| `repo_inventory` | Inventariar estructura. | No lee secretos ni binarios grandes sin política. |
+| `patch_dry_run` | Simular patch. | No aplica cambios reales. |
+| `code_review` | Revisar código. | No modifica archivos. |
+| `refactor_plan` | Proponer refactor. | Produce plan, no ejecución. |
+| `run_tests` | Ejecutar pruebas. | Requiere modo controlado y timeout. |
+| `external_model_call` | Usar API externa. | Requiere CostGuard, SecretGuard y consentimiento. |
+
+## 6. Herramientas prohibidas por defecto
+
+| Tool / Acción | Motivo |
+|---|---|
+| Borrar archivos de proyecto | Riesgo destructivo. |
+| Sobrescribir archivos sin backup | Riesgo de pérdida de trabajo. |
+| Ejecutar comandos arbitrarios | Riesgo de ejecución no controlada. |
+| Modificar Git history | Riesgo de pérdida de trazabilidad. |
+| Enviar código a APIs externas sin consentimiento | Riesgo de privacidad/secreto. |
+| Leer `.env` real y exponer valores | Riesgo de secret leakage. |
+| Aplicar patches directamente | Debe pasar por dry-run y aprobación. |
+| Desplegar a servicios externos | Fuera de MVP. |
+
+## 7. Matriz de riesgo de tools
+
+| Riesgo | Ejemplo | Controles mínimos |
+|---|---|---|
+| Bajo | Validar frontmatter | logs, tests |
+| Medio | Leer documentos | path allowlist, redacción |
+| Alto | Leer repos/código | workspace policy, secret scan, trazas |
+| Alto | Generar patch | dry-run, diff report, aprobación |
+| Crítico | Aplicar patch, borrar, desplegar | bloqueado hasta fase posterior |
+
+## 8. Criterios PASS
+
+Una herramienta puede implementarse si:
+
+- tiene Tool Card;
+- tiene schema de entrada/salida;
+- tiene pruebas;
+- declara side effects;
+- respeta dry-run;
+- emite eventos;
+- valida rutas;
+- no filtra secretos;
+- define errores y fallback;
+- está registrada en Tool Registry.
+
+## 9. Criterios BLOCK
+
+Bloquear herramienta si:
+
+- ejecuta comandos arbitrarios;
+- modifica archivos sin backup/aprobación;
+- lee rutas fuera del workspace;
+- expone secretos;
+- llama APIs externas sin CostGuard;
+- carece de pruebas;
+- carece de observabilidad.

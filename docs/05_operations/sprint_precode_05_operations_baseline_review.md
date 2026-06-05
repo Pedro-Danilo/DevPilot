@@ -1,21 +1,22 @@
 ---
 title: "SPRINT-PRECODE-05 — Revisión de baseline operacional"
 doc_id: "DEVPL-OPS-REV-005"
-status: "reviewed"
-version: "0.5.0"
+status: "approved"
+version: "1.0.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
 phase: "SPRINT-PRECODE-05"
 updated: "2026-06-05"
-approval: "ready_for_owner_approval"
+approval: "approved_by_owner"
+approval_scope: "SPRINT-PRECODE-05 quality operations baseline"
 ---
 
 # SPRINT-PRECODE-05 — Revisión de baseline operacional
 
 ## 1. Veredicto
 
-`docs/05_operations/observability_plan.md` y `docs/05_operations/runbook.md` quedan en estado **reviewed** y listos para aprobación del owner.
+`docs/05_operations/observability_plan.md` y `docs/05_operations/runbook.md` quedan en estado **approved** como baseline operacional de trabajo pre-code.
 
 ## 2. Cobertura
 

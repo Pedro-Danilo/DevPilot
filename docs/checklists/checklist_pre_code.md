@@ -1,11 +1,12 @@
 ---
 title: "Checklist Pre-Code — DevPilot Local"
 doc_id: "DEVPL-CHK-001"
-status: "draft"
-version: "0.1.0"
+status: "reviewed"
+version: "0.6.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
-updated: "2026-06-01"
+updated: "2026-06-05"
+approval: "pending_final_precode_audit"
 ---
 
 # Checklist Pre-Code
@@ -22,6 +23,16 @@ updated: "2026-06-01"
 | Estrategia de pruebas existe | Sí | `docs/04_quality/test_strategy.md` | PASS |
 | MIASI activado | Sí | `docs/06_miasi/` | PASS |
 
+| Privacy assessment existe | Sí | `docs/03_security/privacy_assessment.md` | PASS |
+| Observability plan existe | Sí | `docs/05_operations/observability_plan.md` | PASS |
+| Runbook existe | Sí | `docs/05_operations/runbook.md` | PASS |
+| Agent Card existe | Sí | `docs/06_miasi/agent_card.md` | PASS |
+| Tool Card existe | Sí | `docs/06_miasi/tool_card.md` | PASS |
+| Policy Card existe | Sí | `docs/06_miasi/policy_card.md` | PASS |
+| Eval Card existe | Sí | `docs/06_miasi/eval_card.md` | PASS |
+| Human Approval Card existe | Sí | `docs/06_miasi/human_approval_card.md` | PASS |
+| AgentOps Observability Card existe | Sí | `docs/06_miasi/observability_card.md` | PASS |
+
 ## Veredicto inicial
 
-PASS para iniciar implementación controlada del MVP, siempre que se mantenga local-first y dry-run.
+PASS documental preliminar. La promoción final de la baseline pre-code depende de la auditoría SPRINT-PRECODE-07.
