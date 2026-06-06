@@ -124,6 +124,43 @@ git commit -m "docs: describe change"
 | egg-info rastreado | metadata generada | borrar y agregar a `.gitignore` |
 | secretos detectados | token en archivo/log | revocar secreto, limpiar historia si aplica |
 
+
+## 7.1. Limpieza de artefactos generados
+
+Ruta recomendada, portable y sin depender de la política de ejecución de PowerShell:
+
+```powershell
+python scripts\func_sprint_00_cleanup.py
+python scripts\func_sprint_00_cleanup.py --execute
+```
+
+Ruta PowerShell equivalente:
+
+```powershell
+.\scripts\func_sprint_00_cleanup.ps1
+.\scripts\func_sprint_00_cleanup.ps1 -Execute
+```
+
+Si PowerShell muestra el error `cannot be loaded ... is not digitally signed`, el problema ocurre antes de que el script ejecute su lógica. No indica un bug en el script: indica que la política local de PowerShell no permite ejecutar ese `.ps1` sin firma o desbloqueo.
+
+Opciones seguras de recuperación:
+
+```powershell
+# Opción recomendada: usar la versión Python
+python scripts\func_sprint_00_cleanup.py
+python scripts\func_sprint_00_cleanup.py --execute
+
+# Opción alternativa: desbloquear solo este archivo después de revisarlo
+Unblock-File .\scripts\func_sprint_00_cleanup.ps1
+.\scripts\func_sprint_00_cleanup.ps1
+
+# Opción temporal para la sesión actual, sin cambiar la política global
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass -Force
+.\scripts\func_sprint_00_cleanup.ps1
+```
+
+No se recomienda cambiar la política global del equipo solo para ejecutar este helper.
+
 ## 8. Recuperación de entorno virtual
 
 ```powershell

@@ -35,3 +35,23 @@ src/*.egg-info/
 
 # Local exported archives
 DevPilot_Local*.zip
+# Build/package artifacts
+build/
+dist/
+.eggs/
+
+# Test/runtime caches
+.tox/
+.nox/
+.cache/
+
+# DevPilot generated runtime data
+outputs/traces/*.jsonl
+outputs/tmp/
+outputs/cache/
+outputs/workspaces/
+
+# Local exported archives and patches
+repo_DevPilot_Local*.zip
+patch_*.zip
+*_patch.zip

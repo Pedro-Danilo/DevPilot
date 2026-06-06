@@ -1,0 +1,25 @@
+{
+  "doc_id": "DEVPL-FUNC-00-MANIFEST",
+  "title": "FUNC-SPRINT-00 — higiene del repo y sincronización de baseline",
+  "status": "approved",
+  "version": "1.0.0",
+  "updated": "2026-06-06",
+  "source_zip": "repo_DevPilot_Local_01.zip",
+  "actions": [
+    "approved docs/functional_backlog_after_precode.md",
+    "updated README.md",
+    "updated .gitignore",
+    "removed generated Python caches from refined package",
+    "created scripts/func_sprint_00_cleanup.ps1 dry-run cleanup helper",
+    "created functional backlog approval audit",
+    "created func sprint 00 hygiene audit",
+    "validated pytest and CLI using PYTHONPATH=src"
+  ],
+  "next_sprint": "FUNC-SPRINT-01 — Arquitectura interna del CLI y modelo común de resultados",
+  "validation": {
+    "pytest": "PASS via PYTHONPATH=src python -m pytest -q",
+    "version": "PASS via PYTHONPATH=src python -m devpilot_core --version",
+    "readiness_check": "PASS via PYTHONPATH=src python -m devpilot_core readiness-check",
+    "miasi_required": "PASS via PYTHONPATH=src python -m devpilot_core miasi-required"
+  }
+}

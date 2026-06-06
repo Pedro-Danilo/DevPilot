@@ -1,19 +1,32 @@
 ---
 title: "DevPilot Local — Backlog ejecutable posterior a pre-code"
 doc_id: "DEVPL-FUNC-BACKLOG-001"
-status: "reviewed"
-version: "1.1.0"
+status: "approved"
+version: "1.2.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
 phase: "POST-PRECODE"
-updated: "2026-06-05"
-approval: "ready_for_owner_approval"
+updated: "2026-06-06"
+approval: "approved_by_owner_direction"
 source_baseline: "precode_baseline_approved"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
+approved_on: "2026-06-06"
+approval_scope: "functional_backlog_after_precode"
+baseline_execution: "FUNC-SPRINT-00"
+next_sprint: "FUNC-SPRINT-01"
 ---
 
 # DevPilot Local — Backlog ejecutable posterior a pre-code
+
+# Estado de aprobación funcional
+
+Este backlog queda promovido a `approved` el 2026-06-06 como guía ejecutable para iniciar la implementación funcional de DevPilot Local después del cierre de la fase pre-code.
+
+La aprobación no congela el documento: cualquier ajuste futuro debe seguir la política docs-as-code definida en MIPSoftware, dejar trazabilidad, actualizar criterios de aceptación cuando aplique y preservar la relación entre producto, requerimientos, arquitectura, seguridad, calidad, operación y MIASI.
+
+La ejecución de `FUNC-SPRINT-00` confirma que el repositorio queda limpio, reproducible y listo para iniciar `FUNC-SPRINT-01 — Arquitectura interna del CLI y modelo común de resultados`.
+
 
 ## 1. Propósito
 
