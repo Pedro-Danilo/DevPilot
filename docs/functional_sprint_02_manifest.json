@@ -1,0 +1,39 @@
+{
+  "doc_id": "DEVPL-FUNC-SPRINT-02-MANIFEST",
+  "title": "FUNC-SPRINT-02 — Validador de frontmatter y metadatos documentales",
+  "status": "approved",
+  "version": "1.0.0",
+  "updated": "2026-06-07",
+  "owner": "Ordóñez",
+  "sprint": "FUNC-SPRINT-02",
+  "created_files": [
+    "src/devpilot_core/validators/__init__.py",
+    "src/devpilot_core/validators/frontmatter.py",
+    "tests/test_frontmatter_validator.py",
+    "tests/fixtures/docs/valid_frontmatter.md",
+    "tests/fixtures/docs/invalid_frontmatter_missing_doc_id.md",
+    "tests/fixtures/docs/missing_frontmatter.md",
+    "tests/fixtures/docs/approved_without_approval.md",
+    "docs/audits/func_sprint_02_frontmatter_audit.md",
+    "docs/functional_sprint_02_manifest.json"
+  ],
+  "modified_files": [
+    "src/devpilot_core/cli.py",
+    "README.md",
+    "docs/05_operations/runbook.md"
+  ],
+  "commands": [
+    "python -m devpilot_core validate-frontmatter docs/00_product/product_vision.md",
+    "python -m devpilot_core validate-frontmatter docs/00_product/product_vision.md --json",
+    "python -m devpilot_core validate-frontmatter docs/00_product/product_vision.md --strict",
+    "python -m pytest -q"
+  ],
+  "pass_criteria": [
+    "Valid document returns exit_code 0",
+    "Missing frontmatter returns exit_code 1",
+    "Missing required field returns exit_code 1",
+    "JSON output is parseable",
+    "pytest passes"
+  ],
+  "next_sprint": "FUNC-SPRINT-03 — Validador de artefactos MIPSoftware/MIASI"
+}

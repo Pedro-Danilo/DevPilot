@@ -8,6 +8,7 @@ from typing import Any
 from . import __version__
 from .cli_models import CommandResult, ExitCode, Finding, Severity
 from .errors import DevPilotError
+from .validators.frontmatter import validate_frontmatter_file
 
 ROOT_MARKERS = ["pyproject.toml", "docs"]
 
@@ -152,6 +153,9 @@ def print_result(result: CommandResult, *, json_output: bool = False) -> None:
         return
 
     print(result.message)
+    for finding in result.findings:
+        path = f" [{finding.path}]" if finding.path else ""
+        print(f"- {finding.severity.value.upper()}: {finding.id}{path} — {finding.message}")
 
 
 def readiness_check(*, json_output: bool = False) -> int:
@@ -168,6 +172,18 @@ def miasi_required(*, json_output: bool = False) -> int:
     return int(result.exit_code)
 
 
+def validate_frontmatter_command(path: str, *, json_output: bool = False, strict: bool = False) -> int:
+    """Validate frontmatter metadata for one Markdown artifact."""
+
+    root = project_root()
+    target = Path(path)
+    if not target.is_absolute():
+        target = root / target
+    result = validate_frontmatter_file(target, root=root, strict=strict)
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="devpilot", description="DevPilot Local CLI")
     parser.add_argument("--version", action="store_true", help="Show version")
@@ -178,6 +194,11 @@ def build_parser() -> argparse.ArgumentParser:
 
     miasi = sub.add_parser("miasi-required", help="Explain MIASI activation for this project")
     miasi.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+
+    frontmatter = sub.add_parser("validate-frontmatter", help="Validate Markdown frontmatter metadata")
+    frontmatter.add_argument("path", help="Markdown document path to validate")
+    frontmatter.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    frontmatter.add_argument("--strict", action="store_true", help="Treat approved documents without approval as failures")
 
     return parser
 
@@ -194,6 +215,8 @@ def main(argv: list[str] | None = None) -> int:
             return readiness_check(json_output=args.json)
         if args.command == "miasi-required":
             return miasi_required(json_output=args.json)
+        if args.command == "validate-frontmatter":
+            return validate_frontmatter_command(args.path, json_output=args.json, strict=args.strict)
         parser.print_help()
         return int(ExitCode.PASS)
     except DevPilotError as exc:

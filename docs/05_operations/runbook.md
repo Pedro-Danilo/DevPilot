@@ -346,3 +346,66 @@ python -m pytest -q
 - No continuar si los comandos existentes dejan de funcionar.
 - No continuar si `--json` genera salida no parseable.
 - No continuar si se agregan dependencias externas innecesarias.
+
+
+## FUNC-SPRINT-01 — Operación del CLI core
+
+Propósito operativo: usar el contrato común de resultados para comandos actuales y futuros.
+
+Comandos:
+
+```powershell
+python -m devpilot_core readiness-check --json
+python -m devpilot_core miasi-required --json
+```
+
+Criterio PASS:
+
+```text
+Cada comando devuelve JSON parseable con command, ok, exit_code, message, data y findings.
+```
+
+Criterio BLOCK:
+
+```text
+Un comando nuevo no debe incorporarse si no puede expresarse mediante CommandResult o contrato compatible.
+```
+
+## FUNC-SPRINT-02 — Operación del validador de frontmatter
+
+Propósito operativo: validar metadatos documentales mínimos antes de considerar un artefacto como candidato a gate MIPSoftware/MIASI.
+
+Comandos:
+
+```powershell
+python -m devpilot_core validate-frontmatter docs/00_product/product_vision.md
+python -m devpilot_core validate-frontmatter docs/00_product/product_vision.md --json
+python -m devpilot_core validate-frontmatter docs/00_product/product_vision.md --strict
+```
+
+Interpretación:
+
+```text
+exit_code 0: PASS.
+exit_code 1: FAIL de validación documental.
+exit_code 2: BLOCK reservado para bloqueos de política o seguridad.
+exit_code 3: ERROR técnico o archivo inexistente.
+```
+
+Criterio PASS:
+
+```text
+El documento tiene bloque frontmatter, campos obligatorios, status permitido, version SemVer-like y updated en formato YYYY-MM-DD.
+```
+
+Criterio BLOCK:
+
+```text
+No avanzar a validadores de artefactos si el validador de frontmatter no puede detectar errores básicos de metadatos.
+```
+
+Riesgos:
+
+```text
+El parser implementado es YAML-like simple, no YAML completo. Si la documentación futura necesita YAML complejo, se deberá crear ADR para incorporar una dependencia controlada o extender el parser.
+```

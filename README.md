@@ -1,8 +1,8 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
 Estado actual: `baseline pre-code approved + functional backlog approved`  
-Último hito: `FUNC-SPRINT-00 — Higiene del repo y sincronización de baseline`  
-Siguiente hito: `FUNC-SPRINT-01 — Arquitectura interna del CLI y modelo común de resultados`  
+Último hito: `FUNC-SPRINT-02 — Validador de frontmatter y metadatos documentales`  
+Siguiente hito: `FUNC-SPRINT-03 — Validador de artefactos MIPSoftware/MIASI`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
@@ -28,7 +28,7 @@ Ya existe:
 
 Pendiente de implementación funcional:
 
-- validadores estrictos de frontmatter;
+- validadores estrictos de frontmatter; **implementado en FUNC-SPRINT-02**
 - validadores de artefactos MIPSoftware/MIASI;
 - readiness estricto;
 - reportes JSON/Markdown;
@@ -86,10 +86,10 @@ python -m devpilot_core miasi-required
 ## Siguiente sprint
 
 ```text
-FUNC-SPRINT-01 — Arquitectura interna del CLI y modelo común de resultados
+FUNC-SPRINT-03 — Validador de artefactos MIPSoftware/MIASI
 ```
 
-Este sprint debe crear la base común para comandos, resultados, errores, exit codes, serialización y pruebas del CLI.
+Este sprint debe validar estructura mínima de documentos por perfil, reutilizando el contrato de resultados y el validador de frontmatter ya implementados.
 
 ## Higiene local del repositorio
 
@@ -133,3 +133,24 @@ Códigos de salida definidos:
 ```
 
 Esta capa será la base para los próximos validadores de frontmatter, artefactos MIPSoftware/MIASI, readiness estricto, reportes y trazas.
+
+
+## FUNC-SPRINT-02 — Validador de frontmatter
+
+FUNC-SPRINT-02 incorpora el primer validador documental real de DevPilot. El comando `validate-frontmatter` valida que un documento Markdown tenga frontmatter, campos mínimos, estado permitido, versión SemVer-like y fecha `updated` en formato `YYYY-MM-DD`.
+
+Comandos relevantes:
+
+```powershell
+python -m devpilot_core validate-frontmatter docs/00_product/product_vision.md
+python -m devpilot_core validate-frontmatter docs/00_product/product_vision.md --json
+python -m devpilot_core validate-frontmatter docs/00_product/product_vision.md --strict
+```
+
+Criterios rápidos:
+
+```text
+PASS: documento con frontmatter completo y válido.
+FAIL: documento sin frontmatter, sin campo obligatorio o con status inválido.
+STRICT: un documento approved sin campo approval falla.
+```
