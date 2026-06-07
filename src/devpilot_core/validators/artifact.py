@@ -39,10 +39,22 @@ def normalize_heading(value: str) -> str:
 
 
 def extract_headings(markdown_text: str) -> list[MarkdownHeading]:
-    """Extract Markdown ATX headings from a document body."""
+    """Extract Markdown ATX headings from a document body.
+
+    Fenced code blocks are ignored so operational examples such as PowerShell
+    comments beginning with `#` are not misclassified as document headings.
+    """
 
     headings: list[MarkdownHeading] = []
+    inside_fenced_code = False
     for line_number, line in enumerate(markdown_text.splitlines(), start=1):
+        stripped = line.strip()
+        if stripped.startswith("```") or stripped.startswith("~~~"):
+            inside_fenced_code = not inside_fenced_code
+            continue
+        if inside_fenced_code:
+            continue
+
         match = HEADING_PATTERN.match(line)
         if not match:
             continue

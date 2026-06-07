@@ -2,15 +2,15 @@
 title: "Runbook — DevPilot Local"
 doc_id: "DEVPL-OPS-002"
 status: "approved"
-version: "1.0.0"
+version: "1.1.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "SPRINT-PRECODE-05"
-updated: "2026-06-05"
+phase: "FUNC-SPRINT-05"
+updated: "2026-06-07"
 approval: "approved_by_owner"
 source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved + 03_security approved"
-change_policy: "controlled_changes_allowed_until_precode_baseline"
+change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "SPRINT-PRECODE-05 quality operations baseline"
 ---
 
@@ -106,9 +106,9 @@ git commit -m "docs: describe change"
 | Verificar MIASI | `python -m devpilot_core miasi-required` |
 | Revisar cambios | `git diff` |
 | Confirmar estado | `git status` |
-| Validar frontmatter futuro | `python -m devpilot_core validate-frontmatter ...` |
-| Validar artefacto futuro | `python -m devpilot_core validate-artifact ...` |
-| Ejecutar gate futuro | `python -m devpilot_core checklist pre-code` |
+| Validar frontmatter | `python -m devpilot_core validate-frontmatter ... --strict` |
+| Validar artefacto | `python -m devpilot_core validate-artifact ... --strict` |
+| Ejecutar checklist pre-code | `python -m devpilot_core checklist-pre-code` |
 
 ## 7. Fallos comunes y recuperación
 
@@ -510,3 +510,64 @@ DEVPL TEST SUMMARY: N passed, 0 failed, 0 errors, 0 skipped
 - Las reglas de artefactos todavía están parcialmente codificadas en Python.
 - El Standards Registry aún no carga reglas desde JSON/YAML externo.
 - La sincronización completa entre estándares versionados y perfiles ejecutables queda para sprints posteriores.
+
+
+## FUNC-SPRINT-05 — Operación de checklist pre-code y readiness estricto
+
+### Propósito operativo
+
+FUNC-SPRINT-05 convierte el checklist documental pre-code en un gate ejecutable y endurece `readiness-check` con modo `--strict`. El objetivo operativo es que DevPilot no dependa solo de una revisión humana previa, sino que pueda validar localmente existencia, frontmatter, estado aprobado, estructura mínima, activación MIASI, Standards Registry y consistencia del checklist.
+
+### Comandos
+
+```powershell
+python -m devpilot_core checklist-pre-code
+python -m devpilot_core checklist-pre-code --json
+python -m devpilot_core readiness-check --strict
+python -m devpilot_core readiness-check --strict --json
+python -m pytest -q
+```
+
+### Evidencia generada
+
+`readiness-check --strict` genera evidencia local en:
+
+```text
+outputs/reports/readiness_check.json
+outputs/reports/readiness_check.md
+```
+
+Estos archivos son evidencia runtime. Están ignorados por `.gitignore` y pueden regenerarse cuando sea necesario.
+
+### Interpretación
+
+- `exit_code 0`: gate PASS.
+- `exit_code 1`: FAIL de validación no bloqueante por política de severidad.
+- `exit_code 2`: BLOCK. Falta un artefacto obligatorio, un documento aprobado incumple estructura mínima, falta MIASI o el checklist no está en PASS.
+- `exit_code 3`: ERROR técnico.
+
+### Criterios PASS
+
+- `checklist-pre-code --json` devuelve `ok=true`.
+- Todas las filas obligatorias del checklist están en `PASS`.
+- Todos los artefactos obligatorios referenciados por el checklist existen.
+- Los artefactos Markdown obligatorios tienen frontmatter válido y `status: approved`.
+- `readiness-check --strict --json` devuelve `ok=true`.
+- `outputs/reports/readiness_check.json` y `.md` se generan correctamente.
+- `pytest -q` pasa.
+
+### Criterios BLOCK
+
+- Falta `docs/checklists/checklist_pre_code.md`.
+- Una fila obligatoria del checklist no está en `PASS`.
+- Falta un artefacto obligatorio de producto, requerimientos, arquitectura, seguridad, calidad, operación o MIASI.
+- Un artefacto obligatorio no tiene `status: approved`.
+- El Standards Registry no detecta MIPSoftware o MIASI.
+- Un documento aprobado incumple secciones mínimas de su perfil.
+
+### Riesgos y límites actuales
+
+- El parser de checklist está optimizado para las tablas Markdown actuales; no es un parser Markdown general.
+- Los perfiles de artefactos siguen siendo determinísticos y mínimos; no reemplazan revisión humana experta.
+- Los warnings de secciones recomendadas no bloquean todavía. Deben endurecerse progresivamente cuando las plantillas del estándar se vuelvan más contractuales.
+- No hay llamadas externas, API keys, LLMs ni dependencias nuevas.

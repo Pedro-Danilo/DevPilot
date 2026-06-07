@@ -1,0 +1,55 @@
+{
+  "sprint": "FUNC-SPRINT-05",
+  "title": "Checklist pre-code y readiness estricto",
+  "status": "implemented",
+  "version": "1.0.0",
+  "updated": "2026-06-07",
+  "created_files": [
+    "src/devpilot_core/validators/checklist.py",
+    "src/devpilot_core/validators/readiness.py",
+    "tests/test_precode_readiness.py",
+    "docs/audits/func_sprint_05_precode_readiness_audit.md",
+    "docs/functional_sprint_05_manifest.json"
+  ],
+  "modified_files": [
+    "src/devpilot_core/cli.py",
+    "src/devpilot_core/validators/artifact.py",
+    "src/devpilot_core/validators/artifact_profiles.py",
+    "src/devpilot_core/validators/__init__.py",
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/functional_backlog_after_precode.md"
+  ],
+  "commands": [
+    "python -m devpilot_core checklist-pre-code",
+    "python -m devpilot_core checklist-pre-code --json",
+    "python -m devpilot_core readiness-check --strict",
+    "python -m devpilot_core readiness-check --strict --json",
+    "python -m pytest -q"
+  ],
+  "expected_results": {
+    "pytest": "30 passed",
+    "checklist_pre_code": "ok=true",
+    "readiness_check_strict": "ok=true",
+    "reports": [
+      "outputs/reports/readiness_check.json",
+      "outputs/reports/readiness_check.md"
+    ],
+    "next_sprint": "FUNC-SPRINT-06"
+  },
+  "adjustments_to_previous_sprints": [
+    {
+      "component": "src/devpilot_core/validators/artifact.py",
+      "reason": "Ignore fenced code blocks when extracting Markdown headings to prevent false positives from console examples.",
+      "adr_required": false
+    },
+    {
+      "component": "src/devpilot_core/validators/artifact_profiles.py",
+      "reason": "Align deterministic profiles with the actual approved baseline headings.",
+      "adr_required": false
+    }
+  ],
+  "no_external_dependencies": true,
+  "no_api_keys_required": true,
+  "no_network_required": true
+}

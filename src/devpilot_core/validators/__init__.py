@@ -1,1 +1,1 @@
-"""Validation utilities for DevPilot Local."""
+"""Validation components for DevPilot Local."""

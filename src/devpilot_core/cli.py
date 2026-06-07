@@ -10,98 +10,28 @@ from .cli_models import CommandResult, ExitCode, Finding, Severity
 from .errors import DevPilotError
 from .standards.registry import build_standards_status_result
 from .validators.artifact import validate_artifact_file
+from .validators.checklist import validate_precode_checklist
 from .validators.frontmatter import validate_frontmatter_file
+from .validators.readiness import (
+    REQUIRED_MIASI_ARTIFACTS,
+    REQUIRED_PRE_CODE_ARTIFACTS,
+    build_readiness_result,
+    build_strict_readiness_result,
+    check_required_artifacts,
+    write_readiness_reports,
+)
 
 ROOT_MARKERS = ["pyproject.toml", "docs"]
-
-REQUIRED_PRE_CODE_ARTIFACTS = [
-    "docs/00_product/product_vision.md",
-    "docs/00_product/business_case.md",
-    "docs/00_product/mvp_scope.md",
-    "docs/01_requirements/requirements_specification.md",
-    "docs/02_architecture/architecture_document.md",
-    "docs/02_architecture/adrs/ADR-0001-adoptar-mipsoftware-y-miasi.md",
-    "docs/03_security/security_threat_model.md",
-    "docs/04_quality/test_strategy.md",
-    "docs/checklists/checklist_pre_code.md",
-]
-
-REQUIRED_MIASI_ARTIFACTS = [
-    "docs/06_miasi/agent_card.md",
-    "docs/06_miasi/tool_card.md",
-    "docs/06_miasi/policy_card.md",
-    "docs/06_miasi/eval_card.md",
-    "docs/06_miasi/human_approval_card.md",
-    "docs/06_miasi/observability_card.md",
-]
 
 
 def project_root() -> Path:
     """Return the current working directory as DevPilot project root.
 
-    FUNC-SPRINT-01 keeps this simple to preserve backwards compatibility. A
-    later Workspace Manager sprint will replace this with explicit workspace
-    discovery and `.devpilot/` metadata.
+    A later Workspace Manager sprint will replace this compatibility boundary
+    with explicit workspace discovery and `.devpilot/` metadata.
     """
 
     return Path.cwd()
-
-
-def check_required_artifacts(root: Path) -> dict[str, Any]:
-    """Compatibility helper used by the bootstrap test.
-
-    It keeps the original shape: `{"ok": bool, "checks": [...]}`. New code
-    should prefer `build_readiness_result()` because it returns CommandResult.
-    """
-
-    checks = []
-    for rel in REQUIRED_PRE_CODE_ARTIFACTS:
-        path = root / rel
-        checks.append(
-            {
-                "artifact": rel,
-                "exists": path.exists(),
-                "size_bytes": path.stat().st_size if path.exists() else 0,
-            }
-        )
-    passed = all(item["exists"] and item["size_bytes"] > 0 for item in checks)
-    return {"ok": passed, "checks": checks}
-
-
-def build_readiness_result(root: Path) -> CommandResult:
-    """Build the normalized result for the `readiness-check` command."""
-
-    legacy_result = check_required_artifacts(root)
-    findings: list[Finding] = []
-    for item in legacy_result["checks"]:
-        if not item["exists"]:
-            findings.append(
-                Finding(
-                    id="READINESS_MISSING_ARTIFACT",
-                    message=f"Required artifact is missing: {item['artifact']}",
-                    severity=Severity.FAIL,
-                    path=item["artifact"],
-                )
-            )
-        elif item["size_bytes"] <= 0:
-            findings.append(
-                Finding(
-                    id="READINESS_EMPTY_ARTIFACT",
-                    message=f"Required artifact is empty: {item['artifact']}",
-                    severity=Severity.FAIL,
-                    path=item["artifact"],
-                )
-            )
-
-    ok = legacy_result["ok"]
-    return CommandResult(
-        command="readiness-check",
-        ok=ok,
-        exit_code=ExitCode.PASS if ok else ExitCode.FAIL,
-        message="Pre-code readiness artifacts found." if ok else "Pre-code readiness check failed.",
-        data=legacy_result,
-        findings=findings,
-    )
 
 
 def build_miasi_required_result() -> CommandResult:
@@ -129,16 +59,6 @@ def build_miasi_required_result() -> CommandResult:
     )
 
 
-def write_readiness_report(root: Path, result: CommandResult) -> Path:
-    """Persist readiness evidence in the historical report path."""
-
-    report_dir = root / "outputs" / "reports"
-    report_dir.mkdir(parents=True, exist_ok=True)
-    out = report_dir / "readiness_check.json"
-    out.write_text(json.dumps(result.data, indent=2, ensure_ascii=False), encoding="utf-8")
-    return out
-
-
 def print_result(result: CommandResult, *, json_output: bool = False) -> None:
     """Render a CommandResult for CLI users."""
 
@@ -160,10 +80,23 @@ def print_result(result: CommandResult, *, json_output: bool = False) -> None:
         print(f"- {finding.severity.value.upper()}: {finding.id}{path} — {finding.message}")
 
 
-def readiness_check(*, json_output: bool = False) -> int:
+def readiness_check(*, json_output: bool = False, strict: bool = False) -> int:
     root = project_root()
-    result = build_readiness_result(root)
-    write_readiness_report(root, result)
+    result = build_strict_readiness_result(root) if strict else build_readiness_result(root)
+    report_paths = write_readiness_reports(root, result)
+
+    if result.data is not None:
+        data = dict(result.data)
+        data["reports"] = report_paths
+        result = CommandResult(
+            command=result.command,
+            ok=result.ok,
+            exit_code=result.exit_code,
+            message=result.message,
+            data=data,
+            findings=result.findings,
+        )
+
     print_result(result, json_output=json_output)
     return int(result.exit_code)
 
@@ -198,6 +131,15 @@ def validate_artifact_command(path: str, *, json_output: bool = False, strict: b
     return int(result.exit_code)
 
 
+def checklist_pre_code_command(*, json_output: bool = False, strict: bool = True) -> int:
+    """Evaluate the executable pre-code checklist gate."""
+
+    root = project_root()
+    result = validate_precode_checklist(root, strict=strict)
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+
 def standards_status_command(*, json_output: bool = False) -> int:
     """Report local MIPSoftware/MIASI registry status."""
 
@@ -214,6 +156,10 @@ def build_parser() -> argparse.ArgumentParser:
 
     readiness = sub.add_parser("readiness-check", help="Check pre-code readiness artifacts")
     readiness.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    readiness.add_argument("--strict", action="store_true", help="Run strict executable pre-code gate")
+
+    checklist = sub.add_parser("checklist-pre-code", help="Evaluate the executable pre-code checklist gate")
+    checklist.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
 
     miasi = sub.add_parser("miasi-required", help="Explain MIASI activation for this project")
     miasi.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
@@ -245,7 +191,9 @@ def main(argv: list[str] | None = None) -> int:
             print(f"devpilot-local {__version__}")
             return int(ExitCode.PASS)
         if args.command == "readiness-check":
-            return readiness_check(json_output=args.json)
+            return readiness_check(json_output=args.json, strict=args.strict)
+        if args.command == "checklist-pre-code":
+            return checklist_pre_code_command(json_output=args.json)
         if args.command == "miasi-required":
             return miasi_required(json_output=args.json)
         if args.command == "validate-frontmatter":

@@ -2,19 +2,19 @@
 title: "DevPilot Local — Backlog ejecutable posterior a pre-code"
 doc_id: "DEVPL-FUNC-BACKLOG-001"
 status: "approved"
-version: "1.2.0"
+version: "1.3.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
 phase: "POST-PRECODE"
-updated: "2026-06-06"
+updated: "2026-06-07"
 approval: "approved_by_owner_direction"
 source_baseline: "precode_baseline_approved"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approved_on: "2026-06-06"
 approval_scope: "functional_backlog_after_precode"
 baseline_execution: "FUNC-SPRINT-00"
-next_sprint: "FUNC-SPRINT-01"
+next_sprint: "FUNC-SPRINT-06"
 ---
 
 # DevPilot Local — Backlog ejecutable posterior a pre-code
@@ -389,26 +389,54 @@ Implementa FUNC-SPRINT-04: Standards Registry local para detectar MIPSoftware y 
 
 # FUNC-SPRINT-05 — Checklist pre-code y readiness estricto
 
+## Estado de implementación FUNC-SPRINT-05
+
+`FUNC-SPRINT-05` queda implementado como gate ejecutable de baseline documental pre-code. El sprint introduce `src/devpilot_core/validators/checklist.py`, `src/devpilot_core/validators/readiness.py`, el comando `python -m devpilot_core checklist-pre-code`, el modo `python -m devpilot_core readiness-check --strict`, generación de reportes locales en `outputs/reports/readiness_check.json` y `outputs/reports/readiness_check.md`, pruebas automatizadas y sincronización de README/runbook.
+
+Durante la implementación se realizó un ajuste correctivo controlado sobre `validate-artifact`: el extractor de headings ahora ignora fenced code blocks para no confundir comentarios de ejemplos PowerShell con encabezados Markdown. También se alinearon algunos perfiles determinísticos de artefactos con los encabezados reales de la baseline aprobada. Este ajuste no cambia el alcance de producto ni introduce dependencias; fortalece los validadores previos para que puedan operar como parte del readiness estricto.
+
 ## Objetivo
 
 Convertir `checklist_pre_code.md` y `readiness-check` en gates ejecutables de baseline documental.
 
 ## Historias
 
-| ID | Historia | Criterio de aceptación |
-|---|---|---|
-| US-FUNC-05-001 | Como owner, quiero un gate pre-code ejecutable. | `checklist-pre-code` evalúa criterios y devuelve PASS/BLOCK. |
-| US-FUNC-05-002 | Como desarrollador, quiero `readiness-check --strict`. | Valida existencia, estado, frontmatter, artefactos y MIASI. |
+| ID | Historia | Criterio de aceptación | Estado |
+|---|---|---|---|
+| US-FUNC-05-001 | Como owner, quiero un gate pre-code ejecutable. | `checklist-pre-code` evalúa criterios y devuelve PASS/BLOCK. | Implementado |
+| US-FUNC-05-002 | Como desarrollador, quiero `readiness-check --strict`. | Valida existencia, estado, frontmatter, artefactos y MIASI. | Implementado |
 
 ## Tareas
 
-| ID | Tarea | Entregable | PASS |
-|---|---|---|---|
-| FUNC-05-001 | Crear parser de checklist Markdown | módulo | Lee ítems obligatorios. |
-| FUNC-05-002 | Crear comando `checklist-pre-code` | CLI | Evalúa checklist. |
-| FUNC-05-003 | Mejorar `readiness-check --strict` | CLI | Ejecuta frontmatter + artifact + checklist. |
-| FUNC-05-004 | Generar reporte JSON/Markdown | outputs | `outputs/reports/readiness_check.*`. |
-| FUNC-05-005 | Tests de PASS/BLOCK | pytest | Falla si falta documento crítico. |
+| ID | Tarea | Entregable | PASS | Estado |
+|---|---|---|---|---|
+| FUNC-05-001 | Crear parser de checklist Markdown | `validators/checklist.py` | Lee ítems obligatorios. | Implementado |
+| FUNC-05-002 | Crear comando `checklist-pre-code` | CLI | Evalúa checklist. | Implementado |
+| FUNC-05-003 | Mejorar `readiness-check --strict` | CLI | Ejecuta frontmatter + artifact + checklist + standards. | Implementado |
+| FUNC-05-004 | Generar reporte JSON/Markdown | outputs | `outputs/reports/readiness_check.*`. | Implementado |
+| FUNC-05-005 | Tests de PASS/BLOCK | pytest | Falla si falta documento crítico. | Implementado |
+
+## Archivos creados
+
+```text
+src/devpilot_core/validators/checklist.py
+src/devpilot_core/validators/readiness.py
+tests/test_precode_readiness.py
+docs/audits/func_sprint_05_precode_readiness_audit.md
+docs/functional_sprint_05_manifest.json
+```
+
+## Archivos modificados
+
+```text
+src/devpilot_core/cli.py
+src/devpilot_core/validators/artifact.py
+src/devpilot_core/validators/artifact_profiles.py
+src/devpilot_core/validators/__init__.py
+README.md
+docs/05_operations/runbook.md
+docs/functional_backlog_after_precode.md
+```
 
 ## Comandos objetivo
 
@@ -416,7 +444,16 @@ Convertir `checklist_pre_code.md` y `readiness-check` en gates ejecutables de ba
 python -m devpilot_core checklist-pre-code
 python -m devpilot_core checklist-pre-code --json
 python -m devpilot_core readiness-check --strict
+python -m devpilot_core readiness-check --strict --json
 python -m pytest -q
+```
+
+## Resultado esperado actual
+
+```text
+checklist-pre-code -> PASS
+readiness-check --strict -> PASS
+pytest -q -> 30 passed
 ```
 
 ## BLOCK
@@ -424,6 +461,14 @@ python -m pytest -q
 - Un documento obligatorio faltante bloquea.
 - Un documento obligatorio no aprobado bloquea en modo strict.
 - Un bloque MIASI ausente bloquea porque DevPilot activa MIASI.
+- Un checklist sin filas obligatorias bloquea.
+- Un documento aprobado que incumple secciones mínimas bloquea.
+
+## Riesgos residuales
+
+- El parser de checklist es una primera versión orientada a las tablas actuales; debe evolucionar si los checklists adoptan una gramática más compleja.
+- Los perfiles de artefacto siguen en Python; en sprints posteriores deben migrar gradualmente hacia reglas declarativas del estándar.
+- Los warnings por secciones recomendadas no bloquean todavía.
 
 ## Prompt operativo
 
