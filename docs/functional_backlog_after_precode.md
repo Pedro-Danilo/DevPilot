@@ -337,6 +337,11 @@ Implementa FUNC-SPRINT-03: validador de artefactos MIPSoftware/MIASI por perfile
 
 # FUNC-SPRINT-04 — Standards Registry y carga local de reglas
 
+## Estado de implementación FUNC-SPRINT-04
+
+`FUNC-SPRINT-04` queda implementado como primer Standards Registry local. El sprint introduce `src/devpilot_core/standards/`, el comando `python -m devpilot_core standards status`, pruebas automatizadas y resumen explícito de pruebas en `pytest -q`.
+
+
 ## Objetivo
 
 Crear un registro local que permita a DevPilot saber qué estándares, documentos, carpetas y perfiles de validación aplican a cada workspace.

@@ -1,0 +1,34 @@
+{
+  "sprint": "FUNC-SPRINT-04",
+  "title": "Standards Registry y carga local de reglas",
+  "status": "implemented",
+  "version": "1.0.0",
+  "updated": "2026-06-07",
+  "created_files": [
+    "src/devpilot_core/standards/__init__.py",
+    "src/devpilot_core/standards/catalog.py",
+    "src/devpilot_core/standards/registry.py",
+    "tests/test_standards_registry.py",
+    "tests/conftest.py",
+    "docs/audits/func_sprint_04_standards_registry_audit.md",
+    "docs/functional_sprint_04_manifest.json"
+  ],
+  "modified_files": [
+    "src/devpilot_core/cli.py",
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/functional_backlog_after_precode.md"
+  ],
+  "commands": [
+    "python -m devpilot_core standards status",
+    "python -m devpilot_core standards status --json",
+    "python -m pytest -q"
+  ],
+  "expected_results": {
+    "pytest": "24 passed",
+    "standards_status": "ok=true",
+    "next_sprint": "FUNC-SPRINT-05"
+  },
+  "no_external_dependencies": true,
+  "no_api_keys_required": true
+}

@@ -455,3 +455,58 @@ No avanzar si el validador requiere servicios externos o dependencias nuevas.
 ```text
 Los perfiles de FUNC-SPRINT-03 son determinísticos y mínimos. No reemplazan revisión humana ni plantillas completas. En FUNC-SPRINT-04 deberán integrarse con Standards Registry para que las reglas provengan progresivamente del estándar versionado.
 ```
+
+
+## FUNC-SPRINT-04 — Operación del Standards Registry
+
+### Propósito operativo
+
+El comando `standards status` permite verificar que DevPilot encuentra localmente los estándares internos versionados:
+
+- `docs/standards/mipsoftware`
+- `docs/standards/miasi`
+
+También reporta los artefactos obligatorios de proyecto y los perfiles de validación disponibles. Este comando es el primer paso para separar progresivamente las reglas documentales del código Python y acercarlas al estándar versionado.
+
+### Comandos
+
+```powershell
+python -m devpilot_core standards status
+python -m devpilot_core standards status --json
+```
+
+### Interpretación
+
+- `exit_code 0`: MIPSoftware y MIASI fueron detectados y sus archivos mínimos existen.
+- `exit_code 1`: faltan archivos obligatorios de estándar o artefactos de proyecto.
+- `exit_code 2`: falta una carpeta crítica de estándar.
+- `exit_code 3`: error técnico no controlado.
+
+### Validación de pruebas
+
+A partir de este sprint, `pytest -q` debe mostrar explícitamente el número de pruebas en PASS mediante el resumen:
+
+```text
+DEVPL TEST SUMMARY: N passed, 0 failed, 0 errors, 0 skipped
+```
+
+### Criterios PASS
+
+- `python -m devpilot_core standards status --json` devuelve `ok=true`.
+- Se detectan `mipsoftware` y `miasi`.
+- Se listan artefactos obligatorios de proyecto.
+- Se exponen perfiles de validación.
+- `pytest -q` imprime número de pruebas en PASS.
+
+### Criterios BLOCK
+
+- Falta `docs/standards/mipsoftware`.
+- Falta `docs/standards/miasi`.
+- El comando rompe `readiness-check`, `validate-frontmatter` o `validate-artifact`.
+- Se requiere red, API key o dependencia externa para validar estándares.
+
+### Riesgos
+
+- Las reglas de artefactos todavía están parcialmente codificadas en Python.
+- El Standards Registry aún no carga reglas desde JSON/YAML externo.
+- La sincronización completa entre estándares versionados y perfiles ejecutables queda para sprints posteriores.

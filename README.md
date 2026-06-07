@@ -1,8 +1,8 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
 Estado actual: `baseline pre-code approved + functional backlog approved`  
-Último hito: `FUNC-SPRINT-03 — Validador de artefactos MIPSoftware/MIASI`  
-Siguiente hito: `FUNC-SPRINT-04 — Standards Registry y carga local de reglas`  
+Último hito: `FUNC-SPRINT-04 — Standards Registry y carga local de reglas`  
+Siguiente hito: `FUNC-SPRINT-05 — Checklist pre-code y readiness estricto`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
@@ -178,3 +178,23 @@ exit_code 3: ERROR técnico, ruta inválida o archivo no soportado.
 ```
 
 Este comando usa perfiles determinísticos ubicados en `src/devpilot_core/validators/artifact_profiles.py` y el validador en `src/devpilot_core/validators/artifact.py`. No usa LLMs, APIs externas ni dependencias nuevas.
+
+
+## FUNC-SPRINT-04 — Standards Registry y carga local de reglas
+
+Este sprint agrega el primer registro local de estándares de DevPilot. El objetivo es que la aplicación pueda detectar y reportar la presencia de MIPSoftware y MIASI dentro de `docs/standards`, listar artefactos obligatorios del proyecto y exponer los perfiles de validación disponibles.
+
+Comandos principales:
+
+```powershell
+python -m devpilot_core standards status
+python -m devpilot_core standards status --json
+```
+
+El comando no modifica archivos, no llama servicios externos y no requiere API keys. Su salida JSON usa el contrato común `CommandResult`.
+
+También se agregó `tests/conftest.py` para que `pytest -q` imprima explícitamente el número de pruebas en PASS:
+
+```text
+DEVPL TEST SUMMARY: 24 passed, 0 failed, 0 errors, 0 skipped
+```

@@ -8,6 +8,7 @@ from typing import Any
 from . import __version__
 from .cli_models import CommandResult, ExitCode, Finding, Severity
 from .errors import DevPilotError
+from .standards.registry import build_standards_status_result
 from .validators.artifact import validate_artifact_file
 from .validators.frontmatter import validate_frontmatter_file
 
@@ -197,6 +198,15 @@ def validate_artifact_command(path: str, *, json_output: bool = False, strict: b
     return int(result.exit_code)
 
 
+def standards_status_command(*, json_output: bool = False) -> int:
+    """Report local MIPSoftware/MIASI registry status."""
+
+    root = project_root()
+    result = build_standards_status_result(root)
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="devpilot", description="DevPilot Local CLI")
     parser.add_argument("--version", action="store_true", help="Show version")
@@ -218,6 +228,11 @@ def build_parser() -> argparse.ArgumentParser:
     artifact.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     artifact.add_argument("--strict", action="store_true", help="Run strict frontmatter validation before structure checks")
 
+    standards = sub.add_parser("standards", help="Inspect local MIPSoftware/MIASI standards registry")
+    standards_sub = standards.add_subparsers(dest="standards_command")
+    standards_status = standards_sub.add_parser("status", help="Show local standards registry status")
+    standards_status.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+
     return parser
 
 
@@ -237,6 +252,11 @@ def main(argv: list[str] | None = None) -> int:
             return validate_frontmatter_command(args.path, json_output=args.json, strict=args.strict)
         if args.command == "validate-artifact":
             return validate_artifact_command(args.path, json_output=args.json, strict=args.strict)
+        if args.command == "standards":
+            if args.standards_command == "status":
+                return standards_status_command(json_output=args.json)
+            parser.print_help()
+            return int(ExitCode.FAIL)
         parser.print_help()
         return int(ExitCode.PASS)
     except DevPilotError as exc:
