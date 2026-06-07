@@ -316,3 +316,33 @@ Procedimiento:
 |---|---|
 | 0.1.0 | Borrador bootstrap inicial. |
 | 0.5.0 | Runbook operativo completo para SPRINT-PRECODE-05. |
+
+
+## Operación de FUNC-SPRINT-01 — CLI core
+
+### Propósito operativo
+
+FUNC-SPRINT-01 estabiliza la forma en que DevPilot comunica resultados desde la CLI. Antes de este sprint, `readiness-check` y `miasi-required` imprimían estructuras JSON específicas de cada comando. Después del sprint, ambos comandos siguen siendo compatibles, pero también pueden emitir un contrato normalizado con `--json`.
+
+### Comandos
+
+```powershell
+python -m devpilot_core readiness-check
+python -m devpilot_core readiness-check --json
+python -m devpilot_core miasi-required
+python -m devpilot_core miasi-required --json
+python -m pytest -q
+```
+
+### Criterio PASS
+
+- `pytest -q` pasa.
+- `readiness-check` mantiene salida compatible.
+- `readiness-check --json` produce JSON parseable con `command`, `ok`, `exit_code`, `message`, `data` y `findings`.
+- `miasi-required --json` produce el mismo contrato normalizado.
+
+### Criterio BLOCK
+
+- No continuar si los comandos existentes dejan de funcionar.
+- No continuar si `--json` genera salida no parseable.
+- No continuar si se agregan dependencias externas innecesarias.

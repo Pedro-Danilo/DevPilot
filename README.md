@@ -106,3 +106,30 @@ Para eliminarlos de forma explícita:
 ```
 
 El script trabaja en modo dry-run por defecto para evitar eliminaciones accidentales.
+
+
+## FUNC-SPRINT-01 — CLI core y contrato común de resultados
+
+Este sprint introduce la arquitectura mínima interna del CLI: modelos comunes de resultado, hallazgos, severidades y códigos de salida. El objetivo es que los comandos actuales y futuros de DevPilot no devuelvan respuestas improvisadas, sino un contrato consistente que pueda imprimirse para humanos o serializarse como JSON.
+
+Comandos validados:
+
+```powershell
+python -m devpilot_core --version
+python -m devpilot_core readiness-check
+python -m devpilot_core readiness-check --json
+python -m devpilot_core miasi-required
+python -m devpilot_core miasi-required --json
+python -m pytest -q
+```
+
+Códigos de salida definidos:
+
+```text
+0 = PASS
+1 = FAIL
+2 = BLOCK
+3 = ERROR
+```
+
+Esta capa será la base para los próximos validadores de frontmatter, artefactos MIPSoftware/MIASI, readiness estricto, reportes y trazas.

@@ -1,0 +1,32 @@
+{
+  "doc_id": "DEVPL-FUNC-SPRINT-01-MANIFEST",
+  "status": "approved",
+  "version": "1.0.0",
+  "sprint": "FUNC-SPRINT-01",
+  "title": "Arquitectura interna del CLI y modelo común de resultados",
+  "created_or_modified": [
+    "src/devpilot_core/cli_models.py",
+    "src/devpilot_core/errors.py",
+    "src/devpilot_core/cli.py",
+    "tests/test_cli_core.py",
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/audits/func_sprint_01_cli_core_audit.md",
+    "docs/functional_sprint_01_manifest.json"
+  ],
+  "commands": [
+    "python -m devpilot_core --version",
+    "python -m devpilot_core readiness-check",
+    "python -m devpilot_core readiness-check --json",
+    "python -m devpilot_core miasi-required",
+    "python -m devpilot_core miasi-required --json",
+    "python -m pytest -q"
+  ],
+  "exit_codes": {
+    "PASS": 0,
+    "FAIL": 1,
+    "BLOCK": 2,
+    "ERROR": 3
+  },
+  "next_sprint": "FUNC-SPRINT-02"
+}
