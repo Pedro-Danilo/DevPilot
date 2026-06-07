@@ -1,0 +1,39 @@
+{
+  "doc_id": "DEVPL-MANIFEST-FUNC-03",
+  "title": "FUNC-SPRINT-03 Manifest",
+  "status": "approved",
+  "version": "1.0.0",
+  "owner": "Ordóñez",
+  "updated": "2026-06-07",
+  "sprint": "FUNC-SPRINT-03",
+  "implemented": true,
+  "created": [
+    "src/devpilot_core/validators/artifact_profiles.py",
+    "src/devpilot_core/validators/artifact.py",
+    "tests/test_artifact_validator.py",
+    "tests/fixtures/docs/valid_requirements_artifact.md",
+    "tests/fixtures/docs/invalid_requirements_missing_sections.md",
+    "tests/fixtures/docs/approved_missing_sections.md",
+    "docs/audits/func_sprint_03_artifact_validator_audit.md",
+    "docs/functional_sprint_03_manifest.json"
+  ],
+  "modified": [
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/functional_backlog_after_precode.md",
+    "src/devpilot_core/cli.py"
+  ],
+  "commands": [
+    "python -m devpilot_core validate-artifact docs/01_requirements/requirements_specification.md",
+    "python -m devpilot_core validate-artifact docs/06_miasi/agent_card.md --json",
+    "python -m pytest -q"
+  ],
+  "pass_criteria": [
+    "validate-artifact exists",
+    "CommandResult contract is preserved",
+    "approved artifacts with missing required sections emit BLOCK",
+    "pytest passes",
+    "no external API or dependency added"
+  ],
+  "next_sprint": "FUNC-SPRINT-04 — Standards Registry y carga local de reglas"
+}

@@ -284,6 +284,8 @@ Implementa FUNC-SPRINT-02: validador de frontmatter Markdown para DevPilot Local
 
 # FUNC-SPRINT-03 — Validador de artefactos MIPSoftware/MIASI
 
+Estado de implementación: `implemented` en FUNC-SPRINT-03.
+
 ## Objetivo
 
 Validar que los documentos principales tengan estructura mínima, secciones requeridas y coherencia básica con su tipo documental.

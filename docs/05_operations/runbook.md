@@ -409,3 +409,49 @@ Riesgos:
 ```text
 El parser implementado es YAML-like simple, no YAML completo. Si la documentación futura necesita YAML complejo, se deberá crear ADR para incorporar una dependencia controlada o extender el parser.
 ```
+
+
+## FUNC-SPRINT-03 — Operación del validador de artefactos
+
+### Propósito operativo
+
+FUNC-SPRINT-03 agrega validación estructural de artefactos MIPSoftware/MIASI. A diferencia de `validate-frontmatter`, que revisa metadatos, `validate-artifact` valida que el documento tenga una estructura mínima esperada según su perfil: producto, requerimientos, arquitectura, seguridad, calidad, operación, ADR o MIASI.
+
+### Comandos
+
+```powershell
+python -m devpilot_core validate-artifact docs/01_requirements/requirements_specification.md
+python -m devpilot_core validate-artifact docs/06_miasi/agent_card.md --json
+python -m devpilot_core validate-artifact docs/02_architecture/architecture_document.md --strict
+```
+
+### Interpretación
+
+```text
+PASS: el documento tiene frontmatter válido, H1 único y secciones mínimas del perfil.
+FAIL: el documento no aprobado incumple estructura mínima.
+BLOCK: un documento aprobado incumple estructura mínima y debe corregirse antes de continuar.
+ERROR: archivo inexistente, ruta inválida o archivo no Markdown.
+```
+
+### Criterio PASS
+
+```text
+Los documentos principales de requerimientos y MIASI pasan validate-artifact.
+pytest -q pasa.
+Los comandos existentes readiness-check, miasi-required y validate-frontmatter siguen funcionando.
+```
+
+### Criterio BLOCK
+
+```text
+No avanzar a Standards Registry si un documento approved puede incumplir estructura mínima sin emitir BLOCK.
+No avanzar si validate-artifact no usa CommandResult.
+No avanzar si el validador requiere servicios externos o dependencias nuevas.
+```
+
+### Riesgos
+
+```text
+Los perfiles de FUNC-SPRINT-03 son determinísticos y mínimos. No reemplazan revisión humana ni plantillas completas. En FUNC-SPRINT-04 deberán integrarse con Standards Registry para que las reglas provengan progresivamente del estándar versionado.
+```

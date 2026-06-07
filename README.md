@@ -1,8 +1,8 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
 Estado actual: `baseline pre-code approved + functional backlog approved`  
-Último hito: `FUNC-SPRINT-02 — Validador de frontmatter y metadatos documentales`  
-Siguiente hito: `FUNC-SPRINT-03 — Validador de artefactos MIPSoftware/MIASI`  
+Último hito: `FUNC-SPRINT-03 — Validador de artefactos MIPSoftware/MIASI`  
+Siguiente hito: `FUNC-SPRINT-04 — Standards Registry y carga local de reglas`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
@@ -29,7 +29,7 @@ Ya existe:
 Pendiente de implementación funcional:
 
 - validadores estrictos de frontmatter; **implementado en FUNC-SPRINT-02**
-- validadores de artefactos MIPSoftware/MIASI;
+- validadores de artefactos MIPSoftware/MIASI; **implementado en FUNC-SPRINT-03**
 - readiness estricto;
 - reportes JSON/Markdown;
 - trazas JSONL;
@@ -154,3 +154,27 @@ PASS: documento con frontmatter completo y válido.
 FAIL: documento sin frontmatter, sin campo obligatorio o con status inválido.
 STRICT: un documento approved sin campo approval falla.
 ```
+
+
+## FUNC-SPRINT-03 — Validación de artefactos MIPSoftware/MIASI
+
+El comando `validate-artifact` valida que un documento Markdown no solo tenga frontmatter, sino también estructura mínima según su perfil documental.
+
+Ejemplos:
+
+```powershell
+python -m devpilot_core validate-artifact docs/01_requirements/requirements_specification.md
+python -m devpilot_core validate-artifact docs/06_miasi/agent_card.md --json
+python -m devpilot_core validate-artifact docs/02_architecture/architecture_document.md --strict
+```
+
+Interpretación de resultados:
+
+```text
+exit_code 0: PASS.
+exit_code 1: FAIL de validación.
+exit_code 2: BLOCK. Se usa cuando un documento aprobado incumple estructura mínima.
+exit_code 3: ERROR técnico, ruta inválida o archivo no soportado.
+```
+
+Este comando usa perfiles determinísticos ubicados en `src/devpilot_core/validators/artifact_profiles.py` y el validador en `src/devpilot_core/validators/artifact.py`. No usa LLMs, APIs externas ni dependencias nuevas.

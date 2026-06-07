@@ -8,6 +8,7 @@ from typing import Any
 from . import __version__
 from .cli_models import CommandResult, ExitCode, Finding, Severity
 from .errors import DevPilotError
+from .validators.artifact import validate_artifact_file
 from .validators.frontmatter import validate_frontmatter_file
 
 ROOT_MARKERS = ["pyproject.toml", "docs"]
@@ -184,6 +185,18 @@ def validate_frontmatter_command(path: str, *, json_output: bool = False, strict
     return int(result.exit_code)
 
 
+def validate_artifact_command(path: str, *, json_output: bool = False, strict: bool = False) -> int:
+    """Validate one Markdown artifact against its MIPSoftware/MIASI profile."""
+
+    root = project_root()
+    target = Path(path)
+    if not target.is_absolute():
+        target = root / target
+    result = validate_artifact_file(target, root=root, strict=strict)
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="devpilot", description="DevPilot Local CLI")
     parser.add_argument("--version", action="store_true", help="Show version")
@@ -199,6 +212,11 @@ def build_parser() -> argparse.ArgumentParser:
     frontmatter.add_argument("path", help="Markdown document path to validate")
     frontmatter.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     frontmatter.add_argument("--strict", action="store_true", help="Treat approved documents without approval as failures")
+
+    artifact = sub.add_parser("validate-artifact", help="Validate Markdown artifact structure by profile")
+    artifact.add_argument("path", help="Markdown document path to validate")
+    artifact.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    artifact.add_argument("--strict", action="store_true", help="Run strict frontmatter validation before structure checks")
 
     return parser
 
@@ -217,6 +235,8 @@ def main(argv: list[str] | None = None) -> int:
             return miasi_required(json_output=args.json)
         if args.command == "validate-frontmatter":
             return validate_frontmatter_command(args.path, json_output=args.json, strict=args.strict)
+        if args.command == "validate-artifact":
+            return validate_artifact_command(args.path, json_output=args.json, strict=args.strict)
         parser.print_help()
         return int(ExitCode.PASS)
     except DevPilotError as exc:
