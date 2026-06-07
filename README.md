@@ -1,8 +1,8 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
 Estado actual: `baseline pre-code approved + functional backlog approved + gates documentales ejecutables`  
-Último hito: `FUNC-SPRINT-05 — Checklist pre-code y readiness estricto`  
-Siguiente hito: `FUNC-SPRINT-06 — Reportes Markdown/JSON formales y evidencia de gates`  
+Último hito: `FUNC-SPRINT-06 — Report Engine y contrato de evidencias`  
+Siguiente hito: `FUNC-SPRINT-07 — Event Log JSONL y observabilidad local`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
@@ -27,14 +27,16 @@ Ya existe:
 - comando `standards status`;
 - comando `checklist-pre-code`;
 - parser de checklist Markdown pre-code;
+- `ReportEngine` central para evidencias JSON/Markdown;
+- contrato `EvidenceReport` con `report_id`, `status`, `generated_at`, `summary`, `findings` y rutas de salida;
 - generación local de evidencia `outputs/reports/readiness_check.json` y `outputs/reports/readiness_check.md`;
+- opción `--write-report` en gates documentales principales;
 - documentación pre-code aprobada;
 - estándares MIPSoftware y MIASI versionados dentro de `docs/standards/`;
 - backlog funcional aprobado en `docs/functional_backlog_after_precode.md`.
 
 Pendiente de implementación funcional:
 
-- reportes Markdown/JSON formales por gate;
 - trazas JSONL;
 - workspace manager;
 - policy/security guards;
@@ -66,6 +68,7 @@ DevPilot_Local/
     reference/
     standards/
   src/devpilot_core/
+    reports/
     standards/
     validators/
   tests/
@@ -102,11 +105,14 @@ python -m devpilot_core readiness-check --strict --json
 python -m devpilot_core miasi-required
 python -m devpilot_core miasi-required --json
 python -m devpilot_core validate-frontmatter docs/00_product/product_vision.md --strict
+python -m devpilot_core validate-frontmatter docs/00_product/product_vision.md --strict --write-report
 python -m devpilot_core validate-artifact docs/01_requirements/requirements_specification.md --strict
+python -m devpilot_core validate-artifact docs/01_requirements/requirements_specification.md --strict --write-report
 python -m devpilot_core standards status
 python -m devpilot_core standards status --json
 python -m devpilot_core checklist-pre-code
 python -m devpilot_core checklist-pre-code --json
+python -m devpilot_core checklist-pre-code --json --write-report
 ```
 
 ## Interpretación de exit codes
@@ -120,11 +126,36 @@ python -m devpilot_core checklist-pre-code --json
 
 ## Evidencia generada
 
-`readiness-check --strict` genera evidencia local en:
+Desde `FUNC-SPRINT-06`, DevPilot usa `ReportEngine` como componente central para escribir evidencia en JSON y Markdown. El contrato común es `EvidenceReport` y contiene como mínimo:
+
+```text
+report_id
+command
+status
+ok
+exit_code
+message
+generated_at
+summary
+findings
+data
+subject opcional
+metadata opcional
+```
+
+`readiness-check --strict` mantiene por compatibilidad las rutas históricas:
 
 ```text
 outputs/reports/readiness_check.json
 outputs/reports/readiness_check.md
+```
+
+Los demás gates pueden escribir evidencia con `--write-report`, por ejemplo:
+
+```powershell
+python -m devpilot_core validate-frontmatter docs/00_product/product_vision.md --strict --json --write-report
+python -m devpilot_core validate-artifact docs/01_requirements/requirements_specification.md --strict --json --write-report
+python -m devpilot_core checklist-pre-code --json --write-report
 ```
 
 Estos archivos son artefactos runtime y están ignorados por `.gitignore`; pueden conservarse localmente como evidencia de ejecución o regenerarse en cualquier momento.
@@ -222,4 +253,35 @@ Resultado esperado actual:
 pytest -q -> 30 passed
 checklist-pre-code -> PASS
 readiness-check --strict -> PASS con warnings no bloqueantes
+```
+
+
+## FUNC-SPRINT-06 — Report Engine y contrato de evidencias
+
+Este sprint centraliza la generación de reportes reproducibles en JSON y Markdown para los gates documentales de DevPilot. Sustituye la generación ad hoc de evidencias por `ReportEngine`, manteniendo compatibilidad con `readiness_check.json` y `readiness_check.md`.
+
+Componentes principales:
+
+- `src/devpilot_core/reports/models.py`: define `EvidenceReport`, `ReportStatus` y `ReportFormat`.
+- `src/devpilot_core/reports/report_engine.py`: escribe reportes JSON/Markdown bajo `outputs/reports`.
+- `--write-report`: habilitado en `validate-frontmatter`, `validate-artifact` y `checklist-pre-code`.
+- `readiness-check`: sigue generando evidencia automáticamente, ahora mediante `ReportEngine`.
+- `tests/test_report_engine.py`: valida contrato, serialización, Markdown y CLI con reportes.
+
+Criterios rápidos:
+
+```text
+PASS: el comando evaluado pasa y el reporte se escribe en JSON/Markdown.
+BLOCK/FAIL/ERROR: el reporte conserva estado, exit code, findings y subject para auditoría.
+Riesgo: es una primera versión local; todavía no hay EventLogger JSONL, retención configurable ni firma/verificación criptográfica de evidencias.
+```
+
+Resultado esperado actual:
+
+```text
+pytest -q -> 36 passed
+readiness-check --strict --json -> PASS + reports
+validate-frontmatter ... --write-report -> PASS + reports
+validate-artifact ... --write-report -> PASS + reports
+checklist-pre-code --write-report -> PASS + reports
 ```

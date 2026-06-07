@@ -2,11 +2,11 @@
 title: "Runbook — DevPilot Local"
 doc_id: "DEVPL-OPS-002"
 status: "approved"
-version: "1.1.0"
+version: "1.2.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "FUNC-SPRINT-05"
+phase: "FUNC-SPRINT-06"
 updated: "2026-06-07"
 approval: "approved_by_owner"
 source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved + 03_security approved"
@@ -109,6 +109,69 @@ git commit -m "docs: describe change"
 | Validar frontmatter | `python -m devpilot_core validate-frontmatter ... --strict` |
 | Validar artefacto | `python -m devpilot_core validate-artifact ... --strict` |
 | Ejecutar checklist pre-code | `python -m devpilot_core checklist-pre-code` |
+| Generar reporte de frontmatter | `python -m devpilot_core validate-frontmatter docs/00_product/product_vision.md --strict --json --write-report` |
+| Generar reporte de artefacto | `python -m devpilot_core validate-artifact docs/01_requirements/requirements_specification.md --strict --json --write-report` |
+| Generar reporte de checklist | `python -m devpilot_core checklist-pre-code --json --write-report` |
+
+## 6.1. Report Engine y contrato de evidencias
+
+`FUNC-SPRINT-06` introduce `ReportEngine` como mecanismo central para escribir evidencia de gates en `outputs/reports`. El motor produce dos archivos por ejecución cuando el comando lo solicita o cuando el comando ya generaba evidencia por contrato:
+
+```text
+.json -> evidencia máquina-legible
+.md   -> evidencia legible para revisión humana
+```
+
+Contrato mínimo de cada evidencia:
+
+```text
+report_id
+command
+status
+ok
+exit_code
+message
+generated_at
+summary
+findings
+data
+subject opcional
+metadata opcional
+```
+
+Comandos operativos:
+
+```powershell
+# Readiness mantiene generación automática de evidencia por compatibilidad
+python -m devpilot_core readiness-check --strict --json
+
+# Los validadores pueden escribir evidencia explícita con --write-report
+python -m devpilot_core validate-frontmatter docs/00_product/product_vision.md --strict --json --write-report
+python -m devpilot_core validate-artifact docs/01_requirements/requirements_specification.md --strict --json --write-report
+python -m devpilot_core checklist-pre-code --json --write-report
+```
+
+Criterios PASS/BLOCK:
+
+```text
+PASS: el comando evaluado devuelve exit code 0 y los archivos JSON/Markdown quedan escritos bajo outputs/reports.
+BLOCK/FAIL/ERROR: la evidencia se conserva igualmente con status, exit code y findings para auditoría.
+```
+
+Riesgos y límites de esta primera versión:
+
+```text
+- No firma criptográficamente reportes.
+- No implementa retención, rotación ni EventLog JSONL.
+- No redacta secretos todavía; esa responsabilidad se moverá a SecretGuard/Policy Engine en sprints posteriores.
+- Solo escribe dentro del project root para evitar salida accidental fuera del workspace.
+```
+
+Rol dentro de DevPilot:
+
+```text
+ReportEngine es la base para trazabilidad operativa, auditoría local, evidencia de gates, revisión humana y futura persistencia SQLite/EventLogger.
+```
 
 ## 7. Fallos comunes y recuperación
 

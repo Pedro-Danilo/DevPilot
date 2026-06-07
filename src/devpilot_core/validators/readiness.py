@@ -1,10 +1,10 @@
 from __future__ import annotations
 
-import json
 from pathlib import Path
 from typing import Any
 
 from devpilot_core.cli_models import CommandResult, ExitCode, Finding, Severity, exit_code_for_findings
+from devpilot_core.reports import ReportEngine
 from devpilot_core.standards.registry import build_standards_status_result
 from devpilot_core.validators.artifact import validate_artifact_file
 from devpilot_core.validators.checklist import validate_precode_checklist
@@ -230,49 +230,20 @@ def build_strict_readiness_result(root: Path) -> CommandResult:
 
 
 def write_readiness_reports(root: Path, result: CommandResult) -> dict[str, str]:
-    """Persist JSON and Markdown readiness evidence under outputs/reports."""
+    """Persist readiness evidence through the central ReportEngine.
 
-    report_dir = root / "outputs" / "reports"
-    report_dir.mkdir(parents=True, exist_ok=True)
-    json_path = report_dir / "readiness_check.json"
-    md_path = report_dir / "readiness_check.md"
+    The public function is kept for compatibility with FUNC-SPRINT-05 tests and
+    scripts, but the implementation is now delegated to FUNC-SPRINT-06
+    ReportEngine so readiness evidence uses the same contract as other gates.
+    """
 
-    json_path.write_text(json.dumps(result.to_dict(), indent=2, ensure_ascii=False), encoding="utf-8")
-    md_path.write_text(_render_readiness_markdown(result), encoding="utf-8")
-    return {
-        "json": str(json_path.relative_to(root)).replace("\\", "/"),
-        "markdown": str(md_path.relative_to(root)).replace("\\", "/"),
-    }
-
-
-def _render_readiness_markdown(result: CommandResult) -> str:
-    status = "PASS" if result.ok else "BLOCK/FAIL"
-    lines = [
-        "# DevPilot Local — Readiness Check Report",
-        "",
-        f"- Command: `{result.command}`",
-        f"- Status: `{status}`",
-        f"- Exit code: `{int(result.exit_code)}`",
-        f"- Message: {result.message}",
-        "",
-        "## Summary",
-        "",
-    ]
-
-    summary = result.data.get("summary", {})
-    if summary:
-        for key, value in summary.items():
-            lines.append(f"- `{key}`: {value}")
-    else:
-        lines.append("- No summary available.")
-
-    lines.extend(["", "## Findings", ""])
-    if result.findings:
-        for finding in result.findings:
-            path = f" — `{finding.path}`" if finding.path else ""
-            lines.append(f"- **{finding.severity.value.upper()}** `{finding.id}`{path}: {finding.message}")
-    else:
-        lines.append("No findings.")
-
-    lines.append("")
-    return "\n".join(lines)
+    paths = ReportEngine(root).write_command_report(
+        result,
+        report_id="readiness_check",
+        metadata={
+            "sprint": "FUNC-SPRINT-06",
+            "contract": "EvidenceReport",
+            "compatibility_boundary": "readiness_check legacy filename preserved",
+        },
+    )
+    return paths.to_dict()

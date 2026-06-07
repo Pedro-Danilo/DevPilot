@@ -1,0 +1,55 @@
+{
+  "sprint_id": "FUNC-SPRINT-06",
+  "title": "Report Engine y contrato de evidencias",
+  "status": "implemented",
+  "implemented_on": "2026-06-07",
+  "requires_api_key": false,
+  "requires_external_network": false,
+  "adds_external_dependencies": false,
+  "adr_required": false,
+  "reason_no_adr": "El sprint implementa una capacidad prevista en el backlog sin cambiar arquitectura, seguridad, persistencia, costos, agentes ni APIs externas.",
+  "created_files": [
+    "src/devpilot_core/reports/__init__.py",
+    "src/devpilot_core/reports/models.py",
+    "src/devpilot_core/reports/report_engine.py",
+    "tests/test_report_engine.py",
+    "docs/audits/func_sprint_06_report_engine_audit.md",
+    "docs/functional_sprint_06_manifest.json"
+  ],
+  "modified_files": [
+    "src/devpilot_core/cli.py",
+    "src/devpilot_core/validators/readiness.py",
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/functional_backlog_after_precode.md"
+  ],
+  "commands": [
+    "python -m devpilot_core readiness-check --strict --json",
+    "python -m devpilot_core validate-frontmatter docs/00_product/product_vision.md --strict --json --write-report",
+    "python -m devpilot_core validate-artifact docs/01_requirements/requirements_specification.md --strict --json --write-report",
+    "python -m devpilot_core checklist-pre-code --json --write-report",
+    "python -m pytest -q"
+  ],
+  "pass_criteria": [
+    "pytest -q passes",
+    "ReportEngine writes JSON and Markdown under outputs/reports",
+    "EvidenceReport includes report_id, command, status, exit_code, generated_at, summary and findings",
+    "readiness_check legacy report names remain available",
+    "CLI validators can write evidence with --write-report"
+  ],
+  "block_criteria": [
+    "JSON evidence is not parseable",
+    "Markdown evidence omits critical audit fields",
+    "ReportEngine can write outside project root",
+    "CLI regression breaks previous commands",
+    "pytest fails"
+  ],
+  "known_limitations": [
+    "No EventLog JSONL yet",
+    "No cryptographic signature for evidence reports",
+    "No report retention or rotation policy",
+    "No advanced secret redaction; to be addressed by SecretGuard/Policy Engine",
+    "Evidence is local and file-based"
+  ],
+  "next_sprint": "FUNC-SPRINT-07 — Event Log JSONL y observabilidad local"
+}

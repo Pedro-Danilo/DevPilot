@@ -3,11 +3,11 @@ from __future__ import annotations
 import argparse
 import json
 from pathlib import Path
-from typing import Any
 
 from . import __version__
 from .cli_models import CommandResult, ExitCode, Finding, Severity
 from .errors import DevPilotError
+from .reports import ReportEngine, build_report_id
 from .standards.registry import build_standards_status_result
 from .validators.artifact import validate_artifact_file
 from .validators.checklist import validate_precode_checklist
@@ -75,27 +75,63 @@ def print_result(result: CommandResult, *, json_output: bool = False) -> None:
         return
 
     print(result.message)
+    reports = (result.data or {}).get("reports")
+    if isinstance(reports, dict):
+        if reports.get("json"):
+            print(f"Report JSON: {reports['json']}")
+        if reports.get("markdown"):
+            print(f"Report Markdown: {reports['markdown']}")
     for finding in result.findings:
         path = f" [{finding.path}]" if finding.path else ""
         print(f"- {finding.severity.value.upper()}: {finding.id}{path} — {finding.message}")
 
 
-def readiness_check(*, json_output: bool = False, strict: bool = False) -> int:
+def _with_report_paths(result: CommandResult, report_paths: dict[str, str]) -> CommandResult:
+    """Return a CommandResult with report paths attached to data."""
+
+    data = dict(result.data or {})
+    data["reports"] = report_paths
+    return CommandResult(
+        command=result.command,
+        ok=result.ok,
+        exit_code=result.exit_code,
+        message=result.message,
+        data=data,
+        findings=result.findings,
+    )
+
+
+def _write_optional_command_report(
+    root: Path,
+    result: CommandResult,
+    *,
+    subject: str | Path | None = None,
+    report_id: str | None = None,
+    write_report: bool = False,
+) -> CommandResult:
+    """Persist report evidence when requested and attach generated paths."""
+
+    if not write_report:
+        return result
+    effective_report_id = report_id or build_report_id(result.command, subject=subject)
+    paths = ReportEngine(root).write_command_report(
+        result,
+        report_id=effective_report_id,
+        subject=subject,
+        metadata={"sprint": "FUNC-SPRINT-06", "contract": "EvidenceReport"},
+    )
+    return _with_report_paths(result, paths.to_dict())
+
+
+def readiness_check(*, json_output: bool = False, strict: bool = False, write_report: bool = False) -> int:
     root = project_root()
     result = build_strict_readiness_result(root) if strict else build_readiness_result(root)
-    report_paths = write_readiness_reports(root, result)
 
-    if result.data is not None:
-        data = dict(result.data)
-        data["reports"] = report_paths
-        result = CommandResult(
-            command=result.command,
-            ok=result.ok,
-            exit_code=result.exit_code,
-            message=result.message,
-            data=data,
-            findings=result.findings,
-        )
+    # Backwards compatibility: readiness-check already generated evidence in
+    # FUNC-SPRINT-05. FUNC-SPRINT-06 keeps that behavior but delegates it to the
+    # central ReportEngine through write_readiness_reports().
+    report_paths = write_readiness_reports(root, result)
+    result = _with_report_paths(result, report_paths)
 
     print_result(result, json_output=json_output)
     return int(result.exit_code)
@@ -107,7 +143,13 @@ def miasi_required(*, json_output: bool = False) -> int:
     return int(result.exit_code)
 
 
-def validate_frontmatter_command(path: str, *, json_output: bool = False, strict: bool = False) -> int:
+def validate_frontmatter_command(
+    path: str,
+    *,
+    json_output: bool = False,
+    strict: bool = False,
+    write_report: bool = False,
+) -> int:
     """Validate frontmatter metadata for one Markdown artifact."""
 
     root = project_root()
@@ -115,11 +157,18 @@ def validate_frontmatter_command(path: str, *, json_output: bool = False, strict
     if not target.is_absolute():
         target = root / target
     result = validate_frontmatter_file(target, root=root, strict=strict)
+    result = _write_optional_command_report(root, result, subject=path, write_report=write_report)
     print_result(result, json_output=json_output)
     return int(result.exit_code)
 
 
-def validate_artifact_command(path: str, *, json_output: bool = False, strict: bool = False) -> int:
+def validate_artifact_command(
+    path: str,
+    *,
+    json_output: bool = False,
+    strict: bool = False,
+    write_report: bool = False,
+) -> int:
     """Validate one Markdown artifact against its MIPSoftware/MIASI profile."""
 
     root = project_root()
@@ -127,15 +176,17 @@ def validate_artifact_command(path: str, *, json_output: bool = False, strict: b
     if not target.is_absolute():
         target = root / target
     result = validate_artifact_file(target, root=root, strict=strict)
+    result = _write_optional_command_report(root, result, subject=path, write_report=write_report)
     print_result(result, json_output=json_output)
     return int(result.exit_code)
 
 
-def checklist_pre_code_command(*, json_output: bool = False, strict: bool = True) -> int:
+def checklist_pre_code_command(*, json_output: bool = False, strict: bool = True, write_report: bool = False) -> int:
     """Evaluate the executable pre-code checklist gate."""
 
     root = project_root()
     result = validate_precode_checklist(root, strict=strict)
+    result = _write_optional_command_report(root, result, report_id="checklist_pre_code", write_report=write_report)
     print_result(result, json_output=json_output)
     return int(result.exit_code)
 
@@ -157,9 +208,11 @@ def build_parser() -> argparse.ArgumentParser:
     readiness = sub.add_parser("readiness-check", help="Check pre-code readiness artifacts")
     readiness.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     readiness.add_argument("--strict", action="store_true", help="Run strict executable pre-code gate")
+    readiness.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
 
     checklist = sub.add_parser("checklist-pre-code", help="Evaluate the executable pre-code checklist gate")
     checklist.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    checklist.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
 
     miasi = sub.add_parser("miasi-required", help="Explain MIASI activation for this project")
     miasi.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
@@ -168,11 +221,13 @@ def build_parser() -> argparse.ArgumentParser:
     frontmatter.add_argument("path", help="Markdown document path to validate")
     frontmatter.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     frontmatter.add_argument("--strict", action="store_true", help="Treat approved documents without approval as failures")
+    frontmatter.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
 
     artifact = sub.add_parser("validate-artifact", help="Validate Markdown artifact structure by profile")
     artifact.add_argument("path", help="Markdown document path to validate")
     artifact.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     artifact.add_argument("--strict", action="store_true", help="Run strict frontmatter validation before structure checks")
+    artifact.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
 
     standards = sub.add_parser("standards", help="Inspect local MIPSoftware/MIASI standards registry")
     standards_sub = standards.add_subparsers(dest="standards_command")
@@ -191,15 +246,25 @@ def main(argv: list[str] | None = None) -> int:
             print(f"devpilot-local {__version__}")
             return int(ExitCode.PASS)
         if args.command == "readiness-check":
-            return readiness_check(json_output=args.json, strict=args.strict)
+            return readiness_check(json_output=args.json, strict=args.strict, write_report=args.write_report)
         if args.command == "checklist-pre-code":
-            return checklist_pre_code_command(json_output=args.json)
+            return checklist_pre_code_command(json_output=args.json, write_report=args.write_report)
         if args.command == "miasi-required":
             return miasi_required(json_output=args.json)
         if args.command == "validate-frontmatter":
-            return validate_frontmatter_command(args.path, json_output=args.json, strict=args.strict)
+            return validate_frontmatter_command(
+                args.path,
+                json_output=args.json,
+                strict=args.strict,
+                write_report=args.write_report,
+            )
         if args.command == "validate-artifact":
-            return validate_artifact_command(args.path, json_output=args.json, strict=args.strict)
+            return validate_artifact_command(
+                args.path,
+                json_output=args.json,
+                strict=args.strict,
+                write_report=args.write_report,
+            )
         if args.command == "standards":
             if args.standards_command == "status":
                 return standards_status_command(json_output=args.json)

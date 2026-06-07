@@ -2,7 +2,7 @@
 title: "DevPilot Local — Backlog ejecutable posterior a pre-code"
 doc_id: "DEVPL-FUNC-BACKLOG-001"
 status: "approved"
-version: "1.3.0"
+version: "1.4.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
@@ -14,7 +14,7 @@ change_policy: "controlled_changes_allowed_via_docs_as_code"
 approved_on: "2026-06-06"
 approval_scope: "functional_backlog_after_precode"
 baseline_execution: "FUNC-SPRINT-00"
-next_sprint: "FUNC-SPRINT-06"
+next_sprint: "FUNC-SPRINT-07"
 ---
 
 # DevPilot Local — Backlog ejecutable posterior a pre-code
@@ -480,35 +480,106 @@ Implementa FUNC-SPRINT-05: checklist-pre-code ejecutable y readiness-check --str
 
 # FUNC-SPRINT-06 — Report Engine y contrato de evidencias
 
+## Estado de implementación FUNC-SPRINT-06
+
+`FUNC-SPRINT-06` queda implementado como motor central de evidencias para gates documentales. El sprint crea `src/devpilot_core/reports/`, define el contrato `EvidenceReport`, centraliza la escritura JSON/Markdown mediante `ReportEngine`, conserva compatibilidad con los reportes históricos de `readiness-check` e incorpora `--write-report` en `validate-frontmatter`, `validate-artifact` y `checklist-pre-code`.
+
+La implementación es una primera versión local-first y determinística. No agrega dependencias externas, no requiere API keys, no llama servicios externos, no cambia arquitectura ni seguridad aprobada, y no requiere nueva ADR. Su evolución natural se conecta con `FUNC-SPRINT-07` para Event Log JSONL, `FUNC-SPRINT-09` para SecretGuard/Policy Engine y `FUNC-SPRINT-10` para persistencia SQLite.
+
 ## Objetivo
 
-Centralizar generación de reportes reproducibles en JSON y Markdown para todos los comandos.
+Centralizar generación de reportes reproducibles en JSON y Markdown para todos los comandos/gates documentales de DevPilot.
 
 ## Historias
 
-| ID | Historia | Criterio de aceptación |
-|---|---|---|
-| US-FUNC-06-001 | Como usuario, quiero reportes legibles y máquinas-legibles. | Cada gate puede generar `.json` y `.md`. |
-| US-FUNC-06-002 | Como auditor, quiero evidencia reproducible. | Reportes incluyen timestamp, comando, estado, findings y rutas. |
+| ID | Historia | Criterio de aceptación | Estado |
+|---|---|---|---|
+| US-FUNC-06-001 | Como usuario, quiero reportes legibles y máquinas-legibles. | Cada gate puede generar `.json` y `.md`. | Implementado |
+| US-FUNC-06-002 | Como auditor, quiero evidencia reproducible. | Reportes incluyen timestamp, comando, estado, findings y rutas. | Implementado |
 
 ## Tareas
 
-| ID | Tarea | Entregable | PASS |
-|---|---|---|---|
-| FUNC-06-001 | Crear `ReportEngine` | módulo | Escribe JSON/Markdown. |
-| FUNC-06-002 | Definir contrato de reporte | dataclasses | `report_id`, `status`, `findings`, `summary`. |
-| FUNC-06-003 | Integrar con readiness/validators | comandos | `--write-report`. |
-| FUNC-06-004 | Snapshot tests | tests | Reportes estables. |
-| FUNC-06-005 | Documentar en runbook | docs | Uso reproducible. |
+| ID | Tarea | Entregable | PASS | Estado |
+|---|---|---|---|---|
+| FUNC-06-001 | Crear `ReportEngine` | `src/devpilot_core/reports/report_engine.py` | Escribe JSON/Markdown bajo `outputs/reports`. | Implementado |
+| FUNC-06-002 | Definir contrato de reporte | `src/devpilot_core/reports/models.py` | `report_id`, `status`, `findings`, `summary`, `generated_at`. | Implementado |
+| FUNC-06-003 | Integrar con readiness/validators | CLI | `--write-report` en validadores y checklist; readiness delega a ReportEngine. | Implementado |
+| FUNC-06-004 | Snapshot tests | `tests/test_report_engine.py` | Markdown estable y JSON parseable. | Implementado |
+| FUNC-06-005 | Documentar en runbook | README + runbook | Uso reproducible y riesgos documentados. | Implementado |
 
-## Archivos previstos
+## Archivos creados
 
 ```text
-src/devpilot_core/reports/report_engine.py
+src/devpilot_core/reports/__init__.py
 src/devpilot_core/reports/models.py
+src/devpilot_core/reports/report_engine.py
 tests/test_report_engine.py
-outputs/reports/
+docs/audits/func_sprint_06_report_engine_audit.md
+docs/functional_sprint_06_manifest.json
 ```
+
+## Archivos modificados
+
+```text
+src/devpilot_core/cli.py
+src/devpilot_core/validators/readiness.py
+README.md
+docs/05_operations/runbook.md
+docs/functional_backlog_after_precode.md
+```
+
+## Contrato de evidencia
+
+```text
+report_id      identificador estable del reporte
+command        comando evaluado
+status         PASS | FAIL | BLOCK | ERROR
+ok             booleano del resultado
+exit_code      código de salida DevPilot
+message        mensaje humano del resultado
+generated_at   timestamp UTC ISO-8601
+summary        resumen compacto
+findings       hallazgos normalizados
+data           payload original del CommandResult
+subject        ruta o sujeto evaluado, si aplica
+metadata       metadatos operativos del sprint/contrato
+```
+
+## Comandos objetivo
+
+```powershell
+python -m devpilot_core readiness-check --strict --json
+python -m devpilot_core validate-frontmatter docs/00_product/product_vision.md --strict --json --write-report
+python -m devpilot_core validate-artifact docs/01_requirements/requirements_specification.md --strict --json --write-report
+python -m devpilot_core checklist-pre-code --json --write-report
+python -m pytest -q
+```
+
+## Resultado esperado actual
+
+```text
+readiness-check --strict --json -> PASS + outputs/reports/readiness_check.json + .md
+validate-frontmatter ... --write-report -> PASS + evidence report
+validate-artifact ... --write-report -> PASS + evidence report
+checklist-pre-code --write-report -> PASS + evidence report
+pytest -q -> 36 passed
+```
+
+## BLOCK
+
+- No cerrar si `ReportEngine` puede escribir fuera del project root.
+- No cerrar si los reportes JSON no son parseables.
+- No cerrar si Markdown no incluye command, status, exit code, timestamp y findings.
+- No cerrar si `readiness-check` pierde compatibilidad con `outputs/reports/readiness_check.*`.
+- No cerrar si `pytest -q` falla.
+
+## Riesgos residuales
+
+- No hay firma criptográfica ni hash de integridad de reportes.
+- No hay EventLog JSONL todavía; se abordará en `FUNC-SPRINT-07`.
+- No hay política de retención/rotación de evidencias.
+- No hay redacción avanzada de secretos; se abordará con SecretGuard/Policy Engine.
+- La evidencia sigue siendo local y regenerable; para operación industrial se requerirá persistencia, retención y trazabilidad más robusta.
 
 ## Prompt operativo
 
