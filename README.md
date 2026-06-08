@@ -1,8 +1,8 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
 Estado actual: `baseline pre-code approved + functional backlog approved + gates documentales ejecutables`  
-Último hito: `FUNC-SPRINT-09 — Policy Engine, PathGuard, SecretGuard y CostGuard determinísticos`  
-Siguiente hito: `FUNC-SPRINT-10 — Persistencia local SQLite y estado operativo`  
+Último hito: `FUNC-SPRINT-10 — Persistencia local SQLite y estado operativo`  
+Siguiente hito: `FUNC-SPRINT-11 — MIASI ejecutable: Agent Registry, Tool Registry y Policy Matrix`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
@@ -42,6 +42,9 @@ Ya existe:
 - `SecretGuard` para redacción y bloqueo de secretos sintéticos;
 - `CostGuard` para bloquear costos externos sin política/presupuesto;
 - comando `policy check`;
+- `LocalStore` SQLite v0 para runs, findings, gates, events, approvals y cost_events;
+- comandos `state init`, `state status` y `history list`;
+- persistencia automática best-effort de resultados de gates/validadores en `.devpilot/devpilot.db`;
 - comandos `workspace init` y `workspace status`;
 - inicialización dry-run por defecto y escritura explícita con `--execute`;
 - documentación pre-code aprobada;
@@ -50,7 +53,6 @@ Ya existe:
 
 Pendiente de implementación funcional:
 
-- persistencia SQLite;
 - registries ejecutables de agentes y herramientas;
 - agentes documentales controlados;
 - Git read-only;
@@ -80,6 +82,7 @@ DevPilot_Local/
   .devpilot/
     project.yaml
     policy.yaml
+    devpilot.db        # generado en runtime, no versionado
   src/devpilot_core/
     observability/
     policy/
@@ -446,4 +449,80 @@ pytest -q -> 51 passed
 workspace init --dry-run -> PASS sin escritura
 workspace init --execute -> PASS si el workspace no existe
 workspace status --json -> PASS si .devpilot/project.yaml y baseline documental existen
+```
+
+
+## FUNC-SPRINT-09 — Policy Engine, PathGuard, SecretGuard y CostGuard determinísticos
+
+Este sprint agrega una capa determinística de seguridad local antes de ejecutar agentes, herramientas, Git avanzado, patches, refactors o APIs externas. El comando `policy check` simula solicitudes y devuelve decisiones auditables sin ejecutar la acción.
+
+Componentes principales:
+
+- `.devpilot/policy.yaml`: política local mínima de seguridad/costo.
+- `src/devpilot_core/policy/decisions.py`: contrato `PolicyDecision`.
+- `src/devpilot_core/policy/path_guard.py`: bloqueo de rutas fuera del workspace, `.git`, `.env`, entornos virtuales y acciones destructivas.
+- `src/devpilot_core/policy/secrets.py`: detección/redacción de secretos sintéticos.
+- `src/devpilot_core/policy/cost_guard.py`: bloqueo de APIs externas sin presupuesto/política.
+- `src/devpilot_core/policy/engine.py`: orquestación de guards.
+- `tests/test_policy_engine.py`: pruebas de seguridad determinística.
+
+Criterios rápidos:
+
+```text
+PASS: lectura segura local permitida.
+BLOCK: delete/overwrite/remove, path traversal, secretos sintéticos o API externa sin presupuesto.
+RIESGO: primera versión pattern-based; no sustituye IAM/RBAC, scanner industrial de secretos ni presupuestos reales de proveedores.
+```
+
+Resultado esperado actual:
+
+```text
+pytest -q -> 64 passed tras hotfix de normalización de rutas
+policy check read -> PASS
+policy check delete -> BLOCK
+policy check external-api -> BLOCK
+```
+
+
+## FUNC-SPRINT-10 — Persistencia local SQLite y estado operativo
+
+Este sprint introduce persistencia local SQLite v0 para que DevPilot conserve histórico operativo de comandos, gates, findings, eventos, aprobaciones y costos sin servicios externos. La base se genera en `.devpilot/devpilot.db` y no se versiona.
+
+Componentes principales:
+
+- `src/devpilot_core/store/local_store.py`: define `LocalStore`, `StorePaths`, `StoreStatus`, schema SQLite v0 y operaciones de registro/listado.
+- `src/devpilot_core/store/__init__.py`: expone la API pública del paquete de persistencia.
+- `src/devpilot_core/cli.py`: agrega `state init`, `state status`, `history list` e integra persistencia best-effort para gates/validadores.
+- `.gitignore`: excluye `.devpilot/*.db` y archivos auxiliares SQLite.
+- `.devpilot/project.yaml`: declara `paths.state = .devpilot/devpilot.db`.
+- `tests/test_local_store.py`: valida migración idempotente, registro de resultados, historia CLI, bloqueo de DB fuera del root y normalización POSIX en `validate-artifact`.
+
+Comandos principales:
+
+```powershell
+python -m devpilot_core state init --json
+python -m devpilot_core state status --json
+python -m devpilot_core history list --json --limit 10
+python -m devpilot_core readiness-check --strict --json
+python -m pytest -q
+```
+
+Criterios rápidos:
+
+```text
+PASS: state init crea .devpilot/devpilot.db con schema v0.
+PASS: state status reporta tablas y contadores.
+PASS: history list muestra runs recientes.
+PASS: readiness/checklist/validators/policy/workspace persisten CommandResult sin romper su salida existente.
+BLOCK: DB fuera del project root, migración corrupta, pérdida de historial por init, o persistencia que rompa gates existentes.
+RIESGO: primera versión sin cifrado, retención, vacuum/rotación, locking multi-proceso ni consultas avanzadas.
+```
+
+Resultado esperado actual:
+
+```text
+pytest -q -> 71 passed
+state init --json -> PASS
+state status --json -> PASS
+history list --json -> PASS
 ```

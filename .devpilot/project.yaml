@@ -16,6 +16,7 @@ paths:
   reports: "outputs/reports"
   traces: "outputs/traces"
   policy: ".devpilot/policy.yaml"
+  state: ".devpilot/devpilot.db"
 runtime:
   dry_run_default: true
   created_by: "FUNC-SPRINT-08"

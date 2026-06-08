@@ -1,0 +1,72 @@
+{
+  "sprint": "FUNC-SPRINT-10",
+  "title": "Persistencia local SQLite y estado operativo",
+  "status": "implemented-initial",
+  "implemented_on": "2026-06-08",
+  "requires_api_key": false,
+  "external_services": false,
+  "new_dependencies": [],
+  "runtime_database": ".devpilot/devpilot.db",
+  "created_files": [
+    "src/devpilot_core/store/local_store.py",
+    "src/devpilot_core/store/__init__.py",
+    "tests/test_local_store.py",
+    "docs/audits/func_sprint_10_local_store_audit.md",
+    "docs/functional_sprint_10_manifest.json"
+  ],
+  "modified_files": [
+    ".gitignore",
+    ".devpilot/project.yaml",
+    "src/devpilot_core/cli.py",
+    "src/devpilot_core/validators/artifact.py",
+    "src/devpilot_core/workspace/manager.py",
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/functional_backlog_after_precode.md",
+    "docs/02_architecture/adrs/ADR-0007-persistencia-local-filesystem-sqlite-jsonl.md"
+  ],
+  "commands": [
+    "python -m devpilot_core state init --json",
+    "python -m devpilot_core state status --json",
+    "python -m devpilot_core history list --json --limit 10",
+    "python -m devpilot_core readiness-check --strict --json",
+    "python -m pytest -q"
+  ],
+  "schema_tables": [
+    "schema_migrations",
+    "runs",
+    "findings",
+    "gates",
+    "events",
+    "approvals",
+    "cost_events"
+  ],
+  "pass_criteria": [
+    "SQLite DB is created under .devpilot/devpilot.db",
+    "Migration is idempotent",
+    "state status reports schema and row counts",
+    "history list returns recent runs",
+    "DB paths outside project root are rejected",
+    "pytest -q passes"
+  ],
+  "block_criteria": [
+    "Database outside workspace",
+    "Incomplete schema",
+    "Non-idempotent migration",
+    "Persistence breaks existing gates",
+    "Runtime DB included in repository artifact"
+  ],
+  "risks": [
+    "No encryption yet",
+    "No retention policy yet",
+    "No backup/restore workflow yet",
+    "No explicit multi-process locking beyond SQLite defaults",
+    "Approvals and cost_events are structural v0 tables only",
+    "EventLog JSONL is not fully mirrored to SQLite yet"
+  ],
+  "tests": {
+    "new_test_file": "tests/test_local_store.py",
+    "expected_pytest": "71 passed"
+  },
+  "next_sprint": "FUNC-SPRINT-11 — MIASI ejecutable: Agent Registry, Tool Registry y Policy Matrix"
+}

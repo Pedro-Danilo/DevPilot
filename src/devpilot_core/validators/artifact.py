@@ -71,12 +71,14 @@ def extract_headings(markdown_text: str) -> list[MarkdownHeading]:
 
 
 def _display_path(path: Path, root: Path | None = None) -> str:
+    """Return deterministic repository-style paths for evidence contracts."""
+
     if root is None:
-        return str(path)
+        return str(path).replace("\\", "/")
     try:
-        return str(path.resolve().relative_to(root.resolve()))
+        return str(path.resolve().relative_to(root.resolve())).replace("\\", "/")
     except ValueError:
-        return str(path)
+        return str(path).replace("\\", "/")
 
 
 def _contains_heading(headings: Iterable[MarkdownHeading], expected_fragment: str) -> bool:

@@ -2,7 +2,7 @@
 title: "DevPilot Local — Backlog ejecutable posterior a pre-code"
 doc_id: "DEVPL-FUNC-BACKLOG-001"
 status: "approved"
-version: "1.7.0"
+version: "1.8.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
@@ -14,7 +14,7 @@ change_policy: "controlled_changes_allowed_via_docs_as_code"
 approved_on: "2026-06-06"
 approval_scope: "functional_backlog_after_precode"
 baseline_execution: "FUNC-SPRINT-00"
-next_sprint: "FUNC-SPRINT-10"
+next_sprint: "FUNC-SPRINT-11"
 ---
 
 # DevPilot Local — Backlog ejecutable posterior a pre-code
@@ -72,6 +72,7 @@ El primer ciclo funcional busca convertir DevPilot de un proyecto documentado en
 | L2 | Workspace local | Proyecto gestionado por `.devpilot/` | Implementado inicial |
 | L3 | Evidencia y observabilidad | Reportes, JSONL, auditoría local | Implementado inicial |
 | L4 | Seguridad operativa | Policy Engine, SecretGuard, CostGuard | Implementado inicial |
+| L4.5 | Estado operativo local | SQLite para runs, gates, findings, eventos, aprobaciones y costos | Implementado inicial |
 | L5 | MIASI ejecutable | Agent/Tool/Policy registries verificables | Pendiente |
 | L6 | Agentes documentales | Agentes mock/local en dry-run | Pendiente |
 | L7 | Repositorios | Git read-only, inventario, análisis | Pendiente |
@@ -112,8 +113,8 @@ Un sprint funcional solo se considera cerrado si cumple:
 |---|---|---|
 | R0 | FUNC-SPRINT-00 | Higiene del repo y baseline lista para codificar |
 | R1 | FUNC-SPRINT-01 a 05 | Validadores, reportes y trazas MIPSoftware/MIASI |
-| R2 | FUNC-SPRINT-06 a 09 | Workspace, políticas, persistencia local y registries |
-| R3 | FUNC-SPRINT-10 a 12 | Agentes documentales, evaluación y observabilidad agentic |
+| R2 | FUNC-SPRINT-06 a 10 | Workspace, políticas, persistencia local y estado operativo |
+| R3 | FUNC-SPRINT-11 a 13 | MIASI ejecutable, agentes documentales, evaluación y observabilidad agentic |
 | R4 | FUNC-SPRINT-13 a 15 | Git read-only, repo inventory, patch/code review dry-run |
 | R5 | FUNC-SPRINT-16 a 18 | ModelAdapter híbrido, CostGuard, preparación desktop/web |
 
@@ -972,10 +973,102 @@ Crear persistencia local para ejecuciones, gates, findings, agentes, herramienta
 | FUNC-10-004 | Crear comando `history list` | CLI | Muestra ejecuciones recientes. |
 | FUNC-10-005 | Tests SQLite tempdir | pytest | DB temporal y migración idempotente. |
 
+## Implementación FUNC-SPRINT-10
+
+Estado: `implemented-initial`.
+
+Se implementó persistencia local SQLite v0 sin dependencias externas y sin servicios remotos. La base runtime se genera en `.devpilot/devpilot.db` y se excluye del repo/ZIP mediante `.gitignore`.
+
+## Archivos creados
+
+```text
+src/devpilot_core/store/local_store.py
+src/devpilot_core/store/__init__.py
+tests/test_local_store.py
+docs/audits/func_sprint_10_local_store_audit.md
+docs/functional_sprint_10_manifest.json
+```
+
+## Archivos modificados
+
+```text
+.gitignore
+.devpilot/project.yaml
+src/devpilot_core/cli.py
+src/devpilot_core/validators/artifact.py
+src/devpilot_core/workspace/manager.py
+README.md
+docs/05_operations/runbook.md
+docs/functional_backlog_after_precode.md
+```
+
+## Comandos implementados
+
+```powershell
+python -m devpilot_core state init --json
+python -m devpilot_core state status --json
+python -m devpilot_core state status --json --write-report
+python -m devpilot_core history list --json --limit 10
+python -m devpilot_core history list --json --limit 10 --write-report
+python -m devpilot_core readiness-check --strict --json
+python -m pytest -q
+```
+
+## Schema SQLite v0
+
+```text
+schema_migrations
+runs
+findings
+gates
+events
+approvals
+cost_events
+```
+
+## Criterios PASS
+
+```text
+state init crea schema idempotente.
+state status reporta tablas y conteos.
+history list consulta runs recientes.
+Los gates/validadores integrados persisten CommandResult de forma best-effort.
+La base se mantiene dentro del workspace.
+pytest -q pasa.
+```
+
+## Criterios BLOCK
+
+```text
+DB fuera del workspace.
+Migración no idempotente.
+Schema incompleto.
+Pérdida de historial por init.
+Persistencia rompe comandos previos.
+DB runtime incluida en ZIP/repo.
+```
+
+## Riesgos y límites
+
+```text
+No hay cifrado.
+No hay retención ni backup/restore formal.
+No hay locking multi-proceso explícito.
+Approvals y cost_events son tablas estructurales iniciales.
+EventLog JSONL aún no se replica automáticamente línea por línea a SQLite.
+```
+
+## Pruebas
+
+```text
+tests/test_local_store.py
+pytest -q -> 71 passed
+```
+
 ## Prompt operativo
 
 ```text
-Implementa FUNC-SPRINT-10: persistencia local SQLite v0 para runs, findings, gates, events, approvals y cost_events. Debe ser local-first, idempotente, testeable con tempdir y sin servicios externos.
+Implementado FUNC-SPRINT-10: persistencia local SQLite v0 para runs, findings, gates, events, approvals y cost_events. La base se genera en .devpilot/devpilot.db, no se versiona, es idempotente, local-first y sin servicios externos.
 ```
 
 ---

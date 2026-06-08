@@ -12,6 +12,7 @@ from .observability import EventLogger
 from .policy import CostPolicy, PolicyEngine, PolicyRequest, load_cost_policy
 from .reports import ReportEngine, build_report_id
 from .standards.registry import build_standards_status_result
+from .store import LocalStore
 from .workspace import WorkspaceManager
 from .validators.artifact import validate_artifact_file
 from .validators.checklist import validate_precode_checklist
@@ -129,6 +130,26 @@ def _write_optional_command_report(
     return _with_report_paths(result, paths.to_dict())
 
 
+
+
+def _persist_result(root: Path, result: CommandResult, *, subject: str | Path | None = None) -> CommandResult:
+    """Persist command result in LocalStore without changing command semantics.
+
+    FUNC-SPRINT-10 introduces SQLite operational history. Persistence is
+    intentionally best-effort for existing gates so a temporary SQLite write
+    problem does not convert a previously valid validation command into a
+    failed validation. Dedicated `state` commands still surface persistence
+    errors directly through their own CommandResult.
+    """
+
+    try:
+        LocalStore(root).record_command_result(result, subject=subject, metadata={"component": "CLI"})
+    except Exception:
+        # Existing gates must remain stable. Store diagnostics are handled by
+        # `state status`/`state init` and future observability hardening.
+        return result
+    return result
+
 def _emit_result_event(root: Path, result: CommandResult, *, subject: str | Path | None = None) -> None:
     """Emit a local JSONL gate event for a command result.
 
@@ -150,6 +171,7 @@ def readiness_check(*, json_output: bool = False, strict: bool = False, write_re
     report_paths = write_readiness_reports(root, result)
     result = _with_report_paths(result, report_paths)
     _emit_result_event(root, result)
+    _persist_result(root, result, subject="readiness-check")
 
     print_result(result, json_output=json_output)
     return int(result.exit_code)
@@ -159,6 +181,7 @@ def miasi_required(*, json_output: bool = False) -> int:
     root = project_root()
     result = build_miasi_required_result()
     _emit_result_event(root, result)
+    _persist_result(root, result, subject="miasi-required")
     print_result(result, json_output=json_output)
     return int(result.exit_code)
 
@@ -179,6 +202,7 @@ def validate_frontmatter_command(
     result = validate_frontmatter_file(target, root=root, strict=strict)
     result = _write_optional_command_report(root, result, subject=path, write_report=write_report)
     _emit_result_event(root, result, subject=path)
+    _persist_result(root, result, subject=path)
     print_result(result, json_output=json_output)
     return int(result.exit_code)
 
@@ -199,6 +223,7 @@ def validate_artifact_command(
     result = validate_artifact_file(target, root=root, strict=strict)
     result = _write_optional_command_report(root, result, subject=path, write_report=write_report)
     _emit_result_event(root, result, subject=path)
+    _persist_result(root, result, subject=path)
     print_result(result, json_output=json_output)
     return int(result.exit_code)
 
@@ -210,6 +235,7 @@ def checklist_pre_code_command(*, json_output: bool = False, strict: bool = True
     result = validate_precode_checklist(root, strict=strict)
     result = _write_optional_command_report(root, result, report_id="checklist_pre_code", write_report=write_report)
     _emit_result_event(root, result, subject="docs/checklists/checklist_pre_code.md")
+    _persist_result(root, result, subject="docs/checklists/checklist_pre_code.md")
     print_result(result, json_output=json_output)
     return int(result.exit_code)
 
@@ -220,6 +246,7 @@ def standards_status_command(*, json_output: bool = False) -> int:
     root = project_root()
     result = build_standards_status_result(root)
     _emit_result_event(root, result, subject="docs/standards")
+    _persist_result(root, result, subject="docs/standards")
     print_result(result, json_output=json_output)
     return int(result.exit_code)
 
@@ -252,6 +279,7 @@ def workspace_init_command(
         metadata={"sprint": "FUNC-SPRINT-08", "component": "WorkspaceManager"},
     )
     _emit_result_event(root, result, subject=".devpilot/project.yaml")
+    _persist_result(root, result, subject=".devpilot/project.yaml")
     print_result(result, json_output=json_output)
     return int(result.exit_code)
 
@@ -271,6 +299,61 @@ def workspace_status_command(*, json_output: bool = False, write_report: bool = 
         metadata={"sprint": "FUNC-SPRINT-08", "component": "WorkspaceManager"},
     )
     _emit_result_event(root, result, subject=".devpilot/project.yaml")
+    _persist_result(root, result, subject=".devpilot/project.yaml")
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+
+def state_init_command(*, json_output: bool = False, write_report: bool = False) -> int:
+    """Initialize the local SQLite operational state store."""
+
+    root = project_root()
+    result = LocalStore(root).initialize()
+    result = _write_optional_command_report(
+        root,
+        result,
+        subject=".devpilot/devpilot.db",
+        report_id="state_init",
+        write_report=write_report,
+        metadata={"sprint": "FUNC-SPRINT-10", "component": "LocalStore"},
+    )
+    _emit_result_event(root, result, subject=".devpilot/devpilot.db")
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+
+def state_status_command(*, json_output: bool = False, write_report: bool = False) -> int:
+    """Report local SQLite operational state status."""
+
+    root = project_root()
+    result = LocalStore(root).status()
+    result = _write_optional_command_report(
+        root,
+        result,
+        subject=".devpilot/devpilot.db",
+        report_id="state_status",
+        write_report=write_report,
+        metadata={"sprint": "FUNC-SPRINT-10", "component": "LocalStore"},
+    )
+    _emit_result_event(root, result, subject=".devpilot/devpilot.db")
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+
+def history_list_command(*, json_output: bool = False, limit: int = 10, write_report: bool = False) -> int:
+    """List recent local command runs from SQLite history."""
+
+    root = project_root()
+    result = LocalStore(root).list_runs(limit=limit)
+    result = _write_optional_command_report(
+        root,
+        result,
+        subject=".devpilot/devpilot.db",
+        report_id="history_list",
+        write_report=write_report,
+        metadata={"sprint": "FUNC-SPRINT-10", "component": "LocalStore"},
+    )
+    _emit_result_event(root, result, subject=".devpilot/devpilot.db")
     print_result(result, json_output=json_output)
     return int(result.exit_code)
 
@@ -325,6 +408,7 @@ def policy_check_command(
         metadata={"sprint": "FUNC-SPRINT-09", "component": "PolicyEngine"},
     )
     _emit_result_event(root, result, subject=path or action)
+    _persist_result(root, result, subject=path or action)
     print_result(result, json_output=json_output)
     return int(result.exit_code)
 
@@ -374,6 +458,22 @@ def build_parser() -> argparse.ArgumentParser:
     workspace_status.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     workspace_status.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
 
+    state = sub.add_parser("state", help="Manage local SQLite operational state")
+    state_sub = state.add_subparsers(dest="state_command")
+    state_init = state_sub.add_parser("init", help="Initialize .devpilot/devpilot.db")
+    state_init.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    state_init.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+    state_status = state_sub.add_parser("status", help="Show local SQLite store status")
+    state_status.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    state_status.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+
+    history = sub.add_parser("history", help="Inspect local SQLite command history")
+    history_sub = history.add_subparsers(dest="history_command")
+    history_list = history_sub.add_parser("list", help="List recent persisted command runs")
+    history_list.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    history_list.add_argument("--limit", type=int, default=10, help="Maximum number of runs to list, capped at 100")
+    history_list.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+
     policy = sub.add_parser("policy", help="Evaluate deterministic DevPilot safety policies")
     policy_sub = policy.add_subparsers(dest="policy_command")
     policy_check = policy_sub.add_parser("check", help="Evaluate a simulated action through PolicyEngine")
@@ -412,6 +512,12 @@ def _command_name_from_args(args: argparse.Namespace) -> str:
     if command == "policy":
         subcommand = getattr(args, "policy_command", None)
         return f"policy {subcommand}" if subcommand else "policy"
+    if command == "state":
+        subcommand = getattr(args, "state_command", None)
+        return f"state {subcommand}" if subcommand else "state"
+    if command == "history":
+        subcommand = getattr(args, "history_command", None)
+        return f"history {subcommand}" if subcommand else "history"
     return command or "help"
 
 
@@ -453,6 +559,18 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
             )
         if args.workspace_command == "status":
             return workspace_status_command(json_output=args.json, write_report=args.write_report)
+        parser.print_help()
+        return int(ExitCode.FAIL)
+    if args.command == "state":
+        if args.state_command == "init":
+            return state_init_command(json_output=args.json, write_report=args.write_report)
+        if args.state_command == "status":
+            return state_status_command(json_output=args.json, write_report=args.write_report)
+        parser.print_help()
+        return int(ExitCode.FAIL)
+    if args.command == "history":
+        if args.history_command == "list":
+            return history_list_command(json_output=args.json, limit=args.limit, write_report=args.write_report)
         parser.print_help()
         return int(ExitCode.FAIL)
     if args.command == "policy":

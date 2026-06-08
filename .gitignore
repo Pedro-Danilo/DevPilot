@@ -55,3 +55,7 @@ outputs/workspaces/
 repo_DevPilot_Local*.zip
 patch_*.zip
 *_patch.zip
+
+# DevPilot local SQLite state (generated)
+.devpilot/*.db
+.devpilot/*.db-*

@@ -2,11 +2,11 @@
 title: "Runbook — DevPilot Local"
 doc_id: "DEVPL-OPS-002"
 status: "approved"
-version: "1.4.0"
+version: "1.5.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "FUNC-SPRINT-08"
+phase: "FUNC-SPRINT-10"
 updated: "2026-06-08"
 approval: "approved_by_owner"
 source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved + 03_security approved"
@@ -790,3 +790,83 @@ No existe todavía Policy Matrix MIASI ejecutable completa.
 ### Evolución esperada
 
 En sprints posteriores, esta capa debe integrarse con persistencia SQLite, Agent/Tool Registry, aprobación humana, ModelAdapter híbrido, Git read-only, patch review y CostGuard con histórico de consumo.
+
+
+## FUNC-SPRINT-10 — Persistencia local SQLite y estado operativo
+
+### Propósito operativo
+
+Este sprint agrega estado operativo local mediante SQLite para conservar histórico de ejecuciones, gates, findings, eventos, aprobaciones y costos. La base vive en `.devpilot/devpilot.db`, es generada en runtime y no debe versionarse.
+
+### Componentes
+
+```text
+src/devpilot_core/store/local_store.py   -> LocalStore, schema SQLite v0 y operaciones de persistencia
+src/devpilot_core/store/__init__.py      -> API pública de persistencia
+src/devpilot_core/cli.py                 -> comandos state/history e integración best-effort con gates
+.devpilot/project.yaml                   -> declara paths.state
+.gitignore                               -> excluye .devpilot/*.db y auxiliares SQLite
+tests/test_local_store.py                -> pruebas de schema, historia, CLI y seguridad de ruta DB
+```
+
+### Comandos
+
+```powershell
+python -m devpilot_core state init --json
+python -m devpilot_core state status --json
+python -m devpilot_core state status --json --write-report
+python -m devpilot_core history list --json --limit 10
+python -m devpilot_core history list --json --limit 10 --write-report
+python -m devpilot_core readiness-check --strict --json
+python -m pytest -q
+```
+
+### Interpretación
+
+```text
+state init: crea o valida idempotentemente .devpilot/devpilot.db.
+state status: muestra schema_version, tablas y conteos por tabla.
+history list: lista runs recientes persistidos.
+```
+
+### Criterios PASS
+
+```text
+La base SQLite se crea bajo .devpilot/devpilot.db.
+La migración se puede ejecutar varias veces sin borrar historial.
+Existen tablas runs, findings, gates, events, approvals y cost_events.
+Los gates/validadores principales persisten CommandResult de forma best-effort.
+history list devuelve JSON parseable y runs recientes.
+pytest -q pasa.
+```
+
+### Criterios BLOCK
+
+```text
+La DB intenta ubicarse fuera del workspace.
+state init borra historial existente.
+Una falla de persistencia rompe un gate documental previamente funcional.
+Los outputs o la DB runtime quedan incluidos en el ZIP/repo versionado.
+La migración crea un schema incompleto.
+```
+
+### Riesgos y límites actuales
+
+```text
+SQLite v0 no cifra datos.
+No hay política de retención, vacuum, backup ni rotación.
+No hay locking multi-proceso explícito más allá del mecanismo de SQLite.
+La tabla approvals es estructural; todavía no existe flujo de aprobación humana persistente.
+La tabla cost_events es estructural; todavía no mide consumo real de proveedores.
+La integración con EventLogger JSONL aún no replica cada línea JSONL en SQLite automáticamente.
+```
+
+### Recuperación
+
+Si la base se corrompe durante desarrollo, primero respaldar `.devpilot/devpilot.db`. Luego se puede regenerar una base limpia eliminando el archivo y ejecutando:
+
+```powershell
+python -m devpilot_core state init --json
+```
+
+No hacer esto en un entorno productivo sin una estrategia de backup/restore formal.
