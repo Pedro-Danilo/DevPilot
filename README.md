@@ -1,8 +1,8 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
 Estado actual: `baseline pre-code approved + functional backlog approved + gates documentales ejecutables`  
-Último hito: `FUNC-SPRINT-17 — ModelAdapter híbrido, proveedores y CostGuard`  
-Siguiente hito: `FUNC-SPRINT-18 — Preparación de Desktop/Web sin implementar UI completa`  
+Último hito: `FUNC-SPRINT-18 — Preparación de Desktop/Web sin implementar UI completa`  
+Siguiente hito: `FUNC-SPRINT-19 — Selección tecnológica UI/API y ADR de interfaz`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
@@ -60,6 +60,10 @@ Ya existe:
 - comando `eval run` con métricas `pass_rate`, `false_positives` y `false_negatives`;
 - persistencia automática best-effort de resultados de gates/validadores en `.devpilot/devpilot.db`;
 - comandos `workspace init` y `workspace status`;
+- `ApplicationService` como frontera interna para CLI, desktop y web futuros;
+- DTOs serializables `ApplicationRequest`, `ApplicationResponse`, `ServiceCapability` e `InterfaceRouteContract`;
+- comando `app contract` para inspeccionar el contrato interno de servicios;
+- documento `docs/07_interfaces/internal_application_contract.md` como contrato inicial de interfaces sin UI implementada;
 - inicialización dry-run por defecto y escritura explícita con `--execute`;
 - documentación pre-code aprobada;
 - estándares MIPSoftware y MIASI versionados dentro de `docs/standards/`;
@@ -723,3 +727,32 @@ Criterios PASS: el registry de proveedores carga metadata sin secretos crudos, `
 Criterios BLOCK: proveedor desconocido, prompt/texto con secreto sintético, API externa sin presupuesto explícito, proveedor local/API no implementado o cualquier intento de leer API keys crudas desde configuración versionable.
 
 Riesgos: primera versión. No implementa llamadas reales a Ollama, LM Studio, OpenAI, Gemini, Mistral ni Hugging Face. No mide tokens reales, latencia real, calidad semántica, retries, rate limits ni facturación real. Es la base segura para incorporar esos proveedores en sprints posteriores con SecretGuard, CostGuard, evaluación y aprobación humana.
+
+## FUNC-SPRINT-18 — Application Services para Desktop/Web futuro
+
+Sprint 18 no implementa una interfaz visual. Prepara el core para que una futura aplicación desktop o web consuma las mismas operaciones que hoy usa el CLI.
+
+Comandos principales:
+
+```powershell
+python -m devpilot_core app contract --json
+python -m devpilot_core app contract --json --write-report
+python -m devpilot_core validate-frontmatter docs/00_product/product_vision.md --json
+python -m devpilot_core validate-artifact docs/01_requirements/requirements_specification.md --json
+```
+
+Criterios PASS:
+
+```text
+ApplicationService operativo.
+DTOs serializables.
+CLI usa ApplicationService para validadores principales.
+app contract devuelve JSON parseable.
+No hay UI, servidor, IPC ni framework nuevo.
+```
+
+Riesgos:
+
+```text
+Contrato preliminar. No incluye autenticación, sesiones, RBAC, empaquetado desktop, API HTTP, WebSocket ni selección tecnológica final.
+```

@@ -387,3 +387,40 @@ Cobertura principal:
 Criterios PASS: `pytest -q` en PASS, sin red, sin API keys y sin costo externo.
 
 Criterios BLOCK: secreto crudo en evidencia, llamada real a proveedor local/API, proveedor externo permitido sin CostGuard, o resultado no determinístico en mock.
+
+## FUNC-SPRINT-18 — Pruebas de Application Services para Desktop/Web futuro
+
+Sprint 18 incorpora pruebas de servicios internos y DTOs serializables para preparar futuras interfaces sin implementar UI.
+
+Pruebas agregadas:
+
+```text
+tests/test_application_services.py
+```
+
+Cobertura inicial:
+
+```text
+ApplicationService valida frontmatter sin CLI.
+ApplicationService valida artefactos sin CLI.
+ApplicationService puede rechazar paths fuera del workspace cuando se activa enforce_workspace_paths.
+ApplicationRequest y ApplicationResponse son JSON serializables.
+app contract emite JSON parseable y reportes opcionales.
+```
+
+Criterios PASS:
+
+```text
+pytest -q PASS.
+No se agregan dependencias UI.
+No se inicia servidor ni proceso externo.
+No se altera CommandResult.
+```
+
+Criterios BLOCK:
+
+```text
+DTO con secretos.
+Doble implementación de lógica de validadores.
+Framework desktop/web sin ADR.
+```

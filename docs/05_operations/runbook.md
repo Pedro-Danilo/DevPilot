@@ -1301,3 +1301,55 @@ Proveedor local/API ejecutado realmente en Sprint 17.
 ### Riesgos
 
 Implementación preliminar. No mide tokens reales, latencia real, calidad semántica, costo facturado ni disponibilidad de proveedores. Ollama, LM Studio y APIs externas quedan como placeholders. Una integración real posterior deberá agregar clientes específicos, timeouts, retries, manejo de errores, evaluación de calidad, presupuesto persistente, SecretGuard sobre prompts y trazabilidad de costo por run.
+
+## FUNC-SPRINT-18 — Preparación Desktop/Web sin UI completa
+
+### Propósito
+
+Preparar DevPilot Core para interfaces futuras mediante `ApplicationService` y DTOs serializables. Este sprint no implementa UI, no inicia servidor web, no abre ventana desktop y no agrega dependencias externas.
+
+### Comandos operativos
+
+```powershell
+python -m devpilot_core app contract --json
+python -m devpilot_core app contract --json --write-report
+python -m devpilot_core validate-frontmatter docs/00_product/product_vision.md --json
+python -m devpilot_core validate-artifact docs/01_requirements/requirements_specification.md --json
+```
+
+### Interpretación
+
+`app contract` devuelve el contrato lógico que una futura interfaz desktop/web podrá consumir:
+
+```text
+capabilities
+routes
+dto_contracts
+ui_implemented=false
+desktop_ready_for_shell=true
+web_ready_for_shell=true
+```
+
+### Criterios PASS
+
+```text
+ApplicationService responde.
+ApplicationRequest y ApplicationResponse son JSON serializables.
+Los validadores principales pueden ejecutarse desde CLI usando ApplicationService.
+Los reportes opcionales se escriben bajo outputs/reports.
+pytest -q pasa completo.
+```
+
+### Criterios BLOCK
+
+```text
+Agregar framework UI sin ADR.
+Duplicar lógica de validadores en desktop/web.
+Iniciar servidor o proceso externo en Sprint 18.
+Transportar secretos en DTOs.
+Romper CommandResult o los exit codes existentes.
+```
+
+### Riesgos
+
+Primera versión. No hay API HTTP activa, IPC real, autenticación, sesiones, RBAC, CORS/CSRF, WebSocket, empaquetado desktop ni elección tecnológica definitiva.

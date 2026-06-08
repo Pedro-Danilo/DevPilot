@@ -1,6 +1,6 @@
 (.venv) PS D:\Projects\DevPilot_Local> pytest -q
-....................................................................................................................                         [100%]
-DEVPL TEST SUMMARY: 116 passed, 0 failed, 0 errors, 0 skipped
+..........................................................................................................................                   [100%]
+DEVPL TEST SUMMARY: 122 passed, 0 failed, 0 errors, 0 skipped
 (.venv) PS D:\Projects\DevPilot_Local> python -m devpilot_core --version
 devpilot-local 0.1.0
 (.venv) PS D:\Projects\DevPilot_Local> python -m devpilot_core workspace status --json
@@ -188,7 +188,7 @@ devpilot-local 0.1.0
         "standard": "MIPSoftware",
         "purpose": "Quality, testing and verification baseline.",
         "exists": true,
-        "size_bytes": 14996
+        "size_bytes": 15894
       },
       {
         "id": "observability_plan",
@@ -204,7 +204,7 @@ devpilot-local 0.1.0
         "standard": "MIPSoftware",
         "purpose": "Local operation and recovery guide.",
         "exists": true,
-        "size_bytes": 46329
+        "size_bytes": 47908
       },
       {
         "id": "agent_card",
@@ -824,7 +824,7 @@ devpilot-local 0.1.0
       {
         "artifact": "docs/04_quality/test_strategy.md",
         "exists": true,
-        "size_bytes": 14996,
+        "size_bytes": 15894,
         "frontmatter_ok": true,
         "artifact_ok": true,
         "status": "approved",
@@ -842,7 +842,7 @@ devpilot-local 0.1.0
       {
         "artifact": "docs/05_operations/runbook.md",
         "exists": true,
-        "size_bytes": 46329,
+        "size_bytes": 47908,
         "frontmatter_ok": true,
         "artifact_ok": true,
         "status": "approved",
@@ -2106,7 +2106,7 @@ devpilot-local 0.1.0
       "llm_required": false,
       "external_api_used": false,
       "fixture_path": "evals/fixtures/documentation_eval_cases.json",
-      "generated_at": "2026-06-08T19:10:04Z",
+      "generated_at": "2026-06-08T19:56:14Z",
       "schema_version": "1.0",
       "declared_suite_id": "documentation",
       "description": "Synthetic offline evaluation suite for DevPilot validators and MVP document agents."
@@ -2127,6 +2127,116 @@ devpilot-local 0.1.0
         "false_negatives": 0,
         "missing_expected_findings": 0
       }
+    }
+  ]
+}
+(.venv) PS D:\Projects\DevPilot_Local> python -m devpilot_core model providers --json
+{
+  "command": "model providers",
+  "ok": true,
+  "exit_code": 0,
+  "message": "Model provider registry status passed.",
+  "data": {
+    "summary": {
+      "providers_total": 5,
+      "enabled_total": 1,
+      "api_providers_total": 2,
+      "local_providers_total": 2,
+      "mock_providers_total": 1,
+      "source_path": ".devpilot/providers.yaml.example",
+      "used_example": true
+    },
+    "providers": [
+      {
+        "provider_id": "mock",
+        "kind": "mock",
+        "enabled": true,
+        "default_model": "mock-deterministic-v1",
+        "external_api": false,
+        "requires_api_key": false,
+        "api_key_env": null,
+        "endpoint": null,
+        "estimated_cost_per_1k_tokens_usd": 0.0,
+        "status": "implemented",
+        "notes": [
+          "Default deterministic offline provider.",
+          "No API key, network or external cost."
+        ]
+      },
+      {
+        "provider_id": "ollama",
+        "kind": "local",
+        "enabled": false,
+        "default_model": "qwen2.5:3b-instruct",
+        "external_api": false,
+        "requires_api_key": false,
+        "api_key_env": null,
+        "endpoint": "http://localhost:11434",
+        "estimated_cost_per_1k_tokens_usd": 0.0,
+        "status": "planned",
+        "notes": [
+          "Future local provider placeholder; Sprint 17 does not contact local servers."
+        ]
+      },
+      {
+        "provider_id": "lmstudio",
+        "kind": "local",
+        "enabled": false,
+        "default_model": "local-model",
+        "external_api": false,
+        "requires_api_key": false,
+        "api_key_env": null,
+        "endpoint": "http://localhost:1234",
+        "estimated_cost_per_1k_tokens_usd": 0.0,
+        "status": "planned",
+        "notes": [
+          "Future local OpenAI-compatible endpoint placeholder."
+        ]
+      },
+      {
+        "provider_id": "openai",
+        "kind": "api",
+        "enabled": false,
+        "default_model": "gpt-placeholder",
+        "external_api": true,
+        "requires_api_key": true,
+        "api_key_env": "OPENAI_API_KEY",
+        "endpoint": "https://api.openai.com",
+        "estimated_cost_per_1k_tokens_usd": 0.01,
+        "status": "disabled",
+        "notes": [
+          "External API placeholder; blocked by CostGuard by default.",
+          "Never store raw API keys in this file."
+        ]
+      },
+      {
+        "provider_id": "gemini",
+        "kind": "api",
+        "enabled": false,
+        "default_model": "gemini-placeholder",
+        "external_api": true,
+        "requires_api_key": true,
+        "api_key_env": "GEMINI_API_KEY",
+        "endpoint": "https://generativelanguage.googleapis.com",
+        "estimated_cost_per_1k_tokens_usd": 0.01,
+        "status": "disabled",
+        "notes": [
+          "External API placeholder; blocked by CostGuard by default.",
+          "Never store raw API keys in this file."
+        ]
+      }
+    ],
+    "preliminary": true,
+    "notes": [
+      "FUNC-SPRINT-17 stores provider metadata only, never raw API keys.",
+      "External providers are placeholders and are blocked unless future policy/budget gates allow them."
+    ]
+  },
+  "findings": [
+    {
+      "id": "MODEL_PROVIDER_REGISTRY_PASS",
+      "message": "Model provider registry loaded without raw secret values.",
+      "severity": "info"
     }
   ]
 }

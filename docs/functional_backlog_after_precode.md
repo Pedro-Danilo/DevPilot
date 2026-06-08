@@ -2,7 +2,7 @@
 title: "DevPilot Local — Backlog ejecutable posterior a pre-code"
 doc_id: "DEVPL-FUNC-BACKLOG-001"
 status: "approved"
-version: "2.5.0"
+version: "2.6.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
@@ -14,7 +14,7 @@ change_policy: "controlled_changes_allowed_via_docs_as_code"
 approved_on: "2026-06-06"
 approval_scope: "functional_backlog_after_precode"
 baseline_execution: "FUNC-SPRINT-00"
-next_sprint: "FUNC-SPRINT-18"
+next_sprint: "FUNC-SPRINT-19"
 ---
 
 # DevPilot Local — Backlog ejecutable posterior a pre-code
@@ -78,7 +78,7 @@ El primer ciclo funcional busca convertir DevPilot de un proyecto documentado en
 | L7 | Repositorios | Git read-only, inventario, análisis | Implementado inicial |
 | L8 | Patches y código | Patch review, code review, refactor plan | Implementado inicial |
 | L9 | Modelos híbridos | ModelAdapter local/API opcional con costos | Implementado inicial con mock seguro |
-| L10 | Interfaces | Desktop/web sobre DevPilot Core | Futuro |
+| L10 | Interfaces | Desktop/web sobre DevPilot Core | Implementado inicial: ApplicationService y DTOs; UI pendiente |
 
 ## 5. Definition of Done transversal
 
@@ -1615,20 +1615,61 @@ Siguiente sprint: `FUNC-SPRINT-18 — Preparación de Desktop/Web sin implementa
 
 Definir contratos de API interna y servicios de aplicación para que CLI, escritorio y web consuman el mismo core.
 
+## Estado
+
+`implemented-initial` el 2026-06-08.
+
 ## Tareas
 
-| ID | Tarea | Entregable | PASS |
-|---|---|---|---|
-| FUNC-18-001 | Crear `ApplicationService` para validators | módulo | CLI usa service, no lógica directa. |
-| FUNC-18-002 | Crear DTOs serializables | modelos | Útiles para UI futura. |
-| FUNC-18-003 | Documentar API interna | docs | Contratos para desktop/web. |
-| FUNC-18-004 | Tests de services | pytest | Core independiente de CLI. |
+| ID | Tarea | Entregable | PASS | Estado |
+|---|---|---|---|---|
+| FUNC-18-001 | Crear `ApplicationService` para validators | `src/devpilot_core/application/services.py` | CLI usa service, no lógica directa. | Implementado inicial |
+| FUNC-18-002 | Crear DTOs serializables | `src/devpilot_core/application/dtos.py` | Útiles para UI futura. | Implementado inicial |
+| FUNC-18-003 | Documentar API interna | `docs/07_interfaces/internal_application_contract.md` | Contratos para desktop/web. | Implementado inicial |
+| FUNC-18-004 | Tests de services | `tests/test_application_services.py` | Core independiente de CLI. | Implementado inicial |
+
+## Comandos
+
+```powershell
+python -m devpilot_core app contract --json
+python -m devpilot_core app contract --json --write-report
+python -m devpilot_core validate-frontmatter docs/00_product/product_vision.md --json
+python -m devpilot_core validate-artifact docs/01_requirements/requirements_specification.md --json
+```
+
+## Criterios PASS implementados
+
+```text
+ApplicationService existe y centraliza validadores principales.
+DTOs ApplicationRequest/ApplicationResponse son serializables.
+CLI conserva CommandResult, eventos, reportes y persistencia best-effort.
+app contract expone capacidades y rutas lógicas.
+No hay UI implementada.
+No hay dependencias nuevas.
+pytest -q pasa completo.
+```
+
+## BLOCK
+
+```text
+Framework UI o servidor sin ADR.
+Duplicación de reglas de validación en una UI.
+DTOs con secretos.
+Cambio incompatible de CommandResult.
+Acciones con side effects sin dry-run.
+```
+
+## Riesgos
+
+Contrato preliminar. No incluye autenticación, sesiones, RBAC, schemas JSON formales, HTTP, IPC, WebSocket, empaquetado desktop ni decisión de stack.
 
 ## Prompt operativo
 
 ```text
 Implementa FUNC-SPRINT-18: separación de Application Services y DTOs para que CLI, escritorio y web consuman el mismo DevPilot Core. No implementes UI aún; solo contratos internos testeables.
 ```
+
+Siguiente sprint: `FUNC-SPRINT-19 — Selección tecnológica UI/API y ADR de interfaz`.
 
 ---
 

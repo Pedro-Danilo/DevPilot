@@ -7,6 +7,7 @@ from pathlib import Path
 
 from . import __version__
 from .agents import AgentRuntime
+from .application import ApplicationService
 from .cli_models import CommandResult, ExitCode, Finding, Severity
 from .errors import DevPilotError
 from .evals import EvalRunner
@@ -170,11 +171,13 @@ def _emit_result_event(root: Path, result: CommandResult, *, subject: str | Path
 
 def readiness_check(*, json_output: bool = False, strict: bool = False, write_report: bool = False) -> int:
     root = project_root()
-    result = build_strict_readiness_result(root) if strict else build_readiness_result(root)
+    result = ApplicationService(root).readiness(strict=strict)
 
     # Backwards compatibility: readiness-check already generated evidence in
     # FUNC-SPRINT-05. FUNC-SPRINT-06 keeps that behavior but delegates it to the
-    # central ReportEngine through write_readiness_reports().
+    # central ReportEngine through write_readiness_reports(). FUNC-SPRINT-18
+    # obtains the CommandResult through ApplicationService so future UI shells
+    # can reuse the same core boundary.
     report_paths = write_readiness_reports(root, result)
     result = _with_report_paths(result, report_paths)
     _emit_result_event(root, result)
@@ -581,10 +584,7 @@ def validate_frontmatter_command(
     """Validate frontmatter metadata for one Markdown artifact."""
 
     root = project_root()
-    target = Path(path)
-    if not target.is_absolute():
-        target = root / target
-    result = validate_frontmatter_file(target, root=root, strict=strict)
+    result = ApplicationService(root).validate_frontmatter(path, strict=strict)
     result = _write_optional_command_report(root, result, subject=path, write_report=write_report)
     _emit_result_event(root, result, subject=path)
     _persist_result(root, result, subject=path)
@@ -602,10 +602,7 @@ def validate_artifact_command(
     """Validate one Markdown artifact against its MIPSoftware/MIASI profile."""
 
     root = project_root()
-    target = Path(path)
-    if not target.is_absolute():
-        target = root / target
-    result = validate_artifact_file(target, root=root, strict=strict)
+    result = ApplicationService(root).validate_artifact(path, strict=strict)
     result = _write_optional_command_report(root, result, subject=path, write_report=write_report)
     _emit_result_event(root, result, subject=path)
     _persist_result(root, result, subject=path)
@@ -617,7 +614,7 @@ def checklist_pre_code_command(*, json_output: bool = False, strict: bool = True
     """Evaluate the executable pre-code checklist gate."""
 
     root = project_root()
-    result = validate_precode_checklist(root, strict=strict)
+    result = ApplicationService(root).checklist_pre_code(strict=strict)
     result = _write_optional_command_report(root, result, report_id="checklist_pre_code", write_report=write_report)
     _emit_result_event(root, result, subject="docs/checklists/checklist_pre_code.md")
     _persist_result(root, result, subject="docs/checklists/checklist_pre_code.md")
@@ -629,7 +626,7 @@ def standards_status_command(*, json_output: bool = False) -> int:
     """Report local MIPSoftware/MIASI registry status."""
 
     root = project_root()
-    result = build_standards_status_result(root)
+    result = ApplicationService(root).standards_status()
     _emit_result_event(root, result, subject="docs/standards")
     _persist_result(root, result, subject="docs/standards")
     print_result(result, json_output=json_output)
@@ -739,6 +736,25 @@ def history_list_command(*, json_output: bool = False, limit: int = 10, write_re
         metadata={"sprint": "FUNC-SPRINT-10", "component": "LocalStore"},
     )
     _emit_result_event(root, result, subject=".devpilot/devpilot.db")
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+
+def app_contract_command(*, json_output: bool = False, write_report: bool = False) -> int:
+    """Expose the internal application-service contract for future UI shells."""
+
+    root = project_root()
+    result = ApplicationService(root).application_contract()
+    result = _write_optional_command_report(
+        root,
+        result,
+        subject="docs/07_interfaces/internal_application_contract.md",
+        report_id="app_contract",
+        write_report=write_report,
+        metadata={"sprint": "FUNC-SPRINT-18", "component": "ApplicationService"},
+    )
+    _emit_result_event(root, result, subject="docs/07_interfaces/internal_application_contract.md")
+    _persist_result(root, result, subject="docs/07_interfaces/internal_application_contract.md")
     print_result(result, json_output=json_output)
     return int(result.exit_code)
 
@@ -951,6 +967,12 @@ def build_parser() -> argparse.ArgumentParser:
     agent_run.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     agent_run.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
 
+    app = sub.add_parser("app", help="Expose application-service contracts for future desktop/web shells")
+    app_sub = app.add_subparsers(dest="app_command")
+    app_contract = app_sub.add_parser("contract", help="Show internal ApplicationService/DTO contract")
+    app_contract.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    app_contract.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+
     policy = sub.add_parser("policy", help="Evaluate deterministic DevPilot safety policies")
     policy_sub = policy.add_subparsers(dest="policy_command")
     policy_check = policy_sub.add_parser("check", help="Evaluate a simulated action through PolicyEngine")
@@ -1142,6 +1164,11 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
                 json_output=args.json,
                 write_report=args.write_report,
             )
+        parser.print_help()
+        return int(ExitCode.FAIL)
+    if args.command == "app":
+        if args.app_command == "contract":
+            return app_contract_command(json_output=args.json, write_report=args.write_report)
         parser.print_help()
         return int(ExitCode.FAIL)
     if args.command == "policy":

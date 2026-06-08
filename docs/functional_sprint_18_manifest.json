@@ -1,0 +1,55 @@
+{
+  "sprint": "FUNC-SPRINT-18",
+  "title": "Preparación de Desktop/Web sin implementar UI completa",
+  "status": "implemented-initial",
+  "created_files": [
+    "src/devpilot_core/application/dtos.py",
+    "src/devpilot_core/application/services.py",
+    "src/devpilot_core/application/__init__.py",
+    "tests/test_application_services.py",
+    "docs/07_interfaces/internal_application_contract.md",
+    "docs/audits/func_sprint_18_desktop_web_preparation_audit.md",
+    "docs/functional_sprint_18_manifest.json"
+  ],
+  "modified_files": [
+    "src/devpilot_core/cli.py",
+    "src/devpilot_core/workspace/manager.py",
+    ".devpilot/project.yaml",
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/02_architecture/adrs/ADR-0002-core-local-first-cli-ui-futura.md",
+    "docs/functional_backlog_after_precode.md"
+  ],
+  "commands": [
+    "python -m devpilot_core app contract --json",
+    "python -m devpilot_core app contract --json --write-report",
+    "python -m devpilot_core validate-frontmatter docs/00_product/product_vision.md --json",
+    "python -m devpilot_core validate-artifact docs/01_requirements/requirements_specification.md --json"
+  ],
+  "tests": [
+    "tests/test_application_services.py",
+    "python -m pytest -q"
+  ],
+  "pass_criteria": [
+    "ApplicationService exists and is used by validator CLI commands.",
+    "DTOs are JSON serializable.",
+    "app contract returns parseable JSON.",
+    "No UI framework dependency is introduced.",
+    "No server, IPC channel, browser window or desktop shell is started.",
+    "pytest passes."
+  ],
+  "block_criteria": [
+    "UI implementation without ADR.",
+    "Duplicate validator logic outside DevPilot Core.",
+    "DTOs carrying raw secrets.",
+    "External API usage or new dependencies.",
+    "Breaking CommandResult compatibility."
+  ],
+  "risks": [
+    "Contract-only implementation; no real UI yet.",
+    "No API version negotiation yet.",
+    "No auth/session/RBAC model for UI yet.",
+    "Technology decision remains future ADR."
+  ],
+  "next_sprint": "FUNC-SPRINT-19 — Selección tecnológica UI/API y ADR de interfaz"
+}

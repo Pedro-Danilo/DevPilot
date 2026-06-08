@@ -26,6 +26,7 @@ paths:
   eval_outputs: "outputs/evals"
   providers_example: ".devpilot/providers.yaml.example"
   providers: ".devpilot/providers.yaml"
+  interface_contract: "docs/07_interfaces/internal_application_contract.md"
 runtime:
   dry_run_default: true
   created_by: "FUNC-SPRINT-08"
