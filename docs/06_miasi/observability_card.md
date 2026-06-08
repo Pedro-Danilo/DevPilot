@@ -138,3 +138,9 @@ Bloquear despliegue o activación si:
 - se guardan secretos sin redacción;
 - no se puede reconstruir qué ocurrió;
 - no hay correlación entre agente, tool, policy y output.
+
+## Actualización FUNC-SPRINT-12 — Observabilidad del Agent Runtime
+
+Los comandos `agent run` emiten resultados mediante `CommandResult`, pueden generar evidencia JSON/Markdown con `--write-report`, emiten eventos JSONL por la envoltura CLI y persisten resultados en SQLite de forma best-effort. Los tool calls internos se reportan como estructuras auditables dentro de `data.tool_calls`.
+
+Limitación: todavía no existe una traza agentic jerárquica completa con spans, correlación por paso, métricas de latencia por herramienta ni SLO/SLA. Esta capacidad queda pendiente para sprints posteriores.

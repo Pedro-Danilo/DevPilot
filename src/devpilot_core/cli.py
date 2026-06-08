@@ -6,6 +6,7 @@ import sys
 from pathlib import Path
 
 from . import __version__
+from .agents import AgentRuntime
 from .cli_models import CommandResult, ExitCode, Finding, Severity
 from .errors import DevPilotError
 from .observability import EventLogger
@@ -229,6 +230,40 @@ def miasi_validate_command(
     )
     _emit_result_event(root, result, subject=subject)
     _persist_result(root, result, subject=subject)
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+
+def agent_run_command(
+    agent_name: str,
+    *,
+    target: str | None = None,
+    idea: str | None = None,
+    dry_run: bool = True,
+    execute: bool = False,
+    json_output: bool = False,
+    write_report: bool = False,
+) -> int:
+    """Run a local/mock document agent through AgentRuntime.
+
+    FUNC-SPRINT-12 keeps agent execution offline and deterministic. Dry-run is
+    the default; `--execute` is only used by PreCodeDocumentationAgent to write
+    a new draft under outputs/drafts and never overwrites approved docs.
+    """
+
+    root = project_root()
+    effective_dry_run = False if execute else dry_run
+    result = AgentRuntime(root).run(agent_name, target=target, idea=idea, dry_run=effective_dry_run)
+    result = _write_optional_command_report(
+        root,
+        result,
+        subject=target or agent_name,
+        report_id=f"agent_run_{agent_name.replace('-', '_').replace('.', '_')}",
+        write_report=write_report,
+        metadata={"sprint": "FUNC-SPRINT-12", "component": "AgentRuntime"},
+    )
+    _emit_result_event(root, result, subject=target or agent_name)
+    _persist_result(root, result, subject=target or agent_name)
     print_result(result, json_output=json_output)
     return int(result.exit_code)
 
@@ -535,6 +570,17 @@ def build_parser() -> argparse.ArgumentParser:
     history_list.add_argument("--limit", type=int, default=10, help="Maximum number of runs to list, capped at 100")
     history_list.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
 
+    agent = sub.add_parser("agent", help="Run local/mock DevPilot agents")
+    agent_sub = agent.add_subparsers(dest="agent_command")
+    agent_run = agent_sub.add_parser("run", help="Run a registered local/mock agent")
+    agent_run.add_argument("agent_name", help="Agent alias, for example documentation-audit or precode-documentation")
+    agent_run.add_argument("--target", default=None, help="Optional target path for audit agents")
+    agent_run.add_argument("--idea", default=None, help="Idea text for pre-code documentation drafts")
+    agent_run.add_argument("--dry-run", action="store_true", help="Preview without writing files; this is the default")
+    agent_run.add_argument("--execute", action="store_true", help="Allow safe draft output writes under outputs/drafts when supported")
+    agent_run.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    agent_run.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+
     policy = sub.add_parser("policy", help="Evaluate deterministic DevPilot safety policies")
     policy_sub = policy.add_subparsers(dest="policy_command")
     policy_check = policy_sub.add_parser("check", help="Evaluate a simulated action through PolicyEngine")
@@ -582,6 +628,9 @@ def _command_name_from_args(args: argparse.Namespace) -> str:
     if command == "history":
         subcommand = getattr(args, "history_command", None)
         return f"history {subcommand}" if subcommand else "history"
+    if command == "agent":
+        subcommand = getattr(args, "agent_command", None)
+        return f"agent {subcommand}" if subcommand else "agent"
     return command or "help"
 
 
@@ -646,6 +695,19 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
     if args.command == "history":
         if args.history_command == "list":
             return history_list_command(json_output=args.json, limit=args.limit, write_report=args.write_report)
+        parser.print_help()
+        return int(ExitCode.FAIL)
+    if args.command == "agent":
+        if args.agent_command == "run":
+            return agent_run_command(
+                args.agent_name,
+                target=args.target,
+                idea=args.idea,
+                dry_run=True,
+                execute=args.execute,
+                json_output=args.json,
+                write_report=args.write_report,
+            )
         parser.print_help()
         return int(ExitCode.FAIL)
     if args.command == "policy":

@@ -9,11 +9,27 @@
       "name": "PreCodeDocumentationAgent",
       "phase": "MVP",
       "max_autonomy": "A2",
-      "status": "planned",
+      "status": "implemented",
       "risk_level": "medium",
-      "allowed_tools": ["artifact.read", "document.draft.generate", "report.write", "trace.append", "policy.check"],
-      "required_artifacts": ["Agent", "Tool", "Policy", "Eval", "Obs"],
-      "policy_rule_ids": ["AGENT_SUGGEST_ALLOW", "DOC_WRITE_DRAFT_GATED", "SECRETS_RAW_DENY"],
+      "allowed_tools": [
+        "artifact.read",
+        "document.draft.generate",
+        "report.write",
+        "trace.append",
+        "policy.check"
+      ],
+      "required_artifacts": [
+        "Agent",
+        "Tool",
+        "Policy",
+        "Eval",
+        "Obs"
+      ],
+      "policy_rule_ids": [
+        "AGENT_SUGGEST_ALLOW",
+        "DOC_WRITE_DRAFT_GATED",
+        "SECRETS_RAW_DENY"
+      ],
       "approval_required": false,
       "observability_required": true,
       "eval_required": true
@@ -23,11 +39,30 @@
       "name": "DocumentationAuditAgent",
       "phase": "MVP",
       "max_autonomy": "A2",
-      "status": "planned",
+      "status": "implemented",
       "risk_level": "medium",
-      "allowed_tools": ["artifact.read", "artifact.frontmatter.validate", "artifact.structure.validate", "checklist.precode.run", "documentation.audit", "report.write", "trace.append", "policy.check"],
-      "required_artifacts": ["Agent", "Tool", "Policy", "Eval", "Obs"],
-      "policy_rule_ids": ["AGENT_SUGGEST_ALLOW", "DOC_VALIDATE_ALLOW", "SECRETS_RAW_DENY"],
+      "allowed_tools": [
+        "artifact.read",
+        "artifact.frontmatter.validate",
+        "artifact.structure.validate",
+        "checklist.precode.run",
+        "documentation.audit",
+        "report.write",
+        "trace.append",
+        "policy.check"
+      ],
+      "required_artifacts": [
+        "Agent",
+        "Tool",
+        "Policy",
+        "Eval",
+        "Obs"
+      ],
+      "policy_rule_ids": [
+        "AGENT_SUGGEST_ALLOW",
+        "DOC_VALIDATE_ALLOW",
+        "SECRETS_RAW_DENY"
+      ],
       "approval_required": false,
       "observability_required": true,
       "eval_required": true
@@ -39,9 +74,25 @@
       "max_autonomy": "A4",
       "status": "planned",
       "risk_level": "medium",
-      "allowed_tools": ["artifact.read", "document.draft.generate", "report.write", "trace.append", "policy.check"],
-      "required_artifacts": ["Agent", "Tool", "Policy", "Eval", "Approval", "Obs"],
-      "policy_rule_ids": ["AGENT_SUGGEST_ALLOW", "DOC_WRITE_DRAFT_GATED"],
+      "allowed_tools": [
+        "artifact.read",
+        "document.draft.generate",
+        "report.write",
+        "trace.append",
+        "policy.check"
+      ],
+      "required_artifacts": [
+        "Agent",
+        "Tool",
+        "Policy",
+        "Eval",
+        "Approval",
+        "Obs"
+      ],
+      "policy_rule_ids": [
+        "AGENT_SUGGEST_ALLOW",
+        "DOC_WRITE_DRAFT_GATED"
+      ],
       "approval_required": true,
       "observability_required": true,
       "eval_required": true
@@ -53,9 +104,25 @@
       "max_autonomy": "A4",
       "status": "planned",
       "risk_level": "medium_high",
-      "allowed_tools": ["artifact.read", "document.draft.generate", "report.write", "trace.append", "policy.check"],
-      "required_artifacts": ["Agent", "Tool", "Policy", "Eval", "Approval", "Obs"],
-      "policy_rule_ids": ["AGENT_SUGGEST_ALLOW", "DOC_WRITE_DRAFT_GATED"],
+      "allowed_tools": [
+        "artifact.read",
+        "document.draft.generate",
+        "report.write",
+        "trace.append",
+        "policy.check"
+      ],
+      "required_artifacts": [
+        "Agent",
+        "Tool",
+        "Policy",
+        "Eval",
+        "Approval",
+        "Obs"
+      ],
+      "policy_rule_ids": [
+        "AGENT_SUGGEST_ALLOW",
+        "DOC_WRITE_DRAFT_GATED"
+      ],
       "approval_required": true,
       "observability_required": true,
       "eval_required": true
@@ -67,9 +134,25 @@
       "max_autonomy": "A4",
       "status": "planned",
       "risk_level": "high",
-      "allowed_tools": ["artifact.read", "documentation.audit", "report.write", "trace.append", "policy.check"],
-      "required_artifacts": ["Agent", "Tool", "Policy", "Eval", "Approval", "Obs"],
-      "policy_rule_ids": ["AGENT_SUGGEST_ALLOW", "SECRETS_RAW_DENY"],
+      "allowed_tools": [
+        "artifact.read",
+        "documentation.audit",
+        "report.write",
+        "trace.append",
+        "policy.check"
+      ],
+      "required_artifacts": [
+        "Agent",
+        "Tool",
+        "Policy",
+        "Eval",
+        "Approval",
+        "Obs"
+      ],
+      "policy_rule_ids": [
+        "AGENT_SUGGEST_ALLOW",
+        "SECRETS_RAW_DENY"
+      ],
       "approval_required": true,
       "observability_required": true,
       "eval_required": true
@@ -81,9 +164,24 @@
       "max_autonomy": "A3",
       "status": "planned",
       "risk_level": "medium",
-      "allowed_tools": ["artifact.read", "document.draft.generate", "report.write", "trace.append", "policy.check"],
-      "required_artifacts": ["Agent", "Tool", "Policy", "Eval", "Obs"],
-      "policy_rule_ids": ["AGENT_SUGGEST_ALLOW", "DOC_WRITE_DRAFT_GATED"],
+      "allowed_tools": [
+        "artifact.read",
+        "document.draft.generate",
+        "report.write",
+        "trace.append",
+        "policy.check"
+      ],
+      "required_artifacts": [
+        "Agent",
+        "Tool",
+        "Policy",
+        "Eval",
+        "Obs"
+      ],
+      "policy_rule_ids": [
+        "AGENT_SUGGEST_ALLOW",
+        "DOC_WRITE_DRAFT_GATED"
+      ],
       "approval_required": false,
       "observability_required": true,
       "eval_required": true
@@ -95,9 +193,25 @@
       "max_autonomy": "A3",
       "status": "planned",
       "risk_level": "medium",
-      "allowed_tools": ["git.status", "git.diff", "repo.inventory", "report.write", "trace.append", "policy.check"],
-      "required_artifacts": ["Agent", "Tool", "Policy", "Eval", "Obs"],
-      "policy_rule_ids": ["GIT_READ_ALLOW", "SECRETS_RAW_DENY"],
+      "allowed_tools": [
+        "git.status",
+        "git.diff",
+        "repo.inventory",
+        "report.write",
+        "trace.append",
+        "policy.check"
+      ],
+      "required_artifacts": [
+        "Agent",
+        "Tool",
+        "Policy",
+        "Eval",
+        "Obs"
+      ],
+      "policy_rule_ids": [
+        "GIT_READ_ALLOW",
+        "SECRETS_RAW_DENY"
+      ],
       "approval_required": false,
       "observability_required": true,
       "eval_required": true
@@ -109,9 +223,26 @@
       "max_autonomy": "A4",
       "status": "planned",
       "risk_level": "high",
-      "allowed_tools": ["artifact.read", "git.diff", "code.review", "report.write", "trace.append", "policy.check"],
-      "required_artifacts": ["Agent", "Tool", "Policy", "Eval", "Approval", "Obs"],
-      "policy_rule_ids": ["GIT_READ_ALLOW", "AGENT_CRITICAL_TOOL_DENY"],
+      "allowed_tools": [
+        "artifact.read",
+        "git.diff",
+        "code.review",
+        "report.write",
+        "trace.append",
+        "policy.check"
+      ],
+      "required_artifacts": [
+        "Agent",
+        "Tool",
+        "Policy",
+        "Eval",
+        "Approval",
+        "Obs"
+      ],
+      "policy_rule_ids": [
+        "GIT_READ_ALLOW",
+        "AGENT_CRITICAL_TOOL_DENY"
+      ],
       "approval_required": true,
       "observability_required": true,
       "eval_required": true
@@ -123,9 +254,26 @@
       "max_autonomy": "A4",
       "status": "planned",
       "risk_level": "high",
-      "allowed_tools": ["patch.parse", "patch.dry_run", "report.write", "trace.append", "policy.check"],
-      "required_artifacts": ["Agent", "Tool", "Policy", "Eval", "Approval", "Obs"],
-      "policy_rule_ids": ["PATCH_DRY_RUN_ALLOW", "PATCH_APPLY_DENY", "AGENT_CRITICAL_TOOL_DENY"],
+      "allowed_tools": [
+        "patch.parse",
+        "patch.dry_run",
+        "report.write",
+        "trace.append",
+        "policy.check"
+      ],
+      "required_artifacts": [
+        "Agent",
+        "Tool",
+        "Policy",
+        "Eval",
+        "Approval",
+        "Obs"
+      ],
+      "policy_rule_ids": [
+        "PATCH_DRY_RUN_ALLOW",
+        "PATCH_APPLY_DENY",
+        "AGENT_CRITICAL_TOOL_DENY"
+      ],
       "approval_required": true,
       "observability_required": true,
       "eval_required": true
@@ -137,9 +285,28 @@
       "max_autonomy": "A4",
       "status": "planned",
       "risk_level": "high",
-      "allowed_tools": ["artifact.read", "git.diff", "patch.parse", "patch.dry_run", "tests.run", "report.write", "trace.append", "policy.check"],
-      "required_artifacts": ["Agent", "Tool", "Policy", "Eval", "Approval", "Obs"],
-      "policy_rule_ids": ["PATCH_DRY_RUN_ALLOW", "AGENT_CRITICAL_TOOL_DENY"],
+      "allowed_tools": [
+        "artifact.read",
+        "git.diff",
+        "patch.parse",
+        "patch.dry_run",
+        "tests.run",
+        "report.write",
+        "trace.append",
+        "policy.check"
+      ],
+      "required_artifacts": [
+        "Agent",
+        "Tool",
+        "Policy",
+        "Eval",
+        "Approval",
+        "Obs"
+      ],
+      "policy_rule_ids": [
+        "PATCH_DRY_RUN_ALLOW",
+        "AGENT_CRITICAL_TOOL_DENY"
+      ],
       "approval_required": true,
       "observability_required": true,
       "eval_required": true
@@ -151,9 +318,18 @@
       "max_autonomy": "A5",
       "status": "future",
       "risk_level": "high",
-      "allowed_tools": ["artifact.read", "report.write", "trace.append", "policy.check"],
-      "required_artifacts": ["Full MIASI"],
-      "policy_rule_ids": ["DEPLOY_DENY"],
+      "allowed_tools": [
+        "artifact.read",
+        "report.write",
+        "trace.append",
+        "policy.check"
+      ],
+      "required_artifacts": [
+        "Full MIASI"
+      ],
+      "policy_rule_ids": [
+        "DEPLOY_DENY"
+      ],
       "approval_required": true,
       "observability_required": true,
       "eval_required": true
@@ -165,9 +341,18 @@
       "max_autonomy": "A5",
       "status": "future",
       "risk_level": "high",
-      "allowed_tools": ["artifact.read", "report.write", "trace.append", "policy.check"],
-      "required_artifacts": ["Full MIASI"],
-      "policy_rule_ids": ["DEPLOY_DENY"],
+      "allowed_tools": [
+        "artifact.read",
+        "report.write",
+        "trace.append",
+        "policy.check"
+      ],
+      "required_artifacts": [
+        "Full MIASI"
+      ],
+      "policy_rule_ids": [
+        "DEPLOY_DENY"
+      ],
       "approval_required": true,
       "observability_required": true,
       "eval_required": true
@@ -179,9 +364,18 @@
       "max_autonomy": "A5/A6",
       "status": "future",
       "risk_level": "high",
-      "allowed_tools": ["report.write", "trace.append", "policy.check"],
-      "required_artifacts": ["Full MIASI", "governance"],
-      "policy_rule_ids": ["AGENT_CRITICAL_TOOL_DENY"],
+      "allowed_tools": [
+        "report.write",
+        "trace.append",
+        "policy.check"
+      ],
+      "required_artifacts": [
+        "Full MIASI",
+        "governance"
+      ],
+      "policy_rule_ids": [
+        "AGENT_CRITICAL_TOOL_DENY"
+      ],
       "approval_required": true,
       "observability_required": true,
       "eval_required": true

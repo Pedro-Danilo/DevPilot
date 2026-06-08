@@ -128,3 +128,30 @@ Bloquear implementación o uso del agente si:
 - no genera trazas;
 - no tiene evaluación mínima;
 - no separa propuesta de ejecución.
+
+## Actualización FUNC-SPRINT-12 — Agent Runtime mock/local
+
+DevPilot incorpora una primera versión ejecutable de agentes documentales MVP. Esta versión implementa únicamente agentes locales/rule-based, sin LLM externo, sin API keys y con `dry-run` por defecto.
+
+Agentes habilitados inicialmente:
+
+- `precode.audit` mediante alias CLI `documentation-audit`.
+- `precode.documentation` mediante alias CLI `precode-documentation`.
+
+Criterios PASS:
+
+- El agente existe en `.devpilot/miasi/agent_registry.json`.
+- El agente pertenece a fase MVP.
+- El runtime tiene implementación local explícita.
+- Toda operación tipo herramienta pasa por Policy Engine.
+- El resultado se emite como `CommandResult`, reporte opcional, evento JSONL y registro SQLite best-effort.
+
+Criterios BLOCK:
+
+- Agente no registrado.
+- Agente no MVP en Sprint 12.
+- Falta de contrato MIASI ejecutable.
+- Intento de usar herramienta no permitida o acción bloqueada por política.
+- Secreto sintético detectado.
+
+Riesgo: esta capa no implementa todavía agentes autónomos industriales, memoria, planificación multi-step, evaluación formal ni aprobación humana persistente.

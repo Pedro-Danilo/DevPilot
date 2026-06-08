@@ -77,3 +77,26 @@ La decisión arquitectónica se mantiene: los agentes futuros deberán pasar por
 ### Riesgo residual
 
 La implementación sigue siendo preliminar: aún no existe Agent Runtime, no hay ejecución de tools, no hay eval harness ni aprobación humana persistente. Sprint 11 reduce riesgo de drift documental, pero no sustituye controles industriales completos.
+
+## Actualización 2026-06-08 — FUNC-SPRINT-12
+
+Estado de implementación: `implemented-initial`.
+
+FUNC-SPRINT-12 materializa la primera capa de Agent Runtime bajo MIASI, limitada a agentes documentales MVP, ejecución local/mock y `dry-run` por defecto. La decisión arquitectónica original se mantiene: ningún agente puede operar por fuera de los registros MIASI, del Policy Engine, de la observabilidad local y del contrato `CommandResult`.
+
+Componentes implementados:
+
+- `src/devpilot_core/agents/models.py`: contratos `AgentMessage`, `AgentToolCall`, `AgentSuggestion` y `AgentRunResult`.
+- `src/devpilot_core/agents/runtime.py`: `AgentRuntime`, `DocumentationAuditAgent` y `PreCodeDocumentationAgent`.
+- `agent run`: comando CLI para ejecución controlada de agentes.
+
+Restricciones preservadas:
+
+- Sin LLM externo obligatorio.
+- Sin API keys.
+- Sin llamadas de red.
+- Sin modificación de documentos aprobados.
+- Escritura opcional únicamente bajo `outputs/drafts` y con bloqueo de sobrescritura.
+- Policy check antes de cada operación tipo herramienta.
+
+Riesgo residual: esta implementación no es todavía un runtime industrial completo. Faltan evaluación agentic formal, memoria, ModelAdapter, aprobación humana persistente, ejecución de herramientas reales y monitoreo operacional avanzado.

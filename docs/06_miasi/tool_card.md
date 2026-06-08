@@ -138,3 +138,30 @@ Bloquear herramienta si:
 - llama APIs externas sin CostGuard;
 - carece de pruebas;
 - carece de observabilidad.
+
+## Actualización FUNC-SPRINT-12 — Tool calls simulados por Agent Runtime
+
+Los agentes documentales MVP usan herramientas declaradas en `.devpilot/miasi/tool_registry.json`, pero Sprint 12 no incorpora un Tool Runtime industrial. Cada operación se representa como `AgentToolCall` y se somete a `PolicyEngine` antes de cualquier lectura o escritura controlada.
+
+Herramientas usadas por los agentes MVP:
+
+- `artifact.read` para lectura de documentos.
+- `artifact.frontmatter.validate` y `artifact.structure.validate` mediante validadores existentes.
+- `checklist.precode.run` para el checklist ejecutable.
+- `document.draft.generate` para borradores bajo `outputs/drafts`.
+- `policy.check` como gate de seguridad.
+
+Criterios PASS:
+
+- Tool declarada en Tool Registry.
+- Operación permitida por PathGuard/SecretGuard/CostGuard.
+- `dry-run` no escribe archivos.
+
+Criterios BLOCK:
+
+- Secreto sintético en payload.
+- Ruta fuera del workspace.
+- Intento de sobrescritura de draft.
+- Tool no declarada o acción incompatible.
+
+Riesgo: la ejecución real de herramientas externas, shell, Git write, patch apply y modelos externos sigue fuera de alcance.

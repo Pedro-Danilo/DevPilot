@@ -1,0 +1,65 @@
+{
+  "sprint": "FUNC-SPRINT-12",
+  "title": "Agent Runtime mock/local para agentes documentales MVP",
+  "status": "implemented-initial",
+  "implemented_on": "2026-06-08",
+  "requires_api_key": false,
+  "external_cost": false,
+  "default_execution_mode": "dry-run",
+  "created": [
+    "src/devpilot_core/agents/models.py",
+    "src/devpilot_core/agents/runtime.py",
+    "src/devpilot_core/agents/__init__.py",
+    "tests/test_agent_runtime.py",
+    "docs/audits/func_sprint_12_agent_runtime_audit.md",
+    "docs/functional_sprint_12_manifest.json"
+  ],
+  "modified": [
+    ".devpilot/project.yaml",
+    ".devpilot/miasi/agent_registry.json",
+    ".devpilot/miasi/tool_registry.json",
+    "src/devpilot_core/cli.py",
+    "src/devpilot_core/workspace/manager.py",
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/functional_backlog_after_precode.md",
+    "docs/02_architecture/adrs/ADR-0008-agent-runtime-industrial-bajo-miasi.md",
+    "docs/06_miasi/agent_card.md",
+    "docs/06_miasi/tool_card.md",
+    "docs/06_miasi/eval_card.md",
+    "docs/06_miasi/observability_card.md"
+  ],
+  "commands": [
+    "python -m devpilot_core agent run documentation-audit --target docs/01_requirements --json",
+    "python -m devpilot_core agent run precode-documentation --idea \"...\" --dry-run --json",
+    "python -m devpilot_core agent run precode-documentation --idea \"...\" --dry-run --json --write-report"
+  ],
+  "pass_criteria": [
+    "AgentRuntime resolves agents from executable MIASI registry.",
+    "Only implemented MVP document agents can run in Sprint 12.",
+    "Every tool-like operation is evaluated by PolicyEngine.",
+    "Dry-run does not write files.",
+    "No external APIs or API keys are required.",
+    "CLI output follows CommandResult and remains JSON-parseable."
+  ],
+  "block_criteria": [
+    "Unknown agent.",
+    "Non-MVP agent in Sprint 12.",
+    "Missing or invalid MIASI executable registry.",
+    "PathGuard blocked subject.",
+    "SecretGuard detected synthetic secret.",
+    "Draft output already exists in execute mode."
+  ],
+  "tests": {
+    "new_test_file": "tests/test_agent_runtime.py",
+    "expected_pytest": "85 passed"
+  },
+  "risks": [
+    "Rule-based agents only; no LLM yet.",
+    "No agentic memory.",
+    "No evaluation harness until FUNC-SPRINT-13.",
+    "No persistent human approval workflow.",
+    "No real tool runtime for shell, Git write, patch apply or external models."
+  ],
+  "next_sprint": "FUNC-SPRINT-13 — Evaluation Harness para validadores y agentes"
+}

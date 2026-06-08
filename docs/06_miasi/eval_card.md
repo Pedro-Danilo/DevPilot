@@ -127,3 +127,9 @@ Bloquear avance si:
 - hay acciones críticas sin aprobación;
 - hay uso de APIs externas sin presupuesto;
 - el agente no diferencia sugerencia de ejecución.
+
+## Actualización FUNC-SPRINT-12 — Pruebas agentic offline iniciales
+
+Sprint 12 agrega pruebas automatizadas para `AgentRuntime`, `DocumentationAuditAgent` y `PreCodeDocumentationAgent`. Estas pruebas verifican ejecución offline, bloqueo de secretos sintéticos, resolución de agentes desde MIASI, salida JSON parseable y generación de reportes opcionales.
+
+Esta evaluación es preliminar: no mide todavía calidad semántica de respuestas, groundedness, utilidad, precisión documental ni desempeño de modelos. FUNC-SPRINT-13 debe introducir un Evaluation Harness específico para validadores y agentes.

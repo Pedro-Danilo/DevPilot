@@ -959,3 +959,43 @@ python -m pytest -q
 ```
 
 No habilitar un agente nuevo sin actualizar simultáneamente Agent Registry, Tool Registry, Policy Matrix, pruebas y documentación de auditoría.
+
+
+## FUNC-SPRINT-12 — Agent Runtime mock/local para agentes documentales MVP
+
+### Propósito operativo
+
+Permitir la ejecución local y controlada de los primeros agentes documentales de DevPilot sin LLM externo, sin API keys y sin acciones destructivas. El runtime convierte los contratos MIASI ejecutables en agentes invocables, pero mantiene `dry-run` por defecto.
+
+### Comandos
+
+```powershell
+python -m devpilot_core agent run documentation-audit --target docs/01_requirements --json
+python -m devpilot_core agent run documentation-audit --target docs/01_requirements --json --write-report
+python -m devpilot_core agent run precode-documentation --idea "Agregar control documental" --dry-run --json
+python -m devpilot_core agent run precode-documentation --idea "Agregar control documental" --dry-run --json --write-report
+```
+
+### Funcionamiento
+
+`AgentRuntime` resuelve alias de CLI hacia IDs MIASI (`documentation-audit` → `precode.audit`, `precode-documentation` → `precode.documentation`), valida que el agente esté declarado, que sea MVP y que exista implementación local. Antes de cada operación tipo herramienta ejecuta `PolicyEngine`. Los resultados se devuelven como `CommandResult`, pueden escribirse como reporte JSON/Markdown y se registran en SQLite de forma best-effort.
+
+### Criterios PASS
+
+- `pytest -q` en PASS.
+- `agent run documentation-audit` devuelve JSON parseable.
+- `agent run precode-documentation --dry-run` no escribe archivos.
+- Los tool calls incluyen evaluación de política.
+- No se usan APIs externas ni llaves.
+
+### Criterios BLOCK
+
+- Agente no registrado o sin implementación local.
+- Agente fuera de fase MVP en Sprint 12.
+- Secreto sintético detectado en `--idea`.
+- Ruta bloqueada por PathGuard.
+- Intento de sobrescribir un draft existente.
+
+### Riesgos y límites
+
+Esta es una versión preliminar. Los agentes son rule-based, no usan LLM, no hacen planificación autónoma, no tienen memoria conversacional y no sustituyen revisión humana. La escritura bajo `outputs/drafts` solo debe usarse como borrador revisable y nunca como modificación automática de documentos aprobados.

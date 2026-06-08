@@ -1,8 +1,8 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
 Estado actual: `baseline pre-code approved + functional backlog approved + gates documentales ejecutables`  
-Último hito: `FUNC-SPRINT-11 — MIASI ejecutable: Agent Registry, Tool Registry y Policy Matrix`  
-Siguiente hito: `FUNC-SPRINT-12 — Agent Runtime mock/local para agentes documentales MVP`  
+Último hito: `FUNC-SPRINT-12 — Agent Runtime mock/local para agentes documentales MVP`  
+Siguiente hito: `FUNC-SPRINT-13 — Evaluation Harness para validadores y agentes`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
@@ -47,6 +47,9 @@ Ya existe:
 - contratos MIASI ejecutables bajo `.devpilot/miasi/`;
 - `MiasiRegistryValidator` para Agent Registry, Tool Registry y Policy Matrix;
 - comandos `miasi validate`, `miasi validate-registry`, `miasi validate-tools` y `miasi validate-policy-matrix`;
+- `AgentRuntime` mock/local para agentes documentales MVP;
+- agentes `documentation-audit` y `precode-documentation` en dry-run por defecto;
+- comando `agent run` con `--json` y `--write-report`;
 - persistencia automática best-effort de resultados de gates/validadores en `.devpilot/devpilot.db`;
 - comandos `workspace init` y `workspace status`;
 - inicialización dry-run por defecto y escritura explícita con `--execute`;
@@ -56,7 +59,7 @@ Ya existe:
 
 Pendiente de implementación funcional:
 
-- agentes documentales controlados;
+- Evaluation Harness para validadores y agentes;
 - Git read-only;
 - patch/code review en dry-run;
 - ModelAdapter híbrido.
@@ -565,3 +568,25 @@ Criterios PASS: los registros existen, el JSON es válido, no hay IDs duplicados
 Criterios BLOCK: agente sin tool registrada, tool sin policy, regla inexistente, herramienta de alto riesgo sin aprobación cuando aplica, falta de documento MIASI requerido, falta de config ejecutable o drift entre documentos y contrato ejecutable.
 
 Riesgos: es una primera versión de contrato ejecutable. No implementa Agent Runtime, no ejecuta tools, no sustituye evaluaciones reales, no implementa RBAC/IAM ni workflows persistentes de aprobación.
+
+
+## FUNC-SPRINT-12 — Agent Runtime mock/local para agentes documentales MVP
+
+Este sprint introduce la primera ejecución controlada de agentes en DevPilot. La implementación es local, determinística, sin API keys, sin LLM externo y con `dry-run` por defecto. El runtime ejecuta únicamente los agentes MVP registrados en MIASI:
+
+- `documentation-audit` → `precode.audit`: audita documentación usando validadores existentes y Policy Engine.
+- `precode-documentation` → `precode.documentation`: genera un borrador documental revisable a partir de una idea.
+
+Comandos principales:
+
+```powershell
+python -m devpilot_core agent run documentation-audit --target docs/01_requirements --json
+python -m devpilot_core agent run precode-documentation --idea "Agregar trazabilidad" --dry-run --json
+python -m devpilot_core agent run precode-documentation --idea "Agregar trazabilidad" --dry-run --json --write-report
+```
+
+Criterios PASS: los agentes registrados como MVP se resuelven desde `.devpilot/miasi/agent_registry.json`, toda operación pasa por Policy Engine, no se usan APIs externas, `dry-run` no escribe archivos, y los resultados se emiten como `CommandResult`, eventos JSONL, reportes opcionales y registros SQLite best-effort.
+
+Criterios BLOCK: agente desconocido, agente no MVP, registros MIASI inválidos, path bloqueado por PathGuard, secreto sintético detectado por SecretGuard, intento de sobrescritura de draft o intento de usar agentes sin implementación local.
+
+Riesgos: primera versión mock/local. No hay LLM, planificación multi-step, memoria agentic, evaluación automática de calidad ni aprobación humana persistente. Estos elementos quedan para sprints posteriores.

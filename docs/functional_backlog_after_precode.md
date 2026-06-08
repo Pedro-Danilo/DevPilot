@@ -2,7 +2,7 @@
 title: "DevPilot Local — Backlog ejecutable posterior a pre-code"
 doc_id: "DEVPL-FUNC-BACKLOG-001"
 status: "approved"
-version: "1.9.0"
+version: "2.0.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
@@ -14,7 +14,7 @@ change_policy: "controlled_changes_allowed_via_docs_as_code"
 approved_on: "2026-06-06"
 approval_scope: "functional_backlog_after_precode"
 baseline_execution: "FUNC-SPRINT-00"
-next_sprint: "FUNC-SPRINT-12"
+next_sprint: "FUNC-SPRINT-13"
 ---
 
 # DevPilot Local — Backlog ejecutable posterior a pre-code
@@ -73,8 +73,8 @@ El primer ciclo funcional busca convertir DevPilot de un proyecto documentado en
 | L3 | Evidencia y observabilidad | Reportes, JSONL, auditoría local | Implementado inicial |
 | L4 | Seguridad operativa | Policy Engine, SecretGuard, CostGuard | Implementado inicial |
 | L4.5 | Estado operativo local | SQLite para runs, gates, findings, eventos, aprobaciones y costos | Implementado inicial |
-| L5 | MIASI ejecutable | Agent/Tool/Policy registries verificables | Pendiente |
-| L6 | Agentes documentales | Agentes mock/local en dry-run | Pendiente |
+| L5 | MIASI ejecutable | Agent/Tool/Policy registries verificables | Implementado inicial |
+| L6 | Agentes documentales | Agentes mock/local en dry-run | Implementado inicial |
 | L7 | Repositorios | Git read-only, inventario, análisis | Pendiente |
 | L8 | Patches y código | Patch review, code review, refactor plan | Pendiente |
 | L9 | Modelos híbridos | ModelAdapter local/API opcional con costos | Pendiente |
@@ -1234,6 +1234,65 @@ python -m pytest -q
 ```text
 Implementa FUNC-SPRINT-12: AgentRuntime mock/local con PreCodeDocumentationAgent y DocumentationAuditAgent. Deben operar en dry-run, sin API keys, usando validators y Policy Engine. Deben generar sugerencias/reporte, no sobrescribir documentos.
 ```
+
+
+## Implementación FUNC-SPRINT-12
+
+Estado: `implemented-initial`.
+
+Sprint 12 implementa `AgentRuntime` mock/local y los dos agentes documentales MVP:
+
+- `documentation-audit` (`precode.audit`): usa validators existentes, Policy Engine y checklist pre-code para producir hallazgos y sugerencias sin editar documentos.
+- `precode-documentation` (`precode.documentation`): genera borradores revisables desde una idea, con `dry-run` por defecto y escritura opcional solo bajo `outputs/drafts`.
+
+Archivos principales:
+
+```text
+src/devpilot_core/agents/models.py
+src/devpilot_core/agents/runtime.py
+src/devpilot_core/agents/__init__.py
+tests/test_agent_runtime.py
+docs/audits/func_sprint_12_agent_runtime_audit.md
+docs/functional_sprint_12_manifest.json
+```
+
+Comandos implementados:
+
+```powershell
+python -m devpilot_core agent run documentation-audit --target docs/01_requirements --json
+python -m devpilot_core agent run precode-documentation --idea "..." --dry-run --json
+python -m devpilot_core agent run precode-documentation --idea "..." --dry-run --json --write-report
+```
+
+Criterios PASS alcanzados:
+
+- runtime resuelve agentes desde MIASI;
+- solo ejecuta agentes MVP implementados;
+- policy check antes de tool calls;
+- no requiere API key ni red;
+- dry-run por defecto;
+- no sobrescribe documentos aprobados;
+- pruebas offline en PASS.
+
+Criterios BLOCK implementados:
+
+- agente desconocido;
+- agente fuera de fase MVP;
+- registros MIASI faltantes/rotos;
+- path bloqueado;
+- secreto sintético detectado;
+- draft existente en modo execute.
+
+Riesgos residuales:
+
+- agentes rule-based;
+- sin LLM ni ModelAdapter real;
+- sin memoria agentic;
+- sin evaluación automática de calidad;
+- sin aprobación humana persistente;
+- escritura opcional solo en `outputs/drafts`, no en docs aprobados.
+
+Siguiente sprint: `FUNC-SPRINT-13 — Evaluation Harness para validadores y agentes`.
 
 ---
 
