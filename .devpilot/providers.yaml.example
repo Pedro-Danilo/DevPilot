@@ -1,0 +1,61 @@
+schema_version: "1.0"
+providers:
+  - id: "mock"
+    kind: "mock"
+    enabled: true
+    default_model: "mock-deterministic-v1"
+    external_api: false
+    requires_api_key: false
+    estimated_cost_per_1k_tokens_usd: 0.0
+    status: "implemented"
+    notes:
+      - "Default deterministic offline provider."
+      - "No API key, network or external cost."
+  - id: "ollama"
+    kind: "local"
+    enabled: false
+    default_model: "qwen2.5:3b-instruct"
+    endpoint: "http://localhost:11434"
+    external_api: false
+    requires_api_key: false
+    estimated_cost_per_1k_tokens_usd: 0.0
+    status: "planned"
+    notes:
+      - "Future local provider placeholder; Sprint 17 does not contact local servers."
+  - id: "lmstudio"
+    kind: "local"
+    enabled: false
+    default_model: "local-model"
+    endpoint: "http://localhost:1234"
+    external_api: false
+    requires_api_key: false
+    estimated_cost_per_1k_tokens_usd: 0.0
+    status: "planned"
+    notes:
+      - "Future local OpenAI-compatible endpoint placeholder."
+  - id: "openai"
+    kind: "api"
+    enabled: false
+    default_model: "gpt-placeholder"
+    endpoint: "https://api.openai.com"
+    external_api: true
+    requires_api_key: true
+    api_key_env: "OPENAI_API_KEY"
+    estimated_cost_per_1k_tokens_usd: 0.01
+    status: "disabled"
+    notes:
+      - "External API placeholder; blocked by CostGuard by default."
+      - "Never store raw API keys in this file."
+  - id: "gemini"
+    kind: "api"
+    enabled: false
+    default_model: "gemini-placeholder"
+    endpoint: "https://generativelanguage.googleapis.com"
+    external_api: true
+    requires_api_key: true
+    api_key_env: "GEMINI_API_KEY"
+    estimated_cost_per_1k_tokens_usd: 0.01
+    status: "disabled"
+    notes:
+      - "External API placeholder; blocked by CostGuard by default."
+      - "Never store raw API keys in this file."

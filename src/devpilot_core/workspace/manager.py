@@ -342,6 +342,8 @@ paths:
   drafts: "outputs/drafts"
   eval_fixtures: "evals/fixtures"
   eval_outputs: "outputs/evals"
+  providers_example: ".devpilot/providers.yaml.example"
+  providers: ".devpilot/providers.yaml"
 runtime:
   dry_run_default: true
   created_by: "FUNC-SPRINT-08"

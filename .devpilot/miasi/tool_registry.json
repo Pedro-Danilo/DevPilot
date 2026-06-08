@@ -211,11 +211,11 @@
     },
     {
       "tool_id": "model.call.mock",
-      "name": "call_mock_model",
+      "name": "call_mock_model_adapter",
       "phase": "MVP",
       "side_effect": "none",
       "risk_level": "low",
-      "status": "planned",
+      "status": "implemented",
       "requires_approval": false,
       "policy_rule_ids": [
         "MODEL_LOCAL_ALLOW"

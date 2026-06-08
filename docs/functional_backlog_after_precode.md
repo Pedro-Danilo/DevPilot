@@ -2,7 +2,7 @@
 title: "DevPilot Local — Backlog ejecutable posterior a pre-code"
 doc_id: "DEVPL-FUNC-BACKLOG-001"
 status: "approved"
-version: "2.4.0"
+version: "2.5.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
@@ -14,7 +14,7 @@ change_policy: "controlled_changes_allowed_via_docs_as_code"
 approved_on: "2026-06-06"
 approval_scope: "functional_backlog_after_precode"
 baseline_execution: "FUNC-SPRINT-00"
-next_sprint: "FUNC-SPRINT-17"
+next_sprint: "FUNC-SPRINT-18"
 ---
 
 # DevPilot Local — Backlog ejecutable posterior a pre-code
@@ -76,8 +76,8 @@ El primer ciclo funcional busca convertir DevPilot de un proyecto documentado en
 | L5 | MIASI ejecutable | Agent/Tool/Policy registries verificables | Implementado inicial |
 | L6 | Agentes documentales | Agentes mock/local en dry-run | Implementado inicial |
 | L7 | Repositorios | Git read-only, inventario, análisis | Implementado inicial |
-| L8 | Patches y código | Patch review, code review, refactor plan | Implementado inicial para patch/code review; refactor plan pendiente |
-| L9 | Modelos híbridos | ModelAdapter local/API opcional con costos | Pendiente |
+| L8 | Patches y código | Patch review, code review, refactor plan | Implementado inicial |
+| L9 | Modelos híbridos | ModelAdapter local/API opcional con costos | Implementado inicial con mock seguro |
 | L10 | Interfaces | Desktop/web sobre DevPilot Core | Futuro |
 
 ## 5. Definition of Done transversal
@@ -1539,33 +1539,73 @@ Implementa FUNC-SPRINT-16: Safe Refactor Planner en modo plan-only. Debe analiza
 
 # FUNC-SPRINT-17 — ModelAdapter híbrido, proveedores y CostGuard
 
+Estado: `implemented-initial`.
+
 ## Objetivo
 
 Preparar la capa multi-modelo sin obligar API keys ni costos externos.
 
 ## Rutas
 
-| Ruta | Proveedor | Requiere API key | Costo |
-|---|---|---:|---:|
-| Mock | reglas/local | No | No |
-| Local | Ollama/LM Studio futuro | No necesariamente | No externo |
-| API | OpenAI/Gemini/Mistral/HF futuro | Sí | Controlado |
+| Ruta | Proveedor | Requiere API key | Costo | Estado Sprint 17 |
+|---|---|---:|---:|---|
+| Mock | reglas/local | No | No | Implementado |
+| Local | Ollama/LM Studio futuro | No necesariamente | No externo | Placeholder planificado |
+| API | OpenAI/Gemini/Mistral/HF futuro | Sí | Controlado | Deshabilitado/bloqueado |
 
-## Tareas
+## Implementado
 
-| ID | Tarea | Entregable | PASS |
+| ID | Tarea | Entregable | Estado |
 |---|---|---|---|
-| FUNC-17-001 | Crear `ModelAdapter` interface | módulo | `generate`, `classify`, `embed` futuro. |
-| FUNC-17-002 | Implementar `MockModelAdapter` | módulo | Determinístico. |
-| FUNC-17-003 | Crear config de proveedores | `.devpilot/providers.yaml.example` | Sin secretos reales. |
-| FUNC-17-004 | Integrar CostGuard | policy | Bloquea API sin presupuesto. |
-| FUNC-17-005 | Tests sin API | pytest | No requiere red. |
+| FUNC-17-001 | Crear `ModelAdapter` interface | `src/devpilot_core/modeling/contracts.py` | PASS |
+| FUNC-17-002 | Implementar `MockModelAdapter` | `src/devpilot_core/modeling/mock_adapter.py` | PASS |
+| FUNC-17-003 | Crear config de proveedores | `.devpilot/providers.yaml.example` | PASS |
+| FUNC-17-004 | Integrar CostGuard | `ModelAdapterRouter` + `PolicyEngine` | PASS |
+| FUNC-17-005 | Tests sin API | `tests/test_model_adapter.py` | PASS |
+
+## Comandos
+
+```powershell
+python -m devpilot_core model providers --json
+python -m devpilot_core model generate --provider mock --prompt "Diseñar agente documental" --json
+python -m devpilot_core model classify --provider mock --text "bug detectado" --labels "bug,feature" --json
+python -m devpilot_core model embed --provider mock --text "vector estable" --json
+python -m devpilot_core model generate --provider openai --prompt "test" --json
+```
+
+## Criterios PASS implementados
+
+```text
+ProviderRegistry carga metadata sin secretos crudos.
+MockModelAdapter genera, clasifica y embebe de forma determinística.
+CostGuard/PolicyEngine evalúan cada ruta de proveedor.
+API externa queda bloqueada por defecto.
+No hay API keys obligatorias.
+No hay red ni costo externo.
+pytest -q pasa completo.
+```
+
+## BLOCK
+
+```text
+Proveedor no registrado.
+Prompt/texto con secreto sintético.
+API externa sin presupuesto/política explícita.
+Configuración con API key cruda.
+Proveedor local/API ejecutado realmente en Sprint 17.
+```
+
+## Riesgos
+
+Primera versión. No implementa clientes reales para Ollama, LM Studio, OpenAI, Gemini, Mistral ni Hugging Face. No mide tokens reales, latencia, calidad semántica, retries, rate limits ni facturación real. La integración real requerirá sprints posteriores, CostGuard reforzado, SecretGuard sobre prompts, evaluación específica y aprobación humana cuando aplique.
 
 ## Prompt operativo
 
 ```text
 Implementa FUNC-SPRINT-17: ModelAdapter híbrido con MockModelAdapter inicial, config de proveedores sin secretos, CostGuard obligatorio y tests offline. No llames APIs externas ni requieras keys reales.
 ```
+
+Siguiente sprint: `FUNC-SPRINT-18 — Preparación de Desktop/Web sin implementar UI completa`.
 
 ---
 

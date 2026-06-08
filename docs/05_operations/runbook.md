@@ -1245,3 +1245,59 @@ Intento de modificar archivos o aplicar patch.
 ### Riesgos
 
 Versión inicial. No reemplaza refactorización asistida por IDE, análisis semántico, type checking, linters ni revisión humana. El siguiente nivel debe agregar sandbox, aplicación controlada, backup/rollback y aprobación persistente antes de modificar archivos.
+
+## FUNC-SPRINT-17 — ModelAdapter híbrido, proveedores y CostGuard
+
+### Propósito
+
+Operar la primera capa ejecutable de `ModelAdapter` sin depender de API keys, red o costos externos. Esta versión permite validar el contrato multi-modelo de DevPilot antes de conectar proveedores reales.
+
+### Funcionamiento
+
+`model providers` carga metadata de `.devpilot/providers.yaml.example` o `.devpilot/providers.yaml` si existe localmente. El archivo versionado solo declara nombres de variables de entorno, nunca valores secretos. `model generate`, `model classify` y `model embed` enrutan por `ModelAdapterRouter`, aplican `SecretGuard` y `CostGuard`, y ejecutan únicamente `MockModelAdapter` en Sprint 17. Los proveedores locales/API quedan como rutas declaradas, pero no se contactan servidores ni APIs externas.
+
+### Comandos
+
+```powershell
+python -m devpilot_core model providers --json
+python -m devpilot_core model providers --json --write-report
+python -m devpilot_core model generate --provider mock --prompt "Diseñar agente documental" --json
+python -m devpilot_core model generate --provider mock --prompt "Diseñar agente documental" --json --write-report
+python -m devpilot_core model classify --provider mock --text "bug detectado" --labels "bug,feature" --json
+python -m devpilot_core model embed --provider mock --text "vector estable" --json
+python -m devpilot_core model generate --provider openai --prompt "test" --json
+```
+
+### Interpretación
+
+- `provider=mock`: ejecución determinística local sin costo.
+- `external_api_used=false`: no hubo red ni API externa.
+- `cost_estimate_usd=0.0`: ruta sin costo externo.
+- `COSTGUARD_EXTERNAL_API_BLOCKED`: la ruta API externa fue bloqueada correctamente.
+- `MODEL_LOCAL_PROVIDER_NOT_IMPLEMENTED`: proveedor local declarado, pero no ejecutado todavía.
+
+### Criterios PASS
+
+```text
+JSON parseable.
+MockModelAdapter genera, clasifica y embebe de forma determinística.
+ProviderRegistry no contiene secretos crudos.
+CostGuard bloquea APIs externas por defecto.
+No hay llamadas de red.
+No se requieren API keys.
+Reportes opcionales bajo outputs/reports.
+```
+
+### Criterios BLOCK
+
+```text
+Proveedor no registrado.
+Texto/prompt con secreto sintético.
+API externa sin presupuesto/política explícita.
+Intento de leer o persistir API key cruda.
+Proveedor local/API ejecutado realmente en Sprint 17.
+```
+
+### Riesgos
+
+Implementación preliminar. No mide tokens reales, latencia real, calidad semántica, costo facturado ni disponibilidad de proveedores. Ollama, LM Studio y APIs externas quedan como placeholders. Una integración real posterior deberá agregar clientes específicos, timeouts, retries, manejo de errores, evaluación de calidad, presupuesto persistente, SecretGuard sobre prompts y trazabilidad de costo por run.

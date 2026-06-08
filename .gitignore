@@ -63,3 +63,5 @@ patch_*.zip
 # DevPilot evaluation runtime outputs
 outputs/evals/
 outputs/drafts/
+
+.devpilot/providers.yaml

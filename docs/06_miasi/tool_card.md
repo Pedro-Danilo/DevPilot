@@ -246,3 +246,21 @@ Target fuera del workspace, ruta denegada, secreto sintético, target inexistent
 ### Riesgos
 
 Tool preliminar. No ejecuta refactors reales; sirve como contrato previo para futuros flujos con aprobación humana, sandbox y rollback.
+
+## Actualización FUNC-SPRINT-17 — ModelAdapter y herramientas de modelo
+
+Sprint 17 marca `model.call.mock` como herramienta implementada y mantiene `model.call.local` como planificada y `model.call.external` como deshabilitada. El objetivo es disponer de un contrato ejecutable multi-modelo sin habilitar red ni costos.
+
+Herramientas relevantes:
+
+| Tool | Estado | Side effect | Riesgo | Control |
+|---|---|---|---|---|
+| `model.call.mock` | implemented | none | low | `MODEL_LOCAL_ALLOW`, SecretGuard, CostGuard |
+| `model.call.local` | planned | local_compute | medium | `MODEL_LOCAL_ALLOW`, futura configuración local |
+| `model.call.external` | disabled | network_cost | high | `MODEL_EXTERNAL_DENY`, CostGuard, SecretGuard, aprobación futura |
+
+Criterios PASS: `MockModelAdapter` genera, clasifica y embebe de forma determinística; no requiere API key; no hay red; el proveedor externo queda bloqueado por defecto; ningún secreto crudo se escribe en reportes/trazas.
+
+Criterios BLOCK: prompt con secreto sintético, proveedor no registrado, API externa sin presupuesto/política explícita, configuración con valor de API key crudo, o cualquier intento de contacto real con proveedor local/API dentro de Sprint 17.
+
+Riesgo: esta es una primera versión contractual. Las rutas Ollama/LM Studio/OpenAI/Gemini son placeholders hasta que existan clientes, timeouts, retries, evaluación, budgets persistentes y aprobación humana cuando aplique.

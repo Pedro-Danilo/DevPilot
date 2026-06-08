@@ -12,6 +12,7 @@ from .errors import DevPilotError
 from .evals import EvalRunner
 from .observability import EventLogger
 from .miasi import MiasiRegistryValidator
+from .modeling import ModelAdapterRouter, ModelRouterConfig
 from .policy import CostPolicy, PolicyEngine, PolicyRequest, load_cost_policy
 from .reports import ReportEngine, build_report_id
 from .repo import GitAdapter, RepoInventory
@@ -193,6 +194,136 @@ def miasi_required(*, json_output: bool = False) -> int:
 
 
 
+
+
+def _model_router(
+    root: Path,
+    *,
+    allow_external_api: bool = False,
+    budget_limit_usd: float = 0.0,
+    budget_used_usd: float = 0.0,
+) -> ModelAdapterRouter:
+    """Build a ModelAdapterRouter with explicit cost controls."""
+
+    return ModelAdapterRouter(
+        root,
+        config=ModelRouterConfig(
+            allow_external_api=allow_external_api,
+            budget_limit_usd=budget_limit_usd,
+            budget_used_usd=budget_used_usd,
+        ),
+    )
+
+
+def model_providers_command(*, json_output: bool = False, write_report: bool = False) -> int:
+    """Report safe ModelAdapter provider configuration.
+
+    FUNC-SPRINT-17 reads provider metadata only. It never reads raw API keys,
+    never contacts local model servers and never calls external APIs.
+    """
+
+    root = project_root()
+    result = _model_router(root).providers_status()
+    result = _write_optional_command_report(
+        root,
+        result,
+        subject=".devpilot/providers.yaml.example",
+        report_id="model_providers",
+        write_report=write_report,
+        metadata={"sprint": "FUNC-SPRINT-17", "component": "ProviderRegistry"},
+    )
+    _emit_result_event(root, result, subject=".devpilot/providers.yaml.example")
+    _persist_result(root, result, subject=".devpilot/providers.yaml.example")
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+
+def model_generate_command(
+    *,
+    prompt: str,
+    provider: str = "mock",
+    model: str | None = None,
+    allow_external_api: bool = False,
+    budget_limit_usd: float = 0.0,
+    budget_used_usd: float = 0.0,
+    json_output: bool = False,
+    write_report: bool = False,
+) -> int:
+    """Generate text through the safe ModelAdapter boundary."""
+
+    root = project_root()
+    result = _model_router(
+        root,
+        allow_external_api=allow_external_api,
+        budget_limit_usd=budget_limit_usd,
+        budget_used_usd=budget_used_usd,
+    ).generate(prompt=prompt, provider=provider, model=model)
+    result = _write_optional_command_report(
+        root,
+        result,
+        subject=f"provider:{provider}",
+        report_id="model_generate",
+        write_report=write_report,
+        metadata={"sprint": "FUNC-SPRINT-17", "component": "ModelAdapterRouter"},
+    )
+    _emit_result_event(root, result, subject=f"provider:{provider}")
+    _persist_result(root, result, subject=f"provider:{provider}")
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+
+def model_classify_command(
+    *,
+    text: str,
+    labels: str,
+    provider: str = "mock",
+    model: str | None = None,
+    json_output: bool = False,
+    write_report: bool = False,
+) -> int:
+    """Classify text through the safe ModelAdapter boundary."""
+
+    root = project_root()
+    label_tuple = tuple(label.strip() for label in labels.split(",") if label.strip())
+    result = _model_router(root).classify(text=text, labels=label_tuple, provider=provider, model=model)
+    result = _write_optional_command_report(
+        root,
+        result,
+        subject=f"provider:{provider}",
+        report_id="model_classify",
+        write_report=write_report,
+        metadata={"sprint": "FUNC-SPRINT-17", "component": "ModelAdapterRouter"},
+    )
+    _emit_result_event(root, result, subject=f"provider:{provider}")
+    _persist_result(root, result, subject=f"provider:{provider}")
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+
+def model_embed_command(
+    *,
+    text: str,
+    provider: str = "mock",
+    model: str | None = None,
+    json_output: bool = False,
+    write_report: bool = False,
+) -> int:
+    """Generate a deterministic embedding through the safe ModelAdapter boundary."""
+
+    root = project_root()
+    result = _model_router(root).embed(text=text, provider=provider, model=model)
+    result = _write_optional_command_report(
+        root,
+        result,
+        subject=f"provider:{provider}",
+        report_id="model_embed",
+        write_report=write_report,
+        metadata={"sprint": "FUNC-SPRINT-17", "component": "ModelAdapterRouter"},
+    )
+    _emit_result_event(root, result, subject=f"provider:{provider}")
+    _persist_result(root, result, subject=f"provider:{provider}")
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
 
 def git_status_command(*, json_output: bool = False, write_report: bool = False) -> int:
     """Collect read-only Git status information.
@@ -752,6 +883,38 @@ def build_parser() -> argparse.ArgumentParser:
     eval_run.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
 
 
+    model_parser = sub.add_parser("model", help="Inspect and use safe ModelAdapter providers")
+    model_sub = model_parser.add_subparsers(dest="model_command")
+
+    model_providers = model_sub.add_parser("providers", help="Show ModelAdapter provider registry status")
+    model_providers.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    model_providers.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+
+    model_generate = model_sub.add_parser("generate", help="Generate text through ModelAdapter")
+    model_generate.add_argument("--prompt", required=True, help="Prompt text to generate from")
+    model_generate.add_argument("--provider", default="mock", help="Provider id; default: mock")
+    model_generate.add_argument("--model", default=None, help="Optional model id override")
+    model_generate.add_argument("--allow-external-api", action="store_true", help="Simulate explicit external API budget permission")
+    model_generate.add_argument("--budget-limit-usd", type=float, default=0.0, help="Simulated CostGuard budget limit")
+    model_generate.add_argument("--budget-used-usd", type=float, default=0.0, help="Simulated CostGuard budget already used")
+    model_generate.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    model_generate.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+
+    model_classify = model_sub.add_parser("classify", help="Classify text through ModelAdapter")
+    model_classify.add_argument("--text", required=True, help="Text to classify")
+    model_classify.add_argument("--labels", required=True, help="Comma-separated labels")
+    model_classify.add_argument("--provider", default="mock", help="Provider id; default: mock")
+    model_classify.add_argument("--model", default=None, help="Optional model id override")
+    model_classify.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    model_classify.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+
+    model_embed = model_sub.add_parser("embed", help="Embed text through ModelAdapter")
+    model_embed.add_argument("--text", required=True, help="Text to embed")
+    model_embed.add_argument("--provider", default="mock", help="Provider id; default: mock")
+    model_embed.add_argument("--model", default=None, help="Optional model id override")
+    model_embed.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    model_embed.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+
     git_status = sub.add_parser("git-status", help="Collect read-only Git status and diff statistics")
     git_status.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     git_status.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
@@ -841,6 +1004,9 @@ def _command_name_from_args(args: argparse.Namespace) -> str:
     if command == "eval":
         subcommand = getattr(args, "eval_command", None)
         return f"eval {subcommand}" if subcommand else "eval"
+    if command == "model":
+        subcommand = getattr(args, "model_command", None)
+        return f"model {subcommand}" if subcommand else "model"
     return command or "help"
 
 
@@ -905,6 +1071,39 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
     if args.command == "history":
         if args.history_command == "list":
             return history_list_command(json_output=args.json, limit=args.limit, write_report=args.write_report)
+        parser.print_help()
+        return int(ExitCode.FAIL)
+    if args.command == "model":
+        if args.model_command == "providers":
+            return model_providers_command(json_output=args.json, write_report=args.write_report)
+        if args.model_command == "generate":
+            return model_generate_command(
+                prompt=args.prompt,
+                provider=args.provider,
+                model=args.model,
+                allow_external_api=args.allow_external_api,
+                budget_limit_usd=args.budget_limit_usd,
+                budget_used_usd=args.budget_used_usd,
+                json_output=args.json,
+                write_report=args.write_report,
+            )
+        if args.model_command == "classify":
+            return model_classify_command(
+                text=args.text,
+                labels=args.labels,
+                provider=args.provider,
+                model=args.model,
+                json_output=args.json,
+                write_report=args.write_report,
+            )
+        if args.model_command == "embed":
+            return model_embed_command(
+                text=args.text,
+                provider=args.provider,
+                model=args.model,
+                json_output=args.json,
+                write_report=args.write_report,
+            )
         parser.print_help()
         return int(ExitCode.FAIL)
     if args.command == "git-status":

@@ -362,3 +362,28 @@ Cualquier modificación de archivos, fuga de secretos, path traversal, JSON inv�
 ### Riesgos
 
 Cobertura inicial. Faltan pruebas con proyectos grandes, refactors multiarchivo, integración con linters/type-checkers y sandbox de aplicación futura.
+
+## FUNC-SPRINT-17 — Pruebas de ModelAdapter híbrido
+
+Sprint 17 incorpora pruebas offline para la capa `ModelAdapter`.
+
+Pruebas agregadas:
+
+```text
+tests/test_model_adapter.py
+```
+
+Cobertura principal:
+
+- carga segura de `.devpilot/providers.yaml.example` sin secretos crudos;
+- generación determinística con `MockModelAdapter`;
+- clasificación determinística por labels;
+- embeddings determinísticos de 8 dimensiones;
+- bloqueo de prompts con secretos sintéticos;
+- bloqueo de API externa por CostGuard;
+- CLI `model providers/generate/classify/embed` parseable;
+- reportes opcionales bajo `outputs/reports`.
+
+Criterios PASS: `pytest -q` en PASS, sin red, sin API keys y sin costo externo.
+
+Criterios BLOCK: secreto crudo en evidencia, llamada real a proveedor local/API, proveedor externo permitido sin CostGuard, o resultado no determinístico en mock.

@@ -1,6 +1,6 @@
 (.venv) PS D:\Projects\DevPilot_Local> pytest -q
-............................................................................................................                                 [100%]
-DEVPL TEST SUMMARY: 108 passed, 0 failed, 0 errors, 0 skipped
+....................................................................................................................                         [100%]
+DEVPL TEST SUMMARY: 116 passed, 0 failed, 0 errors, 0 skipped
 (.venv) PS D:\Projects\DevPilot_Local> python -m devpilot_core --version
 devpilot-local 0.1.0
 (.venv) PS D:\Projects\DevPilot_Local> python -m devpilot_core workspace status --json
@@ -188,7 +188,7 @@ devpilot-local 0.1.0
         "standard": "MIPSoftware",
         "purpose": "Quality, testing and verification baseline.",
         "exists": true,
-        "size_bytes": 14131
+        "size_bytes": 14996
       },
       {
         "id": "observability_plan",
@@ -204,7 +204,7 @@ devpilot-local 0.1.0
         "standard": "MIPSoftware",
         "purpose": "Local operation and recovery guide.",
         "exists": true,
-        "size_bytes": 43540
+        "size_bytes": 46329
       },
       {
         "id": "agent_card",
@@ -220,7 +220,7 @@ devpilot-local 0.1.0
         "standard": "MIASI",
         "purpose": "Tool permissions, side effects and control rules.",
         "exists": true,
-        "size_bytes": 10856
+        "size_bytes": 12312
       },
       {
         "id": "policy_card",
@@ -824,7 +824,7 @@ devpilot-local 0.1.0
       {
         "artifact": "docs/04_quality/test_strategy.md",
         "exists": true,
-        "size_bytes": 14131,
+        "size_bytes": 14996,
         "frontmatter_ok": true,
         "artifact_ok": true,
         "status": "approved",
@@ -842,7 +842,7 @@ devpilot-local 0.1.0
       {
         "artifact": "docs/05_operations/runbook.md",
         "exists": true,
-        "size_bytes": 43540,
+        "size_bytes": 46329,
         "frontmatter_ok": true,
         "artifact_ok": true,
         "status": "approved",
@@ -860,7 +860,7 @@ devpilot-local 0.1.0
       {
         "artifact": "docs/06_miasi/tool_card.md",
         "exists": true,
-        "size_bytes": 10856,
+        "size_bytes": 12312,
         "frontmatter_ok": true,
         "artifact_ok": true,
         "status": "approved",
@@ -1711,11 +1711,11 @@ devpilot-local 0.1.0
       },
       {
         "tool_id": "model.call.mock",
-        "name": "call_mock_model",
+        "name": "call_mock_model_adapter",
         "phase": "MVP",
         "side_effect": "none",
         "risk_level": "low",
-        "status": "planned",
+        "status": "implemented",
         "requires_approval": false,
         "policy_rule_ids": [
           "MODEL_LOCAL_ALLOW"
@@ -2106,7 +2106,7 @@ devpilot-local 0.1.0
       "llm_required": false,
       "external_api_used": false,
       "fixture_path": "evals/fixtures/documentation_eval_cases.json",
-      "generated_at": "2026-06-08T17:02:54Z",
+      "generated_at": "2026-06-08T19:10:04Z",
       "schema_version": "1.0",
       "declared_suite_id": "documentation",
       "description": "Synthetic offline evaluation suite for DevPilot validators and MVP document agents."
@@ -2127,54 +2127,6 @@ devpilot-local 0.1.0
         "false_negatives": 0,
         "missing_expected_findings": 0
       }
-    }
-  ]
-}
-(.venv) PS D:\Projects\DevPilot_Local> python -m devpilot_core code-review --target src/devpilot_core/refactor --json
-{
-  "command": "code-review",
-  "ok": true,
-  "exit_code": 0,
-  "message": "Code review passed in dry-run mode.",
-  "data": {
-    "summary": {
-      "target": "src/devpilot_core/refactor",
-      "files_reviewed": 2,
-      "findings_total": 0,
-      "blocking_findings": 0,
-      "failing_findings": 0,
-      "dry_run": true,
-      "files_modified": 0
-    },
-    "files": [
-      {
-        "path": "src/devpilot_core/refactor/__init__.py",
-        "suffix": ".py",
-        "size_bytes": 292,
-        "lines": 15,
-        "findings": 0,
-        "reasons": []
-      },
-      {
-        "path": "src/devpilot_core/refactor/planner.py",
-        "suffix": ".py",
-        "size_bytes": 19589,
-        "lines": 469,
-        "findings": 0,
-        "reasons": []
-      }
-    ],
-    "preliminary": true,
-    "notes": [
-      "FUNC-SPRINT-15 code review is deterministic and local-only.",
-      "Raw file contents are never emitted in review output."
-    ]
-  },
-  "findings": [
-    {
-      "id": "CODE_REVIEW_PASS",
-      "message": "Code review completed without fail/block findings.",
-      "severity": "info"
     }
   ]
 }

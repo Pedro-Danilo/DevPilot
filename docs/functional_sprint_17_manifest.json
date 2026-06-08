@@ -1,0 +1,58 @@
+{
+  "sprint": "FUNC-SPRINT-17",
+  "title": "ModelAdapter híbrido, proveedores y CostGuard",
+  "status": "implemented-initial",
+  "created": "2026-06-08",
+  "files_created": [
+    ".devpilot/providers.yaml.example",
+    "src/devpilot_core/modeling/__init__.py",
+    "src/devpilot_core/modeling/contracts.py",
+    "src/devpilot_core/modeling/providers.py",
+    "src/devpilot_core/modeling/mock_adapter.py",
+    "src/devpilot_core/modeling/router.py",
+    "tests/test_model_adapter.py",
+    "docs/audits/func_sprint_17_model_adapter_audit.md",
+    "docs/functional_sprint_17_manifest.json"
+  ],
+  "files_modified": [
+    ".gitignore",
+    ".devpilot/project.yaml",
+    ".devpilot/miasi/tool_registry.json",
+    "src/devpilot_core/cli.py",
+    "src/devpilot_core/workspace/manager.py",
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/06_miasi/tool_card.md",
+    "docs/04_quality/test_strategy.md",
+    "docs/02_architecture/adrs/ADR-0006-local-first-hibrido-modeladapter-costguard.md",
+    "docs/functional_backlog_after_precode.md"
+  ],
+  "commands": [
+    "python -m devpilot_core model providers --json",
+    "python -m devpilot_core model generate --provider mock --prompt \"Diseñar agente documental\" --json",
+    "python -m devpilot_core model classify --provider mock --text \"bug detectado\" --labels \"bug,feature\" --json",
+    "python -m devpilot_core model embed --provider mock --text \"vector estable\" --json",
+    "python -m devpilot_core model generate --provider openai --prompt \"test\" --json"
+  ],
+  "pass_criteria": [
+    "MockModelAdapter executes deterministically offline.",
+    "ProviderRegistry contains no raw secrets.",
+    "CostGuard blocks external API providers by default.",
+    "No API keys or network calls are required.",
+    "pytest -q passes."
+  ],
+  "block_criteria": [
+    "Unknown provider.",
+    "Secret-like prompt or text.",
+    "External API usage without explicit policy/budget.",
+    "Raw API key in provider config.",
+    "Real provider network call during Sprint 17."
+  ],
+  "risks": [
+    "Initial deterministic implementation only.",
+    "No real local/API clients yet.",
+    "No real token accounting or billing integration.",
+    "No semantic quality evaluation for model outputs yet."
+  ],
+  "next_sprint": "FUNC-SPRINT-18 — Preparación de Desktop/Web sin implementar UI completa"
+}

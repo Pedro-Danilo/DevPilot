@@ -1,8 +1,8 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
 Estado actual: `baseline pre-code approved + functional backlog approved + gates documentales ejecutables`  
-Último hito: `FUNC-SPRINT-16 — Safe Refactor Planner`  
-Siguiente hito: `FUNC-SPRINT-17 — ModelAdapter híbrido, proveedores y CostGuard`  
+Último hito: `FUNC-SPRINT-17 — ModelAdapter híbrido, proveedores y CostGuard`  
+Siguiente hito: `FUNC-SPRINT-18 — Preparación de Desktop/Web sin implementar UI completa`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
@@ -691,3 +691,35 @@ Criterios PASS: `dry_run=true`, `plan_only=true`, `files_modified=0`, `patch_gen
 Criterios BLOCK: target fuera del workspace, ruta bloqueada, goal con secreto sintético, target inexistente o error de sintaxis Python.
 
 Riesgo: implementación preliminar. No es un refactorizador semántico ni aplica cambios. Cualquier ejecución futura requerirá aprobación humana, sandbox, backup/rollback y gates de calidad.
+
+
+## FUNC-SPRINT-17 — ModelAdapter híbrido, proveedores y CostGuard
+
+Sprint 17 introduce la primera capa ejecutable de `ModelAdapter` para desacoplar DevPilot de proveedores específicos de modelos. La implementación mantiene la estrategia local-first: `MockModelAdapter` es el único adaptador que ejecuta una respuesta determinística; los proveedores locales y API quedan declarados como rutas futuras o placeholders bloqueados. No se requieren API keys, no se hacen llamadas de red y no hay costo externo.
+
+Componentes principales:
+
+```text
+src/devpilot_core/modeling/contracts.py
+src/devpilot_core/modeling/providers.py
+src/devpilot_core/modeling/mock_adapter.py
+src/devpilot_core/modeling/router.py
+.devpilot/providers.yaml.example
+tests/test_model_adapter.py
+```
+
+Comandos principales:
+
+```powershell
+python -m devpilot_core model providers --json
+python -m devpilot_core model generate --provider mock --prompt "Diseñar agente documental" --json
+python -m devpilot_core model classify --provider mock --text "bug detectado" --labels "bug,feature" --json
+python -m devpilot_core model embed --provider mock --text "vector estable" --json
+python -m devpilot_core model generate --provider openai --prompt "test" --json
+```
+
+Criterios PASS: el registry de proveedores carga metadata sin secretos crudos, `mock` responde de forma determinística, `classify` y `embed` son reproducibles, `CostGuard` evalúa cada ruta, `openai`/`gemini` permanecen bloqueados por defecto, y la salida se produce como `CommandResult`, evento JSONL, reporte opcional y registro SQLite best-effort.
+
+Criterios BLOCK: proveedor desconocido, prompt/texto con secreto sintético, API externa sin presupuesto explícito, proveedor local/API no implementado o cualquier intento de leer API keys crudas desde configuración versionable.
+
+Riesgos: primera versión. No implementa llamadas reales a Ollama, LM Studio, OpenAI, Gemini, Mistral ni Hugging Face. No mide tokens reales, latencia real, calidad semántica, retries, rate limits ni facturación real. Es la base segura para incorporar esos proveedores en sprints posteriores con SecretGuard, CostGuard, evaluación y aprobación humana.
