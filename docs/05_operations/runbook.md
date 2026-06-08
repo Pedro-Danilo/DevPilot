@@ -1193,3 +1193,55 @@ python -m devpilot_core code-review --target src/devpilot_core/validators --json
 ### Riesgos y recuperación
 
 Esta versión es preliminar y puede generar falsos positivos en documentos que contienen ejemplos sintéticos de secretos. Si un review falla por secreto sintético, revisar el archivo indicado y confirmar si se trata de ejemplo, fixture o secreto real. No borrar ni aplicar patches automáticamente; el siguiente paso seguro es documentar el hallazgo y preparar una remediación revisada manualmente.
+
+
+## FUNC-SPRINT-16 — Safe Refactor Planner
+
+### Propósito
+
+Operar el planificador de refactor seguro en modo `plan-only`, antes de cualquier modificación real de código.
+
+### Funcionamiento
+
+`refactor-plan` valida primero la ruta e intención mediante `PolicyEngine`, `PathGuard` y `SecretGuard`. Luego analiza archivos Python con AST, consulta `CodeReviewEngine` como precondición y genera un plan con candidatos, pasos, pruebas requeridas y rollback. No escribe código, no aplica patches y no ejecuta pruebas.
+
+### Comandos
+
+```powershell
+python -m devpilot_core refactor-plan --target src/devpilot_core/review --goal "Extract shared helpers" --json
+python -m devpilot_core refactor-plan --target src/devpilot_core/review --goal "Extract shared helpers" --json --write-report
+```
+
+### Interpretación
+
+- `ok=true`: el plan se generó sin hallazgos bloqueantes.
+- `plan_only=true`: no hay ejecución.
+- `files_modified=0`: no se modificó el repo.
+- `patch_generated=false`: no se generó patch aplicable.
+- `approval_required_for_execution=true`: cualquier refactor futuro requiere revisión humana.
+
+### Criterios PASS
+
+```text
+JSON parseable.
+dry_run=true.
+files_modified=0.
+patch_generated=false.
+plan con pruebas y rollback.
+reportes opcionales bajo outputs/reports.
+```
+
+### Criterios BLOCK
+
+```text
+Ruta fuera del workspace.
+Ruta bloqueada por PolicyEngine.
+Secreto sintético en goal.
+Target inexistente.
+Error de sintaxis Python.
+Intento de modificar archivos o aplicar patch.
+```
+
+### Riesgos
+
+Versión inicial. No reemplaza refactorización asistida por IDE, análisis semántico, type checking, linters ni revisión humana. El siguiente nivel debe agregar sandbox, aplicación controlada, backup/rollback y aprobación persistente antes de modificar archivos.

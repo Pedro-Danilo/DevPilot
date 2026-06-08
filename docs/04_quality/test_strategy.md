@@ -332,3 +332,33 @@ Se agregan pruebas automatizadas para asegurar que las nuevas capacidades operen
 - CLI `code-review --json --write-report` produce JSON parseable y evidencia.
 
 Criterio de éxito: `pytest -q` debe pasar completo y los comandos nuevos deben mantenerse sin dependencias externas ni mutación del workspace.
+
+
+## FUNC-SPRINT-16 — Pruebas del Safe Refactor Planner
+
+### Propósito
+
+Garantizar que `RefactorPlanner` genere planes reproducibles sin modificar archivos.
+
+### Pruebas implementadas
+
+```text
+test_refactor_planner_generates_plan_without_modifying_files
+test_refactor_planner_blocks_secret_like_goal_without_emitting_secret
+test_refactor_planner_blocks_target_outside_workspace
+test_refactor_planner_conservative_plan_for_clean_small_file
+test_refactor_plan_cli_json_and_report_are_parseable
+test_refactor_planner_reports_python_syntax_error
+```
+
+### Criterios PASS
+
+La suite debe confirmar que el planner es `plan-only`, no modifica archivos, bloquea secretos sintéticos, bloquea rutas fuera del workspace, genera reportes opcionales y produce JSON parseable.
+
+### Criterios BLOCK
+
+Cualquier modificación de archivos, fuga de secretos, path traversal, JSON inválido o plan sin pruebas/rollback bloquea el sprint.
+
+### Riesgos
+
+Cobertura inicial. Faltan pruebas con proyectos grandes, refactors multiarchivo, integración con linters/type-checkers y sandbox de aplicación futura.

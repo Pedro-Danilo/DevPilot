@@ -185,6 +185,19 @@
       ]
     },
     {
+      "tool_id": "refactor.plan",
+      "name": "safe_refactor_plan",
+      "phase": "MVP+",
+      "side_effect": "report",
+      "risk_level": "high",
+      "status": "implemented",
+      "requires_approval": false,
+      "policy_rule_ids": [
+        "PATCH_DRY_RUN_ALLOW",
+        "AGENT_CRITICAL_TOOL_DENY"
+      ]
+    },
+    {
       "tool_id": "tests.run",
       "name": "run_tests_controlled",
       "phase": "MVP+",

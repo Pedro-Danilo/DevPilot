@@ -216,3 +216,33 @@ PASS: análisis local, dry-run, sin escritura, sin secretos crudos. BLOCK: rutas
 ### Riesgos
 
 Implementación preliminar. No reemplaza SAST/SCA, linters, revisión humana, evaluación semántica ni sandbox real de aplicación de patches.
+
+
+## Actualización FUNC-SPRINT-16 — refactor.plan
+
+### Propósito
+
+Registrar `refactor.plan` como herramienta MIASI implementada para planificación de refactor seguro en modo `plan-only`.
+
+### Funcionamiento
+
+La herramienta analiza targets permitidos, produce candidatos estructurales y genera pasos con pruebas y rollback. No modifica archivos, no genera patches aplicables y no ejecuta comandos de test.
+
+### Integración
+
+- CLI: `python -m devpilot_core refactor-plan --target <ruta> --goal <objetivo> --json`.
+- Policy: `PolicyEngine`, `PathGuard`, `SecretGuard`.
+- Review: `CodeReviewEngine` como precondición.
+- Evidence: `ReportEngine`, `EventLogger`, `LocalStore`.
+
+### Criterios PASS
+
+`dry_run=true`, `plan_only=true`, `files_modified=0`, `patch_generated=false`, pruebas requeridas y rollback incluidos.
+
+### Criterios BLOCK
+
+Target fuera del workspace, ruta denegada, secreto sintético, target inexistente, error de sintaxis o intento de ejecución.
+
+### Riesgos
+
+Tool preliminar. No ejecuta refactors reales; sirve como contrato previo para futuros flujos con aprobación humana, sandbox y rollback.

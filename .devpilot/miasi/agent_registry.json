@@ -290,6 +290,7 @@
         "git.diff",
         "patch.parse",
         "patch.dry_run",
+        "refactor.plan",
         "tests.run",
         "report.write",
         "trace.append",

@@ -2,7 +2,7 @@
 title: "ADR-0005 — Git Adapter read-only en MVP+"
 doc_id: "DEVPL-ADR-0005"
 status: "accepted"
-version: "1.1.0"
+version: "1.2.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 phase: "SPRINT-PRECODE-03"
@@ -51,3 +51,12 @@ Riesgo residual: no hay análisis semántico de código, SCA/SAST industrial, au
 La decisión read-only se extiende con `PatchReviewEngine` y `CodeReviewEngine` en modo dry-run. La implementación permite revisar patches y código sin ejecutar comandos destructivos, sin aplicar cambios y sin escribir fuera de `outputs/reports` cuando se solicita evidencia. Esto mantiene la línea arquitectónica original: cualquier aplicación real de patch, commit, reset, branch, push o refactor automático sigue fuera de alcance y requerirá policy gate, human approval y sandbox controlado.
 
 Riesgo residual: el review es determinístico y preliminar; no sustituye SAST/SCA, linters, análisis semántico, sandbox de aplicación ni aprobación humana persistente.
+
+
+## Actualización FUNC-SPRINT-16
+
+La línea read-only/dry-run se extiende con `RefactorPlanner`. La decisión arquitectónica se mantiene: DevPilot puede analizar y planificar refactors, pero no modifica archivos, no genera patches aplicables, no ejecuta tests y no aplica transformaciones automáticamente.
+
+`RefactorPlanner` usa análisis AST local, `PolicyEngine`, `SecretGuard` y `CodeReviewEngine` para producir un plan con candidatos, pasos, pruebas requeridas y rollback sugerido. Toda ejecución futura de refactors reales queda fuera de alcance y requerirá aprobación humana, sandbox, backup/rollback y gates de calidad.
+
+Riesgo residual: la planificación es heurística y preliminar. No reemplaza refactorización semántica de IDE, type checking, SAST/SCA ni revisión humana.

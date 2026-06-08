@@ -1,8 +1,8 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
 Estado actual: `baseline pre-code approved + functional backlog approved + gates documentales ejecutables`  
-Último hito: `FUNC-SPRINT-15 — Patch review y code review en dry-run`  
-Siguiente hito: `FUNC-SPRINT-16 — Safe Refactor Planner`  
+Último hito: `FUNC-SPRINT-16 — Safe Refactor Planner`  
+Siguiente hito: `FUNC-SPRINT-17 — ModelAdapter híbrido, proveedores y CostGuard`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
@@ -53,6 +53,9 @@ Ya existe:
 - `EvalRunner` offline para validadores y agentes documentales;
 - `GitAdapter` read-only para branch, status y diff stats;
 - `RepoInventory` local para inventario por tipo/tamaño/riesgo y detección de secretos sintéticos;
+- `PatchReviewEngine` y `CodeReviewEngine` en modo dry-run;
+- `RefactorPlanner` plan-only para planes de refactor seguros, reversibles y testeables;
+- comando `refactor-plan` con `--json` y `--write-report`;
 - fixtures sintéticos versionados en `evals/fixtures/`;
 - comando `eval run` con métricas `pass_rate`, `false_positives` y `false_negatives`;
 - persistencia automática best-effort de resultados de gates/validadores en `.devpilot/devpilot.db`;
@@ -64,8 +67,8 @@ Ya existe:
 
 Pendiente de implementación funcional:
 
-- patch/code review en dry-run;
-- ModelAdapter híbrido.
+- ModelAdapter híbrido;
+- aplicación real de patches/refactors bajo sandbox, aprobación humana y rollback.
 
 ## Regla de documentación viva
 
@@ -660,3 +663,31 @@ python -m devpilot_core repo-inventory --json --write-report
 Criterios PASS: comandos JSON parseables, reportes opcionales generados bajo `outputs/reports`, cero modificaciones de repo por `git-status`, y secretos sintéticos detectados sin filtrarse. Criterios BLOCK: comandos Git de escritura, lectura fuera del workspace, fuga de secreto crudo o inventario de runtime/caches como fuente principal.
 
 Riesgo residual: es una primera versión. No reemplaza herramientas industriales de SCA/SAST, secret scanning por entropía, auditoría de submódulos, LFS, ramas remotas ni revisión semántica de código.
+
+
+## FUNC-SPRINT-16 — Safe Refactor Planner
+
+`RefactorPlanner` genera planes de refactor en modo `plan-only`. Su propósito es convertir señales estructurales de código en pasos revisables, testeables y reversibles antes de cualquier cambio real.
+
+Funcionamiento:
+
+- valida el target con `PolicyEngine` y `PathGuard`;
+- bloquea goals con secretos sintéticos mediante `SecretGuard`;
+- analiza archivos Python con `ast`;
+- identifica funciones largas, firmas amplias, alta densidad de control de flujo y clases grandes;
+- integra `CodeReviewEngine` como precondición;
+- produce pasos, pruebas requeridas y rollback sugerido;
+- no modifica archivos, no genera patches y no ejecuta pruebas.
+
+Comandos:
+
+```powershell
+python -m devpilot_core refactor-plan --target src/devpilot_core/review --goal "Extract shared helpers" --json
+python -m devpilot_core refactor-plan --target src/devpilot_core/review --goal "Extract shared helpers" --json --write-report
+```
+
+Criterios PASS: `dry_run=true`, `plan_only=true`, `files_modified=0`, `patch_generated=false`, `tests_required=true` y `approval_required_for_execution=true`.
+
+Criterios BLOCK: target fuera del workspace, ruta bloqueada, goal con secreto sintético, target inexistente o error de sintaxis Python.
+
+Riesgo: implementación preliminar. No es un refactorizador semántico ni aplica cambios. Cualquier ejecución futura requerirá aprobación humana, sandbox, backup/rollback y gates de calidad.

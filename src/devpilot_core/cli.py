@@ -15,6 +15,7 @@ from .miasi import MiasiRegistryValidator
 from .policy import CostPolicy, PolicyEngine, PolicyRequest, load_cost_policy
 from .reports import ReportEngine, build_report_id
 from .repo import GitAdapter, RepoInventory
+from .refactor import RefactorPlanner
 from .review import CodeReviewEngine, PatchReviewEngine
 from .standards.registry import build_standards_status_result
 from .store import LocalStore
@@ -294,6 +295,37 @@ def code_review_command(
         report_id="code_review",
         write_report=write_report,
         metadata={"sprint": "FUNC-SPRINT-15", "component": "CodeReviewEngine"},
+    )
+    _emit_result_event(root, result, subject=target)
+    _persist_result(root, result, subject=target)
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+
+
+def refactor_plan_command(
+    *,
+    target: str = ".",
+    goal: str = "",
+    json_output: bool = False,
+    write_report: bool = False,
+) -> int:
+    """Generate a safe refactor plan without modifying code.
+
+    FUNC-SPRINT-16 is plan-only: it analyzes allowed targets, proposes
+    reversible steps, declares tests and rollback guidance, and never writes
+    patches or edits source files.
+    """
+
+    root = project_root()
+    result = RefactorPlanner(root).plan(target, goal=goal, include_code_review=True)
+    result = _write_optional_command_report(
+        root,
+        result,
+        subject=target,
+        report_id="refactor_plan",
+        write_report=write_report,
+        metadata={"sprint": "FUNC-SPRINT-16", "component": "RefactorPlanner"},
     )
     _emit_result_event(root, result, subject=target)
     _persist_result(root, result, subject=target)
@@ -739,6 +771,12 @@ def build_parser() -> argparse.ArgumentParser:
     code_review.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     code_review.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
 
+    refactor_plan = sub.add_parser("refactor-plan", help="Generate a safe refactor plan without modifying code")
+    refactor_plan.add_argument("--target", default=".", help="File or directory to analyze; default: workspace root")
+    refactor_plan.add_argument("--goal", default="", help="Optional human-readable refactor goal")
+    refactor_plan.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    refactor_plan.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+
     agent = sub.add_parser("agent", help="Run local/mock DevPilot agents")
     agent_sub = agent.add_subparsers(dest="agent_command")
     agent_run = agent_sub.add_parser("run", help="Run a registered local/mock agent")
@@ -882,6 +920,8 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
         )
     if args.command == "code-review":
         return code_review_command(target=args.target, json_output=args.json, write_report=args.write_report)
+    if args.command == "refactor-plan":
+        return refactor_plan_command(target=args.target, goal=args.goal, json_output=args.json, write_report=args.write_report)
     if args.command == "eval":
         if args.eval_command == "run":
             return eval_run_command(

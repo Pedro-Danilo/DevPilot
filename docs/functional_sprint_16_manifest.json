@@ -1,0 +1,59 @@
+{
+  "sprint": "FUNC-SPRINT-16",
+  "title": "Safe Refactor Planner",
+  "status": "implemented-initial",
+  "implemented_at": "2026-06-08",
+  "purpose": "Generate safe, reversible and testable refactor plans without modifying code.",
+  "created": [
+    "src/devpilot_core/refactor/__init__.py",
+    "src/devpilot_core/refactor/planner.py",
+    "tests/test_refactor_planner.py",
+    "docs/audits/func_sprint_16_safe_refactor_planner_audit.md",
+    "docs/functional_sprint_16_manifest.json"
+  ],
+  "modified": [
+    "src/devpilot_core/cli.py",
+    ".devpilot/miasi/tool_registry.json",
+    ".devpilot/miasi/agent_registry.json",
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/06_miasi/tool_card.md",
+    "docs/04_quality/test_strategy.md",
+    "docs/02_architecture/adrs/ADR-0005-git-adapter-read-only-mvp-plus.md",
+    "docs/functional_backlog_after_precode.md"
+  ],
+  "commands": [
+    "python -m devpilot_core refactor-plan --target src/devpilot_core/review --goal \"Extract shared helpers\" --json",
+    "python -m devpilot_core refactor-plan --target src/devpilot_core/review --goal \"Extract shared helpers\" --json --write-report"
+  ],
+  "pass_criteria": [
+    "Plan-only result is generated.",
+    "dry_run=true and files_modified=0.",
+    "patch_generated=false.",
+    "tests and rollback guidance are included.",
+    "PolicyEngine and SecretGuard are enforced before analysis.",
+    "pytest -q passes."
+  ],
+  "block_criteria": [
+    "Target outside workspace.",
+    "Denied path or secret-like refactor goal.",
+    "Target does not exist.",
+    "Python syntax error in analyzed file.",
+    "Any attempt to apply patches or modify files."
+  ],
+  "tests": [
+    "test_refactor_planner_generates_plan_without_modifying_files",
+    "test_refactor_planner_blocks_secret_like_goal_without_emitting_secret",
+    "test_refactor_planner_blocks_target_outside_workspace",
+    "test_refactor_planner_conservative_plan_for_clean_small_file",
+    "test_refactor_plan_cli_json_and_report_are_parseable",
+    "test_refactor_planner_reports_python_syntax_error"
+  ],
+  "risks": [
+    "Heuristic only; not semantic refactoring.",
+    "Does not generate or apply patches.",
+    "Does not execute tests.",
+    "Requires human review before any future execution flow."
+  ],
+  "next_sprint": "FUNC-SPRINT-17 — ModelAdapter híbrido, proveedores y CostGuard"
+}

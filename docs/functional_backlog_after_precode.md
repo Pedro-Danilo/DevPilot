@@ -2,7 +2,7 @@
 title: "DevPilot Local — Backlog ejecutable posterior a pre-code"
 doc_id: "DEVPL-FUNC-BACKLOG-001"
 status: "approved"
-version: "2.3.0"
+version: "2.4.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
@@ -14,7 +14,7 @@ change_policy: "controlled_changes_allowed_via_docs_as_code"
 approved_on: "2026-06-06"
 approval_scope: "functional_backlog_after_precode"
 baseline_execution: "FUNC-SPRINT-00"
-next_sprint: "FUNC-SPRINT-16"
+next_sprint: "FUNC-SPRINT-17"
 ---
 
 # DevPilot Local — Backlog ejecutable posterior a pre-code
@@ -1480,19 +1480,54 @@ Siguiente sprint: `FUNC-SPRINT-16 — Safe Refactor Planner`.
 
 # FUNC-SPRINT-16 — Safe Refactor Planner
 
+Estado: `implemented-initial`.
+
 ## Objetivo
 
 Proponer planes de refactor seguros, reversibles y testeables sin modificar código automáticamente.
 
-## Tareas
+## Implementado
 
 | ID | Tarea | Entregable | PASS |
 |---|---|---|---|
-| FUNC-16-001 | Crear `RefactorPlanner` | módulo | Produce plan, no cambios. |
-| FUNC-16-002 | Crear comando `refactor-plan` | CLI | Plan Markdown/JSON. |
-| FUNC-16-003 | Integrar tests requeridos | criterios | Plan exige pruebas antes/después. |
-| FUNC-16-004 | Integrar human approval | policy | Requiere aprobación para ejecutar futuro. |
-| FUNC-16-005 | Tests | pytest | Plan reproducible. |
+| FUNC-16-001 | Crear `RefactorPlanner` | `src/devpilot_core/refactor/planner.py` | Produce plan, no cambios. |
+| FUNC-16-002 | Crear comando `refactor-plan` | CLI | Plan JSON/Markdown opcional. |
+| FUNC-16-003 | Integrar tests requeridos | plan/verificación | Plan exige pytest, code-review, patch-review, MIASI y eval. |
+| FUNC-16-004 | Integrar human approval | policy/data | `approval_required_for_execution=true`. |
+| FUNC-16-005 | Tests | `tests/test_refactor_planner.py` | Plan reproducible y no destructivo. |
+
+## Comandos
+
+```powershell
+python -m devpilot_core refactor-plan --target src/devpilot_core/review --goal "Extract shared helpers" --json
+python -m devpilot_core refactor-plan --target src/devpilot_core/review --goal "Extract shared helpers" --json --write-report
+```
+
+## Criterios PASS implementados
+
+```text
+dry_run=true.
+plan_only=true.
+files_modified=0.
+patch_generated=false.
+tests_required=true.
+approval_required_for_execution=true.
+Reportes opcionales bajo outputs/reports.
+pytest -q pasa completo.
+```
+
+## BLOCK
+
+- Target fuera del workspace.
+- Ruta denegada por PolicyEngine/PathGuard.
+- Goal con secreto sintético.
+- Target inexistente.
+- Error de sintaxis Python en archivos analizados.
+- Cualquier intento de modificar archivos o aplicar patches.
+
+## Riesgos
+
+Primera versión. Es heurística y plan-only. No aplica transformaciones AST, no genera patches, no ejecuta tests, no integra linters externos, no valida tipos y no sustituye revisión humana.
 
 ## Prompt operativo
 
