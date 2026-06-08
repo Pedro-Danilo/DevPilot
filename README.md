@@ -1,8 +1,8 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
 Estado actual: `baseline pre-code approved + functional backlog approved + gates documentales ejecutables`  
-Último hito: `FUNC-SPRINT-06 — Report Engine y contrato de evidencias`  
-Siguiente hito: `FUNC-SPRINT-07 — Event Log JSONL y observabilidad local`  
+Último hito: `FUNC-SPRINT-07 — Event Log JSONL y observabilidad local`  
+Siguiente hito: `FUNC-SPRINT-08 — Workspace Manager mínimo`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
@@ -31,13 +31,16 @@ Ya existe:
 - contrato `EvidenceReport` con `report_id`, `status`, `generated_at`, `summary`, `findings` y rutas de salida;
 - generación local de evidencia `outputs/reports/readiness_check.json` y `outputs/reports/readiness_check.md`;
 - opción `--write-report` en gates documentales principales;
+- `EventLogger` local para observabilidad JSONL;
+- contrato `EventRecord` con eventos `command.started`, `gate.evaluated`, `command.completed` y `command.error`;
+- generación local de trazas `outputs/traces/events.jsonl`;
+- redacción básica de secretos sintéticos antes de persistir eventos;
 - documentación pre-code aprobada;
 - estándares MIPSoftware y MIASI versionados dentro de `docs/standards/`;
 - backlog funcional aprobado en `docs/functional_backlog_after_precode.md`.
 
 Pendiente de implementación funcional:
 
-- trazas JSONL;
 - workspace manager;
 - policy/security guards;
 - persistencia SQLite;
@@ -68,6 +71,7 @@ DevPilot_Local/
     reference/
     standards/
   src/devpilot_core/
+    observability/
     reports/
     standards/
     validators/
@@ -113,6 +117,8 @@ python -m devpilot_core standards status --json
 python -m devpilot_core checklist-pre-code
 python -m devpilot_core checklist-pre-code --json
 python -m devpilot_core checklist-pre-code --json --write-report
+
+# Todos los comandos anteriores emiten eventos locales en outputs/traces/events.jsonl
 ```
 
 ## Interpretación de exit codes
@@ -156,9 +162,48 @@ Los demás gates pueden escribir evidencia con `--write-report`, por ejemplo:
 python -m devpilot_core validate-frontmatter docs/00_product/product_vision.md --strict --json --write-report
 python -m devpilot_core validate-artifact docs/01_requirements/requirements_specification.md --strict --json --write-report
 python -m devpilot_core checklist-pre-code --json --write-report
+
+# Todos los comandos anteriores emiten eventos locales en outputs/traces/events.jsonl
 ```
 
 Estos archivos son artefactos runtime y están ignorados por `.gitignore`; pueden conservarse localmente como evidencia de ejecución o regenerarse en cualquier momento.
+
+## Trazas JSONL y observabilidad local
+
+Desde `FUNC-SPRINT-07`, DevPilot emite eventos locales en formato JSONL mediante `EventLogger`. El archivo runtime por defecto es:
+
+```text
+outputs/traces/events.jsonl
+```
+
+Eventos mínimos actuales:
+
+```text
+command.started    -> inicio de ejecución de un comando CLI
+gate.evaluated     -> resultado compacto de un gate/validador con summary y findings
+command.completed  -> cierre de ejecución con exit code
+command.error      -> excepción controlada o error defensivo de CLI
+```
+
+El contrato `EventRecord` incluye como mínimo:
+
+```text
+event_id
+event_type
+timestamp
+level
+command
+status opcional
+ok opcional
+exit_code opcional
+message opcional
+subject opcional
+summary opcional
+findings opcional
+metadata opcional
+```
+
+La redacción inicial cubre claves sensibles (`api_key`, `token`, `secret`, `password`, `authorization`) y patrones sintéticos frecuentes como `sk-*`, `ghp_*`, `hf_*` y tokens tipo Slack. Esta redacción es una primera versión local y debe evolucionar con SecretGuard/Policy Engine.
 
 ## Higiene local del repositorio
 
@@ -284,4 +329,35 @@ readiness-check --strict --json -> PASS + reports
 validate-frontmatter ... --write-report -> PASS + reports
 validate-artifact ... --write-report -> PASS + reports
 checklist-pre-code --write-report -> PASS + reports
+```
+
+
+## FUNC-SPRINT-07 — Event Log JSONL y observabilidad local
+
+Este sprint introduce observabilidad local append-only para comandos y gates mediante `EventLogger`. La implementación escribe eventos JSONL bajo `outputs/traces/events.jsonl`, sin dependencias externas, sin APIs, sin costos y con redacción básica de secretos sintéticos antes de persistir.
+
+Componentes principales:
+
+- `src/devpilot_core/observability/events.py`: define `EventRecord`, `EventLogger`, redacción básica y helpers para eventos derivados de `CommandResult`.
+- `src/devpilot_core/observability/__init__.py`: expone la API pública del paquete de observabilidad.
+- `src/devpilot_core/cli.py`: envuelve la ejecución CLI con `command.started`, `command.completed` y `command.error`; además emite `gate.evaluated` para comandos que producen `CommandResult`.
+- `tests/test_event_logger.py`: valida JSONL, redacción, seguridad de rutas e integración CLI.
+
+Criterios rápidos:
+
+```text
+PASS: cada comando CLI ejecutado por main emite command.started y command.completed.
+PASS: cada gate/validador integrado emite gate.evaluated con summary y findings.
+PASS: cada línea de outputs/traces/events.jsonl es JSON válido.
+BLOCK: EventLogger intenta escribir fuera del project root.
+RIESGO: redacción de secretos es básica; la versión industrial requiere SecretGuard, políticas declarativas, retención y correlación con reportes/persistencia.
+```
+
+Resultado esperado actual:
+
+```text
+pytest -q -> 42 passed
+readiness-check --strict --json -> PASS + reports + events
+validate-frontmatter ... --write-report -> PASS + reports + events
+standards status --json -> PASS + events
 ```

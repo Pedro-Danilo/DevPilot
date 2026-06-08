@@ -2,11 +2,13 @@ from __future__ import annotations
 
 import argparse
 import json
+import sys
 from pathlib import Path
 
 from . import __version__
 from .cli_models import CommandResult, ExitCode, Finding, Severity
 from .errors import DevPilotError
+from .observability import EventLogger
 from .reports import ReportEngine, build_report_id
 from .standards.registry import build_standards_status_result
 from .validators.artifact import validate_artifact_file
@@ -123,6 +125,17 @@ def _write_optional_command_report(
     return _with_report_paths(result, paths.to_dict())
 
 
+def _emit_result_event(root: Path, result: CommandResult, *, subject: str | Path | None = None) -> None:
+    """Emit a local JSONL gate event for a command result.
+
+    Event logging is part of FUNC-SPRINT-07. It is intentionally local and
+    deterministic. If a gate produces a CommandResult, DevPilot records a
+    compact, redacted `gate.evaluated` event under outputs/traces/events.jsonl.
+    """
+
+    EventLogger(root).emit_result(result, subject=subject)
+
+
 def readiness_check(*, json_output: bool = False, strict: bool = False, write_report: bool = False) -> int:
     root = project_root()
     result = build_strict_readiness_result(root) if strict else build_readiness_result(root)
@@ -132,13 +145,16 @@ def readiness_check(*, json_output: bool = False, strict: bool = False, write_re
     # central ReportEngine through write_readiness_reports().
     report_paths = write_readiness_reports(root, result)
     result = _with_report_paths(result, report_paths)
+    _emit_result_event(root, result)
 
     print_result(result, json_output=json_output)
     return int(result.exit_code)
 
 
 def miasi_required(*, json_output: bool = False) -> int:
+    root = project_root()
     result = build_miasi_required_result()
+    _emit_result_event(root, result)
     print_result(result, json_output=json_output)
     return int(result.exit_code)
 
@@ -158,6 +174,7 @@ def validate_frontmatter_command(
         target = root / target
     result = validate_frontmatter_file(target, root=root, strict=strict)
     result = _write_optional_command_report(root, result, subject=path, write_report=write_report)
+    _emit_result_event(root, result, subject=path)
     print_result(result, json_output=json_output)
     return int(result.exit_code)
 
@@ -177,6 +194,7 @@ def validate_artifact_command(
         target = root / target
     result = validate_artifact_file(target, root=root, strict=strict)
     result = _write_optional_command_report(root, result, subject=path, write_report=write_report)
+    _emit_result_event(root, result, subject=path)
     print_result(result, json_output=json_output)
     return int(result.exit_code)
 
@@ -187,6 +205,7 @@ def checklist_pre_code_command(*, json_output: bool = False, strict: bool = True
     root = project_root()
     result = validate_precode_checklist(root, strict=strict)
     result = _write_optional_command_report(root, result, report_id="checklist_pre_code", write_report=write_report)
+    _emit_result_event(root, result, subject="docs/checklists/checklist_pre_code.md")
     print_result(result, json_output=json_output)
     return int(result.exit_code)
 
@@ -196,6 +215,7 @@ def standards_status_command(*, json_output: bool = False) -> int:
 
     root = project_root()
     result = build_standards_status_result(root)
+    _emit_result_event(root, result, subject="docs/standards")
     print_result(result, json_output=json_output)
     return int(result.exit_code)
 
@@ -237,44 +257,70 @@ def build_parser() -> argparse.ArgumentParser:
     return parser
 
 
+def _command_name_from_args(args: argparse.Namespace) -> str:
+    """Return a stable command name for observability events."""
+
+    if getattr(args, "version", False):
+        return "version"
+    command = getattr(args, "command", None)
+    if command == "standards":
+        subcommand = getattr(args, "standards_command", None)
+        return "standards status" if subcommand == "status" else "standards"
+    return command or "help"
+
+
+def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
+    """Dispatch parsed CLI args without observability wrapper concerns."""
+
+    if args.version:
+        print(f"devpilot-local {__version__}")
+        return int(ExitCode.PASS)
+    if args.command == "readiness-check":
+        return readiness_check(json_output=args.json, strict=args.strict, write_report=args.write_report)
+    if args.command == "checklist-pre-code":
+        return checklist_pre_code_command(json_output=args.json, write_report=args.write_report)
+    if args.command == "miasi-required":
+        return miasi_required(json_output=args.json)
+    if args.command == "validate-frontmatter":
+        return validate_frontmatter_command(
+            args.path,
+            json_output=args.json,
+            strict=args.strict,
+            write_report=args.write_report,
+        )
+    if args.command == "validate-artifact":
+        return validate_artifact_command(
+            args.path,
+            json_output=args.json,
+            strict=args.strict,
+            write_report=args.write_report,
+        )
+    if args.command == "standards":
+        if args.standards_command == "status":
+            return standards_status_command(json_output=args.json)
+        parser.print_help()
+        return int(ExitCode.FAIL)
+    parser.print_help()
+    return int(ExitCode.PASS)
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = build_parser()
     args = parser.parse_args(argv)
+    command_name = _command_name_from_args(args)
+    root = project_root()
+    logger = EventLogger(root)
+    logger.emit_started(command_name, argv=argv if argv is not None else sys.argv[1:])
 
     try:
-        if args.version:
-            print(f"devpilot-local {__version__}")
-            return int(ExitCode.PASS)
-        if args.command == "readiness-check":
-            return readiness_check(json_output=args.json, strict=args.strict, write_report=args.write_report)
-        if args.command == "checklist-pre-code":
-            return checklist_pre_code_command(json_output=args.json, write_report=args.write_report)
-        if args.command == "miasi-required":
-            return miasi_required(json_output=args.json)
-        if args.command == "validate-frontmatter":
-            return validate_frontmatter_command(
-                args.path,
-                json_output=args.json,
-                strict=args.strict,
-                write_report=args.write_report,
-            )
-        if args.command == "validate-artifact":
-            return validate_artifact_command(
-                args.path,
-                json_output=args.json,
-                strict=args.strict,
-                write_report=args.write_report,
-            )
-        if args.command == "standards":
-            if args.standards_command == "status":
-                return standards_status_command(json_output=args.json)
-            parser.print_help()
-            return int(ExitCode.FAIL)
-        parser.print_help()
-        return int(ExitCode.PASS)
+        exit_code = _dispatch(args, parser)
+        logger.emit_completed(command_name, exit_code=exit_code, ok=exit_code == int(ExitCode.PASS))
+        return exit_code
     except DevPilotError as exc:
+        logger.emit_error(command_name, error=exc, exit_code=int(exc.exit_code))
         print(json.dumps({"ok": False, "error": str(exc)}, indent=2, ensure_ascii=False))
         return int(exc.exit_code)
     except Exception as exc:  # defensive boundary for CLI users
+        logger.emit_error(command_name, error=exc, exit_code=int(ExitCode.ERROR))
         print(json.dumps({"ok": False, "error": str(exc)}, indent=2, ensure_ascii=False))
         return int(ExitCode.ERROR)

@@ -1,0 +1,56 @@
+{
+  "sprint_id": "FUNC-SPRINT-07",
+  "title": "Event Log JSONL y observabilidad local",
+  "status": "implemented",
+  "implemented_on": "2026-06-07",
+  "requires_api_key": false,
+  "requires_external_network": false,
+  "adds_external_dependencies": false,
+  "adr_required": false,
+  "reason_no_adr": "El sprint implementa observabilidad local JSONL prevista en el backlog sin cambiar arquitectura, seguridad, persistencia estructural, costos, agentes ni APIs externas.",
+  "created_files": [
+    "src/devpilot_core/observability/__init__.py",
+    "src/devpilot_core/observability/events.py",
+    "tests/test_event_logger.py",
+    "docs/audits/func_sprint_07_event_log_audit.md",
+    "docs/functional_sprint_07_manifest.json"
+  ],
+  "modified_files": [
+    "src/devpilot_core/cli.py",
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/functional_backlog_after_precode.md"
+  ],
+  "commands": [
+    "python -m devpilot_core --version",
+    "python -m devpilot_core standards status --json",
+    "python -m devpilot_core checklist-pre-code --json",
+    "python -m devpilot_core readiness-check --strict --json",
+    "python -m devpilot_core validate-frontmatter docs/00_product/product_vision.md --strict --json --write-report",
+    "python -m pytest -q"
+  ],
+  "pass_criteria": [
+    "pytest -q passes",
+    "EventLogger writes JSONL under outputs/traces/events.jsonl",
+    "Each JSONL line is parseable JSON",
+    "CLI commands emit command.started and command.completed",
+    "Integrated gates emit gate.evaluated",
+    "Synthetic secrets are redacted before persistence",
+    "EventLogger cannot write outside project root"
+  ],
+  "block_criteria": [
+    "EventLogger can write outside project root",
+    "events.jsonl contains invalid JSON",
+    "CLI regression breaks previous commands",
+    "Synthetic secrets remain unredacted in persisted events",
+    "pytest fails"
+  ],
+  "known_limitations": [
+    "No event rotation or retention policy yet",
+    "No formal correlation between event_id and report_id yet",
+    "No SQLite EventStore yet",
+    "Secret redaction is basic and pattern-based",
+    "No OpenTelemetry exporter or centralized observability yet"
+  ],
+  "next_sprint": "FUNC-SPRINT-08 — Workspace Manager mínimo"
+}

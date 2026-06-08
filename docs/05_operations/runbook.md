@@ -2,11 +2,11 @@
 title: "Runbook — DevPilot Local"
 doc_id: "DEVPL-OPS-002"
 status: "approved"
-version: "1.2.0"
+version: "1.3.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "FUNC-SPRINT-06"
+phase: "FUNC-SPRINT-07"
 updated: "2026-06-07"
 approval: "approved_by_owner"
 source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved + 03_security approved"
@@ -112,6 +112,7 @@ git commit -m "docs: describe change"
 | Generar reporte de frontmatter | `python -m devpilot_core validate-frontmatter docs/00_product/product_vision.md --strict --json --write-report` |
 | Generar reporte de artefacto | `python -m devpilot_core validate-artifact docs/01_requirements/requirements_specification.md --strict --json --write-report` |
 | Generar reporte de checklist | `python -m devpilot_core checklist-pre-code --json --write-report` |
+| Consultar traza runtime | `Get-Content outputs\traces\events.jsonl -Tail 20` |
 
 ## 6.1. Report Engine y contrato de evidencias
 
@@ -162,8 +163,9 @@ Riesgos y límites de esta primera versión:
 
 ```text
 - No firma criptográficamente reportes.
-- No implementa retención, rotación ni EventLog JSONL.
-- No redacta secretos todavía; esa responsabilidad se moverá a SecretGuard/Policy Engine en sprints posteriores.
+- No implementa retención ni rotación de reportes.
+- El EventLog JSONL ya existe desde FUNC-SPRINT-07, pero todavía no hay correlación industrial completa entre reportes, eventos y persistencia SQLite.
+- La redacción avanzada de secretos se moverá a SecretGuard/Policy Engine en sprints posteriores.
 - Solo escribe dentro del project root para evitar salida accidental fuera del workspace.
 ```
 
@@ -171,6 +173,81 @@ Rol dentro de DevPilot:
 
 ```text
 ReportEngine es la base para trazabilidad operativa, auditoría local, evidencia de gates, revisión humana y futura persistencia SQLite/EventLogger.
+```
+
+## 6.2. Event Log JSONL y observabilidad local
+
+`FUNC-SPRINT-07` introduce `EventLogger` como mecanismo local append-only para registrar eventos de comandos, gates y errores en formato JSONL. El archivo runtime por defecto es:
+
+```text
+outputs/traces/events.jsonl
+```
+
+Propósito operativo:
+
+```text
+- saber qué comandos se ejecutaron;
+- registrar inicio y cierre de comandos;
+- registrar gates evaluados y findings relevantes;
+- conservar una traza local mínima para auditoría;
+- preparar la transición futura hacia EventStore/SQLite, AgentOps y observabilidad industrial.
+```
+
+Funcionamiento:
+
+```text
+command.started    se emite al entrar a main() después del parseo CLI.
+gate.evaluated     se emite cuando un comando produce CommandResult de gate/validador.
+command.completed  se emite al terminar el comando con exit code.
+command.error      se emite ante DevPilotError o excepción defensiva de CLI.
+```
+
+Comandos de verificación:
+
+```powershell
+python -m devpilot_core --version
+python -m devpilot_core standards status --json
+python -m devpilot_core checklist-pre-code --json
+python -m devpilot_core readiness-check --strict --json
+python -m devpilot_core validate-frontmatter docs/00_product/product_vision.md --strict --json --write-report
+Get-Content outputs\traces\events.jsonl -Tail 20
+```
+
+Criterios PASS:
+
+```text
+- outputs/traces/events.jsonl existe después de ejecutar cualquier comando vía CLI.
+- Cada línea del archivo es JSON válido.
+- Los comandos emiten command.started y command.completed.
+- Los validadores/gates emiten gate.evaluated con status, exit_code, summary y findings.
+- Los eventos no contienen secretos sintéticos conocidos sin redactar.
+- EventLogger solo escribe dentro del project root.
+```
+
+Criterios BLOCK:
+
+```text
+- EventLogger permite escribir fuera del project root.
+- Una línea JSONL queda corrupta o no parseable.
+- Un comando deja de ejecutar por fallo del logger en condiciones normales.
+- El logger persiste secretos sintéticos evidentes como sk-*, ghp_* o hf_* sin redacción.
+- pytest falla.
+```
+
+Riesgos y límites de esta primera versión:
+
+```text
+- No hay rotación ni retención configurable de events.jsonl.
+- No hay event_id correlacionado todavía con report_id de EvidenceReport.
+- No hay persistencia SQLite ni consultas históricas.
+- La redacción es básica y pattern-based; debe evolucionar con SecretGuard/Policy Engine.
+- No hay exportación a OpenTelemetry ni backend centralizado.
+```
+
+Rol dentro de DevPilot:
+
+```text
+EventLogger es la base de observabilidad local para auditoría de comandos, trazabilidad de gates y futura operación AgentOps. Complementa ReportEngine: ReportEngine conserva evidencias por comando/gate; EventLogger conserva la línea temporal de ejecución.
 ```
 
 ## 7. Fallos comunes y recuperación

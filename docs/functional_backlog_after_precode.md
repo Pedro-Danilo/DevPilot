@@ -2,7 +2,7 @@
 title: "DevPilot Local — Backlog ejecutable posterior a pre-code"
 doc_id: "DEVPL-FUNC-BACKLOG-001"
 status: "approved"
-version: "1.4.0"
+version: "1.5.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
@@ -14,7 +14,7 @@ change_policy: "controlled_changes_allowed_via_docs_as_code"
 approved_on: "2026-06-06"
 approval_scope: "functional_backlog_after_precode"
 baseline_execution: "FUNC-SPRINT-00"
-next_sprint: "FUNC-SPRINT-07"
+next_sprint: "FUNC-SPRINT-08"
 ---
 
 # DevPilot Local — Backlog ejecutable posterior a pre-code
@@ -591,26 +591,106 @@ Implementa FUNC-SPRINT-06: Report Engine central para JSON/Markdown. Integra val
 
 # FUNC-SPRINT-07 — Event Log JSONL y observabilidad local
 
+## Estado de implementación FUNC-SPRINT-07
+
+`FUNC-SPRINT-07` queda implementado como primera versión local-first de observabilidad JSONL. El sprint crea `src/devpilot_core/observability/`, define el contrato `EventRecord`, implementa `EventLogger`, emite eventos `command.started`, `gate.evaluated`, `command.completed` y `command.error`, y escribe trazas append-only en `outputs/traces/events.jsonl`.
+
+La implementación no agrega dependencias externas, no requiere API keys, no realiza llamadas de red, no modifica persistencia estructural ni altera decisiones arquitectónicas aprobadas. Es una capacidad prevista en el backlog y complementa a `ReportEngine`: los reportes registran evidencia puntual y el EventLog registra la línea temporal local de ejecución.
+
 ## Objetivo
 
 Emitir trazas JSONL mínimas para comandos, validaciones, findings, gates y errores.
 
 ## Historias
 
-| ID | Historia | Criterio de aceptación |
-|---|---|---|
-| US-FUNC-07-001 | Como auditor, quiero saber qué ejecutó DevPilot. | Cada comando emite evento JSONL. |
-| US-FUNC-07-002 | Como desarrollador, quiero trazas sin secretos. | Eventos redactan tokens y rutas sensibles según política. |
+| ID | Historia | Criterio de aceptación | Estado |
+|---|---|---|---|
+| US-FUNC-07-001 | Como auditor, quiero saber qué ejecutó DevPilot. | Cada comando emitido por CLI produce eventos JSONL. | Implementado |
+| US-FUNC-07-002 | Como desarrollador, quiero trazas sin secretos. | Eventos redactan patrones sintéticos de secretos y claves sensibles. | Implementado inicial |
 
 ## Tareas
 
-| ID | Tarea | Entregable | PASS |
-|---|---|---|---|
-| FUNC-07-001 | Crear `EventLogger` | módulo | Escribe `outputs/traces/events.jsonl`. |
-| FUNC-07-002 | Definir eventos mínimos | modelos | `command.started`, `command.completed`, `gate.evaluated`. |
-| FUNC-07-003 | Redacción básica | util | Redacta patrones de secretos sintéticos. |
-| FUNC-07-004 | Integrar CLI | eventos | Todos los comandos emiten trazas. |
-| FUNC-07-005 | Tests JSONL | pytest | Cada línea es JSON válido. |
+| ID | Tarea | Entregable | PASS | Estado |
+|---|---|---|---|---|
+| FUNC-07-001 | Crear `EventLogger` | `src/devpilot_core/observability/events.py` | Escribe `outputs/traces/events.jsonl`. | Implementado |
+| FUNC-07-002 | Definir eventos mínimos | `EventRecord` | `command.started`, `command.completed`, `gate.evaluated`, `command.error`. | Implementado |
+| FUNC-07-003 | Redacción básica | helpers de redacción | Redacta patrones de secretos sintéticos y claves sensibles. | Implementado inicial |
+| FUNC-07-004 | Integrar CLI | `src/devpilot_core/cli.py` | Comandos principales emiten trazas sin alterar stdout. | Implementado |
+| FUNC-07-005 | Tests JSONL | `tests/test_event_logger.py` | Cada línea es JSON válido y se prueban eventos/redacción/rutas. | Implementado |
+
+## Archivos creados
+
+```text
+src/devpilot_core/observability/__init__.py
+src/devpilot_core/observability/events.py
+tests/test_event_logger.py
+docs/audits/func_sprint_07_event_log_audit.md
+docs/functional_sprint_07_manifest.json
+```
+
+## Archivos modificados
+
+```text
+src/devpilot_core/cli.py
+README.md
+docs/05_operations/runbook.md
+docs/functional_backlog_after_precode.md
+```
+
+## Contrato de evento
+
+```text
+event_id      identificador único local del evento
+event_type    tipo lógico del evento
+timestamp     fecha UTC ISO-8601
+level         info | warning | error
+command       comando DevPilot asociado
+status        PASS | FAIL | BLOCK | ERROR, cuando aplica
+ok            booleano, cuando aplica
+exit_code     código de salida DevPilot, cuando aplica
+message       mensaje humano compacto
+subject       ruta o sujeto evaluado, cuando aplica
+summary       resumen acotado del resultado
+findings      hallazgos normalizados, cuando aplica
+metadata      metadatos redacted y acotados
+```
+
+## Comandos objetivo
+
+```powershell
+python -m devpilot_core --version
+python -m devpilot_core standards status --json
+python -m devpilot_core checklist-pre-code --json
+python -m devpilot_core readiness-check --strict --json
+python -m devpilot_core validate-frontmatter docs/00_product/product_vision.md --strict --json --write-report
+python -m pytest -q
+```
+
+## Resultado esperado actual
+
+```text
+outputs/traces/events.jsonl -> generado por comandos CLI
+events.jsonl -> líneas JSON válidas
+command.started + command.completed -> emitidos por comando CLI
+gate.evaluated -> emitido por validadores/gates
+pytest -q -> 42 passed
+```
+
+## BLOCK
+
+- No cerrar si `EventLogger` puede escribir fuera del project root.
+- No cerrar si alguna línea JSONL no es parseable.
+- No cerrar si se rompe compatibilidad con comandos previos.
+- No cerrar si secretos sintéticos obvios (`sk-*`, `ghp_*`, `hf_*`) quedan sin redactar en eventos.
+- No cerrar si `pytest -q` falla.
+
+## Riesgos residuales
+
+- La redacción de secretos es básica y basada en patrones; debe evolucionar con SecretGuard/Policy Engine.
+- No hay rotación, retención ni compactación de `events.jsonl`.
+- No hay correlación formal `event_id` ↔ `report_id` todavía.
+- No hay persistencia SQLite ni búsquedas históricas.
+- No hay exportación OpenTelemetry ni observabilidad centralizada.
 
 ## Prompt operativo
 
