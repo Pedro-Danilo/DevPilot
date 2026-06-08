@@ -317,3 +317,18 @@ Sprint 14 agrega pruebas específicas para repositorios temporales y análisis l
 ### Riesgo residual
 
 Las pruebas no cubren todavía submódulos, repos grandes, LFS, ramas remotas, permisos complejos ni secret scanning por entropía. Es una base de quality gate para el Sprint 15.
+
+
+## FUNC-SPRINT-15 — Pruebas de patch-review y code-review
+
+Se agregan pruebas automatizadas para asegurar que las nuevas capacidades operen en modo dry-run y sin regresión:
+
+- patch seguro se analiza sin modificar el archivo destino;
+- patch con secreto sintético se bloquea sin emitir el valor;
+- patch contra ruta denegada se bloquea;
+- CLI `patch-review --json --write-report` produce JSON parseable y evidencia;
+- code review limpio pasa;
+- code review con `shell=True` y secreto sintético produce hallazgos;
+- CLI `code-review --json --write-report` produce JSON parseable y evidencia.
+
+Criterio de éxito: `pytest -q` debe pasar completo y los comandos nuevos deben mantenerse sin dependencias externas ni mutación del workspace.

@@ -15,6 +15,7 @@ from .miasi import MiasiRegistryValidator
 from .policy import CostPolicy, PolicyEngine, PolicyRequest, load_cost_policy
 from .reports import ReportEngine, build_report_id
 from .repo import GitAdapter, RepoInventory
+from .review import CodeReviewEngine, PatchReviewEngine
 from .standards.registry import build_standards_status_result
 from .store import LocalStore
 from .workspace import WorkspaceManager
@@ -239,6 +240,65 @@ def repo_inventory_command(*, json_output: bool = False, write_report: bool = Fa
     print_result(result, json_output=json_output)
     return int(result.exit_code)
 
+
+
+
+def patch_review_command(
+    *,
+    patch_file: str | None = None,
+    patch_text: str | None = None,
+    json_output: bool = False,
+    write_report: bool = False,
+) -> int:
+    """Review a unified diff/patch without applying it.
+
+    FUNC-SPRINT-15 is strictly dry-run: DevPilot parses the patch, evaluates
+    referenced paths through PolicyEngine, scans additions for secrets/risky
+    code patterns and never invokes git apply or writes into the repository.
+    """
+
+    root = project_root()
+    result = PatchReviewEngine(root).review(patch_file=patch_file, patch_text=patch_text)
+    result = _write_optional_command_report(
+        root,
+        result,
+        subject=patch_file or "inline-patch",
+        report_id="patch_review",
+        write_report=write_report,
+        metadata={"sprint": "FUNC-SPRINT-15", "component": "PatchReviewEngine"},
+    )
+    _emit_result_event(root, result, subject=patch_file or "inline-patch")
+    _persist_result(root, result, subject=patch_file or "inline-patch")
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+
+def code_review_command(
+    *,
+    target: str = ".",
+    json_output: bool = False,
+    write_report: bool = False,
+) -> int:
+    """Run deterministic static code review without modifying files.
+
+    FUNC-SPRINT-15 keeps this review local-only: no external linters, no LLMs,
+    no network, no file changes and no raw source emission in command output.
+    """
+
+    root = project_root()
+    result = CodeReviewEngine(root).review(target)
+    result = _write_optional_command_report(
+        root,
+        result,
+        subject=target,
+        report_id="code_review",
+        write_report=write_report,
+        metadata={"sprint": "FUNC-SPRINT-15", "component": "CodeReviewEngine"},
+    )
+    _emit_result_event(root, result, subject=target)
+    _persist_result(root, result, subject=target)
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
 
 def miasi_validate_command(
     *,
@@ -668,6 +728,17 @@ def build_parser() -> argparse.ArgumentParser:
     repo_inventory.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     repo_inventory.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
 
+    patch_review = sub.add_parser("patch-review", help="Review a unified diff/patch in dry-run mode")
+    patch_review.add_argument("--patch-file", default=None, help="Patch/diff file to read within the workspace")
+    patch_review.add_argument("--patch-text", default=None, help="Inline patch text for small synthetic reviews")
+    patch_review.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    patch_review.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+
+    code_review = sub.add_parser("code-review", help="Run deterministic local code review in dry-run mode")
+    code_review.add_argument("--target", default=".", help="File or directory to review; default: workspace root")
+    code_review.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    code_review.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+
     agent = sub.add_parser("agent", help="Run local/mock DevPilot agents")
     agent_sub = agent.add_subparsers(dest="agent_command")
     agent_run = agent_sub.add_parser("run", help="Run a registered local/mock agent")
@@ -802,6 +873,15 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
         return git_status_command(json_output=args.json, write_report=args.write_report)
     if args.command == "repo-inventory":
         return repo_inventory_command(json_output=args.json, write_report=args.write_report)
+    if args.command == "patch-review":
+        return patch_review_command(
+            patch_file=args.patch_file,
+            patch_text=args.patch_text,
+            json_output=args.json,
+            write_report=args.write_report,
+        )
+    if args.command == "code-review":
+        return code_review_command(target=args.target, json_output=args.json, write_report=args.write_report)
     if args.command == "eval":
         if args.eval_command == "run":
             return eval_run_command(

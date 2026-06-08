@@ -1,0 +1,54 @@
+{
+  "sprint": "FUNC-SPRINT-15",
+  "title": "Patch review y code review en dry-run",
+  "status": "implemented-initial",
+  "implemented_at": "2026-06-08",
+  "preliminary": true,
+  "created": [
+    "src/devpilot_core/review/__init__.py",
+    "src/devpilot_core/review/patch_review.py",
+    "src/devpilot_core/review/code_review.py",
+    "tests/test_review_engines.py",
+    "docs/audits/func_sprint_15_patch_code_review_audit.md",
+    "docs/functional_sprint_15_manifest.json"
+  ],
+  "modified": [
+    "src/devpilot_core/cli.py",
+    ".devpilot/miasi/tool_registry.json",
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/06_miasi/tool_card.md",
+    "docs/04_quality/test_strategy.md",
+    "docs/02_architecture/adrs/ADR-0005-git-adapter-read-only-mvp-plus.md",
+    "docs/functional_backlog_after_precode.md"
+  ],
+  "commands": [
+    "python -m devpilot_core patch-review --patch-file safe.patch --json",
+    "python -m devpilot_core patch-review --patch-text <unified-diff> --json",
+    "python -m devpilot_core code-review --target src/devpilot_core/validators --json",
+    "python -m devpilot_core patch-review --patch-file safe.patch --json --write-report",
+    "python -m devpilot_core code-review --target src/devpilot_core/validators --json --write-report"
+  ],
+  "pass_criteria": [
+    "PatchReviewEngine never applies patches.",
+    "CodeReviewEngine never modifies files.",
+    "PolicyEngine and PathGuard are consulted for paths.",
+    "Secret-like content is blocked or flagged without raw leakage.",
+    "Reports are optional and written only under outputs/reports.",
+    "pytest -q passes."
+  ],
+  "block_criteria": [
+    "Patch application attempt.",
+    "Path outside workspace.",
+    "Denied path such as .env or .git.",
+    "Raw secret leakage.",
+    "External service invocation."
+  ],
+  "risks": [
+    "No semantic code review yet.",
+    "No SAST/SCA integration yet.",
+    "No patch apply validation yet.",
+    "No human approval persistence for future patch application yet."
+  ],
+  "next_sprint": "FUNC-SPRINT-16 — Safe Refactor Planner"
+}

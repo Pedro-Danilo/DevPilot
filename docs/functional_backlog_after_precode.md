@@ -2,7 +2,7 @@
 title: "DevPilot Local — Backlog ejecutable posterior a pre-code"
 doc_id: "DEVPL-FUNC-BACKLOG-001"
 status: "approved"
-version: "2.2.0"
+version: "2.3.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
@@ -14,7 +14,7 @@ change_policy: "controlled_changes_allowed_via_docs_as_code"
 approved_on: "2026-06-06"
 approval_scope: "functional_backlog_after_precode"
 baseline_execution: "FUNC-SPRINT-00"
-next_sprint: "FUNC-SPRINT-15"
+next_sprint: "FUNC-SPRINT-16"
 ---
 
 # DevPilot Local — Backlog ejecutable posterior a pre-code
@@ -76,7 +76,7 @@ El primer ciclo funcional busca convertir DevPilot de un proyecto documentado en
 | L5 | MIASI ejecutable | Agent/Tool/Policy registries verificables | Implementado inicial |
 | L6 | Agentes documentales | Agentes mock/local en dry-run | Implementado inicial |
 | L7 | Repositorios | Git read-only, inventario, análisis | Implementado inicial |
-| L8 | Patches y código | Patch review, code review, refactor plan | Pendiente |
+| L8 | Patches y código | Patch review, code review, refactor plan | Implementado inicial para patch/code review; refactor plan pendiente |
 | L9 | Modelos híbridos | ModelAdapter local/API opcional con costos | Pendiente |
 | L10 | Interfaces | Desktop/web sobre DevPilot Core | Futuro |
 
@@ -1419,25 +1419,62 @@ Siguiente sprint: `FUNC-SPRINT-15 — Patch review y code review en dry-run`.
 
 # FUNC-SPRINT-15 — Patch review y code review en dry-run
 
+Estado: `implemented-initial`.
+
 ## Objetivo
 
-Permitir análisis de diffs/patches sin aplicarlos ni escribir sobre el repo.
+Permitir análisis de diffs/patches y revisión estática inicial de código sin aplicarlos ni escribir sobre el repo.
 
-## Tareas
+## Implementado
 
 | ID | Tarea | Entregable | PASS |
 |---|---|---|---|
-| FUNC-15-001 | Crear `PatchReviewEngine` | módulo | Lee patch/diff y detecta riesgos. |
-| FUNC-15-002 | Crear comando `patch-review` | CLI | Reporte de hallazgos. |
-| FUNC-15-003 | Crear `CodeReviewEngine` básico | módulo | Reglas estáticas iniciales. |
-| FUNC-15-004 | Integrar Security/Policy findings | reportes | Riesgos por secreto/path/config. |
-| FUNC-15-005 | Tests con patches sintéticos | pytest | No aplica patches. |
+| FUNC-15-001 | Crear `PatchReviewEngine` | `src/devpilot_core/review/patch_review.py` | Lee patch/diff y detecta riesgos sin aplicar cambios. |
+| FUNC-15-002 | Crear comando `patch-review` | CLI | Reporte de hallazgos JSON/Markdown opcional. |
+| FUNC-15-003 | Crear `CodeReviewEngine` básico | `src/devpilot_core/review/code_review.py` | Reglas estáticas iniciales sin modificar archivos. |
+| FUNC-15-004 | Integrar Security/Policy findings | PolicyEngine + SecretGuard + reportes | Riesgos por secreto/path/config sin fuga de contenido crudo. |
+| FUNC-15-005 | Tests con patches sintéticos | `tests/test_review_engines.py` | No aplica patches y mantiene dry-run. |
+
+## Comandos
+
+```powershell
+python -m devpilot_core patch-review --patch-file safe.patch --json
+python -m devpilot_core patch-review --patch-text "<unified-diff>" --json
+python -m devpilot_core code-review --target src/devpilot_core/validators --json
+python -m devpilot_core patch-review --patch-file safe.patch --json --write-report
+python -m devpilot_core code-review --target src/devpilot_core/validators --json --write-report
+```
+
+## Criterios PASS implementados
+
+```text
+PatchReviewEngine nunca aplica patches.
+CodeReviewEngine nunca modifica archivos.
+PolicyEngine/PathGuard valida rutas.
+SecretGuard bloquea o marca secretos sintéticos sin emitir valores crudos.
+Reportes opcionales se escriben solo bajo outputs/reports.
+pytest -q pasa completo.
+```
+
+## BLOCK
+
+- Patch file o target fuera del workspace.
+- Ruta denegada como `.env`, `.git`, `.venv`.
+- Secreto sintético en patch/código.
+- Intento de aplicar patch o ejecutar acción destructiva.
+- Fuga de secretos crudos en evidencia.
+
+## Riesgos
+
+Primera versión. No valida si un patch aplica limpiamente, no reemplaza SAST/SCA, no ejecuta linters externos, no revisa dependencias vulnerables, no hace análisis semántico profundo ni habilita aplicación real de patches.
 
 ## Prompt operativo
 
 ```text
 Implementa FUNC-SPRINT-15: patch-review y code-review en dry-run. Deben leer diffs/patches, producir hallazgos, no aplicar cambios, no escribir fuera de outputs y respetar Policy Engine. Tests con patches sintéticos.
 ```
+
+Siguiente sprint: `FUNC-SPRINT-16 — Safe Refactor Planner`.
 
 ---
 

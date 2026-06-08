@@ -154,7 +154,7 @@
       "phase": "MVP+",
       "side_effect": "none",
       "risk_level": "medium",
-      "status": "planned",
+      "status": "implemented",
       "requires_approval": false,
       "policy_rule_ids": [
         "PATCH_DRY_RUN_ALLOW"
@@ -166,7 +166,7 @@
       "phase": "MVP+",
       "side_effect": "simulation",
       "risk_level": "high",
-      "status": "planned",
+      "status": "implemented",
       "requires_approval": false,
       "policy_rule_ids": [
         "PATCH_DRY_RUN_ALLOW"
@@ -178,7 +178,7 @@
       "phase": "MVP+",
       "side_effect": "report",
       "risk_level": "high",
-      "status": "planned",
+      "status": "implemented",
       "requires_approval": false,
       "policy_rule_ids": [
         "AGENT_CRITICAL_TOOL_DENY"

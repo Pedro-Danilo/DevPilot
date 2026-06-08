@@ -191,3 +191,28 @@ Criterios BLOCK:
 - Intento de modificar repo o historial.
 
 Riesgo: esta integración es preliminar y no reemplaza análisis industrial de dependencias, licencias, vulnerabilidades, secretos por entropía o revisión semántica de código.
+
+
+## Actualización FUNC-SPRINT-15 — Herramientas de patch/code review
+
+### Propósito
+
+Registrar que `patch.parse`, `patch.dry_run` y `code.review` ya cuentan con implementación inicial local y determinística.
+
+### Funcionamiento
+
+- `patch.parse`: parsea unified diffs sin aplicar cambios.
+- `patch.dry_run`: produce hallazgos sobre rutas, secretos, binarios, borrados y patrones riesgosos sin modificar el repositorio.
+- `code.review`: ejecuta reglas estáticas iniciales sobre archivos locales sin emitir contenido crudo.
+
+### Integración
+
+Las herramientas están expuestas por los comandos `patch-review` y `code-review`, y siguen el contrato `CommandResult`, observabilidad JSONL, reportes opcionales y persistencia SQLite best-effort.
+
+### Criterios PASS/BLOCK
+
+PASS: análisis local, dry-run, sin escritura, sin secretos crudos. BLOCK: rutas fuera del workspace, `.env`, `.git`, secreto sintético o intento de aplicación.
+
+### Riesgos
+
+Implementación preliminar. No reemplaza SAST/SCA, linters, revisión humana, evaluación semántica ni sandbox real de aplicación de patches.

@@ -1,8 +1,8 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
 Estado actual: `baseline pre-code approved + functional backlog approved + gates documentales ejecutables`  
-Último hito: `FUNC-SPRINT-14 — Git read-only y repo inventory MVP+`  
-Siguiente hito: `FUNC-SPRINT-15 — Patch review y code review en dry-run`  
+Último hito: `FUNC-SPRINT-15 — Patch review y code review en dry-run`  
+Siguiente hito: `FUNC-SPRINT-16 — Safe Refactor Planner`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.

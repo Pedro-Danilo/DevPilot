@@ -44,3 +44,10 @@ python -m devpilot_core repo-inventory --json
 La implementación preserva la decisión original: solo lectura, sin comandos de escritura y sin modificación de ramas, commits, staging area ni archivos. `GitAdapter` usa una allowlist cerrada y `subprocess.run` sin shell. `RepoInventory` complementa la visibilidad del repo con clasificación por tipo/tamaño/riesgo y detección de secretos sintéticos sin emitir contenido crudo.
 
 Riesgo residual: no hay análisis semántico de código, SCA/SAST industrial, auditoría de licencias, submódulos, LFS, ramas remotas ni patch review. Es base para `FUNC-SPRINT-15`.
+
+
+## Actualización FUNC-SPRINT-15
+
+La decisión read-only se extiende con `PatchReviewEngine` y `CodeReviewEngine` en modo dry-run. La implementación permite revisar patches y código sin ejecutar comandos destructivos, sin aplicar cambios y sin escribir fuera de `outputs/reports` cuando se solicita evidencia. Esto mantiene la línea arquitectónica original: cualquier aplicación real de patch, commit, reset, branch, push o refactor automático sigue fuera de alcance y requerirá policy gate, human approval y sandbox controlado.
+
+Riesgo residual: el review es determinístico y preliminar; no sustituye SAST/SCA, linters, análisis semántico, sandbox de aplicación ni aprobación humana persistente.

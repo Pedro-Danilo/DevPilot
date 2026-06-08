@@ -1152,3 +1152,44 @@ Esta es una versión preliminar de análisis read-only. No sustituye SCA, SAST, 
 ### Recuperación
 
 Si `git-status` falla, verificar primero que Git esté instalado y que el workspace esté inicializado como repositorio. Si `repo-inventory` reporta secretos sintéticos, revisar el archivo indicado y no copiar valores crudos al chat ni a documentación.
+
+
+## FUNC-SPRINT-15 — Operación local de patch-review y code-review
+
+### Propósito
+
+Ejecutar una revisión local, determinística y no destructiva de patches y código fuente antes de cualquier flujo futuro de aplicación de cambios.
+
+### Comandos
+
+```powershell
+python -m devpilot_core patch-review --patch-file safe.patch --json
+python -m devpilot_core patch-review --patch-file safe.patch --json --write-report
+python -m devpilot_core code-review --target src/devpilot_core/validators --json
+python -m devpilot_core code-review --target src/devpilot_core/validators --json --write-report
+```
+
+### Funcionamiento operativo
+
+`patch-review` lee un patch dentro del workspace o recibe texto inline, parsea cambios por archivo, evalúa rutas mediante `PolicyEngine`, bloquea patrones tipo secreto y reporta código riesgoso. No ejecuta `git apply`.
+
+`code-review` revisa archivos de texto soportados dentro de un target, excluye `.git`, `.venv`, caches y `outputs`, detecta secretos sintéticos y patrones estáticos iniciales como `shell=True`, `os.system`, `eval`, `exec`, `pickle.loads` y errores de sintaxis Python.
+
+### Criterios PASS
+
+- El comando devuelve JSON válido.
+- No hay modificación de archivos.
+- No hay aplicación de patches.
+- No hay secretos crudos en salida.
+- Los reportes opcionales se escriben bajo `outputs/reports`.
+
+### Criterios BLOCK
+
+- Patch o target fuera del workspace.
+- Ruta denegada (`.env`, `.git`, `.venv`).
+- Secreto sintético detectado.
+- Intento de ejecutar acciones destructivas o aplicar patch.
+
+### Riesgos y recuperación
+
+Esta versión es preliminar y puede generar falsos positivos en documentos que contienen ejemplos sintéticos de secretos. Si un review falla por secreto sintético, revisar el archivo indicado y confirmar si se trata de ejemplo, fixture o secreto real. No borrar ni aplicar patches automáticamente; el siguiente paso seguro es documentar el hallazgo y preparar una remediación revisada manualmente.
