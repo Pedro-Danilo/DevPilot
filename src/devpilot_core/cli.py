@@ -9,6 +9,7 @@ from . import __version__
 from .agents import AgentRuntime
 from .cli_models import CommandResult, ExitCode, Finding, Severity
 from .errors import DevPilotError
+from .evals import EvalRunner
 from .observability import EventLogger
 from .miasi import MiasiRegistryValidator
 from .policy import CostPolicy, PolicyEngine, PolicyRequest, load_cost_policy
@@ -233,6 +234,36 @@ def miasi_validate_command(
     print_result(result, json_output=json_output)
     return int(result.exit_code)
 
+
+
+def eval_run_command(
+    *,
+    suite: str = "documentation",
+    case_id: str | None = None,
+    json_output: bool = False,
+    write_report: bool = False,
+) -> int:
+    """Run deterministic offline evaluations for validators and agents.
+
+    FUNC-SPRINT-13 keeps evaluation local-first: synthetic fixtures, no LLM
+    judges, no external APIs and no network access. Runtime materials are
+    generated under outputs/evals and evidence reports are optional.
+    """
+
+    root = project_root()
+    result = EvalRunner(root).run(suite=suite, case_id=case_id)
+    result = _write_optional_command_report(
+        root,
+        result,
+        subject=f"evals/fixtures/{suite}",
+        report_id=f"eval_run_{suite}",
+        write_report=write_report,
+        metadata={"sprint": "FUNC-SPRINT-13", "component": "EvalRunner"},
+    )
+    _emit_result_event(root, result, subject=f"evals/fixtures/{suite}")
+    _persist_result(root, result, subject=f"evals/fixtures/{suite}")
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
 
 def agent_run_command(
     agent_name: str,
@@ -570,6 +601,14 @@ def build_parser() -> argparse.ArgumentParser:
     history_list.add_argument("--limit", type=int, default=10, help="Maximum number of runs to list, capped at 100")
     history_list.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
 
+    eval_parser = sub.add_parser("eval", help="Run deterministic offline evaluation suites")
+    eval_sub = eval_parser.add_subparsers(dest="eval_command")
+    eval_run = eval_sub.add_parser("run", help="Run an offline evaluation suite")
+    eval_run.add_argument("--suite", default="documentation", help="Evaluation suite id; default: documentation")
+    eval_run.add_argument("--case-id", default=None, help="Optional single case id to run")
+    eval_run.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    eval_run.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+
     agent = sub.add_parser("agent", help="Run local/mock DevPilot agents")
     agent_sub = agent.add_subparsers(dest="agent_command")
     agent_run = agent_sub.add_parser("run", help="Run a registered local/mock agent")
@@ -631,6 +670,9 @@ def _command_name_from_args(args: argparse.Namespace) -> str:
     if command == "agent":
         subcommand = getattr(args, "agent_command", None)
         return f"agent {subcommand}" if subcommand else "agent"
+    if command == "eval":
+        subcommand = getattr(args, "eval_command", None)
+        return f"eval {subcommand}" if subcommand else "eval"
     return command or "help"
 
 
@@ -695,6 +737,16 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
     if args.command == "history":
         if args.history_command == "list":
             return history_list_command(json_output=args.json, limit=args.limit, write_report=args.write_report)
+        parser.print_help()
+        return int(ExitCode.FAIL)
+    if args.command == "eval":
+        if args.eval_command == "run":
+            return eval_run_command(
+                suite=args.suite,
+                case_id=args.case_id,
+                json_output=args.json,
+                write_report=args.write_report,
+            )
         parser.print_help()
         return int(ExitCode.FAIL)
     if args.command == "agent":

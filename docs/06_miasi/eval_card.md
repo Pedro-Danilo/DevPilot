@@ -133,3 +133,49 @@ Bloquear avance si:
 Sprint 12 agrega pruebas automatizadas para `AgentRuntime`, `DocumentationAuditAgent` y `PreCodeDocumentationAgent`. Estas pruebas verifican ejecución offline, bloqueo de secretos sintéticos, resolución de agentes desde MIASI, salida JSON parseable y generación de reportes opcionales.
 
 Esta evaluación es preliminar: no mide todavía calidad semántica de respuestas, groundedness, utilidad, precisión documental ni desempeño de modelos. FUNC-SPRINT-13 debe introducir un Evaluation Harness específico para validadores y agentes.
+
+## Actualización FUNC-SPRINT-13 — Evaluation Harness offline
+
+Sprint 13 introduce `EvalRunner` como primer Evaluation Harness ejecutable para validadores y agentes documentales. La suite inicial vive en `evals/fixtures/documentation_eval_cases.json` y usa únicamente fixtures sintéticos locales.
+
+### Propósito
+
+Validar que los validadores y agentes MVP no solo ejecuten, sino que produzcan resultados esperados ante casos limpios y defectuosos. La evaluación mide comportamiento determinístico, no calidad generativa profunda.
+
+### Funcionamiento
+
+El harness materializa documentos temporales bajo `outputs/evals/workdir/`, ejecuta el componente declarado por cada caso y compara:
+
+- `expected.ok` contra `CommandResult.ok`;
+- `expected.finding_ids` contra los hallazgos reales;
+- falsos positivos;
+- falsos negativos;
+- hallazgos esperados faltantes.
+
+### Comandos
+
+```powershell
+python -m devpilot_core eval run --json
+python -m devpilot_core eval run --json --write-report
+python -m devpilot_core eval run --case-id frontmatter-missing-doc-id --json
+```
+
+### Criterios PASS
+
+- Suite sintética en PASS.
+- `false_positives = 0`.
+- `false_negatives = 0`.
+- `missing_expected_findings = 0`.
+- Sin LLM externo, API keys ni red.
+
+### Criterios BLOCK
+
+- Falso negativo en documentos o agentes defectuosos.
+- Falso positivo no justificado sobre caso limpio.
+- JSON no parseable.
+- Evaluación que escriba fuera de `outputs/evals/`.
+- Cambio de expectativa sin trazabilidad documental.
+
+### Riesgos
+
+Versión preliminar. No reemplaza evaluación semántica, red teaming, golden outputs, evaluación continua ni métricas de producción. Debe evolucionar con datasets versionados, evaluación de groundedness, cobertura por agente, severidades ponderadas y análisis histórico desde SQLite.

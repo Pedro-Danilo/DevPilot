@@ -2,7 +2,7 @@
 title: "DevPilot Local — Backlog ejecutable posterior a pre-code"
 doc_id: "DEVPL-FUNC-BACKLOG-001"
 status: "approved"
-version: "2.0.0"
+version: "2.1.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
@@ -14,7 +14,7 @@ change_policy: "controlled_changes_allowed_via_docs_as_code"
 approved_on: "2026-06-06"
 approval_scope: "functional_backlog_after_precode"
 baseline_execution: "FUNC-SPRINT-00"
-next_sprint: "FUNC-SPRINT-13"
+next_sprint: "FUNC-SPRINT-14"
 ---
 
 # DevPilot Local — Backlog ejecutable posterior a pre-code
@@ -1302,21 +1302,56 @@ Siguiente sprint: `FUNC-SPRINT-13 — Evaluation Harness para validadores y agen
 
 Crear evaluación automática mínima para comprobar calidad de validadores y agentes documentales.
 
-## Tareas
+## Estado
 
-| ID | Tarea | Entregable | PASS |
+`implemented-initial` — Sprint 13 implementa un Evaluation Harness offline, determinístico y local-first. No usa LLM externo, no requiere API keys y no accede a red.
+
+## Implementación FUNC-SPRINT-13
+
+| ID | Tarea | Entregable | Estado |
 |---|---|---|---|
-| FUNC-13-001 | Crear `evals/fixtures` | datasets sintéticos | Docs válidos/defectuosos. |
-| FUNC-13-002 | Crear `EvalRunner` | módulo | Corre casos y genera métricas. |
-| FUNC-13-003 | Métricas iniciales | reporte | pass_rate, false_negative, false_positive. |
-| FUNC-13-004 | Evaluar `DocumentationAuditAgent` | eval | Detecta brechas esperadas. |
-| FUNC-13-005 | Tests de eval harness | pytest | Eval reproducible. |
+| FUNC-13-001 | Crear `evals/fixtures` | `evals/fixtures/documentation_eval_cases.json` | PASS |
+| FUNC-13-002 | Crear `EvalRunner` | `src/devpilot_core/evals/runner.py` | PASS |
+| FUNC-13-003 | Métricas iniciales | `pass_rate`, `false_positives`, `false_negatives`, `missing_expected_findings` | PASS |
+| FUNC-13-004 | Evaluar `DocumentationAuditAgent` | casos sintéticos limpios/defectuosos | PASS |
+| FUNC-13-005 | Tests de eval harness | `tests/test_eval_runner.py` | PASS |
 
-## Prompt operativo
+## Comandos
+
+```powershell
+python -m devpilot_core eval run --json
+python -m devpilot_core eval run --json --write-report
+python -m devpilot_core eval run --case-id frontmatter-missing-doc-id --json
+python -m pytest -q
+```
+
+## Criterios PASS
 
 ```text
-Implementa FUNC-SPRINT-13: Evaluation Harness offline para validadores y agentes documentales. Crea fixtures sintéticos, métricas, EvalRunner, reporte JSON/Markdown y tests. Sin LLM externo.
+Suite sintética en PASS.
+pass_rate = 1.0.
+false_positives = 0.
+false_negatives = 0.
+missing_expected_findings = 0.
+No hay llamadas externas ni dependencias nuevas.
 ```
+
+## Criterios BLOCK
+
+```text
+Falso negativo en fixture defectuoso.
+Falso positivo no justificado en fixture limpio.
+Hallazgo esperado ausente.
+Salida JSON no parseable.
+Workdir fuera del project root.
+Uso de LLM/API externa.
+```
+
+## Riesgos
+
+Primera versión del Evaluation Harness. Los fixtures son sintéticos y pequeños. Pendiente: golden outputs, red teaming, groundedness, evaluación semántica, ponderación por severidad e histórico de tendencias.
+
+Siguiente sprint: `FUNC-SPRINT-14 — Git read-only y repo inventory MVP+`.
 
 ---
 

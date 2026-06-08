@@ -1,8 +1,8 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
 Estado actual: `baseline pre-code approved + functional backlog approved + gates documentales ejecutables`  
-Último hito: `FUNC-SPRINT-12 — Agent Runtime mock/local para agentes documentales MVP`  
-Siguiente hito: `FUNC-SPRINT-13 — Evaluation Harness para validadores y agentes`  
+Último hito: `FUNC-SPRINT-13 — Evaluation Harness para validadores y agentes`  
+Siguiente hito: `FUNC-SPRINT-14 — Git read-only y repo inventory MVP+`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
@@ -50,6 +50,9 @@ Ya existe:
 - `AgentRuntime` mock/local para agentes documentales MVP;
 - agentes `documentation-audit` y `precode-documentation` en dry-run por defecto;
 - comando `agent run` con `--json` y `--write-report`;
+- `EvalRunner` offline para validadores y agentes documentales;
+- fixtures sintéticos versionados en `evals/fixtures/`;
+- comando `eval run` con métricas `pass_rate`, `false_positives` y `false_negatives`;
 - persistencia automática best-effort de resultados de gates/validadores en `.devpilot/devpilot.db`;
 - comandos `workspace init` y `workspace status`;
 - inicialización dry-run por defecto y escritura explícita con `--execute`;
@@ -59,7 +62,6 @@ Ya existe:
 
 Pendiente de implementación funcional:
 
-- Evaluation Harness para validadores y agentes;
 - Git read-only;
 - patch/code review en dry-run;
 - ModelAdapter híbrido.
@@ -84,6 +86,9 @@ DevPilot_Local/
     checklists/
     reference/
     standards/
+  evals/
+    fixtures/
+      documentation_eval_cases.json
   .devpilot/
     project.yaml
     policy.yaml
@@ -100,6 +105,7 @@ DevPilot_Local/
     standards/
     validators/
     workspace/
+    evals/
   tests/
   outputs/
   scripts/
@@ -158,6 +164,31 @@ python -m devpilot_core policy check external-api --external-api --provider open
 
 # Todos los comandos anteriores emiten eventos locales en outputs/traces/events.jsonl
 ```
+
+
+## Evaluation Harness offline
+
+Desde `FUNC-SPRINT-13`, DevPilot incluye un harness de evaluación determinístico para validadores y agentes documentales MVP. La suite inicial vive en `evals/fixtures/documentation_eval_cases.json` y crea material temporal bajo `outputs/evals/workdir/`.
+
+Características iniciales:
+
+- no usa LLM externo;
+- no requiere API keys;
+- no accede a red;
+- usa fixtures sintéticos versionados;
+- evalúa `validate-frontmatter`, `validate-artifact`, `DocumentationAuditAgent` y `PreCodeDocumentationAgent`;
+- calcula `pass_rate`, `false_positives`, `false_negatives` y `missing_expected_findings`;
+- genera evidencia opcional con `--write-report`.
+
+Comandos principales:
+
+```powershell
+python -m devpilot_core eval run --json
+python -m devpilot_core eval run --json --write-report
+python -m devpilot_core eval run --case-id frontmatter-missing-doc-id --json
+```
+
+Criterio PASS: `pytest -q` y `eval run --json` deben pasar. Criterio BLOCK: cualquier falso negativo en defectos sintéticos, JSON inválido o dependencia externa no autorizada.
 
 ## Interpretación de exit codes
 

@@ -1,0 +1,67 @@
+{
+  "sprint_id": "FUNC-SPRINT-13",
+  "title": "Evaluation Harness para validadores y agentes",
+  "status": "implemented-initial",
+  "implemented_on": "2026-06-08",
+  "requires_api_key": false,
+  "external_cost": false,
+  "local_first": true,
+  "preliminary": true,
+  "created_files": [
+    "evals/fixtures/documentation_eval_cases.json",
+    "src/devpilot_core/evals/__init__.py",
+    "src/devpilot_core/evals/models.py",
+    "src/devpilot_core/evals/runner.py",
+    "tests/test_eval_runner.py",
+    "docs/audits/func_sprint_13_eval_harness_audit.md",
+    "docs/functional_sprint_13_manifest.json"
+  ],
+  "modified_files": [
+    ".devpilot/project.yaml",
+    ".gitignore",
+    "README.md",
+    "docs/04_quality/test_strategy.md",
+    "docs/05_operations/runbook.md",
+    "docs/06_miasi/eval_card.md",
+    "docs/functional_backlog_after_precode.md",
+    "src/devpilot_core/cli.py",
+    "src/devpilot_core/workspace/manager.py"
+  ],
+  "commands": [
+    "python -m devpilot_core eval run --json",
+    "python -m devpilot_core eval run --json --write-report",
+    "python -m devpilot_core eval run --case-id frontmatter-missing-doc-id --json",
+    "python -m pytest -q"
+  ],
+  "metrics": [
+    "pass_rate",
+    "false_positives",
+    "false_negatives",
+    "missing_expected_findings"
+  ],
+  "pass_criteria": [
+    "pytest passes",
+    "eval run returns ok=true",
+    "pass_rate is 1.0 for the current synthetic suite",
+    "false_positives equals 0",
+    "false_negatives equals 0",
+    "missing_expected_findings equals 0",
+    "no external API or LLM is used"
+  ],
+  "block_criteria": [
+    "false negative on a defective fixture",
+    "false positive on a clean fixture",
+    "missing expected finding id",
+    "evaluation workdir outside project root",
+    "JSON output not parseable",
+    "external dependency introduced without ADR"
+  ],
+  "risks": [
+    "synthetic suite is small",
+    "no semantic quality scoring yet",
+    "no red teaming yet",
+    "no historical trend dashboard yet",
+    "no model/provider comparison yet"
+  ],
+  "next_sprint": "FUNC-SPRINT-14 — Git read-only y repo inventory MVP+"
+}

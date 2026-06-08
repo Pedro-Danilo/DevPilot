@@ -59,3 +59,7 @@ patch_*.zip
 # DevPilot local SQLite state (generated)
 .devpilot/*.db
 .devpilot/*.db-*
+
+# DevPilot evaluation runtime outputs
+outputs/evals/
+outputs/drafts/

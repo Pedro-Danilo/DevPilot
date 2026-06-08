@@ -271,3 +271,32 @@ python -m devpilot_core miasi-eval
 |---|---|
 | 0.1.0 | Borrador bootstrap inicial. |
 | 0.5.0 | Estrategia completa de pruebas para SPRINT-PRECODE-05. |
+
+## 16. Actualización FUNC-SPRINT-13 — Evaluation Harness
+
+Sprint 13 materializa la primera capa de evaluación automática específica para validadores y agentes documentales mediante `EvalRunner`.
+
+### Propósito
+
+Complementar `pytest` con una suite de casos funcionales sintéticos que miden comportamiento esperado de componentes DevPilot, especialmente falsos positivos y falsos negativos.
+
+### Comandos
+
+```powershell
+python -m devpilot_core eval run --json
+python -m devpilot_core eval run --json --write-report
+python -m devpilot_core eval run --case-id frontmatter-missing-doc-id --json
+```
+
+### Métricas iniciales
+
+| Métrica | Interpretación |
+|---|---|
+| `pass_rate` | proporción de casos que coinciden con la expectativa |
+| `false_positives` | casos limpios marcados como defectuosos |
+| `false_negatives` | casos defectuosos que pasaron como limpios |
+| `missing_expected_findings` | hallazgos esperados no emitidos |
+
+### Riesgo residual
+
+La suite es sintética y preliminar. Debe evolucionar hacia fixtures más amplios, golden outputs, red teaming y evaluación continua.

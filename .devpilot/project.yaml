@@ -22,6 +22,8 @@ paths:
   tool_registry: ".devpilot/miasi/tool_registry.json"
   policy_matrix: ".devpilot/miasi/policy_matrix.json"
   drafts: "outputs/drafts"
+  eval_fixtures: "evals/fixtures"
+  eval_outputs: "outputs/evals"
 runtime:
   dry_run_default: true
   created_by: "FUNC-SPRINT-08"

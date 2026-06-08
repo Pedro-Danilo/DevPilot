@@ -1,0 +1,97 @@
+{
+  "schema_version": "1.0",
+  "suite_id": "documentation",
+  "description": "Synthetic offline evaluation suite for DevPilot validators and MVP document agents.",
+  "cases": [
+    {
+      "id": "frontmatter-valid-approved-doc",
+      "component": "validate_frontmatter",
+      "description": "Approved Markdown with complete frontmatter should pass.",
+      "tags": ["validator", "frontmatter", "clean"],
+      "input": {
+        "path": "valid_frontmatter.md",
+        "content": "---\ntitle: Valid synthetic artifact\ndoc_id: DEVPL-EVAL-001\nstatus: approved\nversion: 1.0.0\nowner: Ordóñez\nupdated: 2026-06-08\napproval: approved_by_owner_direction\n---\n\n# Valid synthetic artifact\n\nSynthetic content for evaluation.\n"
+      },
+      "expected": {"ok": true, "finding_ids": []}
+    },
+    {
+      "id": "frontmatter-missing-doc-id",
+      "component": "validate_frontmatter",
+      "description": "Missing doc_id must fail the strict frontmatter validator.",
+      "tags": ["validator", "frontmatter", "defect"],
+      "input": {
+        "path": "missing_doc_id.md",
+        "content": "---\ntitle: Missing doc id\nstatus: approved\nversion: 1.0.0\nowner: Ordóñez\nupdated: 2026-06-08\napproval: approved_by_owner_direction\n---\n\n# Missing doc id\n\nSynthetic content for evaluation.\n"
+      },
+      "expected": {"ok": false, "finding_ids": ["FRONTMATTER_REQUIRED_FIELD_MISSING"]}
+    },
+    {
+      "id": "artifact-valid-generic-doc",
+      "component": "validate_artifact",
+      "description": "Generic Markdown with frontmatter, H1 and enough body should pass with warnings only.",
+      "tags": ["validator", "artifact", "clean"],
+      "input": {
+        "path": "valid_generic.md",
+        "content": "---\ntitle: Valid generic artifact\ndoc_id: DEVPL-EVAL-002\nstatus: reviewed\nversion: 1.0.0\nowner: Ordóñez\nupdated: 2026-06-08\napproval: approved_by_owner_direction\n---\n\n# Valid generic artifact\n\n## Propósito\n\nThis synthetic document exists to validate generic Markdown behavior without requiring a specialized MIPSoftware profile.\n\n## Estado\n\nReviewed for deterministic offline evaluation.\n"
+      },
+      "expected": {"ok": true, "finding_ids": []}
+    },
+    {
+      "id": "artifact-missing-h1",
+      "component": "validate_artifact",
+      "description": "A Markdown artifact without H1 should fail structural validation.",
+      "tags": ["validator", "artifact", "defect"],
+      "input": {
+        "path": "missing_h1.md",
+        "content": "---\ntitle: Missing H1\ndoc_id: DEVPL-EVAL-003\nstatus: approved\nversion: 1.0.0\nowner: Ordóñez\nupdated: 2026-06-08\napproval: approved_by_owner_direction\n---\n\n## Propósito\n\nThis synthetic document deliberately omits an H1 heading while keeping enough body text for the structural validator.\n\n## Estado\n\nApproved metadata makes the missing minimum structure a blocking condition.\n"
+      },
+      "expected": {"ok": false, "finding_ids": ["ARTIFACT_H1_MISSING"]}
+    },
+    {
+      "id": "agent-documentation-audit-clean-dir",
+      "component": "agent.documentation_audit",
+      "description": "DocumentationAuditAgent should pass a directory with clean generic documents.",
+      "tags": ["agent", "documentation-audit", "clean"],
+      "input": {
+        "files": [
+          {
+            "path": "clean_doc.md",
+            "content": "---\ntitle: Clean agent audit doc\ndoc_id: DEVPL-EVAL-004\nstatus: reviewed\nversion: 1.0.0\nowner: Ordóñez\nupdated: 2026-06-08\napproval: approved_by_owner_direction\n---\n\n# Clean agent audit doc\n\n## Propósito\n\nThis clean synthetic document is long enough for artifact validation and includes the recommended generic headings.\n\n## Estado\n\nReviewed for deterministic local agent evaluation.\n"
+          }
+        ]
+      },
+      "expected": {"ok": true, "finding_ids": []}
+    },
+    {
+      "id": "agent-documentation-audit-defective-dir",
+      "component": "agent.documentation_audit",
+      "description": "DocumentationAuditAgent should detect a defective document inside a directory.",
+      "tags": ["agent", "documentation-audit", "defect"],
+      "input": {
+        "files": [
+          {
+            "path": "defective_doc.md",
+            "content": "---\ntitle: Defective agent audit doc\nstatus: approved\nversion: 1.0.0\nowner: Ordóñez\nupdated: 2026-06-08\napproval: approved_by_owner_direction\n---\n\nNo heading and missing doc_id.\n"
+          }
+        ]
+      },
+      "expected": {"ok": false, "finding_ids": ["FRONTMATTER_REQUIRED_FIELD_MISSING", "ARTIFACT_H1_MISSING"]}
+    },
+    {
+      "id": "agent-precode-documentation-dry-run",
+      "component": "agent.precode_documentation",
+      "description": "PreCodeDocumentationAgent should generate a safe dry-run draft in memory.",
+      "tags": ["agent", "precode-documentation", "clean", "dry-run"],
+      "input": {"idea": "Agregar una sección de trazabilidad para agentes documentales MVP"},
+      "expected": {"ok": true, "finding_ids": []}
+    },
+    {
+      "id": "agent-precode-documentation-secret-block",
+      "component": "agent.precode_documentation",
+      "description": "PreCodeDocumentationAgent should block secret-like input.",
+      "tags": ["agent", "precode-documentation", "defect", "secret"],
+      "input": {"idea": "Registrar api_key=sk-1234567890abcdef en documentación"},
+      "expected": {"ok": false, "finding_ids": ["SECRETGUARD_SECRET_DETECTED"]}
+    }
+  ]
+}

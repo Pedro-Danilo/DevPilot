@@ -999,3 +999,94 @@ python -m devpilot_core agent run precode-documentation --idea "Agregar control 
 ### Riesgos y límites
 
 Esta es una versión preliminar. Los agentes son rule-based, no usan LLM, no hacen planificación autónoma, no tienen memoria conversacional y no sustituyen revisión humana. La escritura bajo `outputs/drafts` solo debe usarse como borrador revisable y nunca como modificación automática de documentos aprobados.
+
+## FUNC-SPRINT-13 — Evaluation Harness para validadores y agentes
+
+### Propósito operativo
+
+Ejecutar una evaluación offline, determinística y reproducible sobre validadores documentales y agentes documentales MVP. El objetivo es convertir la calidad esperada en casos verificables: documentos limpios deben pasar, documentos defectuosos deben fallar, y los agentes deben detectar brechas esperadas sin usar LLM externo ni servicios de red.
+
+### Componentes
+
+```text
+evals/fixtures/documentation_eval_cases.json
+src/devpilot_core/evals/models.py
+src/devpilot_core/evals/runner.py
+src/devpilot_core/evals/__init__.py
+tests/test_eval_runner.py
+```
+
+### Comandos
+
+```powershell
+python -m devpilot_core eval run --json
+python -m devpilot_core eval run --json --write-report
+python -m devpilot_core eval run --case-id frontmatter-missing-doc-id --json
+python -m pytest -q
+```
+
+### Funcionamiento
+
+`EvalRunner` carga fixtures sintéticos desde `evals/fixtures/documentation_eval_cases.json`, materializa documentos temporales bajo `outputs/evals/workdir/`, ejecuta el componente indicado en cada caso y compara el resultado real contra la expectativa declarada. La suite inicial cubre:
+
+- `validate-frontmatter`;
+- `validate-artifact`;
+- `DocumentationAuditAgent`;
+- `PreCodeDocumentationAgent`.
+
+El resultado se entrega como `CommandResult` y reporta métricas mínimas:
+
+```text
+cases_total
+cases_passed
+cases_failed
+pass_rate
+false_positives
+false_negatives
+missing_expected_findings
+```
+
+### Criterios PASS
+
+```text
+pytest -q pasa.
+eval run --json devuelve ok=true.
+pass_rate = 1.0 para la suite sintética vigente.
+false_positives = 0.
+false_negatives = 0.
+missing_expected_findings = 0.
+No se usan LLMs, APIs externas ni red.
+Los archivos temporales se generan solo bajo outputs/evals/.
+```
+
+### Criterios BLOCK
+
+```text
+Un documento defectuoso pasa como limpio.
+Un documento limpio falla sin razón esperada.
+Un agente no detecta una brecha declarada en fixtures.
+Una evaluación requiere API externa, secreto real o red.
+El workdir intenta escribirse fuera del project root.
+La salida JSON deja de ser parseable.
+```
+
+### Riesgos y límites actuales
+
+Esta es una primera versión del Evaluation Harness. No mide todavía calidad semántica profunda, groundedness, utilidad de respuestas, cobertura probabilística, robustez ante prompts adversariales ni desempeño de modelos. Los fixtures son sintéticos y deben evolucionar hacia datasets versionados más amplios, golden outputs, red teaming y evaluación continua.
+
+### Recuperación
+
+Si la suite falla, revisar primero el caso reportado:
+
+```powershell
+python -m devpilot_core eval run --case-id <case-id> --json
+```
+
+Luego validar el componente individual afectado. Por ejemplo:
+
+```powershell
+python -m devpilot_core validate-frontmatter <archivo> --strict --json
+python -m devpilot_core agent run documentation-audit --target <ruta> --json
+```
+
+No ajustar fixtures para ocultar una regresión. Si cambia el contrato esperado, documentar la razón en el manifiesto/auditoría del sprint correspondiente.
