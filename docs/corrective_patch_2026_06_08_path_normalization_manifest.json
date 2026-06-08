@@ -1,0 +1,26 @@
+{
+  "id": "CORRECTIVE-PATCH-2026-06-08-PATH-NORMALIZATION",
+  "title": "Normalize frontmatter validator paths for cross-platform evidence",
+  "status": "implemented",
+  "date": "2026-06-08",
+  "reason": "Windows emitted docs\\\\valid.md in EventLog summaries while tests and evidence contract expect docs/valid.md.",
+  "files_modified": [
+    "src/devpilot_core/validators/frontmatter.py",
+    "tests/test_event_logger.py"
+  ],
+  "files_created": [
+    "docs/audits/corrective_patch_2026_06_08_path_normalization_audit.md",
+    "docs/corrective_patch_2026_06_08_path_normalization_manifest.json"
+  ],
+  "commands": [
+    "PYTHONPATH=src python -m pytest tests/test_event_logger.py::test_cli_validate_frontmatter_emits_gate_event tests/test_event_logger.py::test_frontmatter_result_path_uses_posix_separator_for_windows_style_input -q",
+    "PYTHONPATH=src python -m pytest -q"
+  ],
+  "expected_result": "64 passed",
+  "adr_required": false,
+  "adr_reason": "The change is a deterministic evidence-format hotfix; it does not change architecture, persistence, security policy, APIs, agents, providers or dependencies.",
+  "risks": [
+    "Path normalization is still duplicated in several modules.",
+    "A future sprint should centralize path normalization in a shared utility."
+  ]
+}

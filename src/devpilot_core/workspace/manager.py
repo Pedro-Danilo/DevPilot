@@ -333,6 +333,7 @@ paths:
   outputs: "outputs"
   reports: "outputs/reports"
   traces: "outputs/traces"
+  policy: ".devpilot/policy.yaml"
 runtime:
   dry_run_default: true
   created_by: "FUNC-SPRINT-08"

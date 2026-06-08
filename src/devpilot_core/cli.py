@@ -9,6 +9,7 @@ from . import __version__
 from .cli_models import CommandResult, ExitCode, Finding, Severity
 from .errors import DevPilotError
 from .observability import EventLogger
+from .policy import CostPolicy, PolicyEngine, PolicyRequest, load_cost_policy
 from .reports import ReportEngine, build_report_id
 from .standards.registry import build_standards_status_result
 from .workspace import WorkspaceManager
@@ -274,6 +275,60 @@ def workspace_status_command(*, json_output: bool = False, write_report: bool = 
     return int(result.exit_code)
 
 
+def policy_check_command(
+    action: str,
+    *,
+    path: str | None = None,
+    text: str | None = None,
+    external_api: bool = False,
+    provider: str | None = None,
+    estimated_cost_usd: float = 0.0,
+    allow_external_api: bool = False,
+    budget_limit_usd: float = 0.0,
+    budget_used_usd: float = 0.0,
+    json_output: bool = False,
+    write_report: bool = False,
+) -> int:
+    """Evaluate a simulated action through PolicyEngine/guards.
+
+    FUNC-SPRINT-09 keeps this command non-destructive. It evaluates policy only;
+    it does not execute the requested action, read remote services or call LLMs.
+    """
+
+    root = project_root()
+    base_cost_policy = load_cost_policy(root)
+    engine = PolicyEngine(
+        root,
+        cost_policy=CostPolicy(
+            external_api_allowed=allow_external_api or base_cost_policy.external_api_allowed,
+            budget_limit_usd=budget_limit_usd if budget_limit_usd > 0 else base_cost_policy.budget_limit_usd,
+            budget_used_usd=budget_used_usd if budget_used_usd > 0 else base_cost_policy.budget_used_usd,
+            allowed_providers=base_cost_policy.allowed_providers,
+        ),
+    )
+    request = PolicyRequest(
+        action=action,
+        path=path,
+        text=text,
+        external_api=external_api,
+        provider=provider,
+        estimated_cost_usd=estimated_cost_usd,
+        dry_run=True,
+    )
+    result = engine.evaluate(request)
+    result = _write_optional_command_report(
+        root,
+        result,
+        subject=path or action,
+        report_id="policy_check",
+        write_report=write_report,
+        metadata={"sprint": "FUNC-SPRINT-09", "component": "PolicyEngine"},
+    )
+    _emit_result_event(root, result, subject=path or action)
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="devpilot", description="DevPilot Local CLI")
     parser.add_argument("--version", action="store_true", help="Show version")
@@ -319,6 +374,21 @@ def build_parser() -> argparse.ArgumentParser:
     workspace_status.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     workspace_status.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
 
+    policy = sub.add_parser("policy", help="Evaluate deterministic DevPilot safety policies")
+    policy_sub = policy.add_subparsers(dest="policy_command")
+    policy_check = policy_sub.add_parser("check", help="Evaluate a simulated action through PolicyEngine")
+    policy_check.add_argument("action", help="Simulated action, for example read/write/delete/external-api")
+    policy_check.add_argument("--path", default=None, help="Optional path subject for PathGuard")
+    policy_check.add_argument("--text", default=None, help="Optional text payload scanned by SecretGuard")
+    policy_check.add_argument("--external-api", action="store_true", help="Mark the request as external API usage")
+    policy_check.add_argument("--provider", default=None, help="Provider name for CostGuard, for example mock/local/openai")
+    policy_check.add_argument("--estimated-cost-usd", type=float, default=0.0, help="Estimated cost used by CostGuard")
+    policy_check.add_argument("--allow-external-api", action="store_true", help="Explicitly simulate a local policy that allows external APIs")
+    policy_check.add_argument("--budget-limit-usd", type=float, default=0.0, help="Local simulated budget limit")
+    policy_check.add_argument("--budget-used-usd", type=float, default=0.0, help="Local simulated budget already used")
+    policy_check.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    policy_check.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+
     standards = sub.add_parser("standards", help="Inspect local MIPSoftware/MIASI standards registry")
     standards_sub = standards.add_subparsers(dest="standards_command")
     standards_status = standards_sub.add_parser("status", help="Show local standards registry status")
@@ -339,6 +409,9 @@ def _command_name_from_args(args: argparse.Namespace) -> str:
     if command == "workspace":
         subcommand = getattr(args, "workspace_command", None)
         return f"workspace {subcommand}" if subcommand else "workspace"
+    if command == "policy":
+        subcommand = getattr(args, "policy_command", None)
+        return f"policy {subcommand}" if subcommand else "policy"
     return command or "help"
 
 
@@ -380,6 +453,23 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
             )
         if args.workspace_command == "status":
             return workspace_status_command(json_output=args.json, write_report=args.write_report)
+        parser.print_help()
+        return int(ExitCode.FAIL)
+    if args.command == "policy":
+        if args.policy_command == "check":
+            return policy_check_command(
+                args.action,
+                path=args.path,
+                text=args.text,
+                external_api=args.external_api,
+                provider=args.provider,
+                estimated_cost_usd=args.estimated_cost_usd,
+                allow_external_api=args.allow_external_api,
+                budget_limit_usd=args.budget_limit_usd,
+                budget_used_usd=args.budget_used_usd,
+                json_output=args.json,
+                write_report=args.write_report,
+            )
         parser.print_help()
         return int(ExitCode.FAIL)
     if args.command == "standards":

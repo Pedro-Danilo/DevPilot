@@ -98,12 +98,21 @@ def parse_frontmatter_file(path: Path) -> FrontmatterDocument:
 
 
 def _display_path(path: Path, root: Path | None = None) -> str:
+    """Return a stable repository-style path for CLI JSON, reports and events.
+
+    DevPilot emits evidence artifacts that must be comparable across Windows,
+    Linux and CI environments. `Path` stringification uses the host OS
+    separator, so Windows returned values such as `docs\\valid.md`. The
+    evidence contract uses POSIX-style separators (`docs/valid.md`) for
+    deterministic tests, JSON reports and JSONL event summaries.
+    """
+
     if root is None:
-        return str(path)
+        return str(path).replace("\\", "/")
     try:
-        return str(path.resolve().relative_to(root.resolve()))
+        return str(path.resolve().relative_to(root.resolve())).replace("\\", "/")
     except ValueError:
-        return str(path)
+        return str(path).replace("\\", "/")
 
 
 def validate_frontmatter_document(

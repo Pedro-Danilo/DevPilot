@@ -715,3 +715,78 @@ Estos archivos son evidencia runtime. Están ignorados por `.gitignore` y pueden
 - Los perfiles de artefactos siguen siendo determinísticos y mínimos; no reemplazan revisión humana experta.
 - Los warnings de secciones recomendadas no bloquean todavía. Deben endurecerse progresivamente cuando las plantillas del estándar se vuelvan más contractuales.
 - No hay llamadas externas, API keys, LLMs ni dependencias nuevas.
+
+
+## FUNC-SPRINT-09 — Policy Engine, PathGuard, SecretGuard y CostGuard determinísticos
+
+### Propósito operativo
+
+Este sprint agrega una capa local de seguridad ejecutable antes de habilitar agentes, Git avanzado, patches, refactors o APIs externas. La evaluación es determinística, offline y no ejecuta la acción simulada.
+
+### Componentes
+
+```text
+.devpilot/policy.yaml                         -> política local mínima
+src/devpilot_core/policy/decisions.py         -> PolicyDecision y PolicyEffect
+src/devpilot_core/policy/path_guard.py        -> PathGuard
+src/devpilot_core/policy/secrets.py           -> SecretGuard
+src/devpilot_core/policy/cost_guard.py        -> CostGuard
+src/devpilot_core/policy/engine.py            -> PolicyEngine
+tests/test_policy_engine.py                   -> pruebas de seguridad
+```
+
+### Comandos
+
+```powershell
+python -m devpilot_core policy check read --path docs/00_product/product_vision.md --json
+python -m devpilot_core policy check delete --path docs/00_product/product_vision.md --json
+python -m devpilot_core policy check read --path docs/file.md --text "api_key=sk-1234567890abcdef" --json --write-report
+python -m devpilot_core policy check external-api --external-api --provider openai --estimated-cost-usd 0.01 --json
+python -m pytest -q
+```
+
+### Interpretación
+
+```text
+PASS: solicitud simulada permitida por todos los guards.
+FAIL: solicitud denegada por una política no bloqueante.
+BLOCK: ruta insegura, acción peligrosa, secreto detectado o API externa sin presupuesto/política.
+ERROR: error técnico inesperado.
+```
+
+### Criterios PASS
+
+```text
+Safe local read pasa.
+Delete/overwrite/remove/rm se bloquean por defecto.
+Rutas fuera del workspace se bloquean.
+.env y .git se bloquean.
+Secretos sintéticos se redactan y bloquean.
+API externa sin presupuesto se bloquea.
+Reportes y trazas no persisten secretos sintéticos.
+pytest -q pasa.
+```
+
+### Criterios BLOCK
+
+```text
+Una acción destructiva se permite por defecto.
+Un path traversal o ruta fuera del workspace pasa.
+Un secreto aparece sin redacción en outputs/reports o outputs/traces.
+Una API externa se permite sin CostGuard y sin presupuesto local.
+El comando policy check no produce CommandResult normalizado.
+```
+
+### Riesgos y límites actuales
+
+```text
+SecretGuard es pattern-based, no un scanner industrial.
+CostGuard no mide consumo real de proveedores.
+PathGuard usa política estática inicial.
+No existe todavía aprobación humana persistente.
+No existe todavía Policy Matrix MIASI ejecutable completa.
+```
+
+### Evolución esperada
+
+En sprints posteriores, esta capa debe integrarse con persistencia SQLite, Agent/Tool Registry, aprobación humana, ModelAdapter híbrido, Git read-only, patch review y CostGuard con histórico de consumo.

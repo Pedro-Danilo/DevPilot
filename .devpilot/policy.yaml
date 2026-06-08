@@ -1,0 +1,20 @@
+schema_version: "1.0"
+policy:
+  id: "devpilot-default-policy"
+  name: "DevPilot Local deterministic safety policy"
+security:
+  dry_run_default: true
+  dangerous_actions_blocked_by_default: true
+  secret_redaction_required: true
+cost:
+  external_api_allowed: false
+  budget_limit_usd: 0.0
+  budget_used_usd: 0.0
+  allowed_providers:
+    - "mock"
+    - "local"
+    - "ollama"
+    - "lmstudio"
+runtime:
+  created_by: "FUNC-SPRINT-09"
+  evolution_note: "Initial local-first policy file; future versions may add signed policies, RBAC and encrypted secret configuration."

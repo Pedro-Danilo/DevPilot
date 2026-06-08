@@ -9,6 +9,7 @@ from typing import Any
 
 from devpilot_core.cli_models import CommandResult
 from devpilot_core.reports.models import EvidenceReport
+from devpilot_core.policy import redact_sensitive_data, redact_string
 
 _SAFE_FILENAME_PATTERN = re.compile(r"[^a-zA-Z0-9_.-]+")
 
@@ -67,11 +68,11 @@ class ReportEngine:
         markdown_path = self.reports_dir / f"{base_name}.md"
 
         paths = WrittenReportPaths(json=_relative(json_path, self.root), markdown=_relative(markdown_path, self.root))
-        payload = report.to_dict()
+        payload = redact_sensitive_data(report.to_dict())
         payload["output_paths"] = paths.to_dict()
 
         json_path.write_text(json.dumps(payload, indent=2, ensure_ascii=False), encoding="utf-8")
-        markdown_path.write_text(render_markdown_report(report, output_paths=paths.to_dict()), encoding="utf-8")
+        markdown_path.write_text(redact_string(render_markdown_report(report, output_paths=paths.to_dict())), encoding="utf-8")
         return paths
 
     def _resolve_reports_dir(self, reports_dir: str | Path) -> Path:

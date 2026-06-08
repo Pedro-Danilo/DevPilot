@@ -1,8 +1,8 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
 Estado actual: `baseline pre-code approved + functional backlog approved + gates documentales ejecutables`  
-Último hito: `FUNC-SPRINT-08 — Workspace Manager mínimo`  
-Siguiente hito: `FUNC-SPRINT-09 — Policy Engine, PathGuard, SecretGuard y CostGuard determinísticos`  
+Último hito: `FUNC-SPRINT-09 — Policy Engine, PathGuard, SecretGuard y CostGuard determinísticos`  
+Siguiente hito: `FUNC-SPRINT-10 — Persistencia local SQLite y estado operativo`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
@@ -36,6 +36,12 @@ Ya existe:
 - generación local de trazas `outputs/traces/events.jsonl`;
 - redacción básica de secretos sintéticos antes de persistir eventos;
 - `WorkspaceManager` mínimo con `.devpilot/project.yaml`;
+- `.devpilot/policy.yaml` como política local mínima de seguridad/costo;
+- `PolicyEngine` determinístico;
+- `PathGuard` para rutas seguras bajo workspace;
+- `SecretGuard` para redacción y bloqueo de secretos sintéticos;
+- `CostGuard` para bloquear costos externos sin política/presupuesto;
+- comando `policy check`;
 - comandos `workspace init` y `workspace status`;
 - inicialización dry-run por defecto y escritura explícita con `--execute`;
 - documentación pre-code aprobada;
@@ -44,7 +50,6 @@ Ya existe:
 
 Pendiente de implementación funcional:
 
-- policy/security guards;
 - persistencia SQLite;
 - registries ejecutables de agentes y herramientas;
 - agentes documentales controlados;
@@ -74,8 +79,10 @@ DevPilot_Local/
     standards/
   .devpilot/
     project.yaml
+    policy.yaml
   src/devpilot_core/
     observability/
+    policy/
     reports/
     standards/
     validators/
@@ -126,6 +133,10 @@ python -m devpilot_core workspace init --dry-run
 python -m devpilot_core workspace init --execute
 python -m devpilot_core workspace status
 python -m devpilot_core workspace status --json --write-report
+python -m devpilot_core policy check read --path docs/00_product/product_vision.md --json
+python -m devpilot_core policy check delete --path docs/00_product/product_vision.md --json
+python -m devpilot_core policy check read --path docs/file.md --text "api_key=sk-1234567890abcdef" --json --write-report
+python -m devpilot_core policy check external-api --external-api --provider openai --estimated-cost-usd 0.01 --json
 
 # Todos los comandos anteriores emiten eventos locales en outputs/traces/events.jsonl
 ```
@@ -175,6 +186,10 @@ python -m devpilot_core workspace init --dry-run
 python -m devpilot_core workspace init --execute
 python -m devpilot_core workspace status
 python -m devpilot_core workspace status --json --write-report
+python -m devpilot_core policy check read --path docs/00_product/product_vision.md --json
+python -m devpilot_core policy check delete --path docs/00_product/product_vision.md --json
+python -m devpilot_core policy check read --path docs/file.md --text "api_key=sk-1234567890abcdef" --json --write-report
+python -m devpilot_core policy check external-api --external-api --provider openai --estimated-cost-usd 0.01 --json
 
 # Todos los comandos anteriores emiten eventos locales en outputs/traces/events.jsonl
 ```

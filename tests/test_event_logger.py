@@ -8,6 +8,7 @@ import pytest
 from devpilot_core import cli
 from devpilot_core.cli_models import CommandResult, ExitCode, Finding, Severity
 from devpilot_core.observability import EventLogger, EventRecord, REDACTED, redact_sensitive_data, redact_sensitive_string
+from devpilot_core.validators.frontmatter import parse_frontmatter_text, validate_frontmatter_document
 
 
 def read_jsonl(path: Path) -> list[dict]:
@@ -119,3 +120,24 @@ def test_redaction_helpers_cover_strings_and_nested_values() -> None:
     assert "hf_1234567890abcdef" not in redacted_text
     assert nested["access_token"] == REDACTED
     assert nested["safe"] == ["plain"]
+
+
+def test_frontmatter_result_path_uses_posix_separator_for_windows_style_input() -> None:
+    document = parse_frontmatter_text(
+        "---\n"
+        "title: Valid Document\n"
+        "doc_id: DEVPL-TEST-001\n"
+        "status: approved\n"
+        "version: 1.0.0\n"
+        "owner: Ordóñez\n"
+        "updated: 2026-06-07\n"
+        "approval: approved_by_owner_direction\n"
+        "---\n"
+        "# Valid Document\n",
+        path=Path("docs\\valid.md"),
+    )
+
+    result = validate_frontmatter_document(document, strict=True)
+
+    assert result.ok is True
+    assert result.data["path"] == "docs/valid.md"

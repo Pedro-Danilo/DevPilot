@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import json
-import re
 import uuid
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
@@ -12,18 +11,7 @@ from devpilot_core.cli_models import CommandResult
 
 DEFAULT_EVENTS_PATH = "outputs/traces/events.jsonl"
 
-_SECRET_KEY_PATTERN = re.compile(r"(api[_-]?key|access[_-]?token|refresh[_-]?token|token|secret|password|authorization)", re.IGNORECASE)
-_SECRET_VALUE_PATTERNS = [
-    re.compile(r"sk-[A-Za-z0-9_\-]{12,}"),
-    re.compile(r"ghp_[A-Za-z0-9_]{12,}"),
-    re.compile(r"hf_[A-Za-z0-9_\-]{12,}"),
-    re.compile(r"xox[baprs]-[A-Za-z0-9_\-]{10,}"),
-    re.compile(
-        r"(?i)(api[_-]?key|access[_-]?token|refresh[_-]?token|token|secret|password|authorization)\s*[:=]\s*['\"]?([^'\"\s,;]+)"
-    ),
-]
-
-REDACTED = "[REDACTED]"
+from devpilot_core.policy import REDACTED, SecretGuard, redact_sensitive_data as _policy_redact_sensitive_data, redact_string as _policy_redact_string
 
 
 def utc_now_iso() -> str:
@@ -241,44 +229,22 @@ def summarize_command_data(data: dict[str, Any]) -> dict[str, Any]:
 
 
 def redact_sensitive_data(value: Any) -> Any:
-    """Recursively redact synthetic secrets and sensitive home path fragments."""
+    """Recursively redact synthetic secrets using SecretGuard.
 
-    if isinstance(value, dict):
-        redacted: dict[str, Any] = {}
-        for key, item in value.items():
-            if _is_sensitive_key(str(key)):
-                redacted[key] = REDACTED
-            else:
-                redacted[key] = redact_sensitive_data(item)
-        return redacted
-    if isinstance(value, list):
-        return [redact_sensitive_data(item) for item in value]
-    if isinstance(value, tuple):
-        return [redact_sensitive_data(item) for item in value]
-    if isinstance(value, str):
-        return redact_sensitive_string(value)
-    return value
+    Kept as a compatibility wrapper for FUNC-SPRINT-07 tests and callers.
+    FUNC-SPRINT-09 centralizes the implementation in `devpilot_core.policy`.
+    """
+
+    return _policy_redact_sensitive_data(value)
 
 
 def redact_sensitive_string(value: str) -> str:
-    """Redact known token patterns and local home directory fragments in strings."""
+    """Redact known token patterns in strings.
 
-    redacted = value
-    for pattern in _SECRET_VALUE_PATTERNS:
-        if pattern.groups >= 2:
-            redacted = pattern.sub(lambda match: f"{match.group(1)}={REDACTED}", redacted)
-        else:
-            redacted = pattern.sub(REDACTED, redacted)
+    Kept as a compatibility wrapper. New code should use SecretGuard directly.
+    """
 
-    home = str(Path.home()).replace("\\", "/")
-    normalized = redacted.replace("\\", "/")
-    if home and home in normalized:
-        normalized = normalized.replace(home, "[HOME]")
-    return normalized
-
-
-def _is_sensitive_key(key: str) -> bool:
-    return bool(_SECRET_KEY_PATTERN.search(key))
+    return _policy_redact_string(value)
 
 
 def _status_from_exit_code(exit_code: int) -> str:

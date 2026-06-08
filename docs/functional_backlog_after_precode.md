@@ -2,7 +2,7 @@
 title: "DevPilot Local — Backlog ejecutable posterior a pre-code"
 doc_id: "DEVPL-FUNC-BACKLOG-001"
 status: "approved"
-version: "1.6.0"
+version: "1.7.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
@@ -14,7 +14,7 @@ change_policy: "controlled_changes_allowed_via_docs_as_code"
 approved_on: "2026-06-06"
 approval_scope: "functional_backlog_after_precode"
 baseline_execution: "FUNC-SPRINT-00"
-next_sprint: "FUNC-SPRINT-09"
+next_sprint: "FUNC-SPRINT-10"
 ---
 
 # DevPilot Local — Backlog ejecutable posterior a pre-code
@@ -71,7 +71,7 @@ El primer ciclo funcional busca convertir DevPilot de un proyecto documentado en
 | L1 | Gates documentales | MIPSoftware/MIASI ejecutable como validadores | Próximo |
 | L2 | Workspace local | Proyecto gestionado por `.devpilot/` | Implementado inicial |
 | L3 | Evidencia y observabilidad | Reportes, JSONL, auditoría local | Implementado inicial |
-| L4 | Seguridad operativa | Policy Engine, SecretGuard, CostGuard | Pendiente |
+| L4 | Seguridad operativa | Policy Engine, SecretGuard, CostGuard | Implementado inicial |
 | L5 | MIASI ejecutable | Agent/Tool/Policy registries verificables | Pendiente |
 | L6 | Agentes documentales | Agentes mock/local en dry-run | Pendiente |
 | L7 | Repositorios | Git read-only, inventario, análisis | Pendiente |
@@ -822,29 +822,129 @@ Implementa FUNC-SPRINT-08: Workspace Manager mínimo con .devpilot/project.yaml,
 
 Crear controles determinísticos antes de habilitar agentes, Git avanzado, patches o APIs externas.
 
+## Estado
+
+```text
+Implementado inicial — 2026-06-08
+```
+
 ## Historias
 
-| ID | Historia | Criterio de aceptación |
-|---|---|---|
-| US-FUNC-09-001 | Como owner, quiero bloquear acciones peligrosas por defecto. | Policy Engine evalúa allow/deny/block. |
-| US-FUNC-09-002 | Como usuario, quiero evitar exposición de secretos. | SecretGuard redacta patrones sintéticos en reportes y trazas. |
-| US-FUNC-09-003 | Como owner, quiero controlar costos externos. | CostGuard bloquea uso externo sin presupuesto/política. |
+| ID | Historia | Criterio de aceptación | Estado |
+|---|---|---|---|
+| US-FUNC-09-001 | Como owner, quiero bloquear acciones peligrosas por defecto. | Policy Engine evalúa allow/deny/block. | Implementado |
+| US-FUNC-09-002 | Como usuario, quiero evitar exposición de secretos. | SecretGuard redacta patrones sintéticos en reportes y trazas. | Implementado |
+| US-FUNC-09-003 | Como owner, quiero controlar costos externos. | CostGuard bloquea uso externo sin presupuesto/política. | Implementado |
 
 ## Tareas
 
-| ID | Tarea | Entregable | PASS |
-|---|---|---|---|
-| FUNC-09-001 | Crear `PolicyDecision` | modelo | allow/warn/deny/block + reason. |
-| FUNC-09-002 | Crear `PathGuard` | módulo | allowlist/denylist. |
-| FUNC-09-003 | Crear `SecretGuard` | módulo | Redacción sintética. |
-| FUNC-09-004 | Crear `CostGuard` | módulo | Presupuesto local config. |
-| FUNC-09-005 | Crear comando `policy check` | CLI | Evalúa acción simulada. |
-| FUNC-09-006 | Tests de bloqueo | pytest | Path traversal, secret, external API sin permiso. |
+| ID | Tarea | Entregable | PASS | Estado |
+|---|---|---|---|---|
+| FUNC-09-001 | Crear `PolicyDecision` | `src/devpilot_core/policy/decisions.py` | allow/warn/deny/block + reason. | Implementado |
+| FUNC-09-002 | Crear `PathGuard` | `src/devpilot_core/policy/path_guard.py` | allowlist/denylist. | Implementado |
+| FUNC-09-003 | Crear `SecretGuard` | `src/devpilot_core/policy/secrets.py` | Redacción sintética. | Implementado |
+| FUNC-09-004 | Crear `CostGuard` | `src/devpilot_core/policy/cost_guard.py` | Presupuesto local config. | Implementado |
+| FUNC-09-005 | Crear comando `policy check` | CLI | Evalúa acción simulada. | Implementado |
+| FUNC-09-006 | Tests de bloqueo | `tests/test_policy_engine.py` | Path traversal, secret, external API sin permiso. | Implementado |
+
+## Archivos creados
+
+```text
+.devpilot/policy.yaml
+src/devpilot_core/policy/__init__.py
+src/devpilot_core/policy/decisions.py
+src/devpilot_core/policy/path_guard.py
+src/devpilot_core/policy/secrets.py
+src/devpilot_core/policy/cost_guard.py
+src/devpilot_core/policy/engine.py
+tests/test_policy_engine.py
+docs/audits/func_sprint_09_policy_engine_audit.md
+docs/functional_sprint_09_manifest.json
+```
+
+## Archivos modificados
+
+```text
+.devpilot/project.yaml
+src/devpilot_core/cli.py
+src/devpilot_core/observability/events.py
+src/devpilot_core/reports/report_engine.py
+src/devpilot_core/workspace/manager.py
+README.md
+docs/05_operations/runbook.md
+docs/functional_backlog_after_precode.md
+```
+
+## Comandos implementados
+
+```powershell
+python -m devpilot_core policy check read --path docs/00_product/product_vision.md --json
+python -m devpilot_core policy check delete --path docs/00_product/product_vision.md --json
+python -m devpilot_core policy check read --path docs/file.md --text "api_key=sk-1234567890abcdef" --json --write-report
+python -m devpilot_core policy check external-api --external-api --provider openai --estimated-cost-usd 0.01 --json
+python -m pytest -q
+```
+
+## Contrato de política local
+
+La política local inicial vive en:
+
+```text
+.devpilot/policy.yaml
+```
+
+Propiedades clave:
+
+```text
+security.dry_run_default = true
+security.dangerous_actions_blocked_by_default = true
+security.secret_redaction_required = true
+cost.external_api_allowed = false
+cost.budget_limit_usd = 0.0
+cost.budget_used_usd = 0.0
+```
+
+## Criterios PASS
+
+```text
+Safe read dentro del workspace pasa.
+Rutas fuera del workspace bloquean.
+Acciones destructivas bloquean por defecto.
+Secretos sintéticos bloquean y se redactan en reportes/trazas.
+External API sin presupuesto/política bloquea.
+ReportEngine y EventLogger usan SecretGuard para redacción.
+pytest -q pasa.
+```
+
+## Criterios BLOCK
+
+```text
+Una acción destructiva pasa por defecto.
+Una API externa puede llamarse sin CostGuard.
+Un secreto aparece sin redacción en evidencia.
+Un path traversal puede salir del workspace.
+El comando policy check no genera CommandResult.
+```
+
+## Riesgos y límites
+
+- SecretGuard es pattern-based y no reemplaza secret scanners industriales.
+- CostGuard no mide consumo real de proveedores.
+- PathGuard usa política estática inicial.
+- No existe todavía aprobación humana persistente.
+- La Policy Matrix MIASI ejecutable queda para sprints posteriores.
+
+## Pruebas
+
+```text
+tests/test_policy_engine.py
+pytest -q -> 63 passed
+```
 
 ## Prompt operativo
 
 ```text
-Implementa FUNC-SPRINT-09: Policy Engine determinístico con PathGuard, SecretGuard y CostGuard. Debe bloquear acciones inseguras por defecto, operar sin APIs, generar decisiones auditables y tener tests de seguridad.
+Implementado FUNC-SPRINT-09: Policy Engine determinístico con PathGuard, SecretGuard y CostGuard. Bloquea acciones inseguras por defecto, opera sin APIs, genera decisiones auditables y tiene tests de seguridad.
 ```
 
 ---

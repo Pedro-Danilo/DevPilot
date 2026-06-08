@@ -1,0 +1,66 @@
+{
+  "sprint": "FUNC-SPRINT-09",
+  "title": "Policy Engine, PathGuard, SecretGuard y CostGuard determinísticos",
+  "status": "implemented",
+  "implemented_on": "2026-06-08",
+  "requires_api_key": false,
+  "uses_external_services": false,
+  "adds_dependencies": false,
+  "cost_generating": false,
+  "created_files": [
+    ".devpilot/policy.yaml",
+    "src/devpilot_core/policy/__init__.py",
+    "src/devpilot_core/policy/decisions.py",
+    "src/devpilot_core/policy/path_guard.py",
+    "src/devpilot_core/policy/secrets.py",
+    "src/devpilot_core/policy/cost_guard.py",
+    "src/devpilot_core/policy/engine.py",
+    "tests/test_policy_engine.py",
+    "docs/audits/func_sprint_09_policy_engine_audit.md",
+    "docs/functional_sprint_09_manifest.json"
+  ],
+  "modified_files": [
+    ".devpilot/project.yaml",
+    "src/devpilot_core/cli.py",
+    "src/devpilot_core/observability/events.py",
+    "src/devpilot_core/reports/report_engine.py",
+    "src/devpilot_core/workspace/manager.py",
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/functional_backlog_after_precode.md"
+  ],
+  "commands": [
+    "python -m devpilot_core policy check read --path docs/00_product/product_vision.md --json",
+    "python -m devpilot_core policy check delete --path docs/00_product/product_vision.md --json",
+    "python -m devpilot_core policy check read --path docs/file.md --text \"api_key=sk-1234567890abcdef\" --json --write-report",
+    "python -m devpilot_core policy check external-api --external-api --provider openai --estimated-cost-usd 0.01 --json",
+    "python -m pytest -q"
+  ],
+  "pass_criteria": [
+    "Safe local read passes policy check.",
+    "Dangerous delete action blocks by default.",
+    "Secret-like text blocks and is redacted in reports/traces.",
+    "External API without budget/policy blocks by default.",
+    "ReportEngine and EventLogger redact through SecretGuard.",
+    "pytest -q passes."
+  ],
+  "block_criteria": [
+    "Any path outside project root is allowed.",
+    "A .env or .git path is allowed.",
+    "A destructive action is allowed by default.",
+    "A secret-like token is persisted without redaction.",
+    "External API usage is allowed with no budget/policy."
+  ],
+  "tests": {
+    "file": "tests/test_policy_engine.py",
+    "total_suite_result": "63 passed, 0 failed, 0 errors, 0 skipped"
+  },
+  "risks": [
+    "SecretGuard is pattern-based and not an industrial scanner.",
+    "CostGuard does not measure real provider usage yet.",
+    "PathGuard policies are static in this first version.",
+    "Human approval persistence is not implemented yet.",
+    "Policy Matrix MIASI executable remains for a later sprint."
+  ],
+  "next_sprint": "FUNC-SPRINT-10 — Persistencia local SQLite y estado operativo"
+}
