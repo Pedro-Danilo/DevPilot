@@ -870,3 +870,92 @@ python -m devpilot_core state init --json
 ```
 
 No hacer esto en un entorno productivo sin una estrategia de backup/restore formal.
+
+## FUNC-SPRINT-11 — MIASI ejecutable: Agent Registry, Tool Registry y Policy Matrix
+
+### Propósito operativo
+
+Este sprint convierte MIASI de baseline documental aprobada a contrato ejecutable validable. La validación sigue siendo local-first, determinística y no ejecuta agentes ni herramientas. Su función es impedir que DevPilot avance hacia runtime agentic sin registros, herramientas, políticas, evaluación, observabilidad y reglas de aprobación mínimas.
+
+### Componentes
+
+```text
+.devpilot/miasi/agent_registry.json       -> contrato ejecutable de agentes permitidos
+.devpilot/miasi/tool_registry.json        -> contrato ejecutable de herramientas permitidas
+.devpilot/miasi/policy_matrix.json        -> matriz ejecutable de cobertura policy/gate/approval/observability
+src/devpilot_core/miasi/registry.py       -> modelos, parser Markdown mínimo y MiasiRegistryValidator
+src/devpilot_core/miasi/__init__.py       -> API pública MIASI ejecutable
+src/devpilot_core/cli.py                  -> comandos miasi validate*
+tests/test_miasi_registry.py              -> pruebas de registries, CLI, drift y casos BLOCK
+```
+
+### Comandos
+
+```powershell
+python -m devpilot_core miasi validate --json
+python -m devpilot_core miasi validate --json --write-report
+python -m devpilot_core miasi validate-registry --json
+python -m devpilot_core miasi validate-tools --json
+python -m devpilot_core miasi validate-policy-matrix --json
+python -m pytest -q
+```
+
+### Interpretación
+
+```text
+miasi validate: valida agentes, herramientas, policy matrix, documentos MIASI y drift básico.
+miasi validate-registry: valida solo Agent Registry ejecutable.
+miasi validate-tools: valida solo Tool Registry ejecutable.
+miasi validate-policy-matrix: valida dominios, gates, approvals y observabilidad de reglas.
+```
+
+### Criterios PASS
+
+```text
+Existen .devpilot/miasi/*.json.
+El JSON es válido.
+No hay IDs duplicados.
+Los agentes referencian tools existentes.
+Las tools referencian reglas de Policy Matrix existentes.
+Los agentes A4+ requieren aprobación humana.
+Los agentes MVP no superan A2.
+Todas las entidades críticas tienen observabilidad.
+La matriz cubre Docs, Filesystem, Git, Patch, Model, Agent, Secrets y Deployment.
+pytest -q pasa.
+```
+
+### Criterios BLOCK
+
+```text
+Falta un registro ejecutable MIASI.
+Un agente declara una herramienta inexistente.
+Una herramienta o agente no tiene cobertura de policy.
+Una regla de policy no tiene gate.
+Una acción deny/block no es observable.
+Un agente A4+ no requiere aprobación.
+Un agente MVP supera A2.
+Hay drift donde el documento aprobado declara una entidad ausente en el contrato ejecutable.
+```
+
+### Riesgos y límites actuales
+
+```text
+Primera versión ejecutable: valida declaraciones, no runtime.
+No ejecuta agentes ni herramientas.
+No implementa RBAC/IAM.
+No persiste aprobaciones humanas reales.
+No mide uso real de herramientas o modelos.
+No reemplaza eval harness ni red teaming.
+El parser Markdown es mínimo y soporta la forma de tablas usada por los documentos MIASI del repo.
+```
+
+### Recuperación
+
+Si un registro se daña, restaurar desde control de versiones o desde el ZIP de sprint. Después validar:
+
+```powershell
+python -m devpilot_core miasi validate --json
+python -m pytest -q
+```
+
+No habilitar un agente nuevo sin actualizar simultáneamente Agent Registry, Tool Registry, Policy Matrix, pruebas y documentación de auditoría.

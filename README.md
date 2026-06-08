@@ -1,8 +1,8 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
 Estado actual: `baseline pre-code approved + functional backlog approved + gates documentales ejecutables`  
-Último hito: `FUNC-SPRINT-10 — Persistencia local SQLite y estado operativo`  
-Siguiente hito: `FUNC-SPRINT-11 — MIASI ejecutable: Agent Registry, Tool Registry y Policy Matrix`  
+Último hito: `FUNC-SPRINT-11 — MIASI ejecutable: Agent Registry, Tool Registry y Policy Matrix`  
+Siguiente hito: `FUNC-SPRINT-12 — Agent Runtime mock/local para agentes documentales MVP`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
@@ -44,6 +44,9 @@ Ya existe:
 - comando `policy check`;
 - `LocalStore` SQLite v0 para runs, findings, gates, events, approvals y cost_events;
 - comandos `state init`, `state status` y `history list`;
+- contratos MIASI ejecutables bajo `.devpilot/miasi/`;
+- `MiasiRegistryValidator` para Agent Registry, Tool Registry y Policy Matrix;
+- comandos `miasi validate`, `miasi validate-registry`, `miasi validate-tools` y `miasi validate-policy-matrix`;
 - persistencia automática best-effort de resultados de gates/validadores en `.devpilot/devpilot.db`;
 - comandos `workspace init` y `workspace status`;
 - inicialización dry-run por defecto y escritura explícita con `--execute`;
@@ -53,7 +56,6 @@ Ya existe:
 
 Pendiente de implementación funcional:
 
-- registries ejecutables de agentes y herramientas;
 - agentes documentales controlados;
 - Git read-only;
 - patch/code review en dry-run;
@@ -82,8 +84,13 @@ DevPilot_Local/
   .devpilot/
     project.yaml
     policy.yaml
+    miasi/
+      agent_registry.json
+      tool_registry.json
+      policy_matrix.json
     devpilot.db        # generado en runtime, no versionado
   src/devpilot_core/
+    miasi/
     observability/
     policy/
     reports/
@@ -123,6 +130,11 @@ python -m devpilot_core readiness-check --strict
 python -m devpilot_core readiness-check --strict --json
 python -m devpilot_core miasi-required
 python -m devpilot_core miasi-required --json
+python -m devpilot_core miasi validate --json
+python -m devpilot_core miasi validate --json --write-report
+python -m devpilot_core miasi validate-registry --json
+python -m devpilot_core miasi validate-tools --json
+python -m devpilot_core miasi validate-policy-matrix --json
 python -m devpilot_core validate-frontmatter docs/00_product/product_vision.md --strict
 python -m devpilot_core validate-frontmatter docs/00_product/product_vision.md --strict --write-report
 python -m devpilot_core validate-artifact docs/01_requirements/requirements_specification.md --strict
@@ -526,3 +538,30 @@ state init --json -> PASS
 state status --json -> PASS
 history list --json -> PASS
 ```
+
+## FUNC-SPRINT-11 — MIASI ejecutable
+
+DevPilot incluye ahora una primera versión ejecutable de MIASI. Los documentos aprobados en `docs/06_miasi/` siguen siendo la fuente conceptual, pero el contrato operativo validable vive en:
+
+```text
+.devpilot/miasi/agent_registry.json
+.devpilot/miasi/tool_registry.json
+.devpilot/miasi/policy_matrix.json
+```
+
+Estos archivos son determinísticos, locales y no ejecutan agentes ni herramientas. Su propósito es validar que todo agente declarado tenga herramientas permitidas, autonomía máxima, evaluación, observabilidad y cobertura de Policy Matrix; que toda herramienta tenga side effects, riesgo, aprobación y política; y que la Policy Matrix cubra dominios críticos como Docs, Filesystem, Git, Patch, Model, Agent, Secrets y Deployment.
+
+Comandos de verificación:
+
+```powershell
+python -m devpilot_core miasi validate --json
+python -m devpilot_core miasi validate-registry --json
+python -m devpilot_core miasi validate-tools --json
+python -m devpilot_core miasi validate-policy-matrix --json
+```
+
+Criterios PASS: los registros existen, el JSON es válido, no hay IDs duplicados, las herramientas referenciadas existen, las reglas de política existen, los agentes MVP no superan A2, los agentes A4+ requieren aprobación, todas las tools tienen cobertura de política y la matriz cubre dominios críticos.
+
+Criterios BLOCK: agente sin tool registrada, tool sin policy, regla inexistente, herramienta de alto riesgo sin aprobación cuando aplica, falta de documento MIASI requerido, falta de config ejecutable o drift entre documentos y contrato ejecutable.
+
+Riesgos: es una primera versión de contrato ejecutable. No implementa Agent Runtime, no ejecuta tools, no sustituye evaluaciones reales, no implementa RBAC/IAM ni workflows persistentes de aprobación.

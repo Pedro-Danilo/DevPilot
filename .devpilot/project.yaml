@@ -17,6 +17,10 @@ paths:
   traces: "outputs/traces"
   policy: ".devpilot/policy.yaml"
   state: ".devpilot/devpilot.db"
+  miasi_config: ".devpilot/miasi"
+  agent_registry: ".devpilot/miasi/agent_registry.json"
+  tool_registry: ".devpilot/miasi/tool_registry.json"
+  policy_matrix: ".devpilot/miasi/policy_matrix.json"
 runtime:
   dry_run_default: true
   created_by: "FUNC-SPRINT-08"

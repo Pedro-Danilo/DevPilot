@@ -9,6 +9,7 @@ from . import __version__
 from .cli_models import CommandResult, ExitCode, Finding, Severity
 from .errors import DevPilotError
 from .observability import EventLogger
+from .miasi import MiasiRegistryValidator
 from .policy import CostPolicy, PolicyEngine, PolicyRequest, load_cost_policy
 from .reports import ReportEngine, build_report_id
 from .standards.registry import build_standards_status_result
@@ -185,6 +186,51 @@ def miasi_required(*, json_output: bool = False) -> int:
     print_result(result, json_output=json_output)
     return int(result.exit_code)
 
+
+
+def miasi_validate_command(
+    *,
+    scope: str = "all",
+    json_output: bool = False,
+    write_report: bool = False,
+) -> int:
+    """Validate executable MIASI Agent/Tool/Policy registries.
+
+    FUNC-SPRINT-11 keeps this command deterministic and non-executing: it
+    validates declarations only; it does not run agents, tools, models or
+    filesystem actions.
+    """
+
+    root = project_root()
+    validator = MiasiRegistryValidator(root)
+    if scope == "agents":
+        result = validator.validate_agents()
+        report_id = "miasi_validate_registry"
+        subject = ".devpilot/miasi/agent_registry.json"
+    elif scope == "tools":
+        result = validator.validate_tools()
+        report_id = "miasi_validate_tools"
+        subject = ".devpilot/miasi/tool_registry.json"
+    elif scope == "policy":
+        result = validator.validate_policy_matrix()
+        report_id = "miasi_validate_policy_matrix"
+        subject = ".devpilot/miasi/policy_matrix.json"
+    else:
+        result = validator.validate_all()
+        report_id = "miasi_validate"
+        subject = ".devpilot/miasi"
+    result = _write_optional_command_report(
+        root,
+        result,
+        subject=subject,
+        report_id=report_id,
+        write_report=write_report,
+        metadata={"sprint": "FUNC-SPRINT-11", "component": "MiasiRegistryValidator"},
+    )
+    _emit_result_event(root, result, subject=subject)
+    _persist_result(root, result, subject=subject)
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
 
 def validate_frontmatter_command(
     path: str,
@@ -427,8 +473,23 @@ def build_parser() -> argparse.ArgumentParser:
     checklist.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     checklist.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
 
-    miasi = sub.add_parser("miasi-required", help="Explain MIASI activation for this project")
-    miasi.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    miasi_required_parser = sub.add_parser("miasi-required", help="Explain MIASI activation for this project")
+    miasi_required_parser.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+
+    miasi = sub.add_parser("miasi", help="Validate executable MIASI registries and policy matrix")
+    miasi_sub = miasi.add_subparsers(dest="miasi_command")
+    miasi_validate = miasi_sub.add_parser("validate", help="Validate Agent Registry, Tool Registry and Policy Matrix")
+    miasi_validate.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    miasi_validate.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+    miasi_validate_registry = miasi_sub.add_parser("validate-registry", help="Validate executable Agent Registry")
+    miasi_validate_registry.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    miasi_validate_registry.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+    miasi_validate_tools = miasi_sub.add_parser("validate-tools", help="Validate executable Tool Registry")
+    miasi_validate_tools.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    miasi_validate_tools.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+    miasi_validate_policy = miasi_sub.add_parser("validate-policy-matrix", help="Validate executable Policy Matrix")
+    miasi_validate_policy.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    miasi_validate_policy.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
 
     frontmatter = sub.add_parser("validate-frontmatter", help="Validate Markdown frontmatter metadata")
     frontmatter.add_argument("path", help="Markdown document path to validate")
@@ -512,6 +573,9 @@ def _command_name_from_args(args: argparse.Namespace) -> str:
     if command == "policy":
         subcommand = getattr(args, "policy_command", None)
         return f"policy {subcommand}" if subcommand else "policy"
+    if command == "miasi":
+        subcommand = getattr(args, "miasi_command", None)
+        return f"miasi {subcommand}" if subcommand else "miasi"
     if command == "state":
         subcommand = getattr(args, "state_command", None)
         return f"state {subcommand}" if subcommand else "state"
@@ -533,6 +597,17 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
         return checklist_pre_code_command(json_output=args.json, write_report=args.write_report)
     if args.command == "miasi-required":
         return miasi_required(json_output=args.json)
+    if args.command == "miasi":
+        if args.miasi_command == "validate":
+            return miasi_validate_command(scope="all", json_output=args.json, write_report=args.write_report)
+        if args.miasi_command == "validate-registry":
+            return miasi_validate_command(scope="agents", json_output=args.json, write_report=args.write_report)
+        if args.miasi_command == "validate-tools":
+            return miasi_validate_command(scope="tools", json_output=args.json, write_report=args.write_report)
+        if args.miasi_command == "validate-policy-matrix":
+            return miasi_validate_command(scope="policy", json_output=args.json, write_report=args.write_report)
+        parser.print_help()
+        return int(ExitCode.FAIL)
     if args.command == "validate-frontmatter":
         return validate_frontmatter_command(
             args.path,

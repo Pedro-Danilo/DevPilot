@@ -1,0 +1,61 @@
+{
+  "sprint": "FUNC-SPRINT-11",
+  "title": "MIASI ejecutable: Agent Registry, Tool Registry y Policy Matrix",
+  "status": "implemented-initial",
+  "created_by": "DevPilot Local",
+  "updated": "2026-06-08",
+  "requires_api_key": false,
+  "external_cost": false,
+  "dependencies_added": [],
+  "created_files": [
+    ".devpilot/miasi/agent_registry.json",
+    ".devpilot/miasi/tool_registry.json",
+    ".devpilot/miasi/policy_matrix.json",
+    "src/devpilot_core/miasi/registry.py",
+    "src/devpilot_core/miasi/__init__.py",
+    "tests/test_miasi_registry.py",
+    "docs/audits/func_sprint_11_miasi_executable_audit.md",
+    "docs/functional_sprint_11_manifest.json"
+  ],
+  "modified_files": [
+    ".devpilot/project.yaml",
+    "src/devpilot_core/cli.py",
+    "src/devpilot_core/workspace/manager.py",
+    "docs/02_architecture/adrs/ADR-0008-agent-runtime-industrial-bajo-miasi.md",
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/functional_backlog_after_precode.md"
+  ],
+  "commands": [
+    "python -m devpilot_core miasi validate --json",
+    "python -m devpilot_core miasi validate --json --write-report",
+    "python -m devpilot_core miasi validate-registry --json",
+    "python -m devpilot_core miasi validate-tools --json",
+    "python -m devpilot_core miasi validate-policy-matrix --json",
+    "python -m pytest -q"
+  ],
+  "pass_criteria": [
+    "Executable MIASI JSON contracts exist.",
+    "Agent Registry validates agent tools, autonomy, approvals, eval and observability.",
+    "Tool Registry validates side effects, risk, approvals and policy coverage.",
+    "Policy Matrix validates domains, gates, approval and observability.",
+    "Markdown registry drift is detected.",
+    "pytest passes."
+  ],
+  "block_criteria": [
+    "Missing executable MIASI config.",
+    "Unknown tool referenced by an agent.",
+    "Unknown policy referenced by a tool or agent.",
+    "A4+ agent without approval.",
+    "MVP agent above A2.",
+    "Deny/block policy without observability."
+  ],
+  "risks": [
+    "No Agent Runtime yet.",
+    "No Tool Runtime yet.",
+    "No eval harness yet.",
+    "No persistent human approval workflow yet.",
+    "Markdown parser is intentionally minimal."
+  ],
+  "next_sprint": "FUNC-SPRINT-12 — Agent Runtime mock/local para agentes documentales MVP"
+}

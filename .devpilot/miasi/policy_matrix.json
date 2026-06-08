@@ -1,0 +1,22 @@
+{
+  "schema_version": "1.0",
+  "source_document": "docs/06_miasi/policy_matrix.md",
+  "created_by": "FUNC-SPRINT-11",
+  "description": "Executable MIASI Policy Matrix for deterministic coverage validation. It complements, but does not replace, PolicyEngine enforcement.",
+  "rules": [
+    {"rule_id": "DOC_READ_ALLOW", "domain": "Docs", "action": "read_artifact", "default_effect": "allow", "gate": "PathGuard", "approval_required": false, "observability_required": true},
+    {"rule_id": "DOC_VALIDATE_ALLOW", "domain": "Docs", "action": "validate_artifact", "default_effect": "allow", "gate": "SchemaChecklistGate", "approval_required": false, "observability_required": true},
+    {"rule_id": "DOC_WRITE_DRAFT_GATED", "domain": "Docs", "action": "write_draft", "default_effect": "deny_unless_safe_output", "gate": "PathGuard+BackupPolicy", "approval_required": true, "observability_required": true},
+    {"rule_id": "FILESYSTEM_DELETE_DENY", "domain": "Filesystem", "action": "delete", "default_effect": "deny", "gate": "PathGuard", "approval_required": false, "observability_required": true},
+    {"rule_id": "GIT_READ_ALLOW", "domain": "Git", "action": "status_diff", "default_effect": "allow", "gate": "GitReadPolicy", "approval_required": false, "observability_required": true},
+    {"rule_id": "GIT_WRITE_DENY", "domain": "Git", "action": "commit_tag_push", "default_effect": "deny", "gate": "ReleasePolicyFuture", "approval_required": true, "observability_required": true},
+    {"rule_id": "PATCH_DRY_RUN_ALLOW", "domain": "Patch", "action": "parse_dry_run", "default_effect": "allow", "gate": "PatchPolicy", "approval_required": false, "observability_required": true},
+    {"rule_id": "PATCH_APPLY_DENY", "domain": "Patch", "action": "apply", "default_effect": "deny", "gate": "PatchPolicy+Approval", "approval_required": true, "observability_required": true},
+    {"rule_id": "MODEL_LOCAL_ALLOW", "domain": "Model", "action": "mock_local", "default_effect": "allow", "gate": "ModelPolicy", "approval_required": false, "observability_required": true},
+    {"rule_id": "MODEL_EXTERNAL_DENY", "domain": "Model", "action": "external_api", "default_effect": "deny", "gate": "CostGuard+SecretGuard", "approval_required": true, "observability_required": true},
+    {"rule_id": "AGENT_SUGGEST_ALLOW", "domain": "Agent", "action": "suggest", "default_effect": "allow", "gate": "AgentPolicy", "approval_required": false, "observability_required": true},
+    {"rule_id": "AGENT_CRITICAL_TOOL_DENY", "domain": "Agent", "action": "execute_critical_tool", "default_effect": "deny", "gate": "ToolPolicy+Approval", "approval_required": true, "observability_required": true},
+    {"rule_id": "SECRETS_RAW_DENY", "domain": "Secrets", "action": "print_store_raw", "default_effect": "deny", "gate": "SecretGuard", "approval_required": false, "observability_required": true},
+    {"rule_id": "DEPLOY_DENY", "domain": "Deployment", "action": "deploy", "default_effect": "deny", "gate": "ReleasePolicyFuture", "approval_required": true, "observability_required": true}
+  ]
+}

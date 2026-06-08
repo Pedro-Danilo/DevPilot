@@ -2,7 +2,7 @@
 title: "DevPilot Local — Backlog ejecutable posterior a pre-code"
 doc_id: "DEVPL-FUNC-BACKLOG-001"
 status: "approved"
-version: "1.8.0"
+version: "1.9.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
@@ -14,7 +14,7 @@ change_policy: "controlled_changes_allowed_via_docs_as_code"
 approved_on: "2026-06-06"
 approval_scope: "functional_backlog_after_precode"
 baseline_execution: "FUNC-SPRINT-00"
-next_sprint: "FUNC-SPRINT-11"
+next_sprint: "FUNC-SPRINT-12"
 ---
 
 # DevPilot Local — Backlog ejecutable posterior a pre-code
@@ -1100,6 +1100,99 @@ Convertir los documentos MIASI en configuraciones/contratos ejecutables validado
 
 ```text
 Implementa FUNC-SPRINT-11: validación ejecutable de MIASI para Agent Registry, Tool Registry y Policy Matrix. Debe verificar autonomía, tools permitidas, side effects, approvals y policy coverage. Agrega comando miasi validate y tests.
+```
+
+---
+
+## Implementación FUNC-SPRINT-11
+
+Estado: `implemented-initial`.
+
+Se implementó MIASI ejecutable mediante contratos JSON versionables bajo `.devpilot/miasi/` y un validador determinístico local-first. La implementación no ejecuta agentes ni herramientas; valida declaraciones, cobertura de tools, cobertura de Policy Matrix, autonomía, approvals, observabilidad y drift básico contra los documentos MIASI aprobados.
+
+## Archivos creados
+
+```text
+.devpilot/miasi/agent_registry.json
+.devpilot/miasi/tool_registry.json
+.devpilot/miasi/policy_matrix.json
+src/devpilot_core/miasi/registry.py
+src/devpilot_core/miasi/__init__.py
+tests/test_miasi_registry.py
+docs/audits/func_sprint_11_miasi_executable_audit.md
+docs/functional_sprint_11_manifest.json
+```
+
+## Archivos modificados
+
+```text
+.devpilot/project.yaml
+src/devpilot_core/cli.py
+src/devpilot_core/workspace/manager.py
+docs/02_architecture/adrs/ADR-0008-agent-runtime-industrial-bajo-miasi.md
+README.md
+docs/05_operations/runbook.md
+docs/functional_backlog_after_precode.md
+```
+
+## Comandos implementados
+
+```powershell
+python -m devpilot_core miasi validate --json
+python -m devpilot_core miasi validate --json --write-report
+python -m devpilot_core miasi validate-registry --json
+python -m devpilot_core miasi validate-tools --json
+python -m devpilot_core miasi validate-policy-matrix --json
+python -m pytest -q
+```
+
+## Criterios PASS
+
+```text
+Los contratos ejecutables MIASI existen y son JSON válido.
+Agent Registry valida IDs, fase, estado, autonomía, tools permitidas, eval y observabilidad.
+Tool Registry valida side_effect, risk_level, aprobación y policy coverage.
+Policy Matrix valida dominio, gate, default_effect, approval y observability.
+Los agentes referencian tools existentes.
+Las tools y agentes referencian reglas existentes.
+Los agentes MVP no superan A2.
+Los agentes A4+ requieren aprobación.
+pytest -q pasa.
+```
+
+## Criterios BLOCK
+
+```text
+Falta un contrato ejecutable.
+Un agente referencia una tool inexistente.
+Una tool o agente carece de policy coverage.
+Una regla deny/block no es observable.
+Un agente A4+ no requiere aprobación.
+Hay drift donde el documento MIASI declara una entidad ausente en el contrato ejecutable.
+```
+
+## Riesgos y límites
+
+```text
+No hay Agent Runtime todavía.
+No se ejecutan tools.
+No hay aprobación humana persistente.
+No hay eval harness.
+El parser Markdown es mínimo.
+Los estados planned/future son contractuales; no equivalen a runtime habilitado.
+```
+
+## Pruebas
+
+```text
+tests/test_miasi_registry.py
+pytest -q -> 79 passed
+```
+
+## Prompt operativo
+
+```text
+Implementado FUNC-SPRINT-11: MIASI ejecutable con Agent Registry, Tool Registry y Policy Matrix determinísticos. Valida autonomía, tools, side effects, approvals, observabilidad y policy coverage sin ejecutar agentes ni herramientas.
 ```
 
 ---

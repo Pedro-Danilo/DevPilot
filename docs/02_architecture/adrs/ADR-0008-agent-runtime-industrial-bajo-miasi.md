@@ -2,12 +2,12 @@
 title: "ADR-0008 — Agent Runtime industrial bajo MIASI"
 doc_id: "DEVPL-ADR-0008"
 status: "accepted"
-version: "1.0.0"
+version: "1.1.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
 phase: "SPRINT-PRECODE-03"
-updated: "2026-06-04"
+updated: "2026-06-08"
 approval: "approved_by_owner_direction"
 accepted_by: "Ordóñez"
 accepted_at: "2026-06-04"
@@ -55,3 +55,25 @@ Diseñar un Industrial Agent Runtime con Agent Orchestrator, ModelAdapter, Tool 
 - Evals offline existen antes de agentes especializados.
 - Tool Registry bloquea herramientas no declaradas.
 - Agent runs dejan trazas.
+
+
+## Actualización FUNC-SPRINT-11 — MIASI ejecutable
+
+Estado de implementación: `implemented-initial`.
+
+La decisión de Agent Runtime industrial bajo MIASI empieza a materializarse con contratos ejecutables determinísticos, sin activar aún runtime de agentes. Sprint 11 introduce:
+
+```text
+.devpilot/miasi/agent_registry.json
+.devpilot/miasi/tool_registry.json
+.devpilot/miasi/policy_matrix.json
+src/devpilot_core/miasi/registry.py
+```
+
+Estos contratos permiten validar que ningún agente avance hacia ejecución sin herramientas declaradas, policy coverage, evaluación, observabilidad y aprobación cuando la autonomía/riesgo lo exige. La implementación es local-first, sin APIs externas, sin dependencias nuevas y sin ejecución de herramientas.
+
+La decisión arquitectónica se mantiene: los agentes futuros deberán pasar por Agent Registry, Tool Registry, Policy Matrix, Policy Engine, Eval Harness, Observability y Human Approval antes de habilitar capacidades de runtime.
+
+### Riesgo residual
+
+La implementación sigue siendo preliminar: aún no existe Agent Runtime, no hay ejecución de tools, no hay eval harness ni aprobación humana persistente. Sprint 11 reduce riesgo de drift documental, pero no sustituye controles industriales completos.

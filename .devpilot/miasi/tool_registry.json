@@ -1,0 +1,28 @@
+{
+  "schema_version": "1.0",
+  "source_document": "docs/06_miasi/tool_registry.md",
+  "created_by": "FUNC-SPRINT-11",
+  "description": "Executable MIASI Tool Registry for deterministic validation. It does not execute tools.",
+  "tools": [
+    {"tool_id": "artifact.read", "name": "read_artifact", "phase": "MVP", "side_effect": "read", "risk_level": "low", "status": "planned", "requires_approval": false, "policy_rule_ids": ["DOC_READ_ALLOW"]},
+    {"tool_id": "artifact.frontmatter.validate", "name": "validate_frontmatter", "phase": "MVP", "side_effect": "none", "risk_level": "low", "status": "planned", "requires_approval": false, "policy_rule_ids": ["DOC_VALIDATE_ALLOW"]},
+    {"tool_id": "artifact.structure.validate", "name": "validate_artifact_structure", "phase": "MVP", "side_effect": "none", "risk_level": "low", "status": "planned", "requires_approval": false, "policy_rule_ids": ["DOC_VALIDATE_ALLOW"]},
+    {"tool_id": "checklist.precode.run", "name": "run_precode_checklist", "phase": "MVP", "side_effect": "none", "risk_level": "low", "status": "planned", "requires_approval": false, "policy_rule_ids": ["DOC_VALIDATE_ALLOW"]},
+    {"tool_id": "miasi.required", "name": "miasi_required", "phase": "MVP", "side_effect": "none", "risk_level": "low", "status": "existing", "requires_approval": false, "policy_rule_ids": ["DOC_VALIDATE_ALLOW"]},
+    {"tool_id": "report.write", "name": "write_report", "phase": "MVP", "side_effect": "controlled_write", "risk_level": "medium", "status": "implemented", "requires_approval": false, "policy_rule_ids": ["DOC_WRITE_DRAFT_GATED"]},
+    {"tool_id": "trace.append", "name": "append_trace_event", "phase": "MVP", "side_effect": "controlled_write", "risk_level": "medium", "status": "implemented", "requires_approval": false, "policy_rule_ids": ["DOC_WRITE_DRAFT_GATED"]},
+    {"tool_id": "document.draft.generate", "name": "generate_draft_document", "phase": "MVP", "side_effect": "optional_write", "risk_level": "medium", "status": "planned", "requires_approval": true, "policy_rule_ids": ["DOC_WRITE_DRAFT_GATED"]},
+    {"tool_id": "documentation.audit", "name": "audit_documentation", "phase": "MVP", "side_effect": "report", "risk_level": "medium", "status": "planned", "requires_approval": false, "policy_rule_ids": ["DOC_VALIDATE_ALLOW"]},
+    {"tool_id": "git.status", "name": "git_status", "phase": "MVP+", "side_effect": "read", "risk_level": "medium", "status": "planned", "requires_approval": false, "policy_rule_ids": ["GIT_READ_ALLOW"]},
+    {"tool_id": "git.diff", "name": "git_diff", "phase": "MVP+", "side_effect": "read", "risk_level": "medium", "status": "planned", "requires_approval": false, "policy_rule_ids": ["GIT_READ_ALLOW"]},
+    {"tool_id": "repo.inventory", "name": "repo_inventory", "phase": "MVP+", "side_effect": "read", "risk_level": "medium", "status": "planned", "requires_approval": false, "policy_rule_ids": ["GIT_READ_ALLOW"]},
+    {"tool_id": "patch.parse", "name": "parse_patch", "phase": "MVP+", "side_effect": "none", "risk_level": "medium", "status": "planned", "requires_approval": false, "policy_rule_ids": ["PATCH_DRY_RUN_ALLOW"]},
+    {"tool_id": "patch.dry_run", "name": "patch_dry_run", "phase": "MVP+", "side_effect": "simulation", "risk_level": "high", "status": "planned", "requires_approval": false, "policy_rule_ids": ["PATCH_DRY_RUN_ALLOW"]},
+    {"tool_id": "code.review", "name": "code_review", "phase": "MVP+", "side_effect": "report", "risk_level": "high", "status": "planned", "requires_approval": false, "policy_rule_ids": ["AGENT_CRITICAL_TOOL_DENY"]},
+    {"tool_id": "tests.run", "name": "run_tests_controlled", "phase": "MVP+", "side_effect": "controlled_execution", "risk_level": "high", "status": "planned", "requires_approval": true, "policy_rule_ids": ["AGENT_CRITICAL_TOOL_DENY"]},
+    {"tool_id": "model.call.mock", "name": "call_mock_model", "phase": "MVP", "side_effect": "none", "risk_level": "low", "status": "planned", "requires_approval": false, "policy_rule_ids": ["MODEL_LOCAL_ALLOW"]},
+    {"tool_id": "model.call.local", "name": "call_local_model", "phase": "MVP+", "side_effect": "local_compute", "risk_level": "medium", "status": "planned", "requires_approval": false, "policy_rule_ids": ["MODEL_LOCAL_ALLOW"]},
+    {"tool_id": "model.call.external", "name": "call_external_model", "phase": "MVP+", "side_effect": "network_cost", "risk_level": "high", "status": "disabled", "requires_approval": true, "policy_rule_ids": ["MODEL_EXTERNAL_DENY"]},
+    {"tool_id": "policy.check", "name": "policy_check", "phase": "MVP", "side_effect": "none", "risk_level": "low", "status": "implemented", "requires_approval": false, "policy_rule_ids": ["AGENT_SUGGEST_ALLOW"]}
+  ]
+}
