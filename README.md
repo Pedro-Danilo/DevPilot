@@ -1,8 +1,8 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
 Estado actual: `baseline pre-code approved + functional backlog approved + gates documentales ejecutables`  
-Último hito: `FUNC-SPRINT-07 — Event Log JSONL y observabilidad local`  
-Siguiente hito: `FUNC-SPRINT-08 — Workspace Manager mínimo`  
+Último hito: `FUNC-SPRINT-08 — Workspace Manager mínimo`  
+Siguiente hito: `FUNC-SPRINT-09 — Policy Engine, PathGuard, SecretGuard y CostGuard determinísticos`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
@@ -35,13 +35,15 @@ Ya existe:
 - contrato `EventRecord` con eventos `command.started`, `gate.evaluated`, `command.completed` y `command.error`;
 - generación local de trazas `outputs/traces/events.jsonl`;
 - redacción básica de secretos sintéticos antes de persistir eventos;
+- `WorkspaceManager` mínimo con `.devpilot/project.yaml`;
+- comandos `workspace init` y `workspace status`;
+- inicialización dry-run por defecto y escritura explícita con `--execute`;
 - documentación pre-code aprobada;
 - estándares MIPSoftware y MIASI versionados dentro de `docs/standards/`;
 - backlog funcional aprobado en `docs/functional_backlog_after_precode.md`.
 
 Pendiente de implementación funcional:
 
-- workspace manager;
 - policy/security guards;
 - persistencia SQLite;
 - registries ejecutables de agentes y herramientas;
@@ -70,11 +72,14 @@ DevPilot_Local/
     checklists/
     reference/
     standards/
+  .devpilot/
+    project.yaml
   src/devpilot_core/
     observability/
     reports/
     standards/
     validators/
+    workspace/
   tests/
   outputs/
   scripts/
@@ -117,6 +122,10 @@ python -m devpilot_core standards status --json
 python -m devpilot_core checklist-pre-code
 python -m devpilot_core checklist-pre-code --json
 python -m devpilot_core checklist-pre-code --json --write-report
+python -m devpilot_core workspace init --dry-run
+python -m devpilot_core workspace init --execute
+python -m devpilot_core workspace status
+python -m devpilot_core workspace status --json --write-report
 
 # Todos los comandos anteriores emiten eventos locales en outputs/traces/events.jsonl
 ```
@@ -162,6 +171,10 @@ Los demás gates pueden escribir evidencia con `--write-report`, por ejemplo:
 python -m devpilot_core validate-frontmatter docs/00_product/product_vision.md --strict --json --write-report
 python -m devpilot_core validate-artifact docs/01_requirements/requirements_specification.md --strict --json --write-report
 python -m devpilot_core checklist-pre-code --json --write-report
+python -m devpilot_core workspace init --dry-run
+python -m devpilot_core workspace init --execute
+python -m devpilot_core workspace status
+python -m devpilot_core workspace status --json --write-report
 
 # Todos los comandos anteriores emiten eventos locales en outputs/traces/events.jsonl
 ```
@@ -204,6 +217,31 @@ metadata opcional
 ```
 
 La redacción inicial cubre claves sensibles (`api_key`, `token`, `secret`, `password`, `authorization`) y patrones sintéticos frecuentes como `sk-*`, `ghp_*`, `hf_*` y tokens tipo Slack. Esta redacción es una primera versión local y debe evolucionar con SecretGuard/Policy Engine.
+
+## Workspace local mínimo
+
+Desde `FUNC-SPRINT-08`, DevPilot usa `.devpilot/project.yaml` como contrato local mínimo de workspace. El archivo identifica el proyecto, estándares activos, activación MIASI y rutas operativas principales.
+
+Comandos principales:
+
+```powershell
+python -m devpilot_core workspace init --dry-run
+python -m devpilot_core workspace init --execute
+python -m devpilot_core workspace status
+python -m devpilot_core workspace status --json --write-report
+```
+
+Reglas de seguridad actuales:
+
+```text
+- workspace init opera en dry-run por defecto.
+- solo --execute escribe .devpilot/project.yaml.
+- no se sobrescribe .devpilot/project.yaml por defecto.
+- las rutas del workspace se resuelven dentro del project root.
+- outputs/ sigue siendo runtime y puede regenerarse.
+```
+
+Esta es una primera versión local-first. Aún no incluye múltiples workspaces, migraciones de configuración, profiles por usuario, locking, configuración cifrada ni políticas industriales de permisos; esas capacidades pertenecen a sprints posteriores.
 
 ## Higiene local del repositorio
 
@@ -360,4 +398,37 @@ pytest -q -> 42 passed
 readiness-check --strict --json -> PASS + reports + events
 validate-frontmatter ... --write-report -> PASS + reports + events
 standards status --json -> PASS + events
+```
+
+
+## FUNC-SPRINT-08 — Workspace Manager mínimo
+
+Este sprint introduce `.devpilot/` como unidad operativa local del proyecto. Su objetivo es permitir que DevPilot reconozca un workspace, inicialice un contrato mínimo y consulte su estado sin depender de servicios externos ni modificar repos existentes de forma implícita.
+
+Componentes principales:
+
+- `src/devpilot_core/workspace/manager.py`: define `WorkspaceManager`, `WorkspacePaths`, `WorkspaceInitPlan`, `WorkspaceStatus`, renderizado de `project.yaml` y parser mínimo del contrato generado.
+- `src/devpilot_core/workspace/__init__.py`: expone la API pública del paquete workspace.
+- `src/devpilot_core/cli.py`: agrega los comandos `workspace init` y `workspace status`, integrados con `CommandResult`, `ReportEngine` opcional y `EventLogger`.
+- `.devpilot/project.yaml`: contrato local mínimo del workspace DevPilot.
+- `tests/test_workspace_manager.py`: valida dry-run, execute, no overwrite, status, discovery y CLI JSON.
+
+Criterios rápidos:
+
+```text
+PASS: workspace init sin --execute no escribe archivos.
+PASS: workspace init --execute crea .devpilot/project.yaml.
+PASS: workspace init --execute no sobrescribe un project.yaml existente.
+PASS: workspace status identifica docs, standards, checklist pre-code y rutas runtime.
+BLOCK: intento de sobrescritura del workspace existente.
+RIESGO: primera versión sin múltiples workspaces, locking, migraciones ni configuración cifrada.
+```
+
+Resultado esperado actual:
+
+```text
+pytest -q -> 51 passed
+workspace init --dry-run -> PASS sin escritura
+workspace init --execute -> PASS si el workspace no existe
+workspace status --json -> PASS si .devpilot/project.yaml y baseline documental existen
 ```

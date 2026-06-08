@@ -11,6 +11,7 @@ from .errors import DevPilotError
 from .observability import EventLogger
 from .reports import ReportEngine, build_report_id
 from .standards.registry import build_standards_status_result
+from .workspace import WorkspaceManager
 from .validators.artifact import validate_artifact_file
 from .validators.checklist import validate_precode_checklist
 from .validators.frontmatter import validate_frontmatter_file
@@ -27,13 +28,14 @@ ROOT_MARKERS = ["pyproject.toml", "docs"]
 
 
 def project_root() -> Path:
-    """Return the current working directory as DevPilot project root.
+    """Return the resolved DevPilot workspace/project root.
 
-    A later Workspace Manager sprint will replace this compatibility boundary
-    with explicit workspace discovery and `.devpilot/` metadata.
+    FUNC-SPRINT-08 replaces the earlier current-directory shortcut with
+    WorkspaceManager discovery. The fallback still supports bootstrap commands
+    before `.devpilot/project.yaml` exists.
     """
 
-    return Path.cwd()
+    return WorkspaceManager.discover(Path.cwd()).root
 
 
 def build_miasi_required_result() -> CommandResult:
@@ -110,6 +112,7 @@ def _write_optional_command_report(
     subject: str | Path | None = None,
     report_id: str | None = None,
     write_report: bool = False,
+    metadata: dict[str, str] | None = None,
 ) -> CommandResult:
     """Persist report evidence when requested and attach generated paths."""
 
@@ -120,7 +123,7 @@ def _write_optional_command_report(
         result,
         report_id=effective_report_id,
         subject=subject,
-        metadata={"sprint": "FUNC-SPRINT-06", "contract": "EvidenceReport"},
+        metadata={"contract": "EvidenceReport", **(metadata or {})},
     )
     return _with_report_paths(result, paths.to_dict())
 
@@ -220,6 +223,57 @@ def standards_status_command(*, json_output: bool = False) -> int:
     return int(result.exit_code)
 
 
+def workspace_init_command(
+    *,
+    json_output: bool = False,
+    execute: bool = False,
+    write_report: bool = False,
+    project_id: str | None = None,
+    project_name: str | None = None,
+    project_type: str | None = None,
+) -> int:
+    """Initialize `.devpilot/project.yaml` in dry-run mode unless executed."""
+
+    root = project_root()
+    manager = WorkspaceManager(root)
+    result = manager.init_workspace(
+        execute=execute,
+        project_id=project_id or "devpilot-local",
+        project_name=project_name or "DevPilot Local",
+        project_type=project_type or "agent-assisted-sdlc",
+    )
+    result = _write_optional_command_report(
+        root,
+        result,
+        subject=".devpilot/project.yaml",
+        report_id="workspace_init",
+        write_report=write_report,
+        metadata={"sprint": "FUNC-SPRINT-08", "component": "WorkspaceManager"},
+    )
+    _emit_result_event(root, result, subject=".devpilot/project.yaml")
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+
+def workspace_status_command(*, json_output: bool = False, write_report: bool = False) -> int:
+    """Report the current DevPilot workspace status."""
+
+    root = project_root()
+    manager = WorkspaceManager(root)
+    result = manager.status()
+    result = _write_optional_command_report(
+        root,
+        result,
+        subject=".devpilot/project.yaml",
+        report_id="workspace_status",
+        write_report=write_report,
+        metadata={"sprint": "FUNC-SPRINT-08", "component": "WorkspaceManager"},
+    )
+    _emit_result_event(root, result, subject=".devpilot/project.yaml")
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="devpilot", description="DevPilot Local CLI")
     parser.add_argument("--version", action="store_true", help="Show version")
@@ -249,6 +303,22 @@ def build_parser() -> argparse.ArgumentParser:
     artifact.add_argument("--strict", action="store_true", help="Run strict frontmatter validation before structure checks")
     artifact.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
 
+    workspace = sub.add_parser("workspace", help="Manage local DevPilot workspaces")
+    workspace_sub = workspace.add_subparsers(dest="workspace_command")
+
+    workspace_init = workspace_sub.add_parser("init", help="Initialize .devpilot/project.yaml")
+    workspace_init.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    workspace_init.add_argument("--dry-run", action="store_true", help="Preview initialization without writing files; this is the default")
+    workspace_init.add_argument("--execute", action="store_true", help="Explicitly create .devpilot/project.yaml")
+    workspace_init.add_argument("--project-id", default=None, help="Project id written to project.yaml")
+    workspace_init.add_argument("--project-name", default=None, help="Project name written to project.yaml")
+    workspace_init.add_argument("--project-type", default=None, help="Project type written to project.yaml")
+    workspace_init.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+
+    workspace_status = workspace_sub.add_parser("status", help="Show current workspace status")
+    workspace_status.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    workspace_status.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+
     standards = sub.add_parser("standards", help="Inspect local MIPSoftware/MIASI standards registry")
     standards_sub = standards.add_subparsers(dest="standards_command")
     standards_status = standards_sub.add_parser("status", help="Show local standards registry status")
@@ -266,6 +336,9 @@ def _command_name_from_args(args: argparse.Namespace) -> str:
     if command == "standards":
         subcommand = getattr(args, "standards_command", None)
         return "standards status" if subcommand == "status" else "standards"
+    if command == "workspace":
+        subcommand = getattr(args, "workspace_command", None)
+        return f"workspace {subcommand}" if subcommand else "workspace"
     return command or "help"
 
 
@@ -295,6 +368,20 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
             strict=args.strict,
             write_report=args.write_report,
         )
+    if args.command == "workspace":
+        if args.workspace_command == "init":
+            return workspace_init_command(
+                json_output=args.json,
+                execute=args.execute,
+                write_report=args.write_report,
+                project_id=args.project_id,
+                project_name=args.project_name,
+                project_type=args.project_type,
+            )
+        if args.workspace_command == "status":
+            return workspace_status_command(json_output=args.json, write_report=args.write_report)
+        parser.print_help()
+        return int(ExitCode.FAIL)
     if args.command == "standards":
         if args.standards_command == "status":
             return standards_status_command(json_output=args.json)

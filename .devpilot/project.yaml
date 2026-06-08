@@ -1,0 +1,21 @@
+schema_version: "1.0"
+project:
+  id: "devpilot-local"
+  name: "DevPilot Local"
+  type: "agent-assisted-sdlc"
+  owner: "Ordóñez"
+standards:
+  - "MIPSoftware"
+  - "MIASI"
+miasi:
+  required: true
+paths:
+  docs: "docs"
+  standards: "docs/standards"
+  outputs: "outputs"
+  reports: "outputs/reports"
+  traces: "outputs/traces"
+runtime:
+  dry_run_default: true
+  created_by: "FUNC-SPRINT-08"
+  overwrite_policy: "refuse_by_default"

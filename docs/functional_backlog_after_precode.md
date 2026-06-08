@@ -2,19 +2,19 @@
 title: "DevPilot Local — Backlog ejecutable posterior a pre-code"
 doc_id: "DEVPL-FUNC-BACKLOG-001"
 status: "approved"
-version: "1.5.0"
+version: "1.6.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
 phase: "POST-PRECODE"
-updated: "2026-06-07"
+updated: "2026-06-08"
 approval: "approved_by_owner_direction"
 source_baseline: "precode_baseline_approved"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approved_on: "2026-06-06"
 approval_scope: "functional_backlog_after_precode"
 baseline_execution: "FUNC-SPRINT-00"
-next_sprint: "FUNC-SPRINT-08"
+next_sprint: "FUNC-SPRINT-09"
 ---
 
 # DevPilot Local — Backlog ejecutable posterior a pre-code
@@ -69,8 +69,8 @@ El primer ciclo funcional busca convertir DevPilot de un proyecto documentado en
 |---|---|---|---|
 | L0 | Bootstrap funcional | CLI mínimo y pruebas básicas | Ya iniciado |
 | L1 | Gates documentales | MIPSoftware/MIASI ejecutable como validadores | Próximo |
-| L2 | Workspace local | Proyecto gestionado por `.devpilot/` | Pendiente |
-| L3 | Evidencia y observabilidad | Reportes, JSONL, auditoría local | Pendiente |
+| L2 | Workspace local | Proyecto gestionado por `.devpilot/` | Implementado inicial |
+| L3 | Evidencia y observabilidad | Reportes, JSONL, auditoría local | Implementado inicial |
 | L4 | Seguridad operativa | Policy Engine, SecretGuard, CostGuard | Pendiente |
 | L5 | MIASI ejecutable | Agent/Tool/Policy registries verificables | Pendiente |
 | L6 | Agentes documentales | Agentes mock/local en dry-run | Pendiente |
@@ -702,27 +702,111 @@ Implementa FUNC-SPRINT-07: EventLogger JSONL local para comandos y gates. Debe g
 
 # FUNC-SPRINT-08 — Workspace Manager mínimo
 
+## Estado de implementación FUNC-SPRINT-08
+
+`FUNC-SPRINT-08` queda implementado como primera versión local-first de workspace. El sprint introduce `.devpilot/project.yaml` como contrato mínimo de unidad operativa local, crea `WorkspaceManager`, agrega comandos `workspace init` y `workspace status`, integra los resultados con `CommandResult`, `ReportEngine` opcional y `EventLogger`, y conserva `outputs/` como artefacto runtime regenerable.
+
+La implementación no agrega dependencias externas, no requiere API keys, no realiza llamadas de red, no cambia proveedores LLM, no introduce agentes nuevos y no altera la arquitectura aprobada. Es una capacidad prevista en el backlog y prepara la base para `FUNC-SPRINT-09` de Policy Engine/guards y para sprints posteriores de persistencia local.
+
 ## Objetivo
 
 Introducir `.devpilot/` como unidad operativa local de proyecto sin romper repos existentes.
 
 ## Historias
 
-| ID | Historia | Criterio de aceptación |
-|---|---|---|
-| US-FUNC-08-001 | Como usuario, quiero inicializar un workspace. | `workspace init` crea `.devpilot/project.yaml` en dry-run o execute explícito. |
-| US-FUNC-08-002 | Como usuario, quiero conocer estado del workspace. | `workspace status` muestra docs, standards, gates y outputs. |
+| ID | Historia | Criterio de aceptación | Estado |
+|---|---|---|---|
+| US-FUNC-08-001 | Como usuario, quiero inicializar un workspace. | `workspace init` crea `.devpilot/project.yaml` en dry-run o execute explícito. | Implementado |
+| US-FUNC-08-002 | Como usuario, quiero conocer estado del workspace. | `workspace status` muestra docs, standards, gates y outputs. | Implementado |
 
 ## Tareas
 
-| ID | Tarea | Entregable | PASS |
-|---|---|---|---|
-| FUNC-08-001 | Crear `WorkspaceManager` | módulo | Detecta raíz del proyecto. |
-| FUNC-08-002 | Definir `project.yaml` | contrato | Nombre, tipo, estándares, MIASI, rutas. |
-| FUNC-08-003 | Crear comando `workspace init --dry-run` | CLI | No escribe por defecto. |
-| FUNC-08-004 | Crear `workspace init --execute` | CLI | Crea `.devpilot/` con confirmación explícita. |
-| FUNC-08-005 | Crear `workspace status` | CLI | Reporte de estado. |
-| FUNC-08-006 | Tests de rutas | pytest | No permite inicializar fuera del root esperado. |
+| ID | Tarea | Entregable | PASS | Estado |
+|---|---|---|---|---|
+| FUNC-08-001 | Crear `WorkspaceManager` | `src/devpilot_core/workspace/manager.py` | Detecta raíz del proyecto. | Implementado |
+| FUNC-08-002 | Definir `project.yaml` | `.devpilot/project.yaml` | Nombre, tipo, estándares, MIASI, rutas. | Implementado |
+| FUNC-08-003 | Crear comando `workspace init --dry-run` | CLI | No escribe por defecto. | Implementado |
+| FUNC-08-004 | Crear `workspace init --execute` | CLI | Crea `.devpilot/` con confirmación explícita. | Implementado |
+| FUNC-08-005 | Crear `workspace status` | CLI | Reporte de estado. | Implementado |
+| FUNC-08-006 | Tests de rutas/comportamiento | `tests/test_workspace_manager.py` | No sobrescribe, discovery seguro, CLI JSON parseable. | Implementado |
+
+## Archivos creados
+
+```text
+.devpilot/project.yaml
+src/devpilot_core/workspace/__init__.py
+src/devpilot_core/workspace/manager.py
+tests/test_workspace_manager.py
+docs/audits/func_sprint_08_workspace_manager_audit.md
+docs/functional_sprint_08_manifest.json
+```
+
+## Archivos modificados
+
+```text
+src/devpilot_core/cli.py
+README.md
+docs/05_operations/runbook.md
+docs/functional_backlog_after_precode.md
+```
+
+## Contrato mínimo `.devpilot/project.yaml`
+
+```text
+schema_version
+project.id
+project.name
+project.type
+project.owner
+standards: MIPSoftware, MIASI
+miasi.required
+paths.docs
+paths.standards
+paths.outputs
+paths.reports
+paths.traces
+runtime.dry_run_default
+runtime.created_by
+runtime.overwrite_policy
+```
+
+## Comandos objetivo
+
+```powershell
+python -m devpilot_core workspace init --dry-run
+python -m devpilot_core workspace init --execute
+python -m devpilot_core workspace status
+python -m devpilot_core workspace status --json
+python -m devpilot_core workspace status --json --write-report
+python -m pytest -q
+```
+
+## Resultado esperado actual
+
+```text
+workspace init --dry-run -> PASS, no escribe archivos
+workspace init --execute -> PASS si .devpilot/project.yaml no existe
+workspace init --execute -> BLOCK si .devpilot/project.yaml ya existe
+workspace status --json -> PASS si workspace + docs + standards + checklist existen
+pytest -q -> 51 passed
+```
+
+## BLOCK
+
+- No cerrar si `workspace init` escribe archivos sin `--execute`.
+- No cerrar si `workspace init --execute` sobrescribe `.devpilot/project.yaml`.
+- No cerrar si `workspace status` no detecta `.devpilot/project.yaml`, `docs/`, `docs/standards/` y `docs/checklists/checklist_pre_code.md`.
+- No cerrar si los comandos workspace rompen salida JSON normalizada.
+- No cerrar si `pytest -q` falla.
+
+## Riesgos residuales
+
+- Es una primera versión de workspace local; no hay múltiples workspaces ni perfiles por usuario.
+- No hay migraciones de versiones de `project.yaml`.
+- No hay locking contra inicializaciones concurrentes.
+- No hay configuración cifrada ni integración con SecretGuard.
+- No hay persistencia SQLite ni registro histórico consultable de workspaces.
+- `outputs/` sigue siendo runtime y se regenera al ejecutar comandos; no debe versionarse.
 
 ## Prompt operativo
 

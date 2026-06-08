@@ -2,12 +2,12 @@
 title: "Runbook — DevPilot Local"
 doc_id: "DEVPL-OPS-002"
 status: "approved"
-version: "1.3.0"
+version: "1.4.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "FUNC-SPRINT-07"
-updated: "2026-06-07"
+phase: "FUNC-SPRINT-08"
+updated: "2026-06-08"
 approval: "approved_by_owner"
 source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved + 03_security approved"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
@@ -113,6 +113,10 @@ git commit -m "docs: describe change"
 | Generar reporte de artefacto | `python -m devpilot_core validate-artifact docs/01_requirements/requirements_specification.md --strict --json --write-report` |
 | Generar reporte de checklist | `python -m devpilot_core checklist-pre-code --json --write-report` |
 | Consultar traza runtime | `Get-Content outputs\traces\events.jsonl -Tail 20` |
+| Inicializar workspace en dry-run | `python -m devpilot_core workspace init --dry-run` |
+| Inicializar workspace explícitamente | `python -m devpilot_core workspace init --execute` |
+| Consultar workspace | `python -m devpilot_core workspace status --json` |
+| Generar reporte de workspace | `python -m devpilot_core workspace status --json --write-report` |
 
 ## 6.1. Report Engine y contrato de evidencias
 

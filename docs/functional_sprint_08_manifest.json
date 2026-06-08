@@ -1,0 +1,70 @@
+{
+  "sprint_id": "FUNC-SPRINT-08",
+  "title": "Workspace Manager mínimo",
+  "status": "implemented_initial",
+  "implemented_on": "2026-06-08",
+  "requires_api_key": false,
+  "external_calls": false,
+  "new_dependencies": [],
+  "adr_required": false,
+  "adr_reason": "Workspace Manager mínimo estaba previsto en el backlog y no introduce dependencias, APIs externas, secretos reales, modelos LLM, costos ni persistencia estructural nueva.",
+  "created_files": [
+    ".devpilot/project.yaml",
+    "src/devpilot_core/workspace/__init__.py",
+    "src/devpilot_core/workspace/manager.py",
+    "tests/test_workspace_manager.py",
+    "docs/audits/func_sprint_08_workspace_manager_audit.md",
+    "docs/functional_sprint_08_manifest.json"
+  ],
+  "modified_files": [
+    "src/devpilot_core/cli.py",
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/functional_backlog_after_precode.md"
+  ],
+  "commands": [
+    "python -m devpilot_core workspace init --dry-run",
+    "python -m devpilot_core workspace init --execute",
+    "python -m devpilot_core workspace status",
+    "python -m devpilot_core workspace status --json",
+    "python -m devpilot_core workspace status --json --write-report",
+    "python -m pytest -q"
+  ],
+  "pass_criteria": [
+    "workspace init sin --execute no escribe archivos",
+    "workspace init --execute crea .devpilot/project.yaml cuando no existe",
+    "workspace init --execute bloquea sobrescritura si project.yaml ya existe",
+    "workspace status detecta workspace, docs, standards y checklist pre-code",
+    "salida JSON de comandos workspace es parseable",
+    "pytest -q pasa completo"
+  ],
+  "block_criteria": [
+    "workspace init escribe archivos en dry-run",
+    "workspace init sobrescribe project.yaml existente",
+    "workspace status no detecta artefactos mínimos",
+    "rutas del workspace escapan del project root",
+    "regresión en comandos previos",
+    "pytest falla"
+  ],
+  "tests_added": [
+    "test_workspace_init_dry_run_does_not_write",
+    "test_workspace_init_execute_writes_project_yaml",
+    "test_workspace_init_dry_run_reports_existing_workspace_without_overwrite",
+    "test_workspace_init_blocks_existing_project_yaml",
+    "test_workspace_status_ready_when_initialized",
+    "test_workspace_status_fails_when_not_initialized_but_docs_exist",
+    "test_workspace_discovery_from_nested_directory",
+    "test_workspace_cli_init_and_status_json_are_parseable",
+    "test_workspace_cli_dry_run_write_report"
+  ],
+  "expected_pytest_summary": "51 passed, 0 failed, 0 errors, 0 skipped",
+  "risks": [
+    "primera versión sin múltiples workspaces",
+    "sin migraciones de project.yaml",
+    "sin locking ante concurrencia",
+    "sin configuración cifrada",
+    "sin integración formal con SecretGuard todavía",
+    "outputs sigue siendo runtime y se regenera localmente"
+  ],
+  "next_sprint": "FUNC-SPRINT-09 — Policy Engine, PathGuard, SecretGuard y CostGuard determinísticos"
+}
