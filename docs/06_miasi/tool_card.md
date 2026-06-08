@@ -165,3 +165,29 @@ Criterios BLOCK:
 - Tool no declarada o acción incompatible.
 
 Riesgo: la ejecución real de herramientas externas, shell, Git write, patch apply y modelos externos sigue fuera de alcance.
+
+
+## Actualización FUNC-SPRINT-14 — Git read-only y repo inventory
+
+Sprint 14 implementa herramientas de repositorio en modo lectura, alineadas con `.devpilot/miasi/tool_registry.json`:
+
+- `git.status`: consulta branch/status/diff stats mediante comandos Git allowlisted.
+- `git.diff`: se cubre inicialmente como `diff --stat` y `diff --cached --stat`, sin exponer ni aplicar patches.
+- `repo.inventory`: inventario local por categoría/tamaño/riesgo con detección de secretos sintéticos.
+
+Criterios PASS:
+
+- Operación read-only.
+- Sin `git add`, `commit`, `checkout`, `reset`, `merge`, `rebase`, `tag` ni `push`.
+- Sin lectura fuera del workspace.
+- Sin emisión de contenido secreto crudo.
+- Reportes solo bajo `outputs/reports`.
+
+Criterios BLOCK:
+
+- Comando Git no allowlisted.
+- `shell=True` o ejecución arbitraria.
+- Fuga de secreto.
+- Intento de modificar repo o historial.
+
+Riesgo: esta integración es preliminar y no reemplaza análisis industrial de dependencias, licencias, vulnerabilidades, secretos por entropía o revisión semántica de código.

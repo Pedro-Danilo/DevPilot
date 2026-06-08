@@ -300,3 +300,20 @@ python -m devpilot_core eval run --case-id frontmatter-missing-doc-id --json
 ### Riesgo residual
 
 La suite es sintética y preliminar. Debe evolucionar hacia fixtures más amplios, golden outputs, red teaming y evaluación continua.
+
+
+## 17. Actualización FUNC-SPRINT-14 — Pruebas de Git read-only y repo inventory
+
+Sprint 14 agrega pruebas específicas para repositorios temporales y análisis local de inventario.
+
+### Pruebas agregadas
+
+- `GitAdapter` reporta status/diff stats en repo temporal.
+- `GitAdapter` no modifica el resultado de `git status --short` antes/después de ejecutarse.
+- `GitAdapter` maneja workspaces no Git sin excepción no controlada.
+- `RepoInventory` detecta contenido sintético tipo secreto sin emitir el valor crudo.
+- CLI `git-status` y `repo-inventory` producen JSON parseable y reportes opcionales.
+
+### Riesgo residual
+
+Las pruebas no cubren todavía submódulos, repos grandes, LFS, ramas remotas, permisos complejos ni secret scanning por entropía. Es una base de quality gate para el Sprint 15.

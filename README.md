@@ -1,8 +1,8 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
 Estado actual: `baseline pre-code approved + functional backlog approved + gates documentales ejecutables`  
-Último hito: `FUNC-SPRINT-13 — Evaluation Harness para validadores y agentes`  
-Siguiente hito: `FUNC-SPRINT-14 — Git read-only y repo inventory MVP+`  
+Último hito: `FUNC-SPRINT-14 — Git read-only y repo inventory MVP+`  
+Siguiente hito: `FUNC-SPRINT-15 — Patch review y code review en dry-run`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
@@ -51,6 +51,8 @@ Ya existe:
 - agentes `documentation-audit` y `precode-documentation` en dry-run por defecto;
 - comando `agent run` con `--json` y `--write-report`;
 - `EvalRunner` offline para validadores y agentes documentales;
+- `GitAdapter` read-only para branch, status y diff stats;
+- `RepoInventory` local para inventario por tipo/tamaño/riesgo y detección de secretos sintéticos;
 - fixtures sintéticos versionados en `evals/fixtures/`;
 - comando `eval run` con métricas `pass_rate`, `false_positives` y `false_negatives`;
 - persistencia automática best-effort de resultados de gates/validadores en `.devpilot/devpilot.db`;
@@ -62,7 +64,6 @@ Ya existe:
 
 Pendiente de implementación funcional:
 
-- Git read-only;
 - patch/code review en dry-run;
 - ModelAdapter híbrido.
 
@@ -161,6 +162,10 @@ python -m devpilot_core policy check read --path docs/00_product/product_vision.
 python -m devpilot_core policy check delete --path docs/00_product/product_vision.md --json
 python -m devpilot_core policy check read --path docs/file.md --text "api_key=sk-1234567890abcdef" --json --write-report
 python -m devpilot_core policy check external-api --external-api --provider openai --estimated-cost-usd 0.01 --json
+python -m devpilot_core git-status --json
+python -m devpilot_core git-status --json --write-report
+python -m devpilot_core repo-inventory --json
+python -m devpilot_core repo-inventory --json --write-report
 
 # Todos los comandos anteriores emiten eventos locales en outputs/traces/events.jsonl
 ```
@@ -239,6 +244,10 @@ python -m devpilot_core policy check read --path docs/00_product/product_vision.
 python -m devpilot_core policy check delete --path docs/00_product/product_vision.md --json
 python -m devpilot_core policy check read --path docs/file.md --text "api_key=sk-1234567890abcdef" --json --write-report
 python -m devpilot_core policy check external-api --external-api --provider openai --estimated-cost-usd 0.01 --json
+python -m devpilot_core git-status --json
+python -m devpilot_core git-status --json --write-report
+python -m devpilot_core repo-inventory --json
+python -m devpilot_core repo-inventory --json --write-report
 
 # Todos los comandos anteriores emiten eventos locales en outputs/traces/events.jsonl
 ```
@@ -621,3 +630,33 @@ Criterios PASS: los agentes registrados como MVP se resuelven desde `.devpilot/m
 Criterios BLOCK: agente desconocido, agente no MVP, registros MIASI inválidos, path bloqueado por PathGuard, secreto sintético detectado por SecretGuard, intento de sobrescritura de draft o intento de usar agentes sin implementación local.
 
 Riesgos: primera versión mock/local. No hay LLM, planificación multi-step, memoria agentic, evaluación automática de calidad ni aprobación humana persistente. Estos elementos quedan para sprints posteriores.
+
+
+## Git read-only y repo inventory
+
+Desde `FUNC-SPRINT-14`, DevPilot incorpora visibilidad segura sobre repositorios sin modificar ramas, commits ni archivos.
+
+Componentes:
+
+```text
+src/devpilot_core/repo/git_adapter.py
+src/devpilot_core/repo/inventory.py
+tests/test_repo_tools.py
+```
+
+Comandos principales:
+
+```powershell
+python -m devpilot_core git-status --json
+python -m devpilot_core git-status --json --write-report
+python -m devpilot_core repo-inventory --json
+python -m devpilot_core repo-inventory --json --write-report
+```
+
+`GitAdapter` ejecuta únicamente una allowlist de comandos Git de lectura: `rev-parse`, `branch --show-current`, `status --short`, `diff --stat` y `diff --cached --stat`. No ejecuta `git add`, `commit`, `checkout`, `reset`, `merge`, `rebase`, `tag`, `push` ni comandos shell arbitrarios.
+
+`RepoInventory` recorre el workspace en modo lectura, excluye outputs/caches, clasifica archivos por categoría, tamaño y riesgo, y detecta contenido sintético tipo secreto sin emitir valores crudos.
+
+Criterios PASS: comandos JSON parseables, reportes opcionales generados bajo `outputs/reports`, cero modificaciones de repo por `git-status`, y secretos sintéticos detectados sin filtrarse. Criterios BLOCK: comandos Git de escritura, lectura fuera del workspace, fuga de secreto crudo o inventario de runtime/caches como fuente principal.
+
+Riesgo residual: es una primera versión. No reemplaza herramientas industriales de SCA/SAST, secret scanning por entropía, auditoría de submódulos, LFS, ramas remotas ni revisión semántica de código.

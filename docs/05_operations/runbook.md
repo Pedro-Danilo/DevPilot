@@ -1090,3 +1090,65 @@ python -m devpilot_core agent run documentation-audit --target <ruta> --json
 ```
 
 No ajustar fixtures para ocultar una regresión. Si cambia el contrato esperado, documentar la razón en el manifiesto/auditoría del sprint correspondiente.
+
+
+## FUNC-SPRINT-14 — Git read-only y repo inventory MVP+
+
+### Propósito operativo
+
+Obtener visibilidad local del estado Git y del inventario del repositorio sin modificar ramas, commits, staging area, archivos ni historial. Esta capacidad prepara los sprints de patch review, code review y agentes sobre repositorios.
+
+### Componentes
+
+```text
+src/devpilot_core/repo/git_adapter.py
+src/devpilot_core/repo/inventory.py
+src/devpilot_core/repo/__init__.py
+tests/test_repo_tools.py
+```
+
+### Comandos
+
+```powershell
+python -m devpilot_core git-status --json
+python -m devpilot_core git-status --json --write-report
+python -m devpilot_core repo-inventory --json
+python -m devpilot_core repo-inventory --json --write-report
+python -m pytest -q
+```
+
+### Funcionamiento
+
+`GitAdapter` usa `subprocess.run` sin `shell=True` y con una allowlist cerrada de comandos read-only: `rev-parse`, `branch --show-current`, `status --short`, `diff --stat` y `diff --cached --stat`. Si el workspace no es un repo Git, devuelve un resultado controlado con warning, no una excepción no manejada.
+
+`RepoInventory` recorre archivos bajo el workspace, excluye `.git`, `.venv`, caches y `outputs`, clasifica por categoría/riesgo y usa `SecretGuard` para detectar patrones sintéticos tipo secreto. Los contenidos crudos de archivos no se emiten en JSON ni Markdown.
+
+### Criterios PASS
+
+```text
+pytest -q pasa.
+git-status devuelve JSON parseable.
+git-status no cambia git status antes/después.
+repo-inventory devuelve JSON parseable.
+repo-inventory detecta secretos sintéticos sin exponer valores.
+--write-report escribe solo bajo outputs/reports.
+No hay comandos Git destructivos.
+```
+
+### Criterios BLOCK
+
+```text
+Uso de git add/commit/checkout/reset/merge/rebase/tag/push.
+Uso de shell=True o comandos Git no allowlisted.
+Lectura fuera del workspace.
+Secreto crudo filtrado en salida, reporte o traza.
+Inventario que incluya outputs/caches como artefactos fuente.
+```
+
+### Riesgos y límites
+
+Esta es una versión preliminar de análisis read-only. No sustituye SCA, SAST, secret scanning industrial, auditoría de licencias, análisis de submódulos, ramas remotas, LFS ni revisión semántica de código. Es una base segura para sprints posteriores.
+
+### Recuperación
+
+Si `git-status` falla, verificar primero que Git esté instalado y que el workspace esté inicializado como repositorio. Si `repo-inventory` reporta secretos sintéticos, revisar el archivo indicado y no copiar valores crudos al chat ni a documentación.

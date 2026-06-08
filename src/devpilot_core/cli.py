@@ -14,6 +14,7 @@ from .observability import EventLogger
 from .miasi import MiasiRegistryValidator
 from .policy import CostPolicy, PolicyEngine, PolicyRequest, load_cost_policy
 from .reports import ReportEngine, build_report_id
+from .repo import GitAdapter, RepoInventory
 from .standards.registry import build_standards_status_result
 from .store import LocalStore
 from .workspace import WorkspaceManager
@@ -188,6 +189,55 @@ def miasi_required(*, json_output: bool = False) -> int:
     print_result(result, json_output=json_output)
     return int(result.exit_code)
 
+
+
+
+def git_status_command(*, json_output: bool = False, write_report: bool = False) -> int:
+    """Collect read-only Git status information.
+
+    FUNC-SPRINT-14 only executes an allowlist of read-only Git commands. It
+    never performs add, commit, checkout, reset, merge, tag, push or any other
+    mutation of repository state.
+    """
+
+    root = project_root()
+    result = GitAdapter(root).status()
+    result = _write_optional_command_report(
+        root,
+        result,
+        subject=".",
+        report_id="git_status",
+        write_report=write_report,
+        metadata={"sprint": "FUNC-SPRINT-14", "component": "GitAdapter"},
+    )
+    _emit_result_event(root, result, subject=".")
+    _persist_result(root, result, subject=".")
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+
+def repo_inventory_command(*, json_output: bool = False, write_report: bool = False) -> int:
+    """Build a read-only repository inventory and risk summary.
+
+    FUNC-SPRINT-14 inventory scans metadata and small text files for synthetic
+    secret-like patterns. It never emits raw file contents and excludes runtime
+    output/cache folders by default.
+    """
+
+    root = project_root()
+    result = RepoInventory(root).build()
+    result = _write_optional_command_report(
+        root,
+        result,
+        subject=".",
+        report_id="repo_inventory",
+        write_report=write_report,
+        metadata={"sprint": "FUNC-SPRINT-14", "component": "RepoInventory"},
+    )
+    _emit_result_event(root, result, subject=".")
+    _persist_result(root, result, subject=".")
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
 
 
 def miasi_validate_command(
@@ -609,6 +659,15 @@ def build_parser() -> argparse.ArgumentParser:
     eval_run.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     eval_run.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
 
+
+    git_status = sub.add_parser("git-status", help="Collect read-only Git status and diff statistics")
+    git_status.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    git_status.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+
+    repo_inventory = sub.add_parser("repo-inventory", help="Generate read-only repository inventory and risk summary")
+    repo_inventory.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    repo_inventory.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+
     agent = sub.add_parser("agent", help="Run local/mock DevPilot agents")
     agent_sub = agent.add_subparsers(dest="agent_command")
     agent_run = agent_sub.add_parser("run", help="Run a registered local/mock agent")
@@ -739,6 +798,10 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
             return history_list_command(json_output=args.json, limit=args.limit, write_report=args.write_report)
         parser.print_help()
         return int(ExitCode.FAIL)
+    if args.command == "git-status":
+        return git_status_command(json_output=args.json, write_report=args.write_report)
+    if args.command == "repo-inventory":
+        return repo_inventory_command(json_output=args.json, write_report=args.write_report)
     if args.command == "eval":
         if args.eval_command == "run":
             return eval_run_command(

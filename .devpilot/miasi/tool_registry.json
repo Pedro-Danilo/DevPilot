@@ -118,7 +118,7 @@
       "phase": "MVP+",
       "side_effect": "read",
       "risk_level": "medium",
-      "status": "planned",
+      "status": "implemented",
       "requires_approval": false,
       "policy_rule_ids": [
         "GIT_READ_ALLOW"
@@ -130,7 +130,7 @@
       "phase": "MVP+",
       "side_effect": "read",
       "risk_level": "medium",
-      "status": "planned",
+      "status": "implemented",
       "requires_approval": false,
       "policy_rule_ids": [
         "GIT_READ_ALLOW"
@@ -142,7 +142,7 @@
       "phase": "MVP+",
       "side_effect": "read",
       "risk_level": "medium",
-      "status": "planned",
+      "status": "implemented",
       "requires_approval": false,
       "policy_rule_ids": [
         "GIT_READ_ALLOW"

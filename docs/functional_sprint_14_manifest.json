@@ -1,0 +1,52 @@
+{
+  "sprint": "FUNC-SPRINT-14",
+  "title": "Git read-only y repo inventory MVP+",
+  "status": "implemented-initial",
+  "implemented_on": "2026-06-08",
+  "created_files": [
+    "src/devpilot_core/repo/__init__.py",
+    "src/devpilot_core/repo/git_adapter.py",
+    "src/devpilot_core/repo/inventory.py",
+    "tests/test_repo_tools.py",
+    "docs/audits/func_sprint_14_git_readonly_inventory_audit.md",
+    "docs/functional_sprint_14_manifest.json"
+  ],
+  "modified_files": [
+    "src/devpilot_core/cli.py",
+    ".devpilot/miasi/tool_registry.json",
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/04_quality/test_strategy.md",
+    "docs/06_miasi/tool_card.md",
+    "docs/02_architecture/adrs/ADR-0005-git-adapter-read-only-mvp-plus.md",
+    "docs/functional_backlog_after_precode.md"
+  ],
+  "commands": [
+    "python -m devpilot_core git-status --json",
+    "python -m devpilot_core git-status --json --write-report",
+    "python -m devpilot_core repo-inventory --json",
+    "python -m devpilot_core repo-inventory --json --write-report",
+    "python -m pytest -q"
+  ],
+  "pass_criteria": [
+    "GitAdapter only runs read-only allowlisted Git commands",
+    "RepoInventory remains inside workspace",
+    "Synthetic secrets are detected without raw leakage",
+    "CLI JSON is parseable",
+    "pytest passes"
+  ],
+  "block_criteria": [
+    "Git write command",
+    "shell execution",
+    "path outside workspace",
+    "raw secret leakage",
+    "runtime outputs committed"
+  ],
+  "risks": [
+    "No industrial SAST/SCA",
+    "No entropy-based secret scanning",
+    "No submodule/LFS/remote branch analysis",
+    "No semantic code review yet"
+  ],
+  "next_sprint": "FUNC-SPRINT-15 — Patch review y code review en dry-run"
+}

@@ -2,7 +2,7 @@
 title: "DevPilot Local — Backlog ejecutable posterior a pre-code"
 doc_id: "DEVPL-FUNC-BACKLOG-001"
 status: "approved"
-version: "2.1.0"
+version: "2.2.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
@@ -14,7 +14,7 @@ change_policy: "controlled_changes_allowed_via_docs_as_code"
 approved_on: "2026-06-06"
 approval_scope: "functional_backlog_after_precode"
 baseline_execution: "FUNC-SPRINT-00"
-next_sprint: "FUNC-SPRINT-14"
+next_sprint: "FUNC-SPRINT-15"
 ---
 
 # DevPilot Local — Backlog ejecutable posterior a pre-code
@@ -75,7 +75,7 @@ El primer ciclo funcional busca convertir DevPilot de un proyecto documentado en
 | L4.5 | Estado operativo local | SQLite para runs, gates, findings, eventos, aprobaciones y costos | Implementado inicial |
 | L5 | MIASI ejecutable | Agent/Tool/Policy registries verificables | Implementado inicial |
 | L6 | Agentes documentales | Agentes mock/local en dry-run | Implementado inicial |
-| L7 | Repositorios | Git read-only, inventario, análisis | Pendiente |
+| L7 | Repositorios | Git read-only, inventario, análisis | Implementado inicial |
 | L8 | Patches y código | Patch review, code review, refactor plan | Pendiente |
 | L9 | Modelos híbridos | ModelAdapter local/API opcional con costos | Pendiente |
 | L10 | Interfaces | Desktop/web sobre DevPilot Core | Futuro |
@@ -1357,6 +1357,10 @@ Siguiente sprint: `FUNC-SPRINT-14 — Git read-only y repo inventory MVP+`.
 
 # FUNC-SPRINT-14 — Git read-only y repo inventory MVP+
 
+## Estado
+
+`implemented-initial` el 2026-06-08.
+
 ## Objetivo
 
 Integrar Git en modo lectura para conocer estado de repos reales sin modificar ramas, commits ni archivos.
@@ -1365,22 +1369,51 @@ Integrar Git en modo lectura para conocer estado de repos reales sin modificar r
 
 | ID | Tarea | Entregable | PASS |
 |---|---|---|---|
-| FUNC-14-001 | Crear `GitAdapter` read-only | módulo | `status`, `branch`, `diff --stat`. |
-| FUNC-14-002 | Crear comando `git-status` | CLI | Reporte JSON/Markdown. |
-| FUNC-14-003 | Crear `repo-inventory` | CLI | Lista archivos por tipo/tamaño/riesgo. |
-| FUNC-14-004 | Detectar archivos sensibles sintéticos | reporte | Redacción de secretos. |
-| FUNC-14-005 | Tests con repo temporal | pytest | No modifica repo. |
+| FUNC-14-001 | Crear `GitAdapter` read-only | `src/devpilot_core/repo/git_adapter.py` | `status`, `branch`, `diff --stat` mediante allowlist read-only. |
+| FUNC-14-002 | Crear comando `git-status` | CLI | Reporte JSON/Markdown opcional. |
+| FUNC-14-003 | Crear `repo-inventory` | CLI + `src/devpilot_core/repo/inventory.py` | Lista archivos por tipo/tamaño/riesgo. |
+| FUNC-14-004 | Detectar archivos sensibles sintéticos | findings | Secret-like content detectado sin valor crudo. |
+| FUNC-14-005 | Tests con repo temporal | `tests/test_repo_tools.py` | No modifica repo. |
+
+## Comandos implementados
+
+```powershell
+python -m devpilot_core git-status --json
+python -m devpilot_core git-status --json --write-report
+python -m devpilot_core repo-inventory --json
+python -m devpilot_core repo-inventory --json --write-report
+python -m pytest -q
+```
+
+## Criterios PASS implementados
+
+```text
+GitAdapter ejecuta solo comandos Git read-only allowlisted.
+git-status no altera `git status --short` antes/después.
+repo-inventory no sale del workspace.
+repo-inventory excluye outputs/caches.
+secret-like content se detecta sin exponer valor crudo.
+Tool Registry marca git.status, git.diff y repo.inventory como implemented.
+```
 
 ## BLOCK
 
-- No `git add`, `commit`, `checkout`, `reset`, `merge`, `push`.
+- No `git add`, `commit`, `checkout`, `reset`, `merge`, `rebase`, `tag`, `push`.
+- No `shell=True`.
 - No lectura fuera del workspace.
+- No fuga de secretos crudos.
+
+## Riesgos
+
+Primera versión. No cubre SCA/SAST industrial, licencias, vulnerabilidades, submódulos, LFS, ramas remotas, secret scanning por entropía ni revisión semántica de código.
 
 ## Prompt operativo
 
 ```text
 Implementa FUNC-SPRINT-14: GitAdapter read-only y repo-inventory. Debe usar comandos seguros, no modificar el repo, producir reportes y trazas, detectar patrones sensibles sintéticos y tener tests con repos temporales.
 ```
+
+Siguiente sprint: `FUNC-SPRINT-15 — Patch review y code review en dry-run`.
 
 ---
 
