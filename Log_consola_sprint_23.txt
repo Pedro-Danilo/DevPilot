@@ -1,7 +1,7 @@
 (.venv) PS D:\Projects\DevPilot_Local> pytest -q
-............................................................................................................................................ [ 90%]
-..............                                                                                                                               [100%]
-DEVPL TEST SUMMARY: 154 passed, 0 failed, 0 errors, 0 skipped
+............................................................................................................................................ [ 84%]
+..........................                                                                                                                   [100%]
+DEVPL TEST SUMMARY: 166 passed, 0 failed, 0 errors, 0 skipped
 (.venv) PS D:\Projects\DevPilot_Local> python -m devpilot_core --version
 devpilot-local 0.1.0
 (.venv) PS D:\Projects\DevPilot_Local> python -m devpilot_core workspace status --json
@@ -205,7 +205,7 @@ devpilot-local 0.1.0
         "standard": "MIPSoftware",
         "purpose": "Local operation and recovery guide.",
         "exists": true,
-        "size_bytes": 63069
+        "size_bytes": 64981
       },
       {
         "id": "agent_card",
@@ -843,7 +843,7 @@ devpilot-local 0.1.0
       {
         "artifact": "docs/05_operations/runbook.md",
         "exists": true,
-        "size_bytes": 63069,
+        "size_bytes": 64981,
         "frontmatter_ok": true,
         "artifact_ok": true,
         "status": "approved",
@@ -2097,7 +2097,7 @@ devpilot-local 0.1.0
       "llm_required": false,
       "external_api_used": false,
       "fixture_path": "evals/fixtures/documentation_eval_cases.json",
-      "generated_at": "2026-06-10T16:37:24Z",
+      "generated_at": "2026-06-10T17:03:18Z",
       "schema_version": "1.0",
       "declared_suite_id": "documentation",
       "description": "Synthetic offline evaluation suite for DevPilot validators and MVP document agents."
@@ -2243,8 +2243,7 @@ devpilot-local 0.1.0
     }
   ]
 }
-
-(.venv) PS D:\Projects\DevPilot_Local> python -m devpilot_core schema list --json --write-report
+(.venv) PS D:\Projects\DevPilot_Local> python -m devpilot_core schema list --json
 {
   "command": "schema list",
   "ok": true,
@@ -2252,8 +2251,8 @@ devpilot-local 0.1.0
   "message": "Schema registry listed successfully.",
   "data": {
     "summary": {
-      "schemas_total": 7,
-      "schemas_existing": 7,
+      "schemas_total": 13,
+      "schemas_existing": 13,
       "duplicate_schema_ids": [],
       "missing_schema_paths": [],
       "catalog_path": "docs/schemas/schema_catalog.json",
@@ -2357,16 +2356,96 @@ devpilot-local 0.1.0
         "validates_instances": true,
         "contract": "InterfaceRouteContract",
         "validation_enabled_sprint": "FUNC-SPRINT-22"
+      },
+      {
+        "schema_id": "SCHEMA-DEVPL-MIASI-AGENT-REGISTRY-V1",
+        "title": "DevPilot MIASI Agent Registry v1",
+        "version": "1.0.0",
+        "path": "docs/schemas/miasi_agent_registry.schema.json",
+        "description": "Structural contract for .devpilot/miasi/agent_registry.json.",
+        "status": "registered",
+        "owner": "Ordóñez",
+        "sprint": "FUNC-SPRINT-23",
+        "dialect": "https://json-schema.org/draft/2020-12/schema",
+        "validates_instances": true,
+        "contract": "MiasiAgentRegistry",
+        "validation_enabled_sprint": "FUNC-SPRINT-23"
+      },
+      {
+        "schema_id": "SCHEMA-DEVPL-MIASI-TOOL-REGISTRY-V1",
+        "title": "DevPilot MIASI Tool Registry v1",
+        "version": "1.0.0",
+        "path": "docs/schemas/miasi_tool_registry.schema.json",
+        "description": "Structural contract for .devpilot/miasi/tool_registry.json.",
+        "status": "registered",
+        "owner": "Ordóñez",
+        "sprint": "FUNC-SPRINT-23",
+        "dialect": "https://json-schema.org/draft/2020-12/schema",
+        "validates_instances": true,
+        "contract": "MiasiToolRegistry",
+        "validation_enabled_sprint": "FUNC-SPRINT-23"
+      },
+      {
+        "schema_id": "SCHEMA-DEVPL-MIASI-POLICY-MATRIX-V1",
+        "title": "DevPilot MIASI Policy Matrix v1",
+        "version": "1.0.0",
+        "path": "docs/schemas/miasi_policy_matrix.schema.json",
+        "description": "Structural contract for .devpilot/miasi/policy_matrix.json.",
+        "status": "registered",
+        "owner": "Ordóñez",
+        "sprint": "FUNC-SPRINT-23",
+        "dialect": "https://json-schema.org/draft/2020-12/schema",
+        "validates_instances": true,
+        "contract": "MiasiPolicyMatrix",
+        "validation_enabled_sprint": "FUNC-SPRINT-23"
+      },
+      {
+        "schema_id": "SCHEMA-DEVPL-WORKSPACE-PROJECT-V1",
+        "title": "DevPilot Workspace Project v1",
+        "version": "1.0.0",
+        "path": "docs/schemas/workspace_project.schema.json",
+        "description": "Structural contract for .devpilot/project.yaml after dependency-free parse.",
+        "status": "registered",
+        "owner": "Ordóñez",
+        "sprint": "FUNC-SPRINT-23",
+        "dialect": "https://json-schema.org/draft/2020-12/schema",
+        "validates_instances": true,
+        "contract": "WorkspaceProject",
+        "validation_enabled_sprint": "FUNC-SPRINT-23"
+      },
+      {
+        "schema_id": "SCHEMA-DEVPL-PROVIDER-CONFIG-V1",
+        "title": "DevPilot Provider Config v1",
+        "version": "1.0.0",
+        "path": "docs/schemas/provider_config.schema.json",
+        "description": "Structural contract for .devpilot/providers.yaml.example after dependency-free parse.",
+        "status": "registered",
+        "owner": "Ordóñez",
+        "sprint": "FUNC-SPRINT-23",
+        "dialect": "https://json-schema.org/draft/2020-12/schema",
+        "validates_instances": true,
+        "contract": "ProviderConfig",
+        "validation_enabled_sprint": "FUNC-SPRINT-23"
+      },
+      {
+        "schema_id": "SCHEMA-DEVPL-FUNCTIONAL-SPRINT-MANIFEST-V1",
+        "title": "DevPilot Functional Sprint Manifest v1",
+        "version": "1.0.0",
+        "path": "docs/schemas/functional_sprint_manifest.schema.json",
+        "description": "Structural contract for functional sprint manifests.",
+        "status": "registered",
+        "owner": "Ordóñez",
+        "sprint": "FUNC-SPRINT-23",
+        "dialect": "https://json-schema.org/draft/2020-12/schema",
+        "validates_instances": true,
+        "contract": "FunctionalSprintManifest",
+        "validation_enabled_sprint": "FUNC-SPRINT-23"
       }
     ],
     "notes": [
       "FUNC-SPRINT-21 registers schemas only; it does not validate JSON instances.",
       "Full SchemaValidator behavior is planned for FUNC-SPRINT-22."
-    ],
-    "reports": {
-      "json": "outputs/reports/schema_list.json",
-      "markdown": "outputs/reports/schema_list.md"
-    }
+    ]
   },
   "findings": [
     {
@@ -2374,138 +2453,12 @@ devpilot-local 0.1.0
       "message": "Schema registry catalog integrity passed.",
       "severity": "info",
       "metadata": {
-        "schemas_total": 7,
-        "schemas_existing": 7,
+        "schemas_total": 13,
+        "schemas_existing": 13,
         "duplicate_schema_ids": [],
         "missing_schema_paths": [],
         "catalog_path": "docs/schemas/schema_catalog.json",
         "preliminary": true
-      }
-    }
-  ]
-}
-(.venv) PS D:\Projects\DevPilot_Local> python -m devpilot_core schema validate --schema EvidenceReport --instance outputs/reports/schema_list.json --json
-{
-  "command": "schema validate",
-  "ok": true,
-  "exit_code": 0,
-  "message": "Schema validation passed.",
-  "data": {
-    "summary": {
-      "schema": "docs/schemas/evidence_report.schema.json",
-      "instance": "outputs/reports/schema_list.json",
-      "valid": true,
-      "errors_total": 0,
-      "findings_total": 1,
-      "network_used": false,
-      "external_api_used": false,
-      "schema_title": "DevPilot EvidenceReport v1",
-      "schema_id": "SCHEMA-DEVPL-EVIDENCE-REPORT-V1",
-      "validator": "jsonschema",
-      "jsonschema_version": "4.26.0",
-      "preliminary": true
-    },
-    "schema": "docs/schemas/evidence_report.schema.json",
-    "instance": "outputs/reports/schema_list.json",
-    "notes": [
-      "FUNC-SPRINT-22 validates JSON structure only; semantic gates remain in dedicated validators.",
-      "Validation is local-first and does not call network or external APIs."
-    ]
-  },
-  "findings": [
-    {
-      "id": "SCHEMA_VALIDATION_PASS",
-      "message": "Instance conforms to schema.",
-      "severity": "info",
-      "metadata": {
-        "schema": "docs/schemas/evidence_report.schema.json",
-        "instance": "outputs/reports/schema_list.json"
-      }
-    }
-  ]
-}
-(.venv) PS D:\Projects\DevPilot_Local> python -c "from pathlib import Path; import json; from devpilot_core.schemas import SchemaRegistry; Path('outputs/reports').mkdir(parents=True, exist_ok=True); Path('outputs/reports/schema_list_command_result.json').write_text(json.dumps(SchemaRegistry(Path('.')).list().to_dict(), indent=2, ensure_ascii=False), encoding='utf-8')"
-(.venv) PS D:\Projects\DevPilot_Local> python -m devpilot_core schema validate --schema CommandResult --instance outputs/reports/schema_list_command_result.json --json
-{
-  "command": "schema validate",
-  "ok": true,
-  "exit_code": 0,
-  "message": "Schema validation passed.",
-  "data": {
-    "summary": {
-      "schema": "docs/schemas/command_result.schema.json",
-      "instance": "outputs/reports/schema_list_command_result.json",
-      "valid": true,
-      "errors_total": 0,
-      "findings_total": 1,
-      "network_used": false,
-      "external_api_used": false,
-      "schema_title": "DevPilot CommandResult v1",
-      "schema_id": "SCHEMA-DEVPL-COMMAND-RESULT-V1",
-      "validator": "jsonschema",
-      "jsonschema_version": "4.26.0",
-      "preliminary": true
-    },
-    "schema": "docs/schemas/command_result.schema.json",
-    "instance": "outputs/reports/schema_list_command_result.json",
-    "notes": [
-      "FUNC-SPRINT-22 validates JSON structure only; semantic gates remain in dedicated validators.",
-      "Validation is local-first and does not call network or external APIs."
-    ]
-  },
-  "findings": [
-    {
-      "id": "SCHEMA_VALIDATION_PASS",
-      "message": "Instance conforms to schema.",
-      "severity": "info",
-      "metadata": {
-        "schema": "docs/schemas/command_result.schema.json",
-        "instance": "outputs/reports/schema_list_command_result.json"
-      }
-    }
-  ]
-}
-(.venv) PS D:\Projects\DevPilot_Local> python -c "from pathlib import Path; import json; from devpilot_core.application import ApplicationService; service=ApplicationService(Path('.')); Path('outputs/reports').mkdir(parents=True, exist_ok=True); Path('outputs/reports/app_contract_application_response.json').write_text(json.dumps(service.as_application_response(service.application_contract(), operation='app.contract').to_dict(), indent=2, ensure_ascii=False), encoding='utf-8')"
-(.venv) PS D:\Projects\DevPilot_Local> python -m devpilot_core schema validate --schema ApplicationResponse --instance outputs/reports/app_contract_application_response.json --json --write-report
-{
-  "command": "schema validate",
-  "ok": true,
-  "exit_code": 0,
-  "message": "Schema validation passed.",
-  "data": {
-    "summary": {
-      "schema": "docs/schemas/application_response.schema.json",
-      "instance": "outputs/reports/app_contract_application_response.json",
-      "valid": true,
-      "errors_total": 0,
-      "findings_total": 1,
-      "network_used": false,
-      "external_api_used": false,
-      "schema_title": "DevPilot ApplicationResponse v1",
-      "schema_id": "SCHEMA-DEVPL-APPLICATION-RESPONSE-V1",
-      "validator": "jsonschema",
-      "jsonschema_version": "4.26.0",
-      "preliminary": true
-    },
-    "schema": "docs/schemas/application_response.schema.json",
-    "instance": "outputs/reports/app_contract_application_response.json",
-    "notes": [
-      "FUNC-SPRINT-22 validates JSON structure only; semantic gates remain in dedicated validators.",
-      "Validation is local-first and does not call network or external APIs."
-    ],
-    "reports": {
-      "json": "outputs/reports/schema_validation.json",
-      "markdown": "outputs/reports/schema_validation.md"
-    }
-  },
-  "findings": [
-    {
-      "id": "SCHEMA_VALIDATION_PASS",
-      "message": "Instance conforms to schema.",
-      "severity": "info",
-      "metadata": {
-        "schema": "docs/schemas/application_response.schema.json",
-        "instance": "outputs/reports/app_contract_application_response.json"
       }
     }
   ]

@@ -1,0 +1,90 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/SCHEMA-DEVPL-MIASI-POLICY-MATRIX-V1",
+  "title": "DevPilot MIASI Policy Matrix v1",
+  "description": "Structural contract for .devpilot/miasi/policy_matrix.json.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "source_document",
+    "created_by",
+    "description",
+    "rules"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source_document": {
+      "type": "string",
+      "pattern": "^docs/06_miasi/.+\\.md$"
+    },
+    "created_by": {
+      "type": "string",
+      "pattern": "^FUNC-SPRINT-[0-9]{2}$"
+    },
+    "description": {
+      "type": "string",
+      "minLength": 1
+    },
+    "rules": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "rule_id",
+          "domain",
+          "action",
+          "default_effect",
+          "gate",
+          "approval_required",
+          "observability_required"
+        ],
+        "properties": {
+          "rule_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "domain": {
+            "type": "string",
+            "minLength": 1
+          },
+          "action": {
+            "type": "string",
+            "minLength": 1
+          },
+          "default_effect": {
+            "type": "string",
+            "enum": [
+              "allow",
+              "deny",
+              "block",
+              "deny_unless_safe_output"
+            ]
+          },
+          "gate": {
+            "type": "string",
+            "minLength": 1
+          },
+          "approval_required": {
+            "type": "boolean"
+          },
+          "observability_required": {
+            "type": "boolean"
+          }
+        }
+      }
+    }
+  },
+  "additionalProperties": false,
+  "x-devpilot-schema-id": "SCHEMA-DEVPL-MIASI-POLICY-MATRIX-V1",
+  "x-devpilot-version": "1.0.0",
+  "x-devpilot-sprint": "FUNC-SPRINT-23",
+  "x-devpilot-status": "registered",
+  "x-devpilot-preliminary": true,
+  "x-devpilot-validation-enabled-sprint": "FUNC-SPRINT-23",
+  "x-devpilot-note": "Registered by FUNC-SPRINT-23 for structural validation. It complements but does not replace semantic/business validators."
+}

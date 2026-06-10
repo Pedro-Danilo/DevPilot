@@ -16,7 +16,7 @@ from .miasi import MiasiRegistryValidator
 from .modeling import ModelAdapterRouter, ModelRouterConfig
 from .policy import CostPolicy, PolicyEngine, PolicyRequest, load_cost_policy
 from .reports import ReportEngine, build_report_id
-from .schemas import SchemaRegistry, SchemaValidator
+from .schemas import BuiltinContractValidator, SchemaRegistry, SchemaValidator
 from .repo import GitAdapter, RepoInventory
 from .refactor import RefactorPlanner
 from .review import CodeReviewEngine, PatchReviewEngine
@@ -797,6 +797,117 @@ def schema_validate_command(
     return int(result.exit_code)
 
 
+def schema_validate_miasi_command(
+    *,
+    scope: str = "all",
+    json_output: bool = False,
+    write_report: bool = False,
+) -> int:
+    """Validate MIASI registries structurally before semantic MIASI rules.
+
+    FUNC-SPRINT-23 adds JSON Schemas for Agent Registry, Tool Registry and
+    Policy Matrix. This command validates structure only, keeps execution
+    local-first, and does not replace `miasi validate` business-rule checks.
+    """
+
+    root = project_root()
+    result = BuiltinContractValidator(root).validate_miasi(scope=scope)
+    result = _write_optional_command_report(
+        root,
+        result,
+        subject=".devpilot/miasi",
+        report_id="schema_validate_miasi",
+        write_report=write_report,
+        metadata={"sprint": "FUNC-SPRINT-23", "component": "BuiltinContractValidator"},
+    )
+    _emit_result_event(root, result, subject=".devpilot/miasi")
+    _persist_result(root, result, subject=".devpilot/miasi")
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+
+def schema_validate_workspace_command(
+    *,
+    path: str = ".devpilot/project.yaml",
+    json_output: bool = False,
+    write_report: bool = False,
+) -> int:
+    """Validate `.devpilot/project.yaml` after dependency-free YAML parsing.
+
+    FUNC-SPRINT-23 validates the known DevPilot workspace config shape through
+    `workspace_project.schema.json`. This is structural validation only; it does
+    not replace WorkspaceManager readiness/status checks.
+    """
+
+    root = project_root()
+    result = BuiltinContractValidator(root).validate_workspace(path=path)
+    result = _write_optional_command_report(
+        root,
+        result,
+        subject=path,
+        report_id="schema_validate_workspace",
+        write_report=write_report,
+        metadata={"sprint": "FUNC-SPRINT-23", "component": "BuiltinContractValidator"},
+    )
+    _emit_result_event(root, result, subject=path)
+    _persist_result(root, result, subject=path)
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+
+def schema_validate_providers_command(
+    *,
+    path: str = ".devpilot/providers.yaml.example",
+    json_output: bool = False,
+    write_report: bool = False,
+) -> int:
+    """Validate provider metadata without reading secrets or contacting providers.
+
+    FUNC-SPRINT-23 validates provider configuration shape and blocks raw secret
+    fields structurally. It reads metadata only; no API keys are loaded from the
+    environment and no endpoint is contacted.
+    """
+
+    root = project_root()
+    result = BuiltinContractValidator(root).validate_providers(path=path)
+    result = _write_optional_command_report(
+        root,
+        result,
+        subject=path,
+        report_id="schema_validate_providers",
+        write_report=write_report,
+        metadata={"sprint": "FUNC-SPRINT-23", "component": "BuiltinContractValidator"},
+    )
+    _emit_result_event(root, result, subject=path)
+    _persist_result(root, result, subject=path)
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+
+def schema_validate_manifest_command(
+    manifest: str,
+    *,
+    json_output: bool = False,
+    write_report: bool = False,
+) -> int:
+    """Validate one functional sprint manifest against its structural contract."""
+
+    root = project_root()
+    result = BuiltinContractValidator(root).validate_manifest(manifest)
+    result = _write_optional_command_report(
+        root,
+        result,
+        subject=manifest,
+        report_id="schema_validate_manifest",
+        write_report=write_report,
+        metadata={"sprint": "FUNC-SPRINT-23", "component": "BuiltinContractValidator"},
+    )
+    _emit_result_event(root, result, subject=manifest)
+    _persist_result(root, result, subject=manifest)
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+
 def app_contract_command(*, json_output: bool = False, write_report: bool = False) -> int:
     """Expose the internal application-service contract for future UI shells."""
 
@@ -1036,6 +1147,27 @@ def build_parser() -> argparse.ArgumentParser:
     schema_validate.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     schema_validate.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
 
+
+    schema_validate_miasi = schema_sub.add_parser("validate-miasi", help="Validate MIASI registries against structural schemas")
+    schema_validate_miasi.add_argument("--scope", choices=["all", "agents", "tools", "policy"], default="all", help="MIASI contract scope to validate")
+    schema_validate_miasi.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    schema_validate_miasi.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+
+    schema_validate_workspace = schema_sub.add_parser("validate-workspace", help="Validate .devpilot/project.yaml against workspace schema")
+    schema_validate_workspace.add_argument("--path", default=".devpilot/project.yaml", help="Workspace project YAML path")
+    schema_validate_workspace.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    schema_validate_workspace.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+
+    schema_validate_providers = schema_sub.add_parser("validate-providers", help="Validate provider metadata against provider schema")
+    schema_validate_providers.add_argument("--path", default=".devpilot/providers.yaml.example", help="Provider YAML metadata path")
+    schema_validate_providers.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    schema_validate_providers.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+
+    schema_validate_manifest = schema_sub.add_parser("validate-manifest", help="Validate a functional sprint manifest")
+    schema_validate_manifest.add_argument("manifest", help="Manifest JSON file, e.g. docs/functional_sprint_23_manifest.json")
+    schema_validate_manifest.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    schema_validate_manifest.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+
     app = sub.add_parser("app", help="Expose application-service contracts for future desktop/web shells")
     app_sub = app.add_subparsers(dest="app_command")
     app_contract = app_sub.add_parser("contract", help="Show internal ApplicationService/DTO contract")
@@ -1248,6 +1380,14 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
                 json_output=args.json,
                 write_report=args.write_report,
             )
+        if args.schema_command == "validate-miasi":
+            return schema_validate_miasi_command(scope=args.scope, json_output=args.json, write_report=args.write_report)
+        if args.schema_command == "validate-workspace":
+            return schema_validate_workspace_command(path=args.path, json_output=args.json, write_report=args.write_report)
+        if args.schema_command == "validate-providers":
+            return schema_validate_providers_command(path=args.path, json_output=args.json, write_report=args.write_report)
+        if args.schema_command == "validate-manifest":
+            return schema_validate_manifest_command(args.manifest, json_output=args.json, write_report=args.write_report)
         parser.print_help()
         return int(ExitCode.FAIL)
     if args.command == "app":

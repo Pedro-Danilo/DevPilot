@@ -1,0 +1,120 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/SCHEMA-DEVPL-MIASI-TOOL-REGISTRY-V1",
+  "title": "DevPilot MIASI Tool Registry v1",
+  "description": "Structural contract for .devpilot/miasi/tool_registry.json.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "source_document",
+    "created_by",
+    "description",
+    "tools"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source_document": {
+      "type": "string",
+      "pattern": "^docs/06_miasi/.+\\.md$"
+    },
+    "created_by": {
+      "type": "string",
+      "pattern": "^FUNC-SPRINT-[0-9]{2}$"
+    },
+    "description": {
+      "type": "string",
+      "minLength": 1
+    },
+    "tools": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "tool_id",
+          "name",
+          "phase",
+          "side_effect",
+          "risk_level",
+          "status",
+          "requires_approval",
+          "policy_rule_ids"
+        ],
+        "properties": {
+          "tool_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "phase": {
+            "type": "string",
+            "enum": [
+              "MVP",
+              "MVP+",
+              "Post-MVP"
+            ]
+          },
+          "side_effect": {
+            "type": "string",
+            "enum": [
+              "none",
+              "read",
+              "report",
+              "simulation",
+              "controlled_write",
+              "optional_write",
+              "controlled_execution",
+              "local_compute",
+              "network_cost"
+            ]
+          },
+          "risk_level": {
+            "type": "string",
+            "enum": [
+              "low",
+              "medium",
+              "medium_high",
+              "high"
+            ]
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "planned",
+              "future",
+              "implemented",
+              "existing",
+              "disabled"
+            ]
+          },
+          "requires_approval": {
+            "type": "boolean"
+          },
+          "policy_rule_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "uniqueItems": true
+          }
+        }
+      }
+    }
+  },
+  "additionalProperties": false,
+  "x-devpilot-schema-id": "SCHEMA-DEVPL-MIASI-TOOL-REGISTRY-V1",
+  "x-devpilot-version": "1.0.0",
+  "x-devpilot-sprint": "FUNC-SPRINT-23",
+  "x-devpilot-status": "registered",
+  "x-devpilot-preliminary": true,
+  "x-devpilot-validation-enabled-sprint": "FUNC-SPRINT-23",
+  "x-devpilot-note": "Registered by FUNC-SPRINT-23 for structural validation. It complements but does not replace semantic/business validators."
+}

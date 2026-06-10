@@ -1,8 +1,8 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
-Estado actual: `baseline pre-code approved + core funcional 00–18 cerrado + release técnico interno v0.1.0 + reconciliación documental post-18 + Schema Registry inicial + Schema Validator inicial`  
-Último hito: `FUNC-SPRINT-22 — Schema Validator y schemas de contratos transversales`  
-Siguiente hito: `FUNC-SPRINT-23 — Schemas MIASI, Workspace, Providers y Sprint Manifests`  
+Estado actual: `baseline pre-code approved + core funcional 00–18 cerrado + release técnico interno v0.1.0 + reconciliación documental post-18 + Schema Registry inicial + Schema Validator inicial + contratos críticos Sprint 23`  
+Último hito: `FUNC-SPRINT-23 — Schemas MIASI, Workspace, Providers y Sprint Manifests`  
+Siguiente hito: `FUNC-SPRINT-24 — Artifact Profiles data-driven y ValidationGateway inicial`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
@@ -94,6 +94,8 @@ Riesgo operativo: los schemas son preliminares y manuales; pueden derivar respec
 
 
 ## Schema Validator inicial — FUNC-SPRINT-22
+
+Referencia histórica: `FUNC-SPRINT-22 — Schema Validator y schemas de contratos transversales`.
 
 `FUNC-SPRINT-22` habilita validación local de instancias JSON contra schemas registrados o rutas `.schema.json`. Esta capacidad es **implemented-initial**: valida estructura JSON Schema Draft 2020-12 mediante `jsonschema`, no ejecuta red, no usa API keys y no reemplaza reglas semánticas de MIASI, readiness, policy o trazabilidad.
 
@@ -881,3 +883,33 @@ Riesgos:
 ```text
 Contrato preliminar. No incluye autenticación, sesiones, RBAC, empaquetado desktop, API HTTP, WebSocket ni selección tecnológica final.
 ```
+
+## Schemas críticos operativos — FUNC-SPRINT-23
+
+`FUNC-SPRINT-23` amplía el Schema Engine hacia contratos estructurales críticos: MIASI registries, workspace metadata, provider metadata y functional sprint manifests. Esta capacidad es **implemented-initial**: valida estructura JSON/YAML parseada localmente, pero no sustituye reglas de negocio, readiness, PolicyEngine ni validación semántica MIASI.
+
+Artefactos principales:
+
+- `src/devpilot_core/schemas/builtins.py`
+- `docs/schemas/miasi_agent_registry.schema.json`
+- `docs/schemas/miasi_tool_registry.schema.json`
+- `docs/schemas/miasi_policy_matrix.schema.json`
+- `docs/schemas/workspace_project.schema.json`
+- `docs/schemas/provider_config.schema.json`
+- `docs/schemas/functional_sprint_manifest.schema.json`
+- `docs/audits/func_sprint_23_contract_schemas_audit.md`
+- `docs/functional_sprint_23_manifest.json`
+- `tests/test_contract_schemas.py`
+
+Comandos de verificación:
+
+```powershell
+$env:PYTHONPATH="src"
+python -m devpilot_core schema validate-miasi --json
+python -m devpilot_core schema validate-workspace --json
+python -m devpilot_core schema validate-providers --json
+python -m devpilot_core schema validate-manifest docs/functional_sprint_23_manifest.json --json
+python -m pytest tests/test_contract_schemas.py -q
+```
+
+Riesgo explícito: los parsers YAML de Sprint 23 son estrechos y dependency-free. Solo soportan la forma controlada de `.devpilot/project.yaml` y `.devpilot/providers.yaml.example`. Si se requiere YAML completo, debe abrirse ADR para una dependencia como PyYAML.

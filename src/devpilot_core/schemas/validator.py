@@ -111,69 +111,75 @@ class SchemaValidator:
             )
             return self._result(False, ExitCode.ERROR, "Instance JSON could not be loaded.", _relative(schema_path, self.root), _relative(instance_path, self.root), {}, findings)
 
-        try:
-            validator_cls = validator_for(schema_payload)
-            validator_cls.check_schema(schema_payload)
-            registry = self._build_local_schema_registry()
-            validator = validator_cls(schema_payload, registry=registry)
-            validation_errors = sorted(validator.iter_errors(instance_payload), key=lambda error: list(error.absolute_path))
-        except Exception as exc:
+        return self._validate_loaded_payload(
+            schema_path=schema_path,
+            schema_payload=schema_payload,
+            instance_payload=instance_payload,
+            instance_display=_relative(instance_path, self.root),
+        )
+
+    def validate_payload(
+        self,
+        *,
+        schema: str | Path,
+        payload: dict[str, Any] | list[Any],
+        instance_label: str,
+    ) -> CommandResult:
+        """Validate an in-memory JSON-compatible payload against a schema.
+
+        FUNC-SPRINT-23 uses this path for narrow YAML contracts such as
+        `.devpilot/project.yaml` and `.devpilot/providers.yaml.example`: DevPilot
+        parses the known local YAML shape into a JSON-compatible dictionary and
+        then reuses the same SchemaValidator/Error/Finding contract. This is not
+        a general YAML validation engine and intentionally avoids adding PyYAML.
+        """
+
+        findings: list[Finding] = []
+        schema_display = _display_path(schema)
+        instance_display = instance_label
+
+        if jsonschema is None or validator_for is None or Registry is None or Resource is None or DRAFT202012 is None:
             findings.append(
                 Finding(
-                    id="SCHEMA_DEFINITION_INVALID",
-                    message=f"Schema definition could not be evaluated: {exc}",
+                    id="SCHEMA_VALIDATOR_DEPENDENCY_MISSING",
+                    message=f"jsonschema dependency is unavailable: {_JSONSCHEMA_IMPORT_ERROR}",
+                    severity=Severity.ERROR,
+                    metadata={"dependency": "jsonschema", "sprint": "FUNC-SPRINT-22"},
+                )
+            )
+            return self._result(False, ExitCode.ERROR, "Schema validation dependency is unavailable.", schema_display, instance_display, {}, findings)
+
+        try:
+            schema_path = self.resolve_schema_path(schema)
+        except SchemaValidationInputError as exc:
+            findings.append(
+                Finding(
+                    id="SCHEMA_REFERENCE_NOT_FOUND",
+                    message=str(exc),
+                    severity=Severity.BLOCK,
+                    path=schema_display,
+                )
+            )
+            return self._result(False, ExitCode.BLOCK, "Schema reference could not be resolved.", schema_display, instance_display, {}, findings)
+
+        try:
+            schema_payload = self._read_json(schema_path)
+        except SchemaValidationInputError as exc:
+            findings.append(
+                Finding(
+                    id="SCHEMA_FILE_INVALID_JSON",
+                    message=str(exc),
                     severity=Severity.ERROR,
                     path=_relative(schema_path, self.root),
-                    metadata={"schema": _relative(schema_path, self.root)},
                 )
             )
-            return self._result(False, ExitCode.ERROR, "Schema definition is invalid.", _relative(schema_path, self.root), _relative(instance_path, self.root), {}, findings)
+            return self._result(False, ExitCode.ERROR, "Schema JSON could not be loaded.", _relative(schema_path, self.root), instance_display, {}, findings)
 
-        for error in validation_errors:
-            instance_pointer = _json_pointer(error.absolute_path)
-            schema_pointer = _json_pointer(error.absolute_schema_path)
-            findings.append(
-                Finding(
-                    id="SCHEMA_VALIDATION_ERROR",
-                    message=error.message,
-                    severity=Severity.BLOCK,
-                    path=instance_pointer,
-                    metadata={
-                        "validator": error.validator,
-                        "instance_path": instance_pointer,
-                        "schema_path": schema_pointer,
-                        "schema_file": _relative(schema_path, self.root),
-                        "instance_file": _relative(instance_path, self.root),
-                    },
-                )
-            )
-
-        ok = not validation_errors
-        if ok:
-            findings.append(
-                Finding(
-                    id="SCHEMA_VALIDATION_PASS",
-                    message="Instance conforms to schema.",
-                    severity=Severity.INFO,
-                    metadata={"schema": _relative(schema_path, self.root), "instance": _relative(instance_path, self.root)},
-                )
-            )
-
-        return self._result(
-            ok,
-            ExitCode.PASS if ok else ExitCode.BLOCK,
-            "Schema validation passed." if ok else "Schema validation failed with blocking findings.",
-            _relative(schema_path, self.root),
-            _relative(instance_path, self.root),
-            {
-                "schema_title": schema_payload.get("title"),
-                "schema_id": schema_payload.get("x-devpilot-schema-id") or schema_payload.get("$id"),
-                "errors_total": len(validation_errors),
-                "validator": "jsonschema",
-                "jsonschema_version": _jsonschema_version(),
-                "preliminary": True,
-            },
-            findings,
+        return self._validate_loaded_payload(
+            schema_path=schema_path,
+            schema_payload=schema_payload,
+            instance_payload=payload,
+            instance_display=instance_display,
         )
 
     def resolve_schema_path(self, schema: str | Path) -> Path:
@@ -216,6 +222,80 @@ class SchemaValidator:
         if not isinstance(payload, (dict, list)):
             raise SchemaValidationInputError(f"JSON root must be an object or array: {_relative(path, self.root)}")
         return payload
+
+    def _validate_loaded_payload(
+        self,
+        *,
+        schema_path: Path,
+        schema_payload: dict[str, Any] | list[Any],
+        instance_payload: dict[str, Any] | list[Any],
+        instance_display: str,
+    ) -> CommandResult:
+        findings: list[Finding] = []
+        try:
+            validator_cls = validator_for(schema_payload)
+            validator_cls.check_schema(schema_payload)
+            registry = self._build_local_schema_registry()
+            validator = validator_cls(schema_payload, registry=registry)
+            validation_errors = sorted(validator.iter_errors(instance_payload), key=lambda error: list(error.absolute_path))
+        except Exception as exc:
+            findings.append(
+                Finding(
+                    id="SCHEMA_DEFINITION_INVALID",
+                    message=f"Schema definition could not be evaluated: {exc}",
+                    severity=Severity.ERROR,
+                    path=_relative(schema_path, self.root),
+                    metadata={"schema": _relative(schema_path, self.root)},
+                )
+            )
+            return self._result(False, ExitCode.ERROR, "Schema definition is invalid.", _relative(schema_path, self.root), instance_display, {}, findings)
+
+        for error in validation_errors:
+            instance_pointer = _json_pointer(error.absolute_path)
+            schema_pointer = _json_pointer(error.absolute_schema_path)
+            findings.append(
+                Finding(
+                    id="SCHEMA_VALIDATION_ERROR",
+                    message=error.message,
+                    severity=Severity.BLOCK,
+                    path=instance_pointer,
+                    metadata={
+                        "validator": error.validator,
+                        "instance_path": instance_pointer,
+                        "schema_path": schema_pointer,
+                        "schema_file": _relative(schema_path, self.root),
+                        "instance_file": instance_display,
+                    },
+                )
+            )
+
+        ok = not validation_errors
+        if ok:
+            findings.append(
+                Finding(
+                    id="SCHEMA_VALIDATION_PASS",
+                    message="Instance conforms to schema.",
+                    severity=Severity.INFO,
+                    metadata={"schema": _relative(schema_path, self.root), "instance": instance_display},
+                )
+            )
+
+        return self._result(
+            ok,
+            ExitCode.PASS if ok else ExitCode.BLOCK,
+            "Schema validation passed." if ok else "Schema validation failed with blocking findings.",
+            _relative(schema_path, self.root),
+            instance_display,
+            {
+                "schema_title": schema_payload.get("title") if isinstance(schema_payload, dict) else None,
+                "schema_id": (schema_payload.get("x-devpilot-schema-id") or schema_payload.get("$id")) if isinstance(schema_payload, dict) else None,
+                "errors_total": len(validation_errors),
+                "validator": "jsonschema",
+                "jsonschema_version": _jsonschema_version(),
+                "preliminary": True,
+            },
+            findings,
+        )
 
     def _build_local_schema_registry(self):
         """Build an in-memory registry for local schema references.

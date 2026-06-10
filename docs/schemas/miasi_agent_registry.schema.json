@@ -1,0 +1,135 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/SCHEMA-DEVPL-MIASI-AGENT-REGISTRY-V1",
+  "title": "DevPilot MIASI Agent Registry v1",
+  "description": "Structural contract for .devpilot/miasi/agent_registry.json.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "source_document",
+    "created_by",
+    "description",
+    "agents"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source_document": {
+      "type": "string",
+      "pattern": "^docs/06_miasi/.+\\.md$"
+    },
+    "created_by": {
+      "type": "string",
+      "pattern": "^FUNC-SPRINT-[0-9]{2}$"
+    },
+    "description": {
+      "type": "string",
+      "minLength": 1
+    },
+    "agents": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "agent_id",
+          "name",
+          "phase",
+          "max_autonomy",
+          "status",
+          "risk_level",
+          "allowed_tools",
+          "required_artifacts",
+          "policy_rule_ids",
+          "approval_required",
+          "observability_required",
+          "eval_required"
+        ],
+        "properties": {
+          "agent_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "phase": {
+            "type": "string",
+            "enum": [
+              "MVP",
+              "MVP+",
+              "Post-MVP"
+            ]
+          },
+          "max_autonomy": {
+            "type": "string",
+            "pattern": "^A[0-6](/A[0-6])?$"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "planned",
+              "future",
+              "implemented",
+              "disabled"
+            ]
+          },
+          "risk_level": {
+            "type": "string",
+            "enum": [
+              "low",
+              "medium",
+              "medium_high",
+              "high"
+            ]
+          },
+          "allowed_tools": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "uniqueItems": true
+          },
+          "required_artifacts": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "uniqueItems": true
+          },
+          "policy_rule_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "uniqueItems": true
+          },
+          "approval_required": {
+            "type": "boolean"
+          },
+          "observability_required": {
+            "type": "boolean"
+          },
+          "eval_required": {
+            "type": "boolean"
+          }
+        }
+      }
+    }
+  },
+  "additionalProperties": false,
+  "x-devpilot-schema-id": "SCHEMA-DEVPL-MIASI-AGENT-REGISTRY-V1",
+  "x-devpilot-version": "1.0.0",
+  "x-devpilot-sprint": "FUNC-SPRINT-23",
+  "x-devpilot-status": "registered",
+  "x-devpilot-preliminary": true,
+  "x-devpilot-validation-enabled-sprint": "FUNC-SPRINT-23",
+  "x-devpilot-note": "Registered by FUNC-SPRINT-23 for structural validation. It complements but does not replace semantic/business validators."
+}

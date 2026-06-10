@@ -6,9 +6,9 @@
   "version": "1.0.0",
   "owner": "Ordóñez",
   "updated": "2026-06-10",
-  "sprint": "FUNC-SPRINT-22",
+  "sprint": "FUNC-SPRINT-23",
   "preliminary": true,
-  "purpose": "Catalog of versioned JSON schemas registered by DevPilot. Sprint 22 enables local instance validation for transverse contracts through SchemaValidator.",
+  "purpose": "Catalog of versioned JSON schemas registered by DevPilot. Sprint 23 adds critical MIASI, workspace, provider and sprint manifest contracts.",
   "schemas": [
     {
       "schema_id": "SCHEMA-DEVPL-FINDING-V1",
@@ -107,6 +107,90 @@
       "dialect": "https://json-schema.org/draft/2020-12/schema",
       "validates_instances": true,
       "validation_enabled_sprint": "FUNC-SPRINT-22"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-MIASI-AGENT-REGISTRY-V1",
+      "title": "DevPilot MIASI Agent Registry v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/miasi_agent_registry.schema.json",
+      "description": "Structural contract for .devpilot/miasi/agent_registry.json.",
+      "status": "registered",
+      "contract": "MiasiAgentRegistry",
+      "owner": "Ordóñez",
+      "sprint": "FUNC-SPRINT-23",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "FUNC-SPRINT-23"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-MIASI-TOOL-REGISTRY-V1",
+      "title": "DevPilot MIASI Tool Registry v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/miasi_tool_registry.schema.json",
+      "description": "Structural contract for .devpilot/miasi/tool_registry.json.",
+      "status": "registered",
+      "contract": "MiasiToolRegistry",
+      "owner": "Ordóñez",
+      "sprint": "FUNC-SPRINT-23",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "FUNC-SPRINT-23"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-MIASI-POLICY-MATRIX-V1",
+      "title": "DevPilot MIASI Policy Matrix v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/miasi_policy_matrix.schema.json",
+      "description": "Structural contract for .devpilot/miasi/policy_matrix.json.",
+      "status": "registered",
+      "contract": "MiasiPolicyMatrix",
+      "owner": "Ordóñez",
+      "sprint": "FUNC-SPRINT-23",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "FUNC-SPRINT-23"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-WORKSPACE-PROJECT-V1",
+      "title": "DevPilot Workspace Project v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/workspace_project.schema.json",
+      "description": "Structural contract for .devpilot/project.yaml after dependency-free parse.",
+      "status": "registered",
+      "contract": "WorkspaceProject",
+      "owner": "Ordóñez",
+      "sprint": "FUNC-SPRINT-23",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "FUNC-SPRINT-23"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-PROVIDER-CONFIG-V1",
+      "title": "DevPilot Provider Config v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/provider_config.schema.json",
+      "description": "Structural contract for .devpilot/providers.yaml.example after dependency-free parse.",
+      "status": "registered",
+      "contract": "ProviderConfig",
+      "owner": "Ordóñez",
+      "sprint": "FUNC-SPRINT-23",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "FUNC-SPRINT-23"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-FUNCTIONAL-SPRINT-MANIFEST-V1",
+      "title": "DevPilot Functional Sprint Manifest v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/functional_sprint_manifest.schema.json",
+      "description": "Structural contract for functional sprint manifests.",
+      "status": "registered",
+      "contract": "FunctionalSprintManifest",
+      "owner": "Ordóñez",
+      "sprint": "FUNC-SPRINT-23",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "FUNC-SPRINT-23"
     }
   ]
 }

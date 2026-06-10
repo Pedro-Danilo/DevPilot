@@ -1,0 +1,196 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/SCHEMA-DEVPL-WORKSPACE-PROJECT-V1",
+  "title": "DevPilot Workspace Project v1",
+  "description": "Structural contract for .devpilot/project.yaml after dependency-free parse.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "project",
+    "standards",
+    "miasi",
+    "paths",
+    "runtime"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "project": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name",
+        "type",
+        "owner"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "agent-assisted-sdlc"
+          ]
+        },
+        "owner": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "standards": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "enum": [
+          "MIPSoftware",
+          "MIASI"
+        ]
+      },
+      "uniqueItems": true
+    },
+    "miasi": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "required"
+      ],
+      "properties": {
+        "required": {
+          "type": "boolean"
+        }
+      }
+    },
+    "paths": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "docs",
+        "standards",
+        "outputs",
+        "reports",
+        "traces",
+        "policy",
+        "state",
+        "miasi_config",
+        "agent_registry",
+        "tool_registry",
+        "policy_matrix",
+        "providers_example",
+        "interface_contract"
+      ],
+      "properties": {
+        "docs": {
+          "type": "string",
+          "minLength": 1
+        },
+        "standards": {
+          "type": "string",
+          "minLength": 1
+        },
+        "outputs": {
+          "type": "string",
+          "minLength": 1
+        },
+        "reports": {
+          "type": "string",
+          "minLength": 1
+        },
+        "traces": {
+          "type": "string",
+          "minLength": 1
+        },
+        "policy": {
+          "type": "string",
+          "minLength": 1
+        },
+        "state": {
+          "type": "string",
+          "minLength": 1
+        },
+        "miasi_config": {
+          "type": "string",
+          "minLength": 1
+        },
+        "agent_registry": {
+          "type": "string",
+          "minLength": 1
+        },
+        "tool_registry": {
+          "type": "string",
+          "minLength": 1
+        },
+        "policy_matrix": {
+          "type": "string",
+          "minLength": 1
+        },
+        "drafts": {
+          "type": "string",
+          "minLength": 1
+        },
+        "eval_fixtures": {
+          "type": "string",
+          "minLength": 1
+        },
+        "eval_outputs": {
+          "type": "string",
+          "minLength": 1
+        },
+        "providers_example": {
+          "type": "string",
+          "minLength": 1
+        },
+        "providers": {
+          "type": "string",
+          "minLength": 1
+        },
+        "interface_contract": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "runtime": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "dry_run_default",
+        "created_by",
+        "overwrite_policy"
+      ],
+      "properties": {
+        "dry_run_default": {
+          "type": "boolean"
+        },
+        "created_by": {
+          "type": "string",
+          "pattern": "^FUNC-SPRINT-[0-9]{2}$"
+        },
+        "overwrite_policy": {
+          "type": "string",
+          "enum": [
+            "refuse_by_default"
+          ]
+        }
+      }
+    }
+  },
+  "additionalProperties": false,
+  "x-devpilot-schema-id": "SCHEMA-DEVPL-WORKSPACE-PROJECT-V1",
+  "x-devpilot-version": "1.0.0",
+  "x-devpilot-sprint": "FUNC-SPRINT-23",
+  "x-devpilot-status": "registered",
+  "x-devpilot-preliminary": true,
+  "x-devpilot-validation-enabled-sprint": "FUNC-SPRINT-23",
+  "x-devpilot-note": "Registered by FUNC-SPRINT-23 for structural validation. It complements but does not replace semantic/business validators."
+}

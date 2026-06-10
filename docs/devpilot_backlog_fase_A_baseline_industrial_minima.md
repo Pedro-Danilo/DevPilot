@@ -8,15 +8,15 @@ standard: "MIPSoftware"
 extension: "MIASI"
 phase: "FASE-A-BASELINE-INDUSTRIAL-MINIMA"
 updated: "2026-06-10"
-source_repo: "repo_DevPilot_Local_25.zip"
+source_repo: "repo_DevPilot_Local_28.zip"
 source_report: "Informe de avance DevPilot - sprint 0 - 18.docx"
 source_backlog_model: "docs/functional_backlog_after_precode.md"
-baseline_previous_sprint: "FUNC-SPRINT-20"
+baseline_previous_sprint: "FUNC-SPRINT-22"
 first_sprint: "FUNC-SPRINT-19"
 last_planned_sprint: "FUNC-SPRINT-27"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "phase_a_executable_backlog_review"
-first_open_sprint: "FUNC-SPRINT-23"
+first_open_sprint: "FUNC-SPRINT-24"
 ---
 
 # DevPilot Local — Backlog ejecutable Fase A: Baseline industrial mínima
@@ -669,6 +669,27 @@ Validación con fixtures inválidos.
 ```text
 Implementa FUNC-SPRINT-23: schemas para MIASI, Workspace, Providers y Sprint Manifests. Integra comandos específicos de validación estructural y conserva validaciones de negocio existentes.
 ```
+
+
+## Estado de implementación Sprint 23
+
+`FUNC-SPRINT-23` queda implementado como validación estructural inicial de contratos críticos. Entregables principales:
+
+- schemas MIASI para `agent_registry`, `tool_registry` y `policy_matrix`;
+- schema de workspace para `.devpilot/project.yaml` tras parseo controlado;
+- schema de providers para `.devpilot/providers.yaml.example`, bloqueando secretos crudos;
+- schema de functional sprint manifests compatible con manifests 19+;
+- `src/devpilot_core/schemas/builtins.py` con `BuiltinContractValidator`;
+- comandos `schema validate-miasi`, `schema validate-workspace`, `schema validate-providers` y `schema validate-manifest`;
+- `tests/test_contract_schemas.py`;
+- `docs/audits/func_sprint_23_contract_schemas_audit.md`;
+- `docs/functional_sprint_23_manifest.json`.
+
+No se creó ADR nueva porque no se agregó dependencia externa ni política runtime nueva. El parser YAML es estrecho, local y dependency-free. Si se requiere YAML general, debe abrirse ADR antes de agregar PyYAML u otra librería.
+
+Límite explícito: Sprint 23 valida estructura, no semántica de negocio. `miasi validate`, `workspace status`, `model providers`, `policy check` y `readiness-check` siguen siendo los validadores semánticos/operativos.
+
+El siguiente sprint abierto de Fase A es `FUNC-SPRINT-24 — Artifact Profiles data-driven y ValidationGateway inicial`.
 
 ---
 

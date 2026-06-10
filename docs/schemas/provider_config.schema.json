@@ -1,0 +1,122 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/SCHEMA-DEVPL-PROVIDER-CONFIG-V1",
+  "title": "DevPilot Provider Config v1",
+  "description": "Structural contract for .devpilot/providers.yaml.example after dependency-free parse. Raw secrets are intentionally not allowed.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "providers"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "providers": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "kind",
+          "enabled",
+          "default_model",
+          "external_api",
+          "requires_api_key",
+          "estimated_cost_per_1k_tokens_usd",
+          "status"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "mock",
+              "local",
+              "api"
+            ]
+          },
+          "enabled": {
+            "type": "boolean"
+          },
+          "default_model": {
+            "type": "string",
+            "minLength": 1
+          },
+          "endpoint": {
+            "type": "string",
+            "minLength": 1
+          },
+          "external_api": {
+            "type": "boolean"
+          },
+          "requires_api_key": {
+            "type": "boolean"
+          },
+          "api_key_env": {
+            "type": "string",
+            "pattern": "^[A-Z][A-Z0-9_]*$"
+          },
+          "estimated_cost_per_1k_tokens_usd": {
+            "type": "number",
+            "minimum": 0
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "implemented",
+              "planned",
+              "disabled",
+              "future"
+            ]
+          },
+          "notes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "default": []
+          }
+        },
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "requires_api_key": {
+                  "const": true
+                }
+              },
+              "required": [
+                "requires_api_key"
+              ]
+            },
+            "then": {
+              "required": [
+                "api_key_env"
+              ]
+            }
+          }
+        ]
+      }
+    }
+  },
+  "additionalProperties": false,
+  "x-devpilot-schema-id": "SCHEMA-DEVPL-PROVIDER-CONFIG-V1",
+  "x-devpilot-version": "1.0.0",
+  "x-devpilot-sprint": "FUNC-SPRINT-23",
+  "x-devpilot-status": "registered",
+  "x-devpilot-preliminary": true,
+  "x-devpilot-validation-enabled-sprint": "FUNC-SPRINT-23",
+  "x-devpilot-note": "Registered by FUNC-SPRINT-23 for structural validation. It complements but does not replace semantic/business validators.",
+  "not": {
+    "required": [
+      "api_key"
+    ]
+  }
+}

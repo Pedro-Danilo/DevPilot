@@ -17,6 +17,12 @@ EXPECTED_SCHEMA_IDS = {
     "SCHEMA-DEVPL-APPLICATION-RESPONSE-V1",
     "SCHEMA-DEVPL-SERVICE-CAPABILITY-V1",
     "SCHEMA-DEVPL-INTERFACE-ROUTE-CONTRACT-V1",
+    "SCHEMA-DEVPL-MIASI-AGENT-REGISTRY-V1",
+    "SCHEMA-DEVPL-MIASI-TOOL-REGISTRY-V1",
+    "SCHEMA-DEVPL-MIASI-POLICY-MATRIX-V1",
+    "SCHEMA-DEVPL-WORKSPACE-PROJECT-V1",
+    "SCHEMA-DEVPL-PROVIDER-CONFIG-V1",
+    "SCHEMA-DEVPL-FUNCTIONAL-SPRINT-MANIFEST-V1",
 }
 
 
@@ -26,8 +32,8 @@ def test_schema_registry_lists_registered_schemas() -> None:
     assert result.ok is True
     assert result.exit_code == ExitCode.PASS
     assert result.command == "schema list"
-    assert result.data["summary"]["schemas_total"] == 7
-    assert result.data["summary"]["schemas_existing"] == 7
+    assert result.data["summary"]["schemas_total"] == len(EXPECTED_SCHEMA_IDS)
+    assert result.data["summary"]["schemas_existing"] == len(EXPECTED_SCHEMA_IDS)
     assert {schema["schema_id"] for schema in result.data["schemas"]} == EXPECTED_SCHEMA_IDS
     assert all(schema["version"] for schema in result.data["schemas"])
     assert all(schema["description"] for schema in result.data["schemas"])
@@ -108,8 +114,8 @@ def test_schema_list_cli_json_is_parseable(monkeypatch, capsys) -> None:
     assert exit_code == 0
     assert payload["command"] == "schema list"
     assert payload["ok"] is True
-    assert payload["data"]["summary"]["schemas_total"] == 7
-    assert payload["data"]["summary"]["schemas_existing"] == 7
+    assert payload["data"]["summary"]["schemas_total"] == len(EXPECTED_SCHEMA_IDS)
+    assert payload["data"]["summary"]["schemas_existing"] == len(EXPECTED_SCHEMA_IDS)
 
 
 def test_schema_list_cli_write_report(monkeypatch, capsys) -> None:

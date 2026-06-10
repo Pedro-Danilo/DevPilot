@@ -1,8 +1,10 @@
+from .builtins import BuiltinContractValidator
 from .models import SchemaRegistrySummary, SchemaSpec
 from .registry import DEFAULT_SCHEMA_CATALOG, SchemaRegistry
 from .validator import SchemaValidator
 
 __all__ = [
+    "BuiltinContractValidator",
     "DEFAULT_SCHEMA_CATALOG",
     "SchemaRegistry",
     "SchemaRegistrySummary",

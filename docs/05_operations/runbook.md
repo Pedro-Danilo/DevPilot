@@ -2,11 +2,11 @@
 title: "Runbook — DevPilot Local"
 doc_id: "DEVPL-OPS-002"
 status: "approved"
-version: "1.9.0"
+version: "1.10.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "FUNC-SPRINT-22"
+phase: "FUNC-SPRINT-23"
 updated: "2026-06-10"
 approval: "approved_by_owner"
 source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved + 03_security approved"
@@ -1721,3 +1721,50 @@ python -m pytest -q
 
 Próximo sprint operativo: `FUNC-SPRINT-23 — Schemas MIASI, Workspace, Providers y Sprint Manifests`.
 
+
+## FUNC-SPRINT-23 — Schemas MIASI, Workspace, Providers y Sprint Manifests
+
+### Propósito operativo
+
+Validar estructuralmente contratos críticos antes de avanzar hacia `ValidationGateway` y trazabilidad SDLC. Esta validación es local-first, no destructiva y complementa los validadores semánticos existentes.
+
+### Comandos principales
+
+```powershell
+$env:PYTHONPATH="src"
+python -m devpilot_core schema validate-miasi --json
+python -m devpilot_core schema validate-workspace --json
+python -m devpilot_core schema validate-providers --json
+python -m devpilot_core schema validate-manifest docs/functional_sprint_23_manifest.json --json
+```
+
+### Reportes opcionales
+
+```powershell
+python -m devpilot_core schema validate-miasi --json --write-report
+python -m devpilot_core schema validate-workspace --json --write-report
+python -m devpilot_core schema validate-providers --json --write-report
+python -m devpilot_core schema validate-manifest docs/functional_sprint_23_manifest.json --json --write-report
+```
+
+Los reportes se generan bajo `outputs/reports/` y no deben versionarse ni incluirse en ZIP limpio.
+
+### Criterios PASS
+
+- MIASI Agent/Tool/Policy registries pasan schema estructural.
+- `.devpilot/project.yaml` pasa schema tras parseo controlado.
+- `.devpilot/providers.yaml.example` pasa schema sin secretos reales.
+- Manifests funcionales 19+ pasan schema.
+- `pytest -q` pasa.
+
+### Criterios BLOCK
+
+- Un contrato crítico carece de schema.
+- El provider metadata acepta `api_key` o secretos crudos.
+- Un manifest omite archivos creados/modificados, comandos, pruebas, criterios PASS/BLOCK o riesgos.
+- Se confunde validación estructural con validación semántica.
+- Se agrega dependencia YAML sin ADR.
+
+### Riesgos
+
+Los parsers YAML son estrechos y dependency-free. No deben usarse como parser YAML general. Si el alcance requiere YAML completo, abrir ADR antes de agregar dependencia externa.

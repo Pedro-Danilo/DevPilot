@@ -2,7 +2,7 @@
 title: "DevPilot Local — Backlog ejecutable posterior a pre-code"
 doc_id: "DEVPL-FUNC-BACKLOG-001"
 status: "approved"
-version: "2.7.0"
+version: "2.8.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
@@ -14,7 +14,7 @@ change_policy: "controlled_changes_allowed_via_docs_as_code"
 approved_on: "2026-06-06"
 approval_scope: "functional_backlog_after_precode"
 baseline_execution: "FUNC-SPRINT-00"
-next_sprint: "FUNC-SPRINT-20"
+next_sprint: "FUNC-SPRINT-24"
 ---
 
 # DevPilot Local — Backlog ejecutable posterior a pre-code
@@ -1822,3 +1822,10 @@ La validación es estructural y no reemplaza reglas de negocio, MIASI, readiness
 ```text
 FUNC-SPRINT-23 — Schemas MIASI, Workspace, Providers y Sprint Manifests
 ```
+
+
+## Transición Fase A posterior a FUNC-SPRINT-23
+
+`FUNC-SPRINT-23` agrega schemas y validadores estructurales para MIASI registries, workspace metadata, provider metadata y manifests funcionales. El backlog funcional histórico se mantiene como referencia del ciclo 00–18; la fuente operativa de continuidad es `docs/devpilot_backlog_fase_A_baseline_industrial_minima.md`.
+
+Siguiente sprint abierto: `FUNC-SPRINT-24 — Artifact Profiles data-driven y ValidationGateway inicial`.
