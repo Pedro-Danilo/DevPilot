@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/SCHEMA-DEVPL-FINDING-V1",
+  "title": "DevPilot Finding v1",
+  "description": "Structural contract for one DevPilot diagnostic finding.",
+  "type": "object",
+  "required": [
+    "id",
+    "message",
+    "severity"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "message": {
+      "type": "string",
+      "minLength": 1
+    },
+    "severity": {
+      "type": "string",
+      "enum": [
+        "info",
+        "warning",
+        "fail",
+        "block",
+        "error"
+      ]
+    },
+    "path": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "metadata": {
+      "type": "object"
+    }
+  },
+  "additionalProperties": true,
+  "x-devpilot-schema-id": "SCHEMA-DEVPL-FINDING-V1",
+  "x-devpilot-version": "1.0.0",
+  "x-devpilot-sprint": "FUNC-SPRINT-21",
+  "x-devpilot-status": "draft",
+  "x-devpilot-preliminary": true,
+  "x-devpilot-note": "Registered by FUNC-SPRINT-21. Instance validation is deferred to FUNC-SPRINT-22."
+}

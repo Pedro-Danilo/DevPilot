@@ -1,8 +1,8 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
-Estado actual: `baseline pre-code approved + core funcional 00–18 cerrado + release técnico interno v0.1.0 + reconciliación documental post-18`  
-Último hito: `FUNC-SPRINT-20 — Reconciliación documental post-18 y roadmap vivo`  
-Siguiente hito: `FUNC-SPRINT-21 — Schema Registry y catálogo de contratos DevPilot`  
+Estado actual: `baseline pre-code approved + core funcional 00–18 cerrado + release técnico interno v0.1.0 + reconciliación documental post-18 + Schema Registry inicial`  
+Último hito: `FUNC-SPRINT-21 — Schema Registry y catálogo de contratos DevPilot`  
+Siguiente hito: `FUNC-SPRINT-22 — Schema Validator y schemas de contratos transversales`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
@@ -62,6 +62,35 @@ python -m pytest -q
 ```
 
 Criterio PASS: README, runbook y C4 no presentan UI real, API externa real, patch apply, refactor execution, approval workflow, RAG, MCP ni multiagentes como implementados.
+
+## Schema Registry inicial — FUNC-SPRINT-21
+
+`FUNC-SPRINT-21` introduce el primer catálogo local de schemas versionados para contratos internos de DevPilot. Esta capacidad es **implemented-initial**: lista y verifica integridad de catálogo, pero todavía no valida instancias JSON. La validación profunda corresponde a `FUNC-SPRINT-22`.
+
+Artefactos principales:
+
+- `src/devpilot_core/schemas/models.py`
+- `src/devpilot_core/schemas/registry.py`
+- `docs/schemas/schema_catalog.json`
+- `docs/schemas/*.schema.json`
+- `docs/audits/func_sprint_21_schema_registry_audit.md`
+- `docs/functional_sprint_21_manifest.json`
+- `tests/test_schema_registry.py`
+
+Comandos de verificación:
+
+```powershell
+$env:PYTHONPATH="src"
+python -m devpilot_core schema list --json
+python -m devpilot_core schema list --json --write-report
+python -m pytest tests/test_schema_registry.py -q
+```
+
+Criterio PASS: `schema list` devuelve `CommandResult`, todos los schemas del catálogo existen, no hay IDs duplicados, cada schema tiene versión/descripción y no se requiere red ni dependencia externa.
+
+Criterio BLOCK: un schema listado no existe, hay `schema_id` duplicados, el comando no devuelve JSON válido o se afirma que Sprint 21 valida instancias JSON.
+
+Riesgo operativo: los schemas son preliminares y manuales; pueden derivar respecto a las dataclasses hasta que `SchemaValidator` valide instancias reales en Sprint 22.
 
 ## Propósito
 
@@ -130,7 +159,7 @@ Ya existe:
 
 Pendiente de implementación funcional:
 
-- Schema Registry, Schema Validator y contratos versionados (`FUNC-SPRINT-21` a `FUNC-SPRINT-24`);
+- Schema Validator y contratos validados (`FUNC-SPRINT-22` a `FUNC-SPRINT-24`);
 - Traceability Engine ejecutable y cobertura SDLC (`FUNC-SPRINT-25` a `FUNC-SPRINT-27`);
 - clientes reales Ollama/LM Studio/API externas bajo CostGuard, SecretGuard, presupuesto y aprobación;
 - aplicación real de patches/refactors bajo sandbox, aprobación humana y rollback;

@@ -2,11 +2,11 @@
 title: "Runbook — DevPilot Local"
 doc_id: "DEVPL-OPS-002"
 status: "approved"
-version: "1.7.0"
+version: "1.8.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "FUNC-SPRINT-20"
+phase: "FUNC-SPRINT-21"
 updated: "2026-06-10"
 approval: "approved_by_owner"
 source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved + 03_security approved"
@@ -1554,3 +1554,90 @@ python -m devpilot_core app contract --json
 Próximo sprint operativo: FUNC-SPRINT-21 — Schema Registry y catálogo de contratos DevPilot.
 
 `FUNC-SPRINT-21` debe iniciar Schema Registry para que los contratos de `CommandResult`, `Finding`, reportes, DTOs y rutas internas empiecen a tener schemas versionados. Este sprint prepara el terreno, pero no implementa esos schemas.
+
+## FUNC-SPRINT-21 — Schema Registry y catálogo de contratos DevPilot
+
+### Propósito operativo
+
+Operar el Schema Registry inicial creado en `FUNC-SPRINT-21`. Este procedimiento lista contratos JSON versionados de DevPilot y verifica la integridad del catálogo local.
+
+La capacidad es `implemented-initial`: registra y lista schemas, pero no valida todavía instancias JSON. `FUNC-SPRINT-22` debe implementar `schema validate`.
+
+### Artefactos involucrados
+
+| Artefacto | Rol operativo |
+|---|---|
+| `src/devpilot_core/schemas/models.py` | Define `SchemaSpec` y `SchemaRegistrySummary`. |
+| `src/devpilot_core/schemas/registry.py` | Carga el catálogo, detecta duplicados, archivos faltantes y metadata obligatoria vacía. |
+| `docs/schemas/schema_catalog.json` | Fuente de verdad del catálogo de schemas registrados. |
+| `docs/schemas/*.schema.json` | Schemas preliminares de contratos internos. |
+| `docs/audits/func_sprint_21_schema_registry_audit.md` | Auditoría técnica del sprint. |
+| `docs/functional_sprint_21_manifest.json` | Manifest del sprint. |
+| `tests/test_schema_registry.py` | Pruebas de catálogo, CLI y reportes. |
+
+### Comandos de uso
+
+Listar schemas:
+
+```powershell
+$env:PYTHONPATH="src"
+python -m devpilot_core schema list --json
+```
+
+Listar schemas y generar reporte:
+
+```powershell
+python -m devpilot_core schema list --json --write-report
+```
+
+Ejecutar pruebas específicas:
+
+```powershell
+python -m pytest tests/test_schema_registry.py -q
+```
+
+Ejecutar regresión completa:
+
+```powershell
+python -m pytest -q
+```
+
+### Criterios PASS
+
+- `schema list` devuelve `CommandResult` JSON parseable.
+- `summary.schemas_total` coincide con el catálogo.
+- `summary.schemas_existing` coincide con los archivos reales.
+- `duplicate_schema_ids` está vacío.
+- `missing_schema_paths` está vacío.
+- `--write-report` genera `outputs/reports/schema_list.json` y `outputs/reports/schema_list.md`.
+- No se requiere red, API key ni dependencia externa.
+
+### Criterios BLOCK
+
+- Un schema listado no existe.
+- Hay `schema_id` duplicados.
+- Falta `version` o `description` en una entrada.
+- El comando emite JSON inválido.
+- Se usa el registry como si fuera validador de instancias.
+
+### Riesgos y evolución posterior
+
+El principal riesgo es confundir catálogo con validación. `FUNC-SPRINT-21` no valida datos reales contra schemas; solo registra contratos y verifica integridad del catálogo.
+
+Para alcanzar nivel industrial, los próximos pasos son:
+
+- `FUNC-SPRINT-22`: implementar `SchemaValidator` e instancia `schema validate`.
+- `FUNC-SPRINT-23`: extender schemas a MIASI, workspace, providers y manifests.
+- `FUNC-SPRINT-24`: conectar schemas con `ValidationGateway`.
+
+### Fallos comunes
+
+| Síntoma | Causa probable | Acción |
+|---|---|---|
+| `SCHEMA_CATALOG_MISSING` | Falta `docs/schemas/schema_catalog.json`. | Restaurar catálogo desde repo vigente. |
+| `SCHEMA_REGISTRY_DUPLICATE_ID` | Dos entradas comparten `schema_id`. | Corregir ID en catálogo. |
+| `SCHEMA_REGISTRY_MISSING_FILE` | El catálogo apunta a archivo inexistente. | Crear schema o corregir ruta. |
+| `schema list` no existe | Entorno no actualizado a Sprint 21. | Reinstalar editable y revisar `PYTHONPATH`. |
+
+Próximo sprint operativo: `FUNC-SPRINT-22 — Schema Validator y schemas de contratos transversales`.
+

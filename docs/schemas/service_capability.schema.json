@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/SCHEMA-DEVPL-SERVICE-CAPABILITY-V1",
+  "title": "DevPilot ServiceCapability v1",
+  "description": "Structural contract for one exposed application service capability.",
+  "type": "object",
+  "required": [
+    "operation",
+    "description",
+    "side_effect",
+    "dry_run_default",
+    "command_equivalent",
+    "output_contract"
+  ],
+  "properties": {
+    "operation": {
+      "type": "string",
+      "minLength": 1
+    },
+    "description": {
+      "type": "string"
+    },
+    "side_effect": {
+      "type": "string"
+    },
+    "dry_run_default": {
+      "type": "boolean"
+    },
+    "command_equivalent": {
+      "type": "string"
+    },
+    "output_contract": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": true,
+  "x-devpilot-schema-id": "SCHEMA-DEVPL-SERVICE-CAPABILITY-V1",
+  "x-devpilot-version": "1.0.0",
+  "x-devpilot-sprint": "FUNC-SPRINT-21",
+  "x-devpilot-status": "draft",
+  "x-devpilot-preliminary": true,
+  "x-devpilot-note": "Registered by FUNC-SPRINT-21. Instance validation is deferred to FUNC-SPRINT-22."
+}

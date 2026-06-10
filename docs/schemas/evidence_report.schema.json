@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/SCHEMA-DEVPL-EVIDENCE-REPORT-V1",
+  "title": "DevPilot EvidenceReport v1",
+  "description": "Structural contract for persisted JSON evidence reports.",
+  "type": "object",
+  "required": [
+    "report_id",
+    "command",
+    "status",
+    "ok",
+    "exit_code",
+    "message",
+    "generated_at",
+    "summary",
+    "findings",
+    "data"
+  ],
+  "properties": {
+    "report_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "command": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "PASS",
+        "FAIL",
+        "BLOCK",
+        "ERROR"
+      ]
+    },
+    "ok": {
+      "type": "boolean"
+    },
+    "exit_code": {
+      "type": "integer",
+      "enum": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    "message": {
+      "type": "string"
+    },
+    "generated_at": {
+      "type": "string"
+    },
+    "summary": {
+      "type": "object"
+    },
+    "findings": {
+      "type": "array"
+    },
+    "data": {
+      "type": "object"
+    },
+    "subject": {
+      "type": "string"
+    },
+    "project_root": {
+      "type": "string"
+    },
+    "metadata": {
+      "type": "object"
+    }
+  },
+  "additionalProperties": true,
+  "x-devpilot-schema-id": "SCHEMA-DEVPL-EVIDENCE-REPORT-V1",
+  "x-devpilot-version": "1.0.0",
+  "x-devpilot-sprint": "FUNC-SPRINT-21",
+  "x-devpilot-status": "draft",
+  "x-devpilot-preliminary": true,
+  "x-devpilot-note": "Registered by FUNC-SPRINT-21. Instance validation is deferred to FUNC-SPRINT-22."
+}

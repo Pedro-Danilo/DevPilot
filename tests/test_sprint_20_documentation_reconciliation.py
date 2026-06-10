@@ -44,16 +44,18 @@ def test_sprint_20_reconciliation_artifacts_exist_with_required_frontmatter() ->
         assert fields["phase"] == "FUNC-SPRINT-20"
 
 
-def test_readme_and_runbook_are_synchronized_to_sprint_20() -> None:
+def test_readme_and_runbook_preserve_sprint_20_reconciliation_context() -> None:
     readme = _read("README.md")
     runbook = _read("docs/05_operations/runbook.md")
 
-    assert "Último hito: `FUNC-SPRINT-20" in readme
-    assert "Siguiente hito: `FUNC-SPRINT-21" in readme
+    # Sprint 20 is now historical once later Fase A sprints advance. The
+    # regression should protect the reconciliation section and handoff, not
+    # freeze README/runbook forever at Sprint 20 as the latest hito.
     assert "## Reconciliación documental post-18 — FUNC-SPRINT-20" in readme
-    assert 'phase: "FUNC-SPRINT-20"' in runbook
+    assert "FUNC-SPRINT-20` reconcilió README" in readme
     assert "## FUNC-SPRINT-20 — Reconciliación documental post-18 y roadmap vivo" in runbook
     assert "FUNC-SPRINT-21 — Schema Registry" in runbook
+    assert "implemented`, `implemented-initial`, `partial`, `planned`, `disabled` y `future`" in runbook
 
 
 def test_capability_matrix_declares_required_state_taxonomy() -> None:

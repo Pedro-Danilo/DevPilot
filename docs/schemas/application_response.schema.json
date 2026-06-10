@@ -1,0 +1,61 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/SCHEMA-DEVPL-APPLICATION-RESPONSE-V1",
+  "title": "DevPilot ApplicationResponse v1",
+  "description": "Structural contract for UI-facing application response envelope.",
+  "type": "object",
+  "required": [
+    "contract",
+    "schema_version",
+    "operation",
+    "ok",
+    "exit_code",
+    "message",
+    "data",
+    "findings",
+    "generated_at"
+  ],
+  "properties": {
+    "contract": {
+      "type": "string"
+    },
+    "schema_version": {
+      "type": "string"
+    },
+    "operation": {
+      "type": "string",
+      "minLength": 1
+    },
+    "ok": {
+      "type": "boolean"
+    },
+    "exit_code": {
+      "type": "integer",
+      "enum": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    "message": {
+      "type": "string"
+    },
+    "data": {
+      "type": "object"
+    },
+    "findings": {
+      "type": "array"
+    },
+    "generated_at": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": true,
+  "x-devpilot-schema-id": "SCHEMA-DEVPL-APPLICATION-RESPONSE-V1",
+  "x-devpilot-version": "1.0.0",
+  "x-devpilot-sprint": "FUNC-SPRINT-21",
+  "x-devpilot-status": "draft",
+  "x-devpilot-preliminary": true,
+  "x-devpilot-note": "Registered by FUNC-SPRINT-21. Instance validation is deferred to FUNC-SPRINT-22."
+}

@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/SCHEMA-DEVPL-INTERFACE-ROUTE-CONTRACT-V1",
+  "title": "DevPilot InterfaceRouteContract v1",
+  "description": "Structural contract for future desktop/web logical routes.",
+  "type": "object",
+  "required": [
+    "route_id",
+    "method",
+    "path",
+    "operation",
+    "status",
+    "notes"
+  ],
+  "properties": {
+    "route_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "method": {
+      "type": "string",
+      "enum": [
+        "GET",
+        "POST",
+        "PUT",
+        "PATCH",
+        "DELETE"
+      ]
+    },
+    "path": {
+      "type": "string",
+      "minLength": 1
+    },
+    "operation": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "type": "string"
+    },
+    "notes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "additionalProperties": true,
+  "x-devpilot-schema-id": "SCHEMA-DEVPL-INTERFACE-ROUTE-CONTRACT-V1",
+  "x-devpilot-version": "1.0.0",
+  "x-devpilot-sprint": "FUNC-SPRINT-21",
+  "x-devpilot-status": "draft",
+  "x-devpilot-preliminary": true,
+  "x-devpilot-note": "Registered by FUNC-SPRINT-21. Instance validation is deferred to FUNC-SPRINT-22."
+}

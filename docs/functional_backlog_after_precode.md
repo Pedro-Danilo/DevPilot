@@ -1787,3 +1787,21 @@ A partir de este punto, el siguiente sprint operativo es:
 ```text
 FUNC-SPRINT-21 — Schema Registry y catálogo de contratos DevPilot
 ```
+
+
+## 14. Transición posterior al Schema Registry
+
+`FUNC-SPRINT-21` pertenece a la Fase A y crea el Schema Registry inicial para contratos internos de DevPilot. Los artefactos principales son:
+
+- `src/devpilot_core/schemas/`;
+- `docs/schemas/schema_catalog.json`;
+- `docs/schemas/*.schema.json`;
+- `docs/audits/func_sprint_21_schema_registry_audit.md`;
+- `docs/functional_sprint_21_manifest.json`;
+- `tests/test_schema_registry.py`.
+
+El registry lista schemas y valida integridad del catálogo, pero no valida instancias JSON. Esa evolución queda para:
+
+```text
+FUNC-SPRINT-22 — Schema Validator y schemas de contratos transversales
+```

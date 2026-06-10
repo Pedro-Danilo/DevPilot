@@ -16,6 +16,7 @@ from .miasi import MiasiRegistryValidator
 from .modeling import ModelAdapterRouter, ModelRouterConfig
 from .policy import CostPolicy, PolicyEngine, PolicyRequest, load_cost_policy
 from .reports import ReportEngine, build_report_id
+from .schemas import SchemaRegistry
 from .repo import GitAdapter, RepoInventory
 from .refactor import RefactorPlanner
 from .review import CodeReviewEngine, PatchReviewEngine
@@ -740,6 +741,31 @@ def history_list_command(*, json_output: bool = False, limit: int = 10, write_re
     return int(result.exit_code)
 
 
+def schema_list_command(*, json_output: bool = False, write_report: bool = False) -> int:
+    """List registered DevPilot schemas without validating instances.
+
+    FUNC-SPRINT-21 introduces the dependency-free Schema Registry. The command
+    verifies catalog integrity, duplicate IDs and missing schema files, then
+    returns a normalized CommandResult. Full JSON instance validation remains
+    explicitly deferred to FUNC-SPRINT-22.
+    """
+
+    root = project_root()
+    result = SchemaRegistry(root).list()
+    result = _write_optional_command_report(
+        root,
+        result,
+        subject="docs/schemas/schema_catalog.json",
+        report_id="schema_list",
+        write_report=write_report,
+        metadata={"sprint": "FUNC-SPRINT-21", "component": "SchemaRegistry"},
+    )
+    _emit_result_event(root, result, subject="docs/schemas/schema_catalog.json")
+    _persist_result(root, result, subject="docs/schemas/schema_catalog.json")
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+
 def app_contract_command(*, json_output: bool = False, write_report: bool = False) -> int:
     """Expose the internal application-service contract for future UI shells."""
 
@@ -967,6 +993,12 @@ def build_parser() -> argparse.ArgumentParser:
     agent_run.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     agent_run.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
 
+    schema = sub.add_parser("schema", help="Inspect local DevPilot schema registry")
+    schema_sub = schema.add_subparsers(dest="schema_command")
+    schema_list = schema_sub.add_parser("list", help="List registered versioned schemas")
+    schema_list.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    schema_list.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+
     app = sub.add_parser("app", help="Expose application-service contracts for future desktop/web shells")
     app_sub = app.add_subparsers(dest="app_command")
     app_contract = app_sub.add_parser("contract", help="Show internal ApplicationService/DTO contract")
@@ -1023,6 +1055,9 @@ def _command_name_from_args(args: argparse.Namespace) -> str:
     if command == "agent":
         subcommand = getattr(args, "agent_command", None)
         return f"agent {subcommand}" if subcommand else "agent"
+    if command == "schema":
+        subcommand = getattr(args, "schema_command", None)
+        return f"schema {subcommand}" if subcommand else "schema"
     if command == "eval":
         subcommand = getattr(args, "eval_command", None)
         return f"eval {subcommand}" if subcommand else "eval"
@@ -1164,6 +1199,11 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
                 json_output=args.json,
                 write_report=args.write_report,
             )
+        parser.print_help()
+        return int(ExitCode.FAIL)
+    if args.command == "schema":
+        if args.schema_command == "list":
+            return schema_list_command(json_output=args.json, write_report=args.write_report)
         parser.print_help()
         return int(ExitCode.FAIL)
     if args.command == "app":

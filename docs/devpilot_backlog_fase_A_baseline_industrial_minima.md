@@ -8,15 +8,15 @@ standard: "MIPSoftware"
 extension: "MIASI"
 phase: "FASE-A-BASELINE-INDUSTRIAL-MINIMA"
 updated: "2026-06-10"
-source_repo: "repo_DevPilot_Local_24.zip"
+source_repo: "repo_DevPilot_Local_25.zip"
 source_report: "Informe de avance DevPilot - sprint 0 - 18.docx"
 source_backlog_model: "docs/functional_backlog_after_precode.md"
-baseline_previous_sprint: "FUNC-SPRINT-19"
+baseline_previous_sprint: "FUNC-SPRINT-20"
 first_sprint: "FUNC-SPRINT-19"
 last_planned_sprint: "FUNC-SPRINT-27"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "phase_a_executable_backlog_review"
-first_open_sprint: "FUNC-SPRINT-21"
+first_open_sprint: "FUNC-SPRINT-22"
 ---
 
 # DevPilot Local — Backlog ejecutable Fase A: Baseline industrial mínima
@@ -454,6 +454,23 @@ Pruebas de catálogo duplicado en tempdir.
 ```text
 Implementa FUNC-SPRINT-21: Schema Registry local para contratos DevPilot. Debe listar schemas versionados, no requerir red, devolver CommandResult, generar reporte opcional y quedar documentado en README/runbook.
 ```
+
+## Estado de implementación Sprint 21
+
+`FUNC-SPRINT-21` queda implementado como Schema Registry inicial. Entregables principales:
+
+- `src/devpilot_core/schemas/` con `SchemaSpec`, `SchemaRegistrySummary` y `SchemaRegistry`;
+- `docs/schemas/schema_catalog.json`;
+- siete schemas iniciales para `CommandResult`, `Finding`, `EvidenceReport`, `ApplicationRequest`, `ApplicationResponse`, `ServiceCapability` e `InterfaceRouteContract`;
+- comando `python -m devpilot_core schema list --json`;
+- soporte de `--write-report`;
+- `tests/test_schema_registry.py`;
+- `docs/audits/func_sprint_21_schema_registry_audit.md`;
+- `docs/functional_sprint_21_manifest.json`.
+
+Límite explícito: Sprint 21 no valida instancias JSON. `FUNC-SPRINT-22` debe implementar `schema validate`.
+
+El siguiente sprint abierto de Fase A es `FUNC-SPRINT-22 — Schema Validator y schemas de contratos transversales`.
 
 ---
 

@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.0",
+  "sprint_id": "FUNC-SPRINT-21",
+  "title": "Schema Registry y catálogo de contratos DevPilot",
+  "status": "implemented",
+  "phase": "FASE-A-BASELINE-INDUSTRIAL-MINIMA",
+  "implemented_at": "2026-06-10",
+  "summary": "Introduces a local, dependency-free Schema Registry for versioned DevPilot contracts. It lists registered schemas, detects duplicate IDs and missing files, returns CommandResult, and supports optional evidence reports. It does not validate JSON instances yet.",
+  "created_files": [
+    "src/devpilot_core/schemas/__init__.py",
+    "src/devpilot_core/schemas/models.py",
+    "src/devpilot_core/schemas/registry.py",
+    "docs/schemas/schema_catalog.json",
+    "docs/schemas/command_result.schema.json",
+    "docs/schemas/finding.schema.json",
+    "docs/schemas/evidence_report.schema.json",
+    "docs/schemas/application_request.schema.json",
+    "docs/schemas/application_response.schema.json",
+    "docs/schemas/service_capability.schema.json",
+    "docs/schemas/interface_route_contract.schema.json",
+    "tests/test_schema_registry.py",
+    "docs/audits/func_sprint_21_schema_registry_audit.md",
+    "docs/functional_sprint_21_manifest.json"
+  ],
+  "modified_files": [
+    "src/devpilot_core/cli.py",
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/devpilot_backlog_fase_A_baseline_industrial_minima.md",
+    "docs/functional_backlog_after_precode.md"
+  ],
+  "commands": [
+    "python -m devpilot_core schema list --json",
+    "python -m devpilot_core schema list --json --write-report",
+    "python -m pytest tests/test_schema_registry.py -q",
+    "python -m pytest -q"
+  ],
+  "tests": [
+    {
+      "id": "TEST-FUNC-21-001",
+      "path": "tests/test_schema_registry.py",
+      "purpose": "Verify SchemaRegistry catalog loading, duplicate detection, missing file detection, CLI JSON output and report generation."
+    }
+  ],
+  "pass_criteria": [
+    "schema list returns CommandResult JSON.",
+    "All catalog schemas exist.",
+    "No duplicate schema_id exists.",
+    "Every schema has version and description.",
+    "No external dependency is introduced.",
+    "pytest passes."
+  ],
+  "block_criteria": [
+    "A listed schema file does not exist.",
+    "A duplicate schema_id is accepted without findings.",
+    "schema list emits invalid JSON.",
+    "The catalog requires network or API keys.",
+    "Documentation claims Sprint 21 validates JSON instances."
+  ],
+  "risks": [
+    "Schemas are preliminary and registered only; instance validation is deferred to Sprint 22.",
+    "Manual schema/catalog drift remains possible until SchemaValidator is implemented.",
+    "Future jsonschema dependency decision may require an ADR."
+  ],
+  "next_sprint": "FUNC-SPRINT-22 — Schema Validator y schemas de contratos transversales"
+}
