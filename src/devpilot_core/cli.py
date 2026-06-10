@@ -22,6 +22,7 @@ from .refactor import RefactorPlanner
 from .review import CodeReviewEngine, PatchReviewEngine
 from .standards.registry import build_standards_status_result
 from .store import LocalStore
+from .traceability import MarkdownTraceabilityExtractor
 from .validation import ValidationGateway
 from .workspace import WorkspaceManager
 from .validators.artifact import validate_artifact_file
@@ -766,6 +767,35 @@ def validate_gateway_command(scope: str, *, json_output: bool = False, write_rep
     print_result(result, json_output=json_output)
     return int(result.exit_code)
 
+
+def traceability_scan_command(
+    *,
+    targets: list[str] | None = None,
+    json_output: bool = False,
+    write_report: bool = False,
+) -> int:
+    """Extract conservative SDLC traceability entities from local docs.
+
+    FUNC-SPRINT-25 is read-only and heuristic: it detects explicit ID patterns
+    such as FR-*, REQ-*, US-*, AC-*, TEST-* and ADR-*; it reports malformed or
+    duplicated IDs; and it does not infer traceability relationships.
+    """
+
+    root = project_root()
+    result = MarkdownTraceabilityExtractor(root).scan(targets=targets)
+    result = _write_optional_command_report(
+        root,
+        result,
+        subject="traceability:scan",
+        report_id="traceability_scan",
+        write_report=write_report,
+        metadata={"sprint": "FUNC-SPRINT-25", "component": "MarkdownTraceabilityExtractor"},
+    )
+    _emit_result_event(root, result, subject="traceability:scan")
+    _persist_result(root, result, subject="traceability:scan")
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
 def schema_list_command(*, json_output: bool = False, write_report: bool = False) -> int:
     """List registered DevPilot schemas without validating instances.
 
@@ -1165,6 +1195,13 @@ def build_parser() -> argparse.ArgumentParser:
     validate.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     validate.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
 
+    traceability = sub.add_parser("traceability", help="Inspect local SDLC traceability entities")
+    traceability_sub = traceability.add_subparsers(dest="traceability_command")
+    traceability_scan = traceability_sub.add_parser("scan", help="Extract explicit traceability IDs from local docs")
+    traceability_scan.add_argument("--target", action="append", default=None, help="Optional file or directory to scan; can be repeated")
+    traceability_scan.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    traceability_scan.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+
     schema = sub.add_parser("schema", help="Inspect local DevPilot schema registry")
     schema_sub = schema.add_subparsers(dest="schema_command")
     schema_list = schema_sub.add_parser("list", help="List registered versioned schemas")
@@ -1257,6 +1294,9 @@ def _command_name_from_args(args: argparse.Namespace) -> str:
     if command == "validate":
         scope = getattr(args, "scope", None)
         return f"validate {scope}" if scope else "validate"
+    if command == "traceability":
+        subcommand = getattr(args, "traceability_command", None)
+        return f"traceability {subcommand}" if subcommand else "traceability"
     if command == "schema":
         subcommand = getattr(args, "schema_command", None)
         return f"schema {subcommand}" if subcommand else "schema"
@@ -1405,6 +1445,11 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
         return int(ExitCode.FAIL)
     if args.command == "validate":
         return validate_gateway_command(args.scope, json_output=args.json, write_report=args.write_report)
+    if args.command == "traceability":
+        if args.traceability_command == "scan":
+            return traceability_scan_command(targets=args.target, json_output=args.json, write_report=args.write_report)
+        parser.print_help()
+        return int(ExitCode.FAIL)
     if args.command == "schema":
         if args.schema_command == "list":
             return schema_list_command(json_output=args.json, write_report=args.write_report)

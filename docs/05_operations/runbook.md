@@ -2,11 +2,11 @@
 title: "Runbook — DevPilot Local"
 doc_id: "DEVPL-OPS-002"
 status: "approved"
-version: "1.11.0"
+version: "1.12.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "FUNC-SPRINT-24"
+phase: "FUNC-SPRINT-25"
 updated: "2026-06-10"
 approval: "approved_by_owner"
 source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved + 03_security approved"
@@ -1814,3 +1814,61 @@ El reporte se genera en `outputs/reports/validate_all.json` y `outputs/reports/v
 ### Riesgos
 
 `ValidationGateway` es una fachada inicial. No sustituye validación semántica ni trazabilidad SDLC. La siguiente evolución debe integrar Traceability Model sin duplicar reglas entre gateway, schemas y validadores existentes.
+
+
+## FUNC-SPRINT-25 — Traceability Model y extracción de entidades SDLC
+
+### Propósito operativo
+
+`FUNC-SPRINT-25` habilita el primer scan local de trazabilidad SDLC. El comando detecta IDs explícitos `FR-*`, `REQ-*`, `US-*`, `AC-*`, `TEST-*` y `ADR-*` en documentos controlados, reporta duplicados y reporta tokens mal formados.
+
+Esta versión es **implemented-initial**: extrae entidades y warnings, pero no calcula cobertura, no valida gaps de trazabilidad y no infiere enlaces semánticos.
+
+### Artefactos involucrados
+
+- `src/devpilot_core/traceability/models.py`
+- `src/devpilot_core/traceability/extractors.py`
+- `src/devpilot_core/traceability/graph.py`
+- `docs/audits/func_sprint_25_traceability_model_audit.md`
+- `docs/functional_sprint_25_manifest.json`
+- `tests/test_traceability_extractors.py`
+
+### Comandos de uso
+
+```powershell
+$env:PYTHONPATH="src"
+python -m devpilot_core traceability scan --json
+python -m devpilot_core traceability scan --json --write-report
+python -m devpilot_core traceability scan --target docs/01_requirements --target docs/04_quality/test_strategy.md --json
+python -m pytest tests/test_traceability_extractors.py -q
+python -m pytest -q
+```
+
+### Criterios PASS
+
+- El comando devuelve `CommandResult`.
+- El comando soporta `--json`.
+- El comando soporta `--write-report`.
+- Los IDs `FR-*`, `REQ-*`, `US-*`, `AC-*`, `TEST-*` y `ADR-*` se extraen como entidades.
+- Los duplicados se reportan como `TRACEABILITY_ENTITY_DUPLICATE`.
+- Los tokens mal formados se reportan como `TRACEABILITY_ENTITY_ID_INVALID`.
+- No se modifican documentos fuente.
+- No se usa red ni API keys.
+
+### Criterios BLOCK
+
+- El extractor infiere relaciones no presentes.
+- El comando modifica documentos.
+- No hay findings para IDs duplicados.
+- Se aceptan targets fuera del workspace.
+- Se agrega una dependencia externa sin ADR.
+
+### Fallos comunes
+
+| Síntoma | Causa probable | Acción |
+|---|---|---|
+| Muchos duplicados | El mismo ID aparece referenciado en varios documentos. | Revisar si son referencias legítimas; la cobertura se resolverá en Sprint 26. |
+| `TRACEABILITY_ENTITY_ID_INVALID` sobre ADR `.md` | Se detectó una referencia de archivo como token ID-like. | Revisar naming o aceptar warning conservador. |
+| Scan sin fuentes | Target incorrecto o fuera de `docs/`. | Usar `--target docs/01_requirements` o ejecutar sin target. |
+
+Próximo sprint operativo: `FUNC-SPRINT-26 — Traceability Engine: validate, coverage y report`.

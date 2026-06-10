@@ -1844,3 +1844,18 @@ Artefactos de continuidad:
 - `docs/audits/func_sprint_24_validation_gateway_audit.md`
 
 Límite explícito: `ValidationGateway` no reemplaza validaciones semánticas ni trazabilidad. Solo compone validadores existentes bajo `CommandResult`.
+
+
+## 17. Transición posterior al Traceability Model
+
+`FUNC-SPRINT-25` agrega una primera capa ejecutable de trazabilidad SDLC mediante `src/devpilot_core/traceability/` y el comando `python -m devpilot_core traceability scan --json`.
+
+Estado real:
+
+- implementado `TraceEntity`, `TraceLink`, `TraceGraph` e `InvalidTraceToken`;
+- implementado extractor conservador de IDs `FR-*`, `REQ-*`, `US-*`, `AC-*`, `TEST-*`, `ADR-*`;
+- implementada detección de duplicados y tokens mal formados;
+- implementado reporte opcional con `--write-report`;
+- no implementada todavía cobertura ni validación de gaps de trazabilidad.
+
+Siguiente paso: `FUNC-SPRINT-26 — Traceability Engine: validate, coverage y report`.

@@ -1,0 +1,70 @@
+{
+  "sprint": "FUNC-SPRINT-25",
+  "title": "Traceability Model y extracción de entidades SDLC",
+  "status": "implemented",
+  "implemented_at": "2026-06-10",
+  "phase": "FASE-A-BASELINE-INDUSTRIAL-MINIMA",
+  "wave": "Ola 2 — Trazabilidad SDLC ejecutable y baseline industrial mínima cerrada",
+  "source_backlog": "docs/devpilot_backlog_fase_A_baseline_industrial_minima.md",
+  "architectural_decision": {
+    "required": false,
+    "adr": null,
+    "reason": "FUNC-SPRINT-25 adds a dependency-free traceability model and read-only extractor. It introduces no external dependency, provider, runtime policy, persistent storage backend or destructive action."
+  },
+  "created_files": [
+    "src/devpilot_core/traceability/__init__.py",
+    "src/devpilot_core/traceability/models.py",
+    "src/devpilot_core/traceability/extractors.py",
+    "src/devpilot_core/traceability/graph.py",
+    "tests/test_traceability_extractors.py",
+    "tests/fixtures/traceability/traceability_fixture.md",
+    "tests/test_sprint_25_documentation.py",
+    "docs/audits/func_sprint_25_traceability_model_audit.md",
+    "docs/functional_sprint_25_manifest.json"
+  ],
+  "modified_files": [
+    "src/devpilot_core/cli.py",
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/devpilot_backlog_fase_A_baseline_industrial_minima.md",
+    "docs/functional_backlog_after_precode.md",
+    "tests/test_sprint_22_documentation.py",
+    "tests/test_sprint_23_documentation.py",
+    "tests/test_sprint_24_documentation.py"
+  ],
+  "commands": [
+    "python -m devpilot_core traceability scan --json",
+    "python -m devpilot_core traceability scan --json --write-report",
+    "python -m devpilot_core traceability scan --target docs/01_requirements --json",
+    "python -m pytest tests/test_traceability_extractors.py -q",
+    "python -m pytest -q"
+  ],
+  "tests": [
+    "tests/test_traceability_extractors.py",
+    "tests/test_sprint_25_documentation.py"
+  ],
+  "pass_criteria": [
+    "Traceability package is importable.",
+    "TraceEntity, TraceLink and TraceGraph are serializable to JSON.",
+    "Extractor detects FR, REQ, US, AC, TEST and ADR IDs.",
+    "Extractor detects duplicate IDs and malformed ID-like tokens.",
+    "traceability scan returns CommandResult and supports --json.",
+    "traceability scan supports --write-report.",
+    "No source documents are modified.",
+    "pytest -q passes."
+  ],
+  "block_criteria": [
+    "Extractor infers semantic links not explicitly present.",
+    "Command mutates source documents.",
+    "Duplicate IDs are not reported.",
+    "Targets outside the project root are accepted.",
+    "A new dependency is added without ADR."
+  ],
+  "risks": [
+    "Heuristic extraction can report legitimate repeated references as duplicates.",
+    "Malformed ID-like tokens in filenames can be reported as warnings.",
+    "No traceability coverage or gap analysis is implemented until Sprint 26.",
+    "Trace links remain empty by design in Sprint 25."
+  ],
+  "next_sprint": "FUNC-SPRINT-26 — Traceability Engine: validate, coverage y report"
+}

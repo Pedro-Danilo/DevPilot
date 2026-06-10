@@ -1,8 +1,8 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
-Estado actual: `baseline pre-code approved + core funcional 00–18 cerrado + release técnico interno v0.1.0 + reconciliación documental post-18 + Schema Registry inicial + Schema Validator inicial + contratos críticos Sprint 23 + ValidationGateway inicial Sprint 24`  
-Último hito: `FUNC-SPRINT-24 — Artifact Profiles data-driven y ValidationGateway inicial`  
-Siguiente hito: `FUNC-SPRINT-25 — Traceability Model y extracción de entidades SDLC`  
+Estado actual: `baseline pre-code approved + core funcional 00–18 cerrado + release técnico interno v0.1.0 + reconciliación documental post-18 + Schema Registry inicial + Schema Validator inicial + contratos críticos Sprint 23 + ValidationGateway inicial Sprint 24 + Traceability Model inicial Sprint 25`  
+Último hito: `FUNC-SPRINT-25 — Traceability Model y extracción de entidades SDLC`  
+Siguiente hito: `FUNC-SPRINT-26 — Traceability Engine: validate, coverage y report`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
@@ -917,7 +917,9 @@ python -m pytest tests/test_contract_schemas.py -q
 Riesgo explícito: los parsers YAML de Sprint 23 son estrechos y dependency-free. Solo soportan la forma controlada de `.devpilot/project.yaml` y `.devpilot/providers.yaml.example`. Si se requiere YAML completo, debe abrirse ADR para una dependencia como PyYAML.
 
 
-## ValidationGateway inicial — FUNC-SPRINT-24
+## Artifact Profiles data-driven y ValidationGateway inicial — FUNC-SPRINT-24
+
+### FUNC-SPRINT-24 — Artifact Profiles data-driven y ValidationGateway inicial
 
 `FUNC-SPRINT-24` externaliza los perfiles documentales hacia `docs/validation/artifact_profiles.json` y crea `ValidationGateway` como fachada unificada para validaciones documentales y contractuales. Esta capacidad es **implemented-initial**: conserva los validadores existentes como fuente de verdad, mantiene fallback Python para perfiles y no ejecuta acciones destructivas.
 
@@ -947,3 +949,28 @@ Criterio PASS: `validate docs/contracts/all` devuelve `CommandResult`, conserva 
 Criterio BLOCK: el gateway cambia el resultado de readiness strict, oculta findings de validadores base, elimina el fallback Python de perfiles o ejecuta acciones destructivas.
 
 Riesgo operativo: primera versión de orquestación. No sustituye `readiness-check`, `miasi validate`, `schema validate-*`, `policy check` ni futuros gates de trazabilidad; solo los agrupa de forma segura y auditable.
+
+
+## Traceability Model inicial — FUNC-SPRINT-25
+
+`FUNC-SPRINT-25` crea la primera capa ejecutable de trazabilidad SDLC. Incorpora modelos serializables (`TraceEntity`, `TraceLink`, `TraceGraph`) y un extractor local conservador que identifica IDs explícitos en documentos Markdown/JSON: `FR-*`, `REQ-*`, `US-*`, `AC-*`, `TEST-*` y `ADR-*`.
+
+Capacidad habilitada:
+
+- extracción read-only de entidades trazables desde `docs/01_requirements`, `docs/04_quality`, ADRs y manifests funcionales;
+- detección de IDs duplicados;
+- detección de tokens ID-like mal formados;
+- comando `traceability scan`;
+- evidencia opcional con `--write-report`.
+
+Comandos principales:
+
+```powershell
+$env:PYTHONPATH="src"
+python -m devpilot_core traceability scan --json
+python -m devpilot_core traceability scan --json --write-report
+python -m devpilot_core traceability scan --target docs/01_requirements --json
+python -m pytest tests/test_traceability_extractors.py -q
+```
+
+Esta capacidad es **implemented-initial**. No calcula cobertura, no valida gaps Req→AC→Test y no infiere relaciones semánticas complejas. Los links del `TraceGraph` permanecen vacíos por diseño hasta `FUNC-SPRINT-26`.

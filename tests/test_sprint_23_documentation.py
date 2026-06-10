@@ -19,7 +19,7 @@ def test_sprint_23_readme_runbook_and_backlog_are_synchronized() -> None:
     assert "FUNC-SPRINT-23 — Schemas MIASI" in runbook
     assert "Estado de implementación Sprint 23" in backlog
     assert "FUNC-SPRINT-24 — Artifact Profiles" in readme
-    assert "first_open_sprint: \"FUNC-SPRINT-25\"" in backlog
+    assert "first_open_sprint: \"FUNC-SPRINT-26\"" in backlog
 
 
 def test_sprint_23_manifest_declares_contract_schemas_and_no_adr_needed() -> None:

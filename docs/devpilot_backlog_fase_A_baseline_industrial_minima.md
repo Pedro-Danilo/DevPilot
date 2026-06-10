@@ -8,15 +8,15 @@ standard: "MIPSoftware"
 extension: "MIASI"
 phase: "FASE-A-BASELINE-INDUSTRIAL-MINIMA"
 updated: "2026-06-10"
-source_repo: "repo_DevPilot_Local_29.zip"
+source_repo: "repo_DevPilot_Local_30.zip"
 source_report: "Informe de avance DevPilot - sprint 0 - 18.docx"
 source_backlog_model: "docs/functional_backlog_after_precode.md"
-baseline_previous_sprint: "FUNC-SPRINT-23"
+baseline_previous_sprint: "FUNC-SPRINT-24"
 first_sprint: "FUNC-SPRINT-19"
 last_planned_sprint: "FUNC-SPRINT-27"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "phase_a_executable_backlog_review"
-first_open_sprint: "FUNC-SPRINT-25"
+first_open_sprint: "FUNC-SPRINT-26"
 ---
 
 # DevPilot Local — Backlog ejecutable Fase A: Baseline industrial mínima
@@ -878,6 +878,22 @@ fixtures con IDs válidos, inválidos y duplicados.
 ```text
 Implementa FUNC-SPRINT-25: modelos de trazabilidad y extracción conservadora de entidades SDLC desde Markdown. No infieras relaciones complejas todavía; solo extrae, normaliza y reporta duplicados.
 ```
+
+## Estado de implementación Sprint 25
+
+`FUNC-SPRINT-25` queda implementado como primera versión **implemented-initial** del modelo de trazabilidad. Entregables principales:
+
+- paquete `src/devpilot_core/traceability/`;
+- modelos `TraceEntity`, `TraceLink`, `TraceGraph` e `InvalidTraceToken`;
+- extractor conservador `MarkdownTraceabilityExtractor`;
+- comando `python -m devpilot_core traceability scan --json`;
+- soporte `--write-report`;
+- detección de IDs duplicados y mal formados;
+- auditoría `docs/audits/func_sprint_25_traceability_model_audit.md`;
+- manifest `docs/functional_sprint_25_manifest.json`;
+- pruebas `tests/test_traceability_extractors.py` y `tests/test_sprint_25_documentation.py`.
+
+Límite explícito: Sprint 25 no infiere relaciones semánticas, no calcula cobertura y no valida gaps Req→AC→Test. El siguiente sprint abierto es `FUNC-SPRINT-26 — Traceability Engine: validate, coverage y report`.
 
 ---
 
