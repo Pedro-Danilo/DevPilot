@@ -16,7 +16,7 @@ from .miasi import MiasiRegistryValidator
 from .modeling import ModelAdapterRouter, ModelRouterConfig
 from .policy import CostPolicy, PolicyEngine, PolicyRequest, load_cost_policy
 from .reports import ReportEngine, build_report_id
-from .schemas import SchemaRegistry
+from .schemas import SchemaRegistry, SchemaValidator
 from .repo import GitAdapter, RepoInventory
 from .refactor import RefactorPlanner
 from .review import CodeReviewEngine, PatchReviewEngine
@@ -766,6 +766,37 @@ def schema_list_command(*, json_output: bool = False, write_report: bool = False
     return int(result.exit_code)
 
 
+def schema_validate_command(
+    *,
+    schema: str,
+    instance: str,
+    json_output: bool = False,
+    write_report: bool = False,
+) -> int:
+    """Validate one JSON instance against a local DevPilot JSON Schema.
+
+    FUNC-SPRINT-22 introduces SchemaValidator using the ADR-governed
+    `jsonschema` dependency. The command remains local-first: it reads only
+    local files, emits CommandResult, can persist an EvidenceReport, and never
+    calls external APIs or network resources.
+    """
+
+    root = project_root()
+    result = SchemaValidator(root).validate(schema=schema, instance=instance)
+    result = _write_optional_command_report(
+        root,
+        result,
+        subject=instance,
+        report_id="schema_validation",
+        write_report=write_report,
+        metadata={"sprint": "FUNC-SPRINT-22", "component": "SchemaValidator", "schema": schema},
+    )
+    _emit_result_event(root, result, subject=instance)
+    _persist_result(root, result, subject=instance)
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+
 def app_contract_command(*, json_output: bool = False, write_report: bool = False) -> int:
     """Expose the internal application-service contract for future UI shells."""
 
@@ -999,6 +1030,12 @@ def build_parser() -> argparse.ArgumentParser:
     schema_list.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     schema_list.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
 
+    schema_validate = schema_sub.add_parser("validate", help="Validate a JSON instance against a local schema")
+    schema_validate.add_argument("--schema", required=True, help="Schema path, schema_id or contract name")
+    schema_validate.add_argument("--instance", required=True, help="JSON instance file to validate")
+    schema_validate.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    schema_validate.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+
     app = sub.add_parser("app", help="Expose application-service contracts for future desktop/web shells")
     app_sub = app.add_subparsers(dest="app_command")
     app_contract = app_sub.add_parser("contract", help="Show internal ApplicationService/DTO contract")
@@ -1204,6 +1241,13 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
     if args.command == "schema":
         if args.schema_command == "list":
             return schema_list_command(json_output=args.json, write_report=args.write_report)
+        if args.schema_command == "validate":
+            return schema_validate_command(
+                schema=args.schema,
+                instance=args.instance,
+                json_output=args.json,
+                write_report=args.write_report,
+            )
         parser.print_help()
         return int(ExitCode.FAIL)
     if args.command == "app":

@@ -6,9 +6,9 @@
   "version": "1.0.0",
   "owner": "Ordóñez",
   "updated": "2026-06-10",
-  "sprint": "FUNC-SPRINT-21",
+  "sprint": "FUNC-SPRINT-22",
   "preliminary": true,
-  "purpose": "Catalog versioned JSON schemas registered by DevPilot. Sprint 21 lists and checks catalog integrity; Sprint 22 will validate instances.",
+  "purpose": "Catalog of versioned JSON schemas registered by DevPilot. Sprint 22 enables local instance validation for transverse contracts through SchemaValidator.",
   "schemas": [
     {
       "schema_id": "SCHEMA-DEVPL-FINDING-V1",
@@ -16,12 +16,13 @@
       "version": "1.0.0",
       "path": "docs/schemas/finding.schema.json",
       "description": "Structural contract for one DevPilot diagnostic finding.",
-      "status": "draft",
+      "status": "registered",
       "contract": "Finding",
       "owner": "Ordóñez",
       "sprint": "FUNC-SPRINT-21",
       "dialect": "https://json-schema.org/draft/2020-12/schema",
-      "validates_instances": false
+      "validates_instances": true,
+      "validation_enabled_sprint": "FUNC-SPRINT-22"
     },
     {
       "schema_id": "SCHEMA-DEVPL-COMMAND-RESULT-V1",
@@ -29,12 +30,13 @@
       "version": "1.0.0",
       "path": "docs/schemas/command_result.schema.json",
       "description": "Structural contract for normalized DevPilot CLI command results.",
-      "status": "draft",
+      "status": "registered",
       "contract": "CommandResult",
       "owner": "Ordóñez",
       "sprint": "FUNC-SPRINT-21",
       "dialect": "https://json-schema.org/draft/2020-12/schema",
-      "validates_instances": false
+      "validates_instances": true,
+      "validation_enabled_sprint": "FUNC-SPRINT-22"
     },
     {
       "schema_id": "SCHEMA-DEVPL-EVIDENCE-REPORT-V1",
@@ -42,12 +44,13 @@
       "version": "1.0.0",
       "path": "docs/schemas/evidence_report.schema.json",
       "description": "Structural contract for persisted JSON evidence reports.",
-      "status": "draft",
+      "status": "registered",
       "contract": "EvidenceReport",
       "owner": "Ordóñez",
       "sprint": "FUNC-SPRINT-21",
       "dialect": "https://json-schema.org/draft/2020-12/schema",
-      "validates_instances": false
+      "validates_instances": true,
+      "validation_enabled_sprint": "FUNC-SPRINT-22"
     },
     {
       "schema_id": "SCHEMA-DEVPL-APPLICATION-REQUEST-V1",
@@ -55,12 +58,13 @@
       "version": "1.0.0",
       "path": "docs/schemas/application_request.schema.json",
       "description": "Structural contract for future desktop/web request envelope.",
-      "status": "draft",
+      "status": "registered",
       "contract": "ApplicationRequest",
       "owner": "Ordóñez",
       "sprint": "FUNC-SPRINT-21",
       "dialect": "https://json-schema.org/draft/2020-12/schema",
-      "validates_instances": false
+      "validates_instances": true,
+      "validation_enabled_sprint": "FUNC-SPRINT-22"
     },
     {
       "schema_id": "SCHEMA-DEVPL-APPLICATION-RESPONSE-V1",
@@ -68,12 +72,13 @@
       "version": "1.0.0",
       "path": "docs/schemas/application_response.schema.json",
       "description": "Structural contract for UI-facing application response envelope.",
-      "status": "draft",
+      "status": "registered",
       "contract": "ApplicationResponse",
       "owner": "Ordóñez",
       "sprint": "FUNC-SPRINT-21",
       "dialect": "https://json-schema.org/draft/2020-12/schema",
-      "validates_instances": false
+      "validates_instances": true,
+      "validation_enabled_sprint": "FUNC-SPRINT-22"
     },
     {
       "schema_id": "SCHEMA-DEVPL-SERVICE-CAPABILITY-V1",
@@ -81,12 +86,13 @@
       "version": "1.0.0",
       "path": "docs/schemas/service_capability.schema.json",
       "description": "Structural contract for one exposed application service capability.",
-      "status": "draft",
+      "status": "registered",
       "contract": "ServiceCapability",
       "owner": "Ordóñez",
       "sprint": "FUNC-SPRINT-21",
       "dialect": "https://json-schema.org/draft/2020-12/schema",
-      "validates_instances": false
+      "validates_instances": true,
+      "validation_enabled_sprint": "FUNC-SPRINT-22"
     },
     {
       "schema_id": "SCHEMA-DEVPL-INTERFACE-ROUTE-CONTRACT-V1",
@@ -94,12 +100,13 @@
       "version": "1.0.0",
       "path": "docs/schemas/interface_route_contract.schema.json",
       "description": "Structural contract for future desktop/web logical routes.",
-      "status": "draft",
+      "status": "registered",
       "contract": "InterfaceRouteContract",
       "owner": "Ordóñez",
       "sprint": "FUNC-SPRINT-21",
       "dialect": "https://json-schema.org/draft/2020-12/schema",
-      "validates_instances": false
+      "validates_instances": true,
+      "validation_enabled_sprint": "FUNC-SPRINT-22"
     }
   ]
 }

@@ -1805,3 +1805,20 @@ El registry lista schemas y valida integridad del catálogo, pero no valida inst
 ```text
 FUNC-SPRINT-22 — Schema Validator y schemas de contratos transversales
 ```
+
+## 15. Transición posterior al Schema Validator
+
+`FUNC-SPRINT-22` pertenece a la Fase A y habilita `SchemaValidator` para validar instancias JSON locales contra contratos transversales registrados en `docs/schemas/`. Los artefactos principales son:
+
+- `src/devpilot_core/schemas/validator.py`;
+- `src/devpilot_core/schemas/errors.py`;
+- `docs/02_architecture/adrs/ADR-0010-schema-validation-dependency.md`;
+- `docs/audits/func_sprint_22_schema_validator_audit.md`;
+- `docs/functional_sprint_22_manifest.json`;
+- `tests/test_schema_validator.py`.
+
+La validación es estructural y no reemplaza reglas de negocio, MIASI, readiness, policy ni trazabilidad. La extensión de schemas para MIASI, workspace, providers y manifests queda para:
+
+```text
+FUNC-SPRINT-23 — Schemas MIASI, Workspace, Providers y Sprint Manifests
+```

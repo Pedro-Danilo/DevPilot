@@ -7,7 +7,7 @@ name = "devpilot-local"
 version = "0.1.0"
 description = "Local-first agent-assisted SDLC personal platform"
 requires-python = ">=3.10"
-dependencies = []
+dependencies = ["jsonschema>=4.22,<5"]
 
 [project.optional-dependencies]
 dev = ["pytest>=8.0"]

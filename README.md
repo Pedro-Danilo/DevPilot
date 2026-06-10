@@ -1,8 +1,8 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
-Estado actual: `baseline pre-code approved + core funcional 00–18 cerrado + release técnico interno v0.1.0 + reconciliación documental post-18 + Schema Registry inicial`  
-Último hito: `FUNC-SPRINT-21 — Schema Registry y catálogo de contratos DevPilot`  
-Siguiente hito: `FUNC-SPRINT-22 — Schema Validator y schemas de contratos transversales`  
+Estado actual: `baseline pre-code approved + core funcional 00–18 cerrado + release técnico interno v0.1.0 + reconciliación documental post-18 + Schema Registry inicial + Schema Validator inicial`  
+Último hito: `FUNC-SPRINT-22 — Schema Validator y schemas de contratos transversales`  
+Siguiente hito: `FUNC-SPRINT-23 — Schemas MIASI, Workspace, Providers y Sprint Manifests`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
@@ -91,6 +91,40 @@ Criterio PASS: `schema list` devuelve `CommandResult`, todos los schemas del cat
 Criterio BLOCK: un schema listado no existe, hay `schema_id` duplicados, el comando no devuelve JSON válido o se afirma que Sprint 21 valida instancias JSON.
 
 Riesgo operativo: los schemas son preliminares y manuales; pueden derivar respecto a las dataclasses hasta que `SchemaValidator` valide instancias reales en Sprint 22.
+
+
+## Schema Validator inicial — FUNC-SPRINT-22
+
+`FUNC-SPRINT-22` habilita validación local de instancias JSON contra schemas registrados o rutas `.schema.json`. Esta capacidad es **implemented-initial**: valida estructura JSON Schema Draft 2020-12 mediante `jsonschema`, no ejecuta red, no usa API keys y no reemplaza reglas semánticas de MIASI, readiness, policy o trazabilidad.
+
+Decisión arquitectónica asociada:
+
+- `docs/02_architecture/adrs/ADR-0010-schema-validation-dependency.md`
+
+Artefactos principales:
+
+- `src/devpilot_core/schemas/validator.py`
+- `src/devpilot_core/schemas/errors.py`
+- `docs/audits/func_sprint_22_schema_validator_audit.md`
+- `docs/functional_sprint_22_manifest.json`
+- `tests/test_schema_validator.py`
+
+Comandos de verificación:
+
+```powershell
+$env:PYTHONPATH="src"
+python -m devpilot_core schema validate --schema docs/schemas/command_result.schema.json --instance <archivo-command-result.json> --json
+python -m devpilot_core schema validate --schema EvidenceReport --instance outputs/reports/schema_list.json --json
+python -m devpilot_core schema validate --schema ApplicationResponse --instance <archivo-application-response.json> --json
+python -m devpilot_core schema validate --schema docs/schemas/application_response.schema.json --instance <archivo-application-response.json> --json --write-report
+python -m pytest tests/test_schema_validator.py -q
+```
+
+Criterio PASS: instancias válidas pasan, instancias inválidas generan findings `SCHEMA_VALIDATION_ERROR`, errores de parseo se convierten en `CommandResult` controlado y `--write-report` genera `outputs/reports/schema_validation.json` y `.md`.
+
+Criterio BLOCK: aceptar instancias inválidas sin findings, fallar con stacktrace no controlado, resolver referencias por red o agregar dependencia externa sin ADR.
+
+Riesgo operativo: la validación es estructural; no prueba coherencia de negocio, permisos, semántica MIASI, trazabilidad SDLC ni drift completo entre dataclasses y schemas.
 
 ## Propósito
 

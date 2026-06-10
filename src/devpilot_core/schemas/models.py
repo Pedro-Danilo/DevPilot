@@ -27,6 +27,7 @@ class SchemaSpec:
     sprint: str = "FUNC-SPRINT-21"
     dialect: str = "https://json-schema.org/draft/2020-12/schema"
     validates_instances: bool = False
+    validation_enabled_sprint: str | None = None
 
     @classmethod
     def from_dict(cls, data: dict[str, Any]) -> "SchemaSpec":
@@ -42,6 +43,7 @@ class SchemaSpec:
             sprint=str(data.get("sprint", "FUNC-SPRINT-21")).strip(),
             dialect=str(data.get("dialect", "https://json-schema.org/draft/2020-12/schema")).strip(),
             validates_instances=bool(data.get("validates_instances", False)),
+            validation_enabled_sprint=str(data["validation_enabled_sprint"]).strip() if data.get("validation_enabled_sprint") is not None else None,
         )
 
     def to_dict(self) -> dict[str, Any]:
@@ -59,6 +61,8 @@ class SchemaSpec:
         }
         if self.contract:
             payload["contract"] = self.contract
+        if self.validation_enabled_sprint:
+            payload["validation_enabled_sprint"] = self.validation_enabled_sprint
         return payload
 
     def absolute_path(self, root: Path) -> Path:

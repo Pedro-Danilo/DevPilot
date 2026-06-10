@@ -29,7 +29,8 @@
   "x-devpilot-schema-id": "SCHEMA-DEVPL-APPLICATION-REQUEST-V1",
   "x-devpilot-version": "1.0.0",
   "x-devpilot-sprint": "FUNC-SPRINT-21",
-  "x-devpilot-status": "draft",
+  "x-devpilot-status": "registered",
   "x-devpilot-preliminary": true,
-  "x-devpilot-note": "Registered by FUNC-SPRINT-21. Instance validation is deferred to FUNC-SPRINT-22."
+  "x-devpilot-note": "Registered by FUNC-SPRINT-21 and validated locally by SchemaValidator from FUNC-SPRINT-22. Validation is structural and does not replace semantic gates.",
+  "x-devpilot-validation-enabled-sprint": "FUNC-SPRINT-22"
 }

@@ -9,10 +9,12 @@ ROOT = Path(__file__).resolve().parents[1]
 MANIFEST = ROOT / "docs" / "release" / "release_manifest_v0.1.0.json"
 
 
-# FUNC-SPRINT-20 compatibility note:
+# FUNC-SPRINT-20/22 compatibility note:
 # release_manifest_v0.1.0 stores point-in-time checksums from the internal
 # technical release. Some operational documents are intentionally living
 # docs-as-code artifacts and are updated by later reconciliation sprints.
+# FUNC-SPRINT-22 also updates pyproject.toml to declare the ADR-governed
+# jsonschema dependency required by SchemaValidator.
 # Their historical checksums must remain in the manifest, but this regression
 # test must not block legitimate post-release documentation updates.
 MUTABLE_POST_RELEASE_ARTIFACTS = {
@@ -20,6 +22,7 @@ MUTABLE_POST_RELEASE_ARTIFACTS = {
     "docs/05_operations/runbook.md",
     "docs/functional_backlog_after_precode.md",
     "docs/devpilot_backlog_fase_A_baseline_industrial_minima.md",
+    "pyproject.toml",
 }
 
 
@@ -81,7 +84,7 @@ def test_release_manifest_checksums_match_existing_files() -> None:
     """Validate stable release artifacts while allowing living docs to evolve.
 
     Purpose: keep Sprint 19 release integrity checks useful after Sprint 20.
-    Integration: Sprint 20 updates README/runbook/backlogs by design.
+    Integration: Sprint 20 updates README/runbook/backlogs by design; Sprint 22 updates pyproject.toml for SchemaValidator.
     PASS: immutable release artifacts still match their recorded checksum.
     BLOCK: generated release notes, closure reports, scripts or manifests drift silently.
     Risk: mutable documentation checksums remain historical evidence, not current-state validation.

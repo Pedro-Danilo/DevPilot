@@ -16,7 +16,7 @@ first_sprint: "FUNC-SPRINT-19"
 last_planned_sprint: "FUNC-SPRINT-27"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "phase_a_executable_backlog_review"
-first_open_sprint: "FUNC-SPRINT-22"
+first_open_sprint: "FUNC-SPRINT-23"
 ---
 
 # DevPilot Local — Backlog ejecutable Fase A: Baseline industrial mínima
@@ -560,6 +560,28 @@ CLI parseable.
 Implementa FUNC-SPRINT-22: SchemaValidator para validar instancias JSON contra schemas de contratos transversales. Mantén local-first, CommandResult, findings claros y tests con fixtures válidos/invalidos.
 ```
 
+
+## Estado de implementación Sprint 22
+
+`FUNC-SPRINT-22` queda implementado como Schema Validator inicial para contratos transversales. Entregables principales:
+
+- `src/devpilot_core/schemas/validator.py` con `SchemaValidator`;
+- `src/devpilot_core/schemas/errors.py`;
+- `docs/02_architecture/adrs/ADR-0010-schema-validation-dependency.md`;
+- actualización de `docs/schemas/*.schema.json` y `docs/schemas/schema_catalog.json` para marcar validación habilitada;
+- comando `python -m devpilot_core schema validate --schema <schema> --instance <json> --json`;
+- soporte de `--write-report`;
+- `tests/test_schema_validator.py`;
+- `docs/audits/func_sprint_22_schema_validator_audit.md`;
+- `docs/functional_sprint_22_manifest.json`.
+
+Decisión de dependencia: se agrega `jsonschema>=4.22,<5` como dependencia runtime mediante ADR-0010.
+
+Límite explícito: Sprint 22 valida estructura JSON Schema; no valida semántica de negocio, políticas MIASI, permisos, trazabilidad SDLC ni drift completo entre código y schemas.
+
+El siguiente sprint abierto de Fase A es `FUNC-SPRINT-23 — Schemas MIASI, Workspace, Providers y Sprint Manifests`.
+
+---
 ---
 
 # FUNC-SPRINT-23 — Schemas MIASI, Workspace, Providers y Sprint Manifests

@@ -1,0 +1,76 @@
+{
+  "sprint": "FUNC-SPRINT-22",
+  "title": "Schema Validator y schemas de contratos transversales",
+  "status": "implemented",
+  "implemented_at": "2026-06-10",
+  "phase": "FASE-A-BASELINE-INDUSTRIAL-MINIMA",
+  "wave": "Ola 1 — Consolidación contractual y Schema Engine",
+  "source_backlog": "docs/devpilot_backlog_fase_A_baseline_industrial_minima.md",
+  "architectural_decision": {
+    "required": true,
+    "adr": "docs/02_architecture/adrs/ADR-0010-schema-validation-dependency.md",
+    "reason": "FUNC-SPRINT-22 introduces jsonschema as a runtime dependency to validate JSON Schema Draft 2020-12 contracts."
+  },
+  "created_files": [
+    "src/devpilot_core/schemas/validator.py",
+    "src/devpilot_core/schemas/errors.py",
+    "docs/02_architecture/adrs/ADR-0010-schema-validation-dependency.md",
+    "docs/audits/func_sprint_22_schema_validator_audit.md",
+    "docs/functional_sprint_22_manifest.json",
+    "tests/test_schema_validator.py"
+  ],
+  "modified_files": [
+    "pyproject.toml",
+    "src/devpilot_core/cli.py",
+    "src/devpilot_core/schemas/__init__.py",
+    "src/devpilot_core/schemas/models.py",
+    "docs/schemas/schema_catalog.json",
+    "docs/schemas/command_result.schema.json",
+    "docs/schemas/finding.schema.json",
+    "docs/schemas/evidence_report.schema.json",
+    "docs/schemas/application_request.schema.json",
+    "docs/schemas/application_response.schema.json",
+    "docs/schemas/service_capability.schema.json",
+    "docs/schemas/interface_route_contract.schema.json",
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/devpilot_backlog_fase_A_baseline_industrial_minima.md",
+    "docs/functional_backlog_after_precode.md",
+    "tests/test_release_manifest.py"
+  ],
+  "commands": [
+    "python -m devpilot_core schema validate --schema docs/schemas/command_result.schema.json --instance <archivo-command-result.json> --json",
+    "python -m devpilot_core schema validate --schema CommandResult --instance <archivo-command-result.json> --json",
+    "python -m devpilot_core schema validate --schema EvidenceReport --instance outputs/reports/schema_list.json --json",
+    "python -m devpilot_core schema validate --schema docs/schemas/application_response.schema.json --instance <archivo-application-response.json> --json --write-report",
+    "python -m pytest tests/test_schema_validator.py -q",
+    "python -m pytest -q"
+  ],
+  "tests": [
+    "tests/test_schema_validator.py",
+    "tests/test_schema_registry.py",
+    "tests/test_release_manifest.py"
+  ],
+  "pass_criteria": [
+    "Valid JSON instances pass their registered schemas.",
+    "Invalid JSON instances produce actionable findings.",
+    "JSON parse errors are converted to CommandResult without uncontrolled stacktraces.",
+    "schema validate supports --json and --write-report.",
+    "jsonschema dependency is documented by ADR-0010.",
+    "No network, external API or API key is required.",
+    "pytest -q passes."
+  ],
+  "block_criteria": [
+    "Invalid instances pass without findings.",
+    "The validator throws uncontrolled stacktraces.",
+    "A dependency is added without ADR.",
+    "Remote reference resolution is required.",
+    "Documentation overstates structural validation as semantic validation."
+  ],
+  "risks": [
+    "JSON Schema validation is structural and does not replace business rules.",
+    "Initial schemas are permissive and require future hardening.",
+    "The new jsonschema dependency must be maintained below major version 5 until reviewed."
+  ],
+  "next_sprint": "FUNC-SPRINT-23 — Schemas MIASI, Workspace, Providers y Sprint Manifests"
+}

@@ -2,11 +2,11 @@
 title: "Runbook — DevPilot Local"
 doc_id: "DEVPL-OPS-002"
 status: "approved"
-version: "1.8.0"
+version: "1.9.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "FUNC-SPRINT-21"
+phase: "FUNC-SPRINT-22"
 updated: "2026-06-10"
 approval: "approved_by_owner"
 source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved + 03_security approved"
@@ -1622,22 +1622,102 @@ python -m pytest -q
 
 ### Riesgos y evolución posterior
 
-El principal riesgo es confundir catálogo con validación. `FUNC-SPRINT-21` no valida datos reales contra schemas; solo registra contratos y verifica integridad del catálogo.
+## FUNC-SPRINT-22 — Schema Validator y schemas de contratos transversales
 
-Para alcanzar nivel industrial, los próximos pasos son:
+### Propósito operativo
 
-- `FUNC-SPRINT-22`: implementar `SchemaValidator` e instancia `schema validate`.
-- `FUNC-SPRINT-23`: extender schemas a MIASI, workspace, providers y manifests.
-- `FUNC-SPRINT-24`: conectar schemas con `ValidationGateway`.
+Operar el `SchemaValidator` inicial creado en `FUNC-SPRINT-22`. Este procedimiento valida instancias JSON locales contra schemas registrados en `docs/schemas/schema_catalog.json` o contra rutas `.schema.json` explícitas.
+
+La capacidad es `implemented-initial`: valida estructura JSON Schema Draft 2020-12 con la dependencia ADR-gobernada `jsonschema`, pero no valida reglas semánticas de negocio, políticas MIASI, permisos, trazabilidad SDLC ni coherencia de dominio.
+
+### Artefactos involucrados
+
+| Artefacto | Rol operativo |
+|---|---|
+| `src/devpilot_core/schemas/validator.py` | Carga schema/instancia, resuelve referencias locales y ejecuta validación JSON Schema. |
+| `src/devpilot_core/schemas/errors.py` | Define errores controlados para dependencia e inputs inválidos. |
+| `docs/schemas/*.schema.json` | Contratos transversales validados por Sprint 22. |
+| `docs/02_architecture/adrs/ADR-0010-schema-validation-dependency.md` | Decisión de usar `jsonschema` para Draft 2020-12. |
+| `docs/audits/func_sprint_22_schema_validator_audit.md` | Auditoría técnica del sprint. |
+| `docs/functional_sprint_22_manifest.json` | Manifest del sprint. |
+| `tests/test_schema_validator.py` | Pruebas de instancias válidas, inválidas, CLI, reportes y errores de parseo. |
+
+### Comandos de uso
+
+Validar una instancia contra un schema por ruta:
+
+```powershell
+$env:PYTHONPATH="src"
+python -m devpilot_core schema validate --schema docs/schemas/command_result.schema.json --instance <archivo-command-result.json> --json
+```
+
+Validar usando `schema_id` o nombre de contrato:
+
+```powershell
+python -m devpilot_core schema validate --schema CommandResult --instance <archivo-command-result.json> --json
+python -m devpilot_core schema validate --schema SCHEMA-DEVPL-FINDING-V1 --instance <archivo-finding.json> --json
+```
+
+Generar evidencia de validación:
+
+```powershell
+python -m devpilot_core schema validate --schema docs/schemas/application_response.schema.json --instance <archivo-application-response.json> --json --write-report
+```
+
+Validar reportes persistidos por DevPilot:
+
+```powershell
+python -m devpilot_core schema list --json --write-report
+python -m devpilot_core schema validate --schema EvidenceReport --instance outputs/reports/schema_list.json --json
+```
+
+Ejecutar pruebas específicas:
+
+```powershell
+python -m pytest tests/test_schema_validator.py -q
+```
+
+Ejecutar regresión completa:
+
+```powershell
+python -m pytest -q
+```
+
+### Criterios PASS
+
+- Instancias válidas devuelven `ok=true` y `exit_code=0`.
+- Instancias inválidas devuelven `ok=false`, `exit_code=2` y findings `SCHEMA_VALIDATION_ERROR`.
+- JSON inválido devuelve `SCHEMA_INSTANCE_INVALID_JSON` sin stacktrace no controlado.
+- Schema faltante o referencia no encontrada devuelve finding controlado.
+- Las referencias locales, por ejemplo `finding.schema.json`, se resuelven desde `docs/schemas/` sin red.
+- `--write-report` genera `outputs/reports/schema_validation.json` y `outputs/reports/schema_validation.md`.
+
+### Criterios BLOCK
+
+- Una instancia inválida pasa sin findings.
+- El comando falla con stacktrace no controlado.
+- El validador intenta resolver referencias por red.
+- Se cambia una dependencia sin ADR.
+- Se confunde validación estructural con aprobación semántica o de seguridad.
+
+### Riesgos y evolución posterior
+
+- `jsonschema` queda como dependencia runtime de DevPilot; la decisión está documentada en ADR-0010.
+- La validación es estructural, no semántica.
+- Los schemas son primera versión y pueden requerir hardening cuando se integren más contratos.
+- La resolución local usa un registry en memoria; debe seguir bloqueando resolución remota.
+- `FUNC-SPRINT-23` debe extender schemas a MIASI, workspace, providers y manifests.
+- `FUNC-SPRINT-24` debe integrar estos validadores bajo `ValidationGateway`.
 
 ### Fallos comunes
 
 | Síntoma | Causa probable | Acción |
 |---|---|---|
-| `SCHEMA_CATALOG_MISSING` | Falta `docs/schemas/schema_catalog.json`. | Restaurar catálogo desde repo vigente. |
-| `SCHEMA_REGISTRY_DUPLICATE_ID` | Dos entradas comparten `schema_id`. | Corregir ID en catálogo. |
-| `SCHEMA_REGISTRY_MISSING_FILE` | El catálogo apunta a archivo inexistente. | Crear schema o corregir ruta. |
-| `schema list` no existe | Entorno no actualizado a Sprint 21. | Reinstalar editable y revisar `PYTHONPATH`. |
+| `SCHEMA_REFERENCE_NOT_FOUND` | `--schema` no coincide con ruta, `schema_id` ni contrato. | Usar `schema list --json` para consultar valores válidos. |
+| `SCHEMA_INSTANCE_MISSING` | La ruta de instancia no existe. | Generar el reporte o corregir la ruta. |
+| `SCHEMA_INSTANCE_INVALID_JSON` | El archivo no es JSON válido. | Corregir sintaxis antes de validar. |
+| `SCHEMA_VALIDATION_ERROR` | La instancia no cumple el schema. | Revisar `metadata.instance_path` y `metadata.schema_path`. |
+| `SCHEMA_DEFINITION_INVALID` | El schema contiene una definición o referencia inválida. | Corregir schema y ejecutar pruebas. |
 
-Próximo sprint operativo: `FUNC-SPRINT-22 — Schema Validator y schemas de contratos transversales`.
+Próximo sprint operativo: `FUNC-SPRINT-23 — Schemas MIASI, Workspace, Providers y Sprint Manifests`.
 
