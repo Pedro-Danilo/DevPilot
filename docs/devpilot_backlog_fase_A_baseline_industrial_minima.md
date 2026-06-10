@@ -8,15 +8,15 @@ standard: "MIPSoftware"
 extension: "MIASI"
 phase: "FASE-A-BASELINE-INDUSTRIAL-MINIMA"
 updated: "2026-06-10"
-source_repo: "repo_DevPilot_Local_28.zip"
+source_repo: "repo_DevPilot_Local_29.zip"
 source_report: "Informe de avance DevPilot - sprint 0 - 18.docx"
 source_backlog_model: "docs/functional_backlog_after_precode.md"
-baseline_previous_sprint: "FUNC-SPRINT-22"
+baseline_previous_sprint: "FUNC-SPRINT-23"
 first_sprint: "FUNC-SPRINT-19"
 last_planned_sprint: "FUNC-SPRINT-27"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "phase_a_executable_backlog_review"
-first_open_sprint: "FUNC-SPRINT-24"
+first_open_sprint: "FUNC-SPRINT-25"
 ---
 
 # DevPilot Local — Backlog ejecutable Fase A: Baseline industrial mínima
@@ -689,7 +689,28 @@ No se creó ADR nueva porque no se agregó dependencia externa ni política runt
 
 Límite explícito: Sprint 23 valida estructura, no semántica de negocio. `miasi validate`, `workspace status`, `model providers`, `policy check` y `readiness-check` siguen siendo los validadores semánticos/operativos.
 
-El siguiente sprint abierto de Fase A es `FUNC-SPRINT-24 — Artifact Profiles data-driven y ValidationGateway inicial`.
+El siguiente sprint abierto de Fase A es `FUNC-SPRINT-25 — Traceability Model y extracción de entidades SDLC`.
+
+
+## Estado de implementación Sprint 24
+
+`FUNC-SPRINT-24` queda implementado como transición conservadora desde perfiles hardcoded hacia perfiles data-driven y como `ValidationGateway` inicial. Entregables principales:
+
+- `docs/validation/artifact_profiles.json` exporta los perfiles documentales actuales;
+- `docs/schemas/artifact_profiles.schema.json` formaliza el contrato `ArtifactProfiles`;
+- `src/devpilot_core/validation/artifact_profile_registry.py` carga perfiles JSON con fallback Python;
+- `src/devpilot_core/validation/gateway.py` orquesta validaciones `docs`, `contracts` y `all`;
+- comandos `validate docs`, `validate contracts` y `validate all`;
+- `tests/test_artifact_profile_registry.py`;
+- `tests/test_validation_gateway.py`;
+- `docs/audits/func_sprint_24_validation_gateway_audit.md`;
+- `docs/functional_sprint_24_manifest.json`.
+
+No se creó ADR nueva porque no se agregó dependencia externa, política runtime nueva, proveedor, UI, agente, acción destructiva ni ejecución remota. Se reutiliza `jsonschema` ya gobernado por `ADR-0010` para validar el nuevo schema de perfiles.
+
+Límite explícito: Sprint 24 no implementa trazabilidad SDLC ni reemplaza validadores semánticos. `ValidationGateway` es **implemented-initial** y conserva los validadores internos como fuente de verdad.
+
+El siguiente sprint abierto de Fase A es `FUNC-SPRINT-25 — Traceability Model y extracción de entidades SDLC`.
 
 ---
 

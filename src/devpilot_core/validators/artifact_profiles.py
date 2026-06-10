@@ -217,7 +217,24 @@ def _normalize_path(path: Path, root: Path | None = None) -> str:
 
 
 def select_artifact_profile(path: Path, root: Path | None = None) -> ArtifactProfile:
-    """Select the most specific validation profile for a Markdown artifact."""
+    """Select the most specific validation profile for a Markdown artifact.
+
+    FUNC-SPRINT-24 makes JSON artifact profiles the preferred source when a
+    project root is available. The original Python constants remain the safe
+    fallback so readiness strict and historical validators keep their behavior
+    if the data-driven catalog is unavailable or invalid.
+    """
+
+    if root is not None:
+        try:
+            from devpilot_core.validation.artifact_profile_registry import ArtifactProfileRegistry
+
+            return ArtifactProfileRegistry(root).select(path)
+        except Exception:
+            # Conservative fallback: do not break existing validators during the
+            # data-driven migration window. Registry health is reported by
+            # validate docs / ArtifactProfileRegistry.status().
+            pass
 
     normalized_path = _normalize_path(path, root)
     path_name = Path(normalized_path).name

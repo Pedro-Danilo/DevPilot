@@ -1,7 +1,7 @@
 (.venv) PS D:\Projects\DevPilot_Local> pytest -q
-............................................................................................................................................ [ 84%]
-..........................                                                                                                                   [100%]
-DEVPL TEST SUMMARY: 166 passed, 0 failed, 0 errors, 0 skipped
+............................................................................................................................................ [ 77%]
+........................................                                                                                                     [100%]
+DEVPL TEST SUMMARY: 180 passed, 0 failed, 0 errors, 0 skipped
 (.venv) PS D:\Projects\DevPilot_Local> python -m devpilot_core --version
 devpilot-local 0.1.0
 (.venv) PS D:\Projects\DevPilot_Local> python -m devpilot_core workspace status --json
@@ -205,7 +205,7 @@ devpilot-local 0.1.0
         "standard": "MIPSoftware",
         "purpose": "Local operation and recovery guide.",
         "exists": true,
-        "size_bytes": 64981
+        "size_bytes": 66891
       },
       {
         "id": "agent_card",
@@ -299,7 +299,8 @@ devpilot-local 0.1.0
           "workspaces",
           "local-first",
           "post-mvp"
-        ]
+        ],
+        "source": "docs/validation/artifact_profiles.json"
       },
       {
         "id": "business-case",
@@ -319,7 +320,8 @@ devpilot-local 0.1.0
           "costos",
           "criterios",
           "veredicto"
-        ]
+        ],
+        "source": "docs/validation/artifact_profiles.json"
       },
       {
         "id": "mvp-scope",
@@ -338,7 +340,8 @@ devpilot-local 0.1.0
           "restricciones",
           "local-first",
           "workspaces"
-        ]
+        ],
+        "source": "docs/validation/artifact_profiles.json"
       },
       {
         "id": "requirements-specification",
@@ -358,7 +361,8 @@ devpilot-local 0.1.0
           "mvp+",
           "post-mvp",
           "miasi"
-        ]
+        ],
+        "source": "docs/validation/artifact_profiles.json"
       },
       {
         "id": "use-cases",
@@ -376,7 +380,8 @@ devpilot-local 0.1.0
           "mvp+",
           "post-mvp",
           "criterios"
-        ]
+        ],
+        "source": "docs/validation/artifact_profiles.json"
       },
       {
         "id": "traceability-matrix",
@@ -393,7 +398,8 @@ devpilot-local 0.1.0
           "producto",
           "requerimiento",
           "prueba"
-        ]
+        ],
+        "source": "docs/validation/artifact_profiles.json"
       },
       {
         "id": "architecture-document",
@@ -414,7 +420,8 @@ devpilot-local 0.1.0
           "seguridad",
           "tecnología",
           "agentes"
-        ]
+        ],
+        "source": "docs/validation/artifact_profiles.json"
       },
       {
         "id": "c4-context",
@@ -431,7 +438,8 @@ devpilot-local 0.1.0
           "mermaid",
           "actores",
           "sistemas"
-        ]
+        ],
+        "source": "docs/validation/artifact_profiles.json"
       },
       {
         "id": "c4-container",
@@ -448,7 +456,8 @@ devpilot-local 0.1.0
           "mermaid",
           "responsabilidades",
           "tecnología"
-        ]
+        ],
+        "source": "docs/validation/artifact_profiles.json"
       },
       {
         "id": "adr",
@@ -465,7 +474,8 @@ devpilot-local 0.1.0
         "recommended_headings": [
           "alternativas",
           "estado"
-        ]
+        ],
+        "source": "docs/validation/artifact_profiles.json"
       },
       {
         "id": "security-threat-model",
@@ -485,7 +495,8 @@ devpilot-local 0.1.0
           "activos",
           "límites de confianza",
           "miasi"
-        ]
+        ],
+        "source": "docs/validation/artifact_profiles.json"
       },
       {
         "id": "privacy-assessment",
@@ -505,7 +516,8 @@ devpilot-local 0.1.0
           "redacción",
           "privacidad",
           "apis externas"
-        ]
+        ],
+        "source": "docs/validation/artifact_profiles.json"
       },
       {
         "id": "test-strategy",
@@ -525,7 +537,8 @@ devpilot-local 0.1.0
           "trazabilidad",
           "coverage",
           "agentic tests"
-        ]
+        ],
+        "source": "docs/validation/artifact_profiles.json"
       },
       {
         "id": "observability-plan",
@@ -544,7 +557,8 @@ devpilot-local 0.1.0
           "eventos",
           "retención",
           "opentelemetry"
-        ]
+        ],
+        "source": "docs/validation/artifact_profiles.json"
       },
       {
         "id": "runbook",
@@ -564,7 +578,8 @@ devpilot-local 0.1.0
           "pytest",
           "git",
           "agentes"
-        ]
+        ],
+        "source": "docs/validation/artifact_profiles.json"
       },
       {
         "id": "miasi-agent-card",
@@ -585,7 +600,8 @@ devpilot-local 0.1.0
           "autonomía",
           "herramientas",
           "mipsoftware"
-        ]
+        ],
+        "source": "docs/validation/artifact_profiles.json"
       },
       {
         "id": "miasi-tool-card",
@@ -605,7 +621,8 @@ devpilot-local 0.1.0
           "riesgo",
           "restricciones",
           "aprobación"
-        ]
+        ],
+        "source": "docs/validation/artifact_profiles.json"
       },
       {
         "id": "miasi-policy-card",
@@ -624,7 +641,8 @@ devpilot-local 0.1.0
           "costguard",
           "secretguard",
           "matriz"
-        ]
+        ],
+        "source": "docs/validation/artifact_profiles.json"
       },
       {
         "id": "miasi-eval-card",
@@ -644,7 +662,8 @@ devpilot-local 0.1.0
           "datasets",
           "quality gates",
           "reportes"
-        ]
+        ],
+        "source": "docs/validation/artifact_profiles.json"
       },
       {
         "id": "miasi-human-approval-card",
@@ -664,7 +683,8 @@ devpilot-local 0.1.0
           "matriz",
           "registro",
           "revisión humana"
-        ]
+        ],
+        "source": "docs/validation/artifact_profiles.json"
       },
       {
         "id": "miasi-observability-card",
@@ -683,7 +703,8 @@ devpilot-local 0.1.0
           "agentops",
           "opentelemetry",
           "métricas"
-        ]
+        ],
+        "source": "docs/validation/artifact_profiles.json"
       }
     ],
     "summary": {
@@ -843,7 +864,7 @@ devpilot-local 0.1.0
       {
         "artifact": "docs/05_operations/runbook.md",
         "exists": true,
-        "size_bytes": 64981,
+        "size_bytes": 66891,
         "frontmatter_ok": true,
         "artifact_ok": true,
         "status": "approved",
@@ -2097,7 +2118,7 @@ devpilot-local 0.1.0
       "llm_required": false,
       "external_api_used": false,
       "fixture_path": "evals/fixtures/documentation_eval_cases.json",
-      "generated_at": "2026-06-10T17:03:18Z",
+      "generated_at": "2026-06-10T19:56:44Z",
       "schema_version": "1.0",
       "declared_suite_id": "documentation",
       "description": "Synthetic offline evaluation suite for DevPilot validators and MVP document agents."
@@ -2251,8 +2272,8 @@ devpilot-local 0.1.0
   "message": "Schema registry listed successfully.",
   "data": {
     "summary": {
-      "schemas_total": 13,
-      "schemas_existing": 13,
+      "schemas_total": 14,
+      "schemas_existing": 14,
       "duplicate_schema_ids": [],
       "missing_schema_paths": [],
       "catalog_path": "docs/schemas/schema_catalog.json",
@@ -2440,6 +2461,20 @@ devpilot-local 0.1.0
         "validates_instances": true,
         "contract": "FunctionalSprintManifest",
         "validation_enabled_sprint": "FUNC-SPRINT-23"
+      },
+      {
+        "schema_id": "SCHEMA-DEVPL-ARTIFACT-PROFILES-V1",
+        "title": "DevPilot Artifact Profiles v1",
+        "version": "1.0.0",
+        "path": "docs/schemas/artifact_profiles.schema.json",
+        "description": "Structural contract for data-driven Markdown artifact validation profiles.",
+        "status": "registered",
+        "owner": "Ordóñez",
+        "sprint": "FUNC-SPRINT-24",
+        "dialect": "https://json-schema.org/draft/2020-12/schema",
+        "validates_instances": true,
+        "contract": "ArtifactProfiles",
+        "validation_enabled_sprint": "FUNC-SPRINT-24"
       }
     ],
     "notes": [
@@ -2453,8 +2488,8 @@ devpilot-local 0.1.0
       "message": "Schema registry catalog integrity passed.",
       "severity": "info",
       "metadata": {
-        "schemas_total": 13,
-        "schemas_existing": 13,
+        "schemas_total": 14,
+        "schemas_existing": 14,
         "duplicate_schema_ids": [],
         "missing_schema_paths": [],
         "catalog_path": "docs/schemas/schema_catalog.json",

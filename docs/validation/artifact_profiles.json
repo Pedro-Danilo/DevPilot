@@ -1,0 +1,431 @@
+{
+  "schema_version": "1.0",
+  "contract": "ArtifactProfiles",
+  "status": "registered",
+  "owner": "Ordóñez",
+  "sprint": "FUNC-SPRINT-24",
+  "description": "Data-driven artifact profile catalog exported from the current deterministic Python validation profiles. Sprint 24 keeps Python fallback while stabilizing this JSON contract.",
+  "preliminary": true,
+  "generic_profile": {
+    "id": "generic-markdown",
+    "description": "Generic Markdown engineering artifact.",
+    "filename": null,
+    "path_contains": [],
+    "required_headings": [],
+    "recommended_headings": [
+      "propósito",
+      "estado"
+    ]
+  },
+  "profiles": [
+    {
+      "id": "product-vision",
+      "description": "Product vision baseline artifact.",
+      "filename": "product_vision.md",
+      "path_contains": [
+        "docs/00_product"
+      ],
+      "required_headings": [
+        "resumen ejecutivo",
+        "problema",
+        "visión",
+        "mvp",
+        "indicadores"
+      ],
+      "recommended_headings": [
+        "workspaces",
+        "local-first",
+        "post-mvp"
+      ]
+    },
+    {
+      "id": "business-case",
+      "description": "Business case baseline artifact.",
+      "filename": "business_case.md",
+      "path_contains": [
+        "docs/00_product"
+      ],
+      "required_headings": [
+        "propósito",
+        "problema",
+        "justificación",
+        "beneficios",
+        "riesgos"
+      ],
+      "recommended_headings": [
+        "costos",
+        "criterios",
+        "veredicto"
+      ]
+    },
+    {
+      "id": "mvp-scope",
+      "description": "MVP scope baseline artifact.",
+      "filename": "mvp_scope.md",
+      "path_contains": [
+        "docs/00_product"
+      ],
+      "required_headings": [
+        "mvp",
+        "mvp+",
+        "out of scope",
+        "criterios"
+      ],
+      "recommended_headings": [
+        "restricciones",
+        "local-first",
+        "workspaces"
+      ]
+    },
+    {
+      "id": "requirements-specification",
+      "description": "Requirements specification artifact aligned with MIPSoftware.",
+      "filename": "requirements_specification.md",
+      "path_contains": [
+        "docs/01_requirements"
+      ],
+      "required_headings": [
+        "propósito",
+        "alcance",
+        "requerimientos funcionales del mvp",
+        "requerimientos no funcionales",
+        "criterios de bloqueo"
+      ],
+      "recommended_headings": [
+        "mvp+",
+        "post-mvp",
+        "miasi"
+      ]
+    },
+    {
+      "id": "use-cases",
+      "description": "Use cases baseline artifact.",
+      "filename": "use_cases.md",
+      "path_contains": [
+        "docs/01_requirements"
+      ],
+      "required_headings": [
+        "propósito",
+        "casos de uso",
+        "mvp"
+      ],
+      "recommended_headings": [
+        "mvp+",
+        "post-mvp",
+        "criterios"
+      ]
+    },
+    {
+      "id": "traceability-matrix",
+      "description": "Traceability matrix artifact.",
+      "filename": "traceability_matrix.md",
+      "path_contains": [
+        "docs/01_requirements"
+      ],
+      "required_headings": [
+        "propósito",
+        "matriz"
+      ],
+      "recommended_headings": [
+        "producto",
+        "requerimiento",
+        "prueba"
+      ]
+    },
+    {
+      "id": "architecture-document",
+      "description": "Architecture document artifact aligned with C4/arc42 discipline.",
+      "filename": "architecture_document.md",
+      "path_contains": [
+        "docs/02_architecture"
+      ],
+      "required_headings": [
+        "propósito",
+        "alcance",
+        "drivers",
+        "componentes",
+        "riesgos"
+      ],
+      "recommended_headings": [
+        "persistencia",
+        "seguridad",
+        "tecnología",
+        "agentes"
+      ]
+    },
+    {
+      "id": "c4-context",
+      "description": "C4 context view artifact.",
+      "filename": "c4_context.md",
+      "path_contains": [
+        "docs/02_architecture"
+      ],
+      "required_headings": [
+        "propósito",
+        "contexto"
+      ],
+      "recommended_headings": [
+        "mermaid",
+        "actores",
+        "sistemas"
+      ]
+    },
+    {
+      "id": "c4-container",
+      "description": "C4 container view artifact.",
+      "filename": "c4_container.md",
+      "path_contains": [
+        "docs/02_architecture"
+      ],
+      "required_headings": [
+        "propósito",
+        "contenedores"
+      ],
+      "recommended_headings": [
+        "mermaid",
+        "responsabilidades",
+        "tecnología"
+      ]
+    },
+    {
+      "id": "adr",
+      "description": "Architecture Decision Record artifact.",
+      "filename": null,
+      "path_contains": [
+        "docs/02_architecture/adrs"
+      ],
+      "required_headings": [
+        "contexto",
+        "decisión",
+        "consecuencias"
+      ],
+      "recommended_headings": [
+        "alternativas",
+        "estado"
+      ]
+    },
+    {
+      "id": "security-threat-model",
+      "description": "Security threat model artifact.",
+      "filename": "security_threat_model.md",
+      "path_contains": [
+        "docs/03_security"
+      ],
+      "required_headings": [
+        "propósito",
+        "alcance",
+        "amenazas",
+        "controles",
+        "criterios de bloqueo"
+      ],
+      "recommended_headings": [
+        "activos",
+        "límites de confianza",
+        "miasi"
+      ]
+    },
+    {
+      "id": "privacy-assessment",
+      "description": "Privacy assessment artifact.",
+      "filename": "privacy_assessment.md",
+      "path_contains": [
+        "docs/03_security"
+      ],
+      "required_headings": [
+        "propósito",
+        "alcance",
+        "datos",
+        "retención",
+        "riesgos"
+      ],
+      "recommended_headings": [
+        "redacción",
+        "privacidad",
+        "apis externas"
+      ]
+    },
+    {
+      "id": "test-strategy",
+      "description": "Quality and testing strategy artifact.",
+      "filename": "test_strategy.md",
+      "path_contains": [
+        "docs/04_quality"
+      ],
+      "required_headings": [
+        "propósito",
+        "alcance",
+        "tipos de pruebas",
+        "quality gates",
+        "criterios"
+      ],
+      "recommended_headings": [
+        "trazabilidad",
+        "coverage",
+        "agentic tests"
+      ]
+    },
+    {
+      "id": "observability-plan",
+      "description": "Observability plan artifact.",
+      "filename": "observability_plan.md",
+      "path_contains": [
+        "docs/05_operations"
+      ],
+      "required_headings": [
+        "propósito",
+        "señales",
+        "trazas",
+        "métricas"
+      ],
+      "recommended_headings": [
+        "eventos",
+        "retención",
+        "opentelemetry"
+      ]
+    },
+    {
+      "id": "runbook",
+      "description": "Local operations runbook artifact.",
+      "filename": "runbook.md",
+      "path_contains": [
+        "docs/05_operations"
+      ],
+      "required_headings": [
+        "propósito",
+        "instalación",
+        "validación",
+        "fallos",
+        "recuperación"
+      ],
+      "recommended_headings": [
+        "pytest",
+        "git",
+        "agentes"
+      ]
+    },
+    {
+      "id": "miasi-agent-card",
+      "description": "MIASI Agent Card artifact.",
+      "filename": "agent_card.md",
+      "path_contains": [
+        "docs/06_miasi"
+      ],
+      "required_headings": [
+        "propósito",
+        "alcance",
+        "taxonomía",
+        "contrato",
+        "criterios pass",
+        "criterios block"
+      ],
+      "recommended_headings": [
+        "autonomía",
+        "herramientas",
+        "mipsoftware"
+      ]
+    },
+    {
+      "id": "miasi-tool-card",
+      "description": "MIASI Tool Card artifact.",
+      "filename": "tool_card.md",
+      "path_contains": [
+        "docs/06_miasi"
+      ],
+      "required_headings": [
+        "propósito",
+        "herramientas",
+        "tool contract",
+        "criterios pass",
+        "criterios block"
+      ],
+      "recommended_headings": [
+        "riesgo",
+        "restricciones",
+        "aprobación"
+      ]
+    },
+    {
+      "id": "miasi-policy-card",
+      "description": "MIASI Policy Card artifact.",
+      "filename": "policy_card.md",
+      "path_contains": [
+        "docs/06_miasi"
+      ],
+      "required_headings": [
+        "propósito",
+        "política",
+        "modos de ejecución",
+        "criterios block"
+      ],
+      "recommended_headings": [
+        "costguard",
+        "secretguard",
+        "matriz"
+      ]
+    },
+    {
+      "id": "miasi-eval-card",
+      "description": "MIASI Eval Card artifact.",
+      "filename": "eval_card.md",
+      "path_contains": [
+        "docs/06_miasi"
+      ],
+      "required_headings": [
+        "propósito",
+        "evaluación",
+        "métricas",
+        "criterios pass",
+        "criterios block"
+      ],
+      "recommended_headings": [
+        "datasets",
+        "quality gates",
+        "reportes"
+      ]
+    },
+    {
+      "id": "miasi-human-approval-card",
+      "description": "MIASI Human Approval Card artifact.",
+      "filename": "human_approval_card.md",
+      "path_contains": [
+        "docs/06_miasi"
+      ],
+      "required_headings": [
+        "propósito",
+        "aprobación",
+        "acciones",
+        "criterios pass",
+        "criterios block"
+      ],
+      "recommended_headings": [
+        "matriz",
+        "registro",
+        "revisión humana"
+      ]
+    },
+    {
+      "id": "miasi-observability-card",
+      "description": "MIASI Observability Card artifact.",
+      "filename": "observability_card.md",
+      "path_contains": [
+        "docs/06_miasi"
+      ],
+      "required_headings": [
+        "propósito",
+        "señales",
+        "eventos",
+        "criterios"
+      ],
+      "recommended_headings": [
+        "agentops",
+        "opentelemetry",
+        "métricas"
+      ]
+    }
+  ],
+  "notes": [
+    "FUNC-SPRINT-24 externalizes artifact validation profiles as versioned data.",
+    "The Python profile catalog remains a safe fallback during the migration window.",
+    "This catalog controls structural Markdown profile selection only; it does not replace frontmatter, readiness, standards or semantic gates."
+  ]
+}

@@ -22,6 +22,7 @@ from .refactor import RefactorPlanner
 from .review import CodeReviewEngine, PatchReviewEngine
 from .standards.registry import build_standards_status_result
 from .store import LocalStore
+from .validation import ValidationGateway
 from .workspace import WorkspaceManager
 from .validators.artifact import validate_artifact_file
 from .validators.checklist import validate_precode_checklist
@@ -741,6 +742,30 @@ def history_list_command(*, json_output: bool = False, limit: int = 10, write_re
     return int(result.exit_code)
 
 
+
+def validate_gateway_command(scope: str, *, json_output: bool = False, write_report: bool = False) -> int:
+    """Run the FUNC-SPRINT-24 validation gateway for docs/contracts/all.
+
+    The gateway is an orchestration facade. It preserves findings from the
+    underlying validators, emits CommandResult, writes optional EvidenceReport
+    output and performs no destructive action.
+    """
+
+    root = project_root()
+    result = ValidationGateway(root).validate_scope(scope)
+    result = _write_optional_command_report(
+        root,
+        result,
+        subject=f"validation:{scope}",
+        report_id=f"validate_{scope}",
+        write_report=write_report,
+        metadata={"sprint": "FUNC-SPRINT-24", "component": "ValidationGateway", "scope": scope},
+    )
+    _emit_result_event(root, result, subject=f"validation:{scope}")
+    _persist_result(root, result, subject=f"validation:{scope}")
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
 def schema_list_command(*, json_output: bool = False, write_report: bool = False) -> int:
     """List registered DevPilot schemas without validating instances.
 
@@ -1135,6 +1160,11 @@ def build_parser() -> argparse.ArgumentParser:
     agent_run.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     agent_run.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
 
+    validate = sub.add_parser("validate", help="Run unified DevPilot validation gateway")
+    validate.add_argument("scope", choices=["docs", "contracts", "all"], help="Validation group to execute")
+    validate.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    validate.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+
     schema = sub.add_parser("schema", help="Inspect local DevPilot schema registry")
     schema_sub = schema.add_subparsers(dest="schema_command")
     schema_list = schema_sub.add_parser("list", help="List registered versioned schemas")
@@ -1224,6 +1254,9 @@ def _command_name_from_args(args: argparse.Namespace) -> str:
     if command == "agent":
         subcommand = getattr(args, "agent_command", None)
         return f"agent {subcommand}" if subcommand else "agent"
+    if command == "validate":
+        scope = getattr(args, "scope", None)
+        return f"validate {scope}" if scope else "validate"
     if command == "schema":
         subcommand = getattr(args, "schema_command", None)
         return f"schema {subcommand}" if subcommand else "schema"
@@ -1370,6 +1403,8 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
             )
         parser.print_help()
         return int(ExitCode.FAIL)
+    if args.command == "validate":
+        return validate_gateway_command(args.scope, json_output=args.json, write_report=args.write_report)
     if args.command == "schema":
         if args.schema_command == "list":
             return schema_list_command(json_output=args.json, write_report=args.write_report)

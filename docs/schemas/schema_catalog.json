@@ -191,6 +191,20 @@
       "dialect": "https://json-schema.org/draft/2020-12/schema",
       "validates_instances": true,
       "validation_enabled_sprint": "FUNC-SPRINT-23"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-ARTIFACT-PROFILES-V1",
+      "title": "DevPilot Artifact Profiles v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/artifact_profiles.schema.json",
+      "description": "Structural contract for data-driven Markdown artifact validation profiles.",
+      "status": "registered",
+      "owner": "Ordóñez",
+      "sprint": "FUNC-SPRINT-24",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "contract": "ArtifactProfiles",
+      "validation_enabled_sprint": "FUNC-SPRINT-24"
     }
   ]
 }

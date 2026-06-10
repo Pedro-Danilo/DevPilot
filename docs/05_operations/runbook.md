@@ -2,11 +2,11 @@
 title: "Runbook — DevPilot Local"
 doc_id: "DEVPL-OPS-002"
 status: "approved"
-version: "1.10.0"
+version: "1.11.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "FUNC-SPRINT-23"
+phase: "FUNC-SPRINT-24"
 updated: "2026-06-10"
 approval: "approved_by_owner"
 source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved + 03_security approved"
@@ -1719,7 +1719,7 @@ python -m pytest -q
 | `SCHEMA_VALIDATION_ERROR` | La instancia no cumple el schema. | Revisar `metadata.instance_path` y `metadata.schema_path`. |
 | `SCHEMA_DEFINITION_INVALID` | El schema contiene una definición o referencia inválida. | Corregir schema y ejecutar pruebas. |
 
-Próximo sprint operativo: `FUNC-SPRINT-23 — Schemas MIASI, Workspace, Providers y Sprint Manifests`.
+Próximo sprint operativo: `FUNC-SPRINT-25 — Traceability Model y extracción de entidades SDLC`.
 
 
 ## FUNC-SPRINT-23 — Schemas MIASI, Workspace, Providers y Sprint Manifests
@@ -1768,3 +1768,49 @@ Los reportes se generan bajo `outputs/reports/` y no deben versionarse ni inclui
 ### Riesgos
 
 Los parsers YAML son estrechos y dependency-free. No deben usarse como parser YAML general. Si el alcance requiere YAML completo, abrir ADR antes de agregar dependencia externa.
+
+
+## FUNC-SPRINT-24 — Artifact Profiles data-driven y ValidationGateway inicial
+
+### Propósito operativo
+
+Reducir hardcoding en perfiles documentales y ejecutar validaciones desde una fachada común sin reemplazar los validadores existentes. Esta versión es **implemented-initial** y conserva fallback Python para evitar que un error transitorio en `docs/validation/artifact_profiles.json` rompa `readiness-check`.
+
+### Comandos principales
+
+```powershell
+$env:PYTHONPATH="src"
+python -m devpilot_core validate docs --json
+python -m devpilot_core validate contracts --json
+python -m devpilot_core validate all --json
+```
+
+### Reportes opcionales
+
+```powershell
+python -m devpilot_core validate all --json --write-report
+```
+
+El reporte se genera en `outputs/reports/validate_all.json` y `outputs/reports/validate_all.md`. Estos outputs no deben versionarse ni incluirse en ZIP limpio.
+
+### Criterios PASS
+
+- `artifact_profiles.json` pasa `ArtifactProfiles` schema.
+- `ArtifactProfileRegistry` carga perfiles JSON y conserva fallback Python.
+- `validate docs` compone perfiles y readiness strict.
+- `validate contracts` compone schema registry, MIASI, workspace, providers y manifests 19+.
+- `validate all` consolida docs + contracts sin ocultar findings.
+- Warnings no bloqueantes se conservan como warnings.
+- No se requiere red, API key, UI, agentes autónomos ni acción destructiva.
+
+### Criterios BLOCK
+
+- El gateway cambia el resultado de validadores internos.
+- Se ocultan findings de origen.
+- Se elimina fallback Python antes de estabilizar perfiles JSON.
+- Un perfil JSON no es equivalente al perfil Python original.
+- Se agrega dependencia externa sin ADR.
+
+### Riesgos
+
+`ValidationGateway` es una fachada inicial. No sustituye validación semántica ni trazabilidad SDLC. La siguiente evolución debe integrar Traceability Model sin duplicar reglas entre gateway, schemas y validadores existentes.

@@ -2,7 +2,7 @@
 title: "DevPilot Local — Backlog ejecutable posterior a pre-code"
 doc_id: "DEVPL-FUNC-BACKLOG-001"
 status: "approved"
-version: "2.8.0"
+version: "2.9.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
@@ -14,7 +14,7 @@ change_policy: "controlled_changes_allowed_via_docs_as_code"
 approved_on: "2026-06-06"
 approval_scope: "functional_backlog_after_precode"
 baseline_execution: "FUNC-SPRINT-00"
-next_sprint: "FUNC-SPRINT-24"
+next_sprint: "FUNC-SPRINT-25"
 ---
 
 # DevPilot Local — Backlog ejecutable posterior a pre-code
@@ -1828,4 +1828,19 @@ FUNC-SPRINT-23 — Schemas MIASI, Workspace, Providers y Sprint Manifests
 
 `FUNC-SPRINT-23` agrega schemas y validadores estructurales para MIASI registries, workspace metadata, provider metadata y manifests funcionales. El backlog funcional histórico se mantiene como referencia del ciclo 00–18; la fuente operativa de continuidad es `docs/devpilot_backlog_fase_A_baseline_industrial_minima.md`.
 
-Siguiente sprint abierto: `FUNC-SPRINT-24 — Artifact Profiles data-driven y ValidationGateway inicial`.
+Siguiente sprint entonces abierto: `FUNC-SPRINT-24 — Artifact Profiles data-driven y ValidationGateway inicial`. Tras su implementación, el sprint abierto vigente pasa a `FUNC-SPRINT-25`.
+
+
+## Transición Fase A posterior a FUNC-SPRINT-24
+
+`FUNC-SPRINT-24` externaliza los perfiles documentales como datos versionados y agrega `ValidationGateway` inicial. El backlog funcional histórico sigue siendo referencia del ciclo 00–18; la continuidad operativa queda en `docs/devpilot_backlog_fase_A_baseline_industrial_minima.md`, con `FUNC-SPRINT-25` como siguiente sprint abierto.
+
+Artefactos de continuidad:
+
+- `docs/validation/artifact_profiles.json`
+- `docs/schemas/artifact_profiles.schema.json`
+- `src/devpilot_core/validation/`
+- `docs/functional_sprint_24_manifest.json`
+- `docs/audits/func_sprint_24_validation_gateway_audit.md`
+
+Límite explícito: `ValidationGateway` no reemplaza validaciones semánticas ni trazabilidad. Solo compone validadores existentes bajo `CommandResult`.

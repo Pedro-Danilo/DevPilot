@@ -1,8 +1,8 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
-Estado actual: `baseline pre-code approved + core funcional 00–18 cerrado + release técnico interno v0.1.0 + reconciliación documental post-18 + Schema Registry inicial + Schema Validator inicial + contratos críticos Sprint 23`  
-Último hito: `FUNC-SPRINT-23 — Schemas MIASI, Workspace, Providers y Sprint Manifests`  
-Siguiente hito: `FUNC-SPRINT-24 — Artifact Profiles data-driven y ValidationGateway inicial`  
+Estado actual: `baseline pre-code approved + core funcional 00–18 cerrado + release técnico interno v0.1.0 + reconciliación documental post-18 + Schema Registry inicial + Schema Validator inicial + contratos críticos Sprint 23 + ValidationGateway inicial Sprint 24`  
+Último hito: `FUNC-SPRINT-24 — Artifact Profiles data-driven y ValidationGateway inicial`  
+Siguiente hito: `FUNC-SPRINT-25 — Traceability Model y extracción de entidades SDLC`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
@@ -886,6 +886,8 @@ Contrato preliminar. No incluye autenticación, sesiones, RBAC, empaquetado desk
 
 ## Schemas críticos operativos — FUNC-SPRINT-23
 
+Referencia histórica: `FUNC-SPRINT-23 — Schemas MIASI, Workspace, Providers y Sprint Manifests`.
+
 `FUNC-SPRINT-23` amplía el Schema Engine hacia contratos estructurales críticos: MIASI registries, workspace metadata, provider metadata y functional sprint manifests. Esta capacidad es **implemented-initial**: valida estructura JSON/YAML parseada localmente, pero no sustituye reglas de negocio, readiness, PolicyEngine ni validación semántica MIASI.
 
 Artefactos principales:
@@ -913,3 +915,35 @@ python -m pytest tests/test_contract_schemas.py -q
 ```
 
 Riesgo explícito: los parsers YAML de Sprint 23 son estrechos y dependency-free. Solo soportan la forma controlada de `.devpilot/project.yaml` y `.devpilot/providers.yaml.example`. Si se requiere YAML completo, debe abrirse ADR para una dependencia como PyYAML.
+
+
+## ValidationGateway inicial — FUNC-SPRINT-24
+
+`FUNC-SPRINT-24` externaliza los perfiles documentales hacia `docs/validation/artifact_profiles.json` y crea `ValidationGateway` como fachada unificada para validaciones documentales y contractuales. Esta capacidad es **implemented-initial**: conserva los validadores existentes como fuente de verdad, mantiene fallback Python para perfiles y no ejecuta acciones destructivas.
+
+Artefactos principales:
+
+- `docs/validation/artifact_profiles.json`
+- `docs/schemas/artifact_profiles.schema.json`
+- `src/devpilot_core/validation/artifact_profile_registry.py`
+- `src/devpilot_core/validation/gateway.py`
+- `docs/audits/func_sprint_24_validation_gateway_audit.md`
+- `docs/functional_sprint_24_manifest.json`
+- `tests/test_artifact_profile_registry.py`
+- `tests/test_validation_gateway.py`
+
+Comandos de verificación:
+
+```powershell
+$env:PYTHONPATH="src"
+python -m devpilot_core validate docs --json
+python -m devpilot_core validate contracts --json
+python -m devpilot_core validate all --json --write-report
+python -m pytest tests/test_artifact_profile_registry.py tests/test_validation_gateway.py -q
+```
+
+Criterio PASS: `validate docs/contracts/all` devuelve `CommandResult`, conserva warnings como warnings, no oculta findings de validadores internos, valida los perfiles JSON contra schema, y `pytest -q` pasa.
+
+Criterio BLOCK: el gateway cambia el resultado de readiness strict, oculta findings de validadores base, elimina el fallback Python de perfiles o ejecuta acciones destructivas.
+
+Riesgo operativo: primera versión de orquestación. No sustituye `readiness-check`, `miasi validate`, `schema validate-*`, `policy check` ni futuros gates de trazabilidad; solo los agrupa de forma segura y auditable.

@@ -1,0 +1,78 @@
+{
+  "sprint": "FUNC-SPRINT-24",
+  "title": "Artifact Profiles data-driven y ValidationGateway inicial",
+  "status": "implemented",
+  "implemented_at": "2026-06-10",
+  "phase": "FASE-A-BASELINE-INDUSTRIAL-MINIMA",
+  "wave": "Ola 1 — Consolidación contractual y Schema Engine",
+  "source_backlog": "docs/devpilot_backlog_fase_A_baseline_industrial_minima.md",
+  "architectural_decision": {
+    "required": false,
+    "adr": null,
+    "reason": "FUNC-SPRINT-24 adds data-driven profile configuration and an orchestration facade without new dependency, provider, policy, storage backend or destructive behavior. It reuses the jsonschema dependency already governed by ADR-0010."
+  },
+  "created_files": [
+    "src/devpilot_core/validation/__init__.py",
+    "src/devpilot_core/validation/artifact_profile_registry.py",
+    "src/devpilot_core/validation/gateway.py",
+    "docs/validation/artifact_profiles.json",
+    "docs/schemas/artifact_profiles.schema.json",
+    "docs/audits/func_sprint_24_validation_gateway_audit.md",
+    "docs/functional_sprint_24_manifest.json",
+    "tests/test_artifact_profile_registry.py",
+    "tests/test_validation_gateway.py",
+    "tests/test_sprint_24_documentation.py"
+  ],
+  "modified_files": [
+    "src/devpilot_core/cli.py",
+    "src/devpilot_core/validators/artifact_profiles.py",
+    "src/devpilot_core/standards/registry.py",
+    "docs/schemas/schema_catalog.json",
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/devpilot_backlog_fase_A_baseline_industrial_minima.md",
+    "docs/functional_backlog_after_precode.md",
+    "tests/test_schema_registry.py",
+    "tests/test_sprint_22_documentation.py",
+    "tests/test_sprint_23_documentation.py"
+  ],
+  "commands": [
+    "python -m devpilot_core validate docs --json",
+    "python -m devpilot_core validate contracts --json",
+    "python -m devpilot_core validate all --json --write-report",
+    "python -m devpilot_core schema validate --schema ArtifactProfiles --instance docs/validation/artifact_profiles.json --json",
+    "python -m pytest tests/test_artifact_profile_registry.py -q",
+    "python -m pytest tests/test_validation_gateway.py -q",
+    "python -m pytest -q"
+  ],
+  "tests": [
+    "tests/test_artifact_profile_registry.py",
+    "tests/test_validation_gateway.py",
+    "tests/test_sprint_24_documentation.py",
+    "tests/test_schema_registry.py"
+  ],
+  "pass_criteria": [
+    "Artifact profiles JSON covers the existing Python profile catalog.",
+    "Artifact profiles JSON validates against ArtifactProfiles schema.",
+    "ArtifactProfileRegistry loads JSON profiles and keeps Python fallback.",
+    "ValidationGateway validates docs/contracts/all with CommandResult.",
+    "Warnings remain non-blocking warnings.",
+    "Gateway preserves underlying findings and does not duplicate validator logic.",
+    "No network, API key or destructive action is introduced.",
+    "pytest -q passes."
+  ],
+  "block_criteria": [
+    "Changing profiles breaks readiness strict.",
+    "ValidationGateway hides findings emitted by internal validators.",
+    "Python profile fallback is removed before migration is stable.",
+    "A new dependency or runtime policy is added without ADR.",
+    "validate all produces a non-CommandResult response."
+  ],
+  "risks": [
+    "JSON and Python profile catalogs can drift if future changes are not synchronized.",
+    "ValidationGateway can grow into duplicated validation logic if not kept as a facade.",
+    "validate all output is intentionally verbose because it preserves evidence details.",
+    "Traceability is not implemented yet and remains Sprint 25 scope."
+  ],
+  "next_sprint": "FUNC-SPRINT-25 — Traceability Model y extracción de entidades SDLC"
+}

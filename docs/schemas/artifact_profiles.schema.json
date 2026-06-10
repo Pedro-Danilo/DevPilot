@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/artifact_profiles.schema.json",
+  "x-devpilot-schema-id": "SCHEMA-DEVPL-ARTIFACT-PROFILES-V1",
+  "title": "DevPilot Artifact Profiles v1",
+  "description": "Structural contract for data-driven Markdown artifact validation profiles.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "contract",
+    "status",
+    "owner",
+    "sprint",
+    "description",
+    "preliminary",
+    "generic_profile",
+    "profiles",
+    "notes"
+  ],
+  "properties": {
+    "schema_version": {"type": "string", "pattern": "^1\\.0$"},
+    "contract": {"const": "ArtifactProfiles"},
+    "status": {"enum": ["draft", "registered", "approved"]},
+    "owner": {"type": "string", "minLength": 1},
+    "sprint": {"const": "FUNC-SPRINT-24"},
+    "description": {"type": "string", "minLength": 20},
+    "preliminary": {"type": "boolean"},
+    "generic_profile": {"$ref": "#/$defs/profile"},
+    "profiles": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/profile"}
+    },
+    "notes": {"type": "array", "items": {"type": "string", "minLength": 1}}
+  },
+  "$defs": {
+    "profile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "description", "filename", "path_contains", "required_headings", "recommended_headings"],
+      "properties": {
+        "id": {"type": "string", "minLength": 1, "pattern": "^[a-z0-9][a-z0-9-]*$"},
+        "description": {"type": "string", "minLength": 10},
+        "filename": {"type": ["string", "null"]},
+        "path_contains": {"type": "array", "items": {"type": "string"}},
+        "required_headings": {"type": "array", "items": {"type": "string", "minLength": 1}},
+        "recommended_headings": {"type": "array", "items": {"type": "string", "minLength": 1}}
+      }
+    }
+  }
+}

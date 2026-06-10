@@ -138,6 +138,13 @@ class StandardsRegistry:
         return [self.project_artifact_status(artifact) for artifact in REQUIRED_PROJECT_ARTIFACTS]
 
     def validation_profiles(self) -> list[dict[str, Any]]:
+        try:
+            from devpilot_core.validation.artifact_profile_registry import ArtifactProfileRegistry
+
+            profiles, _, fallback_used = ArtifactProfileRegistry(self.root).load_profiles(allow_fallback=True)
+        except Exception:
+            profiles = ARTIFACT_PROFILES
+            fallback_used = True
         return [
             {
                 "id": profile.id,
@@ -146,8 +153,9 @@ class StandardsRegistry:
                 "path_contains": list(profile.path_contains),
                 "required_headings": list(profile.required_headings),
                 "recommended_headings": list(profile.recommended_headings),
+                "source": "python-fallback" if fallback_used else "docs/validation/artifact_profiles.json",
             }
-            for profile in ARTIFACT_PROFILES
+            for profile in profiles
         ]
 
 
