@@ -19,7 +19,7 @@ def test_sprint_22_readme_runbook_and_backlog_are_synchronized() -> None:
     assert "FUNC-SPRINT-22 — Schema Validator" in runbook
     assert "Estado de implementación Sprint 22" in backlog
     assert "FUNC-SPRINT-23 — Schemas MIASI" in readme
-    assert "first_open_sprint: \"FUNC-SPRINT-26\"" in backlog
+    assert "first_open_sprint: \"FUNC-SPRINT-27\"" in backlog
 
 
 def test_sprint_22_manifest_declares_adr_dependency_and_files() -> None:

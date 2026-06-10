@@ -22,7 +22,7 @@ from .refactor import RefactorPlanner
 from .review import CodeReviewEngine, PatchReviewEngine
 from .standards.registry import build_standards_status_result
 from .store import LocalStore
-from .traceability import MarkdownTraceabilityExtractor
+from .traceability import MarkdownTraceabilityExtractor, TraceabilityEngine
 from .validation import ValidationGateway
 from .workspace import WorkspaceManager
 from .validators.artifact import validate_artifact_file
@@ -796,6 +796,56 @@ def traceability_scan_command(
     print_result(result, json_output=json_output)
     return int(result.exit_code)
 
+
+def traceability_engine_command(
+    action: str,
+    *,
+    targets: list[str] | None = None,
+    json_output: bool = False,
+    write_report: bool = False,
+) -> int:
+    """Run the FUNC-SPRINT-26 traceability engine actions.
+
+    The engine is deterministic, read-only and local-first. Gaps are reported
+    as warning findings in the initial implementation and do not block by
+    themselves.
+    """
+
+    root = project_root()
+    engine = TraceabilityEngine(root)
+    if action == "validate":
+        result = engine.validate(targets=targets)
+    elif action == "coverage":
+        result = engine.coverage(targets=targets)
+    elif action == "report":
+        result = engine.report(targets=targets)
+    else:
+        result = CommandResult(
+            command=f"traceability {action}",
+            ok=False,
+            exit_code=ExitCode.FAIL,
+            message="Unsupported traceability engine action.",
+            findings=[
+                Finding(
+                    id="TRACEABILITY_ACTION_UNSUPPORTED",
+                    message=f"Unsupported traceability action: {action}.",
+                    severity=Severity.FAIL,
+                )
+            ],
+        )
+    result = _write_optional_command_report(
+        root,
+        result,
+        subject=f"traceability:{action}",
+        report_id=f"traceability_{action}",
+        write_report=write_report,
+        metadata={"sprint": "FUNC-SPRINT-26", "component": "TraceabilityEngine", "action": action},
+    )
+    _emit_result_event(root, result, subject=f"traceability:{action}")
+    _persist_result(root, result, subject=f"traceability:{action}")
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
 def schema_list_command(*, json_output: bool = False, write_report: bool = False) -> int:
     """List registered DevPilot schemas without validating instances.
 
@@ -1202,6 +1252,21 @@ def build_parser() -> argparse.ArgumentParser:
     traceability_scan.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     traceability_scan.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
 
+    traceability_validate = traceability_sub.add_parser("validate", help="Validate explicit traceability coverage gaps")
+    traceability_validate.add_argument("--target", action="append", default=None, help="Optional file or directory to validate; can be repeated")
+    traceability_validate.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    traceability_validate.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+
+    traceability_coverage = traceability_sub.add_parser("coverage", help="Compute traceability coverage metrics")
+    traceability_coverage.add_argument("--target", action="append", default=None, help="Optional file or directory to analyze; can be repeated")
+    traceability_coverage.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    traceability_coverage.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+
+    traceability_report = traceability_sub.add_parser("report", help="Generate a consolidated traceability report")
+    traceability_report.add_argument("--target", action="append", default=None, help="Optional file or directory to report; can be repeated")
+    traceability_report.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    traceability_report.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+
     schema = sub.add_parser("schema", help="Inspect local DevPilot schema registry")
     schema_sub = schema.add_subparsers(dest="schema_command")
     schema_list = schema_sub.add_parser("list", help="List registered versioned schemas")
@@ -1448,6 +1513,13 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
     if args.command == "traceability":
         if args.traceability_command == "scan":
             return traceability_scan_command(targets=args.target, json_output=args.json, write_report=args.write_report)
+        if args.traceability_command in {"validate", "coverage", "report"}:
+            return traceability_engine_command(
+                args.traceability_command,
+                targets=args.target,
+                json_output=args.json,
+                write_report=args.write_report,
+            )
         parser.print_help()
         return int(ExitCode.FAIL)
     if args.command == "schema":

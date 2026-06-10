@@ -8,15 +8,15 @@ standard: "MIPSoftware"
 extension: "MIASI"
 phase: "FASE-A-BASELINE-INDUSTRIAL-MINIMA"
 updated: "2026-06-10"
-source_repo: "repo_DevPilot_Local_30.zip"
+source_repo: "repo_DevPilot_Local_31.zip"
 source_report: "Informe de avance DevPilot - sprint 0 - 18.docx"
 source_backlog_model: "docs/functional_backlog_after_precode.md"
-baseline_previous_sprint: "FUNC-SPRINT-24"
+baseline_previous_sprint: "FUNC-SPRINT-25"
 first_sprint: "FUNC-SPRINT-19"
 last_planned_sprint: "FUNC-SPRINT-27"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "phase_a_executable_backlog_review"
-first_open_sprint: "FUNC-SPRINT-26"
+first_open_sprint: "FUNC-SPRINT-27"
 ---
 
 # DevPilot Local — Backlog ejecutable Fase A: Baseline industrial mínima
@@ -981,6 +981,26 @@ Smoke sobre docs reales.
 ```text
 Implementa FUNC-SPRINT-26: Traceability Engine con validate, coverage y report. Debe conectar requisitos, criterios, pruebas/evals y evidencias documentales con findings claros y reportes JSON/Markdown.
 ```
+
+---
+
+
+## Estado de implementación Sprint 26
+
+`FUNC-SPRINT-26` queda implementado como primera versión **implemented-initial** del motor de trazabilidad ejecutable. Entregables principales:
+
+- `src/devpilot_core/traceability/engine.py`;
+- `src/devpilot_core/traceability/rules.py`;
+- `src/devpilot_core/traceability/reports.py`;
+- comandos `traceability validate`, `traceability coverage` y `traceability report`;
+- fixtures de cobertura completa/incompleta;
+- pruebas `tests/test_traceability_engine.py` y `tests/test_sprint_26_documentation.py`;
+- auditoría `docs/audits/func_sprint_26_traceability_engine_audit.md`;
+- manifest `docs/functional_sprint_26_manifest.json`.
+
+El motor calcula cobertura explícita Req→AC, Req→Test/Eval y Req→Doc, y reporta gaps como findings accionables de severidad warning. No bloquea por gaps recomendados en esta primera versión, no infiere relaciones semánticas complejas, no modifica documentos y no usa red/API keys.
+
+Límite explícito: Sprint 26 no corrige automáticamente la matriz, no ejecuta reasoning semántico ni valida drift arquitectura/código. El siguiente sprint abierto es `FUNC-SPRINT-27 — Architecture/code drift inicial y cierre de Baseline Industrial Mínima`.
 
 ---
 

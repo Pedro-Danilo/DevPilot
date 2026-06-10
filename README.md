@@ -1,8 +1,8 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
-Estado actual: `baseline pre-code approved + core funcional 00–18 cerrado + release técnico interno v0.1.0 + reconciliación documental post-18 + Schema Registry inicial + Schema Validator inicial + contratos críticos Sprint 23 + ValidationGateway inicial Sprint 24 + Traceability Model inicial Sprint 25`  
-Último hito: `FUNC-SPRINT-25 — Traceability Model y extracción de entidades SDLC`  
-Siguiente hito: `FUNC-SPRINT-26 — Traceability Engine: validate, coverage y report`  
+Estado actual: `baseline pre-code approved + core funcional 00–18 cerrado + release técnico interno v0.1.0 + reconciliación documental post-18 + Schema Registry inicial + Schema Validator inicial + contratos críticos Sprint 23 + ValidationGateway inicial Sprint 24 + Traceability Model inicial Sprint 25 + Traceability Engine inicial Sprint 26`  
+Último hito: `FUNC-SPRINT-26 — Traceability Engine: validate, coverage y report`  
+Siguiente hito: `FUNC-SPRINT-27 — Architecture/code drift inicial y cierre de Baseline Industrial Mínima`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
@@ -953,6 +953,8 @@ Riesgo operativo: primera versión de orquestación. No sustituye `readiness-che
 
 ## Traceability Model inicial — FUNC-SPRINT-25
 
+### FUNC-SPRINT-25 — Traceability Model y extracción de entidades SDLC
+
 `FUNC-SPRINT-25` crea la primera capa ejecutable de trazabilidad SDLC. Incorpora modelos serializables (`TraceEntity`, `TraceLink`, `TraceGraph`) y un extractor local conservador que identifica IDs explícitos en documentos Markdown/JSON: `FR-*`, `REQ-*`, `US-*`, `AC-*`, `TEST-*` y `ADR-*`.
 
 Capacidad habilitada:
@@ -974,3 +976,35 @@ python -m pytest tests/test_traceability_extractors.py -q
 ```
 
 Esta capacidad es **implemented-initial**. No calcula cobertura, no valida gaps Req→AC→Test y no infiere relaciones semánticas complejas. Los links del `TraceGraph` permanecen vacíos por diseño hasta `FUNC-SPRINT-26`.
+
+
+## Traceability Engine inicial — FUNC-SPRINT-26
+
+`FUNC-SPRINT-26` agrega el primer motor ejecutable de trazabilidad SDLC sobre el modelo de Sprint 25. La capacidad es **implemented-initial** y local-first: construye enlaces explícitos Req→AC, Req→Test/Eval y Req→Doc desde documentos controlados, calcula métricas de cobertura y reporta gaps accionables como warnings no bloqueantes.
+
+Artefactos principales:
+
+- `src/devpilot_core/traceability/engine.py`
+- `src/devpilot_core/traceability/rules.py`
+- `src/devpilot_core/traceability/reports.py`
+- `tests/test_traceability_engine.py`
+- `tests/fixtures/traceability_engine/complete.md`
+- `tests/fixtures/traceability_engine/incomplete.md`
+- `docs/audits/func_sprint_26_traceability_engine_audit.md`
+- `docs/functional_sprint_26_manifest.json`
+
+Comandos principales:
+
+```powershell
+$env:PYTHONPATH="src"
+python -m devpilot_core traceability validate --json
+python -m devpilot_core traceability coverage --json
+python -m devpilot_core traceability report --json --write-report
+python -m pytest tests/test_traceability_engine.py -q
+```
+
+Criterios PASS: el motor detecta requisitos sin criterios, criterios sin requisito, requisitos sin prueba/eval cuando aplica, genera métricas de cobertura reproducibles, emite findings accionables y mantiene `pytest -q` en PASS.
+
+Criterios BLOCK: los gaps recomendados no deben convertirse en bloqueo en esta primera versión, el reporte debe ser reproducible, el comando no debe fallar por documentos opcionales ausentes y no debe modificar documentos fuente.
+
+Riesgo explícito: esta versión prioriza cobertura explícita basada en tablas y referencias existentes. No hace razonamiento semántico, no reescribe matrices, no corrige gaps automáticamente y no reemplaza revisión humana ni validación arquitectónica. La severidad de reglas debe volverse configurable en fases futuras.

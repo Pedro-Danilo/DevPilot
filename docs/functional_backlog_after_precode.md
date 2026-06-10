@@ -14,7 +14,7 @@ change_policy: "controlled_changes_allowed_via_docs_as_code"
 approved_on: "2026-06-06"
 approval_scope: "functional_backlog_after_precode"
 baseline_execution: "FUNC-SPRINT-00"
-next_sprint: "FUNC-SPRINT-25"
+next_sprint: "FUNC-SPRINT-27"
 ---
 
 # DevPilot Local — Backlog ejecutable posterior a pre-code
@@ -1859,3 +1859,17 @@ Estado real:
 - no implementada todavía cobertura ni validación de gaps de trazabilidad.
 
 Siguiente paso: `FUNC-SPRINT-26 — Traceability Engine: validate, coverage y report`.
+
+
+## 18. Transición posterior al Traceability Engine
+
+`FUNC-SPRINT-26` agrega `TraceabilityEngine` sobre el modelo de Sprint 25. La implementación habilita:
+
+- `python -m devpilot_core traceability validate --json`;
+- `python -m devpilot_core traceability coverage --json`;
+- `python -m devpilot_core traceability report --json --write-report`;
+- cálculo explícito de cobertura Req→AC, Req→Test/Eval y Req→Doc;
+- gaps accionables como warnings no bloqueantes;
+- reportes JSON/Markdown reproducibles.
+
+Límite explícito: el motor no infiere relaciones semánticas complejas ni corrige documentos. La continuidad de Fase A queda en `docs/devpilot_backlog_fase_A_baseline_industrial_minima.md`, con `FUNC-SPRINT-27 — Architecture/code drift inicial y cierre de Baseline Industrial Mínima` como siguiente sprint abierto.

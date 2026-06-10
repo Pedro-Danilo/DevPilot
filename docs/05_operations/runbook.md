@@ -6,7 +6,7 @@ version: "1.12.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "FUNC-SPRINT-25"
+phase: "FUNC-SPRINT-26"
 updated: "2026-06-10"
 approval: "approved_by_owner"
 source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved + 03_security approved"
@@ -1871,4 +1871,76 @@ python -m pytest -q
 | `TRACEABILITY_ENTITY_ID_INVALID` sobre ADR `.md` | Se detectó una referencia de archivo como token ID-like. | Revisar naming o aceptar warning conservador. |
 | Scan sin fuentes | Target incorrecto o fuera de `docs/`. | Usar `--target docs/01_requirements` o ejecutar sin target. |
 
-Próximo sprint operativo: `FUNC-SPRINT-26 — Traceability Engine: validate, coverage y report`.
+Próximo sprint operativo: `FUNC-SPRINT-27 — Architecture/code drift inicial y cierre de Baseline Industrial Mínima`.
+
+
+## FUNC-SPRINT-26 — Traceability Engine: validate, coverage y report
+
+### Propósito operativo
+
+`FUNC-SPRINT-26` habilita el primer motor ejecutable de trazabilidad SDLC. Consume el scan de Sprint 25, construye enlaces explícitos y calcula cobertura entre requisitos, criterios de aceptación, evidencia de prueba/eval y documentos fuente.
+
+Esta versión es **implemented-initial**: reporta gaps como warnings no bloqueantes y no infiere relaciones semánticas complejas. No modifica documentos, no usa red, no requiere API keys y no ejecuta agentes.
+
+### Artefactos involucrados
+
+- `src/devpilot_core/traceability/engine.py`
+- `src/devpilot_core/traceability/rules.py`
+- `src/devpilot_core/traceability/reports.py`
+- `docs/audits/func_sprint_26_traceability_engine_audit.md`
+- `docs/functional_sprint_26_manifest.json`
+- `tests/test_traceability_engine.py`
+
+### Comandos de uso
+
+```powershell
+$env:PYTHONPATH="src"
+python -m devpilot_core traceability validate --json
+python -m devpilot_core traceability coverage --json
+python -m devpilot_core traceability report --json --write-report
+python -m pytest tests/test_traceability_engine.py -q
+python -m pytest -q
+```
+
+### Reportes
+
+```powershell
+python -m devpilot_core traceability report --json --write-report
+```
+
+Genera:
+
+- `outputs/reports/traceability_report.json`
+- `outputs/reports/traceability_report.md`
+
+Estos outputs no deben versionarse ni incluirse en ZIP limpio.
+
+### Criterios PASS
+
+- `traceability validate` devuelve `CommandResult`.
+- `traceability coverage` produce métricas por requisito y porcentajes de cobertura.
+- `traceability report` genera payload reproducible y evidencia opcional JSON/Markdown.
+- Se detectan requisitos sin criterios.
+- Se detectan criterios sin requisito.
+- Se detectan requisitos sin test/eval cuando aplica.
+- Los gaps son warnings no bloqueantes.
+- No se modifican documentos fuente.
+- No se usa red ni API keys.
+
+### Criterios BLOCK
+
+- Los gaps recomendados bloquean el pipeline en esta primera versión.
+- El reporte cambia sin cambios de entrada.
+- El comando falla por documentos opcionales ausentes.
+- Se infieren relaciones semánticas no explicitadas.
+- Se agrega dependencia externa sin ADR.
+
+### Fallos comunes
+
+| Síntoma | Causa probable | Acción |
+|---|---|---|
+| Gaps de criterios o pruebas | La matriz no declara AC o evidencia para un requisito. | Completar documentos de trazabilidad en una tarea posterior. |
+| Cobertura menor al 100% | Hay requisitos Post-MVP/futuros o evidencia no formalizada. | Revisar nivel del requisito y actualizar matriz. |
+| Muchos links | El motor conserva evidencia explícita de varias tablas. | Usar `coverage` para resumen y `report` para auditoría. |
+
+Próximo sprint operativo: `FUNC-SPRINT-27 — Architecture/code drift inicial y cierre de Baseline Industrial Mínima`.
