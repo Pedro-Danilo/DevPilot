@@ -1,11 +1,32 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
-Estado actual: `baseline pre-code approved + functional backlog approved + gates documentales ejecutables`  
-Último hito: `FUNC-SPRINT-18 — Preparación de Desktop/Web sin implementar UI completa`  
-Siguiente hito: `FUNC-SPRINT-19 — Selección tecnológica UI/API y ADR de interfaz`  
+Estado actual: `baseline pre-code approved + core funcional 00–18 cerrado + release técnico interno v0.1.0`  
+Último hito: `FUNC-SPRINT-19 — Cierre formal del ciclo 00–18 y release técnico interno`  
+Siguiente hito: `FUNC-SPRINT-20 — Reconciliación documental post-18 y roadmap vivo`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
+
+## Release técnico interno v0.1.0
+
+`FUNC-SPRINT-19` cerró formalmente el ciclo funcional `FUNC-SPRINT-00` a `FUNC-SPRINT-18` y produjo una baseline técnica interna verificable.
+
+Artefactos principales:
+
+- `docs/audits/functional_cycle_00_18_closure_report.md`
+- `docs/release/release_manifest_v0.1.0.json`
+- `docs/release/release_notes_v0.1.0.md`
+- `docs/functional_sprint_19_manifest.json`
+- `scripts/verify_release_v0_1_0.py`
+
+Verificación rápida:
+
+```powershell
+$env:PYTHONPATH="src"
+python scripts/verify_release_v0_1_0.py --json
+```
+
+El release es interno y no implementa UI, APIs externas reales, patch apply, refactor execution, sandbox ni rollback automático.
 
 ## Propósito
 
@@ -71,8 +92,12 @@ Ya existe:
 
 Pendiente de implementación funcional:
 
-- ModelAdapter híbrido;
-- aplicación real de patches/refactors bajo sandbox, aprobación humana y rollback.
+- reconciliación documental post-18 y roadmap vivo (`FUNC-SPRINT-20`);
+- Schema Registry, Schema Validator y contratos versionados (`FUNC-SPRINT-21` a `FUNC-SPRINT-24`);
+- Traceability Engine ejecutable y cobertura SDLC (`FUNC-SPRINT-25` a `FUNC-SPRINT-27`);
+- clientes reales Ollama/LM Studio/API externas bajo CostGuard, SecretGuard, presupuesto y aprobación;
+- aplicación real de patches/refactors bajo sandbox, aprobación humana y rollback;
+- UI desktop/web real, API/IPC, auth/RBAC, dashboards y productización.
 
 ## Regla de documentación viva
 

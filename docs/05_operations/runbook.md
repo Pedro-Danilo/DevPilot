@@ -2,12 +2,12 @@
 title: "Runbook — DevPilot Local"
 doc_id: "DEVPL-OPS-002"
 status: "approved"
-version: "1.5.0"
+version: "1.6.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "FUNC-SPRINT-10"
-updated: "2026-06-08"
+phase: "FUNC-SPRINT-19"
+updated: "2026-06-10"
 approval: "approved_by_owner"
 source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved + 03_security approved"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
@@ -1353,3 +1353,110 @@ Romper CommandResult o los exit codes existentes.
 ### Riesgos
 
 Primera versión. No hay API HTTP activa, IPC real, autenticación, sesiones, RBAC, CORS/CSRF, WebSocket, empaquetado desktop ni elección tecnológica definitiva.
+
+---
+
+## FUNC-SPRINT-19 — Cierre formal ciclo 00–18 y release técnico interno
+
+### Propósito
+
+Cerrar formalmente el ciclo `FUNC-SPRINT-00` a `FUNC-SPRINT-18` y dejar una baseline técnica interna `v0.1.0` verificable, limpia y auditable.
+
+Este procedimiento no habilita nuevas capacidades destructivas. Solo verifica el core existente, los contratos documentales y los artefactos de release.
+
+### Artefactos operativos
+
+| Artefacto | Ruta | Uso |
+|---|---|---|
+| Reporte de cierre | `docs/audits/functional_cycle_00_18_closure_report.md` | Transferencia técnica del ciclo 00–18. |
+| Release manifest | `docs/release/release_manifest_v0.1.0.json` | Fuentes, checksums, exclusiones y smoke commands. |
+| Release notes | `docs/release/release_notes_v0.1.0.md` | Resumen funcional y límites del release. |
+| Manifest Sprint 19 | `docs/functional_sprint_19_manifest.json` | Evidencia de sprint. |
+| Script de verificación | `scripts/verify_release_v0_1_0.py` | Ejecuta smoke test local agrupado. |
+
+### Pytest y regresión general
+
+```powershell
+cd D:\Projects\DevPilot_Local
+$env:PYTHONPATH="src"
+python -m pytest -q
+```
+
+Criterio PASS:
+
+```text
+DEVPL TEST SUMMARY: 129 passed, 0 failed, 0 errors, 0 skipped
+```
+
+El número puede aumentar en sprints posteriores, pero no debe disminuir sin justificación documentada.
+
+### Smoke test manual del release interno
+
+```powershell
+cd D:\Projects\DevPilot_Local
+$env:PYTHONPATH="src"
+
+python -m devpilot_core --version
+python -m devpilot_core workspace status --json
+python -m devpilot_core standards status --json
+python -m devpilot_core readiness-check --strict --json
+python -m devpilot_core miasi validate --json
+python -m devpilot_core eval run --json
+python -m devpilot_core app contract --json
+```
+
+### Smoke test agrupado
+
+```powershell
+cd D:\Projects\DevPilot_Local
+$env:PYTHONPATH="src"
+python scripts/verify_release_v0_1_0.py --json
+```
+
+Criterio PASS:
+
+```text
+ok=true
+commands_failed=0
+```
+
+### Empaquetado limpio
+
+El ZIP limpio del release interno debe excluir:
+
+```text
+outputs/
+.pytest_cache/
+__pycache__/
+.venv/
+.git/
+.devpilot/devpilot.db
+build/
+dist/
+*.egg-info/
+```
+
+El ZIP final entregado por el entorno de implementación debe validarse con SHA256 externo.
+
+### Criterios PASS
+
+- `pytest -q` pasa.
+- Los comandos smoke devuelven exit code `0`.
+- El manifest de release no lista `outputs/` ni `.devpilot/devpilot.db` como fuente.
+- README y runbook declaran `FUNC-SPRINT-19` como último hito.
+- No hay API keys, llamadas de red, dependencias nuevas ni acciones destructivas.
+
+### Criterios BLOCK
+
+- Falla `pytest -q`.
+- El release incluye runtime outputs o DB local.
+- Se documenta UI real, API externa real, patch apply o refactor execution como implementados.
+- El script de verificación falla.
+- El ZIP limpio contiene `.git`, `.venv`, `.pytest_cache`, `__pycache__` u `outputs/`.
+
+### Riesgos
+
+- `v0.1.0` no está firmado criptográficamente; los SHA256 son evidencia de integridad, no firma de supply chain.
+- El release es interno; no sustituye un proceso futuro de release packaging industrial.
+- La validación de manifest no sustituye auditoría semántica completa.
+

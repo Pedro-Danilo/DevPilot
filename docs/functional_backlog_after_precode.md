@@ -2,19 +2,19 @@
 title: "DevPilot Local — Backlog ejecutable posterior a pre-code"
 doc_id: "DEVPL-FUNC-BACKLOG-001"
 status: "approved"
-version: "2.6.0"
+version: "2.7.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
 phase: "POST-PRECODE"
-updated: "2026-06-08"
+updated: "2026-06-10"
 approval: "approved_by_owner_direction"
 source_baseline: "precode_baseline_approved"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approved_on: "2026-06-06"
 approval_scope: "functional_backlog_after_precode"
 baseline_execution: "FUNC-SPRINT-00"
-next_sprint: "FUNC-SPRINT-19"
+next_sprint: "FUNC-SPRINT-20"
 ---
 
 # DevPilot Local — Backlog ejecutable posterior a pre-code
@@ -1669,7 +1669,7 @@ Contrato preliminar. No incluye autenticación, sesiones, RBAC, schemas JSON for
 Implementa FUNC-SPRINT-18: separación de Application Services y DTOs para que CLI, escritorio y web consuman el mismo DevPilot Core. No implementes UI aún; solo contratos internos testeables.
 ```
 
-Siguiente sprint: `FUNC-SPRINT-19 — Selección tecnológica UI/API y ADR de interfaz`.
+Siguiente sprint: `FUNC-SPRINT-19 — Cierre formal del ciclo 00–18 y release técnico interno`.
 
 ---
 
@@ -1709,6 +1709,8 @@ FUNC-SPRINT-16
 FUNC-SPRINT-17
   ↓
 FUNC-SPRINT-18
+  ↓
+FUNC-SPRINT-19
 ```
 
 ## 9. Criterios para no avanzar
@@ -1748,3 +1750,21 @@ Tarea: ejecutar el sprint indicado del backlog funcional. Mantén enfoque local-
 
 Antes de codificar: inspecciona repo, identifica estado actual, valida dependencias, confirma archivos a modificar. Después de codificar: ejecuta pytest, documenta comandos, genera ZIP completo y patch, explica cambios, pruebas y próximos pasos.
 ```
+
+## 12. Transición posterior al ciclo 00–18
+
+`FUNC-SPRINT-19` pertenece a la Fase A — Baseline industrial mínima y cierra formalmente el ciclo `FUNC-SPRINT-00` a `FUNC-SPRINT-18` mediante:
+
+- `docs/audits/functional_cycle_00_18_closure_report.md`;
+- `docs/release/release_manifest_v0.1.0.json`;
+- `docs/release/release_notes_v0.1.0.md`;
+- `docs/functional_sprint_19_manifest.json`;
+- `scripts/verify_release_v0_1_0.py`;
+- `tests/test_release_manifest.py`.
+
+A partir de este cierre, la continuidad operativa se gobierna por `docs/devpilot_backlog_fase_A_baseline_industrial_minima.md`. El siguiente sprint es:
+
+```text
+FUNC-SPRINT-20 — Reconciliación documental post-18 y roadmap vivo
+```
+

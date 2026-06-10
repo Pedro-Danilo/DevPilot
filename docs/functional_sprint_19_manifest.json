@@ -1,0 +1,62 @@
+{
+  "sprint": "FUNC-SPRINT-19",
+  "title": "Cierre formal del ciclo 00–18 y release técnico interno",
+  "status": "implemented",
+  "implemented_on": "2026-06-10",
+  "phase": "FASE-A-BASELINE-INDUSTRIAL-MINIMA",
+  "wave": "Ola 0 — Cierre y estabilización del ciclo 00–18",
+  "created_files": [
+    "docs/audits/functional_cycle_00_18_closure_report.md",
+    "docs/release/release_manifest_v0.1.0.json",
+    "docs/release/release_notes_v0.1.0.md",
+    "docs/functional_sprint_19_manifest.json",
+    "scripts/verify_release_v0_1_0.py",
+    "tests/test_release_manifest.py"
+  ],
+  "modified_files": [
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/functional_backlog_after_precode.md",
+    "docs/devpilot_backlog_fase_A_baseline_industrial_minima.md"
+  ],
+  "commands": [
+    "python -m pytest -q",
+    "python -m devpilot_core --version",
+    "python -m devpilot_core workspace status --json",
+    "python -m devpilot_core standards status --json",
+    "python -m devpilot_core readiness-check --strict --json",
+    "python -m devpilot_core miasi validate --json",
+    "python -m devpilot_core eval run --json",
+    "python -m devpilot_core app contract --json",
+    "python scripts/verify_release_v0_1_0.py --json"
+  ],
+  "tests": [
+    "tests/test_release_manifest.py",
+    "python -m pytest -q"
+  ],
+  "pass_criteria": [
+    "Closure report exists.",
+    "Release manifest exists and references no runtime output as source artifact.",
+    "Release notes exist.",
+    "Smoke commands are documented.",
+    "pytest -q passes.",
+    "README and runbook are synchronized.",
+    "Clean ZIP excludes runtime outputs, caches, .git, .venv and .devpilot/devpilot.db."
+  ],
+  "block_criteria": [
+    "Release package includes outputs runtime or .devpilot/devpilot.db.",
+    "Documentation claims planned/disabled/future capabilities as implemented.",
+    "Traceability between release and sprints 00-18 is missing.",
+    "pytest fails.",
+    "External dependency or network call is introduced without ADR."
+  ],
+  "risks": [
+    "This release is technical/internal and not a final product distribution.",
+    "SHA256 checksums provide integrity evidence but do not replace signing.",
+    "No new core capability is introduced by FUNC-SPRINT-19.",
+    "Release packaging is generated outside the repo and is not itself stored in this manifest."
+  ],
+  "release_manifest": "docs/release/release_manifest_v0.1.0.json",
+  "closure_report": "docs/audits/functional_cycle_00_18_closure_report.md",
+  "next_sprint": "FUNC-SPRINT-20 — Reconciliación documental post-18 y roadmap vivo"
+}
