@@ -14,7 +14,7 @@ change_policy: "controlled_changes_allowed_via_docs_as_code"
 approved_on: "2026-06-06"
 approval_scope: "functional_backlog_after_precode"
 baseline_execution: "FUNC-SPRINT-00"
-next_sprint: "FUNC-SPRINT-27"
+next_sprint: "FASE-B-BACKLOG-PENDIENTE"
 ---
 
 # DevPilot Local — Backlog ejecutable posterior a pre-code
@@ -1873,3 +1873,24 @@ Siguiente paso: `FUNC-SPRINT-26 — Traceability Engine: validate, coverage y re
 - reportes JSON/Markdown reproducibles.
 
 Límite explícito: el motor no infiere relaciones semánticas complejas ni corrige documentos. La continuidad de Fase A queda en `docs/devpilot_backlog_fase_A_baseline_industrial_minima.md`, con `FUNC-SPRINT-27 — Architecture/code drift inicial y cierre de Baseline Industrial Mínima` como siguiente sprint abierto.
+
+
+## Transición posterior a FUNC-SPRINT-27 — Cierre Fase A
+
+`FUNC-SPRINT-27` cierra la Fase A mediante architecture/code drift inicial, checklist de salida, reporte de cierre y smoke final. La continuidad ya no corresponde a nuevos sprints de Fase A sino a una **Fase B pendiente de planificación ejecutable**.
+
+Capacidades habilitadas:
+
+- `traceability architecture-drift`;
+- checklist `docs/checklists/checklist_phase_a_exit.md`;
+- reporte `docs/audits/phase_a_baseline_industrial_minima_closure_report.md`;
+- Fase A marcada como baseline cerrada, no como producto final.
+
+Pendientes recomendados para Fase B:
+
+- approval workflow;
+- `tests.run` controlado;
+- sandbox y rollback;
+- agentes especializados sobre motores existentes;
+- observabilidad v2;
+- planificación formal de UI/API solo con ADR.

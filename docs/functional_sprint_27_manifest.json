@@ -1,0 +1,73 @@
+{
+  "sprint": "FUNC-SPRINT-27",
+  "title": "Architecture/code drift inicial y cierre de Baseline Industrial Mínima",
+  "status": "implemented",
+  "phase_a_closure": "closed",
+  "implemented_at": "2026-06-10",
+  "phase": "FASE-A-BASELINE-INDUSTRIAL-MINIMA",
+  "wave": "Ola 2 — Trazabilidad SDLC ejecutable y baseline industrial mínima cerrada",
+  "source_backlog": "docs/devpilot_backlog_fase_A_baseline_industrial_minima.md",
+  "architectural_decision": {
+    "required": false,
+    "adr": null,
+    "reason": "FUNC-SPRINT-27 adds a dependency-free, read-only heuristic architecture/code drift detector and closure artifacts. It introduces no external dependency, network call, provider, storage backend or destructive action."
+  },
+  "created_files": [
+    "src/devpilot_core/traceability/architecture_drift.py",
+    "tests/test_architecture_drift.py",
+    "tests/test_sprint_27_documentation.py",
+    "docs/checklists/checklist_phase_a_exit.md",
+    "docs/audits/func_sprint_27_architecture_drift_audit.md",
+    "docs/audits/phase_a_baseline_industrial_minima_closure_report.md",
+    "docs/functional_sprint_27_manifest.json"
+  ],
+  "modified_files": [
+    "src/devpilot_core/cli.py",
+    "src/devpilot_core/traceability/__init__.py",
+    "src/devpilot_core/traceability/engine.py",
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/devpilot_backlog_fase_A_baseline_industrial_minima.md",
+    "docs/functional_backlog_after_precode.md",
+    "tests/test_sprint_22_documentation.py",
+    "tests/test_sprint_23_documentation.py",
+    "tests/test_sprint_24_documentation.py",
+    "tests/test_sprint_25_documentation.py",
+    "tests/test_sprint_26_documentation.py"
+  ],
+  "commands": [
+    "python -m devpilot_core traceability architecture-drift --json",
+    "python -m devpilot_core traceability architecture-drift --json --write-report",
+    "python -m devpilot_core validate all --json",
+    "python -m devpilot_core traceability report --json --write-report",
+    "python -m devpilot_core readiness-check --strict --json",
+    "python -m devpilot_core miasi validate --json",
+    "python -m pytest -q"
+  ],
+  "tests": [
+    "tests/test_architecture_drift.py",
+    "tests/test_sprint_27_documentation.py"
+  ],
+  "pass_criteria": [
+    "Phase A exit checklist exists.",
+    "Phase A closure report exists.",
+    "Architecture drift detector produces non-destructive findings.",
+    "Critical schemas validate through existing gateways.",
+    "Traceability report is generated.",
+    "pytest -q passes."
+  ],
+  "block_criteria": [
+    "Phase A is marked closed without operational Schema Validator.",
+    "Phase A is marked closed without executable Traceability Engine.",
+    "Closure report is missing.",
+    "Documentation confuses real state with target/future capabilities.",
+    "A new dependency is added without ADR."
+  ],
+  "risks": [
+    "Architecture/code drift detection is heuristic and may require alias tuning.",
+    "It does not replace manual architecture review.",
+    "It must not block on minor naming differences without configuration.",
+    "Phase A closure is a baseline, not final product readiness."
+  ],
+  "next_sprint": "FASE-B-PENDIENTE-DE-PLANIFICACION"
+}

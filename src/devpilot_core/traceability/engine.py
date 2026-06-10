@@ -115,6 +115,13 @@ class TraceabilityEngine:
             ],
         )
 
+    def architecture_drift(self) -> CommandResult:
+        """Run the FUNC-SPRINT-27 architecture/code drift detector."""
+
+        from devpilot_core.traceability.architecture_drift import ArchitectureDriftDetector
+
+        return ArchitectureDriftDetector(self.root).detect()
+
     def _coverage_from_scan(self, scan_result: CommandResult) -> TraceabilityCoverage:
         source_paths = scan_result.data.get("source_paths", []) if scan_result.data else []
         return build_coverage(self.root, source_paths)

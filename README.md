@@ -1,8 +1,8 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
-Estado actual: `baseline pre-code approved + core funcional 00–18 cerrado + release técnico interno v0.1.0 + reconciliación documental post-18 + Schema Registry inicial + Schema Validator inicial + contratos críticos Sprint 23 + ValidationGateway inicial Sprint 24 + Traceability Model inicial Sprint 25 + Traceability Engine inicial Sprint 26`  
-Último hito: `FUNC-SPRINT-26 — Traceability Engine: validate, coverage y report`  
-Siguiente hito: `FUNC-SPRINT-27 — Architecture/code drift inicial y cierre de Baseline Industrial Mínima`  
+Estado actual: `baseline pre-code approved + core funcional 00–18 cerrado + release técnico interno v0.1.0 + reconciliación documental post-18 + Schema Registry/Validator + contratos críticos + ValidationGateway + Traceability Model/Engine + architecture/code drift inicial + Fase A cerrada`  
+Último hito: `FUNC-SPRINT-27 — Architecture/code drift inicial y cierre de Baseline Industrial Mínima`  
+Siguiente hito: `FASE-B — pendiente de planificación ejecutable`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
@@ -127,6 +127,38 @@ Criterio PASS: instancias válidas pasan, instancias inválidas generan findings
 Criterio BLOCK: aceptar instancias inválidas sin findings, fallar con stacktrace no controlado, resolver referencias por red o agregar dependencia externa sin ADR.
 
 Riesgo operativo: la validación es estructural; no prueba coherencia de negocio, permisos, semántica MIASI, trazabilidad SDLC ni drift completo entre dataclasses y schemas.
+
+## Architecture/code drift inicial y cierre Fase A — FUNC-SPRINT-27
+
+`FUNC-SPRINT-27` agrega el detector inicial `architecture-drift` y cierra formalmente la **Fase A — Baseline Industrial Mínima**. Esta capacidad es **implemented-initial**: compara módulos top-level de `src/devpilot_core/*` contra documentos C4/arquitectura mediante aliases conservadores, emite findings no destructivos y no reemplaza revisión arquitectónica manual.
+
+Artefactos principales:
+
+- `src/devpilot_core/traceability/architecture_drift.py`;
+- `docs/checklists/checklist_phase_a_exit.md`;
+- `docs/audits/func_sprint_27_architecture_drift_audit.md`;
+- `docs/audits/phase_a_baseline_industrial_minima_closure_report.md`;
+- `docs/functional_sprint_27_manifest.json`;
+- `tests/test_architecture_drift.py`;
+- `tests/test_sprint_27_documentation.py`.
+
+Comandos de verificación:
+
+```powershell
+$env:PYTHONPATH="src"
+python -m devpilot_core traceability architecture-drift --json
+python -m devpilot_core traceability architecture-drift --json --write-report
+python -m devpilot_core validate all --json
+python -m devpilot_core traceability report --json --write-report
+python -m pytest -q
+```
+
+Criterio PASS: el detector genera `CommandResult`, produce findings no destructivos, no usa red/API keys, no modifica archivos, el checklist/reporte de cierre existen y `pytest -q` pasa.
+
+Criterio BLOCK: declarar Fase A cerrada sin Schema Validator, sin Traceability Engine, sin reporte de cierre o confundiendo estado real con capacidades futuras.
+
+Riesgo operativo: el detector es heurístico; puede requerir tuning de aliases o un Component Registry data-driven en Fase B.
+
 
 ## Propósito
 
@@ -979,6 +1011,8 @@ Esta capacidad es **implemented-initial**. No calcula cobertura, no valida gaps 
 
 
 ## Traceability Engine inicial — FUNC-SPRINT-26
+
+Referencia histórica: `FUNC-SPRINT-26 — Traceability Engine: validate, coverage y report`.
 
 `FUNC-SPRINT-26` agrega el primer motor ejecutable de trazabilidad SDLC sobre el modelo de Sprint 25. La capacidad es **implemented-initial** y local-first: construye enlaces explícitos Req→AC, Req→Test/Eval y Req→Doc desde documentos controlados, calcula métricas de cobertura y reporta gaps accionables como warnings no bloqueantes.
 

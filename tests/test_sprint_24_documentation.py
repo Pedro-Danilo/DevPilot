@@ -19,7 +19,7 @@ def test_sprint_24_readme_runbook_and_backlog_are_synchronized() -> None:
     assert "FUNC-SPRINT-24 — Artifact Profiles data-driven" in runbook
     assert "Estado de implementación Sprint 24" in backlog
     assert "FUNC-SPRINT-25 — Traceability Model" in readme
-    assert "first_open_sprint: \"FUNC-SPRINT-27\"" in backlog
+    assert "phase_a_status: \"closed\"" in backlog
 
 
 def test_sprint_24_manifest_declares_gateway_and_no_adr_needed() -> None:

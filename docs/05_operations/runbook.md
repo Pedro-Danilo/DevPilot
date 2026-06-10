@@ -6,7 +6,7 @@ version: "1.12.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "FUNC-SPRINT-26"
+phase: "FUNC-SPRINT-27"
 updated: "2026-06-10"
 approval: "approved_by_owner"
 source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved + 03_security approved"
@@ -1871,7 +1871,7 @@ python -m pytest -q
 | `TRACEABILITY_ENTITY_ID_INVALID` sobre ADR `.md` | Se detectó una referencia de archivo como token ID-like. | Revisar naming o aceptar warning conservador. |
 | Scan sin fuentes | Target incorrecto o fuera de `docs/`. | Usar `--target docs/01_requirements` o ejecutar sin target. |
 
-Próximo sprint operativo: `FUNC-SPRINT-27 — Architecture/code drift inicial y cierre de Baseline Industrial Mínima`.
+Próxima fase operativa: `FASE-B — pendiente de planificación ejecutable`.
 
 
 ## FUNC-SPRINT-26 — Traceability Engine: validate, coverage y report
@@ -1943,4 +1943,49 @@ Estos outputs no deben versionarse ni incluirse en ZIP limpio.
 | Cobertura menor al 100% | Hay requisitos Post-MVP/futuros o evidencia no formalizada. | Revisar nivel del requisito y actualizar matriz. |
 | Muchos links | El motor conserva evidencia explícita de varias tablas. | Usar `coverage` para resumen y `report` para auditoría. |
 
-Próximo sprint operativo: `FUNC-SPRINT-27 — Architecture/code drift inicial y cierre de Baseline Industrial Mínima`.
+Próxima fase operativa: `FASE-B — pendiente de planificación ejecutable`.
+
+
+## FUNC-SPRINT-27 — Architecture/code drift inicial y cierre de Baseline Industrial Mínima
+
+### Propósito
+
+Ejecutar una primera verificación de drift entre arquitectura y código, y cerrar formalmente la Fase A con checklist, reporte de cierre, manifest y smoke final.
+
+### Comandos de uso
+
+```powershell
+$env:PYTHONPATH="src"
+python -m devpilot_core traceability architecture-drift --json
+python -m devpilot_core traceability architecture-drift --json --write-report
+python -m devpilot_core validate all --json
+python -m devpilot_core traceability report --json --write-report
+python -m devpilot_core readiness-check --strict --json
+python -m devpilot_core miasi validate --json
+python -m pytest -q
+```
+
+### Funcionamiento
+
+`traceability architecture-drift` compara módulos top-level de `src/devpilot_core/*` contra `docs/02_architecture/architecture_document.md`, `docs/02_architecture/c4_container.md` y `docs/02_architecture/c4_component.md`. La comparación usa aliases conservadores y devuelve findings de severidad warning para módulos no representados.
+
+### Criterios PASS
+
+- El comando devuelve `CommandResult`.
+- El comando soporta `--json` y `--write-report`.
+- No modifica archivos fuente ni documentos.
+- No usa red ni API keys.
+- Existen `docs/checklists/checklist_phase_a_exit.md` y `docs/audits/phase_a_baseline_industrial_minima_closure_report.md`.
+- `pytest -q` pasa.
+
+### Criterios BLOCK
+
+- Fase A se marca cerrada sin Schema Validator operativo.
+- Fase A se marca cerrada sin Traceability Engine ejecutable.
+- No existe reporte de cierre.
+- La documentación confunde capacidades reales con objetivo futuro.
+- El detector bloquea por diferencias menores de naming.
+
+### Riesgos
+
+Esta versión es **implemented-initial** y heurística. No reemplaza análisis arquitectónico manual ni un futuro Component Registry data-driven.

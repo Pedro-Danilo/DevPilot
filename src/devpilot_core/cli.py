@@ -846,6 +846,30 @@ def traceability_engine_command(
     print_result(result, json_output=json_output)
     return int(result.exit_code)
 
+def traceability_architecture_drift_command(*, json_output: bool = False, write_report: bool = False) -> int:
+    """Run the FUNC-SPRINT-27 architecture/code drift detector.
+
+    The detector is read-only and heuristic. It compares top-level
+    `src/devpilot_core/*` modules against controlled C4/architecture docs and
+    emits non-destructive findings for review.
+    """
+
+    root = project_root()
+    result = TraceabilityEngine(root).architecture_drift()
+    result = _write_optional_command_report(
+        root,
+        result,
+        subject="traceability:architecture-drift",
+        report_id="traceability_architecture_drift",
+        write_report=write_report,
+        metadata={"sprint": "FUNC-SPRINT-27", "component": "ArchitectureDriftDetector"},
+    )
+    _emit_result_event(root, result, subject="traceability:architecture-drift")
+    _persist_result(root, result, subject="traceability:architecture-drift")
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+
 def schema_list_command(*, json_output: bool = False, write_report: bool = False) -> int:
     """List registered DevPilot schemas without validating instances.
 
@@ -1267,6 +1291,10 @@ def build_parser() -> argparse.ArgumentParser:
     traceability_report.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     traceability_report.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
 
+    traceability_architecture_drift = traceability_sub.add_parser("architecture-drift", help="Detect initial architecture/code drift without modifying files")
+    traceability_architecture_drift.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    traceability_architecture_drift.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+
     schema = sub.add_parser("schema", help="Inspect local DevPilot schema registry")
     schema_sub = schema.add_subparsers(dest="schema_command")
     schema_list = schema_sub.add_parser("list", help="List registered versioned schemas")
@@ -1520,6 +1548,8 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
                 json_output=args.json,
                 write_report=args.write_report,
             )
+        if args.traceability_command == "architecture-drift":
+            return traceability_architecture_drift_command(json_output=args.json, write_report=args.write_report)
         parser.print_help()
         return int(ExitCode.FAIL)
     if args.command == "schema":

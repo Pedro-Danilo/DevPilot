@@ -19,7 +19,8 @@ def test_sprint_26_readme_runbook_and_backlog_are_synchronized() -> None:
     assert "FUNC-SPRINT-26 — Traceability Engine" in runbook
     assert "Estado de implementación Sprint 26" in backlog
     assert "FUNC-SPRINT-27 — Architecture/code drift" in readme
-    assert "first_open_sprint: \"FUNC-SPRINT-27\"" in backlog
+    assert "FASE-B" in readme
+    assert "phase_a_status: \"closed\"" in backlog
 
 
 def test_sprint_26_manifest_declares_engine_files_and_no_adr_needed() -> None:

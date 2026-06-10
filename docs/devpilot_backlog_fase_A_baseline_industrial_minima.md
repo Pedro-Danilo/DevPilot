@@ -8,15 +8,17 @@ standard: "MIPSoftware"
 extension: "MIASI"
 phase: "FASE-A-BASELINE-INDUSTRIAL-MINIMA"
 updated: "2026-06-10"
-source_repo: "repo_DevPilot_Local_31.zip"
+source_repo: "repo_DevPilot_Local_32.zip"
 source_report: "Informe de avance DevPilot - sprint 0 - 18.docx"
 source_backlog_model: "docs/functional_backlog_after_precode.md"
-baseline_previous_sprint: "FUNC-SPRINT-25"
+baseline_previous_sprint: "FUNC-SPRINT-26"
 first_sprint: "FUNC-SPRINT-19"
 last_planned_sprint: "FUNC-SPRINT-27"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "phase_a_executable_backlog_review"
-first_open_sprint: "FUNC-SPRINT-27"
+first_open_sprint: "FASE-B-BACKLOG-PENDIENTE"
+phase_a_status: "closed"
+next_phase: "FASE-B-PENDIENTE-DE-PLANIFICACION"
 ---
 
 # DevPilot Local — Backlog ejecutable Fase A: Baseline industrial mínima
@@ -1147,3 +1149,21 @@ JSON Schema — Validation vocabulary and keywords.
 OpenTelemetry — Semantic conventions and observability model.
 OWASP Top 10 for LLM Applications — prompt injection, sensitive information disclosure, insecure output handling, excessive agency and supply-chain concerns.
 ```
+
+
+## Estado de implementación Sprint 27
+
+`FUNC-SPRINT-27` queda implementado como cierre de la **Fase A — Baseline Industrial Mínima**. Entregables principales:
+
+- `src/devpilot_core/traceability/architecture_drift.py`;
+- comando `traceability architecture-drift`;
+- integración mediante `TraceabilityEngine.architecture_drift()`;
+- checklist `docs/checklists/checklist_phase_a_exit.md`;
+- auditoría `docs/audits/func_sprint_27_architecture_drift_audit.md`;
+- reporte de cierre `docs/audits/phase_a_baseline_industrial_minima_closure_report.md`;
+- manifest `docs/functional_sprint_27_manifest.json`;
+- pruebas `tests/test_architecture_drift.py` y `tests/test_sprint_27_documentation.py`.
+
+El detector es **implemented-initial**, heurístico, read-only y local-first. Produce findings no destructivos para drift arquitectura/código inicial y no reemplaza análisis arquitectónico manual.
+
+La Fase A queda cerrada como baseline verificable, no como producto final. La continuidad pasa a `FASE-B-PENDIENTE-DE-PLANIFICACION`.
