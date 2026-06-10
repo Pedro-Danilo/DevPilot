@@ -2,18 +2,18 @@
 title: "C4 Context — DevPilot Local"
 doc_id: "DEVPL-ARCH-002"
 status: "approved"
-version: "1.0.0"
+version: "1.1.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "SPRINT-PRECODE-03"
-updated: "2026-06-04"
+phase: "FUNC-SPRINT-20"
+updated: "2026-06-10"
 approval: "approved_by_owner_direction"
-change_reason: "Expanded after architecture audit: hybrid LLM providers, persistence, agent platform and security context."
+change_reason: "Reconciled by FUNC-SPRINT-20 to distinguish implemented, partial, planned, disabled and future nodes."
 approved_by: "Ordóñez"
 approved_at: "2026-06-04"
 approval_scope: "SPRINT-PRECODE-03 architecture baseline"
-change_policy: "controlled_changes_allowed_until_precode_baseline"
+change_policy: "controlled_changes_allowed_via_docs_as_code"
 ---
 # C4 Context — DevPilot Local
 
@@ -106,3 +106,40 @@ OpenAI / Gemini / Mistral / HF]
 ## 7. Decisión de contexto
 
 DevPilot Local debe ser diseñado como una plataforma que funciona localmente desde el primer día, pero preparada para operar de forma híbrida cuando el owner configure modelos locales o APIs externas. La arquitectura debe mantener control de costos, seguridad, evaluación y trazabilidad sin convertir la nube o un proveedor LLM en dependencia obligatoria.
+
+
+---
+
+## 8. Reconciliación post-18 de estados C4
+
+### 8.1 Propósito
+
+Esta sección fue agregada por `FUNC-SPRINT-20` para que la vista Context no mezcle intención histórica con disponibilidad operativa. La vista conserva la dirección de producto, pero debe leerse con la siguiente leyenda.
+
+### 8.2 Estado de nodos externos y periféricos
+
+| Nodo C4 Context | Estado reconciliado | Explicación operativa |
+|---|---|---|
+| Owner/Developer | `implemented` | Usuario primario vigente del CLI local. |
+| Project Workspace | `implemented-initial` | `.devpilot/project.yaml`, docs, reports y traces existen; faltan perfiles/migraciones. |
+| Git local | `implemented-initial` | Lectura segura con `git-status`; ramas/tags/log quedan pendientes. |
+| MIPSoftware + MIASI | `implemented` | Estándares locales y registries validados. |
+| SQLite local | `implemented-initial` | LocalStore v0; approval/cost workflow aún no operativo. |
+| Modelo mock | `implemented` | MockModelAdapter funcional, sin costo externo. |
+| Modelos locales Ollama/LM Studio | `planned` | Declarados como dirección futura; sin cliente real. |
+| APIs externas OpenAI/Gemini/Mistral/HF | `disabled` | Bloqueadas por CostGuard/SecretGuard hasta ADR, presupuesto y approval. |
+| MCP/API tools | `future` | No hay módulo MCP. |
+| Desktop UI | `future` | Solo existe `app contract`; no hay shell visual. |
+| Web UI/API | `future` | Solo existen rutas contract-only; no hay servidor. |
+
+### 8.3 Funcionamiento e integración
+
+La sección opera como control documental de drift. Se integra con `docs/audits/capability_status_matrix_after_sprint_18.md` y con `docs/audits/roadmap_reconciliation_after_sprint_18.md`.
+
+### 8.4 Criterios PASS/BLOCK
+
+PASS: todos los nodos aspiracionales tienen estado `planned`, `disabled` o `future` cuando no hay implementación real. BLOCK: documentar UI, MCP o APIs externas como implementadas.
+
+### 8.5 Riesgos
+
+Esta reconciliación es manual. Debe evolucionar hacia validación por schemas y trazabilidad en Fase A.

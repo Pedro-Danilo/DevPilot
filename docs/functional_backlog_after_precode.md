@@ -1711,6 +1711,8 @@ FUNC-SPRINT-17
 FUNC-SPRINT-18
   ↓
 FUNC-SPRINT-19
+  ↓
+FUNC-SPRINT-20
 ```
 
 ## 9. Criterios para no avanzar
@@ -1768,3 +1770,20 @@ A partir de este cierre, la continuidad operativa se gobierna por `docs/devpilot
 FUNC-SPRINT-20 — Reconciliación documental post-18 y roadmap vivo
 ```
 
+
+
+## 13. Transición posterior a la reconciliación documental
+
+`FUNC-SPRINT-20` pertenece a la Fase A y deja reconciliados README, runbook, roadmap histórico y C4 con el estado real del core local-first. Los artefactos principales son:
+
+- `docs/audits/capability_status_matrix_after_sprint_18.md`;
+- `docs/audits/roadmap_reconciliation_after_sprint_18.md`;
+- `docs/02_architecture/c4_component.md`;
+- `docs/functional_sprint_20_manifest.json`;
+- `tests/test_sprint_20_documentation_reconciliation.py`.
+
+A partir de este punto, el siguiente sprint operativo es:
+
+```text
+FUNC-SPRINT-21 — Schema Registry y catálogo de contratos DevPilot
+```

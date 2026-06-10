@@ -1,0 +1,66 @@
+{
+  "sprint": "FUNC-SPRINT-20",
+  "title": "Reconciliación documental post-18 y roadmap vivo",
+  "status": "implemented",
+  "implemented_on": "2026-06-10",
+  "phase": "FASE-A-BASELINE-INDUSTRIAL-MINIMA",
+  "wave": "Ola 0 — Cierre y estabilización del ciclo 00–18",
+  "purpose": "Reconcile README, runbook, roadmap and C4 with the real post-18/post-19 implementation state without adding core capabilities.",
+  "precondition": "FUNC-SPRINT-19 closed and release v0.1.0 verified.",
+  "created_files": [
+    "docs/audits/capability_status_matrix_after_sprint_18.md",
+    "docs/audits/roadmap_reconciliation_after_sprint_18.md",
+    "docs/02_architecture/c4_component.md",
+    "docs/functional_sprint_20_manifest.json",
+    "tests/test_sprint_20_documentation_reconciliation.py"
+  ],
+  "modified_files": [
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/00_product/product_roadmap.md",
+    "docs/02_architecture/c4_context.md",
+    "docs/02_architecture/c4_container.md",
+    "docs/functional_backlog_after_precode.md",
+    "docs/devpilot_backlog_fase_A_baseline_industrial_minima.md",
+    "tests/test_release_manifest.py"
+  ],
+  "commands": [
+    "python -m devpilot_core --version",
+    "python -m devpilot_core readiness-check --strict --json",
+    "python -m devpilot_core validate-artifact docs/02_architecture/c4_component.md --json",
+    "python -m devpilot_core validate-frontmatter docs/audits/capability_status_matrix_after_sprint_18.md --strict --json",
+    "python -m devpilot_core validate-artifact docs/audits/roadmap_reconciliation_after_sprint_18.md --strict --json",
+    "python -m pytest -q"
+  ],
+  "tests": [
+    "tests/test_sprint_20_documentation_reconciliation.py",
+    "python -m pytest -q"
+  ],
+  "pass_criteria": [
+    "Capability matrix exists and classifies implemented/partial/planned/disabled/future capabilities.",
+    "Roadmap reconciliation maps historical command names to current commands or planned/future status.",
+    "README and runbook declare FUNC-SPRINT-20 as latest hito and FUNC-SPRINT-21 as next sprint.",
+    "C4 Context/Container/Component distinguish implemented, partial, planned, disabled and future states.",
+    "pytest -q passes."
+  ],
+  "block_criteria": [
+    "Documentation states real UI/API/external providers/patch apply/refactor execution as implemented.",
+    "Historical command names are presented as available when they are planned only.",
+    "C4 views omit state markers for aspirational nodes.",
+    "Tests fail."
+  ],
+  "risks": [
+    "Manual documentation reconciliation can drift until Schema Engine/Command Catalog exist.",
+    "This sprint does not implement schemas or traceability; it only prepares clean contracts."
+  ],
+  "adr_required": false,
+  "adr_rationale": "No new architecture, dependency, external provider, security policy or runtime behavior was introduced. The sprint is documentary and reconciliatory.",
+  "preliminary_notes": [
+    "C4 Component is a first reconciled documentation view and should later be validated against a Component/Command Catalog.",
+    "This sprint does not implement schemas; the capability matrix remains a manual baseline until Traceability Engine and Schema Registry make it executable."
+  ],
+  "next_sprint": "FUNC-SPRINT-21 — Schema Registry y catálogo de contratos DevPilot",
+  "corrective_adjustments": [
+    "Adjusted tests/test_release_manifest.py so Sprint 19 release checksums remain point-in-time evidence while living docs modified by Sprint 20 do not break regression."
+  ]
+}

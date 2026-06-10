@@ -2,18 +2,18 @@
 title: "C4 Container — DevPilot Local"
 doc_id: "DEVPL-ARCH-003"
 status: "approved"
-version: "1.0.0"
+version: "1.1.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "SPRINT-PRECODE-03"
-updated: "2026-06-04"
+phase: "FUNC-SPRINT-20"
+updated: "2026-06-10"
 approval: "approved_by_owner_direction"
-change_reason: "Expanded after architecture audit: detailed agent platform, persistence, hybrid providers and security containers."
+change_reason: "Reconciled by FUNC-SPRINT-20 to mark real container states after Sprint 18/19 closure."
 approved_by: "Ordóñez"
 approved_at: "2026-06-04"
 approval_scope: "SPRINT-PRECODE-03 architecture baseline"
-change_policy: "controlled_changes_allowed_until_precode_baseline"
+change_policy: "controlled_changes_allowed_via_docs_as_code"
 ---
 # C4 Container — DevPilot Local
 
@@ -178,3 +178,41 @@ c4_container_status: reviewed
 ready_for_owner_approval: true
 approval_recommendation: "approve_after_owner_review"
 ```
+
+
+---
+
+## 9. Reconciliación post-18 de contenedores
+
+### 9.1 Propósito
+
+Esta sección fue agregada por `FUNC-SPRINT-20` para distinguir contenedores reales, parciales y futuros. La vista Container conserva la intención de arquitectura, pero la operación actual se limita al core local-first y CLI.
+
+### 9.2 Tabla de estados
+
+| Contenedor | Estado reconciliado | Evidencia | Límite explícito |
+|---|---|---|---|
+| DevPilot CLI | `implemented` | `python -m devpilot_core --version`, comandos JSON | No hay binario empaquetado final. |
+| DevPilot Core | `implemented` | Validadores, policy, reports, MIASI, evals, repo/review/refactor/modeling | Sigue siendo core local, no plataforma UI completa. |
+| ApplicationService | `implemented-initial` | `python -m devpilot_core app contract --json` | Contract-only para UI futura. |
+| Filesystem/docs | `implemented` | `docs/`, `.devpilot/`, `evals/fixtures/` | Outputs son runtime, no fuente de release. |
+| SQLite LocalStore | `implemented-initial` | `state init/status/history list` | Approval/cost workflows incompletos. |
+| Git local | `implemented-initial` | `git-status --json` | Sin commit/tag/push/branches/tags/log dedicados. |
+| Model provider layer | `partial` | MockModelAdapter | Ollama/LM Studio/API reales no implementados. |
+| External LLM APIs | `disabled` | CostGuard y ProviderRegistry | Bloqueadas por defecto. |
+| Desktop UI | `future` | Sin shell | Solo contrato interno. |
+| Web UI/API | `future` | Sin servidor HTTP | Requiere ADR, auth y threat model. |
+| MCP/API tools | `future` | Sin módulo | Requiere Tool Registry + policies + evals. |
+| Approval workflow | `planned` | Policy Matrix + SQLite preparatorio | Falta request/list/approve/deny operativo. |
+
+### 9.3 Funcionamiento e integración
+
+La tabla se integra con `docs/02_architecture/c4_component.md` y evita que el diagrama histórico de contenedores se interprete como implementación final.
+
+### 9.4 Criterios PASS/BLOCK
+
+PASS: los contenedores futuros se leen como `future` o `contract-only`. BLOCK: usar esta vista para afirmar que existe desktop/web/API productiva o proveedores LLM reales.
+
+### 9.5 Riesgos
+
+La vista sigue siendo documental y debe sincronizarse cuando Sprint 21–27 introduzcan Schema Registry, ValidationGateway y Traceability Engine.

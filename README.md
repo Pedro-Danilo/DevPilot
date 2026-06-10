@@ -1,8 +1,8 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
-Estado actual: `baseline pre-code approved + core funcional 00–18 cerrado + release técnico interno v0.1.0`  
-Último hito: `FUNC-SPRINT-19 — Cierre formal del ciclo 00–18 y release técnico interno`  
-Siguiente hito: `FUNC-SPRINT-20 — Reconciliación documental post-18 y roadmap vivo`  
+Estado actual: `baseline pre-code approved + core funcional 00–18 cerrado + release técnico interno v0.1.0 + reconciliación documental post-18`  
+Último hito: `FUNC-SPRINT-20 — Reconciliación documental post-18 y roadmap vivo`  
+Siguiente hito: `FUNC-SPRINT-21 — Schema Registry y catálogo de contratos DevPilot`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
@@ -27,6 +27,41 @@ python scripts/verify_release_v0_1_0.py --json
 ```
 
 El release es interno y no implementa UI, APIs externas reales, patch apply, refactor execution, sandbox ni rollback automático.
+
+
+
+## Reconciliación documental post-18 — FUNC-SPRINT-20
+
+`FUNC-SPRINT-20` reconcilió README, runbook, roadmap histórico y vistas C4 con el estado real del core después del cierre `FUNC-SPRINT-19`. Este sprint no agrega capacidades de negocio ni comandos del core; corrige el contrato documental para que la Fase A avance sin sobredeclarar capacidades.
+
+Artefactos principales:
+
+- `docs/audits/capability_status_matrix_after_sprint_18.md`
+- `docs/audits/roadmap_reconciliation_after_sprint_18.md`
+- `docs/02_architecture/c4_component.md`
+- `docs/functional_sprint_20_manifest.json`
+- `tests/test_sprint_20_documentation_reconciliation.py`
+
+Estados de lectura obligatorios:
+
+| Estado | Significado |
+|---|---|
+| `implemented` | Disponible para el alcance actual. |
+| `implemented-initial` | Primera versión funcional, limitada. |
+| `partial` | Base existente con brechas. |
+| `planned` | Definido, no implementado. |
+| `disabled` | Declarado pero bloqueado por política. |
+| `future` | Visión posterior. |
+
+Comando de verificación específico:
+
+```powershell
+$env:PYTHONPATH="src"
+python -m devpilot_core validate-artifact docs/02_architecture/c4_component.md --json
+python -m pytest -q
+```
+
+Criterio PASS: README, runbook y C4 no presentan UI real, API externa real, patch apply, refactor execution, approval workflow, RAG, MCP ni multiagentes como implementados.
 
 ## Propósito
 
@@ -88,11 +123,13 @@ Ya existe:
 - inicialización dry-run por defecto y escritura explícita con `--execute`;
 - documentación pre-code aprobada;
 - estándares MIPSoftware y MIASI versionados dentro de `docs/standards/`;
-- backlog funcional aprobado en `docs/functional_backlog_after_precode.md`.
+- backlog funcional aprobado en `docs/functional_backlog_after_precode.md`;
+- matriz reconciliada de capacidades post-18 en `docs/audits/capability_status_matrix_after_sprint_18.md`;
+- reconciliación del roadmap histórico en `docs/audits/roadmap_reconciliation_after_sprint_18.md`;
+- vista C4 Component del core real en `docs/02_architecture/c4_component.md`.
 
 Pendiente de implementación funcional:
 
-- reconciliación documental post-18 y roadmap vivo (`FUNC-SPRINT-20`);
 - Schema Registry, Schema Validator y contratos versionados (`FUNC-SPRINT-21` a `FUNC-SPRINT-24`);
 - Traceability Engine ejecutable y cobertura SDLC (`FUNC-SPRINT-25` a `FUNC-SPRINT-27`);
 - clientes reales Ollama/LM Studio/API externas bajo CostGuard, SecretGuard, presupuesto y aprobación;

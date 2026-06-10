@@ -2,11 +2,11 @@
 title: "Runbook — DevPilot Local"
 doc_id: "DEVPL-OPS-002"
 status: "approved"
-version: "1.6.0"
+version: "1.7.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "FUNC-SPRINT-19"
+phase: "FUNC-SPRINT-20"
 updated: "2026-06-10"
 approval: "approved_by_owner"
 source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved + 03_security approved"
@@ -1438,6 +1438,13 @@ dist/
 
 El ZIP final entregado por el entorno de implementación debe validarse con SHA256 externo.
 
+
+### Ajuste de compatibilidad Sprint 20 sobre manifest de release v0.1.0
+
+`tests/test_release_manifest.py` fue ajustado en `FUNC-SPRINT-20` porque `README.md`, `docs/05_operations/runbook.md` y los backlogs son artefactos vivos. El manifest `v0.1.0` conserva checksums históricos del release interno, pero la regresión no debe bloquear cambios documentales legítimos posteriores.
+
+PASS: los artefactos inmutables del release siguen comparando SHA256 exacto. BLOCK: scripts, release notes, closure report o manifests de sprint cambian sin actualización justificada.
+
 ### Criterios PASS
 
 - `pytest -q` pasa.
@@ -1460,3 +1467,90 @@ El ZIP final entregado por el entorno de implementación debe validarse con SHA2
 - El release es interno; no sustituye un proceso futuro de release packaging industrial.
 - La validación de manifest no sustituye auditoría semántica completa.
 
+
+
+---
+
+## FUNC-SPRINT-20 — Reconciliación documental post-18 y roadmap vivo
+
+### Propósito
+
+Operar la reconciliación documental creada por `FUNC-SPRINT-20`. Este procedimiento permite validar que README, runbook, roadmap, C4 y auditorías post-18 distinguen correctamente capacidades `implemented`, `implemented-initial`, `partial`, `planned`, `disabled` y `future`.
+
+El sprint es documental-operativo. No agrega comandos del core, no modifica políticas runtime, no activa proveedores externos y no habilita UI, patch apply, refactor execution ni approval workflow.
+
+### Artefactos operativos
+
+| Artefacto | Ruta | Uso |
+|---|---|---|
+| Matriz de capacidades | `docs/audits/capability_status_matrix_after_sprint_18.md` | Consulta de estados implementado/parcial/planeado/futuro. |
+| Reconciliación roadmap | `docs/audits/roadmap_reconciliation_after_sprint_18.md` | Mapeo de comandos históricos vs comandos reales. |
+| C4 Context actualizado | `docs/02_architecture/c4_context.md` | Estado real de actores/sistemas externos. |
+| C4 Container actualizado | `docs/02_architecture/c4_container.md` | Estado real de contenedores. |
+| C4 Component nuevo | `docs/02_architecture/c4_component.md` | Componentes reales del core. |
+| Manifest Sprint 20 | `docs/functional_sprint_20_manifest.json` | Evidencia de cierre del sprint. |
+
+### Comandos agrupados por dominio vigente
+
+```powershell
+# Regresión general
+$env:PYTHONPATH="src"
+python -m pytest -q
+python -m devpilot_core --version
+
+# Workspace y estándares
+python -m devpilot_core workspace status --json
+python -m devpilot_core standards status --json
+
+# Gates documentales
+python -m devpilot_core readiness-check --strict --json
+python -m devpilot_core validate-frontmatter docs/audits/capability_status_matrix_after_sprint_18.md --strict --json
+python -m devpilot_core validate-artifact docs/audits/roadmap_reconciliation_after_sprint_18.md --strict --json
+python -m devpilot_core validate-artifact docs/02_architecture/c4_component.md --strict --json
+
+# MIASI, evaluación y contrato de interfaz futura
+python -m devpilot_core miasi validate --json
+python -m devpilot_core eval run --json
+python -m devpilot_core app contract --json
+```
+
+### Mapeos de comandos históricos que no deben usarse como implementados
+
+| Nombre histórico | Uso operativo real |
+|---|---|
+| `policy-check` | `python -m devpilot_core policy check ... --json` |
+| `repo-scan` | `python -m devpilot_core repo-inventory --json` |
+| `review-code --dry-run` | `python -m devpilot_core code-review --target <path> --json` |
+| `refactor-plan --dry-run` | `python -m devpilot_core refactor-plan --target <path> --goal "..." --json` |
+| `validate-schema` | Planned para Sprint 22; no usar aún. |
+| `git-diff-report` | Planned; no usar como comando existente. |
+| `approval request/list/approve` | Planned; no usar como workflow operativo. |
+| `devpilot <comando>` | Packaging futuro; usar `python -m devpilot_core ...`. |
+
+### Criterios PASS
+
+- `pytest -q` pasa.
+- `validate-artifact docs/02_architecture/c4_component.md --json` pasa.
+- README declara `FUNC-SPRINT-20` como último hito y `FUNC-SPRINT-21` como siguiente.
+- Roadmap queda marcado como histórico + reconciliado.
+- C4 Context/Container/Component distinguen `implemented`, `partial`, `planned`, `disabled` y `future`.
+- No se documentan UI, API externa real, patch apply, refactor execution, approval workflow, MCP, RAG ni multiagente como implementados.
+
+### Criterios BLOCK
+
+- Una tabla operativa presenta `validate-schema`, `git-diff-report`, `approval request/list/approve`, UI real o API externa real como disponible.
+- C4 omite estados para nodos aspiracionales.
+- README o runbook conserva `FUNC-SPRINT-19` como último hito después de cerrar Sprint 20.
+- Fallan las pruebas `tests/test_sprint_20_documentation_reconciliation.py`.
+
+### Riesgos
+
+- La reconciliación es manual y puede sufrir drift si sprints posteriores no actualizan estos documentos.
+- No reemplaza un futuro Command Catalog ni Schema Engine.
+- No valida semánticamente todos los documentos; solo reduce contradicciones operativas críticas.
+
+### Evolución posterior
+
+Próximo sprint operativo: FUNC-SPRINT-21 — Schema Registry y catálogo de contratos DevPilot.
+
+`FUNC-SPRINT-21` debe iniciar Schema Registry para que los contratos de `CommandResult`, `Finding`, reportes, DTOs y rutas internas empiecen a tener schemas versionados. Este sprint prepara el terreno, pero no implementa esos schemas.

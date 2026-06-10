@@ -2,24 +2,38 @@
 title: "Product Roadmap — DevPilot Local"
 doc_id: "DEVPL-PROD-005"
 status: "approved"
-version: "1.0.0"
+version: "1.1.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "SPRINT-PRECODE-01"
-updated: "2026-06-02"
+phase: "FUNC-SPRINT-20"
+updated: "2026-06-10"
 approval: "approved_by_owner"
 refinement: "DEVPL-PRE-0107 — MVP+ y visión completa de plataforma"
 approved_by: "Ordóñez"
 approved_at: "2026-06-02"
 approval_scope: "SPRINT-PRECODE-01 product baseline"
-change_policy: "controlled_changes_allowed_until_precode_baseline"
+change_policy: "controlled_changes_allowed_via_docs_as_code"
+change_reason: "Marked as historical directional roadmap and linked to post-18 reconciliation."
 ---
 # Product Roadmap — DevPilot Local
 
 ## 1. Propósito
 
 Este roadmap define la evolución incremental y obligatoria de DevPilot Local desde el bootstrap actual hasta una plataforma agent-assisted SDLC local-first con CLI, escritorio y web. Su objetivo es ordenar el crecimiento sin saltar prematuramente a automatizaciones inseguras, pero manteniendo claro que la evolución hacia desktop/web y agentes especializados es un compromiso de producto.
+
+
+
+## 1.1 Estado post-18: roadmap histórico + reconciliado
+
+Desde `FUNC-SPRINT-20`, este documento debe leerse como **roadmap histórico y direccional**. Conserva intención de producto, pero los comandos reales vigentes y estados implementados/parciales/planeados se consultan en:
+
+- `docs/audits/roadmap_reconciliation_after_sprint_18.md`;
+- `docs/audits/capability_status_matrix_after_sprint_18.md`;
+- `README.md`;
+- `docs/05_operations/runbook.md`.
+
+Regla operativa: si una tabla histórica usa nombres como `policy-check`, `repo-scan`, `review-code --dry-run`, `git-diff-report`, `validate-schema` o `approval request/list/approve`, esos nombres no deben asumirse como comandos implementados. La reconciliación vigente mapea cada nombre histórico a su comando real, estado `planned` o estado `future`.
 
 ## 2. Principios del roadmap
 

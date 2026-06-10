@@ -7,15 +7,16 @@ owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
 phase: "FASE-A-BASELINE-INDUSTRIAL-MINIMA"
-updated: "2026-06-09"
-source_repo: "repo_DevPilot_Local_23.zip"
+updated: "2026-06-10"
+source_repo: "repo_DevPilot_Local_24.zip"
 source_report: "Informe de avance DevPilot - sprint 0 - 18.docx"
 source_backlog_model: "docs/functional_backlog_after_precode.md"
-baseline_previous_sprint: "FUNC-SPRINT-18"
+baseline_previous_sprint: "FUNC-SPRINT-19"
 first_sprint: "FUNC-SPRINT-19"
 last_planned_sprint: "FUNC-SPRINT-27"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "phase_a_executable_backlog_review"
+first_open_sprint: "FUNC-SPRINT-21"
 ---
 
 # DevPilot Local — Backlog ejecutable Fase A: Baseline industrial mínima
@@ -335,6 +336,23 @@ pytest -q.
 ```text
 Implementa FUNC-SPRINT-20: reconciliación documental post-18. Actualiza README, runbook, C4 y roadmap sin crear capacidades nuevas. Marca estados implemented, partial, planned, disabled y future. Mantén trazabilidad histórica.
 ```
+
+---
+
+
+## Estado de implementación Sprint 20
+
+`FUNC-SPRINT-20` queda implementado como reconciliación documental post-18. No introduce capacidades de core ni comandos nuevos. Sus entregables verificables son:
+
+```text
+docs/audits/capability_status_matrix_after_sprint_18.md
+docs/audits/roadmap_reconciliation_after_sprint_18.md
+docs/02_architecture/c4_component.md
+docs/functional_sprint_20_manifest.json
+tests/test_sprint_20_documentation_reconciliation.py
+```
+
+El siguiente sprint abierto de Fase A es `FUNC-SPRINT-21 — Schema Registry y catálogo de contratos DevPilot`.
 
 ---
 
