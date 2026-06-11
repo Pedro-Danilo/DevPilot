@@ -1,0 +1,76 @@
+{
+  "sprint": "FUNC-SPRINT-38",
+  "title": "Architecture/code drift inicial",
+  "status": "implemented",
+  "implemented_at": "2026-06-11",
+  "phase": "FASE-C-INGENIERIA-DE-REPOSITORIO",
+  "wave": "Ola 4 — Repo intelligence y revisión industrial",
+  "source_backlog": "docs/devpilot_backlog_fase_C_ingenieria_repositorio.md",
+  "architectural_decision": {
+    "required": false,
+    "adr": null,
+    "reason": "FUNC-SPRINT-38 agrega un detector local read-only sobre documentación y módulos Python existentes. No introduce dependencias externas, red, APIs, modelos, UI, sandbox, patch apply, Git write ni ejecución de código analizado. Extiende la línea Fase C ya aprobada."
+  },
+  "created_files": [
+    "src/devpilot_core/repo/architecture_drift.py",
+    "tests/test_architecture_drift_repo.py",
+    "tests/test_sprint_38_documentation.py",
+    "docs/audits/func_sprint_38_architecture_drift_audit.md",
+    "docs/functional_sprint_38_manifest.json"
+  ],
+  "modified_files": [
+    "src/devpilot_core/repo/models.py",
+    "src/devpilot_core/repo/__init__.py",
+    "src/devpilot_core/cli.py",
+    ".devpilot/miasi/tool_registry.json",
+    ".devpilot/miasi/agent_registry.json",
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/04_quality/test_strategy.md",
+    "docs/devpilot_backlog_fase_C_ingenieria_repositorio.md",
+    "docs/functional_backlog_after_precode.md",
+    "docs/06_miasi/tool_registry.md",
+    "docs/06_miasi/tool_card.md",
+    "tests/test_sprint_32_documentation.py",
+    "tests/test_sprint_33_documentation.py",
+    "tests/test_sprint_34_documentation.py",
+    "tests/test_sprint_35_documentation.py",
+    "tests/test_sprint_36_documentation.py",
+    "tests/test_sprint_37_documentation.py"
+  ],
+  "commands": [
+    "python -m devpilot_core repo architecture-drift --json",
+    "python -m devpilot_core repo architecture-drift --json --write-report",
+    "python -m devpilot_core miasi validate --json",
+    "python -m pytest -q"
+  ],
+  "tests": [
+    "tests/test_architecture_drift_repo.py",
+    "tests/test_sprint_38_documentation.py"
+  ],
+  "pass_criteria": [
+    "ArchitectureDriftDetector compares documented components against real code modules.",
+    "The command returns CommandResult and supports --json/--write-report.",
+    "Findings separate doc_missing, code_missing and name_mismatch.",
+    "The output matrix includes confidence and documented status.",
+    "planned/future/disabled components without code are not blocking.",
+    "MIASI declares repo.architecture_drift as a read-only tool.",
+    "pytest -q passes."
+  ],
+  "block_criteria": [
+    "The detector invents relationships not supported by path, exact name, alias or fuzzy confidence.",
+    "The detector modifies documentation or code automatically.",
+    "The detector executes/imports code under analysis.",
+    "The detector uses LLM, network or external APIs.",
+    "The detector marks planned/future components without code as BLOCK.",
+    "Patch apply, Git write, refactor execution, sandbox or deploy are enabled."
+  ],
+  "risks": [
+    "Markdown/Mermaid extraction is heuristic.",
+    "Alias/fuzzy matching can produce false positives or false negatives.",
+    "The detector is not a Component Registry, SAST/SCA, runtime call graph or industrial certification.",
+    "Future evolution should add explicit architecture-code mapping contracts."
+  ],
+  "preliminary": true,
+  "next_sprint": "FUNC-SPRINT-39 — ReviewRulePacks y quality gate de revisión"
+}

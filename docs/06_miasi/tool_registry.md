@@ -71,3 +71,8 @@ Perfiles iniciales: `smoke`, `unit`, `all`.
 ## Estado operacional RepoAnalyzer v2 — FUNC-SPRINT-37
 
 `repo.analyze` queda declarada como tool read-only de Fase C. No requiere approval porque no modifica archivos ni ejecuta código analizado. Su implementación consolida inventario, DependencyGraph y GitAdapter para producir señales heurísticas de salud de repositorio. Debe permanecer local-first, sin red, sin APIs externas, sin modelos y sin emisión de secretos crudos.
+
+
+## Estado operacional Architecture/code drift — FUNC-SPRINT-38
+
+`repo.architecture_drift` queda declarada como tool read-only de Fase C. No requiere approval porque no modifica archivos ni ejecuta código analizado. Su implementación compara arquitectura documentada contra módulos reales mediante heurísticas locales, DependencyGraph y RepoAnalyzer. Debe permanecer local-first, sin red, sin APIs externas, sin modelos y sin cambios automáticos en documentación o código.

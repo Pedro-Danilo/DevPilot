@@ -20,7 +20,7 @@ from .policy import CostPolicy, PolicyEngine, PolicyRequest, load_cost_policy
 from .reports import ReportEngine, build_report_id
 from .security import PolicySimulationSuite, SecurityReadiness
 from .schemas import BuiltinContractValidator, SchemaRegistry, SchemaValidator
-from .repo import DependencyGraphBuilder, GitAdapter, RepoAnalyzer, RepoInventory
+from .repo import ArchitectureDriftDetector, DependencyGraphBuilder, GitAdapter, RepoAnalyzer, RepoInventory
 from .repo.diff_report import GitDiffReportBuilder
 from .refactor import RefactorPlanner
 from .review import CodeReviewEngine, PatchReviewEngine
@@ -490,6 +490,31 @@ def repo_analyze_command(
     )
     _emit_result_event(root, result, subject=target)
     _persist_result(root, result, subject=target)
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+
+
+def repo_architecture_drift_command(*, json_output: bool = False, write_report: bool = False) -> int:
+    """Detect architecture/code drift from docs and source structure.
+
+    FUNC-SPRINT-38 keeps this analysis read-only and heuristic. It compares
+    architecture Markdown components against top-level Python modules, includes
+    confidence per row, and never mutates documentation or source files.
+    """
+
+    root = project_root()
+    result = ArchitectureDriftDetector(root).detect()
+    result = _write_optional_command_report(
+        root,
+        result,
+        subject="repo:architecture-drift",
+        report_id="repo_architecture_drift",
+        write_report=write_report,
+        metadata={"sprint": "FUNC-SPRINT-38", "component": "ArchitectureDriftDetector"},
+    )
+    _emit_result_event(root, result, subject="repo:architecture-drift")
+    _persist_result(root, result, subject="repo:architecture-drift")
     print_result(result, json_output=json_output)
     return int(result.exit_code)
 
@@ -1716,6 +1741,10 @@ def build_parser() -> argparse.ArgumentParser:
     repo_analyze.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     repo_analyze.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
 
+    architecture_drift = repo_sub.add_parser("architecture-drift", help="Detect initial architecture/code drift from docs and source modules")
+    architecture_drift.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    architecture_drift.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+
     patch_review = sub.add_parser("patch-review", help="Review a unified diff/patch in dry-run mode")
     patch_review.add_argument("--patch-file", default=None, help="Patch/diff file to read within the workspace")
     patch_review.add_argument("--patch-text", default=None, help="Inline patch text for small synthetic reviews")
@@ -2072,6 +2101,8 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
             return repo_dependency_graph_command(target=args.target, json_output=args.json, write_report=args.write_report)
         if args.repo_command == "analyze":
             return repo_analyze_command(target=args.target, json_output=args.json, write_report=args.write_report)
+        if args.repo_command == "architecture-drift":
+            return repo_architecture_drift_command(json_output=args.json, write_report=args.write_report)
         parser.print_help()
         return int(ExitCode.FAIL)
     if args.command == "patch-review":

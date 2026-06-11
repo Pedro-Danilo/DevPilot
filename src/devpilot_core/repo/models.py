@@ -222,3 +222,64 @@ class RepoHealthSummary:
             "mutations_performed": False,
             "preliminary": True,
         }
+
+
+@dataclass(frozen=True)
+class ArchitectureComponentRecord:
+    """One architecture component extracted from controlled Markdown docs."""
+
+    name: str
+    normalized_name: str
+    status: str
+    source_doc: str
+    source_type: str
+    documented_path: str | None = None
+    aliases: list[str] = field(default_factory=list)
+
+    def to_dict(self) -> dict[str, Any]:
+        data: dict[str, Any] = {
+            "name": self.name,
+            "normalized_name": self.normalized_name,
+            "status": self.status,
+            "source_doc": self.source_doc,
+            "source_type": self.source_type,
+            "aliases": sorted(set(self.aliases)),
+        }
+        if self.documented_path is not None:
+            data["documented_path"] = self.documented_path
+        return data
+
+
+@dataclass(frozen=True)
+class ArchitectureDriftMatrixRow:
+    """One documented-component/code-module matching row."""
+
+    documented_component: str | None
+    documented_status: str | None
+    source_doc: str | None
+    documented_path: str | None
+    code_module: str | None
+    code_path: str | None
+    match_type: str
+    confidence: float
+    drift_type: str
+    severity: str
+    rationale: str
+
+    def severity_order(self) -> int:
+        return {"block": 0, "fail": 1, "warning": 2, "info": 3}.get(self.severity, 4)
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "documented_component": self.documented_component,
+            "documented_status": self.documented_status,
+            "source_doc": self.source_doc,
+            "documented_path": self.documented_path,
+            "code_module": self.code_module,
+            "code_path": self.code_path,
+            "match_type": self.match_type,
+            "confidence": self.confidence,
+            "drift_type": self.drift_type,
+            "severity": self.severity,
+            "rationale": self.rationale,
+        }

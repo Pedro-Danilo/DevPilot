@@ -2,7 +2,7 @@
 title: "Runbook — DevPilot Local"
 doc_id: "DEVPL-OPS-002"
 status: "approved"
-version: "1.15.0"
+version: "1.16.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
@@ -2541,3 +2541,53 @@ La salida incluye:
 ### Riesgos y límites
 
 Esta versión es `implemented-initial`. Las heurísticas de módulos sin test cercano pueden producir falsos positivos; los TODO/FIXME se cuentan sin emitir contenido; el score debe usarse como señal de priorización y no como veredicto absoluto. No reemplaza SAST/SCA, análisis de licencias, análisis de vulnerabilidades, complejidad ciclomática industrial ni quality gate definitivo.
+
+
+## FUNC-SPRINT-38 — Architecture/code drift inicial
+
+### Propósito
+
+Detectar divergencias iniciales entre los componentes documentados en arquitectura y los módulos reales del código, manteniendo el análisis local, read-only y heurístico.
+
+### Comandos operativos
+
+```powershell
+python -m devpilot_core repo architecture-drift --json
+python -m devpilot_core repo architecture-drift --json --write-report
+```
+
+### Funcionamiento
+
+`ArchitectureDriftDetector` lee documentos controlados de `docs/02_architecture`, extrae componentes desde tablas Markdown y nodos Mermaid, construye un mapa de módulos reales mediante `DependencyGraphBuilder`, toma señales agregadas de `RepoAnalyzer` y produce una matriz con:
+
+- componente documentado;
+- estado documental (`implemented`, `implemented-initial`, `partial`, `planned`, `future`, `disabled` o `unknown`);
+- módulo/ruta de código asociado cuando existe;
+- `match_type` (`path`, `exact`, `alias`, `fuzzy`, `none`);
+- `confidence`;
+- tipo de drift (`in_sync`, `doc_missing`, `code_missing`, `name_mismatch`);
+- severidad.
+
+### Criterios PASS
+
+- El comando devuelve `CommandResult` y JSON parseable.
+- `--write-report` genera evidencia JSON/Markdown.
+- No modifica documentos ni código.
+- No requiere LLM, red ni APIs externas.
+- Separa ausencia documental (`doc_missing`) de ausencia de código (`code_missing`).
+- No marca como `BLOCK` componentes `planned`, `future` o `disabled` sin implementación.
+- Incluye niveles de confianza y racionales para revisión humana.
+- MIASI declara `repo.architecture_drift` como tool read-only.
+
+### Criterios BLOCK
+
+- Inventar relaciones no soportadas por nombre, alias o path.
+- Modificar documentos automáticamente.
+- Ejecutar código analizado.
+- Usar red, APIs externas o modelos.
+- Tratar componentes aspiracionales como fallos bloqueantes.
+- Habilitar patch apply, Git write, refactor execution, sandbox o deploy.
+
+### Riesgos y límites
+
+Esta versión es `implemented-initial`. El matching por alias/fuzzy puede generar falsos positivos o falsos negativos. La extracción desde Markdown/Mermaid es heurística y no reemplaza un Component Registry versionado, un catálogo de comandos ni una revisión arquitectónica manual. El detector no prueba relaciones runtime ni acoplamiento semántico profundo.

@@ -203,6 +203,7 @@
         "git.diff_report",
         "repo.dependency_graph",
         "repo.analyze",
+        "repo.architecture_drift",
         "report.write",
         "trace.append",
         "policy.check"

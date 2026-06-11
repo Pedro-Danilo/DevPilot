@@ -221,6 +221,18 @@
       ]
     },
     {
+      "tool_id": "repo.architecture_drift",
+      "name": "repo_architecture_drift_read_only",
+      "phase": "MVP+",
+      "side_effect": "report",
+      "risk_level": "medium",
+      "status": "implemented-initial",
+      "requires_approval": false,
+      "policy_rule_ids": [
+        "GIT_READ_ALLOW"
+      ]
+    },
+    {
       "tool_id": "patch.parse",
       "name": "parse_patch",
       "phase": "MVP+",

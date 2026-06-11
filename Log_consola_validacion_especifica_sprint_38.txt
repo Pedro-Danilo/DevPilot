@@ -1,0 +1,5839 @@
+(.venv) PS D:\Projects\DevPilot_Local> python -m devpilot_core repo architecture-drift --json
+{
+  "command": "repo architecture-drift",
+  "ok": true,
+  "exit_code": 0,
+  "message": "Architecture/code drift analysis completed in read-only mode.",
+  "data": {
+    "summary": {
+      "components_documented_total": 72,
+      "code_modules_total": 51,
+      "matrix_rows_total": 77,
+      "drift_counts": {
+        "code_missing": 26,
+        "doc_missing": 5,
+        "name_mismatch": 3,
+        "in_sync": 43
+      },
+      "severity_counts": {
+        "warning": 24,
+        "info": 53
+      },
+      "architecture_docs_total": 3,
+      "architecture_docs_existing": 3,
+      "dependency_nodes_total": 92,
+      "repo_health_score": 60,
+      "drift_detected": true,
+      "network_used": false,
+      "external_api_used": false,
+      "mutations_performed": false,
+      "preliminary": true
+    },
+    "architecture_docs": [
+      {
+        "path": "docs/02_architecture/architecture_document.md",
+        "exists": true,
+        "size_bytes": 22634,
+        "components_total": 4
+      },
+      {
+        "path": "docs/02_architecture/c4_container.md",
+        "exists": true,
+        "size_bytes": 11340,
+        "components_total": 17
+      },
+      {
+        "path": "docs/02_architecture/c4_component.md",
+        "exists": true,
+        "size_bytes": 8236,
+        "components_total": 51
+      }
+    ],
+    "documented_components": [
+      {
+        "name": "CLI",
+        "normalized_name": "cli",
+        "status": "unknown",
+        "source_doc": "docs/02_architecture/architecture_document.md",
+        "source_type": "table",
+        "aliases": [
+          "cli",
+          "command line",
+          "devpilot cli",
+          "interfaz cli"
+        ]
+      },
+      {
+        "name": "CostGuard",
+        "normalized_name": "costguard",
+        "status": "unknown",
+        "source_doc": "docs/02_architecture/architecture_document.md",
+        "source_type": "table",
+        "aliases": [
+          "costguard",
+          "guards",
+          "pathguard",
+          "policy",
+          "policy engine",
+          "secretguard"
+        ]
+      },
+      {
+        "name": "SecretGuard",
+        "normalized_name": "secretguard",
+        "status": "unknown",
+        "source_doc": "docs/02_architecture/architecture_document.md",
+        "source_type": "table",
+        "aliases": [
+          "costguard",
+          "guards",
+          "pathguard",
+          "policy",
+          "policy engine",
+          "secretguard"
+        ]
+      },
+      {
+        "name": "Testing",
+        "normalized_name": "testing",
+        "status": "unknown",
+        "source_doc": "docs/02_architecture/architecture_document.md",
+        "source_type": "table",
+        "aliases": [
+          "controlled tests",
+          "testing",
+          "tests.run"
+        ]
+      },
+      {
+        "name": "Agent Registry",
+        "normalized_name": "agent registry",
+        "status": "implemented",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "source_type": "mermaid",
+        "aliases": [
+          "agent registry",
+          "agent_registry",
+          "agentregistry",
+          "miasi",
+          "policy matrix",
+          "tool registry"
+        ]
+      },
+      {
+        "name": "AgentRuntime documental",
+        "normalized_name": "agentruntime documental",
+        "status": "implemented-initial",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "source_type": "mermaid",
+        "aliases": [
+          "agentruntime documental",
+          "agentruntime_documental",
+          "agentruntimedocumental"
+        ]
+      },
+      {
+        "name": "Agents",
+        "normalized_name": "agents",
+        "status": "implemented-initial",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "source_type": "table",
+        "aliases": [
+          "agent runtime",
+          "agentruntime",
+          "agents",
+          "documental agent"
+        ],
+        "documented_path": "src/devpilot_core/agents"
+      },
+      {
+        "name": "Application",
+        "normalized_name": "application",
+        "status": "implemented-initial",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "source_type": "table",
+        "aliases": [
+          "application",
+          "application service",
+          "applicationservice",
+          "appsvc"
+        ],
+        "documented_path": "src/devpilot_core/application"
+      },
+      {
+        "name": "ApplicationService",
+        "normalized_name": "applicationservice",
+        "status": "implemented-initial",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "source_type": "mermaid",
+        "aliases": [
+          "application",
+          "application service",
+          "applicationservice",
+          "appsvc"
+        ]
+      },
+      {
+        "name": "Approval workflow",
+        "normalized_name": "approval workflow",
+        "status": "planned",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "source_type": "mermaid",
+        "aliases": [
+          "approval",
+          "approval queue",
+          "approval workflow",
+          "approval_workflow",
+          "approvalworkflow",
+          "human approval"
+        ]
+      },
+      {
+        "name": "Artifact Validator",
+        "normalized_name": "artifact validator",
+        "status": "implemented",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "source_type": "mermaid",
+        "aliases": [
+          "artifact validator",
+          "artifact_validator",
+          "artifactvalidator",
+          "checklist",
+          "frontmatter",
+          "readiness",
+          "validation",
+          "validators"
+        ]
+      },
+      {
+        "name": "Checklist Validator",
+        "normalized_name": "checklist validator",
+        "status": "implemented",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "source_type": "mermaid",
+        "aliases": [
+          "checklist validator",
+          "checklist_validator",
+          "checklistvalidator"
+        ]
+      },
+      {
+        "name": "CLI",
+        "normalized_name": "cli",
+        "status": "implemented",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "source_type": "table",
+        "aliases": [
+          "cli",
+          "command line",
+          "devpilot cli",
+          "interfaz cli"
+        ],
+        "documented_path": "src/devpilot_core/cli.py"
+      },
+      {
+        "name": "CLI",
+        "normalized_name": "cli",
+        "status": "implemented",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "source_type": "mermaid",
+        "aliases": [
+          "cli",
+          "command line",
+          "devpilot cli",
+          "interfaz cli"
+        ]
+      },
+      {
+        "name": "climodels",
+        "normalized_name": "climodels",
+        "status": "implemented",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "source_type": "table",
+        "aliases": [
+          "cli_models",
+          "climodels",
+          "commandresult",
+          "exitcode",
+          "finding"
+        ],
+        "documented_path": "src/devpilot_core/cli_models.py"
+      },
+      {
+        "name": "CostGuard",
+        "normalized_name": "costguard",
+        "status": "implemented",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "source_type": "mermaid",
+        "aliases": [
+          "costguard",
+          "guards",
+          "pathguard",
+          "policy",
+          "policy engine",
+          "secretguard"
+        ]
+      },
+      {
+        "name": "Desktop UI",
+        "normalized_name": "desktop ui",
+        "status": "future",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "source_type": "mermaid",
+        "aliases": [
+          "desktop ui",
+          "desktop_ui",
+          "desktopui"
+        ]
+      },
+      {
+        "name": "DTOs ApplicationRequest/Response",
+        "normalized_name": "dtos applicationrequest response",
+        "status": "implemented-initial",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "source_type": "mermaid",
+        "aliases": [
+          "dtos applicationrequest response",
+          "dtos_applicationrequest_response",
+          "dtosapplicationrequestresponse"
+        ]
+      },
+      {
+        "name": "Eval Harness offline",
+        "normalized_name": "eval harness offline",
+        "status": "implemented-initial",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "source_type": "mermaid",
+        "aliases": [
+          "eval harness offline",
+          "eval_harness_offline",
+          "evalharnessoffline"
+        ]
+      },
+      {
+        "name": "Evals",
+        "normalized_name": "evals",
+        "status": "implemented-initial",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "source_type": "table",
+        "aliases": [
+          "eval harness",
+          "evals",
+          "evaluation"
+        ],
+        "documented_path": "src/devpilot_core/evals"
+      },
+      {
+        "name": "EventLogger JSONL",
+        "normalized_name": "eventlogger jsonl",
+        "status": "implemented-initial",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "source_type": "mermaid",
+        "aliases": [
+          "eventlogger jsonl",
+          "eventlogger_jsonl",
+          "eventloggerjsonl"
+        ]
+      },
+      {
+        "name": "External APIs",
+        "normalized_name": "external apis",
+        "status": "disabled",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "source_type": "mermaid",
+        "aliases": [
+          "external apis",
+          "external_apis",
+          "externalapis"
+        ]
+      },
+      {
+        "name": "Frontmatter Validator",
+        "normalized_name": "frontmatter validator",
+        "status": "implemented",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "source_type": "mermaid",
+        "aliases": [
+          "frontmatter validator",
+          "frontmatter_validator",
+          "frontmattervalidator"
+        ]
+      },
+      {
+        "name": "GitAdapter + RepoInventory",
+        "normalized_name": "gitadapter repoinventory",
+        "status": "implemented-initial",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "source_type": "mermaid",
+        "aliases": [
+          "gitadapter repoinventory",
+          "gitadapter_repoinventory",
+          "gitadapterrepoinventory"
+        ]
+      },
+      {
+        "name": "LocalStore SQLite v0",
+        "normalized_name": "localstore sqlite v0",
+        "status": "implemented-initial",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "source_type": "mermaid",
+        "aliases": [
+          "localstore sqlite v0",
+          "localstore_sqlite_v0",
+          "localstoresqlitev0"
+        ]
+      },
+      {
+        "name": "MIASI",
+        "normalized_name": "miasi",
+        "status": "implemented",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "source_type": "table",
+        "aliases": [
+          "agent registry",
+          "miasi",
+          "policy matrix",
+          "tool registry"
+        ],
+        "documented_path": "src/devpilot_core/miasi"
+      },
+      {
+        "name": "MIASI Registry Validator",
+        "normalized_name": "miasi registry validator",
+        "status": "implemented",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "source_type": "mermaid",
+        "aliases": [
+          "miasi registry validator",
+          "miasi_registry_validator",
+          "miasiregistryvalidator"
+        ]
+      },
+      {
+        "name": "MockModelAdapter",
+        "normalized_name": "mockmodeladapter",
+        "status": "implemented",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "source_type": "mermaid",
+        "aliases": [
+          "mockmodeladapter",
+          "model adapter",
+          "modeladapter",
+          "modeling"
+        ]
+      },
+      {
+        "name": "ModelAdapter Router",
+        "normalized_name": "modeladapter router",
+        "status": "partial",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "source_type": "mermaid",
+        "aliases": [
+          "modeladapter router",
+          "modeladapter_router",
+          "modeladapterrouter"
+        ]
+      },
+      {
+        "name": "Modeling",
+        "normalized_name": "modeling",
+        "status": "partial",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "source_type": "table",
+        "aliases": [
+          "mockmodeladapter",
+          "model adapter",
+          "modeladapter",
+          "modeling"
+        ],
+        "documented_path": "src/devpilot_core/modeling"
+      },
+      {
+        "name": "Observability",
+        "normalized_name": "observability",
+        "status": "implemented-initial",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "source_type": "table",
+        "aliases": [
+          "eventlogger",
+          "jsonl",
+          "obs",
+          "observability",
+          "traces"
+        ],
+        "documented_path": "src/devpilot_core/observability"
+      },
+      {
+        "name": "Ollama/LM Studio clients",
+        "normalized_name": "ollama lm studio clients",
+        "status": "planned",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "source_type": "mermaid",
+        "aliases": [
+          "ollama lm studio clients",
+          "ollama_lm_studio_clients",
+          "ollamalmstudioclients"
+        ]
+      },
+      {
+        "name": "Patch apply sandbox",
+        "normalized_name": "patch apply sandbox",
+        "status": "planned",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "source_type": "mermaid",
+        "aliases": [
+          "patch apply sandbox",
+          "patch_apply_sandbox",
+          "patchapplysandbox"
+        ]
+      },
+      {
+        "name": "Patch/Code Review dry-run",
+        "normalized_name": "patch code review dry run",
+        "status": "implemented-initial",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "source_type": "mermaid",
+        "aliases": [
+          "patch code review dry run",
+          "patch_code_review_dry_run",
+          "patchcodereviewdryrun"
+        ]
+      },
+      {
+        "name": "PathGuard",
+        "normalized_name": "pathguard",
+        "status": "implemented",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "source_type": "mermaid",
+        "aliases": [
+          "costguard",
+          "guards",
+          "pathguard",
+          "policy",
+          "policy engine",
+          "secretguard"
+        ]
+      },
+      {
+        "name": "Policy",
+        "normalized_name": "policy",
+        "status": "implemented",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "source_type": "table",
+        "aliases": [
+          "costguard",
+          "guards",
+          "pathguard",
+          "policy",
+          "policy engine",
+          "secretguard"
+        ],
+        "documented_path": "src/devpilot_core/policy"
+      },
+      {
+        "name": "Policy Engine + Guards",
+        "normalized_name": "policy engine guards",
+        "status": "implemented",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "source_type": "mermaid",
+        "aliases": [
+          "policy engine guards",
+          "policy_engine_guards",
+          "policyengineguards"
+        ]
+      },
+      {
+        "name": "Policy Matrix",
+        "normalized_name": "policy matrix",
+        "status": "implemented",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "source_type": "mermaid",
+        "aliases": [
+          "agent registry",
+          "miasi",
+          "policy matrix",
+          "policy_matrix",
+          "policymatrix",
+          "tool registry"
+        ]
+      },
+      {
+        "name": "Readiness Gate",
+        "normalized_name": "readiness gate",
+        "status": "implemented",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "source_type": "mermaid",
+        "aliases": [
+          "readiness gate",
+          "readiness_gate",
+          "readinessgate"
+        ]
+      },
+      {
+        "name": "Refactor",
+        "normalized_name": "refactor",
+        "status": "implemented-initial",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "source_type": "table",
+        "aliases": [
+          "refactor",
+          "refactor planner",
+          "safe refactor"
+        ],
+        "documented_path": "src/devpilot_core/refactor"
+      },
+      {
+        "name": "Refactor execution",
+        "normalized_name": "refactor execution",
+        "status": "planned",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "source_type": "mermaid",
+        "aliases": [
+          "refactor execution",
+          "refactor_execution",
+          "refactorexecution"
+        ]
+      },
+      {
+        "name": "Repo",
+        "normalized_name": "repo",
+        "status": "implemented-initial",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "source_type": "table",
+        "aliases": [
+          "dependencygraph",
+          "git adapter",
+          "gitadapter",
+          "repo",
+          "repo analyzer",
+          "repo inventory"
+        ],
+        "documented_path": "src/devpilot_core/repo"
+      },
+      {
+        "name": "Report Engine",
+        "normalized_name": "report engine",
+        "status": "implemented",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "source_type": "mermaid",
+        "aliases": [
+          "evidence report",
+          "report engine",
+          "report_engine",
+          "reportengine",
+          "reports"
+        ]
+      },
+      {
+        "name": "Reports",
+        "normalized_name": "reports",
+        "status": "implemented",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "source_type": "table",
+        "aliases": [
+          "evidence report",
+          "report engine",
+          "reports"
+        ],
+        "documented_path": "src/devpilot_core/reports"
+      },
+      {
+        "name": "Review",
+        "normalized_name": "review",
+        "status": "implemented-initial",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "source_type": "table",
+        "aliases": [
+          "code review",
+          "patch review",
+          "review"
+        ],
+        "documented_path": "src/devpilot_core/review"
+      },
+      {
+        "name": "Safe Refactor Planner",
+        "normalized_name": "safe refactor planner",
+        "status": "implemented-initial",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "source_type": "mermaid",
+        "aliases": [
+          "safe refactor planner",
+          "safe_refactor_planner",
+          "saferefactorplanner"
+        ]
+      },
+      {
+        "name": "SecretGuard",
+        "normalized_name": "secretguard",
+        "status": "implemented",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "source_type": "mermaid",
+        "aliases": [
+          "costguard",
+          "guards",
+          "pathguard",
+          "policy",
+          "policy engine",
+          "secretguard"
+        ]
+      },
+      {
+        "name": "Standards",
+        "normalized_name": "standards",
+        "status": "implemented",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "source_type": "table",
+        "aliases": [
+          "miasi standards",
+          "mipsoftware",
+          "standards",
+          "standards registry"
+        ],
+        "documented_path": "src/devpilot_core/standards"
+      },
+      {
+        "name": "Standards Registry",
+        "normalized_name": "standards registry",
+        "status": "implemented",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "source_type": "mermaid",
+        "aliases": [
+          "miasi standards",
+          "mipsoftware",
+          "standards",
+          "standards registry",
+          "standards_registry",
+          "standardsregistry"
+        ]
+      },
+      {
+        "name": "Store",
+        "normalized_name": "store",
+        "status": "implemented-initial",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "source_type": "table",
+        "aliases": [
+          "localstore",
+          "persistence",
+          "sqlite",
+          "store"
+        ],
+        "documented_path": "src/devpilot_core/store"
+      },
+      {
+        "name": "Tool Registry",
+        "normalized_name": "tool registry",
+        "status": "implemented",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "source_type": "mermaid",
+        "aliases": [
+          "agent registry",
+          "miasi",
+          "policy matrix",
+          "tool registry",
+          "tool_registry",
+          "toolregistry"
+        ]
+      },
+      {
+        "name": "Validators",
+        "normalized_name": "validators",
+        "status": "implemented",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "source_type": "table",
+        "aliases": [
+          "artifact validator",
+          "checklist",
+          "frontmatter",
+          "readiness",
+          "validation",
+          "validators"
+        ],
+        "documented_path": "src/devpilot_core/validators"
+      },
+      {
+        "name": "Validators",
+        "normalized_name": "validators",
+        "status": "implemented",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "source_type": "mermaid",
+        "aliases": [
+          "artifact validator",
+          "checklist",
+          "frontmatter",
+          "readiness",
+          "validation",
+          "validators"
+        ]
+      },
+      {
+        "name": "Web UI/API",
+        "normalized_name": "web ui api",
+        "status": "future",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "source_type": "mermaid",
+        "aliases": [
+          "web ui api",
+          "web_ui_api",
+          "webuiapi"
+        ]
+      },
+      {
+        "name": "Workspace",
+        "normalized_name": "workspace",
+        "status": "implemented-initial",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "source_type": "table",
+        "aliases": [
+          "workspace",
+          "workspace detector",
+          "workspace manager"
+        ],
+        "documented_path": "src/devpilot_core/workspace"
+      },
+      {
+        "name": "Agents",
+        "normalized_name": "agents",
+        "status": "unknown",
+        "source_doc": "docs/02_architecture/c4_container.md",
+        "source_type": "table",
+        "aliases": [
+          "agent runtime",
+          "agentruntime",
+          "agents",
+          "documental agent"
+        ]
+      },
+      {
+        "name": "ApplicationService",
+        "normalized_name": "applicationservice",
+        "status": "implemented-initial",
+        "source_doc": "docs/02_architecture/c4_container.md",
+        "source_type": "table",
+        "aliases": [
+          "application",
+          "application service",
+          "applicationservice",
+          "appsvc"
+        ]
+      },
+      {
+        "name": "Approval",
+        "normalized_name": "approval",
+        "status": "unknown",
+        "source_doc": "docs/02_architecture/c4_container.md",
+        "source_type": "table",
+        "aliases": [
+          "approval",
+          "approval queue",
+          "approval workflow",
+          "human approval"
+        ]
+      },
+      {
+        "name": "Approval workflow",
+        "normalized_name": "approval workflow",
+        "status": "planned",
+        "source_doc": "docs/02_architecture/c4_container.md",
+        "source_type": "table",
+        "aliases": [
+          "approval",
+          "approval queue",
+          "approval workflow",
+          "approval_workflow",
+          "approvalworkflow",
+          "human approval"
+        ]
+      },
+      {
+        "name": "Artifact",
+        "normalized_name": "artifact",
+        "status": "unknown",
+        "source_doc": "docs/02_architecture/c4_container.md",
+        "source_type": "table",
+        "aliases": [
+          "artifact"
+        ]
+      },
+      {
+        "name": "CLI",
+        "normalized_name": "cli",
+        "status": "unknown",
+        "source_doc": "docs/02_architecture/c4_container.md",
+        "source_type": "table",
+        "aliases": [
+          "cli",
+          "command line",
+          "devpilot cli",
+          "interfaz cli"
+        ]
+      },
+      {
+        "name": "Desktop UI",
+        "normalized_name": "desktop ui",
+        "status": "future",
+        "source_doc": "docs/02_architecture/c4_container.md",
+        "source_type": "table",
+        "aliases": [
+          "desktop ui",
+          "desktop_ui",
+          "desktopui"
+        ]
+      },
+      {
+        "name": "DevPilot CLI",
+        "normalized_name": "devpilot cli",
+        "status": "implemented",
+        "source_doc": "docs/02_architecture/c4_container.md",
+        "source_type": "table",
+        "aliases": [
+          "cli",
+          "command line",
+          "devpilot cli",
+          "devpilot_cli",
+          "devpilotcli",
+          "interfaz cli"
+        ]
+      },
+      {
+        "name": "DevPilot Core",
+        "normalized_name": "devpilot core",
+        "status": "implemented",
+        "source_doc": "docs/02_architecture/c4_container.md",
+        "source_type": "table",
+        "aliases": [
+          "devpilot core",
+          "devpilot_core",
+          "devpilotcore"
+        ]
+      },
+      {
+        "name": "External LLM APIs",
+        "normalized_name": "external llm apis",
+        "status": "disabled",
+        "source_doc": "docs/02_architecture/c4_container.md",
+        "source_type": "table",
+        "aliases": [
+          "external llm apis",
+          "external_llm_apis",
+          "externalllmapis"
+        ]
+      },
+      {
+        "name": "Filesystem/docs",
+        "normalized_name": "filesystem docs",
+        "status": "implemented",
+        "source_doc": "docs/02_architecture/c4_container.md",
+        "source_type": "table",
+        "aliases": [
+          "filesystem docs",
+          "filesystem_docs",
+          "filesystemdocs"
+        ]
+      },
+      {
+        "name": "Git local",
+        "normalized_name": "git local",
+        "status": "implemented-initial",
+        "source_doc": "docs/02_architecture/c4_container.md",
+        "source_type": "table",
+        "aliases": [
+          "git local",
+          "git_local",
+          "gitlocal"
+        ]
+      },
+      {
+        "name": "MCP/API tools",
+        "normalized_name": "mcp api tools",
+        "status": "future",
+        "source_doc": "docs/02_architecture/c4_container.md",
+        "source_type": "table",
+        "aliases": [
+          "mcp api tools",
+          "mcp_api_tools",
+          "mcpapitools"
+        ]
+      },
+      {
+        "name": "Model provider layer",
+        "normalized_name": "model provider layer",
+        "status": "partial",
+        "source_doc": "docs/02_architecture/c4_container.md",
+        "source_type": "table",
+        "aliases": [
+          "model provider layer",
+          "model_provider_layer",
+          "modelproviderlayer"
+        ]
+      },
+      {
+        "name": "SQLite LocalStore",
+        "normalized_name": "sqlite localstore",
+        "status": "implemented-initial",
+        "source_doc": "docs/02_architecture/c4_container.md",
+        "source_type": "table",
+        "aliases": [
+          "sqlite localstore",
+          "sqlite_localstore",
+          "sqlitelocalstore"
+        ]
+      },
+      {
+        "name": "Web UI/API",
+        "normalized_name": "web ui api",
+        "status": "future",
+        "source_doc": "docs/02_architecture/c4_container.md",
+        "source_type": "table",
+        "aliases": [
+          "web ui api",
+          "web_ui_api",
+          "webuiapi"
+        ]
+      },
+      {
+        "name": "Workspace",
+        "normalized_name": "workspace",
+        "status": "unknown",
+        "source_doc": "docs/02_architecture/c4_container.md",
+        "source_type": "table",
+        "aliases": [
+          "workspace",
+          "workspace detector",
+          "workspace manager"
+        ]
+      }
+    ],
+    "code_modules": [
+      {
+        "module": "agents",
+        "path": "src/devpilot_core/agents",
+        "package": "devpilot_core",
+        "nodes_total": 3,
+        "fan_in": 2,
+        "fan_out": 7,
+        "aliases": [
+          "agents",
+          "agentruntime",
+          "agent runtime",
+          "documental agent"
+        ]
+      },
+      {
+        "module": "application",
+        "path": "src/devpilot_core/application",
+        "package": "devpilot_core",
+        "nodes_total": 3,
+        "fan_in": 1,
+        "fan_out": 7,
+        "aliases": [
+          "application",
+          "applicationservice",
+          "application service",
+          "appsvc"
+        ]
+      },
+      {
+        "module": "approval",
+        "path": "src/devpilot_core/approval",
+        "package": "devpilot_core",
+        "nodes_total": 5,
+        "fan_in": 5,
+        "fan_out": 4,
+        "aliases": [
+          "approval",
+          "approval workflow",
+          "human approval",
+          "approval queue"
+        ]
+      },
+      {
+        "module": "cli",
+        "path": "src/devpilot_core/cli.py",
+        "package": "devpilot_core",
+        "nodes_total": 1,
+        "fan_in": 1,
+        "fan_out": 29,
+        "aliases": [
+          "cli",
+          "devpilot cli",
+          "command line",
+          "interfaz cli"
+        ]
+      },
+      {
+        "module": "cli_models",
+        "path": "src/devpilot_core/cli_models.py",
+        "package": "devpilot_core",
+        "nodes_total": 1,
+        "fan_in": 50,
+        "fan_out": 0,
+        "aliases": [
+          "cli_models",
+          "commandresult",
+          "finding",
+          "exitcode",
+          "cli models",
+          "climodels"
+        ]
+      },
+      {
+        "module": "devpilot_core",
+        "path": "src/devpilot_core/devpilot_core",
+        "package": "devpilot_core",
+        "nodes_total": 1,
+        "fan_in": 15,
+        "fan_out": 0,
+        "aliases": [
+          "devpilot_core",
+          "devpilot core",
+          "devpilotcore"
+        ]
+      },
+      {
+        "module": "errors",
+        "path": "src/devpilot_core/errors.py",
+        "package": "devpilot_core",
+        "nodes_total": 1,
+        "fan_in": 1,
+        "fan_out": 1,
+        "aliases": [
+          "errors",
+          "devpiloterror"
+        ]
+      },
+      {
+        "module": "evals",
+        "path": "src/devpilot_core/evals",
+        "package": "devpilot_core",
+        "nodes_total": 3,
+        "fan_in": 2,
+        "fan_out": 5,
+        "aliases": [
+          "evals",
+          "eval harness",
+          "evaluation"
+        ]
+      },
+      {
+        "module": "execution",
+        "path": "src/devpilot_core/execution",
+        "package": "devpilot_core",
+        "nodes_total": 4,
+        "fan_in": 2,
+        "fan_out": 5,
+        "aliases": [
+          "execution",
+          "safesubprocess",
+          "safe subprocess",
+          "tests.run"
+        ]
+      },
+      {
+        "module": "miasi",
+        "path": "src/devpilot_core/miasi",
+        "package": "devpilot_core",
+        "nodes_total": 2,
+        "fan_in": 3,
+        "fan_out": 1,
+        "aliases": [
+          "miasi",
+          "agent registry",
+          "tool registry",
+          "policy matrix"
+        ]
+      },
+      {
+        "module": "modeling",
+        "path": "src/devpilot_core/modeling",
+        "package": "devpilot_core",
+        "nodes_total": 5,
+        "fan_in": 4,
+        "fan_out": 5,
+        "aliases": [
+          "modeling",
+          "modeladapter",
+          "model adapter",
+          "mockmodeladapter"
+        ]
+      },
+      {
+        "module": "observability",
+        "path": "src/devpilot_core/observability",
+        "package": "devpilot_core",
+        "nodes_total": 2,
+        "fan_in": 2,
+        "fan_out": 2,
+        "aliases": [
+          "observability",
+          "eventlogger",
+          "jsonl",
+          "traces",
+          "obs"
+        ]
+      },
+      {
+        "module": "policy",
+        "path": "src/devpilot_core/policy",
+        "package": "devpilot_core",
+        "nodes_total": 8,
+        "fan_in": 19,
+        "fan_out": 8,
+        "aliases": [
+          "policy",
+          "policy engine",
+          "guards",
+          "pathguard",
+          "secretguard",
+          "costguard"
+        ]
+      },
+      {
+        "module": "refactor",
+        "path": "src/devpilot_core/refactor",
+        "package": "devpilot_core",
+        "nodes_total": 2,
+        "fan_in": 1,
+        "fan_out": 3,
+        "aliases": [
+          "refactor",
+          "safe refactor",
+          "refactor planner"
+        ]
+      },
+      {
+        "module": "repo",
+        "path": "src/devpilot_core/repo",
+        "package": "devpilot_core",
+        "nodes_total": 8,
+        "fan_in": 3,
+        "fan_out": 6,
+        "aliases": [
+          "repo",
+          "gitadapter",
+          "git adapter",
+          "repo inventory",
+          "repo analyzer",
+          "dependencygraph"
+        ]
+      },
+      {
+        "module": "reports",
+        "path": "src/devpilot_core/reports",
+        "package": "devpilot_core",
+        "nodes_total": 3,
+        "fan_in": 3,
+        "fan_out": 3,
+        "aliases": [
+          "reports",
+          "report engine",
+          "evidence report"
+        ]
+      },
+      {
+        "module": "review",
+        "path": "src/devpilot_core/review",
+        "package": "devpilot_core",
+        "nodes_total": 3,
+        "fan_in": 2,
+        "fan_out": 2,
+        "aliases": [
+          "review",
+          "patch review",
+          "code review"
+        ]
+      },
+      {
+        "module": "schemas",
+        "path": "src/devpilot_core/schemas",
+        "package": "devpilot_core",
+        "nodes_total": 6,
+        "fan_in": 3,
+        "fan_out": 3,
+        "aliases": [
+          "schemas",
+          "schema registry",
+          "schema validator"
+        ]
+      },
+      {
+        "module": "security",
+        "path": "src/devpilot_core/security",
+        "package": "devpilot_core",
+        "nodes_total": 3,
+        "fan_in": 1,
+        "fan_out": 6,
+        "aliases": [
+          "security",
+          "security readiness",
+          "policy simulation"
+        ]
+      },
+      {
+        "module": "standards",
+        "path": "src/devpilot_core/standards",
+        "package": "devpilot_core",
+        "nodes_total": 3,
+        "fan_in": 3,
+        "fan_out": 5,
+        "aliases": [
+          "standards",
+          "standards registry",
+          "mipsoftware",
+          "miasi standards"
+        ]
+      },
+      {
+        "module": "store",
+        "path": "src/devpilot_core/store",
+        "package": "devpilot_core",
+        "nodes_total": 2,
+        "fan_in": 4,
+        "fan_out": 2,
+        "aliases": [
+          "store",
+          "localstore",
+          "sqlite",
+          "persistence"
+        ]
+      },
+      {
+        "module": "testing",
+        "path": "src/devpilot_core/testing",
+        "package": "devpilot_core",
+        "nodes_total": 3,
+        "fan_in": 2,
+        "fan_out": 4,
+        "aliases": [
+          "testing",
+          "tests.run",
+          "controlled tests"
+        ]
+      },
+      {
+        "module": "traceability",
+        "path": "src/devpilot_core/traceability",
+        "package": "devpilot_core",
+        "nodes_total": 8,
+        "fan_in": 3,
+        "fan_out": 4,
+        "aliases": [
+          "traceability",
+          "traceability engine",
+          "architecture drift"
+        ]
+      },
+      {
+        "module": "validation",
+        "path": "src/devpilot_core/validation",
+        "package": "devpilot_core",
+        "nodes_total": 3,
+        "fan_in": 3,
+        "fan_out": 5,
+        "aliases": [
+          "validation gateway",
+          "validation"
+        ]
+      },
+      {
+        "module": "validators",
+        "path": "src/devpilot_core/validators",
+        "package": "devpilot_core",
+        "nodes_total": 6,
+        "fan_in": 8,
+        "fan_out": 6,
+        "aliases": [
+          "validators",
+          "validation",
+          "frontmatter",
+          "artifact validator",
+          "checklist",
+          "readiness"
+        ]
+      },
+      {
+        "module": "workspace",
+        "path": "src/devpilot_core/workspace",
+        "package": "devpilot_core",
+        "nodes_total": 2,
+        "fan_in": 1,
+        "fan_out": 1,
+        "aliases": [
+          "workspace",
+          "workspace manager",
+          "workspace detector"
+        ]
+      }
+    ],
+    "matrix": [
+      {
+        "documented_component": "AgentRuntime documental",
+        "documented_status": "implemented-initial",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "documented_path": null,
+        "code_module": null,
+        "code_path": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing",
+        "severity": "warning",
+        "rationale": "No match reached minimum confidence threshold."
+      },
+      {
+        "documented_component": "Artifact",
+        "documented_status": "unknown",
+        "source_doc": "docs/02_architecture/c4_container.md",
+        "documented_path": null,
+        "code_module": null,
+        "code_path": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing",
+        "severity": "warning",
+        "rationale": "No match reached minimum confidence threshold."
+      },
+      {
+        "documented_component": "Checklist Validator",
+        "documented_status": "implemented",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "documented_path": null,
+        "code_module": null,
+        "code_path": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing",
+        "severity": "warning",
+        "rationale": "No match reached minimum confidence threshold."
+      },
+      {
+        "documented_component": "DTOs ApplicationRequest/Response",
+        "documented_status": "implemented-initial",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "documented_path": null,
+        "code_module": null,
+        "code_path": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing",
+        "severity": "warning",
+        "rationale": "No match reached minimum confidence threshold."
+      },
+      {
+        "documented_component": "Eval Harness offline",
+        "documented_status": "implemented-initial",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "documented_path": null,
+        "code_module": null,
+        "code_path": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing",
+        "severity": "warning",
+        "rationale": "No match reached minimum confidence threshold."
+      },
+      {
+        "documented_component": "EventLogger JSONL",
+        "documented_status": "implemented-initial",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "documented_path": null,
+        "code_module": null,
+        "code_path": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing",
+        "severity": "warning",
+        "rationale": "No match reached minimum confidence threshold."
+      },
+      {
+        "documented_component": "Filesystem/docs",
+        "documented_status": "implemented",
+        "source_doc": "docs/02_architecture/c4_container.md",
+        "documented_path": null,
+        "code_module": null,
+        "code_path": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing",
+        "severity": "warning",
+        "rationale": "No match reached minimum confidence threshold."
+      },
+      {
+        "documented_component": "Frontmatter Validator",
+        "documented_status": "implemented",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "documented_path": null,
+        "code_module": null,
+        "code_path": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing",
+        "severity": "warning",
+        "rationale": "No match reached minimum confidence threshold."
+      },
+      {
+        "documented_component": "Git local",
+        "documented_status": "implemented-initial",
+        "source_doc": "docs/02_architecture/c4_container.md",
+        "documented_path": null,
+        "code_module": null,
+        "code_path": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing",
+        "severity": "warning",
+        "rationale": "No match reached minimum confidence threshold."
+      },
+      {
+        "documented_component": "GitAdapter + RepoInventory",
+        "documented_status": "implemented-initial",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "documented_path": null,
+        "code_module": null,
+        "code_path": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing",
+        "severity": "warning",
+        "rationale": "No match reached minimum confidence threshold."
+      },
+      {
+        "documented_component": "LocalStore SQLite v0",
+        "documented_status": "implemented-initial",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "documented_path": null,
+        "code_module": null,
+        "code_path": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing",
+        "severity": "warning",
+        "rationale": "No match reached minimum confidence threshold."
+      },
+      {
+        "documented_component": "MIASI Registry Validator",
+        "documented_status": "implemented",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "documented_path": null,
+        "code_module": null,
+        "code_path": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing",
+        "severity": "warning",
+        "rationale": "No match reached minimum confidence threshold."
+      },
+      {
+        "documented_component": "Model provider layer",
+        "documented_status": "partial",
+        "source_doc": "docs/02_architecture/c4_container.md",
+        "documented_path": null,
+        "code_module": null,
+        "code_path": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing",
+        "severity": "warning",
+        "rationale": "No match reached minimum confidence threshold."
+      },
+      {
+        "documented_component": "ModelAdapter Router",
+        "documented_status": "partial",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "documented_path": null,
+        "code_module": null,
+        "code_path": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing",
+        "severity": "warning",
+        "rationale": "No match reached minimum confidence threshold."
+      },
+      {
+        "documented_component": "Policy Engine + Guards",
+        "documented_status": "implemented",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "documented_path": null,
+        "code_module": null,
+        "code_path": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing",
+        "severity": "warning",
+        "rationale": "No match reached minimum confidence threshold."
+      },
+      {
+        "documented_component": "Readiness Gate",
+        "documented_status": "implemented",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "documented_path": null,
+        "code_module": null,
+        "code_path": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing",
+        "severity": "warning",
+        "rationale": "No match reached minimum confidence threshold."
+      },
+      {
+        "documented_component": null,
+        "documented_status": null,
+        "source_doc": null,
+        "documented_path": null,
+        "code_module": "errors",
+        "code_path": "src/devpilot_core/errors.py",
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "doc_missing",
+        "severity": "warning",
+        "rationale": "Code module has no evident architecture-documentation match."
+      },
+      {
+        "documented_component": null,
+        "documented_status": null,
+        "source_doc": null,
+        "documented_path": null,
+        "code_module": "execution",
+        "code_path": "src/devpilot_core/execution",
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "doc_missing",
+        "severity": "warning",
+        "rationale": "Code module has no evident architecture-documentation match."
+      },
+      {
+        "documented_component": null,
+        "documented_status": null,
+        "source_doc": null,
+        "documented_path": null,
+        "code_module": "schemas",
+        "code_path": "src/devpilot_core/schemas",
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "doc_missing",
+        "severity": "warning",
+        "rationale": "Code module has no evident architecture-documentation match."
+      },
+      {
+        "documented_component": null,
+        "documented_status": null,
+        "source_doc": null,
+        "documented_path": null,
+        "code_module": "security",
+        "code_path": "src/devpilot_core/security",
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "doc_missing",
+        "severity": "warning",
+        "rationale": "Code module has no evident architecture-documentation match."
+      },
+      {
+        "documented_component": null,
+        "documented_status": null,
+        "source_doc": null,
+        "documented_path": null,
+        "code_module": "traceability",
+        "code_path": "src/devpilot_core/traceability",
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "doc_missing",
+        "severity": "warning",
+        "rationale": "Code module has no evident architecture-documentation match."
+      },
+      {
+        "documented_component": "Patch/Code Review dry-run",
+        "documented_status": "implemented-initial",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "documented_path": null,
+        "code_module": "review",
+        "code_path": "src/devpilot_core/review",
+        "match_type": "fuzzy",
+        "confidence": 0.6,
+        "drift_type": "name_mismatch",
+        "severity": "warning",
+        "rationale": "Best fuzzy match between component and code module."
+      },
+      {
+        "documented_component": "SQLite LocalStore",
+        "documented_status": "implemented-initial",
+        "source_doc": "docs/02_architecture/c4_container.md",
+        "documented_path": null,
+        "code_module": "store",
+        "code_path": "src/devpilot_core/store",
+        "match_type": "fuzzy",
+        "confidence": 0.5,
+        "drift_type": "name_mismatch",
+        "severity": "warning",
+        "rationale": "Best fuzzy match between component and code module."
+      },
+      {
+        "documented_component": "Safe Refactor Planner",
+        "documented_status": "implemented-initial",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "documented_path": null,
+        "code_module": "refactor",
+        "code_path": "src/devpilot_core/refactor",
+        "match_type": "fuzzy",
+        "confidence": 1.0,
+        "drift_type": "name_mismatch",
+        "severity": "warning",
+        "rationale": "Best fuzzy match between component and code module."
+      },
+      {
+        "documented_component": "Desktop UI",
+        "documented_status": "future",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "documented_path": null,
+        "code_module": null,
+        "code_path": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing",
+        "severity": "info",
+        "rationale": "No match reached minimum confidence threshold."
+      },
+      {
+        "documented_component": "Desktop UI",
+        "documented_status": "future",
+        "source_doc": "docs/02_architecture/c4_container.md",
+        "documented_path": null,
+        "code_module": null,
+        "code_path": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing",
+        "severity": "info",
+        "rationale": "No match reached minimum confidence threshold."
+      },
+      {
+        "documented_component": "External APIs",
+        "documented_status": "disabled",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "documented_path": null,
+        "code_module": null,
+        "code_path": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing",
+        "severity": "info",
+        "rationale": "No match reached minimum confidence threshold."
+      },
+      {
+        "documented_component": "External LLM APIs",
+        "documented_status": "disabled",
+        "source_doc": "docs/02_architecture/c4_container.md",
+        "documented_path": null,
+        "code_module": null,
+        "code_path": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing",
+        "severity": "info",
+        "rationale": "No match reached minimum confidence threshold."
+      },
+      {
+        "documented_component": "MCP/API tools",
+        "documented_status": "future",
+        "source_doc": "docs/02_architecture/c4_container.md",
+        "documented_path": null,
+        "code_module": null,
+        "code_path": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing",
+        "severity": "info",
+        "rationale": "No match reached minimum confidence threshold."
+      },
+      {
+        "documented_component": "Ollama/LM Studio clients",
+        "documented_status": "planned",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "documented_path": null,
+        "code_module": null,
+        "code_path": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing",
+        "severity": "info",
+        "rationale": "No match reached minimum confidence threshold."
+      },
+      {
+        "documented_component": "Patch apply sandbox",
+        "documented_status": "planned",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "documented_path": null,
+        "code_module": null,
+        "code_path": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing",
+        "severity": "info",
+        "rationale": "No match reached minimum confidence threshold."
+      },
+      {
+        "documented_component": "Refactor execution",
+        "documented_status": "planned",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "documented_path": null,
+        "code_module": null,
+        "code_path": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing",
+        "severity": "info",
+        "rationale": "No match reached minimum confidence threshold."
+      },
+      {
+        "documented_component": "Web UI/API",
+        "documented_status": "future",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "documented_path": null,
+        "code_module": null,
+        "code_path": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing",
+        "severity": "info",
+        "rationale": "No match reached minimum confidence threshold."
+      },
+      {
+        "documented_component": "Web UI/API",
+        "documented_status": "future",
+        "source_doc": "docs/02_architecture/c4_container.md",
+        "documented_path": null,
+        "code_module": null,
+        "code_path": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing",
+        "severity": "info",
+        "rationale": "No match reached minimum confidence threshold."
+      },
+      {
+        "documented_component": "Agent Registry",
+        "documented_status": "implemented",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "documented_path": null,
+        "code_module": "miasi",
+        "code_path": "src/devpilot_core/miasi",
+        "match_type": "alias",
+        "confidence": 0.9,
+        "drift_type": "in_sync",
+        "severity": "info",
+        "rationale": "Best alias match between component and code module."
+      },
+      {
+        "documented_component": "Agents",
+        "documented_status": "implemented-initial",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "documented_path": "src/devpilot_core/agents",
+        "code_module": "agents",
+        "code_path": "src/devpilot_core/agents",
+        "match_type": "path",
+        "confidence": 1.0,
+        "drift_type": "in_sync",
+        "severity": "info",
+        "rationale": "Documented path matches source module path."
+      },
+      {
+        "documented_component": "Agents",
+        "documented_status": "unknown",
+        "source_doc": "docs/02_architecture/c4_container.md",
+        "documented_path": null,
+        "code_module": "agents",
+        "code_path": "src/devpilot_core/agents",
+        "match_type": "exact",
+        "confidence": 1.0,
+        "drift_type": "in_sync",
+        "severity": "info",
+        "rationale": "Component name exactly matches top-level module."
+      },
+      {
+        "documented_component": "Application",
+        "documented_status": "implemented-initial",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "documented_path": "src/devpilot_core/application",
+        "code_module": "application",
+        "code_path": "src/devpilot_core/application",
+        "match_type": "path",
+        "confidence": 1.0,
+        "drift_type": "in_sync",
+        "severity": "info",
+        "rationale": "Documented path matches source module path."
+      },
+      {
+        "documented_component": "ApplicationService",
+        "documented_status": "implemented-initial",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "documented_path": null,
+        "code_module": "application",
+        "code_path": "src/devpilot_core/application",
+        "match_type": "alias",
+        "confidence": 0.9,
+        "drift_type": "in_sync",
+        "severity": "info",
+        "rationale": "Best alias match between component and code module."
+      },
+      {
+        "documented_component": "ApplicationService",
+        "documented_status": "implemented-initial",
+        "source_doc": "docs/02_architecture/c4_container.md",
+        "documented_path": null,
+        "code_module": "application",
+        "code_path": "src/devpilot_core/application",
+        "match_type": "alias",
+        "confidence": 0.9,
+        "drift_type": "in_sync",
+        "severity": "info",
+        "rationale": "Best alias match between component and code module."
+      },
+      {
+        "documented_component": "Approval",
+        "documented_status": "unknown",
+        "source_doc": "docs/02_architecture/c4_container.md",
+        "documented_path": null,
+        "code_module": "approval",
+        "code_path": "src/devpilot_core/approval",
+        "match_type": "exact",
+        "confidence": 1.0,
+        "drift_type": "in_sync",
+        "severity": "info",
+        "rationale": "Component name exactly matches top-level module."
+      },
+      {
+        "documented_component": "Approval workflow",
+        "documented_status": "planned",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "documented_path": null,
+        "code_module": "approval",
+        "code_path": "src/devpilot_core/approval",
+        "match_type": "alias",
+        "confidence": 0.9,
+        "drift_type": "in_sync",
+        "severity": "info",
+        "rationale": "Best alias match between component and code module."
+      },
+      {
+        "documented_component": "Approval workflow",
+        "documented_status": "planned",
+        "source_doc": "docs/02_architecture/c4_container.md",
+        "documented_path": null,
+        "code_module": "approval",
+        "code_path": "src/devpilot_core/approval",
+        "match_type": "alias",
+        "confidence": 0.9,
+        "drift_type": "in_sync",
+        "severity": "info",
+        "rationale": "Best alias match between component and code module."
+      },
+      {
+        "documented_component": "Artifact Validator",
+        "documented_status": "implemented",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "documented_path": null,
+        "code_module": "validation",
+        "code_path": "src/devpilot_core/validation",
+        "match_type": "alias",
+        "confidence": 0.9,
+        "drift_type": "in_sync",
+        "severity": "info",
+        "rationale": "Best alias match between component and code module."
+      },
+      {
+        "documented_component": "CLI",
+        "documented_status": "unknown",
+        "source_doc": "docs/02_architecture/architecture_document.md",
+        "documented_path": null,
+        "code_module": "cli",
+        "code_path": "src/devpilot_core/cli.py",
+        "match_type": "exact",
+        "confidence": 1.0,
+        "drift_type": "in_sync",
+        "severity": "info",
+        "rationale": "Component name exactly matches top-level module."
+      },
+      {
+        "documented_component": "CLI",
+        "documented_status": "implemented",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "documented_path": "src/devpilot_core/cli.py",
+        "code_module": "cli",
+        "code_path": "src/devpilot_core/cli.py",
+        "match_type": "path",
+        "confidence": 1.0,
+        "drift_type": "in_sync",
+        "severity": "info",
+        "rationale": "Documented path matches source module path."
+      },
+      {
+        "documented_component": "CLI",
+        "documented_status": "implemented",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "documented_path": null,
+        "code_module": "cli",
+        "code_path": "src/devpilot_core/cli.py",
+        "match_type": "exact",
+        "confidence": 1.0,
+        "drift_type": "in_sync",
+        "severity": "info",
+        "rationale": "Component name exactly matches top-level module."
+      },
+      {
+        "documented_component": "CLI",
+        "documented_status": "unknown",
+        "source_doc": "docs/02_architecture/c4_container.md",
+        "documented_path": null,
+        "code_module": "cli",
+        "code_path": "src/devpilot_core/cli.py",
+        "match_type": "exact",
+        "confidence": 1.0,
+        "drift_type": "in_sync",
+        "severity": "info",
+        "rationale": "Component name exactly matches top-level module."
+      },
+      {
+        "documented_component": "CostGuard",
+        "documented_status": "unknown",
+        "source_doc": "docs/02_architecture/architecture_document.md",
+        "documented_path": null,
+        "code_module": "policy",
+        "code_path": "src/devpilot_core/policy",
+        "match_type": "alias",
+        "confidence": 0.9,
+        "drift_type": "in_sync",
+        "severity": "info",
+        "rationale": "Best alias match between component and code module."
+      },
+      {
+        "documented_component": "CostGuard",
+        "documented_status": "implemented",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "documented_path": null,
+        "code_module": "policy",
+        "code_path": "src/devpilot_core/policy",
+        "match_type": "alias",
+        "confidence": 0.9,
+        "drift_type": "in_sync",
+        "severity": "info",
+        "rationale": "Best alias match between component and code module."
+      },
+      {
+        "documented_component": "DevPilot CLI",
+        "documented_status": "implemented",
+        "source_doc": "docs/02_architecture/c4_container.md",
+        "documented_path": null,
+        "code_module": "cli",
+        "code_path": "src/devpilot_core/cli.py",
+        "match_type": "alias",
+        "confidence": 0.9,
+        "drift_type": "in_sync",
+        "severity": "info",
+        "rationale": "Best alias match between component and code module."
+      },
+      {
+        "documented_component": "DevPilot Core",
+        "documented_status": "implemented",
+        "source_doc": "docs/02_architecture/c4_container.md",
+        "documented_path": null,
+        "code_module": "devpilot_core",
+        "code_path": "src/devpilot_core/devpilot_core",
+        "match_type": "alias",
+        "confidence": 0.9,
+        "drift_type": "in_sync",
+        "severity": "info",
+        "rationale": "Best alias match between component and code module."
+      },
+      {
+        "documented_component": "Evals",
+        "documented_status": "implemented-initial",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "documented_path": "src/devpilot_core/evals",
+        "code_module": "evals",
+        "code_path": "src/devpilot_core/evals",
+        "match_type": "path",
+        "confidence": 1.0,
+        "drift_type": "in_sync",
+        "severity": "info",
+        "rationale": "Documented path matches source module path."
+      },
+      {
+        "documented_component": "MIASI",
+        "documented_status": "implemented",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "documented_path": "src/devpilot_core/miasi",
+        "code_module": "miasi",
+        "code_path": "src/devpilot_core/miasi",
+        "match_type": "path",
+        "confidence": 1.0,
+        "drift_type": "in_sync",
+        "severity": "info",
+        "rationale": "Documented path matches source module path."
+      },
+      {
+        "documented_component": "MockModelAdapter",
+        "documented_status": "implemented",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "documented_path": null,
+        "code_module": "modeling",
+        "code_path": "src/devpilot_core/modeling",
+        "match_type": "alias",
+        "confidence": 0.9,
+        "drift_type": "in_sync",
+        "severity": "info",
+        "rationale": "Best alias match between component and code module."
+      },
+      {
+        "documented_component": "Modeling",
+        "documented_status": "partial",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "documented_path": "src/devpilot_core/modeling",
+        "code_module": "modeling",
+        "code_path": "src/devpilot_core/modeling",
+        "match_type": "path",
+        "confidence": 1.0,
+        "drift_type": "in_sync",
+        "severity": "info",
+        "rationale": "Documented path matches source module path."
+      },
+      {
+        "documented_component": "Observability",
+        "documented_status": "implemented-initial",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "documented_path": "src/devpilot_core/observability",
+        "code_module": "observability",
+        "code_path": "src/devpilot_core/observability",
+        "match_type": "path",
+        "confidence": 1.0,
+        "drift_type": "in_sync",
+        "severity": "info",
+        "rationale": "Documented path matches source module path."
+      },
+      {
+        "documented_component": "PathGuard",
+        "documented_status": "implemented",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "documented_path": null,
+        "code_module": "policy",
+        "code_path": "src/devpilot_core/policy",
+        "match_type": "alias",
+        "confidence": 0.9,
+        "drift_type": "in_sync",
+        "severity": "info",
+        "rationale": "Best alias match between component and code module."
+      },
+      {
+        "documented_component": "Policy",
+        "documented_status": "implemented",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "documented_path": "src/devpilot_core/policy",
+        "code_module": "policy",
+        "code_path": "src/devpilot_core/policy",
+        "match_type": "path",
+        "confidence": 1.0,
+        "drift_type": "in_sync",
+        "severity": "info",
+        "rationale": "Documented path matches source module path."
+      },
+      {
+        "documented_component": "Policy Matrix",
+        "documented_status": "implemented",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "documented_path": null,
+        "code_module": "miasi",
+        "code_path": "src/devpilot_core/miasi",
+        "match_type": "alias",
+        "confidence": 0.9,
+        "drift_type": "in_sync",
+        "severity": "info",
+        "rationale": "Best alias match between component and code module."
+      },
+      {
+        "documented_component": "Refactor",
+        "documented_status": "implemented-initial",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "documented_path": "src/devpilot_core/refactor",
+        "code_module": "refactor",
+        "code_path": "src/devpilot_core/refactor",
+        "match_type": "path",
+        "confidence": 1.0,
+        "drift_type": "in_sync",
+        "severity": "info",
+        "rationale": "Documented path matches source module path."
+      },
+      {
+        "documented_component": "Repo",
+        "documented_status": "implemented-initial",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "documented_path": "src/devpilot_core/repo",
+        "code_module": "repo",
+        "code_path": "src/devpilot_core/repo",
+        "match_type": "path",
+        "confidence": 1.0,
+        "drift_type": "in_sync",
+        "severity": "info",
+        "rationale": "Documented path matches source module path."
+      },
+      {
+        "documented_component": "Report Engine",
+        "documented_status": "implemented",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "documented_path": null,
+        "code_module": "reports",
+        "code_path": "src/devpilot_core/reports",
+        "match_type": "alias",
+        "confidence": 0.9,
+        "drift_type": "in_sync",
+        "severity": "info",
+        "rationale": "Best alias match between component and code module."
+      },
+      {
+        "documented_component": "Reports",
+        "documented_status": "implemented",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "documented_path": "src/devpilot_core/reports",
+        "code_module": "reports",
+        "code_path": "src/devpilot_core/reports",
+        "match_type": "path",
+        "confidence": 1.0,
+        "drift_type": "in_sync",
+        "severity": "info",
+        "rationale": "Documented path matches source module path."
+      },
+      {
+        "documented_component": "Review",
+        "documented_status": "implemented-initial",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "documented_path": "src/devpilot_core/review",
+        "code_module": "review",
+        "code_path": "src/devpilot_core/review",
+        "match_type": "path",
+        "confidence": 1.0,
+        "drift_type": "in_sync",
+        "severity": "info",
+        "rationale": "Documented path matches source module path."
+      },
+      {
+        "documented_component": "SecretGuard",
+        "documented_status": "unknown",
+        "source_doc": "docs/02_architecture/architecture_document.md",
+        "documented_path": null,
+        "code_module": "policy",
+        "code_path": "src/devpilot_core/policy",
+        "match_type": "alias",
+        "confidence": 0.9,
+        "drift_type": "in_sync",
+        "severity": "info",
+        "rationale": "Best alias match between component and code module."
+      },
+      {
+        "documented_component": "SecretGuard",
+        "documented_status": "implemented",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "documented_path": null,
+        "code_module": "policy",
+        "code_path": "src/devpilot_core/policy",
+        "match_type": "alias",
+        "confidence": 0.9,
+        "drift_type": "in_sync",
+        "severity": "info",
+        "rationale": "Best alias match between component and code module."
+      },
+      {
+        "documented_component": "Standards",
+        "documented_status": "implemented",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "documented_path": "src/devpilot_core/standards",
+        "code_module": "standards",
+        "code_path": "src/devpilot_core/standards",
+        "match_type": "path",
+        "confidence": 1.0,
+        "drift_type": "in_sync",
+        "severity": "info",
+        "rationale": "Documented path matches source module path."
+      },
+      {
+        "documented_component": "Standards Registry",
+        "documented_status": "implemented",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "documented_path": null,
+        "code_module": "standards",
+        "code_path": "src/devpilot_core/standards",
+        "match_type": "alias",
+        "confidence": 0.9,
+        "drift_type": "in_sync",
+        "severity": "info",
+        "rationale": "Best alias match between component and code module."
+      },
+      {
+        "documented_component": "Store",
+        "documented_status": "implemented-initial",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "documented_path": "src/devpilot_core/store",
+        "code_module": "store",
+        "code_path": "src/devpilot_core/store",
+        "match_type": "path",
+        "confidence": 1.0,
+        "drift_type": "in_sync",
+        "severity": "info",
+        "rationale": "Documented path matches source module path."
+      },
+      {
+        "documented_component": "Testing",
+        "documented_status": "unknown",
+        "source_doc": "docs/02_architecture/architecture_document.md",
+        "documented_path": null,
+        "code_module": "testing",
+        "code_path": "src/devpilot_core/testing",
+        "match_type": "exact",
+        "confidence": 1.0,
+        "drift_type": "in_sync",
+        "severity": "info",
+        "rationale": "Component name exactly matches top-level module."
+      },
+      {
+        "documented_component": "Tool Registry",
+        "documented_status": "implemented",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "documented_path": null,
+        "code_module": "miasi",
+        "code_path": "src/devpilot_core/miasi",
+        "match_type": "alias",
+        "confidence": 0.9,
+        "drift_type": "in_sync",
+        "severity": "info",
+        "rationale": "Best alias match between component and code module."
+      },
+      {
+        "documented_component": "Validators",
+        "documented_status": "implemented",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "documented_path": "src/devpilot_core/validators",
+        "code_module": "validators",
+        "code_path": "src/devpilot_core/validators",
+        "match_type": "path",
+        "confidence": 1.0,
+        "drift_type": "in_sync",
+        "severity": "info",
+        "rationale": "Documented path matches source module path."
+      },
+      {
+        "documented_component": "Validators",
+        "documented_status": "implemented",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "documented_path": null,
+        "code_module": "validators",
+        "code_path": "src/devpilot_core/validators",
+        "match_type": "exact",
+        "confidence": 1.0,
+        "drift_type": "in_sync",
+        "severity": "info",
+        "rationale": "Component name exactly matches top-level module."
+      },
+      {
+        "documented_component": "Workspace",
+        "documented_status": "implemented-initial",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "documented_path": "src/devpilot_core/workspace",
+        "code_module": "workspace",
+        "code_path": "src/devpilot_core/workspace",
+        "match_type": "path",
+        "confidence": 1.0,
+        "drift_type": "in_sync",
+        "severity": "info",
+        "rationale": "Documented path matches source module path."
+      },
+      {
+        "documented_component": "Workspace",
+        "documented_status": "unknown",
+        "source_doc": "docs/02_architecture/c4_container.md",
+        "documented_path": null,
+        "code_module": "workspace",
+        "code_path": "src/devpilot_core/workspace",
+        "match_type": "exact",
+        "confidence": 1.0,
+        "drift_type": "in_sync",
+        "severity": "info",
+        "rationale": "Component name exactly matches top-level module."
+      },
+      {
+        "documented_component": "climodels",
+        "documented_status": "implemented",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "documented_path": "src/devpilot_core/cli_models.py",
+        "code_module": "cli_models",
+        "code_path": "src/devpilot_core/cli_models.py",
+        "match_type": "path",
+        "confidence": 1.0,
+        "drift_type": "in_sync",
+        "severity": "info",
+        "rationale": "Documented path matches source module path."
+      }
+    ],
+    "repo_analyzer_summary": {
+      "target": ".",
+      "health_score": 60,
+      "rating": "risk",
+      "risk_counts": {
+        "block": 0,
+        "fail": 0,
+        "warning": 53,
+        "info": 0
+      },
+      "sections_summary": {
+        "files_total": 589,
+        "src_tests_ratio": 1.533,
+        "docs_to_source_ratio": 3.261
+      },
+      "dependency": {
+        "nodes_total": 92,
+        "edges_total": 593,
+        "external_imports_total": 25,
+        "syntax_error_files_total": 0
+      },
+      "git": {
+        "is_git_repo": true,
+        "branch": "main",
+        "counts": {
+          "entries_total": 26,
+          "modified": 18,
+          "added": 0,
+          "deleted": 2,
+          "renamed": 0,
+          "untracked": 6,
+          "staged": 0
+        },
+        "git_available": true
+      },
+      "hotspots_total": 20,
+      "network_used": false,
+      "external_api_used": false,
+      "mutations_performed": false,
+      "preliminary": true
+    },
+    "dependency_summary": {
+      "target": "src/devpilot_core",
+      "root_package": "devpilot_core",
+      "nodes_total": 92,
+      "edges_total": 593,
+      "external_imports_total": 25,
+      "syntax_error_files_total": 0,
+      "ignored_dirs": [],
+      "truncated": false,
+      "max_files": 5000,
+      "network_used": false,
+      "external_api_used": false,
+      "mutations_performed": false,
+      "preliminary": true
+    },
+    "notes": [
+      "FUNC-SPRINT-38 Architecture/code drift is read-only and heuristic.",
+      "Documented components are extracted from Markdown tables and Mermaid nodes; matching is confidence-based.",
+      "planned/future/disabled components are not blocking when code is absent.",
+      "This detector does not infer runtime behavior and does not replace architecture review.",
+      "No LLM, network, API, Git write, patch apply or document mutation is performed."
+    ]
+  },
+  "findings": [
+    {
+      "id": "ARCH_DRIFT_CODE_MISSING",
+      "message": "Documented component has no evident source module: AgentRuntime documental.",
+      "severity": "warning",
+      "path": "docs/02_architecture/c4_component.md",
+      "metadata": {
+        "documented_component": "AgentRuntime documental",
+        "documented_status": "implemented-initial",
+        "code_module": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing"
+      }
+    },
+    {
+      "id": "ARCH_DRIFT_CODE_MISSING",
+      "message": "Documented component has no evident source module: Artifact.",
+      "severity": "warning",
+      "path": "docs/02_architecture/c4_container.md",
+      "metadata": {
+        "documented_component": "Artifact",
+        "documented_status": "unknown",
+        "code_module": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing"
+      }
+    },
+    {
+      "id": "ARCH_DRIFT_CODE_MISSING",
+      "message": "Documented component has no evident source module: Checklist Validator.",
+      "severity": "warning",
+      "path": "docs/02_architecture/c4_component.md",
+      "metadata": {
+        "documented_component": "Checklist Validator",
+        "documented_status": "implemented",
+        "code_module": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing"
+      }
+    },
+    {
+      "id": "ARCH_DRIFT_CODE_MISSING",
+      "message": "Documented component has no evident source module: DTOs ApplicationRequest/Response.",
+      "severity": "warning",
+      "path": "docs/02_architecture/c4_component.md",
+      "metadata": {
+        "documented_component": "DTOs ApplicationRequest/Response",
+        "documented_status": "implemented-initial",
+        "code_module": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing"
+      }
+    },
+    {
+      "id": "ARCH_DRIFT_CODE_MISSING",
+      "message": "Documented component has no evident source module: Eval Harness offline.",
+      "severity": "warning",
+      "path": "docs/02_architecture/c4_component.md",
+      "metadata": {
+        "documented_component": "Eval Harness offline",
+        "documented_status": "implemented-initial",
+        "code_module": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing"
+      }
+    },
+    {
+      "id": "ARCH_DRIFT_CODE_MISSING",
+      "message": "Documented component has no evident source module: EventLogger JSONL.",
+      "severity": "warning",
+      "path": "docs/02_architecture/c4_component.md",
+      "metadata": {
+        "documented_component": "EventLogger JSONL",
+        "documented_status": "implemented-initial",
+        "code_module": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing"
+      }
+    },
+    {
+      "id": "ARCH_DRIFT_CODE_MISSING",
+      "message": "Documented component has no evident source module: Filesystem/docs.",
+      "severity": "warning",
+      "path": "docs/02_architecture/c4_container.md",
+      "metadata": {
+        "documented_component": "Filesystem/docs",
+        "documented_status": "implemented",
+        "code_module": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing"
+      }
+    },
+    {
+      "id": "ARCH_DRIFT_CODE_MISSING",
+      "message": "Documented component has no evident source module: Frontmatter Validator.",
+      "severity": "warning",
+      "path": "docs/02_architecture/c4_component.md",
+      "metadata": {
+        "documented_component": "Frontmatter Validator",
+        "documented_status": "implemented",
+        "code_module": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing"
+      }
+    },
+    {
+      "id": "ARCH_DRIFT_CODE_MISSING",
+      "message": "Documented component has no evident source module: Git local.",
+      "severity": "warning",
+      "path": "docs/02_architecture/c4_container.md",
+      "metadata": {
+        "documented_component": "Git local",
+        "documented_status": "implemented-initial",
+        "code_module": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing"
+      }
+    },
+    {
+      "id": "ARCH_DRIFT_CODE_MISSING",
+      "message": "Documented component has no evident source module: GitAdapter + RepoInventory.",
+      "severity": "warning",
+      "path": "docs/02_architecture/c4_component.md",
+      "metadata": {
+        "documented_component": "GitAdapter + RepoInventory",
+        "documented_status": "implemented-initial",
+        "code_module": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing"
+      }
+    },
+    {
+      "id": "ARCH_DRIFT_CODE_MISSING",
+      "message": "Documented component has no evident source module: LocalStore SQLite v0.",
+      "severity": "warning",
+      "path": "docs/02_architecture/c4_component.md",
+      "metadata": {
+        "documented_component": "LocalStore SQLite v0",
+        "documented_status": "implemented-initial",
+        "code_module": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing"
+      }
+    },
+    {
+      "id": "ARCH_DRIFT_CODE_MISSING",
+      "message": "Documented component has no evident source module: MIASI Registry Validator.",
+      "severity": "warning",
+      "path": "docs/02_architecture/c4_component.md",
+      "metadata": {
+        "documented_component": "MIASI Registry Validator",
+        "documented_status": "implemented",
+        "code_module": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing"
+      }
+    },
+    {
+      "id": "ARCH_DRIFT_CODE_MISSING",
+      "message": "Documented component has no evident source module: Model provider layer.",
+      "severity": "warning",
+      "path": "docs/02_architecture/c4_container.md",
+      "metadata": {
+        "documented_component": "Model provider layer",
+        "documented_status": "partial",
+        "code_module": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing"
+      }
+    },
+    {
+      "id": "ARCH_DRIFT_CODE_MISSING",
+      "message": "Documented component has no evident source module: ModelAdapter Router.",
+      "severity": "warning",
+      "path": "docs/02_architecture/c4_component.md",
+      "metadata": {
+        "documented_component": "ModelAdapter Router",
+        "documented_status": "partial",
+        "code_module": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing"
+      }
+    },
+    {
+      "id": "ARCH_DRIFT_CODE_MISSING",
+      "message": "Documented component has no evident source module: Policy Engine + Guards.",
+      "severity": "warning",
+      "path": "docs/02_architecture/c4_component.md",
+      "metadata": {
+        "documented_component": "Policy Engine + Guards",
+        "documented_status": "implemented",
+        "code_module": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing"
+      }
+    },
+    {
+      "id": "ARCH_DRIFT_CODE_MISSING",
+      "message": "Documented component has no evident source module: Readiness Gate.",
+      "severity": "warning",
+      "path": "docs/02_architecture/c4_component.md",
+      "metadata": {
+        "documented_component": "Readiness Gate",
+        "documented_status": "implemented",
+        "code_module": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing"
+      }
+    },
+    {
+      "id": "ARCH_DRIFT_DOC_MISSING",
+      "message": "Code module has no evident architectural reference: errors.",
+      "severity": "warning",
+      "path": "src/devpilot_core/errors.py",
+      "metadata": {
+        "documented_component": null,
+        "documented_status": null,
+        "code_module": "errors",
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "doc_missing"
+      }
+    },
+    {
+      "id": "ARCH_DRIFT_DOC_MISSING",
+      "message": "Code module has no evident architectural reference: execution.",
+      "severity": "warning",
+      "path": "src/devpilot_core/execution",
+      "metadata": {
+        "documented_component": null,
+        "documented_status": null,
+        "code_module": "execution",
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "doc_missing"
+      }
+    },
+    {
+      "id": "ARCH_DRIFT_DOC_MISSING",
+      "message": "Code module has no evident architectural reference: schemas.",
+      "severity": "warning",
+      "path": "src/devpilot_core/schemas",
+      "metadata": {
+        "documented_component": null,
+        "documented_status": null,
+        "code_module": "schemas",
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "doc_missing"
+      }
+    },
+    {
+      "id": "ARCH_DRIFT_DOC_MISSING",
+      "message": "Code module has no evident architectural reference: security.",
+      "severity": "warning",
+      "path": "src/devpilot_core/security",
+      "metadata": {
+        "documented_component": null,
+        "documented_status": null,
+        "code_module": "security",
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "doc_missing"
+      }
+    },
+    {
+      "id": "ARCH_DRIFT_DOC_MISSING",
+      "message": "Code module has no evident architectural reference: traceability.",
+      "severity": "warning",
+      "path": "src/devpilot_core/traceability",
+      "metadata": {
+        "documented_component": null,
+        "documented_status": null,
+        "code_module": "traceability",
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "doc_missing"
+      }
+    },
+    {
+      "id": "ARCH_DRIFT_NAME_MISMATCH",
+      "message": "Documented component and code module only match heuristically: Patch/Code Review dry-run -> review.",
+      "severity": "warning",
+      "path": "src/devpilot_core/review",
+      "metadata": {
+        "documented_component": "Patch/Code Review dry-run",
+        "documented_status": "implemented-initial",
+        "code_module": "review",
+        "match_type": "fuzzy",
+        "confidence": 0.6,
+        "drift_type": "name_mismatch"
+      }
+    },
+    {
+      "id": "ARCH_DRIFT_NAME_MISMATCH",
+      "message": "Documented component and code module only match heuristically: SQLite LocalStore -> store.",
+      "severity": "warning",
+      "path": "src/devpilot_core/store",
+      "metadata": {
+        "documented_component": "SQLite LocalStore",
+        "documented_status": "implemented-initial",
+        "code_module": "store",
+        "match_type": "fuzzy",
+        "confidence": 0.5,
+        "drift_type": "name_mismatch"
+      }
+    },
+    {
+      "id": "ARCH_DRIFT_NAME_MISMATCH",
+      "message": "Documented component and code module only match heuristically: Safe Refactor Planner -> refactor.",
+      "severity": "warning",
+      "path": "src/devpilot_core/refactor",
+      "metadata": {
+        "documented_component": "Safe Refactor Planner",
+        "documented_status": "implemented-initial",
+        "code_module": "refactor",
+        "match_type": "fuzzy",
+        "confidence": 1.0,
+        "drift_type": "name_mismatch"
+      }
+    },
+    {
+      "id": "ARCH_DRIFT_CODE_MISSING",
+      "message": "Documented component has no evident source module: Desktop UI.",
+      "severity": "info",
+      "path": "docs/02_architecture/c4_component.md",
+      "metadata": {
+        "documented_component": "Desktop UI",
+        "documented_status": "future",
+        "code_module": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing"
+      }
+    },
+    {
+      "id": "ARCH_DRIFT_CODE_MISSING",
+      "message": "Documented component has no evident source module: Desktop UI.",
+      "severity": "info",
+      "path": "docs/02_architecture/c4_container.md",
+      "metadata": {
+        "documented_component": "Desktop UI",
+        "documented_status": "future",
+        "code_module": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing"
+      }
+    },
+    {
+      "id": "ARCH_DRIFT_CODE_MISSING",
+      "message": "Documented component has no evident source module: External APIs.",
+      "severity": "info",
+      "path": "docs/02_architecture/c4_component.md",
+      "metadata": {
+        "documented_component": "External APIs",
+        "documented_status": "disabled",
+        "code_module": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing"
+      }
+    },
+    {
+      "id": "ARCH_DRIFT_CODE_MISSING",
+      "message": "Documented component has no evident source module: External LLM APIs.",
+      "severity": "info",
+      "path": "docs/02_architecture/c4_container.md",
+      "metadata": {
+        "documented_component": "External LLM APIs",
+        "documented_status": "disabled",
+        "code_module": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing"
+      }
+    },
+    {
+      "id": "ARCH_DRIFT_CODE_MISSING",
+      "message": "Documented component has no evident source module: MCP/API tools.",
+      "severity": "info",
+      "path": "docs/02_architecture/c4_container.md",
+      "metadata": {
+        "documented_component": "MCP/API tools",
+        "documented_status": "future",
+        "code_module": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing"
+      }
+    },
+    {
+      "id": "ARCH_DRIFT_CODE_MISSING",
+      "message": "Documented component has no evident source module: Ollama/LM Studio clients.",
+      "severity": "info",
+      "path": "docs/02_architecture/c4_component.md",
+      "metadata": {
+        "documented_component": "Ollama/LM Studio clients",
+        "documented_status": "planned",
+        "code_module": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing"
+      }
+    },
+    {
+      "id": "ARCH_DRIFT_CODE_MISSING",
+      "message": "Documented component has no evident source module: Patch apply sandbox.",
+      "severity": "info",
+      "path": "docs/02_architecture/c4_component.md",
+      "metadata": {
+        "documented_component": "Patch apply sandbox",
+        "documented_status": "planned",
+        "code_module": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing"
+      }
+    },
+    {
+      "id": "ARCH_DRIFT_CODE_MISSING",
+      "message": "Documented component has no evident source module: Refactor execution.",
+      "severity": "info",
+      "path": "docs/02_architecture/c4_component.md",
+      "metadata": {
+        "documented_component": "Refactor execution",
+        "documented_status": "planned",
+        "code_module": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing"
+      }
+    },
+    {
+      "id": "ARCH_DRIFT_CODE_MISSING",
+      "message": "Documented component has no evident source module: Web UI/API.",
+      "severity": "info",
+      "path": "docs/02_architecture/c4_component.md",
+      "metadata": {
+        "documented_component": "Web UI/API",
+        "documented_status": "future",
+        "code_module": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing"
+      }
+    },
+    {
+      "id": "ARCH_DRIFT_CODE_MISSING",
+      "message": "Documented component has no evident source module: Web UI/API.",
+      "severity": "info",
+      "path": "docs/02_architecture/c4_container.md",
+      "metadata": {
+        "documented_component": "Web UI/API",
+        "documented_status": "future",
+        "code_module": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing"
+      }
+    }
+  ]
+}
+(.venv) PS D:\Projects\DevPilot_Local> python -m devpilot_core repo architecture-drift `
+>>   --json `
+>>   --write-report
+{
+  "command": "repo architecture-drift",
+  "ok": true,
+  "exit_code": 0,
+  "message": "Architecture/code drift analysis completed in read-only mode.",
+  "data": {
+    "summary": {
+      "components_documented_total": 72,
+      "code_modules_total": 51,
+      "matrix_rows_total": 77,
+      "drift_counts": {
+        "code_missing": 26,
+        "doc_missing": 5,
+        "name_mismatch": 3,
+        "in_sync": 43
+      },
+      "severity_counts": {
+        "warning": 24,
+        "info": 53
+      },
+      "architecture_docs_total": 3,
+      "architecture_docs_existing": 3,
+      "dependency_nodes_total": 92,
+      "repo_health_score": 60,
+      "drift_detected": true,
+      "network_used": false,
+      "external_api_used": false,
+      "mutations_performed": false,
+      "preliminary": true
+    },
+    "architecture_docs": [
+      {
+        "path": "docs/02_architecture/architecture_document.md",
+        "exists": true,
+        "size_bytes": 22634,
+        "components_total": 4
+      },
+      {
+        "path": "docs/02_architecture/c4_container.md",
+        "exists": true,
+        "size_bytes": 11340,
+        "components_total": 17
+      },
+      {
+        "path": "docs/02_architecture/c4_component.md",
+        "exists": true,
+        "size_bytes": 8236,
+        "components_total": 51
+      }
+    ],
+    "documented_components": [
+      {
+        "name": "CLI",
+        "normalized_name": "cli",
+        "status": "unknown",
+        "source_doc": "docs/02_architecture/architecture_document.md",
+        "source_type": "table",
+        "aliases": [
+          "cli",
+          "command line",
+          "devpilot cli",
+          "interfaz cli"
+        ]
+      },
+      {
+        "name": "CostGuard",
+        "normalized_name": "costguard",
+        "status": "unknown",
+        "source_doc": "docs/02_architecture/architecture_document.md",
+        "source_type": "table",
+        "aliases": [
+          "costguard",
+          "guards",
+          "pathguard",
+          "policy",
+          "policy engine",
+          "secretguard"
+        ]
+      },
+      {
+        "name": "SecretGuard",
+        "normalized_name": "secretguard",
+        "status": "unknown",
+        "source_doc": "docs/02_architecture/architecture_document.md",
+        "source_type": "table",
+        "aliases": [
+          "costguard",
+          "guards",
+          "pathguard",
+          "policy",
+          "policy engine",
+          "secretguard"
+        ]
+      },
+      {
+        "name": "Testing",
+        "normalized_name": "testing",
+        "status": "unknown",
+        "source_doc": "docs/02_architecture/architecture_document.md",
+        "source_type": "table",
+        "aliases": [
+          "controlled tests",
+          "testing",
+          "tests.run"
+        ]
+      },
+      {
+        "name": "Agent Registry",
+        "normalized_name": "agent registry",
+        "status": "implemented",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "source_type": "mermaid",
+        "aliases": [
+          "agent registry",
+          "agent_registry",
+          "agentregistry",
+          "miasi",
+          "policy matrix",
+          "tool registry"
+        ]
+      },
+      {
+        "name": "AgentRuntime documental",
+        "normalized_name": "agentruntime documental",
+        "status": "implemented-initial",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "source_type": "mermaid",
+        "aliases": [
+          "agentruntime documental",
+          "agentruntime_documental",
+          "agentruntimedocumental"
+        ]
+      },
+      {
+        "name": "Agents",
+        "normalized_name": "agents",
+        "status": "implemented-initial",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "source_type": "table",
+        "aliases": [
+          "agent runtime",
+          "agentruntime",
+          "agents",
+          "documental agent"
+        ],
+        "documented_path": "src/devpilot_core/agents"
+      },
+      {
+        "name": "Application",
+        "normalized_name": "application",
+        "status": "implemented-initial",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "source_type": "table",
+        "aliases": [
+          "application",
+          "application service",
+          "applicationservice",
+          "appsvc"
+        ],
+        "documented_path": "src/devpilot_core/application"
+      },
+      {
+        "name": "ApplicationService",
+        "normalized_name": "applicationservice",
+        "status": "implemented-initial",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "source_type": "mermaid",
+        "aliases": [
+          "application",
+          "application service",
+          "applicationservice",
+          "appsvc"
+        ]
+      },
+      {
+        "name": "Approval workflow",
+        "normalized_name": "approval workflow",
+        "status": "planned",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "source_type": "mermaid",
+        "aliases": [
+          "approval",
+          "approval queue",
+          "approval workflow",
+          "approval_workflow",
+          "approvalworkflow",
+          "human approval"
+        ]
+      },
+      {
+        "name": "Artifact Validator",
+        "normalized_name": "artifact validator",
+        "status": "implemented",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "source_type": "mermaid",
+        "aliases": [
+          "artifact validator",
+          "artifact_validator",
+          "artifactvalidator",
+          "checklist",
+          "frontmatter",
+          "readiness",
+          "validation",
+          "validators"
+        ]
+      },
+      {
+        "name": "Checklist Validator",
+        "normalized_name": "checklist validator",
+        "status": "implemented",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "source_type": "mermaid",
+        "aliases": [
+          "checklist validator",
+          "checklist_validator",
+          "checklistvalidator"
+        ]
+      },
+      {
+        "name": "CLI",
+        "normalized_name": "cli",
+        "status": "implemented",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "source_type": "table",
+        "aliases": [
+          "cli",
+          "command line",
+          "devpilot cli",
+          "interfaz cli"
+        ],
+        "documented_path": "src/devpilot_core/cli.py"
+      },
+      {
+        "name": "CLI",
+        "normalized_name": "cli",
+        "status": "implemented",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "source_type": "mermaid",
+        "aliases": [
+          "cli",
+          "command line",
+          "devpilot cli",
+          "interfaz cli"
+        ]
+      },
+      {
+        "name": "climodels",
+        "normalized_name": "climodels",
+        "status": "implemented",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "source_type": "table",
+        "aliases": [
+          "cli_models",
+          "climodels",
+          "commandresult",
+          "exitcode",
+          "finding"
+        ],
+        "documented_path": "src/devpilot_core/cli_models.py"
+      },
+      {
+        "name": "CostGuard",
+        "normalized_name": "costguard",
+        "status": "implemented",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "source_type": "mermaid",
+        "aliases": [
+          "costguard",
+          "guards",
+          "pathguard",
+          "policy",
+          "policy engine",
+          "secretguard"
+        ]
+      },
+      {
+        "name": "Desktop UI",
+        "normalized_name": "desktop ui",
+        "status": "future",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "source_type": "mermaid",
+        "aliases": [
+          "desktop ui",
+          "desktop_ui",
+          "desktopui"
+        ]
+      },
+      {
+        "name": "DTOs ApplicationRequest/Response",
+        "normalized_name": "dtos applicationrequest response",
+        "status": "implemented-initial",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "source_type": "mermaid",
+        "aliases": [
+          "dtos applicationrequest response",
+          "dtos_applicationrequest_response",
+          "dtosapplicationrequestresponse"
+        ]
+      },
+      {
+        "name": "Eval Harness offline",
+        "normalized_name": "eval harness offline",
+        "status": "implemented-initial",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "source_type": "mermaid",
+        "aliases": [
+          "eval harness offline",
+          "eval_harness_offline",
+          "evalharnessoffline"
+        ]
+      },
+      {
+        "name": "Evals",
+        "normalized_name": "evals",
+        "status": "implemented-initial",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "source_type": "table",
+        "aliases": [
+          "eval harness",
+          "evals",
+          "evaluation"
+        ],
+        "documented_path": "src/devpilot_core/evals"
+      },
+      {
+        "name": "EventLogger JSONL",
+        "normalized_name": "eventlogger jsonl",
+        "status": "implemented-initial",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "source_type": "mermaid",
+        "aliases": [
+          "eventlogger jsonl",
+          "eventlogger_jsonl",
+          "eventloggerjsonl"
+        ]
+      },
+      {
+        "name": "External APIs",
+        "normalized_name": "external apis",
+        "status": "disabled",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "source_type": "mermaid",
+        "aliases": [
+          "external apis",
+          "external_apis",
+          "externalapis"
+        ]
+      },
+      {
+        "name": "Frontmatter Validator",
+        "normalized_name": "frontmatter validator",
+        "status": "implemented",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "source_type": "mermaid",
+        "aliases": [
+          "frontmatter validator",
+          "frontmatter_validator",
+          "frontmattervalidator"
+        ]
+      },
+      {
+        "name": "GitAdapter + RepoInventory",
+        "normalized_name": "gitadapter repoinventory",
+        "status": "implemented-initial",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "source_type": "mermaid",
+        "aliases": [
+          "gitadapter repoinventory",
+          "gitadapter_repoinventory",
+          "gitadapterrepoinventory"
+        ]
+      },
+      {
+        "name": "LocalStore SQLite v0",
+        "normalized_name": "localstore sqlite v0",
+        "status": "implemented-initial",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "source_type": "mermaid",
+        "aliases": [
+          "localstore sqlite v0",
+          "localstore_sqlite_v0",
+          "localstoresqlitev0"
+        ]
+      },
+      {
+        "name": "MIASI",
+        "normalized_name": "miasi",
+        "status": "implemented",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "source_type": "table",
+        "aliases": [
+          "agent registry",
+          "miasi",
+          "policy matrix",
+          "tool registry"
+        ],
+        "documented_path": "src/devpilot_core/miasi"
+      },
+      {
+        "name": "MIASI Registry Validator",
+        "normalized_name": "miasi registry validator",
+        "status": "implemented",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "source_type": "mermaid",
+        "aliases": [
+          "miasi registry validator",
+          "miasi_registry_validator",
+          "miasiregistryvalidator"
+        ]
+      },
+      {
+        "name": "MockModelAdapter",
+        "normalized_name": "mockmodeladapter",
+        "status": "implemented",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "source_type": "mermaid",
+        "aliases": [
+          "mockmodeladapter",
+          "model adapter",
+          "modeladapter",
+          "modeling"
+        ]
+      },
+      {
+        "name": "ModelAdapter Router",
+        "normalized_name": "modeladapter router",
+        "status": "partial",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "source_type": "mermaid",
+        "aliases": [
+          "modeladapter router",
+          "modeladapter_router",
+          "modeladapterrouter"
+        ]
+      },
+      {
+        "name": "Modeling",
+        "normalized_name": "modeling",
+        "status": "partial",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "source_type": "table",
+        "aliases": [
+          "mockmodeladapter",
+          "model adapter",
+          "modeladapter",
+          "modeling"
+        ],
+        "documented_path": "src/devpilot_core/modeling"
+      },
+      {
+        "name": "Observability",
+        "normalized_name": "observability",
+        "status": "implemented-initial",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "source_type": "table",
+        "aliases": [
+          "eventlogger",
+          "jsonl",
+          "obs",
+          "observability",
+          "traces"
+        ],
+        "documented_path": "src/devpilot_core/observability"
+      },
+      {
+        "name": "Ollama/LM Studio clients",
+        "normalized_name": "ollama lm studio clients",
+        "status": "planned",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "source_type": "mermaid",
+        "aliases": [
+          "ollama lm studio clients",
+          "ollama_lm_studio_clients",
+          "ollamalmstudioclients"
+        ]
+      },
+      {
+        "name": "Patch apply sandbox",
+        "normalized_name": "patch apply sandbox",
+        "status": "planned",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "source_type": "mermaid",
+        "aliases": [
+          "patch apply sandbox",
+          "patch_apply_sandbox",
+          "patchapplysandbox"
+        ]
+      },
+      {
+        "name": "Patch/Code Review dry-run",
+        "normalized_name": "patch code review dry run",
+        "status": "implemented-initial",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "source_type": "mermaid",
+        "aliases": [
+          "patch code review dry run",
+          "patch_code_review_dry_run",
+          "patchcodereviewdryrun"
+        ]
+      },
+      {
+        "name": "PathGuard",
+        "normalized_name": "pathguard",
+        "status": "implemented",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "source_type": "mermaid",
+        "aliases": [
+          "costguard",
+          "guards",
+          "pathguard",
+          "policy",
+          "policy engine",
+          "secretguard"
+        ]
+      },
+      {
+        "name": "Policy",
+        "normalized_name": "policy",
+        "status": "implemented",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "source_type": "table",
+        "aliases": [
+          "costguard",
+          "guards",
+          "pathguard",
+          "policy",
+          "policy engine",
+          "secretguard"
+        ],
+        "documented_path": "src/devpilot_core/policy"
+      },
+      {
+        "name": "Policy Engine + Guards",
+        "normalized_name": "policy engine guards",
+        "status": "implemented",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "source_type": "mermaid",
+        "aliases": [
+          "policy engine guards",
+          "policy_engine_guards",
+          "policyengineguards"
+        ]
+      },
+      {
+        "name": "Policy Matrix",
+        "normalized_name": "policy matrix",
+        "status": "implemented",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "source_type": "mermaid",
+        "aliases": [
+          "agent registry",
+          "miasi",
+          "policy matrix",
+          "policy_matrix",
+          "policymatrix",
+          "tool registry"
+        ]
+      },
+      {
+        "name": "Readiness Gate",
+        "normalized_name": "readiness gate",
+        "status": "implemented",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "source_type": "mermaid",
+        "aliases": [
+          "readiness gate",
+          "readiness_gate",
+          "readinessgate"
+        ]
+      },
+      {
+        "name": "Refactor",
+        "normalized_name": "refactor",
+        "status": "implemented-initial",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "source_type": "table",
+        "aliases": [
+          "refactor",
+          "refactor planner",
+          "safe refactor"
+        ],
+        "documented_path": "src/devpilot_core/refactor"
+      },
+      {
+        "name": "Refactor execution",
+        "normalized_name": "refactor execution",
+        "status": "planned",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "source_type": "mermaid",
+        "aliases": [
+          "refactor execution",
+          "refactor_execution",
+          "refactorexecution"
+        ]
+      },
+      {
+        "name": "Repo",
+        "normalized_name": "repo",
+        "status": "implemented-initial",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "source_type": "table",
+        "aliases": [
+          "dependencygraph",
+          "git adapter",
+          "gitadapter",
+          "repo",
+          "repo analyzer",
+          "repo inventory"
+        ],
+        "documented_path": "src/devpilot_core/repo"
+      },
+      {
+        "name": "Report Engine",
+        "normalized_name": "report engine",
+        "status": "implemented",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "source_type": "mermaid",
+        "aliases": [
+          "evidence report",
+          "report engine",
+          "report_engine",
+          "reportengine",
+          "reports"
+        ]
+      },
+      {
+        "name": "Reports",
+        "normalized_name": "reports",
+        "status": "implemented",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "source_type": "table",
+        "aliases": [
+          "evidence report",
+          "report engine",
+          "reports"
+        ],
+        "documented_path": "src/devpilot_core/reports"
+      },
+      {
+        "name": "Review",
+        "normalized_name": "review",
+        "status": "implemented-initial",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "source_type": "table",
+        "aliases": [
+          "code review",
+          "patch review",
+          "review"
+        ],
+        "documented_path": "src/devpilot_core/review"
+      },
+      {
+        "name": "Safe Refactor Planner",
+        "normalized_name": "safe refactor planner",
+        "status": "implemented-initial",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "source_type": "mermaid",
+        "aliases": [
+          "safe refactor planner",
+          "safe_refactor_planner",
+          "saferefactorplanner"
+        ]
+      },
+      {
+        "name": "SecretGuard",
+        "normalized_name": "secretguard",
+        "status": "implemented",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "source_type": "mermaid",
+        "aliases": [
+          "costguard",
+          "guards",
+          "pathguard",
+          "policy",
+          "policy engine",
+          "secretguard"
+        ]
+      },
+      {
+        "name": "Standards",
+        "normalized_name": "standards",
+        "status": "implemented",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "source_type": "table",
+        "aliases": [
+          "miasi standards",
+          "mipsoftware",
+          "standards",
+          "standards registry"
+        ],
+        "documented_path": "src/devpilot_core/standards"
+      },
+      {
+        "name": "Standards Registry",
+        "normalized_name": "standards registry",
+        "status": "implemented",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "source_type": "mermaid",
+        "aliases": [
+          "miasi standards",
+          "mipsoftware",
+          "standards",
+          "standards registry",
+          "standards_registry",
+          "standardsregistry"
+        ]
+      },
+      {
+        "name": "Store",
+        "normalized_name": "store",
+        "status": "implemented-initial",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "source_type": "table",
+        "aliases": [
+          "localstore",
+          "persistence",
+          "sqlite",
+          "store"
+        ],
+        "documented_path": "src/devpilot_core/store"
+      },
+      {
+        "name": "Tool Registry",
+        "normalized_name": "tool registry",
+        "status": "implemented",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "source_type": "mermaid",
+        "aliases": [
+          "agent registry",
+          "miasi",
+          "policy matrix",
+          "tool registry",
+          "tool_registry",
+          "toolregistry"
+        ]
+      },
+      {
+        "name": "Validators",
+        "normalized_name": "validators",
+        "status": "implemented",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "source_type": "table",
+        "aliases": [
+          "artifact validator",
+          "checklist",
+          "frontmatter",
+          "readiness",
+          "validation",
+          "validators"
+        ],
+        "documented_path": "src/devpilot_core/validators"
+      },
+      {
+        "name": "Validators",
+        "normalized_name": "validators",
+        "status": "implemented",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "source_type": "mermaid",
+        "aliases": [
+          "artifact validator",
+          "checklist",
+          "frontmatter",
+          "readiness",
+          "validation",
+          "validators"
+        ]
+      },
+      {
+        "name": "Web UI/API",
+        "normalized_name": "web ui api",
+        "status": "future",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "source_type": "mermaid",
+        "aliases": [
+          "web ui api",
+          "web_ui_api",
+          "webuiapi"
+        ]
+      },
+      {
+        "name": "Workspace",
+        "normalized_name": "workspace",
+        "status": "implemented-initial",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "source_type": "table",
+        "aliases": [
+          "workspace",
+          "workspace detector",
+          "workspace manager"
+        ],
+        "documented_path": "src/devpilot_core/workspace"
+      },
+      {
+        "name": "Agents",
+        "normalized_name": "agents",
+        "status": "unknown",
+        "source_doc": "docs/02_architecture/c4_container.md",
+        "source_type": "table",
+        "aliases": [
+          "agent runtime",
+          "agentruntime",
+          "agents",
+          "documental agent"
+        ]
+      },
+      {
+        "name": "ApplicationService",
+        "normalized_name": "applicationservice",
+        "status": "implemented-initial",
+        "source_doc": "docs/02_architecture/c4_container.md",
+        "source_type": "table",
+        "aliases": [
+          "application",
+          "application service",
+          "applicationservice",
+          "appsvc"
+        ]
+      },
+      {
+        "name": "Approval",
+        "normalized_name": "approval",
+        "status": "unknown",
+        "source_doc": "docs/02_architecture/c4_container.md",
+        "source_type": "table",
+        "aliases": [
+          "approval",
+          "approval queue",
+          "approval workflow",
+          "human approval"
+        ]
+      },
+      {
+        "name": "Approval workflow",
+        "normalized_name": "approval workflow",
+        "status": "planned",
+        "source_doc": "docs/02_architecture/c4_container.md",
+        "source_type": "table",
+        "aliases": [
+          "approval",
+          "approval queue",
+          "approval workflow",
+          "approval_workflow",
+          "approvalworkflow",
+          "human approval"
+        ]
+      },
+      {
+        "name": "Artifact",
+        "normalized_name": "artifact",
+        "status": "unknown",
+        "source_doc": "docs/02_architecture/c4_container.md",
+        "source_type": "table",
+        "aliases": [
+          "artifact"
+        ]
+      },
+      {
+        "name": "CLI",
+        "normalized_name": "cli",
+        "status": "unknown",
+        "source_doc": "docs/02_architecture/c4_container.md",
+        "source_type": "table",
+        "aliases": [
+          "cli",
+          "command line",
+          "devpilot cli",
+          "interfaz cli"
+        ]
+      },
+      {
+        "name": "Desktop UI",
+        "normalized_name": "desktop ui",
+        "status": "future",
+        "source_doc": "docs/02_architecture/c4_container.md",
+        "source_type": "table",
+        "aliases": [
+          "desktop ui",
+          "desktop_ui",
+          "desktopui"
+        ]
+      },
+      {
+        "name": "DevPilot CLI",
+        "normalized_name": "devpilot cli",
+        "status": "implemented",
+        "source_doc": "docs/02_architecture/c4_container.md",
+        "source_type": "table",
+        "aliases": [
+          "cli",
+          "command line",
+          "devpilot cli",
+          "devpilot_cli",
+          "devpilotcli",
+          "interfaz cli"
+        ]
+      },
+      {
+        "name": "DevPilot Core",
+        "normalized_name": "devpilot core",
+        "status": "implemented",
+        "source_doc": "docs/02_architecture/c4_container.md",
+        "source_type": "table",
+        "aliases": [
+          "devpilot core",
+          "devpilot_core",
+          "devpilotcore"
+        ]
+      },
+      {
+        "name": "External LLM APIs",
+        "normalized_name": "external llm apis",
+        "status": "disabled",
+        "source_doc": "docs/02_architecture/c4_container.md",
+        "source_type": "table",
+        "aliases": [
+          "external llm apis",
+          "external_llm_apis",
+          "externalllmapis"
+        ]
+      },
+      {
+        "name": "Filesystem/docs",
+        "normalized_name": "filesystem docs",
+        "status": "implemented",
+        "source_doc": "docs/02_architecture/c4_container.md",
+        "source_type": "table",
+        "aliases": [
+          "filesystem docs",
+          "filesystem_docs",
+          "filesystemdocs"
+        ]
+      },
+      {
+        "name": "Git local",
+        "normalized_name": "git local",
+        "status": "implemented-initial",
+        "source_doc": "docs/02_architecture/c4_container.md",
+        "source_type": "table",
+        "aliases": [
+          "git local",
+          "git_local",
+          "gitlocal"
+        ]
+      },
+      {
+        "name": "MCP/API tools",
+        "normalized_name": "mcp api tools",
+        "status": "future",
+        "source_doc": "docs/02_architecture/c4_container.md",
+        "source_type": "table",
+        "aliases": [
+          "mcp api tools",
+          "mcp_api_tools",
+          "mcpapitools"
+        ]
+      },
+      {
+        "name": "Model provider layer",
+        "normalized_name": "model provider layer",
+        "status": "partial",
+        "source_doc": "docs/02_architecture/c4_container.md",
+        "source_type": "table",
+        "aliases": [
+          "model provider layer",
+          "model_provider_layer",
+          "modelproviderlayer"
+        ]
+      },
+      {
+        "name": "SQLite LocalStore",
+        "normalized_name": "sqlite localstore",
+        "status": "implemented-initial",
+        "source_doc": "docs/02_architecture/c4_container.md",
+        "source_type": "table",
+        "aliases": [
+          "sqlite localstore",
+          "sqlite_localstore",
+          "sqlitelocalstore"
+        ]
+      },
+      {
+        "name": "Web UI/API",
+        "normalized_name": "web ui api",
+        "status": "future",
+        "source_doc": "docs/02_architecture/c4_container.md",
+        "source_type": "table",
+        "aliases": [
+          "web ui api",
+          "web_ui_api",
+          "webuiapi"
+        ]
+      },
+      {
+        "name": "Workspace",
+        "normalized_name": "workspace",
+        "status": "unknown",
+        "source_doc": "docs/02_architecture/c4_container.md",
+        "source_type": "table",
+        "aliases": [
+          "workspace",
+          "workspace detector",
+          "workspace manager"
+        ]
+      }
+    ],
+    "code_modules": [
+      {
+        "module": "agents",
+        "path": "src/devpilot_core/agents",
+        "package": "devpilot_core",
+        "nodes_total": 3,
+        "fan_in": 2,
+        "fan_out": 7,
+        "aliases": [
+          "agents",
+          "agentruntime",
+          "agent runtime",
+          "documental agent"
+        ]
+      },
+      {
+        "module": "application",
+        "path": "src/devpilot_core/application",
+        "package": "devpilot_core",
+        "nodes_total": 3,
+        "fan_in": 1,
+        "fan_out": 7,
+        "aliases": [
+          "application",
+          "applicationservice",
+          "application service",
+          "appsvc"
+        ]
+      },
+      {
+        "module": "approval",
+        "path": "src/devpilot_core/approval",
+        "package": "devpilot_core",
+        "nodes_total": 5,
+        "fan_in": 5,
+        "fan_out": 4,
+        "aliases": [
+          "approval",
+          "approval workflow",
+          "human approval",
+          "approval queue"
+        ]
+      },
+      {
+        "module": "cli",
+        "path": "src/devpilot_core/cli.py",
+        "package": "devpilot_core",
+        "nodes_total": 1,
+        "fan_in": 1,
+        "fan_out": 29,
+        "aliases": [
+          "cli",
+          "devpilot cli",
+          "command line",
+          "interfaz cli"
+        ]
+      },
+      {
+        "module": "cli_models",
+        "path": "src/devpilot_core/cli_models.py",
+        "package": "devpilot_core",
+        "nodes_total": 1,
+        "fan_in": 50,
+        "fan_out": 0,
+        "aliases": [
+          "cli_models",
+          "commandresult",
+          "finding",
+          "exitcode",
+          "cli models",
+          "climodels"
+        ]
+      },
+      {
+        "module": "devpilot_core",
+        "path": "src/devpilot_core/devpilot_core",
+        "package": "devpilot_core",
+        "nodes_total": 1,
+        "fan_in": 15,
+        "fan_out": 0,
+        "aliases": [
+          "devpilot_core",
+          "devpilot core",
+          "devpilotcore"
+        ]
+      },
+      {
+        "module": "errors",
+        "path": "src/devpilot_core/errors.py",
+        "package": "devpilot_core",
+        "nodes_total": 1,
+        "fan_in": 1,
+        "fan_out": 1,
+        "aliases": [
+          "errors",
+          "devpiloterror"
+        ]
+      },
+      {
+        "module": "evals",
+        "path": "src/devpilot_core/evals",
+        "package": "devpilot_core",
+        "nodes_total": 3,
+        "fan_in": 2,
+        "fan_out": 5,
+        "aliases": [
+          "evals",
+          "eval harness",
+          "evaluation"
+        ]
+      },
+      {
+        "module": "execution",
+        "path": "src/devpilot_core/execution",
+        "package": "devpilot_core",
+        "nodes_total": 4,
+        "fan_in": 2,
+        "fan_out": 5,
+        "aliases": [
+          "execution",
+          "safesubprocess",
+          "safe subprocess",
+          "tests.run"
+        ]
+      },
+      {
+        "module": "miasi",
+        "path": "src/devpilot_core/miasi",
+        "package": "devpilot_core",
+        "nodes_total": 2,
+        "fan_in": 3,
+        "fan_out": 1,
+        "aliases": [
+          "miasi",
+          "agent registry",
+          "tool registry",
+          "policy matrix"
+        ]
+      },
+      {
+        "module": "modeling",
+        "path": "src/devpilot_core/modeling",
+        "package": "devpilot_core",
+        "nodes_total": 5,
+        "fan_in": 4,
+        "fan_out": 5,
+        "aliases": [
+          "modeling",
+          "modeladapter",
+          "model adapter",
+          "mockmodeladapter"
+        ]
+      },
+      {
+        "module": "observability",
+        "path": "src/devpilot_core/observability",
+        "package": "devpilot_core",
+        "nodes_total": 2,
+        "fan_in": 2,
+        "fan_out": 2,
+        "aliases": [
+          "observability",
+          "eventlogger",
+          "jsonl",
+          "traces",
+          "obs"
+        ]
+      },
+      {
+        "module": "policy",
+        "path": "src/devpilot_core/policy",
+        "package": "devpilot_core",
+        "nodes_total": 8,
+        "fan_in": 19,
+        "fan_out": 8,
+        "aliases": [
+          "policy",
+          "policy engine",
+          "guards",
+          "pathguard",
+          "secretguard",
+          "costguard"
+        ]
+      },
+      {
+        "module": "refactor",
+        "path": "src/devpilot_core/refactor",
+        "package": "devpilot_core",
+        "nodes_total": 2,
+        "fan_in": 1,
+        "fan_out": 3,
+        "aliases": [
+          "refactor",
+          "safe refactor",
+          "refactor planner"
+        ]
+      },
+      {
+        "module": "repo",
+        "path": "src/devpilot_core/repo",
+        "package": "devpilot_core",
+        "nodes_total": 8,
+        "fan_in": 3,
+        "fan_out": 6,
+        "aliases": [
+          "repo",
+          "gitadapter",
+          "git adapter",
+          "repo inventory",
+          "repo analyzer",
+          "dependencygraph"
+        ]
+      },
+      {
+        "module": "reports",
+        "path": "src/devpilot_core/reports",
+        "package": "devpilot_core",
+        "nodes_total": 3,
+        "fan_in": 3,
+        "fan_out": 3,
+        "aliases": [
+          "reports",
+          "report engine",
+          "evidence report"
+        ]
+      },
+      {
+        "module": "review",
+        "path": "src/devpilot_core/review",
+        "package": "devpilot_core",
+        "nodes_total": 3,
+        "fan_in": 2,
+        "fan_out": 2,
+        "aliases": [
+          "review",
+          "patch review",
+          "code review"
+        ]
+      },
+      {
+        "module": "schemas",
+        "path": "src/devpilot_core/schemas",
+        "package": "devpilot_core",
+        "nodes_total": 6,
+        "fan_in": 3,
+        "fan_out": 3,
+        "aliases": [
+          "schemas",
+          "schema registry",
+          "schema validator"
+        ]
+      },
+      {
+        "module": "security",
+        "path": "src/devpilot_core/security",
+        "package": "devpilot_core",
+        "nodes_total": 3,
+        "fan_in": 1,
+        "fan_out": 6,
+        "aliases": [
+          "security",
+          "security readiness",
+          "policy simulation"
+        ]
+      },
+      {
+        "module": "standards",
+        "path": "src/devpilot_core/standards",
+        "package": "devpilot_core",
+        "nodes_total": 3,
+        "fan_in": 3,
+        "fan_out": 5,
+        "aliases": [
+          "standards",
+          "standards registry",
+          "mipsoftware",
+          "miasi standards"
+        ]
+      },
+      {
+        "module": "store",
+        "path": "src/devpilot_core/store",
+        "package": "devpilot_core",
+        "nodes_total": 2,
+        "fan_in": 4,
+        "fan_out": 2,
+        "aliases": [
+          "store",
+          "localstore",
+          "sqlite",
+          "persistence"
+        ]
+      },
+      {
+        "module": "testing",
+        "path": "src/devpilot_core/testing",
+        "package": "devpilot_core",
+        "nodes_total": 3,
+        "fan_in": 2,
+        "fan_out": 4,
+        "aliases": [
+          "testing",
+          "tests.run",
+          "controlled tests"
+        ]
+      },
+      {
+        "module": "traceability",
+        "path": "src/devpilot_core/traceability",
+        "package": "devpilot_core",
+        "nodes_total": 8,
+        "fan_in": 3,
+        "fan_out": 4,
+        "aliases": [
+          "traceability",
+          "traceability engine",
+          "architecture drift"
+        ]
+      },
+      {
+        "module": "validation",
+        "path": "src/devpilot_core/validation",
+        "package": "devpilot_core",
+        "nodes_total": 3,
+        "fan_in": 3,
+        "fan_out": 5,
+        "aliases": [
+          "validation gateway",
+          "validation"
+        ]
+      },
+      {
+        "module": "validators",
+        "path": "src/devpilot_core/validators",
+        "package": "devpilot_core",
+        "nodes_total": 6,
+        "fan_in": 8,
+        "fan_out": 6,
+        "aliases": [
+          "validators",
+          "validation",
+          "frontmatter",
+          "artifact validator",
+          "checklist",
+          "readiness"
+        ]
+      },
+      {
+        "module": "workspace",
+        "path": "src/devpilot_core/workspace",
+        "package": "devpilot_core",
+        "nodes_total": 2,
+        "fan_in": 1,
+        "fan_out": 1,
+        "aliases": [
+          "workspace",
+          "workspace manager",
+          "workspace detector"
+        ]
+      }
+    ],
+    "matrix": [
+      {
+        "documented_component": "AgentRuntime documental",
+        "documented_status": "implemented-initial",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "documented_path": null,
+        "code_module": null,
+        "code_path": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing",
+        "severity": "warning",
+        "rationale": "No match reached minimum confidence threshold."
+      },
+      {
+        "documented_component": "Artifact",
+        "documented_status": "unknown",
+        "source_doc": "docs/02_architecture/c4_container.md",
+        "documented_path": null,
+        "code_module": null,
+        "code_path": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing",
+        "severity": "warning",
+        "rationale": "No match reached minimum confidence threshold."
+      },
+      {
+        "documented_component": "Checklist Validator",
+        "documented_status": "implemented",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "documented_path": null,
+        "code_module": null,
+        "code_path": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing",
+        "severity": "warning",
+        "rationale": "No match reached minimum confidence threshold."
+      },
+      {
+        "documented_component": "DTOs ApplicationRequest/Response",
+        "documented_status": "implemented-initial",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "documented_path": null,
+        "code_module": null,
+        "code_path": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing",
+        "severity": "warning",
+        "rationale": "No match reached minimum confidence threshold."
+      },
+      {
+        "documented_component": "Eval Harness offline",
+        "documented_status": "implemented-initial",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "documented_path": null,
+        "code_module": null,
+        "code_path": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing",
+        "severity": "warning",
+        "rationale": "No match reached minimum confidence threshold."
+      },
+      {
+        "documented_component": "EventLogger JSONL",
+        "documented_status": "implemented-initial",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "documented_path": null,
+        "code_module": null,
+        "code_path": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing",
+        "severity": "warning",
+        "rationale": "No match reached minimum confidence threshold."
+      },
+      {
+        "documented_component": "Filesystem/docs",
+        "documented_status": "implemented",
+        "source_doc": "docs/02_architecture/c4_container.md",
+        "documented_path": null,
+        "code_module": null,
+        "code_path": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing",
+        "severity": "warning",
+        "rationale": "No match reached minimum confidence threshold."
+      },
+      {
+        "documented_component": "Frontmatter Validator",
+        "documented_status": "implemented",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "documented_path": null,
+        "code_module": null,
+        "code_path": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing",
+        "severity": "warning",
+        "rationale": "No match reached minimum confidence threshold."
+      },
+      {
+        "documented_component": "Git local",
+        "documented_status": "implemented-initial",
+        "source_doc": "docs/02_architecture/c4_container.md",
+        "documented_path": null,
+        "code_module": null,
+        "code_path": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing",
+        "severity": "warning",
+        "rationale": "No match reached minimum confidence threshold."
+      },
+      {
+        "documented_component": "GitAdapter + RepoInventory",
+        "documented_status": "implemented-initial",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "documented_path": null,
+        "code_module": null,
+        "code_path": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing",
+        "severity": "warning",
+        "rationale": "No match reached minimum confidence threshold."
+      },
+      {
+        "documented_component": "LocalStore SQLite v0",
+        "documented_status": "implemented-initial",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "documented_path": null,
+        "code_module": null,
+        "code_path": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing",
+        "severity": "warning",
+        "rationale": "No match reached minimum confidence threshold."
+      },
+      {
+        "documented_component": "MIASI Registry Validator",
+        "documented_status": "implemented",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "documented_path": null,
+        "code_module": null,
+        "code_path": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing",
+        "severity": "warning",
+        "rationale": "No match reached minimum confidence threshold."
+      },
+      {
+        "documented_component": "Model provider layer",
+        "documented_status": "partial",
+        "source_doc": "docs/02_architecture/c4_container.md",
+        "documented_path": null,
+        "code_module": null,
+        "code_path": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing",
+        "severity": "warning",
+        "rationale": "No match reached minimum confidence threshold."
+      },
+      {
+        "documented_component": "ModelAdapter Router",
+        "documented_status": "partial",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "documented_path": null,
+        "code_module": null,
+        "code_path": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing",
+        "severity": "warning",
+        "rationale": "No match reached minimum confidence threshold."
+      },
+      {
+        "documented_component": "Policy Engine + Guards",
+        "documented_status": "implemented",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "documented_path": null,
+        "code_module": null,
+        "code_path": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing",
+        "severity": "warning",
+        "rationale": "No match reached minimum confidence threshold."
+      },
+      {
+        "documented_component": "Readiness Gate",
+        "documented_status": "implemented",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "documented_path": null,
+        "code_module": null,
+        "code_path": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing",
+        "severity": "warning",
+        "rationale": "No match reached minimum confidence threshold."
+      },
+      {
+        "documented_component": null,
+        "documented_status": null,
+        "source_doc": null,
+        "documented_path": null,
+        "code_module": "errors",
+        "code_path": "src/devpilot_core/errors.py",
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "doc_missing",
+        "severity": "warning",
+        "rationale": "Code module has no evident architecture-documentation match."
+      },
+      {
+        "documented_component": null,
+        "documented_status": null,
+        "source_doc": null,
+        "documented_path": null,
+        "code_module": "execution",
+        "code_path": "src/devpilot_core/execution",
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "doc_missing",
+        "severity": "warning",
+        "rationale": "Code module has no evident architecture-documentation match."
+      },
+      {
+        "documented_component": null,
+        "documented_status": null,
+        "source_doc": null,
+        "documented_path": null,
+        "code_module": "schemas",
+        "code_path": "src/devpilot_core/schemas",
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "doc_missing",
+        "severity": "warning",
+        "rationale": "Code module has no evident architecture-documentation match."
+      },
+      {
+        "documented_component": null,
+        "documented_status": null,
+        "source_doc": null,
+        "documented_path": null,
+        "code_module": "security",
+        "code_path": "src/devpilot_core/security",
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "doc_missing",
+        "severity": "warning",
+        "rationale": "Code module has no evident architecture-documentation match."
+      },
+      {
+        "documented_component": null,
+        "documented_status": null,
+        "source_doc": null,
+        "documented_path": null,
+        "code_module": "traceability",
+        "code_path": "src/devpilot_core/traceability",
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "doc_missing",
+        "severity": "warning",
+        "rationale": "Code module has no evident architecture-documentation match."
+      },
+      {
+        "documented_component": "Patch/Code Review dry-run",
+        "documented_status": "implemented-initial",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "documented_path": null,
+        "code_module": "review",
+        "code_path": "src/devpilot_core/review",
+        "match_type": "fuzzy",
+        "confidence": 0.6,
+        "drift_type": "name_mismatch",
+        "severity": "warning",
+        "rationale": "Best fuzzy match between component and code module."
+      },
+      {
+        "documented_component": "SQLite LocalStore",
+        "documented_status": "implemented-initial",
+        "source_doc": "docs/02_architecture/c4_container.md",
+        "documented_path": null,
+        "code_module": "store",
+        "code_path": "src/devpilot_core/store",
+        "match_type": "fuzzy",
+        "confidence": 0.5,
+        "drift_type": "name_mismatch",
+        "severity": "warning",
+        "rationale": "Best fuzzy match between component and code module."
+      },
+      {
+        "documented_component": "Safe Refactor Planner",
+        "documented_status": "implemented-initial",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "documented_path": null,
+        "code_module": "refactor",
+        "code_path": "src/devpilot_core/refactor",
+        "match_type": "fuzzy",
+        "confidence": 1.0,
+        "drift_type": "name_mismatch",
+        "severity": "warning",
+        "rationale": "Best fuzzy match between component and code module."
+      },
+      {
+        "documented_component": "Desktop UI",
+        "documented_status": "future",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "documented_path": null,
+        "code_module": null,
+        "code_path": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing",
+        "severity": "info",
+        "rationale": "No match reached minimum confidence threshold."
+      },
+      {
+        "documented_component": "Desktop UI",
+        "documented_status": "future",
+        "source_doc": "docs/02_architecture/c4_container.md",
+        "documented_path": null,
+        "code_module": null,
+        "code_path": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing",
+        "severity": "info",
+        "rationale": "No match reached minimum confidence threshold."
+      },
+      {
+        "documented_component": "External APIs",
+        "documented_status": "disabled",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "documented_path": null,
+        "code_module": null,
+        "code_path": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing",
+        "severity": "info",
+        "rationale": "No match reached minimum confidence threshold."
+      },
+      {
+        "documented_component": "External LLM APIs",
+        "documented_status": "disabled",
+        "source_doc": "docs/02_architecture/c4_container.md",
+        "documented_path": null,
+        "code_module": null,
+        "code_path": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing",
+        "severity": "info",
+        "rationale": "No match reached minimum confidence threshold."
+      },
+      {
+        "documented_component": "MCP/API tools",
+        "documented_status": "future",
+        "source_doc": "docs/02_architecture/c4_container.md",
+        "documented_path": null,
+        "code_module": null,
+        "code_path": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing",
+        "severity": "info",
+        "rationale": "No match reached minimum confidence threshold."
+      },
+      {
+        "documented_component": "Ollama/LM Studio clients",
+        "documented_status": "planned",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "documented_path": null,
+        "code_module": null,
+        "code_path": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing",
+        "severity": "info",
+        "rationale": "No match reached minimum confidence threshold."
+      },
+      {
+        "documented_component": "Patch apply sandbox",
+        "documented_status": "planned",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "documented_path": null,
+        "code_module": null,
+        "code_path": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing",
+        "severity": "info",
+        "rationale": "No match reached minimum confidence threshold."
+      },
+      {
+        "documented_component": "Refactor execution",
+        "documented_status": "planned",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "documented_path": null,
+        "code_module": null,
+        "code_path": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing",
+        "severity": "info",
+        "rationale": "No match reached minimum confidence threshold."
+      },
+      {
+        "documented_component": "Web UI/API",
+        "documented_status": "future",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "documented_path": null,
+        "code_module": null,
+        "code_path": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing",
+        "severity": "info",
+        "rationale": "No match reached minimum confidence threshold."
+      },
+      {
+        "documented_component": "Web UI/API",
+        "documented_status": "future",
+        "source_doc": "docs/02_architecture/c4_container.md",
+        "documented_path": null,
+        "code_module": null,
+        "code_path": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing",
+        "severity": "info",
+        "rationale": "No match reached minimum confidence threshold."
+      },
+      {
+        "documented_component": "Agent Registry",
+        "documented_status": "implemented",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "documented_path": null,
+        "code_module": "miasi",
+        "code_path": "src/devpilot_core/miasi",
+        "match_type": "alias",
+        "confidence": 0.9,
+        "drift_type": "in_sync",
+        "severity": "info",
+        "rationale": "Best alias match between component and code module."
+      },
+      {
+        "documented_component": "Agents",
+        "documented_status": "implemented-initial",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "documented_path": "src/devpilot_core/agents",
+        "code_module": "agents",
+        "code_path": "src/devpilot_core/agents",
+        "match_type": "path",
+        "confidence": 1.0,
+        "drift_type": "in_sync",
+        "severity": "info",
+        "rationale": "Documented path matches source module path."
+      },
+      {
+        "documented_component": "Agents",
+        "documented_status": "unknown",
+        "source_doc": "docs/02_architecture/c4_container.md",
+        "documented_path": null,
+        "code_module": "agents",
+        "code_path": "src/devpilot_core/agents",
+        "match_type": "exact",
+        "confidence": 1.0,
+        "drift_type": "in_sync",
+        "severity": "info",
+        "rationale": "Component name exactly matches top-level module."
+      },
+      {
+        "documented_component": "Application",
+        "documented_status": "implemented-initial",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "documented_path": "src/devpilot_core/application",
+        "code_module": "application",
+        "code_path": "src/devpilot_core/application",
+        "match_type": "path",
+        "confidence": 1.0,
+        "drift_type": "in_sync",
+        "severity": "info",
+        "rationale": "Documented path matches source module path."
+      },
+      {
+        "documented_component": "ApplicationService",
+        "documented_status": "implemented-initial",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "documented_path": null,
+        "code_module": "application",
+        "code_path": "src/devpilot_core/application",
+        "match_type": "alias",
+        "confidence": 0.9,
+        "drift_type": "in_sync",
+        "severity": "info",
+        "rationale": "Best alias match between component and code module."
+      },
+      {
+        "documented_component": "ApplicationService",
+        "documented_status": "implemented-initial",
+        "source_doc": "docs/02_architecture/c4_container.md",
+        "documented_path": null,
+        "code_module": "application",
+        "code_path": "src/devpilot_core/application",
+        "match_type": "alias",
+        "confidence": 0.9,
+        "drift_type": "in_sync",
+        "severity": "info",
+        "rationale": "Best alias match between component and code module."
+      },
+      {
+        "documented_component": "Approval",
+        "documented_status": "unknown",
+        "source_doc": "docs/02_architecture/c4_container.md",
+        "documented_path": null,
+        "code_module": "approval",
+        "code_path": "src/devpilot_core/approval",
+        "match_type": "exact",
+        "confidence": 1.0,
+        "drift_type": "in_sync",
+        "severity": "info",
+        "rationale": "Component name exactly matches top-level module."
+      },
+      {
+        "documented_component": "Approval workflow",
+        "documented_status": "planned",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "documented_path": null,
+        "code_module": "approval",
+        "code_path": "src/devpilot_core/approval",
+        "match_type": "alias",
+        "confidence": 0.9,
+        "drift_type": "in_sync",
+        "severity": "info",
+        "rationale": "Best alias match between component and code module."
+      },
+      {
+        "documented_component": "Approval workflow",
+        "documented_status": "planned",
+        "source_doc": "docs/02_architecture/c4_container.md",
+        "documented_path": null,
+        "code_module": "approval",
+        "code_path": "src/devpilot_core/approval",
+        "match_type": "alias",
+        "confidence": 0.9,
+        "drift_type": "in_sync",
+        "severity": "info",
+        "rationale": "Best alias match between component and code module."
+      },
+      {
+        "documented_component": "Artifact Validator",
+        "documented_status": "implemented",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "documented_path": null,
+        "code_module": "validation",
+        "code_path": "src/devpilot_core/validation",
+        "match_type": "alias",
+        "confidence": 0.9,
+        "drift_type": "in_sync",
+        "severity": "info",
+        "rationale": "Best alias match between component and code module."
+      },
+      {
+        "documented_component": "CLI",
+        "documented_status": "unknown",
+        "source_doc": "docs/02_architecture/architecture_document.md",
+        "documented_path": null,
+        "code_module": "cli",
+        "code_path": "src/devpilot_core/cli.py",
+        "match_type": "exact",
+        "confidence": 1.0,
+        "drift_type": "in_sync",
+        "severity": "info",
+        "rationale": "Component name exactly matches top-level module."
+      },
+      {
+        "documented_component": "CLI",
+        "documented_status": "implemented",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "documented_path": "src/devpilot_core/cli.py",
+        "code_module": "cli",
+        "code_path": "src/devpilot_core/cli.py",
+        "match_type": "path",
+        "confidence": 1.0,
+        "drift_type": "in_sync",
+        "severity": "info",
+        "rationale": "Documented path matches source module path."
+      },
+      {
+        "documented_component": "CLI",
+        "documented_status": "implemented",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "documented_path": null,
+        "code_module": "cli",
+        "code_path": "src/devpilot_core/cli.py",
+        "match_type": "exact",
+        "confidence": 1.0,
+        "drift_type": "in_sync",
+        "severity": "info",
+        "rationale": "Component name exactly matches top-level module."
+      },
+      {
+        "documented_component": "CLI",
+        "documented_status": "unknown",
+        "source_doc": "docs/02_architecture/c4_container.md",
+        "documented_path": null,
+        "code_module": "cli",
+        "code_path": "src/devpilot_core/cli.py",
+        "match_type": "exact",
+        "confidence": 1.0,
+        "drift_type": "in_sync",
+        "severity": "info",
+        "rationale": "Component name exactly matches top-level module."
+      },
+      {
+        "documented_component": "CostGuard",
+        "documented_status": "unknown",
+        "source_doc": "docs/02_architecture/architecture_document.md",
+        "documented_path": null,
+        "code_module": "policy",
+        "code_path": "src/devpilot_core/policy",
+        "match_type": "alias",
+        "confidence": 0.9,
+        "drift_type": "in_sync",
+        "severity": "info",
+        "rationale": "Best alias match between component and code module."
+      },
+      {
+        "documented_component": "CostGuard",
+        "documented_status": "implemented",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "documented_path": null,
+        "code_module": "policy",
+        "code_path": "src/devpilot_core/policy",
+        "match_type": "alias",
+        "confidence": 0.9,
+        "drift_type": "in_sync",
+        "severity": "info",
+        "rationale": "Best alias match between component and code module."
+      },
+      {
+        "documented_component": "DevPilot CLI",
+        "documented_status": "implemented",
+        "source_doc": "docs/02_architecture/c4_container.md",
+        "documented_path": null,
+        "code_module": "cli",
+        "code_path": "src/devpilot_core/cli.py",
+        "match_type": "alias",
+        "confidence": 0.9,
+        "drift_type": "in_sync",
+        "severity": "info",
+        "rationale": "Best alias match between component and code module."
+      },
+      {
+        "documented_component": "DevPilot Core",
+        "documented_status": "implemented",
+        "source_doc": "docs/02_architecture/c4_container.md",
+        "documented_path": null,
+        "code_module": "devpilot_core",
+        "code_path": "src/devpilot_core/devpilot_core",
+        "match_type": "alias",
+        "confidence": 0.9,
+        "drift_type": "in_sync",
+        "severity": "info",
+        "rationale": "Best alias match between component and code module."
+      },
+      {
+        "documented_component": "Evals",
+        "documented_status": "implemented-initial",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "documented_path": "src/devpilot_core/evals",
+        "code_module": "evals",
+        "code_path": "src/devpilot_core/evals",
+        "match_type": "path",
+        "confidence": 1.0,
+        "drift_type": "in_sync",
+        "severity": "info",
+        "rationale": "Documented path matches source module path."
+      },
+      {
+        "documented_component": "MIASI",
+        "documented_status": "implemented",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "documented_path": "src/devpilot_core/miasi",
+        "code_module": "miasi",
+        "code_path": "src/devpilot_core/miasi",
+        "match_type": "path",
+        "confidence": 1.0,
+        "drift_type": "in_sync",
+        "severity": "info",
+        "rationale": "Documented path matches source module path."
+      },
+      {
+        "documented_component": "MockModelAdapter",
+        "documented_status": "implemented",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "documented_path": null,
+        "code_module": "modeling",
+        "code_path": "src/devpilot_core/modeling",
+        "match_type": "alias",
+        "confidence": 0.9,
+        "drift_type": "in_sync",
+        "severity": "info",
+        "rationale": "Best alias match between component and code module."
+      },
+      {
+        "documented_component": "Modeling",
+        "documented_status": "partial",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "documented_path": "src/devpilot_core/modeling",
+        "code_module": "modeling",
+        "code_path": "src/devpilot_core/modeling",
+        "match_type": "path",
+        "confidence": 1.0,
+        "drift_type": "in_sync",
+        "severity": "info",
+        "rationale": "Documented path matches source module path."
+      },
+      {
+        "documented_component": "Observability",
+        "documented_status": "implemented-initial",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "documented_path": "src/devpilot_core/observability",
+        "code_module": "observability",
+        "code_path": "src/devpilot_core/observability",
+        "match_type": "path",
+        "confidence": 1.0,
+        "drift_type": "in_sync",
+        "severity": "info",
+        "rationale": "Documented path matches source module path."
+      },
+      {
+        "documented_component": "PathGuard",
+        "documented_status": "implemented",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "documented_path": null,
+        "code_module": "policy",
+        "code_path": "src/devpilot_core/policy",
+        "match_type": "alias",
+        "confidence": 0.9,
+        "drift_type": "in_sync",
+        "severity": "info",
+        "rationale": "Best alias match between component and code module."
+      },
+      {
+        "documented_component": "Policy",
+        "documented_status": "implemented",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "documented_path": "src/devpilot_core/policy",
+        "code_module": "policy",
+        "code_path": "src/devpilot_core/policy",
+        "match_type": "path",
+        "confidence": 1.0,
+        "drift_type": "in_sync",
+        "severity": "info",
+        "rationale": "Documented path matches source module path."
+      },
+      {
+        "documented_component": "Policy Matrix",
+        "documented_status": "implemented",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "documented_path": null,
+        "code_module": "miasi",
+        "code_path": "src/devpilot_core/miasi",
+        "match_type": "alias",
+        "confidence": 0.9,
+        "drift_type": "in_sync",
+        "severity": "info",
+        "rationale": "Best alias match between component and code module."
+      },
+      {
+        "documented_component": "Refactor",
+        "documented_status": "implemented-initial",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "documented_path": "src/devpilot_core/refactor",
+        "code_module": "refactor",
+        "code_path": "src/devpilot_core/refactor",
+        "match_type": "path",
+        "confidence": 1.0,
+        "drift_type": "in_sync",
+        "severity": "info",
+        "rationale": "Documented path matches source module path."
+      },
+      {
+        "documented_component": "Repo",
+        "documented_status": "implemented-initial",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "documented_path": "src/devpilot_core/repo",
+        "code_module": "repo",
+        "code_path": "src/devpilot_core/repo",
+        "match_type": "path",
+        "confidence": 1.0,
+        "drift_type": "in_sync",
+        "severity": "info",
+        "rationale": "Documented path matches source module path."
+      },
+      {
+        "documented_component": "Report Engine",
+        "documented_status": "implemented",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "documented_path": null,
+        "code_module": "reports",
+        "code_path": "src/devpilot_core/reports",
+        "match_type": "alias",
+        "confidence": 0.9,
+        "drift_type": "in_sync",
+        "severity": "info",
+        "rationale": "Best alias match between component and code module."
+      },
+      {
+        "documented_component": "Reports",
+        "documented_status": "implemented",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "documented_path": "src/devpilot_core/reports",
+        "code_module": "reports",
+        "code_path": "src/devpilot_core/reports",
+        "match_type": "path",
+        "confidence": 1.0,
+        "drift_type": "in_sync",
+        "severity": "info",
+        "rationale": "Documented path matches source module path."
+      },
+      {
+        "documented_component": "Review",
+        "documented_status": "implemented-initial",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "documented_path": "src/devpilot_core/review",
+        "code_module": "review",
+        "code_path": "src/devpilot_core/review",
+        "match_type": "path",
+        "confidence": 1.0,
+        "drift_type": "in_sync",
+        "severity": "info",
+        "rationale": "Documented path matches source module path."
+      },
+      {
+        "documented_component": "SecretGuard",
+        "documented_status": "unknown",
+        "source_doc": "docs/02_architecture/architecture_document.md",
+        "documented_path": null,
+        "code_module": "policy",
+        "code_path": "src/devpilot_core/policy",
+        "match_type": "alias",
+        "confidence": 0.9,
+        "drift_type": "in_sync",
+        "severity": "info",
+        "rationale": "Best alias match between component and code module."
+      },
+      {
+        "documented_component": "SecretGuard",
+        "documented_status": "implemented",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "documented_path": null,
+        "code_module": "policy",
+        "code_path": "src/devpilot_core/policy",
+        "match_type": "alias",
+        "confidence": 0.9,
+        "drift_type": "in_sync",
+        "severity": "info",
+        "rationale": "Best alias match between component and code module."
+      },
+      {
+        "documented_component": "Standards",
+        "documented_status": "implemented",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "documented_path": "src/devpilot_core/standards",
+        "code_module": "standards",
+        "code_path": "src/devpilot_core/standards",
+        "match_type": "path",
+        "confidence": 1.0,
+        "drift_type": "in_sync",
+        "severity": "info",
+        "rationale": "Documented path matches source module path."
+      },
+      {
+        "documented_component": "Standards Registry",
+        "documented_status": "implemented",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "documented_path": null,
+        "code_module": "standards",
+        "code_path": "src/devpilot_core/standards",
+        "match_type": "alias",
+        "confidence": 0.9,
+        "drift_type": "in_sync",
+        "severity": "info",
+        "rationale": "Best alias match between component and code module."
+      },
+      {
+        "documented_component": "Store",
+        "documented_status": "implemented-initial",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "documented_path": "src/devpilot_core/store",
+        "code_module": "store",
+        "code_path": "src/devpilot_core/store",
+        "match_type": "path",
+        "confidence": 1.0,
+        "drift_type": "in_sync",
+        "severity": "info",
+        "rationale": "Documented path matches source module path."
+      },
+      {
+        "documented_component": "Testing",
+        "documented_status": "unknown",
+        "source_doc": "docs/02_architecture/architecture_document.md",
+        "documented_path": null,
+        "code_module": "testing",
+        "code_path": "src/devpilot_core/testing",
+        "match_type": "exact",
+        "confidence": 1.0,
+        "drift_type": "in_sync",
+        "severity": "info",
+        "rationale": "Component name exactly matches top-level module."
+      },
+      {
+        "documented_component": "Tool Registry",
+        "documented_status": "implemented",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "documented_path": null,
+        "code_module": "miasi",
+        "code_path": "src/devpilot_core/miasi",
+        "match_type": "alias",
+        "confidence": 0.9,
+        "drift_type": "in_sync",
+        "severity": "info",
+        "rationale": "Best alias match between component and code module."
+      },
+      {
+        "documented_component": "Validators",
+        "documented_status": "implemented",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "documented_path": "src/devpilot_core/validators",
+        "code_module": "validators",
+        "code_path": "src/devpilot_core/validators",
+        "match_type": "path",
+        "confidence": 1.0,
+        "drift_type": "in_sync",
+        "severity": "info",
+        "rationale": "Documented path matches source module path."
+      },
+      {
+        "documented_component": "Validators",
+        "documented_status": "implemented",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "documented_path": null,
+        "code_module": "validators",
+        "code_path": "src/devpilot_core/validators",
+        "match_type": "exact",
+        "confidence": 1.0,
+        "drift_type": "in_sync",
+        "severity": "info",
+        "rationale": "Component name exactly matches top-level module."
+      },
+      {
+        "documented_component": "Workspace",
+        "documented_status": "implemented-initial",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "documented_path": "src/devpilot_core/workspace",
+        "code_module": "workspace",
+        "code_path": "src/devpilot_core/workspace",
+        "match_type": "path",
+        "confidence": 1.0,
+        "drift_type": "in_sync",
+        "severity": "info",
+        "rationale": "Documented path matches source module path."
+      },
+      {
+        "documented_component": "Workspace",
+        "documented_status": "unknown",
+        "source_doc": "docs/02_architecture/c4_container.md",
+        "documented_path": null,
+        "code_module": "workspace",
+        "code_path": "src/devpilot_core/workspace",
+        "match_type": "exact",
+        "confidence": 1.0,
+        "drift_type": "in_sync",
+        "severity": "info",
+        "rationale": "Component name exactly matches top-level module."
+      },
+      {
+        "documented_component": "climodels",
+        "documented_status": "implemented",
+        "source_doc": "docs/02_architecture/c4_component.md",
+        "documented_path": "src/devpilot_core/cli_models.py",
+        "code_module": "cli_models",
+        "code_path": "src/devpilot_core/cli_models.py",
+        "match_type": "path",
+        "confidence": 1.0,
+        "drift_type": "in_sync",
+        "severity": "info",
+        "rationale": "Documented path matches source module path."
+      }
+    ],
+    "repo_analyzer_summary": {
+      "target": ".",
+      "health_score": 60,
+      "rating": "risk",
+      "risk_counts": {
+        "block": 0,
+        "fail": 0,
+        "warning": 53,
+        "info": 0
+      },
+      "sections_summary": {
+        "files_total": 589,
+        "src_tests_ratio": 1.533,
+        "docs_to_source_ratio": 3.261
+      },
+      "dependency": {
+        "nodes_total": 92,
+        "edges_total": 593,
+        "external_imports_total": 25,
+        "syntax_error_files_total": 0
+      },
+      "git": {
+        "is_git_repo": true,
+        "branch": "main",
+        "counts": {
+          "entries_total": 26,
+          "modified": 18,
+          "added": 0,
+          "deleted": 2,
+          "renamed": 0,
+          "untracked": 6,
+          "staged": 0
+        },
+        "git_available": true
+      },
+      "hotspots_total": 20,
+      "network_used": false,
+      "external_api_used": false,
+      "mutations_performed": false,
+      "preliminary": true
+    },
+    "dependency_summary": {
+      "target": "src/devpilot_core",
+      "root_package": "devpilot_core",
+      "nodes_total": 92,
+      "edges_total": 593,
+      "external_imports_total": 25,
+      "syntax_error_files_total": 0,
+      "ignored_dirs": [],
+      "truncated": false,
+      "max_files": 5000,
+      "network_used": false,
+      "external_api_used": false,
+      "mutations_performed": false,
+      "preliminary": true
+    },
+    "notes": [
+      "FUNC-SPRINT-38 Architecture/code drift is read-only and heuristic.",
+      "Documented components are extracted from Markdown tables and Mermaid nodes; matching is confidence-based.",
+      "planned/future/disabled components are not blocking when code is absent.",
+      "This detector does not infer runtime behavior and does not replace architecture review.",
+      "No LLM, network, API, Git write, patch apply or document mutation is performed."
+    ],
+    "reports": {
+      "json": "outputs/reports/repo_architecture_drift.json",
+      "markdown": "outputs/reports/repo_architecture_drift.md"
+    }
+  },
+  "findings": [
+    {
+      "id": "ARCH_DRIFT_CODE_MISSING",
+      "message": "Documented component has no evident source module: AgentRuntime documental.",
+      "severity": "warning",
+      "path": "docs/02_architecture/c4_component.md",
+      "metadata": {
+        "documented_component": "AgentRuntime documental",
+        "documented_status": "implemented-initial",
+        "code_module": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing"
+      }
+    },
+    {
+      "id": "ARCH_DRIFT_CODE_MISSING",
+      "message": "Documented component has no evident source module: Artifact.",
+      "severity": "warning",
+      "path": "docs/02_architecture/c4_container.md",
+      "metadata": {
+        "documented_component": "Artifact",
+        "documented_status": "unknown",
+        "code_module": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing"
+      }
+    },
+    {
+      "id": "ARCH_DRIFT_CODE_MISSING",
+      "message": "Documented component has no evident source module: Checklist Validator.",
+      "severity": "warning",
+      "path": "docs/02_architecture/c4_component.md",
+      "metadata": {
+        "documented_component": "Checklist Validator",
+        "documented_status": "implemented",
+        "code_module": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing"
+      }
+    },
+    {
+      "id": "ARCH_DRIFT_CODE_MISSING",
+      "message": "Documented component has no evident source module: DTOs ApplicationRequest/Response.",
+      "severity": "warning",
+      "path": "docs/02_architecture/c4_component.md",
+      "metadata": {
+        "documented_component": "DTOs ApplicationRequest/Response",
+        "documented_status": "implemented-initial",
+        "code_module": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing"
+      }
+    },
+    {
+      "id": "ARCH_DRIFT_CODE_MISSING",
+      "message": "Documented component has no evident source module: Eval Harness offline.",
+      "severity": "warning",
+      "path": "docs/02_architecture/c4_component.md",
+      "metadata": {
+        "documented_component": "Eval Harness offline",
+        "documented_status": "implemented-initial",
+        "code_module": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing"
+      }
+    },
+    {
+      "id": "ARCH_DRIFT_CODE_MISSING",
+      "message": "Documented component has no evident source module: EventLogger JSONL.",
+      "severity": "warning",
+      "path": "docs/02_architecture/c4_component.md",
+      "metadata": {
+        "documented_component": "EventLogger JSONL",
+        "documented_status": "implemented-initial",
+        "code_module": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing"
+      }
+    },
+    {
+      "id": "ARCH_DRIFT_CODE_MISSING",
+      "message": "Documented component has no evident source module: Filesystem/docs.",
+      "severity": "warning",
+      "path": "docs/02_architecture/c4_container.md",
+      "metadata": {
+        "documented_component": "Filesystem/docs",
+        "documented_status": "implemented",
+        "code_module": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing"
+      }
+    },
+    {
+      "id": "ARCH_DRIFT_CODE_MISSING",
+      "message": "Documented component has no evident source module: Frontmatter Validator.",
+      "severity": "warning",
+      "path": "docs/02_architecture/c4_component.md",
+      "metadata": {
+        "documented_component": "Frontmatter Validator",
+        "documented_status": "implemented",
+        "code_module": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing"
+      }
+    },
+    {
+      "id": "ARCH_DRIFT_CODE_MISSING",
+      "message": "Documented component has no evident source module: Git local.",
+      "severity": "warning",
+      "path": "docs/02_architecture/c4_container.md",
+      "metadata": {
+        "documented_component": "Git local",
+        "documented_status": "implemented-initial",
+        "code_module": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing"
+      }
+    },
+    {
+      "id": "ARCH_DRIFT_CODE_MISSING",
+      "message": "Documented component has no evident source module: GitAdapter + RepoInventory.",
+      "severity": "warning",
+      "path": "docs/02_architecture/c4_component.md",
+      "metadata": {
+        "documented_component": "GitAdapter + RepoInventory",
+        "documented_status": "implemented-initial",
+        "code_module": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing"
+      }
+    },
+    {
+      "id": "ARCH_DRIFT_CODE_MISSING",
+      "message": "Documented component has no evident source module: LocalStore SQLite v0.",
+      "severity": "warning",
+      "path": "docs/02_architecture/c4_component.md",
+      "metadata": {
+        "documented_component": "LocalStore SQLite v0",
+        "documented_status": "implemented-initial",
+        "code_module": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing"
+      }
+    },
+    {
+      "id": "ARCH_DRIFT_CODE_MISSING",
+      "message": "Documented component has no evident source module: MIASI Registry Validator.",
+      "severity": "warning",
+      "path": "docs/02_architecture/c4_component.md",
+      "metadata": {
+        "documented_component": "MIASI Registry Validator",
+        "documented_status": "implemented",
+        "code_module": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing"
+      }
+    },
+    {
+      "id": "ARCH_DRIFT_CODE_MISSING",
+      "message": "Documented component has no evident source module: Model provider layer.",
+      "severity": "warning",
+      "path": "docs/02_architecture/c4_container.md",
+      "metadata": {
+        "documented_component": "Model provider layer",
+        "documented_status": "partial",
+        "code_module": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing"
+      }
+    },
+    {
+      "id": "ARCH_DRIFT_CODE_MISSING",
+      "message": "Documented component has no evident source module: ModelAdapter Router.",
+      "severity": "warning",
+      "path": "docs/02_architecture/c4_component.md",
+      "metadata": {
+        "documented_component": "ModelAdapter Router",
+        "documented_status": "partial",
+        "code_module": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing"
+      }
+    },
+    {
+      "id": "ARCH_DRIFT_CODE_MISSING",
+      "message": "Documented component has no evident source module: Policy Engine + Guards.",
+      "severity": "warning",
+      "path": "docs/02_architecture/c4_component.md",
+      "metadata": {
+        "documented_component": "Policy Engine + Guards",
+        "documented_status": "implemented",
+        "code_module": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing"
+      }
+    },
+    {
+      "id": "ARCH_DRIFT_CODE_MISSING",
+      "message": "Documented component has no evident source module: Readiness Gate.",
+      "severity": "warning",
+      "path": "docs/02_architecture/c4_component.md",
+      "metadata": {
+        "documented_component": "Readiness Gate",
+        "documented_status": "implemented",
+        "code_module": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing"
+      }
+    },
+    {
+      "id": "ARCH_DRIFT_DOC_MISSING",
+      "message": "Code module has no evident architectural reference: errors.",
+      "severity": "warning",
+      "path": "src/devpilot_core/errors.py",
+      "metadata": {
+        "documented_component": null,
+        "documented_status": null,
+        "code_module": "errors",
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "doc_missing"
+      }
+    },
+    {
+      "id": "ARCH_DRIFT_DOC_MISSING",
+      "message": "Code module has no evident architectural reference: execution.",
+      "severity": "warning",
+      "path": "src/devpilot_core/execution",
+      "metadata": {
+        "documented_component": null,
+        "documented_status": null,
+        "code_module": "execution",
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "doc_missing"
+      }
+    },
+    {
+      "id": "ARCH_DRIFT_DOC_MISSING",
+      "message": "Code module has no evident architectural reference: schemas.",
+      "severity": "warning",
+      "path": "src/devpilot_core/schemas",
+      "metadata": {
+        "documented_component": null,
+        "documented_status": null,
+        "code_module": "schemas",
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "doc_missing"
+      }
+    },
+    {
+      "id": "ARCH_DRIFT_DOC_MISSING",
+      "message": "Code module has no evident architectural reference: security.",
+      "severity": "warning",
+      "path": "src/devpilot_core/security",
+      "metadata": {
+        "documented_component": null,
+        "documented_status": null,
+        "code_module": "security",
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "doc_missing"
+      }
+    },
+    {
+      "id": "ARCH_DRIFT_DOC_MISSING",
+      "message": "Code module has no evident architectural reference: traceability.",
+      "severity": "warning",
+      "path": "src/devpilot_core/traceability",
+      "metadata": {
+        "documented_component": null,
+        "documented_status": null,
+        "code_module": "traceability",
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "doc_missing"
+      }
+    },
+    {
+      "id": "ARCH_DRIFT_NAME_MISMATCH",
+      "message": "Documented component and code module only match heuristically: Patch/Code Review dry-run -> review.",
+      "severity": "warning",
+      "path": "src/devpilot_core/review",
+      "metadata": {
+        "documented_component": "Patch/Code Review dry-run",
+        "documented_status": "implemented-initial",
+        "code_module": "review",
+        "match_type": "fuzzy",
+        "confidence": 0.6,
+        "drift_type": "name_mismatch"
+      }
+    },
+    {
+      "id": "ARCH_DRIFT_NAME_MISMATCH",
+      "message": "Documented component and code module only match heuristically: SQLite LocalStore -> store.",
+      "severity": "warning",
+      "path": "src/devpilot_core/store",
+      "metadata": {
+        "documented_component": "SQLite LocalStore",
+        "documented_status": "implemented-initial",
+        "code_module": "store",
+        "match_type": "fuzzy",
+        "confidence": 0.5,
+        "drift_type": "name_mismatch"
+      }
+    },
+    {
+      "id": "ARCH_DRIFT_NAME_MISMATCH",
+      "message": "Documented component and code module only match heuristically: Safe Refactor Planner -> refactor.",
+      "severity": "warning",
+      "path": "src/devpilot_core/refactor",
+      "metadata": {
+        "documented_component": "Safe Refactor Planner",
+        "documented_status": "implemented-initial",
+        "code_module": "refactor",
+        "match_type": "fuzzy",
+        "confidence": 1.0,
+        "drift_type": "name_mismatch"
+      }
+    },
+    {
+      "id": "ARCH_DRIFT_CODE_MISSING",
+      "message": "Documented component has no evident source module: Desktop UI.",
+      "severity": "info",
+      "path": "docs/02_architecture/c4_component.md",
+      "metadata": {
+        "documented_component": "Desktop UI",
+        "documented_status": "future",
+        "code_module": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing"
+      }
+    },
+    {
+      "id": "ARCH_DRIFT_CODE_MISSING",
+      "message": "Documented component has no evident source module: Desktop UI.",
+      "severity": "info",
+      "path": "docs/02_architecture/c4_container.md",
+      "metadata": {
+        "documented_component": "Desktop UI",
+        "documented_status": "future",
+        "code_module": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing"
+      }
+    },
+    {
+      "id": "ARCH_DRIFT_CODE_MISSING",
+      "message": "Documented component has no evident source module: External APIs.",
+      "severity": "info",
+      "path": "docs/02_architecture/c4_component.md",
+      "metadata": {
+        "documented_component": "External APIs",
+        "documented_status": "disabled",
+        "code_module": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing"
+      }
+    },
+    {
+      "id": "ARCH_DRIFT_CODE_MISSING",
+      "message": "Documented component has no evident source module: External LLM APIs.",
+      "severity": "info",
+      "path": "docs/02_architecture/c4_container.md",
+      "metadata": {
+        "documented_component": "External LLM APIs",
+        "documented_status": "disabled",
+        "code_module": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing"
+      }
+    },
+    {
+      "id": "ARCH_DRIFT_CODE_MISSING",
+      "message": "Documented component has no evident source module: MCP/API tools.",
+      "severity": "info",
+      "path": "docs/02_architecture/c4_container.md",
+      "metadata": {
+        "documented_component": "MCP/API tools",
+        "documented_status": "future",
+        "code_module": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing"
+      }
+    },
+    {
+      "id": "ARCH_DRIFT_CODE_MISSING",
+      "message": "Documented component has no evident source module: Ollama/LM Studio clients.",
+      "severity": "info",
+      "path": "docs/02_architecture/c4_component.md",
+      "metadata": {
+        "documented_component": "Ollama/LM Studio clients",
+        "documented_status": "planned",
+        "code_module": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing"
+      }
+    },
+    {
+      "id": "ARCH_DRIFT_CODE_MISSING",
+      "message": "Documented component has no evident source module: Patch apply sandbox.",
+      "severity": "info",
+      "path": "docs/02_architecture/c4_component.md",
+      "metadata": {
+        "documented_component": "Patch apply sandbox",
+        "documented_status": "planned",
+        "code_module": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing"
+      }
+    },
+    {
+      "id": "ARCH_DRIFT_CODE_MISSING",
+      "message": "Documented component has no evident source module: Refactor execution.",
+      "severity": "info",
+      "path": "docs/02_architecture/c4_component.md",
+      "metadata": {
+        "documented_component": "Refactor execution",
+        "documented_status": "planned",
+        "code_module": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing"
+      }
+    },
+    {
+      "id": "ARCH_DRIFT_CODE_MISSING",
+      "message": "Documented component has no evident source module: Web UI/API.",
+      "severity": "info",
+      "path": "docs/02_architecture/c4_component.md",
+      "metadata": {
+        "documented_component": "Web UI/API",
+        "documented_status": "future",
+        "code_module": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing"
+      }
+    },
+    {
+      "id": "ARCH_DRIFT_CODE_MISSING",
+      "message": "Documented component has no evident source module: Web UI/API.",
+      "severity": "info",
+      "path": "docs/02_architecture/c4_container.md",
+      "metadata": {
+        "documented_component": "Web UI/API",
+        "documented_status": "future",
+        "code_module": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing"
+      }
+    }
+  ]
+}
+(.venv) PS D:\Projects\DevPilot_Local> python -m pytest tests/test_architecture_drift_repo.py -q
+.....                                                                                                                                        [100%]
+DEVPL TEST SUMMARY: 5 passed, 0 failed, 0 errors, 0 skipped
+(.venv) PS D:\Projects\DevPilot_Local> python -m pytest tests/test_sprint_38_documentation.py -q
+....                                                                                                                                         [100%]
+DEVPL TEST SUMMARY: 4 passed, 0 failed, 0 errors, 0 skipped
+(.venv) PS D:\Projects\DevPilot_Local>

@@ -14,7 +14,7 @@ change_policy: "controlled_changes_allowed_via_docs_as_code"
 approved_on: "2026-06-06"
 approval_scope: "functional_backlog_after_precode"
 baseline_execution: "FUNC-SPRINT-00"
-next_sprint: "FUNC-SPRINT-38"
+next_sprint: "FUNC-SPRINT-39"
 ---
 
 # DevPilot Local — Backlog ejecutable posterior a pre-code
@@ -2002,3 +2002,23 @@ Estado real:
 - no habilita patch apply, refactor execution, Git write, deploy ni sandbox real.
 
 Siguiente sprint operativo: `FUNC-SPRINT-38 — Architecture/code drift inicial`.
+
+
+## Transición posterior a FUNC-SPRINT-38 — Architecture/code drift inicial
+
+`FUNC-SPRINT-38` agrega `ArchitectureDriftDetector` bajo el comando `repo architecture-drift`. La capacidad compara documentación arquitectónica contra módulos reales del código usando extracción Markdown/Mermaid, DependencyGraph y señales de RepoAnalyzer.
+
+Estado real:
+
+- implementado comando `repo architecture-drift`;
+- salida `CommandResult` con `--json`;
+- reportes opcionales JSON/Markdown mediante `--write-report`;
+- tool `repo.architecture_drift` declarada en MIASI;
+- matriz de estado `documented ↔ code` con `confidence` y `drift_type`;
+- findings separados `doc_missing`, `code_missing` y `name_mismatch`;
+- no ejecuta código analizado;
+- no modifica documentación;
+- no usa LLM, red ni APIs externas;
+- no habilita patch apply, refactor execution, Git write, deploy ni sandbox real.
+
+Siguiente sprint operativo: `FUNC-SPRINT-39 — ReviewRulePacks y quality gate de revisión`.

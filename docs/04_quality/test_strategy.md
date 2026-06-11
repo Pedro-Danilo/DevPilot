@@ -439,3 +439,18 @@ Cobertura mínima agregada:
 - CLI `repo analyze --json --write-report` con evidencia JSON/Markdown.
 
 Criterio de calidad: el `health_score` se trata como señal heurística de revisión, no como certificación de calidad industrial. Las pruebas deben validar ausencia de mutaciones, ausencia de red/APIs/modelos y no filtración de secretos crudos.
+
+
+## Actualización FUNC-SPRINT-38 — Pruebas de Architecture/code drift
+
+`FUNC-SPRINT-38` agrega pruebas específicas para `ArchitectureDriftDetector`, manteniendo la estrategia local-first y read-only de Fase C.
+
+Cobertura mínima agregada:
+
+- fixture con componente documentado y módulo existente para validar `in_sync`;
+- fixture con componente implementado documentado sin código para validar `code_missing`;
+- fixture con módulo real no documentado para validar `doc_missing`;
+- fixture con componente `future` sin código para confirmar que no se emite `BLOCK`;
+- CLI `repo architecture-drift --json --write-report` con evidencia JSON/Markdown.
+
+Criterio de calidad: el detector es heurístico y debe validar ausencia de mutaciones, ausencia de red/APIs/modelos, separación clara de drift types y presencia de confidence/rationale por fila.

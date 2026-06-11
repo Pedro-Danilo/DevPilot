@@ -12,6 +12,7 @@ from .git_adapter import (
 from .inventory import RepoInventory, RepoInventoryConfig, RepoInventoryItem
 from .dependency_graph import DependencyGraphBuilder
 from .analyzer import RepoAnalyzer, RepoAnalyzerConfig
+from .architecture_drift import ArchitectureDriftConfig, ArchitectureDriftDetector
 from .models import (
     DependencyGraphEdge,
     DependencyGraphNode,
@@ -19,6 +20,8 @@ from .models import (
     RepoHealthSummary,
     RepoHotspot,
     RepoRiskSignal,
+    ArchitectureComponentRecord,
+    ArchitectureDriftMatrixRow,
 )
 
 __all__ = [
@@ -35,9 +38,13 @@ __all__ = [
     "DependencyGraphResult",
     "RepoAnalyzer",
     "RepoAnalyzerConfig",
+    "ArchitectureDriftConfig",
+    "ArchitectureDriftDetector",
     "RepoHealthSummary",
     "RepoHotspot",
     "RepoRiskSignal",
+    "ArchitectureComponentRecord",
+    "ArchitectureDriftMatrixRow",
     "RepoInventory",
     "RepoInventoryConfig",
     "RepoInventoryItem",

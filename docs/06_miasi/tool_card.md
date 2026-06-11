@@ -373,3 +373,34 @@ Analizar outputs runtime como salud de repo, emitir secretos crudos, ejecutar c�
 ### Riesgos
 
 El score puede ser malinterpretado como certificación. Las heurísticas de módulos sin test cercano pueden generar falsos positivos. No reemplaza SAST/SCA, análisis de licencias, vulnerabilidades, complejidad industrial ni revisión humana.
+
+
+## Tool Card — Architecture/code drift read-only — FUNC-SPRINT-38
+
+### Propósito
+
+Agregar una herramienta de análisis de divergencia arquitectura/código que compare documentación C4/arquitectura contra módulos reales del repositorio sin modificar archivos.
+
+### Herramienta
+
+- `repo.architecture_drift`: genera matriz `documented ↔ code`, findings `doc_missing`, `code_missing`, `name_mismatch`, niveles de confianza y reporte opcional JSON/Markdown.
+
+### Restricciones
+
+La herramienta es read-only. No ejecuta código analizado, no modifica documentos, no aplica patches, no escribe fuera de reportes solicitados, no llama red, no usa modelos y no depende de APIs externas. Los componentes `planned`, `future` y `disabled` sin código no deben tratarse como fallos bloqueantes.
+
+### Criterios PASS
+
+- Salida `CommandResult` JSON-serializable.
+- Reporte opcional JSON/Markdown con `--write-report`.
+- Separación explícita de `doc_missing`, `code_missing` y `name_mismatch`.
+- `confidence` y rationale por fila de matriz.
+- Sin LLM, red, API externa ni mutaciones.
+
+### Criterios BLOCK
+
+Inventar relaciones no soportadas, modificar documentación automáticamente, ejecutar código analizado, usar red/APIs/modelos, emitir bloqueos por componentes aspiracionales o habilitar patch apply/refactor execution/Git write/deploy.
+
+### Riesgos
+
+El matching por nombres, paths y aliases es heurístico. Puede requerir un futuro Component Registry o Command Catalog para reducir falsos positivos/falsos negativos y madurar hacia un quality gate industrial.

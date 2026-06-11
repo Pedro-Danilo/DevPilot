@@ -1,8 +1,8 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
-Estado actual: `baseline pre-code approved + Fase A cerrada + FASE-B cerrada + Fase C en progreso + RepoAnalyzer v2 implemented-initial`  
-Último hito: `FUNC-SPRINT-37 — RepoAnalyzer v2: estructura, riesgos y salud del repositorio`  
-Siguiente hito: `FUNC-SPRINT-38 — Architecture/code drift inicial`  
+Estado actual: `baseline pre-code approved + Fase A cerrada + FASE-B cerrada + Fase C en progreso + Architecture/code drift implemented-initial`  
+Último hito: `FUNC-SPRINT-38 — Architecture/code drift inicial`  
+Siguiente hito: `FUNC-SPRINT-39 — ReviewRulePacks y quality gate de revisión`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
@@ -1315,3 +1315,17 @@ python -m devpilot_core repo analyze --json --write-report
 ```
 
 La capacidad es `implemented-initial`: no ejecuta código analizado, no modifica archivos, no usa red, no llama modelos ni APIs externas, excluye `outputs/`, caches, `.venv/`, `build/`, `dist/` y `.devpilot/devpilot.db`, y no emite secretos crudos. El `health_score` es una señal heurística de revisión, no una certificación de calidad industrial ni un reemplazo de SAST/SCA.
+
+
+## Architecture/code drift inicial — FUNC-SPRINT-38
+
+`FUNC-SPRINT-38` agrega un detector inicial de divergencia entre arquitectura documentada y estructura real del código. El nuevo comando compara componentes extraídos de `docs/02_architecture/architecture_document.md`, `docs/02_architecture/c4_container.md` y `docs/02_architecture/c4_component.md` contra módulos reales detectados por `DependencyGraph` y señales de `RepoAnalyzer`.
+
+Comandos principales:
+
+```powershell
+python -m devpilot_core repo architecture-drift --json
+python -m devpilot_core repo architecture-drift --json --write-report
+```
+
+La capacidad es `implemented-initial`: genera una matriz `documented ↔ code`, separa `doc_missing`, `code_missing` y `name_mismatch`, incluye niveles de confianza y no bloquea por defecto componentes `planned`, `future` o `disabled` sin código. No ejecuta código analizado, no modifica documentos, no usa red, no llama modelos ni APIs externas y no sustituye revisión arquitectónica manual ni un Component Registry industrial.
