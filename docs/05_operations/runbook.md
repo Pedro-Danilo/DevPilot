@@ -2,12 +2,12 @@
 title: "Runbook — DevPilot Local"
 doc_id: "DEVPL-OPS-002"
 status: "approved"
-version: "1.13.0"
+version: "1.14.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "FUNC-SPRINT-28"
-updated: "2026-06-10"
+phase: "FUNC-SPRINT-29"
+updated: "2026-06-11"
 approval: "approved_by_owner"
 source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved + 03_security approved"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
@@ -2035,3 +2035,61 @@ La implementación ejecuta una acción crítica o bypass de PolicyEngine.
 - No se ejecutan acciones críticas en este sprint.
 
 Próxima fase operativa: `FUNC-SPRINT-29 — CLI de aprobación: request, list, show, approve, deny y revoke`.
+
+
+## FUNC-SPRINT-29 — CLI de aprobación: request, list, show, approve, deny y revoke
+
+### Propósito
+
+Operar aprobaciones humanas locales desde CLI, con registros persistidos en SQLite, eventos JSONL, reportes opcionales y transiciones de estado controladas. Esta versión es **implemented-initial**: no autoriza todavía ejecución de herramientas, no reemplaza RBAC y no conecta `approval_id` con `PolicyEngine`.
+
+### Comandos operativos
+
+```powershell
+$env:PYTHONPATH="src"
+python -m devpilot_core approval request --tool tests.run --action execute --subject pytest --reason "Validar cambios" --actor owner --json
+python -m devpilot_core approval list --status requested --json
+python -m devpilot_core approval show <approval_id> --json
+python -m devpilot_core approval approve <approval_id> --actor owner --reason "Revisión OK" --json
+python -m devpilot_core approval deny <approval_id> --actor owner --reason "Riesgo no mitigado" --json
+python -m devpilot_core approval revoke <approval_id> --actor owner --reason "Ya no aplica" --json
+python -m devpilot_core approval request --tool tests.run --action execute --subject pytest --reason "Validar cambios" --actor owner --json --write-report
+python -m pytest tests/test_approval_cli.py -q
+```
+
+### Funcionamiento
+
+`approval request` deriva un scope mínimo desde `tool`, `action` y `subject`. Si se proporciona `--scope`, debe ser un objeto JSON no vacío y se fusiona con el scope derivado. Si no se proporciona `--expires-at`, el comando genera una expiración con `--ttl-minutes`, por defecto 60 minutos.
+
+`approval approve`, `approval deny` y `approval revoke` usan transiciones controladas del `ApprovalStore`; no reabren approvals terminales y no aprueban approvals expiradas.
+
+### Criterios PASS
+
+```text
+Todos los comandos devuelven CommandResult.
+approval request crea registros requested con scope y expiración.
+approval list filtra por status/tool/action.
+approval show retorna un registro o finding claro si no existe.
+approval approve/deny/revoke exige actor y reason.
+--write-report genera evidencia JSON/Markdown.
+Se generan eventos JSONL y eventos SQLite.
+pytest -q pasa.
+```
+
+### Criterios BLOCK
+
+```text
+Se aprueba sin actor o reason.
+Se aprueba una approval expirada.
+Se reabre una approval denied/revoked/expired.
+La salida CLI imprime secretos crudos.
+La CLI se presenta como autorización automática para ejecutar herramientas.
+```
+
+### Riesgos y límites
+
+- `actor` sigue siendo declarativo/local; no hay autenticación ni RBAC.
+- `approval_id` todavía no habilita ejecución; el binding real queda para `FUNC-SPRINT-30`.
+- No se ejecutan comandos, tests, patches, refactors ni deploys en Sprint 29.
+
+Próxima fase operativa: `FUNC-SPRINT-30 — Binding de aprobaciones con PolicyEngine y MIASI`.

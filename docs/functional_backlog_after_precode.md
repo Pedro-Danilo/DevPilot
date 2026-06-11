@@ -1903,3 +1903,19 @@ Pendientes recomendados para Fase B:
 Siguiente sprint operativo: `FUNC-SPRINT-29 — CLI de aprobación: request, list, show, approve, deny y revoke`.
 
 Límite explícito: Sprint 28 no conecta aún `approval_id` con `PolicyEngine`, no expone CLI de approvals y no ejecuta acciones críticas.
+
+
+## Transición posterior a FUNC-SPRINT-29
+
+`FUNC-SPRINT-29` expone el workflow local de aprobaciones humanas mediante CLI. Esta implementación habilita solicitud, listado, consulta, aprobación, denegación y revocación de approvals persistidas localmente.
+
+Estado real:
+
+- implementado `ApprovalService`;
+- implementados comandos `approval request/list/show/approve/deny/revoke`;
+- reportes opcionales y eventos locales disponibles;
+- salida CLI redactada para secretos sintéticos;
+- no implementado aún binding con `PolicyEngine`;
+- no implementada ejecución controlada de herramientas.
+
+Siguiente sprint operativo: `FUNC-SPRINT-30 — Binding de aprobaciones con PolicyEngine y MIASI`.

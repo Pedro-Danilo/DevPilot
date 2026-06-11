@@ -7,6 +7,7 @@ from pathlib import Path
 
 from . import __version__
 from .agents import AgentRuntime
+from .approval import ApprovalCliInput, ApprovalService, ApprovalStatus
 from .application import ApplicationService
 from .cli_models import CommandResult, ExitCode, Finding, Severity
 from .errors import DevPilotError
@@ -725,6 +726,140 @@ def state_status_command(*, json_output: bool = False, write_report: bool = Fals
     return int(result.exit_code)
 
 
+
+
+def approval_request_command(
+    *,
+    tool_id: str,
+    action: str,
+    subject: str,
+    actor: str,
+    reason: str,
+    scope: str | None = None,
+    expires_at: str | None = None,
+    ttl_minutes: int = 60,
+    json_output: bool = False,
+    write_report: bool = False,
+) -> int:
+    """Create a local human approval request without authorizing execution."""
+
+    root = project_root()
+    result = ApprovalService(root).request(
+        ApprovalCliInput(
+            tool_id=tool_id,
+            action=action,
+            subject=subject,
+            actor=actor,
+            reason=reason,
+            scope=scope,
+            expires_at=expires_at,
+            ttl_minutes=ttl_minutes,
+        )
+    )
+    approval_data = (result.data or {}).get("approval")
+    approval_id = approval_data.get("approval_id") if isinstance(approval_data, dict) else None
+    result = _write_optional_command_report(
+        root,
+        result,
+        subject=approval_id or subject,
+        report_id="approval_request",
+        write_report=write_report,
+        metadata={"sprint": "FUNC-SPRINT-29", "component": "ApprovalService"},
+    )
+    _emit_result_event(root, result, subject=approval_id or subject)
+    _persist_result(root, result, subject=approval_id or subject)
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+
+def approval_list_command(
+    *,
+    status: str | None = None,
+    tool_id: str | None = None,
+    action: str | None = None,
+    limit: int = 100,
+    json_output: bool = False,
+    write_report: bool = False,
+) -> int:
+    """List local approval records with safe optional filters."""
+
+    root = project_root()
+    result = ApprovalService(root).list(status=status, tool_id=tool_id, action=action, limit=limit)
+    result = _write_optional_command_report(
+        root,
+        result,
+        subject="approval:list",
+        report_id="approval_list",
+        write_report=write_report,
+        metadata={"sprint": "FUNC-SPRINT-29", "component": "ApprovalService"},
+    )
+    _emit_result_event(root, result, subject="approval:list")
+    _persist_result(root, result, subject="approval:list")
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+
+def approval_show_command(*, approval_id: str, json_output: bool = False, write_report: bool = False) -> int:
+    """Show one local approval record by ID."""
+
+    root = project_root()
+    result = ApprovalService(root).show(approval_id)
+    result = _write_optional_command_report(
+        root,
+        result,
+        subject=approval_id,
+        report_id="approval_show",
+        write_report=write_report,
+        metadata={"sprint": "FUNC-SPRINT-29", "component": "ApprovalService"},
+    )
+    _emit_result_event(root, result, subject=approval_id)
+    _persist_result(root, result, subject=approval_id)
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+
+def approval_decision_command(
+    action: str,
+    *,
+    approval_id: str,
+    actor: str,
+    reason: str,
+    json_output: bool = False,
+    write_report: bool = False,
+) -> int:
+    """Approve, deny or revoke one approval through controlled transitions."""
+
+    root = project_root()
+    service = ApprovalService(root)
+    if action == "approve":
+        result = service.approve(approval_id, actor=actor, reason=reason)
+    elif action == "deny":
+        result = service.deny(approval_id, actor=actor, reason=reason)
+    elif action == "revoke":
+        result = service.revoke(approval_id, actor=actor, reason=reason)
+    else:
+        result = CommandResult(
+            command=f"approval {action}",
+            ok=False,
+            exit_code=ExitCode.FAIL,
+            message="Unsupported approval action.",
+            data={"summary": {"supported": ["approve", "deny", "revoke"]}},
+            findings=[Finding("APPROVAL_ACTION_UNSUPPORTED", f"Unsupported approval action: {action}.", Severity.FAIL)],
+        )
+    result = _write_optional_command_report(
+        root,
+        result,
+        subject=approval_id,
+        report_id=f"approval_{action}",
+        write_report=write_report,
+        metadata={"sprint": "FUNC-SPRINT-29", "component": "ApprovalService"},
+    )
+    _emit_result_event(root, result, subject=approval_id)
+    _persist_result(root, result, subject=approval_id)
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+
 def history_list_command(*, json_output: bool = False, limit: int = 10, write_report: bool = False) -> int:
     """List recent local command runs from SQLite history."""
 
@@ -1187,6 +1322,42 @@ def build_parser() -> argparse.ArgumentParser:
     history_list.add_argument("--limit", type=int, default=10, help="Maximum number of runs to list, capped at 100")
     history_list.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
 
+    approval = sub.add_parser("approval", help="Manage local human approval workflow records")
+    approval_sub = approval.add_subparsers(dest="approval_command")
+
+    approval_request = approval_sub.add_parser("request", help="Create a local approval request")
+    approval_request.add_argument("--tool", dest="tool_id", required=True, help="Tool identifier, e.g. tests.run")
+    approval_request.add_argument("--action", required=True, help="Requested action, e.g. execute")
+    approval_request.add_argument("--subject", required=True, help="Subject/scope target, e.g. pytest or unit")
+    approval_request.add_argument("--reason", required=True, help="Human-readable justification")
+    approval_request.add_argument("--actor", required=True, help="Local declarative actor requesting approval")
+    approval_request.add_argument("--scope", default=None, help="Optional JSON object merged into derived tool/action/subject scope")
+    approval_request.add_argument("--expires-at", default=None, help="Optional ISO-8601 expiration timestamp; default uses --ttl-minutes")
+    approval_request.add_argument("--ttl-minutes", type=int, default=60, help="Expiration TTL when --expires-at is omitted")
+    approval_request.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    approval_request.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+
+    approval_list = approval_sub.add_parser("list", help="List local approval records")
+    approval_list.add_argument("--status", choices=[status.value for status in ApprovalStatus], default=None, help="Optional approval status filter")
+    approval_list.add_argument("--tool", dest="tool_id", default=None, help="Optional tool_id filter")
+    approval_list.add_argument("--action", default=None, help="Optional action filter")
+    approval_list.add_argument("--limit", type=int, default=100, help="Maximum records to return")
+    approval_list.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    approval_list.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+
+    approval_show = approval_sub.add_parser("show", help="Show one approval record")
+    approval_show.add_argument("approval_id", help="Approval ID")
+    approval_show.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    approval_show.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+
+    for action_name in ("approve", "deny", "revoke"):
+        approval_decision = approval_sub.add_parser(action_name, help=f"{action_name.capitalize()} one approval record")
+        approval_decision.add_argument("approval_id", help="Approval ID")
+        approval_decision.add_argument("--actor", required=True, help="Local declarative actor making the decision")
+        approval_decision.add_argument("--reason", required=True, help="Decision reason")
+        approval_decision.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+        approval_decision.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+
     eval_parser = sub.add_parser("eval", help="Run deterministic offline evaluation suites")
     eval_sub = eval_parser.add_subparsers(dest="eval_command")
     eval_run = eval_sub.add_parser("run", help="Run an offline evaluation suite")
@@ -1381,6 +1552,9 @@ def _command_name_from_args(args: argparse.Namespace) -> str:
     if command == "history":
         subcommand = getattr(args, "history_command", None)
         return f"history {subcommand}" if subcommand else "history"
+    if command == "approval":
+        subcommand = getattr(args, "approval_command", None)
+        return f"approval {subcommand}" if subcommand else "approval"
     if command == "agent":
         subcommand = getattr(args, "agent_command", None)
         return f"agent {subcommand}" if subcommand else "agent"
@@ -1463,6 +1637,42 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
     if args.command == "history":
         if args.history_command == "list":
             return history_list_command(json_output=args.json, limit=args.limit, write_report=args.write_report)
+        parser.print_help()
+        return int(ExitCode.FAIL)
+    if args.command == "approval":
+        if args.approval_command == "request":
+            return approval_request_command(
+                tool_id=args.tool_id,
+                action=args.action,
+                subject=args.subject,
+                actor=args.actor,
+                reason=args.reason,
+                scope=args.scope,
+                expires_at=args.expires_at,
+                ttl_minutes=args.ttl_minutes,
+                json_output=args.json,
+                write_report=args.write_report,
+            )
+        if args.approval_command == "list":
+            return approval_list_command(
+                status=args.status,
+                tool_id=args.tool_id,
+                action=args.action,
+                limit=args.limit,
+                json_output=args.json,
+                write_report=args.write_report,
+            )
+        if args.approval_command == "show":
+            return approval_show_command(approval_id=args.approval_id, json_output=args.json, write_report=args.write_report)
+        if args.approval_command in {"approve", "deny", "revoke"}:
+            return approval_decision_command(
+                args.approval_command,
+                approval_id=args.approval_id,
+                actor=args.actor,
+                reason=args.reason,
+                json_output=args.json,
+                write_report=args.write_report,
+            )
         parser.print_help()
         return int(ExitCode.FAIL)
     if args.command == "model":

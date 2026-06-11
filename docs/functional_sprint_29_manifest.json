@@ -1,0 +1,70 @@
+{
+  "sprint": "FUNC-SPRINT-29",
+  "title": "CLI de aprobación: request, list, show, approve, deny y revoke",
+  "status": "implemented",
+  "implemented_at": "2026-06-11",
+  "phase": "FASE-B-SEGURIDAD-OPERACIONAL",
+  "wave": "Ola 3 — Seguridad operacional, aprobación humana y ejecución controlada",
+  "source_backlog": "docs/devpilot_backlog_fase_B_seguridad_operacional.md",
+  "architectural_decision": {
+    "required": false,
+    "adr": null,
+    "reason": "FUNC-SPRINT-29 exposes the existing approval domain through dependency-free local CLI commands. It introduces no external dependency, network call, provider, UI, destructive action or new storage backend. PolicyEngine binding is explicitly deferred to FUNC-SPRINT-30."
+  },
+  "created_files": [
+    "src/devpilot_core/approval/service.py",
+    "tests/test_approval_cli.py",
+    "tests/test_sprint_29_documentation.py",
+    "docs/audits/func_sprint_29_approval_cli_audit.md",
+    "docs/functional_sprint_29_manifest.json"
+  ],
+  "modified_files": [
+    "src/devpilot_core/approval/__init__.py",
+    "src/devpilot_core/approval/store.py",
+    "src/devpilot_core/cli.py",
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/devpilot_backlog_fase_B_seguridad_operacional.md",
+    "docs/functional_backlog_after_precode.md",
+    "tests/test_sprint_28_documentation.py"
+  ],
+  "commands": [
+    "python -m devpilot_core approval request --tool tests.run --action execute --subject pytest --reason \"Validar cambios\" --actor owner --json",
+    "python -m devpilot_core approval list --status requested --json",
+    "python -m devpilot_core approval show <approval_id> --json",
+    "python -m devpilot_core approval approve <approval_id> --actor owner --reason \"Revisión OK\" --json",
+    "python -m devpilot_core approval deny <approval_id> --actor owner --reason \"Riesgo no mitigado\" --json",
+    "python -m devpilot_core approval revoke <approval_id> --actor owner --reason \"Ya no aplica\" --json",
+    "python -m pytest tests/test_approval_cli.py -q",
+    "python -m pytest -q"
+  ],
+  "tests": [
+    "tests/test_approval_cli.py",
+    "tests/test_sprint_29_documentation.py"
+  ],
+  "pass_criteria": [
+    "All approval CLI commands return CommandResult.",
+    "approval request creates a requested ApprovalRecord with scope and expiration.",
+    "approval list filters by status, tool and action.",
+    "approval show loads a single record by approval_id.",
+    "approval approve, deny and revoke require actor and reason.",
+    "Expired approvals cannot be approved.",
+    "Terminal approvals are not reopened.",
+    "Optional reports and local events are generated.",
+    "pytest -q passes."
+  ],
+  "block_criteria": [
+    "An approval is approved without actor or reason.",
+    "An expired approval allows future execution.",
+    "CLI output prints raw secrets or sensitive payloads.",
+    "Approval CLI is treated as automatic tool authorization before PolicyEngine binding."
+  ],
+  "risks": [
+    "Actor is local/declarative; authentication and RBAC remain future work.",
+    "PolicyEngine binding is explicitly deferred to FUNC-SPRINT-30.",
+    "The CLI does not execute tests, patches, refactors or deploys.",
+    "Approval records are local SQLite evidence and require future retention/privacy controls."
+  ],
+  "preliminary": true,
+  "next_sprint": "FUNC-SPRINT-30 — Binding de aprobaciones con PolicyEngine y MIASI"
+}

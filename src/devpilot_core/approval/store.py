@@ -64,8 +64,15 @@ class ApprovalStore:
             ],
         )
 
-    def list(self, *, status: str | None = None, tool_id: str | None = None, action: str | None = None) -> CommandResult:
-        records = self.local_store.list_approvals(status=status, tool_id=tool_id, action=action)
+    def list(
+        self,
+        *,
+        status: str | None = None,
+        tool_id: str | None = None,
+        action: str | None = None,
+        limit: int = 100,
+    ) -> CommandResult:
+        records = self.local_store.list_approvals(status=status, tool_id=tool_id, action=action, limit=limit)
         return CommandResult(
             command="approval list",
             ok=True,
@@ -99,16 +106,38 @@ class ApprovalStore:
                     metadata={"approval_id": decision.approval_id},
                 )
             )
-        elif existing.status in TERMINAL_STATUSES or existing.status == ApprovalStatus.APPROVED.value:
+        elif existing.status in TERMINAL_STATUSES:
             findings.append(
                 Finding(
                     id="APPROVAL_TRANSITION_INVALID",
-                    message="Approval cannot be overwritten from its current state.",
+                    message="Approval cannot be overwritten from its current terminal state.",
                     severity=Severity.BLOCK,
                     metadata={"approval_id": decision.approval_id, "current_status": existing.status, "requested_status": decision.status},
                 )
             )
-        elif is_expired(existing.expires_at):
+        elif existing.status == ApprovalStatus.APPROVED.value and decision.status != ApprovalStatus.REVOKED.value:
+            findings.append(
+                Finding(
+                    id="APPROVAL_TRANSITION_INVALID",
+                    message="Approved approvals can only be revoked; they cannot be re-approved or denied.",
+                    severity=Severity.BLOCK,
+                    metadata={"approval_id": decision.approval_id, "current_status": existing.status, "requested_status": decision.status},
+                )
+            )
+        elif existing.status == ApprovalStatus.REQUESTED.value and decision.status not in {
+            ApprovalStatus.APPROVED.value,
+            ApprovalStatus.DENIED.value,
+            ApprovalStatus.REVOKED.value,
+        }:
+            findings.append(
+                Finding(
+                    id="APPROVAL_TRANSITION_INVALID",
+                    message="Requested approvals can only be approved, denied or revoked.",
+                    severity=Severity.BLOCK,
+                    metadata={"approval_id": decision.approval_id, "current_status": existing.status, "requested_status": decision.status},
+                )
+            )
+        elif is_expired(existing.expires_at) and decision.status in {ApprovalStatus.APPROVED.value, ApprovalStatus.DENIED.value}:
             findings.append(
                 Finding(
                     id="APPROVAL_EXPIRED",

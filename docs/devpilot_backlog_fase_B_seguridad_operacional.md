@@ -2,19 +2,19 @@
 title: "DevPilot Local — Backlog ejecutable Fase B: Seguridad operacional"
 doc_id: "DEVPL-FUNC-BACKLOG-FASE-B-001"
 status: "approved"
-version: "0.2.0"
+version: "0.3.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
 phase: "FASE-B-SEGURIDAD-OPERACIONAL"
-updated: "2026-06-10"
-source_repo: "repo_DevPilot_Local_33.zip"
+updated: "2026-06-11"
+source_repo: "repo_DevPilot_Local_34.zip"
 source_report: "Informe de avance DevPilot - sprint 0 - 18.docx"
 source_backlog_model: "docs/functional_backlog_after_precode.md"
 baseline_dependency: "Fase A cerrada y aprobada mediante FUNC-SPRINT-27"
 first_sprint: "FUNC-SPRINT-28"
 last_planned_sprint: "FUNC-SPRINT-34"
-first_open_sprint: "FUNC-SPRINT-29"
+first_open_sprint: "FUNC-SPRINT-30"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "phase_b_executable_backlog_review"
 approved_on: "2026-06-10"
@@ -26,13 +26,13 @@ phase_b_status: "in_progress"
 
 ## Estado de aprobación funcional
 
-Este documento queda en estado `approved` después del cierre verificado de Fase A. `FUNC-SPRINT-28` queda implementado como primer sprint de Fase B; el siguiente sprint abierto es `FUNC-SPRINT-29`. Su propósito es convertir la **Fase B — Seguridad operacional** en un backlog de implementación ejecutable, siguiendo el modelo operativo usado en `docs/functional_backlog_after_precode.md`.
+Este documento queda en estado `approved` después del cierre verificado de Fase A. `FUNC-SPRINT-28` y `FUNC-SPRINT-29` quedan implementados; el siguiente sprint abierto es `FUNC-SPRINT-30`. Su propósito es convertir la **Fase B — Seguridad operacional** en un backlog de implementación ejecutable, siguiendo el modelo operativo usado en `docs/functional_backlog_after_precode.md`.
 
 La Fase B corresponde a:
 
 - **Ola 3 — Seguridad operacional, aprobación humana y ejecución controlada**.
 
-Esta fase parte de un DevPilot que ya tiene PolicyEngine, PathGuard, SecretGuard, CostGuard, SQLite LocalStore, MIASI Policy Matrix, tablas iniciales de approvals/cost_events y agentes documentales en dry-run. Sin embargo, el informe de avance identifica que el **Approval Workflow operativo** todavía no existe y que `tests.run`, SafeSubprocessRunner, sandbox y ejecución controlada siguen pendientes.
+Esta fase parte de un DevPilot que ya tiene PolicyEngine, PathGuard, SecretGuard, CostGuard, SQLite LocalStore, MIASI Policy Matrix, tablas iniciales de approvals/cost_events y agentes documentales en dry-run. El informe de avance identificaba que el **Approval Workflow operativo** todavía no existía y que `tests.run`, SafeSubprocessRunner, sandbox y ejecución controlada seguían pendientes. Tras `FUNC-SPRINT-28` y `FUNC-SPRINT-29`, DevPilot ya cuenta con modelo, persistencia y CLI local de approvals; siguen pendientes el binding con `PolicyEngine`, ejecución controlada, `tests.run` y hardening operacional.
 
 ## 1. Propósito
 
@@ -360,6 +360,34 @@ Fixtures con approvals solicitadas/aprobadas/denegadas/expiradas.
 ```text
 Implementa FUNC-SPRINT-29: CLI de aprobaciones request/list/show/approve/deny/revoke. Debe ser local, auditable, con reportes opcionales, eventos JSONL y transiciones de estado seguras.
 ```
+
+
+## Estado de implementación Sprint 29
+
+`FUNC-SPRINT-29 — CLI de aprobación: request, list, show, approve, deny y revoke` queda implementado como primera versión operativa de CLI sobre el dominio `approval`.
+
+Estado: `implemented-initial`.
+
+Alcance implementado:
+
+- servicio `ApprovalService` como frontera CLI sobre `ApprovalStore`;
+- comandos `approval request`, `approval list`, `approval show`, `approval approve`, `approval deny` y `approval revoke`;
+- soporte `--json` en todos los comandos;
+- soporte `--write-report` en todos los comandos;
+- scope derivado por defecto desde tool/action/subject y scope JSON opcional;
+- expiración por `--expires-at` o `--ttl-minutes`;
+- redacción de salida para evitar impresión de secretos sintéticos;
+- eventos JSONL/SQLite mediante el flujo existente de CLI y `ApprovalStore`;
+- pruebas CLI de creación, listado, consulta, aprobación, revocación, expiración y redacción.
+
+Límites explícitos:
+
+- `approval_id` no autoriza todavía ejecución ni desbloquea herramientas críticas; eso corresponde a `FUNC-SPRINT-30`;
+- no se integra aún con `PolicyEngine`;
+- no hay UI ni RBAC; `actor` es declarativo/local;
+- no se ejecutan tests, patches, refactors, deploys ni Git write.
+
+Siguiente sprint abierto: `FUNC-SPRINT-30 — Binding de aprobaciones con PolicyEngine y MIASI`.
 
 ---
 

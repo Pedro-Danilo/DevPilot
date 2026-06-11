@@ -20,9 +20,9 @@ def test_phase_a_and_phase_b_backlogs_are_approved_and_reconciled() -> None:
     assert 'next_phase: "FASE-B-SEGURIDAD-OPERACIONAL"' in phase_a
 
     assert 'status: "approved"' in phase_b
-    assert 'source_repo: "repo_DevPilot_Local_33.zip"' in phase_b
+    assert 'source_repo: "repo_DevPilot_Local_34.zip"' in phase_b
     assert 'baseline_dependency: "Fase A cerrada y aprobada mediante FUNC-SPRINT-27"' in phase_b
-    assert 'first_open_sprint: "FUNC-SPRINT-29"' in phase_b
+    assert 'first_open_sprint: "FUNC-SPRINT-30"' in phase_b
     assert 'phase_b_status: "in_progress"' in phase_b
 
 
@@ -31,13 +31,13 @@ def test_sprint_28_readme_runbook_and_backlog_are_synchronized() -> None:
     runbook = _read("docs/05_operations/runbook.md")
     phase_b = _read("docs/devpilot_backlog_fase_B_seguridad_operacional.md")
 
-    assert "FUNC-SPRINT-28 — Modelo de aprobación humana" in readme
+    assert "Modelo de aprobación humana y persistencia operacional — FUNC-SPRINT-28" in readme
     assert "FUNC-SPRINT-28 — Modelo de aprobación humana" in runbook
     assert "Estado de implementación Sprint 28" in phase_b
     assert "FUNC-SPRINT-29 — CLI de aprobación" in readme
     assert "FUNC-SPRINT-29 — CLI de aprobación" in runbook
-    assert "no se expone todavía CLI" in phase_b
-    assert "no se conecta todavía `approval_id` con `PolicyEngine`" in phase_b
+    assert "Estado de implementación Sprint 28" in phase_b
+    assert "Estado de implementación Sprint 29" in phase_b
 
 
 def test_sprint_28_manifest_declares_approval_domain_and_no_adr_needed() -> None:

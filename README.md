@@ -1,8 +1,8 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
-Estado actual: `baseline pre-code approved + Fase A cerrada + FASE-B iniciada + modelo de aprobación humana y persistencia operacional implemented-initial`  
-Último hito: `FUNC-SPRINT-28 — Modelo de aprobación humana y persistencia operacional`  
-Siguiente hito: `FUNC-SPRINT-29 — CLI de aprobación: request, list, show, approve, deny y revoke`  
+Estado actual: `baseline pre-code approved + Fase A cerrada + FASE-B en progreso + approval CLI implemented-initial`  
+Último hito: `FUNC-SPRINT-29 — CLI de aprobación: request, list, show, approve, deny y revoke`  
+Siguiente hito: `FUNC-SPRINT-30 — Binding de aprobaciones con PolicyEngine y MIASI`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
@@ -191,6 +191,38 @@ Criterio PASS: `ApprovalRecord` tiene ID, subject, tool/action, status, actor, r
 Criterio BLOCK: crear approvals sin scope/expiración, sobrescribir una approval sin transición controlada o activar ejecución crítica antes de `PolicyEngine` + approval binding.
 
 Riesgo operativo: `actor` es declarativo/local; autenticación/RBAC, CLI de approvals y binding de políticas quedan para sprints posteriores.
+
+
+## CLI de aprobación local — FUNC-SPRINT-29
+
+`FUNC-SPRINT-29` expone el dominio de aprobaciones humanas mediante CLI local. Esta capacidad es **implemented-initial**: permite solicitar, listar, consultar, aprobar, denegar y revocar approvals con evidencia local, pero todavía no autoriza ejecución de herramientas ni conecta `approval_id` con `PolicyEngine`.
+
+Artefactos principales:
+
+- `src/devpilot_core/approval/service.py`;
+- `src/devpilot_core/cli.py`;
+- `tests/test_approval_cli.py`;
+- `docs/audits/func_sprint_29_approval_cli_audit.md`;
+- `docs/functional_sprint_29_manifest.json`.
+
+Comandos de uso:
+
+```powershell
+$env:PYTHONPATH="src"
+python -m devpilot_core approval request --tool tests.run --action execute --subject pytest --reason "Validar cambios" --actor owner --json
+python -m devpilot_core approval list --status requested --json
+python -m devpilot_core approval show <approval_id> --json
+python -m devpilot_core approval approve <approval_id> --actor owner --reason "Revisión OK" --json
+python -m devpilot_core approval deny <approval_id> --actor owner --reason "Riesgo no mitigado" --json
+python -m devpilot_core approval revoke <approval_id> --actor owner --reason "Ya no aplica" --json
+python -m pytest tests/test_approval_cli.py -q
+```
+
+Criterio PASS: todos los comandos devuelven `CommandResult`, `approval request` crea registros scoped con expiración, `approval approve/deny/revoke` exige actor y razón, los estados inválidos bloquean y los reportes/eventos se generan localmente cuando se solicitan.
+
+Criterio BLOCK: aprobar sin razón o actor, aprobar approvals expiradas, reabrir approvals `denied`/`revoked`, imprimir secretos crudos en salida CLI o presentar una approval como autorización automática de ejecución.
+
+Riesgo operativo: `approval_id` todavía no es un gate de autorización. La integración con `PolicyEngine` y MIASI corresponde a `FUNC-SPRINT-30`.
 
 ## Propósito
 
