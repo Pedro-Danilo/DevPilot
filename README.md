@@ -1,8 +1,8 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
 Estado actual: `baseline pre-code approved + Fase A cerrada + FASE-B cerrada + security readiness operational baseline`  
-Último hito: `FUNC-SPRINT-34 — Security readiness operacional y cierre de Fase B`  
-Siguiente hito: `FUNC-SPRINT-35 — Inicio Fase C: ingeniería de repositorio y sandbox controlado`  
+Último hito: `FUNC-SPRINT-35 — GitAdapter v2 read-only: ramas, tags, log y diff-report`  
+Siguiente hito: `FUNC-SPRINT-36 — DependencyGraph e import graph Python`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
@@ -1271,3 +1271,19 @@ python -m pytest -q
 La implementación verifica approvals, binding con `PolicyEngine`, `tests.run`, guards de secretos/prompt/tool injection, MIASI y artefactos de cierre. No habilita `patch apply`, refactor execution, Git write ni deploy. La siguiente evolución debe abordar sandbox real, rollback, observabilidad v2 y seguridad industrial antes de permitir acciones destructivas.
 
 > Hardening adicional FUNC-SPRINT-34: las ejecuciones controladas de pytest mediante `SafeSubprocessRunner` desactivan la carga automática de plugins externos del host (`PYTEST_DISABLE_PLUGIN_AUTOLOAD=1`) y `PYTHONNOUSERSITE=1` dentro del subprocess. Esto reduce efectos colaterales de plugins no allowlisted y mejora reproducibilidad local.
+
+
+## GitAdapter v2 read-only — FUNC-SPRINT-35
+
+`FUNC-SPRINT-35` inicia la Fase C con una ampliación estrictamente read-only de GitAdapter. DevPilot ahora puede consultar ramas, tags, commits recientes y generar un diff-report estructurado sin ejecutar `git add`, `git commit`, `git checkout`, `git reset`, `git push` ni operaciones de escritura.
+
+Comandos principales:
+
+```powershell
+python -m devpilot_core git branches --json
+python -m devpilot_core git tags --json
+python -m devpilot_core git log --limit 20 --json
+python -m devpilot_core git diff-report --json --write-report
+```
+
+Límites explícitos: esta primera versión de Fase C no habilita patch apply, refactor execution, Git write, deploy ni sandbox real. `git diff-report` es heurístico: reporta archivos, alcance staged/unstaged/untracked, líneas agregadas/eliminadas cuando Git las expone y riesgos básicos por path, pero no reemplaza revisión manual ni análisis SAST/SCA.

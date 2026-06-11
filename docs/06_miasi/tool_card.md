@@ -292,3 +292,25 @@ Ejemplos de riesgo cubierto:
 - insertar sintaxis tipo `tool=<id>` en prompts de agente.
 
 Limitación: detección pattern-based, no sandbox ni RBAC.
+
+
+## Tool Card — GitAdapter v2 read-only — FUNC-SPRINT-35
+
+### Propósito
+
+Ampliar las herramientas Git de solo lectura para alimentar RepoAnalyzer, DependencyGraph, drift y quality gates posteriores.
+
+### Herramientas
+
+- `git.branches`: lista ramas locales/remotas sin checkout.
+- `git.tags`: lista tags sin crear ni borrar tags.
+- `git.log`: lista commits recientes con límite explícito.
+- `git.diff_report`: genera reporte estructurado de cambios staged, unstaged y untracked.
+
+### Restricciones
+
+No se permiten `git add`, `git commit`, `git checkout`, `git reset`, `git push`, creación de tags, merge ni rebase. La implementación usa allowlist y `shell=False`.
+
+### Riesgos
+
+`git.diff_report` es heurístico y no reemplaza SAST/SCA ni revisión humana. No lee contenido completo de diffs ni detecta todas las clases de secretos.

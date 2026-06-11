@@ -14,7 +14,7 @@ change_policy: "controlled_changes_allowed_via_docs_as_code"
 approved_on: "2026-06-06"
 approval_scope: "functional_backlog_after_precode"
 baseline_execution: "FUNC-SPRINT-00"
-next_sprint: "FUNC-SPRINT-35"
+next_sprint: "FUNC-SPRINT-36"
 ---
 
 # DevPilot Local — Backlog ejecutable posterior a pre-code
@@ -1961,3 +1961,10 @@ Siguiente línea de trabajo recomendada: Fase C — ingeniería de repositorio y
 Tras verificar el cierre de Fase B mediante `security readiness`, el backlog `docs/devpilot_backlog_fase_C_ingenieria_repositorio.md` queda elevado a estado `approved`. El siguiente sprint operativo es `FUNC-SPRINT-35 — GitAdapter v2 read-only: ramas, tags, log y diff-report`.
 
 Esta transición mantiene bloqueadas las capacidades destructivas hasta que existan sandbox real, ChangeSet, rollback y gates específicos de calidad de repositorio.
+
+
+## Transición posterior a FUNC-SPRINT-35 — GitAdapter v2 read-only
+
+`FUNC-SPRINT-35` inicia Fase C con lectura ampliada de Git: ramas, tags, commits recientes y diff-report estructurado. La capacidad es read-only, local-first y preliminar. No habilita patch apply, refactor execution, Git write, deploy ni sandbox real.
+
+Siguiente sprint operativo: `FUNC-SPRINT-36 — DependencyGraph e import graph Python`.

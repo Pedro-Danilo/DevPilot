@@ -1,0 +1,70 @@
+{
+  "sprint": "FUNC-SPRINT-35",
+  "title": "GitAdapter v2 read-only: ramas, tags, log y diff-report",
+  "status": "implemented",
+  "implemented_at": "2026-06-11",
+  "phase": "FASE-C-INGENIERIA-DE-REPOSITORIO",
+  "wave": "Ola 4 — Repo intelligence y revisión industrial",
+  "source_backlog": "docs/devpilot_backlog_fase_C_ingenieria_repositorio.md",
+  "architectural_decision": {
+    "required": false,
+    "adr": null,
+    "reason": "FUNC-SPRINT-35 amplía un adaptador existente en modo read-only, no introduce dependencias externas, red, APIs, UI, backend, sandbox real ni ejecución destructiva. Mantiene la arquitectura local-first y gobernada definida en Fases A/B."
+  },
+  "created_files": [
+    "src/devpilot_core/repo/diff_report.py",
+    "tests/test_git_adapter_v2.py",
+    "tests/test_sprint_35_documentation.py",
+    "docs/audits/func_sprint_35_git_adapter_v2_audit.md",
+    "docs/functional_sprint_35_manifest.json"
+  ],
+  "modified_files": [
+    "src/devpilot_core/repo/git_adapter.py",
+    "src/devpilot_core/repo/__init__.py",
+    "src/devpilot_core/cli.py",
+    ".devpilot/miasi/tool_registry.json",
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/devpilot_backlog_fase_C_ingenieria_repositorio.md",
+    "docs/functional_backlog_after_precode.md",
+    "docs/06_miasi/tool_registry.md",
+    "docs/06_miasi/tool_card.md",
+    "tests/test_sprint_32_documentation.py",
+    "tests/test_sprint_33_documentation.py",
+    "tests/test_sprint_34_documentation.py"
+  ],
+  "commands": [
+    "python -m devpilot_core git branches --json",
+    "python -m devpilot_core git tags --json",
+    "python -m devpilot_core git log --limit 20 --json",
+    "python -m devpilot_core git diff-report --json --write-report",
+    "python -m devpilot_core miasi validate --json",
+    "python -m pytest -q"
+  ],
+  "tests": [
+    "tests/test_git_adapter_v2.py",
+    "tests/test_sprint_35_documentation.py"
+  ],
+  "pass_criteria": [
+    "GitAdapter v2 operates only in read-only mode.",
+    "Branches, tags and bounded log commands return JSON-serializable CommandResult payloads.",
+    "git diff-report generates structured file, line and risk metadata and can write JSON/Markdown evidence.",
+    "Write-capable Git commands are blocked by allowlist.",
+    "A non-Git repository returns controlled warning output without crashing.",
+    "MIASI declares Git read-only tools.",
+    "pytest -q passes."
+  ],
+  "block_criteria": [
+    "Any Git write operation is exposed or allowed.",
+    "A command uses shell=True or a free shell string.",
+    "A non-Git repository raises an uncontrolled exception.",
+    "Sprint 35 is documented as patch apply, sandbox or Git write."
+  ],
+  "risks": [
+    "Diff risk classification is heuristic and preliminary.",
+    "Large diffs are bounded and may be truncated.",
+    "No remote, submodule, LFS or signature analysis is implemented yet."
+  ],
+  "preliminary": true,
+  "next_sprint": "FUNC-SPRINT-36 — DependencyGraph e import graph Python"
+}

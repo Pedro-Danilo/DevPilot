@@ -137,6 +137,54 @@
       ]
     },
     {
+      "tool_id": "git.branches",
+      "name": "git_branches_read_only",
+      "phase": "MVP+",
+      "side_effect": "read",
+      "risk_level": "medium",
+      "status": "implemented",
+      "requires_approval": false,
+      "policy_rule_ids": [
+        "GIT_READ_ALLOW"
+      ]
+    },
+    {
+      "tool_id": "git.tags",
+      "name": "git_tags_read_only",
+      "phase": "MVP+",
+      "side_effect": "read",
+      "risk_level": "medium",
+      "status": "implemented",
+      "requires_approval": false,
+      "policy_rule_ids": [
+        "GIT_READ_ALLOW"
+      ]
+    },
+    {
+      "tool_id": "git.log",
+      "name": "git_log_read_only",
+      "phase": "MVP+",
+      "side_effect": "read",
+      "risk_level": "medium",
+      "status": "implemented",
+      "requires_approval": false,
+      "policy_rule_ids": [
+        "GIT_READ_ALLOW"
+      ]
+    },
+    {
+      "tool_id": "git.diff_report",
+      "name": "git_diff_report_read_only",
+      "phase": "MVP+",
+      "side_effect": "report",
+      "risk_level": "medium",
+      "status": "implemented",
+      "requires_approval": false,
+      "policy_rule_ids": [
+        "GIT_READ_ALLOW"
+      ]
+    },
+    {
       "tool_id": "repo.inventory",
       "name": "repo_inventory",
       "phase": "MVP+",

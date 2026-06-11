@@ -21,6 +21,7 @@ from .reports import ReportEngine, build_report_id
 from .security import PolicySimulationSuite, SecurityReadiness
 from .schemas import BuiltinContractValidator, SchemaRegistry, SchemaValidator
 from .repo import GitAdapter, RepoInventory
+from .repo.diff_report import GitDiffReportBuilder
 from .refactor import RefactorPlanner
 from .review import CodeReviewEngine, PatchReviewEngine
 from .standards.registry import build_standards_status_result
@@ -358,6 +359,53 @@ def git_status_command(*, json_output: bool = False, write_report: bool = False)
     print_result(result, json_output=json_output)
     return int(result.exit_code)
 
+
+
+def git_v2_command(
+    action: str,
+    *,
+    limit: int = 20,
+    max_files: int = 200,
+    json_output: bool = False,
+    write_report: bool = False,
+) -> int:
+    """Run GitAdapter v2 read-only commands for Fase C.
+
+    FUNC-SPRINT-35 adds branches, tags, bounded log and structured
+    diff-report commands. The implementation remains strictly read-only: no
+    add/commit/checkout/reset/tag creation/push and no shell execution.
+    """
+
+    root = project_root()
+    adapter = GitAdapter(root)
+    if action == "branches":
+        result = adapter.branches()
+    elif action == "tags":
+        result = adapter.tags()
+    elif action == "log":
+        result = adapter.log(limit=limit)
+    elif action == "diff-report":
+        result = GitDiffReportBuilder(root).build(max_files=max_files)
+    else:
+        result = CommandResult(
+            command=f"git {action}",
+            ok=False,
+            exit_code=ExitCode.FAIL,
+            message="Unsupported GitAdapter v2 action.",
+            findings=[Finding(id="GIT_V2_ACTION_UNSUPPORTED", message=f"Unsupported git action: {action}.", severity=Severity.FAIL)],
+        )
+    result = _write_optional_command_report(
+        root,
+        result,
+        subject=".",
+        report_id=f"git_{action.replace('-', '_')}",
+        write_report=write_report,
+        metadata={"sprint": "FUNC-SPRINT-35", "component": "GitAdapterV2", "action": action},
+    )
+    _emit_result_event(root, result, subject=".")
+    _persist_result(root, result, subject=".")
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
 
 def repo_inventory_command(*, json_output: bool = False, write_report: bool = False) -> int:
     """Build a read-only repository inventory and risk summary.
@@ -1571,6 +1619,27 @@ def build_parser() -> argparse.ArgumentParser:
     git_status.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     git_status.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
 
+    git_group = sub.add_parser("git", help="Run GitAdapter v2 read-only commands")
+    git_sub = git_group.add_subparsers(dest="git_command")
+
+    git_branches = git_sub.add_parser("branches", help="List Git branches in read-only mode")
+    git_branches.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    git_branches.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+
+    git_tags = git_sub.add_parser("tags", help="List Git tags in read-only mode")
+    git_tags.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    git_tags.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+
+    git_log = git_sub.add_parser("log", help="List recent Git commits in read-only mode")
+    git_log.add_argument("--limit", type=int, default=20, help="Maximum commits to return, 1..200")
+    git_log.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    git_log.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+
+    git_diff_report = git_sub.add_parser("diff-report", help="Generate structured read-only Git diff report")
+    git_diff_report.add_argument("--max-files", type=int, default=200, help="Maximum changed files to include, 1..1000")
+    git_diff_report.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    git_diff_report.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+
     repo_inventory = sub.add_parser("repo-inventory", help="Generate read-only repository inventory and risk summary")
     repo_inventory.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     repo_inventory.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
@@ -1915,6 +1984,15 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
         return int(ExitCode.FAIL)
     if args.command == "git-status":
         return git_status_command(json_output=args.json, write_report=args.write_report)
+    if args.command == "git":
+        if args.git_command in {"branches", "tags"}:
+            return git_v2_command(args.git_command, json_output=args.json, write_report=args.write_report)
+        if args.git_command == "log":
+            return git_v2_command("log", limit=args.limit, json_output=args.json, write_report=args.write_report)
+        if args.git_command == "diff-report":
+            return git_v2_command("diff-report", max_files=args.max_files, json_output=args.json, write_report=args.write_report)
+        parser.print_help()
+        return int(ExitCode.FAIL)
     if args.command == "repo-inventory":
         return repo_inventory_command(json_output=args.json, write_report=args.write_report)
     if args.command == "patch-review":

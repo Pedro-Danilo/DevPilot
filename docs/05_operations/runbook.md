@@ -2409,3 +2409,40 @@ python -m devpilot_core tests run `
 El cierre de Fase B es una baseline local-first `implemented-initial`; no reemplaza SAST/SCA, red teaming, RBAC, sandbox real, rollback automático ni observabilidad industrial.
 
 Nota operativa FUNC-SPRINT-34: `tests.run` y `SafeSubprocessRunner` ejecutan pytest con controles de entorno (`PYTEST_DISABLE_PLUGIN_AUTOLOAD=1`, `PYTHONNOUSERSITE=1`) para evitar que plugins globales del entorno local modifiquen o bloqueen la ejecución controlada.
+
+
+## FUNC-SPRINT-35 — GitAdapter v2 read-only
+
+### Propósito
+
+Ampliar las capacidades read-only de Git para alimentar los sprints de ingeniería de repositorio sin habilitar operaciones mutantes.
+
+### Comandos operativos
+
+```powershell
+python -m devpilot_core git branches --json
+python -m devpilot_core git tags --json
+python -m devpilot_core git log --limit 20 --json
+python -m devpilot_core git diff-report --json --write-report
+```
+
+### Funcionamiento
+
+Los comandos usan `GitAdapter` con allowlist estricta y `subprocess.run(..., shell=False)`. El adaptador valida el workspace mediante `PolicyEngine`, limita `git log` a 200 commits y limita `git diff-report` a 1000 archivos como máximo. En repositorios que no son Git devuelve `CommandResult` controlado con warning, no excepción no controlada.
+
+### Criterios PASS
+
+- `git branches`, `git tags`, `git log` y `git diff-report` devuelven JSON parseable.
+- Ningún comando modifica working tree, index o historial Git.
+- `git diff-report --write-report` genera evidencia JSON/Markdown en `outputs/reports`.
+- Las tools read-only quedan declaradas en MIASI.
+
+### Criterios BLOCK
+
+- Intentar usar `add`, `commit`, `checkout`, `reset`, `push` u otro comando Git write debe bloquearse por allowlist.
+- No se debe usar `shell=True`.
+- Un directorio no Git no debe provocar crash.
+
+### Riesgos y límites
+
+Esta versión es `implemented-initial`. No inspecciona submódulos, firmas, remotos, LFS, integridad profunda del repositorio ni secretos en contenido de diff. Los riesgos de `diff-report` son heurísticos y deben evolucionar en RepoAnalyzer, DependencyGraph y QualityGate.

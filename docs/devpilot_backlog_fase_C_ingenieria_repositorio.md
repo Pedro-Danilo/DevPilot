@@ -2,17 +2,20 @@
 title: "DevPilot Local — Backlog ejecutable Fase C: Ingeniería de repositorio"
 doc_id: "DEVPL-FUNC-BACKLOG-FASE-C-001"
 status: "approved"
-version: "1.0.0"
+version: "1.1.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
 phase: "FASE-C-INGENIERIA-DE-REPOSITORIO"
 updated: "2026-06-11"
-source_repo: "repo_DevPilot_Local_41.zip"
+source_repo: "repo_DevPilot_Local_42.zip"
 source_report: "Informe de avance DevPilot - sprint 0 - 18.docx"
 source_backlog_model: "docs/functional_backlog_after_precode.md"
 baseline_dependency: "Fase A cerrada por FUNC-SPRINT-27 y Fase B cerrada por FUNC-SPRINT-34"
 first_sprint: "FUNC-SPRINT-35"
+first_open_sprint: "FUNC-SPRINT-36"
+phase_c_status: "in_progress"
+last_completed_sprint: "FUNC-SPRINT-35"
 last_planned_sprint: "FUNC-SPRINT-44"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "phase_c_executable_backlog_review"
@@ -39,6 +42,12 @@ Esta fase parte del estado real de `repo_DevPilot_Local_41.zip`, donde DevPilot 
 La revisión posterior al cierre de `FUNC-SPRINT-34` confirma que este backlog es una continuación apropiada del desarrollo de DevPilot porque toma como entrada los prerequisitos mínimos de seguridad operacional ya cerrados: approvals, policy binding, `tests.run`, SafeSubprocessRunner, guards, readiness y reportes.
 
 La Fase C queda aprobada para iniciar en `FUNC-SPRINT-35 — GitAdapter v2 read-only: ramas, tags, log y diff-report`. Esta aprobación no habilita todavía `patch apply`, `refactor execution`, Git write ni deploy. Es una autorización documental para empezar por capacidades read-only y avanzar hacia sandbox/rollback bajo los gates definidos en este documento.
+
+## Estado de implementación Sprint 35
+
+`FUNC-SPRINT-35 — GitAdapter v2 read-only: ramas, tags, log y diff-report` queda implementado como primer sprint de Fase C. El alcance se limita a lectura de metadatos Git y generación de reportes de diff estructurados. No habilita `patch apply`, `refactor execution`, Git write, deploy ni sandbox real.
+
+El siguiente sprint abierto es `FUNC-SPRINT-36 — DependencyGraph e import graph Python`.
 
 ## 1. Propósito
 

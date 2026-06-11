@@ -24,8 +24,12 @@ baseline_role: "precode_approved_baseline"
 | `trace.append` | append_trace_event | MVP | escritura controlada | Medio | Planned |
 | `document.draft.generate` | generate_draft_document | MVP | escritura opcional | Medio | Planned |
 | `documentation.audit` | audit_documentation | MVP | reporte | Medio | Planned |
-| `git.status` | git_status | MVP+ | lectura | Medio | Planned |
-| `git.diff` | git_diff | MVP+ | lectura | Medio | Planned |
+| `git.status` | git_status | MVP+ | lectura | Medio | Implemented |
+| `git.diff` | git_diff | MVP+ | lectura | Medio | Implemented |
+| `git.branches` | git_branches_read_only | MVP+ | lectura | Medio | Implemented |
+| `git.tags` | git_tags_read_only | MVP+ | lectura | Medio | Implemented |
+| `git.log` | git_log_read_only | MVP+ | lectura | Medio | Implemented |
+| `git.diff_report` | git_diff_report_read_only | MVP+ | reporte | Medio | Implemented |
 | `repo.inventory` | repo_inventory | MVP+ | lectura | Medio | Planned |
 | `patch.parse` | parse_patch | MVP+ | ninguno | Medio | Planned |
 | `patch.dry_run` | patch_dry_run | MVP+ | simulación | Alto | Planned |
@@ -52,3 +56,8 @@ Restricciones:
 - conserva `PathGuard`, `SecretGuard`, `CostGuard` y `ApprovalPolicyChecker` en el flujo.
 
 Perfiles iniciales: `smoke`, `unit`, `all`.
+
+
+## Estado operacional GitAdapter v2 — FUNC-SPRINT-35
+
+`git.branches`, `git.tags`, `git.log` y `git.diff_report` quedan declaradas como tools read-only de Fase C. No requieren approval porque no modifican archivos, index ni historial, pero siguen sujetas a `GIT_READ_ALLOW`, `PolicyEngine`, allowlist interna y ausencia de `shell=True`.
