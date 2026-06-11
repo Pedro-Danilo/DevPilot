@@ -15,11 +15,11 @@ def test_sprint_29_readme_runbook_and_phase_b_backlog_are_synchronized() -> None
     runbook = _read("docs/05_operations/runbook.md")
     phase_b = _read("docs/devpilot_backlog_fase_B_seguridad_operacional.md")
 
-    assert "FUNC-SPRINT-29 — CLI de aprobación" in readme
+    assert "CLI de aprobación local — FUNC-SPRINT-29" in readme
     assert "FUNC-SPRINT-29 — CLI de aprobación" in runbook
     assert "Estado de implementación Sprint 29" in phase_b
-    assert 'source_repo: "repo_DevPilot_Local_34.zip"' in phase_b
-    assert 'first_open_sprint: "FUNC-SPRINT-30"' in phase_b
+    assert 'source_repo: "repo_DevPilot_Local_35.zip"' in phase_b
+    assert 'first_open_sprint: "FUNC-SPRINT-31"' in phase_b
     assert "FUNC-SPRINT-30 — Binding de aprobaciones" in readme
     assert "FUNC-SPRINT-30 — Binding de aprobaciones" in runbook
 
@@ -49,6 +49,6 @@ def test_sprint_29_does_not_claim_policy_binding_or_tool_execution() -> None:
     phase_b = _read("docs/devpilot_backlog_fase_B_seguridad_operacional.md")
     audit = _read("docs/audits/func_sprint_29_approval_cli_audit.md")
 
-    assert "no se integra aún con `PolicyEngine`" in phase_b
+    assert "`approval_id` ya se conecta con `PolicyEngine`" in phase_b
     assert "no se ejecutan tests, patches, refactors, deploys ni Git write" in phase_b
     assert "no autoriza todavía ejecución de herramientas críticas" in audit

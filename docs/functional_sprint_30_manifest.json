@@ -1,0 +1,70 @@
+{
+  "sprint": "FUNC-SPRINT-30",
+  "title": "Binding de aprobaciones con PolicyEngine y MIASI",
+  "status": "implemented",
+  "implemented_at": "2026-06-11",
+  "phase": "FASE-B-SEGURIDAD-OPERACIONAL",
+  "wave": "Ola 3 — Seguridad operacional, aprobación humana y ejecución controlada",
+  "source_backlog": "docs/devpilot_backlog_fase_B_seguridad_operacional.md",
+  "architectural_decision": {
+    "required": false,
+    "adr": null,
+    "reason": "FUNC-SPRINT-30 extends existing local-first PolicyEngine and ApprovalStore contracts without external dependencies, network calls, new storage backends, UI, tool execution or destructive actions. It is an internal policy-binding evolution, not a new architectural style."
+  },
+  "created_files": [
+    "src/devpilot_core/approval/policy.py",
+    "tests/test_approval_policy_binding.py",
+    "tests/test_sprint_30_documentation.py",
+    "docs/audits/func_sprint_30_approval_policy_binding_audit.md",
+    "docs/functional_sprint_30_manifest.json"
+  ],
+  "modified_files": [
+    "src/devpilot_core/approval/__init__.py",
+    "src/devpilot_core/policy/engine.py",
+    "src/devpilot_core/cli.py",
+    ".devpilot/miasi/policy_matrix.json",
+    "docs/06_miasi/policy_matrix.md",
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/devpilot_backlog_fase_B_seguridad_operacional.md",
+    "docs/functional_backlog_after_precode.md",
+    "tests/test_sprint_29_documentation.py"
+  ],
+  "commands": [
+    "python -m devpilot_core policy check execute --path . --tool tests.run --subject pytest --approval-id $approvalId --json",
+    "python -m devpilot_core policy simulate --tool tests.run --action execute --subject pytest --approval-id $approvalId --json --write-report",
+    "python -m devpilot_core miasi validate --json",
+    "python -m devpilot_core schema validate-manifest docs/functional_sprint_30_manifest.json --json",
+    "python -m pytest tests/test_approval_policy_binding.py -q",
+    "python -m pytest -q"
+  ],
+  "tests": [
+    "tests/test_approval_policy_binding.py",
+    "tests/test_sprint_30_documentation.py",
+    "tests/test_policy_engine.py"
+  ],
+  "pass_criteria": [
+    "Approval-gated action without approval_id produces BLOCK.",
+    "Expired approval produces BLOCK.",
+    "Wrong tool/action/subject scope produces BLOCK.",
+    "Valid approval only enables the declared scope.",
+    "MIASI Policy Matrix references ApprovalPolicyChecker for approval-gated rules.",
+    "policy simulate returns CommandResult and optional reports.",
+    "pytest -q passes."
+  ],
+  "block_criteria": [
+    "Approval works as a global bypass.",
+    "A tests.run approval enables patch apply, deploy or Git write.",
+    "PolicyEngine ignores expiration.",
+    "MIASI registries become unsynchronized.",
+    "The sprint executes tools or commands instead of simulating policy."
+  ],
+  "risks": [
+    "Actor remains local/declarative; authentication and RBAC remain future work.",
+    "Policy simulation does not execute tools; SafeSubprocessRunner remains future work.",
+    "Scope matching is deterministic and explicit; semantic scope inference is intentionally not implemented.",
+    "tests.run remains planned until FUNC-SPRINT-32."
+  ],
+  "preliminary": true,
+  "next_sprint": "FUNC-SPRINT-31 — SafeSubprocessRunner y allowlist de ejecución controlada"
+}

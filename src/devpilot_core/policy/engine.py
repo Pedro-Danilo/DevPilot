@@ -4,6 +4,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
+from devpilot_core.approval.policy import ApprovalPolicyChecker, ApprovalPolicyInput
 from devpilot_core.cli_models import CommandResult, ExitCode, Finding, Severity
 from devpilot_core.policy.cost_guard import CostGuard, CostPolicy
 from devpilot_core.policy.decisions import PolicyDecision, PolicyEffect
@@ -23,6 +24,9 @@ class PolicyRequest:
     estimated_cost_usd: float = 0.0
     dry_run: bool = True
     metadata: dict[str, Any] = field(default_factory=dict)
+    approval_id: str | None = None
+    tool_id: str | None = None
+    subject: str | None = None
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -33,6 +37,9 @@ class PolicyRequest:
             "provider": self.provider,
             "estimated_cost_usd": self.estimated_cost_usd,
             "dry_run": self.dry_run,
+            "approval_id": self.approval_id,
+            "tool_id": self.tool_id,
+            "subject": self.subject,
             "metadata": self.metadata,
         }
 
@@ -59,6 +66,7 @@ class PolicyEngine:
         self.path_guard = PathGuard(self.root, policy=path_policy)
         self.secret_guard = SecretGuard()
         self.cost_guard = CostGuard(policy=cost_policy)
+        self.approval_checker = ApprovalPolicyChecker(self.root)
 
     def evaluate(self, request: PolicyRequest) -> CommandResult:
         """Evaluate a policy request and return a normalized CommandResult."""
@@ -66,15 +74,28 @@ class PolicyEngine:
         decisions: list[PolicyDecision] = []
         action = request.action.strip().lower() or "unknown"
 
-        if action in self.dangerous_actions and request.dry_run:
+        approval_decision = self.approval_checker.evaluate(
+            ApprovalPolicyInput(
+                action=action,
+                approval_id=request.approval_id,
+                tool_id=request.tool_id,
+                subject=request.subject,
+                path=request.path,
+                metadata=request.metadata,
+            )
+        )
+        decisions.append(approval_decision)
+        approval_valid = approval_decision.rule_id == "APPROVAL_VALID" and approval_decision.effect == PolicyEffect.ALLOW
+
+        if action in self.dangerous_actions and request.dry_run and not approval_valid:
             decisions.append(
                 PolicyDecision(
                     effect=PolicyEffect.BLOCK,
-                    reason="PolicyEngine blocks dangerous actions by default, even in dry-run, until human approval exists.",
+                    reason="PolicyEngine blocks dangerous actions by default, even in dry-run, until scoped human approval is valid.",
                     guard="PolicyEngine",
                     rule_id="POLICY_DANGEROUS_ACTION_BLOCKED",
-                    subject=request.path,
-                    metadata={"action": action, "dry_run": request.dry_run},
+                    subject=request.path or request.subject,
+                    metadata={"action": action, "dry_run": request.dry_run, "approval_valid": approval_valid},
                 )
             )
 
@@ -105,6 +126,8 @@ class PolicyEngine:
             "warnings": len(warnings),
             "decisions_total": len(decisions),
             "guards": sorted({decision.guard for decision in decisions}),
+            "approval_required": approval_decision.metadata.get("approval_required", False),
+            "approval_valid": approval_valid,
         }
         request_payload = request.to_dict()
         if request.text is not None:

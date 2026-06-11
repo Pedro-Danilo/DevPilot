@@ -1,8 +1,8 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
-Estado actual: `baseline pre-code approved + Fase A cerrada + FASE-B en progreso + approval CLI implemented-initial`  
-Último hito: `FUNC-SPRINT-29 — CLI de aprobación: request, list, show, approve, deny y revoke`  
-Siguiente hito: `FUNC-SPRINT-30 — Binding de aprobaciones con PolicyEngine y MIASI`  
+Estado actual: `baseline pre-code approved + Fase A cerrada + FASE-B en progreso + approval-policy binding implemented-initial`  
+Último hito: `FUNC-SPRINT-30 — Binding de aprobaciones con PolicyEngine y MIASI`  
+Siguiente hito: `FUNC-SPRINT-31 — SafeSubprocessRunner y allowlist de ejecución controlada`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
@@ -209,12 +209,13 @@ Comandos de uso:
 
 ```powershell
 $env:PYTHONPATH="src"
-python -m devpilot_core approval request --tool tests.run --action execute --subject pytest --reason "Validar cambios" --actor owner --json
+$approval = python -m devpilot_core approval request --tool tests.run --action execute --subject pytest --reason "Validar cambios" --actor owner --json | ConvertFrom-Json
+$approvalId = $approval.data.approval.approval_id
 python -m devpilot_core approval list --status requested --json
-python -m devpilot_core approval show <approval_id> --json
-python -m devpilot_core approval approve <approval_id> --actor owner --reason "Revisión OK" --json
-python -m devpilot_core approval deny <approval_id> --actor owner --reason "Riesgo no mitigado" --json
-python -m devpilot_core approval revoke <approval_id> --actor owner --reason "Ya no aplica" --json
+python -m devpilot_core approval show $approvalId --json
+python -m devpilot_core approval approve $approvalId --actor owner --reason "Revisión OK" --json
+python -m devpilot_core approval deny $approvalId --actor owner --reason "Riesgo no mitigado" --json  # usar otro approval_id requested
+python -m devpilot_core approval revoke $approvalId --actor owner --reason "Ya no aplica" --json
 python -m pytest tests/test_approval_cli.py -q
 ```
 
@@ -223,6 +224,38 @@ Criterio PASS: todos los comandos devuelven `CommandResult`, `approval request` 
 Criterio BLOCK: aprobar sin razón o actor, aprobar approvals expiradas, reabrir approvals `denied`/`revoked`, imprimir secretos crudos en salida CLI o presentar una approval como autorización automática de ejecución.
 
 Riesgo operativo: `approval_id` todavía no es un gate de autorización. La integración con `PolicyEngine` y MIASI corresponde a `FUNC-SPRINT-30`.
+
+## Binding de aprobaciones con PolicyEngine y MIASI — FUNC-SPRINT-30
+
+`FUNC-SPRINT-30` conecta el workflow local de approvals con `PolicyEngine` y MIASI mediante un binding **implemented-initial**. `approval_id` se valida contra SQLite, estado `approved`, expiración y scope `tool/action/subject`. Una aprobación válida evita el bloqueo genérico de acción peligrosa solo para el scope autorizado, pero no reemplaza `PathGuard`, `SecretGuard`, `CostGuard` ni otros controles.
+
+Artefactos principales:
+
+- `src/devpilot_core/approval/policy.py`;
+- `src/devpilot_core/policy/engine.py`;
+- `.devpilot/miasi/policy_matrix.json`;
+- `docs/06_miasi/policy_matrix.md`;
+- `tests/test_approval_policy_binding.py`;
+- `docs/audits/func_sprint_30_approval_policy_binding_audit.md`;
+- `docs/functional_sprint_30_manifest.json`.
+
+Comandos de uso:
+
+```powershell
+$env:PYTHONPATH="src"
+$approval = python -m devpilot_core approval request --tool tests.run --action execute --subject pytest --reason "Validar cambios" --actor owner --json | ConvertFrom-Json
+$approvalId = $approval.data.approval.approval_id
+python -m devpilot_core approval approve $approvalId --actor owner --reason "Revisión OK" --json
+python -m devpilot_core policy check execute --path . --tool tests.run --subject pytest --approval-id $approvalId --json
+python -m devpilot_core policy simulate --tool tests.run --action execute --subject pytest --approval-id $approvalId --json --write-report
+python -m pytest tests/test_approval_policy_binding.py -q
+```
+
+Criterio PASS: acciones approval-gated sin approval producen BLOCK; approval expirada, no aprobada o de scope incorrecto produce BLOCK; approval válida habilita solo el scope declarado y mantiene el resto de guardas.
+
+Criterio BLOCK: una approval válida para `tests.run` habilita otra tool/action, `PolicyEngine` ignora expiración, MIASI queda desincronizado o `approval_id` se trata como bypass global.
+
+Riesgo operativo: Sprint 30 no ejecuta herramientas ni tests; solo evalúa decisiones de política. La ejecución controlada queda para `FUNC-SPRINT-31` y `FUNC-SPRINT-32`.
 
 ## Propósito
 

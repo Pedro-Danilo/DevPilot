@@ -24,8 +24,13 @@ baseline_role: "precode_approved_baseline"
 | Patch | parse/dry-run | Allow MVP+ | patch policy | No | patch event |
 | Patch | apply | Deny MVP | patch+approval | Sí | approval+patch event |
 | Model | mock/local | Allow controlled | model policy | No | model event |
-| Model | external API | Deny by default | CostGuard+SecretGuard | Sí | cost+model event |
+| Model | external API | Deny by default | CostGuard+SecretGuard+ApprovalPolicyChecker | Sí | cost+model event |
 | Agent | suggest | Allow | agent policy | No | agent event |
 | Agent | execute critical tool | Deny by default | tool+policy+approval | Sí | full trace |
 | Secrets | print/store raw | Deny | SecretGuard | No | redaction event |
 | Deployment | deploy | Deny pre-code/MVP | release policy futura | Sí | deployment event |
+
+
+## Nota de implementación FUNC-SPRINT-30
+
+`ApprovalPolicyChecker` queda registrado como gate ejecutable inicial para validar `approval_id`, `status`, expiración y scope antes de considerar una acción approval-gated. Esta integración es `implemented-initial`: no ejecuta herramientas, no aplica patches, no corre tests y no sustituye PathGuard, SecretGuard ni CostGuard.

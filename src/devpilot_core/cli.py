@@ -7,7 +7,8 @@ from pathlib import Path
 
 from . import __version__
 from .agents import AgentRuntime
-from .approval import ApprovalCliInput, ApprovalService, ApprovalStatus
+from .approval.models import ApprovalStatus
+from .approval.service import ApprovalCliInput, ApprovalService
 from .application import ApplicationService
 from .cli_models import CommandResult, ExitCode, Finding, Severity
 from .errors import DevPilotError
@@ -1202,6 +1203,9 @@ def policy_check_command(
     allow_external_api: bool = False,
     budget_limit_usd: float = 0.0,
     budget_used_usd: float = 0.0,
+    approval_id: str | None = None,
+    tool_id: str | None = None,
+    subject: str | None = None,
     json_output: bool = False,
     write_report: bool = False,
 ) -> int:
@@ -1230,6 +1234,10 @@ def policy_check_command(
         provider=provider,
         estimated_cost_usd=estimated_cost_usd,
         dry_run=True,
+        approval_id=approval_id,
+        tool_id=tool_id,
+        subject=subject,
+        metadata={"source": "policy-check-cli", "sprint": "FUNC-SPRINT-30"} if approval_id or tool_id or subject else {},
     )
     result = engine.evaluate(request)
     result = _write_optional_command_report(
@@ -1238,10 +1246,57 @@ def policy_check_command(
         subject=path or action,
         report_id="policy_check",
         write_report=write_report,
-        metadata={"sprint": "FUNC-SPRINT-09", "component": "PolicyEngine"},
+        metadata={"sprint": "FUNC-SPRINT-30", "component": "PolicyEngine", "approval_binding": bool(approval_id)},
     )
     _emit_result_event(root, result, subject=path or action)
     _persist_result(root, result, subject=path or action)
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+
+def policy_simulate_command(
+    *,
+    tool_id: str,
+    action: str,
+    subject: str,
+    path: str | None = None,
+    approval_id: str | None = None,
+    json_output: bool = False,
+    write_report: bool = False,
+) -> int:
+    """Simulate a tool/action policy decision with optional approval binding."""
+
+    root = project_root()
+    engine = PolicyEngine(root, cost_policy=load_cost_policy(root))
+    result = engine.evaluate(
+        PolicyRequest(
+            action=action,
+            path=path,
+            dry_run=True,
+            approval_id=approval_id,
+            tool_id=tool_id,
+            subject=subject,
+            metadata={"source": "policy-simulate-cli", "sprint": "FUNC-SPRINT-30"},
+        )
+    )
+    result = CommandResult(
+        command="policy simulate",
+        ok=result.ok,
+        exit_code=result.exit_code,
+        message=result.message,
+        data=result.data,
+        findings=result.findings,
+    )
+    result = _write_optional_command_report(
+        root,
+        result,
+        subject=approval_id or f"{tool_id}:{action}:{subject}",
+        report_id="policy_simulate",
+        write_report=write_report,
+        metadata={"sprint": "FUNC-SPRINT-30", "component": "PolicyEngine", "approval_binding": bool(approval_id)},
+    )
+    _emit_result_event(root, result, subject=approval_id or subject)
+    _persist_result(root, result, subject=approval_id or subject)
     print_result(result, json_output=json_output)
     return int(result.exit_code)
 
@@ -1517,8 +1572,20 @@ def build_parser() -> argparse.ArgumentParser:
     policy_check.add_argument("--allow-external-api", action="store_true", help="Explicitly simulate a local policy that allows external APIs")
     policy_check.add_argument("--budget-limit-usd", type=float, default=0.0, help="Local simulated budget limit")
     policy_check.add_argument("--budget-used-usd", type=float, default=0.0, help="Local simulated budget already used")
+    policy_check.add_argument("--approval-id", default=None, help="Optional human approval ID for approval-gated actions")
+    policy_check.add_argument("--tool", dest="tool_id", default=None, help="Optional MIASI tool ID used for approval scope matching")
+    policy_check.add_argument("--subject", default=None, help="Optional tool subject used for approval scope matching")
     policy_check.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     policy_check.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+
+    policy_simulate = policy_sub.add_parser("simulate", help="Simulate a tool/action decision with optional approval binding")
+    policy_simulate.add_argument("--tool", dest="tool_id", required=True, help="MIASI tool identifier, e.g. tests.run")
+    policy_simulate.add_argument("--action", required=True, help="Tool action, e.g. execute")
+    policy_simulate.add_argument("--subject", required=True, help="Tool subject, e.g. pytest or unit")
+    policy_simulate.add_argument("--path", default=None, help="Optional path subject for PathGuard")
+    policy_simulate.add_argument("--approval-id", default=None, help="Optional human approval ID")
+    policy_simulate.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    policy_simulate.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
 
     standards = sub.add_parser("standards", help="Inspect local MIPSoftware/MIASI standards registry")
     standards_sub = standards.add_subparsers(dest="standards_command")
@@ -1799,6 +1866,19 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
                 allow_external_api=args.allow_external_api,
                 budget_limit_usd=args.budget_limit_usd,
                 budget_used_usd=args.budget_used_usd,
+                approval_id=args.approval_id,
+                tool_id=args.tool_id,
+                subject=args.subject,
+                json_output=args.json,
+                write_report=args.write_report,
+            )
+        if args.policy_command == "simulate":
+            return policy_simulate_command(
+                tool_id=args.tool_id,
+                action=args.action,
+                subject=args.subject,
+                path=args.path,
+                approval_id=args.approval_id,
                 json_output=args.json,
                 write_report=args.write_report,
             )

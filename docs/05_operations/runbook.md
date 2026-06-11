@@ -2,11 +2,11 @@
 title: "Runbook — DevPilot Local"
 doc_id: "DEVPL-OPS-002"
 status: "approved"
-version: "1.14.0"
+version: "1.15.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "FUNC-SPRINT-29"
+phase: "FUNC-SPRINT-30"
 updated: "2026-06-11"
 approval: "approved_by_owner"
 source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved + 03_security approved"
@@ -2047,12 +2047,13 @@ Operar aprobaciones humanas locales desde CLI, con registros persistidos en SQLi
 
 ```powershell
 $env:PYTHONPATH="src"
-python -m devpilot_core approval request --tool tests.run --action execute --subject pytest --reason "Validar cambios" --actor owner --json
+$approval = python -m devpilot_core approval request --tool tests.run --action execute --subject pytest --reason "Validar cambios" --actor owner --json | ConvertFrom-Json
+$approvalId = $approval.data.approval.approval_id
 python -m devpilot_core approval list --status requested --json
-python -m devpilot_core approval show <approval_id> --json
-python -m devpilot_core approval approve <approval_id> --actor owner --reason "Revisión OK" --json
-python -m devpilot_core approval deny <approval_id> --actor owner --reason "Riesgo no mitigado" --json
-python -m devpilot_core approval revoke <approval_id> --actor owner --reason "Ya no aplica" --json
+python -m devpilot_core approval show $approvalId --json
+python -m devpilot_core approval approve $approvalId --actor owner --reason "Revisión OK" --json
+python -m devpilot_core approval deny $approvalId --actor owner --reason "Riesgo no mitigado" --json  # usar otro approval_id requested
+python -m devpilot_core approval revoke $approvalId --actor owner --reason "Ya no aplica" --json
 python -m devpilot_core approval request --tool tests.run --action execute --subject pytest --reason "Validar cambios" --actor owner --json --write-report
 python -m pytest tests/test_approval_cli.py -q
 ```
@@ -2093,3 +2094,54 @@ La CLI se presenta como autorización automática para ejecutar herramientas.
 - No se ejecutan comandos, tests, patches, refactors ni deploys en Sprint 29.
 
 Próxima fase operativa: `FUNC-SPRINT-30 — Binding de aprobaciones con PolicyEngine y MIASI`.
+
+
+## FUNC-SPRINT-30 — Binding de aprobaciones con PolicyEngine y MIASI
+
+### Propósito
+
+Conectar approvals locales con `PolicyEngine` y MIASI para evaluar acciones approval-gated mediante `approval_id` válido, sin habilitar ejecución crítica ni crear bypass global. Esta versión es **implemented-initial**: evalúa política, pero no ejecuta herramientas ni tests.
+
+### Comandos operativos
+
+```powershell
+$env:PYTHONPATH="src"
+$approval = python -m devpilot_core approval request --tool tests.run --action execute --subject pytest --reason "Validar cambios" --actor owner --json | ConvertFrom-Json
+$approvalId = $approval.data.approval.approval_id
+python -m devpilot_core approval approve $approvalId --actor owner --reason "Revisión OK" --json
+python -m devpilot_core policy check execute --path . --tool tests.run --subject pytest --approval-id $approvalId --json
+python -m devpilot_core policy simulate --tool tests.run --action execute --subject pytest --approval-id $approvalId --json --write-report
+python -m pytest tests/test_approval_policy_binding.py -q
+```
+
+### Funcionamiento
+
+`ApprovalPolicyChecker` verifica que el `approval_id` exista en SQLite, esté en estado `approved`, no esté expirado y cubra el scope `tool_id`, `action` y `subject` de la solicitud. `PolicyEngine` conserva `PathGuard`, `SecretGuard` y `CostGuard`; la approval válida solo satisface el gate humano para el scope declarado.
+
+### Criterios PASS
+
+```text
+Acción approval-gated sin approval_id produce BLOCK.
+Approval expirada produce BLOCK.
+Approval de otra tool/action/subject produce BLOCK.
+Approval válida solo habilita el scope declarado.
+MIASI validate sigue en PASS.
+pytest -q pasa.
+```
+
+### Criterios BLOCK
+
+```text
+Approval funciona como bypass global.
+Una approval válida para tests.run permite patch apply o deploy.
+PolicyEngine ignora expiración.
+MIASI queda desincronizado.
+```
+
+### Riesgos y límites
+
+- `approval_id` habilita evaluación de política, no ejecución automática.
+- No existe aún `SafeSubprocessRunner`; queda para `FUNC-SPRINT-31`.
+- `tests.run` sigue pendiente hasta `FUNC-SPRINT-32`.
+
+Próxima fase operativa: `FUNC-SPRINT-31 — SafeSubprocessRunner y allowlist de ejecución controlada`.
