@@ -233,6 +233,19 @@
       ]
     },
     {
+      "tool_id": "repo.quality_gate",
+      "name": "repo_quality_gate_dry_run",
+      "phase": "MVP+",
+      "side_effect": "report",
+      "risk_level": "high",
+      "status": "implemented-initial",
+      "requires_approval": false,
+      "policy_rule_ids": [
+        "REPO_QUALITY_GATE_DRY_RUN_ALLOW",
+        "SECRETS_RAW_DENY"
+      ]
+    },
+    {
       "tool_id": "patch.parse",
       "name": "parse_patch",
       "phase": "MVP+",

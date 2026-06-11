@@ -404,3 +404,35 @@ Inventar relaciones no soportadas, modificar documentación automáticamente, ej
 ### Riesgos
 
 El matching por nombres, paths y aliases es heurístico. Puede requerir un futuro Component Registry o Command Catalog para reducir falsos positivos/falsos negativos y madurar hacia un quality gate industrial.
+
+
+## Tool Card — Repo Quality Gate dry-run — FUNC-SPRINT-39
+
+### Propósito
+
+Agregar una herramienta de gate integral para revisión local de repositorio antes de aceptar cambios. Consolida rule packs, análisis de repositorio, code review, patch review opcional y política de seguridad en una salida auditable.
+
+### Herramienta
+
+- `repo.quality_gate`: ejecuta `repo quality-gate` y produce estado `PASS`, `FAIL`, `BLOCK` o `ERROR` en modo dry-run.
+
+### Restricciones
+
+La herramienta es dry-run. No modifica archivos, no aplica patches, no ejecuta Git write, no despliega, no llama red, no usa APIs externas, no usa modelos y no emite secretos crudos. `PatchReviewEngine` solo corre si se proporciona patch y nunca aplica cambios.
+
+### Criterios PASS
+
+- Salida `CommandResult` JSON-serializable.
+- Rule packs versionables y serializables.
+- `--write-report` genera evidencia JSON/Markdown.
+- Warnings no bloquean por defecto.
+- `FAIL` y `BLOCK` de motores integrados se propagan.
+- MIASI declara la tool.
+
+### Criterios BLOCK
+
+Ignorar findings `BLOCK`, emitir secretos crudos, aplicar patches, modificar archivos, ejecutar Git write, usar red/APIs/modelos o bloquear por warnings meramente informativos.
+
+### Riesgos
+
+El gate es `implemented-initial`. No reemplaza SAST/SCA, análisis de licencias, coverage real, revisión humana ni CI industrial. Las reglas y severidades deberán madurar con perfiles por repositorio y umbrales configurables.

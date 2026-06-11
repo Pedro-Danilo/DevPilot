@@ -1,0 +1,79 @@
+{
+  "sprint": "FUNC-SPRINT-39",
+  "title": "Review Rule Packs y Repo Quality Gate dry-run",
+  "status": "implemented",
+  "implemented_at": "2026-06-11",
+  "phase": "FASE-C-INGENIERIA-DE-REPOSITORIO",
+  "wave": "Ola 4 — Repo intelligence y revisión industrial",
+  "source_backlog": "docs/devpilot_backlog_fase_C_ingenieria_repositorio.md",
+  "architectural_decision": {
+    "required": false,
+    "adr": null,
+    "reason": "FUNC-SPRINT-39 agrega un gate dry-run local sobre motores existentes y rule packs declarativos. No introduce dependencias externas, red, APIs, modelos, UI, sandbox, patch apply, Git write ni ejecución de código analizado. Extiende la línea Fase C ya aprobada."
+  },
+  "created_files": [
+    "src/devpilot_core/review/rule_packs.py",
+    "src/devpilot_core/repo/quality_gate.py",
+    "tests/test_repo_quality_gate.py",
+    "tests/test_sprint_39_documentation.py",
+    "docs/audits/func_sprint_39_repo_quality_gate_audit.md",
+    "docs/functional_sprint_39_manifest.json"
+  ],
+  "modified_files": [
+    "src/devpilot_core/review/__init__.py",
+    "src/devpilot_core/repo/__init__.py",
+    "src/devpilot_core/cli.py",
+    ".devpilot/miasi/tool_registry.json",
+    ".devpilot/miasi/agent_registry.json",
+    ".devpilot/miasi/policy_matrix.json",
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/04_quality/test_strategy.md",
+    "docs/devpilot_backlog_fase_C_ingenieria_repositorio.md",
+    "docs/functional_backlog_after_precode.md",
+    "docs/06_miasi/tool_registry.md",
+    "docs/06_miasi/tool_card.md",
+    "tests/test_sprint_32_documentation.py",
+    "tests/test_sprint_33_documentation.py",
+    "tests/test_sprint_34_documentation.py",
+    "tests/test_sprint_35_documentation.py",
+    "tests/test_sprint_36_documentation.py",
+    "tests/test_sprint_37_documentation.py",
+    "tests/test_sprint_38_documentation.py"
+  ],
+  "commands": [
+    "python -m devpilot_core repo quality-gate --json",
+    "python -m devpilot_core repo quality-gate --json --write-report",
+    "python -m devpilot_core miasi validate --json",
+    "python -m pytest -q"
+  ],
+  "tests": [
+    "tests/test_repo_quality_gate.py",
+    "tests/test_sprint_39_documentation.py"
+  ],
+  "pass_criteria": [
+    "ReviewRulePacks are grouped and versioned.",
+    "RepoQualityGate integrates RepoAnalyzer, CodeReviewEngine, optional PatchReviewEngine and PolicyEngine.",
+    "The command returns PASS, FAIL, BLOCK or ERROR through CommandResult.",
+    "The command supports --json and --write-report.",
+    "Warnings are advisory and do not block by default.",
+    "FAIL/BLOCK findings from integrated engines propagate to gate status.",
+    "MIASI declares repo.quality_gate."
+  ],
+  "block_criteria": [
+    "The gate ignores BLOCK findings from integrated engines.",
+    "The gate emits raw secrets.",
+    "The gate applies patches or mutates files.",
+    "The gate executes Git write, refactor execution or deploy.",
+    "The gate uses LLMs, network or external APIs.",
+    "The gate blocks on informational warnings by default."
+  ],
+  "risks": [
+    "Rule severity defaults may need tuning per repository.",
+    "The default code-review target is intentionally bounded to avoid legacy false positives.",
+    "The gate is not a replacement for SAST/SCA, license scanning, coverage, CI/CD or human review.",
+    "Future sprints should add patch preflight, sandbox, ChangeSet and rollback integration."
+  ],
+  "preliminary": true,
+  "next_sprint": "FUNC-SPRINT-40 — Patch preflight con verificación segura"
+}

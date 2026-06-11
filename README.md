@@ -1,8 +1,8 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
-Estado actual: `baseline pre-code approved + Fase A cerrada + FASE-B cerrada + Fase C en progreso + Architecture/code drift implemented-initial`  
-Último hito: `FUNC-SPRINT-38 — Architecture/code drift inicial`  
-Siguiente hito: `FUNC-SPRINT-39 — ReviewRulePacks y quality gate de revisión`  
+Estado actual: `baseline pre-code approved + Fase A cerrada + FASE-B cerrada + Fase C en progreso + Repo Quality Gate dry-run implemented-initial`  
+Último hito: `FUNC-SPRINT-39 — Review Rule Packs y Repo Quality Gate dry-run`  
+Siguiente hito: `FUNC-SPRINT-40 — Patch preflight con verificación segura`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
@@ -1329,3 +1329,18 @@ python -m devpilot_core repo architecture-drift --json --write-report
 ```
 
 La capacidad es `implemented-initial`: genera una matriz `documented ↔ code`, separa `doc_missing`, `code_missing` y `name_mismatch`, incluye niveles de confianza y no bloquea por defecto componentes `planned`, `future` o `disabled` sin código. No ejecuta código analizado, no modifica documentos, no usa red, no llama modelos ni APIs externas y no sustituye revisión arquitectónica manual ni un Component Registry industrial.
+
+
+## FUNC-SPRINT-39 — Review Rule Packs y Repo Quality Gate dry-run
+
+`FUNC-SPRINT-39` agrega `repo quality-gate` como gate integral en modo dry-run. La capacidad consolida `RepoAnalyzer`, `CodeReviewEngine`, `PatchReviewEngine` opcional y `PolicyEngine` mediante paquetes de reglas versionables (`ReviewRulePack`).
+
+Comandos principales:
+
+```powershell
+python -m devpilot_core repo quality-gate --json
+python -m devpilot_core repo quality-gate --json --write-report
+python -m devpilot_core repo quality-gate --code-target src/devpilot_core --json
+```
+
+Estado: `implemented-initial`. El gate no aplica patches, no ejecuta Git write, no modifica archivos, no usa red, no usa modelos ni APIs externas. Los warnings son asesoría por defecto; `FAIL` y `BLOCK` de los motores integrados se propagan al estado del gate.

@@ -14,7 +14,7 @@ change_policy: "controlled_changes_allowed_via_docs_as_code"
 approved_on: "2026-06-06"
 approval_scope: "functional_backlog_after_precode"
 baseline_execution: "FUNC-SPRINT-00"
-next_sprint: "FUNC-SPRINT-39"
+next_sprint: "FUNC-SPRINT-40"
 ---
 
 # DevPilot Local — Backlog ejecutable posterior a pre-code
@@ -2022,3 +2022,24 @@ Estado real:
 - no habilita patch apply, refactor execution, Git write, deploy ni sandbox real.
 
 Siguiente sprint operativo: `FUNC-SPRINT-39 — ReviewRulePacks y quality gate de revisión`.
+
+
+## Transición posterior a FUNC-SPRINT-39 — Review Rule Packs y Repo Quality Gate dry-run
+
+`FUNC-SPRINT-39` agrega `ReviewRulePack` y `repo quality-gate` en modo dry-run. La capacidad consolida `RepoAnalyzer`, `CodeReviewEngine`, `PatchReviewEngine` opcional y `PolicyEngine` para entregar estado `PASS`, `FAIL`, `BLOCK` o `ERROR` sin modificar el repositorio.
+
+Estado real:
+
+- implementado `ReviewRulePack` versionable;
+- implementado `RepoQualityGate`;
+- implementado comando `repo quality-gate`;
+- reportes opcionales JSON/Markdown mediante `--write-report`;
+- tool `repo.quality_gate` declarada en MIASI;
+- warnings no bloquean por defecto;
+- findings `FAIL` y `BLOCK` de motores integrados se propagan;
+- no aplica patches;
+- no ejecuta Git write;
+- no modifica archivos;
+- no usa LLM, red ni APIs externas.
+
+Siguiente sprint operativo: `FUNC-SPRINT-40 — Patch preflight con verificación segura`.

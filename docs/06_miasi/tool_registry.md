@@ -33,6 +33,8 @@ baseline_role: "precode_approved_baseline"
 | `repo.inventory` | repo_inventory | MVP+ | lectura | Medio | Planned |
 | `repo.dependency_graph` | repo_dependency_graph_read_only | MVP+ | reporte | Medio | Implemented-initial |
 | `repo.analyze` | repo_analyze_read_only | MVP+ | reporte | Medio | Implemented-initial |
+| `repo.architecture_drift` | repo_architecture_drift_read_only | MVP+ | reporte | Medio | Implemented-initial |
+| `repo.quality_gate` | repo_quality_gate_dry_run | MVP+ | reporte dry-run | Alto | Implemented-initial |
 | `patch.parse` | parse_patch | MVP+ | ninguno | Medio | Planned |
 | `patch.dry_run` | patch_dry_run | MVP+ | simulación | Alto | Planned |
 | `code.review` | code_review | MVP+ | reporte | Alto | Planned |
@@ -76,3 +78,10 @@ Perfiles iniciales: `smoke`, `unit`, `all`.
 ## Estado operacional Architecture/code drift — FUNC-SPRINT-38
 
 `repo.architecture_drift` queda declarada como tool read-only de Fase C. No requiere approval porque no modifica archivos ni ejecuta código analizado. Su implementación compara arquitectura documentada contra módulos reales mediante heurísticas locales, DependencyGraph y RepoAnalyzer. Debe permanecer local-first, sin red, sin APIs externas, sin modelos y sin cambios automáticos en documentación o código.
+
+
+## Estado operacional Repo Quality Gate — FUNC-SPRINT-39
+
+`repo.quality_gate` queda declarada como tool MIASI de Fase C en estado `implemented-initial`. No requiere approval porque no modifica archivos ni aplica patches; aun así se clasifica como riesgo alto por su rol de gate antes de cambios de repositorio. Su implementación es dry-run, local-first y basada en `ReviewRulePack`, `RepoAnalyzer`, `CodeReviewEngine`, `PatchReviewEngine` opcional y `PolicyEngine`.
+
+Restricciones: sin Git write, sin patch apply, sin red, sin APIs externas, sin modelos y sin secretos crudos en reportes. Los warnings son asesoría por defecto; findings `FAIL` y `BLOCK` de motores integrados se propagan al resultado del gate.

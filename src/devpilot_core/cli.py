@@ -20,7 +20,7 @@ from .policy import CostPolicy, PolicyEngine, PolicyRequest, load_cost_policy
 from .reports import ReportEngine, build_report_id
 from .security import PolicySimulationSuite, SecurityReadiness
 from .schemas import BuiltinContractValidator, SchemaRegistry, SchemaValidator
-from .repo import ArchitectureDriftDetector, DependencyGraphBuilder, GitAdapter, RepoAnalyzer, RepoInventory
+from .repo import ArchitectureDriftDetector, DependencyGraphBuilder, GitAdapter, RepoAnalyzer, RepoInventory, RepoQualityGate, RepoQualityGateConfig
 from .repo.diff_report import GitDiffReportBuilder
 from .refactor import RefactorPlanner
 from .review import CodeReviewEngine, PatchReviewEngine
@@ -515,6 +515,49 @@ def repo_architecture_drift_command(*, json_output: bool = False, write_report: 
     )
     _emit_result_event(root, result, subject="repo:architecture-drift")
     _persist_result(root, result, subject="repo:architecture-drift")
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+
+
+def repo_quality_gate_command(
+    *,
+    target: str = ".",
+    code_target: str | None = None,
+    patch_file: str | None = None,
+    patch_text: str | None = None,
+    json_output: bool = False,
+    write_report: bool = False,
+) -> int:
+    """Run the Sprint 39 repository quality gate in dry-run mode.
+
+    The gate integrates RepoAnalyzer, CodeReviewEngine, optional
+    PatchReviewEngine and PolicyEngine through versioned ReviewRulePacks. It
+    emits PASS/FAIL/BLOCK evidence without mutating files, applying patches,
+    calling Git write commands, using LLMs, using APIs or opening network
+    connections.
+    """
+
+    root = project_root()
+    result = RepoQualityGate(
+        root,
+        config=RepoQualityGateConfig(
+            target=target,
+            code_target=code_target,
+            patch_file=patch_file,
+            patch_text=patch_text,
+        ),
+    ).run()
+    result = _write_optional_command_report(
+        root,
+        result,
+        subject=target,
+        report_id="repo_quality_gate",
+        write_report=write_report,
+        metadata={"sprint": "FUNC-SPRINT-39", "component": "RepoQualityGate"},
+    )
+    _emit_result_event(root, result, subject="repo:quality-gate")
+    _persist_result(root, result, subject="repo:quality-gate")
     print_result(result, json_output=json_output)
     return int(result.exit_code)
 
@@ -1745,6 +1788,14 @@ def build_parser() -> argparse.ArgumentParser:
     architecture_drift.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     architecture_drift.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
 
+    quality_gate = repo_sub.add_parser("quality-gate", help="Run repository quality gate in dry-run mode")
+    quality_gate.add_argument("--target", default=".", help="Repository target for RepoAnalyzer; default: workspace root")
+    quality_gate.add_argument("--code-target", default=None, help="Optional code target for CodeReviewEngine; default: src/devpilot_core/repo when present")
+    quality_gate.add_argument("--patch-file", default=None, help="Optional patch/diff file to review without applying it")
+    quality_gate.add_argument("--patch-text", default=None, help="Optional inline patch text to review without applying it")
+    quality_gate.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    quality_gate.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+
     patch_review = sub.add_parser("patch-review", help="Review a unified diff/patch in dry-run mode")
     patch_review.add_argument("--patch-file", default=None, help="Patch/diff file to read within the workspace")
     patch_review.add_argument("--patch-text", default=None, help="Inline patch text for small synthetic reviews")
@@ -2103,6 +2154,15 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
             return repo_analyze_command(target=args.target, json_output=args.json, write_report=args.write_report)
         if args.repo_command == "architecture-drift":
             return repo_architecture_drift_command(json_output=args.json, write_report=args.write_report)
+        if args.repo_command == "quality-gate":
+            return repo_quality_gate_command(
+                target=args.target,
+                code_target=args.code_target,
+                patch_file=args.patch_file,
+                patch_text=args.patch_text,
+                json_output=args.json,
+                write_report=args.write_report,
+            )
         parser.print_help()
         return int(ExitCode.FAIL)
     if args.command == "patch-review":

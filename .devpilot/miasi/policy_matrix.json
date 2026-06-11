@@ -50,6 +50,15 @@
       "observability_required": true
     },
     {
+      "rule_id": "REPO_QUALITY_GATE_DRY_RUN_ALLOW",
+      "domain": "Repo",
+      "action": "quality_gate_dry_run",
+      "default_effect": "allow",
+      "gate": "RepoQualityGate+ReviewRulePack+PolicyEngine",
+      "approval_required": false,
+      "observability_required": true
+    },
+    {
       "rule_id": "GIT_WRITE_DENY",
       "domain": "Git",
       "action": "commit_tag_push",

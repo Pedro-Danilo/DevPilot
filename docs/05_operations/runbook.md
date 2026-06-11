@@ -2591,3 +2591,42 @@ python -m devpilot_core repo architecture-drift --json --write-report
 ### Riesgos y límites
 
 Esta versión es `implemented-initial`. El matching por alias/fuzzy puede generar falsos positivos o falsos negativos. La extracción desde Markdown/Mermaid es heurística y no reemplaza un Component Registry versionado, un catálogo de comandos ni una revisión arquitectónica manual. El detector no prueba relaciones runtime ni acoplamiento semántico profundo.
+
+
+## FUNC-SPRINT-39 — Review Rule Packs y Repo Quality Gate dry-run
+
+### Propósito
+
+Ejecutar un quality gate local, determinístico y dry-run antes de aceptar cambios de repositorio. El gate consolida `RepoAnalyzer`, `CodeReviewEngine`, `PatchReviewEngine` opcional y `PolicyEngine` usando `ReviewRulePack` versionables.
+
+### Comandos
+
+```powershell
+python -m devpilot_core repo quality-gate --json
+python -m devpilot_core repo quality-gate --json --write-report
+python -m devpilot_core repo quality-gate --code-target src/devpilot_core --json
+python -m devpilot_core repo quality-gate --patch-file path\to\change.diff --json
+```
+
+### Funcionamiento
+
+El comando ejecuta análisis de salud de repositorio, revisión estática determinística del target de código, revisión opcional de patch y checks de política. La salida incluye componentes ejecutados, rule packs, rule hits, findings y estado `PASS`, `FAIL`, `BLOCK` o `ERROR`.
+
+### Criterios PASS
+
+- El gate emite `CommandResult` JSON-serializable.
+- `--write-report` genera evidencia JSON/Markdown.
+- Los warnings quedan como asesoría y no bloquean por defecto.
+- `FAIL` y `BLOCK` de motores integrados se propagan al gate.
+- No hay mutaciones, red, APIs externas ni modelos.
+
+### Criterios BLOCK
+
+- Se detectan secretos crudos o secret-like content por motores integrados.
+- Una policy de lectura bloquea el target.
+- Un patch opcional contiene hallazgos bloqueantes.
+- El gate ignora findings `BLOCK` o emite contenido sensible sin redacción.
+
+### Riesgos
+
+La versión Sprint 39 es `implemented-initial`. No reemplaza SAST/SCA, análisis de licencias, coverage real, revisión humana ni quality gates CI industriales. El target de code review por defecto se mantiene acotado para evitar falsos positivos por ejemplos históricos; el análisis amplio puede solicitarse con `--code-target`.

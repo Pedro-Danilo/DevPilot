@@ -204,6 +204,7 @@
         "repo.dependency_graph",
         "repo.analyze",
         "repo.architecture_drift",
+        "repo.quality_gate",
         "report.write",
         "trace.append",
         "policy.check"
@@ -217,7 +218,8 @@
       ],
       "policy_rule_ids": [
         "GIT_READ_ALLOW",
-        "SECRETS_RAW_DENY"
+        "SECRETS_RAW_DENY",
+        "REPO_QUALITY_GATE_DRY_RUN_ALLOW"
       ],
       "approval_required": false,
       "observability_required": true,

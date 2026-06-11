@@ -1,0 +1,1075 @@
+(.venv) PS D:\Projects\DevPilot_Local> python -m devpilot_core repo quality-gate --json
+{
+  "command": "repo quality-gate",
+  "ok": true,
+  "exit_code": 0,
+  "message": "Repo quality gate passed in dry-run mode.",
+  "data": {
+    "summary": {
+      "status": "PASS",
+      "target": ".",
+      "code_target": "src/devpilot_core/repo",
+      "patch_reviewed": false,
+      "components_total": 5,
+      "findings_total": 13,
+      "blocking_findings": 0,
+      "failing_findings": 0,
+      "warnings_total": 10,
+      "rule_packs_total": 4,
+      "rule_hits_total": 7,
+      "dry_run": true,
+      "network_used": false,
+      "external_api_used": false,
+      "mutations_performed": false,
+      "patch_applied": false,
+      "preliminary": true
+    },
+    "components": [
+      {
+        "source": "policy",
+        "command": "policy check",
+        "subject": ".",
+        "ok": true,
+        "exit_code": 0,
+        "findings_total": 1,
+        "blocking_findings": 0,
+        "failing_findings": 0,
+        "warnings_total": 0,
+        "dry_run": true
+      },
+      {
+        "source": "policy",
+        "command": "policy check",
+        "subject": "src/devpilot_core/repo",
+        "ok": true,
+        "exit_code": 0,
+        "findings_total": 1,
+        "blocking_findings": 0,
+        "failing_findings": 0,
+        "warnings_total": 0,
+        "dry_run": true
+      },
+      {
+        "source": "repo_analyzer",
+        "command": "repo analyze",
+        "subject": ".",
+        "ok": true,
+        "exit_code": 0,
+        "findings_total": 7,
+        "blocking_findings": 0,
+        "failing_findings": 0,
+        "warnings_total": 7,
+        "dry_run": true
+      },
+      {
+        "source": "code_review",
+        "command": "code-review",
+        "subject": "src/devpilot_core/repo",
+        "ok": true,
+        "exit_code": 0,
+        "findings_total": 3,
+        "blocking_findings": 0,
+        "failing_findings": 0,
+        "warnings_total": 3,
+        "dry_run": true
+      },
+      {
+        "source": "patch_review",
+        "command": "patch-review",
+        "subject": "none",
+        "ok": true,
+        "exit_code": 0,
+        "findings_total": 1,
+        "blocking_findings": 0,
+        "failing_findings": 0,
+        "warnings_total": 0,
+        "dry_run": true
+      }
+    ],
+    "rule_packs": [
+      {
+        "pack_id": "repo-health-core",
+        "version": "1.0.0",
+        "title": "Repository health core rules",
+        "description": "Maps RepoAnalyzer findings into dry-run gate decisions.",
+        "status": "implemented-initial",
+        "rules_total": 3,
+        "rules": [
+          {
+            "rule_id": "QG-REPO-SECRET-LIKE-CONTENT",
+            "source": "repo_analyzer",
+            "title": "Secret-like repository content",
+            "description": "Secret-like content is blocking because raw credentials must never reach review reports.",
+            "finding_ids": [
+              "REPO_ANALYZER_SECRET_LIKE_CONTENT"
+            ],
+            "default_effect": "block",
+            "enabled": true
+          },
+          {
+            "rule_id": "QG-REPO-SYNTAX-ERROR",
+            "source": "dependency_graph",
+            "title": "Python syntax errors",
+            "description": "Syntax errors from static import graph analysis fail the gate.",
+            "finding_ids": [
+              "DEPENDENCY_GRAPH_SYNTAX_ERROR",
+              "CODE_REVIEW_PYTHON_SYNTAX_ERROR"
+            ],
+            "default_effect": "fail",
+            "enabled": true
+          },
+          {
+            "rule_id": "QG-REPO-WARNINGS-ADVISORY",
+            "source": "repo_analyzer",
+            "title": "Repository analyzer warnings are advisory",
+            "description": "Large files, TODOs and missing nearby tests are warnings by default in Sprint 39.",
+            "finding_ids": [
+              "REPO_ANALYZER_LARGE_FILES",
+              "REPO_ANALYZER_TODO_MARKERS",
+              "REPO_ANALYZER_MODULES_WITHOUT_NEAR_TESTS",
+              "REPO_ANALYZER_GIT_WORKTREE_CHANGES"
+            ],
+            "default_effect": "warning",
+            "enabled": true
+          }
+        ]
+      },
+      {
+        "pack_id": "code-review-safety",
+        "version": "1.0.0",
+        "title": "Deterministic code review safety rules",
+        "description": "Maps CodeReviewEngine findings into dry-run gate decisions.",
+        "status": "implemented-initial",
+        "rules_total": 3,
+        "rules": [
+          {
+            "rule_id": "QG-CODE-SECRET-LIKE-CONTENT",
+            "source": "code_review",
+            "title": "Secret-like code content",
+            "description": "Secret-like content detected by code review blocks the gate.",
+            "finding_ids": [
+              "CODE_REVIEW_SECRET_LIKE_CONTENT"
+            ],
+            "default_effect": "block",
+            "enabled": true
+          },
+          {
+            "rule_id": "QG-CODE-DANGEROUS-EXECUTION",
+            "source": "code_review",
+            "title": "Dangerous dynamic execution patterns",
+            "description": "shell=True, os.system, eval and exec findings fail the gate.",
+            "finding_ids": [
+              "CODE_REVIEW_SHELL_TRUE",
+              "CODE_REVIEW_OS_SYSTEM",
+              "CODE_REVIEW_EVAL",
+              "CODE_REVIEW_EXEC"
+            ],
+            "default_effect": "fail",
+            "enabled": true
+          },
+          {
+            "rule_id": "QG-CODE-TODO-ADVISORY",
+            "source": "code_review",
+            "title": "TODO/FIXME markers",
+            "description": "TODO/FIXME markers are warnings and do not block by default.",
+            "finding_ids": [
+              "CODE_REVIEW_TODO"
+            ],
+            "default_effect": "warning",
+            "enabled": true
+          }
+        ]
+      },
+      {
+        "pack_id": "patch-review-safety",
+        "version": "1.0.0",
+        "title": "Patch review safety rules",
+        "description": "Maps PatchReviewEngine findings when a patch is supplied.",
+        "status": "implemented-initial",
+        "rules_total": 3,
+        "rules": [
+          {
+            "rule_id": "QG-PATCH-SECRET-LIKE-CONTENT",
+            "source": "patch_review",
+            "title": "Secret-like patch content",
+            "description": "Secret-like content in a patch blocks the gate.",
+            "finding_ids": [
+              "PATCH_SECRET_LIKE_CONTENT"
+            ],
+            "default_effect": "block",
+            "enabled": true
+          },
+          {
+            "rule_id": "QG-PATCH-RISKY-CODE",
+            "source": "patch_review",
+            "title": "Risky added code",
+            "description": "Risky code patterns in additions fail the gate.",
+            "finding_ids": [
+              "PATCH_RISKY_SHELL_TRUE",
+              "PATCH_RISKY_OS_SYSTEM",
+              "PATCH_RISKY_EVAL",
+              "PATCH_RISKY_EXEC"
+            ],
+            "default_effect": "fail",
+            "enabled": true
+          },
+          {
+            "rule_id": "QG-PATCH-DESTRUCTIVE-CHANGE-ADVISORY",
+            "source": "patch_review",
+            "title": "Destructive or binary patch markers",
+            "description": "Deletes and binary changes are warnings in dry-run until patch preflight matures.",
+            "finding_ids": [
+              "PATCH_DELETES_FILE",
+              "PATCH_BINARY_CHANGE"
+            ],
+            "default_effect": "warning",
+            "enabled": true
+          }
+        ]
+      },
+      {
+        "pack_id": "policy-safety",
+        "version": "1.0.0",
+        "title": "Policy safety rules",
+        "description": "Maps PolicyEngine findings used by repo quality gate.",
+        "status": "implemented-initial",
+        "rules_total": 1,
+        "rules": [
+          {
+            "rule_id": "QG-POLICY-BLOCK",
+            "source": "policy",
+            "title": "Policy block",
+            "description": "Any policy block blocks the gate.",
+            "finding_ids": [
+              "POLICY_DANGEROUS_ACTION_BLOCKED",
+              "PATHGUARD_OUTSIDE_ROOT",
+              "SECRETGUARD_SECRET_DETECTED"
+            ],
+            "default_effect": "block",
+            "enabled": true
+          }
+        ]
+      }
+    ],
+    "rule_hits": [
+      {
+        "rule_id": "QG-REPO-WARNINGS-ADVISORY",
+        "source": "repo_analyzer",
+        "finding_id": "REPO_ANALYZER_LARGE_FILES",
+        "gate_finding_id": "QUALITY_GATE_REPO_ANALYZER_REPO_ANALYZER_LARGE_FILES",
+        "severity": "warning",
+        "default_effect": "warning",
+        "path": null
+      },
+      {
+        "rule_id": "QG-REPO-WARNINGS-ADVISORY",
+        "source": "repo_analyzer",
+        "finding_id": "REPO_ANALYZER_TODO_MARKERS",
+        "gate_finding_id": "QUALITY_GATE_REPO_ANALYZER_REPO_ANALYZER_TODO_MARKERS",
+        "severity": "warning",
+        "default_effect": "warning",
+        "path": null
+      },
+      {
+        "rule_id": "QG-REPO-WARNINGS-ADVISORY",
+        "source": "repo_analyzer",
+        "finding_id": "REPO_ANALYZER_MODULES_WITHOUT_NEAR_TESTS",
+        "gate_finding_id": "QUALITY_GATE_REPO_ANALYZER_REPO_ANALYZER_MODULES_WITHOUT_NEAR_TESTS",
+        "severity": "warning",
+        "default_effect": "warning",
+        "path": null
+      },
+      {
+        "rule_id": "QG-REPO-WARNINGS-ADVISORY",
+        "source": "repo_analyzer",
+        "finding_id": "REPO_ANALYZER_GIT_WORKTREE_CHANGES",
+        "gate_finding_id": "QUALITY_GATE_REPO_ANALYZER_REPO_ANALYZER_GIT_WORKTREE_CHANGES",
+        "severity": "warning",
+        "default_effect": "warning",
+        "path": null
+      },
+      {
+        "rule_id": "QG-CODE-TODO-ADVISORY",
+        "source": "code_review",
+        "finding_id": "CODE_REVIEW_TODO",
+        "gate_finding_id": "QUALITY_GATE_CODE_REVIEW_CODE_REVIEW_TODO",
+        "severity": "warning",
+        "default_effect": "warning",
+        "path": "src/devpilot_core/repo/analyzer.py"
+      },
+      {
+        "rule_id": "QG-CODE-TODO-ADVISORY",
+        "source": "code_review",
+        "finding_id": "CODE_REVIEW_TODO",
+        "gate_finding_id": "QUALITY_GATE_CODE_REVIEW_CODE_REVIEW_TODO",
+        "severity": "warning",
+        "default_effect": "warning",
+        "path": "src/devpilot_core/repo/analyzer.py"
+      },
+      {
+        "rule_id": "QG-CODE-TODO-ADVISORY",
+        "source": "code_review",
+        "finding_id": "CODE_REVIEW_TODO",
+        "gate_finding_id": "QUALITY_GATE_CODE_REVIEW_CODE_REVIEW_TODO",
+        "severity": "warning",
+        "default_effect": "warning",
+        "path": "src/devpilot_core/repo/analyzer.py"
+      }
+    ],
+    "notes": [
+      "FUNC-SPRINT-39 Repo Quality Gate is dry-run and implemented-initial.",
+      "Warnings are advisory by default and do not block the gate.",
+      "FAIL/BLOCK findings emitted by integrated engines propagate to the gate status.",
+      "PatchReviewEngine runs only when --patch-file or --patch-text is provided; no patch is ever applied.",
+      "Raw source, patch content and secret values are not emitted."
+    ]
+  },
+  "findings": [
+    {
+      "id": "QUALITY_GATE_POLICY_POLICY_PASS",
+      "message": "PolicyEngine allowed the simulated request.",
+      "severity": "info",
+      "metadata": {
+        "source": "policy",
+        "source_command": "policy check",
+        "source_finding_id": "POLICY_PASS"
+      }
+    },
+    {
+      "id": "QUALITY_GATE_POLICY_POLICY_PASS",
+      "message": "PolicyEngine allowed the simulated request.",
+      "severity": "info",
+      "metadata": {
+        "source": "policy",
+        "source_command": "policy check",
+        "source_finding_id": "POLICY_PASS"
+      }
+    },
+    {
+      "id": "QUALITY_GATE_REPO_ANALYZER_REPO_ANALYZER_LARGE_FILES",
+      "message": "Large files were detected; review maintainability and report size impact.",
+      "severity": "warning",
+      "metadata": {
+        "source": "repo_analyzer",
+        "source_command": "repo analyze",
+        "source_finding_id": "REPO_ANALYZER_LARGE_FILES",
+        "count": 2,
+        "threshold": 200000
+      }
+    },
+    {
+      "id": "QUALITY_GATE_REPO_ANALYZER_REPO_ANALYZER_TODO_MARKERS",
+      "message": "TODO/FIXME/HACK markers were detected in bounded text scan.",
+      "severity": "warning",
+      "metadata": {
+        "source": "repo_analyzer",
+        "source_command": "repo analyze",
+        "source_finding_id": "REPO_ANALYZER_TODO_MARKERS",
+        "files": 83,
+        "markers_total": 326
+      }
+    },
+    {
+      "id": "QUALITY_GATE_REPO_ANALYZER_REPO_ANALYZER_MODULES_WITHOUT_NEAR_TESTS",
+      "message": "Some modules do not have obvious nearby/direct tests by heuristic.",
+      "severity": "warning",
+      "metadata": {
+        "source": "repo_analyzer",
+        "source_command": "repo analyze",
+        "source_finding_id": "REPO_ANALYZER_MODULES_WITHOUT_NEAR_TESTS",
+        "count": 38,
+        "sample": [
+          {
+            "module": "devpilot_core.__main__",
+            "path": "src/devpilot_core/__main__.py"
+          },
+          {
+            "module": "devpilot_core.agents.models",
+            "path": "src/devpilot_core/agents/models.py"
+          },
+          {
+            "module": "devpilot_core.application.dtos",
+            "path": "src/devpilot_core/application/dtos.py"
+          },
+          {
+            "module": "devpilot_core.approval.models",
+            "path": "src/devpilot_core/approval/models.py"
+          },
+          {
+            "module": "devpilot_core.cli_models",
+            "path": "src/devpilot_core/cli_models.py"
+          },
+          {
+            "module": "devpilot_core.errors",
+            "path": "src/devpilot_core/errors.py"
+          },
+          {
+            "module": "devpilot_core.evals.models",
+            "path": "src/devpilot_core/evals/models.py"
+          },
+          {
+            "module": "devpilot_core.execution.allowlist",
+            "path": "src/devpilot_core/execution/allowlist.py"
+          },
+          {
+            "module": "devpilot_core.execution.models",
+            "path": "src/devpilot_core/execution/models.py"
+          },
+          {
+            "module": "devpilot_core.modeling.contracts",
+            "path": "src/devpilot_core/modeling/contracts.py"
+          }
+        ]
+      }
+    },
+    {
+      "id": "QUALITY_GATE_REPO_ANALYZER_REPO_ANALYZER_GIT_WORKTREE_CHANGES",
+      "message": "Working tree changes are present during analysis.",
+      "severity": "warning",
+      "metadata": {
+        "source": "repo_analyzer",
+        "source_command": "repo analyze",
+        "source_finding_id": "REPO_ANALYZER_GIT_WORKTREE_CHANGES",
+        "entries_total": 29,
+        "modified": 20,
+        "added": 0,
+        "deleted": 2,
+        "renamed": 0,
+        "untracked": 7,
+        "staged": 0
+      }
+    },
+    {
+      "id": "QUALITY_GATE_REPO_ANALYZER_REPO_ANALYZER_UPSTREAM_REPO_INVENTORY_MEDIUM_RISK_FILE",
+      "message": "Upstream inventory finding: Medium-risk file pattern detected.",
+      "severity": "warning",
+      "path": ".devpilot/devpilot.db",
+      "metadata": {
+        "source": "inventory",
+        "source_command": "repo analyze",
+        "source_finding_id": "REPO_ANALYZER_UPSTREAM_REPO_INVENTORY_MEDIUM_RISK_FILE",
+        "reasons": [
+          "state_or_lock_file"
+        ]
+      }
+    },
+    {
+      "id": "QUALITY_GATE_REPO_ANALYZER_REPO_ANALYZER_UPSTREAM_GIT_UNTRACKED_FILES_PRESENT",
+      "message": "Upstream git finding: Untracked files are present.",
+      "severity": "warning",
+      "metadata": {
+        "source": "git",
+        "source_command": "repo analyze",
+        "source_finding_id": "REPO_ANALYZER_UPSTREAM_GIT_UNTRACKED_FILES_PRESENT",
+        "count": 7
+      }
+    },
+    {
+      "id": "QUALITY_GATE_REPO_ANALYZER_REPO_ANALYZER_UPSTREAM_GIT_WORKTREE_CHANGES_PRESENT",
+      "message": "Upstream git finding: Working tree changes are present.",
+      "severity": "warning",
+      "metadata": {
+        "source": "git",
+        "source_command": "repo analyze",
+        "source_finding_id": "REPO_ANALYZER_UPSTREAM_GIT_WORKTREE_CHANGES_PRESENT",
+        "entries_total": 29,
+        "modified": 20,
+        "added": 0,
+        "deleted": 2,
+        "renamed": 0,
+        "untracked": 7,
+        "staged": 0
+      }
+    },
+    {
+      "id": "QUALITY_GATE_CODE_REVIEW_CODE_REVIEW_TODO",
+      "message": "TODO/FIXME marker detected.",
+      "severity": "warning",
+      "path": "src/devpilot_core/repo/analyzer.py",
+      "metadata": {
+        "source": "code_review",
+        "source_command": "code-review",
+        "source_finding_id": "CODE_REVIEW_TODO",
+        "line": 17
+      }
+    },
+    {
+      "id": "QUALITY_GATE_CODE_REVIEW_CODE_REVIEW_TODO",
+      "message": "TODO/FIXME marker detected.",
+      "severity": "warning",
+      "path": "src/devpilot_core/repo/analyzer.py",
+      "metadata": {
+        "source": "code_review",
+        "source_command": "code-review",
+        "source_finding_id": "CODE_REVIEW_TODO",
+        "line": 223
+      }
+    },
+    {
+      "id": "QUALITY_GATE_CODE_REVIEW_CODE_REVIEW_TODO",
+      "message": "TODO/FIXME marker detected.",
+      "severity": "warning",
+      "path": "src/devpilot_core/repo/analyzer.py",
+      "metadata": {
+        "source": "code_review",
+        "source_command": "code-review",
+        "source_finding_id": "CODE_REVIEW_TODO",
+        "line": 225
+      }
+    },
+    {
+      "id": "QUALITY_GATE_PATCH_REVIEW_QUALITY_GATE_PATCH_REVIEW_SKIPPED",
+      "message": "Patch review skipped: no patch supplied.",
+      "severity": "info",
+      "metadata": {
+        "source": "patch_review",
+        "source_command": "patch-review",
+        "source_finding_id": "QUALITY_GATE_PATCH_REVIEW_SKIPPED"
+      }
+    }
+  ]
+}
+(.venv) PS D:\Projects\DevPilot_Local> python -m devpilot_core repo quality-gate `
+>>   --json `
+>>   --write-report
+{
+  "command": "repo quality-gate",
+  "ok": true,
+  "exit_code": 0,
+  "message": "Repo quality gate passed in dry-run mode.",
+  "data": {
+    "summary": {
+      "status": "PASS",
+      "target": ".",
+      "code_target": "src/devpilot_core/repo",
+      "patch_reviewed": false,
+      "components_total": 5,
+      "findings_total": 13,
+      "blocking_findings": 0,
+      "failing_findings": 0,
+      "warnings_total": 10,
+      "rule_packs_total": 4,
+      "rule_hits_total": 7,
+      "dry_run": true,
+      "network_used": false,
+      "external_api_used": false,
+      "mutations_performed": false,
+      "patch_applied": false,
+      "preliminary": true
+    },
+    "components": [
+      {
+        "source": "policy",
+        "command": "policy check",
+        "subject": ".",
+        "ok": true,
+        "exit_code": 0,
+        "findings_total": 1,
+        "blocking_findings": 0,
+        "failing_findings": 0,
+        "warnings_total": 0,
+        "dry_run": true
+      },
+      {
+        "source": "policy",
+        "command": "policy check",
+        "subject": "src/devpilot_core/repo",
+        "ok": true,
+        "exit_code": 0,
+        "findings_total": 1,
+        "blocking_findings": 0,
+        "failing_findings": 0,
+        "warnings_total": 0,
+        "dry_run": true
+      },
+      {
+        "source": "repo_analyzer",
+        "command": "repo analyze",
+        "subject": ".",
+        "ok": true,
+        "exit_code": 0,
+        "findings_total": 7,
+        "blocking_findings": 0,
+        "failing_findings": 0,
+        "warnings_total": 7,
+        "dry_run": true
+      },
+      {
+        "source": "code_review",
+        "command": "code-review",
+        "subject": "src/devpilot_core/repo",
+        "ok": true,
+        "exit_code": 0,
+        "findings_total": 3,
+        "blocking_findings": 0,
+        "failing_findings": 0,
+        "warnings_total": 3,
+        "dry_run": true
+      },
+      {
+        "source": "patch_review",
+        "command": "patch-review",
+        "subject": "none",
+        "ok": true,
+        "exit_code": 0,
+        "findings_total": 1,
+        "blocking_findings": 0,
+        "failing_findings": 0,
+        "warnings_total": 0,
+        "dry_run": true
+      }
+    ],
+    "rule_packs": [
+      {
+        "pack_id": "repo-health-core",
+        "version": "1.0.0",
+        "title": "Repository health core rules",
+        "description": "Maps RepoAnalyzer findings into dry-run gate decisions.",
+        "status": "implemented-initial",
+        "rules_total": 3,
+        "rules": [
+          {
+            "rule_id": "QG-REPO-SECRET-LIKE-CONTENT",
+            "source": "repo_analyzer",
+            "title": "Secret-like repository content",
+            "description": "Secret-like content is blocking because raw credentials must never reach review reports.",
+            "finding_ids": [
+              "REPO_ANALYZER_SECRET_LIKE_CONTENT"
+            ],
+            "default_effect": "block",
+            "enabled": true
+          },
+          {
+            "rule_id": "QG-REPO-SYNTAX-ERROR",
+            "source": "dependency_graph",
+            "title": "Python syntax errors",
+            "description": "Syntax errors from static import graph analysis fail the gate.",
+            "finding_ids": [
+              "DEPENDENCY_GRAPH_SYNTAX_ERROR",
+              "CODE_REVIEW_PYTHON_SYNTAX_ERROR"
+            ],
+            "default_effect": "fail",
+            "enabled": true
+          },
+          {
+            "rule_id": "QG-REPO-WARNINGS-ADVISORY",
+            "source": "repo_analyzer",
+            "title": "Repository analyzer warnings are advisory",
+            "description": "Large files, TODOs and missing nearby tests are warnings by default in Sprint 39.",
+            "finding_ids": [
+              "REPO_ANALYZER_LARGE_FILES",
+              "REPO_ANALYZER_TODO_MARKERS",
+              "REPO_ANALYZER_MODULES_WITHOUT_NEAR_TESTS",
+              "REPO_ANALYZER_GIT_WORKTREE_CHANGES"
+            ],
+            "default_effect": "warning",
+            "enabled": true
+          }
+        ]
+      },
+      {
+        "pack_id": "code-review-safety",
+        "version": "1.0.0",
+        "title": "Deterministic code review safety rules",
+        "description": "Maps CodeReviewEngine findings into dry-run gate decisions.",
+        "status": "implemented-initial",
+        "rules_total": 3,
+        "rules": [
+          {
+            "rule_id": "QG-CODE-SECRET-LIKE-CONTENT",
+            "source": "code_review",
+            "title": "Secret-like code content",
+            "description": "Secret-like content detected by code review blocks the gate.",
+            "finding_ids": [
+              "CODE_REVIEW_SECRET_LIKE_CONTENT"
+            ],
+            "default_effect": "block",
+            "enabled": true
+          },
+          {
+            "rule_id": "QG-CODE-DANGEROUS-EXECUTION",
+            "source": "code_review",
+            "title": "Dangerous dynamic execution patterns",
+            "description": "shell=True, os.system, eval and exec findings fail the gate.",
+            "finding_ids": [
+              "CODE_REVIEW_SHELL_TRUE",
+              "CODE_REVIEW_OS_SYSTEM",
+              "CODE_REVIEW_EVAL",
+              "CODE_REVIEW_EXEC"
+            ],
+            "default_effect": "fail",
+            "enabled": true
+          },
+          {
+            "rule_id": "QG-CODE-TODO-ADVISORY",
+            "source": "code_review",
+            "title": "TODO/FIXME markers",
+            "description": "TODO/FIXME markers are warnings and do not block by default.",
+            "finding_ids": [
+              "CODE_REVIEW_TODO"
+            ],
+            "default_effect": "warning",
+            "enabled": true
+          }
+        ]
+      },
+      {
+        "pack_id": "patch-review-safety",
+        "version": "1.0.0",
+        "title": "Patch review safety rules",
+        "description": "Maps PatchReviewEngine findings when a patch is supplied.",
+        "status": "implemented-initial",
+        "rules_total": 3,
+        "rules": [
+          {
+            "rule_id": "QG-PATCH-SECRET-LIKE-CONTENT",
+            "source": "patch_review",
+            "title": "Secret-like patch content",
+            "description": "Secret-like content in a patch blocks the gate.",
+            "finding_ids": [
+              "PATCH_SECRET_LIKE_CONTENT"
+            ],
+            "default_effect": "block",
+            "enabled": true
+          },
+          {
+            "rule_id": "QG-PATCH-RISKY-CODE",
+            "source": "patch_review",
+            "title": "Risky added code",
+            "description": "Risky code patterns in additions fail the gate.",
+            "finding_ids": [
+              "PATCH_RISKY_SHELL_TRUE",
+              "PATCH_RISKY_OS_SYSTEM",
+              "PATCH_RISKY_EVAL",
+              "PATCH_RISKY_EXEC"
+            ],
+            "default_effect": "fail",
+            "enabled": true
+          },
+          {
+            "rule_id": "QG-PATCH-DESTRUCTIVE-CHANGE-ADVISORY",
+            "source": "patch_review",
+            "title": "Destructive or binary patch markers",
+            "description": "Deletes and binary changes are warnings in dry-run until patch preflight matures.",
+            "finding_ids": [
+              "PATCH_DELETES_FILE",
+              "PATCH_BINARY_CHANGE"
+            ],
+            "default_effect": "warning",
+            "enabled": true
+          }
+        ]
+      },
+      {
+        "pack_id": "policy-safety",
+        "version": "1.0.0",
+        "title": "Policy safety rules",
+        "description": "Maps PolicyEngine findings used by repo quality gate.",
+        "status": "implemented-initial",
+        "rules_total": 1,
+        "rules": [
+          {
+            "rule_id": "QG-POLICY-BLOCK",
+            "source": "policy",
+            "title": "Policy block",
+            "description": "Any policy block blocks the gate.",
+            "finding_ids": [
+              "POLICY_DANGEROUS_ACTION_BLOCKED",
+              "PATHGUARD_OUTSIDE_ROOT",
+              "SECRETGUARD_SECRET_DETECTED"
+            ],
+            "default_effect": "block",
+            "enabled": true
+          }
+        ]
+      }
+    ],
+    "rule_hits": [
+      {
+        "rule_id": "QG-REPO-WARNINGS-ADVISORY",
+        "source": "repo_analyzer",
+        "finding_id": "REPO_ANALYZER_LARGE_FILES",
+        "gate_finding_id": "QUALITY_GATE_REPO_ANALYZER_REPO_ANALYZER_LARGE_FILES",
+        "severity": "warning",
+        "default_effect": "warning",
+        "path": null
+      },
+      {
+        "rule_id": "QG-REPO-WARNINGS-ADVISORY",
+        "source": "repo_analyzer",
+        "finding_id": "REPO_ANALYZER_TODO_MARKERS",
+        "gate_finding_id": "QUALITY_GATE_REPO_ANALYZER_REPO_ANALYZER_TODO_MARKERS",
+        "severity": "warning",
+        "default_effect": "warning",
+        "path": null
+      },
+      {
+        "rule_id": "QG-REPO-WARNINGS-ADVISORY",
+        "source": "repo_analyzer",
+        "finding_id": "REPO_ANALYZER_MODULES_WITHOUT_NEAR_TESTS",
+        "gate_finding_id": "QUALITY_GATE_REPO_ANALYZER_REPO_ANALYZER_MODULES_WITHOUT_NEAR_TESTS",
+        "severity": "warning",
+        "default_effect": "warning",
+        "path": null
+      },
+      {
+        "rule_id": "QG-REPO-WARNINGS-ADVISORY",
+        "source": "repo_analyzer",
+        "finding_id": "REPO_ANALYZER_GIT_WORKTREE_CHANGES",
+        "gate_finding_id": "QUALITY_GATE_REPO_ANALYZER_REPO_ANALYZER_GIT_WORKTREE_CHANGES",
+        "severity": "warning",
+        "default_effect": "warning",
+        "path": null
+      },
+      {
+        "rule_id": "QG-CODE-TODO-ADVISORY",
+        "source": "code_review",
+        "finding_id": "CODE_REVIEW_TODO",
+        "gate_finding_id": "QUALITY_GATE_CODE_REVIEW_CODE_REVIEW_TODO",
+        "severity": "warning",
+        "default_effect": "warning",
+        "path": "src/devpilot_core/repo/analyzer.py"
+      },
+      {
+        "rule_id": "QG-CODE-TODO-ADVISORY",
+        "source": "code_review",
+        "finding_id": "CODE_REVIEW_TODO",
+        "gate_finding_id": "QUALITY_GATE_CODE_REVIEW_CODE_REVIEW_TODO",
+        "severity": "warning",
+        "default_effect": "warning",
+        "path": "src/devpilot_core/repo/analyzer.py"
+      },
+      {
+        "rule_id": "QG-CODE-TODO-ADVISORY",
+        "source": "code_review",
+        "finding_id": "CODE_REVIEW_TODO",
+        "gate_finding_id": "QUALITY_GATE_CODE_REVIEW_CODE_REVIEW_TODO",
+        "severity": "warning",
+        "default_effect": "warning",
+        "path": "src/devpilot_core/repo/analyzer.py"
+      }
+    ],
+    "notes": [
+      "FUNC-SPRINT-39 Repo Quality Gate is dry-run and implemented-initial.",
+      "Warnings are advisory by default and do not block the gate.",
+      "FAIL/BLOCK findings emitted by integrated engines propagate to the gate status.",
+      "PatchReviewEngine runs only when --patch-file or --patch-text is provided; no patch is ever applied.",
+      "Raw source, patch content and secret values are not emitted."
+    ],
+    "reports": {
+      "json": "outputs/reports/repo_quality_gate.json",
+      "markdown": "outputs/reports/repo_quality_gate.md"
+    }
+  },
+  "findings": [
+    {
+      "id": "QUALITY_GATE_POLICY_POLICY_PASS",
+      "message": "PolicyEngine allowed the simulated request.",
+      "severity": "info",
+      "metadata": {
+        "source": "policy",
+        "source_command": "policy check",
+        "source_finding_id": "POLICY_PASS"
+      }
+    },
+    {
+      "id": "QUALITY_GATE_POLICY_POLICY_PASS",
+      "message": "PolicyEngine allowed the simulated request.",
+      "severity": "info",
+      "metadata": {
+        "source": "policy",
+        "source_command": "policy check",
+        "source_finding_id": "POLICY_PASS"
+      }
+    },
+    {
+      "id": "QUALITY_GATE_REPO_ANALYZER_REPO_ANALYZER_LARGE_FILES",
+      "message": "Large files were detected; review maintainability and report size impact.",
+      "severity": "warning",
+      "metadata": {
+        "source": "repo_analyzer",
+        "source_command": "repo analyze",
+        "source_finding_id": "REPO_ANALYZER_LARGE_FILES",
+        "count": 2,
+        "threshold": 200000
+      }
+    },
+    {
+      "id": "QUALITY_GATE_REPO_ANALYZER_REPO_ANALYZER_TODO_MARKERS",
+      "message": "TODO/FIXME/HACK markers were detected in bounded text scan.",
+      "severity": "warning",
+      "metadata": {
+        "source": "repo_analyzer",
+        "source_command": "repo analyze",
+        "source_finding_id": "REPO_ANALYZER_TODO_MARKERS",
+        "files": 83,
+        "markers_total": 326
+      }
+    },
+    {
+      "id": "QUALITY_GATE_REPO_ANALYZER_REPO_ANALYZER_MODULES_WITHOUT_NEAR_TESTS",
+      "message": "Some modules do not have obvious nearby/direct tests by heuristic.",
+      "severity": "warning",
+      "metadata": {
+        "source": "repo_analyzer",
+        "source_command": "repo analyze",
+        "source_finding_id": "REPO_ANALYZER_MODULES_WITHOUT_NEAR_TESTS",
+        "count": 38,
+        "sample": [
+          {
+            "module": "devpilot_core.__main__",
+            "path": "src/devpilot_core/__main__.py"
+          },
+          {
+            "module": "devpilot_core.agents.models",
+            "path": "src/devpilot_core/agents/models.py"
+          },
+          {
+            "module": "devpilot_core.application.dtos",
+            "path": "src/devpilot_core/application/dtos.py"
+          },
+          {
+            "module": "devpilot_core.approval.models",
+            "path": "src/devpilot_core/approval/models.py"
+          },
+          {
+            "module": "devpilot_core.cli_models",
+            "path": "src/devpilot_core/cli_models.py"
+          },
+          {
+            "module": "devpilot_core.errors",
+            "path": "src/devpilot_core/errors.py"
+          },
+          {
+            "module": "devpilot_core.evals.models",
+            "path": "src/devpilot_core/evals/models.py"
+          },
+          {
+            "module": "devpilot_core.execution.allowlist",
+            "path": "src/devpilot_core/execution/allowlist.py"
+          },
+          {
+            "module": "devpilot_core.execution.models",
+            "path": "src/devpilot_core/execution/models.py"
+          },
+          {
+            "module": "devpilot_core.modeling.contracts",
+            "path": "src/devpilot_core/modeling/contracts.py"
+          }
+        ]
+      }
+    },
+    {
+      "id": "QUALITY_GATE_REPO_ANALYZER_REPO_ANALYZER_GIT_WORKTREE_CHANGES",
+      "message": "Working tree changes are present during analysis.",
+      "severity": "warning",
+      "metadata": {
+        "source": "repo_analyzer",
+        "source_command": "repo analyze",
+        "source_finding_id": "REPO_ANALYZER_GIT_WORKTREE_CHANGES",
+        "entries_total": 29,
+        "modified": 20,
+        "added": 0,
+        "deleted": 2,
+        "renamed": 0,
+        "untracked": 7,
+        "staged": 0
+      }
+    },
+    {
+      "id": "QUALITY_GATE_REPO_ANALYZER_REPO_ANALYZER_UPSTREAM_REPO_INVENTORY_MEDIUM_RISK_FILE",
+      "message": "Upstream inventory finding: Medium-risk file pattern detected.",
+      "severity": "warning",
+      "path": ".devpilot/devpilot.db",
+      "metadata": {
+        "source": "inventory",
+        "source_command": "repo analyze",
+        "source_finding_id": "REPO_ANALYZER_UPSTREAM_REPO_INVENTORY_MEDIUM_RISK_FILE",
+        "reasons": [
+          "state_or_lock_file"
+        ]
+      }
+    },
+    {
+      "id": "QUALITY_GATE_REPO_ANALYZER_REPO_ANALYZER_UPSTREAM_GIT_UNTRACKED_FILES_PRESENT",
+      "message": "Upstream git finding: Untracked files are present.",
+      "severity": "warning",
+      "metadata": {
+        "source": "git",
+        "source_command": "repo analyze",
+        "source_finding_id": "REPO_ANALYZER_UPSTREAM_GIT_UNTRACKED_FILES_PRESENT",
+        "count": 7
+      }
+    },
+    {
+      "id": "QUALITY_GATE_REPO_ANALYZER_REPO_ANALYZER_UPSTREAM_GIT_WORKTREE_CHANGES_PRESENT",
+      "message": "Upstream git finding: Working tree changes are present.",
+      "severity": "warning",
+      "metadata": {
+        "source": "git",
+        "source_command": "repo analyze",
+        "source_finding_id": "REPO_ANALYZER_UPSTREAM_GIT_WORKTREE_CHANGES_PRESENT",
+        "entries_total": 29,
+        "modified": 20,
+        "added": 0,
+        "deleted": 2,
+        "renamed": 0,
+        "untracked": 7,
+        "staged": 0
+      }
+    },
+    {
+      "id": "QUALITY_GATE_CODE_REVIEW_CODE_REVIEW_TODO",
+      "message": "TODO/FIXME marker detected.",
+      "severity": "warning",
+      "path": "src/devpilot_core/repo/analyzer.py",
+      "metadata": {
+        "source": "code_review",
+        "source_command": "code-review",
+        "source_finding_id": "CODE_REVIEW_TODO",
+        "line": 17
+      }
+    },
+    {
+      "id": "QUALITY_GATE_CODE_REVIEW_CODE_REVIEW_TODO",
+      "message": "TODO/FIXME marker detected.",
+      "severity": "warning",
+      "path": "src/devpilot_core/repo/analyzer.py",
+      "metadata": {
+        "source": "code_review",
+        "source_command": "code-review",
+        "source_finding_id": "CODE_REVIEW_TODO",
+        "line": 223
+      }
+    },
+    {
+      "id": "QUALITY_GATE_CODE_REVIEW_CODE_REVIEW_TODO",
+      "message": "TODO/FIXME marker detected.",
+      "severity": "warning",
+      "path": "src/devpilot_core/repo/analyzer.py",
+      "metadata": {
+        "source": "code_review",
+        "source_command": "code-review",
+        "source_finding_id": "CODE_REVIEW_TODO",
+        "line": 225
+      }
+    },
+    {
+      "id": "QUALITY_GATE_PATCH_REVIEW_QUALITY_GATE_PATCH_REVIEW_SKIPPED",
+      "message": "Patch review skipped: no patch supplied.",
+      "severity": "info",
+      "metadata": {
+        "source": "patch_review",
+        "source_command": "patch-review",
+        "source_finding_id": "QUALITY_GATE_PATCH_REVIEW_SKIPPED"
+      }
+    }
+  ]
+}
+(.venv) PS D:\Projects\DevPilot_Local> python -m pytest tests/test_repo_quality_gate.py -q
+.....                                                                                                                                        [100%]
+DEVPL TEST SUMMARY: 5 passed, 0 failed, 0 errors, 0 skipped
+(.venv) PS D:\Projects\DevPilot_Local> python -m pytest tests/test_sprint_39_documentation.py -q
+....                                                                                                                                         [100%]
+DEVPL TEST SUMMARY: 4 passed, 0 failed, 0 errors, 0 skipped
+(.venv) PS D:\Projects\DevPilot_Local>

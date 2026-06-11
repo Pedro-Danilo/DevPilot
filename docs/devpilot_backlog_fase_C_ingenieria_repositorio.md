@@ -2,20 +2,20 @@
 title: "DevPilot Local — Backlog ejecutable Fase C: Ingeniería de repositorio"
 doc_id: "DEVPL-FUNC-BACKLOG-FASE-C-001"
 status: "approved"
-version: "1.4.0"
+version: "1.5.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
 phase: "FASE-C-INGENIERIA-DE-REPOSITORIO"
 updated: "2026-06-11"
-source_repo: "repo_DevPilot_Local_45.zip"
+source_repo: "repo_DevPilot_Local_46.zip"
 source_report: "Informe de avance DevPilot - sprint 0 - 18.docx"
 source_backlog_model: "docs/functional_backlog_after_precode.md"
 baseline_dependency: "Fase A cerrada por FUNC-SPRINT-27 y Fase B cerrada por FUNC-SPRINT-34"
 first_sprint: "FUNC-SPRINT-35"
-first_open_sprint: "FUNC-SPRINT-39"
+first_open_sprint: "FUNC-SPRINT-40"
 phase_c_status: "in_progress"
-last_completed_sprint: "FUNC-SPRINT-38"
+last_completed_sprint: "FUNC-SPRINT-39"
 last_planned_sprint: "FUNC-SPRINT-44"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "phase_c_executable_backlog_review"
@@ -449,7 +449,7 @@ Implementa FUNC-SPRINT-37: crea RepoAnalyzer v2 que consolide inventario, depend
 
 La implementación conserva el alcance read-only de Ola 4: no ejecuta código analizado, no modifica documentos, no usa red, no llama APIs externas, no usa modelos, no aplica patches, no habilita Git write, no habilita sandbox real y no convierte componentes `planned`, `future` o `disabled` en fallos bloqueantes.
 
-Siguiente sprint abierto: `FUNC-SPRINT-39 — ReviewRulePacks y quality gate de revisión`.
+Siguiente sprint abierto: `FUNC-SPRINT-40 — Patch preflight con verificación segura`.
 
 # FUNC-SPRINT-38 — Architecture/code drift inicial
 
@@ -533,6 +533,15 @@ python -m pytest -q
 Implementa FUNC-SPRINT-38: detector inicial de architecture/code drift local y heurístico, con confidence, sin LLM y sin modificar documentos.
 ```
 
+
+
+## Estado de implementación Sprint 39
+
+`FUNC-SPRINT-39 — Review Rule Packs y Repo Quality Gate dry-run` queda implementado como capacidad `implemented-initial` de Fase C. El nuevo comando `repo quality-gate` integra `RepoAnalyzer`, `CodeReviewEngine`, `PatchReviewEngine` opcional y `PolicyEngine` mediante `ReviewRulePack` versionables.
+
+La implementación conserva el alcance read-only/dry-run de Ola 4: no modifica archivos, no aplica patches, no ejecuta Git write, no usa red, no llama APIs externas, no usa modelos y no emite secretos crudos. Los warnings son asesoría por defecto; `FAIL` y `BLOCK` de los motores integrados se propagan al estado del gate.
+
+Siguiente sprint abierto: `FUNC-SPRINT-40 — Patch preflight con verificación segura`.
 
 # FUNC-SPRINT-39 — Review Rule Packs y Repo Quality Gate dry-run
 

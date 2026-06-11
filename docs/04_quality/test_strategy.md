@@ -454,3 +454,8 @@ Cobertura mínima agregada:
 - CLI `repo architecture-drift --json --write-report` con evidencia JSON/Markdown.
 
 Criterio de calidad: el detector es heurístico y debe validar ausencia de mutaciones, ausencia de red/APIs/modelos, separación clara de drift types y presencia de confidence/rationale por fila.
+
+
+## Actualización FUNC-SPRINT-39 — Pruebas de Repo Quality Gate dry-run
+
+Sprint 39 agrega pruebas específicas para `ReviewRulePack` y `repo quality-gate`. La cobertura verifica serialización de rule packs, gate `PASS` con warnings asesoría, propagación `BLOCK` con secreto sintético, generación de reportes con `--write-report` y sincronización MIASI/documental. La capacidad es `implemented-initial` y no reemplaza SAST/SCA, coverage real ni revisión humana.

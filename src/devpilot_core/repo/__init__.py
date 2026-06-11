@@ -13,6 +13,7 @@ from .inventory import RepoInventory, RepoInventoryConfig, RepoInventoryItem
 from .dependency_graph import DependencyGraphBuilder
 from .analyzer import RepoAnalyzer, RepoAnalyzerConfig
 from .architecture_drift import ArchitectureDriftConfig, ArchitectureDriftDetector
+from .quality_gate import RepoQualityGate, RepoQualityGateConfig
 from .models import (
     DependencyGraphEdge,
     DependencyGraphNode,
@@ -40,6 +41,8 @@ __all__ = [
     "RepoAnalyzerConfig",
     "ArchitectureDriftConfig",
     "ArchitectureDriftDetector",
+    "RepoQualityGate",
+    "RepoQualityGateConfig",
     "RepoHealthSummary",
     "RepoHotspot",
     "RepoRiskSignal",
