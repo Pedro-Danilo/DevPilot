@@ -256,3 +256,18 @@ Este documento queda en `reviewed`. Puede promoverse a `approved` cuando:
 - `06_miasi` concrete las cards agentic;
 - `04_quality` incluya pruebas de seguridad mínimas;
 - `05_operations` defina tratamiento de incidentes y trazas.
+
+
+## Actualización FUNC-SPRINT-33 — Prompt/tool injection y hardening de secretos
+
+`FUNC-SPRINT-33` agrega controles locales iniciales para amenazas de prompt injection, tool injection y filtrado de secretos en payloads textuales. La mitigación se implementa mediante `SecretGuard`, `PromptInjectionGuard` y `ToolInjectionGuard` integrados con `PolicyEngine`.
+
+Controles agregados:
+
+- detección ampliada de patrones de API keys, tokens, private keys sintéticas, connection strings y env leaks;
+- detección de instrucciones de bypass como ignorar políticas, saltar approvals o revelar secretos;
+- detección de intentos explícitos de forzar herramientas no autorizadas;
+- redacción obligatoria de payloads peligrosos antes de persistir reportes/trazas;
+- findings accionables con categorías y rule IDs, sin almacenar el payload crudo en metadata.
+
+Limitación: estos controles son pattern-based y `implemented-initial`. No sustituyen red teaming, SAST/SCA, secret scanning industrial, sandboxing ni revisión humana.

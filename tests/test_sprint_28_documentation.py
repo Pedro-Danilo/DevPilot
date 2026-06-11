@@ -20,9 +20,9 @@ def test_phase_a_and_phase_b_backlogs_are_approved_and_reconciled() -> None:
     assert 'next_phase: "FASE-B-SEGURIDAD-OPERACIONAL"' in phase_a
 
     assert 'status: "approved"' in phase_b
-    assert 'source_repo: "repo_DevPilot_Local_37.zip"' in phase_b
+    assert 'source_repo: "repo_DevPilot_Local_38.zip"' in phase_b
     assert 'baseline_dependency: "Fase A cerrada y aprobada mediante FUNC-SPRINT-27"' in phase_b
-    assert 'first_open_sprint: "FUNC-SPRINT-33"' in phase_b
+    assert 'first_open_sprint: "FUNC-SPRINT-34"' in phase_b
     assert 'phase_b_status: "in_progress"' in phase_b
 
 

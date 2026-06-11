@@ -128,3 +128,16 @@ Bloquear avance si:
 - secretos pueden salir en logs/reportes;
 - no existe registro de aprobación;
 - no hay trazas para acciones relevantes.
+
+
+## Actualización FUNC-SPRINT-33 — Guards de prompt/tool injection
+
+La evaluación de `PolicyEngine` incorpora tres controles sobre payloads textuales:
+
+```text
+SecretGuard -> PromptInjectionGuard -> ToolInjectionGuard
+```
+
+`SecretGuard` bloquea y redacta secretos sintéticos o comunes. `PromptInjectionGuard` detecta intentos de ignorar instrucciones, saltar políticas o exfiltrar secretos. `ToolInjectionGuard` detecta intentos de forzar herramientas, saltar approvals o inyectar selectores de tool. Esta integración es `implemented-initial`, local-first y sin LLM judge.
+
+Criterio MIASI: ninguna salida de policy/report/event debe conservar payloads peligrosos crudos cuando estos guards detectan riesgo.

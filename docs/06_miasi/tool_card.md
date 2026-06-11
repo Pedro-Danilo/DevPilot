@@ -279,3 +279,16 @@ Criterios de seguridad:
 - salida redactada;
 - evidencia JSON/Markdown opcional;
 - eventos locales de ejecución.
+
+
+## Actualización FUNC-SPRINT-33 — Protección contra tool injection
+
+`ToolInjectionGuard` se agrega como defensa local para detectar prompts que intentan forzar herramientas o saltar el flujo MIASI de aprobación/política. Esta capa no autoriza herramientas por sí misma: solo produce findings que `PolicyEngine` combina con `ApprovalPolicyChecker`, `PathGuard`, `SecretGuard` y `CostGuard`.
+
+Ejemplos de riesgo cubierto:
+
+- forzar `tests.run` sin approval;
+- intentar `patch apply`, `git push`, `deploy` o shell fuera de política;
+- insertar sintaxis tipo `tool=<id>` en prompts de agente.
+
+Limitación: detección pattern-based, no sandbox ni RBAC.

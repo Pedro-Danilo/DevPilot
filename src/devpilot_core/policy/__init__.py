@@ -4,7 +4,9 @@ from devpilot_core.policy.cost_guard import CostGuard, CostPolicy, load_cost_pol
 from devpilot_core.policy.decisions import PolicyDecision, PolicyEffect
 from devpilot_core.policy.engine import PolicyEngine, PolicyRequest
 from devpilot_core.policy.path_guard import PathGuard, PathPolicy
+from devpilot_core.policy.prompt_guard import PromptInjectionGuard
 from devpilot_core.policy.secrets import REDACTED, RedactionResult, SecretGuard, redact_sensitive_data, redact_string
+from devpilot_core.policy.tool_injection_guard import ToolInjectionGuard
 
 __all__ = [
     "CostGuard",
@@ -16,9 +18,11 @@ __all__ = [
     "PolicyEffect",
     "PolicyEngine",
     "PolicyRequest",
+    "PromptInjectionGuard",
     "REDACTED",
     "RedactionResult",
     "SecretGuard",
+    "ToolInjectionGuard",
     "redact_sensitive_data",
     "redact_string",
 ]

@@ -1929,3 +1929,17 @@ Siguiente sprint operativo: `FUNC-SPRINT-30 — Binding de aprobaciones con Poli
 ## Transición posterior a FUNC-SPRINT-31 — SafeSubprocessRunner
 
 `FUNC-SPRINT-31` agrega ejecución local controlada como prerequisito de `tests.run`: allowlist, cwd seguro, timeout, subprocess sin shell y redacción de salidas. No expone aún CLI pública de ejecución ni habilita patch apply/refactor execution. El siguiente sprint operativo es `FUNC-SPRINT-32 — tests.run como herramienta MIASI controlada`.
+
+
+## Transición posterior a FUNC-SPRINT-33 — Security hardening inicial
+
+`FUNC-SPRINT-33` amplía la seguridad local de Fase B con `SecretGuard` endurecido, `PromptInjectionGuard` y `ToolInjectionGuard`. Los payloads textuales de `PolicyEngine`, agentes documentales y model routing reciben checks determinísticos contra secretos, bypass de política e intentos de forzar herramientas.
+
+Estado real:
+
+- implementación `implemented-initial`, sin LLM judge;
+- sin APIs externas ni dependencias nuevas;
+- findings accionables y metadata sin payload crudo;
+- no habilita patch apply, refactor execution, Git write ni deploy.
+
+Siguiente sprint operativo: `FUNC-SPRINT-34 — Security readiness operacional y cierre de Fase B`.

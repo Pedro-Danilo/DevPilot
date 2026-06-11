@@ -9,7 +9,9 @@ from devpilot_core.cli_models import CommandResult, ExitCode, Finding, Severity
 from devpilot_core.policy.cost_guard import CostGuard, CostPolicy
 from devpilot_core.policy.decisions import PolicyDecision, PolicyEffect
 from devpilot_core.policy.path_guard import PathGuard, PathPolicy
-from devpilot_core.policy.secrets import SecretGuard
+from devpilot_core.policy.prompt_guard import PromptInjectionGuard
+from devpilot_core.policy.secrets import REDACTED, SecretGuard
+from devpilot_core.policy.tool_injection_guard import ToolInjectionGuard
 
 
 @dataclass(frozen=True)
@@ -44,6 +46,9 @@ class PolicyRequest:
         }
 
 
+REDACTED_TEXT_PREVIEW = REDACTED
+
+
 class PolicyEngine:
     """Deterministic policy orchestrator for DevPilot safe execution.
 
@@ -65,6 +70,8 @@ class PolicyEngine:
         self.root = root.resolve()
         self.path_guard = PathGuard(self.root, policy=path_policy)
         self.secret_guard = SecretGuard()
+        self.prompt_injection_guard = PromptInjectionGuard()
+        self.tool_injection_guard = ToolInjectionGuard()
         self.cost_guard = CostGuard(policy=cost_policy)
         self.approval_checker = ApprovalPolicyChecker(self.root)
 
@@ -100,7 +107,9 @@ class PolicyEngine:
             )
 
         decisions.append(self.path_guard.evaluate(request.path, action=action))
-        decisions.append(self.secret_guard.scan_text(request.text, subject=request.path))
+        decisions.append(self.secret_guard.scan_text(request.text, subject=request.path or request.subject))
+        decisions.append(self.prompt_injection_guard.scan_text(request.text, subject=request.path or request.subject))
+        decisions.append(self.tool_injection_guard.scan_text(request.text, subject=request.path or request.subject))
         decisions.append(
             self.cost_guard.evaluate(
                 external_api=request.external_api,
@@ -131,7 +140,12 @@ class PolicyEngine:
         }
         request_payload = request.to_dict()
         if request.text is not None:
-            request_payload["text_preview"] = self.secret_guard.redact(request.text).value
+            injection_decisions = [
+                decision
+                for decision in decisions
+                if decision.guard in {"PromptInjectionGuard", "ToolInjectionGuard"} and decision.effect != PolicyEffect.ALLOW
+            ]
+            request_payload["text_preview"] = REDACTED_TEXT_PREVIEW if injection_decisions else self.secret_guard.redact(request.text).value
         data = {
             "request": request_payload,
             "summary": summary,

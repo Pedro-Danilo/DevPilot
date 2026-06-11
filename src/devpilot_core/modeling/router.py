@@ -7,7 +7,7 @@ from devpilot_core.cli_models import CommandResult, ExitCode, Finding, Severity
 from devpilot_core.modeling.contracts import ModelCallRequest, ModelCallResult, ModelProviderKind, ModelTask
 from devpilot_core.modeling.mock_adapter import MockModelAdapter
 from devpilot_core.modeling.providers import ProviderRegistry
-from devpilot_core.policy import CostPolicy, PolicyEngine, PolicyRequest, SecretGuard, load_cost_policy
+from devpilot_core.policy import CostPolicy, PolicyEngine, PolicyRequest, PromptInjectionGuard, SecretGuard, ToolInjectionGuard, load_cost_policy
 
 
 @dataclass(frozen=True)
@@ -33,6 +33,8 @@ class ModelAdapterRouter:
         self.config = config or ModelRouterConfig()
         self.registry = ProviderRegistry.load(self.root)
         self.secret_guard = SecretGuard()
+        self.prompt_injection_guard = PromptInjectionGuard()
+        self.tool_injection_guard = ToolInjectionGuard()
 
     def providers_status(self) -> CommandResult:
         return self.registry.to_result()
@@ -67,24 +69,32 @@ class ModelAdapterRouter:
             )
 
         text_to_scan = request.prompt if request.task == ModelTask.GENERATE else request.text
-        secret_decision = self.secret_guard.scan_text(text_to_scan, subject=f"model:{request.task.value}")
-        if secret_decision.effect.value == "block":
+        guard_decisions = [
+            self.secret_guard.scan_text(text_to_scan, subject=f"model:{request.task.value}"),
+            self.prompt_injection_guard.scan_text(text_to_scan, subject=f"model:{request.task.value}"),
+            self.tool_injection_guard.scan_text(text_to_scan, subject=f"model:{request.task.value}"),
+        ]
+        blocking_guard_decisions = [decision for decision in guard_decisions if decision.effect.value == "block"]
+        if blocking_guard_decisions:
             return CommandResult(
                 command=f"model {request.task.value}",
                 ok=False,
                 exit_code=ExitCode.BLOCK,
-                message="Model call blocked by SecretGuard before provider routing.",
+                message="Model call blocked by local security guards before provider routing.",
                 data={
                     "summary": {
                         "provider": provider.provider_id,
                         "task": request.task.value,
                         "external_api_used": False,
                         "cost_estimate_usd": 0.0,
+                        "guards": [decision.guard for decision in guard_decisions],
+                        "blocking_guards": [decision.guard for decision in blocking_guard_decisions],
+                        "preliminary": True,
                     },
                     "provider": provider.to_dict(),
                     "preliminary": True,
                 },
-                findings=[secret_decision.to_finding()],
+                findings=[decision.to_finding() for decision in guard_decisions if decision.effect.value != "allow"],
             )
 
         estimated_tokens = _estimate_tokens(text_to_scan or "")

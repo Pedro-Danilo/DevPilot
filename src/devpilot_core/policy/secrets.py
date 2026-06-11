@@ -9,19 +9,31 @@ from devpilot_core.policy.decisions import PolicyDecision, PolicyEffect
 REDACTED = "[REDACTED]"
 
 _SECRET_KEY_PATTERN = re.compile(
-    r"(api[_-]?key|access[_-]?token|refresh[_-]?token|token|secret|password|authorization|bearer)",
+    r"(api[_-]?key|access[_-]?token|refresh[_-]?token|id[_-]?token|auth[_-]?token|token|secret|password|passwd|pwd|authorization|bearer|private[_-]?key|client[_-]?secret|database[_-]?url|connection[_-]?string|webhook)",
     re.IGNORECASE,
 )
-_SECRET_VALUE_PATTERNS = [
+
+# Ordered from most specific to broadest. Patterns intentionally target common
+# synthetic/dev tokens and well-known token shapes. They do not try to be a full
+# industrial secret scanner.
+_SECRET_VALUE_PATTERNS: list[re.Pattern[str]] = [
+    re.compile(r"sk-proj-[A-Za-z0-9_\-]{12,}"),
     re.compile(r"sk-[A-Za-z0-9_\-]{12,}"),
     re.compile(r"ghp_[A-Za-z0-9_]{12,}"),
     re.compile(r"github_pat_[A-Za-z0-9_\-]{12,}"),
+    re.compile(r"glpat-[A-Za-z0-9_\-]{12,}"),
     re.compile(r"hf_[A-Za-z0-9_\-]{12,}"),
     re.compile(r"xox[baprs]-[A-Za-z0-9_\-]{10,}"),
+    re.compile(r"AKIA[0-9A-Z]{16}"),
+    re.compile(r"ASIA[0-9A-Z]{16}"),
+    re.compile(r"AIza[0-9A-Za-z_\-]{20,}"),
+    re.compile(r"(?i)-----BEGIN\s+(RSA\s+|EC\s+|OPENSSH\s+)?PRIVATE\s+KEY-----[\s\S]*?-----END\s+(RSA\s+|EC\s+|OPENSSH\s+)?PRIVATE\s+KEY-----"),
+    re.compile(r"(?i)(postgres(?:ql)?|mysql|mongodb(?:\+srv)?|redis)://[^\s'\"<>]+:[^\s'\"<>]+@[^\s'\"<>]+"),
+    re.compile(r"https://hooks\.slack\.com/services/[A-Za-z0-9_/\-]{20,}"),
+    re.compile(r"https://discord(?:app)?\.com/api/webhooks/\d+/[A-Za-z0-9_\-]{20,}"),
     re.compile(r"(?i)(bearer)\s+([A-Za-z0-9._\-]{12,})"),
-    re.compile(
-        r"(?i)(api[_-]?key|access[_-]?token|refresh[_-]?token|token|secret|password|authorization)\s*[:=]\s*['\"]?([^'\"\s,;]+)"
-    ),
+    re.compile(r"(?i)(basic)\s+([A-Za-z0-9+/=]{12,})"),
+    re.compile(r"(?i)(api[_-]?key|access[_-]?token|refresh[_-]?token|id[_-]?token|auth[_-]?token|token|secret|password|passwd|pwd|authorization|client[_-]?secret|database[_-]?url|connection[_-]?string)\s*[:=]\s*['\"]?([^'\"\s,;]+)"),
 ]
 
 
@@ -43,11 +55,11 @@ class RedactionResult:
 class SecretGuard:
     """Dependency-free secret scanner/redactor for synthetic and common token patterns.
 
-    This first production-oriented version is conservative and deterministic. It
-    redacts values in nested dict/list payloads and blocks policy checks when a
-    secret-like pattern is detected. It is not a replacement for an industrial
-    secret scanner, but it prevents obvious leakage in reports, traces and CLI
-    policy decisions.
+    FUNC-SPRINT-33 hardens the initial scanner with additional common token
+    shapes, private-key blocks and environment/connection-string leaks. It
+    remains deterministic and local-only. It is not a replacement for a full
+    industrial secret-scanning engine, but it prevents obvious leakage in
+    reports, traces, stdout/stderr and policy evidence.
     """
 
     def redact(self, value: Any) -> RedactionResult:
@@ -75,7 +87,7 @@ class SecretGuard:
                 guard="SecretGuard",
                 rule_id="SECRETGUARD_SECRET_DETECTED",
                 subject=subject,
-                metadata={"redactions": result.redactions},
+                metadata={"redactions": result.redactions, "payload_redacted": True, "preliminary": True},
             )
         return PolicyDecision(
             effect=PolicyEffect.ALLOW,
@@ -129,8 +141,12 @@ def redact_sensitive_string(value: str) -> tuple[str, int]:
         def _replace(match: re.Match[str]) -> str:
             nonlocal count
             count += 1
-            if pattern.groups >= 2:
-                return f"{match.group(1)}={REDACTED}" if match.group(1).lower() != "bearer" else f"{match.group(1)} {REDACTED}"
+            groups = match.groups()
+            first_group = groups[0].lower() if groups and isinstance(groups[0], str) else ""
+            if first_group in {"bearer", "basic"}:
+                return f"{match.group(1)} {REDACTED}"
+            if pattern.groups >= 2 and first_group:
+                return f"{match.group(1)}={REDACTED}"
             return REDACTED
 
         redacted = pattern.sub(_replace, redacted)

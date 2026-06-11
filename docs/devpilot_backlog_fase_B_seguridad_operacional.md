@@ -2,19 +2,19 @@
 title: "DevPilot Local — Backlog ejecutable Fase B: Seguridad operacional"
 doc_id: "DEVPL-FUNC-BACKLOG-FASE-B-001"
 status: "approved"
-version: "0.6.0"
+version: "0.7.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
 phase: "FASE-B-SEGURIDAD-OPERACIONAL"
 updated: "2026-06-11"
-source_repo: "repo_DevPilot_Local_37.zip"
+source_repo: "repo_DevPilot_Local_38.zip"
 source_report: "Informe de avance DevPilot - sprint 0 - 18.docx"
 source_backlog_model: "docs/functional_backlog_after_precode.md"
 baseline_dependency: "Fase A cerrada y aprobada mediante FUNC-SPRINT-27"
 first_sprint: "FUNC-SPRINT-28"
 last_planned_sprint: "FUNC-SPRINT-34"
-first_open_sprint: "FUNC-SPRINT-33"
+first_open_sprint: "FUNC-SPRINT-34"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "phase_b_executable_backlog_review"
 approved_on: "2026-06-10"
@@ -26,13 +26,15 @@ phase_b_status: "in_progress"
 
 ## Estado de aprobación funcional
 
-Este documento queda en estado `approved` después del cierre verificado de Fase A. `FUNC-SPRINT-28`, `FUNC-SPRINT-29`, `FUNC-SPRINT-30`, `FUNC-SPRINT-31` y `FUNC-SPRINT-32` queda implementado; el siguiente sprint abierto es `FUNC-SPRINT-33`. Su propósito es convertir la **Fase B — Seguridad operacional** en un backlog de implementación ejecutable, siguiendo el modelo operativo usado en `docs/functional_backlog_after_precode.md`.
+Estado acumulado de implementación: `FUNC-SPRINT-32` queda implementado y `FUNC-SPRINT-33` queda implementado. La continuidad operativa apunta a `FUNC-SPRINT-34`.
+
+Este documento queda en estado `approved` después del cierre verificado de Fase A. `FUNC-SPRINT-28`, `FUNC-SPRINT-29`, `FUNC-SPRINT-30`, `FUNC-SPRINT-31`, `FUNC-SPRINT-32` y `FUNC-SPRINT-33` quedan implementados; el siguiente sprint abierto es `FUNC-SPRINT-34`. Su propósito es convertir la **Fase B — Seguridad operacional** en un backlog de implementación ejecutable, siguiendo el modelo operativo usado en `docs/functional_backlog_after_precode.md`.
 
 La Fase B corresponde a:
 
 - **Ola 3 — Seguridad operacional, aprobación humana y ejecución controlada**.
 
-Esta fase parte de un DevPilot que ya tiene PolicyEngine, PathGuard, SecretGuard, CostGuard, SQLite LocalStore, MIASI Policy Matrix, tablas iniciales de approvals/cost_events y agentes documentales en dry-run. El informe de avance identificaba que el **Approval Workflow operativo** todavía no existía y que `tests.run`, SafeSubprocessRunner, sandbox y ejecución controlada seguían pendientes. Tras `FUNC-SPRINT-28`, `FUNC-SPRINT-29`, `FUNC-SPRINT-30` y `FUNC-SPRINT-31`, DevPilot ya cuenta con modelo, persistencia, CLI local de approvals, binding inicial con `PolicyEngine`/MIASI y una capa interna de ejecución controlada mediante SafeSubprocessRunner; `tests.run` ya queda implementado como herramienta MIASI controlada; sigue pendiente hardening operacional de SecretGuard/prompt/tool injection.
+Esta fase parte de un DevPilot que ya tiene PolicyEngine, PathGuard, SecretGuard, CostGuard, SQLite LocalStore, MIASI Policy Matrix, tablas iniciales de approvals/cost_events y agentes documentales en dry-run. El informe de avance identificaba que el **Approval Workflow operativo** todavía no existía y que `tests.run`, SafeSubprocessRunner, sandbox y ejecución controlada seguían pendientes. Tras `FUNC-SPRINT-28`, `FUNC-SPRINT-29`, `FUNC-SPRINT-30` y `FUNC-SPRINT-31`, DevPilot ya cuenta con modelo, persistencia, CLI local de approvals, binding inicial con `PolicyEngine`/MIASI y una capa interna de ejecución controlada mediante SafeSubprocessRunner; `tests.run` ya queda implementado como herramienta MIASI controlada y `FUNC-SPRINT-33` incorpora hardening inicial de SecretGuard, PromptInjectionGuard y ToolInjectionGuard; sigue pendiente el cierre de Fase B mediante security readiness operacional.
 
 ## 1. Propósito
 
@@ -834,6 +836,15 @@ Payloads sintéticos seguros, no secretos reales.
 ```text
 Implementa FUNC-SPRINT-33: hardening de SecretGuard y guards básicos contra prompt/tool injection. Usa patrones sintéticos, redacción obligatoria y findings accionables. No uses APIs externas.
 ```
+
+## Estado de implementación Sprint 33
+
+`FUNC-SPRINT-33` queda implementado como versión `implemented-initial`. Se amplió `SecretGuard`, se crearon `PromptInjectionGuard` y `ToolInjectionGuard`, y se integraron al `PolicyEngine`, agentes documentales y rutas de modelado sin usar APIs externas ni LLM judge. La implementación usa patrones sintéticos, redacción obligatoria y findings accionables.
+
+Límites explícitos: no sustituye red teaming, SAST/SCA ni secret scanning industrial; puede generar falsos positivos; no habilita patch apply, refactor execution, Git write ni deploy.
+
+Siguiente sprint abierto: `FUNC-SPRINT-34 — Security readiness operacional y cierre de Fase B`.
+
 
 ---
 
