@@ -1,8 +1,8 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
-Estado actual: `baseline pre-code approved + core funcional 00–18 cerrado + release técnico interno v0.1.0 + reconciliación documental post-18 + Schema Registry/Validator + contratos críticos + ValidationGateway + Traceability Model/Engine + architecture/code drift inicial + Fase A cerrada`  
-Último hito: `FUNC-SPRINT-27 — Architecture/code drift inicial y cierre de Baseline Industrial Mínima`  
-Siguiente hito: `FASE-B — pendiente de planificación ejecutable`  
+Estado actual: `baseline pre-code approved + Fase A cerrada + FASE-B iniciada + modelo de aprobación humana y persistencia operacional implemented-initial`  
+Último hito: `FUNC-SPRINT-28 — Modelo de aprobación humana y persistencia operacional`  
+Siguiente hito: `FUNC-SPRINT-29 — CLI de aprobación: request, list, show, approve, deny y revoke`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
@@ -130,6 +130,8 @@ Riesgo operativo: la validación es estructural; no prueba coherencia de negocio
 
 ## Architecture/code drift inicial y cierre Fase A — FUNC-SPRINT-27
 
+Referencia histórica: `FUNC-SPRINT-27 — Architecture/code drift inicial y cierre de Baseline Industrial Mínima`.
+
 `FUNC-SPRINT-27` agrega el detector inicial `architecture-drift` y cierra formalmente la **Fase A — Baseline Industrial Mínima**. Esta capacidad es **implemented-initial**: compara módulos top-level de `src/devpilot_core/*` contra documentos C4/arquitectura mediante aliases conservadores, emite findings no destructivos y no reemplaza revisión arquitectónica manual.
 
 Artefactos principales:
@@ -159,6 +161,36 @@ Criterio BLOCK: declarar Fase A cerrada sin Schema Validator, sin Traceability E
 
 Riesgo operativo: el detector es heurístico; puede requerir tuning de aliases o un Component Registry data-driven en Fase B.
 
+
+
+## Modelo de aprobación humana y persistencia operacional — FUNC-SPRINT-28
+
+`FUNC-SPRINT-28` inicia la **Fase B — Seguridad operacional** con el dominio de aprobaciones humanas. Esta capacidad es **implemented-initial**: crea modelos y persistencia local, pero no expone aún CLI de aprobaciones ni conecta `approval_id` con `PolicyEngine`.
+
+Artefactos principales:
+
+- `src/devpilot_core/approval/models.py`;
+- `src/devpilot_core/approval/store.py`;
+- `src/devpilot_core/store/local_store.py`;
+- `docs/audits/func_sprint_28_approval_domain_audit.md`;
+- `docs/functional_sprint_28_manifest.json`;
+- `tests/test_approval_store.py`.
+
+Comandos de verificación:
+
+```powershell
+$env:PYTHONPATH="src"
+python -m devpilot_core state init --json
+python -m devpilot_core state status --json
+python -m pytest tests/test_approval_store.py -q
+python -m pytest -q
+```
+
+Criterio PASS: `ApprovalRecord` tiene ID, subject, tool/action, status, actor, reason, scope, timestamps y expiración; `LocalStore` persiste approvals de forma idempotente; la migración SQLite no rompe bases existentes; `pytest -q` pasa.
+
+Criterio BLOCK: crear approvals sin scope/expiración, sobrescribir una approval sin transición controlada o activar ejecución crítica antes de `PolicyEngine` + approval binding.
+
+Riesgo operativo: `actor` es declarativo/local; autenticación/RBAC, CLI de approvals y binding de políticas quedan para sprints posteriores.
 
 ## Propósito
 

@@ -2,7 +2,7 @@
 title: "DevPilot Local — Backlog ejecutable posterior a pre-code"
 doc_id: "DEVPL-FUNC-BACKLOG-001"
 status: "approved"
-version: "2.9.0"
+version: "3.0.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
@@ -14,7 +14,7 @@ change_policy: "controlled_changes_allowed_via_docs_as_code"
 approved_on: "2026-06-06"
 approval_scope: "functional_backlog_after_precode"
 baseline_execution: "FUNC-SPRINT-00"
-next_sprint: "FASE-B-BACKLOG-PENDIENTE"
+next_sprint: "FUNC-SPRINT-29"
 ---
 
 # DevPilot Local — Backlog ejecutable posterior a pre-code
@@ -1894,3 +1894,12 @@ Pendientes recomendados para Fase B:
 - agentes especializados sobre motores existentes;
 - observabilidad v2;
 - planificación formal de UI/API solo con ADR.
+
+
+## Transición posterior a FUNC-SPRINT-28
+
+`FUNC-SPRINT-28` inicia la Fase B de seguridad operacional con el modelo de aprobación humana y persistencia operacional. El backlog Fase A queda `approved` y cerrado; el backlog Fase B queda `approved` e iniciado.
+
+Siguiente sprint operativo: `FUNC-SPRINT-29 — CLI de aprobación: request, list, show, approve, deny y revoke`.
+
+Límite explícito: Sprint 28 no conecta aún `approval_id` con `PolicyEngine`, no expone CLI de approvals y no ejecuta acciones críticas.

@@ -21,7 +21,7 @@ def test_sprint_27_readme_runbook_backlog_and_phase_a_closure_are_synchronized()
     assert "FUNC-SPRINT-27 — Architecture/code drift" in runbook
     assert "Estado de implementación Sprint 27" in backlog
     assert "phase_a_status: \"closed\"" in backlog
-    assert "next_phase: \"FASE-B-PENDIENTE-DE-PLANIFICACION\"" in backlog
+    assert "next_phase: \"FASE-B-SEGURIDAD-OPERACIONAL\"" in backlog
     assert "FUNC-SPRINT-27" in checklist
     assert "Baseline Industrial Mínima" in closure
 

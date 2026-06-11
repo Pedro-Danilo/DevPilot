@@ -1,0 +1,65 @@
+{
+  "sprint": "FUNC-SPRINT-28",
+  "title": "Modelo de aprobación humana y persistencia operacional",
+  "status": "implemented",
+  "implemented_at": "2026-06-10",
+  "phase": "FASE-B-SEGURIDAD-OPERACIONAL",
+  "wave": "Ola 3 — Seguridad operacional, aprobación humana y ejecución controlada",
+  "source_backlog": "docs/devpilot_backlog_fase_B_seguridad_operacional.md",
+  "architectural_decision": {
+    "required": false,
+    "adr": null,
+    "reason": "FUNC-SPRINT-28 extends the existing local SQLite persistence layer and adds a dependency-free approval domain. It introduces no external dependency, network call, provider, UI, destructive action or new storage backend. The existing LocalStore is migrated idempotently."
+  },
+  "created_files": [
+    "src/devpilot_core/approval/__init__.py",
+    "src/devpilot_core/approval/models.py",
+    "src/devpilot_core/approval/store.py",
+    "tests/test_approval_store.py",
+    "tests/test_sprint_28_documentation.py",
+    "docs/audits/func_sprint_28_approval_domain_audit.md",
+    "docs/functional_sprint_28_manifest.json"
+  ],
+  "modified_files": [
+    "src/devpilot_core/store/local_store.py",
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/devpilot_backlog_fase_A_baseline_industrial_minima.md",
+    "docs/devpilot_backlog_fase_B_seguridad_operacional.md",
+    "docs/functional_backlog_after_precode.md",
+    "tests/test_sprint_27_documentation.py"
+  ],
+  "commands": [
+    "python -m devpilot_core state init --json",
+    "python -m devpilot_core state status --json",
+    "python -m pytest tests/test_approval_store.py -q",
+    "python -m pytest tests/test_sprint_28_documentation.py -q",
+    "python -m pytest -q"
+  ],
+  "tests": [
+    "tests/test_approval_store.py",
+    "tests/test_sprint_28_documentation.py"
+  ],
+  "pass_criteria": [
+    "ApprovalRecord has unique ID, subject, tool/action, status, actor, reason, scope, created_at and expires_at.",
+    "LocalStore persists approvals idempotently.",
+    "Allowed states are requested, approved, denied, revoked and expired.",
+    "Approvals without scope are rejected.",
+    "Existing SQLite approvals tables are migrated without dropping rows.",
+    "pytest -q passes."
+  ],
+  "block_criteria": [
+    "An approval lacks expiration or scope.",
+    "An approval can be overwritten without a controlled transition.",
+    "The approvals table breaks compatibility with an existing local DB.",
+    "Sprint 28 connects approvals to critical execution before policy binding."
+  ],
+  "risks": [
+    "The approval actor is local/declarative; RBAC is future work.",
+    "PolicyEngine binding is explicitly deferred to Sprint 30.",
+    "CLI approval operations are explicitly deferred to Sprint 29.",
+    "Event persistence is best-effort until later operational hardening."
+  ],
+  "preliminary": true,
+  "next_sprint": "FUNC-SPRINT-29 — CLI de aprobación: request, list, show, approve, deny y revoke"
+}

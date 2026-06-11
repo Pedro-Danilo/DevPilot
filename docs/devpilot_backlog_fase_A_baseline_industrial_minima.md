@@ -1,31 +1,33 @@
 ---
 title: "DevPilot Local — Backlog ejecutable Fase A: Baseline industrial mínima"
 doc_id: "DEVPL-FUNC-BACKLOG-FASE-A-001"
-status: "draft-for-review"
-version: "0.1.0"
+status: "approved"
+version: "1.0.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
 phase: "FASE-A-BASELINE-INDUSTRIAL-MINIMA"
 updated: "2026-06-10"
-source_repo: "repo_DevPilot_Local_32.zip"
+source_repo: "repo_DevPilot_Local_33.zip"
 source_report: "Informe de avance DevPilot - sprint 0 - 18.docx"
 source_backlog_model: "docs/functional_backlog_after_precode.md"
-baseline_previous_sprint: "FUNC-SPRINT-26"
+baseline_previous_sprint: "FUNC-SPRINT-27"
 first_sprint: "FUNC-SPRINT-19"
 last_planned_sprint: "FUNC-SPRINT-27"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "phase_a_executable_backlog_review"
-first_open_sprint: "FASE-B-BACKLOG-PENDIENTE"
+approved_on: "2026-06-10"
+approval: "approved_by_owner_direction"
+first_open_sprint: "FUNC-SPRINT-29"
 phase_a_status: "closed"
-next_phase: "FASE-B-PENDIENTE-DE-PLANIFICACION"
+next_phase: "FASE-B-SEGURIDAD-OPERACIONAL"
 ---
 
 # DevPilot Local — Backlog ejecutable Fase A: Baseline industrial mínima
 
 ## Estado de aprobación funcional
 
-Este documento se entrega en estado `draft-for-review`. Su propósito es convertir la **Fase A — Baseline industrial mínima** en un backlog de implementación ejecutable, siguiendo el mismo modelo operativo usado en `docs/functional_backlog_after_precode.md`.
+Este documento queda en estado `approved` después del cierre verificado de `FUNC-SPRINT-27`. Su propósito es convertir la **Fase A — Baseline industrial mínima** en un backlog de implementación ejecutable, siguiendo el mismo modelo operativo usado en `docs/functional_backlog_after_precode.md`.
 
 La Fase A agrupa:
 

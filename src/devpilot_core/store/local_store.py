@@ -11,7 +11,7 @@ from typing import Any, Iterable
 from devpilot_core.cli_models import CommandResult, ExitCode, Finding, Severity
 
 DEFAULT_DB_PATH = ".devpilot/devpilot.db"
-SCHEMA_VERSION = "0001_local_store_v0"
+SCHEMA_VERSION = "0002_approval_operational_v1"
 
 
 @dataclass(frozen=True)
@@ -284,6 +284,140 @@ class LocalStore:
             conn.commit()
         return cost_event_id
 
+    def create_approval(self, record: dict[str, Any]) -> tuple[bool, "ApprovalRecord"]:
+        """Persist an approval record idempotently and return (created, record).
+
+        FUNC-SPRINT-28 strengthens the old structural approvals table into an
+        operational approval store. A duplicate approval_id returns the existing
+        row unchanged; it never overwrites approval state implicitly.
+        """
+
+        from devpilot_core.approval.models import ApprovalRecord
+
+        self.db_path.parent.mkdir(parents=True, exist_ok=True)
+        with self._connect() as conn:
+            self._apply_schema(conn)
+            existing = self._get_approval_row(conn, str(record["approval_id"]))
+            if existing is not None:
+                return False, ApprovalRecord.from_dict(existing)
+            conn.execute(
+                """
+                INSERT INTO approvals (
+                    approval_id, subject, tool_id, action, status, actor, reason,
+                    scope_json, created_at, updated_at, expires_at, decision_at,
+                    decided_by, metadata_json, requested_at, approved_at, approver
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                """,
+                (
+                    record["approval_id"],
+                    record["subject"],
+                    record["tool_id"],
+                    record["action"],
+                    record["status"],
+                    record["actor"],
+                    record["reason"],
+                    _json(record.get("scope") or {}),
+                    record["created_at"],
+                    record["updated_at"],
+                    record["expires_at"],
+                    record.get("decision_at"),
+                    record.get("decided_by"),
+                    _json(record.get("metadata") or {}),
+                    record["created_at"],
+                    record.get("decision_at") if record.get("status") == "approved" else None,
+                    record.get("decided_by"),
+                ),
+            )
+            conn.commit()
+            stored = self._get_approval_row(conn, str(record["approval_id"]))
+        assert stored is not None
+        return True, ApprovalRecord.from_dict(stored)
+
+    def get_approval(self, approval_id: str) -> "ApprovalRecord | None":
+        """Return one approval record by ID, or None when absent."""
+
+        from devpilot_core.approval.models import ApprovalRecord
+
+        if not self.db_path.exists():
+            return None
+        with self._connect() as conn:
+            self._apply_schema(conn)
+            row = self._get_approval_row(conn, approval_id)
+        return None if row is None else ApprovalRecord.from_dict(row)
+
+    def list_approvals(
+        self,
+        *,
+        status: str | None = None,
+        tool_id: str | None = None,
+        action: str | None = None,
+        limit: int = 100,
+    ) -> list["ApprovalRecord"]:
+        """List approval records with optional filters."""
+
+        from devpilot_core.approval.models import ApprovalRecord
+
+        if not self.db_path.exists():
+            return []
+        filters: list[str] = []
+        values: list[Any] = []
+        if status:
+            filters.append("status = ?")
+            values.append(status)
+        if tool_id:
+            filters.append("tool_id = ?")
+            values.append(tool_id)
+        if action:
+            filters.append("action = ?")
+            values.append(action)
+        where = " WHERE " + " AND ".join(filters) if filters else ""
+        safe_limit = max(1, min(int(limit), 500))
+        query = f"""
+            SELECT * FROM approvals
+            {where}
+            ORDER BY created_at DESC, approval_id DESC
+            LIMIT ?
+        """
+        values.append(safe_limit)
+        with self._connect() as conn:
+            self._apply_schema(conn)
+            rows = conn.execute(query, tuple(values)).fetchall()
+        return [ApprovalRecord.from_dict(self._approval_row_to_dict(row)) for row in rows]
+
+    def update_approval(self, record: dict[str, Any]) -> "ApprovalRecord":
+        """Persist a controlled approval state transition."""
+
+        from devpilot_core.approval.models import ApprovalRecord
+
+        with self._connect() as conn:
+            self._apply_schema(conn)
+            conn.execute(
+                """
+                UPDATE approvals
+                SET status = ?, reason = ?, updated_at = ?, expires_at = ?,
+                    decision_at = ?, decided_by = ?, approved_at = ?, approver = ?,
+                    metadata_json = ?
+                WHERE approval_id = ?
+                """,
+                (
+                    record["status"],
+                    record["reason"],
+                    record["updated_at"],
+                    record["expires_at"],
+                    record.get("decision_at"),
+                    record.get("decided_by"),
+                    record.get("decision_at") if record.get("status") == "approved" else None,
+                    record.get("decided_by"),
+                    _json(record.get("metadata") or {}),
+                    record["approval_id"],
+                ),
+            )
+            conn.commit()
+            stored = self._get_approval_row(conn, str(record["approval_id"]))
+        if stored is None:
+            raise KeyError(f"Approval not found: {record['approval_id']}")
+        return ApprovalRecord.from_dict(stored)
+
     def list_runs(self, *, limit: int = 10) -> CommandResult:
         """Return recent runs from local SQLite history."""
 
@@ -334,11 +468,62 @@ class LocalStore:
 
     def _apply_schema(self, conn: sqlite3.Connection) -> None:
         conn.executescript(SCHEMA_SQL)
+        self._migrate_approvals_v1(conn)
         conn.execute(
             "INSERT OR IGNORE INTO schema_migrations(version, applied_at) VALUES (?, ?)",
             (SCHEMA_VERSION, utc_now_iso()),
         )
         conn.commit()
+
+    def _migrate_approvals_v1(self, conn: sqlite3.Connection) -> None:
+        """Add Sprint 28 operational approval columns without deleting old data."""
+
+        columns = {str(row["name"]) for row in conn.execute("PRAGMA table_info(approvals)").fetchall()}
+        additions: dict[str, str] = {
+            "tool_id": "TEXT NOT NULL DEFAULT ''",
+            "actor": "TEXT NOT NULL DEFAULT ''",
+            "scope_json": "TEXT NOT NULL DEFAULT '{}'",
+            "created_at": "TEXT",
+            "updated_at": "TEXT",
+            "expires_at": "TEXT",
+            "decision_at": "TEXT",
+            "decided_by": "TEXT",
+        }
+        for column, definition in additions.items():
+            if column not in columns:
+                conn.execute(f"ALTER TABLE approvals ADD COLUMN {column} {definition}")
+        conn.execute("UPDATE approvals SET tool_id = action WHERE tool_id = '' OR tool_id IS NULL")
+        conn.execute("UPDATE approvals SET actor = COALESCE(approver, '') WHERE actor = '' OR actor IS NULL")
+        conn.execute("UPDATE approvals SET created_at = requested_at WHERE created_at IS NULL")
+        conn.execute("UPDATE approvals SET updated_at = COALESCE(approved_at, requested_at) WHERE updated_at IS NULL")
+        conn.execute("UPDATE approvals SET decision_at = approved_at WHERE decision_at IS NULL AND approved_at IS NOT NULL")
+        conn.execute("UPDATE approvals SET decided_by = approver WHERE decided_by IS NULL AND approver IS NOT NULL")
+        conn.execute("CREATE INDEX IF NOT EXISTS idx_approvals_tool_action ON approvals(tool_id, action)")
+        conn.execute("CREATE INDEX IF NOT EXISTS idx_approvals_expires_at ON approvals(expires_at)")
+
+    def _get_approval_row(self, conn: sqlite3.Connection, approval_id: str) -> dict[str, Any] | None:
+        row = conn.execute("SELECT * FROM approvals WHERE approval_id = ?", (approval_id,)).fetchone()
+        return None if row is None else self._approval_row_to_dict(row)
+
+    def _approval_row_to_dict(self, row: sqlite3.Row) -> dict[str, Any]:
+        metadata = _load_json(row["metadata_json"], {})
+        scope = _load_json(row["scope_json"], {})
+        return {
+            "approval_id": row["approval_id"],
+            "subject": row["subject"] or "",
+            "tool_id": row["tool_id"] or row["action"] or "",
+            "action": row["action"] or "",
+            "status": row["status"],
+            "actor": row["actor"] or row["approver"] or "",
+            "reason": row["reason"] or "",
+            "scope": scope,
+            "created_at": row["created_at"] or row["requested_at"],
+            "updated_at": row["updated_at"] or row["approved_at"] or row["requested_at"],
+            "expires_at": row["expires_at"] or "1970-01-01T00:00:00Z",
+            "decision_at": row["decision_at"] or row["approved_at"],
+            "decided_by": row["decided_by"] or row["approver"],
+            "metadata": metadata,
+        }
 
     def _resolve_db_path(self, db_path: str | Path) -> Path:
         candidate = Path(db_path)
@@ -436,14 +621,23 @@ CREATE INDEX IF NOT EXISTS idx_events_type ON events(event_type);
 
 CREATE TABLE IF NOT EXISTS approvals (
     approval_id TEXT PRIMARY KEY,
-    action TEXT NOT NULL,
     subject TEXT,
+    tool_id TEXT NOT NULL DEFAULT '',
+    action TEXT NOT NULL,
     status TEXT NOT NULL,
+    actor TEXT NOT NULL DEFAULT '',
+    reason TEXT,
+    scope_json TEXT NOT NULL DEFAULT '{}',
+    created_at TEXT,
+    updated_at TEXT,
+    expires_at TEXT,
+    decision_at TEXT,
+    decided_by TEXT,
     requested_at TEXT NOT NULL,
     approved_at TEXT,
     approver TEXT,
-    reason TEXT,
-    metadata_json TEXT NOT NULL DEFAULT '{}'
+    metadata_json TEXT NOT NULL DEFAULT '{}',
+    CHECK (status IN ('requested', 'approved', 'denied', 'revoked', 'expired'))
 );
 
 CREATE INDEX IF NOT EXISTS idx_approvals_status ON approvals(status);
@@ -476,6 +670,15 @@ def _tracked_tables() -> tuple[str, ...]:
 
 def _json(value: Any) -> str:
     return json.dumps(value, ensure_ascii=False, sort_keys=True)
+
+
+def _load_json(value: str | None, default: Any) -> Any:
+    if not value:
+        return default
+    try:
+        return json.loads(value)
+    except json.JSONDecodeError:
+        return default
 
 
 def _relative(path: Path, root: Path) -> str:

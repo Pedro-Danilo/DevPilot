@@ -2,11 +2,11 @@
 title: "Runbook — DevPilot Local"
 doc_id: "DEVPL-OPS-002"
 status: "approved"
-version: "1.12.0"
+version: "1.13.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "FUNC-SPRINT-27"
+phase: "FUNC-SPRINT-28"
 updated: "2026-06-10"
 approval: "approved_by_owner"
 source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved + 03_security approved"
@@ -1871,7 +1871,7 @@ python -m pytest -q
 | `TRACEABILITY_ENTITY_ID_INVALID` sobre ADR `.md` | Se detectó una referencia de archivo como token ID-like. | Revisar naming o aceptar warning conservador. |
 | Scan sin fuentes | Target incorrecto o fuera de `docs/`. | Usar `--target docs/01_requirements` o ejecutar sin target. |
 
-Próxima fase operativa: `FASE-B — pendiente de planificación ejecutable`.
+Próxima fase operativa: `FUNC-SPRINT-29 — CLI de aprobación: request, list, show, approve, deny y revoke`.
 
 
 ## FUNC-SPRINT-26 — Traceability Engine: validate, coverage y report
@@ -1989,3 +1989,49 @@ python -m pytest -q
 ### Riesgos
 
 Esta versión es **implemented-initial** y heurística. No reemplaza análisis arquitectónico manual ni un futuro Component Registry data-driven.
+
+
+## FUNC-SPRINT-28 — Modelo de aprobación humana y persistencia operacional
+
+### Propósito
+
+Inicializar la Fase B con un dominio local de aprobaciones humanas. El sprint agrega modelos y persistencia operacional para approvals, pero no habilita todavía CLI de approval ni autorización de herramientas críticas.
+
+### Comandos operativos
+
+```powershell
+$env:PYTHONPATH="src"
+python -m devpilot_core state init --json
+python -m devpilot_core state status --json
+python -m pytest tests/test_approval_store.py -q
+python -m pytest -q
+```
+
+### Criterios PASS
+
+```text
+state init crea o migra .devpilot/devpilot.db sin borrar historial.
+state status reporta schema_version 0002_approval_operational_v1.
+La tabla approvals existe y conserva compatibilidad con schema anterior.
+ApprovalRequest bloquea scope vacío y expiración inválida.
+ApprovalStore crea/lista/actualiza approvals mediante transiciones controladas.
+pytest -q pasa.
+```
+
+### Criterios BLOCK
+
+```text
+Una approval no tiene scope o expires_at.
+Una approval aprobada/denegada/revocada/expirada se sobrescribe sin transición.
+La migración rompe una base SQLite existente.
+La implementación ejecuta una acción crítica o bypass de PolicyEngine.
+```
+
+### Riesgos y límites
+
+- `actor` es declarativo/local; no hay RBAC.
+- La CLI `approval request/list/show/approve/deny/revoke` queda para `FUNC-SPRINT-29`.
+- El binding con `PolicyEngine` queda para `FUNC-SPRINT-30`.
+- No se ejecutan acciones críticas en este sprint.
+
+Próxima fase operativa: `FUNC-SPRINT-29 — CLI de aprobación: request, list, show, approve, deny y revoke`.

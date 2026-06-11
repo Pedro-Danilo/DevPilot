@@ -1,28 +1,32 @@
 ---
 title: "DevPilot Local — Backlog ejecutable Fase B: Seguridad operacional"
 doc_id: "DEVPL-FUNC-BACKLOG-FASE-B-001"
-status: "draft-for-review"
-version: "0.1.0"
+status: "approved"
+version: "0.2.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
 phase: "FASE-B-SEGURIDAD-OPERACIONAL"
-updated: "2026-06-09"
-source_repo: "repo_DevPilot_Local_22.zip"
+updated: "2026-06-10"
+source_repo: "repo_DevPilot_Local_33.zip"
 source_report: "Informe de avance DevPilot - sprint 0 - 18.docx"
 source_backlog_model: "docs/functional_backlog_after_precode.md"
-baseline_dependency: "Fase A cerrada o aprobada explícitamente como prerequisito"
+baseline_dependency: "Fase A cerrada y aprobada mediante FUNC-SPRINT-27"
 first_sprint: "FUNC-SPRINT-28"
 last_planned_sprint: "FUNC-SPRINT-34"
+first_open_sprint: "FUNC-SPRINT-29"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "phase_b_executable_backlog_review"
+approved_on: "2026-06-10"
+approval: "approved_by_owner_direction"
+phase_b_status: "in_progress"
 ---
 
 # DevPilot Local — Backlog ejecutable Fase B: Seguridad operacional
 
 ## Estado de aprobación funcional
 
-Este documento se entrega en estado `draft-for-review`. Su propósito es convertir la **Fase B — Seguridad operacional** en un backlog de implementación ejecutable, siguiendo el modelo operativo usado en `docs/functional_backlog_after_precode.md`.
+Este documento queda en estado `approved` después del cierre verificado de Fase A. `FUNC-SPRINT-28` queda implementado como primer sprint de Fase B; el siguiente sprint abierto es `FUNC-SPRINT-29`. Su propósito es convertir la **Fase B — Seguridad operacional** en un backlog de implementación ejecutable, siguiendo el modelo operativo usado en `docs/functional_backlog_after_precode.md`.
 
 La Fase B corresponde a:
 
@@ -241,6 +245,30 @@ Pruebas de persistencia SQLite temporal.
 ```text
 Implementa FUNC-SPRINT-28: modelo y persistencia operacional de aprobaciones humanas. No conectes aún approvals a ejecución crítica. Asegura scope, expiración, estados, eventos y pruebas.
 ```
+
+## Estado de implementación Sprint 28
+
+`FUNC-SPRINT-28 — Modelo de aprobación humana y persistencia operacional` queda implementado como primera versión del dominio de aprobaciones humanas.
+
+Estado: `implemented-initial`.
+
+Alcance implementado:
+
+- paquete `src/devpilot_core/approval/`;
+- modelos `ApprovalRequest`, `ApprovalRecord`, `ApprovalDecision` y `ApprovalStatus`;
+- migración SQLite idempotente de la tabla `approvals` hacia schema operacional v1;
+- `ApprovalStore` sobre `LocalStore`;
+- eventos locales `approval.requested`, `approval.approved` y `approval.denied` cuando se usan transiciones del store;
+- pruebas de modelo, persistencia, migración, idempotencia y transiciones.
+
+Límites explícitos:
+
+- no se expone todavía CLI `approval request/list/show/approve/deny/revoke`; eso corresponde a `FUNC-SPRINT-29`;
+- no se conecta todavía `approval_id` con `PolicyEngine`; eso corresponde a `FUNC-SPRINT-30`;
+- no se ejecutan acciones críticas;
+- las aprobaciones no son RBAC ni autenticación real; `actor` es declarativo/local.
+
+Siguiente sprint abierto: `FUNC-SPRINT-29 — CLI de aprobación: request, list, show, approve, deny y revoke`.
 
 ---
 
