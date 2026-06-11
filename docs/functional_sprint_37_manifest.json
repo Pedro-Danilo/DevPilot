@@ -1,0 +1,75 @@
+{
+  "sprint": "FUNC-SPRINT-37",
+  "title": "RepoAnalyzer v2: estructura, riesgos y salud del repositorio",
+  "status": "implemented",
+  "implemented_at": "2026-06-11",
+  "phase": "FASE-C-INGENIERIA-DE-REPOSITORIO",
+  "wave": "Ola 4 — Repo intelligence y revisión industrial",
+  "source_backlog": "docs/devpilot_backlog_fase_C_ingenieria_repositorio.md",
+  "architectural_decision": {
+    "required": false,
+    "adr": null,
+    "reason": "FUNC-SPRINT-37 agrega un analizador local read-only que integra motores ya existentes y el DependencyGraph de FUNC-SPRINT-36. No introduce dependencias externas, red, APIs, modelos, UI, sandbox, patch apply, Git write ni ejecución de código analizado."
+  },
+  "created_files": [
+    "src/devpilot_core/repo/analyzer.py",
+    "tests/test_repo_analyzer.py",
+    "tests/test_sprint_37_documentation.py",
+    "docs/audits/func_sprint_37_repo_analyzer_v2_audit.md",
+    "docs/functional_sprint_37_manifest.json"
+  ],
+  "modified_files": [
+    "src/devpilot_core/repo/models.py",
+    "src/devpilot_core/repo/__init__.py",
+    "src/devpilot_core/cli.py",
+    ".devpilot/miasi/tool_registry.json",
+    ".devpilot/miasi/agent_registry.json",
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/04_quality/test_strategy.md",
+    "docs/devpilot_backlog_fase_C_ingenieria_repositorio.md",
+    "docs/functional_backlog_after_precode.md",
+    "docs/06_miasi/tool_registry.md",
+    "docs/06_miasi/tool_card.md",
+    "tests/test_sprint_32_documentation.py",
+    "tests/test_sprint_33_documentation.py",
+    "tests/test_sprint_34_documentation.py",
+    "tests/test_sprint_35_documentation.py",
+    "tests/test_sprint_36_documentation.py"
+  ],
+  "commands": [
+    "python -m devpilot_core repo analyze --json",
+    "python -m devpilot_core repo analyze --json --write-report",
+    "python -m devpilot_core miasi validate --json",
+    "python -m pytest -q"
+  ],
+  "tests": [
+    "tests/test_repo_analyzer.py",
+    "tests/test_sprint_37_documentation.py"
+  ],
+  "pass_criteria": [
+    "RepoAnalyzer consolidates RepoInventory, DependencyGraph and GitAdapter signals.",
+    "The command returns CommandResult and supports --json/--write-report.",
+    "Runtime folders are excluded from analysis.",
+    "Repositories without Git produce partial controlled analysis instead of crashing.",
+    "Secret-like content is not emitted as raw payload.",
+    "MIASI declares repo.analyze as a read-only tool.",
+    "pytest -q passes."
+  ],
+  "block_criteria": [
+    "The analyzer mixes outputs runtime into repository health.",
+    "The analyzer emits raw secrets.",
+    "A missing Git repository breaks the analysis.",
+    "The analyzer executes/imports code under analysis.",
+    "Sprint 37 is documented as SAST/SCA or industrial certification.",
+    "Patch apply, Git write, refactor execution or deploy are enabled."
+  ],
+  "risks": [
+    "Health score is heuristic and may be overinterpreted.",
+    "Modules-without-tests heuristic can generate false positives.",
+    "TODO/FIXME scan is textual and bounded.",
+    "No vulnerability/license/coverage/cyclomatic complexity analysis yet."
+  ],
+  "preliminary": true,
+  "next_sprint": "FUNC-SPRINT-38 — Architecture/code drift inicial"
+}

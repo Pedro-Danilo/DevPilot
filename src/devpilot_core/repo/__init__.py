@@ -11,7 +11,15 @@ from .git_adapter import (
 )
 from .inventory import RepoInventory, RepoInventoryConfig, RepoInventoryItem
 from .dependency_graph import DependencyGraphBuilder
-from .models import DependencyGraphEdge, DependencyGraphNode, DependencyGraphResult
+from .analyzer import RepoAnalyzer, RepoAnalyzerConfig
+from .models import (
+    DependencyGraphEdge,
+    DependencyGraphNode,
+    DependencyGraphResult,
+    RepoHealthSummary,
+    RepoHotspot,
+    RepoRiskSignal,
+)
 
 __all__ = [
     "GitAdapter",
@@ -25,6 +33,11 @@ __all__ = [
     "DependencyGraphEdge",
     "DependencyGraphNode",
     "DependencyGraphResult",
+    "RepoAnalyzer",
+    "RepoAnalyzerConfig",
+    "RepoHealthSummary",
+    "RepoHotspot",
+    "RepoRiskSignal",
     "RepoInventory",
     "RepoInventoryConfig",
     "RepoInventoryItem",

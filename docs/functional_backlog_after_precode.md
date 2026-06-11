@@ -14,7 +14,7 @@ change_policy: "controlled_changes_allowed_via_docs_as_code"
 approved_on: "2026-06-06"
 approval_scope: "functional_backlog_after_precode"
 baseline_execution: "FUNC-SPRINT-00"
-next_sprint: "FUNC-SPRINT-37"
+next_sprint: "FUNC-SPRINT-38"
 ---
 
 # DevPilot Local — Backlog ejecutable posterior a pre-code
@@ -1984,3 +1984,21 @@ Estado real:
 - no habilita patch apply, refactor execution, Git write, deploy ni sandbox real.
 
 Siguiente sprint operativo: `FUNC-SPRINT-37 — RepoAnalyzer v2: estructura, riesgos y salud del repositorio`.
+
+
+## Transición posterior a FUNC-SPRINT-37 — RepoAnalyzer v2
+
+`FUNC-SPRINT-37` agrega `RepoAnalyzer` como primera consolidación de salud del repositorio. La capacidad integra inventario, DependencyGraph y GitAdapter en modo read-only y produce un `health_score` heurístico, secciones `source/tests/docs/config`, hotspots y riesgos básicos.
+
+Estado real:
+
+- implementado comando `repo analyze`;
+- salida `CommandResult` con `--json`;
+- reportes opcionales JSON/Markdown mediante `--write-report`;
+- tool `repo.analyze` declarada en MIASI;
+- análisis parcial si Git no está disponible;
+- no emite secretos crudos;
+- no ejecuta código analizado;
+- no habilita patch apply, refactor execution, Git write, deploy ni sandbox real.
+
+Siguiente sprint operativo: `FUNC-SPRINT-38 — Architecture/code drift inicial`.

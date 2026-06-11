@@ -20,7 +20,7 @@ from .policy import CostPolicy, PolicyEngine, PolicyRequest, load_cost_policy
 from .reports import ReportEngine, build_report_id
 from .security import PolicySimulationSuite, SecurityReadiness
 from .schemas import BuiltinContractValidator, SchemaRegistry, SchemaValidator
-from .repo import DependencyGraphBuilder, GitAdapter, RepoInventory
+from .repo import DependencyGraphBuilder, GitAdapter, RepoAnalyzer, RepoInventory
 from .repo.diff_report import GitDiffReportBuilder
 from .refactor import RefactorPlanner
 from .review import CodeReviewEngine, PatchReviewEngine
@@ -457,6 +457,36 @@ def repo_dependency_graph_command(
         report_id="repo_dependency_graph",
         write_report=write_report,
         metadata={"sprint": "FUNC-SPRINT-36", "component": "DependencyGraphBuilder"},
+    )
+    _emit_result_event(root, result, subject=target)
+    _persist_result(root, result, subject=target)
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+
+
+def repo_analyze_command(
+    *,
+    target: str = ".",
+    json_output: bool = False,
+    write_report: bool = False,
+) -> int:
+    """Run RepoAnalyzer v2 in local read-only mode.
+
+    FUNC-SPRINT-37 consolidates repo-inventory, DependencyGraph and
+    GitAdapter signals into a heuristic repository health summary. It excludes
+    runtime folders, never emits raw secret values and does not modify files.
+    """
+
+    root = project_root()
+    result = RepoAnalyzer(root).analyze(target=target)
+    result = _write_optional_command_report(
+        root,
+        result,
+        subject=target,
+        report_id="repo_analyze",
+        write_report=write_report,
+        metadata={"sprint": "FUNC-SPRINT-37", "component": "RepoAnalyzer"},
     )
     _emit_result_event(root, result, subject=target)
     _persist_result(root, result, subject=target)
@@ -1681,6 +1711,11 @@ def build_parser() -> argparse.ArgumentParser:
     dependency_graph.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     dependency_graph.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
 
+    repo_analyze = repo_sub.add_parser("analyze", help="Analyze repository structure, dependencies, Git state and maintainability risks")
+    repo_analyze.add_argument("--target", default=".", help="Target file or directory to analyze; default: workspace root")
+    repo_analyze.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    repo_analyze.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+
     patch_review = sub.add_parser("patch-review", help="Review a unified diff/patch in dry-run mode")
     patch_review.add_argument("--patch-file", default=None, help="Patch/diff file to read within the workspace")
     patch_review.add_argument("--patch-text", default=None, help="Inline patch text for small synthetic reviews")
@@ -2035,6 +2070,8 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
     if args.command == "repo":
         if args.repo_command == "dependency-graph":
             return repo_dependency_graph_command(target=args.target, json_output=args.json, write_report=args.write_report)
+        if args.repo_command == "analyze":
+            return repo_analyze_command(target=args.target, json_output=args.json, write_report=args.write_report)
         parser.print_help()
         return int(ExitCode.FAIL)
     if args.command == "patch-review":

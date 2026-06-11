@@ -202,6 +202,7 @@
         "git.log",
         "git.diff_report",
         "repo.dependency_graph",
+        "repo.analyze",
         "report.write",
         "trace.append",
         "policy.check"

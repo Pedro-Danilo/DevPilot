@@ -424,3 +424,18 @@ DTO con secretos.
 Doble implementación de lógica de validadores.
 Framework desktop/web sin ADR.
 ```
+
+## Actualización FUNC-SPRINT-37 — Pruebas de RepoAnalyzer v2
+
+`FUNC-SPRINT-37` agrega pruebas específicas para `RepoAnalyzer v2`, manteniendo la estrategia local-first y read-only de Fase C.
+
+Cobertura mínima agregada:
+
+- repo fixture con `src/`, `tests/` y `docs/` para verificar resumen de secciones;
+- integración con `DependencyGraph` para validar nodos y métricas básicas;
+- repositorio sin Git para confirmar análisis parcial controlado;
+- secreto sintético para confirmar que no se emiten valores crudos;
+- bloqueo de target fuera del workspace;
+- CLI `repo analyze --json --write-report` con evidencia JSON/Markdown.
+
+Criterio de calidad: el `health_score` se trata como señal heurística de revisión, no como certificación de calidad industrial. Las pruebas deben validar ausencia de mutaciones, ausencia de red/APIs/modelos y no filtración de secretos crudos.

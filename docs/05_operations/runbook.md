@@ -2493,3 +2493,51 @@ La salida incluye:
 ### Riesgos y límites
 
 Esta versión es `implemented-initial`. No detecta todos los imports dinámicos, plugins, llamadas runtime ni acoplamientos semánticos. Los edges representan imports estáticos detectados, no relaciones de ejecución garantizadas.
+
+## FUNC-SPRINT-37 — RepoAnalyzer v2
+
+### Propósito
+
+Consolidar la primera vista de salud del repositorio para Fase C mediante un análisis local, read-only y heurístico que integra inventario, DependencyGraph y GitAdapter.
+
+### Comandos operativos
+
+```powershell
+python -m devpilot_core repo analyze --json
+python -m devpilot_core repo analyze --json --write-report
+```
+
+### Funcionamiento
+
+`RepoAnalyzer` ejecuta únicamente lecturas locales. El análisis excluye `outputs/`, `.git/`, `.venv/`, caches, `build/`, `dist/` y `.devpilot/devpilot.db`. Usa `RepoInventory` para estructura y riesgos de archivos, `DependencyGraphBuilder` para dependencias Python detectadas por AST, y `GitAdapter.status()` para estado Git cuando exista repositorio Git disponible.
+
+La salida incluye:
+
+- resumen `health_score` heurístico;
+- secciones `source`, `tests`, `docs`, `config` y `other`;
+- resumen de inventario;
+- resumen de dependencias;
+- estado Git parcial o completo;
+- hotspots por `fan_in` y `fan_out`;
+- señales de riesgo como archivos grandes, TODO/FIXME/HACK, módulos sin test evidente y secretos sintéticos detectados sin emitir valores crudos.
+
+### Criterios PASS
+
+- El comando devuelve `CommandResult` y JSON parseable.
+- `--write-report` genera evidencia JSON/Markdown.
+- El análisis no modifica archivos.
+- Repos sin Git no provocan crash: se reportan como análisis parcial.
+- Los secretos se reportan como metadata/redacción, nunca como payload crudo.
+- MIASI declara `repo.analyze` como tool read-only.
+
+### Criterios BLOCK
+
+- Analizar `outputs/` o caches como fuente de salud del repo.
+- Emitir secretos crudos en stdout, reportes o findings.
+- Romper cuando Git no está inicializado.
+- Presentar el score como certificación industrial.
+- Habilitar patch apply, Git write, refactor execution o deploy.
+
+### Riesgos y límites
+
+Esta versión es `implemented-initial`. Las heurísticas de módulos sin test cercano pueden producir falsos positivos; los TODO/FIXME se cuentan sin emitir contenido; el score debe usarse como señal de priorización y no como veredicto absoluto. No reemplaza SAST/SCA, análisis de licencias, análisis de vulnerabilidades, complejidad ciclomática industrial ni quality gate definitivo.

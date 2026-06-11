@@ -1,8 +1,8 @@
 (.venv) PS D:\Projects\DevPilot_Local> pytest -q
-............................................................................................................................................ [ 47%]
-............................................................................................................................................ [ 94%]
-.................                                                                                                                            [100%]
-DEVPL TEST SUMMARY: 297 passed, 0 failed, 0 errors, 0 skipped
+............................................................................................................................................ [ 45%]
+............................................................................................................................................ [ 91%]
+..........................                                                                                                                   [100%]
+DEVPL TEST SUMMARY: 306 passed, 0 failed, 0 errors, 0 skipped
 (.venv) PS D:\Projects\DevPilot_Local> python -m devpilot_core --version
 devpilot-local 0.1.0
 (.venv) PS D:\Projects\DevPilot_Local> python -m devpilot_core workspace status --json
@@ -190,7 +190,7 @@ devpilot-local 0.1.0
         "standard": "MIPSoftware",
         "purpose": "Quality, testing and verification baseline.",
         "exists": true,
-        "size_bytes": 15894
+        "size_bytes": 16779
       },
       {
         "id": "observability_plan",
@@ -206,7 +206,7 @@ devpilot-local 0.1.0
         "standard": "MIPSoftware",
         "purpose": "Local operation and recovery guide.",
         "exists": true,
-        "size_bytes": 94440
+        "size_bytes": 96678
       },
       {
         "id": "agent_card",
@@ -222,7 +222,7 @@ devpilot-local 0.1.0
         "standard": "MIASI",
         "purpose": "Tool permissions, side effects and control rules.",
         "exists": true,
-        "size_bytes": 15652
+        "size_bytes": 17163
       },
       {
         "id": "policy_card",
@@ -847,7 +847,7 @@ devpilot-local 0.1.0
       {
         "artifact": "docs/04_quality/test_strategy.md",
         "exists": true,
-        "size_bytes": 15894,
+        "size_bytes": 16779,
         "frontmatter_ok": true,
         "artifact_ok": true,
         "status": "approved",
@@ -865,7 +865,7 @@ devpilot-local 0.1.0
       {
         "artifact": "docs/05_operations/runbook.md",
         "exists": true,
-        "size_bytes": 94440,
+        "size_bytes": 96678,
         "frontmatter_ok": true,
         "artifact_ok": true,
         "status": "approved",
@@ -883,7 +883,7 @@ devpilot-local 0.1.0
       {
         "artifact": "docs/06_miasi/tool_card.md",
         "exists": true,
-        "size_bytes": 15652,
+        "size_bytes": 17163,
         "frontmatter_ok": true,
         "artifact_ok": true,
         "status": "approved",
@@ -1120,7 +1120,7 @@ devpilot-local 0.1.0
   "data": {
     "summary": {
       "agents_total": 13,
-      "tools_total": 26,
+      "tools_total": 27,
       "policy_rules_total": 14,
       "mvp_agents": 2,
       "high_risk_tools": 5,
@@ -1336,6 +1336,7 @@ devpilot-local 0.1.0
           "git.log",
           "git.diff_report",
           "repo.dependency_graph",
+          "repo.analyze",
           "report.write",
           "trace.append",
           "policy.check"
@@ -1717,6 +1718,18 @@ devpilot-local 0.1.0
       {
         "tool_id": "repo.dependency_graph",
         "name": "repo_dependency_graph_read_only",
+        "phase": "MVP+",
+        "side_effect": "report",
+        "risk_level": "medium",
+        "status": "implemented-initial",
+        "requires_approval": false,
+        "policy_rule_ids": [
+          "GIT_READ_ALLOW"
+        ]
+      },
+      {
+        "tool_id": "repo.analyze",
+        "name": "repo_analyze_read_only",
         "phase": "MVP+",
         "side_effect": "report",
         "risk_level": "medium",
@@ -2184,7 +2197,7 @@ devpilot-local 0.1.0
       "llm_required": false,
       "external_api_used": false,
       "fixture_path": "evals/fixtures/documentation_eval_cases.json",
-      "generated_at": "2026-06-11T16:39:37Z",
+      "generated_at": "2026-06-11T21:30:56Z",
       "schema_version": "1.0",
       "declared_suite_id": "documentation",
       "description": "Synthetic offline evaluation suite for DevPilot validators and MVP document agents."
@@ -2576,7 +2589,7 @@ devpilot-local 0.1.0
       "validations_total": 2,
       "validations_passed": 2,
       "validations_failed": 0,
-      "findings_total": 38,
+      "findings_total": 39,
       "warnings_total": 12,
       "blocking_findings_total": 0,
       "preliminary": true,
@@ -3207,7 +3220,7 @@ devpilot-local 0.1.0
                       {
                         "artifact": "docs/04_quality/test_strategy.md",
                         "exists": true,
-                        "size_bytes": 15894,
+                        "size_bytes": 16779,
                         "frontmatter_ok": true,
                         "artifact_ok": true,
                         "status": "approved",
@@ -3225,7 +3238,7 @@ devpilot-local 0.1.0
                       {
                         "artifact": "docs/05_operations/runbook.md",
                         "exists": true,
-                        "size_bytes": 94440,
+                        "size_bytes": 96678,
                         "frontmatter_ok": true,
                         "artifact_ok": true,
                         "status": "approved",
@@ -3243,7 +3256,7 @@ devpilot-local 0.1.0
                       {
                         "artifact": "docs/06_miasi/tool_card.md",
                         "exists": true,
-                        "size_bytes": 15652,
+                        "size_bytes": 17163,
                         "frontmatter_ok": true,
                         "artifact_ok": true,
                         "status": "approved",
@@ -3661,10 +3674,10 @@ devpilot-local 0.1.0
           "data": {
             "summary": {
               "scope": "contracts",
-              "validations_total": 22,
-              "validations_passed": 22,
+              "validations_total": 23,
+              "validations_passed": 23,
               "validations_failed": 0,
-              "findings_total": 24,
+              "findings_total": 25,
               "warnings_total": 0,
               "blocking_findings_total": 0,
               "preliminary": true,
@@ -4966,6 +4979,50 @@ devpilot-local 0.1.0
                     }
                   ]
                 }
+              },
+              {
+                "id": "manifest:docs/functional_sprint_37_manifest.json",
+                "result": {
+                  "command": "schema validate-manifest",
+                  "ok": true,
+                  "exit_code": 0,
+                  "message": "Schema validation passed.",
+                  "data": {
+                    "summary": {
+                      "schema": "docs/schemas/functional_sprint_manifest.schema.json",
+                      "instance": "docs/functional_sprint_37_manifest.json",
+                      "valid": true,
+                      "errors_total": 0,
+                      "findings_total": 1,
+                      "network_used": false,
+                      "external_api_used": false,
+                      "schema_title": "DevPilot Functional Sprint Manifest v1",
+                      "schema_id": "SCHEMA-DEVPL-FUNCTIONAL-SPRINT-MANIFEST-V1",
+                      "validator": "jsonschema",
+                      "jsonschema_version": "4.26.0",
+                      "preliminary": true,
+                      "contract": "FunctionalSprintManifest",
+                      "subject": "docs/functional_sprint_37_manifest.json"
+                    },
+                    "schema": "docs/schemas/functional_sprint_manifest.schema.json",
+                    "instance": "docs/functional_sprint_37_manifest.json",
+                    "notes": [
+                      "FUNC-SPRINT-22 validates JSON structure only; semantic gates remain in dedicated validators.",
+                      "Validation is local-first and does not call network or external APIs."
+                    ]
+                  },
+                  "findings": [
+                    {
+                      "id": "SCHEMA_VALIDATION_PASS",
+                      "message": "Instance conforms to schema.",
+                      "severity": "info",
+                      "metadata": {
+                        "schema": "docs/schemas/functional_sprint_manifest.schema.json",
+                        "instance": "docs/functional_sprint_37_manifest.json"
+                      }
+                    }
+                  ]
+                }
               }
             ],
             "notes": [
@@ -5239,6 +5296,17 @@ devpilot-local 0.1.0
                 "schema": "docs/schemas/functional_sprint_manifest.schema.json",
                 "instance": "docs/functional_sprint_36_manifest.json",
                 "gateway_step": "manifest:docs/functional_sprint_36_manifest.json",
+                "source_command": "schema validate-manifest"
+              }
+            },
+            {
+              "id": "SCHEMA_VALIDATION_PASS",
+              "message": "Instance conforms to schema.",
+              "severity": "info",
+              "metadata": {
+                "schema": "docs/schemas/functional_sprint_manifest.schema.json",
+                "instance": "docs/functional_sprint_37_manifest.json",
+                "gateway_step": "manifest:docs/functional_sprint_37_manifest.json",
                 "source_command": "schema validate-manifest"
               }
             }
@@ -5690,6 +5758,17 @@ devpilot-local 0.1.0
         "schema": "docs/schemas/functional_sprint_manifest.schema.json",
         "instance": "docs/functional_sprint_36_manifest.json",
         "gateway_step": "manifest:docs/functional_sprint_36_manifest.json",
+        "source_command": "schema validate-manifest"
+      }
+    },
+    {
+      "id": "SCHEMA_VALIDATION_PASS",
+      "message": "Instance conforms to schema.",
+      "severity": "info",
+      "metadata": {
+        "schema": "docs/schemas/functional_sprint_manifest.schema.json",
+        "instance": "docs/functional_sprint_37_manifest.json",
+        "gateway_step": "manifest:docs/functional_sprint_37_manifest.json",
         "source_command": "schema validate-manifest"
       }
     }

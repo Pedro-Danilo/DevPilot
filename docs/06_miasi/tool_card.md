@@ -343,3 +343,33 @@ Ejecución/importación de código analizado, traversal fuera del workspace, red
 ### Riesgos
 
 Imports dinámicos, plugins y relaciones runtime pueden no detectarse. La herramienta produce señales estructurales, no prueba semántica completa de acoplamiento.
+
+## Tool Card — RepoAnalyzer v2 read-only — FUNC-SPRINT-37
+
+### Propósito
+
+Agregar una herramienta de análisis de salud de repositorio que consolida `repo-inventory`, `DependencyGraph` y `GitAdapter` para entregar señales de estructura, dependencias, pruebas, documentación, Git y riesgos básicos.
+
+### Herramienta
+
+- `repo.analyze`: genera resumen heurístico de salud del repositorio con secciones `source/tests/docs/config`, hotspots, riesgos y estado Git parcial o completo.
+
+### Restricciones
+
+La herramienta es read-only. No ejecuta código analizado, no aplica patches, no modifica archivos, no escribe fuera de reportes solicitados, no llama red, no usa modelos y no depende de APIs externas. Excluye `outputs/`, `.git/`, `.venv/`, caches, `build/` y `dist/`.
+
+### Criterios PASS
+
+- Salida `CommandResult` JSON-serializable.
+- Reporte opcional JSON/Markdown con `--write-report`.
+- Repos sin Git generan análisis parcial, no crash.
+- Secretos sintéticos se reportan sin valores crudos.
+- Health score documentado como heurístico.
+
+### Criterios BLOCK
+
+Analizar outputs runtime como salud de repo, emitir secretos crudos, ejecutar código analizado, usar red/APIs/modelos, o habilitar patch apply/refactor execution/Git write/deploy.
+
+### Riesgos
+
+El score puede ser malinterpretado como certificación. Las heurísticas de módulos sin test cercano pueden generar falsos positivos. No reemplaza SAST/SCA, análisis de licencias, vulnerabilidades, complejidad industrial ni revisión humana.

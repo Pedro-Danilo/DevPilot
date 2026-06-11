@@ -32,6 +32,7 @@ baseline_role: "precode_approved_baseline"
 | `git.diff_report` | git_diff_report_read_only | MVP+ | reporte | Medio | Implemented |
 | `repo.inventory` | repo_inventory | MVP+ | lectura | Medio | Planned |
 | `repo.dependency_graph` | repo_dependency_graph_read_only | MVP+ | reporte | Medio | Implemented-initial |
+| `repo.analyze` | repo_analyze_read_only | MVP+ | reporte | Medio | Implemented-initial |
 | `patch.parse` | parse_patch | MVP+ | ninguno | Medio | Planned |
 | `patch.dry_run` | patch_dry_run | MVP+ | simulación | Alto | Planned |
 | `code.review` | code_review | MVP+ | reporte | Alto | Planned |
@@ -66,3 +67,7 @@ Perfiles iniciales: `smoke`, `unit`, `all`.
 ## Estado operacional DependencyGraph — FUNC-SPRINT-36
 
 `repo.dependency_graph` queda declarada como tool read-only de Fase C. No requiere approval porque no modifica archivos ni ejecuta código analizado. Su implementación usa AST y debe permanecer local-first, sin red, sin APIs externas y sin modelos.
+
+## Estado operacional RepoAnalyzer v2 — FUNC-SPRINT-37
+
+`repo.analyze` queda declarada como tool read-only de Fase C. No requiere approval porque no modifica archivos ni ejecuta código analizado. Su implementación consolida inventario, DependencyGraph y GitAdapter para producir señales heurísticas de salud de repositorio. Debe permanecer local-first, sin red, sin APIs externas, sin modelos y sin emisión de secretos crudos.

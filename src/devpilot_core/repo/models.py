@@ -101,3 +101,124 @@ class DependencyGraphResult:
                 "Edges represent detected internal imports, not guaranteed runtime call relationships.",
             ],
         }
+
+
+@dataclass(frozen=True)
+class RepoRiskSignal:
+    """One heuristic repository risk signal emitted by RepoAnalyzer v2."""
+
+    kind: str
+    path: str
+    severity: str
+    message: str
+    metadata: dict[str, Any] = field(default_factory=dict)
+
+    def to_dict(self) -> dict[str, Any]:
+        data: dict[str, Any] = {
+            "kind": self.kind,
+            "path": self.path,
+            "severity": self.severity,
+            "message": self.message,
+        }
+        if self.metadata:
+            data["metadata"] = self.metadata
+        return data
+
+
+@dataclass(frozen=True)
+class RepoHotspot:
+    """One dependency hotspot derived from static fan-in/fan-out metrics."""
+
+    module: str
+    path: str
+    metric: str
+    score: int
+
+    def to_dict(self) -> dict[str, Any]:
+        return {"module": self.module, "path": self.path, "metric": self.metric, "score": self.score}
+
+
+@dataclass(frozen=True)
+class RepoHealthSummary:
+    """Serializable repository health summary for RepoAnalyzer v2.
+
+    The score is deliberately heuristic. It is an engineering signal for local
+    review and future quality gates, not a certification of production quality.
+    """
+
+    target: str
+    score: int
+    rating: str
+    sections: dict[str, Any]
+    risk_counts: dict[str, int]
+    dependency_summary: dict[str, Any]
+    git_summary: dict[str, Any]
+    hotspots_total: int
+
+    @classmethod
+    def from_inputs(
+        cls,
+        *,
+        target: str,
+        sections: dict[str, Any],
+        risk_signals: list[RepoRiskSignal],
+        dependency_summary: dict[str, Any],
+        git_summary: dict[str, Any],
+        hotspots: list[RepoHotspot],
+    ) -> "RepoHealthSummary":
+        risk_counts = {"block": 0, "fail": 0, "warning": 0, "info": 0}
+        for signal in risk_signals:
+            risk_counts[signal.severity] = risk_counts.get(signal.severity, 0) + 1
+        score = 100
+        score -= min(risk_counts.get("block", 0) * 25, 50)
+        score -= min(risk_counts.get("fail", 0) * 15, 40)
+        score -= min(risk_counts.get("warning", 0) * 2, 30)
+        if dependency_summary.get("syntax_error_files_total", 0):
+            score -= 10
+        git_counts = git_summary.get("counts") if isinstance(git_summary.get("counts"), dict) else {}
+        if git_counts and git_counts.get("entries_total", 0):
+            score -= min(int(git_counts.get("entries_total", 0)), 10)
+        score = max(0, min(100, score))
+        rating = "healthy"
+        if score < 90:
+            rating = "review"
+        if score < 70:
+            rating = "risk"
+        if risk_counts.get("block", 0):
+            rating = "blocked-review-required"
+        return cls(
+            target=target,
+            score=score,
+            rating=rating,
+            sections=sections,
+            risk_counts=risk_counts,
+            dependency_summary=dependency_summary,
+            git_summary=git_summary,
+            hotspots_total=len(hotspots),
+        )
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "target": self.target,
+            "health_score": self.score,
+            "rating": self.rating,
+            "risk_counts": self.risk_counts,
+            "sections_summary": self.sections.get("summary", {}),
+            "dependency": {
+                "nodes_total": self.dependency_summary.get("nodes_total", 0),
+                "edges_total": self.dependency_summary.get("edges_total", 0),
+                "external_imports_total": self.dependency_summary.get("external_imports_total", 0),
+                "syntax_error_files_total": self.dependency_summary.get("syntax_error_files_total", 0),
+            },
+            "git": {
+                "is_git_repo": self.git_summary.get("is_git_repo"),
+                "branch": self.git_summary.get("branch"),
+                "counts": self.git_summary.get("counts", {}),
+                "git_available": self.git_summary.get("git_available"),
+            },
+            "hotspots_total": self.hotspots_total,
+            "network_used": False,
+            "external_api_used": False,
+            "mutations_performed": False,
+            "preliminary": True,
+        }

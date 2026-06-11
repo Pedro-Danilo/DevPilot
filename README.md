@@ -1,8 +1,8 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
-Estado actual: `baseline pre-code approved + Fase A cerrada + FASE-B cerrada + Fase C en progreso + DependencyGraph implemented-initial`  
-Último hito: `FUNC-SPRINT-36 — DependencyGraph e import graph Python`  
-Siguiente hito: `FUNC-SPRINT-37 — RepoAnalyzer v2: estructura, riesgos y salud del repositorio`  
+Estado actual: `baseline pre-code approved + Fase A cerrada + FASE-B cerrada + Fase C en progreso + RepoAnalyzer v2 implemented-initial`  
+Último hito: `FUNC-SPRINT-37 — RepoAnalyzer v2: estructura, riesgos y salud del repositorio`  
+Siguiente hito: `FUNC-SPRINT-38 — Architecture/code drift inicial`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
@@ -1301,3 +1301,17 @@ python -m devpilot_core repo dependency-graph --target src/devpilot_core --json 
 ```
 
 La salida incluye nodos, edges internos, imports externos, dependientes, dependencias, `fan_in`, `fan_out`, syntax errors controlados y notas de limitación. No sustituye análisis semántico, SAST/SCA, runtime tracing ni detección completa de imports dinámicos.
+
+
+## RepoAnalyzer v2 — FUNC-SPRINT-37
+
+`FUNC-SPRINT-37` consolida las capacidades read-only de ingeniería de repositorio en un primer análisis de salud estructural. El comando combina señales de `repo-inventory`, `DependencyGraph` y `GitAdapter` para producir un resumen local de estructura, dependencias, documentación, pruebas, Git y riesgos básicos.
+
+Comandos principales:
+
+```powershell
+python -m devpilot_core repo analyze --json
+python -m devpilot_core repo analyze --json --write-report
+```
+
+La capacidad es `implemented-initial`: no ejecuta código analizado, no modifica archivos, no usa red, no llama modelos ni APIs externas, excluye `outputs/`, caches, `.venv/`, `build/`, `dist/` y `.devpilot/devpilot.db`, y no emite secretos crudos. El `health_score` es una señal heurística de revisión, no una certificación de calidad industrial ni un reemplazo de SAST/SCA.

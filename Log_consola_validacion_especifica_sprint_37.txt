@@ -1,0 +1,3077 @@
+(.venv) PS D:\Projects\DevPilot_Local> python -m devpilot_core repo analyze --json
+{
+  "command": "repo analyze",
+  "ok": true,
+  "exit_code": 0,
+  "message": "Repository analysis completed in read-only mode.",
+  "data": {
+    "summary": {
+      "target": ".",
+      "health_score": 60,
+      "rating": "risk",
+      "risk_counts": {
+        "block": 0,
+        "fail": 0,
+        "warning": 53,
+        "info": 0
+      },
+      "sections_summary": {
+        "files_total": 584,
+        "src_tests_ratio": 1.569,
+        "docs_to_source_ratio": 3.286
+      },
+      "dependency": {
+        "nodes_total": 91,
+        "edges_total": 578,
+        "external_imports_total": 25,
+        "syntax_error_files_total": 0
+      },
+      "git": {
+        "is_git_repo": true,
+        "branch": "main",
+        "counts": {
+          "entries_total": 25,
+          "modified": 17,
+          "added": 0,
+          "deleted": 2,
+          "renamed": 0,
+          "untracked": 6,
+          "staged": 0
+        },
+        "git_available": true
+      },
+      "hotspots_total": 20,
+      "network_used": false,
+      "external_api_used": false,
+      "mutations_performed": false,
+      "preliminary": true
+    },
+    "sections": {
+      "source": {
+        "files": 91,
+        "python_files": 91,
+        "size_bytes": 711874
+      },
+      "tests": {
+        "files": 68,
+        "python_files": 58,
+        "size_bytes": 208987,
+        "markdown_files": 10
+      },
+      "docs": {
+        "files": 404,
+        "markdown_files": 299,
+        "size_bytes": 2459787
+      },
+      "config": {
+        "files": 13,
+        "size_bytes": 33771
+      },
+      "other": {
+        "files": 8,
+        "size_bytes": 5248861,
+        "python_files": 2
+      },
+      "summary": {
+        "files_total": 584,
+        "src_tests_ratio": 1.569,
+        "docs_to_source_ratio": 3.286
+      }
+    },
+    "inventory_summary": {
+      "files_total": 585,
+      "size_bytes_total": 38486256,
+      "by_category": {
+        "state": 1,
+        "configuration": 117,
+        "other": 7,
+        "documentation": 309,
+        "python": 151
+      },
+      "by_risk": {
+        "low": 515,
+        "medium": 1,
+        "high": 69
+      },
+      "secret_like_files": 69,
+      "skipped_dirs": [
+        ".git",
+        ".pytest_cache",
+        ".venv",
+        "outputs",
+        "src/devpilot_core/__pycache__",
+        "src/devpilot_core/agents/__pycache__",
+        "src/devpilot_core/application/__pycache__",
+        "src/devpilot_core/approval/__pycache__",
+        "src/devpilot_core/evals/__pycache__",
+        "src/devpilot_core/execution/__pycache__",
+        "src/devpilot_core/miasi/__pycache__",
+        "src/devpilot_core/modeling/__pycache__",
+        "src/devpilot_core/observability/__pycache__",
+        "src/devpilot_core/policy/__pycache__",
+        "src/devpilot_core/refactor/__pycache__",
+        "src/devpilot_core/repo/__pycache__",
+        "src/devpilot_core/reports/__pycache__",
+        "src/devpilot_core/review/__pycache__",
+        "src/devpilot_core/schemas/__pycache__",
+        "src/devpilot_core/security/__pycache__",
+        "src/devpilot_core/standards/__pycache__",
+        "src/devpilot_core/store/__pycache__",
+        "src/devpilot_core/testing/__pycache__",
+        "src/devpilot_core/traceability/__pycache__",
+        "src/devpilot_core/validation/__pycache__",
+        "src/devpilot_core/validators/__pycache__",
+        "src/devpilot_core/workspace/__pycache__",
+        "tests/__pycache__",
+        "tests/fixtures/smoke_pytest_project/__pycache__"
+      ]
+    },
+    "dependency_summary": {
+      "target": "src/devpilot_core",
+      "root_package": "devpilot_core",
+      "nodes_total": 91,
+      "edges_total": 578,
+      "external_imports_total": 25,
+      "syntax_error_files_total": 0,
+      "ignored_dirs": [],
+      "truncated": false,
+      "max_files": 5000,
+      "network_used": false,
+      "external_api_used": false,
+      "mutations_performed": false,
+      "preliminary": true
+    },
+    "dependency_metrics": {
+      "top_fan_in": [
+        {
+          "module": "devpilot_core.cli_models",
+          "path": "src/devpilot_core/cli_models.py",
+          "package": "devpilot_core",
+          "dependencies": [],
+          "dependents": [
+            "devpilot_core.agents.models",
+            "devpilot_core.agents.runtime",
+            "devpilot_core.application.dtos",
+            "devpilot_core.application.services",
+            "devpilot_core.approval.models",
+            "devpilot_core.approval.service",
+            "devpilot_core.approval.store",
+            "devpilot_core.cli",
+            "devpilot_core.errors",
+            "devpilot_core.evals.models",
+            "devpilot_core.evals.runner",
+            "devpilot_core.execution.allowlist",
+            "devpilot_core.execution.safe_subprocess",
+            "devpilot_core.miasi.registry",
+            "devpilot_core.modeling.providers",
+            "devpilot_core.modeling.router",
+            "devpilot_core.observability.events",
+            "devpilot_core.policy.decisions",
+            "devpilot_core.policy.engine",
+            "devpilot_core.refactor.planner",
+            "devpilot_core.repo.analyzer",
+            "devpilot_core.repo.dependency_graph",
+            "devpilot_core.repo.diff_report",
+            "devpilot_core.repo.git_adapter",
+            "devpilot_core.repo.inventory",
+            "devpilot_core.reports.models",
+            "devpilot_core.reports.report_engine",
+            "devpilot_core.review.code_review",
+            "devpilot_core.review.patch_review",
+            "devpilot_core.schemas.builtins",
+            "devpilot_core.schemas.registry",
+            "devpilot_core.schemas.validator",
+            "devpilot_core.security.readiness",
+            "devpilot_core.security.simulation",
+            "devpilot_core.standards.registry",
+            "devpilot_core.store.local_store",
+            "devpilot_core.testing.profiles",
+            "devpilot_core.testing.tests_run",
+            "devpilot_core.traceability.architecture_drift",
+            "devpilot_core.traceability.engine",
+            "devpilot_core.traceability.extractors",
+            "devpilot_core.traceability.rules",
+            "devpilot_core.validation.artifact_profile_registry",
+            "devpilot_core.validation.gateway",
+            "devpilot_core.validators.artifact",
+            "devpilot_core.validators.checklist",
+            "devpilot_core.validators.frontmatter",
+            "devpilot_core.validators.readiness",
+            "devpilot_core.workspace.manager"
+          ],
+          "external_imports": [
+            "__future__",
+            "dataclasses",
+            "enum",
+            "typing"
+          ],
+          "fan_out": 0,
+          "fan_in": 49,
+          "syntax_error": false
+        },
+        {
+          "module": "devpilot_core.policy",
+          "path": "src/devpilot_core/policy/__init__.py",
+          "package": "devpilot_core",
+          "dependencies": [
+            "devpilot_core.policy.cost_guard",
+            "devpilot_core.policy.decisions",
+            "devpilot_core.policy.engine",
+            "devpilot_core.policy.path_guard",
+            "devpilot_core.policy.prompt_guard",
+            "devpilot_core.policy.secrets",
+            "devpilot_core.policy.tool_injection_guard"
+          ],
+          "dependents": [
+            "devpilot_core.agents.runtime",
+            "devpilot_core.approval",
+            "devpilot_core.approval.service",
+            "devpilot_core.cli",
+            "devpilot_core.modeling.providers",
+            "devpilot_core.modeling.router",
+            "devpilot_core.observability.events",
+            "devpilot_core.refactor.planner",
+            "devpilot_core.repo.analyzer",
+            "devpilot_core.repo.dependency_graph",
+            "devpilot_core.repo.git_adapter",
+            "devpilot_core.repo.inventory",
+            "devpilot_core.reports.report_engine",
+            "devpilot_core.review.code_review",
+            "devpilot_core.review.patch_review",
+            "devpilot_core.security.readiness",
+            "devpilot_core.security.simulation",
+            "devpilot_core.testing.tests_run"
+          ],
+          "external_imports": [
+            "__future__"
+          ],
+          "fan_out": 7,
+          "fan_in": 18,
+          "syntax_error": false
+        },
+        {
+          "module": "devpilot_core",
+          "path": "src/devpilot_core/__init__.py",
+          "package": "devpilot_core",
+          "dependencies": [],
+          "dependents": [
+            "devpilot_core.application",
+            "devpilot_core.approval",
+            "devpilot_core.cli",
+            "devpilot_core.execution",
+            "devpilot_core.miasi",
+            "devpilot_core.observability",
+            "devpilot_core.repo",
+            "devpilot_core.review",
+            "devpilot_core.schemas",
+            "devpilot_core.security",
+            "devpilot_core.standards",
+            "devpilot_core.store",
+            "devpilot_core.testing",
+            "devpilot_core.traceability",
+            "devpilot_core.validation"
+          ],
+          "external_imports": [],
+          "fan_out": 0,
+          "fan_in": 15,
+          "syntax_error": false
+        },
+        {
+          "module": "devpilot_core.policy.decisions",
+          "path": "src/devpilot_core/policy/decisions.py",
+          "package": "devpilot_core",
+          "dependencies": [
+            "devpilot_core.cli_models"
+          ],
+          "dependents": [
+            "devpilot_core.approval.policy",
+            "devpilot_core.policy",
+            "devpilot_core.policy.cost_guard",
+            "devpilot_core.policy.engine",
+            "devpilot_core.policy.path_guard",
+            "devpilot_core.policy.prompt_guard",
+            "devpilot_core.policy.secrets",
+            "devpilot_core.policy.tool_injection_guard"
+          ],
+          "external_imports": [
+            "__future__",
+            "dataclasses",
+            "enum",
+            "typing"
+          ],
+          "fan_out": 1,
+          "fan_in": 8,
+          "syntax_error": false
+        },
+        {
+          "module": "devpilot_core.validators.frontmatter",
+          "path": "src/devpilot_core/validators/frontmatter.py",
+          "package": "devpilot_core",
+          "dependencies": [
+            "devpilot_core.cli_models"
+          ],
+          "dependents": [
+            "devpilot_core.agents.runtime",
+            "devpilot_core.application.services",
+            "devpilot_core.cli",
+            "devpilot_core.evals.runner",
+            "devpilot_core.standards.registry",
+            "devpilot_core.validators.artifact",
+            "devpilot_core.validators.checklist",
+            "devpilot_core.validators.readiness"
+          ],
+          "external_imports": [
+            "__future__",
+            "dataclasses",
+            "pathlib",
+            "re",
+            "typing"
+          ],
+          "fan_out": 1,
+          "fan_in": 8,
+          "syntax_error": false
+        },
+        {
+          "module": "devpilot_core.approval.models",
+          "path": "src/devpilot_core/approval/models.py",
+          "package": "devpilot_core",
+          "dependencies": [
+            "devpilot_core.cli_models"
+          ],
+          "dependents": [
+            "devpilot_core.approval.policy",
+            "devpilot_core.approval.service",
+            "devpilot_core.approval.store",
+            "devpilot_core.cli",
+            "devpilot_core.store.local_store"
+          ],
+          "external_imports": [
+            "__future__",
+            "dataclasses",
+            "datetime",
+            "enum",
+            "typing",
+            "uuid"
+          ],
+          "fan_out": 1,
+          "fan_in": 5,
+          "syntax_error": false
+        },
+        {
+          "module": "devpilot_core.validators.artifact",
+          "path": "src/devpilot_core/validators/artifact.py",
+          "package": "devpilot_core",
+          "dependencies": [
+            "devpilot_core.cli_models",
+            "devpilot_core.validators.artifact_profiles",
+            "devpilot_core.validators.frontmatter"
+          ],
+          "dependents": [
+            "devpilot_core.agents.runtime",
+            "devpilot_core.application.services",
+            "devpilot_core.cli",
+            "devpilot_core.evals.runner",
+            "devpilot_core.validators.readiness"
+          ],
+          "external_imports": [
+            "__future__",
+            "dataclasses",
+            "pathlib",
+            "re",
+            "typing"
+          ],
+          "fan_out": 3,
+          "fan_in": 5,
+          "syntax_error": false
+        },
+        {
+          "module": "devpilot_core.modeling.contracts",
+          "path": "src/devpilot_core/modeling/contracts.py",
+          "package": "devpilot_core",
+          "dependencies": [],
+          "dependents": [
+            "devpilot_core.modeling",
+            "devpilot_core.modeling.mock_adapter",
+            "devpilot_core.modeling.providers",
+            "devpilot_core.modeling.router"
+          ],
+          "external_imports": [
+            "__future__",
+            "abc",
+            "dataclasses",
+            "enum",
+            "typing"
+          ],
+          "fan_out": 0,
+          "fan_in": 4,
+          "syntax_error": false
+        },
+        {
+          "module": "devpilot_core.store",
+          "path": "src/devpilot_core/store/__init__.py",
+          "package": "devpilot_core",
+          "dependencies": [
+            "devpilot_core"
+          ],
+          "dependents": [
+            "devpilot_core.approval",
+            "devpilot_core.approval.store",
+            "devpilot_core.cli",
+            "devpilot_core.security.simulation"
+          ],
+          "external_imports": [
+            "__future__"
+          ],
+          "fan_out": 1,
+          "fan_in": 4,
+          "syntax_error": false
+        },
+        {
+          "module": "devpilot_core.validators.checklist",
+          "path": "src/devpilot_core/validators/checklist.py",
+          "package": "devpilot_core",
+          "dependencies": [
+            "devpilot_core.cli_models",
+            "devpilot_core.validators.frontmatter"
+          ],
+          "dependents": [
+            "devpilot_core.agents.runtime",
+            "devpilot_core.application.services",
+            "devpilot_core.cli",
+            "devpilot_core.validators.readiness"
+          ],
+          "external_imports": [
+            "__future__",
+            "dataclasses",
+            "pathlib",
+            "re",
+            "typing"
+          ],
+          "fan_out": 2,
+          "fan_in": 4,
+          "syntax_error": false
+        }
+      ],
+      "top_fan_out": [
+        {
+          "module": "devpilot_core.cli",
+          "path": "src/devpilot_core/cli.py",
+          "package": "devpilot_core",
+          "dependencies": [
+            "devpilot_core",
+            "devpilot_core.agents",
+            "devpilot_core.application",
+            "devpilot_core.approval.models",
+            "devpilot_core.approval.service",
+            "devpilot_core.cli_models",
+            "devpilot_core.errors",
+            "devpilot_core.evals",
+            "devpilot_core.miasi",
+            "devpilot_core.modeling",
+            "devpilot_core.observability",
+            "devpilot_core.policy",
+            "devpilot_core.refactor",
+            "devpilot_core.repo",
+            "devpilot_core.repo.diff_report",
+            "devpilot_core.reports",
+            "devpilot_core.review",
+            "devpilot_core.schemas",
+            "devpilot_core.security",
+            "devpilot_core.standards.registry",
+            "devpilot_core.store",
+            "devpilot_core.testing",
+            "devpilot_core.traceability",
+            "devpilot_core.validation",
+            "devpilot_core.validators.artifact",
+            "devpilot_core.validators.checklist",
+            "devpilot_core.validators.frontmatter",
+            "devpilot_core.validators.readiness",
+            "devpilot_core.workspace"
+          ],
+          "dependents": [
+            "devpilot_core.__main__"
+          ],
+          "external_imports": [
+            "__future__",
+            "argparse",
+            "json",
+            "pathlib",
+            "sys"
+          ],
+          "fan_out": 29,
+          "fan_in": 1,
+          "syntax_error": false
+        },
+        {
+          "module": "devpilot_core.policy.engine",
+          "path": "src/devpilot_core/policy/engine.py",
+          "package": "devpilot_core",
+          "dependencies": [
+            "devpilot_core.approval.policy",
+            "devpilot_core.cli_models",
+            "devpilot_core.policy.cost_guard",
+            "devpilot_core.policy.decisions",
+            "devpilot_core.policy.path_guard",
+            "devpilot_core.policy.prompt_guard",
+            "devpilot_core.policy.secrets",
+            "devpilot_core.policy.tool_injection_guard"
+          ],
+          "dependents": [
+            "devpilot_core.policy"
+          ],
+          "external_imports": [
+            "__future__",
+            "dataclasses",
+            "pathlib",
+            "typing"
+          ],
+          "fan_out": 8,
+          "fan_in": 1,
+          "syntax_error": false
+        },
+        {
+          "module": "devpilot_core.agents.runtime",
+          "path": "src/devpilot_core/agents/runtime.py",
+          "package": "devpilot_core",
+          "dependencies": [
+            "devpilot_core.agents.models",
+            "devpilot_core.cli_models",
+            "devpilot_core.miasi",
+            "devpilot_core.policy",
+            "devpilot_core.validators.artifact",
+            "devpilot_core.validators.checklist",
+            "devpilot_core.validators.frontmatter"
+          ],
+          "dependents": [
+            "devpilot_core.agents"
+          ],
+          "external_imports": [
+            "__future__",
+            "dataclasses",
+            "datetime",
+            "pathlib",
+            "re",
+            "typing"
+          ],
+          "fan_out": 7,
+          "fan_in": 1,
+          "syntax_error": false
+        },
+        {
+          "module": "devpilot_core.application.services",
+          "path": "src/devpilot_core/application/services.py",
+          "package": "devpilot_core",
+          "dependencies": [
+            "devpilot_core.application.dtos",
+            "devpilot_core.cli_models",
+            "devpilot_core.standards.registry",
+            "devpilot_core.validators.artifact",
+            "devpilot_core.validators.checklist",
+            "devpilot_core.validators.frontmatter",
+            "devpilot_core.validators.readiness"
+          ],
+          "dependents": [],
+          "external_imports": [
+            "__future__",
+            "pathlib",
+            "typing"
+          ],
+          "fan_out": 7,
+          "fan_in": 0,
+          "syntax_error": false
+        },
+        {
+          "module": "devpilot_core.policy",
+          "path": "src/devpilot_core/policy/__init__.py",
+          "package": "devpilot_core",
+          "dependencies": [
+            "devpilot_core.policy.cost_guard",
+            "devpilot_core.policy.decisions",
+            "devpilot_core.policy.engine",
+            "devpilot_core.policy.path_guard",
+            "devpilot_core.policy.prompt_guard",
+            "devpilot_core.policy.secrets",
+            "devpilot_core.policy.tool_injection_guard"
+          ],
+          "dependents": [
+            "devpilot_core.agents.runtime",
+            "devpilot_core.approval",
+            "devpilot_core.approval.service",
+            "devpilot_core.cli",
+            "devpilot_core.modeling.providers",
+            "devpilot_core.modeling.router",
+            "devpilot_core.observability.events",
+            "devpilot_core.refactor.planner",
+            "devpilot_core.repo.analyzer",
+            "devpilot_core.repo.dependency_graph",
+            "devpilot_core.repo.git_adapter",
+            "devpilot_core.repo.inventory",
+            "devpilot_core.reports.report_engine",
+            "devpilot_core.review.code_review",
+            "devpilot_core.review.patch_review",
+            "devpilot_core.security.readiness",
+            "devpilot_core.security.simulation",
+            "devpilot_core.testing.tests_run"
+          ],
+          "external_imports": [
+            "__future__"
+          ],
+          "fan_out": 7,
+          "fan_in": 18,
+          "syntax_error": false
+        },
+        {
+          "module": "devpilot_core.repo.analyzer",
+          "path": "src/devpilot_core/repo/analyzer.py",
+          "package": "devpilot_core",
+          "dependencies": [
+            "devpilot_core.cli_models",
+            "devpilot_core.policy",
+            "devpilot_core.repo.dependency_graph",
+            "devpilot_core.repo.git_adapter",
+            "devpilot_core.repo.inventory",
+            "devpilot_core.repo.models"
+          ],
+          "dependents": [],
+          "external_imports": [
+            "__future__",
+            "dataclasses",
+            "pathlib",
+            "re",
+            "typing"
+          ],
+          "fan_out": 6,
+          "fan_in": 0,
+          "syntax_error": false
+        },
+        {
+          "module": "devpilot_core.security.readiness",
+          "path": "src/devpilot_core/security/readiness.py",
+          "package": "devpilot_core",
+          "dependencies": [
+            "devpilot_core.approval.service",
+            "devpilot_core.cli_models",
+            "devpilot_core.miasi",
+            "devpilot_core.policy",
+            "devpilot_core.security.simulation",
+            "devpilot_core.testing"
+          ],
+          "dependents": [],
+          "external_imports": [
+            "__future__",
+            "dataclasses",
+            "pathlib",
+            "typing"
+          ],
+          "fan_out": 6,
+          "fan_in": 0,
+          "syntax_error": false
+        },
+        {
+          "module": "devpilot_core.validators.readiness",
+          "path": "src/devpilot_core/validators/readiness.py",
+          "package": "devpilot_core",
+          "dependencies": [
+            "devpilot_core.cli_models",
+            "devpilot_core.reports",
+            "devpilot_core.standards.registry",
+            "devpilot_core.validators.artifact",
+            "devpilot_core.validators.checklist",
+            "devpilot_core.validators.frontmatter"
+          ],
+          "dependents": [
+            "devpilot_core.application.services",
+            "devpilot_core.cli",
+            "devpilot_core.validation.gateway"
+          ],
+          "external_imports": [
+            "__future__",
+            "pathlib",
+            "typing"
+          ],
+          "fan_out": 6,
+          "fan_in": 3,
+          "syntax_error": false
+        },
+        {
+          "module": "devpilot_core.evals.runner",
+          "path": "src/devpilot_core/evals/runner.py",
+          "package": "devpilot_core",
+          "dependencies": [
+            "devpilot_core.agents",
+            "devpilot_core.cli_models",
+            "devpilot_core.evals.models",
+            "devpilot_core.validators.artifact",
+            "devpilot_core.validators.frontmatter"
+          ],
+          "dependents": [
+            "devpilot_core.evals"
+          ],
+          "external_imports": [
+            "__future__",
+            "dataclasses",
+            "datetime",
+            "json",
+            "pathlib",
+            "shutil",
+            "typing"
+          ],
+          "fan_out": 5,
+          "fan_in": 1,
+          "syntax_error": false
+        },
+        {
+          "module": "devpilot_core.execution.safe_subprocess",
+          "path": "src/devpilot_core/execution/safe_subprocess.py",
+          "package": "devpilot_core",
+          "dependencies": [
+            "devpilot_core.cli_models",
+            "devpilot_core.execution.allowlist",
+            "devpilot_core.execution.models",
+            "devpilot_core.policy.path_guard",
+            "devpilot_core.policy.secrets"
+          ],
+          "dependents": [],
+          "external_imports": [
+            "__future__",
+            "os",
+            "pathlib",
+            "subprocess",
+            "time",
+            "typing"
+          ],
+          "fan_out": 5,
+          "fan_in": 0,
+          "syntax_error": false
+        }
+      ]
+    },
+    "git_summary": {
+      "is_git_repo": true,
+      "git_available": true,
+      "branch": "main",
+      "git_root": ".",
+      "short_status": [
+        " M .devpilot/miasi/agent_registry.json",
+        " M .devpilot/miasi/tool_registry.json",
+        " D Log_consola_validacion_especifica_sprint_36.txt",
+        " D Log_consola_validacion_general_no-regresion_sprint_36.txt",
+        " M README.md",
+        " M docs/04_quality/test_strategy.md",
+        " M docs/05_operations/runbook.md",
+        " M docs/06_miasi/tool_card.md",
+        " M docs/06_miasi/tool_registry.md",
+        " M docs/devpilot_backlog_fase_C_ingenieria_repositorio.md",
+        " M docs/functional_backlog_after_precode.md",
+        " M src/devpilot_core/cli.py",
+        " M src/devpilot_core/repo/__init__.py",
+        " M src/devpilot_core/repo/models.py",
+        " M tests/test_sprint_32_documentation.py",
+        " M tests/test_sprint_33_documentation.py",
+        " M tests/test_sprint_34_documentation.py",
+        " M tests/test_sprint_35_documentation.py",
+        " M tests/test_sprint_36_documentation.py",
+        "?? Log_consola_validacion_general_no-regresion_sprint_37.txt",
+        "?? docs/audits/func_sprint_37_repo_analyzer_v2_audit.md",
+        "?? docs/functional_sprint_37_manifest.json",
+        "?? src/devpilot_core/repo/analyzer.py",
+        "?? tests/test_repo_analyzer.py",
+        "?? tests/test_sprint_37_documentation.py"
+      ],
+      "diff_stat": ".devpilot/miasi/agent_registry.json                |    1 +\n .devpilot/miasi/tool_registry.json                 |   12 +\n Log_consola_validacion_especifica_sprint_36.txt    | 9038 --------------------\n ...a_validacion_general_no-regresion_sprint_36.txt | 5698 ------------\n README.md                                          |   20 +-\n docs/04_quality/test_strategy.md                   |   15 +\n docs/05_operations/runbook.md                      |   48 +\n docs/06_miasi/tool_card.md                         |   30 +\n docs/06_miasi/tool_registry.md                     |    5 +\n ...vpilot_backlog_fase_C_ingenieria_repositorio.md |   17 +-\n docs/functional_backlog_after_precode.md           |   20 +-\n src/devpilot_core/cli.py                           |   39 +-\n src/devpilot_core/repo/__init__.py                 |   15 +-\n src/devpilot_core/repo/models.py                   |  121 +\n tests/test_sprint_32_documentation.py              |    4 +-\n tests/test_sprint_33_documentation.py              |    4 +-\n tests/test_sprint_34_documentation.py              |    4 +-\n tests/test_sprint_35_documentation.py              |    8 +-\n tests/test_sprint_36_documentation.py              |   10 +-\n 19 files changed, 348 insertions(+), 14761 deletions(-)",
+      "staged_diff_stat": "",
+      "counts": {
+        "entries_total": 25,
+        "modified": 17,
+        "added": 0,
+        "deleted": 2,
+        "renamed": 0,
+        "untracked": 6,
+        "staged": 0
+      }
+    },
+    "hotspots": [
+      {
+        "module": "devpilot_core.cli_models",
+        "path": "src/devpilot_core/cli_models.py",
+        "metric": "fan_in",
+        "score": 49
+      },
+      {
+        "module": "devpilot_core.policy",
+        "path": "src/devpilot_core/policy/__init__.py",
+        "metric": "fan_in",
+        "score": 18
+      },
+      {
+        "module": "devpilot_core",
+        "path": "src/devpilot_core/__init__.py",
+        "metric": "fan_in",
+        "score": 15
+      },
+      {
+        "module": "devpilot_core.policy.decisions",
+        "path": "src/devpilot_core/policy/decisions.py",
+        "metric": "fan_in",
+        "score": 8
+      },
+      {
+        "module": "devpilot_core.validators.frontmatter",
+        "path": "src/devpilot_core/validators/frontmatter.py",
+        "metric": "fan_in",
+        "score": 8
+      },
+      {
+        "module": "devpilot_core.approval.models",
+        "path": "src/devpilot_core/approval/models.py",
+        "metric": "fan_in",
+        "score": 5
+      },
+      {
+        "module": "devpilot_core.validators.artifact",
+        "path": "src/devpilot_core/validators/artifact.py",
+        "metric": "fan_in",
+        "score": 5
+      },
+      {
+        "module": "devpilot_core.modeling.contracts",
+        "path": "src/devpilot_core/modeling/contracts.py",
+        "metric": "fan_in",
+        "score": 4
+      },
+      {
+        "module": "devpilot_core.store",
+        "path": "src/devpilot_core/store/__init__.py",
+        "metric": "fan_in",
+        "score": 4
+      },
+      {
+        "module": "devpilot_core.validators.checklist",
+        "path": "src/devpilot_core/validators/checklist.py",
+        "metric": "fan_in",
+        "score": 4
+      },
+      {
+        "module": "devpilot_core.cli",
+        "path": "src/devpilot_core/cli.py",
+        "metric": "fan_out",
+        "score": 29
+      },
+      {
+        "module": "devpilot_core.policy.engine",
+        "path": "src/devpilot_core/policy/engine.py",
+        "metric": "fan_out",
+        "score": 8
+      },
+      {
+        "module": "devpilot_core.agents.runtime",
+        "path": "src/devpilot_core/agents/runtime.py",
+        "metric": "fan_out",
+        "score": 7
+      },
+      {
+        "module": "devpilot_core.application.services",
+        "path": "src/devpilot_core/application/services.py",
+        "metric": "fan_out",
+        "score": 7
+      },
+      {
+        "module": "devpilot_core.policy",
+        "path": "src/devpilot_core/policy/__init__.py",
+        "metric": "fan_out",
+        "score": 7
+      },
+      {
+        "module": "devpilot_core.repo.analyzer",
+        "path": "src/devpilot_core/repo/analyzer.py",
+        "metric": "fan_out",
+        "score": 6
+      },
+      {
+        "module": "devpilot_core.security.readiness",
+        "path": "src/devpilot_core/security/readiness.py",
+        "metric": "fan_out",
+        "score": 6
+      },
+      {
+        "module": "devpilot_core.validators.readiness",
+        "path": "src/devpilot_core/validators/readiness.py",
+        "metric": "fan_out",
+        "score": 6
+      },
+      {
+        "module": "devpilot_core.evals.runner",
+        "path": "src/devpilot_core/evals/runner.py",
+        "metric": "fan_out",
+        "score": 5
+      },
+      {
+        "module": "devpilot_core.execution.safe_subprocess",
+        "path": "src/devpilot_core/execution/safe_subprocess.py",
+        "metric": "fan_out",
+        "score": 5
+      }
+    ],
+    "risk_signals": [
+      {
+        "kind": "large_file",
+        "path": "Log_consola_validacion_general_no-regresion_sprint_37.txt",
+        "severity": "warning",
+        "message": "File exceeds configured large_file_bytes threshold.",
+        "metadata": {
+          "size_bytes": 225105,
+          "threshold": 200000
+        }
+      },
+      {
+        "kind": "large_file",
+        "path": "repo_DevPilot_Local_44.zip",
+        "severity": "warning",
+        "message": "File exceeds configured large_file_bytes threshold.",
+        "metadata": {
+          "size_bytes": 5014313,
+          "threshold": 200000
+        }
+      },
+      {
+        "kind": "todo_marker",
+        "path": "docs/00_product/mvp_scope.md",
+        "severity": "warning",
+        "message": "TODO/FIXME/HACK markers detected without emitting source text.",
+        "metadata": {
+          "markers": 1
+        }
+      },
+      {
+        "kind": "todo_marker",
+        "path": "docs/00_product/product_vision.md",
+        "severity": "warning",
+        "message": "TODO/FIXME/HACK markers detected without emitting source text.",
+        "metadata": {
+          "markers": 3
+        }
+      },
+      {
+        "kind": "todo_marker",
+        "path": "docs/01_requirements/requirements_specification.md",
+        "severity": "warning",
+        "message": "TODO/FIXME/HACK markers detected without emitting source text.",
+        "metadata": {
+          "markers": 2
+        }
+      },
+      {
+        "kind": "todo_marker",
+        "path": "docs/02_architecture/adrs/ADR-0001-adoptar-mipsoftware-y-miasi.md",
+        "severity": "warning",
+        "message": "TODO/FIXME/HACK markers detected without emitting source text.",
+        "metadata": {
+          "markers": 2
+        }
+      },
+      {
+        "kind": "todo_marker",
+        "path": "docs/02_architecture/adrs/ADR-0006-local-first-hibrido-modeladapter-costguard.md",
+        "severity": "warning",
+        "message": "TODO/FIXME/HACK markers detected without emitting source text.",
+        "metadata": {
+          "markers": 1
+        }
+      },
+      {
+        "kind": "todo_marker",
+        "path": "docs/02_architecture/adrs/ADR-0007-persistencia-local-filesystem-sqlite-jsonl.md",
+        "severity": "warning",
+        "message": "TODO/FIXME/HACK markers detected without emitting source text.",
+        "metadata": {
+          "markers": 1
+        }
+      },
+      {
+        "kind": "todo_marker",
+        "path": "docs/02_architecture/adrs/ADR-0009-seguridad-policy-engine-approval-observabilidad.md",
+        "severity": "warning",
+        "message": "TODO/FIXME/HACK markers detected without emitting source text.",
+        "metadata": {
+          "markers": 1
+        }
+      },
+      {
+        "kind": "todo_marker",
+        "path": "docs/02_architecture/architecture_document.md",
+        "severity": "warning",
+        "message": "TODO/FIXME/HACK markers detected without emitting source text.",
+        "metadata": {
+          "markers": 1
+        }
+      },
+      {
+        "kind": "todo_marker",
+        "path": "docs/02_architecture/c4_container.md",
+        "severity": "warning",
+        "message": "TODO/FIXME/HACK markers detected without emitting source text.",
+        "metadata": {
+          "markers": 1
+        }
+      },
+      {
+        "kind": "todo_marker",
+        "path": "docs/03_security/privacy_assessment.md",
+        "severity": "warning",
+        "message": "TODO/FIXME/HACK markers detected without emitting source text.",
+        "metadata": {
+          "markers": 1
+        }
+      },
+      {
+        "kind": "todo_marker",
+        "path": "docs/03_security/security_threat_model.md",
+        "severity": "warning",
+        "message": "TODO/FIXME/HACK markers detected without emitting source text.",
+        "metadata": {
+          "markers": 3
+        }
+      },
+      {
+        "kind": "todo_marker",
+        "path": "docs/04_quality/test_strategy.md",
+        "severity": "warning",
+        "message": "TODO/FIXME/HACK markers detected without emitting source text.",
+        "metadata": {
+          "markers": 3
+        }
+      },
+      {
+        "kind": "todo_marker",
+        "path": "docs/05_operations/observability_plan.md",
+        "severity": "warning",
+        "message": "TODO/FIXME/HACK markers detected without emitting source text.",
+        "metadata": {
+          "markers": 1
+        }
+      },
+      {
+        "kind": "todo_marker",
+        "path": "docs/05_operations/runbook.md",
+        "severity": "warning",
+        "message": "TODO/FIXME/HACK markers detected without emitting source text.",
+        "metadata": {
+          "markers": 1
+        }
+      },
+      {
+        "kind": "todo_marker",
+        "path": "docs/06_miasi/agent_card.md",
+        "severity": "warning",
+        "message": "TODO/FIXME/HACK markers detected without emitting source text.",
+        "metadata": {
+          "markers": 1
+        }
+      },
+      {
+        "kind": "todo_marker",
+        "path": "docs/06_miasi/policy_card.md",
+        "severity": "warning",
+        "message": "TODO/FIXME/HACK markers detected without emitting source text.",
+        "metadata": {
+          "markers": 1
+        }
+      },
+      {
+        "kind": "todo_marker",
+        "path": "docs/06_miasi/tool_card.md",
+        "severity": "warning",
+        "message": "TODO/FIXME/HACK markers detected without emitting source text.",
+        "metadata": {
+          "markers": 1
+        }
+      },
+      {
+        "kind": "todo_marker",
+        "path": "docs/audits/func_sprint_11_miasi_executable_audit.md",
+        "severity": "warning",
+        "message": "TODO/FIXME/HACK markers detected without emitting source text.",
+        "metadata": {
+          "markers": 1
+        }
+      },
+      {
+        "kind": "todo_marker",
+        "path": "docs/audits/func_sprint_15_patch_code_review_audit.md",
+        "severity": "warning",
+        "message": "TODO/FIXME/HACK markers detected without emitting source text.",
+        "metadata": {
+          "markers": 2
+        }
+      },
+      {
+        "kind": "todo_marker",
+        "path": "docs/audits/func_sprint_37_repo_analyzer_v2_audit.md",
+        "severity": "warning",
+        "message": "TODO/FIXME/HACK markers detected without emitting source text.",
+        "metadata": {
+          "markers": 5
+        }
+      },
+      {
+        "kind": "todo_marker",
+        "path": "docs/devpilot_backlog_fase_A_baseline_industrial_minima.md",
+        "severity": "warning",
+        "message": "TODO/FIXME/HACK markers detected without emitting source text.",
+        "metadata": {
+          "markers": 5
+        }
+      },
+      {
+        "kind": "todo_marker",
+        "path": "docs/devpilot_backlog_fase_B_seguridad_operacional.md",
+        "severity": "warning",
+        "message": "TODO/FIXME/HACK markers detected without emitting source text.",
+        "metadata": {
+          "markers": 4
+        }
+      },
+      {
+        "kind": "todo_marker",
+        "path": "docs/devpilot_backlog_fase_C_ingenieria_repositorio.md",
+        "severity": "warning",
+        "message": "TODO/FIXME/HACK markers detected without emitting source text.",
+        "metadata": {
+          "markers": 11
+        }
+      },
+      {
+        "kind": "todo_marker",
+        "path": "docs/devpilot_backlog_fase_D_ia_local_gobernada.md",
+        "severity": "warning",
+        "message": "TODO/FIXME/HACK markers detected without emitting source text.",
+        "metadata": {
+          "markers": 10
+        }
+      },
+      {
+        "kind": "todo_marker",
+        "path": "docs/devpilot_backlog_fase_E_agentops_observabilidad.md",
+        "severity": "warning",
+        "message": "TODO/FIXME/HACK markers detected without emitting source text.",
+        "metadata": {
+          "markers": 7
+        }
+      },
+      {
+        "kind": "module_without_near_test",
+        "path": "src/devpilot_core/__main__.py",
+        "severity": "warning",
+        "message": "Python module has no obvious nearby/direct test by naming heuristic.",
+        "metadata": {
+          "module": "devpilot_core.__main__"
+        }
+      },
+      {
+        "kind": "module_without_near_test",
+        "path": "src/devpilot_core/agents/models.py",
+        "severity": "warning",
+        "message": "Python module has no obvious nearby/direct test by naming heuristic.",
+        "metadata": {
+          "module": "devpilot_core.agents.models"
+        }
+      },
+      {
+        "kind": "module_without_near_test",
+        "path": "src/devpilot_core/application/dtos.py",
+        "severity": "warning",
+        "message": "Python module has no obvious nearby/direct test by naming heuristic.",
+        "metadata": {
+          "module": "devpilot_core.application.dtos"
+        }
+      },
+      {
+        "kind": "module_without_near_test",
+        "path": "src/devpilot_core/approval/models.py",
+        "severity": "warning",
+        "message": "Python module has no obvious nearby/direct test by naming heuristic.",
+        "metadata": {
+          "module": "devpilot_core.approval.models"
+        }
+      },
+      {
+        "kind": "module_without_near_test",
+        "path": "src/devpilot_core/cli_models.py",
+        "severity": "warning",
+        "message": "Python module has no obvious nearby/direct test by naming heuristic.",
+        "metadata": {
+          "module": "devpilot_core.cli_models"
+        }
+      },
+      {
+        "kind": "module_without_near_test",
+        "path": "src/devpilot_core/errors.py",
+        "severity": "warning",
+        "message": "Python module has no obvious nearby/direct test by naming heuristic.",
+        "metadata": {
+          "module": "devpilot_core.errors"
+        }
+      },
+      {
+        "kind": "module_without_near_test",
+        "path": "src/devpilot_core/evals/models.py",
+        "severity": "warning",
+        "message": "Python module has no obvious nearby/direct test by naming heuristic.",
+        "metadata": {
+          "module": "devpilot_core.evals.models"
+        }
+      },
+      {
+        "kind": "module_without_near_test",
+        "path": "src/devpilot_core/execution/allowlist.py",
+        "severity": "warning",
+        "message": "Python module has no obvious nearby/direct test by naming heuristic.",
+        "metadata": {
+          "module": "devpilot_core.execution.allowlist"
+        }
+      },
+      {
+        "kind": "module_without_near_test",
+        "path": "src/devpilot_core/execution/models.py",
+        "severity": "warning",
+        "message": "Python module has no obvious nearby/direct test by naming heuristic.",
+        "metadata": {
+          "module": "devpilot_core.execution.models"
+        }
+      },
+      {
+        "kind": "module_without_near_test",
+        "path": "src/devpilot_core/modeling/contracts.py",
+        "severity": "warning",
+        "message": "Python module has no obvious nearby/direct test by naming heuristic.",
+        "metadata": {
+          "module": "devpilot_core.modeling.contracts"
+        }
+      },
+      {
+        "kind": "module_without_near_test",
+        "path": "src/devpilot_core/modeling/mock_adapter.py",
+        "severity": "warning",
+        "message": "Python module has no obvious nearby/direct test by naming heuristic.",
+        "metadata": {
+          "module": "devpilot_core.modeling.mock_adapter"
+        }
+      },
+      {
+        "kind": "module_without_near_test",
+        "path": "src/devpilot_core/modeling/providers.py",
+        "severity": "warning",
+        "message": "Python module has no obvious nearby/direct test by naming heuristic.",
+        "metadata": {
+          "module": "devpilot_core.modeling.providers"
+        }
+      },
+      {
+        "kind": "module_without_near_test",
+        "path": "src/devpilot_core/modeling/router.py",
+        "severity": "warning",
+        "message": "Python module has no obvious nearby/direct test by naming heuristic.",
+        "metadata": {
+          "module": "devpilot_core.modeling.router"
+        }
+      },
+      {
+        "kind": "module_without_near_test",
+        "path": "src/devpilot_core/observability/events.py",
+        "severity": "warning",
+        "message": "Python module has no obvious nearby/direct test by naming heuristic.",
+        "metadata": {
+          "module": "devpilot_core.observability.events"
+        }
+      },
+      {
+        "kind": "module_without_near_test",
+        "path": "src/devpilot_core/policy/cost_guard.py",
+        "severity": "warning",
+        "message": "Python module has no obvious nearby/direct test by naming heuristic.",
+        "metadata": {
+          "module": "devpilot_core.policy.cost_guard"
+        }
+      },
+      {
+        "kind": "module_without_near_test",
+        "path": "src/devpilot_core/policy/decisions.py",
+        "severity": "warning",
+        "message": "Python module has no obvious nearby/direct test by naming heuristic.",
+        "metadata": {
+          "module": "devpilot_core.policy.decisions"
+        }
+      },
+      {
+        "kind": "module_without_near_test",
+        "path": "src/devpilot_core/policy/path_guard.py",
+        "severity": "warning",
+        "message": "Python module has no obvious nearby/direct test by naming heuristic.",
+        "metadata": {
+          "module": "devpilot_core.policy.path_guard"
+        }
+      },
+      {
+        "kind": "module_without_near_test",
+        "path": "src/devpilot_core/policy/prompt_guard.py",
+        "severity": "warning",
+        "message": "Python module has no obvious nearby/direct test by naming heuristic.",
+        "metadata": {
+          "module": "devpilot_core.policy.prompt_guard"
+        }
+      },
+      {
+        "kind": "module_without_near_test",
+        "path": "src/devpilot_core/policy/secrets.py",
+        "severity": "warning",
+        "message": "Python module has no obvious nearby/direct test by naming heuristic.",
+        "metadata": {
+          "module": "devpilot_core.policy.secrets"
+        }
+      },
+      {
+        "kind": "module_without_near_test",
+        "path": "src/devpilot_core/policy/tool_injection_guard.py",
+        "severity": "warning",
+        "message": "Python module has no obvious nearby/direct test by naming heuristic.",
+        "metadata": {
+          "module": "devpilot_core.policy.tool_injection_guard"
+        }
+      },
+      {
+        "kind": "module_without_near_test",
+        "path": "src/devpilot_core/repo/diff_report.py",
+        "severity": "warning",
+        "message": "Python module has no obvious nearby/direct test by naming heuristic.",
+        "metadata": {
+          "module": "devpilot_core.repo.diff_report"
+        }
+      },
+      {
+        "kind": "module_without_near_test",
+        "path": "src/devpilot_core/repo/inventory.py",
+        "severity": "warning",
+        "message": "Python module has no obvious nearby/direct test by naming heuristic.",
+        "metadata": {
+          "module": "devpilot_core.repo.inventory"
+        }
+      },
+      {
+        "kind": "module_without_near_test",
+        "path": "src/devpilot_core/repo/models.py",
+        "severity": "warning",
+        "message": "Python module has no obvious nearby/direct test by naming heuristic.",
+        "metadata": {
+          "module": "devpilot_core.repo.models"
+        }
+      },
+      {
+        "kind": "module_without_near_test",
+        "path": "src/devpilot_core/reports/models.py",
+        "severity": "warning",
+        "message": "Python module has no obvious nearby/direct test by naming heuristic.",
+        "metadata": {
+          "module": "devpilot_core.reports.models"
+        }
+      },
+      {
+        "kind": "module_without_near_test",
+        "path": "src/devpilot_core/review/code_review.py",
+        "severity": "warning",
+        "message": "Python module has no obvious nearby/direct test by naming heuristic.",
+        "metadata": {
+          "module": "devpilot_core.review.code_review"
+        }
+      },
+      {
+        "kind": "git_worktree_changes",
+        "path": ".",
+        "severity": "warning",
+        "message": "Working tree contains changes; repository health is based on current uncommitted state.",
+        "metadata": {
+          "counts": {
+            "entries_total": 25,
+            "modified": 17,
+            "added": 0,
+            "deleted": 2,
+            "renamed": 0,
+            "untracked": 6,
+            "staged": 0
+          }
+        }
+      }
+    ],
+    "notes": [
+      "FUNC-SPRINT-37 RepoAnalyzer v2 is read-only and heuristic.",
+      "Runtime folders such as outputs, caches, virtualenvs, build and dist are excluded from the analysis.",
+      "Secret-like content is reported only as redacted metadata; raw values are never emitted.",
+      "The health score is an engineering signal, not a production certification.",
+      "Dependency metrics come from static AST imports and do not prove runtime call relationships."
+    ]
+  },
+  "findings": [
+    {
+      "id": "REPO_ANALYZER_LARGE_FILES",
+      "message": "Large files were detected; review maintainability and report size impact.",
+      "severity": "warning",
+      "metadata": {
+        "count": 2,
+        "threshold": 200000
+      }
+    },
+    {
+      "id": "REPO_ANALYZER_TODO_MARKERS",
+      "message": "TODO/FIXME/HACK markers were detected in bounded text scan.",
+      "severity": "warning",
+      "metadata": {
+        "files": 81,
+        "markers_total": 320
+      }
+    },
+    {
+      "id": "REPO_ANALYZER_MODULES_WITHOUT_NEAR_TESTS",
+      "message": "Some modules do not have obvious nearby/direct tests by heuristic.",
+      "severity": "warning",
+      "metadata": {
+        "count": 37,
+        "sample": [
+          {
+            "module": "devpilot_core.__main__",
+            "path": "src/devpilot_core/__main__.py"
+          },
+          {
+            "module": "devpilot_core.agents.models",
+            "path": "src/devpilot_core/agents/models.py"
+          },
+          {
+            "module": "devpilot_core.application.dtos",
+            "path": "src/devpilot_core/application/dtos.py"
+          },
+          {
+            "module": "devpilot_core.approval.models",
+            "path": "src/devpilot_core/approval/models.py"
+          },
+          {
+            "module": "devpilot_core.cli_models",
+            "path": "src/devpilot_core/cli_models.py"
+          },
+          {
+            "module": "devpilot_core.errors",
+            "path": "src/devpilot_core/errors.py"
+          },
+          {
+            "module": "devpilot_core.evals.models",
+            "path": "src/devpilot_core/evals/models.py"
+          },
+          {
+            "module": "devpilot_core.execution.allowlist",
+            "path": "src/devpilot_core/execution/allowlist.py"
+          },
+          {
+            "module": "devpilot_core.execution.models",
+            "path": "src/devpilot_core/execution/models.py"
+          },
+          {
+            "module": "devpilot_core.modeling.contracts",
+            "path": "src/devpilot_core/modeling/contracts.py"
+          }
+        ]
+      }
+    },
+    {
+      "id": "REPO_ANALYZER_GIT_WORKTREE_CHANGES",
+      "message": "Working tree changes are present during analysis.",
+      "severity": "warning",
+      "metadata": {
+        "entries_total": 25,
+        "modified": 17,
+        "added": 0,
+        "deleted": 2,
+        "renamed": 0,
+        "untracked": 6,
+        "staged": 0
+      }
+    },
+    {
+      "id": "REPO_ANALYZER_UPSTREAM_REPO_INVENTORY_MEDIUM_RISK_FILE",
+      "message": "Upstream inventory finding: Medium-risk file pattern detected.",
+      "severity": "warning",
+      "path": ".devpilot/devpilot.db",
+      "metadata": {
+        "source": "inventory",
+        "reasons": [
+          "state_or_lock_file"
+        ]
+      }
+    },
+    {
+      "id": "REPO_ANALYZER_UPSTREAM_GIT_UNTRACKED_FILES_PRESENT",
+      "message": "Upstream git finding: Untracked files are present.",
+      "severity": "warning",
+      "metadata": {
+        "source": "git",
+        "count": 6
+      }
+    },
+    {
+      "id": "REPO_ANALYZER_UPSTREAM_GIT_WORKTREE_CHANGES_PRESENT",
+      "message": "Upstream git finding: Working tree changes are present.",
+      "severity": "warning",
+      "metadata": {
+        "source": "git",
+        "entries_total": 25,
+        "modified": 17,
+        "added": 0,
+        "deleted": 2,
+        "renamed": 0,
+        "untracked": 6,
+        "staged": 0
+      }
+    }
+  ]
+}
+(.venv) PS D:\Projects\DevPilot_Local> python -m devpilot_core repo analyze `
+>>   --json `
+>>   --write-report
+{
+  "command": "repo analyze",
+  "ok": true,
+  "exit_code": 0,
+  "message": "Repository analysis completed in read-only mode.",
+  "data": {
+    "summary": {
+      "target": ".",
+      "health_score": 60,
+      "rating": "risk",
+      "risk_counts": {
+        "block": 0,
+        "fail": 0,
+        "warning": 53,
+        "info": 0
+      },
+      "sections_summary": {
+        "files_total": 584,
+        "src_tests_ratio": 1.569,
+        "docs_to_source_ratio": 3.286
+      },
+      "dependency": {
+        "nodes_total": 91,
+        "edges_total": 578,
+        "external_imports_total": 25,
+        "syntax_error_files_total": 0
+      },
+      "git": {
+        "is_git_repo": true,
+        "branch": "main",
+        "counts": {
+          "entries_total": 25,
+          "modified": 17,
+          "added": 0,
+          "deleted": 2,
+          "renamed": 0,
+          "untracked": 6,
+          "staged": 0
+        },
+        "git_available": true
+      },
+      "hotspots_total": 20,
+      "network_used": false,
+      "external_api_used": false,
+      "mutations_performed": false,
+      "preliminary": true
+    },
+    "sections": {
+      "source": {
+        "files": 91,
+        "python_files": 91,
+        "size_bytes": 711874
+      },
+      "tests": {
+        "files": 68,
+        "python_files": 58,
+        "size_bytes": 208987,
+        "markdown_files": 10
+      },
+      "docs": {
+        "files": 404,
+        "markdown_files": 299,
+        "size_bytes": 2459787
+      },
+      "config": {
+        "files": 13,
+        "size_bytes": 33771
+      },
+      "other": {
+        "files": 8,
+        "size_bytes": 5248861,
+        "python_files": 2
+      },
+      "summary": {
+        "files_total": 584,
+        "src_tests_ratio": 1.569,
+        "docs_to_source_ratio": 3.286
+      }
+    },
+    "inventory_summary": {
+      "files_total": 585,
+      "size_bytes_total": 38523120,
+      "by_category": {
+        "state": 1,
+        "configuration": 117,
+        "other": 7,
+        "documentation": 309,
+        "python": 151
+      },
+      "by_risk": {
+        "low": 515,
+        "medium": 1,
+        "high": 69
+      },
+      "secret_like_files": 69,
+      "skipped_dirs": [
+        ".git",
+        ".pytest_cache",
+        ".venv",
+        "outputs",
+        "src/devpilot_core/__pycache__",
+        "src/devpilot_core/agents/__pycache__",
+        "src/devpilot_core/application/__pycache__",
+        "src/devpilot_core/approval/__pycache__",
+        "src/devpilot_core/evals/__pycache__",
+        "src/devpilot_core/execution/__pycache__",
+        "src/devpilot_core/miasi/__pycache__",
+        "src/devpilot_core/modeling/__pycache__",
+        "src/devpilot_core/observability/__pycache__",
+        "src/devpilot_core/policy/__pycache__",
+        "src/devpilot_core/refactor/__pycache__",
+        "src/devpilot_core/repo/__pycache__",
+        "src/devpilot_core/reports/__pycache__",
+        "src/devpilot_core/review/__pycache__",
+        "src/devpilot_core/schemas/__pycache__",
+        "src/devpilot_core/security/__pycache__",
+        "src/devpilot_core/standards/__pycache__",
+        "src/devpilot_core/store/__pycache__",
+        "src/devpilot_core/testing/__pycache__",
+        "src/devpilot_core/traceability/__pycache__",
+        "src/devpilot_core/validation/__pycache__",
+        "src/devpilot_core/validators/__pycache__",
+        "src/devpilot_core/workspace/__pycache__",
+        "tests/__pycache__",
+        "tests/fixtures/smoke_pytest_project/__pycache__"
+      ]
+    },
+    "dependency_summary": {
+      "target": "src/devpilot_core",
+      "root_package": "devpilot_core",
+      "nodes_total": 91,
+      "edges_total": 578,
+      "external_imports_total": 25,
+      "syntax_error_files_total": 0,
+      "ignored_dirs": [],
+      "truncated": false,
+      "max_files": 5000,
+      "network_used": false,
+      "external_api_used": false,
+      "mutations_performed": false,
+      "preliminary": true
+    },
+    "dependency_metrics": {
+      "top_fan_in": [
+        {
+          "module": "devpilot_core.cli_models",
+          "path": "src/devpilot_core/cli_models.py",
+          "package": "devpilot_core",
+          "dependencies": [],
+          "dependents": [
+            "devpilot_core.agents.models",
+            "devpilot_core.agents.runtime",
+            "devpilot_core.application.dtos",
+            "devpilot_core.application.services",
+            "devpilot_core.approval.models",
+            "devpilot_core.approval.service",
+            "devpilot_core.approval.store",
+            "devpilot_core.cli",
+            "devpilot_core.errors",
+            "devpilot_core.evals.models",
+            "devpilot_core.evals.runner",
+            "devpilot_core.execution.allowlist",
+            "devpilot_core.execution.safe_subprocess",
+            "devpilot_core.miasi.registry",
+            "devpilot_core.modeling.providers",
+            "devpilot_core.modeling.router",
+            "devpilot_core.observability.events",
+            "devpilot_core.policy.decisions",
+            "devpilot_core.policy.engine",
+            "devpilot_core.refactor.planner",
+            "devpilot_core.repo.analyzer",
+            "devpilot_core.repo.dependency_graph",
+            "devpilot_core.repo.diff_report",
+            "devpilot_core.repo.git_adapter",
+            "devpilot_core.repo.inventory",
+            "devpilot_core.reports.models",
+            "devpilot_core.reports.report_engine",
+            "devpilot_core.review.code_review",
+            "devpilot_core.review.patch_review",
+            "devpilot_core.schemas.builtins",
+            "devpilot_core.schemas.registry",
+            "devpilot_core.schemas.validator",
+            "devpilot_core.security.readiness",
+            "devpilot_core.security.simulation",
+            "devpilot_core.standards.registry",
+            "devpilot_core.store.local_store",
+            "devpilot_core.testing.profiles",
+            "devpilot_core.testing.tests_run",
+            "devpilot_core.traceability.architecture_drift",
+            "devpilot_core.traceability.engine",
+            "devpilot_core.traceability.extractors",
+            "devpilot_core.traceability.rules",
+            "devpilot_core.validation.artifact_profile_registry",
+            "devpilot_core.validation.gateway",
+            "devpilot_core.validators.artifact",
+            "devpilot_core.validators.checklist",
+            "devpilot_core.validators.frontmatter",
+            "devpilot_core.validators.readiness",
+            "devpilot_core.workspace.manager"
+          ],
+          "external_imports": [
+            "__future__",
+            "dataclasses",
+            "enum",
+            "typing"
+          ],
+          "fan_out": 0,
+          "fan_in": 49,
+          "syntax_error": false
+        },
+        {
+          "module": "devpilot_core.policy",
+          "path": "src/devpilot_core/policy/__init__.py",
+          "package": "devpilot_core",
+          "dependencies": [
+            "devpilot_core.policy.cost_guard",
+            "devpilot_core.policy.decisions",
+            "devpilot_core.policy.engine",
+            "devpilot_core.policy.path_guard",
+            "devpilot_core.policy.prompt_guard",
+            "devpilot_core.policy.secrets",
+            "devpilot_core.policy.tool_injection_guard"
+          ],
+          "dependents": [
+            "devpilot_core.agents.runtime",
+            "devpilot_core.approval",
+            "devpilot_core.approval.service",
+            "devpilot_core.cli",
+            "devpilot_core.modeling.providers",
+            "devpilot_core.modeling.router",
+            "devpilot_core.observability.events",
+            "devpilot_core.refactor.planner",
+            "devpilot_core.repo.analyzer",
+            "devpilot_core.repo.dependency_graph",
+            "devpilot_core.repo.git_adapter",
+            "devpilot_core.repo.inventory",
+            "devpilot_core.reports.report_engine",
+            "devpilot_core.review.code_review",
+            "devpilot_core.review.patch_review",
+            "devpilot_core.security.readiness",
+            "devpilot_core.security.simulation",
+            "devpilot_core.testing.tests_run"
+          ],
+          "external_imports": [
+            "__future__"
+          ],
+          "fan_out": 7,
+          "fan_in": 18,
+          "syntax_error": false
+        },
+        {
+          "module": "devpilot_core",
+          "path": "src/devpilot_core/__init__.py",
+          "package": "devpilot_core",
+          "dependencies": [],
+          "dependents": [
+            "devpilot_core.application",
+            "devpilot_core.approval",
+            "devpilot_core.cli",
+            "devpilot_core.execution",
+            "devpilot_core.miasi",
+            "devpilot_core.observability",
+            "devpilot_core.repo",
+            "devpilot_core.review",
+            "devpilot_core.schemas",
+            "devpilot_core.security",
+            "devpilot_core.standards",
+            "devpilot_core.store",
+            "devpilot_core.testing",
+            "devpilot_core.traceability",
+            "devpilot_core.validation"
+          ],
+          "external_imports": [],
+          "fan_out": 0,
+          "fan_in": 15,
+          "syntax_error": false
+        },
+        {
+          "module": "devpilot_core.policy.decisions",
+          "path": "src/devpilot_core/policy/decisions.py",
+          "package": "devpilot_core",
+          "dependencies": [
+            "devpilot_core.cli_models"
+          ],
+          "dependents": [
+            "devpilot_core.approval.policy",
+            "devpilot_core.policy",
+            "devpilot_core.policy.cost_guard",
+            "devpilot_core.policy.engine",
+            "devpilot_core.policy.path_guard",
+            "devpilot_core.policy.prompt_guard",
+            "devpilot_core.policy.secrets",
+            "devpilot_core.policy.tool_injection_guard"
+          ],
+          "external_imports": [
+            "__future__",
+            "dataclasses",
+            "enum",
+            "typing"
+          ],
+          "fan_out": 1,
+          "fan_in": 8,
+          "syntax_error": false
+        },
+        {
+          "module": "devpilot_core.validators.frontmatter",
+          "path": "src/devpilot_core/validators/frontmatter.py",
+          "package": "devpilot_core",
+          "dependencies": [
+            "devpilot_core.cli_models"
+          ],
+          "dependents": [
+            "devpilot_core.agents.runtime",
+            "devpilot_core.application.services",
+            "devpilot_core.cli",
+            "devpilot_core.evals.runner",
+            "devpilot_core.standards.registry",
+            "devpilot_core.validators.artifact",
+            "devpilot_core.validators.checklist",
+            "devpilot_core.validators.readiness"
+          ],
+          "external_imports": [
+            "__future__",
+            "dataclasses",
+            "pathlib",
+            "re",
+            "typing"
+          ],
+          "fan_out": 1,
+          "fan_in": 8,
+          "syntax_error": false
+        },
+        {
+          "module": "devpilot_core.approval.models",
+          "path": "src/devpilot_core/approval/models.py",
+          "package": "devpilot_core",
+          "dependencies": [
+            "devpilot_core.cli_models"
+          ],
+          "dependents": [
+            "devpilot_core.approval.policy",
+            "devpilot_core.approval.service",
+            "devpilot_core.approval.store",
+            "devpilot_core.cli",
+            "devpilot_core.store.local_store"
+          ],
+          "external_imports": [
+            "__future__",
+            "dataclasses",
+            "datetime",
+            "enum",
+            "typing",
+            "uuid"
+          ],
+          "fan_out": 1,
+          "fan_in": 5,
+          "syntax_error": false
+        },
+        {
+          "module": "devpilot_core.validators.artifact",
+          "path": "src/devpilot_core/validators/artifact.py",
+          "package": "devpilot_core",
+          "dependencies": [
+            "devpilot_core.cli_models",
+            "devpilot_core.validators.artifact_profiles",
+            "devpilot_core.validators.frontmatter"
+          ],
+          "dependents": [
+            "devpilot_core.agents.runtime",
+            "devpilot_core.application.services",
+            "devpilot_core.cli",
+            "devpilot_core.evals.runner",
+            "devpilot_core.validators.readiness"
+          ],
+          "external_imports": [
+            "__future__",
+            "dataclasses",
+            "pathlib",
+            "re",
+            "typing"
+          ],
+          "fan_out": 3,
+          "fan_in": 5,
+          "syntax_error": false
+        },
+        {
+          "module": "devpilot_core.modeling.contracts",
+          "path": "src/devpilot_core/modeling/contracts.py",
+          "package": "devpilot_core",
+          "dependencies": [],
+          "dependents": [
+            "devpilot_core.modeling",
+            "devpilot_core.modeling.mock_adapter",
+            "devpilot_core.modeling.providers",
+            "devpilot_core.modeling.router"
+          ],
+          "external_imports": [
+            "__future__",
+            "abc",
+            "dataclasses",
+            "enum",
+            "typing"
+          ],
+          "fan_out": 0,
+          "fan_in": 4,
+          "syntax_error": false
+        },
+        {
+          "module": "devpilot_core.store",
+          "path": "src/devpilot_core/store/__init__.py",
+          "package": "devpilot_core",
+          "dependencies": [
+            "devpilot_core"
+          ],
+          "dependents": [
+            "devpilot_core.approval",
+            "devpilot_core.approval.store",
+            "devpilot_core.cli",
+            "devpilot_core.security.simulation"
+          ],
+          "external_imports": [
+            "__future__"
+          ],
+          "fan_out": 1,
+          "fan_in": 4,
+          "syntax_error": false
+        },
+        {
+          "module": "devpilot_core.validators.checklist",
+          "path": "src/devpilot_core/validators/checklist.py",
+          "package": "devpilot_core",
+          "dependencies": [
+            "devpilot_core.cli_models",
+            "devpilot_core.validators.frontmatter"
+          ],
+          "dependents": [
+            "devpilot_core.agents.runtime",
+            "devpilot_core.application.services",
+            "devpilot_core.cli",
+            "devpilot_core.validators.readiness"
+          ],
+          "external_imports": [
+            "__future__",
+            "dataclasses",
+            "pathlib",
+            "re",
+            "typing"
+          ],
+          "fan_out": 2,
+          "fan_in": 4,
+          "syntax_error": false
+        }
+      ],
+      "top_fan_out": [
+        {
+          "module": "devpilot_core.cli",
+          "path": "src/devpilot_core/cli.py",
+          "package": "devpilot_core",
+          "dependencies": [
+            "devpilot_core",
+            "devpilot_core.agents",
+            "devpilot_core.application",
+            "devpilot_core.approval.models",
+            "devpilot_core.approval.service",
+            "devpilot_core.cli_models",
+            "devpilot_core.errors",
+            "devpilot_core.evals",
+            "devpilot_core.miasi",
+            "devpilot_core.modeling",
+            "devpilot_core.observability",
+            "devpilot_core.policy",
+            "devpilot_core.refactor",
+            "devpilot_core.repo",
+            "devpilot_core.repo.diff_report",
+            "devpilot_core.reports",
+            "devpilot_core.review",
+            "devpilot_core.schemas",
+            "devpilot_core.security",
+            "devpilot_core.standards.registry",
+            "devpilot_core.store",
+            "devpilot_core.testing",
+            "devpilot_core.traceability",
+            "devpilot_core.validation",
+            "devpilot_core.validators.artifact",
+            "devpilot_core.validators.checklist",
+            "devpilot_core.validators.frontmatter",
+            "devpilot_core.validators.readiness",
+            "devpilot_core.workspace"
+          ],
+          "dependents": [
+            "devpilot_core.__main__"
+          ],
+          "external_imports": [
+            "__future__",
+            "argparse",
+            "json",
+            "pathlib",
+            "sys"
+          ],
+          "fan_out": 29,
+          "fan_in": 1,
+          "syntax_error": false
+        },
+        {
+          "module": "devpilot_core.policy.engine",
+          "path": "src/devpilot_core/policy/engine.py",
+          "package": "devpilot_core",
+          "dependencies": [
+            "devpilot_core.approval.policy",
+            "devpilot_core.cli_models",
+            "devpilot_core.policy.cost_guard",
+            "devpilot_core.policy.decisions",
+            "devpilot_core.policy.path_guard",
+            "devpilot_core.policy.prompt_guard",
+            "devpilot_core.policy.secrets",
+            "devpilot_core.policy.tool_injection_guard"
+          ],
+          "dependents": [
+            "devpilot_core.policy"
+          ],
+          "external_imports": [
+            "__future__",
+            "dataclasses",
+            "pathlib",
+            "typing"
+          ],
+          "fan_out": 8,
+          "fan_in": 1,
+          "syntax_error": false
+        },
+        {
+          "module": "devpilot_core.agents.runtime",
+          "path": "src/devpilot_core/agents/runtime.py",
+          "package": "devpilot_core",
+          "dependencies": [
+            "devpilot_core.agents.models",
+            "devpilot_core.cli_models",
+            "devpilot_core.miasi",
+            "devpilot_core.policy",
+            "devpilot_core.validators.artifact",
+            "devpilot_core.validators.checklist",
+            "devpilot_core.validators.frontmatter"
+          ],
+          "dependents": [
+            "devpilot_core.agents"
+          ],
+          "external_imports": [
+            "__future__",
+            "dataclasses",
+            "datetime",
+            "pathlib",
+            "re",
+            "typing"
+          ],
+          "fan_out": 7,
+          "fan_in": 1,
+          "syntax_error": false
+        },
+        {
+          "module": "devpilot_core.application.services",
+          "path": "src/devpilot_core/application/services.py",
+          "package": "devpilot_core",
+          "dependencies": [
+            "devpilot_core.application.dtos",
+            "devpilot_core.cli_models",
+            "devpilot_core.standards.registry",
+            "devpilot_core.validators.artifact",
+            "devpilot_core.validators.checklist",
+            "devpilot_core.validators.frontmatter",
+            "devpilot_core.validators.readiness"
+          ],
+          "dependents": [],
+          "external_imports": [
+            "__future__",
+            "pathlib",
+            "typing"
+          ],
+          "fan_out": 7,
+          "fan_in": 0,
+          "syntax_error": false
+        },
+        {
+          "module": "devpilot_core.policy",
+          "path": "src/devpilot_core/policy/__init__.py",
+          "package": "devpilot_core",
+          "dependencies": [
+            "devpilot_core.policy.cost_guard",
+            "devpilot_core.policy.decisions",
+            "devpilot_core.policy.engine",
+            "devpilot_core.policy.path_guard",
+            "devpilot_core.policy.prompt_guard",
+            "devpilot_core.policy.secrets",
+            "devpilot_core.policy.tool_injection_guard"
+          ],
+          "dependents": [
+            "devpilot_core.agents.runtime",
+            "devpilot_core.approval",
+            "devpilot_core.approval.service",
+            "devpilot_core.cli",
+            "devpilot_core.modeling.providers",
+            "devpilot_core.modeling.router",
+            "devpilot_core.observability.events",
+            "devpilot_core.refactor.planner",
+            "devpilot_core.repo.analyzer",
+            "devpilot_core.repo.dependency_graph",
+            "devpilot_core.repo.git_adapter",
+            "devpilot_core.repo.inventory",
+            "devpilot_core.reports.report_engine",
+            "devpilot_core.review.code_review",
+            "devpilot_core.review.patch_review",
+            "devpilot_core.security.readiness",
+            "devpilot_core.security.simulation",
+            "devpilot_core.testing.tests_run"
+          ],
+          "external_imports": [
+            "__future__"
+          ],
+          "fan_out": 7,
+          "fan_in": 18,
+          "syntax_error": false
+        },
+        {
+          "module": "devpilot_core.repo.analyzer",
+          "path": "src/devpilot_core/repo/analyzer.py",
+          "package": "devpilot_core",
+          "dependencies": [
+            "devpilot_core.cli_models",
+            "devpilot_core.policy",
+            "devpilot_core.repo.dependency_graph",
+            "devpilot_core.repo.git_adapter",
+            "devpilot_core.repo.inventory",
+            "devpilot_core.repo.models"
+          ],
+          "dependents": [],
+          "external_imports": [
+            "__future__",
+            "dataclasses",
+            "pathlib",
+            "re",
+            "typing"
+          ],
+          "fan_out": 6,
+          "fan_in": 0,
+          "syntax_error": false
+        },
+        {
+          "module": "devpilot_core.security.readiness",
+          "path": "src/devpilot_core/security/readiness.py",
+          "package": "devpilot_core",
+          "dependencies": [
+            "devpilot_core.approval.service",
+            "devpilot_core.cli_models",
+            "devpilot_core.miasi",
+            "devpilot_core.policy",
+            "devpilot_core.security.simulation",
+            "devpilot_core.testing"
+          ],
+          "dependents": [],
+          "external_imports": [
+            "__future__",
+            "dataclasses",
+            "pathlib",
+            "typing"
+          ],
+          "fan_out": 6,
+          "fan_in": 0,
+          "syntax_error": false
+        },
+        {
+          "module": "devpilot_core.validators.readiness",
+          "path": "src/devpilot_core/validators/readiness.py",
+          "package": "devpilot_core",
+          "dependencies": [
+            "devpilot_core.cli_models",
+            "devpilot_core.reports",
+            "devpilot_core.standards.registry",
+            "devpilot_core.validators.artifact",
+            "devpilot_core.validators.checklist",
+            "devpilot_core.validators.frontmatter"
+          ],
+          "dependents": [
+            "devpilot_core.application.services",
+            "devpilot_core.cli",
+            "devpilot_core.validation.gateway"
+          ],
+          "external_imports": [
+            "__future__",
+            "pathlib",
+            "typing"
+          ],
+          "fan_out": 6,
+          "fan_in": 3,
+          "syntax_error": false
+        },
+        {
+          "module": "devpilot_core.evals.runner",
+          "path": "src/devpilot_core/evals/runner.py",
+          "package": "devpilot_core",
+          "dependencies": [
+            "devpilot_core.agents",
+            "devpilot_core.cli_models",
+            "devpilot_core.evals.models",
+            "devpilot_core.validators.artifact",
+            "devpilot_core.validators.frontmatter"
+          ],
+          "dependents": [
+            "devpilot_core.evals"
+          ],
+          "external_imports": [
+            "__future__",
+            "dataclasses",
+            "datetime",
+            "json",
+            "pathlib",
+            "shutil",
+            "typing"
+          ],
+          "fan_out": 5,
+          "fan_in": 1,
+          "syntax_error": false
+        },
+        {
+          "module": "devpilot_core.execution.safe_subprocess",
+          "path": "src/devpilot_core/execution/safe_subprocess.py",
+          "package": "devpilot_core",
+          "dependencies": [
+            "devpilot_core.cli_models",
+            "devpilot_core.execution.allowlist",
+            "devpilot_core.execution.models",
+            "devpilot_core.policy.path_guard",
+            "devpilot_core.policy.secrets"
+          ],
+          "dependents": [],
+          "external_imports": [
+            "__future__",
+            "os",
+            "pathlib",
+            "subprocess",
+            "time",
+            "typing"
+          ],
+          "fan_out": 5,
+          "fan_in": 0,
+          "syntax_error": false
+        }
+      ]
+    },
+    "git_summary": {
+      "is_git_repo": true,
+      "git_available": true,
+      "branch": "main",
+      "git_root": ".",
+      "short_status": [
+        " M .devpilot/miasi/agent_registry.json",
+        " M .devpilot/miasi/tool_registry.json",
+        " D Log_consola_validacion_especifica_sprint_36.txt",
+        " D Log_consola_validacion_general_no-regresion_sprint_36.txt",
+        " M README.md",
+        " M docs/04_quality/test_strategy.md",
+        " M docs/05_operations/runbook.md",
+        " M docs/06_miasi/tool_card.md",
+        " M docs/06_miasi/tool_registry.md",
+        " M docs/devpilot_backlog_fase_C_ingenieria_repositorio.md",
+        " M docs/functional_backlog_after_precode.md",
+        " M src/devpilot_core/cli.py",
+        " M src/devpilot_core/repo/__init__.py",
+        " M src/devpilot_core/repo/models.py",
+        " M tests/test_sprint_32_documentation.py",
+        " M tests/test_sprint_33_documentation.py",
+        " M tests/test_sprint_34_documentation.py",
+        " M tests/test_sprint_35_documentation.py",
+        " M tests/test_sprint_36_documentation.py",
+        "?? Log_consola_validacion_general_no-regresion_sprint_37.txt",
+        "?? docs/audits/func_sprint_37_repo_analyzer_v2_audit.md",
+        "?? docs/functional_sprint_37_manifest.json",
+        "?? src/devpilot_core/repo/analyzer.py",
+        "?? tests/test_repo_analyzer.py",
+        "?? tests/test_sprint_37_documentation.py"
+      ],
+      "diff_stat": ".devpilot/miasi/agent_registry.json                |    1 +\n .devpilot/miasi/tool_registry.json                 |   12 +\n Log_consola_validacion_especifica_sprint_36.txt    | 9038 --------------------\n ...a_validacion_general_no-regresion_sprint_36.txt | 5698 ------------\n README.md                                          |   20 +-\n docs/04_quality/test_strategy.md                   |   15 +\n docs/05_operations/runbook.md                      |   48 +\n docs/06_miasi/tool_card.md                         |   30 +\n docs/06_miasi/tool_registry.md                     |    5 +\n ...vpilot_backlog_fase_C_ingenieria_repositorio.md |   17 +-\n docs/functional_backlog_after_precode.md           |   20 +-\n src/devpilot_core/cli.py                           |   39 +-\n src/devpilot_core/repo/__init__.py                 |   15 +-\n src/devpilot_core/repo/models.py                   |  121 +\n tests/test_sprint_32_documentation.py              |    4 +-\n tests/test_sprint_33_documentation.py              |    4 +-\n tests/test_sprint_34_documentation.py              |    4 +-\n tests/test_sprint_35_documentation.py              |    8 +-\n tests/test_sprint_36_documentation.py              |   10 +-\n 19 files changed, 348 insertions(+), 14761 deletions(-)",
+      "staged_diff_stat": "",
+      "counts": {
+        "entries_total": 25,
+        "modified": 17,
+        "added": 0,
+        "deleted": 2,
+        "renamed": 0,
+        "untracked": 6,
+        "staged": 0
+      }
+    },
+    "hotspots": [
+      {
+        "module": "devpilot_core.cli_models",
+        "path": "src/devpilot_core/cli_models.py",
+        "metric": "fan_in",
+        "score": 49
+      },
+      {
+        "module": "devpilot_core.policy",
+        "path": "src/devpilot_core/policy/__init__.py",
+        "metric": "fan_in",
+        "score": 18
+      },
+      {
+        "module": "devpilot_core",
+        "path": "src/devpilot_core/__init__.py",
+        "metric": "fan_in",
+        "score": 15
+      },
+      {
+        "module": "devpilot_core.policy.decisions",
+        "path": "src/devpilot_core/policy/decisions.py",
+        "metric": "fan_in",
+        "score": 8
+      },
+      {
+        "module": "devpilot_core.validators.frontmatter",
+        "path": "src/devpilot_core/validators/frontmatter.py",
+        "metric": "fan_in",
+        "score": 8
+      },
+      {
+        "module": "devpilot_core.approval.models",
+        "path": "src/devpilot_core/approval/models.py",
+        "metric": "fan_in",
+        "score": 5
+      },
+      {
+        "module": "devpilot_core.validators.artifact",
+        "path": "src/devpilot_core/validators/artifact.py",
+        "metric": "fan_in",
+        "score": 5
+      },
+      {
+        "module": "devpilot_core.modeling.contracts",
+        "path": "src/devpilot_core/modeling/contracts.py",
+        "metric": "fan_in",
+        "score": 4
+      },
+      {
+        "module": "devpilot_core.store",
+        "path": "src/devpilot_core/store/__init__.py",
+        "metric": "fan_in",
+        "score": 4
+      },
+      {
+        "module": "devpilot_core.validators.checklist",
+        "path": "src/devpilot_core/validators/checklist.py",
+        "metric": "fan_in",
+        "score": 4
+      },
+      {
+        "module": "devpilot_core.cli",
+        "path": "src/devpilot_core/cli.py",
+        "metric": "fan_out",
+        "score": 29
+      },
+      {
+        "module": "devpilot_core.policy.engine",
+        "path": "src/devpilot_core/policy/engine.py",
+        "metric": "fan_out",
+        "score": 8
+      },
+      {
+        "module": "devpilot_core.agents.runtime",
+        "path": "src/devpilot_core/agents/runtime.py",
+        "metric": "fan_out",
+        "score": 7
+      },
+      {
+        "module": "devpilot_core.application.services",
+        "path": "src/devpilot_core/application/services.py",
+        "metric": "fan_out",
+        "score": 7
+      },
+      {
+        "module": "devpilot_core.policy",
+        "path": "src/devpilot_core/policy/__init__.py",
+        "metric": "fan_out",
+        "score": 7
+      },
+      {
+        "module": "devpilot_core.repo.analyzer",
+        "path": "src/devpilot_core/repo/analyzer.py",
+        "metric": "fan_out",
+        "score": 6
+      },
+      {
+        "module": "devpilot_core.security.readiness",
+        "path": "src/devpilot_core/security/readiness.py",
+        "metric": "fan_out",
+        "score": 6
+      },
+      {
+        "module": "devpilot_core.validators.readiness",
+        "path": "src/devpilot_core/validators/readiness.py",
+        "metric": "fan_out",
+        "score": 6
+      },
+      {
+        "module": "devpilot_core.evals.runner",
+        "path": "src/devpilot_core/evals/runner.py",
+        "metric": "fan_out",
+        "score": 5
+      },
+      {
+        "module": "devpilot_core.execution.safe_subprocess",
+        "path": "src/devpilot_core/execution/safe_subprocess.py",
+        "metric": "fan_out",
+        "score": 5
+      }
+    ],
+    "risk_signals": [
+      {
+        "kind": "large_file",
+        "path": "Log_consola_validacion_general_no-regresion_sprint_37.txt",
+        "severity": "warning",
+        "message": "File exceeds configured large_file_bytes threshold.",
+        "metadata": {
+          "size_bytes": 225105,
+          "threshold": 200000
+        }
+      },
+      {
+        "kind": "large_file",
+        "path": "repo_DevPilot_Local_44.zip",
+        "severity": "warning",
+        "message": "File exceeds configured large_file_bytes threshold.",
+        "metadata": {
+          "size_bytes": 5014313,
+          "threshold": 200000
+        }
+      },
+      {
+        "kind": "todo_marker",
+        "path": "docs/00_product/mvp_scope.md",
+        "severity": "warning",
+        "message": "TODO/FIXME/HACK markers detected without emitting source text.",
+        "metadata": {
+          "markers": 1
+        }
+      },
+      {
+        "kind": "todo_marker",
+        "path": "docs/00_product/product_vision.md",
+        "severity": "warning",
+        "message": "TODO/FIXME/HACK markers detected without emitting source text.",
+        "metadata": {
+          "markers": 3
+        }
+      },
+      {
+        "kind": "todo_marker",
+        "path": "docs/01_requirements/requirements_specification.md",
+        "severity": "warning",
+        "message": "TODO/FIXME/HACK markers detected without emitting source text.",
+        "metadata": {
+          "markers": 2
+        }
+      },
+      {
+        "kind": "todo_marker",
+        "path": "docs/02_architecture/adrs/ADR-0001-adoptar-mipsoftware-y-miasi.md",
+        "severity": "warning",
+        "message": "TODO/FIXME/HACK markers detected without emitting source text.",
+        "metadata": {
+          "markers": 2
+        }
+      },
+      {
+        "kind": "todo_marker",
+        "path": "docs/02_architecture/adrs/ADR-0006-local-first-hibrido-modeladapter-costguard.md",
+        "severity": "warning",
+        "message": "TODO/FIXME/HACK markers detected without emitting source text.",
+        "metadata": {
+          "markers": 1
+        }
+      },
+      {
+        "kind": "todo_marker",
+        "path": "docs/02_architecture/adrs/ADR-0007-persistencia-local-filesystem-sqlite-jsonl.md",
+        "severity": "warning",
+        "message": "TODO/FIXME/HACK markers detected without emitting source text.",
+        "metadata": {
+          "markers": 1
+        }
+      },
+      {
+        "kind": "todo_marker",
+        "path": "docs/02_architecture/adrs/ADR-0009-seguridad-policy-engine-approval-observabilidad.md",
+        "severity": "warning",
+        "message": "TODO/FIXME/HACK markers detected without emitting source text.",
+        "metadata": {
+          "markers": 1
+        }
+      },
+      {
+        "kind": "todo_marker",
+        "path": "docs/02_architecture/architecture_document.md",
+        "severity": "warning",
+        "message": "TODO/FIXME/HACK markers detected without emitting source text.",
+        "metadata": {
+          "markers": 1
+        }
+      },
+      {
+        "kind": "todo_marker",
+        "path": "docs/02_architecture/c4_container.md",
+        "severity": "warning",
+        "message": "TODO/FIXME/HACK markers detected without emitting source text.",
+        "metadata": {
+          "markers": 1
+        }
+      },
+      {
+        "kind": "todo_marker",
+        "path": "docs/03_security/privacy_assessment.md",
+        "severity": "warning",
+        "message": "TODO/FIXME/HACK markers detected without emitting source text.",
+        "metadata": {
+          "markers": 1
+        }
+      },
+      {
+        "kind": "todo_marker",
+        "path": "docs/03_security/security_threat_model.md",
+        "severity": "warning",
+        "message": "TODO/FIXME/HACK markers detected without emitting source text.",
+        "metadata": {
+          "markers": 3
+        }
+      },
+      {
+        "kind": "todo_marker",
+        "path": "docs/04_quality/test_strategy.md",
+        "severity": "warning",
+        "message": "TODO/FIXME/HACK markers detected without emitting source text.",
+        "metadata": {
+          "markers": 3
+        }
+      },
+      {
+        "kind": "todo_marker",
+        "path": "docs/05_operations/observability_plan.md",
+        "severity": "warning",
+        "message": "TODO/FIXME/HACK markers detected without emitting source text.",
+        "metadata": {
+          "markers": 1
+        }
+      },
+      {
+        "kind": "todo_marker",
+        "path": "docs/05_operations/runbook.md",
+        "severity": "warning",
+        "message": "TODO/FIXME/HACK markers detected without emitting source text.",
+        "metadata": {
+          "markers": 1
+        }
+      },
+      {
+        "kind": "todo_marker",
+        "path": "docs/06_miasi/agent_card.md",
+        "severity": "warning",
+        "message": "TODO/FIXME/HACK markers detected without emitting source text.",
+        "metadata": {
+          "markers": 1
+        }
+      },
+      {
+        "kind": "todo_marker",
+        "path": "docs/06_miasi/policy_card.md",
+        "severity": "warning",
+        "message": "TODO/FIXME/HACK markers detected without emitting source text.",
+        "metadata": {
+          "markers": 1
+        }
+      },
+      {
+        "kind": "todo_marker",
+        "path": "docs/06_miasi/tool_card.md",
+        "severity": "warning",
+        "message": "TODO/FIXME/HACK markers detected without emitting source text.",
+        "metadata": {
+          "markers": 1
+        }
+      },
+      {
+        "kind": "todo_marker",
+        "path": "docs/audits/func_sprint_11_miasi_executable_audit.md",
+        "severity": "warning",
+        "message": "TODO/FIXME/HACK markers detected without emitting source text.",
+        "metadata": {
+          "markers": 1
+        }
+      },
+      {
+        "kind": "todo_marker",
+        "path": "docs/audits/func_sprint_15_patch_code_review_audit.md",
+        "severity": "warning",
+        "message": "TODO/FIXME/HACK markers detected without emitting source text.",
+        "metadata": {
+          "markers": 2
+        }
+      },
+      {
+        "kind": "todo_marker",
+        "path": "docs/audits/func_sprint_37_repo_analyzer_v2_audit.md",
+        "severity": "warning",
+        "message": "TODO/FIXME/HACK markers detected without emitting source text.",
+        "metadata": {
+          "markers": 5
+        }
+      },
+      {
+        "kind": "todo_marker",
+        "path": "docs/devpilot_backlog_fase_A_baseline_industrial_minima.md",
+        "severity": "warning",
+        "message": "TODO/FIXME/HACK markers detected without emitting source text.",
+        "metadata": {
+          "markers": 5
+        }
+      },
+      {
+        "kind": "todo_marker",
+        "path": "docs/devpilot_backlog_fase_B_seguridad_operacional.md",
+        "severity": "warning",
+        "message": "TODO/FIXME/HACK markers detected without emitting source text.",
+        "metadata": {
+          "markers": 4
+        }
+      },
+      {
+        "kind": "todo_marker",
+        "path": "docs/devpilot_backlog_fase_C_ingenieria_repositorio.md",
+        "severity": "warning",
+        "message": "TODO/FIXME/HACK markers detected without emitting source text.",
+        "metadata": {
+          "markers": 11
+        }
+      },
+      {
+        "kind": "todo_marker",
+        "path": "docs/devpilot_backlog_fase_D_ia_local_gobernada.md",
+        "severity": "warning",
+        "message": "TODO/FIXME/HACK markers detected without emitting source text.",
+        "metadata": {
+          "markers": 10
+        }
+      },
+      {
+        "kind": "todo_marker",
+        "path": "docs/devpilot_backlog_fase_E_agentops_observabilidad.md",
+        "severity": "warning",
+        "message": "TODO/FIXME/HACK markers detected without emitting source text.",
+        "metadata": {
+          "markers": 7
+        }
+      },
+      {
+        "kind": "module_without_near_test",
+        "path": "src/devpilot_core/__main__.py",
+        "severity": "warning",
+        "message": "Python module has no obvious nearby/direct test by naming heuristic.",
+        "metadata": {
+          "module": "devpilot_core.__main__"
+        }
+      },
+      {
+        "kind": "module_without_near_test",
+        "path": "src/devpilot_core/agents/models.py",
+        "severity": "warning",
+        "message": "Python module has no obvious nearby/direct test by naming heuristic.",
+        "metadata": {
+          "module": "devpilot_core.agents.models"
+        }
+      },
+      {
+        "kind": "module_without_near_test",
+        "path": "src/devpilot_core/application/dtos.py",
+        "severity": "warning",
+        "message": "Python module has no obvious nearby/direct test by naming heuristic.",
+        "metadata": {
+          "module": "devpilot_core.application.dtos"
+        }
+      },
+      {
+        "kind": "module_without_near_test",
+        "path": "src/devpilot_core/approval/models.py",
+        "severity": "warning",
+        "message": "Python module has no obvious nearby/direct test by naming heuristic.",
+        "metadata": {
+          "module": "devpilot_core.approval.models"
+        }
+      },
+      {
+        "kind": "module_without_near_test",
+        "path": "src/devpilot_core/cli_models.py",
+        "severity": "warning",
+        "message": "Python module has no obvious nearby/direct test by naming heuristic.",
+        "metadata": {
+          "module": "devpilot_core.cli_models"
+        }
+      },
+      {
+        "kind": "module_without_near_test",
+        "path": "src/devpilot_core/errors.py",
+        "severity": "warning",
+        "message": "Python module has no obvious nearby/direct test by naming heuristic.",
+        "metadata": {
+          "module": "devpilot_core.errors"
+        }
+      },
+      {
+        "kind": "module_without_near_test",
+        "path": "src/devpilot_core/evals/models.py",
+        "severity": "warning",
+        "message": "Python module has no obvious nearby/direct test by naming heuristic.",
+        "metadata": {
+          "module": "devpilot_core.evals.models"
+        }
+      },
+      {
+        "kind": "module_without_near_test",
+        "path": "src/devpilot_core/execution/allowlist.py",
+        "severity": "warning",
+        "message": "Python module has no obvious nearby/direct test by naming heuristic.",
+        "metadata": {
+          "module": "devpilot_core.execution.allowlist"
+        }
+      },
+      {
+        "kind": "module_without_near_test",
+        "path": "src/devpilot_core/execution/models.py",
+        "severity": "warning",
+        "message": "Python module has no obvious nearby/direct test by naming heuristic.",
+        "metadata": {
+          "module": "devpilot_core.execution.models"
+        }
+      },
+      {
+        "kind": "module_without_near_test",
+        "path": "src/devpilot_core/modeling/contracts.py",
+        "severity": "warning",
+        "message": "Python module has no obvious nearby/direct test by naming heuristic.",
+        "metadata": {
+          "module": "devpilot_core.modeling.contracts"
+        }
+      },
+      {
+        "kind": "module_without_near_test",
+        "path": "src/devpilot_core/modeling/mock_adapter.py",
+        "severity": "warning",
+        "message": "Python module has no obvious nearby/direct test by naming heuristic.",
+        "metadata": {
+          "module": "devpilot_core.modeling.mock_adapter"
+        }
+      },
+      {
+        "kind": "module_without_near_test",
+        "path": "src/devpilot_core/modeling/providers.py",
+        "severity": "warning",
+        "message": "Python module has no obvious nearby/direct test by naming heuristic.",
+        "metadata": {
+          "module": "devpilot_core.modeling.providers"
+        }
+      },
+      {
+        "kind": "module_without_near_test",
+        "path": "src/devpilot_core/modeling/router.py",
+        "severity": "warning",
+        "message": "Python module has no obvious nearby/direct test by naming heuristic.",
+        "metadata": {
+          "module": "devpilot_core.modeling.router"
+        }
+      },
+      {
+        "kind": "module_without_near_test",
+        "path": "src/devpilot_core/observability/events.py",
+        "severity": "warning",
+        "message": "Python module has no obvious nearby/direct test by naming heuristic.",
+        "metadata": {
+          "module": "devpilot_core.observability.events"
+        }
+      },
+      {
+        "kind": "module_without_near_test",
+        "path": "src/devpilot_core/policy/cost_guard.py",
+        "severity": "warning",
+        "message": "Python module has no obvious nearby/direct test by naming heuristic.",
+        "metadata": {
+          "module": "devpilot_core.policy.cost_guard"
+        }
+      },
+      {
+        "kind": "module_without_near_test",
+        "path": "src/devpilot_core/policy/decisions.py",
+        "severity": "warning",
+        "message": "Python module has no obvious nearby/direct test by naming heuristic.",
+        "metadata": {
+          "module": "devpilot_core.policy.decisions"
+        }
+      },
+      {
+        "kind": "module_without_near_test",
+        "path": "src/devpilot_core/policy/path_guard.py",
+        "severity": "warning",
+        "message": "Python module has no obvious nearby/direct test by naming heuristic.",
+        "metadata": {
+          "module": "devpilot_core.policy.path_guard"
+        }
+      },
+      {
+        "kind": "module_without_near_test",
+        "path": "src/devpilot_core/policy/prompt_guard.py",
+        "severity": "warning",
+        "message": "Python module has no obvious nearby/direct test by naming heuristic.",
+        "metadata": {
+          "module": "devpilot_core.policy.prompt_guard"
+        }
+      },
+      {
+        "kind": "module_without_near_test",
+        "path": "src/devpilot_core/policy/secrets.py",
+        "severity": "warning",
+        "message": "Python module has no obvious nearby/direct test by naming heuristic.",
+        "metadata": {
+          "module": "devpilot_core.policy.secrets"
+        }
+      },
+      {
+        "kind": "module_without_near_test",
+        "path": "src/devpilot_core/policy/tool_injection_guard.py",
+        "severity": "warning",
+        "message": "Python module has no obvious nearby/direct test by naming heuristic.",
+        "metadata": {
+          "module": "devpilot_core.policy.tool_injection_guard"
+        }
+      },
+      {
+        "kind": "module_without_near_test",
+        "path": "src/devpilot_core/repo/diff_report.py",
+        "severity": "warning",
+        "message": "Python module has no obvious nearby/direct test by naming heuristic.",
+        "metadata": {
+          "module": "devpilot_core.repo.diff_report"
+        }
+      },
+      {
+        "kind": "module_without_near_test",
+        "path": "src/devpilot_core/repo/inventory.py",
+        "severity": "warning",
+        "message": "Python module has no obvious nearby/direct test by naming heuristic.",
+        "metadata": {
+          "module": "devpilot_core.repo.inventory"
+        }
+      },
+      {
+        "kind": "module_without_near_test",
+        "path": "src/devpilot_core/repo/models.py",
+        "severity": "warning",
+        "message": "Python module has no obvious nearby/direct test by naming heuristic.",
+        "metadata": {
+          "module": "devpilot_core.repo.models"
+        }
+      },
+      {
+        "kind": "module_without_near_test",
+        "path": "src/devpilot_core/reports/models.py",
+        "severity": "warning",
+        "message": "Python module has no obvious nearby/direct test by naming heuristic.",
+        "metadata": {
+          "module": "devpilot_core.reports.models"
+        }
+      },
+      {
+        "kind": "module_without_near_test",
+        "path": "src/devpilot_core/review/code_review.py",
+        "severity": "warning",
+        "message": "Python module has no obvious nearby/direct test by naming heuristic.",
+        "metadata": {
+          "module": "devpilot_core.review.code_review"
+        }
+      },
+      {
+        "kind": "git_worktree_changes",
+        "path": ".",
+        "severity": "warning",
+        "message": "Working tree contains changes; repository health is based on current uncommitted state.",
+        "metadata": {
+          "counts": {
+            "entries_total": 25,
+            "modified": 17,
+            "added": 0,
+            "deleted": 2,
+            "renamed": 0,
+            "untracked": 6,
+            "staged": 0
+          }
+        }
+      }
+    ],
+    "notes": [
+      "FUNC-SPRINT-37 RepoAnalyzer v2 is read-only and heuristic.",
+      "Runtime folders such as outputs, caches, virtualenvs, build and dist are excluded from the analysis.",
+      "Secret-like content is reported only as redacted metadata; raw values are never emitted.",
+      "The health score is an engineering signal, not a production certification.",
+      "Dependency metrics come from static AST imports and do not prove runtime call relationships."
+    ],
+    "reports": {
+      "json": "outputs/reports/repo_analyze.json",
+      "markdown": "outputs/reports/repo_analyze.md"
+    }
+  },
+  "findings": [
+    {
+      "id": "REPO_ANALYZER_LARGE_FILES",
+      "message": "Large files were detected; review maintainability and report size impact.",
+      "severity": "warning",
+      "metadata": {
+        "count": 2,
+        "threshold": 200000
+      }
+    },
+    {
+      "id": "REPO_ANALYZER_TODO_MARKERS",
+      "message": "TODO/FIXME/HACK markers were detected in bounded text scan.",
+      "severity": "warning",
+      "metadata": {
+        "files": 81,
+        "markers_total": 320
+      }
+    },
+    {
+      "id": "REPO_ANALYZER_MODULES_WITHOUT_NEAR_TESTS",
+      "message": "Some modules do not have obvious nearby/direct tests by heuristic.",
+      "severity": "warning",
+      "metadata": {
+        "count": 37,
+        "sample": [
+          {
+            "module": "devpilot_core.__main__",
+            "path": "src/devpilot_core/__main__.py"
+          },
+          {
+            "module": "devpilot_core.agents.models",
+            "path": "src/devpilot_core/agents/models.py"
+          },
+          {
+            "module": "devpilot_core.application.dtos",
+            "path": "src/devpilot_core/application/dtos.py"
+          },
+          {
+            "module": "devpilot_core.approval.models",
+            "path": "src/devpilot_core/approval/models.py"
+          },
+          {
+            "module": "devpilot_core.cli_models",
+            "path": "src/devpilot_core/cli_models.py"
+          },
+          {
+            "module": "devpilot_core.errors",
+            "path": "src/devpilot_core/errors.py"
+          },
+          {
+            "module": "devpilot_core.evals.models",
+            "path": "src/devpilot_core/evals/models.py"
+          },
+          {
+            "module": "devpilot_core.execution.allowlist",
+            "path": "src/devpilot_core/execution/allowlist.py"
+          },
+          {
+            "module": "devpilot_core.execution.models",
+            "path": "src/devpilot_core/execution/models.py"
+          },
+          {
+            "module": "devpilot_core.modeling.contracts",
+            "path": "src/devpilot_core/modeling/contracts.py"
+          }
+        ]
+      }
+    },
+    {
+      "id": "REPO_ANALYZER_GIT_WORKTREE_CHANGES",
+      "message": "Working tree changes are present during analysis.",
+      "severity": "warning",
+      "metadata": {
+        "entries_total": 25,
+        "modified": 17,
+        "added": 0,
+        "deleted": 2,
+        "renamed": 0,
+        "untracked": 6,
+        "staged": 0
+      }
+    },
+    {
+      "id": "REPO_ANALYZER_UPSTREAM_REPO_INVENTORY_MEDIUM_RISK_FILE",
+      "message": "Upstream inventory finding: Medium-risk file pattern detected.",
+      "severity": "warning",
+      "path": ".devpilot/devpilot.db",
+      "metadata": {
+        "source": "inventory",
+        "reasons": [
+          "state_or_lock_file"
+        ]
+      }
+    },
+    {
+      "id": "REPO_ANALYZER_UPSTREAM_GIT_UNTRACKED_FILES_PRESENT",
+      "message": "Upstream git finding: Untracked files are present.",
+      "severity": "warning",
+      "metadata": {
+        "source": "git",
+        "count": 6
+      }
+    },
+    {
+      "id": "REPO_ANALYZER_UPSTREAM_GIT_WORKTREE_CHANGES_PRESENT",
+      "message": "Upstream git finding: Working tree changes are present.",
+      "severity": "warning",
+      "metadata": {
+        "source": "git",
+        "entries_total": 25,
+        "modified": 17,
+        "added": 0,
+        "deleted": 2,
+        "renamed": 0,
+        "untracked": 6,
+        "staged": 0
+      }
+    }
+  ]
+}
+(.venv) PS D:\Projects\DevPilot_Local> python -m pytest tests/test_repo_analyzer.py -q
+.....                                                                                                                                        [100%]
+DEVPL TEST SUMMARY: 5 passed, 0 failed, 0 errors, 0 skipped
+(.venv) PS D:\Projects\DevPilot_Local> python -m pytest tests/test_sprint_37_documentation.py -q
+....                                                                                                                                         [100%]
+DEVPL TEST SUMMARY: 4 passed, 0 failed, 0 errors, 0 skipped
+(.venv) PS D:\Projects\DevPilot_Local>
