@@ -33,6 +33,14 @@ DEFAULT_ALLOWLIST: dict[str, Any] = {
             "args_prefix": ["-m", "pytest"],
             "max_timeout_seconds": 120,
             "description": "Allow controlled pytest invocation as prerequisite for tests.run.",
+        },
+        {
+            "command_id": "git.apply.check",
+            "executable": "git",
+            "executable_aliases": ["git", "git.exe"],
+            "args_prefix": ["apply", "--check"],
+            "max_timeout_seconds": 30,
+            "description": "Allow read-only patch applicability checks with git apply --check; never applies patches.",
         }
     ],
 }

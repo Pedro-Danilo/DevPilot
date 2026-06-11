@@ -436,3 +436,34 @@ Ignorar findings `BLOCK`, emitir secretos crudos, aplicar patches, modificar arc
 ### Riesgos
 
 El gate es `implemented-initial`. No reemplaza SAST/SCA, análisis de licencias, coverage real, revisión humana ni CI industrial. Las reglas y severidades deberán madurar con perfiles por repositorio y umbrales configurables.
+
+
+## Tool Card — Patch preflight seguro — FUNC-SPRINT-40
+
+### Propósito
+
+Agregar una herramienta de preflight para verificar patches antes de cualquier aplicación real. La herramienta responde si el patch tiene riesgos y si `git apply --check` lo considera aplicable en el estado actual del workspace.
+
+### Herramienta
+
+- `patch.check`: ejecuta `patch check --patch-file ...` y produce un `CommandResult` con revisión de patch, apply-check y evidencia de no mutación.
+
+### Restricciones
+
+La herramienta es dry-run. No aplica patches, no modifica archivos del workspace productivo, no ejecuta Git write, no crea sandbox, no ejecuta rollback, no usa red, no usa APIs externas, no usa modelos y no emite secretos crudos. `git apply --check` solo se ejecuta mediante `SafeSubprocessRunner` y allowlist explícita.
+
+### Criterios PASS
+
+- El patch file está dentro del workspace.
+- `PatchReviewEngine` no emite `BLOCK`.
+- `git apply --check` retorna cero.
+- El working tree permanece igual antes y después.
+- Reportes opcionales se escriben solo bajo `outputs/reports`.
+
+### Criterios BLOCK
+
+Path fuera del workspace, secreto sintético detectado, policy block, SafeSubprocessRunner bloqueado, uso de subprocess fuera de allowlist o cualquier evidencia de mutación del working tree.
+
+### Riesgos
+
+La versión es `implemented-initial`. No reemplaza sandbox, ChangeSet, rollback, CI, SAST/SCA ni revisión humana. Debe mantenerse separada de cualquier futuro `patch apply`.

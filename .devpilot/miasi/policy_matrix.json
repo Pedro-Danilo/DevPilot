@@ -77,6 +77,15 @@
       "observability_required": true
     },
     {
+      "rule_id": "PATCH_CHECK_DRY_RUN_ALLOW",
+      "domain": "Patch",
+      "action": "preflight_check",
+      "default_effect": "allow",
+      "gate": "PatchPreflightEngine+SafeSubprocessRunner+PolicyEngine+SecretGuard+PathGuard",
+      "approval_required": false,
+      "observability_required": true
+    },
+    {
       "rule_id": "PATCH_APPLY_DENY",
       "domain": "Patch",
       "action": "apply",

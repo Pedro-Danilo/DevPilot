@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "created_by": "FUNC-SPRINT-31",
-  "description": "Local command allowlist for SafeSubprocessRunner. This first controlled-execution profile only allows python -m pytest as a prerequisite for tests.run in FUNC-SPRINT-32.",
+  "description": "Local command allowlist for SafeSubprocessRunner. It allows controlled pytest runs and read-only git apply --check patch preflight.",
   "commands": [
     {
       "command_id": "python.pytest",
@@ -16,9 +16,26 @@
         "py",
         "py.exe"
       ],
-      "args_prefix": ["-m", "pytest"],
+      "args_prefix": [
+        "-m",
+        "pytest"
+      ],
       "max_timeout_seconds": 120,
       "description": "Allow controlled pytest invocation without shell=True. Suffix args such as -q, a test path or --version are permitted after the prefix."
+    },
+    {
+      "command_id": "git.apply.check",
+      "executable": "git",
+      "executable_aliases": [
+        "git",
+        "git.exe"
+      ],
+      "args_prefix": [
+        "apply",
+        "--check"
+      ],
+      "max_timeout_seconds": 30,
+      "description": "Allow read-only patch applicability checks with git apply --check. Suffix args may include one workspace-relative patch file; the command never applies patches."
     }
   ]
 }

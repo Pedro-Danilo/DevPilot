@@ -2630,3 +2630,47 @@ El comando ejecuta análisis de salud de repositorio, revisión estática determ
 ### Riesgos
 
 La versión Sprint 39 es `implemented-initial`. No reemplaza SAST/SCA, análisis de licencias, coverage real, revisión humana ni quality gates CI industriales. El target de code review por defecto se mantiene acotado para evitar falsos positivos por ejemplos históricos; el análisis amplio puede solicitarse con `--code-target`.
+
+## FUNC-SPRINT-40 — Patch preflight con verificación segura
+
+### Propósito
+
+Verificar si un patch es seguro y aplicable antes de cualquier flujo futuro de sandbox o aplicación real. El comando `patch check` no aplica cambios; solo combina revisión de patch, política y `git apply --check` en modo controlado.
+
+### Comandos
+
+```powershell
+python -m devpilot_core patch check --patch-file safe.patch --json
+python -m devpilot_core patch check --patch-file safe.patch --json --write-report
+```
+
+Para validar un patch generado localmente:
+
+```powershell
+git diff > .\outputs\candidate.patch
+python -m devpilot_core patch check --patch-file outputs\candidate.patch --json
+```
+
+### Funcionamiento
+
+`PatchPreflightEngine` ejecuta tres capas:
+
+1. `PolicyEngine`/`PathGuard` valida que el archivo patch esté dentro del workspace y pueda leerse.
+2. `PatchReviewEngine` revisa paths, secretos sintéticos, patrones riesgosos y estructura del diff sin aplicar nada.
+3. `SafeSubprocessRunner` ejecuta únicamente `git apply --check <patch-file>` mediante allowlist explícita, `cwd` controlado, sin `shell=True`, con timeout y redacción de salida.
+
+### PASS
+
+- El patch no tiene findings bloqueantes de seguridad.
+- `git apply --check` retorna cero.
+- El working tree permanece igual antes y después del preflight.
+- La salida declara `patch_applied=false`, `mutations_performed=false`, `network_used=false` y `external_api_used=false`.
+
+### BLOCK/FAIL
+
+- `BLOCK`: path fuera del workspace, secret-like content, policy block, runner bloqueado o evidencia de mutación inesperada.
+- `FAIL`: el patch no aplica en el estado actual del repositorio o `git apply --check` retorna no cero sin ser bloqueo de seguridad.
+
+### Riesgos y límites
+
+Esta versión es `implemented-initial`. No reemplaza sandbox, ChangeSet, rollback, revisión humana ni SAST/SCA. No debe confundirse con `patch apply`: no modifica el workspace productivo y no habilita Git write.

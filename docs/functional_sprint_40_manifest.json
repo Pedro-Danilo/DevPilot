@@ -1,0 +1,82 @@
+{
+  "sprint": "FUNC-SPRINT-40",
+  "title": "Patch preflight con verificación segura",
+  "status": "implemented",
+  "implemented_at": "2026-06-11",
+  "phase": "FASE-C-INGENIERIA-DE-REPOSITORIO",
+  "wave": "Ola 5 — Sandbox, patch/refactor ejecutable y rollback",
+  "source_backlog": "docs/devpilot_backlog_fase_C_ingenieria_repositorio.md",
+  "architectural_decision": {
+    "required": false,
+    "adr": null,
+    "reason": "FUNC-SPRINT-40 agrega un preflight dry-run usando componentes ya aprobados: PatchReviewEngine, PolicyEngine, GitAdapter y SafeSubprocessRunner. No introduce dependencias externas, red, APIs, modelos, UI, sandbox real, patch apply, Git write, refactor execution ni deploy. La allowlist se amplía de forma acotada solo para git apply --check."
+  },
+  "created_files": [
+    "src/devpilot_core/review/patch_preflight.py",
+    "tests/test_patch_preflight.py",
+    "tests/test_sprint_40_documentation.py",
+    "docs/audits/func_sprint_40_patch_preflight_audit.md",
+    "docs/functional_sprint_40_manifest.json"
+  ],
+  "modified_files": [
+    ".devpilot/execution/command_allowlist.json",
+    ".devpilot/miasi/agent_registry.json",
+    ".devpilot/miasi/policy_matrix.json",
+    ".devpilot/miasi/tool_registry.json",
+    "README.md",
+    "docs/04_quality/test_strategy.md",
+    "docs/05_operations/runbook.md",
+    "docs/06_miasi/tool_card.md",
+    "docs/06_miasi/tool_registry.md",
+    "docs/devpilot_backlog_fase_C_ingenieria_repositorio.md",
+    "docs/functional_backlog_after_precode.md",
+    "safe.patch",
+    "src/devpilot_core/cli.py",
+    "src/devpilot_core/execution/allowlist.py",
+    "src/devpilot_core/review/__init__.py",
+    "tests/test_sprint_31_documentation.py",
+    "tests/test_sprint_32_documentation.py",
+    "tests/test_sprint_33_documentation.py",
+    "tests/test_sprint_34_documentation.py",
+    "tests/test_sprint_35_documentation.py",
+    "tests/test_sprint_36_documentation.py",
+    "tests/test_sprint_37_documentation.py",
+    "tests/test_sprint_38_documentation.py",
+    "tests/test_sprint_39_documentation.py"
+  ],
+  "commands": [
+    "python -m devpilot_core patch check --patch-file safe.patch --json",
+    "python -m devpilot_core patch check --patch-file safe.patch --json --write-report",
+    "python -m devpilot_core miasi validate --json",
+    "python -m pytest -q"
+  ],
+  "tests": [
+    "tests/test_patch_preflight.py",
+    "tests/test_sprint_40_documentation.py"
+  ],
+  "pass_criteria": [
+    "PatchPreflightEngine combines patch review, policy checks and git apply --check.",
+    "The command supports patch check --patch-file ... --json.",
+    "The command supports --write-report.",
+    "Applicable patches return PASS without applying changes.",
+    "Non-applicable patches return FAIL without applying changes.",
+    "Security/policy findings return BLOCK.",
+    "SafeSubprocessRunner allowlist contains only git apply --check for patch applicability.",
+    "MIASI declares patch.check."
+  ],
+  "block_criteria": [
+    "The preflight modifies workspace files.",
+    "The preflight uses subprocess without SafeSubprocessRunner or allowlist.",
+    "Secret-like patches reach apply-check instead of being blocked first.",
+    "Malformed patches crash the command.",
+    "The sprint enables patch apply, sandbox, ChangeSet, rollback, Git write or deploy."
+  ],
+  "risks": [
+    "git apply --check depends on Git availability.",
+    "Preflight applicability is not semantic correctness.",
+    "Large patches need future limits and timeout tuning.",
+    "Patch sandbox and ChangeSet remain future Sprint 41 scope."
+  ],
+  "preliminary": true,
+  "next_sprint": "FUNC-SPRINT-41 — PatchSandbox y ChangeSet model"
+}

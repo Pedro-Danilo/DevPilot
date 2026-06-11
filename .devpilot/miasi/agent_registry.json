@@ -207,7 +207,8 @@
         "repo.quality_gate",
         "report.write",
         "trace.append",
-        "policy.check"
+        "policy.check",
+        "patch.check"
       ],
       "required_artifacts": [
         "Agent",
@@ -219,7 +220,8 @@
       "policy_rule_ids": [
         "GIT_READ_ALLOW",
         "SECRETS_RAW_DENY",
-        "REPO_QUALITY_GATE_DRY_RUN_ALLOW"
+        "REPO_QUALITY_GATE_DRY_RUN_ALLOW",
+        "PATCH_CHECK_DRY_RUN_ALLOW"
       ],
       "approval_required": false,
       "observability_required": true,
@@ -266,6 +268,7 @@
       "allowed_tools": [
         "patch.parse",
         "patch.dry_run",
+        "patch.check",
         "report.write",
         "trace.append",
         "policy.check"
@@ -281,7 +284,8 @@
       "policy_rule_ids": [
         "PATCH_DRY_RUN_ALLOW",
         "PATCH_APPLY_DENY",
-        "AGENT_CRITICAL_TOOL_DENY"
+        "AGENT_CRITICAL_TOOL_DENY",
+        "PATCH_CHECK_DRY_RUN_ALLOW"
       ],
       "approval_required": true,
       "observability_required": true,
@@ -299,6 +303,7 @@
         "git.diff",
         "patch.parse",
         "patch.dry_run",
+        "patch.check",
         "refactor.plan",
         "tests.run",
         "report.write",
@@ -315,7 +320,8 @@
       ],
       "policy_rule_ids": [
         "PATCH_DRY_RUN_ALLOW",
-        "AGENT_CRITICAL_TOOL_DENY"
+        "AGENT_CRITICAL_TOOL_DENY",
+        "PATCH_CHECK_DRY_RUN_ALLOW"
       ],
       "approval_required": true,
       "observability_required": true,

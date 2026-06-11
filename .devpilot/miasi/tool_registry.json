@@ -270,6 +270,20 @@
       ]
     },
     {
+      "tool_id": "patch.check",
+      "name": "patch_preflight_check",
+      "phase": "MVP+",
+      "side_effect": "simulation",
+      "risk_level": "high",
+      "status": "implemented-initial",
+      "requires_approval": false,
+      "policy_rule_ids": [
+        "PATCH_CHECK_DRY_RUN_ALLOW",
+        "PATCH_DRY_RUN_ALLOW",
+        "SECRETS_RAW_DENY"
+      ]
+    },
+    {
       "tool_id": "code.review",
       "name": "code_review",
       "phase": "MVP+",

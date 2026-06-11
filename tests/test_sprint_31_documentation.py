@@ -47,11 +47,14 @@ def test_sprint_31_audit_documents_limits_and_runner_controls() -> None:
     assert "tests.run" in audit
 
 
-def test_sprint_31_allowlist_is_narrow_and_pytest_only() -> None:
+def test_sprint_31_allowlist_is_narrow_and_controlled() -> None:
     payload = json.loads((ROOT / ".devpilot/execution/command_allowlist.json").read_text(encoding="utf-8"))
     commands = payload["commands"]
+    command_ids = {command["command_id"] for command in commands}
 
-    assert len(commands) == 1
-    assert commands[0]["command_id"] == "python.pytest"
-    assert commands[0]["args_prefix"] == ["-m", "pytest"]
+    assert command_ids == {"python.pytest", "git.apply.check"}
+    pytest_command = next(command for command in commands if command["command_id"] == "python.pytest")
+    git_check_command = next(command for command in commands if command["command_id"] == "git.apply.check")
+    assert pytest_command["args_prefix"] == ["-m", "pytest"]
+    assert git_check_command["args_prefix"] == ["apply", "--check"]
     assert commands[0]["max_timeout_seconds"] <= 120

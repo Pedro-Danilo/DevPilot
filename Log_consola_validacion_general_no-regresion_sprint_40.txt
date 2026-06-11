@@ -1,8 +1,8 @@
 (.venv) PS D:\Projects\DevPilot_Local> pytest -q
-............................................................................................................................................ [ 43%]
-............................................................................................................................................ [ 86%]
-............................................                                                                                                 [100%]
-DEVPL TEST SUMMARY: 324 passed, 0 failed, 0 errors, 0 skipped
+............................................................................................................................................ [ 42%]
+............................................................................................................................................ [ 84%]
+.....................................................                                                                                        [100%]
+DEVPL TEST SUMMARY: 333 passed, 0 failed, 0 errors, 0 skipped
 (.venv) PS D:\Projects\DevPilot_Local> python -m devpilot_core --version
 devpilot-local 0.1.0
 (.venv) PS D:\Projects\DevPilot_Local> python -m devpilot_core workspace status --json
@@ -190,7 +190,7 @@ devpilot-local 0.1.0
         "standard": "MIPSoftware",
         "purpose": "Quality, testing and verification baseline.",
         "exists": true,
-        "size_bytes": 18104
+        "size_bytes": 18806
       },
       {
         "id": "observability_plan",
@@ -206,7 +206,7 @@ devpilot-local 0.1.0
         "standard": "MIPSoftware",
         "purpose": "Local operation and recovery guide.",
         "exists": true,
-        "size_bytes": 100837
+        "size_bytes": 102786
       },
       {
         "id": "agent_card",
@@ -222,7 +222,7 @@ devpilot-local 0.1.0
         "standard": "MIASI",
         "purpose": "Tool permissions, side effects and control rules.",
         "exists": true,
-        "size_bytes": 20176
+        "size_bytes": 21653
       },
       {
         "id": "policy_card",
@@ -847,7 +847,7 @@ devpilot-local 0.1.0
       {
         "artifact": "docs/04_quality/test_strategy.md",
         "exists": true,
-        "size_bytes": 18104,
+        "size_bytes": 18806,
         "frontmatter_ok": true,
         "artifact_ok": true,
         "status": "approved",
@@ -865,7 +865,7 @@ devpilot-local 0.1.0
       {
         "artifact": "docs/05_operations/runbook.md",
         "exists": true,
-        "size_bytes": 100837,
+        "size_bytes": 102786,
         "frontmatter_ok": true,
         "artifact_ok": true,
         "status": "approved",
@@ -883,7 +883,7 @@ devpilot-local 0.1.0
       {
         "artifact": "docs/06_miasi/tool_card.md",
         "exists": true,
-        "size_bytes": 20176,
+        "size_bytes": 21653,
         "frontmatter_ok": true,
         "artifact_ok": true,
         "status": "approved",
@@ -1120,10 +1120,10 @@ devpilot-local 0.1.0
   "data": {
     "summary": {
       "agents_total": 13,
-      "tools_total": 29,
-      "policy_rules_total": 15,
+      "tools_total": 30,
+      "policy_rules_total": 16,
       "mvp_agents": 2,
-      "high_risk_tools": 6,
+      "high_risk_tools": 7,
       "approval_gated_rules": 6,
       "source_paths": {
         "agent_registry": ".devpilot/miasi/agent_registry.json",
@@ -1341,7 +1341,8 @@ devpilot-local 0.1.0
           "repo.quality_gate",
           "report.write",
           "trace.append",
-          "policy.check"
+          "policy.check",
+          "patch.check"
         ],
         "required_artifacts": [
           "Agent",
@@ -1353,7 +1354,8 @@ devpilot-local 0.1.0
         "policy_rule_ids": [
           "GIT_READ_ALLOW",
           "SECRETS_RAW_DENY",
-          "REPO_QUALITY_GATE_DRY_RUN_ALLOW"
+          "REPO_QUALITY_GATE_DRY_RUN_ALLOW",
+          "PATCH_CHECK_DRY_RUN_ALLOW"
         ],
         "approval_required": false,
         "observability_required": true,
@@ -1400,6 +1402,7 @@ devpilot-local 0.1.0
         "allowed_tools": [
           "patch.parse",
           "patch.dry_run",
+          "patch.check",
           "report.write",
           "trace.append",
           "policy.check"
@@ -1415,7 +1418,8 @@ devpilot-local 0.1.0
         "policy_rule_ids": [
           "PATCH_DRY_RUN_ALLOW",
           "PATCH_APPLY_DENY",
-          "AGENT_CRITICAL_TOOL_DENY"
+          "AGENT_CRITICAL_TOOL_DENY",
+          "PATCH_CHECK_DRY_RUN_ALLOW"
         ],
         "approval_required": true,
         "observability_required": true,
@@ -1433,6 +1437,7 @@ devpilot-local 0.1.0
           "git.diff",
           "patch.parse",
           "patch.dry_run",
+          "patch.check",
           "refactor.plan",
           "tests.run",
           "report.write",
@@ -1449,7 +1454,8 @@ devpilot-local 0.1.0
         ],
         "policy_rule_ids": [
           "PATCH_DRY_RUN_ALLOW",
-          "AGENT_CRITICAL_TOOL_DENY"
+          "AGENT_CRITICAL_TOOL_DENY",
+          "PATCH_CHECK_DRY_RUN_ALLOW"
         ],
         "approval_required": true,
         "observability_required": true,
@@ -1792,6 +1798,20 @@ devpilot-local 0.1.0
         ]
       },
       {
+        "tool_id": "patch.check",
+        "name": "patch_preflight_check",
+        "phase": "MVP+",
+        "side_effect": "simulation",
+        "risk_level": "high",
+        "status": "implemented-initial",
+        "requires_approval": false,
+        "policy_rule_ids": [
+          "PATCH_CHECK_DRY_RUN_ALLOW",
+          "PATCH_DRY_RUN_ALLOW",
+          "SECRETS_RAW_DENY"
+        ]
+      },
+      {
         "tool_id": "code.review",
         "name": "code_review",
         "phase": "MVP+",
@@ -1947,6 +1967,15 @@ devpilot-local 0.1.0
         "action": "parse_dry_run",
         "default_effect": "allow",
         "gate": "PatchPolicy",
+        "approval_required": false,
+        "observability_required": true
+      },
+      {
+        "rule_id": "PATCH_CHECK_DRY_RUN_ALLOW",
+        "domain": "Patch",
+        "action": "preflight_check",
+        "default_effect": "allow",
+        "gate": "PatchPreflightEngine+SafeSubprocessRunner+PolicyEngine+SecretGuard+PathGuard",
         "approval_required": false,
         "observability_required": true
       },
@@ -2234,7 +2263,7 @@ devpilot-local 0.1.0
       "llm_required": false,
       "external_api_used": false,
       "fixture_path": "evals/fixtures/documentation_eval_cases.json",
-      "generated_at": "2026-06-11T22:29:45Z",
+      "generated_at": "2026-06-11T23:37:21Z",
       "schema_version": "1.0",
       "declared_suite_id": "documentation",
       "description": "Synthetic offline evaluation suite for DevPilot validators and MVP document agents."
@@ -2626,7 +2655,7 @@ devpilot-local 0.1.0
       "validations_total": 2,
       "validations_passed": 2,
       "validations_failed": 0,
-      "findings_total": 41,
+      "findings_total": 42,
       "warnings_total": 12,
       "blocking_findings_total": 0,
       "preliminary": true,
@@ -3257,7 +3286,7 @@ devpilot-local 0.1.0
                       {
                         "artifact": "docs/04_quality/test_strategy.md",
                         "exists": true,
-                        "size_bytes": 18104,
+                        "size_bytes": 18806,
                         "frontmatter_ok": true,
                         "artifact_ok": true,
                         "status": "approved",
@@ -3275,7 +3304,7 @@ devpilot-local 0.1.0
                       {
                         "artifact": "docs/05_operations/runbook.md",
                         "exists": true,
-                        "size_bytes": 100837,
+                        "size_bytes": 102786,
                         "frontmatter_ok": true,
                         "artifact_ok": true,
                         "status": "approved",
@@ -3293,7 +3322,7 @@ devpilot-local 0.1.0
                       {
                         "artifact": "docs/06_miasi/tool_card.md",
                         "exists": true,
-                        "size_bytes": 20176,
+                        "size_bytes": 21653,
                         "frontmatter_ok": true,
                         "artifact_ok": true,
                         "status": "approved",
@@ -3711,10 +3740,10 @@ devpilot-local 0.1.0
           "data": {
             "summary": {
               "scope": "contracts",
-              "validations_total": 25,
-              "validations_passed": 25,
+              "validations_total": 26,
+              "validations_passed": 26,
               "validations_failed": 0,
-              "findings_total": 27,
+              "findings_total": 28,
               "warnings_total": 0,
               "blocking_findings_total": 0,
               "preliminary": true,
@@ -5148,6 +5177,50 @@ devpilot-local 0.1.0
                     }
                   ]
                 }
+              },
+              {
+                "id": "manifest:docs/functional_sprint_40_manifest.json",
+                "result": {
+                  "command": "schema validate-manifest",
+                  "ok": true,
+                  "exit_code": 0,
+                  "message": "Schema validation passed.",
+                  "data": {
+                    "summary": {
+                      "schema": "docs/schemas/functional_sprint_manifest.schema.json",
+                      "instance": "docs/functional_sprint_40_manifest.json",
+                      "valid": true,
+                      "errors_total": 0,
+                      "findings_total": 1,
+                      "network_used": false,
+                      "external_api_used": false,
+                      "schema_title": "DevPilot Functional Sprint Manifest v1",
+                      "schema_id": "SCHEMA-DEVPL-FUNCTIONAL-SPRINT-MANIFEST-V1",
+                      "validator": "jsonschema",
+                      "jsonschema_version": "4.26.0",
+                      "preliminary": true,
+                      "contract": "FunctionalSprintManifest",
+                      "subject": "docs/functional_sprint_40_manifest.json"
+                    },
+                    "schema": "docs/schemas/functional_sprint_manifest.schema.json",
+                    "instance": "docs/functional_sprint_40_manifest.json",
+                    "notes": [
+                      "FUNC-SPRINT-22 validates JSON structure only; semantic gates remain in dedicated validators.",
+                      "Validation is local-first and does not call network or external APIs."
+                    ]
+                  },
+                  "findings": [
+                    {
+                      "id": "SCHEMA_VALIDATION_PASS",
+                      "message": "Instance conforms to schema.",
+                      "severity": "info",
+                      "metadata": {
+                        "schema": "docs/schemas/functional_sprint_manifest.schema.json",
+                        "instance": "docs/functional_sprint_40_manifest.json"
+                      }
+                    }
+                  ]
+                }
               }
             ],
             "notes": [
@@ -5454,6 +5527,17 @@ devpilot-local 0.1.0
                 "schema": "docs/schemas/functional_sprint_manifest.schema.json",
                 "instance": "docs/functional_sprint_39_manifest.json",
                 "gateway_step": "manifest:docs/functional_sprint_39_manifest.json",
+                "source_command": "schema validate-manifest"
+              }
+            },
+            {
+              "id": "SCHEMA_VALIDATION_PASS",
+              "message": "Instance conforms to schema.",
+              "severity": "info",
+              "metadata": {
+                "schema": "docs/schemas/functional_sprint_manifest.schema.json",
+                "instance": "docs/functional_sprint_40_manifest.json",
+                "gateway_step": "manifest:docs/functional_sprint_40_manifest.json",
                 "source_command": "schema validate-manifest"
               }
             }
@@ -5938,6 +6022,17 @@ devpilot-local 0.1.0
         "schema": "docs/schemas/functional_sprint_manifest.schema.json",
         "instance": "docs/functional_sprint_39_manifest.json",
         "gateway_step": "manifest:docs/functional_sprint_39_manifest.json",
+        "source_command": "schema validate-manifest"
+      }
+    },
+    {
+      "id": "SCHEMA_VALIDATION_PASS",
+      "message": "Instance conforms to schema.",
+      "severity": "info",
+      "metadata": {
+        "schema": "docs/schemas/functional_sprint_manifest.schema.json",
+        "instance": "docs/functional_sprint_40_manifest.json",
+        "gateway_step": "manifest:docs/functional_sprint_40_manifest.json",
         "source_command": "schema validate-manifest"
       }
     }

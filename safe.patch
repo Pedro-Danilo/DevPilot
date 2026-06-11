@@ -1,6 +1,9 @@
 diff --git a/src/devpilot_core/reports/models.py b/src/devpilot_core/reports/models.py
 --- a/src/devpilot_core/reports/models.py
 +++ b/src/devpilot_core/reports/models.py
-@@ -1,2 +1,3 @@
+@@ -1,4 +1,5 @@
  from __future__ import annotations
-+# safe comment only
+ 
++# safe patch preflight sample comment
+ from dataclasses import dataclass, field
+ from datetime import datetime, timezone

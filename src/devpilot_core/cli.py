@@ -23,7 +23,7 @@ from .schemas import BuiltinContractValidator, SchemaRegistry, SchemaValidator
 from .repo import ArchitectureDriftDetector, DependencyGraphBuilder, GitAdapter, RepoAnalyzer, RepoInventory, RepoQualityGate, RepoQualityGateConfig
 from .repo.diff_report import GitDiffReportBuilder
 from .refactor import RefactorPlanner
-from .review import CodeReviewEngine, PatchReviewEngine
+from .review import CodeReviewEngine, PatchPreflightEngine, PatchReviewEngine
 from .standards.registry import build_standards_status_result
 from .store import LocalStore
 from .traceability import MarkdownTraceabilityExtractor, TraceabilityEngine
@@ -558,6 +558,42 @@ def repo_quality_gate_command(
     )
     _emit_result_event(root, result, subject="repo:quality-gate")
     _persist_result(root, result, subject="repo:quality-gate")
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+
+def patch_check_command(
+    *,
+    patch_file: str,
+    approval_id: str | None = None,
+    timeout_seconds: int = 10,
+    json_output: bool = False,
+    write_report: bool = False,
+) -> int:
+    """Run Sprint 40 patch preflight without applying the patch.
+
+    The command combines PatchReviewEngine risk checks with `git apply
+    --check` through SafeSubprocessRunner. It is strictly dry-run: no patch is
+    applied, no Git write command is executed and no workspace file is mutated
+    except optional evidence reports when --write-report is requested.
+    """
+
+    root = project_root()
+    result = PatchPreflightEngine(root).check(
+        patch_file=patch_file,
+        approval_id=approval_id,
+        timeout_seconds=timeout_seconds,
+    )
+    result = _write_optional_command_report(
+        root,
+        result,
+        subject=patch_file,
+        report_id="patch_preflight",
+        write_report=write_report,
+        metadata={"sprint": "FUNC-SPRINT-40", "component": "PatchPreflightEngine"},
+    )
+    _emit_result_event(root, result, subject=patch_file)
+    _persist_result(root, result, subject=patch_file)
     print_result(result, json_output=json_output)
     return int(result.exit_code)
 
@@ -1796,6 +1832,15 @@ def build_parser() -> argparse.ArgumentParser:
     quality_gate.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     quality_gate.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
 
+    patch = sub.add_parser("patch", help="Run patch safety commands")
+    patch_sub = patch.add_subparsers(dest="patch_command")
+    patch_check = patch_sub.add_parser("check", help="Run patch preflight with git apply --check without applying")
+    patch_check.add_argument("--patch-file", required=True, help="Patch/diff file to check within the workspace")
+    patch_check.add_argument("--approval-id", default=None, help="Optional scoped approval id for future gated variants")
+    patch_check.add_argument("--timeout-seconds", type=int, default=10, help="Timeout for git apply --check, bounded by SafeSubprocessRunner allowlist")
+    patch_check.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    patch_check.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+
     patch_review = sub.add_parser("patch-review", help="Review a unified diff/patch in dry-run mode")
     patch_review.add_argument("--patch-file", default=None, help="Patch/diff file to read within the workspace")
     patch_review.add_argument("--patch-text", default=None, help="Inline patch text for small synthetic reviews")
@@ -2160,6 +2205,17 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
                 code_target=args.code_target,
                 patch_file=args.patch_file,
                 patch_text=args.patch_text,
+                json_output=args.json,
+                write_report=args.write_report,
+            )
+        parser.print_help()
+        return int(ExitCode.FAIL)
+    if args.command == "patch":
+        if args.patch_command == "check":
+            return patch_check_command(
+                patch_file=args.patch_file,
+                approval_id=args.approval_id,
+                timeout_seconds=args.timeout_seconds,
                 json_output=args.json,
                 write_report=args.write_report,
             )

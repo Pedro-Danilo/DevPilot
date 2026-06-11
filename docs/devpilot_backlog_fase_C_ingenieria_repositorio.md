@@ -2,20 +2,20 @@
 title: "DevPilot Local — Backlog ejecutable Fase C: Ingeniería de repositorio"
 doc_id: "DEVPL-FUNC-BACKLOG-FASE-C-001"
 status: "approved"
-version: "1.5.0"
+version: "1.6.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
 phase: "FASE-C-INGENIERIA-DE-REPOSITORIO"
 updated: "2026-06-11"
-source_repo: "repo_DevPilot_Local_46.zip"
+source_repo: "repo_DevPilot_Local_47.zip"
 source_report: "Informe de avance DevPilot - sprint 0 - 18.docx"
 source_backlog_model: "docs/functional_backlog_after_precode.md"
 baseline_dependency: "Fase A cerrada por FUNC-SPRINT-27 y Fase B cerrada por FUNC-SPRINT-34"
 first_sprint: "FUNC-SPRINT-35"
-first_open_sprint: "FUNC-SPRINT-40"
+first_open_sprint: "FUNC-SPRINT-41"
 phase_c_status: "in_progress"
-last_completed_sprint: "FUNC-SPRINT-39"
+last_completed_sprint: "FUNC-SPRINT-40"
 last_planned_sprint: "FUNC-SPRINT-44"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "phase_c_executable_backlog_review"
@@ -627,6 +627,15 @@ python -m pytest -q
 Implementa FUNC-SPRINT-39: ReviewRulePacks y repo quality-gate dry-run integrando review engines, repo analyzer y policy, con MIASI actualizado.
 ```
 
+
+
+## Estado de implementación Sprint 40
+
+`FUNC-SPRINT-40 — Patch preflight con verificación segura` queda implementado como capacidad `implemented-initial` de Fase C. El nuevo comando `patch check` combina `PatchReviewEngine`, `PolicyEngine`, `PathGuard`, `SecretGuard`, `SafeSubprocessRunner` y `git apply --check` para distinguir entre riesgos de seguridad (`BLOCK`) y fallos de aplicabilidad (`FAIL`) sin aplicar cambios al workspace productivo.
+
+La implementación corrige una inconsistencia heredada: `safe.patch` existía como muestra operativa, pero estaba malformado. Se actualizó para que sea un patch de ejemplo aplicable contra el repositorio actual y sirva al comando objetivo del sprint. Esta corrección no habilita aplicación real de patches.
+
+Siguiente sprint abierto: `FUNC-SPRINT-41 — PatchSandbox y ChangeSet model`.
 
 # FUNC-SPRINT-40 — Patch preflight con verificación segura
 

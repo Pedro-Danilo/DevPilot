@@ -1,8 +1,8 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
-Estado actual: `baseline pre-code approved + Fase A cerrada + FASE-B cerrada + Fase C en progreso + Repo Quality Gate dry-run implemented-initial`  
-Último hito: `FUNC-SPRINT-39 — Review Rule Packs y Repo Quality Gate dry-run`  
-Siguiente hito: `FUNC-SPRINT-40 — Patch preflight con verificación segura`  
+Estado actual: `baseline pre-code approved + Fase A cerrada + FASE-B cerrada + Fase C en progreso + Patch preflight dry-run implemented-initial`  
+Último hito: `FUNC-SPRINT-40 — Patch preflight con verificación segura`  
+Siguiente hito: `FUNC-SPRINT-41 — PatchSandbox y ChangeSet model`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
@@ -1344,3 +1344,19 @@ python -m devpilot_core repo quality-gate --code-target src/devpilot_core --json
 ```
 
 Estado: `implemented-initial`. El gate no aplica patches, no ejecuta Git write, no modifica archivos, no usa red, no usa modelos ni APIs externas. Los warnings son asesoría por defecto; `FAIL` y `BLOCK` de los motores integrados se propagan al estado del gate.
+
+
+## Patch preflight seguro — FUNC-SPRINT-40
+
+`FUNC-SPRINT-40` agrega `PatchPreflightEngine` y el comando `patch check` para verificar un patch antes de cualquier flujo futuro de sandbox o aplicación. La capacidad combina `PatchReviewEngine`, `PolicyEngine`, `PathGuard`, `SecretGuard`, `SafeSubprocessRunner` y `git apply --check` para responder si el patch parece seguro y aplicable **sin aplicarlo** al workspace productivo.
+
+Comandos principales:
+
+```powershell
+python -m devpilot_core patch check --patch-file safe.patch --json
+python -m devpilot_core patch check --patch-file safe.patch --json --write-report
+```
+
+Alcance explícito: `implemented-initial`, local-first y dry-run. No habilita `patch apply`, no escribe en el workspace productivo, no ejecuta Git write, no crea sandbox, no ejecuta rollback, no usa red, no llama APIs externas y no usa modelos. Los reportes opcionales bajo `outputs/reports` son la única escritura permitida cuando se usa `--write-report`.
+
+Nota de ingeniería: `safe.patch` se conserva como patch de ejemplo aplicable para el preflight. Esta corrección evita una inconsistencia heredada donde el sample patch estaba malformado y hacía fallar el comando objetivo por corrupción del patch, no por lógica de preflight.

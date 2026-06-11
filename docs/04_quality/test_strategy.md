@@ -459,3 +459,9 @@ Criterio de calidad: el detector es heurístico y debe validar ausencia de mutac
 ## Actualización FUNC-SPRINT-39 — Pruebas de Repo Quality Gate dry-run
 
 Sprint 39 agrega pruebas específicas para `ReviewRulePack` y `repo quality-gate`. La cobertura verifica serialización de rule packs, gate `PASS` con warnings asesoría, propagación `BLOCK` con secreto sintético, generación de reportes con `--write-report` y sincronización MIASI/documental. La capacidad es `implemented-initial` y no reemplaza SAST/SCA, coverage real ni revisión humana.
+
+## Actualización FUNC-SPRINT-40 — Pruebas de Patch preflight seguro
+
+Sprint 40 agrega pruebas específicas para `PatchPreflightEngine` y `patch check`. La cobertura verifica patch aplicable PASS, patch no aplicable FAIL sin modificar archivos, patch con secreto sintético BLOCK sin emitir valor crudo, bloqueo de patch file fuera del workspace y CLI `patch check --json --write-report` con evidencia JSON/Markdown.
+
+Criterio de calidad: el preflight debe usar `SafeSubprocessRunner`, allowlist explícita para `git apply --check`, `PathGuard`/`PolicyEngine` y revisión previa de patch. La prueba de no mutación del working tree es obligatoria porque esta capacidad no es sandbox ni patch apply.

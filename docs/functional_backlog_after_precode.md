@@ -14,7 +14,7 @@ change_policy: "controlled_changes_allowed_via_docs_as_code"
 approved_on: "2026-06-06"
 approval_scope: "functional_backlog_after_precode"
 baseline_execution: "FUNC-SPRINT-00"
-next_sprint: "FUNC-SPRINT-40"
+next_sprint: "FUNC-SPRINT-41"
 ---
 
 # DevPilot Local — Backlog ejecutable posterior a pre-code
@@ -2043,3 +2043,26 @@ Estado real:
 - no usa LLM, red ni APIs externas.
 
 Siguiente sprint operativo: `FUNC-SPRINT-40 — Patch preflight con verificación segura`.
+
+
+## Transición posterior a FUNC-SPRINT-40 — Patch preflight con verificación segura
+
+`FUNC-SPRINT-40` agrega `PatchPreflightEngine` y `patch check` como preflight seguro de patches. La capacidad ejecuta revisión determinística del patch, evaluación de política y `git apply --check` mediante `SafeSubprocessRunner` y allowlist explícita.
+
+Estado real:
+
+- implementado `PatchPreflightEngine`;
+- implementado comando `patch check`;
+- `patch check --patch-file ... --json` reporta aplicabilidad y findings;
+- `--write-report` genera evidencia JSON/Markdown;
+- tool `patch.check` declarada en MIASI;
+- regla `PATCH_CHECK_DRY_RUN_ALLOW` declarada en Policy Matrix;
+- allowlist de `SafeSubprocessRunner` ampliada solo para `git apply --check`;
+- `safe.patch` corregido como muestra operativa aplicable;
+- no aplica patches;
+- no ejecuta Git write;
+- no modifica archivos del workspace productivo;
+- no crea sandbox ni ChangeSet todavía;
+- no usa LLM, red ni APIs externas.
+
+Siguiente sprint operativo: `FUNC-SPRINT-41 — PatchSandbox y ChangeSet model`.

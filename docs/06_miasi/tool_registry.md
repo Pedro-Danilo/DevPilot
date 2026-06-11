@@ -37,6 +37,7 @@ baseline_role: "precode_approved_baseline"
 | `repo.quality_gate` | repo_quality_gate_dry_run | MVP+ | reporte dry-run | Alto | Implemented-initial |
 | `patch.parse` | parse_patch | MVP+ | ninguno | Medio | Planned |
 | `patch.dry_run` | patch_dry_run | MVP+ | simulación | Alto | Planned |
+| `patch.check` | patch_preflight_check | MVP+ | simulación dry-run | Alto | Implemented-initial |
 | `code.review` | code_review | MVP+ | reporte | Alto | Planned |
 | `tests.run` | run_tests_controlled | MVP+ | ejecución controlada | Alto | Planned |
 | `model.call.mock` | call_mock_model | MVP | ninguno | Bajo | Planned |
@@ -85,3 +86,10 @@ Perfiles iniciales: `smoke`, `unit`, `all`.
 `repo.quality_gate` queda declarada como tool MIASI de Fase C en estado `implemented-initial`. No requiere approval porque no modifica archivos ni aplica patches; aun así se clasifica como riesgo alto por su rol de gate antes de cambios de repositorio. Su implementación es dry-run, local-first y basada en `ReviewRulePack`, `RepoAnalyzer`, `CodeReviewEngine`, `PatchReviewEngine` opcional y `PolicyEngine`.
 
 Restricciones: sin Git write, sin patch apply, sin red, sin APIs externas, sin modelos y sin secretos crudos en reportes. Los warnings son asesoría por defecto; findings `FAIL` y `BLOCK` de motores integrados se propagan al resultado del gate.
+
+
+## Estado operacional Patch preflight — FUNC-SPRINT-40
+
+`patch.check` queda declarada como tool MIASI de Fase C en estado `implemented-initial`. No requiere approval porque no aplica patches ni modifica el workspace productivo; aun así se clasifica como riesgo alto por ejecutar una verificación Git local controlada.
+
+Restricciones: solo `git apply --check` mediante `SafeSubprocessRunner` y allowlist explícita, sin `shell=True`, sin Git write, sin patch apply, sin sandbox, sin rollback, sin red, sin APIs externas, sin modelos y sin secretos crudos en reportes. `BLOCK` representa riesgo/política/seguridad; `FAIL` representa no aplicabilidad del patch.
