@@ -14,7 +14,7 @@ change_policy: "controlled_changes_allowed_via_docs_as_code"
 approved_on: "2026-06-06"
 approval_scope: "functional_backlog_after_precode"
 baseline_execution: "FUNC-SPRINT-00"
-next_sprint: "FUNC-SPRINT-31"
+next_sprint: "FUNC-SPRINT-32"
 ---
 
 # DevPilot Local — Backlog ejecutable posterior a pre-code
@@ -1924,3 +1924,8 @@ Siguiente sprint operativo: `FUNC-SPRINT-30 — Binding de aprobaciones con Poli
 ## 21. Transición posterior al Approval Policy Binding
 
 `FUNC-SPRINT-30` conecta approvals con `PolicyEngine` y MIASI como binding **implemented-initial**. A partir de este punto, la continuación correcta de Fase B es `FUNC-SPRINT-31 — SafeSubprocessRunner y allowlist de ejecución controlada`, sin habilitar todavía patch apply, refactor execution, deploy ni Git write.
+
+
+## Transición posterior a FUNC-SPRINT-31 — SafeSubprocessRunner
+
+`FUNC-SPRINT-31` agrega ejecución local controlada como prerequisito de `tests.run`: allowlist, cwd seguro, timeout, subprocess sin shell y redacción de salidas. No expone aún CLI pública de ejecución ni habilita patch apply/refactor execution. El siguiente sprint operativo es `FUNC-SPRINT-32 — tests.run como herramienta MIASI controlada`.

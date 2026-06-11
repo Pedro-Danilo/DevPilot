@@ -1,0 +1,69 @@
+{
+  "sprint": "FUNC-SPRINT-31",
+  "title": "SafeSubprocessRunner y allowlist de ejecución controlada",
+  "status": "implemented",
+  "implemented_at": "2026-06-11",
+  "phase": "FASE-B-SEGURIDAD-OPERACIONAL",
+  "wave": "Ola 3 — Seguridad operacional, aprobación humana y ejecución controlada",
+  "source_backlog": "docs/devpilot_backlog_fase_B_seguridad_operacional.md",
+  "architectural_decision": {
+    "required": false,
+    "adr": null,
+    "reason": "FUNC-SPRINT-31 extends the existing local-first policy/guard architecture with an internal controlled-execution boundary. It adds no external dependencies, no network/API usage, no new storage backend, no UI and no destructive operations. It is a constrained implementation step required before tests.run."
+  },
+  "created_files": [
+    "src/devpilot_core/execution/__init__.py",
+    "src/devpilot_core/execution/allowlist.py",
+    "src/devpilot_core/execution/models.py",
+    "src/devpilot_core/execution/safe_subprocess.py",
+    ".devpilot/execution/command_allowlist.json",
+    "tests/test_safe_subprocess_runner.py",
+    "tests/test_sprint_31_documentation.py",
+    "docs/audits/func_sprint_31_safe_subprocess_runner_audit.md",
+    "docs/functional_sprint_31_manifest.json"
+  ],
+  "modified_files": [
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/devpilot_backlog_fase_B_seguridad_operacional.md",
+    "docs/functional_backlog_after_precode.md",
+    "tests/test_sprint_30_documentation.py"
+  ],
+  "commands": [
+    "python -m pytest tests/test_safe_subprocess_runner.py -q",
+    "python -m pytest tests/test_sprint_31_documentation.py -q",
+    "python -m devpilot_core schema validate-manifest docs/functional_sprint_31_manifest.json --json",
+    "python -m devpilot_core validate-frontmatter docs/audits/func_sprint_31_safe_subprocess_runner_audit.md --strict --json",
+    "python -m devpilot_core validate-artifact docs/audits/func_sprint_31_safe_subprocess_runner_audit.md --strict --json",
+    "python -m pytest -q"
+  ],
+  "tests": [
+    "tests/test_safe_subprocess_runner.py",
+    "tests/test_sprint_31_documentation.py"
+  ],
+  "pass_criteria": [
+    "SafeSubprocessRunner uses argument lists and never shell=True.",
+    "Commands outside the local allowlist are blocked.",
+    "cwd outside workspace is blocked by PathGuard.",
+    "Timeout is enforced.",
+    "stdout/stderr are redacted and truncated.",
+    "Execution result is serializable as CommandResult.",
+    "pytest -q passes."
+  ],
+  "block_criteria": [
+    "Shell strings are accepted.",
+    "Unallowlisted commands execute.",
+    "cwd outside workspace executes.",
+    "Timeout does not terminate execution.",
+    "Secrets are emitted raw in stdout/stderr.",
+    "The sprint exposes arbitrary command execution or implements tests.run prematurely."
+  ],
+  "risks": [
+    "The allowlist must remain narrow until Sprint 32 integrates tests.run with policy and approval.",
+    "Output redaction is a first conservative layer and does not replace industrial secret scanning.",
+    "No full filesystem sandbox or rollback exists yet.",
+    "Allowed pytest runs can execute test code; Sprint 32 must keep policy/approval checks in front of tests.run."
+  ],
+  "preliminary": true,
+  "next_sprint": "FUNC-SPRINT-32 — tests.run como herramienta MIASI controlada"
+}

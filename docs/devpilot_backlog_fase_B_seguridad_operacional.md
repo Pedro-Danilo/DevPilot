@@ -2,19 +2,19 @@
 title: "DevPilot Local — Backlog ejecutable Fase B: Seguridad operacional"
 doc_id: "DEVPL-FUNC-BACKLOG-FASE-B-001"
 status: "approved"
-version: "0.4.0"
+version: "0.5.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
 phase: "FASE-B-SEGURIDAD-OPERACIONAL"
 updated: "2026-06-11"
-source_repo: "repo_DevPilot_Local_35.zip"
+source_repo: "repo_DevPilot_Local_36.zip"
 source_report: "Informe de avance DevPilot - sprint 0 - 18.docx"
 source_backlog_model: "docs/functional_backlog_after_precode.md"
 baseline_dependency: "Fase A cerrada y aprobada mediante FUNC-SPRINT-27"
 first_sprint: "FUNC-SPRINT-28"
 last_planned_sprint: "FUNC-SPRINT-34"
-first_open_sprint: "FUNC-SPRINT-31"
+first_open_sprint: "FUNC-SPRINT-32"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "phase_b_executable_backlog_review"
 approved_on: "2026-06-10"
@@ -26,13 +26,13 @@ phase_b_status: "in_progress"
 
 ## Estado de aprobación funcional
 
-Este documento queda en estado `approved` después del cierre verificado de Fase A. `FUNC-SPRINT-28`, `FUNC-SPRINT-29` y `FUNC-SPRINT-30` quedan implementados; el siguiente sprint abierto es `FUNC-SPRINT-31`. Su propósito es convertir la **Fase B — Seguridad operacional** en un backlog de implementación ejecutable, siguiendo el modelo operativo usado en `docs/functional_backlog_after_precode.md`.
+Este documento queda en estado `approved` después del cierre verificado de Fase A. `FUNC-SPRINT-28`, `FUNC-SPRINT-29`, `FUNC-SPRINT-30` y `FUNC-SPRINT-31` quedan implementados; el siguiente sprint abierto es `FUNC-SPRINT-32`. Su propósito es convertir la **Fase B — Seguridad operacional** en un backlog de implementación ejecutable, siguiendo el modelo operativo usado en `docs/functional_backlog_after_precode.md`.
 
 La Fase B corresponde a:
 
 - **Ola 3 — Seguridad operacional, aprobación humana y ejecución controlada**.
 
-Esta fase parte de un DevPilot que ya tiene PolicyEngine, PathGuard, SecretGuard, CostGuard, SQLite LocalStore, MIASI Policy Matrix, tablas iniciales de approvals/cost_events y agentes documentales en dry-run. El informe de avance identificaba que el **Approval Workflow operativo** todavía no existía y que `tests.run`, SafeSubprocessRunner, sandbox y ejecución controlada seguían pendientes. Tras `FUNC-SPRINT-28`, `FUNC-SPRINT-29` y `FUNC-SPRINT-30`, DevPilot ya cuenta con modelo, persistencia, CLI local de approvals y binding inicial con `PolicyEngine`/MIASI; siguen pendientes ejecución controlada, `tests.run` y hardening operacional.
+Esta fase parte de un DevPilot que ya tiene PolicyEngine, PathGuard, SecretGuard, CostGuard, SQLite LocalStore, MIASI Policy Matrix, tablas iniciales de approvals/cost_events y agentes documentales en dry-run. El informe de avance identificaba que el **Approval Workflow operativo** todavía no existía y que `tests.run`, SafeSubprocessRunner, sandbox y ejecución controlada seguían pendientes. Tras `FUNC-SPRINT-28`, `FUNC-SPRINT-29`, `FUNC-SPRINT-30` y `FUNC-SPRINT-31`, DevPilot ya cuenta con modelo, persistencia, CLI local de approvals, binding inicial con `PolicyEngine`/MIASI y una capa interna de ejecución controlada mediante SafeSubprocessRunner; siguen pendientes `tests.run` como herramienta MIASI y hardening operacional.
 
 ## 1. Propósito
 
@@ -597,6 +597,32 @@ Implementa FUNC-SPRINT-31: SafeSubprocessRunner con allowlist, timeout, cwd segu
 ```
 
 ---
+
+
+
+## Estado de implementación Sprint 31
+
+`FUNC-SPRINT-31 — SafeSubprocessRunner y allowlist de ejecución controlada` queda implementado como primera versión **implemented-initial** de ejecución local controlada.
+
+Entregables implementados:
+
+- `src/devpilot_core/execution/` como paquete interno;
+- `SafeSubprocessRunner` con `subprocess.run(..., shell=False)`;
+- `CommandAllowlist` con configuración local `.devpilot/execution/command_allowlist.json`;
+- allowlist inicial `python -m pytest`;
+- validación de `cwd` dentro del workspace mediante `PathGuard`;
+- timeout obligatorio y máximo por entrada de allowlist;
+- stdout/stderr capturados, redactados y truncados;
+- salida como `CommandResult`;
+- pruebas de bloqueo de shell string, comandos no permitidos, cwd externo, timeout y redacción.
+
+Límites explícitos:
+
+- No existe todavía CLI pública de ejecución.
+- No existe todavía `tests.run`; queda para `FUNC-SPRINT-32`.
+- No se habilita patch apply, refactor execution, Git write, deploy, red ni APIs externas.
+
+Siguiente sprint abierto: `FUNC-SPRINT-32 — tests.run como herramienta MIASI controlada`.
 
 # FUNC-SPRINT-32 — `tests.run` como herramienta MIASI controlada
 

@@ -1,0 +1,24 @@
+{
+  "schema_version": "1.0",
+  "created_by": "FUNC-SPRINT-31",
+  "description": "Local command allowlist for SafeSubprocessRunner. This first controlled-execution profile only allows python -m pytest as a prerequisite for tests.run in FUNC-SPRINT-32.",
+  "commands": [
+    {
+      "command_id": "python.pytest",
+      "executable": "python",
+      "executable_aliases": [
+        "python",
+        "python.exe",
+        "python3",
+        "python3.exe",
+        "python3.11",
+        "python3.12",
+        "py",
+        "py.exe"
+      ],
+      "args_prefix": ["-m", "pytest"],
+      "max_timeout_seconds": 120,
+      "description": "Allow controlled pytest invocation without shell=True. Suffix args such as -q, a test path or --version are permitted after the prefix."
+    }
+  ]
+}

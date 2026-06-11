@@ -1,8 +1,8 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
 Estado actual: `baseline pre-code approved + Fase A cerrada + FASE-B en progreso + approval-policy binding implemented-initial`  
-Último hito: `FUNC-SPRINT-30 — Binding de aprobaciones con PolicyEngine y MIASI`  
-Siguiente hito: `FUNC-SPRINT-31 — SafeSubprocessRunner y allowlist de ejecución controlada`  
+Último hito: `FUNC-SPRINT-31 — SafeSubprocessRunner y allowlist de ejecución controlada`  
+Siguiente hito: `FUNC-SPRINT-32 — tests.run como herramienta MIASI controlada`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
@@ -226,6 +226,8 @@ Criterio BLOCK: aprobar sin razón o actor, aprobar approvals expiradas, reabrir
 Riesgo operativo: `approval_id` todavía no es un gate de autorización. La integración con `PolicyEngine` y MIASI corresponde a `FUNC-SPRINT-30`.
 
 ## Binding de aprobaciones con PolicyEngine y MIASI — FUNC-SPRINT-30
+
+Referencia histórica: `FUNC-SPRINT-30 — Binding de aprobaciones con PolicyEngine y MIASI`.
 
 `FUNC-SPRINT-30` conecta el workflow local de approvals con `PolicyEngine` y MIASI mediante un binding **implemented-initial**. `approval_id` se valida contra SQLite, estado `approved`, expiración y scope `tool/action/subject`. Una aprobación válida evita el bloqueo genérico de acción peligrosa solo para el scope autorizado, pero no reemplaza `PathGuard`, `SecretGuard`, `CostGuard` ni otros controles.
 
@@ -1139,3 +1141,33 @@ Criterios PASS: el motor detecta requisitos sin criterios, criterios sin requisi
 Criterios BLOCK: los gaps recomendados no deben convertirse en bloqueo en esta primera versión, el reporte debe ser reproducible, el comando no debe fallar por documentos opcionales ausentes y no debe modificar documentos fuente.
 
 Riesgo explícito: esta versión prioriza cobertura explícita basada en tablas y referencias existentes. No hace razonamiento semántico, no reescribe matrices, no corrige gaps automáticamente y no reemplaza revisión humana ni validación arquitectónica. La severidad de reglas debe volverse configurable en fases futuras.
+
+
+## SafeSubprocessRunner y allowlist de ejecución controlada — FUNC-SPRINT-31
+
+`FUNC-SPRINT-31` agrega una capa interna **implemented-initial** para ejecutar comandos locales permitidos sin `shell=True`. Esta versión crea `src/devpilot_core/execution/`, `SafeSubprocessRunner`, `CommandAllowlist` y el allowlist local `.devpilot/execution/command_allowlist.json`. El único comando permitido inicialmente es `python -m pytest`, como prerequisito técnico de `tests.run` en `FUNC-SPRINT-32`.
+
+Propósito operativo:
+
+```text
+allowlist local → cwd dentro del workspace → timeout → subprocess sin shell → stdout/stderr redactados y truncados → CommandResult
+```
+
+Uso interno esperado:
+
+```python
+from pathlib import Path
+import sys
+from devpilot_core.execution import SafeSubprocessRunner
+
+result = SafeSubprocessRunner(Path.cwd()).run([sys.executable, "-m", "pytest", "-q"], cwd=".", timeout_seconds=120)
+```
+
+Límites explícitos:
+
+- No expone todavía un CLI público de ejecución.
+- No implementa `tests.run`; eso queda para `FUNC-SPRINT-32`.
+- No habilita comandos arbitrarios, `shell=True`, red, APIs externas, patch apply, refactor execution, Git write ni deploy.
+- La redacción de salidas es una primera versión conservadora; debe evolucionar con el hardening de `FUNC-SPRINT-33`.
+
+Riesgo operativo: una allowlist mal ampliada en fases futuras podría aumentar superficie de ataque. Toda nueva entrada debe tener policy, pruebas, timeout, cwd seguro y justificación MIASI.

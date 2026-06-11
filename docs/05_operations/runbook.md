@@ -6,7 +6,7 @@ version: "1.15.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "FUNC-SPRINT-30"
+phase: "FUNC-SPRINT-31"
 updated: "2026-06-11"
 approval: "approved_by_owner"
 source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved + 03_security approved"
@@ -2144,4 +2144,85 @@ MIASI queda desincronizado.
 - No existe aún `SafeSubprocessRunner`; queda para `FUNC-SPRINT-31`.
 - `tests.run` sigue pendiente hasta `FUNC-SPRINT-32`.
 
-Próxima fase operativa: `FUNC-SPRINT-31 — SafeSubprocessRunner y allowlist de ejecución controlada`.
+Próxima fase operativa: `FUNC-SPRINT-32 — tests.run como herramienta MIASI controlada`.
+
+
+## FUNC-SPRINT-31 — SafeSubprocessRunner y allowlist de ejecución controlada
+
+### Propósito
+
+Crear la primera capa interna de ejecución local controlada para DevPilot. Esta capa es prerequisito de `tests.run`, pero en este sprint no se expone todavía como CLI pública ni ejecuta herramientas MIASI finales.
+
+### Funcionamiento técnico
+
+`SafeSubprocessRunner` recibe una lista de argumentos, no un string de shell. Antes de ejecutar aplica:
+
+1. validación de tipo: bloquea comandos como string;
+2. bloqueo de tokens de shell;
+3. `PathGuard` sobre `cwd`;
+4. `CommandAllowlist` desde `.devpilot/execution/command_allowlist.json`;
+5. timeout obligatorio;
+6. `subprocess.run(..., shell=False, capture_output=True)`;
+7. redacción de secretos en stdout/stderr mediante `SecretGuard`;
+8. truncamiento de salidas para reportes manejables;
+9. salida normalizada como `CommandResult`.
+
+### Allowlist inicial
+
+```text
+.devpilot/execution/command_allowlist.json
+command_id: python.pytest
+args_prefix: python -m pytest
+max_timeout_seconds: 120
+```
+
+### Uso interno
+
+```python
+from pathlib import Path
+import sys
+from devpilot_core.execution import SafeSubprocessRunner
+
+result = SafeSubprocessRunner(Path.cwd()).run([sys.executable, "-m", "pytest", "-q"], cwd=".", timeout_seconds=120)
+```
+
+### Verificación específica
+
+```powershell
+python -m pytest tests/test_safe_subprocess_runner.py -q
+python -m pytest tests/test_sprint_31_documentation.py -q
+python -m devpilot_core schema validate-manifest docs/functional_sprint_31_manifest.json --json
+python -m devpilot_core validate-frontmatter docs/audits/func_sprint_31_safe_subprocess_runner_audit.md --strict --json
+python -m devpilot_core validate-artifact docs/audits/func_sprint_31_safe_subprocess_runner_audit.md --strict --json
+```
+
+### Criterios PASS
+
+```text
+No usa shell=True.
+Bloquea comandos no allowlisted.
+Bloquea cwd fuera del workspace.
+Aplica timeout.
+Redacta stdout/stderr.
+Trunca salidas largas.
+Devuelve CommandResult serializable.
+pytest -q pasa.
+```
+
+### Criterios BLOCK
+
+```text
+Se acepta string de shell.
+Se permite comando no allowlisted.
+Se permite cwd fuera del workspace.
+Un timeout no detiene el proceso.
+Se imprimen secretos crudos en stdout/stderr.
+Se documenta tests.run como implementado antes de FUNC-SPRINT-32.
+```
+
+### Riesgos y límites
+
+- Versión `implemented-initial`: prepara ejecución controlada, pero no reemplaza sandbox completo.
+- `tests.run` sigue pendiente hasta `FUNC-SPRINT-32`.
+- No hay ejecución de patch apply, refactor execution, Git write ni deploy.
+- La allowlist debe crecer solo con justificación, pruebas y política explícita.
