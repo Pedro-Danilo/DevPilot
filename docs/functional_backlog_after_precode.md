@@ -14,7 +14,7 @@ change_policy: "controlled_changes_allowed_via_docs_as_code"
 approved_on: "2026-06-06"
 approval_scope: "functional_backlog_after_precode"
 baseline_execution: "FUNC-SPRINT-00"
-next_sprint: "FUNC-SPRINT-32"
+next_sprint: "FUNC-SPRINT-35"
 ---
 
 # DevPilot Local — Backlog ejecutable posterior a pre-code
@@ -1954,3 +1954,10 @@ Estado real: Fase B queda cerrada como baseline local-first `implemented-initial
 Siguiente línea de trabajo recomendada: Fase C — ingeniería de repositorio y sandbox controlado. Antes de habilitar patch apply, refactor execution, Git write o deploy deben implementarse sandbox real, rollback, trazabilidad operacional v2 y readiness específico de acciones mutantes.
 
 - `tests.run` hereda hardening de entorno para pytest controlado: sin autoload de plugins externos ni user site en subprocess.
+
+
+## Aprobación de backlog Fase C posterior a FUNC-SPRINT-34
+
+Tras verificar el cierre de Fase B mediante `security readiness`, el backlog `docs/devpilot_backlog_fase_C_ingenieria_repositorio.md` queda elevado a estado `approved`. El siguiente sprint operativo es `FUNC-SPRINT-35 — GitAdapter v2 read-only: ramas, tags, log y diff-report`.
+
+Esta transición mantiene bloqueadas las capacidades destructivas hasta que existan sandbox real, ChangeSet, rollback y gates específicos de calidad de repositorio.

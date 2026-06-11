@@ -1,35 +1,44 @@
 ---
 title: "DevPilot Local — Backlog ejecutable Fase C: Ingeniería de repositorio"
 doc_id: "DEVPL-FUNC-BACKLOG-FASE-C-001"
-status: "draft-for-review"
-version: "0.1.0"
+status: "approved"
+version: "1.0.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
 phase: "FASE-C-INGENIERIA-DE-REPOSITORIO"
-updated: "2026-06-09"
-source_repo: "repo_DevPilot_Local_22.zip"
+updated: "2026-06-11"
+source_repo: "repo_DevPilot_Local_41.zip"
 source_report: "Informe de avance DevPilot - sprint 0 - 18.docx"
 source_backlog_model: "docs/functional_backlog_after_precode.md"
-baseline_dependency: "Fase A y Fase B aprobadas o explícitamente aceptadas como prerequisito"
+baseline_dependency: "Fase A cerrada por FUNC-SPRINT-27 y Fase B cerrada por FUNC-SPRINT-34"
 first_sprint: "FUNC-SPRINT-35"
 last_planned_sprint: "FUNC-SPRINT-44"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "phase_c_executable_backlog_review"
+approved_on: "2026-06-11"
+approval: "approved_by_owner_direction_after_phase_b_closure"
 ---
 
 # DevPilot Local — Backlog ejecutable Fase C: Ingeniería de repositorio
 
 ## Estado de aprobación funcional
 
-Este documento se entrega en estado `draft-for-review`. Su propósito es convertir la **Fase C — Ingeniería de repositorio** en un backlog de implementación ejecutable, siguiendo el modelo operativo usado en `docs/functional_backlog_after_precode.md`.
+Este documento queda en estado `approved` después de verificar el cierre de Fase B mediante `FUNC-SPRINT-34 — Security readiness operacional y cierre de Fase B`. Su propósito es convertir la **Fase C — Ingeniería de repositorio** en un backlog de implementación ejecutable, siguiendo el modelo operativo usado en `docs/functional_backlog_after_precode.md`.
 
 La Fase C agrupa:
 
 - **Ola 4 — Repo intelligence y revisión industrial**.
 - **Ola 5 — Sandbox, patch/refactor ejecutable y rollback**.
 
-Esta fase parte del estado real de `repo_DevPilot_Local_22.zip`, donde DevPilot ya tiene `GitAdapter` read-only inicial, `repo-inventory`, `PatchReviewEngine` dry-run, `CodeReviewEngine` dry-run y `RefactorPlanner` plan-only. La Fase C busca transformar esas capacidades iniciales en una capa robusta de ingeniería de repositorio, sin habilitar cambios destructivos antes de contar con Approval Workflow, `tests.run`, sandbox y rollback provenientes de Fase B.
+Esta fase parte del estado real de `repo_DevPilot_Local_41.zip`, donde DevPilot ya tiene `GitAdapter` read-only inicial, `repo-inventory`, `PatchReviewEngine` dry-run, `CodeReviewEngine` dry-run, `RefactorPlanner` plan-only y los prerequisitos de seguridad operacional cerrados en Fase B: Approval Workflow, PolicyEngine binding, SafeSubprocessRunner, `tests.run`, guards de seguridad textual, `security readiness`, checklist de salida y closure report. La Fase C busca transformar esas capacidades iniciales en una capa robusta de ingeniería de repositorio, sin habilitar cambios destructivos fuera de sandbox, sin Git write y sin deploy.
+
+
+## Estado aprobado posterior a Fase B
+
+La revisión posterior al cierre de `FUNC-SPRINT-34` confirma que este backlog es una continuación apropiada del desarrollo de DevPilot porque toma como entrada los prerequisitos mínimos de seguridad operacional ya cerrados: approvals, policy binding, `tests.run`, SafeSubprocessRunner, guards, readiness y reportes.
+
+La Fase C queda aprobada para iniciar en `FUNC-SPRINT-35 — GitAdapter v2 read-only: ramas, tags, log y diff-report`. Esta aprobación no habilita todavía `patch apply`, `refactor execution`, Git write ni deploy. Es una autorización documental para empezar por capacidades read-only y avanzar hacia sandbox/rollback bajo los gates definidos en este documento.
 
 ## 1. Propósito
 
