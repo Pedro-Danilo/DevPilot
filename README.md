@@ -1,8 +1,8 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
-Estado actual: `baseline pre-code approved + Fase A cerrada + FASE-B cerrada + security readiness operational baseline`  
-Último hito: `FUNC-SPRINT-35 — GitAdapter v2 read-only: ramas, tags, log y diff-report`  
-Siguiente hito: `FUNC-SPRINT-36 — DependencyGraph e import graph Python`  
+Estado actual: `baseline pre-code approved + Fase A cerrada + FASE-B cerrada + Fase C en progreso + DependencyGraph implemented-initial`  
+Último hito: `FUNC-SPRINT-36 — DependencyGraph e import graph Python`  
+Siguiente hito: `FUNC-SPRINT-37 — RepoAnalyzer v2: estructura, riesgos y salud del repositorio`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
@@ -1287,3 +1287,17 @@ python -m devpilot_core git diff-report --json --write-report
 ```
 
 Límites explícitos: esta primera versión de Fase C no habilita patch apply, refactor execution, Git write, deploy ni sandbox real. `git diff-report` es heurístico: reporta archivos, alcance staged/unstaged/untracked, líneas agregadas/eliminadas cuando Git las expone y riesgos básicos por path, pero no reemplaza revisión manual ni análisis SAST/SCA.
+
+
+## FUNC-SPRINT-36 — DependencyGraph e import graph Python
+
+`FUNC-SPRINT-36` agrega un grafo inicial de dependencias Python basado en AST. La capacidad es **implemented-initial**, local-first y read-only: no importa ni ejecuta los módulos analizados, no llama red, no usa modelos externos y no modifica archivos.
+
+Comandos principales:
+
+```powershell
+python -m devpilot_core repo dependency-graph --target src/devpilot_core --json
+python -m devpilot_core repo dependency-graph --target src/devpilot_core --json --write-report
+```
+
+La salida incluye nodos, edges internos, imports externos, dependientes, dependencias, `fan_in`, `fan_out`, syntax errors controlados y notas de limitación. No sustituye análisis semántico, SAST/SCA, runtime tracing ni detección completa de imports dinámicos.

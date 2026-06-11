@@ -14,7 +14,7 @@ change_policy: "controlled_changes_allowed_via_docs_as_code"
 approved_on: "2026-06-06"
 approval_scope: "functional_backlog_after_precode"
 baseline_execution: "FUNC-SPRINT-00"
-next_sprint: "FUNC-SPRINT-36"
+next_sprint: "FUNC-SPRINT-37"
 ---
 
 # DevPilot Local — Backlog ejecutable posterior a pre-code
@@ -1968,3 +1968,19 @@ Esta transición mantiene bloqueadas las capacidades destructivas hasta que exis
 `FUNC-SPRINT-35` inicia Fase C con lectura ampliada de Git: ramas, tags, commits recientes y diff-report estructurado. La capacidad es read-only, local-first y preliminar. No habilita patch apply, refactor execution, Git write, deploy ni sandbox real.
 
 Siguiente sprint operativo: `FUNC-SPRINT-36 — DependencyGraph e import graph Python`.
+
+
+## Transición posterior a FUNC-SPRINT-36 — DependencyGraph e import graph Python
+
+`FUNC-SPRINT-36` agrega DependencyGraph inicial para Python mediante AST. La capacidad es read-only, local-first y preliminar: no ejecuta código analizado, no importa módulos, no usa red, no llama APIs externas y no modifica archivos.
+
+Estado real:
+
+- implementado `DependencyGraphBuilder`;
+- implementado comando `repo dependency-graph`;
+- salida con nodos, edges, imports externos, fan-in/fan-out y findings de syntax error;
+- reportes opcionales JSON/Markdown mediante `--write-report`;
+- tool `repo.dependency_graph` declarada en MIASI;
+- no habilita patch apply, refactor execution, Git write, deploy ni sandbox real.
+
+Siguiente sprint operativo: `FUNC-SPRINT-37 — RepoAnalyzer v2: estructura, riesgos y salud del repositorio`.

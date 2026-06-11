@@ -2,20 +2,20 @@
 title: "DevPilot Local — Backlog ejecutable Fase C: Ingeniería de repositorio"
 doc_id: "DEVPL-FUNC-BACKLOG-FASE-C-001"
 status: "approved"
-version: "1.1.0"
+version: "1.2.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
 phase: "FASE-C-INGENIERIA-DE-REPOSITORIO"
 updated: "2026-06-11"
-source_repo: "repo_DevPilot_Local_42.zip"
+source_repo: "repo_DevPilot_Local_43.zip"
 source_report: "Informe de avance DevPilot - sprint 0 - 18.docx"
 source_backlog_model: "docs/functional_backlog_after_precode.md"
 baseline_dependency: "Fase A cerrada por FUNC-SPRINT-27 y Fase B cerrada por FUNC-SPRINT-34"
 first_sprint: "FUNC-SPRINT-35"
-first_open_sprint: "FUNC-SPRINT-36"
+first_open_sprint: "FUNC-SPRINT-37"
 phase_c_status: "in_progress"
-last_completed_sprint: "FUNC-SPRINT-35"
+last_completed_sprint: "FUNC-SPRINT-36"
 last_planned_sprint: "FUNC-SPRINT-44"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "phase_c_executable_backlog_review"
@@ -47,7 +47,14 @@ La Fase C queda aprobada para iniciar en `FUNC-SPRINT-35 — GitAdapter v2 read-
 
 `FUNC-SPRINT-35 — GitAdapter v2 read-only: ramas, tags, log y diff-report` queda implementado como primer sprint de Fase C. El alcance se limita a lectura de metadatos Git y generación de reportes de diff estructurados. No habilita `patch apply`, `refactor execution`, Git write, deploy ni sandbox real.
 
-El siguiente sprint abierto es `FUNC-SPRINT-36 — DependencyGraph e import graph Python`.
+El sprint `FUNC-SPRINT-36 — DependencyGraph e import graph Python` queda implementado después de este hito; el siguiente sprint abierto es `FUNC-SPRINT-37 — RepoAnalyzer v2: estructura, riesgos y salud del repositorio`.
+
+
+## Estado de implementación Sprint 36
+
+`FUNC-SPRINT-36 — DependencyGraph e import graph Python` queda implementado como primera versión de dependency graph estático local. El alcance se limita a parseo AST de imports Python sin ejecutar código analizado. No habilita `patch apply`, `refactor execution`, Git write, deploy, sandbox real ni análisis SAST/SCA industrial.
+
+El siguiente sprint abierto es `FUNC-SPRINT-37 — RepoAnalyzer v2: estructura, riesgos y salud del repositorio`.
 
 ## 1. Propósito
 

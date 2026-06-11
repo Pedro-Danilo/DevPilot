@@ -2446,3 +2446,50 @@ Los comandos usan `GitAdapter` con allowlist estricta y `subprocess.run(..., she
 ### Riesgos y límites
 
 Esta versión es `implemented-initial`. No inspecciona submódulos, firmas, remotos, LFS, integridad profunda del repositorio ni secretos en contenido de diff. Los riesgos de `diff-report` son heurísticos y deben evolucionar en RepoAnalyzer, DependencyGraph y QualityGate.
+
+
+## FUNC-SPRINT-36 — DependencyGraph e import graph Python
+
+### Propósito
+
+Construir un grafo inicial de dependencias Python para comprender acoplamientos internos del repositorio antes de implementar RepoAnalyzer, drift avanzado y quality gates.
+
+### Comandos operativos
+
+```powershell
+python -m devpilot_core repo dependency-graph --target src/devpilot_core --json
+python -m devpilot_core repo dependency-graph --target src/devpilot_core --json --write-report
+```
+
+### Funcionamiento
+
+El comando usa `DependencyGraphBuilder`, recorre archivos `.py` bajo el target, excluye `outputs/`, `.git/`, `.venv/`, caches y build artifacts, y parsea imports mediante `ast.parse`. No ejecuta código analizado, no importa módulos, no llama red y no usa modelos.
+
+La salida incluye:
+
+- nodos por módulo;
+- edges internas `source -> target`;
+- imports externos;
+- dependientes y dependencias por módulo;
+- métricas `fan_in` y `fan_out`;
+- syntax errors como findings controlados;
+- reportes JSON/Markdown si se usa `--write-report`.
+
+### Criterios PASS
+
+- El análisis es read-only y local-first.
+- No se ejecuta código analizado.
+- `repo dependency-graph` devuelve JSON parseable.
+- Syntax errors se reportan sin crash.
+- Se documentan límites de imports dinámicos.
+
+### Criterios BLOCK
+
+- Ejecutar o importar módulos analizados.
+- Seguir paths fuera del workspace.
+- Llamar red, APIs externas o modelos.
+- Presentar el grafo como SAST/SCA o call graph runtime completo.
+
+### Riesgos y límites
+
+Esta versión es `implemented-initial`. No detecta todos los imports dinámicos, plugins, llamadas runtime ni acoplamientos semánticos. Los edges representan imports estáticos detectados, no relaciones de ejecución garantizadas.

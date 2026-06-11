@@ -1,0 +1,72 @@
+{
+  "sprint": "FUNC-SPRINT-36",
+  "title": "DependencyGraph e import graph Python",
+  "status": "implemented",
+  "implemented_at": "2026-06-11",
+  "phase": "FASE-C-INGENIERIA-DE-REPOSITORIO",
+  "wave": "Ola 4 — Repo intelligence y revisión industrial",
+  "source_backlog": "docs/devpilot_backlog_fase_C_ingenieria_repositorio.md",
+  "architectural_decision": {
+    "required": false,
+    "adr": null,
+    "reason": "FUNC-SPRINT-36 agrega un analizador estático local basado en AST, sin dependencias externas, sin red, sin APIs, sin ejecución de código analizado, sin UI, sin sandbox real y sin acciones destructivas. Mantiene la arquitectura local-first y read-only de Fase C."
+  },
+  "created_files": [
+    "src/devpilot_core/repo/models.py",
+    "src/devpilot_core/repo/dependency_graph.py",
+    "tests/test_dependency_graph.py",
+    "tests/test_sprint_36_documentation.py",
+    "docs/audits/func_sprint_36_dependency_graph_audit.md",
+    "docs/functional_sprint_36_manifest.json"
+  ],
+  "modified_files": [
+    "src/devpilot_core/repo/__init__.py",
+    "src/devpilot_core/cli.py",
+    ".devpilot/miasi/tool_registry.json",
+    ".devpilot/miasi/agent_registry.json",
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/devpilot_backlog_fase_C_ingenieria_repositorio.md",
+    "docs/functional_backlog_after_precode.md",
+    "docs/06_miasi/tool_registry.md",
+    "docs/06_miasi/tool_card.md",
+    "tests/test_sprint_32_documentation.py",
+    "tests/test_sprint_33_documentation.py",
+    "tests/test_sprint_34_documentation.py",
+    "tests/test_sprint_35_documentation.py"
+  ],
+  "commands": [
+    "python -m devpilot_core repo dependency-graph --target src/devpilot_core --json",
+    "python -m devpilot_core repo dependency-graph --target src/devpilot_core --json --write-report",
+    "python -m devpilot_core miasi validate --json",
+    "python -m pytest -q"
+  ],
+  "tests": [
+    "tests/test_dependency_graph.py",
+    "tests/test_sprint_36_documentation.py"
+  ],
+  "pass_criteria": [
+    "DependencyGraph extracts Python imports using AST without executing analyzed code.",
+    "The graph reports nodes, edges, fan-in and fan-out metrics.",
+    "External imports are separated from internal dependency edges.",
+    "Runtime/cache directories are excluded.",
+    "Syntax errors produce controlled findings instead of crashes.",
+    "The CLI returns CommandResult and supports --json/--write-report.",
+    "MIASI declares repo.dependency_graph as a read-only tool.",
+    "pytest -q passes."
+  ],
+  "block_criteria": [
+    "The analyzer imports or executes code under analysis.",
+    "The analyzer follows paths outside the workspace.",
+    "The command calls network, external APIs or models.",
+    "A Python syntax error crashes the command.",
+    "Sprint 36 is documented as semantic SAST/SCA or runtime call graph certainty."
+  ],
+  "risks": [
+    "Dynamic imports and runtime plugin loading are not fully detected.",
+    "Import edges are not equivalent to runtime call relationships.",
+    "Large repositories may require additional limits and pagination."
+  ],
+  "preliminary": true,
+  "next_sprint": "FUNC-SPRINT-37 — RepoAnalyzer v2: estructura, riesgos y salud del repositorio"
+}

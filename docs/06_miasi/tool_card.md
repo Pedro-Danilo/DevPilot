@@ -314,3 +314,32 @@ No se permiten `git add`, `git commit`, `git checkout`, `git reset`, `git push`,
 ### Riesgos
 
 `git.diff_report` es heurístico y no reemplaza SAST/SCA ni revisión humana. No lee contenido completo de diffs ni detecta todas las clases de secretos.
+
+## Tool Card — DependencyGraph read-only — FUNC-SPRINT-36
+
+### Propósito
+
+Agregar una herramienta de análisis estático para construir un import graph Python inicial sin ejecutar código. Sirve como insumo para RepoAnalyzer, architecture drift, review rule packs y quality gates posteriores.
+
+### Herramienta
+
+- `repo.dependency_graph`: analiza imports Python mediante AST y produce nodos, edges, dependencias, dependientes, imports externos, `fan_in` y `fan_out`.
+
+### Restricciones
+
+La herramienta es read-only. No importa módulos analizados, no ejecuta archivos Python, no llama red, no usa modelos ni modifica el workspace. Excluye `outputs/`, `.git/`, `.venv/`, caches y build artifacts.
+
+### Criterios PASS
+
+- Parseo AST local.
+- Salida `CommandResult` JSON-serializable.
+- Syntax errors como findings controlados.
+- Reporte opcional JSON/Markdown.
+
+### Criterios BLOCK
+
+Ejecución/importación de código analizado, traversal fuera del workspace, red/APIs/modelos, o sobredeclarar el grafo como SAST/SCA/call graph completo.
+
+### Riesgos
+
+Imports dinámicos, plugins y relaciones runtime pueden no detectarse. La herramienta produce señales estructurales, no prueba semántica completa de acoplamiento.

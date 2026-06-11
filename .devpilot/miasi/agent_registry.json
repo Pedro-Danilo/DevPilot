@@ -197,6 +197,11 @@
         "git.status",
         "git.diff",
         "repo.inventory",
+        "git.branches",
+        "git.tags",
+        "git.log",
+        "git.diff_report",
+        "repo.dependency_graph",
         "report.write",
         "trace.append",
         "policy.check"

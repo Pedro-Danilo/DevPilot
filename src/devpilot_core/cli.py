@@ -20,7 +20,7 @@ from .policy import CostPolicy, PolicyEngine, PolicyRequest, load_cost_policy
 from .reports import ReportEngine, build_report_id
 from .security import PolicySimulationSuite, SecurityReadiness
 from .schemas import BuiltinContractValidator, SchemaRegistry, SchemaValidator
-from .repo import GitAdapter, RepoInventory
+from .repo import DependencyGraphBuilder, GitAdapter, RepoInventory
 from .repo.diff_report import GitDiffReportBuilder
 from .refactor import RefactorPlanner
 from .review import CodeReviewEngine, PatchReviewEngine
@@ -432,6 +432,36 @@ def repo_inventory_command(*, json_output: bool = False, write_report: bool = Fa
 
 
 
+
+
+
+def repo_dependency_graph_command(
+    *,
+    target: str = "src/devpilot_core",
+    json_output: bool = False,
+    write_report: bool = False,
+) -> int:
+    """Build a Python import dependency graph in read-only mode.
+
+    FUNC-SPRINT-36 parses Python files with AST. It never imports or executes
+    analyzed modules, never calls network/API providers and never mutates the
+    repository. Dynamic imports remain a documented limitation.
+    """
+
+    root = project_root()
+    result = DependencyGraphBuilder(root).build(target=target)
+    result = _write_optional_command_report(
+        root,
+        result,
+        subject=target,
+        report_id="repo_dependency_graph",
+        write_report=write_report,
+        metadata={"sprint": "FUNC-SPRINT-36", "component": "DependencyGraphBuilder"},
+    )
+    _emit_result_event(root, result, subject=target)
+    _persist_result(root, result, subject=target)
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
 
 def patch_review_command(
     *,
@@ -1644,6 +1674,13 @@ def build_parser() -> argparse.ArgumentParser:
     repo_inventory.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     repo_inventory.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
 
+    repo_parser = sub.add_parser("repo", help="Run repository engineering read-only analyzers")
+    repo_sub = repo_parser.add_subparsers(dest="repo_command")
+    dependency_graph = repo_sub.add_parser("dependency-graph", help="Build Python import dependency graph without executing code")
+    dependency_graph.add_argument("--target", default="src/devpilot_core", help="Target file or directory to analyze; default: src/devpilot_core")
+    dependency_graph.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    dependency_graph.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+
     patch_review = sub.add_parser("patch-review", help="Review a unified diff/patch in dry-run mode")
     patch_review.add_argument("--patch-file", default=None, help="Patch/diff file to read within the workspace")
     patch_review.add_argument("--patch-text", default=None, help="Inline patch text for small synthetic reviews")
@@ -1995,6 +2032,11 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
         return int(ExitCode.FAIL)
     if args.command == "repo-inventory":
         return repo_inventory_command(json_output=args.json, write_report=args.write_report)
+    if args.command == "repo":
+        if args.repo_command == "dependency-graph":
+            return repo_dependency_graph_command(target=args.target, json_output=args.json, write_report=args.write_report)
+        parser.print_help()
+        return int(ExitCode.FAIL)
     if args.command == "patch-review":
         return patch_review_command(
             patch_file=args.patch_file,
