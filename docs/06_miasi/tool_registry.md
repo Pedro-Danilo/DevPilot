@@ -38,3 +38,17 @@ baseline_role: "precode_approved_baseline"
 ## Política
 
 Toda herramienta nueva debe agregarse a este registro antes de implementarse.
+
+## Estado operacional de `tests.run` — FUNC-SPRINT-32
+
+`tests.run` pasa de `planned` a `implemented-initial` como herramienta MIASI de ejecución controlada. Su implementación reside en `devpilot_core.testing.TestsRunTool` y usa `SafeSubprocessRunner` como frontera de ejecución.
+
+Restricciones:
+
+- requiere aprobación humana para `tests.run/execute/<profile>`;
+- solo ejecuta perfiles definidos en `.devpilot/testing/test_profiles.json`;
+- no acepta comandos arbitrarios;
+- no usa `shell=True`;
+- conserva `PathGuard`, `SecretGuard`, `CostGuard` y `ApprovalPolicyChecker` en el flujo.
+
+Perfiles iniciales: `smoke`, `unit`, `all`.

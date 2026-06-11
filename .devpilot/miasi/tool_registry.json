@@ -203,7 +203,7 @@
       "phase": "MVP+",
       "side_effect": "controlled_execution",
       "risk_level": "high",
-      "status": "planned",
+      "status": "implemented-initial",
       "requires_approval": true,
       "policy_rule_ids": [
         "AGENT_CRITICAL_TOOL_DENY"

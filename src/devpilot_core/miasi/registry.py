@@ -18,7 +18,7 @@ TOOL_REGISTRY_DOC = Path("docs") / "06_miasi" / "tool_registry.md"
 POLICY_MATRIX_DOC = Path("docs") / "06_miasi" / "policy_matrix.md"
 
 ALLOWED_PHASES = {"MVP", "MVP+", "Post-MVP"}
-ALLOWED_STATUSES = {"planned", "future", "implemented", "existing", "disabled"}
+ALLOWED_STATUSES = {"planned", "future", "implemented", "implemented-initial", "existing", "disabled"}
 ALLOWED_RISKS = {"low", "medium", "medium_high", "high"}
 ALLOWED_EFFECTS = {"allow", "deny", "block", "deny_unless_safe_output"}
 ALLOWED_SIDE_EFFECTS = {

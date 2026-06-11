@@ -264,3 +264,18 @@ Criterios PASS: `MockModelAdapter` genera, clasifica y embebe de forma determin�
 Criterios BLOCK: prompt con secreto sintético, proveedor no registrado, API externa sin presupuesto/política explícita, configuración con valor de API key crudo, o cualquier intento de contacto real con proveedor local/API dentro de Sprint 17.
 
 Riesgo: esta es una primera versión contractual. Las rutas Ollama/LM Studio/OpenAI/Gemini son placeholders hasta que existan clientes, timeouts, retries, evaluación, budgets persistentes y aprobación humana cuando aplique.
+
+## FUNC-SPRINT-32 — Tool `tests.run`
+
+`tests.run` queda implementada en versión `implemented-initial` como herramienta local approval-gated para ejecutar perfiles pytest controlados. Usa `SafeSubprocessRunner`, command allowlist, timeout, cwd seguro y redacción de stdout/stderr.
+
+Esta capacidad no convierte a DevPilot en CI/CD. Tampoco habilita patch apply, refactor execution, Git write, deploy ni comandos arbitrarios.
+
+Criterios de seguridad:
+
+- approval válido obligatorio;
+- scope exacto por perfil;
+- no `shell=True`;
+- salida redactada;
+- evidencia JSON/Markdown opcional;
+- eventos locales de ejecución.

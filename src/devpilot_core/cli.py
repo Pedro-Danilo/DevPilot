@@ -25,6 +25,7 @@ from .review import CodeReviewEngine, PatchReviewEngine
 from .standards.registry import build_standards_status_result
 from .store import LocalStore
 from .traceability import MarkdownTraceabilityExtractor, TraceabilityEngine
+from .testing import TestsRunTool
 from .validation import ValidationGateway
 from .workspace import WorkspaceManager
 from .validators.artifact import validate_artifact_file
@@ -1301,6 +1302,56 @@ def policy_simulate_command(
     return int(result.exit_code)
 
 
+def tests_profiles_command(*, json_output: bool = False, write_report: bool = False) -> int:
+    """List configured tests.run profiles without executing subprocesses."""
+
+    root = project_root()
+    result = TestsRunTool(root).list_profiles()
+    result = _write_optional_command_report(
+        root,
+        result,
+        subject=".devpilot/testing/test_profiles.json",
+        report_id="tests_profiles",
+        write_report=write_report,
+        metadata={"sprint": "FUNC-SPRINT-32", "component": "TestsRunTool"},
+    )
+    _emit_result_event(root, result, subject="tests.run profiles")
+    _persist_result(root, result, subject="tests.run profiles")
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+
+def tests_run_command(
+    *,
+    profile: str,
+    approval_id: str | None = None,
+    timeout_seconds: int | None = None,
+    json_output: bool = False,
+    write_report: bool = False,
+) -> int:
+    """Execute one controlled pytest profile through tests.run.
+
+    FUNC-SPRINT-32 implements tests.run as an approval-gated MIASI tool. This
+    command evaluates policy first and executes only fixed pytest profiles via
+    SafeSubprocessRunner.
+    """
+
+    root = project_root()
+    result = TestsRunTool(root).run(profile_id=profile, approval_id=approval_id, timeout_seconds=timeout_seconds)
+    result = _write_optional_command_report(
+        root,
+        result,
+        subject=f"tests.run:{profile}",
+        report_id=f"tests_run_{profile}",
+        write_report=write_report,
+        metadata={"sprint": "FUNC-SPRINT-32", "component": "TestsRunTool", "profile": profile},
+    )
+    _emit_result_event(root, result, subject=f"tests.run:{profile}")
+    _persist_result(root, result, subject=f"tests.run:{profile}")
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="devpilot", description="DevPilot Local CLI")
     parser.add_argument("--version", action="store_true", help="Show version")
@@ -1412,6 +1463,19 @@ def build_parser() -> argparse.ArgumentParser:
         approval_decision.add_argument("--reason", required=True, help="Decision reason")
         approval_decision.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
         approval_decision.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+
+    tests_parser = sub.add_parser("tests", help="Run controlled local test profiles through MIASI tests.run")
+    tests_sub = tests_parser.add_subparsers(dest="tests_command")
+    tests_profiles = tests_sub.add_parser("profiles", help="List configured tests.run profiles")
+    tests_profiles.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    tests_profiles.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+
+    tests_run = tests_sub.add_parser("run", help="Execute one approval-gated pytest profile")
+    tests_run.add_argument("--profile", choices=["smoke", "unit", "all"], default="smoke", help="Configured pytest profile to execute")
+    tests_run.add_argument("--approval-id", required=True, help="Approved approval_id scoped to tests.run/execute/<profile>")
+    tests_run.add_argument("--timeout-seconds", type=int, default=None, help="Optional timeout not exceeding profile/allowlist maximum")
+    tests_run.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    tests_run.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
 
     eval_parser = sub.add_parser("eval", help="Run deterministic offline evaluation suites")
     eval_sub = eval_parser.add_subparsers(dest="eval_command")
@@ -1622,6 +1686,9 @@ def _command_name_from_args(args: argparse.Namespace) -> str:
     if command == "approval":
         subcommand = getattr(args, "approval_command", None)
         return f"approval {subcommand}" if subcommand else "approval"
+    if command == "tests":
+        subcommand = getattr(args, "tests_command", None)
+        return f"tests {subcommand}" if subcommand else "tests"
     if command == "agent":
         subcommand = getattr(args, "agent_command", None)
         return f"agent {subcommand}" if subcommand else "agent"
@@ -1737,6 +1804,19 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
                 approval_id=args.approval_id,
                 actor=args.actor,
                 reason=args.reason,
+                json_output=args.json,
+                write_report=args.write_report,
+            )
+        parser.print_help()
+        return int(ExitCode.FAIL)
+    if args.command == "tests":
+        if args.tests_command == "profiles":
+            return tests_profiles_command(json_output=args.json, write_report=args.write_report)
+        if args.tests_command == "run":
+            return tests_run_command(
+                profile=args.profile,
+                approval_id=args.approval_id,
+                timeout_seconds=args.timeout_seconds,
                 json_output=args.json,
                 write_report=args.write_report,
             )

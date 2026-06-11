@@ -2226,3 +2226,66 @@ Se documenta tests.run como implementado antes de FUNC-SPRINT-32.
 - `tests.run` sigue pendiente hasta `FUNC-SPRINT-32`.
 - No hay ejecución de patch apply, refactor execution, Git write ni deploy.
 - La allowlist debe crecer solo con justificación, pruebas y política explícita.
+
+## FUNC-SPRINT-32 — Operación de `tests.run` como herramienta MIASI controlada
+
+### Propósito
+
+`FUNC-SPRINT-32` habilita `tests.run` como primera herramienta de ejecución controlada sobre pytest local. La herramienta es `implemented-initial` y debe evolucionar antes de operar como CI/CD o sandbox industrial completo.
+
+### Funcionamiento
+
+El flujo operativo es:
+
+```text
+approval request -> approval approve -> policy check -> SafeSubprocessRunner -> pytest allowlisted -> report/event/store
+```
+
+`tests.run` no acepta comandos arbitrarios. Solo permite perfiles definidos en `.devpilot/testing/test_profiles.json` y ejecuta `python -m pytest` a través de `SafeSubprocessRunner`, con `shell=False`, timeout, `cwd` seguro, redacción y captura de stdout/stderr.
+
+### Comandos Windows
+
+```powershell
+$approval = python -m devpilot_core approval request `
+  --tool tests.run `
+  --action execute `
+  --subject smoke `
+  --reason "Run smoke tests" `
+  --actor owner `
+  --json | ConvertFrom-Json
+
+$approvalId = $approval.data.approval.approval_id
+
+python -m devpilot_core approval approve $approvalId `
+  --actor owner `
+  --reason "Approved local controlled tests" `
+  --json
+
+python -m devpilot_core tests profiles --json
+python -m devpilot_core tests run --profile smoke --approval-id $approvalId --json --write-report
+```
+
+### Criterios PASS
+
+- `tests.run` aparece en MIASI como `implemented-initial`.
+- Solo ejecuta perfiles allowlisted: `smoke`, `unit`, `all`.
+- Requiere `approval_id` válido y scoped a `tests.run/execute/<profile>`.
+- Ejecuta con `SafeSubprocessRunner` y no usa `shell=True`.
+- Captura exit code, stdout, stderr, timeout y redacciones.
+- Genera eventos y reportes cuando se solicita `--write-report`.
+- `pytest -q` pasa.
+
+### Criterios BLOCK
+
+- Ejecutar sin approval cuando policy lo exige.
+- Ejecutar comandos arbitrarios o argumentos provistos por el usuario.
+- Ejecutar fuera del workspace.
+- Perder el exit code de pytest.
+- Imprimir secretos crudos en stdout/stderr.
+
+### Riesgos y límites
+
+- `pytest` puede ejecutar código de pruebas del repositorio; por eso se exige approval y policy binding.
+- La allowlist no es sandbox completo de filesystem.
+- `tests.run` no reemplaza CI/CD ni SAST/SCA.
+- La versión es preliminar y debe evolucionar en fases posteriores con mayor aislamiento, retención de evidencias y observabilidad avanzada.

@@ -1,0 +1,81 @@
+{
+  "sprint": "FUNC-SPRINT-32",
+  "title": "tests.run como herramienta MIASI controlada",
+  "status": "implemented",
+  "implemented_at": "2026-06-11",
+  "phase": "FASE-B-SEGURIDAD-OPERACIONAL",
+  "wave": "Ola 3 — Seguridad operacional, aprobación humana y ejecución controlada",
+  "source_backlog": "docs/devpilot_backlog_fase_B_seguridad_operacional.md",
+  "architectural_decision": {
+    "required": false,
+    "adr": null,
+    "reason": "FUNC-SPRINT-32 compone capacidades ya aprobadas: Approval Workflow, PolicyEngine, MIASI, SafeSubprocessRunner, ReportEngine y EventLogger. No agrega dependencias externas, red, UI, backend nuevo ni ejecución arbitraria. Es una evolución interna y restringida del modelo de seguridad operacional."
+  },
+  "created_files": [
+    "src/devpilot_core/testing/__init__.py",
+    "src/devpilot_core/testing/profiles.py",
+    "src/devpilot_core/testing/tests_run.py",
+    ".devpilot/testing/test_profiles.json",
+    "tests/fixtures/smoke_pytest_project/test_smoke.py",
+    "tests/test_tests_run_tool.py",
+    "tests/test_sprint_32_documentation.py",
+    "docs/audits/func_sprint_32_tests_run_tool_audit.md",
+    "docs/functional_sprint_32_manifest.json"
+  ],
+  "modified_files": [
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/devpilot_backlog_fase_B_seguridad_operacional.md",
+    "docs/functional_backlog_after_precode.md",
+    "docs/06_miasi/tool_registry.md",
+    "docs/06_miasi/tool_card.md",
+    ".devpilot/miasi/tool_registry.json",
+    "src/devpilot_core/cli.py",
+    "tests/test_sprint_28_documentation.py",
+    "tests/test_sprint_29_documentation.py",
+    "tests/test_sprint_30_documentation.py",
+    "tests/test_sprint_31_documentation.py",
+    "docs/schemas/miasi_tool_registry.schema.json",
+    "src/devpilot_core/miasi/registry.py"
+  ],
+  "commands": [
+    "python -m pytest tests/test_tests_run_tool.py -q",
+    "python -m pytest tests/test_sprint_32_documentation.py -q",
+    "python -m devpilot_core tests profiles --json",
+    "python -m devpilot_core tests run --profile smoke --approval-id <approval_id> --json --write-report",
+    "python -m devpilot_core miasi validate --json",
+    "python -m devpilot_core schema validate-manifest docs/functional_sprint_32_manifest.json --json",
+    "python -m pytest -q"
+  ],
+  "tests": [
+    "tests/test_tests_run_tool.py",
+    "tests/test_sprint_32_documentation.py"
+  ],
+  "pass_criteria": [
+    "tests.run appears in MIASI as implemented-initial.",
+    "tests.run executes only configured pytest profiles.",
+    "tests.run requires scoped approval when PolicyEngine requires it.",
+    "TestsRunTool delegates execution to SafeSubprocessRunner.",
+    "No shell=True or arbitrary command execution is introduced.",
+    "Exit code, stdout, stderr, timeout and redactions are captured.",
+    "Optional JSON/Markdown reports and local events are produced.",
+    "pytest -q passes.",
+    "MIASI structural schema allows implemented-initial status for executable tool registry entries."
+  ],
+  "block_criteria": [
+    "tests.run executes without valid approval when approval is required.",
+    "CLI accepts arbitrary subprocess arguments.",
+    "Execution bypasses SafeSubprocessRunner.",
+    "Pytest exit code is lost.",
+    "Secrets are printed raw in reports or traces.",
+    "The sprint claims CI/CD, sandbox, patch apply, refactor execution, Git write or deploy support."
+  ],
+  "risks": [
+    "Pytest can execute local test code, so tests.run remains approval-gated.",
+    "The implementation is not a full filesystem sandbox.",
+    "The initial profile registry is intentionally narrow and must be governed before expansion.",
+    "Redaction is a conservative first line and will be hardened in Sprint 33."
+  ],
+  "preliminary": true,
+  "next_sprint": "FUNC-SPRINT-33 — Hardening de SecretGuard y checks básicos de prompt/tool injection"
+}

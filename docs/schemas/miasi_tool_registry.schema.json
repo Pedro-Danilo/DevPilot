@@ -90,6 +90,7 @@
               "planned",
               "future",
               "implemented",
+              "implemented-initial",
               "existing",
               "disabled"
             ]

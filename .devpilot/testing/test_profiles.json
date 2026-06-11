@@ -1,0 +1,28 @@
+{
+  "schema_version": "1.0",
+  "created_by": "FUNC-SPRINT-32",
+  "description": "Controlled pytest profiles for DevPilot tests.run. Users select profiles; they cannot pass arbitrary shell commands.",
+  "profiles": [
+    {
+      "profile_id": "smoke",
+      "description": "Very small synthetic smoke test used to validate the controlled tests.run pipeline.",
+      "pytest_args": ["-q", "tests/fixtures/smoke_pytest_project"],
+      "cwd": ".",
+      "timeout_seconds": 60
+    },
+    {
+      "profile_id": "unit",
+      "description": "Focused local unit verification for CLI/policy core without running the full suite.",
+      "pytest_args": ["-q", "tests/test_cli_core.py", "tests/test_policy_engine.py"],
+      "cwd": ".",
+      "timeout_seconds": 120
+    },
+    {
+      "profile_id": "all",
+      "description": "Full local pytest suite. This can execute project tests and should remain approval-gated.",
+      "pytest_args": ["-q"],
+      "cwd": ".",
+      "timeout_seconds": 120
+    }
+  ]
+}

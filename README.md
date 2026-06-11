@@ -1,8 +1,8 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
-Estado actual: `baseline pre-code approved + Fase A cerrada + FASE-B en progreso + approval-policy binding implemented-initial`  
-Último hito: `FUNC-SPRINT-31 — SafeSubprocessRunner y allowlist de ejecución controlada`  
-Siguiente hito: `FUNC-SPRINT-32 — tests.run como herramienta MIASI controlada`  
+Estado actual: `baseline pre-code approved + Fase A cerrada + FASE-B en progreso + tests.run implemented-initial`  
+Último hito: `FUNC-SPRINT-32 — tests.run como herramienta MIASI controlada`  
+Siguiente hito: `FUNC-SPRINT-33 — Hardening de SecretGuard y checks básicos de prompt/tool injection`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
@@ -1171,3 +1171,46 @@ Límites explícitos:
 - La redacción de salidas es una primera versión conservadora; debe evolucionar con el hardening de `FUNC-SPRINT-33`.
 
 Riesgo operativo: una allowlist mal ampliada en fases futuras podría aumentar superficie de ataque. Toda nueva entrada debe tener policy, pruebas, timeout, cwd seguro y justificación MIASI.
+
+## tests.run controlado — FUNC-SPRINT-32
+
+`FUNC-SPRINT-32` implementa `tests.run` como herramienta MIASI `implemented-initial`. La herramienta ejecuta únicamente perfiles pytest locales declarados en `.devpilot/testing/test_profiles.json`, exige `approval_id` válido para `tests.run/execute/<profile>`, evalúa `PolicyEngine` antes de ejecutar, usa `SafeSubprocessRunner`, no usa `shell=True`, captura exit code, redacciona stdout/stderr y genera evidencia opcional con `--write-report`.
+
+Perfiles iniciales:
+
+| Perfil | Uso | Alcance |
+|---|---|---|
+| `smoke` | prueba sintética mínima | `tests/fixtures/smoke_pytest_project` |
+| `unit` | verificación core focalizada | `tests/test_cli_core.py`, `tests/test_policy_engine.py` |
+| `all` | suite completa local | `pytest -q` |
+
+Flujo Windows recomendado:
+
+```powershell
+$approval = python -m devpilot_core approval request `
+  --tool tests.run `
+  --action execute `
+  --subject smoke `
+  --reason "Run smoke tests" `
+  --actor owner `
+  --json | ConvertFrom-Json
+
+$approvalId = $approval.data.approval.approval_id
+
+python -m devpilot_core approval approve $approvalId `
+  --actor owner `
+  --reason "Approved local controlled tests" `
+  --json
+
+python -m devpilot_core tests run `
+  --profile smoke `
+  --approval-id $approvalId `
+  --json `
+  --write-report
+```
+
+Límites explícitos: esta es una primera versión controlada, no un CI/CD, no ejecuta comandos arbitrarios, no permite patch apply, no permite refactor execution, no permite Git write y no reemplaza un sandbox completo de filesystem.
+
+## SafeSubprocessRunner — FUNC-SPRINT-31
+
+`FUNC-SPRINT-31 — SafeSubprocessRunner y allowlist de ejecución controlada` agregó la frontera interna de ejecución segura que prepara `tests.run`: argumentos como lista, `shell=False`, command allowlist, cwd seguro, timeout y redacción de salida.

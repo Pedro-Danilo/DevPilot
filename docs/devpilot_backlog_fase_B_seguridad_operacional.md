@@ -2,19 +2,19 @@
 title: "DevPilot Local — Backlog ejecutable Fase B: Seguridad operacional"
 doc_id: "DEVPL-FUNC-BACKLOG-FASE-B-001"
 status: "approved"
-version: "0.5.0"
+version: "0.6.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
 phase: "FASE-B-SEGURIDAD-OPERACIONAL"
 updated: "2026-06-11"
-source_repo: "repo_DevPilot_Local_36.zip"
+source_repo: "repo_DevPilot_Local_37.zip"
 source_report: "Informe de avance DevPilot - sprint 0 - 18.docx"
 source_backlog_model: "docs/functional_backlog_after_precode.md"
 baseline_dependency: "Fase A cerrada y aprobada mediante FUNC-SPRINT-27"
 first_sprint: "FUNC-SPRINT-28"
 last_planned_sprint: "FUNC-SPRINT-34"
-first_open_sprint: "FUNC-SPRINT-32"
+first_open_sprint: "FUNC-SPRINT-33"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "phase_b_executable_backlog_review"
 approved_on: "2026-06-10"
@@ -26,13 +26,13 @@ phase_b_status: "in_progress"
 
 ## Estado de aprobación funcional
 
-Este documento queda en estado `approved` después del cierre verificado de Fase A. `FUNC-SPRINT-28`, `FUNC-SPRINT-29`, `FUNC-SPRINT-30` y `FUNC-SPRINT-31` quedan implementados; el siguiente sprint abierto es `FUNC-SPRINT-32`. Su propósito es convertir la **Fase B — Seguridad operacional** en un backlog de implementación ejecutable, siguiendo el modelo operativo usado en `docs/functional_backlog_after_precode.md`.
+Este documento queda en estado `approved` después del cierre verificado de Fase A. `FUNC-SPRINT-28`, `FUNC-SPRINT-29`, `FUNC-SPRINT-30`, `FUNC-SPRINT-31` y `FUNC-SPRINT-32` queda implementado; el siguiente sprint abierto es `FUNC-SPRINT-33`. Su propósito es convertir la **Fase B — Seguridad operacional** en un backlog de implementación ejecutable, siguiendo el modelo operativo usado en `docs/functional_backlog_after_precode.md`.
 
 La Fase B corresponde a:
 
 - **Ola 3 — Seguridad operacional, aprobación humana y ejecución controlada**.
 
-Esta fase parte de un DevPilot que ya tiene PolicyEngine, PathGuard, SecretGuard, CostGuard, SQLite LocalStore, MIASI Policy Matrix, tablas iniciales de approvals/cost_events y agentes documentales en dry-run. El informe de avance identificaba que el **Approval Workflow operativo** todavía no existía y que `tests.run`, SafeSubprocessRunner, sandbox y ejecución controlada seguían pendientes. Tras `FUNC-SPRINT-28`, `FUNC-SPRINT-29`, `FUNC-SPRINT-30` y `FUNC-SPRINT-31`, DevPilot ya cuenta con modelo, persistencia, CLI local de approvals, binding inicial con `PolicyEngine`/MIASI y una capa interna de ejecución controlada mediante SafeSubprocessRunner; siguen pendientes `tests.run` como herramienta MIASI y hardening operacional.
+Esta fase parte de un DevPilot que ya tiene PolicyEngine, PathGuard, SecretGuard, CostGuard, SQLite LocalStore, MIASI Policy Matrix, tablas iniciales de approvals/cost_events y agentes documentales en dry-run. El informe de avance identificaba que el **Approval Workflow operativo** todavía no existía y que `tests.run`, SafeSubprocessRunner, sandbox y ejecución controlada seguían pendientes. Tras `FUNC-SPRINT-28`, `FUNC-SPRINT-29`, `FUNC-SPRINT-30` y `FUNC-SPRINT-31`, DevPilot ya cuenta con modelo, persistencia, CLI local de approvals, binding inicial con `PolicyEngine`/MIASI y una capa interna de ejecución controlada mediante SafeSubprocessRunner; `tests.run` ya queda implementado como herramienta MIASI controlada; sigue pendiente hardening operacional de SecretGuard/prompt/tool injection.
 
 ## 1. Propósito
 
@@ -716,6 +716,36 @@ Casos: profile unit, unknown profile, missing approval, valid approval, failure 
 ```text
 Implementa FUNC-SPRINT-32: tests.run como herramienta MIASI controlada. Debe usar SafeSubprocessRunner, approval binding, allowlist, reportes, eventos y tests.
 ```
+
+## Estado de implementación Sprint 32
+
+`FUNC-SPRINT-32 — tests.run como herramienta MIASI controlada` queda implementado como primera versión operativa de ejecución de pruebas gobernada por aprobación humana, PolicyEngine y SafeSubprocessRunner.
+
+Estado: `implemented-initial`.
+
+Alcance implementado:
+
+- paquete `src/devpilot_core/testing/`;
+- `TestsRunTool` como frontera core para `tests.run`;
+- `TestProfileRegistry` y perfiles locales `smoke`, `unit`, `all`;
+- comando CLI `tests profiles`;
+- comando CLI `tests run --profile <profile> --approval-id <approval_id>`;
+- evaluación previa con `PolicyEngine` y `ApprovalPolicyChecker`;
+- ejecución con `SafeSubprocessRunner` y allowlist `python -m pytest`;
+- captura de exit code, stdout, stderr, timeout y redacciones;
+- reportes JSON/Markdown con `--write-report`;
+- eventos y persistencia del `CommandResult`;
+- MIASI Tool Registry actualizado: `tests.run` pasa a `implemented-initial`.
+
+Límites explícitos:
+
+- no es CI/CD;
+- no acepta comandos ni argumentos arbitrarios desde CLI;
+- no habilita patch apply, refactor execution, Git write ni deploy;
+- no sustituye un sandbox completo;
+- la versión requiere evolución posterior para operación industrial con aislamiento reforzado.
+
+Siguiente sprint abierto: `FUNC-SPRINT-33 — Hardening de SecretGuard y checks básicos de prompt/tool injection`.
 
 ---
 
