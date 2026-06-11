@@ -18,6 +18,7 @@ from .miasi import MiasiRegistryValidator
 from .modeling import ModelAdapterRouter, ModelRouterConfig
 from .policy import CostPolicy, PolicyEngine, PolicyRequest, load_cost_policy
 from .reports import ReportEngine, build_report_id
+from .security import PolicySimulationSuite, SecurityReadiness
 from .schemas import BuiltinContractValidator, SchemaRegistry, SchemaValidator
 from .repo import GitAdapter, RepoInventory
 from .refactor import RefactorPlanner
@@ -1193,6 +1194,25 @@ def app_contract_command(*, json_output: bool = False, write_report: bool = Fals
     return int(result.exit_code)
 
 
+def security_readiness_command(*, json_output: bool = False, write_report: bool = False) -> int:
+    """Run the Fase B operational security readiness gate."""
+
+    root = project_root()
+    result = SecurityReadiness(root).run()
+    result = _write_optional_command_report(
+        root,
+        result,
+        subject="FASE-B-SEGURIDAD-OPERACIONAL",
+        report_id="security_readiness",
+        write_report=write_report,
+        metadata={"sprint": "FUNC-SPRINT-34", "component": "SecurityReadiness"},
+    )
+    _emit_result_event(root, result, subject="security readiness")
+    _persist_result(root, result, subject="security readiness")
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+
 def policy_check_command(
     action: str,
     *,
@@ -1257,50 +1277,73 @@ def policy_check_command(
 
 def policy_simulate_command(
     *,
-    tool_id: str,
-    action: str,
-    subject: str,
+    tool_id: str | None = None,
+    action: str | None = None,
+    subject: str | None = None,
     path: str | None = None,
     approval_id: str | None = None,
+    matrix: str | None = None,
     json_output: bool = False,
     write_report: bool = False,
 ) -> int:
-    """Simulate a tool/action policy decision with optional approval binding."""
+    """Simulate policy decisions or run a standard policy matrix."""
 
     root = project_root()
-    engine = PolicyEngine(root, cost_policy=load_cost_policy(root))
-    result = engine.evaluate(
-        PolicyRequest(
-            action=action,
-            path=path,
-            dry_run=True,
-            approval_id=approval_id,
-            tool_id=tool_id,
-            subject=subject,
-            metadata={"source": "policy-simulate-cli", "sprint": "FUNC-SPRINT-30"},
+    if matrix:
+        result = PolicySimulationSuite(root).run(matrix=matrix)
+        report_id = f"policy_simulate_{matrix}"
+        report_subject = f"policy-simulation:{matrix}"
+        metadata = {"sprint": "FUNC-SPRINT-34", "component": "PolicySimulationSuite", "matrix": matrix}
+    else:
+        if not tool_id or not action or not subject:
+            result = CommandResult(
+                command="policy simulate",
+                ok=False,
+                exit_code=ExitCode.BLOCK,
+                message="policy simulate requires either --matrix or --tool/--action/--subject.",
+                data={"summary": {"matrix": None, "missing": [name for name, value in {"tool": tool_id, "action": action, "subject": subject}.items() if not value]}},
+                findings=[Finding("POLICY_SIMULATE_INPUT_REQUIRED", "Provide --matrix standard or --tool/--action/--subject.", Severity.BLOCK)],
+            )
+            result = _write_optional_command_report(root, result, subject="policy-simulate:invalid", report_id="policy_simulate", write_report=write_report, metadata={"sprint": "FUNC-SPRINT-34", "component": "PolicyEngine"})
+            _emit_result_event(root, result, subject="policy-simulate:invalid")
+            _persist_result(root, result, subject="policy-simulate:invalid")
+            print_result(result, json_output=json_output)
+            return int(result.exit_code)
+        engine = PolicyEngine(root, cost_policy=load_cost_policy(root))
+        evaluated = engine.evaluate(
+            PolicyRequest(
+                action=action,
+                path=path,
+                dry_run=True,
+                approval_id=approval_id,
+                tool_id=tool_id,
+                subject=subject,
+                metadata={"source": "policy-simulate-cli", "sprint": "FUNC-SPRINT-30"},
+            )
         )
-    )
-    result = CommandResult(
-        command="policy simulate",
-        ok=result.ok,
-        exit_code=result.exit_code,
-        message=result.message,
-        data=result.data,
-        findings=result.findings,
-    )
+        result = CommandResult(
+            command="policy simulate",
+            ok=evaluated.ok,
+            exit_code=evaluated.exit_code,
+            message=evaluated.message,
+            data=evaluated.data,
+            findings=evaluated.findings,
+        )
+        report_id = "policy_simulate"
+        report_subject = approval_id or f"{tool_id}:{action}:{subject}"
+        metadata = {"sprint": "FUNC-SPRINT-30", "component": "PolicyEngine", "approval_binding": bool(approval_id)}
     result = _write_optional_command_report(
         root,
         result,
-        subject=approval_id or f"{tool_id}:{action}:{subject}",
-        report_id="policy_simulate",
+        subject=report_subject,
+        report_id=report_id,
         write_report=write_report,
-        metadata={"sprint": "FUNC-SPRINT-30", "component": "PolicyEngine", "approval_binding": bool(approval_id)},
+        metadata=metadata,
     )
-    _emit_result_event(root, result, subject=approval_id or subject)
-    _persist_result(root, result, subject=approval_id or subject)
+    _emit_result_event(root, result, subject=report_subject)
+    _persist_result(root, result, subject=report_subject)
     print_result(result, json_output=json_output)
     return int(result.exit_code)
-
 
 def tests_profiles_command(*, json_output: bool = False, write_report: bool = False) -> int:
     """List configured tests.run profiles without executing subprocesses."""
@@ -1463,6 +1506,12 @@ def build_parser() -> argparse.ArgumentParser:
         approval_decision.add_argument("--reason", required=True, help="Decision reason")
         approval_decision.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
         approval_decision.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+
+    security = sub.add_parser("security", help="Run operational security readiness gates")
+    security_sub = security.add_subparsers(dest="security_command")
+    security_readiness = security_sub.add_parser("readiness", help="Run Fase B security readiness gate")
+    security_readiness.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    security_readiness.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
 
     tests_parser = sub.add_parser("tests", help="Run controlled local test profiles through MIASI tests.run")
     tests_sub = tests_parser.add_subparsers(dest="tests_command")
@@ -1643,11 +1692,12 @@ def build_parser() -> argparse.ArgumentParser:
     policy_check.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
 
     policy_simulate = policy_sub.add_parser("simulate", help="Simulate a tool/action decision with optional approval binding")
-    policy_simulate.add_argument("--tool", dest="tool_id", required=True, help="MIASI tool identifier, e.g. tests.run")
-    policy_simulate.add_argument("--action", required=True, help="Tool action, e.g. execute")
-    policy_simulate.add_argument("--subject", required=True, help="Tool subject, e.g. pytest or unit")
+    policy_simulate.add_argument("--tool", dest="tool_id", default=None, help="MIASI tool identifier, e.g. tests.run")
+    policy_simulate.add_argument("--action", default=None, help="Tool action, e.g. execute")
+    policy_simulate.add_argument("--subject", default=None, help="Tool subject, e.g. pytest or unit")
     policy_simulate.add_argument("--path", default=None, help="Optional path subject for PathGuard")
     policy_simulate.add_argument("--approval-id", default=None, help="Optional human approval ID")
+    policy_simulate.add_argument("--matrix", choices=["standard"], default=None, help="Run a predefined policy simulation matrix")
     policy_simulate.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     policy_simulate.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
 
@@ -1689,6 +1739,9 @@ def _command_name_from_args(args: argparse.Namespace) -> str:
     if command == "tests":
         subcommand = getattr(args, "tests_command", None)
         return f"tests {subcommand}" if subcommand else "tests"
+    if command == "security":
+        subcommand = getattr(args, "security_command", None)
+        return f"security {subcommand}" if subcommand else "security"
     if command == "agent":
         subcommand = getattr(args, "agent_command", None)
         return f"agent {subcommand}" if subcommand else "agent"
@@ -1807,6 +1860,11 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
                 json_output=args.json,
                 write_report=args.write_report,
             )
+        parser.print_help()
+        return int(ExitCode.FAIL)
+    if args.command == "security":
+        if args.security_command == "readiness":
+            return security_readiness_command(json_output=args.json, write_report=args.write_report)
         parser.print_help()
         return int(ExitCode.FAIL)
     if args.command == "tests":
@@ -1959,6 +2017,7 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
                 subject=args.subject,
                 path=args.path,
                 approval_id=args.approval_id,
+                matrix=args.matrix,
                 json_output=args.json,
                 write_report=args.write_report,
             )

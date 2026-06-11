@@ -1,0 +1,79 @@
+{
+  "sprint": "FUNC-SPRINT-34",
+  "title": "Security readiness operacional y cierre de Fase B",
+  "status": "implemented",
+  "implemented_at": "2026-06-11",
+  "phase": "FASE-B-SEGURIDAD-OPERACIONAL",
+  "wave": "Ola 3 — Seguridad operacional, aprobación humana y ejecución controlada",
+  "source_backlog": "docs/devpilot_backlog_fase_B_seguridad_operacional.md",
+  "architectural_decision": {
+    "required": false,
+    "adr": null,
+    "reason": "FUNC-SPRINT-34 orquesta capacidades existentes de Fase B y agrega gates/reportes dependency-free. No introduce dependencias externas, red, APIs, UI, backend, sandbox real ni ejecución destructiva. Es un cierre operacional de fase, no una decisión arquitectónica nueva."
+  },
+  "created_files": [
+    "src/devpilot_core/security/__init__.py",
+    "src/devpilot_core/security/readiness.py",
+    "src/devpilot_core/security/simulation.py",
+    "tests/test_security_readiness.py",
+    "docs/checklists/checklist_phase_b_exit.md",
+    "docs/audits/phase_b_operational_security_closure_report.md",
+    "docs/functional_sprint_34_manifest.json",
+    "tests/test_sprint_34_documentation.py"
+  ],
+  "modified_files": [
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/devpilot_backlog_fase_B_seguridad_operacional.md",
+    "docs/functional_backlog_after_precode.md",
+    "src/devpilot_core/cli.py",
+    "tests/test_sprint_28_documentation.py",
+    "tests/test_sprint_29_documentation.py",
+    "tests/test_sprint_30_documentation.py",
+    "tests/test_sprint_31_documentation.py",
+    "tests/test_sprint_32_documentation.py",
+    "tests/test_sprint_33_documentation.py",
+    "src/devpilot_core/execution/safe_subprocess.py",
+    "src/devpilot_core/approval/__init__.py",
+    "tests/test_safe_subprocess_runner.py"
+  ],
+  "commands": [
+    "python -m devpilot_core security readiness --json --write-report",
+    "python -m devpilot_core policy simulate --matrix standard --json --write-report",
+    "python -m devpilot_core approval list --json",
+    "python -m devpilot_core miasi validate --json",
+    "python -m devpilot_core tests run --profile unit --approval-id <approval_id> --json --write-report",
+    "python -m pytest -q"
+  ],
+  "tests": [
+    "tests/test_security_readiness.py",
+    "tests/test_sprint_34_documentation.py",
+    "safe_subprocess environment controls"
+  ],
+  "pass_criteria": [
+    "Security readiness verifies Approval Workflow.",
+    "Security readiness verifies PolicyEngine approval binding.",
+    "Security readiness verifies controlled tests.run smoke execution.",
+    "Policy simulation matrix covers missing, valid, wrong-scope and expired approvals.",
+    "SecretGuard, PromptInjectionGuard and ToolInjectionGuard are checked with synthetic payloads.",
+    "Fase B closure checklist and report exist.",
+    "pytest -q passes."
+  ],
+  "block_criteria": [
+    "An approval-gated action passes without valid approval.",
+    "tests.run allows a non-allowlisted command.",
+    "Raw secrets appear in evidence.",
+    "Fase B closes without checklist or closure report.",
+    "Patch apply, refactor execution, Git write or deploy are enabled."
+  ],
+  "risks": [
+    "Security readiness is not a full security certification.",
+    "Policy simulation uses deterministic fixtures and does not replace red teaming.",
+    "Fase C still requires sandbox and rollback before destructive actions."
+  ],
+  "preliminary": true,
+  "next_sprint": "FUNC-SPRINT-35 — Inicio Fase C: ingeniería de repositorio y sandbox controlado",
+  "notes": [
+    "FUNC-SPRINT-34 corrective hardening disables host pytest plugin autoload for controlled pytest subprocesses."
+  ]
+}

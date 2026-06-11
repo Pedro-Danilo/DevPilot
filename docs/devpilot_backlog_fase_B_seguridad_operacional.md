@@ -2,39 +2,39 @@
 title: "DevPilot Local — Backlog ejecutable Fase B: Seguridad operacional"
 doc_id: "DEVPL-FUNC-BACKLOG-FASE-B-001"
 status: "approved"
-version: "0.7.0"
+version: "1.0.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
 phase: "FASE-B-SEGURIDAD-OPERACIONAL"
 updated: "2026-06-11"
-source_repo: "repo_DevPilot_Local_38.zip"
+source_repo: "repo_DevPilot_Local_39.zip"
 source_report: "Informe de avance DevPilot - sprint 0 - 18.docx"
 source_backlog_model: "docs/functional_backlog_after_precode.md"
 baseline_dependency: "Fase A cerrada y aprobada mediante FUNC-SPRINT-27"
 first_sprint: "FUNC-SPRINT-28"
 last_planned_sprint: "FUNC-SPRINT-34"
-first_open_sprint: "FUNC-SPRINT-34"
+first_open_sprint: "FUNC-SPRINT-35"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "phase_b_executable_backlog_review"
 approved_on: "2026-06-10"
 approval: "approved_by_owner_direction"
-phase_b_status: "in_progress"
+phase_b_status: "closed"
 ---
 
 # DevPilot Local — Backlog ejecutable Fase B: Seguridad operacional
 
 ## Estado de aprobación funcional
 
-Estado acumulado de implementación: `FUNC-SPRINT-32` queda implementado y `FUNC-SPRINT-33` queda implementado. La continuidad operativa apunta a `FUNC-SPRINT-34`.
+Estado acumulado de implementación: `FUNC-SPRINT-32` queda implementado, `FUNC-SPRINT-33` queda implementado y `FUNC-SPRINT-34` queda implementado. En conjunto, `FUNC-SPRINT-28` a `FUNC-SPRINT-34` quedan implementados. La Fase B queda cerrada como baseline de seguridad operacional local `implemented-initial`.
 
-Este documento queda en estado `approved` después del cierre verificado de Fase A. `FUNC-SPRINT-28`, `FUNC-SPRINT-29`, `FUNC-SPRINT-30`, `FUNC-SPRINT-31`, `FUNC-SPRINT-32` y `FUNC-SPRINT-33` quedan implementados; el siguiente sprint abierto es `FUNC-SPRINT-34`. Su propósito es convertir la **Fase B — Seguridad operacional** en un backlog de implementación ejecutable, siguiendo el modelo operativo usado en `docs/functional_backlog_after_precode.md`.
+Este documento queda en estado `approved` después del cierre verificado de Fase A. `FUNC-SPRINT-28`, `FUNC-SPRINT-29`, `FUNC-SPRINT-30`, `FUNC-SPRINT-31`, `FUNC-SPRINT-32`, `FUNC-SPRINT-33` y `FUNC-SPRINT-34` quedan implementados; el siguiente sprint abierto es `FUNC-SPRINT-35` en Fase C. Su propósito es convertir la **Fase B — Seguridad operacional** en un backlog de implementación ejecutable, siguiendo el modelo operativo usado en `docs/functional_backlog_after_precode.md`.
 
 La Fase B corresponde a:
 
 - **Ola 3 — Seguridad operacional, aprobación humana y ejecución controlada**.
 
-Esta fase parte de un DevPilot que ya tiene PolicyEngine, PathGuard, SecretGuard, CostGuard, SQLite LocalStore, MIASI Policy Matrix, tablas iniciales de approvals/cost_events y agentes documentales en dry-run. El informe de avance identificaba que el **Approval Workflow operativo** todavía no existía y que `tests.run`, SafeSubprocessRunner, sandbox y ejecución controlada seguían pendientes. Tras `FUNC-SPRINT-28`, `FUNC-SPRINT-29`, `FUNC-SPRINT-30` y `FUNC-SPRINT-31`, DevPilot ya cuenta con modelo, persistencia, CLI local de approvals, binding inicial con `PolicyEngine`/MIASI y una capa interna de ejecución controlada mediante SafeSubprocessRunner; `tests.run` ya queda implementado como herramienta MIASI controlada y `FUNC-SPRINT-33` incorpora hardening inicial de SecretGuard, PromptInjectionGuard y ToolInjectionGuard; sigue pendiente el cierre de Fase B mediante security readiness operacional.
+Esta fase parte de un DevPilot que ya tiene PolicyEngine, PathGuard, SecretGuard, CostGuard, SQLite LocalStore, MIASI Policy Matrix, tablas iniciales de approvals/cost_events y agentes documentales en dry-run. El informe de avance identificaba que el **Approval Workflow operativo** todavía no existía y que `tests.run`, SafeSubprocessRunner, sandbox y ejecución controlada seguían pendientes. Tras `FUNC-SPRINT-28`, `FUNC-SPRINT-29`, `FUNC-SPRINT-30` y `FUNC-SPRINT-31`, DevPilot ya cuenta con modelo, persistencia, CLI local de approvals, binding inicial con `PolicyEngine`/MIASI y una capa interna de ejecución controlada mediante SafeSubprocessRunner; `tests.run` ya queda implementado como herramienta MIASI controlada y `FUNC-SPRINT-33` incorpora hardening inicial de SecretGuard, PromptInjectionGuard y ToolInjectionGuard; el cierre de Fase B queda materializado mediante `security readiness`, checklist de salida y reporte de cierre operacional.
 
 ## 1. Propósito
 
@@ -843,7 +843,7 @@ Implementa FUNC-SPRINT-33: hardening de SecretGuard y guards básicos contra pro
 
 Límites explícitos: no sustituye red teaming, SAST/SCA ni secret scanning industrial; puede generar falsos positivos; no habilita patch apply, refactor execution, Git write ni deploy.
 
-Siguiente sprint abierto: `FUNC-SPRINT-34 — Security readiness operacional y cierre de Fase B`.
+Estado de sprint: `FUNC-SPRINT-34` implementado. Siguiente sprint abierto: `FUNC-SPRINT-35 — Inicio Fase C: ingeniería de repositorio y sandbox controlado`.
 
 
 ---
@@ -993,3 +993,28 @@ NIST SP 800-218 SSDF — Secure Software Development Framework.
 OWASP Top 10 for LLM Applications — prompt injection, sensitive information disclosure, insecure output handling, excessive agency, supply-chain vulnerabilities.
 OpenTelemetry — trazabilidad y observabilidad para operaciones GenAI/agentic.
 ```
+
+
+## Estado de cierre posterior a FUNC-SPRINT-34
+
+`FUNC-SPRINT-34` implementa `security readiness`, `PolicySimulationSuite`, checklist de salida y closure report de Fase B. La Fase B queda cerrada como baseline de seguridad operacional local **implemented-initial**.
+
+Capacidades cerradas:
+
+- Approval Workflow persistente;
+- CLI de approvals;
+- approval binding con `PolicyEngine` y MIASI;
+- `SafeSubprocessRunner`;
+- `tests.run` approval-gated;
+- hardening inicial de `SecretGuard`;
+- `PromptInjectionGuard` y `ToolInjectionGuard`;
+- security readiness con PASS/BLOCK y reportes.
+
+Límites explícitos para la siguiente fase:
+
+- no hay sandbox real;
+- no hay rollback automático;
+- no hay patch apply/refactor execution;
+- no hay Git write/deploy;
+- no hay RBAC ni UI Approval Center;
+- los guards siguen siendo pattern-based.

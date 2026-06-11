@@ -1,8 +1,8 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
-Estado actual: `baseline pre-code approved + Fase A cerrada + FASE-B en progreso + security hardening implemented-initial`  
-Último hito: `FUNC-SPRINT-33 — Hardening de SecretGuard y checks básicos de prompt/tool injection`  
-Siguiente hito: `FUNC-SPRINT-34 — Security readiness operacional y cierre de Fase B`  
+Estado actual: `baseline pre-code approved + Fase A cerrada + FASE-B cerrada + security readiness operational baseline`  
+Último hito: `FUNC-SPRINT-34 — Security readiness operacional y cierre de Fase B`  
+Siguiente hito: `FUNC-SPRINT-35 — Inicio Fase C: ingeniería de repositorio y sandbox controlado`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
@@ -1243,3 +1243,31 @@ python -m pytest tests/test_secret_guard_hardening.py tests/test_prompt_injectio
 Criterios PASS: `SecretGuard` detecta patrones ampliados y redacciona; `PromptInjectionGuard` emite findings para bypass/policy override; `ToolInjectionGuard` detecta intentos de forzar herramientas; `PolicyEngine` compone los guards sin exponer payloads peligrosos crudos en reportes; `pytest -q` pasa.
 
 Límites explícitos: esta versión no habilita patch apply, refactor execution, deploy, Git write, red/API externas, sandbox completo ni evaluación con LLM. Los falsos positivos son posibles y deben revisarse mediante findings accionables.
+
+
+## Security readiness operacional y cierre Fase B — FUNC-SPRINT-34
+
+`FUNC-SPRINT-34` cierra la Fase B como baseline de seguridad operacional local **implemented-initial**. El sprint agrega el paquete `security`, el comando `security readiness`, una matriz de simulación de políticas y los artefactos formales de cierre.
+
+Artefactos principales:
+
+- `src/devpilot_core/security/readiness.py`
+- `src/devpilot_core/security/simulation.py`
+- `docs/checklists/checklist_phase_b_exit.md`
+- `docs/audits/phase_b_operational_security_closure_report.md`
+- `docs/functional_sprint_34_manifest.json`
+- `tests/test_security_readiness.py`
+
+Comandos de verificación:
+
+```powershell
+$env:PYTHONPATH="src"
+python -m devpilot_core security readiness --json --write-report
+python -m devpilot_core policy simulate --matrix standard --json --write-report
+python -m devpilot_core miasi validate --json
+python -m pytest -q
+```
+
+La implementación verifica approvals, binding con `PolicyEngine`, `tests.run`, guards de secretos/prompt/tool injection, MIASI y artefactos de cierre. No habilita `patch apply`, refactor execution, Git write ni deploy. La siguiente evolución debe abordar sandbox real, rollback, observabilidad v2 y seguridad industrial antes de permitir acciones destructivas.
+
+> Hardening adicional FUNC-SPRINT-34: las ejecuciones controladas de pytest mediante `SafeSubprocessRunner` desactivan la carga automática de plugins externos del host (`PYTEST_DISABLE_PLUGIN_AUTOLOAD=1`) y `PYTHONNOUSERSITE=1` dentro del subprocess. Esto reduce efectos colaterales de plugins no allowlisted y mejora reproducibilidad local.

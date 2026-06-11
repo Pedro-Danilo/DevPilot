@@ -1,5 +1,4 @@
 from .models import ApprovalDecision, ApprovalRecord, ApprovalRequest, ApprovalStatus
-from .policy import ApprovalPolicyChecker, ApprovalPolicyInput
 
 __all__ = [
     "ApprovalCliInput",
@@ -22,6 +21,10 @@ def __getattr__(name: str):
         from .store import ApprovalStore
 
         return ApprovalStore
+    if name in {"ApprovalPolicyChecker", "ApprovalPolicyInput"}:
+        from . import policy as _policy
+
+        return getattr(_policy, name)
     if name in {"ApprovalCliInput", "ApprovalService", "DEFAULT_APPROVAL_TTL_MINUTES", "future_expiry_iso", "parse_scope"}:
         from . import service as _service
 

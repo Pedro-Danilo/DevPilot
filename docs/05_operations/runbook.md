@@ -2339,3 +2339,73 @@ python -m devpilot_core validate-artifact docs/audits/func_sprint_33_security_ha
 - No usa LLM judge.
 - No reemplaza sandbox, RBAC, SAST/SCA, secret scanning industrial ni threat modeling manual.
 - No habilita patch apply, refactor execution, Git write ni deploy.
+
+
+## FUNC-SPRINT-34 — Security readiness operacional y cierre de Fase B
+
+### Propósito
+
+Ejecutar un gate de cierre para verificar que la Fase B cumple la cadena mínima de seguridad operacional: approvals, policy binding, `tests.run`, guards, MIASI, reportes y checklist de salida.
+
+### Comandos de uso
+
+```powershell
+$env:PYTHONPATH="src"
+python -m devpilot_core security readiness --json --write-report
+python -m devpilot_core policy simulate --matrix standard --json --write-report
+python -m devpilot_core approval list --json
+python -m devpilot_core miasi validate --json
+```
+
+Para validar `tests.run` con perfil `unit` en entorno local:
+
+```powershell
+$approval = python -m devpilot_core approval request `
+  --tool tests.run `
+  --action execute `
+  --subject unit `
+  --reason "Run unit tests" `
+  --actor owner `
+  --json | ConvertFrom-Json
+
+$approvalId = $approval.data.approval.approval_id
+
+python -m devpilot_core approval approve $approvalId `
+  --actor owner `
+  --reason "Approved local tests" `
+  --json
+
+python -m devpilot_core tests run `
+  --profile unit `
+  --approval-id $approvalId `
+  --json `
+  --write-report
+```
+
+### Funcionamiento
+
+`security readiness` ejecuta gates determinísticos y locales. Para no contaminar la base SQLite del proyecto, las pruebas de approval workflow, policy binding y smoke `tests.run` se ejecutan en un workspace temporal con copias mínimas de `.devpilot/miasi`, `.devpilot/execution`, `.devpilot/testing` y fixtures smoke.
+
+### Criterios PASS
+
+- Approval Workflow request/approve funciona.
+- `PolicyEngine` acepta approval scoped y bloquea approval ausente.
+- `tests.run` ejecuta smoke profile solo con approval válida.
+- `PolicySimulationSuite` cubre approval missing/valid/wrong-scope/expired.
+- `SecretGuard`, `PromptInjectionGuard` y `ToolInjectionGuard` bloquean payloads sintéticos.
+- MIASI valida.
+- Checklist y closure report de Fase B existen.
+
+### Criterios BLOCK
+
+- Acción approval-gated pasa sin approval válida.
+- `tests.run` permite comandos arbitrarios.
+- Se filtra un secreto crudo en evidencia.
+- Fase B se intenta cerrar sin checklist/reporte.
+- Se habilita `patch apply`, refactor execution, Git write o deploy.
+
+### Riesgos
+
+El cierre de Fase B es una baseline local-first `implemented-initial`; no reemplaza SAST/SCA, red teaming, RBAC, sandbox real, rollback automático ni observabilidad industrial.
+
+Nota operativa FUNC-SPRINT-34: `tests.run` y `SafeSubprocessRunner` ejecutan pytest con controles de entorno (`PYTEST_DISABLE_PLUGIN_AUTOLOAD=1`, `PYTHONNOUSERSITE=1`) para evitar que plugins globales del entorno local modifiquen o bloqueen la ejecución controlada.

@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import os
 import subprocess
 import time
 from pathlib import Path
@@ -96,6 +97,7 @@ class SafeSubprocessRunner:
                 },
             )
 
+        environment_controls = _environment_controls(normalized)
         started = time.monotonic()
         try:
             completed = subprocess.run(
@@ -106,6 +108,7 @@ class SafeSubprocessRunner:
                 timeout=effective_timeout,
                 shell=False,
                 check=False,
+                env=_controlled_env(environment_controls),
             )
             duration_ms = int((time.monotonic() - started) * 1000)
             stdout, stdout_truncated, stdout_redactions = self._redact_and_truncate(completed.stdout or "")
@@ -139,8 +142,10 @@ class SafeSubprocessRunner:
                         timed_out=False,
                         redactions=report.redactions,
                         duration_ms=duration_ms,
+                        environment_controls=environment_controls,
                     ),
                     "execution": report.to_dict(),
+                    "environment_controls": environment_controls,
                     "allowlist": self.allowlist.to_dict(),
                     "network_used": False,
                     "external_api_used": False,
@@ -187,8 +192,10 @@ class SafeSubprocessRunner:
                         timed_out=True,
                         redactions=report.redactions,
                         duration_ms=duration_ms,
+                        environment_controls=environment_controls,
                     ),
                     "execution": report.to_dict(),
+                    "environment_controls": environment_controls,
                     "allowlist": self.allowlist.to_dict(),
                     "network_used": False,
                     "external_api_used": False,
@@ -297,6 +304,7 @@ class SafeSubprocessRunner:
         timed_out: bool = False,
         redactions: int = 0,
         duration_ms: int | None = None,
+        environment_controls: dict[str, object] | None = None,
     ) -> dict[str, object]:
         return {
             "executed": executed,
@@ -307,6 +315,7 @@ class SafeSubprocessRunner:
             "redactions": redactions,
             "duration_ms": duration_ms,
             "runner": "SafeSubprocessRunner",
+            "environment_controls": environment_controls or {},
             "preliminary": True,
         }
 
@@ -329,3 +338,33 @@ def _relative(path: Path, root: Path) -> str:
         return str(path.resolve().relative_to(root.resolve())).replace("\\", "/") or "."
     except ValueError:
         return str(path).replace("\\", "/")
+
+
+def _environment_controls(args: list[str]) -> dict[str, object]:
+    """Return deterministic environment hardening flags for controlled subprocesses."""
+
+    is_pytest = _is_pytest_invocation(args)
+    return {
+        "pytest_plugin_autoload_disabled": is_pytest,
+        "python_user_site_disabled": is_pytest,
+        "reason": "controlled-pytest-run" if is_pytest else "default-environment",
+        "preliminary": True,
+    }
+
+
+def _controlled_env(environment_controls: dict[str, object]) -> dict[str, str]:
+    env = dict(os.environ)
+    if environment_controls.get("pytest_plugin_autoload_disabled"):
+        # FUNC-SPRINT-34 hardening: controlled pytest executions must not inherit
+        # arbitrary host-level pytest plugins. This keeps tests.run reproducible
+        # and prevents non-allowlisted plugin side effects in subprocesses.
+        env["PYTEST_DISABLE_PLUGIN_AUTOLOAD"] = "1"
+        env["PYTHONNOUSERSITE"] = "1"
+    return env
+
+
+def _is_pytest_invocation(args: list[str]) -> bool:
+    lowered = [arg.lower().replace("\\", "/") for arg in args]
+    if any(item.endswith("/pytest") or item.endswith("/pytest.exe") or item in {"pytest", "pytest.exe"} for item in lowered):
+        return True
+    return any(lowered[index] == "-m" and index + 1 < len(lowered) and lowered[index + 1] == "pytest" for index in range(len(lowered)))

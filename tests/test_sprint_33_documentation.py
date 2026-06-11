@@ -32,12 +32,12 @@ def test_sprint_33_readme_runbook_and_backlog_point_to_sprint_34() -> None:
     runbook = _read("docs/05_operations/runbook.md")
     backlog = _read("docs/devpilot_backlog_fase_B_seguridad_operacional.md")
 
-    assert "Último hito: `FUNC-SPRINT-33" in readme
-    assert "Siguiente hito: `FUNC-SPRINT-34" in readme
+    assert "Último hito: `FUNC-SPRINT-34" in readme
+    assert "Siguiente hito: `FUNC-SPRINT-35" in readme
     assert "FUNC-SPRINT-33" in runbook
     assert "PromptInjectionGuard" in runbook
     assert "ToolInjectionGuard" in runbook
-    assert 'first_open_sprint: "FUNC-SPRINT-34"' in backlog
+    assert 'first_open_sprint: "FUNC-SPRINT-35"' in backlog
     assert "`FUNC-SPRINT-33` queda implementado" in backlog
 
 
@@ -51,7 +51,7 @@ def test_sprint_33_security_docs_are_synchronized() -> None:
     assert "PromptInjectionGuard" in policy_card
     assert "ToolInjectionGuard" in tool_card
     assert "Security hardening inicial" in functional_backlog
-    assert "FUNC-SPRINT-34" in functional_backlog
+    assert "FUNC-SPRINT-35" in functional_backlog or "Fase C" in functional_backlog
 
 
 def test_sprint_33_no_new_dependency_or_adr_required() -> None:

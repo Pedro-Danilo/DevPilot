@@ -1943,3 +1943,14 @@ Estado real:
 - no habilita patch apply, refactor execution, Git write ni deploy.
 
 Siguiente sprint operativo: `FUNC-SPRINT-34 — Security readiness operacional y cierre de Fase B`.
+
+
+## Transición posterior a FUNC-SPRINT-34 — Cierre Fase B
+
+`FUNC-SPRINT-34` cierra Fase B con security readiness operacional. DevPilot ya cuenta con approval workflow, policy binding, SafeSubprocessRunner, `tests.run`, guards contra secretos/prompt/tool injection, checklist de salida y closure report.
+
+Estado real: Fase B queda cerrada como baseline local-first `implemented-initial`, no como certificación de seguridad industrial completa.
+
+Siguiente línea de trabajo recomendada: Fase C — ingeniería de repositorio y sandbox controlado. Antes de habilitar patch apply, refactor execution, Git write o deploy deben implementarse sandbox real, rollback, trazabilidad operacional v2 y readiness específico de acciones mutantes.
+
+- `tests.run` hereda hardening de entorno para pytest controlado: sin autoload de plugins externos ni user site en subprocess.

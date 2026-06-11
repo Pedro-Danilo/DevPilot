@@ -132,3 +132,23 @@ def test_validate_artifact_result_path_uses_posix_separator_for_windows_style_in
     result = validate_artifact_file(tmp_path / windows_style, root=tmp_path)
 
     assert result.data["path"] == "docs/01_requirements/requirements_specification.md"
+
+
+def test_local_store_closes_connections_for_windows_temp_cleanup(tmp_path: Path) -> None:
+    """Regression: SQLite file handles must not remain open after operations.
+
+    The security readiness matrix creates temporary workspaces and deletes them
+    at the end. On Windows, sqlite3.Connection used as a context manager does
+    not close the underlying file handle, which can leave `.devpilot/devpilot.db`
+    locked and make TemporaryDirectory cleanup fail with WinError 32.
+    """
+
+    store = LocalStore(tmp_path)
+    store.initialize()
+    store.record_event(event_type="test.event", command="test", ok=True, exit_code=0)
+    store.status()
+
+    db_path = tmp_path / ".devpilot" / "devpilot.db"
+    assert db_path.is_file()
+    db_path.unlink()
+    assert not db_path.exists()

@@ -6,7 +6,8 @@ import uuid
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Iterable
+from contextlib import contextmanager
+from typing import Any, Iterable, Iterator
 
 from devpilot_core.cli_models import CommandResult, ExitCode, Finding, Severity
 
@@ -460,11 +461,28 @@ class LocalStore:
             findings=[],
         )
 
-    def _connect(self) -> sqlite3.Connection:
+    @contextmanager
+    def _connect(self) -> Iterator[sqlite3.Connection]:
+        """Open a SQLite connection and always close it after use.
+
+        Python's sqlite3 connection context manager commits or rolls back the
+        transaction, but it does not close the file handle. On Windows this can
+        leave `.devpilot/devpilot.db` locked long enough to break cleanup of
+        temporary security-readiness workspaces. DevPilot therefore wraps the
+        connection in an explicit closing context manager.
+        """
+
         conn = sqlite3.connect(self.db_path)
-        conn.row_factory = sqlite3.Row
-        conn.execute("PRAGMA foreign_keys = ON")
-        return conn
+        try:
+            conn.row_factory = sqlite3.Row
+            conn.execute("PRAGMA foreign_keys = ON")
+            yield conn
+            conn.commit()
+        except Exception:
+            conn.rollback()
+            raise
+        finally:
+            conn.close()
 
     def _apply_schema(self, conn: sqlite3.Connection) -> None:
         conn.executescript(SCHEMA_SQL)

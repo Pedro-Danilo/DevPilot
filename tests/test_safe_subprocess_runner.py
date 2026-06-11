@@ -23,6 +23,8 @@ def test_safe_subprocess_runner_executes_allowlisted_pytest_without_shell(tmp_pa
     assert result.data["summary"]["command_allowed"] is True
     assert result.data["execution"]["command_id"] == "python.pytest"
     assert result.data["execution"]["returncode"] == 0
+    assert result.data["environment_controls"]["pytest_plugin_autoload_disabled"] is True
+    assert result.data["summary"]["environment_controls"]["python_user_site_disabled"] is True
 
 
 def test_safe_subprocess_runner_blocks_shell_strings_and_unallowlisted_commands(tmp_path: Path) -> None:
