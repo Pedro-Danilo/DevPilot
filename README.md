@@ -1,8 +1,8 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
 Estado actual: `baseline pre-code approved + Fase A cerrada + FASE-B cerrada + Fase C cerrada + Fase D en progreso controlado`  
-Último hito: `FUNC-SPRINT-46 — OllamaAdapter local opcional`  
-Siguiente hito: `FUNC-SPRINT-47 — LMStudioAdapter local OpenAI-compatible`  
+Último hito: `FUNC-SPRINT-47 — LMStudioAdapter local OpenAI-compatible`  
+Siguiente hito: `FUNC-SPRINT-48 — Model governance: health, capability matrix y budget ledger`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
@@ -48,6 +48,23 @@ python -m devpilot_core model embed --provider ollama --text "DevPilot" --json
 ```
 
 PASS: Ollama no es obligatorio, health falla de forma controlada si el servidor no está disponible, los tests usan fake server, no hay API externa y los prompts con secretos se bloquean antes de contactar el provider. BLOCK: endpoint no-local, provider deshabilitado para model calls, secretos crudos, API externa o timeout sin manejo estructurado.
+
+## FUNC-SPRINT-47 — LMStudioAdapter local OpenAI-compatible
+
+`FUNC-SPRINT-47` implementa el segundo proveedor local real de DevPilot: `LMStudioAdapter`, compatible con endpoints locales estilo OpenAI (`/v1/models`, `/v1/chat/completions`, `/v1/embeddings`) y siempre ejecutado detrás de `ModelAdapterRouter`, `ProviderRegistry`, `PolicyEngine`, `SecretGuard`, `PromptInjectionGuard`, `ToolInjectionGuard` y `CostGuard`.
+
+Estado: `implemented-initial`. LM Studio continúa siendo opcional y `enabled: false` por defecto en `.devpilot/providers.yaml.example`; la suite base no requiere LM Studio instalado. El comando `model health --provider lmstudio` puede consultar únicamente `localhost` con timeout corto y devolver `available` o `unavailable` sin romper la operación local-first. Las llamadas `generate`, `classify` y `embed` solo se ejecutan si el operador crea una configuración local segura que habilite `lmstudio`.
+
+Comandos principales:
+
+```powershell
+python -m devpilot_core model health --provider lmstudio --json
+python -m devpilot_core model generate --provider lmstudio --prompt "test" --json
+python -m devpilot_core model classify --provider lmstudio --text "documentacion tecnica" --labels "docs,code" --json
+python -m devpilot_core model embed --provider lmstudio --text "DevPilot" --json
+```
+
+PASS: LM Studio no es obligatorio, health falla de forma controlada si el servidor no está disponible, los tests usan fake server OpenAI-compatible, solo se permite `localhost`, no hay API externa y los prompts con secretos se bloquean antes de contactar el provider. BLOCK: base_url remota, provider deshabilitado para model calls, confusión entre LM Studio local y OpenAI externo, secretos crudos, API externa o timeout sin manejo estructurado.
 
 
 ## Release técnico interno v0.1.0

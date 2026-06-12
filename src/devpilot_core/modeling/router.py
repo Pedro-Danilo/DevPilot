@@ -7,6 +7,7 @@ from devpilot_core.cli_models import CommandResult, ExitCode, Finding, Severity
 from devpilot_core.modeling.contracts import ModelCallRequest, ModelCallResult, ModelProviderKind, ModelTask
 from devpilot_core.modeling.mock_adapter import MockModelAdapter
 from devpilot_core.modeling.ollama_adapter import OllamaAdapter
+from devpilot_core.modeling.lmstudio_adapter import LMStudioAdapter
 from devpilot_core.modeling.providers import ProviderRegistry
 from devpilot_core.policy import CostPolicy, PolicyEngine, PolicyRequest, PromptInjectionGuard, SecretGuard, ToolInjectionGuard, load_cost_policy
 
@@ -24,10 +25,11 @@ class ModelRouterConfig:
 class ModelAdapterRouter:
     """Route model calls through safe provider adapters and CostGuard.
 
-    Sprint 46 keeps mock as the default route and adds an optional Ollama
-    localhost adapter. Local providers remain disabled by default and external
-    API providers are not called. This preserves local-first behavior while
-    allowing controlled fake-server and real-local health/model checks.
+    Sprint 47 keeps mock as the default route and adds optional Ollama and
+    LM Studio localhost adapters. Local providers remain disabled by default
+    and external API providers are not called. This preserves local-first
+    behavior while allowing controlled fake-server and real-local health/model
+    checks.
     """
 
     def __init__(self, root: Path, *, config: ModelRouterConfig | None = None) -> None:
@@ -117,6 +119,8 @@ class ModelAdapterRouter:
             )
         if provider_config.provider_id == "ollama":
             return OllamaAdapter(provider_config, timeout_seconds=self.config.local_timeout_seconds).health()
+        if provider_config.provider_id == "lmstudio":
+            return LMStudioAdapter(provider_config, timeout_seconds=self.config.local_timeout_seconds).health()
         return CommandResult(
             command="model health",
             ok=True,
@@ -263,6 +267,16 @@ class ModelAdapterRouter:
                 if call_result.ok:
                     return self._success_result(call_result, provider.to_dict(), policy_result)
                 return self._adapter_failure_result(call_result, provider.to_dict(), policy_result)
+            if provider.provider_id == "lmstudio":
+                adapter = LMStudioAdapter(provider, timeout_seconds=self.config.local_timeout_seconds)
+                call_result = {
+                    ModelTask.GENERATE: adapter.generate,
+                    ModelTask.CLASSIFY: adapter.classify,
+                    ModelTask.EMBED: adapter.embed,
+                }[request.task](request)
+                if call_result.ok:
+                    return self._success_result(call_result, provider.to_dict(), policy_result)
+                return self._adapter_failure_result(call_result, provider.to_dict(), policy_result)
             return self._blocked_placeholder(
                 request,
                 provider.to_dict(),
@@ -306,7 +320,7 @@ class ModelAdapterRouter:
                 "tokens_estimated": call_result.tokens_estimated,
                 "cost_estimate_usd": call_result.cost_estimate_usd,
                 "external_api_used": call_result.external_api_used,
-                "llm_required": False,
+                "llm_required": call_result.provider != "mock",
                 "preliminary": True,
             },
             "result": call_result.to_dict(),
@@ -355,8 +369,8 @@ class ModelAdapterRouter:
                 "provider": provider_payload,
                 "policy_summary": (policy_result.data or {}).get("summary", {}),
                 "notes": [
-                    "Ollama is optional in FUNC-SPRINT-46; unavailable local server is reported as a structured BLOCK for model calls.",
-                    "The baseline suite must keep passing without a real Ollama server.",
+                    "Local model providers are optional in Fase D; unavailable local servers are reported as structured BLOCK findings for model calls.",
+                    "The baseline suite must keep passing without real Ollama or LM Studio servers.",
                 ],
             },
             findings=[

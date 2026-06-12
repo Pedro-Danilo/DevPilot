@@ -8,7 +8,7 @@ standard: "MIPSoftware"
 extension: "MIASI"
 phase: "FASE-D-IA-LOCAL-GOBERNADA"
 updated: "2026-06-12"
-source_repo: "repo_DevPilot_Local_57.zip"
+source_repo: "repo_DevPilot_Local_58.zip"
 source_report: "Informe de avance DevPilot - sprint 0 - 18.docx"
 source_backlog_model: "docs/functional_backlog_after_precode.md"
 baseline_dependency: "Fases A, B y C cerradas; Fase C validada por FUNC-SPRINT-44 repo engineering-gate"
@@ -16,12 +16,12 @@ first_sprint: "FUNC-SPRINT-45"
 last_planned_sprint: "FUNC-SPRINT-55"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "phase_d_executable_backlog_review"
-first_open_sprint: "FUNC-SPRINT-47"
+first_open_sprint: "FUNC-SPRINT-48"
 phase_d_status: "in_progress"
 approved_on: "2026-06-12"
 approval: "approved_after_phase_c_closure_review"
-last_completed_sprint: "FUNC-SPRINT-46"
-next_sprint: "FUNC-SPRINT-47"
+last_completed_sprint: "FUNC-SPRINT-47"
+next_sprint: "FUNC-SPRINT-48"
 ---
 
 # DevPilot Local — Backlog ejecutable Fase D: IA local gobernada
@@ -428,6 +428,14 @@ python -m pytest -q
 ```text
 Implementa FUNC-SPRINT-47: LMStudioAdapter local OpenAI-compatible, localhost-only, opcional, con tests fake y sin activar API externa.
 ```
+
+## Estado de implementación Sprint 47
+
+`FUNC-SPRINT-47 — LMStudioAdapter local OpenAI-compatible` queda implementado en estado `implemented-initial`. La implementación agrega `LMStudioAdapter`, health check para `/v1/models`, llamadas locales OpenAI-compatible para `generate`, `classify` y `embed`, timeouts cortos, manejo estructurado de indisponibilidad, tests con fake server y bloqueo de llamadas cuando el provider local está deshabilitado.
+
+El cierre de Sprint 47 no cambia las restricciones centrales de Fase D: `mock` sigue siendo obligatorio/default, LM Studio no es requerido para la suite base, las APIs externas siguen bloqueadas, no se habilita multiagente y ningún agente llama modelos directamente fuera de `ModelAdapterRouter`.
+
+Siguiente sprint operativo: `FUNC-SPRINT-48 — Model governance: health, capability matrix y budget ledger`.
 
 
 # FUNC-SPRINT-48 — Model governance: health, capability matrix y budget ledger

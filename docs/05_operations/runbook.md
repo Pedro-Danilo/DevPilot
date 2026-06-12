@@ -2929,3 +2929,24 @@ Para habilitar Ollama localmente, crea `.devpilot/providers.yaml` desde `.devpil
 PASS: health devuelve `available` o `unavailable` sin traceback, fake-server tests pasan, model calls se bloquean si el provider está deshabilitado y SecretGuard bloquea prompts sensibles antes de red local. BLOCK: endpoint remoto, API externa, secreto crudo, timeout sin control o dependencia obligatoria de Ollama real para tests.
 
 Riesgos: compatibilidad de endpoints Ollama puede variar por versión; esta implementación es `implemented-initial` y usa `/api/generate`, `/api/embed` con fallback `/api/embeddings` y `/api/tags` para health.
+
+
+## FUNC-SPRINT-47 — LMStudioAdapter local OpenAI-compatible
+
+Propósito: habilitar el segundo provider local real de DevPilot sin activar OpenAI externo. `LMStudioAdapter` usa endpoints locales compatibles con OpenAI expuestos por LM Studio en `localhost`, pero solo cuando `lmstudio` está explícitamente habilitado en `.devpilot/providers.yaml`.
+
+Comandos operativos:
+
+```powershell
+python -m devpilot_core model health --provider lmstudio --json
+python -m devpilot_core model health --provider lmstudio --timeout-seconds 1 --json
+python -m devpilot_core model generate --provider lmstudio --prompt "test" --json
+python -m devpilot_core model classify --provider lmstudio --text "documentacion tecnica" --labels "docs,code" --json
+python -m devpilot_core model embed --provider lmstudio --text "DevPilot" --json
+```
+
+Para habilitar LM Studio localmente, crea `.devpilot/providers.yaml` desde `.devpilot/providers.yaml.example`, conserva `endpoint: "http://localhost:1234"`, cambia únicamente `enabled: true` en el provider `lmstudio` y mantén `external_api: false` y `requires_api_key: false`. No versionar `.devpilot/providers.yaml` con configuración local sensible.
+
+PASS: health devuelve `available` o `unavailable` sin traceback, fake-server tests pasan, model calls se bloquean si el provider está deshabilitado y SecretGuard bloquea prompts sensibles antes de red local. BLOCK: base URL remota, API externa, secreto crudo, timeout sin control, dependencia obligatoria de LM Studio real para tests o confusión entre LM Studio local y OpenAI externo.
+
+Riesgos: compatibilidad parcial entre versiones de LM Studio y endpoints OpenAI-compatible; esta implementación es `implemented-initial` y usa `/v1/models`, `/v1/chat/completions` y `/v1/embeddings`. Streaming, retries avanzados, budget ledger persistente, capabilities dinámicas y AgentRuntime model-aware quedan para sprints posteriores.

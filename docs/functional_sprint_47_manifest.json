@@ -1,0 +1,72 @@
+{
+  "sprint": "FUNC-SPRINT-47",
+  "title": "LMStudioAdapter local OpenAI-compatible",
+  "status": "implemented",
+  "implemented_at": "2026-06-12",
+  "phase": "FASE-D-IA-LOCAL-GOBERNADA",
+  "wave": "Ola 6 — ModelAdapter real local-first",
+  "source_backlog": "docs/devpilot_backlog_fase_D_ia_local_gobernada.md",
+  "architectural_decision": {
+    "required": false,
+    "adr": "docs/02_architecture/adrs/ADR-0011-local-model-providers.md",
+    "reason": "FUNC-SPRINT-47 ejecuta la decisión aprobada en ADR-0011. No introduce APIs externas ni cambia la política local-first; implementa el adapter LM Studio opcional previsto como proveedor local OpenAI-compatible."
+  },
+  "created_files": [
+    "src/devpilot_core/modeling/lmstudio_adapter.py",
+    "tests/test_lmstudio_adapter.py",
+    "tests/test_sprint_47_documentation.py",
+    "docs/audits/func_sprint_47_lmstudio_adapter_audit.md",
+    "docs/functional_sprint_47_manifest.json"
+  ],
+  "modified_files": [
+    ".devpilot/providers.yaml.example",
+    ".devpilot/miasi/policy_matrix.json",
+    ".devpilot/miasi/tool_registry.json",
+    "README.md",
+    "docs/04_quality/test_strategy.md",
+    "docs/05_operations/runbook.md",
+    "docs/06_miasi/policy_card.md",
+    "docs/06_miasi/tool_card.md",
+    "docs/06_miasi/tool_registry.md",
+    "docs/devpilot_backlog_fase_D_ia_local_gobernada.md",
+    "docs/functional_backlog_after_precode.md",
+    "src/devpilot_core/cli.py",
+    "src/devpilot_core/modeling/__init__.py",
+    "src/devpilot_core/modeling/providers.py",
+    "src/devpilot_core/modeling/router.py"
+  ],
+  "commands": [
+    "python -m devpilot_core model health --provider lmstudio --json",
+    "python -m devpilot_core model generate --provider lmstudio --prompt \"test\" --json",
+    "python -m devpilot_core model generate --provider mock --prompt \"test\" --json",
+    "python -m devpilot_core miasi validate --json",
+    "python -m pytest -q"
+  ],
+  "tests": [
+    "tests/test_lmstudio_adapter.py",
+    "tests/test_sprint_47_documentation.py"
+  ],
+  "pass_criteria": [
+    "LM Studio es opcional y no requerido para tests base.",
+    "Solo localhost/base_url local queda permitido por defecto.",
+    "Fake OpenAI-compatible server cubre health/generate/classify/embed.",
+    "APIs externas siguen bloqueadas.",
+    "Provider disabled bloquea model calls sin contactar servidor."
+  ],
+  "block_criteria": [
+    "Base URL remota permitida.",
+    "Tests requieren LM Studio real.",
+    "LM Studio local se confunde con OpenAI externo.",
+    "Prompt secreto llega al provider.",
+    "OpenAI/Gemini quedan habilitados por defecto."
+  ],
+  "risks": [
+    "Compatibilidad parcial con endpoints OpenAI-compatible de LM Studio.",
+    "Modelo no cargado en LM Studio puede producir health disponible pero generate bloqueado.",
+    "No hay streaming ni retries complejos todavía.",
+    "Budget ledger persistente queda para FUNC-SPRINT-48.",
+    "AgentRuntime model-aware queda para FUNC-SPRINT-51."
+  ],
+  "preliminary": true,
+  "next_sprint": "FUNC-SPRINT-48 — Model governance: health, capability matrix y budget ledger"
+}

@@ -14,7 +14,7 @@ change_policy: "controlled_changes_allowed_via_docs_as_code"
 approved_on: "2026-06-06"
 approval_scope: "functional_backlog_after_precode"
 baseline_execution: "FUNC-SPRINT-00"
-next_sprint: "FUNC-SPRINT-47"
+next_sprint: "FUNC-SPRINT-48"
 ---
 
 # DevPilot Local — Backlog ejecutable posterior a pre-code
@@ -2115,3 +2115,10 @@ La transición hacia `FUNC-SPRINT-46` queda condicionada a no requerir Ollama pa
 ## Transición posterior a FUNC-SPRINT-46
 
 `FUNC-SPRINT-46` completa la integración inicial opcional de Ollama como proveedor local. La transición hacia `FUNC-SPRINT-47` queda condicionada a mantener Ollama opcional, no requerir modelos locales en la suite base, no habilitar APIs externas y extender el mismo patrón localhost-only/timeouts/fake-server hacia LM Studio.
+
+
+## Transición posterior a FUNC-SPRINT-47
+
+`FUNC-SPRINT-47` completa la integración inicial opcional de LM Studio como proveedor local OpenAI-compatible, manteniendo `mock` como ruta obligatoria/default, Ollama y LM Studio deshabilitados por defecto, `localhost` como único alcance permitido para providers locales y APIs externas bloqueadas.
+
+La transición hacia `FUNC-SPRINT-48` queda condicionada a no requerir modelos locales en la suite base, no habilitar APIs externas y consolidar gobierno operativo de modelos mediante health unificado, capability matrix y budget ledger local.

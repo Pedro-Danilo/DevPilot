@@ -548,3 +548,10 @@ python -m devpilot_core miasi validate --json
 ```
 
 Criterios: unavailable controlado, provider disabled bloquea model calls, fake generate/classify/embed PASS, secretos bloqueados antes de contactar el provider y regresión general sin modelos locales reales.
+
+
+## Actualización FUNC-SPRINT-47 — Pruebas de LMStudioAdapter local OpenAI-compatible
+
+La estrategia de pruebas de `FUNC-SPRINT-47` mantiene la suite hermética: no requiere LM Studio real, no usa red externa y valida el adapter con un fake server local que emula `/v1/models`, `/v1/chat/completions` y `/v1/embeddings`.
+
+Cobertura mínima: health unavailable controlado, fake completion PASS, fake embeddings PASS, provider disabled blocked, endpoint remoto blocked y SecretGuard antes de cualquier request local. Estas pruebas no habilitan OpenAI, no usan API keys y preservan `mock` como proveedor default para regresión.

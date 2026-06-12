@@ -248,7 +248,7 @@ def model_health_command(
         subject=f"provider:{provider}",
         report_id="model_health",
         write_report=write_report,
-        metadata={"sprint": "FUNC-SPRINT-46", "component": "ModelHealth"},
+        metadata={"sprint": "FUNC-SPRINT-47", "component": "ModelHealth"},
     )
     _emit_result_event(root, result, subject=f"provider:{provider}")
     _persist_result(root, result, subject=f"provider:{provider}")
@@ -2006,7 +2006,7 @@ def build_parser() -> argparse.ArgumentParser:
     model_providers.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
 
     model_health = model_sub.add_parser("health", help="Run a bounded local-only provider health check")
-    model_health.add_argument("--provider", default="ollama", help="Provider id; default: ollama")
+    model_health.add_argument("--provider", default="ollama", help="Provider id; default: ollama; use lmstudio for LM Studio localhost")
     model_health.add_argument("--timeout-seconds", type=float, default=3.0, help="Local health timeout; default: 3 seconds")
     model_health.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     model_health.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")

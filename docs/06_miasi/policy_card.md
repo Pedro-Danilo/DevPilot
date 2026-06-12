@@ -152,4 +152,11 @@ Criterio MIASI: ninguna salida de policy/report/event debe conservar payloads pe
 
 DevPilot declara `model.health.local` como herramienta implementada inicial para health checks localhost-only y actualiza `model.call.local` a `implemented-initial` para llamadas Ollama controladas. Las llamadas siguen bloqueadas si el provider local está deshabilitado, si el endpoint no es localhost, si SecretGuard detecta secretos o si PolicyEngine/CostGuard bloquean la solicitud.
 
-La implementación es preliminar: cubre Ollama con timeouts y fake-server tests; no habilita LM Studio, APIs externas, streaming, budget ledger persistente ni AgentRuntime model-aware.
+La implementación es preliminar: cubre Ollama con timeouts y fake-server tests; habilita LM Studio local OpenAI-compatible de forma inicial; no habilita APIs externas, streaming, budget ledger persistente ni AgentRuntime model-aware.
+
+
+## FUNC-SPRINT-47 — LMStudioAdapter local OpenAI-compatible
+
+DevPilot mantiene `model.health.local` como herramienta implementada inicial para health checks localhost-only y extiende `model.call.local` para cubrir LM Studio local OpenAI-compatible. Las llamadas siguen bloqueadas si el provider local está deshabilitado, si la base URL no es localhost, si SecretGuard detecta secretos o si PolicyEngine/CostGuard bloquean la solicitud.
+
+La implementación es preliminar: cubre `/v1/models`, `/v1/chat/completions` y `/v1/embeddings` con timeouts y fake-server tests; no habilita OpenAI externo, streaming, budget ledger persistente ni AgentRuntime model-aware.

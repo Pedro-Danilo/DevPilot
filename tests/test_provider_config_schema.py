@@ -43,7 +43,7 @@ def test_provider_example_validates_with_dedicated_and_generic_cli(monkeypatch, 
 
 
 def test_provider_registry_keeps_safe_defaults_and_external_disabled() -> None:
-    registry = ProviderRegistry.load(ROOT)
+    registry = ProviderRegistry.load(ROOT, prefer_example=True)
     result = registry.to_result()
 
     assert result.ok is True
@@ -60,6 +60,27 @@ def test_provider_registry_keeps_safe_defaults_and_external_disabled() -> None:
     assert providers["openai"].enabled is False
     assert providers["openai"].external_api is True
     assert providers["openai"].status == "disabled"
+
+
+def test_provider_registry_can_read_local_operator_override_without_changing_default_contract(tmp_path: Path) -> None:
+    root = tmp_path
+    (root / ".devpilot").mkdir()
+    example = ROOT / ".devpilot/providers.yaml.example"
+    (root / ".devpilot/providers.yaml.example").write_text(example.read_text(encoding="utf-8"), encoding="utf-8")
+    local_config = example.read_text(encoding="utf-8").replace(
+        '  - id: "ollama"\n    kind: "local"\n    enabled: false',
+        '  - id: "ollama"\n    kind: "local"\n    enabled: true',
+        1,
+    )
+    (root / ".devpilot/providers.yaml").write_text(local_config, encoding="utf-8")
+
+    local_registry = ProviderRegistry.load(root)
+    default_registry = ProviderRegistry.load(root, prefer_example=True)
+
+    assert local_registry.source_path == ".devpilot/providers.yaml"
+    assert local_registry.providers["ollama"].enabled is True
+    assert default_registry.source_path == ".devpilot/providers.yaml.example"
+    assert default_registry.providers["ollama"].enabled is False
 
 
 def test_mock_generate_classify_embed_still_pass_without_network(monkeypatch, capsys) -> None:

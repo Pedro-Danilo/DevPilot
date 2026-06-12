@@ -1,0 +1,29 @@
+(.venv) PS D:\Projects\DevPilot_Local> pytest -q
+............................................................................................................................................ [ 35%]
+......................F..................................................................................................................... [ 70%]
+.......................................................................................................................                      [100%]
+==================================================================== FAILURES =====================================================================
+________________________________________ test_provider_registry_keeps_safe_defaults_and_external_disabled _________________________________________
+
+    def test_provider_registry_keeps_safe_defaults_and_external_disabled() -> None:
+        registry = ProviderRegistry.load(ROOT)
+        result = registry.to_result()
+
+        assert result.ok is True
+        assert result.data["summary"]["schema_version"] == "2.0"
+        assert result.data["summary"]["semantic_valid"] is True
+        assert result.data["summary"]["mock_enabled"] is True
+        assert result.data["summary"]["external_api_enabled_total"] == 0
+
+        providers = {provider.provider_id: provider for provider in registry.providers.values()}
+        assert providers["mock"].enabled is True
+        assert providers["ollama"].kind.value == "local"
+>       assert providers["ollama"].enabled is False
+E       AssertionError: assert True is False
+E        +  where True = ModelProviderConfig(provider_id='ollama', kind=<ModelProviderKind.LOCAL: 'local'>, enabled=True, default_model='qwen2....llama server.', 'Endpoint must remain localhost-only; health/model calls use short timeouts and controlled failures.']).enabled
+
+tests\test_provider_config_schema.py:58: AssertionError
+DEVPL TEST SUMMARY: 398 passed, 1 failed, 0 errors, 0 skipped
+============================================================= short test summary info =============================================================
+FAILED tests/test_provider_config_schema.py::test_provider_registry_keeps_safe_defaults_and_external_disabled - AssertionError: assert True is False
+(.venv) PS D:\Projects\DevPilot_Local>

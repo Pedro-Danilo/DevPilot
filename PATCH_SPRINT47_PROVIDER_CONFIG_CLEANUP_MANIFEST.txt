@@ -1,0 +1,21 @@
+PATCH: sprint47_provider_config_cleanup
+
+Objetivo:
+- Corregir fallo de pytest causado por configuración local versionada en .devpilot/providers.yaml con ollama.enabled=true.
+- Mantener tests de defaults seguros independientes de overrides locales del operador.
+
+Archivos modificados:
+- src/devpilot_core/modeling/providers.py
+- tests/test_provider_config_schema.py
+
+Archivos que deben eliminarse del repo local si existen:
+- .devpilot/providers.yaml
+- PATCH_COMPONENTS_MANIFEST.txt
+
+Comandos Windows sugeridos:
+Remove-Item .devpilot\providers.yaml -ErrorAction SilentlyContinue
+Remove-Item PATCH_COMPONENTS_MANIFEST.txt -ErrorAction SilentlyContinue
+python -m pytest tests/test_provider_config_schema.py -q
+python -m pytest tests/test_provider_config_schema.py tests/test_ollama_adapter.py tests/test_lmstudio_adapter.py -q
+python -m devpilot_core model providers --json
+python -m devpilot_core validate all --json

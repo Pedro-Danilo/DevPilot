@@ -349,7 +349,7 @@
     },
     {
       "tool_id": "model.call.local",
-      "name": "call_ollama_local_model_adapter",
+      "name": "call_local_model_adapters",
       "phase": "MVP+",
       "side_effect": "local_compute",
       "risk_level": "medium",

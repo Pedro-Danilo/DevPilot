@@ -546,7 +546,7 @@ Riesgo alto por su rol de gate de cierre, aunque su side effect es solo `report`
 `FUNC-SPRINT-45` actualiza el contrato de herramientas de modelo:
 
 - `model.call.mock`: implementado, sin red, sin API key, proveedor default.
-- `model.call.local`: implementado inicialmente para Ollama opcional en Sprint 46; LM Studio permanece planificado para Sprint 47.
+- `model.call.local`: implementado inicialmente para Ollama opcional en Sprint 46; LM Studio queda implementado inicialmente en Sprint 47.
 - `model.call.external`: disabled y approval-gated; no se llama por defecto.
 
 Toda llamada de modelo debe pasar por `ModelAdapterRouter`, `ProviderRegistry`, `PolicyEngine`, `SecretGuard` y `CostGuard`.
@@ -558,4 +558,11 @@ PASS: mock operativo, locales localhost-only/deshabilitados por defecto, externo
 
 DevPilot declara `model.health.local` como herramienta implementada inicial para health checks localhost-only y actualiza `model.call.local` a `implemented-initial` para llamadas Ollama controladas. Las llamadas siguen bloqueadas si el provider local está deshabilitado, si el endpoint no es localhost, si SecretGuard detecta secretos o si PolicyEngine/CostGuard bloquean la solicitud.
 
-La implementación es preliminar: cubre Ollama con timeouts y fake-server tests; no habilita LM Studio, APIs externas, streaming, budget ledger persistente ni AgentRuntime model-aware.
+La implementación es preliminar: cubre Ollama con timeouts y fake-server tests; habilita LM Studio local OpenAI-compatible de forma inicial; no habilita APIs externas, streaming, budget ledger persistente ni AgentRuntime model-aware.
+
+
+## FUNC-SPRINT-47 — LMStudioAdapter local OpenAI-compatible
+
+DevPilot mantiene `model.health.local` como herramienta implementada inicial para health checks localhost-only y extiende `model.call.local` para cubrir LM Studio local OpenAI-compatible. Las llamadas siguen bloqueadas si el provider local está deshabilitado, si la base URL no es localhost, si SecretGuard detecta secretos o si PolicyEngine/CostGuard bloquean la solicitud.
+
+La implementación es preliminar: cubre `/v1/models`, `/v1/chat/completions` y `/v1/embeddings` con timeouts y fake-server tests; no habilita OpenAI externo, streaming, budget ledger persistente ni AgentRuntime model-aware.

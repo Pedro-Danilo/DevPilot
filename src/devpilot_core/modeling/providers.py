@@ -48,8 +48,8 @@ DEFAULT_PROVIDER_CONFIGS = (
         requires_api_key=False,
         endpoint="http://localhost:1234",
         estimated_cost_per_1k_tokens_usd=0.0,
-        status="planned",
-        notes=["Local OpenAI-compatible placeholder planned for FUNC-SPRINT-47; disabled by default."],
+        status="implemented-initial",
+        notes=["Local OpenAI-compatible provider implemented initially in FUNC-SPRINT-47; disabled by default and localhost-only."],
     ),
     ModelProviderConfig(
         provider_id="openai",
@@ -87,7 +87,10 @@ class ProviderRegistry:
     FUNC-SPRINT-45 hardens provider configuration before real local adapters
     are introduced. The registry reads `.devpilot/providers.yaml` when present,
     otherwise `.devpilot/providers.yaml.example`, and finally deterministic
-    built-in defaults. It performs semantic checks in addition to JSON Schema:
+    built-in defaults. Tests and contract validators may pass `prefer_example=True`
+    to assert safe versionable defaults even when an operator has a local
+    `.devpilot/providers.yaml` override. It performs semantic checks in addition
+    to JSON Schema:
 
     - `mock` must exist and be enabled;
     - local providers must be localhost-only and must not require API keys;
@@ -104,9 +107,11 @@ class ProviderRegistry:
     semantic_valid: bool = True
 
     @classmethod
-    def load(cls, root: Path) -> "ProviderRegistry":
+    def load(cls, root: Path, *, prefer_example: bool = False) -> "ProviderRegistry":
         root = root.resolve()
-        candidates = [root / ".devpilot/providers.yaml", root / ".devpilot/providers.yaml.example"]
+        default_candidate = root / ".devpilot/providers.yaml.example"
+        local_candidate = root / ".devpilot/providers.yaml"
+        candidates = [default_candidate, local_candidate] if prefer_example else [local_candidate, default_candidate]
         for candidate in candidates:
             if candidate.is_file():
                 payload, configs, findings = parse_provider_config_file(candidate)
@@ -168,7 +173,7 @@ class ProviderRegistry:
             "providers": [provider.to_dict() for provider in self.providers.values()],
             "preliminary": True,
             "notes": [
-                "FUNC-SPRINT-46 implements the optional Ollama local adapter; LM Studio remains a future optional sprint.",
+                "FUNC-SPRINT-47 implements optional Ollama and LM Studio local adapters; both remain disabled by default.",
                 "External providers remain disabled by default and are blocked by CostGuard/PolicyEngine.",
                 "Raw API keys or secret values must never be stored in provider metadata.",
             ],

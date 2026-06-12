@@ -14,7 +14,7 @@ providers:
       - "FUNC-SPRINT-45 keeps mock mandatory so DevPilot remains reproducible without local model servers."
   - id: "ollama"
     kind: "local"
-    enabled: true
+    enabled: false
     default_model: "qwen2.5:3b-instruct"
     endpoint: "http://localhost:11434"
     external_api: false
@@ -33,9 +33,9 @@ providers:
     external_api: false
     requires_api_key: false
     estimated_cost_per_1k_tokens_usd: 0.0
-    status: "planned"
+    status: "implemented-initial"
     notes:
-      - "Local OpenAI-compatible endpoint planned for FUNC-SPRINT-47."
+      - "Local OpenAI-compatible provider implemented initially in FUNC-SPRINT-47."
       - "Disabled by default; tests must not require LM Studio."
       - "Only localhost base URLs are accepted by the provider contract."
   - id: "openai"
