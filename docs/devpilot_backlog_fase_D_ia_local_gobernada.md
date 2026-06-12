@@ -8,7 +8,7 @@ standard: "MIPSoftware"
 extension: "MIASI"
 phase: "FASE-D-IA-LOCAL-GOBERNADA"
 updated: "2026-06-12"
-source_repo: "repo_DevPilot_Local_58.zip"
+source_repo: "repo_DevPilot_Local_59.zip"
 source_report: "Informe de avance DevPilot - sprint 0 - 18.docx"
 source_backlog_model: "docs/functional_backlog_after_precode.md"
 baseline_dependency: "Fases A, B y C cerradas; Fase C validada por FUNC-SPRINT-44 repo engineering-gate"
@@ -16,12 +16,12 @@ first_sprint: "FUNC-SPRINT-45"
 last_planned_sprint: "FUNC-SPRINT-55"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "phase_d_executable_backlog_review"
-first_open_sprint: "FUNC-SPRINT-48"
+first_open_sprint: "FUNC-SPRINT-49"
 phase_d_status: "in_progress"
 approved_on: "2026-06-12"
 approval: "approved_after_phase_c_closure_review"
-last_completed_sprint: "FUNC-SPRINT-47"
-next_sprint: "FUNC-SPRINT-48"
+last_completed_sprint: "FUNC-SPRINT-48"
+next_sprint: "FUNC-SPRINT-49"
 ---
 
 # DevPilot Local — Backlog ejecutable Fase D: IA local gobernada
@@ -1159,3 +1159,32 @@ Fuera de alcance hasta sprints posteriores:
 - no se habilita multiagente.
 
 Siguiente sprint operativo: `FUNC-SPRINT-46 — OllamaAdapter local opcional`.
+
+
+## Estado de implementación Sprint 48
+
+`FUNC-SPRINT-48 — Model governance: health, capability matrix y budget ledger` queda implementado en estado `implemented-initial`. La implementación agrega un gobierno operativo inicial para proveedores de modelo mediante:
+
+- `ModelHealthService`, que consolida health checks de `mock`, Ollama, LM Studio y providers externos bloqueados.
+- `CapabilityMatrix`, que declara capacidades `generate`, `classify`, `embed`, health, contexto estimado, alcance de red, fallback y controles requeridos.
+- `BudgetLedger`, que registra y consulta `cost_events` locales sin almacenar prompts, completions ni secretos.
+- CLI `model health --json`, `model capabilities --json` y `model budget status --json`.
+- fallback configurado a `mock` mediante `--fallback-to-mock` para providers locales habilitados pero no disponibles.
+
+Alcance real implementado:
+
+- health/capabilities no requieren modelos locales reales para que la suite base pase;
+- providers externos siguen bloqueados y no se contactan;
+- budget ledger separa costo monetario de `compute_estimate_units`;
+- los eventos de costo se almacenan en SQLite runtime y no incluyen payloads crudos;
+- fallback a `mock` no es silencioso: queda reflejado en `summary.fallback_applied` y en finding `MODEL_FALLBACK_TO_MOCK_APPLIED`.
+
+Fuera de alcance hasta sprints posteriores:
+
+- prompt registry y prompt packs gobernados;
+- model eval matrix;
+- AgentRuntime v2 model-aware;
+- streaming, retries avanzados y métricas reales de latencia;
+- budget enforcement monetario avanzado para APIs externas.
+
+Siguiente sprint operativo: `FUNC-SPRINT-49 — Prompt Registry y Prompt Packs gobernados`.

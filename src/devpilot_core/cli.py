@@ -15,7 +15,7 @@ from .errors import DevPilotError
 from .evals import EvalRunner
 from .observability import EventLogger
 from .miasi import MiasiRegistryValidator
-from .modeling import ModelAdapterRouter, ModelRouterConfig
+from .modeling import BudgetLedger, CapabilityMatrix, ModelAdapterRouter, ModelHealthService, ModelRouterConfig
 from .policy import CostPolicy, PolicyEngine, PolicyRequest, load_cost_policy
 from .reports import ReportEngine, build_report_id
 from .security import PolicySimulationSuite, SecurityReadiness
@@ -217,6 +217,7 @@ def _model_router(
     budget_limit_usd: float = 0.0,
     budget_used_usd: float = 0.0,
     local_timeout_seconds: float = 3.0,
+    fallback_to_mock_on_local_unavailable: bool = False,
 ) -> ModelAdapterRouter:
     """Build a ModelAdapterRouter with explicit cost controls."""
 
@@ -227,31 +228,80 @@ def _model_router(
             budget_limit_usd=budget_limit_usd,
             budget_used_usd=budget_used_usd,
             local_timeout_seconds=local_timeout_seconds,
+            fallback_to_mock_on_local_unavailable=fallback_to_mock_on_local_unavailable,
         ),
     )
 
 
 def model_health_command(
     *,
-    provider: str = "ollama",
+    provider: str | None = None,
     timeout_seconds: float = 3.0,
     json_output: bool = False,
     write_report: bool = False,
 ) -> int:
-    """Run a bounded local-only provider health check."""
+    """Run bounded local-only provider health checks.
+
+    Without --provider, FUNC-SPRINT-48 reports the whole governed provider
+    fleet. With --provider, it preserves the Sprint 46/47 single-provider
+    health behavior. External providers are never contacted.
+    """
 
     root = project_root()
-    result = _model_router(root, local_timeout_seconds=timeout_seconds).health(provider=provider)
+    if provider:
+        result = _model_router(root, local_timeout_seconds=timeout_seconds).health(provider=provider)
+        subject = f"provider:{provider}"
+    else:
+        result = ModelHealthService(root, timeout_seconds=timeout_seconds).check_all()
+        subject = "providers:all"
     result = _write_optional_command_report(
         root,
         result,
-        subject=f"provider:{provider}",
+        subject=subject,
         report_id="model_health",
         write_report=write_report,
-        metadata={"sprint": "FUNC-SPRINT-47", "component": "ModelHealth"},
+        metadata={"sprint": "FUNC-SPRINT-48", "component": "ModelHealthService"},
     )
-    _emit_result_event(root, result, subject=f"provider:{provider}")
-    _persist_result(root, result, subject=f"provider:{provider}")
+    _emit_result_event(root, result, subject=subject)
+    _persist_result(root, result, subject=subject)
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+
+def model_capabilities_command(*, json_output: bool = False, write_report: bool = False) -> int:
+    """Report the governed model capability matrix without contacting servers."""
+
+    root = project_root()
+    result = CapabilityMatrix(root).build()
+    result = _write_optional_command_report(
+        root,
+        result,
+        subject="providers:capabilities",
+        report_id="model_capabilities",
+        write_report=write_report,
+        metadata={"sprint": "FUNC-SPRINT-48", "component": "CapabilityMatrix"},
+    )
+    _emit_result_event(root, result, subject="providers:capabilities")
+    _persist_result(root, result, subject="providers:capabilities")
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+
+def model_budget_status_command(*, limit: int = 20, json_output: bool = False, write_report: bool = False) -> int:
+    """Report the local model budget ledger from SQLite cost_events."""
+
+    root = project_root()
+    result = BudgetLedger(root).status(limit=limit)
+    result = _write_optional_command_report(
+        root,
+        result,
+        subject="model:budget",
+        report_id="model_budget_status",
+        write_report=write_report,
+        metadata={"sprint": "FUNC-SPRINT-48", "component": "BudgetLedger"},
+    )
+    _emit_result_event(root, result, subject="model:budget")
+    _persist_result(root, result, subject="model:budget")
     print_result(result, json_output=json_output)
     return int(result.exit_code)
 
@@ -288,6 +338,7 @@ def model_generate_command(
     budget_limit_usd: float = 0.0,
     budget_used_usd: float = 0.0,
     timeout_seconds: float = 3.0,
+    fallback_to_mock: bool = False,
     json_output: bool = False,
     write_report: bool = False,
 ) -> int:
@@ -300,7 +351,9 @@ def model_generate_command(
         budget_limit_usd=budget_limit_usd,
         budget_used_usd=budget_used_usd,
         local_timeout_seconds=timeout_seconds,
+        fallback_to_mock_on_local_unavailable=fallback_to_mock,
     ).generate(prompt=prompt, provider=provider, model=model)
+    BudgetLedger(root).record_model_result(result, source="model-generate-cli")
     result = _write_optional_command_report(
         root,
         result,
@@ -322,6 +375,7 @@ def model_classify_command(
     provider: str = "mock",
     model: str | None = None,
     timeout_seconds: float = 3.0,
+    fallback_to_mock: bool = False,
     json_output: bool = False,
     write_report: bool = False,
 ) -> int:
@@ -329,7 +383,8 @@ def model_classify_command(
 
     root = project_root()
     label_tuple = tuple(label.strip() for label in labels.split(",") if label.strip())
-    result = _model_router(root, local_timeout_seconds=timeout_seconds).classify(text=text, labels=label_tuple, provider=provider, model=model)
+    result = _model_router(root, local_timeout_seconds=timeout_seconds, fallback_to_mock_on_local_unavailable=fallback_to_mock).classify(text=text, labels=label_tuple, provider=provider, model=model)
+    BudgetLedger(root).record_model_result(result, source="model-classify-cli")
     result = _write_optional_command_report(
         root,
         result,
@@ -350,13 +405,15 @@ def model_embed_command(
     provider: str = "mock",
     model: str | None = None,
     timeout_seconds: float = 3.0,
+    fallback_to_mock: bool = False,
     json_output: bool = False,
     write_report: bool = False,
 ) -> int:
     """Generate a deterministic embedding through the safe ModelAdapter boundary."""
 
     root = project_root()
-    result = _model_router(root, local_timeout_seconds=timeout_seconds).embed(text=text, provider=provider, model=model)
+    result = _model_router(root, local_timeout_seconds=timeout_seconds, fallback_to_mock_on_local_unavailable=fallback_to_mock).embed(text=text, provider=provider, model=model)
+    BudgetLedger(root).record_model_result(result, source="model-embed-cli")
     result = _write_optional_command_report(
         root,
         result,
@@ -2005,11 +2062,22 @@ def build_parser() -> argparse.ArgumentParser:
     model_providers.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     model_providers.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
 
-    model_health = model_sub.add_parser("health", help="Run a bounded local-only provider health check")
-    model_health.add_argument("--provider", default="ollama", help="Provider id; default: ollama; use lmstudio for LM Studio localhost")
+    model_health = model_sub.add_parser("health", help="Run bounded provider health checks; all providers by default")
+    model_health.add_argument("--provider", default=None, help="Optional provider id, for example ollama or lmstudio; omit to report all providers")
     model_health.add_argument("--timeout-seconds", type=float, default=3.0, help="Local health timeout; default: 3 seconds")
     model_health.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     model_health.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+
+    model_capabilities = model_sub.add_parser("capabilities", help="Show governed model capability matrix")
+    model_capabilities.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    model_capabilities.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+
+    model_budget = model_sub.add_parser("budget", help="Inspect local model budget ledger")
+    model_budget_sub = model_budget.add_subparsers(dest="model_budget_command")
+    model_budget_status = model_budget_sub.add_parser("status", help="Show local model budget ledger status")
+    model_budget_status.add_argument("--limit", type=int, default=20, help="Recent cost events to include; default: 20")
+    model_budget_status.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    model_budget_status.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
 
     model_generate = model_sub.add_parser("generate", help="Generate text through ModelAdapter")
     model_generate.add_argument("--prompt", required=True, help="Prompt text to generate from")
@@ -2019,6 +2087,7 @@ def build_parser() -> argparse.ArgumentParser:
     model_generate.add_argument("--budget-limit-usd", type=float, default=0.0, help="Simulated CostGuard budget limit")
     model_generate.add_argument("--budget-used-usd", type=float, default=0.0, help="Simulated CostGuard budget already used")
     model_generate.add_argument("--timeout-seconds", type=float, default=3.0, help="Local provider timeout; default: 3 seconds")
+    model_generate.add_argument("--fallback-to-mock", action="store_true", help="Fallback to mock if enabled local provider is unavailable")
     model_generate.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     model_generate.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
 
@@ -2028,6 +2097,7 @@ def build_parser() -> argparse.ArgumentParser:
     model_classify.add_argument("--provider", default="mock", help="Provider id; default: mock")
     model_classify.add_argument("--model", default=None, help="Optional model id override")
     model_classify.add_argument("--timeout-seconds", type=float, default=3.0, help="Local provider timeout; default: 3 seconds")
+    model_classify.add_argument("--fallback-to-mock", action="store_true", help="Fallback to mock if enabled local provider is unavailable")
     model_classify.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     model_classify.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
 
@@ -2036,6 +2106,7 @@ def build_parser() -> argparse.ArgumentParser:
     model_embed.add_argument("--provider", default="mock", help="Provider id; default: mock")
     model_embed.add_argument("--model", default=None, help="Optional model id override")
     model_embed.add_argument("--timeout-seconds", type=float, default=3.0, help="Local provider timeout; default: 3 seconds")
+    model_embed.add_argument("--fallback-to-mock", action="store_true", help="Fallback to mock if enabled local provider is unavailable")
     model_embed.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     model_embed.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
 
@@ -2479,6 +2550,13 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
                 json_output=args.json,
                 write_report=args.write_report,
             )
+        if args.model_command == "capabilities":
+            return model_capabilities_command(json_output=args.json, write_report=args.write_report)
+        if args.model_command == "budget":
+            if args.model_budget_command == "status":
+                return model_budget_status_command(limit=args.limit, json_output=args.json, write_report=args.write_report)
+            parser.print_help()
+            return int(ExitCode.FAIL)
         if args.model_command == "generate":
             return model_generate_command(
                 prompt=args.prompt,
@@ -2488,6 +2566,7 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
                 budget_limit_usd=args.budget_limit_usd,
                 budget_used_usd=args.budget_used_usd,
                 timeout_seconds=args.timeout_seconds,
+                fallback_to_mock=args.fallback_to_mock,
                 json_output=args.json,
                 write_report=args.write_report,
             )
@@ -2498,6 +2577,7 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
                 provider=args.provider,
                 model=args.model,
                 timeout_seconds=args.timeout_seconds,
+                fallback_to_mock=args.fallback_to_mock,
                 json_output=args.json,
                 write_report=args.write_report,
             )
@@ -2507,6 +2587,7 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
                 provider=args.provider,
                 model=args.model,
                 timeout_seconds=args.timeout_seconds,
+                fallback_to_mock=args.fallback_to_mock,
                 json_output=args.json,
                 write_report=args.write_report,
             )

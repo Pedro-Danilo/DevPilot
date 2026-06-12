@@ -1,0 +1,71 @@
+{
+  "sprint": "FUNC-SPRINT-48",
+  "title": "Model governance: health, capability matrix y budget ledger",
+  "status": "implemented",
+  "implemented_at": "2026-06-12",
+  "phase": "FASE-D-IA-LOCAL-GOBERNADA",
+  "wave": "Ola 6 — ModelAdapter real local-first",
+  "source_backlog": "docs/devpilot_backlog_fase_D_ia_local_gobernada.md",
+  "architectural_decision": {
+    "required": false,
+    "adr": "docs/02_architecture/adrs/ADR-0011-local-model-providers.md",
+    "reason": "FUNC-SPRINT-48 ejecuta la arquitectura local-first aprobada en ADR-0011. No introduce proveedores externos, no cambia el boundary de ModelAdapterRouter y agrega gobierno operativo sobre providers locales ya declarados."
+  },
+  "created_files": [
+    "src/devpilot_core/modeling/health.py",
+    "src/devpilot_core/modeling/capabilities.py",
+    "src/devpilot_core/modeling/budget.py",
+    "tests/test_model_governance.py",
+    "tests/test_sprint_48_documentation.py",
+    "docs/audits/func_sprint_48_model_governance_audit.md",
+    "docs/functional_sprint_48_manifest.json"
+  ],
+  "modified_files": [
+    ".devpilot/miasi/policy_matrix.json",
+    ".devpilot/miasi/tool_registry.json",
+    "README.md",
+    "docs/04_quality/test_strategy.md",
+    "docs/05_operations/runbook.md",
+    "docs/06_miasi/policy_card.md",
+    "docs/06_miasi/tool_card.md",
+    "docs/06_miasi/tool_registry.md",
+    "docs/devpilot_backlog_fase_D_ia_local_gobernada.md",
+    "docs/functional_backlog_after_precode.md",
+    "src/devpilot_core/cli.py",
+    "src/devpilot_core/modeling/__init__.py",
+    "src/devpilot_core/modeling/router.py",
+    "src/devpilot_core/store/local_store.py"
+  ],
+  "commands": [
+    "python -m devpilot_core model health --json",
+    "python -m devpilot_core model capabilities --json",
+    "python -m devpilot_core model budget status --json",
+    "python -m devpilot_core model generate --provider mock --prompt \"test\" --json",
+    "python -m devpilot_core miasi validate --json",
+    "python -m pytest -q"
+  ],
+  "tests": [
+    "tests/test_model_governance.py",
+    "tests/test_sprint_48_documentation.py"
+  ],
+  "pass_criteria": [
+    "Health/capabilities reportan mock/local/external states.",
+    "Budget ledger registra eventos sin costos externos por defecto.",
+    "Fallback a mock queda documentado y es explícito/configurado.",
+    "No hay llamadas externas.",
+    "cost_events no guarda prompts completos con secretos."
+  ],
+  "block_criteria": [
+    "Budget permite gasto externo por defecto.",
+    "Provider unavailable falla con crash.",
+    "cost_events guardan prompts, completions o secretos crudos.",
+    "Fallback ocurre de forma silenciosa o no auditable."
+  ],
+  "risks": [
+    "Costos locales no son monetarios; se separa monetary_cost de compute_estimate_units.",
+    "Capability matrix puede quedar obsoleta; se documenta como implemented-initial.",
+    "Exceso de logging; se registra metadata redacted y no payloads crudos."
+  ],
+  "preliminary": true,
+  "next_sprint": "FUNC-SPRINT-49 — Prompt Registry y Prompt Packs gobernados"
+}

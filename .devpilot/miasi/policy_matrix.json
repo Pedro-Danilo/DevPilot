@@ -219,6 +219,24 @@
       "gate": "ProviderRegistry+LocalhostOnly+Timeout+NoExternalAPI+NoSecrets",
       "approval_required": false,
       "observability_required": true
+    },
+    {
+      "rule_id": "MODEL_CAPABILITIES_READ_ALLOW",
+      "domain": "Model",
+      "action": "capability_matrix_read",
+      "default_effect": "allow",
+      "gate": "CapabilityMatrix+ProviderRegistry+NoNetwork",
+      "approval_required": false,
+      "observability_required": true
+    },
+    {
+      "rule_id": "MODEL_BUDGET_LEDGER_ALLOW",
+      "domain": "Model",
+      "action": "budget_ledger_status",
+      "default_effect": "allow",
+      "gate": "BudgetLedger+LocalStore+SecretRedaction+NoRawPrompts",
+      "approval_required": false,
+      "observability_required": true
     }
   ]
 }

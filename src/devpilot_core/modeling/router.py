@@ -20,6 +20,8 @@ class ModelRouterConfig:
     budget_limit_usd: float = 0.0
     budget_used_usd: float = 0.0
     local_timeout_seconds: float = 3.0
+    fallback_to_mock_on_local_unavailable: bool = False
+    budget_ledger_enabled: bool = True
 
 
 class ModelAdapterRouter:
@@ -266,6 +268,8 @@ class ModelAdapterRouter:
                 }[request.task](request)
                 if call_result.ok:
                     return self._success_result(call_result, provider.to_dict(), policy_result)
+                if self.config.fallback_to_mock_on_local_unavailable:
+                    return self._fallback_to_mock_result(request, provider, call_result, policy_result)
                 return self._adapter_failure_result(call_result, provider.to_dict(), policy_result)
             if provider.provider_id == "lmstudio":
                 adapter = LMStudioAdapter(provider, timeout_seconds=self.config.local_timeout_seconds)
@@ -276,6 +280,8 @@ class ModelAdapterRouter:
                 }[request.task](request)
                 if call_result.ok:
                     return self._success_result(call_result, provider.to_dict(), policy_result)
+                if self.config.fallback_to_mock_on_local_unavailable:
+                    return self._fallback_to_mock_result(request, provider, call_result, policy_result)
                 return self._adapter_failure_result(call_result, provider.to_dict(), policy_result)
             return self._blocked_placeholder(
                 request,
@@ -289,6 +295,59 @@ class ModelAdapterRouter:
             provider.to_dict(),
             finding_id="MODEL_EXTERNAL_PROVIDER_STUB_BLOCKED",
             message="External API provider is a disabled placeholder in Sprint 17; no network call was made.",
+        )
+
+    def _fallback_to_mock_result(self, request: ModelCallRequest, original_provider, failed_result: ModelCallResult, policy_result: CommandResult) -> CommandResult:
+        mock_provider = self.registry.get("mock")
+        if mock_provider is None or not mock_provider.enabled:
+            return self._adapter_failure_result(failed_result, original_provider.to_dict(), policy_result)
+        mock_request = ModelCallRequest(
+            task=request.task,
+            prompt=request.prompt,
+            text=request.text,
+            labels=request.labels,
+            provider="mock",
+            model=mock_provider.default_model,
+            dry_run=request.dry_run,
+            metadata={**request.metadata, "fallback_from": original_provider.provider_id},
+        )
+        adapter = MockModelAdapter(mock_provider)
+        fallback_result = {
+            ModelTask.GENERATE: adapter.generate,
+            ModelTask.CLASSIFY: adapter.classify,
+            ModelTask.EMBED: adapter.embed,
+        }[request.task](mock_request)
+        result = self._success_result(fallback_result, mock_provider.to_dict(), policy_result)
+        data = dict(result.data or {})
+        summary = dict(data.get("summary") or {})
+        summary["fallback_applied"] = True
+        summary["fallback_from_provider"] = original_provider.provider_id
+        summary["fallback_to_provider"] = "mock"
+        data["summary"] = summary
+        data["fallback"] = {
+            "applied": True,
+            "from_provider": original_provider.provider_id,
+            "to_provider": "mock",
+            "reason": failed_result.metadata.get("error_type", "local_provider_unavailable"),
+            "original_availability": failed_result.metadata.get("availability", "unavailable"),
+            "external_api_used": False,
+            "payload_redacted": True,
+        }
+        findings = list(result.findings) + [
+            Finding(
+                id="MODEL_FALLBACK_TO_MOCK_APPLIED",
+                message="Local provider was unavailable; safe fallback to mock was applied by configuration.",
+                severity=Severity.WARNING,
+                metadata={"from_provider": original_provider.provider_id, "to_provider": "mock"},
+            )
+        ]
+        return CommandResult(
+            command=result.command,
+            ok=True,
+            exit_code=ExitCode.PASS,
+            message="Model call completed through safe fallback to mock.",
+            data=data,
+            findings=findings,
         )
 
     def _policy_result(self, provider, estimated_cost: float) -> CommandResult:

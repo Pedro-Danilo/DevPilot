@@ -2950,3 +2950,36 @@ Para habilitar LM Studio localmente, crea `.devpilot/providers.yaml` desde `.dev
 PASS: health devuelve `available` o `unavailable` sin traceback, fake-server tests pasan, model calls se bloquean si el provider está deshabilitado y SecretGuard bloquea prompts sensibles antes de red local. BLOCK: base URL remota, API externa, secreto crudo, timeout sin control, dependencia obligatoria de LM Studio real para tests o confusión entre LM Studio local y OpenAI externo.
 
 Riesgos: compatibilidad parcial entre versiones de LM Studio y endpoints OpenAI-compatible; esta implementación es `implemented-initial` y usa `/v1/models`, `/v1/chat/completions` y `/v1/embeddings`. Streaming, retries avanzados, budget ledger persistente, capabilities dinámicas y AgentRuntime model-aware quedan para sprints posteriores.
+
+
+## FUNC-SPRINT-48 — Model governance: health, capability matrix y budget ledger
+
+### Propósito
+
+Operar el gobierno inicial de modelos locales sin depender de servidores reales ni APIs externas. Sprint 48 agrega health consolidado, capability matrix y budget ledger local.
+
+### Comandos
+
+```powershell
+python -m devpilot_core model health --json
+python -m devpilot_core model health --provider ollama --json
+python -m devpilot_core model health --provider lmstudio --json
+python -m devpilot_core model capabilities --json
+python -m devpilot_core model budget status --json
+python -m devpilot_core model generate --provider lmstudio --prompt "test" --fallback-to-mock --json
+```
+
+### Funcionamiento
+
+- `model health --json` recorre todos los providers registrados. `mock` se reporta offline/available, los providers locales usan localhost con timeout y los providers externos se reportan bloqueados sin llamada de red.
+- `model capabilities --json` genera una matriz estática de capacidades sin contactar servidores.
+- `model budget status --json` consulta `cost_events` en `.devpilot/devpilot.db`; este archivo es runtime y no debe versionarse.
+- `--fallback-to-mock` permite fallback explícito/configurado cuando un provider local habilitado no está disponible.
+
+### PASS/BLOCK
+
+PASS: no hay API externa, no se requieren modelos locales para pruebas, `cost_events` no almacena prompts ni secretos y el fallback queda visible en el resultado. BLOCK: crash por provider unavailable, base URL remota, gasto externo por defecto o metadata de budget con payload crudo.
+
+### Riesgos
+
+Esta es una versión `implemented-initial`: no hay streaming, retries avanzados, enforcement monetario persistente ni métricas reales de latencia. Es base para Prompt Registry, evals de modelos y AgentRuntime model-aware.

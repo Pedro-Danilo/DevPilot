@@ -555,3 +555,21 @@ Criterios: unavailable controlado, provider disabled bloquea model calls, fake g
 La estrategia de pruebas de `FUNC-SPRINT-47` mantiene la suite hermética: no requiere LM Studio real, no usa red externa y valida el adapter con un fake server local que emula `/v1/models`, `/v1/chat/completions` y `/v1/embeddings`.
 
 Cobertura mínima: health unavailable controlado, fake completion PASS, fake embeddings PASS, provider disabled blocked, endpoint remoto blocked y SecretGuard antes de cualquier request local. Estas pruebas no habilitan OpenAI, no usan API keys y preservan `mock` como proveedor default para regresión.
+
+
+## Actualización FUNC-SPRINT-48 — Pruebas de Model Governance
+
+La estrategia de pruebas de `FUNC-SPRINT-48` valida gobierno operativo de modelos sin depender de Ollama, LM Studio ni APIs externas reales. La cobertura mínima incluye `ModelHealthService`, `CapabilityMatrix`, `BudgetLedger`, CLI `model health`, `model capabilities`, `model budget status`, fallback configurado a `mock` y verificación de que `cost_events` no almacena prompts, completions ni secretos crudos.
+
+Comandos mínimos:
+
+```powershell
+python -m pytest tests/test_model_governance.py tests/test_sprint_48_documentation.py -q
+python -m devpilot_core model health --json
+python -m devpilot_core model capabilities --json
+python -m devpilot_core model budget status --json
+python -m devpilot_core validate all --json
+python -m devpilot_core miasi validate --json
+```
+
+Criterios: health/capabilities reportan estados mock/local/external, budget ledger inicial cero o con eventos redacted, fallback a mock explícito, ningún provider externo habilitado y regresión general sin modelos locales reales.

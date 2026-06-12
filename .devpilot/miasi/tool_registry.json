@@ -474,6 +474,32 @@
         "MODEL_LOCAL_HEALTH_ALLOW",
         "SECRETS_RAW_DENY"
       ]
+    },
+    {
+      "tool_id": "model.capabilities.read",
+      "name": "read_model_capability_matrix",
+      "phase": "MVP+",
+      "side_effect": "none",
+      "risk_level": "low",
+      "status": "implemented-initial",
+      "requires_approval": false,
+      "policy_rule_ids": [
+        "MODEL_CAPABILITIES_READ_ALLOW",
+        "SECRETS_RAW_DENY"
+      ]
+    },
+    {
+      "tool_id": "model.budget.status",
+      "name": "read_model_budget_ledger_status",
+      "phase": "MVP+",
+      "side_effect": "read",
+      "risk_level": "medium",
+      "status": "implemented-initial",
+      "requires_approval": false,
+      "policy_rule_ids": [
+        "MODEL_BUDGET_LEDGER_ALLOW",
+        "SECRETS_RAW_DENY"
+      ]
     }
   ]
 }

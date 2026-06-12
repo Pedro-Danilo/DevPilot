@@ -566,3 +566,10 @@ La implementación es preliminar: cubre Ollama con timeouts y fake-server tests;
 DevPilot mantiene `model.health.local` como herramienta implementada inicial para health checks localhost-only y extiende `model.call.local` para cubrir LM Studio local OpenAI-compatible. Las llamadas siguen bloqueadas si el provider local está deshabilitado, si la base URL no es localhost, si SecretGuard detecta secretos o si PolicyEngine/CostGuard bloquean la solicitud.
 
 La implementación es preliminar: cubre `/v1/models`, `/v1/chat/completions` y `/v1/embeddings` con timeouts y fake-server tests; no habilita OpenAI externo, streaming, budget ledger persistente ni AgentRuntime model-aware.
+
+
+## Tool Card FUNC-SPRINT-48 — Model governance tools
+
+Sprint 48 incorpora herramientas de gobierno de modelos: `model.health.local`, `model.capabilities.read` y `model.budget.status`. Todas operan local-first, no contactan APIs externas, no almacenan prompts ni secretos crudos y quedan gobernadas por `ProviderRegistry`, `ModelAdapterRouter`, `SecretGuard`, `CostGuard`, `LocalStore` y políticas MIASI.
+
+Criterios PASS: reportes JSON reproducibles, proveedores externos bloqueados, budget ledger sin payloads crudos y fallback a `mock` explícito/configurado. Criterios BLOCK: gasto externo por defecto, endpoint remoto, metadata con secretos o provider unavailable con traceback.

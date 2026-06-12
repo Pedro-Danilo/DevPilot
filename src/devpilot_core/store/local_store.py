@@ -285,6 +285,94 @@ class LocalStore:
             conn.commit()
         return cost_event_id
 
+    def list_cost_events(self, *, limit: int = 20) -> list[dict[str, Any]]:
+        """Return recent model budget/cost events without raw prompt payloads.
+
+        FUNC-SPRINT-48 exposes a read path for the existing `cost_events`
+        projection. The method returns metadata after JSON parsing, but it never
+        joins against full command results, so prompts/completions stored
+        elsewhere are not surfaced by the budget ledger.
+        """
+
+        safe_limit = max(1, min(int(limit), 100))
+        if not self.db_path.exists():
+            return []
+        with self._connect() as conn:
+            self._apply_schema(conn)
+            rows = conn.execute(
+                """
+                SELECT cost_event_id, run_id, provider, estimated_cost_usd,
+                       actual_cost_usd, budget_limit_usd, budget_used_usd,
+                       timestamp, metadata_json
+                FROM cost_events
+                ORDER BY timestamp DESC, rowid DESC
+                LIMIT ?
+                """,
+                (safe_limit,),
+            ).fetchall()
+        return [
+            {
+                "cost_event_id": str(row["cost_event_id"]),
+                "run_id": row["run_id"],
+                "provider": str(row["provider"]),
+                "estimated_cost_usd": float(row["estimated_cost_usd"] or 0.0),
+                "actual_cost_usd": float(row["actual_cost_usd"] or 0.0),
+                "budget_limit_usd": float(row["budget_limit_usd"] or 0.0),
+                "budget_used_usd": float(row["budget_used_usd"] or 0.0),
+                "timestamp": str(row["timestamp"]),
+                "metadata": _load_json(row["metadata_json"], {}),
+            }
+            for row in rows
+        ]
+
+    def cost_events_summary(self) -> dict[str, Any]:
+        """Return aggregate budget ledger status for local model governance."""
+
+        if not self.db_path.exists():
+            return {
+                "initialized": False,
+                "events_total": 0,
+                "providers_total": 0,
+                "estimated_cost_total_usd": 0.0,
+                "actual_cost_total_usd": 0.0,
+                "external_cost_total_usd": 0.0,
+                "local_cost_total_usd": 0.0,
+                "compute_estimate_units_total": 0,
+            }
+        with self._connect() as conn:
+            self._apply_schema(conn)
+            row = conn.execute(
+                """
+                SELECT COUNT(*) AS events_total,
+                       COUNT(DISTINCT provider) AS providers_total,
+                       COALESCE(SUM(estimated_cost_usd), 0.0) AS estimated_cost_total_usd,
+                       COALESCE(SUM(actual_cost_usd), 0.0) AS actual_cost_total_usd
+                FROM cost_events
+                """
+            ).fetchone()
+            events = conn.execute("SELECT provider, metadata_json FROM cost_events").fetchall()
+        compute_units = 0
+        external_cost = 0.0
+        local_cost = 0.0
+        for event in events:
+            metadata = _load_json(event["metadata_json"], {})
+            compute_units += int(metadata.get("compute_estimate_units") or 0)
+            estimated = float(metadata.get("monetary_cost_estimate_usd") or 0.0)
+            if metadata.get("external_api_used"):
+                external_cost += estimated
+            else:
+                local_cost += estimated
+        return {
+            "initialized": True,
+            "events_total": int(row["events_total"] or 0),
+            "providers_total": int(row["providers_total"] or 0),
+            "estimated_cost_total_usd": round(float(row["estimated_cost_total_usd"] or 0.0), 8),
+            "actual_cost_total_usd": round(float(row["actual_cost_total_usd"] or 0.0), 8),
+            "external_cost_total_usd": round(external_cost, 8),
+            "local_cost_total_usd": round(local_cost, 8),
+            "compute_estimate_units_total": compute_units,
+        }
+
     def create_approval(self, record: dict[str, Any]) -> tuple[bool, "ApprovalRecord"]:
         """Persist an approval record idempotently and return (created, record).
 

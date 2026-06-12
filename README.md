@@ -1,8 +1,8 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
 Estado actual: `baseline pre-code approved + Fase A cerrada + FASE-B cerrada + Fase C cerrada + Fase D en progreso controlado`  
-Último hito: `FUNC-SPRINT-47 — LMStudioAdapter local OpenAI-compatible`  
-Siguiente hito: `FUNC-SPRINT-48 — Model governance: health, capability matrix y budget ledger`  
+Último hito: `FUNC-SPRINT-48 — Model governance: health, capability matrix y budget ledger`  
+Siguiente hito: `FUNC-SPRINT-49 — Prompt Registry y Prompt Packs gobernados`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
@@ -65,6 +65,23 @@ python -m devpilot_core model embed --provider lmstudio --text "DevPilot" --json
 ```
 
 PASS: LM Studio no es obligatorio, health falla de forma controlada si el servidor no está disponible, los tests usan fake server OpenAI-compatible, solo se permite `localhost`, no hay API externa y los prompts con secretos se bloquean antes de contactar el provider. BLOCK: base_url remota, provider deshabilitado para model calls, confusión entre LM Studio local y OpenAI externo, secretos crudos, API externa o timeout sin manejo estructurado.
+
+## FUNC-SPRINT-48 — Model governance: health, capability matrix y budget ledger
+
+`FUNC-SPRINT-48` consolida el gobierno operativo de modelos locales. La implementación agrega `ModelHealthService`, `CapabilityMatrix` y `BudgetLedger` para reportar disponibilidad, capacidades, estimaciones de costo/compute y fallback seguro hacia `mock` cuando un provider local habilitado no está disponible.
+
+Estado: `implemented-initial`. Esta versión no habilita APIs externas, no requiere Ollama ni LM Studio para la suite base y no almacena prompts/completions en `cost_events`. El budget ledger es local, preliminar y respaldado por SQLite runtime en `.devpilot/devpilot.db`; el archivo de base de datos no debe versionarse ni incluirse en ZIPs de entrega.
+
+Comandos principales:
+
+```powershell
+python -m devpilot_core model health --json
+python -m devpilot_core model capabilities --json
+python -m devpilot_core model budget status --json
+python -m devpilot_core model generate --provider lmstudio --prompt "test" --fallback-to-mock --json
+```
+
+PASS: health/capabilities reportan `mock`, providers locales y APIs externas bloqueadas; budget ledger registra eventos redacted; fallback a `mock` es explícito/configurado; no se llama API externa. BLOCK: cost_events con prompts o secretos crudos, provider unavailable con traceback, gasto externo permitido por defecto o fallback silencioso no documentado.
 
 
 ## Release técnico interno v0.1.0
