@@ -1,0 +1,86 @@
+{
+  "sprint": "FUNC-SPRINT-45",
+  "title": "ADR y contratos de proveedores locales",
+  "status": "implemented",
+  "implemented_at": "2026-06-12",
+  "phase": "FASE-D-IA-LOCAL-GOBERNADA",
+  "wave": "Ola 6 — ModelAdapter real local-first",
+  "source_backlog": "docs/devpilot_backlog_fase_D_ia_local_gobernada.md",
+  "architectural_decision": {
+    "required": true,
+    "adr": "docs/02_architecture/adrs/ADR-0011-local-model-providers.md",
+    "reason": "FUNC-SPRINT-45 inicia la integración de proveedores locales de IA y define una nueva frontera arquitectónica: mock obligatorio, proveedores locales opcionales y APIs externas deshabilitadas. Por tanto se requiere ADR antes de adapters reales."
+  },
+  "created_files": [
+    "docs/02_architecture/adrs/ADR-0011-local-model-providers.md",
+    "tests/test_provider_config_schema.py",
+    "tests/test_sprint_45_documentation.py",
+    "docs/audits/func_sprint_45_local_providers_adr_audit.md",
+    "docs/functional_sprint_45_manifest.json"
+  ],
+  "modified_files": [
+    ".devpilot/providers.yaml.example",
+    ".devpilot/miasi/policy_matrix.json",
+    ".devpilot/miasi/tool_registry.json",
+    "README.md",
+    "docs/04_quality/test_strategy.md",
+    "docs/05_operations/runbook.md",
+    "docs/06_miasi/policy_card.md",
+    "docs/06_miasi/tool_card.md",
+    "docs/06_miasi/tool_registry.md",
+    "docs/devpilot_backlog_fase_D_ia_local_gobernada.md",
+    "docs/functional_backlog_after_precode.md",
+    "docs/schemas/provider_config.schema.json",
+    "docs/schemas/schema_catalog.json",
+    "src/devpilot_core/cli.py",
+    "src/devpilot_core/modeling/__init__.py",
+    "src/devpilot_core/modeling/providers.py",
+    "src/devpilot_core/modeling/router.py",
+    "tests/test_sprint_32_documentation.py",
+    "tests/test_sprint_33_documentation.py",
+    "tests/test_sprint_34_documentation.py",
+    "tests/test_sprint_35_documentation.py",
+    "tests/test_sprint_36_documentation.py",
+    "tests/test_sprint_37_documentation.py",
+    "tests/test_sprint_38_documentation.py",
+    "tests/test_sprint_39_documentation.py",
+    "tests/test_sprint_40_documentation.py",
+    "tests/test_sprint_41_documentation.py",
+    "tests/test_sprint_42_documentation.py",
+    "tests/test_sprint_43_documentation.py",
+    "tests/test_sprint_44_documentation.py"
+  ],
+  "commands": [
+    "python -m devpilot_core model providers --json",
+    "python -m devpilot_core schema validate-providers --json",
+    "python -m devpilot_core schema validate --schema docs/schemas/provider_config.schema.json --instance .devpilot/providers.yaml.example --json",
+    "python -m devpilot_core model generate --provider mock --prompt \"test\" --json",
+    "python -m devpilot_core miasi validate --json",
+    "python -m pytest -q"
+  ],
+  "tests": [
+    "tests/test_provider_config_schema.py",
+    "tests/test_sprint_45_documentation.py"
+  ],
+  "pass_criteria": [
+    "ADR de proveedores locales creada y aprobada.",
+    "Provider config schema valida mock/ollama/lmstudio/external disabled.",
+    "ProviderRegistry lee configuración versionada con defaults seguros y semantic_valid.",
+    "Mock generate/classify/embed sigue operativo sin red ni API externa.",
+    "MIASI declara local providers como capacidad planificada/controlada."
+  ],
+  "block_criteria": [
+    "Provider local queda requerido para tests.",
+    "API key o secreto crudo queda versionado.",
+    "API externa se habilita por defecto.",
+    "Endpoint local remoto queda permitido.",
+    "Agentes pueden llamar adapters directamente sin router."
+  ],
+  "risks": [
+    "El parser YAML sigue siendo narrow/dependency-free.",
+    "Los adapters locales reales aún no existen y serán implementados en sprints 46 y 47.",
+    "La validación estructural debe complementarse con reglas semánticas Python."
+  ],
+  "preliminary": true,
+  "next_sprint": "FUNC-SPRINT-46 — OllamaAdapter local opcional"
+}

@@ -1,4 +1,4 @@
-schema_version: "1.0"
+schema_version: "2.0"
 providers:
   - id: "mock"
     kind: "mock"
@@ -9,8 +9,9 @@ providers:
     estimated_cost_per_1k_tokens_usd: 0.0
     status: "implemented"
     notes:
-      - "Default deterministic offline provider."
+      - "Default deterministic offline provider for tests and baseline CLI flows."
       - "No API key, network or external cost."
+      - "FUNC-SPRINT-45 keeps mock mandatory so DevPilot remains reproducible without local model servers."
   - id: "ollama"
     kind: "local"
     enabled: false
@@ -21,7 +22,9 @@ providers:
     estimated_cost_per_1k_tokens_usd: 0.0
     status: "planned"
     notes:
-      - "Future local provider placeholder; Sprint 17 does not contact local servers."
+      - "Local optional provider planned for FUNC-SPRINT-46."
+      - "Disabled by default; tests must not require an Ollama server."
+      - "Endpoint must remain localhost-only unless a future ADR changes policy."
   - id: "lmstudio"
     kind: "local"
     enabled: false
@@ -32,7 +35,9 @@ providers:
     estimated_cost_per_1k_tokens_usd: 0.0
     status: "planned"
     notes:
-      - "Future local OpenAI-compatible endpoint placeholder."
+      - "Local OpenAI-compatible endpoint planned for FUNC-SPRINT-47."
+      - "Disabled by default; tests must not require LM Studio."
+      - "Only localhost base URLs are accepted by the provider contract."
   - id: "openai"
     kind: "api"
     enabled: false
@@ -44,8 +49,8 @@ providers:
     estimated_cost_per_1k_tokens_usd: 0.01
     status: "disabled"
     notes:
-      - "External API placeholder; blocked by CostGuard by default."
-      - "Never store raw API keys in this file."
+      - "External API placeholder; blocked by CostGuard and PolicyEngine by default."
+      - "Never store raw API keys in this file. Only environment variable names are allowed."
   - id: "gemini"
     kind: "api"
     enabled: false
@@ -57,5 +62,5 @@ providers:
     estimated_cost_per_1k_tokens_usd: 0.01
     status: "disabled"
     notes:
-      - "External API placeholder; blocked by CostGuard by default."
-      - "Never store raw API keys in this file."
+      - "External API placeholder; blocked by CostGuard and PolicyEngine by default."
+      - "Never store raw API keys in this file. Only environment variable names are allowed."

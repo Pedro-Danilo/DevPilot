@@ -14,7 +14,7 @@ change_policy: "controlled_changes_allowed_via_docs_as_code"
 approved_on: "2026-06-06"
 approval_scope: "functional_backlog_after_precode"
 baseline_execution: "FUNC-SPRINT-00"
-next_sprint: "FUNC-SPRINT-45"
+next_sprint: "FUNC-SPRINT-46"
 ---
 
 # DevPilot Local — Backlog ejecutable posterior a pre-code
@@ -2103,3 +2103,10 @@ No se habilita todavía ejecución autónoma de agentes sobre repositorios reale
 Tras el cierre de `FUNC-SPRINT-44`, Fase C queda completada mediante `repo engineering-gate`. El siguiente sprint operativo aprobado es `FUNC-SPRINT-45 — ADR y contratos de proveedores locales`, correspondiente a la Fase D.
 
 La Fase D se aprueba bajo restricciones local-first: proveedor `mock` obligatorio/default, Ollama/LM Studio opcionales, APIs externas deshabilitadas por defecto, sin multiagente funcional y sin acciones críticas sin Approval Workflow.
+
+
+## Transición posterior a FUNC-SPRINT-45
+
+`FUNC-SPRINT-45` inicia Fase D con contratos de proveedores locales antes de implementar adapters reales. El sprint crea `ADR-0011`, actualiza el provider config schema a v2, mantiene `mock` como proveedor obligatorio/default, declara Ollama/LM Studio como locales opcionales y conserva proveedores externos en estado `disabled`.
+
+La transición hacia `FUNC-SPRINT-46` queda condicionada a no requerir Ollama para la suite base, no habilitar APIs externas, no versionar secretos y mantener todo modelo futuro detrás de `ModelAdapterRouter`, `PolicyEngine`, `SecretGuard` y `CostGuard`.

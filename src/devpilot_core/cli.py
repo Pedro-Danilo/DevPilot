@@ -20,6 +20,7 @@ from .policy import CostPolicy, PolicyEngine, PolicyRequest, load_cost_policy
 from .reports import ReportEngine, build_report_id
 from .security import PolicySimulationSuite, SecurityReadiness
 from .schemas import BuiltinContractValidator, SchemaRegistry, SchemaValidator
+from .schemas.builtins import parse_provider_config_yaml
 from .repo import ArchitectureDriftDetector, DependencyGraphBuilder, GitAdapter, RepoAnalyzer, RepoInventory, RepoQualityGate, RepoQualityGateConfig, RepoEngineeringGate, RepoEngineeringGateConfig
 from .repo.diff_report import GitDiffReportBuilder
 from .refactor import RefactorExecutor, RefactorPlanner
@@ -1453,7 +1454,7 @@ def schema_validate_command(
     json_output: bool = False,
     write_report: bool = False,
 ) -> int:
-    """Validate one JSON instance against a local DevPilot JSON Schema.
+    """Validate one JSON/YAML-owned instance against a local DevPilot JSON Schema.
 
     FUNC-SPRINT-22 introduces SchemaValidator using the ADR-governed
     `jsonschema` dependency. The command remains local-first: it reads only
@@ -1462,7 +1463,25 @@ def schema_validate_command(
     """
 
     root = project_root()
-    result = SchemaValidator(root).validate(schema=schema, instance=instance)
+    instance_path = Path(instance)
+    if instance_path.suffix.lower() in {".yaml", ".yml"} or str(instance_path).lower().endswith((".yaml.example", ".yml.example")):
+        try:
+            schema_path = SchemaValidator(root).resolve_schema_path(schema)
+            schema_payload = json.loads(schema_path.read_text(encoding="utf-8"))
+        except Exception:
+            schema_payload = {}
+        if (
+            str(schema).lower() in {"providerconfig", "schema-devpl-provider-config-v2"}
+            or str(schema).replace("\\", "/").endswith("provider_config.schema.json")
+            or schema_payload.get("x-devpilot-schema-id") in {"SCHEMA-DEVPL-PROVIDER-CONFIG-V1", "SCHEMA-DEVPL-PROVIDER-CONFIG-V2"}
+            or schema_payload.get("contract") == "ProviderConfig"
+        ):
+            payload = parse_provider_config_yaml((root / instance_path) if not instance_path.is_absolute() else instance_path)
+            result = SchemaValidator(root).validate_payload(schema=schema, payload=payload, instance_label=instance)
+        else:
+            result = SchemaValidator(root).validate(schema=schema, instance=instance)
+    else:
+        result = SchemaValidator(root).validate(schema=schema, instance=instance)
     result = _write_optional_command_report(
         root,
         result,
@@ -2164,7 +2183,7 @@ def build_parser() -> argparse.ArgumentParser:
     schema_list.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     schema_list.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
 
-    schema_validate = schema_sub.add_parser("validate", help="Validate a JSON instance against a local schema")
+    schema_validate = schema_sub.add_parser("validate", help="Validate a JSON instance or owned provider YAML against a local schema")
     schema_validate.add_argument("--schema", required=True, help="Schema path, schema_id or contract name")
     schema_validate.add_argument("--instance", required=True, help="JSON instance file to validate")
     schema_validate.add_argument("--json", action="store_true", help="Emit normalized JSON command result")

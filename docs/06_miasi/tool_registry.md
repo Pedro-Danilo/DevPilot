@@ -129,3 +129,8 @@ La herramienta no habilita escritura productiva, Git write, refactors semántico
 - Comando: `python -m devpilot_core repo engineering-gate --profile full --json --write-report`.
 
 La herramienta cierra Fase C de forma reproducible, pero no habilita Git write, patch apply productivo, refactor productivo, deploy, LLMs ni APIs externas.
+
+
+## Estado operacional Model Providers — FUNC-SPRINT-45
+
+El Tool Registry declara `model.call.local` como capacidad planificada/controlada por `MODEL_LOCAL_PROVIDER_CONTROLLED`. Esta declaración prepara `FUNC-SPRINT-46` y `FUNC-SPRINT-47` sin habilitar todavía adapters reales ni llamadas de red.

@@ -49,6 +49,25 @@ class ModelAdapterRouter:
         return self._run(ModelCallRequest(task=ModelTask.EMBED, text=text, provider=provider, model=model))
 
     def _run(self, request: ModelCallRequest) -> CommandResult:
+        if not self.registry.semantic_valid:
+            return CommandResult(
+                command=f"model {request.task.value}",
+                ok=False,
+                exit_code=ExitCode.BLOCK,
+                message="Model call blocked because provider registry failed safe semantic checks.",
+                data={
+                    "summary": {
+                        "provider_registry_valid": False,
+                        "source_path": self.registry.source_path,
+                        "external_api_used": False,
+                        "preliminary": True,
+                    },
+                    "provider_registry": self.registry.to_result().data,
+                    "preliminary": True,
+                },
+                findings=list(self.registry.validation_findings),
+            )
+
         provider_id = request.provider.strip().lower() or "mock"
         provider = self.registry.get(provider_id)
         if provider is None:
@@ -181,7 +200,7 @@ class ModelAdapterRouter:
             "provider": provider_payload,
             "policy_summary": (policy_result.data or {}).get("summary", {}),
             "notes": [
-                "FUNC-SPRINT-17 uses MockModelAdapter by default.",
+                "FUNC-SPRINT-45 keeps MockModelAdapter as the mandatory default provider.",
                 "No external API was called and no API key was required.",
             ],
         }
@@ -218,7 +237,7 @@ class ModelAdapterRouter:
                 "provider": provider_payload,
                 "notes": [
                     "Provider declared for hybrid architecture only.",
-                    "Sprint 17 does not start local model servers or call external APIs.",
+                    "Sprint 45 defines provider contracts only; local model adapters are implemented in later sprints.",
                 ],
             },
             findings=[Finding(id=finding_id, message=message, severity=Severity.BLOCK)],

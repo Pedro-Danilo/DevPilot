@@ -9,7 +9,7 @@ from devpilot_core.modeling.contracts import (
     ModelTask,
 )
 from devpilot_core.modeling.mock_adapter import MockModelAdapter
-from devpilot_core.modeling.providers import ProviderRegistry, parse_providers_yaml
+from devpilot_core.modeling.providers import ProviderRegistry, parse_provider_config_file, parse_providers_yaml, validate_provider_configs
 from devpilot_core.modeling.router import ModelAdapterRouter, ModelRouterConfig
 
 __all__ = [
@@ -23,5 +23,7 @@ __all__ = [
     "ModelTask",
     "MockModelAdapter",
     "ProviderRegistry",
+    "parse_provider_config_file",
     "parse_providers_yaml",
+    "validate_provider_configs",
 ]

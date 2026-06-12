@@ -539,3 +539,16 @@ Salida: `CommandResult` con summary, componentes, capacidades Fase C, findings y
 ### Riesgo
 
 Riesgo alto por su rol de gate de cierre, aunque su side effect es solo `report`. Requiere observabilidad y evidencia, pero no approval porque no ejecuta cambios productivos.
+
+
+## Tool Card — Model providers locales gobernados
+
+`FUNC-SPRINT-45` actualiza el contrato de herramientas de modelo:
+
+- `model.call.mock`: implementado, sin red, sin API key, proveedor default.
+- `model.call.local`: planificado/controlado; no contacta Ollama/LM Studio en Sprint 45.
+- `model.call.external`: disabled y approval-gated; no se llama por defecto.
+
+Toda llamada de modelo debe pasar por `ModelAdapterRouter`, `ProviderRegistry`, `PolicyEngine`, `SecretGuard` y `CostGuard`.
+
+PASS: mock operativo, locales localhost-only/deshabilitados por defecto, externos disabled. BLOCK: raw secrets, endpoint remoto en provider local, API externa habilitada por defecto o agente llamando adapters directamente.

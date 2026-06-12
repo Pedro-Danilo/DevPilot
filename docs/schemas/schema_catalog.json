@@ -165,18 +165,18 @@
       "validation_enabled_sprint": "FUNC-SPRINT-23"
     },
     {
-      "schema_id": "SCHEMA-DEVPL-PROVIDER-CONFIG-V1",
-      "title": "DevPilot Provider Config v1",
-      "version": "1.0.0",
+      "schema_id": "SCHEMA-DEVPL-PROVIDER-CONFIG-V2",
+      "title": "DevPilot Provider Config v2",
+      "version": "2.0.0",
       "path": "docs/schemas/provider_config.schema.json",
-      "description": "Structural contract for .devpilot/providers.yaml.example after dependency-free parse.",
+      "description": "Safety-hardened structural contract for .devpilot/providers.yaml(.example): mock required, local providers localhost-only, external APIs disabled by default, no raw secrets.",
       "status": "registered",
       "contract": "ProviderConfig",
       "owner": "Ordóñez",
-      "sprint": "FUNC-SPRINT-23",
+      "sprint": "FUNC-SPRINT-45",
       "dialect": "https://json-schema.org/draft/2020-12/schema",
       "validates_instances": true,
-      "validation_enabled_sprint": "FUNC-SPRINT-23"
+      "validation_enabled_sprint": "FUNC-SPRINT-45"
     },
     {
       "schema_id": "SCHEMA-DEVPL-FUNCTIONAL-SPRINT-MANIFEST-V1",

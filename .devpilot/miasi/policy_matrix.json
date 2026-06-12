@@ -113,6 +113,15 @@
       "observability_required": true
     },
     {
+      "rule_id": "MODEL_LOCAL_PROVIDER_CONTROLLED",
+      "domain": "Model",
+      "action": "local_model_call",
+      "default_effect": "block",
+      "gate": "ModelAdapterRouter+ProviderRegistry+PolicyEngine+SecretGuard+CostGuard",
+      "approval_required": false,
+      "observability_required": true
+    },
+    {
       "rule_id": "MODEL_EXTERNAL_DENY",
       "domain": "Model",
       "action": "external_api",

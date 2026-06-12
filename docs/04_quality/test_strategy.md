@@ -516,3 +516,18 @@ python -m devpilot_core repo engineering-gate --profile full --json --write-repo
 python -m devpilot_core validate all --json
 python -m devpilot_core miasi validate --json
 ```
+
+
+## Actualización FUNC-SPRINT-45 — Pruebas de provider config local-first
+
+`FUNC-SPRINT-45` agrega pruebas de contrato para proveedores locales gobernados. La suite cubre:
+
+- validez de `.devpilot/providers.yaml.example` contra `provider_config.schema.json`;
+- bloqueo de API keys crudas;
+- bloqueo de endpoints locales no-localhost;
+- bloqueo de API externa habilitada por defecto;
+- `ProviderRegistry` con `semantic_valid`;
+- `mock` generate/classify/embed sin red ni API externa;
+- comando genérico `schema validate` sobre YAML controlado de providers.
+
+Estas pruebas no requieren Ollama, LM Studio ni APIs externas.

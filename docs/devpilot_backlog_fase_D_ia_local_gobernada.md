@@ -8,7 +8,7 @@ standard: "MIPSoftware"
 extension: "MIASI"
 phase: "FASE-D-IA-LOCAL-GOBERNADA"
 updated: "2026-06-12"
-source_repo: "repo_DevPilot_Local_55.zip"
+source_repo: "repo_DevPilot_Local_56.zip"
 source_report: "Informe de avance DevPilot - sprint 0 - 18.docx"
 source_backlog_model: "docs/functional_backlog_after_precode.md"
 baseline_dependency: "Fases A, B y C cerradas; Fase C validada por FUNC-SPRINT-44 repo engineering-gate"
@@ -16,10 +16,12 @@ first_sprint: "FUNC-SPRINT-45"
 last_planned_sprint: "FUNC-SPRINT-55"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "phase_d_executable_backlog_review"
-first_open_sprint: "FUNC-SPRINT-45"
-phase_d_status: "approved_not_started"
+first_open_sprint: "FUNC-SPRINT-46"
+phase_d_status: "in_progress"
 approved_on: "2026-06-12"
 approval: "approved_after_phase_c_closure_review"
+last_completed_sprint: "FUNC-SPRINT-45"
+next_sprint: "FUNC-SPRINT-46"
 ---
 
 # DevPilot Local — Backlog ejecutable Fase D: IA local gobernada
@@ -1115,3 +1117,28 @@ python -m pytest -q
 ```text
 Implementa FUNC-SPRINT-55: agentes Requirements/Architecture/Security iniciales y cierre Fase D, manteniendo IA local gobernada, monoagente y sin APIs externas.
 ```
+
+
+## Estado de implementación Sprint 45
+
+`FUNC-SPRINT-45 — ADR y contratos de proveedores locales` queda implementado como `implemented-initial`. El sprint crea `ADR-0011-local-model-providers`, endurece `provider_config.schema.json` a contrato v2, actualiza `.devpilot/providers.yaml.example`, refuerza `ProviderRegistry` con validación semántica y sincroniza MIASI para mantener proveedores locales como capacidades planificadas/controladas.
+
+Alcance real implementado:
+
+- `mock` obligatorio/default y operativo para `generate`, `classify` y `embed`;
+- `ollama` y `lmstudio` declarados como locales opcionales, `disabled` por defecto;
+- proveedores externos declarados como placeholders `disabled`;
+- endpoints locales restringidos a `localhost`, `127.0.0.1` o `[::1]`;
+- bloqueo de valores secretos crudos en provider metadata;
+- soporte de `schema validate` para el YAML controlado de providers;
+- MIASI actualizado con `MODEL_LOCAL_PROVIDER_CONTROLLED`.
+
+Fuera de alcance hasta sprints posteriores:
+
+- no se implementa `OllamaAdapter`;
+- no se implementa `LMStudioAdapter`;
+- no se hacen health checks reales;
+- no se contacta red local ni APIs externas;
+- no se habilita multiagente.
+
+Siguiente sprint operativo: `FUNC-SPRINT-46 — OllamaAdapter local opcional`.

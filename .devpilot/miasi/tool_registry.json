@@ -343,19 +343,21 @@
       "status": "implemented",
       "requires_approval": false,
       "policy_rule_ids": [
-        "MODEL_LOCAL_ALLOW"
+        "MODEL_LOCAL_ALLOW",
+        "SECRETS_RAW_DENY"
       ]
     },
     {
       "tool_id": "model.call.local",
-      "name": "call_local_model",
+      "name": "call_local_model_controlled_placeholder",
       "phase": "MVP+",
       "side_effect": "local_compute",
       "risk_level": "medium",
       "status": "planned",
       "requires_approval": false,
       "policy_rule_ids": [
-        "MODEL_LOCAL_ALLOW"
+        "MODEL_LOCAL_PROVIDER_CONTROLLED",
+        "SECRETS_RAW_DENY"
       ]
     },
     {
@@ -367,7 +369,8 @@
       "status": "disabled",
       "requires_approval": true,
       "policy_rule_ids": [
-        "MODEL_EXTERNAL_DENY"
+        "MODEL_EXTERNAL_DENY",
+        "SECRETS_RAW_DENY"
       ]
     },
     {

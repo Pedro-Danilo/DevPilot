@@ -2872,3 +2872,40 @@ El gate ejecuta de forma local y read-only: `GitAdapter.status`, `DependencyGrap
 ### Riesgos y límites
 
 Esta versión es **implemented-initial**. El gate no reemplaza una certificación industrial completa ni SAST/SCA formal. Es un cierre reproducible de la Fase C local-first, y su principal valor es bloquear la transición a IA local gobernada si el baseline de repositorio pierde trazabilidad, seguridad o documentación sincronizada.
+
+
+## FUNC-SPRINT-45 — ADR y contratos de proveedores locales
+
+### Propósito
+
+Operar la configuración de proveedores de modelos bajo contratos seguros antes de integrar Ollama/LM Studio.
+
+### Comandos
+
+```powershell
+python -m devpilot_core model providers --json
+python -m devpilot_core schema validate-providers --json
+python -m devpilot_core schema validate --schema docs/schemas/provider_config.schema.json --instance .devpilot/providers.yaml.example --json
+python -m devpilot_core model generate --provider mock --prompt "test" --json
+python -m devpilot_core model classify --provider mock --text "revisar documentación" --labels "docs,code" --json
+python -m devpilot_core model embed --provider mock --text "DevPilot" --json
+```
+
+### PASS
+
+- `mock` aparece enabled y semantic_valid.
+- `ollama` y `lmstudio` aparecen como locales opcionales deshabilitados por defecto.
+- OpenAI/Gemini aparecen `disabled`.
+- No se imprime ni almacena API key cruda.
+- `model generate/classify/embed` con `mock` pasa sin red.
+
+### BLOCK
+
+- `mock` ausente o deshabilitado.
+- Proveedor local con endpoint remoto.
+- API externa enabled por defecto.
+- `api_key`, `token`, `secret`, `password` o valores equivalentes en provider YAML.
+
+### Riesgos
+
+Esta es una primera versión contractual. No verifica disponibilidad real de Ollama/LM Studio ni ejecuta modelos locales. Health checks y adapters reales pertenecen a los sprints 46 y 47.

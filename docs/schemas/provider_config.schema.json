@@ -1,8 +1,8 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://devpilot.local/schemas/SCHEMA-DEVPL-PROVIDER-CONFIG-V1",
-  "title": "DevPilot Provider Config v1",
-  "description": "Structural contract for .devpilot/providers.yaml.example after dependency-free parse. Raw secrets are intentionally not allowed.",
+  "$id": "https://devpilot.local/schemas/SCHEMA-DEVPL-PROVIDER-CONFIG-V2",
+  "title": "DevPilot Provider Config v2",
+  "description": "Structural and safety contract for .devpilot/providers.yaml(.example). Raw secrets are denied; mock is required; local providers are localhost-only; external API providers remain disabled by default.",
   "type": "object",
   "required": [
     "schema_version",
@@ -11,11 +11,32 @@
   "properties": {
     "schema_version": {
       "type": "string",
-      "minLength": 1
+      "enum": [
+        "2.0"
+      ]
     },
     "providers": {
       "type": "array",
       "minItems": 1,
+      "contains": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "const": "mock"
+          },
+          "enabled": {
+            "const": true
+          },
+          "kind": {
+            "const": "mock"
+          }
+        },
+        "required": [
+          "id",
+          "enabled",
+          "kind"
+        ]
+      },
       "items": {
         "type": "object",
         "additionalProperties": false,
@@ -32,7 +53,7 @@
         "properties": {
           "id": {
             "type": "string",
-            "minLength": 1
+            "pattern": "^[a-z][a-z0-9_-]*$"
           },
           "kind": {
             "type": "string",
@@ -71,6 +92,7 @@
             "type": "string",
             "enum": [
               "implemented",
+              "implemented-initial",
               "planned",
               "disabled",
               "future"
@@ -88,18 +110,100 @@
           {
             "if": {
               "properties": {
-                "requires_api_key": {
-                  "const": true
+                "kind": {
+                  "const": "mock"
                 }
               },
               "required": [
-                "requires_api_key"
+                "kind"
+              ]
+            },
+            "then": {
+              "properties": {
+                "enabled": {
+                  "const": true
+                },
+                "external_api": {
+                  "const": false
+                },
+                "requires_api_key": {
+                  "const": false
+                },
+                "status": {
+                  "const": "implemented"
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "kind": {
+                  "const": "local"
+                }
+              },
+              "required": [
+                "kind"
               ]
             },
             "then": {
               "required": [
-                "api_key_env"
+                "endpoint"
+              ],
+              "properties": {
+                "external_api": {
+                  "const": false
+                },
+                "requires_api_key": {
+                  "const": false
+                },
+                "status": {
+                  "enum": [
+                    "planned",
+                    "implemented-initial",
+                    "disabled",
+                    "future"
+                  ]
+                },
+                "endpoint": {
+                  "pattern": "^http://(localhost|127\\.0\\.0\\.1|\\[::1\\])(:[0-9]+)?(/.*)?$"
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "kind": {
+                  "const": "api"
+                }
+              },
+              "required": [
+                "kind"
               ]
+            },
+            "then": {
+              "required": [
+                "api_key_env",
+                "endpoint"
+              ],
+              "properties": {
+                "enabled": {
+                  "const": false
+                },
+                "external_api": {
+                  "const": true
+                },
+                "requires_api_key": {
+                  "const": true
+                },
+                "status": {
+                  "const": "disabled"
+                },
+                "endpoint": {
+                  "pattern": "^https://"
+                }
+              }
             }
           }
         ]
@@ -107,13 +211,13 @@
     }
   },
   "additionalProperties": false,
-  "x-devpilot-schema-id": "SCHEMA-DEVPL-PROVIDER-CONFIG-V1",
-  "x-devpilot-version": "1.0.0",
-  "x-devpilot-sprint": "FUNC-SPRINT-23",
+  "x-devpilot-schema-id": "SCHEMA-DEVPL-PROVIDER-CONFIG-V2",
+  "x-devpilot-version": "2.0.0",
+  "x-devpilot-sprint": "FUNC-SPRINT-45",
   "x-devpilot-status": "registered",
   "x-devpilot-preliminary": true,
-  "x-devpilot-validation-enabled-sprint": "FUNC-SPRINT-23",
-  "x-devpilot-note": "Registered by FUNC-SPRINT-23 for structural validation. It complements but does not replace semantic/business validators.",
+  "x-devpilot-validation-enabled-sprint": "FUNC-SPRINT-45",
+  "x-devpilot-note": "FUNC-SPRINT-45 hardens provider metadata contracts before local adapters are implemented.",
   "not": {
     "required": [
       "api_key"
