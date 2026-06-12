@@ -1,10 +1,8 @@
 (.venv) PS D:\Projects\DevPilot_Local> pytest -q
-............................................................................................................................................ [ 40%]
-............................................................................................................................................ [ 81%]
-...............................................................                                                                              [100%]
-DEVPL TEST SUMMARY: 343 passed, 0 failed, 0 errors, 0 skipped
-(.venv) PS D:\Projects\DevPilot_Local> python -m devpilot_core --version
-devpilot-local 0.1.0
+............................................................................................................................................ [ 39%]
+............................................................................................................................................ [ 79%]
+.........................................................................                                                                    [100%]
+DEVPL TEST SUMMARY: 353 passed, 0 failed, 0 errors, 0 skipped
 (.venv) PS D:\Projects\DevPilot_Local> python -m devpilot_core validate all --json
 {
   "command": "validate all",
@@ -17,7 +15,7 @@ devpilot-local 0.1.0
       "validations_total": 2,
       "validations_passed": 2,
       "validations_failed": 0,
-      "findings_total": 43,
+      "findings_total": 44,
       "warnings_total": 12,
       "blocking_findings_total": 0,
       "preliminary": true,
@@ -648,7 +646,7 @@ devpilot-local 0.1.0
                       {
                         "artifact": "docs/04_quality/test_strategy.md",
                         "exists": true,
-                        "size_bytes": 19860,
+                        "size_bytes": 20398,
                         "frontmatter_ok": true,
                         "artifact_ok": true,
                         "status": "approved",
@@ -666,7 +664,7 @@ devpilot-local 0.1.0
                       {
                         "artifact": "docs/05_operations/runbook.md",
                         "exists": true,
-                        "size_bytes": 105363,
+                        "size_bytes": 107336,
                         "frontmatter_ok": true,
                         "artifact_ok": true,
                         "status": "approved",
@@ -684,7 +682,7 @@ devpilot-local 0.1.0
                       {
                         "artifact": "docs/06_miasi/tool_card.md",
                         "exists": true,
-                        "size_bytes": 22540,
+                        "size_bytes": 23221,
                         "frontmatter_ok": true,
                         "artifact_ok": true,
                         "status": "approved",
@@ -1102,10 +1100,10 @@ devpilot-local 0.1.0
           "data": {
             "summary": {
               "scope": "contracts",
-              "validations_total": 27,
-              "validations_passed": 27,
+              "validations_total": 28,
+              "validations_passed": 28,
               "validations_failed": 0,
-              "findings_total": 29,
+              "findings_total": 30,
               "warnings_total": 0,
               "blocking_findings_total": 0,
               "preliminary": true,
@@ -2627,6 +2625,50 @@ devpilot-local 0.1.0
                     }
                   ]
                 }
+              },
+              {
+                "id": "manifest:docs/functional_sprint_42_manifest.json",
+                "result": {
+                  "command": "schema validate-manifest",
+                  "ok": true,
+                  "exit_code": 0,
+                  "message": "Schema validation passed.",
+                  "data": {
+                    "summary": {
+                      "schema": "docs/schemas/functional_sprint_manifest.schema.json",
+                      "instance": "docs/functional_sprint_42_manifest.json",
+                      "valid": true,
+                      "errors_total": 0,
+                      "findings_total": 1,
+                      "network_used": false,
+                      "external_api_used": false,
+                      "schema_title": "DevPilot Functional Sprint Manifest v1",
+                      "schema_id": "SCHEMA-DEVPL-FUNCTIONAL-SPRINT-MANIFEST-V1",
+                      "validator": "jsonschema",
+                      "jsonschema_version": "4.26.0",
+                      "preliminary": true,
+                      "contract": "FunctionalSprintManifest",
+                      "subject": "docs/functional_sprint_42_manifest.json"
+                    },
+                    "schema": "docs/schemas/functional_sprint_manifest.schema.json",
+                    "instance": "docs/functional_sprint_42_manifest.json",
+                    "notes": [
+                      "FUNC-SPRINT-22 validates JSON structure only; semantic gates remain in dedicated validators.",
+                      "Validation is local-first and does not call network or external APIs."
+                    ]
+                  },
+                  "findings": [
+                    {
+                      "id": "SCHEMA_VALIDATION_PASS",
+                      "message": "Instance conforms to schema.",
+                      "severity": "info",
+                      "metadata": {
+                        "schema": "docs/schemas/functional_sprint_manifest.schema.json",
+                        "instance": "docs/functional_sprint_42_manifest.json"
+                      }
+                    }
+                  ]
+                }
               }
             ],
             "notes": [
@@ -2955,6 +2997,17 @@ devpilot-local 0.1.0
                 "schema": "docs/schemas/functional_sprint_manifest.schema.json",
                 "instance": "docs/functional_sprint_41_manifest.json",
                 "gateway_step": "manifest:docs/functional_sprint_41_manifest.json",
+                "source_command": "schema validate-manifest"
+              }
+            },
+            {
+              "id": "SCHEMA_VALIDATION_PASS",
+              "message": "Instance conforms to schema.",
+              "severity": "info",
+              "metadata": {
+                "schema": "docs/schemas/functional_sprint_manifest.schema.json",
+                "instance": "docs/functional_sprint_42_manifest.json",
+                "gateway_step": "manifest:docs/functional_sprint_42_manifest.json",
                 "source_command": "schema validate-manifest"
               }
             }
@@ -3463,6 +3516,17 @@ devpilot-local 0.1.0
         "gateway_step": "manifest:docs/functional_sprint_41_manifest.json",
         "source_command": "schema validate-manifest"
       }
+    },
+    {
+      "id": "SCHEMA_VALIDATION_PASS",
+      "message": "Instance conforms to schema.",
+      "severity": "info",
+      "metadata": {
+        "schema": "docs/schemas/functional_sprint_manifest.schema.json",
+        "instance": "docs/functional_sprint_42_manifest.json",
+        "gateway_step": "manifest:docs/functional_sprint_42_manifest.json",
+        "source_command": "schema validate-manifest"
+      }
     }
   ]
 }
@@ -3475,11 +3539,11 @@ devpilot-local 0.1.0
   "data": {
     "summary": {
       "agents_total": 13,
-      "tools_total": 31,
-      "policy_rules_total": 17,
+      "tools_total": 35,
+      "policy_rules_total": 20,
       "mvp_agents": 2,
-      "high_risk_tools": 8,
-      "approval_gated_rules": 6,
+      "high_risk_tools": 10,
+      "approval_gated_rules": 7,
       "source_paths": {
         "agent_registry": ".devpilot/miasi/agent_registry.json",
         "tool_registry": ".devpilot/miasi/tool_registry.json",
@@ -3698,7 +3762,10 @@ devpilot-local 0.1.0
           "trace.append",
           "policy.check",
           "patch.check",
-          "patch.sandbox"
+          "patch.sandbox",
+          "rollback.plan",
+          "rollback.list",
+          "rollback.show"
         ],
         "required_artifacts": [
           "Agent",
@@ -3712,7 +3779,9 @@ devpilot-local 0.1.0
           "SECRETS_RAW_DENY",
           "REPO_QUALITY_GATE_DRY_RUN_ALLOW",
           "PATCH_CHECK_DRY_RUN_ALLOW",
-          "PATCH_SANDBOX_RUNTIME_ALLOW"
+          "PATCH_SANDBOX_RUNTIME_ALLOW",
+          "ROLLBACK_PLAN_RUNTIME_ALLOW",
+          "ROLLBACK_READ_ALLOW"
         ],
         "approval_required": false,
         "observability_required": true,
@@ -3763,7 +3832,11 @@ devpilot-local 0.1.0
           "patch.sandbox",
           "report.write",
           "trace.append",
-          "policy.check"
+          "policy.check",
+          "rollback.plan",
+          "rollback.list",
+          "rollback.show",
+          "rollback.execute"
         ],
         "required_artifacts": [
           "Agent",
@@ -3778,7 +3851,10 @@ devpilot-local 0.1.0
           "PATCH_APPLY_DENY",
           "AGENT_CRITICAL_TOOL_DENY",
           "PATCH_CHECK_DRY_RUN_ALLOW",
-          "PATCH_SANDBOX_RUNTIME_ALLOW"
+          "PATCH_SANDBOX_RUNTIME_ALLOW",
+          "ROLLBACK_PLAN_RUNTIME_ALLOW",
+          "ROLLBACK_READ_ALLOW",
+          "ROLLBACK_EXECUTE_GATED_BLOCKED"
         ],
         "approval_required": true,
         "observability_required": true,
@@ -3802,7 +3878,11 @@ devpilot-local 0.1.0
           "tests.run",
           "report.write",
           "trace.append",
-          "policy.check"
+          "policy.check",
+          "rollback.plan",
+          "rollback.list",
+          "rollback.show",
+          "rollback.execute"
         ],
         "required_artifacts": [
           "Agent",
@@ -3816,7 +3896,10 @@ devpilot-local 0.1.0
           "PATCH_DRY_RUN_ALLOW",
           "AGENT_CRITICAL_TOOL_DENY",
           "PATCH_CHECK_DRY_RUN_ALLOW",
-          "PATCH_SANDBOX_RUNTIME_ALLOW"
+          "PATCH_SANDBOX_RUNTIME_ALLOW",
+          "ROLLBACK_PLAN_RUNTIME_ALLOW",
+          "ROLLBACK_READ_ALLOW",
+          "ROLLBACK_EXECUTE_GATED_BLOCKED"
         ],
         "approval_required": true,
         "observability_required": true,
@@ -4270,6 +4353,56 @@ devpilot-local 0.1.0
         "policy_rule_ids": [
           "AGENT_SUGGEST_ALLOW"
         ]
+      },
+      {
+        "tool_id": "rollback.plan",
+        "name": "rollback_plan_from_changeset",
+        "phase": "MVP+",
+        "side_effect": "controlled_write",
+        "risk_level": "high",
+        "status": "implemented-initial",
+        "requires_approval": false,
+        "policy_rule_ids": [
+          "ROLLBACK_PLAN_RUNTIME_ALLOW",
+          "SECRETS_RAW_DENY"
+        ]
+      },
+      {
+        "tool_id": "rollback.list",
+        "name": "rollback_points_list_read_only",
+        "phase": "MVP+",
+        "side_effect": "read",
+        "risk_level": "medium",
+        "status": "implemented-initial",
+        "requires_approval": false,
+        "policy_rule_ids": [
+          "ROLLBACK_READ_ALLOW"
+        ]
+      },
+      {
+        "tool_id": "rollback.show",
+        "name": "rollback_point_show_read_only",
+        "phase": "MVP+",
+        "side_effect": "read",
+        "risk_level": "medium",
+        "status": "implemented-initial",
+        "requires_approval": false,
+        "policy_rule_ids": [
+          "ROLLBACK_READ_ALLOW"
+        ]
+      },
+      {
+        "tool_id": "rollback.execute",
+        "name": "rollback_execute_gated_non_mutating_initial",
+        "phase": "MVP+",
+        "side_effect": "controlled_write",
+        "risk_level": "high",
+        "status": "implemented-initial",
+        "requires_approval": true,
+        "policy_rule_ids": [
+          "ROLLBACK_EXECUTE_GATED_BLOCKED",
+          "SECRETS_RAW_DENY"
+        ]
       }
     ],
     "policy_rules": [
@@ -4425,6 +4558,33 @@ devpilot-local 0.1.0
         "gate": "ReleasePolicyFuture+ApprovalPolicyChecker",
         "approval_required": true,
         "observability_required": true
+      },
+      {
+        "rule_id": "ROLLBACK_PLAN_RUNTIME_ALLOW",
+        "domain": "Rollback",
+        "action": "plan",
+        "default_effect": "allow",
+        "gate": "RollbackManager+PathGuard+SecretGuard+LocalBackupPolicy",
+        "approval_required": false,
+        "observability_required": true
+      },
+      {
+        "rule_id": "ROLLBACK_READ_ALLOW",
+        "domain": "Rollback",
+        "action": "list_show",
+        "default_effect": "allow",
+        "gate": "RollbackManager+PathGuard",
+        "approval_required": false,
+        "observability_required": true
+      },
+      {
+        "rule_id": "ROLLBACK_EXECUTE_GATED_BLOCKED",
+        "domain": "Rollback",
+        "action": "execute",
+        "default_effect": "block",
+        "gate": "RollbackManager+ApprovalPolicyChecker+PathGuard+SecretGuard",
+        "approval_required": true,
+        "observability_required": true
       }
     ]
   },
@@ -4575,7 +4735,7 @@ devpilot-local 0.1.0
       {
         "artifact": "docs/04_quality/test_strategy.md",
         "exists": true,
-        "size_bytes": 19860,
+        "size_bytes": 20398,
         "frontmatter_ok": true,
         "artifact_ok": true,
         "status": "approved",
@@ -4593,7 +4753,7 @@ devpilot-local 0.1.0
       {
         "artifact": "docs/05_operations/runbook.md",
         "exists": true,
-        "size_bytes": 105363,
+        "size_bytes": 107336,
         "frontmatter_ok": true,
         "artifact_ok": true,
         "status": "approved",
@@ -4611,7 +4771,7 @@ devpilot-local 0.1.0
       {
         "artifact": "docs/06_miasi/tool_card.md",
         "exists": true,
-        "size_bytes": 22540,
+        "size_bytes": 23221,
         "frontmatter_ok": true,
         "artifact_ok": true,
         "status": "approved",
@@ -4839,1006 +4999,410 @@ devpilot-local 0.1.0
     }
   ]
 }
-(.venv) PS D:\Projects\DevPilot_Local> python -m devpilot_core workspace status --json
+(.venv) PS D:\Projects\DevPilot_Local> python -m devpilot_core patch sandbox --patch-file safe.patch --json
 {
-  "command": "workspace status",
+  "command": "patch sandbox",
   "ok": true,
   "exit_code": 0,
-  "message": "Workspace status passed.",
-  "data": {
-    "paths": {
-      "root": ".",
-      "workspace_dir": ".devpilot",
-      "project_file": ".devpilot/project.yaml",
-      "docs_dir": "docs",
-      "standards_dir": "docs/standards",
-      "outputs_dir": "outputs",
-      "reports_dir": "outputs/reports",
-      "traces_dir": "outputs/traces"
-    },
-    "summary": {
-      "initialized": true,
-      "ready": true,
-      "docs_present": true,
-      "standards_present": true,
-      "precode_checklist_present": true,
-      "outputs_present": true,
-      "reports_present": true,
-      "traces_present": true
-    },
-    "project_metadata": {
-      "schema_version": "1.0",
-      "project_id": "devpilot-local",
-      "project_name": "DevPilot Local",
-      "project_type": "agent-assisted-sdlc",
-      "project_owner": "Ordóñez",
-      "miasi_required": true,
-      "standards": [
-        "MIPSoftware",
-        "MIASI"
-      ]
-    }
-  },
-  "findings": []
-}
-(.venv) PS D:\Projects\DevPilot_Local> python -m devpilot_core standards status --json
-{
-  "command": "standards status",
-  "ok": true,
-  "exit_code": 0,
-  "message": "Standards registry status passed.",
-  "data": {
-    "standards_root": "docs/standards",
-    "standards": [
-      {
-        "id": "mipsoftware",
-        "title": "MIPSoftware — Modelo de Ingeniería Profesional de Software",
-        "directory": "docs/standards/mipsoftware",
-        "exists": true,
-        "ok": true,
-        "status": "reviewed",
-        "version": "0.3.1",
-        "required_files": [
-          {
-            "path": "docs/standards/mipsoftware/README.md",
-            "exists": true,
-            "size_bytes": 6568
-          },
-          {
-            "path": "docs/standards/mipsoftware/01_modelo_ingenieria_profesional_software.md",
-            "exists": true,
-            "size_bytes": 24095
-          },
-          {
-            "path": "docs/standards/mipsoftware/02_ciclo_vida_software.md",
-            "exists": true,
-            "size_bytes": 47108
-          },
-          {
-            "path": "docs/standards/mipsoftware/13_extension_miasi.md",
-            "exists": true,
-            "size_bytes": 26867
-          }
-        ],
-        "counts": {
-          "markdown_files": 107,
-          "json_files": 25,
-          "templates": 65,
-          "checklists": 10,
-          "schemas": 8,
-          "adrs": 5
-        }
-      },
-      {
-        "id": "miasi",
-        "title": "MIASI — Modelo de Ingeniería de Sistemas Agénticos Inteligentes",
-        "directory": "docs/standards/miasi",
-        "exists": true,
-        "ok": true,
-        "status": "approved",
-        "version": "1.0.0",
-        "required_files": [
-          {
-            "path": "docs/standards/miasi/README.md",
-            "exists": true,
-            "size_bytes": 16161
-          },
-          {
-            "path": "docs/standards/miasi/01_modelo_ingenieria_sistemas_agenticos.md",
-            "exists": true,
-            "size_bytes": 55399
-          },
-          {
-            "path": "docs/standards/miasi/03_agentic_sdlc.md",
-            "exists": true,
-            "size_bytes": 47736
-          },
-          {
-            "path": "docs/standards/miasi/04_estandares_tecnicos_transversales.md",
-            "exists": true,
-            "size_bytes": 40836
-          }
-        ],
-        "counts": {
-          "markdown_files": 66,
-          "json_files": 16,
-          "templates": 19,
-          "checklists": 13,
-          "schemas": 5,
-          "adrs": 5
-        }
-      }
-    ],
-    "required_project_artifacts": [
-      {
-        "id": "product_vision",
-        "path": "docs/00_product/product_vision.md",
-        "standard": "MIPSoftware",
-        "purpose": "Product vision approved in pre-code baseline.",
-        "exists": true,
-        "size_bytes": 12959
-      },
-      {
-        "id": "business_case",
-        "path": "docs/00_product/business_case.md",
-        "standard": "MIPSoftware",
-        "purpose": "Business justification and viability baseline.",
-        "exists": true,
-        "size_bytes": 8369
-      },
-      {
-        "id": "mvp_scope",
-        "path": "docs/00_product/mvp_scope.md",
-        "standard": "MIPSoftware",
-        "purpose": "MVP, MVP+ and post-MVP scope boundary.",
-        "exists": true,
-        "size_bytes": 8373
-      },
-      {
-        "id": "requirements_specification",
-        "path": "docs/01_requirements/requirements_specification.md",
-        "standard": "MIPSoftware",
-        "purpose": "Functional and non-functional requirements baseline.",
-        "exists": true,
-        "size_bytes": 11769
-      },
-      {
-        "id": "architecture_document",
-        "path": "docs/02_architecture/architecture_document.md",
-        "standard": "MIPSoftware",
-        "purpose": "Architecture baseline and main technical decisions.",
-        "exists": true,
-        "size_bytes": 22634
-      },
-      {
-        "id": "security_threat_model",
-        "path": "docs/03_security/security_threat_model.md",
-        "standard": "MIPSoftware",
-        "purpose": "Security threats, controls and blocking criteria.",
-        "exists": true,
-        "size_bytes": 15913
-      },
-      {
-        "id": "test_strategy",
-        "path": "docs/04_quality/test_strategy.md",
-        "standard": "MIPSoftware",
-        "purpose": "Quality, testing and verification baseline.",
-        "exists": true,
-        "size_bytes": 19860
-      },
-      {
-        "id": "observability_plan",
-        "path": "docs/05_operations/observability_plan.md",
-        "standard": "MIPSoftware",
-        "purpose": "Operational observability baseline.",
-        "exists": true,
-        "size_bytes": 7905
-      },
-      {
-        "id": "runbook",
-        "path": "docs/05_operations/runbook.md",
-        "standard": "MIPSoftware",
-        "purpose": "Local operation and recovery guide.",
-        "exists": true,
-        "size_bytes": 105363
-      },
-      {
-        "id": "agent_card",
-        "path": "docs/06_miasi/agent_card.md",
-        "standard": "MIASI",
-        "purpose": "Agent scope, taxonomy and autonomy rules.",
-        "exists": true,
-        "size_bytes": 8768
-      },
-      {
-        "id": "tool_card",
-        "path": "docs/06_miasi/tool_card.md",
-        "standard": "MIASI",
-        "purpose": "Tool permissions, side effects and control rules.",
-        "exists": true,
-        "size_bytes": 22540
-      },
-      {
-        "id": "policy_card",
-        "path": "docs/06_miasi/policy_card.md",
-        "standard": "MIASI",
-        "purpose": "Policy-as-code baseline for agentic execution.",
-        "exists": true,
-        "size_bytes": 5696
-      },
-      {
-        "id": "eval_card",
-        "path": "docs/06_miasi/eval_card.md",
-        "standard": "MIASI",
-        "purpose": "Agentic evaluation baseline.",
-        "exists": true,
-        "size_bytes": 7928
-      },
-      {
-        "id": "human_approval_card",
-        "path": "docs/06_miasi/human_approval_card.md",
-        "standard": "MIASI",
-        "purpose": "Human approval criteria for sensitive actions.",
-        "exists": true,
-        "size_bytes": 4170
-      },
-      {
-        "id": "observability_card",
-        "path": "docs/06_miasi/observability_card.md",
-        "standard": "MIASI",
-        "purpose": "AgentOps observability and event baseline.",
-        "exists": true,
-        "size_bytes": 5637
-      },
-      {
-        "id": "precode_checklist",
-        "path": "docs/checklists/checklist_pre_code.md",
-        "standard": "MIPSoftware",
-        "purpose": "Approved pre-code gate checklist.",
-        "exists": true,
-        "size_bytes": 6241
-      },
-      {
-        "id": "precode_audit_report",
-        "path": "docs/precode_audit_report.md",
-        "standard": "MIPSoftware",
-        "purpose": "Final pre-code audit report.",
-        "exists": true,
-        "size_bytes": 6917
-      },
-      {
-        "id": "precode_baseline_decision",
-        "path": "docs/precode_baseline_decision.md",
-        "standard": "MIPSoftware",
-        "purpose": "Formal decision to close pre-code baseline.",
-        "exists": true,
-        "size_bytes": 2334
-      }
-    ],
-    "validation_profiles": [
-      {
-        "id": "product-vision",
-        "description": "Product vision baseline artifact.",
-        "filename": "product_vision.md",
-        "path_contains": [
-          "docs/00_product"
-        ],
-        "required_headings": [
-          "resumen ejecutivo",
-          "problema",
-          "visión",
-          "mvp",
-          "indicadores"
-        ],
-        "recommended_headings": [
-          "workspaces",
-          "local-first",
-          "post-mvp"
-        ],
-        "source": "docs/validation/artifact_profiles.json"
-      },
-      {
-        "id": "business-case",
-        "description": "Business case baseline artifact.",
-        "filename": "business_case.md",
-        "path_contains": [
-          "docs/00_product"
-        ],
-        "required_headings": [
-          "propósito",
-          "problema",
-          "justificación",
-          "beneficios",
-          "riesgos"
-        ],
-        "recommended_headings": [
-          "costos",
-          "criterios",
-          "veredicto"
-        ],
-        "source": "docs/validation/artifact_profiles.json"
-      },
-      {
-        "id": "mvp-scope",
-        "description": "MVP scope baseline artifact.",
-        "filename": "mvp_scope.md",
-        "path_contains": [
-          "docs/00_product"
-        ],
-        "required_headings": [
-          "mvp",
-          "mvp+",
-          "out of scope",
-          "criterios"
-        ],
-        "recommended_headings": [
-          "restricciones",
-          "local-first",
-          "workspaces"
-        ],
-        "source": "docs/validation/artifact_profiles.json"
-      },
-      {
-        "id": "requirements-specification",
-        "description": "Requirements specification artifact aligned with MIPSoftware.",
-        "filename": "requirements_specification.md",
-        "path_contains": [
-          "docs/01_requirements"
-        ],
-        "required_headings": [
-          "propósito",
-          "alcance",
-          "requerimientos funcionales del mvp",
-          "requerimientos no funcionales",
-          "criterios de bloqueo"
-        ],
-        "recommended_headings": [
-          "mvp+",
-          "post-mvp",
-          "miasi"
-        ],
-        "source": "docs/validation/artifact_profiles.json"
-      },
-      {
-        "id": "use-cases",
-        "description": "Use cases baseline artifact.",
-        "filename": "use_cases.md",
-        "path_contains": [
-          "docs/01_requirements"
-        ],
-        "required_headings": [
-          "propósito",
-          "casos de uso",
-          "mvp"
-        ],
-        "recommended_headings": [
-          "mvp+",
-          "post-mvp",
-          "criterios"
-        ],
-        "source": "docs/validation/artifact_profiles.json"
-      },
-      {
-        "id": "traceability-matrix",
-        "description": "Traceability matrix artifact.",
-        "filename": "traceability_matrix.md",
-        "path_contains": [
-          "docs/01_requirements"
-        ],
-        "required_headings": [
-          "propósito",
-          "matriz"
-        ],
-        "recommended_headings": [
-          "producto",
-          "requerimiento",
-          "prueba"
-        ],
-        "source": "docs/validation/artifact_profiles.json"
-      },
-      {
-        "id": "architecture-document",
-        "description": "Architecture document artifact aligned with C4/arc42 discipline.",
-        "filename": "architecture_document.md",
-        "path_contains": [
-          "docs/02_architecture"
-        ],
-        "required_headings": [
-          "propósito",
-          "alcance",
-          "drivers",
-          "componentes",
-          "riesgos"
-        ],
-        "recommended_headings": [
-          "persistencia",
-          "seguridad",
-          "tecnología",
-          "agentes"
-        ],
-        "source": "docs/validation/artifact_profiles.json"
-      },
-      {
-        "id": "c4-context",
-        "description": "C4 context view artifact.",
-        "filename": "c4_context.md",
-        "path_contains": [
-          "docs/02_architecture"
-        ],
-        "required_headings": [
-          "propósito",
-          "contexto"
-        ],
-        "recommended_headings": [
-          "mermaid",
-          "actores",
-          "sistemas"
-        ],
-        "source": "docs/validation/artifact_profiles.json"
-      },
-      {
-        "id": "c4-container",
-        "description": "C4 container view artifact.",
-        "filename": "c4_container.md",
-        "path_contains": [
-          "docs/02_architecture"
-        ],
-        "required_headings": [
-          "propósito",
-          "contenedores"
-        ],
-        "recommended_headings": [
-          "mermaid",
-          "responsabilidades",
-          "tecnología"
-        ],
-        "source": "docs/validation/artifact_profiles.json"
-      },
-      {
-        "id": "adr",
-        "description": "Architecture Decision Record artifact.",
-        "filename": null,
-        "path_contains": [
-          "docs/02_architecture/adrs"
-        ],
-        "required_headings": [
-          "contexto",
-          "decisión",
-          "consecuencias"
-        ],
-        "recommended_headings": [
-          "alternativas",
-          "estado"
-        ],
-        "source": "docs/validation/artifact_profiles.json"
-      },
-      {
-        "id": "security-threat-model",
-        "description": "Security threat model artifact.",
-        "filename": "security_threat_model.md",
-        "path_contains": [
-          "docs/03_security"
-        ],
-        "required_headings": [
-          "propósito",
-          "alcance",
-          "amenazas",
-          "controles",
-          "criterios de bloqueo"
-        ],
-        "recommended_headings": [
-          "activos",
-          "límites de confianza",
-          "miasi"
-        ],
-        "source": "docs/validation/artifact_profiles.json"
-      },
-      {
-        "id": "privacy-assessment",
-        "description": "Privacy assessment artifact.",
-        "filename": "privacy_assessment.md",
-        "path_contains": [
-          "docs/03_security"
-        ],
-        "required_headings": [
-          "propósito",
-          "alcance",
-          "datos",
-          "retención",
-          "riesgos"
-        ],
-        "recommended_headings": [
-          "redacción",
-          "privacidad",
-          "apis externas"
-        ],
-        "source": "docs/validation/artifact_profiles.json"
-      },
-      {
-        "id": "test-strategy",
-        "description": "Quality and testing strategy artifact.",
-        "filename": "test_strategy.md",
-        "path_contains": [
-          "docs/04_quality"
-        ],
-        "required_headings": [
-          "propósito",
-          "alcance",
-          "tipos de pruebas",
-          "quality gates",
-          "criterios"
-        ],
-        "recommended_headings": [
-          "trazabilidad",
-          "coverage",
-          "agentic tests"
-        ],
-        "source": "docs/validation/artifact_profiles.json"
-      },
-      {
-        "id": "observability-plan",
-        "description": "Observability plan artifact.",
-        "filename": "observability_plan.md",
-        "path_contains": [
-          "docs/05_operations"
-        ],
-        "required_headings": [
-          "propósito",
-          "señales",
-          "trazas",
-          "métricas"
-        ],
-        "recommended_headings": [
-          "eventos",
-          "retención",
-          "opentelemetry"
-        ],
-        "source": "docs/validation/artifact_profiles.json"
-      },
-      {
-        "id": "runbook",
-        "description": "Local operations runbook artifact.",
-        "filename": "runbook.md",
-        "path_contains": [
-          "docs/05_operations"
-        ],
-        "required_headings": [
-          "propósito",
-          "instalación",
-          "validación",
-          "fallos",
-          "recuperación"
-        ],
-        "recommended_headings": [
-          "pytest",
-          "git",
-          "agentes"
-        ],
-        "source": "docs/validation/artifact_profiles.json"
-      },
-      {
-        "id": "miasi-agent-card",
-        "description": "MIASI Agent Card artifact.",
-        "filename": "agent_card.md",
-        "path_contains": [
-          "docs/06_miasi"
-        ],
-        "required_headings": [
-          "propósito",
-          "alcance",
-          "taxonomía",
-          "contrato",
-          "criterios pass",
-          "criterios block"
-        ],
-        "recommended_headings": [
-          "autonomía",
-          "herramientas",
-          "mipsoftware"
-        ],
-        "source": "docs/validation/artifact_profiles.json"
-      },
-      {
-        "id": "miasi-tool-card",
-        "description": "MIASI Tool Card artifact.",
-        "filename": "tool_card.md",
-        "path_contains": [
-          "docs/06_miasi"
-        ],
-        "required_headings": [
-          "propósito",
-          "herramientas",
-          "tool contract",
-          "criterios pass",
-          "criterios block"
-        ],
-        "recommended_headings": [
-          "riesgo",
-          "restricciones",
-          "aprobación"
-        ],
-        "source": "docs/validation/artifact_profiles.json"
-      },
-      {
-        "id": "miasi-policy-card",
-        "description": "MIASI Policy Card artifact.",
-        "filename": "policy_card.md",
-        "path_contains": [
-          "docs/06_miasi"
-        ],
-        "required_headings": [
-          "propósito",
-          "política",
-          "modos de ejecución",
-          "criterios block"
-        ],
-        "recommended_headings": [
-          "costguard",
-          "secretguard",
-          "matriz"
-        ],
-        "source": "docs/validation/artifact_profiles.json"
-      },
-      {
-        "id": "miasi-eval-card",
-        "description": "MIASI Eval Card artifact.",
-        "filename": "eval_card.md",
-        "path_contains": [
-          "docs/06_miasi"
-        ],
-        "required_headings": [
-          "propósito",
-          "evaluación",
-          "métricas",
-          "criterios pass",
-          "criterios block"
-        ],
-        "recommended_headings": [
-          "datasets",
-          "quality gates",
-          "reportes"
-        ],
-        "source": "docs/validation/artifact_profiles.json"
-      },
-      {
-        "id": "miasi-human-approval-card",
-        "description": "MIASI Human Approval Card artifact.",
-        "filename": "human_approval_card.md",
-        "path_contains": [
-          "docs/06_miasi"
-        ],
-        "required_headings": [
-          "propósito",
-          "aprobación",
-          "acciones",
-          "criterios pass",
-          "criterios block"
-        ],
-        "recommended_headings": [
-          "matriz",
-          "registro",
-          "revisión humana"
-        ],
-        "source": "docs/validation/artifact_profiles.json"
-      },
-      {
-        "id": "miasi-observability-card",
-        "description": "MIASI Observability Card artifact.",
-        "filename": "observability_card.md",
-        "path_contains": [
-          "docs/06_miasi"
-        ],
-        "required_headings": [
-          "propósito",
-          "señales",
-          "eventos",
-          "criterios"
-        ],
-        "recommended_headings": [
-          "agentops",
-          "opentelemetry",
-          "métricas"
-        ],
-        "source": "docs/validation/artifact_profiles.json"
-      }
-    ],
-    "summary": {
-      "standards_total": 2,
-      "standards_ok": 2,
-      "required_project_artifacts_total": 18,
-      "required_project_artifacts_present": 18,
-      "validation_profiles_total": 21
-    }
-  },
-  "findings": []
-}
-(.venv) PS D:\Projects\DevPilot_Local> python -m devpilot_core patch check --patch-file safe.patch --json
-{
-  "command": "patch check",
-  "ok": true,
-  "exit_code": 0,
-  "message": "Patch preflight passed in dry-run mode.",
+  "message": "Patch sandbox completed successfully.",
   "data": {
     "summary": {
       "source": "safe.patch",
-      "patch_review_ok": true,
-      "patch_review_exit_code": 0,
-      "review_blocking_findings": 0,
-      "review_failing_findings": 0,
-      "apply_check_executed": true,
-      "applies": true,
-      "apply_check_exit_code": 0,
-      "working_tree_unchanged": true,
-      "security_block": false,
-      "applicability_fail": false,
-      "findings_total": 1,
-      "blocking_findings": 0,
-      "failing_findings": 0,
-      "warnings_total": 0,
-      "dry_run": true,
-      "patch_applied": false,
+      "sandbox_created": true,
+      "patch_applied_to_productive_workspace": false,
       "network_used": false,
       "external_api_used": false,
-      "mutations_performed": false,
-      "preliminary": true
+      "mutations_scope": "outputs/sandbox only",
+      "preliminary": true,
+      "sandbox_id": "patch-sandbox-20260612T125818Z-dd6c63b3",
+      "sandbox_workspace": "outputs/sandbox/patch-sandbox-20260612T125818Z-dd6c63b3/workspace",
+      "preflight_ok": true,
+      "patch_applied_in_sandbox": true,
+      "productive_workspace_unchanged": true,
+      "changeset_id": "changeset-5e350bdd662b6350",
+      "changeset_files": 1,
+      "effective_changes": 1,
+      "run_tests_requested": false,
+      "tests_executed": false,
+      "tests_ok": null,
+      "cleanup_requested": false,
+      "cleanup_removed": false,
+      "findings_total": 2,
+      "blocking_findings": 0,
+      "failing_findings": 0
     },
-    "patch_review": {
-      "command": "patch-review",
+    "preflight": {
+      "command": "patch check",
       "ok": true,
       "exit_code": 0,
-      "message": "Patch review passed in dry-run mode.",
+      "message": "Patch preflight passed in dry-run mode.",
       "summary": {
         "source": "safe.patch",
-        "files_changed": 1,
-        "added_lines": 1,
-        "deleted_lines": 0,
-        "hunks": 1,
-        "findings_total": 0,
+        "patch_review_ok": true,
+        "patch_review_exit_code": 0,
+        "review_blocking_findings": 0,
+        "review_failing_findings": 0,
+        "apply_check_executed": true,
+        "applies": true,
+        "apply_check_exit_code": 0,
+        "working_tree_unchanged": true,
+        "security_block": false,
+        "applicability_fail": false,
+        "findings_total": 1,
         "blocking_findings": 0,
         "failing_findings": 0,
+        "warnings_total": 0,
         "dry_run": true,
-        "patch_applied": false
+        "patch_applied": false,
+        "network_used": false,
+        "external_api_used": false,
+        "mutations_performed": false,
+        "preliminary": true
       },
       "findings_total": 1,
       "blocking_findings": 0,
       "failing_findings": 0,
       "warnings_total": 0
     },
-    "apply_check": {
-      "executed": true,
-      "applies": true,
-      "skipped": false,
-      "returncode": 0,
-      "timed_out": false,
-      "duration_ms": 30,
-      "stdout_truncated": false,
-      "stderr_truncated": false,
-      "redactions": 0,
-      "stderr_preview": "",
-      "stdout_preview": "",
-      "safe_subprocess": {
-        "command": "execution safe-subprocess",
-        "ok": true,
-        "exit_code": 0,
-        "message": "Safe subprocess completed successfully.",
-        "summary": {
-          "executed": true,
-          "blocked": false,
-          "command_allowed": true,
-          "returncode": 0,
-          "timed_out": false,
-          "redactions": 0,
-          "duration_ms": 30,
-          "runner": "SafeSubprocessRunner",
-          "environment_controls": {
-            "pytest_plugin_autoload_disabled": false,
-            "python_user_site_disabled": false,
-            "reason": "default-environment",
-            "preliminary": true
-          },
+    "policy": {
+      "command": "policy check",
+      "ok": true,
+      "exit_code": 0,
+      "message": "Policy check passed.",
+      "summary": {
+        "allowed": true,
+        "blocked": false,
+        "denied": false,
+        "warnings": 0,
+        "decisions_total": 6,
+        "guards": [
+          "ApprovalPolicyChecker",
+          "CostGuard",
+          "PathGuard",
+          "PromptInjectionGuard",
+          "SecretGuard",
+          "ToolInjectionGuard"
+        ],
+        "approval_required": false,
+        "approval_valid": false
+      },
+      "findings_total": 1,
+      "blocking_findings": 0,
+      "failing_findings": 0,
+      "warnings_total": 0
+    },
+    "sandbox_apply": {
+      "command": "execution safe-subprocess",
+      "ok": true,
+      "exit_code": 0,
+      "message": "Safe subprocess completed successfully.",
+      "summary": {
+        "executed": true,
+        "blocked": false,
+        "command_allowed": true,
+        "returncode": 0,
+        "timed_out": false,
+        "redactions": 0,
+        "duration_ms": 47,
+        "runner": "SafeSubprocessRunner",
+        "environment_controls": {
+          "pytest_plugin_autoload_disabled": false,
+          "python_user_site_disabled": false,
+          "reason": "default-environment",
           "preliminary": true
         },
-        "findings_total": 1,
-        "blocking_findings": 0,
-        "failing_findings": 0,
-        "warnings_total": 0
-      }
+        "preliminary": true
+      },
+      "findings_total": 1,
+      "blocking_findings": 0,
+      "failing_findings": 0,
+      "warnings_total": 0
     },
-    "git_status_before": {
+    "python_fallback": {
+      "command": "patch sandbox python-fallback",
       "ok": true,
       "exit_code": 0,
-      "is_git_repo": true,
-      "git_available": true,
-      "branch": "main",
-      "counts": {
-        "entries_total": 32,
-        "modified": 22,
-        "added": 0,
-        "deleted": 2,
-        "renamed": 0,
-        "untracked": 8,
-        "staged": 0
-      }
+      "message": "Python patch fallback applied text hunks inside sandbox.",
+      "summary": {
+        "applied": true,
+        "files_total": 1,
+        "files": [
+          "src/devpilot_core/reports/models.py"
+        ],
+        "preliminary": true
+      },
+      "findings_total": 1,
+      "blocking_findings": 0,
+      "failing_findings": 0,
+      "warnings_total": 0
     },
-    "git_status_after": {
-      "ok": true,
-      "exit_code": 0,
-      "is_git_repo": true,
-      "git_available": true,
-      "branch": "main",
-      "counts": {
-        "entries_total": 32,
-        "modified": 22,
-        "added": 0,
-        "deleted": 2,
-        "renamed": 0,
-        "untracked": 8,
-        "staged": 0
-      }
+    "changeset": {
+      "changeset_id": "changeset-5e350bdd662b6350",
+      "source_patch": "safe.patch",
+      "sandbox_id": "patch-sandbox-20260612T125818Z-dd6c63b3",
+      "sandbox_workspace": "outputs/sandbox/patch-sandbox-20260612T125818Z-dd6c63b3/workspace",
+      "files_total": 1,
+      "files": [
+        {
+          "path": "src/devpilot_core/reports/models.py",
+          "action": "modify",
+          "before_sha256": "8a856d637d004573685d47854b8bc6e1f74cdd0356a1f24ae7f890c0feaa6d8a",
+          "after_sha256": "a6fbd8df5aac88921824b9e27efa0af45765c840f94e69e3793d4ea27f7d143b",
+          "before_size_bytes": 4870,
+          "after_size_bytes": 5054
+        }
+      ],
+      "tests_requested": false,
+      "tests_result_summary": null,
+      "rollback_plan": {
+        "available": false,
+        "strategy": "future-rollback-manager",
+        "notes": [
+          "FUNC-SPRINT-41 emits rollback metadata only; executable rollback belongs to FUNC-SPRINT-42.",
+          "Before/after hashes are generated from sandbox files, not from productive workspace mutations."
+        ],
+        "preliminary": true
+      },
+      "metadata": {
+        "preflight_exit_code": 0,
+        "sandbox_policy_exit_code": 0,
+        "network_used": false,
+        "external_api_used": false,
+        "raw_patch_emitted": false
+      },
+      "preliminary": true
     },
+    "tests": null,
+    "cleanup": null,
     "notes": [
-      "FUNC-SPRINT-40 Patch preflight is dry-run and implemented-initial.",
-      "PatchReviewEngine evaluates risks before git apply --check.",
-      "git apply --check is executed through SafeSubprocessRunner and an explicit allowlist.",
-      "No patch is applied to the workspace productivo; sandbox/apply/rollback belong to later sprints.",
-      "Raw patch content and secret values are not emitted."
+      "FUNC-SPRINT-41 PatchSandbox is implemented-initial and writes only under outputs/sandbox.",
+      "The productive workspace is never patched by this command.",
+      "ChangeSet contains metadata and hashes, not raw patch or file contents.",
+      "Executable rollback belongs to FUNC-SPRINT-42.",
+      "Optional test execution is fixed-profile and approval-gated when requested."
     ]
   },
   "findings": [
     {
-      "id": "PATCH_PREFLIGHT_APPLY_CHECK_PASS",
-      "message": "git apply --check reported that the patch is applicable without applying it.",
+      "id": "PATCH_SANDBOX_APPLY_PASS",
+      "message": "Patch was applied inside sandbox workspace only.",
+      "severity": "info",
+      "path": "safe.patch"
+    },
+    {
+      "id": "PATCH_SANDBOX_PYTHON_FALLBACK_APPLIED",
+      "message": "Deterministic Python fallback applied text hunks after git apply produced no effective ChangeSet.",
       "severity": "info",
       "path": "safe.patch"
     }
   ]
 }
-(.venv) PS D:\Projects\DevPilot_Local> python -m devpilot_core patch check --patch-file safe.patch --json --write-report
+(.venv) PS D:\Projects\DevPilot_Local> python -m devpilot_core patch sandbox --patch-file safe.patch --json --write-report --cleanup
 {
-  "command": "patch check",
+  "command": "patch sandbox",
   "ok": true,
   "exit_code": 0,
-  "message": "Patch preflight passed in dry-run mode.",
+  "message": "Patch sandbox completed successfully.",
   "data": {
     "summary": {
       "source": "safe.patch",
-      "patch_review_ok": true,
-      "patch_review_exit_code": 0,
-      "review_blocking_findings": 0,
-      "review_failing_findings": 0,
-      "apply_check_executed": true,
-      "applies": true,
-      "apply_check_exit_code": 0,
-      "working_tree_unchanged": true,
-      "security_block": false,
-      "applicability_fail": false,
-      "findings_total": 1,
-      "blocking_findings": 0,
-      "failing_findings": 0,
-      "warnings_total": 0,
-      "dry_run": true,
-      "patch_applied": false,
+      "sandbox_created": true,
+      "patch_applied_to_productive_workspace": false,
       "network_used": false,
       "external_api_used": false,
-      "mutations_performed": false,
-      "preliminary": true
+      "mutations_scope": "outputs/sandbox only",
+      "preliminary": true,
+      "sandbox_id": "patch-sandbox-20260612T125827Z-310b7386",
+      "sandbox_workspace": "outputs/sandbox/patch-sandbox-20260612T125827Z-310b7386/workspace",
+      "preflight_ok": true,
+      "patch_applied_in_sandbox": true,
+      "productive_workspace_unchanged": true,
+      "changeset_id": "changeset-a344b1abc184b02b",
+      "changeset_files": 1,
+      "effective_changes": 1,
+      "run_tests_requested": false,
+      "tests_executed": false,
+      "tests_ok": null,
+      "cleanup_requested": true,
+      "cleanup_removed": true,
+      "findings_total": 2,
+      "blocking_findings": 0,
+      "failing_findings": 0
     },
-    "patch_review": {
-      "command": "patch-review",
+    "preflight": {
+      "command": "patch check",
       "ok": true,
       "exit_code": 0,
-      "message": "Patch review passed in dry-run mode.",
+      "message": "Patch preflight passed in dry-run mode.",
       "summary": {
         "source": "safe.patch",
-        "files_changed": 1,
-        "added_lines": 1,
-        "deleted_lines": 0,
-        "hunks": 1,
-        "findings_total": 0,
+        "patch_review_ok": true,
+        "patch_review_exit_code": 0,
+        "review_blocking_findings": 0,
+        "review_failing_findings": 0,
+        "apply_check_executed": true,
+        "applies": true,
+        "apply_check_exit_code": 0,
+        "working_tree_unchanged": true,
+        "security_block": false,
+        "applicability_fail": false,
+        "findings_total": 1,
         "blocking_findings": 0,
         "failing_findings": 0,
+        "warnings_total": 0,
         "dry_run": true,
-        "patch_applied": false
+        "patch_applied": false,
+        "network_used": false,
+        "external_api_used": false,
+        "mutations_performed": false,
+        "preliminary": true
       },
       "findings_total": 1,
       "blocking_findings": 0,
       "failing_findings": 0,
       "warnings_total": 0
     },
-    "apply_check": {
-      "executed": true,
-      "applies": true,
-      "skipped": false,
-      "returncode": 0,
-      "timed_out": false,
-      "duration_ms": 46,
-      "stdout_truncated": false,
-      "stderr_truncated": false,
-      "redactions": 0,
-      "stderr_preview": "",
-      "stdout_preview": "",
-      "safe_subprocess": {
-        "command": "execution safe-subprocess",
-        "ok": true,
-        "exit_code": 0,
-        "message": "Safe subprocess completed successfully.",
-        "summary": {
-          "executed": true,
-          "blocked": false,
-          "command_allowed": true,
-          "returncode": 0,
-          "timed_out": false,
-          "redactions": 0,
-          "duration_ms": 46,
-          "runner": "SafeSubprocessRunner",
-          "environment_controls": {
-            "pytest_plugin_autoload_disabled": false,
-            "python_user_site_disabled": false,
-            "reason": "default-environment",
-            "preliminary": true
-          },
+    "policy": {
+      "command": "policy check",
+      "ok": true,
+      "exit_code": 0,
+      "message": "Policy check passed.",
+      "summary": {
+        "allowed": true,
+        "blocked": false,
+        "denied": false,
+        "warnings": 0,
+        "decisions_total": 6,
+        "guards": [
+          "ApprovalPolicyChecker",
+          "CostGuard",
+          "PathGuard",
+          "PromptInjectionGuard",
+          "SecretGuard",
+          "ToolInjectionGuard"
+        ],
+        "approval_required": false,
+        "approval_valid": false
+      },
+      "findings_total": 1,
+      "blocking_findings": 0,
+      "failing_findings": 0,
+      "warnings_total": 0
+    },
+    "sandbox_apply": {
+      "command": "execution safe-subprocess",
+      "ok": true,
+      "exit_code": 0,
+      "message": "Safe subprocess completed successfully.",
+      "summary": {
+        "executed": true,
+        "blocked": false,
+        "command_allowed": true,
+        "returncode": 0,
+        "timed_out": false,
+        "redactions": 0,
+        "duration_ms": 30,
+        "runner": "SafeSubprocessRunner",
+        "environment_controls": {
+          "pytest_plugin_autoload_disabled": false,
+          "python_user_site_disabled": false,
+          "reason": "default-environment",
           "preliminary": true
         },
-        "findings_total": 1,
-        "blocking_findings": 0,
-        "failing_findings": 0,
-        "warnings_total": 0
-      }
+        "preliminary": true
+      },
+      "findings_total": 1,
+      "blocking_findings": 0,
+      "failing_findings": 0,
+      "warnings_total": 0
     },
-    "git_status_before": {
+    "python_fallback": {
+      "command": "patch sandbox python-fallback",
       "ok": true,
       "exit_code": 0,
-      "is_git_repo": true,
-      "git_available": true,
-      "branch": "main",
-      "counts": {
-        "entries_total": 32,
-        "modified": 22,
-        "added": 0,
-        "deleted": 2,
-        "renamed": 0,
-        "untracked": 8,
-        "staged": 0
-      }
+      "message": "Python patch fallback applied text hunks inside sandbox.",
+      "summary": {
+        "applied": true,
+        "files_total": 1,
+        "files": [
+          "src/devpilot_core/reports/models.py"
+        ],
+        "preliminary": true
+      },
+      "findings_total": 1,
+      "blocking_findings": 0,
+      "failing_findings": 0,
+      "warnings_total": 0
     },
-    "git_status_after": {
-      "ok": true,
-      "exit_code": 0,
-      "is_git_repo": true,
-      "git_available": true,
-      "branch": "main",
-      "counts": {
-        "entries_total": 32,
-        "modified": 22,
-        "added": 0,
-        "deleted": 2,
-        "renamed": 0,
-        "untracked": 8,
-        "staged": 0
-      }
+    "changeset": {
+      "changeset_id": "changeset-a344b1abc184b02b",
+      "source_patch": "safe.patch",
+      "sandbox_id": "patch-sandbox-20260612T125827Z-310b7386",
+      "sandbox_workspace": "outputs/sandbox/patch-sandbox-20260612T125827Z-310b7386/workspace",
+      "files_total": 1,
+      "files": [
+        {
+          "path": "src/devpilot_core/reports/models.py",
+          "action": "modify",
+          "before_sha256": "8a856d637d004573685d47854b8bc6e1f74cdd0356a1f24ae7f890c0feaa6d8a",
+          "after_sha256": "a6fbd8df5aac88921824b9e27efa0af45765c840f94e69e3793d4ea27f7d143b",
+          "before_size_bytes": 4870,
+          "after_size_bytes": 5054
+        }
+      ],
+      "tests_requested": false,
+      "tests_result_summary": null,
+      "rollback_plan": {
+        "available": false,
+        "strategy": "future-rollback-manager",
+        "notes": [
+          "FUNC-SPRINT-41 emits rollback metadata only; executable rollback belongs to FUNC-SPRINT-42.",
+          "Before/after hashes are generated from sandbox files, not from productive workspace mutations."
+        ],
+        "preliminary": true
+      },
+      "metadata": {
+        "preflight_exit_code": 0,
+        "sandbox_policy_exit_code": 0,
+        "network_used": false,
+        "external_api_used": false,
+        "raw_patch_emitted": false
+      },
+      "preliminary": true
+    },
+    "tests": null,
+    "cleanup": {
+      "removed": true,
+      "sandbox_id": "patch-sandbox-20260612T125827Z-310b7386",
+      "path": "outputs/sandbox/patch-sandbox-20260612T125827Z-310b7386",
+      "preliminary": true
     },
     "notes": [
-      "FUNC-SPRINT-40 Patch preflight is dry-run and implemented-initial.",
-      "PatchReviewEngine evaluates risks before git apply --check.",
-      "git apply --check is executed through SafeSubprocessRunner and an explicit allowlist.",
-      "No patch is applied to the workspace productivo; sandbox/apply/rollback belong to later sprints.",
-      "Raw patch content and secret values are not emitted."
+      "FUNC-SPRINT-41 PatchSandbox is implemented-initial and writes only under outputs/sandbox.",
+      "The productive workspace is never patched by this command.",
+      "ChangeSet contains metadata and hashes, not raw patch or file contents.",
+      "Executable rollback belongs to FUNC-SPRINT-42.",
+      "Optional test execution is fixed-profile and approval-gated when requested."
     ],
     "reports": {
-      "json": "outputs/reports/patch_preflight.json",
-      "markdown": "outputs/reports/patch_preflight.md"
+      "json": "outputs/reports/patch_sandbox.json",
+      "markdown": "outputs/reports/patch_sandbox.md"
     }
   },
   "findings": [
     {
-      "id": "PATCH_PREFLIGHT_APPLY_CHECK_PASS",
-      "message": "git apply --check reported that the patch is applicable without applying it.",
+      "id": "PATCH_SANDBOX_APPLY_PASS",
+      "message": "Patch was applied inside sandbox workspace only.",
+      "severity": "info",
+      "path": "safe.patch"
+    },
+    {
+      "id": "PATCH_SANDBOX_PYTHON_FALLBACK_APPLIED",
+      "message": "Deterministic Python fallback applied text hunks after git apply produced no effective ChangeSet.",
       "severity": "info",
       "path": "safe.patch"
     }
   ]
 }
-(.venv) PS D:\Projects\DevPilot_Local> python -m pytest tests/test_patch_preflight.py tests/test_sprint_40_documentation.py -q
-.........                                                                                                                                    [100%]
-DEVPL TEST SUMMARY: 9 passed, 0 failed, 0 errors, 0 skipped
-(.venv) PS D:\Projects\DevPilot_Local>
+(.venv) PS D:\Projects\DevPilot_Local> python -m pytest tests/test_patch_sandbox.py tests/test_sprint_41_documentation.py -q
+...

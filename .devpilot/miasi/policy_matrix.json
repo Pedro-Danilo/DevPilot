@@ -156,6 +156,33 @@
       "gate": "ReleasePolicyFuture+ApprovalPolicyChecker",
       "approval_required": true,
       "observability_required": true
+    },
+    {
+      "rule_id": "ROLLBACK_PLAN_RUNTIME_ALLOW",
+      "domain": "Rollback",
+      "action": "plan",
+      "default_effect": "allow",
+      "gate": "RollbackManager+PathGuard+SecretGuard+LocalBackupPolicy",
+      "approval_required": false,
+      "observability_required": true
+    },
+    {
+      "rule_id": "ROLLBACK_READ_ALLOW",
+      "domain": "Rollback",
+      "action": "list_show",
+      "default_effect": "allow",
+      "gate": "RollbackManager+PathGuard",
+      "approval_required": false,
+      "observability_required": true
+    },
+    {
+      "rule_id": "ROLLBACK_EXECUTE_GATED_BLOCKED",
+      "domain": "Rollback",
+      "action": "execute",
+      "default_effect": "block",
+      "gate": "RollbackManager+ApprovalPolicyChecker+PathGuard+SecretGuard",
+      "approval_required": true,
+      "observability_required": true
     }
   ]
 }

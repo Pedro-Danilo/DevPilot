@@ -29,12 +29,12 @@ def test_sprint_35_readme_runbook_and_phase_c_backlog_are_synchronized() -> None
     runbook = _read("docs/05_operations/runbook.md")
     backlog = _read("docs/devpilot_backlog_fase_C_ingenieria_repositorio.md")
 
-    assert "Último hito: `FUNC-SPRINT-41" in readme
-    assert "Siguiente hito: `FUNC-SPRINT-42" in readme
+    assert "Último hito: `FUNC-SPRINT-42" in readme
+    assert "Siguiente hito: `FUNC-SPRINT-43" in readme
     assert "## FUNC-SPRINT-35 — GitAdapter v2 read-only" in runbook
     assert "python -m devpilot_core git diff-report --json --write-report" in runbook
     assert 'phase_c_status: "in_progress"' in backlog
-    assert 'first_open_sprint: "FUNC-SPRINT-42"' in backlog
+    assert 'first_open_sprint: "FUNC-SPRINT-43"' in backlog
     assert "Estado de implementación Sprint 35" in backlog
 
 
@@ -51,6 +51,6 @@ def test_sprint_35_miasi_git_tools_declared() -> None:
 
 def test_sprint_35_functional_backlog_points_to_sprint_36_without_overclaiming() -> None:
     functional_backlog = _read("docs/functional_backlog_after_precode.md")
-    assert 'next_sprint: "FUNC-SPRINT-42"' in functional_backlog
+    assert 'next_sprint: "FUNC-SPRINT-43"' in functional_backlog
     assert "Transición posterior a FUNC-SPRINT-35" in functional_backlog
     assert "No habilita patch apply" in functional_backlog

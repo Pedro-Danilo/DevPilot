@@ -1,0 +1,82 @@
+{
+  "sprint": "FUNC-SPRINT-42",
+  "title": "RollbackManager y backup local controlado",
+  "status": "implemented",
+  "implemented_at": "2026-06-12",
+  "phase": "FASE-C-INGENIERIA-DE-REPOSITORIO",
+  "wave": "Ola 5 — Sandbox, patch/refactor ejecutable y rollback",
+  "source_backlog": "docs/devpilot_backlog_fase_C_ingenieria_repositorio.md",
+  "architectural_decision": {
+    "required": false,
+    "adr": null,
+    "reason": "FUNC-SPRINT-42 implementa una capacidad prevista explícitamente por Fase C sobre contratos existentes: ChangeSet, PatchSandbox, Approval Workflow, PolicyEngine, SecretGuard, ReportEngine y LocalStore. No introduce dependencias externas, red, APIs, modelos, Git write, restauración automática, refactor execution ni deploy."
+  },
+  "created_files": [
+    "src/devpilot_core/changes/rollback.py",
+    "tests/test_rollback_manager.py",
+    "tests/test_sprint_42_documentation.py",
+    "docs/audits/func_sprint_42_rollback_manager_audit.md",
+    "docs/functional_sprint_42_manifest.json"
+  ],
+  "modified_files": [
+    ".devpilot/miasi/agent_registry.json",
+    ".devpilot/miasi/policy_matrix.json",
+    ".devpilot/miasi/tool_registry.json",
+    ".gitignore",
+    "README.md",
+    "docs/04_quality/test_strategy.md",
+    "docs/05_operations/runbook.md",
+    "docs/06_miasi/tool_card.md",
+    "docs/06_miasi/tool_registry.md",
+    "docs/devpilot_backlog_fase_C_ingenieria_repositorio.md",
+    "docs/functional_backlog_after_precode.md",
+    "src/devpilot_core/changes/__init__.py",
+    "src/devpilot_core/changes/models.py",
+    "src/devpilot_core/cli.py",
+    "tests/test_sprint_32_documentation.py",
+    "tests/test_sprint_33_documentation.py",
+    "tests/test_sprint_34_documentation.py",
+    "tests/test_sprint_35_documentation.py",
+    "tests/test_sprint_36_documentation.py",
+    "tests/test_sprint_37_documentation.py",
+    "tests/test_sprint_38_documentation.py",
+    "tests/test_sprint_39_documentation.py",
+    "tests/test_sprint_40_documentation.py",
+    "tests/test_sprint_41_documentation.py"
+  ],
+  "commands": [
+    "python -m devpilot_core rollback plan --changeset-file outputs/reports/patch_sandbox.json --json",
+    "python -m devpilot_core rollback list --json",
+    "python -m devpilot_core rollback show <rollback_id> --json",
+    "python -m devpilot_core rollback execute <rollback_id> --json",
+    "python -m devpilot_core miasi validate --json",
+    "python -m pytest -q"
+  ],
+  "tests": [
+    "tests/test_rollback_manager.py",
+    "tests/test_sprint_42_documentation.py"
+  ],
+  "pass_criteria": [
+    "RollbackManager creates rollback plans from ChangeSet JSON files.",
+    "RollbackPoint metadata is persisted under .devpilot/rollback runtime paths.",
+    "Local backups are created only for safe workspace files.",
+    "rollback list/show are read-only and parseable.",
+    "rollback execute is approval-gated and non-mutating in Sprint 42.",
+    "MIASI declares rollback tools and policy rules."
+  ],
+  "block_criteria": [
+    "Rollback execute can mutate files without approval.",
+    "Rollback target path escapes workspace root.",
+    "Backup stores secret-like content without blocking.",
+    "Rollback runtime points are packaged as release artifacts.",
+    "The sprint enables Git write, deploy or refactor execution."
+  ],
+  "risks": [
+    "Rollback remains initial and metadata-driven, not a complete transactional restore engine.",
+    "Backups can consume local disk space.",
+    "Secret-like files are blocked and require manual handling.",
+    "Future execute semantics must add tests, approval and restore validation."
+  ],
+  "preliminary": true,
+  "next_sprint": "FUNC-SPRINT-43 — RefactorExecutor controlado en sandbox"
+}

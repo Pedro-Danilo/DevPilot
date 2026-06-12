@@ -381,6 +381,56 @@
       "policy_rule_ids": [
         "AGENT_SUGGEST_ALLOW"
       ]
+    },
+    {
+      "tool_id": "rollback.plan",
+      "name": "rollback_plan_from_changeset",
+      "phase": "MVP+",
+      "side_effect": "controlled_write",
+      "risk_level": "high",
+      "status": "implemented-initial",
+      "requires_approval": false,
+      "policy_rule_ids": [
+        "ROLLBACK_PLAN_RUNTIME_ALLOW",
+        "SECRETS_RAW_DENY"
+      ]
+    },
+    {
+      "tool_id": "rollback.list",
+      "name": "rollback_points_list_read_only",
+      "phase": "MVP+",
+      "side_effect": "read",
+      "risk_level": "medium",
+      "status": "implemented-initial",
+      "requires_approval": false,
+      "policy_rule_ids": [
+        "ROLLBACK_READ_ALLOW"
+      ]
+    },
+    {
+      "tool_id": "rollback.show",
+      "name": "rollback_point_show_read_only",
+      "phase": "MVP+",
+      "side_effect": "read",
+      "risk_level": "medium",
+      "status": "implemented-initial",
+      "requires_approval": false,
+      "policy_rule_ids": [
+        "ROLLBACK_READ_ALLOW"
+      ]
+    },
+    {
+      "tool_id": "rollback.execute",
+      "name": "rollback_execute_gated_non_mutating_initial",
+      "phase": "MVP+",
+      "side_effect": "controlled_write",
+      "risk_level": "high",
+      "status": "implemented-initial",
+      "requires_approval": true,
+      "policy_rule_ids": [
+        "ROLLBACK_EXECUTE_GATED_BLOCKED",
+        "SECRETS_RAW_DENY"
+      ]
     }
   ]
 }

@@ -32,12 +32,12 @@ def test_sprint_41_readme_runbook_backlog_and_test_strategy_are_synchronized() -
     test_strategy = _read("docs/04_quality/test_strategy.md")
     gitignore = _read(".gitignore")
 
-    assert "Último hito: `FUNC-SPRINT-41" in readme
-    assert "Siguiente hito: `FUNC-SPRINT-42" in readme
+    assert "Último hito: `FUNC-SPRINT-42" in readme
+    assert "Siguiente hito: `FUNC-SPRINT-43" in readme
     assert "## FUNC-SPRINT-41 — PatchSandbox y ChangeSet model" in runbook
     assert "python -m devpilot_core patch sandbox --patch-file safe.patch --json --write-report" in runbook
-    assert 'first_open_sprint: "FUNC-SPRINT-42"' in backlog
-    assert 'last_completed_sprint: "FUNC-SPRINT-41"' in backlog
+    assert 'first_open_sprint: "FUNC-SPRINT-43"' in backlog
+    assert 'last_completed_sprint: "FUNC-SPRINT-42"' in backlog
     assert "Estado de implementación Sprint 41" in backlog
     assert "Actualización FUNC-SPRINT-41 — Pruebas de PatchSandbox y ChangeSet" in test_strategy
     assert "outputs/sandbox/" in gitignore
@@ -63,7 +63,7 @@ def test_sprint_41_miasi_patch_sandbox_tool_declared() -> None:
 def test_sprint_41_functional_backlog_points_to_sprint_42_without_overclaiming() -> None:
     functional_backlog = _read("docs/functional_backlog_after_precode.md")
 
-    assert 'next_sprint: "FUNC-SPRINT-42"' in functional_backlog
+    assert 'next_sprint: "FUNC-SPRINT-43"' in functional_backlog
     assert "Transición posterior a FUNC-SPRINT-41" in functional_backlog
     assert "no aplica patches al workspace productivo" in functional_backlog
     assert "rollback ejecutable sigue fuera de alcance" in functional_backlog

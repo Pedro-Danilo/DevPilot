@@ -104,3 +104,8 @@ Criterios PASS: sandbox bajo `outputs/sandbox`, ChangeSet sin contenido crudo, p
 Criterios BLOCK: mutación productiva, omisión de preflight, secretos crudos en evidencia, pruebas sin aprobación `tests.run`, rollback ejecutable no autorizado o escritura fuera de rutas runtime controladas.
 
 Riesgos: capacidad `implemented-initial`; el rollback ejecutable pertenece a `FUNC-SPRINT-42` y la aplicación real de patches al workspace productivo permanece fuera de alcance.
+
+
+## Estado operacional RollbackManager — FUNC-SPRINT-42
+
+Se agregan tools `rollback.plan`, `rollback.list`, `rollback.show` y `rollback.execute`. La capacidad es `implemented-initial`: permite crear y consultar rollback points locales, pero no habilita restauración automática. `rollback.execute` existe como frontera CLI gated y bloqueada por diseño hasta que futuros sprints definan restore semantics, pruebas post-rollback y aprobación humana completa.

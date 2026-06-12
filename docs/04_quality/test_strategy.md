@@ -488,3 +488,10 @@ python -m pytest -q
 Criterio PASS: la prueba confirma que el archivo productivo referenciado por el patch conserva su contenido original y que los cambios existen solo en la copia del sandbox.
 
 Criterio BLOCK: cualquier mutación productiva, falta de `ChangeSet`, emisión de contenido crudo, ejecución de pruebas sin aprobación o ausencia de exclusión `outputs/sandbox/`.
+
+
+## Actualización FUNC-SPRINT-42 — Pruebas de RollbackManager y backup local
+
+Las pruebas de `FUNC-SPRINT-42` cubren creación de rollback plan desde `ChangeSet`, generación de backup local controlado, comandos read-only `rollback list/show`, bloqueo de `rollback execute` sin aprobación y exclusión de `.devpilot/rollback/` como runtime no versionable.
+
+Criterios mínimos: `tests/test_rollback_manager.py`, `tests/test_sprint_42_documentation.py`, `miasi validate`, validación de manifest y regresión completa con `pytest -q`.

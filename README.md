@@ -1,8 +1,8 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
 Estado actual: `baseline pre-code approved + Fase A cerrada + FASE-B cerrada + Fase C en progreso + PatchSandbox y ChangeSet implemented-initial`  
-Último hito: `FUNC-SPRINT-41 — PatchSandbox y ChangeSet model`  
-Siguiente hito: `FUNC-SPRINT-42 — RollbackManager y backup local controlado`  
+Último hito: `FUNC-SPRINT-42 — RollbackManager y backup local controlado`  
+Siguiente hito: `FUNC-SPRINT-43 — RefactorExecutor controlado en sandbox`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
@@ -1398,3 +1398,19 @@ Criterio PASS: el patch se aplica únicamente en `outputs/sandbox`, `ChangeSet` 
 Criterio BLOCK: el comando modifica archivos productivos, omite preflight, intenta ejecutar pruebas sin aprobación, emite secretos crudos, falla la generación de `ChangeSet` o habilita rollback/Git write/refactor execution fuera del alcance del sprint.
 
 Límites: la capacidad no implementa rollback ejecutable, no aplica patches al workspace productivo, no hace Git write y no sustituye revisión semántica o SAST/SCA. `outputs/sandbox/` es runtime y queda excluido de ZIPs de entrega.
+
+
+## RollbackManager y backup local controlado — FUNC-SPRINT-42
+
+`FUNC-SPRINT-42` agrega `RollbackManager` como primera capa local de rollback y backup para `ChangeSet` generados por sandbox. La capacidad es **implemented-initial**: crea planes de rollback serializables, escribe backups locales controlados bajo `.devpilot/rollback/`, lista y muestra rollback points en modo read-only, y mantiene `rollback execute` bloqueado/gated sin mutaciones reales.
+
+Comandos principales:
+
+```powershell
+python -m devpilot_core rollback plan --changeset-file outputs/reports/patch_sandbox.json --json
+python -m devpilot_core rollback list --json
+python -m devpilot_core rollback show <rollback_id> --json
+python -m devpilot_core rollback execute <rollback_id> --json
+```
+
+Restricciones: `.devpilot/rollback/` es runtime local excluido de Git/release; los backups se bloquean si contienen secretos detectables; `rollback execute` no restaura archivos en esta versión inicial y requiere aprobación válida antes de cualquier evolución futura.

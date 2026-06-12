@@ -2,20 +2,20 @@
 title: "DevPilot Local — Backlog ejecutable Fase C: Ingeniería de repositorio"
 doc_id: "DEVPL-FUNC-BACKLOG-FASE-C-001"
 status: "approved"
-version: "1.6.0"
+version: "1.7.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
 phase: "FASE-C-INGENIERIA-DE-REPOSITORIO"
-updated: "2026-06-11"
+updated: "2026-06-12"
 source_repo: "repo_DevPilot_Local_48.zip"
 source_report: "Informe de avance DevPilot - sprint 0 - 18.docx"
 source_backlog_model: "docs/functional_backlog_after_precode.md"
 baseline_dependency: "Fase A cerrada por FUNC-SPRINT-27 y Fase B cerrada por FUNC-SPRINT-34"
 first_sprint: "FUNC-SPRINT-35"
-first_open_sprint: "FUNC-SPRINT-42"
+first_open_sprint: "FUNC-SPRINT-43"
 phase_c_status: "in_progress"
-last_completed_sprint: "FUNC-SPRINT-41"
+last_completed_sprint: "FUNC-SPRINT-42"
 last_planned_sprint: "FUNC-SPRINT-44"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "phase_c_executable_backlog_review"
@@ -895,6 +895,14 @@ python -m pytest -q
 Implementa FUNC-SPRINT-42: RollbackManager inicial con rollback plans y list/show. No habilites ejecución libre de rollback.
 ```
 
+
+## Estado de implementación Sprint 42
+
+`FUNC-SPRINT-42 — RollbackManager y backup local controlado` queda implementado como capacidad `implemented-initial` de Fase C. El nuevo paquete `changes.rollback` crea planes de rollback desde `ChangeSet` de sandbox, persiste rollback points bajo `.devpilot/rollback/points`, copia backups locales controlados bajo `.devpilot/rollback/backups` cuando no hay secretos detectables y expone comandos CLI `rollback plan`, `rollback list`, `rollback show` y `rollback execute`.
+
+La implementación conserva el principio de seguridad de Fase C: `rollback list/show` son read-only, `rollback execute` permanece approval-gated y no-mutating, no se habilita Git write, no se restaura automáticamente ningún archivo productivo, no se usa red, no se usan APIs externas y los rollback points runtime quedan excluidos de Git/release ZIPs.
+
+Siguiente sprint abierto: `FUNC-SPRINT-43 — RefactorExecutor controlado en sandbox`.
 
 # FUNC-SPRINT-43 — RefactorExecutor controlado en sandbox
 

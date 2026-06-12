@@ -478,3 +478,12 @@ Criterios PASS: sandbox bajo `outputs/sandbox`, ChangeSet sin contenido crudo, p
 Criterios BLOCK: mutación productiva, omisión de preflight, secretos crudos en evidencia, pruebas sin aprobación `tests.run`, rollback ejecutable no autorizado o escritura fuera de rutas runtime controladas.
 
 Riesgos: capacidad `implemented-initial`; el rollback ejecutable pertenece a `FUNC-SPRINT-42` y la aplicación real de patches al workspace productivo permanece fuera de alcance.
+
+
+## Tool Card — RollbackManager y backup local
+
+`rollback.plan`, `rollback.list`, `rollback.show` y `rollback.execute` quedan definidos para `FUNC-SPRINT-42`. `rollback.plan` crea metadata y backups locales controlados desde un `ChangeSet`; `rollback.list/show` son read-only; `rollback.execute` permanece approval-gated y no-mutating en la versión inicial.
+
+Criterios PASS: planes serializables, backups bajo `.devpilot/rollback/`, redacción de evidencia, bloqueo de secretos, list/show read-only.
+
+Criterios BLOCK: ejecución sin aprobación, paths fuera del workspace, backups con secretos detectables, runtime points versionados o restauración automática no autorizada.

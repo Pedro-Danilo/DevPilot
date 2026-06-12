@@ -68,3 +68,6 @@ outputs/drafts/
 
 # DevPilot patch sandboxes (runtime only)
 outputs/sandbox/
+
+# DevPilot rollback runtime data (generated)
+.devpilot/rollback/

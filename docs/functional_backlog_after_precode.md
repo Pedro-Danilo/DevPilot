@@ -7,14 +7,14 @@ owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
 phase: "POST-PRECODE"
-updated: "2026-06-10"
+updated: "2026-06-12"
 approval: "approved_by_owner_direction"
 source_baseline: "precode_baseline_approved"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approved_on: "2026-06-06"
 approval_scope: "functional_backlog_after_precode"
 baseline_execution: "FUNC-SPRINT-00"
-next_sprint: "FUNC-SPRINT-42"
+next_sprint: "FUNC-SPRINT-43"
 ---
 
 # DevPilot Local — Backlog ejecutable posterior a pre-code
@@ -2075,3 +2075,10 @@ Siguiente sprint operativo: `FUNC-SPRINT-41 — PatchSandbox y ChangeSet model`.
 Capacidad nueva: `patch sandbox --patch-file ...` genera evidencia y `ChangeSet` preliminar. `--run-tests` queda approval-gated porque ejecuta código dentro de la copia del workspace.
 
 Git write sigue bloqueado en esta transición; no hay commit, tag, push ni checkout automático.
+
+
+## Transición posterior a FUNC-SPRINT-42
+
+`FUNC-SPRINT-42` habilita `RollbackManager` como primera versión local de backup/rollback controlado. La implementación crea rollback plans desde `ChangeSet`, registra rollback points runtime bajo `.devpilot/rollback/`, permite `rollback list/show` en modo read-only y mantiene `rollback execute` bloqueado sin aprobación y no-mutating incluso cuando se prepare su evolución.
+
+La transición hacia `FUNC-SPRINT-43` queda condicionada a mantener Git write bloqueado, no restaurar archivos automáticamente, no ejecutar acciones destructivas y usar rollback metadata como insumo para refactor sandbox controlado.

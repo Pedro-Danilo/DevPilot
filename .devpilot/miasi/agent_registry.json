@@ -209,7 +209,10 @@
         "trace.append",
         "policy.check",
         "patch.check",
-        "patch.sandbox"
+        "patch.sandbox",
+        "rollback.plan",
+        "rollback.list",
+        "rollback.show"
       ],
       "required_artifacts": [
         "Agent",
@@ -223,7 +226,9 @@
         "SECRETS_RAW_DENY",
         "REPO_QUALITY_GATE_DRY_RUN_ALLOW",
         "PATCH_CHECK_DRY_RUN_ALLOW",
-        "PATCH_SANDBOX_RUNTIME_ALLOW"
+        "PATCH_SANDBOX_RUNTIME_ALLOW",
+        "ROLLBACK_PLAN_RUNTIME_ALLOW",
+        "ROLLBACK_READ_ALLOW"
       ],
       "approval_required": false,
       "observability_required": true,
@@ -274,7 +279,11 @@
         "patch.sandbox",
         "report.write",
         "trace.append",
-        "policy.check"
+        "policy.check",
+        "rollback.plan",
+        "rollback.list",
+        "rollback.show",
+        "rollback.execute"
       ],
       "required_artifacts": [
         "Agent",
@@ -289,7 +298,10 @@
         "PATCH_APPLY_DENY",
         "AGENT_CRITICAL_TOOL_DENY",
         "PATCH_CHECK_DRY_RUN_ALLOW",
-        "PATCH_SANDBOX_RUNTIME_ALLOW"
+        "PATCH_SANDBOX_RUNTIME_ALLOW",
+        "ROLLBACK_PLAN_RUNTIME_ALLOW",
+        "ROLLBACK_READ_ALLOW",
+        "ROLLBACK_EXECUTE_GATED_BLOCKED"
       ],
       "approval_required": true,
       "observability_required": true,
@@ -313,7 +325,11 @@
         "tests.run",
         "report.write",
         "trace.append",
-        "policy.check"
+        "policy.check",
+        "rollback.plan",
+        "rollback.list",
+        "rollback.show",
+        "rollback.execute"
       ],
       "required_artifacts": [
         "Agent",
@@ -327,7 +343,10 @@
         "PATCH_DRY_RUN_ALLOW",
         "AGENT_CRITICAL_TOOL_DENY",
         "PATCH_CHECK_DRY_RUN_ALLOW",
-        "PATCH_SANDBOX_RUNTIME_ALLOW"
+        "PATCH_SANDBOX_RUNTIME_ALLOW",
+        "ROLLBACK_PLAN_RUNTIME_ALLOW",
+        "ROLLBACK_READ_ALLOW",
+        "ROLLBACK_EXECUTE_GATED_BLOCKED"
       ],
       "approval_required": true,
       "observability_required": true,

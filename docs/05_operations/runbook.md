@@ -2731,3 +2731,45 @@ python -m devpilot_core patch sandbox --patch-file safe.patch --run-tests --appr
 - El sandbox es una copia local y puede diferir del workspace si hay archivos ignorados necesarios para una prueba.
 - Patches grandes pueden ocupar espacio; usar `--cleanup` cuando no se requiera inspección manual.
 - No habilita Git write, commits, push, deploy ni refactor execution.
+
+
+## FUNC-SPRINT-42 — RollbackManager y backup local controlado
+
+### Propósito
+
+Crear puntos de rollback locales a partir de `ChangeSet` generados por `patch sandbox`, sin habilitar todavía restauración automática sobre el workspace productivo.
+
+### Comandos de uso
+
+```powershell
+python -m devpilot_core rollback plan --changeset-file outputs/reports/patch_sandbox.json --json
+python -m devpilot_core rollback plan --changeset-file outputs/reports/patch_sandbox.json --json --write-report
+python -m devpilot_core rollback list --json
+python -m devpilot_core rollback show <rollback_id> --json
+python -m devpilot_core rollback execute <rollback_id> --json
+```
+
+### Funcionamiento
+
+`rollback plan` lee un `ChangeSet`, valida rutas del workspace, genera operaciones de rollback metadata-only, copia backups locales bajo `.devpilot/rollback/backups/<rollback_id>/` cuando el archivo es seguro y persiste el rollback point bajo `.devpilot/rollback/points/<rollback_id>.json`.
+
+`rollback list` y `rollback show` son read-only. `rollback execute` está preparado como comando gated, pero permanece no-mutating en `FUNC-SPRINT-42`.
+
+### Criterios PASS
+
+- El plan es serializable y auditable.
+- Los puntos se listan/muestran en modo read-only.
+- `.devpilot/rollback/` está excluido de Git/release ZIPs.
+- No se emiten contenidos crudos de archivos en `CommandResult`.
+- El backup se bloquea si `SecretGuard` detecta secretos.
+
+### Criterios BLOCK
+
+- `rollback execute` se intenta sin aprobación válida.
+- El changeset apunta fuera del workspace.
+- El backup intenta copiar archivos runtime/caches.
+- Un archivo supera el límite inicial de backup o contiene secretos detectables.
+
+### Riesgos y limitaciones
+
+La capacidad es `implemented-initial`. No reemplaza rollback transaccional, no restaura archivos automáticamente, no integra Git reset, no ejecuta tests post-restore y no debe usarse como mecanismo de recuperación productiva completa hasta sprints posteriores.

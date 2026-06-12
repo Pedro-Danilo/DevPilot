@@ -25,6 +25,7 @@ from .repo.diff_report import GitDiffReportBuilder
 from .refactor import RefactorPlanner
 from .review import CodeReviewEngine, PatchPreflightEngine, PatchReviewEngine
 from .sandbox import PatchSandboxManager
+from .changes import RollbackManager
 from .standards.registry import build_standards_status_result
 from .store import LocalStore
 from .traceability import MarkdownTraceabilityExtractor, TraceabilityEngine
@@ -636,6 +637,76 @@ def patch_sandbox_command(
     )
     _emit_result_event(root, result, subject=patch_file)
     _persist_result(root, result, subject=patch_file)
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+
+
+def rollback_command(
+    action: str,
+    *,
+    rollback_id: str | None = None,
+    changeset_file: str | None = None,
+    approval_id: str | None = None,
+    limit: int = 100,
+    json_output: bool = False,
+    write_report: bool = False,
+) -> int:
+    """Run FUNC-SPRINT-42 rollback plan/list/show/execute commands.
+
+    The initial RollbackManager creates auditable rollback plans and runtime
+    backup points from sandbox ChangeSets. list/show are read-only. execute is
+    approval-gated and intentionally non-mutating in Sprint 42.
+    """
+
+    root = project_root()
+    manager = RollbackManager(root)
+    if action == "plan":
+        if not changeset_file:
+            result = CommandResult(
+                command="rollback plan",
+                ok=False,
+                exit_code=ExitCode.BLOCK,
+                message="rollback plan requires --changeset-file.",
+                data={"summary": {"created": False, "preliminary": True}},
+                findings=[Finding("ROLLBACK_CHANGESET_FILE_REQUIRED", "Provide --changeset-file for rollback plan.", Severity.BLOCK)],
+            )
+        else:
+            result = manager.create_plan_from_file(changeset_file)
+        report_id = "rollback_plan"
+        subject = changeset_file or "rollback:plan"
+    elif action == "list":
+        result = manager.list(limit=limit)
+        report_id = "rollback_list"
+        subject = "rollback:list"
+    elif action == "show":
+        result = manager.show(rollback_id or "")
+        report_id = "rollback_show"
+        subject = rollback_id or "rollback:show"
+    elif action == "execute":
+        result = manager.execute(rollback_id or "", approval_id=approval_id)
+        report_id = "rollback_execute"
+        subject = rollback_id or "rollback:execute"
+    else:
+        result = CommandResult(
+            command=f"rollback {action}",
+            ok=False,
+            exit_code=ExitCode.FAIL,
+            message="Unsupported rollback action.",
+            findings=[Finding("ROLLBACK_ACTION_UNSUPPORTED", f"Unsupported rollback action: {action}.", Severity.FAIL)],
+        )
+        report_id = "rollback"
+        subject = "rollback:unsupported"
+    result = _write_optional_command_report(
+        root,
+        result,
+        subject=subject,
+        report_id=report_id,
+        write_report=write_report,
+        metadata={"sprint": "FUNC-SPRINT-42", "component": "RollbackManager", "action": action},
+    )
+    _emit_result_event(root, result, subject=subject)
+    _persist_result(root, result, subject=subject)
     print_result(result, json_output=json_output)
     return int(result.exit_code)
 
@@ -1894,6 +1965,31 @@ def build_parser() -> argparse.ArgumentParser:
     patch_sandbox.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     patch_sandbox.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
 
+
+    rollback = sub.add_parser("rollback", help="Manage local rollback plans and backup points")
+    rollback_sub = rollback.add_subparsers(dest="rollback_command")
+
+    rollback_plan = rollback_sub.add_parser("plan", help="Create a rollback plan from a sandbox ChangeSet JSON")
+    rollback_plan.add_argument("--changeset-file", required=True, help="ChangeSet JSON file produced by patch sandbox report/evidence")
+    rollback_plan.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    rollback_plan.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+
+    rollback_list = rollback_sub.add_parser("list", help="List rollback points in read-only mode")
+    rollback_list.add_argument("--limit", type=int, default=100, help="Maximum rollback points to return")
+    rollback_list.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    rollback_list.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+
+    rollback_show = rollback_sub.add_parser("show", help="Show one rollback point in read-only mode")
+    rollback_show.add_argument("rollback_id", help="Rollback point id")
+    rollback_show.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    rollback_show.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+
+    rollback_execute = rollback_sub.add_parser("execute", help="Prepared gated rollback execution; non-mutating in Sprint 42")
+    rollback_execute.add_argument("rollback_id", help="Rollback point id")
+    rollback_execute.add_argument("--approval-id", default=None, help="Approval id required before any future rollback execution")
+    rollback_execute.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    rollback_execute.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+
     patch_review = sub.add_parser("patch-review", help="Review a unified diff/patch in dry-run mode")
     patch_review.add_argument("--patch-file", default=None, help="Patch/diff file to read within the workspace")
     patch_review.add_argument("--patch-text", default=None, help="Inline patch text for small synthetic reviews")
@@ -2289,6 +2385,17 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
                 json_output=args.json,
                 write_report=args.write_report,
             )
+        parser.print_help()
+        return int(ExitCode.FAIL)
+    if args.command == "rollback":
+        if args.rollback_command == "plan":
+            return rollback_command("plan", changeset_file=args.changeset_file, json_output=args.json, write_report=args.write_report)
+        if args.rollback_command == "list":
+            return rollback_command("list", limit=args.limit, json_output=args.json, write_report=args.write_report)
+        if args.rollback_command == "show":
+            return rollback_command("show", rollback_id=args.rollback_id, json_output=args.json, write_report=args.write_report)
+        if args.rollback_command == "execute":
+            return rollback_command("execute", rollback_id=args.rollback_id, approval_id=args.approval_id, json_output=args.json, write_report=args.write_report)
         parser.print_help()
         return int(ExitCode.FAIL)
     if args.command == "patch-review":
