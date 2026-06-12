@@ -1,8 +1,8 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
-Estado actual: `baseline pre-code approved + Fase A cerrada + FASE-B cerrada + Fase C en progreso + Patch preflight dry-run implemented-initial`  
-Último hito: `FUNC-SPRINT-40 — Patch preflight con verificación segura`  
-Siguiente hito: `FUNC-SPRINT-41 — PatchSandbox y ChangeSet model`  
+Estado actual: `baseline pre-code approved + Fase A cerrada + FASE-B cerrada + Fase C en progreso + PatchSandbox y ChangeSet implemented-initial`  
+Último hito: `FUNC-SPRINT-41 — PatchSandbox y ChangeSet model`  
+Siguiente hito: `FUNC-SPRINT-42 — RollbackManager y backup local controlado`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
@@ -1360,3 +1360,41 @@ python -m devpilot_core patch check --patch-file safe.patch --json --write-repor
 Alcance explícito: `implemented-initial`, local-first y dry-run. No habilita `patch apply`, no escribe en el workspace productivo, no ejecuta Git write, no crea sandbox, no ejecuta rollback, no usa red, no llama APIs externas y no usa modelos. Los reportes opcionales bajo `outputs/reports` son la única escritura permitida cuando se usa `--write-report`.
 
 Nota de ingeniería: `safe.patch` se conserva como patch de ejemplo aplicable para el preflight. Esta corrección evita una inconsistencia heredada donde el sample patch estaba malformado y hacía fallar el comando objetivo por corrupción del patch, no por lógica de preflight.
+
+
+## PatchSandbox y ChangeSet — FUNC-SPRINT-41
+
+`FUNC-SPRINT-41` agrega `PatchSandboxManager`, el paquete `changes` y el comando `patch sandbox` para probar patches en una copia controlada bajo `outputs/sandbox/<sandbox_id>/workspace`. La capacidad es **implemented-initial**: aplica el patch solo en sandbox, genera un `ChangeSet` auditable con hashes antes/después y confirma que el workspace productivo permanece intacto.
+
+Artefactos principales:
+
+- `src/devpilot_core/sandbox/patch_sandbox.py`
+- `src/devpilot_core/changes/models.py`
+- `tests/test_patch_sandbox.py`
+- `docs/audits/func_sprint_41_patch_sandbox_changeset_audit.md`
+- `docs/functional_sprint_41_manifest.json`
+
+Comandos de verificación:
+
+```powershell
+$env:PYTHONPATH="src"
+python -m devpilot_core patch sandbox --patch-file safe.patch --json
+python -m devpilot_core patch sandbox --patch-file safe.patch --json --write-report --cleanup
+python -m pytest tests/test_patch_sandbox.py tests/test_sprint_41_documentation.py -q
+python -m pytest -q
+```
+
+Para ejecutar pruebas dentro del sandbox se requiere aprobación explícita de `tests.run`, porque ejecuta código del workspace copiado:
+
+```powershell
+$env:PYTHONPATH="src"
+python -m devpilot_core approval request --tool tests.run --action execute --subject sandbox:smoke --actor Ordóñez --reason "FUNC-SPRINT-41 sandbox smoke" --json
+python -m devpilot_core approval approve <APPROVAL_ID> --actor Ordóñez --reason "Approve sandbox smoke" --json
+python -m devpilot_core patch sandbox --patch-file safe.patch --run-tests --approval-id <APPROVAL_ID> --json --write-report --cleanup
+```
+
+Criterio PASS: el patch se aplica únicamente en `outputs/sandbox`, `ChangeSet` no contiene contenido crudo ni secretos, el workspace productivo permanece sin cambios y MIASI declara `patch.sandbox`.
+
+Criterio BLOCK: el comando modifica archivos productivos, omite preflight, intenta ejecutar pruebas sin aprobación, emite secretos crudos, falla la generación de `ChangeSet` o habilita rollback/Git write/refactor execution fuera del alcance del sprint.
+
+Límites: la capacidad no implementa rollback ejecutable, no aplica patches al workspace productivo, no hace Git write y no sustituye revisión semántica o SAST/SCA. `outputs/sandbox/` es runtime y queda excluido de ZIPs de entrega.

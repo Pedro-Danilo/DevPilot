@@ -467,3 +467,14 @@ Path fuera del workspace, secreto sintético detectado, policy block, SafeSubpro
 ### Riesgos
 
 La versión es `implemented-initial`. No reemplaza sandbox, ChangeSet, rollback, CI, SAST/SCA ni revisión humana. Debe mantenerse separada de cualquier futuro `patch apply`.
+
+
+## Tool Card — PatchSandbox y ChangeSet
+
+`patch.sandbox` queda declarado como tool MIASI de riesgo alto con side effect `controlled_write`. La tool ejecuta `PatchPreflightEngine`, aplica el patch solo dentro de `outputs/sandbox`, genera un `ChangeSet` con hashes antes/después y mantiene bloqueada cualquier aplicación sobre el workspace productivo.
+
+Criterios PASS: sandbox bajo `outputs/sandbox`, ChangeSet sin contenido crudo, preflight obligatorio, no Git write y reportes auditables.
+
+Criterios BLOCK: mutación productiva, omisión de preflight, secretos crudos en evidencia, pruebas sin aprobación `tests.run`, rollback ejecutable no autorizado o escritura fuera de rutas runtime controladas.
+
+Riesgos: capacidad `implemented-initial`; el rollback ejecutable pertenece a `FUNC-SPRINT-42` y la aplicación real de patches al workspace productivo permanece fuera de alcance.

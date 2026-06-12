@@ -7,7 +7,8 @@ from typing import Any
 from devpilot_core.cli_models import CommandResult, ExitCode, Finding, Severity
 from devpilot_core.policy import PolicyEngine, PolicyRequest, SecretGuard
 from devpilot_core.repo.analyzer import RepoAnalyzer
-from devpilot_core.review import CodeReviewEngine, PatchReviewEngine
+from devpilot_core.review.code_review import CodeReviewEngine
+from devpilot_core.review.patch_review import PatchReviewEngine
 from devpilot_core.review.rule_packs import ReviewRule, ReviewRulePack, default_review_rule_packs, rule_index, serialize_rule_packs
 
 

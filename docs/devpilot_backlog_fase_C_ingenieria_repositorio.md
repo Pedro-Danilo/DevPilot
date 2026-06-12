@@ -8,14 +8,14 @@ standard: "MIPSoftware"
 extension: "MIASI"
 phase: "FASE-C-INGENIERIA-DE-REPOSITORIO"
 updated: "2026-06-11"
-source_repo: "repo_DevPilot_Local_47.zip"
+source_repo: "repo_DevPilot_Local_48.zip"
 source_report: "Informe de avance DevPilot - sprint 0 - 18.docx"
 source_backlog_model: "docs/functional_backlog_after_precode.md"
 baseline_dependency: "Fase A cerrada por FUNC-SPRINT-27 y Fase B cerrada por FUNC-SPRINT-34"
 first_sprint: "FUNC-SPRINT-35"
-first_open_sprint: "FUNC-SPRINT-41"
+first_open_sprint: "FUNC-SPRINT-42"
 phase_c_status: "in_progress"
-last_completed_sprint: "FUNC-SPRINT-40"
+last_completed_sprint: "FUNC-SPRINT-41"
 last_planned_sprint: "FUNC-SPRINT-44"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "phase_c_executable_backlog_review"
@@ -803,6 +803,15 @@ python -m pytest -q
 Implementa FUNC-SPRINT-41: PatchSandboxManager y ChangeSet model. Aplica patches solo en sandbox, con reportes, pruebas y limpieza runtime.
 ```
 
+
+
+## Estado de implementación Sprint 41
+
+`FUNC-SPRINT-41 — PatchSandbox y ChangeSet model` queda implementado como capacidad `implemented-initial` de Fase C. El nuevo comando `patch sandbox` ejecuta primero `PatchPreflightEngine`, copia el workspace a `outputs/sandbox/<sandbox_id>/workspace`, aplica el patch solamente en esa copia mediante `SafeSubprocessRunner` con allowlist runtime, genera un `ChangeSet` serializable con hashes antes/después y verifica que el workspace productivo no cambió.
+
+La implementación conserva la frontera de seguridad de Ola 5: no aplica patches al workspace productivo, no habilita Git write, no habilita rollback ejecutable, no habilita refactor execution y no usa red, modelos ni APIs externas. La ejecución opcional de pruebas dentro del sandbox queda approval-gated mediante `tests.run`.
+
+Siguiente sprint abierto: `FUNC-SPRINT-42 — RollbackManager y backup local controlado`.
 
 # FUNC-SPRINT-42 — RollbackManager y backup local controlado
 

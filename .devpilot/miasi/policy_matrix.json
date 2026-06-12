@@ -86,6 +86,15 @@
       "observability_required": true
     },
     {
+      "rule_id": "PATCH_SANDBOX_RUNTIME_ALLOW",
+      "domain": "Patch",
+      "action": "sandbox_apply",
+      "default_effect": "allow",
+      "gate": "PatchSandboxManager+PatchPreflightEngine+SafeSubprocessRunner+PathGuard+SecretGuard+ChangeSet",
+      "approval_required": false,
+      "observability_required": true
+    },
+    {
       "rule_id": "PATCH_APPLY_DENY",
       "domain": "Patch",
       "action": "apply",

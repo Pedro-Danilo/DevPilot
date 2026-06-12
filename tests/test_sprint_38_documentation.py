@@ -30,13 +30,13 @@ def test_sprint_38_readme_runbook_backlog_and_test_strategy_are_synchronized() -
     backlog = _read("docs/devpilot_backlog_fase_C_ingenieria_repositorio.md")
     test_strategy = _read("docs/04_quality/test_strategy.md")
 
-    assert "Último hito: `FUNC-SPRINT-40" in readme
-    assert "Siguiente hito: `FUNC-SPRINT-41" in readme
+    assert "Último hito: `FUNC-SPRINT-41" in readme
+    assert "Siguiente hito: `FUNC-SPRINT-42" in readme
     assert "## FUNC-SPRINT-38 — Architecture/code drift inicial" in runbook
     assert "python -m devpilot_core repo architecture-drift --json --write-report" in runbook
     assert 'phase_c_status: "in_progress"' in backlog
-    assert 'first_open_sprint: "FUNC-SPRINT-41"' in backlog
-    assert 'last_completed_sprint: "FUNC-SPRINT-40"' in backlog
+    assert 'first_open_sprint: "FUNC-SPRINT-42"' in backlog
+    assert 'last_completed_sprint: "FUNC-SPRINT-41"' in backlog
     assert "Estado de implementación Sprint 38" in backlog
     assert "Actualización FUNC-SPRINT-38 — Pruebas de Architecture/code drift" in test_strategy
 
@@ -57,7 +57,7 @@ def test_sprint_38_miasi_architecture_drift_tool_declared() -> None:
 
 def test_sprint_38_functional_backlog_points_to_sprint_39_without_overclaiming() -> None:
     functional_backlog = _read("docs/functional_backlog_after_precode.md")
-    assert 'next_sprint: "FUNC-SPRINT-41"' in functional_backlog
+    assert 'next_sprint: "FUNC-SPRINT-42"' in functional_backlog
     assert "Transición posterior a FUNC-SPRINT-38" in functional_backlog
     assert "no ejecuta código analizado" in functional_backlog
     assert "no modifica documentación" in functional_backlog

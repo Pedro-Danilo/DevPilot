@@ -465,3 +465,26 @@ Sprint 39 agrega pruebas específicas para `ReviewRulePack` y `repo quality-gate
 Sprint 40 agrega pruebas específicas para `PatchPreflightEngine` y `patch check`. La cobertura verifica patch aplicable PASS, patch no aplicable FAIL sin modificar archivos, patch con secreto sintético BLOCK sin emitir valor crudo, bloqueo de patch file fuera del workspace y CLI `patch check --json --write-report` con evidencia JSON/Markdown.
 
 Criterio de calidad: el preflight debe usar `SafeSubprocessRunner`, allowlist explícita para `git apply --check`, `PathGuard`/`PolicyEngine` y revisión previa de patch. La prueba de no mutación del working tree es obligatoria porque esta capacidad no es sandbox ni patch apply.
+
+
+## Actualización FUNC-SPRINT-41 — Pruebas de PatchSandbox y ChangeSet
+
+`FUNC-SPRINT-41` agrega pruebas específicas para validar sandbox y ChangeSet sin modificar el workspace productivo. La suite cubre:
+
+- aplicación de `safe.patch` únicamente dentro de `outputs/sandbox`;
+- generación de `ChangeSet` serializable con hashes y sin contenido crudo;
+- limpieza explícita del sandbox runtime mediante `--cleanup`;
+- bloqueo de `--run-tests` sin aprobación `tests.run`;
+- CLI `patch sandbox --json --write-report`.
+
+Comandos de verificación:
+
+```powershell
+$env:PYTHONPATH="src"
+python -m pytest tests/test_patch_sandbox.py tests/test_sprint_41_documentation.py -q
+python -m pytest -q
+```
+
+Criterio PASS: la prueba confirma que el archivo productivo referenciado por el patch conserva su contenido original y que los cambios existen solo en la copia del sandbox.
+
+Criterio BLOCK: cualquier mutación productiva, falta de `ChangeSet`, emisión de contenido crudo, ejecución de pruebas sin aprobación o ausencia de exclusión `outputs/sandbox/`.

@@ -2674,3 +2674,60 @@ python -m devpilot_core patch check --patch-file outputs\candidate.patch --json
 ### Riesgos y límites
 
 Esta versión es `implemented-initial`. No reemplaza sandbox, ChangeSet, rollback, revisión humana ni SAST/SCA. No debe confundirse con `patch apply`: no modifica el workspace productivo y no habilita Git write.
+
+
+## FUNC-SPRINT-41 — PatchSandbox y ChangeSet model
+
+### Propósito
+
+Probar un patch fuera del workspace productivo y producir un `ChangeSet` auditable antes de cualquier flujo futuro de aplicación real o rollback.
+
+### Comandos
+
+```powershell
+$env:PYTHONPATH="src"
+python -m devpilot_core patch sandbox --patch-file safe.patch --json
+python -m devpilot_core patch sandbox --patch-file safe.patch --json --write-report
+python -m devpilot_core patch sandbox --patch-file safe.patch --json --write-report --cleanup
+```
+
+Ejecución opcional de pruebas en sandbox, approval-gated:
+
+```powershell
+$env:PYTHONPATH="src"
+python -m devpilot_core approval request --tool tests.run --action execute --subject sandbox:smoke --actor Ordóñez --reason "FUNC-SPRINT-41 sandbox smoke" --json
+python -m devpilot_core approval approve <APPROVAL_ID> --actor Ordóñez --reason "Approve sandbox smoke" --json
+python -m devpilot_core patch sandbox --patch-file safe.patch --run-tests --approval-id <APPROVAL_ID> --json --write-report --cleanup
+```
+
+### Funcionamiento
+
+1. Ejecuta `patch check` como preflight.
+2. Copia el workspace a `outputs/sandbox/<sandbox_id>/workspace`, excluyendo `.git`, caches, virtualenvs, outputs y bases SQLite runtime.
+3. Aplica el patch únicamente en la copia del sandbox.
+4. Calcula hashes antes/después de los archivos afectados y genera `ChangeSet`.
+5. Verifica que los archivos productivos referenciados por el patch no cambiaron.
+6. Si se solicita `--run-tests`, ejecuta un perfil fijo de pruebas dentro del sandbox solo con aprobación válida.
+
+### Criterios PASS
+
+- El patch se aplica en `outputs/sandbox` y no en el workspace productivo.
+- `ChangeSet` es serializable y contiene hashes, tamaños y acciones por archivo.
+- No se emiten contenido crudo de patch ni secretos.
+- `--write-report` genera `outputs/reports/patch_sandbox.json` y `.md`.
+- `--cleanup` remueve el sandbox runtime.
+
+### Criterios BLOCK
+
+- El preflight falla o bloquea.
+- El sandbox modifica archivos productivos.
+- Se intenta ejecutar pruebas sin aprobación `tests.run`.
+- El patch no produce `ChangeSet`.
+- Se intenta limpiar una ruta fuera de `outputs/sandbox`.
+
+### Riesgos y límites
+
+- Implementación inicial: no hay rollback ejecutable; solo preview de rollback para `FUNC-SPRINT-42`.
+- El sandbox es una copia local y puede diferir del workspace si hay archivos ignorados necesarios para una prueba.
+- Patches grandes pueden ocupar espacio; usar `--cleanup` cuando no se requiera inspección manual.
+- No habilita Git write, commits, push, deploy ni refactor execution.

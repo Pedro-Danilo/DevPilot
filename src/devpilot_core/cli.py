@@ -24,6 +24,7 @@ from .repo import ArchitectureDriftDetector, DependencyGraphBuilder, GitAdapter,
 from .repo.diff_report import GitDiffReportBuilder
 from .refactor import RefactorPlanner
 from .review import CodeReviewEngine, PatchPreflightEngine, PatchReviewEngine
+from .sandbox import PatchSandboxManager
 from .standards.registry import build_standards_status_result
 from .store import LocalStore
 from .traceability import MarkdownTraceabilityExtractor, TraceabilityEngine
@@ -596,6 +597,48 @@ def patch_check_command(
     _persist_result(root, result, subject=patch_file)
     print_result(result, json_output=json_output)
     return int(result.exit_code)
+
+def patch_sandbox_command(
+    *,
+    patch_file: str,
+    run_tests: bool = False,
+    test_profile: str = "smoke",
+    approval_id: str | None = None,
+    cleanup: bool = False,
+    timeout_seconds: int = 30,
+    json_output: bool = False,
+    write_report: bool = False,
+) -> int:
+    """Run Sprint 41 patch sandbox and ChangeSet generation.
+
+    The command applies a preflight-approved patch only to a sandbox copy under
+    outputs/sandbox, generates a ChangeSet with hashes and never mutates the
+    productive workspace. Optional sandbox tests are fixed-profile and approval
+    gated.
+    """
+
+    root = project_root()
+    result = PatchSandboxManager(root).apply(
+        patch_file=patch_file,
+        run_tests=run_tests,
+        test_profile=test_profile,
+        approval_id=approval_id,
+        cleanup=cleanup,
+        timeout_seconds=timeout_seconds,
+    )
+    result = _write_optional_command_report(
+        root,
+        result,
+        subject=patch_file,
+        report_id="patch_sandbox",
+        write_report=write_report,
+        metadata={"sprint": "FUNC-SPRINT-41", "component": "PatchSandboxManager"},
+    )
+    _emit_result_event(root, result, subject=patch_file)
+    _persist_result(root, result, subject=patch_file)
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
 
 def patch_review_command(
     *,
@@ -1841,6 +1884,16 @@ def build_parser() -> argparse.ArgumentParser:
     patch_check.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     patch_check.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
 
+    patch_sandbox = patch_sub.add_parser("sandbox", help="Apply a patch only inside an outputs/sandbox workspace and emit a ChangeSet")
+    patch_sandbox.add_argument("--patch-file", required=True, help="Patch/diff file to apply inside sandbox")
+    patch_sandbox.add_argument("--run-tests", action="store_true", help="Run fixed sandbox tests after patch application; requires approval-id")
+    patch_sandbox.add_argument("--test-profile", choices=["smoke", "unit"], default="smoke", help="Fixed sandbox pytest profile to run when --run-tests is set")
+    patch_sandbox.add_argument("--approval-id", default=None, help="Approval id required for optional sandbox tests.run execution")
+    patch_sandbox.add_argument("--cleanup", action="store_true", help="Remove the sandbox directory after generating ChangeSet evidence")
+    patch_sandbox.add_argument("--timeout-seconds", type=int, default=30, help="Timeout for sandbox git apply and optional test subprocesses")
+    patch_sandbox.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    patch_sandbox.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+
     patch_review = sub.add_parser("patch-review", help="Review a unified diff/patch in dry-run mode")
     patch_review.add_argument("--patch-file", default=None, help="Patch/diff file to read within the workspace")
     patch_review.add_argument("--patch-text", default=None, help="Inline patch text for small synthetic reviews")
@@ -2026,6 +2079,12 @@ def _command_name_from_args(args: argparse.Namespace) -> str:
     if command == "model":
         subcommand = getattr(args, "model_command", None)
         return f"model {subcommand}" if subcommand else "model"
+    if command == "repo":
+        subcommand = getattr(args, "repo_command", None)
+        return f"repo {subcommand}" if subcommand else "repo"
+    if command == "patch":
+        subcommand = getattr(args, "patch_command", None)
+        return f"patch {subcommand}" if subcommand else "patch"
     return command or "help"
 
 
@@ -2215,6 +2274,17 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
             return patch_check_command(
                 patch_file=args.patch_file,
                 approval_id=args.approval_id,
+                timeout_seconds=args.timeout_seconds,
+                json_output=args.json,
+                write_report=args.write_report,
+            )
+        if args.patch_command == "sandbox":
+            return patch_sandbox_command(
+                patch_file=args.patch_file,
+                run_tests=args.run_tests,
+                test_profile=args.test_profile,
+                approval_id=args.approval_id,
+                cleanup=args.cleanup,
                 timeout_seconds=args.timeout_seconds,
                 json_output=args.json,
                 write_report=args.write_report,

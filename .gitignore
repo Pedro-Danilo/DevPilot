@@ -65,3 +65,6 @@ outputs/evals/
 outputs/drafts/
 
 .devpilot/providers.yaml
+
+# DevPilot patch sandboxes (runtime only)
+outputs/sandbox/

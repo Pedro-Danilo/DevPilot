@@ -93,3 +93,14 @@ Restricciones: sin Git write, sin patch apply, sin red, sin APIs externas, sin m
 `patch.check` queda declarada como tool MIASI de Fase C en estado `implemented-initial`. No requiere approval porque no aplica patches ni modifica el workspace productivo; aun así se clasifica como riesgo alto por ejecutar una verificación Git local controlada.
 
 Restricciones: solo `git apply --check` mediante `SafeSubprocessRunner` y allowlist explícita, sin `shell=True`, sin Git write, sin patch apply, sin sandbox, sin rollback, sin red, sin APIs externas, sin modelos y sin secretos crudos en reportes. `BLOCK` representa riesgo/política/seguridad; `FAIL` representa no aplicabilidad del patch.
+
+
+## Estado operacional PatchSandbox
+
+`patch.sandbox` queda declarado como tool MIASI de riesgo alto con side effect `controlled_write`. La tool ejecuta `PatchPreflightEngine`, aplica el patch solo dentro de `outputs/sandbox`, genera un `ChangeSet` con hashes antes/después y mantiene bloqueada cualquier aplicación sobre el workspace productivo.
+
+Criterios PASS: sandbox bajo `outputs/sandbox`, ChangeSet sin contenido crudo, preflight obligatorio, no Git write y reportes auditables.
+
+Criterios BLOCK: mutación productiva, omisión de preflight, secretos crudos en evidencia, pruebas sin aprobación `tests.run`, rollback ejecutable no autorizado o escritura fuera de rutas runtime controladas.
+
+Riesgos: capacidad `implemented-initial`; el rollback ejecutable pertenece a `FUNC-SPRINT-42` y la aplicación real de patches al workspace productivo permanece fuera de alcance.

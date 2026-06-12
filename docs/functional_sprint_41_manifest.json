@@ -1,0 +1,81 @@
+{
+  "sprint": "FUNC-SPRINT-41",
+  "title": "PatchSandbox y ChangeSet model",
+  "status": "implemented",
+  "implemented_at": "2026-06-11",
+  "phase": "FASE-C-INGENIERIA-DE-REPOSITORIO",
+  "wave": "Ola 5 — Sandbox, patch/refactor ejecutable y rollback",
+  "source_backlog": "docs/devpilot_backlog_fase_C_ingenieria_repositorio.md",
+  "architectural_decision": {
+    "required": false,
+    "adr": null,
+    "reason": "FUNC-SPRINT-41 implementa una capacidad prevista explícitamente por Fase C usando componentes ya aprobados: PatchPreflightEngine, PolicyEngine, SafeSubprocessRunner, Approval Workflow y ReportEngine. No introduce dependencias externas, red, APIs, modelos, Git write, rollback ejecutable, refactor execution ni deploy. La allowlist de git apply real se genera solo como artefacto runtime dentro de outputs/sandbox y no modifica la allowlist global."
+  },
+  "created_files": [
+    "src/devpilot_core/sandbox/__init__.py",
+    "src/devpilot_core/sandbox/patch_sandbox.py",
+    "src/devpilot_core/changes/__init__.py",
+    "src/devpilot_core/changes/models.py",
+    "tests/test_patch_sandbox.py",
+    "tests/test_sprint_41_documentation.py",
+    "docs/audits/func_sprint_41_patch_sandbox_changeset_audit.md",
+    "docs/functional_sprint_41_manifest.json"
+  ],
+  "modified_files": [
+    ".devpilot/miasi/agent_registry.json",
+    ".devpilot/miasi/policy_matrix.json",
+    ".devpilot/miasi/tool_registry.json",
+    ".gitignore",
+    "README.md",
+    "docs/04_quality/test_strategy.md",
+    "docs/05_operations/runbook.md",
+    "docs/06_miasi/tool_card.md",
+    "docs/06_miasi/tool_registry.md",
+    "docs/devpilot_backlog_fase_C_ingenieria_repositorio.md",
+    "docs/functional_backlog_after_precode.md",
+    "src/devpilot_core/cli.py",
+    "tests/test_sprint_35_documentation.py",
+    "tests/test_sprint_36_documentation.py",
+    "tests/test_sprint_37_documentation.py",
+    "tests/test_sprint_38_documentation.py",
+    "tests/test_sprint_39_documentation.py",
+    "tests/test_sprint_40_documentation.py"
+  ],
+  "commands": [
+    "python -m devpilot_core patch sandbox --patch-file safe.patch --json",
+    "python -m devpilot_core patch sandbox --patch-file safe.patch --json --write-report",
+    "python -m devpilot_core patch sandbox --patch-file safe.patch --json --write-report --cleanup",
+    "python -m devpilot_core miasi validate --json",
+    "python -m pytest -q"
+  ],
+  "tests": [
+    "tests/test_patch_sandbox.py",
+    "tests/test_sprint_41_documentation.py"
+  ],
+  "pass_criteria": [
+    "PatchSandboxManager runs PatchPreflightEngine before sandbox application.",
+    "The command supports patch sandbox --patch-file ... --json.",
+    "The command supports --write-report and --cleanup.",
+    "The patch is applied only inside outputs/sandbox.",
+    "The productive workspace remains unchanged.",
+    "ChangeSet is generated with file actions and before/after hashes.",
+    "Optional sandbox tests are approval-gated.",
+    "MIASI declares patch.sandbox and PATCH_SANDBOX_RUNTIME_ALLOW."
+  ],
+  "block_criteria": [
+    "Patch sandbox modifies productive workspace files.",
+    "Sandbox apply omits preflight.",
+    "Sandbox test execution runs without tests.run approval.",
+    "ChangeSet includes raw file contents or raw patch text.",
+    "Cleanup can remove paths outside outputs/sandbox.",
+    "The sprint enables real patch apply, rollback execution, Git write, deploy or refactor execution."
+  ],
+  "risks": [
+    "Sandbox copy can differ from the productive workspace due to ignored runtime files.",
+    "Large sandboxes can consume disk space; cleanup is explicit.",
+    "Sandbox apply is not semantic correctness nor SAST/SCA.",
+    "Rollback execution remains future FUNC-SPRINT-42 scope."
+  ],
+  "preliminary": true,
+  "next_sprint": "FUNC-SPRINT-42 — RollbackManager y backup local controlado"
+}

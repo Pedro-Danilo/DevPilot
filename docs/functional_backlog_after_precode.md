@@ -14,7 +14,7 @@ change_policy: "controlled_changes_allowed_via_docs_as_code"
 approved_on: "2026-06-06"
 approval_scope: "functional_backlog_after_precode"
 baseline_execution: "FUNC-SPRINT-00"
-next_sprint: "FUNC-SPRINT-41"
+next_sprint: "FUNC-SPRINT-42"
 ---
 
 # DevPilot Local — Backlog ejecutable posterior a pre-code
@@ -2066,3 +2066,12 @@ Estado real:
 - no usa LLM, red ni APIs externas.
 
 Siguiente sprint operativo: `FUNC-SPRINT-41 — PatchSandbox y ChangeSet model`.
+
+
+## Transición posterior a FUNC-SPRINT-41
+
+`FUNC-SPRINT-41` habilita `PatchSandboxManager` y `ChangeSet` como primera capacidad de sandbox de Fase C. La implementación aplica patches solo en `outputs/sandbox`, no aplica patches al workspace productivo, no ejecuta Git write, no habilita refactor execution y el rollback ejecutable sigue fuera de alcance hasta `FUNC-SPRINT-42`.
+
+Capacidad nueva: `patch sandbox --patch-file ...` genera evidencia y `ChangeSet` preliminar. `--run-tests` queda approval-gated porque ejecuta código dentro de la copia del workspace.
+
+Git write sigue bloqueado en esta transición; no hay commit, tag, push ni checkout automático.
