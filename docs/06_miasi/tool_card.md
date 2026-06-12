@@ -487,3 +487,20 @@ Riesgos: capacidad `implemented-initial`; el rollback ejecutable pertenece a `FU
 Criterios PASS: planes serializables, backups bajo `.devpilot/rollback/`, redacción de evidencia, bloqueo de secretos, list/show read-only.
 
 Criterios BLOCK: ejecución sin aprobación, paths fuera del workspace, backups con secretos detectables, runtime points versionados o restauración automática no autorizada.
+
+
+## Tool Card — RefactorExecutor controlado en sandbox
+
+Herramienta: `refactor.sandbox`.
+
+Propósito: ejecutar planes de refactor revisables únicamente en `outputs/sandbox`, con approval explícito, `ChangeSet`, rollback plan y pruebas opcionales.
+
+Tool contract: requiere `target`, `plan_id` y `approval_id`. El subject de approval es `refactor:<plan_id>:<target>`. Si se solicitan pruebas se requiere además approval `tests.run` con subject `sandbox:<profile>`.
+
+Side effects: `controlled_write` limitado a `outputs/sandbox` y metadata runtime de `.devpilot/rollback`.
+
+Criterios PASS: approval válido, target workspace-local, plan id conocido, transformación determinística, workspace productivo intacto, ChangeSet y rollback plan generados.
+
+Criterios BLOCK: approval ausente o con scope incorrecto, target fuera de root, plan ambiguo, ausencia de cambios determinísticos, mutación productiva, rollback plan fallido o tests sin approval.
+
+Riesgos: capacidad `implemented-initial`; no realiza refactors semánticos, no aplica al workspace productivo y debe evolucionar hacia operaciones AST/IDE-like con validadores más fuertes.

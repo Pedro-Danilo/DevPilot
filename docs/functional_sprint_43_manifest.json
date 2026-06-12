@@ -1,0 +1,83 @@
+{
+  "sprint": "FUNC-SPRINT-43",
+  "title": "RefactorExecutor controlado en sandbox",
+  "status": "implemented",
+  "implemented_at": "2026-06-12",
+  "phase": "FASE-C-INGENIERIA-DE-REPOSITORIO",
+  "wave": "Ola 5 — Sandbox, patch/refactor ejecutable y rollback",
+  "source_backlog": "docs/devpilot_backlog_fase_C_ingenieria_repositorio.md",
+  "architectural_decision": {
+    "required": false,
+    "adr": null,
+    "reason": "FUNC-SPRINT-43 implementa una capacidad prevista explícitamente por Fase C usando componentes existentes: RefactorPlanner, PolicyEngine, Approval Workflow, ChangeSet, RollbackManager, ReportEngine, EventLogger y SafeSubprocessRunner. No introduce dependencias externas, red, APIs, modelos, Git write, refactor semántico libre, escritura productiva ni deploy."
+  },
+  "created_files": [
+    "src/devpilot_core/refactor/executor.py",
+    "tests/test_refactor_executor.py",
+    "tests/test_sprint_43_documentation.py",
+    "docs/audits/func_sprint_43_refactor_executor_sandbox_audit.md",
+    "docs/functional_sprint_43_manifest.json",
+    "tests/fixtures/refactor_executor_project/refactor_sample.py"
+  ],
+  "modified_files": [
+    ".devpilot/miasi/agent_registry.json",
+    ".devpilot/miasi/policy_matrix.json",
+    ".devpilot/miasi/tool_registry.json",
+    "README.md",
+    "docs/04_quality/test_strategy.md",
+    "docs/05_operations/runbook.md",
+    "docs/06_miasi/tool_card.md",
+    "docs/06_miasi/tool_registry.md",
+    "docs/devpilot_backlog_fase_C_ingenieria_repositorio.md",
+    "docs/functional_backlog_after_precode.md",
+    "src/devpilot_core/cli.py",
+    "src/devpilot_core/refactor/__init__.py",
+    "tests/test_sprint_32_documentation.py",
+    "tests/test_sprint_33_documentation.py",
+    "tests/test_sprint_34_documentation.py",
+    "tests/test_sprint_35_documentation.py",
+    "tests/test_sprint_36_documentation.py",
+    "tests/test_sprint_37_documentation.py",
+    "tests/test_sprint_38_documentation.py",
+    "tests/test_sprint_39_documentation.py",
+    "tests/test_sprint_40_documentation.py",
+    "tests/test_sprint_41_documentation.py",
+    "tests/test_sprint_42_documentation.py"
+  ],
+  "commands": [
+    "python -m devpilot_core refactor-plan --target tests/fixtures/refactor_executor_project --json",
+    "python -m devpilot_core approval request --tool refactor.sandbox --action execute --subject refactor:RF-001:tests/fixtures/refactor_executor_project --json",
+    "python -m devpilot_core refactor sandbox --target tests/fixtures/refactor_executor_project --plan-id RF-001 --approval-id <approval_id> --json",
+    "python -m devpilot_core refactor sandbox --target tests/fixtures/refactor_executor_project --plan-id RF-001 --approval-id <approval_id> --run-tests --tests-approval-id <tests_approval_id> --json",
+    "python -m devpilot_core miasi validate --json",
+    "python -m pytest -q"
+  ],
+  "tests": [
+    "tests/test_refactor_executor.py",
+    "tests/test_sprint_43_documentation.py"
+  ],
+  "pass_criteria": [
+    "Refactor execution occurs only inside outputs/sandbox.",
+    "refactor.sandbox requires scoped approval for side effects.",
+    "Unknown or ambiguous plan ids are blocked.",
+    "Productive workspace remains unchanged.",
+    "ChangeSet and rollback plan are generated.",
+    "Optional tests.run execution is approval-gated."
+  ],
+  "block_criteria": [
+    "RefactorExecutor modifies productive workspace files.",
+    "refactor.sandbox runs without valid approval.",
+    "Executor accepts unknown, ambiguous or non-deterministic plans.",
+    "PolicyEngine is bypassed.",
+    "Rollback plan is omitted.",
+    "Arbitrary commands, Git write, LLM calls or external APIs are enabled."
+  ],
+  "risks": [
+    "The initial executor supports only mechanical Python text normalization.",
+    "Sandbox success can create a false sense of production safety if not reviewed by a human.",
+    "Future semantic refactors require AST-aware operations, stronger tests and approval workflows.",
+    "Rollback execution remains non-mutating until future restore semantics."
+  ],
+  "preliminary": true,
+  "next_sprint": "FUNC-SPRINT-44 — Cierre Fase C: repository engineering quality gate"
+}

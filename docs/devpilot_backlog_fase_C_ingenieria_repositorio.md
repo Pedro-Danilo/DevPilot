@@ -13,9 +13,9 @@ source_report: "Informe de avance DevPilot - sprint 0 - 18.docx"
 source_backlog_model: "docs/functional_backlog_after_precode.md"
 baseline_dependency: "Fase A cerrada por FUNC-SPRINT-27 y Fase B cerrada por FUNC-SPRINT-34"
 first_sprint: "FUNC-SPRINT-35"
-first_open_sprint: "FUNC-SPRINT-43"
+first_open_sprint: "FUNC-SPRINT-44"
 phase_c_status: "in_progress"
-last_completed_sprint: "FUNC-SPRINT-42"
+last_completed_sprint: "FUNC-SPRINT-43"
 last_planned_sprint: "FUNC-SPRINT-44"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "phase_c_executable_backlog_review"
@@ -986,6 +986,17 @@ python -m pytest -q
 ```text
 Implementa FUNC-SPRINT-43: RefactorExecutor controlado en sandbox, limitado a transformaciones mecánicas, con approval, ChangeSet, rollback y tests.
 ```
+
+
+
+
+## Estado de implementación Sprint 43
+
+`FUNC-SPRINT-43 — RefactorExecutor controlado en sandbox` queda implementado como capacidad `implemented-initial` de Fase C. El nuevo módulo `refactor.executor` ejecuta únicamente transformaciones mecánicas determinísticas sobre archivos Python dentro de `outputs/sandbox`, exige approval explícito para `refactor.sandbox`, genera `ChangeSet`, crea rollback plan mediante `RollbackManager` y permite pruebas fijas en sandbox con approval separado de `tests.run`.
+
+Alcance explícito: no hay refactor semántico, no hay escritura productiva, no hay Git write, no hay ejecución arbitraria, no hay LLMs y no hay restauración automática. La evolución industrial deberá ampliar operaciones AST/IDE-like, validación semántica, cobertura de pruebas y revisión humana obligatoria antes de aplicar cambios reales.
+
+Siguiente sprint abierto: `FUNC-SPRINT-44 — Cierre Fase C: repository engineering quality gate`.
 
 
 # FUNC-SPRINT-44 — Cierre Fase C: repository engineering quality gate

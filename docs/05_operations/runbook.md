@@ -2773,3 +2773,61 @@ python -m devpilot_core rollback execute <rollback_id> --json
 ### Riesgos y limitaciones
 
 La capacidad es `implemented-initial`. No reemplaza rollback transaccional, no restaura archivos automáticamente, no integra Git reset, no ejecuta tests post-restore y no debe usarse como mecanismo de recuperación productiva completa hasta sprints posteriores.
+
+
+## FUNC-SPRINT-43 — RefactorExecutor controlado en sandbox
+
+### Propósito
+
+Permitir que un plan de refactor revisable se ejecute de forma controlada solo en sandbox, sin modificar el workspace productivo. La versión `implemented-initial` se limita a transformaciones mecánicas determinísticas en archivos Python: normalización de espacios finales y newline final.
+
+### Flujo operativo
+
+1. Generar o revisar plan:
+
+```powershell
+python -m devpilot_core refactor-plan --target tests/fixtures/refactor_executor_project --json
+```
+
+2. Solicitar y aprobar approval para el scope exacto:
+
+```powershell
+python -m devpilot_core approval request --tool refactor.sandbox --action execute --subject refactor:RF-001:tests/fixtures/refactor_executor_project --actor "Ordóñez" --reason "FUNC-SPRINT-43 refactor sandbox" --json
+python -m devpilot_core approval approve <APPROVAL_ID> --actor "Ordóñez" --reason "Approve Sprint 43 sandbox refactor" --json
+```
+
+3. Ejecutar sandbox:
+
+```powershell
+python -m devpilot_core refactor sandbox --target tests/fixtures/refactor_executor_project --plan-id RF-001 --approval-id <APPROVAL_ID> --json --write-report --cleanup
+```
+
+4. Ejecutar pruebas opcionales con approval separado:
+
+```powershell
+python -m devpilot_core approval request --tool tests.run --action execute --subject sandbox:smoke --actor "Ordóñez" --reason "FUNC-SPRINT-43 sandbox smoke tests" --json
+python -m devpilot_core approval approve <TESTS_APPROVAL_ID> --actor "Ordóñez" --reason "Approve sandbox smoke tests" --json
+python -m devpilot_core refactor sandbox --target tests/fixtures/refactor_executor_project --plan-id RF-001 --approval-id <REFACTOR_APPROVAL_ID> --run-tests --tests-approval-id <TESTS_APPROVAL_ID> --json --write-report --cleanup
+```
+
+### PASS
+
+- `refactor sandbox` exige approval válido para `refactor.sandbox`.
+- La mutación ocurre solo bajo `outputs/sandbox`.
+- El workspace productivo permanece intacto.
+- Se genera `ChangeSet` sin contenido crudo.
+- `RollbackManager` crea rollback plan y backup local controlado.
+- Las pruebas opcionales se ejecutan solo con approval `tests.run`.
+
+### BLOCK
+
+- Falta de approval o scope incorrecto.
+- `plan_id` ausente en el plan generado.
+- Target fuera del workspace o sin archivos `.py` soportados.
+- Plan sin cambios determinísticos.
+- Cualquier mutación detectada en workspace productivo.
+- Fallo o bloqueo del rollback plan.
+
+### Riesgos y límites
+
+La capacidad es `implemented-initial`. No ejecuta refactors semánticos, no aplica cambios al workspace real, no usa Git write, no invoca LLMs, no permite comandos arbitrarios y no sustituye revisión humana.

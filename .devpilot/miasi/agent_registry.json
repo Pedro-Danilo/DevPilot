@@ -212,7 +212,8 @@
         "patch.sandbox",
         "rollback.plan",
         "rollback.list",
-        "rollback.show"
+        "rollback.show",
+        "refactor.sandbox"
       ],
       "required_artifacts": [
         "Agent",
@@ -228,7 +229,8 @@
         "PATCH_CHECK_DRY_RUN_ALLOW",
         "PATCH_SANDBOX_RUNTIME_ALLOW",
         "ROLLBACK_PLAN_RUNTIME_ALLOW",
-        "ROLLBACK_READ_ALLOW"
+        "ROLLBACK_READ_ALLOW",
+        "REFACTOR_SANDBOX_EXECUTE_GATED"
       ],
       "approval_required": false,
       "observability_required": true,
@@ -283,7 +285,8 @@
         "rollback.plan",
         "rollback.list",
         "rollback.show",
-        "rollback.execute"
+        "rollback.execute",
+        "refactor.sandbox"
       ],
       "required_artifacts": [
         "Agent",
@@ -301,7 +304,8 @@
         "PATCH_SANDBOX_RUNTIME_ALLOW",
         "ROLLBACK_PLAN_RUNTIME_ALLOW",
         "ROLLBACK_READ_ALLOW",
-        "ROLLBACK_EXECUTE_GATED_BLOCKED"
+        "ROLLBACK_EXECUTE_GATED_BLOCKED",
+        "REFACTOR_SANDBOX_EXECUTE_GATED"
       ],
       "approval_required": true,
       "observability_required": true,
@@ -329,7 +333,8 @@
         "rollback.plan",
         "rollback.list",
         "rollback.show",
-        "rollback.execute"
+        "rollback.execute",
+        "refactor.sandbox"
       ],
       "required_artifacts": [
         "Agent",
@@ -346,7 +351,8 @@
         "PATCH_SANDBOX_RUNTIME_ALLOW",
         "ROLLBACK_PLAN_RUNTIME_ALLOW",
         "ROLLBACK_READ_ALLOW",
-        "ROLLBACK_EXECUTE_GATED_BLOCKED"
+        "ROLLBACK_EXECUTE_GATED_BLOCKED",
+        "REFACTOR_SANDBOX_EXECUTE_GATED"
       ],
       "approval_required": true,
       "observability_required": true,

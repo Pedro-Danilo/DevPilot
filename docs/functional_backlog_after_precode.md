@@ -14,7 +14,7 @@ change_policy: "controlled_changes_allowed_via_docs_as_code"
 approved_on: "2026-06-06"
 approval_scope: "functional_backlog_after_precode"
 baseline_execution: "FUNC-SPRINT-00"
-next_sprint: "FUNC-SPRINT-43"
+next_sprint: "FUNC-SPRINT-44"
 ---
 
 # DevPilot Local — Backlog ejecutable posterior a pre-code
@@ -2082,3 +2082,10 @@ Git write sigue bloqueado en esta transición; no hay commit, tag, push ni check
 `FUNC-SPRINT-42` habilita `RollbackManager` como primera versión local de backup/rollback controlado. La implementación crea rollback plans desde `ChangeSet`, registra rollback points runtime bajo `.devpilot/rollback/`, permite `rollback list/show` en modo read-only y mantiene `rollback execute` bloqueado sin aprobación y no-mutating incluso cuando se prepare su evolución.
 
 La transición hacia `FUNC-SPRINT-43` queda condicionada a mantener Git write bloqueado, no restaurar archivos automáticamente, no ejecutar acciones destructivas y usar rollback metadata como insumo para refactor sandbox controlado.
+
+
+## Transición posterior a FUNC-SPRINT-43
+
+`FUNC-SPRINT-43` habilita `RefactorExecutor` como primera ejecución controlada de refactor en sandbox. La implementación exige approval de `refactor.sandbox`, limita el cambio a transformaciones mecánicas determinísticas en archivos Python, emite `ChangeSet`, crea rollback plan y mantiene el workspace productivo intacto.
+
+La transición hacia `FUNC-SPRINT-44` queda condicionada a consolidar Fase C en un gate integral de ingeniería de repositorio. Sigue fuera de alcance aplicar refactors al workspace real, restaurar automáticamente rollback points, ejecutar Git write o aceptar planes no determinísticos.

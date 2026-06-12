@@ -22,7 +22,7 @@ from .security import PolicySimulationSuite, SecurityReadiness
 from .schemas import BuiltinContractValidator, SchemaRegistry, SchemaValidator
 from .repo import ArchitectureDriftDetector, DependencyGraphBuilder, GitAdapter, RepoAnalyzer, RepoInventory, RepoQualityGate, RepoQualityGateConfig
 from .repo.diff_report import GitDiffReportBuilder
-from .refactor import RefactorPlanner
+from .refactor import RefactorExecutor, RefactorPlanner
 from .review import CodeReviewEngine, PatchPreflightEngine, PatchReviewEngine
 from .sandbox import PatchSandboxManager
 from .changes import RollbackManager
@@ -793,6 +793,52 @@ def refactor_plan_command(
         report_id="refactor_plan",
         write_report=write_report,
         metadata={"sprint": "FUNC-SPRINT-16", "component": "RefactorPlanner"},
+    )
+    _emit_result_event(root, result, subject=target)
+    _persist_result(root, result, subject=target)
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+
+def refactor_sandbox_command(
+    *,
+    target: str,
+    plan_id: str,
+    approval_id: str | None,
+    run_tests: bool = False,
+    test_profile: str = "smoke",
+    tests_approval_id: str | None = None,
+    cleanup: bool = False,
+    timeout_seconds: int = 30,
+    json_output: bool = False,
+    write_report: bool = False,
+) -> int:
+    """Run FUNC-SPRINT-43 controlled refactor execution in sandbox.
+
+    RefactorExecutor requires scoped approval for sandbox side effects, applies
+    only deterministic mechanical transformations under outputs/sandbox, emits
+    a ChangeSet and creates a rollback plan. Optional tests require a separate
+    tests.run approval.
+    """
+
+    root = project_root()
+    result = RefactorExecutor(root).sandbox(
+        target=target,
+        plan_id=plan_id,
+        approval_id=approval_id,
+        run_tests=run_tests,
+        test_profile=test_profile,
+        tests_approval_id=tests_approval_id,
+        cleanup=cleanup,
+        timeout_seconds=timeout_seconds,
+    )
+    result = _write_optional_command_report(
+        root,
+        result,
+        subject=target,
+        report_id="refactor_sandbox",
+        write_report=write_report,
+        metadata={"sprint": "FUNC-SPRINT-43", "component": "RefactorExecutor", "plan_id": plan_id},
     )
     _emit_result_event(root, result, subject=target)
     _persist_result(root, result, subject=target)
@@ -2007,6 +2053,20 @@ def build_parser() -> argparse.ArgumentParser:
     refactor_plan.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     refactor_plan.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
 
+    refactor = sub.add_parser("refactor", help="Run controlled refactor commands")
+    refactor_sub = refactor.add_subparsers(dest="refactor_command")
+    refactor_sandbox = refactor_sub.add_parser("sandbox", help="Execute a deterministic refactor plan only inside sandbox")
+    refactor_sandbox.add_argument("--target", required=True, help="File or directory to refactor in sandbox")
+    refactor_sandbox.add_argument("--plan-id", required=True, help="Plan step id emitted by refactor-plan, for example RF-001")
+    refactor_sandbox.add_argument("--approval-id", required=True, help="Approval id scoped to refactor.sandbox/execute/refactor:<plan-id>:<target>")
+    refactor_sandbox.add_argument("--run-tests", action="store_true", help="Run fixed sandbox tests after refactor; requires --tests-approval-id")
+    refactor_sandbox.add_argument("--test-profile", choices=["smoke", "unit"], default="smoke", help="Fixed sandbox pytest profile to run when --run-tests is set")
+    refactor_sandbox.add_argument("--tests-approval-id", default=None, help="Approval id scoped to tests.run/execute/sandbox:<profile>")
+    refactor_sandbox.add_argument("--cleanup", action="store_true", help="Remove the sandbox directory after generating ChangeSet evidence")
+    refactor_sandbox.add_argument("--timeout-seconds", type=int, default=30, help="Timeout for optional sandbox test subprocesses")
+    refactor_sandbox.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    refactor_sandbox.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+
     agent = sub.add_parser("agent", help="Run local/mock DevPilot agents")
     agent_sub = agent.add_subparsers(dest="agent_command")
     agent_run = agent_sub.add_parser("run", help="Run a registered local/mock agent")
@@ -2409,6 +2469,22 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
         return code_review_command(target=args.target, json_output=args.json, write_report=args.write_report)
     if args.command == "refactor-plan":
         return refactor_plan_command(target=args.target, goal=args.goal, json_output=args.json, write_report=args.write_report)
+    if args.command == "refactor":
+        if args.refactor_command == "sandbox":
+            return refactor_sandbox_command(
+                target=args.target,
+                plan_id=args.plan_id,
+                approval_id=args.approval_id,
+                run_tests=args.run_tests,
+                test_profile=args.test_profile,
+                tests_approval_id=args.tests_approval_id,
+                cleanup=args.cleanup,
+                timeout_seconds=args.timeout_seconds,
+                json_output=args.json,
+                write_report=args.write_report,
+            )
+        parser.print_help()
+        return int(ExitCode.FAIL)
     if args.command == "eval":
         if args.eval_command == "run":
             return eval_run_command(

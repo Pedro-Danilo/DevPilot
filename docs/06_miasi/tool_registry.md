@@ -109,3 +109,10 @@ Riesgos: capacidad `implemented-initial`; el rollback ejecutable pertenece a `FU
 ## Estado operacional RollbackManager — FUNC-SPRINT-42
 
 Se agregan tools `rollback.plan`, `rollback.list`, `rollback.show` y `rollback.execute`. La capacidad es `implemented-initial`: permite crear y consultar rollback points locales, pero no habilita restauración automática. `rollback.execute` existe como frontera CLI gated y bloqueada por diseño hasta que futuros sprints definan restore semantics, pruebas post-rollback y aprobación humana completa.
+
+
+## Estado operacional RefactorExecutor — FUNC-SPRINT-43
+
+`refactor.sandbox` queda declarado como tool `implemented-initial`, de riesgo alto y approval obligatorio. Ejecuta únicamente transformaciones mecánicas determinísticas en sandbox, produce `ChangeSet`, invoca `RollbackManager` para rollback plan y permite pruebas fijas en sandbox con approval separado de `tests.run`.
+
+La herramienta no habilita escritura productiva, Git write, refactors semánticos, ejecución arbitraria ni APIs externas.

@@ -183,6 +183,15 @@
       "gate": "RollbackManager+ApprovalPolicyChecker+PathGuard+SecretGuard",
       "approval_required": true,
       "observability_required": true
+    },
+    {
+      "rule_id": "REFACTOR_SANDBOX_EXECUTE_GATED",
+      "domain": "Refactor",
+      "action": "execute",
+      "default_effect": "block",
+      "gate": "RefactorExecutor+ApprovalPolicyChecker+PathGuard+SecretGuard+RollbackManager+SafeSubprocessRunner",
+      "approval_required": true,
+      "observability_required": true
     }
   ]
 }

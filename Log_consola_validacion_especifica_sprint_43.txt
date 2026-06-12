@@ -1,0 +1,396 @@
+(.venv) PS D:\Projects\DevPilot_Local> python -m devpilot_core approval request `
+>>   --tool refactor.sandbox `
+>>   --action execute `
+>>   --subject refactor:RF-001:tests/fixtures/refactor_executor_project `
+>>   --actor "Ordóñez" `
+>>   --reason "FUNC-SPRINT-43 refactor sandbox verification" `
+>>   --json
+{
+  "command": "approval request",
+  "ok": true,
+  "exit_code": 0,
+  "message": "Approval request persisted.",
+  "data": {
+    "approval": {
+      "approval_id": "APPROVAL-41D7D48DB6AD",
+      "subject": "refactor:RF-001:tests/fixtures/refactor_executor_project",
+      "tool_id": "refactor.sandbox",
+      "action": "execute",
+      "status": "requested",
+      "actor": "Ordóñez",
+      "reason": "FUNC-SPRINT-43 refactor sandbox verification",
+      "scope": {
+        "action": "execute",
+        "subject": "refactor:RF-001:tests/fixtures/refactor_executor_project",
+        "tool_id": "refactor.sandbox"
+      },
+      "created_at": "2026-06-12T13:50:39Z",
+      "updated_at": "2026-06-12T13:50:39Z",
+      "expires_at": "2026-06-12T14:50:39Z",
+      "decision_at": null,
+      "decided_by": null,
+      "expired": false,
+      "metadata": {
+        "source": "approval-cli",
+        "sprint": "FUNC-SPRINT-29"
+      }
+    },
+    "summary": {
+      "created": true,
+      "approvals_total": 1,
+      "status": "requested",
+      "event_type": "approval.requested",
+      "preliminary": true
+    }
+  },
+  "findings": [
+    {
+      "id": "APPROVAL_REQUEST_PERSISTED",
+      "message": "Approval record persisted with scope and expiration.",
+      "severity": "info",
+      "metadata": {
+        "approval_id": "APPROVAL-41D7D48DB6AD",
+        "status": "requested"
+      }
+    }
+  ]
+}
+(.venv) PS D:\Projects\DevPilot_Local> python -m devpilot_core approval approve APPROVAL-41D7D48DB6AD `
+>>   --actor "Ordóñez" `
+>>   --reason "Approve Sprint 43 sandbox refactor" `
+>>   --json
+{
+  "command": "approval approve",
+  "ok": true,
+  "exit_code": 0,
+  "message": "Approval transition persisted.",
+  "data": {
+    "approval": {
+      "approval_id": "APPROVAL-41D7D48DB6AD",
+      "subject": "refactor:RF-001:tests/fixtures/refactor_executor_project",
+      "tool_id": "refactor.sandbox",
+      "action": "execute",
+      "status": "approved",
+      "actor": "Ordóñez",
+      "reason": "Approve Sprint 43 sandbox refactor",
+      "scope": {
+        "action": "execute",
+        "subject": "refactor:RF-001:tests/fixtures/refactor_executor_project",
+        "tool_id": "refactor.sandbox"
+      },
+      "created_at": "2026-06-12T13:50:39Z",
+      "updated_at": "2026-06-12T13:51:31Z",
+      "expires_at": "2026-06-12T14:50:39Z",
+      "decision_at": "2026-06-12T13:51:31Z",
+      "decided_by": "Ordóñez",
+      "expired": false,
+      "metadata": {
+        "command": "approval approve",
+        "source": "approval-cli",
+        "sprint": "FUNC-SPRINT-29"
+      }
+    },
+    "summary": {
+      "updated": true,
+      "status": "approved",
+      "event_type": "approval.approved",
+      "preliminary": true
+    }
+  },
+  "findings": [
+    {
+      "id": "APPROVAL_TRANSITION_PERSISTED",
+      "message": "Approval transition was persisted as an audited event.",
+      "severity": "info",
+      "metadata": {
+        "approval_id": "APPROVAL-41D7D48DB6AD",
+        "status": "approved"
+      }
+    }
+  ]
+}
+(.venv) PS D:\Projects\DevPilot_Local> python -m devpilot_core refactor sandbox `
+>>   --target tests/fixtures/refactor_executor_project `
+>>   --plan-id RF-001 `
+>>   --approval-id APPROVAL-41D7D48DB6AD `
+>>   --json `
+>>   --write-report `
+>>   --cleanup
+{
+  "command": "refactor sandbox",
+  "ok": true,
+  "exit_code": 0,
+  "message": "Refactor sandbox completed successfully.",
+  "data": {
+    "summary": {
+      "target": "tests/fixtures/refactor_executor_project",
+      "plan_id": "RF-001",
+      "sandbox_created": true,
+      "refactor_applied_to_productive_workspace": false,
+      "network_used": false,
+      "external_api_used": false,
+      "mutations_scope": "outputs/sandbox and .devpilot/rollback metadata only",
+      "preliminary": true,
+      "sandbox_id": "refactor-sandbox-20260612T135155Z-b675a6db",
+      "sandbox_workspace": "outputs/sandbox/refactor-sandbox-20260612T135155Z-b675a6db/workspace",
+      "approval_subject": "refactor:RF-001:tests/fixtures/refactor_executor_project",
+      "productive_workspace_unchanged": true,
+      "changed_files": 1,
+      "changeset_id": "changeset-04ed5880a6f34ee1",
+      "changeset_files": 1,
+      "rollback_plan_created": true,
+      "rollback_id": "rollback-db99d96e01aaf447",
+      "run_tests_requested": false,
+      "tests_executed": false,
+      "tests_ok": null,
+      "cleanup_requested": true,
+      "cleanup_removed": true,
+      "findings_total": 3,
+      "blocking_findings": 0,
+      "failing_findings": 0
+    },
+    "plan": {
+      "summary": {
+        "target": "tests/fixtures/refactor_executor_project",
+        "goal": "Sprint 43 sandbox execution",
+        "files_analyzed": 1,
+        "candidates_total": 0,
+        "steps_total": 3,
+        "findings_total": 1,
+        "dry_run": true,
+        "plan_only": true,
+        "files_modified": 0,
+        "patch_generated": false,
+        "tests_required": true,
+        "approval_required_for_execution": true
+      },
+      "selected_step": {
+        "step_id": "RF-001",
+        "title": "Freeze baseline and inspect current behavior",
+        "description": "Run the current quality gates before changing code and capture current git status.",
+        "target": "tests/fixtures/refactor_executor_project",
+        "phase": "baseline",
+        "required_tests": [
+          "python -m pytest -q",
+          "python -m devpilot_core code-review --target tests/fixtures/refactor_executor_project --json",
+          "python -m devpilot_core patch-review --patch-file <future-reviewed.patch> --json",
+          "python -m devpilot_core miasi validate --json",
+          "python -m devpilot_core eval run --json"
+        ],
+        "rollback": [
+          "git status --short",
+          "git diff -- tests/fixtures/refactor_executor_project",
+          "git restore --source=HEAD -- tests/fixtures/refactor_executor_project",
+          "python -m pytest -q"
+        ],
+        "approval_required": true,
+        "modifies_files": false
+      }
+    },
+    "policy": {
+      "command": "policy check",
+      "ok": true,
+      "exit_code": 0,
+      "message": "Policy check passed.",
+      "summary": {
+        "allowed": true,
+        "blocked": false,
+        "denied": false,
+        "warnings": 0,
+        "decisions_total": 6,
+        "guards": [
+          "ApprovalPolicyChecker",
+          "CostGuard",
+          "PathGuard",
+          "PromptInjectionGuard",
+          "SecretGuard",
+          "ToolInjectionGuard"
+        ],
+        "approval_required": true,
+        "approval_valid": true
+      },
+      "findings_total": 1,
+      "blocking_findings": 0,
+      "failing_findings": 0,
+      "warnings_total": 0
+    },
+    "tests_policy": null,
+    "changeset": {
+      "changeset_id": "changeset-04ed5880a6f34ee1",
+      "source_patch": "refactor:RF-001",
+      "sandbox_id": "refactor-sandbox-20260612T135155Z-b675a6db",
+      "sandbox_workspace": "outputs/sandbox/refactor-sandbox-20260612T135155Z-b675a6db/workspace",
+      "files_total": 1,
+      "files": [
+        {
+          "path": "tests/fixtures/refactor_executor_project/refactor_sample.py",
+          "action": "modify",
+          "before_sha256": "858a10f3e1c4a24c21213426c431072fb914fd96e2c98ae4e55bfaaa6834a537",
+          "after_sha256": "c65d7b8fb0c41566ead084387367879a443e4311bb35cdc1ce81a62203c9f14e",
+          "before_size_bytes": 57,
+          "after_size_bytes": 48
+        }
+      ],
+      "tests_requested": false,
+      "tests_result_summary": null,
+      "rollback_plan": {
+        "available": true,
+        "strategy": "rollback-manager-local-backup",
+        "notes": [
+          "FUNC-SPRINT-43 creates an explicit rollback plan from the sandbox ChangeSet.",
+          "Rollback execution remains approval-gated and non-mutating until future restore semantics are implemented."
+        ],
+        "preliminary": true
+      },
+      "metadata": {
+        "sprint": "FUNC-SPRINT-43",
+        "component": "RefactorExecutor",
+        "plan_id": "RF-001",
+        "plan_step_title": "Freeze baseline and inspect current behavior",
+        "operation": "normalize_python_trailing_whitespace_and_final_newline",
+        "network_used": false,
+        "external_api_used": false,
+        "raw_source_emitted": false
+      },
+      "preliminary": true
+    },
+    "rollback": {
+      "command": "rollback plan",
+      "ok": true,
+      "exit_code": 0,
+      "message": "Rollback plan created.",
+      "summary": {
+        "source": "refactor-sandbox:refactor-sandbox-20260612T135155Z-b675a6db",
+        "rollback_id": "rollback-db99d96e01aaf447",
+        "created": true,
+        "persisted": true,
+        "backup_available": true,
+        "backed_up_files": 1,
+        "operations_total": 1,
+        "execute_supported": false,
+        "approval_required_for_execute": true,
+        "runtime_root": ".devpilot/rollback",
+        "network_used": false,
+        "external_api_used": false,
+        "preliminary": true
+      },
+      "findings_total": 1,
+      "blocking_findings": 0,
+      "failing_findings": 0,
+      "warnings_total": 0
+    },
+    "rollback_point": {
+      "rollback_id": "rollback-db99d96e01aaf447",
+      "changeset_id": "changeset-04ed5880a6f34ee1",
+      "created_at": "2026-06-12T13:51:58Z",
+      "status": "planned",
+      "plan_path": ".devpilot/rollback/points/rollback-db99d96e01aaf447.json",
+      "backups_dir": ".devpilot/rollback/backups/rollback-db99d96e01aaf447",
+      "files_total": 1,
+      "backup_available": true,
+      "execute_supported": false,
+      "metadata": {
+        "source_changeset": "refactor-sandbox:refactor-sandbox-20260612T135155Z-b675a6db",
+        "preliminary": true
+      },
+      "preliminary": true
+    },
+    "tests": null,
+    "cleanup": {
+      "removed": true,
+      "sandbox_id": "refactor-sandbox-20260612T135155Z-b675a6db",
+      "path": "outputs/sandbox/refactor-sandbox-20260612T135155Z-b675a6db",
+      "preliminary": true
+    },
+    "notes": [
+      "FUNC-SPRINT-43 RefactorExecutor is implemented-initial and limited to deterministic mechanical Python text normalization.",
+      "The productive workspace is never modified by refactor sandbox.",
+      "Semantic refactors, AST rewrites and productive apply remain future work."
+    ],
+    "reports": {
+      "json": "outputs/reports/refactor_sandbox.json",
+      "markdown": "outputs/reports/refactor_sandbox.md"
+    }
+  },
+  "findings": [
+    {
+      "id": "REFACTOR_SANDBOX_POLICY_PASS",
+      "message": "Scoped approval and policy checks allowed sandbox refactor execution.",
+      "severity": "info",
+      "path": "tests/fixtures/refactor_executor_project"
+    },
+    {
+      "id": "REFACTOR_SANDBOX_CHANGESET_CREATED",
+      "message": "Refactor sandbox produced a ChangeSet from deterministic mechanical changes.",
+      "severity": "info",
+      "path": "tests/fixtures/refactor_executor_project",
+      "metadata": {
+        "changed_files": 1
+      }
+    },
+    {
+      "id": "REFACTOR_SANDBOX_ROLLBACK_PLAN_CREATED",
+      "message": "RollbackManager created a rollback plan for the sandbox ChangeSet.",
+      "severity": "info",
+      "path": ".devpilot/rollback/points/rollback-db99d96e01aaf447.json"
+    }
+  ]
+}
+(.venv) PS D:\Projects\DevPilot_Local> python -m devpilot_core approval request `
+>>   --tool tests.run `
+>>   --action execute `
+>>   --subject sandbox:smoke `
+>>   --actor "Ordóñez" `
+>>   --reason "FUNC-SPRINT-43 sandbox smoke tests" `
+>>   --json
+{
+  "command": "approval request",
+  "ok": true,
+  "exit_code": 0,
+  "message": "Approval request persisted.",
+  "data": {
+    "approval": {
+      "approval_id": "APPROVAL-2D30771AC7F9",
+      "subject": "sandbox:smoke",
+      "tool_id": "tests.run",
+      "action": "execute",
+      "status": "requested",
+      "actor": "Ordóñez",
+      "reason": "FUNC-SPRINT-43 sandbox smoke tests",
+      "scope": {
+        "action": "execute",
+        "subject": "sandbox:smoke",
+        "tool_id": "tests.run"
+      },
+      "created_at": "2026-06-12T13:52:17Z",
+      "updated_at": "2026-06-12T13:52:17Z",
+      "expires_at": "2026-06-12T14:52:17Z",
+      "decision_at": null,
+      "decided_by": null,
+      "expired": false,
+      "metadata": {
+        "source": "approval-cli",
+        "sprint": "FUNC-SPRINT-29"
+      }
+    },
+    "summary": {
+      "created": true,
+      "approvals_total": 1,
+      "status": "requested",
+      "event_type": "approval.requested",
+      "preliminary": true
+    }
+  },
+  "findings": [
+    {
+      "id": "APPROVAL_REQUEST_PERSISTED",
+      "message": "Approval record persisted with scope and expiration.",
+      "severity": "info",
+      "metadata": {
+        "approval_id": "APPROVAL-2D30771AC7F9",
+        "status": "requested"
+      }
+    }
+  ]
+}
+(.venv) PS D:\Projects\DevPilot_Local>

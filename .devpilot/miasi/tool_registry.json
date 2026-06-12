@@ -431,6 +431,20 @@
         "ROLLBACK_EXECUTE_GATED_BLOCKED",
         "SECRETS_RAW_DENY"
       ]
+    },
+    {
+      "tool_id": "refactor.sandbox",
+      "name": "refactor_executor_sandbox",
+      "phase": "MVP+",
+      "side_effect": "controlled_write",
+      "risk_level": "high",
+      "status": "implemented-initial",
+      "requires_approval": true,
+      "policy_rule_ids": [
+        "REFACTOR_SANDBOX_EXECUTE_GATED",
+        "ROLLBACK_PLAN_RUNTIME_ALLOW",
+        "SECRETS_RAW_DENY"
+      ]
     }
   ]
 }

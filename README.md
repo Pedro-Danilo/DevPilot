@@ -1,8 +1,8 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
 Estado actual: `baseline pre-code approved + Fase A cerrada + FASE-B cerrada + Fase C en progreso + PatchSandbox y ChangeSet implemented-initial`  
-Último hito: `FUNC-SPRINT-42 — RollbackManager y backup local controlado`  
-Siguiente hito: `FUNC-SPRINT-43 — RefactorExecutor controlado en sandbox`  
+Último hito: `FUNC-SPRINT-43 — RefactorExecutor controlado en sandbox`  
+Siguiente hito: `FUNC-SPRINT-44 — Cierre Fase C: repository engineering quality gate`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
@@ -1414,3 +1414,31 @@ python -m devpilot_core rollback execute <rollback_id> --json
 ```
 
 Restricciones: `.devpilot/rollback/` es runtime local excluido de Git/release; los backups se bloquean si contienen secretos detectables; `rollback execute` no restaura archivos en esta versión inicial y requiere aprobación válida antes de cualquier evolución futura.
+
+
+## RefactorExecutor controlado en sandbox — FUNC-SPRINT-43
+
+`FUNC-SPRINT-43` agrega `RefactorExecutor` como primera capacidad de ejecución controlada de refactor en sandbox. La capacidad es **implemented-initial**: exige approval explícito para `refactor.sandbox`, copia el workspace a `outputs/sandbox`, aplica únicamente transformaciones mecánicas determinísticas sobre archivos Python, genera `ChangeSet`, crea `rollback plan` mediante `RollbackManager` y puede ejecutar perfiles fijos de pruebas en sandbox con approval separado de `tests.run`.
+
+Comandos principales:
+
+```powershell
+python -m devpilot_core refactor-plan --target tests/fixtures/refactor_executor_project --json
+python -m devpilot_core approval request --tool refactor.sandbox --action execute --subject refactor:RF-001:tests/fixtures/refactor_executor_project --actor "Ordóñez" --reason "FUNC-SPRINT-43 refactor sandbox" --json
+python -m devpilot_core approval approve <APPROVAL_ID> --actor "Ordóñez" --reason "Approve Sprint 43 sandbox refactor" --json
+python -m devpilot_core refactor sandbox --target tests/fixtures/refactor_executor_project --plan-id RF-001 --approval-id <APPROVAL_ID> --json --write-report --cleanup
+```
+
+Para ejecutar pruebas dentro del sandbox se requiere approval adicional de `tests.run`:
+
+```powershell
+python -m devpilot_core approval request --tool tests.run --action execute --subject sandbox:smoke --actor "Ordóñez" --reason "FUNC-SPRINT-43 sandbox smoke tests" --json
+python -m devpilot_core approval approve <TESTS_APPROVAL_ID> --actor "Ordóñez" --reason "Approve sandbox smoke tests" --json
+python -m devpilot_core refactor sandbox --target tests/fixtures/refactor_executor_project --plan-id RF-001 --approval-id <REFACTOR_APPROVAL_ID> --run-tests --tests-approval-id <TESTS_APPROVAL_ID> --json --write-report --cleanup
+```
+
+PASS: ejecución solo en sandbox, approval válido, workspace productivo intacto, `ChangeSet` generado, rollback plan creado y pruebas opcionales ejecutadas solo con approval de `tests.run`.
+
+BLOCK: falta de approval, `plan_id` inexistente, target ambiguo/no soportado, ausencia de cambios determinísticos, modificación del workspace productivo, fallo de rollback plan o intento de ejecutar pruebas sin approval válido.
+
+Límites: esta versión no hace refactors semánticos, no reescribe AST, no aplica cambios al workspace productivo, no usa LLMs, no ejecuta comandos arbitrarios y no reemplaza revisión humana.
