@@ -38,11 +38,11 @@ def test_sprint_44_readme_runbook_backlog_and_test_strategy_are_synchronized() -
     assert "Siguiente hito: `Fase D" in readme
     assert "## FUNC-SPRINT-44 — Cierre Fase C: repository engineering quality gate" in runbook
     assert "python -m devpilot_core repo engineering-gate --profile full --json --write-report" in runbook
-    assert 'first_open_sprint: "FASE-D-BACKLOG-PENDIENTE"' in backlog
+    assert 'first_open_sprint: "FUNC-SPRINT-45"' in backlog
     assert 'last_completed_sprint: "FUNC-SPRINT-44"' in backlog
     assert 'phase_c_status: "completed"' in backlog
     assert "Estado de implementación Sprint 44" in backlog
-    assert 'next_sprint: "FASE-D-BACKLOG-PENDIENTE"' in functional_backlog
+    assert 'next_sprint: "FUNC-SPRINT-45"' in functional_backlog
     assert "Transición posterior a FUNC-SPRINT-44" in functional_backlog
     assert "Actualización FUNC-SPRINT-44 — Pruebas de Repository Engineering Gate" in test_strategy
 

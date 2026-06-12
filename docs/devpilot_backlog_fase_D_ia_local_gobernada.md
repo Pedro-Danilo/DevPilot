@@ -1,35 +1,45 @@
 ---
 title: "DevPilot Local — Backlog ejecutable Fase D: IA local gobernada"
 doc_id: "DEVPL-FUNC-BACKLOG-FASE-D-001"
-status: "draft-for-review"
-version: "0.1.0"
+status: "approved"
+version: "0.2.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
 phase: "FASE-D-IA-LOCAL-GOBERNADA"
-updated: "2026-06-09"
-source_repo: "repo_DevPilot_Local_22.zip"
+updated: "2026-06-12"
+source_repo: "repo_DevPilot_Local_55.zip"
 source_report: "Informe de avance DevPilot - sprint 0 - 18.docx"
 source_backlog_model: "docs/functional_backlog_after_precode.md"
-baseline_dependency: "Fases A, B y C aprobadas o explícitamente aceptadas como prerequisito"
+baseline_dependency: "Fases A, B y C cerradas; Fase C validada por FUNC-SPRINT-44 repo engineering-gate"
 first_sprint: "FUNC-SPRINT-45"
 last_planned_sprint: "FUNC-SPRINT-55"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "phase_d_executable_backlog_review"
+first_open_sprint: "FUNC-SPRINT-45"
+phase_d_status: "approved_not_started"
+approved_on: "2026-06-12"
+approval: "approved_after_phase_c_closure_review"
 ---
 
 # DevPilot Local — Backlog ejecutable Fase D: IA local gobernada
 
 ## Estado de aprobación funcional
 
-Este documento se entrega en estado `draft-for-review`. Su propósito es convertir la **Fase D — IA local gobernada** en un backlog de implementación ejecutable, siguiendo el modelo operativo usado en `docs/functional_backlog_after_precode.md`.
+Este documento queda promovido a estado `approved` después del cierre validado de `FUNC-SPRINT-44 — Cierre Fase C: repository engineering quality gate`. Su propósito es convertir la **Fase D — IA local gobernada** en un backlog de implementación ejecutable, siguiendo el modelo operativo usado en `docs/functional_backlog_after_precode.md`.
 
-La Fase D agrupa:
+La Fase D queda aprobada para iniciar por `FUNC-SPRINT-45 — ADR y contratos de proveedores locales`. La Fase D agrupa:
 
 - **Ola 6 — ModelAdapter real local-first**.
 - **Ola 7 — Agentes especializados monoagente**.
 
 Esta fase parte del estado actual de DevPilot con `ModelAdapter` mock, `ProviderRegistry`, bloqueo de APIs externas por `CostGuard`, MIASI Agent/Tool/Policy Registry, AgentRuntime documental inicial y Evaluation Harness offline. La Fase D busca introducir modelos locales reales y agentes especializados gobernados, sin habilitar APIs externas ni multiagente todavía.
+
+## Estado aprobado para implementación
+
+La revisión de cierre de Fase C confirma que este backlog es una continuación apropiada de DevPilot porque parte de capacidades ya cerradas: Approval Workflow, SafeSubprocessRunner, `tests.run`, Schema/Validation Gateway, Git/Repo read-only, PatchSandbox, RollbackManager, RefactorExecutor sandbox y `repo engineering-gate`.
+
+La aprobación no autoriza APIs externas ni agentes autónomos. La implementación debe comenzar por contratos/ADR de proveedores locales, mantener `mock` como ruta obligatoria para pruebas y tratar Ollama/LM Studio como capacidades opcionales, locales y gobernadas.
 
 ## 1. Propósito
 

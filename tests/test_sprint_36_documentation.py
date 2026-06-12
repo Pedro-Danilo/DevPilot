@@ -34,7 +34,7 @@ def test_sprint_36_readme_runbook_and_phase_c_backlog_are_synchronized() -> None
     assert "## FUNC-SPRINT-36 — DependencyGraph e import graph Python" in runbook
     assert "python -m devpilot_core repo dependency-graph --target src/devpilot_core --json --write-report" in runbook
     assert 'phase_c_status: "completed"' in backlog
-    assert 'first_open_sprint: "FASE-D-BACKLOG-PENDIENTE"' in backlog
+    assert 'first_open_sprint: "FUNC-SPRINT-45"' in backlog
     assert 'last_completed_sprint: "FUNC-SPRINT-44"' in backlog
     assert "Estado de implementación Sprint 36" in backlog
 
@@ -55,7 +55,7 @@ def test_sprint_36_miasi_dependency_graph_tool_declared() -> None:
 
 def test_sprint_36_functional_backlog_points_to_sprint_37_without_overclaiming() -> None:
     functional_backlog = _read("docs/functional_backlog_after_precode.md")
-    assert 'next_sprint: "FASE-D-BACKLOG-PENDIENTE"' in functional_backlog
+    assert 'next_sprint: "FUNC-SPRINT-45"' in functional_backlog
     assert "Transición posterior a FUNC-SPRINT-36" in functional_backlog
     assert "no ejecuta código analizado" in functional_backlog
     assert "no habilita patch apply" in functional_backlog

@@ -36,10 +36,10 @@ def test_sprint_42_readme_runbook_backlog_and_test_strategy_are_synchronized() -
     assert "Siguiente hito: `Fase D" in readme
     assert "## FUNC-SPRINT-42 — RollbackManager y backup local controlado" in runbook
     assert "python -m devpilot_core rollback list --json" in runbook
-    assert 'first_open_sprint: "FASE-D-BACKLOG-PENDIENTE"' in backlog
+    assert 'first_open_sprint: "FUNC-SPRINT-45"' in backlog
     assert 'last_completed_sprint: "FUNC-SPRINT-44"' in backlog
     assert "Estado de implementación Sprint 42" in backlog
-    assert 'next_sprint: "FASE-D-BACKLOG-PENDIENTE"' in functional_backlog
+    assert 'next_sprint: "FUNC-SPRINT-45"' in functional_backlog
     assert "Transición posterior a FUNC-SPRINT-42" in functional_backlog
     assert "Actualización FUNC-SPRINT-42 — Pruebas de RollbackManager" in test_strategy
     assert ".devpilot/rollback/" in gitignore

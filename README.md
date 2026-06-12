@@ -1,11 +1,18 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
-Estado actual: `baseline pre-code approved + Fase A cerrada + FASE-B cerrada + Fase C en progreso + PatchSandbox y ChangeSet implemented-initial`  
+Estado actual: `baseline pre-code approved + Fase A cerrada + FASE-B cerrada + Fase C cerrada + Fase D aprobada para implementación`  
 Último hito: `FUNC-SPRINT-44 — Cierre Fase C: repository engineering quality gate`  
-Siguiente hito: `Fase D — IA local gobernada (backlog pendiente de aprobación)`  
+Siguiente hito: `Fase D — IA local gobernada / FUNC-SPRINT-45 — ADR y contratos de proveedores locales`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
+
+
+## Aprobación Fase D — IA local gobernada
+
+Después del cierre validado de `FUNC-SPRINT-44`, el backlog `docs/devpilot_backlog_fase_D_ia_local_gobernada.md` queda promovido a `approved` para iniciar `FUNC-SPRINT-45 — ADR y contratos de proveedores locales`.
+
+La aprobación no habilita proveedores externos, APIs pagas, multiagente funcional ni agentes autónomos. Fase D mantiene `mock` como ruta obligatoria/default, trata Ollama/LM Studio como proveedores locales opcionales y exige ModelAdapterRouter, PolicyEngine, SecretGuard, CostGuard, PromptRegistry, evals y observabilidad para toda capacidad agentic con modelo.
 
 ## Release técnico interno v0.1.0
 

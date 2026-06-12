@@ -8,16 +8,17 @@ standard: "MIPSoftware"
 extension: "MIASI"
 phase: "FASE-C-INGENIERIA-DE-REPOSITORIO"
 updated: "2026-06-12"
-source_repo: "repo_DevPilot_Local_48.zip"
+source_repo: "repo_DevPilot_Local_55.zip"
 source_report: "Informe de avance DevPilot - sprint 0 - 18.docx"
 source_backlog_model: "docs/functional_backlog_after_precode.md"
 baseline_dependency: "Fase A cerrada por FUNC-SPRINT-27 y Fase B cerrada por FUNC-SPRINT-34"
 first_sprint: "FUNC-SPRINT-35"
-first_open_sprint: "FASE-D-BACKLOG-PENDIENTE"
+first_open_sprint: "FUNC-SPRINT-45"
 phase_c_status: "completed"
 last_completed_sprint: "FUNC-SPRINT-44"
 last_planned_sprint: "FUNC-SPRINT-44"
 next_phase: "FASE-D-IA-LOCAL-GOBERNADA"
+next_sprint: "FUNC-SPRINT-45"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "phase_c_executable_backlog_review"
 approved_on: "2026-06-11"
@@ -1092,4 +1093,4 @@ Implementa FUNC-SPRINT-44: cierre Fase C con repository engineering gate, report
 
 Alcance explícito: no hay Git write, no hay patch apply productivo, no hay refactor productivo, no hay deploy, no hay LLMs, no hay APIs externas y no hay ejecución arbitraria. El cierre marca Fase C como `completed`, pero conserva como pendientes evolutivos las capacidades industriales avanzadas: SAST/SCA formal, refactor AST/IDE-like, rollback restore real, CI remoto y gobernanza de IA local.
 
-Siguiente fase abierta: `FASE-D — IA local gobernada` con backlog pendiente de aprobación.
+Siguiente fase abierta: `FASE-D — IA local gobernada`; el backlog `docs/devpilot_backlog_fase_D_ia_local_gobernada.md` queda aprobado para iniciar `FUNC-SPRINT-45`.
