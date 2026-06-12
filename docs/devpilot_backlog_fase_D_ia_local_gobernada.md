@@ -8,7 +8,7 @@ standard: "MIPSoftware"
 extension: "MIASI"
 phase: "FASE-D-IA-LOCAL-GOBERNADA"
 updated: "2026-06-12"
-source_repo: "repo_DevPilot_Local_56.zip"
+source_repo: "repo_DevPilot_Local_57.zip"
 source_report: "Informe de avance DevPilot - sprint 0 - 18.docx"
 source_backlog_model: "docs/functional_backlog_after_precode.md"
 baseline_dependency: "Fases A, B y C cerradas; Fase C validada por FUNC-SPRINT-44 repo engineering-gate"
@@ -16,12 +16,12 @@ first_sprint: "FUNC-SPRINT-45"
 last_planned_sprint: "FUNC-SPRINT-55"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "phase_d_executable_backlog_review"
-first_open_sprint: "FUNC-SPRINT-46"
+first_open_sprint: "FUNC-SPRINT-47"
 phase_d_status: "in_progress"
 approved_on: "2026-06-12"
 approval: "approved_after_phase_c_closure_review"
-last_completed_sprint: "FUNC-SPRINT-45"
-next_sprint: "FUNC-SPRINT-46"
+last_completed_sprint: "FUNC-SPRINT-46"
+next_sprint: "FUNC-SPRINT-47"
 ---
 
 # DevPilot Local — Backlog ejecutable Fase D: IA local gobernada
@@ -336,6 +336,15 @@ python -m pytest -q
 ```text
 Implementa FUNC-SPRINT-46: OllamaAdapter opcional con health check, timeouts, tests con fake server y sin dependencia de Ollama real.
 ```
+
+
+## Estado de implementación Sprint 46
+
+`FUNC-SPRINT-46 — OllamaAdapter local opcional` queda implementado en estado `implemented-initial`. La implementación agrega `OllamaAdapter`, `model health`, timeouts cortos, manejo estructurado de indisponibilidad, tests con fake server y bloqueo de llamadas cuando el provider local está deshabilitado.
+
+El cierre de Sprint 46 no cambia las restricciones centrales de Fase D: `mock` sigue siendo obligatorio/default, Ollama no es requerido para la suite base, las APIs externas siguen bloqueadas, no se habilita multiagente y ningún agente llama modelos directamente fuera de `ModelAdapterRouter`.
+
+Siguiente sprint operativo: `FUNC-SPRINT-47 — LMStudioAdapter local OpenAI-compatible`.
 
 
 # FUNC-SPRINT-47 — LMStudioAdapter local OpenAI-compatible

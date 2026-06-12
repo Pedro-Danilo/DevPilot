@@ -36,8 +36,8 @@ DEFAULT_PROVIDER_CONFIGS = (
         requires_api_key=False,
         endpoint="http://localhost:11434",
         estimated_cost_per_1k_tokens_usd=0.0,
-        status="planned",
-        notes=["Local provider placeholder planned for FUNC-SPRINT-46; no process is started by Sprint 45."],
+        status="implemented-initial",
+        notes=["Local optional provider implemented initially in FUNC-SPRINT-46; disabled by default and bounded by localhost-only health/model calls."],
     ),
     ModelProviderConfig(
         provider_id="lmstudio",
@@ -168,7 +168,7 @@ class ProviderRegistry:
             "providers": [provider.to_dict() for provider in self.providers.values()],
             "preliminary": True,
             "notes": [
-                "FUNC-SPRINT-45 defines provider contracts only; Ollama/LM Studio adapters are future optional sprints.",
+                "FUNC-SPRINT-46 implements the optional Ollama local adapter; LM Studio remains a future optional sprint.",
                 "External providers remain disabled by default and are blocked by CostGuard/PolicyEngine.",
                 "Raw API keys or secret values must never be stored in provider metadata.",
             ],
@@ -333,7 +333,7 @@ def validate_provider_configs(configs: list[ModelProviderConfig] | tuple[ModelPr
                 findings.append(
                     Finding(
                         id="MODEL_PROVIDER_LOCAL_ENABLED_BEFORE_ADAPTER_WARNING",
-                        message=f"Local provider '{config.provider_id}' is enabled but its adapter is not implemented in Sprint 45.",
+                        message=f"Local provider '{config.provider_id}' is enabled while its adapter status is still planned.",
                         severity=Severity.WARNING,
                         path=source_path,
                         metadata={"provider": config.provider_id},

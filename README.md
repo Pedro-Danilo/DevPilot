@@ -1,8 +1,8 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
 Estado actual: `baseline pre-code approved + Fase A cerrada + FASE-B cerrada + Fase C cerrada + Fase D en progreso controlado`  
-Último hito: `FUNC-SPRINT-45 — ADR y contratos de proveedores locales`  
-Siguiente hito: `FUNC-SPRINT-46 — OllamaAdapter local opcional`  
+Último hito: `FUNC-SPRINT-46 — OllamaAdapter local opcional`  
+Siguiente hito: `FUNC-SPRINT-47 — LMStudioAdapter local OpenAI-compatible`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
@@ -31,6 +31,24 @@ python -m devpilot_core model generate --provider mock --prompt "test" --json
 ```
 
 PASS: ADR aprobada, provider config válido, mock operativo, Ollama/LM Studio deshabilitados por defecto y APIs externas bloqueadas. BLOCK: API key cruda, endpoint local remoto, API externa habilitada por defecto o mock ausente/deshabilitado.
+
+## FUNC-SPRINT-46 — OllamaAdapter local opcional
+
+`FUNC-SPRINT-46` implementa la primera integración real de modelo local en DevPilot: `OllamaAdapter`, siempre detrás de `ModelAdapterRouter`, `ProviderRegistry`, `PolicyEngine`, `SecretGuard`, `PromptInjectionGuard`, `ToolInjectionGuard` y `CostGuard`.
+
+Estado: `implemented-initial`. Ollama continúa siendo opcional y `enabled: false` por defecto en `.devpilot/providers.yaml.example`; la suite base no requiere servidor Ollama instalado. El comando `model health --provider ollama` puede consultar un endpoint `localhost` con timeout corto y devolver `available` o `unavailable` sin romper la operación local-first. Las llamadas `generate`, `classify` y `embed` solo se ejecutan si el operador crea una configuración local segura que habilite `ollama`.
+
+Comandos principales:
+
+```powershell
+python -m devpilot_core model health --provider ollama --json
+python -m devpilot_core model generate --provider ollama --prompt "test" --json
+python -m devpilot_core model classify --provider ollama --text "documentacion tecnica" --labels "docs,code" --json
+python -m devpilot_core model embed --provider ollama --text "DevPilot" --json
+```
+
+PASS: Ollama no es obligatorio, health falla de forma controlada si el servidor no está disponible, los tests usan fake server, no hay API externa y los prompts con secretos se bloquean antes de contactar el provider. BLOCK: endpoint no-local, provider deshabilitado para model calls, secretos crudos, API externa o timeout sin manejo estructurado.
+
 
 ## Release técnico interno v0.1.0
 

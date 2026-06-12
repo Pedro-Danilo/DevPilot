@@ -146,3 +146,10 @@ Criterio MIASI: ninguna salida de policy/report/event debe conservar payloads pe
 ## Política — MODEL_LOCAL_PROVIDER_CONTROLLED
 
 `MODEL_LOCAL_PROVIDER_CONTROLLED` define que los proveedores locales declarados en Fase D deben pasar por `ModelAdapterRouter`, `ProviderRegistry`, `PolicyEngine`, `SecretGuard` y `CostGuard`. En `FUNC-SPRINT-45` el efecto operativo es conservador: se permiten contratos y metadata, pero la ejecución local real queda bloqueada hasta adapters posteriores.
+
+
+## FUNC-SPRINT-46 — OllamaAdapter local opcional
+
+DevPilot declara `model.health.local` como herramienta implementada inicial para health checks localhost-only y actualiza `model.call.local` a `implemented-initial` para llamadas Ollama controladas. Las llamadas siguen bloqueadas si el provider local está deshabilitado, si el endpoint no es localhost, si SecretGuard detecta secretos o si PolicyEngine/CostGuard bloquean la solicitud.
+
+La implementación es preliminar: cubre Ollama con timeouts y fake-server tests; no habilita LM Studio, APIs externas, streaming, budget ledger persistente ni AgentRuntime model-aware.

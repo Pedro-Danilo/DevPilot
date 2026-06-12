@@ -210,6 +210,15 @@
       "gate": "RepoEngineeringGate+GitAdapter+RepoAnalyzer+ArchitectureDrift+RepoQualityGate+MIASIRegistryCheck",
       "approval_required": false,
       "observability_required": true
+    },
+    {
+      "rule_id": "MODEL_LOCAL_HEALTH_ALLOW",
+      "domain": "Model",
+      "action": "local_model_health",
+      "default_effect": "allow",
+      "gate": "ProviderRegistry+LocalhostOnly+Timeout+NoExternalAPI",
+      "approval_required": false,
+      "observability_required": true
     }
   ]
 }

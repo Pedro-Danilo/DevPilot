@@ -531,3 +531,20 @@ python -m devpilot_core miasi validate --json
 - comando genérico `schema validate` sobre YAML controlado de providers.
 
 Estas pruebas no requieren Ollama, LM Studio ni APIs externas.
+
+
+## Actualización FUNC-SPRINT-46 — Pruebas de OllamaAdapter opcional
+
+La estrategia de pruebas de `FUNC-SPRINT-46` mantiene la suite hermética: no requiere Ollama real, no usa red externa y valida el adapter con un fake server local.
+
+Comandos mínimos:
+
+```powershell
+python -m pytest tests/test_ollama_adapter.py tests/test_sprint_46_documentation.py -q
+python -m devpilot_core model health --provider ollama --json
+python -m devpilot_core model generate --provider mock --prompt "test" --json
+python -m devpilot_core validate all --json
+python -m devpilot_core miasi validate --json
+```
+
+Criterios: unavailable controlado, provider disabled bloquea model calls, fake generate/classify/embed PASS, secretos bloqueados antes de contactar el provider y regresión general sin modelos locales reales.

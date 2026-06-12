@@ -32,14 +32,14 @@ def test_sprint_42_readme_runbook_backlog_and_test_strategy_are_synchronized() -
     test_strategy = _read("docs/04_quality/test_strategy.md")
     gitignore = _read(".gitignore")
 
-    assert "Último hito: `FUNC-SPRINT-45" in readme
-    assert "Siguiente hito: `FUNC-SPRINT-46" in readme
+    assert "Último hito: `FUNC-SPRINT-46" in readme
+    assert "Siguiente hito: `FUNC-SPRINT-47" in readme
     assert "## FUNC-SPRINT-42 — RollbackManager y backup local controlado" in runbook
     assert "python -m devpilot_core rollback list --json" in runbook
     assert 'first_open_sprint: "FUNC-SPRINT-45"' in backlog
     assert 'last_completed_sprint: "FUNC-SPRINT-44"' in backlog
     assert "Estado de implementación Sprint 42" in backlog
-    assert 'next_sprint: "FUNC-SPRINT-46"' in functional_backlog
+    assert 'next_sprint: "FUNC-SPRINT-47"' in functional_backlog
     assert "Transición posterior a FUNC-SPRINT-42" in functional_backlog
     assert "Actualización FUNC-SPRINT-42 — Pruebas de RollbackManager" in test_strategy
     assert ".devpilot/rollback/" in gitignore

@@ -2909,3 +2909,23 @@ python -m devpilot_core model embed --provider mock --text "DevPilot" --json
 ### Riesgos
 
 Esta es una primera versión contractual. No verifica disponibilidad real de Ollama/LM Studio ni ejecuta modelos locales. Health checks y adapters reales pertenecen a los sprints 46 y 47.
+
+
+## FUNC-SPRINT-46 — OllamaAdapter local opcional
+
+Propósito: habilitar el primer provider local real de DevPilot sin romper la operación offline. `OllamaAdapter` permite `generate`, `classify` y `embed` contra un servidor Ollama en `localhost`, pero solo cuando `ollama` está explícitamente habilitado en `.devpilot/providers.yaml`.
+
+Funcionamiento operacional:
+
+```powershell
+python -m devpilot_core model health --provider ollama --json
+python -m devpilot_core model generate --provider ollama --prompt "test" --json
+python -m devpilot_core model classify --provider ollama --text "documentacion tecnica" --labels "docs,code" --json
+python -m devpilot_core model embed --provider ollama --text "DevPilot" --json
+```
+
+Para habilitar Ollama localmente, crea `.devpilot/providers.yaml` desde `.devpilot/providers.yaml.example`, conserva `endpoint: "http://localhost:11434"`, cambia únicamente `enabled: true` en el provider `ollama` y mantén `external_api: false` y `requires_api_key: false`. No versionar `.devpilot/providers.yaml` con secretos.
+
+PASS: health devuelve `available` o `unavailable` sin traceback, fake-server tests pasan, model calls se bloquean si el provider está deshabilitado y SecretGuard bloquea prompts sensibles antes de red local. BLOCK: endpoint remoto, API externa, secreto crudo, timeout sin control o dependencia obligatoria de Ollama real para tests.
+
+Riesgos: compatibilidad de endpoints Ollama puede variar por versión; esta implementación es `implemented-initial` y usa `/api/generate`, `/api/embed` con fallback `/api/embeddings` y `/api/tags` para health.

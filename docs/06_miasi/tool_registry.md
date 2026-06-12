@@ -134,3 +134,10 @@ La herramienta cierra Fase C de forma reproducible, pero no habilita Git write, 
 ## Estado operacional Model Providers — FUNC-SPRINT-45
 
 El Tool Registry declara `model.call.local` como capacidad planificada/controlada por `MODEL_LOCAL_PROVIDER_CONTROLLED`. Esta declaración prepara `FUNC-SPRINT-46` y `FUNC-SPRINT-47` sin habilitar todavía adapters reales ni llamadas de red.
+
+
+## FUNC-SPRINT-46 — OllamaAdapter local opcional
+
+DevPilot declara `model.health.local` como herramienta implementada inicial para health checks localhost-only y actualiza `model.call.local` a `implemented-initial` para llamadas Ollama controladas. Las llamadas siguen bloqueadas si el provider local está deshabilitado, si el endpoint no es localhost, si SecretGuard detecta secretos o si PolicyEngine/CostGuard bloquean la solicitud.
+
+La implementación es preliminar: cubre Ollama con timeouts y fake-server tests; no habilita LM Studio, APIs externas, streaming, budget ledger persistente ni AgentRuntime model-aware.

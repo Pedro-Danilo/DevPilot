@@ -249,14 +249,14 @@ Tool preliminar. No ejecuta refactors reales; sirve como contrato previo para fu
 
 ## Actualización FUNC-SPRINT-17 — ModelAdapter y herramientas de modelo
 
-Sprint 17 marca `model.call.mock` como herramienta implementada y mantiene `model.call.local` como planificada y `model.call.external` como deshabilitada. El objetivo es disponer de un contrato ejecutable multi-modelo sin habilitar red ni costos.
+Sprint 17 marca `model.call.mock` como herramienta implementada y mantiene `model.call.local` como implementada inicialmente para Ollama y `model.call.external` como deshabilitada. El objetivo es disponer de un contrato ejecutable multi-modelo sin habilitar red ni costos.
 
 Herramientas relevantes:
 
 | Tool | Estado | Side effect | Riesgo | Control |
 |---|---|---|---|---|
 | `model.call.mock` | implemented | none | low | `MODEL_LOCAL_ALLOW`, SecretGuard, CostGuard |
-| `model.call.local` | planned | local_compute | medium | `MODEL_LOCAL_ALLOW`, futura configuración local |
+| `model.call.local` | implemented-initial | local_compute | medium | `MODEL_LOCAL_ALLOW`, futura configuración local |
 | `model.call.external` | disabled | network_cost | high | `MODEL_EXTERNAL_DENY`, CostGuard, SecretGuard, aprobación futura |
 
 Criterios PASS: `MockModelAdapter` genera, clasifica y embebe de forma determinística; no requiere API key; no hay red; el proveedor externo queda bloqueado por defecto; ningún secreto crudo se escribe en reportes/trazas.
@@ -546,9 +546,16 @@ Riesgo alto por su rol de gate de cierre, aunque su side effect es solo `report`
 `FUNC-SPRINT-45` actualiza el contrato de herramientas de modelo:
 
 - `model.call.mock`: implementado, sin red, sin API key, proveedor default.
-- `model.call.local`: planificado/controlado; no contacta Ollama/LM Studio en Sprint 45.
+- `model.call.local`: implementado inicialmente para Ollama opcional en Sprint 46; LM Studio permanece planificado para Sprint 47.
 - `model.call.external`: disabled y approval-gated; no se llama por defecto.
 
 Toda llamada de modelo debe pasar por `ModelAdapterRouter`, `ProviderRegistry`, `PolicyEngine`, `SecretGuard` y `CostGuard`.
 
 PASS: mock operativo, locales localhost-only/deshabilitados por defecto, externos disabled. BLOCK: raw secrets, endpoint remoto en provider local, API externa habilitada por defecto o agente llamando adapters directamente.
+
+
+## FUNC-SPRINT-46 — OllamaAdapter local opcional
+
+DevPilot declara `model.health.local` como herramienta implementada inicial para health checks localhost-only y actualiza `model.call.local` a `implemented-initial` para llamadas Ollama controladas. Las llamadas siguen bloqueadas si el provider local está deshabilitado, si el endpoint no es localhost, si SecretGuard detecta secretos o si PolicyEngine/CostGuard bloquean la solicitud.
+
+La implementación es preliminar: cubre Ollama con timeouts y fake-server tests; no habilita LM Studio, APIs externas, streaming, budget ledger persistente ni AgentRuntime model-aware.

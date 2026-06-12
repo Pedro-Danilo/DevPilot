@@ -6,6 +6,7 @@ from pathlib import Path
 from devpilot_core.cli_models import CommandResult, ExitCode, Finding, Severity
 from devpilot_core.modeling.contracts import ModelCallRequest, ModelCallResult, ModelProviderKind, ModelTask
 from devpilot_core.modeling.mock_adapter import MockModelAdapter
+from devpilot_core.modeling.ollama_adapter import OllamaAdapter
 from devpilot_core.modeling.providers import ProviderRegistry
 from devpilot_core.policy import CostPolicy, PolicyEngine, PolicyRequest, PromptInjectionGuard, SecretGuard, ToolInjectionGuard, load_cost_policy
 
@@ -17,15 +18,16 @@ class ModelRouterConfig:
     allow_external_api: bool = False
     budget_limit_usd: float = 0.0
     budget_used_usd: float = 0.0
+    local_timeout_seconds: float = 3.0
 
 
 class ModelAdapterRouter:
     """Route model calls through safe provider adapters and CostGuard.
 
-    Sprint 17 implements only the mock adapter. Local and external providers are
-    represented in the registry, but local servers are not contacted and API
-    providers are not called. This preserves local-first behavior and makes cost
-    controls executable before real providers are added.
+    Sprint 46 keeps mock as the default route and adds an optional Ollama
+    localhost adapter. Local providers remain disabled by default and external
+    API providers are not called. This preserves local-first behavior while
+    allowing controlled fake-server and real-local health/model checks.
     """
 
     def __init__(self, root: Path, *, config: ModelRouterConfig | None = None) -> None:
@@ -38,6 +40,100 @@ class ModelAdapterRouter:
 
     def providers_status(self) -> CommandResult:
         return self.registry.to_result()
+
+    def health(self, *, provider: str = "ollama") -> CommandResult:
+        if not self.registry.semantic_valid:
+            return CommandResult(
+                command="model health",
+                ok=False,
+                exit_code=ExitCode.BLOCK,
+                message="Model health blocked because provider registry failed safe semantic checks.",
+                data={
+                    "summary": {
+                        "provider_registry_valid": False,
+                        "source_path": self.registry.source_path,
+                        "external_api_used": False,
+                        "preliminary": True,
+                    },
+                    "provider_registry": self.registry.to_result().data,
+                    "preliminary": True,
+                },
+                findings=list(self.registry.validation_findings),
+            )
+        provider_id = provider.strip().lower() or "ollama"
+        provider_config = self.registry.get(provider_id)
+        if provider_config is None:
+            return CommandResult(
+                command="model health",
+                ok=False,
+                exit_code=ExitCode.BLOCK,
+                message="Model provider is not registered.",
+                data={"summary": {"provider": provider_id, "registered": False, "external_api_used": False}},
+                findings=[
+                    Finding(
+                        id="MODEL_PROVIDER_UNKNOWN",
+                        message=f"Provider '{provider_id}' is not declared in the provider registry.",
+                        severity=Severity.BLOCK,
+                        metadata={"provider": provider_id},
+                    )
+                ],
+            )
+        if provider_config.kind == ModelProviderKind.MOCK:
+            return CommandResult(
+                command="model health",
+                ok=True,
+                exit_code=ExitCode.PASS,
+                message="Mock provider is available without network.",
+                data={
+                    "summary": {
+                        "provider": provider_config.provider_id,
+                        "availability": "available",
+                        "enabled": provider_config.enabled,
+                        "network_scope": "none",
+                        "external_api_used": False,
+                        "preliminary": True,
+                    },
+                    "provider": provider_config.to_dict(),
+                },
+                findings=[Finding(id="MODEL_HEALTH_MOCK_AVAILABLE", message="Mock provider is always available offline.", severity=Severity.INFO)],
+            )
+        if provider_config.kind == ModelProviderKind.API:
+            return CommandResult(
+                command="model health",
+                ok=False,
+                exit_code=ExitCode.BLOCK,
+                message="External API provider health checks are blocked in Fase D by default.",
+                data={
+                    "summary": {
+                        "provider": provider_config.provider_id,
+                        "availability": "blocked",
+                        "enabled": provider_config.enabled,
+                        "external_api_used": False,
+                        "preliminary": True,
+                    },
+                    "provider": provider_config.to_dict(),
+                },
+                findings=[Finding(id="MODEL_EXTERNAL_HEALTH_BLOCKED", message="External provider health check would require network/API access and is blocked.", severity=Severity.BLOCK)],
+            )
+        if provider_config.provider_id == "ollama":
+            return OllamaAdapter(provider_config, timeout_seconds=self.config.local_timeout_seconds).health()
+        return CommandResult(
+            command="model health",
+            ok=True,
+            exit_code=ExitCode.PASS,
+            message="Local provider health check is not implemented yet and remains controlled.",
+            data={
+                "summary": {
+                    "provider": provider_config.provider_id,
+                    "availability": "not_implemented",
+                    "enabled": provider_config.enabled,
+                    "external_api_used": False,
+                    "preliminary": True,
+                },
+                "provider": provider_config.to_dict(),
+            },
+            findings=[Finding(id="MODEL_LOCAL_HEALTH_NOT_IMPLEMENTED", message="This local provider health check is planned for a later sprint.", severity=Severity.WARNING)],
+        )
 
     def generate(self, *, prompt: str, provider: str = "mock", model: str | None = None) -> CommandResult:
         return self._run(ModelCallRequest(task=ModelTask.GENERATE, prompt=prompt, provider=provider, model=model))
@@ -150,11 +246,28 @@ class ModelAdapterRouter:
             return self._success_result(call_result, provider.to_dict(), policy_result)
 
         if provider.kind == ModelProviderKind.LOCAL:
+            if not provider.enabled:
+                return self._blocked_placeholder(
+                    request,
+                    provider.to_dict(),
+                    finding_id="MODEL_PROVIDER_DISABLED",
+                    message=f"Local provider '{provider.provider_id}' is disabled by configuration; enable it in .devpilot/providers.yaml to execute model calls.",
+                )
+            if provider.provider_id == "ollama":
+                adapter = OllamaAdapter(provider, timeout_seconds=self.config.local_timeout_seconds)
+                call_result = {
+                    ModelTask.GENERATE: adapter.generate,
+                    ModelTask.CLASSIFY: adapter.classify,
+                    ModelTask.EMBED: adapter.embed,
+                }[request.task](request)
+                if call_result.ok:
+                    return self._success_result(call_result, provider.to_dict(), policy_result)
+                return self._adapter_failure_result(call_result, provider.to_dict(), policy_result)
             return self._blocked_placeholder(
                 request,
                 provider.to_dict(),
                 finding_id="MODEL_LOCAL_PROVIDER_NOT_IMPLEMENTED",
-                message="Local provider routing is declared but not implemented in Sprint 17; no local server was contacted.",
+                message="Local provider routing is declared but this provider adapter is not implemented yet.",
             )
 
         return self._blocked_placeholder(
@@ -200,7 +313,7 @@ class ModelAdapterRouter:
             "provider": provider_payload,
             "policy_summary": (policy_result.data or {}).get("summary", {}),
             "notes": [
-                "FUNC-SPRINT-45 keeps MockModelAdapter as the mandatory default provider.",
+                "ModelAdapterRouter enforced provider registry, local guards and CostGuard before provider execution.",
                 "No external API was called and no API key was required.",
             ],
         }
@@ -216,6 +329,46 @@ class ModelAdapterRouter:
                     message="ModelAdapter routed the call without external API usage.",
                     severity=Severity.INFO,
                     metadata={"provider": call_result.provider, "task": task},
+                )
+            ],
+        )
+
+    def _adapter_failure_result(self, call_result: ModelCallResult, provider_payload: dict, policy_result: CommandResult) -> CommandResult:
+        task = call_result.task.value
+        return CommandResult(
+            command=f"model {task}",
+            ok=False,
+            exit_code=ExitCode.BLOCK,
+            message="Local model adapter call failed in controlled mode.",
+            data={
+                "summary": {
+                    "provider": call_result.provider,
+                    "model": call_result.model,
+                    "task": task,
+                    "availability": call_result.metadata.get("availability", "unavailable"),
+                    "tokens_estimated": call_result.tokens_estimated,
+                    "cost_estimate_usd": 0.0,
+                    "external_api_used": False,
+                    "preliminary": True,
+                },
+                "result": call_result.to_dict(),
+                "provider": provider_payload,
+                "policy_summary": (policy_result.data or {}).get("summary", {}),
+                "notes": [
+                    "Ollama is optional in FUNC-SPRINT-46; unavailable local server is reported as a structured BLOCK for model calls.",
+                    "The baseline suite must keep passing without a real Ollama server.",
+                ],
+            },
+            findings=[
+                Finding(
+                    id="MODEL_LOCAL_PROVIDER_UNAVAILABLE",
+                    message="Local model provider was enabled but unavailable or returned an invalid response.",
+                    severity=Severity.BLOCK,
+                    metadata={
+                        "provider": call_result.provider,
+                        "error_type": call_result.metadata.get("error_type"),
+                        "payload_redacted": True,
+                    },
                 )
             ],
         )
@@ -236,8 +389,8 @@ class ModelAdapterRouter:
                 },
                 "provider": provider_payload,
                 "notes": [
-                    "Provider declared for hybrid architecture only.",
-                    "Sprint 45 defines provider contracts only; local model adapters are implemented in later sprints.",
+                    "Provider declared for hybrid architecture and governed by ProviderRegistry.",
+                    "Local model calls remain disabled by default unless explicitly enabled in local configuration.",
                 ],
             },
             findings=[Finding(id=finding_id, message=message, severity=Severity.BLOCK)],

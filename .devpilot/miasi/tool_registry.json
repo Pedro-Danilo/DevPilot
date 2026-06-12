@@ -349,11 +349,11 @@
     },
     {
       "tool_id": "model.call.local",
-      "name": "call_local_model_controlled_placeholder",
+      "name": "call_ollama_local_model_adapter",
       "phase": "MVP+",
       "side_effect": "local_compute",
       "risk_level": "medium",
-      "status": "planned",
+      "status": "implemented-initial",
       "requires_approval": false,
       "policy_rule_ids": [
         "MODEL_LOCAL_PROVIDER_CONTROLLED",
@@ -459,6 +459,19 @@
       "requires_approval": false,
       "policy_rule_ids": [
         "ENGINEERING_GATE_READ_ONLY_ALLOW",
+        "SECRETS_RAW_DENY"
+      ]
+    },
+    {
+      "tool_id": "model.health.local",
+      "name": "check_local_model_provider_health",
+      "phase": "MVP+",
+      "side_effect": "read",
+      "risk_level": "medium",
+      "status": "implemented-initial",
+      "requires_approval": false,
+      "policy_rule_ids": [
+        "MODEL_LOCAL_HEALTH_ALLOW",
         "SECRETS_RAW_DENY"
       ]
     }

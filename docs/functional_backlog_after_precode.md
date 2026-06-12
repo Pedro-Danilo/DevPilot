@@ -14,7 +14,7 @@ change_policy: "controlled_changes_allowed_via_docs_as_code"
 approved_on: "2026-06-06"
 approval_scope: "functional_backlog_after_precode"
 baseline_execution: "FUNC-SPRINT-00"
-next_sprint: "FUNC-SPRINT-46"
+next_sprint: "FUNC-SPRINT-47"
 ---
 
 # DevPilot Local — Backlog ejecutable posterior a pre-code
@@ -2110,3 +2110,8 @@ La Fase D se aprueba bajo restricciones local-first: proveedor `mock` obligatori
 `FUNC-SPRINT-45` inicia Fase D con contratos de proveedores locales antes de implementar adapters reales. El sprint crea `ADR-0011`, actualiza el provider config schema a v2, mantiene `mock` como proveedor obligatorio/default, declara Ollama/LM Studio como locales opcionales y conserva proveedores externos en estado `disabled`.
 
 La transición hacia `FUNC-SPRINT-46` queda condicionada a no requerir Ollama para la suite base, no habilitar APIs externas, no versionar secretos y mantener todo modelo futuro detrás de `ModelAdapterRouter`, `PolicyEngine`, `SecretGuard` y `CostGuard`.
+
+
+## Transición posterior a FUNC-SPRINT-46
+
+`FUNC-SPRINT-46` completa la integración inicial opcional de Ollama como proveedor local. La transición hacia `FUNC-SPRINT-47` queda condicionada a mantener Ollama opcional, no requerir modelos locales en la suite base, no habilitar APIs externas y extender el mismo patrón localhost-only/timeouts/fake-server hacia LM Studio.

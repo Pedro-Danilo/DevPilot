@@ -1,0 +1,71 @@
+{
+  "sprint": "FUNC-SPRINT-46",
+  "title": "OllamaAdapter local opcional",
+  "status": "implemented",
+  "implemented_at": "2026-06-12",
+  "phase": "FASE-D-IA-LOCAL-GOBERNADA",
+  "wave": "Ola 6 — ModelAdapter real local-first",
+  "source_backlog": "docs/devpilot_backlog_fase_D_ia_local_gobernada.md",
+  "architectural_decision": {
+    "required": false,
+    "adr": "docs/02_architecture/adrs/ADR-0011-local-model-providers.md",
+    "reason": "FUNC-SPRINT-46 ejecuta la decisión aprobada en ADR-0011. No introduce una nueva clase de proveedor ni cambia la política local-first; implementa el adapter Ollama opcional previsto."
+  },
+  "created_files": [
+    "src/devpilot_core/modeling/ollama_adapter.py",
+    "tests/test_ollama_adapter.py",
+    "tests/test_sprint_46_documentation.py",
+    "docs/audits/func_sprint_46_ollama_adapter_audit.md",
+    "docs/functional_sprint_46_manifest.json"
+  ],
+  "modified_files": [
+    ".devpilot/providers.yaml.example",
+    ".devpilot/miasi/policy_matrix.json",
+    ".devpilot/miasi/tool_registry.json",
+    "README.md",
+    "docs/04_quality/test_strategy.md",
+    "docs/05_operations/runbook.md",
+    "docs/06_miasi/policy_card.md",
+    "docs/06_miasi/tool_card.md",
+    "docs/06_miasi/tool_registry.md",
+    "docs/devpilot_backlog_fase_D_ia_local_gobernada.md",
+    "docs/functional_backlog_after_precode.md",
+    "src/devpilot_core/cli.py",
+    "src/devpilot_core/modeling/__init__.py",
+    "src/devpilot_core/modeling/providers.py",
+    "src/devpilot_core/modeling/router.py"
+  ],
+  "commands": [
+    "python -m devpilot_core model health --provider ollama --json",
+    "python -m devpilot_core model generate --provider ollama --prompt \"test\" --json",
+    "python -m devpilot_core model generate --provider mock --prompt \"test\" --json",
+    "python -m devpilot_core miasi validate --json",
+    "python -m pytest -q"
+  ],
+  "tests": [
+    "tests/test_ollama_adapter.py",
+    "tests/test_sprint_46_documentation.py"
+  ],
+  "pass_criteria": [
+    "Sin Ollama disponible, health devuelve unavailable controlado.",
+    "Con fake server, generate/classify/embed pasan.",
+    "No hay API externa ni API key.",
+    "SecretGuard bloquea prompts sensibles antes de request.",
+    "Provider disabled bloquea model calls sin contactar servidor."
+  ],
+  "block_criteria": [
+    "Tests requieren Ollama real.",
+    "Indisponibilidad produce traceback.",
+    "Provider local evade CostGuard/PolicyEngine.",
+    "Endpoint remoto queda permitido.",
+    "Prompt secreto llega al provider."
+  ],
+  "risks": [
+    "Compatibilidad de endpoints Ollama puede variar por versión.",
+    "No hay streaming ni retries complejos todavía.",
+    "Budget ledger persistente queda para FUNC-SPRINT-48.",
+    "AgentRuntime model-aware queda para FUNC-SPRINT-51."
+  ],
+  "preliminary": true,
+  "next_sprint": "FUNC-SPRINT-47 — LMStudioAdapter local OpenAI-compatible"
+}
