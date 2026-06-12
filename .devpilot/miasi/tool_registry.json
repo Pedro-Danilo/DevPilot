@@ -500,6 +500,45 @@
         "MODEL_BUDGET_LEDGER_ALLOW",
         "SECRETS_RAW_DENY"
       ]
+    },
+    {
+      "tool_id": "prompt.registry.read",
+      "name": "read_prompt_registry",
+      "phase": "MVP+",
+      "side_effect": "read",
+      "risk_level": "low",
+      "status": "implemented-initial",
+      "requires_approval": false,
+      "policy_rule_ids": [
+        "PROMPT_REGISTRY_READ_ALLOW",
+        "SECRETS_RAW_DENY"
+      ]
+    },
+    {
+      "tool_id": "prompt.contract.validate",
+      "name": "validate_prompt_contracts",
+      "phase": "MVP+",
+      "side_effect": "none",
+      "risk_level": "medium",
+      "status": "implemented-initial",
+      "requires_approval": false,
+      "policy_rule_ids": [
+        "PROMPT_CONTRACT_VALIDATE_ALLOW",
+        "SECRETS_RAW_DENY"
+      ]
+    },
+    {
+      "tool_id": "prompt.render.controlled",
+      "name": "render_versioned_prompt_controlled",
+      "phase": "MVP+",
+      "side_effect": "local_compute",
+      "risk_level": "medium",
+      "status": "implemented-initial",
+      "requires_approval": false,
+      "policy_rule_ids": [
+        "PROMPT_RENDER_CONTROLLED",
+        "SECRETS_RAW_DENY"
+      ]
     }
   ]
 }

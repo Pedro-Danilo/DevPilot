@@ -2983,3 +2983,50 @@ PASS: no hay API externa, no se requieren modelos locales para pruebas, `cost_ev
 ### Riesgos
 
 Esta es una versión `implemented-initial`: no hay streaming, retries avanzados, enforcement monetario persistente ni métricas reales de latencia. Es base para Prompt Registry, evals de modelos y AgentRuntime model-aware.
+
+## FUNC-SPRINT-49 — Prompt Registry y contratos de prompt seguro
+
+### Propósito
+
+`FUNC-SPRINT-49` agrega operación local read-only para prompts versionados. Los prompts quedan bajo `docs/prompts/` como contratos JSON validados por `docs/schemas/prompt.schema.json`. Esta capacidad evita prompts sueltos embebidos sin trazabilidad y permite registrar `prompt_id/version` cuando `model generate` usa una plantilla gobernada.
+
+### Comandos operativos
+
+```powershell
+python -m devpilot_core prompt list --json
+python -m devpilot_core prompt validate --json
+python -m devpilot_core prompt show model.generate.default --json
+```
+
+### Uso con modelo mock
+
+```powershell
+python -m devpilot_core model generate `
+  --provider mock `
+  --prompt-id model.generate.default `
+  --prompt-input "user_request=Resume DevPilot" `
+  --prompt-input "project_context=core local-first" `
+  --json
+```
+
+El resultado debe incluir `prompt_id`, `prompt_version` y `prompt_reference`, pero no debe almacenar prompts crudos en `cost_events`.
+
+### Criterios PASS
+
+- `prompt list` lista prompts versionados sin red ni API externa.
+- `prompt validate` valida schema, placeholders declarados y safety básica.
+- `prompt show` emite plantilla redacted.
+- `model generate --prompt-id` registra `prompt_id/version`.
+- `BudgetLedger` conserva `prompt_stored=false` y `content_stored=false`.
+
+### Criterios BLOCK
+
+- Prompt sin `id`, `version`, `status`, `template` o `safety`.
+- Placeholder usado pero no declarado en `input_variables`.
+- `store_raw_prompt=true` o `store_raw_completion=true`.
+- Prompt con secreto crudo o patrón blocking de prompt injection.
+- Prompt show/render que exponga secretos sin redacción.
+
+### Riesgos y limitaciones
+
+Esta versión es `implemented-initial`: `PromptSafetyChecker` usa patrones determinísticos básicos, no un juez LLM ni análisis adversarial completo. Los prompt packs avanzados, herencia entre plantillas, localización multi-idioma y evaluación comparativa por modelo quedan para sprints posteriores.

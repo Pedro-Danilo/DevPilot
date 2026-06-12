@@ -1,8 +1,8 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
 Estado actual: `baseline pre-code approved + Fase A cerrada + FASE-B cerrada + Fase C cerrada + Fase D en progreso controlado`  
-Último hito: `FUNC-SPRINT-48 — Model governance: health, capability matrix y budget ledger`  
-Siguiente hito: `FUNC-SPRINT-49 — Prompt Registry y Prompt Packs gobernados`  
+Último hito: `FUNC-SPRINT-49 — Prompt Registry y contratos de prompt seguro`  
+Siguiente hito: `FUNC-SPRINT-50 — Model evaluation matrix local`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
@@ -83,6 +83,23 @@ python -m devpilot_core model generate --provider lmstudio --prompt "test" --fal
 
 PASS: health/capabilities reportan `mock`, providers locales y APIs externas bloqueadas; budget ledger registra eventos redacted; fallback a `mock` es explícito/configurado; no se llama API externa. BLOCK: cost_events con prompts o secretos crudos, provider unavailable con traceback, gasto externo permitido por defecto o fallback silencioso no documentado.
 
+
+## FUNC-SPRINT-49 — Prompt Registry y contratos de prompt seguro
+
+`FUNC-SPRINT-49` introduce el Prompt Registry versionado de DevPilot. La implementación crea contratos JSON para prompts bajo `docs/prompts/`, agrega `docs/schemas/prompt.schema.json`, incorpora `PromptRegistry` y `PromptSafetyChecker`, y expone comandos read-only `prompt list`, `prompt validate` y `prompt show`.
+
+Estado: `implemented-initial`. Esta primera versión gobierna prompts como docs-as-code, valida `id/version/status/inputs/safety`, detecta patrones básicos de secretos e inyección de prompt y permite que `model generate` use `--prompt-id` para registrar `prompt_id/version` sin almacenar prompts crudos en `cost_events`. No reemplaza un sistema industrial completo de prompt management, no implementa prompt packs avanzados ni evaluación LLM-as-judge.
+
+Comandos principales:
+
+```powershell
+python -m devpilot_core prompt list --json
+python -m devpilot_core prompt validate --json
+python -m devpilot_core prompt show model.generate.default --json
+python -m devpilot_core model generate --provider mock --prompt-id model.generate.default --prompt-input "user_request=test" --prompt-input "project_context=DevPilot" --json
+```
+
+PASS: prompts versionados con schema, `PromptSafetyChecker` activo, `prompt show` redacted, model calls registran `prompt_id/version`, no hay secretos crudos ni API externa. BLOCK: prompt sin `id/version`, placeholders no declarados, `store_raw_prompt=true`, secretos crudos o prompt-injection blocking en plantillas/render.
 
 ## Release técnico interno v0.1.0
 

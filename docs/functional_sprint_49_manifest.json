@@ -1,0 +1,79 @@
+{
+  "sprint": "FUNC-SPRINT-49",
+  "title": "Prompt Registry y contratos de prompt seguro",
+  "status": "implemented",
+  "implemented_at": "2026-06-12",
+  "phase": "FASE-D-IA-LOCAL-GOBERNADA",
+  "wave": "Ola 6 — ModelAdapter real local-first",
+  "source_backlog": "docs/devpilot_backlog_fase_D_ia_local_gobernada.md",
+  "architectural_decision": {
+    "required": false,
+    "adr": "docs/02_architecture/adrs/ADR-0011-local-model-providers.md",
+    "reason": "FUNC-SPRINT-49 ejecuta la regla central de Fase D sobre prompts versionados y trazados. No introduce un nuevo proveedor, no habilita APIs externas y no cambia el boundary de ModelAdapterRouter; agrega contratos de prompt sobre la arquitectura local-first ya aprobada."
+  },
+  "created_files": [
+    "src/devpilot_core/prompts/__init__.py",
+    "src/devpilot_core/prompts/registry.py",
+    "src/devpilot_core/prompts/safety.py",
+    "docs/schemas/prompt.schema.json",
+    "docs/prompts/model.generate.default.v1.json",
+    "docs/prompts/repo.analysis.summary.v1.json",
+    "docs/prompts/code.review.initial.v1.json",
+    "tests/test_prompt_registry.py",
+    "tests/test_sprint_49_documentation.py",
+    "docs/audits/func_sprint_49_prompt_registry_audit.md",
+    "docs/functional_sprint_49_manifest.json"
+  ],
+  "modified_files": [
+    ".devpilot/miasi/policy_matrix.json",
+    ".devpilot/miasi/tool_registry.json",
+    "README.md",
+    "docs/04_quality/test_strategy.md",
+    "docs/05_operations/runbook.md",
+    "docs/06_miasi/policy_card.md",
+    "docs/06_miasi/tool_card.md",
+    "docs/06_miasi/tool_registry.md",
+    "docs/devpilot_backlog_fase_D_ia_local_gobernada.md",
+    "docs/functional_backlog_after_precode.md",
+    "docs/schemas/schema_catalog.json",
+    "src/devpilot_core/cli.py",
+    "src/devpilot_core/modeling/budget.py",
+    "src/devpilot_core/validation/gateway.py"
+  ],
+  "commands": [
+    "python -m devpilot_core prompt list --json",
+    "python -m devpilot_core prompt validate --json",
+    "python -m devpilot_core prompt show model.generate.default --json",
+    "python -m devpilot_core model generate --provider mock --prompt-id model.generate.default --prompt-input \"user_request=test\" --prompt-input \"project_context=DevPilot\" --json",
+    "python -m devpilot_core validate all --json",
+    "python -m devpilot_core miasi validate --json",
+    "python -m pytest -q"
+  ],
+  "tests": [
+    "tests/test_prompt_registry.py",
+    "tests/test_sprint_49_documentation.py"
+  ],
+  "pass_criteria": [
+    "Prompts tienen id/version/status y schema válido.",
+    "Prompt validation combina schema, placeholders y safety básica.",
+    "PromptSafetyChecker produce findings para secretos e injection patterns básicos.",
+    "prompt show no expone secretos crudos.",
+    "model generate --prompt-id registra prompt_id/version sin almacenar prompt crudo en cost_events.",
+    "No hay red ni APIs externas."
+  ],
+  "block_criteria": [
+    "Prompt sin id/version o schema inválido.",
+    "Prompt show expone secretos crudos.",
+    "Prompt render acepta inputs no declarados.",
+    "Model calls gobernadas no registran prompt_id/version.",
+    "cost_events guardan prompts o completions crudos."
+  ],
+  "risks": [
+    "Prompt registry demasiado rígido; se permite inputs declarados con metadata.",
+    "Prompt injection checks incompletos; se documentan como básicos e implemented-initial.",
+    "Duplicación de prompts; se bloquea por id/version duplicado.",
+    "No hay prompt packs avanzados ni eval matrix aún; queda para sprints posteriores."
+  ],
+  "preliminary": true,
+  "next_sprint": "FUNC-SPRINT-50 — Model evaluation matrix local"
+}

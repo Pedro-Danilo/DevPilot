@@ -1,0 +1,136 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/SCHEMA-DEVPL-PROMPT-V1",
+  "title": "DevPilot Prompt Contract v1",
+  "description": "Structural contract for one versioned DevPilot prompt under docs/prompts. Prompts must declare id, version, inputs, safety and usage metadata without raw secrets.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "version",
+    "status",
+    "owner",
+    "task",
+    "description",
+    "input_variables",
+    "template",
+    "safety",
+    "usage",
+    "metadata"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_.-]*$"
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["approved", "draft", "deprecated", "future"]
+    },
+    "owner": {
+      "type": "string",
+      "minLength": 1
+    },
+    "task": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_-]*$"
+    },
+    "agent_id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_.-]*$"
+    },
+    "description": {
+      "type": "string",
+      "minLength": 12
+    },
+    "input_variables": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "description", "required"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "pattern": "^[a-zA-Z_][a-zA-Z0-9_]*$"
+          },
+          "description": {
+            "type": "string",
+            "minLength": 1
+          },
+          "required": {
+            "type": "boolean"
+          },
+          "max_length": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 20000
+          }
+        }
+      }
+    },
+    "template": {
+      "type": "string",
+      "minLength": 20
+    },
+    "safety": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "redaction_required",
+        "prompt_injection_scan_required",
+        "secret_scan_required",
+        "store_raw_prompt",
+        "store_raw_completion"
+      ],
+      "properties": {
+        "redaction_required": {"type": "boolean"},
+        "prompt_injection_scan_required": {"type": "boolean"},
+        "secret_scan_required": {"type": "boolean"},
+        "store_raw_prompt": {"const": false},
+        "store_raw_completion": {"const": false},
+        "allowed_tools": {
+          "type": "array",
+          "items": {"type": "string"},
+          "default": []
+        },
+        "forbidden_patterns": {
+          "type": "array",
+          "items": {"type": "string"},
+          "default": []
+        }
+      }
+    },
+    "usage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["providers", "default_provider", "fallback_provider"],
+      "properties": {
+        "providers": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"type": "string"}
+        },
+        "default_provider": {"type": "string"},
+        "fallback_provider": {"type": "string"},
+        "max_tokens_estimated": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["sprint", "preliminary"],
+      "properties": {
+        "sprint": {"type": "string"},
+        "preliminary": {"type": "boolean"}
+      }
+    }
+  }
+}

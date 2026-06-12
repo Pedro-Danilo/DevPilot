@@ -8,7 +8,7 @@ standard: "MIPSoftware"
 extension: "MIASI"
 phase: "FASE-D-IA-LOCAL-GOBERNADA"
 updated: "2026-06-12"
-source_repo: "repo_DevPilot_Local_59.zip"
+source_repo: "repo_DevPilot_Local_60.zip"
 source_report: "Informe de avance DevPilot - sprint 0 - 18.docx"
 source_backlog_model: "docs/functional_backlog_after_precode.md"
 baseline_dependency: "Fases A, B y C cerradas; Fase C validada por FUNC-SPRINT-44 repo engineering-gate"
@@ -16,12 +16,12 @@ first_sprint: "FUNC-SPRINT-45"
 last_planned_sprint: "FUNC-SPRINT-55"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "phase_d_executable_backlog_review"
-first_open_sprint: "FUNC-SPRINT-49"
+first_open_sprint: "FUNC-SPRINT-50"
 phase_d_status: "in_progress"
 approved_on: "2026-06-12"
 approval: "approved_after_phase_c_closure_review"
-last_completed_sprint: "FUNC-SPRINT-48"
-next_sprint: "FUNC-SPRINT-49"
+last_completed_sprint: "FUNC-SPRINT-49"
+next_sprint: "FUNC-SPRINT-50"
 ---
 
 # DevPilot Local — Backlog ejecutable Fase D: IA local gobernada
@@ -610,6 +610,12 @@ python -m pytest -q
 ```text
 Implementa FUNC-SPRINT-49: PromptRegistry versionado, schema de prompts y checks básicos de seguridad, con comandos read-only.
 ```
+
+## Estado de implementación Sprint 49
+
+`FUNC-SPRINT-49 — Prompt Registry y contratos de prompt seguro` queda implementado como `implemented-initial`. La implementación agrega `PromptRegistry`, `PromptSafetyChecker`, `docs/schemas/prompt.schema.json`, prompts versionados bajo `docs/prompts/`, comandos read-only `prompt list/show/validate` y soporte de `model generate --prompt-id` para registrar `prompt_id/version` sin almacenar prompts crudos.
+
+Esta versión es deliberadamente inicial: los checks de prompt injection son determinísticos y básicos; no sustituyen una defensa adversarial completa, un sistema de prompt packs con herencia, ni evaluación LLM-as-judge. La transición hacia `FUNC-SPRINT-50` queda condicionada a mantener prompts versionados, `mock` como ruta obligatoria/default, APIs externas bloqueadas, y a conectar la futura evaluación de modelos con prompts trazables.
 
 
 # FUNC-SPRINT-50 — Model evaluation matrix local

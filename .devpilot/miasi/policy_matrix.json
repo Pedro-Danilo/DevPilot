@@ -237,6 +237,33 @@
       "gate": "BudgetLedger+LocalStore+SecretRedaction+NoRawPrompts",
       "approval_required": false,
       "observability_required": true
+    },
+    {
+      "rule_id": "PROMPT_REGISTRY_READ_ALLOW",
+      "domain": "Prompt",
+      "action": "registry_read",
+      "default_effect": "allow",
+      "gate": "PromptRegistry+PathGuard+NoNetwork+RedactedTemplate",
+      "approval_required": false,
+      "observability_required": true
+    },
+    {
+      "rule_id": "PROMPT_CONTRACT_VALIDATE_ALLOW",
+      "domain": "Prompt",
+      "action": "contract_validate",
+      "default_effect": "allow",
+      "gate": "PromptSchema+PromptSafetyChecker+SecretGuard+PromptInjectionGuard",
+      "approval_required": false,
+      "observability_required": true
+    },
+    {
+      "rule_id": "PROMPT_RENDER_CONTROLLED",
+      "domain": "Prompt",
+      "action": "render_for_model_call",
+      "default_effect": "allow",
+      "gate": "PromptRegistry+DeclaredInputs+PromptSafetyChecker+NoRawPromptStorage",
+      "approval_required": false,
+      "observability_required": true
     }
   ]
 }

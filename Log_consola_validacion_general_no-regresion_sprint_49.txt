@@ -1,8 +1,8 @@
 (.venv) PS D:\Projects\DevPilot_Local> pytest -q
-............................................................................................................................................ [ 34%]
-............................................................................................................................................ [ 68%]
-................................................................................................................................             [100%]
-DEVPL TEST SUMMARY: 408 passed, 0 failed, 0 errors, 0 skipped
+............................................................................................................................................ [ 33%]
+............................................................................................................................................ [ 66%]
+..........................................................................................................................................   [100%]
+DEVPL TEST SUMMARY: 418 passed, 0 failed, 0 errors, 0 skipped
 (.venv) PS D:\Projects\DevPilot_Local> python -m devpilot_core validate all --json
 {
   "command": "validate all",
@@ -15,7 +15,7 @@ DEVPL TEST SUMMARY: 408 passed, 0 failed, 0 errors, 0 skipped
       "validations_total": 2,
       "validations_passed": 2,
       "validations_failed": 0,
-      "findings_total": 50,
+      "findings_total": 54,
       "warnings_total": 12,
       "blocking_findings_total": 0,
       "preliminary": true,
@@ -646,7 +646,7 @@ DEVPL TEST SUMMARY: 408 passed, 0 failed, 0 errors, 0 skipped
                       {
                         "artifact": "docs/04_quality/test_strategy.md",
                         "exists": true,
-                        "size_bytes": 24778,
+                        "size_bytes": 25973,
                         "frontmatter_ok": true,
                         "artifact_ok": true,
                         "status": "approved",
@@ -664,7 +664,7 @@ DEVPL TEST SUMMARY: 408 passed, 0 failed, 0 errors, 0 skipped
                       {
                         "artifact": "docs/05_operations/runbook.md",
                         "exists": true,
-                        "size_bytes": 118883,
+                        "size_bytes": 120904,
                         "frontmatter_ok": true,
                         "artifact_ok": true,
                         "status": "approved",
@@ -682,7 +682,7 @@ DEVPL TEST SUMMARY: 408 passed, 0 failed, 0 errors, 0 skipped
                       {
                         "artifact": "docs/06_miasi/tool_card.md",
                         "exists": true,
-                        "size_bytes": 28497,
+                        "size_bytes": 29146,
                         "frontmatter_ok": true,
                         "artifact_ok": true,
                         "status": "approved",
@@ -691,7 +691,7 @@ DEVPL TEST SUMMARY: 408 passed, 0 failed, 0 errors, 0 skipped
                       {
                         "artifact": "docs/06_miasi/policy_card.md",
                         "exists": true,
-                        "size_bytes": 8131,
+                        "size_bytes": 8750,
                         "frontmatter_ok": true,
                         "artifact_ok": true,
                         "status": "approved",
@@ -1100,10 +1100,10 @@ DEVPL TEST SUMMARY: 408 passed, 0 failed, 0 errors, 0 skipped
           "data": {
             "summary": {
               "scope": "contracts",
-              "validations_total": 34,
-              "validations_passed": 34,
+              "validations_total": 36,
+              "validations_passed": 36,
               "validations_failed": 0,
-              "findings_total": 36,
+              "findings_total": 40,
               "warnings_total": 0,
               "blocking_findings_total": 0,
               "preliminary": true,
@@ -1121,8 +1121,8 @@ DEVPL TEST SUMMARY: 408 passed, 0 failed, 0 errors, 0 skipped
                   "message": "Schema registry listed successfully.",
                   "data": {
                     "summary": {
-                      "schemas_total": 14,
-                      "schemas_existing": 14,
+                      "schemas_total": 15,
+                      "schemas_existing": 15,
                       "duplicate_schema_ids": [],
                       "missing_schema_paths": [],
                       "catalog_path": "docs/schemas/schema_catalog.json",
@@ -1324,6 +1324,20 @@ DEVPL TEST SUMMARY: 408 passed, 0 failed, 0 errors, 0 skipped
                         "validates_instances": true,
                         "contract": "ArtifactProfiles",
                         "validation_enabled_sprint": "FUNC-SPRINT-24"
+                      },
+                      {
+                        "schema_id": "SCHEMA-DEVPL-PROMPT-V1",
+                        "title": "DevPilot Prompt Contract v1",
+                        "version": "1.0.0",
+                        "path": "docs/schemas/prompt.schema.json",
+                        "description": "Structural contract for versioned prompt files under docs/prompts with input and safety metadata.",
+                        "status": "registered",
+                        "owner": "Ordóñez",
+                        "sprint": "FUNC-SPRINT-49",
+                        "dialect": "https://json-schema.org/draft/2020-12/schema",
+                        "validates_instances": true,
+                        "contract": "Prompt",
+                        "validation_enabled_sprint": "FUNC-SPRINT-49"
                       }
                     ],
                     "notes": [
@@ -1337,8 +1351,8 @@ DEVPL TEST SUMMARY: 408 passed, 0 failed, 0 errors, 0 skipped
                       "message": "Schema registry catalog integrity passed.",
                       "severity": "info",
                       "metadata": {
-                        "schemas_total": 14,
-                        "schemas_existing": 14,
+                        "schemas_total": 15,
+                        "schemas_existing": 15,
                         "duplicate_schema_ids": [],
                         "missing_schema_paths": [],
                         "catalog_path": "docs/schemas/schema_catalog.json",
@@ -1609,6 +1623,187 @@ DEVPL TEST SUMMARY: 408 passed, 0 failed, 0 errors, 0 skipped
                       "metadata": {
                         "schema": "docs/schemas/provider_config.schema.json",
                         "instance": ".devpilot/providers.yaml.example"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "prompt-contracts",
+                "result": {
+                  "command": "prompt validate",
+                  "ok": true,
+                  "exit_code": 0,
+                  "message": "Prompt Registry validation passed.",
+                  "data": {
+                    "summary": {
+                      "prompts_total": 3,
+                      "prompt_versions_total": 3,
+                      "findings_total": 3,
+                      "blocking_findings_total": 0,
+                      "status_counts": {
+                        "approved": 3
+                      },
+                      "schema_contract": "Prompt",
+                      "registry_path": "docs/prompts",
+                      "external_api_used": false,
+                      "network_used": false,
+                      "mutations_performed": false,
+                      "preliminary": true,
+                      "prompt_id": null,
+                      "schema_validations_total": 3,
+                      "schema_validations_failed": 0
+                    },
+                    "schema_results": [
+                      {
+                        "command": "schema validate",
+                        "ok": true,
+                        "exit_code": 0,
+                        "message": "Schema validation passed.",
+                        "data": {
+                          "summary": {
+                            "schema": "docs/schemas/prompt.schema.json",
+                            "instance": "docs/prompts/code.review.initial.v1.json",
+                            "valid": true,
+                            "errors_total": 0,
+                            "findings_total": 1,
+                            "network_used": false,
+                            "external_api_used": false,
+                            "schema_title": "DevPilot Prompt Contract v1",
+                            "schema_id": "https://devpilot.local/schemas/SCHEMA-DEVPL-PROMPT-V1",
+                            "validator": "jsonschema",
+                            "jsonschema_version": "4.26.0",
+                            "preliminary": true
+                          },
+                          "schema": "docs/schemas/prompt.schema.json",
+                          "instance": "docs/prompts/code.review.initial.v1.json",
+                          "notes": [
+                            "FUNC-SPRINT-22 validates JSON structure only; semantic gates remain in dedicated validators.",
+                            "Validation is local-first and does not call network or external APIs."
+                          ]
+                        },
+                        "findings": [
+                          {
+                            "id": "SCHEMA_VALIDATION_PASS",
+                            "message": "Instance conforms to schema.",
+                            "severity": "info",
+                            "metadata": {
+                              "schema": "docs/schemas/prompt.schema.json",
+                              "instance": "docs/prompts/code.review.initial.v1.json"
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "command": "schema validate",
+                        "ok": true,
+                        "exit_code": 0,
+                        "message": "Schema validation passed.",
+                        "data": {
+                          "summary": {
+                            "schema": "docs/schemas/prompt.schema.json",
+                            "instance": "docs/prompts/model.generate.default.v1.json",
+                            "valid": true,
+                            "errors_total": 0,
+                            "findings_total": 1,
+                            "network_used": false,
+                            "external_api_used": false,
+                            "schema_title": "DevPilot Prompt Contract v1",
+                            "schema_id": "https://devpilot.local/schemas/SCHEMA-DEVPL-PROMPT-V1",
+                            "validator": "jsonschema",
+                            "jsonschema_version": "4.26.0",
+                            "preliminary": true
+                          },
+                          "schema": "docs/schemas/prompt.schema.json",
+                          "instance": "docs/prompts/model.generate.default.v1.json",
+                          "notes": [
+                            "FUNC-SPRINT-22 validates JSON structure only; semantic gates remain in dedicated validators.",
+                            "Validation is local-first and does not call network or external APIs."
+                          ]
+                        },
+                        "findings": [
+                          {
+                            "id": "SCHEMA_VALIDATION_PASS",
+                            "message": "Instance conforms to schema.",
+                            "severity": "info",
+                            "metadata": {
+                              "schema": "docs/schemas/prompt.schema.json",
+                              "instance": "docs/prompts/model.generate.default.v1.json"
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "command": "schema validate",
+                        "ok": true,
+                        "exit_code": 0,
+                        "message": "Schema validation passed.",
+                        "data": {
+                          "summary": {
+                            "schema": "docs/schemas/prompt.schema.json",
+                            "instance": "docs/prompts/repo.analysis.summary.v1.json",
+                            "valid": true,
+                            "errors_total": 0,
+                            "findings_total": 1,
+                            "network_used": false,
+                            "external_api_used": false,
+                            "schema_title": "DevPilot Prompt Contract v1",
+                            "schema_id": "https://devpilot.local/schemas/SCHEMA-DEVPL-PROMPT-V1",
+                            "validator": "jsonschema",
+                            "jsonschema_version": "4.26.0",
+                            "preliminary": true
+                          },
+                          "schema": "docs/schemas/prompt.schema.json",
+                          "instance": "docs/prompts/repo.analysis.summary.v1.json",
+                          "notes": [
+                            "FUNC-SPRINT-22 validates JSON structure only; semantic gates remain in dedicated validators.",
+                            "Validation is local-first and does not call network or external APIs."
+                          ]
+                        },
+                        "findings": [
+                          {
+                            "id": "SCHEMA_VALIDATION_PASS",
+                            "message": "Instance conforms to schema.",
+                            "severity": "info",
+                            "metadata": {
+                              "schema": "docs/schemas/prompt.schema.json",
+                              "instance": "docs/prompts/repo.analysis.summary.v1.json"
+                            }
+                          }
+                        ]
+                      }
+                    ],
+                    "notes": [
+                      "Prompt validation combines JSON Schema, semantic registry checks and basic PromptSafetyChecker findings.",
+                      "Prompt injection checks are basic deterministic controls, not a complete adversarial defense."
+                    ]
+                  },
+                  "findings": [
+                    {
+                      "id": "SCHEMA_VALIDATION_PASS",
+                      "message": "Instance conforms to schema.",
+                      "severity": "info",
+                      "metadata": {
+                        "schema": "docs/schemas/prompt.schema.json",
+                        "instance": "docs/prompts/code.review.initial.v1.json"
+                      }
+                    },
+                    {
+                      "id": "SCHEMA_VALIDATION_PASS",
+                      "message": "Instance conforms to schema.",
+                      "severity": "info",
+                      "metadata": {
+                        "schema": "docs/schemas/prompt.schema.json",
+                        "instance": "docs/prompts/model.generate.default.v1.json"
+                      }
+                    },
+                    {
+                      "id": "SCHEMA_VALIDATION_PASS",
+                      "message": "Instance conforms to schema.",
+                      "severity": "info",
+                      "metadata": {
+                        "schema": "docs/schemas/prompt.schema.json",
+                        "instance": "docs/prompts/repo.analysis.summary.v1.json"
                       }
                     }
                   ]
@@ -2933,6 +3128,50 @@ DEVPL TEST SUMMARY: 408 passed, 0 failed, 0 errors, 0 skipped
                     }
                   ]
                 }
+              },
+              {
+                "id": "manifest:docs/functional_sprint_49_manifest.json",
+                "result": {
+                  "command": "schema validate-manifest",
+                  "ok": true,
+                  "exit_code": 0,
+                  "message": "Schema validation passed.",
+                  "data": {
+                    "summary": {
+                      "schema": "docs/schemas/functional_sprint_manifest.schema.json",
+                      "instance": "docs/functional_sprint_49_manifest.json",
+                      "valid": true,
+                      "errors_total": 0,
+                      "findings_total": 1,
+                      "network_used": false,
+                      "external_api_used": false,
+                      "schema_title": "DevPilot Functional Sprint Manifest v1",
+                      "schema_id": "SCHEMA-DEVPL-FUNCTIONAL-SPRINT-MANIFEST-V1",
+                      "validator": "jsonschema",
+                      "jsonschema_version": "4.26.0",
+                      "preliminary": true,
+                      "contract": "FunctionalSprintManifest",
+                      "subject": "docs/functional_sprint_49_manifest.json"
+                    },
+                    "schema": "docs/schemas/functional_sprint_manifest.schema.json",
+                    "instance": "docs/functional_sprint_49_manifest.json",
+                    "notes": [
+                      "FUNC-SPRINT-22 validates JSON structure only; semantic gates remain in dedicated validators.",
+                      "Validation is local-first and does not call network or external APIs."
+                    ]
+                  },
+                  "findings": [
+                    {
+                      "id": "SCHEMA_VALIDATION_PASS",
+                      "message": "Instance conforms to schema.",
+                      "severity": "info",
+                      "metadata": {
+                        "schema": "docs/schemas/functional_sprint_manifest.schema.json",
+                        "instance": "docs/functional_sprint_49_manifest.json"
+                      }
+                    }
+                  ]
+                }
               }
             ],
             "notes": [
@@ -2946,8 +3185,8 @@ DEVPL TEST SUMMARY: 408 passed, 0 failed, 0 errors, 0 skipped
               "message": "Schema registry catalog integrity passed.",
               "severity": "info",
               "metadata": {
-                "schemas_total": 14,
-                "schemas_existing": 14,
+                "schemas_total": 15,
+                "schemas_existing": 15,
                 "duplicate_schema_ids": [],
                 "missing_schema_paths": [],
                 "catalog_path": "docs/schemas/schema_catalog.json",
@@ -3009,6 +3248,39 @@ DEVPL TEST SUMMARY: 408 passed, 0 failed, 0 errors, 0 skipped
                 "instance": ".devpilot/providers.yaml.example",
                 "gateway_step": "provider-contract",
                 "source_command": "schema validate-providers"
+              }
+            },
+            {
+              "id": "SCHEMA_VALIDATION_PASS",
+              "message": "Instance conforms to schema.",
+              "severity": "info",
+              "metadata": {
+                "schema": "docs/schemas/prompt.schema.json",
+                "instance": "docs/prompts/code.review.initial.v1.json",
+                "gateway_step": "prompt-contracts",
+                "source_command": "prompt validate"
+              }
+            },
+            {
+              "id": "SCHEMA_VALIDATION_PASS",
+              "message": "Instance conforms to schema.",
+              "severity": "info",
+              "metadata": {
+                "schema": "docs/schemas/prompt.schema.json",
+                "instance": "docs/prompts/model.generate.default.v1.json",
+                "gateway_step": "prompt-contracts",
+                "source_command": "prompt validate"
+              }
+            },
+            {
+              "id": "SCHEMA_VALIDATION_PASS",
+              "message": "Instance conforms to schema.",
+              "severity": "info",
+              "metadata": {
+                "schema": "docs/schemas/prompt.schema.json",
+                "instance": "docs/prompts/repo.analysis.summary.v1.json",
+                "gateway_step": "prompt-contracts",
+                "source_command": "prompt validate"
               }
             },
             {
@@ -3340,6 +3612,17 @@ DEVPL TEST SUMMARY: 408 passed, 0 failed, 0 errors, 0 skipped
                 "gateway_step": "manifest:docs/functional_sprint_48_manifest.json",
                 "source_command": "schema validate-manifest"
               }
+            },
+            {
+              "id": "SCHEMA_VALIDATION_PASS",
+              "message": "Instance conforms to schema.",
+              "severity": "info",
+              "metadata": {
+                "schema": "docs/schemas/functional_sprint_manifest.schema.json",
+                "instance": "docs/functional_sprint_49_manifest.json",
+                "gateway_step": "manifest:docs/functional_sprint_49_manifest.json",
+                "source_command": "schema validate-manifest"
+              }
             }
           ]
         }
@@ -3529,8 +3812,8 @@ DEVPL TEST SUMMARY: 408 passed, 0 failed, 0 errors, 0 skipped
       "message": "Schema registry catalog integrity passed.",
       "severity": "info",
       "metadata": {
-        "schemas_total": 14,
-        "schemas_existing": 14,
+        "schemas_total": 15,
+        "schemas_existing": 15,
         "duplicate_schema_ids": [],
         "missing_schema_paths": [],
         "catalog_path": "docs/schemas/schema_catalog.json",
@@ -3592,6 +3875,39 @@ DEVPL TEST SUMMARY: 408 passed, 0 failed, 0 errors, 0 skipped
         "instance": ".devpilot/providers.yaml.example",
         "gateway_step": "provider-contract",
         "source_command": "schema validate-providers"
+      }
+    },
+    {
+      "id": "SCHEMA_VALIDATION_PASS",
+      "message": "Instance conforms to schema.",
+      "severity": "info",
+      "metadata": {
+        "schema": "docs/schemas/prompt.schema.json",
+        "instance": "docs/prompts/code.review.initial.v1.json",
+        "gateway_step": "prompt-contracts",
+        "source_command": "prompt validate"
+      }
+    },
+    {
+      "id": "SCHEMA_VALIDATION_PASS",
+      "message": "Instance conforms to schema.",
+      "severity": "info",
+      "metadata": {
+        "schema": "docs/schemas/prompt.schema.json",
+        "instance": "docs/prompts/model.generate.default.v1.json",
+        "gateway_step": "prompt-contracts",
+        "source_command": "prompt validate"
+      }
+    },
+    {
+      "id": "SCHEMA_VALIDATION_PASS",
+      "message": "Instance conforms to schema.",
+      "severity": "info",
+      "metadata": {
+        "schema": "docs/schemas/prompt.schema.json",
+        "instance": "docs/prompts/repo.analysis.summary.v1.json",
+        "gateway_step": "prompt-contracts",
+        "source_command": "prompt validate"
       }
     },
     {
@@ -3923,6 +4239,17 @@ DEVPL TEST SUMMARY: 408 passed, 0 failed, 0 errors, 0 skipped
         "gateway_step": "manifest:docs/functional_sprint_48_manifest.json",
         "source_command": "schema validate-manifest"
       }
+    },
+    {
+      "id": "SCHEMA_VALIDATION_PASS",
+      "message": "Instance conforms to schema.",
+      "severity": "info",
+      "metadata": {
+        "schema": "docs/schemas/functional_sprint_manifest.schema.json",
+        "instance": "docs/functional_sprint_49_manifest.json",
+        "gateway_step": "manifest:docs/functional_sprint_49_manifest.json",
+        "source_command": "schema validate-manifest"
+      }
     }
   ]
 }
@@ -3935,8 +4262,8 @@ DEVPL TEST SUMMARY: 408 passed, 0 failed, 0 errors, 0 skipped
   "data": {
     "summary": {
       "agents_total": 13,
-      "tools_total": 40,
-      "policy_rules_total": 26,
+      "tools_total": 43,
+      "policy_rules_total": 29,
       "mvp_agents": 2,
       "high_risk_tools": 12,
       "approval_gated_rules": 8,
@@ -4880,6 +5207,45 @@ DEVPL TEST SUMMARY: 408 passed, 0 failed, 0 errors, 0 skipped
           "MODEL_BUDGET_LEDGER_ALLOW",
           "SECRETS_RAW_DENY"
         ]
+      },
+      {
+        "tool_id": "prompt.registry.read",
+        "name": "read_prompt_registry",
+        "phase": "MVP+",
+        "side_effect": "read",
+        "risk_level": "low",
+        "status": "implemented-initial",
+        "requires_approval": false,
+        "policy_rule_ids": [
+          "PROMPT_REGISTRY_READ_ALLOW",
+          "SECRETS_RAW_DENY"
+        ]
+      },
+      {
+        "tool_id": "prompt.contract.validate",
+        "name": "validate_prompt_contracts",
+        "phase": "MVP+",
+        "side_effect": "none",
+        "risk_level": "medium",
+        "status": "implemented-initial",
+        "requires_approval": false,
+        "policy_rule_ids": [
+          "PROMPT_CONTRACT_VALIDATE_ALLOW",
+          "SECRETS_RAW_DENY"
+        ]
+      },
+      {
+        "tool_id": "prompt.render.controlled",
+        "name": "render_versioned_prompt_controlled",
+        "phase": "MVP+",
+        "side_effect": "local_compute",
+        "risk_level": "medium",
+        "status": "implemented-initial",
+        "requires_approval": false,
+        "policy_rule_ids": [
+          "PROMPT_RENDER_CONTROLLED",
+          "SECRETS_RAW_DENY"
+        ]
       }
     ],
     "policy_rules": [
@@ -5116,6 +5482,33 @@ DEVPL TEST SUMMARY: 408 passed, 0 failed, 0 errors, 0 skipped
         "gate": "BudgetLedger+LocalStore+SecretRedaction+NoRawPrompts",
         "approval_required": false,
         "observability_required": true
+      },
+      {
+        "rule_id": "PROMPT_REGISTRY_READ_ALLOW",
+        "domain": "Prompt",
+        "action": "registry_read",
+        "default_effect": "allow",
+        "gate": "PromptRegistry+PathGuard+NoNetwork+RedactedTemplate",
+        "approval_required": false,
+        "observability_required": true
+      },
+      {
+        "rule_id": "PROMPT_CONTRACT_VALIDATE_ALLOW",
+        "domain": "Prompt",
+        "action": "contract_validate",
+        "default_effect": "allow",
+        "gate": "PromptSchema+PromptSafetyChecker+SecretGuard+PromptInjectionGuard",
+        "approval_required": false,
+        "observability_required": true
+      },
+      {
+        "rule_id": "PROMPT_RENDER_CONTROLLED",
+        "domain": "Prompt",
+        "action": "render_for_model_call",
+        "default_effect": "allow",
+        "gate": "PromptRegistry+DeclaredInputs+PromptSafetyChecker+NoRawPromptStorage",
+        "approval_required": false,
+        "observability_required": true
       }
     ]
   },
@@ -5266,7 +5659,7 @@ DEVPL TEST SUMMARY: 408 passed, 0 failed, 0 errors, 0 skipped
       {
         "artifact": "docs/04_quality/test_strategy.md",
         "exists": true,
-        "size_bytes": 24778,
+        "size_bytes": 25973,
         "frontmatter_ok": true,
         "artifact_ok": true,
         "status": "approved",
@@ -5284,7 +5677,7 @@ DEVPL TEST SUMMARY: 408 passed, 0 failed, 0 errors, 0 skipped
       {
         "artifact": "docs/05_operations/runbook.md",
         "exists": true,
-        "size_bytes": 118883,
+        "size_bytes": 120904,
         "frontmatter_ok": true,
         "artifact_ok": true,
         "status": "approved",
@@ -5302,7 +5695,7 @@ DEVPL TEST SUMMARY: 408 passed, 0 failed, 0 errors, 0 skipped
       {
         "artifact": "docs/06_miasi/tool_card.md",
         "exists": true,
-        "size_bytes": 28497,
+        "size_bytes": 29146,
         "frontmatter_ok": true,
         "artifact_ok": true,
         "status": "approved",
@@ -5311,7 +5704,7 @@ DEVPL TEST SUMMARY: 408 passed, 0 failed, 0 errors, 0 skipped
       {
         "artifact": "docs/06_miasi/policy_card.md",
         "exists": true,
-        "size_bytes": 8131,
+        "size_bytes": 8750,
         "frontmatter_ok": true,
         "artifact_ok": true,
         "status": "approved",

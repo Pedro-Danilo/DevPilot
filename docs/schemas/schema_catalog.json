@@ -5,10 +5,10 @@
   "status": "approved",
   "version": "1.0.0",
   "owner": "Ordóñez",
-  "updated": "2026-06-10",
+  "updated": "2026-06-12",
   "sprint": "FUNC-SPRINT-23",
   "preliminary": true,
-  "purpose": "Catalog of versioned JSON schemas registered by DevPilot. Sprint 23 adds critical MIASI, workspace, provider and sprint manifest contracts.",
+  "purpose": "Catalog of versioned JSON schemas registered by DevPilot. Sprint 49 adds prompt contracts for governed local/model use.",
   "schemas": [
     {
       "schema_id": "SCHEMA-DEVPL-FINDING-V1",
@@ -205,6 +205,20 @@
       "validates_instances": true,
       "contract": "ArtifactProfiles",
       "validation_enabled_sprint": "FUNC-SPRINT-24"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-PROMPT-V1",
+      "title": "DevPilot Prompt Contract v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/prompt.schema.json",
+      "description": "Structural contract for versioned prompt files under docs/prompts with input and safety metadata.",
+      "status": "registered",
+      "contract": "Prompt",
+      "owner": "Ordóñez",
+      "sprint": "FUNC-SPRINT-49",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "FUNC-SPRINT-49"
     }
   ]
 }

@@ -573,3 +573,21 @@ python -m devpilot_core miasi validate --json
 ```
 
 Criterios: health/capabilities reportan estados mock/local/external, budget ledger inicial cero o con eventos redacted, fallback a mock explícito, ningún provider externo habilitado y regresión general sin modelos locales reales.
+
+
+## Actualización FUNC-SPRINT-49 — Pruebas de Prompt Registry y contratos de prompt seguro
+
+La estrategia de pruebas de `FUNC-SPRINT-49` valida prompts como contratos versionados y reproducibles. La cobertura mínima incluye `PromptRegistry`, `PromptSafetyChecker`, `docs/schemas/prompt.schema.json`, CLI `prompt list`, `prompt validate`, `prompt show`, renderizado controlado desde `model generate --prompt-id` y verificación de que el `BudgetLedger` registra `prompt_id/version` sin almacenar prompts, completions ni secretos crudos.
+
+Comandos mínimos:
+
+```powershell
+python -m pytest tests/test_prompt_registry.py tests/test_sprint_49_documentation.py -q
+python -m devpilot_core prompt list --json
+python -m devpilot_core prompt validate --json
+python -m devpilot_core prompt show model.generate.default --json
+python -m devpilot_core validate all --json
+python -m devpilot_core miasi validate --json
+```
+
+Criterios: prompts válidos pasan schema/semántica, prompt sin `id/version` falla, SecretGuard/PromptInjectionGuard producen findings básicos, `prompt show` usa payload redacted, model calls registran referencia de prompt y no se requiere red, Ollama, LM Studio ni API externa.

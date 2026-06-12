@@ -7,6 +7,7 @@ from typing import Iterable
 from devpilot_core.cli_models import CommandResult, ExitCode, Finding, Severity
 from devpilot_core.reports import build_report_id
 from devpilot_core.schemas import BuiltinContractValidator, SchemaRegistry
+from devpilot_core.prompts import PromptRegistry
 from devpilot_core.validation.artifact_profile_registry import ArtifactProfileRegistry
 from devpilot_core.validators.readiness import build_strict_readiness_result
 
@@ -61,6 +62,7 @@ class ValidationGateway:
             GatewayStep("miasi-contracts", contracts.validate_miasi()),
             GatewayStep("workspace-contract", contracts.validate_workspace()),
             GatewayStep("provider-contract", contracts.validate_providers()),
+            GatewayStep("prompt-contracts", PromptRegistry(self.root).validate()),
         ]
         for manifest in self._phase_a_manifests():
             results.append(GatewayStep(f"manifest:{manifest.as_posix()}", contracts.validate_manifest(manifest)))

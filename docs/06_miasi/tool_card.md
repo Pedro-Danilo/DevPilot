@@ -573,3 +573,13 @@ La implementación es preliminar: cubre `/v1/models`, `/v1/chat/completions` y `
 Sprint 48 incorpora herramientas de gobierno de modelos: `model.health.local`, `model.capabilities.read` y `model.budget.status`. Todas operan local-first, no contactan APIs externas, no almacenan prompts ni secretos crudos y quedan gobernadas por `ProviderRegistry`, `ModelAdapterRouter`, `SecretGuard`, `CostGuard`, `LocalStore` y políticas MIASI.
 
 Criterios PASS: reportes JSON reproducibles, proveedores externos bloqueados, budget ledger sin payloads crudos y fallback a `mock` explícito/configurado. Criterios BLOCK: gasto externo por defecto, endpoint remoto, metadata con secretos o provider unavailable con traceback.
+
+## FUNC-SPRINT-49 — Prompt Registry como herramienta agentic gobernada
+
+Sprint 49 registra prompts como herramientas read-only/controlled dentro de MIASI:
+
+- `prompt.registry.read`: lectura del catálogo de prompts versionados.
+- `prompt.contract.validate`: validación de schema, placeholders y safety básica.
+- `prompt.render.controlled`: renderizado local controlado para llamadas de modelo con `prompt_id/version`.
+
+Estas herramientas no llaman red, no ejecutan acciones críticas, no escriben prompts y no almacenan payloads crudos. Su estado es `implemented-initial` porque el chequeo de inyección de prompt es determinístico y básico.

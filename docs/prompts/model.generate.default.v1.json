@@ -1,0 +1,44 @@
+{
+  "id": "model.generate.default",
+  "version": "1.0.0",
+  "status": "approved",
+  "owner": "Ordóñez",
+  "task": "generate",
+  "agent_id": "precode.documentation",
+  "description": "Prompt base para generación local gobernada con contexto explícito y sin acciones críticas.",
+  "input_variables": [
+    {
+      "name": "user_request",
+      "description": "Solicitud resumida del usuario o del agente llamador.",
+      "required": true,
+      "max_length": 6000
+    },
+    {
+      "name": "project_context",
+      "description": "Contexto técnico mínimo del proyecto DevPilot o del artefacto objetivo.",
+      "required": false,
+      "max_length": 8000
+    }
+  ],
+  "template": "Eres un asistente técnico local-first dentro de DevPilot. Responde de forma estructurada, trazable y segura. Solicitud: {{ user_request }}. Contexto disponible: {{ project_context }}. No ejecutes acciones destructivas, no solicites secretos y no inventes evidencia de pruebas.",
+  "safety": {
+    "redaction_required": true,
+    "prompt_injection_scan_required": true,
+    "secret_scan_required": true,
+    "store_raw_prompt": false,
+    "store_raw_completion": false,
+    "allowed_tools": [],
+    "forbidden_patterns": ["raw_secret", "api_key", "delete_without_approval"]
+  },
+  "usage": {
+    "providers": ["mock", "ollama", "lmstudio"],
+    "default_provider": "mock",
+    "fallback_provider": "mock",
+    "max_tokens_estimated": 2000
+  },
+  "metadata": {
+    "sprint": "FUNC-SPRINT-49",
+    "preliminary": true,
+    "notes": "Primera versión para llamadas CLI model generate con --prompt-id."
+  }
+}

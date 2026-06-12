@@ -31,6 +31,7 @@ class BudgetLedger:
         model = str(summary.get("model") or result_payload.get("model") or provider_payload.get("default_model") or "unknown")
         tokens = int(summary.get("tokens_estimated") or result_payload.get("tokens_estimated") or 0)
         monetary_cost = float(summary.get("cost_estimate_usd") or result_payload.get("cost_estimate_usd") or 0.0)
+        prompt_reference = dict(data.get("prompt_reference") or {})
         metadata = {
             "source": source,
             "task": task,
@@ -46,6 +47,11 @@ class BudgetLedger:
             "content_stored": False,
             "preliminary": True,
         }
+        if prompt_reference:
+            metadata["prompt_id"] = prompt_reference.get("prompt_id")
+            metadata["prompt_version"] = prompt_reference.get("version")
+            metadata["prompt_inputs_used"] = prompt_reference.get("inputs_used") or []
+            metadata["prompt_payload_redacted"] = True
         return LocalStore(self.root).record_cost_event(
             provider=provider,
             estimated_cost_usd=monetary_cost,

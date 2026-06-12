@@ -14,7 +14,7 @@ change_policy: "controlled_changes_allowed_via_docs_as_code"
 approved_on: "2026-06-06"
 approval_scope: "functional_backlog_after_precode"
 baseline_execution: "FUNC-SPRINT-00"
-next_sprint: "FUNC-SPRINT-49"
+next_sprint: "FUNC-SPRINT-50"
 ---
 
 # DevPilot Local — Backlog ejecutable posterior a pre-code
@@ -2127,3 +2127,10 @@ La transición hacia `FUNC-SPRINT-48` queda condicionada a no requerir modelos l
 ## Transición posterior a FUNC-SPRINT-48
 
 `FUNC-SPRINT-48` consolida el gobierno operativo inicial de modelos locales mediante health unificado, capability matrix y budget ledger local. La transición hacia `FUNC-SPRINT-49` queda condicionada a mantener `mock` como ruta obligatoria/default, no requerir Ollama/LM Studio para pruebas base, no almacenar prompts o secretos en `cost_events`, no habilitar APIs externas y usar el nuevo gobierno como base para Prompt Registry y Prompt Packs gobernados.
+
+
+## Transición posterior a FUNC-SPRINT-49
+
+`FUNC-SPRINT-49` completa el Prompt Registry inicial: prompts versionados como docs-as-code, schema `Prompt`, comandos read-only `prompt list/show/validate`, checks básicos de `PromptSafetyChecker` y trazabilidad `prompt_id/version` en llamadas `model generate --prompt-id`.
+
+La transición hacia `FUNC-SPRINT-50` queda condicionada a evaluar modelos usando prompts versionados, no prompts embebidos sin trazabilidad, mantener `mock` como baseline reproducible, no almacenar prompts/completions crudos y conservar APIs externas bloqueadas salvo ADR/aprobación futura.

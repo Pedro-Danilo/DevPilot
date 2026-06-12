@@ -167,3 +167,13 @@ La implementación es preliminar: cubre `/v1/models`, `/v1/chat/completions` y `
 Sprint 48 incorpora herramientas de gobierno de modelos: `model.health.local`, `model.capabilities.read` y `model.budget.status`. Todas operan local-first, no contactan APIs externas, no almacenan prompts ni secretos crudos y quedan gobernadas por `ProviderRegistry`, `ModelAdapterRouter`, `SecretGuard`, `CostGuard`, `LocalStore` y políticas MIASI.
 
 Criterios PASS: reportes JSON reproducibles, proveedores externos bloqueados, budget ledger sin payloads crudos y fallback a `mock` explícito/configurado. Criterios BLOCK: gasto externo por defecto, endpoint remoto, metadata con secretos o provider unavailable con traceback.
+
+## FUNC-SPRINT-49 — Políticas de prompts seguros
+
+Sprint 49 agrega reglas MIASI para prompts:
+
+- `PROMPT_REGISTRY_READ_ALLOW`: permite listar/mostrar prompts versionados en modo read-only y redacted.
+- `PROMPT_CONTRACT_VALIDATE_ALLOW`: permite validar prompt schema, placeholders y checks básicos de seguridad.
+- `PROMPT_RENDER_CONTROLLED`: permite renderizar prompts versionados solo con inputs declarados y sin almacenamiento crudo.
+
+Estas reglas complementan `SECRETS_RAW_DENY`. No autorizan prompts dinámicos no versionados, exposición de secretos ni almacenamiento de prompts/completions crudos en runtime.

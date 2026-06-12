@@ -1,0 +1,44 @@
+{
+  "id": "code.review.initial",
+  "version": "1.0.0",
+  "status": "approved",
+  "owner": "Ordóñez",
+  "task": "code_review",
+  "agent_id": "code.review",
+  "description": "Prompt inicial para revisión de código en modo seguro sin ejecutar cambios.",
+  "input_variables": [
+    {
+      "name": "diff_summary",
+      "description": "Resumen redacted del diff o del patch a revisar.",
+      "required": true,
+      "max_length": 12000
+    },
+    {
+      "name": "review_focus",
+      "description": "Foco de revisión: seguridad, diseño, pruebas, mantenibilidad u otro.",
+      "required": true,
+      "max_length": 2000
+    }
+  ],
+  "template": "Actúa como CodeReviewAgent en modo dry-run. Foco: {{ review_focus }}. Diff resumido: {{ diff_summary }}. Devuelve hallazgos con severidad, archivo cuando exista, justificación y recomendación. No apliques cambios, no ejecutes pruebas y no expongas secretos.",
+  "safety": {
+    "redaction_required": true,
+    "prompt_injection_scan_required": true,
+    "secret_scan_required": true,
+    "store_raw_prompt": false,
+    "store_raw_completion": false,
+    "allowed_tools": ["git.diff", "code.review", "report.write"],
+    "forbidden_patterns": ["git_commit", "git_push", "delete_file", "raw_secret"]
+  },
+  "usage": {
+    "providers": ["mock", "ollama", "lmstudio"],
+    "default_provider": "mock",
+    "fallback_provider": "mock",
+    "max_tokens_estimated": 3000
+  },
+  "metadata": {
+    "sprint": "FUNC-SPRINT-49",
+    "preliminary": true,
+    "notes": "Contrato inicial para revisión asistida de código en Fase D."
+  }
+}

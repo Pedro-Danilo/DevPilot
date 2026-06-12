@@ -17,6 +17,7 @@ from .observability import EventLogger
 from .miasi import MiasiRegistryValidator
 from .modeling import BudgetLedger, CapabilityMatrix, ModelAdapterRouter, ModelHealthService, ModelRouterConfig
 from .policy import CostPolicy, PolicyEngine, PolicyRequest, load_cost_policy
+from .prompts import PromptRegistry
 from .reports import ReportEngine, build_report_id
 from .security import PolicySimulationSuite, SecurityReadiness
 from .schemas import BuiltinContractValidator, SchemaRegistry, SchemaValidator
@@ -331,7 +332,10 @@ def model_providers_command(*, json_output: bool = False, write_report: bool = F
 
 def model_generate_command(
     *,
-    prompt: str,
+    prompt: str | None = None,
+    prompt_id: str | None = None,
+    prompt_version: str | None = None,
+    prompt_inputs: list[str] | None = None,
     provider: str = "mock",
     model: str | None = None,
     allow_external_api: bool = False,
@@ -345,6 +349,53 @@ def model_generate_command(
     """Generate text through the safe ModelAdapter boundary."""
 
     root = project_root()
+    prompt_reference: dict[str, object] | None = None
+    effective_prompt = prompt
+    if prompt_id:
+        try:
+            rendered, render_error = PromptRegistry(root).render(
+                prompt_id,
+                version=prompt_version,
+                inputs=_parse_prompt_inputs(prompt_inputs),
+            )
+        except ValueError as exc:
+            render_error = CommandResult(
+                command="prompt render",
+                ok=False,
+                exit_code=ExitCode.BLOCK,
+                message="Prompt render blocked by invalid CLI input format.",
+                data={"summary": {"prompt_id": prompt_id, "payload_redacted": True, "external_api_used": False, "preliminary": True}},
+                findings=[Finding(id="PROMPT_INPUT_FORMAT_INVALID", message=str(exc), severity=Severity.BLOCK, metadata={"prompt_id": prompt_id, "payload_redacted": True})],
+            )
+            rendered = None
+        if render_error is not None:
+            result = render_error
+            result = _write_optional_command_report(
+                root,
+                result,
+                subject=f"prompt:{prompt_id}",
+                report_id="model_generate_prompt_render",
+                write_report=write_report,
+                metadata={"sprint": "FUNC-SPRINT-49", "component": "PromptRegistry"},
+            )
+            _emit_result_event(root, result, subject=f"prompt:{prompt_id}")
+            _persist_result(root, result, subject=f"prompt:{prompt_id}")
+            print_result(result, json_output=json_output)
+            return int(result.exit_code)
+        assert rendered is not None
+        effective_prompt = rendered.text
+        prompt_reference = rendered.reference_payload()
+    if not effective_prompt:
+        result = CommandResult(
+            command="model generate",
+            ok=False,
+            exit_code=ExitCode.BLOCK,
+            message="Model generate requires either --prompt or --prompt-id with valid inputs.",
+            data={"summary": {"provider": provider, "prompt_id": prompt_id, "payload_redacted": True, "external_api_used": False, "preliminary": True}},
+            findings=[Finding(id="MODEL_GENERATE_PROMPT_REQUIRED", message="No prompt payload or prompt_id was provided.", severity=Severity.BLOCK, metadata={"prompt_id": prompt_id})],
+        )
+        print_result(result, json_output=json_output)
+        return int(result.exit_code)
     result = _model_router(
         root,
         allow_external_api=allow_external_api,
@@ -352,7 +403,8 @@ def model_generate_command(
         budget_used_usd=budget_used_usd,
         local_timeout_seconds=timeout_seconds,
         fallback_to_mock_on_local_unavailable=fallback_to_mock,
-    ).generate(prompt=prompt, provider=provider, model=model)
+    ).generate(prompt=effective_prompt, provider=provider, model=model)
+    result = _attach_prompt_reference(result, prompt_reference)
     BudgetLedger(root).record_model_result(result, source="model-generate-cli")
     result = _write_optional_command_report(
         root,
@@ -424,6 +476,100 @@ def model_embed_command(
     )
     _emit_result_event(root, result, subject=f"provider:{provider}")
     _persist_result(root, result, subject=f"provider:{provider}")
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+
+def _parse_prompt_inputs(items: list[str] | None) -> dict[str, str]:
+    """Parse key=value CLI prompt inputs without logging values elsewhere."""
+
+    inputs: dict[str, str] = {}
+    for item in items or []:
+        if "=" not in item:
+            raise ValueError(f"Prompt input must use key=value format: {item}")
+        key, value = item.split("=", 1)
+        key = key.strip()
+        if not key:
+            raise ValueError("Prompt input key cannot be empty.")
+        inputs[key] = value
+    return inputs
+
+
+def _attach_prompt_reference(result: CommandResult, prompt_reference: dict[str, object] | None) -> CommandResult:
+    """Return result enriched with prompt id/version metadata only."""
+
+    if not prompt_reference:
+        return result
+    data = dict(result.data or {})
+    data["prompt_reference"] = dict(prompt_reference)
+    summary = dict(data.get("summary") or {})
+    summary["prompt_id"] = prompt_reference.get("prompt_id")
+    summary["prompt_version"] = prompt_reference.get("version")
+    summary["prompt_payload_redacted"] = True
+    data["summary"] = summary
+    return CommandResult(
+        command=result.command,
+        ok=result.ok,
+        exit_code=result.exit_code,
+        message=result.message,
+        data=data,
+        findings=result.findings,
+    )
+
+
+def prompt_list_command(*, json_output: bool = False, write_report: bool = False) -> int:
+    """List versioned prompt contracts in read-only mode."""
+
+    root = project_root()
+    result = PromptRegistry(root).list()
+    result = _write_optional_command_report(
+        root,
+        result,
+        subject="docs/prompts",
+        report_id="prompt_list",
+        write_report=write_report,
+        metadata={"sprint": "FUNC-SPRINT-49", "component": "PromptRegistry"},
+    )
+    _emit_result_event(root, result, subject="docs/prompts")
+    _persist_result(root, result, subject="docs/prompts")
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+
+def prompt_validate_command(*, prompt_id: str | None = None, json_output: bool = False, write_report: bool = False) -> int:
+    """Validate prompt schema, semantics and basic safety findings."""
+
+    root = project_root()
+    result = PromptRegistry(root).validate(prompt_id=prompt_id)
+    result = _write_optional_command_report(
+        root,
+        result,
+        subject=prompt_id or "docs/prompts",
+        report_id="prompt_validate",
+        write_report=write_report,
+        metadata={"sprint": "FUNC-SPRINT-49", "component": "PromptRegistry"},
+    )
+    _emit_result_event(root, result, subject=prompt_id or "docs/prompts")
+    _persist_result(root, result, subject=prompt_id or "docs/prompts")
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+
+def prompt_show_command(*, prompt_id: str, version: str | None = None, json_output: bool = False, write_report: bool = False) -> int:
+    """Show one prompt contract with redacted template content."""
+
+    root = project_root()
+    result = PromptRegistry(root).show(prompt_id, version=version)
+    result = _write_optional_command_report(
+        root,
+        result,
+        subject=f"prompt:{prompt_id}",
+        report_id="prompt_show",
+        write_report=write_report,
+        metadata={"sprint": "FUNC-SPRINT-49", "component": "PromptRegistry"},
+    )
+    _emit_result_event(root, result, subject=f"prompt:{prompt_id}")
+    _persist_result(root, result, subject=f"prompt:{prompt_id}")
     print_result(result, json_output=json_output)
     return int(result.exit_code)
 
@@ -2055,6 +2201,25 @@ def build_parser() -> argparse.ArgumentParser:
     eval_run.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
 
 
+
+    prompt_parser = sub.add_parser("prompt", help="Inspect governed Prompt Registry contracts")
+    prompt_sub = prompt_parser.add_subparsers(dest="prompt_command")
+
+    prompt_list = prompt_sub.add_parser("list", help="List versioned prompt contracts")
+    prompt_list.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    prompt_list.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+
+    prompt_validate = prompt_sub.add_parser("validate", help="Validate prompt schema, semantics and basic safety")
+    prompt_validate.add_argument("--prompt-id", default=None, help="Optional prompt id to validate")
+    prompt_validate.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    prompt_validate.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+
+    prompt_show = prompt_sub.add_parser("show", help="Show one prompt contract with redacted template")
+    prompt_show.add_argument("prompt_id", help="Prompt id to show")
+    prompt_show.add_argument("--version", default=None, help="Optional exact prompt version")
+    prompt_show.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    prompt_show.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+
     model_parser = sub.add_parser("model", help="Inspect and use safe ModelAdapter providers")
     model_sub = model_parser.add_subparsers(dest="model_command")
 
@@ -2080,7 +2245,10 @@ def build_parser() -> argparse.ArgumentParser:
     model_budget_status.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
 
     model_generate = model_sub.add_parser("generate", help="Generate text through ModelAdapter")
-    model_generate.add_argument("--prompt", required=True, help="Prompt text to generate from")
+    model_generate.add_argument("--prompt", default=None, help="Prompt text to generate from; mutually optional with --prompt-id")
+    model_generate.add_argument("--prompt-id", default=None, help="Optional Prompt Registry id to render and route")
+    model_generate.add_argument("--prompt-version", default=None, help="Optional exact prompt version for --prompt-id")
+    model_generate.add_argument("--prompt-input", action="append", default=[], help="Prompt input as key=value; repeat for multiple inputs")
     model_generate.add_argument("--provider", default="mock", help="Provider id; default: mock")
     model_generate.add_argument("--model", default=None, help="Optional model id override")
     model_generate.add_argument("--allow-external-api", action="store_true", help="Simulate explicit external API budget permission")
@@ -2540,6 +2708,15 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
             )
         parser.print_help()
         return int(ExitCode.FAIL)
+    if args.command == "prompt":
+        if args.prompt_command == "list":
+            return prompt_list_command(json_output=args.json, write_report=args.write_report)
+        if args.prompt_command == "validate":
+            return prompt_validate_command(prompt_id=args.prompt_id, json_output=args.json, write_report=args.write_report)
+        if args.prompt_command == "show":
+            return prompt_show_command(prompt_id=args.prompt_id, version=args.version, json_output=args.json, write_report=args.write_report)
+        parser.print_help()
+        return int(ExitCode.FAIL)
     if args.command == "model":
         if args.model_command == "providers":
             return model_providers_command(json_output=args.json, write_report=args.write_report)
@@ -2560,6 +2737,9 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
         if args.model_command == "generate":
             return model_generate_command(
                 prompt=args.prompt,
+                prompt_id=args.prompt_id,
+                prompt_version=args.prompt_version,
+                prompt_inputs=args.prompt_input,
                 provider=args.provider,
                 model=args.model,
                 allow_external_api=args.allow_external_api,
