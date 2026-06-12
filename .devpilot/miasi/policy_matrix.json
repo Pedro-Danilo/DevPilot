@@ -273,6 +273,15 @@
       "gate": "ModelEvalRunner+PromptRegistry+ModelAdapterRouter+BudgetLedger+NoExternalAPI+NoRawPrompts",
       "approval_required": false,
       "observability_required": true
+    },
+    {
+      "rule_id": "AGENT_MODEL_CALL_GOVERNED_ALLOW",
+      "domain": "Agent",
+      "action": "model_generate_via_runtime_v2",
+      "default_effect": "allow",
+      "gate": "AgentRuntimeV2+PromptRegistry+ModelAdapterRouter+BudgetLedger+SingleAgentOnly+NoHandoffs+NoExternalAPI+NoRawPrompts",
+      "approval_required": false,
+      "observability_required": true
     }
   ]
 }

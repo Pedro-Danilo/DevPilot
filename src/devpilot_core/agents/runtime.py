@@ -6,7 +6,8 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Protocol
 
-from devpilot_core.agents.models import AgentMessage, AgentRunResult, AgentSuggestion, AgentToolCall
+from devpilot_core.agents.base import ModelAwareAgent
+from devpilot_core.agents.models import AgentMessage, AgentModelCall, AgentRunResult, AgentSuggestion, AgentToolCall
 from devpilot_core.cli_models import CommandResult, ExitCode, Finding, Severity
 from devpilot_core.miasi import AgentSpec, MiasiRegistryValidator
 from devpilot_core.policy import PolicyEngine, PolicyRequest
@@ -35,15 +36,22 @@ class LocalAgent(Protocol):
 
 @dataclass(frozen=True)
 class AgentRuntimeConfig:
-    """Runtime constraints for FUNC-SPRINT-12.
+    """Runtime constraints for AgentRuntime.
 
-    The first version is intentionally local-only. It does not call LLMs, APIs,
-    shells or network services. It executes deterministic Python code and only
-    writes draft artifacts when the caller explicitly disables dry-run.
+    FUNC-SPRINT-51 extends the deterministic Sprint 12 runtime with optional
+    model-aware execution. Model calls remain opt-in, mono-agent, routed through
+    ModelAdapterRouter and governed by PromptRegistry/BudgetLedger.
     """
 
     allow_execute: bool = False
     require_miasi_validation: bool = True
+    model_provider: str | None = None
+    model: str | None = None
+    prompt_id: str | None = None
+    prompt_version: str | None = None
+    prompt_inputs: dict[str, str] | None = None
+    fallback_to_mock: bool = False
+    local_timeout_seconds: float = 3.0
 
 
 class AgentRuntime:
@@ -64,8 +72,22 @@ class AgentRuntime:
             "precode.documentation": PreCodeDocumentationAgent(self.root, self.policy),
         }
 
-    def run(self, requested_agent: str, *, target: str | None = None, idea: str | None = None, dry_run: bool = True) -> CommandResult:
-        """Run a registered MVP document agent and return CommandResult."""
+    def run(
+        self,
+        requested_agent: str,
+        *,
+        target: str | None = None,
+        idea: str | None = None,
+        dry_run: bool = True,
+        provider: str | None = None,
+        model: str | None = None,
+        prompt_id: str | None = None,
+        prompt_version: str | None = None,
+        prompt_inputs: dict[str, str] | None = None,
+        fallback_to_mock: bool | None = None,
+        timeout_seconds: float | None = None,
+    ) -> CommandResult:
+        """Run one registered mono-agent and return a normalized CommandResult."""
 
         agent_id = AGENT_ALIASES.get(requested_agent.strip(), requested_agent.strip())
         bundle, load_findings = MiasiRegistryValidator(self.root).load_bundle()
@@ -105,12 +127,15 @@ class AgentRuntime:
                 AgentRunResult(agent_id=spec.agent_id, agent_name=spec.name, ok=False, message="Agent runtime has no implementation for this agent.", dry_run=dry_run, findings=[finding])
             )
 
+        # FUNC-SPRINT-51 keeps execution mono-agent. Only currently implemented
+        # MVP agents can run; MVP+ specialized agents remain planned for later
+        # sprints and must not be activated through runtime v2 yet.
         if spec.phase != "MVP":
             finding = Finding(
                 id="AGENT_RUNTIME_PHASE_BLOCKED",
-                message="Sprint 12 only executes MVP document agents.",
+                message="AgentRuntime v2 only executes implemented mono-agent MVP agents in Sprint 51.",
                 severity=Severity.BLOCK,
-                metadata={"agent_id": spec.agent_id, "phase": spec.phase},
+                metadata={"agent_id": spec.agent_id, "phase": spec.phase, "multiagent_enabled": False},
             )
             return _agent_command_result(
                 AgentRunResult(agent_id=spec.agent_id, agent_name=spec.name, ok=False, message="Agent runtime blocked non-MVP agent.", dry_run=dry_run, findings=[finding])
@@ -131,7 +156,28 @@ class AgentRuntime:
                     )
                 )
 
-        message = AgentMessage(agent_id=spec.agent_id, target=target, idea=idea, dry_run=dry_run, metadata={"requested_agent": requested_agent})
+        model_runtime = self._model_runtime_metadata(
+            provider=provider,
+            model=model,
+            prompt_id=prompt_id,
+            prompt_version=prompt_version,
+            prompt_inputs=prompt_inputs,
+            fallback_to_mock=fallback_to_mock,
+            timeout_seconds=timeout_seconds,
+        )
+        message = AgentMessage(
+            agent_id=spec.agent_id,
+            target=target,
+            idea=idea,
+            dry_run=dry_run,
+            metadata={
+                "requested_agent": requested_agent,
+                "runtime_version": "v2-model-aware",
+                "monoagent": True,
+                "handoffs_enabled": False,
+                "model_runtime": model_runtime,
+            },
+        )
         result = self._agents[spec.agent_id].run(message)
         result = AgentRunResult(
             agent_id=result.agent_id,
@@ -140,21 +186,59 @@ class AgentRuntime:
             message=result.message,
             dry_run=result.dry_run,
             tool_calls=result.tool_calls,
+            model_calls=result.model_calls,
             findings=result.findings,
             suggestions=result.suggestions,
             artifacts=result.artifacts,
-            metadata={"miasi_status": spec.status, "max_autonomy": spec.max_autonomy, **result.metadata},
+            metadata={
+                "miasi_status": spec.status,
+                "max_autonomy": spec.max_autonomy,
+                "runtime_version": "v2-model-aware",
+                "model_runtime_enabled": bool(model_runtime.get("enabled")),
+                "monoagent": True,
+                "handoffs_enabled": False,
+                **result.metadata,
+            },
         )
         return _agent_command_result(result)
 
+    def _model_runtime_metadata(
+        self,
+        *,
+        provider: str | None,
+        model: str | None,
+        prompt_id: str | None,
+        prompt_version: str | None,
+        prompt_inputs: dict[str, str] | None,
+        fallback_to_mock: bool | None,
+        timeout_seconds: float | None,
+    ) -> dict[str, Any]:
+        selected_provider = provider if provider is not None else self.config.model_provider
+        selected_prompt_id = prompt_id if prompt_id is not None else self.config.prompt_id
+        enabled = selected_provider is not None or selected_prompt_id is not None
+        inputs = dict(self.config.prompt_inputs or {})
+        inputs.update(prompt_inputs or {})
+        return {
+            "enabled": enabled,
+            "provider": selected_provider or "mock",
+            "model": model if model is not None else self.config.model,
+            "prompt_id": selected_prompt_id,
+            "prompt_version": prompt_version if prompt_version is not None else self.config.prompt_version,
+            "prompt_inputs": inputs,
+            "fallback_to_mock": self.config.fallback_to_mock if fallback_to_mock is None else bool(fallback_to_mock),
+            "timeout_seconds": timeout_seconds if timeout_seconds is not None else self.config.local_timeout_seconds,
+            "payload_redacted": True,
+            "external_api_used": False,
+        }
 
-class BaseDocumentAgent:
+
+class BaseDocumentAgent(ModelAwareAgent):
     """Shared helpers for deterministic document agents."""
 
     agent_id: str
 
     def __init__(self, root: Path, policy: PolicyEngine) -> None:
-        self.root = root.resolve()
+        super().__init__(root)
         self.policy = policy
 
     def _policy_tool_call(self, tool_id: str, action: str, subject: str | Path | None, *, text: str | None = None, dry_run: bool = True) -> AgentToolCall:
@@ -197,16 +281,16 @@ class DocumentationAuditAgent(BaseDocumentAgent):
         tool_calls.append(read_call)
         if not read_call.allowed:
             findings.extend(read_call.findings)
-            return AgentRunResult(self.agent_id, "DocumentationAuditAgent", False, "Documentation audit blocked by policy.", message.dry_run, tool_calls, findings)
+            return AgentRunResult(self.agent_id, "DocumentationAuditAgent", False, "Documentation audit blocked by policy.", message.dry_run, tool_calls=tool_calls, findings=findings)
 
         if not target_path.exists():
             findings.append(Finding("AGENT_TARGET_MISSING", "Documentation audit target does not exist.", Severity.BLOCK, path=target_rel))
-            return AgentRunResult(self.agent_id, "DocumentationAuditAgent", False, "Documentation audit target is missing.", message.dry_run, tool_calls, findings)
+            return AgentRunResult(self.agent_id, "DocumentationAuditAgent", False, "Documentation audit target is missing.", message.dry_run, tool_calls=tool_calls, findings=findings)
 
         markdown_files = _markdown_targets(target_path)
         if not markdown_files:
             findings.append(Finding("AGENT_TARGET_EMPTY", "Documentation audit target has no Markdown files.", Severity.FAIL, path=target_rel))
-            return AgentRunResult(self.agent_id, "DocumentationAuditAgent", False, "Documentation audit found no Markdown files.", message.dry_run, tool_calls, findings)
+            return AgentRunResult(self.agent_id, "DocumentationAuditAgent", False, "Documentation audit found no Markdown files.", message.dry_run, tool_calls=tool_calls, findings=findings)
 
         validated = 0
         for file_path in markdown_files:
@@ -244,6 +328,26 @@ class DocumentationAuditAgent(BaseDocumentAgent):
             suggestions.append(AgentSuggestion("Auditoría documental con advertencias", "Hay secciones recomendadas o señales no bloqueantes para revisar.", target=target_rel, severity="warning"))
 
         ok = not blocking
+        model_calls: list[AgentModelCall] = []
+        if ok:
+            model_call, model_findings, model_suggestion = self._run_model_generate(
+                message,
+                default_prompt_id="model.generate.default",
+                default_inputs={
+                    "user_request": f"Resume de forma segura la auditoría documental ejecutada sobre {target_rel}.",
+                    "project_context": f"Archivos markdown evaluados: {len(markdown_files)}; archivos validados: {validated}; findings: {len(findings)}.",
+                },
+                suggestion_title="Resumen model-aware de auditoría documental",
+                suggestion_target=target_rel,
+            )
+            if model_call is not None:
+                model_calls.append(model_call)
+            if model_findings:
+                findings.extend(model_findings)
+                blocking = [finding for finding in findings if finding.severity in {Severity.BLOCK, Severity.ERROR, Severity.FAIL}]
+                ok = not blocking
+            if model_suggestion is not None:
+                suggestions.append(model_suggestion)
         return AgentRunResult(
             self.agent_id,
             "DocumentationAuditAgent",
@@ -251,10 +355,11 @@ class DocumentationAuditAgent(BaseDocumentAgent):
             "Documentation audit completed." if ok else "Documentation audit completed with blocking/failing findings.",
             message.dry_run,
             tool_calls,
+            model_calls,
             findings,
             suggestions,
             artifacts={"target": target_rel, "markdown_files": [_repo_path(path, self.root) for path in markdown_files], "validated_files": validated},
-            metadata={"mode": "rule-based", "llm_used": False},
+            metadata={"mode": "rule-based+model-aware" if model_calls else "rule-based", "llm_used": any(call.provider != "mock" for call in model_calls), "external_api_used": False},
         )
 
 
@@ -283,7 +388,7 @@ class PreCodeDocumentationAgent(BaseDocumentAgent):
         tool_calls.append(policy_call)
         if not policy_call.allowed:
             findings.extend(policy_call.findings)
-            return AgentRunResult(self.agent_id, "PreCodeDocumentationAgent", False, "Pre-code documentation draft blocked by policy.", message.dry_run, tool_calls, findings)
+            return AgentRunResult(self.agent_id, "PreCodeDocumentationAgent", False, "Pre-code documentation draft blocked by policy.", message.dry_run, tool_calls=tool_calls, findings=findings)
 
         draft = _render_precode_draft(idea)
         if message.dry_run:
@@ -300,10 +405,43 @@ class PreCodeDocumentationAgent(BaseDocumentAgent):
             draft_path.parent.mkdir(parents=True, exist_ok=True)
             if draft_path.exists():
                 findings.append(Finding("AGENT_DRAFT_EXISTS", "Draft output already exists; refusing to overwrite.", Severity.BLOCK, path=draft_rel))
-                return AgentRunResult(self.agent_id, "PreCodeDocumentationAgent", False, "Draft already exists; no overwrite performed.", message.dry_run, tool_calls, findings)
+                return AgentRunResult(self.agent_id, "PreCodeDocumentationAgent", False, "Draft already exists; no overwrite performed.", message.dry_run, tool_calls=tool_calls, findings=findings)
             draft_path.write_text(draft, encoding="utf-8")
             suggestions.append(AgentSuggestion("Borrador pre-code escrito", "Se escribió un borrador revisable bajo outputs/drafts.", target=draft_rel))
             artifacts = {"draft_path": draft_rel, "written": True}
+
+        model_calls: list[AgentModelCall] = []
+        model_call, model_findings, model_suggestion = self._run_model_generate(
+            message,
+            default_prompt_id="model.generate.default",
+            default_inputs={
+                "user_request": "Propón mejoras seguras para el borrador pre-code generado en dry-run.",
+                "project_context": f"Draft path: {draft_rel}. Idea provided: yes. Raw idea is not persisted in model call metadata.",
+            },
+            suggestion_title="Sugerencia model-aware para borrador pre-code",
+            suggestion_target=draft_rel,
+        )
+        if model_call is not None:
+            model_calls.append(model_call)
+        if model_findings:
+            findings.extend(model_findings)
+            blocking_model_findings = [finding for finding in model_findings if finding.severity in {Severity.BLOCK, Severity.ERROR, Severity.FAIL}]
+            if blocking_model_findings:
+                return AgentRunResult(
+                    self.agent_id,
+                    "PreCodeDocumentationAgent",
+                    False,
+                    "Pre-code documentation draft generated but model-aware guidance was blocked.",
+                    message.dry_run,
+                    tool_calls,
+                    model_calls,
+                    findings,
+                    suggestions,
+                    artifacts=artifacts,
+                    metadata={"mode": "rule-based+model-aware", "llm_used": False, "external_api_used": False},
+                )
+        if model_suggestion is not None:
+            suggestions.append(model_suggestion)
 
         return AgentRunResult(
             self.agent_id,
@@ -312,10 +450,11 @@ class PreCodeDocumentationAgent(BaseDocumentAgent):
             "Pre-code documentation draft generated in dry-run." if message.dry_run else "Pre-code documentation draft written under outputs/drafts.",
             message.dry_run,
             tool_calls,
+            model_calls,
             findings,
             suggestions,
             artifacts=artifacts,
-            metadata={"mode": "rule-based", "llm_used": False, "external_api_used": False},
+            metadata={"mode": "rule-based+model-aware" if model_calls else "rule-based", "llm_used": any(call.provider != "mock" for call in model_calls), "external_api_used": False},
         )
 
 
@@ -330,16 +469,19 @@ def _agent_command_result(result: AgentRunResult) -> CommandResult:
             "agent_name": result.agent_name,
             "dry_run": result.dry_run,
             "preliminary": True,
-            "llm_required": False,
+            "llm_required": any(call.provider != "mock" for call in result.model_calls),
+            "model_aware": bool(result.model_calls),
         },
         "summary": {
             "tool_calls_total": len(result.tool_calls),
+            "model_calls_total": len(result.model_calls),
             "suggestions_total": len(result.suggestions),
             "findings_total": len(result.findings),
             "blocking_findings": len(blocking),
             "failing_findings": len(failing),
         },
         "tool_calls": [call.to_dict() for call in result.tool_calls],
+        "model_calls": [call.to_dict() for call in result.model_calls],
         "suggestions": [suggestion.to_dict() for suggestion in result.suggestions],
         "artifacts": result.artifacts,
         "metadata": result.metadata,

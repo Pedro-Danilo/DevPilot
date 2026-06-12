@@ -3067,3 +3067,29 @@ El comando carga `evals/model_fixtures/model_eval_cases.json`, renderiza prompts
 ### Riesgos
 
 Esta es una evaluación `implemented-initial`: mide señales determinísticas mínimas y no sustituye benchmarks estadísticos, datasets grandes, jueces LLM ni evaluación humana. Debe evolucionar con suites por agente/tarea, métricas de groundedness, reproducibilidad por semilla y comparativas multi-modelo más robustas.
+
+
+## FUNC-SPRINT-51 — AgentRuntime v2 model-aware en modo monoagente
+
+`FUNC-SPRINT-51` agrega ejecución agentic model-aware en modo monoagente. Los agentes existentes siguen siendo seguros y determinísticos cuando no se pasa `--provider`; con `--provider mock` activan una llamada gobernada por `PromptRegistry`, `ModelAdapterRouter`, guards locales y `BudgetLedger`.
+
+Comandos de verificación:
+
+```powershell
+python -m devpilot_core agent run documentation-audit --target docs/01_requirements --json
+python -m devpilot_core agent run documentation-audit --target docs/01_requirements --provider mock --json
+python -m devpilot_core agent run precode-documentation --idea "Crear controles model-aware" --provider mock --json
+python -m devpilot_core eval run --json
+python -m pytest tests/test_agent_runtime.py tests/test_agent_runtime_v2.py tests/test_sprint_51_documentation.py -q
+```
+
+Validaciones esperadas:
+
+- Sin `--provider`, `model_calls_total` debe ser `0`.
+- Con `--provider mock`, `model_calls_total` debe ser `1`, `external_api_used=false`, `raw_prompt_stored=false` y `raw_output_stored=false`.
+- Los eventos de presupuesto deben registrar `source=agent-runtime-v2` sin prompt/completion crudos.
+- `eval run --json` debe incluir el caso model-aware y pasar con `mock`.
+
+Criterios BLOCK: provider local obligatorio para pruebas, salida con secretos crudos, direct adapter calls desde agentes, ejecución multiagente/handoffs o escrituras no aprobadas fuera de `outputs/`.
+
+Estado: `implemented-initial`; preparado para `FUNC-SPRINT-52 — RepoAnalysisAgent gobernado`.

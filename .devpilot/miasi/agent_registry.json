@@ -16,7 +16,8 @@
         "document.draft.generate",
         "report.write",
         "trace.append",
-        "policy.check"
+        "policy.check",
+        "agent.model.generate"
       ],
       "required_artifacts": [
         "Agent",
@@ -28,7 +29,8 @@
       "policy_rule_ids": [
         "AGENT_SUGGEST_ALLOW",
         "DOC_WRITE_DRAFT_GATED",
-        "SECRETS_RAW_DENY"
+        "SECRETS_RAW_DENY",
+        "AGENT_MODEL_CALL_GOVERNED_ALLOW"
       ],
       "approval_required": false,
       "observability_required": true,
@@ -49,7 +51,8 @@
         "documentation.audit",
         "report.write",
         "trace.append",
-        "policy.check"
+        "policy.check",
+        "agent.model.generate"
       ],
       "required_artifacts": [
         "Agent",
@@ -61,7 +64,8 @@
       "policy_rule_ids": [
         "AGENT_SUGGEST_ALLOW",
         "DOC_VALIDATE_ALLOW",
-        "SECRETS_RAW_DENY"
+        "SECRETS_RAW_DENY",
+        "AGENT_MODEL_CALL_GOVERNED_ALLOW"
       ],
       "approval_required": false,
       "observability_required": true,

@@ -6,7 +6,7 @@ import sys
 from pathlib import Path
 
 from . import __version__
-from .agents import AgentRuntime
+from .agents import AgentRuntime, AgentRuntimeConfig
 from .approval.models import ApprovalStatus
 from .approval.service import ApprovalCliInput, ApprovalService
 from .application import ApplicationService
@@ -1236,26 +1236,67 @@ def agent_run_command(
     idea: str | None = None,
     dry_run: bool = True,
     execute: bool = False,
+    provider: str | None = None,
+    model: str | None = None,
+    prompt_id: str | None = None,
+    prompt_version: str | None = None,
+    prompt_inputs: list[str] | None = None,
+    timeout_seconds: float = 3.0,
+    fallback_to_mock: bool = False,
     json_output: bool = False,
     write_report: bool = False,
 ) -> int:
-    """Run a local/mock document agent through AgentRuntime.
+    """Run one mono-agent through AgentRuntime v2.
 
-    FUNC-SPRINT-12 keeps agent execution offline and deterministic. Dry-run is
-    the default; `--execute` is only used by PreCodeDocumentationAgent to write
-    a new draft under outputs/drafts and never overwrites approved docs.
+    Existing deterministic agents remain model-free by default. FUNC-SPRINT-51
+    adds opt-in model-aware execution via ModelAdapterRouter and PromptRegistry
+    when --provider or --prompt-id is supplied.
     """
 
     root = project_root()
     effective_dry_run = False if execute else dry_run
-    result = AgentRuntime(root).run(agent_name, target=target, idea=idea, dry_run=effective_dry_run)
+    try:
+        parsed_prompt_inputs = _parse_prompt_inputs(prompt_inputs)
+    except ValueError as exc:
+        result = CommandResult(
+            command="agent run",
+            ok=False,
+            exit_code=ExitCode.BLOCK,
+            message="AgentRuntime v2 prompt input parsing failed.",
+            data={"summary": {"payload_redacted": True, "external_api_used": False, "preliminary": True}},
+            findings=[Finding(id="AGENT_PROMPT_INPUT_FORMAT_INVALID", message=str(exc), severity=Severity.BLOCK, metadata={"payload_redacted": True})],
+        )
+        print_result(result, json_output=json_output)
+        return int(result.exit_code)
+    runtime_config = AgentRuntimeConfig(
+        model_provider=provider,
+        model=model,
+        prompt_id=prompt_id,
+        prompt_version=prompt_version,
+        prompt_inputs=parsed_prompt_inputs,
+        fallback_to_mock=fallback_to_mock,
+        local_timeout_seconds=timeout_seconds,
+    )
+    result = AgentRuntime(root, config=runtime_config).run(
+        agent_name,
+        target=target,
+        idea=idea,
+        dry_run=effective_dry_run,
+        provider=provider,
+        model=model,
+        prompt_id=prompt_id,
+        prompt_version=prompt_version,
+        prompt_inputs=parsed_prompt_inputs,
+        timeout_seconds=timeout_seconds,
+        fallback_to_mock=fallback_to_mock,
+    )
     result = _write_optional_command_report(
         root,
         result,
         subject=target or agent_name,
         report_id=f"agent_run_{agent_name.replace('-', '_').replace('.', '_')}",
         write_report=write_report,
-        metadata={"sprint": "FUNC-SPRINT-12", "component": "AgentRuntime"},
+        metadata={"sprint": "FUNC-SPRINT-51", "component": "AgentRuntime v2 model-aware"},
     )
     _emit_result_event(root, result, subject=target or agent_name)
     _persist_result(root, result, subject=target or agent_name)
@@ -2467,6 +2508,13 @@ def build_parser() -> argparse.ArgumentParser:
     agent_run.add_argument("--idea", default=None, help="Idea text for pre-code documentation drafts")
     agent_run.add_argument("--dry-run", action="store_true", help="Preview without writing files; this is the default")
     agent_run.add_argument("--execute", action="store_true", help="Allow safe draft output writes under outputs/drafts when supported")
+    agent_run.add_argument("--provider", default=None, help="Optional model provider id for AgentRuntime v2 model-aware mode; default keeps agents model-free")
+    agent_run.add_argument("--model", default=None, help="Optional model id override for model-aware agent calls")
+    agent_run.add_argument("--prompt-id", default=None, help="Optional Prompt Registry id for model-aware agent guidance")
+    agent_run.add_argument("--prompt-version", default=None, help="Optional exact prompt version for --prompt-id")
+    agent_run.add_argument("--prompt-input", action="append", default=[], help="Prompt input as key=value; repeat for multiple inputs")
+    agent_run.add_argument("--timeout-seconds", type=float, default=3.0, help="Local provider timeout for model-aware agent calls")
+    agent_run.add_argument("--fallback-to-mock", action="store_true", help="Fallback to mock if enabled local provider is unavailable")
     agent_run.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     agent_run.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
 
@@ -2950,6 +2998,13 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
                 idea=args.idea,
                 dry_run=True,
                 execute=args.execute,
+                provider=args.provider,
+                model=args.model,
+                prompt_id=args.prompt_id,
+                prompt_version=args.prompt_version,
+                prompt_inputs=args.prompt_input,
+                timeout_seconds=args.timeout_seconds,
+                fallback_to_mock=args.fallback_to_mock,
                 json_output=args.json,
                 write_report=args.write_report,
             )

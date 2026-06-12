@@ -1,8 +1,8 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
 Estado actual: `baseline pre-code approved + Fase A cerrada + FASE-B cerrada + Fase C cerrada + Fase D en progreso controlado`  
-Último hito: `FUNC-SPRINT-50 — Model evaluation matrix local`  
-Siguiente hito: `FUNC-SPRINT-51 — AgentRuntime v2 model-aware en modo monoagente`  
+Último hito: `FUNC-SPRINT-51 — AgentRuntime v2 model-aware en modo monoagente`  
+Siguiente hito: `FUNC-SPRINT-52 — RepoAnalysisAgent gobernado`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
@@ -1570,3 +1570,25 @@ Criterios operativos:
 - PASS si un provider local deshabilitado/no disponible queda reportado como `skipped` controlado.
 - BLOCK/FAIL si la evaluación requiere modelo local real, llama APIs externas o persiste prompts/completions crudos.
 - La capacidad es preliminar: no reemplaza benchmarks industriales, jueces LLM ni evaluación estadística avanzada; prepara Sprint 51 y AgentRuntime model-aware.
+
+
+## FUNC-SPRINT-51 — AgentRuntime v2 model-aware en modo monoagente
+
+`FUNC-SPRINT-51` extiende `AgentRuntime` a una versión `v2-model-aware` en modo estrictamente monoagente. La capacidad es `implemented-initial`: los agentes documentales existentes siguen operando sin modelo por defecto, pero pueden activar llamadas model-aware mediante `--provider`, `--prompt-id` y `--prompt-input`. Toda llamada usa `PromptRegistry`, `ModelAdapterRouter`, `SecretGuard`, `CostGuard` y `BudgetLedger`; no llama adapters directamente, no habilita APIs externas y no implementa handoffs ni multiagente.
+
+Comandos principales:
+
+```powershell
+python -m devpilot_core agent run documentation-audit --target docs/01_requirements --provider mock --json
+python -m devpilot_core agent run precode-documentation --idea "Crear controles model-aware" --provider mock --json
+python -m devpilot_core eval run --json
+```
+
+Criterios operativos:
+
+- PASS si los agentes existentes siguen funcionando sin `--provider` y `model_calls_total=0`.
+- PASS si `--provider mock` produce `model_calls` con `prompt_id`, provider/model, costo estimado, digest y `raw_prompt_stored=false`.
+- PASS si un provider local habilitado pero no disponible usa fallback a `mock` solo cuando `--fallback-to-mock` está activo.
+- BLOCK si un agente llama adapters directamente, persiste prompts/completions crudos, exige Ollama/LM Studio o habilita handoffs/multiagente.
+
+La versión es preliminar: habilita el puente runtime→model governance para agentes monoagente, pero los agentes especializados de repositorio/código/refactor siguen para sprints posteriores.

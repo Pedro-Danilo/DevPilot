@@ -1,13 +1,16 @@
-from __future__ import annotations
+"""Local/mock DevPilot agent runtime."""
 
-from devpilot_core.agents.models import AgentMessage, AgentRunResult, AgentSuggestion, AgentToolCall
-from devpilot_core.agents.runtime import AgentRuntime, AgentRuntimeConfig
+from .base import ModelAwareAgent
+from .models import AgentMessage, AgentModelCall, AgentRunResult, AgentSuggestion, AgentToolCall
+from .runtime import AgentRuntime, AgentRuntimeConfig
 
 __all__ = [
     "AgentMessage",
+    "AgentModelCall",
     "AgentRunResult",
-    "AgentSuggestion",
-    "AgentToolCall",
     "AgentRuntime",
     "AgentRuntimeConfig",
+    "AgentSuggestion",
+    "AgentToolCall",
+    "ModelAwareAgent",
 ]

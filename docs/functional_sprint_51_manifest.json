@@ -1,0 +1,78 @@
+{
+  "sprint": "FUNC-SPRINT-51",
+  "title": "AgentRuntime v2 model-aware en modo monoagente",
+  "status": "implemented",
+  "implemented_at": "2026-06-12",
+  "phase": "FASE-D-IA-LOCAL-GOBERNADA",
+  "wave": "Ola 7 — Agentes especializados monoagente",
+  "source_backlog": "docs/devpilot_backlog_fase_D_ia_local_gobernada.md",
+  "architectural_decision": {
+    "required": false,
+    "adr": "docs/02_architecture/adrs/ADR-0011-local-model-providers.md",
+    "reason": "FUNC-SPRINT-51 ejecuta la arquitectura local-first ya aprobada. Extiende AgentRuntime para usar PromptRegistry, ModelAdapterRouter y BudgetLedger, sin introducir proveedores nuevos, APIs externas, handoffs ni multiagente."
+  },
+  "created_files": [
+    "src/devpilot_core/agents/base.py",
+    "tests/test_agent_runtime_v2.py",
+    "tests/test_sprint_51_documentation.py",
+    "docs/audits/func_sprint_51_agent_runtime_v2_audit.md",
+    "docs/functional_sprint_51_manifest.json"
+  ],
+  "modified_files": [
+    ".devpilot/miasi/agent_registry.json",
+    ".devpilot/miasi/policy_matrix.json",
+    ".devpilot/miasi/tool_registry.json",
+    "README.md",
+    "docs/04_quality/test_strategy.md",
+    "docs/05_operations/runbook.md",
+    "docs/06_miasi/agent_card.md",
+    "docs/06_miasi/eval_card.md",
+    "docs/06_miasi/policy_card.md",
+    "docs/06_miasi/tool_card.md",
+    "docs/06_miasi/tool_registry.md",
+    "docs/devpilot_backlog_fase_D_ia_local_gobernada.md",
+    "docs/functional_backlog_after_precode.md",
+    "evals/fixtures/documentation_eval_cases.json",
+    "src/devpilot_core/agents/__init__.py",
+    "src/devpilot_core/agents/models.py",
+    "src/devpilot_core/agents/runtime.py",
+    "src/devpilot_core/cli.py",
+    "src/devpilot_core/evals/runner.py"
+  ],
+  "commands": [
+    "python -m devpilot_core agent run documentation-audit --target docs/01_requirements --json",
+    "python -m devpilot_core agent run documentation-audit --target docs/01_requirements --provider mock --json",
+    "python -m devpilot_core agent run precode-documentation --idea \"Crear controles model-aware\" --provider mock --json",
+    "python -m devpilot_core eval run --json",
+    "python -m devpilot_core model budget status --limit 10 --json",
+    "python -m devpilot_core validate all --json",
+    "python -m devpilot_core miasi validate --json",
+    "python -m pytest -q"
+  ],
+  "tests": [
+    "tests/test_agent_runtime.py",
+    "tests/test_agent_runtime_v2.py",
+    "tests/test_sprint_51_documentation.py"
+  ],
+  "pass_criteria": [
+    "Agentes existentes conservan comportamiento sin provider y model_calls_total=0.",
+    "Provider mock activa model_calls gobernadas por PromptRegistry y ModelAdapterRouter.",
+    "AgentModelCall registra provider/model/prompt_id/digest sin prompt ni output crudo.",
+    "BudgetLedger registra eventos source=agent-runtime-v2 sin secretos.",
+    "EvalRunner incluye caso model-aware hermético y pasa con mock.",
+    "No hay handoffs ni multiagente."
+  ],
+  "block_criteria": [
+    "Agentes llaman adapters directamente.",
+    "Provider local real se vuelve obligatorio para tests.",
+    "Prompts/completions/secretos quedan en agent result, budget events o reportes.",
+    "Se habilita API externa o multiagente."
+  ],
+  "risks": [
+    "Model-aware runtime todavía opera sobre agentes documentales base; agentes especializados llegan en sprints posteriores.",
+    "Los model calls usan métricas/digests preliminares y no evaluación semántica industrial.",
+    "Fallback a mock debe mantenerse explícito para no ocultar indisponibilidad de providers locales."
+  ],
+  "preliminary": true,
+  "next_sprint": "FUNC-SPRINT-52 — RepoAnalysisAgent gobernado"
+}

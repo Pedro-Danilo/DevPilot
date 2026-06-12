@@ -8,7 +8,7 @@ standard: "MIPSoftware"
 extension: "MIASI"
 phase: "FASE-D-IA-LOCAL-GOBERNADA"
 updated: "2026-06-12"
-source_repo: "repo_DevPilot_Local_61.zip"
+source_repo: "repo_DevPilot_Local_62.zip"
 source_report: "Informe de avance DevPilot - sprint 0 - 18.docx"
 source_backlog_model: "docs/functional_backlog_after_precode.md"
 baseline_dependency: "Fases A, B y C cerradas; Fase C validada por FUNC-SPRINT-44 repo engineering-gate"
@@ -16,12 +16,12 @@ first_sprint: "FUNC-SPRINT-45"
 last_planned_sprint: "FUNC-SPRINT-55"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "phase_d_executable_backlog_review"
-first_open_sprint: "FUNC-SPRINT-51"
+first_open_sprint: "FUNC-SPRINT-52"
 phase_d_status: "in_progress"
 approved_on: "2026-06-12"
 approval: "approved_after_phase_c_closure_review"
-last_completed_sprint: "FUNC-SPRINT-50"
-next_sprint: "FUNC-SPRINT-51"
+last_completed_sprint: "FUNC-SPRINT-51"
+next_sprint: "FUNC-SPRINT-52"
 ---
 
 # DevPilot Local — Backlog ejecutable Fase D: IA local gobernada
@@ -1218,3 +1218,27 @@ Fuera de alcance hasta sprints posteriores:
 - evaluación de agentes especializados monoagente.
 
 Siguiente sprint operativo: `FUNC-SPRINT-51 — AgentRuntime v2 model-aware en modo monoagente`.
+
+
+## Estado de implementación Sprint 51
+
+`FUNC-SPRINT-51 — AgentRuntime v2 model-aware en modo monoagente` queda implementado como `implemented-initial`. La implementación extiende `AgentRuntimeConfig`, agrega `ModelAwareAgent`, incorpora `AgentModelCall` y permite a los agentes documentales existentes ejecutar llamadas opcionales de generación mediante `PromptRegistry` y `ModelAdapterRouter`.
+
+Alcance real implementado:
+
+- los agentes `precode.audit` y `precode.documentation` conservan comportamiento sin modelo por defecto;
+- `agent run ... --provider mock` activa model calls gobernadas y redacted;
+- `AgentRunResult` reporta `model_calls` con provider/model/prompt_id/prompt_version/tokens/costo/digest;
+- `BudgetLedger` recibe eventos `source=agent-runtime-v2` sin prompts ni completions crudos;
+- `EvalRunner` incluye un caso model-aware en la suite `documentation`;
+- MIASI declara `agent.model.generate` y la política `AGENT_MODEL_CALL_GOVERNED_ALLOW`;
+- no se implementan handoffs, supervisor, MultiAgentCoordinator ni ejecución multiagente.
+
+Fuera de alcance hasta sprints posteriores:
+
+- RepoAnalysisAgent especializado;
+- agentes de code review, patch review y safe refactor con modelos;
+- memoria de agente, sesiones persistentes avanzadas y handoffs;
+- uso de APIs externas.
+
+Siguiente sprint operativo: `FUNC-SPRINT-52 — RepoAnalysisAgent gobernado`.

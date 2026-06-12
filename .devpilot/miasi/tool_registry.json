@@ -553,6 +553,21 @@
         "MODEL_LOCAL_PROVIDER_CONTROLLED",
         "SECRETS_RAW_DENY"
       ]
+    },
+    {
+      "tool_id": "agent.model.generate",
+      "name": "agent_model_generate_via_router",
+      "phase": "MVP+",
+      "side_effect": "local_compute",
+      "risk_level": "medium",
+      "status": "implemented-initial",
+      "requires_approval": false,
+      "policy_rule_ids": [
+        "AGENT_MODEL_CALL_GOVERNED_ALLOW",
+        "MODEL_LOCAL_PROVIDER_CONTROLLED",
+        "PROMPT_RENDER_CONTROLLED",
+        "SECRETS_RAW_DENY"
+      ]
     }
   ]
 }

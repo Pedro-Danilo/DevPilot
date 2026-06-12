@@ -164,3 +164,8 @@ El Tool Registry ejecutable incorpora entradas para `prompt.registry.read`, `pro
 ## FUNC-SPRINT-50 — Model evaluation matrix executable entry
 
 El Tool Registry ejecutable incorpora `model.eval.run` en estado `implemented-initial`, protegido por `MODEL_EVAL_RUN_ALLOW`, `MODEL_LOCAL_PROVIDER_CONTROLLED` y `SECRETS_RAW_DENY`. La entrada es necesaria para comparar proveedores locales/mock por tarea antes de activar AgentRuntime v2 model-aware.
+
+
+## FUNC-SPRINT-51 — AgentRuntime v2 executable entry
+
+El Tool Registry ejecutable incorpora `agent.model.generate` en estado `implemented-initial`, protegido por `AGENT_MODEL_CALL_GOVERNED_ALLOW`, `MODEL_LOCAL_PROVIDER_CONTROLLED`, `PROMPT_RENDER_CONTROLLED` y `SECRETS_RAW_DENY`. La entrada permite a agentes monoagente usar generación gobernada a través de `ModelAdapterRouter` y conserva `mock` como baseline hermético.

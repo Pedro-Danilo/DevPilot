@@ -607,3 +607,24 @@ python -m devpilot_core model eval run --provider lmstudio --json
 ```
 
 Criterios de calidad: `mock` debe pasar la suite base sin modelos reales, los providers locales no disponibles no deben romper la baseline, y los reportes no deben contener prompts/completions/secretos crudos.
+
+
+## Actualización FUNC-SPRINT-51 — Pruebas de AgentRuntime v2 model-aware
+
+Sprint 51 agrega pruebas para validar que `AgentRuntime` conserva compatibilidad sin modelos y activa llamadas model-aware solo por configuración explícita. La suite cubre:
+
+- agentes existentes sin provider: `model_calls_total=0`;
+- `--provider mock` con `model_calls` redacted y trazables;
+- bloqueo de secretos en inputs de prompt antes de provider execution;
+- fallback controlado a `mock` para provider local habilitado pero no disponible;
+- `eval run --json` con caso model-aware hermético.
+
+Comandos:
+
+```powershell
+python -m pytest tests/test_agent_runtime.py tests/test_agent_runtime_v2.py tests/test_sprint_51_documentation.py -q
+python -m devpilot_core agent run documentation-audit --target docs/01_requirements --provider mock --json
+python -m devpilot_core eval run --json
+```
+
+La evaluación sigue siendo preliminar: no sustituye red teaming agentic ni evaluación semántica avanzada, pero bloquea regresiones de seguridad y acoplamiento directo a proveedores.

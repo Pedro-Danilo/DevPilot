@@ -182,3 +182,8 @@ Estas reglas complementan `SECRETS_RAW_DENY`. No autorizan prompts dinámicos no
 ## FUNC-SPRINT-50 — Política de evaluación local de modelos
 
 Sprint 50 agrega `MODEL_EVAL_RUN_ALLOW`, una política local-first para ejecutar suites de evaluación de modelos sin APIs externas. El gate combina `ModelEvalRunner`, `PromptRegistry`, `ModelAdapterRouter`, `BudgetLedger`, `NoExternalAPI` y `NoRawPrompts`. La política permite reportes y cost events redacted, pero bloquea gasto externo, prompts crudos o completions crudas.
+
+
+## FUNC-SPRINT-51 — Política de AgentRuntime v2 model-aware
+
+Sprint 51 agrega `AGENT_MODEL_CALL_GOVERNED_ALLOW`, una política para permitir llamadas model-aware desde agentes solo cuando pasen por `AgentRuntimeV2`, `PromptRegistry`, `ModelAdapterRouter`, `BudgetLedger`, `SecretGuard` y `CostGuard`. La política es allow/read-compute local para `mock` y providers locales controlados, pero no autoriza APIs externas, direct adapter calls, prompts crudos ni handoffs.

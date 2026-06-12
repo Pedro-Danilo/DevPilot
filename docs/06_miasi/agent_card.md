@@ -155,3 +155,10 @@ Criterios BLOCK:
 - Secreto sintético detectado.
 
 Riesgo: esta capa no implementa todavía agentes autónomos industriales, memoria, planificación multi-step, evaluación formal ni aprobación humana persistente.
+
+
+## FUNC-SPRINT-51 — AgentRuntime v2 model-aware monoagente
+
+Sprint 51 extiende el contrato operativo de agentes: `precode.audit` y `precode.documentation` pueden usar model calls opcionales por medio de `AgentRuntime v2`, pero siguen operando sin modelo por defecto. Toda llamada model-aware debe registrar `AgentModelCall`, usar `PromptRegistry`, pasar por `ModelAdapterRouter` y quedar registrada en `BudgetLedger`.
+
+Restricciones: no se permiten handoffs, supervisor, comunicación agente-a-agente ni MultiAgentCoordinator. Los agentes especializados de repositorio/código/refactor siguen planificados para sprints posteriores.

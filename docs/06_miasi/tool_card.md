@@ -588,3 +588,16 @@ Estas herramientas no llaman red, no ejecutan acciones críticas, no escriben pr
 ## FUNC-SPRINT-50 — Model evaluation matrix como herramienta MIASI
 
 Sprint 50 registra `model.eval.run` como herramienta MIASI de tipo report/read-only. Ejecuta `ModelEvalRunner` sobre fixtures locales, usa `PromptRegistry`, `ModelAdapterRouter` y `BudgetLedger`, y produce una matriz redacted de métricas por provider/model/prompt. PASS exige que `mock` no dependa de modelos reales y que providers locales no disponibles queden skipped/controlados. BLOCK si se llama API externa o se persisten prompts/completions crudos.
+
+
+## FUNC-SPRINT-51 — AgentRuntime v2 model-aware tool
+
+Sprint 51 registra `agent.model.generate` como herramienta MIASI `implemented-initial`. Esta tool representa llamadas de generación hechas desde un agente monoagente por medio de `AgentRuntime v2`, nunca mediante adapters directos.
+
+Gate obligatorio:
+
+```text
+AgentRuntimeV2 + PromptRegistry + ModelAdapterRouter + BudgetLedger + SingleAgentOnly + NoHandoffs + NoExternalAPI + NoRawPrompts
+```
+
+PASS: llamadas con `mock` trazadas en `model_calls`, `prompt_id/version`, digest y budget events redacted. BLOCK: adapter directo, prompt/completion crudo, provider local obligatorio, API externa o handoff/multiagente.

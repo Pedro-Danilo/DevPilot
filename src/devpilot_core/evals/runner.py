@@ -18,6 +18,7 @@ SUPPORTED_COMPONENTS = {
     "validate_frontmatter",
     "validate_artifact",
     "agent.documentation_audit",
+    "agent.documentation_audit_model_aware",
     "agent.precode_documentation",
 }
 
@@ -145,6 +146,8 @@ class EvalRunner:
             result = self._run_artifact_case(case, suite=suite)
         elif case.component == "agent.documentation_audit":
             result = self._run_documentation_audit_case(case, suite=suite)
+        elif case.component == "agent.documentation_audit_model_aware":
+            result = self._run_documentation_audit_case(case, suite=suite, provider="mock")
         elif case.component == "agent.precode_documentation":
             result = self._run_precode_documentation_case(case)
         else:  # pragma: no cover - guarded by SUPPORTED_COMPONENTS above.
@@ -159,7 +162,7 @@ class EvalRunner:
         path = self._write_single_markdown_case(case, suite=suite)
         return validate_artifact_file(path, root=self.root, strict=True)
 
-    def _run_documentation_audit_case(self, case: EvalCase, *, suite: str) -> CommandResult:
+    def _run_documentation_audit_case(self, case: EvalCase, *, suite: str, provider: str | None = None) -> CommandResult:
         case_dir = self._case_dir(case, suite=suite)
         files = case.input.get("files", []) or []
         for file_payload in files:
@@ -171,7 +174,7 @@ class EvalRunner:
                 raise ValueError("Evaluation fixture path escapes case directory.") from exc
             destination.parent.mkdir(parents=True, exist_ok=True)
             destination.write_text(str(file_payload.get("content", "")), encoding="utf-8")
-        return AgentRuntime(self.root).run("documentation-audit", target=_repo_path(case_dir, self.root), dry_run=True)
+        return AgentRuntime(self.root).run("documentation-audit", target=_repo_path(case_dir, self.root), dry_run=True, provider=provider)
 
     def _run_precode_documentation_case(self, case: EvalCase) -> CommandResult:
         idea = str(case.input.get("idea", ""))

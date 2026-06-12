@@ -184,3 +184,10 @@ Versión preliminar. No reemplaza evaluación semántica, red teaming, golden ou
 ## FUNC-SPRINT-50 — Evaluación local de modelos
 
 La Eval Card incorpora `ModelEvalRunner` como evaluación `implemented-initial` para proveedores mock/locales. La suite `model-local-smoke` cubre generación con prompt versionado, clasificación y embeddings con `mock`. Los resultados incluyen métricas preliminares de calidad, tokens, costo estimado y latencia. Esta evaluación no sustituye benchmarks industriales ni jueces LLM, pero establece la base para Sprint 51 y agentes model-aware.
+
+
+## FUNC-SPRINT-51 — Evaluación de AgentRuntime v2 model-aware
+
+La Eval Card incorpora un caso model-aware en la suite `documentation`: `agent.documentation_audit_model_aware` ejecuta `DocumentationAuditAgent` con `provider=mock` y valida que el resultado contenga `MODEL_ADAPTER_PASS`. Las pruebas `tests/test_agent_runtime_v2.py` cubren compatibilidad sin modelo, model calls redacted, bloqueo de secretos y fallback a `mock` para provider local habilitado pero no disponible.
+
+Esta evaluación es preliminar: no mide calidad semántica de agentes especializados, pero establece la base para `RepoAnalysisAgent` en Sprint 52.
