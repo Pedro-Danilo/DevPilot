@@ -12,7 +12,7 @@ from devpilot_core.repo.git_adapter import GitAdapter
 from devpilot_core.repo.inventory import RepoInventory, RepoInventoryItem
 from devpilot_core.repo.models import RepoHealthSummary, RepoHotspot, RepoRiskSignal
 
-_DEFAULT_EXCLUDED_DIRS = (".git", ".venv", "__pycache__", ".pytest_cache", "outputs", "build", "dist", ".mypy_cache", ".ruff_cache")
+_DEFAULT_EXCLUDED_DIRS = (".git", ".venv", "__pycache__", ".pytest_cache", "outputs", ".devpilot", "build", "dist", ".mypy_cache", ".ruff_cache")
 _TEXT_SUFFIXES = {".py", ".md", ".txt", ".json", ".yaml", ".yml", ".toml", ".ini", ".cfg", ".env", ".example"}
 _TODO_PATTERN = re.compile(r"\b(TODO|FIXME|HACK|XXX)\b", re.IGNORECASE)
 _DEFAULT_LARGE_FILE_BYTES = 200_000

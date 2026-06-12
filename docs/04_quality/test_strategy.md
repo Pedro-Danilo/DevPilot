@@ -502,3 +502,17 @@ Criterios mínimos: `tests/test_rollback_manager.py`, `tests/test_sprint_42_docu
 Las pruebas de `FUNC-SPRINT-43` cubren bloqueo sin approval, validación de `plan_id`, ejecución de transformación mecánica solo en sandbox, workspace productivo intacto, generación de `ChangeSet`, creación de rollback plan, cleanup del sandbox, bloqueo de pruebas sin approval `tests.run` y ejecución aprobada del perfil smoke en sandbox.
 
 La estrategia mantiene el alcance `implemented-initial`: se prueban transformaciones determinísticas de texto Python, no refactors semánticos ni restauración productiva.
+
+
+## Actualización FUNC-SPRINT-44 — Pruebas de Repository Engineering Gate
+
+Sprint 44 agrega pruebas específicas para `RepoEngineeringGate` y sincronización documental de cierre Fase C. La estrategia valida perfiles `quick` y `full`, CLI `repo engineering-gate`, emisión de reportes, MIASI, manifests y bloqueo por hallazgos severos.
+
+Comandos mínimos:
+
+```powershell
+python -m pytest tests/test_repo_engineering_gate.py tests/test_sprint_44_documentation.py -q
+python -m devpilot_core repo engineering-gate --profile full --json --write-report
+python -m devpilot_core validate all --json
+python -m devpilot_core miasi validate --json
+```

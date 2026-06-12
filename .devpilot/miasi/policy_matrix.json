@@ -192,6 +192,15 @@
       "gate": "RefactorExecutor+ApprovalPolicyChecker+PathGuard+SecretGuard+RollbackManager+SafeSubprocessRunner",
       "approval_required": true,
       "observability_required": true
+    },
+    {
+      "rule_id": "ENGINEERING_GATE_READ_ONLY_ALLOW",
+      "domain": "Repo",
+      "action": "engineering_gate_read_only",
+      "default_effect": "allow",
+      "gate": "RepoEngineeringGate+GitAdapter+RepoAnalyzer+ArchitectureDrift+RepoQualityGate+MIASIRegistryCheck",
+      "approval_required": false,
+      "observability_required": true
     }
   ]
 }

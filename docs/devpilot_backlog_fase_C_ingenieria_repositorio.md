@@ -2,7 +2,7 @@
 title: "DevPilot Local — Backlog ejecutable Fase C: Ingeniería de repositorio"
 doc_id: "DEVPL-FUNC-BACKLOG-FASE-C-001"
 status: "approved"
-version: "1.7.0"
+version: "1.8.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
@@ -13,10 +13,11 @@ source_report: "Informe de avance DevPilot - sprint 0 - 18.docx"
 source_backlog_model: "docs/functional_backlog_after_precode.md"
 baseline_dependency: "Fase A cerrada por FUNC-SPRINT-27 y Fase B cerrada por FUNC-SPRINT-34"
 first_sprint: "FUNC-SPRINT-35"
-first_open_sprint: "FUNC-SPRINT-44"
-phase_c_status: "in_progress"
-last_completed_sprint: "FUNC-SPRINT-43"
+first_open_sprint: "FASE-D-BACKLOG-PENDIENTE"
+phase_c_status: "completed"
+last_completed_sprint: "FUNC-SPRINT-44"
 last_planned_sprint: "FUNC-SPRINT-44"
+next_phase: "FASE-D-IA-LOCAL-GOBERNADA"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "phase_c_executable_backlog_review"
 approved_on: "2026-06-11"
@@ -1083,3 +1084,12 @@ python -m pytest -q
 ```text
 Implementa FUNC-SPRINT-44: cierre Fase C con repository engineering gate, reporte de cierre, manifest y sincronización documental.
 ```
+
+
+## Estado de implementación Sprint 44
+
+`FUNC-SPRINT-44 — Cierre Fase C: repository engineering quality gate` queda implementado como cierre `implemented-initial` de Fase C. El nuevo módulo `repo.engineering_gate` consolida señales read-only de Git, DependencyGraph, RepoAnalyzer, ArchitectureDrift, RepoQualityGate y declaraciones MIASI, y genera un veredicto reproducible sobre readiness de ingeniería de repositorio antes de pasar a Fase D.
+
+Alcance explícito: no hay Git write, no hay patch apply productivo, no hay refactor productivo, no hay deploy, no hay LLMs, no hay APIs externas y no hay ejecución arbitraria. El cierre marca Fase C como `completed`, pero conserva como pendientes evolutivos las capacidades industriales avanzadas: SAST/SCA formal, refactor AST/IDE-like, rollback restore real, CI remoto y gobernanza de IA local.
+
+Siguiente fase abierta: `FASE-D — IA local gobernada` con backlog pendiente de aprobación.

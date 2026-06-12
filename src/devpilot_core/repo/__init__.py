@@ -14,6 +14,7 @@ from .dependency_graph import DependencyGraphBuilder
 from .analyzer import RepoAnalyzer, RepoAnalyzerConfig
 from .architecture_drift import ArchitectureDriftConfig, ArchitectureDriftDetector
 from .quality_gate import RepoQualityGate, RepoQualityGateConfig
+from .engineering_gate import RepoEngineeringGate, RepoEngineeringGateConfig
 from .models import (
     DependencyGraphEdge,
     DependencyGraphNode,
@@ -43,6 +44,8 @@ __all__ = [
     "ArchitectureDriftDetector",
     "RepoQualityGate",
     "RepoQualityGateConfig",
+    "RepoEngineeringGate",
+    "RepoEngineeringGateConfig",
     "RepoHealthSummary",
     "RepoHotspot",
     "RepoRiskSignal",

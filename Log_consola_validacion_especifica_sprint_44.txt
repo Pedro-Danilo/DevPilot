@@ -1,0 +1,1915 @@
+(.venv) PS D:\Projects\DevPilot_Local> python -m pytest tests/test_repo_engineering_gate.py tests/test_sprint_44_documentation.py -q
+.......                                                                                                                                      [100%]
+DEVPL TEST SUMMARY: 7 passed, 0 failed, 0 errors, 0 skipped
+(.venv) PS D:\Projects\DevPilot_Local> python -m devpilot_core repo engineering-gate --json
+{
+  "command": "repo engineering-gate",
+  "ok": true,
+  "exit_code": 0,
+  "message": "Repository engineering gate passed.",
+  "data": {
+    "summary": {
+      "status": "PASS",
+      "profile": "quick",
+      "target": ".",
+      "components_total": 7,
+      "components_passed": 7,
+      "components_failed": 0,
+      "findings_total": 25,
+      "blocking_findings": 0,
+      "failing_findings": 0,
+      "warnings_total": 17,
+      "phase_c_status": "closed",
+      "ready_for_phase_d_initial": true,
+      "network_used": false,
+      "external_api_used": false,
+      "mutations_performed": false,
+      "git_write_used": false,
+      "patch_applied_to_productive_workspace": false,
+      "refactor_applied_to_productive_workspace": false,
+      "preliminary": true
+    },
+    "components": [
+      {
+        "source": "git_status",
+        "command": "git-status",
+        "subject": ".",
+        "ok": true,
+        "exit_code": 0,
+        "findings_total": 3,
+        "blocking_findings": 0,
+        "failing_findings": 0,
+        "warnings_total": 2,
+        "mutations_performed": false
+      },
+      {
+        "source": "dependency_graph",
+        "command": "repo dependency-graph",
+        "subject": "src/devpilot_core",
+        "ok": true,
+        "exit_code": 0,
+        "findings_total": 1,
+        "blocking_findings": 0,
+        "failing_findings": 0,
+        "warnings_total": 0,
+        "mutations_performed": false
+      },
+      {
+        "source": "repo_analyzer",
+        "command": "repo analyze",
+        "subject": ".",
+        "ok": true,
+        "exit_code": 0,
+        "findings_total": 6,
+        "blocking_findings": 0,
+        "failing_findings": 0,
+        "warnings_total": 6,
+        "mutations_performed": false
+      },
+      {
+        "source": "architecture_drift",
+        "command": "repo architecture-drift",
+        "subject": "skipped",
+        "ok": true,
+        "exit_code": 0,
+        "findings_total": 1,
+        "blocking_findings": 0,
+        "failing_findings": 0,
+        "warnings_total": 0,
+        "mutations_performed": false
+      },
+      {
+        "source": "repo_quality_gate",
+        "command": "repo quality-gate",
+        "subject": ".",
+        "ok": true,
+        "exit_code": 0,
+        "findings_total": 12,
+        "blocking_findings": 0,
+        "failing_findings": 0,
+        "warnings_total": 9,
+        "mutations_performed": false
+      },
+      {
+        "source": "miasi_phase_c",
+        "command": "repo engineering-gate miasi-phase-c",
+        "subject": ".devpilot/miasi",
+        "ok": true,
+        "exit_code": 0,
+        "findings_total": 1,
+        "blocking_findings": 0,
+        "failing_findings": 0,
+        "warnings_total": 0,
+        "mutations_performed": false
+      },
+      {
+        "source": "phase_c_documents",
+        "command": "repo engineering-gate phase-c-docs",
+        "subject": "docs",
+        "ok": true,
+        "exit_code": 0,
+        "findings_total": 1,
+        "blocking_findings": 0,
+        "failing_findings": 0,
+        "warnings_total": 0,
+        "mutations_performed": false
+      }
+    ],
+    "phase_c_capabilities": [
+      {
+        "sprint": "FUNC-SPRINT-35",
+        "capability": "GitAdapter v2 read-only",
+        "status": "implemented",
+        "productive_write": false
+      },
+      {
+        "sprint": "FUNC-SPRINT-36",
+        "capability": "DependencyGraph/import graph Python",
+        "status": "implemented-initial",
+        "productive_write": false
+      },
+      {
+        "sprint": "FUNC-SPRINT-37",
+        "capability": "RepoAnalyzer v2",
+        "status": "implemented-initial",
+        "productive_write": false
+      },
+      {
+        "sprint": "FUNC-SPRINT-38",
+        "capability": "Architecture/code drift",
+        "status": "implemented-initial",
+        "productive_write": false
+      },
+      {
+        "sprint": "FUNC-SPRINT-39",
+        "capability": "Repo quality gate dry-run",
+        "status": "implemented-initial",
+        "productive_write": false
+      },
+      {
+        "sprint": "FUNC-SPRINT-40",
+        "capability": "Patch preflight",
+        "status": "implemented-initial",
+        "productive_write": false
+      },
+      {
+        "sprint": "FUNC-SPRINT-41",
+        "capability": "PatchSandbox + ChangeSet",
+        "status": "implemented-initial",
+        "productive_write": false
+      },
+      {
+        "sprint": "FUNC-SPRINT-42",
+        "capability": "RollbackManager local backup",
+        "status": "implemented-initial",
+        "productive_write": false
+      },
+      {
+        "sprint": "FUNC-SPRINT-43",
+        "capability": "RefactorExecutor sandbox",
+        "status": "implemented-initial",
+        "productive_write": false
+      },
+      {
+        "sprint": "FUNC-SPRINT-44",
+        "capability": "Repository engineering gate closure",
+        "status": "implemented-initial",
+        "productive_write": false
+      }
+    ],
+    "closure": {
+      "phase": "FASE-C-INGENIERIA-DE-REPOSITORIO",
+      "sprints": [
+        "FUNC-SPRINT-35",
+        "FUNC-SPRINT-36",
+        "FUNC-SPRINT-37",
+        "FUNC-SPRINT-38",
+        "FUNC-SPRINT-39",
+        "FUNC-SPRINT-40",
+        "FUNC-SPRINT-41",
+        "FUNC-SPRINT-42",
+        "FUNC-SPRINT-43",
+        "FUNC-SPRINT-44"
+      ],
+      "closed_by": "FUNC-SPRINT-44",
+      "next_phase": "Fase D — IA local gobernada",
+      "status": "closed",
+      "preliminary": true
+    },
+    "notes": [
+      "FUNC-SPRINT-44 consolidates repository engineering signals but remains read-only.",
+      "This gate does not apply patches, does not execute productive refactors, does not perform Git write and does not deploy.",
+      "Warnings are preserved as engineering signals; FAIL/BLOCK/ERROR findings block Phase C closure.",
+      "Phase D should introduce governed local AI/model execution only after this gate remains reproducible."
+    ]
+  },
+  "findings": [
+    {
+      "id": "ENGINEERING_GATE_GIT_STATUS_GIT_STATUS_READ_ONLY_PASS",
+      "message": "Git status was collected using read-only commands.",
+      "severity": "info",
+      "metadata": {
+        "source": "git_status",
+        "source_command": "git-status",
+        "source_finding_id": "GIT_STATUS_READ_ONLY_PASS"
+      }
+    },
+    {
+      "id": "ENGINEERING_GATE_GIT_STATUS_GIT_UNTRACKED_FILES_PRESENT",
+      "message": "Untracked files are present.",
+      "severity": "warning",
+      "metadata": {
+        "source": "git_status",
+        "source_command": "git-status",
+        "source_finding_id": "GIT_UNTRACKED_FILES_PRESENT",
+        "count": 7
+      }
+    },
+    {
+      "id": "ENGINEERING_GATE_GIT_STATUS_GIT_WORKTREE_CHANGES_PRESENT",
+      "message": "Working tree changes are present.",
+      "severity": "warning",
+      "metadata": {
+        "source": "git_status",
+        "source_command": "git-status",
+        "source_finding_id": "GIT_WORKTREE_CHANGES_PRESENT",
+        "entries_total": 35,
+        "modified": 26,
+        "added": 0,
+        "deleted": 2,
+        "renamed": 0,
+        "untracked": 7,
+        "staged": 0
+      }
+    },
+    {
+      "id": "ENGINEERING_GATE_DEPENDENCY_GRAPH_DEPENDENCY_GRAPH_PASS",
+      "message": "Python dependency graph generated in read-only mode.",
+      "severity": "info",
+      "metadata": {
+        "source": "dependency_graph",
+        "source_command": "repo dependency-graph",
+        "source_finding_id": "DEPENDENCY_GRAPH_PASS"
+      }
+    },
+    {
+      "id": "ENGINEERING_GATE_REPO_ANALYZER_REPO_ANALYZER_LARGE_FILES",
+      "message": "Large files were detected; review maintainability and report size impact.",
+      "severity": "warning",
+      "metadata": {
+        "source": "repo_analyzer",
+        "source_command": "repo analyze",
+        "source_finding_id": "REPO_ANALYZER_LARGE_FILES",
+        "count": 2,
+        "threshold": 200000
+      }
+    },
+    {
+      "id": "ENGINEERING_GATE_REPO_ANALYZER_REPO_ANALYZER_TODO_MARKERS",
+      "message": "TODO/FIXME/HACK markers were detected in bounded text scan.",
+      "severity": "warning",
+      "metadata": {
+        "source": "repo_analyzer",
+        "source_command": "repo analyze",
+        "source_finding_id": "REPO_ANALYZER_TODO_MARKERS",
+        "files": 78,
+        "markers_total": 304
+      }
+    },
+    {
+      "id": "ENGINEERING_GATE_REPO_ANALYZER_REPO_ANALYZER_MODULES_WITHOUT_NEAR_TESTS",
+      "message": "Some modules do not have obvious nearby/direct tests by heuristic.",
+      "severity": "warning",
+      "metadata": {
+        "source": "repo_analyzer",
+        "source_command": "repo analyze",
+        "source_finding_id": "REPO_ANALYZER_MODULES_WITHOUT_NEAR_TESTS",
+        "count": 39,
+        "sample": [
+          {
+            "module": "devpilot_core.__main__",
+            "path": "src/devpilot_core/__main__.py"
+          },
+          {
+            "module": "devpilot_core.agents.models",
+            "path": "src/devpilot_core/agents/models.py"
+          },
+          {
+            "module": "devpilot_core.application.dtos",
+            "path": "src/devpilot_core/application/dtos.py"
+          },
+          {
+            "module": "devpilot_core.approval.models",
+            "path": "src/devpilot_core/approval/models.py"
+          },
+          {
+            "module": "devpilot_core.changes.models",
+            "path": "src/devpilot_core/changes/models.py"
+          },
+          {
+            "module": "devpilot_core.cli_models",
+            "path": "src/devpilot_core/cli_models.py"
+          },
+          {
+            "module": "devpilot_core.errors",
+            "path": "src/devpilot_core/errors.py"
+          },
+          {
+            "module": "devpilot_core.evals.models",
+            "path": "src/devpilot_core/evals/models.py"
+          },
+          {
+            "module": "devpilot_core.execution.allowlist",
+            "path": "src/devpilot_core/execution/allowlist.py"
+          },
+          {
+            "module": "devpilot_core.execution.models",
+            "path": "src/devpilot_core/execution/models.py"
+          }
+        ]
+      }
+    },
+    {
+      "id": "ENGINEERING_GATE_REPO_ANALYZER_REPO_ANALYZER_GIT_WORKTREE_CHANGES",
+      "message": "Working tree changes are present during analysis.",
+      "severity": "warning",
+      "metadata": {
+        "source": "repo_analyzer",
+        "source_command": "repo analyze",
+        "source_finding_id": "REPO_ANALYZER_GIT_WORKTREE_CHANGES",
+        "entries_total": 35,
+        "modified": 26,
+        "added": 0,
+        "deleted": 2,
+        "renamed": 0,
+        "untracked": 7,
+        "staged": 0
+      }
+    },
+    {
+      "id": "ENGINEERING_GATE_REPO_ANALYZER_REPO_ANALYZER_UPSTREAM_GIT_UNTRACKED_FILES_PRESENT",
+      "message": "Upstream git finding: Untracked files are present.",
+      "severity": "warning",
+      "metadata": {
+        "source": "git",
+        "source_command": "repo analyze",
+        "source_finding_id": "REPO_ANALYZER_UPSTREAM_GIT_UNTRACKED_FILES_PRESENT",
+        "count": 7
+      }
+    },
+    {
+      "id": "ENGINEERING_GATE_REPO_ANALYZER_REPO_ANALYZER_UPSTREAM_GIT_WORKTREE_CHANGES_PRESENT",
+      "message": "Upstream git finding: Working tree changes are present.",
+      "severity": "warning",
+      "metadata": {
+        "source": "git",
+        "source_command": "repo analyze",
+        "source_finding_id": "REPO_ANALYZER_UPSTREAM_GIT_WORKTREE_CHANGES_PRESENT",
+        "entries_total": 35,
+        "modified": 26,
+        "added": 0,
+        "deleted": 2,
+        "renamed": 0,
+        "untracked": 7,
+        "staged": 0
+      }
+    },
+    {
+      "id": "ENGINEERING_GATE_ARCHITECTURE_DRIFT_ARCHITECTURE_DRIFT_SKIPPED",
+      "message": "Architecture drift skipped by configuration.",
+      "severity": "info",
+      "metadata": {
+        "source": "architecture_drift",
+        "source_command": "repo architecture-drift",
+        "source_finding_id": "ARCHITECTURE_DRIFT_SKIPPED"
+      }
+    },
+    {
+      "id": "ENGINEERING_GATE_REPO_QUALITY_GATE_QUALITY_GATE_POLICY_POLICY_PASS",
+      "message": "PolicyEngine allowed the simulated request.",
+      "severity": "info",
+      "metadata": {
+        "source": "policy",
+        "source_command": "policy check",
+        "source_finding_id": "POLICY_PASS"
+      }
+    },
+    {
+      "id": "ENGINEERING_GATE_REPO_QUALITY_GATE_QUALITY_GATE_POLICY_POLICY_PASS",
+      "message": "PolicyEngine allowed the simulated request.",
+      "severity": "info",
+      "metadata": {
+        "source": "policy",
+        "source_command": "policy check",
+        "source_finding_id": "POLICY_PASS"
+      }
+    },
+    {
+      "id": "ENGINEERING_GATE_REPO_QUALITY_GATE_QUALITY_GATE_REPO_ANALYZER_REPO_ANALYZER_LARGE_FILES",
+      "message": "Large files were detected; review maintainability and report size impact.",
+      "severity": "warning",
+      "metadata": {
+        "source": "repo_analyzer",
+        "source_command": "repo analyze",
+        "source_finding_id": "REPO_ANALYZER_LARGE_FILES",
+        "count": 2,
+        "threshold": 200000
+      }
+    },
+    {
+      "id": "ENGINEERING_GATE_REPO_QUALITY_GATE_QUALITY_GATE_REPO_ANALYZER_REPO_ANALYZER_TODO_MARKERS",
+      "message": "TODO/FIXME/HACK markers were detected in bounded text scan.",
+      "severity": "warning",
+      "metadata": {
+        "source": "repo_analyzer",
+        "source_command": "repo analyze",
+        "source_finding_id": "REPO_ANALYZER_TODO_MARKERS",
+        "files": 78,
+        "markers_total": 304
+      }
+    },
+    {
+      "id": "ENGINEERING_GATE_REPO_QUALITY_GATE_QUALITY_GATE_REPO_ANALYZER_REPO_ANALYZER_MODULES_WITHOUT_NEAR_TESTS",
+      "message": "Some modules do not have obvious nearby/direct tests by heuristic.",
+      "severity": "warning",
+      "metadata": {
+        "source": "repo_analyzer",
+        "source_command": "repo analyze",
+        "source_finding_id": "REPO_ANALYZER_MODULES_WITHOUT_NEAR_TESTS",
+        "count": 39,
+        "sample": [
+          {
+            "module": "devpilot_core.__main__",
+            "path": "src/devpilot_core/__main__.py"
+          },
+          {
+            "module": "devpilot_core.agents.models",
+            "path": "src/devpilot_core/agents/models.py"
+          },
+          {
+            "module": "devpilot_core.application.dtos",
+            "path": "src/devpilot_core/application/dtos.py"
+          },
+          {
+            "module": "devpilot_core.approval.models",
+            "path": "src/devpilot_core/approval/models.py"
+          },
+          {
+            "module": "devpilot_core.changes.models",
+            "path": "src/devpilot_core/changes/models.py"
+          },
+          {
+            "module": "devpilot_core.cli_models",
+            "path": "src/devpilot_core/cli_models.py"
+          },
+          {
+            "module": "devpilot_core.errors",
+            "path": "src/devpilot_core/errors.py"
+          },
+          {
+            "module": "devpilot_core.evals.models",
+            "path": "src/devpilot_core/evals/models.py"
+          },
+          {
+            "module": "devpilot_core.execution.allowlist",
+            "path": "src/devpilot_core/execution/allowlist.py"
+          },
+          {
+            "module": "devpilot_core.execution.models",
+            "path": "src/devpilot_core/execution/models.py"
+          }
+        ]
+      }
+    },
+    {
+      "id": "ENGINEERING_GATE_REPO_QUALITY_GATE_QUALITY_GATE_REPO_ANALYZER_REPO_ANALYZER_GIT_WORKTREE_CHANGES",
+      "message": "Working tree changes are present during analysis.",
+      "severity": "warning",
+      "metadata": {
+        "source": "repo_analyzer",
+        "source_command": "repo analyze",
+        "source_finding_id": "REPO_ANALYZER_GIT_WORKTREE_CHANGES",
+        "entries_total": 35,
+        "modified": 26,
+        "added": 0,
+        "deleted": 2,
+        "renamed": 0,
+        "untracked": 7,
+        "staged": 0
+      }
+    },
+    {
+      "id": "ENGINEERING_GATE_REPO_QUALITY_GATE_QUALITY_GATE_REPO_ANALYZER_REPO_ANALYZER_UPSTREAM_GIT_UNTRACKED_FILES_PRESENT",
+      "message": "Upstream git finding: Untracked files are present.",
+      "severity": "warning",
+      "metadata": {
+        "source": "git",
+        "source_command": "repo analyze",
+        "source_finding_id": "REPO_ANALYZER_UPSTREAM_GIT_UNTRACKED_FILES_PRESENT",
+        "count": 7
+      }
+    },
+    {
+      "id": "ENGINEERING_GATE_REPO_QUALITY_GATE_QUALITY_GATE_REPO_ANALYZER_REPO_ANALYZER_UPSTREAM_GIT_WORKTREE_CHANGES_PRESENT",
+      "message": "Upstream git finding: Working tree changes are present.",
+      "severity": "warning",
+      "metadata": {
+        "source": "git",
+        "source_command": "repo analyze",
+        "source_finding_id": "REPO_ANALYZER_UPSTREAM_GIT_WORKTREE_CHANGES_PRESENT",
+        "entries_total": 35,
+        "modified": 26,
+        "added": 0,
+        "deleted": 2,
+        "renamed": 0,
+        "untracked": 7,
+        "staged": 0
+      }
+    },
+    {
+      "id": "ENGINEERING_GATE_REPO_QUALITY_GATE_QUALITY_GATE_CODE_REVIEW_CODE_REVIEW_TODO",
+      "message": "TODO/FIXME marker detected.",
+      "severity": "warning",
+      "path": "src/devpilot_core/repo/analyzer.py",
+      "metadata": {
+        "source": "code_review",
+        "source_command": "code-review",
+        "source_finding_id": "CODE_REVIEW_TODO",
+        "line": 17
+      }
+    },
+    {
+      "id": "ENGINEERING_GATE_REPO_QUALITY_GATE_QUALITY_GATE_CODE_REVIEW_CODE_REVIEW_TODO",
+      "message": "TODO/FIXME marker detected.",
+      "severity": "warning",
+      "path": "src/devpilot_core/repo/analyzer.py",
+      "metadata": {
+        "source": "code_review",
+        "source_command": "code-review",
+        "source_finding_id": "CODE_REVIEW_TODO",
+        "line": 223
+      }
+    },
+    {
+      "id": "ENGINEERING_GATE_REPO_QUALITY_GATE_QUALITY_GATE_CODE_REVIEW_CODE_REVIEW_TODO",
+      "message": "TODO/FIXME marker detected.",
+      "severity": "warning",
+      "path": "src/devpilot_core/repo/analyzer.py",
+      "metadata": {
+        "source": "code_review",
+        "source_command": "code-review",
+        "source_finding_id": "CODE_REVIEW_TODO",
+        "line": 225
+      }
+    },
+    {
+      "id": "ENGINEERING_GATE_REPO_QUALITY_GATE_QUALITY_GATE_PATCH_REVIEW_QUALITY_GATE_PATCH_REVIEW_SKIPPED",
+      "message": "Patch review skipped: no patch supplied.",
+      "severity": "info",
+      "metadata": {
+        "source": "patch_review",
+        "source_command": "patch-review",
+        "source_finding_id": "QUALITY_GATE_PATCH_REVIEW_SKIPPED"
+      }
+    },
+    {
+      "id": "ENGINEERING_GATE_MIASI_PHASE_C_ENGINEERING_GATE_MIASI_PASS",
+      "message": "Phase C MIASI tools, policies and approval gates are declared.",
+      "severity": "info",
+      "metadata": {
+        "source": "miasi_phase_c",
+        "source_command": "repo engineering-gate miasi-phase-c",
+        "source_finding_id": "ENGINEERING_GATE_MIASI_PASS"
+      }
+    },
+    {
+      "id": "ENGINEERING_GATE_PHASE_C_DOCUMENTS_ENGINEERING_GATE_PHASE_C_DOCS_PASS",
+      "message": "Phase C engineering documents and manifests are present.",
+      "severity": "info",
+      "metadata": {
+        "source": "phase_c_documents",
+        "source_command": "repo engineering-gate phase-c-docs",
+        "source_finding_id": "ENGINEERING_GATE_PHASE_C_DOCS_PASS"
+      }
+    }
+  ]
+}
+(.venv) PS D:\Projects\DevPilot_Local> python -m devpilot_core repo engineering-gate --profile full --json --write-report
+{
+  "command": "repo engineering-gate",
+  "ok": true,
+  "exit_code": 0,
+  "message": "Repository engineering gate passed.",
+  "data": {
+    "summary": {
+      "status": "PASS",
+      "profile": "full",
+      "target": ".",
+      "components_total": 8,
+      "components_passed": 8,
+      "components_failed": 0,
+      "findings_total": 61,
+      "blocking_findings": 0,
+      "failing_findings": 0,
+      "warnings_total": 43,
+      "phase_c_status": "closed",
+      "ready_for_phase_d_initial": true,
+      "network_used": false,
+      "external_api_used": false,
+      "mutations_performed": false,
+      "git_write_used": false,
+      "patch_applied_to_productive_workspace": false,
+      "refactor_applied_to_productive_workspace": false,
+      "preliminary": true
+    },
+    "components": [
+      {
+        "source": "git_status",
+        "command": "git-status",
+        "subject": ".",
+        "ok": true,
+        "exit_code": 0,
+        "findings_total": 3,
+        "blocking_findings": 0,
+        "failing_findings": 0,
+        "warnings_total": 2,
+        "mutations_performed": false
+      },
+      {
+        "source": "dependency_graph",
+        "command": "repo dependency-graph",
+        "subject": "src/devpilot_core",
+        "ok": true,
+        "exit_code": 0,
+        "findings_total": 1,
+        "blocking_findings": 0,
+        "failing_findings": 0,
+        "warnings_total": 0,
+        "mutations_performed": false
+      },
+      {
+        "source": "repo_analyzer",
+        "command": "repo analyze",
+        "subject": ".",
+        "ok": true,
+        "exit_code": 0,
+        "findings_total": 6,
+        "blocking_findings": 0,
+        "failing_findings": 0,
+        "warnings_total": 6,
+        "mutations_performed": false
+      },
+      {
+        "source": "architecture_drift",
+        "command": "repo architecture-drift",
+        "subject": "docs+src/devpilot_core",
+        "ok": true,
+        "exit_code": 0,
+        "findings_total": 36,
+        "blocking_findings": 0,
+        "failing_findings": 0,
+        "warnings_total": 26,
+        "mutations_performed": false
+      },
+      {
+        "source": "repo_quality_gate",
+        "command": "repo quality-gate",
+        "subject": ".",
+        "ok": true,
+        "exit_code": 0,
+        "findings_total": 12,
+        "blocking_findings": 0,
+        "failing_findings": 0,
+        "warnings_total": 9,
+        "mutations_performed": false
+      },
+      {
+        "source": "miasi_phase_c",
+        "command": "repo engineering-gate miasi-phase-c",
+        "subject": ".devpilot/miasi",
+        "ok": true,
+        "exit_code": 0,
+        "findings_total": 1,
+        "blocking_findings": 0,
+        "failing_findings": 0,
+        "warnings_total": 0,
+        "mutations_performed": false
+      },
+      {
+        "source": "phase_c_documents",
+        "command": "repo engineering-gate phase-c-docs",
+        "subject": "docs",
+        "ok": true,
+        "exit_code": 0,
+        "findings_total": 1,
+        "blocking_findings": 0,
+        "failing_findings": 0,
+        "warnings_total": 0,
+        "mutations_performed": false
+      },
+      {
+        "source": "runtime_invariants",
+        "command": "repo engineering-gate runtime-invariants",
+        "subject": ".gitignore+runtime",
+        "ok": true,
+        "exit_code": 0,
+        "findings_total": 1,
+        "blocking_findings": 0,
+        "failing_findings": 0,
+        "warnings_total": 0,
+        "mutations_performed": false
+      }
+    ],
+    "phase_c_capabilities": [
+      {
+        "sprint": "FUNC-SPRINT-35",
+        "capability": "GitAdapter v2 read-only",
+        "status": "implemented",
+        "productive_write": false
+      },
+      {
+        "sprint": "FUNC-SPRINT-36",
+        "capability": "DependencyGraph/import graph Python",
+        "status": "implemented-initial",
+        "productive_write": false
+      },
+      {
+        "sprint": "FUNC-SPRINT-37",
+        "capability": "RepoAnalyzer v2",
+        "status": "implemented-initial",
+        "productive_write": false
+      },
+      {
+        "sprint": "FUNC-SPRINT-38",
+        "capability": "Architecture/code drift",
+        "status": "implemented-initial",
+        "productive_write": false
+      },
+      {
+        "sprint": "FUNC-SPRINT-39",
+        "capability": "Repo quality gate dry-run",
+        "status": "implemented-initial",
+        "productive_write": false
+      },
+      {
+        "sprint": "FUNC-SPRINT-40",
+        "capability": "Patch preflight",
+        "status": "implemented-initial",
+        "productive_write": false
+      },
+      {
+        "sprint": "FUNC-SPRINT-41",
+        "capability": "PatchSandbox + ChangeSet",
+        "status": "implemented-initial",
+        "productive_write": false
+      },
+      {
+        "sprint": "FUNC-SPRINT-42",
+        "capability": "RollbackManager local backup",
+        "status": "implemented-initial",
+        "productive_write": false
+      },
+      {
+        "sprint": "FUNC-SPRINT-43",
+        "capability": "RefactorExecutor sandbox",
+        "status": "implemented-initial",
+        "productive_write": false
+      },
+      {
+        "sprint": "FUNC-SPRINT-44",
+        "capability": "Repository engineering gate closure",
+        "status": "implemented-initial",
+        "productive_write": false
+      }
+    ],
+    "closure": {
+      "phase": "FASE-C-INGENIERIA-DE-REPOSITORIO",
+      "sprints": [
+        "FUNC-SPRINT-35",
+        "FUNC-SPRINT-36",
+        "FUNC-SPRINT-37",
+        "FUNC-SPRINT-38",
+        "FUNC-SPRINT-39",
+        "FUNC-SPRINT-40",
+        "FUNC-SPRINT-41",
+        "FUNC-SPRINT-42",
+        "FUNC-SPRINT-43",
+        "FUNC-SPRINT-44"
+      ],
+      "closed_by": "FUNC-SPRINT-44",
+      "next_phase": "Fase D — IA local gobernada",
+      "status": "closed",
+      "preliminary": true
+    },
+    "notes": [
+      "FUNC-SPRINT-44 consolidates repository engineering signals but remains read-only.",
+      "This gate does not apply patches, does not execute productive refactors, does not perform Git write and does not deploy.",
+      "Warnings are preserved as engineering signals; FAIL/BLOCK/ERROR findings block Phase C closure.",
+      "Phase D should introduce governed local AI/model execution only after this gate remains reproducible."
+    ],
+    "reports": {
+      "json": "outputs/reports/repo_engineering_gate.json",
+      "markdown": "outputs/reports/repo_engineering_gate.md"
+    }
+  },
+  "findings": [
+    {
+      "id": "ENGINEERING_GATE_GIT_STATUS_GIT_STATUS_READ_ONLY_PASS",
+      "message": "Git status was collected using read-only commands.",
+      "severity": "info",
+      "metadata": {
+        "source": "git_status",
+        "source_command": "git-status",
+        "source_finding_id": "GIT_STATUS_READ_ONLY_PASS"
+      }
+    },
+    {
+      "id": "ENGINEERING_GATE_GIT_STATUS_GIT_UNTRACKED_FILES_PRESENT",
+      "message": "Untracked files are present.",
+      "severity": "warning",
+      "metadata": {
+        "source": "git_status",
+        "source_command": "git-status",
+        "source_finding_id": "GIT_UNTRACKED_FILES_PRESENT",
+        "count": 7
+      }
+    },
+    {
+      "id": "ENGINEERING_GATE_GIT_STATUS_GIT_WORKTREE_CHANGES_PRESENT",
+      "message": "Working tree changes are present.",
+      "severity": "warning",
+      "metadata": {
+        "source": "git_status",
+        "source_command": "git-status",
+        "source_finding_id": "GIT_WORKTREE_CHANGES_PRESENT",
+        "entries_total": 35,
+        "modified": 26,
+        "added": 0,
+        "deleted": 2,
+        "renamed": 0,
+        "untracked": 7,
+        "staged": 0
+      }
+    },
+    {
+      "id": "ENGINEERING_GATE_DEPENDENCY_GRAPH_DEPENDENCY_GRAPH_PASS",
+      "message": "Python dependency graph generated in read-only mode.",
+      "severity": "info",
+      "metadata": {
+        "source": "dependency_graph",
+        "source_command": "repo dependency-graph",
+        "source_finding_id": "DEPENDENCY_GRAPH_PASS"
+      }
+    },
+    {
+      "id": "ENGINEERING_GATE_REPO_ANALYZER_REPO_ANALYZER_LARGE_FILES",
+      "message": "Large files were detected; review maintainability and report size impact.",
+      "severity": "warning",
+      "metadata": {
+        "source": "repo_analyzer",
+        "source_command": "repo analyze",
+        "source_finding_id": "REPO_ANALYZER_LARGE_FILES",
+        "count": 2,
+        "threshold": 200000
+      }
+    },
+    {
+      "id": "ENGINEERING_GATE_REPO_ANALYZER_REPO_ANALYZER_TODO_MARKERS",
+      "message": "TODO/FIXME/HACK markers were detected in bounded text scan.",
+      "severity": "warning",
+      "metadata": {
+        "source": "repo_analyzer",
+        "source_command": "repo analyze",
+        "source_finding_id": "REPO_ANALYZER_TODO_MARKERS",
+        "files": 78,
+        "markers_total": 304
+      }
+    },
+    {
+      "id": "ENGINEERING_GATE_REPO_ANALYZER_REPO_ANALYZER_MODULES_WITHOUT_NEAR_TESTS",
+      "message": "Some modules do not have obvious nearby/direct tests by heuristic.",
+      "severity": "warning",
+      "metadata": {
+        "source": "repo_analyzer",
+        "source_command": "repo analyze",
+        "source_finding_id": "REPO_ANALYZER_MODULES_WITHOUT_NEAR_TESTS",
+        "count": 39,
+        "sample": [
+          {
+            "module": "devpilot_core.__main__",
+            "path": "src/devpilot_core/__main__.py"
+          },
+          {
+            "module": "devpilot_core.agents.models",
+            "path": "src/devpilot_core/agents/models.py"
+          },
+          {
+            "module": "devpilot_core.application.dtos",
+            "path": "src/devpilot_core/application/dtos.py"
+          },
+          {
+            "module": "devpilot_core.approval.models",
+            "path": "src/devpilot_core/approval/models.py"
+          },
+          {
+            "module": "devpilot_core.changes.models",
+            "path": "src/devpilot_core/changes/models.py"
+          },
+          {
+            "module": "devpilot_core.cli_models",
+            "path": "src/devpilot_core/cli_models.py"
+          },
+          {
+            "module": "devpilot_core.errors",
+            "path": "src/devpilot_core/errors.py"
+          },
+          {
+            "module": "devpilot_core.evals.models",
+            "path": "src/devpilot_core/evals/models.py"
+          },
+          {
+            "module": "devpilot_core.execution.allowlist",
+            "path": "src/devpilot_core/execution/allowlist.py"
+          },
+          {
+            "module": "devpilot_core.execution.models",
+            "path": "src/devpilot_core/execution/models.py"
+          }
+        ]
+      }
+    },
+    {
+      "id": "ENGINEERING_GATE_REPO_ANALYZER_REPO_ANALYZER_GIT_WORKTREE_CHANGES",
+      "message": "Working tree changes are present during analysis.",
+      "severity": "warning",
+      "metadata": {
+        "source": "repo_analyzer",
+        "source_command": "repo analyze",
+        "source_finding_id": "REPO_ANALYZER_GIT_WORKTREE_CHANGES",
+        "entries_total": 35,
+        "modified": 26,
+        "added": 0,
+        "deleted": 2,
+        "renamed": 0,
+        "untracked": 7,
+        "staged": 0
+      }
+    },
+    {
+      "id": "ENGINEERING_GATE_REPO_ANALYZER_REPO_ANALYZER_UPSTREAM_GIT_UNTRACKED_FILES_PRESENT",
+      "message": "Upstream git finding: Untracked files are present.",
+      "severity": "warning",
+      "metadata": {
+        "source": "git",
+        "source_command": "repo analyze",
+        "source_finding_id": "REPO_ANALYZER_UPSTREAM_GIT_UNTRACKED_FILES_PRESENT",
+        "count": 7
+      }
+    },
+    {
+      "id": "ENGINEERING_GATE_REPO_ANALYZER_REPO_ANALYZER_UPSTREAM_GIT_WORKTREE_CHANGES_PRESENT",
+      "message": "Upstream git finding: Working tree changes are present.",
+      "severity": "warning",
+      "metadata": {
+        "source": "git",
+        "source_command": "repo analyze",
+        "source_finding_id": "REPO_ANALYZER_UPSTREAM_GIT_WORKTREE_CHANGES_PRESENT",
+        "entries_total": 35,
+        "modified": 26,
+        "added": 0,
+        "deleted": 2,
+        "renamed": 0,
+        "untracked": 7,
+        "staged": 0
+      }
+    },
+    {
+      "id": "ENGINEERING_GATE_ARCHITECTURE_DRIFT_ARCH_DRIFT_CODE_MISSING",
+      "message": "Documented component has no evident source module: AgentRuntime documental.",
+      "severity": "warning",
+      "path": "docs/02_architecture/c4_component.md",
+      "metadata": {
+        "source": "architecture_drift",
+        "source_command": "repo architecture-drift",
+        "source_finding_id": "ARCH_DRIFT_CODE_MISSING",
+        "documented_component": "AgentRuntime documental",
+        "documented_status": "implemented-initial",
+        "code_module": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing"
+      }
+    },
+    {
+      "id": "ENGINEERING_GATE_ARCHITECTURE_DRIFT_ARCH_DRIFT_CODE_MISSING",
+      "message": "Documented component has no evident source module: Artifact.",
+      "severity": "warning",
+      "path": "docs/02_architecture/c4_container.md",
+      "metadata": {
+        "source": "architecture_drift",
+        "source_command": "repo architecture-drift",
+        "source_finding_id": "ARCH_DRIFT_CODE_MISSING",
+        "documented_component": "Artifact",
+        "documented_status": "unknown",
+        "code_module": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing"
+      }
+    },
+    {
+      "id": "ENGINEERING_GATE_ARCHITECTURE_DRIFT_ARCH_DRIFT_CODE_MISSING",
+      "message": "Documented component has no evident source module: Checklist Validator.",
+      "severity": "warning",
+      "path": "docs/02_architecture/c4_component.md",
+      "metadata": {
+        "source": "architecture_drift",
+        "source_command": "repo architecture-drift",
+        "source_finding_id": "ARCH_DRIFT_CODE_MISSING",
+        "documented_component": "Checklist Validator",
+        "documented_status": "implemented",
+        "code_module": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing"
+      }
+    },
+    {
+      "id": "ENGINEERING_GATE_ARCHITECTURE_DRIFT_ARCH_DRIFT_CODE_MISSING",
+      "message": "Documented component has no evident source module: DTOs ApplicationRequest/Response.",
+      "severity": "warning",
+      "path": "docs/02_architecture/c4_component.md",
+      "metadata": {
+        "source": "architecture_drift",
+        "source_command": "repo architecture-drift",
+        "source_finding_id": "ARCH_DRIFT_CODE_MISSING",
+        "documented_component": "DTOs ApplicationRequest/Response",
+        "documented_status": "implemented-initial",
+        "code_module": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing"
+      }
+    },
+    {
+      "id": "ENGINEERING_GATE_ARCHITECTURE_DRIFT_ARCH_DRIFT_CODE_MISSING",
+      "message": "Documented component has no evident source module: Eval Harness offline.",
+      "severity": "warning",
+      "path": "docs/02_architecture/c4_component.md",
+      "metadata": {
+        "source": "architecture_drift",
+        "source_command": "repo architecture-drift",
+        "source_finding_id": "ARCH_DRIFT_CODE_MISSING",
+        "documented_component": "Eval Harness offline",
+        "documented_status": "implemented-initial",
+        "code_module": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing"
+      }
+    },
+    {
+      "id": "ENGINEERING_GATE_ARCHITECTURE_DRIFT_ARCH_DRIFT_CODE_MISSING",
+      "message": "Documented component has no evident source module: EventLogger JSONL.",
+      "severity": "warning",
+      "path": "docs/02_architecture/c4_component.md",
+      "metadata": {
+        "source": "architecture_drift",
+        "source_command": "repo architecture-drift",
+        "source_finding_id": "ARCH_DRIFT_CODE_MISSING",
+        "documented_component": "EventLogger JSONL",
+        "documented_status": "implemented-initial",
+        "code_module": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing"
+      }
+    },
+    {
+      "id": "ENGINEERING_GATE_ARCHITECTURE_DRIFT_ARCH_DRIFT_CODE_MISSING",
+      "message": "Documented component has no evident source module: Filesystem/docs.",
+      "severity": "warning",
+      "path": "docs/02_architecture/c4_container.md",
+      "metadata": {
+        "source": "architecture_drift",
+        "source_command": "repo architecture-drift",
+        "source_finding_id": "ARCH_DRIFT_CODE_MISSING",
+        "documented_component": "Filesystem/docs",
+        "documented_status": "implemented",
+        "code_module": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing"
+      }
+    },
+    {
+      "id": "ENGINEERING_GATE_ARCHITECTURE_DRIFT_ARCH_DRIFT_CODE_MISSING",
+      "message": "Documented component has no evident source module: Frontmatter Validator.",
+      "severity": "warning",
+      "path": "docs/02_architecture/c4_component.md",
+      "metadata": {
+        "source": "architecture_drift",
+        "source_command": "repo architecture-drift",
+        "source_finding_id": "ARCH_DRIFT_CODE_MISSING",
+        "documented_component": "Frontmatter Validator",
+        "documented_status": "implemented",
+        "code_module": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing"
+      }
+    },
+    {
+      "id": "ENGINEERING_GATE_ARCHITECTURE_DRIFT_ARCH_DRIFT_CODE_MISSING",
+      "message": "Documented component has no evident source module: Git local.",
+      "severity": "warning",
+      "path": "docs/02_architecture/c4_container.md",
+      "metadata": {
+        "source": "architecture_drift",
+        "source_command": "repo architecture-drift",
+        "source_finding_id": "ARCH_DRIFT_CODE_MISSING",
+        "documented_component": "Git local",
+        "documented_status": "implemented-initial",
+        "code_module": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing"
+      }
+    },
+    {
+      "id": "ENGINEERING_GATE_ARCHITECTURE_DRIFT_ARCH_DRIFT_CODE_MISSING",
+      "message": "Documented component has no evident source module: GitAdapter + RepoInventory.",
+      "severity": "warning",
+      "path": "docs/02_architecture/c4_component.md",
+      "metadata": {
+        "source": "architecture_drift",
+        "source_command": "repo architecture-drift",
+        "source_finding_id": "ARCH_DRIFT_CODE_MISSING",
+        "documented_component": "GitAdapter + RepoInventory",
+        "documented_status": "implemented-initial",
+        "code_module": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing"
+      }
+    },
+    {
+      "id": "ENGINEERING_GATE_ARCHITECTURE_DRIFT_ARCH_DRIFT_CODE_MISSING",
+      "message": "Documented component has no evident source module: LocalStore SQLite v0.",
+      "severity": "warning",
+      "path": "docs/02_architecture/c4_component.md",
+      "metadata": {
+        "source": "architecture_drift",
+        "source_command": "repo architecture-drift",
+        "source_finding_id": "ARCH_DRIFT_CODE_MISSING",
+        "documented_component": "LocalStore SQLite v0",
+        "documented_status": "implemented-initial",
+        "code_module": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing"
+      }
+    },
+    {
+      "id": "ENGINEERING_GATE_ARCHITECTURE_DRIFT_ARCH_DRIFT_CODE_MISSING",
+      "message": "Documented component has no evident source module: MIASI Registry Validator.",
+      "severity": "warning",
+      "path": "docs/02_architecture/c4_component.md",
+      "metadata": {
+        "source": "architecture_drift",
+        "source_command": "repo architecture-drift",
+        "source_finding_id": "ARCH_DRIFT_CODE_MISSING",
+        "documented_component": "MIASI Registry Validator",
+        "documented_status": "implemented",
+        "code_module": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing"
+      }
+    },
+    {
+      "id": "ENGINEERING_GATE_ARCHITECTURE_DRIFT_ARCH_DRIFT_CODE_MISSING",
+      "message": "Documented component has no evident source module: Model provider layer.",
+      "severity": "warning",
+      "path": "docs/02_architecture/c4_container.md",
+      "metadata": {
+        "source": "architecture_drift",
+        "source_command": "repo architecture-drift",
+        "source_finding_id": "ARCH_DRIFT_CODE_MISSING",
+        "documented_component": "Model provider layer",
+        "documented_status": "partial",
+        "code_module": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing"
+      }
+    },
+    {
+      "id": "ENGINEERING_GATE_ARCHITECTURE_DRIFT_ARCH_DRIFT_CODE_MISSING",
+      "message": "Documented component has no evident source module: ModelAdapter Router.",
+      "severity": "warning",
+      "path": "docs/02_architecture/c4_component.md",
+      "metadata": {
+        "source": "architecture_drift",
+        "source_command": "repo architecture-drift",
+        "source_finding_id": "ARCH_DRIFT_CODE_MISSING",
+        "documented_component": "ModelAdapter Router",
+        "documented_status": "partial",
+        "code_module": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing"
+      }
+    },
+    {
+      "id": "ENGINEERING_GATE_ARCHITECTURE_DRIFT_ARCH_DRIFT_CODE_MISSING",
+      "message": "Documented component has no evident source module: Policy Engine + Guards.",
+      "severity": "warning",
+      "path": "docs/02_architecture/c4_component.md",
+      "metadata": {
+        "source": "architecture_drift",
+        "source_command": "repo architecture-drift",
+        "source_finding_id": "ARCH_DRIFT_CODE_MISSING",
+        "documented_component": "Policy Engine + Guards",
+        "documented_status": "implemented",
+        "code_module": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing"
+      }
+    },
+    {
+      "id": "ENGINEERING_GATE_ARCHITECTURE_DRIFT_ARCH_DRIFT_CODE_MISSING",
+      "message": "Documented component has no evident source module: Readiness Gate.",
+      "severity": "warning",
+      "path": "docs/02_architecture/c4_component.md",
+      "metadata": {
+        "source": "architecture_drift",
+        "source_command": "repo architecture-drift",
+        "source_finding_id": "ARCH_DRIFT_CODE_MISSING",
+        "documented_component": "Readiness Gate",
+        "documented_status": "implemented",
+        "code_module": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing"
+      }
+    },
+    {
+      "id": "ENGINEERING_GATE_ARCHITECTURE_DRIFT_ARCH_DRIFT_DOC_MISSING",
+      "message": "Code module has no evident architectural reference: changes.",
+      "severity": "warning",
+      "path": "src/devpilot_core/changes",
+      "metadata": {
+        "source": "architecture_drift",
+        "source_command": "repo architecture-drift",
+        "source_finding_id": "ARCH_DRIFT_DOC_MISSING",
+        "documented_component": null,
+        "documented_status": null,
+        "code_module": "changes",
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "doc_missing"
+      }
+    },
+    {
+      "id": "ENGINEERING_GATE_ARCHITECTURE_DRIFT_ARCH_DRIFT_DOC_MISSING",
+      "message": "Code module has no evident architectural reference: errors.",
+      "severity": "warning",
+      "path": "src/devpilot_core/errors.py",
+      "metadata": {
+        "source": "architecture_drift",
+        "source_command": "repo architecture-drift",
+        "source_finding_id": "ARCH_DRIFT_DOC_MISSING",
+        "documented_component": null,
+        "documented_status": null,
+        "code_module": "errors",
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "doc_missing"
+      }
+    },
+    {
+      "id": "ENGINEERING_GATE_ARCHITECTURE_DRIFT_ARCH_DRIFT_DOC_MISSING",
+      "message": "Code module has no evident architectural reference: execution.",
+      "severity": "warning",
+      "path": "src/devpilot_core/execution",
+      "metadata": {
+        "source": "architecture_drift",
+        "source_command": "repo architecture-drift",
+        "source_finding_id": "ARCH_DRIFT_DOC_MISSING",
+        "documented_component": null,
+        "documented_status": null,
+        "code_module": "execution",
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "doc_missing"
+      }
+    },
+    {
+      "id": "ENGINEERING_GATE_ARCHITECTURE_DRIFT_ARCH_DRIFT_DOC_MISSING",
+      "message": "Code module has no evident architectural reference: sandbox.",
+      "severity": "warning",
+      "path": "src/devpilot_core/sandbox",
+      "metadata": {
+        "source": "architecture_drift",
+        "source_command": "repo architecture-drift",
+        "source_finding_id": "ARCH_DRIFT_DOC_MISSING",
+        "documented_component": null,
+        "documented_status": null,
+        "code_module": "sandbox",
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "doc_missing"
+      }
+    },
+    {
+      "id": "ENGINEERING_GATE_ARCHITECTURE_DRIFT_ARCH_DRIFT_DOC_MISSING",
+      "message": "Code module has no evident architectural reference: schemas.",
+      "severity": "warning",
+      "path": "src/devpilot_core/schemas",
+      "metadata": {
+        "source": "architecture_drift",
+        "source_command": "repo architecture-drift",
+        "source_finding_id": "ARCH_DRIFT_DOC_MISSING",
+        "documented_component": null,
+        "documented_status": null,
+        "code_module": "schemas",
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "doc_missing"
+      }
+    },
+    {
+      "id": "ENGINEERING_GATE_ARCHITECTURE_DRIFT_ARCH_DRIFT_DOC_MISSING",
+      "message": "Code module has no evident architectural reference: security.",
+      "severity": "warning",
+      "path": "src/devpilot_core/security",
+      "metadata": {
+        "source": "architecture_drift",
+        "source_command": "repo architecture-drift",
+        "source_finding_id": "ARCH_DRIFT_DOC_MISSING",
+        "documented_component": null,
+        "documented_status": null,
+        "code_module": "security",
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "doc_missing"
+      }
+    },
+    {
+      "id": "ENGINEERING_GATE_ARCHITECTURE_DRIFT_ARCH_DRIFT_DOC_MISSING",
+      "message": "Code module has no evident architectural reference: traceability.",
+      "severity": "warning",
+      "path": "src/devpilot_core/traceability",
+      "metadata": {
+        "source": "architecture_drift",
+        "source_command": "repo architecture-drift",
+        "source_finding_id": "ARCH_DRIFT_DOC_MISSING",
+        "documented_component": null,
+        "documented_status": null,
+        "code_module": "traceability",
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "doc_missing"
+      }
+    },
+    {
+      "id": "ENGINEERING_GATE_ARCHITECTURE_DRIFT_ARCH_DRIFT_NAME_MISMATCH",
+      "message": "Documented component and code module only match heuristically: Patch/Code Review dry-run -> review.",
+      "severity": "warning",
+      "path": "src/devpilot_core/review",
+      "metadata": {
+        "source": "architecture_drift",
+        "source_command": "repo architecture-drift",
+        "source_finding_id": "ARCH_DRIFT_NAME_MISMATCH",
+        "documented_component": "Patch/Code Review dry-run",
+        "documented_status": "implemented-initial",
+        "code_module": "review",
+        "match_type": "fuzzy",
+        "confidence": 0.6,
+        "drift_type": "name_mismatch"
+      }
+    },
+    {
+      "id": "ENGINEERING_GATE_ARCHITECTURE_DRIFT_ARCH_DRIFT_NAME_MISMATCH",
+      "message": "Documented component and code module only match heuristically: SQLite LocalStore -> store.",
+      "severity": "warning",
+      "path": "src/devpilot_core/store",
+      "metadata": {
+        "source": "architecture_drift",
+        "source_command": "repo architecture-drift",
+        "source_finding_id": "ARCH_DRIFT_NAME_MISMATCH",
+        "documented_component": "SQLite LocalStore",
+        "documented_status": "implemented-initial",
+        "code_module": "store",
+        "match_type": "fuzzy",
+        "confidence": 0.5,
+        "drift_type": "name_mismatch"
+      }
+    },
+    {
+      "id": "ENGINEERING_GATE_ARCHITECTURE_DRIFT_ARCH_DRIFT_NAME_MISMATCH",
+      "message": "Documented component and code module only match heuristically: Safe Refactor Planner -> refactor.",
+      "severity": "warning",
+      "path": "src/devpilot_core/refactor",
+      "metadata": {
+        "source": "architecture_drift",
+        "source_command": "repo architecture-drift",
+        "source_finding_id": "ARCH_DRIFT_NAME_MISMATCH",
+        "documented_component": "Safe Refactor Planner",
+        "documented_status": "implemented-initial",
+        "code_module": "refactor",
+        "match_type": "fuzzy",
+        "confidence": 1.0,
+        "drift_type": "name_mismatch"
+      }
+    },
+    {
+      "id": "ENGINEERING_GATE_ARCHITECTURE_DRIFT_ARCH_DRIFT_CODE_MISSING",
+      "message": "Documented component has no evident source module: Desktop UI.",
+      "severity": "info",
+      "path": "docs/02_architecture/c4_component.md",
+      "metadata": {
+        "source": "architecture_drift",
+        "source_command": "repo architecture-drift",
+        "source_finding_id": "ARCH_DRIFT_CODE_MISSING",
+        "documented_component": "Desktop UI",
+        "documented_status": "future",
+        "code_module": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing"
+      }
+    },
+    {
+      "id": "ENGINEERING_GATE_ARCHITECTURE_DRIFT_ARCH_DRIFT_CODE_MISSING",
+      "message": "Documented component has no evident source module: Desktop UI.",
+      "severity": "info",
+      "path": "docs/02_architecture/c4_container.md",
+      "metadata": {
+        "source": "architecture_drift",
+        "source_command": "repo architecture-drift",
+        "source_finding_id": "ARCH_DRIFT_CODE_MISSING",
+        "documented_component": "Desktop UI",
+        "documented_status": "future",
+        "code_module": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing"
+      }
+    },
+    {
+      "id": "ENGINEERING_GATE_ARCHITECTURE_DRIFT_ARCH_DRIFT_CODE_MISSING",
+      "message": "Documented component has no evident source module: External APIs.",
+      "severity": "info",
+      "path": "docs/02_architecture/c4_component.md",
+      "metadata": {
+        "source": "architecture_drift",
+        "source_command": "repo architecture-drift",
+        "source_finding_id": "ARCH_DRIFT_CODE_MISSING",
+        "documented_component": "External APIs",
+        "documented_status": "disabled",
+        "code_module": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing"
+      }
+    },
+    {
+      "id": "ENGINEERING_GATE_ARCHITECTURE_DRIFT_ARCH_DRIFT_CODE_MISSING",
+      "message": "Documented component has no evident source module: External LLM APIs.",
+      "severity": "info",
+      "path": "docs/02_architecture/c4_container.md",
+      "metadata": {
+        "source": "architecture_drift",
+        "source_command": "repo architecture-drift",
+        "source_finding_id": "ARCH_DRIFT_CODE_MISSING",
+        "documented_component": "External LLM APIs",
+        "documented_status": "disabled",
+        "code_module": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing"
+      }
+    },
+    {
+      "id": "ENGINEERING_GATE_ARCHITECTURE_DRIFT_ARCH_DRIFT_CODE_MISSING",
+      "message": "Documented component has no evident source module: MCP/API tools.",
+      "severity": "info",
+      "path": "docs/02_architecture/c4_container.md",
+      "metadata": {
+        "source": "architecture_drift",
+        "source_command": "repo architecture-drift",
+        "source_finding_id": "ARCH_DRIFT_CODE_MISSING",
+        "documented_component": "MCP/API tools",
+        "documented_status": "future",
+        "code_module": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing"
+      }
+    },
+    {
+      "id": "ENGINEERING_GATE_ARCHITECTURE_DRIFT_ARCH_DRIFT_CODE_MISSING",
+      "message": "Documented component has no evident source module: Ollama/LM Studio clients.",
+      "severity": "info",
+      "path": "docs/02_architecture/c4_component.md",
+      "metadata": {
+        "source": "architecture_drift",
+        "source_command": "repo architecture-drift",
+        "source_finding_id": "ARCH_DRIFT_CODE_MISSING",
+        "documented_component": "Ollama/LM Studio clients",
+        "documented_status": "planned",
+        "code_module": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing"
+      }
+    },
+    {
+      "id": "ENGINEERING_GATE_ARCHITECTURE_DRIFT_ARCH_DRIFT_CODE_MISSING",
+      "message": "Documented component has no evident source module: Patch apply sandbox.",
+      "severity": "info",
+      "path": "docs/02_architecture/c4_component.md",
+      "metadata": {
+        "source": "architecture_drift",
+        "source_command": "repo architecture-drift",
+        "source_finding_id": "ARCH_DRIFT_CODE_MISSING",
+        "documented_component": "Patch apply sandbox",
+        "documented_status": "planned",
+        "code_module": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing"
+      }
+    },
+    {
+      "id": "ENGINEERING_GATE_ARCHITECTURE_DRIFT_ARCH_DRIFT_CODE_MISSING",
+      "message": "Documented component has no evident source module: Refactor execution.",
+      "severity": "info",
+      "path": "docs/02_architecture/c4_component.md",
+      "metadata": {
+        "source": "architecture_drift",
+        "source_command": "repo architecture-drift",
+        "source_finding_id": "ARCH_DRIFT_CODE_MISSING",
+        "documented_component": "Refactor execution",
+        "documented_status": "planned",
+        "code_module": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing"
+      }
+    },
+    {
+      "id": "ENGINEERING_GATE_ARCHITECTURE_DRIFT_ARCH_DRIFT_CODE_MISSING",
+      "message": "Documented component has no evident source module: Web UI/API.",
+      "severity": "info",
+      "path": "docs/02_architecture/c4_component.md",
+      "metadata": {
+        "source": "architecture_drift",
+        "source_command": "repo architecture-drift",
+        "source_finding_id": "ARCH_DRIFT_CODE_MISSING",
+        "documented_component": "Web UI/API",
+        "documented_status": "future",
+        "code_module": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing"
+      }
+    },
+    {
+      "id": "ENGINEERING_GATE_ARCHITECTURE_DRIFT_ARCH_DRIFT_CODE_MISSING",
+      "message": "Documented component has no evident source module: Web UI/API.",
+      "severity": "info",
+      "path": "docs/02_architecture/c4_container.md",
+      "metadata": {
+        "source": "architecture_drift",
+        "source_command": "repo architecture-drift",
+        "source_finding_id": "ARCH_DRIFT_CODE_MISSING",
+        "documented_component": "Web UI/API",
+        "documented_status": "future",
+        "code_module": null,
+        "match_type": "none",
+        "confidence": 0.0,
+        "drift_type": "code_missing"
+      }
+    },
+    {
+      "id": "ENGINEERING_GATE_REPO_QUALITY_GATE_QUALITY_GATE_POLICY_POLICY_PASS",
+      "message": "PolicyEngine allowed the simulated request.",
+      "severity": "info",
+      "metadata": {
+        "source": "policy",
+        "source_command": "policy check",
+        "source_finding_id": "POLICY_PASS"
+      }
+    },
+    {
+      "id": "ENGINEERING_GATE_REPO_QUALITY_GATE_QUALITY_GATE_POLICY_POLICY_PASS",
+      "message": "PolicyEngine allowed the simulated request.",
+      "severity": "info",
+      "metadata": {
+        "source": "policy",
+        "source_command": "policy check",
+        "source_finding_id": "POLICY_PASS"
+      }
+    },
+    {
+      "id": "ENGINEERING_GATE_REPO_QUALITY_GATE_QUALITY_GATE_REPO_ANALYZER_REPO_ANALYZER_LARGE_FILES",
+      "message": "Large files were detected; review maintainability and report size impact.",
+      "severity": "warning",
+      "metadata": {
+        "source": "repo_analyzer",
+        "source_command": "repo analyze",
+        "source_finding_id": "REPO_ANALYZER_LARGE_FILES",
+        "count": 2,
+        "threshold": 200000
+      }
+    },
+    {
+      "id": "ENGINEERING_GATE_REPO_QUALITY_GATE_QUALITY_GATE_REPO_ANALYZER_REPO_ANALYZER_TODO_MARKERS",
+      "message": "TODO/FIXME/HACK markers were detected in bounded text scan.",
+      "severity": "warning",
+      "metadata": {
+        "source": "repo_analyzer",
+        "source_command": "repo analyze",
+        "source_finding_id": "REPO_ANALYZER_TODO_MARKERS",
+        "files": 78,
+        "markers_total": 304
+      }
+    },
+    {
+      "id": "ENGINEERING_GATE_REPO_QUALITY_GATE_QUALITY_GATE_REPO_ANALYZER_REPO_ANALYZER_MODULES_WITHOUT_NEAR_TESTS",
+      "message": "Some modules do not have obvious nearby/direct tests by heuristic.",
+      "severity": "warning",
+      "metadata": {
+        "source": "repo_analyzer",
+        "source_command": "repo analyze",
+        "source_finding_id": "REPO_ANALYZER_MODULES_WITHOUT_NEAR_TESTS",
+        "count": 39,
+        "sample": [
+          {
+            "module": "devpilot_core.__main__",
+            "path": "src/devpilot_core/__main__.py"
+          },
+          {
+            "module": "devpilot_core.agents.models",
+            "path": "src/devpilot_core/agents/models.py"
+          },
+          {
+            "module": "devpilot_core.application.dtos",
+            "path": "src/devpilot_core/application/dtos.py"
+          },
+          {
+            "module": "devpilot_core.approval.models",
+            "path": "src/devpilot_core/approval/models.py"
+          },
+          {
+            "module": "devpilot_core.changes.models",
+            "path": "src/devpilot_core/changes/models.py"
+          },
+          {
+            "module": "devpilot_core.cli_models",
+            "path": "src/devpilot_core/cli_models.py"
+          },
+          {
+            "module": "devpilot_core.errors",
+            "path": "src/devpilot_core/errors.py"
+          },
+          {
+            "module": "devpilot_core.evals.models",
+            "path": "src/devpilot_core/evals/models.py"
+          },
+          {
+            "module": "devpilot_core.execution.allowlist",
+            "path": "src/devpilot_core/execution/allowlist.py"
+          },
+          {
+            "module": "devpilot_core.execution.models",
+            "path": "src/devpilot_core/execution/models.py"
+          }
+        ]
+      }
+    },
+    {
+      "id": "ENGINEERING_GATE_REPO_QUALITY_GATE_QUALITY_GATE_REPO_ANALYZER_REPO_ANALYZER_GIT_WORKTREE_CHANGES",
+      "message": "Working tree changes are present during analysis.",
+      "severity": "warning",
+      "metadata": {
+        "source": "repo_analyzer",
+        "source_command": "repo analyze",
+        "source_finding_id": "REPO_ANALYZER_GIT_WORKTREE_CHANGES",
+        "entries_total": 35,
+        "modified": 26,
+        "added": 0,
+        "deleted": 2,
+        "renamed": 0,
+        "untracked": 7,
+        "staged": 0
+      }
+    },
+    {
+      "id": "ENGINEERING_GATE_REPO_QUALITY_GATE_QUALITY_GATE_REPO_ANALYZER_REPO_ANALYZER_UPSTREAM_GIT_UNTRACKED_FILES_PRESENT",
+      "message": "Upstream git finding: Untracked files are present.",
+      "severity": "warning",
+      "metadata": {
+        "source": "git",
+        "source_command": "repo analyze",
+        "source_finding_id": "REPO_ANALYZER_UPSTREAM_GIT_UNTRACKED_FILES_PRESENT",
+        "count": 7
+      }
+    },
+    {
+      "id": "ENGINEERING_GATE_REPO_QUALITY_GATE_QUALITY_GATE_REPO_ANALYZER_REPO_ANALYZER_UPSTREAM_GIT_WORKTREE_CHANGES_PRESENT",
+      "message": "Upstream git finding: Working tree changes are present.",
+      "severity": "warning",
+      "metadata": {
+        "source": "git",
+        "source_command": "repo analyze",
+        "source_finding_id": "REPO_ANALYZER_UPSTREAM_GIT_WORKTREE_CHANGES_PRESENT",
+        "entries_total": 35,
+        "modified": 26,
+        "added": 0,
+        "deleted": 2,
+        "renamed": 0,
+        "untracked": 7,
+        "staged": 0
+      }
+    },
+    {
+      "id": "ENGINEERING_GATE_REPO_QUALITY_GATE_QUALITY_GATE_CODE_REVIEW_CODE_REVIEW_TODO",
+      "message": "TODO/FIXME marker detected.",
+      "severity": "warning",
+      "path": "src/devpilot_core/repo/analyzer.py",
+      "metadata": {
+        "source": "code_review",
+        "source_command": "code-review",
+        "source_finding_id": "CODE_REVIEW_TODO",
+        "line": 17
+      }
+    },
+    {
+      "id": "ENGINEERING_GATE_REPO_QUALITY_GATE_QUALITY_GATE_CODE_REVIEW_CODE_REVIEW_TODO",
+      "message": "TODO/FIXME marker detected.",
+      "severity": "warning",
+      "path": "src/devpilot_core/repo/analyzer.py",
+      "metadata": {
+        "source": "code_review",
+        "source_command": "code-review",
+        "source_finding_id": "CODE_REVIEW_TODO",
+        "line": 223
+      }
+    },
+    {
+      "id": "ENGINEERING_GATE_REPO_QUALITY_GATE_QUALITY_GATE_CODE_REVIEW_CODE_REVIEW_TODO",
+      "message": "TODO/FIXME marker detected.",
+      "severity": "warning",
+      "path": "src/devpilot_core/repo/analyzer.py",
+      "metadata": {
+        "source": "code_review",
+        "source_command": "code-review",
+        "source_finding_id": "CODE_REVIEW_TODO",
+        "line": 225
+      }
+    },
+    {
+      "id": "ENGINEERING_GATE_REPO_QUALITY_GATE_QUALITY_GATE_PATCH_REVIEW_QUALITY_GATE_PATCH_REVIEW_SKIPPED",
+      "message": "Patch review skipped: no patch supplied.",
+      "severity": "info",
+      "metadata": {
+        "source": "patch_review",
+        "source_command": "patch-review",
+        "source_finding_id": "QUALITY_GATE_PATCH_REVIEW_SKIPPED"
+      }
+    },
+    {
+      "id": "ENGINEERING_GATE_MIASI_PHASE_C_ENGINEERING_GATE_MIASI_PASS",
+      "message": "Phase C MIASI tools, policies and approval gates are declared.",
+      "severity": "info",
+      "metadata": {
+        "source": "miasi_phase_c",
+        "source_command": "repo engineering-gate miasi-phase-c",
+        "source_finding_id": "ENGINEERING_GATE_MIASI_PASS"
+      }
+    },
+    {
+      "id": "ENGINEERING_GATE_PHASE_C_DOCUMENTS_ENGINEERING_GATE_PHASE_C_DOCS_PASS",
+      "message": "Phase C engineering documents and manifests are present.",
+      "severity": "info",
+      "metadata": {
+        "source": "phase_c_documents",
+        "source_command": "repo engineering-gate phase-c-docs",
+        "source_finding_id": "ENGINEERING_GATE_PHASE_C_DOCS_PASS"
+      }
+    },
+    {
+      "id": "ENGINEERING_GATE_RUNTIME_INVARIANTS_ENGINEERING_GATE_RUNTIME_INVARIANTS_PASS",
+      "message": "Runtime artifact exclusions and sandbox modules are present.",
+      "severity": "info",
+      "metadata": {
+        "source": "runtime_invariants",
+        "source_command": "repo engineering-gate runtime-invariants",
+        "source_finding_id": "ENGINEERING_GATE_RUNTIME_INVARIANTS_PASS"
+      }
+    }
+  ]
+}
+(.venv) PS D:\Projects\DevPilot_Local> python -m devpilot_core schema validate-manifest docs/functional_sprint_44_manifest.json --json
+{
+  "command": "schema validate-manifest",
+  "ok": true,
+  "exit_code": 0,
+  "message": "Schema validation passed.",
+  "data": {
+    "summary": {
+      "schema": "docs/schemas/functional_sprint_manifest.schema.json",
+      "instance": "docs/functional_sprint_44_manifest.json",
+      "valid": true,
+      "errors_total": 0,
+      "findings_total": 1,
+      "network_used": false,
+      "external_api_used": false,
+      "schema_title": "DevPilot Functional Sprint Manifest v1",
+      "schema_id": "SCHEMA-DEVPL-FUNCTIONAL-SPRINT-MANIFEST-V1",
+      "validator": "jsonschema",
+      "jsonschema_version": "4.26.0",
+      "preliminary": true,
+      "contract": "FunctionalSprintManifest",
+      "subject": "docs/functional_sprint_44_manifest.json"
+    },
+    "schema": "docs/schemas/functional_sprint_manifest.schema.json",
+    "instance": "docs/functional_sprint_44_manifest.json",
+    "notes": [
+      "FUNC-SPRINT-22 validates JSON structure only; semantic gates remain in dedicated validators.",
+      "Validation is local-first and does not call network or external APIs."
+    ]
+  },
+  "findings": [
+    {
+      "id": "SCHEMA_VALIDATION_PASS",
+      "message": "Instance conforms to schema.",
+      "severity": "info",
+      "metadata": {
+        "schema": "docs/schemas/functional_sprint_manifest.schema.json",
+        "instance": "docs/functional_sprint_44_manifest.json"
+      }
+    }
+  ]
+}
+(.venv) PS D:\Projects\DevPilot_Local> python -m devpilot_core validate-frontmatter docs/audits/phase_c_repository_engineering_closure_report.md --strict --json
+{
+  "command": "validate-frontmatter",
+  "ok": true,
+  "exit_code": 0,
+  "message": "Frontmatter validation passed.",
+  "data": {
+    "path": "docs/audits/phase_c_repository_engineering_closure_report.md",
+    "has_frontmatter": true,
+    "fields": {
+      "title": "Cierre Fase C — Repository Engineering Quality Gate",
+      "doc_id": "DEVPL-AUDIT-PHASE-C-CLOSURE-001",
+      "status": "approved",
+      "version": "1.0.0",
+      "owner": "Ordóñez",
+      "updated": "2026-06-12"
+    },
+    "status": "approved",
+    "strict": true
+  },
+  "findings": []
+}
+(.venv) PS D:\Projects\DevPilot_Local> python -m devpilot_core validate-artifact docs/audits/phase_c_repository_engineering_closure_report.md --strict --json
+{
+  "command": "validate-artifact",
+  "ok": true,
+  "exit_code": 0,
+  "message": "Artifact validation passed.",
+  "data": {
+    "path": "docs/audits/phase_c_repository_engineering_closure_report.md",
+    "profile": {
+      "id": "generic-markdown",
+      "description": "Generic Markdown engineering artifact."
+    },
+    "strict": true,
+    "status": "approved",
+    "heading_count": 9,
+    "h1_count": 1,
+    "headings": [
+      "Cierre Fase C — Repository Engineering Quality Gate",
+      "1. Propósito",
+      "2. Estado",
+      "3. Capacidades implementadas",
+      "4. Funcionamiento del gate",
+      "5. Criterios PASS",
+      "6. Criterios BLOCK",
+      "7. Riesgos y brechas pendientes",
+      "8. Veredicto"
+    ],
+    "missing_required_sections": [],
+    "missing_recommended_sections": [],
+    "frontmatter_ok": true
+  },
+  "findings": []
+}
+(.venv) PS D:\Projects\DevPilot_Local>

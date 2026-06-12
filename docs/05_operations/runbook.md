@@ -2831,3 +2831,44 @@ python -m devpilot_core refactor sandbox --target tests/fixtures/refactor_execut
 ### Riesgos y límites
 
 La capacidad es `implemented-initial`. No ejecuta refactors semánticos, no aplica cambios al workspace real, no usa Git write, no invoca LLMs, no permite comandos arbitrarios y no sustituye revisión humana.
+
+
+## FUNC-SPRINT-44 — Cierre Fase C: repository engineering quality gate
+
+### Propósito
+
+`repo engineering-gate` consolida las capacidades de ingeniería de repositorio implementadas entre `FUNC-SPRINT-35` y `FUNC-SPRINT-44`. Su objetivo operativo es responder si el repositorio está listo para pasar a una Fase D de IA local gobernada sin dejar brechas críticas en análisis, sandbox, rollback, refactor controlado, MIASI o documentación.
+
+### Comandos
+
+```powershell
+python -m devpilot_core repo engineering-gate --json
+python -m devpilot_core repo engineering-gate --profile full --json --write-report
+python -m devpilot_core validate all --json
+python -m devpilot_core miasi validate --json
+pytest -q
+```
+
+### Funcionamiento
+
+El gate ejecuta de forma local y read-only: `GitAdapter.status`, `DependencyGraphBuilder`, `RepoAnalyzer`, `ArchitectureDriftDetector`, `RepoQualityGate` y validaciones de declaraciones MIASI para herramientas, políticas y approvals de Fase C. En perfil `full` valida además documentos/manifests de cierre y exclusiones de runtime.
+
+### Criterios PASS
+
+- El gate devuelve `status=PASS`.
+- No existen findings `FAIL`, `BLOCK` ni `ERROR`.
+- La suite de pruebas pasa.
+- MIASI declara `repo.engineering_gate`, `patch.sandbox`, `rollback.*`, `refactor.sandbox` y `tests.run` con reglas de aprobación correctas.
+- El cierre Fase C queda documentado en `docs/audits/phase_c_repository_engineering_closure_report.md` y `docs/phase_c_manifest.json`.
+
+### Criterios BLOCK
+
+- Alguna capacidad de patch/refactor/rollback permite tocar workspace productivo sin approval.
+- Falta un manifest/auditoría de Fase C.
+- MIASI no declara tools o policy rules críticas.
+- `pytest` o `validate all` fallan.
+- Se habilita Git write, deploy, LLM/API externa o ejecución arbitraria.
+
+### Riesgos y límites
+
+Esta versión es **implemented-initial**. El gate no reemplaza una certificación industrial completa ni SAST/SCA formal. Es un cierre reproducible de la Fase C local-first, y su principal valor es bloquear la transición a IA local gobernada si el baseline de repositorio pierde trazabilidad, seguridad o documentación sincronizada.

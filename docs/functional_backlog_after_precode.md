@@ -14,7 +14,7 @@ change_policy: "controlled_changes_allowed_via_docs_as_code"
 approved_on: "2026-06-06"
 approval_scope: "functional_backlog_after_precode"
 baseline_execution: "FUNC-SPRINT-00"
-next_sprint: "FUNC-SPRINT-44"
+next_sprint: "FASE-D-BACKLOG-PENDIENTE"
 ---
 
 # DevPilot Local — Backlog ejecutable posterior a pre-code
@@ -2089,3 +2089,10 @@ La transición hacia `FUNC-SPRINT-43` queda condicionada a mantener Git write bl
 `FUNC-SPRINT-43` habilita `RefactorExecutor` como primera ejecución controlada de refactor en sandbox. La implementación exige approval de `refactor.sandbox`, limita el cambio a transformaciones mecánicas determinísticas en archivos Python, emite `ChangeSet`, crea rollback plan y mantiene el workspace productivo intacto.
 
 La transición hacia `FUNC-SPRINT-44` queda condicionada a consolidar Fase C en un gate integral de ingeniería de repositorio. Sigue fuera de alcance aplicar refactors al workspace real, restaurar automáticamente rollback points, ejecutar Git write o aceptar planes no determinísticos.
+
+
+## Transición posterior a FUNC-SPRINT-44
+
+`FUNC-SPRINT-44` cierra Fase C mediante `repo engineering-gate`. A partir de este punto, el backlog funcional posterior al pre-code debe abrir una nueva unidad de planificación para `FASE-D — IA local gobernada`, manteniendo como restricciones heredadas: local-first, multi-modelo, sin API externa por defecto, approval para acciones críticas, trazabilidad, sandbox antes de ejecución, y evidencias reproducibles.
+
+No se habilita todavía ejecución autónoma de agentes sobre repositorios reales. La siguiente fase deberá definir explícitamente proveedores locales, ModelAdapter operativo, límites de costo, evaluación y observabilidad antes de permitir cualquier flujo agent-assisted con modelos.

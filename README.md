@@ -1,8 +1,8 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
 Estado actual: `baseline pre-code approved + Fase A cerrada + FASE-B cerrada + Fase C en progreso + PatchSandbox y ChangeSet implemented-initial`  
-Último hito: `FUNC-SPRINT-43 — RefactorExecutor controlado en sandbox`  
-Siguiente hito: `FUNC-SPRINT-44 — Cierre Fase C: repository engineering quality gate`  
+Último hito: `FUNC-SPRINT-44 — Cierre Fase C: repository engineering quality gate`  
+Siguiente hito: `Fase D — IA local gobernada (backlog pendiente de aprobación)`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
@@ -1442,3 +1442,17 @@ PASS: ejecución solo en sandbox, approval válido, workspace productivo intacto
 BLOCK: falta de approval, `plan_id` inexistente, target ambiguo/no soportado, ausencia de cambios determinísticos, modificación del workspace productivo, fallo de rollback plan o intento de ejecutar pruebas sin approval válido.
 
 Límites: esta versión no hace refactors semánticos, no reescribe AST, no aplica cambios al workspace productivo, no usa LLMs, no ejecuta comandos arbitrarios y no reemplaza revisión humana.
+
+
+## Cierre Fase C — FUNC-SPRINT-44
+
+`FUNC-SPRINT-44` consolida la Fase C de ingeniería de repositorio mediante `repo engineering-gate`, un gate integrador read-only que agrega señales de `GitAdapter`, `DependencyGraph`, `RepoAnalyzer`, `ArchitectureDrift`, `RepoQualityGate` y validaciones MIASI de capacidades críticas.
+
+La capacidad queda en estado **implemented-initial**: permite verificar si el baseline de ingeniería de repositorio está listo para iniciar una Fase D de IA local gobernada, pero no habilita escritura Git, aplicación de patches al workspace productivo, refactor productivo, despliegue, LLMs ni APIs externas.
+
+Comando principal:
+
+```powershell
+python -m devpilot_core repo engineering-gate --profile full --json --write-report
+```
+

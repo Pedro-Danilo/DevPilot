@@ -504,3 +504,38 @@ Criterios PASS: approval válido, target workspace-local, plan id conocido, tran
 Criterios BLOCK: approval ausente o con scope incorrecto, target fuera de root, plan ambiguo, ausencia de cambios determinísticos, mutación productiva, rollback plan fallido o tests sin approval.
 
 Riesgos: capacidad `implemented-initial`; no realiza refactors semánticos, no aplica al workspace productivo y debe evolucionar hacia operaciones AST/IDE-like con validadores más fuertes.
+
+
+## Tool Card — RepoEngineeringGate cierre Fase C
+
+### Propósito
+
+`repo.engineering_gate` consolida señales de ingeniería de repositorio para decidir si Fase C puede cerrarse y si el proyecto puede preparar Fase D de IA local gobernada.
+
+### Herramientas
+
+- CLI: `python -m devpilot_core repo engineering-gate --profile full --json --write-report`.
+- Core: `src/devpilot_core/repo/engineering_gate.py`.
+
+### Tool contract
+
+Entrada: perfil `quick|full`, target de análisis, code target opcional y patch file opcional para review dry-run.
+Salida: `CommandResult` con summary, componentes, capacidades Fase C, findings y reportes opcionales.
+
+### Criterios pass
+
+- No muta workspace productivo.
+- No usa Git write, deploy, LLMs ni APIs externas.
+- Agrega `GitAdapter`, `DependencyGraph`, `RepoAnalyzer`, `ArchitectureDrift`, `RepoQualityGate` y MIASI.
+- En perfil `full`, verifica cierre documental de Fase C.
+
+### Criterios block
+
+- Falta una tool/policy crítica en MIASI.
+- Algún componente emite `FAIL`, `BLOCK` o `ERROR`.
+- Falta documentación/manifests de cierre.
+- Runtime paths no están excluidos.
+
+### Riesgo
+
+Riesgo alto por su rol de gate de cierre, aunque su side effect es solo `report`. Requiere observabilidad y evidencia, pero no approval porque no ejecuta cambios productivos.

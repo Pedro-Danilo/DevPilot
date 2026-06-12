@@ -1,8 +1,8 @@
 (.venv) PS D:\Projects\DevPilot_Local> pytest -q
-............................................................................................................................................ [ 38%]
-............................................................................................................................................ [ 76%]
-....................................................................................                                                         [100%]
-DEVPL TEST SUMMARY: 364 passed, 0 failed, 0 errors, 0 skipped
+............................................................................................................................................ [ 37%]
+............................................................................................................................................ [ 75%]
+...........................................................................................                                                  [100%]
+DEVPL TEST SUMMARY: 371 passed, 0 failed, 0 errors, 0 skipped
 (.venv) PS D:\Projects\DevPilot_Local> python -m devpilot_core validate all --json
 {
   "command": "validate all",
@@ -15,7 +15,7 @@ DEVPL TEST SUMMARY: 364 passed, 0 failed, 0 errors, 0 skipped
       "validations_total": 2,
       "validations_passed": 2,
       "validations_failed": 0,
-      "findings_total": 45,
+      "findings_total": 46,
       "warnings_total": 12,
       "blocking_findings_total": 0,
       "preliminary": true,
@@ -646,7 +646,7 @@ DEVPL TEST SUMMARY: 364 passed, 0 failed, 0 errors, 0 skipped
                       {
                         "artifact": "docs/04_quality/test_strategy.md",
                         "exists": true,
-                        "size_bytes": 20994,
+                        "size_bytes": 21640,
                         "frontmatter_ok": true,
                         "artifact_ok": true,
                         "status": "approved",
@@ -664,7 +664,7 @@ DEVPL TEST SUMMARY: 364 passed, 0 failed, 0 errors, 0 skipped
                       {
                         "artifact": "docs/05_operations/runbook.md",
                         "exists": true,
-                        "size_bytes": 109979,
+                        "size_bytes": 112139,
                         "frontmatter_ok": true,
                         "artifact_ok": true,
                         "status": "approved",
@@ -682,7 +682,7 @@ DEVPL TEST SUMMARY: 364 passed, 0 failed, 0 errors, 0 skipped
                       {
                         "artifact": "docs/06_miasi/tool_card.md",
                         "exists": true,
-                        "size_bytes": 24364,
+                        "size_bytes": 25665,
                         "frontmatter_ok": true,
                         "artifact_ok": true,
                         "status": "approved",
@@ -1100,10 +1100,10 @@ DEVPL TEST SUMMARY: 364 passed, 0 failed, 0 errors, 0 skipped
           "data": {
             "summary": {
               "scope": "contracts",
-              "validations_total": 29,
-              "validations_passed": 29,
+              "validations_total": 30,
+              "validations_passed": 30,
               "validations_failed": 0,
-              "findings_total": 31,
+              "findings_total": 32,
               "warnings_total": 0,
               "blocking_findings_total": 0,
               "preliminary": true,
@@ -2713,6 +2713,50 @@ DEVPL TEST SUMMARY: 364 passed, 0 failed, 0 errors, 0 skipped
                     }
                   ]
                 }
+              },
+              {
+                "id": "manifest:docs/functional_sprint_44_manifest.json",
+                "result": {
+                  "command": "schema validate-manifest",
+                  "ok": true,
+                  "exit_code": 0,
+                  "message": "Schema validation passed.",
+                  "data": {
+                    "summary": {
+                      "schema": "docs/schemas/functional_sprint_manifest.schema.json",
+                      "instance": "docs/functional_sprint_44_manifest.json",
+                      "valid": true,
+                      "errors_total": 0,
+                      "findings_total": 1,
+                      "network_used": false,
+                      "external_api_used": false,
+                      "schema_title": "DevPilot Functional Sprint Manifest v1",
+                      "schema_id": "SCHEMA-DEVPL-FUNCTIONAL-SPRINT-MANIFEST-V1",
+                      "validator": "jsonschema",
+                      "jsonschema_version": "4.26.0",
+                      "preliminary": true,
+                      "contract": "FunctionalSprintManifest",
+                      "subject": "docs/functional_sprint_44_manifest.json"
+                    },
+                    "schema": "docs/schemas/functional_sprint_manifest.schema.json",
+                    "instance": "docs/functional_sprint_44_manifest.json",
+                    "notes": [
+                      "FUNC-SPRINT-22 validates JSON structure only; semantic gates remain in dedicated validators.",
+                      "Validation is local-first and does not call network or external APIs."
+                    ]
+                  },
+                  "findings": [
+                    {
+                      "id": "SCHEMA_VALIDATION_PASS",
+                      "message": "Instance conforms to schema.",
+                      "severity": "info",
+                      "metadata": {
+                        "schema": "docs/schemas/functional_sprint_manifest.schema.json",
+                        "instance": "docs/functional_sprint_44_manifest.json"
+                      }
+                    }
+                  ]
+                }
               }
             ],
             "notes": [
@@ -3063,6 +3107,17 @@ DEVPL TEST SUMMARY: 364 passed, 0 failed, 0 errors, 0 skipped
                 "schema": "docs/schemas/functional_sprint_manifest.schema.json",
                 "instance": "docs/functional_sprint_43_manifest.json",
                 "gateway_step": "manifest:docs/functional_sprint_43_manifest.json",
+                "source_command": "schema validate-manifest"
+              }
+            },
+            {
+              "id": "SCHEMA_VALIDATION_PASS",
+              "message": "Instance conforms to schema.",
+              "severity": "info",
+              "metadata": {
+                "schema": "docs/schemas/functional_sprint_manifest.schema.json",
+                "instance": "docs/functional_sprint_44_manifest.json",
+                "gateway_step": "manifest:docs/functional_sprint_44_manifest.json",
                 "source_command": "schema validate-manifest"
               }
             }
@@ -3593,6 +3648,17 @@ DEVPL TEST SUMMARY: 364 passed, 0 failed, 0 errors, 0 skipped
         "gateway_step": "manifest:docs/functional_sprint_43_manifest.json",
         "source_command": "schema validate-manifest"
       }
+    },
+    {
+      "id": "SCHEMA_VALIDATION_PASS",
+      "message": "Instance conforms to schema.",
+      "severity": "info",
+      "metadata": {
+        "schema": "docs/schemas/functional_sprint_manifest.schema.json",
+        "instance": "docs/functional_sprint_44_manifest.json",
+        "gateway_step": "manifest:docs/functional_sprint_44_manifest.json",
+        "source_command": "schema validate-manifest"
+      }
     }
   ]
 }
@@ -3605,10 +3671,10 @@ DEVPL TEST SUMMARY: 364 passed, 0 failed, 0 errors, 0 skipped
   "data": {
     "summary": {
       "agents_total": 13,
-      "tools_total": 36,
-      "policy_rules_total": 21,
+      "tools_total": 37,
+      "policy_rules_total": 22,
       "mvp_agents": 2,
-      "high_risk_tools": 11,
+      "high_risk_tools": 12,
       "approval_gated_rules": 8,
       "source_paths": {
         "agent_registry": ".devpilot/miasi/agent_registry.json",
@@ -3832,7 +3898,8 @@ DEVPL TEST SUMMARY: 364 passed, 0 failed, 0 errors, 0 skipped
           "rollback.plan",
           "rollback.list",
           "rollback.show",
-          "refactor.sandbox"
+          "refactor.sandbox",
+          "repo.engineering_gate"
         ],
         "required_artifacts": [
           "Agent",
@@ -3849,7 +3916,8 @@ DEVPL TEST SUMMARY: 364 passed, 0 failed, 0 errors, 0 skipped
           "PATCH_SANDBOX_RUNTIME_ALLOW",
           "ROLLBACK_PLAN_RUNTIME_ALLOW",
           "ROLLBACK_READ_ALLOW",
-          "REFACTOR_SANDBOX_EXECUTE_GATED"
+          "REFACTOR_SANDBOX_EXECUTE_GATED",
+          "ENGINEERING_GATE_READ_ONLY_ALLOW"
         ],
         "approval_required": false,
         "observability_required": true,
@@ -3905,7 +3973,8 @@ DEVPL TEST SUMMARY: 364 passed, 0 failed, 0 errors, 0 skipped
           "rollback.list",
           "rollback.show",
           "rollback.execute",
-          "refactor.sandbox"
+          "refactor.sandbox",
+          "repo.engineering_gate"
         ],
         "required_artifacts": [
           "Agent",
@@ -3924,7 +3993,8 @@ DEVPL TEST SUMMARY: 364 passed, 0 failed, 0 errors, 0 skipped
           "ROLLBACK_PLAN_RUNTIME_ALLOW",
           "ROLLBACK_READ_ALLOW",
           "ROLLBACK_EXECUTE_GATED_BLOCKED",
-          "REFACTOR_SANDBOX_EXECUTE_GATED"
+          "REFACTOR_SANDBOX_EXECUTE_GATED",
+          "ENGINEERING_GATE_READ_ONLY_ALLOW"
         ],
         "approval_required": true,
         "observability_required": true,
@@ -3953,7 +4023,8 @@ DEVPL TEST SUMMARY: 364 passed, 0 failed, 0 errors, 0 skipped
           "rollback.list",
           "rollback.show",
           "rollback.execute",
-          "refactor.sandbox"
+          "refactor.sandbox",
+          "repo.engineering_gate"
         ],
         "required_artifacts": [
           "Agent",
@@ -3971,7 +4042,8 @@ DEVPL TEST SUMMARY: 364 passed, 0 failed, 0 errors, 0 skipped
           "ROLLBACK_PLAN_RUNTIME_ALLOW",
           "ROLLBACK_READ_ALLOW",
           "ROLLBACK_EXECUTE_GATED_BLOCKED",
-          "REFACTOR_SANDBOX_EXECUTE_GATED"
+          "REFACTOR_SANDBOX_EXECUTE_GATED",
+          "ENGINEERING_GATE_READ_ONLY_ALLOW"
         ],
         "approval_required": true,
         "observability_required": true,
@@ -4489,6 +4561,19 @@ DEVPL TEST SUMMARY: 364 passed, 0 failed, 0 errors, 0 skipped
           "ROLLBACK_PLAN_RUNTIME_ALLOW",
           "SECRETS_RAW_DENY"
         ]
+      },
+      {
+        "tool_id": "repo.engineering_gate",
+        "name": "repo_engineering_gate_read_only",
+        "phase": "MVP+",
+        "side_effect": "report",
+        "risk_level": "high",
+        "status": "implemented-initial",
+        "requires_approval": false,
+        "policy_rule_ids": [
+          "ENGINEERING_GATE_READ_ONLY_ALLOW",
+          "SECRETS_RAW_DENY"
+        ]
       }
     ],
     "policy_rules": [
@@ -4680,6 +4765,15 @@ DEVPL TEST SUMMARY: 364 passed, 0 failed, 0 errors, 0 skipped
         "gate": "RefactorExecutor+ApprovalPolicyChecker+PathGuard+SecretGuard+RollbackManager+SafeSubprocessRunner",
         "approval_required": true,
         "observability_required": true
+      },
+      {
+        "rule_id": "ENGINEERING_GATE_READ_ONLY_ALLOW",
+        "domain": "Repo",
+        "action": "engineering_gate_read_only",
+        "default_effect": "allow",
+        "gate": "RepoEngineeringGate+GitAdapter+RepoAnalyzer+ArchitectureDrift+RepoQualityGate+MIASIRegistryCheck",
+        "approval_required": false,
+        "observability_required": true
       }
     ]
   },
@@ -4830,7 +4924,7 @@ DEVPL TEST SUMMARY: 364 passed, 0 failed, 0 errors, 0 skipped
       {
         "artifact": "docs/04_quality/test_strategy.md",
         "exists": true,
-        "size_bytes": 20994,
+        "size_bytes": 21640,
         "frontmatter_ok": true,
         "artifact_ok": true,
         "status": "approved",
@@ -4848,7 +4942,7 @@ DEVPL TEST SUMMARY: 364 passed, 0 failed, 0 errors, 0 skipped
       {
         "artifact": "docs/05_operations/runbook.md",
         "exists": true,
-        "size_bytes": 109979,
+        "size_bytes": 112139,
         "frontmatter_ok": true,
         "artifact_ok": true,
         "status": "approved",
@@ -4866,7 +4960,7 @@ DEVPL TEST SUMMARY: 364 passed, 0 failed, 0 errors, 0 skipped
       {
         "artifact": "docs/06_miasi/tool_card.md",
         "exists": true,
-        "size_bytes": 24364,
+        "size_bytes": 25665,
         "frontmatter_ok": true,
         "artifact_ok": true,
         "status": "approved",
@@ -5090,613 +5184,6 @@ DEVPL TEST SUMMARY: 364 passed, 0 failed, 0 errors, 0 skipped
       "metadata": {
         "profile": "generic-markdown",
         "section": "estado"
-      }
-    }
-  ]
-}
-(.venv) PS D:\Projects\DevPilot_Local> python -m devpilot_core patch sandbox --patch-file safe.patch --json --write-report --cleanup
-{
-  "command": "patch sandbox",
-  "ok": true,
-  "exit_code": 0,
-  "message": "Patch sandbox completed successfully.",
-  "data": {
-    "summary": {
-      "source": "safe.patch",
-      "sandbox_created": true,
-      "patch_applied_to_productive_workspace": false,
-      "network_used": false,
-      "external_api_used": false,
-      "mutations_scope": "outputs/sandbox only",
-      "preliminary": true,
-      "sandbox_id": "patch-sandbox-20260612T134619Z-a1c6f523",
-      "sandbox_workspace": "outputs/sandbox/patch-sandbox-20260612T134619Z-a1c6f523/workspace",
-      "preflight_ok": true,
-      "patch_applied_in_sandbox": true,
-      "productive_workspace_unchanged": true,
-      "changeset_id": "changeset-cf369158b68de450",
-      "changeset_files": 1,
-      "effective_changes": 1,
-      "run_tests_requested": false,
-      "tests_executed": false,
-      "tests_ok": null,
-      "cleanup_requested": true,
-      "cleanup_removed": true,
-      "findings_total": 2,
-      "blocking_findings": 0,
-      "failing_findings": 0
-    },
-    "preflight": {
-      "command": "patch check",
-      "ok": true,
-      "exit_code": 0,
-      "message": "Patch preflight passed in dry-run mode.",
-      "summary": {
-        "source": "safe.patch",
-        "patch_review_ok": true,
-        "patch_review_exit_code": 0,
-        "review_blocking_findings": 0,
-        "review_failing_findings": 0,
-        "apply_check_executed": true,
-        "applies": true,
-        "apply_check_exit_code": 0,
-        "working_tree_unchanged": true,
-        "security_block": false,
-        "applicability_fail": false,
-        "findings_total": 1,
-        "blocking_findings": 0,
-        "failing_findings": 0,
-        "warnings_total": 0,
-        "dry_run": true,
-        "patch_applied": false,
-        "network_used": false,
-        "external_api_used": false,
-        "mutations_performed": false,
-        "preliminary": true
-      },
-      "findings_total": 1,
-      "blocking_findings": 0,
-      "failing_findings": 0,
-      "warnings_total": 0
-    },
-    "policy": {
-      "command": "policy check",
-      "ok": true,
-      "exit_code": 0,
-      "message": "Policy check passed.",
-      "summary": {
-        "allowed": true,
-        "blocked": false,
-        "denied": false,
-        "warnings": 0,
-        "decisions_total": 6,
-        "guards": [
-          "ApprovalPolicyChecker",
-          "CostGuard",
-          "PathGuard",
-          "PromptInjectionGuard",
-          "SecretGuard",
-          "ToolInjectionGuard"
-        ],
-        "approval_required": false,
-        "approval_valid": false
-      },
-      "findings_total": 1,
-      "blocking_findings": 0,
-      "failing_findings": 0,
-      "warnings_total": 0
-    },
-    "sandbox_apply": {
-      "command": "execution safe-subprocess",
-      "ok": true,
-      "exit_code": 0,
-      "message": "Safe subprocess completed successfully.",
-      "summary": {
-        "executed": true,
-        "blocked": false,
-        "command_allowed": true,
-        "returncode": 0,
-        "timed_out": false,
-        "redactions": 0,
-        "duration_ms": 78,
-        "runner": "SafeSubprocessRunner",
-        "environment_controls": {
-          "pytest_plugin_autoload_disabled": false,
-          "python_user_site_disabled": false,
-          "reason": "default-environment",
-          "preliminary": true
-        },
-        "preliminary": true
-      },
-      "findings_total": 1,
-      "blocking_findings": 0,
-      "failing_findings": 0,
-      "warnings_total": 0
-    },
-    "python_fallback": {
-      "command": "patch sandbox python-fallback",
-      "ok": true,
-      "exit_code": 0,
-      "message": "Python patch fallback applied text hunks inside sandbox.",
-      "summary": {
-        "applied": true,
-        "files_total": 1,
-        "files": [
-          "src/devpilot_core/reports/models.py"
-        ],
-        "preliminary": true
-      },
-      "findings_total": 1,
-      "blocking_findings": 0,
-      "failing_findings": 0,
-      "warnings_total": 0
-    },
-    "changeset": {
-      "changeset_id": "changeset-cf369158b68de450",
-      "source_patch": "safe.patch",
-      "sandbox_id": "patch-sandbox-20260612T134619Z-a1c6f523",
-      "sandbox_workspace": "outputs/sandbox/patch-sandbox-20260612T134619Z-a1c6f523/workspace",
-      "files_total": 1,
-      "files": [
-        {
-          "path": "src/devpilot_core/reports/models.py",
-          "action": "modify",
-          "before_sha256": "8a856d637d004573685d47854b8bc6e1f74cdd0356a1f24ae7f890c0feaa6d8a",
-          "after_sha256": "a6fbd8df5aac88921824b9e27efa0af45765c840f94e69e3793d4ea27f7d143b",
-          "before_size_bytes": 4870,
-          "after_size_bytes": 5054
-        }
-      ],
-      "tests_requested": false,
-      "tests_result_summary": null,
-      "rollback_plan": {
-        "available": false,
-        "strategy": "future-rollback-manager",
-        "notes": [
-          "FUNC-SPRINT-41 emits rollback metadata only; executable rollback belongs to FUNC-SPRINT-42.",
-          "Before/after hashes are generated from sandbox files, not from productive workspace mutations."
-        ],
-        "preliminary": true
-      },
-      "metadata": {
-        "preflight_exit_code": 0,
-        "sandbox_policy_exit_code": 0,
-        "network_used": false,
-        "external_api_used": false,
-        "raw_patch_emitted": false
-      },
-      "preliminary": true
-    },
-    "tests": null,
-    "cleanup": {
-      "removed": true,
-      "sandbox_id": "patch-sandbox-20260612T134619Z-a1c6f523",
-      "path": "outputs/sandbox/patch-sandbox-20260612T134619Z-a1c6f523",
-      "preliminary": true
-    },
-    "notes": [
-      "FUNC-SPRINT-41 PatchSandbox is implemented-initial and writes only under outputs/sandbox.",
-      "The productive workspace is never patched by this command.",
-      "ChangeSet contains metadata and hashes, not raw patch or file contents.",
-      "Executable rollback belongs to FUNC-SPRINT-42.",
-      "Optional test execution is fixed-profile and approval-gated when requested."
-    ],
-    "reports": {
-      "json": "outputs/reports/patch_sandbox.json",
-      "markdown": "outputs/reports/patch_sandbox.md"
-    }
-  },
-  "findings": [
-    {
-      "id": "PATCH_SANDBOX_APPLY_PASS",
-      "message": "Patch was applied inside sandbox workspace only.",
-      "severity": "info",
-      "path": "safe.patch"
-    },
-    {
-      "id": "PATCH_SANDBOX_PYTHON_FALLBACK_APPLIED",
-      "message": "Deterministic Python fallback applied text hunks after git apply produced no effective ChangeSet.",
-      "severity": "info",
-      "path": "safe.patch"
-    }
-  ]
-}
-(.venv) PS D:\Projects\DevPilot_Local> python -m devpilot_core rollback plan --changeset-file outputs/reports/patch_sandbox.json --json --write-report
-{
-  "command": "rollback plan",
-  "ok": true,
-  "exit_code": 0,
-  "message": "Rollback plan created.",
-  "data": {
-    "summary": {
-      "source": "outputs/reports/patch_sandbox.json",
-      "rollback_id": "rollback-d591ea4c495eab31",
-      "created": true,
-      "persisted": true,
-      "backup_available": true,
-      "backed_up_files": 1,
-      "operations_total": 1,
-      "execute_supported": false,
-      "approval_required_for_execute": true,
-      "runtime_root": ".devpilot/rollback",
-      "network_used": false,
-      "external_api_used": false,
-      "preliminary": true
-    },
-    "point": {
-      "rollback_id": "rollback-d591ea4c495eab31",
-      "changeset_id": "changeset-cf369158b68de450",
-      "created_at": "2026-06-12T13:46:28Z",
-      "status": "planned",
-      "plan_path": ".devpilot/rollback/points/rollback-d591ea4c495eab31.json",
-      "backups_dir": ".devpilot/rollback/backups/rollback-d591ea4c495eab31",
-      "files_total": 1,
-      "backup_available": true,
-      "execute_supported": false,
-      "metadata": {
-        "source_changeset": "outputs/reports/patch_sandbox.json",
-        "preliminary": true
-      },
-      "preliminary": true
-    },
-    "plan": {
-      "rollback_id": "rollback-d591ea4c495eab31",
-      "changeset_id": "changeset-cf369158b68de450",
-      "source_changeset": "outputs/reports/patch_sandbox.json",
-      "source_patch": "safe.patch",
-      "sandbox_id": "patch-sandbox-20260612T134619Z-a1c6f523",
-      "created_at": "2026-06-12T13:46:28Z",
-      "operations_total": 1,
-      "operations": [
-        {
-          "path": "src/devpilot_core/reports/models.py",
-          "action": "restore_modified_file_from_backup",
-          "backup_path": ".devpilot/rollback/backups/rollback-d591ea4c495eab31/src/devpilot_core/reports/models.py",
-          "expected_current_sha256": "a6fbd8df5aac88921824b9e27efa0af45765c840f94e69e3793d4ea27f7d143b",
-          "restore_sha256": "8a856d637d004573685d47854b8bc6e1f74cdd0356a1f24ae7f890c0feaa6d8a",
-          "before_size_bytes": 4870,
-          "after_size_bytes": 5054,
-          "notes": [
-            "Future rollback should restore this path from the local backup after verifying expected_current_sha256."
-          ]
-        }
-      ],
-      "backups_dir": ".devpilot/rollback/backups/rollback-d591ea4c495eab31",
-      "backup_available": true,
-      "approval_required_for_execute": true,
-      "execute_supported": false,
-      "metadata": {
-        "sprint": "FUNC-SPRINT-42",
-        "component": "RollbackManager",
-        "persist_requested": true,
-        "backup_requested": true,
-        "raw_file_contents_emitted": false,
-        "network_used": false,
-        "external_api_used": false
-      },
-      "preliminary": true
-    },
-    "notes": [
-      "FUNC-SPRINT-42 creates rollback metadata and local backups only for controlled future flows.",
-      "rollback execute remains non-mutating and approval-gated in this initial implementation.",
-      "Rollback runtime data is excluded from Git/release ZIPs."
-    ],
-    "reports": {
-      "json": "outputs/reports/rollback_plan.json",
-      "markdown": "outputs/reports/rollback_plan.md"
-    }
-  },
-  "findings": [
-    {
-      "id": "ROLLBACK_PLAN_CREATED",
-      "message": "Rollback plan and local backup metadata were created.",
-      "severity": "info",
-      "path": ".devpilot/rollback/points/rollback-d591ea4c495eab31.json"
-    }
-  ]
-}
-(.venv) PS D:\Projects\DevPilot_Local> python -m devpilot_core rollback list --json
-{
-  "command": "rollback list",
-  "ok": true,
-  "exit_code": 0,
-  "message": "Rollback points listed.",
-  "data": {
-    "summary": {
-      "points_total": 2,
-      "limit": 100,
-      "runtime_root": ".devpilot/rollback",
-      "read_only": true,
-      "preliminary": true
-    },
-    "rollback_points": [
-      {
-        "rollback_id": "rollback-d591ea4c495eab31",
-        "changeset_id": "changeset-cf369158b68de450",
-        "created_at": "2026-06-12T13:46:28Z",
-        "status": "planned",
-        "plan_path": ".devpilot/rollback/points/rollback-d591ea4c495eab31.json",
-        "backups_dir": ".devpilot/rollback/backups/rollback-d591ea4c495eab31",
-        "files_total": 1,
-        "backup_available": true,
-        "execute_supported": false,
-        "metadata": {
-          "source_changeset": "outputs/reports/patch_sandbox.json",
-          "preliminary": true
-        },
-        "preliminary": true
-      },
-      {
-        "rollback_id": "rollback-a7cdd2976d8cd8b6",
-        "changeset_id": "changeset-215f9429bdd2e87e",
-        "created_at": "2026-06-12T12:59:56Z",
-        "status": "planned",
-        "plan_path": ".devpilot/rollback/points/rollback-a7cdd2976d8cd8b6.json",
-        "backups_dir": ".devpilot/rollback/backups/rollback-a7cdd2976d8cd8b6",
-        "files_total": 1,
-        "backup_available": true,
-        "execute_supported": false,
-        "metadata": {
-          "source_changeset": "outputs/reports/patch_sandbox.json",
-          "preliminary": true
-        },
-        "preliminary": true
-      }
-    ]
-  },
-  "findings": [
-    {
-      "id": "ROLLBACK_POINTS_LISTED",
-      "message": "Rollback points listed in read-only mode.",
-      "severity": "info",
-      "metadata": {
-        "points_total": 2
-      }
-    }
-  ]
-}
-
-(.venv) PS D:\Projects\DevPilot_Local> python -m devpilot_core rollback show rollback-a7cdd2976d8cd8b6 --json
-{
-  "command": "rollback show",
-  "ok": true,
-  "exit_code": 0,
-  "message": "Rollback point shown.",
-  "data": {
-    "summary": {
-      "rollback_id": "rollback-a7cdd2976d8cd8b6",
-      "found": true,
-      "read_only": true,
-      "preliminary": true
-    },
-    "point": {
-      "rollback_id": "rollback-a7cdd2976d8cd8b6",
-      "changeset_id": "changeset-215f9429bdd2e87e",
-      "created_at": "2026-06-12T12:59:56Z",
-      "status": "planned",
-      "plan_path": ".devpilot/rollback/points/rollback-a7cdd2976d8cd8b6.json",
-      "backups_dir": ".devpilot/rollback/backups/rollback-a7cdd2976d8cd8b6",
-      "files_total": 1,
-      "backup_available": true,
-      "execute_supported": false,
-      "metadata": {
-        "source_changeset": "outputs/reports/patch_sandbox.json",
-        "preliminary": true
-      },
-      "preliminary": true
-    },
-    "plan": {
-      "rollback_id": "rollback-a7cdd2976d8cd8b6",
-      "changeset_id": "changeset-215f9429bdd2e87e",
-      "source_changeset": "outputs/reports/patch_sandbox.json",
-      "source_patch": "safe.patch",
-      "sandbox_id": "patch-sandbox-20260612T125944Z-017bec5d",
-      "created_at": "2026-06-12T12:59:56Z",
-      "operations_total": 1,
-      "operations": [
-        {
-          "path": "src/devpilot_core/reports/models.py",
-          "action": "restore_modified_file_from_backup",
-          "backup_path": ".devpilot/rollback/backups/rollback-a7cdd2976d8cd8b6/src/devpilot_core/reports/models.py",
-          "expected_current_sha256": "a6fbd8df5aac88921824b9e27efa0af45765c840f94e69e3793d4ea27f7d143b",
-          "restore_sha256": "8a856d637d004573685d47854b8bc6e1f74cdd0356a1f24ae7f890c0feaa6d8a",
-          "before_size_bytes": 4870,
-          "after_size_bytes": 5054,
-          "notes": [
-            "Future rollback should restore this path from the local backup after verifying expected_current_sha256."
-          ]
-        }
-      ],
-      "backups_dir": ".devpilot/rollback/backups/rollback-a7cdd2976d8cd8b6",
-      "backup_available": true,
-      "approval_required_for_execute": true,
-      "execute_supported": false,
-      "metadata": {
-        "sprint": "FUNC-SPRINT-42",
-        "component": "RollbackManager",
-        "persist_requested": true,
-        "backup_requested": true,
-        "raw_file_contents_emitted": false,
-        "network_used": false,
-        "external_api_used": false
-      },
-      "preliminary": true
-    }
-  },
-  "findings": [
-    {
-      "id": "ROLLBACK_POINT_SHOWN",
-      "message": "Rollback point loaded in read-only mode.",
-      "severity": "info",
-      "path": ".devpilot/rollback/points/rollback-a7cdd2976d8cd8b6.json"
-    }
-  ]
-}
-(.venv) PS D:\Projects\DevPilot_Local> python -m devpilot_core rollback execute rollback-a7cdd2976d8cd8b6 --json
-{
-  "command": "rollback execute",
-  "ok": false,
-  "exit_code": 2,
-  "message": "Rollback execute blocked because approval is missing or invalid.",
-  "data": {
-    "summary": {
-      "rollback_id": "rollback-a7cdd2976d8cd8b6",
-      "executed": false,
-      "mutations_performed": false,
-      "approval_required": true,
-      "preliminary": true
-    },
-    "policy": {
-      "command": "policy check",
-      "ok": false,
-      "exit_code": 2,
-      "message": "Policy check blocked or denied the simulated request.",
-      "data": {
-        "request": {
-          "action": "execute",
-          "path": ".devpilot/rollback",
-          "text_provided": false,
-          "external_api": false,
-          "provider": null,
-          "estimated_cost_usd": 0.0,
-          "dry_run": false,
-          "approval_id": null,
-          "tool_id": "rollback.execute",
-          "subject": "rollback-a7cdd2976d8cd8b6",
-          "metadata": {
-            "sprint": "FUNC-SPRINT-42",
-            "component": "RollbackManager"
-          }
-        },
-        "summary": {
-          "allowed": false,
-          "blocked": true,
-          "denied": false,
-          "warnings": 0,
-          "decisions_total": 6,
-          "guards": [
-            "ApprovalPolicyChecker",
-            "CostGuard",
-            "PathGuard",
-            "PromptInjectionGuard",
-            "SecretGuard",
-            "ToolInjectionGuard"
-          ],
-          "approval_required": true,
-          "approval_valid": false
-        },
-        "decisions": [
-          {
-            "effect": "block",
-            "ok": false,
-            "reason": "Approval-gated action requires a valid approval_id.",
-            "guard": "ApprovalPolicyChecker",
-            "rule_id": "APPROVAL_REQUIRED_MISSING",
-            "subject": "rollback-a7cdd2976d8cd8b6",
-            "metadata": {
-              "action": "execute",
-              "tool_id": "rollback.execute",
-              "subject": "rollback-a7cdd2976d8cd8b6",
-              "path": ".devpilot/rollback",
-              "approval_required": true,
-              "tool_registry": ".devpilot\\miasi\\tool_registry.json",
-              "policy_matrix": ".devpilot\\miasi\\policy_matrix.json",
-              "sprint": "FUNC-SPRINT-42",
-              "component": "RollbackManager"
-            }
-          },
-          {
-            "effect": "allow",
-            "ok": true,
-            "reason": "PathGuard allowed the requested path/action.",
-            "guard": "PathGuard",
-            "rule_id": "PATHGUARD_PASS",
-            "subject": ".devpilot/rollback",
-            "metadata": {
-              "action": "execute"
-            }
-          },
-          {
-            "effect": "allow",
-            "ok": true,
-            "reason": "No secret-like content was provided.",
-            "guard": "SecretGuard",
-            "rule_id": "SECRETGUARD_NO_CONTENT",
-            "subject": ".devpilot/rollback"
-          },
-          {
-            "effect": "allow",
-            "ok": true,
-            "reason": "No prompt payload was provided for prompt-injection scanning.",
-            "guard": "PromptInjectionGuard",
-            "rule_id": "PROMPT_INJECTION_NO_CONTENT",
-            "subject": ".devpilot/rollback"
-          },
-          {
-            "effect": "allow",
-            "ok": true,
-            "reason": "No prompt payload was provided for tool-injection scanning.",
-            "guard": "ToolInjectionGuard",
-            "rule_id": "TOOL_INJECTION_NO_CONTENT",
-            "subject": ".devpilot/rollback"
-          },
-          {
-            "effect": "allow",
-            "ok": true,
-            "reason": "CostGuard allowed local/mock/no-cost execution.",
-            "guard": "CostGuard",
-            "rule_id": "COSTGUARD_LOCAL_ALLOWED",
-            "metadata": {
-              "external_api": false,
-              "provider": "local",
-              "estimated_cost_usd": 0.0,
-              "budget_limit_usd": 0.0,
-              "budget_used_usd": 0.0
-            }
-          }
-        ]
-      },
-      "findings": [
-        {
-          "id": "APPROVAL_REQUIRED_MISSING",
-          "message": "Approval-gated action requires a valid approval_id.",
-          "severity": "block",
-          "path": "rollback-a7cdd2976d8cd8b6",
-          "metadata": {
-            "guard": "ApprovalPolicyChecker",
-            "effect": "block",
-            "action": "execute",
-            "tool_id": "rollback.execute",
-            "subject": "rollback-a7cdd2976d8cd8b6",
-            "path": ".devpilot/rollback",
-            "approval_required": true,
-            "tool_registry": ".devpilot\\miasi\\tool_registry.json",
-            "policy_matrix": ".devpilot\\miasi\\policy_matrix.json",
-            "sprint": "FUNC-SPRINT-42",
-            "component": "RollbackManager"
-          }
-        }
-      ]
-    }
-  },
-  "findings": [
-    {
-      "id": "APPROVAL_REQUIRED_MISSING",
-      "message": "Approval-gated action requires a valid approval_id.",
-      "severity": "block",
-      "path": "rollback-a7cdd2976d8cd8b6",
-      "metadata": {
-        "guard": "ApprovalPolicyChecker",
-        "effect": "block",
-        "action": "execute",
-        "tool_id": "rollback.execute",
-        "subject": "rollback-a7cdd2976d8cd8b6",
-        "path": ".devpilot/rollback",
-        "approval_required": true,
-        "tool_registry": ".devpilot\\miasi\\tool_registry.json",
-        "policy_matrix": ".devpilot\\miasi\\policy_matrix.json",
-        "sprint": "FUNC-SPRINT-42",
-        "component": "RollbackManager"
       }
     }
   ]

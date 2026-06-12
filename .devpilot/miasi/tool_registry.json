@@ -445,6 +445,19 @@
         "ROLLBACK_PLAN_RUNTIME_ALLOW",
         "SECRETS_RAW_DENY"
       ]
+    },
+    {
+      "tool_id": "repo.engineering_gate",
+      "name": "repo_engineering_gate_read_only",
+      "phase": "MVP+",
+      "side_effect": "report",
+      "risk_level": "high",
+      "status": "implemented-initial",
+      "requires_approval": false,
+      "policy_rule_ids": [
+        "ENGINEERING_GATE_READ_ONLY_ALLOW",
+        "SECRETS_RAW_DENY"
+      ]
     }
   ]
 }

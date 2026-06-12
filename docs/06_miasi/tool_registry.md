@@ -116,3 +116,16 @@ Se agregan tools `rollback.plan`, `rollback.list`, `rollback.show` y `rollback.e
 `refactor.sandbox` queda declarado como tool `implemented-initial`, de riesgo alto y approval obligatorio. Ejecuta únicamente transformaciones mecánicas determinísticas en sandbox, produce `ChangeSet`, invoca `RollbackManager` para rollback plan y permite pruebas fijas en sandbox con approval separado de `tests.run`.
 
 La herramienta no habilita escritura productiva, Git write, refactors semánticos, ejecución arbitraria ni APIs externas.
+
+
+## Estado operacional RepoEngineeringGate
+
+- Tool ID: `repo.engineering_gate`.
+- Estado: `implemented-initial`.
+- Riesgo: `high`.
+- Side effect: `report`.
+- Approval: no requerido porque es read-only/report-only.
+- Policy rule: `ENGINEERING_GATE_READ_ONLY_ALLOW`.
+- Comando: `python -m devpilot_core repo engineering-gate --profile full --json --write-report`.
+
+La herramienta cierra Fase C de forma reproducible, pero no habilita Git write, patch apply productivo, refactor productivo, deploy, LLMs ni APIs externas.

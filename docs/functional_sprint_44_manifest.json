@@ -1,0 +1,81 @@
+{
+  "sprint": "FUNC-SPRINT-44",
+  "title": "Cierre Fase C: repository engineering quality gate",
+  "status": "implemented",
+  "implemented_at": "2026-06-12",
+  "phase": "FASE-C-INGENIERIA-DE-REPOSITORIO",
+  "wave": "Ola 5 — Sandbox, patch/refactor ejecutable y rollback",
+  "source_backlog": "docs/devpilot_backlog_fase_C_ingenieria_repositorio.md",
+  "architectural_decision": {
+    "required": false,
+    "adr": null,
+    "reason": "FUNC-SPRINT-44 consolida capacidades previstas en el backlog Fase C mediante un gate read-only que reutiliza componentes existentes. No introduce dependencias externas, APIs, LLMs, Git write, patch apply productivo, refactor productivo ni deploy; por tanto no requiere una ADR nueva."
+  },
+  "created_files": [
+    "src/devpilot_core/repo/engineering_gate.py",
+    "tests/test_repo_engineering_gate.py",
+    "tests/test_sprint_44_documentation.py",
+    "docs/audits/phase_c_repository_engineering_closure_report.md",
+    "docs/phase_c_manifest.json",
+    "docs/functional_sprint_44_manifest.json"
+  ],
+  "modified_files": [
+    ".devpilot/miasi/agent_registry.json",
+    ".devpilot/miasi/policy_matrix.json",
+    ".devpilot/miasi/tool_registry.json",
+    "README.md",
+    "docs/04_quality/test_strategy.md",
+    "docs/05_operations/runbook.md",
+    "docs/06_miasi/tool_card.md",
+    "docs/06_miasi/tool_registry.md",
+    "docs/devpilot_backlog_fase_C_ingenieria_repositorio.md",
+    "docs/functional_backlog_after_precode.md",
+    "src/devpilot_core/cli.py",
+    "src/devpilot_core/repo/__init__.py",
+    "tests/test_sprint_32_documentation.py",
+    "tests/test_sprint_33_documentation.py",
+    "tests/test_sprint_34_documentation.py",
+    "tests/test_sprint_35_documentation.py",
+    "tests/test_sprint_36_documentation.py",
+    "tests/test_sprint_37_documentation.py",
+    "tests/test_sprint_38_documentation.py",
+    "tests/test_sprint_39_documentation.py",
+    "tests/test_sprint_40_documentation.py",
+    "tests/test_sprint_41_documentation.py",
+    "tests/test_sprint_42_documentation.py",
+    "tests/test_sprint_43_documentation.py",
+    "src/devpilot_core/repo/inventory.py",
+    "src/devpilot_core/repo/analyzer.py"
+  ],
+  "commands": [
+    "python -m devpilot_core repo engineering-gate --json",
+    "python -m devpilot_core repo engineering-gate --profile full --json --write-report",
+    "python -m devpilot_core readiness-check --strict --json",
+    "python -m devpilot_core miasi validate --json",
+    "python -m pytest -q"
+  ],
+  "tests": [
+    "tests/test_repo_engineering_gate.py",
+    "tests/test_sprint_44_documentation.py"
+  ],
+  "pass_criteria": [
+    "Gate de ingeniería de repositorio pasa en baseline.",
+    "Reporte de cierre Fase C existe y clasifica capacidades.",
+    "MIASI declara herramientas y reglas críticas de Fase C.",
+    "No quedan comandos de ejecución sin approval cuando corresponde.",
+    "README, runbook, backlog y manifests quedan sincronizados."
+  ],
+  "block_criteria": [
+    "Patch/refactor pueden tocar workspace real sin approval.",
+    "Falta documentación C4/MIASI o manifests de cierre.",
+    "pytest, validate all o miasi validate fallan.",
+    "Git write, deploy, LLM/API externa o ejecución arbitraria quedan habilitados."
+  ],
+  "risks": [
+    "El gate es implemented-initial y no reemplaza SAST/SCA formal.",
+    "Architecture drift y repo analysis siguen siendo heurísticos.",
+    "Fase D debe diseñar gobernanza de IA local antes de habilitar agentes con modelos."
+  ],
+  "preliminary": true,
+  "next_sprint": "FASE-D — IA local gobernada (backlog pendiente de aprobación)"
+}

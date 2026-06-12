@@ -1,0 +1,72 @@
+{
+  "schema_version": "1.0",
+  "phase": "FASE-C-INGENIERIA-DE-REPOSITORIO",
+  "status": "completed",
+  "closed_by": "FUNC-SPRINT-44",
+  "closed_at": "2026-06-12",
+  "source_backlog": "docs/devpilot_backlog_fase_C_ingenieria_repositorio.md",
+  "closure_report": "docs/audits/phase_c_repository_engineering_closure_report.md",
+  "repository_gate": "python -m devpilot_core repo engineering-gate --profile full --json --write-report",
+  "capabilities": [
+    {
+      "sprint": "FUNC-SPRINT-35",
+      "capability": "GitAdapter v2 read-only",
+      "status": "implemented"
+    },
+    {
+      "sprint": "FUNC-SPRINT-36",
+      "capability": "DependencyGraph/import graph Python",
+      "status": "implemented-initial"
+    },
+    {
+      "sprint": "FUNC-SPRINT-37",
+      "capability": "RepoAnalyzer v2",
+      "status": "implemented-initial"
+    },
+    {
+      "sprint": "FUNC-SPRINT-38",
+      "capability": "Architecture/code drift",
+      "status": "implemented-initial"
+    },
+    {
+      "sprint": "FUNC-SPRINT-39",
+      "capability": "Repo quality gate dry-run",
+      "status": "implemented-initial"
+    },
+    {
+      "sprint": "FUNC-SPRINT-40",
+      "capability": "Patch preflight",
+      "status": "implemented-initial"
+    },
+    {
+      "sprint": "FUNC-SPRINT-41",
+      "capability": "PatchSandbox + ChangeSet",
+      "status": "implemented-initial"
+    },
+    {
+      "sprint": "FUNC-SPRINT-42",
+      "capability": "RollbackManager local backup",
+      "status": "implemented-initial"
+    },
+    {
+      "sprint": "FUNC-SPRINT-43",
+      "capability": "RefactorExecutor sandbox",
+      "status": "implemented-initial"
+    },
+    {
+      "sprint": "FUNC-SPRINT-44",
+      "capability": "RepoEngineeringGate",
+      "status": "implemented-initial"
+    }
+  ],
+  "hard_limits": [
+    "no_git_write",
+    "no_productive_patch_apply",
+    "no_productive_refactor_apply",
+    "no_deploy",
+    "no_external_api",
+    "no_llm_call"
+  ],
+  "next_phase": "FASE-D-IA-LOCAL-GOBERNADA",
+  "preliminary": true
+}

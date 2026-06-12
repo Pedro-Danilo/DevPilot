@@ -7,7 +7,7 @@ from typing import Any
 from devpilot_core.cli_models import CommandResult, ExitCode, Finding, Severity
 from devpilot_core.policy import PathGuard, PolicyEffect, SecretGuard
 
-_DEFAULT_EXCLUDED_DIRS = (".git", ".venv", "__pycache__", ".pytest_cache", "outputs")
+_DEFAULT_EXCLUDED_DIRS = (".git", ".venv", "__pycache__", ".pytest_cache", "outputs", ".devpilot")
 _TEXT_SUFFIXES = {".md", ".txt", ".py", ".json", ".yaml", ".yml", ".toml", ".ini", ".cfg", ".env", ".example"}
 _HIGH_RISK_NAMES = {".env", ".env.local", ".env.dev", "id_rsa", "id_ed25519"}
 _HIGH_RISK_SUFFIXES = {".pem", ".key", ".p12", ".pfx"}
