@@ -15,7 +15,7 @@ from .errors import DevPilotError
 from .evals import EvalRunner
 from .observability import EventLogger
 from .miasi import MiasiRegistryValidator
-from .modeling import BudgetLedger, CapabilityMatrix, ModelAdapterRouter, ModelHealthService, ModelRouterConfig
+from .modeling import BudgetLedger, CapabilityMatrix, ModelAdapterRouter, ModelEvalRunner, ModelEvalRunnerConfig, ModelHealthService, ModelRouterConfig
 from .policy import CostPolicy, PolicyEngine, PolicyRequest, load_cost_policy
 from .prompts import PromptRegistry
 from .reports import ReportEngine, build_report_id
@@ -570,6 +570,39 @@ def prompt_show_command(*, prompt_id: str, version: str | None = None, json_outp
     )
     _emit_result_event(root, result, subject=f"prompt:{prompt_id}")
     _persist_result(root, result, subject=f"prompt:{prompt_id}")
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+
+def model_eval_run_command(
+    *,
+    suite: str = "model-local-smoke",
+    provider: str = "mock",
+    model: str | None = None,
+    case_id: str | None = None,
+    timeout_seconds: float = 3.0,
+    fallback_to_mock: bool = False,
+    json_output: bool = False,
+    write_report: bool = False,
+) -> int:
+    """Run governed local model evaluation matrix suites.
+
+    FUNC-SPRINT-50 evaluates mock/local providers through ModelEvalRunner.
+    The default suite is hermetic and passes with mock without Ollama,
+    LM Studio or external APIs. Reports are redacted and do not store raw
+    prompts or completions.
+    """
+
+    root = project_root()
+    result = ModelEvalRunner(
+        root,
+        config=ModelEvalRunnerConfig(
+            timeout_seconds=timeout_seconds,
+            fallback_to_mock=fallback_to_mock,
+        ),
+    ).run(suite=suite, provider=provider, model=model, case_id=case_id, write_report=write_report)
+    _emit_result_event(root, result, subject=f"model-eval:{suite}:{provider}")
+    _persist_result(root, result, subject=f"model-eval:{suite}:{provider}")
     print_result(result, json_output=json_output)
     return int(result.exit_code)
 
@@ -2244,6 +2277,18 @@ def build_parser() -> argparse.ArgumentParser:
     model_budget_status.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     model_budget_status.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
 
+    model_eval = model_sub.add_parser("eval", help="Run governed local model evaluation matrix")
+    model_eval_sub = model_eval.add_subparsers(dest="model_eval_command")
+    model_eval_run = model_eval_sub.add_parser("run", help="Run local model eval suite through ModelEvalRunner")
+    model_eval_run.add_argument("--suite", default="model-local-smoke", help="Model eval suite id; default: model-local-smoke")
+    model_eval_run.add_argument("--provider", default="mock", help="Provider id to evaluate; default: mock")
+    model_eval_run.add_argument("--model", default=None, help="Optional model id override")
+    model_eval_run.add_argument("--case-id", default=None, help="Optional model eval case id")
+    model_eval_run.add_argument("--timeout-seconds", type=float, default=3.0, help="Local provider timeout; default: 3 seconds")
+    model_eval_run.add_argument("--fallback-to-mock", action="store_true", help="Fallback to mock for enabled unavailable local providers")
+    model_eval_run.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    model_eval_run.add_argument("--write-report", action="store_true", help="Persist redacted model eval matrix evidence")
+
     model_generate = model_sub.add_parser("generate", help="Generate text through ModelAdapter")
     model_generate.add_argument("--prompt", default=None, help="Prompt text to generate from; mutually optional with --prompt-id")
     model_generate.add_argument("--prompt-id", default=None, help="Optional Prompt Registry id to render and route")
@@ -2771,6 +2816,20 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
                 json_output=args.json,
                 write_report=args.write_report,
             )
+        if args.model_command == "eval":
+            if args.model_eval_command == "run":
+                return model_eval_run_command(
+                    suite=args.suite,
+                    provider=args.provider,
+                    model=args.model,
+                    case_id=args.case_id,
+                    timeout_seconds=args.timeout_seconds,
+                    fallback_to_mock=args.fallback_to_mock,
+                    json_output=args.json,
+                    write_report=args.write_report,
+                )
+            parser.print_help()
+            return int(ExitCode.FAIL)
         parser.print_help()
         return int(ExitCode.FAIL)
     if args.command == "git-status":

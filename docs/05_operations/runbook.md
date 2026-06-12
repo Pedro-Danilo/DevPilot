@@ -3030,3 +3030,40 @@ El resultado debe incluir `prompt_id`, `prompt_version` y `prompt_reference`, pe
 ### Riesgos y limitaciones
 
 Esta versión es `implemented-initial`: `PromptSafetyChecker` usa patrones determinísticos básicos, no un juez LLM ni análisis adversarial completo. Los prompt packs avanzados, herencia entre plantillas, localización multi-idioma y evaluación comparativa por modelo quedan para sprints posteriores.
+
+
+## FUNC-SPRINT-50 — Model evaluation matrix local
+
+### Propósito
+
+`FUNC-SPRINT-50` permite ejecutar una evaluación local y reproducible de modelos/proveedores por tarea DevPilot. La suite base usa `mock`, por lo que no requiere Ollama, LM Studio, GPU, API keys ni red externa.
+
+### Comandos de uso
+
+```powershell
+python -m devpilot_core model eval run --provider mock --json
+python -m devpilot_core model eval run --provider mock --json --write-report
+python -m devpilot_core model eval run --provider lmstudio --json
+python -m devpilot_core model budget status --limit 10 --json
+```
+
+### Funcionamiento
+
+El comando carga `evals/model_fixtures/model_eval_cases.json`, renderiza prompts versionados mediante `PromptRegistry` cuando aplica, ejecuta tareas por `ModelAdapterRouter`, calcula métricas preliminares de calidad/costo/latencia y registra eventos redacted en `BudgetLedger`. Si un provider local está deshabilitado o no disponible, la suite queda `skipped` de forma controlada sin romper la baseline hermética.
+
+### Criterios PASS
+
+- `mock` ejecuta la suite base en PASS.
+- Los reportes incluyen `provider`, `model`, `prompt_id`, métricas y digest redacted.
+- Los providers locales no disponibles se reportan como skipped/controlados.
+- No se usan APIs externas ni se almacenan prompts/completions crudos.
+
+### Criterios BLOCK
+
+- La suite requiere Ollama/LM Studio real para pasar.
+- El reporte contiene secretos, prompts crudos o completions crudas.
+- Se habilita gasto externo o provider API por defecto.
+
+### Riesgos
+
+Esta es una evaluación `implemented-initial`: mide señales determinísticas mínimas y no sustituye benchmarks estadísticos, datasets grandes, jueces LLM ni evaluación humana. Debe evolucionar con suites por agente/tarea, métricas de groundedness, reproducibilidad por semilla y comparativas multi-modelo más robustas.

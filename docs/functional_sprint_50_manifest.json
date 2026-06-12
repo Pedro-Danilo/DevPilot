@@ -1,0 +1,68 @@
+{
+  "sprint": "FUNC-SPRINT-50",
+  "title": "Model evaluation matrix local",
+  "status": "implemented",
+  "implemented_at": "2026-06-12",
+  "phase": "FASE-D-IA-LOCAL-GOBERNADA",
+  "wave": "Ola 6 — ModelAdapter real local-first",
+  "source_backlog": "docs/devpilot_backlog_fase_D_ia_local_gobernada.md",
+  "architectural_decision": {
+    "required": false,
+    "adr": "docs/02_architecture/adrs/ADR-0011-local-model-providers.md",
+    "reason": "FUNC-SPRINT-50 ejecuta la estrategia local-first ya aprobada: evalúa proveedores mock/locales a través de PromptRegistry, ModelAdapterRouter y BudgetLedger. No introduce APIs externas, un nuevo provider class ni una frontera arquitectónica distinta."
+  },
+  "created_files": [
+    "src/devpilot_core/modeling/evals.py",
+    "evals/model_fixtures/model_eval_cases.json",
+    "tests/test_model_eval_runner.py",
+    "tests/test_sprint_50_documentation.py",
+    "docs/audits/func_sprint_50_model_eval_matrix_audit.md",
+    "docs/functional_sprint_50_manifest.json"
+  ],
+  "modified_files": [
+    ".devpilot/miasi/policy_matrix.json",
+    ".devpilot/miasi/tool_registry.json",
+    "README.md",
+    "docs/04_quality/test_strategy.md",
+    "docs/05_operations/runbook.md",
+    "docs/06_miasi/eval_card.md",
+    "docs/06_miasi/policy_card.md",
+    "docs/06_miasi/tool_card.md",
+    "docs/06_miasi/tool_registry.md",
+    "docs/devpilot_backlog_fase_D_ia_local_gobernada.md",
+    "docs/functional_backlog_after_precode.md",
+    "src/devpilot_core/cli.py",
+    "src/devpilot_core/modeling/__init__.py"
+  ],
+  "commands": [
+    "python -m devpilot_core model eval run --provider mock --json",
+    "python -m devpilot_core model eval run --provider mock --json --write-report",
+    "python -m devpilot_core model eval run --provider lmstudio --json",
+    "python -m devpilot_core model budget status --limit 10 --json",
+    "python -m devpilot_core validate all --json",
+    "python -m devpilot_core miasi validate --json",
+    "python -m pytest -q"
+  ],
+  "tests": [
+    "tests/test_model_eval_runner.py",
+    "tests/test_sprint_50_documentation.py"
+  ],
+  "pass_criteria": [
+    "Mock eval suite pasa determinísticamente.",
+    "Providers unavailable se reportan/skipped y no rompen suite base.",
+    "Reporte incluye provider/model/prompt_id/metrics sin prompts crudos.",
+    "No se llaman APIs externas."
+  ],
+  "block_criteria": [
+    "Eval requiere modelo local real.",
+    "Eval mide costo externo sin permiso o llama API externa.",
+    "Prompts/completions/secretos quedan en reportes."
+  ],
+  "risks": [
+    "Métricas pequeñas y determinísticas; evolucionar a suites por agente/tarea.",
+    "Latencia local preliminar; no usar como benchmark industrial.",
+    "Providers locales reales pueden variar por hardware; mantener mock como baseline."
+  ],
+  "preliminary": true,
+  "next_sprint": "FUNC-SPRINT-51 — AgentRuntime v2 model-aware en modo monoagente"
+}

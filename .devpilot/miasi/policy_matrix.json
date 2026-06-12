@@ -264,6 +264,15 @@
       "gate": "PromptRegistry+DeclaredInputs+PromptSafetyChecker+NoRawPromptStorage",
       "approval_required": false,
       "observability_required": true
+    },
+    {
+      "rule_id": "MODEL_EVAL_RUN_ALLOW",
+      "domain": "Model",
+      "action": "model_eval_run",
+      "default_effect": "allow",
+      "gate": "ModelEvalRunner+PromptRegistry+ModelAdapterRouter+BudgetLedger+NoExternalAPI+NoRawPrompts",
+      "approval_required": false,
+      "observability_required": true
     }
   ]
 }

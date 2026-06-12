@@ -1,8 +1,8 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
 Estado actual: `baseline pre-code approved + Fase A cerrada + FASE-B cerrada + Fase C cerrada + Fase D en progreso controlado`  
-Último hito: `FUNC-SPRINT-49 — Prompt Registry y contratos de prompt seguro`  
-Siguiente hito: `FUNC-SPRINT-50 — Model evaluation matrix local`  
+Último hito: `FUNC-SPRINT-50 — Model evaluation matrix local`  
+Siguiente hito: `FUNC-SPRINT-51 — AgentRuntime v2 model-aware en modo monoagente`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
@@ -1550,3 +1550,23 @@ Comando principal:
 python -m devpilot_core repo engineering-gate --profile full --json --write-report
 ```
 
+
+
+## FUNC-SPRINT-50 — Model evaluation matrix local
+
+`FUNC-SPRINT-50` agrega una matriz local de evaluación de modelos para comparar `mock`, Ollama y LM Studio por tarea DevPilot sin depender de APIs externas. La primera versión queda en estado `implemented-initial`: usa fixtures determinísticos bajo `evals/model_fixtures/`, ejecuta por defecto el provider `mock`, integra `PromptRegistry`, `ModelAdapterRouter`, health/readiness de providers y `BudgetLedger`, y genera evidencia redacted de calidad, costo estimado y latencia.
+
+Comandos principales:
+
+```powershell
+python -m devpilot_core model eval run --provider mock --json
+python -m devpilot_core model eval run --provider mock --json --write-report
+python -m devpilot_core model eval run --provider lmstudio --json
+```
+
+Criterios operativos:
+
+- PASS si la suite `model-local-smoke` pasa con `mock` sin Ollama, LM Studio ni APIs externas.
+- PASS si un provider local deshabilitado/no disponible queda reportado como `skipped` controlado.
+- BLOCK/FAIL si la evaluación requiere modelo local real, llama APIs externas o persiste prompts/completions crudos.
+- La capacidad es preliminar: no reemplaza benchmarks industriales, jueces LLM ni evaluación estadística avanzada; prepara Sprint 51 y AgentRuntime model-aware.

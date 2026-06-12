@@ -179,3 +179,8 @@ python -m devpilot_core eval run --case-id frontmatter-missing-doc-id --json
 ### Riesgos
 
 Versión preliminar. No reemplaza evaluación semántica, red teaming, golden outputs, evaluación continua ni métricas de producción. Debe evolucionar con datasets versionados, evaluación de groundedness, cobertura por agente, severidades ponderadas y análisis histórico desde SQLite.
+
+
+## FUNC-SPRINT-50 — Evaluación local de modelos
+
+La Eval Card incorpora `ModelEvalRunner` como evaluación `implemented-initial` para proveedores mock/locales. La suite `model-local-smoke` cubre generación con prompt versionado, clasificación y embeddings con `mock`. Los resultados incluyen métricas preliminares de calidad, tokens, costo estimado y latencia. Esta evaluación no sustituye benchmarks industriales ni jueces LLM, pero establece la base para Sprint 51 y agentes model-aware.

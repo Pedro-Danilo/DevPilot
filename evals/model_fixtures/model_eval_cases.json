@@ -1,0 +1,34 @@
+{
+  "schema_version": "1.0.0",
+  "suite_id": "model-local-smoke",
+  "description": "Suite hermética de evaluación local de modelos para FUNC-SPRINT-50. Debe pasar con mock sin Ollama, LM Studio ni APIs externas.",
+  "cases": [
+    {
+      "case_id": "MEVAL-001-generate-governed-prompt",
+      "task": "generate",
+      "prompt_id": "model.generate.default",
+      "prompt_version": "1.0.0",
+      "inputs": {
+        "user_request": "Resume el propósito de DevPilot en modo seguro.",
+        "project_context": "DevPilot Local es una plataforma local-first agent-assisted SDLC."
+      },
+      "expected_contains": ["[mock-deterministic]"],
+      "metrics": ["quality", "tokens", "cost", "latency"]
+    },
+    {
+      "case_id": "MEVAL-002-classify-docs",
+      "task": "classify",
+      "text": "La documentación técnica y el runbook describen contratos y validaciones.",
+      "labels": ["docs", "code", "security"],
+      "expected_label": "docs",
+      "metrics": ["quality", "tokens", "cost", "latency"]
+    },
+    {
+      "case_id": "MEVAL-003-embed-devpilot",
+      "task": "embed",
+      "text": "DevPilot local model evaluation matrix",
+      "min_dimensions": 8,
+      "metrics": ["quality", "tokens", "cost", "latency"]
+    }
+  ]
+}

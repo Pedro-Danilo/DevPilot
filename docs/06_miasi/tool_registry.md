@@ -159,3 +159,8 @@ Criterios PASS: reportes JSON reproducibles, proveedores externos bloqueados, bu
 ## FUNC-SPRINT-49 — Prompt Registry executable entries
 
 El Tool Registry ejecutable incorpora entradas para `prompt.registry.read`, `prompt.contract.validate` y `prompt.render.controlled`. Todas quedan detrás de reglas MIASI específicas, `SecretGuard` y `PromptSafetyChecker`, y son necesarias para que futuros agentes no usen prompts embebidos sin trazabilidad.
+
+
+## FUNC-SPRINT-50 — Model evaluation matrix executable entry
+
+El Tool Registry ejecutable incorpora `model.eval.run` en estado `implemented-initial`, protegido por `MODEL_EVAL_RUN_ALLOW`, `MODEL_LOCAL_PROVIDER_CONTROLLED` y `SECRETS_RAW_DENY`. La entrada es necesaria para comparar proveedores locales/mock por tarea antes de activar AgentRuntime v2 model-aware.

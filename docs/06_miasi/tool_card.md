@@ -583,3 +583,8 @@ Sprint 49 registra prompts como herramientas read-only/controlled dentro de MIAS
 - `prompt.render.controlled`: renderizado local controlado para llamadas de modelo con `prompt_id/version`.
 
 Estas herramientas no llaman red, no ejecutan acciones críticas, no escriben prompts y no almacenan payloads crudos. Su estado es `implemented-initial` porque el chequeo de inyección de prompt es determinístico y básico.
+
+
+## FUNC-SPRINT-50 — Model evaluation matrix como herramienta MIASI
+
+Sprint 50 registra `model.eval.run` como herramienta MIASI de tipo report/read-only. Ejecuta `ModelEvalRunner` sobre fixtures locales, usa `PromptRegistry`, `ModelAdapterRouter` y `BudgetLedger`, y produce una matriz redacted de métricas por provider/model/prompt. PASS exige que `mock` no dependa de modelos reales y que providers locales no disponibles queden skipped/controlados. BLOCK si se llama API externa o se persisten prompts/completions crudos.

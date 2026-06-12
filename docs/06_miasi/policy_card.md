@@ -177,3 +177,8 @@ Sprint 49 agrega reglas MIASI para prompts:
 - `PROMPT_RENDER_CONTROLLED`: permite renderizar prompts versionados solo con inputs declarados y sin almacenamiento crudo.
 
 Estas reglas complementan `SECRETS_RAW_DENY`. No autorizan prompts dinámicos no versionados, exposición de secretos ni almacenamiento de prompts/completions crudos en runtime.
+
+
+## FUNC-SPRINT-50 — Política de evaluación local de modelos
+
+Sprint 50 agrega `MODEL_EVAL_RUN_ALLOW`, una política local-first para ejecutar suites de evaluación de modelos sin APIs externas. El gate combina `ModelEvalRunner`, `PromptRegistry`, `ModelAdapterRouter`, `BudgetLedger`, `NoExternalAPI` y `NoRawPrompts`. La política permite reportes y cost events redacted, pero bloquea gasto externo, prompts crudos o completions crudas.

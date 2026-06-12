@@ -8,7 +8,7 @@ standard: "MIPSoftware"
 extension: "MIASI"
 phase: "FASE-D-IA-LOCAL-GOBERNADA"
 updated: "2026-06-12"
-source_repo: "repo_DevPilot_Local_60.zip"
+source_repo: "repo_DevPilot_Local_61.zip"
 source_report: "Informe de avance DevPilot - sprint 0 - 18.docx"
 source_backlog_model: "docs/functional_backlog_after_precode.md"
 baseline_dependency: "Fases A, B y C cerradas; Fase C validada por FUNC-SPRINT-44 repo engineering-gate"
@@ -16,12 +16,12 @@ first_sprint: "FUNC-SPRINT-45"
 last_planned_sprint: "FUNC-SPRINT-55"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "phase_d_executable_backlog_review"
-first_open_sprint: "FUNC-SPRINT-50"
+first_open_sprint: "FUNC-SPRINT-51"
 phase_d_status: "in_progress"
 approved_on: "2026-06-12"
 approval: "approved_after_phase_c_closure_review"
-last_completed_sprint: "FUNC-SPRINT-49"
-next_sprint: "FUNC-SPRINT-50"
+last_completed_sprint: "FUNC-SPRINT-50"
+next_sprint: "FUNC-SPRINT-51"
 ---
 
 # DevPilot Local — Backlog ejecutable Fase D: IA local gobernada
@@ -1194,3 +1194,27 @@ Fuera de alcance hasta sprints posteriores:
 - budget enforcement monetario avanzado para APIs externas.
 
 Siguiente sprint operativo: `FUNC-SPRINT-49 — Prompt Registry y Prompt Packs gobernados`.
+
+
+## Estado de implementación Sprint 50
+
+`FUNC-SPRINT-50 — Model evaluation matrix local` queda implementado como capacidad `implemented-initial` de Fase D. La implementación agrega `ModelEvalRunner`, fixtures bajo `evals/model_fixtures`, comando `model eval run`, integración con `PromptRegistry`, `ModelAdapterRouter`, `ModelHealthService` y `BudgetLedger`, más reportes redacted opcionales.
+
+Alcance real implementado:
+
+- suite `model-local-smoke` ejecutable con `mock` sin modelos locales reales;
+- casos determinísticos para `generate`, `classify` y `embed`;
+- métricas preliminares de calidad, tokens, costo estimado y latencia;
+- providers locales deshabilitados/no disponibles reportados como `skipped` controlado;
+- reportes sin prompts crudos, completions crudas ni secretos;
+- MIASI actualizado con la herramienta `model.eval.run` y la política `MODEL_EVAL_RUN_ALLOW`.
+
+Fuera de alcance hasta sprints posteriores:
+
+- jueces LLM;
+- benchmarks grandes o estadísticos;
+- evaluación con APIs externas;
+- AgentRuntime v2 model-aware;
+- evaluación de agentes especializados monoagente.
+
+Siguiente sprint operativo: `FUNC-SPRINT-51 — AgentRuntime v2 model-aware en modo monoagente`.

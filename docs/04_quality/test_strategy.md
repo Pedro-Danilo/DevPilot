@@ -591,3 +591,19 @@ python -m devpilot_core miasi validate --json
 ```
 
 Criterios: prompts válidos pasan schema/semántica, prompt sin `id/version` falla, SecretGuard/PromptInjectionGuard producen findings básicos, `prompt show` usa payload redacted, model calls registran referencia de prompt y no se requiere red, Ollama, LM Studio ni API externa.
+
+
+## Actualización FUNC-SPRINT-50 — Pruebas de Model evaluation matrix local
+
+La estrategia de pruebas de `FUNC-SPRINT-50` valida una matriz local de evaluación de modelos basada en fixtures determinísticos. La cobertura mínima incluye `ModelEvalRunner`, `evals/model_fixtures/model_eval_cases.json`, CLI `model eval run`, integración con `PromptRegistry`, `ModelAdapterRouter`, `BudgetLedger` y comportamiento skipped/controlado para providers locales deshabilitados o no disponibles.
+
+Comandos mínimos:
+
+```powershell
+python -m pytest tests/test_model_eval_runner.py tests/test_sprint_50_documentation.py -q
+python -m devpilot_core model eval run --provider mock --json
+python -m devpilot_core model eval run --provider mock --json --write-report
+python -m devpilot_core model eval run --provider lmstudio --json
+```
+
+Criterios de calidad: `mock` debe pasar la suite base sin modelos reales, los providers locales no disponibles no deben romper la baseline, y los reportes no deben contener prompts/completions/secretos crudos.

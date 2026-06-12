@@ -14,7 +14,7 @@ change_policy: "controlled_changes_allowed_via_docs_as_code"
 approved_on: "2026-06-06"
 approval_scope: "functional_backlog_after_precode"
 baseline_execution: "FUNC-SPRINT-00"
-next_sprint: "FUNC-SPRINT-50"
+next_sprint: "FUNC-SPRINT-51"
 ---
 
 # DevPilot Local — Backlog ejecutable posterior a pre-code
@@ -2134,3 +2134,8 @@ La transición hacia `FUNC-SPRINT-48` queda condicionada a no requerir modelos l
 `FUNC-SPRINT-49` completa el Prompt Registry inicial: prompts versionados como docs-as-code, schema `Prompt`, comandos read-only `prompt list/show/validate`, checks básicos de `PromptSafetyChecker` y trazabilidad `prompt_id/version` en llamadas `model generate --prompt-id`.
 
 La transición hacia `FUNC-SPRINT-50` queda condicionada a evaluar modelos usando prompts versionados, no prompts embebidos sin trazabilidad, mantener `mock` como baseline reproducible, no almacenar prompts/completions crudos y conservar APIs externas bloqueadas salvo ADR/aprobación futura.
+
+
+## Transición posterior a FUNC-SPRINT-50
+
+`FUNC-SPRINT-50` cierra la primera matriz de evaluación local de modelos. La transición hacia `FUNC-SPRINT-51` queda condicionada a mantener `mock` como proveedor hermético obligatorio, no exigir Ollama/LM Studio para la suite base, preservar reportes redacted y usar `PromptRegistry`, `ModelAdapterRouter`, `BudgetLedger` y `ModelEvalRunner` como base para AgentRuntime v2 model-aware en modo monoagente.

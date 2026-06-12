@@ -539,6 +539,20 @@
         "PROMPT_RENDER_CONTROLLED",
         "SECRETS_RAW_DENY"
       ]
+    },
+    {
+      "tool_id": "model.eval.run",
+      "name": "run_local_model_evaluation_matrix",
+      "phase": "MVP+",
+      "side_effect": "report",
+      "risk_level": "medium",
+      "status": "implemented-initial",
+      "requires_approval": false,
+      "policy_rule_ids": [
+        "MODEL_EVAL_RUN_ALLOW",
+        "MODEL_LOCAL_PROVIDER_CONTROLLED",
+        "SECRETS_RAW_DENY"
+      ]
     }
   ]
 }
