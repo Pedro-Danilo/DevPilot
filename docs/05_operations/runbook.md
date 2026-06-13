@@ -2,7 +2,7 @@
 title: "Runbook — DevPilot Local"
 doc_id: "DEVPL-OPS-002"
 status: "approved"
-version: "1.19.0"
+version: "1.20.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
@@ -3431,3 +3431,51 @@ python -m pytest tests/test_event_logger.py tests/test_trace_context.py tests/te
 | Crecimiento de almacenamiento | Pendiente | Retención y compactación quedan para evolución posterior. |
 | Migración de DB existente | Controlado | Se usan `CREATE TABLE IF NOT EXISTS` y `ALTER TABLE` idempotente. |
 | Sin CLI de consulta | Por diseño | `trace report`/`trace inspect` quedan para Sprint 61. |
+
+
+## FUNC-SPRINT-59 — Operación de MetricsCollector local
+
+`FUNC-SPRINT-59` agrega métricas operacionales locales sobre SQLite. La regla operativa es:
+
+```text
+MetricsCollector = señales numéricas locales + etiquetas seguras + resumen agregado
+```
+
+### Propósito operativo
+
+Registrar conteos, estados, duración opcional, tokens estimados y costo estimado de operaciones DevPilot sin requerir servicios externos. Esta versión es `implemented-initial`: el colector ya existe, persiste y resume métricas, pero todavía no hay comando público `metrics summary`; la consulta programática se realiza mediante `MetricsCollector.summary()` y `MetricsCollector.list_metrics()`.
+
+### Comandos de verificación
+
+```powershell
+python -m devpilot_core state init --json
+python -m devpilot_core state status --json
+python -m devpilot_core model providers --json
+python -m devpilot_core model generate --provider mock --prompt "hello" --json
+python -m pytest tests/test_metrics_collector.py -q
+python -m pytest tests/test_trace_store.py tests/test_event_logger.py tests/test_trace_context.py tests/test_local_store.py tests/test_metrics_collector.py tests/test_sprint_59_documentation.py -q
+```
+
+### Criterios PASS
+
+- `state status` reporta `schema_version=0004_metrics_collector_v1`.
+- La tabla `metrics` existe y acepta inserciones sin preinicializar manualmente la DB.
+- `model generate --provider mock` registra métricas locales con `provider=mock`, `external_api_used=false` y costo estimado `0.0`.
+- `MetricsCollector.summary()` agrega conteos por categoría, estado y proveedor.
+- La redacción impide persistir prompts completos, completions, secretos, diffs, patches y salida de proceso.
+
+### Criterios BLOCK
+
+- Métricas requieren red, API key, OpenTelemetry SDK o collector externo.
+- Un fallo de métricas cambia el resultado funcional de un comando o model call.
+- Se persiste prompt/completion/diff/stdout/stderr crudo.
+- Se versiona `.devpilot/devpilot.db` en el repo o en ZIP entregables.
+
+### Riesgos
+
+| Riesgo | Estado | Mitigación |
+|---|---|---|
+| Sobrecarga por métricas | Bajo | Registro simple, síncrono y best-effort. |
+| Confusión entre costo estimado y real | Controlado | Campo `estimated=true` y costo mock `0.0`. |
+| Métricas agentic incompletas | Pendiente | Sprint 60 instrumentará runtime, policies, approvals y model calls. |
+| Sin CLI pública de métricas | Por diseño | Sprint 61 expondrá `metrics summary`/reportes. |

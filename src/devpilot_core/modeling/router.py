@@ -380,6 +380,7 @@ class ModelAdapterRouter:
                 "cost_estimate_usd": call_result.cost_estimate_usd,
                 "external_api_used": call_result.external_api_used,
                 "llm_required": call_result.provider != "mock",
+                "metrics_best_effort": True,
                 "preliminary": True,
             },
             "result": call_result.to_dict(),
@@ -388,9 +389,10 @@ class ModelAdapterRouter:
             "notes": [
                 "ModelAdapterRouter enforced provider registry, local guards and CostGuard before provider execution.",
                 "No external API was called and no API key was required.",
+                "FUNC-SPRINT-59 records local model metrics best-effort without changing model-call semantics.",
             ],
         }
-        return CommandResult(
+        result = CommandResult(
             command=f"model {task}",
             ok=True,
             exit_code=ExitCode.PASS,
@@ -405,6 +407,24 @@ class ModelAdapterRouter:
                 )
             ],
         )
+        self._record_model_metric(result, call_result)
+        return result
+
+    def _record_model_metric(self, result: CommandResult, call_result: ModelCallResult) -> None:
+        """Record best-effort model metrics without making observability mandatory."""
+
+        try:
+            from devpilot_core.observability.metrics import MetricsCollector
+
+            MetricsCollector(self.root).record_model_result(
+                result,
+                provider=call_result.provider,
+                model=call_result.model,
+                task=call_result.task.value,
+                metadata={"component": "ModelAdapterRouter", "provider_kind": str(call_result.provider)},
+            )
+        except Exception:
+            return
 
     def _adapter_failure_result(self, call_result: ModelCallResult, provider_payload: dict, policy_result: CommandResult) -> CommandResult:
         task = call_result.task.value

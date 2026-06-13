@@ -1,0 +1,136 @@
+{
+  "sprint": "FUNC-SPRINT-59",
+  "title": "MetricsCollector para comandos, agentes, tools y modelos",
+  "status": "implemented",
+  "implemented_at": "2026-06-13",
+  "phase": "FASE-E-AGENTOPS-OBSERVABILIDAD",
+  "wave": "Ola 8 — Observabilidad avanzada y AgentOps",
+  "source_backlog": "docs/devpilot_backlog_fase_E_agentops_observabilidad.md",
+  "architectural_decision": {
+    "required": false,
+    "adr": "docs/02_architecture/adrs/ADR-0012-observability-v2-agentops.md",
+    "reason": "FUNC-SPRINT-59 implementa la señal metrics definida por ADR-0012 y por el backlog Fase E; no introduce exporters, red, telemetría remota ni una decisión arquitectónica nueva."
+  },
+  "summary": {
+    "implementation_level": "implemented-initial",
+    "metric_record_added": true,
+    "metrics_collector_added": true,
+    "sqlite_metrics_extended": true,
+    "command_metrics_best_effort": true,
+    "model_mock_metrics_best_effort": true,
+    "agent_tool_metrics_api_ready": true,
+    "external_dependencies_added": false,
+    "remote_telemetry_enabled": false,
+    "network_required": false,
+    "external_api_used": false,
+    "mutations_runtime": false,
+    "next_runtime_sprint": "FUNC-SPRINT-60"
+  },
+  "created_files": [
+    "src/devpilot_core/observability/metrics.py",
+    "tests/test_metrics_collector.py",
+    "docs/audits/func_sprint_59_metrics_collector_audit.md",
+    "docs/functional_sprint_59_manifest.json",
+    "tests/test_sprint_59_documentation.py"
+  ],
+  "modified_files": [
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/05_operations/observability_plan.md",
+    "docs/06_miasi/observability_card.md",
+    "docs/devpilot_backlog_fase_E_agentops_observabilidad.md",
+    "docs/functional_backlog_after_precode.md",
+    "src/devpilot_core/observability/__init__.py",
+    "src/devpilot_core/store/local_store.py",
+    "src/devpilot_core/cli.py",
+    "src/devpilot_core/modeling/router.py",
+    "tests/test_sprint_32_documentation.py",
+    "tests/test_sprint_33_documentation.py",
+    "tests/test_sprint_34_documentation.py",
+    "tests/test_sprint_35_documentation.py",
+    "tests/test_sprint_36_documentation.py",
+    "tests/test_sprint_37_documentation.py",
+    "tests/test_sprint_38_documentation.py",
+    "tests/test_sprint_39_documentation.py",
+    "tests/test_sprint_40_documentation.py",
+    "tests/test_sprint_41_documentation.py",
+    "tests/test_sprint_42_documentation.py",
+    "tests/test_sprint_43_documentation.py",
+    "tests/test_sprint_44_documentation.py",
+    "tests/test_sprint_45_documentation.py",
+    "tests/test_sprint_46_documentation.py",
+    "tests/test_sprint_47_documentation.py",
+    "tests/test_sprint_48_documentation.py",
+    "tests/test_sprint_49_documentation.py",
+    "tests/test_sprint_50_documentation.py",
+    "tests/test_sprint_51_documentation.py",
+    "tests/test_sprint_52_documentation.py",
+    "tests/test_sprint_53_documentation.py",
+    "tests/test_sprint_54_documentation.py",
+    "tests/test_sprint_55_documentation.py",
+    "tests/test_sprint_56_documentation.py",
+    "tests/test_sprint_57_documentation.py",
+    "tests/test_sprint_58_documentation.py"
+  ],
+  "commands": [
+    "python -m devpilot_core state init --json",
+    "python -m devpilot_core state status --json",
+    "python -m devpilot_core model providers --json",
+    "python -m devpilot_core model generate --provider mock --prompt \"hello\" --json",
+    "python -m pytest tests/test_metrics_collector.py -q",
+    "python -m pytest tests/test_trace_store.py tests/test_event_logger.py tests/test_trace_context.py tests/test_local_store.py tests/test_metrics_collector.py tests/test_sprint_59_documentation.py -q",
+    "python -m devpilot_core validate-artifact docs/audits/func_sprint_59_metrics_collector_audit.md --json",
+    "python -m devpilot_core schema validate-manifest docs/functional_sprint_59_manifest.json --json",
+    "python -m devpilot_core validate all --json",
+    "python -m pytest -q"
+  ],
+  "tests": [
+    "tests/test_metrics_collector.py",
+    "tests/test_trace_store.py",
+    "tests/test_event_logger.py",
+    "tests/test_trace_context.py",
+    "tests/test_local_store.py",
+    "tests/test_sprint_59_documentation.py",
+    "schema validate-manifest",
+    "validate all",
+    "pytest -q"
+  ],
+  "pass_criteria": [
+    "MetricRecord serializa payload JSON redactado.",
+    "MetricsCollector persiste métricas sin red ni DB preinicializada.",
+    "LocalStore registra y resume métricas por categoría, estado y proveedor.",
+    "ModelAdapterRouter registra métricas del provider mock sin costo externo real.",
+    "La migración de metrics legacy es idempotente.",
+    "No se agregan dependencias externas ni exporters activos."
+  ],
+  "block_criteria": [
+    "Se registran prompts, completions, diffs, patches, stdout/stderr o secretos crudos.",
+    "Se introduce dependencia externa obligatoria o telemetría remota.",
+    "Las métricas alteran el resultado funcional de comandos/model calls.",
+    "MetricsCollector falla cuando no existe DB inicializada.",
+    "El provider mock reporta costo real externo o external_api_used=true."
+  ],
+  "risks": [
+    {
+      "id": "RISK-FUNC-59-001",
+      "risk": "Sobrecarga excesiva",
+      "mitigation": "Métricas simples y best-effort."
+    },
+    {
+      "id": "RISK-FUNC-59-002",
+      "risk": "Confundir estimación con costo real",
+      "mitigation": "Campo estimated explícito y costo mock 0.0."
+    },
+    {
+      "id": "RISK-FUNC-59-003",
+      "risk": "Datos sensibles en metadata",
+      "mitigation": "Redacción obligatoria mediante sanitize_metric_metadata."
+    },
+    {
+      "id": "RISK-FUNC-59-004",
+      "risk": "Instrumentación agentic incompleta",
+      "mitigation": "Dejar API lista y mover runtime a FUNC-SPRINT-60."
+    }
+  ],
+  "next_sprint": "FUNC-SPRINT-60 — Instrumentación agentic: agentes, tools, approvals y model calls"
+}

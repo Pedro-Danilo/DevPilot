@@ -12,7 +12,7 @@ from typing import Any, Iterable, Iterator
 from devpilot_core.cli_models import CommandResult, ExitCode, Finding, Severity
 
 DEFAULT_DB_PATH = ".devpilot/devpilot.db"
-SCHEMA_VERSION = "0003_trace_store_v1"
+SCHEMA_VERSION = "0004_metrics_collector_v1"
 
 
 @dataclass(frozen=True)
@@ -355,6 +355,137 @@ class LocalStore:
                 ).fetchall()
         return [_event_row_to_dict(row) for row in rows]
 
+    def record_metric(self, metric: Any) -> str:
+        """Persist one MetricRecord-compatible payload.
+
+        FUNC-SPRINT-59 stores metrics as local SQLite projections. The method
+        accepts a MetricRecord or a dictionary to keep LocalStore independent
+        from the observability model layer.
+        """
+
+        payload = metric.to_dict() if hasattr(metric, "to_dict") else dict(metric)
+        metric_id = str(payload.get("metric_id") or uuid.uuid4().hex)
+        self.db_path.parent.mkdir(parents=True, exist_ok=True)
+        with self._connect() as conn:
+            self._apply_schema(conn)
+            conn.execute(
+                """
+                INSERT OR REPLACE INTO metrics (
+                    metric_id, trace_id, run_id, span_id, name, value, unit,
+                    category, operation, command, status, ok, severity,
+                    provider, model, task, timestamp, estimated, metadata_json
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                """,
+                (
+                    metric_id,
+                    payload.get("trace_id"),
+                    payload.get("run_id"),
+                    payload.get("span_id"),
+                    str(payload["name"]),
+                    float(payload.get("value") or 0.0),
+                    payload.get("unit"),
+                    str(payload.get("category") or "command"),
+                    payload.get("operation"),
+                    payload.get("command"),
+                    payload.get("status"),
+                    None if payload.get("ok") is None else int(bool(payload.get("ok"))),
+                    str(payload.get("severity") or "info"),
+                    payload.get("provider"),
+                    payload.get("model"),
+                    payload.get("task"),
+                    str(payload.get("timestamp") or utc_now_iso()),
+                    int(bool(payload.get("estimated", False))),
+                    _json(payload.get("metadata") or {}),
+                ),
+            )
+            conn.commit()
+        return metric_id
+
+    def list_metrics(self, *, category: str | None = None, name: str | None = None, limit: int = 50) -> list[dict[str, Any]]:
+        """Return recent metrics, optionally filtered by category or name."""
+
+        safe_limit = max(1, min(int(limit), 500))
+        if not self.db_path.exists():
+            return []
+        filters: list[str] = []
+        values: list[Any] = []
+        if category:
+            filters.append("category = ?")
+            values.append(category)
+        if name:
+            filters.append("name = ?")
+            values.append(name)
+        where = " WHERE " + " AND ".join(filters) if filters else ""
+        query = f"""
+            SELECT * FROM metrics
+            {where}
+            ORDER BY timestamp DESC, rowid DESC
+            LIMIT ?
+        """
+        values.append(safe_limit)
+        with self._connect() as conn:
+            self._apply_schema(conn)
+            rows = conn.execute(query, tuple(values)).fetchall()
+        return [_metric_row_to_dict(row) for row in rows]
+
+    def metrics_summary(self) -> dict[str, Any]:
+        """Return aggregate local metric counters for AgentOps dashboards."""
+
+        if not self.db_path.exists():
+            return {
+                "initialized": False,
+                "metrics_total": 0,
+                "operations_total": 0,
+                "categories": {},
+                "statuses": {},
+                "providers": {},
+                "estimated_cost_total_usd": 0.0,
+                "tokens_estimated_total": 0,
+            }
+        with self._connect() as conn:
+            self._apply_schema(conn)
+            total_row = conn.execute("SELECT COUNT(*) AS metrics_total FROM metrics").fetchone()
+            category_rows = conn.execute(
+                "SELECT category, COUNT(*) AS total FROM metrics GROUP BY category ORDER BY category"
+            ).fetchall()
+            status_rows = conn.execute(
+                """
+                SELECT COALESCE(status, 'UNKNOWN') AS status, COALESCE(SUM(value), 0.0) AS total
+                FROM metrics
+                WHERE unit = 'count'
+                GROUP BY COALESCE(status, 'UNKNOWN')
+                ORDER BY status
+                """
+            ).fetchall()
+            provider_rows = conn.execute(
+                """
+                SELECT provider, COUNT(*) AS total
+                FROM metrics
+                WHERE provider IS NOT NULL AND provider != ''
+                GROUP BY provider
+                ORDER BY provider
+                """
+            ).fetchall()
+            operations_row = conn.execute(
+                "SELECT COALESCE(SUM(value), 0.0) AS total FROM metrics WHERE unit = 'count'"
+            ).fetchone()
+            cost_row = conn.execute(
+                "SELECT COALESCE(SUM(value), 0.0) AS total FROM metrics WHERE name = 'devpilot.model.cost_estimate_usd'"
+            ).fetchone()
+            token_row = conn.execute(
+                "SELECT COALESCE(SUM(value), 0.0) AS total FROM metrics WHERE name = 'devpilot.model.tokens_estimated'"
+            ).fetchone()
+        return {
+            "initialized": True,
+            "metrics_total": int(total_row["metrics_total"] or 0),
+            "operations_total": int(operations_row["total"] or 0),
+            "categories": {str(row["category"]): int(row["total"] or 0) for row in category_rows},
+            "statuses": {str(row["status"]): int(row["total"] or 0) for row in status_rows},
+            "providers": {str(row["provider"]): int(row["total"] or 0) for row in provider_rows},
+            "estimated_cost_total_usd": round(float(cost_row["total"] or 0.0), 8),
+            "tokens_estimated_total": int(token_row["total"] or 0),
+        }
+
     def record_cost_event(
         self,
         *,
@@ -686,6 +817,7 @@ class LocalStore:
         conn.executescript(SCHEMA_SQL)
         self._migrate_approvals_v1(conn)
         self._migrate_observability_v2(conn)
+        self._migrate_metrics_v1(conn)
         conn.execute(
             "INSERT OR IGNORE INTO schema_migrations(version, applied_at) VALUES (?, ?)",
             (SCHEMA_VERSION, utc_now_iso()),
@@ -779,6 +911,31 @@ class LocalStore:
         conn.execute("CREATE INDEX IF NOT EXISTS idx_spans_trace_id ON spans(trace_id)")
         conn.execute("CREATE INDEX IF NOT EXISTS idx_spans_parent_span_id ON spans(parent_span_id)")
         conn.execute("CREATE INDEX IF NOT EXISTS idx_metrics_trace_id ON metrics(trace_id)")
+
+    def _migrate_metrics_v1(self, conn: sqlite3.Connection) -> None:
+        """Add Sprint 59 metric projection columns idempotently."""
+
+        metric_columns = {str(row["name"]) for row in conn.execute("PRAGMA table_info(metrics)").fetchall()}
+        additions: dict[str, str] = {
+            "span_id": "TEXT",
+            "category": "TEXT NOT NULL DEFAULT 'command'",
+            "operation": "TEXT",
+            "command": "TEXT",
+            "status": "TEXT",
+            "ok": "INTEGER CHECK (ok IN (0, 1))",
+            "severity": "TEXT NOT NULL DEFAULT 'info'",
+            "provider": "TEXT",
+            "model": "TEXT",
+            "task": "TEXT",
+            "estimated": "INTEGER NOT NULL DEFAULT 0 CHECK (estimated IN (0, 1))",
+        }
+        for column, definition in additions.items():
+            if column not in metric_columns:
+                conn.execute(f"ALTER TABLE metrics ADD COLUMN {column} {definition}")
+        conn.execute("CREATE INDEX IF NOT EXISTS idx_metrics_category ON metrics(category)")
+        conn.execute("CREATE INDEX IF NOT EXISTS idx_metrics_status ON metrics(status)")
+        conn.execute("CREATE INDEX IF NOT EXISTS idx_metrics_provider ON metrics(provider)")
+        conn.execute("CREATE INDEX IF NOT EXISTS idx_metrics_run_id ON metrics(run_id)")
 
     def _get_approval_row(self, conn: sqlite3.Connection, approval_id: str) -> dict[str, Any] | None:
         row = conn.execute("SELECT * FROM approvals WHERE approval_id = ?", (approval_id,)).fetchone()
@@ -927,10 +1084,21 @@ CREATE TABLE IF NOT EXISTS metrics (
     metric_id TEXT PRIMARY KEY,
     trace_id TEXT,
     run_id TEXT,
+    span_id TEXT,
     name TEXT NOT NULL,
     value REAL NOT NULL DEFAULT 0.0,
     unit TEXT,
+    category TEXT NOT NULL DEFAULT 'command',
+    operation TEXT,
+    command TEXT,
+    status TEXT,
+    ok INTEGER CHECK (ok IN (0, 1)),
+    severity TEXT NOT NULL DEFAULT 'info',
+    provider TEXT,
+    model TEXT,
+    task TEXT,
     timestamp TEXT NOT NULL,
+    estimated INTEGER NOT NULL DEFAULT 0 CHECK (estimated IN (0, 1)),
     metadata_json TEXT NOT NULL DEFAULT '{}'
 );
 
@@ -976,6 +1144,30 @@ CREATE TABLE IF NOT EXISTS cost_events (
 CREATE INDEX IF NOT EXISTS idx_cost_events_provider ON cost_events(provider);
 CREATE INDEX IF NOT EXISTS idx_cost_events_timestamp ON cost_events(timestamp);
 """
+
+
+def _metric_row_to_dict(row: sqlite3.Row) -> dict[str, Any]:
+    return {
+        "metric_id": str(row["metric_id"]),
+        "trace_id": row["trace_id"],
+        "run_id": row["run_id"],
+        "span_id": row["span_id"] if "span_id" in row.keys() else None,
+        "name": str(row["name"]),
+        "value": float(row["value"] or 0.0),
+        "unit": row["unit"],
+        "category": str(row["category"] or "command") if "category" in row.keys() else "command",
+        "operation": row["operation"] if "operation" in row.keys() else None,
+        "command": row["command"] if "command" in row.keys() else None,
+        "status": row["status"] if "status" in row.keys() else None,
+        "ok": None if "ok" not in row.keys() or row["ok"] is None else bool(row["ok"]),
+        "severity": str(row["severity"] or "info") if "severity" in row.keys() else "info",
+        "provider": row["provider"] if "provider" in row.keys() else None,
+        "model": row["model"] if "model" in row.keys() else None,
+        "task": row["task"] if "task" in row.keys() else None,
+        "timestamp": str(row["timestamp"]),
+        "estimated": bool(row["estimated"]) if "estimated" in row.keys() else False,
+        "metadata": _load_json(row["metadata_json"], {}),
+    }
 
 
 def _span_row_to_dict(row: sqlite3.Row) -> dict[str, Any]:

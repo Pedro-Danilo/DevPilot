@@ -2,7 +2,7 @@
 title: "AgentOps Observability Card — DevPilot Local"
 doc_id: "DEVPL-MIASI-OBSERVABILITY"
 status: "approved"
-version: "1.1.0"
+version: "1.2.0"
 owner: "Ordóñez"
 standard: "MIASI"
 parent_standard: "MIPSoftware"
@@ -197,3 +197,17 @@ El futuro `agentops status` de `FUNC-SPRINT-63` deberá evaluar al menos:
 ## 17. Riesgos y límites
 
 Esta card queda en versión `1.1.0` como contrato inicial. No equivale a un dashboard AgentOps industrial ni a trazas distribuidas. La calidad industrial llegará al cerrar Fase E con spans persistidos, métricas consultables, CLI de inspección, exporter dry-run y AgentOps Quality Gate.
+
+
+## 18. Actualización FUNC-SPRINT-59 — Métricas MIASI locales
+
+`FUNC-SPRINT-59` agrega `MetricRecord` y `MetricsCollector` como contrato ejecutable inicial para métricas AgentOps. Desde MIASI, toda métrica debe ser local, redactada, correlacionable cuando exista `trace_id`, y no debe alterar la semántica funcional de agentes, tools, policies o modelos.
+
+| Dominio MIASI | Métrica mínima | Estado Sprint 59 |
+|---|---|---|
+| Command | conteo por estado y duración opcional | implementado en CLI helper |
+| Agent | conteo/duración vía API `record_agent_operation` | API lista; runtime pendiente Sprint 60 |
+| Tool | conteo/duración vía API `record_tool_operation` | API lista; runtime pendiente Sprint 60 |
+| Model | provider/model/task/tokens/costo estimado | mock instrumentado |
+
+Criterio BLOCK MIASI: ninguna métrica puede persistir prompt completo, completion cruda, argumentos sensibles, secretos, diffs, patches o salida de proceso. `cost_estimate_usd` y `tokens_estimated` deben tratarse como estimaciones salvo que un proveedor futuro entregue medición confiable y aprobada.

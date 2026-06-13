@@ -2,7 +2,7 @@
 title: "DevPilot Local — Backlog ejecutable posterior a pre-code"
 doc_id: "DEVPL-FUNC-BACKLOG-001"
 status: "approved"
-version: "3.4.0"
+version: "3.5.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
@@ -14,7 +14,7 @@ change_policy: "controlled_changes_allowed_via_docs_as_code"
 approved_on: "2026-06-06"
 approval_scope: "functional_backlog_after_precode"
 baseline_execution: "FUNC-SPRINT-00"
-next_sprint: "FUNC-SPRINT-59"
+next_sprint: "FUNC-SPRINT-60"
 ---
 
 # DevPilot Local — Backlog ejecutable posterior a pre-code
@@ -2190,3 +2190,8 @@ El siguiente sprint operativo es `FUNC-SPRINT-58 — TraceStore y EventLogger v2
 `FUNC-SPRINT-58 — TraceStore y EventLogger v2 compatible` queda implementado como primera persistencia consultable de observabilidad v2. DevPilot conserva `EventLogger` JSONL como evidencia append-only y agrega `TraceStore`/SQLite para spans y eventos correlacionables por `trace_id`.
 
 El siguiente sprint operativo es `FUNC-SPRINT-59 — MetricsCollector para comandos, agentes, tools y modelos`, que deberá agregar métricas locales sobre la base de `TraceContext`, `SpanRecord`, `TraceStore` y `LocalStore`.
+
+
+## Transición posterior a FUNC-SPRINT-59
+
+`FUNC-SPRINT-59` agrega la capa inicial de métricas locales de AgentOps mediante `MetricRecord`, `MetricsCollector`, extensión de `LocalStore` y registro best-effort de comandos/model calls mock. El siguiente sprint operativo es `FUNC-SPRINT-60 — Instrumentación agentic: agentes, tools, approvals y model calls`, que deberá conectar estas métricas y spans con el runtime agentic real sin cambiar semántica funcional ni persistir payloads crudos.

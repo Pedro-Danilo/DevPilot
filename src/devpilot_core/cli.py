@@ -13,7 +13,7 @@ from .application import ApplicationService
 from .cli_models import CommandResult, ExitCode, Finding, Severity
 from .errors import DevPilotError
 from .evals import EvalRunner
-from .observability import EventLogger
+from .observability import EventLogger, MetricsCollector
 from .miasi import MiasiRegistryValidator
 from .modeling import BudgetLedger, CapabilityMatrix, ModelAdapterRouter, ModelEvalRunner, ModelEvalRunnerConfig, ModelHealthService, ModelRouterConfig
 from .policy import CostPolicy, PolicyEngine, PolicyRequest, load_cost_policy
@@ -167,7 +167,12 @@ def _persist_result(root: Path, result: CommandResult, *, subject: str | Path | 
     except Exception:
         # Existing gates must remain stable. Store diagnostics are handled by
         # `state status`/`state init` and future observability hardening.
-        return result
+        pass
+    try:
+        MetricsCollector(root).record_command_result(result, subject=subject, metadata={"component": "CLI"})
+    except Exception:
+        # FUNC-SPRINT-59 metrics are best-effort and must never change command semantics.
+        pass
     return result
 
 def _emit_result_event(root: Path, result: CommandResult, *, subject: str | Path | None = None) -> None:

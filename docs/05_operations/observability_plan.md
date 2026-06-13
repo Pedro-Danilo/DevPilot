@@ -2,7 +2,7 @@
 title: "Observability Plan — DevPilot Local"
 doc_id: "DEVPL-OPS-001"
 status: "approved"
-version: "1.2.0"
+version: "1.3.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
@@ -280,3 +280,24 @@ Sprint 58 materializa la primera persistencia local de observabilidad v2. El pla
 `EventLogger` conserva su API histórica y puede aceptar opcionalmente `TraceContext`/`SpanRecord` para enriquecer eventos con `trace_id`, `run_id`, `span_id` y `parent_span_id`. `TraceStore` escribe proyecciones consultables en SQLite, pero no reemplaza el JSONL como evidencia append-only.
 
 La implementación no agrega OpenTelemetry SDK, exporter remoto ni CLI pública de consulta. `trace report`, `trace inspect` y `metrics summary` siguen planificados para sprints posteriores.
+
+
+## 19. Actualización FUNC-SPRINT-59 — MetricsCollector local
+
+Sprint 59 materializa la señal `metric` definida por `ADR-0012` mediante `MetricRecord` y `MetricsCollector`. Las métricas son locales, simples y best-effort: un fallo de métricas no puede alterar el resultado funcional de un comando, agente, tool o model call.
+
+| Dominio | Métricas iniciales | Estado |
+|---|---|---|
+| Comandos | `devpilot.command.completed_total`, duración opcional | implementado inicial |
+| Agentes | `devpilot.agent.<operation>` mediante API del colector | API implementada, runtime pendiente Sprint 60 |
+| Tools | `devpilot.tool.<operation>` mediante API del colector | API implementada, runtime pendiente Sprint 60 |
+| Modelos | `devpilot.model.calls_total`, `tokens_estimated`, `cost_estimate_usd` | mock instrumentado |
+
+Reglas de seguridad:
+
+- no guardar prompts completos, completions crudas, diffs, patches, stdout/stderr ni secretos como metadata;
+- marcar costos/tokens como `estimated` cuando no provienen de medición real;
+- mantener `mock` como ruta hermética sin costo externo real;
+- no activar exporter, OpenTelemetry SDK ni telemetría remota.
+
+Esta versión no entrega todavía `metrics summary` como CLI pública. La consulta programática queda disponible mediante `MetricsCollector.summary()` y se expondrá por CLI en Sprint 61.

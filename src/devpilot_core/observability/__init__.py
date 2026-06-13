@@ -1,3 +1,4 @@
+from .metrics import MetricRecord, MetricsCollector, sanitize_metric_metadata
 from .events import (
     DEFAULT_EVENTS_PATH,
     REDACTED,
@@ -30,6 +31,9 @@ __all__ = [
     "redact_sensitive_data",
     "redact_sensitive_string",
     "summarize_command_data",
+    "MetricRecord",
+    "MetricsCollector",
+    "sanitize_metric_metadata",
     "TraceStore",
     "SpanRecord",
     "SpanStatus",

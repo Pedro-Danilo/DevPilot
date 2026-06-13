@@ -2,13 +2,13 @@
 title: "DevPilot Local — Backlog ejecutable Fase E: AgentOps y observabilidad"
 doc_id: "DEVPL-FUNC-BACKLOG-FASE-E-001"
 status: "approved"
-version: "0.4.0"
+version: "0.5.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
 phase: "FASE-E-AGENTOPS-OBSERVABILIDAD"
 updated: "2026-06-13"
-source_repo: "repo_DevPilot_Local_69.zip"
+source_repo: "repo_DevPilot_Local_70.zip"
 source_report: "Informe de avance DevPilot - sprint 0 - 18.docx"
 source_backlog_model: "docs/functional_backlog_after_precode.md"
 baseline_dependency: "Fases A, B, C y D cerradas; Fase D validada por FUNC-SPRINT-55"
@@ -18,9 +18,9 @@ change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "phase_e_executable_backlog_review"
 approved_on: "2026-06-13"
 approval: "approved_after_phase_d_closure_review"
-first_open_sprint: "FUNC-SPRINT-59"
-last_completed_sprint: "FUNC-SPRINT-58"
-next_sprint: "FUNC-SPRINT-59"
+first_open_sprint: "FUNC-SPRINT-60"
+last_completed_sprint: "FUNC-SPRINT-59"
+next_sprint: "FUNC-SPRINT-60"
 phase_e_status: "in_progress"
 ---
 
@@ -518,6 +518,16 @@ python -m pytest -q
 ```text
 Implementa FUNC-SPRINT-59: MetricsCollector local para comandos/agentes/tools/modelos. Mantén métricas best-effort, redacción obligatoria y sin dependencias externas.
 ```
+
+
+
+## Estado de implementación Sprint 59
+
+`FUNC-SPRINT-59 — MetricsCollector para comandos, agentes, tools y modelos` queda implementado en estado `implemented-initial`. La implementación crea `MetricRecord` y `MetricsCollector`, extiende `LocalStore` con schema `0004_metrics_collector_v1`, registra métricas best-effort desde el helper CLI `_persist_result`, instrumenta `ModelAdapterRouter` para métricas del proveedor `mock` y agrega pruebas de serialización, persistencia, resumen agregado, migración legacy y redacción.
+
+La capacidad no entrega todavía CLI pública `metrics summary`, instrumentación completa de `AgentRuntime`, `PolicyEngine`, `ApprovalWorkflow` ni tool calls reales. Es una primera versión de métricas locales que debe evolucionar en `FUNC-SPRINT-60` a instrumentación agentic completa y en `FUNC-SPRINT-61` a comandos de consulta/reportes.
+
+Siguiente sprint operativo: `FUNC-SPRINT-60 — Instrumentación agentic: agentes, tools, approvals y model calls`.
 
 ## FUNC-SPRINT-60 — Instrumentación agentic: agentes, tools, approvals y model calls
 

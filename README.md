@@ -1,8 +1,8 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
 Estado actual: `baseline pre-code approved + Fase A cerrada + Fase B cerrada + Fase C cerrada + Fase D cerrada + Fase E en progreso`  
-Último hito: `FUNC-SPRINT-58 — TraceStore y EventLogger v2 compatible`  
-Siguiente hito: `FUNC-SPRINT-59 — MetricsCollector para comandos, agentes, tools y modelos`  
+Último hito: `FUNC-SPRINT-59 — MetricsCollector para comandos, agentes, tools y modelos`  
+Siguiente hito: `FUNC-SPRINT-60 — Instrumentación agentic: agentes, tools, approvals y model calls`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
@@ -78,6 +78,25 @@ python -m devpilot_core schema validate-manifest docs/functional_sprint_58_manif
 ```
 
 Criterios `PASS`: JSONL histórico sigue funcionando, SQLite persiste spans, `state status` no falla con el schema nuevo, eventos nuevos pueden incluir `trace_id` y la migración es idempotente. Criterios `BLOCK`: versionar `.devpilot/devpilot.db`, romper `history list`, requerir servicios externos, exponer secretos o activar telemetría remota.
+
+## FUNC-SPRINT-59 — MetricsCollector para comandos, agentes, tools y modelos
+
+`FUNC-SPRINT-59` implementa el nivel FE-L3 de Fase E: métricas locales y best-effort para comandos, agentes, tools y modelos. La implementación crea `MetricRecord` y `MetricsCollector`, amplía la tabla SQLite `metrics`, registra métricas de comandos desde la envoltura CLI `_persist_result` e instrumenta el `ModelAdapterRouter` para registrar métricas del proveedor `mock` sin costo externo real.
+
+Estado: `implemented-initial`. Esta versión no introduce CLI pública `metrics summary`, no instrumenta todavía todo `AgentRuntime`, `PolicyEngine`, `ApprovalWorkflow` ni tool calls reales. Es una base industrial inicial para que `FUNC-SPRINT-60` agregue instrumentación agentic completa y `FUNC-SPRINT-61` exponga comandos de consulta.
+
+Comandos principales:
+
+```powershell
+python -m devpilot_core state init --json
+python -m devpilot_core model providers --json
+python -m devpilot_core model generate --provider mock --prompt "hello" --json
+python -m pytest tests/test_metrics_collector.py -q
+python -m pytest tests/test_trace_store.py tests/test_event_logger.py tests/test_trace_context.py tests/test_local_store.py tests/test_metrics_collector.py tests/test_sprint_59_documentation.py -q
+```
+
+PASS: métricas locales persisten sin red, `mock` registra provider/model/task/tokens estimados/costo estimado `0.0`, comandos generan conteos por estado, `state init/status` funcionan con `schema_version=0004_metrics_collector_v1` y no se guardan prompts, secretos, completions, diffs ni stdout/stderr crudos. BLOCK: dependencia externa obligatoria, telemetría remota, prompts crudos en métricas, fallo si la DB no existe o cambio funcional en comandos/modelos causado por observabilidad.
+
 
 ## FUNC-SPRINT-45 — ADR y contratos de proveedores locales
 
