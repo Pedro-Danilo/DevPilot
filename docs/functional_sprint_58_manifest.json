@@ -1,0 +1,131 @@
+{
+  "sprint": "FUNC-SPRINT-58",
+  "title": "TraceStore y EventLogger v2 compatible",
+  "status": "implemented",
+  "implemented_at": "2026-06-13",
+  "phase": "FASE-E-AGENTOPS-OBSERVABILIDAD",
+  "wave": "Ola 8 — Observabilidad avanzada y AgentOps",
+  "source_backlog": "docs/devpilot_backlog_fase_E_agentops_observabilidad.md",
+  "architectural_decision": {
+    "required": false,
+    "adr": "docs/02_architecture/adrs/ADR-0012-observability-v2-agentops.md",
+    "reason": "FUNC-SPRINT-58 implementa la persistencia local definida por ADR-0012 y por el backlog Fase E; no introduce exporters, red ni una decisión arquitectónica nueva."
+  },
+  "summary": {
+    "implementation_level": "implemented-initial",
+    "trace_store_added": true,
+    "sqlite_spans_added": true,
+    "sqlite_metrics_table_prepared": true,
+    "event_logger_v2_compatible": true,
+    "external_dependencies_added": false,
+    "remote_telemetry_enabled": false,
+    "network_required": false,
+    "external_api_used": false,
+    "mutations_runtime": false,
+    "next_runtime_sprint": "FUNC-SPRINT-59"
+  },
+  "created_files": [
+    "src/devpilot_core/observability/trace_store.py",
+    "tests/test_trace_store.py",
+    "docs/audits/func_sprint_58_trace_store_audit.md",
+    "docs/functional_sprint_58_manifest.json",
+    "tests/test_sprint_58_documentation.py"
+  ],
+  "modified_files": [
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/05_operations/observability_plan.md",
+    "docs/devpilot_backlog_fase_E_agentops_observabilidad.md",
+    "docs/functional_backlog_after_precode.md",
+    "src/devpilot_core/observability/__init__.py",
+    "src/devpilot_core/observability/events.py",
+    "src/devpilot_core/store/local_store.py",
+    "tests/test_local_store.py",
+    "tests/test_approval_store.py",
+    "tests/test_sprint_32_documentation.py",
+    "tests/test_sprint_33_documentation.py",
+    "tests/test_sprint_34_documentation.py",
+    "tests/test_sprint_35_documentation.py",
+    "tests/test_sprint_36_documentation.py",
+    "tests/test_sprint_37_documentation.py",
+    "tests/test_sprint_38_documentation.py",
+    "tests/test_sprint_39_documentation.py",
+    "tests/test_sprint_40_documentation.py",
+    "tests/test_sprint_41_documentation.py",
+    "tests/test_sprint_42_documentation.py",
+    "tests/test_sprint_43_documentation.py",
+    "tests/test_sprint_44_documentation.py",
+    "tests/test_sprint_45_documentation.py",
+    "tests/test_sprint_46_documentation.py",
+    "tests/test_sprint_47_documentation.py",
+    "tests/test_sprint_48_documentation.py",
+    "tests/test_sprint_49_documentation.py",
+    "tests/test_sprint_50_documentation.py",
+    "tests/test_sprint_51_documentation.py",
+    "tests/test_sprint_52_documentation.py",
+    "tests/test_sprint_53_documentation.py",
+    "tests/test_sprint_54_documentation.py",
+    "tests/test_sprint_55_documentation.py",
+    "tests/test_sprint_56_documentation.py",
+    "tests/test_sprint_57_documentation.py"
+  ],
+  "commands": [
+    "python -m devpilot_core state init --json",
+    "python -m devpilot_core state status --json",
+    "python -m pytest tests/test_trace_store.py -q",
+    "python -m pytest tests/test_event_logger.py tests/test_trace_context.py tests/test_local_store.py -q",
+    "python -m devpilot_core validate-artifact docs/audits/func_sprint_58_trace_store_audit.md --json",
+    "python -m devpilot_core schema validate-manifest docs/functional_sprint_58_manifest.json --json",
+    "python -m devpilot_core validate all --json",
+    "python -m pytest -q"
+  ],
+  "tests": [
+    "tests/test_trace_store.py",
+    "tests/test_event_logger.py",
+    "tests/test_trace_context.py",
+    "tests/test_local_store.py",
+    "tests/test_sprint_58_documentation.py",
+    "schema validate-manifest",
+    "validate all",
+    "pytest -q"
+  ],
+  "pass_criteria": [
+    "TraceStore persiste y consulta spans por trace_id.",
+    "TraceStore persiste eventos correlacionables por trace_id.",
+    "EventLogger JSONL conserva compatibilidad v1.",
+    "EventLogger acepta TraceContext y SpanRecord opcionales.",
+    "LocalStore migra events con trace_id/span_id/parent_span_id de forma idempotente.",
+    "LocalStore crea tablas spans y metrics sin romper state status ni history list.",
+    "No se agregan dependencias externas ni exporters activos."
+  ],
+  "block_criteria": [
+    "Se versiona .devpilot/devpilot.db.",
+    "Se rompe EventLogger actual.",
+    "Se rompe history list o state status.",
+    "La migración SQLite falla sobre una base existente.",
+    "Se agrega OpenTelemetry SDK obligatorio o telemetría remota.",
+    "Se persisten prompts, completions, diffs, patches, stdout/stderr o secretos crudos."
+  ],
+  "risks": [
+    {
+      "id": "RISK-FUNC-58-001",
+      "risk": "Migración SQLite frágil",
+      "mitigation": "Agregar tablas/columnas con operaciones idempotentes y pruebas sobre tabla events legacy."
+    },
+    {
+      "id": "RISK-FUNC-58-002",
+      "risk": "Duplicidad de señales entre JSONL y SQLite",
+      "mitigation": "Documentar JSONL como evidencia append-only y SQLite como proyección consultable."
+    },
+    {
+      "id": "RISK-FUNC-58-003",
+      "risk": "Crecimiento de storage",
+      "mitigation": "Preparar retención futura; no bloquear Sprint 58."
+    }
+  ],
+  "next_sprint": "FUNC-SPRINT-59 — MetricsCollector para comandos, agentes, tools y modelos",
+  "corrective_adjustments": [
+    "Se ajustó el test de aprobación que esperaba una versión fija de schema SQLite para usar SCHEMA_VERSION y no bloquear migraciones posteriores.",
+    "Se actualizó la documentación de Fase E para reflejar que Sprint 58 entrega persistencia inicial de trazas, pero no CLI pública ni métricas agregadas."
+  ]
+}

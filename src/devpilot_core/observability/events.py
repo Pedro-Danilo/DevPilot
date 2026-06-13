@@ -8,6 +8,7 @@ from pathlib import Path
 from typing import Any
 
 from devpilot_core.cli_models import CommandResult
+from devpilot_core.observability.tracing import SpanRecord, TraceContext
 
 DEFAULT_EVENTS_PATH = "outputs/traces/events.jsonl"
 
@@ -41,6 +42,10 @@ class EventRecord:
     exit_code: int | None = None
     message: str | None = None
     subject: str | None = None
+    trace_id: str | None = None
+    run_id: str | None = None
+    span_id: str | None = None
+    parent_span_id: str | None = None
     summary: dict[str, Any] = field(default_factory=dict)
     findings: list[dict[str, Any]] = field(default_factory=list)
     metadata: dict[str, Any] = field(default_factory=dict)
@@ -61,6 +66,10 @@ class EventRecord:
             "exit_code": self.exit_code,
             "message": self.message,
             "subject": self.subject,
+            "trace_id": self.trace_id,
+            "run_id": self.run_id,
+            "span_id": self.span_id,
+            "parent_span_id": self.parent_span_id,
             "summary": self.summary,
             "findings": self.findings,
             "metadata": self.metadata,
@@ -96,11 +105,33 @@ class EventLogger:
         self.root = root.resolve()
         self.events_path = self._resolve_events_path(events_path)
 
-    def emit(self, event: EventRecord) -> EventWriteResult:
-        """Append one redacted event as a single JSONL line."""
+    def emit(
+        self,
+        event: EventRecord,
+        *,
+        trace_context: TraceContext | None = None,
+        span: SpanRecord | None = None,
+    ) -> EventWriteResult:
+        """Append one redacted event as a single JSONL line.
+
+        The optional trace/span arguments are the FUNC-SPRINT-58 v2 extension.
+        Existing callers can still pass only EventRecord and get the historical
+        JSONL behavior.
+        """
 
         self.events_path.parent.mkdir(parents=True, exist_ok=True)
-        payload = redact_sensitive_data(event.to_dict())
+        payload = event.to_dict()
+        if trace_context is not None:
+            payload.setdefault("trace_id", trace_context.trace_id)
+            payload.setdefault("run_id", trace_context.run_id)
+        if span is not None:
+            payload.setdefault("trace_id", span.trace_id)
+            if span.run_id:
+                payload.setdefault("run_id", span.run_id)
+            payload.setdefault("span_id", span.span_id)
+            if span.parent_span_id:
+                payload.setdefault("parent_span_id", span.parent_span_id)
+        payload = redact_sensitive_data(payload)
         with self.events_path.open("a", encoding="utf-8") as file:
             file.write(json.dumps(payload, ensure_ascii=False, sort_keys=True))
             file.write("\n")
@@ -108,7 +139,14 @@ class EventLogger:
             path=_relative(self.events_path, self.root), event_id=str(payload["event_id"]), event_type=str(payload["event_type"])
         )
 
-    def emit_started(self, command: str, *, argv: list[str] | None = None, metadata: dict[str, Any] | None = None) -> EventWriteResult:
+    def emit_started(
+        self,
+        command: str,
+        *,
+        argv: list[str] | None = None,
+        metadata: dict[str, Any] | None = None,
+        trace_context: TraceContext | None = None,
+    ) -> EventWriteResult:
         """Emit a command.started event before command dispatch."""
 
         return self.emit(
@@ -117,7 +155,8 @@ class EventLogger:
                 command=command,
                 message="Command execution started.",
                 metadata={"argv": argv or [], **(metadata or {})},
-            )
+            ),
+            trace_context=trace_context,
         )
 
     def emit_completed(
@@ -128,6 +167,7 @@ class EventLogger:
         ok: bool,
         message: str = "Command execution completed.",
         metadata: dict[str, Any] | None = None,
+        trace_context: TraceContext | None = None,
     ) -> EventWriteResult:
         """Emit a command.completed event after command dispatch."""
 
@@ -140,7 +180,8 @@ class EventLogger:
                 exit_code=exit_code,
                 message=message,
                 metadata=metadata or {},
-            )
+            ),
+            trace_context=trace_context,
         )
 
     def emit_error(
@@ -150,6 +191,7 @@ class EventLogger:
         error: Exception,
         exit_code: int,
         metadata: dict[str, Any] | None = None,
+        trace_context: TraceContext | None = None,
     ) -> EventWriteResult:
         """Emit a command.error event for handled CLI exceptions."""
 
@@ -163,13 +205,26 @@ class EventLogger:
                 exit_code=exit_code,
                 message=str(error),
                 metadata=metadata or {},
-            )
+            ),
+            trace_context=trace_context,
         )
 
-    def emit_result(self, result: CommandResult, *, event_type: str = "gate.evaluated", subject: str | Path | None = None) -> EventWriteResult:
+    def emit_result(
+        self,
+        result: CommandResult,
+        *,
+        event_type: str = "gate.evaluated",
+        subject: str | Path | None = None,
+        trace_context: TraceContext | None = None,
+        span: SpanRecord | None = None,
+    ) -> EventWriteResult:
         """Emit a result-derived event for gates and validators."""
 
-        return self.emit(event_from_command_result(result, event_type=event_type, subject=subject))
+        return self.emit(
+            event_from_command_result(result, event_type=event_type, subject=subject, trace_context=trace_context, span=span),
+            trace_context=trace_context,
+            span=span,
+        )
 
     def _resolve_events_path(self, events_path: str | Path) -> Path:
         candidate = Path(events_path)
@@ -188,6 +243,8 @@ def event_from_command_result(
     *,
     event_type: str = "gate.evaluated",
     subject: str | Path | None = None,
+    trace_context: TraceContext | None = None,
+    span: SpanRecord | None = None,
 ) -> EventRecord:
     """Build a compact event from the common CLI `CommandResult`."""
 
@@ -201,6 +258,10 @@ def event_from_command_result(
         exit_code=int(result.exit_code),
         message=result.message,
         subject=str(subject).replace("\\", "/") if subject is not None else None,
+        trace_id=trace_context.trace_id if trace_context else (span.trace_id if span else None),
+        run_id=trace_context.run_id if trace_context else (span.run_id if span else None),
+        span_id=span.span_id if span else None,
+        parent_span_id=span.parent_span_id if span else None,
         summary=summarize_command_data(data),
         findings=[finding.to_dict() for finding in result.findings],
         metadata={"findings_total": len(result.findings)},

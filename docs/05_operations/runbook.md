@@ -2,7 +2,7 @@
 title: "Runbook — DevPilot Local"
 doc_id: "DEVPL-OPS-002"
 status: "approved"
-version: "1.18.0"
+version: "1.19.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
@@ -3383,3 +3383,51 @@ python -m devpilot_core validate all --json
 - **Contrato preliminar:** los campos pueden ampliarse en Sprint 58-60 al instrumentar runtime y persistencia.
 - **Redacción conservadora:** algunas claves genéricas como `content`, `stdout` o `diff` se redactorizan por defecto para evitar fugas.
 - **Sin persistencia todavía:** la existencia de `TraceContext` no implica que DevPilot ya tenga trace store consultable.
+
+
+## FUNC-SPRINT-58 — Operación de TraceStore y EventLogger v2 compatible
+
+`FUNC-SPRINT-58` agrega persistencia local de trazas consultables sin reemplazar el log JSONL existente. La regla operativa es:
+
+```text
+EventLogger JSONL = evidencia append-only local
+TraceStore SQLite = proyección consultable de spans/eventos
+```
+
+### Propósito operativo
+
+Permitir que una ejecución pueda conservar spans y eventos correlacionables por `trace_id`, manteniendo compatibilidad con el comportamiento histórico de `EventLogger`. Esta versión es `implemented-initial`: aún no expone comandos `trace report` o `trace inspect`, pero deja la base de almacenamiento para Sprint 61.
+
+### Comandos de verificación
+
+```powershell
+python -m devpilot_core state init --json
+python -m devpilot_core state status --json
+python -m pytest tests/test_trace_store.py -q
+python -m pytest tests/test_event_logger.py tests/test_trace_context.py tests/test_local_store.py -q
+```
+
+### Criterios PASS
+
+- `TraceStore` persiste y consulta spans por `trace_id`.
+- `EventLogger` sigue escribiendo `outputs/traces/events.jsonl` sin romper llamadas v1.
+- Eventos nuevos pueden incorporar `trace_id`, `run_id`, `span_id` y `parent_span_id`.
+- `LocalStore` migra de forma idempotente y conserva `history list`.
+- `state status` reporta tablas `spans` y `metrics` sin requerir red ni servicios externos.
+
+### Criterios BLOCK
+
+- Se versiona `.devpilot/devpilot.db`.
+- Se rompe la compatibilidad de `EventLogger`.
+- Se rompe `history list` o la inicialización de estado.
+- Se requiere OpenTelemetry, collector externo o red.
+- Se almacenan prompts, completions, diffs, patches, stdout/stderr o secretos sin redacción.
+
+### Riesgos
+
+| Riesgo | Estado | Mitigación |
+|---|---|---|
+| Duplicidad JSONL/SQLite | Aceptado | JSONL conserva evidencia append-only; SQLite funciona como proyección consultable. |
+| Crecimiento de almacenamiento | Pendiente | Retención y compactación quedan para evolución posterior. |
+| Migración de DB existente | Controlado | Se usan `CREATE TABLE IF NOT EXISTS` y `ALTER TABLE` idempotente. |
+| Sin CLI de consulta | Por diseño | `trace report`/`trace inspect` quedan para Sprint 61. |

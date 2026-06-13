@@ -2,7 +2,7 @@
 title: "DevPilot Local — Backlog ejecutable posterior a pre-code"
 doc_id: "DEVPL-FUNC-BACKLOG-001"
 status: "approved"
-version: "3.3.0"
+version: "3.4.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
@@ -14,7 +14,7 @@ change_policy: "controlled_changes_allowed_via_docs_as_code"
 approved_on: "2026-06-06"
 approval_scope: "functional_backlog_after_precode"
 baseline_execution: "FUNC-SPRINT-00"
-next_sprint: "FUNC-SPRINT-58"
+next_sprint: "FUNC-SPRINT-59"
 ---
 
 # DevPilot Local — Backlog ejecutable posterior a pre-code
@@ -2183,3 +2183,10 @@ La transición mantiene explícitamente bloqueados: telemetría remota, exporter
 `FUNC-SPRINT-57 — TraceContext y modelo de spans` queda implementado como primera capacidad runtime de observabilidad v2. Se incorporan contratos internos serializables para `TraceContext`, `SpanRecord`, `SpanStatus`, generación de ids y redacción de payloads sensibles, sin persistencia, sin CLI de consulta y sin dependencias externas.
 
 El siguiente sprint operativo es `FUNC-SPRINT-58 — TraceStore y EventLogger v2 compatible`, que deberá persistir spans/eventos de forma local y mantener compatibilidad con JSONL actual.
+
+
+## Transición posterior a FUNC-SPRINT-58
+
+`FUNC-SPRINT-58 — TraceStore y EventLogger v2 compatible` queda implementado como primera persistencia consultable de observabilidad v2. DevPilot conserva `EventLogger` JSONL como evidencia append-only y agrega `TraceStore`/SQLite para spans y eventos correlacionables por `trace_id`.
+
+El siguiente sprint operativo es `FUNC-SPRINT-59 — MetricsCollector para comandos, agentes, tools y modelos`, que deberá agregar métricas locales sobre la base de `TraceContext`, `SpanRecord`, `TraceStore` y `LocalStore`.

@@ -12,7 +12,7 @@ from typing import Any, Iterable, Iterator
 from devpilot_core.cli_models import CommandResult, ExitCode, Finding, Severity
 
 DEFAULT_DB_PATH = ".devpilot/devpilot.db"
-SCHEMA_VERSION = "0002_approval_operational_v1"
+SCHEMA_VERSION = "0003_trace_store_v1"
 
 
 @dataclass(frozen=True)
@@ -210,27 +210,37 @@ class LocalStore:
         summary: dict[str, Any] | None = None,
         metadata: dict[str, Any] | None = None,
         run_id: str | None = None,
+        trace_id: str | None = None,
+        span_id: str | None = None,
+        parent_span_id: str | None = None,
     ) -> str:
         """Persist one event projection in SQLite.
 
-        This is a v0 companion to JSONL EventLog. FUNC-SPRINT-10 exposes the
-        table and API but does not yet mirror every JSONL line automatically.
+        FUNC-SPRINT-58 keeps the historical event projection compatible while
+        adding optional trace/span correlation columns. Callers that do not
+        provide trace metadata get the exact v1 behavior.
         """
 
         self.db_path.parent.mkdir(parents=True, exist_ok=True)
         event_id = uuid.uuid4().hex
         with self._connect() as conn:
             self._apply_schema(conn)
+            if run_id:
+                self._ensure_run_exists(conn, run_id=run_id, command=command, ok=ok, exit_code=exit_code, status=status)
             conn.execute(
                 """
                 INSERT INTO events (
-                    event_id, run_id, event_type, command, status, ok, exit_code,
+                    event_id, run_id, trace_id, span_id, parent_span_id,
+                    event_type, command, status, ok, exit_code,
                     timestamp, subject, summary_json, metadata_json
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                 """,
                 (
                     event_id,
                     run_id,
+                    trace_id,
+                    span_id,
+                    parent_span_id,
                     event_type,
                     command,
                     status,
@@ -244,6 +254,106 @@ class LocalStore:
             )
             conn.commit()
         return event_id
+
+    def record_span(self, span: Any) -> str:
+        """Persist one redacted SpanRecord-compatible payload.
+
+        The method accepts a SpanRecord or a plain dictionary with the same
+        serialized shape. It is intentionally dependency-light to avoid a hard
+        coupling from the store package back into observability models.
+        """
+
+        payload = span.to_dict() if hasattr(span, "to_dict") else dict(span)
+        span_id = str(payload["span_id"])
+        self.db_path.parent.mkdir(parents=True, exist_ok=True)
+        with self._connect() as conn:
+            self._apply_schema(conn)
+            conn.execute(
+                """
+                INSERT OR REPLACE INTO spans (
+                    span_id, trace_id, run_id, parent_span_id, name, span_type,
+                    status, severity, subject, started_at, ended_at, duration_ms,
+                    payload_json, metadata_json, findings_json
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                """,
+                (
+                    span_id,
+                    str(payload["trace_id"]),
+                    payload.get("run_id"),
+                    payload.get("parent_span_id"),
+                    str(payload["name"]),
+                    str(payload["span_type"]),
+                    str(payload["status"]),
+                    str(payload.get("severity") or "info"),
+                    payload.get("subject"),
+                    str(payload["started_at"]),
+                    payload.get("ended_at"),
+                    payload.get("duration_ms"),
+                    _json(payload.get("payload") or {}),
+                    _json(payload.get("metadata") or {}),
+                    _json(payload.get("findings") or []),
+                ),
+            )
+            conn.commit()
+        return span_id
+
+    def list_spans(self, *, trace_id: str | None = None, limit: int = 20) -> list[dict[str, Any]]:
+        """Return recent spans, optionally scoped by trace id."""
+
+        safe_limit = max(1, min(int(limit), 100))
+        if not self.db_path.exists():
+            return []
+        with self._connect() as conn:
+            self._apply_schema(conn)
+            if trace_id:
+                rows = conn.execute(
+                    """
+                    SELECT * FROM spans
+                    WHERE trace_id = ?
+                    ORDER BY started_at ASC, rowid ASC
+                    LIMIT ?
+                    """,
+                    (trace_id, safe_limit),
+                ).fetchall()
+            else:
+                rows = conn.execute(
+                    """
+                    SELECT * FROM spans
+                    ORDER BY started_at DESC, rowid DESC
+                    LIMIT ?
+                    """,
+                    (safe_limit,),
+                ).fetchall()
+        return [_span_row_to_dict(row) for row in rows]
+
+    def list_events(self, *, trace_id: str | None = None, limit: int = 20) -> list[dict[str, Any]]:
+        """Return recent event projections, optionally scoped by trace id."""
+
+        safe_limit = max(1, min(int(limit), 100))
+        if not self.db_path.exists():
+            return []
+        with self._connect() as conn:
+            self._apply_schema(conn)
+            if trace_id:
+                rows = conn.execute(
+                    """
+                    SELECT * FROM events
+                    WHERE trace_id = ?
+                    ORDER BY timestamp ASC, rowid ASC
+                    LIMIT ?
+                    """,
+                    (trace_id, safe_limit),
+                ).fetchall()
+            else:
+                rows = conn.execute(
+                    """
+                    SELECT * FROM events
+                    ORDER BY timestamp DESC, rowid DESC
+                    LIMIT ?
+                    """,
+                    (safe_limit,),
+                ).fetchall()
+        return [_event_row_to_dict(row) for row in rows]
 
     def record_cost_event(
         self,
@@ -575,11 +685,57 @@ class LocalStore:
     def _apply_schema(self, conn: sqlite3.Connection) -> None:
         conn.executescript(SCHEMA_SQL)
         self._migrate_approvals_v1(conn)
+        self._migrate_observability_v2(conn)
         conn.execute(
             "INSERT OR IGNORE INTO schema_migrations(version, applied_at) VALUES (?, ?)",
             (SCHEMA_VERSION, utc_now_iso()),
         )
         conn.commit()
+
+    def _ensure_run_exists(
+        self,
+        conn: sqlite3.Connection,
+        *,
+        run_id: str,
+        command: str,
+        ok: bool | None = None,
+        exit_code: int | None = None,
+        status: str | None = None,
+    ) -> None:
+        """Create a minimal run row when trace-only events reference run_id.
+
+        The events table keeps its historical foreign key to runs. TraceStore
+        can receive a TraceContext before a full CommandResult exists, so Sprint
+        58 records a minimal placeholder run rather than dropping correlation.
+        """
+
+        exists = conn.execute("SELECT 1 FROM runs WHERE run_id = ?", (run_id,)).fetchone()
+        if exists:
+            return
+        now = utc_now_iso()
+        ok_value = True if ok is None else bool(ok)
+        exit_value = 0 if exit_code is None else int(exit_code)
+        message = status or ("PASS" if ok_value else "FAIL")
+        conn.execute(
+            """
+            INSERT INTO runs (
+                run_id, command, ok, exit_code, message, subject,
+                started_at, completed_at, metadata_json, result_json
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """,
+            (
+                run_id,
+                command,
+                int(ok_value),
+                exit_value,
+                f"TraceStore placeholder run: {message}",
+                None,
+                now,
+                now,
+                _json({"component": "TraceStore", "placeholder": True}),
+                _json({"command": command, "ok": ok_value, "exit_code": exit_value, "message": message}),
+            ),
+        )
 
     def _migrate_approvals_v1(self, conn: sqlite3.Connection) -> None:
         """Add Sprint 28 operational approval columns without deleting old data."""
@@ -606,6 +762,23 @@ class LocalStore:
         conn.execute("UPDATE approvals SET decided_by = approver WHERE decided_by IS NULL AND approver IS NOT NULL")
         conn.execute("CREATE INDEX IF NOT EXISTS idx_approvals_tool_action ON approvals(tool_id, action)")
         conn.execute("CREATE INDEX IF NOT EXISTS idx_approvals_expires_at ON approvals(expires_at)")
+
+    def _migrate_observability_v2(self, conn: sqlite3.Connection) -> None:
+        """Add Sprint 58 trace correlation columns idempotently."""
+
+        event_columns = {str(row["name"]) for row in conn.execute("PRAGMA table_info(events)").fetchall()}
+        additions: dict[str, str] = {
+            "trace_id": "TEXT",
+            "span_id": "TEXT",
+            "parent_span_id": "TEXT",
+        }
+        for column, definition in additions.items():
+            if column not in event_columns:
+                conn.execute(f"ALTER TABLE events ADD COLUMN {column} {definition}")
+        conn.execute("CREATE INDEX IF NOT EXISTS idx_events_trace_id ON events(trace_id)")
+        conn.execute("CREATE INDEX IF NOT EXISTS idx_spans_trace_id ON spans(trace_id)")
+        conn.execute("CREATE INDEX IF NOT EXISTS idx_spans_parent_span_id ON spans(parent_span_id)")
+        conn.execute("CREATE INDEX IF NOT EXISTS idx_metrics_trace_id ON metrics(trace_id)")
 
     def _get_approval_row(self, conn: sqlite3.Connection, approval_id: str) -> dict[str, Any] | None:
         row = conn.execute("SELECT * FROM approvals WHERE approval_id = ?", (approval_id,)).fetchone()
@@ -710,6 +883,9 @@ CREATE INDEX IF NOT EXISTS idx_gates_name ON gates(gate_name);
 CREATE TABLE IF NOT EXISTS events (
     event_id TEXT PRIMARY KEY,
     run_id TEXT,
+    trace_id TEXT,
+    span_id TEXT,
+    parent_span_id TEXT,
     event_type TEXT NOT NULL,
     command TEXT NOT NULL,
     status TEXT,
@@ -724,6 +900,42 @@ CREATE TABLE IF NOT EXISTS events (
 
 CREATE INDEX IF NOT EXISTS idx_events_timestamp ON events(timestamp);
 CREATE INDEX IF NOT EXISTS idx_events_type ON events(event_type);
+
+CREATE TABLE IF NOT EXISTS spans (
+    span_id TEXT PRIMARY KEY,
+    trace_id TEXT NOT NULL,
+    run_id TEXT,
+    parent_span_id TEXT,
+    name TEXT NOT NULL,
+    span_type TEXT NOT NULL,
+    status TEXT NOT NULL,
+    severity TEXT NOT NULL DEFAULT 'info',
+    subject TEXT,
+    started_at TEXT NOT NULL,
+    ended_at TEXT,
+    duration_ms INTEGER,
+    payload_json TEXT NOT NULL DEFAULT '{}',
+    metadata_json TEXT NOT NULL DEFAULT '{}',
+    findings_json TEXT NOT NULL DEFAULT '[]'
+);
+
+CREATE INDEX IF NOT EXISTS idx_spans_trace_id ON spans(trace_id);
+CREATE INDEX IF NOT EXISTS idx_spans_parent_span_id ON spans(parent_span_id);
+CREATE INDEX IF NOT EXISTS idx_spans_type ON spans(span_type);
+
+CREATE TABLE IF NOT EXISTS metrics (
+    metric_id TEXT PRIMARY KEY,
+    trace_id TEXT,
+    run_id TEXT,
+    name TEXT NOT NULL,
+    value REAL NOT NULL DEFAULT 0.0,
+    unit TEXT,
+    timestamp TEXT NOT NULL,
+    metadata_json TEXT NOT NULL DEFAULT '{}'
+);
+
+CREATE INDEX IF NOT EXISTS idx_metrics_trace_id ON metrics(trace_id);
+CREATE INDEX IF NOT EXISTS idx_metrics_name ON metrics(name);
 
 CREATE TABLE IF NOT EXISTS approvals (
     approval_id TEXT PRIMARY KEY,
@@ -766,12 +978,51 @@ CREATE INDEX IF NOT EXISTS idx_cost_events_timestamp ON cost_events(timestamp);
 """
 
 
+def _span_row_to_dict(row: sqlite3.Row) -> dict[str, Any]:
+    return {
+        "span_id": str(row["span_id"]),
+        "trace_id": str(row["trace_id"]),
+        "run_id": row["run_id"],
+        "parent_span_id": row["parent_span_id"],
+        "name": str(row["name"]),
+        "span_type": str(row["span_type"]),
+        "status": str(row["status"]),
+        "severity": str(row["severity"]),
+        "subject": row["subject"],
+        "started_at": str(row["started_at"]),
+        "ended_at": row["ended_at"],
+        "duration_ms": row["duration_ms"],
+        "payload": _load_json(row["payload_json"], {}),
+        "metadata": _load_json(row["metadata_json"], {}),
+        "findings": _load_json(row["findings_json"], []),
+    }
+
+
+def _event_row_to_dict(row: sqlite3.Row) -> dict[str, Any]:
+    return {
+        "event_id": str(row["event_id"]),
+        "run_id": row["run_id"],
+        "trace_id": row["trace_id"],
+        "span_id": row["span_id"],
+        "parent_span_id": row["parent_span_id"],
+        "event_type": str(row["event_type"]),
+        "command": str(row["command"]),
+        "status": row["status"],
+        "ok": None if row["ok"] is None else bool(row["ok"]),
+        "exit_code": row["exit_code"],
+        "timestamp": str(row["timestamp"]),
+        "subject": row["subject"],
+        "summary": _load_json(row["summary_json"], {}),
+        "metadata": _load_json(row["metadata_json"], {}),
+    }
+
+
 def utc_now_iso() -> str:
     return datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
 
 
 def _tracked_tables() -> tuple[str, ...]:
-    return ("runs", "findings", "gates", "events", "approvals", "cost_events")
+    return ("runs", "findings", "gates", "events", "spans", "metrics", "approvals", "cost_events")
 
 
 def _json(value: Any) -> str:

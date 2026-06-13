@@ -7,7 +7,7 @@ import pytest
 
 from devpilot_core.approval import ApprovalDecision, ApprovalRequest, ApprovalStatus, ApprovalStore
 from devpilot_core.cli_models import ExitCode
-from devpilot_core.store import LocalStore
+from devpilot_core.store import LocalStore, SCHEMA_VERSION
 
 
 def future_iso(minutes: int = 30) -> str:
@@ -62,7 +62,7 @@ def test_local_store_initializes_approval_operational_schema(tmp_path: Path) -> 
 
     assert result.ok is True
     status = store.status()
-    assert status.data["summary"]["schema_version"] == "0002_approval_operational_v1"
+    assert status.data["summary"]["schema_version"] == SCHEMA_VERSION
     assert "approvals" in status.data["tables"]
 
 

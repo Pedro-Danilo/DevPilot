@@ -1,8 +1,8 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
 Estado actual: `baseline pre-code approved + Fase A cerrada + Fase B cerrada + Fase C cerrada + Fase D cerrada + Fase E en progreso`  
-Último hito: `FUNC-SPRINT-57 — TraceContext y modelo de spans`  
-Siguiente hito: `FUNC-SPRINT-58 — TraceStore y EventLogger v2 compatible`  
+Último hito: `FUNC-SPRINT-58 — TraceStore y EventLogger v2 compatible`  
+Siguiente hito: `FUNC-SPRINT-59 — MetricsCollector para comandos, agentes, tools y modelos`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
@@ -62,6 +62,22 @@ python -m devpilot_core validate all --json
 
 PASS: `TraceContext` y `SpanRecord` serializan a JSON, los spans soportan relación parent-child, los payloads sensibles se redactorizan, no se almacenan prompts/completions/diffs/output crudos y `EventLogger` v1 mantiene compatibilidad. BLOCK: persistir prompts o secretos crudos, agregar dependencias externas, romper EventLogger actual o implementar persistencia/CLI fuera del alcance de Sprint 57.
 
+
+## FUNC-SPRINT-58 — TraceStore y EventLogger v2 compatible
+
+`FUNC-SPRINT-58` implementa el nivel FE-L2 de Fase E: persistencia local y consulta básica de trazas mediante `TraceStore`, extensión compatible de `EventLogger` para aceptar `TraceContext` opcional, columnas de correlación `trace_id`/`span_id`/`parent_span_id` en eventos SQLite y tablas locales `spans`/`metrics` preparadas para la evolución AgentOps.
+
+La capacidad queda `implemented-initial`: persiste spans y eventos correlacionables en SQLite y conserva `outputs/traces/events.jsonl` como log append-only compatible. No agrega CLI pública `trace report`/`trace inspect`, no implementa `MetricsCollector`, no exporta OpenTelemetry y no envía telemetría remota.
+
+Verificación específica:
+
+```powershell
+python -m pytest tests/test_trace_store.py -q
+python -m pytest tests/test_event_logger.py tests/test_trace_context.py tests/test_local_store.py -q
+python -m devpilot_core schema validate-manifest docs/functional_sprint_58_manifest.json --json
+```
+
+Criterios `PASS`: JSONL histórico sigue funcionando, SQLite persiste spans, `state status` no falla con el schema nuevo, eventos nuevos pueden incluir `trace_id` y la migración es idempotente. Criterios `BLOCK`: versionar `.devpilot/devpilot.db`, romper `history list`, requerir servicios externos, exponer secretos o activar telemetría remota.
 
 ## FUNC-SPRINT-45 — ADR y contratos de proveedores locales
 

@@ -2,7 +2,7 @@
 title: "Observability Plan — DevPilot Local"
 doc_id: "DEVPL-OPS-001"
 status: "approved"
-version: "1.1.0"
+version: "1.2.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
@@ -265,3 +265,18 @@ BLOCK:
 ## 17. Estado preliminar y evolución pendiente
 
 La observabilidad v2 de `FUNC-SPRINT-56` queda en estado `implemented-initial` porque define contratos, no runtime. Para alcanzar calidad industrial completa faltan `TraceContext`, spans, persistencia SQLite, métricas, instrumentación agentic/model, CLI de consulta, exporter dry-run y AgentOps Quality Gate.
+
+
+## 18. Actualización FUNC-SPRINT-58 — TraceStore y EventLogger v2 compatible
+
+Sprint 58 materializa la primera persistencia local de observabilidad v2. El plan operativo queda dividido así:
+
+| Señal | Canal append-only | Canal consultable | Estado |
+|---|---|---|---|
+| eventos | `outputs/traces/events.jsonl` | tabla `events` | compatible v1/v2 |
+| spans | no aplica en JSONL por defecto | tabla `spans` | implementado inicial |
+| métricas | no implementado aún | tabla `metrics` preparada | pendiente Sprint 59 |
+
+`EventLogger` conserva su API histórica y puede aceptar opcionalmente `TraceContext`/`SpanRecord` para enriquecer eventos con `trace_id`, `run_id`, `span_id` y `parent_span_id`. `TraceStore` escribe proyecciones consultables en SQLite, pero no reemplaza el JSONL como evidencia append-only.
+
+La implementación no agrega OpenTelemetry SDK, exporter remoto ni CLI pública de consulta. `trace report`, `trace inspect` y `metrics summary` siguen planificados para sprints posteriores.

@@ -2,13 +2,13 @@
 title: "DevPilot Local — Backlog ejecutable Fase E: AgentOps y observabilidad"
 doc_id: "DEVPL-FUNC-BACKLOG-FASE-E-001"
 status: "approved"
-version: "0.3.0"
+version: "0.4.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
 phase: "FASE-E-AGENTOPS-OBSERVABILIDAD"
 updated: "2026-06-13"
-source_repo: "repo_DevPilot_Local_69_sprint_56_observability_v2.zip"
+source_repo: "repo_DevPilot_Local_69.zip"
 source_report: "Informe de avance DevPilot - sprint 0 - 18.docx"
 source_backlog_model: "docs/functional_backlog_after_precode.md"
 baseline_dependency: "Fases A, B, C y D cerradas; Fase D validada por FUNC-SPRINT-55"
@@ -18,9 +18,9 @@ change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "phase_e_executable_backlog_review"
 approved_on: "2026-06-13"
 approval: "approved_after_phase_d_closure_review"
-first_open_sprint: "FUNC-SPRINT-58"
-last_completed_sprint: "FUNC-SPRINT-57"
-next_sprint: "FUNC-SPRINT-58"
+first_open_sprint: "FUNC-SPRINT-59"
+last_completed_sprint: "FUNC-SPRINT-58"
+next_sprint: "FUNC-SPRINT-59"
 phase_e_status: "in_progress"
 ---
 
@@ -427,6 +427,14 @@ python -m pytest -q
 ```text
 Implementa FUNC-SPRINT-58: TraceStore y EventLogger v2 compatible. Mantén JSONL, agrega spans a SQLite con migración idempotente y pruebas de compatibilidad.
 ```
+
+## Estado de implementación Sprint 58
+
+`FUNC-SPRINT-58 — TraceStore y EventLogger v2 compatible` queda implementado en estado `implemented-initial`. La implementación crea `TraceStore`, extiende `LocalStore` con tablas `spans` y `metrics`, agrega columnas de correlación a eventos SQLite, mantiene compatibilidad con `EventLogger` JSONL y permite que eventos nuevos acepten `TraceContext` opcional.
+
+La capacidad no entrega todavía CLI pública de trazas, agregación de métricas, exporter OpenTelemetry ni AgentOps Quality Gate. Es una primera versión de persistencia local de trazas que debe evolucionar en `FUNC-SPRINT-59` a `FUNC-SPRINT-63`.
+
+Siguiente sprint operativo: `FUNC-SPRINT-59 — MetricsCollector para comandos, agentes, tools y modelos`.
 
 ## FUNC-SPRINT-59 — MetricsCollector para comandos, agentes, tools y modelos
 
