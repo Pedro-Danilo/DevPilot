@@ -192,3 +192,13 @@ Sprint 51 agrega `AGENT_MODEL_CALL_GOVERNED_ALLOW`, una política para permitir 
 ## Actualización FUNC-SPRINT-52 — Política REPO_ANALYSIS_AGENT_GOVERNED_ALLOW
 
 La política `REPO_ANALYSIS_AGENT_GOVERNED_ALLOW` permite ejecutar `RepoAnalysisAgent` solo bajo `AgentRuntime v2`, `MIASI`, `RepoAnalyzer`, `DependencyGraph`, `RepoQualityGate`, `PromptRegistry` y `BudgetLedger`. El gate exige `NoMutations`, `NoExternalAPI` y `NoHandoffs`.
+
+## Actualización FUNC-SPRINT-53 — Políticas de review agents
+
+Sprint 53 agrega tres políticas operativas:
+
+- `CODE_REVIEW_DRY_RUN_ALLOW`: permite revisión determinística read-only con `CodeReviewEngine`.
+- `CODE_REVIEW_AGENT_GOVERNED_ALLOW`: permite `CodeReviewAgent` solo bajo `AgentRuntime v2`, MIASI, PromptRegistry y sin mutaciones.
+- `PATCH_REVIEW_AGENT_GOVERNED_ALLOW`: permite `PatchReviewAgent` solo bajo dry-run, sin aplicar patches, sin APIs externas y sin handoffs.
+
+Estas políticas no habilitan cambios destructivos. La aplicación de patches, rollback y refactor ejecutable siguen controlados por políticas y sprints anteriores/futuros.

@@ -8,6 +8,8 @@ from typing import Any, Protocol
 
 from devpilot_core.agents.base import ModelAwareAgent
 from devpilot_core.agents.models import AgentMessage, AgentModelCall, AgentRunResult, AgentSuggestion, AgentToolCall
+from devpilot_core.agents.code_review_agent import CodeReviewAgent
+from devpilot_core.agents.patch_review_agent import PatchReviewAgent
 from devpilot_core.agents.repo_analysis_agent import RepoAnalysisAgent
 from devpilot_core.cli_models import CommandResult, ExitCode, Finding, Severity
 from devpilot_core.miasi import AgentSpec, MiasiRegistryValidator
@@ -25,6 +27,10 @@ AGENT_ALIASES = {
     "precode.documentation": "precode.documentation",
     "repo-analysis": "repo.analysis",
     "repo.analysis": "repo.analysis",
+    "code-review": "code.review",
+    "code.review": "code.review",
+    "patch-review": "patch.review",
+    "patch.review": "patch.review",
 }
 
 
@@ -74,6 +80,8 @@ class AgentRuntime:
             "precode.audit": DocumentationAuditAgent(self.root, self.policy),
             "precode.documentation": PreCodeDocumentationAgent(self.root, self.policy),
             "repo.analysis": RepoAnalysisAgent(self.root, self.policy),
+            "code.review": CodeReviewAgent(self.root, self.policy),
+            "patch.review": PatchReviewAgent(self.root, self.policy),
         }
 
     def run(
@@ -90,6 +98,7 @@ class AgentRuntime:
         prompt_inputs: dict[str, str] | None = None,
         fallback_to_mock: bool | None = None,
         timeout_seconds: float | None = None,
+        patch_file: str | None = None,
     ) -> CommandResult:
         """Run one registered mono-agent and return a normalized CommandResult."""
 
@@ -131,7 +140,7 @@ class AgentRuntime:
                 AgentRunResult(agent_id=spec.agent_id, agent_name=spec.name, ok=False, message="Agent runtime has no implementation for this agent.", dry_run=dry_run, findings=[finding])
             )
 
-        # FUNC-SPRINT-52 keeps execution mono-agent while allowing explicitly
+        # FUNC-SPRINT-53 keeps execution mono-agent while allowing explicitly
         # implemented specialized agents. Planned/future MVP+ agents remain
         # blocked until their sprint provides code, evals and MIASI updates.
         if spec.status not in {"implemented", "implemented-initial"}:
@@ -180,6 +189,7 @@ class AgentRuntime:
                 "monoagent": True,
                 "handoffs_enabled": False,
                 "model_runtime": model_runtime,
+                "patch_file": patch_file,
             },
         )
         result = self._agents[spec.agent_id].run(message)

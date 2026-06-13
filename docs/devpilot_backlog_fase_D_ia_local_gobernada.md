@@ -16,12 +16,12 @@ first_sprint: "FUNC-SPRINT-45"
 last_planned_sprint: "FUNC-SPRINT-55"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "phase_d_executable_backlog_review"
-first_open_sprint: "FUNC-SPRINT-53"
+first_open_sprint: "FUNC-SPRINT-54"
 phase_d_status: "in_progress"
 approved_on: "2026-06-12"
 approval: "approved_after_phase_c_closure_review"
-last_completed_sprint: "FUNC-SPRINT-52"
-next_sprint: "FUNC-SPRINT-53"
+last_completed_sprint: "FUNC-SPRINT-53"
+next_sprint: "FUNC-SPRINT-54"
 ---
 
 # DevPilot Local — Backlog ejecutable Fase D: IA local gobernada
@@ -1265,3 +1265,23 @@ Fuera de alcance hasta sprints posteriores:
 - APIs externas y modelos locales obligatorios.
 
 Siguiente sprint operativo: `FUNC-SPRINT-53 — CodeReviewAgent y PatchReviewAgent gobernados`.
+
+## Estado de implementación Sprint 53
+
+`FUNC-SPRINT-53 — CodeReviewAgent y PatchReviewAgent gobernados` queda implementado como capacidad `implemented-initial` de Fase D.
+
+La implementación agrega `CodeReviewAgent` y `PatchReviewAgent` como agentes monoagente sobre motores existentes (`CodeReviewEngine`, `PatchReviewEngine` y `PatchPreflightEngine`). Ambos agentes operan en dry-run, no modifican archivos, no aplican patches y pueden ejecutar una explicación model-aware gobernada mediante `PromptRegistry`, `ModelAdapterRouter` y `BudgetLedger`.
+
+Artefactos principales:
+
+- `src/devpilot_core/agents/code_review_agent.py`.
+- `src/devpilot_core/agents/patch_review_agent.py`.
+- `docs/prompts/code.review.agent.v1.json`.
+- `docs/prompts/patch.review.agent.v1.json`.
+- `tests/test_review_agents.py`.
+- `docs/audits/func_sprint_53_review_agents_audit.md`.
+- `docs/functional_sprint_53_manifest.json`.
+
+La implementación corrige la desviación prevista del backlog que sugería prompts `.md`: por consistencia con `PromptRegistry` y el schema de Sprint 49, los prompts se implementan como contratos JSON versionados. Esta decisión no requiere ADR nueva porque mantiene la arquitectura ya aprobada y no introduce proveedores, APIs externas, acciones destructivas ni multiagente.
+
+Siguiente sprint abierto: `FUNC-SPRINT-54 — SafeRefactorAgent y TestPlannerAgent gobernados`.

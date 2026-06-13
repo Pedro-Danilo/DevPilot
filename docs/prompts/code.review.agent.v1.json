@@ -1,0 +1,54 @@
+{
+  "id": "code.review.agent",
+  "version": "1.0.0",
+  "status": "approved",
+  "owner": "Ordóñez",
+  "task": "code_review_agent",
+  "agent_id": "code.review",
+  "description": "Prompt gobernado para CodeReviewAgent en modo monoagente read-only.",
+  "input_variables": [
+    {
+      "name": "review_signals",
+      "description": "Resumen redacted de hallazgos, severidades y métricas de CodeReviewEngine.",
+      "required": true,
+      "max_length": 12000
+    },
+    {
+      "name": "review_focus",
+      "description": "Foco de priorización solicitado al agente de revisión de código.",
+      "required": true,
+      "max_length": 2000
+    }
+  ],
+  "template": "Actúa como CodeReviewAgent de DevPilot en modo monoagente, dry-run y local-first. Foco: {{ review_focus }}. Señales redacted de revisión: {{ review_signals }}. Devuelve una síntesis con hallazgos priorizados, riesgos de seguridad/mantenibilidad, pruebas recomendadas y próximos pasos seguros. No modifiques código, no ejecutes comandos, no propongas aplicar cambios sin aprobación y no expongas secretos.",
+  "safety": {
+    "redaction_required": true,
+    "prompt_injection_scan_required": true,
+    "secret_scan_required": true,
+    "store_raw_prompt": false,
+    "store_raw_completion": false,
+    "allowed_tools": [
+      "code.review",
+      "git.diff",
+      "report.write"
+    ],
+    "forbidden_patterns": [
+      "apply_patch",
+      "git_push",
+      "delete_file",
+      "raw_secret",
+      "execute_without_approval"
+    ]
+  },
+  "usage": {
+    "providers": ["mock", "ollama", "lmstudio"],
+    "default_provider": "mock",
+    "fallback_provider": "mock",
+    "max_tokens_estimated": 3000
+  },
+  "metadata": {
+    "sprint": "FUNC-SPRINT-53",
+    "preliminary": true,
+    "notes": "Primera versión especializada para CodeReviewAgent gobernado. El contenido de archivos no se persiste ni se expone en reportes."
+  }
+}

@@ -291,6 +291,33 @@
       "gate": "RepoAnalysisAgent+AgentRuntimeV2+MIASI+RepoAnalyzer+DependencyGraph+RepoQualityGate+PromptRegistry+BudgetLedger+NoMutations+NoExternalAPI+NoHandoffs",
       "approval_required": false,
       "observability_required": true
+    },
+    {
+      "rule_id": "CODE_REVIEW_DRY_RUN_ALLOW",
+      "domain": "Review",
+      "action": "code_review_dry_run",
+      "default_effect": "allow",
+      "gate": "CodeReviewEngine+PolicyEngine+PathGuard+SecretGuard+NoMutations+NoExternalAPI",
+      "approval_required": false,
+      "observability_required": true
+    },
+    {
+      "rule_id": "CODE_REVIEW_AGENT_GOVERNED_ALLOW",
+      "domain": "Agent",
+      "action": "code_review_agent_run",
+      "default_effect": "allow",
+      "gate": "CodeReviewAgent+AgentRuntimeV2+MIASI+CodeReviewEngine+PromptRegistry+BudgetLedger+NoMutations+NoExternalAPI+NoHandoffs",
+      "approval_required": false,
+      "observability_required": true
+    },
+    {
+      "rule_id": "PATCH_REVIEW_AGENT_GOVERNED_ALLOW",
+      "domain": "Agent",
+      "action": "patch_review_agent_run",
+      "default_effect": "allow",
+      "gate": "PatchReviewAgent+AgentRuntimeV2+MIASI+PatchReviewEngine+PatchPreflightEngine+PromptRegistry+BudgetLedger+NoPatchApply+NoExternalAPI+NoHandoffs",
+      "approval_required": false,
+      "observability_required": true
     }
   ]
 }

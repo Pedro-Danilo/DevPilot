@@ -1,0 +1,7 @@
+diff --git a/tests/fixtures/review_agents/safe_target.py b/tests/fixtures/review_agents/safe_target.py
+--- a/tests/fixtures/review_agents/safe_target.py
++++ b/tests/fixtures/review_agents/safe_target.py
+@@ -1,2 +1,2 @@
+ def value():
+-    return 'old'
++    return 'new'

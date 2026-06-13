@@ -22,6 +22,10 @@ SUPPORTED_COMPONENTS = {
     "agent.precode_documentation",
     "agent.repo_analysis",
     "agent.repo_analysis_model_aware",
+    "agent.code_review",
+    "agent.code_review_model_aware",
+    "agent.patch_review",
+    "agent.patch_review_model_aware",
 }
 
 
@@ -156,6 +160,14 @@ class EvalRunner:
             result = self._run_repo_analysis_case(case, suite=suite)
         elif case.component == "agent.repo_analysis_model_aware":
             result = self._run_repo_analysis_case(case, suite=suite, provider="mock")
+        elif case.component == "agent.code_review":
+            result = self._run_code_review_case(case, suite=suite)
+        elif case.component == "agent.code_review_model_aware":
+            result = self._run_code_review_case(case, suite=suite, provider="mock")
+        elif case.component == "agent.patch_review":
+            result = self._run_patch_review_case(case, suite=suite)
+        elif case.component == "agent.patch_review_model_aware":
+            result = self._run_patch_review_case(case, suite=suite, provider="mock")
         else:  # pragma: no cover - guarded by SUPPORTED_COMPONENTS above.
             result = CommandResult("eval case", False, ExitCode.ERROR, "Unsupported evaluation component.")
         return EvalCaseResult.from_command_result(case, result)
@@ -207,6 +219,64 @@ class EvalRunner:
         if not files:
             (case_dir / "README.md").write_text("# Synthetic repo\n\nLocal repo-analysis evaluation fixture.\n", encoding="utf-8")
         return AgentRuntime(self.root).run("repo-analysis", target=_repo_path(case_dir, self.root), dry_run=True, provider=provider)
+
+
+    def _run_code_review_case(self, case: EvalCase, *, suite: str, provider: str | None = None) -> CommandResult:
+        case_dir = self._case_dir(case, suite=suite)
+        files = case.input.get("files", []) or []
+        for file_payload in files:
+            relative = Path(str(file_payload.get("path", "src/sample.py")))
+            destination = (case_dir / relative).resolve()
+            try:
+                destination.relative_to(case_dir)
+            except ValueError as exc:
+                raise ValueError("Evaluation fixture path escapes case directory.") from exc
+            destination.parent.mkdir(parents=True, exist_ok=True)
+            destination.write_text(str(file_payload.get("content", "")), encoding="utf-8")
+        review_target = case_dir
+        if files:
+            first_relative = Path(str(files[0].get("path", "src/sample.py")))
+            review_target = (case_dir / first_relative).resolve()
+        else:
+            (case_dir / "src" / "sample.py").parent.mkdir(parents=True, exist_ok=True)
+            (case_dir / "src" / "sample.py").write_text("def ok() -> str:\n    return 'ok'\n", encoding="utf-8")
+            review_target = (case_dir / "src" / "sample.py").resolve()
+        return AgentRuntime(self.root).run("code-review", target=_repo_path(review_target, self.root), dry_run=True, provider=provider)
+
+    def _run_patch_review_case(self, case: EvalCase, *, suite: str, provider: str | None = None) -> CommandResult:
+        case_dir = self._case_dir(case, suite=suite)
+        files = case.input.get("files", []) or []
+        for file_payload in files:
+            relative = Path(str(file_payload.get("path", "patch_target.py")))
+            destination = (case_dir / relative).resolve()
+            try:
+                destination.relative_to(case_dir)
+            except ValueError as exc:
+                raise ValueError("Evaluation fixture path escapes case directory.") from exc
+            destination.parent.mkdir(parents=True, exist_ok=True)
+            destination.write_text(str(file_payload.get("content", "")), encoding="utf-8")
+        patch_name = str(case.input.get("patch_file", "fixture.patch"))
+        patch_path = (case_dir / patch_name).resolve()
+        try:
+            patch_path.relative_to(case_dir)
+        except ValueError as exc:
+            raise ValueError("Evaluation fixture patch path escapes case directory.") from exc
+        patch_text = str(case.input.get("patch_text", ""))
+        if not patch_text:
+            target = _repo_path(case_dir / "patch_target.py", self.root)
+            (case_dir / "patch_target.py").write_text("def value():\n    return 'old'\n", encoding="utf-8")
+            patch_text = (
+                f"diff --git a/{target} b/{target}\n"
+                f"--- a/{target}\n"
+                f"+++ b/{target}\n"
+                "@@ -1,2 +1,2 @@\n"
+                " def value():\n"
+                "-    return 'old'\n"
+                "+    return 'new'\n"
+            )
+        patch_path.parent.mkdir(parents=True, exist_ok=True)
+        patch_path.write_text(patch_text, encoding="utf-8")
+        return AgentRuntime(self.root).run("patch-review", target=_repo_path(patch_path, self.root), patch_file=_repo_path(patch_path, self.root), dry_run=True, provider=provider)
 
     def _write_single_markdown_case(self, case: EvalCase, *, suite: str) -> Path:
         case_dir = self._case_dir(case, suite=suite)

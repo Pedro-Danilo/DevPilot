@@ -196,3 +196,14 @@ Esta evaluación es preliminar: no mide calidad semántica de agentes especializ
 ## Actualización FUNC-SPRINT-52 — Evals de RepoAnalysisAgent
 
 La suite `documentation` incorpora casos para `agent.repo_analysis` y `agent.repo_analysis_model_aware`. Los casos validan ejecución read-only, señales de riesgo y ruta model-aware con `mock`, sin requerir modelos locales reales ni APIs externas.
+
+## Actualización FUNC-SPRINT-53 — Evals de CodeReviewAgent y PatchReviewAgent
+
+La suite offline `documentation` agrega casos para:
+
+- code review limpio con mock;
+- detección de `eval()`/`os.system()`;
+- patch seguro con preflight;
+- patch con secreto bloqueado.
+
+La evaluación conserva `llm_required=false`, `external_api_used=false` y usa `mock` para rutas model-aware.

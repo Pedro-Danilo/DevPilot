@@ -1,8 +1,8 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
 Estado actual: `baseline pre-code approved + Fase A cerrada + FASE-B cerrada + Fase C cerrada + Fase D en progreso controlado`  
-Último hito: `FUNC-SPRINT-52 — RepoAnalysisAgent gobernado`  
-Siguiente hito: `FUNC-SPRINT-53 — CodeReviewAgent y PatchReviewAgent gobernados`  
+Último hito: `FUNC-SPRINT-53 — CodeReviewAgent y PatchReviewAgent gobernados`  
+Siguiente hito: `FUNC-SPRINT-54 — SafeRefactorAgent y TestPlannerAgent gobernados`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
@@ -1613,3 +1613,22 @@ Criterios operativos:
 - BLOCK si el agente usa tools no declaradas, llama APIs externas, modifica el repo o activa handoffs/multiagente.
 
 La versión es preliminar: prioriza gobernanza, trazabilidad y seguridad; la calidad semántica y agentes de revisión de código/patch quedan para sprints posteriores.
+
+## FUNC-SPRINT-53 — CodeReviewAgent y PatchReviewAgent gobernados
+
+`FUNC-SPRINT-53` agrega dos agentes especializados de revisión sobre motores determinísticos existentes: `CodeReviewAgent` y `PatchReviewAgent`. Ambos operan como agentes monoagente bajo `AgentRuntime v2`, están registrados en MIASI como `implemented-initial`, usan prompts versionados, mantienen `mock` como ruta hermética y no ejecutan cambios destructivos.
+
+Capacidades principales:
+
+```powershell
+python -m devpilot_core agent run code-review --target src/devpilot_core/validators --provider mock --json
+python -m devpilot_core agent run patch-review --patch-file safe.patch --provider mock --json
+python -m devpilot_core eval run --json
+```
+
+Notas de alcance:
+
+- `CodeReviewAgent` prioriza hallazgos de `CodeReviewEngine`, no reemplaza revisión humana ni SAST/SCA industrial.
+- `PatchReviewAgent` combina `PatchReviewEngine` y `PatchPreflightEngine` en dry-run; no aplica patches ni escribe cambios.
+- Las llamadas model-aware son opcionales y pasan por `PromptRegistry`, `ModelAdapterRouter` y `BudgetLedger`.
+- La implementación es `implemented-initial`; debe evolucionar con más fixtures, severidades ajustables y reportes comparativos por tipo de riesgo.

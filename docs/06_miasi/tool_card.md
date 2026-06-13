@@ -606,3 +606,12 @@ PASS: llamadas con `mock` trazadas en `model_calls`, `prompt_id/version`, digest
 ## Actualización FUNC-SPRINT-52 — Herramienta agent.repo_analysis.run
 
 Se declara `agent.repo_analysis.run` como herramienta de tipo `report`, `implemented-initial`, asociada a `REPO_ANALYSIS_AGENT_GOVERNED_ALLOW`. La herramienta representa la ejecución gobernada de `RepoAnalysisAgent`; no aplica patches, no escribe en el workspace productivo y conserva `external_api_used=false`.
+
+## Actualización FUNC-SPRINT-53 — Herramientas agent.code_review.run y agent.patch_review.run
+
+Se agregan dos herramientas de agente:
+
+- `agent.code_review.run`: orquesta revisión gobernada de código sobre `CodeReviewEngine`.
+- `agent.patch_review.run`: orquesta revisión/preflight de patch sobre `PatchReviewEngine` y `PatchPreflightEngine`.
+
+Ambas tienen `side_effect=report`, requieren observabilidad, no requieren aprobación porque no ejecutan cambios reales, y se mantienen dentro de `AgentRuntime v2`.

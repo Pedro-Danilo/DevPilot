@@ -1241,6 +1241,7 @@ def agent_run_command(
     prompt_id: str | None = None,
     prompt_version: str | None = None,
     prompt_inputs: list[str] | None = None,
+    patch_file: str | None = None,
     timeout_seconds: float = 3.0,
     fallback_to_mock: bool = False,
     json_output: bool = False,
@@ -1289,6 +1290,7 @@ def agent_run_command(
         prompt_inputs=parsed_prompt_inputs,
         timeout_seconds=timeout_seconds,
         fallback_to_mock=fallback_to_mock,
+        patch_file=patch_file,
     )
     result = _write_optional_command_report(
         root,
@@ -2505,6 +2507,7 @@ def build_parser() -> argparse.ArgumentParser:
     agent_run = agent_sub.add_parser("run", help="Run a registered local/mock agent")
     agent_run.add_argument("agent_name", help="Agent alias, for example documentation-audit or precode-documentation")
     agent_run.add_argument("--target", default=None, help="Optional target path for audit agents")
+    agent_run.add_argument("--patch-file", default=None, help="Optional patch file for PatchReviewAgent")
     agent_run.add_argument("--idea", default=None, help="Idea text for pre-code documentation drafts")
     agent_run.add_argument("--dry-run", action="store_true", help="Preview without writing files; this is the default")
     agent_run.add_argument("--execute", action="store_true", help="Allow safe draft output writes under outputs/drafts when supported")
@@ -3003,6 +3006,7 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
                 prompt_id=args.prompt_id,
                 prompt_version=args.prompt_version,
                 prompt_inputs=args.prompt_input,
+                patch_file=args.patch_file,
                 timeout_seconds=args.timeout_seconds,
                 fallback_to_mock=args.fallback_to_mock,
                 json_output=args.json,

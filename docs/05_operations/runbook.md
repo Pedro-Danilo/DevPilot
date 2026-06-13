@@ -3117,3 +3117,50 @@ Criterios de operación segura:
 - los reportes deben conservar prompts y outputs crudos fuera de persistencia.
 
 La capacidad es `implemented-initial`; debe evolucionar con métricas más finas, scoring configurable y mejor priorización cuando se implementen los agentes de revisión de código y patch.
+
+## FUNC-SPRINT-53 — CodeReviewAgent y PatchReviewAgent gobernados
+
+Estado: `implemented-initial`. Este sprint agrega agentes monoagente de revisión de código y patch sobre motores existentes, sin aplicar cambios reales y sin usar APIs externas.
+
+### CodeReviewAgent
+
+```powershell
+python -m devpilot_core agent run code-review --target src/devpilot_core/validators --provider mock --json
+```
+
+Uso esperado:
+
+- revisión read-only de archivos fuente/config/documentación soportados por `CodeReviewEngine`;
+- priorización de hallazgos y sugerencias;
+- llamada model-aware opcional mediante `mock`, Ollama/LM Studio local si se habilitan explícitamente;
+- sin modificación de código.
+
+### PatchReviewAgent
+
+```powershell
+python -m devpilot_core agent run patch-review --patch-file safe.patch --provider mock --json
+```
+
+Uso esperado:
+
+- lectura segura de un patch dentro del workspace;
+- análisis con `PatchReviewEngine`;
+- preflight con `PatchPreflightEngine` y `git apply --check` cuando el patch no está bloqueado por seguridad;
+- `patch_applied=false` y `mutations_performed=false` siempre en esta versión.
+
+### Verificación Sprint 53
+
+```powershell
+python -m pytest tests/test_review_agents.py tests/test_sprint_53_documentation.py -q
+python -m devpilot_core eval run --json
+python -m devpilot_core prompt validate --json
+python -m devpilot_core miasi validate --json
+python -m devpilot_core validate all --json
+```
+
+### Riesgos operativos
+
+- No sustituye revisión humana profunda.
+- No ejecuta SAST/SCA industrial ni linters externos.
+- `PatchReviewAgent` puede marcar como `FAIL` un patch no aplicable aunque sea conceptualmente seguro.
+- Los prompts no exponen contenidos crudos; revisar `model_calls` y `BudgetLedger` para trazabilidad.

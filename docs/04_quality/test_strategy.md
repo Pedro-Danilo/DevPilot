@@ -645,3 +645,22 @@ python -m devpilot_core miasi validate --json
 ```
 
 La evaluación sigue siendo preliminar: valida arquitectura, trazabilidad y seguridad local-first; no sustituye análisis semántico avanzado ni juicio experto sobre deuda técnica.
+
+## Actualización FUNC-SPRINT-53 — Pruebas de CodeReviewAgent y PatchReviewAgent gobernados
+
+Sprint 53 agrega cobertura específica para agentes de revisión monoagente:
+
+```powershell
+python -m pytest tests/test_review_agents.py tests/test_sprint_53_documentation.py -q
+python -m devpilot_core eval run --json
+```
+
+Cobertura mínima:
+
+- `CodeReviewAgent` con código limpio y `provider=mock`.
+- `CodeReviewAgent` detectando `eval()` y `os.system()`.
+- `PatchReviewAgent` con patch seguro y preflight dry-run.
+- `PatchReviewAgent` bloqueando patch con contenido secreto.
+- Casos offline en `evals/fixtures/documentation_eval_cases.json`.
+
+Criterio de salida: todos los casos deben pasar sin modelos locales reales, sin APIs externas, sin escritura de código y sin aplicación de patches.

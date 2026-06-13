@@ -167,3 +167,21 @@ Restricciones: no se permiten handoffs, supervisor, comunicación agente-a-agent
 ## Actualización FUNC-SPRINT-52 — RepoAnalysisAgent
 
 `repo.analysis` queda en estado `implemented-initial` como agente monoagente especializado. Su autonomía máxima es A3, opera read-only sobre motores de repositorio, no modifica archivos, no ejecuta Git write y no realiza handoffs. El agente puede usar `agent.model.generate` solo mediante `AgentRuntime v2`, `PromptRegistry`, `ModelAdapterRouter` y `BudgetLedger`.
+
+## Actualización FUNC-SPRINT-53 — CodeReviewAgent y PatchReviewAgent
+
+`FUNC-SPRINT-53` registra `code.review` y `patch.review` como agentes `implemented-initial` de Fase D.
+
+Contratos:
+
+- monoagente;
+- `max_autonomy=A3`;
+- dry-run/read-only;
+- sin handoffs;
+- sin APIs externas;
+- sin modificación de código;
+- sin aplicación de patches;
+- prompts versionados;
+- evals offline obligatorios.
+
+`CodeReviewAgent` usa `CodeReviewEngine` para priorizar hallazgos. `PatchReviewAgent` usa `PatchReviewEngine` y `PatchPreflightEngine` para explicar riesgos y aplicabilidad sin mutar el workspace.

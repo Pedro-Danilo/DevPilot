@@ -220,6 +220,100 @@
           "MODEL_ADAPTER_PASS"
         ]
       }
+    },
+    {
+      "id": "agent-code-review-clean-model-aware-mock",
+      "component": "agent.code_review_model_aware",
+      "description": "CodeReviewAgent should pass clean code and execute mock model-aware guidance through AgentRuntime v2.",
+      "tags": [
+        "agent",
+        "code-review",
+        "runtime-v2",
+        "model-aware",
+        "mock",
+        "clean"
+      ],
+      "input": {
+        "files": [
+          {
+            "path": "src/clean.py",
+            "content": "def greet(name: str) -> str:\n    return f'hello {name}'\n"
+          }
+        ]
+      },
+      "expected": {
+        "ok": true,
+        "finding_ids": [
+          "MODEL_ADAPTER_PASS"
+        ]
+      }
+    },
+    {
+      "id": "agent-code-review-risky-eval-os-system",
+      "component": "agent.code_review",
+      "description": "CodeReviewAgent should detect eval() and os.system() in deterministic fixture.",
+      "tags": [
+        "agent",
+        "code-review",
+        "defect",
+        "security"
+      ],
+      "input": {
+        "files": [
+          {
+            "path": "src/risky.py",
+            "content": "import os\n\ndef run(value: str):\n    os.system(value)\n    return eval(value)\n"
+          }
+        ]
+      },
+      "expected": {
+        "ok": false,
+        "finding_ids": [
+          "CODE_REVIEW_OS_SYSTEM",
+          "CODE_REVIEW_EVAL"
+        ]
+      }
+    },
+    {
+      "id": "agent-patch-review-safe-model-aware-mock",
+      "component": "agent.patch_review_model_aware",
+      "description": "PatchReviewAgent should pass a safe applicable patch and execute mock model-aware guidance.",
+      "tags": [
+        "agent",
+        "patch-review",
+        "runtime-v2",
+        "model-aware",
+        "mock",
+        "clean"
+      ],
+      "input": {},
+      "expected": {
+        "ok": true,
+        "finding_ids": [
+          "MODEL_ADAPTER_PASS"
+        ]
+      }
+    },
+    {
+      "id": "agent-patch-review-secret-block",
+      "component": "agent.patch_review",
+      "description": "PatchReviewAgent should block secret-like additions in a patch.",
+      "tags": [
+        "agent",
+        "patch-review",
+        "defect",
+        "secret"
+      ],
+      "input": {
+        "patch_file": "secret.patch",
+        "patch_text": "diff --git a/secret.txt b/secret.txt\nnew file mode 100644\n--- /dev/null\n+++ b/secret.txt\n@@ -0,0 +1 @@\n+api_key=sk-1234567890abcdef\n"
+      },
+      "expected": {
+        "ok": false,
+        "finding_ids": [
+          "PATCH_SECRET_LIKE_CONTENT"
+        ]
+      }
     }
   ]
 }

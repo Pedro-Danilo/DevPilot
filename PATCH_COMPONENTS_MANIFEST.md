@@ -1,37 +1,62 @@
-# PATCH FUNC-SPRINT-52 — RepoAnalysisAgent gobernado
+# PATCH COMPONENTS — FUNC-SPRINT-53
 
-## Propósito
+Este ZIP contiene los componentes nuevos o modificados para `FUNC-SPRINT-53 — CodeReviewAgent y PatchReviewAgent gobernados`.
 
-Este paquete contiene únicamente los componentes nuevos o modificados para `FUNC-SPRINT-52 — RepoAnalysisAgent gobernado`.
+## Componentes creados
 
-## Contenido principal
+- `src/devpilot_core/agents/code_review_agent.py`
+- `src/devpilot_core/agents/patch_review_agent.py`
+- `docs/prompts/code.review.agent.v1.json`
+- `docs/prompts/patch.review.agent.v1.json`
+- `tests/test_review_agents.py`
+- `tests/test_sprint_53_documentation.py`
+- `tests/fixtures/review_agents/safe_target.py`
+- `tests/fixtures/review_agents/safe.patch`
+- `docs/audits/func_sprint_53_review_agents_audit.md`
+- `docs/functional_sprint_53_manifest.json`
 
-- Nuevo `RepoAnalysisAgent` monoagente, read-only y gobernado por MIASI.
-- Integración con `AgentRuntime v2`, `RepoAnalyzer`, `DependencyGraphBuilder`, `GitAdapter`, `PromptRegistry`, `ModelAdapterRouter` y `BudgetLedger`.
-- Prompt versionado `repo.analysis.agent` como contrato JSON validado por Prompt Registry.
-- Caso de evaluación `agent.repo_analysis_model_aware` con `mock`.
-- Actualización MIASI: agent registry, tool registry y policy matrix.
-- Ajuste del schema MIASI Agent Registry para admitir estado `implemented-initial`.
-- Documentación, auditoría, manifest y pruebas Sprint 52.
+## Componentes modificados
 
-## Comandos mínimos de verificación
+- `.devpilot/miasi/agent_registry.json`
+- `.devpilot/miasi/policy_matrix.json`
+- `.devpilot/miasi/tool_registry.json`
+- `README.md`
+- `docs/04_quality/test_strategy.md`
+- `docs/05_operations/runbook.md`
+- `docs/06_miasi/agent_card.md`
+- `docs/06_miasi/eval_card.md`
+- `docs/06_miasi/policy_card.md`
+- `docs/06_miasi/tool_card.md`
+- `docs/06_miasi/tool_registry.md`
+- `docs/devpilot_backlog_fase_D_ia_local_gobernada.md`
+- `docs/functional_backlog_after_precode.md`
+- `evals/fixtures/documentation_eval_cases.json`
+- `src/devpilot_core/agents/__init__.py`
+- `src/devpilot_core/agents/runtime.py`
+- `src/devpilot_core/cli.py`
+- `src/devpilot_core/evals/runner.py`
+- `tests/test_sprint_32_documentation.py`
+- `tests/test_sprint_33_documentation.py`
+- `tests/test_sprint_34_documentation.py`
+- `tests/test_sprint_35_documentation.py`
+- `tests/test_sprint_36_documentation.py`
+- `tests/test_sprint_37_documentation.py`
+- `tests/test_sprint_38_documentation.py`
+- `tests/test_sprint_39_documentation.py`
+- `tests/test_sprint_40_documentation.py`
+- `tests/test_sprint_41_documentation.py`
+- `tests/test_sprint_42_documentation.py`
+- `tests/test_sprint_43_documentation.py`
+- `tests/test_sprint_44_documentation.py`
+- `tests/test_sprint_45_documentation.py`
+- `tests/test_sprint_46_documentation.py`
+- `tests/test_sprint_47_documentation.py`
+- `tests/test_sprint_48_documentation.py`
+- `tests/test_sprint_49_documentation.py`
+- `tests/test_sprint_50_documentation.py`
+- `tests/test_sprint_51_documentation.py`
+- `tests/test_sprint_52_documentation.py`
 
-```powershell
-python -m pytest tests/test_repo_analysis_agent.py tests/test_sprint_52_documentation.py -q
-python -m pytest tests/test_agent_runtime.py tests/test_agent_runtime_v2.py tests/test_eval_runner.py -q
-python -m devpilot_core agent run repo-analysis --target . --provider mock --json
-python -m devpilot_core eval run --json
-python -m devpilot_core prompt validate --json
-python -m devpilot_core validate all --json
-python -m devpilot_core miasi validate --json
-python -m devpilot_core readiness-check --strict --json
-```
+## Exclusiones
 
-## Restricciones preservadas
-
-- No incluye `outputs/`.
-- No incluye base de datos `.devpilot/devpilot.db`.
-- No incluye `.devpilot/providers.yaml` local.
-- No incluye `.git/`, `.venv/`, caches ni logs.
-- No habilita APIs externas.
-- No habilita handoffs ni multiagente.
+No incluye `outputs/`, `.devpilot/devpilot.db`, `.devpilot/providers.yaml`, `.devpilot/rollback/`, `.git/`, `.venv/`, caches, logs ni artefactos temporales.

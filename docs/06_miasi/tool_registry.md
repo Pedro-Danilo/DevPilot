@@ -174,3 +174,16 @@ El Tool Registry ejecutable incorpora `agent.model.generate` en estado `implemen
 ## Actualización FUNC-SPRINT-52 — Tool Registry
 
 El Tool Registry incorpora `agent.repo_analysis.run` para la ejecución monoagente de `RepoAnalysisAgent`. La tool queda restringida a análisis read-only y se apoya en `repo.analyze`, `repo.dependency_graph`, `git.status`, `repo.quality_gate`, `policy.check`, `report.write`, `trace.append` y `agent.model.generate` cuando se activa provider mock/local.
+
+## Actualización FUNC-SPRINT-53 — Tool Registry
+
+El Tool Registry incorpora `agent.code_review.run` y `agent.patch_review.run` como capacidades `implemented-initial`. Estas tools representan orquestación agentic gobernada, no motores nuevos ni ejecución destructiva.
+
+Las tools se vinculan con:
+
+- `CODE_REVIEW_AGENT_GOVERNED_ALLOW`;
+- `PATCH_REVIEW_AGENT_GOVERNED_ALLOW`;
+- `CODE_REVIEW_DRY_RUN_ALLOW`;
+- `PATCH_DRY_RUN_ALLOW`;
+- `PATCH_CHECK_DRY_RUN_ALLOW`;
+- `AGENT_MODEL_CALL_GOVERNED_ALLOW`.

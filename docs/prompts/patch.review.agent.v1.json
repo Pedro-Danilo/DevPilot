@@ -1,0 +1,56 @@
+{
+  "id": "patch.review.agent",
+  "version": "1.0.0",
+  "status": "approved",
+  "owner": "Ordóñez",
+  "task": "patch_review_agent",
+  "agent_id": "patch.review",
+  "description": "Prompt gobernado para PatchReviewAgent en modo monoagente dry-run.",
+  "input_variables": [
+    {
+      "name": "patch_signals",
+      "description": "Resumen redacted de hallazgos, aplicabilidad y riesgos de PatchReviewEngine/PatchPreflightEngine.",
+      "required": true,
+      "max_length": 12000
+    },
+    {
+      "name": "review_focus",
+      "description": "Foco de revisión solicitado para explicar riesgos del patch.",
+      "required": true,
+      "max_length": 2000
+    }
+  ],
+  "template": "Actúa como PatchReviewAgent de DevPilot en modo monoagente, dry-run y local-first. Foco: {{ review_focus }}. Señales redacted del patch: {{ patch_signals }}. Devuelve una explicación de riesgos, severidades, aplicabilidad, señales de seguridad y próximos pasos seguros. No apliques patches, no modifiques archivos, no ejecutes rollback/refactor sin aprobación y no expongas secretos ni contenido crudo del patch.",
+  "safety": {
+    "redaction_required": true,
+    "prompt_injection_scan_required": true,
+    "secret_scan_required": true,
+    "store_raw_prompt": false,
+    "store_raw_completion": false,
+    "allowed_tools": [
+      "patch.parse",
+      "patch.dry_run",
+      "patch.check",
+      "report.write"
+    ],
+    "forbidden_patterns": [
+      "git_apply",
+      "apply_patch",
+      "rollback_execute",
+      "delete_file",
+      "raw_secret",
+      "execute_without_approval"
+    ]
+  },
+  "usage": {
+    "providers": ["mock", "ollama", "lmstudio"],
+    "default_provider": "mock",
+    "fallback_provider": "mock",
+    "max_tokens_estimated": 3000
+  },
+  "metadata": {
+    "sprint": "FUNC-SPRINT-53",
+    "preliminary": true,
+    "notes": "Primera versión especializada para PatchReviewAgent gobernado. No aplica patches y no persiste contenido crudo del patch."
+  }
+}

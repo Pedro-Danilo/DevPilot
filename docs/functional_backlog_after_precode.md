@@ -14,7 +14,7 @@ change_policy: "controlled_changes_allowed_via_docs_as_code"
 approved_on: "2026-06-06"
 approval_scope: "functional_backlog_after_precode"
 baseline_execution: "FUNC-SPRINT-00"
-next_sprint: "FUNC-SPRINT-53"
+next_sprint: "FUNC-SPRINT-54"
 ---
 
 # DevPilot Local — Backlog ejecutable posterior a pre-code
@@ -2149,3 +2149,9 @@ La transición hacia `FUNC-SPRINT-50` queda condicionada a evaluar modelos usand
 ## Transición posterior a FUNC-SPRINT-52
 
 `FUNC-SPRINT-52` implementa `RepoAnalysisAgent` como primer agente especializado monoagente sobre motores de Fase C. La transición hacia `FUNC-SPRINT-53` queda condicionada a mantener `RepoAnalysisAgent` read-only, sin APIs externas, sin cambios productivos, sin handoffs y con evidencia en `EvalRunner`; los próximos agentes de revisión deben seguir el mismo patrón: motor determinístico existente + AgentRuntime v2 + PromptRegistry + MIASI + evals offline.
+
+## Transición posterior a FUNC-SPRINT-53
+
+Después de `FUNC-SPRINT-53`, DevPilot dispone de agentes gobernados para análisis de repositorio, revisión de código y revisión de patches. El siguiente incremento funcional debe avanzar hacia agentes plan-only para refactor seguro y planeación de pruebas, manteniendo el mismo patrón: `AgentRuntime v2`, MIASI, prompts versionados, dry-run por defecto, evals offline y ausencia de APIs externas.
+
+Siguiente sprint: `FUNC-SPRINT-54 — SafeRefactorAgent y TestPlannerAgent gobernados`.

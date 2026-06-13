@@ -21,17 +21,17 @@ def test_sprint_46_readme_runbook_backlog_and_strategy_are_synchronized() -> Non
     functional_backlog = _read("docs/functional_backlog_after_precode.md")
     test_strategy = _read("docs/04_quality/test_strategy.md")
 
-    assert "Último hito: `FUNC-SPRINT-52" in readme
-    assert "Siguiente hito: `FUNC-SPRINT-53" in readme
+    assert "Último hito: `FUNC-SPRINT-53" in readme
+    assert "Siguiente hito: `FUNC-SPRINT-54" in readme
     assert "## FUNC-SPRINT-46 — OllamaAdapter local opcional" in readme
     assert "python -m devpilot_core model health --provider ollama --json" in readme
     assert "## FUNC-SPRINT-46 — OllamaAdapter local opcional" in runbook
     assert "enabled: true" in runbook
-    assert 'first_open_sprint: "FUNC-SPRINT-53"' in backlog
-    assert 'last_completed_sprint: "FUNC-SPRINT-52"' in backlog
-    assert 'next_sprint: "FUNC-SPRINT-53"' in backlog
+    assert 'first_open_sprint: "FUNC-SPRINT-54"' in backlog
+    assert 'last_completed_sprint: "FUNC-SPRINT-53"' in backlog
+    assert 'next_sprint: "FUNC-SPRINT-54"' in backlog
     assert "## Estado de implementación Sprint 46" in backlog
-    assert 'next_sprint: "FUNC-SPRINT-53"' in functional_backlog
+    assert 'next_sprint: "FUNC-SPRINT-54"' in functional_backlog
     assert "## Actualización FUNC-SPRINT-46 — Pruebas de OllamaAdapter opcional" in test_strategy
 
 
