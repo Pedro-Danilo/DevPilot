@@ -7,8 +7,8 @@ owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
 phase: "FASE-D-IA-LOCAL-GOBERNADA"
-updated: "2026-06-12"
-source_repo: "repo_DevPilot_Local_63.zip"
+updated: "2026-06-13"
+source_repo: "repo_DevPilot_Local_65.zip"
 source_report: "Informe de avance DevPilot - sprint 0 - 18.docx"
 source_backlog_model: "docs/functional_backlog_after_precode.md"
 baseline_dependency: "Fases A, B y C cerradas; Fase C validada por FUNC-SPRINT-44 repo engineering-gate"
@@ -16,12 +16,12 @@ first_sprint: "FUNC-SPRINT-45"
 last_planned_sprint: "FUNC-SPRINT-55"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "phase_d_executable_backlog_review"
-first_open_sprint: "FUNC-SPRINT-54"
+first_open_sprint: "FUNC-SPRINT-55"
 phase_d_status: "in_progress"
 approved_on: "2026-06-12"
 approval: "approved_after_phase_c_closure_review"
-last_completed_sprint: "FUNC-SPRINT-53"
-next_sprint: "FUNC-SPRINT-54"
+last_completed_sprint: "FUNC-SPRINT-54"
+next_sprint: "FUNC-SPRINT-55"
 ---
 
 # DevPilot Local — Backlog ejecutable Fase D: IA local gobernada
@@ -1285,3 +1285,14 @@ Artefactos principales:
 La implementación corrige la desviación prevista del backlog que sugería prompts `.md`: por consistencia con `PromptRegistry` y el schema de Sprint 49, los prompts se implementan como contratos JSON versionados. Esta decisión no requiere ADR nueva porque mantiene la arquitectura ya aprobada y no introduce proveedores, APIs externas, acciones destructivas ni multiagente.
 
 Siguiente sprint abierto: `FUNC-SPRINT-54 — SafeRefactorAgent y TestPlannerAgent gobernados`.
+
+
+## Estado de implementación Sprint 54
+
+`FUNC-SPRINT-54 — SafeRefactorAgent y TestPlannerAgent gobernados` queda en estado `implemented-initial`. La implementación crea `SafeRefactorAgent` y `TestPlannerAgent` sobre `AgentRuntime v2`, `PromptRegistry`, `ModelAdapterRouter`, `BudgetLedger` y MIASI.
+
+Alcance real aplicado: se mantiene una variante estrictamente plan-only/dry-run. `SafeRefactorAgent` usa `RefactorPlanner` para producir candidatos, plan, verificación y rollback, pero no invoca `RefactorExecutor` ni genera/aplica patches. `TestPlannerAgent` usa `TraceabilityEngine` y perfiles `tests.run` declarados para sugerir planes trazables, pero no ejecuta pytest ni comandos arbitrarios.
+
+La decisión de usar prompts JSON (`safe.refactor.agent.v1.json` y `test.planner.agent.v1.json`) en lugar de `.md` mantiene compatibilidad con el contrato `PromptRegistry` vigente desde Sprint 49. No se requiere ADR nueva porque no se introduce proveedor, API externa, patrón multiagente, ejecución destructiva ni frontera de seguridad nueva.
+
+Criterios de cierre: pruebas específicas de agentes, evals offline, `prompt validate`, `miasi validate`, manifest, auditoría y gates documentales deben permanecer en PASS. Criterios BLOCK: ejecución real de refactor sin approval, ejecución de `tests.run` sin aprobación, comandos arbitrarios, prompts no versionados o mutación de workspace real.

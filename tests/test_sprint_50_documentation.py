@@ -21,17 +21,17 @@ def test_sprint_50_readme_runbook_backlog_and_strategy_are_synchronized() -> Non
     functional_backlog = _read("docs/functional_backlog_after_precode.md")
     test_strategy = _read("docs/04_quality/test_strategy.md")
 
-    assert "Último hito: `FUNC-SPRINT-53" in readme
-    assert "Siguiente hito: `FUNC-SPRINT-54" in readme
+    assert "Último hito: `FUNC-SPRINT-54" in readme
+    assert "Siguiente hito: `FUNC-SPRINT-55" in readme
     assert "## FUNC-SPRINT-50 — Model evaluation matrix local" in readme
     assert "python -m devpilot_core model eval run --provider mock --json" in runbook
     assert "python -m devpilot_core model eval run --provider mock --json --write-report" in runbook
     assert "## FUNC-SPRINT-50 — Model evaluation matrix local" in runbook
-    assert 'first_open_sprint: "FUNC-SPRINT-54"' in backlog
-    assert 'last_completed_sprint: "FUNC-SPRINT-53"' in backlog
-    assert 'next_sprint: "FUNC-SPRINT-54"' in backlog
+    assert 'first_open_sprint: "FUNC-SPRINT-55"' in backlog
+    assert 'last_completed_sprint: "FUNC-SPRINT-54"' in backlog
+    assert 'next_sprint: "FUNC-SPRINT-55"' in backlog
     assert "## Estado de implementación Sprint 50" in backlog
-    assert 'next_sprint: "FUNC-SPRINT-54"' in functional_backlog
+    assert 'next_sprint: "FUNC-SPRINT-55"' in functional_backlog
     assert "## Transición posterior a FUNC-SPRINT-50" in functional_backlog
     assert "## Actualización FUNC-SPRINT-50 — Pruebas de Model evaluation matrix local" in test_strategy
 

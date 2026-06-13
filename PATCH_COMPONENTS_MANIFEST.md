@@ -1,21 +1,10 @@
-# PATCH COMPONENTS — FUNC-SPRINT-53
+# PATCH COMPONENTS — FUNC-SPRINT-54
 
-Este ZIP contiene los componentes nuevos o modificados para `FUNC-SPRINT-53 — CodeReviewAgent y PatchReviewAgent gobernados`.
+Sprint: FUNC-SPRINT-54 — SafeRefactorAgent y TestPlannerAgent gobernados
 
-## Componentes creados
+Este ZIP contiene únicamente componentes nuevos o modificados para aplicar sobre repo_DevPilot_Local_65.zip. No incluye outputs/, SQLite runtime, providers.yaml local, caches ni artefactos temporales.
 
-- `src/devpilot_core/agents/code_review_agent.py`
-- `src/devpilot_core/agents/patch_review_agent.py`
-- `docs/prompts/code.review.agent.v1.json`
-- `docs/prompts/patch.review.agent.v1.json`
-- `tests/test_review_agents.py`
-- `tests/test_sprint_53_documentation.py`
-- `tests/fixtures/review_agents/safe_target.py`
-- `tests/fixtures/review_agents/safe.patch`
-- `docs/audits/func_sprint_53_review_agents_audit.md`
-- `docs/functional_sprint_53_manifest.json`
-
-## Componentes modificados
+## Componentes
 
 - `.devpilot/miasi/agent_registry.json`
 - `.devpilot/miasi/policy_matrix.json`
@@ -28,13 +17,19 @@ Este ZIP contiene los componentes nuevos o modificados para `FUNC-SPRINT-53 — 
 - `docs/06_miasi/policy_card.md`
 - `docs/06_miasi/tool_card.md`
 - `docs/06_miasi/tool_registry.md`
+- `docs/audits/func_sprint_54_refactor_testplanner_agents_audit.md`
 - `docs/devpilot_backlog_fase_D_ia_local_gobernada.md`
 - `docs/functional_backlog_after_precode.md`
+- `docs/functional_sprint_54_manifest.json`
+- `docs/prompts/safe.refactor.agent.v1.json`
+- `docs/prompts/test.planner.agent.v1.json`
 - `evals/fixtures/documentation_eval_cases.json`
 - `src/devpilot_core/agents/__init__.py`
 - `src/devpilot_core/agents/runtime.py`
-- `src/devpilot_core/cli.py`
+- `src/devpilot_core/agents/safe_refactor_agent.py`
+- `src/devpilot_core/agents/test_planner_agent.py`
 - `src/devpilot_core/evals/runner.py`
+- `tests/test_refactor_testplanner_agents.py`
 - `tests/test_sprint_32_documentation.py`
 - `tests/test_sprint_33_documentation.py`
 - `tests/test_sprint_34_documentation.py`
@@ -56,7 +51,17 @@ Este ZIP contiene los componentes nuevos o modificados para `FUNC-SPRINT-53 — 
 - `tests/test_sprint_50_documentation.py`
 - `tests/test_sprint_51_documentation.py`
 - `tests/test_sprint_52_documentation.py`
+- `tests/test_sprint_53_documentation.py`
+- `tests/test_sprint_54_documentation.py`
 
-## Exclusiones
+## Validación sugerida
 
-No incluye `outputs/`, `.devpilot/devpilot.db`, `.devpilot/providers.yaml`, `.devpilot/rollback/`, `.git/`, `.venv/`, caches, logs ni artefactos temporales.
+```powershell
+python -m pytest tests/test_refactor_testplanner_agents.py tests/test_sprint_54_documentation.py -q
+python -m devpilot_core agent run safe-refactor --target src/devpilot_core/repo --provider mock --json
+python -m devpilot_core agent run test-planner --target docs/01_requirements --provider mock --json
+python -m devpilot_core eval run --json
+python -m devpilot_core prompt validate --json
+python -m devpilot_core miasi validate --json
+python -m devpilot_core validate all --json
+```

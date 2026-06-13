@@ -314,6 +314,89 @@
           "PATCH_SECRET_LIKE_CONTENT"
         ]
       }
+    },
+    {
+      "id": "agent-safe-refactor-plan-model-aware-mock",
+      "component": "agent.safe_refactor_model_aware",
+      "description": "SafeRefactorAgent should generate plan-only refactor suggestions and route mock model-aware guidance.",
+      "tags": [
+        "agent",
+        "safe-refactor",
+        "runtime-v2",
+        "model-aware",
+        "mock",
+        "plan-only"
+      ],
+      "input": {
+        "goal": "Extract smaller decision helpers without changing behavior.",
+        "files": [
+          {
+            "path": "src/refactor_target.py",
+            "content": "def complex_value(items):\n    total = 0\n    if len(items) > 0:\n        total += 0\n    if len(items) > 1:\n        total += 1\n    if len(items) > 2:\n        total += 2\n    if len(items) > 3:\n        total += 3\n    if len(items) > 4:\n        total += 4\n    if len(items) > 5:\n        total += 5\n    if len(items) > 6:\n        total += 6\n    if len(items) > 7:\n        total += 7\n    if len(items) > 8:\n        total += 8\n    if len(items) > 9:\n        total += 9\n    if len(items) > 10:\n        total += 10\n    if len(items) > 11:\n        total += 11\n    if len(items) > 12:\n        total += 12\n    if len(items) > 13:\n        total += 13\n    if len(items) > 14:\n        total += 14\n    return total\n"
+          }
+        ]
+      },
+      "expected": {
+        "ok": true,
+        "finding_ids": [
+          "MODEL_ADAPTER_PASS"
+        ]
+      }
+    },
+    {
+      "id": "agent-test-planner-traceability-model-aware-mock",
+      "component": "agent.test_planner_model_aware",
+      "description": "TestPlannerAgent should generate a traceability-aware test plan and route mock model-aware guidance.",
+      "tags": [
+        "agent",
+        "test-planner",
+        "runtime-v2",
+        "model-aware",
+        "mock",
+        "plan-only"
+      ],
+      "input": {
+        "target": ".case_dir",
+        "idea": "Plan tests for explicit requirements.",
+        "files": [
+          {
+            "path": "docs/requirements.md",
+            "content": "# Requirements\n\nREQ-001 is covered by AC-001 and TEST-001.\n\nUS-001 links to AC-001.\n"
+          }
+        ]
+      },
+      "expected": {
+        "ok": true,
+        "finding_ids": [
+          "MODEL_ADAPTER_PASS"
+        ]
+      }
+    },
+    {
+      "id": "agent-test-planner-plan-only-no-execution",
+      "component": "agent.test_planner",
+      "description": "TestPlannerAgent should stay plan-only and not execute tests.run in normal dry-run mode.",
+      "tags": [
+        "agent",
+        "test-planner",
+        "plan-only",
+        "clean"
+      ],
+      "input": {
+        "target": ".case_dir",
+        "files": [
+          {
+            "path": "docs/requirements.md",
+            "content": "# Requirements\n\nREQ-002 should have AC-002 and TEST-002 coverage.\n"
+          }
+        ]
+      },
+      "expected": {
+        "ok": true,
+        "finding_ids": [
+          "TRACEABILITY_COVERAGE_PASS"
+        ]
+      }
     }
   ]
 }

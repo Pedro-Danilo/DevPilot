@@ -1,8 +1,8 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
 Estado actual: `baseline pre-code approved + Fase A cerrada + FASE-B cerrada + Fase C cerrada + Fase D en progreso controlado`  
-Último hito: `FUNC-SPRINT-53 — CodeReviewAgent y PatchReviewAgent gobernados`  
-Siguiente hito: `FUNC-SPRINT-54 — SafeRefactorAgent y TestPlannerAgent gobernados`  
+Último hito: `FUNC-SPRINT-54 — SafeRefactorAgent y TestPlannerAgent gobernados`  
+Siguiente hito: `FUNC-SPRINT-55 — Requirements/Architecture/Security agents y cierre Fase D`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
@@ -1632,3 +1632,20 @@ Notas de alcance:
 - `PatchReviewAgent` combina `PatchReviewEngine` y `PatchPreflightEngine` en dry-run; no aplica patches ni escribe cambios.
 - Las llamadas model-aware son opcionales y pasan por `PromptRegistry`, `ModelAdapterRouter` y `BudgetLedger`.
 - La implementación es `implemented-initial`; debe evolucionar con más fixtures, severidades ajustables y reportes comparativos por tipo de riesgo.
+
+
+## FUNC-SPRINT-54 — SafeRefactorAgent y TestPlannerAgent gobernados
+
+`FUNC-SPRINT-54` agrega dos agentes especializados de planificación: `SafeRefactorAgent` y `TestPlannerAgent`. Ambos se ejecutan mediante `AgentRuntime v2`, están registrados en MIASI como `implemented-initial`, usan prompts versionados JSON y mantienen operación monoagente, local-first y plan-only.
+
+Estado: `implemented-initial`. Esta versión no ejecuta `RefactorExecutor` sobre workspace real, no aplica patches, no ejecuta `tests.run`, no acepta comandos arbitrarios y no usa APIs externas. Su propósito es producir planes, suggestions, verificación recomendada y trazabilidad; cualquier ejecución real futura debe pasar por aprobación humana, sandbox, rollback y perfiles `tests.run` controlados.
+
+Comandos principales:
+
+```powershell
+python -m devpilot_core agent run safe-refactor --target src/devpilot_core/repo --provider mock --json
+python -m devpilot_core agent run test-planner --target docs/01_requirements --provider mock --json
+python -m devpilot_core eval run --json
+```
+
+PASS: ambos agentes producen planes y suggestions, operan en dry-run/plan-only, mantienen `mutations_performed=false`, registran `MODEL_ADAPTER_PASS` con `mock` y no almacenan prompts/completions crudos. BLOCK: intento de ejecutar refactor real, intento de ejecutar tests sin aprobación, comandos arbitrarios, prompts no versionados, APIs externas o pérdida de monoagente.

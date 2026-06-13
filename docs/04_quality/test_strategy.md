@@ -664,3 +664,17 @@ Cobertura mínima:
 - Casos offline en `evals/fixtures/documentation_eval_cases.json`.
 
 Criterio de salida: todos los casos deben pasar sin modelos locales reales, sin APIs externas, sin escritura de código y sin aplicación de patches.
+
+
+## Actualización FUNC-SPRINT-54 — Pruebas de SafeRefactorAgent y TestPlannerAgent gobernados
+
+Sprint 54 agrega pruebas específicas para agentes plan-only: `tests/test_refactor_testplanner_agents.py` valida planificación de refactor con `mock`, bloqueo de ejecución no dry-run, planificación trazable de pruebas y CLI/evals parseables.
+
+Criterios específicos:
+
+- `SafeRefactorAgent` debe producir plan, verification y rollback sin invocar `RefactorExecutor`.
+- `TestPlannerAgent` debe producir plan trazable sin ejecutar `tests.run`.
+- Los evals offline deben cubrir refactor plan-only, test-planner model-aware y test-planner dry-run.
+- `prompt validate`, `miasi validate`, `eval run` y tests documentales deben permanecer en PASS.
+
+Esta cobertura es `implemented-initial`: valida contratos, seguridad y trazabilidad básica; no sustituye pruebas industriales de refactor semántico ni ejecución real de pipelines.

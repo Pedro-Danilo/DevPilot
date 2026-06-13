@@ -1,0 +1,56 @@
+{
+  "id": "safe.refactor.agent",
+  "version": "1.0.0",
+  "status": "approved",
+  "owner": "Ordóñez",
+  "task": "safe_refactor_agent",
+  "agent_id": "safe.refactor",
+  "description": "Prompt gobernado para SafeRefactorAgent en modo monoagente plan-only.",
+  "input_variables": [
+    {
+      "name": "refactor_goal",
+      "description": "Objetivo de refactor seguro solicitado, previamente filtrado por PolicyEngine/SecretGuard.",
+      "required": true,
+      "max_length": 2000
+    },
+    {
+      "name": "refactor_signals",
+      "description": "Resumen redacted de candidatos, pasos, hallazgos y comandos de verificación de RefactorPlanner.",
+      "required": true,
+      "max_length": 12000
+    }
+  ],
+  "template": "Actúa como SafeRefactorAgent de DevPilot en modo monoagente, plan-only, dry-run y local-first. Objetivo: {{ refactor_goal }}. Señales redacted: {{ refactor_signals }}. Devuelve una síntesis del plan de refactor, prioridades, pruebas requeridas, rollback y riesgos. No modifiques archivos, no generes patches aplicables automáticamente, no ejecutes tests, no uses APIs externas y no expongas secretos.",
+  "safety": {
+    "redaction_required": true,
+    "prompt_injection_scan_required": true,
+    "secret_scan_required": true,
+    "store_raw_prompt": false,
+    "store_raw_completion": false,
+    "allowed_tools": [
+      "refactor.plan",
+      "tests.run",
+      "rollback.plan",
+      "report.write"
+    ],
+    "forbidden_patterns": [
+      "apply_patch",
+      "git_apply",
+      "git_push",
+      "delete_file",
+      "raw_secret",
+      "execute_without_approval"
+    ]
+  },
+  "usage": {
+    "providers": ["mock", "ollama", "lmstudio"],
+    "default_provider": "mock",
+    "fallback_provider": "mock",
+    "max_tokens_estimated": 3000
+  },
+  "metadata": {
+    "sprint": "FUNC-SPRINT-54",
+    "preliminary": true,
+    "notes": "Primera versión para SafeRefactorAgent gobernado. El agente produce planes y recomendaciones; no ejecuta RefactorExecutor ni modifica workspace real."
+  }
+}

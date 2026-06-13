@@ -1,0 +1,103 @@
+{
+  "sprint": "FUNC-SPRINT-54",
+  "title": "SafeRefactorAgent y TestPlannerAgent gobernados",
+  "status": "implemented",
+  "implemented_at": "2026-06-13",
+  "phase": "FASE-D-IA-LOCAL-GOBERNADA",
+  "wave": "Ola 7 — Agentes especializados monoagente",
+  "source_backlog": "docs/devpilot_backlog_fase_D_ia_local_gobernada.md",
+  "architectural_decision": {
+    "required": false,
+    "adr": "docs/02_architecture/adrs/ADR-0011-local-model-providers.md",
+    "reason": "FUNC-SPRINT-54 reutiliza AgentRuntime v2, PromptRegistry, ModelAdapterRouter, BudgetLedger, RefactorPlanner, TraceabilityEngine y tests.run ya existentes. No introduce providers, APIs externas, ejecución destructiva, handoffs ni multiagente; por tanto no requiere una ADR nueva."
+  },
+  "created_files": [
+    "src/devpilot_core/agents/safe_refactor_agent.py",
+    "src/devpilot_core/agents/test_planner_agent.py",
+    "docs/prompts/safe.refactor.agent.v1.json",
+    "docs/prompts/test.planner.agent.v1.json",
+    "tests/test_refactor_testplanner_agents.py",
+    "tests/test_sprint_54_documentation.py",
+    "docs/audits/func_sprint_54_refactor_testplanner_agents_audit.md",
+    "docs/functional_sprint_54_manifest.json"
+  ],
+  "modified_files": [
+    ".devpilot/miasi/agent_registry.json",
+    ".devpilot/miasi/policy_matrix.json",
+    ".devpilot/miasi/tool_registry.json",
+    "README.md",
+    "docs/04_quality/test_strategy.md",
+    "docs/05_operations/runbook.md",
+    "docs/06_miasi/agent_card.md",
+    "docs/06_miasi/eval_card.md",
+    "docs/06_miasi/policy_card.md",
+    "docs/06_miasi/tool_card.md",
+    "docs/06_miasi/tool_registry.md",
+    "docs/devpilot_backlog_fase_D_ia_local_gobernada.md",
+    "docs/functional_backlog_after_precode.md",
+    "evals/fixtures/documentation_eval_cases.json",
+    "src/devpilot_core/agents/__init__.py",
+    "src/devpilot_core/agents/runtime.py",
+    "src/devpilot_core/evals/runner.py",
+    "tests/test_sprint_32_documentation.py",
+    "tests/test_sprint_33_documentation.py",
+    "tests/test_sprint_34_documentation.py",
+    "tests/test_sprint_35_documentation.py",
+    "tests/test_sprint_36_documentation.py",
+    "tests/test_sprint_37_documentation.py",
+    "tests/test_sprint_38_documentation.py",
+    "tests/test_sprint_39_documentation.py",
+    "tests/test_sprint_40_documentation.py",
+    "tests/test_sprint_41_documentation.py",
+    "tests/test_sprint_42_documentation.py",
+    "tests/test_sprint_43_documentation.py",
+    "tests/test_sprint_44_documentation.py",
+    "tests/test_sprint_45_documentation.py",
+    "tests/test_sprint_46_documentation.py",
+    "tests/test_sprint_47_documentation.py",
+    "tests/test_sprint_48_documentation.py",
+    "tests/test_sprint_49_documentation.py",
+    "tests/test_sprint_50_documentation.py",
+    "tests/test_sprint_51_documentation.py",
+    "tests/test_sprint_52_documentation.py",
+    "tests/test_sprint_53_documentation.py"
+  ],
+  "commands": [
+    "python -m devpilot_core agent run safe-refactor --target src/devpilot_core/repo --provider mock --json",
+    "python -m devpilot_core agent run test-planner --target docs/01_requirements --provider mock --json",
+    "python -m devpilot_core eval run --json",
+    "python -m devpilot_core prompt validate --json",
+    "python -m devpilot_core model budget status --limit 10 --json",
+    "python -m devpilot_core validate all --json",
+    "python -m devpilot_core miasi validate --json",
+    "python -m pytest -q"
+  ],
+  "tests": [
+    "tests/test_refactor_testplanner_agents.py",
+    "tests/test_sprint_54_documentation.py"
+  ],
+  "pass_criteria": [
+    "SafeRefactorAgent y TestPlannerAgent ejecutan en modo monoagente plan-only/dry-run.",
+    "SafeRefactorAgent no modifica workspace real, no invoca RefactorExecutor y no genera/aplica patches.",
+    "TestPlannerAgent produce plan trazable y no ejecuta tests.run ni comandos arbitrarios.",
+    "Los agentes están registrados en MIASI con tools y políticas declaradas.",
+    "Los prompts están versionados y validados por PromptRegistry.",
+    "EvalRunner incluye casos offline de refactor plan-only y test planning.",
+    "Mock provider permite pruebas herméticas sin modelos locales ni APIs externas."
+  ],
+  "block_criteria": [
+    "safe-refactor modifica workspace real sin approval.",
+    "test-planner ejecuta comandos arbitrarios o tests.run sin aprobación.",
+    "Algún agente usa provider externo o adapter directo.",
+    "Se requiere modelo local real para pruebas base.",
+    "Se persisten prompts, completions, código fuente o secretos crudos.",
+    "Se habilitan handoffs o multiagente."
+  ],
+  "risks": [
+    "Los planes de refactor son heurísticos y requieren revisión humana antes de ejecución real.",
+    "La planificación de pruebas depende de trazabilidad explícita y no infiere cobertura semántica profunda.",
+    "La explicación model-aware con mock no evalúa calidad semántica real de modelos locales."
+  ],
+  "preliminary": true,
+  "next_sprint": "FUNC-SPRINT-55 — Requirements/Architecture/Security agents y cierre Fase D"
+}

@@ -14,7 +14,7 @@ change_policy: "controlled_changes_allowed_via_docs_as_code"
 approved_on: "2026-06-06"
 approval_scope: "functional_backlog_after_precode"
 baseline_execution: "FUNC-SPRINT-00"
-next_sprint: "FUNC-SPRINT-54"
+next_sprint: "FUNC-SPRINT-55"
 ---
 
 # DevPilot Local — Backlog ejecutable posterior a pre-code
@@ -2155,3 +2155,10 @@ La transición hacia `FUNC-SPRINT-50` queda condicionada a evaluar modelos usand
 Después de `FUNC-SPRINT-53`, DevPilot dispone de agentes gobernados para análisis de repositorio, revisión de código y revisión de patches. El siguiente incremento funcional debe avanzar hacia agentes plan-only para refactor seguro y planeación de pruebas, manteniendo el mismo patrón: `AgentRuntime v2`, MIASI, prompts versionados, dry-run por defecto, evals offline y ausencia de APIs externas.
 
 Siguiente sprint: `FUNC-SPRINT-54 — SafeRefactorAgent y TestPlannerAgent gobernados`.
+
+
+## Transición posterior a FUNC-SPRINT-54
+
+Después de `FUNC-SPRINT-54`, DevPilot cuenta con agentes especializados plan-only para refactor seguro y planificación de pruebas. Esta transición no habilita ejecución autónoma: `SafeRefactorAgent` no ejecuta cambios reales y `TestPlannerAgent` no ejecuta `tests.run`; ambos preparan planes auditables para una evolución futura con aprobación, sandbox, rollback y perfiles de prueba controlados.
+
+El siguiente sprint operativo es `FUNC-SPRINT-55 — Requirements/Architecture/Security agents y cierre Fase D`.

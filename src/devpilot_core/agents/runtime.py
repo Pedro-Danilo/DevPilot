@@ -11,6 +11,8 @@ from devpilot_core.agents.models import AgentMessage, AgentModelCall, AgentRunRe
 from devpilot_core.agents.code_review_agent import CodeReviewAgent
 from devpilot_core.agents.patch_review_agent import PatchReviewAgent
 from devpilot_core.agents.repo_analysis_agent import RepoAnalysisAgent
+from devpilot_core.agents.safe_refactor_agent import SafeRefactorAgent
+from devpilot_core.agents.test_planner_agent import TestPlannerAgent
 from devpilot_core.cli_models import CommandResult, ExitCode, Finding, Severity
 from devpilot_core.miasi import AgentSpec, MiasiRegistryValidator
 from devpilot_core.policy import PolicyEngine, PolicyRequest
@@ -31,6 +33,11 @@ AGENT_ALIASES = {
     "code.review": "code.review",
     "patch-review": "patch.review",
     "patch.review": "patch.review",
+    "safe-refactor": "safe.refactor",
+    "safe.refactor": "safe.refactor",
+    "test-planner": "testplanner.agent",
+    "testplanner": "testplanner.agent",
+    "testplanner.agent": "testplanner.agent",
 }
 
 
@@ -82,6 +89,8 @@ class AgentRuntime:
             "repo.analysis": RepoAnalysisAgent(self.root, self.policy),
             "code.review": CodeReviewAgent(self.root, self.policy),
             "patch.review": PatchReviewAgent(self.root, self.policy),
+            "safe.refactor": SafeRefactorAgent(self.root, self.policy),
+            "testplanner.agent": TestPlannerAgent(self.root, self.policy),
         }
 
     def run(

@@ -1,0 +1,56 @@
+{
+  "id": "test.planner.agent",
+  "version": "1.0.0",
+  "status": "approved",
+  "owner": "Ordóñez",
+  "task": "test_planner_agent",
+  "agent_id": "testplanner.agent",
+  "description": "Prompt gobernado para TestPlannerAgent en modo monoagente plan-only.",
+  "input_variables": [
+    {
+      "name": "test_goal",
+      "description": "Objetivo de planificación de pruebas solicitado para el target analizado.",
+      "required": true,
+      "max_length": 2000
+    },
+    {
+      "name": "traceability_signals",
+      "description": "Resumen redacted de cobertura, gaps, perfiles tests.run y plan propuesto.",
+      "required": true,
+      "max_length": 12000
+    }
+  ],
+  "template": "Actúa como TestPlannerAgent de DevPilot en modo monoagente, plan-only, dry-run y local-first. Objetivo: {{ test_goal }}. Señales redacted de trazabilidad y perfiles tests.run: {{ traceability_signals }}. Devuelve un plan de pruebas priorizado, trazable a requisitos/criterios/evals cuando exista evidencia explícita. No ejecutes pytest, no aceptes comandos arbitrarios, no uses shell, no modifiques archivos y no expongas secretos.",
+  "safety": {
+    "redaction_required": true,
+    "prompt_injection_scan_required": true,
+    "secret_scan_required": true,
+    "store_raw_prompt": false,
+    "store_raw_completion": false,
+    "allowed_tools": [
+      "artifact.read",
+      "traceability.coverage",
+      "tests.run",
+      "report.write"
+    ],
+    "forbidden_patterns": [
+      "shell=True",
+      "arbitrary_command",
+      "pytest_custom_args",
+      "delete_file",
+      "raw_secret",
+      "execute_without_approval"
+    ]
+  },
+  "usage": {
+    "providers": ["mock", "ollama", "lmstudio"],
+    "default_provider": "mock",
+    "fallback_provider": "mock",
+    "max_tokens_estimated": 3000
+  },
+  "metadata": {
+    "sprint": "FUNC-SPRINT-54",
+    "preliminary": true,
+    "notes": "Primera versión para TestPlannerAgent gobernado. El agente sugiere perfiles tests.run, pero no ejecuta pruebas ni comandos arbitrarios."
+  }
+}

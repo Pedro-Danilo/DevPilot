@@ -26,6 +26,10 @@ SUPPORTED_COMPONENTS = {
     "agent.code_review_model_aware",
     "agent.patch_review",
     "agent.patch_review_model_aware",
+    "agent.safe_refactor",
+    "agent.safe_refactor_model_aware",
+    "agent.test_planner",
+    "agent.test_planner_model_aware",
 }
 
 
@@ -168,6 +172,14 @@ class EvalRunner:
             result = self._run_patch_review_case(case, suite=suite)
         elif case.component == "agent.patch_review_model_aware":
             result = self._run_patch_review_case(case, suite=suite, provider="mock")
+        elif case.component == "agent.safe_refactor":
+            result = self._run_safe_refactor_case(case, suite=suite)
+        elif case.component == "agent.safe_refactor_model_aware":
+            result = self._run_safe_refactor_case(case, suite=suite, provider="mock")
+        elif case.component == "agent.test_planner":
+            result = self._run_test_planner_case(case, suite=suite)
+        elif case.component == "agent.test_planner_model_aware":
+            result = self._run_test_planner_case(case, suite=suite, provider="mock")
         else:  # pragma: no cover - guarded by SUPPORTED_COMPONENTS above.
             result = CommandResult("eval case", False, ExitCode.ERROR, "Unsupported evaluation component.")
         return EvalCaseResult.from_command_result(case, result)
@@ -277,6 +289,48 @@ class EvalRunner:
         patch_path.parent.mkdir(parents=True, exist_ok=True)
         patch_path.write_text(patch_text, encoding="utf-8")
         return AgentRuntime(self.root).run("patch-review", target=_repo_path(patch_path, self.root), patch_file=_repo_path(patch_path, self.root), dry_run=True, provider=provider)
+
+
+    def _run_safe_refactor_case(self, case: EvalCase, *, suite: str, provider: str | None = None) -> CommandResult:
+        case_dir = self._case_dir(case, suite=suite)
+        files = case.input.get("files", []) or []
+        for file_payload in files:
+            relative = Path(str(file_payload.get("path", "src/sample.py")))
+            destination = (case_dir / relative).resolve()
+            try:
+                destination.relative_to(case_dir)
+            except ValueError as exc:
+                raise ValueError("Evaluation fixture path escapes case directory.") from exc
+            destination.parent.mkdir(parents=True, exist_ok=True)
+            destination.write_text(str(file_payload.get("content", "")), encoding="utf-8")
+        if not files:
+            sample = case_dir / "src" / "sample.py"
+            sample.parent.mkdir(parents=True, exist_ok=True)
+            sample.write_text("def small() -> str:\n    return 'ok'\n", encoding="utf-8")
+        goal = str(case.input.get("goal", "Plan safe refactor for eval fixture"))
+        return AgentRuntime(self.root).run("safe-refactor", target=_repo_path(case_dir, self.root), idea=goal, dry_run=True, provider=provider)
+
+    def _run_test_planner_case(self, case: EvalCase, *, suite: str, provider: str | None = None) -> CommandResult:
+        case_dir = self._case_dir(case, suite=suite)
+        files = case.input.get("files", []) or []
+        for file_payload in files:
+            relative = Path(str(file_payload.get("path", "docs/requirements.md")))
+            destination = (case_dir / relative).resolve()
+            try:
+                destination.relative_to(case_dir)
+            except ValueError as exc:
+                raise ValueError("Evaluation fixture path escapes case directory.") from exc
+            destination.parent.mkdir(parents=True, exist_ok=True)
+            destination.write_text(str(file_payload.get("content", "")), encoding="utf-8")
+        if not files:
+            doc = case_dir / "docs" / "requirements.md"
+            doc.parent.mkdir(parents=True, exist_ok=True)
+            doc.write_text("# Requirements\n\nREQ-001 needs AC-001 and TEST-001 coverage.\n", encoding="utf-8")
+        target = str(case.input.get("target", _repo_path(case_dir, self.root)))
+        if target == ".case_dir":
+            target = _repo_path(case_dir, self.root)
+        idea = str(case.input.get("idea", "Create traceability-aware test plan"))
+        return AgentRuntime(self.root).run("test-planner", target=target, idea=idea, dry_run=True, provider=provider)
 
     def _write_single_markdown_case(self, case: EvalCase, *, suite: str) -> Path:
         case_dir = self._case_dir(case, suite=suite)

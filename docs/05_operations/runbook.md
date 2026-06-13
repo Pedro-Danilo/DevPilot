@@ -3164,3 +3164,41 @@ python -m devpilot_core validate all --json
 - No ejecuta SAST/SCA industrial ni linters externos.
 - `PatchReviewAgent` puede marcar como `FAIL` un patch no aplicable aunque sea conceptualmente seguro.
 - Los prompts no exponen contenidos crudos; revisar `model_calls` y `BudgetLedger` para trazabilidad.
+
+## FUNC-SPRINT-54 — SafeRefactorAgent y TestPlannerAgent gobernados
+
+### Propósito
+
+Sprint 54 incorpora dos agentes plan-only sobre motores existentes: `SafeRefactorAgent` para preparar refactors seguros y `TestPlannerAgent` para proponer planes de pruebas trazables. Ambos se ejecutan por `AgentRuntime v2`, usan MIASI, prompts versionados y ruta `mock` por defecto para validación hermética.
+
+### Comandos principales
+
+```powershell
+python -m devpilot_core agent run safe-refactor --target src/devpilot_core/repo --provider mock --json
+python -m devpilot_core agent run test-planner --target docs/01_requirements --provider mock --json
+python -m devpilot_core eval run --json
+python -m devpilot_core prompt validate --json
+python -m devpilot_core miasi validate --json
+```
+
+### Funcionamiento operativo
+
+`SafeRefactorAgent` invoca `RefactorPlanner` para producir candidatos, plan, comandos de verificación y rollback guidance. Declara `refactor.sandbox` y `tests.run` como capacidades futuras/deferred, pero no ejecuta ninguna de ellas en este sprint. `TestPlannerAgent` usa `TraceabilityEngine` y perfiles `tests.run` configurados para proponer un plan de pruebas; no ejecuta pytest ni acepta argumentos arbitrarios.
+
+### Criterios PASS
+
+- `safe-refactor` devuelve `plan_only=true`, `refactor_executor_invoked=false`, `files_modified=0`, `mutations_performed=false`.
+- `test-planner` devuelve `tests_run_executed=false`, `arbitrary_commands_allowed=false`, `mutations_performed=false`.
+- Ambos agentes pueden usar `--provider mock` sin API externa y con prompt/output redacted.
+- `eval run`, `prompt validate`, `miasi validate` y pruebas específicas pasan.
+
+### Criterios BLOCK
+
+- Cualquier intento de ejecución real mediante `--execute` queda bloqueado en Sprint 54.
+- No se permite aplicar patches, ejecutar `RefactorExecutor` sobre workspace real ni ejecutar `tests.run` sin aprobación futura.
+- No se permiten comandos arbitrarios ni shell generado por usuario.
+- No se permiten prompts no versionados, APIs externas ni almacenamiento de prompts/completions crudos.
+
+### Riesgos y límites
+
+Esta capacidad es `implemented-initial`. Los planes son heurísticos y no sustituyen revisión humana, IDE refactoring, type checking, SAST/SCA ni pipelines CI. La ejecución real debe evolucionar solo después de approval binding, sandbox, rollback y pruebas controladas.

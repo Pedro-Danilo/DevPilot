@@ -185,3 +185,9 @@ Contratos:
 - evals offline obligatorios.
 
 `CodeReviewAgent` usa `CodeReviewEngine` para priorizar hallazgos. `PatchReviewAgent` usa `PatchReviewEngine` y `PatchPreflightEngine` para explicar riesgos y aplicabilidad sin mutar el workspace.
+
+## Actualización FUNC-SPRINT-54 — SafeRefactorAgent y TestPlannerAgent gobernados
+
+Sprint 54 registra `safe.refactor` y `testplanner.agent` como agentes `implemented-initial`, monoagente y plan-only. Se agregan las tools `agent.safe_refactor.run`, `agent.test_planner.run` y `traceability.coverage`, junto con reglas de política para mantener refactor/test planning sin mutaciones, sin ejecución de tests por defecto, sin APIs externas y sin handoffs.
+
+Criterios PASS: agentes registrados en MIASI, prompts versionados, evals offline, `mock` como ruta de prueba, `mutations_performed=false`, `tests_run_executed=false` y `refactor_executor_invoked=false`. Criterios BLOCK: ejecución real sin approval, comandos arbitrarios, prompts no versionados o pérdida de modo monoagente.

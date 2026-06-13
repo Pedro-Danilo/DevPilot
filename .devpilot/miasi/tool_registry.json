@@ -617,6 +617,48 @@
         "SECRETS_RAW_DENY",
         "AGENT_MODEL_CALL_GOVERNED_ALLOW"
       ]
+    },
+    {
+      "tool_id": "agent.safe_refactor.run",
+      "name": "run_safe_refactor_agent",
+      "phase": "MVP+",
+      "side_effect": "report",
+      "risk_level": "high",
+      "status": "implemented-initial",
+      "requires_approval": false,
+      "policy_rule_ids": [
+        "SAFE_REFACTOR_AGENT_GOVERNED_ALLOW",
+        "AGENT_CRITICAL_TOOL_DENY",
+        "SECRETS_RAW_DENY",
+        "AGENT_MODEL_CALL_GOVERNED_ALLOW"
+      ]
+    },
+    {
+      "tool_id": "agent.test_planner.run",
+      "name": "run_test_planner_agent",
+      "phase": "MVP+",
+      "side_effect": "report",
+      "risk_level": "medium",
+      "status": "implemented-initial",
+      "requires_approval": false,
+      "policy_rule_ids": [
+        "TEST_PLANNER_AGENT_GOVERNED_ALLOW",
+        "TESTS_RUN_PLAN_ONLY_ALLOW",
+        "SECRETS_RAW_DENY",
+        "AGENT_MODEL_CALL_GOVERNED_ALLOW"
+      ]
+    },
+    {
+      "tool_id": "traceability.coverage",
+      "name": "traceability_coverage_read",
+      "phase": "MVP+",
+      "side_effect": "report",
+      "risk_level": "medium",
+      "status": "implemented",
+      "requires_approval": false,
+      "policy_rule_ids": [
+        "TEST_PLANNER_AGENT_GOVERNED_ALLOW"
+      ]
     }
   ]
 }

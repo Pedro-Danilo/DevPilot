@@ -318,6 +318,33 @@
       "gate": "PatchReviewAgent+AgentRuntimeV2+MIASI+PatchReviewEngine+PatchPreflightEngine+PromptRegistry+BudgetLedger+NoPatchApply+NoExternalAPI+NoHandoffs",
       "approval_required": false,
       "observability_required": true
+    },
+    {
+      "rule_id": "SAFE_REFACTOR_AGENT_GOVERNED_ALLOW",
+      "domain": "Agent",
+      "action": "safe_refactor_agent_run",
+      "default_effect": "allow",
+      "gate": "SafeRefactorAgent+AgentRuntimeV2+MIASI+RefactorPlanner+RefactorExecutorSandboxDeclaredOnly+RollbackPlan+TestsRunPlanOnly+PromptRegistry+BudgetLedger+NoWorkspaceMutation+NoPatchApply+NoExternalAPI+NoHandoffs",
+      "approval_required": false,
+      "observability_required": true
+    },
+    {
+      "rule_id": "TEST_PLANNER_AGENT_GOVERNED_ALLOW",
+      "domain": "Agent",
+      "action": "test_planner_agent_run",
+      "default_effect": "allow",
+      "gate": "TestPlannerAgent+AgentRuntimeV2+MIASI+TraceabilityEngine+TestsRunProfiles+PromptRegistry+BudgetLedger+NoArbitraryCommands+NoTestExecutionByDefault+NoExternalAPI+NoHandoffs",
+      "approval_required": false,
+      "observability_required": true
+    },
+    {
+      "rule_id": "TESTS_RUN_PLAN_ONLY_ALLOW",
+      "domain": "Testing",
+      "action": "tests_run_plan_only",
+      "default_effect": "allow",
+      "gate": "TestsRunTool+FixedProfiles+PolicyEngine+ApprovalRequiredForExecution+PlanOnlyNoSubprocess",
+      "approval_required": false,
+      "observability_required": true
     }
   ]
 }
