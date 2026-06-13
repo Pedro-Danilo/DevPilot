@@ -678,3 +678,20 @@ Criterios específicos:
 - `prompt validate`, `miasi validate`, `eval run` y tests documentales deben permanecer en PASS.
 
 Esta cobertura es `implemented-initial`: valida contratos, seguridad y trazabilidad básica; no sustituye pruebas industriales de refactor semántico ni ejecución real de pipelines.
+
+
+## Actualización FUNC-SPRINT-55 — Pruebas de agentes SDLC y cierre Fase D
+
+Sprint 55 agrega pruebas específicas para `RequirementsAgent`, `ArchitectureAgent` y `SecurityAgent`, además de evals offline para sus rutas model-aware con `mock`. La estrategia valida cuatro propiedades: ejecución monoagente, uso de motores determinísticos (`TraceabilityEngine`, `ArchitectureDriftDetector`, `SecretGuard`, `PolicySimulationSuite`), redacción de contenido sensible y cierre documental de Fase D.
+
+Comandos mínimos:
+
+```powershell
+python -m pytest tests/test_sdlc_agents.py tests/test_sprint_55_documentation.py -q
+python -m pytest tests/test_agent_runtime.py tests/test_agent_runtime_v2.py tests/test_eval_runner.py tests/test_sdlc_agents.py -q
+python -m devpilot_core eval run --json
+python -m devpilot_core prompt validate --json
+python -m devpilot_core miasi validate --json
+```
+
+Criterio PASS: no hay mutaciones, no hay APIs externas, no se exponen secretos crudos y los evals pasan con `mock`.

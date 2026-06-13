@@ -1,8 +1,8 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
 Estado actual: `baseline pre-code approved + Fase A cerrada + FASE-B cerrada + Fase C cerrada + Fase D en progreso controlado`  
-Último hito: `FUNC-SPRINT-54 — SafeRefactorAgent y TestPlannerAgent gobernados`  
-Siguiente hito: `FUNC-SPRINT-55 — Requirements/Architecture/Security agents y cierre Fase D`  
+Último hito: `FUNC-SPRINT-55 — Requirements/Architecture/Security agents y cierre Fase D`  
+Siguiente hito: `FUNC-SPRINT-56 — ADR de observabilidad v2 y modelo AgentOps`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
@@ -1649,3 +1649,27 @@ python -m devpilot_core eval run --json
 ```
 
 PASS: ambos agentes producen planes y suggestions, operan en dry-run/plan-only, mantienen `mutations_performed=false`, registran `MODEL_ADAPTER_PASS` con `mock` y no almacenan prompts/completions crudos. BLOCK: intento de ejecutar refactor real, intento de ejecutar tests sin aprobación, comandos arbitrarios, prompts no versionados, APIs externas o pérdida de monoagente.
+
+
+## FUNC-SPRINT-55 — Requirements/Architecture/Security agents y cierre Fase D
+
+`FUNC-SPRINT-55` cierra la Fase D de IA local gobernada con tres agentes SDLC de alto nivel: `RequirementsAgent`, `ArchitectureAgent` y `SecurityAgent`. Los tres se ejecutan por `AgentRuntime v2`, permanecen en modo monoagente/read-only, usan prompts JSON versionados y quedan registrados en MIASI como `implemented-initial`.
+
+Comandos principales:
+
+```powershell
+python -m devpilot_core agent run requirements --target docs/01_requirements --provider mock --json
+python -m devpilot_core agent run architecture --target docs/02_architecture --provider mock --json
+python -m devpilot_core agent run security --target docs/03_security --provider mock --json
+python -m devpilot_core eval run --json
+python -m devpilot_core miasi validate --json
+```
+
+Capacidades habilitadas:
+
+- revisión gobernada de requisitos sobre `TraceabilityEngine`;
+- revisión arquitectónica sobre C4/ADRs/drift y evidencia de componentes;
+- revisión de seguridad sobre documentos, `SecretGuard` y `PolicySimulationSuite`;
+- cierre formal de Fase D mediante `docs/audits/phase_d_local_ai_governance_closure_report.md` y `docs/phase_d_manifest.json`.
+
+Estado: `implemented-initial`. Estos agentes no editan documentos, no aprueban gates, no habilitan multiagente, no ejecutan acciones destructivas y no usan APIs externas. Su evolución industrial debe incorporar mejor scoring semántico, trazas AgentOps v2, reportes persistidos por agente y eventual aprobación humana para flujos de corrección.

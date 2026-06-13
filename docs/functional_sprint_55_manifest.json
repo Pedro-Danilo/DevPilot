@@ -1,0 +1,88 @@
+{
+  "sprint": "FUNC-SPRINT-55",
+  "title": "Requirements/Architecture/Security agents y cierre Fase D",
+  "status": "implemented",
+  "implemented_at": "2026-06-13",
+  "phase": "FASE-D-IA-LOCAL-GOBERNADA",
+  "wave": "Ola 7 — Agentes especializados monoagente",
+  "source_backlog": "docs/devpilot_backlog_fase_D_ia_local_gobernada.md",
+  "architectural_decision": {
+    "required": false,
+    "adr": "docs/02_architecture/adrs/ADR-0011-local-model-providers.md",
+    "reason": "FUNC-SPRINT-55 reutiliza AgentRuntime v2, PromptRegistry, ModelAdapterRouter, BudgetLedger, TraceabilityEngine, ArchitectureDriftDetector, SecretGuard y PolicySimulationSuite. No introduce proveedores, APIs externas, ejecución destructiva, handoffs ni multiagente; por tanto no requiere ADR nueva."
+  },
+  "created_files": [
+    "src/devpilot_core/agents/requirements_agent.py",
+    "src/devpilot_core/agents/architecture_agent.py",
+    "src/devpilot_core/agents/security_agent.py",
+    "docs/prompts/requirements.agent.v1.json",
+    "docs/prompts/architecture.agent.v1.json",
+    "docs/prompts/security.agent.v1.json",
+    "tests/test_sdlc_agents.py",
+    "tests/test_sprint_55_documentation.py",
+    "docs/audits/phase_d_local_ai_governance_closure_report.md",
+    "docs/phase_d_manifest.json",
+    "docs/functional_sprint_55_manifest.json"
+  ],
+  "modified_files": [
+    ".devpilot/miasi/agent_registry.json",
+    ".devpilot/miasi/policy_matrix.json",
+    ".devpilot/miasi/tool_registry.json",
+    "README.md",
+    "docs/04_quality/test_strategy.md",
+    "docs/05_operations/runbook.md",
+    "docs/06_miasi/agent_card.md",
+    "docs/06_miasi/agent_registry.md",
+    "docs/06_miasi/eval_card.md",
+    "docs/06_miasi/policy_card.md",
+    "docs/06_miasi/tool_card.md",
+    "docs/06_miasi/tool_registry.md",
+    "docs/devpilot_backlog_fase_D_ia_local_gobernada.md",
+    "docs/functional_backlog_after_precode.md",
+    "evals/fixtures/documentation_eval_cases.json",
+    "src/devpilot_core/agents/__init__.py",
+    "src/devpilot_core/agents/runtime.py",
+    "src/devpilot_core/evals/runner.py"
+  ],
+  "commands": [
+    "python -m devpilot_core agent run requirements --target docs/01_requirements --provider mock --json",
+    "python -m devpilot_core agent run architecture --target docs/02_architecture --provider mock --json",
+    "python -m devpilot_core agent run security --target docs/03_security --provider mock --json",
+    "python -m devpilot_core eval run --json",
+    "python -m devpilot_core prompt validate --json",
+    "python -m devpilot_core model eval run --provider mock --json",
+    "python -m devpilot_core model budget status --limit 10 --json",
+    "python -m devpilot_core validate all --json",
+    "python -m devpilot_core miasi validate --json",
+    "python -m pytest -q"
+  ],
+  "tests": [
+    "tests/test_sdlc_agents.py",
+    "tests/test_sprint_55_documentation.py"
+  ],
+  "pass_criteria": [
+    "RequirementsAgent, ArchitectureAgent y SecurityAgent ejecutan en modo monoagente read-only.",
+    "Los agentes usan motores determinísticos existentes y no recomendaciones vagas sin evidencia.",
+    "Los prompts están versionados y validados por PromptRegistry.",
+    "EvalRunner incluye casos offline de requirements, architecture y security.",
+    "SecurityAgent bloquea secretos sintéticos sin exponer valores crudos.",
+    "Fase D closure report y phase manifest existen.",
+    "Mock provider permite pruebas herméticas sin modelos locales ni APIs externas."
+  ],
+  "block_criteria": [
+    "Algún agente usa provider externo o adapter directo.",
+    "Se habilitan handoffs o multiagente.",
+    "SecurityAgent expone secretos crudos.",
+    "Algún agente edita documentos, políticas o código sin aprobación.",
+    "MIASI no refleja agentes/tools/policies nuevos.",
+    "No existe reporte de cierre Fase D."
+  ],
+  "risks": [
+    "Los agentes SDLC son implemented-initial y requieren evolución con AgentOps v2.",
+    "Los hallazgos de arquitectura son heurísticos y requieren revisión humana.",
+    "SecurityAgent no reemplaza SAST/SCA/secret scanning industrial.",
+    "La calidad semántica con mock no representa calidad de un LLM local real."
+  ],
+  "preliminary": true,
+  "next_sprint": "FUNC-SPRINT-56 — ADR de observabilidad v2 y modelo AgentOps"
+}

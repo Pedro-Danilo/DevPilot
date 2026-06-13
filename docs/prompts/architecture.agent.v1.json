@@ -1,0 +1,63 @@
+{
+  "id": "architecture.agent",
+  "version": "1.0.0",
+  "status": "approved",
+  "owner": "Ordóñez",
+  "task": "architecture_agent",
+  "agent_id": "architecture.agent",
+  "description": "Prompt gobernado para ArchitectureAgent en modo monoagente read-only.",
+  "input_variables": [
+    {
+      "name": "architecture_goal",
+      "description": "Input redacted architecture_goal para architecture.agent.",
+      "required": true,
+      "max_length": 2000
+    },
+    {
+      "name": "architecture_signals",
+      "description": "Input redacted architecture_signals para architecture.agent.",
+      "required": true,
+      "max_length": 12000
+    }
+  ],
+  "template": "Actúa como ArchitectureAgent de DevPilot en modo monoagente, read-only, dry-run y local-first. Objetivo: {{ architecture_goal }}. Señales redacted de C4/ADRs/drift: {{ architecture_signals }}. Devuelve revisión arquitectónica con componentes sin evidencia, drift probable, decisiones faltantes y próximos pasos. No modifiques diagramas, no generes código, no uses APIs externas y no expongas secretos.",
+  "safety": {
+    "redaction_required": true,
+    "prompt_injection_scan_required": true,
+    "secret_scan_required": true,
+    "store_raw_prompt": false,
+    "store_raw_completion": false,
+    "allowed_tools": [
+      "artifact.read",
+      "traceability.coverage",
+      "architecture.drift",
+      "policy.simulate",
+      "secret.scan",
+      "report.write"
+    ],
+    "forbidden_patterns": [
+      "raw_secret",
+      "external_api",
+      "multiagent",
+      "handoff",
+      "write_file",
+      "delete_file",
+      "execute_without_approval"
+    ]
+  },
+  "usage": {
+    "providers": [
+      "mock",
+      "ollama",
+      "lmstudio"
+    ],
+    "default_provider": "mock",
+    "fallback_provider": "mock",
+    "max_tokens_estimated": 3000
+  },
+  "metadata": {
+    "sprint": "FUNC-SPRINT-55",
+    "preliminary": true,
+    "notes": "Primera versión gobernada para architecture.agent; produce recomendaciones de revisión, no cambios."
+  }
+}

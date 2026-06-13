@@ -3202,3 +3202,40 @@ python -m devpilot_core miasi validate --json
 ### Riesgos y límites
 
 Esta capacidad es `implemented-initial`. Los planes son heurísticos y no sustituyen revisión humana, IDE refactoring, type checking, SAST/SCA ni pipelines CI. La ejecución real debe evolucionar solo después de approval binding, sandbox, rollback y pruebas controladas.
+
+
+## FUNC-SPRINT-55 — Requirements/Architecture/Security agents y cierre Fase D
+
+### Propósito
+
+Cerrar Fase D con agentes SDLC gobernados de alto nivel y evidencia de IA local controlada.
+
+### Comandos de operación
+
+```powershell
+python -m devpilot_core agent run requirements --target docs/01_requirements --provider mock --json
+python -m devpilot_core agent run architecture --target docs/02_architecture --provider mock --json
+python -m devpilot_core agent run security --target docs/03_security --provider mock --json
+python -m devpilot_core eval run --json
+python -m devpilot_core prompt validate --json
+python -m devpilot_core miasi validate --json
+python -m devpilot_core validate all --json
+python -m devpilot_core readiness-check --strict --json
+```
+
+### Resultado esperado
+
+- Los tres agentes responden `ok=true` sobre los targets documentales reales.
+- `security` debe bloquear fixtures con secretos concretos y no exponer valores crudos.
+- `eval run` debe incluir los casos de `agent.requirements_model_aware`, `agent.architecture_model_aware`, `agent.security` y `agent.security_model_aware`.
+- `PromptRegistry` debe reportar once prompts aprobados.
+
+### Fallos comunes
+
+- `SECURITY_AGENT_SECRET_DETECTED`: existe contenido secret-like no redactado; eliminarlo, rotarlo y reintentar.
+- `ARCHITECTURE_AGENT_UNBACKED_COMPONENT`: componente implementado sin evidencia de módulo/código; vincularlo a `src/devpilot_core/...`.
+- `REQUIREMENTS_AGENT_REQUIREMENTS_WITHOUT_ACCEPTANCE_CRITERIA`: cerrar trazabilidad con `AC-*`.
+
+### Limitación
+
+Sprint 55 es `implemented-initial`: los agentes revisan y recomiendan, pero no escriben documentos ni ejecutan correcciones. La observabilidad profunda queda para Fase E.

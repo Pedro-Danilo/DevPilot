@@ -345,6 +345,42 @@
       "gate": "TestsRunTool+FixedProfiles+PolicyEngine+ApprovalRequiredForExecution+PlanOnlyNoSubprocess",
       "approval_required": false,
       "observability_required": true
+    },
+    {
+      "rule_id": "REQUIREMENTS_AGENT_GOVERNED_ALLOW",
+      "domain": "Agent",
+      "action": "requirements_agent_run",
+      "default_effect": "allow",
+      "gate": "RequirementsAgent+AgentRuntimeV2+MIASI+TraceabilityEngine+PromptRegistry+BudgetLedger+ReadOnly+NoExternalAPI+NoHandoffs",
+      "approval_required": false,
+      "observability_required": true
+    },
+    {
+      "rule_id": "ARCHITECTURE_AGENT_GOVERNED_ALLOW",
+      "domain": "Agent",
+      "action": "architecture_agent_run",
+      "default_effect": "allow",
+      "gate": "ArchitectureAgent+AgentRuntimeV2+MIASI+ArchitectureDrift+C4ADRReadOnly+PromptRegistry+BudgetLedger+NoExternalAPI+NoHandoffs",
+      "approval_required": false,
+      "observability_required": true
+    },
+    {
+      "rule_id": "SECURITY_AGENT_GOVERNED_ALLOW",
+      "domain": "Agent",
+      "action": "security_agent_run",
+      "default_effect": "allow",
+      "gate": "SecurityAgent+AgentRuntimeV2+MIASI+SecretGuard+PolicySimulation+PromptRegistry+BudgetLedger+NoMutation+NoExternalAPI+NoHandoffs",
+      "approval_required": false,
+      "observability_required": true
+    },
+    {
+      "rule_id": "SECURITY_REVIEW_READ_ONLY_ALLOW",
+      "domain": "Security",
+      "action": "security_review_read_only",
+      "default_effect": "allow",
+      "gate": "SecurityDocs+SecretGuard+PolicySimulationSuite+ReadOnly+RedactedFindings+NoRawSecrets+NoPolicyMutation",
+      "approval_required": false,
+      "observability_required": true
     }
   ]
 }

@@ -659,6 +659,101 @@
       "policy_rule_ids": [
         "TEST_PLANNER_AGENT_GOVERNED_ALLOW"
       ]
+    },
+    {
+      "tool_id": "agent.requirements.run",
+      "name": "run_requirements_agent",
+      "phase": "MVP+",
+      "side_effect": "report",
+      "risk_level": "medium",
+      "status": "implemented-initial",
+      "requires_approval": false,
+      "policy_rule_ids": [
+        "REQUIREMENTS_AGENT_GOVERNED_ALLOW",
+        "SECRETS_RAW_DENY",
+        "AGENT_MODEL_CALL_GOVERNED_ALLOW"
+      ]
+    },
+    {
+      "tool_id": "agent.architecture.run",
+      "name": "run_architecture_agent",
+      "phase": "MVP+",
+      "side_effect": "report",
+      "risk_level": "medium_high",
+      "status": "implemented-initial",
+      "requires_approval": false,
+      "policy_rule_ids": [
+        "ARCHITECTURE_AGENT_GOVERNED_ALLOW",
+        "SECRETS_RAW_DENY",
+        "AGENT_MODEL_CALL_GOVERNED_ALLOW"
+      ]
+    },
+    {
+      "tool_id": "agent.security.run",
+      "name": "run_security_agent",
+      "phase": "MVP+",
+      "side_effect": "report",
+      "risk_level": "high",
+      "status": "implemented-initial",
+      "requires_approval": false,
+      "policy_rule_ids": [
+        "SECURITY_AGENT_GOVERNED_ALLOW",
+        "SECURITY_REVIEW_READ_ONLY_ALLOW",
+        "SECRETS_RAW_DENY",
+        "AGENT_MODEL_CALL_GOVERNED_ALLOW"
+      ]
+    },
+    {
+      "tool_id": "architecture.drift",
+      "name": "architecture_drift_read_only",
+      "phase": "MVP+",
+      "side_effect": "report",
+      "risk_level": "medium",
+      "status": "implemented-initial",
+      "requires_approval": false,
+      "policy_rule_ids": [
+        "ARCHITECTURE_AGENT_GOVERNED_ALLOW",
+        "SECRETS_RAW_DENY"
+      ]
+    },
+    {
+      "tool_id": "secret.scan",
+      "name": "secret_scan_read_only",
+      "phase": "MVP+",
+      "side_effect": "report",
+      "risk_level": "high",
+      "status": "implemented-initial",
+      "requires_approval": false,
+      "policy_rule_ids": [
+        "SECURITY_REVIEW_READ_ONLY_ALLOW",
+        "SECRETS_RAW_DENY"
+      ]
+    },
+    {
+      "tool_id": "policy.simulate",
+      "name": "policy_simulation_read_only",
+      "phase": "MVP+",
+      "side_effect": "local_compute",
+      "risk_level": "medium_high",
+      "status": "implemented-initial",
+      "requires_approval": false,
+      "policy_rule_ids": [
+        "SECURITY_AGENT_GOVERNED_ALLOW",
+        "SECURITY_REVIEW_READ_ONLY_ALLOW"
+      ]
+    },
+    {
+      "tool_id": "security.docs.review",
+      "name": "security_docs_review_read_only",
+      "phase": "MVP+",
+      "side_effect": "report",
+      "risk_level": "medium_high",
+      "status": "implemented-initial",
+      "requires_approval": false,
+      "policy_rule_ids": [
+        "SECURITY_REVIEW_READ_ONLY_ALLOW",
+        "SECRETS_RAW_DENY"
+      ]
     }
   ]
 }

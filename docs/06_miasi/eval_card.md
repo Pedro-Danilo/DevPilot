@@ -213,3 +213,10 @@ La evaluación conserva `llm_required=false`, `external_api_used=false` y usa `m
 Sprint 54 registra `safe.refactor` y `testplanner.agent` como agentes `implemented-initial`, monoagente y plan-only. Se agregan las tools `agent.safe_refactor.run`, `agent.test_planner.run` y `traceability.coverage`, junto con reglas de política para mantener refactor/test planning sin mutaciones, sin ejecución de tests por defecto, sin APIs externas y sin handoffs.
 
 Criterios PASS: agentes registrados en MIASI, prompts versionados, evals offline, `mock` como ruta de prueba, `mutations_performed=false`, `tests_run_executed=false` y `refactor_executor_invoked=false`. Criterios BLOCK: ejecución real sin approval, comandos arbitrarios, prompts no versionados o pérdida de modo monoagente.
+
+
+## Actualización FUNC-SPRINT-55 — Requirements/Architecture/Security agents y cierre Fase D
+
+El Eval Harness incorpora casos offline para requirements, architecture y security agents, incluyendo detección de gaps, componente sin evidencia y secreto sintético bloqueado.
+
+Estado: `implemented-initial`; las capacidades son preliminares y deberán evolucionar con trazas AgentOps v2, métricas y reportes persistidos por agente.

@@ -75,29 +75,32 @@
       "agent_id": "requirements.agent",
       "name": "RequirementsAgent",
       "phase": "MVP+",
-      "max_autonomy": "A4",
-      "status": "planned",
+      "max_autonomy": "A3",
+      "status": "implemented-initial",
       "risk_level": "medium",
       "allowed_tools": [
+        "agent.requirements.run",
         "artifact.read",
-        "document.draft.generate",
+        "traceability.coverage",
         "report.write",
         "trace.append",
-        "policy.check"
+        "policy.check",
+        "agent.model.generate"
       ],
       "required_artifacts": [
         "Agent",
         "Tool",
         "Policy",
         "Eval",
-        "Approval",
         "Obs"
       ],
       "policy_rule_ids": [
-        "AGENT_SUGGEST_ALLOW",
-        "DOC_WRITE_DRAFT_GATED"
+        "REQUIREMENTS_AGENT_GOVERNED_ALLOW",
+        "AGENT_CRITICAL_TOOL_DENY",
+        "SECRETS_RAW_DENY",
+        "AGENT_MODEL_CALL_GOVERNED_ALLOW"
       ],
-      "approval_required": true,
+      "approval_required": false,
       "observability_required": true,
       "eval_required": true
     },
@@ -105,29 +108,33 @@
       "agent_id": "architecture.agent",
       "name": "ArchitectureAgent",
       "phase": "MVP+",
-      "max_autonomy": "A4",
-      "status": "planned",
+      "max_autonomy": "A3",
+      "status": "implemented-initial",
       "risk_level": "medium_high",
       "allowed_tools": [
+        "agent.architecture.run",
         "artifact.read",
-        "document.draft.generate",
+        "architecture.drift",
+        "repo.dependency_graph",
         "report.write",
         "trace.append",
-        "policy.check"
+        "policy.check",
+        "agent.model.generate"
       ],
       "required_artifacts": [
         "Agent",
         "Tool",
         "Policy",
         "Eval",
-        "Approval",
         "Obs"
       ],
       "policy_rule_ids": [
-        "AGENT_SUGGEST_ALLOW",
-        "DOC_WRITE_DRAFT_GATED"
+        "ARCHITECTURE_AGENT_GOVERNED_ALLOW",
+        "AGENT_CRITICAL_TOOL_DENY",
+        "SECRETS_RAW_DENY",
+        "AGENT_MODEL_CALL_GOVERNED_ALLOW"
       ],
-      "approval_required": true,
+      "approval_required": false,
       "observability_required": true,
       "eval_required": true
     },
@@ -135,29 +142,35 @@
       "agent_id": "security.agent",
       "name": "SecurityAgent",
       "phase": "MVP+",
-      "max_autonomy": "A4",
-      "status": "planned",
+      "max_autonomy": "A3",
+      "status": "implemented-initial",
       "risk_level": "high",
       "allowed_tools": [
+        "agent.security.run",
         "artifact.read",
-        "documentation.audit",
+        "secret.scan",
+        "policy.simulate",
+        "security.docs.review",
         "report.write",
         "trace.append",
-        "policy.check"
+        "policy.check",
+        "agent.model.generate"
       ],
       "required_artifacts": [
         "Agent",
         "Tool",
         "Policy",
         "Eval",
-        "Approval",
         "Obs"
       ],
       "policy_rule_ids": [
-        "AGENT_SUGGEST_ALLOW",
-        "SECRETS_RAW_DENY"
+        "SECURITY_AGENT_GOVERNED_ALLOW",
+        "SECURITY_REVIEW_READ_ONLY_ALLOW",
+        "SECRETS_RAW_DENY",
+        "AGENT_CRITICAL_TOOL_DENY",
+        "AGENT_MODEL_CALL_GOVERNED_ALLOW"
       ],
-      "approval_required": true,
+      "approval_required": false,
       "observability_required": true,
       "eval_required": true
     },

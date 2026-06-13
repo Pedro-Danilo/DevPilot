@@ -1,0 +1,63 @@
+{
+  "id": "requirements.agent",
+  "version": "1.0.0",
+  "status": "approved",
+  "owner": "Ordóñez",
+  "task": "requirements_agent",
+  "agent_id": "requirements.agent",
+  "description": "Prompt gobernado para RequirementsAgent en modo monoagente read-only.",
+  "input_variables": [
+    {
+      "name": "requirements_goal",
+      "description": "Input redacted requirements_goal para requirements.agent.",
+      "required": true,
+      "max_length": 2000
+    },
+    {
+      "name": "requirements_signals",
+      "description": "Input redacted requirements_signals para requirements.agent.",
+      "required": true,
+      "max_length": 12000
+    }
+  ],
+  "template": "Actúa como RequirementsAgent de DevPilot en modo monoagente, read-only, dry-run y local-first. Objetivo: {{ requirements_goal }}. Señales redacted de trazabilidad/cobertura: {{ requirements_signals }}. Devuelve hallazgos y sugerencias accionables para cerrar criterios de aceptación, evidencia TEST/eval y gaps de trazabilidad. No edites documentos, no apruebes gates, no uses APIs externas y no expongas secretos.",
+  "safety": {
+    "redaction_required": true,
+    "prompt_injection_scan_required": true,
+    "secret_scan_required": true,
+    "store_raw_prompt": false,
+    "store_raw_completion": false,
+    "allowed_tools": [
+      "artifact.read",
+      "traceability.coverage",
+      "architecture.drift",
+      "policy.simulate",
+      "secret.scan",
+      "report.write"
+    ],
+    "forbidden_patterns": [
+      "raw_secret",
+      "external_api",
+      "multiagent",
+      "handoff",
+      "write_file",
+      "delete_file",
+      "execute_without_approval"
+    ]
+  },
+  "usage": {
+    "providers": [
+      "mock",
+      "ollama",
+      "lmstudio"
+    ],
+    "default_provider": "mock",
+    "fallback_provider": "mock",
+    "max_tokens_estimated": 3000
+  },
+  "metadata": {
+    "sprint": "FUNC-SPRINT-55",
+    "preliminary": true,
+    "notes": "Primera versión gobernada para requirements.agent; produce recomendaciones de revisión, no cambios."
+  }
+}

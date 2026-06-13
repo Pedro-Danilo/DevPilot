@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "suite_id": "documentation",
-  "description": "Synthetic offline evaluation suite for DevPilot validators and MVP document agents.",
+  "description": "Synthetic offline evaluation suite for DevPilot validators, MVP document agents and governed local AI agents through Sprint 55.",
   "cases": [
     {
       "id": "frontmatter-valid-approved-doc",
@@ -395,6 +395,114 @@
         "ok": true,
         "finding_ids": [
           "TRACEABILITY_COVERAGE_PASS"
+        ]
+      }
+    },
+    {
+      "id": "agent-requirements-gap-model-aware-mock",
+      "component": "agent.requirements_model_aware",
+      "description": "RequirementsAgent should detect requirement without acceptance/test evidence while using mock model path.",
+      "tags": [
+        "agent",
+        "requirements",
+        "runtime-v2",
+        "model-aware",
+        "mock",
+        "gap"
+      ],
+      "input": {
+        "files": [
+          {
+            "path": "docs/requirements.md",
+            "content": "# Requirements\n\nFR-EVAL-001 must be implemented for users.\n"
+          }
+        ]
+      },
+      "expected": {
+        "ok": true,
+        "finding_ids": [
+          "REQUIREMENTS_AGENT_REQUIREMENTS_WITHOUT_ACCEPTANCE_CRITERIA",
+          "MODEL_ADAPTER_PASS"
+        ]
+      }
+    },
+    {
+      "id": "agent-architecture-unbacked-component-model-aware-mock",
+      "component": "agent.architecture_model_aware",
+      "description": "ArchitectureAgent should detect implemented component statement without direct code/module evidence.",
+      "tags": [
+        "agent",
+        "architecture",
+        "runtime-v2",
+        "model-aware",
+        "mock",
+        "drift"
+      ],
+      "input": {
+        "files": [
+          {
+            "path": "docs/architecture.md",
+            "content": "# Architecture\n\nComponent: Synthetic Gateway implemented.\n"
+          }
+        ]
+      },
+      "expected": {
+        "ok": true,
+        "finding_ids": [
+          "ARCHITECTURE_AGENT_UNBACKED_COMPONENT",
+          "MODEL_ADAPTER_PASS"
+        ]
+      }
+    },
+    {
+      "id": "agent-security-secret-block",
+      "component": "agent.security",
+      "description": "SecurityAgent should block secret-like content without exposing raw secret.",
+      "tags": [
+        "agent",
+        "security",
+        "secret",
+        "defect"
+      ],
+      "input": {
+        "files": [
+          {
+            "path": "docs/security.md",
+            "content": "# Security\n\nDo not store secrets. OPENAI_API_KEY=sk-1234567890abcdef\n"
+          }
+        ]
+      },
+      "expected": {
+        "ok": false,
+        "finding_ids": [
+          "SECURITY_AGENT_SECRET_DETECTED"
+        ]
+      }
+    },
+    {
+      "id": "agent-security-clean-model-aware-mock",
+      "component": "agent.security_model_aware",
+      "description": "SecurityAgent clean review should run through mock model path.",
+      "tags": [
+        "agent",
+        "security",
+        "runtime-v2",
+        "model-aware",
+        "mock",
+        "clean"
+      ],
+      "input": {
+        "files": [
+          {
+            "path": "docs/security.md",
+            "content": "# Security\n\n## Propósito\n\nSecurity controls are documented without raw secrets.\n\n## Controles\n\nSecretGuard and PolicyEngine are required.\n"
+          }
+        ]
+      },
+      "expected": {
+        "ok": true,
+        "finding_ids": [
+          "MODEL_ADAPTER_PASS"
         ]
       }
     }

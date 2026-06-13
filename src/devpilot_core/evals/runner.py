@@ -30,6 +30,12 @@ SUPPORTED_COMPONENTS = {
     "agent.safe_refactor_model_aware",
     "agent.test_planner",
     "agent.test_planner_model_aware",
+    "agent.requirements",
+    "agent.requirements_model_aware",
+    "agent.architecture",
+    "agent.architecture_model_aware",
+    "agent.security",
+    "agent.security_model_aware",
 }
 
 
@@ -180,6 +186,18 @@ class EvalRunner:
             result = self._run_test_planner_case(case, suite=suite)
         elif case.component == "agent.test_planner_model_aware":
             result = self._run_test_planner_case(case, suite=suite, provider="mock")
+        elif case.component == "agent.requirements":
+            result = self._run_requirements_case(case, suite=suite)
+        elif case.component == "agent.requirements_model_aware":
+            result = self._run_requirements_case(case, suite=suite, provider="mock")
+        elif case.component == "agent.architecture":
+            result = self._run_architecture_case(case, suite=suite)
+        elif case.component == "agent.architecture_model_aware":
+            result = self._run_architecture_case(case, suite=suite, provider="mock")
+        elif case.component == "agent.security":
+            result = self._run_security_case(case, suite=suite)
+        elif case.component == "agent.security_model_aware":
+            result = self._run_security_case(case, suite=suite, provider="mock")
         else:  # pragma: no cover - guarded by SUPPORTED_COMPONENTS above.
             result = CommandResult("eval case", False, ExitCode.ERROR, "Unsupported evaluation component.")
         return EvalCaseResult.from_command_result(case, result)
@@ -331,6 +349,73 @@ class EvalRunner:
             target = _repo_path(case_dir, self.root)
         idea = str(case.input.get("idea", "Create traceability-aware test plan"))
         return AgentRuntime(self.root).run("test-planner", target=target, idea=idea, dry_run=True, provider=provider)
+
+
+    def _run_requirements_case(self, case: EvalCase, *, suite: str, provider: str | None = None) -> CommandResult:
+        case_dir = self._case_dir(case, suite=suite)
+        files = case.input.get("files", []) or []
+        for file_payload in files:
+            relative = Path(str(file_payload.get("path", "docs/requirements.md")))
+            destination = (case_dir / relative).resolve()
+            try:
+                destination.relative_to(case_dir)
+            except ValueError as exc:
+                raise ValueError("Evaluation fixture path escapes case directory.") from exc
+            destination.parent.mkdir(parents=True, exist_ok=True)
+            destination.write_text(str(file_payload.get("content", "")), encoding="utf-8")
+        if not files:
+            doc = case_dir / "docs" / "requirements.md"
+            doc.parent.mkdir(parents=True, exist_ok=True)
+            doc.write_text("# Requirements\n\nFR-EVAL-001 requires AC-EVAL-001 and TEST-EVAL-001 coverage.\n", encoding="utf-8")
+        target = str(case.input.get("target", ".case_dir"))
+        if target == ".case_dir":
+            target = _repo_path(case_dir, self.root)
+        idea = str(case.input.get("idea", "Review requirements coverage"))
+        return AgentRuntime(self.root).run("requirements", target=target, idea=idea, dry_run=True, provider=provider)
+
+    def _run_architecture_case(self, case: EvalCase, *, suite: str, provider: str | None = None) -> CommandResult:
+        case_dir = self._case_dir(case, suite=suite)
+        files = case.input.get("files", []) or []
+        for file_payload in files:
+            relative = Path(str(file_payload.get("path", "docs/architecture.md")))
+            destination = (case_dir / relative).resolve()
+            try:
+                destination.relative_to(case_dir)
+            except ValueError as exc:
+                raise ValueError("Evaluation fixture path escapes case directory.") from exc
+            destination.parent.mkdir(parents=True, exist_ok=True)
+            destination.write_text(str(file_payload.get("content", "")), encoding="utf-8")
+        if not files:
+            doc = case_dir / "docs" / "architecture.md"
+            doc.parent.mkdir(parents=True, exist_ok=True)
+            doc.write_text("# Architecture\n\nComponent: Synthetic Gateway implemented.\n", encoding="utf-8")
+        target = str(case.input.get("target", ".case_dir"))
+        if target == ".case_dir":
+            target = _repo_path(case_dir, self.root)
+        idea = str(case.input.get("idea", "Review architecture evidence"))
+        return AgentRuntime(self.root).run("architecture", target=target, idea=idea, dry_run=True, provider=provider)
+
+    def _run_security_case(self, case: EvalCase, *, suite: str, provider: str | None = None) -> CommandResult:
+        case_dir = self._case_dir(case, suite=suite)
+        files = case.input.get("files", []) or []
+        for file_payload in files:
+            relative = Path(str(file_payload.get("path", "docs/security.md")))
+            destination = (case_dir / relative).resolve()
+            try:
+                destination.relative_to(case_dir)
+            except ValueError as exc:
+                raise ValueError("Evaluation fixture path escapes case directory.") from exc
+            destination.parent.mkdir(parents=True, exist_ok=True)
+            destination.write_text(str(file_payload.get("content", "")), encoding="utf-8")
+        if not files:
+            doc = case_dir / "docs" / "security.md"
+            doc.parent.mkdir(parents=True, exist_ok=True)
+            doc.write_text("# Security\n\nNo raw secrets here.\n", encoding="utf-8")
+        target = str(case.input.get("target", ".case_dir"))
+        if target == ".case_dir":
+            target = _repo_path(case_dir, self.root)
+        idea = str(case.input.get("idea", "Review security controls"))
+        return AgentRuntime(self.root).run("security", target=target, idea=idea, dry_run=True, provider=provider)
 
     def _write_single_markdown_case(self, case: EvalCase, *, suite: str) -> Path:
         case_dir = self._case_dir(case, suite=suite)

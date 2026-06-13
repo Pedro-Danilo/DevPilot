@@ -8,7 +8,7 @@ standard: "MIPSoftware"
 extension: "MIASI"
 phase: "FASE-D-IA-LOCAL-GOBERNADA"
 updated: "2026-06-13"
-source_repo: "repo_DevPilot_Local_65.zip"
+source_repo: "repo_DevPilot_Local_66.zip"
 source_report: "Informe de avance DevPilot - sprint 0 - 18.docx"
 source_backlog_model: "docs/functional_backlog_after_precode.md"
 baseline_dependency: "Fases A, B y C cerradas; Fase C validada por FUNC-SPRINT-44 repo engineering-gate"
@@ -16,12 +16,12 @@ first_sprint: "FUNC-SPRINT-45"
 last_planned_sprint: "FUNC-SPRINT-55"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "phase_d_executable_backlog_review"
-first_open_sprint: "FUNC-SPRINT-55"
-phase_d_status: "in_progress"
+first_open_sprint: "FUNC-SPRINT-56"
+phase_d_status: "closed"
 approved_on: "2026-06-12"
 approval: "approved_after_phase_c_closure_review"
-last_completed_sprint: "FUNC-SPRINT-54"
-next_sprint: "FUNC-SPRINT-55"
+last_completed_sprint: "FUNC-SPRINT-55"
+next_sprint: "FUNC-SPRINT-56"
 ---
 
 # DevPilot Local — Backlog ejecutable Fase D: IA local gobernada
@@ -1296,3 +1296,18 @@ Alcance real aplicado: se mantiene una variante estrictamente plan-only/dry-run.
 La decisión de usar prompts JSON (`safe.refactor.agent.v1.json` y `test.planner.agent.v1.json`) en lugar de `.md` mantiene compatibilidad con el contrato `PromptRegistry` vigente desde Sprint 49. No se requiere ADR nueva porque no se introduce proveedor, API externa, patrón multiagente, ejecución destructiva ni frontera de seguridad nueva.
 
 Criterios de cierre: pruebas específicas de agentes, evals offline, `prompt validate`, `miasi validate`, manifest, auditoría y gates documentales deben permanecer en PASS. Criterios BLOCK: ejecución real de refactor sin approval, ejecución de `tests.run` sin aprobación, comandos arbitrarios, prompts no versionados o mutación de workspace real.
+
+
+## Estado de implementación Sprint 55
+
+`FUNC-SPRINT-55 — Requirements/Architecture/Security agents y cierre Fase D` queda implementado como `implemented-initial`. Se agregaron `RequirementsAgent`, `ArchitectureAgent` y `SecurityAgent`, todos monoagente, read-only, gobernados por MIASI, integrados con `AgentRuntime v2`, `PromptRegistry`, `ModelAdapterRouter` y `BudgetLedger`.
+
+El cierre de Fase D queda soportado por:
+
+- `docs/audits/phase_d_local_ai_governance_closure_report.md`;
+- `docs/phase_d_manifest.json`;
+- `docs/functional_sprint_55_manifest.json`;
+- evals offline con `mock`;
+- validación MIASI y PromptRegistry.
+
+La Fase D queda cerrada funcionalmente, pero las capacidades siguen marcadas como iniciales cuando corresponde. No se habilitaron APIs externas, handoffs, multiagente, RAG, memoria avanzada ni ejecución autónoma. El siguiente frente lógico es `FUNC-SPRINT-56 — ADR de observabilidad v2 y modelo AgentOps`, correspondiente a Fase E, aún sujeto a revisión/aprobación de backlog.

@@ -193,3 +193,10 @@ Las tools se vinculan con:
 Sprint 54 registra `safe.refactor` y `testplanner.agent` como agentes `implemented-initial`, monoagente y plan-only. Se agregan las tools `agent.safe_refactor.run`, `agent.test_planner.run` y `traceability.coverage`, junto con reglas de política para mantener refactor/test planning sin mutaciones, sin ejecución de tests por defecto, sin APIs externas y sin handoffs.
 
 Criterios PASS: agentes registrados en MIASI, prompts versionados, evals offline, `mock` como ruta de prueba, `mutations_performed=false`, `tests_run_executed=false` y `refactor_executor_invoked=false`. Criterios BLOCK: ejecución real sin approval, comandos arbitrarios, prompts no versionados o pérdida de modo monoagente.
+
+
+## Actualización FUNC-SPRINT-55 — Requirements/Architecture/Security agents y cierre Fase D
+
+El Tool Registry declara las herramientas de agentes SDLC y capacidades auxiliares de revisión como `implemented-initial`, sin side effects destructivos ni aprobación requerida para lectura/reporte.
+
+Estado: `implemented-initial`; las capacidades son preliminares y deberán evolucionar con trazas AgentOps v2, métricas y reportes persistidos por agente.

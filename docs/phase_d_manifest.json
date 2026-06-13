@@ -1,0 +1,43 @@
+{
+  "phase": "FASE-D-IA-LOCAL-GOBERNADA",
+  "title": "IA local gobernada",
+  "status": "closed",
+  "closed_at": "2026-06-13",
+  "first_sprint": "FUNC-SPRINT-45",
+  "last_completed_sprint": "FUNC-SPRINT-55",
+  "next_phase": "FASE-E-AGENTOPS-OBSERVABILIDAD",
+  "next_sprint": "FUNC-SPRINT-56 — ADR de observabilidad v2 y modelo AgentOps",
+  "capabilities": [
+    "ProviderConfig gobernado",
+    "Mock/Ollama/LMStudio adapters locales",
+    "Provider health checks",
+    "Capability matrix",
+    "PromptRegistry",
+    "BudgetLedger local",
+    "ModelEvalRunner",
+    "AgentRuntime v2 model-aware",
+    "RepoAnalysisAgent",
+    "CodeReviewAgent",
+    "PatchReviewAgent",
+    "SafeRefactorAgent",
+    "TestPlannerAgent",
+    "RequirementsAgent",
+    "ArchitectureAgent",
+    "SecurityAgent"
+  ],
+  "closure_artifacts": [
+    "docs/audits/phase_d_local_ai_governance_closure_report.md",
+    "docs/functional_sprint_55_manifest.json",
+    "docs/phase_d_manifest.json"
+  ],
+  "governance": {
+    "mock_required": true,
+    "external_apis_enabled": false,
+    "multiagent_enabled": false,
+    "handoffs_enabled": false,
+    "raw_prompt_storage_allowed": false,
+    "raw_output_storage_allowed": false,
+    "destructive_actions_enabled": false
+  },
+  "preliminary": true
+}

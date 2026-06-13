@@ -8,10 +8,13 @@ from typing import Any, Protocol
 
 from devpilot_core.agents.base import ModelAwareAgent
 from devpilot_core.agents.models import AgentMessage, AgentModelCall, AgentRunResult, AgentSuggestion, AgentToolCall
+from devpilot_core.agents.architecture_agent import ArchitectureAgent
 from devpilot_core.agents.code_review_agent import CodeReviewAgent
 from devpilot_core.agents.patch_review_agent import PatchReviewAgent
 from devpilot_core.agents.repo_analysis_agent import RepoAnalysisAgent
+from devpilot_core.agents.requirements_agent import RequirementsAgent
 from devpilot_core.agents.safe_refactor_agent import SafeRefactorAgent
+from devpilot_core.agents.security_agent import SecurityAgent
 from devpilot_core.agents.test_planner_agent import TestPlannerAgent
 from devpilot_core.cli_models import CommandResult, ExitCode, Finding, Severity
 from devpilot_core.miasi import AgentSpec, MiasiRegistryValidator
@@ -38,6 +41,15 @@ AGENT_ALIASES = {
     "test-planner": "testplanner.agent",
     "testplanner": "testplanner.agent",
     "testplanner.agent": "testplanner.agent",
+    "requirements": "requirements.agent",
+    "requirements-agent": "requirements.agent",
+    "requirements.agent": "requirements.agent",
+    "architecture": "architecture.agent",
+    "architecture-agent": "architecture.agent",
+    "architecture.agent": "architecture.agent",
+    "security": "security.agent",
+    "security-agent": "security.agent",
+    "security.agent": "security.agent",
 }
 
 
@@ -91,6 +103,9 @@ class AgentRuntime:
             "patch.review": PatchReviewAgent(self.root, self.policy),
             "safe.refactor": SafeRefactorAgent(self.root, self.policy),
             "testplanner.agent": TestPlannerAgent(self.root, self.policy),
+            "requirements.agent": RequirementsAgent(self.root, self.policy),
+            "architecture.agent": ArchitectureAgent(self.root, self.policy),
+            "security.agent": SecurityAgent(self.root, self.policy),
         }
 
     def run(
