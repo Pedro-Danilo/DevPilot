@@ -1,8 +1,8 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
 Estado actual: `baseline pre-code approved + Fase A cerrada + Fase B cerrada + Fase C cerrada + Fase D cerrada + Fase E en progreso`  
-Último hito: `FUNC-SPRINT-56 — ADR de observabilidad v2 y modelo AgentOps`  
-Siguiente hito: `FUNC-SPRINT-57 — TraceContext y modelo de spans`  
+Último hito: `FUNC-SPRINT-57 — TraceContext y modelo de spans`  
+Siguiente hito: `FUNC-SPRINT-58 — TraceStore y EventLogger v2 compatible`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
@@ -42,6 +42,25 @@ python -m pytest tests/test_sprint_56_documentation.py -q
 
 PASS: ADR aprobada, señales v2 documentadas, MIASI actualizado, sin exporter remoto, sin dependencias nuevas, sin secretos/payloads crudos y backlog sincronizado hacia Sprint 57. BLOCK: OpenTelemetry SDK obligatorio, envío remoto por defecto, multiagente/handoffs/RAG/MCP habilitados por esta fase o instrumentación runtime antes de cerrar los contratos.
 
+
+
+## FUNC-SPRINT-57 — TraceContext y modelo de spans
+
+`FUNC-SPRINT-57` implementa el nivel FE-L1 de Fase E: contratos Python internos para correlacionar ejecuciones mediante `TraceContext`, `SpanRecord`, `SpanStatus` e identificadores `trace_id`, `run_id` y `span_id`. La capacidad queda `implemented-initial`: los contratos son serializables, soportan jerarquía parent-child, duración de spans y redacción de payloads sensibles, pero todavía no persisten spans en SQLite ni agregan CLI de consulta.
+
+La implementación es local-first y dependency-free. No agrega OpenTelemetry SDK, no habilita exporters, no introduce telemetría remota, no modifica la semántica de `EventLogger` v1 y no activa multiagente, handoffs, RAG, MCP ni ejecución remota. Su rol es preparar `FUNC-SPRINT-58`, donde se deberá crear `TraceStore` y compatibilidad EventLogger v2.
+
+Comandos principales:
+
+```powershell
+python -m pytest tests/test_trace_context.py -q
+python -m pytest tests/test_sprint_57_documentation.py -q
+python -m devpilot_core validate-artifact docs/audits/func_sprint_57_trace_context_audit.md --json
+python -m devpilot_core schema validate-manifest docs/functional_sprint_57_manifest.json --json
+python -m devpilot_core validate all --json
+```
+
+PASS: `TraceContext` y `SpanRecord` serializan a JSON, los spans soportan relación parent-child, los payloads sensibles se redactorizan, no se almacenan prompts/completions/diffs/output crudos y `EventLogger` v1 mantiene compatibilidad. BLOCK: persistir prompts o secretos crudos, agregar dependencias externas, romper EventLogger actual o implementar persistencia/CLI fuera del alcance de Sprint 57.
 
 
 ## FUNC-SPRINT-45 — ADR y contratos de proveedores locales

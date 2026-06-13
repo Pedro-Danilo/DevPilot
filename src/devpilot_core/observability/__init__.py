@@ -20,4 +20,21 @@ __all__ = [
     "redact_sensitive_data",
     "redact_sensitive_string",
     "summarize_command_data",
+    "SpanRecord",
+    "SpanStatus",
+    "TraceContext",
+    "new_run_id",
+    "new_span_id",
+    "new_trace_id",
+    "sanitize_span_payload",
 ]
+
+from .tracing import (
+    SpanRecord,
+    SpanStatus,
+    TraceContext,
+    new_run_id,
+    new_span_id,
+    new_trace_id,
+    sanitize_span_payload,
+)

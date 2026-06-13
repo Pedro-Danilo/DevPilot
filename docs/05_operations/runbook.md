@@ -2,7 +2,7 @@
 title: "Runbook — DevPilot Local"
 doc_id: "DEVPL-OPS-002"
 status: "approved"
-version: "1.17.0"
+version: "1.18.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
@@ -3340,3 +3340,46 @@ python -m pytest tests/test_sdlc_agents.py tests/test_sprint_55_documentation.py
 - Crecimiento excesivo de eventos/spans si no se define retención en fases posteriores.
 - Duplicación entre JSONL y SQLite si no se documenta su rol: JSONL append-only, SQLite consultable.
 - Falsa sensación de observabilidad industrial si Fase E no implementa correlación, métricas y reportes verificables.
+
+
+## FUNC-SPRINT-57 — Operación de TraceContext y spans internos
+
+`FUNC-SPRINT-57` agrega contratos internos de observabilidad v2 en `src/devpilot_core/observability/tracing.py`. Esta versión es `implemented-initial`: permite construir contextos y spans serializables con `trace_id`, `run_id`, `span_id`, `parent_span_id`, estado, severidad, duración, metadata, payload redacted y findings, pero todavía no escribe esos spans en SQLite ni expone comandos `trace report` o `trace inspect`.
+
+### Propósito operativo
+
+- Correlacionar una ejecución de DevPilot con sus suboperaciones futuras.
+- Preparar instrumentación de comandos, agentes, tools, policies, approvals y model calls.
+- Mantener compatibilidad con `EventLogger` JSONL actual.
+- Evitar exposición de secretos, prompts completos, completions crudas, diffs, patches y salida de procesos en spans.
+
+### Comandos de verificación Sprint 57
+
+```powershell
+python -m pytest tests/test_trace_context.py -q
+python -m pytest tests/test_sprint_57_documentation.py -q
+python -m devpilot_core validate-artifact docs/audits/func_sprint_57_trace_context_audit.md --json
+python -m devpilot_core schema validate-manifest docs/functional_sprint_57_manifest.json --json
+python -m devpilot_core validate all --json
+```
+
+### Criterios PASS
+
+- `TraceContext` serializa `trace_id`, `run_id`, timestamps y metadata redacted.
+- `SpanRecord` serializa `span_id`, `parent_span_id`, `status`, `duration_ms`, `payload`, `metadata` y `findings`.
+- `sanitize_span_payload` redactoriza secretos y claves sensibles como `prompt`, `raw_output`, `diff`, `patch`, `stdout`, `stderr`, `authorization`, `api_key` y `token`.
+- Los tests de EventLogger v1 siguen pasando.
+- No se agregan dependencias externas.
+
+### Criterios BLOCK
+
+- Un span conserva prompts, completions, secretos, patches, diffs o salida de proceso cruda.
+- El modelo de spans rompe `EventLogger` v1.
+- La implementación requiere OpenTelemetry SDK o servicios externos.
+- Se implementa persistencia/consulta de trazas antes de `FUNC-SPRINT-58`.
+
+### Riesgos
+
+- **Contrato preliminar:** los campos pueden ampliarse en Sprint 58-60 al instrumentar runtime y persistencia.
+- **Redacción conservadora:** algunas claves genéricas como `content`, `stdout` o `diff` se redactorizan por defecto para evitar fugas.
+- **Sin persistencia todavía:** la existencia de `TraceContext` no implica que DevPilot ya tenga trace store consultable.

@@ -2,13 +2,13 @@
 title: "DevPilot Local — Backlog ejecutable Fase E: AgentOps y observabilidad"
 doc_id: "DEVPL-FUNC-BACKLOG-FASE-E-001"
 status: "approved"
-version: "0.2.0"
+version: "0.3.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
 phase: "FASE-E-AGENTOPS-OBSERVABILIDAD"
 updated: "2026-06-13"
-source_repo: "repo_DevPilot_Local_68.zip"
+source_repo: "repo_DevPilot_Local_69_sprint_56_observability_v2.zip"
 source_report: "Informe de avance DevPilot - sprint 0 - 18.docx"
 source_backlog_model: "docs/functional_backlog_after_precode.md"
 baseline_dependency: "Fases A, B, C y D cerradas; Fase D validada por FUNC-SPRINT-55"
@@ -18,9 +18,9 @@ change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "phase_e_executable_backlog_review"
 approved_on: "2026-06-13"
 approval: "approved_after_phase_d_closure_review"
-first_open_sprint: "FUNC-SPRINT-57"
-last_completed_sprint: "FUNC-SPRINT-56"
-next_sprint: "FUNC-SPRINT-57"
+first_open_sprint: "FUNC-SPRINT-58"
+last_completed_sprint: "FUNC-SPRINT-57"
+next_sprint: "FUNC-SPRINT-58"
 phase_e_status: "in_progress"
 ---
 
@@ -333,6 +333,15 @@ python -m pytest -q
 ```text
 Implementa FUNC-SPRINT-57: TraceContext y SpanRecord internos. Mantén compatibilidad con EventLogger actual y agrega pruebas de serialización, jerarquía y redacción.
 ```
+
+
+## Estado de implementación Sprint 57
+
+`FUNC-SPRINT-57 — TraceContext y modelo de spans` queda implementado en estado `implemented-initial`. La implementación crea contratos Python internos para `TraceContext`, `SpanRecord`, `SpanStatus`, generación de ids `trace_id`/`span_id`/`run_id`, cálculo de duración y redacción conservadora de payloads con `sanitize_span_payload`.
+
+El cierre de Sprint 57 mantiene los límites de Fase E: no agrega OpenTelemetry SDK, no habilita exporters, no envía telemetría remota, no modifica `EventLogger` v1, no persiste spans todavía y no habilita multiagente, handoffs, RAG, MCP ni ejecución remota.
+
+Siguiente sprint operativo: `FUNC-SPRINT-58 — TraceStore y EventLogger v2 compatible`.
 
 ## FUNC-SPRINT-58 — TraceStore y EventLogger v2 compatible
 

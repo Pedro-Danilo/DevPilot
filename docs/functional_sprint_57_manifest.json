@@ -1,0 +1,120 @@
+{
+  "sprint": "FUNC-SPRINT-57",
+  "title": "TraceContext y modelo de spans",
+  "status": "implemented",
+  "implemented_at": "2026-06-13",
+  "phase": "FASE-E-AGENTOPS-OBSERVABILIDAD",
+  "wave": "Ola 8 — Observabilidad avanzada y AgentOps",
+  "source_backlog": "docs/devpilot_backlog_fase_E_agentops_observabilidad.md",
+  "architectural_decision": {
+    "required": false,
+    "adr": "docs/02_architecture/adrs/ADR-0012-observability-v2-agentops.md",
+    "reason": "FUNC-SPRINT-57 implementa los contratos internos definidos por ADR-0012; no introduce una decisión arquitectónica nueva."
+  },
+  "summary": {
+    "implementation_level": "implemented-initial",
+    "runtime_contracts_added": true,
+    "trace_store_added": false,
+    "event_logger_v2_added": false,
+    "external_dependencies_added": false,
+    "remote_telemetry_enabled": false,
+    "network_required": false,
+    "external_api_used": false,
+    "mutations_runtime": false,
+    "next_runtime_sprint": "FUNC-SPRINT-58"
+  },
+  "created_files": [
+    "src/devpilot_core/observability/tracing.py",
+    "tests/test_trace_context.py",
+    "docs/audits/func_sprint_57_trace_context_audit.md",
+    "docs/functional_sprint_57_manifest.json",
+    "tests/test_sprint_57_documentation.py"
+  ],
+  "modified_files": [
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/devpilot_backlog_fase_E_agentops_observabilidad.md",
+    "docs/functional_backlog_after_precode.md",
+    "src/devpilot_core/observability/__init__.py",
+    "tests/test_sprint_32_documentation.py",
+    "tests/test_sprint_33_documentation.py",
+    "tests/test_sprint_34_documentation.py",
+    "tests/test_sprint_35_documentation.py",
+    "tests/test_sprint_36_documentation.py",
+    "tests/test_sprint_37_documentation.py",
+    "tests/test_sprint_38_documentation.py",
+    "tests/test_sprint_39_documentation.py",
+    "tests/test_sprint_40_documentation.py",
+    "tests/test_sprint_41_documentation.py",
+    "tests/test_sprint_42_documentation.py",
+    "tests/test_sprint_43_documentation.py",
+    "tests/test_sprint_44_documentation.py",
+    "tests/test_sprint_45_documentation.py",
+    "tests/test_sprint_46_documentation.py",
+    "tests/test_sprint_47_documentation.py",
+    "tests/test_sprint_48_documentation.py",
+    "tests/test_sprint_49_documentation.py",
+    "tests/test_sprint_50_documentation.py",
+    "tests/test_sprint_51_documentation.py",
+    "tests/test_sprint_52_documentation.py",
+    "tests/test_sprint_53_documentation.py",
+    "tests/test_sprint_54_documentation.py",
+    "tests/test_sprint_55_documentation.py",
+    "tests/test_sprint_56_documentation.py"
+  ],
+  "commands": [
+    "python -m pytest tests/test_trace_context.py -q",
+    "python -m pytest tests/test_sprint_57_documentation.py -q",
+    "python -m pytest tests/test_event_logger.py -q",
+    "python -m devpilot_core validate-artifact docs/audits/func_sprint_57_trace_context_audit.md --json",
+    "python -m devpilot_core schema validate-manifest docs/functional_sprint_57_manifest.json --json",
+    "python -m devpilot_core validate all --json",
+    "python -m pytest -q"
+  ],
+  "tests": [
+    "tests/test_trace_context.py",
+    "tests/test_sprint_57_documentation.py",
+    "tests/test_event_logger.py",
+    "schema validate-manifest",
+    "validate all",
+    "pytest -q"
+  ],
+  "pass_criteria": [
+    "TraceContext serializa trace_id, run_id, timestamps y metadata redacted.",
+    "SpanRecord serializa span_id, parent_span_id, status, duration_ms, payload, metadata y findings.",
+    "Los spans soportan relación parent-child.",
+    "sanitize_span_payload redactoriza secretos y payloads raw sensibles.",
+    "Los ids son prefijados y permiten inyección de factory para pruebas.",
+    "EventLogger v1 mantiene compatibilidad.",
+    "No se agregan dependencias externas ni exporters activos."
+  ],
+  "block_criteria": [
+    "SpanRecord guarda prompts, completions, diffs, patches, stdout/stderr o secretos crudos.",
+    "Se rompe EventLogger actual.",
+    "Se agrega OpenTelemetry SDK obligatorio.",
+    "Se implementa persistencia o CLI de trazas fuera del alcance de Sprint 57.",
+    "Se habilita telemetría remota, multiagente, handoffs, RAG, MCP o ejecución remota."
+  ],
+  "risks": [
+    {
+      "id": "RISK-FUNC-57-001",
+      "risk": "Incompatibilidad con EventLogger v1",
+      "mitigation": "Implementar tracing.py como contrato independiente y verificar tests de EventLogger."
+    },
+    {
+      "id": "RISK-FUNC-57-002",
+      "risk": "Exceso de metadatos o payloads sensibles",
+      "mitigation": "Redacción conservadora por claves y SecretGuard antes de serializar."
+    },
+    {
+      "id": "RISK-FUNC-57-003",
+      "risk": "IDs no determinables en tests",
+      "mitigation": "Permitir trace_id/run_id/span_id explícitos e inyección de id_factory/clock."
+    }
+  ],
+  "next_sprint": "FUNC-SPRINT-58 — TraceStore y EventLogger v2 compatible",
+  "corrective_adjustments": [
+    "El repo base cargado como repo_DevPilot_Local_68.zip no contenía los artefactos de Sprint 56 a pesar de que los logs de validación demostraban Sprint 56 en PASS. Se sincronizaron los artefactos verificados de Sprint 56 antes de implementar Sprint 57.",
+    "Se actualizaron pruebas documentales históricas para reflejar el nuevo hito vigente FUNC-SPRINT-57 y el siguiente FUNC-SPRINT-58."
+  ]
+}

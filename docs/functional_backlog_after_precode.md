@@ -2,7 +2,7 @@
 title: "DevPilot Local — Backlog ejecutable posterior a pre-code"
 doc_id: "DEVPL-FUNC-BACKLOG-001"
 status: "approved"
-version: "3.2.0"
+version: "3.3.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
@@ -14,7 +14,7 @@ change_policy: "controlled_changes_allowed_via_docs_as_code"
 approved_on: "2026-06-06"
 approval_scope: "functional_backlog_after_precode"
 baseline_execution: "FUNC-SPRINT-00"
-next_sprint: "FUNC-SPRINT-57"
+next_sprint: "FUNC-SPRINT-58"
 ---
 
 # DevPilot Local — Backlog ejecutable posterior a pre-code
@@ -2176,3 +2176,10 @@ La transición no habilita multiagente, handoffs, APIs externas ni ejecución au
 `FUNC-SPRINT-56 — ADR de observabilidad v2 y modelo AgentOps` queda implementado como inicio de Fase E. El sprint no agrega runtime nuevo; formaliza la decisión arquitectónica `ADR-0012`, actualiza los contratos de observabilidad operacional y MIASI, crea el catálogo preliminar de señales v2 y habilita el inicio de `FUNC-SPRINT-57 — TraceContext y modelo de spans`.
 
 La transición mantiene explícitamente bloqueados: telemetría remota, exporters activos, SDKs externos obligatorios, multiagente funcional, handoffs, RAG, MCP y ejecución remota. La siguiente unidad de trabajo debe implementar `TraceContext`/`SpanRecord` internos manteniendo compatibilidad con `EventLogger` actual.
+
+
+## Transición posterior a FUNC-SPRINT-57
+
+`FUNC-SPRINT-57 — TraceContext y modelo de spans` queda implementado como primera capacidad runtime de observabilidad v2. Se incorporan contratos internos serializables para `TraceContext`, `SpanRecord`, `SpanStatus`, generación de ids y redacción de payloads sensibles, sin persistencia, sin CLI de consulta y sin dependencias externas.
+
+El siguiente sprint operativo es `FUNC-SPRINT-58 — TraceStore y EventLogger v2 compatible`, que deberá persistir spans/eventos de forma local y mantener compatibilidad con JSONL actual.
