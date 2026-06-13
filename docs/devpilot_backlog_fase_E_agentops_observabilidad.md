@@ -1,30 +1,43 @@
 ---
 title: "DevPilot Local — Backlog ejecutable Fase E: AgentOps y observabilidad"
 doc_id: "DEVPL-FUNC-BACKLOG-FASE-E-001"
-status: "draft-for-review"
-version: "0.1.0"
+status: "approved"
+version: "0.2.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
 phase: "FASE-E-AGENTOPS-OBSERVABILIDAD"
-updated: "2026-06-09"
-source_repo: "repo_DevPilot_Local_22.zip"
+updated: "2026-06-13"
+source_repo: "repo_DevPilot_Local_67.zip"
 source_report: "Informe de avance DevPilot - sprint 0 - 18.docx"
 source_backlog_model: "docs/functional_backlog_after_precode.md"
-baseline_dependency: "Fases A-D aprobadas o explícitamente aceptadas como prerequisito lógico"
+baseline_dependency: "Fases A, B, C y D cerradas; Fase D validada por FUNC-SPRINT-55"
 first_sprint: "FUNC-SPRINT-56"
 last_planned_sprint: "FUNC-SPRINT-63"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "phase_e_executable_backlog_review"
+approved_on: "2026-06-13"
+approval: "approved_after_phase_d_closure_review"
+first_open_sprint: "FUNC-SPRINT-56"
+last_completed_sprint: "FUNC-SPRINT-55"
+next_sprint: "FUNC-SPRINT-56"
+phase_e_status: "approved_for_implementation"
 ---
 
 # DevPilot Local — Backlog ejecutable Fase E: AgentOps y observabilidad
 
 ## Estado de aprobación funcional
 
-Este documento se entrega en estado `draft-for-review`. Su propósito es convertir la **Fase E — AgentOps y observabilidad** en un backlog de implementación ejecutable, siguiendo el modelo operativo usado en `docs/functional_backlog_after_precode.md`.
+Este documento queda promovido a estado `approved` después del cierre validado de `FUNC-SPRINT-55 — Requirements/Architecture/Security agents y cierre Fase D`. Su propósito es convertir la **Fase E — AgentOps y observabilidad** en un backlog de implementación ejecutable, siguiendo el modelo operativo usado en `docs/functional_backlog_after_precode.md`.
 
-La Fase E corresponde a la **Ola 8 — Observabilidad avanzada y AgentOps**. Parte del estado real de `repo_DevPilot_Local_22.zip`, donde DevPilot ya cuenta con `EventLogger` JSONL, `ReportEngine`, `LocalStore` SQLite inicial, MIASI executable registry, agentes documentales iniciales, Evaluation Harness offline, `ModelAdapter` mock y `ApplicationService`. Sin embargo, el estado actual todavía no incluye trazas jerárquicas, spans, métricas agentic/model, reportes de trace, visor de trazas, OpenTelemetry ni AgentOps dashboard.
+La Fase E corresponde a la **Ola 8 — Observabilidad avanzada y AgentOps**. Parte del estado real de `repo_DevPilot_Local_67.zip`, donde DevPilot ya cuenta con Fases A-D cerradas, `EventLogger` JSONL, `ReportEngine`, `LocalStore` SQLite, MIASI executable registry, Approval Workflow, SafeSubprocessRunner, PatchSandbox, RollbackManager, RefactorExecutor sandbox, ProviderRegistry, ModelAdapterRouter, Ollama/LM Studio opcionales, PromptRegistry, BudgetLedger, ModelEvalRunner, AgentRuntime v2 y agentes SDLC monoagente gobernados. Sin embargo, el estado actual todavía no incluye trazas jerárquicas v2, spans persistidos, métricas agentic/model completas, reportes de trace, visor de trazas, OpenTelemetry opt-in ni AgentOps Quality Gate.
+
+## Estado aprobado para implementación
+
+La revisión de cierre de `FUNC-SPRINT-55` confirma que este backlog es una continuación apropiada de DevPilot porque Fase D deja una superficie agentic gobernada que necesita observabilidad industrial antes de evolucionar hacia UI, multiagente, RAG, MCP o automatización más autónoma.
+
+La aprobación de Fase E no autoriza telemetría remota, exporters externos activos, multiagente funcional, handoffs, RAG, MCP ni ejecución remota. La implementación debe comenzar por `FUNC-SPRINT-56 — ADR de observabilidad v2 y modelo AgentOps`, manteniendo JSONL/SQLite locales como fuente operacional, redacción de secretos obligatoria, `mock` como ruta hermética y OpenTelemetry únicamente como diseño opt-in/dry-run hasta que exista aprobación específica.
+
 
 ## 1. Propósito
 
@@ -136,7 +149,7 @@ Un sprint de Fase E solo puede cerrarse si cumple:
 
 
 
-# FUNC-SPRINT-56 — ADR de observabilidad v2 y modelo AgentOps
+## FUNC-SPRINT-56 — ADR de observabilidad v2 y modelo AgentOps
 
 ## Objetivo
 
@@ -220,7 +233,7 @@ python -m pytest -q
 Implementa FUNC-SPRINT-56: ADR de observabilidad v2 y AgentOps. No agregues exporters ni dependencias. Actualiza Observability Plan y MIASI Observability Card con contratos de trace/span/metric/event y reglas de redacción.
 ```
 
-# FUNC-SPRINT-57 — TraceContext y modelo de spans
+## FUNC-SPRINT-57 — TraceContext y modelo de spans
 
 ## Objetivo
 
@@ -301,7 +314,7 @@ python -m pytest -q
 Implementa FUNC-SPRINT-57: TraceContext y SpanRecord internos. Mantén compatibilidad con EventLogger actual y agrega pruebas de serialización, jerarquía y redacción.
 ```
 
-# FUNC-SPRINT-58 — TraceStore y EventLogger v2 compatible
+## FUNC-SPRINT-58 — TraceStore y EventLogger v2 compatible
 
 ## Objetivo
 
@@ -386,7 +399,7 @@ python -m pytest -q
 Implementa FUNC-SPRINT-58: TraceStore y EventLogger v2 compatible. Mantén JSONL, agrega spans a SQLite con migración idempotente y pruebas de compatibilidad.
 ```
 
-# FUNC-SPRINT-59 — MetricsCollector para comandos, agentes, tools y modelos
+## FUNC-SPRINT-59 — MetricsCollector para comandos, agentes, tools y modelos
 
 ## Objetivo
 
@@ -469,7 +482,7 @@ python -m pytest -q
 Implementa FUNC-SPRINT-59: MetricsCollector local para comandos/agentes/tools/modelos. Mantén métricas best-effort, redacción obligatoria y sin dependencias externas.
 ```
 
-# FUNC-SPRINT-60 — Instrumentación agentic: agentes, tools, approvals y model calls
+## FUNC-SPRINT-60 — Instrumentación agentic: agentes, tools, approvals y model calls
 
 ## Objetivo
 
@@ -556,7 +569,7 @@ python -m pytest -q
 Implementa FUNC-SPRINT-60: instrumentación agentic de AgentRuntime, PolicyEngine y ModelAdapter. No cambies la lógica funcional; solo añade trazas, métricas y pruebas.
 ```
 
-# FUNC-SPRINT-61 — CLI de trazas y métricas: trace report, trace inspect, metrics summary
+## FUNC-SPRINT-61 — CLI de trazas y métricas: trace report, trace inspect, metrics summary
 
 ## Objetivo
 
@@ -642,7 +655,7 @@ python -m pytest -q
 Implementa FUNC-SPRINT-61: comandos `trace report`, `trace inspect` y `metrics summary`. Deben funcionar sin UI y generar reportes opcionales.
 ```
 
-# FUNC-SPRINT-62 — Exporter OpenTelemetry opcional y dry-run
+## FUNC-SPRINT-62 — Exporter OpenTelemetry opcional y dry-run
 
 ## Objetivo
 
@@ -727,7 +740,7 @@ python -m pytest -q
 Implementa FUNC-SPRINT-62: exporter OTel opcional en dry-run. No agregues envío remoto ni dependencias obligatorias. Declara tool/policy en MIASI y agrega pruebas de no exfiltración.
 ```
 
-# FUNC-SPRINT-63 — AgentOps Quality Gate y cierre Fase E
+## FUNC-SPRINT-63 — AgentOps Quality Gate y cierre Fase E
 
 ## Objetivo
 
@@ -812,6 +825,6 @@ python -m pytest -q
 Implementa FUNC-SPRINT-63: AgentOps Quality Gate y cierre Fase E. Agrega `agentops status`, reporte de cierre, docs sincronizadas y pruebas.
 ```
 
-# Cierre esperado de Fase E
+## Cierre esperado de Fase E
 
 Al cerrar Fase E, DevPilot debe tener una capa AgentOps local suficientemente robusta para observar comandos, agentes, tools, políticas, approvals, modelos y métricas sin depender de servicios externos. Esta fase no entrega UI, pero deja listas las señales y contratos que la Fase F deberá visualizar.

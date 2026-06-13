@@ -1,6 +1,6 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
-Estado actual: `baseline pre-code approved + Fase A cerrada + FASE-B cerrada + Fase C cerrada + Fase D en progreso controlado`  
+Estado actual: `baseline pre-code approved + Fase A cerrada + Fase B cerrada + Fase C cerrada + Fase D cerrada + Fase E aprobada para implementación controlada`  
 Último hito: `FUNC-SPRINT-55 — Requirements/Architecture/Security agents y cierre Fase D`  
 Siguiente hito: `FUNC-SPRINT-56 — ADR de observabilidad v2 y modelo AgentOps`  
 Estándar rector: MIPSoftware  
@@ -13,6 +13,14 @@ Modo de trabajo: local-first híbrido, API keys opcionales, costo externo contro
 Después del cierre validado de `FUNC-SPRINT-44`, el backlog `docs/devpilot_backlog_fase_D_ia_local_gobernada.md` queda promovido a `approved` para iniciar `FUNC-SPRINT-45 — ADR y contratos de proveedores locales`.
 
 La aprobación no habilita proveedores externos, APIs pagas, multiagente funcional ni agentes autónomos. Fase D mantiene `mock` como ruta obligatoria/default, trata Ollama/LM Studio como proveedores locales opcionales y exige ModelAdapterRouter, PolicyEngine, SecretGuard, CostGuard, PromptRegistry, evals y observabilidad para toda capacidad agentic con modelo.
+
+La Fase D queda cerrada con `FUNC-SPRINT-55`: ProviderConfig gobernado, adapters locales opcionales, PromptRegistry, BudgetLedger, ModelEvalRunner, AgentRuntime v2 y agentes monoagente especializados para repositorio, revisión, patches, refactor seguro, planificación de pruebas, requisitos, arquitectura y seguridad.
+
+## Aprobación Fase E — AgentOps y observabilidad
+
+Después de validar el cierre de `FUNC-SPRINT-55`, el backlog `docs/devpilot_backlog_fase_E_agentops_observabilidad.md` queda promovido a `approved` para iniciar `FUNC-SPRINT-56 — ADR de observabilidad v2 y modelo AgentOps`.
+
+La aprobación de Fase E no habilita telemetría remota, exporters externos activos, multiagente, handoffs, RAG, MCP ni ejecución remota. La fase debe construir primero contratos, `TraceContext`, spans, métricas, `TraceStore`, reportes locales y un AgentOps Quality Gate, manteniendo redacción de secretos, JSONL/SQLite locales, `mock` como ruta hermética y OpenTelemetry solo en modo opt-in/dry-run hasta decisión posterior.
 
 
 

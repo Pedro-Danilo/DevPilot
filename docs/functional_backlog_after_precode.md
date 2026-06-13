@@ -2,12 +2,12 @@
 title: "DevPilot Local — Backlog ejecutable posterior a pre-code"
 doc_id: "DEVPL-FUNC-BACKLOG-001"
 status: "approved"
-version: "3.0.0"
+version: "3.1.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
 phase: "POST-PRECODE"
-updated: "2026-06-12"
+updated: "2026-06-13"
 approval: "approved_by_owner_direction"
 source_baseline: "precode_baseline_approved"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
@@ -2168,4 +2168,4 @@ El siguiente sprint operativo es `FUNC-SPRINT-55 — Requirements/Architecture/S
 
 Después de `FUNC-SPRINT-55`, DevPilot cierra la Fase D de IA local gobernada. La plataforma cuenta con `ModelAdapter` mock/local, proveedores locales gobernados, PromptRegistry, BudgetLedger, AgentRuntime v2 y agentes monoagente especializados para repositorio, revisión de código, revisión de patches, refactor plan-only, planificación de pruebas, requisitos, arquitectura y seguridad.
 
-La transición no habilita multiagente, handoffs, APIs externas ni ejecución autónoma. El siguiente sprint operativo sugerido es `FUNC-SPRINT-56 — ADR de observabilidad v2 y modelo AgentOps`, dentro de la Fase E, para instrumentar trazas, spans y métricas agentic/model.
+La transición no habilita multiagente, handoffs, APIs externas ni ejecución autónoma. El backlog `docs/devpilot_backlog_fase_E_agentops_observabilidad.md` queda promovido a `approved` después de la revisión de cierre de Fase D. El siguiente sprint operativo es `FUNC-SPRINT-56 — ADR de observabilidad v2 y modelo AgentOps`, dentro de la Fase E, para instrumentar trazas, spans y métricas agentic/model con telemetría local-first y sin exfiltración por defecto.

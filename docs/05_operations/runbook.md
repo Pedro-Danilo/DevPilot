@@ -3239,3 +3239,44 @@ python -m devpilot_core readiness-check --strict --json
 ### Limitación
 
 Sprint 55 es `implemented-initial`: los agentes revisan y recomiendan, pero no escriben documentos ni ejecutan correcciones. La observabilidad profunda queda para Fase E.
+
+## Transición operativa a Fase E — AgentOps y observabilidad
+
+### Propósito
+
+Después del cierre validado de `FUNC-SPRINT-55`, DevPilot queda autorizado para iniciar `FUNC-SPRINT-56 — ADR de observabilidad v2 y modelo AgentOps` bajo el backlog `docs/devpilot_backlog_fase_E_agentops_observabilidad.md`, promovido a `approved` el 2026-06-13.
+
+### Estado
+
+La transición desde Fase D hacia Fase E es documental y operativa, no habilita por sí misma nuevas capacidades runtime. El sistema conserva `mock` como ruta hermética, proveedores locales opcionales, APIs externas bloqueadas, agentes monoagente, modo read-only/dry-run y ausencia de handoffs/multiagente.
+
+### Comandos de verificación
+
+```powershell
+python -m devpilot_core validate-artifact docs/devpilot_backlog_fase_E_agentops_observabilidad.md --json
+python -m devpilot_core validate all --json
+python -m devpilot_core miasi validate --json
+python -m pytest tests/test_sdlc_agents.py tests/test_sprint_55_documentation.py -q
+```
+
+### Criterios PASS
+
+- `docs/devpilot_backlog_fase_E_agentops_observabilidad.md` está en estado `approved`.
+- El primer sprint abierto es `FUNC-SPRINT-56`.
+- Fase E mantiene telemetría local-first y no exfiltración por defecto.
+- OpenTelemetry se conserva como referencia/opt-in futuro, no como dependencia obligatoria.
+- No se habilitan multiagente, RAG, MCP, handoffs ni exporters remotos activos.
+
+### Criterios BLOCK
+
+- Bloquear si Fase E intenta enviar telemetría externa sin aprobación.
+- Bloquear si un exporter se activa por defecto.
+- Bloquear si se almacenan prompts, outputs, secretos o payloads sensibles sin redacción.
+- Bloquear si se confunde AgentOps con multiagente funcional.
+- Bloquear si un comando nuevo no devuelve `CommandResult` o no soporta `--json`.
+
+### Riesgos
+
+- Crecimiento excesivo de eventos/spans si no se define retención en fases posteriores.
+- Duplicación entre JSONL y SQLite si no se documenta su rol: JSONL append-only, SQLite consultable.
+- Falsa sensación de observabilidad industrial si Fase E no implementa correlación, métricas y reportes verificables.
