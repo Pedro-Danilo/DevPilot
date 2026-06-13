@@ -2,15 +2,15 @@
 title: "AgentOps Observability Card — DevPilot Local"
 doc_id: "DEVPL-MIASI-OBSERVABILITY"
 status: "approved"
-version: "1.0.0"
+version: "1.1.0"
 owner: "Ordóñez"
 standard: "MIASI"
 parent_standard: "MIPSoftware"
-phase: "SPRINT-PRECODE-07"
-updated: "2026-06-05"
+phase: "FUNC-SPRINT-56"
+updated: "2026-06-13"
 approval: "approved_by_owner_direction"
 source_baseline: "observability plan approved + security approved"
-change_policy: "controlled_changes_allowed_until_precode_baseline"
+change_policy: "controlled_changes_allowed_via_docs_as_code"
 baseline_role: "precode_approved_baseline"
 ---
 
@@ -144,3 +144,56 @@ Bloquear despliegue o activación si:
 Los comandos `agent run` emiten resultados mediante `CommandResult`, pueden generar evidencia JSON/Markdown con `--write-report`, emiten eventos JSONL por la envoltura CLI y persisten resultados en SQLite de forma best-effort. Los tool calls internos se reportan como estructuras auditables dentro de `data.tool_calls`.
 
 Limitación: todavía no existe una traza agentic jerárquica completa con spans, correlación por paso, métricas de latencia por herramienta ni SLO/SLA. Esta capacidad queda pendiente para sprints posteriores.
+
+
+## 12. Actualización FUNC-SPRINT-56 — Contrato MIASI para observabilidad v2
+
+`FUNC-SPRINT-56` actualiza esta card para alinear MIASI con `ADR-0012 — Observabilidad v2 y modelo AgentOps local-first`. Esta actualización no implementa instrumentación runtime todavía; define las señales obligatorias que deberán producir los sprints 57 a 63.
+
+## 13. Contrato v2 de correlación agentic
+
+| Elemento MIASI | ID correlacionable | Señal requerida | Estado Sprint 56 |
+|---|---|---|---|
+| Agent run | `agent_run_id` | evento + span `agent_run` | definido/no implementado |
+| Tool call | `tool_call_id` | evento + span `tool_call` | definido/no implementado |
+| Policy check | `policy_decision_id` o metadata equivalente | evento + span `policy_check` | definido/no implementado |
+| Approval | `approval_id` | evento + span `approval` | definido/no implementado |
+| Model call | `model_call_id` o digest | evento + span `model_call` + métrica | definido/no implementado |
+| Sandbox/refactor/patch | `sandbox_id`/`changeset_id`/`rollback_id` | evento + span `sandbox` | definido/no implementado |
+| Reporte | `report_id`/path | evento + span `report` | definido/no implementado |
+
+## 14. Señales obligatorias por agente y tool
+
+| Dominio | Obligatorio | Bloqueante si falta desde Sprint 60 |
+|---|---|---|
+| Agente | `agent_id`, `agent_run_id`, `trace_id`, `status`, `dry_run`, `preliminary` | Sí |
+| Tool | `tool_id`, `tool_call_id`, `action`, `allowed`, `policy_exit_code`, `dry_run` | Sí |
+| Modelo | `provider`, `model`, `task`, `prompt_id`, `prompt_version`, `tokens_estimated`, `cost_estimate_usd` | Sí |
+| Política | guards evaluados, `allowed`, `blocked`, `approval_required`, `approval_valid` | Sí |
+| Aprobación | `approval_id`, acción, riesgo, decisión humana | Sí cuando aplique |
+| Seguridad | redacciones, findings, bloqueos por SecretGuard/PromptInjectionGuard/ToolInjectionGuard | Sí |
+
+## 15. Reglas de redacción MIASI v2
+
+- Ningún agente puede persistir prompt completo o completion cruda como evento/span normal.
+- Tool args deben registrarse como resumen redactado o allowlist de campos.
+- Model calls deben registrar digest y metadatos, no request/response crudos.
+- Secrets detectados por SecretGuard deben producir señal de redacción/bloqueo, no exponer el secreto.
+- Toda señal debe indicar `external_api_used=false` salvo decisión futura explícita y aprobada.
+
+## 16. Relación con AgentOps Quality Gate
+
+El futuro `agentops status` de `FUNC-SPRINT-63` deberá evaluar al menos:
+
+| Control | PASS | BLOCK |
+|---|---|---|
+| Correlación | agent/tool/model tienen `trace_id` | señales agentic huérfanas |
+| Redacción | no hay secretos ni payloads crudos | secreto/prompt crudo en traza |
+| Policy visibility | policy decisions observables | tool call sin policy |
+| Model visibility | provider/model/task/costo estimado visibles | model call opaca |
+| Approval visibility | aprobaciones trazables | acción riesgosa sin approval trace |
+| Local-first | señales locales reproducibles | dependencia cloud obligatoria |
+
+## 17. Riesgos y límites
+
+Esta card queda en versión `1.1.0` como contrato inicial. No equivale a un dashboard AgentOps industrial ni a trazas distribuidas. La calidad industrial llegará al cerrar Fase E con spans persistidos, métricas consultables, CLI de inspección, exporter dry-run y AgentOps Quality Gate.

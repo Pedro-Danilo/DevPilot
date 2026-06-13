@@ -8,7 +8,7 @@ standard: "MIPSoftware"
 extension: "MIASI"
 phase: "FASE-E-AGENTOPS-OBSERVABILIDAD"
 updated: "2026-06-13"
-source_repo: "repo_DevPilot_Local_67.zip"
+source_repo: "repo_DevPilot_Local_68.zip"
 source_report: "Informe de avance DevPilot - sprint 0 - 18.docx"
 source_backlog_model: "docs/functional_backlog_after_precode.md"
 baseline_dependency: "Fases A, B, C y D cerradas; Fase D validada por FUNC-SPRINT-55"
@@ -18,10 +18,10 @@ change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "phase_e_executable_backlog_review"
 approved_on: "2026-06-13"
 approval: "approved_after_phase_d_closure_review"
-first_open_sprint: "FUNC-SPRINT-56"
-last_completed_sprint: "FUNC-SPRINT-55"
-next_sprint: "FUNC-SPRINT-56"
-phase_e_status: "approved_for_implementation"
+first_open_sprint: "FUNC-SPRINT-57"
+last_completed_sprint: "FUNC-SPRINT-56"
+next_sprint: "FUNC-SPRINT-57"
+phase_e_status: "in_progress"
 ---
 
 # DevPilot Local — Backlog ejecutable Fase E: AgentOps y observabilidad
@@ -232,6 +232,26 @@ python -m pytest -q
 ```text
 Implementa FUNC-SPRINT-56: ADR de observabilidad v2 y AgentOps. No agregues exporters ni dependencias. Actualiza Observability Plan y MIASI Observability Card con contratos de trace/span/metric/event y reglas de redacción.
 ```
+
+## Estado de implementación Sprint 56
+
+`FUNC-SPRINT-56 — ADR de observabilidad v2 y modelo AgentOps` queda implementado como `implemented-initial`. El sprint crea `ADR-0012`, actualiza el Observability Plan, actualiza la MIASI Observability Card, crea el catálogo preliminar de señales v2, crea auditoría de sprint y manifiesto funcional.
+
+Alcance real aplicado:
+
+- se define la arquitectura local-first de eventos, trazas, spans, métricas y reportes;
+- se formaliza que JSONL y SQLite seguirán siendo fuentes locales de evidencia;
+- se documentan contratos mínimos para `trace_id`, `run_id`, `agent_run_id`, `tool_call_id`, `model_call_id`, spans y métricas;
+- se explicita que OpenTelemetry es solo compatibilidad futura opt-in/dry-run;
+- se mantiene bloqueado todo envío remoto de telemetría;
+- no se agregan dependencias externas;
+- no se implementan todavía `TraceContext`, `TraceStore`, `MetricsCollector`, exporters ni AgentOps Gate.
+
+Criterios de cierre: `validate-artifact` sobre ADR, Observability Plan, Signal Catalog, Observability Card y auditoría debe pasar; `miasi validate` debe seguir en PASS; el manifiesto Sprint 56 debe validar contra schema; `pytest -q` debe pasar sin red ni APIs externas.
+
+Criterios BLOCK: telemetría remota por defecto, SDK externo obligatorio, payloads sensibles en señales, instrumentación runtime fuera de alcance o confusión de AgentOps con multiagente/handoffs/RAG/MCP.
+
+Siguiente sprint operativo: `FUNC-SPRINT-57 — TraceContext y modelo de spans`.
 
 ## FUNC-SPRINT-57 — TraceContext y modelo de spans
 

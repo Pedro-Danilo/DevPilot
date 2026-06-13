@@ -1,0 +1,124 @@
+{
+  "sprint": "FUNC-SPRINT-56",
+  "title": "ADR de observabilidad v2 y modelo AgentOps",
+  "status": "implemented",
+  "implemented_at": "2026-06-13",
+  "phase": "FASE-E-AGENTOPS-OBSERVABILIDAD",
+  "wave": "Ola 8 — Observabilidad avanzada y AgentOps",
+  "source_backlog": "docs/devpilot_backlog_fase_E_agentops_observabilidad.md",
+  "architectural_decision": {
+    "required": true,
+    "adr": "docs/02_architecture/adrs/ADR-0012-observability-v2-agentops.md",
+    "reason": "FUNC-SPRINT-56 define una nueva frontera arquitectónica para observabilidad v2, AgentOps y futura compatibilidad OpenTelemetry opt-in/dry-run antes de modificar runtime."
+  },
+  "summary": {
+    "implementation_level": "implemented-initial",
+    "runtime_changes": false,
+    "external_dependencies_added": false,
+    "remote_telemetry_enabled": false,
+    "network_required": false,
+    "external_api_used": false,
+    "mutations_runtime": false,
+    "next_runtime_sprint": "FUNC-SPRINT-57"
+  },
+  "created_files": [
+    "docs/02_architecture/adrs/ADR-0012-observability-v2-agentops.md",
+    "docs/05_operations/observability_signal_catalog.md",
+    "docs/audits/func_sprint_56_observability_v2_audit.md",
+    "docs/functional_sprint_56_manifest.json",
+    "tests/test_sprint_56_documentation.py"
+  ],
+  "modified_files": [
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/05_operations/observability_plan.md",
+    "docs/06_miasi/observability_card.md",
+    "docs/devpilot_backlog_fase_E_agentops_observabilidad.md",
+    "docs/functional_backlog_after_precode.md",
+    "tests/test_sprint_32_documentation.py",
+    "tests/test_sprint_33_documentation.py",
+    "tests/test_sprint_34_documentation.py",
+    "tests/test_sprint_35_documentation.py",
+    "tests/test_sprint_36_documentation.py",
+    "tests/test_sprint_37_documentation.py",
+    "tests/test_sprint_38_documentation.py",
+    "tests/test_sprint_39_documentation.py",
+    "tests/test_sprint_40_documentation.py",
+    "tests/test_sprint_41_documentation.py",
+    "tests/test_sprint_42_documentation.py",
+    "tests/test_sprint_43_documentation.py",
+    "tests/test_sprint_44_documentation.py",
+    "tests/test_sprint_45_documentation.py",
+    "tests/test_sprint_46_documentation.py",
+    "tests/test_sprint_47_documentation.py",
+    "tests/test_sprint_48_documentation.py",
+    "tests/test_sprint_49_documentation.py",
+    "tests/test_sprint_50_documentation.py",
+    "tests/test_sprint_51_documentation.py",
+    "tests/test_sprint_52_documentation.py",
+    "tests/test_sprint_53_documentation.py",
+    "tests/test_sprint_54_documentation.py",
+    "tests/test_sprint_55_documentation.py"
+  ],
+  "commands": [
+    "python -m devpilot_core validate-artifact docs/02_architecture/adrs/ADR-0012-observability-v2-agentops.md --json",
+    "python -m devpilot_core validate-artifact docs/05_operations/observability_plan.md --json",
+    "python -m devpilot_core validate-artifact docs/05_operations/observability_signal_catalog.md --json",
+    "python -m devpilot_core validate-artifact docs/06_miasi/observability_card.md --json",
+    "python -m devpilot_core validate-artifact docs/audits/func_sprint_56_observability_v2_audit.md --json",
+    "python -m devpilot_core schema validate-manifest docs/functional_sprint_56_manifest.json --json",
+    "python -m devpilot_core miasi validate --json",
+    "python -m devpilot_core validate all --json",
+    "python -m pytest tests/test_sprint_56_documentation.py -q",
+    "python -m pytest -q"
+  ],
+  "tests": [
+    "tests/test_sprint_56_documentation.py",
+    "validate-artifact smoke checks",
+    "miasi validate",
+    "validate all",
+    "pytest -q"
+  ],
+  "pass_criteria": [
+    "ADR-0012 existe y está aprobada.",
+    "Observability Plan documenta señales v2 y distingue event/trace/span/metric/report.",
+    "MIASI Observability Card cubre agentes, tools, modelos, policies, approvals y sandbox.",
+    "Signal Catalog lista eventos, spans, métricas, redacción y matriz por dominio.",
+    "README, runbook, backlog Fase E y backlog funcional quedan sincronizados hacia FUNC-SPRINT-57.",
+    "No se agregan dependencias externas ni exporters activos.",
+    "No se habilita telemetría remota, multiagente, handoffs, RAG, MCP ni ejecución remota."
+  ],
+  "block_criteria": [
+    "Telemetría remota o exporter externo activo por defecto.",
+    "SDK OpenTelemetry obligatorio en Sprint 56.",
+    "Persistencia de prompts, completions, secretos o diffs crudos como señal normal.",
+    "Instrumentación runtime fuera del alcance documental de Sprint 56.",
+    "AgentOps usado para habilitar multiagente/handoffs/RAG/MCP."
+  ],
+  "risks": [
+    {
+      "id": "RISK-FUNC-56-001",
+      "risk": "Diseño demasiado amplio",
+      "mitigation": "Limitar Sprint 56 a ADR, plan, card, catálogo, manifest y auditoría."
+    },
+    {
+      "id": "RISK-FUNC-56-002",
+      "risk": "Exfiltración accidental futura",
+      "mitigation": "Exporters opt-in/dry-run, redacción obligatoria y política posterior."
+    },
+    {
+      "id": "RISK-FUNC-56-003",
+      "risk": "Duplicación de señales",
+      "mitigation": "Catálogo canónico versionado."
+    },
+    {
+      "id": "RISK-FUNC-56-004",
+      "risk": "Confundir estado documental con runtime industrial",
+      "mitigation": "Marcar como implemented-initial y dejar próximos sprints explícitos."
+    }
+  ],
+  "next_sprint": "FUNC-SPRINT-57 — TraceContext y modelo de spans",
+  "corrective_adjustments": [
+    "Se sincronizaron tests documentales históricos test_sprint_32 a test_sprint_55 para que sus aserciones de README/backlog funcional reflejen el nuevo hito FUNC-SPRINT-56 y el siguiente FUNC-SPRINT-57, sin alterar los contratos históricos de Fase D."
+  ]
+}

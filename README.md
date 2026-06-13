@@ -1,8 +1,8 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
-Estado actual: `baseline pre-code approved + Fase A cerrada + Fase B cerrada + Fase C cerrada + Fase D cerrada + Fase E aprobada para implementación controlada`  
-Último hito: `FUNC-SPRINT-55 — Requirements/Architecture/Security agents y cierre Fase D`  
-Siguiente hito: `FUNC-SPRINT-56 — ADR de observabilidad v2 y modelo AgentOps`  
+Estado actual: `baseline pre-code approved + Fase A cerrada + Fase B cerrada + Fase C cerrada + Fase D cerrada + Fase E en progreso`  
+Último hito: `FUNC-SPRINT-56 — ADR de observabilidad v2 y modelo AgentOps`  
+Siguiente hito: `FUNC-SPRINT-57 — TraceContext y modelo de spans`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
@@ -21,6 +21,26 @@ La Fase D queda cerrada con `FUNC-SPRINT-55`: ProviderConfig gobernado, adapters
 Después de validar el cierre de `FUNC-SPRINT-55`, el backlog `docs/devpilot_backlog_fase_E_agentops_observabilidad.md` queda promovido a `approved` para iniciar `FUNC-SPRINT-56 — ADR de observabilidad v2 y modelo AgentOps`.
 
 La aprobación de Fase E no habilita telemetría remota, exporters externos activos, multiagente, handoffs, RAG, MCP ni ejecución remota. La fase debe construir primero contratos, `TraceContext`, spans, métricas, `TraceStore`, reportes locales y un AgentOps Quality Gate, manteniendo redacción de secretos, JSONL/SQLite locales, `mock` como ruta hermética y OpenTelemetry solo en modo opt-in/dry-run hasta decisión posterior.
+
+
+## FUNC-SPRINT-56 — ADR de observabilidad v2 y modelo AgentOps
+
+`FUNC-SPRINT-56` inicia Fase E con el nivel FE-L0: contratos y decisión arquitectónica de observabilidad v2. La implementación crea `ADR-0012`, actualiza el Observability Plan, actualiza la MIASI Observability Card, crea el catálogo canónico preliminar de señales y deja manifest/auditoría del sprint.
+
+Estado: `implemented-initial`. Esta versión es deliberadamente documental/arquitectónica: no agrega exporters, no introduce dependencias externas, no modifica runtime, no persiste spans todavía y no habilita telemetría remota. Su función es fijar la frontera industrial para que `FUNC-SPRINT-57` implemente `TraceContext` y `SpanRecord` sin ambigüedad.
+
+Comandos principales:
+
+```powershell
+python -m devpilot_core validate-artifact docs/02_architecture/adrs/ADR-0012-observability-v2-agentops.md --json
+python -m devpilot_core validate-artifact docs/05_operations/observability_plan.md --json
+python -m devpilot_core validate-artifact docs/05_operations/observability_signal_catalog.md --json
+python -m devpilot_core validate-artifact docs/06_miasi/observability_card.md --json
+python -m devpilot_core miasi validate --json
+python -m pytest tests/test_sprint_56_documentation.py -q
+```
+
+PASS: ADR aprobada, señales v2 documentadas, MIASI actualizado, sin exporter remoto, sin dependencias nuevas, sin secretos/payloads crudos y backlog sincronizado hacia Sprint 57. BLOCK: OpenTelemetry SDK obligatorio, envío remoto por defecto, multiagente/handoffs/RAG/MCP habilitados por esta fase o instrumentación runtime antes de cerrar los contratos.
 
 
 
@@ -267,7 +287,7 @@ Riesgo operativo: el detector es heurístico; puede requerir tuning de aliases o
 
 ## Modelo de aprobación humana y persistencia operacional — FUNC-SPRINT-28
 
-`FUNC-SPRINT-28` inicia la **Fase B — Seguridad operacional** con el dominio de aprobaciones humanas. Esta capacidad es **implemented-initial**: crea modelos y persistencia local, pero no expone aún CLI de aprobaciones ni conecta `approval_id` con `PolicyEngine`.
+`FUNC-SPRINT-28` inicia la **Fase B — Seguridad operacional**. Identificador de fase: `FASE-B`. con el dominio de aprobaciones humanas. Esta capacidad es **implemented-initial**: crea modelos y persistencia local, pero no expone aún CLI de aprobaciones ni conecta `approval_id` con `PolicyEngine`.
 
 Artefactos principales:
 

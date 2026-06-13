@@ -2,16 +2,16 @@
 title: "Observability Plan — DevPilot Local"
 doc_id: "DEVPL-OPS-001"
 status: "approved"
-version: "1.0.0"
+version: "1.1.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "SPRINT-PRECODE-05"
-updated: "2026-06-05"
+phase: "FUNC-SPRINT-56"
+updated: "2026-06-13"
 approval: "approved_by_owner"
 source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved + 03_security approved"
-change_policy: "controlled_changes_allowed_until_precode_baseline"
-approval_scope: "SPRINT-PRECODE-05 quality operations baseline"
+change_policy: "controlled_changes_allowed_via_docs_as_code"
+approval_scope: "FUNC-SPRINT-56 observability v2 baseline"
 ---
 
 # Observability Plan — DevPilot Local
@@ -201,3 +201,67 @@ y qué acciones quedaron bloqueadas.
 |---|---|
 | 0.1.0 | Borrador bootstrap inicial. |
 | 0.5.0 | Observabilidad completa para SPRINT-PRECODE-05. |
+
+
+## 16. Actualización FUNC-SPRINT-56 — Observabilidad v2 y AgentOps
+
+`FUNC-SPRINT-56` eleva este plan desde observabilidad inicial hacia un contrato v2 para Fase E. Esta actualización es **documental/arquitectónica**: no agrega exporters, no modifica runtime y no introduce dependencias externas.
+
+### 16.1 Decisión arquitectónica
+
+La decisión vinculante queda registrada en `docs/02_architecture/adrs/ADR-0012-observability-v2-agentops.md`. La ADR establece que DevPilot adoptará un modelo local-first compuesto por eventos, trazas, spans, métricas y reportes, con JSONL/SQLite como fuentes locales y OpenTelemetry solo como compatibilidad futura opt-in/dry-run.
+
+### 16.2 Separación de señales
+
+| Señal | Definición v2 | Implementación prevista |
+|---|---|---|
+| Evento | Hecho discreto append-only. | EventLogger v2 compatible en Sprint 58. |
+| Trace | Correlación extremo a extremo. | `TraceContext` en Sprint 57. |
+| Span | Operación temporal jerárquica. | `SpanRecord` en Sprint 57. |
+| Métrica | Agregado local de conteos, duración, costo/tokens estimados o severidad. | `MetricRecord`/`MetricsCollector` en Sprint 59. |
+| Reporte | Evidencia JSON/Markdown consultable por humanos y futura UI. | CLI `trace report`/`metrics summary` desde Sprint 61. |
+
+### 16.3 Matriz de señales v2 por dominio
+
+| Dominio | Trace/Span esperado | Eventos mínimos | Métricas iniciales | Reporte esperado |
+|---|---|---|---|---|
+| Comando CLI/ApplicationService | `command` | started/completed/failed | duración, exit_code | command/trace report futuro |
+| Validación y gates | `validation` | validation executed, gate evaluated | findings, blockers | validate all/report |
+| Agentes monoagente | `agent_run` | agent started/completed/failed | runs, failures | agent/trace report |
+| Tool calls | `tool_call` | proposed/blocked/executed_dry_run | tool_calls, blocked | trace inspect/report |
+| PolicyEngine/guards | `policy_check` | policy check completed | policy_blocks | security/agentops report |
+| Approval Workflow | `approval` | requested/approved/denied/revoked | approvals_required | approval audit |
+| ModelAdapterRouter | `model_call` | model call started/completed/blocked | tokens/cost/duration estimated | model budget/eval report |
+| Sandbox/Patch/Refactor | `sandbox` | planned/executed/rollback | sandbox runs, rollbacks | sandbox/refactor report |
+| ReportEngine | `report` | report written | reports_written | outputs/reports |
+
+### 16.4 Reglas de redacción v2
+
+- No guardar prompts completos, completions crudas, headers, tokens, API keys, passwords, `.env` ni diffs completos por defecto.
+- Registrar resúmenes redactados, digests, conteos, ids, rutas relativas, severidad y estado operacional.
+- Toda model call debe exponer `provider`, `model`, `task`, `prompt_id/version` si aplica, `tokens_estimated`, `cost_estimate_usd`, `external_api_used` y flags de raw payload cuando existan.
+- Toda traza debe marcar si se aplicó redacción (`redaction_applied=true/false`) y qué payload fue minimizado.
+
+### 16.5 OpenTelemetry opt-in
+
+OpenTelemetry queda tratado como mapping futuro y no como dependencia obligatoria. Cualquier exporter deberá pasar por ADR/policy posterior, iniciar en dry-run/local, no enviar datos externos por defecto y aplicar redacción antes de construir payloads exportables.
+
+### 16.6 Criterios PASS/BLOCK v2
+
+PASS:
+
+- ADR-0012 existe y está aprobada.
+- El catálogo `docs/05_operations/observability_signal_catalog.md` define eventos, spans, métricas y reportes canónicos.
+- MIASI Observability Card cubre agentes, tools, modelos, policies, approvals y sandbox.
+- No hay telemetría remota ni dependencia externa nueva en Sprint 56.
+
+BLOCK:
+
+- Exporter remoto activo por defecto.
+- SDK externo obligatorio para que pase la suite base.
+- Prompts, completions, secretos o diffs crudos persistidos como observabilidad normal.
+- AgentOps usado como excusa para habilitar multiagente, handoffs, RAG o MCP en esta fase.
+
+## 17. Estado preliminar y evolución pendiente
+
+La observabilidad v2 de `FUNC-SPRINT-56` queda en estado `implemented-initial` porque define contratos, no runtime. Para alcanzar calidad industrial completa faltan `TraceContext`, spans, persistencia SQLite, métricas, instrumentación agentic/model, CLI de consulta, exporter dry-run y AgentOps Quality Gate.

@@ -2,12 +2,12 @@
 title: "Runbook — DevPilot Local"
 doc_id: "DEVPL-OPS-002"
 status: "approved"
-version: "1.16.0"
+version: "1.17.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
 phase: "FUNC-SPRINT-31"
-updated: "2026-06-11"
+updated: "2026-06-13"
 approval: "approved_by_owner"
 source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved + 03_security approved"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
@@ -2873,6 +2873,66 @@ El gate ejecuta de forma local y read-only: `GitAdapter.status`, `DependencyGrap
 
 Esta versión es **implemented-initial**. El gate no reemplaza una certificación industrial completa ni SAST/SCA formal. Es un cierre reproducible de la Fase C local-first, y su principal valor es bloquear la transición a IA local gobernada si el baseline de repositorio pierde trazabilidad, seguridad o documentación sincronizada.
 
+
+
+
+## FUNC-SPRINT-56 — Operación de observabilidad v2 y AgentOps
+
+`FUNC-SPRINT-56` es un sprint de arquitectura y documentación operacional. No agrega comandos productivos nuevos, pero deja los contratos que deben guiar la implementación de Fase E.
+
+### Propósito operativo
+
+Definir cómo DevPilot observará ejecuciones futuras de comandos, agentes, tools, policies, approvals, modelos, sandbox y reportes mediante eventos, trazas, spans, métricas y evidencias locales.
+
+### Verificación específica
+
+```powershell
+python -m devpilot_core validate-artifact docs/02_architecture/adrs/ADR-0012-observability-v2-agentops.md --json
+python -m devpilot_core validate-artifact docs/05_operations/observability_plan.md --json
+python -m devpilot_core validate-artifact docs/05_operations/observability_signal_catalog.md --json
+python -m devpilot_core validate-artifact docs/06_miasi/observability_card.md --json
+python -m devpilot_core validate-artifact docs/audits/func_sprint_56_observability_v2_audit.md --json
+python -m devpilot_core schema validate-manifest docs/functional_sprint_56_manifest.json --json
+python -m devpilot_core miasi validate --json
+python -m pytest tests/test_sprint_56_documentation.py -q
+```
+
+### Verificación de no regresión
+
+```powershell
+python -m devpilot_core validate all --json
+python -m pytest -q
+```
+
+### Criterios PASS
+
+- ADR-0012 existe y declara local-first, JSONL/SQLite, redacción obligatoria y OpenTelemetry opt-in/dry-run.
+- `observability_plan.md` diferencia evento, trace, span, métrica y reporte.
+- `observability_signal_catalog.md` lista señales canónicas por dominio.
+- `observability_card.md` cubre agentes, tools, modelos, policies, approvals y sandbox.
+- No se instalan dependencias nuevas ni se habilita telemetría remota.
+- MIASI y validación documental siguen en PASS.
+
+### Criterios BLOCK
+
+- Export remoto activo por defecto.
+- SDK OpenTelemetry obligatorio en Sprint 56.
+- Prompts/completions/secretos/diffs crudos como señales normales.
+- AgentOps usado para habilitar multiagente, handoffs, RAG, MCP o ejecución remota.
+- Instrumentación runtime implementada antes de `TraceContext`/`SpanRecord`.
+
+### Riesgos y recuperación
+
+| Riesgo | Recuperación |
+|---|---|
+| Catálogo demasiado amplio | Mantener señales en estado `future-implementation` y ejecutar instrumentación incremental. |
+| Inconsistencia documental | Ejecutar `validate-artifact`, `miasi validate` y tests Sprint 56. |
+| Exfiltración futura | Mantener exporter remoto bloqueado hasta ADR/policy posterior. |
+| ZIP con outputs/DB | Ejecutar limpieza antes de empaquetar entregables. |
+
+### Estado preliminar
+
+La capacidad queda `implemented-initial`: define arquitectura y contratos; no entrega todavía `TraceContext`, spans persistidos, métricas consultables ni AgentOps Quality Gate. Estas capacidades corresponden a `FUNC-SPRINT-57` a `FUNC-SPRINT-63`.
 
 ## FUNC-SPRINT-45 — ADR y contratos de proveedores locales
 

@@ -2,7 +2,7 @@
 title: "DevPilot Local — Backlog ejecutable posterior a pre-code"
 doc_id: "DEVPL-FUNC-BACKLOG-001"
 status: "approved"
-version: "3.1.0"
+version: "3.2.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
@@ -14,12 +14,12 @@ change_policy: "controlled_changes_allowed_via_docs_as_code"
 approved_on: "2026-06-06"
 approval_scope: "functional_backlog_after_precode"
 baseline_execution: "FUNC-SPRINT-00"
-next_sprint: "FUNC-SPRINT-56"
+next_sprint: "FUNC-SPRINT-57"
 ---
 
 # DevPilot Local — Backlog ejecutable posterior a pre-code
 
-# Estado de aprobación funcional
+## Estado de aprobación funcional
 
 Este backlog queda promovido a `approved` el 2026-06-06 como guía ejecutable para iniciar la implementación funcional de DevPilot Local después del cierre de la fase pre-code.
 
@@ -120,7 +120,7 @@ Un sprint funcional solo se considera cerrado si cumple:
 
 ---
 
-# FUNC-SPRINT-00 — Higiene del repo y sincronización de baseline
+## FUNC-SPRINT-00 — Higiene del repo y sincronización de baseline
 
 ## Objetivo
 
@@ -175,7 +175,7 @@ Estamos en DevPilot Local. Ejecuta FUNC-SPRINT-00: audita higiene del repo, .git
 
 ---
 
-# FUNC-SPRINT-01 — Arquitectura interna del CLI y modelo común de resultados
+## FUNC-SPRINT-01 — Arquitectura interna del CLI y modelo común de resultados
 
 ## Objetivo
 
@@ -229,7 +229,7 @@ Implementa FUNC-SPRINT-01 sobre DevPilot Local. Crea un modelo común de resulta
 
 ---
 
-# FUNC-SPRINT-02 — Validador de frontmatter y metadatos documentales
+## FUNC-SPRINT-02 — Validador de frontmatter y metadatos documentales
 
 ## Objetivo
 
@@ -283,7 +283,7 @@ Implementa FUNC-SPRINT-02: validador de frontmatter Markdown para DevPilot Local
 
 ---
 
-# FUNC-SPRINT-03 — Validador de artefactos MIPSoftware/MIASI
+## FUNC-SPRINT-03 — Validador de artefactos MIPSoftware/MIASI
 
 Estado de implementación: `implemented` en FUNC-SPRINT-03.
 
@@ -336,7 +336,7 @@ Implementa FUNC-SPRINT-03: validador de artefactos MIPSoftware/MIASI por perfile
 
 ---
 
-# FUNC-SPRINT-04 — Standards Registry y carga local de reglas
+## FUNC-SPRINT-04 — Standards Registry y carga local de reglas
 
 ## Estado de implementación FUNC-SPRINT-04
 
@@ -388,7 +388,7 @@ Implementa FUNC-SPRINT-04: Standards Registry local para detectar MIPSoftware y 
 
 ---
 
-# FUNC-SPRINT-05 — Checklist pre-code y readiness estricto
+## FUNC-SPRINT-05 — Checklist pre-code y readiness estricto
 
 ## Estado de implementación FUNC-SPRINT-05
 
@@ -479,7 +479,7 @@ Implementa FUNC-SPRINT-05: checklist-pre-code ejecutable y readiness-check --str
 
 ---
 
-# FUNC-SPRINT-06 — Report Engine y contrato de evidencias
+## FUNC-SPRINT-06 — Report Engine y contrato de evidencias
 
 ## Estado de implementación FUNC-SPRINT-06
 
@@ -590,7 +590,7 @@ Implementa FUNC-SPRINT-06: Report Engine central para JSON/Markdown. Integra val
 
 ---
 
-# FUNC-SPRINT-07 — Event Log JSONL y observabilidad local
+## FUNC-SPRINT-07 — Event Log JSONL y observabilidad local
 
 ## Estado de implementación FUNC-SPRINT-07
 
@@ -701,7 +701,7 @@ Implementa FUNC-SPRINT-07: EventLogger JSONL local para comandos y gates. Debe g
 
 ---
 
-# FUNC-SPRINT-08 — Workspace Manager mínimo
+## FUNC-SPRINT-08 — Workspace Manager mínimo
 
 ## Estado de implementación FUNC-SPRINT-08
 
@@ -817,7 +817,7 @@ Implementa FUNC-SPRINT-08: Workspace Manager mínimo con .devpilot/project.yaml,
 
 ---
 
-# FUNC-SPRINT-09 — Policy Engine, PathGuard, SecretGuard y CostGuard determinísticos
+## FUNC-SPRINT-09 — Policy Engine, PathGuard, SecretGuard y CostGuard determinísticos
 
 ## Objetivo
 
@@ -950,7 +950,7 @@ Implementado FUNC-SPRINT-09: Policy Engine determinístico con PathGuard, Secret
 
 ---
 
-# FUNC-SPRINT-10 — Persistencia local SQLite y estado operativo
+## FUNC-SPRINT-10 — Persistencia local SQLite y estado operativo
 
 ## Objetivo
 
@@ -1073,7 +1073,7 @@ Implementado FUNC-SPRINT-10: persistencia local SQLite v0 para runs, findings, g
 
 ---
 
-# FUNC-SPRINT-11 — MIASI ejecutable: Agent Registry, Tool Registry y Policy Matrix
+## FUNC-SPRINT-11 — MIASI ejecutable: Agent Registry, Tool Registry y Policy Matrix
 
 ## Objetivo
 
@@ -1197,7 +1197,7 @@ Implementado FUNC-SPRINT-11: MIASI ejecutable con Agent Registry, Tool Registry 
 
 ---
 
-# FUNC-SPRINT-12 — Agent Runtime mock/local para agentes documentales MVP
+## FUNC-SPRINT-12 — Agent Runtime mock/local para agentes documentales MVP
 
 ## Objetivo
 
@@ -1296,7 +1296,7 @@ Siguiente sprint: `FUNC-SPRINT-13 — Evaluation Harness para validadores y agen
 
 ---
 
-# FUNC-SPRINT-13 — Evaluation Harness para validadores y agentes
+## FUNC-SPRINT-13 — Evaluation Harness para validadores y agentes
 
 ## Objetivo
 
@@ -1355,7 +1355,7 @@ Siguiente sprint: `FUNC-SPRINT-14 — Git read-only y repo inventory MVP+`.
 
 ---
 
-# FUNC-SPRINT-14 — Git read-only y repo inventory MVP+
+## FUNC-SPRINT-14 — Git read-only y repo inventory MVP+
 
 ## Estado
 
@@ -1417,7 +1417,7 @@ Siguiente sprint: `FUNC-SPRINT-15 — Patch review y code review en dry-run`.
 
 ---
 
-# FUNC-SPRINT-15 — Patch review y code review en dry-run
+## FUNC-SPRINT-15 — Patch review y code review en dry-run
 
 Estado: `implemented-initial`.
 
@@ -1478,7 +1478,7 @@ Siguiente sprint: `FUNC-SPRINT-16 — Safe Refactor Planner`.
 
 ---
 
-# FUNC-SPRINT-16 — Safe Refactor Planner
+## FUNC-SPRINT-16 — Safe Refactor Planner
 
 Estado: `implemented-initial`.
 
@@ -1537,7 +1537,7 @@ Implementa FUNC-SPRINT-16: Safe Refactor Planner en modo plan-only. Debe analiza
 
 ---
 
-# FUNC-SPRINT-17 — ModelAdapter híbrido, proveedores y CostGuard
+## FUNC-SPRINT-17 — ModelAdapter híbrido, proveedores y CostGuard
 
 Estado: `implemented-initial`.
 
@@ -1609,7 +1609,7 @@ Siguiente sprint: `FUNC-SPRINT-18 — Preparación de Desktop/Web sin implementa
 
 ---
 
-# FUNC-SPRINT-18 — Preparación de Desktop/Web sin implementar UI completa
+## FUNC-SPRINT-18 — Preparación de Desktop/Web sin implementar UI completa
 
 ## Objetivo
 
@@ -1673,7 +1673,7 @@ Siguiente sprint: `FUNC-SPRINT-19 — Cierre formal del ciclo 00–18 y release 
 
 ---
 
-# 8. Secuencia obligatoria de dependencias
+## 8. Secuencia obligatoria de dependencias
 
 ```text
 FUNC-SPRINT-00
@@ -2169,3 +2169,10 @@ El siguiente sprint operativo es `FUNC-SPRINT-55 — Requirements/Architecture/S
 Después de `FUNC-SPRINT-55`, DevPilot cierra la Fase D de IA local gobernada. La plataforma cuenta con `ModelAdapter` mock/local, proveedores locales gobernados, PromptRegistry, BudgetLedger, AgentRuntime v2 y agentes monoagente especializados para repositorio, revisión de código, revisión de patches, refactor plan-only, planificación de pruebas, requisitos, arquitectura y seguridad.
 
 La transición no habilita multiagente, handoffs, APIs externas ni ejecución autónoma. El backlog `docs/devpilot_backlog_fase_E_agentops_observabilidad.md` queda promovido a `approved` después de la revisión de cierre de Fase D. El siguiente sprint operativo es `FUNC-SPRINT-56 — ADR de observabilidad v2 y modelo AgentOps`, dentro de la Fase E, para instrumentar trazas, spans y métricas agentic/model con telemetría local-first y sin exfiltración por defecto.
+
+
+## Transición posterior a FUNC-SPRINT-56
+
+`FUNC-SPRINT-56 — ADR de observabilidad v2 y modelo AgentOps` queda implementado como inicio de Fase E. El sprint no agrega runtime nuevo; formaliza la decisión arquitectónica `ADR-0012`, actualiza los contratos de observabilidad operacional y MIASI, crea el catálogo preliminar de señales v2 y habilita el inicio de `FUNC-SPRINT-57 — TraceContext y modelo de spans`.
+
+La transición mantiene explícitamente bloqueados: telemetría remota, exporters activos, SDKs externos obligatorios, multiagente funcional, handoffs, RAG, MCP y ejecución remota. La siguiente unidad de trabajo debe implementar `TraceContext`/`SpanRecord` internos manteniendo compatibilidad con `EventLogger` actual.
