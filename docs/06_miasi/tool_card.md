@@ -601,3 +601,8 @@ AgentRuntimeV2 + PromptRegistry + ModelAdapterRouter + BudgetLedger + SingleAgen
 ```
 
 PASS: llamadas con `mock` trazadas en `model_calls`, `prompt_id/version`, digest y budget events redacted. BLOCK: adapter directo, prompt/completion crudo, provider local obligatorio, API externa o handoff/multiagente.
+
+
+## Actualización FUNC-SPRINT-52 — Herramienta agent.repo_analysis.run
+
+Se declara `agent.repo_analysis.run` como herramienta de tipo `report`, `implemented-initial`, asociada a `REPO_ANALYSIS_AGENT_GOVERNED_ALLOW`. La herramienta representa la ejecución gobernada de `RepoAnalysisAgent`; no aplica patches, no escribe en el workspace productivo y conserva `external_api_used=false`.

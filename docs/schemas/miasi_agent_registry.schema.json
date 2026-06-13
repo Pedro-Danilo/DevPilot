@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://devpilot.local/schemas/SCHEMA-DEVPL-MIASI-AGENT-REGISTRY-V1",
   "title": "DevPilot MIASI Agent Registry v1",
-  "description": "Structural contract for .devpilot/miasi/agent_registry.json.",
+  "description": "Structural contract for .devpilot/miasi/agent_registry.json. Supports planned/future/implemented/implemented-initial/disabled agent lifecycle states.",
   "type": "object",
   "required": [
     "schema_version",
@@ -75,6 +75,7 @@
               "planned",
               "future",
               "implemented",
+              "implemented-initial",
               "disabled"
             ]
           },
@@ -131,5 +132,5 @@
   "x-devpilot-status": "registered",
   "x-devpilot-preliminary": true,
   "x-devpilot-validation-enabled-sprint": "FUNC-SPRINT-23",
-  "x-devpilot-note": "Registered by FUNC-SPRINT-23 for structural validation. It complements but does not replace semantic/business validators."
+  "x-devpilot-note": "Registered by FUNC-SPRINT-23 for structural validation and extended in FUNC-SPRINT-52 to allow implemented-initial specialized agents. It complements but does not replace semantic/business validators."
 }

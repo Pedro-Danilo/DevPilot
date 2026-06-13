@@ -187,3 +187,8 @@ Sprint 50 agrega `MODEL_EVAL_RUN_ALLOW`, una política local-first para ejecutar
 ## FUNC-SPRINT-51 — Política de AgentRuntime v2 model-aware
 
 Sprint 51 agrega `AGENT_MODEL_CALL_GOVERNED_ALLOW`, una política para permitir llamadas model-aware desde agentes solo cuando pasen por `AgentRuntimeV2`, `PromptRegistry`, `ModelAdapterRouter`, `BudgetLedger`, `SecretGuard` y `CostGuard`. La política es allow/read-compute local para `mock` y providers locales controlados, pero no autoriza APIs externas, direct adapter calls, prompts crudos ni handoffs.
+
+
+## Actualización FUNC-SPRINT-52 — Política REPO_ANALYSIS_AGENT_GOVERNED_ALLOW
+
+La política `REPO_ANALYSIS_AGENT_GOVERNED_ALLOW` permite ejecutar `RepoAnalysisAgent` solo bajo `AgentRuntime v2`, `MIASI`, `RepoAnalyzer`, `DependencyGraph`, `RepoQualityGate`, `PromptRegistry` y `BudgetLedger`. El gate exige `NoMutations`, `NoExternalAPI` y `NoHandoffs`.

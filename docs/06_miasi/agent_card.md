@@ -162,3 +162,8 @@ Riesgo: esta capa no implementa todavía agentes autónomos industriales, memori
 Sprint 51 extiende el contrato operativo de agentes: `precode.audit` y `precode.documentation` pueden usar model calls opcionales por medio de `AgentRuntime v2`, pero siguen operando sin modelo por defecto. Toda llamada model-aware debe registrar `AgentModelCall`, usar `PromptRegistry`, pasar por `ModelAdapterRouter` y quedar registrada en `BudgetLedger`.
 
 Restricciones: no se permiten handoffs, supervisor, comunicación agente-a-agente ni MultiAgentCoordinator. Los agentes especializados de repositorio/código/refactor siguen planificados para sprints posteriores.
+
+
+## Actualización FUNC-SPRINT-52 — RepoAnalysisAgent
+
+`repo.analysis` queda en estado `implemented-initial` como agente monoagente especializado. Su autonomía máxima es A3, opera read-only sobre motores de repositorio, no modifica archivos, no ejecuta Git write y no realiza handoffs. El agente puede usar `agent.model.generate` solo mediante `AgentRuntime v2`, `PromptRegistry`, `ModelAdapterRouter` y `BudgetLedger`.

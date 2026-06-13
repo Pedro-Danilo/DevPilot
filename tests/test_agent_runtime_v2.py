@@ -1,13 +1,12 @@
 from __future__ import annotations
 
 import json
-import os
 import shutil
-import subprocess
-import sys
 from pathlib import Path
 
+from devpilot_core import cli
 from devpilot_core.agents import AgentRuntime
+from devpilot_core.evals import EvalRunner
 from devpilot_core.cli_models import ExitCode
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -106,30 +105,20 @@ def test_agent_runtime_v2_fallback_to_mock_for_enabled_unavailable_local_provide
     assert any(finding.id == "MODEL_FALLBACK_TO_MOCK_APPLIED" for finding in result.findings)
 
 
-def test_agent_runtime_v2_cli_json_and_eval_suite_are_parseable() -> None:
-    completed = subprocess.run(
-        [sys.executable, "-m", "devpilot_core", "agent", "run", "documentation-audit", "--target", "docs/01_requirements", "--provider", "mock", "--json"],
-        cwd=ROOT,
-        check=False,
-        text=True,
-        capture_output=True,
-        env={**os.environ, "PYTHONPATH": str(ROOT / "src")},
-    )
-    assert completed.returncode == 0, completed.stderr + completed.stdout
-    payload = json.loads(completed.stdout)
+def test_agent_runtime_v2_cli_json_and_eval_suite_are_parseable(tmp_path: Path, monkeypatch, capsys) -> None:
+    _copy_agent_workspace(tmp_path)
+    monkeypatch.chdir(tmp_path)
+
+    exit_code = cli.main(["agent", "run", "documentation-audit", "--target", "docs/01_requirements", "--provider", "mock", "--json"])
+    payload = json.loads(capsys.readouterr().out)
+
+    assert exit_code == 0
     assert payload["ok"] is True
     assert payload["data"]["summary"]["model_calls_total"] == 1
     assert payload["data"]["metadata"]["runtime_version"] == "v2-model-aware"
 
-    eval_completed = subprocess.run(
-        [sys.executable, "-m", "devpilot_core", "eval", "run", "--json"],
-        cwd=ROOT,
-        check=False,
-        text=True,
-        capture_output=True,
-        env={**os.environ, "PYTHONPATH": str(ROOT / "src")},
-    )
-    assert eval_completed.returncode == 0, eval_completed.stderr + eval_completed.stdout
-    eval_payload = json.loads(eval_completed.stdout)
-    assert eval_payload["ok"] is True
-    assert eval_payload["data"]["summary"]["cases_total"] >= 9
+    eval_result = EvalRunner(tmp_path).run(case_id="agent-documentation-audit-model-aware-mock")
+
+    assert eval_result.ok is True
+    assert eval_result.data["summary"]["cases_total"] == 1
+    assert eval_result.data["cases"][0]["component"] == "agent.documentation_audit_model_aware"

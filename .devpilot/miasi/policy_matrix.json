@@ -282,6 +282,15 @@
       "gate": "AgentRuntimeV2+PromptRegistry+ModelAdapterRouter+BudgetLedger+SingleAgentOnly+NoHandoffs+NoExternalAPI+NoRawPrompts",
       "approval_required": false,
       "observability_required": true
+    },
+    {
+      "rule_id": "REPO_ANALYSIS_AGENT_GOVERNED_ALLOW",
+      "domain": "Agent",
+      "action": "repo_analysis_agent_run",
+      "default_effect": "allow",
+      "gate": "RepoAnalysisAgent+AgentRuntimeV2+MIASI+RepoAnalyzer+DependencyGraph+RepoQualityGate+PromptRegistry+BudgetLedger+NoMutations+NoExternalAPI+NoHandoffs",
+      "approval_required": false,
+      "observability_required": true
     }
   ]
 }

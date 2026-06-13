@@ -191,3 +191,8 @@ La Eval Card incorpora `ModelEvalRunner` como evaluación `implemented-initial` 
 La Eval Card incorpora un caso model-aware en la suite `documentation`: `agent.documentation_audit_model_aware` ejecuta `DocumentationAuditAgent` con `provider=mock` y valida que el resultado contenga `MODEL_ADAPTER_PASS`. Las pruebas `tests/test_agent_runtime_v2.py` cubren compatibilidad sin modelo, model calls redacted, bloqueo de secretos y fallback a `mock` para provider local habilitado pero no disponible.
 
 Esta evaluación es preliminar: no mide calidad semántica de agentes especializados, pero establece la base para `RepoAnalysisAgent` en Sprint 52.
+
+
+## Actualización FUNC-SPRINT-52 — Evals de RepoAnalysisAgent
+
+La suite `documentation` incorpora casos para `agent.repo_analysis` y `agent.repo_analysis_model_aware`. Los casos validan ejecución read-only, señales de riesgo y ruta model-aware con `mock`, sin requerir modelos locales reales ni APIs externas.

@@ -1,8 +1,8 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
 Estado actual: `baseline pre-code approved + Fase A cerrada + FASE-B cerrada + Fase C cerrada + Fase D en progreso controlado`  
-Último hito: `FUNC-SPRINT-51 — AgentRuntime v2 model-aware en modo monoagente`  
-Siguiente hito: `FUNC-SPRINT-52 — RepoAnalysisAgent gobernado`  
+Último hito: `FUNC-SPRINT-52 — RepoAnalysisAgent gobernado`  
+Siguiente hito: `FUNC-SPRINT-53 — CodeReviewAgent y PatchReviewAgent gobernados`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
@@ -1592,3 +1592,24 @@ Criterios operativos:
 - BLOCK si un agente llama adapters directamente, persiste prompts/completions crudos, exige Ollama/LM Studio o habilita handoffs/multiagente.
 
 La versión es preliminar: habilita el puente runtime→model governance para agentes monoagente, pero los agentes especializados de repositorio/código/refactor siguen para sprints posteriores.
+
+
+## FUNC-SPRINT-52 — RepoAnalysisAgent gobernado
+
+`FUNC-SPRINT-52` agrega `RepoAnalysisAgent` como primer agente especializado de repositorio sobre los motores read-only de Fase C. El agente opera en modo monoagente, usa herramientas declaradas por MIASI, no modifica archivos, no ejecuta Git write, no aplica patches y solo realiza llamadas model-aware cuando se pasa `--provider` o `--prompt-id`.
+
+Comandos principales:
+
+```powershell
+python -m devpilot_core agent run repo-analysis --target . --json
+python -m devpilot_core agent run repo-analysis --target . --provider mock --json
+python -m devpilot_core eval run --json
+```
+
+Criterios operativos:
+
+- PASS si `repo-analysis` produce resumen, findings/suggestions y artifacts read-only.
+- PASS si `--provider mock` agrega `model_calls` con `prompt_id=repo.analysis.agent` y payload redacted.
+- BLOCK si el agente usa tools no declaradas, llama APIs externas, modifica el repo o activa handoffs/multiagente.
+
+La versión es preliminar: prioriza gobernanza, trazabilidad y seguridad; la calidad semántica y agentes de revisión de código/patch quedan para sprints posteriores.

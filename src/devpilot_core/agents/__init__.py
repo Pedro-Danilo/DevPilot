@@ -2,6 +2,7 @@
 
 from .base import ModelAwareAgent
 from .models import AgentMessage, AgentModelCall, AgentRunResult, AgentSuggestion, AgentToolCall
+from .repo_analysis_agent import RepoAnalysisAgent
 from .runtime import AgentRuntime, AgentRuntimeConfig
 
 __all__ = [
@@ -10,6 +11,7 @@ __all__ = [
     "AgentRunResult",
     "AgentRuntime",
     "AgentRuntimeConfig",
+    "RepoAnalysisAgent",
     "AgentSuggestion",
     "AgentToolCall",
     "ModelAwareAgent",

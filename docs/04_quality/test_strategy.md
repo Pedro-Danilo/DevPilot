@@ -628,3 +628,20 @@ python -m devpilot_core eval run --json
 ```
 
 La evaluación sigue siendo preliminar: no sustituye red teaming agentic ni evaluación semántica avanzada, pero bloquea regresiones de seguridad y acoplamiento directo a proveedores.
+
+
+## Actualización FUNC-SPRINT-52 — Pruebas de RepoAnalysisAgent gobernado
+
+Sprint 52 agrega pruebas para validar que `RepoAnalysisAgent` ejecuta análisis de repositorio en modo monoagente, read-only y gobernado por MIASI. La cobertura mínima incluye ejecución sin modelo, ejecución model-aware con `mock`, bloqueo de target fuera del workspace, CLI `agent run repo-analysis`, casos en `EvalRunner`, prompt `repo.analysis.agent` y sincronización documental.
+
+Comandos:
+
+```powershell
+python -m pytest tests/test_repo_analysis_agent.py tests/test_sprint_52_documentation.py -q
+python -m devpilot_core agent run repo-analysis --target . --provider mock --json
+python -m devpilot_core eval run --json
+python -m devpilot_core validate all --json
+python -m devpilot_core miasi validate --json
+```
+
+La evaluación sigue siendo preliminar: valida arquitectura, trazabilidad y seguridad local-first; no sustituye análisis semántico avanzado ni juicio experto sobre deuda técnica.

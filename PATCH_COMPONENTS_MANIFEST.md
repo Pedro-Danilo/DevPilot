@@ -1,30 +1,37 @@
-# Patch FUNC-SPRINT-51 — AgentRuntime v2 model-aware
+# PATCH FUNC-SPRINT-52 — RepoAnalysisAgent gobernado
 
-Incluye los componentes nuevos/modificados para implementar `FUNC-SPRINT-51 — AgentRuntime v2 model-aware en modo monoagente`.
+## Propósito
 
-## Limpieza esperada antes de versionar
+Este paquete contiene únicamente los componentes nuevos o modificados para `FUNC-SPRINT-52 — RepoAnalysisAgent gobernado`.
 
-No versionar:
+## Contenido principal
 
-- `outputs/`
-- `.devpilot/devpilot.db`
-- `.devpilot/providers.yaml`
-- `.devpilot/rollback/`
-- `__pycache__/`
-- `.pytest_cache/`
-- `Log_consola*`
-- `DELETE_MANIFEST.md`
-- `PATCH_COMPONENTS_MANIFEST*`
-- `func_sprint_47.diff`
-- `func_sprint_50.diff`
+- Nuevo `RepoAnalysisAgent` monoagente, read-only y gobernado por MIASI.
+- Integración con `AgentRuntime v2`, `RepoAnalyzer`, `DependencyGraphBuilder`, `GitAdapter`, `PromptRegistry`, `ModelAdapterRouter` y `BudgetLedger`.
+- Prompt versionado `repo.analysis.agent` como contrato JSON validado por Prompt Registry.
+- Caso de evaluación `agent.repo_analysis_model_aware` con `mock`.
+- Actualización MIASI: agent registry, tool registry y policy matrix.
+- Ajuste del schema MIASI Agent Registry para admitir estado `implemented-initial`.
+- Documentación, auditoría, manifest y pruebas Sprint 52.
 
-## Comandos de validación sugeridos
+## Comandos mínimos de verificación
 
 ```powershell
-python -m pytest tests/test_agent_runtime.py tests/test_agent_runtime_v2.py tests/test_sprint_51_documentation.py -q
-python -m devpilot_core agent run documentation-audit --target docs/01_requirements --provider mock --json
+python -m pytest tests/test_repo_analysis_agent.py tests/test_sprint_52_documentation.py -q
+python -m pytest tests/test_agent_runtime.py tests/test_agent_runtime_v2.py tests/test_eval_runner.py -q
+python -m devpilot_core agent run repo-analysis --target . --provider mock --json
 python -m devpilot_core eval run --json
+python -m devpilot_core prompt validate --json
 python -m devpilot_core validate all --json
 python -m devpilot_core miasi validate --json
 python -m devpilot_core readiness-check --strict --json
 ```
+
+## Restricciones preservadas
+
+- No incluye `outputs/`.
+- No incluye base de datos `.devpilot/devpilot.db`.
+- No incluye `.devpilot/providers.yaml` local.
+- No incluye `.git/`, `.venv/`, caches ni logs.
+- No habilita APIs externas.
+- No habilita handoffs ni multiagente.

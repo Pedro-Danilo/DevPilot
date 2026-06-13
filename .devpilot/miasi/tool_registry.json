@@ -568,6 +568,22 @@
         "PROMPT_RENDER_CONTROLLED",
         "SECRETS_RAW_DENY"
       ]
+    },
+    {
+      "tool_id": "agent.repo_analysis.run",
+      "name": "run_repo_analysis_agent",
+      "phase": "MVP+",
+      "side_effect": "report",
+      "risk_level": "medium",
+      "status": "implemented-initial",
+      "requires_approval": false,
+      "policy_rule_ids": [
+        "REPO_ANALYSIS_AGENT_GOVERNED_ALLOW",
+        "GIT_READ_ALLOW",
+        "REPO_QUALITY_GATE_DRY_RUN_ALLOW",
+        "SECRETS_RAW_DENY",
+        "AGENT_MODEL_CALL_GOVERNED_ALLOW"
+      ]
     }
   ]
 }

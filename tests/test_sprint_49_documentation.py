@@ -21,18 +21,18 @@ def test_sprint_49_readme_runbook_backlog_and_strategy_are_synchronized() -> Non
     functional_backlog = _read("docs/functional_backlog_after_precode.md")
     test_strategy = _read("docs/04_quality/test_strategy.md")
 
-    assert "Último hito: `FUNC-SPRINT-51" in readme
-    assert "Siguiente hito: `FUNC-SPRINT-52" in readme
+    assert "Último hito: `FUNC-SPRINT-52" in readme
+    assert "Siguiente hito: `FUNC-SPRINT-53" in readme
     assert "## FUNC-SPRINT-49 — Prompt Registry y contratos de prompt seguro" in readme
     assert "python -m devpilot_core prompt list --json" in runbook
     assert "python -m devpilot_core prompt validate --json" in runbook
     assert "python -m devpilot_core prompt show model.generate.default --json" in runbook
     assert "## FUNC-SPRINT-49 — Prompt Registry y contratos de prompt seguro" in runbook
-    assert 'first_open_sprint: "FUNC-SPRINT-52"' in backlog
-    assert 'last_completed_sprint: "FUNC-SPRINT-51"' in backlog
-    assert 'next_sprint: "FUNC-SPRINT-52"' in backlog
+    assert 'first_open_sprint: "FUNC-SPRINT-53"' in backlog
+    assert 'last_completed_sprint: "FUNC-SPRINT-52"' in backlog
+    assert 'next_sprint: "FUNC-SPRINT-53"' in backlog
     assert "## Estado de implementación Sprint 49" in backlog
-    assert 'next_sprint: "FUNC-SPRINT-52"' in functional_backlog
+    assert 'next_sprint: "FUNC-SPRINT-53"' in functional_backlog
     assert "## Transición posterior a FUNC-SPRINT-49" in functional_backlog
     assert "## Actualización FUNC-SPRINT-49 — Pruebas de Prompt Registry y contratos de prompt seguro" in test_strategy
 

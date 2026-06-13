@@ -20,6 +20,8 @@ SUPPORTED_COMPONENTS = {
     "agent.documentation_audit",
     "agent.documentation_audit_model_aware",
     "agent.precode_documentation",
+    "agent.repo_analysis",
+    "agent.repo_analysis_model_aware",
 }
 
 
@@ -150,6 +152,10 @@ class EvalRunner:
             result = self._run_documentation_audit_case(case, suite=suite, provider="mock")
         elif case.component == "agent.precode_documentation":
             result = self._run_precode_documentation_case(case)
+        elif case.component == "agent.repo_analysis":
+            result = self._run_repo_analysis_case(case, suite=suite)
+        elif case.component == "agent.repo_analysis_model_aware":
+            result = self._run_repo_analysis_case(case, suite=suite, provider="mock")
         else:  # pragma: no cover - guarded by SUPPORTED_COMPONENTS above.
             result = CommandResult("eval case", False, ExitCode.ERROR, "Unsupported evaluation component.")
         return EvalCaseResult.from_command_result(case, result)
@@ -179,6 +185,28 @@ class EvalRunner:
     def _run_precode_documentation_case(self, case: EvalCase) -> CommandResult:
         idea = str(case.input.get("idea", ""))
         return AgentRuntime(self.root).run("precode-documentation", idea=idea, dry_run=True)
+
+    def _run_repo_analysis_case(self, case: EvalCase, *, suite: str, provider: str | None = None) -> CommandResult:
+        case_dir = self._case_dir(case, suite=suite)
+        # RepoAnalysisAgent runs repository-wide inventory components. Keep only
+        # the current synthetic repo-analysis case under the eval workdir so one
+        # case cannot amplify the next through accumulated generated fixtures.
+        for sibling in case_dir.parent.iterdir():
+            if sibling != case_dir and sibling.is_dir():
+                shutil.rmtree(sibling)
+        files = case.input.get("files", []) or []
+        for file_payload in files:
+            relative = Path(str(file_payload.get("path", "README.md")))
+            destination = (case_dir / relative).resolve()
+            try:
+                destination.relative_to(case_dir)
+            except ValueError as exc:
+                raise ValueError("Evaluation fixture path escapes case directory.") from exc
+            destination.parent.mkdir(parents=True, exist_ok=True)
+            destination.write_text(str(file_payload.get("content", "")), encoding="utf-8")
+        if not files:
+            (case_dir / "README.md").write_text("# Synthetic repo\n\nLocal repo-analysis evaluation fixture.\n", encoding="utf-8")
+        return AgentRuntime(self.root).run("repo-analysis", target=_repo_path(case_dir, self.root), dry_run=True, provider=provider)
 
     def _write_single_markdown_case(self, case: EvalCase, *, suite: str) -> Path:
         case_dir = self._case_dir(case, suite=suite)

@@ -169,3 +169,8 @@ El Tool Registry ejecutable incorpora `model.eval.run` en estado `implemented-in
 ## FUNC-SPRINT-51 — AgentRuntime v2 executable entry
 
 El Tool Registry ejecutable incorpora `agent.model.generate` en estado `implemented-initial`, protegido por `AGENT_MODEL_CALL_GOVERNED_ALLOW`, `MODEL_LOCAL_PROVIDER_CONTROLLED`, `PROMPT_RENDER_CONTROLLED` y `SECRETS_RAW_DENY`. La entrada permite a agentes monoagente usar generación gobernada a través de `ModelAdapterRouter` y conserva `mock` como baseline hermético.
+
+
+## Actualización FUNC-SPRINT-52 — Tool Registry
+
+El Tool Registry incorpora `agent.repo_analysis.run` para la ejecución monoagente de `RepoAnalysisAgent`. La tool queda restringida a análisis read-only y se apoya en `repo.analyze`, `repo.dependency_graph`, `git.status`, `repo.quality_gate`, `policy.check`, `report.write`, `trace.append` y `agent.model.generate` cuando se activa provider mock/local.

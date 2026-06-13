@@ -8,6 +8,7 @@ from typing import Any, Protocol
 
 from devpilot_core.agents.base import ModelAwareAgent
 from devpilot_core.agents.models import AgentMessage, AgentModelCall, AgentRunResult, AgentSuggestion, AgentToolCall
+from devpilot_core.agents.repo_analysis_agent import RepoAnalysisAgent
 from devpilot_core.cli_models import CommandResult, ExitCode, Finding, Severity
 from devpilot_core.miasi import AgentSpec, MiasiRegistryValidator
 from devpilot_core.policy import PolicyEngine, PolicyRequest
@@ -22,6 +23,8 @@ AGENT_ALIASES = {
     "precode-documentation": "precode.documentation",
     "documentation": "precode.documentation",
     "precode.documentation": "precode.documentation",
+    "repo-analysis": "repo.analysis",
+    "repo.analysis": "repo.analysis",
 }
 
 
@@ -70,6 +73,7 @@ class AgentRuntime:
         self._agents: dict[str, LocalAgent] = {
             "precode.audit": DocumentationAuditAgent(self.root, self.policy),
             "precode.documentation": PreCodeDocumentationAgent(self.root, self.policy),
+            "repo.analysis": RepoAnalysisAgent(self.root, self.policy),
         }
 
     def run(
@@ -127,18 +131,18 @@ class AgentRuntime:
                 AgentRunResult(agent_id=spec.agent_id, agent_name=spec.name, ok=False, message="Agent runtime has no implementation for this agent.", dry_run=dry_run, findings=[finding])
             )
 
-        # FUNC-SPRINT-51 keeps execution mono-agent. Only currently implemented
-        # MVP agents can run; MVP+ specialized agents remain planned for later
-        # sprints and must not be activated through runtime v2 yet.
-        if spec.phase != "MVP":
+        # FUNC-SPRINT-52 keeps execution mono-agent while allowing explicitly
+        # implemented specialized agents. Planned/future MVP+ agents remain
+        # blocked until their sprint provides code, evals and MIASI updates.
+        if spec.status not in {"implemented", "implemented-initial"}:
             finding = Finding(
-                id="AGENT_RUNTIME_PHASE_BLOCKED",
-                message="AgentRuntime v2 only executes implemented mono-agent MVP agents in Sprint 51.",
+                id="AGENT_RUNTIME_STATUS_BLOCKED",
+                message="AgentRuntime v2 only executes agents with implemented or implemented-initial MIASI status.",
                 severity=Severity.BLOCK,
-                metadata={"agent_id": spec.agent_id, "phase": spec.phase, "multiagent_enabled": False},
+                metadata={"agent_id": spec.agent_id, "phase": spec.phase, "status": spec.status, "multiagent_enabled": False},
             )
             return _agent_command_result(
-                AgentRunResult(agent_id=spec.agent_id, agent_name=spec.name, ok=False, message="Agent runtime blocked non-MVP agent.", dry_run=dry_run, findings=[finding])
+                AgentRunResult(agent_id=spec.agent_id, agent_name=spec.name, ok=False, message="Agent runtime blocked non-implemented agent.", dry_run=dry_run, findings=[finding])
             )
 
         if self.config.require_miasi_validation:

@@ -3093,3 +3093,27 @@ Validaciones esperadas:
 Criterios BLOCK: provider local obligatorio para pruebas, salida con secretos crudos, direct adapter calls desde agentes, ejecución multiagente/handoffs o escrituras no aprobadas fuera de `outputs/`.
 
 Estado: `implemented-initial`; preparado para `FUNC-SPRINT-52 — RepoAnalysisAgent gobernado`.
+
+
+## FUNC-SPRINT-52 — RepoAnalysisAgent gobernado
+
+`RepoAnalysisAgent` se ejecuta en modo read-only y monoagente. No aplica patches, no ejecuta Git write y no requiere Ollama/LM Studio para la ruta base.
+
+Comandos de verificación:
+
+```powershell
+python -m devpilot_core agent run repo-analysis --target . --json
+python -m devpilot_core agent run repo-analysis --target . --provider mock --json
+python -m devpilot_core eval run --json
+python -m pytest tests/test_repo_analysis_agent.py tests/test_sprint_52_documentation.py -q
+```
+
+Criterios de operación segura:
+
+- `metadata.monoagent=true` y `metadata.handoffs_enabled=false`;
+- `artifacts.mutations_performed=false`;
+- `external_api_used=false`;
+- con `--provider mock`, `model_calls[0].prompt_id=repo.analysis.agent`;
+- los reportes deben conservar prompts y outputs crudos fuera de persistencia.
+
+La capacidad es `implemented-initial`; debe evolucionar con métricas más finas, scoring configurable y mejor priorización cuando se implementen los agentes de revisión de código y patch.

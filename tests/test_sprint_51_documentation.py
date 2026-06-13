@@ -21,17 +21,17 @@ def test_sprint_51_readme_runbook_backlog_and_strategy_are_synchronized() -> Non
     functional_backlog = _read("docs/functional_backlog_after_precode.md")
     test_strategy = _read("docs/04_quality/test_strategy.md")
 
-    assert "Último hito: `FUNC-SPRINT-51" in readme
-    assert "Siguiente hito: `FUNC-SPRINT-52" in readme
+    assert "Último hito: `FUNC-SPRINT-52" in readme
+    assert "Siguiente hito: `FUNC-SPRINT-53" in readme
     assert "## FUNC-SPRINT-51 — AgentRuntime v2 model-aware en modo monoagente" in readme
     assert "python -m devpilot_core agent run documentation-audit --target docs/01_requirements --provider mock --json" in runbook
     assert "python -m devpilot_core eval run --json" in runbook
     assert "## FUNC-SPRINT-51 — AgentRuntime v2 model-aware en modo monoagente" in runbook
-    assert 'first_open_sprint: "FUNC-SPRINT-52"' in backlog
-    assert 'last_completed_sprint: "FUNC-SPRINT-51"' in backlog
-    assert 'next_sprint: "FUNC-SPRINT-52"' in backlog
+    assert 'first_open_sprint: "FUNC-SPRINT-53"' in backlog
+    assert 'last_completed_sprint: "FUNC-SPRINT-52"' in backlog
+    assert 'next_sprint: "FUNC-SPRINT-53"' in backlog
     assert "## Estado de implementación Sprint 51" in backlog
-    assert 'next_sprint: "FUNC-SPRINT-52"' in functional_backlog
+    assert 'next_sprint: "FUNC-SPRINT-53"' in functional_backlog
     assert "## Transición posterior a FUNC-SPRINT-51" in functional_backlog
     assert "## Actualización FUNC-SPRINT-51 — Pruebas de AgentRuntime v2 model-aware" in test_strategy
 

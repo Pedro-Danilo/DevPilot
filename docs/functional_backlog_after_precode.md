@@ -14,7 +14,7 @@ change_policy: "controlled_changes_allowed_via_docs_as_code"
 approved_on: "2026-06-06"
 approval_scope: "functional_backlog_after_precode"
 baseline_execution: "FUNC-SPRINT-00"
-next_sprint: "FUNC-SPRINT-52"
+next_sprint: "FUNC-SPRINT-53"
 ---
 
 # DevPilot Local — Backlog ejecutable posterior a pre-code
@@ -2144,3 +2144,8 @@ La transición hacia `FUNC-SPRINT-50` queda condicionada a evaluar modelos usand
 ## Transición posterior a FUNC-SPRINT-51
 
 `FUNC-SPRINT-51` habilita `AgentRuntime v2` model-aware en modo monoagente. La transición hacia `FUNC-SPRINT-52` queda condicionada a que los agentes especializados usen exclusivamente `AgentRuntime`, `PromptRegistry`, `ModelAdapterRouter`, `BudgetLedger` y MIASI, sin llamadas directas a adapters, sin provider local obligatorio, sin APIs externas y sin handoffs/multiagente.
+
+
+## Transición posterior a FUNC-SPRINT-52
+
+`FUNC-SPRINT-52` implementa `RepoAnalysisAgent` como primer agente especializado monoagente sobre motores de Fase C. La transición hacia `FUNC-SPRINT-53` queda condicionada a mantener `RepoAnalysisAgent` read-only, sin APIs externas, sin cambios productivos, sin handoffs y con evidencia en `EvalRunner`; los próximos agentes de revisión deben seguir el mismo patrón: motor determinístico existente + AgentRuntime v2 + PromptRegistry + MIASI + evals offline.

@@ -28,8 +28,8 @@ def test_sprint_32_readme_runbook_and_backlog_point_to_sprint_33() -> None:
     runbook = _read("docs/05_operations/runbook.md")
     backlog = _read("docs/devpilot_backlog_fase_B_seguridad_operacional.md")
 
-    assert "Último hito: `FUNC-SPRINT-51" in readme
-    assert "Siguiente hito: `FUNC-SPRINT-52" in readme
+    assert "Último hito: `FUNC-SPRINT-52" in readme
+    assert "Siguiente hito: `FUNC-SPRINT-53" in readme
     assert "FUNC-SPRINT-32" in runbook
     assert "tests run --profile smoke" in runbook
     assert 'first_open_sprint: "FUNC-SPRINT-35"' in backlog

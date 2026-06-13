@@ -189,6 +189,37 @@
           "SECRETGUARD_SECRET_DETECTED"
         ]
       }
+    },
+    {
+      "id": "agent-repo-analysis-model-aware-mock",
+      "component": "agent.repo_analysis_model_aware",
+      "description": "RepoAnalysisAgent should run model-aware path with mock through AgentRuntime v2 and PromptRegistry.",
+      "tags": [
+        "agent",
+        "repo-analysis",
+        "runtime-v2",
+        "model-aware",
+        "mock",
+        "clean"
+      ],
+      "input": {
+        "files": [
+          {
+            "path": "README.md",
+            "content": "# Synthetic model-aware repo\n\nRepositorio sintético para validar RepoAnalysisAgent model-aware con mock.\n"
+          },
+          {
+            "path": "src/service.py",
+            "content": "def service() -> str:\n    return \"ok\"\n"
+          }
+        ]
+      },
+      "expected": {
+        "ok": true,
+        "finding_ids": [
+          "MODEL_ADAPTER_PASS"
+        ]
+      }
     }
   ]
 }

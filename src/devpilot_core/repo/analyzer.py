@@ -9,7 +9,7 @@ from devpilot_core.cli_models import CommandResult, ExitCode, Finding, Severity
 from devpilot_core.policy import PathGuard, PolicyEffect, SecretGuard
 from devpilot_core.repo.dependency_graph import DependencyGraphBuilder
 from devpilot_core.repo.git_adapter import GitAdapter
-from devpilot_core.repo.inventory import RepoInventory, RepoInventoryItem
+from devpilot_core.repo.inventory import RepoInventory, RepoInventoryConfig, RepoInventoryItem
 from devpilot_core.repo.models import RepoHealthSummary, RepoHotspot, RepoRiskSignal
 
 _DEFAULT_EXCLUDED_DIRS = (".git", ".venv", "__pycache__", ".pytest_cache", "outputs", ".devpilot", "build", "dist", ".mypy_cache", ".ruff_cache")
@@ -98,7 +98,7 @@ class RepoAnalyzer:
                 findings=[Finding(id="REPO_ANALYZER_TARGET_OUTSIDE_ROOT", message="Target path is outside the workspace root.", severity=Severity.BLOCK, path=str(target_path))],
             )
 
-        inventory_result = RepoInventory(self.root).build()
+        inventory_result = RepoInventory(self.root, config=RepoInventoryConfig(max_files=self.config.max_files, excluded_dirs=self.config.excluded_dirs)).build()
         inventory_items = [item for item in _inventory_items(inventory_result) if not _is_runtime_artifact_item(item)]
         sections = self._section_summary(inventory_items)
 
@@ -165,10 +165,12 @@ class RepoAnalyzer:
         return candidate.resolve()
 
     def _default_dependency_target(self, target_path: Path) -> Path:
+        if target_path.resolve() != self.root.resolve():
+            if (target_path / "src").exists():
+                return target_path / "src"
+            return target_path
         if (self.root / "src" / "devpilot_core").exists():
             return self.root / "src" / "devpilot_core"
-        if (target_path / "src").exists():
-            return target_path / "src"
         if (self.root / "src").exists():
             return self.root / "src"
         return target_path

@@ -8,7 +8,7 @@ standard: "MIPSoftware"
 extension: "MIASI"
 phase: "FASE-D-IA-LOCAL-GOBERNADA"
 updated: "2026-06-12"
-source_repo: "repo_DevPilot_Local_62.zip"
+source_repo: "repo_DevPilot_Local_63.zip"
 source_report: "Informe de avance DevPilot - sprint 0 - 18.docx"
 source_backlog_model: "docs/functional_backlog_after_precode.md"
 baseline_dependency: "Fases A, B y C cerradas; Fase C validada por FUNC-SPRINT-44 repo engineering-gate"
@@ -16,12 +16,12 @@ first_sprint: "FUNC-SPRINT-45"
 last_planned_sprint: "FUNC-SPRINT-55"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "phase_d_executable_backlog_review"
-first_open_sprint: "FUNC-SPRINT-52"
+first_open_sprint: "FUNC-SPRINT-53"
 phase_d_status: "in_progress"
 approved_on: "2026-06-12"
 approval: "approved_after_phase_c_closure_review"
-last_completed_sprint: "FUNC-SPRINT-51"
-next_sprint: "FUNC-SPRINT-52"
+last_completed_sprint: "FUNC-SPRINT-52"
+next_sprint: "FUNC-SPRINT-53"
 ---
 
 # DevPilot Local — Backlog ejecutable Fase D: IA local gobernada
@@ -1242,3 +1242,26 @@ Fuera de alcance hasta sprints posteriores:
 - uso de APIs externas.
 
 Siguiente sprint operativo: `FUNC-SPRINT-52 — RepoAnalysisAgent gobernado`.
+
+
+## Estado de implementación Sprint 52
+
+`FUNC-SPRINT-52 — RepoAnalysisAgent gobernado` queda implementado como `implemented-initial`. La implementación agrega el primer agente especializado de repositorio sobre motores de Fase C (`RepoAnalyzer`, `DependencyGraphBuilder`, `GitAdapter` y `RepoQualityGate`) y lo ejecuta exclusivamente a través de `AgentRuntime v2` en modo monoagente.
+
+Alcance real implementado:
+
+- `agent run repo-analysis --target . --provider mock --json` ejecuta análisis read-only con herramientas declaradas en MIASI;
+- el agente usa `PromptRegistry` y `ModelAdapterRouter` solo cuando se activa provider/prompt;
+- `repo.analysis` pasa a estado `implemented-initial`;
+- MIASI declara `agent.repo_analysis.run` y la política `REPO_ANALYSIS_AGENT_GOVERNED_ALLOW`;
+- `EvalRunner` incorpora casos `agent.repo_analysis` y `agent.repo_analysis_model_aware`;
+- los reportes y resultados no almacenan prompts, outputs crudos ni secretos.
+
+Fuera de alcance hasta sprints posteriores:
+
+- CodeReviewAgent, PatchReviewAgent y SafeRefactorAgent gobernados;
+- ejecución multiagente, handoffs y supervisores;
+- aplicación de patches o refactors productivos;
+- APIs externas y modelos locales obligatorios.
+
+Siguiente sprint operativo: `FUNC-SPRINT-53 — CodeReviewAgent y PatchReviewAgent gobernados`.

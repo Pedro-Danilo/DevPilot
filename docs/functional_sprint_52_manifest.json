@@ -1,0 +1,100 @@
+{
+  "sprint": "FUNC-SPRINT-52",
+  "title": "RepoAnalysisAgent gobernado",
+  "status": "implemented",
+  "implemented_at": "2026-06-12",
+  "phase": "FASE-D-IA-LOCAL-GOBERNADA",
+  "wave": "Ola 7 — Agentes especializados monoagente",
+  "source_backlog": "docs/devpilot_backlog_fase_D_ia_local_gobernada.md",
+  "architectural_decision": {
+    "required": false,
+    "adr": "docs/02_architecture/adrs/ADR-0011-local-model-providers.md",
+    "reason": "FUNC-SPRINT-52 ejecuta la arquitectura AgentRuntime v2 local-first aprobada. No introduce providers, APIs externas, handoffs ni multiagente; solo especializa un agente read-only sobre motores de Fase C."
+  },
+  "created_files": [
+    "src/devpilot_core/agents/repo_analysis_agent.py",
+    "docs/prompts/repo.analysis.agent.v1.json",
+    "tests/test_repo_analysis_agent.py",
+    "tests/test_sprint_52_documentation.py",
+    "docs/audits/func_sprint_52_repo_analysis_agent_audit.md",
+    "docs/functional_sprint_52_manifest.json"
+  ],
+  "modified_files": [
+    ".devpilot/miasi/agent_registry.json",
+    ".devpilot/miasi/policy_matrix.json",
+    ".devpilot/miasi/tool_registry.json",
+    "README.md",
+    "docs/04_quality/test_strategy.md",
+    "docs/05_operations/runbook.md",
+    "docs/06_miasi/agent_card.md",
+    "docs/06_miasi/eval_card.md",
+    "docs/06_miasi/policy_card.md",
+    "docs/06_miasi/tool_card.md",
+    "docs/06_miasi/tool_registry.md",
+    "docs/devpilot_backlog_fase_D_ia_local_gobernada.md",
+    "docs/functional_backlog_after_precode.md",
+    "evals/fixtures/documentation_eval_cases.json",
+    "src/devpilot_core/agents/__init__.py",
+    "src/devpilot_core/agents/runtime.py",
+    "src/devpilot_core/evals/runner.py",
+    "tests/test_sprint_32_documentation.py",
+    "tests/test_sprint_33_documentation.py",
+    "tests/test_sprint_34_documentation.py",
+    "tests/test_sprint_35_documentation.py",
+    "tests/test_sprint_36_documentation.py",
+    "tests/test_sprint_37_documentation.py",
+    "tests/test_sprint_38_documentation.py",
+    "tests/test_sprint_39_documentation.py",
+    "tests/test_sprint_40_documentation.py",
+    "tests/test_sprint_41_documentation.py",
+    "tests/test_sprint_42_documentation.py",
+    "tests/test_sprint_43_documentation.py",
+    "tests/test_sprint_44_documentation.py",
+    "tests/test_sprint_45_documentation.py",
+    "tests/test_sprint_46_documentation.py",
+    "tests/test_sprint_47_documentation.py",
+    "tests/test_sprint_48_documentation.py",
+    "tests/test_sprint_49_documentation.py",
+    "tests/test_sprint_50_documentation.py",
+    "tests/test_sprint_51_documentation.py",
+    "docs/schemas/miasi_agent_registry.schema.json",
+    "tests/test_agent_runtime_v2.py",
+    "src/devpilot_core/repo/analyzer.py",
+    "tests/test_eval_runner.py"
+  ],
+  "commands": [
+    "python -m devpilot_core agent run repo-analysis --target . --json",
+    "python -m devpilot_core agent run repo-analysis --target . --provider mock --json",
+    "python -m devpilot_core eval run --json",
+    "python -m devpilot_core model budget status --limit 10 --json",
+    "python -m devpilot_core validate all --json",
+    "python -m devpilot_core miasi validate --json",
+    "python -m pytest -q"
+  ],
+  "tests": [
+    "tests/test_repo_analysis_agent.py",
+    "tests/test_sprint_52_documentation.py"
+  ],
+  "pass_criteria": [
+    "RepoAnalysisAgent ejecuta en modo monoagente read-only.",
+    "El agente usa allowed_tools declaradas en MIASI.",
+    "Provider mock activa model calls gobernadas por PromptRegistry y ModelAdapterRouter.",
+    "EvalRunner incluye casos repo-analysis y repo-analysis model-aware.",
+    "No se almacenan prompts, completions ni secretos crudos.",
+    "No hay handoffs ni multiagente."
+  ],
+  "block_criteria": [
+    "El agente modifica archivos o ejecuta Git write.",
+    "El agente usa tools no declaradas o adapters directos.",
+    "Se requiere modelo local real para tests.",
+    "Se habilita una API externa.",
+    "Se persiste prompt/completion crudo o secreto."
+  ],
+  "risks": [
+    "El análisis es heurístico y no sustituye SAST/SCA industrial ni revisión humana.",
+    "La priorización inicial puede requerir calibración con métricas históricas.",
+    "La salida model-aware con mock valida arquitectura, no calidad semántica final."
+  ],
+  "preliminary": true,
+  "next_sprint": "FUNC-SPRINT-53 — CodeReviewAgent y PatchReviewAgent gobernados"
+}
