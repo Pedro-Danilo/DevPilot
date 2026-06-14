@@ -9,7 +9,7 @@ from devpilot_core.cli_models import CommandResult
 
 @dataclass(frozen=True)
 class ApplicationRequest:
-    """Serializable request envelope for future desktop/web clients.
+    """Serializable request envelope for future API local/Web UI clients.
 
     FUNC-SPRINT-18 introduces this DTO to keep interface clients from calling
     validators directly. It is intentionally small, local-first and JSON-safe.
@@ -32,7 +32,7 @@ class ApplicationRequest:
 
 @dataclass(frozen=True)
 class ApplicationResponse:
-    """Serializable response envelope shared by CLI, desktop and web shells.
+    """Serializable response envelope shared by CLI, API local and Web UI shells.
 
     It wraps the existing CommandResult contract without replacing it. This
     provides a stable UI-facing shape while preserving the current CLI JSON
@@ -98,11 +98,11 @@ class ServiceCapability:
 
 @dataclass(frozen=True)
 class InterfaceRouteContract:
-    """Logical route contract for future desktop/web integration.
+    """Logical route contract for future API local/Web UI integration.
 
     These are not active HTTP routes and do not implement UI. They document
-    stable service boundaries that a future FastAPI, Tauri or Electron shell can
-    call without duplicating DevPilot Core logic.
+    stable service boundaries that the future FastAPI API and Web UI can
+    call without duplicating DevPilot Core logic. Desktop remains deferred outside Fase F.
     """
 
     route_id: str

@@ -1,0 +1,108 @@
+{
+  "sprint": "FUNC-SPRINT-64",
+  "title": "ADR UI/API local y threat model de interfaz",
+  "status": "implemented",
+  "implemented_at": "2026-06-14",
+  "phase": "FASE-F-PRODUCTO-VISUAL",
+  "wave": "Ola 9 — API local y Web UI local web-ready",
+  "source_backlog": "docs/devpilot_backlog_fase_F_producto_visual.md",
+  "architectural_decision": {
+    "required": true,
+    "adr": "docs/02_architecture/adrs/ADR-0013-web-ui-first.md",
+    "reason": "FUNC-SPRINT-64 es un gate arquitectónico: formaliza Web UI local como interfaz visual canónica de Fase F, FastAPI como API local futura, Web UI real como evolución posterior y Desktop diferido fuera de Fase F antes de implementar servidor o frontend."
+  },
+  "summary": {
+    "implementation_level": "implemented-initial",
+    "web_ui_first_operationalized": true,
+    "api_local_stack_decided": "FastAPI planned as optional API dependency in a later sprint",
+    "frontend_direction_decided": "ui/web TypeScript/Vite, React allowed when UI sprint implements components",
+    "threat_model_added": true,
+    "c4_container_updated": true,
+    "internal_application_contract_updated": true,
+    "application_contract_runtime_updated": true,
+    "server_implemented": false,
+    "frontend_implemented": false,
+    "desktop_implemented": false,
+    "desktop_deferred": true,
+    "external_dependencies_added": false,
+    "network_required": false,
+    "external_api_used": false,
+    "next_runtime_sprint": "FUNC-SPRINT-65"
+  },
+  "created_files": [
+    "docs/03_security/ui_api_threat_model.md",
+    "docs/audits/func_sprint_64_ui_api_adr_audit.md",
+    "docs/functional_sprint_64_manifest.json",
+    "tests/test_sprint_64_documentation.py"
+  ],
+  "modified_files": [
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/devpilot_backlog_fase_F_producto_visual.md",
+    "docs/functional_backlog_after_precode.md",
+    "docs/02_architecture/adrs/ADR-0013-web-ui-first.md",
+    "docs/02_architecture/c4_container.md",
+    "docs/07_interfaces/internal_application_contract.md",
+    "src/devpilot_core/application/services.py",
+    "src/devpilot_core/application/dtos.py",
+    "tests/test_application_services.py"
+  ],
+  "commands": [
+    "python -m devpilot_core validate-artifact docs/02_architecture/adrs/ADR-0013-web-ui-first.md --json",
+    "python -m devpilot_core validate-artifact docs/03_security/ui_api_threat_model.md --json",
+    "python -m devpilot_core validate-artifact docs/audits/func_sprint_64_ui_api_adr_audit.md --json",
+    "python -m devpilot_core schema validate-manifest docs/functional_sprint_64_manifest.json --json",
+    "python -m devpilot_core app contract --json",
+    "python -m pytest tests/test_sprint_64_documentation.py -q",
+    "python -m pytest tests/test_application_services.py -q",
+    "python -m devpilot_core validate all --json"
+  ],
+  "pass_criteria": [
+    "ADR ratifies Web UI local as Phase F canonical visual interface",
+    "ADR documents Web UI real as future evolution and Desktop as deferred",
+    "Threat model covers localhost, CORS, token, CSRF/local origin, secrets, path traversal, reports/traces and critical actions",
+    "C4 and internal_application_contract are synchronized",
+    "Application contract remains ok=true and reports web-first strategy",
+    "No server, frontend or desktop shell is implemented in Sprint 64"
+  ],
+  "block_criteria": [
+    "Desktop is reopened as Phase F implementation scope without later ADR",
+    "Threat model is missing or omits CORS/token/secrets/actions",
+    "API listens on 0.0.0.0 by default",
+    "CORS wildcard is allowed by default",
+    "UI can bypass ApplicationService",
+    "Server or frontend implementation is added before the ADR/threat model gate"
+  ],
+  "risks": [
+    {
+      "id": "RISK-FUNC-64-001",
+      "risk": "Localhost treated as inherently safe",
+      "mitigation": "Threat model requires token, origin/CORS constraints and policy binding in later sprints."
+    },
+    {
+      "id": "RISK-FUNC-64-002",
+      "risk": "Frontend duplicates core logic",
+      "mitigation": "ADR and contract require UI -> API -> ApplicationService."
+    },
+    {
+      "id": "RISK-FUNC-64-003",
+      "risk": "Desktop re-enters without evidence",
+      "mitigation": "Desktop is deferred outside Fase F and requires later ADR."
+    },
+    {
+      "id": "RISK-FUNC-64-004",
+      "risk": "FastAPI dependency leaks into core",
+      "mitigation": "Sprint 64 does not add dependencies; Sprint 67 must use optional API extra or documented dependency boundary."
+    }
+  ],
+  "next_sprint": "FUNC-SPRINT-65 — ApplicationService v2 por dominios",
+  "tests": [
+    "tests/test_sprint_64_documentation.py",
+    "tests/test_application_services.py",
+    "schema validate-manifest",
+    "validate-artifact",
+    "app contract",
+    "validate all",
+    "pytest -q"
+  ]
+}

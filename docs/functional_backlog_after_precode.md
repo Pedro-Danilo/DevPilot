@@ -2,7 +2,7 @@
 title: "DevPilot Local — Backlog ejecutable posterior a pre-code"
 doc_id: "DEVPL-FUNC-BACKLOG-001"
 status: "approved"
-version: "3.9.0"
+version: "4.0.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
@@ -14,7 +14,7 @@ change_policy: "controlled_changes_allowed_via_docs_as_code"
 approved_on: "2026-06-06"
 approval_scope: "functional_backlog_after_precode"
 baseline_execution: "FUNC-SPRINT-00"
-next_sprint: "FUNC-SPRINT-64"
+next_sprint: "FUNC-SPRINT-65"
 ---
 
 # DevPilot Local — Backlog ejecutable posterior a pre-code
@@ -2221,3 +2221,10 @@ Con `FUNC-SPRINT-62`, DevPilot completa el nivel FE-L5 inicial: payload OTel-lik
 Con `FUNC-SPRINT-63`, DevPilot cierra Fase E de AgentOps y observabilidad. El core dispone de trazas v2, spans, eventos, métricas, instrumentación agentic, CLI de consulta, exporter OpenTelemetry dry-run y AgentOps Quality Gate.
 
 La transición hacia `FUNC-SPRINT-64` queda condicionada a mantener las señales AgentOps como fuente de verdad para Fase F. La futura API/Web UI local debe consumir `CommandResult`, reportes y servicios del core sin duplicar lógica ni saltarse `ApplicationService`, `PolicyEngine`, MIASI, `ReportEngine`, `TraceStore` o `MetricsCollector`. La estrategia visual vigente es web-first: Web UI local primero, Web UI real después, Desktop diferido por ADR posterior.
+
+
+## Transición posterior a FUNC-SPRINT-64 — Gate UI/API de Fase F
+
+`FUNC-SPRINT-64` cierra la decisión arquitectónica inicial de Fase F: Web UI local como interfaz visual canónica, API local segura como frontera, Web UI real como evolución posterior y Desktop diferido fuera de Fase F. El siguiente sprint funcional es `FUNC-SPRINT-65 — ApplicationService v2 por dominios`.
+
+La implementación es `implemented-initial`: no agrega servidor, frontend ni dependencias runtime. Su valor es reducir riesgo antes de construir API/UI y mantener el core gobernado por ApplicationService, PolicyEngine, MIASI, ReportEngine, LocalStore y observabilidad.

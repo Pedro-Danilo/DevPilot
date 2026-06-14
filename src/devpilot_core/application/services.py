@@ -18,7 +18,7 @@ def _display_path(path: str | Path) -> str:
 
 
 class ApplicationService:
-    """Application-service facade for CLI, future desktop and future web shells.
+    """Application-service facade for CLI, API local and Web UI shells.
 
     FUNC-SPRINT-18 moves validator orchestration behind an application-service
     boundary so presentation layers do not need to know individual validator
@@ -61,7 +61,12 @@ class ApplicationService:
                 "capabilities_total": len(capabilities),
                 "routes_total": len(routes),
                 "ui_implemented": False,
-                "desktop_ready_for_shell": True,
+                "visual_strategy": "web_ui_first",
+                "api_local_planned": True,
+                "web_ui_local_planned": True,
+                "web_ui_real_future": True,
+                "desktop_deferred": True,
+                "desktop_ready_for_shell": False,
                 "web_ready_for_shell": True,
                 "external_api_required": False,
             },
@@ -75,8 +80,8 @@ class ApplicationService:
             },
             "preliminary": True,
             "notes": [
-                "FUNC-SPRINT-18 prepares internal contracts only; it does not implement desktop or web UI.",
-                "CLI, future desktop and future web shells must consume DevPilot Core through ApplicationService boundaries.",
+                "FUNC-SPRINT-18 prepares internal contracts only; it does not implement API local or Web UI.",
+                "CLI, future API local and Web UI shells must consume DevPilot Core through ApplicationService boundaries.",
                 "No server, browser window, IPC channel or frontend build is started by this sprint.",
             ],
         }
@@ -84,12 +89,12 @@ class ApplicationService:
             command="app contract",
             ok=True,
             exit_code=ExitCode.PASS,
-            message="Application service contract is available for future desktop/web shells.",
+            message="Application service contract is available for CLI, future API local and Web UI shells; desktop is deferred.",
             data=data,
             findings=[
                 Finding(
                     id="APP_CONTRACT_PASS",
-                    message="Application services expose serializable DTOs and logical route contracts without implementing UI.",
+                    message="Application services expose serializable DTOs and logical API/Web UI route contracts without implementing UI; desktop is deferred.",
                     severity=Severity.INFO,
                 )
             ],
@@ -158,14 +163,14 @@ def _routes() -> list[InterfaceRouteContract]:
             method="POST",
             path="/application/validators/frontmatter",
             operation="validators.validate_frontmatter",
-            notes=["Future web route or desktop IPC message; not active HTTP in Sprint 18."],
+            notes=["Future API local route for Web UI; not active HTTP in Sprint 64."],
         ),
         InterfaceRouteContract(
             route_id="APP-ROUTE-002",
             method="POST",
             path="/application/validators/artifact",
             operation="validators.validate_artifact",
-            notes=["Future web route or desktop IPC message; not active HTTP in Sprint 18."],
+            notes=["Future API local route for Web UI; not active HTTP in Sprint 64."],
         ),
         InterfaceRouteContract(
             route_id="APP-ROUTE-003",
@@ -179,6 +184,6 @@ def _routes() -> list[InterfaceRouteContract]:
             method="GET",
             path="/application/contract",
             operation="app.contract",
-            notes=["Used by future desktop/web bootstrap screens to discover supported capabilities."],
+            notes=["Used by future API/Web UI bootstrap screens to discover supported capabilities; desktop remains deferred."],
         ),
     ]

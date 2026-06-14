@@ -53,7 +53,11 @@ def test_application_contract_is_serializable_and_declares_no_ui() -> None:
 
     assert result.ok is True
     assert payload["data"]["summary"]["ui_implemented"] is False
-    assert payload["data"]["summary"]["desktop_ready_for_shell"] is True
+    assert payload["data"]["summary"]["visual_strategy"] == "web_ui_first"
+    assert payload["data"]["summary"]["api_local_planned"] is True
+    assert payload["data"]["summary"]["web_ui_local_planned"] is True
+    assert payload["data"]["summary"]["desktop_deferred"] is True
+    assert payload["data"]["summary"]["desktop_ready_for_shell"] is False
     assert payload["data"]["summary"]["web_ready_for_shell"] is True
     operations = {capability["operation"] for capability in payload["data"]["capabilities"]}
     assert "validators.validate_frontmatter" in operations
@@ -65,13 +69,13 @@ def test_application_request_dto_is_serializable() -> None:
     request = ApplicationRequest(
         operation="validators.validate_frontmatter",
         payload={"path": "docs/00_product/product_vision.md", "strict": True},
-        client="desktop-shell-future",
+        client="web-ui-local-future",
     )
 
     payload = request.to_dict()
 
     assert payload["dry_run"] is True
-    assert payload["client"] == "desktop-shell-future"
+    assert payload["client"] == "web-ui-local-future"
     assert json.dumps(payload, ensure_ascii=False)
 
 

@@ -8,7 +8,7 @@ standard: "MIPSoftware"
 extension: "MIASI"
 phase: "FASE-F-PRODUCTO-VISUAL"
 updated: "2026-06-14"
-source_repo: "repo_DevPilot_Local_77.zip"
+source_repo: "repo_DevPilot_Local_78.zip"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 ---
 
@@ -27,7 +27,7 @@ La decisión es profesionalmente conveniente para DevPilot porque reduce duplica
 ## Cambios aplicados
 
 - Se crea `ADR-0013 — Estrategia visual Web UI first`.
-- Se actualiza `docs/devpilot_backlog_fase_F_producto_visual.md` a versión `1.1.0` y `source_repo: repo_DevPilot_Local_77.zip`.
+- Se actualiza `docs/devpilot_backlog_fase_F_producto_visual.md` a versión `1.2.0` y `source_repo: repo_DevPilot_Local_78.zip`.
 - Se ajusta el propósito de Fase F hacia `API local segura + Web UI local web-ready`.
 - Se elimina Desktop como objetivo de implementación de Fase F.
 - Se mantiene Desktop como posibilidad futura condicionada a ADR posterior.

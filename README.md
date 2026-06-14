@@ -1,12 +1,30 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
 Estado actual: `baseline pre-code approved + Fase A cerrada + Fase B cerrada + Fase C cerrada + Fase D cerrada + Fase E cerrada`  
-Último hito: `FUNC-SPRINT-63 — AgentOps Quality Gate y cierre Fase E`  
-Siguiente hito: `FUNC-SPRINT-64 — ADR UI/API local y threat model de interfaz`  
+Último hito: `FUNC-SPRINT-64 — ADR UI/API local y threat model de interfaz`  
+Siguiente hito: `FUNC-SPRINT-65 — ApplicationService v2 por dominios`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
 
+
+
+
+## FUNC-SPRINT-64 — ADR UI/API local y threat model de interfaz
+
+Estado: `implemented-initial` / `PASS`.
+
+Sprint 64 cierra el gate arquitectónico inicial de Fase F antes de implementar servidor o frontend. La decisión formal queda en `docs/02_architecture/adrs/ADR-0013-web-ui-first.md`: DevPilot adopta **Web UI local como interfaz visual canónica de Fase F**, API local segura como frontera y Web UI real como evolución posterior. Desktop queda diferido fuera de Fase F y requiere ADR posterior.
+
+Entregables principales:
+
+- `docs/02_architecture/adrs/ADR-0013-web-ui-first.md`: estrategia UI/API Web first operacionalizada.
+- `docs/03_security/ui_api_threat_model.md`: threat model de API local y Web UI local.
+- `docs/audits/func_sprint_64_ui_api_adr_audit.md`: auditoría de cierre del sprint.
+- `docs/functional_sprint_64_manifest.json`: manifiesto funcional.
+- `tests/test_sprint_64_documentation.py`: pruebas de sincronización documental.
+
+Límites explícitos: Sprint 64 no implementa API HTTP, Web UI, Desktop shell, IPC, dependencias nuevas ni exposición de red. La implementación es documental/arquitectónica y prepara Sprint 65, donde se debe ampliar `ApplicationService` para que la API futura no llame módulos internos.
 
 ## Aprobación Fase D — IA local gobernada
 
@@ -24,7 +42,7 @@ La aprobación de Fase E no habilita telemetría remota, exporters externos acti
 
 ## Estrategia visual Fase F — Web UI local primero
 
-Después del cierre de Fase E y usando `repo_DevPilot_Local_77.zip` como fuente de verdad, DevPilot adopta una estrategia **web-first** para producto visual: la interfaz canónica de Fase F será una **Web UI local**, consumiendo una API local segura y `ApplicationService`, diseñada desde el inicio para evolucionar hacia una Web UI real cuando existan contratos, seguridad y operación suficientes.
+Después del cierre de Fase E y usando `repo_DevPilot_Local_78.zip` como fuente de verdad, DevPilot adopta una estrategia **web-first** para producto visual: la interfaz canónica de Fase F será una **Web UI local**, consumiendo una API local segura y `ApplicationService`, diseñada desde el inicio para evolucionar hacia una Web UI real cuando existan contratos, seguridad y operación suficientes.
 
 La UI Desktop queda fuera del alcance de implementación de Fase F. No se elimina como posibilidad futura, pero queda diferida y condicionada a una ADR posterior que demuestre necesidad de distribución desktop, permisos nativos, empaquetado, actualización, seguridad y costo de mantenimiento. Fase F no debe construir dos interfaces visuales independientes.
 

@@ -1377,7 +1377,11 @@ capabilities
 routes
 dto_contracts
 ui_implemented=false
-desktop_ready_for_shell=true
+visual_strategy=web_ui_first
+api_local_planned=true
+web_ui_local_planned=true
+desktop_deferred=true
+desktop_ready_for_shell=false
 web_ready_for_shell=true
 ```
 
@@ -3710,3 +3714,61 @@ outputs/reports/agentops_status.md
 ### Riesgos y límites
 
 Esta es una primera versión de quality gate operacional. No sustituye un dashboard, no calcula SLOs avanzados, no hace sampling estadístico ni consulta servicios externos. Fase F debe visualizar estas señales desde `ApplicationService`/API local sin duplicar lógica de negocio en la Web UI local. Desktop queda diferido fuera de Fase F.
+
+
+## FUNC-SPRINT-64 — Operación de ADR UI/API local y threat model de interfaz
+
+### Propósito
+
+Verificar que Fase F inicia con una decisión UI/API explícita antes de implementar servidor o frontend.
+
+### Comandos de verificación específica
+
+```powershell
+python -m devpilot_core validate-artifact docs/02_architecture/adrs/ADR-0013-web-ui-first.md --json
+python -m devpilot_core validate-artifact docs/03_security/ui_api_threat_model.md --json
+python -m devpilot_core validate-artifact docs/audits/func_sprint_64_ui_api_adr_audit.md --json
+python -m devpilot_core schema validate-manifest docs/functional_sprint_64_manifest.json --json
+python -m devpilot_core app contract --json
+python -m pytest tests/test_sprint_64_documentation.py -q
+python -m pytest tests/test_application_services.py -q
+```
+
+### Resultado esperado
+
+- ADR-0013: `PASS`.
+- Threat model: `PASS`.
+- Manifest Sprint 64: schema válido.
+- App contract: `ok=true`, `visual_strategy=web_ui_first`, `api_local_planned=true`, `web_ui_local_planned=true`, `desktop_deferred=true`.
+- No debe existir servidor HTTP ni frontend implementado por Sprint 64.
+
+### Funcionamiento
+
+Este sprint es un gate documental/arquitectónico. Ratifica que la ruta visual será:
+
+```text
+CLI → ApplicationService → API local segura → Web UI local → Web UI real futura
+```
+
+Desktop queda diferido fuera de Fase F. Si en una fase posterior se desea reabrir Desktop, debe crearse una ADR específica con análisis de producto, seguridad, distribución, permisos nativos, updates y costo de mantenimiento.
+
+### Criterios PASS
+
+- Threat model cubre localhost, token, CORS, CSRF/local origin, secrets, path traversal, reports/traces y acciones críticas.
+- C4 Container e internal application contract están sincronizados.
+- `ApplicationService.application_contract()` refleja Web UI first y Desktop deferred.
+- `validate all` no genera findings bloqueantes.
+
+### Criterios BLOCK
+
+- API escucha `0.0.0.0` por defecto.
+- CORS wildcard queda habilitado por defecto.
+- UI futura queda autorizada a saltarse ApplicationService.
+- Se implementa Desktop shell en Fase F.
+- Se agregan dependencias de servidor/frontend en Sprint 64.
+
+### Riesgos
+
+- La seguridad localhost no equivale a seguridad enterprise.
+- Token/CORS/policy binding se implementarán en Sprint 68, no en Sprint 64.
+- ApplicationService aún requiere expansión por dominios en Sprint 65.

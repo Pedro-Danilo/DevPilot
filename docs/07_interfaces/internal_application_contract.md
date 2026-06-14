@@ -2,11 +2,11 @@
 title: "Contrato interno de Application Services para CLI/API/Web UI"
 doc_id: "DEVPL-INTERFACES-001"
 status: "approved"
-version: "1.1.0"
+version: "1.2.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "FUNC-SPRINT-18"
+phase: "FUNC-SPRINT-64"
 updated: "2026-06-14"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 ---
@@ -219,3 +219,36 @@ Agregar schemas JSON versionados.
 Agregar simulador de cliente Web UI local antes de implementar UI real.
 Reabrir Desktop solo por ADR posterior, no dentro de Fase F.
 ```
+
+
+## 9. Actualización FUNC-SPRINT-64 — Contrato UI/API Web first
+
+### 9.1 Propósito
+
+Sincronizar el contrato interno con `ADR-0013 — Estrategia UI/API Web first`.
+
+### 9.2 Regla de integración
+
+La futura API local y la Web UI local deben consumir DevPilot mediante `ApplicationService`. La UI no debe importar módulos Python del core, leer filesystem directamente ni ejecutar comandos sensibles por fuera de `PolicyEngine` y `Approval Workflow`.
+
+```text
+Web UI local → API local /api/v1 → ApplicationService → DevPilot Core
+```
+
+### 9.3 Contrato runtime esperado
+
+`python -m devpilot_core app contract --json` debe reportar:
+
+```text
+visual_strategy=web_ui_first
+api_local_planned=true
+web_ui_local_planned=true
+web_ui_real_future=true
+desktop_deferred=true
+desktop_ready_for_shell=false
+web_ready_for_shell=true
+```
+
+### 9.4 Criterios PASS/BLOCK
+
+PASS: respuestas derivadas de `CommandResult`/`ApplicationResponse`, rutas lógicas versionables y side effects explícitos. BLOCK: UI/API que duplique validadores, salte ApplicationService o exponga acciones write/execute sin approval.

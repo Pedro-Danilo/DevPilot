@@ -2,11 +2,11 @@
 title: "C4 Container — DevPilot Local"
 doc_id: "DEVPL-ARCH-003"
 status: "approved"
-version: "1.2.0"
+version: "1.3.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "FUNC-SPRINT-20"
+phase: "FUNC-SPRINT-64"
 updated: "2026-06-14"
 approval: "approved_by_owner_direction"
 change_reason: "Reconciled by FUNC-SPRINT-20 to mark real container states after Sprint 18/19 closure."
@@ -105,8 +105,8 @@ Python]
 | Repo Analyzer | MVP+ | Python | Analizar estructura, docs, tests, módulos, dependencias y riesgos. |
 | Patch Review Engine | MVP+ | Python | Evaluar patches sin aplicar. |
 | Environment Adapter | MVP+ | Python | Validar Python, venv, dependencias y comandos reproducibles. |
-| API local segura | Fase F | Por ADR-0013 + Sprint 64 | Frontera localhost/token hacia ApplicationService. |
-| Web UI local | Fase F | Web stack por ADR Sprint 64 | Dashboard, reportes, trazas, approvals y settings locales. |
+| API local segura | Fase F | FastAPI planned by ADR-0013/Sprint 64 | Frontera localhost/token hacia ApplicationService. |
+| Web UI local | Fase F | FastAPI boundary + Web UI stack by ADR-0013 | Dashboard, reportes, trazas, approvals y settings locales. |
 | Web UI real | Posterior a Fase F | Evolución web futura | Reutiliza contratos API y componentes web cuando seguridad/operación maduren. |
 | Desktop shell | Futuro condicionado | ADR posterior | Opcional; no se implementa en Fase F. |
 
@@ -224,3 +224,21 @@ PASS: los contenedores futuros se leen como `future`, `planned-fase-f`, `deferre
 ### 9.5 Riesgos
 
 La vista sigue siendo documental y debe sincronizarse cuando Sprint 21–27 introduzcan Schema Registry, ValidationGateway y Traceability Engine.
+
+
+## 10. Actualización FUNC-SPRINT-64 — Estrategia UI/API Web first
+
+### 10.1 Propósito
+
+Sincronizar la vista C4 con la decisión `ADR-0013 — Estrategia UI/API Web first`.
+
+### 10.2 Decisión reflejada
+
+- `API local segura`: contenedor `planned-fase-f`, objetivo FastAPI, sin servidor activo en Sprint 64.
+- `Web UI local`: contenedor `planned-fase-f`, interfaz visual canónica de Fase F.
+- `Web UI real`: contenedor `future-post-fase-f`, evolución posterior cuando existan auth/RBAC/deploy.
+- `Desktop shell`: contenedor `deferred`, fuera de Fase F y sujeto a ADR posterior.
+
+### 10.3 Criterio operativo
+
+PASS: cualquier implementación futura de UI/API debe seguir `UI → API local → ApplicationService → Core`. BLOCK: UI que lea filesystem directamente, API que salte ApplicationService o Desktop implementado en Fase F.

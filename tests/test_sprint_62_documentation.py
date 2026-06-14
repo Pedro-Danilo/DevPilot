@@ -31,15 +31,15 @@ def test_sprint_62_artifacts_exist_and_are_synchronized() -> None:
     for path in expected_paths:
         assert (ROOT / path).exists(), path
 
-    assert "Último hito: `FUNC-SPRINT-63" in readme
-    assert "Siguiente hito: `FUNC-SPRINT-64" in readme
+    assert "Último hito: `FUNC-SPRINT-64" in readme
+    assert "Siguiente hito: `FUNC-SPRINT-65" in readme
     assert "## FUNC-SPRINT-62 — Exporter OpenTelemetry opcional y dry-run" in readme
     assert "## FUNC-SPRINT-62 — Operación de exporter OpenTelemetry dry-run" in runbook
     assert 'first_open_sprint: "FUNC-SPRINT-64"' in backlog
     assert 'last_completed_sprint: "FUNC-SPRINT-63"' in backlog
     assert 'next_sprint: "FUNC-SPRINT-64"' in backlog
     assert "## Estado de implementación Sprint 63" in backlog
-    assert 'next_sprint: "FUNC-SPRINT-64"' in functional_backlog
+    assert 'next_sprint: "FUNC-SPRINT-65"' in functional_backlog
     assert "## Transición posterior a FUNC-SPRINT-63" in functional_backlog
     assert manifest["sprint"] == "FUNC-SPRINT-62"
     assert manifest["status"] == "implemented"
