@@ -1,8 +1,8 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
 Estado actual: `baseline pre-code approved + Fase A cerrada + Fase B cerrada + Fase C cerrada + Fase D cerrada + Fase E en progreso`  
-Último hito: `FUNC-SPRINT-61 — CLI de trazas y métricas: trace report, trace inspect, metrics summary`  
-Siguiente hito: `FUNC-SPRINT-62 — Exporter OpenTelemetry opcional y dry-run`  
+Último hito: `FUNC-SPRINT-62 — Exporter OpenTelemetry opcional y dry-run`  
+Siguiente hito: `FUNC-SPRINT-63 — AgentOps Quality Gate operacional`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
@@ -1788,3 +1788,20 @@ python -m devpilot_core metrics summary --json --write-report
 ```
 
 La implementación se apoya en `TraceQueryService`, `TraceStore`, `MetricsCollector` y `ReportEngine`. Los comandos devuelven `CommandResult`, escriben reportes opcionales en `outputs/reports`, manejan DB vacía o `trace_id` inexistente de forma controlada y mantienen redacción de secretos/payloads crudos. No habilita OpenTelemetry, dashboards, UI, multiagente ni telemetría remota; esos temas quedan para sprints posteriores de Fase E.
+
+
+## FUNC-SPRINT-62 — Exporter OpenTelemetry opcional y dry-run
+
+`FUNC-SPRINT-62` implementa el nivel FE-L5 de Fase E: un exporter local, opcional y en modo `dry-run` que proyecta las trazas, eventos y métricas internas de DevPilot hacia un payload JSON compatible de forma conceptual con OpenTelemetry/OTLP. La implementación no usa SDK externo, no abre sockets, no llama red, no requiere collector y no envía telemetría remota.
+
+Comandos principales:
+
+```powershell
+python -m devpilot_core telemetry export --format otlp --dry-run --json --write-report
+python -m devpilot_core telemetry export --format otlp --dry-run --trace-id <trace_id> --json
+python -m devpilot_core telemetry export --format otlp --dry-run --endpoint https://collector.example/v1/traces --json
+```
+
+El tercer comando debe bloquearse de forma controlada con `OTEL_REMOTE_EXPORT_BLOCKED`, `network_used=false`, `external_api_used=false` y `remote_telemetry_enabled=false`. La herramienta MIASI `telemetry.export` queda registrada como `implemented-initial` y asociada a reglas que permiten únicamente payload local dry-run y bloquean export remoto.
+
+Estado: `implemented-initial`. Esta versión prepara interoperabilidad futura, pero no constituye integración productiva con OpenTelemetry Collector, Jaeger, Tempo, Grafana, Honeycomb ni servicios cloud. Una activación real futura debe requerir ADR o actualización de ADR, configuración explícita, aprobación humana, política de exfiltración, pruebas de red controladas y validación de privacidad/costos.

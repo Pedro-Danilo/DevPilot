@@ -628,3 +628,15 @@ Criterios PASS: agentes registrados en MIASI, prompts versionados, evals offline
 Se agregan tools `agent.requirements.run`, `agent.architecture.run`, `agent.security.run`, `architecture.drift`, `secret.scan`, `policy.simulate` y `security.docs.review`, todas locales/read-only o de reporte.
 
 Estado: `implemented-initial`; las capacidades son preliminares y deberán evolucionar con trazas AgentOps v2, métricas y reportes persistidos por agente.
+
+
+## FUNC-SPRINT-62 — Tool `telemetry.export`
+
+`telemetry.export` queda declarada como herramienta MIASI de reporte local para generar payloads OTel-like en modo dry-run. Su `side_effect` es `report`: puede producir evidencia en `outputs/reports`, pero no puede abrir red, enviar datos a collectors ni activar telemetría remota.
+
+Políticas asociadas:
+
+- `OTEL_EXPORT_DRY_RUN_ALLOW`: permite payload local redactorizado.
+- `OTEL_REMOTE_EXPORT_BLOCK`: bloquea endpoint remoto, collector externo o intento no dry-run.
+
+Estado: `implemented-initial`.

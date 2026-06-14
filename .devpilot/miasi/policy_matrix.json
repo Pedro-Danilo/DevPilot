@@ -381,6 +381,24 @@
       "gate": "SecurityDocs+SecretGuard+PolicySimulationSuite+ReadOnly+RedactedFindings+NoRawSecrets+NoPolicyMutation",
       "approval_required": false,
       "observability_required": true
+    },
+    {
+      "rule_id": "OTEL_EXPORT_DRY_RUN_ALLOW",
+      "domain": "Telemetry",
+      "action": "telemetry_export_dry_run",
+      "default_effect": "allow",
+      "gate": "OTelDryRunExporter+PolicyEngine+SecretGuard+TraceStore+ReportEngine+NoNetwork+NoExternalAPI",
+      "approval_required": false,
+      "observability_required": true
+    },
+    {
+      "rule_id": "OTEL_REMOTE_EXPORT_BLOCK",
+      "domain": "Telemetry",
+      "action": "telemetry_export_remote",
+      "default_effect": "block",
+      "gate": "PolicyEngine+CostGuard+ApprovalPolicyChecker+RemoteTelemetryDisabledByDefault",
+      "approval_required": true,
+      "observability_required": true
     }
   ]
 }

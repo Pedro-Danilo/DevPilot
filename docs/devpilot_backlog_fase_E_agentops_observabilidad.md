@@ -2,13 +2,13 @@
 title: "DevPilot Local — Backlog ejecutable Fase E: AgentOps y observabilidad"
 doc_id: "DEVPL-FUNC-BACKLOG-FASE-E-001"
 status: "approved"
-version: "0.7.0"
+version: "0.8.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
 phase: "FASE-E-AGENTOPS-OBSERVABILIDAD"
 updated: "2026-06-13"
-source_repo: "repo_DevPilot_Local_73.zip"
+source_repo: "repo_DevPilot_Local_74.zip"
 source_report: "Informe de avance DevPilot - sprint 0 - 18.docx"
 source_backlog_model: "docs/functional_backlog_after_precode.md"
 baseline_dependency: "Fases A, B, C y D cerradas; Fase D validada por FUNC-SPRINT-55"
@@ -18,9 +18,9 @@ change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "phase_e_executable_backlog_review"
 approved_on: "2026-06-13"
 approval: "approved_after_phase_d_closure_review"
-first_open_sprint: "FUNC-SPRINT-62"
-last_completed_sprint: "FUNC-SPRINT-61"
-next_sprint: "FUNC-SPRINT-62"
+first_open_sprint: "FUNC-SPRINT-63"
+last_completed_sprint: "FUNC-SPRINT-62"
+next_sprint: "FUNC-SPRINT-63"
 phase_e_status: "in_progress"
 ---
 
@@ -893,3 +893,10 @@ Implementa FUNC-SPRINT-63: AgentOps Quality Gate y cierre Fase E. Agrega `agento
 ## Cierre esperado de Fase E
 
 Al cerrar Fase E, DevPilot debe tener una capa AgentOps local suficientemente robusta para observar comandos, agentes, tools, políticas, approvals, modelos y métricas sin depender de servicios externos. Esta fase no entrega UI, pero deja listas las señales y contratos que la Fase F deberá visualizar.
+
+
+## Estado de implementación Sprint 62
+
+`FUNC-SPRINT-62 — Exporter OpenTelemetry opcional y dry-run` queda en estado `implemented-initial`. Se implementó `OTelDryRunExporter`, comando `telemetry export`, mapeo OTel-like local, reportes opcionales, reglas MIASI `OTEL_EXPORT_DRY_RUN_ALLOW`/`OTEL_REMOTE_EXPORT_BLOCK` y herramienta `telemetry.export`.
+
+No se habilita telemetría remota, no se agrega SDK OpenTelemetry obligatorio, no se requiere collector, no se usa red y no se exportan secretos/prompts/completions crudos. El siguiente sprint abierto es `FUNC-SPRINT-63 — AgentOps Quality Gate operacional`.

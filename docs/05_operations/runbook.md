@@ -2,7 +2,7 @@
 title: "Runbook — DevPilot Local"
 doc_id: "DEVPL-OPS-002"
 status: "approved"
-version: "1.22.0"
+version: "1.23.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
@@ -3572,3 +3572,39 @@ python -m devpilot_core metrics summary --category model --json --write-report
 | Reportes grandes | Controlado | Límites `--limit` con cap interno. |
 | CLI creciente | Aceptado | `TraceQueryService` separa lógica de consulta del parser CLI. |
 | Calidad visual limitada | Pendiente | Dashboard/AgentOps status queda para sprints posteriores. |
+
+
+## FUNC-SPRINT-62 — Operación de exporter OpenTelemetry dry-run
+
+### Propósito
+
+Esta sección operacionaliza `telemetry export` como una capacidad local-first de revisión de interoperabilidad OpenTelemetry. El comando genera un payload OTel-like local desde SQLite/TraceStore/MetricsCollector, sin enviar datos a ningún collector.
+
+### Comandos
+
+```powershell
+python -m devpilot_core telemetry export --format otlp --dry-run --json
+python -m devpilot_core telemetry export --format otlp --dry-run --json --write-report
+python -m devpilot_core telemetry export --format otlp --dry-run --trace-id <trace_id> --json
+python -m devpilot_core telemetry export --format otlp --dry-run --endpoint https://collector.example/v1/traces --json
+```
+
+### Comportamiento esperado
+
+- El modo permitido es únicamente `dry-run`.
+- `--write-report` escribe `outputs/reports/telemetry_export_otel_dry_run.json` y `.md`.
+- Si no hay spans/métricas, el comando retorna `ok=true` con finding informativo `OTEL_EXPORT_EMPTY`.
+- Si se configura `--endpoint`, DevPilot debe retornar `BLOCK` con `OTEL_REMOTE_EXPORT_BLOCKED`.
+- En todos los casos `network_used=false`, `external_api_used=false` y `remote_telemetry_enabled=false`.
+
+### PASS
+
+PASS si el payload local contiene `resourceSpans`/`resourceMetrics`, no contiene secretos, no requiere SDK externo, no abre red, devuelve `CommandResult` y mantiene reportes locales reproducibles.
+
+### BLOCK
+
+BLOCK si intenta enviar datos a red, requiere collector para pruebas, imprime prompts/completions/stdout/stderr crudos, expone secretos o habilita telemetría remota por defecto.
+
+### Estado
+
+`implemented-initial`. La capacidad es un mapper/exporter dry-run, no una integración industrial final con OpenTelemetry.

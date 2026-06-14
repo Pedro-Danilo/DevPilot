@@ -754,6 +754,19 @@
         "SECURITY_REVIEW_READ_ONLY_ALLOW",
         "SECRETS_RAW_DENY"
       ]
+    },
+    {
+      "tool_id": "telemetry.export",
+      "name": "telemetry_export_otel_dry_run",
+      "phase": "MVP+",
+      "side_effect": "report",
+      "risk_level": "high",
+      "status": "implemented-initial",
+      "requires_approval": false,
+      "policy_rule_ids": [
+        "OTEL_EXPORT_DRY_RUN_ALLOW",
+        "OTEL_REMOTE_EXPORT_BLOCK"
+      ]
     }
   ]
 }

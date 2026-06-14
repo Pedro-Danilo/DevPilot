@@ -34,3 +34,13 @@ baseline_role: "precode_approved_baseline"
 ## Nota de implementación FUNC-SPRINT-30
 
 `ApprovalPolicyChecker` queda registrado como gate ejecutable inicial para validar `approval_id`, `status`, expiración y scope antes de considerar una acción approval-gated. Esta integración es `implemented-initial`: no ejecuta herramientas, no aplica patches, no corre tests y no sustituye PathGuard, SecretGuard ni CostGuard.
+
+
+## FUNC-SPRINT-62 — Reglas de telemetría OTel dry-run
+
+| Regla | Efecto | Uso |
+|---|---|---|
+| `OTEL_EXPORT_DRY_RUN_ALLOW` | allow | Permite generar payload OTel-like local sin red. |
+| `OTEL_REMOTE_EXPORT_BLOCK` | block | Bloquea endpoint remoto, collector externo o modo no dry-run. |
+
+Estas reglas mantienen la postura de no exfiltración de Fase E.

@@ -12,6 +12,7 @@ from .events import (
     summarize_command_data,
 )
 from .trace_store import TraceStore
+from .exporters import OTelDryRunExporter, OTelExportOptions, build_otel_like_payload
 from .trace_queries import TraceQueryService, TraceReportOptions
 from .tracing import (
     SpanRecord,
@@ -40,6 +41,9 @@ __all__ = [
     "MetricsCollector",
     "sanitize_metric_metadata",
     "TraceStore",
+    "build_otel_like_payload",
+    "OTelExportOptions",
+    "OTelDryRunExporter",
     "TraceQueryService",
     "TraceReportOptions",
     "SpanRecord",

@@ -1,0 +1,101 @@
+{
+  "sprint": "FUNC-SPRINT-62",
+  "title": "Exporter OpenTelemetry opcional y dry-run",
+  "status": "implemented",
+  "implemented_at": "2026-06-14",
+  "phase": "FASE-E-AGENTOPS-OBSERVABILIDAD",
+  "wave": "Ola 8 — Observabilidad avanzada y AgentOps",
+  "source_backlog": "docs/devpilot_backlog_fase_E_agentops_observabilidad.md",
+  "architectural_decision": {
+    "required": false,
+    "adr": "docs/02_architecture/adrs/ADR-0012-observability-v2-agentops.md",
+    "reason": "FUNC-SPRINT-62 materializa el alcance ya definido por ADR-0012: OpenTelemetry solo opt-in/dry-run, sin red, sin exporter remoto activo y sin dependencias obligatorias. No introduce una decisión arquitectónica nueva."
+  },
+  "summary": {
+    "implementation_level": "implemented-initial",
+    "otel_dry_run_exporter_added": true,
+    "telemetry_export_cli_added": true,
+    "otel_like_payload_generated": true,
+    "remote_endpoint_blocked": true,
+    "miasi_tool_registered": true,
+    "miasi_policy_rules_added": true,
+    "external_dependencies_added": false,
+    "remote_telemetry_enabled": false,
+    "network_required": false,
+    "external_api_used": false,
+    "collector_required": false,
+    "payload_redacted": true,
+    "next_runtime_sprint": "FUNC-SPRINT-63"
+  },
+  "created_files": [
+    "src/devpilot_core/observability/exporters/__init__.py",
+    "src/devpilot_core/observability/exporters/otel_exporter.py",
+    "tests/test_otel_exporter.py",
+    "tests/test_sprint_62_documentation.py",
+    "docs/audits/func_sprint_62_otel_exporter_audit.md",
+    "docs/functional_sprint_62_manifest.json"
+  ],
+  "modified_files": [
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/05_operations/observability_plan.md",
+    "docs/06_miasi/observability_card.md",
+    "docs/06_miasi/tool_card.md",
+    "docs/06_miasi/policy_matrix.md",
+    "docs/devpilot_backlog_fase_E_agentops_observabilidad.md",
+    "docs/functional_backlog_after_precode.md",
+    ".devpilot/miasi/tool_registry.json",
+    ".devpilot/miasi/policy_matrix.json",
+    "src/devpilot_core/cli.py",
+    "src/devpilot_core/observability/__init__.py"
+  ],
+  "commands": [
+    "python -m devpilot_core telemetry export --format otlp --dry-run --json --write-report",
+    "python -m devpilot_core telemetry export --format otlp --dry-run --endpoint https://collector.example/v1/traces --json",
+    "python -m pytest tests/test_otel_exporter.py -q",
+    "python -m devpilot_core miasi validate --json",
+    "python -m devpilot_core validate all --json"
+  ],
+  "pass_criteria": [
+    "Dry-run/local only",
+    "No network or external API",
+    "CommandResult JSON",
+    "Reports in outputs/reports",
+    "MIASI tool/policy declared",
+    "No raw secrets/prompts/completions"
+  ],
+  "block_criteria": [
+    "Remote telemetry sent",
+    "External collector required for tests",
+    "Secrets in payload",
+    "SDK external mandatory",
+    "Remote endpoint allowed"
+  ],
+  "risks": [
+    {
+      "id": "RISK-FUNC-62-001",
+      "risk": "Confundir payload OTel-like con integración OTel productiva",
+      "mitigation": "Documentar implemented-initial y no usar SDK/collector en Sprint 62."
+    },
+    {
+      "id": "RISK-FUNC-62-002",
+      "risk": "Exfiltración accidental",
+      "mitigation": "Bloquear endpoint remoto por política y mantener network_used=false/external_api_used=false."
+    },
+    {
+      "id": "RISK-FUNC-62-003",
+      "risk": "Payload grande o sensible",
+      "mitigation": "Aplicar límites, redacción y reportes locales revisables."
+    }
+  ],
+  "next_sprint": "FUNC-SPRINT-63 — AgentOps Quality Gate operacional",
+  "tests": [
+    "tests/test_otel_exporter.py",
+    "tests/test_sprint_62_documentation.py",
+    "schema validate-manifest",
+    "validate-artifact",
+    "miasi validate",
+    "validate all",
+    "pytest -q"
+  ]
+}

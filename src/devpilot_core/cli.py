@@ -13,7 +13,7 @@ from .application import ApplicationService
 from .cli_models import CommandResult, ExitCode, Finding, Severity
 from .errors import DevPilotError
 from .evals import EvalRunner
-from .observability import EventLogger, MetricsCollector, TraceQueryService
+from .observability import EventLogger, MetricsCollector, OTelDryRunExporter, OTelExportOptions, TraceQueryService
 from .miasi import MiasiRegistryValidator
 from .modeling import BudgetLedger, CapabilityMatrix, ModelAdapterRouter, ModelEvalRunner, ModelEvalRunnerConfig, ModelHealthService, ModelRouterConfig
 from .policy import CostPolicy, PolicyEngine, PolicyRequest, load_cost_policy
@@ -383,6 +383,48 @@ def metrics_summary_command(
     )
     _emit_result_event(root, result, subject="observability:metrics")
     _persist_result(root, result, subject="observability:metrics")
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+
+def telemetry_export_command(
+    *,
+    format: str = "otlp",
+    dry_run: bool = True,
+    trace_id: str | None = None,
+    limit: int = 20,
+    include_metrics: bool = True,
+    endpoint: str | None = None,
+    json_output: bool = False,
+    write_report: bool = False,
+) -> int:
+    """Generate an OpenTelemetry-compatible local dry-run payload.
+
+    FUNC-SPRINT-62 intentionally does not send telemetry to a collector. Any
+    remote endpoint or non-dry-run intent is evaluated and blocked by policy.
+    """
+
+    root = project_root()
+    result = OTelDryRunExporter(root).export(
+        OTelExportOptions(
+            format=format,
+            dry_run=dry_run,
+            trace_id=trace_id,
+            limit=limit,
+            include_metrics=include_metrics,
+            endpoint=endpoint,
+        )
+    )
+    result = _write_optional_command_report(
+        root,
+        result,
+        subject="observability:otel-dry-run",
+        report_id="telemetry_export_otel_dry_run",
+        write_report=write_report,
+        metadata={"sprint": "FUNC-SPRINT-62", "component": "OTelDryRunExporter"},
+    )
+    _emit_result_event(root, result, subject="observability:otel-dry-run")
+    _persist_result(root, result, subject="observability:otel-dry-run")
     print_result(result, json_output=json_output)
     return int(result.exit_code)
 
@@ -2316,6 +2358,18 @@ def build_parser() -> argparse.ArgumentParser:
     metrics_summary.add_argument("--limit", type=int, default=50, help="Maximum recent metrics to include, capped at 500")
     metrics_summary.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
 
+    telemetry = sub.add_parser("telemetry", help="Generate local dry-run telemetry export payloads")
+    telemetry_sub = telemetry.add_subparsers(dest="telemetry_command")
+    telemetry_export = telemetry_sub.add_parser("export", help="Generate an OpenTelemetry-compatible dry-run payload")
+    telemetry_export.add_argument("--format", choices=["otlp", "otlp-json"], default="otlp", help="Dry-run export payload format")
+    telemetry_export.add_argument("--dry-run", action="store_true", default=True, help="Generate local payload only; this is the default and only supported Sprint 62 mode")
+    telemetry_export.add_argument("--trace-id", default=None, help="Optional trace id to export")
+    telemetry_export.add_argument("--limit", type=int, default=20, help="Maximum spans to project, capped by exporter")
+    telemetry_export.add_argument("--without-metrics", action="store_true", help="Exclude metric projections from the dry-run payload")
+    telemetry_export.add_argument("--endpoint", default=None, help="Blocked in Sprint 62; present only for explicit policy validation")
+    telemetry_export.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    telemetry_export.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+
     approval = sub.add_parser("approval", help="Manage local human approval workflow records")
     approval_sub = approval.add_subparsers(dest="approval_command")
 
@@ -2875,6 +2929,20 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
     if args.command == "metrics":
         if args.metrics_command == "summary":
             return metrics_summary_command(category=args.category, limit=args.limit, json_output=args.json, write_report=args.write_report)
+        parser.print_help()
+        return int(ExitCode.FAIL)
+    if args.command == "telemetry":
+        if args.telemetry_command == "export":
+            return telemetry_export_command(
+                format=args.format,
+                dry_run=args.dry_run,
+                trace_id=args.trace_id,
+                limit=args.limit,
+                include_metrics=not args.without_metrics,
+                endpoint=args.endpoint,
+                json_output=args.json,
+                write_report=args.write_report,
+            )
         parser.print_help()
         return int(ExitCode.FAIL)
     if args.command == "approval":

@@ -237,3 +237,16 @@ MIASI reconoce desde `FUNC-SPRINT-61` tres comandos de consulta operacional sobr
 Estos comandos son read-only respecto a la ejecución agentic: solo consultan SQLite y escriben reportes cuando el usuario solicita `--write-report`. No ejecutan tools, no invocan modelos, no envían datos externos y no habilitan exporter. La respuesta ante DB vacía o traza inexistente debe ser controlada, auditable y parseable.
 
 Criterio BLOCK MIASI: ninguna consulta puede exponer prompts, completions, secretos, diffs, patches, stdout/stderr ni credenciales. Cualquier visualización futura debe consumir estos mismos contratos en lugar de leer `.devpilot/devpilot.db` directamente desde una UI.
+
+
+## FUNC-SPRINT-62 — Export OTel dry-run como señal MIASI
+
+MIASI reconoce `telemetry.export` como herramienta local de reporte, no como salida remota. La señal esperada es un payload OTel-like generado desde datos ya redactorizados de `TraceStore`/`MetricsCollector`.
+
+Criterios:
+
+- `telemetry.export` solo opera en dry-run.
+- `OTEL_EXPORT_DRY_RUN_ALLOW` permite generación local de payload.
+- `OTEL_REMOTE_EXPORT_BLOCK` bloquea endpoints remotos o cualquier intento de exfiltración.
+- `network_used=false`, `external_api_used=false`, `remote_telemetry_enabled=false`.
+- La capacidad es `implemented-initial` y debe evolucionar antes de integrarse con collectors reales.

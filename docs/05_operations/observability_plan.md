@@ -2,7 +2,7 @@
 title: "Observability Plan — DevPilot Local"
 doc_id: "DEVPL-OPS-001"
 status: "approved"
-version: "1.5.0"
+version: "1.6.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
@@ -332,3 +332,30 @@ Comandos disponibles:
 | `metrics summary` | métricas agregadas locales | `outputs/reports/metrics_summary.*` | implementado inicial |
 
 Reglas vigentes: los comandos devuelven `CommandResult`, toleran DB vacía, tratan `trace_id` inexistente como warning controlado y aplican redacción antes de emitir JSON o reportes. La calidad industrial completa todavía requiere exporter dry-run, AgentOps Quality Gate, retención y visualización futura.
+
+
+## 22. Actualización FUNC-SPRINT-62 — Exporter OpenTelemetry dry-run
+
+`FUNC-SPRINT-62` agrega una proyección local OTel-like para las señales AgentOps de DevPilot. El objetivo no es enviar telemetría, sino revisar de forma reproducible cómo `TraceStore`, eventos y métricas se mapearían hacia una estructura compatible conceptualmente con OTLP JSON.
+
+Mapeo inicial:
+
+| DevPilot | OTel-like dry-run | Nota |
+|---|---|---|
+| `trace_id` | `traceId` | Digest estable para formato hexadecimal. |
+| `span_id` | `spanId` | Digest estable de 16 bytes lógicos. |
+| `parent_span_id` | `parentSpanId` | Mantiene jerarquía. |
+| `span_type` | `devpilot.span_type` | Atributo interno. |
+| `model.call` | `gen_ai.system`, `gen_ai.request.model`, `gen_ai.operation.name` | Mapeo preliminar. |
+| `tool.call` | `gen_ai.tool.name` | Cuando existe `tool_id`. |
+| métricas | `resourceMetrics.scopeMetrics.metrics` | Gauge-like local. |
+
+Reglas de seguridad:
+
+- sin SDK externo obligatorio;
+- sin red;
+- sin endpoint remoto permitido;
+- sin prompts, completions, secretos, stdout/stderr o patches crudos;
+- remote telemetry queda bloqueada por defecto y requiere decisión futura.
+
+Estado: `implemented-initial`.

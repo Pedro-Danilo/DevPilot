@@ -2,7 +2,7 @@
 title: "DevPilot Local — Backlog ejecutable posterior a pre-code"
 doc_id: "DEVPL-FUNC-BACKLOG-001"
 status: "approved"
-version: "3.7.0"
+version: "3.8.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
@@ -14,7 +14,7 @@ change_policy: "controlled_changes_allowed_via_docs_as_code"
 approved_on: "2026-06-06"
 approval_scope: "functional_backlog_after_precode"
 baseline_execution: "FUNC-SPRINT-00"
-next_sprint: "FUNC-SPRINT-62"
+next_sprint: "FUNC-SPRINT-63"
 ---
 
 # DevPilot Local — Backlog ejecutable posterior a pre-code
@@ -2209,3 +2209,8 @@ La transición hacia `FUNC-SPRINT-61` queda condicionada a exponer consulta oper
 `FUNC-SPRINT-61` expone por CLI la evidencia AgentOps local generada por los sprints anteriores. Desde este punto, DevPilot puede consultar trazas recientes, inspeccionar una traza específica como árbol de spans y resumir métricas locales sin UI ni servicios externos.
 
 La transición hacia `FUNC-SPRINT-62` queda condicionada a mantener estas consultas como fuente local de verdad para cualquier exporter futuro: OpenTelemetry debe iniciar como dry-run/local, sin envío remoto, sin dependencia obligatoria y con redacción obligatoria de secretos, prompts, completions, diffs y salidas crudas.
+
+
+## Transición posterior a FUNC-SPRINT-62
+
+Con `FUNC-SPRINT-62`, DevPilot completa el nivel FE-L5 inicial: payload OTel-like local, opcional y dry-run. El siguiente paso funcional es `FUNC-SPRINT-63 — AgentOps Quality Gate operacional`, que debe evaluar salud operacional usando trazas, spans, métricas, warnings, bloqueos y evidencia local sin depender de servicios externos.
