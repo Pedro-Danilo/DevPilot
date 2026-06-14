@@ -1,30 +1,43 @@
 ---
 title: "DevPilot Local — Backlog ejecutable Fase F: Producto visual"
 doc_id: "DEVPL-FUNC-BACKLOG-FASE-F-001"
-status: "draft-for-review"
-version: "0.1.0"
+status: "approved"
+version: "1.0.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
 phase: "FASE-F-PRODUCTO-VISUAL"
-updated: "2026-06-09"
-source_repo: "repo_DevPilot_Local_22.zip"
+updated: "2026-06-14"
+source_repo: "repo_DevPilot_Local_76.zip"
 source_report: "Informe de avance DevPilot - sprint 0 - 18.docx"
 source_backlog_model: "docs/functional_backlog_after_precode.md"
-baseline_dependency: "Fases A-E aprobadas o explícitamente aceptadas como prerequisito lógico"
+baseline_dependency: "Fases A-E cerradas; Fase E validada por FUNC-SPRINT-63"
 first_sprint: "FUNC-SPRINT-64"
 last_planned_sprint: "FUNC-SPRINT-73"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "phase_f_executable_backlog_review"
+approved_on: "2026-06-14"
+approval: "approved_after_phase_e_agentops_closure"
+first_open_sprint: "FUNC-SPRINT-64"
+last_completed_sprint: "FUNC-SPRINT-63"
+next_sprint: "FUNC-SPRINT-64"
+phase_f_status: "approved_for_implementation"
 ---
 
 # DevPilot Local — Backlog ejecutable Fase F: Producto visual
 
 ## Estado de aprobación funcional
 
-Este documento se entrega en estado `draft-for-review`. Su propósito es convertir la **Fase F — Producto visual** en un backlog de implementación ejecutable, siguiendo el modelo operativo usado en `docs/functional_backlog_after_precode.md`.
+Este documento queda promovido a estado `approved` después del cierre validado de `FUNC-SPRINT-63 — AgentOps Quality Gate y cierre Fase E`. Su propósito es convertir la **Fase F — Producto visual** en un backlog de implementación ejecutable, siguiendo el modelo operativo usado en `docs/functional_backlog_after_precode.md`.
 
-La Fase F corresponde a la **Ola 9 — API local y UI Web/Desktop**. Parte del estado real de `repo_DevPilot_Local_22.zip`, donde DevPilot ya dispone de `ApplicationService`, DTOs, `app contract`, CLI funcional y core modular. La fase no debe reescribir el core ni duplicar validadores en la UI. Debe exponer el core mediante contratos estables, API local segura y pantallas inicialmente read-only/dry-run.
+La Fase F corresponde a la **Ola 9 — API local y UI Web/Desktop**. Parte del estado real de `repo_DevPilot_Local_76.zip`, donde DevPilot ya dispone de `ApplicationService`, DTOs, `app contract`, CLI funcional y core modular. La fase no debe reescribir el core ni duplicar validadores en la UI. Debe exponer el core mediante contratos estables, API local segura y pantallas inicialmente read-only/dry-run.
+
+
+## Estado aprobado para implementación
+
+La revisión de cierre de `FUNC-SPRINT-63` confirma que este backlog es una continuación apropiada de DevPilot porque Fase E dejó una capa AgentOps local capaz de exponer trazas, métricas, reportes, exporter OTel dry-run y un `agentops status` consumible por API/UI futura. Por tanto, Fase F puede iniciar por `FUNC-SPRINT-64` sin implementar todavía servidor ni frontend, manteniendo la secuencia segura: decisión arquitectónica y threat model antes de API local, y API local antes de UI.
+
+Ajuste de aprobación aplicado: se actualiza la fuente de verdad de `repo_DevPilot_Local_22.zip` a `repo_DevPilot_Local_76.zip`, y las entradas de cada sprint quedan condicionadas a Fases A-E cerradas, no solo A-D.
 
 ## 1. Propósito
 
@@ -145,7 +158,7 @@ Un sprint de Fase F solo puede cerrarse si cumple:
 
 
 
-# FUNC-SPRINT-64 — ADR UI/API local y threat model de interfaz
+## FUNC-SPRINT-64 — ADR UI/API local y threat model de interfaz
 
 ## Objetivo
 
@@ -153,8 +166,8 @@ Tomar la decisión arquitectónica de interfaz/API antes de implementar servidor
 
 ## Entradas
 
-- `repo_DevPilot_Local_22.zip` como baseline vigente.
-- Backlogs Fase A–D aprobados o explícitamente aceptados como prerequisito lógico.
+- `repo_DevPilot_Local_76.zip` como baseline vigente.
+- Backlogs Fase A–E cerrados; Fase E validada por `FUNC-SPRINT-63`.
 - `docs/functional_backlog_after_precode.md` como modelo operativo.
 - `Informe de avance DevPilot - sprint 0 - 18.docx` como informe de estado y brechas.
 
@@ -229,7 +242,7 @@ python -m pytest -q
 Implementa FUNC-SPRINT-64: ADR UI/API local y threat model de interfaz. No codifiques servidor ni frontend hasta cerrar decisión documentada.
 ```
 
-# FUNC-SPRINT-65 — ApplicationService v2 por dominios
+## FUNC-SPRINT-65 — ApplicationService v2 por dominios
 
 ## Objetivo
 
@@ -237,8 +250,8 @@ Expandir ApplicationService para cubrir workspace, validation, MIASI, evals, rep
 
 ## Entradas
 
-- `repo_DevPilot_Local_22.zip` como baseline vigente.
-- Backlogs Fase A–D aprobados o explícitamente aceptados como prerequisito lógico.
+- `repo_DevPilot_Local_76.zip` como baseline vigente.
+- Backlogs Fase A–E cerrados; Fase E validada por `FUNC-SPRINT-63`.
 - `docs/functional_backlog_after_precode.md` como modelo operativo.
 - `Informe de avance DevPilot - sprint 0 - 18.docx` como informe de estado y brechas.
 
@@ -316,7 +329,7 @@ python -m pytest -q
 Implementa FUNC-SPRINT-65: ApplicationService v2 por dominios. Mueve orquestación reusable fuera de CLI sin romper comandos existentes.
 ```
 
-# FUNC-SPRINT-66 — Contratos API y OpenAPI preliminar
+## FUNC-SPRINT-66 — Contratos API y OpenAPI preliminar
 
 ## Objetivo
 
@@ -324,8 +337,8 @@ Formalizar endpoints, requests, responses y errores antes del servidor real, usa
 
 ## Entradas
 
-- `repo_DevPilot_Local_22.zip` como baseline vigente.
-- Backlogs Fase A–D aprobados o explícitamente aceptados como prerequisito lógico.
+- `repo_DevPilot_Local_76.zip` como baseline vigente.
+- Backlogs Fase A–E cerrados; Fase E validada por `FUNC-SPRINT-63`.
 - `docs/functional_backlog_after_precode.md` como modelo operativo.
 - `Informe de avance DevPilot - sprint 0 - 18.docx` como informe de estado y brechas.
 
@@ -400,7 +413,7 @@ python -m pytest -q
 Implementa FUNC-SPRINT-66: contrato API v1 y OpenAPI preliminar sin servidor real. Mapea cada endpoint a ApplicationService.
 ```
 
-# FUNC-SPRINT-67 — API local MVP read-only/dry-run
+## FUNC-SPRINT-67 — API local MVP read-only/dry-run
 
 ## Objetivo
 
@@ -408,8 +421,8 @@ Implementar una API local mínima, preferiblemente FastAPI si la ADR lo confirma
 
 ## Entradas
 
-- `repo_DevPilot_Local_22.zip` como baseline vigente.
-- Backlogs Fase A–D aprobados o explícitamente aceptados como prerequisito lógico.
+- `repo_DevPilot_Local_76.zip` como baseline vigente.
+- Backlogs Fase A–E cerrados; Fase E validada por `FUNC-SPRINT-63`.
 - `docs/functional_backlog_after_precode.md` como modelo operativo.
 - `Informe de avance DevPilot - sprint 0 - 18.docx` como informe de estado y brechas.
 
@@ -485,7 +498,7 @@ python -m pytest -q
 Implementa FUNC-SPRINT-67: API local MVP read-only/dry-run. Usa el stack decidido en la ADR, default localhost, ApplicationService obligatorio y tests HTTP.
 ```
 
-# FUNC-SPRINT-68 — Seguridad API local: token, CORS restringido y policy binding
+## FUNC-SPRINT-68 — Seguridad API local: token, CORS restringido y policy binding
 
 ## Objetivo
 
@@ -493,8 +506,8 @@ Agregar controles mínimos para que la API local no quede expuesta sin protecci�
 
 ## Entradas
 
-- `repo_DevPilot_Local_22.zip` como baseline vigente.
-- Backlogs Fase A–D aprobados o explícitamente aceptados como prerequisito lógico.
+- `repo_DevPilot_Local_76.zip` como baseline vigente.
+- Backlogs Fase A–E cerrados; Fase E validada por `FUNC-SPRINT-63`.
 - `docs/functional_backlog_after_precode.md` como modelo operativo.
 - `Informe de avance DevPilot - sprint 0 - 18.docx` como informe de estado y brechas.
 
@@ -569,7 +582,7 @@ python -m pytest -q
 Implementa FUNC-SPRINT-68: seguridad API local con token temporal, CORS restringido y policy binding. No implementes RBAC completo todavía.
 ```
 
-# FUNC-SPRINT-69 — Web UI MVP: dashboard workspace/readiness/MIASI
+## FUNC-SPRINT-69 — Web UI MVP: dashboard workspace/readiness/MIASI
 
 ## Objetivo
 
@@ -577,8 +590,8 @@ Construir una Web UI local mínima que consulte la API y muestre estado del work
 
 ## Entradas
 
-- `repo_DevPilot_Local_22.zip` como baseline vigente.
-- Backlogs Fase A–D aprobados o explícitamente aceptados como prerequisito lógico.
+- `repo_DevPilot_Local_76.zip` como baseline vigente.
+- Backlogs Fase A–E cerrados; Fase E validada por `FUNC-SPRINT-63`.
 - `docs/functional_backlog_after_precode.md` como modelo operativo.
 - `Informe de avance DevPilot - sprint 0 - 18.docx` como informe de estado y brechas.
 
@@ -654,7 +667,7 @@ python -m pytest -q
 Implementa FUNC-SPRINT-69: Web UI MVP con dashboard workspace/readiness/MIASI. Mantén UI read-only, API-only y sin acciones destructivas.
 ```
 
-# FUNC-SPRINT-70 — Report Viewer y Trace Viewer
+## FUNC-SPRINT-70 — Report Viewer y Trace Viewer
 
 ## Objetivo
 
@@ -662,8 +675,8 @@ Agregar vistas visuales para consultar reportes, findings, traces y métricas de
 
 ## Entradas
 
-- `repo_DevPilot_Local_22.zip` como baseline vigente.
-- Backlogs Fase A–D aprobados o explícitamente aceptados como prerequisito lógico.
+- `repo_DevPilot_Local_76.zip` como baseline vigente.
+- Backlogs Fase A–E cerrados; Fase E validada por `FUNC-SPRINT-63`.
 - `docs/functional_backlog_after_precode.md` como modelo operativo.
 - `Informe de avance DevPilot - sprint 0 - 18.docx` como informe de estado y brechas.
 
@@ -742,7 +755,7 @@ python -m pytest -q
 Implementa FUNC-SPRINT-70: Report Viewer y Trace Viewer sobre API local. No permitas lectura directa del filesystem desde la UI.
 ```
 
-# FUNC-SPRINT-71 — Approval Center y acciones dry-run desde UI
+## FUNC-SPRINT-71 — Approval Center y acciones dry-run desde UI
 
 ## Objetivo
 
@@ -750,8 +763,8 @@ Exponer aprobación humana y acciones dry-run seguras desde UI, sin habilitar ej
 
 ## Entradas
 
-- `repo_DevPilot_Local_22.zip` como baseline vigente.
-- Backlogs Fase A–D aprobados o explícitamente aceptados como prerequisito lógico.
+- `repo_DevPilot_Local_76.zip` como baseline vigente.
+- Backlogs Fase A–E cerrados; Fase E validada por `FUNC-SPRINT-63`.
 - `docs/functional_backlog_after_precode.md` como modelo operativo.
 - `Informe de avance DevPilot - sprint 0 - 18.docx` como informe de estado y brechas.
 
@@ -828,7 +841,7 @@ python -m pytest -q
 Implementa FUNC-SPRINT-71: Approval Center y acciones dry-run desde UI. Si ApprovalWorkflow aún no existe, expón estado disabled controlado, no mocks engañosos.
 ```
 
-# FUNC-SPRINT-72 — Settings UI: workspace, providers y políticas locales
+## FUNC-SPRINT-72 — Settings UI: workspace, providers y políticas locales
 
 ## Objetivo
 
@@ -836,8 +849,8 @@ Crear pantallas de configuración inicial para workspace, providers y policy en 
 
 ## Entradas
 
-- `repo_DevPilot_Local_22.zip` como baseline vigente.
-- Backlogs Fase A–D aprobados o explícitamente aceptados como prerequisito lógico.
+- `repo_DevPilot_Local_76.zip` como baseline vigente.
+- Backlogs Fase A–E cerrados; Fase E validada por `FUNC-SPRINT-63`.
 - `docs/functional_backlog_after_precode.md` como modelo operativo.
 - `Informe de avance DevPilot - sprint 0 - 18.docx` como informe de estado y brechas.
 
@@ -913,7 +926,7 @@ python -m pytest -q
 Implementa FUNC-SPRINT-72: Settings UI para workspace/providers/policy en modo seguro. No guardes secretos ni habilites externos por defecto.
 ```
 
-# FUNC-SPRINT-73 — Desktop shell preliminar y cierre Fase F
+## FUNC-SPRINT-73 — Desktop shell preliminar y cierre Fase F
 
 ## Objetivo
 
@@ -921,8 +934,8 @@ Cerrar la Fase F con un producto visual MVP y decidir/implementar shell desktop 
 
 ## Entradas
 
-- `repo_DevPilot_Local_22.zip` como baseline vigente.
-- Backlogs Fase A–D aprobados o explícitamente aceptados como prerequisito lógico.
+- `repo_DevPilot_Local_76.zip` como baseline vigente.
+- Backlogs Fase A–E cerrados; Fase E validada por `FUNC-SPRINT-63`.
 - `docs/functional_backlog_after_precode.md` como modelo operativo.
 - `Informe de avance DevPilot - sprint 0 - 18.docx` como informe de estado y brechas.
 
@@ -1000,6 +1013,6 @@ python -m pytest -q
 Implementa FUNC-SPRINT-73: cierre Fase F con Visual Product Quality Gate, reporte de cierre y shell desktop preliminar si la ADR lo aprueba. Mantén UI local y segura.
 ```
 
-# Cierre esperado de Fase F
+## Cierre esperado de Fase F
 
 Al cerrar Fase F, DevPilot debe disponer de una experiencia visual local mínima, respaldada por API local segura, ApplicationService v2, report/trace viewers, approval/settings iniciales y documentación de ejecución. La CLI debe seguir siendo una interfaz plenamente soportada.
