@@ -1,0 +1,137 @@
+{
+  "sprint": "FUNC-SPRINT-60",
+  "title": "Instrumentación agentic: agentes, tools, approvals y model calls",
+  "status": "implemented",
+  "implemented_at": "2026-06-13",
+  "phase": "FASE-E-AGENTOPS-OBSERVABILIDAD",
+  "wave": "Ola 8 — Observabilidad avanzada y AgentOps",
+  "source_backlog": "docs/devpilot_backlog_fase_E_agentops_observabilidad.md",
+  "architectural_decision": {
+    "required": false,
+    "adr": "docs/02_architecture/adrs/ADR-0012-observability-v2-agentops.md",
+    "reason": "FUNC-SPRINT-60 implementa la instrumentación agentic prevista por ADR-0012 y Fase E. No introduce exporters, red, telemetría remota ni dependencias externas, por lo que no requiere una ADR nueva."
+  },
+  "summary": {
+    "implementation_level": "implemented-initial",
+    "agentops_instrumentor_added": true,
+    "agent_runtime_instrumented": true,
+    "tool_calls_instrumented": true,
+    "policy_engine_instrumented": true,
+    "approval_workflow_instrumented": true,
+    "model_router_instrumented": true,
+    "spans_events_metrics_local": true,
+    "trace_query_cli_added": false,
+    "external_dependencies_added": false,
+    "remote_telemetry_enabled": false,
+    "network_required": false,
+    "external_api_used": false,
+    "functional_semantics_changed": false,
+    "next_runtime_sprint": "FUNC-SPRINT-61"
+  },
+  "created_files": [
+    "src/devpilot_core/observability/agentops.py",
+    "tests/test_agentops_instrumentation.py",
+    "docs/audits/func_sprint_60_agentic_instrumentation_audit.md",
+    "docs/functional_sprint_60_manifest.json",
+    "tests/test_sprint_60_documentation.py"
+  ],
+  "modified_files": [
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/05_operations/observability_plan.md",
+    "docs/06_miasi/observability_card.md",
+    "docs/devpilot_backlog_fase_E_agentops_observabilidad.md",
+    "docs/functional_backlog_after_precode.md",
+    "src/devpilot_core/agents/models.py",
+    "src/devpilot_core/agents/runtime.py",
+    "src/devpilot_core/approval/service.py",
+    "src/devpilot_core/modeling/router.py",
+    "src/devpilot_core/observability/__init__.py",
+    "src/devpilot_core/policy/engine.py",
+    "tests/test_sprint_32_documentation.py",
+    "tests/test_sprint_33_documentation.py",
+    "tests/test_sprint_34_documentation.py",
+    "tests/test_sprint_35_documentation.py",
+    "tests/test_sprint_36_documentation.py",
+    "tests/test_sprint_37_documentation.py",
+    "tests/test_sprint_38_documentation.py",
+    "tests/test_sprint_39_documentation.py",
+    "tests/test_sprint_40_documentation.py",
+    "tests/test_sprint_41_documentation.py",
+    "tests/test_sprint_42_documentation.py",
+    "tests/test_sprint_43_documentation.py",
+    "tests/test_sprint_44_documentation.py",
+    "tests/test_sprint_45_documentation.py",
+    "tests/test_sprint_46_documentation.py",
+    "tests/test_sprint_47_documentation.py",
+    "tests/test_sprint_48_documentation.py",
+    "tests/test_sprint_49_documentation.py",
+    "tests/test_sprint_50_documentation.py",
+    "tests/test_sprint_51_documentation.py",
+    "tests/test_sprint_52_documentation.py",
+    "tests/test_sprint_53_documentation.py",
+    "tests/test_sprint_54_documentation.py",
+    "tests/test_sprint_55_documentation.py",
+    "tests/test_sprint_56_documentation.py",
+    "tests/test_sprint_57_documentation.py",
+    "tests/test_sprint_58_documentation.py",
+    "tests/test_sprint_59_documentation.py"
+  ],
+  "commands": [
+    "python -m devpilot_core state init --json",
+    "python -m devpilot_core agent run documentation-audit --target docs/01_requirements --provider mock --json --write-report",
+    "python -m devpilot_core model generate --provider mock --prompt \"hello\" --json",
+    "python -m pytest tests/test_agentops_instrumentation.py -q",
+    "python -m pytest tests/test_agentops_instrumentation.py tests/test_agent_runtime.py tests/test_agent_runtime_v2.py tests/test_policy_engine.py tests/test_approval_cli.py tests/test_model_governance.py -q",
+    "python -m devpilot_core validate-artifact docs/audits/func_sprint_60_agentic_instrumentation_audit.md --json",
+    "python -m devpilot_core schema validate-manifest docs/functional_sprint_60_manifest.json --json",
+    "python -m devpilot_core validate all --json",
+    "python -m pytest -q"
+  ],
+  "tests": [
+    "tests/test_agentops_instrumentation.py",
+    "tests/test_agent_runtime.py",
+    "tests/test_agent_runtime_v2.py",
+    "tests/test_policy_engine.py",
+    "tests/test_approval_cli.py",
+    "tests/test_model_governance.py",
+    "tests/test_sprint_60_documentation.py",
+    "schema validate-manifest",
+    "validate all",
+    "pytest -q"
+  ],
+  "pass_criteria": [
+    "AgentRuntime genera trace correlacionable.",
+    "AgentToolCall incluye tool_call_id y produce tool.call spans.",
+    "PolicyEngine produce policy.check spans/eventos/métricas.",
+    "ApprovalService produce approval.workflow spans/eventos/métricas.",
+    "ModelAdapterRouter produce model.call spans y métricas provider/model/task.",
+    "No se registran prompts, completions, secretos, diffs, stdout o stderr crudos.",
+    "La observabilidad es best-effort y no cambia comportamiento funcional."
+  ],
+  "block_criteria": [
+    "Se registran prompts, completions, diffs, patches, stdout/stderr o secretos crudos.",
+    "La instrumentación altera ok/exit_code/message de CommandResult.",
+    "Se introduce dependencia externa obligatoria o telemetría remota.",
+    "Agentes no implementados generan trazas inconsistentes.",
+    "Se habilita multiagente, handoffs, RAG, MCP o ejecución remota fuera de alcance."
+  ],
+  "risks": [
+    {
+      "id": "RISK-FUNC-60-001",
+      "risk": "Acoplar demasiado runtime y observabilidad",
+      "mitigation": "AgentOpsInstrumentor funciona como fachada best-effort y no como dependencia funcional obligatoria."
+    },
+    {
+      "id": "RISK-FUNC-60-002",
+      "risk": "Datos sensibles en spans",
+      "mitigation": "Se reutiliza redacción de spans/métricas y se excluyen payloads crudos."
+    },
+    {
+      "id": "RISK-FUNC-60-003",
+      "risk": "Ruido excesivo",
+      "mitigation": "La consulta y filtros operativos quedan para Sprint 61."
+    }
+  ],
+  "next_sprint": "FUNC-SPRINT-61 — CLI de trazas y métricas: trace report, trace inspect, metrics summary"
+}

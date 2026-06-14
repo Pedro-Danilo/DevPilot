@@ -2,7 +2,7 @@
 title: "Observability Plan — DevPilot Local"
 doc_id: "DEVPL-OPS-001"
 status: "approved"
-version: "1.3.0"
+version: "1.4.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
@@ -301,3 +301,19 @@ Reglas de seguridad:
 - no activar exporter, OpenTelemetry SDK ni telemetría remota.
 
 Esta versión no entrega todavía `metrics summary` como CLI pública. La consulta programática queda disponible mediante `MetricsCollector.summary()` y se expondrá por CLI en Sprint 61.
+
+
+## 20. Actualización FUNC-SPRINT-60 — Instrumentación agentic
+
+`FUNC-SPRINT-60` implementa la instrumentación FE-L3: agentes, tools, policy checks, approvals y model calls producen spans/métricas/eventos locales. La decisión mantiene el modelo local-first de `ADR-0012`: no hay exporter remoto, no hay OpenTelemetry SDK obligatorio y no se agregan dependencias externas.
+
+Señales nuevas o consolidadas:
+
+- `agent.run` para ejecuciones monoagente gobernadas.
+- `tool.call` para operaciones declaradas por `AgentToolCall`.
+- `policy.check` para decisiones de `PolicyEngine`.
+- `approval.workflow` para request/approve/deny/revoke.
+- `model.call` para llamadas de `ModelAdapterRouter`.
+- Métricas por categorías `agent`, `tool`, `policy`, `approval` y `model`.
+
+Todas las señales son best-effort, redacted y locales. Si la persistencia de observabilidad falla, el resultado funcional del comando no debe cambiar. La consulta operacional queda pendiente para `FUNC-SPRINT-61`.

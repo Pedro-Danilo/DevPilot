@@ -2,13 +2,13 @@
 title: "DevPilot Local — Backlog ejecutable Fase E: AgentOps y observabilidad"
 doc_id: "DEVPL-FUNC-BACKLOG-FASE-E-001"
 status: "approved"
-version: "0.5.0"
+version: "0.6.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
 phase: "FASE-E-AGENTOPS-OBSERVABILIDAD"
 updated: "2026-06-13"
-source_repo: "repo_DevPilot_Local_70.zip"
+source_repo: "repo_DevPilot_Local_71.zip"
 source_report: "Informe de avance DevPilot - sprint 0 - 18.docx"
 source_backlog_model: "docs/functional_backlog_after_precode.md"
 baseline_dependency: "Fases A, B, C y D cerradas; Fase D validada por FUNC-SPRINT-55"
@@ -18,9 +18,9 @@ change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "phase_e_executable_backlog_review"
 approved_on: "2026-06-13"
 approval: "approved_after_phase_d_closure_review"
-first_open_sprint: "FUNC-SPRINT-60"
-last_completed_sprint: "FUNC-SPRINT-59"
-next_sprint: "FUNC-SPRINT-60"
+first_open_sprint: "FUNC-SPRINT-61"
+last_completed_sprint: "FUNC-SPRINT-60"
+next_sprint: "FUNC-SPRINT-61"
 phase_e_status: "in_progress"
 ---
 
@@ -615,6 +615,16 @@ python -m pytest -q
 ```text
 Implementa FUNC-SPRINT-60: instrumentación agentic de AgentRuntime, PolicyEngine y ModelAdapter. No cambies la lógica funcional; solo añade trazas, métricas y pruebas.
 ```
+
+
+
+## Estado de implementación Sprint 60
+
+`FUNC-SPRINT-60 — Instrumentación agentic: agentes, tools, approvals y model calls` queda implementado en estado `implemented-initial`. La implementación conecta `AgentOpsInstrumentor` con `AgentRuntime`, `AgentToolCall`, `PolicyEngine`, `ApprovalService` y `ModelAdapterRouter`, produciendo spans, eventos y métricas locales correlacionadas mediante `TraceContext`, `trace_id`, `run_id`, `agent_run_id`, `span_id` y `tool_call_id`.
+
+La capacidad no entrega todavía CLI pública para consultar trazas/métricas ni árbol de spans; esa consulta queda para `FUNC-SPRINT-61`. Tampoco habilita OpenTelemetry remoto, exporters activos, dashboard visual, multiagente funcional, RAG, MCP ni ejecución remota. La instrumentación es best-effort: nunca debe modificar el resultado funcional de los comandos.
+
+Siguiente sprint operativo: `FUNC-SPRINT-61 — CLI de trazas y métricas: trace report, trace inspect, metrics summary`.
 
 ## FUNC-SPRINT-61 — CLI de trazas y métricas: trace report, trace inspect, metrics summary
 

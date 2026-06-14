@@ -144,7 +144,9 @@ class ApprovalService:
                 metadata={"source": "approval-cli", "sprint": "FUNC-SPRINT-29", **(data.metadata or {})},
             )
         )
-        return _redact_command_result(_rename_command(result, "approval request"))
+        redacted = _redact_command_result(_rename_command(result, "approval request"))
+        self._record_approval_observability(redacted, operation="request", subject=data.subject)
+        return redacted
 
     def list(self, *, status: str | None = None, tool_id: str | None = None, action: str | None = None, limit: int = 100) -> CommandResult:
         result = self.store.list(status=status, tool_id=tool_id, action=action, limit=limit)
@@ -198,7 +200,32 @@ class ApprovalService:
                 metadata={"source": "approval-cli", "sprint": "FUNC-SPRINT-29", "command": command},
             )
         )
-        return _redact_command_result(_rename_command(result, command))
+        redacted = _redact_command_result(_rename_command(result, command))
+        self._record_approval_observability(redacted, operation=status, approval_id=approval_id)
+        return redacted
+
+    def _record_approval_observability(
+        self,
+        result: CommandResult,
+        *,
+        operation: str,
+        approval_id: str | None = None,
+        subject: str | None = None,
+    ) -> None:
+        """Record Sprint 60 approval workflow observability best-effort."""
+
+        try:
+            from devpilot_core.observability.agentops import AgentOpsInstrumentor
+
+            AgentOpsInstrumentor(self.root).record_approval_result(
+                result=result,
+                operation=operation,
+                approval_id=approval_id,
+                subject=subject,
+                metadata={"component": "ApprovalService", "payload_redacted": True},
+            )
+        except Exception:
+            return
 
 
 def _rename_command(result: CommandResult, command: str) -> CommandResult:

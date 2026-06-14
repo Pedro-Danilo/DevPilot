@@ -421,7 +421,7 @@ class GitAdapter:
         )
 
     def _preflight(self, *, command: str) -> CommandResult | None:
-        policy_result = PolicyEngine(self.root).evaluate(PolicyRequest(action="read", path="."))
+        policy_result = PolicyEngine(self.root, observability_enabled=False).evaluate(PolicyRequest(action="read", path="."))
         if not policy_result.ok:
             return CommandResult(
                 command=command,

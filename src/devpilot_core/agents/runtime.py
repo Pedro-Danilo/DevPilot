@@ -18,6 +18,7 @@ from devpilot_core.agents.security_agent import SecurityAgent
 from devpilot_core.agents.test_planner_agent import TestPlannerAgent
 from devpilot_core.cli_models import CommandResult, ExitCode, Finding, Severity
 from devpilot_core.miasi import AgentSpec, MiasiRegistryValidator
+from devpilot_core.observability.agentops import AgentOpsInstrumentor, safe_record_agent_result
 from devpilot_core.policy import PolicyEngine, PolicyRequest
 from devpilot_core.validators.artifact import validate_artifact_file
 from devpilot_core.validators.checklist import validate_precode_checklist
@@ -202,6 +203,11 @@ class AgentRuntime:
             fallback_to_mock=fallback_to_mock,
             timeout_seconds=timeout_seconds,
         )
+        trace_context = AgentOpsInstrumentor(self.root).start_trace(
+            command="agent run",
+            agent_id=spec.agent_id,
+            metadata={"requested_agent": requested_agent, "sprint": "FUNC-SPRINT-60"},
+        )
         message = AgentMessage(
             agent_id=spec.agent_id,
             target=target,
@@ -214,9 +220,11 @@ class AgentRuntime:
                 "handoffs_enabled": False,
                 "model_runtime": model_runtime,
                 "patch_file": patch_file,
+                "agentops": trace_context.to_dict(),
             },
         )
         result = self._agents[spec.agent_id].run(message)
+        agentops_metadata = safe_record_agent_result(self.root, context=trace_context, result=result)
         result = AgentRunResult(
             agent_id=result.agent_id,
             agent_name=spec.name,
@@ -235,6 +243,7 @@ class AgentRuntime:
                 "model_runtime_enabled": bool(model_runtime.get("enabled")),
                 "monoagent": True,
                 "handoffs_enabled": False,
+                "agentops": agentops_metadata,
                 **result.metadata,
             },
         )

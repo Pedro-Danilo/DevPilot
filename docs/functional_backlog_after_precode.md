@@ -2,7 +2,7 @@
 title: "DevPilot Local — Backlog ejecutable posterior a pre-code"
 doc_id: "DEVPL-FUNC-BACKLOG-001"
 status: "approved"
-version: "3.5.0"
+version: "3.6.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
@@ -14,7 +14,7 @@ change_policy: "controlled_changes_allowed_via_docs_as_code"
 approved_on: "2026-06-06"
 approval_scope: "functional_backlog_after_precode"
 baseline_execution: "FUNC-SPRINT-00"
-next_sprint: "FUNC-SPRINT-60"
+next_sprint: "FUNC-SPRINT-61"
 ---
 
 # DevPilot Local — Backlog ejecutable posterior a pre-code
@@ -2195,3 +2195,10 @@ El siguiente sprint operativo es `FUNC-SPRINT-59 — MetricsCollector para coman
 ## Transición posterior a FUNC-SPRINT-59
 
 `FUNC-SPRINT-59` agrega la capa inicial de métricas locales de AgentOps mediante `MetricRecord`, `MetricsCollector`, extensión de `LocalStore` y registro best-effort de comandos/model calls mock. El siguiente sprint operativo es `FUNC-SPRINT-60 — Instrumentación agentic: agentes, tools, approvals y model calls`, que deberá conectar estas métricas y spans con el runtime agentic real sin cambiar semántica funcional ni persistir payloads crudos.
+
+
+## Transición posterior a FUNC-SPRINT-60
+
+`FUNC-SPRINT-60` conecta la observabilidad local con la superficie agentic real de DevPilot. Desde este sprint, AgentRuntime, tool calls, policy checks, approvals y model calls generan evidencia local best-effort mediante spans, eventos y métricas correlacionadas.
+
+La transición hacia `FUNC-SPRINT-61` queda condicionada a exponer consulta operacional segura: `trace report`, `trace inspect` y `metrics summary`, sin requerir UI, sin servicios externos, sin exponer secretos y manteniendo respuestas controladas cuando no existan trazas.

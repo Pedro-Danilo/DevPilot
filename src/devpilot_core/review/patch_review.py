@@ -96,7 +96,7 @@ class PatchReviewEngine:
         if patch_file:
             patch_path = Path(patch_file)
             source = _display_path(patch_path, self.root)
-            policy = PolicyEngine(self.root).evaluate(PolicyRequest(action="read", path=str(patch_file)))
+            policy = PolicyEngine(self.root, observability_enabled=False).evaluate(PolicyRequest(action="read", path=str(patch_file)))
             if not policy.ok:
                 return CommandResult(
                     command="patch-review",
@@ -147,7 +147,7 @@ class PatchReviewEngine:
     def _review_change(self, change: PatchFileChange, findings: list[Finding]) -> None:
         target_paths = [path for path in (change.old_path, change.new_path) if path and path != "/dev/null"]
         for path in sorted(set(target_paths)):
-            policy = PolicyEngine(self.root).evaluate(PolicyRequest(action="read", path=path))
+            policy = PolicyEngine(self.root, observability_enabled=False).evaluate(PolicyRequest(action="read", path=path))
             if not policy.ok:
                 findings.append(
                     Finding(

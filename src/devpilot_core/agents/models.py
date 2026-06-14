@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import uuid
 from dataclasses import dataclass, field
 from typing import Any
 
@@ -43,9 +44,11 @@ class AgentToolCall:
     policy_exit_code: int
     findings: list[Finding] = field(default_factory=list)
     metadata: dict[str, Any] = field(default_factory=dict)
+    tool_call_id: str = field(default_factory=lambda: f"toolcall_{uuid.uuid4().hex}")
 
     def to_dict(self) -> dict[str, Any]:
         payload: dict[str, Any] = {
+            "tool_call_id": self.tool_call_id,
             "tool_id": self.tool_id,
             "action": self.action,
             "subject": self.subject,
@@ -87,6 +90,7 @@ class AgentModelCall:
     raw_prompt_stored: bool = False
     raw_output_stored: bool = False
     metadata: dict[str, Any] = field(default_factory=dict)
+    tool_call_id: str = field(default_factory=lambda: f"toolcall_{uuid.uuid4().hex}")
 
     def to_dict(self) -> dict[str, Any]:
         payload: dict[str, Any] = {
@@ -123,6 +127,7 @@ class AgentSuggestion:
     target: str | None = None
     severity: str = "info"
     metadata: dict[str, Any] = field(default_factory=dict)
+    tool_call_id: str = field(default_factory=lambda: f"toolcall_{uuid.uuid4().hex}")
 
     def to_dict(self) -> dict[str, Any]:
         payload: dict[str, Any] = {
@@ -152,6 +157,7 @@ class AgentRunResult:
     suggestions: list[AgentSuggestion] = field(default_factory=list)
     artifacts: dict[str, Any] = field(default_factory=dict)
     metadata: dict[str, Any] = field(default_factory=dict)
+    tool_call_id: str = field(default_factory=lambda: f"toolcall_{uuid.uuid4().hex}")
 
     def to_dict(self) -> dict[str, Any]:
         return {

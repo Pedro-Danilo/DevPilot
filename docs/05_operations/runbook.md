@@ -2,7 +2,7 @@
 title: "Runbook — DevPilot Local"
 doc_id: "DEVPL-OPS-002"
 status: "approved"
-version: "1.20.0"
+version: "1.21.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
@@ -3479,3 +3479,47 @@ python -m pytest tests/test_trace_store.py tests/test_event_logger.py tests/test
 | Confusión entre costo estimado y real | Controlado | Campo `estimated=true` y costo mock `0.0`. |
 | Métricas agentic incompletas | Pendiente | Sprint 60 instrumentará runtime, policies, approvals y model calls. |
 | Sin CLI pública de métricas | Por diseño | Sprint 61 expondrá `metrics summary`/reportes. |
+
+
+## FUNC-SPRINT-60 — Operación de instrumentación AgentOps agentic
+
+### Propósito
+
+`FUNC-SPRINT-60` conecta la observabilidad v2 con la superficie agentic real de DevPilot: `AgentRuntime`, tool calls, policy checks, approval workflow y model calls. La instrumentación es local, best-effort y no altera la semántica funcional de los comandos.
+
+### Verificación específica
+
+```powershell
+python -m devpilot_core state init --json
+python -m devpilot_core agent run documentation-audit --target docs/01_requirements --provider mock --json --write-report
+python -m devpilot_core model generate --provider mock --prompt "hello" --json
+python -m pytest tests/test_agentops_instrumentation.py -q
+python -m pytest tests/test_agentops_instrumentation.py tests/test_agent_runtime.py tests/test_agent_runtime_v2.py tests/test_policy_engine.py tests/test_approval_cli.py tests/test_model_governance.py -q
+```
+
+### Funcionamiento operativo
+
+- `AgentRuntime` crea un `TraceContext` por agent run y persiste spans `agent.run`, `tool.call`, `policy.check` y `model.call` cuando existen.
+- `AgentToolCall` incluye `tool_call_id` para correlación.
+- `PolicyEngine` registra `policy.check` best-effort.
+- `ApprovalService` registra `approval.workflow` para request/approve/deny/revoke.
+- `ModelAdapterRouter` registra `model.call` y métricas del proveedor `mock` y rutas bloqueadas/controladas.
+
+### Criterios PASS
+
+- Spans y métricas se persisten localmente en SQLite.
+- Los datos sensibles se redactorizan.
+- `mock` sigue siendo hermético y sin costo externo.
+- No se requiere OpenTelemetry SDK ni red.
+- La instrumentación no cambia `CommandResult` funcional salvo metadatos adicionales redacted.
+
+### Criterios BLOCK
+
+- Se exponen prompts, completions, secretos, diffs, stdout o stderr crudos.
+- La observabilidad provoca que un comando funcional falle.
+- Se habilita telemetría remota o exporter activo.
+- Se introduce dependencia externa obligatoria.
+
+### Riesgos
+
+Esta es una primera versión `implemented-initial`: genera evidencia consultable en SQLite, pero todavía falta CLI pública `trace report`, `trace inspect` y `metrics summary`. También falta política de retención y ajuste fino de ruido operacional.

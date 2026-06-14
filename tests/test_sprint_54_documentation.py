@@ -21,8 +21,8 @@ def test_sprint_54_readme_runbook_backlog_and_strategy_are_synchronized() -> Non
     functional_backlog = _read("docs/functional_backlog_after_precode.md")
     test_strategy = _read("docs/04_quality/test_strategy.md")
 
-    assert "Último hito: `FUNC-SPRINT-59" in readme
-    assert "Siguiente hito: `FUNC-SPRINT-60" in readme
+    assert "Último hito: `FUNC-SPRINT-60" in readme
+    assert "Siguiente hito: `FUNC-SPRINT-61" in readme
     assert "## FUNC-SPRINT-54 — SafeRefactorAgent y TestPlannerAgent gobernados" in readme
     assert "python -m devpilot_core agent run safe-refactor" in runbook
     assert "python -m devpilot_core agent run test-planner" in runbook
@@ -31,7 +31,7 @@ def test_sprint_54_readme_runbook_backlog_and_strategy_are_synchronized() -> Non
     assert 'last_completed_sprint: "FUNC-SPRINT-55"' in backlog
     assert 'next_sprint: "FUNC-SPRINT-56"' in backlog
     assert "## Estado de implementación Sprint 54" in backlog
-    assert 'next_sprint: "FUNC-SPRINT-60"' in functional_backlog
+    assert 'next_sprint: "FUNC-SPRINT-61"' in functional_backlog
     assert "## Transición posterior a FUNC-SPRINT-54" in functional_backlog
     assert "## Actualización FUNC-SPRINT-54 — Pruebas de SafeRefactorAgent y TestPlannerAgent gobernados" in test_strategy
 

@@ -211,3 +211,16 @@ Esta card queda en versión `1.1.0` como contrato inicial. No equivale a un dash
 | Model | provider/model/task/tokens/costo estimado | mock instrumentado |
 
 Criterio BLOCK MIASI: ninguna métrica puede persistir prompt completo, completion cruda, argumentos sensibles, secretos, diffs, patches o salida de proceso. `cost_estimate_usd` y `tokens_estimated` deben tratarse como estimaciones salvo que un proveedor futuro entregue medición confiable y aprobada.
+
+
+## FUNC-SPRINT-60 — Señales agentic instrumentadas
+
+La tarjeta MIASI de observabilidad queda extendida con instrumentación runtime `implemented-initial` para:
+
+- `AgentRuntime`: span `agent.run`, métrica `devpilot.agent.run_total` y metadatos `trace_id`/`run_id`/`agent_run_id`.
+- `AgentToolCall`: `tool_call_id`, span `tool.call` y métrica `devpilot.tool.call_total`.
+- `PolicyEngine`: span/evento `policy.check` y métrica `devpilot.policy.check_total`.
+- `ApprovalService`: span/evento `approval.workflow` y métrica `devpilot.approval.<operation>_total`.
+- `ModelAdapterRouter`: span/evento `model.call` y métricas de provider/model/task/tokens/costo estimado.
+
+Restricciones vigentes: redacción obligatoria, `mock` como ruta hermética, telemetría remota bloqueada, exporters desactivados, sin multiagente funcional y sin cambios funcionales por fallos de observabilidad.

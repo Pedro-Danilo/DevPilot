@@ -175,7 +175,7 @@ class PatchPreflightEngine:
                     findings=[Finding("PATCH_PREFLIGHT_PATCH_FILE_REQUIRED", "Patch preflight requires a patch file source.", Severity.BLOCK)],
                 ),
             )
-        policy = PolicyEngine(self.root).evaluate(
+        policy = PolicyEngine(self.root, observability_enabled=False).evaluate(
             PolicyRequest(
                 action="read",
                 path=patch_file,

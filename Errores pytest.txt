@@ -1,0 +1,100 @@
+(.venv) PS D:\Projects\DevPilot_Local> pytest -q
+................................................................................................F........................................... [ 28%]
+..........F...........................................................................................F..................................... [ 56%]
+............................................................................................................................................ [ 84%]
+............................................................................                                                                 [100%]
+==================================================================== FAILURES =====================================================================
+_____________________________________________ test_git_adapter_v2_branches_tags_and_log_are_read_only _____________________________________________
+
+tmp_path = WindowsPath('C:/Users/Pedro/AppData/Local/Temp/pytest-of-Pedro/pytest-282/test_git_adapter_v2_branches_t0')
+
+    def test_git_adapter_v2_branches_tags_and_log_are_read_only(tmp_path: Path) -> None:
+        repo = _init_repo(tmp_path)
+        adapter = GitAdapter(repo)
+
+        branches = adapter.branches()
+        tags = adapter.tags()
+        log = adapter.log(limit=5)
+
+        assert branches.ok
+        assert tags.ok
+        assert log.ok
+        assert any(branch["name"] in {"master", "main"} for branch in branches.data["branches"])
+        assert any(branch["name"] == "feature/read-only" for branch in branches.data["branches"])
+        assert tags.data["tags"][0]["name"] == "v0.1.0"
+        assert log.data["summary"]["commits_total"] >= 1
+        assert log.data["commits"][0]["subject"] == "initial commit"
+
+        status_after = subprocess.run(["git", "status", "--short"], cwd=repo, check=True, text=True, capture_output=True).stdout
+>       assert status_after == ""
+E       AssertionError: assert '?? .devpilot/\n' == ''
+E
+E         + ?? .devpilot/
+
+tests\test_git_adapter_v2.py:49: AssertionError
+_____________________________________ test_patch_preflight_passes_applicable_patch_without_modifying_worktree _____________________________________
+
+tmp_path = WindowsPath('C:/Users/Pedro/AppData/Local/Temp/pytest-of-Pedro/pytest-282/test_patch_preflight_passes_ap0')
+
+    def test_patch_preflight_passes_applicable_patch_without_modifying_worktree(tmp_path: Path) -> None:
+        _git_fixture(tmp_path)
+        _write(tmp_path / "change.patch", _safe_patch())
+        before = (tmp_path / "hello.txt").read_text(encoding="utf-8")
+        status_before = subprocess.run(["git", "status", "--short"], cwd=tmp_path, check=True, capture_output=True, text=True).stdout
+
+        result = PatchPreflightEngine(tmp_path).check(patch_file="change.patch")
+
+        status_after = subprocess.run(["git", "status", "--short"], cwd=tmp_path, check=True, capture_output=True, text=True).stdout
+        assert result.ok is True
+        assert result.exit_code == ExitCode.PASS
+        assert result.data["summary"]["applies"] is True
+        assert result.data["summary"]["apply_check_executed"] is True
+        assert result.data["summary"]["working_tree_unchanged"] is True
+        assert result.data["summary"]["patch_applied"] is False
+        assert result.data["summary"]["mutations_performed"] is False
+        assert (tmp_path / "hello.txt").read_text(encoding="utf-8") == before
+>       assert status_after == status_before
+E       AssertionError: assert '?? .devpilot...hange.patch\n' == '?? change.patch\n'
+E
+E         + ?? .devpilot/
+E           ?? change.patch
+
+tests\test_patch_preflight.py:69: AssertionError
+____________________________________________ test_git_adapter_status_is_read_only_and_reports_changes _____________________________________________
+
+tmp_path = WindowsPath('C:/Users/Pedro/AppData/Local/Temp/pytest-of-Pedro/pytest-282/test_git_adapter_status_is_rea0')
+
+    @pytest.mark.skipif(shutil.which("git") is None, reason="git executable not available")
+    def test_git_adapter_status_is_read_only_and_reports_changes(tmp_path: Path) -> None:
+        _minimal_workspace(tmp_path)
+        _run_git(tmp_path, "init")
+        (tmp_path / "tracked.txt").write_text("v1\n", encoding="utf-8")
+        _run_git(tmp_path, "add", "tracked.txt")
+        _run_git(tmp_path, "-c", "user.email=test@example.com", "-c", "user.name=Test", "commit", "-m", "initial")
+        (tmp_path / "tracked.txt").write_text("v2\n", encoding="utf-8")
+        (tmp_path / "untracked.txt").write_text("new\n", encoding="utf-8")
+
+        before = subprocess.run(["git", "status", "--short"], cwd=tmp_path, text=True, capture_output=True, check=True).stdout
+        result = GitAdapter(tmp_path).status()
+        after = subprocess.run(["git", "status", "--short"], cwd=tmp_path, text=True, capture_output=True, check=True).stdout
+
+        assert result.ok is True
+        assert result.exit_code == ExitCode.PASS
+        assert result.data["summary"]["is_git_repo"] is True
+        assert result.data["summary"]["counts"]["modified"] >= 1
+        assert result.data["summary"]["counts"]["untracked"] >= 1
+>       assert before == after
+E       AssertionError: assert ' M tracked.t...tracked.txt\n' == ' M tracked.t...tracked.txt\n'
+E
+E            M tracked.txt
+E         - ?? .devpilot/
+E           ?? pyproject.toml
+E           ?? untracked.txt
+
+tests\test_repo_tools.py:43: AssertionError
+DEVPL TEST SUMMARY: 493 passed, 3 failed, 0 errors, 0 skipped
+============================================================= short test summary info =============================================================
+FAILED tests/test_git_adapter_v2.py::test_git_adapter_v2_branches_tags_and_log_are_read_only - AssertionError: assert '?? .devpilot/\n' == ''
+FAILED tests/test_patch_preflight.py::test_patch_preflight_passes_applicable_patch_without_modifying_worktree - AssertionError: assert '?? .devpilot...hange.patch\n' == '?? change.patch\n'
+FAILED tests/test_repo_tools.py::test_git_adapter_status_is_read_only_and_reports_changes - AssertionError: assert ' M tracked.t...tracked.txt\n' == ' M tracked.t...tracked.txt\n'
+(.venv) PS D:\Projects\DevPilot_Local>

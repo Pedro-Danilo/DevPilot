@@ -1,8 +1,8 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
 Estado actual: `baseline pre-code approved + Fase A cerrada + Fase B cerrada + Fase C cerrada + Fase D cerrada + Fase E en progreso`  
-Último hito: `FUNC-SPRINT-59 — MetricsCollector para comandos, agentes, tools y modelos`  
-Siguiente hito: `FUNC-SPRINT-60 — Instrumentación agentic: agentes, tools, approvals y model calls`  
+Último hito: `FUNC-SPRINT-60 — Instrumentación agentic: agentes, tools, approvals y model calls`  
+Siguiente hito: `FUNC-SPRINT-61 — CLI de trazas y métricas: trace report, trace inspect, metrics summary`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
@@ -1755,3 +1755,21 @@ Capacidades habilitadas:
 - cierre formal de Fase D mediante `docs/audits/phase_d_local_ai_governance_closure_report.md` y `docs/phase_d_manifest.json`.
 
 Estado: `implemented-initial`. Estos agentes no editan documentos, no aprueban gates, no habilitan multiagente, no ejecutan acciones destructivas y no usan APIs externas. Su evolución industrial debe incorporar mejor scoring semántico, trazas AgentOps v2, reportes persistidos por agente y eventual aprobación humana para flujos de corrección.
+
+
+## FUNC-SPRINT-60 — Instrumentación agentic: agentes, tools, approvals y model calls
+
+`FUNC-SPRINT-60` implementa el nivel FE-L3 de Fase E: instrumentación local-first de operaciones agentic reales. La implementación agrega `AgentOpsInstrumentor` como fachada best-effort sobre `TraceStore` y `MetricsCollector`, conecta `AgentRuntime`, `AgentToolCall`, `PolicyEngine`, `ApprovalService` y `ModelAdapterRouter`, y persiste spans/eventos/métricas correlacionadas sin alterar la semántica funcional.
+
+Estado: `implemented-initial`. Esta versión permite reconstruir ejecuciones agentic desde SQLite mediante `trace_id`, `run_id`, `agent_run_id`, `tool_call_id`, spans `agent.run`, `tool.call`, `policy.check`, `approval.workflow` y `model.call`. Todavía no expone CLI pública para consultar trazas ni métricas; esa capacidad queda para `FUNC-SPRINT-61`.
+
+Comandos principales:
+
+```powershell
+python -m devpilot_core agent run documentation-audit --target docs/01_requirements --provider mock --json --write-report
+python -m devpilot_core model generate --provider mock --prompt "hello" --json
+python -m pytest tests/test_agentops_instrumentation.py -q
+python -m devpilot_core validate all --json
+```
+
+PASS: agent runs generan trace correlacionable, tool calls producen spans, policy decisions quedan observables, approval workflow emite spans/eventos/métricas, ModelAdapterRouter emite `model.call` y la observabilidad se mantiene best-effort. BLOCK: registrar prompts/secretos/completions/stdout/stderr crudos, habilitar telemetría remota, introducir dependencias externas obligatorias, cambiar resultados funcionales o activar multiagente/handoffs fuera de alcance.

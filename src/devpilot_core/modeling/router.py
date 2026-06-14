@@ -389,7 +389,7 @@ class ModelAdapterRouter:
             "notes": [
                 "ModelAdapterRouter enforced provider registry, local guards and CostGuard before provider execution.",
                 "No external API was called and no API key was required.",
-                "FUNC-SPRINT-59 records local model metrics best-effort without changing model-call semantics.",
+                "FUNC-SPRINT-59 records local model metrics and FUNC-SPRINT-60 records model-call spans/events best-effort without changing model-call semantics.",
             ],
         }
         result = CommandResult(
@@ -411,24 +411,24 @@ class ModelAdapterRouter:
         return result
 
     def _record_model_metric(self, result: CommandResult, call_result: ModelCallResult) -> None:
-        """Record best-effort model metrics without making observability mandatory."""
+        """Record Sprint 60 model observability without making it mandatory."""
 
         try:
-            from devpilot_core.observability.metrics import MetricsCollector
+            from devpilot_core.observability.agentops import AgentOpsInstrumentor
 
-            MetricsCollector(self.root).record_model_result(
-                result,
+            AgentOpsInstrumentor(self.root).record_model_result(
+                result=result,
                 provider=call_result.provider,
                 model=call_result.model,
                 task=call_result.task.value,
-                metadata={"component": "ModelAdapterRouter", "provider_kind": str(call_result.provider)},
+                metadata={"component": "ModelAdapterRouter", "provider_kind": str(call_result.provider), "payload_redacted": True},
             )
         except Exception:
             return
 
     def _adapter_failure_result(self, call_result: ModelCallResult, provider_payload: dict, policy_result: CommandResult) -> CommandResult:
         task = call_result.task.value
-        return CommandResult(
+        result = CommandResult(
             command=f"model {task}",
             ok=False,
             exit_code=ExitCode.BLOCK,
@@ -465,9 +465,11 @@ class ModelAdapterRouter:
                 )
             ],
         )
+        self._record_model_metric(result, call_result)
+        return result
 
     def _blocked_placeholder(self, request: ModelCallRequest, provider_payload: dict, *, finding_id: str, message: str) -> CommandResult:
-        return CommandResult(
+        result = CommandResult(
             command=f"model {request.task.value}",
             ok=False,
             exit_code=ExitCode.BLOCK,
@@ -475,6 +477,7 @@ class ModelAdapterRouter:
             data={
                 "summary": {
                     "provider": provider_payload.get("provider_id"),
+                    "model": provider_payload.get("default_model"),
                     "task": request.task.value,
                     "external_api_used": False,
                     "cost_estimate_usd": 0.0,
@@ -488,6 +491,19 @@ class ModelAdapterRouter:
             },
             findings=[Finding(id=finding_id, message=message, severity=Severity.BLOCK)],
         )
+        try:
+            from devpilot_core.observability.agentops import AgentOpsInstrumentor
+
+            AgentOpsInstrumentor(self.root).record_model_result(
+                result=result,
+                provider=str(provider_payload.get("provider_id") or "unknown"),
+                model=provider_payload.get("default_model"),
+                task=request.task.value,
+                metadata={"component": "ModelAdapterRouter", "blocked_placeholder": True, "payload_redacted": True},
+            )
+        except Exception:
+            pass
+        return result
 
 
 def _estimate_tokens(value: str) -> int:

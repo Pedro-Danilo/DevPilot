@@ -66,8 +66,10 @@ class PolicyEngine:
         *,
         path_policy: PathPolicy | None = None,
         cost_policy: CostPolicy | None = None,
+        observability_enabled: bool = True,
     ) -> None:
         self.root = root.resolve()
+        self.observability_enabled = observability_enabled
         self.path_guard = PathGuard(self.root, policy=path_policy)
         self.secret_guard = SecretGuard()
         self.prompt_injection_guard = PromptInjectionGuard()
@@ -151,7 +153,7 @@ class PolicyEngine:
             "summary": summary,
             "decisions": [decision.to_dict() for decision in decisions],
         }
-        return CommandResult(
+        result = CommandResult(
             command="policy check",
             ok=ok,
             exit_code=exit_code,
@@ -159,3 +161,33 @@ class PolicyEngine:
             data=data,
             findings=findings,
         )
+        self._record_policy_observability(result, request)
+        return result
+
+    def _record_policy_observability(self, result: CommandResult, request: PolicyRequest) -> None:
+        """Record Sprint 60 policy observability best-effort.
+
+        Internal read-only engines can disable this projection to preserve the
+        stronger invariant that repository inspection/preflight calls never
+        create `.devpilot/` or any other worktree artifact in target repos.
+        """
+
+        if not self.observability_enabled:
+            return
+
+        try:
+            from devpilot_core.observability.agentops import AgentOpsInstrumentor
+
+            AgentOpsInstrumentor(self.root).record_policy_result(
+                result=result,
+                action=request.action,
+                subject=request.subject or request.path,
+                metadata={
+                    "component": "PolicyEngine",
+                    "tool_id": request.tool_id,
+                    "approval_id": request.approval_id,
+                    "payload_redacted": True,
+                },
+            )
+        except Exception:
+            return
