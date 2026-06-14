@@ -1,0 +1,106 @@
+{
+  "sprint": "FUNC-SPRINT-63",
+  "title": "AgentOps Quality Gate y cierre Fase E",
+  "status": "implemented",
+  "implemented_at": "2026-06-14",
+  "phase": "FASE-E-AGENTOPS-OBSERVABILIDAD",
+  "wave": "Ola 8 — Observabilidad avanzada y AgentOps",
+  "source_backlog": "docs/devpilot_backlog_fase_E_agentops_observabilidad.md",
+  "architectural_decision": {
+    "required": false,
+    "adr": "docs/02_architecture/adrs/ADR-0012-observability-v2-agentops.md",
+    "reason": "FUNC-SPRINT-63 materializa el cierre operativo de la observabilidad definida por ADR-0012. No habilita UI, telemetría remota, collectors ni nuevos límites arquitectónicos; consolida señales locales existentes en un quality gate."
+  },
+  "summary": {
+    "implementation_level": "implemented-initial",
+    "agentops_quality_gate_added": true,
+    "agentops_status_cli_added": true,
+    "phase_e_closure_report_added": true,
+    "miasi_tool_registered": true,
+    "miasi_policy_rule_added": true,
+    "required_vs_recommended_checks": true,
+    "external_dependencies_added": false,
+    "remote_telemetry_enabled": false,
+    "network_required": false,
+    "external_api_used": false,
+    "ui_required": false,
+    "phase_e_status": "closed",
+    "next_runtime_sprint": "FUNC-SPRINT-64"
+  },
+  "created_files": [
+    "tests/test_agentops_gate.py",
+    "tests/test_sprint_63_documentation.py",
+    "docs/audits/func_sprint_63_agentops_quality_gate_audit.md",
+    "docs/audits/phase_e_agentops_closure_report.md",
+    "docs/functional_sprint_63_manifest.json"
+  ],
+  "modified_files": [
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/05_operations/observability_plan.md",
+    "docs/06_miasi/observability_card.md",
+    "docs/06_miasi/tool_card.md",
+    "docs/06_miasi/policy_matrix.md",
+    "docs/devpilot_backlog_fase_E_agentops_observabilidad.md",
+    "docs/functional_backlog_after_precode.md",
+    ".devpilot/miasi/tool_registry.json",
+    ".devpilot/miasi/policy_matrix.json",
+    "src/devpilot_core/cli.py",
+    "src/devpilot_core/observability/__init__.py",
+    "src/devpilot_core/observability/agentops.py"
+  ],
+  "commands": [
+    "python -m devpilot_core agentops status --json --write-report",
+    "python -m devpilot_core agentops status --strict-runtime-signals --json",
+    "python -m devpilot_core trace report --json",
+    "python -m devpilot_core metrics summary --json",
+    "python -m devpilot_core telemetry export --format otlp --dry-run --json",
+    "python -m pytest tests/test_agentops_gate.py -q",
+    "python -m devpilot_core miasi validate --json",
+    "python -m devpilot_core validate all --json"
+  ],
+  "pass_criteria": [
+    "agentops status returns CommandResult",
+    "Reports written under outputs/reports when requested",
+    "Required controls and recommended signals are separated",
+    "MIASI declares agentops.status and AGENTOPS_STATUS_ALLOW",
+    "Phase E closure report exists",
+    "No network, external API, UI or remote telemetry required",
+    "Fase F entry criteria are documented"
+  ],
+  "block_criteria": [
+    "Missing Phase E closure report",
+    "Missing MIASI tool/policy declaration",
+    "Remote telemetry or collector required",
+    "UI required to run AgentOps status",
+    "Secrets/prompts/completions/stdout/stderr exposed",
+    "CommandResult contract broken"
+  ],
+  "risks": [
+    {
+      "id": "RISK-FUNC-63-001",
+      "risk": "Gate demasiado estricto para workspaces nuevos",
+      "mitigation": "Separar required controls de recommended runtime signals y exponer --strict-runtime-signals para cierre estricto."
+    },
+    {
+      "id": "RISK-FUNC-63-002",
+      "risk": "Cierre de Fase E confundido con dashboard completo",
+      "mitigation": "Documentar implemented-initial y dejar dashboard/API/UI para Fase F."
+    },
+    {
+      "id": "RISK-FUNC-63-003",
+      "risk": "Documentación dispersa de AgentOps",
+      "mitigation": "Crear phase_e_agentops_closure_report.md y sincronizar README/runbook/backlogs/MIASI."
+    }
+  ],
+  "next_sprint": "FUNC-SPRINT-64 — ADR UI/API local y threat model de interfaz",
+  "tests": [
+    "tests/test_agentops_gate.py",
+    "tests/test_sprint_63_documentation.py",
+    "schema validate-manifest",
+    "validate-artifact",
+    "miasi validate",
+    "validate all",
+    "pytest -q"
+  ]
+}

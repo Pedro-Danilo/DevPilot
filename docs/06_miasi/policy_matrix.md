@@ -44,3 +44,18 @@ baseline_role: "precode_approved_baseline"
 | `OTEL_REMOTE_EXPORT_BLOCK` | block | Bloquea endpoint remoto, collector externo o modo no dry-run. |
 
 Estas reglas mantienen la postura de no exfiltración de Fase E.
+
+
+## Actualización FUNC-SPRINT-63 — Regla `AGENTOPS_STATUS_ALLOW`
+
+La regla `AGENTOPS_STATUS_ALLOW` autoriza la ejecución local del comando `agentops status` como operación read-only/report.
+
+Condiciones:
+
+- solo lee evidencia local;
+- reportes únicamente bajo `outputs/reports`;
+- no usa red;
+- no requiere UI;
+- no habilita telemetría remota;
+- debe emitir `CommandResult`;
+- debe bloquear si MIASI o documentos de cierre obligatorios están ausentes.

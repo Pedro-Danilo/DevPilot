@@ -2,13 +2,13 @@
 title: "DevPilot Local — Backlog ejecutable Fase E: AgentOps y observabilidad"
 doc_id: "DEVPL-FUNC-BACKLOG-FASE-E-001"
 status: "approved"
-version: "0.8.0"
+version: "0.9.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
 phase: "FASE-E-AGENTOPS-OBSERVABILIDAD"
-updated: "2026-06-13"
-source_repo: "repo_DevPilot_Local_74.zip"
+updated: "2026-06-14"
+source_repo: "repo_DevPilot_Local_75.zip"
 source_report: "Informe de avance DevPilot - sprint 0 - 18.docx"
 source_backlog_model: "docs/functional_backlog_after_precode.md"
 baseline_dependency: "Fases A, B, C y D cerradas; Fase D validada por FUNC-SPRINT-55"
@@ -18,10 +18,10 @@ change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "phase_e_executable_backlog_review"
 approved_on: "2026-06-13"
 approval: "approved_after_phase_d_closure_review"
-first_open_sprint: "FUNC-SPRINT-63"
-last_completed_sprint: "FUNC-SPRINT-62"
-next_sprint: "FUNC-SPRINT-63"
-phase_e_status: "in_progress"
+first_open_sprint: "FUNC-SPRINT-64"
+last_completed_sprint: "FUNC-SPRINT-63"
+next_sprint: "FUNC-SPRINT-64"
+phase_e_status: "closed"
 ---
 
 # DevPilot Local — Backlog ejecutable Fase E: AgentOps y observabilidad
@@ -900,3 +900,27 @@ Al cerrar Fase E, DevPilot debe tener una capa AgentOps local suficientemente ro
 `FUNC-SPRINT-62 — Exporter OpenTelemetry opcional y dry-run` queda en estado `implemented-initial`. Se implementó `OTelDryRunExporter`, comando `telemetry export`, mapeo OTel-like local, reportes opcionales, reglas MIASI `OTEL_EXPORT_DRY_RUN_ALLOW`/`OTEL_REMOTE_EXPORT_BLOCK` y herramienta `telemetry.export`.
 
 No se habilita telemetría remota, no se agrega SDK OpenTelemetry obligatorio, no se requiere collector, no se usa red y no se exportan secretos/prompts/completions crudos. El siguiente sprint abierto es `FUNC-SPRINT-63 — AgentOps Quality Gate operacional`.
+
+
+## Estado de implementación Sprint 63 y cierre Fase E
+
+`FUNC-SPRINT-63 — AgentOps Quality Gate y cierre Fase E` queda implementado como `implemented-initial`. Se agregó `AgentOpsQualityGate`, comando `agentops status`, tool MIASI `agentops.status`, regla `AGENTOPS_STATUS_ALLOW`, auditoría de sprint, manifest funcional y reporte de cierre `docs/audits/phase_e_agentops_closure_report.md`.
+
+La Fase E queda cerrada en estado `closed`. El cierre no habilita UI, dashboard, telemetría remota, collector externo, multiagente funcional, handoffs, RAG, MCP ni ejecución remota. Las capacidades entregadas son señales locales, consultas CLI, exporter OTel-like dry-run y quality gate operativo para que Fase F pueda visualizar evidencia mediante API/UI local.
+
+Comandos de verificación:
+
+```powershell
+python -m devpilot_core agentops status --json --write-report
+python -m devpilot_core trace report --json
+python -m devpilot_core metrics summary --json
+python -m devpilot_core telemetry export --format otlp --dry-run --json
+python -m pytest tests/test_agentops_gate.py -q
+python -m pytest -q
+```
+
+Criterios PASS: `agentops status` devuelve `ok=true` cuando controles requeridos están presentes, genera reportes locales, mantiene `network_used=false`, `external_api_used=false`, `ui_required=false`, y documenta brechas hacia Fase F. Criterios BLOCK: MIASI desactualizado, falta reporte de cierre, dependencia de UI/red/collector o telemetría remota activa.
+
+## Cierre formal de Fase E
+
+Fase E entrega una capa AgentOps local suficientemente robusta para observar comandos, agentes, tools, políticas, approvals, modelos, métricas, trazas, reportes y exportación dry-run sin depender de servicios externos. El siguiente hito funcional es `FUNC-SPRINT-64 — ADR UI/API local y threat model de interfaz`, perteneciente a Fase F.

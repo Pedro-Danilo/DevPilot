@@ -250,3 +250,25 @@ Criterios:
 - `OTEL_REMOTE_EXPORT_BLOCK` bloquea endpoints remotos o cualquier intento de exfiltración.
 - `network_used=false`, `external_api_used=false`, `remote_telemetry_enabled=false`.
 - La capacidad es `implemented-initial` y debe evolucionar antes de integrarse con collectors reales.
+
+
+## 18. Actualización FUNC-SPRINT-63 — AgentOps Quality Gate
+
+`agentops.status` queda definido como señal MIASI de cierre operacional para Fase E. La herramienta evalúa evidencias locales de agentes, tools, políticas, modelos, métricas y reportes sin ejecutar acciones destructivas, sin requerir UI y sin red.
+
+Criterios PASS:
+
+- `CommandResult` normalizado.
+- `payload_redacted=true` cuando aplique.
+- `network_used=false`.
+- `external_api_used=false`.
+- `ui_required=false`.
+- MIASI Tool Registry y Policy Matrix sincronizados.
+
+Criterios BLOCK:
+
+- Falta de tool/policy MIASI obligatoria.
+- Falta de reporte de cierre de Fase E.
+- Dependencia de UI, red, collector o telemetría remota.
+
+Estado: `implemented-initial`; Fase F debe visualizar el resultado sin saltarse `ApplicationService`, `PolicyEngine`, `ReportEngine` ni los contratos MIASI.

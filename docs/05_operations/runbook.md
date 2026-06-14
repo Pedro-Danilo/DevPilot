@@ -3608,3 +3608,54 @@ BLOCK si intenta enviar datos a red, requiere collector para pruebas, imprime pr
 ### Estado
 
 `implemented-initial`. La capacidad es un mapper/exporter dry-run, no una integración industrial final con OpenTelemetry.
+
+
+## FUNC-SPRINT-63 — Operación de AgentOps Quality Gate y cierre Fase E
+
+### Propósito
+
+`agentops status` evalúa si el workspace dispone de evidencia operacional suficiente para avanzar hacia Fase F/UI sin depender de una interfaz visual, red, collectors ni APIs externas.
+
+### Comandos
+
+```powershell
+python -m devpilot_core agentops status --json --write-report
+python -m devpilot_core agentops status --strict-runtime-signals --json
+python -m devpilot_core trace report --json
+python -m devpilot_core metrics summary --json
+python -m devpilot_core telemetry export --format otlp --dry-run --json
+```
+
+### Funcionamiento
+
+El gate lee `.devpilot/devpilot.db`, `TraceStore`, `MetricsCollector`, documentos de operación, MIASI Tool Registry y MIASI Policy Matrix. Verifica la presencia de señales mínimas, reporta warnings accionables para muestras incompletas y bloquea si faltan documentos obligatorios o declaraciones MIASI requeridas.
+
+### Reportes
+
+Con `--write-report`, el comando genera:
+
+```text
+outputs/reports/agentops_status.json
+outputs/reports/agentops_status.md
+```
+
+### PASS
+
+- `CommandResult` JSON parseable.
+- `network_used=false`.
+- `external_api_used=false`.
+- `ui_required=false`.
+- MIASI declara `agentops.status`.
+- Existe `docs/audits/phase_e_agentops_closure_report.md`.
+- El gate separa `required` vs `recommended` para evitar falsos bloqueos en workspaces nuevos.
+
+### BLOCK
+
+- Falta un documento obligatorio de cierre/observabilidad.
+- MIASI no declara `agentops.status` o `AGENTOPS_STATUS_ALLOW`.
+- El gate intenta usar UI, red, collector o telemetría remota.
+- La versión futura cambia a modo estricto y faltan spans/métricas mínimos.
+
+### Riesgos y límites
+
+Esta es una primera versión de quality gate operacional. No sustituye un dashboard, no calcula SLOs avanzados, no hace sampling estadístico ni consulta servicios externos. Fase F debe visualizar estas señales desde `ApplicationService`/API local sin duplicar lógica de negocio en la UI.

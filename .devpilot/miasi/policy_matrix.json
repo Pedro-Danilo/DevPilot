@@ -399,6 +399,15 @@
       "gate": "PolicyEngine+CostGuard+ApprovalPolicyChecker+RemoteTelemetryDisabledByDefault",
       "approval_required": true,
       "observability_required": true
+    },
+    {
+      "rule_id": "AGENTOPS_STATUS_ALLOW",
+      "domain": "AgentOps",
+      "action": "status_quality_gate",
+      "default_effect": "allow",
+      "gate": "AgentOpsQualityGate+ReportEngine+SecretGuard",
+      "approval_required": false,
+      "observability_required": true
     }
   ]
 }

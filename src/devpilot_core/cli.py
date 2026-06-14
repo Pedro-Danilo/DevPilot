@@ -13,7 +13,7 @@ from .application import ApplicationService
 from .cli_models import CommandResult, ExitCode, Finding, Severity
 from .errors import DevPilotError
 from .evals import EvalRunner
-from .observability import EventLogger, MetricsCollector, OTelDryRunExporter, OTelExportOptions, TraceQueryService
+from .observability import AgentOpsGateOptions, AgentOpsQualityGate, EventLogger, MetricsCollector, OTelDryRunExporter, OTelExportOptions, TraceQueryService
 from .miasi import MiasiRegistryValidator
 from .modeling import BudgetLedger, CapabilityMatrix, ModelAdapterRouter, ModelEvalRunner, ModelEvalRunnerConfig, ModelHealthService, ModelRouterConfig
 from .policy import CostPolicy, PolicyEngine, PolicyRequest, load_cost_policy
@@ -425,6 +425,38 @@ def telemetry_export_command(
     )
     _emit_result_event(root, result, subject="observability:otel-dry-run")
     _persist_result(root, result, subject="observability:otel-dry-run")
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+def agentops_status_command(
+    *,
+    limit: int = 100,
+    strict_runtime_signals: bool = False,
+    json_output: bool = False,
+    write_report: bool = False,
+) -> int:
+    """Run the local AgentOps Quality Gate and Phase E closure status.
+
+    FUNC-SPRINT-63 consolidates local trace/span/event/metric evidence and
+    MIASI observability declarations. The command is read-only with respect to
+    project source files; optional report writing is the only controlled side
+    effect. It never requires UI, network, remote telemetry or external APIs.
+    """
+
+    root = project_root()
+    result = AgentOpsQualityGate(root).status(
+        AgentOpsGateOptions(limit=limit, strict_runtime_signals=strict_runtime_signals)
+    )
+    result = _write_optional_command_report(
+        root,
+        result,
+        subject="observability:agentops-quality-gate",
+        report_id="agentops_status",
+        write_report=write_report,
+        metadata={"sprint": "FUNC-SPRINT-63", "component": "AgentOpsQualityGate"},
+    )
+    _emit_result_event(root, result, subject="observability:agentops-quality-gate")
+    _persist_result(root, result, subject="observability:agentops-quality-gate")
     print_result(result, json_output=json_output)
     return int(result.exit_code)
 
@@ -2370,6 +2402,14 @@ def build_parser() -> argparse.ArgumentParser:
     telemetry_export.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     telemetry_export.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
 
+    agentops = sub.add_parser("agentops", help="Run local AgentOps quality gates and readiness checks")
+    agentops_sub = agentops.add_subparsers(dest="agentops_command")
+    agentops_status = agentops_sub.add_parser("status", help="Evaluate local AgentOps evidence and Phase E closure readiness")
+    agentops_status.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    agentops_status.add_argument("--limit", type=int, default=100, help="Maximum local observability records to inspect, capped at 500")
+    agentops_status.add_argument("--strict-runtime-signals", action="store_true", help="Convert missing runtime spans/metrics from warning to BLOCK")
+    agentops_status.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+
     approval = sub.add_parser("approval", help="Manage local human approval workflow records")
     approval_sub = approval.add_subparsers(dest="approval_command")
 
@@ -2940,6 +2980,16 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
                 limit=args.limit,
                 include_metrics=not args.without_metrics,
                 endpoint=args.endpoint,
+                json_output=args.json,
+                write_report=args.write_report,
+            )
+        parser.print_help()
+        return int(ExitCode.FAIL)
+    if args.command == "agentops":
+        if args.agentops_command == "status":
+            return agentops_status_command(
+                limit=args.limit,
+                strict_runtime_signals=args.strict_runtime_signals,
                 json_output=args.json,
                 write_report=args.write_report,
             )

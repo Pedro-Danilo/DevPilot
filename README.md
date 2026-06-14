@@ -1,8 +1,8 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
-Estado actual: `baseline pre-code approved + Fase A cerrada + Fase B cerrada + Fase C cerrada + Fase D cerrada + Fase E en progreso`  
-Último hito: `FUNC-SPRINT-62 — Exporter OpenTelemetry opcional y dry-run`  
-Siguiente hito: `FUNC-SPRINT-63 — AgentOps Quality Gate operacional`  
+Estado actual: `baseline pre-code approved + Fase A cerrada + Fase B cerrada + Fase C cerrada + Fase D cerrada + Fase E cerrada`  
+Último hito: `FUNC-SPRINT-63 — AgentOps Quality Gate y cierre Fase E`  
+Siguiente hito: `FUNC-SPRINT-64 — ADR UI/API local y threat model de interfaz`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
@@ -97,6 +97,26 @@ python -m pytest tests/test_trace_store.py tests/test_event_logger.py tests/test
 
 PASS: métricas locales persisten sin red, `mock` registra provider/model/task/tokens estimados/costo estimado `0.0`, comandos generan conteos por estado, `state init/status` funcionan con `schema_version=0004_metrics_collector_v1` y no se guardan prompts, secretos, completions, diffs ni stdout/stderr crudos. BLOCK: dependencia externa obligatoria, telemetría remota, prompts crudos en métricas, fallo si la DB no existe o cambio funcional en comandos/modelos causado por observabilidad.
 
+
+
+
+## FUNC-SPRINT-63 — AgentOps Quality Gate y cierre Fase E
+
+`FUNC-SPRINT-63` cierra Fase E con el nivel FE-L6: `AgentOpsQualityGate` y el comando `agentops status`. La capacidad consolida señales locales de `TraceStore`, `MetricsCollector`, spans, eventos, métricas, MIASI Observability, OTel dry-run y reportes para determinar si DevPilot dispone de evidencia operacional suficiente antes de entrar en Fase F.
+
+Estado: `implemented-initial`. El gate es local-first, read-only sobre código/documentos, no requiere UI, no requiere red, no llama APIs externas y no habilita telemetría remota. El único efecto lateral permitido es la escritura controlada de reportes en `outputs/reports` cuando se usa `--write-report`.
+
+Comandos principales:
+
+```powershell
+python -m devpilot_core agentops status --json --write-report
+python -m devpilot_core agentops status --strict-runtime-signals --json
+python -m devpilot_core trace report --json
+python -m devpilot_core metrics summary --json
+python -m devpilot_core telemetry export --format otlp --dry-run --json
+```
+
+PASS: `agentops status` devuelve `CommandResult`, separa controles requeridos de señales recomendadas, valida documentos/MIASI de observabilidad, confirma `network_used=false`, `external_api_used=false`, `ui_required=false`, produce reportes opcionales y deja `phase_e_closure_ready=true` cuando existe el reporte de cierre. BLOCK: documentos obligatorios ausentes, MIASI desactualizado, dependencia de UI/red/collector o intento de considerar cerrada Fase E sin reporte de cierre.
 
 ## FUNC-SPRINT-45 — ADR y contratos de proveedores locales
 

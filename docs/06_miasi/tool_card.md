@@ -640,3 +640,20 @@ Políticas asociadas:
 - `OTEL_REMOTE_EXPORT_BLOCK`: bloquea endpoint remoto, collector externo o intento no dry-run.
 
 Estado: `implemented-initial`.
+
+
+## Actualización FUNC-SPRINT-63 — Tool `agentops.status`
+
+`agentops.status` es una herramienta MIASI de reporte local para ejecutar el AgentOps Quality Gate.
+
+Contrato:
+
+- `tool_id`: `agentops.status`;
+- side effect: `report`;
+- riesgo: `medium`;
+- aprobación: no requerida en modo local read-only;
+- regla: `AGENTOPS_STATUS_ALLOW`;
+- salida: `CommandResult`;
+- reportes opcionales: `outputs/reports/agentops_status.*`.
+
+Límites: no ejecuta agentes, no llama modelos, no aplica patches, no usa red, no exporta telemetría remota y no sustituye un dashboard.

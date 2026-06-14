@@ -1,12 +1,15 @@
 from __future__ import annotations
 
+from collections import Counter
+from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
-from devpilot_core.cli_models import CommandResult, ExitCode, Finding
+from devpilot_core.cli_models import CommandResult, ExitCode, Finding, Severity
 from devpilot_core.observability.events import EventRecord
 from devpilot_core.observability.metrics import MetricsCollector
 from devpilot_core.observability.trace_store import TraceStore
+from devpilot_core.store import DEFAULT_DB_PATH, LocalStore
 from devpilot_core.observability.tracing import SpanRecord, SpanStatus, TraceContext, sanitize_span_payload, utc_now_iso
 
 
@@ -507,3 +510,299 @@ def _approval_summary(result: CommandResult, *, approval_id: str | None, subject
             "subject": approval.get("subject") or subject,
         }
     )
+
+
+
+@dataclass(frozen=True)
+class AgentOpsGateOptions:
+    """Options for the local AgentOps quality gate.
+
+    FUNC-SPRINT-63 keeps the gate bounded and non-invasive. The status command
+    reads local evidence only; it does not execute agents, does not call models,
+    does not contact network services and does not require a UI.
+    """
+
+    limit: int = 100
+    strict_runtime_signals: bool = False
+
+
+class AgentOpsQualityGate:
+    """Local quality gate for DevPilot AgentOps readiness.
+
+    The gate consolidates the signals implemented during Fase E: TraceContext,
+    TraceStore, MetricsCollector, AgentOps instrumentation, trace/metrics CLI,
+    OTel dry-run export contracts and MIASI observability declarations. It is
+    intentionally read-only over the repository and SQLite evidence store.
+    Optional report writing remains a CLI concern handled by ReportEngine.
+    """
+
+    REQUIRED_DOCUMENTS: tuple[str, ...] = (
+        "README.md",
+        "docs/05_operations/runbook.md",
+        "docs/05_operations/observability_plan.md",
+        "docs/06_miasi/observability_card.md",
+        "docs/06_miasi/tool_card.md",
+        "docs/06_miasi/policy_matrix.md",
+        "docs/devpilot_backlog_fase_E_agentops_observabilidad.md",
+        "docs/audits/phase_e_agentops_closure_report.md",
+        "docs/functional_sprint_63_manifest.json",
+    )
+    REQUIRED_TOOL_IDS: tuple[str, ...] = (
+        "agentops.status",
+        "telemetry.export",
+    )
+    REQUIRED_POLICY_RULE_IDS: tuple[str, ...] = (
+        "AGENTOPS_STATUS_ALLOW",
+        "OTEL_EXPORT_DRY_RUN_ALLOW",
+        "OTEL_REMOTE_EXPORT_BLOCK",
+    )
+    REQUIRED_RUNTIME_CATEGORIES: tuple[str, ...] = (
+        "agent",
+        "command",
+        "model",
+        "policy",
+        "tool",
+    )
+    REQUIRED_SPAN_TYPES: tuple[str, ...] = (
+        "agent.run",
+        "model.call",
+        "policy.check",
+        "tool.call",
+    )
+
+    def __init__(self, root: Path, *, db_path: str | Path = DEFAULT_DB_PATH) -> None:
+        self.root = root.resolve()
+        self.db_path = db_path
+        self.store = LocalStore(self.root, db_path=db_path)
+        self.trace_store = TraceStore(self.root, db_path=db_path)
+        self.metrics = MetricsCollector(self.root, db_path=db_path)
+
+    def status(self, options: AgentOpsGateOptions | None = None) -> CommandResult:
+        """Evaluate local AgentOps evidence and return PASS/BLOCK findings."""
+
+        opts = options or AgentOpsGateOptions()
+        limit = _agentops_safe_limit(opts.limit)
+        store_result = self.store.status()
+        store_data = store_result.data or {}
+        store_summary = store_data.get("summary") if isinstance(store_data, dict) else {}
+        store_counts = store_data.get("counts") if isinstance(store_data, dict) else {}
+        store_summary = store_summary if isinstance(store_summary, dict) else {}
+        store_counts = store_counts if isinstance(store_counts, dict) else {}
+
+        spans = self.trace_store.list_spans(limit=limit)
+        events = self.trace_store.list_events(limit=limit)
+        recent_metrics = self.metrics.list_metrics(limit=min(limit * 2, 500))
+        metric_summary = self.metrics.summary()
+
+        span_type_counts = Counter(str(span.get("span_type") or "unknown") for span in spans)
+        span_status_counts = Counter(str(span.get("status") or "unknown") for span in spans)
+        event_type_counts = Counter(str(event.get("event_type") or "unknown") for event in events)
+        metric_category_counts = Counter(str(metric.get("category") or "unknown") for metric in recent_metrics)
+        metric_status_counts = Counter(str(metric.get("status") or "UNKNOWN") for metric in recent_metrics if metric.get("unit") == "count")
+        trace_ids = sorted({str(span.get("trace_id")) for span in spans if span.get("trace_id")})
+
+        document_status = {path: (self.root / path).is_file() for path in self.REQUIRED_DOCUMENTS}
+        registry_status = self._registry_status()
+        runtime_status = {
+            "store_initialized": bool(store_summary.get("initialized")),
+            "spans_present": bool(spans),
+            "events_present": bool(events),
+            "metrics_present": int(metric_summary.get("metrics_total") or 0) > 0,
+            "required_metric_categories_present": all(
+                category in (metric_summary.get("categories") or {}) or category in metric_category_counts
+                for category in self.REQUIRED_RUNTIME_CATEGORIES
+            ),
+            "required_span_types_present": all(span_type in span_type_counts for span_type in self.REQUIRED_SPAN_TYPES),
+            "network_used": False,
+            "external_api_used": False,
+            "ui_required": False,
+            "remote_telemetry_enabled": False,
+        }
+
+        findings: list[Finding] = []
+        for path, exists in document_status.items():
+            if not exists:
+                findings.append(
+                    Finding(
+                        id="AGENTOPS_REQUIRED_DOCUMENT_MISSING",
+                        message=f"Required AgentOps/Phase E document is missing: {path}.",
+                        severity=Severity.BLOCK,
+                        path=path,
+                    )
+                )
+        for tool_id, exists in registry_status["tools"].items():
+            if not exists:
+                findings.append(
+                    Finding(
+                        id="AGENTOPS_MIASI_TOOL_MISSING",
+                        message=f"MIASI Tool Registry does not declare required tool '{tool_id}'.",
+                        severity=Severity.BLOCK,
+                        path=".devpilot/miasi/tool_registry.json",
+                    )
+                )
+        for rule_id, exists in registry_status["policy_rules"].items():
+            if not exists:
+                findings.append(
+                    Finding(
+                        id="AGENTOPS_MIASI_POLICY_RULE_MISSING",
+                        message=f"MIASI Policy Matrix does not declare required rule '{rule_id}'.",
+                        severity=Severity.BLOCK,
+                        path=".devpilot/miasi/policy_matrix.json",
+                    )
+                )
+
+        if not runtime_status["store_initialized"]:
+            findings.append(
+                Finding(
+                    id="AGENTOPS_STORE_NOT_INITIALIZED",
+                    message="Local SQLite store is not initialized. Run `python -m devpilot_core state init --json`.",
+                    severity=Severity.WARNING,
+                    path=".devpilot/devpilot.db",
+                )
+            )
+        if not runtime_status["spans_present"]:
+            findings.append(
+                Finding(
+                    id="AGENTOPS_SPANS_EMPTY",
+                    message="No spans were found. Run an instrumented agent/model/policy command before operational closure evidence.",
+                    severity=Severity.BLOCK if opts.strict_runtime_signals else Severity.WARNING,
+                    path=".devpilot/devpilot.db",
+                )
+            )
+        if not runtime_status["metrics_present"]:
+            findings.append(
+                Finding(
+                    id="AGENTOPS_METRICS_EMPTY",
+                    message="No metrics were found. Run instrumented commands before operational closure evidence.",
+                    severity=Severity.BLOCK if opts.strict_runtime_signals else Severity.WARNING,
+                    path=".devpilot/devpilot.db",
+                )
+            )
+        missing_span_types = [span_type for span_type in self.REQUIRED_SPAN_TYPES if span_type not in span_type_counts]
+        if missing_span_types:
+            findings.append(
+                Finding(
+                    id="AGENTOPS_RECOMMENDED_SPAN_TYPES_INCOMPLETE",
+                    message="Recommended AgentOps span types are not all present in the recent sample: " + ", ".join(missing_span_types),
+                    severity=Severity.BLOCK if opts.strict_runtime_signals else Severity.WARNING,
+                    path=".devpilot/devpilot.db",
+                )
+            )
+        metric_categories = set(metric_summary.get("categories") or {}) | set(metric_category_counts)
+        missing_categories = [category for category in self.REQUIRED_RUNTIME_CATEGORIES if category not in metric_categories]
+        if missing_categories:
+            findings.append(
+                Finding(
+                    id="AGENTOPS_RECOMMENDED_METRIC_CATEGORIES_INCOMPLETE",
+                    message="Recommended AgentOps metric categories are not all present: " + ", ".join(missing_categories),
+                    severity=Severity.BLOCK if opts.strict_runtime_signals else Severity.WARNING,
+                    path=".devpilot/devpilot.db",
+                )
+            )
+
+        blocked = any(finding.severity == Severity.BLOCK for finding in findings)
+        warning = any(finding.severity == Severity.WARNING for finding in findings)
+        phase_e_closure_ready = not blocked and document_status.get("docs/audits/phase_e_agentops_closure_report.md", False)
+        operational_status = "BLOCK" if blocked else "WARN" if warning else "PASS"
+        data = {
+            "summary": {
+                "operational_status": operational_status,
+                "phase": "FASE-E-AGENTOPS-OBSERVABILIDAD",
+                "phase_e_closure_ready": phase_e_closure_ready,
+                "next_phase": "FASE-F-PRODUCTO-VISUAL",
+                "next_sprint": "FUNC-SPRINT-64",
+                "store_initialized": runtime_status["store_initialized"],
+                "traces_observed_total": len(trace_ids),
+                "spans_scanned": len(spans),
+                "events_scanned": len(events),
+                "metrics_scanned": len(recent_metrics),
+                "metrics_total": int(metric_summary.get("metrics_total") or 0),
+                "warnings_total": sum(1 for finding in findings if finding.severity == Severity.WARNING),
+                "blocking_findings_total": sum(1 for finding in findings if finding.severity == Severity.BLOCK),
+                "network_used": False,
+                "external_api_used": False,
+                "ui_required": False,
+                "remote_telemetry_enabled": False,
+                "preliminary": True,
+            },
+            "store": store_data,
+            "runtime_signals": {
+                **runtime_status,
+                "span_types": dict(sorted(span_type_counts.items())),
+                "span_statuses": dict(sorted(span_status_counts.items())),
+                "event_types": dict(sorted(event_type_counts.items())),
+                "metric_categories_recent": dict(sorted(metric_category_counts.items())),
+                "metric_statuses_recent": dict(sorted(metric_status_counts.items())),
+                "metric_summary": metric_summary,
+                "missing_recommended_span_types": missing_span_types,
+                "missing_recommended_metric_categories": missing_categories,
+                "sample_trace_ids": trace_ids[:10],
+            },
+            "control_plane": {
+                "required_documents": document_status,
+                "miasi_tools": registry_status["tools"],
+                "miasi_policy_rules": registry_status["policy_rules"],
+            },
+            "capabilities": {
+                "trace_context": "implemented",
+                "trace_store": "implemented",
+                "metrics_collector": "implemented",
+                "agentops_instrumentation": "implemented-initial",
+                "trace_metrics_cli": "implemented-initial",
+                "otel_dry_run_exporter": "implemented-initial",
+                "agentops_quality_gate": "implemented-initial",
+                "dashboard_ui": "not_implemented_phase_f",
+                "remote_telemetry": "blocked_by_default",
+            },
+            "recommendations": [
+                "Mantener `agentops status` como gate de entrada para Fase F/UI.",
+                "Visualizar estas señales desde ApplicationService/API sin duplicar lógica en UI.",
+                "Mantener OpenTelemetry remoto como opt-in explícito, nunca por defecto.",
+            ],
+        }
+        return CommandResult(
+            command="agentops status",
+            ok=not blocked,
+            exit_code=ExitCode.PASS if not blocked else ExitCode.BLOCK,
+            message="AgentOps quality gate passed." if not blocked else "AgentOps quality gate blocked.",
+            data=data,
+            findings=findings,
+        )
+
+    def _registry_status(self) -> dict[str, dict[str, bool]]:
+        tools_payload = _read_json(self.root / ".devpilot" / "miasi" / "tool_registry.json")
+        policy_payload = _read_json(self.root / ".devpilot" / "miasi" / "policy_matrix.json")
+        tool_ids = {
+            str(item.get("tool_id"))
+            for item in tools_payload.get("tools", [])
+            if isinstance(item, dict) and item.get("tool_id")
+        }
+        rule_ids = {
+            str(item.get("rule_id"))
+            for item in policy_payload.get("rules", [])
+            if isinstance(item, dict) and item.get("rule_id")
+        }
+        return {
+            "tools": {tool_id: tool_id in tool_ids for tool_id in self.REQUIRED_TOOL_IDS},
+            "policy_rules": {rule_id: rule_id in rule_ids for rule_id in self.REQUIRED_POLICY_RULE_IDS},
+        }
+
+
+def _agentops_safe_limit(limit: int) -> int:
+    try:
+        parsed = int(limit)
+    except (TypeError, ValueError):
+        parsed = 100
+    return max(10, min(parsed, 500))
+
+
+def _read_json(path: Path) -> dict[str, Any]:
+    if not path.exists():
+        return {}
+    try:
+        import json
+
+        payload = json.loads(path.read_text(encoding="utf-8"))
+        return payload if isinstance(payload, dict) else {}
+    except Exception:
+        return {}

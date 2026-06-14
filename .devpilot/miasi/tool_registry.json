@@ -767,6 +767,18 @@
         "OTEL_EXPORT_DRY_RUN_ALLOW",
         "OTEL_REMOTE_EXPORT_BLOCK"
       ]
+    },
+    {
+      "tool_id": "agentops.status",
+      "name": "agentops_status_quality_gate",
+      "phase": "MVP+",
+      "side_effect": "report",
+      "risk_level": "medium",
+      "status": "implemented-initial",
+      "requires_approval": false,
+      "policy_rule_ids": [
+        "AGENTOPS_STATUS_ALLOW"
+      ]
     }
   ]
 }

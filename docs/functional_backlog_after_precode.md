@@ -2,19 +2,19 @@
 title: "DevPilot Local — Backlog ejecutable posterior a pre-code"
 doc_id: "DEVPL-FUNC-BACKLOG-001"
 status: "approved"
-version: "3.8.0"
+version: "3.9.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
 phase: "POST-PRECODE"
-updated: "2026-06-13"
+updated: "2026-06-14"
 approval: "approved_by_owner_direction"
 source_baseline: "precode_baseline_approved"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approved_on: "2026-06-06"
 approval_scope: "functional_backlog_after_precode"
 baseline_execution: "FUNC-SPRINT-00"
-next_sprint: "FUNC-SPRINT-63"
+next_sprint: "FUNC-SPRINT-64"
 ---
 
 # DevPilot Local — Backlog ejecutable posterior a pre-code
@@ -2214,3 +2214,10 @@ La transición hacia `FUNC-SPRINT-62` queda condicionada a mantener estas consul
 ## Transición posterior a FUNC-SPRINT-62
 
 Con `FUNC-SPRINT-62`, DevPilot completa el nivel FE-L5 inicial: payload OTel-like local, opcional y dry-run. El siguiente paso funcional es `FUNC-SPRINT-63 — AgentOps Quality Gate operacional`, que debe evaluar salud operacional usando trazas, spans, métricas, warnings, bloqueos y evidencia local sin depender de servicios externos.
+
+
+## Transición posterior a FUNC-SPRINT-63 — Cierre Fase E
+
+Con `FUNC-SPRINT-63`, DevPilot cierra Fase E de AgentOps y observabilidad. El core dispone de trazas v2, spans, eventos, métricas, instrumentación agentic, CLI de consulta, exporter OpenTelemetry dry-run y AgentOps Quality Gate.
+
+La transición hacia `FUNC-SPRINT-64` queda condicionada a mantener las señales AgentOps como fuente de verdad para Fase F. La futura API/UI local debe consumir `CommandResult`, reportes y servicios del core sin duplicar lógica ni saltarse `ApplicationService`, `PolicyEngine`, MIASI, `ReportEngine`, `TraceStore` o `MetricsCollector`.

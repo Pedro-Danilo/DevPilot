@@ -1,4 +1,4 @@
-from .agentops import AgentOpsInstrumentor, safe_record_agent_result, status_from_command_result
+from .agentops import AgentOpsGateOptions, AgentOpsInstrumentor, AgentOpsQualityGate, safe_record_agent_result, status_from_command_result
 from .metrics import MetricRecord, MetricsCollector, sanitize_metric_metadata
 from .events import (
     DEFAULT_EVENTS_PATH,
@@ -25,7 +25,9 @@ from .tracing import (
 )
 
 __all__ = [
+    "AgentOpsGateOptions",
     "AgentOpsInstrumentor",
+    "AgentOpsQualityGate",
     "safe_record_agent_result",
     "status_from_command_result",
     "DEFAULT_EVENTS_PATH",

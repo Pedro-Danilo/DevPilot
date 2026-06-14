@@ -359,3 +359,23 @@ Reglas de seguridad:
 - remote telemetry queda bloqueada por defecto y requiere decisión futura.
 
 Estado: `implemented-initial`.
+
+
+## Actualización FUNC-SPRINT-63 — AgentOps Quality Gate
+
+`FUNC-SPRINT-63` agrega `AgentOpsQualityGate` y el comando `agentops status` como cierre operativo de Fase E. El gate consume señales locales ya implementadas: spans, eventos, métricas, reportes, registros MIASI y exporter OTel dry-run.
+
+El gate no habilita telemetría remota y no requiere UI. Su salida debe permanecer en `CommandResult` para que Fase F pueda exponerla mediante API/UI local sin duplicar lógica.
+
+Señales evaluadas:
+
+- store SQLite inicializado;
+- spans recientes;
+- eventos recientes;
+- métricas por categoría;
+- span types `agent.run`, `tool.call`, `policy.check`, `model.call`;
+- MIASI `agentops.status`;
+- política `AGENTOPS_STATUS_ALLOW`;
+- reporte de cierre `phase_e_agentops_closure_report.md`.
+
+Estado: `implemented-initial`. La evolución industrial futura debe agregar health scoring configurable, perfiles por workspace, retención, SLOs locales y visualización en Fase F.
