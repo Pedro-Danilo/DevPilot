@@ -12,6 +12,7 @@ from .events import (
     summarize_command_data,
 )
 from .trace_store import TraceStore
+from .trace_queries import TraceQueryService, TraceReportOptions
 from .tracing import (
     SpanRecord,
     SpanStatus,
@@ -39,6 +40,8 @@ __all__ = [
     "MetricsCollector",
     "sanitize_metric_metadata",
     "TraceStore",
+    "TraceQueryService",
+    "TraceReportOptions",
     "SpanRecord",
     "SpanStatus",
     "TraceContext",

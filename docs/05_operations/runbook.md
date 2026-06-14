@@ -2,7 +2,7 @@
 title: "Runbook — DevPilot Local"
 doc_id: "DEVPL-OPS-002"
 status: "approved"
-version: "1.21.0"
+version: "1.22.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
@@ -3523,3 +3523,52 @@ python -m pytest tests/test_agentops_instrumentation.py tests/test_agent_runtime
 ### Riesgos
 
 Esta es una primera versión `implemented-initial`: genera evidencia consultable en SQLite, pero todavía falta CLI pública `trace report`, `trace inspect` y `metrics summary`. También falta política de retención y ajuste fino de ruido operacional.
+
+
+## FUNC-SPRINT-61 — Operación de CLI de trazas y métricas
+
+### Propósito
+
+`FUNC-SPRINT-61` convierte la evidencia AgentOps local en comandos operables por consola. Esta versión es `implemented-initial`: permite consultar e inspeccionar trazas y métricas desde CLI, pero todavía no incluye dashboard, UI, exporter OpenTelemetry real ni policy gate de cierre AgentOps.
+
+### Comandos de uso
+
+```powershell
+python -m devpilot_core trace report --json
+python -m devpilot_core trace report --json --write-report
+python -m devpilot_core trace inspect <trace_id> --json
+python -m devpilot_core metrics summary --json
+python -m devpilot_core metrics summary --category model --json --write-report
+```
+
+### Funcionamiento operativo
+
+- `trace report` lista y resume trazas recientes a partir de spans, eventos y métricas locales.
+- `trace inspect <trace_id>` devuelve un árbol de spans y señales relacionadas.
+- `metrics summary` agrega métricas locales por categoría, operación, estado y proveedor.
+- `--write-report` genera reportes JSON/Markdown en `outputs/reports`.
+- Una DB vacía produce `ok=true` con finding informativo, no un crash.
+- Un `trace_id` inexistente produce warning controlado `TRACE_NOT_FOUND`.
+
+### Criterios PASS
+
+- Los tres comandos devuelven `CommandResult` parseable.
+- Los reportes opcionales se escriben debajo de `outputs/reports`.
+- No se requiere UI, servidor, red ni collector externo.
+- Los payloads quedan redactados; no se imprimen prompts, completions, secretos, diffs, stdout ni stderr crudos.
+
+### Criterios BLOCK
+
+- `trace inspect` lanza excepción por `trace_id` inexistente.
+- Los comandos requieren `.devpilot/devpilot.db` preexistente para responder de forma controlada.
+- Los reportes exponen secretos o payloads crudos.
+- Se activa telemetría remota o dependencia OpenTelemetry obligatoria.
+
+### Riesgos
+
+| Riesgo | Estado | Mitigación |
+|---|---|---|
+| DB sin datos | Controlado | Respuesta vacía con finding informativo. |
+| Reportes grandes | Controlado | Límites `--limit` con cap interno. |
+| CLI creciente | Aceptado | `TraceQueryService` separa lógica de consulta del parser CLI. |
+| Calidad visual limitada | Pendiente | Dashboard/AgentOps status queda para sprints posteriores. |

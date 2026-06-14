@@ -2,7 +2,7 @@
 title: "AgentOps Observability Card — DevPilot Local"
 doc_id: "DEVPL-MIASI-OBSERVABILITY"
 status: "approved"
-version: "1.2.0"
+version: "1.3.0"
 owner: "Ordóñez"
 standard: "MIASI"
 parent_standard: "MIPSoftware"
@@ -224,3 +224,16 @@ La tarjeta MIASI de observabilidad queda extendida con instrumentación runtime 
 - `ModelAdapterRouter`: span/evento `model.call` y métricas de provider/model/task/tokens/costo estimado.
 
 Restricciones vigentes: redacción obligatoria, `mock` como ruta hermética, telemetría remota bloqueada, exporters desactivados, sin multiagente funcional y sin cambios funcionales por fallos de observabilidad.
+
+
+## FUNC-SPRINT-61 — Consulta MIASI de trazas y métricas
+
+MIASI reconoce desde `FUNC-SPRINT-61` tres comandos de consulta operacional sobre señales AgentOps locales:
+
+- `trace report`: permite a un supervisor revisar trazas recientes sin UI.
+- `trace inspect <trace_id>`: permite a un desarrollador reconstruir el árbol de spans de una ejecución.
+- `metrics summary`: permite a un arquitecto/operador revisar métricas agregadas por comando, agente, tool, policy, approval o modelo.
+
+Estos comandos son read-only respecto a la ejecución agentic: solo consultan SQLite y escriben reportes cuando el usuario solicita `--write-report`. No ejecutan tools, no invocan modelos, no envían datos externos y no habilitan exporter. La respuesta ante DB vacía o traza inexistente debe ser controlada, auditable y parseable.
+
+Criterio BLOCK MIASI: ninguna consulta puede exponer prompts, completions, secretos, diffs, patches, stdout/stderr ni credenciales. Cualquier visualización futura debe consumir estos mismos contratos en lugar de leer `.devpilot/devpilot.db` directamente desde una UI.

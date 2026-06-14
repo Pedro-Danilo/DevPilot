@@ -32,14 +32,14 @@ def test_sprint_43_readme_runbook_backlog_and_test_strategy_are_synchronized() -
     functional_backlog = _read("docs/functional_backlog_after_precode.md")
     test_strategy = _read("docs/04_quality/test_strategy.md")
 
-    assert "Último hito: `FUNC-SPRINT-60" in readme
-    assert "Siguiente hito: `FUNC-SPRINT-61" in readme
+    assert "Último hito: `FUNC-SPRINT-61" in readme
+    assert "Siguiente hito: `FUNC-SPRINT-62" in readme
     assert "## FUNC-SPRINT-43 — RefactorExecutor controlado en sandbox" in runbook
     assert "python -m devpilot_core refactor sandbox" in runbook
     assert 'first_open_sprint: "FUNC-SPRINT-45"' in backlog
     assert 'last_completed_sprint: "FUNC-SPRINT-44"' in backlog
     assert "Estado de implementación Sprint 43" in backlog
-    assert 'next_sprint: "FUNC-SPRINT-61"' in functional_backlog
+    assert 'next_sprint: "FUNC-SPRINT-62"' in functional_backlog
     assert "Transición posterior a FUNC-SPRINT-43" in functional_backlog
     assert "Actualización FUNC-SPRINT-43 — Pruebas de RefactorExecutor" in test_strategy
 

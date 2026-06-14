@@ -1,0 +1,126 @@
+{
+  "sprint": "FUNC-SPRINT-61",
+  "title": "CLI de trazas y métricas: trace report, trace inspect, metrics summary",
+  "status": "implemented",
+  "implemented_at": "2026-06-13",
+  "phase": "FASE-E-AGENTOPS-OBSERVABILIDAD",
+  "wave": "Ola 8 — Observabilidad avanzada y AgentOps",
+  "source_backlog": "docs/devpilot_backlog_fase_E_agentops_observabilidad.md",
+  "architectural_decision": {
+    "required": false,
+    "adr": "docs/02_architecture/adrs/ADR-0012-observability-v2-agentops.md",
+    "reason": "FUNC-SPRINT-61 expone consulta CLI local sobre señales ya definidas por ADR-0012. No introduce exporter, red, telemetría remota ni dependencias externas, por lo que no requiere una ADR nueva."
+  },
+  "summary": {
+    "implementation_level": "implemented-initial",
+    "trace_report_cli_added": true,
+    "trace_inspect_cli_added": true,
+    "metrics_summary_cli_added": true,
+    "markdown_reports_supported": true,
+    "empty_db_controlled": true,
+    "unknown_trace_id_controlled": true,
+    "external_dependencies_added": false,
+    "remote_telemetry_enabled": false,
+    "network_required": false,
+    "external_api_used": false,
+    "ui_required": false,
+    "next_runtime_sprint": "FUNC-SPRINT-62"
+  },
+  "created_files": [
+    "src/devpilot_core/observability/trace_queries.py",
+    "tests/test_observability_cli.py",
+    "tests/test_sprint_61_documentation.py",
+    "docs/audits/func_sprint_61_trace_metrics_cli_audit.md",
+    "docs/functional_sprint_61_manifest.json"
+  ],
+  "modified_files": [
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/05_operations/observability_plan.md",
+    "docs/06_miasi/observability_card.md",
+    "docs/devpilot_backlog_fase_E_agentops_observabilidad.md",
+    "docs/functional_backlog_after_precode.md",
+    "src/devpilot_core/cli.py",
+    "src/devpilot_core/observability/__init__.py",
+    "tests/test_sprint_32_documentation.py",
+    "tests/test_sprint_33_documentation.py",
+    "tests/test_sprint_34_documentation.py",
+    "tests/test_sprint_35_documentation.py",
+    "tests/test_sprint_36_documentation.py",
+    "tests/test_sprint_37_documentation.py",
+    "tests/test_sprint_38_documentation.py",
+    "tests/test_sprint_39_documentation.py",
+    "tests/test_sprint_40_documentation.py",
+    "tests/test_sprint_41_documentation.py",
+    "tests/test_sprint_42_documentation.py",
+    "tests/test_sprint_43_documentation.py",
+    "tests/test_sprint_44_documentation.py",
+    "tests/test_sprint_45_documentation.py",
+    "tests/test_sprint_46_documentation.py",
+    "tests/test_sprint_47_documentation.py",
+    "tests/test_sprint_48_documentation.py",
+    "tests/test_sprint_49_documentation.py",
+    "tests/test_sprint_50_documentation.py",
+    "tests/test_sprint_51_documentation.py",
+    "tests/test_sprint_52_documentation.py",
+    "tests/test_sprint_53_documentation.py",
+    "tests/test_sprint_54_documentation.py",
+    "tests/test_sprint_55_documentation.py",
+    "tests/test_sprint_56_documentation.py",
+    "tests/test_sprint_57_documentation.py",
+    "tests/test_sprint_58_documentation.py",
+    "tests/test_sprint_59_documentation.py",
+    "tests/test_sprint_60_documentation.py"
+  ],
+  "commands": [
+    "python -m devpilot_core trace report --json --write-report",
+    "python -m devpilot_core trace inspect <trace_id> --json",
+    "python -m devpilot_core metrics summary --json --write-report",
+    "python -m pytest tests/test_observability_cli.py -q",
+    "python -m devpilot_core validate-artifact docs/audits/func_sprint_61_trace_metrics_cli_audit.md --json",
+    "python -m devpilot_core schema validate-manifest docs/functional_sprint_61_manifest.json --json",
+    "python -m devpilot_core validate all --json",
+    "python -m pytest -q"
+  ],
+  "tests": [
+    "tests/test_observability_cli.py",
+    "tests/test_sprint_61_documentation.py",
+    "schema validate-manifest",
+    "validate-artifact",
+    "validate all",
+    "pytest -q"
+  ],
+  "pass_criteria": [
+    "trace report devuelve CommandResult JSON parseable.",
+    "trace inspect devuelve árbol de spans o warning controlado si la traza no existe.",
+    "metrics summary agrega métricas locales por categoría/operación/estado/proveedor.",
+    "--write-report genera JSON/Markdown bajo outputs/reports.",
+    "DB vacía no causa excepción.",
+    "No se requieren UI, red, API externa, collector ni OpenTelemetry SDK."
+  ],
+  "block_criteria": [
+    "trace_id inexistente genera excepción no controlada.",
+    "DB vacía bloquea la CLI.",
+    "Se exponen prompts, completions, secretos, diffs, patches, stdout o stderr crudos.",
+    "Se introduce dependencia externa obligatoria o telemetría remota.",
+    "Los comandos requieren UI o servicios externos."
+  ],
+  "risks": [
+    {
+      "id": "RISK-FUNC-61-001",
+      "risk": "DB vacía",
+      "mitigation": "Responder ok=true con findings informativos."
+    },
+    {
+      "id": "RISK-FUNC-61-002",
+      "risk": "Reportes grandes",
+      "mitigation": "Aplicar límites y caps internos."
+    },
+    {
+      "id": "RISK-FUNC-61-003",
+      "risk": "CLI sigue creciendo",
+      "mitigation": "Separar lógica en TraceQueryService."
+    }
+  ],
+  "next_sprint": "FUNC-SPRINT-62 — Exporter OpenTelemetry opcional y dry-run"
+}

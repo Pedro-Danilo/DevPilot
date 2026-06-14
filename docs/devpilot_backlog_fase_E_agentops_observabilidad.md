@@ -2,13 +2,13 @@
 title: "DevPilot Local — Backlog ejecutable Fase E: AgentOps y observabilidad"
 doc_id: "DEVPL-FUNC-BACKLOG-FASE-E-001"
 status: "approved"
-version: "0.6.0"
+version: "0.7.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
 phase: "FASE-E-AGENTOPS-OBSERVABILIDAD"
 updated: "2026-06-13"
-source_repo: "repo_DevPilot_Local_71.zip"
+source_repo: "repo_DevPilot_Local_73.zip"
 source_report: "Informe de avance DevPilot - sprint 0 - 18.docx"
 source_backlog_model: "docs/functional_backlog_after_precode.md"
 baseline_dependency: "Fases A, B, C y D cerradas; Fase D validada por FUNC-SPRINT-55"
@@ -18,9 +18,9 @@ change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "phase_e_executable_backlog_review"
 approved_on: "2026-06-13"
 approval: "approved_after_phase_d_closure_review"
-first_open_sprint: "FUNC-SPRINT-61"
-last_completed_sprint: "FUNC-SPRINT-60"
-next_sprint: "FUNC-SPRINT-61"
+first_open_sprint: "FUNC-SPRINT-62"
+last_completed_sprint: "FUNC-SPRINT-61"
+next_sprint: "FUNC-SPRINT-62"
 phase_e_status: "in_progress"
 ---
 
@@ -711,6 +711,14 @@ python -m pytest -q
 ```text
 Implementa FUNC-SPRINT-61: comandos `trace report`, `trace inspect` y `metrics summary`. Deben funcionar sin UI y generar reportes opcionales.
 ```
+
+
+
+## Estado de implementación Sprint 61
+
+`FUNC-SPRINT-61 — CLI de trazas y métricas: trace report, trace inspect, metrics summary` queda implementado como `implemented-initial`. La implementación agrega `TraceQueryService`, comandos CLI `trace report`, `trace inspect` y `metrics summary`, reportes opcionales JSON/Markdown con `ReportEngine`, pruebas CLI y sincronización documental.
+
+El sprint no introduce UI, dashboard, OpenTelemetry SDK, exporter remoto, red, servicios externos ni telemetría remota. Una DB vacía o un `trace_id` inexistente se responden con `CommandResult` en `ok=true` y findings controlados. La evolución pendiente queda en `FUNC-SPRINT-62 — Exporter OpenTelemetry opcional y dry-run`.
 
 ## FUNC-SPRINT-62 — Exporter OpenTelemetry opcional y dry-run
 

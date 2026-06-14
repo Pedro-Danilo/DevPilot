@@ -13,7 +13,7 @@ from .application import ApplicationService
 from .cli_models import CommandResult, ExitCode, Finding, Severity
 from .errors import DevPilotError
 from .evals import EvalRunner
-from .observability import EventLogger, MetricsCollector
+from .observability import EventLogger, MetricsCollector, TraceQueryService
 from .miasi import MiasiRegistryValidator
 from .modeling import BudgetLedger, CapabilityMatrix, ModelAdapterRouter, ModelEvalRunner, ModelEvalRunnerConfig, ModelHealthService, ModelRouterConfig
 from .policy import CostPolicy, PolicyEngine, PolicyRequest, load_cost_policy
@@ -308,6 +308,81 @@ def model_budget_status_command(*, limit: int = 20, json_output: bool = False, w
     )
     _emit_result_event(root, result, subject="model:budget")
     _persist_result(root, result, subject="model:budget")
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+def trace_report_command(
+    *,
+    limit: int = 20,
+    include_events: bool = True,
+    include_metrics: bool = True,
+    json_output: bool = False,
+    write_report: bool = False,
+) -> int:
+    """Generate a bounded local trace report without requiring UI or network."""
+
+    root = project_root()
+    result = TraceQueryService(root).report(limit=limit, include_events=include_events, include_metrics=include_metrics)
+    result = _write_optional_command_report(
+        root,
+        result,
+        subject="observability:traces",
+        report_id="trace_report",
+        write_report=write_report,
+        metadata={"sprint": "FUNC-SPRINT-61", "component": "TraceQueryService"},
+    )
+    _emit_result_event(root, result, subject="observability:traces")
+    _persist_result(root, result, subject="observability:traces")
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+
+def trace_inspect_command(
+    trace_id: str,
+    *,
+    limit: int = 100,
+    json_output: bool = False,
+    write_report: bool = False,
+) -> int:
+    """Inspect one local trace id and return a tree of spans."""
+
+    root = project_root()
+    result = TraceQueryService(root).inspect(trace_id, limit=limit)
+    result = _write_optional_command_report(
+        root,
+        result,
+        subject=f"trace:{trace_id}",
+        report_id=f"trace_inspect_{trace_id}",
+        write_report=write_report,
+        metadata={"sprint": "FUNC-SPRINT-61", "component": "TraceQueryService"},
+    )
+    _emit_result_event(root, result, subject=f"trace:{trace_id}")
+    _persist_result(root, result, subject=f"trace:{trace_id}")
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+
+def metrics_summary_command(
+    *,
+    category: str | None = None,
+    limit: int = 50,
+    json_output: bool = False,
+    write_report: bool = False,
+) -> int:
+    """Summarize local AgentOps metrics without requiring UI or network."""
+
+    root = project_root()
+    result = TraceQueryService(root).metrics_summary(category=category, limit=limit)
+    result = _write_optional_command_report(
+        root,
+        result,
+        subject="observability:metrics",
+        report_id="metrics_summary",
+        write_report=write_report,
+        metadata={"sprint": "FUNC-SPRINT-61", "component": "TraceQueryService"},
+    )
+    _emit_result_event(root, result, subject="observability:metrics")
+    _persist_result(root, result, subject="observability:metrics")
     print_result(result, json_output=json_output)
     return int(result.exit_code)
 
@@ -2218,6 +2293,29 @@ def build_parser() -> argparse.ArgumentParser:
     history_list.add_argument("--limit", type=int, default=10, help="Maximum number of runs to list, capped at 100")
     history_list.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
 
+    trace = sub.add_parser("trace", help="Inspect local AgentOps traces and spans")
+    trace_sub = trace.add_subparsers(dest="trace_command")
+    trace_report = trace_sub.add_parser("report", help="List and summarize recent local traces")
+    trace_report.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    trace_report.add_argument("--limit", type=int, default=20, help="Maximum number of traces to list, capped at 100")
+    trace_report.add_argument("--without-events", action="store_true", help="Exclude event projections from the report")
+    trace_report.add_argument("--without-metrics", action="store_true", help="Exclude metric projections from the report")
+    trace_report.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+
+    trace_inspect = trace_sub.add_parser("inspect", help="Inspect one trace id and return its span tree")
+    trace_inspect.add_argument("trace_id", help="Trace id to inspect")
+    trace_inspect.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    trace_inspect.add_argument("--limit", type=int, default=100, help="Maximum spans/events to inspect, capped at 500")
+    trace_inspect.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+
+    metrics = sub.add_parser("metrics", help="Inspect local AgentOps metrics")
+    metrics_sub = metrics.add_subparsers(dest="metrics_command")
+    metrics_summary = metrics_sub.add_parser("summary", help="Aggregate local command/agent/tool/model metrics")
+    metrics_summary.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    metrics_summary.add_argument("--category", default=None, help="Optional metric category filter such as command, agent, tool, policy, approval or model")
+    metrics_summary.add_argument("--limit", type=int, default=50, help="Maximum recent metrics to include, capped at 500")
+    metrics_summary.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+
     approval = sub.add_parser("approval", help="Manage local human approval workflow records")
     approval_sub = approval.add_subparsers(dest="approval_command")
 
@@ -2656,6 +2754,12 @@ def _command_name_from_args(args: argparse.Namespace) -> str:
     if command == "history":
         subcommand = getattr(args, "history_command", None)
         return f"history {subcommand}" if subcommand else "history"
+    if command == "trace":
+        subcommand = getattr(args, "trace_command", None)
+        return f"trace {subcommand}" if subcommand else "trace"
+    if command == "metrics":
+        subcommand = getattr(args, "metrics_command", None)
+        return f"metrics {subcommand}" if subcommand else "metrics"
     if command == "approval":
         subcommand = getattr(args, "approval_command", None)
         return f"approval {subcommand}" if subcommand else "approval"
@@ -2753,6 +2857,24 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
     if args.command == "history":
         if args.history_command == "list":
             return history_list_command(json_output=args.json, limit=args.limit, write_report=args.write_report)
+        parser.print_help()
+        return int(ExitCode.FAIL)
+    if args.command == "trace":
+        if args.trace_command == "report":
+            return trace_report_command(
+                limit=args.limit,
+                include_events=not args.without_events,
+                include_metrics=not args.without_metrics,
+                json_output=args.json,
+                write_report=args.write_report,
+            )
+        if args.trace_command == "inspect":
+            return trace_inspect_command(args.trace_id, limit=args.limit, json_output=args.json, write_report=args.write_report)
+        parser.print_help()
+        return int(ExitCode.FAIL)
+    if args.command == "metrics":
+        if args.metrics_command == "summary":
+            return metrics_summary_command(category=args.category, limit=args.limit, json_output=args.json, write_report=args.write_report)
         parser.print_help()
         return int(ExitCode.FAIL)
     if args.command == "approval":

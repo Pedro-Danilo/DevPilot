@@ -2,7 +2,7 @@
 title: "Observability Plan — DevPilot Local"
 doc_id: "DEVPL-OPS-001"
 status: "approved"
-version: "1.4.0"
+version: "1.5.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
@@ -317,3 +317,18 @@ Señales nuevas o consolidadas:
 - Métricas por categorías `agent`, `tool`, `policy`, `approval` y `model`.
 
 Todas las señales son best-effort, redacted y locales. Si la persistencia de observabilidad falla, el resultado funcional del comando no debe cambiar. La consulta operacional queda pendiente para `FUNC-SPRINT-61`.
+
+
+## 21. Actualización FUNC-SPRINT-61 — Consulta CLI de trazas y métricas
+
+`FUNC-SPRINT-61` agrega la primera capa operativa de consulta para observabilidad v2. La decisión mantiene el alcance local-first de `ADR-0012`: no hay exporter, no hay dependencia OpenTelemetry obligatoria, no hay telemetría remota y no se requiere UI.
+
+Comandos disponibles:
+
+| Comando | Señal consultada | Reporte opcional | Estado |
+|---|---|---|---|
+| `trace report` | trazas recientes + spans/eventos/métricas | `outputs/reports/trace_report.*` | implementado inicial |
+| `trace inspect <trace_id>` | árbol de spans de una traza | `outputs/reports/trace_inspect_<trace_id>.*` | implementado inicial |
+| `metrics summary` | métricas agregadas locales | `outputs/reports/metrics_summary.*` | implementado inicial |
+
+Reglas vigentes: los comandos devuelven `CommandResult`, toleran DB vacía, tratan `trace_id` inexistente como warning controlado y aplican redacción antes de emitir JSON o reportes. La calidad industrial completa todavía requiere exporter dry-run, AgentOps Quality Gate, retención y visualización futura.
