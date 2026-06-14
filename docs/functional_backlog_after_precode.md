@@ -2220,4 +2220,4 @@ Con `FUNC-SPRINT-62`, DevPilot completa el nivel FE-L5 inicial: payload OTel-lik
 
 Con `FUNC-SPRINT-63`, DevPilot cierra Fase E de AgentOps y observabilidad. El core dispone de trazas v2, spans, eventos, métricas, instrumentación agentic, CLI de consulta, exporter OpenTelemetry dry-run y AgentOps Quality Gate.
 
-La transición hacia `FUNC-SPRINT-64` queda condicionada a mantener las señales AgentOps como fuente de verdad para Fase F. La futura API/UI local debe consumir `CommandResult`, reportes y servicios del core sin duplicar lógica ni saltarse `ApplicationService`, `PolicyEngine`, MIASI, `ReportEngine`, `TraceStore` o `MetricsCollector`.
+La transición hacia `FUNC-SPRINT-64` queda condicionada a mantener las señales AgentOps como fuente de verdad para Fase F. La futura API/Web UI local debe consumir `CommandResult`, reportes y servicios del core sin duplicar lógica ni saltarse `ApplicationService`, `PolicyEngine`, MIASI, `ReportEngine`, `TraceStore` o `MetricsCollector`. La estrategia visual vigente es web-first: Web UI local primero, Web UI real después, Desktop diferido por ADR posterior.

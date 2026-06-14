@@ -97,7 +97,7 @@ El MVP+ será la expansión inmediata del MVP hacia capacidades reales de SDLC s
 | Elemento | Motivo |
 |---|---|
 | UI web completa | Requiere validar primero core y seguridad. |
-| Aplicación desktop completa | Comprometida para fase posterior, no MVP. |
+| Aplicación desktop completa | Diferida; no MVP ni Fase F salvo ADR posterior. |
 | SaaS multiusuario | Fuera del objetivo personal inicial. |
 | Integración obligatoria con OpenAI/Gemini/Mistral/etc. | Mantener costo cero y local-first. |
 | LLM obligatorio | Validadores offline primero. |
@@ -183,7 +183,7 @@ El MVP debe preparar la noción de workspace, aunque no implemente toda su gesti
 
 ## 16. Decisión de alcance
 
-El MVP queda acotado a CLI + validadores, pero la visión aprobada exige MVP+ como siguiente evolución obligatoria antes de desktop/web.
+El MVP queda acotado a CLI + validadores, pero la visión aprobada exige MVP+ como siguiente evolución obligatoria antes de API local y Web UI local. Desktop queda diferido por decisión web-first.
 
 
 ## 16. Nota sobre costo, calidad y APIs externas

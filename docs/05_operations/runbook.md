@@ -2,12 +2,12 @@
 title: "Runbook — DevPilot Local"
 doc_id: "DEVPL-OPS-002"
 status: "approved"
-version: "1.23.0"
+version: "1.24.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
 phase: "FUNC-SPRINT-31"
-updated: "2026-06-13"
+updated: "2026-06-14"
 approval: "approved_by_owner"
 source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved + 03_security approved"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
@@ -95,6 +95,57 @@ git diff -- docs
 git status
 git add docs
 git commit -m "docs: describe change"
+```
+
+
+## Estrategia visual Fase F — Web UI local primero
+
+### Propósito
+
+Sin implementar todavía servidor ni frontend, DevPilot adopta una regla operativa para Fase F: **Web UI local primero**, diseñada para evolucionar a **Web UI real** cuando existan contratos, seguridad y operación suficientes. Desktop queda diferido fuera de Fase F.
+
+### Funcionamiento previsto
+
+```text
+CLI -> ApplicationService -> Core
+Web UI local -> API local segura 127.0.0.1 -> ApplicationService -> Core
+Web UI real futura -> contratos endurecidos -> ApplicationService -> Core
+Desktop opcional posterior -> solo por ADR futura -> API/ApplicationService -> Core
+```
+
+### Criterios PASS
+
+```text
+La UI de Fase F consume API/ApplicationService.
+No hay lógica de negocio duplicada en frontend.
+La API local escucha por defecto en 127.0.0.1.
+Las operaciones sensibles son read-only/dry-run o approval-gated.
+La Web UI local queda diseñada para evolución futura a Web UI real.
+Desktop no se implementa en Fase F.
+```
+
+### Criterios BLOCK
+
+```text
+Construir Web UI y Desktop UI independientes.
+Implementar Desktop shell en Fase F sin ADR posterior.
+Exponer API en 0.0.0.0 por defecto.
+Usar CORS wildcard por defecto.
+Guardar secretos en UI/API/logs/reportes.
+Permitir acciones write/execute desde UI sin PolicyEngine y Approval Workflow.
+```
+
+### Riesgos
+
+```text
+Riesgo: confundir Web UI local con SaaS.
+Mitigación: la API local queda en 127.0.0.1 y sin red externa por defecto.
+
+Riesgo: reabrir Desktop prematuramente.
+Mitigación: Desktop queda fuera de Fase F y requiere ADR posterior.
+
+Riesgo: diseñar la Web UI local sin portabilidad a Web real.
+Mitigación: contratos API versionados, separación ApplicationService y pruebas contractuales.
 ```
 
 ## 6. Operación pre-code
@@ -3658,4 +3709,4 @@ outputs/reports/agentops_status.md
 
 ### Riesgos y límites
 
-Esta es una primera versión de quality gate operacional. No sustituye un dashboard, no calcula SLOs avanzados, no hace sampling estadístico ni consulta servicios externos. Fase F debe visualizar estas señales desde `ApplicationService`/API local sin duplicar lógica de negocio en la UI.
+Esta es una primera versión de quality gate operacional. No sustituye un dashboard, no calcula SLOs avanzados, no hace sampling estadístico ni consulta servicios externos. Fase F debe visualizar estas señales desde `ApplicationService`/API local sin duplicar lógica de negocio en la Web UI local. Desktop queda diferido fuera de Fase F.

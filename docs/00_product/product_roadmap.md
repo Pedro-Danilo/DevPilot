@@ -2,12 +2,12 @@
 title: "Product Roadmap — DevPilot Local"
 doc_id: "DEVPL-PROD-005"
 status: "approved"
-version: "1.1.0"
+version: "1.2.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
 phase: "FUNC-SPRINT-20"
-updated: "2026-06-10"
+updated: "2026-06-14"
 approval: "approved_by_owner"
 refinement: "DEVPL-PRE-0107 — MVP+ y visión completa de plataforma"
 approved_by: "Ordóñez"
@@ -20,7 +20,7 @@ change_reason: "Marked as historical directional roadmap and linked to post-18 r
 
 ## 1. Propósito
 
-Este roadmap define la evolución incremental y obligatoria de DevPilot Local desde el bootstrap actual hasta una plataforma agent-assisted SDLC local-first con CLI, escritorio y web. Su objetivo es ordenar el crecimiento sin saltar prematuramente a automatizaciones inseguras, pero manteniendo claro que la evolución hacia desktop/web y agentes especializados es un compromiso de producto.
+Este roadmap define la evolución incremental y obligatoria de DevPilot Local desde el bootstrap actual hasta una plataforma agent-assisted SDLC local-first con CLI, API local, Web UI local, Web UI real futura y agentes especializados. Su objetivo es ordenar el crecimiento sin saltar prematuramente a automatizaciones inseguras. La estrategia visual vigente es web-first: Desktop queda diferido y sujeto a ADR posterior.
 
 
 
@@ -46,7 +46,7 @@ Regla operativa: si una tabla histórica usa nombres como `policy-check`, `repo-
 7. Validar MIASI antes de agentes.
 8. Validar proyectos propios antes de clientes.
 9. Mantener costo externo cero en MVP.
-10. Mantener CLI como núcleo operativo aunque existan desktop/web.
+10. Mantener CLI como núcleo operativo aunque existan API local y Web UI.
 
 ## 3. Roadmap macro
 
@@ -61,7 +61,7 @@ MVP+ Git/repo/patch/code-review/refactor
   ↓
 Agentes controlados
   ↓
-Desktop app
+Web UI local
   ↓
 Web app
   ↓
@@ -84,7 +84,7 @@ Plataforma personal SDLC madura
 | F9 | MVP+ Safe Refactor | Proponer refactor seguro y reversible. | Plan de refactor. |
 | F10 | Agent-assisted Review | Agentes en dry-run para docs/código. | Recomendaciones trazables. |
 | F11 | CI/CD Local | Quality gates locales integrables con CI. | Comandos reproducibles. |
-| F12 | Desktop App | Interfaz visual para workspaces y gates. | App desktop inicial. |
+| F12 | Web UI local | Interfaz visual para workspaces, gates, reportes y trazas. | Web UI local inicial. |
 | F13 | Web App | Dashboard web y colaboración futura. | UI web controlada. |
 | F14 | Operational DevPilot | Workflows SDLC completos con agentes, políticas y trazas. | Plataforma personal madura. |
 
@@ -146,9 +146,9 @@ devpilot patch-review
 devpilot review-code
 ```
 
-### 8.2 Desktop
+### 8.2 Web UI local y Web UI real
 
-La app desktop será la primera interfaz visual fuerte.
+La Web UI local será la primera interfaz visual fuerte. Debe consumir API local y `ApplicationService`, no importar core directamente ni duplicar reglas.
 
 | Vista | Función |
 |---|---|
@@ -163,7 +163,7 @@ La app desktop será la primera interfaz visual fuerte.
 
 ### 8.3 Web
 
-La app web llegará después de desktop.
+La Web UI real llegará después de validar la Web UI local, los contratos API, seguridad, autenticación y operación.
 
 | Vista | Función |
 |---|---|
@@ -179,7 +179,7 @@ La app web llegará después de desktop.
 |---|---|
 | MVP | Workspace implícito del propio DevPilot. |
 | MVP+ | `.devpilot/` inicial para repos gestionados. |
-| Desktop | Gestión visual de workspaces. |
+| Web UI local | Gestión visual de workspaces, gates, reportes, trazas y aprobaciones. |
 | Web | Workspaces sincronizables/controlados. |
 
 ## 10. Compromisos de producto
@@ -187,8 +187,9 @@ La app web llegará después de desktop.
 | Compromiso | Decisión |
 |---|---|
 | CLI permanente | Sí. |
-| Desktop app | Sí, fase posterior a MVP+. |
-| Web app | Sí, posterior a desktop/core maduro. |
+| Web UI local | Sí, Fase F. |
+| Web UI real | Sí, posterior a Fase F y condicionada a seguridad/API madura. |
+| Desktop app | Diferida; solo por ADR posterior si se justifica. |
 | Git integration | Sí, MVP+. |
 | Agentes IA | Sí, controlados por MIASI. |
 | Local-first | Sí, por defecto. |
@@ -202,8 +203,9 @@ La app web llegará después de desktop.
 | Pre-code | MVP | Docs approved + checklist PASS. |
 | MVP | MVP+ | Validators strict + reports + policy gates. |
 | MVP+ | Agentes | Git/patch safety + MIASI gates. |
-| Agentes | Desktop | Core estable + tests + trazas. |
-| Desktop | Web | Seguridad, auth, operación y modelo de datos. |
+| Agentes | Web UI local | Core estable + tests + trazas + AgentOps. |
+| Web UI local | Web UI real | Seguridad, auth, operación y modelo de datos. |
+| Web UI real | Desktop opcional | ADR posterior con justificación de distribución y permisos nativos. |
 
 ## 12. Veredicto
 

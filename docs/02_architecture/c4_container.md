@@ -2,12 +2,12 @@
 title: "C4 Container — DevPilot Local"
 doc_id: "DEVPL-ARCH-003"
 status: "approved"
-version: "1.1.0"
+version: "1.2.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
 phase: "FUNC-SPRINT-20"
-updated: "2026-06-10"
+updated: "2026-06-14"
 approval: "approved_by_owner_direction"
 change_reason: "Reconciled by FUNC-SPRINT-20 to mark real container states after Sprint 18/19 closure."
 approved_by: "Ordóñez"
@@ -29,10 +29,13 @@ El diagrama de contenedores debe mostrar suficientes decisiones tecnológicas pa
 flowchart TD
   User[Owner/Developer] --> CLI[Container: DevPilot CLI
 Python]
-  Desktop[Container futuro: Desktop UI] -.-> Core
-  Web[Container futuro: Web UI] -.-> Core
+  WebLocal[Container futuro Fase F: Web UI local] -.-> APILocal[Container futuro Fase F: API local segura]
+  WebReal[Container futuro posterior: Web UI real] -. futuro .-> APILocal
+  Desktop[Container opcional diferido: Desktop shell] -. ADR posterior .-> APILocal
 
   CLI --> Core[Container: DevPilot Core]
+  APILocal -.-> AppService[Container: ApplicationService]
+  AppService -.-> Core
   Core --> Workspace[Workspace Manager]
   Core --> Standards[Standards Registry]
   Core --> Validation[Validation Engine]
@@ -102,15 +105,18 @@ Python]
 | Repo Analyzer | MVP+ | Python | Analizar estructura, docs, tests, módulos, dependencias y riesgos. |
 | Patch Review Engine | MVP+ | Python | Evaluar patches sin aplicar. |
 | Environment Adapter | MVP+ | Python | Validar Python, venv, dependencias y comandos reproducibles. |
-| Desktop UI | Post-MVP | Por ADR | Experiencia visual local sobre core. |
-| Web UI | Post-MVP | Por ADR | Dashboard y colaboración futura. |
+| API local segura | Fase F | Por ADR-0013 + Sprint 64 | Frontera localhost/token hacia ApplicationService. |
+| Web UI local | Fase F | Web stack por ADR Sprint 64 | Dashboard, reportes, trazas, approvals y settings locales. |
+| Web UI real | Posterior a Fase F | Evolución web futura | Reutiliza contratos API y componentes web cuando seguridad/operación maduren. |
+| Desktop shell | Futuro condicionado | ADR posterior | Opcional; no se implementa en Fase F. |
 
 ## 4. Reglas de comunicación
 
 | Origen | Destino | Regla |
 |---|---|---|
 | CLI | Core | CLI no contiene lógica de negocio pesada. |
-| Desktop/Web | Core | UI futura consume el mismo core. |
+| Web UI local/API | ApplicationService/Core | UI futura consume API local y servicios de aplicación, no core directo. |
+| Desktop opcional | API local | Solo si ADR posterior lo aprueba; nunca duplica lógica. |
 | Core | Validators | Validaciones determinísticas producen PASS/FAIL/WARN/BLOCK. |
 | Core | Agents | Agentes producen borradores, hallazgos o planes; no aprueban por sí mismos. |
 | Agents | ModelAdapter | Todo uso de modelo pasa por proveedor configurado y trazable. |
@@ -166,8 +172,8 @@ Python]
 | Tema | ADR futuro |
 |---|---|
 | Framework específico de agentes | ADR de selección entre runtime propio, OpenAI Agents SDK, LangGraph u otros. |
-| Desktop stack | ADR de selección entre Tauri, Electron, Qt, .NET MAUI u otro. |
-| Web stack | ADR de backend/UI y auth. |
+| Web/API stack | ADR-0013 y Sprint 64 deben formalizar API local segura, Web UI local y ruta a Web UI real. |
+| Desktop stack | Diferido; ADR posterior solo si se justifica tras validar Web UI. |
 | Vector store local | ADR sobre FAISS/Chroma/SQLite-vector u opción simple. |
 | MCP adapter | ADR específico de integración y hardening. |
 
@@ -200,8 +206,10 @@ Esta sección fue agregada por `FUNC-SPRINT-20` para distinguir contenedores rea
 | Git local | `implemented-initial` | `git-status --json` | Sin commit/tag/push/branches/tags/log dedicados. |
 | Model provider layer | `partial` | MockModelAdapter | Ollama/LM Studio/API reales no implementados. |
 | External LLM APIs | `disabled` | CostGuard y ProviderRegistry | Bloqueadas por defecto. |
-| Desktop UI | `future` | Sin shell | Solo contrato interno. |
-| Web UI/API | `future` | Sin servidor HTTP | Requiere ADR, auth y threat model. |
+| API local segura | `planned-fase-f` | Sin servidor HTTP activo | Requiere ADR-0013/Sprint 64, token, localhost, CORS y threat model. |
+| Web UI local | `planned-fase-f` | Sin frontend activo | Interfaz visual canónica de Fase F; consume API local. |
+| Web UI real | `future-post-fase-f` | Sin despliegue web | Evolución posterior si contratos, auth y operación maduran. |
+| Desktop shell | `deferred` | Sin shell | Fuera de Fase F; requiere ADR posterior. |
 | MCP/API tools | `future` | Sin módulo | Requiere Tool Registry + policies + evals. |
 | Approval workflow | `planned` | Policy Matrix + SQLite preparatorio | Falta request/list/approve/deny operativo. |
 
@@ -211,7 +219,7 @@ La tabla se integra con `docs/02_architecture/c4_component.md` y evita que el di
 
 ### 9.4 Criterios PASS/BLOCK
 
-PASS: los contenedores futuros se leen como `future` o `contract-only`. BLOCK: usar esta vista para afirmar que existe desktop/web/API productiva o proveedores LLM reales.
+PASS: los contenedores futuros se leen como `future`, `planned-fase-f`, `deferred` o `contract-only`. BLOCK: usar esta vista para afirmar que existe API/Web UI productiva, Desktop implementado o proveedores LLM reales.
 
 ### 9.5 Riesgos
 

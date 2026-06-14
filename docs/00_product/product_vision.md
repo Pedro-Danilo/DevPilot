@@ -2,18 +2,18 @@
 title: "Product Vision — DevPilot Local"
 doc_id: "DEVPL-PROD-001"
 status: "approved"
-version: "1.0.0"
+version: "1.1.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
 phase: "SPRINT-PRECODE-01"
-updated: "2026-06-02"
+updated: "2026-06-14"
 approval: "approved_by_owner"
 refinement: "DEVPL-PRE-0107 — MVP+ y visión completa de plataforma"
 approved_by: "Ordóñez"
 approved_at: "2026-06-02"
 approval_scope: "SPRINT-PRECODE-01 product baseline"
-change_policy: "controlled_changes_allowed_until_precode_baseline"
+change_policy: "controlled_changes_allowed_via_docs_as_code"
 ---
 # Product Vision — DevPilot Local
 
@@ -26,7 +26,7 @@ El producto nace para aplicar, validar y operacionalizar dos estándares creados
 - **MIPSoftware — Modelo de Ingeniería Profesional de Software**, como estándar general para el ciclo de vida de cualquier aplicación profesional.
 - **MIASI — Modelo de Ingeniería de Sistemas Agénticos Inteligentes**, como extensión obligatoria para proyectos que incorporen IA, agentes, LLMs, RAG, memoria, tool calling, evaluación agentic, trazas o automatización asistida por modelos.
 
-La visión de largo plazo no es opcional: **DevPilot Local evolucionará desde un núcleo CLI local hacia una aplicación de escritorio y posteriormente hacia una interfaz web**, manteniendo el CLI y el core como base operativa, automatizable, testeable y reutilizable.
+La visión de largo plazo se ajusta a una estrategia **web-first**: **DevPilot Local evolucionará desde un núcleo CLI local hacia una Web UI local, posteriormente hacia una Web UI real, y solo más adelante —si una ADR posterior lo justifica— hacia un shell Desktop**. El CLI y el core siguen siendo la base operativa, automatizable, testeable y reutilizable.
 
 ## 2. Problema
 
@@ -174,7 +174,8 @@ DevPilot será una aplicación híbrida.
 | Report Engine | Reportes JSON, Markdown y JSONL. |
 | Validator Engine | Validación de documentos, schemas y checklists. |
 | Policy Engine | Reglas de permisos, rutas, dry-run y acciones. |
-| Desktop/Web UI | Interfaces visuales futuras sobre el mismo core. |
+| Web UI local/web real | Interfaz visual prioritaria sobre el mismo core, API-first. |
+| Desktop opcional | Shell futuro diferido; no forma parte de Fase F salvo ADR posterior. |
 
 ### 10.2 Componentes agénticos
 
@@ -251,10 +252,10 @@ El post-MVP consolida:
 La evolución de interfaz es un compromiso de producto:
 
 ```text
-CLI local → CLI + desktop → CLI + desktop + web
+CLI local → CLI + API local → CLI + Web UI local → Web UI real futura → Desktop opcional posterior
 ```
 
-El CLI seguirá siendo el core operativo. La app desktop será la primera interfaz visual fuerte para trabajo personal con repos locales. La web llegará después, cuando el core, los gates y la seguridad estén suficientemente maduros.
+El CLI seguirá siendo el core operativo. La primera interfaz visual fuerte será la Web UI local, porque permite aprovechar `ApplicationService`, contratos API, reportes y AgentOps sin introducir todavía packaging desktop ni permisos nativos. La Web UI real llegará después, cuando seguridad, contratos y operación estén suficientemente maduros. Desktop queda como posibilidad posterior, no como compromiso de Fase F.
 
 ## 13. Indicadores de éxito
 
@@ -280,7 +281,7 @@ El producto no debe avanzar a desarrollo funcional fuerte si:
 - MIASI no está activado;
 - no existe estrategia de workspaces;
 - no se diferencian componentes tradicionales y agénticos;
-- la evolución desktop/web queda como posibilidad vaga y no como compromiso.
+- la evolución visual queda sin estrategia web-first, sin criterios de seguridad o con duplicación entre Web y Desktop.
 
 ## 15. Veredicto
 

@@ -7,14 +7,14 @@ owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
 phase: "SPRINT-PRECODE-03"
-updated: "2026-06-04"
+updated: "2026-06-14"
 approval: "approved_by_owner_direction"
 source_baseline: "SPRINT-PRECODE-01 product baseline approved + SPRINT-PRECODE-02 requirements baseline approved"
 change_reason: "Architecture audit after owner feedback: hybrid LLM strategy, persistence, industrial agents, security and technology stack expanded."
 approved_by: "Ordóñez"
 approved_at: "2026-06-04"
 approval_scope: "SPRINT-PRECODE-03 architecture baseline"
-change_policy: "controlled_changes_allowed_until_precode_baseline"
+change_policy: "controlled_changes_allowed_via_docs_as_code"
 ---
 # Architecture Document — DevPilot Local
 
@@ -24,7 +24,7 @@ Este documento define la **arquitectura de referencia inicial** de DevPilot Loca
 
 1. **MVP**: CLI local, workspaces mínimos, validadores documentales estrictos, gates MIPSoftware/MIASI, reportes y agentes documentales controlados.
 2. **MVP+**: integración Git, análisis de repos reales, validación de entorno, revisión de patches, code review dry-run, refactor seguro, persistencia local, trazas JSONL y agentes especializados.
-3. **Post-MVP / plataforma madura**: aplicación de escritorio, interfaz web, dashboards, orquestación multiagente, RAG/memoria, evaluación agentic, observabilidad industrial, CI/CD y operación controlada.
+3. **Post-MVP / plataforma madura**: API local segura, Web UI local, Web UI real futura, dashboards, orquestación multiagente, RAG/memoria, evaluación agentic, observabilidad industrial, CI/CD y operación controlada. Desktop queda diferido y sujeto a ADR posterior.
 
 La arquitectura debe evitar dos extremos: una herramienta débil que solo revise si existen archivos, y una plataforma de agentes que modifique repositorios sin controles. DevPilot Local debe crecer como una plataforma **local-first, híbrida, agent-assisted, trazable y gobernada por MIPSoftware + MIASI**.
 
@@ -49,7 +49,7 @@ La arquitectura debe evitar dos extremos: una herramienta débil que solo revise
 | MIASI obligatorio | Todo agente debe tener Agent Card, Tool Card, Policy Card, Eval Card, Human Approval Card y Observability Card. |
 | Inteligencia donde aporte valor | La plataforma debe incorporar agentes IA profesionales para asistir documentación, requerimientos, arquitectura, seguridad, código, patches, refactor, pruebas y release. |
 | CLI como primer canal | El CLI será el primer consumidor del core, pero no será el producto final único. |
-| Desktop y Web comprometidos | La evolución a escritorio y web es compromiso de roadmap, no posibilidad opcional. |
+| Estrategia visual web-first | La evolución visual prioriza Web UI local y Web UI real futura; Desktop queda diferido por ADR posterior. |
 | Workspaces | Cada proyecto gestionado se modela como workspace con estado, políticas, reportes, trazas y gates. |
 | Persistencia local | El sistema debe persistir estado operativo, ejecuciones, gates, aprobaciones, trazas, costos y hallazgos. |
 | Dry-run por defecto | Toda acción de escritura, patch, refactor, commit, instalación o despliegue inicia en dry-run. |
@@ -64,7 +64,7 @@ La arquitectura debe evitar dos extremos: una herramienta débil que solo revise
 | Seguridad | Policy Engine, Secret Guard, path sandbox, approvals, no overwrite. | Acciones sensibles bloqueadas sin aprobación. |
 | Trazabilidad | Reportes JSON/Markdown, JSONL, SQLite local, correlación por workspace/run. | Cada gate produce evidencia. |
 | Mantenibilidad | Separación CLI/Core/Workspace/Validation/Agents/Policies/Adapters/Persistence. | Cambios localizados por capa. |
-| Extensibilidad | Desktop/Web consumen el mismo DevPilot Core. | No duplicar reglas en UI. |
+| Extensibilidad | Web UI local/web real consumen API/ApplicationService sobre el mismo DevPilot Core. | No duplicar reglas en UI. |
 | Portabilidad | Windows-first, diseño portable, rutas normalizadas. | Funciona en `D:\Projects` y evita rutas rígidas internas. |
 | Evaluabilidad | Gates determinísticos + evaluaciones MIASI para agentes. | PASS/FAIL separado de recomendaciones agentic. |
 | Confiabilidad | Pruebas herméticas, fallos accionables, reportes reproducibles. | `pytest -q` y validadores PASS. |
@@ -90,15 +90,17 @@ El costo cero es deseable en MVP, pero no debe degradar la calidad del producto 
 |---|---|
 | MVP | CLI, Core, Workspace Detector, Artifact Validator, Frontmatter Validator, Checklist Engine, Traceability Validator, MIASI Detector, PreCode Documentation Agent, Documentation Audit Agent, Policy Engine, Report Engine, CostGuard básico en modo cero externo. |
 | MVP+ | Workspace Manager persistente, SQLite Store, Git Adapter read-only, Repo Analyzer, Environment Validator, Patch Review Engine, Code Review Assistant, Safe Refactor Planner, Agent Runtime controlado, Tool Registry, JSONL Trace Writer, CostGuard real, SecretGuard, Approval Queue. |
-| Post-MVP | Desktop UI, Web UI, dashboards, multiagentes especializados, RAG/memoria, conectores MCP/API, integración CI/CD, release/deploy assist, observabilidad ampliada y operación multi-workspace. |
+| Post-MVP | API local segura, Web UI local, Web UI real futura, dashboards, multiagentes especializados, RAG/memoria, conectores MCP/API, integración CI/CD, release/deploy assist, observabilidad ampliada y operación multi-workspace. Desktop queda como opción posterior condicionada. |
 
 ## 7. Arquitectura lógica general
 
 ```mermaid
 flowchart TD
   CLI[DevPilot CLI] --> Core[DevPilot Core]
-  Desktop[Desktop UI futura] -.-> Core
-  Web[Web UI futura] -.-> Core
+  WebLocal[Web UI local web-first] -.-> APILocal[API local segura]
+  WebReal[Web UI real futura] -.-> APILocal
+  Desktop[Desktop opcional diferido] -. futura ADR .-> APILocal
+  APILocal -.-> AppService[ApplicationService]
 
   Core --> Workspace[Workspace Manager]
   Core --> Standards[Standards Registry
@@ -173,13 +175,14 @@ Mock / Local LLM / API]
 | Persistence Layer | MVP/MVP+ | Persistir documentos, estado, eventos, gates, aprobaciones y costos. | Datos corruptos o sensibles. | SQLite + filesystem + retención. |
 | Git Adapter | MVP+ | Leer estado Git y luego preparar acciones controladas. | Mutaciones accidentales. | Read-only inicial, write con approval. |
 | Patch Review Engine | MVP+ | Evaluar patches sin aplicarlos. | Aplicación no aprobada. | Dry-run + human approval. |
-| Desktop/Web UI | Post-MVP | Experiencia visual sobre core común. | Duplicar reglas. | Core como única fuente lógica. |
+| Web UI local/web real | Post-MVP | Experiencia visual API-first sobre core común. | Duplicar reglas. | Core como única fuente lógica vía ApplicationService. |
+| Desktop opcional | Futuro condicionado | Shell opcional si ADR posterior lo justifica. | Duplicar UI o lógica. | Diferir fuera de Fase F. |
 
 ## 9. Capas de referencia
 
 | Capa | Responsabilidad |
 |---|---|
-| Interface Layer | CLI actual, desktop/web futuros. |
+| Interface Layer | CLI actual, API local y Web UI local/web real futura. Desktop opcional diferido. |
 | Application/Core Layer | Orquestación de casos de uso y workflow SDLC. |
 | Workspace Layer | Raíz de proyecto, `.devpilot/`, configuración, estado y boundaries. |
 | Standards Layer | MIPSoftware, MIASI, plantillas, schemas, checklists y ADRs. |
@@ -281,7 +284,7 @@ DevPilot debe combinar filesystem versionable y base de datos local embebida.
 | RAG/memoria | No obligatorio | RAG local básico sobre docs/repos | vector store local / híbrido |
 | Observabilidad | JSON/Markdown | JSONL + traces + métricas | OpenTelemetry GenAI compatible |
 | Git | No requerido en MVP inicial | read-only | write flows con approval |
-| Desktop | No incluido | diseño | app local |
+| Web UI local | No incluido aún | Fase F | interfaz visual local web-first |
 | Web | No incluido | diseño | UI web con auth/seguridad |
 | Integraciones | Filesystem local | Git, repo, env, patch | MCP/API/CI opcionales |
 
@@ -310,7 +313,7 @@ La tecnología exacta de agentes se decidirá mediante ADR cuando pase de diseñ
 | Reducir local-first a prohibición de APIs. | Media | Híbrido controlado con CostGuard. |
 | API keys expuestas o costos no controlados. | Alta | SecretGuard + CostGuard + redaction. |
 | Persistencia insuficiente para trazabilidad. | Alta | SQLite + JSONL + reports. |
-| Duplicar lógica entre CLI, desktop y web. | Alta | Core compartido. |
+| Duplicar lógica entre CLI, API local, Web UI y un eventual Desktop. | Alta | ApplicationService/Core compartidos; Desktop diferido. |
 | Escanear rutas fuera de workspace. | Alta | Workspace boundary + policy engine. |
 | Aplicar patches sin aprobación. | Alta | Dry-run + human approval. |
 | Agentes sin evaluación industrial. | Alta | Eval Harness + MIASI. |

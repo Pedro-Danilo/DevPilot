@@ -2,13 +2,13 @@
 title: "DevPilot Local — Backlog ejecutable Fase F: Producto visual"
 doc_id: "DEVPL-FUNC-BACKLOG-FASE-F-001"
 status: "approved"
-version: "1.0.0"
+version: "1.1.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
 phase: "FASE-F-PRODUCTO-VISUAL"
 updated: "2026-06-14"
-source_repo: "repo_DevPilot_Local_76.zip"
+source_repo: "repo_DevPilot_Local_77.zip"
 source_report: "Informe de avance DevPilot - sprint 0 - 18.docx"
 source_backlog_model: "docs/functional_backlog_after_precode.md"
 baseline_dependency: "Fases A-E cerradas; Fase E validada por FUNC-SPRINT-63"
@@ -21,7 +21,8 @@ approval: "approved_after_phase_e_agentops_closure"
 first_open_sprint: "FUNC-SPRINT-64"
 last_completed_sprint: "FUNC-SPRINT-63"
 next_sprint: "FUNC-SPRINT-64"
-phase_f_status: "approved_for_implementation"
+phase_f_status: "approved_for_implementation_web_first"
+ui_strategy: "web_local_first_web_real_ready_desktop_deferred"
 ---
 
 # DevPilot Local — Backlog ejecutable Fase F: Producto visual
@@ -30,14 +31,16 @@ phase_f_status: "approved_for_implementation"
 
 Este documento queda promovido a estado `approved` después del cierre validado de `FUNC-SPRINT-63 — AgentOps Quality Gate y cierre Fase E`. Su propósito es convertir la **Fase F — Producto visual** en un backlog de implementación ejecutable, siguiendo el modelo operativo usado en `docs/functional_backlog_after_precode.md`.
 
-La Fase F corresponde a la **Ola 9 — API local y UI Web/Desktop**. Parte del estado real de `repo_DevPilot_Local_76.zip`, donde DevPilot ya dispone de `ApplicationService`, DTOs, `app contract`, CLI funcional y core modular. La fase no debe reescribir el core ni duplicar validadores en la UI. Debe exponer el core mediante contratos estables, API local segura y pantallas inicialmente read-only/dry-run.
+La Fase F corresponde a la **Ola 9 — API local y Web UI local web-ready**. Parte del estado real de `repo_DevPilot_Local_77.zip`, donde DevPilot ya dispone de `ApplicationService`, DTOs, `app contract`, CLI funcional, core modular y AgentOps local. La fase no debe reescribir el core ni duplicar validadores en la UI. Debe exponer el core mediante contratos estables, API local segura y pantallas inicialmente read-only/dry-run.
+
+Decisión de estrategia visual: DevPilot adoptará **Web UI local como interfaz visual canónica de Fase F**, diseñada desde el inicio para evolucionar hacia una **Web UI real** cuando exista madurez de API, seguridad, contratos y operación. La idea de **UI Desktop queda abandonada para Fase F como objetivo de implementación**, y solo podrá reconsiderarse en una fase posterior mediante ADR específica, si existe evidencia de conveniencia de producto, distribución y seguridad.
 
 
 ## Estado aprobado para implementación
 
 La revisión de cierre de `FUNC-SPRINT-63` confirma que este backlog es una continuación apropiada de DevPilot porque Fase E dejó una capa AgentOps local capaz de exponer trazas, métricas, reportes, exporter OTel dry-run y un `agentops status` consumible por API/UI futura. Por tanto, Fase F puede iniciar por `FUNC-SPRINT-64` sin implementar todavía servidor ni frontend, manteniendo la secuencia segura: decisión arquitectónica y threat model antes de API local, y API local antes de UI.
 
-Ajuste de aprobación aplicado: se actualiza la fuente de verdad de `repo_DevPilot_Local_22.zip` a `repo_DevPilot_Local_76.zip`, y las entradas de cada sprint quedan condicionadas a Fases A-E cerradas, no solo A-D.
+Ajuste de aprobación aplicado: se actualiza la fuente de verdad de `repo_DevPilot_Local_22.zip` a `repo_DevPilot_Local_77.zip`, las entradas de cada sprint quedan condicionadas a Fases A-E cerradas, no solo A-D, y la estrategia visual queda alineada con `ADR-0013 — Web UI first`: local primero, web real después, desktop diferido.
 
 ## 1. Propósito
 
@@ -52,7 +55,7 @@ CLI + ApplicationService + app contract
 hacia:
 
 ```text
-API local segura + Web UI local + dashboard + viewers + Desktop shell preliminar
+API local segura + Web UI local web-ready + dashboard + viewers + ruta de evolución a Web UI real
 ```
 
 ## 2. Regla central de Fase F
@@ -72,7 +75,7 @@ Reglas obligatorias:
 5. Toda operación write/execute debe exigir Approval Workflow de Fase B.
 6. La API no debe habilitar CORS amplio por defecto.
 7. La API debe tener token local o mecanismo equivalente antes de exponer operaciones sensibles.
-8. Desktop shell debe quedar detrás de ADR y no introducir auto-update/red externa sin decisión explícita.
+8. Desktop queda fuera del alcance de implementación de Fase F; solo podrá reabrirse por ADR posterior, sin auto-update, red externa ni permisos nativos implícitos.
 
 ## 3. Alcance de Fase F
 
@@ -83,18 +86,19 @@ Incluye:
 - contratos OpenAPI/JSON Schema;
 - API local read-only/dry-run;
 - seguridad localhost y token local;
-- Web UI local MVP;
+- Web UI local MVP diseñada con separación API-first;
+- preparación explícita para evolución futura a Web UI real;
 - dashboard de workspace/readiness/MIASI;
 - report viewer;
 - trace viewer;
 - approval center inicial;
 - settings UI inicial;
-- desktop shell preliminar o decisión técnica documentada;
-- cierre de producto visual MVP.
+- decisión documentada de diferir Desktop fuera de Fase F;
+- cierre de producto visual MVP web-first.
 
 No incluye:
 
-- SaaS;
+- SaaS inmediato;
 - colaboración multiusuario real;
 - RBAC industrial completo;
 - ejecución remota;
@@ -102,7 +106,8 @@ No incluye:
 - exposición pública de la API;
 - marketplace;
 - multiagente visual avanzado;
-- cloud control plane.
+- cloud control plane;
+- UI Desktop o shell nativo en Fase F.
 
 ## 4. Niveles de implementación de Fase F
 
@@ -112,9 +117,9 @@ No incluye:
 | FF-L1 | ApplicationService v2 | Exponer casos de uso por dominio | Services UI-ready |
 | FF-L2 | API local | Endpoints read-only/dry-run | FastAPI local o adapter elegido |
 | FF-L3 | Seguridad local | Token, localhost, CORS restringido | API protegida |
-| FF-L4 | Web UI MVP | Dashboard y viewers | UI local funcional |
+| FF-L4 | Web UI local MVP | Dashboard y viewers | UI local funcional, API-first |
 | FF-L5 | Acciones controladas | Approval center y dry-run actions | UI no destructiva |
-| FF-L6 | Desktop shell | Empaquetado preliminar | Shell o decisión postergada justificada |
+| FF-L6 | Cierre web-first | Cierre Fase F y decisión de evolución | Web UI local consolidada; Web real planificada; Desktop diferido |
 
 ## 5. Definition of Done transversal
 
@@ -148,12 +153,13 @@ Un sprint de Fase F solo puede cerrarse si cumple:
 
 | Ola | Sprints | Resultado esperado |
 |---|---|---|
-| Ola 9 | FUNC-SPRINT-64 a 73 | API local segura, Web UI MVP, viewers, approval/settings iniciales y Desktop shell preliminar |
+| Ola 9 | FUNC-SPRINT-64 a 73 | API local segura, Web UI local web-ready, viewers, approval/settings iniciales y cierre web-first; Desktop diferido |
 
 ## 8. Referencias técnicas externas de apoyo
 
 - FastAPI es una opción natural para API local porque se integra con Python y type hints, y genera contratos/documentación OpenAPI automáticamente.
-- Tauri es candidato para desktop shell porque permite aplicaciones pequeñas, rápidas y seguras usando frontend web y backend nativo.
+- La Web UI local debe diseñarse con contratos API estables para permitir evolución futura a Web UI real sin reescribir el core.
+- Tauri/Electron/Desktop quedan fuera de Fase F; solo se reconsiderarán mediante ADR posterior si existe justificación de distribución, permisos nativos o experiencia de usuario.
 - Cualquier UI debe respetar la separación C4: UI como contenedor, API/adapters como contenedor, core como componente reutilizable.
 
 
@@ -162,7 +168,7 @@ Un sprint de Fase F solo puede cerrarse si cumple:
 
 ## Objetivo
 
-Tomar la decisión arquitectónica de interfaz/API antes de implementar servidor o frontend, comparando FastAPI, Textual, Tauri, Electron, PySide/PyQt y mantener solo CLI.
+Formalizar la estrategia **Web UI first** antes de implementar servidor o frontend: Web UI local como interfaz canónica de Fase F, API local segura como frontera, evolución futura a Web UI real y Desktop diferido fuera de la fase.
 
 ## Entradas
 
@@ -177,13 +183,13 @@ Tomar la decisión arquitectónica de interfaz/API antes de implementar servidor
 |---|---|---|
 | US-FUNC-64-001 | Como arquitecto, quiero una ADR para evitar escoger stack visual por impulso. | Existe ADR con comparación y decisión. |
 | US-FUNC-64-002 | Como revisor de seguridad, quiero threat model de API local/UI. | Riesgos localhost, token, CORS y acciones sensibles documentados. |
-| US-FUNC-64-003 | Como owner, quiero entender por qué UI Web/Desktop y no solo CLI. | La ADR explica trade-offs en lenguaje técnico y corriente. |
+| US-FUNC-64-003 | Como owner, quiero entender por qué Web UI local primero y no Desktop en Fase F. | La ADR explica trade-offs, evolución a Web real y razones para diferir Desktop. |
 
 ## Tareas
 
 | ID | Tarea | Entregable | PASS |
 |---|---|---|---|
-| FUNC-64-001 | Crear ADR UI/API | docs/02_architecture/adrs/ADR-XXXX-ui-api-local.md | Decisión explícita. |
+| FUNC-64-001 | Ratificar/operacionalizar ADR Web UI first | docs/02_architecture/adrs/ADR-0013-web-ui-first.md o ADR complementaria | Decisión web-first explícita. |
 | FUNC-64-002 | Crear threat model de interfaz | docs/03_security/ui_api_threat_model.md | Riesgos de API/UI. |
 | FUNC-64-003 | Actualizar C4 Container | docs/02_architecture/c4_container.md | Incluye API local y UI futura. |
 | FUNC-64-004 | Actualizar internal_application_contract | docs/07_interfaces/internal_application_contract.md | Describe decisión. |
@@ -192,7 +198,7 @@ Tomar la decisión arquitectónica de interfaz/API antes de implementar servidor
 ## Archivos previstos
 
 ```text
-docs/02_architecture/adrs/ADR-XXXX-ui-api-local.md
+docs/02_architecture/adrs/ADR-0013-web-ui-first.md
 docs/03_security/ui_api_threat_model.md
 docs/02_architecture/c4_container.md
 docs/07_interfaces/internal_application_contract.md
@@ -210,13 +216,15 @@ python -m pytest -q
 
 ## Criterios PASS
 
-- ADR selecciona stack o define experimento controlado.
+- ADR ratifica Web UI local como interfaz canónica de Fase F.
+- ADR documenta evolución futura a Web UI real y Desktop diferido.
 - Threat model cubre localhost, CORS, token, CSRF/local origin, secrets y acciones críticas.
 - No se implementa servidor antes de decisión.
 
 ## Criterios BLOCK
 
-- No cerrar si no compara alternativas.
+- No cerrar si reabre Desktop como alcance implementable de Fase F sin ADR posterior.
+- No cerrar si no compara Web local, Web real futura y Desktop diferido.
 - No cerrar si no define límites read-only/dry-run iniciales.
 - No cerrar si no actualiza C4/internal contract.
 
@@ -224,9 +232,10 @@ python -m pytest -q
 
 | ID | Riesgo | Mitigación |
 |---|---|---|
-| RISK-FUNC-64-001 | Elegir stack prematuramente | ADR con alternativas y criterios. |
+| RISK-FUNC-64-001 | Elegir stack prematuramente | ADR web-first con alternativas, límites y criterios. |
 | RISK-FUNC-64-002 | Subestimar seguridad localhost | Threat model específico. |
 | RISK-FUNC-64-003 | UI acoplada al core | Regla obligatoria UI→API/ApplicationService. |
+| RISK-FUNC-64-004 | Duplicar esfuerzos con Desktop temprano | Desktop diferido fuera de Fase F; reabrir solo por ADR posterior. |
 
 ## Pruebas mínimas
 
@@ -926,11 +935,11 @@ python -m pytest -q
 Implementa FUNC-SPRINT-72: Settings UI para workspace/providers/policy en modo seguro. No guardes secretos ni habilites externos por defecto.
 ```
 
-## FUNC-SPRINT-73 — Desktop shell preliminar y cierre Fase F
+## FUNC-SPRINT-73 — Cierre Fase F web-first y decisión de evolución
 
 ## Objetivo
 
-Cerrar la Fase F con un producto visual MVP y decidir/implementar shell desktop preliminar si la ADR lo aprueba, manteniendo CLI y Web UI como rutas válidas.
+Cerrar la Fase F con un producto visual MVP web-first, documentar la ruta de evolución de Web UI local a Web UI real y mantener Desktop diferido fuera del alcance, salvo decisión posterior explícita en una fase futura.
 
 ## Entradas
 
@@ -951,7 +960,7 @@ Cerrar la Fase F con un producto visual MVP y decidir/implementar shell desktop 
 
 | ID | Tarea | Entregable | PASS |
 |---|---|---|---|
-| FUNC-73-001 | Crear desktop shell preliminar o doc de postergación | desktop/ o ADR update | Tauri/Electron/Textual según decisión. |
+| FUNC-73-001 | Crear documento de evolución Web real y postergación Desktop | docs/audits/phase_f_visual_product_closure_report.md o ADR update | Web real planificada; Desktop diferido. |
 | FUNC-73-002 | Crear Visual Product Quality Gate | tests/scripts | Verifica API/UI/core. |
 | FUNC-73-003 | Generar cierre Fase F | docs/audits/phase_f_visual_product_closure_report.md | Estado real. |
 | FUNC-73-004 | Actualizar README/runbook | docs | Instrucciones visuales. |
@@ -960,7 +969,6 @@ Cerrar la Fase F con un producto visual MVP y decidir/implementar shell desktop 
 ## Archivos previstos
 
 ```text
-desktop/README.md
 scripts/visual_product_smoke.py
 docs/audits/phase_f_visual_product_closure_report.md
 docs/release/release_manifest_visual_mvp.json
@@ -981,13 +989,13 @@ python -m pytest -q
 
 ## Criterios PASS
 
-- Fase F produce UI MVP verificable o decisión clara de postergar shell.
+- Fase F produce Web UI MVP verificable y decisión clara de diferir Desktop fuera de la fase.
 - CLI sigue siendo funcional.
 - API/UI no habilitan acciones críticas sin approval.
 
 ## Criterios BLOCK
 
-- No cerrar si Desktop shell rompe local-first.
+- No cerrar si se implementa Desktop shell en Fase F sin ADR posterior explícita.
 - No cerrar si UI requiere cloud.
 - No cerrar si no hay reporte de cierre.
 
@@ -1010,9 +1018,9 @@ python -m pytest -q
 ## Prompt operativo sugerido
 
 ```text
-Implementa FUNC-SPRINT-73: cierre Fase F con Visual Product Quality Gate, reporte de cierre y shell desktop preliminar si la ADR lo aprueba. Mantén UI local y segura.
+Implementa FUNC-SPRINT-73: cierre Fase F con Visual Product Quality Gate, reporte de cierre web-first y plan de evolución a Web UI real. Mantén Desktop diferido salvo ADR posterior.
 ```
 
 ## Cierre esperado de Fase F
 
-Al cerrar Fase F, DevPilot debe disponer de una experiencia visual local mínima, respaldada por API local segura, ApplicationService v2, report/trace viewers, approval/settings iniciales y documentación de ejecución. La CLI debe seguir siendo una interfaz plenamente soportada.
+Al cerrar Fase F, DevPilot debe disponer de una experiencia Web UI local mínima y web-ready, respaldada por API local segura, ApplicationService v2, report/trace viewers, approval/settings iniciales y documentación de ejecución. La CLI debe seguir siendo una interfaz plenamente soportada. La Web UI real queda como evolución posterior natural; Desktop permanece diferido y sujeto a nueva ADR.

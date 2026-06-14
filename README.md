@@ -22,6 +22,14 @@ Después de validar el cierre de `FUNC-SPRINT-55`, el backlog `docs/devpilot_bac
 
 La aprobación de Fase E no habilita telemetría remota, exporters externos activos, multiagente, handoffs, RAG, MCP ni ejecución remota. La fase debe construir primero contratos, `TraceContext`, spans, métricas, `TraceStore`, reportes locales y un AgentOps Quality Gate, manteniendo redacción de secretos, JSONL/SQLite locales, `mock` como ruta hermética y OpenTelemetry solo en modo opt-in/dry-run hasta decisión posterior.
 
+## Estrategia visual Fase F — Web UI local primero
+
+Después del cierre de Fase E y usando `repo_DevPilot_Local_77.zip` como fuente de verdad, DevPilot adopta una estrategia **web-first** para producto visual: la interfaz canónica de Fase F será una **Web UI local**, consumiendo una API local segura y `ApplicationService`, diseñada desde el inicio para evolucionar hacia una Web UI real cuando existan contratos, seguridad y operación suficientes.
+
+La UI Desktop queda fuera del alcance de implementación de Fase F. No se elimina como posibilidad futura, pero queda diferida y condicionada a una ADR posterior que demuestre necesidad de distribución desktop, permisos nativos, empaquetado, actualización, seguridad y costo de mantenimiento. Fase F no debe construir dos interfaces visuales independientes.
+
+Regla operativa: `CLI + ApplicationService + API local segura + Web UI local web-ready`; Desktop solo como opción posterior, nunca como duplicación de lógica.
+
 
 ## FUNC-SPRINT-56 — ADR de observabilidad v2 y modelo AgentOps
 
@@ -508,7 +516,7 @@ Ya existe:
 - comando `eval run` con métricas `pass_rate`, `false_positives` y `false_negatives`;
 - persistencia automática best-effort de resultados de gates/validadores en `.devpilot/devpilot.db`;
 - comandos `workspace init` y `workspace status`;
-- `ApplicationService` como frontera interna para CLI, desktop y web futuros;
+- `ApplicationService` como frontera interna para CLI, API local y Web UI local/web real futura;
 - DTOs serializables `ApplicationRequest`, `ApplicationResponse`, `ServiceCapability` e `InterfaceRouteContract`;
 - comando `app contract` para inspeccionar el contrato interno de servicios;
 - documento `docs/07_interfaces/internal_application_contract.md` como contrato inicial de interfaces sin UI implementada;
@@ -526,7 +534,7 @@ Pendiente de implementación funcional:
 - Traceability Engine ejecutable y cobertura SDLC (`FUNC-SPRINT-25` a `FUNC-SPRINT-27`);
 - clientes reales Ollama/LM Studio/API externas bajo CostGuard, SecretGuard, presupuesto y aprobación;
 - aplicación real de patches/refactors bajo sandbox, aprobación humana y rollback;
-- UI desktop/web real, API/IPC, auth/RBAC, dashboards y productización.
+- Web UI real, API productiva, auth/RBAC, dashboards avanzados y productización; Desktop queda diferido por ADR posterior.
 
 ## Regla de documentación viva
 
@@ -1184,7 +1192,7 @@ Riesgos: primera versión. No implementa llamadas reales a Ollama, LM Studio, Op
 
 ## FUNC-SPRINT-18 — Application Services para Desktop/Web futuro
 
-Sprint 18 no implementa una interfaz visual. Prepara el core para que una futura aplicación desktop o web consuma las mismas operaciones que hoy usa el CLI.
+Sprint 18 no implementa una interfaz visual. Prepara el core para que una futura Web UI local/web real, y eventualmente un shell desktop si una ADR posterior lo justifica, consuman las mismas operaciones que hoy usa el CLI.
 
 Comandos principales:
 
@@ -1208,7 +1216,7 @@ No hay UI, servidor, IPC ni framework nuevo.
 Riesgos:
 
 ```text
-Contrato preliminar. No incluye autenticación, sesiones, RBAC, empaquetado desktop, API HTTP, WebSocket ni selección tecnológica final.
+Contrato preliminar. No incluye autenticación, sesiones, RBAC, API HTTP, WebSocket ni selección tecnológica final. Empaquetado desktop queda diferido y fuera de Fase F.
 ```
 
 ## Schemas críticos operativos — FUNC-SPRINT-23
