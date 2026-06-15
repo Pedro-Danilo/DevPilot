@@ -322,7 +322,7 @@ def trace_report_command(
     """Generate a bounded local trace report without requiring UI or network."""
 
     root = project_root()
-    result = TraceQueryService(root).report(limit=limit, include_events=include_events, include_metrics=include_metrics)
+    result = ApplicationService(root).trace_report(limit=limit, include_events=include_events, include_metrics=include_metrics)
     result = _write_optional_command_report(
         root,
         result,
@@ -372,7 +372,7 @@ def metrics_summary_command(
     """Summarize local AgentOps metrics without requiring UI or network."""
 
     root = project_root()
-    result = TraceQueryService(root).metrics_summary(category=category, limit=limit)
+    result = ApplicationService(root).metrics_summary(category=category, limit=limit)
     result = _write_optional_command_report(
         root,
         result,
@@ -469,7 +469,7 @@ def model_providers_command(*, json_output: bool = False, write_report: bool = F
     """
 
     root = project_root()
-    result = _model_router(root).providers_status()
+    result = ApplicationService(root).model_providers()
     result = _write_optional_command_report(
         root,
         result,
@@ -840,7 +840,7 @@ def repo_inventory_command(*, json_output: bool = False, write_report: bool = Fa
     """
 
     root = project_root()
-    result = RepoInventory(root).build()
+    result = ApplicationService(root).repo_inventory()
     result = _write_optional_command_report(
         root,
         result,
@@ -903,7 +903,7 @@ def repo_analyze_command(
     """
 
     root = project_root()
-    result = RepoAnalyzer(root).analyze(target=target)
+    result = ApplicationService(root).repo_analyze(target=target)
     result = _write_optional_command_report(
         root,
         result,
@@ -1217,7 +1217,7 @@ def code_review_command(
     """
 
     root = project_root()
-    result = CodeReviewEngine(root).review(target)
+    result = ApplicationService(root).code_review(target=target)
     result = _write_optional_command_report(
         root,
         result,
@@ -1248,7 +1248,7 @@ def refactor_plan_command(
     """
 
     root = project_root()
-    result = RefactorPlanner(root).plan(target, goal=goal, include_code_review=True)
+    result = ApplicationService(root).refactor_plan(target=target, goal=goal, include_code_review=True)
     result = _write_optional_command_report(
         root,
         result,
@@ -1369,7 +1369,7 @@ def eval_run_command(
     """
 
     root = project_root()
-    result = EvalRunner(root).run(suite=suite, case_id=case_id)
+    result = ApplicationService(root).eval_run(suite=suite, case_id=case_id)
     result = _write_optional_command_report(
         root,
         result,
@@ -1556,7 +1556,7 @@ def workspace_status_command(*, json_output: bool = False, write_report: bool = 
 
     root = project_root()
     manager = WorkspaceManager(root)
-    result = manager.status()
+    result = ApplicationService(root).workspace_status()
     result = _write_optional_command_report(
         root,
         result,
@@ -1745,7 +1745,7 @@ def history_list_command(*, json_output: bool = False, limit: int = 10, write_re
     """List recent local command runs from SQLite history."""
 
     root = project_root()
-    result = LocalStore(root).list_runs(limit=limit)
+    result = ApplicationService(root).history_list(limit=limit)
     result = _write_optional_command_report(
         root,
         result,
@@ -2082,7 +2082,7 @@ def app_contract_command(*, json_output: bool = False, write_report: bool = Fals
         subject="docs/07_interfaces/internal_application_contract.md",
         report_id="app_contract",
         write_report=write_report,
-        metadata={"sprint": "FUNC-SPRINT-18", "component": "ApplicationService"},
+        metadata={"sprint": "FUNC-SPRINT-65", "component": "ApplicationService v2"},
     )
     _emit_result_event(root, result, subject="docs/07_interfaces/internal_application_contract.md")
     _persist_result(root, result, subject="docs/07_interfaces/internal_application_contract.md")

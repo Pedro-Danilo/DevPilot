@@ -2,7 +2,7 @@
 title: "DevPilot Local — Backlog ejecutable posterior a pre-code"
 doc_id: "DEVPL-FUNC-BACKLOG-001"
 status: "approved"
-version: "4.0.0"
+version: "4.1.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
@@ -14,7 +14,7 @@ change_policy: "controlled_changes_allowed_via_docs_as_code"
 approved_on: "2026-06-06"
 approval_scope: "functional_backlog_after_precode"
 baseline_execution: "FUNC-SPRINT-00"
-next_sprint: "FUNC-SPRINT-65"
+next_sprint: "FUNC-SPRINT-66"
 ---
 
 # DevPilot Local — Backlog ejecutable posterior a pre-code
@@ -26,6 +26,13 @@ Este backlog queda promovido a `approved` el 2026-06-06 como guía ejecutable pa
 La aprobación no congela el documento: cualquier ajuste futuro debe seguir la política docs-as-code definida en MIPSoftware, dejar trazabilidad, actualizar criterios de aceptación cuando aplique y preservar la relación entre producto, requerimientos, arquitectura, seguridad, calidad, operación y MIASI.
 
 La ejecución de `FUNC-SPRINT-00` confirma que el repositorio queda limpio, reproducible y listo para iniciar `FUNC-SPRINT-01 — Arquitectura interna del CLI y modelo común de resultados`.
+
+
+## Transición posterior a FUNC-SPRINT-65
+
+`FUNC-SPRINT-65 — ApplicationService v2 por dominios` queda implementado como primera versión de fachada de aplicación por dominios. La siguiente unidad de trabajo es `FUNC-SPRINT-66 — Contratos API y OpenAPI preliminar`, donde las operaciones expuestas por `ApplicationService.application_contract()` deben convertirse en contratos API versionados antes de crear un servidor local real.
+
+Regla vigente: ninguna Web UI local debe importar validadores, PolicyEngine, MIASI, repo analyzers, ReviewEngine, RefactorPlanner, ModelAdapterRouter, LocalStore o AgentOps directamente; toda integración visual debe pasar por ApplicationService/API adapter.
 
 
 ## 1. Propósito

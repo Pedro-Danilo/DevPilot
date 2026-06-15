@@ -1,13 +1,36 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
 Estado actual: `baseline pre-code approved + Fase A cerrada + Fase B cerrada + Fase C cerrada + Fase D cerrada + Fase E cerrada`  
-Último hito: `FUNC-SPRINT-64 — ADR UI/API local y threat model de interfaz`  
-Siguiente hito: `FUNC-SPRINT-65 — ApplicationService v2 por dominios`  
+Último hito: `FUNC-SPRINT-65 — ApplicationService v2 por dominios`  
+Siguiente hito: `FUNC-SPRINT-66 — Contratos API y OpenAPI preliminar`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
 
 
+
+
+## FUNC-SPRINT-65 — ApplicationService v2 por dominios
+
+Estado: `implemented-initial` / `PASS`.
+
+Sprint 65 amplía `ApplicationService` desde una fachada centrada en validadores hacia una fachada de aplicación por dominios, preparando la futura API local y Web UI local sin permitir que la UI importe módulos internos del core. La implementación crea servicios de aplicación para workspace, validación, MIASI, evaluaciones, repositorio, review, refactor plan-only, modelos, historial y observabilidad.
+
+Entregables principales:
+
+- `src/devpilot_core/application/workspace_service.py`: estado/plan dry-run de workspace.
+- `src/devpilot_core/application/validation_service.py`: validadores, readiness, standards y ValidationGateway.
+- `src/devpilot_core/application/miasi_service.py`: validación de registries MIASI.
+- `src/devpilot_core/application/evals_service.py`: evaluaciones offline documentales/model-aware.
+- `src/devpilot_core/application/repo_service.py`: inventario, análisis, Git read-only y quality gates de repositorio.
+- `src/devpilot_core/application/review_service.py`: code review y patch review en modo dry-run/estático.
+- `src/devpilot_core/application/refactor_service.py`: refactor plan-only.
+- `src/devpilot_core/application/model_service.py`: providers, health, capabilities, budget y llamadas gobernadas por ModelAdapterRouter.
+- `src/devpilot_core/application/observability_service.py`: trace report, metrics summary, OTel dry-run y AgentOps status.
+- `src/devpilot_core/application/history_service.py`: historial local desde LocalStore.
+- `tests/test_application_services_v2.py`: pruebas de contrato v2 y dispatcher.
+
+Límites explícitos: Sprint 65 no implementa servidor HTTP, OpenAPI, frontend, Desktop shell, RBAC, auth, CORS ni token. Es una primera versión industrial de la frontera de aplicación; Sprint 66 debe convertir estas operaciones en contratos API versionados antes de crear la API local real.
 
 
 ## FUNC-SPRINT-64 — ADR UI/API local y threat model de interfaz

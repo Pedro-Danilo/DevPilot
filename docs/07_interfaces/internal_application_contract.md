@@ -2,11 +2,11 @@
 title: "Contrato interno de Application Services para CLI/API/Web UI"
 doc_id: "DEVPL-INTERFACES-001"
 status: "approved"
-version: "1.2.0"
+version: "1.3.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "FUNC-SPRINT-64"
+phase: "FUNC-SPRINT-65"
 updated: "2026-06-14"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 ---
@@ -252,3 +252,47 @@ web_ready_for_shell=true
 ### 9.4 Criterios PASS/BLOCK
 
 PASS: respuestas derivadas de `CommandResult`/`ApplicationResponse`, rutas lógicas versionables y side effects explícitos. BLOCK: UI/API que duplique validadores, salte ApplicationService o exponga acciones write/execute sin approval.
+
+
+## 9. Sprint 65 — ApplicationService v2 por dominios
+
+`FUNC-SPRINT-65` amplía el contrato interno desde una fachada inicial de validadores hacia una fachada por dominios. Esta versión sigue siendo `implemented-initial`: define frontera reusable para API/Web, pero no implementa servidor HTTP ni frontend.
+
+Dominios expuestos:
+
+| Dominio | Servicio | Rol | Side effects permitidos |
+|---|---|---|---|
+| workspace | `WorkspaceApplicationService` | Estado y plan dry-run de workspace | read/dry-run |
+| validation | `ValidationApplicationService` | Frontmatter, artifact, checklist, readiness, gateway | none/report explícito por adapter |
+| miasi | `MiasiApplicationService` | Validación de Agent/Tool/Policy registries | none |
+| evals | `EvaluationApplicationService` | Evals offline | workdir local controlado |
+| repo | `RepoApplicationService` | Inventory, analyze, git read-only, quality gates | read-only |
+| review | `ReviewApplicationService` | Code/Patch review dry-run | none |
+| refactor | `RefactorApplicationService` | Plan-only refactor | none |
+| model | `ModelApplicationService` | Providers, health, capabilities, budget, mock/local calls gobernadas | mock/local governed |
+| history | `HistoryApplicationService` | LocalStore history | read-only |
+| observability | `ObservabilityApplicationService` | Trace report, metrics, AgentOps, OTel dry-run | read/dry-run |
+
+Contrato de integración futuro:
+
+```text
+Web UI local → API local /api/v1 → ApplicationService.handle(ApplicationRequest) → DomainService → DevPilot Core
+```
+
+Criterios PASS:
+
+```text
+ApplicationService.application_contract() lista dominios, capacidades y rutas contract-only.
+ApplicationService.handle() devuelve ApplicationResponse.
+Operaciones desconocidas devuelven BLOCK controlado.
+No hay API HTTP ni frontend implementados por Sprint 65.
+```
+
+Criterios BLOCK:
+
+```text
+La futura API importa motores internos directamente.
+La Web UI importa Python/core directamente.
+Una operación write/execute se expone sin PolicyEngine y Approval Workflow.
+Se habilita red externa o API paga como requisito de la fachada.
+```

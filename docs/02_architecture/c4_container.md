@@ -2,7 +2,7 @@
 title: "C4 Container — DevPilot Local"
 doc_id: "DEVPL-ARCH-003"
 status: "approved"
-version: "1.3.0"
+version: "1.4.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
@@ -242,3 +242,26 @@ Sincronizar la vista C4 con la decisión `ADR-0013 — Estrategia UI/API Web fir
 ### 10.3 Criterio operativo
 
 PASS: cualquier implementación futura de UI/API debe seguir `UI → API local → ApplicationService → Core`. BLOCK: UI que lea filesystem directamente, API que salte ApplicationService o Desktop implementado en Fase F.
+
+
+## Sprint 65 — ApplicationService v2 como contenedor lógico de frontera
+
+Estado: `implemented-initial`.
+
+Aunque `ApplicationService` no es un contenedor desplegable, en Fase F actúa como frontera lógica obligatoria entre CLI/API/Web UI y el core. Sprint 65 agrega servicios por dominio para evitar que el futuro contenedor `API local segura` importe directamente validadores, MIASI, repo analyzers, ReviewEngine, RefactorPlanner, ModelAdapterRouter, LocalStore o AgentOps.
+
+Vista lógica actualizada:
+
+```text
+[CLI]                 ┐
+[API local futura]    ├─> [ApplicationService v2 / Domain Services] ─> [DevPilot Core]
+[Web UI local futura] ┘
+```
+
+Dominio de responsabilidad:
+
+- ApplicationService v2: orquestación de casos de uso reutilizables.
+- Domain Services: fachada estable por área.
+- DevPilot Core: reglas de negocio, políticas, validadores, stores y motores especializados.
+
+No implementado todavía: servidor API, OpenAPI, frontend, autenticación, CORS, token local o Desktop shell.

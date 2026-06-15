@@ -11,8 +11,8 @@ from devpilot_core.cli_models import CommandResult
 class ApplicationRequest:
     """Serializable request envelope for future API local/Web UI clients.
 
-    FUNC-SPRINT-18 introduces this DTO to keep interface clients from calling
-    validators directly. It is intentionally small, local-first and JSON-safe.
+    FUNC-SPRINT-18 introduces this DTO and FUNC-SPRINT-65 reuses it
+    to keep interface clients from calling domain/core modules directly. It is intentionally small, local-first and JSON-safe.
     It does not carry secrets, credentials or transport-specific state.
     """
 
@@ -76,7 +76,7 @@ class ApplicationResponse:
 
 @dataclass(frozen=True)
 class ServiceCapability:
-    """UI-facing description of one callable application service operation."""
+    """UI/API-facing description of one callable ApplicationService v2 operation."""
 
     operation: str
     description: str
@@ -102,7 +102,7 @@ class InterfaceRouteContract:
 
     These are not active HTTP routes and do not implement UI. They document
     stable service boundaries that the future FastAPI API and Web UI can
-    call without duplicating DevPilot Core logic. Desktop remains deferred outside Fase F.
+    map to ApplicationService v2 without duplicating DevPilot Core logic. Desktop remains deferred outside Fase F.
     """
 
     route_id: str

@@ -3772,3 +3772,49 @@ Desktop queda diferido fuera de Fase F. Si en una fase posterior se desea reabri
 - La seguridad localhost no equivale a seguridad enterprise.
 - Token/CORS/policy binding se implementarán en Sprint 68, no en Sprint 64.
 - ApplicationService aún requiere expansión por dominios en Sprint 65.
+
+
+## FUNC-SPRINT-65 — Operación de ApplicationService v2 por dominios
+
+### Propósito
+
+Verificar que DevPilot expone una fachada de aplicación por dominios para la futura API local y Web UI local, sin implementar todavía servidor, frontend ni Desktop.
+
+### Comandos principales
+
+```powershell
+python -m devpilot_core app contract --json --write-report
+python -m pytest tests/test_application_services_v2.py -q
+python -m pytest tests/test_application_services.py -q
+python -m pytest tests/test_sprint_65_documentation.py -q
+python -m devpilot_core validate-artifact docs/audits/func_sprint_65_application_service_v2_audit.md --json
+python -m devpilot_core schema validate-manifest docs/functional_sprint_65_manifest.json --json
+python -m devpilot_core validate all --json
+```
+
+### Resultado esperado
+
+- `app contract` reporta `schema_version=2.0`.
+- `application_service_v2=true`.
+- `domain_facades_enabled=true`.
+- Dominios mínimos: workspace, validation, miasi, evals, repo, review, refactor, model, history, observability.
+- `api_implemented=false`, `ui_implemented=false`, `desktop_deferred=true`.
+
+### Criterios PASS
+
+- Los servicios por dominio devuelven `CommandResult`.
+- `ApplicationService.handle(ApplicationRequest)` devuelve `ApplicationResponse`.
+- Operaciones no expuestas devuelven `BLOCK` controlado.
+- El CLI sigue pasando las pruebas existentes.
+- No se agregan dependencias externas.
+
+### Criterios BLOCK
+
+- API/Web UI futura tendría que importar módulos internos directamente.
+- Se implementa servidor HTTP antes de contratos API Sprint 66.
+- Se habilitan operaciones write/execute sin aprobación humana.
+- Se filtran prompts, tokens, API keys, stdout/stderr o contenido de archivos.
+
+### Riesgos y limitaciones
+
+Esta es una primera versión industrial de la frontera de aplicación. No sustituye OpenAPI, auth, RBAC, CORS ni token local. Sprint 66 debe convertir estas operaciones en contrato API versionado y Sprint 67/68 deben implementar API/seguridad local.

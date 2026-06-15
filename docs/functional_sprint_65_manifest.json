@@ -1,0 +1,118 @@
+{
+  "sprint": "FUNC-SPRINT-65",
+  "title": "ApplicationService v2 por dominios",
+  "status": "implemented",
+  "implemented_at": "2026-06-14",
+  "phase": "FASE-F-PRODUCTO-VISUAL",
+  "wave": "Ola 9 — API local y Web UI local web-ready",
+  "source_backlog": "docs/devpilot_backlog_fase_F_producto_visual.md",
+  "architectural_decision": {
+    "required": false,
+    "adr": "docs/02_architecture/adrs/ADR-0013-web-ui-first.md",
+    "reason": "No se requiere nueva ADR porque Sprint 65 implementa la frontera de servicios definida por ADR-0013 sin cambiar stack, protocolo, UI, red ni seguridad de interfaz."
+  },
+  "summary": {
+    "implementation_level": "implemented-initial",
+    "application_service_v2": true,
+    "domain_facades_enabled": true,
+    "domains_total": 10,
+    "api_implemented": false,
+    "ui_implemented": false,
+    "desktop_implemented": false,
+    "desktop_deferred": true,
+    "external_dependencies_added": false,
+    "network_required": false,
+    "external_api_used": false,
+    "next_runtime_sprint": "FUNC-SPRINT-66"
+  },
+  "domains": [
+    "workspace",
+    "validation",
+    "miasi",
+    "evals",
+    "repo",
+    "review",
+    "refactor",
+    "model",
+    "history",
+    "observability"
+  ],
+  "created_files": [
+    "src/devpilot_core/application/workspace_service.py",
+    "src/devpilot_core/application/validation_service.py",
+    "src/devpilot_core/application/miasi_service.py",
+    "src/devpilot_core/application/evals_service.py",
+    "src/devpilot_core/application/repo_service.py",
+    "src/devpilot_core/application/review_service.py",
+    "src/devpilot_core/application/refactor_service.py",
+    "src/devpilot_core/application/model_service.py",
+    "src/devpilot_core/application/observability_service.py",
+    "src/devpilot_core/application/history_service.py",
+    "tests/test_application_services_v2.py",
+    "tests/test_sprint_65_documentation.py",
+    "docs/audits/func_sprint_65_application_service_v2_audit.md",
+    "docs/functional_sprint_65_manifest.json"
+  ],
+  "modified_files": [
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/devpilot_backlog_fase_F_producto_visual.md",
+    "docs/functional_backlog_after_precode.md",
+    "docs/02_architecture/c4_container.md",
+    "docs/07_interfaces/internal_application_contract.md",
+    "src/devpilot_core/application/__init__.py",
+    "src/devpilot_core/application/services.py",
+    "src/devpilot_core/application/dtos.py",
+    "src/devpilot_core/cli.py",
+    "tests/test_application_services.py"
+  ],
+  "commands": [
+    "python -m devpilot_core app contract --json --write-report",
+    "python -m pytest tests/test_application_services_v2.py -q",
+    "python -m pytest tests/test_application_services.py -q",
+    "python -m pytest tests/test_sprint_65_documentation.py -q",
+    "python -m devpilot_core validate-artifact docs/audits/func_sprint_65_application_service_v2_audit.md --json",
+    "python -m devpilot_core schema validate-manifest docs/functional_sprint_65_manifest.json --json",
+    "python -m devpilot_core validate all --json"
+  ],
+  "pass_criteria": [
+    "ApplicationService covers the main Phase F domains",
+    "Domain methods return CommandResult",
+    "ApplicationService.handle returns ApplicationResponse",
+    "ApplicationService.application_contract lists new capabilities and route contracts",
+    "CLI regression remains green",
+    "No API server, frontend or Desktop shell is implemented"
+  ],
+  "block_criteria": [
+    "Future UI must import core internals directly",
+    "Existing CLI commands break",
+    "Sensitive operations bypass PolicyEngine or Approval Workflow",
+    "External APIs or network become required",
+    "Desktop is reopened as Phase F implementation scope"
+  ],
+  "next_sprint": "FUNC-SPRINT-66 — Contratos API y OpenAPI preliminar",
+  "preliminary": true,
+  "tests": [
+    "tests/test_application_services_v2.py",
+    "tests/test_application_services.py",
+    "tests/test_sprint_65_documentation.py",
+    "tests/test_sprint_*_documentation.py"
+  ],
+  "risks": [
+    {
+      "id": "RISK-FUNC-65-001",
+      "risk": "ApplicationService v2 grows too broad and becomes another monolith.",
+      "mitigation": "Separate domain services and keep core engines unchanged."
+    },
+    {
+      "id": "RISK-FUNC-65-002",
+      "risk": "Future API bypasses ApplicationService and imports core internals directly.",
+      "mitigation": "Contract routes and documentation require API->ApplicationService mapping in Sprint 66."
+    },
+    {
+      "id": "RISK-FUNC-65-003",
+      "risk": "Write/execute operations are exposed too early.",
+      "mitigation": "Sprint 65 exposes plan-only/read-only defaults; future sensitive operations need PolicyEngine and Approval."
+    }
+  ]
+}
