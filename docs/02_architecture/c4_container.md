@@ -278,3 +278,27 @@ Web UI local futura → API local /api/v1 futura → ApplicationService v2 → D
 ```
 
 Restricción: ningún contenedor visual o HTTP futuro debe saltarse `ApplicationService v2`; el contrato OpenAPI solo autoriza rutas read-only/dry-run/plan-only hasta implementar seguridad local en Sprint 68.
+
+## Sprint 67 — Contenedor API local MVP
+
+`FUNC-SPRINT-67` cambia el estado del contenedor `API local segura` de contrato planificado a `implemented-initial` para un MVP local read-only/dry-run.
+
+Responsabilidades actuales:
+
+- exponer `/api/v1` sobre FastAPI;
+- escuchar por defecto en `127.0.0.1:8787`;
+- delegar en `ApplicationService v2`;
+- devolver `ApplicationResponse`;
+- bloquear por ausencia de ruta cualquier operación crítica no modelada;
+- mantener Web UI y Desktop fuera del alcance.
+
+Responsabilidades diferidas:
+
+- token local;
+- CORS restringido;
+- headers de seguridad;
+- policy binding HTTP;
+- auth/RBAC;
+- despliegue web real.
+
+El contenedor `Web UI local` continúa `planned-fase-f` para Sprint 69 y no debe importar el core Python directamente.

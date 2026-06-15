@@ -169,7 +169,10 @@ class ApplicationService:
                 "routes_total": len(routes),
                 "domains_total": len(domains),
                 "ui_implemented": False,
-                "api_implemented": False,
+                "api_implemented": True,
+                "api_local_mvp_implemented": True,
+                "api_default_host": "127.0.0.1",
+                "api_default_port": 8787,
                 "api_contract_defined": True,
                 "api_contract_version": "v1",
                 "openapi_contract_defined": True,
@@ -200,8 +203,8 @@ class ApplicationService:
             "notes": [
                 "FUNC-SPRINT-65 exposes domain application services for future API local and Web UI integration.",
                 "FUNC-SPRINT-66 defines static API Contract v1 and OpenAPI preliminary artifacts without implementing an HTTP server.",
-                "No HTTP server, Web frontend, Desktop shell, network listener or external API dependency is implemented by this sprint.",
-                "Future route handlers must call ApplicationService/DomainService methods instead of importing DevPilot Core modules directly.",
+                "FUNC-SPRINT-67 implements the local FastAPI MVP in src/devpilot_core/interfaces/api, still without Web frontend or Desktop shell.",
+                "API route handlers call ApplicationService/DomainService methods instead of importing DevPilot Core modules directly.",
                 "Operations with side effects remain dry-run/report-only or must later be bound to PolicyEngine and Approval Workflow.",
             ],
         }
@@ -209,12 +212,12 @@ class ApplicationService:
             command="app contract",
             ok=True,
             exit_code=ExitCode.PASS,
-            message="Application service v2 contract is available for CLI, future API local and Web UI shells; desktop is deferred.",
+            message="Application service v2 contract is available for CLI, local API MVP and future Web UI shells; desktop is deferred.",
             data=data,
             findings=[
                 Finding(
                     id="APP_CONTRACT_V2_PASS",
-                    message="ApplicationService v2 exposes domain facades plus static API Contract v1/OpenAPI route contracts without implementing API/UI.",
+                    message="ApplicationService v2 exposes domain facades plus implemented-initial local API route contracts without implementing Web UI.",
                     severity=Severity.INFO,
                     metadata={"domains_total": len(domains), "capabilities_total": len(capabilities)},
                 )
@@ -240,6 +243,8 @@ OperationHandler = Callable[[dict[str, Any]], CommandResult]
 def _operation_dispatch(service: ApplicationService) -> dict[str, OperationHandler]:
     return {
         "workspace.status": lambda payload: service.workspace_status(),
+        "app.contract": lambda payload: service.application_contract(),
+        "standards.status": lambda payload: service.standards_status(),
         "validators.validate_frontmatter": lambda payload: service.validate_frontmatter(str(payload.get("path", "")), strict=bool(payload.get("strict", False))),
         "validators.validate_artifact": lambda payload: service.validate_artifact(str(payload.get("path", "")), strict=bool(payload.get("strict", False))),
         "validators.readiness": lambda payload: service.readiness(strict=bool(payload.get("strict", False))),
@@ -317,18 +322,19 @@ def _capabilities() -> list[ServiceCapability]:
 
 def _routes() -> list[InterfaceRouteContract]:
     route_specs = [
-        ("APP-ROUTE-001", "GET", "/api/v1/workspace/status", "workspace.status", ["Future API local route; not active HTTP in Sprint 65."]),
-        ("APP-ROUTE-002", "POST", "/api/v1/validation/frontmatter", "validation.frontmatter", ["Future API local route for Web UI validators."]),
-        ("APP-ROUTE-003", "POST", "/api/v1/validation/artifact", "validation.artifact", ["Future API local route for Web UI validators."]),
-        ("APP-ROUTE-004", "POST", "/api/v1/validation/readiness", "validation.readiness", ["Future route must keep report writes explicit."]),
-        ("APP-ROUTE-005", "GET", "/api/v1/miasi/status", "miasi.validate", ["Read-only MIASI status projection."]),
-        ("APP-ROUTE-006", "GET", "/api/v1/repo/inventory", "repo.inventory", ["Read-only repository summary route."]),
-        ("APP-ROUTE-007", "POST", "/api/v1/review/code", "review.code", ["Dry-run review route; no mutation."]),
-        ("APP-ROUTE-008", "POST", "/api/v1/refactor/plan", "refactor.plan", ["Plan-only route; no patch execution."]),
-        ("APP-ROUTE-009", "GET", "/api/v1/model/providers", "model.providers", ["Governed model provider listing; no external API call."]),
-        ("APP-ROUTE-010", "GET", "/api/v1/observability/traces", "observability.trace_report", ["Bounded local trace viewer route."]),
-        ("APP-ROUTE-011", "GET", "/api/v1/observability/metrics", "observability.metrics_summary", ["Bounded local metric viewer route."]),
-        ("APP-ROUTE-012", "GET", "/api/v1/history/runs", "history.runs", ["Bounded LocalStore history route."]),
-        ("APP-ROUTE-013", "GET", "/api/v1/application/contract", "app.contract", ["Bootstrap route for future API/Web UI clients."]),
+        ("APP-ROUTE-001", "GET", "/api/v1/workspace/status", "workspace.status", ["Active local API MVP route in FUNC-SPRINT-67."]),
+        ("APP-ROUTE-002", "POST", "/api/v1/validation/frontmatter", "validation.frontmatter", ["Active local API MVP route for Web UI validators."]),
+        ("APP-ROUTE-003", "POST", "/api/v1/validation/artifact", "validation.artifact", ["Active local API MVP route for Web UI validators."]),
+        ("APP-ROUTE-004", "POST", "/api/v1/validation/readiness", "validation.readiness", ["Active local API MVP route; report writes remain explicit in lower layers."]),
+        ("APP-ROUTE-005", "GET", "/api/v1/miasi/status", "miasi.validate", ["Active read-only MIASI status projection."]),
+        ("APP-ROUTE-006", "GET", "/api/v1/repo/inventory", "repo.inventory", ["Active read-only repository summary route."]),
+        ("APP-ROUTE-007", "POST", "/api/v1/review/code", "review.code", ["Active dry-run review route; no mutation."]),
+        ("APP-ROUTE-008", "POST", "/api/v1/refactor/plan", "refactor.plan", ["Active plan-only route; no patch execution."]),
+        ("APP-ROUTE-009", "GET", "/api/v1/model/providers", "model.providers", ["Active governed model provider listing; no external API call."]),
+        ("APP-ROUTE-010", "GET", "/api/v1/observability/traces", "observability.trace_report", ["Active bounded local trace viewer route."]),
+        ("APP-ROUTE-011", "GET", "/api/v1/observability/metrics", "observability.metrics_summary", ["Active bounded local metric viewer route."]),
+        ("APP-ROUTE-012", "GET", "/api/v1/history/runs", "history.runs", ["Active bounded LocalStore history route."]),
+        ("APP-ROUTE-013", "GET", "/api/v1/application/contract", "app.contract", ["Active bootstrap route for API/Web UI clients."]),
+        ("APP-ROUTE-014", "GET", "/api/v1/standards/status", "standards.status", ["Active standards status route added by FUNC-SPRINT-67."]),
     ]
-    return [InterfaceRouteContract(route_id=rid, method=method, path=path, operation=operation, notes=notes) for rid, method, path, operation, notes in route_specs]
+    return [InterfaceRouteContract(route_id=rid, method=method, path=path, operation=operation, status="implemented-initial", notes=notes) for rid, method, path, operation, notes in route_specs]

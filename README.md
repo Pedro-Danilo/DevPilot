@@ -1,13 +1,33 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
 Estado actual: `baseline pre-code approved + Fase A cerrada + Fase B cerrada + Fase C cerrada + Fase D cerrada + Fase E cerrada`  
-Último hito: `FUNC-SPRINT-66 — Contratos API y OpenAPI preliminar`  
-Siguiente hito: `FUNC-SPRINT-67 — API local MVP read-only/dry-run`  
+Último hito: `FUNC-SPRINT-67 — API local MVP read-only/dry-run`  
+Siguiente hito: `FUNC-SPRINT-68 — Seguridad API local: token, CORS restringido y policy binding`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
 
 
+
+
+## FUNC-SPRINT-67 — API local MVP read-only/dry-run
+
+Estado: `implemented-initial` / `PASS`.
+
+Sprint 67 implementa la primera API local real de DevPilot mediante un adapter FastAPI en `src/devpilot_core/interfaces/api`. La API escucha por defecto en `127.0.0.1:8787`, expone endpoints `/api/v1` read-only/dry-run/plan-only y delega todas las operaciones en `ApplicationService v2`. No hay lógica de negocio duplicada en routers y no se implementan acciones críticas como patch apply, rollback execute o refactor execute.
+
+Entregables principales:
+
+- `src/devpilot_core/interfaces/api/app.py`: app factory FastAPI local-first.
+- `src/devpilot_core/interfaces/api/routers/status.py`: endpoints de workspace, MIASI, standards, providers, repo inventory, observability, history y app contract.
+- `src/devpilot_core/interfaces/api/routers/validation.py`: endpoints de validación/readiness.
+- `src/devpilot_core/interfaces/api/routers/actions.py`: endpoints dry-run/plan-only de review/refactor.
+- `python -m devpilot_core api serve --host 127.0.0.1 --port 8787 --dry-run --json`: comando CLI de verificación sin arrancar servidor.
+- `tests/test_api_local.py`: smoke tests HTTP con `TestClient`.
+- `docs/audits/func_sprint_67_api_local_mvp_audit.md`: auditoría de cierre.
+- `docs/functional_sprint_67_manifest.json`: manifiesto funcional.
+
+Límites explícitos: Sprint 67 no implementa Web UI, token local, CORS restringido, RBAC, autenticación/autorización ni exposición pública. Es una primera versión industrial del adapter HTTP local; Sprint 68 debe endurecer seguridad API antes de ampliar capacidades sensibles o consumirla desde UI.
 
 
 ## FUNC-SPRINT-66 — Contratos API y OpenAPI preliminar

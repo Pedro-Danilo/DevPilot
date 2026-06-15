@@ -2,18 +2,18 @@
 title: "DevPilot Local — API Contract v1 preliminar"
 doc_id: "DEVPL-INTERFACE-API-CONTRACT-V1"
 status: "approved"
-approval: "approved_after_func_sprint_66_implementation"
-version: "1.0.0-preliminary"
+approval: "approved_after_func_sprint_67_api_local_mvp"
+version: "1.1.0-implemented-initial"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
 phase: "FASE-F-PRODUCTO-VISUAL"
-sprint: "FUNC-SPRINT-66"
+sprint: "FUNC-SPRINT-67"
 updated: "2026-06-15"
 source_application_contract: "DevPilotApplicationServiceContract 2.0"
-source_repo: "repo_DevPilot_Local_80.zip"
-api_status: "contract-only"
-server_implemented: false
+source_repo: "repo_DevPilot_Local_81.zip"
+api_status: "implemented-initial"
+server_implemented: true
 ui_implemented: false
 desktop_deferred: true
 ---
@@ -22,9 +22,9 @@ desktop_deferred: true
 
 ## Estado
 
-`approved` / `contract-only` / `implemented-initial` para `FUNC-SPRINT-66`.
+`approved` / `implemented-initial` para `FUNC-SPRINT-67`.
 
-Este documento define el contrato preliminar de API local para DevPilot antes de implementar un servidor HTTP real. El contrato es deliberadamente estático: fija endpoints, envelopes, errores, seguridad esperada y trazabilidad hacia `ApplicationService v2`, pero no abre sockets, no agrega FastAPI, no implementa CORS, no implementa token y no introduce frontend.
+Este documento define el contrato API local v1 de DevPilot y queda sincronizado con el servidor FastAPI local MVP implementado en `FUNC-SPRINT-67`. El contrato sigue siendo preliminar en seguridad: la API ya existe como adapter local read-only/dry-run sobre `ApplicationService v2`, pero token local, CORS restringido y policy binding ejecutable quedan diferidos explícitamente a `FUNC-SPRINT-68`.
 
 ## Propósito
 
@@ -40,12 +40,12 @@ Incluye:
 - response envelope basado en `ApplicationResponse`, que preserva `CommandResult`;
 - errores normalizados `400`, `403`, `422` y `500` como `ApplicationResponse`;
 - mapping obligatorio endpoint → operation → domain service;
-- OpenAPI estático en `docs/07_interfaces/openapi_v1.json`.
+- OpenAPI estático en `docs/07_interfaces/openapi_v1.json`;
+- servidor FastAPI local MVP en `src/devpilot_core/interfaces/api`;
+- comando CLI `python -m devpilot_core api serve --host 127.0.0.1 --port 8787 --dry-run --json`.
 
 No incluye:
 
-- servidor FastAPI;
-- listener de red;
 - token real;
 - CORS real;
 - frontend;
@@ -58,7 +58,7 @@ No incluye:
 
 ```text
 Web UI local futura
-  → API local /api/v1 futura
+  → API local /api/v1 implementada-inicial
     → ApplicationService.handle(ApplicationRequest)
       → DomainService
         → DevPilot Core
@@ -75,7 +75,7 @@ Web UI local futura
 5. Las operaciones write/execute futuras deben requerir `PolicyEngine` y Approval Workflow.
 6. La API local futura debe escuchar por defecto en `127.0.0.1`.
 7. CORS wildcard queda prohibido por defecto.
-8. Token local queda planificado para Sprint 68; este sprint no lo implementa.
+8. Token local queda planificado para Sprint 68; Sprint 67 no lo implementa por alcance controlado.
 9. La Web UI no podrá leer filesystem directamente ni importar módulos Python del core.
 
 ## Endpoints v1 preliminares
@@ -140,9 +140,8 @@ Todas las respuestas deben ser adaptaciones de `ApplicationResponse`:
 
 ## Seguridad prevista
 
-Sprint 66 solo documenta el contrato. Los controles ejecutables quedan en sprints posteriores:
+Sprint 67 implementa la API local MVP read-only/dry-run. Los controles ejecutables de seguridad HTTP quedan en sprints posteriores:
 
-- Sprint 67: API local MVP read-only/dry-run.
 - Sprint 68: token local, CORS restringido, headers y policy binding.
 
 Criterios mínimos ya fijados:
@@ -161,8 +160,8 @@ Criterios mínimos ya fijados:
 - OpenAPI estático define `/api/v1`.
 - Cada endpoint tiene `x-devpilot-operation` y mapping a `ApplicationService`.
 - Errores usan `ApplicationResponse`.
-- No se agrega dependencia externa.
-- No se implementa servidor ni frontend.
+- Dependencias FastAPI/uvicorn/httpx quedan declaradas en extras `api` y `dev`.
+- Se implementa servidor local MVP, sin frontend.
 
 ## Criterios BLOCK
 
@@ -170,7 +169,7 @@ Criterios mínimos ya fijados:
 - Ruta fuera de `/api/v1`.
 - Respuestas que no preserven `ApplicationResponse`.
 - Definición de acción write/execute sin approval.
-- Cualquier implementación de servidor HTTP antes de Sprint 67.
+- Cualquier host default distinto de `127.0.0.1`.
 - Cualquier reactivación de Desktop como alcance de Fase F.
 
 ## Riesgos

@@ -1,0 +1,122 @@
+{
+  "sprint": "FUNC-SPRINT-67",
+  "title": "API local MVP read-only/dry-run",
+  "status": "implemented",
+  "implemented_at": "2026-06-15",
+  "phase": "FASE-F-PRODUCTO-VISUAL",
+  "wave": "Ola 9 — API local y Web UI local web-ready",
+  "source_backlog": "docs/devpilot_backlog_fase_F_producto_visual.md",
+  "architectural_decision": {
+    "required": false,
+    "adr": "docs/02_architecture/adrs/ADR-0013-web-ui-first.md",
+    "reason": "No se requiere nueva ADR porque Sprint 67 implementa el adapter HTTP local previsto por ADR-0013 y por el contrato API v1 de Sprint 66, sin cambiar la estrategia Web UI first ni habilitar exposición pública."
+  },
+  "summary": {
+    "implementation_level": "implemented-initial",
+    "api_local_mvp_implemented": true,
+    "server_implemented": true,
+    "api_implemented": true,
+    "fastapi_adapter_implemented": true,
+    "api_namespace": "/api/v1",
+    "routes_total": 14,
+    "default_host": "127.0.0.1",
+    "default_port": 8787,
+    "read_only_dry_run_mvp": true,
+    "dangerous_routes_exposed": false,
+    "token_implemented": false,
+    "cors_implemented": false,
+    "policy_binding_http_implemented": false,
+    "ui_implemented": false,
+    "desktop_implemented": false,
+    "desktop_deferred": true,
+    "external_dependencies_added": true,
+    "external_dependencies_scope": "optional extras api/dev: fastapi, uvicorn, httpx",
+    "network_required": false,
+    "external_api_used": false,
+    "next_runtime_sprint": "FUNC-SPRINT-68"
+  },
+  "created_files": [
+    "src/devpilot_core/interfaces/__init__.py",
+    "src/devpilot_core/interfaces/api/__init__.py",
+    "src/devpilot_core/interfaces/api/app.py",
+    "src/devpilot_core/interfaces/api/dependencies.py",
+    "src/devpilot_core/interfaces/api/models.py",
+    "src/devpilot_core/interfaces/api/routers/__init__.py",
+    "src/devpilot_core/interfaces/api/routers/status.py",
+    "src/devpilot_core/interfaces/api/routers/validation.py",
+    "src/devpilot_core/interfaces/api/routers/actions.py",
+    "tests/test_api_local.py",
+    "tests/test_sprint_67_documentation.py",
+    "docs/audits/func_sprint_67_api_local_mvp_audit.md",
+    "docs/functional_sprint_67_manifest.json"
+  ],
+  "modified_files": [
+    "pyproject.toml",
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/devpilot_backlog_fase_F_producto_visual.md",
+    "docs/functional_backlog_after_precode.md",
+    "docs/02_architecture/c4_container.md",
+    "docs/07_interfaces/internal_application_contract.md",
+    "docs/07_interfaces/api_contract_v1.md",
+    "docs/07_interfaces/openapi_v1.json",
+    "docs/07_interfaces/api_service_mapping.md",
+    "src/devpilot_core/application/services.py",
+    "src/devpilot_core/cli.py",
+    "tests/test_api_contract.py",
+    "tests/test_application_services_v2.py"
+  ],
+  "commands": [
+    "python -m devpilot_core api serve --host 127.0.0.1 --port 8787 --dry-run --json",
+    "python -m pytest tests/test_api_local.py -q",
+    "python -m pytest tests/test_api_contract.py -q",
+    "python -m pytest tests/test_sprint_67_documentation.py -q",
+    "python -m devpilot_core validate-artifact docs/audits/func_sprint_67_api_local_mvp_audit.md --json",
+    "python -m devpilot_core schema validate-manifest docs/functional_sprint_67_manifest.json --json",
+    "python -m devpilot_core validate all --json"
+  ],
+  "tests": [
+    "tests/test_api_local.py",
+    "tests/test_api_contract.py",
+    "tests/test_sprint_67_documentation.py",
+    "tests/test_sprint_*_documentation.py"
+  ],
+  "pass_criteria": [
+    "API local responde endpoints MVP",
+    "Host default es 127.0.0.1",
+    "CLI api serve ejecuta dry-run sin arrancar servidor por defecto",
+    "Routers delegan en ApplicationService",
+    "Respuestas funcionales usan ApplicationResponse",
+    "No existen rutas write/execute críticas"
+  ],
+  "block_criteria": [
+    "API escucha 0.0.0.0 por defecto",
+    "Endpoint llama módulos internos saltando ApplicationService",
+    "Se expone patch/apply, rollback/execute o refactor/execute",
+    "Se habilita CORS wildcard o token incompleto en Sprint 67",
+    "Se implementa Web UI o Desktop shell en este sprint"
+  ],
+  "risks": [
+    {
+      "id": "RISK-FUNC-67-001",
+      "risk": "Dependencia FastAPI no instalada en entorno local.",
+      "mitigation": "Declarar extras api/dev en pyproject.toml y documentar instalación."
+    },
+    {
+      "id": "RISK-FUNC-67-002",
+      "risk": "Exposición accidental fuera de localhost.",
+      "mitigation": "Host default 127.0.0.1 y bloqueo de host no local en comando CLI."
+    },
+    {
+      "id": "RISK-FUNC-67-003",
+      "risk": "API sin token/CORS se interpreta como segura para exposición pública.",
+      "mitigation": "Documentar límite y bloquear ampliación hasta Sprint 68."
+    },
+    {
+      "id": "RISK-FUNC-67-004",
+      "risk": "Divergencia entre OpenAPI, routers y ApplicationService.",
+      "mitigation": "Tests HTTP y contract tests contra ApplicationService.application_contract()."
+    }
+  ],
+  "next_sprint": "FUNC-SPRINT-68 — Seguridad API local: token, CORS restringido y policy binding"
+}

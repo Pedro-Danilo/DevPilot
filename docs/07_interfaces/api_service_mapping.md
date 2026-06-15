@@ -2,24 +2,24 @@
 title: "DevPilot Local — API v1 service mapping"
 doc_id: "DEVPL-INTERFACE-API-SERVICE-MAPPING-V1"
 status: "approved"
-approval: "approved_after_func_sprint_66_implementation"
-version: "1.0.0-preliminary"
+approval: "approved_after_func_sprint_67_api_local_mvp"
+version: "1.1.0-implemented-initial"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
 phase: "FASE-F-PRODUCTO-VISUAL"
-sprint: "FUNC-SPRINT-66"
+sprint: "FUNC-SPRINT-67"
 updated: "2026-06-15"
 source_contract: "docs/07_interfaces/api_contract_v1.md"
 source_openapi: "docs/07_interfaces/openapi_v1.json"
-server_implemented: false
+server_implemented: true
 ---
 
 # DevPilot Local — API v1 service mapping
 
 ## Estado
 
-`approved` / `contract-only` para `FUNC-SPRINT-66`.
+`approved` / `implemented-initial` para `FUNC-SPRINT-67`.
 
 ## Propósito
 
@@ -27,7 +27,7 @@ Garantizar trazabilidad explícita entre cada endpoint preliminar `/api/v1`, la 
 
 ## Alcance
 
-Este mapping es contractual y no implementa servidor. Su función es bloquear dos riesgos: que la API futura importe motores internos directamente y que la Web UI futura duplique lógica del core.
+Este mapping ya está sincronizado con el servidor FastAPI local MVP. Su función sigue siendo bloquear dos riesgos: que la API importe motores internos directamente y que la Web UI futura duplique lógica del core.
 
 ## Matriz endpoint → ApplicationService
 
@@ -46,10 +46,11 @@ Este mapping es contractual y no implementa servidor. Su función es bloquear do
 | `API-OBSERVABILITY-METRICS` | `GET` | `/api/v1/observability/metrics` | `observability.metrics_summary` | `ObservabilityApplicationService.metrics_summary` | `none` | `token-planned-sprint-68` | `bounded read; secret redaction` |
 | `API-HISTORY-RUNS` | `GET` | `/api/v1/history/runs` | `history.runs` | `HistoryApplicationService.list_runs` | `none` | `token-planned-sprint-68` | `bounded LocalStore read` |
 | `API-APPLICATION-CONTRACT` | `GET` | `/api/v1/application/contract` | `app.contract` | `ApplicationService.application_contract` | `none` | `public-local-read` | `None` |
+| `API-STANDARDS-STATUS` | `GET` | `/api/v1/standards/status` | `standards.status` | `ValidationApplicationService.standards_status` | `none` | `public-local-read` | `DOC_VALIDATE_ALLOW` |
 
-## Reglas de implementación futura
+## Reglas de implementación vigente y futura
 
-1. El handler HTTP futuro debe construir un `ApplicationRequest`.
+1. El handler HTTP debe construir un `ApplicationRequest`.
 2. El handler debe llamar `ApplicationService.handle()` o un método de dominio expuesto formalmente.
 3. El handler debe devolver `ApplicationResponse`.
 4. El handler no debe importar directamente validators, repo analyzers, ReviewEngine, RefactorPlanner, ModelAdapterRouter, LocalStore ni TraceStore.

@@ -2,7 +2,7 @@
 title: "DevPilot Local — Backlog ejecutable posterior a pre-code"
 doc_id: "DEVPL-FUNC-BACKLOG-001"
 status: "approved"
-version: "4.2.0"
+version: "4.3.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
@@ -14,7 +14,7 @@ change_policy: "controlled_changes_allowed_via_docs_as_code"
 approved_on: "2026-06-06"
 approval_scope: "functional_backlog_after_precode"
 baseline_execution: "FUNC-SPRINT-00"
-next_sprint: "FUNC-SPRINT-67"
+next_sprint: "FUNC-SPRINT-68"
 ---
 
 # DevPilot Local — Backlog ejecutable posterior a pre-code
@@ -26,6 +26,13 @@ Este backlog queda promovido a `approved` el 2026-06-06 como guía ejecutable pa
 La aprobación no congela el documento: cualquier ajuste futuro debe seguir la política docs-as-code definida en MIPSoftware, dejar trazabilidad, actualizar criterios de aceptación cuando aplique y preservar la relación entre producto, requerimientos, arquitectura, seguridad, calidad, operación y MIASI.
 
 La ejecución de `FUNC-SPRINT-00` confirma que el repositorio queda limpio, reproducible y listo para iniciar `FUNC-SPRINT-01 — Arquitectura interna del CLI y modelo común de resultados`.
+
+
+## Transición posterior a FUNC-SPRINT-67
+
+`FUNC-SPRINT-67 — API local MVP read-only/dry-run` queda implementado como primer adapter HTTP local de DevPilot. La API usa FastAPI, escucha por defecto en `127.0.0.1:8787`, expone rutas `/api/v1` read-only/dry-run/plan-only y delega en `ApplicationService v2`; no contiene lógica de negocio duplicada ni endpoints críticos de ejecución.
+
+La siguiente unidad de trabajo es `FUNC-SPRINT-68 — Seguridad API local: token, CORS restringido y policy binding`. Antes de que la Web UI consuma la API de forma sostenida, Sprint 68 debe agregar token local, CORS allowlist, headers y vinculación de operaciones sensibles con `PolicyEngine`/Approval Workflow.
 
 
 ## Transición posterior a FUNC-SPRINT-66

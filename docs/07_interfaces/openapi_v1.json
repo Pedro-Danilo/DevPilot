@@ -2,8 +2,8 @@
   "openapi": "3.1.0",
   "info": {
     "title": "DevPilot Local API Contract v1",
-    "version": "1.0.0-preliminary",
-    "description": "Static OpenAPI contract for future local API. FUNC-SPRINT-66 does not implement an HTTP server."
+    "version": "1.0.0-implemented-initial",
+    "description": "Static OpenAPI contract synchronized with the implemented-initial local FastAPI MVP. FUNC-SPRINT-67 implements the server adapter on localhost; Sprint 68 will add token/CORS hardening."
   },
   "servers": [
     {
@@ -41,34 +41,42 @@
     },
     {
       "name": "application"
+    },
+    {
+      "name": "standards"
     }
   ],
   "x-devpilot": {
-    "sprint": "FUNC-SPRINT-66",
-    "status": "contract-only",
-    "api_implemented": false,
-    "server_implemented": false,
+    "sprint": "FUNC-SPRINT-67",
+    "status": "implemented-initial",
+    "api_implemented": true,
+    "server_implemented": true,
     "ui_implemented": false,
     "desktop_deferred": true,
     "default_host": "127.0.0.1",
     "external_api_required": false,
     "network_required": false,
     "source_application_contract_schema": "2.0",
-    "source_repo": "repo_DevPilot_Local_80.zip"
+    "source_repo": "repo_DevPilot_Local_81.zip",
+    "api_local_mvp_implemented": true,
+    "default_port": 8787,
+    "token_required": false,
+    "cors_enabled": false,
+    "token_and_cors_deferred_to": "FUNC-SPRINT-68"
   },
   "paths": {
     "/api/v1/workspace/status": {
       "get": {
         "operationId": "workspace_status",
         "summary": "API-WORKSPACE-STATUS: workspace.status",
-        "description": "Contract-only endpoint mapped to `WorkspaceApplicationService.status`. Sprint 66 does not implement an HTTP server.",
+        "description": "Contract-only endpoint mapped to `WorkspaceApplicationService.status`. Sprint 67 implements this route in the local FastAPI MVP.",
         "tags": [
           "workspace"
         ],
         "x-devpilot-api-id": "API-WORKSPACE-STATUS",
         "x-devpilot-operation": "workspace.status",
         "x-devpilot-domain-service": "WorkspaceApplicationService.status",
-        "x-devpilot-status": "contract-only",
+        "x-devpilot-status": "implemented-initial",
         "x-devpilot-side-effect": "none",
         "x-devpilot-dry-run-default": true,
         "x-devpilot-auth": "public-local-read",
@@ -133,14 +141,14 @@
       "post": {
         "operationId": "validation_frontmatter",
         "summary": "API-VALIDATION-FRONTMATTER: validation.frontmatter",
-        "description": "Contract-only endpoint mapped to `ValidationApplicationService.validate_frontmatter`. Sprint 66 does not implement an HTTP server.",
+        "description": "Contract-only endpoint mapped to `ValidationApplicationService.validate_frontmatter`. Sprint 67 implements this route in the local FastAPI MVP.",
         "tags": [
           "validation"
         ],
         "x-devpilot-api-id": "API-VALIDATION-FRONTMATTER",
         "x-devpilot-operation": "validation.frontmatter",
         "x-devpilot-domain-service": "ValidationApplicationService.validate_frontmatter",
-        "x-devpilot-status": "contract-only",
+        "x-devpilot-status": "implemented-initial",
         "x-devpilot-side-effect": "none",
         "x-devpilot-dry-run-default": true,
         "x-devpilot-auth": "token-planned-sprint-68",
@@ -229,14 +237,14 @@
       "post": {
         "operationId": "validation_artifact",
         "summary": "API-VALIDATION-ARTIFACT: validation.artifact",
-        "description": "Contract-only endpoint mapped to `ValidationApplicationService.validate_artifact`. Sprint 66 does not implement an HTTP server.",
+        "description": "Contract-only endpoint mapped to `ValidationApplicationService.validate_artifact`. Sprint 67 implements this route in the local FastAPI MVP.",
         "tags": [
           "validation"
         ],
         "x-devpilot-api-id": "API-VALIDATION-ARTIFACT",
         "x-devpilot-operation": "validation.artifact",
         "x-devpilot-domain-service": "ValidationApplicationService.validate_artifact",
-        "x-devpilot-status": "contract-only",
+        "x-devpilot-status": "implemented-initial",
         "x-devpilot-side-effect": "none",
         "x-devpilot-dry-run-default": true,
         "x-devpilot-auth": "token-planned-sprint-68",
@@ -325,14 +333,14 @@
       "post": {
         "operationId": "validation_readiness",
         "summary": "API-VALIDATION-READINESS: validation.readiness",
-        "description": "Contract-only endpoint mapped to `ValidationApplicationService.readiness`. Sprint 66 does not implement an HTTP server.",
+        "description": "Contract-only endpoint mapped to `ValidationApplicationService.readiness`. Sprint 67 implements this route in the local FastAPI MVP.",
         "tags": [
           "validation"
         ],
         "x-devpilot-api-id": "API-VALIDATION-READINESS",
         "x-devpilot-operation": "validation.readiness",
         "x-devpilot-domain-service": "ValidationApplicationService.readiness",
-        "x-devpilot-status": "contract-only",
+        "x-devpilot-status": "implemented-initial",
         "x-devpilot-side-effect": "report_when_adapter_requests_it",
         "x-devpilot-dry-run-default": true,
         "x-devpilot-auth": "token-planned-sprint-68",
@@ -421,14 +429,14 @@
       "get": {
         "operationId": "miasi_validate",
         "summary": "API-MIASI-STATUS: miasi.validate",
-        "description": "Contract-only endpoint mapped to `MiasiApplicationService.validate`. Sprint 66 does not implement an HTTP server.",
+        "description": "Contract-only endpoint mapped to `MiasiApplicationService.validate`. Sprint 67 implements this route in the local FastAPI MVP.",
         "tags": [
           "miasi"
         ],
         "x-devpilot-api-id": "API-MIASI-STATUS",
         "x-devpilot-operation": "miasi.validate",
         "x-devpilot-domain-service": "MiasiApplicationService.validate",
-        "x-devpilot-status": "contract-only",
+        "x-devpilot-status": "implemented-initial",
         "x-devpilot-side-effect": "none",
         "x-devpilot-dry-run-default": true,
         "x-devpilot-auth": "public-local-read",
@@ -493,14 +501,14 @@
       "get": {
         "operationId": "repo_inventory",
         "summary": "API-REPO-INVENTORY: repo.inventory",
-        "description": "Contract-only endpoint mapped to `RepoApplicationService.inventory`. Sprint 66 does not implement an HTTP server.",
+        "description": "Contract-only endpoint mapped to `RepoApplicationService.inventory`. Sprint 67 implements this route in the local FastAPI MVP.",
         "tags": [
           "repo"
         ],
         "x-devpilot-api-id": "API-REPO-INVENTORY",
         "x-devpilot-operation": "repo.inventory",
         "x-devpilot-domain-service": "RepoApplicationService.inventory",
-        "x-devpilot-status": "contract-only",
+        "x-devpilot-status": "implemented-initial",
         "x-devpilot-side-effect": "none",
         "x-devpilot-dry-run-default": true,
         "x-devpilot-auth": "token-planned-sprint-68",
@@ -565,14 +573,14 @@
       "post": {
         "operationId": "review_code",
         "summary": "API-REVIEW-CODE: review.code",
-        "description": "Contract-only endpoint mapped to `ReviewApplicationService.code_review`. Sprint 66 does not implement an HTTP server.",
+        "description": "Contract-only endpoint mapped to `ReviewApplicationService.code_review`. Sprint 67 implements this route in the local FastAPI MVP.",
         "tags": [
           "review"
         ],
         "x-devpilot-api-id": "API-REVIEW-CODE",
         "x-devpilot-operation": "review.code",
         "x-devpilot-domain-service": "ReviewApplicationService.code_review",
-        "x-devpilot-status": "contract-only",
+        "x-devpilot-status": "implemented-initial",
         "x-devpilot-side-effect": "none",
         "x-devpilot-dry-run-default": true,
         "x-devpilot-auth": "token-planned-sprint-68",
@@ -661,14 +669,14 @@
       "post": {
         "operationId": "refactor_plan",
         "summary": "API-REFACTOR-PLAN: refactor.plan",
-        "description": "Contract-only endpoint mapped to `RefactorApplicationService.plan`. Sprint 66 does not implement an HTTP server.",
+        "description": "Contract-only endpoint mapped to `RefactorApplicationService.plan`. Sprint 67 implements this route in the local FastAPI MVP.",
         "tags": [
           "refactor"
         ],
         "x-devpilot-api-id": "API-REFACTOR-PLAN",
         "x-devpilot-operation": "refactor.plan",
         "x-devpilot-domain-service": "RefactorApplicationService.plan",
-        "x-devpilot-status": "contract-only",
+        "x-devpilot-status": "implemented-initial",
         "x-devpilot-side-effect": "none",
         "x-devpilot-dry-run-default": true,
         "x-devpilot-auth": "token-planned-sprint-68",
@@ -757,14 +765,14 @@
       "get": {
         "operationId": "model_providers",
         "summary": "API-MODEL-PROVIDERS: model.providers",
-        "description": "Contract-only endpoint mapped to `ModelApplicationService.providers`. Sprint 66 does not implement an HTTP server.",
+        "description": "Contract-only endpoint mapped to `ModelApplicationService.providers`. Sprint 67 implements this route in the local FastAPI MVP.",
         "tags": [
           "model"
         ],
         "x-devpilot-api-id": "API-MODEL-PROVIDERS",
         "x-devpilot-operation": "model.providers",
         "x-devpilot-domain-service": "ModelApplicationService.providers",
-        "x-devpilot-status": "contract-only",
+        "x-devpilot-status": "implemented-initial",
         "x-devpilot-side-effect": "none",
         "x-devpilot-dry-run-default": true,
         "x-devpilot-auth": "token-planned-sprint-68",
@@ -829,14 +837,14 @@
       "get": {
         "operationId": "observability_trace_report",
         "summary": "API-OBSERVABILITY-TRACES: observability.trace_report",
-        "description": "Contract-only endpoint mapped to `ObservabilityApplicationService.trace_report`. Sprint 66 does not implement an HTTP server.",
+        "description": "Contract-only endpoint mapped to `ObservabilityApplicationService.trace_report`. Sprint 67 implements this route in the local FastAPI MVP.",
         "tags": [
           "observability"
         ],
         "x-devpilot-api-id": "API-OBSERVABILITY-TRACES",
         "x-devpilot-operation": "observability.trace_report",
         "x-devpilot-domain-service": "ObservabilityApplicationService.trace_report",
-        "x-devpilot-status": "contract-only",
+        "x-devpilot-status": "implemented-initial",
         "x-devpilot-side-effect": "none",
         "x-devpilot-dry-run-default": true,
         "x-devpilot-auth": "token-planned-sprint-68",
@@ -913,14 +921,14 @@
       "get": {
         "operationId": "observability_metrics_summary",
         "summary": "API-OBSERVABILITY-METRICS: observability.metrics_summary",
-        "description": "Contract-only endpoint mapped to `ObservabilityApplicationService.metrics_summary`. Sprint 66 does not implement an HTTP server.",
+        "description": "Contract-only endpoint mapped to `ObservabilityApplicationService.metrics_summary`. Sprint 67 implements this route in the local FastAPI MVP.",
         "tags": [
           "observability"
         ],
         "x-devpilot-api-id": "API-OBSERVABILITY-METRICS",
         "x-devpilot-operation": "observability.metrics_summary",
         "x-devpilot-domain-service": "ObservabilityApplicationService.metrics_summary",
-        "x-devpilot-status": "contract-only",
+        "x-devpilot-status": "implemented-initial",
         "x-devpilot-side-effect": "none",
         "x-devpilot-dry-run-default": true,
         "x-devpilot-auth": "token-planned-sprint-68",
@@ -997,14 +1005,14 @@
       "get": {
         "operationId": "history_runs",
         "summary": "API-HISTORY-RUNS: history.runs",
-        "description": "Contract-only endpoint mapped to `HistoryApplicationService.list_runs`. Sprint 66 does not implement an HTTP server.",
+        "description": "Contract-only endpoint mapped to `HistoryApplicationService.list_runs`. Sprint 67 implements this route in the local FastAPI MVP.",
         "tags": [
           "history"
         ],
         "x-devpilot-api-id": "API-HISTORY-RUNS",
         "x-devpilot-operation": "history.runs",
         "x-devpilot-domain-service": "HistoryApplicationService.list_runs",
-        "x-devpilot-status": "contract-only",
+        "x-devpilot-status": "implemented-initial",
         "x-devpilot-side-effect": "none",
         "x-devpilot-dry-run-default": true,
         "x-devpilot-auth": "token-planned-sprint-68",
@@ -1081,19 +1089,91 @@
       "get": {
         "operationId": "app_contract",
         "summary": "API-APPLICATION-CONTRACT: app.contract",
-        "description": "Contract-only endpoint mapped to `ApplicationService.application_contract`. Sprint 66 does not implement an HTTP server.",
+        "description": "Contract-only endpoint mapped to `ApplicationService.application_contract`. Sprint 67 implements this route in the local FastAPI MVP.",
         "tags": [
           "application"
         ],
         "x-devpilot-api-id": "API-APPLICATION-CONTRACT",
         "x-devpilot-operation": "app.contract",
         "x-devpilot-domain-service": "ApplicationService.application_contract",
-        "x-devpilot-status": "contract-only",
+        "x-devpilot-status": "implemented-initial",
         "x-devpilot-side-effect": "none",
         "x-devpilot-dry-run-default": true,
         "x-devpilot-auth": "public-local-read",
         "x-devpilot-policy": "None",
         "x-devpilot-command-equivalent": "python -m devpilot_core app contract --json",
+        "responses": {
+          "200": {
+            "description": "ApplicationResponse wrapping CommandResult.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request envelope or unsupported parameter.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Policy/approval/security gate blocked the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Contract validation failed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Controlled internal error preserving response envelope.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          }
+        },
+        "parameters": []
+      }
+    },
+    "/api/v1/standards/status": {
+      "get": {
+        "operationId": "standards_status",
+        "summary": "API-STANDARDS-STATUS: standards.status",
+        "description": "Implemented-initial endpoint mapped to `ValidationApplicationService.standards_status` through ApplicationService.",
+        "tags": [
+          "standards"
+        ],
+        "x-devpilot-api-id": "API-STANDARDS-STATUS",
+        "x-devpilot-operation": "standards.status",
+        "x-devpilot-domain-service": "ValidationApplicationService.standards_status",
+        "x-devpilot-status": "implemented-initial",
+        "x-devpilot-side-effect": "none",
+        "x-devpilot-dry-run-default": true,
+        "x-devpilot-auth": "public-local-read",
+        "x-devpilot-policy": "DOC_VALIDATE_ALLOW",
+        "x-devpilot-command-equivalent": "python -m devpilot_core standards status --json",
         "responses": {
           "200": {
             "description": "ApplicationResponse wrapping CommandResult.",

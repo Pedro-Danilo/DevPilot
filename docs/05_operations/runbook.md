@@ -3867,3 +3867,67 @@ BLOCK:
 - Operación write/execute sin aprobación.
 - Implementación de FastAPI antes de Sprint 67.
 - CORS/token asumidos como implementados antes de Sprint 68.
+
+## FUNC-SPRINT-67 — Operación de API local MVP read-only/dry-run
+
+Estado: `implemented-initial` / `PASS`.
+
+### Propósito
+
+Verificar y operar la primera API local de DevPilot sin activar todavía Web UI, token/CORS ni exposición pública. La API local es un adapter FastAPI delgado que debe llamar `ApplicationService` y devolver `ApplicationResponse`.
+
+### Instalación
+
+Para entorno de desarrollo completo:
+
+```powershell
+python -m pip install -e .[dev]
+```
+
+Para instalar solo capacidades de API local sobre instalación base:
+
+```powershell
+python -m pip install -e .[api]
+```
+
+### Verificación específica
+
+```powershell
+python -m devpilot_core api serve --host 127.0.0.1 --port 8787 --dry-run --json
+python -m pytest tests/test_api_local.py -q
+python -m pytest tests/test_api_contract.py -q
+python -m pytest tests/test_sprint_67_documentation.py -q
+```
+
+### Ejecución manual local
+
+```powershell
+python -m devpilot_core api serve --host 127.0.0.1 --port 8787 --execute
+```
+
+La API expone documentación local en:
+
+```text
+http://127.0.0.1:8787/api/v1/docs
+```
+
+### Criterios PASS
+
+- El dry-run de `api serve` reporta `api_implemented=true` y `server_started=false`.
+- El host default es `127.0.0.1`.
+- `GET /api/v1/workspace/status` responde HTTP 200 con `ApplicationResponse`.
+- `GET /api/v1/application/contract` responde HTTP 200.
+- `POST /api/v1/validation/readiness` responde con envelope controlado.
+- No existen rutas `apply`, `execute`, `rollback/execute` ni `refactor/execute`.
+
+### Criterios BLOCK
+
+- La API escucha `0.0.0.0` por defecto.
+- Un router importa validadores, repo engines, ReviewEngine, RefactorPlanner, ModelAdapterRouter, LocalStore o TraceStore directamente.
+- Un endpoint devuelve datos fuera de `ApplicationResponse` salvo `/api/v1/health`.
+- Se habilita CORS wildcard o token incompleto en Sprint 67.
+- Se agrega una ruta write/execute crítica antes de Sprint 68.
+
+### Riesgos y evolución
+
+Sprint 67 es una versión preliminar industrial del adapter HTTP. La seguridad HTTP todavía no está completa: token local, CORS restringido, headers y policy binding se implementarán en `FUNC-SPRINT-68`. No debe exponerse esta API fuera de localhost.

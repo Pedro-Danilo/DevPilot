@@ -2090,6 +2090,129 @@ def app_contract_command(*, json_output: bool = False, write_report: bool = Fals
     return int(result.exit_code)
 
 
+def api_serve_command(
+    *,
+    host: str = "127.0.0.1",
+    port: int = 8787,
+    dry_run: bool = True,
+    execute: bool = False,
+    json_output: bool = False,
+    write_report: bool = False,
+) -> int:
+    """Prepare or run the local API MVP from FUNC-SPRINT-67.
+
+    Dry-run is the default. Real serving requires --execute and remains
+    localhost-only in this sprint. Token/CORS hardening is deferred to
+    FUNC-SPRINT-68 by backlog design.
+    """
+
+    root = project_root()
+    allowed_hosts = {"127.0.0.1", "localhost"}
+    if host not in allowed_hosts:
+        result = CommandResult(
+            command="api serve",
+            ok=False,
+            exit_code=ExitCode.BLOCK,
+            message="API local MVP only allows localhost hosts in FUNC-SPRINT-67.",
+            data={
+                "summary": {
+                    "host": host,
+                    "port": port,
+                    "allowed_hosts": sorted(allowed_hosts),
+                    "server_started": False,
+                    "api_implemented": True,
+                    "sprint": "FUNC-SPRINT-67",
+                }
+            },
+            findings=[
+                Finding(
+                    id="API_HOST_NOT_LOCALHOST_BLOCK",
+                    message="Refusing to bind API local MVP to a non-localhost host.",
+                    severity=Severity.BLOCK,
+                    metadata={"host": host},
+                )
+            ],
+        )
+    else:
+        from .interfaces.api import DEFAULT_API_HOST, DEFAULT_API_PORT, api_route_paths, create_app
+
+        app = create_app(root)
+        route_paths = api_route_paths(app)
+        data = {
+            "summary": {
+                "host": host,
+                "port": port,
+                "default_host": DEFAULT_API_HOST,
+                "default_port": DEFAULT_API_PORT,
+                "dry_run": dry_run or not execute,
+                "execute": execute,
+                "server_started": False,
+                "api_implemented": True,
+                "api_status": "implemented-initial",
+                "routes_total": len(route_paths),
+                "dangerous_routes_total": len([p for p in route_paths if any(fragment in p for fragment in ["apply", "execute", "rollback/execute", "refactor/execute"])]),
+                "token_required": False,
+                "cors_enabled": False,
+                "token_and_cors_deferred_to": "FUNC-SPRINT-68",
+                "external_api_used": False,
+                "network_used": False,
+                "preliminary": True,
+            },
+            "routes": route_paths,
+            "notes": [
+                "Dry-run is the default for this CLI command.",
+                "Use --execute only to start the local uvicorn server on localhost.",
+                "Sprint 67 does not implement token/CORS; those controls are Sprint 68 scope.",
+            ],
+        }
+        result = CommandResult(
+            command="api serve",
+            ok=True,
+            exit_code=ExitCode.PASS,
+            message="API local MVP configuration is valid; dry-run did not start a server." if not execute else "Starting API local MVP on localhost.",
+            data=data,
+            findings=[
+                Finding(
+                    id="API_LOCAL_MVP_READY",
+                    message="FastAPI local MVP is available and bound to localhost by default.",
+                    severity=Severity.INFO,
+                    metadata={"host": host, "port": port, "routes_total": len(route_paths)},
+                )
+            ],
+        )
+
+        if execute and not dry_run:
+            result.data["summary"]["server_started"] = True
+            print_result(result, json_output=json_output)
+            try:
+                import uvicorn
+            except Exception as exc:  # pragma: no cover - dependency guard
+                error = CommandResult(
+                    command="api serve",
+                    ok=False,
+                    exit_code=ExitCode.ERROR,
+                    message="uvicorn is required to execute the API server. Install devpilot-local[api].",
+                    findings=[Finding(id="API_UVICORN_MISSING", message=str(exc), severity=Severity.ERROR)],
+                )
+                print_result(error, json_output=json_output)
+                return int(error.exit_code)
+            uvicorn.run(app, host=host, port=port)
+            return int(ExitCode.PASS)
+
+    result = _write_optional_command_report(
+        root,
+        result,
+        subject="api-local",
+        report_id="api_serve",
+        write_report=write_report,
+        metadata={"sprint": "FUNC-SPRINT-67", "component": "LocalAPI"},
+    )
+    _emit_result_event(root, result, subject="api-local")
+    _persist_result(root, result, subject="api-local")
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+
 def security_readiness_command(*, json_output: bool = False, write_report: bool = False) -> int:
     """Run the Fase B operational security readiness gate."""
 
@@ -2788,6 +2911,16 @@ def build_parser() -> argparse.ArgumentParser:
     app_contract.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     app_contract.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
 
+    api = sub.add_parser("api", help="Run or inspect the local API MVP")
+    api_sub = api.add_subparsers(dest="api_command")
+    api_serve = api_sub.add_parser("serve", help="Dry-run or start the local API server")
+    api_serve.add_argument("--host", default="127.0.0.1", help="Bind host; localhost only in FUNC-SPRINT-67")
+    api_serve.add_argument("--port", type=int, default=8787, help="Bind port for the local API")
+    api_serve.add_argument("--dry-run", action="store_true", help="Validate API configuration without starting the server")
+    api_serve.add_argument("--execute", action="store_true", help="Actually start uvicorn on localhost")
+    api_serve.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    api_serve.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+
     policy = sub.add_parser("policy", help="Evaluate deterministic DevPilot safety policies")
     policy_sub = policy.add_subparsers(dest="policy_command")
     policy_check = policy_sub.add_parser("check", help="Evaluate a simulated action through PolicyEngine")
@@ -3298,6 +3431,18 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
     if args.command == "app":
         if args.app_command == "contract":
             return app_contract_command(json_output=args.json, write_report=args.write_report)
+        parser.print_help()
+        return int(ExitCode.FAIL)
+    if args.command == "api":
+        if args.api_command == "serve":
+            return api_serve_command(
+                host=args.host,
+                port=args.port,
+                dry_run=args.dry_run or not args.execute,
+                execute=args.execute,
+                json_output=args.json,
+                write_report=args.write_report,
+            )
         parser.print_help()
         return int(ExitCode.FAIL)
     if args.command == "policy":

@@ -17,7 +17,7 @@ def test_application_service_v2_contract_lists_domain_facades() -> None:
     assert payload["summary"]["schema_version"] == "2.0"
     assert payload["summary"]["application_service_v2"] is True
     assert payload["summary"]["domain_facades_enabled"] is True
-    assert payload["summary"]["api_implemented"] is False
+    assert payload["summary"]["api_implemented"] is True
     assert payload["summary"]["ui_implemented"] is False
     assert payload["summary"]["desktop_deferred"] is True
 

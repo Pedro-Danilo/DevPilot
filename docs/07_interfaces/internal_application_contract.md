@@ -326,3 +326,32 @@ Reglas de contrato:
 - token/CORS/policy binding no están implementados todavía y quedan para Sprint 68.
 
 Criterios PASS: OpenAPI y app contract coinciden; no hay rutas destructivas; no existe servidor HTTP real. Criterios BLOCK: API futura que importe core directamente, respuesta fuera del envelope, endpoint sin mapping o exposición pública antes de controles de seguridad.
+
+## Sprint 67 — API local MVP read-only/dry-run
+
+`FUNC-SPRINT-67` implementa el primer adapter HTTP local sobre `ApplicationService v2`.
+
+Flujo obligatorio:
+
+```text
+HTTP /api/v1/*
+  → FastAPI router
+    → ApiApplicationRequest / query params
+      → ApplicationRequest
+        → ApplicationService.handle()
+          → DomainService
+            → CommandResult
+              → ApplicationResponse
+```
+
+Reglas vinculantes:
+
+1. Los routers viven en `src/devpilot_core/interfaces/api`.
+2. Los routers no pueden importar motores internos del core directamente.
+3. Toda operación funcional debe pasar por `ApplicationService`.
+4. La API local escucha por defecto en `127.0.0.1:8787`.
+5. Sprint 67 no implementa token local ni CORS; esos controles son obligatorios en Sprint 68.
+6. No se exponen rutas `apply`, `execute`, `rollback/execute` ni `refactor/execute`.
+7. Las operaciones `review.code` y `refactor.plan` siguen siendo dry-run/plan-only.
+
+Estado: `implemented-initial`. La API es suficiente para pruebas HTTP locales y para preparar la Web UI, pero no debe tratarse como superficie segura para exposición pública hasta completar Sprint 68.
