@@ -2,12 +2,13 @@
 title: "Contrato interno de Application Services para CLI/API/Web UI"
 doc_id: "DEVPL-INTERFACES-001"
 status: "approved"
-version: "1.3.0"
+approval: "approved_after_func_sprint_66_implementation"
+version: "1.4.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
 phase: "FUNC-SPRINT-65"
-updated: "2026-06-14"
+updated: "2026-06-15"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 ---
 # Contrato interno de Application Services para CLI/API/Web UI
@@ -296,3 +297,32 @@ La Web UI importa Python/core directamente.
 Una operación write/execute se expone sin PolicyEngine y Approval Workflow.
 Se habilita red externa o API paga como requisito de la fachada.
 ```
+
+
+## 10. Sprint 66 — Contrato API v1 y OpenAPI preliminar
+
+`FUNC-SPRINT-66` convierte las rutas contract-only de `ApplicationService v2` en un contrato API preliminar versionado. Esta versión sigue sin implementar servidor HTTP: define documentación, OpenAPI estático y matriz de mapping.
+
+Artefactos vinculantes:
+
+- `docs/07_interfaces/api_contract_v1.md`;
+- `docs/07_interfaces/openapi_v1.json`;
+- `docs/07_interfaces/api_service_mapping.md`;
+- `tests/test_api_contract.py`.
+
+Flujo obligatorio futuro:
+
+```text
+HTTP /api/v1/* → ApplicationRequest → ApplicationService.handle() → DomainService → CommandResult → ApplicationResponse
+```
+
+Reglas de contrato:
+
+- todos los endpoints usan `/api/v1`;
+- cada endpoint declara `x-devpilot-operation`;
+- cada endpoint tiene mapping a un servicio de dominio;
+- todas las respuestas usan `ApplicationResponse`;
+- los errores `400/403/422/500` también usan `ApplicationResponse`;
+- token/CORS/policy binding no están implementados todavía y quedan para Sprint 68.
+
+Criterios PASS: OpenAPI y app contract coinciden; no hay rutas destructivas; no existe servidor HTTP real. Criterios BLOCK: API futura que importe core directamente, respuesta fuera del envelope, endpoint sin mapping o exposición pública antes de controles de seguridad.

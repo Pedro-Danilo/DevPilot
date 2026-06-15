@@ -2,12 +2,12 @@
 title: "C4 Container — DevPilot Local"
 doc_id: "DEVPL-ARCH-003"
 status: "approved"
-version: "1.4.0"
+version: "1.5.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
 phase: "FUNC-SPRINT-64"
-updated: "2026-06-14"
+updated: "2026-06-15"
 approval: "approved_by_owner_direction"
 change_reason: "Reconciled by FUNC-SPRINT-20 to mark real container states after Sprint 18/19 closure."
 approved_by: "Ordóñez"
@@ -265,3 +265,16 @@ Dominio de responsabilidad:
 - DevPilot Core: reglas de negocio, políticas, validadores, stores y motores especializados.
 
 No implementado todavía: servidor API, OpenAPI, frontend, autenticación, CORS, token local o Desktop shell.
+
+
+## Actualización FUNC-SPRINT-66 — Contrato API v1 preliminar
+
+Sprint 66 agrega la vista contractual de API local antes de implementar el contenedor de servidor. El contenedor `API local segura` sigue en estado `planned-fase-f`, pero ahora dispone de contrato estático en `docs/07_interfaces/openapi_v1.json` y mapping endpoint→`ApplicationService` en `docs/07_interfaces/api_service_mapping.md`.
+
+La relación C4 queda:
+
+```text
+Web UI local futura → API local /api/v1 futura → ApplicationService v2 → DevPilot Core
+```
+
+Restricción: ningún contenedor visual o HTTP futuro debe saltarse `ApplicationService v2`; el contrato OpenAPI solo autoriza rutas read-only/dry-run/plan-only hasta implementar seguridad local en Sprint 68.

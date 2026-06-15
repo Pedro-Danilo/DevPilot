@@ -3818,3 +3818,52 @@ python -m devpilot_core validate all --json
 ### Riesgos y limitaciones
 
 Esta es una primera versión industrial de la frontera de aplicación. No sustituye OpenAPI, auth, RBAC, CORS ni token local. Sprint 66 debe convertir estas operaciones en contrato API versionado y Sprint 67/68 deben implementar API/seguridad local.
+
+
+## FUNC-SPRINT-66 — Operación de contratos API y OpenAPI preliminar
+
+Estado: `implemented-initial`.
+
+Propósito operativo: validar que el contrato API v1 y OpenAPI preliminar están sincronizados con `ApplicationService v2`, antes de crear un servidor HTTP real.
+
+Comandos específicos:
+
+```powershell
+python -m devpilot_core validate-artifact docs/07_interfaces/api_contract_v1.md --json
+python -m devpilot_core validate-artifact docs/07_interfaces/api_service_mapping.md --json
+python -m devpilot_core schema validate-manifest docs/functional_sprint_66_manifest.json --json
+python -m pytest tests/test_api_contract.py -q
+python -m pytest tests/test_sprint_66_documentation.py -q
+```
+
+Comando de contrato runtime:
+
+```powershell
+python -m devpilot_core app contract --json --write-report
+```
+
+Resultado esperado:
+
+- `api_contract_defined=true`;
+- `openapi_contract_defined=true`;
+- `api_contract_version=v1`;
+- `api_implemented=false`;
+- `ui_implemented=false`;
+- `desktop_deferred=true`;
+- todos los paths comienzan por `/api/v1`;
+- cada endpoint tiene mapping a `ApplicationService`.
+
+PASS:
+
+- OpenAPI es estático, versionado y validable.
+- No existe servidor HTTP activo.
+- No se agregan dependencias externas.
+- Errores preservan `ApplicationResponse`.
+
+BLOCK:
+
+- Endpoint sin mapping a servicio.
+- Ruta fuera de `/api/v1`.
+- Operación write/execute sin aprobación.
+- Implementación de FastAPI antes de Sprint 67.
+- CORS/token asumidos como implementados antes de Sprint 68.

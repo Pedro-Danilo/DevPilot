@@ -1,0 +1,1289 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "DevPilot Local API Contract v1",
+    "version": "1.0.0-preliminary",
+    "description": "Static OpenAPI contract for future local API. FUNC-SPRINT-66 does not implement an HTTP server."
+  },
+  "servers": [
+    {
+      "url": "http://127.0.0.1:8787",
+      "description": "Future local-only server. Not active in Sprint 66."
+    }
+  ],
+  "tags": [
+    {
+      "name": "workspace"
+    },
+    {
+      "name": "validation"
+    },
+    {
+      "name": "miasi"
+    },
+    {
+      "name": "repo"
+    },
+    {
+      "name": "review"
+    },
+    {
+      "name": "refactor"
+    },
+    {
+      "name": "model"
+    },
+    {
+      "name": "observability"
+    },
+    {
+      "name": "history"
+    },
+    {
+      "name": "application"
+    }
+  ],
+  "x-devpilot": {
+    "sprint": "FUNC-SPRINT-66",
+    "status": "contract-only",
+    "api_implemented": false,
+    "server_implemented": false,
+    "ui_implemented": false,
+    "desktop_deferred": true,
+    "default_host": "127.0.0.1",
+    "external_api_required": false,
+    "network_required": false,
+    "source_application_contract_schema": "2.0",
+    "source_repo": "repo_DevPilot_Local_80.zip"
+  },
+  "paths": {
+    "/api/v1/workspace/status": {
+      "get": {
+        "operationId": "workspace_status",
+        "summary": "API-WORKSPACE-STATUS: workspace.status",
+        "description": "Contract-only endpoint mapped to `WorkspaceApplicationService.status`. Sprint 66 does not implement an HTTP server.",
+        "tags": [
+          "workspace"
+        ],
+        "x-devpilot-api-id": "API-WORKSPACE-STATUS",
+        "x-devpilot-operation": "workspace.status",
+        "x-devpilot-domain-service": "WorkspaceApplicationService.status",
+        "x-devpilot-status": "contract-only",
+        "x-devpilot-side-effect": "none",
+        "x-devpilot-dry-run-default": true,
+        "x-devpilot-auth": "public-local-read",
+        "x-devpilot-policy": "None",
+        "x-devpilot-command-equivalent": "python -m devpilot_core workspace status --json",
+        "responses": {
+          "200": {
+            "description": "ApplicationResponse wrapping CommandResult.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request envelope or unsupported parameter.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Policy/approval/security gate blocked the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Contract validation failed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Controlled internal error preserving response envelope.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          }
+        },
+        "parameters": []
+      }
+    },
+    "/api/v1/validation/frontmatter": {
+      "post": {
+        "operationId": "validation_frontmatter",
+        "summary": "API-VALIDATION-FRONTMATTER: validation.frontmatter",
+        "description": "Contract-only endpoint mapped to `ValidationApplicationService.validate_frontmatter`. Sprint 66 does not implement an HTTP server.",
+        "tags": [
+          "validation"
+        ],
+        "x-devpilot-api-id": "API-VALIDATION-FRONTMATTER",
+        "x-devpilot-operation": "validation.frontmatter",
+        "x-devpilot-domain-service": "ValidationApplicationService.validate_frontmatter",
+        "x-devpilot-status": "contract-only",
+        "x-devpilot-side-effect": "none",
+        "x-devpilot-dry-run-default": true,
+        "x-devpilot-auth": "token-planned-sprint-68",
+        "x-devpilot-policy": "PathGuard on adapter",
+        "x-devpilot-command-equivalent": "python -m devpilot_core validate-frontmatter <path> --json",
+        "responses": {
+          "200": {
+            "description": "ApplicationResponse wrapping CommandResult.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request envelope or unsupported parameter.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Policy/approval/security gate blocked the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Contract validation failed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Controlled internal error preserving response envelope.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/ApplicationRequest"
+                  }
+                ],
+                "properties": {
+                  "operation": {
+                    "const": "validation.frontmatter"
+                  }
+                }
+              },
+              "example": {
+                "operation": "validation.frontmatter",
+                "payload": {},
+                "client": "api-local",
+                "dry_run": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/validation/artifact": {
+      "post": {
+        "operationId": "validation_artifact",
+        "summary": "API-VALIDATION-ARTIFACT: validation.artifact",
+        "description": "Contract-only endpoint mapped to `ValidationApplicationService.validate_artifact`. Sprint 66 does not implement an HTTP server.",
+        "tags": [
+          "validation"
+        ],
+        "x-devpilot-api-id": "API-VALIDATION-ARTIFACT",
+        "x-devpilot-operation": "validation.artifact",
+        "x-devpilot-domain-service": "ValidationApplicationService.validate_artifact",
+        "x-devpilot-status": "contract-only",
+        "x-devpilot-side-effect": "none",
+        "x-devpilot-dry-run-default": true,
+        "x-devpilot-auth": "token-planned-sprint-68",
+        "x-devpilot-policy": "PathGuard on adapter",
+        "x-devpilot-command-equivalent": "python -m devpilot_core validate-artifact <path> --json",
+        "responses": {
+          "200": {
+            "description": "ApplicationResponse wrapping CommandResult.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request envelope or unsupported parameter.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Policy/approval/security gate blocked the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Contract validation failed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Controlled internal error preserving response envelope.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/ApplicationRequest"
+                  }
+                ],
+                "properties": {
+                  "operation": {
+                    "const": "validation.artifact"
+                  }
+                }
+              },
+              "example": {
+                "operation": "validation.artifact",
+                "payload": {},
+                "client": "api-local",
+                "dry_run": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/validation/readiness": {
+      "post": {
+        "operationId": "validation_readiness",
+        "summary": "API-VALIDATION-READINESS: validation.readiness",
+        "description": "Contract-only endpoint mapped to `ValidationApplicationService.readiness`. Sprint 66 does not implement an HTTP server.",
+        "tags": [
+          "validation"
+        ],
+        "x-devpilot-api-id": "API-VALIDATION-READINESS",
+        "x-devpilot-operation": "validation.readiness",
+        "x-devpilot-domain-service": "ValidationApplicationService.readiness",
+        "x-devpilot-status": "contract-only",
+        "x-devpilot-side-effect": "report_when_adapter_requests_it",
+        "x-devpilot-dry-run-default": true,
+        "x-devpilot-auth": "token-planned-sprint-68",
+        "x-devpilot-policy": "Report writes explicit only",
+        "x-devpilot-command-equivalent": "python -m devpilot_core readiness-check --strict --json",
+        "responses": {
+          "200": {
+            "description": "ApplicationResponse wrapping CommandResult.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request envelope or unsupported parameter.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Policy/approval/security gate blocked the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Contract validation failed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Controlled internal error preserving response envelope.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/ApplicationRequest"
+                  }
+                ],
+                "properties": {
+                  "operation": {
+                    "const": "validation.readiness"
+                  }
+                }
+              },
+              "example": {
+                "operation": "validation.readiness",
+                "payload": {},
+                "client": "api-local",
+                "dry_run": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/miasi/status": {
+      "get": {
+        "operationId": "miasi_validate",
+        "summary": "API-MIASI-STATUS: miasi.validate",
+        "description": "Contract-only endpoint mapped to `MiasiApplicationService.validate`. Sprint 66 does not implement an HTTP server.",
+        "tags": [
+          "miasi"
+        ],
+        "x-devpilot-api-id": "API-MIASI-STATUS",
+        "x-devpilot-operation": "miasi.validate",
+        "x-devpilot-domain-service": "MiasiApplicationService.validate",
+        "x-devpilot-status": "contract-only",
+        "x-devpilot-side-effect": "none",
+        "x-devpilot-dry-run-default": true,
+        "x-devpilot-auth": "public-local-read",
+        "x-devpilot-policy": "MIASI registries read-only",
+        "x-devpilot-command-equivalent": "python -m devpilot_core miasi validate --json",
+        "responses": {
+          "200": {
+            "description": "ApplicationResponse wrapping CommandResult.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request envelope or unsupported parameter.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Policy/approval/security gate blocked the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Contract validation failed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Controlled internal error preserving response envelope.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          }
+        },
+        "parameters": []
+      }
+    },
+    "/api/v1/repo/inventory": {
+      "get": {
+        "operationId": "repo_inventory",
+        "summary": "API-REPO-INVENTORY: repo.inventory",
+        "description": "Contract-only endpoint mapped to `RepoApplicationService.inventory`. Sprint 66 does not implement an HTTP server.",
+        "tags": [
+          "repo"
+        ],
+        "x-devpilot-api-id": "API-REPO-INVENTORY",
+        "x-devpilot-operation": "repo.inventory",
+        "x-devpilot-domain-service": "RepoApplicationService.inventory",
+        "x-devpilot-status": "contract-only",
+        "x-devpilot-side-effect": "none",
+        "x-devpilot-dry-run-default": true,
+        "x-devpilot-auth": "token-planned-sprint-68",
+        "x-devpilot-policy": "Git read-only / PathGuard",
+        "x-devpilot-command-equivalent": "python -m devpilot_core repo inventory --json",
+        "responses": {
+          "200": {
+            "description": "ApplicationResponse wrapping CommandResult.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request envelope or unsupported parameter.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Policy/approval/security gate blocked the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Contract validation failed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Controlled internal error preserving response envelope.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          }
+        },
+        "parameters": []
+      }
+    },
+    "/api/v1/review/code": {
+      "post": {
+        "operationId": "review_code",
+        "summary": "API-REVIEW-CODE: review.code",
+        "description": "Contract-only endpoint mapped to `ReviewApplicationService.code_review`. Sprint 66 does not implement an HTTP server.",
+        "tags": [
+          "review"
+        ],
+        "x-devpilot-api-id": "API-REVIEW-CODE",
+        "x-devpilot-operation": "review.code",
+        "x-devpilot-domain-service": "ReviewApplicationService.code_review",
+        "x-devpilot-status": "contract-only",
+        "x-devpilot-side-effect": "none",
+        "x-devpilot-dry-run-default": true,
+        "x-devpilot-auth": "token-planned-sprint-68",
+        "x-devpilot-policy": "CODE_REVIEW_DRY_RUN_ALLOW",
+        "x-devpilot-command-equivalent": "python -m devpilot_core code-review . --json",
+        "responses": {
+          "200": {
+            "description": "ApplicationResponse wrapping CommandResult.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request envelope or unsupported parameter.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Policy/approval/security gate blocked the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Contract validation failed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Controlled internal error preserving response envelope.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/ApplicationRequest"
+                  }
+                ],
+                "properties": {
+                  "operation": {
+                    "const": "review.code"
+                  }
+                }
+              },
+              "example": {
+                "operation": "review.code",
+                "payload": {},
+                "client": "api-local",
+                "dry_run": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/refactor/plan": {
+      "post": {
+        "operationId": "refactor_plan",
+        "summary": "API-REFACTOR-PLAN: refactor.plan",
+        "description": "Contract-only endpoint mapped to `RefactorApplicationService.plan`. Sprint 66 does not implement an HTTP server.",
+        "tags": [
+          "refactor"
+        ],
+        "x-devpilot-api-id": "API-REFACTOR-PLAN",
+        "x-devpilot-operation": "refactor.plan",
+        "x-devpilot-domain-service": "RefactorApplicationService.plan",
+        "x-devpilot-status": "contract-only",
+        "x-devpilot-side-effect": "none",
+        "x-devpilot-dry-run-default": true,
+        "x-devpilot-auth": "token-planned-sprint-68",
+        "x-devpilot-policy": "plan-only; no patch execution",
+        "x-devpilot-command-equivalent": "python -m devpilot_core refactor-plan . --json",
+        "responses": {
+          "200": {
+            "description": "ApplicationResponse wrapping CommandResult.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request envelope or unsupported parameter.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Policy/approval/security gate blocked the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Contract validation failed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Controlled internal error preserving response envelope.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/ApplicationRequest"
+                  }
+                ],
+                "properties": {
+                  "operation": {
+                    "const": "refactor.plan"
+                  }
+                }
+              },
+              "example": {
+                "operation": "refactor.plan",
+                "payload": {},
+                "client": "api-local",
+                "dry_run": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/model/providers": {
+      "get": {
+        "operationId": "model_providers",
+        "summary": "API-MODEL-PROVIDERS: model.providers",
+        "description": "Contract-only endpoint mapped to `ModelApplicationService.providers`. Sprint 66 does not implement an HTTP server.",
+        "tags": [
+          "model"
+        ],
+        "x-devpilot-api-id": "API-MODEL-PROVIDERS",
+        "x-devpilot-operation": "model.providers",
+        "x-devpilot-domain-service": "ModelApplicationService.providers",
+        "x-devpilot-status": "contract-only",
+        "x-devpilot-side-effect": "none",
+        "x-devpilot-dry-run-default": true,
+        "x-devpilot-auth": "token-planned-sprint-68",
+        "x-devpilot-policy": "CostGuard/SecretGuard; no external API",
+        "x-devpilot-command-equivalent": "python -m devpilot_core model providers --json",
+        "responses": {
+          "200": {
+            "description": "ApplicationResponse wrapping CommandResult.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request envelope or unsupported parameter.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Policy/approval/security gate blocked the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Contract validation failed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Controlled internal error preserving response envelope.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          }
+        },
+        "parameters": []
+      }
+    },
+    "/api/v1/observability/traces": {
+      "get": {
+        "operationId": "observability_trace_report",
+        "summary": "API-OBSERVABILITY-TRACES: observability.trace_report",
+        "description": "Contract-only endpoint mapped to `ObservabilityApplicationService.trace_report`. Sprint 66 does not implement an HTTP server.",
+        "tags": [
+          "observability"
+        ],
+        "x-devpilot-api-id": "API-OBSERVABILITY-TRACES",
+        "x-devpilot-operation": "observability.trace_report",
+        "x-devpilot-domain-service": "ObservabilityApplicationService.trace_report",
+        "x-devpilot-status": "contract-only",
+        "x-devpilot-side-effect": "none",
+        "x-devpilot-dry-run-default": true,
+        "x-devpilot-auth": "token-planned-sprint-68",
+        "x-devpilot-policy": "bounded read; secret redaction",
+        "x-devpilot-command-equivalent": "python -m devpilot_core trace report --json",
+        "responses": {
+          "200": {
+            "description": "ApplicationResponse wrapping CommandResult.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request envelope or unsupported parameter.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Policy/approval/security gate blocked the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Contract validation failed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Controlled internal error preserving response envelope.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 200
+            },
+            "description": "Optional bounded read limit for endpoints that support it."
+          }
+        ]
+      }
+    },
+    "/api/v1/observability/metrics": {
+      "get": {
+        "operationId": "observability_metrics_summary",
+        "summary": "API-OBSERVABILITY-METRICS: observability.metrics_summary",
+        "description": "Contract-only endpoint mapped to `ObservabilityApplicationService.metrics_summary`. Sprint 66 does not implement an HTTP server.",
+        "tags": [
+          "observability"
+        ],
+        "x-devpilot-api-id": "API-OBSERVABILITY-METRICS",
+        "x-devpilot-operation": "observability.metrics_summary",
+        "x-devpilot-domain-service": "ObservabilityApplicationService.metrics_summary",
+        "x-devpilot-status": "contract-only",
+        "x-devpilot-side-effect": "none",
+        "x-devpilot-dry-run-default": true,
+        "x-devpilot-auth": "token-planned-sprint-68",
+        "x-devpilot-policy": "bounded read; secret redaction",
+        "x-devpilot-command-equivalent": "python -m devpilot_core metrics summary --json",
+        "responses": {
+          "200": {
+            "description": "ApplicationResponse wrapping CommandResult.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request envelope or unsupported parameter.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Policy/approval/security gate blocked the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Contract validation failed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Controlled internal error preserving response envelope.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 200
+            },
+            "description": "Optional bounded read limit for endpoints that support it."
+          }
+        ]
+      }
+    },
+    "/api/v1/history/runs": {
+      "get": {
+        "operationId": "history_runs",
+        "summary": "API-HISTORY-RUNS: history.runs",
+        "description": "Contract-only endpoint mapped to `HistoryApplicationService.list_runs`. Sprint 66 does not implement an HTTP server.",
+        "tags": [
+          "history"
+        ],
+        "x-devpilot-api-id": "API-HISTORY-RUNS",
+        "x-devpilot-operation": "history.runs",
+        "x-devpilot-domain-service": "HistoryApplicationService.list_runs",
+        "x-devpilot-status": "contract-only",
+        "x-devpilot-side-effect": "none",
+        "x-devpilot-dry-run-default": true,
+        "x-devpilot-auth": "token-planned-sprint-68",
+        "x-devpilot-policy": "bounded LocalStore read",
+        "x-devpilot-command-equivalent": "python -m devpilot_core history list --json",
+        "responses": {
+          "200": {
+            "description": "ApplicationResponse wrapping CommandResult.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request envelope or unsupported parameter.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Policy/approval/security gate blocked the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Contract validation failed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Controlled internal error preserving response envelope.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 200
+            },
+            "description": "Optional bounded read limit for endpoints that support it."
+          }
+        ]
+      }
+    },
+    "/api/v1/application/contract": {
+      "get": {
+        "operationId": "app_contract",
+        "summary": "API-APPLICATION-CONTRACT: app.contract",
+        "description": "Contract-only endpoint mapped to `ApplicationService.application_contract`. Sprint 66 does not implement an HTTP server.",
+        "tags": [
+          "application"
+        ],
+        "x-devpilot-api-id": "API-APPLICATION-CONTRACT",
+        "x-devpilot-operation": "app.contract",
+        "x-devpilot-domain-service": "ApplicationService.application_contract",
+        "x-devpilot-status": "contract-only",
+        "x-devpilot-side-effect": "none",
+        "x-devpilot-dry-run-default": true,
+        "x-devpilot-auth": "public-local-read",
+        "x-devpilot-policy": "None",
+        "x-devpilot-command-equivalent": "python -m devpilot_core app contract --json",
+        "responses": {
+          "200": {
+            "description": "ApplicationResponse wrapping CommandResult.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request envelope or unsupported parameter.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Policy/approval/security gate blocked the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Contract validation failed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Controlled internal error preserving response envelope.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          }
+        },
+        "parameters": []
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Finding": {
+        "type": "object",
+        "required": [
+          "id",
+          "message",
+          "severity"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "severity": {
+            "type": "string",
+            "enum": [
+              "info",
+              "warning",
+              "fail",
+              "block",
+              "error"
+            ]
+          },
+          "path": {
+            "type": "string"
+          },
+          "metadata": {
+            "type": "object",
+            "additionalProperties": true
+          }
+        },
+        "additionalProperties": true
+      },
+      "ApplicationRequest": {
+        "type": "object",
+        "required": [
+          "operation",
+          "payload",
+          "client",
+          "dry_run"
+        ],
+        "properties": {
+          "operation": {
+            "type": "string"
+          },
+          "payload": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "client": {
+            "type": "string",
+            "default": "api-local"
+          },
+          "dry_run": {
+            "type": "boolean",
+            "default": true
+          }
+        },
+        "additionalProperties": true
+      },
+      "ApplicationResponse": {
+        "type": "object",
+        "required": [
+          "contract",
+          "schema_version",
+          "operation",
+          "ok",
+          "exit_code",
+          "message",
+          "data",
+          "findings",
+          "generated_at"
+        ],
+        "properties": {
+          "contract": {
+            "type": "string",
+            "const": "DevPilotApplicationResponse"
+          },
+          "schema_version": {
+            "type": "string"
+          },
+          "operation": {
+            "type": "string"
+          },
+          "ok": {
+            "type": "boolean"
+          },
+          "exit_code": {
+            "type": "integer",
+            "enum": [
+              0,
+              1,
+              2,
+              3
+            ]
+          },
+          "message": {
+            "type": "string"
+          },
+          "data": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "findings": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Finding"
+            }
+          },
+          "generated_at": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": true
+      },
+      "ErrorApplicationResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/ApplicationResponse"
+          }
+        ],
+        "description": "Error envelope preserving ApplicationResponse semantics. Non-2xx responses must still carry operation, exit_code and findings."
+      }
+    },
+    "securitySchemes": {
+      "LocalTokenAuth": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "X-DevPilot-Local-Token",
+        "description": "Planned for FUNC-SPRINT-68. Not enforced by Sprint 66 because no HTTP server exists."
+      }
+    }
+  }
+}

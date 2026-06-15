@@ -170,6 +170,11 @@ class ApplicationService:
                 "domains_total": len(domains),
                 "ui_implemented": False,
                 "api_implemented": False,
+                "api_contract_defined": True,
+                "api_contract_version": "v1",
+                "openapi_contract_defined": True,
+                "openapi_contract_path": "docs/07_interfaces/openapi_v1.json",
+                "api_service_mapping_path": "docs/07_interfaces/api_service_mapping.md",
                 "visual_strategy": "web_ui_first",
                 "api_local_planned": True,
                 "web_ui_local_planned": True,
@@ -194,6 +199,7 @@ class ApplicationService:
             "preliminary": True,
             "notes": [
                 "FUNC-SPRINT-65 exposes domain application services for future API local and Web UI integration.",
+                "FUNC-SPRINT-66 defines static API Contract v1 and OpenAPI preliminary artifacts without implementing an HTTP server.",
                 "No HTTP server, Web frontend, Desktop shell, network listener or external API dependency is implemented by this sprint.",
                 "Future route handlers must call ApplicationService/DomainService methods instead of importing DevPilot Core modules directly.",
                 "Operations with side effects remain dry-run/report-only or must later be bound to PolicyEngine and Approval Workflow.",
@@ -208,7 +214,7 @@ class ApplicationService:
             findings=[
                 Finding(
                     id="APP_CONTRACT_V2_PASS",
-                    message="ApplicationService v2 exposes domain facades and serializable route contracts without implementing API/UI.",
+                    message="ApplicationService v2 exposes domain facades plus static API Contract v1/OpenAPI route contracts without implementing API/UI.",
                     severity=Severity.INFO,
                     metadata={"domains_total": len(domains), "capabilities_total": len(capabilities)},
                 )

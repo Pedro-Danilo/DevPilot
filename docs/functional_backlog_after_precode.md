@@ -2,19 +2,19 @@
 title: "DevPilot Local — Backlog ejecutable posterior a pre-code"
 doc_id: "DEVPL-FUNC-BACKLOG-001"
 status: "approved"
-version: "4.1.0"
+version: "4.2.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
 phase: "POST-PRECODE"
-updated: "2026-06-14"
+updated: "2026-06-15"
 approval: "approved_by_owner_direction"
 source_baseline: "precode_baseline_approved"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approved_on: "2026-06-06"
 approval_scope: "functional_backlog_after_precode"
 baseline_execution: "FUNC-SPRINT-00"
-next_sprint: "FUNC-SPRINT-66"
+next_sprint: "FUNC-SPRINT-67"
 ---
 
 # DevPilot Local — Backlog ejecutable posterior a pre-code
@@ -26,6 +26,13 @@ Este backlog queda promovido a `approved` el 2026-06-06 como guía ejecutable pa
 La aprobación no congela el documento: cualquier ajuste futuro debe seguir la política docs-as-code definida en MIPSoftware, dejar trazabilidad, actualizar criterios de aceptación cuando aplique y preservar la relación entre producto, requerimientos, arquitectura, seguridad, calidad, operación y MIASI.
 
 La ejecución de `FUNC-SPRINT-00` confirma que el repositorio queda limpio, reproducible y listo para iniciar `FUNC-SPRINT-01 — Arquitectura interna del CLI y modelo común de resultados`.
+
+
+## Transición posterior a FUNC-SPRINT-66
+
+`FUNC-SPRINT-66 — Contratos API y OpenAPI preliminar` queda implementado como contrato estático `/api/v1` antes de crear un servidor local. La siguiente unidad de trabajo es `FUNC-SPRINT-67 — API local MVP read-only/dry-run`, que debe implementar el servidor local usando los contratos `docs/07_interfaces/api_contract_v1.md`, `docs/07_interfaces/openapi_v1.json` y `docs/07_interfaces/api_service_mapping.md`.
+
+Regla vigente: ningún endpoint HTTP futuro puede importar módulos internos del core directamente; debe construir `ApplicationRequest`, llamar `ApplicationService`/servicios de dominio y devolver `ApplicationResponse`. Token, CORS y policy binding siguen pendientes para Sprint 68.
 
 
 ## Transición posterior a FUNC-SPRINT-65

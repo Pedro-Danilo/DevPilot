@@ -1,13 +1,31 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
 Estado actual: `baseline pre-code approved + Fase A cerrada + Fase B cerrada + Fase C cerrada + Fase D cerrada + Fase E cerrada`  
-Último hito: `FUNC-SPRINT-65 — ApplicationService v2 por dominios`  
-Siguiente hito: `FUNC-SPRINT-66 — Contratos API y OpenAPI preliminar`  
+Último hito: `FUNC-SPRINT-66 — Contratos API y OpenAPI preliminar`  
+Siguiente hito: `FUNC-SPRINT-67 — API local MVP read-only/dry-run`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
 
 
+
+
+## FUNC-SPRINT-66 — Contratos API y OpenAPI preliminar
+
+Estado: `implemented-initial` / `PASS`.
+
+Sprint 66 formaliza el contrato API v1 antes de crear un servidor HTTP real. La implementación define `docs/07_interfaces/api_contract_v1.md`, `docs/07_interfaces/openapi_v1.json` y `docs/07_interfaces/api_service_mapping.md`, con trazabilidad endpoint→`ApplicationService v2`. El namespace queda fijado como `/api/v1`, las respuestas preservan `ApplicationResponse` y los errores futuros también deben devolverse como envelope controlado.
+
+Entregables principales:
+
+- `docs/07_interfaces/api_contract_v1.md`: contrato API local v1 preliminar.
+- `docs/07_interfaces/openapi_v1.json`: especificación OpenAPI 3.1 estática, validable sin dependencias externas.
+- `docs/07_interfaces/api_service_mapping.md`: matriz endpoint→operation→domain service.
+- `tests/test_api_contract.py`: contract tests que comparan OpenAPI contra `ApplicationService.application_contract()`.
+- `docs/audits/func_sprint_66_api_contract_audit.md`: auditoría de cierre.
+- `docs/functional_sprint_66_manifest.json`: manifiesto funcional.
+
+Límites explícitos: Sprint 66 no implementa FastAPI, servidor HTTP, listener de red, token local, CORS, frontend ni Desktop shell. Es una primera versión contractual industrial; Sprint 67 debe implementar la API local MVP read-only/dry-run sobre estos contratos.
 
 
 ## FUNC-SPRINT-65 — ApplicationService v2 por dominios

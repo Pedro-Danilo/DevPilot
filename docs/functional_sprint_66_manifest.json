@@ -1,0 +1,92 @@
+{
+  "sprint": "FUNC-SPRINT-66",
+  "title": "Contratos API y OpenAPI preliminar",
+  "status": "implemented",
+  "implemented_at": "2026-06-15",
+  "phase": "FASE-F-PRODUCTO-VISUAL",
+  "wave": "Ola 9 — API local y Web UI local web-ready",
+  "source_backlog": "docs/devpilot_backlog_fase_F_producto_visual.md",
+  "summary": {
+    "implementation_level": "implemented-initial",
+    "api_contract_v1_defined": true,
+    "openapi_static_defined": true,
+    "api_service_mapping_defined": true,
+    "api_namespace": "/api/v1",
+    "routes_total": 13,
+    "server_implemented": false,
+    "api_implemented": false,
+    "ui_implemented": false,
+    "desktop_implemented": false,
+    "desktop_deferred": true,
+    "external_dependencies_added": false,
+    "network_required": false,
+    "external_api_used": false,
+    "next_runtime_sprint": "FUNC-SPRINT-67"
+  },
+  "created_files": [
+    "docs/07_interfaces/api_contract_v1.md",
+    "docs/07_interfaces/openapi_v1.json",
+    "docs/07_interfaces/api_service_mapping.md",
+    "tests/test_api_contract.py",
+    "tests/test_sprint_66_documentation.py",
+    "docs/audits/func_sprint_66_api_contract_audit.md",
+    "docs/functional_sprint_66_manifest.json"
+  ],
+  "modified_files": [
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/devpilot_backlog_fase_F_producto_visual.md",
+    "docs/functional_backlog_after_precode.md",
+    "docs/02_architecture/c4_container.md",
+    "docs/07_interfaces/internal_application_contract.md",
+    "src/devpilot_core/application/services.py"
+  ],
+  "commands": [
+    "python -m devpilot_core validate-artifact docs/07_interfaces/api_contract_v1.md --json",
+    "python -m devpilot_core validate-artifact docs/07_interfaces/api_service_mapping.md --json",
+    "python -m devpilot_core schema validate-manifest docs/functional_sprint_66_manifest.json --json",
+    "python -m pytest tests/test_api_contract.py -q",
+    "python -m pytest tests/test_sprint_66_documentation.py -q",
+    "python -m devpilot_core validate all --json"
+  ],
+  "tests": [
+    "tests/test_api_contract.py",
+    "tests/test_sprint_66_documentation.py",
+    "tests/test_sprint_*_documentation.py"
+  ],
+  "pass_criteria": [
+    "Existe contrato API v1 antes de servidor real",
+    "OpenAPI estático define únicamente rutas /api/v1",
+    "Cada endpoint tiene mapping a ApplicationService v2",
+    "Errores usan ApplicationResponse",
+    "No se implementa servidor HTTP ni Web UI"
+  ],
+  "block_criteria": [
+    "Endpoint sin service mapping",
+    "Ruta fuera de /api/v1",
+    "Acción write/execute crítica sin Approval Workflow",
+    "Contratos contradicen app contract",
+    "Se agregan dependencias externas o red obligatoria"
+  ],
+  "risks": [
+    {
+      "id": "RISK-FUNC-66-001",
+      "risk": "Contrato API diverge de ApplicationService.",
+      "mitigation": "Contract tests comparan OpenAPI con ApplicationService.application_contract()."
+    },
+    {
+      "id": "RISK-FUNC-66-002",
+      "risk": "Seguridad local se posterga hasta Sprint 68.",
+      "mitigation": "Threat model y API contract declaran token/CORS/policy binding como obligatorio posterior."
+    },
+    {
+      "id": "RISK-FUNC-66-003",
+      "risk": "Frontend futuro lee filesystem directo.",
+      "mitigation": "Mapping obliga UI→API→ApplicationService."
+    }
+  ],
+  "next_sprint": "FUNC-SPRINT-67 — API local MVP read-only/dry-run",
+  "preliminary": true,
+  "adr_required": false,
+  "adr_rationale": "No se requiere nueva ADR: Sprint 66 implementa el contrato derivado de ADR-0013 y de ApplicationService v2 sin cambiar stack ni habilitar servidor."
+}
