@@ -32,8 +32,8 @@ def test_sprint_40_readme_runbook_backlog_and_test_strategy_are_synchronized() -
     backlog = _read("docs/devpilot_backlog_fase_C_ingenieria_repositorio.md")
     test_strategy = _read("docs/04_quality/test_strategy.md")
 
-    assert "Último hito: `FUNC-SPRINT-67" in readme
-    assert "Siguiente hito: `FUNC-SPRINT-68" in readme
+    assert "Último hito: `FUNC-SPRINT-68" in readme
+    assert "Siguiente hito: `FUNC-SPRINT-69" in readme
     assert "## FUNC-SPRINT-40 — Patch preflight con verificación segura" in runbook
     assert "python -m devpilot_core patch check --patch-file safe.patch --json --write-report" in runbook
     assert 'phase_c_status: "completed"' in backlog
@@ -67,7 +67,7 @@ def test_sprint_40_functional_backlog_points_to_sprint_41_without_overclaiming()
     functional_backlog = _read("docs/functional_backlog_after_precode.md")
     safe_patch = _read("safe.patch")
 
-    assert 'next_sprint: "FUNC-SPRINT-68"' in functional_backlog
+    assert 'next_sprint: "FUNC-SPRINT-69"' in functional_backlog
     assert "Transición posterior a FUNC-SPRINT-40" in functional_backlog
     assert "no aplica patches" in functional_backlog
     assert "no ejecuta Git write" in functional_backlog

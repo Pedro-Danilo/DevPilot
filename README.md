@@ -1,13 +1,32 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
 Estado actual: `baseline pre-code approved + Fase A cerrada + Fase B cerrada + Fase C cerrada + Fase D cerrada + Fase E cerrada`  
-Último hito: `FUNC-SPRINT-67 — API local MVP read-only/dry-run`  
-Siguiente hito: `FUNC-SPRINT-68 — Seguridad API local: token, CORS restringido y policy binding`  
+Último hito: `FUNC-SPRINT-68 — Seguridad API local: token, CORS restringido y policy binding`  
+Siguiente hito: `FUNC-SPRINT-69 — Web UI MVP: dashboard workspace/readiness/MIASI`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
 
 
+
+
+## FUNC-SPRINT-68 — Seguridad API local: token, CORS restringido y policy binding
+
+Estado: `implemented-initial` / `PASS`.
+
+Sprint 68 endurece la API local creada en Sprint 67 antes de que la Web UI local la consuma. La implementación agrega token local temporal, CORS restringido sin wildcard, headers de seguridad, binding central con `PolicyEngine` para rutas protegidas y el comando `python -m devpilot_core api token --json` para generar tokens de sesión local sin persistirlos.
+
+Entregables principales:
+
+- `src/devpilot_core/interfaces/api/security.py`: token local, CORS allowlist, rutas públicas mínimas, policy binding y redacción de token.
+- `src/devpilot_core/interfaces/api/app.py`: middleware de seguridad HTTP, CORS y security headers.
+- `python -m devpilot_core api token --json`: genera token local para `DEVPILOT_API_TOKEN`.
+- `python -m devpilot_core api serve --host 127.0.0.1 --port 8787 --dry-run --json`: verifica configuración segura sin iniciar servidor.
+- `tests/test_api_security.py`: pruebas de token, CORS, headers, policy binding y bloqueo de host remoto.
+- `docs/audits/func_sprint_68_api_security_audit.md`: auditoría de cierre.
+- `docs/functional_sprint_68_manifest.json`: manifiesto funcional.
+
+Límites explícitos: Sprint 68 no implementa RBAC enterprise, login, usuarios, sesiones, TLS productivo, Web UI ni Desktop. Es seguridad local MVP para proteger la API `localhost` antes de `FUNC-SPRINT-69`.
 
 
 ## FUNC-SPRINT-67 — API local MVP read-only/dry-run

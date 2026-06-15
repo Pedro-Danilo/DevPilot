@@ -355,3 +355,20 @@ Reglas vinculantes:
 7. Las operaciones `review.code` y `refactor.plan` siguen siendo dry-run/plan-only.
 
 Estado: `implemented-initial`. La API es suficiente para pruebas HTTP locales y para preparar la Web UI, pero no debe tratarse como superficie segura para exposición pública hasta completar Sprint 68.
+
+
+## Sprint 68 — Seguridad API local secured-initial
+
+`FUNC-SPRINT-68` agrega controles mínimos alrededor del adapter FastAPI local:
+
+```text
+HTTP /api/v1/*
+  → token local
+  → CORS allowlist
+  → security headers
+  → API_ROUTE_POLICIES / PolicyEngine
+  → ApplicationService.handle()
+  → ApplicationResponse
+```
+
+Reglas: los endpoints protegidos requieren token, CORS no puede usar wildcard por defecto, las rutas protegidas deben estar declaradas en `API_ROUTE_POLICIES`, y la UI futura debe consumir la API sin importar core Python.

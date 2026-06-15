@@ -2099,11 +2099,11 @@ def api_serve_command(
     json_output: bool = False,
     write_report: bool = False,
 ) -> int:
-    """Prepare or run the local API MVP from FUNC-SPRINT-67.
+    """Prepare or run the secured local API MVP from FUNC-SPRINT-68.
 
     Dry-run is the default. Real serving requires --execute and remains
-    localhost-only in this sprint. Token/CORS hardening is deferred to
-    FUNC-SPRINT-68 by backlog design.
+    localhost-only. Sprint 68 requires token, restricted CORS and policy binding
+    but still does not implement enterprise RBAC or remote serving.
     """
 
     root = project_root()
@@ -2113,7 +2113,7 @@ def api_serve_command(
             command="api serve",
             ok=False,
             exit_code=ExitCode.BLOCK,
-            message="API local MVP only allows localhost hosts in FUNC-SPRINT-67.",
+            message="Secured API local MVP only allows localhost hosts.",
             data={
                 "summary": {
                     "host": host,
@@ -2121,23 +2121,25 @@ def api_serve_command(
                     "allowed_hosts": sorted(allowed_hosts),
                     "server_started": False,
                     "api_implemented": True,
-                    "sprint": "FUNC-SPRINT-67",
+                    "api_security_implemented": True,
+                    "sprint": "FUNC-SPRINT-68",
                 }
             },
             findings=[
                 Finding(
                     id="API_HOST_NOT_LOCALHOST_BLOCK",
-                    message="Refusing to bind API local MVP to a non-localhost host.",
+                    message="Refusing to bind secured local API to a non-localhost host.",
                     severity=Severity.BLOCK,
                     metadata={"host": host},
                 )
             ],
         )
     else:
-        from .interfaces.api import DEFAULT_API_HOST, DEFAULT_API_PORT, api_route_paths, create_app
+        from .interfaces.api import DEFAULT_API_HOST, DEFAULT_API_PORT, api_route_paths, api_security_summary, create_app
 
         app = create_app(root)
         route_paths = api_route_paths(app)
+        security_summary = api_security_summary(app)
         data = {
             "summary": {
                 "host": host,
@@ -2148,40 +2150,56 @@ def api_serve_command(
                 "execute": execute,
                 "server_started": False,
                 "api_implemented": True,
-                "api_status": "implemented-initial",
+                "api_status": "secured-initial",
+                "api_security_implemented": True,
                 "routes_total": len(route_paths),
                 "dangerous_routes_total": len([p for p in route_paths if any(fragment in p for fragment in ["apply", "execute", "rollback/execute", "refactor/execute"])]),
-                "token_required": False,
-                "cors_enabled": False,
-                "token_and_cors_deferred_to": "FUNC-SPRINT-68",
                 "external_api_used": False,
                 "network_used": False,
                 "preliminary": True,
+                **security_summary,
             },
             "routes": route_paths,
             "notes": [
                 "Dry-run is the default for this CLI command.",
                 "Use --execute only to start the local uvicorn server on localhost.",
-                "Sprint 67 does not implement token/CORS; those controls are Sprint 68 scope.",
+                "Sprint 68 requires token for protected endpoints and restricts CORS by default.",
+                "Use `python -m devpilot_core api token --json` to generate a session token, then set DEVPILOT_API_TOKEN before serving.",
             ],
         }
         result = CommandResult(
             command="api serve",
             ok=True,
             exit_code=ExitCode.PASS,
-            message="API local MVP configuration is valid; dry-run did not start a server." if not execute else "Starting API local MVP on localhost.",
+            message="Secured local API configuration is valid; dry-run did not start a server." if not execute else "Starting secured local API on localhost.",
             data=data,
             findings=[
                 Finding(
-                    id="API_LOCAL_MVP_READY",
-                    message="FastAPI local MVP is available and bound to localhost by default.",
+                    id="API_LOCAL_SECURITY_READY",
+                    message="FastAPI local MVP is protected by token, restricted CORS and policy binding.",
                     severity=Severity.INFO,
-                    metadata={"host": host, "port": port, "routes_total": len(route_paths)},
+                    metadata={"host": host, "port": port, "routes_total": len(route_paths), "token_required": True},
                 )
             ],
         )
 
-        if execute and not dry_run:
+        if execute and security_summary.get("token_source") == "generated-ephemeral":
+            result = CommandResult(
+                command="api serve",
+                ok=False,
+                exit_code=ExitCode.BLOCK,
+                message="Set DEVPILOT_API_TOKEN before starting the secured local API with --execute.",
+                data={"summary": {**data["summary"], "server_started": False, "token_source": "generated-ephemeral"}},
+                findings=[
+                    Finding(
+                        id="API_EXECUTE_REQUIRES_EXPLICIT_TOKEN_BLOCK",
+                        message="The secured API cannot be started with an unknown generated token. Generate a token and set DEVPILOT_API_TOKEN first.",
+                        severity=Severity.BLOCK,
+                    )
+                ],
+            )
+
+        if execute and not dry_run and result.ok:
             result.data["summary"]["server_started"] = True
             print_result(result, json_output=json_output)
             try:
@@ -2205,10 +2223,43 @@ def api_serve_command(
         subject="api-local",
         report_id="api_serve",
         write_report=write_report,
-        metadata={"sprint": "FUNC-SPRINT-67", "component": "LocalAPI"},
+        metadata={"sprint": "FUNC-SPRINT-68", "component": "LocalAPI Security"},
     )
     _emit_result_event(root, result, subject="api-local")
     _persist_result(root, result, subject="api-local")
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+
+def api_token_command(*, json_output: bool = False) -> int:
+    """Generate a local API token for one user-controlled session.
+
+    This command intentionally does not emit observability events, write reports
+    or persist LocalStore history because the raw token is a secret.
+    """
+
+    from .interfaces.api import API_TOKEN_ENV_VAR, generate_api_token, redact_token
+
+    token = generate_api_token()
+    result = CommandResult(
+        command="api token",
+        ok=True,
+        exit_code=ExitCode.PASS,
+        message="Generated a local API session token. Store it in DEVPILOT_API_TOKEN; it is not persisted by DevPilot.",
+        data={
+            "summary": {
+                "token_generated": True,
+                "token_redacted": redact_token(token),
+                "token_env_var": API_TOKEN_ENV_VAR,
+                "persisted": False,
+                "write_report_supported": False,
+                "preliminary": True,
+            },
+            "token": token,
+            "powershell": f"$env:{API_TOKEN_ENV_VAR} = '{token}'",
+        },
+        findings=[Finding(id="API_TOKEN_GENERATED", message="A local API token was generated and must be handled as a secret.", severity=Severity.INFO)],
+    )
     print_result(result, json_output=json_output)
     return int(result.exit_code)
 
@@ -2911,15 +2962,18 @@ def build_parser() -> argparse.ArgumentParser:
     app_contract.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     app_contract.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
 
-    api = sub.add_parser("api", help="Run or inspect the local API MVP")
+    api = sub.add_parser("api", help="Run, inspect or secure the local API MVP")
     api_sub = api.add_subparsers(dest="api_command")
     api_serve = api_sub.add_parser("serve", help="Dry-run or start the local API server")
-    api_serve.add_argument("--host", default="127.0.0.1", help="Bind host; localhost only in FUNC-SPRINT-67")
+    api_serve.add_argument("--host", default="127.0.0.1", help="Bind host; localhost only")
     api_serve.add_argument("--port", type=int, default=8787, help="Bind port for the local API")
     api_serve.add_argument("--dry-run", action="store_true", help="Validate API configuration without starting the server")
     api_serve.add_argument("--execute", action="store_true", help="Actually start uvicorn on localhost")
     api_serve.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     api_serve.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+
+    api_token = api_sub.add_parser("token", help="Generate a local API session token without persisting it")
+    api_token.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
 
     policy = sub.add_parser("policy", help="Evaluate deterministic DevPilot safety policies")
     policy_sub = policy.add_subparsers(dest="policy_command")
@@ -3443,6 +3497,8 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
                 json_output=args.json,
                 write_report=args.write_report,
             )
+        if args.api_command == "token":
+            return api_token_command(json_output=args.json)
         parser.print_help()
         return int(ExitCode.FAIL)
     if args.command == "policy":

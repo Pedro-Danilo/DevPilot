@@ -1,15 +1,43 @@
+(.venv) PS D:\Projects\DevPilot_Local> python -m devpilot_core api token --json
+{
+  "command": "api token",
+  "ok": true,
+  "exit_code": 0,
+  "message": "Generated a local API session token. Store it in DEVPILOT_API_TOKEN; it is not persisted by DevPilot.",
+  "data": {
+    "summary": {
+      "token_generated": true,
+      "token_redacted": "8MNv...ZQH0",
+      "token_env_var": "DEVPILOT_API_TOKEN",
+      "persisted": false,
+      "write_report_supported": false,
+      "preliminary": true
+    },
+    "token": "8MNvwUgEWJgF-QG4tAuNjJDyHm14I24y_qSI5voZQH0",
+    "powershell": "$env:DEVPILOT_API_TOKEN = '8MNvwUgEWJgF-QG4tAuNjJDyHm14I24y_qSI5voZQH0'"
+  },
+  "findings": [
+    {
+      "id": "API_TOKEN_GENERATED",
+      "message": "A local API token was generated and must be handled as a secret.",
+      "severity": "info"
+    }
+  ]
+}
+(.venv) PS D:\Projects\DevPilot_Local> $env:DEVPILOT_API_TOKEN = "8MNvwUgEWJgF-QG4tAuNjJDyHm14I24y_qSI5voZQH0"
 (.venv) PS D:\Projects\DevPilot_Local> pytest -q
-............................................................................................................................................ [ 25%]
-............................................................................................................................................ [ 50%]
-............................................................................................................................................ [ 75%]
-.....................................................................................................................................        [100%]
+............................................................................................................................................ [ 24%]
+............................................................................................................................................ [ 49%]
+............................................................................................................................................ [ 73%]
+............................................................................................................................................ [ 98%]
+........                                                                                                                                     [100%]
 ================================================================ warnings summary =================================================================
 .venv\Lib\site-packages\fastapi\testclient.py:1
   D:\Projects\DevPilot_Local\.venv\Lib\site-packages\fastapi\testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
     from starlette.testclient import TestClient as TestClient  # noqa
 
 -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
-DEVPL TEST SUMMARY: 553 passed, 0 failed, 0 errors, 0 skipped
+DEVPL TEST SUMMARY: 568 passed, 0 failed, 0 errors, 0 skipped
 (.venv) PS D:\Projects\DevPilot_Local> python -m devpilot_core validate all --json
 {
   "command": "validate all",
@@ -22,7 +50,7 @@ DEVPL TEST SUMMARY: 553 passed, 0 failed, 0 errors, 0 skipped
       "validations_total": 2,
       "validations_passed": 2,
       "validations_failed": 0,
-      "findings_total": 80,
+      "findings_total": 81,
       "warnings_total": 12,
       "blocking_findings_total": 0,
       "preliminary": true,
@@ -626,7 +654,7 @@ DEVPL TEST SUMMARY: 553 passed, 0 failed, 0 errors, 0 skipped
                       {
                         "artifact": "docs/02_architecture/c4_container.md",
                         "exists": true,
-                        "size_bytes": 15904,
+                        "size_bytes": 16405,
                         "frontmatter_ok": true,
                         "artifact_ok": true,
                         "status": "approved",
@@ -671,7 +699,7 @@ DEVPL TEST SUMMARY: 553 passed, 0 failed, 0 errors, 0 skipped
                       {
                         "artifact": "docs/05_operations/runbook.md",
                         "exists": true,
-                        "size_bytes": 161512,
+                        "size_bytes": 162975,
                         "frontmatter_ok": true,
                         "artifact_ok": true,
                         "status": "approved",
@@ -1107,10 +1135,10 @@ DEVPL TEST SUMMARY: 553 passed, 0 failed, 0 errors, 0 skipped
           "data": {
             "summary": {
               "scope": "contracts",
-              "validations_total": 54,
-              "validations_passed": 54,
+              "validations_total": 55,
+              "validations_passed": 55,
               "validations_failed": 0,
-              "findings_total": 66,
+              "findings_total": 67,
               "warnings_total": 0,
               "blocking_findings_total": 0,
               "preliminary": true,
@@ -4355,6 +4383,50 @@ DEVPL TEST SUMMARY: 553 passed, 0 failed, 0 errors, 0 skipped
                     }
                   ]
                 }
+              },
+              {
+                "id": "manifest:docs/functional_sprint_68_manifest.json",
+                "result": {
+                  "command": "schema validate-manifest",
+                  "ok": true,
+                  "exit_code": 0,
+                  "message": "Schema validation passed.",
+                  "data": {
+                    "summary": {
+                      "schema": "docs/schemas/functional_sprint_manifest.schema.json",
+                      "instance": "docs/functional_sprint_68_manifest.json",
+                      "valid": true,
+                      "errors_total": 0,
+                      "findings_total": 1,
+                      "network_used": false,
+                      "external_api_used": false,
+                      "schema_title": "DevPilot Functional Sprint Manifest v1",
+                      "schema_id": "SCHEMA-DEVPL-FUNCTIONAL-SPRINT-MANIFEST-V1",
+                      "validator": "jsonschema",
+                      "jsonschema_version": "4.26.0",
+                      "preliminary": true,
+                      "contract": "FunctionalSprintManifest",
+                      "subject": "docs/functional_sprint_68_manifest.json"
+                    },
+                    "schema": "docs/schemas/functional_sprint_manifest.schema.json",
+                    "instance": "docs/functional_sprint_68_manifest.json",
+                    "notes": [
+                      "FUNC-SPRINT-22 validates JSON structure only; semantic gates remain in dedicated validators.",
+                      "Validation is local-first and does not call network or external APIs."
+                    ]
+                  },
+                  "findings": [
+                    {
+                      "id": "SCHEMA_VALIDATION_PASS",
+                      "message": "Instance conforms to schema.",
+                      "severity": "info",
+                      "metadata": {
+                        "schema": "docs/schemas/functional_sprint_manifest.schema.json",
+                        "instance": "docs/functional_sprint_68_manifest.json"
+                      }
+                    }
+                  ]
+                }
               }
             ],
             "notes": [
@@ -5090,6 +5162,17 @@ DEVPL TEST SUMMARY: 553 passed, 0 failed, 0 errors, 0 skipped
                 "schema": "docs/schemas/functional_sprint_manifest.schema.json",
                 "instance": "docs/functional_sprint_67_manifest.json",
                 "gateway_step": "manifest:docs/functional_sprint_67_manifest.json",
+                "source_command": "schema validate-manifest"
+              }
+            },
+            {
+              "id": "SCHEMA_VALIDATION_PASS",
+              "message": "Instance conforms to schema.",
+              "severity": "info",
+              "metadata": {
+                "schema": "docs/schemas/functional_sprint_manifest.schema.json",
+                "instance": "docs/functional_sprint_68_manifest.json",
+                "gateway_step": "manifest:docs/functional_sprint_68_manifest.json",
                 "source_command": "schema validate-manifest"
               }
             }
@@ -6003,6 +6086,17 @@ DEVPL TEST SUMMARY: 553 passed, 0 failed, 0 errors, 0 skipped
         "schema": "docs/schemas/functional_sprint_manifest.schema.json",
         "instance": "docs/functional_sprint_67_manifest.json",
         "gateway_step": "manifest:docs/functional_sprint_67_manifest.json",
+        "source_command": "schema validate-manifest"
+      }
+    },
+    {
+      "id": "SCHEMA_VALIDATION_PASS",
+      "message": "Instance conforms to schema.",
+      "severity": "info",
+      "metadata": {
+        "schema": "docs/schemas/functional_sprint_manifest.schema.json",
+        "instance": "docs/functional_sprint_68_manifest.json",
+        "gateway_step": "manifest:docs/functional_sprint_68_manifest.json",
         "source_command": "schema validate-manifest"
       }
     }
@@ -7776,7 +7870,7 @@ DEVPL TEST SUMMARY: 553 passed, 0 failed, 0 errors, 0 skipped
       {
         "artifact": "docs/02_architecture/c4_container.md",
         "exists": true,
-        "size_bytes": 15904,
+        "size_bytes": 16405,
         "frontmatter_ok": true,
         "artifact_ok": true,
         "status": "approved",
@@ -7821,7 +7915,7 @@ DEVPL TEST SUMMARY: 553 passed, 0 failed, 0 errors, 0 skipped
       {
         "artifact": "docs/05_operations/runbook.md",
         "exists": true,
-        "size_bytes": 161512,
+        "size_bytes": 162975,
         "frontmatter_ok": true,
         "artifact_ok": true,
         "status": "approved",
@@ -8067,16 +8161,16 @@ DEVPL TEST SUMMARY: 553 passed, 0 failed, 0 errors, 0 skipped
     }
   ]
 }
-(.venv) PS D:\Projects\DevPilot_Local> python -m pytest tests/test_sprint_66_documentation.py tests/test_phase_f_web_first_strategy.py -q
+(.venv) PS D:\Projects\DevPilot_Local> python -m pytest tests/test_sprint_67_documentation.py tests/test_phase_f_web_first_strategy.py -q
 .......                                                                                                                                      [100%]
 DEVPL TEST SUMMARY: 7 passed, 0 failed, 0 errors, 0 skipped
-(.venv) PS D:\Projects\DevPilot_Local> python -m pytest tests/test_application_services.py tests/test_application_services_v2.py tests/test_api_contract.py tests/test_api_local.py -q
-.......................                                                                                                                      [100%]
+(.venv) PS D:\Projects\DevPilot_Local> python -m pytest tests/test_api_security.py tests/test_api_local.py tests/test_api_contract.py tests/test_application_services_v2.py -q
+............................                                                                                                                 [100%]
 ================================================================ warnings summary =================================================================
 .venv\Lib\site-packages\fastapi\testclient.py:1
   D:\Projects\DevPilot_Local\.venv\Lib\site-packages\fastapi\testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
     from starlette.testclient import TestClient as TestClient  # noqa
 
 -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
-DEVPL TEST SUMMARY: 23 passed, 0 failed, 0 errors, 0 skipped
+DEVPL TEST SUMMARY: 28 passed, 0 failed, 0 errors, 0 skipped
 (.venv) PS D:\Projects\DevPilot_Local>

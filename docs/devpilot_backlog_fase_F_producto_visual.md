@@ -2,13 +2,13 @@
 title: "DevPilot Local — Backlog ejecutable Fase F: Producto visual"
 doc_id: "DEVPL-FUNC-BACKLOG-FASE-F-001"
 status: "approved"
-version: "1.5.0"
+version: "1.6.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
 phase: "FASE-F-PRODUCTO-VISUAL"
 updated: "2026-06-15"
-source_repo: "repo_DevPilot_Local_81.zip"
+source_repo: "repo_DevPilot_Local_84.zip"
 source_report: "Informe de avance DevPilot - sprint 0 - 18.docx"
 source_backlog_model: "docs/functional_backlog_after_precode.md"
 baseline_dependency: "Fases A-E cerradas; Fase E validada por FUNC-SPRINT-63"
@@ -18,10 +18,10 @@ change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "phase_f_executable_backlog_review"
 approved_on: "2026-06-14"
 approval: "approved_after_phase_e_agentops_closure"
-first_open_sprint: "FUNC-SPRINT-68"
-last_completed_sprint: "FUNC-SPRINT-67"
-next_sprint: "FUNC-SPRINT-68"
-phase_f_status: "implementation_in_progress_sprint_67_completed"
+first_open_sprint: "FUNC-SPRINT-69"
+last_completed_sprint: "FUNC-SPRINT-68"
+next_sprint: "FUNC-SPRINT-69"
+phase_f_status: "implementation_in_progress_sprint_68_completed"
 ui_strategy: "web_local_first_web_real_ready_desktop_deferred"
 ---
 
@@ -297,6 +297,22 @@ python -m pytest -q
 ```text
 Implementa FUNC-SPRINT-64: ADR UI/API local y threat model de interfaz. No codifiques servidor ni frontend hasta cerrar decisión documentada.
 ```
+
+## Estado de implementación Sprint 68
+
+`FUNC-SPRINT-68 — Seguridad API local: token, CORS restringido y policy binding` queda implementado en estado `implemented-initial` y con veredicto `PASS`.
+
+Entregables de cierre:
+
+- `src/devpilot_core/interfaces/api/security.py` implementa token local temporal, CORS allowlist, rutas públicas mínimas, redacción de token y binding de rutas con `PolicyEngine`.
+- `src/devpilot_core/interfaces/api/app.py` aplica middleware de seguridad, headers mínimos y CORS restringido.
+- `python -m devpilot_core api token --json` genera un token de sesión local sin persistirlo como reporte.
+- `tests/test_api_security.py` valida token ausente/inválido/válido, CORS sin wildcard, headers, policy binding y bloqueo de host remoto.
+- `docs/03_security/ui_api_threat_model.md`, `docs/07_interfaces/api_contract_v1.md`, `docs/07_interfaces/openapi_v1.json` y `docs/07_interfaces/api_service_mapping.md` quedan sincronizados con la API `secured-initial`.
+- `docs/audits/func_sprint_68_api_security_audit.md` y `docs/functional_sprint_68_manifest.json` dejan trazabilidad.
+
+Alcance real: no se implementa Web UI, RBAC enterprise, login, sesiones, TLS productivo, API remota ni Desktop. La fase queda lista para `FUNC-SPRINT-69 — Web UI MVP: dashboard workspace/readiness/MIASI`.
+
 
 ## Estado de implementación Sprint 67
 

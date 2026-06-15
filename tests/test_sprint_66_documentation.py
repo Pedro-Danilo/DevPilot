@@ -23,14 +23,14 @@ def test_sprint_66_artifacts_and_global_state_are_synchronized() -> None:
     runbook = _read("docs/05_operations/runbook.md")
     internal_contract = _read("docs/07_interfaces/internal_application_contract.md")
 
-    assert "Último hito: `FUNC-SPRINT-67" in readme
-    assert "Siguiente hito: `FUNC-SPRINT-68" in readme
+    assert "Último hito: `FUNC-SPRINT-68" in readme
+    assert "Siguiente hito: `FUNC-SPRINT-69" in readme
     assert "FUNC-SPRINT-66 — Contratos API y OpenAPI preliminar" in readme
-    assert 'source_repo: "repo_DevPilot_Local_81.zip"' in backlog
-    assert 'first_open_sprint: "FUNC-SPRINT-68"' in backlog
-    assert 'last_completed_sprint: "FUNC-SPRINT-67"' in backlog
-    assert 'next_sprint: "FUNC-SPRINT-68"' in backlog
-    assert 'next_sprint: "FUNC-SPRINT-68"' in functional_backlog
+    assert 'source_repo: "repo_DevPilot_Local_84.zip"' in backlog
+    assert 'first_open_sprint: "FUNC-SPRINT-69"' in backlog
+    assert 'last_completed_sprint: "FUNC-SPRINT-68"' in backlog
+    assert 'next_sprint: "FUNC-SPRINT-69"' in backlog
+    assert 'next_sprint: "FUNC-SPRINT-69"' in functional_backlog
     assert "FUNC-SPRINT-66 — Operación de contratos API y OpenAPI preliminar" in runbook
     assert "Sprint 66 — Contrato API v1 y OpenAPI preliminar" in internal_contract
 

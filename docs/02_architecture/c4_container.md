@@ -302,3 +302,10 @@ Responsabilidades diferidas:
 - despliegue web real.
 
 El contenedor `Web UI local` continúa `planned-fase-f` para Sprint 69 y no debe importar el core Python directamente.
+
+
+## Sprint 68 — API local segura secured-initial
+
+El contenedor `API local segura` evoluciona desde `implemented-initial` a `secured-initial`. El adapter FastAPI conserva el flujo `API → ApplicationService → Core`, y ahora agrega controles de transporte local: token temporal, CORS restringido, headers mínimos y policy binding.
+
+La Web UI local futura debe tratar la API como única frontera de integración. Desktop sigue diferido. Web real pública requiere ADR y threat model posteriores.

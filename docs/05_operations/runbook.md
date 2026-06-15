@@ -3931,3 +3931,50 @@ http://127.0.0.1:8787/api/v1/docs
 ### Riesgos y evolución
 
 Sprint 67 es una versión preliminar industrial del adapter HTTP. La seguridad HTTP todavía no está completa: token local, CORS restringido, headers y policy binding se implementarán en `FUNC-SPRINT-68`. No debe exponerse esta API fuera de localhost.
+
+
+## FUNC-SPRINT-68 — Operación de seguridad API local
+
+### Propósito
+
+Verificar y operar la API local segura antes de que la Web UI local la consuma. Sprint 68 agrega token local, CORS restringido, headers mínimos y policy binding. Es una primera versión local MVP, no un esquema RBAC enterprise.
+
+### Generar token local
+
+```powershell
+python -m devpilot_core api token --json
+$env:DEVPILOT_API_TOKEN = "<token-generado>"
+```
+
+El token se muestra para que el operador lo copie, pero DevPilot no lo persiste como reporte. No debe pegarse en logs, commits ni documentos.
+
+### Verificación dry-run de API segura
+
+```powershell
+python -m devpilot_core api serve --host 127.0.0.1 --port 8787 --dry-run --json
+```
+
+PASS si `api_security_implemented=true`, `token_required=true`, `cors_wildcard_enabled=false`, `policy_binding_enabled=true` y `dangerous_routes_total=0`.
+
+### Ejecutar API local
+
+```powershell
+python -m devpilot_core api serve --host 127.0.0.1 --port 8787 --execute
+```
+
+Usar `X-DevPilot-Token: <token>` o `Authorization: Bearer <token>` para endpoints protegidos.
+
+### Pruebas específicas
+
+```powershell
+python -m pytest tests/test_api_security.py -q
+python -m pytest tests/test_api_local.py tests/test_api_contract.py -q
+```
+
+### Criterios BLOCK
+
+- CORS wildcard por defecto.
+- Token crudo persistido en reportes/logs.
+- Endpoint protegido sin policy binding.
+- Host remoto aceptado.
+- Endpoint write/execute expuesto sin Approval Workflow.

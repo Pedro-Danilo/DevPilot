@@ -2,13 +2,13 @@
 title: "Threat Model — API local y Web UI local DevPilot"
 doc_id: "DEVPL-SEC-UI-API-001"
 status: "approved"
-version: "1.0.0"
+version: "1.1.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "FUNC-SPRINT-64"
-updated: "2026-06-14"
-source_repo: "repo_DevPilot_Local_78.zip"
+phase: "FUNC-SPRINT-68"
+updated: "2026-06-15"
+source_repo: "repo_DevPilot_Local_84.zip"
 source_backlog: "docs/devpilot_backlog_fase_F_producto_visual.md"
 source_adr: "docs/02_architecture/adrs/ADR-0013-web-ui-first.md"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
@@ -189,3 +189,18 @@ python -m devpilot_core validate-artifact docs/02_architecture/adrs/ADR-0013-web
 python -m devpilot_core app contract --json
 python -m pytest tests/test_sprint_64_documentation.py -q
 ```
+
+
+## Implementación Sprint 68
+
+`FUNC-SPRINT-68` materializa los controles mínimos previstos para la API local:
+
+- token local obligatorio en endpoints no públicos;
+- endpoints públicos mínimos: health, docs y OpenAPI;
+- header `X-DevPilot-Token` o `Authorization: Bearer`;
+- CORS restringido a origins locales allowlist, sin wildcard;
+- headers `X-Content-Type-Options`, `X-Frame-Options`, `Referrer-Policy`, `Cache-Control` y `Permissions-Policy`;
+- `API_ROUTE_POLICIES` como mapping explícito de ruta protegida hacia `PolicyEngine`;
+- bloqueo de host remoto desde CLI.
+
+Limitación: este control reduce exposición accidental local, pero no reemplaza RBAC, TLS, sesiones, multiusuario ni hardening de una Web UI real pública.

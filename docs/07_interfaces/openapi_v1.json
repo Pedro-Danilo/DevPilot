@@ -2,8 +2,8 @@
   "openapi": "3.1.0",
   "info": {
     "title": "DevPilot Local API Contract v1",
-    "version": "1.0.0-implemented-initial",
-    "description": "Static OpenAPI contract synchronized with the implemented-initial local FastAPI MVP. FUNC-SPRINT-67 implements the server adapter on localhost; Sprint 68 will add token/CORS hardening."
+    "version": "1.0.0-secured-initial",
+    "description": "Static OpenAPI contract synchronized with the secured-initial local FastAPI MVP. FUNC-SPRINT-68 adds token, restricted CORS, security headers and PolicyEngine binding."
   },
   "servers": [
     {
@@ -47,8 +47,8 @@
     }
   ],
   "x-devpilot": {
-    "sprint": "FUNC-SPRINT-67",
-    "status": "implemented-initial",
+    "sprint": "FUNC-SPRINT-68",
+    "status": "secured-initial",
     "api_implemented": true,
     "server_implemented": true,
     "ui_implemented": false,
@@ -57,12 +57,16 @@
     "external_api_required": false,
     "network_required": false,
     "source_application_contract_schema": "2.0",
-    "source_repo": "repo_DevPilot_Local_81.zip",
+    "source_repo": "repo_DevPilot_Local_84.zip",
     "api_local_mvp_implemented": true,
     "default_port": 8787,
-    "token_required": false,
-    "cors_enabled": false,
-    "token_and_cors_deferred_to": "FUNC-SPRINT-68"
+    "token_required": true,
+    "cors_enabled": true,
+    "api_security_implemented": true,
+    "cors_restricted": true,
+    "cors_wildcard_enabled": false,
+    "policy_binding_enabled": true,
+    "security_headers_enabled": true
   },
   "paths": {
     "/api/v1/workspace/status": {
@@ -76,11 +80,11 @@
         "x-devpilot-api-id": "API-WORKSPACE-STATUS",
         "x-devpilot-operation": "workspace.status",
         "x-devpilot-domain-service": "WorkspaceApplicationService.status",
-        "x-devpilot-status": "implemented-initial",
+        "x-devpilot-status": "secured-initial",
         "x-devpilot-side-effect": "none",
         "x-devpilot-dry-run-default": true,
-        "x-devpilot-auth": "public-local-read",
-        "x-devpilot-policy": "None",
+        "x-devpilot-auth": "local-token-required",
+        "x-devpilot-policy": "PolicyEngine bound by API_ROUTE_POLICIES; read/dry-run/plan-only only.",
         "x-devpilot-command-equivalent": "python -m devpilot_core workspace status --json",
         "responses": {
           "200": {
@@ -132,9 +136,26 @@
                 }
               }
             }
+          },
+          "401": {
+            "description": "Missing or invalid local API token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
           }
         },
-        "parameters": []
+        "parameters": [],
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true,
+        "security": [
+          {
+            "LocalTokenAuth": []
+          }
+        ]
       }
     },
     "/api/v1/validation/frontmatter": {
@@ -148,11 +169,11 @@
         "x-devpilot-api-id": "API-VALIDATION-FRONTMATTER",
         "x-devpilot-operation": "validation.frontmatter",
         "x-devpilot-domain-service": "ValidationApplicationService.validate_frontmatter",
-        "x-devpilot-status": "implemented-initial",
+        "x-devpilot-status": "secured-initial",
         "x-devpilot-side-effect": "none",
         "x-devpilot-dry-run-default": true,
-        "x-devpilot-auth": "token-planned-sprint-68",
-        "x-devpilot-policy": "PathGuard on adapter",
+        "x-devpilot-auth": "local-token-required",
+        "x-devpilot-policy": "PolicyEngine bound by API_ROUTE_POLICIES; read/dry-run/plan-only only.",
         "x-devpilot-command-equivalent": "python -m devpilot_core validate-frontmatter <path> --json",
         "responses": {
           "200": {
@@ -204,6 +225,16 @@
                 }
               }
             }
+          },
+          "401": {
+            "description": "Missing or invalid local API token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
           }
         },
         "requestBody": {
@@ -230,7 +261,14 @@
               }
             }
           }
-        }
+        },
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true,
+        "security": [
+          {
+            "LocalTokenAuth": []
+          }
+        ]
       }
     },
     "/api/v1/validation/artifact": {
@@ -244,11 +282,11 @@
         "x-devpilot-api-id": "API-VALIDATION-ARTIFACT",
         "x-devpilot-operation": "validation.artifact",
         "x-devpilot-domain-service": "ValidationApplicationService.validate_artifact",
-        "x-devpilot-status": "implemented-initial",
+        "x-devpilot-status": "secured-initial",
         "x-devpilot-side-effect": "none",
         "x-devpilot-dry-run-default": true,
-        "x-devpilot-auth": "token-planned-sprint-68",
-        "x-devpilot-policy": "PathGuard on adapter",
+        "x-devpilot-auth": "local-token-required",
+        "x-devpilot-policy": "PolicyEngine bound by API_ROUTE_POLICIES; read/dry-run/plan-only only.",
         "x-devpilot-command-equivalent": "python -m devpilot_core validate-artifact <path> --json",
         "responses": {
           "200": {
@@ -300,6 +338,16 @@
                 }
               }
             }
+          },
+          "401": {
+            "description": "Missing or invalid local API token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
           }
         },
         "requestBody": {
@@ -326,7 +374,14 @@
               }
             }
           }
-        }
+        },
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true,
+        "security": [
+          {
+            "LocalTokenAuth": []
+          }
+        ]
       }
     },
     "/api/v1/validation/readiness": {
@@ -340,11 +395,11 @@
         "x-devpilot-api-id": "API-VALIDATION-READINESS",
         "x-devpilot-operation": "validation.readiness",
         "x-devpilot-domain-service": "ValidationApplicationService.readiness",
-        "x-devpilot-status": "implemented-initial",
+        "x-devpilot-status": "secured-initial",
         "x-devpilot-side-effect": "report_when_adapter_requests_it",
         "x-devpilot-dry-run-default": true,
-        "x-devpilot-auth": "token-planned-sprint-68",
-        "x-devpilot-policy": "Report writes explicit only",
+        "x-devpilot-auth": "local-token-required",
+        "x-devpilot-policy": "PolicyEngine bound by API_ROUTE_POLICIES; read/dry-run/plan-only only.",
         "x-devpilot-command-equivalent": "python -m devpilot_core readiness-check --strict --json",
         "responses": {
           "200": {
@@ -396,6 +451,16 @@
                 }
               }
             }
+          },
+          "401": {
+            "description": "Missing or invalid local API token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
           }
         },
         "requestBody": {
@@ -422,7 +487,14 @@
               }
             }
           }
-        }
+        },
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true,
+        "security": [
+          {
+            "LocalTokenAuth": []
+          }
+        ]
       }
     },
     "/api/v1/miasi/status": {
@@ -436,11 +508,11 @@
         "x-devpilot-api-id": "API-MIASI-STATUS",
         "x-devpilot-operation": "miasi.validate",
         "x-devpilot-domain-service": "MiasiApplicationService.validate",
-        "x-devpilot-status": "implemented-initial",
+        "x-devpilot-status": "secured-initial",
         "x-devpilot-side-effect": "none",
         "x-devpilot-dry-run-default": true,
-        "x-devpilot-auth": "public-local-read",
-        "x-devpilot-policy": "MIASI registries read-only",
+        "x-devpilot-auth": "local-token-required",
+        "x-devpilot-policy": "PolicyEngine bound by API_ROUTE_POLICIES; read/dry-run/plan-only only.",
         "x-devpilot-command-equivalent": "python -m devpilot_core miasi validate --json",
         "responses": {
           "200": {
@@ -492,9 +564,26 @@
                 }
               }
             }
+          },
+          "401": {
+            "description": "Missing or invalid local API token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
           }
         },
-        "parameters": []
+        "parameters": [],
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true,
+        "security": [
+          {
+            "LocalTokenAuth": []
+          }
+        ]
       }
     },
     "/api/v1/repo/inventory": {
@@ -508,11 +597,11 @@
         "x-devpilot-api-id": "API-REPO-INVENTORY",
         "x-devpilot-operation": "repo.inventory",
         "x-devpilot-domain-service": "RepoApplicationService.inventory",
-        "x-devpilot-status": "implemented-initial",
+        "x-devpilot-status": "secured-initial",
         "x-devpilot-side-effect": "none",
         "x-devpilot-dry-run-default": true,
-        "x-devpilot-auth": "token-planned-sprint-68",
-        "x-devpilot-policy": "Git read-only / PathGuard",
+        "x-devpilot-auth": "local-token-required",
+        "x-devpilot-policy": "PolicyEngine bound by API_ROUTE_POLICIES; read/dry-run/plan-only only.",
         "x-devpilot-command-equivalent": "python -m devpilot_core repo inventory --json",
         "responses": {
           "200": {
@@ -564,9 +653,26 @@
                 }
               }
             }
+          },
+          "401": {
+            "description": "Missing or invalid local API token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
           }
         },
-        "parameters": []
+        "parameters": [],
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true,
+        "security": [
+          {
+            "LocalTokenAuth": []
+          }
+        ]
       }
     },
     "/api/v1/review/code": {
@@ -580,11 +686,11 @@
         "x-devpilot-api-id": "API-REVIEW-CODE",
         "x-devpilot-operation": "review.code",
         "x-devpilot-domain-service": "ReviewApplicationService.code_review",
-        "x-devpilot-status": "implemented-initial",
+        "x-devpilot-status": "secured-initial",
         "x-devpilot-side-effect": "none",
         "x-devpilot-dry-run-default": true,
-        "x-devpilot-auth": "token-planned-sprint-68",
-        "x-devpilot-policy": "CODE_REVIEW_DRY_RUN_ALLOW",
+        "x-devpilot-auth": "local-token-required",
+        "x-devpilot-policy": "PolicyEngine bound by API_ROUTE_POLICIES; read/dry-run/plan-only only.",
         "x-devpilot-command-equivalent": "python -m devpilot_core code-review . --json",
         "responses": {
           "200": {
@@ -636,6 +742,16 @@
                 }
               }
             }
+          },
+          "401": {
+            "description": "Missing or invalid local API token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
           }
         },
         "requestBody": {
@@ -662,7 +778,14 @@
               }
             }
           }
-        }
+        },
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true,
+        "security": [
+          {
+            "LocalTokenAuth": []
+          }
+        ]
       }
     },
     "/api/v1/refactor/plan": {
@@ -676,11 +799,11 @@
         "x-devpilot-api-id": "API-REFACTOR-PLAN",
         "x-devpilot-operation": "refactor.plan",
         "x-devpilot-domain-service": "RefactorApplicationService.plan",
-        "x-devpilot-status": "implemented-initial",
+        "x-devpilot-status": "secured-initial",
         "x-devpilot-side-effect": "none",
         "x-devpilot-dry-run-default": true,
-        "x-devpilot-auth": "token-planned-sprint-68",
-        "x-devpilot-policy": "plan-only; no patch execution",
+        "x-devpilot-auth": "local-token-required",
+        "x-devpilot-policy": "PolicyEngine bound by API_ROUTE_POLICIES; read/dry-run/plan-only only.",
         "x-devpilot-command-equivalent": "python -m devpilot_core refactor-plan . --json",
         "responses": {
           "200": {
@@ -732,6 +855,16 @@
                 }
               }
             }
+          },
+          "401": {
+            "description": "Missing or invalid local API token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
           }
         },
         "requestBody": {
@@ -758,7 +891,14 @@
               }
             }
           }
-        }
+        },
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true,
+        "security": [
+          {
+            "LocalTokenAuth": []
+          }
+        ]
       }
     },
     "/api/v1/model/providers": {
@@ -772,11 +912,11 @@
         "x-devpilot-api-id": "API-MODEL-PROVIDERS",
         "x-devpilot-operation": "model.providers",
         "x-devpilot-domain-service": "ModelApplicationService.providers",
-        "x-devpilot-status": "implemented-initial",
+        "x-devpilot-status": "secured-initial",
         "x-devpilot-side-effect": "none",
         "x-devpilot-dry-run-default": true,
-        "x-devpilot-auth": "token-planned-sprint-68",
-        "x-devpilot-policy": "CostGuard/SecretGuard; no external API",
+        "x-devpilot-auth": "local-token-required",
+        "x-devpilot-policy": "PolicyEngine bound by API_ROUTE_POLICIES; read/dry-run/plan-only only.",
         "x-devpilot-command-equivalent": "python -m devpilot_core model providers --json",
         "responses": {
           "200": {
@@ -828,9 +968,26 @@
                 }
               }
             }
+          },
+          "401": {
+            "description": "Missing or invalid local API token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
           }
         },
-        "parameters": []
+        "parameters": [],
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true,
+        "security": [
+          {
+            "LocalTokenAuth": []
+          }
+        ]
       }
     },
     "/api/v1/observability/traces": {
@@ -844,11 +1001,11 @@
         "x-devpilot-api-id": "API-OBSERVABILITY-TRACES",
         "x-devpilot-operation": "observability.trace_report",
         "x-devpilot-domain-service": "ObservabilityApplicationService.trace_report",
-        "x-devpilot-status": "implemented-initial",
+        "x-devpilot-status": "secured-initial",
         "x-devpilot-side-effect": "none",
         "x-devpilot-dry-run-default": true,
-        "x-devpilot-auth": "token-planned-sprint-68",
-        "x-devpilot-policy": "bounded read; secret redaction",
+        "x-devpilot-auth": "local-token-required",
+        "x-devpilot-policy": "PolicyEngine bound by API_ROUTE_POLICIES; read/dry-run/plan-only only.",
         "x-devpilot-command-equivalent": "python -m devpilot_core trace report --json",
         "responses": {
           "200": {
@@ -900,6 +1057,16 @@
                 }
               }
             }
+          },
+          "401": {
+            "description": "Missing or invalid local API token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -913,6 +1080,13 @@
               "maximum": 200
             },
             "description": "Optional bounded read limit for endpoints that support it."
+          }
+        ],
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true,
+        "security": [
+          {
+            "LocalTokenAuth": []
           }
         ]
       }
@@ -928,11 +1102,11 @@
         "x-devpilot-api-id": "API-OBSERVABILITY-METRICS",
         "x-devpilot-operation": "observability.metrics_summary",
         "x-devpilot-domain-service": "ObservabilityApplicationService.metrics_summary",
-        "x-devpilot-status": "implemented-initial",
+        "x-devpilot-status": "secured-initial",
         "x-devpilot-side-effect": "none",
         "x-devpilot-dry-run-default": true,
-        "x-devpilot-auth": "token-planned-sprint-68",
-        "x-devpilot-policy": "bounded read; secret redaction",
+        "x-devpilot-auth": "local-token-required",
+        "x-devpilot-policy": "PolicyEngine bound by API_ROUTE_POLICIES; read/dry-run/plan-only only.",
         "x-devpilot-command-equivalent": "python -m devpilot_core metrics summary --json",
         "responses": {
           "200": {
@@ -984,6 +1158,16 @@
                 }
               }
             }
+          },
+          "401": {
+            "description": "Missing or invalid local API token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -997,6 +1181,13 @@
               "maximum": 200
             },
             "description": "Optional bounded read limit for endpoints that support it."
+          }
+        ],
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true,
+        "security": [
+          {
+            "LocalTokenAuth": []
           }
         ]
       }
@@ -1012,11 +1203,11 @@
         "x-devpilot-api-id": "API-HISTORY-RUNS",
         "x-devpilot-operation": "history.runs",
         "x-devpilot-domain-service": "HistoryApplicationService.list_runs",
-        "x-devpilot-status": "implemented-initial",
+        "x-devpilot-status": "secured-initial",
         "x-devpilot-side-effect": "none",
         "x-devpilot-dry-run-default": true,
-        "x-devpilot-auth": "token-planned-sprint-68",
-        "x-devpilot-policy": "bounded LocalStore read",
+        "x-devpilot-auth": "local-token-required",
+        "x-devpilot-policy": "PolicyEngine bound by API_ROUTE_POLICIES; read/dry-run/plan-only only.",
         "x-devpilot-command-equivalent": "python -m devpilot_core history list --json",
         "responses": {
           "200": {
@@ -1068,6 +1259,16 @@
                 }
               }
             }
+          },
+          "401": {
+            "description": "Missing or invalid local API token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
           }
         },
         "parameters": [
@@ -1081,6 +1282,13 @@
               "maximum": 200
             },
             "description": "Optional bounded read limit for endpoints that support it."
+          }
+        ],
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true,
+        "security": [
+          {
+            "LocalTokenAuth": []
           }
         ]
       }
@@ -1096,11 +1304,11 @@
         "x-devpilot-api-id": "API-APPLICATION-CONTRACT",
         "x-devpilot-operation": "app.contract",
         "x-devpilot-domain-service": "ApplicationService.application_contract",
-        "x-devpilot-status": "implemented-initial",
+        "x-devpilot-status": "secured-initial",
         "x-devpilot-side-effect": "none",
         "x-devpilot-dry-run-default": true,
-        "x-devpilot-auth": "public-local-read",
-        "x-devpilot-policy": "None",
+        "x-devpilot-auth": "local-token-required",
+        "x-devpilot-policy": "PolicyEngine bound by API_ROUTE_POLICIES; read/dry-run/plan-only only.",
         "x-devpilot-command-equivalent": "python -m devpilot_core app contract --json",
         "responses": {
           "200": {
@@ -1152,9 +1360,26 @@
                 }
               }
             }
+          },
+          "401": {
+            "description": "Missing or invalid local API token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
           }
         },
-        "parameters": []
+        "parameters": [],
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true,
+        "security": [
+          {
+            "LocalTokenAuth": []
+          }
+        ]
       }
     },
     "/api/v1/standards/status": {
@@ -1168,11 +1393,11 @@
         "x-devpilot-api-id": "API-STANDARDS-STATUS",
         "x-devpilot-operation": "standards.status",
         "x-devpilot-domain-service": "ValidationApplicationService.standards_status",
-        "x-devpilot-status": "implemented-initial",
+        "x-devpilot-status": "secured-initial",
         "x-devpilot-side-effect": "none",
         "x-devpilot-dry-run-default": true,
-        "x-devpilot-auth": "public-local-read",
-        "x-devpilot-policy": "DOC_VALIDATE_ALLOW",
+        "x-devpilot-auth": "local-token-required",
+        "x-devpilot-policy": "PolicyEngine bound by API_ROUTE_POLICIES; read/dry-run/plan-only only.",
         "x-devpilot-command-equivalent": "python -m devpilot_core standards status --json",
         "responses": {
           "200": {
@@ -1224,9 +1449,26 @@
                 }
               }
             }
+          },
+          "401": {
+            "description": "Missing or invalid local API token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
           }
         },
-        "parameters": []
+        "parameters": [],
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true,
+        "security": [
+          {
+            "LocalTokenAuth": []
+          }
+        ]
       }
     }
   },
@@ -1361,8 +1603,8 @@
       "LocalTokenAuth": {
         "type": "apiKey",
         "in": "header",
-        "name": "X-DevPilot-Local-Token",
-        "description": "Planned for FUNC-SPRINT-68. Not enforced by Sprint 66 because no HTTP server exists."
+        "name": "X-DevPilot-Token",
+        "description": "FUNC-SPRINT-68 local session token. Use `python -m devpilot_core api token --json` and set DEVPILOT_API_TOKEN before serving."
       }
     }
   }

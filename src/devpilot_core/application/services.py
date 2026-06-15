@@ -171,6 +171,12 @@ class ApplicationService:
                 "ui_implemented": False,
                 "api_implemented": True,
                 "api_local_mvp_implemented": True,
+                "api_security_implemented": True,
+                "api_token_required": True,
+                "api_cors_restricted": True,
+                "api_cors_wildcard_enabled": False,
+                "api_policy_binding_enabled": True,
+                "api_security_status": "secured-initial",
                 "api_default_host": "127.0.0.1",
                 "api_default_port": 8787,
                 "api_contract_defined": True,
@@ -204,20 +210,21 @@ class ApplicationService:
                 "FUNC-SPRINT-65 exposes domain application services for future API local and Web UI integration.",
                 "FUNC-SPRINT-66 defines static API Contract v1 and OpenAPI preliminary artifacts without implementing an HTTP server.",
                 "FUNC-SPRINT-67 implements the local FastAPI MVP in src/devpilot_core/interfaces/api, still without Web frontend or Desktop shell.",
+                "FUNC-SPRINT-68 adds local API security controls: token, restricted CORS, security headers and PolicyEngine binding.",
                 "API route handlers call ApplicationService/DomainService methods instead of importing DevPilot Core modules directly.",
-                "Operations with side effects remain dry-run/report-only or must later be bound to PolicyEngine and Approval Workflow.",
+                "Operations with side effects remain dry-run/report-only and protected by token/policy gates before future UI consumption.",
             ],
         }
         return CommandResult(
             command="app contract",
             ok=True,
             exit_code=ExitCode.PASS,
-            message="Application service v2 contract is available for CLI, local API MVP and future Web UI shells; desktop is deferred.",
+            message="Application service v2 contract is available for CLI, secured local API MVP and future Web UI shells; desktop is deferred.",
             data=data,
             findings=[
                 Finding(
                     id="APP_CONTRACT_V2_PASS",
-                    message="ApplicationService v2 exposes domain facades plus implemented-initial local API route contracts without implementing Web UI.",
+                    message="ApplicationService v2 exposes domain facades plus secured-initial local API route contracts without implementing Web UI.",
                     severity=Severity.INFO,
                     metadata={"domains_total": len(domains), "capabilities_total": len(capabilities)},
                 )
@@ -337,4 +344,4 @@ def _routes() -> list[InterfaceRouteContract]:
         ("APP-ROUTE-013", "GET", "/api/v1/application/contract", "app.contract", ["Active bootstrap route for API/Web UI clients."]),
         ("APP-ROUTE-014", "GET", "/api/v1/standards/status", "standards.status", ["Active standards status route added by FUNC-SPRINT-67."]),
     ]
-    return [InterfaceRouteContract(route_id=rid, method=method, path=path, operation=operation, status="implemented-initial", notes=notes) for rid, method, path, operation, notes in route_specs]
+    return [InterfaceRouteContract(route_id=rid, method=method, path=path, operation=operation, status="secured-initial", notes=notes) for rid, method, path, operation, notes in route_specs]

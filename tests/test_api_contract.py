@@ -22,13 +22,17 @@ def test_openapi_v1_tracks_local_api_mvp_contract() -> None:
     spec = _openapi()
 
     assert spec["openapi"] == "3.1.0"
-    assert spec["info"]["version"] == "1.0.0-implemented-initial"
-    assert spec["x-devpilot"]["sprint"] == "FUNC-SPRINT-67"
-    assert spec["x-devpilot"]["status"] == "implemented-initial"
+    assert spec["info"]["version"] == "1.0.0-secured-initial"
+    assert spec["x-devpilot"]["sprint"] == "FUNC-SPRINT-68"
+    assert spec["x-devpilot"]["status"] == "secured-initial"
     assert spec["x-devpilot"]["api_implemented"] is True
     assert spec["x-devpilot"]["server_implemented"] is True
     assert spec["x-devpilot"]["ui_implemented"] is False
     assert spec["x-devpilot"]["desktop_deferred"] is True
+    assert spec["x-devpilot"]["api_security_implemented"] is True
+    assert spec["x-devpilot"]["token_required"] is True
+    assert spec["x-devpilot"]["cors_wildcard_enabled"] is False
+    assert spec["x-devpilot"]["policy_binding_enabled"] is True
     assert spec["servers"][0]["url"].startswith("http://127.0.0.1")
     assert (ROOT / "src" / "devpilot_core" / "interfaces" / "api" / "app.py").exists()
 
@@ -62,12 +66,16 @@ def test_openapi_uses_application_response_for_success_and_errors() -> None:
 
     for path, methods in spec["paths"].items():
         for method, operation in methods.items():
-            assert operation["x-devpilot-status"] == "implemented-initial"
+            assert operation["x-devpilot-status"] == "secured-initial"
+            assert operation["security"] == [{"LocalTokenAuth": []}]
+            assert operation["x-devpilot-auth"] == "local-token-required"
+            assert operation["x-devpilot-cors"] == "restricted-local-allowlist"
+            assert operation["x-devpilot-security-headers"] is True
             assert operation["x-devpilot-domain-service"].endswith(("Service", "application_contract")) or "ApplicationService" in operation["x-devpilot-domain-service"]
             assert "x-devpilot-side-effect" in operation
             assert "x-devpilot-dry-run-default" in operation
             assert operation["responses"]["200"]["content"]["application/json"]["schema"]["$ref"] == "#/components/schemas/ApplicationResponse"
-            for status in ["400", "403", "422", "500"]:
+            for status in ["400", "401", "403", "422", "500"]:
                 assert operation["responses"][status]["content"]["application/json"]["schema"]["$ref"] == "#/components/schemas/ErrorApplicationResponse"
             if method.upper() == "POST":
                 assert "requestBody" in operation, path
@@ -89,7 +97,7 @@ def test_api_service_mapping_covers_every_endpoint_and_blocks_dangerous_routes()
         for operation in methods.values():
             assert operation["x-devpilot-operation"] in mapping
             assert operation["x-devpilot-api-id"] in mapping
-            assert "implemented-initial" in mapping
+            assert "secured-initial" in mapping
 
     assert "ApplicationService" in mapping
     assert "Policy/gate" in mapping
@@ -97,16 +105,19 @@ def test_api_service_mapping_covers_every_endpoint_and_blocks_dangerous_routes()
 
 
 def test_api_contract_artifacts_are_synchronized_with_manifest() -> None:
-    manifest = json.loads((ROOT / "docs" / "functional_sprint_67_manifest.json").read_text(encoding="utf-8"))
+    manifest = json.loads((ROOT / "docs" / "functional_sprint_68_manifest.json").read_text(encoding="utf-8"))
     contract = (ROOT / "docs" / "07_interfaces" / "api_contract_v1.md").read_text(encoding="utf-8")
-    audit = (ROOT / "docs" / "audits" / "func_sprint_67_api_local_mvp_audit.md").read_text(encoding="utf-8")
+    audit = (ROOT / "docs" / "audits" / "func_sprint_68_api_security_audit.md").read_text(encoding="utf-8")
 
-    assert manifest["sprint"] == "FUNC-SPRINT-67"
+    assert manifest["sprint"] == "FUNC-SPRINT-68"
     assert manifest["status"] == "implemented"
     assert manifest["summary"]["api_local_mvp_implemented"] is True
     assert manifest["summary"]["server_implemented"] is True
-    assert manifest["summary"]["api_implemented"] is True
+    assert manifest["summary"]["api_security_implemented"] is True
+    assert manifest["summary"]["token_implemented"] is True
+    assert manifest["summary"]["cors_restricted"] is True
     assert manifest["summary"]["ui_implemented"] is False
-    assert manifest["next_sprint"].startswith("FUNC-SPRINT-68")
+    assert manifest["next_sprint"].startswith("FUNC-SPRINT-69")
     assert "server_implemented: true" in contract
+    assert "token_required: true" in contract
     assert "Veredicto: `PASS`" in audit

@@ -2,7 +2,7 @@
 title: "DevPilot Local — Backlog ejecutable posterior a pre-code"
 doc_id: "DEVPL-FUNC-BACKLOG-001"
 status: "approved"
-version: "4.3.0"
+version: "4.4.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
@@ -14,7 +14,7 @@ change_policy: "controlled_changes_allowed_via_docs_as_code"
 approved_on: "2026-06-06"
 approval_scope: "functional_backlog_after_precode"
 baseline_execution: "FUNC-SPRINT-00"
-next_sprint: "FUNC-SPRINT-68"
+next_sprint: "FUNC-SPRINT-69"
 ---
 
 # DevPilot Local — Backlog ejecutable posterior a pre-code
@@ -26,6 +26,13 @@ Este backlog queda promovido a `approved` el 2026-06-06 como guía ejecutable pa
 La aprobación no congela el documento: cualquier ajuste futuro debe seguir la política docs-as-code definida en MIPSoftware, dejar trazabilidad, actualizar criterios de aceptación cuando aplique y preservar la relación entre producto, requerimientos, arquitectura, seguridad, calidad, operación y MIASI.
 
 La ejecución de `FUNC-SPRINT-00` confirma que el repositorio queda limpio, reproducible y listo para iniciar `FUNC-SPRINT-01 — Arquitectura interna del CLI y modelo común de resultados`.
+
+
+## Transición posterior a FUNC-SPRINT-68
+
+`FUNC-SPRINT-68 — Seguridad API local: token, CORS restringido y policy binding` queda implementado como endurecimiento mínimo de la API local. La API exige token en endpoints protegidos, mantiene CORS restringido sin wildcard, aplica headers de seguridad y vincula rutas protegidas con `PolicyEngine`.
+
+La siguiente unidad de trabajo es `FUNC-SPRINT-69 — Web UI MVP: dashboard workspace/readiness/MIASI`. La UI debe consumir `/api/v1`, enviar token local por header, no importar Python/core y mantener operaciones read-only/dry-run.
 
 
 ## Transición posterior a FUNC-SPRINT-67

@@ -1,0 +1,120 @@
+{
+  "sprint": "FUNC-SPRINT-68",
+  "title": "Seguridad API local: token, CORS restringido y policy binding",
+  "status": "implemented",
+  "phase": "FASE-F-PRODUCTO-VISUAL",
+  "source_repo": "repo_DevPilot_Local_84.zip",
+  "summary": {
+    "api_local_mvp_implemented": true,
+    "server_implemented": true,
+    "api_security_implemented": true,
+    "token_implemented": true,
+    "token_required": true,
+    "token_persisted": false,
+    "cors_implemented": true,
+    "cors_restricted": true,
+    "cors_wildcard_enabled": false,
+    "security_headers_enabled": true,
+    "policy_binding_enabled": true,
+    "default_host": "127.0.0.1",
+    "default_port": 8787,
+    "ui_implemented": false,
+    "desktop_deferred": true,
+    "external_api_used": false,
+    "network_required": false,
+    "preliminary": true,
+    "implementation_level": "implemented-initial",
+    "api_implemented": true,
+    "fastapi_adapter_implemented": true,
+    "api_namespace": "/api/v1",
+    "routes_total": 14,
+    "read_only_dry_run_mvp": true,
+    "dangerous_routes_exposed": false,
+    "desktop_implemented": false,
+    "external_dependencies_added": false,
+    "external_dependencies_scope": "no new dependency beyond Sprint 67 api/dev extras",
+    "next_runtime_sprint": "FUNC-SPRINT-69"
+  },
+  "pass_criteria": [
+    "Token required for non-public endpoints.",
+    "CORS wildcard disabled by default.",
+    "Security headers are present.",
+    "Protected routes are bound to PolicyEngine.",
+    "Raw tokens are not persisted in reports by api token.",
+    "Remote host binding remains blocked."
+  ],
+  "block_criteria": [
+    "CORS wildcard enabled by default.",
+    "Raw tokens written to logs or reports.",
+    "Protected endpoint without policy binding.",
+    "API accepts 0.0.0.0 host.",
+    "Write/execute endpoint exposed without Approval Workflow."
+  ],
+  "next_sprint": "FUNC-SPRINT-69 — Web UI MVP: dashboard workspace/readiness/MIASI",
+  "implemented_at": "2026-06-15",
+  "wave": "Ola 9 — API local y Web UI local web-ready",
+  "source_backlog": "docs/devpilot_backlog_fase_F_producto_visual.md",
+  "architectural_decision": {
+    "required": false,
+    "adr": "docs/02_architecture/adrs/ADR-0013-web-ui-first.md",
+    "reason": "No se requiere nueva ADR porque Sprint 68 implementa los controles de seguridad previstos por ADR-0013 y el threat model de Sprint 64, sin cambiar la estrategia Web UI first ni habilitar exposición pública."
+  },
+  "created_files": [
+    "src/devpilot_core/interfaces/api/security.py",
+    "tests/test_api_security.py",
+    "docs/audits/func_sprint_68_api_security_audit.md",
+    "docs/functional_sprint_68_manifest.json"
+  ],
+  "modified_files": [
+    "src/devpilot_core/interfaces/api/app.py",
+    "src/devpilot_core/interfaces/api/__init__.py",
+    "src/devpilot_core/cli.py",
+    "src/devpilot_core/application/services.py",
+    "docs/07_interfaces/api_contract_v1.md",
+    "docs/07_interfaces/openapi_v1.json",
+    "docs/07_interfaces/api_service_mapping.md",
+    "docs/03_security/ui_api_threat_model.md",
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/devpilot_backlog_fase_F_producto_visual.md",
+    "docs/functional_backlog_after_precode.md",
+    "docs/02_architecture/c4_container.md",
+    "docs/07_interfaces/internal_application_contract.md"
+  ],
+  "commands": [
+    "python -m devpilot_core api token --json",
+    "python -m devpilot_core api serve --host 127.0.0.1 --port 8787 --dry-run --json",
+    "python -m pytest tests/test_api_security.py -q",
+    "python -m pytest tests/test_api_local.py tests/test_api_contract.py -q",
+    "python -m devpilot_core validate all --json"
+  ],
+  "tests": [
+    "tests/test_api_security.py",
+    "tests/test_api_local.py",
+    "tests/test_api_contract.py",
+    "tests/test_sprint_68_documentation.py",
+    "tests/test_sprint_*_documentation.py"
+  ],
+  "risks": [
+    {
+      "id": "RISK-FUNC-68-001",
+      "risk": "Token local expuesto por el usuario en consola o shell history.",
+      "mitigation": "No persistir token por DevPilot y documentar manejo como secreto."
+    },
+    {
+      "id": "RISK-FUNC-68-002",
+      "risk": "CORS accidentalmente configurado con wildcard.",
+      "mitigation": "DEFAULT_ALLOWED_ORIGINS sin * y tests específicos."
+    },
+    {
+      "id": "RISK-FUNC-68-003",
+      "risk": "Falsa sensación de seguridad enterprise.",
+      "mitigation": "Documentar alcance local MVP, sin RBAC/login/Web real pública."
+    },
+    {
+      "id": "RISK-FUNC-68-004",
+      "risk": "Ruta protegida sin policy binding.",
+      "mitigation": "API_ROUTE_POLICIES y test de cobertura contra OpenAPI."
+    }
+  ]
+}
