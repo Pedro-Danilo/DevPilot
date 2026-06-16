@@ -3961,7 +3961,8 @@ Terminal 1:
 cd D:\Projects\DevPilot_Local
 .\.venv\Scripts\Activate.ps1
 python -m devpilot_core api token --json
-$env:DEVPILOT_API_TOKEN = "<token-generado>"
+# Copiar exactamente el valor del campo `powershell`, sin concatenar placeholders.
+$env:DEVPILOT_API_TOKEN = '<token-generado>'
 python -m devpilot_core api serve --host 127.0.0.1 --port 8787 --execute
 ```
 
@@ -4026,7 +4027,8 @@ Verificar y operar la API local segura antes de que la Web UI local la consuma. 
 
 ```powershell
 python -m devpilot_core api token --json
-$env:DEVPILOT_API_TOKEN = "<token-generado>"
+# Copiar exactamente el valor del campo `powershell`, sin concatenar placeholders.
+$env:DEVPILOT_API_TOKEN = '<token-generado>'
 ```
 
 El token se muestra para que el operador lo copie, pero DevPilot no lo persiste como reporte. No debe pegarse en logs, commits ni documentos.
@@ -4061,3 +4063,28 @@ python -m pytest tests/test_api_local.py tests/test_api_contract.py -q
 - Endpoint protegido sin policy binding.
 - Host remoto aceptado.
 - Endpoint write/execute expuesto sin Approval Workflow.
+
+
+## FUNC-SPRINT-70 — Operación de Report Viewer y Trace Viewer
+
+Estado: `implemented-initial`. La API expone `/api/v1/reports`, `/api/v1/reports/{report_id}`, `/api/v1/traces`, `/api/v1/traces/{trace_id}` y `/api/v1/metrics/summary`. La Web UI consume esos endpoints con `X-DevPilot-Token`; no lee `outputs/` ni `.devpilot/` directamente.
+
+Comandos de verificación:
+
+```powershell
+python -m devpilot_core trace report --json
+python -m devpilot_core metrics summary --json
+python -m pytest tests/test_api_reports_traces.py tests/test_web_ui_report_trace_viewer.py tests/test_sprint_70_documentation.py -q
+cd ui/web; npm test; cd ..\..
+```
+
+Criterios BLOCK: no exponer secretos, no permitir lectura directa del filesystem desde UI, mantener límites de resultados y soportar trazas vacías sin bloquear el navegador.
+
+
+### Diagnóstico de `Failed to fetch` o `401` desde Web UI
+
+1. Regenerar token con `python -m devpilot_core api token --json`.
+2. Copiar exactamente el campo `powershell` y ejecutarlo en la misma terminal donde se levantará la API. No usar `$env:DEVPILOT_API_TOKEN = "<token-generado>""<token-real>"`.
+3. Pegar en la Web UI exactamente el mismo token real.
+4. Si la API responde `401`, el token del navegador no coincide con `DEVPILOT_API_TOKEN`.
+5. Desde Sprint 70, las respuestas `401/403` originadas por seguridad API agregan CORS restringido para `http://127.0.0.1:5173` y `http://localhost:5173`; esto permite que el frontend muestre un error HTTP diagnosticable en vez de un `Failed to fetch` opaco.

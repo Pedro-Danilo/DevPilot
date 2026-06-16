@@ -9,7 +9,7 @@ from fastapi.responses import JSONResponse
 
 from devpilot_core.application import ApplicationService
 
-from .routers import actions, status, validation
+from .routers import actions, reports, status, traces, validation
 from .security import (
     API_ROUTE_POLICIES,
     DEFAULT_ALLOWED_ORIGINS,
@@ -20,11 +20,38 @@ from .security import (
     extract_request_token,
     is_public_api_path,
     resolve_api_security_config,
+    resolve_route_policy,
     validate_api_token,
 )
 
 DEFAULT_API_HOST = "127.0.0.1"
 DEFAULT_API_PORT = 8787
+
+
+def _origin_is_allowed(origin: str | None, config: ApiSecurityConfig) -> bool:
+    return bool(origin) and (origin in config.allowed_origins)
+
+
+def _security_json_response(request: Request, payload: dict[str, Any], status_code: int) -> JSONResponse:
+    """Return API security errors with enough CORS headers for browser clients.
+
+    The auth/policy middleware is intentionally outside route handlers. When it
+    blocks a request before FastAPI reaches the router, Starlette's CORS
+    middleware may not decorate the early response. Sprint 70 keeps the Web UI
+    debuggable by adding restricted CORS headers only for allow-listed local
+    origins; this prevents browsers from collapsing 401/403 responses into a
+    generic `Failed to fetch` network error.
+    """
+
+    headers = dict(SECURITY_HEADERS)
+    config: ApiSecurityConfig = request.app.state.api_security
+    origin = request.headers.get("origin")
+    if _origin_is_allowed(origin, config):
+        headers["Access-Control-Allow-Origin"] = str(origin)
+        headers["Vary"] = "Origin"
+        headers["Access-Control-Expose-Headers"] = "X-DevPilot-Policy, X-DevPilot-Api-Security"
+    headers["X-DevPilot-Api-Security"] = "token+cors+policy"
+    return JSONResponse(content=payload, status_code=status_code, headers=headers)
 
 
 def create_app(
@@ -45,8 +72,8 @@ def create_app(
     security_config = resolve_api_security_config(token=api_token, allowed_origins=allowed_origins)
     app = FastAPI(
         title="DevPilot Local API",
-        version="1.0.0-secured-initial",
-        description="Local secured MVP API for DevPilot read-only/dry-run operations. Sprint 68 implementation.",
+        version="1.0.0-report-trace-viewer",
+        description="Local secured MVP API for DevPilot read-only/dry-run operations, Report Viewer and Trace Viewer. Sprint 70 implementation.",
         openapi_url="/api/v1/openapi.json",
         docs_url="/api/v1/docs",
         redoc_url=None,
@@ -80,9 +107,9 @@ def create_app(
                     finding_id=finding_id or "API_TOKEN_INVALID_BLOCK",
                     operation="api.token",
                 )
-                return JSONResponse(content=payload, status_code=status_code, headers=SECURITY_HEADERS)
+                return _security_json_response(request, payload, status_code)
 
-            route_policy = API_ROUTE_POLICIES.get((method, path))
+            route_policy = resolve_route_policy(method, path)
             if route_policy is None:
                 payload, status_code = build_security_error_response(
                     status_code=403,
@@ -90,7 +117,7 @@ def create_app(
                     finding_id="API_POLICY_BINDING_MISSING_BLOCK",
                     operation="api.policy",
                 )
-                return JSONResponse(content=payload, status_code=status_code, headers=SECURITY_HEADERS)
+                return _security_json_response(request, payload, status_code)
             policy_result = evaluate_api_policy(request.app.state.devpilot_root, route_policy)
             if not policy_result.ok:
                 payload, status_code = build_security_error_response(
@@ -99,7 +126,7 @@ def create_app(
                     finding_id="API_POLICY_BINDING_BLOCK",
                     operation=route_policy.operation,
                 )
-                return JSONResponse(content=payload, status_code=status_code, headers=SECURITY_HEADERS)
+                return _security_json_response(request, payload, status_code)
             request.state.devpilot_policy = policy_result
 
         response = await call_next(request)
@@ -113,13 +140,15 @@ def create_app(
     app.include_router(status.router)
     app.include_router(validation.router)
     app.include_router(actions.router)
+    app.include_router(reports.router)
+    app.include_router(traces.router)
 
     @app.get("/api/v1/health", tags=["status"])
     def health() -> dict[str, object]:
         return {
             "ok": True,
             "service": "devpilot-local-api",
-            "sprint": "FUNC-SPRINT-68",
+            "sprint": "FUNC-SPRINT-70",
             "api_implemented": True,
             "api_security_implemented": True,
             "host_default": DEFAULT_API_HOST,
@@ -127,6 +156,8 @@ def create_app(
             "token_required": True,
             "cors_wildcard_enabled": False,
             "external_api_required": False,
+            "report_viewer_implemented": True,
+            "trace_viewer_implemented": True,
         }
 
     return app

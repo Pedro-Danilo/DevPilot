@@ -1,6 +1,6 @@
 {
   "name": "devpilot-local-web-ui",
-  "version": "0.1.0-sprint-69",
+  "version": "0.2.0-sprint-70",
   "private": true,
   "type": "module",
   "description": "DevPilot Local Web UI MVP dashboard for workspace/readiness/MIASI.",
@@ -19,12 +19,14 @@
     "node": ">=20"
   },
   "devpilot": {
-    "sprint": "FUNC-SPRINT-69",
+    "sprint": "FUNC-SPRINT-70",
     "status": "implemented-initial",
     "apiOnly": true,
     "readOnly": true,
     "apiBaseDefault": "http://127.0.0.1:8787/api/v1",
     "requiresExternalApi": false,
-    "coreImportsAllowed": false
+    "coreImportsAllowed": false,
+    "reportViewer": true,
+    "traceViewer": true
   }
 }

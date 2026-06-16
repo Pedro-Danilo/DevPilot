@@ -33,16 +33,16 @@ def test_sprint_64_artifacts_exist_and_are_synchronized() -> None:
     for path in expected_paths:
         assert (ROOT / path).exists(), path
 
-    assert "Último hito: `FUNC-SPRINT-69" in readme
-    assert "Siguiente hito: `FUNC-SPRINT-70" in readme
+    assert "Último hito: `FUNC-SPRINT-70" in readme
+    assert "Siguiente hito: `FUNC-SPRINT-71" in readme
     assert "## FUNC-SPRINT-64 — ADR UI/API local y threat model de interfaz" in readme
     assert "## FUNC-SPRINT-64 — Operación de ADR UI/API local y threat model de interfaz" in runbook
-    assert 'source_repo: "repo_DevPilot_Local_85.zip"' in backlog
-    assert 'first_open_sprint: "FUNC-SPRINT-70"' in backlog
-    assert 'last_completed_sprint: "FUNC-SPRINT-69"' in backlog
-    assert 'next_sprint: "FUNC-SPRINT-70"' in backlog
+    assert 'source_repo: "repo_DevPilot_Local_88.zip"' in backlog
+    assert 'first_open_sprint: "FUNC-SPRINT-71"' in backlog
+    assert 'last_completed_sprint: "FUNC-SPRINT-70"' in backlog
+    assert 'next_sprint: "FUNC-SPRINT-71"' in backlog
     assert "## Estado de implementación Sprint 64" in backlog
-    assert 'next_sprint: "FUNC-SPRINT-70"' in functional_backlog
+    assert 'next_sprint: "FUNC-SPRINT-71"' in functional_backlog
     assert "## Transición posterior a FUNC-SPRINT-64" in functional_backlog
     assert manifest["sprint"] == "FUNC-SPRINT-64"
     assert manifest["status"] == "implemented"
@@ -103,4 +103,4 @@ def test_sprint_64_scope_does_not_implement_server_frontend_or_desktop() -> None
     assert "no implementa api http" in combined or "sin servidor activo" in combined
     assert "desktop queda diferido" in combined or "desktop is deferred" in combined
     assert (ROOT / "src" / "devpilot_core" / "interfaces" / "api").exists()  # Implemented later by FUNC-SPRINT-67
-    assert (ROOT / "ui" / "web" / "package.json").exists()  # Implemented later by FUNC-SPRINT-69
+    assert (ROOT / "ui" / "web" / "package.json").exists()  # Implemented later by FUNC-SPRINT-70

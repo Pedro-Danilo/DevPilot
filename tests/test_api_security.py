@@ -147,3 +147,24 @@ def test_api_serve_execute_requires_explicit_token(monkeypatch, capsys) -> None:
     assert exit_code == 2
     assert payload["findings"][0]["id"] == "API_EXECUTE_REQUIRES_EXPLICIT_TOKEN_BLOCK"
     assert payload["data"]["summary"]["server_started"] is False
+
+
+def test_security_error_keeps_restricted_cors_for_browser_clients() -> None:
+    client = _client(token=None)
+
+    response = client.get("/api/v1/workspace/status", headers={"Origin": "http://127.0.0.1:5173"})
+
+    assert response.status_code == 401
+    assert response.headers["access-control-allow-origin"] == "http://127.0.0.1:5173"
+    assert response.headers["x-devpilot-api-security"] == "token+cors+policy"
+    assert response.json()["findings"][0]["id"] == "API_TOKEN_MISSING_BLOCK"
+
+
+def test_security_error_does_not_echo_cors_for_untrusted_origin() -> None:
+    client = _client(token="wrong-token")
+
+    response = client.get("/api/v1/workspace/status", headers={"Origin": "http://evil.example"})
+
+    assert response.status_code == 401
+    assert "access-control-allow-origin" not in {key.lower(): value for key, value in response.headers.items()}
+    assert response.json()["findings"][0]["id"] == "API_TOKEN_INVALID_BLOCK"

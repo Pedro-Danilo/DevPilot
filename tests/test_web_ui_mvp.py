@@ -18,7 +18,7 @@ def test_web_ui_package_and_entrypoints_exist() -> None:
     package = json.loads(_read("package.json"))
 
     assert package["name"] == "devpilot-local-web-ui"
-    assert package["devpilot"]["sprint"] == "FUNC-SPRINT-69"
+    assert package["devpilot"]["sprint"] == "FUNC-SPRINT-70"
     assert package["devpilot"]["apiOnly"] is True
     assert package["devpilot"]["readOnly"] is True
     assert package["scripts"]["test"] == "node scripts/smoke-test.mjs"
@@ -48,7 +48,7 @@ def test_web_ui_consumes_api_only_and_never_imports_core() -> None:
     assert "http://127.0.0.1:8787/api/v1" in combined
     assert "X-DevPilot-Token" in combined
 
-    for endpoint in ["/workspace/status", "/validation/readiness", "/standards/status", "/miasi/status"]:
+    for endpoint in ["/workspace/status", "/validation/readiness", "/standards/status", "/miasi/status", "/reports", "/traces", "/metrics/summary"]:
         assert endpoint in combined
 
     for forbidden_endpoint in ["/patch/apply", "/rollback/execute", "/refactor/execute"]:
@@ -63,7 +63,7 @@ def _assert_web_ui_smoke_contract_without_node() -> None:
     main = _read("src/main.ts")
     sources = [client, dashboard, status_card, main]
 
-    assert package["devpilot"]["sprint"] == "FUNC-SPRINT-69"
+    assert package["devpilot"]["sprint"] == "FUNC-SPRINT-70"
     assert package["devpilot"]["apiOnly"] is True
     assert package["devpilot"]["readOnly"] is True
     assert package["scripts"]["test"] == "node scripts/smoke-test.mjs"
@@ -73,7 +73,7 @@ def _assert_web_ui_smoke_contract_without_node() -> None:
         assert "child_process" not in source
         assert "outputs/" not in source
 
-    for expected_path in ["/workspace/status", "/validation/readiness", "/standards/status", "/miasi/status"]:
+    for expected_path in ["/workspace/status", "/validation/readiness", "/standards/status", "/miasi/status", "/reports", "/traces", "/metrics/summary"]:
         assert expected_path in client
 
     assert "X-DevPilot-Token" in client

@@ -204,3 +204,17 @@ La Web UI local `ui/web` queda registrada como consumidor inicial de este contra
 - no importar módulos Python/core.
 
 Esta integración es `implemented-initial` y conserva el contrato como API local, no como API pública multiusuario.
+
+
+## Sprint 70 — Report/Trace Viewer
+
+Estado: `implemented-initial`.
+
+```yaml
+report_viewer_implemented: true
+trace_viewer_implemented: true
+ui_reads_outputs_directly: false
+api_redaction_enabled: true
+```
+
+Nuevos endpoints protegidos: `/api/v1/reports`, `/api/v1/reports/{report_id}`, `/api/v1/traces`, `/api/v1/traces/{trace_id}` y `/api/v1/metrics/summary`.

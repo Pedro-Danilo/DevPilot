@@ -13,6 +13,7 @@ from .model_service import ModelApplicationService
 from .observability_service import ObservabilityApplicationService
 from .refactor_service import RefactorApplicationService
 from .repo_service import RepoApplicationService
+from .reports_service import ReportsApplicationService
 from .review_service import ReviewApplicationService
 from .validation_service import ValidationApplicationService
 from .workspace_service import WorkspaceApplicationService
@@ -54,6 +55,7 @@ class ApplicationService:
         self.miasi = MiasiApplicationService(self.root)
         self.evals = EvaluationApplicationService(self.root)
         self.repo = RepoApplicationService(self.root)
+        self.reports = ReportsApplicationService(self.root)
         self.review = ReviewApplicationService(self.root)
         self.refactor = RefactorApplicationService(self.root)
         self.model = ModelApplicationService(self.root)
@@ -101,8 +103,17 @@ class ApplicationService:
     def model_providers(self) -> CommandResult:
         return self.model.providers()
 
+    def reports_list(self, *, limit: int = 50, severity: str | None = None, status: str | None = None, command: str | None = None) -> CommandResult:
+        return self.reports.list_reports(limit=limit, severity=severity, status=status, command=command)
+
+    def reports_read(self, *, report_id: str, format: str = "json", max_chars: int = 20000) -> CommandResult:
+        return self.reports.read_report(report_id, format=format, max_chars=max_chars)
+
     def trace_report(self, *, limit: int = 20, include_events: bool = True, include_metrics: bool = True) -> CommandResult:
         return self.observability.trace_report(limit=limit, include_events=include_events, include_metrics=include_metrics)
+
+    def trace_inspect(self, trace_id: str, *, limit: int = 100) -> CommandResult:
+        return self.observability.trace_inspect(trace_id, limit=limit)
 
     def metrics_summary(self, *, category: str | None = None, limit: int = 50) -> CommandResult:
         return self.observability.metrics_summary(category=category, limit=limit)
@@ -198,6 +209,11 @@ class ApplicationService:
                 "desktop_ready_for_shell": False,
                 "web_ready_for_shell": True,
                 "web_dashboard_ready": True,
+                "report_viewer_implemented": True,
+                "trace_viewer_implemented": True,
+                "report_trace_viewer_status": "implemented-initial",
+                "web_ui_reports_api_only": True,
+                "web_ui_traces_api_only": True,
                 "external_api_required": False,
                 "application_service_v2": True,
                 "domain_facades_enabled": True,
@@ -214,6 +230,7 @@ class ApplicationService:
             },
             "preliminary": True,
             "notes": [
+                "FUNC-SPRINT-70 adds Report Viewer and Trace Viewer over local API only; the UI does not read outputs/ directly.",
                 "FUNC-SPRINT-69 adds a local Web UI MVP under ui/web that consumes only /api/v1 and remains read-only.",
                 "FUNC-SPRINT-65 exposes domain application services for future API local and Web UI integration.",
                 "FUNC-SPRINT-66 defines static API Contract v1 and OpenAPI preliminary artifacts without implementing an HTTP server.",
@@ -270,11 +287,14 @@ def _operation_dispatch(service: ApplicationService) -> dict[str, OperationHandl
         "miasi.validate": lambda payload: service.miasi_validate(scope=str(payload.get("scope", "all"))),
         "evals.documentation.run": lambda payload: service.eval_run(suite=str(payload.get("suite", "documentation")), case_id=payload.get("case_id")),
         "repo.inventory": lambda payload: service.repo_inventory(),
+        "reports.list": lambda payload: service.reports_list(limit=int(payload.get("limit", 50)), severity=payload.get("severity"), status=payload.get("status"), command=payload.get("command")),
+        "reports.read": lambda payload: service.reports_read(report_id=str(payload.get("report_id", "")), format=str(payload.get("format", "json")), max_chars=int(payload.get("max_chars", 20000))),
         "repo.analyze": lambda payload: service.repo_analyze(target=str(payload.get("target", "."))),
         "review.code": lambda payload: service.code_review(target=str(payload.get("target", "."))),
         "refactor.plan": lambda payload: service.refactor_plan(target=str(payload.get("target", ".")), goal=str(payload.get("goal", "")), include_code_review=bool(payload.get("include_code_review", True))),
         "model.providers": lambda payload: service.model_providers(),
         "observability.trace_report": lambda payload: service.trace_report(limit=int(payload.get("limit", 20)), include_events=bool(payload.get("include_events", True)), include_metrics=bool(payload.get("include_metrics", True))),
+        "observability.trace_inspect": lambda payload: service.trace_inspect(str(payload.get("trace_id", "")), limit=int(payload.get("limit", 100))),
         "observability.metrics_summary": lambda payload: service.metrics_summary(category=payload.get("category"), limit=int(payload.get("limit", 50))),
         "history.runs": lambda payload: service.history_list(limit=int(payload.get("limit", 10))),
     }
@@ -287,6 +307,7 @@ def _domain_summaries() -> list[dict[str, Any]]:
         {"domain": "miasi", "service": "MiasiApplicationService", "status": "implemented", "side_effects": "none"},
         {"domain": "evals", "service": "EvaluationApplicationService", "status": "implemented-initial", "side_effects": "bounded_local_outputs_for_eval_workdir"},
         {"domain": "repo", "service": "RepoApplicationService", "status": "implemented-initial", "side_effects": "read_only"},
+        {"domain": "reports", "service": "ReportsApplicationService", "status": "implemented-initial", "side_effects": "read_only_redacted_outputs_reports"},
         {"domain": "review", "service": "ReviewApplicationService", "status": "implemented-initial", "side_effects": "dry_run_static_analysis"},
         {"domain": "refactor", "service": "RefactorApplicationService", "status": "implemented-initial", "side_effects": "plan_only"},
         {"domain": "model", "service": "ModelApplicationService", "status": "implemented-initial", "side_effects": "mock_or_local_governed_calls"},
@@ -312,6 +333,8 @@ def _capabilities() -> list[ServiceCapability]:
         ("miasi.validate", "Validate MIASI executable registries.", "none", True, "python -m devpilot_core miasi validate --json"),
         ("evals.documentation.run", "Run offline deterministic evaluation suite.", "local_eval_workdir", True, "python -m devpilot_core eval run --suite documentation --json"),
         ("repo.inventory", "Build local repository inventory.", "none", True, "python -m devpilot_core repo inventory --json"),
+        ("reports.list", "List redacted local evidence reports under outputs/reports.", "none", True, "python -m devpilot_core reports list --json"),
+        ("reports.read", "Read one redacted local evidence report by id and format.", "none", True, "python -m devpilot_core reports read <report_id> --json"),
         ("repo.analyze", "Run read-only repository analysis.", "none", True, "python -m devpilot_core repo analyze --json"),
         ("review.code", "Run deterministic code review in dry-run mode.", "none", True, "python -m devpilot_core code-review . --json"),
         ("refactor.plan", "Create plan-only safe refactor proposal.", "none", True, "python -m devpilot_core refactor-plan . --json"),
@@ -320,6 +343,7 @@ def _capabilities() -> list[ServiceCapability]:
         ("model.capabilities", "Build static model capability matrix.", "none", True, "python -m devpilot_core model capabilities --json"),
         ("history.runs", "List local command history from LocalStore.", "none", True, "python -m devpilot_core history list --json"),
         ("observability.trace_report", "Read bounded local trace report.", "none", True, "python -m devpilot_core trace report --json"),
+        ("observability.trace_inspect", "Inspect one trace id as a span tree.", "none", True, "python -m devpilot_core trace inspect <trace_id> --json"),
         ("observability.metrics_summary", "Read bounded local metrics summary.", "none", True, "python -m devpilot_core metrics summary --json"),
         ("observability.agentops_status", "Evaluate AgentOps quality gate.", "report_when_adapter_requests_it", True, "python -m devpilot_core agentops status --json"),
     ]
@@ -351,5 +375,10 @@ def _routes() -> list[InterfaceRouteContract]:
         ("APP-ROUTE-012", "GET", "/api/v1/history/runs", "history.runs", ["Active bounded LocalStore history route."]),
         ("APP-ROUTE-013", "GET", "/api/v1/application/contract", "app.contract", ["Active bootstrap route for API/Web UI clients."]),
         ("APP-ROUTE-014", "GET", "/api/v1/standards/status", "standards.status", ["Active standards status route added by FUNC-SPRINT-67."]),
+        ("APP-ROUTE-015", "GET", "/api/v1/reports", "reports.list", ["Active Sprint 70 report index route; API reads outputs/reports, UI never reads filesystem."]),
+        ("APP-ROUTE-016", "GET", "/api/v1/reports/{report_id}", "reports.read", ["Active Sprint 70 report detail route with redaction and safe basename validation."]),
+        ("APP-ROUTE-017", "GET", "/api/v1/traces", "observability.trace_report", ["Active Sprint 70 trace index route; bounded and empty-safe."]),
+        ("APP-ROUTE-018", "GET", "/api/v1/traces/{trace_id}", "observability.trace_inspect", ["Active Sprint 70 trace detail route rendered as span tree."]),
+        ("APP-ROUTE-019", "GET", "/api/v1/metrics/summary", "observability.metrics_summary", ["Active Sprint 70 metrics summary alias for visual dashboard."]),
     ]
     return [InterfaceRouteContract(route_id=rid, method=method, path=path, operation=operation, status="secured-initial", notes=notes) for rid, method, path, operation, notes in route_specs]

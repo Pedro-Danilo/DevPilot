@@ -53,6 +53,27 @@ export class DevPilotApiClient {
     });
   }
 
+
+  async listReports(filters: { limit?: number; severity?: string; status?: string; command?: string } = {}): Promise<DevPilotApplicationResponse> {
+    return this.get(`/reports${this.query(filters)}`);
+  }
+
+  async readReport(reportId: string, format = 'json'): Promise<DevPilotApplicationResponse> {
+    return this.get(`/reports/${encodeURIComponent(reportId)}${this.query({ format })}`);
+  }
+
+  async listTraces(limit = 20): Promise<DevPilotApplicationResponse> {
+    return this.get(`/traces${this.query({ limit })}`);
+  }
+
+  async inspectTrace(traceId: string, limit = 100): Promise<DevPilotApplicationResponse> {
+    return this.get(`/traces/${encodeURIComponent(traceId)}${this.query({ limit })}`);
+  }
+
+  async metricsSummary(): Promise<DevPilotApplicationResponse> {
+    return this.get('/metrics/summary');
+  }
+
   private async get(path: string): Promise<DevPilotApplicationResponse> {
     return this.request(path, { method: 'GET' });
   }
@@ -63,6 +84,15 @@ export class DevPilotApiClient {
       body: JSON.stringify(body),
       headers: { 'Content-Type': 'application/json' },
     });
+  }
+
+  private query(params: Record<string, string | number | boolean | undefined>): string {
+    const query = new URLSearchParams();
+    for (const [key, value] of Object.entries(params)) {
+      if (value !== undefined && value !== '') query.set(key, String(value));
+    }
+    const rendered = query.toString();
+    return rendered ? `?${rendered}` : '';
   }
 
   private async request(path: string, init: RequestInit): Promise<DevPilotApplicationResponse> {

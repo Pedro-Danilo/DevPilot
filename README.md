@@ -1,11 +1,47 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
 Estado actual: `baseline pre-code approved + Fase A cerrada + Fase B cerrada + Fase C cerrada + Fase D cerrada + Fase E cerrada`  
-Último hito: `FUNC-SPRINT-69 — Web UI MVP: dashboard workspace/readiness/MIASI`  
-Siguiente hito: `FUNC-SPRINT-70 — Report Viewer y Trace Viewer`  
+Último hito: `FUNC-SPRINT-70 — Report Viewer y Trace Viewer`  
+Siguiente hito: `FUNC-SPRINT-71 — Approval Center y acciones dry-run desde UI`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
+
+
+
+## FUNC-SPRINT-70 — Report Viewer y Trace Viewer
+
+Estado: `implemented-initial` / `PASS focalizado`.
+
+Sprint 70 agrega la primera vista visual de reportes, findings, trazas y métricas de AgentOps. La Web UI sigue siendo API-only y read-only: no lee `outputs/`, `.devpilot/` ni archivos locales directamente. El acceso ocurre mediante endpoints protegidos por token local, CORS restringido y policy binding.
+
+Entregables principales:
+
+- `src/devpilot_core/application/reports_service.py`: servicio de aplicación para listar y leer reportes bajo `outputs/reports`, con validación de basename, límites y redacción.
+- `src/devpilot_core/interfaces/api/routers/reports.py`: endpoints `/api/v1/reports` y `/api/v1/reports/{report_id}`.
+- `src/devpilot_core/interfaces/api/routers/traces.py`: endpoints `/api/v1/traces`, `/api/v1/traces/{trace_id}` y `/api/v1/metrics/summary`.
+- `ui/web/src/pages/ReportTraceView.ts`: panel visual de Report Viewer, Trace Viewer y métricas.
+- `ui/web/src/components/FindingTable.ts`: tabla visual de findings con filtros básicos.
+- `tests/test_api_reports_traces.py`: contratos API para reportes/trazas/métricas.
+- `tests/test_web_ui_report_trace_viewer.py`: smoke/contrato UI para asegurar que la Web UI no lea filesystem.
+- `docs/audits/func_sprint_70_report_trace_viewer_audit.md`: auditoría de cierre.
+- `docs/functional_sprint_70_manifest.json`: manifiesto funcional validado por schema.
+
+Ejecución local resumida:
+
+```powershell
+python -m devpilot_core api token --json
+# Copia exactamente el valor del campo `powershell`, por ejemplo:
+$env:DEVPILOT_API_TOKEN = '<token-generado>'
+python -m devpilot_core api serve --host 127.0.0.1 --port 8787 --execute
+cd ui/web
+npm install
+npm run dev
+```
+
+Nota operacional: no concatenes el placeholder `<token-generado>` con el token real. El valor de `DEVPILOT_API_TOKEN` debe ser exactamente el token que también pegas en la Web UI. Si el token del servidor y el token del navegador no coinciden, los endpoints protegidos responderán `401`; desde Sprint 70 esos errores incluyen CORS restringido para que el navegador muestre un error HTTP diagnosticable en vez de un `Failed to fetch` opaco.
+
+Límites explícitos: Sprint 70 no implementa Approval Center, acciones dry-run desde UI, Settings UI, RBAC, login ni un dashboard AgentOps completo con visualización avanzada. Es una primera versión visual local y debe evolucionar hacia paginación más rica, búsqueda, exportación, timelines y gestión de aprobaciones en sprints posteriores.
 
 
 
@@ -30,7 +66,8 @@ Ejecución local resumida:
 
 ```powershell
 python -m devpilot_core api token --json
-$env:DEVPILOT_API_TOKEN = "<token-generado>"
+# Copia exactamente el valor del campo `powershell`; no mezcles el placeholder con el token real.
+$env:DEVPILOT_API_TOKEN = '<token-generado>'
 python -m devpilot_core api serve --host 127.0.0.1 --port 8787 --execute
 cd ui/web
 npm install

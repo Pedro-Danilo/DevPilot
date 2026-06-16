@@ -386,3 +386,8 @@ HTTP /api/v1/*
 ```
 
 Reglas: los endpoints protegidos requieren token, CORS no puede usar wildcard por defecto, las rutas protegidas deben estar declaradas en `API_ROUTE_POLICIES`, y la UI futura debe consumir la API sin importar core Python.
+
+
+## Sprint 70 — Report Viewer y Trace Viewer
+
+Se agregan operaciones `reports.list`, `reports.read` y `observability.trace_inspect` al contrato de aplicación. La Web UI consume estas operaciones exclusivamente por `/api/v1`, manteniendo redacción, límites y separación UI/API/core.

@@ -2,8 +2,8 @@
   "openapi": "3.1.0",
   "info": {
     "title": "DevPilot Local API Contract v1",
-    "version": "1.0.0-web-ui-consumed",
-    "description": "Static OpenAPI contract synchronized with the secured-initial local FastAPI MVP. FUNC-SPRINT-68 adds token, restricted CORS, security headers and PolicyEngine binding."
+    "version": "1.0.0-report-trace-viewer",
+    "description": "Local secured MVP API for DevPilot read-only/dry-run operations, Report Viewer and Trace Viewer. Sprint 70 implementation."
   },
   "servers": [
     {
@@ -47,8 +47,8 @@
     }
   ],
   "x-devpilot": {
-    "sprint": "FUNC-SPRINT-69",
-    "status": "secured-initial",
+    "sprint": "FUNC-SPRINT-70",
+    "status": "report-trace-viewer-initial",
     "api_implemented": true,
     "server_implemented": true,
     "ui_implemented": true,
@@ -68,7 +68,9 @@
     "policy_binding_enabled": true,
     "security_headers_enabled": true,
     "web_ui_consumer": "ui/web",
-    "web_ui_mvp_implemented": true
+    "web_ui_mvp_implemented": true,
+    "report_viewer_implemented": true,
+    "trace_viewer_implemented": true
   },
   "paths": {
     "/api/v1/workspace/status": {
@@ -1493,6 +1495,471 @@
         "x-devpilot-consumers": [
           "ui/web dashboard"
         ]
+      }
+    },
+    "/api/v1/reports": {
+      "get": {
+        "summary": "Reports List",
+        "operationId": "api_reports_list",
+        "x-devpilot-api-id": "API-REPORTS-LIST",
+        "x-devpilot-operation": "reports.list",
+        "x-devpilot-domain-service": "ReportsApplicationService",
+        "x-devpilot-status": "report-trace-viewer-initial",
+        "x-devpilot-side-effect": "none",
+        "x-devpilot-dry-run-default": true,
+        "x-devpilot-auth": "local-token-required",
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-policy": "PolicyEngine bound",
+        "x-devpilot-security-headers": true,
+        "x-devpilot-command-equivalent": "python -m devpilot_core reports list --json",
+        "security": [
+          {
+            "LocalTokenAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ApplicationResponse success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "ApplicationResponse failure",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing/invalid local token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Policy or contract block",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/reports/{report_id}": {
+      "get": {
+        "summary": "Reports Read",
+        "operationId": "api_reports_read",
+        "x-devpilot-api-id": "API-REPORTS-READ",
+        "x-devpilot-operation": "reports.read",
+        "x-devpilot-domain-service": "ReportsApplicationService",
+        "x-devpilot-status": "report-trace-viewer-initial",
+        "x-devpilot-side-effect": "none",
+        "x-devpilot-dry-run-default": true,
+        "x-devpilot-auth": "local-token-required",
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-policy": "PolicyEngine bound",
+        "x-devpilot-security-headers": true,
+        "x-devpilot-command-equivalent": "python -m devpilot_core reports read <report_id> --json",
+        "security": [
+          {
+            "LocalTokenAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ApplicationResponse success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "ApplicationResponse failure",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing/invalid local token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Policy or contract block",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "report_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "format",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "json",
+                "markdown",
+                "md"
+              ],
+              "default": "json"
+            }
+          }
+        ]
+      }
+    },
+    "/api/v1/traces": {
+      "get": {
+        "summary": "Observability Trace_Report",
+        "operationId": "api_traces_list",
+        "x-devpilot-api-id": "API-TRACES-LIST",
+        "x-devpilot-operation": "observability.trace_report",
+        "x-devpilot-domain-service": "ObservabilityApplicationService",
+        "x-devpilot-status": "report-trace-viewer-initial",
+        "x-devpilot-side-effect": "none",
+        "x-devpilot-dry-run-default": true,
+        "x-devpilot-auth": "local-token-required",
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-policy": "PolicyEngine bound",
+        "x-devpilot-security-headers": true,
+        "x-devpilot-command-equivalent": "python -m devpilot_core trace report --json",
+        "security": [
+          {
+            "LocalTokenAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ApplicationResponse success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "ApplicationResponse failure",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing/invalid local token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Policy or contract block",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/traces/{trace_id}": {
+      "get": {
+        "summary": "Observability Trace_Inspect",
+        "operationId": "api_traces_inspect",
+        "x-devpilot-api-id": "API-TRACES-INSPECT",
+        "x-devpilot-operation": "observability.trace_inspect",
+        "x-devpilot-domain-service": "ObservabilityApplicationService",
+        "x-devpilot-status": "report-trace-viewer-initial",
+        "x-devpilot-side-effect": "none",
+        "x-devpilot-dry-run-default": true,
+        "x-devpilot-auth": "local-token-required",
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-policy": "PolicyEngine bound",
+        "x-devpilot-security-headers": true,
+        "x-devpilot-command-equivalent": "python -m devpilot_core trace inspect <trace_id> --json",
+        "security": [
+          {
+            "LocalTokenAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ApplicationResponse success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "ApplicationResponse failure",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing/invalid local token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Policy or contract block",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "trace_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "default": 100,
+              "minimum": 1,
+              "maximum": 500
+            }
+          }
+        ]
+      }
+    },
+    "/api/v1/metrics/summary": {
+      "get": {
+        "summary": "Observability Metrics_Summary",
+        "operationId": "api_metrics_summary",
+        "x-devpilot-api-id": "API-METRICS-SUMMARY",
+        "x-devpilot-operation": "observability.metrics_summary",
+        "x-devpilot-domain-service": "ObservabilityApplicationService",
+        "x-devpilot-status": "report-trace-viewer-initial",
+        "x-devpilot-side-effect": "none",
+        "x-devpilot-dry-run-default": true,
+        "x-devpilot-auth": "local-token-required",
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-policy": "PolicyEngine bound",
+        "x-devpilot-security-headers": true,
+        "x-devpilot-command-equivalent": "python -m devpilot_core metrics summary --json",
+        "security": [
+          {
+            "LocalTokenAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ApplicationResponse success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "ApplicationResponse failure",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing/invalid local token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Policy or contract block",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          }
+        }
       }
     }
   },

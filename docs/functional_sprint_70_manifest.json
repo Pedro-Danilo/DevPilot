@@ -1,0 +1,113 @@
+{
+  "sprint": "FUNC-SPRINT-70",
+  "title": "Report Viewer y Trace Viewer",
+  "status": "implemented",
+  "implemented_at": "2026-06-16",
+  "phase": "FASE-F-PRODUCTO-VISUAL",
+  "source_repo": "repo_DevPilot_Local_88.zip",
+  "wave": "Fase F — Producto visual",
+  "source_backlog": "docs/devpilot_backlog_fase_F_producto_visual.md",
+  "summary": {
+    "report_viewer_implemented": true,
+    "trace_viewer_implemented": true,
+    "api_routes_added": 5,
+    "routes_total": 19,
+    "ui_reads_outputs_directly": false,
+    "ui_reads_devpilot_db_directly": false,
+    "api_redaction_enabled": true,
+    "filters_basic": [
+      "severity",
+      "status",
+      "command"
+    ],
+    "trace_empty_state_supported": true,
+    "pagination_limits_enabled": true,
+    "external_api_used": false,
+    "network_required": false,
+    "preliminary": true,
+    "next_sprint": "FUNC-SPRINT-71"
+  },
+  "architectural_decision": {
+    "adr_required": false,
+    "rationale": "FUNC-SPRINT-70 implements report/trace viewers under ADR-0013 Web UI first and the Sprint 64 UI/API threat model; it adds API/UI endpoints without changing the approved UI/API architecture."
+  },
+  "created_files": [
+    "src/devpilot_core/application/reports_service.py",
+    "src/devpilot_core/interfaces/api/routers/reports.py",
+    "src/devpilot_core/interfaces/api/routers/traces.py",
+    "ui/web/src/pages/ReportTraceView.ts",
+    "ui/web/src/components/FindingTable.ts",
+    "tests/test_api_reports_traces.py",
+    "tests/test_web_ui_report_trace_viewer.py",
+    "tests/test_sprint_70_documentation.py",
+    "docs/audits/func_sprint_70_report_trace_viewer_audit.md",
+    "docs/functional_sprint_70_manifest.json"
+  ],
+  "modified_files": [
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/devpilot_backlog_fase_F_producto_visual.md",
+    "docs/functional_backlog_after_precode.md",
+    "docs/02_architecture/c4_container.md",
+    "docs/07_interfaces/api_contract_v1.md",
+    "docs/07_interfaces/api_service_mapping.md",
+    "docs/07_interfaces/internal_application_contract.md",
+    "docs/07_interfaces/openapi_v1.json",
+    "src/devpilot_core/application/services.py",
+    "src/devpilot_core/interfaces/api/app.py",
+    "src/devpilot_core/interfaces/api/security.py",
+    "ui/web/package.json",
+    "ui/web/scripts/smoke-test.mjs",
+    "ui/web/src/api/client.ts",
+    "ui/web/src/api/types.ts",
+    "ui/web/src/main.ts",
+    "ui/web/src/pages/Dashboard.ts",
+    "ui/web/src/styles.css",
+    "ui/web/README.md",
+    "tests/test_api_security.py",
+    "tests/test_api_contract.py",
+    "tests/test_application_services.py",
+    "tests/test_application_services_v2.py",
+    "tests/test_sprint_64_documentation.py",
+    "tests/test_sprint_65_documentation.py",
+    "tests/test_sprint_66_documentation.py",
+    "tests/test_sprint_67_documentation.py",
+    "tests/test_sprint_68_documentation.py",
+    "tests/test_sprint_69_documentation.py"
+  ],
+  "commands": [
+    "python -m devpilot_core trace report --json",
+    "python -m devpilot_core metrics summary --json",
+    "python -m pytest tests/test_api_reports_traces.py tests/test_web_ui_report_trace_viewer.py tests/test_sprint_70_documentation.py -q",
+    "cd ui/web && npm test",
+    "python -m pytest -q"
+  ],
+  "tests": [
+    "python -m pytest tests/test_api_reports_traces.py tests/test_web_ui_report_trace_viewer.py tests/test_sprint_70_documentation.py -q",
+    "python -m pytest tests/test_api_security.py tests/test_api_local.py tests/test_api_contract.py tests/test_web_ui_mvp.py tests/test_sprint_69_documentation.py tests/test_api_reports_traces.py tests/test_web_ui_report_trace_viewer.py tests/test_sprint_70_documentation.py tests/test_application_services.py tests/test_application_services_v2.py -q",
+    "python -m pytest tests/test_sprint_*_documentation.py tests/test_phase_f_web_first_strategy.py -q",
+    "cd ui/web && npm test",
+    "python -m devpilot_core validate all --json"
+  ],
+  "pass_criteria": [
+    "Report Viewer lists and opens reports through /api/v1/reports endpoints only.",
+    "Trace Viewer lists traces, renders empty states and supports trace inspection through /api/v1/traces endpoints only.",
+    "Finding filters by severity/status/command are available without exposing secrets.",
+    "UI does not read outputs/, .devpilot/ or filesystem directly.",
+    "API responses redact token-like values and bound output paths to allowed report/trace stores.",
+    "README, runbook, backlog, contracts, audit and manifest remain synchronized."
+  ],
+  "block_criteria": [
+    "Block if Web UI imports devpilot_core or reads local files directly.",
+    "Block if report/trace endpoints expose raw secrets or unrestricted filesystem paths.",
+    "Block if large traces are returned without limit/pagination controls.",
+    "Block if report/trace viewers add write/execute actions."
+  ],
+  "risks": [
+    "Report and trace viewers are first-version local MVP, not a full industrial observability console.",
+    "Trace tree rendering is intentionally basic and may require virtualization for very large traces.",
+    "Browser UI still depends on token handling by the local user and is not enterprise RBAC.",
+    "Report inventory is constrained to safe local report paths and intentionally omits arbitrary filesystem browsing."
+  ],
+  "next_sprint": "FUNC-SPRINT-71 — Approval Center y acciones dry-run desde UI"
+}

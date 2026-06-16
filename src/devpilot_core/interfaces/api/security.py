@@ -85,8 +85,13 @@ API_ROUTE_POLICIES: dict[tuple[str, str], ApiRoutePolicy] = {
     ("GET", "/api/v1/standards/status"): ApiRoutePolicy("standards.status", "read", "protected-read"),
     ("GET", "/api/v1/model/providers"): ApiRoutePolicy("model.providers", "read", "protected-read"),
     ("GET", "/api/v1/repo/inventory"): ApiRoutePolicy("repo.inventory", "read", "protected-read"),
+    ("GET", "/api/v1/reports"): ApiRoutePolicy("reports.list", "read", "protected-read", path_subject="outputs/reports"),
+    ("GET", "/api/v1/reports/{report_id}"): ApiRoutePolicy("reports.read", "read", "protected-read", path_subject="outputs/reports"),
     ("GET", "/api/v1/observability/traces"): ApiRoutePolicy("observability.trace_report", "read", "protected-read"),
     ("GET", "/api/v1/observability/metrics"): ApiRoutePolicy("observability.metrics_summary", "read", "protected-read"),
+    ("GET", "/api/v1/traces"): ApiRoutePolicy("observability.trace_report", "read", "protected-read", path_subject=".devpilot/devpilot.db"),
+    ("GET", "/api/v1/traces/{trace_id}"): ApiRoutePolicy("observability.trace_inspect", "read", "protected-read", path_subject=".devpilot/devpilot.db"),
+    ("GET", "/api/v1/metrics/summary"): ApiRoutePolicy("observability.metrics_summary", "read", "protected-read", path_subject=".devpilot/devpilot.db"),
     ("GET", "/api/v1/history/runs"): ApiRoutePolicy("history.runs", "read", "protected-read"),
     ("POST", "/api/v1/validation/frontmatter"): ApiRoutePolicy("validation.frontmatter", "read", "protected-validation"),
     ("POST", "/api/v1/validation/artifact"): ApiRoutePolicy("validation.artifact", "read", "protected-validation"),
@@ -190,3 +195,18 @@ def evaluate_api_policy(root: Path, route_policy: ApiRoutePolicy) -> CommandResu
             subject=route_policy.operation,
         )
     )
+
+
+
+def resolve_route_policy(method: str, path: str) -> ApiRoutePolicy | None:
+    """Return route policy for exact or templated API path."""
+
+    normalized = (method.upper(), path)
+    if normalized in API_ROUTE_POLICIES:
+        return API_ROUTE_POLICIES[normalized]
+    if method.upper() == "GET":
+        if path.startswith("/api/v1/reports/") and path.count("/") == 4:
+            return API_ROUTE_POLICIES.get(("GET", "/api/v1/reports/{report_id}"))
+        if path.startswith("/api/v1/traces/") and path.count("/") == 4:
+            return API_ROUTE_POLICIES.get(("GET", "/api/v1/traces/{trace_id}"))
+    return None

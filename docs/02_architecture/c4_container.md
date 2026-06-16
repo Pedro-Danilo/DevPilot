@@ -331,3 +331,8 @@ Estado: `implemented-initial`. Report Viewer, Trace Viewer, Approval Center y Se
 El contenedor `API local segura` evoluciona desde `implemented-initial` a `secured-initial`. El adapter FastAPI conserva el flujo `API → ApplicationService → Core`, y ahora agrega controles de transporte local: token temporal, CORS restringido, headers mínimos y policy binding.
 
 La Web UI local futura debe tratar la API como única frontera de integración. Desktop sigue diferido. Web real pública requiere ADR y threat model posteriores.
+
+
+## Actualización FUNC-SPRINT-70 — Viewers de reportes y trazas
+
+La Web UI local incorpora Report Viewer y Trace Viewer como contenedores visuales API-only. La API local incorpora routers de reportes/trazas, mientras el core conserva `ApplicationService` como frontera. La UI no accede a `outputs/` ni `.devpilot/`; todo acceso pasa por API local, token, CORS restringido y policy binding.

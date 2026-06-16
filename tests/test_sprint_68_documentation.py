@@ -24,14 +24,14 @@ def test_sprint_68_artifacts_and_global_state_are_synchronized() -> None:
     internal_contract = _read("docs/07_interfaces/internal_application_contract.md")
     threat_model = _read("docs/03_security/ui_api_threat_model.md")
 
-    assert "Último hito: `FUNC-SPRINT-69" in readme
-    assert "Siguiente hito: `FUNC-SPRINT-70" in readme
+    assert "Último hito: `FUNC-SPRINT-70" in readme
+    assert "Siguiente hito: `FUNC-SPRINT-71" in readme
     assert "FUNC-SPRINT-68 — Seguridad API local" in readme
-    assert 'source_repo: "repo_DevPilot_Local_85.zip"' in backlog
-    assert 'first_open_sprint: "FUNC-SPRINT-70"' in backlog
-    assert 'last_completed_sprint: "FUNC-SPRINT-69"' in backlog
-    assert 'next_sprint: "FUNC-SPRINT-70"' in backlog
-    assert 'next_sprint: "FUNC-SPRINT-70"' in functional_backlog
+    assert 'source_repo: "repo_DevPilot_Local_88.zip"' in backlog
+    assert 'first_open_sprint: "FUNC-SPRINT-71"' in backlog
+    assert 'last_completed_sprint: "FUNC-SPRINT-70"' in backlog
+    assert 'next_sprint: "FUNC-SPRINT-71"' in backlog
+    assert 'next_sprint: "FUNC-SPRINT-71"' in functional_backlog
     assert "FUNC-SPRINT-68 — Operación de seguridad API local" in runbook
     assert "Sprint 68 — Seguridad API local secured-initial" in internal_contract
     assert "Implementación Sprint 68" in threat_model
@@ -88,8 +88,8 @@ def test_sprint_68_contract_and_openapi_declare_local_token_security() -> None:
     assert "policy_binding_enabled: true" in contract
     assert "local-token-required" in mapping
     assert "API_ROUTE_POLICIES" in mapping
-    assert openapi["info"]["version"] == "1.0.0-web-ui-consumed"
-    assert openapi["x-devpilot"]["sprint"] == "FUNC-SPRINT-69"
+    assert openapi["info"]["version"] in {"1.0.0-web-ui-consumed", "1.0.0-report-trace-viewer"}
+    assert openapi["x-devpilot"]["sprint"] == "FUNC-SPRINT-70"
     assert openapi["x-devpilot"]["token_required"] is True
     assert openapi["x-devpilot"]["web_ui_mvp_implemented"] is True
     assert openapi["x-devpilot"]["cors_wildcard_enabled"] is False

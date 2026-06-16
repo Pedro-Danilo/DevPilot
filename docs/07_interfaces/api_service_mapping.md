@@ -86,3 +86,16 @@ La Web UI local consume las siguientes operaciones mediante API local segura:
 | Dashboard MIASI | `GET /api/v1/miasi/status` | `miasi.validate` | tarjeta MIASI |
 
 Regla: el frontend no puede saltar este mapping ni llamar módulos internos.
+
+
+## Mapping Sprint 70 — Report/Trace Viewer
+
+| API ID | Método | Path | Operación | Servicio | Policy/gate |
+|---|---|---|---|---|---|
+| API-REPORTS-LIST | GET | `/api/v1/reports` | `reports.list` | `ReportsApplicationService` | Token + PolicyEngine + redacción |
+| API-REPORTS-READ | GET | `/api/v1/reports/{report_id}` | `reports.read` | `ReportsApplicationService` | Token + basename seguro + redacción |
+| API-TRACES-LIST | GET | `/api/v1/traces` | `observability.trace_report` | `ObservabilityApplicationService` | Token + límites |
+| API-TRACES-INSPECT | GET | `/api/v1/traces/{trace_id}` | `observability.trace_inspect` | `ObservabilityApplicationService` | Token + límites |
+| API-METRICS-SUMMARY | GET | `/api/v1/metrics/summary` | `observability.metrics_summary` | `ObservabilityApplicationService` | Token + límites |
+
+Regla: UI no lee `outputs/` ni `.devpilot/`; todo pasa por API local.

@@ -8,7 +8,7 @@ standard: "MIPSoftware"
 extension: "MIASI"
 phase: "FASE-F-PRODUCTO-VISUAL"
 updated: "2026-06-15"
-source_repo: "repo_DevPilot_Local_85.zip"
+source_repo: "repo_DevPilot_Local_88.zip"
 source_report: "Informe de avance DevPilot - sprint 0 - 18.docx"
 source_backlog_model: "docs/functional_backlog_after_precode.md"
 baseline_dependency: "Fases A-E cerradas; Fase E validada por FUNC-SPRINT-63"
@@ -18,10 +18,10 @@ change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "phase_f_executable_backlog_review"
 approved_on: "2026-06-14"
 approval: "approved_after_phase_e_agentops_closure"
-first_open_sprint: "FUNC-SPRINT-70"
-last_completed_sprint: "FUNC-SPRINT-69"
-next_sprint: "FUNC-SPRINT-70"
-phase_f_status: "implementation_in_progress_sprint_69_completed"
+first_open_sprint: "FUNC-SPRINT-71"
+last_completed_sprint: "FUNC-SPRINT-70"
+next_sprint: "FUNC-SPRINT-71"
+phase_f_status: "implementation_in_progress_sprint_70_completed"
 ui_strategy: "web_local_first_web_real_ready_desktop_deferred"
 ---
 
@@ -773,6 +773,10 @@ python -m pytest -q
 ```text
 Implementa FUNC-SPRINT-69: Web UI MVP con dashboard workspace/readiness/MIASI. Mantén UI read-only, API-only y sin acciones destructivas.
 ```
+
+## Estado de implementación Sprint 70
+
+`FUNC-SPRINT-70 — Report Viewer y Trace Viewer` queda implementado en estado `implemented-initial` y con veredicto `PASS` focalizado. El viewer consume reportes/trazas/métricas únicamente por API local segura, aplica redacción y límites, y no permite lectura directa del filesystem desde la Web UI. Quedan para evolución futura paginación avanzada, viewer de árbol más rico, búsqueda global y endurecimiento UX.
 
 ## FUNC-SPRINT-70 — Report Viewer y Trace Viewer
 

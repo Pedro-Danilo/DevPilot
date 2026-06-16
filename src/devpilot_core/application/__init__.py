@@ -8,6 +8,7 @@ from .model_service import ModelApplicationService
 from .observability_service import ObservabilityApplicationService
 from .refactor_service import RefactorApplicationService
 from .repo_service import RepoApplicationService
+from .reports_service import ReportsApplicationService
 from .review_service import ReviewApplicationService
 from .services import ApplicationService
 from .validation_service import ValidationApplicationService
@@ -25,6 +26,7 @@ __all__ = [
     "ObservabilityApplicationService",
     "RefactorApplicationService",
     "RepoApplicationService",
+    "ReportsApplicationService",
     "ReviewApplicationService",
     "ServiceCapability",
     "ValidationApplicationService",
