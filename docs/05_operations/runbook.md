@@ -3931,6 +3931,89 @@ http://127.0.0.1:8787/api/v1/docs
 ### Riesgos y evolución
 
 Sprint 67 es una versión preliminar industrial del adapter HTTP. La seguridad HTTP todavía no está completa: token local, CORS restringido, headers y policy binding se implementarán en `FUNC-SPRINT-68`. No debe exponerse esta API fuera de localhost.
+\
+
+## FUNC-SPRINT-69 — Operación de Web UI MVP
+
+### Propósito
+
+Ejecutar la primera Web UI local de DevPilot para visualizar workspace, readiness, standards y MIASI desde navegador local. La UI es read-only/API-only y consume únicamente la API segura `/api/v1`.
+
+### Requisitos
+
+- Python environment de DevPilot activo.
+- Node.js 20 o superior.
+- API local segura Sprint 68.
+- Token local generado por `python -m devpilot_core api token --json`.
+
+### Instalación frontend
+
+```powershell
+cd D:\Projects\DevPilot_Local\ui\web
+npm install
+```
+
+### Ejecución
+
+Terminal 1:
+
+```powershell
+cd D:\Projects\DevPilot_Local
+.\.venv\Scripts\Activate.ps1
+python -m devpilot_core api token --json
+$env:DEVPILOT_API_TOKEN = "<token-generado>"
+python -m devpilot_core api serve --host 127.0.0.1 --port 8787 --execute
+```
+
+Terminal 2:
+
+```powershell
+cd D:\Projects\DevPilot_Local\ui\web
+npm run dev
+```
+
+Abrir:
+
+```text
+http://127.0.0.1:5173
+```
+
+### Validación
+
+```powershell
+cd D:\Projects\DevPilot_Local
+python -m pytest tests/test_web_ui_mvp.py tests/test_sprint_69_documentation.py -q
+python -m devpilot_core validate all --json
+
+# Opcional: smoke Node/npm explícito, solo con Node.js/npm en PATH
+$env:DEVPILOT_RUN_WEB_UI_NPM_TEST = "1"
+python -m pytest tests/test_web_ui_mvp.py -q
+Remove-Item Env:DEVPILOT_RUN_WEB_UI_NPM_TEST
+
+# Alternativa manual frontend
+cd D:\Projects\DevPilot_Local\ui\web
+npm test
+```
+
+### Criterios PASS
+
+- El smoke contract Python pasa sin requerir Node/npm.
+- `npm test` pasa cuando se ejecuta manualmente o con `DEVPILOT_RUN_WEB_UI_NPM_TEST=1` en un entorno con Node.js/npm correctamente instalado.
+- La UI no importa `devpilot_core`.
+- La UI solo consume `/api/v1`.
+- La UI muestra estados PASS/WARN/BLOCK/PENDING.
+- No hay endpoints write/execute en cliente frontend.
+
+### Criterios BLOCK
+
+- Frontend lee filesystem, `outputs/`, `.devpilot/` o módulos Python.
+- Frontend requiere API externa.
+- Frontend ejecuta acciones destructivas.
+- Token queda hardcodeado en código fuente.
+
+### Nota sobre `StarletteDeprecationWarning` y `httpx2`
+
+Starlette 1.2+ cambió su TestClient para usar `httpx2`. Sprint 69 actualiza `pyproject.toml` para que el extra `dev` instale `httpx2>=2.4,<3` y deja `httpx` fuera de los extras de DevPilot. Si el warning persiste en un entorno reutilizado, limpiar/recrear el venv o desinstalar `httpx` después de instalar dependencias actualizadas.
 
 
 ## FUNC-SPRINT-68 — Operación de seguridad API local

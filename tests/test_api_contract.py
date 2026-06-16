@@ -22,17 +22,19 @@ def test_openapi_v1_tracks_local_api_mvp_contract() -> None:
     spec = _openapi()
 
     assert spec["openapi"] == "3.1.0"
-    assert spec["info"]["version"] == "1.0.0-secured-initial"
-    assert spec["x-devpilot"]["sprint"] == "FUNC-SPRINT-68"
+    assert spec["info"]["version"] == "1.0.0-web-ui-consumed"
+    assert spec["x-devpilot"]["sprint"] == "FUNC-SPRINT-69"
     assert spec["x-devpilot"]["status"] == "secured-initial"
     assert spec["x-devpilot"]["api_implemented"] is True
     assert spec["x-devpilot"]["server_implemented"] is True
-    assert spec["x-devpilot"]["ui_implemented"] is False
+    assert spec["x-devpilot"]["ui_implemented"] is True
     assert spec["x-devpilot"]["desktop_deferred"] is True
     assert spec["x-devpilot"]["api_security_implemented"] is True
     assert spec["x-devpilot"]["token_required"] is True
     assert spec["x-devpilot"]["cors_wildcard_enabled"] is False
     assert spec["x-devpilot"]["policy_binding_enabled"] is True
+    assert spec["x-devpilot"]["web_ui_mvp_implemented"] is True
+    assert spec["x-devpilot"]["web_ui_consumer"] == "ui/web"
     assert spec["servers"][0]["url"].startswith("http://127.0.0.1")
     assert (ROOT / "src" / "devpilot_core" / "interfaces" / "api" / "app.py").exists()
 

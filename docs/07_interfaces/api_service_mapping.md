@@ -3,12 +3,12 @@ title: "DevPilot Local — API v1 service mapping"
 doc_id: "DEVPL-INTERFACE-API-SERVICE-MAPPING-V1"
 status: "approved"
 approval: "approved_after_func_sprint_68_api_security"
-version: "1.2.0-secured-initial"
+version: "1.3.0-web-ui-consumed"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
 phase: "FASE-F-PRODUCTO-VISUAL"
-sprint: "FUNC-SPRINT-68"
+sprint: "FUNC-SPRINT-69"
 updated: "2026-06-15"
 source_contract: "docs/07_interfaces/api_contract_v1.md"
 source_openapi: "docs/07_interfaces/openapi_v1.json"
@@ -73,3 +73,16 @@ Este mapping queda sincronizado con el servidor FastAPI local MVP y con la capa 
 - Endpoint que apunte a filesystem/UI directamente.
 - Endpoint crítico sin Approval planificado.
 - Endpoint protegido sin token local o sin `PolicyEngine`.
+
+## Consumidor Sprint 69 — `ui/web`
+
+La Web UI local consume las siguientes operaciones mediante API local segura:
+
+| Vista | Endpoint | Operación | Acción UI |
+|---|---|---|---|
+| Dashboard Workspace | `GET /api/v1/workspace/status` | `workspace.status` | tarjeta PASS/WARN/BLOCK |
+| Dashboard Readiness | `POST /api/v1/validation/readiness` | `validation.readiness` | tarjeta readiness |
+| Dashboard Standards | `GET /api/v1/standards/status` | `standards.status` | tarjeta standards |
+| Dashboard MIASI | `GET /api/v1/miasi/status` | `miasi.validate` | tarjeta MIASI |
+
+Regla: el frontend no puede saltar este mapping ni llamar módulos internos.

@@ -2,13 +2,13 @@
 title: "DevPilot Local — Backlog ejecutable Fase F: Producto visual"
 doc_id: "DEVPL-FUNC-BACKLOG-FASE-F-001"
 status: "approved"
-version: "1.6.0"
+version: "1.7.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
 phase: "FASE-F-PRODUCTO-VISUAL"
 updated: "2026-06-15"
-source_repo: "repo_DevPilot_Local_84.zip"
+source_repo: "repo_DevPilot_Local_85.zip"
 source_report: "Informe de avance DevPilot - sprint 0 - 18.docx"
 source_backlog_model: "docs/functional_backlog_after_precode.md"
 baseline_dependency: "Fases A-E cerradas; Fase E validada por FUNC-SPRINT-63"
@@ -18,10 +18,10 @@ change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "phase_f_executable_backlog_review"
 approved_on: "2026-06-14"
 approval: "approved_after_phase_e_agentops_closure"
-first_open_sprint: "FUNC-SPRINT-69"
-last_completed_sprint: "FUNC-SPRINT-68"
-next_sprint: "FUNC-SPRINT-69"
-phase_f_status: "implementation_in_progress_sprint_68_completed"
+first_open_sprint: "FUNC-SPRINT-70"
+last_completed_sprint: "FUNC-SPRINT-69"
+next_sprint: "FUNC-SPRINT-70"
+phase_f_status: "implementation_in_progress_sprint_69_completed"
 ui_strategy: "web_local_first_web_real_ready_desktop_deferred"
 ---
 
@@ -297,6 +297,23 @@ python -m pytest -q
 ```text
 Implementa FUNC-SPRINT-64: ADR UI/API local y threat model de interfaz. No codifiques servidor ni frontend hasta cerrar decisión documentada.
 ```
+## Estado de implementación Sprint 69
+
+`FUNC-SPRINT-69 — Web UI MVP: dashboard workspace/readiness/MIASI` queda implementado en estado `implemented-initial` y con veredicto `PASS`.
+
+Entregables de cierre:
+
+- `ui/web/`: primera Web UI local read-only/API-only.
+- `ui/web/src/api/client.ts`: cliente local para `/api/v1` con token por header.
+- `ui/web/src/pages/Dashboard.ts`: dashboard workspace/readiness/standards/MIASI.
+- `ui/web/src/components/StatusCard.ts`: tarjetas visuales PASS/WARN/BLOCK/PENDING.
+- `ui/web/scripts/smoke-test.mjs`: smoke test sin dependencias externas de ejecución.
+- `tests/test_web_ui_mvp.py`: contrato de UI sin imports Python/core ni endpoints destructivos.
+- `docs/functional_sprint_69_manifest.json`: manifiesto funcional.
+- `docs/audits/func_sprint_69_web_ui_dashboard_audit.md`: auditoría de cierre.
+
+Alcance real: se implementa una Web UI local MVP con Vite/TypeScript orientada a navegador local. La UI consume API local segura y no implementa Report Viewer, Trace Viewer, Approval Center, Settings UI, RBAC/login ni despliegue web real. Es una versión preliminar industrial que habilita la transición hacia `FUNC-SPRINT-70 — Report Viewer y Trace Viewer`.
+
 
 ## Estado de implementación Sprint 68
 

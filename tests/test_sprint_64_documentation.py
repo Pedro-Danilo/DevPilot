@@ -33,16 +33,16 @@ def test_sprint_64_artifacts_exist_and_are_synchronized() -> None:
     for path in expected_paths:
         assert (ROOT / path).exists(), path
 
-    assert "Último hito: `FUNC-SPRINT-68" in readme
-    assert "Siguiente hito: `FUNC-SPRINT-69" in readme
+    assert "Último hito: `FUNC-SPRINT-69" in readme
+    assert "Siguiente hito: `FUNC-SPRINT-70" in readme
     assert "## FUNC-SPRINT-64 — ADR UI/API local y threat model de interfaz" in readme
     assert "## FUNC-SPRINT-64 — Operación de ADR UI/API local y threat model de interfaz" in runbook
-    assert 'source_repo: "repo_DevPilot_Local_84.zip"' in backlog
-    assert 'first_open_sprint: "FUNC-SPRINT-69"' in backlog
-    assert 'last_completed_sprint: "FUNC-SPRINT-68"' in backlog
-    assert 'next_sprint: "FUNC-SPRINT-69"' in backlog
+    assert 'source_repo: "repo_DevPilot_Local_85.zip"' in backlog
+    assert 'first_open_sprint: "FUNC-SPRINT-70"' in backlog
+    assert 'last_completed_sprint: "FUNC-SPRINT-69"' in backlog
+    assert 'next_sprint: "FUNC-SPRINT-70"' in backlog
     assert "## Estado de implementación Sprint 64" in backlog
-    assert 'next_sprint: "FUNC-SPRINT-69"' in functional_backlog
+    assert 'next_sprint: "FUNC-SPRINT-70"' in functional_backlog
     assert "## Transición posterior a FUNC-SPRINT-64" in functional_backlog
     assert manifest["sprint"] == "FUNC-SPRINT-64"
     assert manifest["status"] == "implemented"
@@ -74,7 +74,7 @@ def test_sprint_64_application_contract_reports_web_first_strategy() -> None:
     summary = result.data["summary"]
 
     assert result.ok is True
-    assert summary["ui_implemented"] is False
+    assert summary["ui_implemented"] is True
     assert summary["visual_strategy"] == "web_ui_first"
     assert summary["api_local_planned"] is True
     assert summary["web_ui_local_planned"] is True
@@ -103,4 +103,4 @@ def test_sprint_64_scope_does_not_implement_server_frontend_or_desktop() -> None
     assert "no implementa api http" in combined or "sin servidor activo" in combined
     assert "desktop queda diferido" in combined or "desktop is deferred" in combined
     assert (ROOT / "src" / "devpilot_core" / "interfaces" / "api").exists()  # Implemented later by FUNC-SPRINT-67
-    assert not (ROOT / "ui" / "web" / "package.json").exists()
+    assert (ROOT / "ui" / "web" / "package.json").exists()  # Implemented later by FUNC-SPRINT-69

@@ -23,14 +23,14 @@ def test_sprint_66_artifacts_and_global_state_are_synchronized() -> None:
     runbook = _read("docs/05_operations/runbook.md")
     internal_contract = _read("docs/07_interfaces/internal_application_contract.md")
 
-    assert "Último hito: `FUNC-SPRINT-68" in readme
-    assert "Siguiente hito: `FUNC-SPRINT-69" in readme
+    assert "Último hito: `FUNC-SPRINT-69" in readme
+    assert "Siguiente hito: `FUNC-SPRINT-70" in readme
     assert "FUNC-SPRINT-66 — Contratos API y OpenAPI preliminar" in readme
-    assert 'source_repo: "repo_DevPilot_Local_84.zip"' in backlog
-    assert 'first_open_sprint: "FUNC-SPRINT-69"' in backlog
-    assert 'last_completed_sprint: "FUNC-SPRINT-68"' in backlog
-    assert 'next_sprint: "FUNC-SPRINT-69"' in backlog
-    assert 'next_sprint: "FUNC-SPRINT-69"' in functional_backlog
+    assert 'source_repo: "repo_DevPilot_Local_85.zip"' in backlog
+    assert 'first_open_sprint: "FUNC-SPRINT-70"' in backlog
+    assert 'last_completed_sprint: "FUNC-SPRINT-69"' in backlog
+    assert 'next_sprint: "FUNC-SPRINT-70"' in backlog
+    assert 'next_sprint: "FUNC-SPRINT-70"' in functional_backlog
     assert "FUNC-SPRINT-66 — Operación de contratos API y OpenAPI preliminar" in runbook
     assert "Sprint 66 — Contrato API v1 y OpenAPI preliminar" in internal_contract
 
@@ -71,7 +71,7 @@ def test_sprint_66_application_contract_reports_static_api_contract() -> None:
     assert summary["api_contract_defined"] is True
     assert summary["openapi_contract_defined"] is True
     assert summary["api_implemented"] is True
-    assert summary["ui_implemented"] is False
+    assert summary["ui_implemented"] is True
     assert summary["desktop_deferred"] is True
     assert summary["routes_total"] == 14
 
@@ -81,7 +81,8 @@ def test_sprint_66_scope_does_not_implement_http_server_or_frontend() -> None:
 
     assert openapi["x-devpilot"]["server_implemented"] is True
     assert openapi["x-devpilot"]["api_implemented"] is True
-    assert openapi["x-devpilot"]["ui_implemented"] is False
+    assert openapi["x-devpilot"]["ui_implemented"] is True
     assert openapi["x-devpilot"]["default_host"] == "127.0.0.1"
     assert (ROOT / "src" / "devpilot_core" / "interfaces" / "api" / "app.py").exists()
-    assert not (ROOT / "ui" / "web" / "package.json").exists()
+    # Historical Sprint 66 scope did not implement frontend, but FUNC-SPRINT-69 now adds ui/web.
+    assert (ROOT / "ui" / "web" / "package.json").exists()

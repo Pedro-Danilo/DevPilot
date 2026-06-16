@@ -1,0 +1,105 @@
+{
+  "sprint": "FUNC-SPRINT-69",
+  "title": "Web UI MVP: dashboard workspace/readiness/MIASI",
+  "status": "implemented",
+  "implemented_at": "2026-06-15",
+  "summary": {
+    "web_ui_implemented": true,
+    "web_ui_status": "implemented-initial",
+    "web_ui_stack": "vite-typescript-dom-mvp",
+    "web_ui_path": "ui/web",
+    "dashboard_cards": [
+      "workspace",
+      "readiness",
+      "standards",
+      "miasi"
+    ],
+    "ui_api_only": true,
+    "ui_imports_core": false,
+    "ui_read_only": true,
+    "token_header": "X-DevPilot-Token",
+    "token_storage": "browser_session_storage",
+    "api_base_default": "http://127.0.0.1:8787/api/v1",
+    "external_api_used": false,
+    "network_required": false,
+    "requires_node": true,
+    "node_minimum": "20",
+    "httpx2_dependency_update": true,
+    "next_sprint": "FUNC-SPRINT-70"
+  },
+  "created_files": [
+    "ui/web/package.json",
+    "ui/web/index.html",
+    "ui/web/vite.config.ts",
+    "ui/web/src/main.ts",
+    "ui/web/src/api/client.ts",
+    "ui/web/src/api/types.ts",
+    "ui/web/src/pages/Dashboard.ts",
+    "ui/web/src/components/StatusCard.ts",
+    "ui/web/src/components/FindingList.ts",
+    "ui/web/src/styles.css",
+    "ui/web/scripts/smoke-test.mjs",
+    "ui/web/README.md",
+    "tests/test_web_ui_mvp.py",
+    "tests/test_sprint_69_documentation.py",
+    "docs/audits/func_sprint_69_web_ui_dashboard_audit.md",
+    "docs/functional_sprint_69_manifest.json"
+  ],
+  "modified_files": [
+    "README.md",
+    "pyproject.toml",
+    "docs/05_operations/runbook.md",
+    "docs/devpilot_backlog_fase_F_producto_visual.md",
+    "docs/functional_backlog_after_precode.md",
+    "docs/02_architecture/c4_container.md",
+    "docs/07_interfaces/internal_application_contract.md",
+    "docs/07_interfaces/api_contract_v1.md",
+    "docs/07_interfaces/api_service_mapping.md",
+    "docs/07_interfaces/openapi_v1.json",
+    "src/devpilot_core/application/services.py"
+  ],
+  "tests": [
+    "cd ui/web && npm test",
+    "python -m pytest tests/test_web_ui_mvp.py tests/test_sprint_69_documentation.py -q",
+    "python -m pytest tests/test_api_security.py tests/test_api_local.py tests/test_api_contract.py tests/test_web_ui_mvp.py tests/test_sprint_69_documentation.py -q"
+  ],
+  "risks": [
+    "MVP visual, no E2E browser automation yet.",
+    "Token in browser sessionStorage is local MVP only.",
+    "Vite dev server requires npm install for interactive browser use."
+  ],
+  "next_sprint": "FUNC-SPRINT-70 — Report Viewer y Trace Viewer",
+  "phase": "FASE-F-PRODUCTO-VISUAL",
+  "source_repo": "repo_DevPilot_Local_85.zip",
+  "wave": "Fase F — Producto visual",
+  "source_backlog": "docs/devpilot_backlog_fase_F_producto_visual.md",
+  "architectural_decision": {
+    "adr_required": false,
+    "rationale": "FUNC-SPRINT-69 implements the Web UI local MVP under ADR-0013/Web UI first and the Sprint 64 UI/API threat model; it does not change the frontend/API strategy."
+  },
+  "commands": [
+    "python -m devpilot_core api token --json",
+    "python -m devpilot_core api serve --host 127.0.0.1 --port 8787 --execute",
+    "cd ui/web && npm install",
+    "cd ui/web && npm test",
+    "cd ui/web && npm run dev",
+    "python -m pytest tests/test_web_ui_mvp.py tests/test_sprint_69_documentation.py -q",
+    "python -m devpilot_core validate all --json"
+  ],
+  "pass_criteria": [
+    "Dashboard local displays workspace, readiness, standards and MIASI cards.",
+    "Web UI consumes only /api/v1 endpoints and sends X-DevPilot-Token.",
+    "Frontend does not import devpilot_core, Python modules, .devpilot or outputs directly.",
+    "UI remains read-only and exposes no write/execute actions.",
+    "Smoke test and Python contract tests pass.",
+    "README, runbook, backlog, internal contract, audit and manifest remain synchronized."
+  ],
+  "block_criteria": [
+    "Frontend imports Python/core modules or reads local repo files directly.",
+    "Frontend requires external APIs or paid services.",
+    "Dashboard exposes destructive write/execute actions.",
+    "Token is hardcoded or persisted in source files.",
+    "Node/UI installation steps are not documented.",
+    "pyproject dependency state leaves Starlette TestClient warning unresolved by design."
+  ]
+}

@@ -1,13 +1,56 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
 Estado actual: `baseline pre-code approved + Fase A cerrada + Fase B cerrada + Fase C cerrada + Fase D cerrada + Fase E cerrada`  
-Último hito: `FUNC-SPRINT-68 — Seguridad API local: token, CORS restringido y policy binding`  
-Siguiente hito: `FUNC-SPRINT-69 — Web UI MVP: dashboard workspace/readiness/MIASI`  
+Último hito: `FUNC-SPRINT-69 — Web UI MVP: dashboard workspace/readiness/MIASI`  
+Siguiente hito: `FUNC-SPRINT-70 — Report Viewer y Trace Viewer`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
 
 
+
+## FUNC-SPRINT-69 — Web UI MVP: dashboard workspace/readiness/MIASI
+
+Estado: `implemented-initial` / `PASS`.
+
+Sprint 69 crea la primera Web UI local de DevPilot en `ui/web`. Es un dashboard MVP read-only que consume exclusivamente la API local segura `/api/v1` para visualizar workspace, readiness, standards y MIASI. La UI no importa módulos Python/core, no lee filesystem, no accede a `outputs/` ni `.devpilot/`, y no expone acciones destructivas.
+
+Entregables principales:
+
+- `ui/web/package.json`: proyecto Web UI local con scripts `dev`, `build`, `preview` y `test`.
+- `ui/web/src/api/client.ts`: cliente API tipado básico para `/api/v1` con header `X-DevPilot-Token`.
+- `ui/web/src/pages/Dashboard.ts`: dashboard workspace/readiness/standards/MIASI.
+- `ui/web/src/components/StatusCard.ts`: tarjetas PASS/WARN/BLOCK/PENDING.
+- `ui/web/scripts/smoke-test.mjs`: smoke test local ejecutable con Node/npm bajo verificación explícita; `tests/test_web_ui_mvp.py` replica el contrato en Python para que `pytest -q` no falle si Node/npm no están instalados o si `npm` no es invocable desde `PATH` en Windows.
+- `tests/test_web_ui_mvp.py`: pruebas Python de contrato UI/API-only.
+- `docs/audits/func_sprint_69_web_ui_dashboard_audit.md`: auditoría de cierre.
+- `docs/functional_sprint_69_manifest.json`: manifiesto funcional.
+
+Ejecución local resumida:
+
+```powershell
+python -m devpilot_core api token --json
+$env:DEVPILOT_API_TOKEN = "<token-generado>"
+python -m devpilot_core api serve --host 127.0.0.1 --port 8787 --execute
+cd ui/web
+npm install
+npm run dev
+```
+
+
+Verificación frontend opcional desde pytest:
+
+```powershell
+# Gate Python/core, no requiere Node/npm
+python -m pytest tests/test_web_ui_mvp.py -q
+
+# Smoke Node/npm explícito, solo si Node.js/npm están instalados correctamente
+$env:DEVPILOT_RUN_WEB_UI_NPM_TEST = "1"
+python -m pytest tests/test_web_ui_mvp.py -q
+Remove-Item Env:DEVPILOT_RUN_WEB_UI_NPM_TEST
+```
+
+Límites explícitos: Sprint 69 no implementa Report Viewer, Trace Viewer, Approval Center, Settings UI, login/RBAC, persistencia de token fuera del navegador, empaquetado productivo ni Web UI real desplegable. Es una primera versión visual local que debe evolucionar en Sprints 70-73.
 
 
 ## FUNC-SPRINT-68 — Seguridad API local: token, CORS restringido y policy binding

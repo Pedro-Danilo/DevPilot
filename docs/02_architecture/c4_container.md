@@ -2,7 +2,7 @@
 title: "C4 Container — DevPilot Local"
 doc_id: "DEVPL-ARCH-003"
 status: "approved"
-version: "1.5.0"
+version: "1.8.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
@@ -302,6 +302,28 @@ Responsabilidades diferidas:
 - despliegue web real.
 
 El contenedor `Web UI local` continúa `planned-fase-f` para Sprint 69 y no debe importar el core Python directamente.
+
+## Actualización FUNC-SPRINT-69 — Web UI local MVP
+
+Sprint 69 agrega el contenedor `Web UI local` en `ui/web` como interfaz visual canónica de Fase F.
+
+```text
+Browser local
+  → Web UI local ui/web
+  → API local segura /api/v1
+  → ApplicationService
+  → DevPilot Core
+```
+
+Responsabilidades del contenedor Web UI local:
+
+- mostrar dashboard workspace/readiness/standards/MIASI;
+- enviar `X-DevPilot-Token` a la API local;
+- traducir estados técnicos a PASS/WARN/BLOCK/PENDING;
+- no ejecutar acciones destructivas;
+- no importar Python/core ni leer filesystem.
+
+Estado: `implemented-initial`. Report Viewer, Trace Viewer, Approval Center y Settings UI siguen planificados para sprints posteriores.
 
 
 ## Sprint 68 — API local segura secured-initial

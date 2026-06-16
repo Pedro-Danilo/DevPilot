@@ -19,14 +19,14 @@ def test_sprint_65_artifacts_and_global_state_are_synchronized() -> None:
     runbook = read_text("docs/05_operations/runbook.md")
     internal_contract = read_text("docs/07_interfaces/internal_application_contract.md")
 
-    assert "Último hito: `FUNC-SPRINT-68" in readme
-    assert "Siguiente hito: `FUNC-SPRINT-69" in readme
+    assert "Último hito: `FUNC-SPRINT-69" in readme
+    assert "Siguiente hito: `FUNC-SPRINT-70" in readme
     assert "FUNC-SPRINT-65 — ApplicationService v2 por dominios" in readme
-    assert 'source_repo: "repo_DevPilot_Local_84.zip"' in backlog
-    assert 'first_open_sprint: "FUNC-SPRINT-69"' in backlog
-    assert 'last_completed_sprint: "FUNC-SPRINT-68"' in backlog
-    assert 'next_sprint: "FUNC-SPRINT-69"' in backlog
-    assert 'next_sprint: "FUNC-SPRINT-69"' in functional_backlog
+    assert 'source_repo: "repo_DevPilot_Local_85.zip"' in backlog
+    assert 'first_open_sprint: "FUNC-SPRINT-70"' in backlog
+    assert 'last_completed_sprint: "FUNC-SPRINT-69"' in backlog
+    assert 'next_sprint: "FUNC-SPRINT-70"' in backlog
+    assert 'next_sprint: "FUNC-SPRINT-70"' in functional_backlog
     assert "FUNC-SPRINT-65 — Operación de ApplicationService v2 por dominios" in runbook
     assert "Sprint 65 — ApplicationService v2 por dominios" in internal_contract
 
@@ -69,7 +69,8 @@ def test_sprint_65_application_contract_exposes_domains_without_api_or_ui() -> N
     assert payload["summary"]["schema_version"] == "2.0"
     assert payload["summary"]["application_service_v2"] is True
     assert payload["summary"]["api_implemented"] is True
-    assert payload["summary"]["ui_implemented"] is False
+    assert payload["summary"]["ui_implemented"] is True
+    assert payload["summary"]["web_ui_local_implemented"] is True
     assert payload["summary"]["desktop_deferred"] is True
     assert payload["summary"]["external_api_required"] is False
 

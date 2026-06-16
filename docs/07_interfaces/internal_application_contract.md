@@ -356,6 +356,20 @@ Reglas vinculantes:
 
 Estado: `implemented-initial`. La API es suficiente para pruebas HTTP locales y para preparar la Web UI, pero no debe tratarse como superficie segura para exposición pública hasta completar Sprint 68.
 
+## Sprint 69 — Web UI local MVP
+
+`FUNC-SPRINT-69` implementa la primera Web UI local en `ui/web`.
+
+Reglas vinculantes:
+
+1. La UI consume únicamente la API local `/api/v1`.
+2. La UI debe enviar token local mediante `X-DevPilot-Token`.
+3. La UI no puede importar `devpilot_core`, leer `outputs/`, leer `.devpilot/` ni acceder a filesystem.
+4. La UI queda limitada a dashboard workspace/readiness/standards/MIASI.
+5. Las acciones write/execute, Approval Center, Report Viewer y Trace Viewer quedan fuera del sprint.
+
+Estado: `implemented-initial`. Es una primera versión visual local preparada para evolucionar hacia viewers y operación visual en Sprints 70-73.
+
 
 ## Sprint 68 — Seguridad API local secured-initial
 

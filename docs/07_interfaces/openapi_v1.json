@@ -2,7 +2,7 @@
   "openapi": "3.1.0",
   "info": {
     "title": "DevPilot Local API Contract v1",
-    "version": "1.0.0-secured-initial",
+    "version": "1.0.0-web-ui-consumed",
     "description": "Static OpenAPI contract synchronized with the secured-initial local FastAPI MVP. FUNC-SPRINT-68 adds token, restricted CORS, security headers and PolicyEngine binding."
   },
   "servers": [
@@ -47,17 +47,17 @@
     }
   ],
   "x-devpilot": {
-    "sprint": "FUNC-SPRINT-68",
+    "sprint": "FUNC-SPRINT-69",
     "status": "secured-initial",
     "api_implemented": true,
     "server_implemented": true,
-    "ui_implemented": false,
+    "ui_implemented": true,
     "desktop_deferred": true,
     "default_host": "127.0.0.1",
     "external_api_required": false,
     "network_required": false,
     "source_application_contract_schema": "2.0",
-    "source_repo": "repo_DevPilot_Local_84.zip",
+    "source_repo": "repo_DevPilot_Local_85.zip",
     "api_local_mvp_implemented": true,
     "default_port": 8787,
     "token_required": true,
@@ -66,7 +66,9 @@
     "cors_restricted": true,
     "cors_wildcard_enabled": false,
     "policy_binding_enabled": true,
-    "security_headers_enabled": true
+    "security_headers_enabled": true,
+    "web_ui_consumer": "ui/web",
+    "web_ui_mvp_implemented": true
   },
   "paths": {
     "/api/v1/workspace/status": {
@@ -155,6 +157,9 @@
           {
             "LocalTokenAuth": []
           }
+        ],
+        "x-devpilot-consumers": [
+          "ui/web dashboard"
         ]
       }
     },
@@ -268,7 +273,8 @@
           {
             "LocalTokenAuth": []
           }
-        ]
+        ],
+        "x-devpilot-consumers": []
       }
     },
     "/api/v1/validation/artifact": {
@@ -381,7 +387,8 @@
           {
             "LocalTokenAuth": []
           }
-        ]
+        ],
+        "x-devpilot-consumers": []
       }
     },
     "/api/v1/validation/readiness": {
@@ -494,6 +501,9 @@
           {
             "LocalTokenAuth": []
           }
+        ],
+        "x-devpilot-consumers": [
+          "ui/web dashboard"
         ]
       }
     },
@@ -583,6 +593,9 @@
           {
             "LocalTokenAuth": []
           }
+        ],
+        "x-devpilot-consumers": [
+          "ui/web dashboard"
         ]
       }
     },
@@ -672,7 +685,8 @@
           {
             "LocalTokenAuth": []
           }
-        ]
+        ],
+        "x-devpilot-consumers": []
       }
     },
     "/api/v1/review/code": {
@@ -785,7 +799,8 @@
           {
             "LocalTokenAuth": []
           }
-        ]
+        ],
+        "x-devpilot-consumers": []
       }
     },
     "/api/v1/refactor/plan": {
@@ -898,7 +913,8 @@
           {
             "LocalTokenAuth": []
           }
-        ]
+        ],
+        "x-devpilot-consumers": []
       }
     },
     "/api/v1/model/providers": {
@@ -987,7 +1003,8 @@
           {
             "LocalTokenAuth": []
           }
-        ]
+        ],
+        "x-devpilot-consumers": []
       }
     },
     "/api/v1/observability/traces": {
@@ -1088,7 +1105,8 @@
           {
             "LocalTokenAuth": []
           }
-        ]
+        ],
+        "x-devpilot-consumers": []
       }
     },
     "/api/v1/observability/metrics": {
@@ -1189,7 +1207,8 @@
           {
             "LocalTokenAuth": []
           }
-        ]
+        ],
+        "x-devpilot-consumers": []
       }
     },
     "/api/v1/history/runs": {
@@ -1290,7 +1309,8 @@
           {
             "LocalTokenAuth": []
           }
-        ]
+        ],
+        "x-devpilot-consumers": []
       }
     },
     "/api/v1/application/contract": {
@@ -1379,7 +1399,8 @@
           {
             "LocalTokenAuth": []
           }
-        ]
+        ],
+        "x-devpilot-consumers": []
       }
     },
     "/api/v1/standards/status": {
@@ -1468,6 +1489,9 @@
           {
             "LocalTokenAuth": []
           }
+        ],
+        "x-devpilot-consumers": [
+          "ui/web dashboard"
         ]
       }
     }

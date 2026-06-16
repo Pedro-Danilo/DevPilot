@@ -2,7 +2,7 @@
 title: "DevPilot Local — Backlog ejecutable posterior a pre-code"
 doc_id: "DEVPL-FUNC-BACKLOG-001"
 status: "approved"
-version: "4.4.0"
+version: "4.5.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
@@ -14,7 +14,7 @@ change_policy: "controlled_changes_allowed_via_docs_as_code"
 approved_on: "2026-06-06"
 approval_scope: "functional_backlog_after_precode"
 baseline_execution: "FUNC-SPRINT-00"
-next_sprint: "FUNC-SPRINT-69"
+next_sprint: "FUNC-SPRINT-70"
 ---
 
 # DevPilot Local — Backlog ejecutable posterior a pre-code
@@ -26,6 +26,12 @@ Este backlog queda promovido a `approved` el 2026-06-06 como guía ejecutable pa
 La aprobación no congela el documento: cualquier ajuste futuro debe seguir la política docs-as-code definida en MIPSoftware, dejar trazabilidad, actualizar criterios de aceptación cuando aplique y preservar la relación entre producto, requerimientos, arquitectura, seguridad, calidad, operación y MIASI.
 
 La ejecución de `FUNC-SPRINT-00` confirma que el repositorio queda limpio, reproducible y listo para iniciar `FUNC-SPRINT-01 — Arquitectura interna del CLI y modelo común de resultados`.
+
+## Transición posterior a FUNC-SPRINT-69
+
+`FUNC-SPRINT-69 — Web UI MVP: dashboard workspace/readiness/MIASI` queda implementado como primera interfaz visual local de DevPilot. La UI vive en `ui/web`, consume exclusivamente `/api/v1`, envía token local por header y mantiene alcance read-only/API-only.
+
+La siguiente unidad de trabajo es `FUNC-SPRINT-70 — Report Viewer y Trace Viewer`. Ese sprint debe agregar vistas visuales de reportes/trazas/métricas sin permitir que el frontend lea `outputs/` ni filesystem directamente; todo acceso debe pasar por API local segura.
 
 
 ## Transición posterior a FUNC-SPRINT-68

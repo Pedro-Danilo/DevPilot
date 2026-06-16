@@ -3,21 +3,23 @@ title: "DevPilot Local — API Contract v1 preliminar"
 doc_id: "DEVPL-INTERFACE-API-CONTRACT-V1"
 status: "approved"
 approval: "approved_after_func_sprint_68_api_security"
-version: "1.2.0-secured-initial"
+version: "1.3.0-web-ui-consumed"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
 phase: "FASE-F-PRODUCTO-VISUAL"
-sprint: "FUNC-SPRINT-68"
+sprint: "FUNC-SPRINT-69"
 updated: "2026-06-15"
 source_application_contract: "DevPilotApplicationServiceContract 2.0"
-source_repo: "repo_DevPilot_Local_84.zip"
+source_repo: "repo_DevPilot_Local_85.zip"
 api_status: "secured-initial"
 server_implemented: true
 token_required: true
 cors_restricted: true
 policy_binding_enabled: true
-ui_implemented: false
+ui_implemented: true
+web_ui_consumer: "ui/web"
+web_ui_mvp_implemented: true
 desktop_deferred: true
 ---
 
@@ -190,3 +192,15 @@ Estos controles son suficientes para la Web UI local MVP, pero no equivalen a se
 | `RISK-FUNC-68-002` | CORS mal configurado | Tests específicos verifican no wildcard. |
 | `RISK-FUNC-68-003` | Falsa seguridad | Documento declara que no hay RBAC enterprise ni Web real pública. |
 | `RISK-FUNC-68-004` | Policy binding incompleto | `tests/test_api_security.py` valida cobertura de rutas protegidas. |
+
+## Sprint 69 — Consumidor Web UI local
+
+La Web UI local `ui/web` queda registrada como consumidor inicial de este contrato API. Debe cumplir:
+
+- usar `http://127.0.0.1:8787/api/v1` como base local por defecto;
+- enviar `X-DevPilot-Token` en endpoints protegidos;
+- consumir únicamente endpoints declarados;
+- no invocar rutas write/execute;
+- no importar módulos Python/core.
+
+Esta integración es `implemented-initial` y conserva el contrato como API local, no como API pública multiusuario.

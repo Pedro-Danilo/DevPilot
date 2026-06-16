@@ -47,12 +47,15 @@ def test_application_service_blocks_paths_outside_workspace(tmp_path: Path) -> N
         raise AssertionError("Expected ApplicationService to reject outside path")
 
 
-def test_application_contract_is_serializable_and_declares_no_ui() -> None:
+def test_application_contract_is_serializable_and_declares_web_ui_mvp() -> None:
     result = ApplicationService(ROOT).application_contract()
     payload = result.to_dict()
 
     assert result.ok is True
-    assert payload["data"]["summary"]["ui_implemented"] is False
+    assert payload["data"]["summary"]["ui_implemented"] is True
+    assert payload["data"]["summary"]["web_ui_local_implemented"] is True
+    assert payload["data"]["summary"]["web_ui_api_only"] is True
+    assert payload["data"]["summary"]["web_ui_read_only"] is True
     assert payload["data"]["summary"]["visual_strategy"] == "web_ui_first"
     assert payload["data"]["summary"]["api_local_planned"] is True
     assert payload["data"]["summary"]["web_ui_local_planned"] is True
@@ -90,6 +93,7 @@ def test_app_contract_cli_json_and_report_are_parseable(tmp_path: Path, monkeypa
     assert exit_code == 0
     assert payload["command"] == "app contract"
     assert payload["ok"] is True
-    assert payload["data"]["summary"]["ui_implemented"] is False
+    assert payload["data"]["summary"]["ui_implemented"] is True
+    assert payload["data"]["summary"]["web_ui_local_implemented"] is True
     assert payload["data"]["reports"]["json"] == "outputs/reports/app_contract.json"
     assert (ROOT / "outputs" / "reports" / "app_contract.json").is_file()
