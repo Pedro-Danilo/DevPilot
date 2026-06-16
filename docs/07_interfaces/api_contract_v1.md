@@ -218,3 +218,8 @@ api_redaction_enabled: true
 ```
 
 Nuevos endpoints protegidos: `/api/v1/reports`, `/api/v1/reports/{report_id}`, `/api/v1/traces`, `/api/v1/traces/{trace_id}` y `/api/v1/metrics/summary`.
+
+
+## FUNC-SPRINT-71 — Approval Center y Action Launcher
+
+Se agregan rutas `/api/v1/approvals*` y `/api/v1/actions/dry-run`. Approval Center puede listar/crear/aprobar/denegar approvals locales. Action Launcher solo permite readiness, code-review y refactor-plan en dry-run. Acciones críticas permanecen bloqueadas desde Web UI.

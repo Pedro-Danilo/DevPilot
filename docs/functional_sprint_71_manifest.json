@@ -1,0 +1,113 @@
+{
+  "sprint": "FUNC-SPRINT-71",
+  "title": "Approval Center y acciones dry-run desde UI",
+  "status": "implemented",
+  "implemented_at": "2026-06-16",
+  "phase": "FASE-F-PRODUCTO-VISUAL",
+  "source_repo": "repo_DevPilot_Local_89.zip",
+  "wave": "Fase F — Producto visual",
+  "source_backlog": "docs/devpilot_backlog_fase_F_producto_visual.md",
+  "summary": {
+    "approval_center_implemented": true,
+    "approval_center_status": "implemented-initial",
+    "approval_api_routes_total": 5,
+    "dry_run_action_launcher_implemented": true,
+    "dry_run_actions_supported": [
+      "readiness",
+      "code-review",
+      "refactor-plan"
+    ],
+    "critical_actions_blocked_from_ui": true,
+    "blocked_critical_actions": [
+      "patch-apply",
+      "refactor-execute",
+      "rollback-execute",
+      "tests-run-execute",
+      "git-push",
+      "deploy"
+    ],
+    "ui_executes_destructive_actions": false,
+    "ui_imports_core": false,
+    "ui_reads_outputs_directly": false,
+    "ui_reads_devpilot_db_directly": false,
+    "api_token_required": true,
+    "api_policy_binding_enabled": true,
+    "application_service_gateway_only": true,
+    "routes_total": 25,
+    "preliminary": true,
+    "external_api_used": false,
+    "network_required": false,
+    "next_sprint": "FUNC-SPRINT-72"
+  },
+  "architectural_decision": {
+    "adr_required": false,
+    "rationale": "FUNC-SPRINT-71 implements Approval Center and dry-run UI actions under ADR-0013 Web UI first, Sprint 64 UI/API threat model and the existing Fase B approval/policy architecture; it does not change the approved local API/UI boundary or introduce a new execution model."
+  },
+  "created_files": [
+    "src/devpilot_core/application/approval_service.py",
+    "src/devpilot_core/interfaces/api/routers/approvals.py",
+    "ui/web/src/pages/ApprovalCenterView.ts",
+    "ui/web/src/components/DryRunActionForm.ts",
+    "tests/test_api_approvals_actions.py",
+    "tests/test_web_ui_approval_center.py",
+    "tests/test_sprint_71_documentation.py",
+    "docs/audits/func_sprint_71_approval_center_audit.md"
+  ],
+  "modified_files": [
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/devpilot_backlog_fase_F_producto_visual.md",
+    "docs/functional_backlog_after_precode.md",
+    "src/devpilot_core/application/services.py",
+    "src/devpilot_core/interfaces/api/app.py",
+    "src/devpilot_core/interfaces/api/security.py",
+    "src/devpilot_core/interfaces/api/routers/actions.py",
+    "ui/web/src/api/client.ts",
+    "ui/web/src/api/types.ts",
+    "ui/web/src/pages/Dashboard.ts",
+    "ui/web/package.json"
+  ],
+  "deleted_files": [
+    "package-lock.json"
+  ],
+  "commands": [
+    "python -m devpilot_core approval list --json",
+    "python -m pytest tests/test_api_approvals_actions.py tests/test_web_ui_approval_center.py tests/test_sprint_71_documentation.py -q",
+    "cd ui/web && npm test",
+    "python -m devpilot_core schema validate-manifest docs/functional_sprint_71_manifest.json --json",
+    "python -m devpilot_core validate-artifact docs/audits/func_sprint_71_approval_center_audit.md --json",
+    "python -m devpilot_core validate all --json",
+    "python -m pytest -q"
+  ],
+  "tests": [
+    "python -m pytest tests/test_api_approvals_actions.py tests/test_web_ui_approval_center.py tests/test_sprint_71_documentation.py -q",
+    "python -m pytest tests/test_api_security.py tests/test_api_local.py tests/test_api_contract.py tests/test_api_reports_traces.py tests/test_api_approvals_actions.py tests/test_web_ui_mvp.py tests/test_web_ui_report_trace_viewer.py tests/test_web_ui_approval_center.py tests/test_application_services.py tests/test_application_services_v2.py -q",
+    "python -m pytest tests/test_sprint_*_documentation.py tests/test_phase_f_web_first_strategy.py -q",
+    "cd ui/web && npm test",
+    "python -m devpilot_core validate all --json"
+  ],
+  "pass_criteria": [
+    "Approval Center lists pending/approved/denied/revoked approval requests through /api/v1/approvals endpoints only.",
+    "Approval request/approve/deny operations are exposed through ApplicationService and policy-bound API routes.",
+    "Action Launcher supports only safe dry-run actions: readiness, code-review and refactor-plan.",
+    "Critical actions such as patch apply, refactor execute, rollback execute, git push and deploy are blocked from UI/API without creating a bypass.",
+    "Every approval mutation produces an auditable ApplicationResponse and uses the existing local approval store.",
+    "Web UI does not import devpilot_core, does not read outputs/ directly and does not access .devpilot database directly.",
+    "README, runbook, backlog, OpenAPI, API contract, mapping, audit and manifest remain synchronized."
+  ],
+  "block_criteria": [
+    "Block if Web UI can execute critical/destructive actions without approval.",
+    "Block if patch apply/refactor execute/rollback execute/git push/deploy are available from UI.",
+    "Block if approval_id or token-like values are logged or rendered unsafely.",
+    "Block if API bypasses ApplicationService or PolicyEngine for dry-run actions.",
+    "Block if UI imports Python/core modules or reads local filesystem paths directly."
+  ],
+  "risks": [
+    "Approval Center is an initial local MVP, not a multi-user RBAC workflow.",
+    "Browser token handling remains local-session based and must not be treated as enterprise authentication.",
+    "Dry-run action launcher intentionally exposes a small allowlist; broader actions require future policy/approval UX.",
+    "Approval evidence is local and should evolve toward richer trace/report correlation in later sprints.",
+    "Human approval state depends on the local workspace store and should be backed up with the rest of .devpilot state."
+  ],
+  "next_sprint": "FUNC-SPRINT-72 — Settings UI: workspace, providers y políticas locales"
+}

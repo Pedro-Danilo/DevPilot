@@ -98,6 +98,12 @@ API_ROUTE_POLICIES: dict[tuple[str, str], ApiRoutePolicy] = {
     ("POST", "/api/v1/validation/readiness"): ApiRoutePolicy("validation.readiness", "read", "protected-validation"),
     ("POST", "/api/v1/review/code"): ApiRoutePolicy("review.code", "read", "protected-dry-run"),
     ("POST", "/api/v1/refactor/plan"): ApiRoutePolicy("refactor.plan", "read", "protected-plan-only"),
+    ("GET", "/api/v1/approvals"): ApiRoutePolicy("approvals.list", "approval", "protected-approval", path_subject=".devpilot/devpilot.db"),
+    ("GET", "/api/v1/approvals/{approval_id}"): ApiRoutePolicy("approvals.show", "approval", "protected-approval", path_subject=".devpilot/devpilot.db"),
+    ("POST", "/api/v1/approvals/request"): ApiRoutePolicy("approvals.request", "approval", "protected-approval-write", path_subject=".devpilot/devpilot.db"),
+    ("POST", "/api/v1/approvals/{approval_id}/approve"): ApiRoutePolicy("approvals.approve", "approval", "protected-approval-write", path_subject=".devpilot/devpilot.db"),
+    ("POST", "/api/v1/approvals/{approval_id}/deny"): ApiRoutePolicy("approvals.deny", "approval", "protected-approval-write", path_subject=".devpilot/devpilot.db"),
+    ("POST", "/api/v1/actions/dry-run"): ApiRoutePolicy("ui.actions.dry_run", "read", "protected-dry-run"),
 }
 
 
@@ -205,8 +211,15 @@ def resolve_route_policy(method: str, path: str) -> ApiRoutePolicy | None:
     if normalized in API_ROUTE_POLICIES:
         return API_ROUTE_POLICIES[normalized]
     if method.upper() == "GET":
+        if path.startswith("/api/v1/approvals/") and path.count("/") == 4:
+            return API_ROUTE_POLICIES.get(("GET", "/api/v1/approvals/{approval_id}"))
         if path.startswith("/api/v1/reports/") and path.count("/") == 4:
             return API_ROUTE_POLICIES.get(("GET", "/api/v1/reports/{report_id}"))
         if path.startswith("/api/v1/traces/") and path.count("/") == 4:
             return API_ROUTE_POLICIES.get(("GET", "/api/v1/traces/{trace_id}"))
+    if method.upper() == "POST" and path.startswith("/api/v1/approvals/"):
+        if path.endswith("/approve") and path.count("/") == 5:
+            return API_ROUTE_POLICIES.get(("POST", "/api/v1/approvals/{approval_id}/approve"))
+        if path.endswith("/deny") and path.count("/") == 5:
+            return API_ROUTE_POLICIES.get(("POST", "/api/v1/approvals/{approval_id}/deny"))
     return None

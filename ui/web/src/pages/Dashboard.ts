@@ -3,6 +3,7 @@ import type { DashboardSnapshot, DevPilotApplicationResponse } from '../api/type
 import { renderFindingList } from '../components/FindingList';
 import { renderStatusCard } from '../components/StatusCard';
 import { renderReportTraceView } from './ReportTraceView';
+import { renderApprovalCenterView } from './ApprovalCenterView';
 
 interface DashboardState {
   loading: boolean;
@@ -73,6 +74,7 @@ export function renderDashboard(root: HTMLElement): void {
       .filter((finding) => ['warning', 'block', 'error'].includes(String(finding.severity).toLowerCase()));
     root.append(renderFindingList(allFindings));
     root.append(renderReportTraceView(() => state.token));
+    root.append(renderApprovalCenterView(() => state.token));
   }
 
   draw();
@@ -89,7 +91,7 @@ function renderHeader(state: DashboardState, refresh: () => Promise<void>): HTML
   const title = document.createElement('h1');
   title.textContent = 'DevPilot Local Dashboard';
   const subtitle = document.createElement('p');
-  subtitle.textContent = 'Sprint 70 MVP · workspace/readiness/standards/MIASI/reportes/trazas · API-only · read-only';
+  subtitle.textContent = 'Sprint 71 MVP · workspace/readiness/standards/MIASI/reportes/trazas/approvals · API-only · dry-run';
   titleBlock.append(title, subtitle);
 
   const form = document.createElement('form');

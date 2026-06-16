@@ -99,3 +99,26 @@ Regla: el frontend no puede saltar este mapping ni llamar módulos internos.
 | API-METRICS-SUMMARY | GET | `/api/v1/metrics/summary` | `observability.metrics_summary` | `ObservabilityApplicationService` | Token + límites |
 
 Regla: UI no lee `outputs/` ni `.devpilot/`; todo pasa por API local.
+
+
+## Mapeo FUNC-SPRINT-71
+
+| Endpoint | Operación | Servicio | Control |
+|---|---|---|---|
+| `/api/v1/approvals` | `approvals.list` | `ApprovalApplicationService` | Token + policy binding |
+| `/api/v1/approvals/request` | `approvals.request` | `ApprovalApplicationService` | Registro auditado local |
+| `/api/v1/approvals/{approval_id}/approve` | `approvals.approve` | `ApprovalApplicationService` | Transición controlada |
+| `/api/v1/approvals/{approval_id}/deny` | `approvals.deny` | `ApprovalApplicationService` | Transición controlada |
+| `/api/v1/actions/dry-run` | `ui.actions.dry_run` | `ApplicationService` | Dry-run only + PolicyEngine |
+
+
+## Policy/gate mapping FUNC-SPRINT-71
+
+| API ID | Endpoint | Operación | Servicio | Policy/gate |
+|---|---|---|---|---|
+| API-APPROVALS-LIST | `/api/v1/approvals` | `approvals.list` | `ApprovalApplicationService` | Policy/gate: token + CORS + API_ROUTE_POLICIES |
+| API-APPROVALS-SHOW | `/api/v1/approvals/{approval_id}` | `approvals.show` | `ApprovalApplicationService` | Policy/gate: token + CORS + API_ROUTE_POLICIES |
+| API-APPROVALS-REQUEST | `/api/v1/approvals/request` | `approvals.request` | `ApprovalApplicationService` | Policy/gate: token + approval workflow validation |
+| API-APPROVALS-APPROVE | `/api/v1/approvals/{approval_id}/approve` | `approvals.approve` | `ApprovalApplicationService` | Policy/gate: controlled state transition |
+| API-APPROVALS-DENY | `/api/v1/approvals/{approval_id}/deny` | `approvals.deny` | `ApprovalApplicationService` | Policy/gate: controlled state transition |
+| API-ACTIONS-DRY-RUN | `/api/v1/actions/dry-run` | `ui.actions.dry_run` | `ApplicationService` | Policy/gate: PolicyEngine dry-run; no patch execution |

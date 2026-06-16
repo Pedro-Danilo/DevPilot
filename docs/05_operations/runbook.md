@@ -4088,3 +4088,33 @@ Criterios BLOCK: no exponer secretos, no permitir lectura directa del filesystem
 3. Pegar en la Web UI exactamente el mismo token real.
 4. Si la API responde `401`, el token del navegador no coincide con `DEVPILOT_API_TOKEN`.
 5. Desde Sprint 70, las respuestas `401/403` originadas por seguridad API agregan CORS restringido para `http://127.0.0.1:5173` y `http://localhost:5173`; esto permite que el frontend muestre un error HTTP diagnosticable en vez de un `Failed to fetch` opaco.
+
+
+## FUNC-SPRINT-71 — Operación de Approval Center y Action Launcher
+
+### Propósito
+
+Operar la primera versión visual de aprobación humana local y acciones dry-run desde la Web UI. Esta versión es preliminar: no implementa RBAC multiusuario, no ejecuta acciones destructivas desde frontend y no reemplaza los flujos CLI gobernados.
+
+### Comandos de verificación
+
+```powershell
+python -m devpilot_core approval list --json
+python -m pytest tests/test_api_approvals_actions.py tests/test_web_ui_approval_center.py tests/test_sprint_71_documentation.py -q
+cd ui/web
+npm test
+```
+
+### Uso operativo
+
+1. Genere y configure `DEVPILOT_API_TOKEN`.
+2. Levante `python -m devpilot_core api serve --host 127.0.0.1 --port 8787 --execute`.
+3. Levante `npm run dev` desde `ui/web`.
+4. Use Approval Center para listar o crear approvals locales.
+5. Use Action Launcher solo para readiness, code-review y refactor-plan en dry-run.
+
+### Criterios BLOCK
+
+- Bloquear si la UI invoca endpoints de ejecución destructiva.
+- Bloquear si una acción crítica se ejecuta sin approval válido.
+- Bloquear si se exponen tokens o secretos en resultados visuales.

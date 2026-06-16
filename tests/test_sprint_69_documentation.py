@@ -23,14 +23,14 @@ def test_sprint_69_artifacts_and_global_state_are_synchronized() -> None:
     runbook = _read("docs/05_operations/runbook.md")
     internal_contract = _read("docs/07_interfaces/internal_application_contract.md")
 
-    assert "Último hito: `FUNC-SPRINT-70" in readme
-    assert "Siguiente hito: `FUNC-SPRINT-71" in readme
+    assert "Último hito: `FUNC-SPRINT-71" in readme
+    assert "Siguiente hito: `FUNC-SPRINT-72" in readme
     assert "FUNC-SPRINT-69 — Web UI MVP" in readme
-    assert 'source_repo: "repo_DevPilot_Local_88.zip"' in backlog
-    assert 'first_open_sprint: "FUNC-SPRINT-71"' in backlog
-    assert 'last_completed_sprint: "FUNC-SPRINT-70"' in backlog
-    assert 'next_sprint: "FUNC-SPRINT-71"' in backlog
-    assert 'next_sprint: "FUNC-SPRINT-71"' in functional_backlog
+    assert 'source_repo: "repo_DevPilot_Local_89.zip"' in backlog
+    assert 'first_open_sprint: "FUNC-SPRINT-72"' in backlog
+    assert 'last_completed_sprint: "FUNC-SPRINT-71"' in backlog
+    assert 'next_sprint: "FUNC-SPRINT-72"' in backlog
+    assert 'next_sprint: "FUNC-SPRINT-72"' in functional_backlog
     assert "FUNC-SPRINT-69 — Operación de Web UI MVP" in runbook
     assert "Sprint 69 — Web UI local MVP" in internal_contract
 
@@ -89,6 +89,10 @@ def test_sprint_69_audit_and_web_readme_document_limits() -> None:
 
     assert "Veredicto: `PASS`" in audit
     assert "API-only" in audit
-    assert "No implementa Report Viewer" in web_readme
+    # Historical Sprint 69 scope remains preserved in the Sprint 69 audit, while
+    # the current Web UI README legitimately evolves after Sprint 70/71.
+    assert "Report Viewer y Trace Viewer no están implementados todavía" in audit
+    assert "Report Viewer y Trace Viewer" in web_readme
+    assert "Approval Center" in web_readme
     assert "npm test" in web_readme
     assert "DEVPILOT_API_TOKEN" in web_readme

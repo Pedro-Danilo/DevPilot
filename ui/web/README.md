@@ -1,28 +1,29 @@
 ---
-title: "DevPilot Local Web UI Sprint 69 MVP"
-doc_id: "DEVPL-UI-WEB-README-FUNC-SPRINT-69"
+
+title: "DevPilot Local Web UI Sprint 71 MVP"
+doc_id: "DEVPL-UI-WEB-README-FUNC-SPRINT-71"
 status: "approved"
 approval: "approved_by_implementation_validation"
-version: "0.1.0"
+version: "0.3.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
 phase: "FASE-F-PRODUCTO-VISUAL"
-sprint: "FUNC-SPRINT-69"
-updated: "2026-06-15"
+sprint: "FUNC-SPRINT-71"
+updated: "2026-06-16"
 ---
 
-# DevPilot Local Web UI — Sprint 69 MVP
+# DevPilot Local Web UI — Sprint 71 MVP
 
 ## Propósito
 
-Documentar la ejecución local de la Web UI MVP de DevPilot, su contrato API-only, los límites read-only y los comandos mínimos de verificación.
+Documentar la ejecución local de la Web UI MVP de DevPilot, su contrato API-only, los límites de seguridad, los viewers operacionales y las acciones dry-run permitidas desde navegador local.
 
 ## Estado
 
-`implemented-initial` para `FUNC-SPRINT-69 — Web UI MVP: dashboard workspace/readiness/MIASI`.
+`implemented-initial` para `FUNC-SPRINT-71 — Approval Center y acciones dry-run desde UI`.
 
-Esta Web UI local es una primera versión visual. Consume exclusivamente la API local `/api/v1`, no importa Python/core, no lee `outputs/`, no toca `.devpilot/` y no ejecuta acciones destructivas.
+Esta Web UI local es una primera versión visual industrializable. Consume exclusivamente la API local `/api/v1`, no importa Python/core, no lee `outputs/`, no toca `.devpilot/` directamente y mantiene bloqueadas las acciones críticas/destructivas. Sprint 71 permite únicamente acciones seguras en modo dry-run mediante allowlist.
 
 ## Requisitos
 
@@ -61,11 +62,19 @@ cd ui/web
 npm test
 ```
 
-El smoke test es deliberadamente dependency-light y no requiere instalar paquetes. Valida que la UI conserve el contrato API-only/read-only y que no importe módulos Python/core.
+El smoke test es deliberadamente dependency-light y no requiere instalar paquetes. Valida que la UI conserve el contrato API-only, no importe módulos Python/core, mantenga Report/Trace Viewer y exponga Approval Center/Action Launcher sin habilitar acciones críticas.
+
+## Capacidades visuales actuales
+
+- Dashboard workspace/readiness/standards/MIASI.
+- Report Viewer y Trace Viewer sobre API local, sin lectura directa del filesystem desde UI.
+- Métricas AgentOps resumidas.
+- Approval Center para listar, crear y decidir solicitudes de aprobación locales.
+- Action Launcher limitado a `readiness`, `code-review` y `refactor-plan` en modo dry-run.
 
 ## Límites
 
-- No implementa login/RBAC.
+- No implementa login/RBAC multiusuario.
 - No persiste token fuera de `sessionStorage` del navegador.
-- No implementa Report Viewer ni Trace Viewer; quedan para Sprint 70.
-- No ejecuta acciones write/execute.
+- No habilita `patch apply`, `refactor execute`, `rollback execute`, `git push` ni `deploy` desde UI.
+- Approval Center es una primera versión local; la correlación avanzada approval↔trace↔report debe evolucionar en sprints posteriores.

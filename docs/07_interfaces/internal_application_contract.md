@@ -391,3 +391,8 @@ Reglas: los endpoints protegidos requieren token, CORS no puede usar wildcard po
 ## Sprint 70 — Report Viewer y Trace Viewer
 
 Se agregan operaciones `reports.list`, `reports.read` y `observability.trace_inspect` al contrato de aplicación. La Web UI consume estas operaciones exclusivamente por `/api/v1`, manteniendo redacción, límites y separación UI/API/core.
+
+
+## Sprint 71 — Approval Center y dry-run launcher
+
+`ApplicationService` expone `approvals.*` y `ui.actions.dry_run` como frontera interna para API/Web UI. La UI no importa módulos core ni ejecuta acciones críticas.

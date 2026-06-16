@@ -1,8 +1,8 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
 Estado actual: `baseline pre-code approved + Fase A cerrada + Fase B cerrada + Fase C cerrada + Fase D cerrada + Fase E cerrada`  
-Último hito: `FUNC-SPRINT-70 — Report Viewer y Trace Viewer`  
-Siguiente hito: `FUNC-SPRINT-71 — Approval Center y acciones dry-run desde UI`  
+Último hito: `FUNC-SPRINT-71 — Approval Center y acciones dry-run desde UI`  
+Siguiente hito: `FUNC-SPRINT-72 — Settings UI: workspace, providers y políticas locales`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.

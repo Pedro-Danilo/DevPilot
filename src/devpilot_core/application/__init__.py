@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from .approval_service import ApprovalApplicationService
 from .dtos import ApplicationRequest, ApplicationResponse, InterfaceRouteContract, ServiceCapability
 from .evals_service import EvaluationApplicationService
 from .history_service import HistoryApplicationService
@@ -15,6 +16,7 @@ from .validation_service import ValidationApplicationService
 from .workspace_service import WorkspaceApplicationService
 
 __all__ = [
+    "ApprovalApplicationService",
     "ApplicationRequest",
     "ApplicationResponse",
     "ApplicationService",

@@ -9,7 +9,7 @@ from fastapi.responses import JSONResponse
 
 from devpilot_core.application import ApplicationService
 
-from .routers import actions, reports, status, traces, validation
+from .routers import actions, approvals, reports, status, traces, validation
 from .security import (
     API_ROUTE_POLICIES,
     DEFAULT_ALLOWED_ORIGINS,
@@ -37,7 +37,7 @@ def _security_json_response(request: Request, payload: dict[str, Any], status_co
 
     The auth/policy middleware is intentionally outside route handlers. When it
     blocks a request before FastAPI reaches the router, Starlette's CORS
-    middleware may not decorate the early response. Sprint 70 keeps the Web UI
+    middleware may not decorate the early response. Sprint 70/71 keeps the Web UI
     debuggable by adding restricted CORS headers only for allow-listed local
     origins; this prevents browsers from collapsing 401/403 responses into a
     generic `Failed to fetch` network error.
@@ -72,8 +72,8 @@ def create_app(
     security_config = resolve_api_security_config(token=api_token, allowed_origins=allowed_origins)
     app = FastAPI(
         title="DevPilot Local API",
-        version="1.0.0-report-trace-viewer",
-        description="Local secured MVP API for DevPilot read-only/dry-run operations, Report Viewer and Trace Viewer. Sprint 70 implementation.",
+        version="1.0.0-approval-center",
+        description="Local secured MVP API for DevPilot read-only/dry-run operations, Report/Trace Viewer and Approval Center. Sprint 71 implementation.",
         openapi_url="/api/v1/openapi.json",
         docs_url="/api/v1/docs",
         redoc_url=None,
@@ -140,6 +140,7 @@ def create_app(
     app.include_router(status.router)
     app.include_router(validation.router)
     app.include_router(actions.router)
+    app.include_router(approvals.router)
     app.include_router(reports.router)
     app.include_router(traces.router)
 
@@ -148,7 +149,7 @@ def create_app(
         return {
             "ok": True,
             "service": "devpilot-local-api",
-            "sprint": "FUNC-SPRINT-70",
+            "sprint": "FUNC-SPRINT-71",
             "api_implemented": True,
             "api_security_implemented": True,
             "host_default": DEFAULT_API_HOST,
@@ -158,6 +159,9 @@ def create_app(
             "external_api_required": False,
             "report_viewer_implemented": True,
             "trace_viewer_implemented": True,
+            "approval_center_implemented": True,
+            "dry_run_action_launcher_implemented": True,
+            "critical_actions_blocked_from_ui": True,
         }
 
     return app

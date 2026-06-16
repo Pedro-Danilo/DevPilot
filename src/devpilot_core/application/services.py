@@ -4,7 +4,9 @@ from pathlib import Path
 from typing import Any, Callable
 
 from devpilot_core.cli_models import CommandResult, ExitCode, Finding, Severity
+from devpilot_core.policy import PolicyEngine, PolicyRequest
 
+from .approval_service import ApprovalApplicationService
 from .dtos import ApplicationRequest, ApplicationResponse, InterfaceRouteContract, ServiceCapability
 from .evals_service import EvaluationApplicationService
 from .history_service import HistoryApplicationService
@@ -56,6 +58,7 @@ class ApplicationService:
         self.evals = EvaluationApplicationService(self.root)
         self.repo = RepoApplicationService(self.root)
         self.reports = ReportsApplicationService(self.root)
+        self.approvals = ApprovalApplicationService(self.root)
         self.review = ReviewApplicationService(self.root)
         self.refactor = RefactorApplicationService(self.root)
         self.model = ModelApplicationService(self.root)
@@ -102,6 +105,140 @@ class ApplicationService:
 
     def model_providers(self) -> CommandResult:
         return self.model.providers()
+
+    def approvals_list(self, *, status: str | None = None, tool_id: str | None = None, action: str | None = None, limit: int = 100) -> CommandResult:
+        return self.approvals.list(status=status, tool_id=tool_id, action=action, limit=limit)
+
+    def approvals_show(self, *, approval_id: str) -> CommandResult:
+        return self.approvals.show(approval_id=approval_id)
+
+    def approvals_request(
+        self,
+        *,
+        tool_id: str,
+        action: str,
+        subject: str,
+        actor: str,
+        reason: str,
+        scope: str | None = None,
+        expires_at: str | None = None,
+        ttl_minutes: int = 60,
+    ) -> CommandResult:
+        return self.approvals.request(tool_id=tool_id, action=action, subject=subject, actor=actor, reason=reason, scope=scope, expires_at=expires_at, ttl_minutes=ttl_minutes)
+
+    def approvals_decide(self, *, approval_id: str, decision: str, actor: str, reason: str) -> CommandResult:
+        return self.approvals.decide(approval_id=approval_id, decision=decision, actor=actor, reason=reason)
+
+    def ui_action_dry_run(self, *, action_id: str, payload: dict[str, Any] | None = None) -> CommandResult:
+        """Run a UI-launched safe action in dry-run/read-only mode only.
+
+        The UI may trigger only deterministic read/dry-run actions. Critical
+        execution actions are evaluated through PolicyEngine and then blocked by
+        the Sprint 71 UI contract even when an approval id is supplied; actual
+        execution remains CLI/API governed by later explicit workflows.
+        """
+
+        action_payload = dict(payload or {})
+        normalized = str(action_id or action_payload.get("action_id") or "").strip().lower()
+        target = str(action_payload.get("target") or ".")
+        goal = str(action_payload.get("goal") or "")
+        approval_id = str(action_payload.get("approval_id") or "").strip() or None
+        safe_actions = {
+            "readiness": ("validation.readiness", lambda: self.readiness(strict=bool(action_payload.get("strict", True))), "readiness-check"),
+            "validation.readiness": ("validation.readiness", lambda: self.readiness(strict=bool(action_payload.get("strict", True))), "readiness-check"),
+            "code-review": ("review.code", lambda: self.code_review(target=target), "code-review"),
+            "review.code": ("review.code", lambda: self.code_review(target=target), "code-review"),
+            "refactor-plan": ("refactor.plan", lambda: self.refactor_plan(target=target, goal=goal, include_code_review=bool(action_payload.get("include_code_review", True))), "safe-refactor-plan"),
+            "refactor.plan": ("refactor.plan", lambda: self.refactor_plan(target=target, goal=goal, include_code_review=bool(action_payload.get("include_code_review", True))), "safe-refactor-plan"),
+        }
+        critical_actions = {
+            "patch-apply": "patch.apply",
+            "patch.apply": "patch.apply",
+            "refactor-execute": "refactor.execute",
+            "refactor.execute": "refactor.execute",
+            "rollback-execute": "rollback.execute",
+            "rollback.execute": "rollback.execute",
+            "tests-run-execute": "tests.run",
+            "tests.run.execute": "tests.run",
+            "git-push": "git.push",
+            "deploy": "deploy",
+        }
+        if normalized in safe_actions:
+            operation, runner, tool_id = safe_actions[normalized]
+            policy_result = PolicyEngine(self.root).evaluate(
+                PolicyRequest(
+                    action="read",
+                    path=target if target else None,
+                    dry_run=True,
+                    approval_id=approval_id,
+                    tool_id=tool_id,
+                    subject=operation,
+                    metadata={"component": "WebUIActionLauncher", "sprint": "FUNC-SPRINT-71", "api_operation": "ui.actions.dry_run", "ui_dry_run": True},
+                )
+            )
+            if not policy_result.ok:
+                return CommandResult(
+                    command="ui action dry-run",
+                    ok=False,
+                    exit_code=policy_result.exit_code,
+                    message="PolicyEngine blocked the UI dry-run action.",
+                    data={"summary": {"action_id": normalized, "operation": operation, "dry_run": True, "policy_allowed": False, "preliminary": True}, "policy": policy_result.data},
+                    findings=policy_result.findings,
+                )
+            result = runner()
+            merged_data = dict(result.data or {})
+            merged_data["action_launcher"] = {
+                "action_id": normalized,
+                "operation": operation,
+                "tool_id": tool_id,
+                "dry_run": True,
+                "critical": False,
+                "policy_binding": True,
+                "policy_allowed": True,
+                "approval_id_provided": bool(approval_id),
+                "ui_execution_enabled": False,
+                "preliminary": True,
+            }
+            return CommandResult(command="ui action dry-run", ok=result.ok, exit_code=result.exit_code, message=result.message, data=merged_data, findings=result.findings)
+
+        if normalized in critical_actions:
+            tool_id = critical_actions[normalized]
+            policy_result = PolicyEngine(self.root).evaluate(
+                PolicyRequest(
+                    action="execute",
+                    path=target if target else None,
+                    dry_run=True,
+                    approval_id=approval_id,
+                    tool_id=tool_id,
+                    subject=tool_id,
+                    metadata={"component": "WebUIActionLauncher", "sprint": "FUNC-SPRINT-71", "critical_action_requested": True},
+                )
+            )
+            findings = list(policy_result.findings) + [
+                Finding(
+                    "UI_CRITICAL_ACTION_DISABLED_BLOCK",
+                    "The Web UI cannot execute critical actions; use governed CLI/API workflows with explicit approval in future sprints.",
+                    Severity.BLOCK,
+                    metadata={"action_id": normalized, "tool_id": tool_id, "dry_run": True, "approval_id_provided": bool(approval_id)},
+                )
+            ]
+            return CommandResult(
+                command="ui action dry-run",
+                ok=False,
+                exit_code=ExitCode.BLOCK,
+                message="Critical actions are blocked from the Web UI.",
+                data={"summary": {"action_id": normalized, "tool_id": tool_id, "dry_run": True, "critical": True, "policy_binding": True, "policy_allowed": policy_result.ok, "ui_execution_enabled": False, "preliminary": True}, "policy": policy_result.data},
+                findings=findings,
+            )
+
+        return CommandResult(
+            command="ui action dry-run",
+            ok=False,
+            exit_code=ExitCode.BLOCK,
+            message="Requested UI action is not exposed by the Sprint 71 dry-run contract.",
+            data={"summary": {"action_id": normalized, "supported": False, "dry_run": True, "preliminary": True}, "supported_actions": sorted(safe_actions)},
+            findings=[Finding("UI_ACTION_NOT_EXPOSED_BLOCK", "The requested action is not exposed by the UI dry-run launcher.", Severity.BLOCK, metadata={"action_id": normalized})],
+        )
 
     def reports_list(self, *, limit: int = 50, severity: str | None = None, status: str | None = None, command: str | None = None) -> CommandResult:
         return self.reports.list_reports(limit=limit, severity=severity, status=status, command=command)
@@ -212,6 +349,11 @@ class ApplicationService:
                 "report_viewer_implemented": True,
                 "trace_viewer_implemented": True,
                 "report_trace_viewer_status": "implemented-initial",
+                "approval_center_implemented": True,
+                "approval_center_status": "implemented-initial",
+                "dry_run_action_launcher_implemented": True,
+                "web_ui_actions_dry_run_only": True,
+                "web_ui_critical_actions_blocked": True,
                 "web_ui_reports_api_only": True,
                 "web_ui_traces_api_only": True,
                 "external_api_required": False,
@@ -230,6 +372,7 @@ class ApplicationService:
             },
             "preliminary": True,
             "notes": [
+                "FUNC-SPRINT-71 adds Approval Center and a dry-run Action Launcher; critical execution remains blocked from the Web UI.",
                 "FUNC-SPRINT-70 adds Report Viewer and Trace Viewer over local API only; the UI does not read outputs/ directly.",
                 "FUNC-SPRINT-69 adds a local Web UI MVP under ui/web that consumes only /api/v1 and remains read-only.",
                 "FUNC-SPRINT-65 exposes domain application services for future API local and Web UI integration.",
@@ -244,12 +387,12 @@ class ApplicationService:
             command="app contract",
             ok=True,
             exit_code=ExitCode.PASS,
-            message="Application service v2 contract is available for CLI, secured local API MVP and future Web UI shells; desktop is deferred.",
+            message="Application service v2 contract is available for CLI, secured local API MVP, Web UI viewers and Approval Center; desktop is deferred.",
             data=data,
             findings=[
                 Finding(
                     id="APP_CONTRACT_V2_PASS",
-                    message="ApplicationService v2 exposes domain facades plus secured-initial local API route contracts without implementing Web UI.",
+                    message="ApplicationService v2 exposes domain facades plus secured local API route contracts, Web UI viewers and Approval Center.",
                     severity=Severity.INFO,
                     metadata={"domains_total": len(domains), "capabilities_total": len(capabilities)},
                 )
@@ -289,6 +432,12 @@ def _operation_dispatch(service: ApplicationService) -> dict[str, OperationHandl
         "repo.inventory": lambda payload: service.repo_inventory(),
         "reports.list": lambda payload: service.reports_list(limit=int(payload.get("limit", 50)), severity=payload.get("severity"), status=payload.get("status"), command=payload.get("command")),
         "reports.read": lambda payload: service.reports_read(report_id=str(payload.get("report_id", "")), format=str(payload.get("format", "json")), max_chars=int(payload.get("max_chars", 20000))),
+        "approvals.list": lambda payload: service.approvals_list(status=payload.get("status"), tool_id=payload.get("tool_id"), action=payload.get("action"), limit=int(payload.get("limit", 100))),
+        "approvals.show": lambda payload: service.approvals_show(approval_id=str(payload.get("approval_id", ""))),
+        "approvals.request": lambda payload: service.approvals_request(tool_id=str(payload.get("tool_id", "")), action=str(payload.get("action", "")), subject=str(payload.get("subject", "")), actor=str(payload.get("actor", "ui-local")), reason=str(payload.get("reason", "Requested from UI.")), scope=payload.get("scope"), expires_at=payload.get("expires_at"), ttl_minutes=int(payload.get("ttl_minutes", 60))),
+        "approvals.approve": lambda payload: service.approvals_decide(approval_id=str(payload.get("approval_id", "")), decision="approved", actor=str(payload.get("actor", "ui-local")), reason=str(payload.get("reason", "Approved from UI."))),
+        "approvals.deny": lambda payload: service.approvals_decide(approval_id=str(payload.get("approval_id", "")), decision="denied", actor=str(payload.get("actor", "ui-local")), reason=str(payload.get("reason", "Denied from UI."))),
+        "ui.actions.dry_run": lambda payload: service.ui_action_dry_run(action_id=str(payload.get("action_id", "")), payload=payload),
         "repo.analyze": lambda payload: service.repo_analyze(target=str(payload.get("target", "."))),
         "review.code": lambda payload: service.code_review(target=str(payload.get("target", "."))),
         "refactor.plan": lambda payload: service.refactor_plan(target=str(payload.get("target", ".")), goal=str(payload.get("goal", "")), include_code_review=bool(payload.get("include_code_review", True))),
@@ -308,6 +457,7 @@ def _domain_summaries() -> list[dict[str, Any]]:
         {"domain": "evals", "service": "EvaluationApplicationService", "status": "implemented-initial", "side_effects": "bounded_local_outputs_for_eval_workdir"},
         {"domain": "repo", "service": "RepoApplicationService", "status": "implemented-initial", "side_effects": "read_only"},
         {"domain": "reports", "service": "ReportsApplicationService", "status": "implemented-initial", "side_effects": "read_only_redacted_outputs_reports"},
+        {"domain": "approvals", "service": "ApprovalApplicationService", "status": "implemented-initial", "side_effects": "approval_store_state_transition_audited"},
         {"domain": "review", "service": "ReviewApplicationService", "status": "implemented-initial", "side_effects": "dry_run_static_analysis"},
         {"domain": "refactor", "service": "RefactorApplicationService", "status": "implemented-initial", "side_effects": "plan_only"},
         {"domain": "model", "service": "ModelApplicationService", "status": "implemented-initial", "side_effects": "mock_or_local_governed_calls"},
@@ -335,6 +485,12 @@ def _capabilities() -> list[ServiceCapability]:
         ("repo.inventory", "Build local repository inventory.", "none", True, "python -m devpilot_core repo inventory --json"),
         ("reports.list", "List redacted local evidence reports under outputs/reports.", "none", True, "python -m devpilot_core reports list --json"),
         ("reports.read", "Read one redacted local evidence report by id and format.", "none", True, "python -m devpilot_core reports read <report_id> --json"),
+        ("approvals.list", "List local human approval records for Approval Center.", "read_only", True, "python -m devpilot_core approval list --json"),
+        ("approvals.show", "Show one local approval record by id.", "read_only", True, "python -m devpilot_core approval show <approval_id> --json"),
+        ("approvals.request", "Create an audited local approval request from Approval Center.", "approval_store_write", False, "python -m devpilot_core approval request --tool <tool> --action <action> --subject <subject> --reason <reason> --actor <actor> --json"),
+        ("approvals.approve", "Approve one local approval request through controlled transition.", "approval_store_write", False, "python -m devpilot_core approval approve <approval_id> --actor <actor> --reason <reason> --json"),
+        ("approvals.deny", "Deny one local approval request through controlled transition.", "approval_store_write", False, "python -m devpilot_core approval deny <approval_id> --actor <actor> --reason <reason> --json"),
+        ("ui.actions.dry_run", "Launch safe UI actions in read-only/dry-run mode only.", "dry_run_only", True, "UI Action Launcher: readiness/code-review/refactor-plan"),
         ("repo.analyze", "Run read-only repository analysis.", "none", True, "python -m devpilot_core repo analyze --json"),
         ("review.code", "Run deterministic code review in dry-run mode.", "none", True, "python -m devpilot_core code-review . --json"),
         ("refactor.plan", "Create plan-only safe refactor proposal.", "none", True, "python -m devpilot_core refactor-plan . --json"),
@@ -380,5 +536,11 @@ def _routes() -> list[InterfaceRouteContract]:
         ("APP-ROUTE-017", "GET", "/api/v1/traces", "observability.trace_report", ["Active Sprint 70 trace index route; bounded and empty-safe."]),
         ("APP-ROUTE-018", "GET", "/api/v1/traces/{trace_id}", "observability.trace_inspect", ["Active Sprint 70 trace detail route rendered as span tree."]),
         ("APP-ROUTE-019", "GET", "/api/v1/metrics/summary", "observability.metrics_summary", ["Active Sprint 70 metrics summary alias for visual dashboard."]),
+        ("APP-ROUTE-020", "GET", "/api/v1/approvals", "approvals.list", ["Active Sprint 71 Approval Center route; lists approval records through ApprovalService."]),
+        ("APP-ROUTE-021", "GET", "/api/v1/approvals/{approval_id}", "approvals.show", ["Active Sprint 71 approval detail route with safe local token policy."]),
+        ("APP-ROUTE-022", "POST", "/api/v1/approvals/request", "approvals.request", ["Active Sprint 71 audited approval request route; writes only approval store records."]),
+        ("APP-ROUTE-023", "POST", "/api/v1/approvals/{approval_id}/approve", "approvals.approve", ["Active Sprint 71 controlled approval transition route."]),
+        ("APP-ROUTE-024", "POST", "/api/v1/approvals/{approval_id}/deny", "approvals.deny", ["Active Sprint 71 controlled denial transition route."]),
+        ("APP-ROUTE-025", "POST", "/api/v1/actions/dry-run", "ui.actions.dry_run", ["Active Sprint 71 dry-run Action Launcher route; critical actions remain blocked from UI."]),
     ]
     return [InterfaceRouteContract(route_id=rid, method=method, path=path, operation=operation, status="secured-initial", notes=notes) for rid, method, path, operation, notes in route_specs]

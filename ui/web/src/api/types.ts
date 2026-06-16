@@ -62,3 +62,26 @@ export interface ReportTraceSnapshot {
   traceDetail?: DevPilotApplicationResponse;
   metrics?: DevPilotApplicationResponse;
 }
+
+
+export interface ApprovalRecordItem {
+  approval_id: string;
+  subject: string;
+  tool_id: string;
+  action: string;
+  status: string;
+  actor?: string;
+  reason?: string;
+  created_at?: string;
+  updated_at?: string;
+  expires_at?: string;
+  expired?: boolean;
+  decided_by?: string | null;
+}
+
+export interface ApprovalCenterSnapshot {
+  approvals?: DevPilotApplicationResponse<{ summary?: Record<string, unknown>; approvals?: ApprovalRecordItem[] }>;
+  selected?: DevPilotApplicationResponse;
+  actionResult?: DevPilotApplicationResponse;
+  requestResult?: DevPilotApplicationResponse;
+}

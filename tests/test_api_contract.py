@@ -22,9 +22,9 @@ def test_openapi_v1_tracks_local_api_mvp_contract() -> None:
     spec = _openapi()
 
     assert spec["openapi"] == "3.1.0"
-    assert spec["info"]["version"] == "1.0.0-report-trace-viewer"
-    assert spec["x-devpilot"]["sprint"] == "FUNC-SPRINT-70"
-    assert spec["x-devpilot"]["status"] == "report-trace-viewer-initial"
+    assert spec["info"]["version"] == "1.0.0-approval-center"
+    assert spec["x-devpilot"]["sprint"] == "FUNC-SPRINT-71"
+    assert spec["x-devpilot"]["status"] == "approval-center-initial"
     assert spec["x-devpilot"]["api_implemented"] is True
     assert spec["x-devpilot"]["server_implemented"] is True
     assert spec["x-devpilot"]["ui_implemented"] is True
@@ -54,7 +54,7 @@ def test_openapi_paths_match_application_service_route_contract() -> None:
     }
 
     assert openapi_routes == app_routes
-    assert len(openapi_routes) == app_contract["summary"]["routes_total"] == 19
+    assert len(openapi_routes) == app_contract["summary"]["routes_total"] == 25
     assert all(path.startswith("/api/v1/") for _, path, _ in openapi_routes)
 
 
@@ -68,7 +68,7 @@ def test_openapi_uses_application_response_for_success_and_errors() -> None:
 
     for path, methods in spec["paths"].items():
         for method, operation in methods.items():
-            assert operation["x-devpilot-status"] in {"secured-initial", "report-trace-viewer-initial"}
+            assert operation["x-devpilot-status"] in {"secured-initial", "report-trace-viewer-initial", "approval-center-initial"}
             assert operation["security"] == [{"LocalTokenAuth": []}]
             assert operation["x-devpilot-auth"] == "local-token-required"
             assert operation["x-devpilot-cors"] == "restricted-local-allowlist"

@@ -14,7 +14,7 @@ change_policy: "controlled_changes_allowed_via_docs_as_code"
 approved_on: "2026-06-06"
 approval_scope: "functional_backlog_after_precode"
 baseline_execution: "FUNC-SPRINT-00"
-next_sprint: "FUNC-SPRINT-71"
+next_sprint: "FUNC-SPRINT-72"
 ---
 
 # DevPilot Local — Backlog ejecutable posterior a pre-code
@@ -2266,3 +2266,8 @@ La transición hacia `FUNC-SPRINT-64` queda condicionada a mantener las señales
 `FUNC-SPRINT-64` cierra la decisión arquitectónica inicial de Fase F: Web UI local como interfaz visual canónica, API local segura como frontera, Web UI real como evolución posterior y Desktop diferido fuera de Fase F. El siguiente sprint funcional es `FUNC-SPRINT-65 — ApplicationService v2 por dominios`.
 
 La implementación es `implemented-initial`: no agrega servidor, frontend ni dependencias runtime. Su valor es reducir riesgo antes de construir API/UI y mantener el core gobernado por ApplicationService, PolicyEngine, MIASI, ReportEngine, LocalStore y observabilidad.
+
+
+## Transición posterior a FUNC-SPRINT-71
+
+Fase F avanza con Approval Center y acciones dry-run desde UI. `next_sprint: "FUNC-SPRINT-72"`.

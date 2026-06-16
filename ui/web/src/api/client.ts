@@ -74,6 +74,27 @@ export class DevPilotApiClient {
     return this.get('/metrics/summary');
   }
 
+  async listApprovals(filters: { status?: string; limit?: number } = {}): Promise<DevPilotApplicationResponse> {
+    return this.get(`/approvals${this.query(filters)}`);
+  }
+
+  async showApproval(approvalId: string): Promise<DevPilotApplicationResponse> {
+    return this.get(`/approvals/${encodeURIComponent(approvalId)}`);
+  }
+
+  async requestApproval(payload: { tool_id: string; action: string; subject: string; actor: string; reason: string; ttl_minutes?: number }): Promise<DevPilotApplicationResponse> {
+    return this.post('/approvals/request', payload);
+  }
+
+  async decideApproval(approvalId: string, decision: 'approve' | 'deny', payload: { actor: string; reason: string }): Promise<DevPilotApplicationResponse> {
+    return this.post(`/approvals/${encodeURIComponent(approvalId)}/${decision}`, payload);
+  }
+
+  async runDryRunAction(payload: { action_id: string; target?: string; goal?: string; strict?: boolean; include_code_review?: boolean }): Promise<DevPilotApplicationResponse> {
+    return this.post('/actions/dry-run', payload);
+  }
+
+
   private async get(path: string): Promise<DevPilotApplicationResponse> {
     return this.request(path, { method: 'GET' });
   }

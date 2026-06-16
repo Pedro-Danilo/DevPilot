@@ -2,7 +2,7 @@
 title: "C4 Container — DevPilot Local"
 doc_id: "DEVPL-ARCH-003"
 status: "approved"
-version: "1.8.0"
+version: "1.9.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
@@ -336,3 +336,8 @@ La Web UI local futura debe tratar la API como única frontera de integración. 
 ## Actualización FUNC-SPRINT-70 — Viewers de reportes y trazas
 
 La Web UI local incorpora Report Viewer y Trace Viewer como contenedores visuales API-only. La API local incorpora routers de reportes/trazas, mientras el core conserva `ApplicationService` como frontera. La UI no accede a `outputs/` ni `.devpilot/`; todo acceso pasa por API local, token, CORS restringido y policy binding.
+
+
+## Actualización FUNC-SPRINT-71 — Approval Center
+
+El contenedor Web UI incorpora Approval Center y Action Launcher, consumiendo únicamente API local protegida por token/CORS/policy. El backend mantiene `ApplicationService` como frontera y bloquea ejecución destructiva desde frontend.

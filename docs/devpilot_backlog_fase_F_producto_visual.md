@@ -2,13 +2,13 @@
 title: "DevPilot Local — Backlog ejecutable Fase F: Producto visual"
 doc_id: "DEVPL-FUNC-BACKLOG-FASE-F-001"
 status: "approved"
-version: "1.7.0"
+version: "1.8.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
 phase: "FASE-F-PRODUCTO-VISUAL"
-updated: "2026-06-15"
-source_repo: "repo_DevPilot_Local_88.zip"
+updated: "2026-06-16"
+source_repo: "repo_DevPilot_Local_89.zip"
 source_report: "Informe de avance DevPilot - sprint 0 - 18.docx"
 source_backlog_model: "docs/functional_backlog_after_precode.md"
 baseline_dependency: "Fases A-E cerradas; Fase E validada por FUNC-SPRINT-63"
@@ -18,10 +18,10 @@ change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "phase_f_executable_backlog_review"
 approved_on: "2026-06-14"
 approval: "approved_after_phase_e_agentops_closure"
-first_open_sprint: "FUNC-SPRINT-71"
-last_completed_sprint: "FUNC-SPRINT-70"
-next_sprint: "FUNC-SPRINT-71"
-phase_f_status: "implementation_in_progress_sprint_70_completed"
+first_open_sprint: "FUNC-SPRINT-72"
+last_completed_sprint: "FUNC-SPRINT-71"
+next_sprint: "FUNC-SPRINT-72"
+phase_f_status: "implementation_in_progress_sprint_71_completed"
 ui_strategy: "web_local_first_web_real_ready_desktop_deferred"
 ---
 
@@ -1126,3 +1126,8 @@ Implementa FUNC-SPRINT-73: cierre Fase F con Visual Product Quality Gate, report
 ## Cierre esperado de Fase F
 
 Al cerrar Fase F, DevPilot debe disponer de una experiencia Web UI local mínima y web-ready, respaldada por API local segura, ApplicationService v2, report/trace viewers, approval/settings iniciales y documentación de ejecución. La CLI debe seguir siendo una interfaz plenamente soportada. La Web UI real queda como evolución posterior natural; Desktop permanece diferido y sujeto a nueva ADR.
+
+
+## Estado de implementación Sprint 71
+
+`FUNC-SPRINT-71 — Approval Center y acciones dry-run desde UI` queda implementado como primera versión preliminar industrializable. El alcance habilita endpoints API para approvals, Approval Center UI y Action Launcher dry-run, pero mantiene bloqueada cualquier ejecución destructiva desde frontend. La siguiente iteración abierta es `FUNC-SPRINT-72`.
