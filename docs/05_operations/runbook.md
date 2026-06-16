@@ -4118,3 +4118,33 @@ npm test
 - Bloquear si la UI invoca endpoints de ejecución destructiva.
 - Bloquear si una acción crítica se ejecuta sin approval válido.
 - Bloquear si se exponen tokens o secretos en resultados visuales.
+
+
+## FUNC-SPRINT-72 — Operación de Settings UI
+
+Propósito: consultar configuración de workspace, providers y política local desde la Web UI sin exponer secretos ni habilitar cambios destructivos.
+
+Comandos de verificación:
+
+```powershell
+python -m pytest tests/test_api_settings.py tests/test_web_ui_settings.py tests/test_sprint_72_documentation.py -q
+cd ui\web
+npm test
+cd ..\..
+python -m devpilot_core schema validate-manifest docs/functional_sprint_72_manifest.json --json
+python -m devpilot_core validate-artifact docs/audits/func_sprint_72_settings_ui_audit.md --json
+```
+
+Uso operativo:
+
+1. Generar token con `python -m devpilot_core api token --json`.
+2. Exportar exactamente el campo `powershell`.
+3. Levantar API con `python -m devpilot_core api serve --host 127.0.0.1 --port 8787 --execute`.
+4. Levantar `ui/web` con `npm run dev`.
+5. Abrir `http://127.0.0.1:5173` y usar la sección `Settings UI`.
+
+Criterios PASS: Settings muestra workspace/providers/policy vía API; providers no muestra secretos; el editor de providers genera plan-only; no se escribe `.devpilot/providers.yaml`.
+
+Criterios BLOCK: la UI muestra API keys, escribe archivos locales, habilita proveedores externos por accidente o permite editar policy sin approval.
+
+Riesgos: Settings UI es una primera versión local e industrializable. No implementa RBAC, edición real de policy, persistencia de secretos ni flujo enterprise de configuración.

@@ -95,6 +95,23 @@ export class DevPilotApiClient {
   }
 
 
+  async settingsWorkspace(): Promise<DevPilotApplicationResponse> {
+    return this.get('/settings/workspace');
+  }
+
+  async settingsProviders(): Promise<DevPilotApplicationResponse> {
+    return this.get('/settings/providers');
+  }
+
+  async settingsPolicy(): Promise<DevPilotApplicationResponse> {
+    return this.get('/settings/policy');
+  }
+
+  async planProviderChange(payload: { provider_id: string; changes: Record<string, unknown>; actor?: string; reason?: string }): Promise<DevPilotApplicationResponse> {
+    return this.post('/settings/providers/plan', payload);
+  }
+
+
   private async get(path: string): Promise<DevPilotApplicationResponse> {
     return this.request(path, { method: 'GET' });
   }

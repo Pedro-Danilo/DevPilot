@@ -1,0 +1,161 @@
+{
+  "sprint": "FUNC-SPRINT-72",
+  "title": "Settings UI: workspace, providers y políticas locales",
+  "status": "implemented",
+  "implemented_at": "2026-06-16",
+  "source_repo": "repo_DevPilot_Local_91.zip",
+  "summary": {
+    "settings_ui_implemented": true,
+    "settings_api_implemented": true,
+    "workspace_settings_read_only": true,
+    "providers_read_only": true,
+    "policy_read_only": true,
+    "providers_plan_only": true,
+    "settings_ui_api_only": true,
+    "settings_ui_imports_core": false,
+    "settings_ui_reads_filesystem": false,
+    "secrets_redacted": true,
+    "external_providers_enabled_by_ui": false,
+    "writes_performed": false,
+    "routes_total_added": 4,
+    "next_sprint": "FUNC-SPRINT-73 — Cierre Fase F web-first y decisión de evolución",
+    "preliminary": true
+  },
+  "created_files": [
+    "docs/audits/func_sprint_72_settings_ui_audit.md",
+    "docs/functional_sprint_72_manifest.json",
+    "src/devpilot_core/application/settings_service.py",
+    "src/devpilot_core/interfaces/api/routers/settings.py",
+    "tests/test_api_settings.py",
+    "tests/test_sprint_72_documentation.py",
+    "tests/test_web_ui_settings.py",
+    "ui/web/src/components/ProviderSettings.ts",
+    "ui/web/src/pages/SettingsView.ts"
+  ],
+  "modified_files": [
+    "README.md",
+    "docs/02_architecture/c4_container.md",
+    "docs/05_operations/runbook.md",
+    "docs/07_interfaces/api_service_mapping.md",
+    "docs/07_interfaces/internal_application_contract.md",
+    "docs/07_interfaces/openapi_v1.json",
+    "docs/devpilot_backlog_fase_F_producto_visual.md",
+    "docs/functional_backlog_after_precode.md",
+    "src/devpilot_core/application/__init__.py",
+    "src/devpilot_core/application/services.py",
+    "src/devpilot_core/interfaces/api/app.py",
+    "src/devpilot_core/interfaces/api/security.py",
+    "tests/test_api_contract.py",
+    "tests/test_sprint_32_documentation.py",
+    "tests/test_sprint_33_documentation.py",
+    "tests/test_sprint_34_documentation.py",
+    "tests/test_sprint_35_documentation.py",
+    "tests/test_sprint_36_documentation.py",
+    "tests/test_sprint_37_documentation.py",
+    "tests/test_sprint_38_documentation.py",
+    "tests/test_sprint_39_documentation.py",
+    "tests/test_sprint_40_documentation.py",
+    "tests/test_sprint_41_documentation.py",
+    "tests/test_sprint_42_documentation.py",
+    "tests/test_sprint_43_documentation.py",
+    "tests/test_sprint_44_documentation.py",
+    "tests/test_sprint_45_documentation.py",
+    "tests/test_sprint_46_documentation.py",
+    "tests/test_sprint_47_documentation.py",
+    "tests/test_sprint_48_documentation.py",
+    "tests/test_sprint_49_documentation.py",
+    "tests/test_sprint_50_documentation.py",
+    "tests/test_sprint_51_documentation.py",
+    "tests/test_sprint_52_documentation.py",
+    "tests/test_sprint_53_documentation.py",
+    "tests/test_sprint_54_documentation.py",
+    "tests/test_sprint_55_documentation.py",
+    "tests/test_sprint_56_documentation.py",
+    "tests/test_sprint_57_documentation.py",
+    "tests/test_sprint_58_documentation.py",
+    "tests/test_sprint_59_documentation.py",
+    "tests/test_sprint_60_documentation.py",
+    "tests/test_sprint_61_documentation.py",
+    "tests/test_sprint_62_documentation.py",
+    "tests/test_sprint_63_documentation.py",
+    "tests/test_sprint_64_documentation.py",
+    "tests/test_sprint_65_documentation.py",
+    "tests/test_sprint_66_documentation.py",
+    "tests/test_sprint_67_documentation.py",
+    "tests/test_sprint_68_documentation.py",
+    "tests/test_sprint_69_documentation.py",
+    "tests/test_sprint_70_documentation.py",
+    "tests/test_sprint_71_documentation.py",
+    "tests/test_web_ui_approval_center.py",
+    "tests/test_web_ui_mvp.py",
+    "tests/test_web_ui_report_trace_viewer.py",
+    "ui/web/package.json",
+    "ui/web/scripts/smoke-test.mjs",
+    "ui/web/src/api/client.ts",
+    "ui/web/src/api/types.ts",
+    "ui/web/src/pages/Dashboard.ts",
+    "ui/web/src/styles.css"
+  ],
+  "tests": [
+    "tests/test_api_settings.py",
+    "tests/test_web_ui_settings.py",
+    "tests/test_sprint_72_documentation.py"
+  ],
+  "next_sprint": "FUNC-SPRINT-73 — Cierre Fase F web-first y decisión de evolución",
+  "phase": "FASE-F-PRODUCTO-VISUAL",
+  "wave": "Fase F — Producto visual",
+  "source_backlog": "docs/devpilot_backlog_fase_F_producto_visual.md",
+  "architectural_decision": {
+    "adr_required": false,
+    "rationale": "FUNC-SPRINT-72 implements Settings UI under ADR-0013 Web UI first and the existing local API/ApplicationService boundary; it does not change stack, trust boundary or execution model."
+  },
+  "deleted_files": [
+    "package-lock.json"
+  ],
+  "commands": [
+    "python -m devpilot_core model providers --json",
+    "python -m pytest tests/test_api_settings.py tests/test_web_ui_settings.py tests/test_sprint_72_documentation.py -q",
+    "cd ui/web && npm test",
+    "python -m devpilot_core schema validate-manifest docs/functional_sprint_72_manifest.json --json",
+    "python -m devpilot_core validate-artifact docs/audits/func_sprint_72_settings_ui_audit.md --json",
+    "python -m devpilot_core validate all --json",
+    "python -m pytest -q"
+  ],
+  "pass_criteria": [
+    "Settings muestra workspace/providers/policy vía API local protegida.",
+    "Providers se muestran sin secretos ni valores raw de API keys.",
+    "Provider editor es plan-only y no escribe .devpilot/providers.yaml.",
+    "UI no importa devpilot_core ni lee filesystem local.",
+    "No se habilitan proveedores externos desde la UI.",
+    "Manifest, auditoría, README, runbook, backlog, OpenAPI y contrato interno están sincronizados."
+  ],
+  "block_criteria": [
+    "UI muestra API keys o secretos en claro.",
+    "UI o API escriben providers/policy sin approval controlado.",
+    "Settings UI importa core Python o lee .devpilot directamente.",
+    "El plan de providers permite activar external_api por accidente.",
+    "validate all reporta findings bloqueantes."
+  ],
+  "risks": [
+    {
+      "id": "RISK-FUNC-72-001",
+      "risk": "Secreto en UI",
+      "mitigation": "Redacción determinística y pruebas con secretos sintéticos."
+    },
+    {
+      "id": "RISK-FUNC-72-002",
+      "risk": "Configuración inválida",
+      "mitigation": "Plan-only y validación previa; no se escriben archivos."
+    },
+    {
+      "id": "RISK-FUNC-72-003",
+      "risk": "Activar API externa accidentalmente",
+      "mitigation": "Bloqueo explícito de external_api/enabled para providers externos y CostGuard por defecto."
+    },
+    {
+      "id": "RISK-FUNC-72-004",
+      "risk": "Falsa sensación de editor productivo",
+      "mitigation": "Documentar la capacidad como implemented-initial y limitarla a plan-only hasta existir approval-gated write flow."
+    }
+  ]
+}

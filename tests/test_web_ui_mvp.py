@@ -18,7 +18,7 @@ def test_web_ui_package_and_entrypoints_exist() -> None:
     package = json.loads(_read("package.json"))
 
     assert package["name"] == "devpilot-local-web-ui"
-    assert package["devpilot"]["sprint"] == "FUNC-SPRINT-71"
+    assert package["devpilot"]["sprint"] == "FUNC-SPRINT-72"
     assert package["devpilot"]["apiOnly"] is True
     assert package["devpilot"].get("dryRunOnly") is True
     assert package["scripts"]["test"] == "node scripts/smoke-test.mjs"
@@ -63,7 +63,7 @@ def _assert_web_ui_smoke_contract_without_node() -> None:
     main = _read("src/main.ts")
     sources = [client, dashboard, status_card, main]
 
-    assert package["devpilot"]["sprint"] == "FUNC-SPRINT-71"
+    assert package["devpilot"]["sprint"] == "FUNC-SPRINT-72"
     assert package["devpilot"]["apiOnly"] is True
     assert package["devpilot"].get("dryRunOnly") is True
     assert package["scripts"]["test"] == "node scripts/smoke-test.mjs"

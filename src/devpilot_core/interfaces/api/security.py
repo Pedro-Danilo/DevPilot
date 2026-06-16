@@ -104,6 +104,10 @@ API_ROUTE_POLICIES: dict[tuple[str, str], ApiRoutePolicy] = {
     ("POST", "/api/v1/approvals/{approval_id}/approve"): ApiRoutePolicy("approvals.approve", "approval", "protected-approval-write", path_subject=".devpilot/devpilot.db"),
     ("POST", "/api/v1/approvals/{approval_id}/deny"): ApiRoutePolicy("approvals.deny", "approval", "protected-approval-write", path_subject=".devpilot/devpilot.db"),
     ("POST", "/api/v1/actions/dry-run"): ApiRoutePolicy("ui.actions.dry_run", "read", "protected-dry-run"),
+    ("GET", "/api/v1/settings/workspace"): ApiRoutePolicy("settings.workspace", "read", "protected-settings-read", path_subject=".devpilot/project.yaml"),
+    ("GET", "/api/v1/settings/providers"): ApiRoutePolicy("settings.providers", "read", "protected-settings-read", path_subject=".devpilot/providers.yaml"),
+    ("GET", "/api/v1/settings/policy"): ApiRoutePolicy("settings.policy", "read", "protected-settings-read", path_subject=".devpilot/policy.yaml"),
+    ("POST", "/api/v1/settings/providers/plan"): ApiRoutePolicy("settings.providers.plan", "read", "protected-settings-plan", path_subject=".devpilot/providers.yaml"),
 }
 
 

@@ -149,3 +149,25 @@ button:disabled { cursor: wait; opacity: 0.7; }
 .dry-run-form input, .dry-run-form select { padding: 9px; border: 1px solid #c7d3e6; border-radius: 10px; }
 .muted { color: #53627a; font-size: 0.9rem; }
 @media (max-width: 820px) { .approval-row { grid-template-columns: 1fr; } }
+
+.settings-panel input, .settings-panel select {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  margin: 0.35rem 0 0.75rem;
+  padding: 0.65rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 0.75rem;
+}
+.settings-panel label {
+  display: block;
+  font-weight: 700;
+  color: #0f172a;
+}
+.settings-panel .list-item {
+  padding: 0.75rem 0.9rem;
+  background: #eef4ff;
+  border-radius: 0.75rem;
+  margin-bottom: 0.5rem;
+  overflow-wrap: anywhere;
+}

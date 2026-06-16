@@ -11,6 +11,7 @@ from .refactor_service import RefactorApplicationService
 from .repo_service import RepoApplicationService
 from .reports_service import ReportsApplicationService
 from .review_service import ReviewApplicationService
+from .settings_service import SettingsApplicationService
 from .services import ApplicationService
 from .validation_service import ValidationApplicationService
 from .workspace_service import WorkspaceApplicationService
@@ -31,6 +32,7 @@ __all__ = [
     "ReportsApplicationService",
     "ReviewApplicationService",
     "ServiceCapability",
+    "SettingsApplicationService",
     "ValidationApplicationService",
     "WorkspaceApplicationService",
 ]

@@ -122,3 +122,15 @@ Regla: UI no lee `outputs/` ni `.devpilot/`; todo pasa por API local.
 | API-APPROVALS-APPROVE | `/api/v1/approvals/{approval_id}/approve` | `approvals.approve` | `ApprovalApplicationService` | Policy/gate: controlled state transition |
 | API-APPROVALS-DENY | `/api/v1/approvals/{approval_id}/deny` | `approvals.deny` | `ApprovalApplicationService` | Policy/gate: controlled state transition |
 | API-ACTIONS-DRY-RUN | `/api/v1/actions/dry-run` | `ui.actions.dry_run` | `ApplicationService` | Policy/gate: PolicyEngine dry-run; no patch execution |
+
+
+## FUNC-SPRINT-72 — Settings UI mappings
+
+| API ID | Endpoint | Operation | ApplicationService method | Side effect | Policy |
+|---|---|---|---|---|---|
+| API-SETTINGS-WORKSPACE | `GET /api/v1/settings/workspace` | `settings.workspace` | `SettingsApplicationService.workspace` | read-only | token + PolicyEngine |
+| API-SETTINGS-PROVIDERS | `GET /api/v1/settings/providers` | `settings.providers` | `SettingsApplicationService.providers` | read-only redacted | token + PolicyEngine |
+| API-SETTINGS-POLICY | `GET /api/v1/settings/policy` | `settings.policy` | `SettingsApplicationService.policy` | read-only redacted | token + PolicyEngine |
+| API-SETTINGS-PROVIDERS-PLAN | `POST /api/v1/settings/providers/plan` | `settings.providers.plan` | `SettingsApplicationService.provider_plan` | plan-only, no write | token + PolicyEngine |
+
+Sprint 72 mantiene la regla API-only: la Web UI no lee `.devpilot/`, `outputs/` ni policy/provider files directamente.

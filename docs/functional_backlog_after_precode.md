@@ -14,7 +14,7 @@ change_policy: "controlled_changes_allowed_via_docs_as_code"
 approved_on: "2026-06-06"
 approval_scope: "functional_backlog_after_precode"
 baseline_execution: "FUNC-SPRINT-00"
-next_sprint: "FUNC-SPRINT-72"
+next_sprint: "FUNC-SPRINT-73"
 ---
 
 # DevPilot Local — Backlog ejecutable posterior a pre-code
@@ -26,6 +26,10 @@ Este backlog queda promovido a `approved` el 2026-06-06 como guía ejecutable pa
 La aprobación no congela el documento: cualquier ajuste futuro debe seguir la política docs-as-code definida en MIPSoftware, dejar trazabilidad, actualizar criterios de aceptación cuando aplique y preservar la relación entre producto, requerimientos, arquitectura, seguridad, calidad, operación y MIASI.
 
 La ejecución de `FUNC-SPRINT-00` confirma que el repositorio queda limpio, reproducible y listo para iniciar `FUNC-SPRINT-01 — Arquitectura interna del CLI y modelo común de resultados`.
+
+## Transición posterior a FUNC-SPRINT-72
+
+`FUNC-SPRINT-72 — Settings UI: workspace, providers y políticas locales` queda implementado como Settings UI inicial segura. Workspace, providers y policy se consumen por API local; el editor de providers opera en modo plan-only y no escribe `.devpilot/providers.yaml`. La siguiente unidad de trabajo es `FUNC-SPRINT-73 — Cierre Fase F web-first y decisión de evolución`.
 
 ## Transición posterior a FUNC-SPRINT-70
 
@@ -2270,4 +2274,4 @@ La implementación es `implemented-initial`: no agrega servidor, frontend ni dep
 
 ## Transición posterior a FUNC-SPRINT-71
 
-Fase F avanza con Approval Center y acciones dry-run desde UI. `next_sprint: "FUNC-SPRINT-72"`.
+Fase F avanza con Approval Center y acciones dry-run desde UI. `next_sprint: "FUNC-SPRINT-73"`.

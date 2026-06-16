@@ -85,3 +85,24 @@ export interface ApprovalCenterSnapshot {
   actionResult?: DevPilotApplicationResponse;
   requestResult?: DevPilotApplicationResponse;
 }
+
+
+export interface SettingsSnapshot {
+  workspace?: DevPilotApplicationResponse;
+  providers?: DevPilotApplicationResponse;
+  policy?: DevPilotApplicationResponse;
+  providerPlan?: DevPilotApplicationResponse;
+}
+
+export interface ProviderSettingsItem {
+  provider_id?: string;
+  id?: string;
+  kind?: string;
+  enabled?: boolean;
+  default_model?: string;
+  endpoint?: string;
+  external_api?: boolean;
+  requires_api_key?: boolean;
+  api_key_env?: string;
+  status?: string;
+}

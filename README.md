@@ -1,12 +1,49 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
 Estado actual: `baseline pre-code approved + Fase A cerrada + Fase B cerrada + Fase C cerrada + Fase D cerrada + Fase E cerrada`  
-Último hito: `FUNC-SPRINT-71 — Approval Center y acciones dry-run desde UI`  
-Siguiente hito: `FUNC-SPRINT-72 — Settings UI: workspace, providers y políticas locales`  
+Último hito: `FUNC-SPRINT-72 — Settings UI: workspace, providers y políticas locales`  
+Siguiente hito: `FUNC-SPRINT-73 — Cierre Fase F web-first y decisión de evolución`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
 
+
+
+## FUNC-SPRINT-72 — Settings UI: workspace, providers y políticas locales
+
+Estado: `implemented-initial` / `PASS focalizado`.
+
+Sprint 72 agrega una pantalla Settings UI inicial para workspace, providers y política local. El acceso sigue siendo API-only y protegido por token local/CORS restringido. Las vistas de settings no leen `.devpilot/` desde el frontend; todo pasa por `ApplicationService` y por endpoints `/api/v1/settings/*`.
+
+Entregables principales:
+
+- `src/devpilot_core/application/settings_service.py`: fachada read-only/plan-only para workspace, providers y policy.
+- `src/devpilot_core/interfaces/api/routers/settings.py`: endpoints `/api/v1/settings/workspace`, `/providers`, `/policy` y `/providers/plan`.
+- `ui/web/src/pages/SettingsView.ts`: pantalla Settings UI.
+- `ui/web/src/components/ProviderSettings.ts`: render seguro de providers sin secretos.
+- `tests/test_api_settings.py` y `tests/test_web_ui_settings.py`: pruebas API/UI del contrato Settings.
+- `docs/audits/func_sprint_72_settings_ui_audit.md` y `docs/functional_sprint_72_manifest.json`: evidencia de cierre.
+
+Límites explícitos: esta primera versión no habilita edición real de `.devpilot/providers.yaml`, no edita policy, no almacena secretos, no activa proveedores externos y no reemplaza un futuro flujo RBAC/approval-gated de configuración productiva.
+
+
+## FUNC-SPRINT-71 — Approval Center y acciones dry-run desde UI
+
+Estado: `implemented-initial` / `PASS focalizado`.
+
+Sprint 71 agrega Approval Center y Action Launcher dry-run a la Web UI local. La capacidad permite listar approvals, crear solicitudes controladas, aprobar/denegar desde API local y lanzar únicamente acciones seguras en modo dry-run. Las acciones críticas quedan bloqueadas desde UI/API y siguen gobernadas por token local, CORS restringido, `ApplicationService` y `PolicyEngine`.
+
+Entregables principales:
+
+- `src/devpilot_core/application/approval_service.py`: fachada de aplicación para approvals.
+- `src/devpilot_core/interfaces/api/routers/approvals.py`: endpoints de listado, detalle, solicitud, aprobación y denegación.
+- `src/devpilot_core/interfaces/api/routers/actions.py`: endpoint `/api/v1/actions/dry-run` para acciones permitidas.
+- `ui/web/src/pages/ApprovalCenterView.ts`: panel visual de Approval Center.
+- `ui/web/src/components/DryRunActionForm.ts`: formulario de acciones dry-run permitidas.
+- `tests/test_api_approvals_actions.py` y `tests/test_web_ui_approval_center.py`: pruebas API/UI del alcance Sprint 71.
+- `docs/audits/func_sprint_71_approval_center_audit.md` y `docs/functional_sprint_71_manifest.json`: evidencia de cierre.
+
+Límites explícitos: esta primera versión no implementa RBAC multiusuario, login empresarial ni ejecución real desde la UI. El Action Launcher solo permite `readiness`, `code-review` y `refactor-plan` en modo dry-run; no habilita `patch apply`, `refactor execute`, `rollback execute`, `git push` ni `deploy`.
 
 
 ## FUNC-SPRINT-70 — Report Viewer y Trace Viewer

@@ -16,6 +16,7 @@ from .observability_service import ObservabilityApplicationService
 from .refactor_service import RefactorApplicationService
 from .repo_service import RepoApplicationService
 from .reports_service import ReportsApplicationService
+from .settings_service import SettingsApplicationService
 from .review_service import ReviewApplicationService
 from .validation_service import ValidationApplicationService
 from .workspace_service import WorkspaceApplicationService
@@ -59,6 +60,7 @@ class ApplicationService:
         self.repo = RepoApplicationService(self.root)
         self.reports = ReportsApplicationService(self.root)
         self.approvals = ApprovalApplicationService(self.root)
+        self.settings = SettingsApplicationService(self.root)
         self.review = ReviewApplicationService(self.root)
         self.refactor = RefactorApplicationService(self.root)
         self.model = ModelApplicationService(self.root)
@@ -105,6 +107,18 @@ class ApplicationService:
 
     def model_providers(self) -> CommandResult:
         return self.model.providers()
+
+    def settings_workspace(self) -> CommandResult:
+        return self.settings.workspace()
+
+    def settings_providers(self, *, prefer_example: bool = False) -> CommandResult:
+        return self.settings.providers(prefer_example=prefer_example)
+
+    def settings_policy(self) -> CommandResult:
+        return self.settings.policy()
+
+    def settings_provider_plan(self, *, provider_id: str, changes: dict[str, Any] | None = None, actor: str = "ui-local", reason: str = "Settings UI plan-only provider change") -> CommandResult:
+        return self.settings.provider_plan(provider_id=provider_id, changes=changes, actor=actor, reason=reason)
 
     def approvals_list(self, *, status: str | None = None, tool_id: str | None = None, action: str | None = None, limit: int = 100) -> CommandResult:
         return self.approvals.list(status=status, tool_id=tool_id, action=action, limit=limit)
@@ -354,6 +368,12 @@ class ApplicationService:
                 "dry_run_action_launcher_implemented": True,
                 "web_ui_actions_dry_run_only": True,
                 "web_ui_critical_actions_blocked": True,
+                "settings_ui_implemented": True,
+                "settings_ui_status": "implemented-initial",
+                "settings_ui_read_only": True,
+                "settings_provider_editor_plan_only": True,
+                "settings_policy_editor_enabled": False,
+                "settings_secrets_redacted": True,
                 "web_ui_reports_api_only": True,
                 "web_ui_traces_api_only": True,
                 "external_api_required": False,
@@ -372,6 +392,7 @@ class ApplicationService:
             },
             "preliminary": True,
             "notes": [
+                "FUNC-SPRINT-72 adds Settings UI for workspace/providers/policy in read-only and provider plan-only mode with secret redaction.",
                 "FUNC-SPRINT-71 adds Approval Center and a dry-run Action Launcher; critical execution remains blocked from the Web UI.",
                 "FUNC-SPRINT-70 adds Report Viewer and Trace Viewer over local API only; the UI does not read outputs/ directly.",
                 "FUNC-SPRINT-69 adds a local Web UI MVP under ui/web that consumes only /api/v1 and remains read-only.",
@@ -387,12 +408,12 @@ class ApplicationService:
             command="app contract",
             ok=True,
             exit_code=ExitCode.PASS,
-            message="Application service v2 contract is available for CLI, secured local API MVP, Web UI viewers and Approval Center; desktop is deferred.",
+            message="Application service v2 contract is available for CLI, secured local API MVP, Web UI viewers, Approval Center and Settings UI; desktop is deferred.",
             data=data,
             findings=[
                 Finding(
                     id="APP_CONTRACT_V2_PASS",
-                    message="ApplicationService v2 exposes domain facades plus secured local API route contracts, Web UI viewers and Approval Center.",
+                    message="ApplicationService v2 exposes domain facades plus secured local API route contracts, Web UI viewers, Approval Center and Settings UI.",
                     severity=Severity.INFO,
                     metadata={"domains_total": len(domains), "capabilities_total": len(capabilities)},
                 )
@@ -438,6 +459,10 @@ def _operation_dispatch(service: ApplicationService) -> dict[str, OperationHandl
         "approvals.approve": lambda payload: service.approvals_decide(approval_id=str(payload.get("approval_id", "")), decision="approved", actor=str(payload.get("actor", "ui-local")), reason=str(payload.get("reason", "Approved from UI."))),
         "approvals.deny": lambda payload: service.approvals_decide(approval_id=str(payload.get("approval_id", "")), decision="denied", actor=str(payload.get("actor", "ui-local")), reason=str(payload.get("reason", "Denied from UI."))),
         "ui.actions.dry_run": lambda payload: service.ui_action_dry_run(action_id=str(payload.get("action_id", "")), payload=payload),
+        "settings.workspace": lambda payload: service.settings_workspace(),
+        "settings.providers": lambda payload: service.settings_providers(prefer_example=bool(payload.get("prefer_example", False))),
+        "settings.policy": lambda payload: service.settings_policy(),
+        "settings.providers.plan": lambda payload: service.settings_provider_plan(provider_id=str(payload.get("provider_id", "")), changes=dict(payload.get("changes") or {}), actor=str(payload.get("actor", "ui-local")), reason=str(payload.get("reason", "Settings UI plan-only provider change"))),
         "repo.analyze": lambda payload: service.repo_analyze(target=str(payload.get("target", "."))),
         "review.code": lambda payload: service.code_review(target=str(payload.get("target", "."))),
         "refactor.plan": lambda payload: service.refactor_plan(target=str(payload.get("target", ".")), goal=str(payload.get("goal", "")), include_code_review=bool(payload.get("include_code_review", True))),
@@ -458,6 +483,7 @@ def _domain_summaries() -> list[dict[str, Any]]:
         {"domain": "repo", "service": "RepoApplicationService", "status": "implemented-initial", "side_effects": "read_only"},
         {"domain": "reports", "service": "ReportsApplicationService", "status": "implemented-initial", "side_effects": "read_only_redacted_outputs_reports"},
         {"domain": "approvals", "service": "ApprovalApplicationService", "status": "implemented-initial", "side_effects": "approval_store_state_transition_audited"},
+        {"domain": "settings", "service": "SettingsApplicationService", "status": "implemented-initial", "side_effects": "read_only_and_provider_plan_only"},
         {"domain": "review", "service": "ReviewApplicationService", "status": "implemented-initial", "side_effects": "dry_run_static_analysis"},
         {"domain": "refactor", "service": "RefactorApplicationService", "status": "implemented-initial", "side_effects": "plan_only"},
         {"domain": "model", "service": "ModelApplicationService", "status": "implemented-initial", "side_effects": "mock_or_local_governed_calls"},
@@ -491,6 +517,10 @@ def _capabilities() -> list[ServiceCapability]:
         ("approvals.approve", "Approve one local approval request through controlled transition.", "approval_store_write", False, "python -m devpilot_core approval approve <approval_id> --actor <actor> --reason <reason> --json"),
         ("approvals.deny", "Deny one local approval request through controlled transition.", "approval_store_write", False, "python -m devpilot_core approval deny <approval_id> --actor <actor> --reason <reason> --json"),
         ("ui.actions.dry_run", "Launch safe UI actions in read-only/dry-run mode only.", "dry_run_only", True, "UI Action Launcher: readiness/code-review/refactor-plan"),
+        ("settings.workspace", "Read workspace project settings without exposing filesystem writes.", "none", True, "Settings UI: workspace panel"),
+        ("settings.providers", "Read provider settings with secret redaction and external providers disabled by default.", "none", True, "Settings UI: providers panel"),
+        ("settings.policy", "Read local policy and MIASI policy matrix summaries without editing policy.", "none", True, "Settings UI: policy panel"),
+        ("settings.providers.plan", "Create a provider configuration change plan without writing .devpilot/providers.yaml.", "plan_only", True, "Settings UI: provider plan-only editor"),
         ("repo.analyze", "Run read-only repository analysis.", "none", True, "python -m devpilot_core repo analyze --json"),
         ("review.code", "Run deterministic code review in dry-run mode.", "none", True, "python -m devpilot_core code-review . --json"),
         ("refactor.plan", "Create plan-only safe refactor proposal.", "none", True, "python -m devpilot_core refactor-plan . --json"),
@@ -542,5 +572,9 @@ def _routes() -> list[InterfaceRouteContract]:
         ("APP-ROUTE-023", "POST", "/api/v1/approvals/{approval_id}/approve", "approvals.approve", ["Active Sprint 71 controlled approval transition route."]),
         ("APP-ROUTE-024", "POST", "/api/v1/approvals/{approval_id}/deny", "approvals.deny", ["Active Sprint 71 controlled denial transition route."]),
         ("APP-ROUTE-025", "POST", "/api/v1/actions/dry-run", "ui.actions.dry_run", ["Active Sprint 71 dry-run Action Launcher route; critical actions remain blocked from UI."]),
+        ("APP-ROUTE-026", "GET", "/api/v1/settings/workspace", "settings.workspace", ["Active Sprint 72 Settings route; read-only workspace projection."]),
+        ("APP-ROUTE-027", "GET", "/api/v1/settings/providers", "settings.providers", ["Active Sprint 72 Settings route; providers are redacted and read-only."]),
+        ("APP-ROUTE-028", "GET", "/api/v1/settings/policy", "settings.policy", ["Active Sprint 72 Settings route; policy summary is read-only."]),
+        ("APP-ROUTE-029", "POST", "/api/v1/settings/providers/plan", "settings.providers.plan", ["Active Sprint 72 Settings route; provider edits are plan-only and never write files."]),
     ]
     return [InterfaceRouteContract(route_id=rid, method=method, path=path, operation=operation, status="secured-initial", notes=notes) for rid, method, path, operation, notes in route_specs]

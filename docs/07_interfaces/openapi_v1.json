@@ -2,8 +2,8 @@
   "openapi": "3.1.0",
   "info": {
     "title": "DevPilot Local API Contract v1",
-    "version": "1.0.0-approval-center",
-    "description": "Local secured MVP API for DevPilot read-only/dry-run operations, Report/Trace Viewer and Approval Center. Sprint 71 implementation."
+    "version": "1.0.0-settings-ui",
+    "description": "Local secured MVP API for DevPilot dashboard, Report/Trace Viewer, Approval Center and Settings UI. Sprint 72 implementation."
   },
   "servers": [
     {
@@ -44,11 +44,14 @@
     },
     {
       "name": "standards"
+    },
+    {
+      "name": "settings"
     }
   ],
   "x-devpilot": {
-    "sprint": "FUNC-SPRINT-71",
-    "status": "approval-center-initial",
+    "sprint": "FUNC-SPRINT-72",
+    "status": "settings-ui-initial",
     "api_implemented": true,
     "server_implemented": true,
     "ui_implemented": true,
@@ -57,7 +60,7 @@
     "external_api_required": false,
     "network_required": false,
     "source_application_contract_schema": "2.0",
-    "source_repo": "repo_DevPilot_Local_85.zip",
+    "source_repo": "repo_DevPilot_Local_91.zip",
     "api_local_mvp_implemented": true,
     "default_port": 8787,
     "token_required": true,
@@ -72,7 +75,10 @@
     "report_viewer_implemented": true,
     "trace_viewer_implemented": true,
     "approval_center_implemented": true,
-    "dry_run_action_launcher_implemented": true
+    "dry_run_action_launcher_implemented": true,
+    "settings_ui_implemented": true,
+    "settings_provider_editor_plan_only": true,
+    "settings_secrets_redacted": true
   },
   "paths": {
     "/api/v1/workspace/status": {
@@ -2586,6 +2592,371 @@
             "LocalTokenAuth": []
           }
         ]
+      }
+    },
+    "/api/v1/settings/workspace": {
+      "get": {
+        "tags": [
+          "settings"
+        ],
+        "summary": "Workspace Settings",
+        "operationId": "settings_workspace",
+        "security": [
+          {
+            "LocalTokenAuth": []
+          }
+        ],
+        "x-devpilot-api-id": "SETTINGS-WORKSPACE",
+        "x-devpilot-operation": "settings.workspace",
+        "x-devpilot-status": "settings-ui-initial",
+        "x-devpilot-side-effect": "none",
+        "x-devpilot-dry-run-default": true,
+        "x-devpilot-auth": "local-token-required",
+        "x-devpilot-policy": "PolicyEngine bound",
+        "responses": {
+          "200": {
+            "description": "ApplicationResponse",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid local token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Policy binding block",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true,
+        "x-devpilot-domain-service": "SettingsApplicationService"
+      }
+    },
+    "/api/v1/settings/providers": {
+      "get": {
+        "tags": [
+          "settings"
+        ],
+        "summary": "Provider Settings",
+        "operationId": "settings_providers",
+        "security": [
+          {
+            "LocalTokenAuth": []
+          }
+        ],
+        "x-devpilot-api-id": "SETTINGS-PROVIDERS",
+        "x-devpilot-operation": "settings.providers",
+        "x-devpilot-status": "settings-ui-initial",
+        "x-devpilot-side-effect": "none",
+        "x-devpilot-dry-run-default": true,
+        "x-devpilot-auth": "local-token-required",
+        "x-devpilot-policy": "PolicyEngine bound",
+        "responses": {
+          "200": {
+            "description": "ApplicationResponse",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid local token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Policy binding block",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true,
+        "x-devpilot-domain-service": "SettingsApplicationService"
+      }
+    },
+    "/api/v1/settings/policy": {
+      "get": {
+        "tags": [
+          "settings"
+        ],
+        "summary": "Policy Settings",
+        "operationId": "settings_policy",
+        "security": [
+          {
+            "LocalTokenAuth": []
+          }
+        ],
+        "x-devpilot-api-id": "SETTINGS-POLICY",
+        "x-devpilot-operation": "settings.policy",
+        "x-devpilot-status": "settings-ui-initial",
+        "x-devpilot-side-effect": "none",
+        "x-devpilot-dry-run-default": true,
+        "x-devpilot-auth": "local-token-required",
+        "x-devpilot-policy": "PolicyEngine bound",
+        "responses": {
+          "200": {
+            "description": "ApplicationResponse",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid local token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Policy binding block",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true,
+        "x-devpilot-domain-service": "SettingsApplicationService"
+      }
+    },
+    "/api/v1/settings/providers/plan": {
+      "post": {
+        "tags": [
+          "settings"
+        ],
+        "summary": "Provider Plan Only",
+        "operationId": "settings_providers_plan",
+        "security": [
+          {
+            "LocalTokenAuth": []
+          }
+        ],
+        "x-devpilot-api-id": "SETTINGS-PROVIDERS-PLAN",
+        "x-devpilot-operation": "settings.providers.plan",
+        "x-devpilot-status": "settings-ui-initial",
+        "x-devpilot-side-effect": "plan_only_no_write",
+        "x-devpilot-dry-run-default": true,
+        "x-devpilot-auth": "local-token-required",
+        "x-devpilot-policy": "PolicyEngine bound",
+        "responses": {
+          "200": {
+            "description": "ApplicationResponse",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid local token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Policy binding block",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true,
+        "x-devpilot-domain-service": "SettingsApplicationService",
+        "requestBody": {
+          "required": false,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApplicationRequest"
+              },
+              "example": {
+                "operation": "settings.providers.plan",
+                "payload": {
+                  "provider_id": "mock",
+                  "changes": {
+                    "enabled": true
+                  }
+                },
+                "client": "web-ui",
+                "dry_run": true
+              }
+            }
+          }
+        }
       }
     }
   },

@@ -1,9 +1,9 @@
 {
   "name": "devpilot-local-web-ui",
-  "version": "0.3.0-sprint-71",
+  "version": "0.4.0-sprint-72",
   "private": true,
   "type": "module",
-  "description": "DevPilot Local Web UI MVP dashboard, report/trace viewers and Approval Center.",
+  "description": "DevPilot Local Web UI MVP dashboard, report/trace viewers, Approval Center and Settings UI.",
   "scripts": {
     "dev": "vite --host 127.0.0.1 --port 5173",
     "build": "vite build",
@@ -19,7 +19,7 @@
     "node": ">=20"
   },
   "devpilot": {
-    "sprint": "FUNC-SPRINT-71",
+    "sprint": "FUNC-SPRINT-72",
     "status": "implemented-initial",
     "apiOnly": true,
     "readOnly": false,
@@ -31,6 +31,10 @@
     "approvalCenter": true,
     "dryRunActionLauncher": true,
     "criticalActionsBlockedFromUi": true,
-    "dryRunOnly": true
+    "dryRunOnly": true,
+    "settingsUi": true,
+    "settingsReadOnly": true,
+    "providerEditorPlanOnly": true,
+    "secretsRedacted": true
   }
 }

@@ -341,3 +341,8 @@ La Web UI local incorpora Report Viewer y Trace Viewer como contenedores visuale
 ## Actualización FUNC-SPRINT-71 — Approval Center
 
 El contenedor Web UI incorpora Approval Center y Action Launcher, consumiendo únicamente API local protegida por token/CORS/policy. El backend mantiene `ApplicationService` como frontera y bloquea ejecución destructiva desde frontend.
+
+
+## Actualización FUNC-SPRINT-72 — Settings UI
+
+La Web UI incorpora `SettingsView`, que consume únicamente endpoints `/api/v1/settings/*`. El frontend no lee `.devpilot/` ni `outputs/`; la configuración es proyectada por `SettingsApplicationService` y protegida por token local, CORS restringido y policy binding. Cambios de providers se modelan como plan-only sin escritura.

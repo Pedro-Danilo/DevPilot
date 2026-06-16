@@ -4,6 +4,7 @@ import { renderFindingList } from '../components/FindingList';
 import { renderStatusCard } from '../components/StatusCard';
 import { renderReportTraceView } from './ReportTraceView';
 import { renderApprovalCenterView } from './ApprovalCenterView';
+import { renderSettingsView } from './SettingsView';
 
 interface DashboardState {
   loading: boolean;
@@ -91,7 +92,7 @@ function renderHeader(state: DashboardState, refresh: () => Promise<void>): HTML
   const title = document.createElement('h1');
   title.textContent = 'DevPilot Local Dashboard';
   const subtitle = document.createElement('p');
-  subtitle.textContent = 'Sprint 71 MVP · workspace/readiness/standards/MIASI/reportes/trazas/approvals · API-only · dry-run';
+  subtitle.textContent = 'Sprint 72 MVP · workspace/readiness/standards/MIASI/reportes/trazas/approvals/settings · API-only · dry-run';
   titleBlock.append(title, subtitle);
 
   const form = document.createElement('form');

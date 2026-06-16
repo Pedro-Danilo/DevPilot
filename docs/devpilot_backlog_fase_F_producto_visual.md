@@ -2,13 +2,13 @@
 title: "DevPilot Local — Backlog ejecutable Fase F: Producto visual"
 doc_id: "DEVPL-FUNC-BACKLOG-FASE-F-001"
 status: "approved"
-version: "1.8.0"
+version: "1.9.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
 phase: "FASE-F-PRODUCTO-VISUAL"
 updated: "2026-06-16"
-source_repo: "repo_DevPilot_Local_89.zip"
+source_repo: "repo_DevPilot_Local_91.zip"
 source_report: "Informe de avance DevPilot - sprint 0 - 18.docx"
 source_backlog_model: "docs/functional_backlog_after_precode.md"
 baseline_dependency: "Fases A-E cerradas; Fase E validada por FUNC-SPRINT-63"
@@ -18,10 +18,10 @@ change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "phase_f_executable_backlog_review"
 approved_on: "2026-06-14"
 approval: "approved_after_phase_e_agentops_closure"
-first_open_sprint: "FUNC-SPRINT-72"
-last_completed_sprint: "FUNC-SPRINT-71"
-next_sprint: "FUNC-SPRINT-72"
-phase_f_status: "implementation_in_progress_sprint_71_completed"
+first_open_sprint: "FUNC-SPRINT-73"
+last_completed_sprint: "FUNC-SPRINT-72"
+next_sprint: "FUNC-SPRINT-73"
+phase_f_status: "implementation_in_progress_sprint_72_completed"
 ui_strategy: "web_local_first_web_real_ready_desktop_deferred"
 ---
 
@@ -1036,6 +1036,11 @@ python -m pytest -q
 ```text
 Implementa FUNC-SPRINT-72: Settings UI para workspace/providers/policy en modo seguro. No guardes secretos ni habilites externos por defecto.
 ```
+
+
+## Estado de implementación Sprint 72
+
+`FUNC-SPRINT-72 — Settings UI: workspace, providers y políticas locales` queda implementado como primera versión local e industrializable de settings visuales. El alcance es read-only para workspace/providers/policy y plan-only para cambios de provider: no escribe `.devpilot/providers.yaml`, no muestra secretos, no edita policy y no habilita proveedores externos por accidente. La siguiente iteración abierta es `FUNC-SPRINT-73 — Cierre Fase F web-first y decisión de evolución`.
 
 ## FUNC-SPRINT-73 — Cierre Fase F web-first y decisión de evolución
 

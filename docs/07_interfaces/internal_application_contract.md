@@ -396,3 +396,8 @@ Se agregan operaciones `reports.list`, `reports.read` y `observability.trace_ins
 ## Sprint 71 — Approval Center y dry-run launcher
 
 `ApplicationService` expone `approvals.*` y `ui.actions.dry_run` como frontera interna para API/Web UI. La UI no importa módulos core ni ejecuta acciones críticas.
+
+
+## Sprint 72 — Settings UI
+
+`FUNC-SPRINT-72` agrega operaciones `settings.workspace`, `settings.providers`, `settings.policy` y `settings.providers.plan`. Todas se consumen desde `/api/v1`; la UI no importa core Python ni lee archivos locales. La edición de providers queda como plan-only: no se escribe `.devpilot/providers.yaml`, no se muestran secretos y no se habilitan proveedores externos por accidente.
