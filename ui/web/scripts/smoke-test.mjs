@@ -22,9 +22,12 @@ function assert(condition, message) {
   }
 }
 
-assert(packageJson.devpilot.sprint === 'FUNC-SPRINT-72', 'package.json debe declarar FUNC-SPRINT-72');
+assert(packageJson.devpilot.sprint === 'FUNC-SPRINT-73', 'package.json debe declarar FUNC-SPRINT-73');
 assert(packageJson.devpilot.apiOnly === true, 'La UI debe ser API-only');
 assert(packageJson.devpilot.dryRunOnly === true, 'La UI debe declarar dry-run only');
+assert(packageJson.devpilot.phaseFClosed === true, 'La UI debe declarar cierre Fase F');
+assert(packageJson.devpilot.desktopDeferred === true, 'La UI debe declarar Desktop diferido');
+assert(packageJson.devpilot.webRealEvolutionPlanned === true, 'La UI debe declarar evolución Web real');
 assert(packageJson.scripts.test === 'node scripts/smoke-test.mjs', 'npm test debe ser local y reproducible');
 
 for (const source of filesToScan) {

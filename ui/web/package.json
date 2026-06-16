@@ -1,9 +1,9 @@
 {
   "name": "devpilot-local-web-ui",
-  "version": "0.4.0-sprint-72",
+  "version": "0.5.0-sprint-73",
   "private": true,
   "type": "module",
-  "description": "DevPilot Local Web UI MVP dashboard, report/trace viewers, Approval Center and Settings UI.",
+  "description": "DevPilot Local Web UI visual MVP for Fase F closure: dashboard, report/trace viewers, Approval Center and Settings UI.",
   "scripts": {
     "dev": "vite --host 127.0.0.1 --port 5173",
     "build": "vite build",
@@ -19,8 +19,8 @@
     "node": ">=20"
   },
   "devpilot": {
-    "sprint": "FUNC-SPRINT-72",
-    "status": "implemented-initial",
+    "sprint": "FUNC-SPRINT-73",
+    "status": "phase-f-closed-visual-mvp",
     "apiOnly": true,
     "readOnly": false,
     "apiBaseDefault": "http://127.0.0.1:8787/api/v1",
@@ -35,6 +35,10 @@
     "settingsUi": true,
     "settingsReadOnly": true,
     "providerEditorPlanOnly": true,
-    "secretsRedacted": true
+    "secretsRedacted": true,
+    "phaseFClosed": true,
+    "desktopDeferred": true,
+    "webRealEvolutionPlanned": true,
+    "visualProductQualityGate": true
   }
 }
