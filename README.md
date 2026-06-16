@@ -1,12 +1,29 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
 Estado actual: `baseline pre-code approved + Fase A cerrada + Fase B cerrada + Fase C cerrada + Fase D cerrada + Fase E cerrada`  
-Último hito: `FUNC-SPRINT-72 — Settings UI: workspace, providers y políticas locales`  
-Siguiente hito: `FUNC-SPRINT-73 — Cierre Fase F web-first y decisión de evolución`  
+Último hito: `FUNC-SPRINT-73 — Cierre Fase F web-first y decisión de evolución`  
+Siguiente hito: `FUNC-SPRINT-74 — ADR de release, versionado y productización`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
 
+
+
+## FUNC-SPRINT-73 — Cierre Fase F web-first y decisión de evolución
+
+Estado: `implemented` / `PASS focalizado`.
+
+Sprint 73 cierra la Fase F como producto visual MVP web-first. No agrega un Desktop shell; registra explícitamente que Desktop queda diferido fuera de Fase F y que la evolución natural posterior es Web UI real cuando existan RBAC, sesiones, release packaging y hardening operacional.
+
+Entregables principales:
+
+- `scripts/visual_product_smoke.py`: Visual Product Quality Gate local-first para verificar CLI/API/UI/core sin red externa.
+- `docs/audits/phase_f_visual_product_closure_report.md`: reporte formal de cierre Fase F, capacidades, brechas y decisión de evolución.
+- `docs/release/release_manifest_visual_mvp.json`: manifest del release visual MVP interno.
+- `docs/functional_sprint_73_manifest.json`: manifest funcional Sprint 73.
+- `tests/test_visual_product_smoke.py` y `tests/test_sprint_73_documentation.py`: pruebas de cierre y sincronización.
+
+Límites explícitos: Fase F entrega una primera experiencia visual local industrializable; no es todavía un SaaS multiusuario, no incluye RBAC/login empresarial, no publica paquetes, no despliega cloud y no implementa Desktop shell.
 
 
 ## FUNC-SPRINT-72 — Settings UI: workspace, providers y políticas locales

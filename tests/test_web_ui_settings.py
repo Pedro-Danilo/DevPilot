@@ -33,9 +33,9 @@ def test_settings_ui_is_api_only_and_plan_only() -> None:
 def test_package_and_smoke_test_track_sprint_72_settings_contract() -> None:
     package = json.loads((WEB / "package.json").read_text(encoding="utf-8"))
     smoke = _read("scripts/smoke-test.mjs")
-    assert package["devpilot"]["sprint"] == "FUNC-SPRINT-72"
+    assert package["devpilot"]["sprint"] == "FUNC-SPRINT-73"
     assert package["devpilot"]["settingsUi"] is True
     assert package["devpilot"]["providerEditorPlanOnly"] is True
-    assert "FUNC-SPRINT-72" in smoke
+    assert "FUNC-SPRINT-73" in smoke
     assert "/settings/providers/plan" in smoke
     assert "Settings UI" in smoke

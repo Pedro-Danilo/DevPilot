@@ -22,9 +22,9 @@ def test_openapi_v1_tracks_local_api_mvp_contract() -> None:
     spec = _openapi()
 
     assert spec["openapi"] == "3.1.0"
-    assert spec["info"]["version"] == "1.0.0-settings-ui"
-    assert spec["x-devpilot"]["sprint"] == "FUNC-SPRINT-72"
-    assert spec["x-devpilot"]["status"] == "settings-ui-initial"
+    assert spec["info"]["version"] == "1.0.0-visual-mvp"
+    assert spec["x-devpilot"]["sprint"] == "FUNC-SPRINT-73"
+    assert spec["x-devpilot"]["status"] == "visual-mvp-closed"
     assert spec["x-devpilot"]["api_implemented"] is True
     assert spec["x-devpilot"]["server_implemented"] is True
     assert spec["x-devpilot"]["ui_implemented"] is True
@@ -68,7 +68,7 @@ def test_openapi_uses_application_response_for_success_and_errors() -> None:
 
     for path, methods in spec["paths"].items():
         for method, operation in methods.items():
-            assert operation["x-devpilot-status"] in {"secured-initial", "report-trace-viewer-initial", "approval-center-initial", "settings-ui-initial"}
+            assert operation["x-devpilot-status"] in {"secured-initial", "report-trace-viewer-initial", "approval-center-initial", "settings-ui-initial", "visual-mvp-closed"}
             assert operation["security"] == [{"LocalTokenAuth": []}]
             assert operation["x-devpilot-auth"] == "local-token-required"
             assert operation["x-devpilot-cors"] == "restricted-local-allowlist"

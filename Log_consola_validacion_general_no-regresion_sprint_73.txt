@@ -2,9 +2,9 @@
 ............................................................................................................................................ [ 22%]
 ............................................................................................................................................ [ 45%]
 ............................................................................................................................................ [ 68%]
-............................................................................................................................................ [ 91%]
-...................................................                                                                                          [100%]
-DEVPL TEST SUMMARY: 611 passed, 0 failed, 0 errors, 0 skipped
+............................................................................................................................................ [ 90%]
+.........................................................                                                                                    [100%]
+DEVPL TEST SUMMARY: 617 passed, 0 failed, 0 errors, 0 skipped
 (.venv) PS D:\Projects\DevPilot_Local> python -m devpilot_core validate all --json
 {
   "command": "validate all",
@@ -17,7 +17,7 @@ DEVPL TEST SUMMARY: 611 passed, 0 failed, 0 errors, 0 skipped
       "validations_total": 2,
       "validations_passed": 2,
       "validations_failed": 0,
-      "findings_total": 85,
+      "findings_total": 86,
       "warnings_total": 12,
       "blocking_findings_total": 0,
       "preliminary": true,
@@ -621,7 +621,7 @@ DEVPL TEST SUMMARY: 611 passed, 0 failed, 0 errors, 0 skipped
                       {
                         "artifact": "docs/02_architecture/c4_container.md",
                         "exists": true,
-                        "size_bytes": 18185,
+                        "size_bytes": 18566,
                         "frontmatter_ok": true,
                         "artifact_ok": true,
                         "status": "approved",
@@ -666,7 +666,7 @@ DEVPL TEST SUMMARY: 611 passed, 0 failed, 0 errors, 0 skipped
                       {
                         "artifact": "docs/05_operations/runbook.md",
                         "exists": true,
-                        "size_bytes": 169645,
+                        "size_bytes": 171029,
                         "frontmatter_ok": true,
                         "artifact_ok": true,
                         "status": "approved",
@@ -1102,10 +1102,10 @@ DEVPL TEST SUMMARY: 611 passed, 0 failed, 0 errors, 0 skipped
           "data": {
             "summary": {
               "scope": "contracts",
-              "validations_total": 59,
-              "validations_passed": 59,
+              "validations_total": 60,
+              "validations_passed": 60,
               "validations_failed": 0,
-              "findings_total": 71,
+              "findings_total": 72,
               "warnings_total": 0,
               "blocking_findings_total": 0,
               "preliminary": true,
@@ -4570,6 +4570,50 @@ DEVPL TEST SUMMARY: 611 passed, 0 failed, 0 errors, 0 skipped
                     }
                   ]
                 }
+              },
+              {
+                "id": "manifest:docs/functional_sprint_73_manifest.json",
+                "result": {
+                  "command": "schema validate-manifest",
+                  "ok": true,
+                  "exit_code": 0,
+                  "message": "Schema validation passed.",
+                  "data": {
+                    "summary": {
+                      "schema": "docs/schemas/functional_sprint_manifest.schema.json",
+                      "instance": "docs/functional_sprint_73_manifest.json",
+                      "valid": true,
+                      "errors_total": 0,
+                      "findings_total": 1,
+                      "network_used": false,
+                      "external_api_used": false,
+                      "schema_title": "DevPilot Functional Sprint Manifest v1",
+                      "schema_id": "SCHEMA-DEVPL-FUNCTIONAL-SPRINT-MANIFEST-V1",
+                      "validator": "jsonschema",
+                      "jsonschema_version": "4.26.0",
+                      "preliminary": true,
+                      "contract": "FunctionalSprintManifest",
+                      "subject": "docs/functional_sprint_73_manifest.json"
+                    },
+                    "schema": "docs/schemas/functional_sprint_manifest.schema.json",
+                    "instance": "docs/functional_sprint_73_manifest.json",
+                    "notes": [
+                      "FUNC-SPRINT-22 validates JSON structure only; semantic gates remain in dedicated validators.",
+                      "Validation is local-first and does not call network or external APIs."
+                    ]
+                  },
+                  "findings": [
+                    {
+                      "id": "SCHEMA_VALIDATION_PASS",
+                      "message": "Instance conforms to schema.",
+                      "severity": "info",
+                      "metadata": {
+                        "schema": "docs/schemas/functional_sprint_manifest.schema.json",
+                        "instance": "docs/functional_sprint_73_manifest.json"
+                      }
+                    }
+                  ]
+                }
               }
             ],
             "notes": [
@@ -5360,6 +5404,17 @@ DEVPL TEST SUMMARY: 611 passed, 0 failed, 0 errors, 0 skipped
                 "schema": "docs/schemas/functional_sprint_manifest.schema.json",
                 "instance": "docs/functional_sprint_72_manifest.json",
                 "gateway_step": "manifest:docs/functional_sprint_72_manifest.json",
+                "source_command": "schema validate-manifest"
+              }
+            },
+            {
+              "id": "SCHEMA_VALIDATION_PASS",
+              "message": "Instance conforms to schema.",
+              "severity": "info",
+              "metadata": {
+                "schema": "docs/schemas/functional_sprint_manifest.schema.json",
+                "instance": "docs/functional_sprint_73_manifest.json",
+                "gateway_step": "manifest:docs/functional_sprint_73_manifest.json",
                 "source_command": "schema validate-manifest"
               }
             }
@@ -6328,6 +6383,17 @@ DEVPL TEST SUMMARY: 611 passed, 0 failed, 0 errors, 0 skipped
         "schema": "docs/schemas/functional_sprint_manifest.schema.json",
         "instance": "docs/functional_sprint_72_manifest.json",
         "gateway_step": "manifest:docs/functional_sprint_72_manifest.json",
+        "source_command": "schema validate-manifest"
+      }
+    },
+    {
+      "id": "SCHEMA_VALIDATION_PASS",
+      "message": "Instance conforms to schema.",
+      "severity": "info",
+      "metadata": {
+        "schema": "docs/schemas/functional_sprint_manifest.schema.json",
+        "instance": "docs/functional_sprint_73_manifest.json",
+        "gateway_step": "manifest:docs/functional_sprint_73_manifest.json",
         "source_command": "schema validate-manifest"
       }
     }
@@ -8101,7 +8167,7 @@ DEVPL TEST SUMMARY: 611 passed, 0 failed, 0 errors, 0 skipped
       {
         "artifact": "docs/02_architecture/c4_container.md",
         "exists": true,
-        "size_bytes": 18185,
+        "size_bytes": 18566,
         "frontmatter_ok": true,
         "artifact_ok": true,
         "status": "approved",
@@ -8146,7 +8212,7 @@ DEVPL TEST SUMMARY: 611 passed, 0 failed, 0 errors, 0 skipped
       {
         "artifact": "docs/05_operations/runbook.md",
         "exists": true,
-        "size_bytes": 169645,
+        "size_bytes": 171029,
         "frontmatter_ok": true,
         "artifact_ok": true,
         "status": "approved",
@@ -8392,7 +8458,973 @@ DEVPL TEST SUMMARY: 611 passed, 0 failed, 0 errors, 0 skipped
     }
   ]
 }
-(.venv) PS D:\Projects\DevPilot_Local> python -m pytest tests/test_sprint_71_documentation.py tests/test_phase_f_web_first_strategy.py -q
-.......                                                                                                                                      [100%]
-DEVPL TEST SUMMARY: 7 passed, 0 failed, 0 errors, 0 skipped
+(.venv) PS D:\Projects\DevPilot_Local> python -m pytest tests\test_sprint_72_documentation.py tests\test_phase_f_web_first_strategy.py -q
+......                                                                                                                                       [100%]
+DEVPL TEST SUMMARY: 6 passed, 0 failed, 0 errors, 0 skipped
+(.venv) PS D:\Projects\DevPilot_Local> python -m pytest tests\test_api_contract.py tests\test_application_services.py tests\test_application_services_v2.py -q
+...............                                                                                                                              [100%]
+DEVPL TEST SUMMARY: 15 passed, 0 failed, 0 errors, 0 skipped
+
+(.venv) PS D:\Projects\DevPilot_Local> python -m devpilot_core app contract --json
+{
+  "command": "app contract",
+  "ok": true,
+  "exit_code": 0,
+  "message": "Application service v2 contract is available for CLI, secured local API MVP, Web UI viewers, Approval Center, Settings UI and Fase F visual MVP closure; desktop is deferred.",
+  "data": {
+    "summary": {
+      "contract": "DevPilotApplicationServiceContract",
+      "schema_version": "2.0",
+      "capabilities_total": 38,
+      "routes_total": 29,
+      "domains_total": 13,
+      "ui_implemented": true,
+      "api_implemented": true,
+      "api_local_mvp_implemented": true,
+      "api_security_implemented": true,
+      "api_token_required": true,
+      "api_cors_restricted": true,
+      "api_cors_wildcard_enabled": false,
+      "api_policy_binding_enabled": true,
+      "api_security_status": "secured-initial",
+      "api_consumed_by_web_ui": true,
+      "api_default_host": "127.0.0.1",
+      "api_default_port": 8787,
+      "api_contract_defined": true,
+      "api_contract_version": "v1",
+      "openapi_contract_defined": true,
+      "openapi_contract_path": "docs/07_interfaces/openapi_v1.json",
+      "api_service_mapping_path": "docs/07_interfaces/api_service_mapping.md",
+      "visual_strategy": "web_ui_first",
+      "api_local_planned": true,
+      "web_ui_local_planned": true,
+      "web_ui_local_implemented": true,
+      "web_ui_status": "implemented-initial",
+      "web_ui_path": "ui/web",
+      "web_ui_api_only": true,
+      "web_ui_read_only": true,
+      "web_ui_real_future": true,
+      "desktop_deferred": true,
+      "desktop_ready_for_shell": false,
+      "web_ready_for_shell": true,
+      "web_dashboard_ready": true,
+      "report_viewer_implemented": true,
+      "trace_viewer_implemented": true,
+      "report_trace_viewer_status": "implemented-initial",
+      "approval_center_implemented": true,
+      "approval_center_status": "implemented-initial",
+      "dry_run_action_launcher_implemented": true,
+      "web_ui_actions_dry_run_only": true,
+      "web_ui_critical_actions_blocked": true,
+      "settings_ui_implemented": true,
+      "settings_ui_status": "implemented-initial",
+      "settings_ui_read_only": true,
+      "settings_provider_editor_plan_only": true,
+      "settings_policy_editor_enabled": false,
+      "settings_secrets_redacted": true,
+      "web_ui_reports_api_only": true,
+      "web_ui_traces_api_only": true,
+      "external_api_required": false,
+      "application_service_v2": true,
+      "domain_facades_enabled": true,
+      "phase_f_closed": true,
+      "visual_product_mvp_release": true,
+      "visual_product_quality_gate": true,
+      "visual_product_quality_gate_path": "scripts/visual_product_smoke.py",
+      "visual_product_release_manifest_path": "docs/release/release_manifest_visual_mvp.json",
+      "phase_f_closure_report_path": "docs/audits/phase_f_visual_product_closure_report.md",
+      "web_real_evolution_planned": true,
+      "next_phase": "FASE-G-PRODUCTIZACION-RELEASE",
+      "next_sprint": "FUNC-SPRINT-74",
+      "preliminary": true
+    },
+    "domains": [
+      {
+        "domain": "workspace",
+        "service": "WorkspaceApplicationService",
+        "status": "implemented-initial",
+        "side_effects": "read_or_dry_run_plan"
+      },
+      {
+        "domain": "validation",
+        "service": "ValidationApplicationService",
+        "status": "implemented",
+        "side_effects": "none_or_explicit_report_by_adapter"
+      },
+      {
+        "domain": "miasi",
+        "service": "MiasiApplicationService",
+        "status": "implemented",
+        "side_effects": "none"
+      },
+      {
+        "domain": "evals",
+        "service": "EvaluationApplicationService",
+        "status": "implemented-initial",
+        "side_effects": "bounded_local_outputs_for_eval_workdir"
+      },
+      {
+        "domain": "repo",
+        "service": "RepoApplicationService",
+        "status": "implemented-initial",
+        "side_effects": "read_only"
+      },
+      {
+        "domain": "reports",
+        "service": "ReportsApplicationService",
+        "status": "implemented-initial",
+        "side_effects": "read_only_redacted_outputs_reports"
+      },
+      {
+        "domain": "approvals",
+        "service": "ApprovalApplicationService",
+        "status": "implemented-initial",
+        "side_effects": "approval_store_state_transition_audited"
+      },
+      {
+        "domain": "settings",
+        "service": "SettingsApplicationService",
+        "status": "implemented-initial",
+        "side_effects": "read_only_and_provider_plan_only"
+      },
+      {
+        "domain": "review",
+        "service": "ReviewApplicationService",
+        "status": "implemented-initial",
+        "side_effects": "dry_run_static_analysis"
+      },
+      {
+        "domain": "refactor",
+        "service": "RefactorApplicationService",
+        "status": "implemented-initial",
+        "side_effects": "plan_only"
+      },
+      {
+        "domain": "model",
+        "service": "ModelApplicationService",
+        "status": "implemented-initial",
+        "side_effects": "mock_or_local_governed_calls"
+      },
+      {
+        "domain": "history",
+        "service": "HistoryApplicationService",
+        "status": "implemented-initial",
+        "side_effects": "read_only"
+      },
+      {
+        "domain": "observability",
+        "service": "ObservabilityApplicationService",
+        "status": "implemented-initial",
+        "side_effects": "read_or_dry_run_export"
+      }
+    ],
+    "capabilities": [
+      {
+        "operation": "workspace.status",
+        "description": "Report workspace initialization/readiness state.",
+        "side_effect": "none",
+        "dry_run_default": true,
+        "command_equivalent": "python -m devpilot_core workspace status --json",
+        "output_contract": "CommandResult + ApplicationResponse"
+      },
+      {
+        "operation": "workspace.init_plan",
+        "description": "Build a workspace initialization plan without writing files.",
+        "side_effect": "none",
+        "dry_run_default": true,
+        "command_equivalent": "python -m devpilot_core workspace init --json",
+        "output_contract": "CommandResult + ApplicationResponse"
+      },
+      {
+        "operation": "validators.validate_frontmatter",
+        "description": "Legacy alias: validate Markdown frontmatter metadata for one artifact.",
+        "side_effect": "none",
+        "dry_run_default": true,
+        "command_equivalent": "python -m devpilot_core validate-frontmatter <path> --json",
+        "output_contract": "CommandResult + ApplicationResponse"
+      },
+      {
+        "operation": "validators.validate_artifact",
+        "description": "Legacy alias: validate Markdown structure against MIPSoftware/MIASI profiles.",
+        "side_effect": "none",
+        "dry_run_default": true,
+        "command_equivalent": "python -m devpilot_core validate-artifact <path> --json",
+        "output_contract": "CommandResult + ApplicationResponse"
+      },
+      {
+        "operation": "validators.checklist_pre_code",
+        "description": "Legacy alias: evaluate the executable pre-code checklist gate.",
+        "side_effect": "none",
+        "dry_run_default": true,
+        "command_equivalent": "python -m devpilot_core checklist-pre-code --json",
+        "output_contract": "CommandResult + ApplicationResponse"
+      },
+      {
+        "operation": "validators.readiness",
+        "description": "Legacy alias: evaluate readiness gates for baseline artifacts.",
+        "side_effect": "report_when_adapter_requests_it",
+        "dry_run_default": true,
+        "command_equivalent": "python -m devpilot_core readiness-check --strict --json",
+        "output_contract": "CommandResult + ApplicationResponse"
+      },
+      {
+        "operation": "validation.frontmatter",
+        "description": "Validate Markdown frontmatter metadata for one artifact.",
+        "side_effect": "none",
+        "dry_run_default": true,
+        "command_equivalent": "python -m devpilot_core validate-frontmatter <path> --json",
+        "output_contract": "CommandResult + ApplicationResponse"
+      },
+      {
+        "operation": "validation.artifact",
+        "description": "Validate Markdown structure against MIPSoftware/MIASI profiles.",
+        "side_effect": "none",
+        "dry_run_default": true,
+        "command_equivalent": "python -m devpilot_core validate-artifact <path> --json",
+        "output_contract": "CommandResult + ApplicationResponse"
+      },
+      {
+        "operation": "validation.checklist_pre_code",
+        "description": "Evaluate the executable pre-code checklist gate.",
+        "side_effect": "none",
+        "dry_run_default": true,
+        "command_equivalent": "python -m devpilot_core checklist-pre-code --json",
+        "output_contract": "CommandResult + ApplicationResponse"
+      },
+      {
+        "operation": "validation.readiness",
+        "description": "Evaluate readiness gates for baseline artifacts.",
+        "side_effect": "report_when_adapter_requests_it",
+        "dry_run_default": true,
+        "command_equivalent": "python -m devpilot_core readiness-check --strict --json",
+        "output_contract": "CommandResult + ApplicationResponse"
+      },
+      {
+        "operation": "validation.gateway",
+        "description": "Run docs/contracts/all validation gateway.",
+        "side_effect": "report_when_adapter_requests_it",
+        "dry_run_default": true,
+        "command_equivalent": "python -m devpilot_core validate all --json",
+        "output_contract": "CommandResult + ApplicationResponse"
+      },
+      {
+        "operation": "standards.status",
+        "description": "Report local MIPSoftware and MIASI registry status.",
+        "side_effect": "none",
+        "dry_run_default": true,
+        "command_equivalent": "python -m devpilot_core standards status --json",
+        "output_contract": "CommandResult + ApplicationResponse"
+      },
+      {
+        "operation": "miasi.validate",
+        "description": "Validate MIASI executable registries.",
+        "side_effect": "none",
+        "dry_run_default": true,
+        "command_equivalent": "python -m devpilot_core miasi validate --json",
+        "output_contract": "CommandResult + ApplicationResponse"
+      },
+      {
+        "operation": "evals.documentation.run",
+        "description": "Run offline deterministic evaluation suite.",
+        "side_effect": "local_eval_workdir",
+        "dry_run_default": true,
+        "command_equivalent": "python -m devpilot_core eval run --suite documentation --json",
+        "output_contract": "CommandResult + ApplicationResponse"
+      },
+      {
+        "operation": "repo.inventory",
+        "description": "Build local repository inventory.",
+        "side_effect": "none",
+        "dry_run_default": true,
+        "command_equivalent": "python -m devpilot_core repo inventory --json",
+        "output_contract": "CommandResult + ApplicationResponse"
+      },
+      {
+        "operation": "reports.list",
+        "description": "List redacted local evidence reports under outputs/reports.",
+        "side_effect": "none",
+        "dry_run_default": true,
+        "command_equivalent": "python -m devpilot_core reports list --json",
+        "output_contract": "CommandResult + ApplicationResponse"
+      },
+      {
+        "operation": "reports.read",
+        "description": "Read one redacted local evidence report by id and format.",
+        "side_effect": "none",
+        "dry_run_default": true,
+        "command_equivalent": "python -m devpilot_core reports read <report_id> --json",
+        "output_contract": "CommandResult + ApplicationResponse"
+      },
+      {
+        "operation": "approvals.list",
+        "description": "List local human approval records for Approval Center.",
+        "side_effect": "read_only",
+        "dry_run_default": true,
+        "command_equivalent": "python -m devpilot_core approval list --json",
+        "output_contract": "CommandResult + ApplicationResponse"
+      },
+      {
+        "operation": "approvals.show",
+        "description": "Show one local approval record by id.",
+        "side_effect": "read_only",
+        "dry_run_default": true,
+        "command_equivalent": "python -m devpilot_core approval show <approval_id> --json",
+        "output_contract": "CommandResult + ApplicationResponse"
+      },
+      {
+        "operation": "approvals.request",
+        "description": "Create an audited local approval request from Approval Center.",
+        "side_effect": "approval_store_write",
+        "dry_run_default": false,
+        "command_equivalent": "python -m devpilot_core approval request --tool <tool> --action <action> --subject <subject> --reason <reason> --actor <actor> --json",
+        "output_contract": "CommandResult + ApplicationResponse"
+      },
+      {
+        "operation": "approvals.approve",
+        "description": "Approve one local approval request through controlled transition.",
+        "side_effect": "approval_store_write",
+        "dry_run_default": false,
+        "command_equivalent": "python -m devpilot_core approval approve <approval_id> --actor <actor> --reason <reason> --json",
+        "output_contract": "CommandResult + ApplicationResponse"
+      },
+      {
+        "operation": "approvals.deny",
+        "description": "Deny one local approval request through controlled transition.",
+        "side_effect": "approval_store_write",
+        "dry_run_default": false,
+        "command_equivalent": "python -m devpilot_core approval deny <approval_id> --actor <actor> --reason <reason> --json",
+        "output_contract": "CommandResult + ApplicationResponse"
+      },
+      {
+        "operation": "ui.actions.dry_run",
+        "description": "Launch safe UI actions in read-only/dry-run mode only.",
+        "side_effect": "dry_run_only",
+        "dry_run_default": true,
+        "command_equivalent": "UI Action Launcher: readiness/code-review/refactor-plan",
+        "output_contract": "CommandResult + ApplicationResponse"
+      },
+      {
+        "operation": "settings.workspace",
+        "description": "Read workspace project settings without exposing filesystem writes.",
+        "side_effect": "none",
+        "dry_run_default": true,
+        "command_equivalent": "Settings UI: workspace panel",
+        "output_contract": "CommandResult + ApplicationResponse"
+      },
+      {
+        "operation": "settings.providers",
+        "description": "Read provider settings with secret redaction and external providers disabled by default.",
+        "side_effect": "none",
+        "dry_run_default": true,
+        "command_equivalent": "Settings UI: providers panel",
+        "output_contract": "CommandResult + ApplicationResponse"
+      },
+      {
+        "operation": "settings.policy",
+        "description": "Read local policy and MIASI policy matrix summaries without editing policy.",
+        "side_effect": "none",
+        "dry_run_default": true,
+        "command_equivalent": "Settings UI: policy panel",
+        "output_contract": "CommandResult + ApplicationResponse"
+      },
+      {
+        "operation": "settings.providers.plan",
+        "description": "Create a provider configuration change plan without writing .devpilot/providers.yaml.",
+        "side_effect": "plan_only",
+        "dry_run_default": true,
+        "command_equivalent": "Settings UI: provider plan-only editor",
+        "output_contract": "CommandResult + ApplicationResponse"
+      },
+      {
+        "operation": "repo.analyze",
+        "description": "Run read-only repository analysis.",
+        "side_effect": "none",
+        "dry_run_default": true,
+        "command_equivalent": "python -m devpilot_core repo analyze --json",
+        "output_contract": "CommandResult + ApplicationResponse"
+      },
+      {
+        "operation": "review.code",
+        "description": "Run deterministic code review in dry-run mode.",
+        "side_effect": "none",
+        "dry_run_default": true,
+        "command_equivalent": "python -m devpilot_core code-review . --json",
+        "output_contract": "CommandResult + ApplicationResponse"
+      },
+      {
+        "operation": "refactor.plan",
+        "description": "Create plan-only safe refactor proposal.",
+        "side_effect": "none",
+        "dry_run_default": true,
+        "command_equivalent": "python -m devpilot_core refactor-plan . --json",
+        "output_contract": "CommandResult + ApplicationResponse"
+      },
+      {
+        "operation": "model.providers",
+        "description": "List governed model providers without external API calls.",
+        "side_effect": "none",
+        "dry_run_default": true,
+        "command_equivalent": "python -m devpilot_core model providers --json",
+        "output_contract": "CommandResult + ApplicationResponse"
+      },
+      {
+        "operation": "model.health",
+        "description": "Check provider health through governed model router.",
+        "side_effect": "localhost_or_none",
+        "dry_run_default": true,
+        "command_equivalent": "python -m devpilot_core model health --provider mock --json",
+        "output_contract": "CommandResult + ApplicationResponse"
+      },
+      {
+        "operation": "model.capabilities",
+        "description": "Build static model capability matrix.",
+        "side_effect": "none",
+        "dry_run_default": true,
+        "command_equivalent": "python -m devpilot_core model capabilities --json",
+        "output_contract": "CommandResult + ApplicationResponse"
+      },
+      {
+        "operation": "history.runs",
+        "description": "List local command history from LocalStore.",
+        "side_effect": "none",
+        "dry_run_default": true,
+        "command_equivalent": "python -m devpilot_core history list --json",
+        "output_contract": "CommandResult + ApplicationResponse"
+      },
+      {
+        "operation": "observability.trace_report",
+        "description": "Read bounded local trace report.",
+        "side_effect": "none",
+        "dry_run_default": true,
+        "command_equivalent": "python -m devpilot_core trace report --json",
+        "output_contract": "CommandResult + ApplicationResponse"
+      },
+      {
+        "operation": "observability.trace_inspect",
+        "description": "Inspect one trace id as a span tree.",
+        "side_effect": "none",
+        "dry_run_default": true,
+        "command_equivalent": "python -m devpilot_core trace inspect <trace_id> --json",
+        "output_contract": "CommandResult + ApplicationResponse"
+      },
+      {
+        "operation": "observability.metrics_summary",
+        "description": "Read bounded local metrics summary.",
+        "side_effect": "none",
+        "dry_run_default": true,
+        "command_equivalent": "python -m devpilot_core metrics summary --json",
+        "output_contract": "CommandResult + ApplicationResponse"
+      },
+      {
+        "operation": "observability.agentops_status",
+        "description": "Evaluate AgentOps quality gate.",
+        "side_effect": "report_when_adapter_requests_it",
+        "dry_run_default": true,
+        "command_equivalent": "python -m devpilot_core agentops status --json",
+        "output_contract": "CommandResult + ApplicationResponse"
+      }
+    ],
+    "routes": [
+      {
+        "route_id": "APP-ROUTE-001",
+        "method": "GET",
+        "path": "/api/v1/workspace/status",
+        "operation": "workspace.status",
+        "status": "secured-initial",
+        "notes": [
+          "Active local API MVP route in FUNC-SPRINT-67."
+        ]
+      },
+      {
+        "route_id": "APP-ROUTE-002",
+        "method": "POST",
+        "path": "/api/v1/validation/frontmatter",
+        "operation": "validation.frontmatter",
+        "status": "secured-initial",
+        "notes": [
+          "Active local API MVP route for Web UI validators."
+        ]
+      },
+      {
+        "route_id": "APP-ROUTE-003",
+        "method": "POST",
+        "path": "/api/v1/validation/artifact",
+        "operation": "validation.artifact",
+        "status": "secured-initial",
+        "notes": [
+          "Active local API MVP route for Web UI validators."
+        ]
+      },
+      {
+        "route_id": "APP-ROUTE-004",
+        "method": "POST",
+        "path": "/api/v1/validation/readiness",
+        "operation": "validation.readiness",
+        "status": "secured-initial",
+        "notes": [
+          "Active local API MVP route; report writes remain explicit in lower layers."
+        ]
+      },
+      {
+        "route_id": "APP-ROUTE-005",
+        "method": "GET",
+        "path": "/api/v1/miasi/status",
+        "operation": "miasi.validate",
+        "status": "secured-initial",
+        "notes": [
+          "Active read-only MIASI status projection."
+        ]
+      },
+      {
+        "route_id": "APP-ROUTE-006",
+        "method": "GET",
+        "path": "/api/v1/repo/inventory",
+        "operation": "repo.inventory",
+        "status": "secured-initial",
+        "notes": [
+          "Active read-only repository summary route."
+        ]
+      },
+      {
+        "route_id": "APP-ROUTE-007",
+        "method": "POST",
+        "path": "/api/v1/review/code",
+        "operation": "review.code",
+        "status": "secured-initial",
+        "notes": [
+          "Active dry-run review route; no mutation."
+        ]
+      },
+      {
+        "route_id": "APP-ROUTE-008",
+        "method": "POST",
+        "path": "/api/v1/refactor/plan",
+        "operation": "refactor.plan",
+        "status": "secured-initial",
+        "notes": [
+          "Active plan-only route; no patch execution."
+        ]
+      },
+      {
+        "route_id": "APP-ROUTE-009",
+        "method": "GET",
+        "path": "/api/v1/model/providers",
+        "operation": "model.providers",
+        "status": "secured-initial",
+        "notes": [
+          "Active governed model provider listing; no external API call."
+        ]
+      },
+      {
+        "route_id": "APP-ROUTE-010",
+        "method": "GET",
+        "path": "/api/v1/observability/traces",
+        "operation": "observability.trace_report",
+        "status": "secured-initial",
+        "notes": [
+          "Active bounded local trace viewer route."
+        ]
+      },
+      {
+        "route_id": "APP-ROUTE-011",
+        "method": "GET",
+        "path": "/api/v1/observability/metrics",
+        "operation": "observability.metrics_summary",
+        "status": "secured-initial",
+        "notes": [
+          "Active bounded local metric viewer route."
+        ]
+      },
+      {
+        "route_id": "APP-ROUTE-012",
+        "method": "GET",
+        "path": "/api/v1/history/runs",
+        "operation": "history.runs",
+        "status": "secured-initial",
+        "notes": [
+          "Active bounded LocalStore history route."
+        ]
+      },
+      {
+        "route_id": "APP-ROUTE-013",
+        "method": "GET",
+        "path": "/api/v1/application/contract",
+        "operation": "app.contract",
+        "status": "secured-initial",
+        "notes": [
+          "Active bootstrap route for API/Web UI clients."
+        ]
+      },
+      {
+        "route_id": "APP-ROUTE-014",
+        "method": "GET",
+        "path": "/api/v1/standards/status",
+        "operation": "standards.status",
+        "status": "secured-initial",
+        "notes": [
+          "Active standards status route added by FUNC-SPRINT-67."
+        ]
+      },
+      {
+        "route_id": "APP-ROUTE-015",
+        "method": "GET",
+        "path": "/api/v1/reports",
+        "operation": "reports.list",
+        "status": "secured-initial",
+        "notes": [
+          "Active Sprint 70 report index route; API reads outputs/reports, UI never reads filesystem."
+        ]
+      },
+      {
+        "route_id": "APP-ROUTE-016",
+        "method": "GET",
+        "path": "/api/v1/reports/{report_id}",
+        "operation": "reports.read",
+        "status": "secured-initial",
+        "notes": [
+          "Active Sprint 70 report detail route with redaction and safe basename validation."
+        ]
+      },
+      {
+        "route_id": "APP-ROUTE-017",
+        "method": "GET",
+        "path": "/api/v1/traces",
+        "operation": "observability.trace_report",
+        "status": "secured-initial",
+        "notes": [
+          "Active Sprint 70 trace index route; bounded and empty-safe."
+        ]
+      },
+      {
+        "route_id": "APP-ROUTE-018",
+        "method": "GET",
+        "path": "/api/v1/traces/{trace_id}",
+        "operation": "observability.trace_inspect",
+        "status": "secured-initial",
+        "notes": [
+          "Active Sprint 70 trace detail route rendered as span tree."
+        ]
+      },
+      {
+        "route_id": "APP-ROUTE-019",
+        "method": "GET",
+        "path": "/api/v1/metrics/summary",
+        "operation": "observability.metrics_summary",
+        "status": "secured-initial",
+        "notes": [
+          "Active Sprint 70 metrics summary alias for visual dashboard."
+        ]
+      },
+      {
+        "route_id": "APP-ROUTE-020",
+        "method": "GET",
+        "path": "/api/v1/approvals",
+        "operation": "approvals.list",
+        "status": "secured-initial",
+        "notes": [
+          "Active Sprint 71 Approval Center route; lists approval records through ApprovalService."
+        ]
+      },
+      {
+        "route_id": "APP-ROUTE-021",
+        "method": "GET",
+        "path": "/api/v1/approvals/{approval_id}",
+        "operation": "approvals.show",
+        "status": "secured-initial",
+        "notes": [
+          "Active Sprint 71 approval detail route with safe local token policy."
+        ]
+      },
+      {
+        "route_id": "APP-ROUTE-022",
+        "method": "POST",
+        "path": "/api/v1/approvals/request",
+        "operation": "approvals.request",
+        "status": "secured-initial",
+        "notes": [
+          "Active Sprint 71 audited approval request route; writes only approval store records."
+        ]
+      },
+      {
+        "route_id": "APP-ROUTE-023",
+        "method": "POST",
+        "path": "/api/v1/approvals/{approval_id}/approve",
+        "operation": "approvals.approve",
+        "status": "secured-initial",
+        "notes": [
+          "Active Sprint 71 controlled approval transition route."
+        ]
+      },
+      {
+        "route_id": "APP-ROUTE-024",
+        "method": "POST",
+        "path": "/api/v1/approvals/{approval_id}/deny",
+        "operation": "approvals.deny",
+        "status": "secured-initial",
+        "notes": [
+          "Active Sprint 71 controlled denial transition route."
+        ]
+      },
+      {
+        "route_id": "APP-ROUTE-025",
+        "method": "POST",
+        "path": "/api/v1/actions/dry-run",
+        "operation": "ui.actions.dry_run",
+        "status": "secured-initial",
+        "notes": [
+          "Active Sprint 71 dry-run Action Launcher route; critical actions remain blocked from UI."
+        ]
+      },
+      {
+        "route_id": "APP-ROUTE-026",
+        "method": "GET",
+        "path": "/api/v1/settings/workspace",
+        "operation": "settings.workspace",
+        "status": "secured-initial",
+        "notes": [
+          "Active Sprint 72 Settings route; read-only workspace projection."
+        ]
+      },
+      {
+        "route_id": "APP-ROUTE-027",
+        "method": "GET",
+        "path": "/api/v1/settings/providers",
+        "operation": "settings.providers",
+        "status": "secured-initial",
+        "notes": [
+          "Active Sprint 72 Settings route; providers are redacted and read-only."
+        ]
+      },
+      {
+        "route_id": "APP-ROUTE-028",
+        "method": "GET",
+        "path": "/api/v1/settings/policy",
+        "operation": "settings.policy",
+        "status": "secured-initial",
+        "notes": [
+          "Active Sprint 72 Settings route; policy summary is read-only."
+        ]
+      },
+      {
+        "route_id": "APP-ROUTE-029",
+        "method": "POST",
+        "path": "/api/v1/settings/providers/plan",
+        "operation": "settings.providers.plan",
+        "status": "secured-initial",
+        "notes": [
+          "Active Sprint 72 Settings route; provider edits are plan-only and never write files."
+        ]
+      }
+    ],
+    "dto_contracts": {
+      "request": "ApplicationRequest",
+      "response": "ApplicationResponse",
+      "capability": "ServiceCapability",
+      "route": "InterfaceRouteContract"
+    },
+    "preliminary": true,
+    "notes": [
+      "FUNC-SPRINT-73 closes Fase F with a Visual Product Quality Gate, visual MVP release manifest and Web-real evolution decision.",
+      "FUNC-SPRINT-72 adds Settings UI for workspace/providers/policy in read-only and provider plan-only mode with secret redaction.",
+      "FUNC-SPRINT-71 adds Approval Center and a dry-run Action Launcher; critical execution remains blocked from the Web UI.",
+      "FUNC-SPRINT-70 adds Report Viewer and Trace Viewer over local API only; the UI does not read outputs/ directly.",
+      "FUNC-SPRINT-69 adds a local Web UI MVP under ui/web that consumes only /api/v1 and remains read-only.",
+      "FUNC-SPRINT-65 exposes domain application services for future API local and Web UI integration.",
+      "FUNC-SPRINT-66 defines static API Contract v1 and OpenAPI preliminary artifacts without implementing an HTTP server.",
+      "FUNC-SPRINT-67 implements the local FastAPI MVP in src/devpilot_core/interfaces/api, still without Web frontend or Desktop shell.",
+      "FUNC-SPRINT-68 adds local API security controls: token, restricted CORS, security headers and PolicyEngine binding.",
+      "API route handlers call ApplicationService/DomainService methods instead of importing DevPilot Core modules directly.",
+      "Operations with side effects remain dry-run/report-only and protected by token/policy gates before future UI consumption."
+    ]
+  },
+  "findings": [
+    {
+      "id": "APP_CONTRACT_V2_PASS",
+      "message": "ApplicationService v2 exposes domain facades plus secured local API route contracts, Web UI viewers, Approval Center, Settings UI and Fase F visual MVP closure.",
+      "severity": "info",
+      "metadata": {
+        "domains_total": 13,
+        "capabilities_total": 38
+      }
+    }
+  ]
+}
+(.venv) PS D:\Projects\DevPilot_Local> python -m devpilot_core agentops status --json
+{
+  "command": "agentops status",
+  "ok": true,
+  "exit_code": 0,
+  "message": "AgentOps quality gate passed.",
+  "data": {
+    "summary": {
+      "operational_status": "PASS",
+      "phase": "FASE-E-AGENTOPS-OBSERVABILIDAD",
+      "phase_e_closure_ready": true,
+      "next_phase": "FASE-F-PRODUCTO-VISUAL",
+      "next_sprint": "FUNC-SPRINT-64",
+      "store_initialized": true,
+      "traces_observed_total": 67,
+      "spans_scanned": 100,
+      "events_scanned": 100,
+      "metrics_scanned": 200,
+      "metrics_total": 5718,
+      "warnings_total": 0,
+      "blocking_findings_total": 0,
+      "network_used": false,
+      "external_api_used": false,
+      "ui_required": false,
+      "remote_telemetry_enabled": false,
+      "preliminary": true
+    },
+    "store": {
+      "paths": {
+        "root": ".",
+        "db_path": ".devpilot/devpilot.db"
+      },
+      "summary": {
+        "initialized": true,
+        "schema_version": "0004_metrics_collector_v1",
+        "tables_total": 10
+      },
+      "tables": [
+        "approvals",
+        "cost_events",
+        "events",
+        "findings",
+        "gates",
+        "metrics",
+        "runs",
+        "schema_migrations",
+        "spans",
+        "sqlite_sequence"
+      ],
+      "counts": {
+        "runs": 6653,
+        "findings": 36536,
+        "gates": 4431,
+        "events": 3055,
+        "spans": 3000,
+        "metrics": 5718,
+        "approvals": 28,
+        "cost_events": 674
+      }
+    },
+    "runtime_signals": {
+      "store_initialized": true,
+      "spans_present": true,
+      "events_present": true,
+      "metrics_present": true,
+      "required_metric_categories_present": true,
+      "required_span_types_present": true,
+      "network_used": false,
+      "external_api_used": false,
+      "ui_required": false,
+      "remote_telemetry_enabled": false,
+      "span_types": {
+        "agent.run": 6,
+        "model.call": 21,
+        "policy.check": 59,
+        "tool.call": 14
+      },
+      "span_statuses": {
+        "block": 2,
+        "ok": 98
+      },
+      "event_types": {
+        "agent.run.completed": 6,
+        "agent.tool_call.completed": 14,
+        "model.call.completed": 21,
+        "policy.check.completed": 59
+      },
+      "metric_categories_recent": {
+        "agent": 6,
+        "command": 50,
+        "model": 69,
+        "policy": 61,
+        "tool": 14
+      },
+      "metric_statuses_recent": {
+        "BLOCK": 3,
+        "FAIL": 1,
+        "PASS": 150
+      },
+      "metric_summary": {
+        "initialized": true,
+        "metrics_total": 5718,
+        "operations_total": 4590,
+        "categories": {
+          "agent": 139,
+          "approval": 40,
+          "command": 1593,
+          "model": 1692,
+          "policy": 1923,
+          "tool": 331
+        },
+        "statuses": {
+          "BLOCK": 149,
+          "FAIL": 25,
+          "PASS": 4416
+        },
+        "providers": {
+          "mock": 1692
+        },
+        "estimated_cost_total_usd": 0.0,
+        "tokens_estimated_total": 50881
+      },
+      "missing_recommended_span_types": [],
+      "missing_recommended_metric_categories": [],
+      "sample_trace_ids": [
+        "trace_0a624cc075de43e6911c474b67da3441",
+        "trace_0b6379ee497d48cabc502b16be2616d3",
+        "trace_0b8b041ea5a6454fa2e9b8f2f43e785e",
+        "trace_0df24745f876437586030a6d1d122d55",
+        "trace_0e0927a7f2044bc9aa785fc76a5a56f1",
+        "trace_0e34671f51f74bbea6e14bd56d863107",
+        "trace_0eea095655794f99862ba9e5cc0bed97",
+        "trace_110edde4f46546b29b3efdfb54db07c9",
+        "trace_14394ba659554d41858f5596abce9fef",
+        "trace_15688b2fa6ec41c29dece82eb97ac2ff"
+      ]
+    },
+    "control_plane": {
+      "required_documents": {
+        "README.md": true,
+        "docs/05_operations/runbook.md": true,
+        "docs/05_operations/observability_plan.md": true,
+        "docs/06_miasi/observability_card.md": true,
+        "docs/06_miasi/tool_card.md": true,
+        "docs/06_miasi/policy_matrix.md": true,
+        "docs/devpilot_backlog_fase_E_agentops_observabilidad.md": true,
+        "docs/audits/phase_e_agentops_closure_report.md": true,
+        "docs/functional_sprint_63_manifest.json": true
+      },
+      "miasi_tools": {
+        "agentops.status": true,
+        "telemetry.export": true
+      },
+      "miasi_policy_rules": {
+        "AGENTOPS_STATUS_ALLOW": true,
+        "OTEL_EXPORT_DRY_RUN_ALLOW": true,
+        "OTEL_REMOTE_EXPORT_BLOCK": true
+      }
+    },
+    "capabilities": {
+      "trace_context": "implemented",
+      "trace_store": "implemented",
+      "metrics_collector": "implemented",
+      "agentops_instrumentation": "implemented-initial",
+      "trace_metrics_cli": "implemented-initial",
+      "otel_dry_run_exporter": "implemented-initial",
+      "agentops_quality_gate": "implemented-initial",
+      "dashboard_ui": "not_implemented_phase_f",
+      "remote_telemetry": "blocked_by_default"
+    },
+    "recommendations": [
+      "Mantener `agentops status` como gate de entrada para Fase F/UI.",
+      "Visualizar estas señales desde ApplicationService/API sin duplicar lógica en UI.",
+      "Mantener OpenTelemetry remoto como opt-in explícito, nunca por defecto."
+    ]
+  },
+  "findings": []
+}
 (.venv) PS D:\Projects\DevPilot_Local>

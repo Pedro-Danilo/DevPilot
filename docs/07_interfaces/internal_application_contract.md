@@ -401,3 +401,10 @@ Se agregan operaciones `reports.list`, `reports.read` y `observability.trace_ins
 ## Sprint 72 — Settings UI
 
 `FUNC-SPRINT-72` agrega operaciones `settings.workspace`, `settings.providers`, `settings.policy` y `settings.providers.plan`. Todas se consumen desde `/api/v1`; la UI no importa core Python ni lee archivos locales. La edición de providers queda como plan-only: no se escribe `.devpilot/providers.yaml`, no se muestran secretos y no se habilitan proveedores externos por accidente.
+
+
+## Sprint 73 — Visual Product Quality Gate y cierre Fase F
+
+`ApplicationService.application_contract()` declara la Fase F cerrada mediante los campos `phase_f_closed`, `visual_product_mvp_release`, `visual_product_quality_gate`, `web_real_evolution_planned`, `desktop_deferred` y `next_sprint`.
+
+El contrato sigue garantizando que la UI consume `/api/v1`, no importa core Python, no lee filesystem local directamente y mantiene bloqueadas las acciones críticas sin Approval Workflow.

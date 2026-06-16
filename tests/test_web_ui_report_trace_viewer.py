@@ -30,7 +30,7 @@ def test_web_ui_smoke_script_tracks_sprint70_scope() -> None:
     package = json.loads(_read("package.json"))
     smoke = _read("scripts/smoke-test.mjs")
 
-    assert package["devpilot"]["sprint"] == "FUNC-SPRINT-72"
+    assert package["devpilot"]["sprint"] == "FUNC-SPRINT-73"
     assert package["devpilot"]["reportViewer"] is True
     assert package["devpilot"]["traceViewer"] is True
     assert "Report Viewer" in smoke

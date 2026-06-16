@@ -21,6 +21,8 @@ def test_application_service_v2_contract_lists_domain_facades() -> None:
     assert payload["summary"]["ui_implemented"] is True
     assert payload["summary"]["web_ui_local_implemented"] is True
     assert payload["summary"]["desktop_deferred"] is True
+    assert payload["summary"]["phase_f_closed"] is True
+    assert payload["summary"]["visual_product_quality_gate"] is True
 
     domains = {row["domain"] for row in payload["domains"]}
     assert {

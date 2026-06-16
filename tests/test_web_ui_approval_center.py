@@ -33,7 +33,7 @@ def test_approval_center_ui_is_api_only_and_dry_run_only() -> None:
 def test_web_smoke_knows_sprint71_contract() -> None:
     smoke = _read("ui/web/scripts/smoke-test.mjs")
     package_json = _read("ui/web/package.json")
-    assert "FUNC-SPRINT-72" in smoke
-    assert '"sprint": "FUNC-SPRINT-72"' in package_json
+    assert "FUNC-SPRINT-73" in smoke
+    assert '"sprint": "FUNC-SPRINT-73"' in package_json
     assert '"approvalCenter": true' in package_json
     assert '"dryRunOnly": true' in package_json

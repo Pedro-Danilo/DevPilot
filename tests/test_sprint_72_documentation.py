@@ -31,15 +31,15 @@ def test_sprint_72_artifacts_and_docs_are_synchronized() -> None:
         "docs/functional_sprint_72_manifest.json",
     ]:
         assert (ROOT / path).exists(), path
-    assert "Último hito: `FUNC-SPRINT-72" in readme
-    assert "Siguiente hito: `FUNC-SPRINT-73" in readme
+    assert "Último hito: `FUNC-SPRINT-73" in readme
+    assert "Siguiente hito: `FUNC-SPRINT-74" in readme
     assert "FUNC-SPRINT-72 — Settings UI: workspace, providers y políticas locales" in readme
     assert "FUNC-SPRINT-72 — Operación de Settings UI" in runbook
-    assert 'source_repo: "repo_DevPilot_Local_91.zip"' in backlog
-    assert 'first_open_sprint: "FUNC-SPRINT-73"' in backlog
-    assert 'last_completed_sprint: "FUNC-SPRINT-72"' in backlog
-    assert 'next_sprint: "FUNC-SPRINT-73"' in backlog
-    assert 'next_sprint: "FUNC-SPRINT-73"' in functional_backlog
+    assert 'source_repo: "repo_DevPilot_Local_92.zip"' in backlog
+    assert 'first_open_sprint: "FUNC-SPRINT-74"' in backlog
+    assert 'last_completed_sprint: "FUNC-SPRINT-73"' in backlog
+    assert 'next_sprint: "FUNC-SPRINT-74"' in backlog
+    assert 'next_sprint: "FUNC-SPRINT-74"' in functional_backlog
     assert "Settings UI" in internal_contract
 
 
@@ -54,7 +54,7 @@ def test_sprint_72_manifest_openapi_and_contract() -> None:
     assert summary["secrets_redacted"] is True
     assert summary["writes_performed"] is False
     assert manifest["next_sprint"].startswith("FUNC-SPRINT-73")
-    assert openapi["x-devpilot"]["sprint"] == "FUNC-SPRINT-72"
+    assert openapi["x-devpilot"]["sprint"] in {"FUNC-SPRINT-72", "FUNC-SPRINT-73"}
     for path in ["/api/v1/settings/workspace", "/api/v1/settings/providers", "/api/v1/settings/policy", "/api/v1/settings/providers/plan"]:
         assert path in openapi["paths"]
 

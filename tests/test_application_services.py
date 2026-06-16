@@ -62,6 +62,9 @@ def test_application_contract_is_serializable_and_declares_web_ui_mvp() -> None:
     assert payload["data"]["summary"]["desktop_deferred"] is True
     assert payload["data"]["summary"]["desktop_ready_for_shell"] is False
     assert payload["data"]["summary"]["web_ready_for_shell"] is True
+    assert payload["data"]["summary"]["phase_f_closed"] is True
+    assert payload["data"]["summary"]["visual_product_mvp_release"] is True
+    assert payload["data"]["summary"]["next_sprint"] == "FUNC-SPRINT-74"
     operations = {capability["operation"] for capability in payload["data"]["capabilities"]}
     assert "validators.validate_frontmatter" in operations
     assert "validators.validate_artifact" in operations

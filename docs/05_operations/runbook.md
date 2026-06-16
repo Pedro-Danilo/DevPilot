@@ -4120,6 +4120,48 @@ npm test
 - Bloquear si se exponen tokens o secretos en resultados visuales.
 
 
+
+
+## FUNC-SPRINT-73 — Operación de cierre Fase F
+
+### Propósito
+
+Verificar el producto visual MVP web-first después de `FUNC-SPRINT-72`, cerrar Fase F y dejar lista la entrada a Fase G sin implementar Desktop shell.
+
+### Comandos
+
+```powershell
+python scripts/visual_product_smoke.py --dry-run --json
+python -m devpilot_core app contract --json
+python -m devpilot_core agentops status --json
+cd ui\web
+npm test
+cd ..\..
+python -m devpilot_core schema validate-manifest docs/functional_sprint_73_manifest.json --json
+python -m devpilot_core validate-artifact docs/audits/phase_f_visual_product_closure_report.md --json
+python -m pytest tests/test_visual_product_smoke.py tests/test_sprint_73_documentation.py -q
+```
+
+### PASS
+
+- Visual Product Quality Gate pasa.
+- Web UI local sigue siendo API-only y no importa core Python.
+- API local conserva token, CORS restringido y policy binding.
+- Desktop shell no existe en Fase F.
+- Release manifest visual MVP existe.
+
+### BLOCK
+
+- UI requiere cloud o API externa.
+- UI lee `outputs/` o `.devpilot/` directamente.
+- API expone rutas críticas sin approval.
+- Desktop se implementa sin ADR posterior.
+
+### Riesgos
+
+El cierre Fase F es una primera versión visual local industrializable. No equivale a release público, SaaS, RBAC multiusuario ni distribución instalable; esos elementos deben tratarse en Fase G y fases posteriores.
+
+
 ## FUNC-SPRINT-72 — Operación de Settings UI
 
 Propósito: consultar configuración de workspace, providers y política local desde la Web UI sin exponer secretos ni habilitar cambios destructivos.

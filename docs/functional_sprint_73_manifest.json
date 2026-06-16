@@ -1,0 +1,90 @@
+{
+  "schema_version": "1.0.0",
+  "sprint": "FUNC-SPRINT-73",
+  "title": "FUNC-SPRINT-73 — Cierre Fase F web-first y decisión de evolución",
+  "status": "implemented",
+  "implemented_at": "2026-06-16",
+  "phase": "FASE-F-PRODUCTO-VISUAL",
+  "wave": "Ola 9 — API local y Web UI local web-ready",
+  "source_backlog": "docs/devpilot_backlog_fase_F_producto_visual.md",
+  "summary": {
+    "phase_f_closed": true,
+    "visual_product_quality_gate_implemented": true,
+    "visual_product_mvp_release_manifest_created": true,
+    "web_ui_local_mvp": true,
+    "web_real_evolution_planned": true,
+    "desktop_deferred": true,
+    "desktop_shell_implemented": false,
+    "external_api_required": false,
+    "cloud_required": false,
+    "critical_actions_blocked_from_ui": true,
+    "next_phase": "FASE-G-PRODUCTIZACION-RELEASE",
+    "next_sprint": "FUNC-SPRINT-74"
+  },
+  "created_files": [
+    "scripts/visual_product_smoke.py",
+    "docs/audits/phase_f_visual_product_closure_report.md",
+    "docs/release/release_manifest_visual_mvp.json",
+    "docs/functional_sprint_73_manifest.json",
+    "tests/test_visual_product_smoke.py",
+    "tests/test_sprint_73_documentation.py"
+  ],
+  "modified_files": [
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/devpilot_backlog_fase_F_producto_visual.md",
+    "docs/functional_backlog_after_precode.md",
+    "docs/02_architecture/c4_container.md",
+    "docs/07_interfaces/internal_application_contract.md",
+    "docs/07_interfaces/openapi_v1.json",
+    "docs/07_interfaces/api_service_mapping.md",
+    "src/devpilot_core/application/services.py",
+    "ui/web/package.json",
+    "ui/web/scripts/smoke-test.mjs",
+    "ui/web/src/pages/Dashboard.ts",
+    "tests/test_api_contract.py",
+    "tests/test_application_services.py",
+    "tests/test_application_services_v2.py",
+    "tests/test_sprint_32_documentation.py..tests/test_sprint_72_documentation.py"
+  ],
+  "commands": [
+    "python scripts/visual_product_smoke.py --dry-run --json",
+    "python -m devpilot_core app contract --json",
+    "python -m devpilot_core agentops status --json",
+    "npm --prefix ui/web test",
+    "python -m devpilot_core schema validate-manifest docs/functional_sprint_73_manifest.json --json",
+    "python -m devpilot_core validate-artifact docs/audits/phase_f_visual_product_closure_report.md --json"
+  ],
+  "tests": [
+    "tests/test_visual_product_smoke.py",
+    "tests/test_sprint_73_documentation.py",
+    "tests/test_sprint_*_documentation.py",
+    "tests/test_api_contract.py",
+    "tests/test_application_services.py",
+    "tests/test_application_services_v2.py"
+  ],
+  "pass_criteria": [
+    "Visual Product Quality Gate pasa.",
+    "Fase F produce Web UI MVP verificable y decisión de diferir Desktop.",
+    "CLI/API/UI están sincronizados.",
+    "API/UI no habilitan acciones críticas sin approval.",
+    "Release manifest visual MVP existe."
+  ],
+  "block_criteria": [
+    "Desktop shell implementado sin ADR posterior.",
+    "UI requiere cloud o API externa.",
+    "UI lee filesystem local directamente.",
+    "No hay reporte de cierre ni release manifest."
+  ],
+  "risks": [
+    "Confundir MVP visual local con producto web multiusuario.",
+    "Reabrir Desktop prematuramente.",
+    "Regresión CLI por integración visual.",
+    "Dependencias frontend inestables."
+  ],
+  "next_sprint": "FUNC-SPRINT-74 — ADR de release, versionado y productización",
+  "adr_required": false,
+  "adr_rationale": "ADR-0013 y el backlog aprobado de Fase F ya establecen Web UI local first, Web UI real futura y Desktop diferido. Sprint 73 cierra y documenta la decisión, no cambia arquitectura.",
+  "closure_report": "docs/audits/phase_f_visual_product_closure_report.md",
+  "release_manifest": "docs/release/release_manifest_visual_mvp.json"
+}

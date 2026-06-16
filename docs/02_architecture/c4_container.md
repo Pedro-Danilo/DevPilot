@@ -346,3 +346,8 @@ El contenedor Web UI incorpora Approval Center y Action Launcher, consumiendo ú
 ## Actualización FUNC-SPRINT-72 — Settings UI
 
 La Web UI incorpora `SettingsView`, que consume únicamente endpoints `/api/v1/settings/*`. El frontend no lee `.devpilot/` ni `outputs/`; la configuración es proyectada por `SettingsApplicationService` y protegida por token local, CORS restringido y policy binding. Cambios de providers se modelan como plan-only sin escritura.
+
+
+## Actualización FUNC-SPRINT-73 — Cierre Fase F web-first
+
+Fase F queda cerrada con Web UI local como contenedor visual canónico, API local segura como frontera y `ApplicationService` como contrato de integración. Desktop no se implementa en esta fase y queda diferido para una ADR futura. La siguiente fase se orienta a productización, release y distribución controlada.

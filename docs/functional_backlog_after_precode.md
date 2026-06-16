@@ -2,7 +2,7 @@
 title: "DevPilot Local — Backlog ejecutable posterior a pre-code"
 doc_id: "DEVPL-FUNC-BACKLOG-001"
 status: "approved"
-version: "4.5.0"
+version: "4.6.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
@@ -14,7 +14,7 @@ change_policy: "controlled_changes_allowed_via_docs_as_code"
 approved_on: "2026-06-06"
 approval_scope: "functional_backlog_after_precode"
 baseline_execution: "FUNC-SPRINT-00"
-next_sprint: "FUNC-SPRINT-73"
+next_sprint: "FUNC-SPRINT-74"
 ---
 
 # DevPilot Local — Backlog ejecutable posterior a pre-code
@@ -26,6 +26,10 @@ Este backlog queda promovido a `approved` el 2026-06-06 como guía ejecutable pa
 La aprobación no congela el documento: cualquier ajuste futuro debe seguir la política docs-as-code definida en MIPSoftware, dejar trazabilidad, actualizar criterios de aceptación cuando aplique y preservar la relación entre producto, requerimientos, arquitectura, seguridad, calidad, operación y MIASI.
 
 La ejecución de `FUNC-SPRINT-00` confirma que el repositorio queda limpio, reproducible y listo para iniciar `FUNC-SPRINT-01 — Arquitectura interna del CLI y modelo común de resultados`.
+
+## Transición posterior a FUNC-SPRINT-73
+
+`FUNC-SPRINT-73 — Cierre Fase F web-first y decisión de evolución` cierra Fase F como producto visual MVP web-first. La Web UI local queda como interfaz visual canónica, la Web UI real queda planificada como evolución posterior y Desktop permanece diferido salvo ADR futura. La siguiente unidad de trabajo es `FUNC-SPRINT-74 — ADR de release, versionado y productización`, correspondiente a Fase G.
 
 ## Transición posterior a FUNC-SPRINT-72
 
@@ -2274,4 +2278,4 @@ La implementación es `implemented-initial`: no agrega servidor, frontend ni dep
 
 ## Transición posterior a FUNC-SPRINT-71
 
-Fase F avanza con Approval Center y acciones dry-run desde UI. `next_sprint: "FUNC-SPRINT-73"`.
+Fase F avanza con Approval Center y acciones dry-run desde UI. `next_sprint: "FUNC-SPRINT-74"`.

@@ -2,13 +2,13 @@
 title: "DevPilot Local — Backlog ejecutable Fase F: Producto visual"
 doc_id: "DEVPL-FUNC-BACKLOG-FASE-F-001"
 status: "approved"
-version: "1.9.0"
+version: "2.0.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
 phase: "FASE-F-PRODUCTO-VISUAL"
 updated: "2026-06-16"
-source_repo: "repo_DevPilot_Local_91.zip"
+source_repo: "repo_DevPilot_Local_92.zip"
 source_report: "Informe de avance DevPilot - sprint 0 - 18.docx"
 source_backlog_model: "docs/functional_backlog_after_precode.md"
 baseline_dependency: "Fases A-E cerradas; Fase E validada por FUNC-SPRINT-63"
@@ -18,10 +18,10 @@ change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "phase_f_executable_backlog_review"
 approved_on: "2026-06-14"
 approval: "approved_after_phase_e_agentops_closure"
-first_open_sprint: "FUNC-SPRINT-73"
-last_completed_sprint: "FUNC-SPRINT-72"
-next_sprint: "FUNC-SPRINT-73"
-phase_f_status: "implementation_in_progress_sprint_72_completed"
+first_open_sprint: "FUNC-SPRINT-74"
+last_completed_sprint: "FUNC-SPRINT-73"
+next_sprint: "FUNC-SPRINT-74"
+phase_f_status: "closed_visual_mvp_web_first"
 ui_strategy: "web_local_first_web_real_ready_desktop_deferred"
 ---
 
@@ -219,7 +219,7 @@ Formalizar la estrategia **Web UI first** antes de implementar servidor o fronte
 
 ## Entradas
 
-- `repo_DevPilot_Local_81.zip` como baseline vigente.
+- `repo_DevPilot_Local_92.zip` como baseline vigente.
 - Backlogs Fase A–E cerrados; Fase E validada por `FUNC-SPRINT-63`.
 - `docs/functional_backlog_after_precode.md` como modelo operativo.
 - `Informe de avance DevPilot - sprint 0 - 18.docx` como informe de estado y brechas.
@@ -357,7 +357,7 @@ Expandir ApplicationService para cubrir workspace, validation, MIASI, evals, rep
 
 ## Entradas
 
-- `repo_DevPilot_Local_81.zip` como baseline vigente.
+- `repo_DevPilot_Local_92.zip` como baseline vigente.
 - Backlogs Fase A–E cerrados; Fase E validada por `FUNC-SPRINT-63`.
 - `docs/functional_backlog_after_precode.md` como modelo operativo.
 - `Informe de avance DevPilot - sprint 0 - 18.docx` como informe de estado y brechas.
@@ -444,7 +444,7 @@ Formalizar endpoints, requests, responses y errores antes del servidor real, usa
 
 ## Entradas
 
-- `repo_DevPilot_Local_81.zip` como baseline vigente.
+- `repo_DevPilot_Local_92.zip` como baseline vigente.
 - Backlogs Fase A–E cerrados; Fase E validada por `FUNC-SPRINT-63`.
 - `docs/functional_backlog_after_precode.md` como modelo operativo.
 - `Informe de avance DevPilot - sprint 0 - 18.docx` como informe de estado y brechas.
@@ -528,7 +528,7 @@ Implementar una API local mínima, preferiblemente FastAPI si la ADR lo confirma
 
 ## Entradas
 
-- `repo_DevPilot_Local_81.zip` como baseline vigente.
+- `repo_DevPilot_Local_92.zip` como baseline vigente.
 - Backlogs Fase A–E cerrados; Fase E validada por `FUNC-SPRINT-63`.
 - `docs/functional_backlog_after_precode.md` como modelo operativo.
 - `Informe de avance DevPilot - sprint 0 - 18.docx` como informe de estado y brechas.
@@ -613,7 +613,7 @@ Agregar controles mínimos para que la API local no quede expuesta sin protecci�
 
 ## Entradas
 
-- `repo_DevPilot_Local_81.zip` como baseline vigente.
+- `repo_DevPilot_Local_92.zip` como baseline vigente.
 - Backlogs Fase A–E cerrados; Fase E validada por `FUNC-SPRINT-63`.
 - `docs/functional_backlog_after_precode.md` como modelo operativo.
 - `Informe de avance DevPilot - sprint 0 - 18.docx` como informe de estado y brechas.
@@ -697,7 +697,7 @@ Construir una Web UI local mínima que consulte la API y muestre estado del work
 
 ## Entradas
 
-- `repo_DevPilot_Local_81.zip` como baseline vigente.
+- `repo_DevPilot_Local_92.zip` como baseline vigente.
 - Backlogs Fase A–E cerrados; Fase E validada por `FUNC-SPRINT-63`.
 - `docs/functional_backlog_after_precode.md` como modelo operativo.
 - `Informe de avance DevPilot - sprint 0 - 18.docx` como informe de estado y brechas.
@@ -786,7 +786,7 @@ Agregar vistas visuales para consultar reportes, findings, traces y métricas de
 
 ## Entradas
 
-- `repo_DevPilot_Local_81.zip` como baseline vigente.
+- `repo_DevPilot_Local_92.zip` como baseline vigente.
 - Backlogs Fase A–E cerrados; Fase E validada por `FUNC-SPRINT-63`.
 - `docs/functional_backlog_after_precode.md` como modelo operativo.
 - `Informe de avance DevPilot - sprint 0 - 18.docx` como informe de estado y brechas.
@@ -874,7 +874,7 @@ Exponer aprobación humana y acciones dry-run seguras desde UI, sin habilitar ej
 
 ## Entradas
 
-- `repo_DevPilot_Local_81.zip` como baseline vigente.
+- `repo_DevPilot_Local_92.zip` como baseline vigente.
 - Backlogs Fase A–E cerrados; Fase E validada por `FUNC-SPRINT-63`.
 - `docs/functional_backlog_after_precode.md` como modelo operativo.
 - `Informe de avance DevPilot - sprint 0 - 18.docx` como informe de estado y brechas.
@@ -960,7 +960,7 @@ Crear pantallas de configuración inicial para workspace, providers y policy en 
 
 ## Entradas
 
-- `repo_DevPilot_Local_81.zip` como baseline vigente.
+- `repo_DevPilot_Local_92.zip` como baseline vigente.
 - Backlogs Fase A–E cerrados; Fase E validada por `FUNC-SPRINT-63`.
 - `docs/functional_backlog_after_precode.md` como modelo operativo.
 - `Informe de avance DevPilot - sprint 0 - 18.docx` como informe de estado y brechas.
@@ -1040,7 +1040,7 @@ Implementa FUNC-SPRINT-72: Settings UI para workspace/providers/policy en modo s
 
 ## Estado de implementación Sprint 72
 
-`FUNC-SPRINT-72 — Settings UI: workspace, providers y políticas locales` queda implementado como primera versión local e industrializable de settings visuales. El alcance es read-only para workspace/providers/policy y plan-only para cambios de provider: no escribe `.devpilot/providers.yaml`, no muestra secretos, no edita policy y no habilita proveedores externos por accidente. La siguiente iteración abierta es `FUNC-SPRINT-73 — Cierre Fase F web-first y decisión de evolución`.
+`FUNC-SPRINT-72 — Settings UI: workspace, providers y políticas locales` queda implementado como primera versión local e industrializable de settings visuales. El alcance es read-only para workspace/providers/policy y plan-only para cambios de provider: no escribe `.devpilot/providers.yaml`, no muestra secretos, no edita policy y no habilita proveedores externos por accidente.
 
 ## FUNC-SPRINT-73 — Cierre Fase F web-first y decisión de evolución
 
@@ -1050,7 +1050,7 @@ Cerrar la Fase F con un producto visual MVP web-first, documentar la ruta de evo
 
 ## Entradas
 
-- `repo_DevPilot_Local_81.zip` como baseline vigente.
+- `repo_DevPilot_Local_92.zip` como baseline vigente.
 - Backlogs Fase A–E cerrados; Fase E validada por `FUNC-SPRINT-63`.
 - `docs/functional_backlog_after_precode.md` como modelo operativo.
 - `Informe de avance DevPilot - sprint 0 - 18.docx` como informe de estado y brechas.
@@ -1127,6 +1127,13 @@ python -m pytest -q
 ```text
 Implementa FUNC-SPRINT-73: cierre Fase F con Visual Product Quality Gate, reporte de cierre web-first y plan de evolución a Web UI real. Mantén Desktop diferido salvo ADR posterior.
 ```
+
+
+## Estado de implementación Sprint 73
+
+`FUNC-SPRINT-73 — Cierre Fase F web-first y decisión de evolución` queda implementado y cierra Fase F en estado `closed_visual_mvp_web_first`. La fase entrega Web UI local MVP, API local segura, viewers, Approval Center, Settings UI, Visual Product Quality Gate, release manifest visual MVP y decisión explícita de evolución hacia Web UI real con Desktop diferido.
+
+La siguiente unidad de trabajo queda fuera de Fase F y pertenece a Fase G: `FUNC-SPRINT-74 — ADR de release, versionado y productización`.
 
 ## Cierre esperado de Fase F
 

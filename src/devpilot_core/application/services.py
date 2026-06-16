@@ -379,6 +379,15 @@ class ApplicationService:
                 "external_api_required": False,
                 "application_service_v2": True,
                 "domain_facades_enabled": True,
+                "phase_f_closed": True,
+                "visual_product_mvp_release": True,
+                "visual_product_quality_gate": True,
+                "visual_product_quality_gate_path": "scripts/visual_product_smoke.py",
+                "visual_product_release_manifest_path": "docs/release/release_manifest_visual_mvp.json",
+                "phase_f_closure_report_path": "docs/audits/phase_f_visual_product_closure_report.md",
+                "web_real_evolution_planned": True,
+                "next_phase": "FASE-G-PRODUCTIZACION-RELEASE",
+                "next_sprint": "FUNC-SPRINT-74",
                 "preliminary": True,
             },
             "domains": domains,
@@ -392,6 +401,7 @@ class ApplicationService:
             },
             "preliminary": True,
             "notes": [
+                "FUNC-SPRINT-73 closes Fase F with a Visual Product Quality Gate, visual MVP release manifest and Web-real evolution decision.",
                 "FUNC-SPRINT-72 adds Settings UI for workspace/providers/policy in read-only and provider plan-only mode with secret redaction.",
                 "FUNC-SPRINT-71 adds Approval Center and a dry-run Action Launcher; critical execution remains blocked from the Web UI.",
                 "FUNC-SPRINT-70 adds Report Viewer and Trace Viewer over local API only; the UI does not read outputs/ directly.",
@@ -408,12 +418,12 @@ class ApplicationService:
             command="app contract",
             ok=True,
             exit_code=ExitCode.PASS,
-            message="Application service v2 contract is available for CLI, secured local API MVP, Web UI viewers, Approval Center and Settings UI; desktop is deferred.",
+            message="Application service v2 contract is available for CLI, secured local API MVP, Web UI viewers, Approval Center, Settings UI and Fase F visual MVP closure; desktop is deferred.",
             data=data,
             findings=[
                 Finding(
                     id="APP_CONTRACT_V2_PASS",
-                    message="ApplicationService v2 exposes domain facades plus secured local API route contracts, Web UI viewers, Approval Center and Settings UI.",
+                    message="ApplicationService v2 exposes domain facades plus secured local API route contracts, Web UI viewers, Approval Center, Settings UI and Fase F visual MVP closure.",
                     severity=Severity.INFO,
                     metadata={"domains_total": len(domains), "capabilities_total": len(capabilities)},
                 )

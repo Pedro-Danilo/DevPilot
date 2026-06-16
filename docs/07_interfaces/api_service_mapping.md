@@ -134,3 +134,8 @@ Regla: UI no lee `outputs/` ni `.devpilot/`; todo pasa por API local.
 | API-SETTINGS-PROVIDERS-PLAN | `POST /api/v1/settings/providers/plan` | `settings.providers.plan` | `SettingsApplicationService.provider_plan` | plan-only, no write | token + PolicyEngine |
 
 Sprint 72 mantiene la regla API-only: la Web UI no lee `.devpilot/`, `outputs/` ni policy/provider files directamente.
+
+
+## FUNC-SPRINT-73 — Cierre Fase F
+
+No se agregan rutas nuevas. El mapping queda congelado como superficie visual MVP inicial: dashboard, reportes, trazas, approvals y settings. `scripts/visual_product_smoke.py` verifica que las rutas publicadas por OpenAPI sigan alineadas con `ApplicationService` y que no existan rutas críticas libres.
