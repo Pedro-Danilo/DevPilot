@@ -1,0 +1,6 @@
+--- /dev/null	2026-06-17 12:26:13.024667122 +0000
++++ /mnt/data/devpilot_s75/repo/src/devpilot_core/quality/__init__.py	2026-06-17 13:03:22.644157211 +0000
+@@ -0,0 +1,3 @@
++from .gate import QualityGate, QualityGateOptions
++
++__all__ = ["QualityGate", "QualityGateOptions"]

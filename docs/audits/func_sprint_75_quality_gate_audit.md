@@ -1,0 +1,112 @@
+---
+title: "Auditoría FUNC-SPRINT-75 — Quality Gate local unificado"
+doc_id: "DEVPL-AUDIT-FUNC-SPRINT-75"
+status: "approved"
+version: "1.0.0"
+owner: "Ordóñez"
+phase: "FASE-G-PRODUCTIZACION-RELEASE"
+sprint: "FUNC-SPRINT-75"
+updated: "2026-06-17"
+approval: "approved_after_local_quality_gate_validation"
+---
+
+# Auditoría FUNC-SPRINT-75 — Quality Gate local unificado
+
+## 0. Estado
+
+Veredicto: `PASS` focalizado.
+
+`FUNC-SPRINT-75` queda implementado como primera versión operacional del Quality Gate local de Fase G.
+
+## 1. Propósito
+
+Crear un comando único de quality gate local que consolide verificaciones mínimas antes de packaging/release, sin publicar, desplegar, modificar fuente, usar red ni llamar APIs externas.
+
+## 2. Alcance implementado
+
+Se implementó:
+
+- módulo `src/devpilot_core/quality/`;
+- subgate MIASI explícito mediante `miasi-validate`;
+- comando CLI `python -m devpilot_core quality-gate run --json`;
+- perfiles `fast` y `full`;
+- salida normalizada `CommandResult`;
+- subgates con `ok`, `exit_code`, duración, hallazgos y resumen;
+- reportes opcionales con `--write-report`;
+- `pytest` opcional con `--include-pytest` (pytest es opcional);
+- pruebas automatizadas y sincronización documental.
+
+## 3. Funcionamiento técnico
+
+El gate reutiliza contratos existentes del core:
+
+| Subgate | Fuente | Perfil |
+|---|---|---|
+| `readiness-strict` | `ApplicationService.readiness(strict=True)` | `fast/full` |
+| `standards-status` | `ApplicationService.standards_status()` | `fast/full` |
+| `miasi-validate` | `ApplicationService.miasi_validate(scope="all")` | `fast/full` |
+| `eval-harness-ready` | validación local del fixture de evaluación | `fast/full` |
+| `app-contract` | `ApplicationService.application_contract()` | `fast/full` |
+| `validation-gateway-all` | `ApplicationService.validation.gateway(scope="all")` | `full` |
+| `visual-product-smoke` | `scripts/visual_product_smoke.py --dry-run --json` | `full` |
+| `pytest` | `python -m pytest -q` | explícito con `--include-pytest` |
+
+El subgate de evaluación valida el fixture sin ejecutar el workdir de evals para preservar el contrato no destructivo del perfil base.
+
+## 4. Archivos creados
+
+| Archivo | Propósito |
+|---|---|
+| `src/devpilot_core/quality/__init__.py` | Exportar `QualityGate` y `QualityGateOptions`. |
+| `src/devpilot_core/quality/gate.py` | Orquestar subgates y construir `CommandResult`. |
+| `tests/test_quality_gate.py` | Validar gate, CLI JSON, reporte y perfil inválido. |
+| `tests/test_sprint_75_documentation.py` | Validar sincronización documental Sprint 75. |
+| `docs/audits/func_sprint_75_quality_gate_audit.md` | Evidencia de cierre del sprint. |
+| `docs/functional_sprint_75_manifest.json` | Manifest funcional del sprint. |
+
+## 5. Archivos modificados
+
+| Archivo | Motivo |
+|---|---|
+| `src/devpilot_core/cli.py` | Agregar comando `quality-gate run`. |
+| `README.md` | Actualizar estado global y documentar Sprint 75. |
+| `docs/05_operations/runbook.md` | Agregar operación del Quality Gate. |
+| `docs/devpilot_backlog_fase_G_productizacion_release.md` | Avanzar Fase G a Sprint 76. |
+| `docs/functional_backlog_after_precode.md` | Actualizar siguiente sprint. |
+| `tests/test_sprint_32_documentation.py` a `tests/test_sprint_74_documentation.py` | Sincronizar estado global actual del proyecto. |
+
+## 6. Comandos de verificación
+
+```powershell
+python -m devpilot_core quality-gate run --json
+python -m devpilot_core quality-gate run --profile full --json
+python -m devpilot_core quality-gate run --json --write-report
+python -m pytest tests/test_quality_gate.py tests/test_sprint_75_documentation.py -q
+python -m devpilot_core schema validate-manifest docs/functional_sprint_75_manifest.json --json
+python -m devpilot_core validate-artifact docs/audits/func_sprint_75_quality_gate_audit.md --json
+python -m pytest -q
+```
+
+## 7. Criterios PASS
+
+- `quality-gate run --json` retorna `ok=true`.
+- El resultado lista subgates con estado, duración y hallazgos.
+- `--write-report` genera JSON/Markdown bajo `outputs/reports`.
+- El gate no publica, no despliega, no etiqueta repositorios, no aplica patches y no ejecuta acciones destructivas.
+- `pytest` es opcional y explícito, no parte del perfil base.
+
+## 8. Criterios BLOCK
+
+- Algún subgate crítico falla.
+- El gate oculta fallos internos.
+- El comando genera salida no parseable.
+- El gate ejecuta publicación, deploy, tag, patch o rollback.
+- El gate llama APIs externas o requiere red.
+
+## 9. Riesgos y limitaciones
+
+Esta es una primera versión operacional. No sustituye CI/CD ni release verification completa. El perfil `fast` prioriza velocidad y no mutación de fuente; la regresión completa debe seguir ejecutándose con `python -m pytest -q` para cierre de sprint, o explícitamente con `--include-pytest`.
+
+## 10. Conclusión
+
+El sprint habilita el nivel `FG-L1 — Quality gate` de Fase G y deja listo el siguiente paso: `FUNC-SPRINT-76 — CI local y workflow scaffolding`.

@@ -1,0 +1,102 @@
+--- /dev/null	2026-06-17 12:26:13.024667122 +0000
++++ /mnt/data/devpilot_s75/repo/docs/functional_sprint_75_manifest.json	2026-06-17 13:06:06.946576718 +0000
+@@ -0,0 +1,99 @@
++{
++  "schema_version": "1.0.0",
++  "sprint": "FUNC-SPRINT-75",
++  "title": "FUNC-SPRINT-75 — Quality Gate local unificado",
++  "status": "implemented",
++  "implemented_at": "2026-06-17",
++  "phase": "FASE-G-PRODUCTIZACION-RELEASE",
++  "wave": "Ola 10 — CI/CD, release y distribución",
++  "source_repo": "repo_DevPilot_Local_97.zip",
++  "source_backlog": "docs/devpilot_backlog_fase_G_productizacion_release.md",
++  "summary": {
++    "fg_level": "FG-L1",
++    "quality_gate_cli_added": true,
++    "quality_gate_module_added": true,
++    "default_profile": "fast",
++    "profiles": [
++      "fast",
++      "full"
++    ],
++    "pytest_optional": true,
++    "write_report_supported": true,
++    "external_publication_out_of_scope": true,
++    "destructive_actions_added": false,
++    "dependencies_added": false,
++    "preliminary": true,
++    "next_sprint": "FUNC-SPRINT-76 — CI local y workflow scaffolding"
++  },
++  "created_files": [
++    "src/devpilot_core/quality/__init__.py",
++    "src/devpilot_core/quality/gate.py",
++    "tests/test_quality_gate.py",
++    "tests/test_sprint_75_documentation.py",
++    "docs/audits/func_sprint_75_quality_gate_audit.md",
++    "docs/functional_sprint_75_manifest.json"
++  ],
++  "modified_files": [
++    "src/devpilot_core/cli.py",
++    "README.md",
++    "docs/05_operations/runbook.md",
++    "docs/devpilot_backlog_fase_G_productizacion_release.md",
++    "docs/functional_backlog_after_precode.md",
++    "tests/test_sprint_32_documentation.py through tests/test_sprint_74_documentation.py synchronized with current milestone"
++  ],
++  "commands": [
++    "python -m devpilot_core quality-gate run --json",
++    "python -m devpilot_core quality-gate run --profile full --json",
++    "python -m devpilot_core quality-gate run --json --write-report",
++    "python -m devpilot_core schema validate-manifest docs/functional_sprint_75_manifest.json --json",
++    "python -m devpilot_core validate-artifact docs/audits/func_sprint_75_quality_gate_audit.md --json",
++    "python -m pytest tests/test_quality_gate.py tests/test_sprint_75_documentation.py -q",
++    "python -m pytest -q"
++  ],
++  "tests": [
++    "tests/test_quality_gate.py",
++    "tests/test_sprint_75_documentation.py",
++    "historical sprint documentation tests synchronized with README/backlog current milestone",
++    "full pytest regression suite"
++  ],
++  "pass_criteria": [
++    "quality-gate run --json returns a parseable CommandResult.",
++    "Subgates include readiness, standards, MIASI, eval fixture readiness and app contract.",
++    "Each subgate reports ok, exit_code, duration and summarized findings.",
++    "--write-report generates outputs/reports/quality_gate.json and .md.",
++    "No external publication, deployment or destructive action is introduced."
++  ],
++  "block_criteria": [
++    "No cerrar si el comando oculta fallos de subgates.",
++    "No cerrar si ejecuta comandos destructivos.",
++    "No cerrar si no produce JSON parseable.",
++    "No cerrar si requiere red, secrets o APIs externas.",
++    "No cerrar si pytest se ejecuta por defecto sin intención explícita."
++  ],
++  "risks": [
++    {
++      "id": "RISK-FUNC-75-001",
++      "risk": "Gate lento",
++      "mitigation": "Perfil fast por defecto y pytest opcional."
++    },
++    {
++      "id": "RISK-FUNC-75-002",
++      "risk": "Duplicar lógica de CLI",
++      "mitigation": "Reusar ApplicationService/core."
++    },
++    {
++      "id": "RISK-FUNC-75-003",
++      "risk": "Fallos no accionables",
++      "mitigation": "Subgate records con findings, duración y summary."
++    },
++    {
++      "id": "RISK-FUNC-75-004",
++      "risk": "Falso release-ready",
++      "mitigation": "Documentar que es primera versión operacional y que packaging/release verification quedan para sprints posteriores."
++    }
++  ],
++  "next_sprint": "FUNC-SPRINT-76 — CI local y workflow scaffolding",
++  "adr_required": false,
++  "adr_rationale": "No fue necesaria una ADR nueva: Sprint 75 implementa la decisión ya aprobada en ADR-0014 sin cambiar la estrategia de release/versionado/productización.",
++  "audit_report": "docs/audits/func_sprint_75_quality_gate_audit.md"
++}

@@ -18,6 +18,7 @@ from .miasi import MiasiRegistryValidator
 from .modeling import BudgetLedger, CapabilityMatrix, ModelAdapterRouter, ModelEvalRunner, ModelEvalRunnerConfig, ModelHealthService, ModelRouterConfig
 from .policy import CostPolicy, PolicyEngine, PolicyRequest, load_cost_policy
 from .prompts import PromptRegistry
+from .quality import QualityGate, QualityGateOptions
 from .reports import ReportEngine, build_report_id
 from .security import PolicySimulationSuite, SecurityReadiness
 from .schemas import BuiltinContractValidator, SchemaRegistry, SchemaValidator
@@ -1459,6 +1460,54 @@ def agent_run_command(
     print_result(result, json_output=json_output)
     return int(result.exit_code)
 
+
+
+def quality_gate_run_command(
+    *,
+    profile: str = "fast",
+    include_pytest: bool = False,
+    pytest_timeout_seconds: int = 180,
+    json_output: bool = False,
+    write_report: bool = False,
+) -> int:
+    """Run the FUNC-SPRINT-75 unified local quality gate."""
+
+    root = project_root()
+    result = QualityGate(
+        root,
+        options=QualityGateOptions(
+            profile=profile,
+            include_pytest=include_pytest,
+            pytest_timeout_seconds=pytest_timeout_seconds,
+        ),
+    ).run()
+    result = _write_optional_command_report(
+        root,
+        result,
+        subject="release:quality-gate",
+        report_id="quality_gate",
+        write_report=write_report,
+        metadata={"sprint": "FUNC-SPRINT-75", "component": "QualityGate", "profile": profile},
+    )
+    if write_report and isinstance((result.data or {}).get("reports"), dict):
+        data = dict(result.data or {})
+        summary = dict(data.get("summary") or {})
+        summary["reports_written"] = True
+        data["summary"] = summary
+        result = CommandResult(
+            command=result.command,
+            ok=result.ok,
+            exit_code=result.exit_code,
+            message=result.message,
+            data=data,
+            findings=result.findings,
+        )
+    _emit_result_event(root, result, subject="release:quality-gate")
+    _persist_result(root, result, subject="release:quality-gate")
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+
 def validate_frontmatter_command(
     path: str,
     *,
@@ -2892,6 +2941,15 @@ def build_parser() -> argparse.ArgumentParser:
     agent_run.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     agent_run.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
 
+    quality_gate = sub.add_parser("quality-gate", help="Run local productization quality gates")
+    quality_gate_sub = quality_gate.add_subparsers(dest="quality_gate_command")
+    quality_gate_run = quality_gate_sub.add_parser("run", help="Run the unified local quality gate")
+    quality_gate_run.add_argument("--profile", choices=["fast", "full"], default="fast", help="Gate profile to execute")
+    quality_gate_run.add_argument("--include-pytest", action="store_true", help="Explicitly include pytest -q as an optional subgate")
+    quality_gate_run.add_argument("--pytest-timeout-seconds", type=int, default=180, help="Timeout for the optional pytest subgate")
+    quality_gate_run.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    quality_gate_run.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+
     validate = sub.add_parser("validate", help="Run unified DevPilot validation gateway")
     validate.add_argument("scope", choices=["docs", "contracts", "all"], help="Validation group to execute")
     validate.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
@@ -3053,6 +3111,9 @@ def _command_name_from_args(args: argparse.Namespace) -> str:
     if command == "agent":
         subcommand = getattr(args, "agent_command", None)
         return f"agent {subcommand}" if subcommand else "agent"
+    if command == "quality-gate":
+        subcommand = getattr(args, "quality_gate_command", None)
+        return f"quality-gate {subcommand}" if subcommand else "quality-gate"
     if command == "validate":
         scope = getattr(args, "scope", None)
         return f"validate {scope}" if scope else "validate"
@@ -3441,6 +3502,17 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
                 patch_file=args.patch_file,
                 timeout_seconds=args.timeout_seconds,
                 fallback_to_mock=args.fallback_to_mock,
+                json_output=args.json,
+                write_report=args.write_report,
+            )
+        parser.print_help()
+        return int(ExitCode.FAIL)
+    if args.command == "quality-gate":
+        if args.quality_gate_command == "run":
+            return quality_gate_run_command(
+                profile=args.profile,
+                include_pytest=args.include_pytest,
+                pytest_timeout_seconds=args.pytest_timeout_seconds,
                 json_output=args.json,
                 write_report=args.write_report,
             )

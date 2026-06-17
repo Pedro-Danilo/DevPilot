@@ -1,12 +1,31 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
-Estado actual: `baseline pre-code approved + Fases A-F cerradas + Fase G iniciada`  
-Último hito: `FUNC-SPRINT-74 — ADR de release, versionado y productización`  
-Siguiente hito: `FUNC-SPRINT-75 — Quality Gate local unificado`  
+Estado actual: `baseline pre-code approved + Fases A-F cerradas + Fase G en progreso`  
+Último hito: `FUNC-SPRINT-75 — Quality Gate local unificado`  
+Siguiente hito: `FUNC-SPRINT-76 — CI local y workflow scaffolding`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
 
+
+
+## FUNC-SPRINT-75 — Quality Gate local unificado
+
+Estado: `implemented-initial` / `PASS focalizado`.
+
+Sprint 75 implementa el primer Quality Gate local unificado de Fase G. El nuevo comando `python -m devpilot_core quality-gate run --json` orquesta subgates de readiness, standards, MIASI, evaluación fixture-ready y ApplicationService contract usando contratos existentes del core. El perfil `fast` es el predeterminado y evita ejecutar `pytest` para mantener el gate rápido, determinístico y no destructivo con respecto al árbol fuente. El perfil `full` añade validación gateway completa y Visual Product Smoke Gate; `pytest` queda disponible como subgate explícito mediante `--include-pytest`.
+
+Entregables principales:
+
+- `src/devpilot_core/quality/__init__.py`: exporta el componente QualityGate.
+- `src/devpilot_core/quality/gate.py`: orquestador local de subgates, perfiles `fast/full`, salida `CommandResult` y `pytest` opcional.
+- CLI `quality-gate run`: comando de verificación local con `--json`, `--profile`, `--include-pytest` y `--write-report`.
+- `tests/test_quality_gate.py`: pruebas del gate, CLI JSON, reportes y perfil inválido.
+- `tests/test_sprint_75_documentation.py`: prueba de sincronización documental Sprint 75.
+- `docs/audits/func_sprint_75_quality_gate_audit.md`: auditoría técnica del cierre Sprint 75.
+- `docs/functional_sprint_75_manifest.json`: manifest funcional del sprint.
+
+Límites explícitos: esta es una primera versión operacional del Quality Gate. No reemplaza todavía un pipeline CI/CD, no construye paquetes, no genera release manifest, no publica, no despliega y no ejecuta `pytest` por defecto. Los reportes solo se escriben con `--write-report` bajo `outputs/reports/`, y esos outputs no deben incluirse en ZIPs de entrega.
 
 
 ## FUNC-SPRINT-74 — ADR de release, versionado y productización
