@@ -19,7 +19,7 @@ from .modeling import BudgetLedger, CapabilityMatrix, ModelAdapterRouter, ModelE
 from .policy import CostPolicy, PolicyEngine, PolicyRequest, load_cost_policy
 from .prompts import PromptRegistry
 from .quality import QualityGate, QualityGateOptions
-from .release import ReleaseChangelogBuilder, ReleaseChangelogOptions, ReleaseManifestBuilder, ReleaseManifestOptions
+from .release import PackageBuildBuilder, PackageBuildOptions, ReleaseChangelogBuilder, ReleaseChangelogOptions, ReleaseManifestBuilder, ReleaseManifestOptions
 from .reports import ReportEngine, build_report_id
 from .security import PolicySimulationSuite, SecurityReadiness
 from .schemas import BuiltinContractValidator, SchemaRegistry, SchemaValidator
@@ -1589,6 +1589,54 @@ def release_changelog_command(
     print_result(result, json_output=json_output)
     return int(result.exit_code)
 
+
+def package_build_command(
+    *,
+    kind: str,
+    version: str,
+    execute: bool = False,
+    json_output: bool = False,
+    write_report: bool = False,
+) -> int:
+    """Build or plan FUNC-SPRINT-79 local release packages.
+
+    The command is dry-run by default. ``--execute`` writes local artifacts
+    under dist/ only; it never publishes to PyPI, deploys, signs artifacts or
+    tags Git. Optional reports are written under outputs/reports.
+    """
+
+    root = project_root()
+    result = PackageBuildBuilder(
+        root,
+        options=PackageBuildOptions(version=version, kind=kind, execute=execute),
+    ).build()
+    result = _write_optional_command_report(
+        root,
+        result,
+        subject=f"package:{kind}:{version}",
+        report_id="package_build",
+        write_report=write_report,
+        metadata={"sprint": "FUNC-SPRINT-79", "component": "PackageBuild", "version": version, "kind": kind},
+    )
+    if write_report and isinstance((result.data or {}).get("reports"), dict):
+        data = dict(result.data or {})
+        summary = dict(data.get("summary") or {})
+        summary["reports_written"] = True
+        data["summary"] = summary
+        result = CommandResult(
+            command=result.command,
+            ok=result.ok,
+            exit_code=result.exit_code,
+            message=result.message,
+            data=data,
+            findings=result.findings,
+        )
+    _emit_result_event(root, result, subject="package:build")
+    _persist_result(root, result, subject="package:build")
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+
 def validate_frontmatter_command(
     path: str,
     *,
@@ -3045,6 +3093,15 @@ def build_parser() -> argparse.ArgumentParser:
     release_changelog.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     release_changelog.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
 
+    package = sub.add_parser("package", help="Build local clean release packages")
+    package_sub = package.add_subparsers(dest="package_command")
+    package_build = package_sub.add_parser("build", help="Plan or build local clean release packages")
+    package_build.add_argument("--kind", choices=["repo-zip", "python", "all"], default="repo-zip", help="Package kind to build or plan")
+    package_build.add_argument("--version", dest="package_version", required=True, help="SemVer package version, for example 0.1.0")
+    package_build.add_argument("--execute", action="store_true", help="Write local artifacts under dist/; default is dry-run")
+    package_build.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    package_build.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+
     validate = sub.add_parser("validate", help="Run unified DevPilot validation gateway")
     validate.add_argument("scope", choices=["docs", "contracts", "all"], help="Validation group to execute")
     validate.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
@@ -3622,6 +3679,17 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
                 version=args.release_version,
                 from_sprint=args.from_sprint,
                 to_sprint=args.to_sprint,
+                json_output=args.json,
+                write_report=args.write_report,
+            )
+        parser.print_help()
+        return int(ExitCode.FAIL)
+    if args.command == "package":
+        if args.package_command == "build":
+            return package_build_command(
+                kind=args.kind,
+                version=args.package_version,
+                execute=args.execute,
                 json_output=args.json,
                 write_report=args.write_report,
             )

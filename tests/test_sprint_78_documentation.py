@@ -31,15 +31,15 @@ def test_sprint_78_changelog_artifacts_exist_and_are_synchronized() -> None:
     ]:
         assert (ROOT / path).exists(), path
 
-    assert "Último hito: `FUNC-SPRINT-78" in readme
-    assert "Siguiente hito: `FUNC-SPRINT-79" in readme
+    assert "Último hito: `FUNC-SPRINT-79" in readme
+    assert "Siguiente hito: `FUNC-SPRINT-80" in readme
     assert "FUNC-SPRINT-78 — Changelog generator y política de cambios" in readme
     assert "FUNC-SPRINT-78 — Operación de Changelog" in runbook
-    assert 'source_repo: "repo_DevPilot_Local_100.zip"' in backlog_g
-    assert 'last_completed_sprint: "FUNC-SPRINT-78"' in backlog_g
-    assert 'next_sprint: "FUNC-SPRINT-79"' in backlog_g
+    assert 'source_repo: "repo_DevPilot_Local_101.zip"' in backlog_g
+    assert 'last_completed_sprint: "FUNC-SPRINT-79"' in backlog_g
+    assert 'next_sprint: "FUNC-SPRINT-80"' in backlog_g
     assert 'phase_g_status: "in_progress"' in backlog_g
-    assert 'next_sprint: "FUNC-SPRINT-79"' in functional_backlog
+    assert 'next_sprint: "FUNC-SPRINT-80"' in functional_backlog
 
 
 def test_sprint_78_docs_define_changelog_policy_boundaries() -> None:

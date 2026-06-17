@@ -1,0 +1,22 @@
+--- a/tests/test_sprint_64_documentation.py
++++ b/tests/test_sprint_64_documentation.py
+@@ -33,8 +33,8 @@
+     for path in expected_paths:
+         assert (ROOT / path).exists(), path
+ 
+-    assert "Último hito: `FUNC-SPRINT-78" in readme
+-    assert "Siguiente hito: `FUNC-SPRINT-79" in readme
++    assert "Último hito: `FUNC-SPRINT-79" in readme
++    assert "Siguiente hito: `FUNC-SPRINT-80" in readme
+     assert "## FUNC-SPRINT-64 — ADR UI/API local y threat model de interfaz" in readme
+     assert "## FUNC-SPRINT-64 — Operación de ADR UI/API local y threat model de interfaz" in runbook
+     assert 'source_repo: "repo_DevPilot_Local_92.zip"' in backlog
+@@ -42,7 +42,7 @@
+     assert 'last_completed_sprint: "FUNC-SPRINT-73"' in backlog
+     assert 'next_sprint: "FUNC-SPRINT-74"' in backlog
+     assert "## Estado de implementación Sprint 64" in backlog
+-    assert 'next_sprint: "FUNC-SPRINT-79"' in functional_backlog
++    assert 'next_sprint: "FUNC-SPRINT-80"' in functional_backlog
+     assert "## Transición posterior a FUNC-SPRINT-64" in functional_backlog
+     assert manifest["sprint"] == "FUNC-SPRINT-64"
+     assert manifest["status"] == "implemented"

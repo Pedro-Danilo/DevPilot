@@ -1,12 +1,21 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
 Estado actual: `baseline pre-code approved + Fases A-F cerradas + Fase G en progreso`  
-Último hito: `FUNC-SPRINT-78 — Changelog generator y política de cambios`  
-Siguiente hito: `FUNC-SPRINT-79 — Packaging Python y ZIP limpio reproducible`  
+Último hito: `FUNC-SPRINT-79 — Packaging Python y ZIP limpio reproducible`  
+Siguiente hito: `FUNC-SPRINT-80 — SBOM y supply-chain baseline`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
 
+
+
+## FUNC-SPRINT-79 — Packaging Python y ZIP limpio reproducible
+
+`FUNC-SPRINT-79` implementa la primera versión operacional del empaquetado local reproducible de Fase G. Agrega el módulo `devpilot_core.release.package_builder`, el comando `python -m devpilot_core package build --kind repo-zip --version 0.1.0 --json`, soporte para `--kind python` y `--kind all`, reportes opcionales bajo `outputs/reports/package_build.*`, documentación operativa, auditoría y manifest funcional.
+
+Alcance cerrado: plan de build local en dry-run por defecto, ZIP limpio del repositorio con exclusiones explícitas, wheel/sdist Python generados con stdlib cuando se usa `--execute`, lista de archivos incluidos/excluidos, bloqueo de rutas con apariencia de secreto, exclusión de `outputs/`, `.pytest_cache/`, `__pycache__/`, `.venv/`, `.git/`, `node_modules/`, `dist/`, `.devpilot/devpilot.db` y configuración local `.devpilot/providers.yaml`.
+
+Límites: esta es una primera versión `implemented-initial` de packaging local; no publica en PyPI ni GitHub Releases, no despliega, no firma, no etiqueta Git, no calcula SBOM/checksums finales y no ejecuta smoke-install. Es la base para `FUNC-SPRINT-80` y `FUNC-SPRINT-81`, donde se fortalecerá supply chain, inventario de componentes, checksums y verificación de instalación.
 
 
 ## FUNC-SPRINT-78 — Changelog generator y política de cambios

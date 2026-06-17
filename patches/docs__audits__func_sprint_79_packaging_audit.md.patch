@@ -1,0 +1,101 @@
+--- /dev/null
++++ b/docs/audits/func_sprint_79_packaging_audit.md
+@@ -0,0 +1,98 @@
++---
++doc_id: DEVPL-AUDIT-FUNC-SPRINT-79
++title: Auditoría FUNC-SPRINT-79 — Packaging Python y ZIP limpio reproducible
++status: approved
++version: 0.1.0
++owner: Ordóñez
++updated: 2026-06-17
++approval: internal
++---
++
++# Auditoría FUNC-SPRINT-79 — Packaging Python y ZIP limpio reproducible
++
++## 0. Estado
++
++Veredicto de implementación: `implemented-initial` / PASS focalizado.
++
++## 1. Propósito
++
++Auditar la implementación inicial del packaging local reproducible de DevPilot dentro de Fase G.
++
++## 2. Alcance implementado
++
++- Módulo `src/devpilot_core/release/package_builder.py`.
++- CLI `python -m devpilot_core package build`.
++- Soporte `--kind repo-zip`, `--kind python` y `--kind all`.
++- Dry-run por defecto.
++- Escritura local con `--execute` bajo `dist/`.
++- Reporte opcional bajo `outputs/reports/package_build.*`.
++- Documentación operativa y manifest funcional.
++
++## 3. Funcionamiento técnico
++
++El builder clasifica el árbol del repo en archivos incluidos y excluidos. El ZIP limpio incluye solo archivos permitidos. El paquete Python crea wheel/sdist mínimos con stdlib, basados en `pyproject.toml` y `src/devpilot_core`.
++
++## 4. Archivos creados
++
++- `src/devpilot_core/release/package_builder.py`.
++- `docs/05_operations/packaging.md`.
++- `docs/audits/func_sprint_79_packaging_audit.md`.
++- `docs/functional_sprint_79_manifest.json`.
++- `tests/test_package_builder.py`.
++- `tests/test_sprint_79_documentation.py`.
++
++## 5. Archivos modificados
++
++- `src/devpilot_core/cli.py`.
++- `src/devpilot_core/release/__init__.py`.
++- `src/devpilot_core/release/manifest.py`.
++- `README.md`.
++- `docs/05_operations/runbook.md`.
++- `docs/05_operations/release_manifest.md`.
++- `docs/devpilot_backlog_fase_G_productizacion_release.md`.
++- `docs/functional_backlog_after_precode.md`.
++- Tests documentales históricos sincronizados con el hito actual.
++
++## 6. Criterios PASS
++
++- Comando nuevo retorna `CommandResult` JSON parseable.
++- Dry-run no escribe `dist/`.
++- `--execute` escribe artefactos locales bajo `dist/`.
++- Reporte incluye incluidos/excluidos.
++- Se excluyen runtime DB, outputs, caches, venv, Git, `node_modules`, `dist` y secretos evidentes.
++- No se publica ni despliega.
++
++## 7. Criterios BLOCK
++
++- Inclusión de `.devpilot/devpilot.db` o secretos.
++- Publicación externa.
++- Git tagging o firma automática.
++- Dependencia de outputs no regenerables.
++- Ausencia de reporte de exclusiones.
++
++## 8. Riesgos y limitaciones
++
++- Es una primera versión local; no reemplaza herramientas maduras de build/release.
++- El wheel/sdist mínimo debe validarse con smoke-install en Sprint 81.
++- SBOM, checksums y supply-chain baseline quedan para Sprint 80/81.
++
++## 9. Comandos de verificación
++
++```powershell
++python -m devpilot_core package build --kind repo-zip --version 0.1.0 --json
++python -m devpilot_core package build --kind python --version 0.1.0 --json
++python -m devpilot_core package build --kind all --version 0.1.0 --execute --json --write-report
++python -m devpilot_core validate-artifact docs/05_operations/packaging.md --json
++python -m devpilot_core validate-artifact docs/audits/func_sprint_79_packaging_audit.md --json
++python -m devpilot_core schema validate-manifest docs/functional_sprint_79_manifest.json --json
++python -m pytest tests/test_package_builder.py tests/test_sprint_79_documentation.py -q
++```
++
++## 10. Conclusión
++
++`FUNC-SPRINT-79` habilita packaging local reproducible inicial y cierra el nivel FG-L4 como base para SBOM, checksums y smoke release. No constituye aún una release productiva final.
++
++
++Nota de seguridad: esta capacidad no publica, no despliega, no firma y no etiqueta Git.
++
++Artefactos auditados: `PKG-CLEAN-ZIP`, `PKG-WHEEL`, `PKG-SDIST` y `PKG-BUILD-REPORT`.

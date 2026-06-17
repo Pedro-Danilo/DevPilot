@@ -1,43 +1,42 @@
 ---
-title: "DevPilot Local — Changelog"
-doc_id: "DEVPL-RELEASE-CHANGELOG-001"
-status: "approved"
-version: "1.0.0"
-owner: "Ordóñez"
-standard: "MIPSoftware"
-extension: "MIASI"
-phase: "FASE-G-PRODUCTIZACION-RELEASE"
-sprint: "FUNC-SPRINT-78"
-updated: "2026-06-17"
-approval: "approved_by_owner_direction"
-change_policy: "controlled_changes_allowed_via_docs_as_code"
+doc_id: DEVPL-RELEASE-CHANGELOG
+title: DevPilot Local — Changelog
+status: approved
+version: 0.1.0
+owner: Ordóñez
+updated: 2026-06-17
+approval: internal
 ---
 
 # Changelog
 
 All notable changes to DevPilot Local are documented in this file.
 
-This file follows a Keep a Changelog-compatible structure. Its current baseline is generated from local sprint manifests and does not replace future packaging, SBOM, checksums, signature, tag or publication evidence.
+This changelog follows a Keep a Changelog-compatible category structure and is generated from local sprint manifests.
 
 ## [0.1.0] - 2026-06-17
 
 Release ID: `DEVPL-0.1.0`  
-Range: `FUNC-SPRINT-74` → `FUNC-SPRINT-78`  
+Range: `FUNC-SPRINT-74` → `FUNC-SPRINT-79`  
 Source: `docs/functional_sprint_*_manifest.json`
 
 ### Added
 
-- `FUNC-SPRINT-74` — Release/versioning/productization strategy: ADR, release policy, artifact matrix, audit and functional manifest.
-- `FUNC-SPRINT-75` — Unified local Quality Gate with `fast/full/ci` evolution path and optional reports.
-- `FUNC-SPRINT-76` — Local CI profile and optional GitHub Actions scaffolding without secrets, publication or deployment.
-- `FUNC-SPRINT-77` — Release Manifest generator with SemVer metadata, Git metadata, components, required evidence and release artifact expectations.
-- `FUNC-SPRINT-78` — Evidence-driven changelog generator and operational change policy.
+- `FUNC-SPRINT-74` — Se incorporó `ADR de release, versionado y productización`. Source: `docs/functional_sprint_74_manifest.json`; audit: `docs/audits/func_sprint_74_release_versioning_audit.md`. Artefactos: `docs/02_architecture/adrs/ADR-0014-release-versioning-packaging.md`, `docs/05_operations/release_policy.md`, `docs/05_operations/release_artifacts_matrix.md`, `docs/audits/func_sprint_74_release_versioning_audit.md` y 2 artefactos adicionales.
+- `FUNC-SPRINT-75` — Se incorporó `Quality Gate local unificado`. Source: `docs/functional_sprint_75_manifest.json`; audit: `docs/audits/func_sprint_75_quality_gate_audit.md`. Artefactos: `src/devpilot_core/quality/__init__.py`, `src/devpilot_core/quality/gate.py`, `tests/test_quality_gate.py`, `tests/test_sprint_75_documentation.py` y 2 artefactos adicionales.
+- `FUNC-SPRINT-76` — Se incorporó `CI local y workflow scaffolding`. Source: `docs/functional_sprint_76_manifest.json`; audit: `docs/audits/func_sprint_76_ci_scaffolding_audit.md`. Artefactos: `.github/workflows/devpilot-ci.yml`, `docs/05_operations/ci_cd_local.md`, `docs/audits/func_sprint_76_ci_scaffolding_audit.md`, `docs/functional_sprint_76_manifest.json` y 2 artefactos adicionales.
+- `FUNC-SPRINT-77` — Se incorporó `Release metadata y Release Manifest`. Source: `docs/functional_sprint_77_manifest.json`; audit: `docs/audits/func_sprint_77_release_manifest_audit.md`. Artefactos: `src/devpilot_core/release/__init__.py`, `src/devpilot_core/release/manifest.py`, `docs/05_operations/release_manifest.md`, `docs/audits/func_sprint_77_release_manifest_audit.md` y 3 artefactos adicionales.
+- `FUNC-SPRINT-78` — Se incorporó `Changelog generator y política de cambios`. Source: `docs/functional_sprint_78_manifest.json`; audit: `docs/audits/func_sprint_78_changelog_audit.md`. Artefactos: `src/devpilot_core/release/changelog.py`, `docs/05_operations/change_policy.md`, `docs/release/CHANGELOG.md`, `docs/audits/func_sprint_78_changelog_audit.md` y 3 artefactos adicionales.
+- `FUNC-SPRINT-79` — Se incorporó `Packaging Python y ZIP limpio reproducible`. Source: `docs/functional_sprint_79_manifest.json`; audit: `docs/audits/func_sprint_79_packaging_audit.md`. Artefactos: `src/devpilot_core/release/package_builder.py`, `docs/05_operations/packaging.md`, `docs/audits/func_sprint_79_packaging_audit.md`, `docs/functional_sprint_79_manifest.json` y 2 artefactos adicionales.
 
 ### Changed
 
-- README, runbook, Fase G backlog and functional backlog were synchronized to the current Fase G progression.
-- Release Manifest expected artifacts were extended to include the human-readable changelog evidence introduced by Sprint 78.
-- Historical sprint documentation tests were synchronized with the current global milestone markers.
+- `FUNC-SPRINT-74` — Se sincronizaron artefactos de ingeniería y contratos existentes. Source: `docs/functional_sprint_74_manifest.json`; audit: `docs/audits/func_sprint_74_release_versioning_audit.md`. Artefactos: `README.md`, `docs/05_operations/runbook.md`, `docs/devpilot_backlog_fase_G_productizacion_release.md`, `docs/functional_backlog_after_precode.md` y 1 artefactos adicionales.
+- `FUNC-SPRINT-75` — Se sincronizaron artefactos de ingeniería y contratos existentes. Source: `docs/functional_sprint_75_manifest.json`; audit: `docs/audits/func_sprint_75_quality_gate_audit.md`. Artefactos: `src/devpilot_core/cli.py`, `README.md`, `docs/05_operations/runbook.md`, `docs/devpilot_backlog_fase_G_productizacion_release.md` y 2 artefactos adicionales.
+- `FUNC-SPRINT-76` — Se sincronizaron artefactos de ingeniería y contratos existentes. Source: `docs/functional_sprint_76_manifest.json`; audit: `docs/audits/func_sprint_76_ci_scaffolding_audit.md`. Artefactos: `src/devpilot_core/quality/gate.py`, `src/devpilot_core/cli.py`, `README.md`, `docs/05_operations/runbook.md` y 4 artefactos adicionales.
+- `FUNC-SPRINT-77` — Se sincronizaron artefactos de ingeniería y contratos existentes. Source: `docs/functional_sprint_77_manifest.json`; audit: `docs/audits/func_sprint_77_release_manifest_audit.md`. Artefactos: `src/devpilot_core/cli.py`, `README.md`, `docs/05_operations/runbook.md`, `docs/devpilot_backlog_fase_G_productizacion_release.md` y 2 artefactos adicionales.
+- `FUNC-SPRINT-78` — Se sincronizaron artefactos de ingeniería y contratos existentes. Source: `docs/functional_sprint_78_manifest.json`; audit: `docs/audits/func_sprint_78_changelog_audit.md`. Artefactos: `src/devpilot_core/cli.py`, `src/devpilot_core/release/__init__.py`, `src/devpilot_core/release/manifest.py`, `README.md` y 5 artefactos adicionales.
+- `FUNC-SPRINT-79` — Se sincronizaron artefactos de ingeniería y contratos existentes. Source: `docs/functional_sprint_79_manifest.json`; audit: `docs/audits/func_sprint_79_packaging_audit.md`. Artefactos: `src/devpilot_core/cli.py`, `src/devpilot_core/release/__init__.py`, `src/devpilot_core/release/manifest.py`, `README.md` y 6 artefactos adicionales.
 
 ### Deprecated
 
@@ -49,27 +48,29 @@ Source: `docs/functional_sprint_*_manifest.json`
 
 ### Fixed
 
-- No entries declared by local sprint manifests for this category.
+- `FUNC-SPRINT-75` — Se registró una corrección soportada por el manifest funcional del sprint. Source: `docs/functional_sprint_75_manifest.json`; audit: `docs/audits/func_sprint_75_quality_gate_audit.md`. quality-gate run --json returns a parseable CommandResult.; Subgates include readiness, standards, MIASI, eval fixture readiness and app contract.; +3 criterios adicionales
+- `FUNC-SPRINT-78` — Se registró una corrección soportada por el manifest funcional del sprint. Source: `docs/functional_sprint_78_manifest.json`; audit: `docs/audits/func_sprint_78_changelog_audit.md`. Changelog is human-readable and Keep a Changelog-compatible.; Changelog is generated from local manifests and includes traceability to sprint manifests.; +4 criterios adicionales
 
 ### Security
 
-- Fase G release flow remains local-first and dry-run-first.
-- CLI changelog generation does not call network, external APIs, GitHub, GitLab, PyPI or LLMs.
-- CLI changelog generation does not publish, deploy, sign artifacts, tag Git or overwrite source files; no publica artefactos externos y no despliega servicios.
-- Runtime state, outputs, caches and secrets remain excluded from release packaging policy.
+- `FUNC-SPRINT-74` — Se preservaron límites local-first/dry-run-first, exclusión de secretos/runtime state o bloqueo de publicación/despliegue según el contrato del sprint. Source: `docs/functional_sprint_74_manifest.json`; audit: `docs/audits/func_sprint_74_release_versioning_audit.md`. Controles declarados: `destructive_actions_added=False`, `external_publication_out_of_scope=True`.
+- `FUNC-SPRINT-75` — Se preservaron límites local-first/dry-run-first, exclusión de secretos/runtime state o bloqueo de publicación/despliegue según el contrato del sprint. Source: `docs/functional_sprint_75_manifest.json`; audit: `docs/audits/func_sprint_75_quality_gate_audit.md`. Controles declarados: `destructive_actions_added=False`, `external_publication_out_of_scope=True`.
+- `FUNC-SPRINT-76` — Se preservaron límites local-first/dry-run-first, exclusión de secretos/runtime state o bloqueo de publicación/despliegue según el contrato del sprint. Source: `docs/functional_sprint_76_manifest.json`; audit: `docs/audits/func_sprint_76_ci_scaffolding_audit.md`. Controles declarados: `destructive_actions_added=False`, `external_publication_out_of_scope=True`, `workflow_deploys=False`, `workflow_publishes_artifacts=False`, `workflow_requires_secrets=False`.
+- `FUNC-SPRINT-77` — Se preservaron límites local-first/dry-run-first, exclusión de secretos/runtime state o bloqueo de publicación/despliegue según el contrato del sprint. Source: `docs/functional_sprint_77_manifest.json`; audit: `docs/audits/func_sprint_77_release_manifest_audit.md`. Controles declarados: `destructive_actions_added=False`, `external_publication_out_of_scope=True`.
+- `FUNC-SPRINT-78` — Se preservaron límites local-first/dry-run-first, exclusión de secretos/runtime state o bloqueo de publicación/despliegue según el contrato del sprint. Source: `docs/functional_sprint_78_manifest.json`; audit: `docs/audits/func_sprint_78_changelog_audit.md`. Controles declarados: `deploys_artifacts=False`, `external_api_used=False`, `publishes_artifacts=False`.
+- `FUNC-SPRINT-79` — Se preservaron límites local-first/dry-run-first, exclusión de secretos/runtime state o bloqueo de publicación/despliegue según el contrato del sprint. Source: `docs/functional_sprint_79_manifest.json`; audit: `docs/audits/func_sprint_79_packaging_audit.md`. Controles declarados: `deploys_artifacts=False`, `dist_outputs_path=dist/`, `excludes_caches=True`, `excludes_outputs=True`, `excludes_runtime_state=True`, `external_api_used=False`.
 
 ### References
 
-- `docs/functional_sprint_74_manifest.json`
-- `docs/functional_sprint_75_manifest.json`
-- `docs/functional_sprint_76_manifest.json`
-- `docs/functional_sprint_77_manifest.json`
-- `docs/functional_sprint_78_manifest.json`
-- `docs/05_operations/change_policy.md`
-- `docs/audits/func_sprint_78_changelog_audit.md`
+- `FUNC-SPRINT-74` — `docs/functional_sprint_74_manifest.json`
+- `FUNC-SPRINT-75` — `docs/functional_sprint_75_manifest.json`
+- `FUNC-SPRINT-76` — `docs/functional_sprint_76_manifest.json`
+- `FUNC-SPRINT-77` — `docs/functional_sprint_77_manifest.json`
+- `FUNC-SPRINT-78` — `docs/functional_sprint_78_manifest.json`
+- `FUNC-SPRINT-79` — `docs/functional_sprint_79_manifest.json`
 
 ### Policy notes
 
-- The changelog must not invent changes outside local manifests, commits or approved docs; no debe inventar cambios no evidenciados.
-- The CLI does not overwrite this file; report writing is limited to `outputs/reports`.
-- Publication, Git tagging, signing and packaging remain outside `FUNC-SPRINT-78`.
+- The changelog must not invent changes outside local manifests, commits or approved docs; no debe inventar cambios sin evidencia local.
+- The CLI does not overwrite `docs/release/CHANGELOG.md`; report writing is limited to `outputs/reports`.
+- Publication, Git tagging, signing and external deployment remain outside FUNC-SPRINT-78; packaging local starts in FUNC-SPRINT-79.

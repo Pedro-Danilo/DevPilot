@@ -1,0 +1,108 @@
+{
+  "schema_version": "1.0.0",
+  "sprint": "FUNC-SPRINT-79",
+  "title": "FUNC-SPRINT-79 — Packaging Python y ZIP limpio reproducible",
+  "status": "implemented",
+  "implemented_at": "2026-06-17",
+  "phase": "FASE-G-PRODUCTIZACION-RELEASE",
+  "wave": "Ola 10 — CI/CD, release y distribución",
+  "source_repo": "repo_DevPilot_Local_101.zip",
+  "source_backlog": "docs/devpilot_backlog_fase_G_productizacion_release.md",
+  "summary": {
+    "fg_level": "FG-L4",
+    "package_build_cli_added": true,
+    "package_build_model_added": true,
+    "repo_zip_supported": true,
+    "python_sdist_supported": true,
+    "python_wheel_supported": true,
+    "dry_run_default": true,
+    "execute_required_for_artifacts": true,
+    "reports_supported": true,
+    "reports_path": "outputs/reports/package_build.*",
+    "dist_outputs_path": "dist/",
+    "excludes_runtime_state": true,
+    "excludes_outputs": true,
+    "excludes_caches": true,
+    "excludes_git": true,
+    "excludes_venv": true,
+    "excludes_node_modules": true,
+    "excludes_local_provider_config": true,
+    "network_used": false,
+    "external_api_used": false,
+    "publishes_artifacts": false,
+    "deploys_artifacts": false,
+    "git_tagging_performed": false,
+    "dependencies_added": false,
+    "preliminary": true
+  },
+  "created_files": [
+    "src/devpilot_core/release/package_builder.py",
+    "docs/05_operations/packaging.md",
+    "docs/audits/func_sprint_79_packaging_audit.md",
+    "docs/functional_sprint_79_manifest.json",
+    "tests/test_package_builder.py",
+    "tests/test_sprint_79_documentation.py"
+  ],
+  "modified_files": [
+    "src/devpilot_core/cli.py",
+    "src/devpilot_core/release/__init__.py",
+    "src/devpilot_core/release/manifest.py",
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/05_operations/release_manifest.md",
+    "docs/devpilot_backlog_fase_G_productizacion_release.md",
+    "docs/functional_backlog_after_precode.md",
+    "tests/test_release_manifest.py",
+    "historical sprint documentation tests"
+  ],
+  "commands": [
+    "python -m devpilot_core package build --kind repo-zip --version 0.1.0 --json",
+    "python -m devpilot_core package build --kind python --version 0.1.0 --json",
+    "python -m devpilot_core package build --kind all --version 0.1.0 --execute --json --write-report",
+    "python -m devpilot_core validate-artifact docs/05_operations/packaging.md --json",
+    "python -m devpilot_core validate-artifact docs/audits/func_sprint_79_packaging_audit.md --json",
+    "python -m devpilot_core schema validate-manifest docs/functional_sprint_79_manifest.json --json"
+  ],
+  "tests": [
+    "tests/test_package_builder.py",
+    "tests/test_sprint_79_documentation.py",
+    "historical sprint documentation tests synchronized with README/backlog current milestone",
+    "full pytest regression suite"
+  ],
+  "pass_criteria": [
+    "package build returns parseable CommandResult JSON.",
+    "repo-zip excludes outputs, caches, venv, git, node_modules, dist and runtime DB.",
+    "python kind produces sdist/wheel plan and local artifacts with --execute.",
+    "Report contains included/excluded file lists.",
+    "No network, external API, publication, deployment, signing or Git tagging is performed.",
+    "README, runbook, Fase G backlog and functional backlog are synchronized."
+  ],
+  "block_criteria": [
+    "Do not close if package includes secrets or .devpilot/devpilot.db.",
+    "Do not close if package includes outputs, caches, venv, git, node_modules or dist.",
+    "Do not close if command publishes externally.",
+    "Do not close if command depends on non-regenerable outputs.",
+    "Do not close if build dependencies are undocumented."
+  ],
+  "risks": [
+    {
+      "id": "RISK-FUNC-79-001",
+      "risk": "Incluir runtime state o secretos en paquetes",
+      "mitigation": "Clasificación de archivos y bloqueos por ruta."
+    },
+    {
+      "id": "RISK-FUNC-79-002",
+      "risk": "Confundir package local con release final",
+      "mitigation": "Documentar que SBOM, checksums y smoke install quedan pendientes."
+    },
+    {
+      "id": "RISK-FUNC-79-003",
+      "risk": "Artefactos dist versionados accidentalmente",
+      "mitigation": "Tratar dist/ como output generado excluido del package y del ZIP de entrega."
+    }
+  ],
+  "next_sprint": "FUNC-SPRINT-80 — SBOM y supply-chain baseline",
+  "adr_required": false,
+  "adr_rationale": "No se requiere nueva ADR: FUNC-SPRINT-79 implementa una capacidad prevista por la ADR de release/versionado/productización y por la matriz de artefactos liberables. La política operacional queda documentada en docs/05_operations/packaging.md.",
+  "audit_report": "docs/audits/func_sprint_79_packaging_audit.md"
+}

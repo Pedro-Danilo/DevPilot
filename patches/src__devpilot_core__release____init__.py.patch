@@ -1,0 +1,16 @@
+--- a/src/devpilot_core/release/__init__.py
++++ b/src/devpilot_core/release/__init__.py
+@@ -2,10 +2,13 @@
+ 
+ from .changelog import ReleaseChangelogBuilder, ReleaseChangelogOptions
+ from .manifest import ReleaseManifestBuilder, ReleaseManifestOptions
++from .package_builder import PackageBuildBuilder, PackageBuildOptions
+ 
+ __all__ = [
+     "ReleaseChangelogBuilder",
+     "ReleaseChangelogOptions",
+     "ReleaseManifestBuilder",
+     "ReleaseManifestOptions",
++    "PackageBuildBuilder",
++    "PackageBuildOptions",
+ ]

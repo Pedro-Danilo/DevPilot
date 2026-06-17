@@ -1,0 +1,49 @@
+--- a/src/devpilot_core/release/manifest.py
++++ b/src/devpilot_core/release/manifest.py
+@@ -85,24 +85,31 @@
+     },
+     {
+         "id": "PKG-CLEAN-ZIP",
+-        "path": "dist/release/*.zip",
++        "path": "dist/release/devpilot-local-<version>-source.zip",
+         "kind": "clean-source-package",
+         "implemented_in": "FUNC-SPRINT-79",
+-        "status": "planned",
++        "status": "implemented-initial",
+     },
+     {
+         "id": "PKG-WHEEL",
+-        "path": "dist/*.whl",
++        "path": "dist/devpilot_local-<version>-py3-none-any.whl",
+         "kind": "python-wheel",
+         "implemented_in": "FUNC-SPRINT-79",
+-        "status": "planned",
++        "status": "implemented-initial",
+     },
+     {
+         "id": "PKG-SDIST",
+-        "path": "dist/*.tar.gz",
++        "path": "dist/devpilot-local-<version>.tar.gz",
+         "kind": "python-sdist",
+         "implemented_in": "FUNC-SPRINT-79",
+-        "status": "planned",
++        "status": "implemented-initial",
++    },
++    {
++        "id": "PKG-BUILD-REPORT",
++        "path": "outputs/reports/package_build.json",
++        "kind": "package-build-report",
++        "implemented_in": "FUNC-SPRINT-79",
++        "status": "implemented-initial",
+     },
+     {
+         "id": "SBOM-CYCLONEDX",
+@@ -209,7 +216,7 @@
+             },
+             "limitations": [
+                 "FUNC-SPRINT-77 does not build release packages.",
+-                "FUNC-SPRINT-78 provides the human-readable changelog; package/SBOM/checksum verification remains later.",
++                "FUNC-SPRINT-78 provides the human-readable changelog; FUNC-SPRINT-79 provides initial local packaging; SBOM/checksum verification remains later.",
+                 "FUNC-SPRINT-77 does not calculate SBOM or checksums.",
+                 "FUNC-SPRINT-77 does not tag Git, sign artifacts, publish packages or deploy.",
+                 "Release readiness still requires running pytest, quality-gate ci and Web UI smoke commands explicitly.",

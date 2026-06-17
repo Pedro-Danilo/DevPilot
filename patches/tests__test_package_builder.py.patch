@@ -1,0 +1,132 @@
+--- /dev/null
++++ b/tests/test_package_builder.py
+@@ -0,0 +1,129 @@
++from __future__ import annotations
++
++import json
++import shutil
++import subprocess
++import sys
++import tarfile
++import zipfile
++from pathlib import Path
++
++from devpilot_core.cli_models import ExitCode
++from devpilot_core.release import PackageBuildBuilder, PackageBuildOptions
++
++ROOT = Path(__file__).resolve().parents[1]
++
++
++def _clean_generated_package_artifacts() -> None:
++    shutil.rmtree(ROOT / "dist", ignore_errors=True)
++    for path in [ROOT / "outputs" / "reports" / "package_build.json", ROOT / "outputs" / "reports" / "package_build.md"]:
++        if path.exists():
++            path.unlink()
++
++
++def test_package_build_repo_zip_dry_run_lists_inclusions_and_exclusions() -> None:
++    _clean_generated_package_artifacts()
++
++    result = PackageBuildBuilder(ROOT, options=PackageBuildOptions(version="0.1.0", kind="repo-zip")).build()
++
++    assert result.ok is True
++    assert result.exit_code == ExitCode.PASS
++    summary = result.data["summary"]
++    package = result.data["package_build"]
++    assert summary["dry_run"] is True
++    assert summary["repo_zip_supported"] is True
++    assert package["outputs"][0]["id"] == "PKG-CLEAN-ZIP"
++    assert package["outputs"][0]["status"] == "planned-dry-run"
++    assert ".devpilot/devpilot.db" in package["excluded_files"]
++    assert ".devpilot/providers.yaml" in package["excluded_files"]
++    assert "src/devpilot_core/policy/secrets.py" in package["included_files"]
++    assert not (ROOT / "dist").exists()
++
++
++def test_package_build_python_dry_run_declares_sdist_and_wheel_without_network() -> None:
++    result = PackageBuildBuilder(ROOT, options=PackageBuildOptions(version="0.1.0", kind="python")).build()
++
++    assert result.ok is True
++    package = result.data["package_build"]
++    output_ids = {item["id"] for item in package["outputs"]}
++    assert {"PKG-SDIST", "PKG-WHEEL"} <= output_ids
++    assert package["python_packaging"]["build_dependency_required"] is False
++    assert package["security"]["network_used"] is False
++    assert package["security"]["publish_performed"] is False
++    assert package["security"]["deploy_performed"] is False
++    assert package["security"]["git_tagging_performed"] is False
++
++
++def test_package_build_rejects_invalid_version_and_kind() -> None:
++    invalid_version = PackageBuildBuilder(ROOT, options=PackageBuildOptions(version="bad", kind="repo-zip")).build()
++    assert invalid_version.ok is False
++    assert invalid_version.exit_code == ExitCode.ERROR
++    assert invalid_version.findings[0].id == "PACKAGE_VERSION_INVALID"
++
++    invalid_kind = PackageBuildBuilder(ROOT, options=PackageBuildOptions(version="0.1.0", kind="docker")).build()
++    assert invalid_kind.ok is False
++    assert invalid_kind.exit_code == ExitCode.ERROR
++    assert invalid_kind.findings[0].id == "PACKAGE_KIND_UNSUPPORTED"
++
++
++def test_package_build_execute_creates_clean_artifacts() -> None:
++    _clean_generated_package_artifacts()
++
++    completed = subprocess.run(
++        [
++            sys.executable,
++            "-m",
++            "devpilot_core",
++            "package",
++            "build",
++            "--kind",
++            "all",
++            "--version",
++            "0.1.0",
++            "--execute",
++            "--json",
++            "--write-report",
++        ],
++        cwd=ROOT,
++        text=True,
++        capture_output=True,
++        check=False,
++    )
++
++    assert completed.returncode == 0, completed.stderr + completed.stdout
++    payload = json.loads(completed.stdout)
++    assert payload["command"] == "package build"
++    assert payload["ok"] is True
++    assert payload["data"]["summary"]["artifacts_written_total"] == 3
++    reports = payload["data"].get("reports")
++    assert reports["json"] == "outputs/reports/package_build.json"
++    assert reports["markdown"] == "outputs/reports/package_build.md"
++    assert (ROOT / reports["json"]).exists()
++    assert (ROOT / reports["markdown"]).exists()
++
++    repo_zip = ROOT / "dist" / "release" / "devpilot-local-0.1.0-source.zip"
++    sdist = ROOT / "dist" / "devpilot-local-0.1.0.tar.gz"
++    wheel = ROOT / "dist" / "devpilot_local-0.1.0-py3-none-any.whl"
++    assert repo_zip.exists()
++    assert sdist.exists()
++    assert wheel.exists()
++
++    forbidden_prefixes = (".git/", ".venv/", "node_modules/", "outputs/", "dist/", "__pycache__/", ".pytest_cache/")
++    forbidden_exact = {".devpilot/devpilot.db", ".devpilot/providers.yaml"}
++    with zipfile.ZipFile(repo_zip) as archive:
++        names = archive.namelist()
++    for name in names:
++        assert name not in forbidden_exact, name
++        assert not any(name.startswith(marker) or f"/{marker}" in name for marker in forbidden_prefixes), name
++    assert "src/devpilot_core/__main__.py" in names
++    assert "pyproject.toml" in names
++
++    with tarfile.open(sdist, "r:gz") as archive:
++        tar_names = archive.getnames()
++    assert any(name.endswith("pyproject.toml") for name in tar_names)
++
++    with zipfile.ZipFile(wheel) as archive:
++        wheel_names = set(archive.namelist())
++    assert "devpilot_core/__main__.py" in wheel_names
++    assert any(name.endswith(".dist-info/METADATA") for name in wheel_names)
++    assert any(name.endswith(".dist-info/RECORD") for name in wheel_names)

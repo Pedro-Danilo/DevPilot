@@ -31,15 +31,15 @@ def test_sprint_72_artifacts_and_docs_are_synchronized() -> None:
         "docs/functional_sprint_72_manifest.json",
     ]:
         assert (ROOT / path).exists(), path
-    assert "Último hito: `FUNC-SPRINT-78" in readme
-    assert "Siguiente hito: `FUNC-SPRINT-79" in readme
+    assert "Último hito: `FUNC-SPRINT-79" in readme
+    assert "Siguiente hito: `FUNC-SPRINT-80" in readme
     assert "FUNC-SPRINT-72 — Settings UI: workspace, providers y políticas locales" in readme
     assert "FUNC-SPRINT-72 — Operación de Settings UI" in runbook
     assert 'source_repo: "repo_DevPilot_Local_92.zip"' in backlog
     assert 'first_open_sprint: "FUNC-SPRINT-74"' in backlog
     assert 'last_completed_sprint: "FUNC-SPRINT-73"' in backlog
     assert 'next_sprint: "FUNC-SPRINT-74"' in backlog
-    assert 'next_sprint: "FUNC-SPRINT-79"' in functional_backlog
+    assert 'next_sprint: "FUNC-SPRINT-80"' in functional_backlog
     assert "Settings UI" in internal_contract
 
 

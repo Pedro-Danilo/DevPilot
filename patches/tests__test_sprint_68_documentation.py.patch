@@ -1,0 +1,20 @@
+--- a/tests/test_sprint_68_documentation.py
++++ b/tests/test_sprint_68_documentation.py
+@@ -24,14 +24,14 @@
+     internal_contract = _read("docs/07_interfaces/internal_application_contract.md")
+     threat_model = _read("docs/03_security/ui_api_threat_model.md")
+ 
+-    assert "Último hito: `FUNC-SPRINT-78" in readme
+-    assert "Siguiente hito: `FUNC-SPRINT-79" in readme
++    assert "Último hito: `FUNC-SPRINT-79" in readme
++    assert "Siguiente hito: `FUNC-SPRINT-80" in readme
+     assert "FUNC-SPRINT-68 — Seguridad API local" in readme
+     assert 'source_repo: "repo_DevPilot_Local_92.zip"' in backlog
+     assert 'first_open_sprint: "FUNC-SPRINT-74"' in backlog
+     assert 'last_completed_sprint: "FUNC-SPRINT-73"' in backlog
+     assert 'next_sprint: "FUNC-SPRINT-74"' in backlog
+-    assert 'next_sprint: "FUNC-SPRINT-79"' in functional_backlog
++    assert 'next_sprint: "FUNC-SPRINT-80"' in functional_backlog
+     assert "FUNC-SPRINT-68 — Operación de seguridad API local" in runbook
+     assert "Sprint 68 — Seguridad API local secured-initial" in internal_contract
+     assert "Implementación Sprint 68" in threat_model

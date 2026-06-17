@@ -1,0 +1,17 @@
+--- a/docs/05_operations/release_manifest.md
++++ b/docs/05_operations/release_manifest.md
+@@ -120,3 +120,14 @@
+ 
+ 
+ La versión industrial completa debe agregar schema formal de Release Manifest, manifest de package real, SBOM, checksums, smoke test de instalación, firma opcional, rollback/upgrade y ReleaseAgent dry-run. Sprint 77 solo crea la base auditable de metadata.
++
++## 11. Actualización FUNC-SPRINT-79 — Packaging reconocido por el Release Manifest
++
++Desde `FUNC-SPRINT-79`, el Release Manifest reconoce como `implemented-initial` los artefactos de packaging local:
++
++- `PKG-CLEAN-ZIP`: `dist/release/devpilot-local-<version>-source.zip`.
++- `PKG-WHEEL`: `dist/devpilot_local-<version>-py3-none-any.whl`.
++- `PKG-SDIST`: `dist/devpilot-local-<version>.tar.gz`.
++- `PKG-BUILD-REPORT`: `outputs/reports/package_build.json`.
++
++Estos artefactos siguen siendo locales y preliminares: no implican publicación, firma, Git tag ni release externo. SBOM, checksums y smoke install quedan para sprints posteriores.

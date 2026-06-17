@@ -4468,3 +4468,56 @@ Esta separación evita ejecución oculta de procesos lentos o generadores de cac
 - El manifest no prueba por sí solo que un release esté listo; requiere ejecución explícita de `pytest`, `quality-gate ci` y smoke Web UI.
 - Packaging, SBOM, checksums y smoke test de instalación quedan para sprints posteriores.
 
+
+
+## FUNC-SPRINT-79 — Operación de Packaging Python y ZIP limpio reproducible
+
+### Propósito operativo
+
+`FUNC-SPRINT-79` agrega el comando local de packaging reproducible para construir un ZIP limpio del repo y artefactos Python preliminares. Es una versión `implemented-initial`: crea planes y artefactos locales, pero no publica, no despliega, no firma y no etiqueta Git.
+
+### Comandos principales
+
+```powershell
+python -m devpilot_core package build --kind repo-zip --version 0.1.0 --json
+python -m devpilot_core package build --kind python --version 0.1.0 --json
+python -m devpilot_core package build --kind all --version 0.1.0 --execute --json --write-report
+```
+
+Con `--write-report` se generan:
+
+```text
+outputs/reports/package_build.json
+outputs/reports/package_build.md
+```
+
+Con `--execute` se generan artefactos locales bajo `dist/`:
+
+```text
+dist/release/devpilot-local-0.1.0-source.zip
+dist/devpilot-local-0.1.0.tar.gz
+dist/devpilot_local-0.1.0-py3-none-any.whl
+```
+
+### Funcionamiento
+
+El builder clasifica archivos incluidos/excluidos, aplica reglas de exclusión de runtime state y caches, valida SemVer y bloquea rutas con apariencia de secreto. El modo dry-run no escribe artefactos; `--execute` escribe únicamente bajo `dist/`.
+
+### PASS
+
+- Salida JSON parseable como `CommandResult`.
+- ZIP limpio excluye `outputs/`, `.pytest_cache/`, `__pycache__/`, `.venv/`, `.git/`, `node_modules/`, `dist/`, `.devpilot/devpilot.db` y `.devpilot/providers.yaml`.
+- Wheel/sdist se generan localmente con stdlib cuando se usa `--execute`.
+- Reportes opcionales únicamente bajo `outputs/reports`.
+- Sin red, sin APIs externas, sin PyPI, sin GitHub Releases, sin firma, sin tagging y sin despliegue.
+
+### BLOCK
+
+- Inclusión de runtime DB, caches, venv, Git, `node_modules`, `outputs`, `dist` o secretos.
+- Publicación externa o despliegue remoto.
+- Build que dependa de outputs preexistentes no regenerables.
+- Ausencia de lista de incluidos/excluidos.
+
+### Riesgos y límites
+
+Esta es una versión inicial de packaging. Todavía no hay SBOM, checksums, smoke-install ni verificación de integridad de artefactos contra un release final. Es la base para `FUNC-SPRINT-80` y `FUNC-SPRINT-81`.
