@@ -34,8 +34,8 @@ def test_sprint_45_readme_runbook_backlogs_and_test_strategy_are_synchronized() 
     functional_backlog = _read("docs/functional_backlog_after_precode.md")
     test_strategy = _read("docs/04_quality/test_strategy.md")
 
-    assert "Último hito: `FUNC-SPRINT-81" in readme
-    assert "Siguiente hito: `FUNC-SPRINT-82" in readme
+    assert "Último hito: `FUNC-SPRINT-82" in readme
+    assert "Siguiente hito: `FUNC-SPRINT-83" in readme
     assert "## FUNC-SPRINT-45 — ADR y contratos de proveedores locales" in readme
     assert "python -m devpilot_core model providers --json" in runbook
     assert "## FUNC-SPRINT-45 — ADR y contratos de proveedores locales" in runbook
@@ -43,7 +43,7 @@ def test_sprint_45_readme_runbook_backlogs_and_test_strategy_are_synchronized() 
     assert 'last_completed_sprint: "FUNC-SPRINT-55"' in backlog_d
     assert 'phase_d_status: "closed"' in backlog_d
     assert "Estado de implementación Sprint 45" in backlog_d
-    assert 'next_sprint: "FUNC-SPRINT-82"' in functional_backlog
+    assert 'next_sprint: "FUNC-SPRINT-83"' in functional_backlog
     assert "Transición posterior a FUNC-SPRINT-45" in functional_backlog
     assert "Actualización FUNC-SPRINT-45 — Pruebas de provider config local-first" in test_strategy
 

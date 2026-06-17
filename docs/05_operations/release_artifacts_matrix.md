@@ -138,3 +138,12 @@ Sprint 81 implementa verificación local inicial de artefactos de release:
 - `release verify`: reporte consolidado y `checksums.sha256`.
 
 La verificación sigue siendo local y preliminar: no firma, no publica, no despliega, no etiqueta Git y no reemplaza instalación/upgrade aislados.
+
+
+## Artefacto FUNC-SPRINT-82 — INSTALL-PLAN
+
+| ID | Ruta | Estado | Descripción |
+|---|---|---|---|
+| `INSTALL-PLAN` | `outputs/reports/install_plan.json` | `implemented-initial` | Plan local de instalación editable/wheel/ZIP/Desktop bridge generado por `python -m devpilot_core install plan --json --write-report`. |
+
+`INSTALL-PLAN` no es un instalador ejecutable: es evidencia gobernada de estrategia de instalación. No activa auto-update, no instala servicios persistentes, no requiere privilegios elevados y no usa red.

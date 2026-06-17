@@ -1,8 +1,8 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
 Estado actual: `baseline pre-code approved + Fases A-F cerradas + Fase G en progreso`  
-Último hito: `FUNC-SPRINT-81 — Checksums, smoke tests y verificación de release`  
-Siguiente hito: `FUNC-SPRINT-82 — Estrategia de instalación e installer preliminar`  
+Último hito: `FUNC-SPRINT-82 — Estrategia de instalación e installer preliminar`  
+Siguiente hito: `FUNC-SPRINT-83 — Backup, restore y upgrade local`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
@@ -2163,3 +2163,10 @@ python -m devpilot_core telemetry export --format otlp --dry-run --endpoint http
 El tercer comando debe bloquearse de forma controlada con `OTEL_REMOTE_EXPORT_BLOCKED`, `network_used=false`, `external_api_used=false` y `remote_telemetry_enabled=false`. La herramienta MIASI `telemetry.export` queda registrada como `implemented-initial` y asociada a reglas que permiten únicamente payload local dry-run y bloquean export remoto.
 
 Estado: `implemented-initial`. Esta versión prepara interoperabilidad futura, pero no constituye integración productiva con OpenTelemetry Collector, Jaeger, Tempo, Grafana, Honeycomb ni servicios cloud. Una activación real futura debe requerir ADR o actualización de ADR, configuración explícita, aprobación humana, política de exfiltración, pruebas de red controladas y validación de privacidad/costos.
+
+
+## FUNC-SPRINT-82 — Estrategia de instalación e installer preliminar
+
+`FUNC-SPRINT-82` agrega una primera versión `implemented-initial` de estrategia de instalación local. La capacidad principal es `python -m devpilot_core install plan`, que genera una matriz y un plan dry-run para instalación editable, wheel, ZIP fuente limpio y puente Desktop.
+
+Límites explícitos: no instala automáticamente, no crea servicios persistentes, no requiere privilegios elevados, no habilita auto-update, no publica, no despliega y no construye un instalador desktop real. La ruta visual vigente sigue siendo Web UI local web-first; Desktop queda diferido salvo decisión arquitectónica posterior.

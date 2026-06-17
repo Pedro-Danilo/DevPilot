@@ -141,3 +141,10 @@ Estos artefactos siguen siendo locales y preliminares: no implican publicación,
 ## 13. Estado de verificación FUNC-SPRINT-81
 
 `FUNC-SPRINT-81` implementa checksums SHA256, smoke test local y `release verify` como evidencia de release. El Release Manifest reconoce `CHECKSUMS-SHA256`, `RELEASE-SMOKE-TEST` y `RELEASE-VERIFICATION` como artefactos `implemented-initial`. Esta integración no implica firma criptográfica, publicación, despliegue, Git tagging ni instalación/upgrade completos.
+
+
+## Integración con FUNC-SPRINT-82
+
+`FUNC-SPRINT-82` implementa `install plan` como evidencia de estrategia de instalación local. El Release Manifest reconoce `INSTALL-PLAN` como artefacto esperado inicial bajo `outputs/reports/install_plan.json`.
+
+Esta integración es `implemented-initial`: documenta editable install, wheel, ZIP y Desktop bridge, pero no ejecuta instalación, no crea servicios, no requiere privilegios elevados y no implementa auto-update ni desktop installer real.

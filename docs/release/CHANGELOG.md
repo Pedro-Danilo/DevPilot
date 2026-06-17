@@ -25,10 +25,12 @@ This changelog follows a Keep a Changelog-compatible category structure and is g
 ## [0.1.0] - 2026-06-17
 
 Release ID: `DEVPL-0.1.0`  
-Range: `FUNC-SPRINT-74` → `FUNC-SPRINT-81`  
+Range: `FUNC-SPRINT-74` → `FUNC-SPRINT-82`  
 Source: `docs/functional_sprint_*_manifest.json`
 
 ### Added
+
+- `FUNC-SPRINT-82` — `docs/functional_sprint_82_manifest.json` — Se incorporó `Estrategia de instalación e installer preliminar`.
 
 - `FUNC-SPRINT-74` — Se incorporó `ADR de release, versionado y productización`. Source: `docs/functional_sprint_74_manifest.json`; audit: `docs/audits/func_sprint_74_release_versioning_audit.md`. Artefactos: `docs/02_architecture/adrs/ADR-0014-release-versioning-packaging.md`, `docs/05_operations/release_policy.md`, `docs/05_operations/release_artifacts_matrix.md`, `docs/audits/func_sprint_74_release_versioning_audit.md` y 2 artefactos adicionales.
 - `FUNC-SPRINT-75` — Se incorporó `Quality Gate local unificado`. Source: `docs/functional_sprint_75_manifest.json`; audit: `docs/audits/func_sprint_75_quality_gate_audit.md`. Artefactos: `src/devpilot_core/quality/__init__.py`, `src/devpilot_core/quality/gate.py`, `tests/test_quality_gate.py`, `tests/test_sprint_75_documentation.py` y 2 artefactos adicionales.

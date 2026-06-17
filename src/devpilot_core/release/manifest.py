@@ -139,6 +139,13 @@ _EXPECTED_RELEASE_ARTIFACTS = [
         "implemented_in": "FUNC-SPRINT-81",
         "status": "implemented-initial",
     },
+    {
+        "id": "INSTALL-PLAN",
+        "path": "outputs/reports/install_plan.json",
+        "kind": "installation-plan-report",
+        "implemented_in": "FUNC-SPRINT-82",
+        "status": "implemented-initial",
+    },
 ]
 
 
@@ -147,7 +154,7 @@ class ReleaseManifestOptions:
     """Options for creating the local release manifest.
 
     FUNC-SPRINT-77 deliberately creates metadata and evidence references only.
-    Packaging and SBOM are implemented as initial local baselines; checksums and smoke verification are implemented initially in FUNC-SPRINT-81. Signing and publication remain future/out-of-scope capabilities.
+    Packaging and SBOM are implemented as initial local baselines; checksums and smoke verification are implemented initially in FUNC-SPRINT-81; installation planning is implemented initially in FUNC-SPRINT-82. Signing and publication remain future/out-of-scope capabilities.
     """
 
     version: str
@@ -270,7 +277,7 @@ class ReleaseManifestBuilder:
                 "release_manifest": release_manifest,
                 "notes": [
                     "FUNC-SPRINT-77 introduces release metadata and manifest generation only.",
-                    "Packaging and SBOM now have local initial implementations; checksums, signing, tagging and publication remain out of scope.",
+                    "Packaging, SBOM, checksums, smoke verification and installation planning now have local initial implementations; signing, tagging and publication remain out of scope.",
                     "Run pytest, quality-gate ci and Web UI smoke separately to produce release readiness evidence.",
                 ],
             },

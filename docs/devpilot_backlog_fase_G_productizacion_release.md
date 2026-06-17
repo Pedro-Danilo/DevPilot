@@ -8,15 +8,15 @@ standard: "MIPSoftware"
 extension: "MIASI"
 phase: "FASE-G-PRODUCTIZACION-RELEASE"
 updated: "2026-06-17"
-source_repo: "repo_DevPilot_Local_103.zip"
+source_repo: "repo_DevPilot_Local_104.zip"
 source_report: "Informe de avance DevPilot - sprint 0 - 18.docx"
 source_backlog_model: "docs/functional_backlog_after_precode.md"
 baseline_dependency: "Fases A-F cerradas; Fase F validada por FUNC-SPRINT-73"
 approved_on: "2026-06-16"
 approval: "approved_after_phase_f_visual_mvp_web_first_closure"
-first_open_sprint: "FUNC-SPRINT-82"
-last_completed_sprint: "FUNC-SPRINT-81"
-next_sprint: "FUNC-SPRINT-82"
+first_open_sprint: "FUNC-SPRINT-83"
+last_completed_sprint: "FUNC-SPRINT-82"
+next_sprint: "FUNC-SPRINT-83"
 phase_g_status: "in_progress"
 first_sprint: "FUNC-SPRINT-74"
 last_planned_sprint: "FUNC-SPRINT-84"
@@ -865,6 +865,10 @@ Implementa FUNC-SPRINT-82. Documenta estrategia de instalación local, ADR y gu�
 ```
 
 ---
+
+## Estado de implementación Sprint 82
+
+`FUNC-SPRINT-82 — Estrategia de instalación e installer preliminar` queda implementado en estado `implemented-initial`. Se agrega `install plan` como comando plan-only/dry-run, `docs/05_operations/install_guide.md`, `ADR-0015`, auditoría y manifest. La implementación documenta instalación editable, wheel, ZIP y Desktop bridge, sin auto-update, sin servicios persistentes, sin privilegios elevados por defecto, sin red obligatoria y sin instalador desktop real. La evolución pendiente incluye smoke install aislado, upgrade/rollback y firma/provenance.
 
 ## FUNC-SPRINT-83 — Backup, restore y upgrade local
 

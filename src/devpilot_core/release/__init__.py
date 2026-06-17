@@ -4,6 +4,7 @@ from .changelog import ReleaseChangelogBuilder, ReleaseChangelogOptions
 from .manifest import ReleaseManifestBuilder, ReleaseManifestOptions
 from .package_builder import PackageBuildBuilder, PackageBuildOptions
 from .sbom import ReleaseSbomBuilder, ReleaseSbomOptions
+from .installation import InstallPlanBuilder, InstallPlanOptions
 from .verification import (
     ReleaseChecksumBuilder,
     ReleaseChecksumOptions,
@@ -21,6 +22,8 @@ __all__ = [
     "ReleaseManifestOptions",
     "PackageBuildBuilder",
     "PackageBuildOptions",
+    "InstallPlanBuilder",
+    "InstallPlanOptions",
     "ReleaseSbomBuilder",
     "ReleaseSbomOptions",
     "ReleaseChecksumBuilder",

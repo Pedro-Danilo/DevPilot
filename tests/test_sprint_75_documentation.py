@@ -30,15 +30,15 @@ def test_sprint_75_quality_gate_artifacts_exist_and_are_synchronized() -> None:
     ]:
         assert (ROOT / path).exists(), path
 
-    assert "Último hito: `FUNC-SPRINT-81" in readme
-    assert "Siguiente hito: `FUNC-SPRINT-82" in readme
+    assert "Último hito: `FUNC-SPRINT-82" in readme
+    assert "Siguiente hito: `FUNC-SPRINT-83" in readme
     assert "FUNC-SPRINT-75 — Quality Gate local unificado" in readme
     assert "FUNC-SPRINT-75 — Operación del Quality Gate local unificado" in runbook
-    assert 'source_repo: "repo_DevPilot_Local_103.zip"' in backlog_g
-    assert 'last_completed_sprint: "FUNC-SPRINT-81"' in backlog_g
-    assert 'next_sprint: "FUNC-SPRINT-82"' in backlog_g
+    assert 'source_repo: "repo_DevPilot_Local_104.zip"' in backlog_g
+    assert 'last_completed_sprint: "FUNC-SPRINT-82"' in backlog_g
+    assert 'next_sprint: "FUNC-SPRINT-83"' in backlog_g
     assert 'phase_g_status: "in_progress"' in backlog_g
-    assert 'next_sprint: "FUNC-SPRINT-82"' in functional_backlog
+    assert 'next_sprint: "FUNC-SPRINT-83"' in functional_backlog
 
 
 def test_sprint_75_audit_documents_quality_gate_boundaries() -> None:

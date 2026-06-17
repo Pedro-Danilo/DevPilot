@@ -4609,3 +4609,43 @@ outputs/reports/checksums.sha256
 ### Riesgos y límites
 
 Esta es una versión `implemented-initial`: no equivale a instalación aislada, upgrade test, firma criptográfica ni provenance completo. La instalación e installer preliminar quedan para `FUNC-SPRINT-82`.
+
+
+## FUNC-SPRINT-82 — Operación de instalación local
+
+### Propósito
+
+Operar la estrategia inicial de instalación local de DevPilot sin ejecutar instaladores ocultos ni mutaciones inseguras.
+
+### Comandos
+
+```powershell
+python -m devpilot_core install plan --mode all --json
+python -m devpilot_core install plan --mode wheel --version 0.1.0 --json
+python -m devpilot_core install plan --mode zip --version 0.1.0 --json
+python -m devpilot_core install plan --mode all --json --write-report
+```
+
+### Funcionamiento
+
+`install plan` genera una matriz editable/wheel/ZIP/Desktop bridge y pasos PowerShell recomendados. El comando es `plan-only`: no crea venvs, no llama `pip`, no instala servicios, no requiere privilegios elevados, no usa red y no modifica fuente.
+
+### Criterios PASS
+
+- Plan local generado.
+- Guía de instalación validada.
+- ADR-0015 validada.
+- No auto-update.
+- No servicios persistentes.
+- No privilegios elevados por defecto.
+
+### Criterios BLOCK
+
+- Requerir red como única ruta.
+- Instalar servicios persistentes.
+- Ejecutar instalación desde el plan.
+- Construir desktop installer sin ADR adicional.
+
+### Riesgos
+
+Esta es una primera versión `implemented-initial`: documenta y planifica instalación, pero no reemplaza smoke install aislado, upgrade test, rollback ni firma de artefactos.

@@ -1,0 +1,98 @@
+{
+  "schema_version": "1.0.0",
+  "sprint": "FUNC-SPRINT-82",
+  "title": "FUNC-SPRINT-82 — Estrategia de instalación e installer preliminar",
+  "status": "implemented",
+  "implemented_at": "2026-06-17",
+  "phase": "FASE-G-PRODUCTIZACION-RELEASE",
+  "wave": "Ola 10 — CI/CD, release y distribución",
+  "source_repo": "repo_DevPilot_Local_104.zip",
+  "source_backlog": "docs/devpilot_backlog_fase_G_productizacion_release.md",
+  "summary": {
+    "fg_level": "FG-L7",
+    "install_plan_cli_added": true,
+    "install_guide_added": true,
+    "installation_strategy_adr_added": true,
+    "editable_install_documented": true,
+    "wheel_install_documented": true,
+    "zip_install_documented": true,
+    "desktop_bridge_documented": true,
+    "dry_run_default": true,
+    "execute_supported": false,
+    "auto_update_enabled": false,
+    "persistent_services_installed": false,
+    "admin_privileges_required": false,
+    "network_required": false,
+    "external_api_used": false,
+    "publishes_artifacts": false,
+    "deploys_artifacts": false,
+    "source_mutations_performed": false,
+    "dependencies_added": false,
+    "preliminary": true
+  },
+  "created_files": [
+    "src/devpilot_core/release/installation.py",
+    "docs/05_operations/install_guide.md",
+    "docs/02_architecture/adrs/ADR-0015-installation-strategy.md",
+    "docs/audits/func_sprint_82_installation_audit.md",
+    "docs/functional_sprint_82_manifest.json",
+    "tests/test_installation_plan.py",
+    "tests/test_sprint_82_documentation.py"
+  ],
+  "modified_files": [
+    "src/devpilot_core/cli.py",
+    "src/devpilot_core/release/__init__.py",
+    "src/devpilot_core/release/manifest.py",
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/05_operations/release_manifest.md",
+    "docs/05_operations/release_artifacts_matrix.md",
+    "docs/devpilot_backlog_fase_G_productizacion_release.md",
+    "docs/functional_backlog_after_precode.md",
+    "docs/release/CHANGELOG.md",
+    "historical sprint documentation tests"
+  ],
+  "commands": [
+    "python -m devpilot_core install plan --mode all --json",
+    "python -m devpilot_core install plan --mode all --json --write-report",
+    "python -m devpilot_core validate-artifact docs/05_operations/install_guide.md --json",
+    "python -m devpilot_core validate-artifact docs/02_architecture/adrs/ADR-0015-installation-strategy.md --json",
+    "python -m devpilot_core schema validate-manifest docs/functional_sprint_82_manifest.json --json"
+  ],
+  "tests": [
+    "tests/test_installation_plan.py",
+    "tests/test_sprint_82_documentation.py",
+    "historical sprint documentation tests synchronized with README/backlog current milestone"
+  ],
+  "pass_criteria": [
+    "Installation local is documented.",
+    "install plan returns PASS without executing installation.",
+    "No auto-update, elevated privileges or persistent services are enabled.",
+    "Wheel, ZIP, editable and Desktop bridge modes are documented.",
+    "README, runbook, Fase G backlog and functional backlog are synchronized."
+  ],
+  "block_criteria": [
+    "Do not close if installation requires network without local alternative.",
+    "Do not close if services are installed without ADR.",
+    "Do not close if elevated privileges are required by default.",
+    "Do not close if the preliminary installer is presented as a complete production installer."
+  ],
+  "risks": [
+    {
+      "id": "RISK-FUNC-82-001",
+      "risk": "Falso sentido de instalador completo",
+      "mitigation": "Declarar implemented-initial y plan-only."
+    },
+    {
+      "id": "RISK-FUNC-82-002",
+      "risk": "Instalación insegura",
+      "mitigation": "No ejecutar instalación desde el comando."
+    },
+    {
+      "id": "RISK-FUNC-82-003",
+      "risk": "Duplicar Desktop/Web",
+      "mitigation": "Mantener desktop-bridge diferido."
+    }
+  ],
+  "next_sprint": "FUNC-SPRINT-83 — Backup, restore y upgrade local"
+}

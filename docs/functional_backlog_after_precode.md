@@ -14,7 +14,7 @@ change_policy: "controlled_changes_allowed_via_docs_as_code"
 approved_on: "2026-06-06"
 approval_scope: "functional_backlog_after_precode"
 baseline_execution: "FUNC-SPRINT-00"
-next_sprint: "FUNC-SPRINT-82"
+next_sprint: "FUNC-SPRINT-83"
 ---
 
 # DevPilot Local — Backlog ejecutable posterior a pre-code
@@ -2314,7 +2314,7 @@ La implementación es `implemented-initial`: no agrega servidor, frontend ni dep
 
 ## Transición posterior a FUNC-SPRINT-71
 
-Fase F avanza con Approval Center y acciones dry-run desde UI. `next_sprint: "FUNC-SPRINT-82"`.
+Fase F avanza con Approval Center y acciones dry-run desde UI. `next_sprint: "FUNC-SPRINT-83"`.
 
 
 ## Transición posterior a FUNC-SPRINT-81

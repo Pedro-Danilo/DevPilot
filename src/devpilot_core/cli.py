@@ -22,6 +22,8 @@ from .quality import QualityGate, QualityGateOptions
 from .release import (
     PackageBuildBuilder,
     PackageBuildOptions,
+    InstallPlanBuilder,
+    InstallPlanOptions,
     ReleaseChangelogBuilder,
     ReleaseChangelogOptions,
     ReleaseChecksumBuilder,
@@ -1758,6 +1760,56 @@ def release_verify_command(
     return int(result.exit_code)
 
 
+
+def install_plan_command(
+    *,
+    mode: str = "all",
+    version: str | None = None,
+    artifact: str | None = None,
+    python_executable: str = "python",
+    json_output: bool = False,
+    write_report: bool = False,
+) -> int:
+    """Generate the FUNC-SPRINT-82 local installation strategy and dry-run plan."""
+
+    root = project_root()
+    result = InstallPlanBuilder(
+        root,
+        options=InstallPlanOptions(
+            mode=mode,
+            version=version,
+            artifact=artifact,
+            python_executable=python_executable,
+        ),
+    ).build()
+    effective_version = ((result.data or {}).get("summary") or {}).get("version") or version or "unknown"
+    result = _write_optional_command_report(
+        root,
+        result,
+        subject=f"install:{mode}:{effective_version}",
+        report_id="install_plan",
+        write_report=write_report,
+        metadata={"sprint": "FUNC-SPRINT-82", "component": "InstallPlan", "version": effective_version, "mode": mode},
+    )
+    if write_report and isinstance((result.data or {}).get("reports"), dict):
+        data = dict(result.data or {})
+        summary = dict(data.get("summary") or {})
+        summary["reports_written"] = True
+        data["summary"] = summary
+        result = CommandResult(
+            command=result.command,
+            ok=result.ok,
+            exit_code=result.exit_code,
+            message=result.message,
+            data=data,
+            findings=result.findings,
+        )
+    _emit_result_event(root, result, subject="install:plan")
+    _persist_result(root, result, subject="install:plan")
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+
 def package_build_command(
     *,
     kind: str,
@@ -3283,6 +3335,16 @@ def build_parser() -> argparse.ArgumentParser:
     release_verify.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     release_verify.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown release verification evidence")
 
+    install = sub.add_parser("install", help="Plan safe local DevPilot installation")
+    install_sub = install.add_subparsers(dest="install_command")
+    install_plan = install_sub.add_parser("plan", help="Generate local installation strategy and dry-run plan")
+    install_plan.add_argument("--mode", choices=["editable", "wheel", "zip", "desktop-bridge", "all"], default="all", help="Installation mode to plan")
+    install_plan.add_argument("--version", dest="install_version", default=None, help="Optional SemVer version; defaults to pyproject.toml")
+    install_plan.add_argument("--artifact", default=None, help="Optional local wheel or ZIP artifact path for mode-specific validation")
+    install_plan.add_argument("--python-executable", default="python", help="Python executable name used in generated plan commands")
+    install_plan.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    install_plan.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+
     package = sub.add_parser("package", help="Build local clean release packages")
     package_sub = package.add_subparsers(dest="package_command")
     package_build = package_sub.add_parser("build", help="Plan or build local clean release packages")
@@ -3889,6 +3951,18 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
                 artifact=args.artifact,
                 version=args.release_version,
                 timeout_seconds=args.timeout_seconds,
+                json_output=args.json,
+                write_report=args.write_report,
+            )
+        parser.print_help()
+        return int(ExitCode.FAIL)
+    if args.command == "install":
+        if args.install_command == "plan":
+            return install_plan_command(
+                mode=args.mode,
+                version=args.install_version,
+                artifact=args.artifact,
+                python_executable=args.python_executable,
                 json_output=args.json,
                 write_report=args.write_report,
             )
