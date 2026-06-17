@@ -1,13 +1,30 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
 Estado actual: `baseline pre-code approved + Fases A-F cerradas + Fase G en progreso`  
-Último hito: `FUNC-SPRINT-80 — SBOM y supply-chain baseline`  
-Siguiente hito: `FUNC-SPRINT-81 — Checksums, smoke tests y verificación de release`  
+Último hito: `FUNC-SPRINT-81 — Checksums, smoke tests y verificación de release`  
+Siguiente hito: `FUNC-SPRINT-82 — Estrategia de instalación e installer preliminar`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
 
 
+
+## FUNC-SPRINT-81 — Checksums, smoke tests y verificación de release
+
+`FUNC-SPRINT-81` implementa la primera verificación local de release sobre artefactos reales. Agrega el módulo `devpilot_core.release.verification`, los comandos `release checksum`, `release smoke-test` y `release verify`, el procedimiento `docs/05_operations/release_verification.md`, auditoría, manifest funcional y pruebas.
+
+Comandos principales:
+
+```powershell
+python -m devpilot_core package build --kind all --version 0.1.0 --execute --json --write-report
+python -m devpilot_core release checksum --artifact dist/release/devpilot-local-0.1.0-source.zip --json
+python -m devpilot_core release smoke-test --artifact dist/release/devpilot-local-0.1.0-source.zip --json
+python -m devpilot_core release verify --artifact dist/release/devpilot-local-0.1.0-source.zip --json --write-report
+```
+
+Con `--write-report`, la verificación genera evidencia regenerable bajo `outputs/reports/release_verification.*` y `outputs/reports/checksums.sha256`.
+
+Límites: esta es una primera versión `implemented-initial`; valida integridad local y smoke básico, pero no instala en ambiente aislado, no ejecuta upgrade, no firma, no publica, no despliega ni etiqueta Git. Es base para `FUNC-SPRINT-82`, donde se abordará estrategia de instalación e installer preliminar.
 
 ## FUNC-SPRINT-80 — SBOM y supply-chain baseline
 

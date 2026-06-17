@@ -35,7 +35,7 @@ Definir qué artefactos componen un release de DevPilot local-first, cuáles son
 | Python package | Instalar CLI/core con tooling Python. | Definido, no automatizado. |
 | Release metadata | Trazar versión, commit, comandos, pruebas y artefactos. | Definido, no automatizado. |
 | Evidencia humana | Explicar cambios, riesgos y verificación. | Definido, parcialmente manual. |
-| Supply chain | Inventario, SBOM, checksums y hashes. | SBOM baseline automatizado en Sprint 80; checksums pendientes Sprint 81. |
+| Supply chain | Inventario, SBOM, checksums y hashes. | SBOM baseline automatizado en Sprint 80; checksums SHA256 implementados inicialmente en Sprint 81. |
 | Install/upgrade | Permitir instalación y migración local. | Definido, no automatizado. |
 
 ## 3. Matriz de artefactos liberables
@@ -48,8 +48,8 @@ Definir qué artefactos componen un release de DevPilot local-first, cuáles son
 | Release manifest | Sí | Sprint 77 | Versión, fecha, fuente, artefactos, checks, hashes, referencias. | Secretos y datos runtime. | JSON parseable y validable. |
 | Changelog | Sí | Sprint 78 | Cambios notables por versión. | Cambios inventados sin fuente. | Humano, trazable y revisable. |
 | SBOM baseline | Sí | Sprint 80 | Runtime/dev/build dependencies, UI deps, CycloneDX-compatible baseline. | Vulnerability scan remoto obligatorio. | No requiere red y genera evidencia local. |
-| Checksums SHA256 | Sí | Sprint 81 | Hashes de artefactos. | Datos sensibles. | Hash calculado sobre artefacto real. |
-| Release verification report | Sí | Sprint 81 | Resultado de package + checksum + smoke test. | Logs crudos con secretos. | PASS/BLOCK accionable. |
+| Checksums SHA256 | Sí | Sprint 81 | Hashes de artefactos. | Datos sensibles. | Hash calculado sobre artefacto real/local. |
+| Release verification report | Sí | Sprint 81 | Resultado de checksum + smoke test sobre artefacto real/local. | Logs crudos con secretos. | PASS/BLOCK accionable. |
 | Install guide | Sí | Sprint 82 | Instalación local Windows/dev. | Auto-update o privilegios innecesarios. | Procedimiento reproducible. |
 | Backup/upgrade report | Sí al cierre de G | Sprint 83 | Plan/resultado backup y upgrade check. | Backup de `.venv`/`.git` por defecto. | Dry-run seguro. |
 | ReleaseAgent report | Sí al cierre de G | Sprint 84 | Recomendaciones basadas en evidencia. | Publicación/deploy/tag real. | Dry-run auditable. |
@@ -99,7 +99,7 @@ La matriz no autoriza publicación en PyPI, GitHub Releases, GitLab Releases, Do
 | 78 | Changelog. |
 | 79 | Package builder y ZIP limpio. |
 | 80 | SBOM/supply-chain baseline. |
-| 81 | Checksums y release verify. |
+| 81 | Checksums, smoke test y release verify. |
 | 82 | Install guide/installer strategy. |
 | 83 | Backup/restore/upgrade. |
 | 84 | ReleaseAgent dry-run y cierre Fase G. |
@@ -127,3 +127,14 @@ La matriz no autoriza publicación en PyPI, GitHub Releases, GitLab Releases, Do
 | RISK-ART-002 | Excluir demasiado y romper instalación. | Smoke test de release en Sprint 81. |
 | RISK-ART-003 | Incluir state local. | Lista BLOCK y tests de packaging. |
 | RISK-ART-004 | Divergencia Python/frontend. | Manifest y matriz de artefactos por familia. |
+
+
+## 10. Actualización FUNC-SPRINT-81
+
+Sprint 81 implementa verificación local inicial de artefactos de release:
+
+- `release checksum`: SHA256 sobre artefacto real/local.
+- `release smoke-test`: inspección de contenedor y CLI mínimo con exit code observado.
+- `release verify`: reporte consolidado y `checksums.sha256`.
+
+La verificación sigue siendo local y preliminar: no firma, no publica, no despliega, no etiqueta Git y no reemplaza instalación/upgrade aislados.

@@ -1,17 +1,22 @@
---- /mnt/data/devpilot98_orig/docs/functional_backlog_after_precode.md	2026-06-17 13:41:11.000000000 +0000
-+++ /mnt/data/devpilot98/docs/functional_backlog_after_precode.md	2026-06-17 14:23:25.093076495 +0000
+--- a/docs/functional_backlog_after_precode.md
++++ b/docs/functional_backlog_after_precode.md
 @@ -14,7 +14,7 @@
  approved_on: "2026-06-06"
  approval_scope: "functional_backlog_after_precode"
  baseline_execution: "FUNC-SPRINT-00"
--next_sprint: "FUNC-SPRINT-76"
-+next_sprint: "FUNC-SPRINT-77"
+-next_sprint: "FUNC-SPRINT-81"
++next_sprint: "FUNC-SPRINT-82"
  ---
  
  # DevPilot Local — Backlog ejecutable posterior a pre-code
-@@ -2290,4 +2290,4 @@
+@@ -2314,4 +2314,9 @@
  
  ## Transición posterior a FUNC-SPRINT-71
  
--Fase F avanza con Approval Center y acciones dry-run desde UI. `next_sprint: "FUNC-SPRINT-76"`.
-+Fase F avanza con Approval Center y acciones dry-run desde UI. `next_sprint: "FUNC-SPRINT-77"`.
+-Fase F avanza con Approval Center y acciones dry-run desde UI. `next_sprint: "FUNC-SPRINT-81"`.
++Fase F avanza con Approval Center y acciones dry-run desde UI. `next_sprint: "FUNC-SPRINT-82"`.
++
++
++## Transición posterior a FUNC-SPRINT-81
++
++`FUNC-SPRINT-81` implementa checksums SHA256, smoke test local y `release verify` como evidencia inicial de release. La siguiente unidad funcional autorizada es `FUNC-SPRINT-82 — Estrategia de instalación e installer preliminar`.

@@ -8,15 +8,15 @@ standard: "MIPSoftware"
 extension: "MIASI"
 phase: "FASE-G-PRODUCTIZACION-RELEASE"
 updated: "2026-06-17"
-source_repo: "repo_DevPilot_Local_102.zip"
+source_repo: "repo_DevPilot_Local_103.zip"
 source_report: "Informe de avance DevPilot - sprint 0 - 18.docx"
 source_backlog_model: "docs/functional_backlog_after_precode.md"
 baseline_dependency: "Fases A-F cerradas; Fase F validada por FUNC-SPRINT-73"
 approved_on: "2026-06-16"
 approval: "approved_after_phase_f_visual_mvp_web_first_closure"
-first_open_sprint: "FUNC-SPRINT-81"
-last_completed_sprint: "FUNC-SPRINT-80"
-next_sprint: "FUNC-SPRINT-81"
+first_open_sprint: "FUNC-SPRINT-82"
+last_completed_sprint: "FUNC-SPRINT-81"
+next_sprint: "FUNC-SPRINT-82"
 phase_g_status: "in_progress"
 first_sprint: "FUNC-SPRINT-74"
 last_planned_sprint: "FUNC-SPRINT-84"
@@ -30,9 +30,9 @@ approval_scope: "phase_g_executable_backlog_review"
 
 Este documento queda promovido a estado `approved` después de la verificación satisfactoria de `FUNC-SPRINT-73 — Cierre Fase F web-first y decisión de evolución`. Su propósito es convertir la **Fase G — Productización y release** en un backlog de implementación ejecutable, siguiendo el modelo operativo usado en `docs/functional_backlog_after_precode.md`.
 
-La Fase G corresponde a la **Ola 10 — CI/CD, release y distribución**. Parte del estado real de `repo_DevPilot_Local_102.zip`, donde DevPilot ya dispone de core CLI local-first, `CommandResult`, validadores, reportes, trazas, SQLite, MIASI, PolicyEngine, agentes documentales y especializados gobernados, Evaluation Harness, Git/repo tooling, review/refactor en modo seguro, ModelAdapter local/API gobernado, AgentOps local, ApplicationService v2, API local segura y Web UI local MVP. La Fase G no debe introducir ejecución destructiva ni despliegue remoto sin pasar por PolicyEngine, Approval Workflow, quality gates y evidencia reproducible.
+La Fase G corresponde a la **Ola 10 — CI/CD, release y distribución**. Parte del estado real de `repo_DevPilot_Local_103.zip`, donde DevPilot ya dispone de core CLI local-first, `CommandResult`, validadores, reportes, trazas, SQLite, MIASI, PolicyEngine, agentes documentales y especializados gobernados, Evaluation Harness, Git/repo tooling, review/refactor en modo seguro, ModelAdapter local/API gobernado, AgentOps local, ApplicationService v2, API local segura y Web UI local MVP. La Fase G no debe introducir ejecución destructiva ni despliegue remoto sin pasar por PolicyEngine, Approval Workflow, quality gates y evidencia reproducible.
 
-Aprobación aplicada: la fuente de verdad queda actualizada de `repo_DevPilot_Local_94.zip` a `repo_DevPilot_Local_102.zip`; la entrada de Fase G queda condicionada al cierre validado de Fases A-F y, en particular, al cierre de `FUNC-SPRINT-73`; la primera unidad de trabajo autorizada fue `FUNC-SPRINT-74 — ADR de release, versionado y productización`; tras el cierre de Sprint 80, la siguiente unidad autorizada es `FUNC-SPRINT-81 — Checksums, smoke tests y verificación de release`.
+Aprobación aplicada: la fuente de verdad queda actualizada de `repo_DevPilot_Local_94.zip` a `repo_DevPilot_Local_103.zip`; la entrada de Fase G queda condicionada al cierre validado de Fases A-F y, en particular, al cierre de `FUNC-SPRINT-73`; la primera unidad de trabajo autorizada fue `FUNC-SPRINT-74 — ADR de release, versionado y productización`; tras el cierre de Sprint 80, la siguiente unidad autorizada es `FUNC-SPRINT-81 — Checksums, smoke tests y verificación de release`.
 
 ## 1. Propósito
 
@@ -1035,3 +1035,13 @@ Al finalizar FUNC-SPRINT-84, DevPilot debe contar con:
 ```text
 Desarrolla la Fase G — Productización y release, iniciando en FUNC-SPRINT-74. Respeta el modelo de backlog ejecutable de DevPilot. Mantén local-first, dry-run-first, PolicyEngine, MIASI, reportes y trazabilidad. No publiques paquetes externamente, no despliegues, no uses secrets y no incluyas runtime artifacts en paquetes.
 ```
+
+
+### Estado de implementación Sprint 81
+
+`FUNC-SPRINT-81` queda implementado como verificación local inicial de release. Agrega `src/devpilot_core/release/verification.py`, CLI `release checksum`, `release smoke-test` y `release verify`, procedimiento `docs/05_operations/release_verification.md`, auditoría `docs/audits/func_sprint_81_release_verification_audit.md`, manifest funcional y pruebas.
+
+La implementación requiere artefacto real/local, calcula SHA256, inspecciona contenedor, ejecuta smoke CLI mínimo observando exit codes y consolida evidencia bajo `outputs/reports/release_verification.*` y `outputs/reports/checksums.sha256` cuando se usa `--write-report`.
+
+Alcance explícitamente preliminar: no firma, no publica, no despliega, no etiqueta Git y no ejecuta instalación/upgrade aislados. La siguiente unidad autorizada es `FUNC-SPRINT-82 — Estrategia de instalación e installer preliminar`.
+

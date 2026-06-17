@@ -1,0 +1,30 @@
+--- a/src/devpilot_core/release/__init__.py
++++ b/src/devpilot_core/release/__init__.py
+@@ -4,6 +4,15 @@
+ from .manifest import ReleaseManifestBuilder, ReleaseManifestOptions
+ from .package_builder import PackageBuildBuilder, PackageBuildOptions
+ from .sbom import ReleaseSbomBuilder, ReleaseSbomOptions
++from .verification import (
++    ReleaseChecksumBuilder,
++    ReleaseChecksumOptions,
++    ReleaseSmokeTestBuilder,
++    ReleaseSmokeTestOptions,
++    ReleaseVerifyBuilder,
++    ReleaseVerifyOptions,
++    checksum_line,
++)
+ 
+ __all__ = [
+     "ReleaseChangelogBuilder",
+@@ -14,4 +23,11 @@
+     "PackageBuildOptions",
+     "ReleaseSbomBuilder",
+     "ReleaseSbomOptions",
++    "ReleaseChecksumBuilder",
++    "ReleaseChecksumOptions",
++    "ReleaseSmokeTestBuilder",
++    "ReleaseSmokeTestOptions",
++    "ReleaseVerifyBuilder",
++    "ReleaseVerifyOptions",
++    "checksum_line",
+ ]

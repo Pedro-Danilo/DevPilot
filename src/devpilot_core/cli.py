@@ -19,7 +19,23 @@ from .modeling import BudgetLedger, CapabilityMatrix, ModelAdapterRouter, ModelE
 from .policy import CostPolicy, PolicyEngine, PolicyRequest, load_cost_policy
 from .prompts import PromptRegistry
 from .quality import QualityGate, QualityGateOptions
-from .release import PackageBuildBuilder, PackageBuildOptions, ReleaseChangelogBuilder, ReleaseChangelogOptions, ReleaseManifestBuilder, ReleaseManifestOptions, ReleaseSbomBuilder, ReleaseSbomOptions
+from .release import (
+    PackageBuildBuilder,
+    PackageBuildOptions,
+    ReleaseChangelogBuilder,
+    ReleaseChangelogOptions,
+    ReleaseChecksumBuilder,
+    ReleaseChecksumOptions,
+    ReleaseManifestBuilder,
+    ReleaseManifestOptions,
+    ReleaseSbomBuilder,
+    ReleaseSbomOptions,
+    ReleaseSmokeTestBuilder,
+    ReleaseSmokeTestOptions,
+    ReleaseVerifyBuilder,
+    ReleaseVerifyOptions,
+    checksum_line,
+)
 from .reports import ReportEngine, build_report_id
 from .security import PolicySimulationSuite, SecurityReadiness
 from .schemas import BuiltinContractValidator, SchemaRegistry, SchemaValidator
@@ -1628,6 +1644,120 @@ def release_sbom_command(
     return int(result.exit_code)
 
 
+def _attach_reports_written(result: CommandResult, *, write_report: bool) -> CommandResult:
+    if not write_report and not isinstance((result.data or {}).get("reports"), dict):
+        return result
+    data = dict(result.data or {})
+    summary = dict(data.get("summary") or {})
+    summary["reports_written"] = True
+    data["summary"] = summary
+    return CommandResult(command=result.command, ok=result.ok, exit_code=result.exit_code, message=result.message, data=data, findings=result.findings)
+
+
+def _write_checksum_text_report(root: Path, result: CommandResult, *, write_report: bool) -> CommandResult:
+    if not write_report:
+        return result
+    line = checksum_line(result)
+    if not line:
+        return result
+    report_path = root / "outputs" / "reports" / "checksums.sha256"
+    report_path.parent.mkdir(parents=True, exist_ok=True)
+    report_path.write_text(line, encoding="utf-8")
+    data = dict(result.data or {})
+    reports = dict(data.get("reports") or {})
+    reports["sha256"] = "outputs/reports/checksums.sha256"
+    data["reports"] = reports
+    summary = dict(data.get("summary") or {})
+    summary["checksum_report_written"] = True
+    data["summary"] = summary
+    return CommandResult(command=result.command, ok=result.ok, exit_code=result.exit_code, message=result.message, data=data, findings=result.findings)
+
+
+def release_checksum_command(
+    *,
+    artifact: str,
+    version: str | None = None,
+    json_output: bool = False,
+    write_report: bool = False,
+) -> int:
+    """Generate FUNC-SPRINT-81 SHA256 evidence for one local release artifact."""
+
+    root = project_root()
+    result = ReleaseChecksumBuilder(root, options=ReleaseChecksumOptions(artifact=artifact, version=version)).build()
+    effective_version = ((result.data or {}).get("summary") or {}).get("version") or version or "unknown"
+    result = _write_optional_command_report(
+        root,
+        result,
+        subject=f"release:{effective_version}:checksum",
+        report_id="release_checksum",
+        write_report=write_report,
+        metadata={"sprint": "FUNC-SPRINT-81", "component": "ReleaseChecksum", "version": effective_version},
+    )
+    result = _write_checksum_text_report(root, result, write_report=write_report)
+    result = _attach_reports_written(result, write_report=write_report)
+    _emit_result_event(root, result, subject="release:checksum")
+    _persist_result(root, result, subject="release:checksum")
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+
+def release_smoke_test_command(
+    *,
+    artifact: str,
+    version: str | None = None,
+    timeout_seconds: int = 30,
+    json_output: bool = False,
+    write_report: bool = False,
+) -> int:
+    """Run FUNC-SPRINT-81 local smoke checks for one release artifact."""
+
+    root = project_root()
+    result = ReleaseSmokeTestBuilder(root, options=ReleaseSmokeTestOptions(artifact=artifact, version=version, timeout_seconds=timeout_seconds)).build()
+    effective_version = ((result.data or {}).get("summary") or {}).get("version") or version or "unknown"
+    result = _write_optional_command_report(
+        root,
+        result,
+        subject=f"release:{effective_version}:smoke-test",
+        report_id="release_smoke_test",
+        write_report=write_report,
+        metadata={"sprint": "FUNC-SPRINT-81", "component": "ReleaseSmokeTest", "version": effective_version},
+    )
+    result = _attach_reports_written(result, write_report=write_report)
+    _emit_result_event(root, result, subject="release:smoke-test")
+    _persist_result(root, result, subject="release:smoke-test")
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+
+def release_verify_command(
+    *,
+    artifact: str,
+    version: str | None = None,
+    timeout_seconds: int = 30,
+    json_output: bool = False,
+    write_report: bool = False,
+) -> int:
+    """Consolidate FUNC-SPRINT-81 checksum and smoke-test release evidence."""
+
+    root = project_root()
+    result = ReleaseVerifyBuilder(root, options=ReleaseVerifyOptions(artifact=artifact, version=version, timeout_seconds=timeout_seconds)).build()
+    effective_version = ((result.data or {}).get("summary") or {}).get("version") or version or "unknown"
+    result = _write_optional_command_report(
+        root,
+        result,
+        subject=f"release:{effective_version}:verify",
+        report_id="release_verification",
+        write_report=write_report,
+        metadata={"sprint": "FUNC-SPRINT-81", "component": "ReleaseVerification", "version": effective_version},
+    )
+    result = _write_checksum_text_report(root, result, write_report=write_report)
+    result = _attach_reports_written(result, write_report=write_report)
+    _emit_result_event(root, result, subject="release:verify")
+    _persist_result(root, result, subject="release:verify")
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+
 def package_build_command(
     *,
     kind: str,
@@ -3135,6 +3265,24 @@ def build_parser() -> argparse.ArgumentParser:
     release_sbom.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     release_sbom.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
 
+    release_checksum = release_sub.add_parser("checksum", help="Generate SHA256 evidence for one local release artifact")
+    release_checksum.add_argument("--artifact", required=True, help="Local release artifact to checksum, for example dist/release/devpilot-local-0.1.0-source.zip")
+    release_checksum.add_argument("--version", dest="release_version", default=None, help="Optional SemVer release version; defaults to pyproject.toml")
+    release_checksum.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    release_checksum.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report and checksums.sha256")
+    release_smoke = release_sub.add_parser("smoke-test", help="Run local smoke checks for one release artifact")
+    release_smoke.add_argument("--artifact", required=True, help="Local release artifact to smoke-test")
+    release_smoke.add_argument("--version", dest="release_version", default=None, help="Optional SemVer release version; defaults to pyproject.toml")
+    release_smoke.add_argument("--timeout-seconds", type=int, default=30, help="Timeout for minimal local CLI smoke command")
+    release_smoke.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    release_smoke.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+    release_verify = release_sub.add_parser("verify", help="Consolidate checksum and smoke-test evidence for one local release artifact")
+    release_verify.add_argument("--artifact", required=True, help="Local release artifact to verify")
+    release_verify.add_argument("--version", dest="release_version", default=None, help="Optional SemVer release version; defaults to pyproject.toml")
+    release_verify.add_argument("--timeout-seconds", type=int, default=30, help="Timeout for minimal local CLI smoke command")
+    release_verify.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    release_verify.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown release verification evidence")
+
     package = sub.add_parser("package", help="Build local clean release packages")
     package_sub = package.add_subparsers(dest="package_command")
     package_build = package_sub.add_parser("build", help="Plan or build local clean release packages")
@@ -3726,6 +3874,24 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
             )
         if args.release_command == "sbom":
             return release_sbom_command(version=args.release_version, json_output=args.json, write_report=args.write_report)
+        if args.release_command == "checksum":
+            return release_checksum_command(artifact=args.artifact, version=args.release_version, json_output=args.json, write_report=args.write_report)
+        if args.release_command == "smoke-test":
+            return release_smoke_test_command(
+                artifact=args.artifact,
+                version=args.release_version,
+                timeout_seconds=args.timeout_seconds,
+                json_output=args.json,
+                write_report=args.write_report,
+            )
+        if args.release_command == "verify":
+            return release_verify_command(
+                artifact=args.artifact,
+                version=args.release_version,
+                timeout_seconds=args.timeout_seconds,
+                json_output=args.json,
+                write_report=args.write_report,
+            )
         parser.print_help()
         return int(ExitCode.FAIL)
     if args.command == "package":

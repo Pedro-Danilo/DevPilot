@@ -1,21 +1,21 @@
---- /mnt/data/devpilot98_orig/tests/test_sprint_58_documentation.py	2026-06-17 13:41:12.000000000 +0000
-+++ /mnt/data/devpilot98/tests/test_sprint_58_documentation.py	2026-06-17 14:23:25.122412441 +0000
+--- a/tests/test_sprint_58_documentation.py
++++ b/tests/test_sprint_58_documentation.py
 @@ -30,15 +30,15 @@
      for path in expected_paths:
          assert (ROOT / path).exists(), path
  
--    assert "Último hito: `FUNC-SPRINT-75" in readme
--    assert "Siguiente hito: `FUNC-SPRINT-76" in readme
-+    assert "Último hito: `FUNC-SPRINT-76" in readme
-+    assert "Siguiente hito: `FUNC-SPRINT-77" in readme
+-    assert "Último hito: `FUNC-SPRINT-80" in readme
+-    assert "Siguiente hito: `FUNC-SPRINT-81" in readme
++    assert "Último hito: `FUNC-SPRINT-81" in readme
++    assert "Siguiente hito: `FUNC-SPRINT-82" in readme
      assert "## FUNC-SPRINT-58 — TraceStore y EventLogger v2 compatible" in readme
      assert "## FUNC-SPRINT-58 — Operación de TraceStore y EventLogger v2 compatible" in runbook
      assert 'first_open_sprint: "FUNC-SPRINT-64"' in backlog
      assert 'last_completed_sprint: "FUNC-SPRINT-63"' in backlog
      assert 'next_sprint: "FUNC-SPRINT-64"' in backlog
      assert "## Estado de implementación Sprint 58" in backlog
--    assert 'next_sprint: "FUNC-SPRINT-76"' in functional_backlog
-+    assert 'next_sprint: "FUNC-SPRINT-77"' in functional_backlog
+-    assert 'next_sprint: "FUNC-SPRINT-81"' in functional_backlog
++    assert 'next_sprint: "FUNC-SPRINT-82"' in functional_backlog
      assert "## Transición posterior a FUNC-SPRINT-58" in functional_backlog
      assert manifest["sprint"] == "FUNC-SPRINT-58"
      assert manifest["status"] == "implemented"

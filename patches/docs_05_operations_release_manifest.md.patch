@@ -1,0 +1,20 @@
+--- a/docs/05_operations/release_manifest.md
++++ b/docs/05_operations/release_manifest.md
+@@ -71,7 +71,7 @@
+ - Changelog humano JSON/MD: Sprint 78.
+ - Package ZIP limpio, wheel y sdist: Sprint 79.
+ - SBOM: Sprint 80 (`outputs/reports/release_sbom.*`, implemented-initial).
+-- Checksums: Sprint 81.
++- Checksums, smoke test y release verification: Sprint 81 (`outputs/reports/checksums.sha256`, `outputs/reports/release_smoke_test.*`, `outputs/reports/release_verification.*`, implemented-initial).
+ 
+ ## 6. Exclusiones obligatorias
+ 
+@@ -136,3 +136,8 @@
+ ## 12. Estado SBOM FUNC-SPRINT-80
+ 
+ `FUNC-SPRINT-80` implementa `release sbom` como evidencia local inicial para `outputs/reports/release_sbom.*`. Esta integración no implica vulnerability scan, license scan, firma, publicación ni despliegue.
++
++
++## 13. Estado de verificación FUNC-SPRINT-81
++
++`FUNC-SPRINT-81` implementa checksums SHA256, smoke test local y `release verify` como evidencia de release. El Release Manifest reconoce `CHECKSUMS-SHA256`, `RELEASE-SMOKE-TEST` y `RELEASE-VERIFICATION` como artefactos `implemented-initial`. Esta integración no implica firma criptográfica, publicación, despliegue, Git tagging ni instalación/upgrade completos.

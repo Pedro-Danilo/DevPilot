@@ -4,6 +4,15 @@ from .changelog import ReleaseChangelogBuilder, ReleaseChangelogOptions
 from .manifest import ReleaseManifestBuilder, ReleaseManifestOptions
 from .package_builder import PackageBuildBuilder, PackageBuildOptions
 from .sbom import ReleaseSbomBuilder, ReleaseSbomOptions
+from .verification import (
+    ReleaseChecksumBuilder,
+    ReleaseChecksumOptions,
+    ReleaseSmokeTestBuilder,
+    ReleaseSmokeTestOptions,
+    ReleaseVerifyBuilder,
+    ReleaseVerifyOptions,
+    checksum_line,
+)
 
 __all__ = [
     "ReleaseChangelogBuilder",
@@ -14,4 +23,11 @@ __all__ = [
     "PackageBuildOptions",
     "ReleaseSbomBuilder",
     "ReleaseSbomOptions",
+    "ReleaseChecksumBuilder",
+    "ReleaseChecksumOptions",
+    "ReleaseSmokeTestBuilder",
+    "ReleaseSmokeTestOptions",
+    "ReleaseVerifyBuilder",
+    "ReleaseVerifyOptions",
+    "checksum_line",
 ]

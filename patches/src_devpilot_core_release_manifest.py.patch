@@ -1,0 +1,34 @@
+--- a/src/devpilot_core/release/manifest.py
++++ b/src/devpilot_core/release/manifest.py
+@@ -123,7 +123,21 @@
+         "path": "outputs/reports/checksums.sha256",
+         "kind": "checksums",
+         "implemented_in": "FUNC-SPRINT-81",
+-        "status": "planned",
++        "status": "implemented-initial",
++    },
++    {
++        "id": "RELEASE-SMOKE-TEST",
++        "path": "outputs/reports/release_smoke_test.json",
++        "kind": "release-smoke-test-report",
++        "implemented_in": "FUNC-SPRINT-81",
++        "status": "implemented-initial",
++    },
++    {
++        "id": "RELEASE-VERIFICATION",
++        "path": "outputs/reports/release_verification.json",
++        "kind": "release-verification-report",
++        "implemented_in": "FUNC-SPRINT-81",
++        "status": "implemented-initial",
+     },
+ ]
+ 
+@@ -133,7 +147,7 @@
+     """Options for creating the local release manifest.
+ 
+     FUNC-SPRINT-77 deliberately creates metadata and evidence references only.
+-    Packaging, SBOM, checksums, signing and publication remain future sprints.
++    Packaging and SBOM are implemented as initial local baselines; checksums and smoke verification are implemented initially in FUNC-SPRINT-81. Signing and publication remain future/out-of-scope capabilities.
+     """
+ 
+     version: str

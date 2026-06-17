@@ -4566,3 +4566,46 @@ El comando lee únicamente fuentes locales: `pyproject.toml`, `ui/web/package.js
 ### Riesgos y evolución
 
 Esta es una versión `implemented-initial`. Debe evolucionar con schema formal, validación CycloneDX, checksums, smoke install, licencia/vulnerability scanning gobernado y provenance/SLSA más fuerte.
+
+
+## FUNC-SPRINT-81 — Operación de checksums, smoke tests y verificación de release
+
+### Propósito
+
+Verificar artefactos locales de release mediante SHA256, smoke test mínimo y reporte consolidado. Esta capacidad complementa packaging, SBOM y release manifest, pero no publica, no despliega, no firma y no etiqueta Git.
+
+### Comandos principales
+
+```powershell
+python -m devpilot_core package build --kind all --version 0.1.0 --execute --json --write-report
+python -m devpilot_core release checksum --artifact dist/release/devpilot-local-0.1.0-source.zip --json
+python -m devpilot_core release smoke-test --artifact dist/release/devpilot-local-0.1.0-source.zip --json
+python -m devpilot_core release verify --artifact dist/release/devpilot-local-0.1.0-source.zip --json --write-report
+```
+
+### Artefactos generados
+
+```text
+outputs/reports/release_verification.json
+outputs/reports/release_verification.md
+outputs/reports/checksums.sha256
+```
+
+### PASS
+
+- Artefacto local real existente.
+- SHA256 generado.
+- Smoke test inspecciona contenedor y observa exit codes.
+- Reporte consolidado `release_verified=true`.
+- Sin red, APIs externas, publicación, despliegue, firma, Git tagging o mutación de fuente.
+
+### BLOCK
+
+- Artefacto inexistente o fuera del workspace.
+- Contenedor corrupto o formato no soportado.
+- Artefacto incluye runtime state, outputs, caches, `.git`, `.venv`, `node_modules`, `dist` interno o secretos.
+- Smoke test ignora exit codes.
+
+### Riesgos y límites
+
+Esta es una versión `implemented-initial`: no equivale a instalación aislada, upgrade test, firma criptográfica ni provenance completo. La instalación e installer preliminar quedan para `FUNC-SPRINT-82`.
