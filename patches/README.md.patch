@@ -1,39 +1,27 @@
---- /mnt/data/devpilot_s75/orig/README.md	2026-06-17 12:00:34.000000000 +0000
-+++ /mnt/data/devpilot_s75/repo/README.md	2026-06-17 13:06:06.943139587 +0000
-@@ -1,14 +1,33 @@
+--- /mnt/data/devpilot98_orig/README.md	2026-06-17 13:41:11.000000000 +0000
++++ /mnt/data/devpilot98/README.md	2026-06-17 14:27:27.709128789 +0000
+@@ -1,14 +1,22 @@
  # DevPilot Local — Agent-assisted SDLC personal
  
--Estado actual: `baseline pre-code approved + Fases A-F cerradas + Fase G iniciada`  
--Último hito: `FUNC-SPRINT-74 — ADR de release, versionado y productización`  
--Siguiente hito: `FUNC-SPRINT-75 — Quality Gate local unificado`  
-+Estado actual: `baseline pre-code approved + Fases A-F cerradas + Fase G en progreso`  
-+Último hito: `FUNC-SPRINT-75 — Quality Gate local unificado`  
-+Siguiente hito: `FUNC-SPRINT-76 — CI local y workflow scaffolding`  
+ Estado actual: `baseline pre-code approved + Fases A-F cerradas + Fase G en progreso`  
+-Último hito: `FUNC-SPRINT-75 — Quality Gate local unificado`  
+-Siguiente hito: `FUNC-SPRINT-76 — CI local y workflow scaffolding`  
++Último hito: `FUNC-SPRINT-76 — CI local y workflow scaffolding`  
++Siguiente hito: `FUNC-SPRINT-77 — Release metadata y Release Manifest`  
  Estándar rector: MIPSoftware  
  Extensión inteligente: MIASI  
  Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
  
  
  
-+## FUNC-SPRINT-75 — Quality Gate local unificado
++## FUNC-SPRINT-76 — CI local y workflow scaffolding
 +
-+Estado: `implemented-initial` / `PASS focalizado`.
++`FUNC-SPRINT-76` implementa la primera integración CI local/externa opcional de Fase G. Agrega el perfil `quality-gate run --profile ci`, un workflow GitHub Actions seguro en `.github/workflows/devpilot-ci.yml`, documentación operativa en `docs/05_operations/ci_cd_local.md`, auditoría y manifest funcional.
 +
-+Sprint 75 implementa el primer Quality Gate local unificado de Fase G. El nuevo comando `python -m devpilot_core quality-gate run --json` orquesta subgates de readiness, standards, MIASI, evaluación fixture-ready y ApplicationService contract usando contratos existentes del core. El perfil `fast` es el predeterminado y evita ejecutar `pytest` para mantener el gate rápido, determinístico y no destructivo con respecto al árbol fuente. El perfil `full` añade validación gateway completa y Visual Product Smoke Gate; `pytest` queda disponible como subgate explícito mediante `--include-pytest`.
++Alcance cerrado: verificación CI reproducible, workflow sin secretos, sin publicación, sin despliegue, sin proveedores externos y con permisos de solo lectura. El perfil `ci` ejecuta el perfil extendido de calidad y la validación estática del workflow; `pytest -q` queda explícito como paso del procedimiento CI para aproximar la validación local a un pipeline real sin ejecución implícita.
 +
-+Entregables principales:
++Límites: esta es una primera versión de scaffolding CI; no genera release manifest, no construye paquetes, no calcula SBOM/checksums, no publica releases y no reemplaza los sprints posteriores de Fase G.
 +
-+- `src/devpilot_core/quality/__init__.py`: exporta el componente QualityGate.
-+- `src/devpilot_core/quality/gate.py`: orquestador local de subgates, perfiles `fast/full`, salida `CommandResult` y `pytest` opcional.
-+- CLI `quality-gate run`: comando de verificación local con `--json`, `--profile`, `--include-pytest` y `--write-report`.
-+- `tests/test_quality_gate.py`: pruebas del gate, CLI JSON, reportes y perfil inválido.
-+- `tests/test_sprint_75_documentation.py`: prueba de sincronización documental Sprint 75.
-+- `docs/audits/func_sprint_75_quality_gate_audit.md`: auditoría técnica del cierre Sprint 75.
-+- `docs/functional_sprint_75_manifest.json`: manifest funcional del sprint.
-+
-+Límites explícitos: esta es una primera versión operacional del Quality Gate. No reemplaza todavía un pipeline CI/CD, no construye paquetes, no genera release manifest, no publica, no despliega y no ejecuta `pytest` por defecto. Los reportes solo se escriben con `--write-report` bajo `outputs/reports/`, y esos outputs no deben incluirse en ZIPs de entrega.
-+
-+
- ## FUNC-SPRINT-74 — ADR de release, versionado y productización
+ ## FUNC-SPRINT-75 — Quality Gate local unificado
  
- Estado: `implemented` / `PASS focalizado`.
+ Estado: `implemented-initial` / `PASS focalizado`.

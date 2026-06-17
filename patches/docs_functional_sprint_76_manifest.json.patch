@@ -1,0 +1,96 @@
+--- /dev/null	2026-06-17 14:19:12.253132367 +0000
++++ /mnt/data/devpilot98/docs/functional_sprint_76_manifest.json	2026-06-17 14:27:27.731779064 +0000
+@@ -0,0 +1,93 @@
++{
++  "schema_version": "1.0.0",
++  "sprint": "FUNC-SPRINT-76",
++  "title": "FUNC-SPRINT-76 — CI local y workflow scaffolding",
++  "status": "implemented",
++  "implemented_at": "2026-06-17",
++  "phase": "FASE-G-PRODUCTIZACION-RELEASE",
++  "wave": "Ola 10 — CI/CD, release y distribución",
++  "source_repo": "repo_DevPilot_Local_98.zip",
++  "source_backlog": "docs/devpilot_backlog_fase_G_productizacion_release.md",
++  "summary": {
++    "fg_level": "FG-L2",
++    "quality_gate_ci_profile_added": true,
++    "github_actions_scaffold_added": true,
++    "ci_workflow_static_validation_added": true,
++    "workflow_requires_secrets": false,
++    "workflow_publishes_artifacts": false,
++    "workflow_deploys": false,
++    "external_publication_out_of_scope": true,
++    "destructive_actions_added": false,
++    "dependencies_added": false,
++    "preliminary": true,
++    "next_sprint": "FUNC-SPRINT-77 — Release metadata y Release Manifest"
++  },
++  "created_files": [
++    ".github/workflows/devpilot-ci.yml",
++    "docs/05_operations/ci_cd_local.md",
++    "docs/audits/func_sprint_76_ci_scaffolding_audit.md",
++    "docs/functional_sprint_76_manifest.json",
++    "tests/test_ci_workflow_scaffolding.py",
++    "tests/test_sprint_76_documentation.py"
++  ],
++  "modified_files": [
++    "src/devpilot_core/quality/gate.py",
++    "src/devpilot_core/cli.py",
++    "README.md",
++    "docs/05_operations/runbook.md",
++    "docs/devpilot_backlog_fase_G_productizacion_release.md",
++    "docs/functional_backlog_after_precode.md",
++    "tests/test_quality_gate.py",
++    "tests/test_sprint_32_documentation.py through tests/test_sprint_75_documentation.py synchronized with current milestone"
++  ],
++  "commands": [
++    "python -m devpilot_core quality-gate run --profile ci --pytest-timeout-seconds 600 --json",
++    "python -m devpilot_core schema validate-manifest docs/functional_sprint_76_manifest.json --json",
++    "python -m devpilot_core validate-artifact docs/05_operations/ci_cd_local.md --json",
++    "python -m devpilot_core validate-artifact docs/audits/func_sprint_76_ci_scaffolding_audit.md --json",
++    "python -m pytest tests/test_ci_workflow_scaffolding.py tests/test_sprint_76_documentation.py tests/test_quality_gate.py -q",
++    "python -m pytest -q"
++  ],
++  "tests": [
++    "tests/test_ci_workflow_scaffolding.py",
++    "tests/test_sprint_76_documentation.py",
++    "tests/test_quality_gate.py",
++    "historical sprint documentation tests synchronized with README/backlog current milestone",
++    "full pytest regression suite"
++  ],
++  "pass_criteria": [
++    "quality-gate run --profile ci --json returns a parseable CommandResult.",
++    "CI profile includes full local gates plus workflow static validation; pytest remains an explicit workflow/local step or opt-in gate subgate.",
++    "GitHub Actions workflow is optional, read-only and does not reference secrets.",
++    "Workflow does not publish packages, push tags, create releases or deploy.",
++    "README, runbook, backlog and functional backlog are synchronized."
++  ],
++  "block_criteria": [
++    "No cerrar si el workflow usa secrets o credenciales externas.",
++    "No cerrar si el workflow publica paquetes o ejecuta entrega remota.",
++    "No cerrar si el perfil CI no es reproducible localmente.",
++    "No cerrar si no existe validación estática del workflow.",
++    "No cerrar si se agregan dependencias externas sin justificación."
++  ],
++  "risks": [
++    {
++      "id": "RISK-FUNC-76-001",
++      "risk": "Divergencia local vs CI",
++      "mitigation": "Usar quality-gate --profile ci como contrato común."
++    },
++    {
++      "id": "RISK-FUNC-76-002",
++      "risk": "Uso accidental de secretos o proveedores externos",
++      "mitigation": "Validación estática de workflow y variables de entorno externas deshabilitadas."
++    },
++    {
++      "id": "RISK-FUNC-76-003",
++      "risk": "Confundir CI con release listo",
++      "mitigation": "Documentar que Sprint 76 no genera release manifest, package, SBOM ni checksums."
++    }
++  ],
++  "next_sprint": "FUNC-SPRINT-77 — Release metadata y Release Manifest",
++  "adr_required": false,
++  "adr_rationale": "No fue necesaria una ADR nueva: Sprint 76 implementa la estrategia de productización ya aprobada en ADR-0014 y no cambia las decisiones de publicación, release o seguridad.",
++  "audit_report": "docs/audits/func_sprint_76_ci_scaffolding_audit.md"
++}

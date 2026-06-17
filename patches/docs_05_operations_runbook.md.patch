@@ -1,71 +1,53 @@
---- /mnt/data/devpilot_s75/orig/docs/05_operations/runbook.md	2026-06-17 12:00:35.000000000 +0000
-+++ /mnt/data/devpilot_s75/repo/docs/05_operations/runbook.md	2026-06-17 13:06:06.944595194 +0000
-@@ -4122,6 +4122,68 @@
+--- /mnt/data/devpilot98_orig/docs/05_operations/runbook.md	2026-06-17 13:41:11.000000000 +0000
++++ /mnt/data/devpilot98/docs/05_operations/runbook.md	2026-06-17 14:27:27.727973888 +0000
+@@ -4328,3 +4328,50 @@
+ Criterios BLOCK: la UI muestra API keys, escribe archivos locales, habilita proveedores externos por accidente o permite editar policy sin approval.
  
- 
- 
-+## FUNC-SPRINT-75 — Operación del Quality Gate local unificado
+ Riesgos: Settings UI es una primera versión local e industrializable. No implementa RBAC, edición real de policy, persistencia de secretos ni flujo enterprise de configuración.
++
++## FUNC-SPRINT-76 — Operación de CI local y workflow scaffolding
 +
 +### Propósito
 +
-+`FUNC-SPRINT-75` agrega el comando `quality-gate run` como verificación local unificada para productización. El gate consolida señales existentes sin duplicar lógica de validadores, MIASI, standards ni ApplicationService. Su objetivo es permitir una decisión rápida tipo PASS/BLOCK antes de empaquetar o preparar releases en sprints posteriores.
++`FUNC-SPRINT-76` agrega una primera versión de CI local y scaffolding GitHub Actions para Fase G. Su objetivo es que la verificación de DevPilot pueda ejecutarse de forma equivalente en local y en CI sin introducir publicación, despliegue, secretos ni proveedores externos.
 +
-+Esta es una primera versión operacional. No sustituye todavía CI/CD ni release verification completa; esa evolución queda asignada a los sprints 76-84.
-+
-+### Comandos
++### Comandos principales
 +
 +```powershell
-+python -m devpilot_core quality-gate run --json
-+python -m devpilot_core quality-gate run --profile full --json
-+python -m devpilot_core quality-gate run --json --write-report
-+python -m devpilot_core quality-gate run --profile full --include-pytest --pytest-timeout-seconds 600 --json
-+python -m pytest tests/test_quality_gate.py tests/test_sprint_75_documentation.py -q
++python -m devpilot_core quality-gate run --profile ci --pytest-timeout-seconds 600 --json
 +python -m pytest -q
++npm --prefix ui/web test
 +```
 +
-+### Subgates
++### Workflow opcional
 +
-+| Subgate | Perfil | Propósito | Mutación de fuente |
-+|---|---|---|---|
-+| `readiness-strict` | `fast/full` | Validar readiness documental estricta. | No |
-+| `standards-status` | `fast/full` | Confirmar MIPSoftware/MIASI standards registry. | No |
-+| `miasi-validate` | `fast/full` | Validar agent/tool/policy matrix. | No |
-+| `eval-harness-ready` | `fast/full` | Verificar fixture de evaluación sin ejecutar workdir. | No |
-+| `app-contract` | `fast/full` | Confirmar contrato ApplicationService. | No |
-+| `validation-gateway-all` | `full` | Ejecutar gateway docs/contracts/all. | No |
-+| `visual-product-smoke` | `full` | Verificar cierre Fase F y Web UI MVP. | No |
-+| `pytest` | explícito con `--include-pytest` | Regresión completa opcional. | Puede generar caches/runtime; no modifica fuente |
-+
-+### Reportes
-+
-+Con `--write-report`, el CLI persiste evidencia en:
++El workflow queda en:
 +
 +```text
-+outputs/reports/quality_gate.json
-+outputs/reports/quality_gate.md
++.github/workflows/devpilot-ci.yml
 +```
 +
-+Los reportes son runtime evidence y deben omitirse de ZIPs de entrega.
++Este workflow ejecuta checkout, setup Python, instalación editable, `pytest -q`, `quality-gate run --profile ci`, setup Node y smoke test de la Web UI. No usa `secrets.*`, no publica paquetes, no ejecuta push/tags/releases y no despliega.
 +
-+### PASS
++### Perfil CI
 +
-+- `quality-gate run --json` retorna `CommandResult` con `ok=true`.
-+- Todos los subgates críticos reportan `ok=true`, `exit_code=0`, duración y resumen.
-+- El gate no publica, no despliega, no ejecuta acciones destructivas y no usa APIs externas.
-+- `--write-report` genera JSON/Markdown parseables bajo `outputs/reports`.
++El perfil `ci` de `QualityGate` ejecuta los subgates extendidos de Fase G y la validación estática del workflow. `pytest -q` queda como paso explícito del workflow y del procedimiento local equivalente; puede integrarse al gate con `--include-pytest` cuando se requiera una sola llamada.
 +
-+### BLOCK
++### Criterios PASS
 +
-+- Algún subgate crítico falla, bloquea o retorna error.
-+- El gate oculta fallos internos.
-+- El comando produce salida no parseable.
-+- El gate ejecuta publicación, deploy, tag, patch, rollback o acciones destructivas.
++- `quality-gate run --profile ci --json` retorna `ok=true`.
++- El workflow existe y referencia el perfil `ci`.
++- El workflow incluye `pytest -q`.
++- El workflow usa permisos de lectura.
++- El workflow no usa secretos, publicación ni despliegue.
 +
-+### Riesgos y limitaciones
++### Criterios BLOCK
 +
-+`quality-gate run` es una primera versión local-first. El perfil `fast` evita `pytest` por defecto para reducir latencia y efectos runtime; la regresión completa sigue siendo obligatoria para cierre de sprint y puede ejecutarse fuera del gate o con `--include-pytest`. En Sprint 76 deberá alinearse el perfil CI con este gate.
++- Referencias a `secrets.*`.
++- Comandos de publicación, push, tags, releases o despliegue.
++- Perfil CI no reproducible localmente.
++- Omisión del quality gate en el workflow.
 +
++### Riesgos y límites
 +
- ## FUNC-SPRINT-74 — Operación de release, versionado y productización
- 
- ### Estado
++Esta es una primera versión de scaffolding CI. No genera release manifest, no empaqueta, no calcula SBOM, no firma artefactos y no publica releases. Es un paso intermedio necesario antes de `FUNC-SPRINT-77 — Release metadata y Release Manifest`.

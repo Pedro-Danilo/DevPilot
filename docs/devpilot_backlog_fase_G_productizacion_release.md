@@ -2,21 +2,21 @@
 title: "DevPilot Local — Backlog ejecutable Fase G: Productización y release"
 doc_id: "DEVPL-FUNC-BACKLOG-FASE-G-001"
 status: "approved"
-version: "1.2.0"
+version: "1.3.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
 phase: "FASE-G-PRODUCTIZACION-RELEASE"
 updated: "2026-06-17"
-source_repo: "repo_DevPilot_Local_97.zip"
+source_repo: "repo_DevPilot_Local_98.zip"
 source_report: "Informe de avance DevPilot - sprint 0 - 18.docx"
 source_backlog_model: "docs/functional_backlog_after_precode.md"
 baseline_dependency: "Fases A-F cerradas; Fase F validada por FUNC-SPRINT-73"
 approved_on: "2026-06-16"
 approval: "approved_after_phase_f_visual_mvp_web_first_closure"
-first_open_sprint: "FUNC-SPRINT-76"
-last_completed_sprint: "FUNC-SPRINT-75"
-next_sprint: "FUNC-SPRINT-76"
+first_open_sprint: "FUNC-SPRINT-77"
+last_completed_sprint: "FUNC-SPRINT-76"
+next_sprint: "FUNC-SPRINT-77"
 phase_g_status: "in_progress"
 first_sprint: "FUNC-SPRINT-74"
 last_planned_sprint: "FUNC-SPRINT-84"
@@ -30,9 +30,9 @@ approval_scope: "phase_g_executable_backlog_review"
 
 Este documento queda promovido a estado `approved` después de la verificación satisfactoria de `FUNC-SPRINT-73 — Cierre Fase F web-first y decisión de evolución`. Su propósito es convertir la **Fase G — Productización y release** en un backlog de implementación ejecutable, siguiendo el modelo operativo usado en `docs/functional_backlog_after_precode.md`.
 
-La Fase G corresponde a la **Ola 10 — CI/CD, release y distribución**. Parte del estado real de `repo_DevPilot_Local_97.zip`, donde DevPilot ya dispone de core CLI local-first, `CommandResult`, validadores, reportes, trazas, SQLite, MIASI, PolicyEngine, agentes documentales y especializados gobernados, Evaluation Harness, Git/repo tooling, review/refactor en modo seguro, ModelAdapter local/API gobernado, AgentOps local, ApplicationService v2, API local segura y Web UI local MVP. La Fase G no debe introducir ejecución destructiva ni despliegue remoto sin pasar por PolicyEngine, Approval Workflow, quality gates y evidencia reproducible.
+La Fase G corresponde a la **Ola 10 — CI/CD, release y distribución**. Parte del estado real de `repo_DevPilot_Local_98.zip`, donde DevPilot ya dispone de core CLI local-first, `CommandResult`, validadores, reportes, trazas, SQLite, MIASI, PolicyEngine, agentes documentales y especializados gobernados, Evaluation Harness, Git/repo tooling, review/refactor en modo seguro, ModelAdapter local/API gobernado, AgentOps local, ApplicationService v2, API local segura y Web UI local MVP. La Fase G no debe introducir ejecución destructiva ni despliegue remoto sin pasar por PolicyEngine, Approval Workflow, quality gates y evidencia reproducible.
 
-Aprobación aplicada: la fuente de verdad queda actualizada de `repo_DevPilot_Local_94.zip` a `repo_DevPilot_Local_97.zip`; la entrada de Fase G queda condicionada al cierre validado de Fases A-F y, en particular, al cierre de `FUNC-SPRINT-73`; la primera unidad de trabajo autorizada fue `FUNC-SPRINT-74 — ADR de release, versionado y productización`; tras el cierre de Sprint 75, la siguiente unidad autorizada es `FUNC-SPRINT-76 — CI local y workflow scaffolding`.
+Aprobación aplicada: la fuente de verdad queda actualizada de `repo_DevPilot_Local_94.zip` a `repo_DevPilot_Local_98.zip`; la entrada de Fase G queda condicionada al cierre validado de Fases A-F y, en particular, al cierre de `FUNC-SPRINT-73`; la primera unidad de trabajo autorizada fue `FUNC-SPRINT-74 — ADR de release, versionado y productización`; tras el cierre de Sprint 76, la siguiente unidad autorizada es `FUNC-SPRINT-77 — Release metadata y Release Manifest`.
 
 ## 1. Propósito
 
@@ -408,6 +408,15 @@ Implementa FUNC-SPRINT-76. Agrega perfil CI al QualityGate y workflow GitHub Act
 ```
 
 ---
+
+
+## Estado de implementación Sprint 76
+
+`FUNC-SPRINT-76 — CI local y workflow scaffolding` queda implementado en estado `implemented-initial` / `PASS focalizado`. La Fase G ya dispone de un perfil CI reproducible mediante `python -m devpilot_core quality-gate run --profile ci --json` y de un workflow GitHub Actions opcional en `.github/workflows/devpilot-ci.yml`.
+
+Alcance cerrado: perfil `ci` del Quality Gate, subgate `ci-workflow-static`, `pytest -q` como paso explícito, workflow opcional sin secretos, sin publicación y sin despliegue, documento `docs/05_operations/ci_cd_local.md`, auditoría y manifest Sprint 76.
+
+Límites: esta es una primera versión de scaffolding CI; no genera release manifest, no empaqueta, no calcula SBOM/checksums, no firma artefactos y no publica releases. El siguiente sprint autorizado es `FUNC-SPRINT-77 — Release metadata y Release Manifest`.
 
 ## FUNC-SPRINT-77 — Release metadata y Release Manifest
 

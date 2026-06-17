@@ -45,7 +45,7 @@ class QualityGate:
     Optional report writing remains delegated to the CLI/ReportEngine.
     """
 
-    SUPPORTED_PROFILES = {"fast", "full"}
+    SUPPORTED_PROFILES = {"fast", "full", "ci"}
 
     def __init__(self, root: Path, *, options: QualityGateOptions | None = None) -> None:
         self.root = Path(root).resolve()
@@ -100,8 +100,8 @@ class QualityGate:
             "findings_total": len(aggregated_findings),
             "warnings_total": len(warnings),
             "blocking_findings_total": len(blocking_findings),
-            "include_pytest": self.options.include_pytest,
-            "pytest_timeout_seconds": self.options.pytest_timeout_seconds if self.options.include_pytest else None,
+            "include_pytest": self._should_run_pytest(),
+            "pytest_timeout_seconds": self.options.pytest_timeout_seconds if self._should_run_pytest() else None,
             "dry_run": True,
             "network_used": False,
             "external_api_used": False,
@@ -120,7 +120,8 @@ class QualityGate:
                 "subgates": subgate_records,
                 "notes": [
                     "FUNC-SPRINT-75 implements the first unified local quality gate for Fase G.",
-                    "The default profile is read-only and does not run pytest; use --include-pytest for an explicit regression subprocess.",
+                    "FUNC-SPRINT-76 adds the CI profile as the local source of truth for optional workflow scaffolding.",
+                    "The default and ci profiles do not run pytest implicitly; CI workflows and local checklists run pytest as an explicit step, or use --include-pytest when desired.",
                     "The gate does not publish packages, deploy, write source files, call network services or use external APIs.",
                     "Optional --write-report is handled by the CLI and writes only under outputs/reports.",
                 ],
@@ -136,12 +137,17 @@ class QualityGate:
             QualitySubgate("eval-harness-ready", "Evaluation harness fixture readiness without executing eval workdir mutations.", self._eval_harness_ready),
             QualitySubgate("app-contract", "ApplicationService v2 contract availability.", self.service.application_contract),
         ]
-        if self.options.profile == "full":
+        if self.options.profile in {"full", "ci"}:
             subgates.append(QualitySubgate("validation-gateway-all", "Unified docs/contracts validation gateway.", lambda: self.service.validation.gateway(scope="all")))
             subgates.append(QualitySubgate("visual-product-smoke", "Fase F visual product smoke gate in dry-run JSON mode.", self._visual_product_smoke))
-        if self.options.include_pytest:
-            subgates.append(QualitySubgate("pytest", "Explicit optional pytest regression subprocess.", self._pytest_run))
+        if self.options.profile == "ci":
+            subgates.append(QualitySubgate("ci-workflow-static", "Static safety validation for optional GitHub Actions workflow scaffold.", self._ci_workflow_static))
+        if self._should_run_pytest():
+            subgates.append(QualitySubgate("pytest", "Explicit pytest regression subprocess for CI/release readiness.", self._pytest_run))
         return subgates
+
+    def _should_run_pytest(self) -> bool:
+        return self.options.include_pytest
 
     def _run_subgate(self, subgate: QualitySubgate) -> CommandResult:
         try:
@@ -194,6 +200,81 @@ class QualityGate:
             message="Evaluation harness fixture is ready." if ok else "Evaluation harness fixture readiness failed.",
             data={"summary": summary},
             findings=findings or [Finding("EVAL_HARNESS_READY", "Evaluation fixture is parseable and declares documentation cases.", Severity.INFO, metadata={"cases_total": summary["cases_total"]})],
+        )
+
+    def _ci_workflow_static(self) -> CommandResult:
+        workflow = self.root / ".github" / "workflows" / "devpilot-ci.yml"
+        findings: list[Finding] = []
+        summary: dict[str, Any] = {
+            "workflow_path": ".github/workflows/devpilot-ci.yml",
+            "workflow_exists": workflow.exists(),
+            "uses_secrets": False,
+            "deploy_or_publish_detected": False,
+            "external_api_markers_detected": False,
+            "quality_gate_ci_profile_referenced": False,
+            "pytest_referenced": False,
+            "pull_request_trigger": False,
+            "push_trigger": False,
+            "permissions_read_only": False,
+            "network_used": False,
+            "external_api_used": False,
+            "mutations_performed": False,
+            "preliminary": True,
+        }
+        if not workflow.exists():
+            findings.append(Finding("CI_WORKFLOW_MISSING", "Optional GitHub Actions workflow scaffold is missing.", Severity.BLOCK, path=".github/workflows/devpilot-ci.yml"))
+            return CommandResult("quality ci-workflow-static", False, ExitCode.BLOCK, "CI workflow scaffold is missing.", data={"summary": summary}, findings=findings)
+
+        content = workflow.read_text(encoding="utf-8")
+        lowered = content.lower()
+        forbidden_markers = [
+            "secrets.",
+            "ghcr.io",
+            "docker/login-action",
+            "pypa/gh-action-pypi-publish",
+            "twine upload",
+            "npm publish",
+            "git push",
+            "release-action",
+            "create-release",
+            "upload-release",
+            "deploy",
+            "publish",
+            "production",
+            "cloud",
+        ]
+        summary["uses_secrets"] = "secrets." in lowered
+        summary["deploy_or_publish_detected"] = any(marker in lowered for marker in forbidden_markers)
+        summary["external_api_markers_detected"] = any(marker in lowered for marker in ["openai_api_key", "gemini_api_key", "anthropic_api_key", "mistral_api_key"])
+        summary["quality_gate_ci_profile_referenced"] = "quality-gate run --profile ci" in lowered
+        summary["pytest_referenced"] = "pytest -q" in lowered
+        summary["pull_request_trigger"] = "pull_request:" in lowered
+        summary["push_trigger"] = "push:" in lowered
+        summary["permissions_read_only"] = "contents: read" in lowered and "permissions:" in lowered
+
+        if summary["uses_secrets"]:
+            findings.append(Finding("CI_WORKFLOW_SECRETS_USED", "CI workflow must not reference GitHub secrets in Sprint 76.", Severity.BLOCK, path=".github/workflows/devpilot-ci.yml"))
+        if summary["deploy_or_publish_detected"]:
+            findings.append(Finding("CI_WORKFLOW_DEPLOY_OR_PUBLISH", "CI workflow must not deploy or publish artifacts in Sprint 76.", Severity.BLOCK, path=".github/workflows/devpilot-ci.yml"))
+        if summary["external_api_markers_detected"]:
+            findings.append(Finding("CI_WORKFLOW_EXTERNAL_API_MARKER", "CI workflow must not configure external model API credentials.", Severity.BLOCK, path=".github/workflows/devpilot-ci.yml"))
+        if not summary["quality_gate_ci_profile_referenced"]:
+            findings.append(Finding("CI_WORKFLOW_QUALITY_GATE_MISSING", "CI workflow must invoke quality-gate run --profile ci.", Severity.FAIL, path=".github/workflows/devpilot-ci.yml"))
+        if not summary["pytest_referenced"]:
+            findings.append(Finding("CI_WORKFLOW_PYTEST_MISSING", "CI workflow must keep pytest visible in the CI contract.", Severity.FAIL, path=".github/workflows/devpilot-ci.yml"))
+        if not summary["pull_request_trigger"]:
+            findings.append(Finding("CI_WORKFLOW_PR_TRIGGER_MISSING", "CI workflow should run on pull_request.", Severity.WARNING, path=".github/workflows/devpilot-ci.yml"))
+        if not summary["permissions_read_only"]:
+            findings.append(Finding("CI_WORKFLOW_PERMISSIONS_NOT_READ_ONLY", "CI workflow should declare read-only contents permission.", Severity.WARNING, path=".github/workflows/devpilot-ci.yml"))
+
+        ok = not any(finding.severity in {Severity.FAIL, Severity.BLOCK, Severity.ERROR} for finding in findings)
+        return CommandResult(
+            command="quality ci-workflow-static",
+            ok=ok,
+            exit_code=ExitCode.PASS if ok else self._exit_code_from_findings(findings),
+            message="CI workflow scaffold is safe." if ok else "CI workflow scaffold validation failed.",
+            data={"summary": summary},
+            findings=findings or [Finding("CI_WORKFLOW_STATIC_PASS", "CI workflow scaffold is local-first, read-only and has no deploy/publish/secrets markers.", Severity.INFO, metadata={"workflow_path": ".github/workflows/devpilot-ci.yml"})],
         )
 
     def _visual_product_smoke(self) -> CommandResult:

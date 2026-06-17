@@ -1,0 +1,46 @@
+name: DevPilot Local CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  local-quality:
+    name: Local quality verification
+    runs-on: ubuntu-latest
+    env:
+      DEVPILOT_CI: "1"
+      DEVPILOT_EXTERNAL_APIS_ENABLED: "0"
+      DEVPILOT_PROVIDER_MODE: "mock"
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Python package
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e .[dev]
+
+      - name: Run pytest
+        run: python -m pytest -q
+
+      - name: Run DevPilot CI quality gate
+        run: python -m devpilot_core quality-gate run --profile ci --pytest-timeout-seconds 600 --json
+
+      - name: Setup Node for Web UI smoke test
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Run Web UI smoke test
+        run: npm --prefix ui/web test

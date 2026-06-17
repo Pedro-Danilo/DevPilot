@@ -4328,3 +4328,50 @@ Criterios PASS: Settings muestra workspace/providers/policy vía API; providers 
 Criterios BLOCK: la UI muestra API keys, escribe archivos locales, habilita proveedores externos por accidente o permite editar policy sin approval.
 
 Riesgos: Settings UI es una primera versión local e industrializable. No implementa RBAC, edición real de policy, persistencia de secretos ni flujo enterprise de configuración.
+
+## FUNC-SPRINT-76 — Operación de CI local y workflow scaffolding
+
+### Propósito
+
+`FUNC-SPRINT-76` agrega una primera versión de CI local y scaffolding GitHub Actions para Fase G. Su objetivo es que la verificación de DevPilot pueda ejecutarse de forma equivalente en local y en CI sin introducir publicación, despliegue, secretos ni proveedores externos.
+
+### Comandos principales
+
+```powershell
+python -m devpilot_core quality-gate run --profile ci --pytest-timeout-seconds 600 --json
+python -m pytest -q
+npm --prefix ui/web test
+```
+
+### Workflow opcional
+
+El workflow queda en:
+
+```text
+.github/workflows/devpilot-ci.yml
+```
+
+Este workflow ejecuta checkout, setup Python, instalación editable, `pytest -q`, `quality-gate run --profile ci`, setup Node y smoke test de la Web UI. No usa `secrets.*`, no publica paquetes, no ejecuta push/tags/releases y no despliega.
+
+### Perfil CI
+
+El perfil `ci` de `QualityGate` ejecuta los subgates extendidos de Fase G y la validación estática del workflow. `pytest -q` queda como paso explícito del workflow y del procedimiento local equivalente; puede integrarse al gate con `--include-pytest` cuando se requiera una sola llamada.
+
+### Criterios PASS
+
+- `quality-gate run --profile ci --json` retorna `ok=true`.
+- El workflow existe y referencia el perfil `ci`.
+- El workflow incluye `pytest -q`.
+- El workflow usa permisos de lectura.
+- El workflow no usa secretos, publicación ni despliegue.
+
+### Criterios BLOCK
+
+- Referencias a `secrets.*`.
+- Comandos de publicación, push, tags, releases o despliegue.
+- Perfil CI no reproducible localmente.
+- Omisión del quality gate en el workflow.
+
+### Riesgos y límites
+
+Esta es una primera versión de scaffolding CI. No genera release manifest, no empaqueta, no calcula SBOM, no firma artefactos y no publica releases. Es un paso intermedio necesario antes de `FUNC-SPRINT-77 — Release metadata y Release Manifest`.

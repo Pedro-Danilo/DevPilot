@@ -41,6 +41,19 @@ def test_quality_gate_full_profile_adds_extended_local_subgates() -> None:
     assert "pytest" not in subgate_ids
 
 
+def test_quality_gate_ci_profile_adds_workflow_static_subgate() -> None:
+    result = QualityGate(ROOT, options=QualityGateOptions(profile="ci")).run()
+
+    assert result.ok is True
+    summary = result.data["summary"]
+    assert summary["profile"] == "ci"
+    assert summary["include_pytest"] is False
+    subgate_ids = {item["id"] for item in result.data["subgates"]}
+    for expected in ["validation-gateway-all", "visual-product-smoke", "ci-workflow-static"]:
+        assert expected in subgate_ids
+    assert "pytest" not in subgate_ids
+
+
 def test_quality_gate_cli_json_and_report_output_are_parseable() -> None:
     completed = subprocess.run(
         [sys.executable, "-m", "devpilot_core", "quality-gate", "run", "--json", "--write-report"],

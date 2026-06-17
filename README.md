@@ -1,13 +1,21 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
 Estado actual: `baseline pre-code approved + Fases A-F cerradas + Fase G en progreso`  
-Último hito: `FUNC-SPRINT-75 — Quality Gate local unificado`  
-Siguiente hito: `FUNC-SPRINT-76 — CI local y workflow scaffolding`  
+Último hito: `FUNC-SPRINT-76 — CI local y workflow scaffolding`  
+Siguiente hito: `FUNC-SPRINT-77 — Release metadata y Release Manifest`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
 
 
+
+## FUNC-SPRINT-76 — CI local y workflow scaffolding
+
+`FUNC-SPRINT-76` implementa la primera integración CI local/externa opcional de Fase G. Agrega el perfil `quality-gate run --profile ci`, un workflow GitHub Actions seguro en `.github/workflows/devpilot-ci.yml`, documentación operativa en `docs/05_operations/ci_cd_local.md`, auditoría y manifest funcional.
+
+Alcance cerrado: verificación CI reproducible, workflow sin secretos, sin publicación, sin despliegue, sin proveedores externos y con permisos de solo lectura. El perfil `ci` ejecuta el perfil extendido de calidad y la validación estática del workflow; `pytest -q` queda explícito como paso del procedimiento CI para aproximar la validación local a un pipeline real sin ejecución implícita.
+
+Límites: esta es una primera versión de scaffolding CI; no genera release manifest, no construye paquetes, no calcula SBOM/checksums, no publica releases y no reemplaza los sprints posteriores de Fase G.
 
 ## FUNC-SPRINT-75 — Quality Gate local unificado
 

@@ -1470,7 +1470,7 @@ def quality_gate_run_command(
     json_output: bool = False,
     write_report: bool = False,
 ) -> int:
-    """Run the FUNC-SPRINT-75 unified local quality gate."""
+    """Run the FUNC-SPRINT-75/76 unified local quality gate."""
 
     root = project_root()
     result = QualityGate(
@@ -1487,7 +1487,7 @@ def quality_gate_run_command(
         subject="release:quality-gate",
         report_id="quality_gate",
         write_report=write_report,
-        metadata={"sprint": "FUNC-SPRINT-75", "component": "QualityGate", "profile": profile},
+        metadata={"sprint": "FUNC-SPRINT-76" if profile == "ci" else "FUNC-SPRINT-75", "component": "QualityGate", "profile": profile},
     )
     if write_report and isinstance((result.data or {}).get("reports"), dict):
         data = dict(result.data or {})
@@ -2944,7 +2944,7 @@ def build_parser() -> argparse.ArgumentParser:
     quality_gate = sub.add_parser("quality-gate", help="Run local productization quality gates")
     quality_gate_sub = quality_gate.add_subparsers(dest="quality_gate_command")
     quality_gate_run = quality_gate_sub.add_parser("run", help="Run the unified local quality gate")
-    quality_gate_run.add_argument("--profile", choices=["fast", "full"], default="fast", help="Gate profile to execute")
+    quality_gate_run.add_argument("--profile", choices=["fast", "full", "ci"], default="fast", help="Gate profile to execute")
     quality_gate_run.add_argument("--include-pytest", action="store_true", help="Explicitly include pytest -q as an optional subgate")
     quality_gate_run.add_argument("--pytest-timeout-seconds", type=int, default=180, help="Timeout for the optional pytest subgate")
     quality_gate_run.add_argument("--json", action="store_true", help="Emit normalized JSON command result")

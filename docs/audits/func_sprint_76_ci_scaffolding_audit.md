@@ -1,0 +1,101 @@
+---
+title: "Auditoría FUNC-SPRINT-76 — CI local y workflow scaffolding"
+doc_id: "DEVPL-AUDIT-FUNC-SPRINT-76-001"
+status: "approved"
+approval: "approved_after_func_sprint_76_validation"
+version: "1.0.0"
+owner: "Ordóñez"
+sprint: "FUNC-SPRINT-76"
+phase: "FASE-G-PRODUCTIZACION-RELEASE"
+updated: "2026-06-17"
+---
+
+# Auditoría FUNC-SPRINT-76 — CI local y workflow scaffolding
+
+## 0. Estado
+
+Veredicto: `PASS focalizado`. Sprint 76 implementa una primera versión de CI local y workflow scaffolding seguro. Es una implementación preliminar de productización: no construye paquetes, no publica, no despliega y no reemplaza los sprints posteriores de release.
+
+## 1. Propósito
+
+El sprint habilita verificación automatizada reproducible entre entorno local y GitHub Actions opcional, usando `quality-gate run --profile ci` como contrato común.
+
+## 2. Alcance implementado
+
+Se implementó:
+
+- perfil `ci` en `QualityGate`;
+- validación estática del workflow `.github/workflows/devpilot-ci.yml`;
+- workflow GitHub Actions opcional;
+- documento operacional `docs/05_operations/ci_cd_local.md`;
+- manifest funcional Sprint 76;
+- pruebas automatizadas del perfil CI y del workflow;
+- sincronización de README, runbook, backlog G y functional backlog.
+
+## 3. Funcionamiento técnico
+
+El perfil `ci` extiende el perfil `full` y agrega:
+
+1. validación estática del workflow;
+2. ejecución explícita de `pytest`.
+
+El workflow ejecuta checkout, setup Python, instalación editable, `pytest -q`, `quality-gate run --profile ci` y smoke test web local. No contiene instrucciones de publicación, entrega remota, uso de secretos ni credenciales de proveedores externos.
+
+## 4. Archivos creados
+
+- `.github/workflows/devpilot-ci.yml`: workflow opcional seguro.
+- `docs/05_operations/ci_cd_local.md`: procedimiento CI/CD local.
+- `docs/audits/func_sprint_76_ci_scaffolding_audit.md`: auditoría del sprint.
+- `docs/functional_sprint_76_manifest.json`: manifest funcional.
+- `tests/test_ci_workflow_scaffolding.py`: validación estática del workflow.
+- `tests/test_sprint_76_documentation.py`: sincronización documental.
+
+## 5. Archivos modificados
+
+- `src/devpilot_core/quality/gate.py`: perfil `ci` y subgate `ci-workflow-static`.
+- `src/devpilot_core/cli.py`: opción `--profile ci`.
+- `README.md`: hito actual Sprint 76 y siguiente Sprint 77.
+- `docs/05_operations/runbook.md`: operación Sprint 76.
+- `docs/devpilot_backlog_fase_G_productizacion_release.md`: avance de Fase G.
+- `docs/functional_backlog_after_precode.md`: siguiente sprint actualizado.
+- tests documentales históricos: sincronización de hito global.
+
+## 6. Criterios PASS
+
+- `python -m devpilot_core quality-gate run --profile ci --json` retorna PASS.
+- `.github/workflows/devpilot-ci.yml` existe.
+- El workflow no usa secretos.
+- El workflow no publica ni entrega remotamente.
+- El workflow ejecuta `pytest -q` y `quality-gate run --profile ci`.
+- El workflow usa permisos de lectura.
+- Manifest y auditoría validan.
+
+## 7. Criterios BLOCK
+
+- Uso de `secrets.*`.
+- Comandos de entrega remota, publicación o push.
+- Perfil `ci` no reproducible localmente.
+- Omisión del quality gate en workflow.
+- Dependencias externas nuevas sin ADR.
+
+## 8. Riesgos y limitaciones
+
+- El procedimiento CI puede ser más lento porque ejecuta `pytest` como paso explícito.
+- GitHub Actions requiere acceso de red para instalar dependencias desde índices públicos, pero DevPilot no usa red ni APIs externas durante sus validaciones.
+- No se generan artefactos de release.
+- No se firma ni publica ningún paquete.
+- No existe todavía release manifest formal; queda para Sprint 77.
+
+## 9. Comandos de verificación
+
+```powershell
+python -m devpilot_core quality-gate run --profile ci --pytest-timeout-seconds 600 --json
+python -m pytest tests/test_ci_workflow_scaffolding.py tests/test_sprint_76_documentation.py -q
+python -m devpilot_core schema validate-manifest docs/functional_sprint_76_manifest.json --json
+python -m devpilot_core validate-artifact docs/05_operations/ci_cd_local.md --json
+python -m devpilot_core validate-artifact docs/audits/func_sprint_76_ci_scaffolding_audit.md --json
+```
+
+## 10. Conclusión
+
+Sprint 76 deja listo el puente entre validación local y CI opcional. La capacidad es suficiente para avanzar a `FUNC-SPRINT-77 — Release metadata y Release Manifest`, manteniendo local-first, dry-run-first y sin acciones externas críticas.
