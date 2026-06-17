@@ -162,6 +162,7 @@ def test_release_manifest_builder_generates_metadata_without_side_effects() -> N
     assert manifest["security"]["deploy_performed"] is False
     assert manifest["exclusions"]["runtime_state_excluded"] is True
     assert any(item["id"] == "QUALITY-GATE-CI" for item in manifest["evidence"]["required_commands"])
+    assert any(item["id"] == "CHANGELOG-MD" for item in manifest["expected_release_artifacts"])
     assert any(item["id"] == "PKG-CLEAN-ZIP" for item in manifest["expected_release_artifacts"])
 
 

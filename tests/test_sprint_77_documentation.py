@@ -31,15 +31,15 @@ def test_sprint_77_release_manifest_artifacts_exist_and_are_synchronized() -> No
     ]:
         assert (ROOT / path).exists(), path
 
-    assert "Último hito: `FUNC-SPRINT-77" in readme
-    assert "Siguiente hito: `FUNC-SPRINT-78" in readme
+    assert "Último hito: `FUNC-SPRINT-78" in readme
+    assert "Siguiente hito: `FUNC-SPRINT-79" in readme
     assert "FUNC-SPRINT-77 — Release metadata y Release Manifest" in readme
     assert "FUNC-SPRINT-77 — Operación de Release Manifest" in runbook
-    assert 'source_repo: "repo_DevPilot_Local_99.zip"' in backlog_g
-    assert 'last_completed_sprint: "FUNC-SPRINT-77"' in backlog_g
-    assert 'next_sprint: "FUNC-SPRINT-78"' in backlog_g
+    assert 'source_repo: "repo_DevPilot_Local_100.zip"' in backlog_g
+    assert 'last_completed_sprint: "FUNC-SPRINT-78"' in backlog_g
+    assert 'next_sprint: "FUNC-SPRINT-79"' in backlog_g
     assert 'phase_g_status: "in_progress"' in backlog_g
-    assert 'next_sprint: "FUNC-SPRINT-78"' in functional_backlog
+    assert 'next_sprint: "FUNC-SPRINT-79"' in functional_backlog
 
 
 def test_sprint_77_docs_define_release_manifest_boundaries() -> None:

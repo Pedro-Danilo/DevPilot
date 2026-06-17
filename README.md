@@ -1,12 +1,21 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
 Estado actual: `baseline pre-code approved + Fases A-F cerradas + Fase G en progreso`  
-Último hito: `FUNC-SPRINT-77 — Release metadata y Release Manifest`  
-Siguiente hito: `FUNC-SPRINT-78 — Changelog generator y política de cambios`  
+Último hito: `FUNC-SPRINT-78 — Changelog generator y política de cambios`  
+Siguiente hito: `FUNC-SPRINT-79 — Packaging Python y ZIP limpio reproducible`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
 
+
+
+## FUNC-SPRINT-78 — Changelog generator y política de cambios
+
+`FUNC-SPRINT-78` implementa la primera versión operacional del generador de changelog local de Fase G. Agrega el módulo `devpilot_core.release.changelog`, el comando `python -m devpilot_core release changelog --version 0.1.0 --json`, reportes opcionales bajo `outputs/reports/release_changelog.*`, el artefacto controlado `docs/release/CHANGELOG.md`, la política `docs/05_operations/change_policy.md`, auditoría y manifest funcional.
+
+Alcance cerrado: changelog legible para humanos, categorías compatibles con Keep a Changelog, trazabilidad a `docs/functional_sprint_*_manifest.json`, rechazo de versiones no SemVer, y regla explícita de no inventar cambios fuera de manifests, commits o documentos aprobados.
+
+Límites: esta es una primera versión auditable del changelog; no analiza todavía todos los commits como fuente primaria, no compara releases publicados, no construye paquetes, no calcula SBOM/checksums, no firma, no etiqueta Git, no publica y no despliega. El CLI no sobrescribe `docs/release/CHANGELOG.md`; con `--write-report` solo escribe evidencia en `outputs/reports`.
 
 
 ## FUNC-SPRINT-77 — Release metadata y Release Manifest

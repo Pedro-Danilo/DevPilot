@@ -68,6 +68,7 @@ La ejecución explícita evita efectos colaterales ocultos, mantiene trazabilida
 El release manifest lista artefactos implementados y planificados:
 
 - Release manifest JSON/MD: Sprint 77.
+- Changelog humano JSON/MD: Sprint 78.
 - Package ZIP limpio, wheel y sdist: Sprint 79.
 - SBOM: Sprint 80.
 - Checksums: Sprint 81.
@@ -114,5 +115,8 @@ __pycache__/
 | RISK-FUNC-77-003 | Confundir manifest con release final | Documentar que packaging, SBOM, checksums y smoke release son sprints posteriores. |
 
 ## 10. Evolución pendiente
+
+Actualización Sprint 78: el Release Manifest reconoce el changelog humano como artefacto esperado implementado inicialmente por `FUNC-SPRINT-78`. La generación del changelog sigue siendo un comando separado para preservar trazabilidad y evitar efectos colaterales ocultos.
+
 
 La versión industrial completa debe agregar schema formal de Release Manifest, manifest de package real, SBOM, checksums, smoke test de instalación, firma opcional, rollback/upgrade y ReleaseAgent dry-run. Sprint 77 solo crea la base auditable de metadata.

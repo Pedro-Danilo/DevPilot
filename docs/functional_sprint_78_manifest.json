@@ -1,0 +1,112 @@
+{
+  "schema_version": "1.0.0",
+  "sprint": "FUNC-SPRINT-78",
+  "title": "FUNC-SPRINT-78 — Changelog generator y política de cambios",
+  "status": "implemented",
+  "implemented_at": "2026-06-17",
+  "phase": "FASE-G-PRODUCTIZACION-RELEASE",
+  "wave": "Ola 10 — CI/CD, release y distribución",
+  "source_repo": "repo_DevPilot_Local_100.zip",
+  "source_backlog": "docs/devpilot_backlog_fase_G_productizacion_release.md",
+  "summary": {
+    "fg_level": "FG-L4",
+    "release_changelog_cli_added": true,
+    "release_changelog_model_added": true,
+    "change_policy_added": true,
+    "keep_a_changelog_categories": [
+      "Added",
+      "Changed",
+      "Deprecated",
+      "Removed",
+      "Fixed",
+      "Security"
+    ],
+    "source_manifests": "docs/functional_sprint_*_manifest.json",
+    "canonical_changelog_path": "docs/release/CHANGELOG.md",
+    "reports_supported": true,
+    "reports_path": "outputs/reports/release_changelog.*",
+    "overwrites_canonical_changelog": false,
+    "network_used": false,
+    "external_api_used": false,
+    "publishes_artifacts": false,
+    "deploys_artifacts": false,
+    "git_tagging_performed": false,
+    "dependencies_added": false,
+    "preliminary": true
+  },
+  "created_files": [
+    "src/devpilot_core/release/changelog.py",
+    "docs/05_operations/change_policy.md",
+    "docs/release/CHANGELOG.md",
+    "docs/audits/func_sprint_78_changelog_audit.md",
+    "docs/functional_sprint_78_manifest.json",
+    "tests/test_release_changelog.py",
+    "tests/test_sprint_78_documentation.py"
+  ],
+  "modified_files": [
+    "src/devpilot_core/cli.py",
+    "src/devpilot_core/release/__init__.py",
+    "src/devpilot_core/release/manifest.py",
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/devpilot_backlog_fase_G_productizacion_release.md",
+    "docs/functional_backlog_after_precode.md",
+    "tests/test_release_manifest.py",
+    "historical sprint documentation tests"
+  ],
+  "commands": [
+    "python -m devpilot_core release changelog --version 0.1.0 --json",
+    "python -m devpilot_core release changelog --version 0.1.0 --json --write-report",
+    "python -m devpilot_core validate-artifact docs/05_operations/change_policy.md --json",
+    "python -m devpilot_core validate-artifact docs/release/CHANGELOG.md --json",
+    "python -m devpilot_core validate-artifact docs/audits/func_sprint_78_changelog_audit.md --json",
+    "python -m devpilot_core schema validate-manifest docs/functional_sprint_78_manifest.json --json"
+  ],
+  "tests": [
+    "tests/test_release_changelog.py",
+    "tests/test_sprint_78_documentation.py",
+    "historical sprint documentation tests synchronized with README/backlog current milestone",
+    "full pytest regression suite"
+  ],
+  "pass_criteria": [
+    "Changelog is human-readable and Keep a Changelog-compatible.",
+    "Changelog is generated from local manifests and includes traceability to sprint manifests.",
+    "Command returns parseable CommandResult JSON.",
+    "Report writing is optional and restricted to outputs/reports.",
+    "No network, external API, publication, deployment, signing or Git tagging is performed.",
+    "README, runbook, Fase G backlog and functional backlog are synchronized."
+  ],
+  "block_criteria": [
+    "Do not close if changelog invents changes not supported by manifests, commits or approved docs.",
+    "Do not close if CLI overwrites docs/release/CHANGELOG.md without governed confirmation.",
+    "Do not close if command depends on non-regenerable outputs.",
+    "Do not close if command calls network or external APIs.",
+    "Do not close if command publishes, deploys, signs or tags Git."
+  ],
+  "risks": [
+    {
+      "id": "RISK-FUNC-78-001",
+      "risk": "Changelog incompleto",
+      "mitigation": "Generar desde manifests y reportar rango de sprints."
+    },
+    {
+      "id": "RISK-FUNC-78-002",
+      "risk": "Entradas inventadas",
+      "mitigation": "Bloquear cambios sin fuente local y documentar política."
+    },
+    {
+      "id": "RISK-FUNC-78-003",
+      "risk": "Sobrescritura accidental del changelog canónico",
+      "mitigation": "CLI report-only; archivo canónico se mantiene por docs-as-code."
+    },
+    {
+      "id": "RISK-FUNC-78-004",
+      "risk": "Confundir changelog con release final",
+      "mitigation": "Documentar que packaging, SBOM, checksums y smoke release quedan para sprints posteriores."
+    }
+  ],
+  "next_sprint": "FUNC-SPRINT-79 — Packaging Python y ZIP limpio reproducible",
+  "adr_required": false,
+  "adr_rationale": "No se requiere nueva ADR: FUNC-SPRINT-78 implementa una capacidad prevista por la ADR de release/versionado/productización y la política de release existentes; la política operacional específica queda en docs/05_operations/change_policy.md.",
+  "audit_report": "docs/audits/func_sprint_78_changelog_audit.md"
+}

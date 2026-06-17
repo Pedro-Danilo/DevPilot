@@ -77,6 +77,13 @@ _EXPECTED_RELEASE_ARTIFACTS = [
         "status": "implemented-initial",
     },
     {
+        "id": "CHANGELOG-MD",
+        "path": "outputs/reports/release_changelog.md",
+        "kind": "human-readable-changelog",
+        "implemented_in": "FUNC-SPRINT-78",
+        "status": "implemented-initial",
+    },
+    {
         "id": "PKG-CLEAN-ZIP",
         "path": "dist/release/*.zip",
         "kind": "clean-source-package",
@@ -202,6 +209,7 @@ class ReleaseManifestBuilder:
             },
             "limitations": [
                 "FUNC-SPRINT-77 does not build release packages.",
+                "FUNC-SPRINT-78 provides the human-readable changelog; package/SBOM/checksum verification remains later.",
                 "FUNC-SPRINT-77 does not calculate SBOM or checksums.",
                 "FUNC-SPRINT-77 does not tag Git, sign artifacts, publish packages or deploy.",
                 "Release readiness still requires running pytest, quality-gate ci and Web UI smoke commands explicitly.",

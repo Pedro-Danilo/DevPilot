@@ -2,7 +2,7 @@
 title: "DevPilot Local — Backlog ejecutable posterior a pre-code"
 doc_id: "DEVPL-FUNC-BACKLOG-001"
 status: "approved"
-version: "4.8.0"
+version: "4.9.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
@@ -14,7 +14,7 @@ change_policy: "controlled_changes_allowed_via_docs_as_code"
 approved_on: "2026-06-06"
 approval_scope: "functional_backlog_after_precode"
 baseline_execution: "FUNC-SPRINT-00"
-next_sprint: "FUNC-SPRINT-78"
+next_sprint: "FUNC-SPRINT-79"
 ---
 
 # DevPilot Local — Backlog ejecutable posterior a pre-code
@@ -26,6 +26,11 @@ Este backlog queda promovido a `approved` el 2026-06-06 como guía ejecutable pa
 La aprobación no congela el documento: cualquier ajuste futuro debe seguir la política docs-as-code definida en MIPSoftware, dejar trazabilidad, actualizar criterios de aceptación cuando aplique y preservar la relación entre producto, requerimientos, arquitectura, seguridad, calidad, operación y MIASI.
 
 La ejecución de `FUNC-SPRINT-00` confirma que el repositorio queda limpio, reproducible y listo para iniciar `FUNC-SPRINT-01 — Arquitectura interna del CLI y modelo común de resultados`.
+
+
+## Transición posterior a FUNC-SPRINT-78
+
+`FUNC-SPRINT-78 — Changelog generator y política de cambios` implementa `python -m devpilot_core release changelog --version 0.1.0 --json`, el changelog controlado `docs/release/CHANGELOG.md` y la política `docs/05_operations/change_policy.md`. La capacidad genera cambios desde manifests locales, mantiene categorías legibles, no inventa cambios y no sobrescribe fuentes desde CLI. La siguiente unidad funcional autorizada es `FUNC-SPRINT-79 — Packaging Python y ZIP limpio reproducible`.
 
 
 ## Transición posterior a FUNC-SPRINT-77

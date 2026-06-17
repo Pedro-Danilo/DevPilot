@@ -2,7 +2,7 @@
 title: "Runbook — DevPilot Local"
 doc_id: "DEVPL-OPS-002"
 status: "approved"
-version: "1.25.0"
+version: "1.26.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
@@ -4375,6 +4375,45 @@ El perfil `ci` de `QualityGate` ejecuta los subgates extendidos de Fase G y la v
 ### Riesgos y límites
 
 Esta es una primera versión de scaffolding CI. No genera release manifest, no empaqueta, no calcula SBOM, no firma artefactos y no publica releases. Es un paso intermedio necesario antes de `FUNC-SPRINT-77 — Release metadata y Release Manifest`.
+
+## FUNC-SPRINT-78 — Operación de Changelog y política de cambios
+
+### Propósito
+
+Operar la primera versión del changelog local de Fase G para explicar cambios de versión con evidencia trazable a manifests funcionales.
+
+### Comandos principales
+
+```powershell
+python -m devpilot_core release changelog --version 0.1.0 --json
+python -m devpilot_core release changelog --version 0.1.0 --json --write-report
+python -m devpilot_core validate-artifact docs\05_operations\change_policy.md --json
+python -m devpilot_core validate-artifact docs\release\CHANGELOG.md --json
+```
+
+### Funcionamiento
+
+El comando lee `docs/functional_sprint_*_manifest.json`, filtra el rango desde `FUNC-SPRINT-74` por defecto y genera una estructura compatible con Keep a Changelog: Added, Changed, Deprecated, Removed, Fixed y Security.
+
+### PASS
+
+- Salida JSON parseable como `CommandResult`.
+- Changelog legible por humanos.
+- Trazabilidad a sprints y manifests.
+- Reportes opcionales únicamente bajo `outputs/reports`.
+- Sin red, sin APIs externas, sin publicación, sin despliegue, sin firma y sin Git tags.
+
+### BLOCK
+
+- Cambios inventados sin fuente local.
+- Sobrescritura automática de `docs/release/CHANGELOG.md`.
+- Uso de outputs preexistentes no regenerables.
+- Publicación, despliegue, firma, tags Git o llamadas externas.
+
+### Riesgos y límites
+
+Esta es una versión `implemented-initial`: usa manifests como fuente primaria y todavía no implementa comparación incremental entre releases, parsing completo de commits, schema dedicado de changelog ni actualización gobernada del archivo canónico. Es una pieza previa al packaging limpio de `FUNC-SPRINT-79`.
+
 
 ## FUNC-SPRINT-77 — Operación de Release Manifest
 

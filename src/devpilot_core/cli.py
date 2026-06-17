@@ -19,7 +19,7 @@ from .modeling import BudgetLedger, CapabilityMatrix, ModelAdapterRouter, ModelE
 from .policy import CostPolicy, PolicyEngine, PolicyRequest, load_cost_policy
 from .prompts import PromptRegistry
 from .quality import QualityGate, QualityGateOptions
-from .release import ReleaseManifestBuilder, ReleaseManifestOptions
+from .release import ReleaseChangelogBuilder, ReleaseChangelogOptions, ReleaseManifestBuilder, ReleaseManifestOptions
 from .reports import ReportEngine, build_report_id
 from .security import PolicySimulationSuite, SecurityReadiness
 from .schemas import BuiltinContractValidator, SchemaRegistry, SchemaValidator
@@ -1547,6 +1547,48 @@ def release_manifest_command(
     return int(result.exit_code)
 
 
+
+def release_changelog_command(
+    *,
+    version: str,
+    from_sprint: str = "FUNC-SPRINT-74",
+    to_sprint: str | None = None,
+    json_output: bool = False,
+    write_report: bool = False,
+) -> int:
+    """Generate the FUNC-SPRINT-78 local release changelog."""
+
+    root = project_root()
+    result = ReleaseChangelogBuilder(
+        root,
+        options=ReleaseChangelogOptions(version=version, from_sprint=from_sprint, to_sprint=to_sprint),
+    ).build()
+    result = _write_optional_command_report(
+        root,
+        result,
+        subject=f"release:{version}:changelog",
+        report_id="release_changelog",
+        write_report=write_report,
+        metadata={"sprint": "FUNC-SPRINT-78", "component": "ReleaseChangelog", "version": version},
+    )
+    if write_report and isinstance((result.data or {}).get("reports"), dict):
+        data = dict(result.data or {})
+        summary = dict(data.get("summary") or {})
+        summary["reports_written"] = True
+        data["summary"] = summary
+        result = CommandResult(
+            command=result.command,
+            ok=result.ok,
+            exit_code=result.exit_code,
+            message=result.message,
+            data=data,
+            findings=result.findings,
+        )
+    _emit_result_event(root, result, subject="release:changelog")
+    _persist_result(root, result, subject="release:changelog")
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
 def validate_frontmatter_command(
     path: str,
     *,
@@ -2996,6 +3038,12 @@ def build_parser() -> argparse.ArgumentParser:
     release_manifest.add_argument("--version", dest="release_version", required=True, help="SemVer release version, for example 0.1.0")
     release_manifest.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     release_manifest.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+    release_changelog = release_sub.add_parser("changelog", help="Generate a human-readable release changelog from local manifests")
+    release_changelog.add_argument("--version", dest="release_version", required=True, help="SemVer release version, for example 0.1.0")
+    release_changelog.add_argument("--from-sprint", default="FUNC-SPRINT-74", help="First sprint included in the changelog range")
+    release_changelog.add_argument("--to-sprint", default=None, help="Optional last sprint included in the changelog range")
+    release_changelog.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    release_changelog.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
 
     validate = sub.add_parser("validate", help="Run unified DevPilot validation gateway")
     validate.add_argument("scope", choices=["docs", "contracts", "all"], help="Validation group to execute")
@@ -3569,6 +3617,14 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
     if args.command == "release":
         if args.release_command == "manifest":
             return release_manifest_command(version=args.release_version, json_output=args.json, write_report=args.write_report)
+        if args.release_command == "changelog":
+            return release_changelog_command(
+                version=args.release_version,
+                from_sprint=args.from_sprint,
+                to_sprint=args.to_sprint,
+                json_output=args.json,
+                write_report=args.write_report,
+            )
         parser.print_help()
         return int(ExitCode.FAIL)
     if args.command == "validate":
