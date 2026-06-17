@@ -148,3 +148,8 @@ Estos artefactos siguen siendo locales y preliminares: no implican publicación,
 `FUNC-SPRINT-82` implementa `install plan` como evidencia de estrategia de instalación local. El Release Manifest reconoce `INSTALL-PLAN` como artefacto esperado inicial bajo `outputs/reports/install_plan.json`.
 
 Esta integración es `implemented-initial`: documenta editable install, wheel, ZIP y Desktop bridge, pero no ejecuta instalación, no crea servicios, no requiere privilegios elevados y no implementa auto-update ni desktop installer real.
+
+
+## Integración FUNC-SPRINT-83
+
+`FUNC-SPRINT-83` implementa backup/restore/upgrade local inicial. El Release Manifest reconoce `BACKUP-MANIFEST`, `BACKUP-REPORT`, `RESTORE-PLAN` y `UPGRADE-CHECK` como artefactos esperados iniciales. Esta integración es `implemented-initial`: no cifra backups, no firma artefactos y no ejecuta migraciones automáticas.

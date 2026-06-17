@@ -1,0 +1,129 @@
+{
+  "schema_version": "1.0.0",
+  "backup_id": "backup-20260617T230617Z-78ac8d90",
+  "created_at_utc": "2026-06-17T23:06:17+00:00",
+  "workspace_root_name": "DevPilot_Local",
+  "entries": [
+    {
+      "path": ".devpilot/devpilot.db",
+      "exists": true,
+      "included": true,
+      "size_bytes": 358322176,
+      "binary": true,
+      "redacted": false,
+      "sha256": "3f14a5f0dfdea7cf9f233ddd8e6b3af6ba3b6fe1877c80e237e7c8977c840531"
+    },
+    {
+      "path": ".devpilot/execution/command_allowlist.json",
+      "exists": true,
+      "included": true,
+      "size_bytes": 1203,
+      "binary": false,
+      "redacted": false,
+      "sha256": "756371055930ec94f34a40622809086a32c221d1b2fce48d26e37854aec410bc"
+    },
+    {
+      "path": ".devpilot/miasi/agent_registry.json",
+      "exists": true,
+      "included": true,
+      "size_bytes": 11281,
+      "binary": false,
+      "redacted": false,
+      "sha256": "fff8649764cba9fc38539be95744e214aefd249572bcde3bf7b9ebb5385e24a8"
+    },
+    {
+      "path": ".devpilot/miasi/policy_matrix.json",
+      "exists": true,
+      "included": true,
+      "size_bytes": 14337,
+      "binary": false,
+      "redacted": false,
+      "sha256": "9159f7bff32d04b6c87c1939e4ac5ec9648e3ba5c92d635d4f7249806251ebf9"
+    },
+    {
+      "path": ".devpilot/miasi/tool_registry.json",
+      "exists": true,
+      "included": true,
+      "size_bytes": 21002,
+      "binary": false,
+      "redacted": false,
+      "sha256": "c44be8b32ced16555be73f733adfab1d08afb40f94370812758751f733ab6f71"
+    },
+    {
+      "path": ".devpilot/policy.yaml",
+      "exists": true,
+      "included": true,
+      "size_bytes": 566,
+      "binary": false,
+      "redacted": false,
+      "sha256": "cddbc3adea7a58b1bf7a5e0e73bffcb1a4ea12998e9e85788a9725b7df8414db"
+    },
+    {
+      "path": ".devpilot/project.yaml",
+      "exists": true,
+      "included": true,
+      "size_bytes": 958,
+      "binary": false,
+      "redacted": false,
+      "sha256": "7085ea0578006ef8c48999b5318e7de5a4175f6b15ab6b646bc4285e67d76eb5"
+    },
+    {
+      "path": ".devpilot/providers.yaml",
+      "exists": true,
+      "included": true,
+      "size_bytes": 2475,
+      "binary": false,
+      "redacted": true,
+      "redactions": 5,
+      "sha256": "775dd64a91e58469998639efbb6a88f78b531b88e670e51825403c24216f51e3"
+    },
+    {
+      "path": ".devpilot/providers.yaml.example",
+      "exists": true,
+      "included": true,
+      "size_bytes": 2475,
+      "binary": false,
+      "redacted": true,
+      "redactions": 5,
+      "sha256": "775dd64a91e58469998639efbb6a88f78b531b88e670e51825403c24216f51e3"
+    },
+    {
+      "path": ".devpilot/testing/test_profiles.json",
+      "exists": true,
+      "included": true,
+      "size_bytes": 997,
+      "binary": false,
+      "redacted": false,
+      "sha256": "70693365e3b5a195818f0cfd57625c17608b428604630e63ebcbf38f4349d74b"
+    }
+  ],
+  "security": {
+    "network_used": false,
+    "external_api_used": false,
+    "publishes_artifacts": false,
+    "deploys_artifacts": false,
+    "git_tagging_performed": false,
+    "source_mutations_performed": false,
+    "caches_excluded_by_default": true,
+    "outputs_excluded_by_default": true,
+    "venv_excluded_by_default": true,
+    "git_dir_excluded_by_default": true,
+    "secrets_redacted_by_default": true
+  },
+  "restore_policy": {
+    "dry_run_default": true,
+    "execute_requires_confirm_restore": true,
+    "overwrite_requires_explicit_execution": true
+  },
+  "limitations": [
+    "Secret-like textual values are redacted before being stored in backup artifacts.",
+    "Restore is controlled and dry-run by default.",
+    "The backup is a local safety baseline, not an encrypted offsite backup."
+  ],
+  "artifact": {
+    "zip": ".devpilot/backups/backup-20260617T230617Z-78ac8d90.zip",
+    "manifest": ".devpilot/backups/backup-20260617T230617Z-78ac8d90.manifest.json",
+    "zip_sha256": "7a60de6da9b6c2905694a9cccf300c077360a3389960e47eb8465c02a40c5cb8",
+    "zip_size_bytes": 34484933
+  }
+}

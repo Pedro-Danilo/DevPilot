@@ -20,6 +20,12 @@ from .policy import CostPolicy, PolicyEngine, PolicyRequest, load_cost_policy
 from .prompts import PromptRegistry
 from .quality import QualityGate, QualityGateOptions
 from .release import (
+    BackupCreateBuilder,
+    BackupCreateOptions,
+    BackupListBuilder,
+    BackupListOptions,
+    BackupRestoreBuilder,
+    BackupRestoreOptions,
     PackageBuildBuilder,
     PackageBuildOptions,
     InstallPlanBuilder,
@@ -36,6 +42,8 @@ from .release import (
     ReleaseSmokeTestOptions,
     ReleaseVerifyBuilder,
     ReleaseVerifyOptions,
+    UpgradeCheckBuilder,
+    UpgradeCheckOptions,
     checksum_line,
 )
 from .reports import ReportEngine, build_report_id
@@ -1810,6 +1818,130 @@ def install_plan_command(
     return int(result.exit_code)
 
 
+def backup_create_command(
+    *,
+    dry_run: bool = True,
+    execute: bool = False,
+    json_output: bool = False,
+    write_report: bool = False,
+) -> int:
+    """Create a FUNC-SPRINT-83 local backup plan or artifact."""
+
+    root = project_root()
+    result = BackupCreateBuilder(root, options=BackupCreateOptions(dry_run=dry_run, execute=execute)).build()
+    backup_id = ((result.data or {}).get("summary") or {}).get("backup_id") or "unknown"
+    result = _write_optional_command_report(
+        root,
+        result,
+        subject=f"backup:create:{backup_id}",
+        report_id="backup_create",
+        write_report=write_report,
+        metadata={"sprint": "FUNC-SPRINT-83", "component": "BackupCreate", "backup_id": str(backup_id)},
+    )
+    if write_report and isinstance((result.data or {}).get("reports"), dict):
+        data = dict(result.data or {})
+        summary = dict(data.get("summary") or {})
+        summary["reports_written"] = True
+        data["summary"] = summary
+        result = CommandResult(result.command, result.ok, result.exit_code, result.message, data, result.findings)
+    _emit_result_event(root, result, subject="backup:create")
+    _persist_result(root, result, subject="backup:create")
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+
+def backup_list_command(*, limit: int = 50, json_output: bool = False, write_report: bool = False) -> int:
+    """List local FUNC-SPRINT-83 backups."""
+
+    root = project_root()
+    result = BackupListBuilder(root, options=BackupListOptions(limit=limit)).build()
+    result = _write_optional_command_report(
+        root,
+        result,
+        subject="backup:list",
+        report_id="backup_list",
+        write_report=write_report,
+        metadata={"sprint": "FUNC-SPRINT-83", "component": "BackupList"},
+    )
+    if write_report and isinstance((result.data or {}).get("reports"), dict):
+        data = dict(result.data or {})
+        summary = dict(data.get("summary") or {})
+        summary["reports_written"] = True
+        data["summary"] = summary
+        result = CommandResult(result.command, result.ok, result.exit_code, result.message, data, result.findings)
+    _emit_result_event(root, result, subject="backup:list")
+    _persist_result(root, result, subject="backup:list")
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+
+def backup_restore_command(
+    *,
+    backup_id: str,
+    dry_run: bool = True,
+    execute: bool = False,
+    confirm_restore: bool = False,
+    json_output: bool = False,
+    write_report: bool = False,
+) -> int:
+    """Plan or execute a controlled FUNC-SPRINT-83 local restore."""
+
+    root = project_root()
+    result = BackupRestoreBuilder(
+        root,
+        options=BackupRestoreOptions(
+            backup_id=backup_id,
+            dry_run=dry_run,
+            execute=execute,
+            confirm_restore=confirm_restore,
+        ),
+    ).build()
+    result = _write_optional_command_report(
+        root,
+        result,
+        subject=f"backup:restore:{backup_id}",
+        report_id="backup_restore",
+        write_report=write_report,
+        metadata={"sprint": "FUNC-SPRINT-83", "component": "BackupRestore", "backup_id": backup_id},
+    )
+    if write_report and isinstance((result.data or {}).get("reports"), dict):
+        data = dict(result.data or {})
+        summary = dict(data.get("summary") or {})
+        summary["reports_written"] = True
+        data["summary"] = summary
+        result = CommandResult(result.command, result.ok, result.exit_code, result.message, data, result.findings)
+    _emit_result_event(root, result, subject="backup:restore")
+    _persist_result(root, result, subject="backup:restore")
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+
+def upgrade_check_command(*, target_version: str | None = None, json_output: bool = False, write_report: bool = False) -> int:
+    """Generate a FUNC-SPRINT-83 local upgrade readiness plan."""
+
+    root = project_root()
+    result = UpgradeCheckBuilder(root, options=UpgradeCheckOptions(target_version=target_version)).build()
+    effective_target = ((result.data or {}).get("summary") or {}).get("target_version") or target_version or "unknown"
+    result = _write_optional_command_report(
+        root,
+        result,
+        subject=f"upgrade:check:{effective_target}",
+        report_id="upgrade_check",
+        write_report=write_report,
+        metadata={"sprint": "FUNC-SPRINT-83", "component": "UpgradeCheck", "target_version": str(effective_target)},
+    )
+    if write_report and isinstance((result.data or {}).get("reports"), dict):
+        data = dict(result.data or {})
+        summary = dict(data.get("summary") or {})
+        summary["reports_written"] = True
+        data["summary"] = summary
+        result = CommandResult(result.command, result.ok, result.exit_code, result.message, data, result.findings)
+    _emit_result_event(root, result, subject="upgrade:check")
+    _persist_result(root, result, subject="upgrade:check")
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+
 def package_build_command(
     *,
     kind: str,
@@ -3345,6 +3477,32 @@ def build_parser() -> argparse.ArgumentParser:
     install_plan.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     install_plan.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
 
+    backup = sub.add_parser("backup", help="Create, list and restore governed local backups")
+    backup_sub = backup.add_subparsers(dest="backup_command")
+    backup_create = backup_sub.add_parser("create", help="Create a backup plan or local backup artifact")
+    backup_create.add_argument("--dry-run", action="store_true", default=True, help="Preview backup creation without writing artifacts; this is the default")
+    backup_create.add_argument("--execute", action="store_true", help="Write the local backup ZIP and manifest under .devpilot/backups")
+    backup_create.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    backup_create.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+    backup_list = backup_sub.add_parser("list", help="List local backup sidecar manifests")
+    backup_list.add_argument("--limit", type=int, default=50, help="Maximum backup records to return")
+    backup_list.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    backup_list.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+    backup_restore = backup_sub.add_parser("restore", help="Plan or execute a controlled local restore")
+    backup_restore.add_argument("--backup-id", required=True, help="Backup id to restore, for example backup-20260617T220000Z-abc12345")
+    backup_restore.add_argument("--dry-run", action="store_true", default=True, help="Preview restore without overwriting files; this is the default")
+    backup_restore.add_argument("--execute", action="store_true", help="Perform restore; requires --confirm-restore")
+    backup_restore.add_argument("--confirm-restore", action="store_true", help="Explicitly confirm restore overwrites when --execute is used")
+    backup_restore.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    backup_restore.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+
+    upgrade = sub.add_parser("upgrade", help="Plan local upgrade readiness")
+    upgrade_sub = upgrade.add_subparsers(dest="upgrade_command")
+    upgrade_check = upgrade_sub.add_parser("check", help="Generate local upgrade readiness plan")
+    upgrade_check.add_argument("--target-version", default=None, help="Optional SemVer target version; defaults to pyproject.toml")
+    upgrade_check.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    upgrade_check.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+
     package = sub.add_parser("package", help="Build local clean release packages")
     package_sub = package.add_subparsers(dest="package_command")
     package_build = package_sub.add_parser("build", help="Plan or build local clean release packages")
@@ -3966,6 +4124,27 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
                 json_output=args.json,
                 write_report=args.write_report,
             )
+        parser.print_help()
+        return int(ExitCode.FAIL)
+    if args.command == "backup":
+        if args.backup_command == "create":
+            return backup_create_command(dry_run=args.dry_run, execute=args.execute, json_output=args.json, write_report=args.write_report)
+        if args.backup_command == "list":
+            return backup_list_command(limit=args.limit, json_output=args.json, write_report=args.write_report)
+        if args.backup_command == "restore":
+            return backup_restore_command(
+                backup_id=args.backup_id,
+                dry_run=args.dry_run,
+                execute=args.execute,
+                confirm_restore=args.confirm_restore,
+                json_output=args.json,
+                write_report=args.write_report,
+            )
+        parser.print_help()
+        return int(ExitCode.FAIL)
+    if args.command == "upgrade":
+        if args.upgrade_command == "check":
+            return upgrade_check_command(target_version=args.target_version, json_output=args.json, write_report=args.write_report)
         parser.print_help()
         return int(ExitCode.FAIL)
     if args.command == "package":

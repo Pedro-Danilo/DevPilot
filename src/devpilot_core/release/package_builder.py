@@ -26,6 +26,7 @@ _FORBIDDEN_MARKERS = [
     "__pycache__/",
     ".pytest_cache/",
     ".devpilot/devpilot.db",
+    ".devpilot/backups/",
     ".devpilot/providers.yaml",
     ".pyc",
     ".pyo",
@@ -369,6 +370,8 @@ class PackageBuildBuilder:
 def _is_excluded(rel: str) -> bool:
     rel = rel.replace("\\", "/")
     if rel in {".devpilot/devpilot.db", ".devpilot/providers.yaml"}:
+        return True
+    if rel.startswith(".devpilot/backups/"):
         return True
     if rel.endswith((".pyc", ".pyo")):
         return True

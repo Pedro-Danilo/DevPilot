@@ -22,6 +22,7 @@ _FORBIDDEN_RELEASE_MARKERS = [
     "__pycache__/",
     ".pytest_cache/",
     ".devpilot/devpilot.db",
+    ".devpilot/backups/",
     ".pyc",
     ".pyo",
 ]
@@ -146,6 +147,34 @@ _EXPECTED_RELEASE_ARTIFACTS = [
         "implemented_in": "FUNC-SPRINT-82",
         "status": "implemented-initial",
     },
+    {
+        "id": "BACKUP-MANIFEST",
+        "path": ".devpilot/backups/<backup-id>.manifest.json",
+        "kind": "local-backup-manifest",
+        "implemented_in": "FUNC-SPRINT-83",
+        "status": "implemented-initial",
+    },
+    {
+        "id": "BACKUP-REPORT",
+        "path": "outputs/reports/backup_create.json",
+        "kind": "backup-create-report",
+        "implemented_in": "FUNC-SPRINT-83",
+        "status": "implemented-initial",
+    },
+    {
+        "id": "RESTORE-PLAN",
+        "path": "outputs/reports/backup_restore.json",
+        "kind": "backup-restore-plan-report",
+        "implemented_in": "FUNC-SPRINT-83",
+        "status": "implemented-initial",
+    },
+    {
+        "id": "UPGRADE-CHECK",
+        "path": "outputs/reports/upgrade_check.json",
+        "kind": "upgrade-check-report",
+        "implemented_in": "FUNC-SPRINT-83",
+        "status": "implemented-initial",
+    },
 ]
 
 
@@ -154,7 +183,7 @@ class ReleaseManifestOptions:
     """Options for creating the local release manifest.
 
     FUNC-SPRINT-77 deliberately creates metadata and evidence references only.
-    Packaging and SBOM are implemented as initial local baselines; checksums and smoke verification are implemented initially in FUNC-SPRINT-81; installation planning is implemented initially in FUNC-SPRINT-82. Signing and publication remain future/out-of-scope capabilities.
+    Packaging and SBOM are implemented as initial local baselines; checksums and smoke verification are implemented initially in FUNC-SPRINT-81; installation planning is implemented initially in FUNC-SPRINT-82; backup/restore/upgrade planning is implemented initially in FUNC-SPRINT-83. Signing and publication remain future/out-of-scope capabilities.
     """
 
     version: str
@@ -277,7 +306,7 @@ class ReleaseManifestBuilder:
                 "release_manifest": release_manifest,
                 "notes": [
                     "FUNC-SPRINT-77 introduces release metadata and manifest generation only.",
-                    "Packaging, SBOM, checksums, smoke verification and installation planning now have local initial implementations; signing, tagging and publication remain out of scope.",
+                    "Packaging, SBOM, checksums, smoke verification, installation planning and backup/upgrade planning now have local initial implementations; signing, tagging and publication remain out of scope.",
                     "Run pytest, quality-gate ci and Web UI smoke separately to produce release readiness evidence.",
                 ],
             },

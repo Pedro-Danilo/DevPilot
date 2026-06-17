@@ -4649,3 +4649,42 @@ python -m devpilot_core install plan --mode all --json --write-report
 ### Riesgos
 
 Esta es una primera versión `implemented-initial`: documenta y planifica instalación, pero no reemplaza smoke install aislado, upgrade test, rollback ni firma de artefactos.
+
+
+## FUNC-SPRINT-83 — Operación de backup, restore y upgrade local
+
+### Propósito
+
+Operar backup/restore/upgrade local antes de releases, instalación o actualización de DevPilot. Esta versión es `implemented-initial`: protege estado local, pero no reemplaza backup cifrado ni migraciones automáticas.
+
+### Comandos
+
+```powershell
+python -m devpilot_core backup create --dry-run --json
+python -m devpilot_core backup create --execute --json --write-report
+python -m devpilot_core backup list --json
+python -m devpilot_core backup restore --backup-id <backup-id> --dry-run --json
+python -m devpilot_core upgrade check --json --write-report
+```
+
+### Criterios PASS
+
+- Backup dry-run no escribe artefactos.
+- Backup execute crea `.devpilot/backups/<id>.zip` y `.manifest.json`.
+- Restore dry-run no sobrescribe.
+- Restore real requiere `--execute --confirm-restore`.
+- Upgrade check no modifica archivos.
+- SecretGuard redacted contenido textual sensible.
+
+### Criterios BLOCK
+
+- Restore sobrescribe sin confirmación.
+- Backup incluye `.git`, `.venv`, `node_modules`, `outputs`, `dist` o caches por defecto.
+- Backup almacena secretos sin redacción/advertencia.
+- Upgrade intenta usar red o modificar archivos.
+
+### Riesgos
+
+- Backup no está cifrado ni firmado en esta versión.
+- Restore de archivos redacted puede requerir reconfiguración manual de secretos.
+- SQLite se respalda como binario; migraciones versionadas quedan pendientes.

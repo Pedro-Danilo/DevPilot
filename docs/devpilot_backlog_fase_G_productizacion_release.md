@@ -8,15 +8,15 @@ standard: "MIPSoftware"
 extension: "MIASI"
 phase: "FASE-G-PRODUCTIZACION-RELEASE"
 updated: "2026-06-17"
-source_repo: "repo_DevPilot_Local_104.zip"
+source_repo: "repo_DevPilot_Local_105.zip"
 source_report: "Informe de avance DevPilot - sprint 0 - 18.docx"
 source_backlog_model: "docs/functional_backlog_after_precode.md"
 baseline_dependency: "Fases A-F cerradas; Fase F validada por FUNC-SPRINT-73"
 approved_on: "2026-06-16"
 approval: "approved_after_phase_f_visual_mvp_web_first_closure"
-first_open_sprint: "FUNC-SPRINT-83"
-last_completed_sprint: "FUNC-SPRINT-82"
-next_sprint: "FUNC-SPRINT-83"
+first_open_sprint: "FUNC-SPRINT-84"
+last_completed_sprint: "FUNC-SPRINT-83"
+next_sprint: "FUNC-SPRINT-84"
 phase_g_status: "in_progress"
 first_sprint: "FUNC-SPRINT-74"
 last_planned_sprint: "FUNC-SPRINT-84"
@@ -942,6 +942,13 @@ Implementa FUNC-SPRINT-83. Crea backup/restore/upgrade local con dry-run por def
 ```
 
 ---
+
+
+## Estado de implementación Sprint 83
+
+`FUNC-SPRINT-83 — Backup, restore y upgrade local` queda implementado como primera versión `implemented-initial`. Se agregan `backup create/list/restore` y `upgrade check`, con dry-run por defecto, restore protegido por `--execute --confirm-restore`, PathGuard para límites de workspace y SecretGuard para redacción de contenido textual sensible.
+
+La siguiente unidad abierta es `FUNC-SPRINT-84 — ReleaseAgent MVP dry-run y cierre Fase G`.
 
 ## FUNC-SPRINT-84 — ReleaseAgent MVP dry-run y cierre Fase G
 

@@ -30,6 +30,8 @@ Source: `docs/functional_sprint_*_manifest.json`
 
 ### Added
 
+- `FUNC-SPRINT-83` — `docs/functional_sprint_83_manifest.json` — Se incorporó `Backup, restore y upgrade local`.
+
 - `FUNC-SPRINT-82` — `docs/functional_sprint_82_manifest.json` — Se incorporó `Estrategia de instalación e installer preliminar`.
 
 - `FUNC-SPRINT-74` — Se incorporó `ADR de release, versionado y productización`. Source: `docs/functional_sprint_74_manifest.json`; audit: `docs/audits/func_sprint_74_release_versioning_audit.md`. Artefactos: `docs/02_architecture/adrs/ADR-0014-release-versioning-packaging.md`, `docs/05_operations/release_policy.md`, `docs/05_operations/release_artifacts_matrix.md`, `docs/audits/func_sprint_74_release_versioning_audit.md` y 2 artefactos adicionales.

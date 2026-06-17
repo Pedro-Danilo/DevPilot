@@ -1,12 +1,29 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
 Estado actual: `baseline pre-code approved + Fases A-F cerradas + Fase G en progreso`  
-Último hito: `FUNC-SPRINT-82 — Estrategia de instalación e installer preliminar`  
-Siguiente hito: `FUNC-SPRINT-83 — Backup, restore y upgrade local`  
+Último hito: `FUNC-SPRINT-83 — Backup, restore y upgrade local`  
+Siguiente hito: `FUNC-SPRINT-84 — ReleaseAgent MVP dry-run y cierre Fase G`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
 
+
+
+## FUNC-SPRINT-83 — Backup, restore y upgrade local
+
+`FUNC-SPRINT-83` agrega capacidades locales de protección operacional antes de upgrades y releases: `backup create`, `backup list`, `backup restore` y `upgrade check`.
+
+### Capacidades
+
+- `python -m devpilot_core backup create --dry-run --json` genera un plan de backup sin escribir artefactos.
+- `python -m devpilot_core backup create --execute --json --write-report` crea ZIP y manifest local bajo `.devpilot/backups`.
+- `python -m devpilot_core backup list --json` lista backups locales.
+- `python -m devpilot_core backup restore --backup-id <id> --dry-run --json` simula restore sin sobrescribir.
+- `python -m devpilot_core upgrade check --json --write-report` produce plan de upgrade local no mutante.
+
+### Seguridad
+
+La implementación es `implemented-initial`: backup excluye `.git`, `.venv`, `node_modules`, `outputs`, `dist` y caches por defecto; `SecretGuard` redacted contenido textual con apariencia de secreto; `restore` requiere `--execute --confirm-restore` para sobrescribir. No hay backup remoto, cifrado, auto-upgrade, firma ni despliegue.
 
 
 ## FUNC-SPRINT-81 — Checksums, smoke tests y verificación de release

@@ -5,6 +5,8 @@ from .manifest import ReleaseManifestBuilder, ReleaseManifestOptions
 from .package_builder import PackageBuildBuilder, PackageBuildOptions
 from .sbom import ReleaseSbomBuilder, ReleaseSbomOptions
 from .installation import InstallPlanBuilder, InstallPlanOptions
+from .backup import BackupCreateBuilder, BackupCreateOptions, BackupListBuilder, BackupListOptions, BackupRestoreBuilder, BackupRestoreOptions
+from .upgrade import UpgradeCheckBuilder, UpgradeCheckOptions
 from .verification import (
     ReleaseChecksumBuilder,
     ReleaseChecksumOptions,
@@ -24,6 +26,14 @@ __all__ = [
     "PackageBuildOptions",
     "InstallPlanBuilder",
     "InstallPlanOptions",
+    "BackupCreateBuilder",
+    "BackupCreateOptions",
+    "BackupListBuilder",
+    "BackupListOptions",
+    "BackupRestoreBuilder",
+    "BackupRestoreOptions",
+    "UpgradeCheckBuilder",
+    "UpgradeCheckOptions",
     "ReleaseSbomBuilder",
     "ReleaseSbomOptions",
     "ReleaseChecksumBuilder",

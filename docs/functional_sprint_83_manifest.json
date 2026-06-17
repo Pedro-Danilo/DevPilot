@@ -1,0 +1,104 @@
+{
+  "schema_version": "1.0.0",
+  "sprint": "FUNC-SPRINT-83",
+  "title": "FUNC-SPRINT-83 — Backup, restore y upgrade local",
+  "status": "implemented",
+  "implemented_at": "2026-06-17",
+  "phase": "FASE-G-PRODUCTIZACION-RELEASE",
+  "wave": "Ola 10 — CI/CD, release y distribución",
+  "source_repo": "repo_DevPilot_Local_105.zip",
+  "source_backlog": "docs/devpilot_backlog_fase_G_productizacion_release.md",
+  "summary": {
+    "fg_level": "FG-L8",
+    "backup_create_cli_added": true,
+    "backup_list_cli_added": true,
+    "backup_restore_cli_added": true,
+    "upgrade_check_cli_added": true,
+    "backup_manager_added": true,
+    "upgrade_checker_added": true,
+    "dry_run_default": true,
+    "restore_execute_requires_confirmation": true,
+    "path_guard_integrated": true,
+    "secret_guard_integrated": true,
+    "sqlite_state_supported": true,
+    "outputs_excluded_by_default": true,
+    "venv_excluded_by_default": true,
+    "git_dir_excluded_by_default": true,
+    "network_used": false,
+    "external_api_used": false,
+    "publishes_artifacts": false,
+    "deploys_artifacts": false,
+    "source_mutations_performed_by_default": false,
+    "dependencies_added": false,
+    "preliminary": true
+  },
+  "created_files": [
+    "src/devpilot_core/release/backup.py",
+    "src/devpilot_core/release/upgrade.py",
+    "docs/05_operations/backup_restore_upgrade.md",
+    "docs/audits/func_sprint_83_backup_upgrade_audit.md",
+    "docs/functional_sprint_83_manifest.json",
+    "tests/test_backup_upgrade.py",
+    "tests/test_sprint_83_documentation.py"
+  ],
+  "modified_files": [
+    "src/devpilot_core/cli.py",
+    "src/devpilot_core/release/__init__.py",
+    "src/devpilot_core/release/manifest.py",
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/05_operations/release_manifest.md",
+    "docs/05_operations/release_artifacts_matrix.md",
+    "docs/devpilot_backlog_fase_G_productizacion_release.md",
+    "docs/functional_backlog_after_precode.md",
+    "docs/release/CHANGELOG.md",
+    "historical sprint documentation tests"
+  ],
+  "commands": [
+    "python -m devpilot_core backup create --dry-run --json",
+    "python -m devpilot_core backup create --execute --json --write-report",
+    "python -m devpilot_core backup list --json",
+    "python -m devpilot_core backup restore --backup-id <backup-id> --dry-run --json",
+    "python -m devpilot_core upgrade check --json --write-report",
+    "python -m devpilot_core schema validate-manifest docs/functional_sprint_83_manifest.json --json"
+  ],
+  "tests": [
+    "tests/test_backup_upgrade.py",
+    "tests/test_sprint_83_documentation.py",
+    "historical sprint documentation tests synchronized with README/backlog current milestone"
+  ],
+  "pass_criteria": [
+    "backup create dry-run returns PASS without writing artifacts.",
+    "backup create --execute writes a local backup ZIP and sidecar manifest.",
+    "backup list returns local backup catalog.",
+    "backup restore is dry-run by default.",
+    "backup restore --execute requires --confirm-restore.",
+    "upgrade check returns a local non-mutating plan.",
+    "Backup excludes .git, .venv, node_modules, outputs, dist and caches by default.",
+    "SecretGuard redacts or reports sensitive textual content."
+  ],
+  "block_criteria": [
+    "Do not close if restore overwrites without explicit confirmation.",
+    "Do not close if backup includes .git or .venv by default.",
+    "Do not close if backup stores secrets without redaction or warning.",
+    "Do not close if upgrade check mutates files or requires network."
+  ],
+  "risks": [
+    {
+      "id": "RISK-FUNC-83-001",
+      "risk": "Pérdida de datos por restore accidental",
+      "mitigation": "Dry-run por defecto y --execute + --confirm-restore para sobrescrituras."
+    },
+    {
+      "id": "RISK-FUNC-83-002",
+      "risk": "Exfiltración de secretos",
+      "mitigation": "SecretGuard y redacción por defecto de archivos textuales."
+    },
+    {
+      "id": "RISK-FUNC-83-003",
+      "risk": "Upgrade incompatible",
+      "mitigation": "upgrade check plan-only con backup previo requerido como práctica."
+    }
+  ],
+  "next_sprint": "FUNC-SPRINT-84 — ReleaseAgent MVP dry-run y cierre Fase G"
+}

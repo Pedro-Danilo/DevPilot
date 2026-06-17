@@ -14,7 +14,7 @@ change_policy: "controlled_changes_allowed_via_docs_as_code"
 approved_on: "2026-06-06"
 approval_scope: "functional_backlog_after_precode"
 baseline_execution: "FUNC-SPRINT-00"
-next_sprint: "FUNC-SPRINT-83"
+next_sprint: "FUNC-SPRINT-84"
 ---
 
 # DevPilot Local — Backlog ejecutable posterior a pre-code
@@ -2314,9 +2314,19 @@ La implementación es `implemented-initial`: no agrega servidor, frontend ni dep
 
 ## Transición posterior a FUNC-SPRINT-71
 
-Fase F avanza con Approval Center y acciones dry-run desde UI. `next_sprint: "FUNC-SPRINT-83"`.
+Fase F avanza con Approval Center y acciones dry-run desde UI. `next_sprint: "FUNC-SPRINT-72"`.
 
 
 ## Transición posterior a FUNC-SPRINT-81
 
 `FUNC-SPRINT-81` implementa checksums SHA256, smoke test local y `release verify` como evidencia inicial de release. La siguiente unidad funcional autorizada es `FUNC-SPRINT-82 — Estrategia de instalación e installer preliminar`.
+
+
+## Transición posterior a FUNC-SPRINT-82
+
+`FUNC-SPRINT-82` implementa estrategia de instalación local, ADR de instalación y `install plan` en modo plan-only. La transición hacia `FUNC-SPRINT-83` queda condicionada a mantener backup/restore/upgrade local con dry-run por defecto, PathGuard, SecretGuard y sin sobrescrituras silenciosas.
+
+
+## Transición posterior a FUNC-SPRINT-83
+
+`FUNC-SPRINT-83 — Backup, restore y upgrade local` queda implementado como baseline local de protección operacional. DevPilot ahora puede planificar y crear backups locales, listar backups, simular restore controlado y generar un plan de upgrade local sin mutaciones automáticas. La siguiente unidad abierta es `FUNC-SPRINT-84 — ReleaseAgent MVP dry-run y cierre Fase G`.

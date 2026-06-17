@@ -25,6 +25,7 @@ _FORBIDDEN_MARKERS = [
     "__pycache__/",
     ".pytest_cache/",
     ".devpilot/devpilot.db",
+    ".devpilot/backups/",
     ".devpilot/providers.yaml",
     ".pyc",
     ".pyo",

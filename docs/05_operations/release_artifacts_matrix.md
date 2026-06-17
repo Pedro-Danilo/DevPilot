@@ -147,3 +147,13 @@ La verificación sigue siendo local y preliminar: no firma, no publica, no despl
 | `INSTALL-PLAN` | `outputs/reports/install_plan.json` | `implemented-initial` | Plan local de instalación editable/wheel/ZIP/Desktop bridge generado por `python -m devpilot_core install plan --json --write-report`. |
 
 `INSTALL-PLAN` no es un instalador ejecutable: es evidencia gobernada de estrategia de instalación. No activa auto-update, no instala servicios persistentes, no requiere privilegios elevados y no usa red.
+
+
+## FUNC-SPRINT-83 — BACKUP/RESTORE/UPGRADE
+
+| ID | Ruta | Estado | Descripción |
+|---|---|---|---|
+| `BACKUP-MANIFEST` | `.devpilot/backups/<backup-id>.manifest.json` | `implemented-initial` | Sidecar manifest local creado por `backup create --execute`. |
+| `BACKUP-REPORT` | `outputs/reports/backup_create.json` | `implemented-initial` | Evidencia regenerable de backup create. |
+| `RESTORE-PLAN` | `outputs/reports/backup_restore.json` | `implemented-initial` | Evidencia regenerable de restore dry-run/controlado. |
+| `UPGRADE-CHECK` | `outputs/reports/upgrade_check.json` | `implemented-initial` | Plan local no mutante de upgrade. |
