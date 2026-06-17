@@ -19,7 +19,7 @@ from .modeling import BudgetLedger, CapabilityMatrix, ModelAdapterRouter, ModelE
 from .policy import CostPolicy, PolicyEngine, PolicyRequest, load_cost_policy
 from .prompts import PromptRegistry
 from .quality import QualityGate, QualityGateOptions
-from .release import PackageBuildBuilder, PackageBuildOptions, ReleaseChangelogBuilder, ReleaseChangelogOptions, ReleaseManifestBuilder, ReleaseManifestOptions
+from .release import PackageBuildBuilder, PackageBuildOptions, ReleaseChangelogBuilder, ReleaseChangelogOptions, ReleaseManifestBuilder, ReleaseManifestOptions, ReleaseSbomBuilder, ReleaseSbomOptions
 from .reports import ReportEngine, build_report_id
 from .security import PolicySimulationSuite, SecurityReadiness
 from .schemas import BuiltinContractValidator, SchemaRegistry, SchemaValidator
@@ -1590,6 +1590,44 @@ def release_changelog_command(
     return int(result.exit_code)
 
 
+def release_sbom_command(
+    *,
+    version: str | None = None,
+    json_output: bool = False,
+    write_report: bool = False,
+) -> int:
+    """Generate the FUNC-SPRINT-80 local SBOM and supply-chain baseline."""
+
+    root = project_root()
+    result = ReleaseSbomBuilder(root, options=ReleaseSbomOptions(version=version)).build()
+    effective_version = ((result.data or {}).get("summary") or {}).get("version") or version or "unknown"
+    result = _write_optional_command_report(
+        root,
+        result,
+        subject=f"release:{effective_version}:sbom",
+        report_id="release_sbom",
+        write_report=write_report,
+        metadata={"sprint": "FUNC-SPRINT-80", "component": "ReleaseSbom", "version": effective_version},
+    )
+    if write_report and isinstance((result.data or {}).get("reports"), dict):
+        data = dict(result.data or {})
+        summary = dict(data.get("summary") or {})
+        summary["reports_written"] = True
+        data["summary"] = summary
+        result = CommandResult(
+            command=result.command,
+            ok=result.ok,
+            exit_code=result.exit_code,
+            message=result.message,
+            data=data,
+            findings=result.findings,
+        )
+    _emit_result_event(root, result, subject="release:sbom")
+    _persist_result(root, result, subject="release:sbom")
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+
 def package_build_command(
     *,
     kind: str,
@@ -3092,6 +3130,10 @@ def build_parser() -> argparse.ArgumentParser:
     release_changelog.add_argument("--to-sprint", default=None, help="Optional last sprint included in the changelog range")
     release_changelog.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     release_changelog.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+    release_sbom = release_sub.add_parser("sbom", help="Generate a local SBOM and supply-chain baseline")
+    release_sbom.add_argument("--version", dest="release_version", default=None, help="Optional SemVer release version; defaults to pyproject.toml")
+    release_sbom.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    release_sbom.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
 
     package = sub.add_parser("package", help="Build local clean release packages")
     package_sub = package.add_subparsers(dest="package_command")
@@ -3682,6 +3724,8 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
                 json_output=args.json,
                 write_report=args.write_report,
             )
+        if args.release_command == "sbom":
+            return release_sbom_command(version=args.release_version, json_output=args.json, write_report=args.write_report)
         parser.print_help()
         return int(ExitCode.FAIL)
     if args.command == "package":

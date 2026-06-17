@@ -116,7 +116,7 @@ _EXPECTED_RELEASE_ARTIFACTS = [
         "path": "outputs/reports/sbom.json",
         "kind": "sbom",
         "implemented_in": "FUNC-SPRINT-80",
-        "status": "planned",
+        "status": "implemented-initial",
     },
     {
         "id": "CHECKSUMS-SHA256",
@@ -216,8 +216,8 @@ class ReleaseManifestBuilder:
             },
             "limitations": [
                 "FUNC-SPRINT-77 does not build release packages.",
-                "FUNC-SPRINT-78 provides the human-readable changelog; FUNC-SPRINT-79 provides initial local packaging; SBOM/checksum verification remains later.",
-                "FUNC-SPRINT-77 does not calculate SBOM or checksums.",
+                "FUNC-SPRINT-78 provides the human-readable changelog; FUNC-SPRINT-79 provides initial local packaging; FUNC-SPRINT-80 provides initial SBOM baseline; checksum verification remains later.",
+                "FUNC-SPRINT-77 does not calculate checksums or perform vulnerability scanning.",
                 "FUNC-SPRINT-77 does not tag Git, sign artifacts, publish packages or deploy.",
                 "Release readiness still requires running pytest, quality-gate ci and Web UI smoke commands explicitly.",
             ],
@@ -256,7 +256,7 @@ class ReleaseManifestBuilder:
                 "release_manifest": release_manifest,
                 "notes": [
                     "FUNC-SPRINT-77 introduces release metadata and manifest generation only.",
-                    "Packaging, SBOM, checksums, signing, tagging and publication are intentionally out of scope.",
+                    "Packaging and SBOM now have local initial implementations; checksums, signing, tagging and publication remain out of scope.",
                     "Run pytest, quality-gate ci and Web UI smoke separately to produce release readiness evidence.",
                 ],
             },

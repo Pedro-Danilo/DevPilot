@@ -31,8 +31,8 @@ def test_sprint_73_artifacts_and_docs_are_synchronized() -> None:
         "tests/test_sprint_73_documentation.py",
     ]:
         assert (ROOT / path).exists(), path
-    assert "Último hito: `FUNC-SPRINT-79" in readme
-    assert "Siguiente hito: `FUNC-SPRINT-80" in readme
+    assert "Último hito: `FUNC-SPRINT-80" in readme
+    assert "Siguiente hito: `FUNC-SPRINT-81" in readme
     assert "FUNC-SPRINT-73 — Cierre Fase F web-first y decisión de evolución" in readme
     assert "FUNC-SPRINT-73 — Operación de cierre Fase F" in runbook
     assert 'source_repo: "repo_DevPilot_Local_92.zip"' in backlog
@@ -40,7 +40,7 @@ def test_sprint_73_artifacts_and_docs_are_synchronized() -> None:
     assert 'first_open_sprint: "FUNC-SPRINT-74"' in backlog
     assert 'last_completed_sprint: "FUNC-SPRINT-73"' in backlog
     assert 'next_sprint: "FUNC-SPRINT-74"' in backlog
-    assert 'next_sprint: "FUNC-SPRINT-80"' in functional_backlog
+    assert 'next_sprint: "FUNC-SPRINT-81"' in functional_backlog
     assert "Visual Product Quality Gate" in internal_contract
 
 

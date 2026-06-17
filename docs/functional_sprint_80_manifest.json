@@ -1,0 +1,105 @@
+{
+  "schema_version": "1.0.0",
+  "sprint": "FUNC-SPRINT-80",
+  "title": "FUNC-SPRINT-80 — SBOM y supply-chain baseline",
+  "status": "implemented",
+  "implemented_at": "2026-06-17",
+  "phase": "FASE-G-PRODUCTIZACION-RELEASE",
+  "wave": "Ola 10 — CI/CD, release y distribución",
+  "source_repo": "repo_DevPilot_Local_102.zip",
+  "source_backlog": "docs/devpilot_backlog_fase_G_productizacion_release.md",
+  "summary": {
+    "fg_level": "FG-L5",
+    "release_sbom_cli_added": true,
+    "release_sbom_model_added": true,
+    "supply_chain_policy_added": true,
+    "cyclonedx_compatible_baseline": true,
+    "slsa_local_baseline_declared": true,
+    "python_runtime_dependencies_declared": true,
+    "python_dev_dependencies_declared": true,
+    "python_build_dependencies_declared": true,
+    "node_dependencies_declared": true,
+    "reports_supported": true,
+    "reports_path": "outputs/reports/release_sbom.*",
+    "network_used": false,
+    "external_api_used": false,
+    "vulnerability_scan_performed": false,
+    "license_scan_performed": false,
+    "publishes_artifacts": false,
+    "deploys_artifacts": false,
+    "git_tagging_performed": false,
+    "dependencies_added": false,
+    "preliminary": true
+  },
+  "created_files": [
+    "src/devpilot_core/release/sbom.py",
+    "docs/03_security/supply_chain_policy.md",
+    "docs/audits/func_sprint_80_sbom_supply_chain_audit.md",
+    "docs/functional_sprint_80_manifest.json",
+    "tests/test_release_sbom.py",
+    "tests/test_sprint_80_documentation.py"
+  ],
+  "modified_files": [
+    "src/devpilot_core/cli.py",
+    "src/devpilot_core/release/__init__.py",
+    "src/devpilot_core/release/manifest.py",
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/05_operations/release_manifest.md",
+    "docs/devpilot_backlog_fase_G_productizacion_release.md",
+    "docs/05_operations/release_artifacts_matrix.md",
+    "docs/functional_backlog_after_precode.md",
+    "docs/release/CHANGELOG.md",
+    "tests/test_release_manifest.py",
+    "historical sprint documentation tests"
+  ],
+  "commands": [
+    "python -m devpilot_core release sbom --json",
+    "python -m devpilot_core release sbom --json --write-report",
+    "python -m devpilot_core validate-artifact docs/03_security/supply_chain_policy.md --json",
+    "python -m devpilot_core validate-artifact docs/audits/func_sprint_80_sbom_supply_chain_audit.md --json",
+    "python -m devpilot_core schema validate-manifest docs/functional_sprint_80_manifest.json --json"
+  ],
+  "tests": [
+    "tests/test_release_sbom.py",
+    "tests/test_sprint_80_documentation.py",
+    "historical sprint documentation tests synchronized with README/backlog current milestone",
+    "full pytest regression suite"
+  ],
+  "pass_criteria": [
+    "release sbom returns parseable CommandResult JSON.",
+    "SBOM declares runtime, dev and build dependencies from local manifests.",
+    "SBOM declares UI npm dependencies from package.json/package-lock when available.",
+    "SBOM includes CycloneDX-compatible baseline payload.",
+    "Command does not call network or external vulnerability services.",
+    "README, runbook, Fase G backlog and functional backlog are synchronized."
+  ],
+  "block_criteria": [
+    "Do not close if SBOM requires network.",
+    "Do not close if dev dependencies are omitted.",
+    "Do not close if build dependencies are omitted.",
+    "Do not close if limitations of initial SBOM are not documented.",
+    "Do not close if command publishes, deploys, signs or tags Git."
+  ],
+  "risks": [
+    {
+      "id": "RISK-FUNC-80-001",
+      "risk": "Falso sentido de seguridad por confundir SBOM con SCA completo",
+      "mitigation": "Documentar que no hay vulnerability scan ni license scan."
+    },
+    {
+      "id": "RISK-FUNC-80-002",
+      "risk": "Dependencias ocultas",
+      "mitigation": "Parsear pyproject.toml, package.json y package-lock.json."
+    },
+    {
+      "id": "RISK-FUNC-80-003",
+      "risk": "Formato SBOM insuficiente",
+      "mitigation": "Generar payload CycloneDX-compatible preliminar y plan de evolución."
+    }
+  ],
+  "next_sprint": "FUNC-SPRINT-81 — Checksums, smoke tests y verificación de release",
+  "adr_required": false,
+  "adr_rationale": "No se requiere nueva ADR: FUNC-SPRINT-80 implementa un artefacto previsto por ADR-0014 y por la matriz de artefactos liberables. La política operacional queda documentada en docs/03_security/supply_chain_policy.md.",
+  "audit_report": "docs/audits/func_sprint_80_sbom_supply_chain_audit.md"
+}

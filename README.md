@@ -1,12 +1,21 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
 Estado actual: `baseline pre-code approved + Fases A-F cerradas + Fase G en progreso`  
-Último hito: `FUNC-SPRINT-79 — Packaging Python y ZIP limpio reproducible`  
-Siguiente hito: `FUNC-SPRINT-80 — SBOM y supply-chain baseline`  
+Último hito: `FUNC-SPRINT-80 — SBOM y supply-chain baseline`  
+Siguiente hito: `FUNC-SPRINT-81 — Checksums, smoke tests y verificación de release`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
 
+
+
+## FUNC-SPRINT-80 — SBOM y supply-chain baseline
+
+`FUNC-SPRINT-80` implementa la primera línea base local de SBOM y supply chain de Fase G. Agrega el módulo `devpilot_core.release.sbom`, el comando `python -m devpilot_core release sbom --json`, reportes opcionales bajo `outputs/reports/release_sbom.*`, la política `docs/03_security/supply_chain_policy.md`, auditoría y manifest funcional.
+
+Alcance cerrado: inventario local de dependencias Python runtime/opcionales/dev/build desde `pyproject.toml`, dependencias directas de Web UI desde `ui/web/package.json`, componentes bloqueados desde `ui/web/package-lock.json` cuando exista, payload CycloneDX-compatible preliminar, baseline SLSA local y declaración explícita de que no se ejecuta vulnerability scan ni license scan externo.
+
+Límites: esta es una primera versión `implemented-initial` de SBOM local; no consulta bases de vulnerabilidades, no resuelve licencias, no firma artefactos, no calcula checksums finales, no valida todavía con schema CycloneDX formal y no publica ni despliega. Es la base para `FUNC-SPRINT-81`, donde se fortalecerá checksums, smoke tests y verificación de release.
 
 
 ## FUNC-SPRINT-79 — Packaging Python y ZIP limpio reproducible

@@ -17,7 +17,7 @@ This changelog follows a Keep a Changelog-compatible category structure and is g
 ## [0.1.0] - 2026-06-17
 
 Release ID: `DEVPL-0.1.0`  
-Range: `FUNC-SPRINT-74` → `FUNC-SPRINT-79`  
+Range: `FUNC-SPRINT-74` → `FUNC-SPRINT-80`  
 Source: `docs/functional_sprint_*_manifest.json`
 
 ### Added
@@ -28,6 +28,7 @@ Source: `docs/functional_sprint_*_manifest.json`
 - `FUNC-SPRINT-77` — Se incorporó `Release metadata y Release Manifest`. Source: `docs/functional_sprint_77_manifest.json`; audit: `docs/audits/func_sprint_77_release_manifest_audit.md`. Artefactos: `src/devpilot_core/release/__init__.py`, `src/devpilot_core/release/manifest.py`, `docs/05_operations/release_manifest.md`, `docs/audits/func_sprint_77_release_manifest_audit.md` y 3 artefactos adicionales.
 - `FUNC-SPRINT-78` — Se incorporó `Changelog generator y política de cambios`. Source: `docs/functional_sprint_78_manifest.json`; audit: `docs/audits/func_sprint_78_changelog_audit.md`. Artefactos: `src/devpilot_core/release/changelog.py`, `docs/05_operations/change_policy.md`, `docs/release/CHANGELOG.md`, `docs/audits/func_sprint_78_changelog_audit.md` y 3 artefactos adicionales.
 - `FUNC-SPRINT-79` — Se incorporó `Packaging Python y ZIP limpio reproducible`. Source: `docs/functional_sprint_79_manifest.json`; audit: `docs/audits/func_sprint_79_packaging_audit.md`. Artefactos: `src/devpilot_core/release/package_builder.py`, `docs/05_operations/packaging.md`, `docs/audits/func_sprint_79_packaging_audit.md`, `docs/functional_sprint_79_manifest.json` y 2 artefactos adicionales.
+- `FUNC-SPRINT-80` — Se incorporó `SBOM y supply-chain baseline`. Source: `docs/functional_sprint_80_manifest.json`; audit: `docs/audits/func_sprint_80_sbom_supply_chain_audit.md`. Artefactos: `src/devpilot_core/release/sbom.py`, `docs/03_security/supply_chain_policy.md`, `docs/audits/func_sprint_80_sbom_supply_chain_audit.md`, `docs/functional_sprint_80_manifest.json` y 2 artefactos adicionales.
 
 ### Changed
 
@@ -37,6 +38,7 @@ Source: `docs/functional_sprint_*_manifest.json`
 - `FUNC-SPRINT-77` — Se sincronizaron artefactos de ingeniería y contratos existentes. Source: `docs/functional_sprint_77_manifest.json`; audit: `docs/audits/func_sprint_77_release_manifest_audit.md`. Artefactos: `src/devpilot_core/cli.py`, `README.md`, `docs/05_operations/runbook.md`, `docs/devpilot_backlog_fase_G_productizacion_release.md` y 2 artefactos adicionales.
 - `FUNC-SPRINT-78` — Se sincronizaron artefactos de ingeniería y contratos existentes. Source: `docs/functional_sprint_78_manifest.json`; audit: `docs/audits/func_sprint_78_changelog_audit.md`. Artefactos: `src/devpilot_core/cli.py`, `src/devpilot_core/release/__init__.py`, `src/devpilot_core/release/manifest.py`, `README.md` y 5 artefactos adicionales.
 - `FUNC-SPRINT-79` — Se sincronizaron artefactos de ingeniería y contratos existentes. Source: `docs/functional_sprint_79_manifest.json`; audit: `docs/audits/func_sprint_79_packaging_audit.md`. Artefactos: `src/devpilot_core/cli.py`, `src/devpilot_core/release/__init__.py`, `src/devpilot_core/release/manifest.py`, `README.md` y 6 artefactos adicionales.
+- `FUNC-SPRINT-80` — Se sincronizaron artefactos de ingeniería y contratos existentes. Source: `docs/functional_sprint_80_manifest.json`; audit: `docs/audits/func_sprint_80_sbom_supply_chain_audit.md`. Artefactos: `src/devpilot_core/cli.py`, `src/devpilot_core/release/__init__.py`, `src/devpilot_core/release/manifest.py`, `README.md` y 6 artefactos adicionales.
 
 ### Deprecated
 
@@ -59,6 +61,7 @@ Source: `docs/functional_sprint_*_manifest.json`
 - `FUNC-SPRINT-77` — Se preservaron límites local-first/dry-run-first, exclusión de secretos/runtime state o bloqueo de publicación/despliegue según el contrato del sprint. Source: `docs/functional_sprint_77_manifest.json`; audit: `docs/audits/func_sprint_77_release_manifest_audit.md`. Controles declarados: `destructive_actions_added=False`, `external_publication_out_of_scope=True`.
 - `FUNC-SPRINT-78` — Se preservaron límites local-first/dry-run-first, exclusión de secretos/runtime state o bloqueo de publicación/despliegue según el contrato del sprint. Source: `docs/functional_sprint_78_manifest.json`; audit: `docs/audits/func_sprint_78_changelog_audit.md`. Controles declarados: `deploys_artifacts=False`, `external_api_used=False`, `publishes_artifacts=False`.
 - `FUNC-SPRINT-79` — Se preservaron límites local-first/dry-run-first, exclusión de secretos/runtime state o bloqueo de publicación/despliegue según el contrato del sprint. Source: `docs/functional_sprint_79_manifest.json`; audit: `docs/audits/func_sprint_79_packaging_audit.md`. Controles declarados: `deploys_artifacts=False`, `dist_outputs_path=dist/`, `excludes_caches=True`, `excludes_outputs=True`, `excludes_runtime_state=True`, `external_api_used=False`.
+- `FUNC-SPRINT-80` — Se preservaron límites local-first/dry-run-first y se incorporó inventario de dependencias sin red ni SCA externo. Source: `docs/functional_sprint_80_manifest.json`; audit: `docs/audits/func_sprint_80_sbom_supply_chain_audit.md`. Controles declarados: `network_used=False`, `external_api_used=False`, `vulnerability_scan_performed=False`, `license_scan_performed=False`, `publishes_artifacts=False`, `deploys_artifacts=False`.
 
 ### References
 
@@ -68,9 +71,10 @@ Source: `docs/functional_sprint_*_manifest.json`
 - `FUNC-SPRINT-77` — `docs/functional_sprint_77_manifest.json`
 - `FUNC-SPRINT-78` — `docs/functional_sprint_78_manifest.json`
 - `FUNC-SPRINT-79` — `docs/functional_sprint_79_manifest.json`
+- `FUNC-SPRINT-80` — `docs/functional_sprint_80_manifest.json`
 
 ### Policy notes
 
 - The changelog must not invent changes outside local manifests, commits or approved docs; no debe inventar cambios sin evidencia local.
 - The CLI does not overwrite `docs/release/CHANGELOG.md`; report writing is limited to `outputs/reports`.
-- Publication, Git tagging, signing and external deployment remain outside FUNC-SPRINT-78; packaging local starts in FUNC-SPRINT-79.
+- Publication, Git tagging, signing and external deployment remain outside FUNC-SPRINT-78; packaging local starts in FUNC-SPRINT-79 and SBOM baseline starts in FUNC-SPRINT-80.

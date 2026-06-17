@@ -4521,3 +4521,48 @@ El builder clasifica archivos incluidos/excluidos, aplica reglas de exclusión d
 ### Riesgos y límites
 
 Esta es una versión inicial de packaging. Todavía no hay SBOM, checksums, smoke-install ni verificación de integridad de artefactos contra un release final. Es la base para `FUNC-SPRINT-80` y `FUNC-SPRINT-81`.
+
+
+## FUNC-SPRINT-80 — Operación de SBOM y supply-chain baseline
+
+### Propósito
+
+Generar una línea base local de componentes y dependencias para releases de DevPilot. Esta capacidad complementa el package builder de Sprint 79 y prepara Sprint 81, donde se agregarán checksums, smoke tests y verificación de release.
+
+### Comandos principales
+
+```powershell
+python -m devpilot_core release sbom --json
+python -m devpilot_core release sbom --json --write-report
+```
+
+Con `--write-report` se generan evidencias regenerables:
+
+```text
+outputs/reports/release_sbom.json
+outputs/reports/release_sbom.md
+```
+
+### Funcionamiento
+
+El comando lee únicamente fuentes locales: `pyproject.toml`, `ui/web/package.json` y `ui/web/package-lock.json`. El resultado declara dependencias Python runtime/dev/build, dependencias npm directas, componentes bloqueados y un payload CycloneDX-compatible preliminar. No ejecuta red, APIs externas, vulnerability scan, license scan, publicación, despliegue, firma ni Git tagging.
+
+### Criterios PASS
+
+- `release sbom --json` retorna un `CommandResult` parseable.
+- Declara dependencias runtime, dev y build.
+- Declara dependencias UI directas y lockfile cuando existan.
+- Declara explícitamente que no hay vulnerability scan ni license scan.
+- Con `--write-report` escribe únicamente bajo `outputs/reports`.
+
+### Criterios BLOCK
+
+- El comando requiere red.
+- Omite dependencias dev o build.
+- Presenta el SBOM inicial como SCA completo.
+- Publica, despliega, firma o etiqueta Git.
+- Incluye secretos o runtime state como componentes de release.
+
+### Riesgos y evolución
+
+Esta es una versión `implemented-initial`. Debe evolucionar con schema formal, validación CycloneDX, checksums, smoke install, licencia/vulnerability scanning gobernado y provenance/SLSA más fuerte.

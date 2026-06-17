@@ -16,7 +16,7 @@ approval: "approved_after_func_sprint_77_validation"
 
 ## 0. Estado
 
-Este documento queda aprobado como primera versión operativa del modelo de Release Manifest de DevPilot Local. Es una versión `implemented-initial`: formaliza metadata, evidencia requerida, componentes y artefactos esperados, pero no construye paquetes, no publica, no firma, no calcula SBOM/checksums, no etiqueta Git y no despliega.
+Este documento queda aprobado como primera versión operativa del modelo de Release Manifest de DevPilot Local. Es una versión `implemented-initial`: formaliza metadata, evidencia requerida, componentes y artefactos esperados, pero no publica, no firma, no calcula checksums finales, no etiqueta Git y no despliega. Packaging local y SBOM baseline ya existen como primeras versiones en Sprints 79 y 80.
 
 ## 1. Propósito
 
@@ -70,7 +70,7 @@ El release manifest lista artefactos implementados y planificados:
 - Release manifest JSON/MD: Sprint 77.
 - Changelog humano JSON/MD: Sprint 78.
 - Package ZIP limpio, wheel y sdist: Sprint 79.
-- SBOM: Sprint 80.
+- SBOM: Sprint 80 (`outputs/reports/release_sbom.*`, implemented-initial).
 - Checksums: Sprint 81.
 
 ## 6. Exclusiones obligatorias
@@ -119,7 +119,7 @@ __pycache__/
 Actualización Sprint 78: el Release Manifest reconoce el changelog humano como artefacto esperado implementado inicialmente por `FUNC-SPRINT-78`. La generación del changelog sigue siendo un comando separado para preservar trazabilidad y evitar efectos colaterales ocultos.
 
 
-La versión industrial completa debe agregar schema formal de Release Manifest, manifest de package real, SBOM, checksums, smoke test de instalación, firma opcional, rollback/upgrade y ReleaseAgent dry-run. Sprint 77 solo crea la base auditable de metadata.
+La versión industrial completa debe agregar schema formal de Release Manifest, validación CycloneDX formal, checksums, smoke test de instalación, firma opcional, rollback/upgrade y ReleaseAgent dry-run. Sprint 77 solo crea la base auditable de metadata.
 
 ## 11. Actualización FUNC-SPRINT-79 — Packaging reconocido por el Release Manifest
 
@@ -130,4 +130,9 @@ Desde `FUNC-SPRINT-79`, el Release Manifest reconoce como `implemented-initial` 
 - `PKG-SDIST`: `dist/devpilot-local-<version>.tar.gz`.
 - `PKG-BUILD-REPORT`: `outputs/reports/package_build.json`.
 
-Estos artefactos siguen siendo locales y preliminares: no implican publicación, firma, Git tag ni release externo. SBOM, checksums y smoke install quedan para sprints posteriores.
+Estos artefactos siguen siendo locales y preliminares: no implican publicación, firma, Git tag ni release externo. checksums y smoke install quedan para sprints posteriores; SBOM baseline queda implementado inicialmente en `FUNC-SPRINT-80`.
+
+
+## 12. Estado SBOM FUNC-SPRINT-80
+
+`FUNC-SPRINT-80` implementa `release sbom` como evidencia local inicial para `outputs/reports/release_sbom.*`. Esta integración no implica vulnerability scan, license scan, firma, publicación ni despliegue.

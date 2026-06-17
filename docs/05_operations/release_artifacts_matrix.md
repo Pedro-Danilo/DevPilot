@@ -35,7 +35,7 @@ Definir qué artefactos componen un release de DevPilot local-first, cuáles son
 | Python package | Instalar CLI/core con tooling Python. | Definido, no automatizado. |
 | Release metadata | Trazar versión, commit, comandos, pruebas y artefactos. | Definido, no automatizado. |
 | Evidencia humana | Explicar cambios, riesgos y verificación. | Definido, parcialmente manual. |
-| Supply chain | Inventario, SBOM, checksums y hashes. | Definido, no automatizado. |
+| Supply chain | Inventario, SBOM, checksums y hashes. | SBOM baseline automatizado en Sprint 80; checksums pendientes Sprint 81. |
 | Install/upgrade | Permitir instalación y migración local. | Definido, no automatizado. |
 
 ## 3. Matriz de artefactos liberables
@@ -47,7 +47,7 @@ Definir qué artefactos componen un release de DevPilot local-first, cuáles son
 | sdist Python | Sí, si build local disponible | Sprint 79 | Fuente Python empaquetada. | Runtime state y caches. | Build reproducible local. |
 | Release manifest | Sí | Sprint 77 | Versión, fecha, fuente, artefactos, checks, hashes, referencias. | Secretos y datos runtime. | JSON parseable y validable. |
 | Changelog | Sí | Sprint 78 | Cambios notables por versión. | Cambios inventados sin fuente. | Humano, trazable y revisable. |
-| SBOM baseline | Sí | Sprint 80 | Runtime/dev dependencies e inventario. | Vulnerability scan remoto obligatorio. | No requiere red. |
+| SBOM baseline | Sí | Sprint 80 | Runtime/dev/build dependencies, UI deps, CycloneDX-compatible baseline. | Vulnerability scan remoto obligatorio. | No requiere red y genera evidencia local. |
 | Checksums SHA256 | Sí | Sprint 81 | Hashes de artefactos. | Datos sensibles. | Hash calculado sobre artefacto real. |
 | Release verification report | Sí | Sprint 81 | Resultado de package + checksum + smoke test. | Logs crudos con secretos. | PASS/BLOCK accionable. |
 | Install guide | Sí | Sprint 82 | Instalación local Windows/dev. | Auto-update o privilegios innecesarios. | Procedimiento reproducible. |
