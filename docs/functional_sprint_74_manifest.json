@@ -1,0 +1,93 @@
+{
+  "schema_version": "1.0.0",
+  "sprint": "FUNC-SPRINT-74",
+  "title": "FUNC-SPRINT-74 — ADR de release, versionado y productización",
+  "status": "implemented",
+  "implemented_at": "2026-06-17",
+  "phase": "FASE-G-PRODUCTIZACION-RELEASE",
+  "wave": "Ola 10 — CI/CD, release y distribución",
+  "source_repo": "repo_DevPilot_Local_95.zip",
+  "source_backlog": "docs/devpilot_backlog_fase_G_productizacion_release.md",
+  "summary": {
+    "fg_level": "FG-L0",
+    "release_strategy_defined": true,
+    "versioning_policy_defined": true,
+    "artifact_matrix_defined": true,
+    "external_publication_out_of_scope": true,
+    "destructive_actions_added": false,
+    "dependencies_added": false,
+    "commands_added": false,
+    "preliminary": true,
+    "next_sprint": "FUNC-SPRINT-75 — Quality Gate local unificado"
+  },
+  "created_files": [
+    "docs/02_architecture/adrs/ADR-0014-release-versioning-packaging.md",
+    "docs/05_operations/release_policy.md",
+    "docs/05_operations/release_artifacts_matrix.md",
+    "docs/audits/func_sprint_74_release_versioning_audit.md",
+    "docs/functional_sprint_74_manifest.json",
+    "tests/test_sprint_74_documentation.py"
+  ],
+  "modified_files": [
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/devpilot_backlog_fase_G_productizacion_release.md",
+    "docs/functional_backlog_after_precode.md",
+    "tests/test_sprint_32_documentation.py through tests/test_sprint_73_documentation.py synchronized with current milestone"
+  ],
+  "commands": [
+    "python -m devpilot_core validate-artifact docs/02_architecture/adrs/ADR-0014-release-versioning-packaging.md --json",
+    "python -m devpilot_core validate-artifact docs/05_operations/release_policy.md --json",
+    "python -m devpilot_core validate-artifact docs/05_operations/release_artifacts_matrix.md --json",
+    "python -m devpilot_core validate-artifact docs/audits/func_sprint_74_release_versioning_audit.md --json",
+    "python -m devpilot_core schema validate-manifest docs/functional_sprint_74_manifest.json --json",
+    "python -m pytest tests/test_sprint_74_documentation.py -q",
+    "python -m pytest -q"
+  ],
+  "tests": [
+    "tests/test_sprint_74_documentation.py",
+    "historical sprint documentation tests synchronized with README/backlog current milestone",
+    "full pytest regression suite"
+  ],
+  "pass_criteria": [
+    "ADR compares release interno, PyPI, ZIP limpio, wheel/sdist y desktop installer.",
+    "Publicación externa queda fuera de alcance del sprint.",
+    "Reglas de exclusión cubren outputs, caches, runtime DB, .venv, .git, node_modules y secretos.",
+    "Relación entre SemVer, changelog, manifest y SBOM queda definida.",
+    "README, runbook, backlog G y manifest quedan sincronizados."
+  ],
+  "block_criteria": [
+    "No cerrar si permite auto-publicación externa sin aprobación.",
+    "No cerrar si no cubre exclusiones de outputs, caches y runtime DB.",
+    "No cerrar si no actualiza runbook.",
+    "No cerrar si confunde sprint manifest con release manifest final."
+  ],
+  "risks": [
+    {
+      "id": "RISK-FUNC-74-001",
+      "risk": "Versionado inconsistente",
+      "mitigation": "ADR + release policy."
+    },
+    {
+      "id": "RISK-FUNC-74-002",
+      "risk": "Paquetes con datos runtime",
+      "mitigation": "Matriz de exclusión y criterios BLOCK."
+    },
+    {
+      "id": "RISK-FUNC-74-003",
+      "risk": "Publicación prematura",
+      "mitigation": "Publicación externa fuera de alcance."
+    },
+    {
+      "id": "RISK-FUNC-74-004",
+      "risk": "Falso cierre industrial",
+      "mitigation": "Documentar Sprint 74 como estrategia inicial y asignar automatización a sprints 75-84."
+    }
+  ],
+  "next_sprint": "FUNC-SPRINT-75 — Quality Gate local unificado",
+  "adr_required": true,
+  "adr_rationale": "El sprint toma una decisión transversal de release, versionado, packaging y límites de publicación antes de crear comandos de release.",
+  "release_policy": "docs/05_operations/release_policy.md",
+  "release_artifacts_matrix": "docs/05_operations/release_artifacts_matrix.md",
+  "audit_report": "docs/audits/func_sprint_74_release_versioning_audit.md"
+}

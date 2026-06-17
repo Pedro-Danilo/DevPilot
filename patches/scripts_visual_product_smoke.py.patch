@@ -1,0 +1,59 @@
+--- /mnt/data/devpilot_orig96/scripts/visual_product_smoke.py	2026-06-16 21:10:40.000000000 +0000
++++ /mnt/data/devpilot_fix96/scripts/visual_product_smoke.py	2026-06-17 12:27:20.484462925 +0000
+@@ -10,6 +10,7 @@
+ 
+ import argparse
+ import json
++import re
+ import shutil
+ import subprocess
+ import sys
+@@ -91,6 +92,20 @@
+     return GateCheck(check_id, bool(condition), ok_msg if condition else fail_msg, metadata)
+ 
+ 
++def _extract_next_sprint(text: str) -> str | None:
++    match = re.search(r'next_sprint:\s*["\']FUNC-SPRINT-(\d+)["\']', text)
++    if not match:
++        return None
++    return f"FUNC-SPRINT-{int(match.group(1)):02d}"
++
++
++def _sprint_number(sprint_id: str | None) -> int | None:
++    if not sprint_id:
++        return None
++    match = re.search(r'FUNC-SPRINT-(\d+)', sprint_id)
++    return int(match.group(1)) if match else None
++
++
+ def _load_app_contract(root: Path) -> dict[str, Any]:
+     src = root / "src"
+     if str(src) not in sys.path:
+@@ -124,9 +139,25 @@
+     readme = _read_text(root / "README.md")
+     backlog = _read_text(root / "docs/devpilot_backlog_fase_F_producto_visual.md")
+     functional_backlog = _read_text(root / "docs/functional_backlog_after_precode.md")
+-    checks.append(_check("Último hito: `FUNC-SPRINT-73" in readme and "Siguiente hito: `FUNC-SPRINT-74" in readme, "README_GLOBAL_STATE", "README global state points to Sprint 73 closure and Sprint 74 next.", "README global state is not synchronized."))
++    readme_has_phase_f_closure = "FUNC-SPRINT-73 — Cierre Fase F web-first y decisión de evolución" in readme
++    readme_global_has_progress_marker = "Último hito: `FUNC-SPRINT-" in readme and "Siguiente hito: `FUNC-SPRINT-" in readme
++    checks.append(_check(
++        readme_has_phase_f_closure and readme_global_has_progress_marker,
++        "README_GLOBAL_STATE",
++        "README preserves Sprint 73 visual closure while allowing later Fase G progress.",
++        "README global state no longer preserves Sprint 73 visual closure or current progress markers.",
++        {"phase_f_closure_present": readme_has_phase_f_closure, "progress_markers_present": readme_global_has_progress_marker},
++    ))
+     checks.append(_check("phase_f_status: \"closed_visual_mvp_web_first\"" in backlog, "PHASE_F_CLOSED_IN_BACKLOG", "Fase F backlog declares closed visual MVP web-first status.", "Fase F backlog does not declare closed visual MVP status."))
+-    checks.append(_check("next_sprint: \"FUNC-SPRINT-74\"" in functional_backlog, "FUNCTIONAL_BACKLOG_NEXT", "Functional backlog points to FUNC-SPRINT-74.", "Functional backlog next sprint is not FUNC-SPRINT-74."))
++    functional_next_sprint = _extract_next_sprint(functional_backlog)
++    functional_next_number = _sprint_number(functional_next_sprint)
++    checks.append(_check(
++        functional_next_number is not None and functional_next_number >= 74,
++        "FUNCTIONAL_BACKLOG_NEXT",
++        "Functional backlog remains at or beyond FUNC-SPRINT-74 after Fase F closure.",
++        "Functional backlog does not point to FUNC-SPRINT-74 or later.",
++        {"next_sprint": functional_next_sprint},
++    ))
+ 
+     openapi = _read_json(root / "docs/07_interfaces/openapi_v1.json")
+     paths = set(openapi.get("paths", {}))

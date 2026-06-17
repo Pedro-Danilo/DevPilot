@@ -1,12 +1,30 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
-Estado actual: `baseline pre-code approved + Fase A cerrada + Fase B cerrada + Fase C cerrada + Fase D cerrada + Fase E cerrada`  
-Último hito: `FUNC-SPRINT-73 — Cierre Fase F web-first y decisión de evolución`  
-Siguiente hito: `FUNC-SPRINT-74 — ADR de release, versionado y productización`  
+Estado actual: `baseline pre-code approved + Fases A-F cerradas + Fase G iniciada`  
+Último hito: `FUNC-SPRINT-74 — ADR de release, versionado y productización`  
+Siguiente hito: `FUNC-SPRINT-75 — Quality Gate local unificado`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
 
+
+
+## FUNC-SPRINT-74 — ADR de release, versionado y productización
+
+Estado: `implemented` / `PASS focalizado`.
+
+Sprint 74 inicia la Fase G de productización y release. No agrega comandos de release ni publica artefactos: formaliza la estrategia que deberán seguir los sprints 75-84 para construir quality gate, metadata de release, changelog, package limpio, SBOM, checksums, smoke tests, instalación, backup/upgrade y ReleaseAgent dry-run.
+
+Entregables principales:
+
+- `docs/02_architecture/adrs/ADR-0014-release-versioning-packaging.md`: decisión arquitectónica de release/versionado/productización.
+- `docs/05_operations/release_policy.md`: política SemVer interna, estados de release y reglas de publicación.
+- `docs/05_operations/release_artifacts_matrix.md`: matriz de artefactos liberables, prohibidos y obligatorios.
+- `docs/audits/func_sprint_74_release_versioning_audit.md`: auditoría de cierre focalizado Sprint 74.
+- `docs/functional_sprint_74_manifest.json`: manifest funcional del sprint.
+- `tests/test_sprint_74_documentation.py`: prueba documental de sincronización Sprint 74.
+
+Límites explícitos: esta es una primera versión estratégica. No implementa todavía `quality-gate`, `release manifest`, `changelog`, `package build`, SBOM, checksums, smoke test de release, installer ni ReleaseAgent. La publicación externa en PyPI/GitHub/GitLab/Docker/cloud queda fuera de alcance y requiere ADR posterior.
 
 
 ## FUNC-SPRINT-73 — Cierre Fase F web-first y decisión de evolución

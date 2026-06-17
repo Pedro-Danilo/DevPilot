@@ -2,12 +2,12 @@
 title: "Runbook — DevPilot Local"
 doc_id: "DEVPL-OPS-002"
 status: "approved"
-version: "1.24.0"
+version: "1.25.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
 phase: "FUNC-SPRINT-31"
-updated: "2026-06-14"
+updated: "2026-06-17"
 approval: "approved_by_owner"
 source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved + 03_security approved"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
@@ -4120,6 +4120,82 @@ npm test
 - Bloquear si se exponen tokens o secretos en resultados visuales.
 
 
+
+
+## FUNC-SPRINT-74 — Operación de release, versionado y productización
+
+### Estado
+
+`FUNC-SPRINT-74` queda implementado como decisión arquitectónica y operacional de Fase G. Este sprint no construye paquetes ni ejecuta publicación; define cómo deben diseñarse y verificarse los mecanismos de release de los sprints 75-84.
+
+### Propósito operativo
+
+Antes de crear comandos de release, DevPilot debe tener una estrategia explícita para:
+
+- versionado interno;
+- estados de release;
+- artefactos liberables;
+- exclusión de runtime state;
+- publicación externa bloqueada por defecto;
+- relación entre quality gate, manifest, changelog, package, SBOM, checksums y smoke tests.
+
+### Artefactos operativos
+
+| Artefacto | Rol |
+|---|---|
+| `docs/02_architecture/adrs/ADR-0014-release-versioning-packaging.md` | Decisión vinculante de release/versionado/productización. |
+| `docs/05_operations/release_policy.md` | Reglas SemVer internas, estados y límites de publicación. |
+| `docs/05_operations/release_artifacts_matrix.md` | Matriz de artefactos permitidos, obligatorios y prohibidos. |
+| `docs/audits/func_sprint_74_release_versioning_audit.md` | Evidencia de cierre focalizado. |
+| `docs/functional_sprint_74_manifest.json` | Manifest funcional del sprint. |
+
+### Comandos de verificación Sprint 74
+
+```powershell
+python -m devpilot_core validate-artifact docs/02_architecture/adrs/ADR-0014-release-versioning-packaging.md --json
+python -m devpilot_core validate-artifact docs/05_operations/release_policy.md --json
+python -m devpilot_core validate-artifact docs/05_operations/release_artifacts_matrix.md --json
+python -m devpilot_core validate-artifact docs/audits/func_sprint_74_release_versioning_audit.md --json
+python -m devpilot_core schema validate-manifest docs/functional_sprint_74_manifest.json --json
+python -m pytest tests/test_sprint_74_documentation.py -q
+python -m pytest -q
+```
+
+### Estrategia de release vigente
+
+Fase G adopta release local-first y evidence-driven:
+
+```text
+source repo limpio
+  -> quality gate local
+  -> version metadata
+  -> release manifest
+  -> changelog
+  -> package build local
+  -> SBOM/checksums
+  -> smoke test de release
+  -> release report
+  -> ReleaseAgent dry-run
+```
+
+### Criterios PASS
+
+- La estrategia está aprobada en ADR.
+- `release_policy.md` y `release_artifacts_matrix.md` validan con `validate-artifact`.
+- La publicación externa queda fuera de alcance.
+- Las exclusiones de package están documentadas.
+- El siguiente sprint queda definido como `FUNC-SPRINT-75 — Quality Gate local unificado`.
+
+### Criterios BLOCK
+
+- Considerar liberable un paquete con `outputs/`, `.pytest_cache/`, `__pycache__/`, `.venv/`, `.git/`, `node_modules/`, `.devpilot/devpilot.db` o secretos.
+- Publicar en PyPI/GitHub/GitLab/Docker/cloud sin ADR posterior.
+- Implementar `ReleaseAgent` con acciones reales de publicación, tag o deploy.
+- Confundir manifest funcional de sprint con release manifest final.
+
+### Riesgos y limitaciones
+
+Sprint 74 es una versión preliminar de estrategia. La automatización real comienza en Sprint 75 con el Quality Gate local unificado. El repo de trabajo puede contener estado runtime para validación del owner, pero los ZIPs de entrega y releases futuros deben excluir esos artefactos.
 
 
 ## FUNC-SPRINT-73 — Operación de cierre Fase F

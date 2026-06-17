@@ -26,10 +26,13 @@ def test_visual_product_smoke_gate_passes_in_dry_run_json() -> None:
     assert summary["desktop_deferred"] is True
     assert summary["external_api_used"] is False
     assert summary["mutations_performed"] is False
-    check_ids = {check["id"] for check in payload["data"]["checks"]}
-    assert "OPENAPI_EXPECTED_PATHS" in check_ids
-    assert "UI_SAFETY_FLAGS" in check_ids
-    assert "APP_CONTRACT_PHASE_F" in check_ids
+    checks = {check["id"]: check for check in payload["data"]["checks"]}
+    assert "OPENAPI_EXPECTED_PATHS" in checks
+    assert "UI_SAFETY_FLAGS" in checks
+    assert "APP_CONTRACT_PHASE_F" in checks
+    assert checks["README_GLOBAL_STATE"]["ok"] is True
+    assert checks["FUNCTIONAL_BACKLOG_NEXT"]["ok"] is True
+    assert checks["FUNCTIONAL_BACKLOG_NEXT"]["metadata"]["next_sprint"].startswith("FUNC-SPRINT-")
 
 
 def test_visual_product_smoke_script_is_local_first_and_no_dangerous_fragments() -> None:

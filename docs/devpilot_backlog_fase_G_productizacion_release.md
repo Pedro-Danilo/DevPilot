@@ -1,17 +1,23 @@
 ---
 title: "DevPilot Local — Backlog ejecutable Fase G: Productización y release"
 doc_id: "DEVPL-FUNC-BACKLOG-FASE-G-001"
-status: "draft-for-review"
-version: "0.1.0"
+status: "approved"
+version: "1.1.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
 phase: "FASE-G-PRODUCTIZACION-RELEASE"
-updated: "2026-06-09"
-source_repo: "repo_DevPilot_Local_22.zip"
+updated: "2026-06-17"
+source_repo: "repo_DevPilot_Local_95.zip"
 source_report: "Informe de avance DevPilot - sprint 0 - 18.docx"
 source_backlog_model: "docs/functional_backlog_after_precode.md"
-baseline_dependency: "Fases A-F aprobadas o explícitamente aceptadas como prerequisito lógico"
+baseline_dependency: "Fases A-F cerradas; Fase F validada por FUNC-SPRINT-73"
+approved_on: "2026-06-16"
+approval: "approved_after_phase_f_visual_mvp_web_first_closure"
+first_open_sprint: "FUNC-SPRINT-75"
+last_completed_sprint: "FUNC-SPRINT-74"
+next_sprint: "FUNC-SPRINT-75"
+phase_g_status: "in_progress"
 first_sprint: "FUNC-SPRINT-74"
 last_planned_sprint: "FUNC-SPRINT-84"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
@@ -22,9 +28,11 @@ approval_scope: "phase_g_executable_backlog_review"
 
 ## Estado de aprobación funcional
 
-Este documento se entrega en estado `draft-for-review`. Su propósito es convertir la **Fase G — Productización y release** en un backlog de implementación ejecutable, siguiendo el modelo operativo usado en `docs/functional_backlog_after_precode.md`.
+Este documento queda promovido a estado `approved` después de la verificación satisfactoria de `FUNC-SPRINT-73 — Cierre Fase F web-first y decisión de evolución`. Su propósito es convertir la **Fase G — Productización y release** en un backlog de implementación ejecutable, siguiendo el modelo operativo usado en `docs/functional_backlog_after_precode.md`.
 
-La Fase G corresponde a la **Ola 10 — CI/CD, release y distribución**. Parte del estado real de `repo_DevPilot_Local_22.zip`: DevPilot ya dispone de core CLI local-first, `CommandResult`, validadores, reportes, trazas, SQLite, MIASI, PolicyEngine, agentes documentales, Evaluation Harness, Git read-only, review/refactor en modo seguro, ModelAdapter mock y ApplicationService. La Fase G no debe introducir ejecución destructiva ni despliegue remoto sin pasar por PolicyEngine, Approval Workflow, quality gates y evidencia reproducible.
+La Fase G corresponde a la **Ola 10 — CI/CD, release y distribución**. Parte del estado real de `repo_DevPilot_Local_95.zip`, donde DevPilot ya dispone de core CLI local-first, `CommandResult`, validadores, reportes, trazas, SQLite, MIASI, PolicyEngine, agentes documentales y especializados gobernados, Evaluation Harness, Git/repo tooling, review/refactor en modo seguro, ModelAdapter local/API gobernado, AgentOps local, ApplicationService v2, API local segura y Web UI local MVP. La Fase G no debe introducir ejecución destructiva ni despliegue remoto sin pasar por PolicyEngine, Approval Workflow, quality gates y evidencia reproducible.
+
+Aprobación aplicada: la fuente de verdad queda actualizada de `repo_DevPilot_Local_94.zip` a `repo_DevPilot_Local_95.zip`; la entrada de Fase G queda condicionada al cierre validado de Fases A-F y, en particular, al cierre de `FUNC-SPRINT-73`; la primera unidad de trabajo autorizada fue `FUNC-SPRINT-74 — ADR de release, versionado y productización`; tras su cierre, la siguiente unidad autorizada es `FUNC-SPRINT-75 — Quality Gate local unificado`.
 
 ## 1. Propósito
 
@@ -146,20 +154,20 @@ Un sprint de Fase G solo puede cerrarse si cumple:
 
 ---
 
-# FUNC-SPRINT-74 — ADR de release, versionado y productización
+## FUNC-SPRINT-74 — ADR de release, versionado y productización
 
-## Objetivo
+### Objetivo
 
 Definir la estrategia oficial de versionado, release, empaquetado y distribución de DevPilot antes de construir comandos de release.
 
-## Entradas
+### Entradas
 
-- `repo_DevPilot_Local_22.zip` como baseline vigente.
+- `repo_DevPilot_Local_94.zip` como baseline vigente.
 - Backlogs Fase A-F aprobados o explícitamente aceptados como prerequisito lógico.
 - `docs/functional_backlog_after_precode.md` como modelo operativo.
 - `Informe de avance DevPilot - sprint 0 - 18.docx` como diagnóstico de estado y brechas.
 
-## Historias
+### Historias
 
 | ID | Historia | Criterio de aceptación |
 |---|---|---|
@@ -167,7 +175,7 @@ Definir la estrategia oficial de versionado, release, empaquetado y distribució
 | US-FUNC-74-002 | Como desarrollador, quiero saber qué artefactos componen un release. | La ADR define package, manifest, checksums y evidencia. |
 | US-FUNC-74-003 | Como revisor de seguridad, quiero que release no incluya runtime state ni secretos. | Existen reglas de exclusión y riesgos. |
 
-## Tareas
+### Tareas
 
 | ID | Tarea | Entregable | PASS |
 |---|---|---|---|
@@ -177,7 +185,7 @@ Definir la estrategia oficial de versionado, release, empaquetado y distribució
 | FUNC-74-004 | Actualizar runbook | `docs/05_operations/runbook.md` | Sección release strategy. |
 | FUNC-74-005 | Crear manifiesto Sprint 74 | `docs/functional_sprint_74_manifest.json` | JSON válido. |
 
-## Archivos previstos
+### Archivos previstos
 
 ```text
 docs/02_architecture/adrs/ADR-XXXX-release-versioning-packaging.md
@@ -187,7 +195,7 @@ docs/audits/func_sprint_74_release_versioning_audit.md
 docs/functional_sprint_74_manifest.json
 ```
 
-## Comandos objetivo
+### Comandos objetivo
 
 ```powershell
 python -m devpilot_core validate-artifact docs/05_operations/release_policy.md --json
@@ -195,20 +203,20 @@ python -m devpilot_core validate-artifact docs/05_operations/release_artifacts_m
 python -m pytest -q
 ```
 
-## Criterios PASS
+### Criterios PASS
 
 - ADR compara release interno, PyPI, ZIP limpio, wheel/sdist y desktop installer.
 - Define explícitamente que publicación externa queda fuera del sprint.
 - Define reglas de exclusión para paquetes.
 - Define relación con SemVer, changelog, manifest y SBOM.
 
-## Criterios BLOCK
+### Criterios BLOCK
 
 - No cerrar si permite auto-publicación externa sin aprobación.
 - No cerrar si no cubre exclusiones de outputs, caches y runtime DB.
 - No cerrar si no actualiza runbook.
 
-## Riesgos y mitigaciones
+### Riesgos y mitigaciones
 
 | ID | Riesgo | Mitigación |
 |---|---|---|
@@ -216,14 +224,14 @@ python -m pytest -q
 | RISK-FUNC-74-002 | Paquetes con datos runtime | Matriz de exclusión. |
 | RISK-FUNC-74-003 | Publicación prematura | Publicación externa fuera de alcance. |
 
-## Pruebas mínimas
+### Pruebas mínimas
 
 | ID | Prueba | Evidencia esperada |
 |---|---|---|
 | TEST-FUNC-74-001 | Validar docs nuevos | `validate-artifact` PASS. |
 | TEST-FUNC-74-002 | Suite completa | `pytest -q` PASS. |
 
-## Prompt operativo sugerido
+### Prompt operativo sugerido
 
 ```text
 Implementa FUNC-SPRINT-74. Crea ADR de release/versionado/productización, política de release, matriz de artefactos liberables y auditoría. No implementes comandos de release todavía. Mantén local-first, dry-run-first y exclusión de runtime artifacts.
@@ -231,13 +239,29 @@ Implementa FUNC-SPRINT-74. Crea ADR de release/versionado/productización, polí
 
 ---
 
-# FUNC-SPRINT-75 — Quality Gate local unificado
+## Estado de implementación Sprint 74
 
-## Objetivo
+`FUNC-SPRINT-74 — ADR de release, versionado y productización` queda implementado en estado `implemented` / `PASS focalizado`.
+
+Entregables de cierre:
+
+- `docs/02_architecture/adrs/ADR-0014-release-versioning-packaging.md`.
+- `docs/05_operations/release_policy.md`.
+- `docs/05_operations/release_artifacts_matrix.md`.
+- `docs/audits/func_sprint_74_release_versioning_audit.md`.
+- `docs/functional_sprint_74_manifest.json`.
+- `tests/test_sprint_74_documentation.py`.
+
+La Fase G queda en progreso. La estrategia de release/versionado ya está definida, pero aún no existen comandos automáticos de quality gate, release manifest, changelog, packaging, SBOM, checksums, smoke test, instalación, backup/upgrade ni ReleaseAgent. El siguiente sprint autorizado es `FUNC-SPRINT-75 — Quality Gate local unificado`.
+
+
+## FUNC-SPRINT-75 — Quality Gate local unificado
+
+### Objetivo
 
 Crear un comando único de quality gate local que ejecute las verificaciones mínimas para determinar si DevPilot está en estado liberable.
 
-## Historias
+### Historias
 
 | ID | Historia | Criterio de aceptación |
 |---|---|---|
@@ -245,7 +269,7 @@ Crear un comando único de quality gate local que ejecute las verificaciones mí
 | US-FUNC-75-002 | Como CI, quiero salida JSON parseable. | El comando retorna `CommandResult`. |
 | US-FUNC-75-003 | Como arquitecto, quiero saber qué subgates pasaron o fallaron. | El resultado lista subgates. |
 
-## Tareas
+### Tareas
 
 | ID | Tarea | Entregable | PASS |
 |---|---|---|---|
@@ -255,7 +279,7 @@ Crear un comando único de quality gate local que ejecute las verificaciones mí
 | FUNC-75-004 | Reportes | `outputs/reports/quality_gate.*` | Con `--write-report`. |
 | FUNC-75-005 | Tests | `tests/test_quality_gate.py` | PASS. |
 
-## Archivos previstos
+### Archivos previstos
 
 ```text
 src/devpilot_core/quality/__init__.py
@@ -265,7 +289,7 @@ docs/audits/func_sprint_75_quality_gate_audit.md
 docs/functional_sprint_75_manifest.json
 ```
 
-## Comandos objetivo
+### Comandos objetivo
 
 ```powershell
 python -m devpilot_core quality-gate run --json
@@ -273,19 +297,19 @@ python -m devpilot_core quality-gate run --json --write-report
 python -m pytest -q
 ```
 
-## Criterios PASS
+### Criterios PASS
 
 - El quality gate no modifica archivos salvo reportes con `--write-report`.
 - Los subgates están listados con `ok`, `exit_code`, duración y hallazgos resumidos.
 - Si un subgate crítico falla, el gate falla.
 
-## Criterios BLOCK
+### Criterios BLOCK
 
 - No cerrar si el comando oculta fallos de subgates.
 - No cerrar si ejecuta comandos destructivos.
 - No cerrar si no produce JSON parseable.
 
-## Riesgos y mitigaciones
+### Riesgos y mitigaciones
 
 | ID | Riesgo | Mitigación |
 |---|---|---|
@@ -293,7 +317,7 @@ python -m pytest -q
 | RISK-FUNC-75-002 | Duplicar lógica de CLI | Reusar ApplicationService/core. |
 | RISK-FUNC-75-003 | Fallos no accionables | Incluir findings por subgate. |
 
-## Pruebas mínimas
+### Pruebas mínimas
 
 | ID | Prueba | Evidencia esperada |
 |---|---|---|
@@ -301,7 +325,7 @@ python -m pytest -q
 | TEST-FUNC-75-002 | Gate con fixture inválido | FAIL/BLOCK esperado. |
 | TEST-FUNC-75-003 | Reporte parseable | JSON/MD generado. |
 
-## Prompt operativo sugerido
+### Prompt operativo sugerido
 
 ```text
 Implementa FUNC-SPRINT-75. Crea QualityGate local que orqueste readiness, standards, MIASI, eval y app contract en modo no destructivo. Agrega CLI, reportes, tests, README/runbook y manifest.
@@ -309,13 +333,13 @@ Implementa FUNC-SPRINT-75. Crea QualityGate local que orqueste readiness, standa
 
 ---
 
-# FUNC-SPRINT-76 — CI local y workflow scaffolding
+## FUNC-SPRINT-76 — CI local y workflow scaffolding
 
-## Objetivo
+### Objetivo
 
 Preparar DevPilot para verificación automatizada en CI sin introducir despliegue remoto ni secretos.
 
-## Historias
+### Historias
 
 | ID | Historia | Criterio de aceptación |
 |---|---|---|
@@ -323,7 +347,7 @@ Preparar DevPilot para verificación automatizada en CI sin introducir despliegu
 | US-FUNC-76-002 | Como equipo, quiero un workflow GitHub Actions opcional. | Existe workflow dry-run seguro. |
 | US-FUNC-76-003 | Como revisor, quiero que CI no use APIs externas. | Proveedores externos bloqueados. |
 
-## Tareas
+### Tareas
 
 | ID | Tarea | Entregable | PASS |
 |---|---|---|---|
@@ -333,7 +357,7 @@ Preparar DevPilot para verificación automatizada en CI sin introducir despliegu
 | FUNC-76-004 | Validar que no haya deploy | Workflow sin publish/deploy. | Seguro. |
 | FUNC-76-005 | Tests/config validation | Tests o validación estática YAML mínima | PASS. |
 
-## Archivos previstos
+### Archivos previstos
 
 ```text
 .github/workflows/devpilot-ci.yml
@@ -342,26 +366,26 @@ docs/audits/func_sprint_76_ci_scaffolding_audit.md
 docs/functional_sprint_76_manifest.json
 ```
 
-## Comandos objetivo
+### Comandos objetivo
 
 ```powershell
 python -m devpilot_core quality-gate run --profile ci --json
 python -m pytest -q
 ```
 
-## Criterios PASS
+### Criterios PASS
 
 - El workflow solo hace checkout/setup Python/install/test/gates.
 - No requiere secretos.
 - No publica paquetes.
 - No despliega.
 
-## Criterios BLOCK
+### Criterios BLOCK
 
 - No cerrar si el workflow usa secrets o deploy.
 - No cerrar si el perfil CI no es reproducible localmente.
 
-## Riesgos y mitigaciones
+### Riesgos y mitigaciones
 
 | ID | Riesgo | Mitigación |
 |---|---|---|
@@ -369,7 +393,7 @@ python -m pytest -q
 | RISK-FUNC-76-002 | Uso accidental de APIs externas | CostGuard y provider disabled. |
 | RISK-FUNC-76-003 | CI rompe local-first | Workflow opcional y documentado. |
 
-## Prompt operativo sugerido
+### Prompt operativo sugerido
 
 ```text
 Implementa FUNC-SPRINT-76. Agrega perfil CI al QualityGate y workflow GitHub Actions opcional, sin secrets, sin publicación y sin deploy. Documenta procedimiento local y riesgos.
@@ -377,13 +401,13 @@ Implementa FUNC-SPRINT-76. Agrega perfil CI al QualityGate y workflow GitHub Act
 
 ---
 
-# FUNC-SPRINT-77 — Release metadata y Release Manifest
+## FUNC-SPRINT-77 — Release metadata y Release Manifest
 
-## Objetivo
+### Objetivo
 
 Crear un modelo formal de metadata de versión y manifest de release para cada paquete liberable.
 
-## Historias
+### Historias
 
 | ID | Historia | Criterio de aceptación |
 |---|---|---|
@@ -391,7 +415,7 @@ Crear un modelo formal de metadata de versión y manifest de release para cada p
 | US-FUNC-77-002 | Como auditor, quiero rastrear commit, pruebas y artefactos. | Manifest incluye evidencia. |
 | US-FUNC-77-003 | Como usuario, quiero saber qué contiene una versión. | Manifest lista componentes y checks. |
 
-## Tareas
+### Tareas
 
 | ID | Tarea | Entregable | PASS |
 |---|---|---|---|
@@ -401,7 +425,7 @@ Crear un modelo formal de metadata de versión y manifest de release para cada p
 | FUNC-77-004 | Reportes | `outputs/reports/release_manifest.*` | Con `--write-report`. |
 | FUNC-77-005 | Tests | `tests/test_release_manifest.py` | PASS. |
 
-## Archivos previstos
+### Archivos previstos
 
 ```text
 src/devpilot_core/release/__init__.py
@@ -411,7 +435,7 @@ docs/audits/func_sprint_77_release_manifest_audit.md
 docs/functional_sprint_77_manifest.json
 ```
 
-## Comandos objetivo
+### Comandos objetivo
 
 ```powershell
 python -m devpilot_core release manifest --version 0.1.0 --json
@@ -419,19 +443,19 @@ python -m devpilot_core release manifest --version 0.1.0 --json --write-report
 python -m pytest -q
 ```
 
-## Criterios PASS
+### Criterios PASS
 
 - Manifest no requiere red.
 - Manifest incluye quality gate status o referencia.
 - Manifest lista archivos release esperados.
 - Manifest no incluye secretos.
 
-## Criterios BLOCK
+### Criterios BLOCK
 
 - No cerrar si el manifest no es JSON válido.
 - No cerrar si depende de outputs preexistentes no regenerables.
 
-## Riesgos y mitigaciones
+### Riesgos y mitigaciones
 
 | ID | Riesgo | Mitigación |
 |---|---|---|
@@ -439,7 +463,7 @@ python -m pytest -q
 | RISK-FUNC-77-002 | Git ausente | Soportar `is_git_repo=false`. |
 | RISK-FUNC-77-003 | Datos sensibles | Redacción y exclusiones. |
 
-## Prompt operativo sugerido
+### Prompt operativo sugerido
 
 ```text
 Implementa FUNC-SPRINT-77. Crea ReleaseManifest local, CLI `release manifest`, reportes y tests. Debe funcionar sin red y sin publicar artefactos.
@@ -447,13 +471,13 @@ Implementa FUNC-SPRINT-77. Crea ReleaseManifest local, CLI `release manifest`, r
 
 ---
 
-# FUNC-SPRINT-78 — Changelog generator y política de cambios
+## FUNC-SPRINT-78 — Changelog generator y política de cambios
 
-## Objetivo
+### Objetivo
 
 Crear un generador inicial de changelog legible para humanos, basado en manifests, sprints y/o commits locales, siguiendo una estructura compatible con Keep a Changelog.
 
-## Historias
+### Historias
 
 | ID | Historia | Criterio de aceptación |
 |---|---|---|
@@ -461,7 +485,7 @@ Crear un generador inicial de changelog legible para humanos, basado en manifest
 | US-FUNC-78-002 | Como release manager, quiero categorías consistentes. | Usa Added/Changed/Fixed/Security/etc. |
 | US-FUNC-78-003 | Como auditor, quiero trazabilidad a sprints/manifests. | Referencias incluidas. |
 
-## Tareas
+### Tareas
 
 | ID | Tarea | Entregable | PASS |
 |---|---|---|---|
@@ -471,7 +495,7 @@ Crear un generador inicial de changelog legible para humanos, basado en manifest
 | FUNC-78-004 | Integrar manifests | Lee `docs/functional_sprint_*_manifest.json` | Referencias. |
 | FUNC-78-005 | Tests | `tests/test_release_changelog.py` | PASS. |
 
-## Archivos previstos
+### Archivos previstos
 
 ```text
 src/devpilot_core/release/changelog.py
@@ -481,7 +505,7 @@ docs/audits/func_sprint_78_changelog_audit.md
 docs/functional_sprint_78_manifest.json
 ```
 
-## Comandos objetivo
+### Comandos objetivo
 
 ```powershell
 python -m devpilot_core release changelog --version 0.1.0 --json
@@ -489,19 +513,19 @@ python -m devpilot_core release changelog --version 0.1.0 --write-report --json
 python -m pytest -q
 ```
 
-## Criterios PASS
+### Criterios PASS
 
 - Changelog es legible por humanos.
 - No es un dump crudo de git log.
 - Categoriza cambios.
 - Mantiene trazabilidad a sprints/manifests cuando existan.
 
-## Criterios BLOCK
+### Criterios BLOCK
 
 - No cerrar si el changelog inventa cambios no soportados por manifests/commits/docs.
 - No cerrar si sobrescribe manualmente sin dry-run/confirmación.
 
-## Riesgos y mitigaciones
+### Riesgos y mitigaciones
 
 | ID | Riesgo | Mitigación |
 |---|---|---|
@@ -509,7 +533,7 @@ python -m pytest -q
 | RISK-FUNC-78-002 | Texto poco útil | Categorías y resumen humano. |
 | RISK-FUNC-78-003 | Sobrescritura | Dry-run por defecto. |
 
-## Prompt operativo sugerido
+### Prompt operativo sugerido
 
 ```text
 Implementa FUNC-SPRINT-78. Crea generador de changelog local basado en sprints/manifests y estilo Keep a Changelog. Debe operar en dry-run por defecto y generar evidencia.
@@ -517,13 +541,13 @@ Implementa FUNC-SPRINT-78. Crea generador de changelog local basado en sprints/m
 
 ---
 
-# FUNC-SPRINT-79 — Packaging Python y ZIP limpio reproducible
+## FUNC-SPRINT-79 — Packaging Python y ZIP limpio reproducible
 
-## Objetivo
+### Objetivo
 
 Automatizar la creación de paquetes liberables: wheel/sdist si aplica y ZIP limpio del repo, excluyendo artefactos runtime.
 
-## Historias
+### Historias
 
 | ID | Historia | Criterio de aceptación |
 |---|---|---|
@@ -531,7 +555,7 @@ Automatizar la creación de paquetes liberables: wheel/sdist si aplica y ZIP lim
 | US-FUNC-79-002 | Como usuario, quiero instalar DevPilot localmente. | Wheel/sdist o estrategia equivalente. |
 | US-FUNC-79-003 | Como auditor, quiero saber qué fue excluido. | Reporte de exclusiones. |
 
-## Tareas
+### Tareas
 
 | ID | Tarea | Entregable | PASS |
 |---|---|---|---|
@@ -541,7 +565,7 @@ Automatizar la creación de paquetes liberables: wheel/sdist si aplica y ZIP lim
 | FUNC-79-004 | Reporte de package | `outputs/reports/package_build.*` | Incluye excludes. |
 | FUNC-79-005 | Tests | `tests/test_package_builder.py` | PASS. |
 
-## Archivos previstos
+### Archivos previstos
 
 ```text
 src/devpilot_core/release/package_builder.py
@@ -550,7 +574,7 @@ docs/audits/func_sprint_79_packaging_audit.md
 docs/functional_sprint_79_manifest.json
 ```
 
-## Comandos objetivo
+### Comandos objetivo
 
 ```powershell
 python -m devpilot_core package build --kind repo-zip --version 0.1.0 --json
@@ -558,20 +582,20 @@ python -m devpilot_core package build --kind python --version 0.1.0 --json
 python -m pytest -q
 ```
 
-## Criterios PASS
+### Criterios PASS
 
 - Excluye `outputs/`, `.pytest_cache`, `__pycache__`, `.venv`, `.git`, `.devpilot/devpilot.db`.
 - Puede operar en dry-run.
 - Produce lista de archivos incluidos/excluidos.
 - No requiere publicar en PyPI.
 
-## Criterios BLOCK
+### Criterios BLOCK
 
 - No cerrar si incluye secretos o runtime DB.
 - No cerrar si publica externamente.
 - No cerrar si no documenta dependencias de build.
 
-## Riesgos y mitigaciones
+### Riesgos y mitigaciones
 
 | ID | Riesgo | Mitigación |
 |---|---|---|
@@ -579,7 +603,7 @@ python -m pytest -q
 | RISK-FUNC-79-002 | Build no reproducible | Manifest y checksums. |
 | RISK-FUNC-79-003 | Dependencia de build no documentada | ADR/README/runbook. |
 
-## Prompt operativo sugerido
+### Prompt operativo sugerido
 
 ```text
 Implementa FUNC-SPRINT-79. Crea package builder para repo zip limpio y paquete Python local. No publiques externamente. Genera reporte de inclusiones/exclusiones y tests.
@@ -587,13 +611,13 @@ Implementa FUNC-SPRINT-79. Crea package builder para repo zip limpio y paquete P
 
 ---
 
-# FUNC-SPRINT-80 — SBOM y supply-chain baseline
+## FUNC-SPRINT-80 — SBOM y supply-chain baseline
 
-## Objetivo
+### Objetivo
 
 Crear una línea base de seguridad de cadena de suministro: SBOM, inventario de dependencias, política SLSA inicial y evidencia local.
 
-## Historias
+### Historias
 
 | ID | Historia | Criterio de aceptación |
 |---|---|---|
@@ -601,7 +625,7 @@ Crear una línea base de seguridad de cadena de suministro: SBOM, inventario de 
 | US-FUNC-80-002 | Como release manager, quiero controles mínimos de supply chain. | Existe supply-chain checklist. |
 | US-FUNC-80-003 | Como auditor, quiero saber si hay dependencias externas. | Reporte declara runtime deps/dev deps. |
 
-## Tareas
+### Tareas
 
 | ID | Tarea | Entregable | PASS |
 |---|---|---|---|
@@ -611,7 +635,7 @@ Crear una línea base de seguridad de cadena de suministro: SBOM, inventario de 
 | FUNC-80-004 | CycloneDX-compatible plan | Doc o JSON preliminar | Compatible progresivo. |
 | FUNC-80-005 | Tests | `tests/test_release_sbom.py` | PASS. |
 
-## Archivos previstos
+### Archivos previstos
 
 ```text
 src/devpilot_core/release/sbom.py
@@ -621,7 +645,7 @@ docs/audits/func_sprint_80_sbom_supply_chain_audit.md
 docs/functional_sprint_80_manifest.json
 ```
 
-## Comandos objetivo
+### Comandos objetivo
 
 ```powershell
 python -m devpilot_core release sbom --json
@@ -629,20 +653,20 @@ python -m devpilot_core release sbom --json --write-report
 python -m pytest -q
 ```
 
-## Criterios PASS
+### Criterios PASS
 
 - Declara dependencias runtime y dev.
 - Identifica que runtime actual tiene `dependencies = []` si aplica.
 - Genera evidencia local.
 - No llama servicios externos de vulnerabilidades.
 
-## Criterios BLOCK
+### Criterios BLOCK
 
 - No cerrar si requiere red.
 - No cerrar si omite dev dependencies.
 - No cerrar si no documenta limitaciones del SBOM inicial.
 
-## Riesgos y mitigaciones
+### Riesgos y mitigaciones
 
 | ID | Riesgo | Mitigación |
 |---|---|---|
@@ -650,7 +674,7 @@ python -m pytest -q
 | RISK-FUNC-80-002 | Dependencias ocultas | Parsear `pyproject.toml`. |
 | RISK-FUNC-80-003 | Formato no estándar | Plan hacia CycloneDX. |
 
-## Prompt operativo sugerido
+### Prompt operativo sugerido
 
 ```text
 Implementa FUNC-SPRINT-80. Crea SBOM baseline local, política de supply chain y CLI `release sbom`. No uses red ni herramientas externas obligatorias. Documenta limitaciones.
@@ -658,13 +682,13 @@ Implementa FUNC-SPRINT-80. Crea SBOM baseline local, política de supply chain y
 
 ---
 
-# FUNC-SPRINT-81 — Checksums, smoke tests y verificación de release
+## FUNC-SPRINT-81 — Checksums, smoke tests y verificación de release
 
-## Objetivo
+### Objetivo
 
 Crear mecanismos para verificar artefactos de release: checksums, smoke tests y release verification report.
 
-## Historias
+### Historias
 
 | ID | Historia | Criterio de aceptación |
 |---|---|---|
@@ -672,7 +696,7 @@ Crear mecanismos para verificar artefactos de release: checksums, smoke tests y 
 | US-FUNC-81-002 | Como release manager, quiero probar instalación mínima. | Smoke test pasa. |
 | US-FUNC-81-003 | Como auditor, quiero reporte de verificación. | `release verify` genera evidencia. |
 
-## Tareas
+### Tareas
 
 | ID | Tarea | Entregable | PASS |
 |---|---|---|---|
@@ -682,7 +706,7 @@ Crear mecanismos para verificar artefactos de release: checksums, smoke tests y 
 | FUNC-81-004 | Tests | `tests/test_release_verification.py` | PASS. |
 | FUNC-81-005 | Runbook | `docs/05_operations/release_verification.md` | Procedimiento. |
 
-## Archivos previstos
+### Archivos previstos
 
 ```text
 src/devpilot_core/release/verification.py
@@ -692,7 +716,7 @@ docs/audits/func_sprint_81_release_verification_audit.md
 docs/functional_sprint_81_manifest.json
 ```
 
-## Comandos objetivo
+### Comandos objetivo
 
 ```powershell
 python -m devpilot_core release checksum --artifact dist/devpilot.zip --json
@@ -701,19 +725,19 @@ python -m devpilot_core release verify --artifact dist/devpilot.zip --json --wri
 python -m pytest -q
 ```
 
-## Criterios PASS
+### Criterios PASS
 
 - Checksums SHA256 generados.
 - Smoke test no requiere red.
 - Reporte indica PASS/BLOCK.
 - No ejecuta acciones destructivas.
 
-## Criterios BLOCK
+### Criterios BLOCK
 
 - No cerrar si no verifica artefacto real/local.
 - No cerrar si smoke test ignora exit codes.
 
-## Riesgos y mitigaciones
+### Riesgos y mitigaciones
 
 | ID | Riesgo | Mitigación |
 |---|---|---|
@@ -721,7 +745,7 @@ python -m pytest -q
 | RISK-FUNC-81-002 | Artifact path inseguro | PathGuard. |
 | RISK-FUNC-81-003 | Falsa reproducibilidad | Reportar inputs/outputs exactos. |
 
-## Prompt operativo sugerido
+### Prompt operativo sugerido
 
 ```text
 Implementa FUNC-SPRINT-81. Agrega checksum, smoke-test y release verify sobre artefactos locales. Genera reportes, tests y documentación. No uses red.
@@ -729,13 +753,13 @@ Implementa FUNC-SPRINT-81. Agrega checksum, smoke-test y release verify sobre ar
 
 ---
 
-# FUNC-SPRINT-82 — Estrategia de instalación e installer preliminar
+## FUNC-SPRINT-82 — Estrategia de instalación e installer preliminar
 
-## Objetivo
+### Objetivo
 
 Definir e implementar una estrategia inicial de instalación local para DevPilot, sin auto-update ni distribución remota obligatoria.
 
-## Historias
+### Historias
 
 | ID | Historia | Criterio de aceptación |
 |---|---|---|
@@ -743,7 +767,7 @@ Definir e implementar una estrategia inicial de instalación local para DevPilot
 | US-FUNC-82-002 | Como owner, quiero decidir entre editable install, wheel, zip y desktop package. | Matriz de instalación. |
 | US-FUNC-82-003 | Como revisor, quiero evitar instaladores inseguros. | Threat model de instalación. |
 
-## Tareas
+### Tareas
 
 | ID | Tarea | Entregable | PASS |
 |---|---|---|---|
@@ -753,7 +777,7 @@ Definir e implementar una estrategia inicial de instalación local para DevPilot
 | FUNC-82-004 | Desktop packaging bridge | Documento si Fase F existe | No duplicar. |
 | FUNC-82-005 | Tests/docs validation | Validadores PASS | PASS. |
 
-## Archivos previstos
+### Archivos previstos
 
 ```text
 docs/05_operations/install_guide.md
@@ -762,26 +786,26 @@ docs/audits/func_sprint_82_installation_audit.md
 docs/functional_sprint_82_manifest.json
 ```
 
-## Comandos objetivo
+### Comandos objetivo
 
 ```powershell
 python -m devpilot_core validate-artifact docs/05_operations/install_guide.md --json
 python -m pytest -q
 ```
 
-## Criterios PASS
+### Criterios PASS
 
 - Instalación local documentada.
 - No hay auto-update.
 - No requiere privilegios elevados por defecto.
 - Explica relación con Desktop shell si existe.
 
-## Criterios BLOCK
+### Criterios BLOCK
 
 - No cerrar si instala servicios persistentes sin ADR.
 - No cerrar si requiere red sin alternativa local.
 
-## Riesgos y mitigaciones
+### Riesgos y mitigaciones
 
 | ID | Riesgo | Mitigación |
 |---|---|---|
@@ -789,7 +813,7 @@ python -m pytest -q
 | RISK-FUNC-82-002 | Privilegios innecesarios | User-local install. |
 | RISK-FUNC-82-003 | Divergencia desktop/core | ADR explícita. |
 
-## Prompt operativo sugerido
+### Prompt operativo sugerido
 
 ```text
 Implementa FUNC-SPRINT-82. Documenta estrategia de instalación local, ADR y guía operativa. No implementes auto-update ni distribución remota.
@@ -797,13 +821,13 @@ Implementa FUNC-SPRINT-82. Documenta estrategia de instalación local, ADR y gu�
 
 ---
 
-# FUNC-SPRINT-83 — Backup, restore y upgrade local
+## FUNC-SPRINT-83 — Backup, restore y upgrade local
 
-## Objetivo
+### Objetivo
 
 Crear capacidades básicas de backup/restore/upgrade para configuración y estado local, especialmente `.devpilot/project.yaml`, MIASI registries, providers example/local y SQLite state.
 
-## Historias
+### Historias
 
 | ID | Historia | Criterio de aceptación |
 |---|---|---|
@@ -811,7 +835,7 @@ Crear capacidades básicas de backup/restore/upgrade para configuración y estad
 | US-FUNC-83-002 | Como operador, quiero restaurar configuración. | Existe `backup restore` controlado. |
 | US-FUNC-83-003 | Como desarrollador, quiero migrar versiones. | Existe plan `upgrade check`. |
 
-## Tareas
+### Tareas
 
 | ID | Tarea | Entregable | PASS |
 |---|---|---|---|
@@ -821,7 +845,7 @@ Crear capacidades básicas de backup/restore/upgrade para configuración y estad
 | FUNC-83-004 | Path/policy gates | Integrar PathGuard | Seguro. |
 | FUNC-83-005 | Tests | `tests/test_backup_upgrade.py` | PASS. |
 
-## Archivos previstos
+### Archivos previstos
 
 ```text
 src/devpilot_core/release/backup.py
@@ -832,7 +856,7 @@ docs/audits/func_sprint_83_backup_upgrade_audit.md
 docs/functional_sprint_83_manifest.json
 ```
 
-## Comandos objetivo
+### Comandos objetivo
 
 ```powershell
 python -m devpilot_core backup create --dry-run --json
@@ -842,19 +866,19 @@ python -m devpilot_core upgrade check --json
 python -m pytest -q
 ```
 
-## Criterios PASS
+### Criterios PASS
 
 - Restore es dry-run por defecto.
 - Restore requiere aprobación o `--execute` explícito según política.
 - No respalda secretos sin redacción/advertencia.
 - Backup excluye caches/outputs salvo opción explícita.
 
-## Criterios BLOCK
+### Criterios BLOCK
 
 - No cerrar si restore sobrescribe sin confirmación.
 - No cerrar si backup incluye `.venv` o `.git` por defecto.
 
-## Riesgos y mitigaciones
+### Riesgos y mitigaciones
 
 | ID | Riesgo | Mitigación |
 |---|---|---|
@@ -862,7 +886,7 @@ python -m pytest -q
 | RISK-FUNC-83-002 | Exfiltración de secretos | SecretGuard/redacción. |
 | RISK-FUNC-83-003 | Upgrade incompatible | `upgrade check`. |
 
-## Prompt operativo sugerido
+### Prompt operativo sugerido
 
 ```text
 Implementa FUNC-SPRINT-83. Crea backup/restore/upgrade local con dry-run por defecto, PathGuard, SecretGuard y reportes. No sobrescribas archivos sin confirmación.
@@ -870,13 +894,13 @@ Implementa FUNC-SPRINT-83. Crea backup/restore/upgrade local con dry-run por def
 
 ---
 
-# FUNC-SPRINT-84 — ReleaseAgent MVP dry-run y cierre Fase G
+## FUNC-SPRINT-84 — ReleaseAgent MVP dry-run y cierre Fase G
 
-## Objetivo
+### Objetivo
 
 Implementar un `ReleaseAgent` MVP en modo dry-run, que orquesta checks y genera recomendaciones de release sin publicar ni desplegar.
 
-## Historias
+### Historias
 
 | ID | Historia | Criterio de aceptación |
 |---|---|---|
@@ -884,7 +908,7 @@ Implementar un `ReleaseAgent` MVP en modo dry-run, que orquesta checks y genera 
 | US-FUNC-84-002 | Como auditor, quiero recomendaciones basadas en evidence. | El agente cita quality gate, manifest, changelog y package. |
 | US-FUNC-84-003 | Como owner, quiero cerrar Fase G con evidencia. | Existe closure report. |
 
-## Tareas
+### Tareas
 
 | ID | Tarea | Entregable | PASS |
 |---|---|---|---|
@@ -894,7 +918,7 @@ Implementar un `ReleaseAgent` MVP en modo dry-run, que orquesta checks y genera 
 | FUNC-84-004 | Cierre Fase G | `docs/audits/phase_g_productization_release_closure.md` | Completo. |
 | FUNC-84-005 | Tests | `tests/test_release_agent.py` | PASS. |
 
-## Archivos previstos
+### Archivos previstos
 
 ```text
 src/devpilot_core/agents/release_agent.py
@@ -904,7 +928,7 @@ docs/audits/func_sprint_84_release_agent_audit.md
 docs/functional_sprint_84_manifest.json
 ```
 
-## Comandos objetivo
+### Comandos objetivo
 
 ```powershell
 python -m devpilot_core agent run release-assistant --dry-run --json
@@ -912,20 +936,20 @@ python -m devpilot_core quality-gate run --profile release --json
 python -m pytest -q
 ```
 
-## Criterios PASS
+### Criterios PASS
 
 - ReleaseAgent no publica, no despliega, no etiqueta repositorios.
 - Produce checklist de release y recomendaciones.
 - Usa tool calls auditables.
 - Cierre Fase G resume sprints 74–84.
 
-## Criterios BLOCK
+### Criterios BLOCK
 
 - No cerrar si el agente ejecuta publicación/deploy/tag real.
 - No cerrar si no pasa por MIASI/PolicyEngine.
 - No cerrar si no actualiza docs de cierre.
 
-## Riesgos y mitigaciones
+### Riesgos y mitigaciones
 
 | ID | Riesgo | Mitigación |
 |---|---|---|
@@ -933,7 +957,7 @@ python -m pytest -q
 | RISK-FUNC-84-002 | Recomendaciones sin evidencia | Basarse en quality gate/manifest/reports. |
 | RISK-FUNC-84-003 | Confusión release/deploy | Deploy fuera de alcance. |
 
-## Prompt operativo sugerido
+### Prompt operativo sugerido
 
 ```text
 Implementa FUNC-SPRINT-84. Crea ReleaseAgent MVP en dry-run, registra capacidades MIASI, integra quality gate/manifest/changelog/package/sbom como consultas, no publiques ni despliegues. Cierra Fase G con reporte formal.
@@ -941,7 +965,7 @@ Implementa FUNC-SPRINT-84. Crea ReleaseAgent MVP en dry-run, registra capacidade
 
 ---
 
-# Cierre esperado de Fase G
+## Cierre esperado de Fase G
 
 Al finalizar FUNC-SPRINT-84, DevPilot debe contar con:
 
@@ -961,7 +985,7 @@ Al finalizar FUNC-SPRINT-84, DevPilot debe contar con:
 - closure report Fase G.
 ```
 
-## Prompt global de Fase G
+### Prompt global de Fase G
 
 ```text
 Desarrolla la Fase G — Productización y release, iniciando en FUNC-SPRINT-74. Respeta el modelo de backlog ejecutable de DevPilot. Mantén local-first, dry-run-first, PolicyEngine, MIASI, reportes y trazabilidad. No publiques paquetes externamente, no despliegues, no uses secrets y no incluyas runtime artifacts en paquetes.
