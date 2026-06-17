@@ -2,7 +2,7 @@
 title: "DevPilot Local — Backlog ejecutable posterior a pre-code"
 doc_id: "DEVPL-FUNC-BACKLOG-001"
 status: "approved"
-version: "4.7.0"
+version: "4.8.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
@@ -14,7 +14,7 @@ change_policy: "controlled_changes_allowed_via_docs_as_code"
 approved_on: "2026-06-06"
 approval_scope: "functional_backlog_after_precode"
 baseline_execution: "FUNC-SPRINT-00"
-next_sprint: "FUNC-SPRINT-77"
+next_sprint: "FUNC-SPRINT-78"
 ---
 
 # DevPilot Local — Backlog ejecutable posterior a pre-code
@@ -26,6 +26,16 @@ Este backlog queda promovido a `approved` el 2026-06-06 como guía ejecutable pa
 La aprobación no congela el documento: cualquier ajuste futuro debe seguir la política docs-as-code definida en MIPSoftware, dejar trazabilidad, actualizar criterios de aceptación cuando aplique y preservar la relación entre producto, requerimientos, arquitectura, seguridad, calidad, operación y MIASI.
 
 La ejecución de `FUNC-SPRINT-00` confirma que el repositorio queda limpio, reproducible y listo para iniciar `FUNC-SPRINT-01 — Arquitectura interna del CLI y modelo común de resultados`.
+
+
+## Transición posterior a FUNC-SPRINT-77
+
+`FUNC-SPRINT-77 — Release metadata y Release Manifest` implementa el primer manifest local de release: `python -m devpilot_core release manifest --version 0.1.0 --json`. El comando formaliza metadata de versión, Git, componentes, evidencias requeridas y artefactos esperados sin empaquetar, publicar, firmar ni desplegar. La siguiente unidad funcional autorizada es `FUNC-SPRINT-78 — Changelog generator y política de cambios`.
+
+
+## Transición posterior a FUNC-SPRINT-76
+
+`FUNC-SPRINT-76 — CI local y workflow scaffolding` implementa el perfil `quality-gate run --profile ci`, el workflow opcional `.github/workflows/devpilot-ci.yml` y la documentación operativa de CI local sin secretos, publicación ni despliegue. La siguiente unidad funcional autorizada fue `FUNC-SPRINT-77 — Release metadata y Release Manifest`.
 
 
 ## Transición posterior a FUNC-SPRINT-75
@@ -2290,4 +2300,4 @@ La implementación es `implemented-initial`: no agrega servidor, frontend ni dep
 
 ## Transición posterior a FUNC-SPRINT-71
 
-Fase F avanza con Approval Center y acciones dry-run desde UI. `next_sprint: "FUNC-SPRINT-77"`.
+Fase F avanza con Approval Center y acciones dry-run desde UI. `next_sprint: "FUNC-SPRINT-78"`.

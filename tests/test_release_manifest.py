@@ -139,3 +139,62 @@ def test_sprint_19_manifest_is_present_and_scoped_to_documentary_release() -> No
     assert "docs/release/release_manifest_v0.1.0.json" in payload["created_files"]
     assert "tests/test_release_manifest.py" in payload["tests"]
     assert payload["next_sprint"].startswith("FUNC-SPRINT-20")
+
+# FUNC-SPRINT-77 — Release metadata y Release Manifest
+
+def test_release_manifest_builder_generates_metadata_without_side_effects() -> None:
+    from devpilot_core.cli_models import ExitCode
+    from devpilot_core.release import ReleaseManifestBuilder, ReleaseManifestOptions
+
+    result = ReleaseManifestBuilder(ROOT, options=ReleaseManifestOptions(version="0.1.0")).build()
+
+    assert result.ok is True
+    assert result.exit_code == ExitCode.PASS
+    summary = result.data["summary"]
+    manifest = result.data["release_manifest"]
+    assert summary["version"] == "0.1.0"
+    assert summary["network_used"] is False
+    assert summary["external_api_used"] is False
+    assert summary["source_mutations_performed"] is False
+    assert manifest["release_version"] == "0.1.0"
+    assert manifest["release_status"] == "candidate-local"
+    assert manifest["security"]["publish_performed"] is False
+    assert manifest["security"]["deploy_performed"] is False
+    assert manifest["exclusions"]["runtime_state_excluded"] is True
+    assert any(item["id"] == "QUALITY-GATE-CI" for item in manifest["evidence"]["required_commands"])
+    assert any(item["id"] == "PKG-CLEAN-ZIP" for item in manifest["expected_release_artifacts"])
+
+
+def test_release_manifest_rejects_invalid_semver_for_sprint_77() -> None:
+    from devpilot_core.cli_models import ExitCode
+    from devpilot_core.release import ReleaseManifestBuilder, ReleaseManifestOptions
+
+    result = ReleaseManifestBuilder(ROOT, options=ReleaseManifestOptions(version="not-a-version")).build()
+
+    assert result.ok is False
+    assert result.exit_code == ExitCode.ERROR
+    assert result.findings[0].id == "RELEASE_VERSION_INVALID"
+
+
+def test_release_manifest_cli_json_and_report_are_parseable_for_sprint_77() -> None:
+    import subprocess
+    import sys
+
+    completed = subprocess.run(
+        [sys.executable, "-m", "devpilot_core", "release", "manifest", "--version", "0.1.0", "--json", "--write-report"],
+        cwd=ROOT,
+        text=True,
+        capture_output=True,
+        check=False,
+    )
+
+    assert completed.returncode == 0, completed.stderr + completed.stdout
+    payload = json.loads(completed.stdout)
+    assert payload["command"] == "release manifest"
+    assert payload["ok"] is True
+    assert payload["data"]["release_manifest"]["release_version"] == "0.1.0"
+    reports = payload["data"].get("reports")
+    assert reports["json"] == "outputs/reports/release_manifest.json"
+    assert reports["markdown"] == "outputs/reports/release_manifest.md"
+    assert (ROOT / reports["json"]).exists()
+    assert (ROOT / reports["markdown"]).exists()

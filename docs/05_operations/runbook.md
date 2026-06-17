@@ -4375,3 +4375,57 @@ El perfil `ci` de `QualityGate` ejecuta los subgates extendidos de Fase G y la v
 ### Riesgos y límites
 
 Esta es una primera versión de scaffolding CI. No genera release manifest, no empaqueta, no calcula SBOM, no firma artefactos y no publica releases. Es un paso intermedio necesario antes de `FUNC-SPRINT-77 — Release metadata y Release Manifest`.
+
+## FUNC-SPRINT-77 — Operación de Release Manifest
+
+### Propósito operativo
+
+`FUNC-SPRINT-77` agrega el comando local de Release Manifest para formalizar metadata de versión y evidencia requerida antes de construir paquetes. Es una primera versión `implemented-initial`: crea manifest y reportes, pero no empaqueta, no publica, no despliega, no firma y no etiqueta Git.
+
+### Comandos principales
+
+```powershell
+python -m devpilot_core release manifest --version 0.1.0 --json
+python -m devpilot_core release manifest --version 0.1.0 --json --write-report
+```
+
+Con `--write-report` se generan:
+
+```text
+outputs/reports/release_manifest.json
+outputs/reports/release_manifest.md
+```
+
+### Evidencia que debe acompañar un release
+
+El manifest declara, pero no ejecuta automáticamente, los comandos de evidencia:
+
+```powershell
+python -m pytest -q
+python -m devpilot_core quality-gate run --profile ci --json
+npm --prefix ui/web test
+```
+
+Esta separación evita ejecución oculta de procesos lentos o generadores de caches y mantiene el control explícito del operador o del pipeline CI.
+
+### Criterios PASS
+
+- El comando `release manifest` retorna JSON parseable.
+- La versión cumple SemVer.
+- El manifest incluye versión, proyecto, Git cuando existe, componentes, evidencias y artefactos esperados.
+- No usa red, APIs externas, publicación, despliegue, firma ni tagging.
+- Los reportes se escriben solo bajo `outputs/reports`.
+
+### Criterios BLOCK
+
+- Version inválida o no SemVer.
+- Manifest dependiente de outputs no regenerables.
+- Inclusión de secretos, runtime DB o artefactos prohibidos como componentes liberables.
+- Publicación, despliegue, firma o tagging automático dentro del sprint.
+
+### Riesgos y límites
+
+- Git puede no estar disponible en ZIP limpio; el manifest lo refleja con `is_git_repo=false` sin bloquear.
+- El manifest no prueba por sí solo que un release esté listo; requiere ejecución explícita de `pytest`, `quality-gate ci` y smoke Web UI.
+- Packaging, SBOM, checksums y smoke test de instalación quedan para sprints posteriores.
+

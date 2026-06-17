@@ -1,12 +1,21 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
 Estado actual: `baseline pre-code approved + Fases A-F cerradas + Fase G en progreso`  
-Último hito: `FUNC-SPRINT-76 — CI local y workflow scaffolding`  
-Siguiente hito: `FUNC-SPRINT-77 — Release metadata y Release Manifest`  
+Último hito: `FUNC-SPRINT-77 — Release metadata y Release Manifest`  
+Siguiente hito: `FUNC-SPRINT-78 — Changelog generator y política de cambios`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
 
+
+
+## FUNC-SPRINT-77 — Release metadata y Release Manifest
+
+`FUNC-SPRINT-77` implementa la primera versión operativa del Release Manifest local de Fase G. Agrega el módulo `devpilot_core.release`, el comando `python -m devpilot_core release manifest --version 0.1.0 --json`, reportes opcionales bajo `outputs/reports/release_manifest.*`, documentación operativa, auditoría y manifest funcional.
+
+Alcance cerrado: metadata de versión SemVer, timestamp UTC, pyproject, Git cuando está disponible, componentes principales, evidencias requeridas, artefactos esperados y reglas de exclusión de runtime state, outputs, caches y secretos.
+
+Límites: esta es una primera versión auditable del manifest; no construye paquetes, no genera SBOM/checksums, no firma, no etiqueta Git, no publica y no despliega. Las evidencias `pytest`, `quality-gate ci` y Web UI smoke quedan declaradas como comandos requeridos, pero se ejecutan explícitamente fuera del manifest para preservar trazabilidad y evitar efectos colaterales ocultos.
 
 
 ## FUNC-SPRINT-76 — CI local y workflow scaffolding

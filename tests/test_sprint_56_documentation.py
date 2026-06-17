@@ -32,8 +32,8 @@ def test_sprint_56_artifacts_exist_and_are_synchronized() -> None:
     for path in expected_paths:
         assert (ROOT / path).exists(), path
 
-    assert "Último hito: `FUNC-SPRINT-76" in readme
-    assert "Siguiente hito: `FUNC-SPRINT-77" in readme
+    assert "Último hito: `FUNC-SPRINT-77" in readme
+    assert "Siguiente hito: `FUNC-SPRINT-78" in readme
     assert "## FUNC-SPRINT-56 — ADR de observabilidad v2 y modelo AgentOps" in readme
     assert "## FUNC-SPRINT-56 — Operación de observabilidad v2 y AgentOps" in runbook
     assert 'first_open_sprint: "FUNC-SPRINT-64"' in backlog
@@ -41,7 +41,7 @@ def test_sprint_56_artifacts_exist_and_are_synchronized() -> None:
     assert 'next_sprint: "FUNC-SPRINT-64"' in backlog
     assert 'phase_e_status: "closed"' in backlog
     assert "## Estado de implementación Sprint 56" in backlog
-    assert 'next_sprint: "FUNC-SPRINT-77"' in functional_backlog
+    assert 'next_sprint: "FUNC-SPRINT-78"' in functional_backlog
     assert "## Transición posterior a FUNC-SPRINT-56" in functional_backlog
     assert manifest["sprint"] == "FUNC-SPRINT-56"
     assert manifest["status"] == "implemented"

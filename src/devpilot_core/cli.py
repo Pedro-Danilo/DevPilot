@@ -19,6 +19,7 @@ from .modeling import BudgetLedger, CapabilityMatrix, ModelAdapterRouter, ModelE
 from .policy import CostPolicy, PolicyEngine, PolicyRequest, load_cost_policy
 from .prompts import PromptRegistry
 from .quality import QualityGate, QualityGateOptions
+from .release import ReleaseManifestBuilder, ReleaseManifestOptions
 from .reports import ReportEngine, build_report_id
 from .security import PolicySimulationSuite, SecurityReadiness
 from .schemas import BuiltinContractValidator, SchemaRegistry, SchemaValidator
@@ -1508,6 +1509,44 @@ def quality_gate_run_command(
     return int(result.exit_code)
 
 
+
+def release_manifest_command(
+    *,
+    version: str,
+    json_output: bool = False,
+    write_report: bool = False,
+) -> int:
+    """Generate the FUNC-SPRINT-77 local release manifest."""
+
+    root = project_root()
+    result = ReleaseManifestBuilder(root, options=ReleaseManifestOptions(version=version)).build()
+    result = _write_optional_command_report(
+        root,
+        result,
+        subject=f"release:{version}",
+        report_id="release_manifest",
+        write_report=write_report,
+        metadata={"sprint": "FUNC-SPRINT-77", "component": "ReleaseManifest", "version": version},
+    )
+    if write_report and isinstance((result.data or {}).get("reports"), dict):
+        data = dict(result.data or {})
+        summary = dict(data.get("summary") or {})
+        summary["reports_written"] = True
+        data["summary"] = summary
+        result = CommandResult(
+            command=result.command,
+            ok=result.ok,
+            exit_code=result.exit_code,
+            message=result.message,
+            data=data,
+            findings=result.findings,
+        )
+    _emit_result_event(root, result, subject="release:manifest")
+    _persist_result(root, result, subject="release:manifest")
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+
 def validate_frontmatter_command(
     path: str,
     *,
@@ -2950,6 +2989,14 @@ def build_parser() -> argparse.ArgumentParser:
     quality_gate_run.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     quality_gate_run.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
 
+
+    release = sub.add_parser("release", help="Generate and verify local release metadata")
+    release_sub = release.add_subparsers(dest="release_command")
+    release_manifest = release_sub.add_parser("manifest", help="Generate a local release manifest")
+    release_manifest.add_argument("--version", dest="release_version", required=True, help="SemVer release version, for example 0.1.0")
+    release_manifest.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    release_manifest.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+
     validate = sub.add_parser("validate", help="Run unified DevPilot validation gateway")
     validate.add_argument("scope", choices=["docs", "contracts", "all"], help="Validation group to execute")
     validate.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
@@ -3072,7 +3119,7 @@ def build_parser() -> argparse.ArgumentParser:
 def _command_name_from_args(args: argparse.Namespace) -> str:
     """Return a stable command name for observability events."""
 
-    if getattr(args, "version", False):
+    if getattr(args, "version", False) is True:
         return "version"
     command = getattr(args, "command", None)
     if command == "standards":
@@ -3141,7 +3188,7 @@ def _command_name_from_args(args: argparse.Namespace) -> str:
 def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
     """Dispatch parsed CLI args without observability wrapper concerns."""
 
-    if args.version:
+    if getattr(args, "version", False) is True:
         print(f"devpilot-local {__version__}")
         return int(ExitCode.PASS)
     if args.command == "readiness-check":
@@ -3516,6 +3563,12 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
                 json_output=args.json,
                 write_report=args.write_report,
             )
+        parser.print_help()
+        return int(ExitCode.FAIL)
+
+    if args.command == "release":
+        if args.release_command == "manifest":
+            return release_manifest_command(version=args.release_version, json_output=args.json, write_report=args.write_report)
         parser.print_help()
         return int(ExitCode.FAIL)
     if args.command == "validate":

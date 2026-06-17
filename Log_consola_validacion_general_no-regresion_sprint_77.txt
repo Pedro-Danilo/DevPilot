@@ -1,10 +1,10 @@
 (.venv) PS D:\Projects\DevPilot_Local> pytest -q
-............................................................................................................................................ [ 22%]
-............................................................................................................................................ [ 44%]
-............................................................................................................................................ [ 66%]
-............................................................................................................................................ [ 88%]
-..........................................................................                                                                   [100%]
-DEVPL TEST SUMMARY: 634 passed, 0 failed, 0 errors, 0 skipped
+............................................................................................................................................ [ 21%]
+............................................................................................................................................ [ 43%]
+............................................................................................................................................ [ 65%]
+............................................................................................................................................ [ 87%]
+................................................................................                                                             [100%]
+DEVPL TEST SUMMARY: 640 passed, 0 failed, 0 errors, 0 skipped
 (.venv) PS D:\Projects\DevPilot_Local> python -m devpilot_core validate all --json
 {
   "command": "validate all",
@@ -17,7 +17,7 @@ DEVPL TEST SUMMARY: 634 passed, 0 failed, 0 errors, 0 skipped
       "validations_total": 2,
       "validations_passed": 2,
       "validations_failed": 0,
-      "findings_total": 89,
+      "findings_total": 90,
       "warnings_total": 12,
       "blocking_findings_total": 0,
       "preliminary": true,
@@ -666,7 +666,7 @@ DEVPL TEST SUMMARY: 634 passed, 0 failed, 0 errors, 0 skipped
                       {
                         "artifact": "docs/05_operations/runbook.md",
                         "exists": true,
-                        "size_bytes": 179200,
+                        "size_bytes": 181272,
                         "frontmatter_ok": true,
                         "artifact_ok": true,
                         "status": "approved",
@@ -1102,10 +1102,10 @@ DEVPL TEST SUMMARY: 634 passed, 0 failed, 0 errors, 0 skipped
           "data": {
             "summary": {
               "scope": "contracts",
-              "validations_total": 63,
-              "validations_passed": 63,
+              "validations_total": 64,
+              "validations_passed": 64,
               "validations_failed": 0,
-              "findings_total": 75,
+              "findings_total": 76,
               "warnings_total": 0,
               "blocking_findings_total": 0,
               "preliminary": true,
@@ -4746,6 +4746,50 @@ DEVPL TEST SUMMARY: 634 passed, 0 failed, 0 errors, 0 skipped
                     }
                   ]
                 }
+              },
+              {
+                "id": "manifest:docs/functional_sprint_77_manifest.json",
+                "result": {
+                  "command": "schema validate-manifest",
+                  "ok": true,
+                  "exit_code": 0,
+                  "message": "Schema validation passed.",
+                  "data": {
+                    "summary": {
+                      "schema": "docs/schemas/functional_sprint_manifest.schema.json",
+                      "instance": "docs/functional_sprint_77_manifest.json",
+                      "valid": true,
+                      "errors_total": 0,
+                      "findings_total": 1,
+                      "network_used": false,
+                      "external_api_used": false,
+                      "schema_title": "DevPilot Functional Sprint Manifest v1",
+                      "schema_id": "SCHEMA-DEVPL-FUNCTIONAL-SPRINT-MANIFEST-V1",
+                      "validator": "jsonschema",
+                      "jsonschema_version": "4.26.0",
+                      "preliminary": true,
+                      "contract": "FunctionalSprintManifest",
+                      "subject": "docs/functional_sprint_77_manifest.json"
+                    },
+                    "schema": "docs/schemas/functional_sprint_manifest.schema.json",
+                    "instance": "docs/functional_sprint_77_manifest.json",
+                    "notes": [
+                      "FUNC-SPRINT-22 validates JSON structure only; semantic gates remain in dedicated validators.",
+                      "Validation is local-first and does not call network or external APIs."
+                    ]
+                  },
+                  "findings": [
+                    {
+                      "id": "SCHEMA_VALIDATION_PASS",
+                      "message": "Instance conforms to schema.",
+                      "severity": "info",
+                      "metadata": {
+                        "schema": "docs/schemas/functional_sprint_manifest.schema.json",
+                        "instance": "docs/functional_sprint_77_manifest.json"
+                      }
+                    }
+                  ]
+                }
               }
             ],
             "notes": [
@@ -5580,6 +5624,17 @@ DEVPL TEST SUMMARY: 634 passed, 0 failed, 0 errors, 0 skipped
                 "schema": "docs/schemas/functional_sprint_manifest.schema.json",
                 "instance": "docs/functional_sprint_76_manifest.json",
                 "gateway_step": "manifest:docs/functional_sprint_76_manifest.json",
+                "source_command": "schema validate-manifest"
+              }
+            },
+            {
+              "id": "SCHEMA_VALIDATION_PASS",
+              "message": "Instance conforms to schema.",
+              "severity": "info",
+              "metadata": {
+                "schema": "docs/schemas/functional_sprint_manifest.schema.json",
+                "instance": "docs/functional_sprint_77_manifest.json",
+                "gateway_step": "manifest:docs/functional_sprint_77_manifest.json",
                 "source_command": "schema validate-manifest"
               }
             }
@@ -6594,6 +6649,17 @@ DEVPL TEST SUMMARY: 634 passed, 0 failed, 0 errors, 0 skipped
         "gateway_step": "manifest:docs/functional_sprint_76_manifest.json",
         "source_command": "schema validate-manifest"
       }
+    },
+    {
+      "id": "SCHEMA_VALIDATION_PASS",
+      "message": "Instance conforms to schema.",
+      "severity": "info",
+      "metadata": {
+        "schema": "docs/schemas/functional_sprint_manifest.schema.json",
+        "instance": "docs/functional_sprint_77_manifest.json",
+        "gateway_step": "manifest:docs/functional_sprint_77_manifest.json",
+        "source_command": "schema validate-manifest"
+      }
     }
   ]
 }
@@ -6610,7 +6676,7 @@ DEVPL TEST SUMMARY: 634 passed, 0 failed, 0 errors, 0 skipped
       "subgates_passed": 8,
       "subgates_failed": 0,
       "critical_subgates_failed": 0,
-      "findings_total": 108,
+      "findings_total": 109,
       "warnings_total": 24,
       "blocking_findings_total": 0,
       "include_pytest": false,
@@ -6631,7 +6697,7 @@ DEVPL TEST SUMMARY: 634 passed, 0 failed, 0 errors, 0 skipped
         "ok": true,
         "exit_code": 0,
         "critical": true,
-        "duration_ms": 169,
+        "duration_ms": 264,
         "findings_total": 12,
         "warnings_total": 12,
         "blocking_findings_total": 0,
@@ -6650,7 +6716,7 @@ DEVPL TEST SUMMARY: 634 passed, 0 failed, 0 errors, 0 skipped
         "ok": true,
         "exit_code": 0,
         "critical": true,
-        "duration_ms": 11,
+        "duration_ms": 22,
         "findings_total": 0,
         "warnings_total": 0,
         "blocking_findings_total": 0,
@@ -6669,7 +6735,7 @@ DEVPL TEST SUMMARY: 634 passed, 0 failed, 0 errors, 0 skipped
         "ok": true,
         "exit_code": 0,
         "critical": true,
-        "duration_ms": 6,
+        "duration_ms": 11,
         "findings_total": 3,
         "warnings_total": 0,
         "blocking_findings_total": 0,
@@ -6694,7 +6760,7 @@ DEVPL TEST SUMMARY: 634 passed, 0 failed, 0 errors, 0 skipped
         "ok": true,
         "exit_code": 0,
         "critical": true,
-        "duration_ms": 0,
+        "duration_ms": 1,
         "findings_total": 1,
         "warnings_total": 0,
         "blocking_findings_total": 0,
@@ -6795,8 +6861,8 @@ DEVPL TEST SUMMARY: 634 passed, 0 failed, 0 errors, 0 skipped
         "ok": true,
         "exit_code": 0,
         "critical": true,
-        "duration_ms": 3413,
-        "findings_total": 89,
+        "duration_ms": 5789,
+        "findings_total": 90,
         "warnings_total": 12,
         "blocking_findings_total": 0,
         "summary": {
@@ -6804,7 +6870,7 @@ DEVPL TEST SUMMARY: 634 passed, 0 failed, 0 errors, 0 skipped
           "validations_total": 2,
           "validations_passed": 2,
           "validations_failed": 0,
-          "findings_total": 89,
+          "findings_total": 90,
           "warnings_total": 12,
           "blocking_findings_total": 0,
           "preliminary": true,
@@ -6820,7 +6886,7 @@ DEVPL TEST SUMMARY: 634 passed, 0 failed, 0 errors, 0 skipped
         "ok": true,
         "exit_code": 0,
         "critical": true,
-        "duration_ms": 861,
+        "duration_ms": 1401,
         "findings_total": 1,
         "warnings_total": 0,
         "blocking_findings_total": 0,
@@ -8269,6 +8335,19 @@ DEVPL TEST SUMMARY: 634 passed, 0 failed, 0 errors, 0 skipped
         "schema": "docs/schemas/functional_sprint_manifest.schema.json",
         "instance": "docs/functional_sprint_76_manifest.json",
         "gateway_step": "manifest:docs/functional_sprint_76_manifest.json"
+      }
+    },
+    {
+      "id": "QUALITY_GATE_VALIDATION_GATEWAY_ALL_SCHEMA_VALIDATION_PASS",
+      "message": "Instance conforms to schema.",
+      "severity": "info",
+      "metadata": {
+        "subgate": "validation-gateway-all",
+        "source_command": "schema validate-manifest",
+        "source_finding_id": "SCHEMA_VALIDATION_PASS",
+        "schema": "docs/schemas/functional_sprint_manifest.schema.json",
+        "instance": "docs/functional_sprint_77_manifest.json",
+        "gateway_step": "manifest:docs/functional_sprint_77_manifest.json"
       }
     },
     {

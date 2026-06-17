@@ -2,21 +2,21 @@
 title: "DevPilot Local — Backlog ejecutable Fase G: Productización y release"
 doc_id: "DEVPL-FUNC-BACKLOG-FASE-G-001"
 status: "approved"
-version: "1.3.0"
+version: "1.4.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
 phase: "FASE-G-PRODUCTIZACION-RELEASE"
 updated: "2026-06-17"
-source_repo: "repo_DevPilot_Local_98.zip"
+source_repo: "repo_DevPilot_Local_99.zip"
 source_report: "Informe de avance DevPilot - sprint 0 - 18.docx"
 source_backlog_model: "docs/functional_backlog_after_precode.md"
 baseline_dependency: "Fases A-F cerradas; Fase F validada por FUNC-SPRINT-73"
 approved_on: "2026-06-16"
 approval: "approved_after_phase_f_visual_mvp_web_first_closure"
-first_open_sprint: "FUNC-SPRINT-77"
-last_completed_sprint: "FUNC-SPRINT-76"
-next_sprint: "FUNC-SPRINT-77"
+first_open_sprint: "FUNC-SPRINT-78"
+last_completed_sprint: "FUNC-SPRINT-77"
+next_sprint: "FUNC-SPRINT-78"
 phase_g_status: "in_progress"
 first_sprint: "FUNC-SPRINT-74"
 last_planned_sprint: "FUNC-SPRINT-84"
@@ -30,9 +30,9 @@ approval_scope: "phase_g_executable_backlog_review"
 
 Este documento queda promovido a estado `approved` después de la verificación satisfactoria de `FUNC-SPRINT-73 — Cierre Fase F web-first y decisión de evolución`. Su propósito es convertir la **Fase G — Productización y release** en un backlog de implementación ejecutable, siguiendo el modelo operativo usado en `docs/functional_backlog_after_precode.md`.
 
-La Fase G corresponde a la **Ola 10 — CI/CD, release y distribución**. Parte del estado real de `repo_DevPilot_Local_98.zip`, donde DevPilot ya dispone de core CLI local-first, `CommandResult`, validadores, reportes, trazas, SQLite, MIASI, PolicyEngine, agentes documentales y especializados gobernados, Evaluation Harness, Git/repo tooling, review/refactor en modo seguro, ModelAdapter local/API gobernado, AgentOps local, ApplicationService v2, API local segura y Web UI local MVP. La Fase G no debe introducir ejecución destructiva ni despliegue remoto sin pasar por PolicyEngine, Approval Workflow, quality gates y evidencia reproducible.
+La Fase G corresponde a la **Ola 10 — CI/CD, release y distribución**. Parte del estado real de `repo_DevPilot_Local_99.zip`, donde DevPilot ya dispone de core CLI local-first, `CommandResult`, validadores, reportes, trazas, SQLite, MIASI, PolicyEngine, agentes documentales y especializados gobernados, Evaluation Harness, Git/repo tooling, review/refactor en modo seguro, ModelAdapter local/API gobernado, AgentOps local, ApplicationService v2, API local segura y Web UI local MVP. La Fase G no debe introducir ejecución destructiva ni despliegue remoto sin pasar por PolicyEngine, Approval Workflow, quality gates y evidencia reproducible.
 
-Aprobación aplicada: la fuente de verdad queda actualizada de `repo_DevPilot_Local_94.zip` a `repo_DevPilot_Local_98.zip`; la entrada de Fase G queda condicionada al cierre validado de Fases A-F y, en particular, al cierre de `FUNC-SPRINT-73`; la primera unidad de trabajo autorizada fue `FUNC-SPRINT-74 — ADR de release, versionado y productización`; tras el cierre de Sprint 76, la siguiente unidad autorizada es `FUNC-SPRINT-77 — Release metadata y Release Manifest`.
+Aprobación aplicada: la fuente de verdad queda actualizada de `repo_DevPilot_Local_94.zip` a `repo_DevPilot_Local_98.zip`; la entrada de Fase G queda condicionada al cierre validado de Fases A-F y, en particular, al cierre de `FUNC-SPRINT-73`; la primera unidad de trabajo autorizada fue `FUNC-SPRINT-74 — ADR de release, versionado y productización`; tras el cierre de Sprint 77, la siguiente unidad autorizada es `FUNC-SPRINT-78 — Changelog generator y política de cambios`.
 
 ## 1. Propósito
 
@@ -487,6 +487,15 @@ Implementa FUNC-SPRINT-77. Crea ReleaseManifest local, CLI `release manifest`, r
 ```
 
 ---
+
+
+## Estado de implementación Sprint 77
+
+`FUNC-SPRINT-77 — Release metadata y Release Manifest` queda implementado en estado `implemented-initial` / `PASS focalizado`. La Fase G ya dispone del módulo `devpilot_core.release`, del comando `python -m devpilot_core release manifest --version 0.1.0 --json` y de reportes opcionales bajo `outputs/reports/release_manifest.*`.
+
+Alcance cerrado: metadata de versión SemVer, timestamp UTC, metadata de `pyproject.toml`, soporte de metadata Git cuando existe `.git`, componentes principales del producto, evidencias requeridas (`pytest`, `quality-gate ci`, Web UI smoke), artefactos esperados de Fase G y reglas de exclusión.
+
+Límites: esta es una primera versión del manifest; no construye package, no genera changelog, no calcula SBOM/checksums, no firma, no etiqueta Git, no publica y no despliega. El siguiente sprint autorizado es `FUNC-SPRINT-78 — Changelog generator y política de cambios`.
 
 ## FUNC-SPRINT-78 — Changelog generator y política de cambios
 
