@@ -11,6 +11,7 @@ from .approval.models import ApprovalStatus
 from .approval.service import ApprovalCliInput, ApprovalService
 from .application import ApplicationService
 from .cli_models import CommandResult, ExitCode, Finding, Severity
+from .connectors import ConnectorRegistry, ConnectorRegistryOptions
 from .errors import DevPilotError
 from .evals import EvalRunner
 from .observability import AgentOpsGateOptions, AgentOpsQualityGate, EventLogger, MetricsCollector, OTelDryRunExporter, OTelExportOptions, TraceQueryService
@@ -1519,6 +1520,46 @@ def agent_session_inspect_command(
     )
     _emit_result_event(root, result, subject=session_id)
     _persist_result(root, result, subject=session_id)
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+
+
+def connector_validate_command(
+    *,
+    registry_path: str = ".devpilot/connectors/connector_registry.json",
+    schema_path: str = "docs/schemas/connector_registry.schema.json",
+    json_output: bool = False,
+    write_report: bool = False,
+) -> int:
+    """Validate the FUNC-SPRINT-88 MCP/Connector Registry contract.
+
+    This command is local-only and read-only. It validates registry structure and
+    deny-by-default security semantics before any MCP client/server or connector
+    execution path exists.
+    """
+
+    root = project_root()
+    result = ConnectorRegistry(
+        root,
+        options=ConnectorRegistryOptions(registry_path=registry_path, schema_path=schema_path),
+    ).validate()
+    result = _write_optional_command_report(
+        root,
+        result,
+        subject=registry_path,
+        report_id="connector_validate",
+        write_report=write_report,
+        metadata={"sprint": "FUNC-SPRINT-88", "component": "ConnectorRegistry"},
+    )
+    if write_report and isinstance((result.data or {}).get("reports"), dict):
+        data = dict(result.data or {})
+        summary = dict(data.get("summary") or {})
+        summary["reports_written"] = True
+        data["summary"] = summary
+        result = CommandResult(command=result.command, ok=result.ok, exit_code=result.exit_code, message=result.message, data=data, findings=result.findings)
+    _emit_result_event(root, result, subject=registry_path)
+    _persist_result(root, result, subject=registry_path)
     print_result(result, json_output=json_output)
     return int(result.exit_code)
 
@@ -3535,6 +3576,15 @@ def build_parser() -> argparse.ArgumentParser:
     agent_session_inspect.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
 
 
+
+    connector = sub.add_parser("connector", help="Validate local MCP/connector governance registries")
+    connector_sub = connector.add_subparsers(dest="connector_command")
+    connector_validate = connector_sub.add_parser("validate", help="Validate Connector Registry deny-by-default contract")
+    connector_validate.add_argument("--registry-path", default=".devpilot/connectors/connector_registry.json", help="Connector Registry JSON path")
+    connector_validate.add_argument("--schema-path", default="docs/schemas/connector_registry.schema.json", help="Connector Registry JSON Schema path")
+    connector_validate.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    connector_validate.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+
     rag = sub.add_parser("rag", help="Build and query local source-grounded documentation RAG")
     rag_sub = rag.add_subparsers(dest="rag_command")
     rag_index = rag_sub.add_parser("index", help="Build local lexical RAG index")
@@ -3801,6 +3851,9 @@ def _command_name_from_args(args: argparse.Namespace) -> str:
     if command == "agent":
         subcommand = getattr(args, "agent_command", None)
         return f"agent {subcommand}" if subcommand else "agent"
+    if command == "connector":
+        subcommand = getattr(args, "connector_command", None)
+        return f"connector {subcommand}" if subcommand else "connector"
     if command == "rag":
         subcommand = getattr(args, "rag_command", None)
         return f"rag {subcommand}" if subcommand else "rag"
@@ -4208,6 +4261,11 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
                     json_output=args.json,
                     write_report=args.write_report,
                 )
+        parser.print_help()
+        return int(ExitCode.FAIL)
+    if args.command == "connector":
+        if args.connector_command == "validate":
+            return connector_validate_command(registry_path=args.registry_path, schema_path=args.schema_path, json_output=args.json, write_report=args.write_report)
         parser.print_help()
         return int(ExitCode.FAIL)
     if args.command == "rag":

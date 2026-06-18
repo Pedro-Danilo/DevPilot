@@ -5,10 +5,10 @@
   "status": "approved",
   "version": "1.0.0",
   "owner": "Ordóñez",
-  "updated": "2026-06-12",
+  "updated": "2026-06-18",
   "sprint": "FUNC-SPRINT-23",
   "preliminary": true,
-  "purpose": "Catalog of versioned JSON schemas registered by DevPilot. Sprint 49 adds prompt contracts for governed local/model use.",
+  "purpose": "Catalog of versioned JSON schemas registered by DevPilot. Sprint 88 adds ConnectorRegistry contract for MCP/connectors deny-by-default.",
   "schemas": [
     {
       "schema_id": "SCHEMA-DEVPL-FINDING-V1",
@@ -219,6 +219,20 @@
       "dialect": "https://json-schema.org/draft/2020-12/schema",
       "validates_instances": true,
       "validation_enabled_sprint": "FUNC-SPRINT-49"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-CONNECTOR-REGISTRY-V1",
+      "title": "DevPilot Connector Registry v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/connector_registry.schema.json",
+      "description": "Structural contract for .devpilot/connectors/connector_registry.json with deny-by-default MCP/connector governance.",
+      "status": "registered",
+      "contract": "ConnectorRegistry",
+      "owner": "Ordóñez",
+      "sprint": "FUNC-SPRINT-88",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "FUNC-SPRINT-88"
     }
   ]
 }

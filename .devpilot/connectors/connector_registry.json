@@ -1,0 +1,153 @@
+{
+  "schema_version": "1.0.0",
+  "registry_id": "DEVPL-CONNECTOR-REGISTRY-001",
+  "status": "approved",
+  "created_by": "FUNC-SPRINT-88",
+  "updated": "2026-06-18",
+  "owner": "Ordóñez",
+  "mcp": {
+    "enabled_by_default": false,
+    "client_implemented": false,
+    "server_implemented": false,
+    "execution_enabled": false,
+    "network_enabled": false,
+    "shell_enabled": false
+  },
+  "defaults": {
+    "connector_default_effect": "deny",
+    "require_policy_rule_ids": true,
+    "require_approval_for_execution": true,
+    "require_observability": true,
+    "require_schema": true,
+    "deny_unregistered_connectors": true
+  },
+  "security": {
+    "network_used": false,
+    "external_api_used": false,
+    "connector_execution_performed": false,
+    "secrets_allowed": false,
+    "raw_outputs_allowed": false
+  },
+  "connectors": [
+    {
+      "connector_id": "local.docs",
+      "name": "Local Docs Connector",
+      "type": "documentation",
+      "status": "planned",
+      "description": "Future read-only connector for approved local documentation and RAG-backed discovery.",
+      "default_effect": "deny",
+      "policy_rule_ids": [
+        "CONNECTOR_DISCOVERY_DENY_BY_DEFAULT",
+        "CONNECTOR_READ_ONLY_PLANNED_ALLOW"
+      ],
+      "allowed_operations": [
+        {
+          "operation_id": "list_sources",
+          "description": "List approved local documentation sources after policy check.",
+          "side_effect": "read",
+          "status": "planned"
+        },
+        {
+          "operation_id": "query_sources",
+          "description": "Query local documentation using grounded retrieval only.",
+          "side_effect": "read",
+          "status": "planned"
+        }
+      ],
+      "requires_approval": false,
+      "observability_required": true,
+      "schema_required": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "execution_enabled": false,
+      "risk_level": "medium"
+    },
+    {
+      "connector_id": "local.git.readonly",
+      "name": "Local Git Read-only Connector",
+      "type": "git",
+      "status": "planned",
+      "description": "Future read-only adapter over existing git status/diff/log capabilities; no write/tag/push.",
+      "default_effect": "deny",
+      "policy_rule_ids": [
+        "CONNECTOR_DISCOVERY_DENY_BY_DEFAULT",
+        "GIT_READ_ALLOW"
+      ],
+      "allowed_operations": [
+        {
+          "operation_id": "status",
+          "description": "Read repository status through governed GitAdapter.",
+          "side_effect": "read",
+          "status": "planned"
+        },
+        {
+          "operation_id": "diff",
+          "description": "Read diff without mutation.",
+          "side_effect": "read",
+          "status": "planned"
+        }
+      ],
+      "requires_approval": false,
+      "observability_required": true,
+      "schema_required": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "execution_enabled": false,
+      "risk_level": "medium_high"
+    },
+    {
+      "connector_id": "mcp.local.prototype",
+      "name": "MCP Local Prototype",
+      "type": "mcp",
+      "status": "disabled",
+      "description": "Placeholder for future MCP MVP; disabled until Sprint 89 implements read-only adapter with tests and policy gates.",
+      "default_effect": "deny",
+      "policy_rule_ids": [
+        "MCP_EXECUTION_DENY",
+        "CONNECTOR_DISCOVERY_DENY_BY_DEFAULT"
+      ],
+      "allowed_operations": [
+        {
+          "operation_id": "discover_tools",
+          "description": "Future MCP tool discovery only after registry validation.",
+          "side_effect": "simulation",
+          "status": "disabled"
+        }
+      ],
+      "requires_approval": true,
+      "observability_required": true,
+      "schema_required": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "execution_enabled": false,
+      "risk_level": "high"
+    },
+    {
+      "connector_id": "external.api.placeholder",
+      "name": "External API Placeholder",
+      "type": "api",
+      "status": "disabled",
+      "description": "Explicitly disabled placeholder to document that external connectors remain out of scope by default.",
+      "default_effect": "deny",
+      "policy_rule_ids": [
+        "CONNECTOR_EXTERNAL_API_DENY",
+        "CONNECTOR_DISCOVERY_DENY_BY_DEFAULT"
+      ],
+      "allowed_operations": [
+        {
+          "operation_id": "call",
+          "description": "External API calls remain disabled until a future ADR/policy enables them.",
+          "side_effect": "network_cost",
+          "status": "disabled"
+        }
+      ],
+      "requires_approval": true,
+      "observability_required": true,
+      "schema_required": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "execution_enabled": false,
+      "risk_level": "critical"
+    }
+  ]
+}

@@ -462,6 +462,51 @@
       "gate": "PathGuard+SecretGuard+LocalRagRetriever+SourcesRequired+NoExternalAPI",
       "approval_required": false,
       "observability_required": true
+    },
+    {
+      "rule_id": "CONNECTOR_REGISTRY_VALIDATE_ALLOW",
+      "domain": "Connector",
+      "action": "validate_registry",
+      "default_effect": "allow",
+      "gate": "SchemaValidator+ConnectorRegistry+PathGuard+SecretGuard",
+      "approval_required": false,
+      "observability_required": true
+    },
+    {
+      "rule_id": "CONNECTOR_DISCOVERY_DENY_BY_DEFAULT",
+      "domain": "Connector",
+      "action": "discover_or_call_unregistered_connector",
+      "default_effect": "deny",
+      "gate": "ConnectorRegistry+PolicyEngine+MIASI",
+      "approval_required": true,
+      "observability_required": true
+    },
+    {
+      "rule_id": "CONNECTOR_READ_ONLY_PLANNED_ALLOW",
+      "domain": "Connector",
+      "action": "future_read_only_connector_call",
+      "default_effect": "deny",
+      "gate": "ConnectorRegistry+PolicyEngine+TraceEngine+EvalHarness",
+      "approval_required": false,
+      "observability_required": true
+    },
+    {
+      "rule_id": "MCP_EXECUTION_DENY",
+      "domain": "MCP",
+      "action": "mcp_client_server_execute",
+      "default_effect": "deny",
+      "gate": "MCPThreatModel+ConnectorRegistry+ApprovalPolicyChecker",
+      "approval_required": true,
+      "observability_required": true
+    },
+    {
+      "rule_id": "CONNECTOR_EXTERNAL_API_DENY",
+      "domain": "Connector",
+      "action": "external_api_connector_call",
+      "default_effect": "deny",
+      "gate": "CostGuard+SecretGuard+ApprovalPolicyChecker+FutureADR",
+      "approval_required": true,
+      "observability_required": true
     }
   ]
 }

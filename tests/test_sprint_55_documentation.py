@@ -21,8 +21,8 @@ def test_sprint_55_readme_runbook_backlogs_and_strategy_are_synchronized() -> No
     functional_backlog = _read("docs/functional_backlog_after_precode.md")
     test_strategy = _read("docs/04_quality/test_strategy.md")
 
-    assert "Último hito: `FUNC-SPRINT-87" in readme
-    assert "Siguiente hito: `FUNC-SPRINT-88" in readme
+    assert "Último hito: `FUNC-SPRINT-88" in readme
+    assert "Siguiente hito: `FUNC-SPRINT-89" in readme
     assert "## FUNC-SPRINT-55 — Requirements/Architecture/Security agents y cierre Fase D" in readme
     assert "python -m devpilot_core agent run requirements" in runbook
     assert "python -m devpilot_core agent run architecture" in runbook
@@ -33,7 +33,7 @@ def test_sprint_55_readme_runbook_backlogs_and_strategy_are_synchronized() -> No
     assert 'last_completed_sprint: "FUNC-SPRINT-55"' in backlog
     assert 'next_sprint: "FUNC-SPRINT-56"' in backlog
     assert "## Estado de implementación Sprint 55" in backlog
-    assert 'next_sprint: "FUNC-SPRINT-88"' in functional_backlog
+    assert 'next_sprint: "FUNC-SPRINT-89"' in functional_backlog
     assert "## Transición posterior a FUNC-SPRINT-55" in functional_backlog
     assert "## Actualización FUNC-SPRINT-55 — Pruebas de agentes SDLC y cierre Fase D" in test_strategy
 

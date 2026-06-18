@@ -2,13 +2,13 @@
 title: "DevPilot Local — Backlog ejecutable Fase H: Capacidades avanzadas"
 doc_id: "DEVPL-FUNC-BACKLOG-FASE-H-001"
 status: "approved"
-version: "1.3.0"
+version: "1.4.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
 phase: "FASE-H-CAPACIDADES-AVANZADAS"
 updated: "2026-06-18"
-source_repo: "repo_DevPilot_Local_111.zip"
+source_repo: "repo_DevPilot_Local_112.zip"
 source_report: "Informe de avance DevPilot - sprint 0 - 18.docx"
 source_backlog_model: "docs/functional_backlog_after_precode.md"
 baseline_dependency: "Fases A-G cerradas; Fase G cerrada por FUNC-SPRINT-84 como implemented-initial"
@@ -17,9 +17,9 @@ last_planned_sprint: "FUNC-SPRINT-99"
 approved_on: "2026-06-17"
 approval: "approved_after_phase_g_closure_validation"
 phase_h_status: "in_progress"
-first_open_sprint: "FUNC-SPRINT-88"
-last_completed_sprint: "FUNC-SPRINT-87"
-next_sprint: "FUNC-SPRINT-88"
+first_open_sprint: "FUNC-SPRINT-89"
+last_completed_sprint: "FUNC-SPRINT-88"
+next_sprint: "FUNC-SPRINT-89"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "phase_h_executable_backlog_review"
 ---
@@ -469,6 +469,19 @@ Implementa FUNC-SPRINT-88. Crea Connector Registry, schema y threat model MCP. N
 ```
 
 ---
+
+## Estado de implementación Sprint 88
+
+`FUNC-SPRINT-88 — MCP threat model y Connector Registry` queda implementado como primera base de gobernanza MCP/conectores. El sprint crea schema, registry, threat model, CLI `connector validate`, auditoría, manifest y pruebas. No implementa cliente MCP, servidor MCP, adapter ni ejecución real de conectores.
+
+Límites explícitos:
+
+- MCP queda `enabled_by_default=false`.
+- Todos los conectores quedan `default_effect=deny`.
+- Todo conector requiere `policy_rule_ids`.
+- No hay red, API externa, shell ni ejecución real.
+- `FUNC-SPRINT-89` queda autorizado únicamente como MVP read-only gobernado.
+
 
 ## FUNC-SPRINT-89 — MCP MVP controlado y herramientas read-only
 

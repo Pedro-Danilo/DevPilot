@@ -4833,6 +4833,47 @@ python -m pytest tests\test_agent_session.py tests\test_sprint_86_documentation.
 ```
 
 
+## FUNC-SPRINT-88 — Operación MCP threat model y Connector Registry
+
+### Estado
+
+`implemented-initial` como validación de registry y threat model. No existe ejecución real de conectores ni runtime MCP.
+
+### Propósito
+
+Antes de implementar un MCP MVP read-only, el operador debe validar que todo conector esté registrado, sea deny-by-default y tenga policy ids, schema y observabilidad.
+
+### Comandos
+
+```powershell
+python -m devpilot_core connector validate --json
+python -m devpilot_core connector validate --json --write-report
+python -m devpilot_core schema validate --schema docs\schemas\connector_registry.schema.json --instance .devpilot\connectors\connector_registry.json --json
+python -m devpilot_core validate-artifact docs\03_security\mcp_connector_threat_model.md --json
+python -m pytest tests\test_connector_registry.py tests\test_sprint_88_documentation.py -q
+```
+
+### Criterios PASS
+
+- Registry válido contra schema.
+- Estados `disabled`, `planned`, `implemented`, `experimental` soportados.
+- Todos los conectores tienen `policy_rule_ids`.
+- MCP queda deshabilitado por defecto.
+- No hay ejecución real, red ni API externa.
+
+### Criterios BLOCK
+
+- Connector sin policy.
+- `default_effect` diferente de `deny`.
+- Runtime MCP activado.
+- External API o network activada.
+- Secretos crudos en registry.
+
+### Riesgos
+
+Versión preliminar de gobernanza: no sustituye adapter read-only, evals adversariales, trazas reales de connector calls ni approvals de ejecución futura.
+
+
 ## FUNC-SPRINT-87 — Operación RAG documental local MVP
 
 ### Propósito

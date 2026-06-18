@@ -1,0 +1,290 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/SCHEMA-DEVPL-CONNECTOR-REGISTRY-V1",
+  "title": "DevPilot Connector Registry v1",
+  "description": "Structural contract for .devpilot/connectors/connector_registry.json. Sprint 88 defines MCP/connectors as deny-by-default registry entries before any real connector execution exists.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "registry_id",
+    "status",
+    "created_by",
+    "updated",
+    "owner",
+    "mcp",
+    "defaults",
+    "connectors",
+    "security"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "registry_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "approved",
+        "draft"
+      ]
+    },
+    "created_by": {
+      "type": "string",
+      "pattern": "^FUNC-SPRINT-[0-9]{2}$"
+    },
+    "updated": {
+      "type": "string",
+      "minLength": 1
+    },
+    "owner": {
+      "type": "string",
+      "minLength": 1
+    },
+    "mcp": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "enabled_by_default",
+        "client_implemented",
+        "server_implemented",
+        "execution_enabled",
+        "network_enabled",
+        "shell_enabled"
+      ],
+      "properties": {
+        "enabled_by_default": {
+          "const": false
+        },
+        "client_implemented": {
+          "type": "boolean"
+        },
+        "server_implemented": {
+          "type": "boolean"
+        },
+        "execution_enabled": {
+          "const": false
+        },
+        "network_enabled": {
+          "const": false
+        },
+        "shell_enabled": {
+          "const": false
+        }
+      }
+    },
+    "defaults": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "connector_default_effect",
+        "require_policy_rule_ids",
+        "require_approval_for_execution",
+        "require_observability",
+        "require_schema",
+        "deny_unregistered_connectors"
+      ],
+      "properties": {
+        "connector_default_effect": {
+          "const": "deny"
+        },
+        "require_policy_rule_ids": {
+          "const": true
+        },
+        "require_approval_for_execution": {
+          "const": true
+        },
+        "require_observability": {
+          "const": true
+        },
+        "require_schema": {
+          "const": true
+        },
+        "deny_unregistered_connectors": {
+          "const": true
+        }
+      }
+    },
+    "security": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "network_used",
+        "external_api_used",
+        "connector_execution_performed",
+        "secrets_allowed",
+        "raw_outputs_allowed"
+      ],
+      "properties": {
+        "network_used": {
+          "const": false
+        },
+        "external_api_used": {
+          "const": false
+        },
+        "connector_execution_performed": {
+          "const": false
+        },
+        "secrets_allowed": {
+          "const": false
+        },
+        "raw_outputs_allowed": {
+          "const": false
+        }
+      }
+    },
+    "connectors": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "connector_id",
+          "name",
+          "type",
+          "status",
+          "description",
+          "default_effect",
+          "policy_rule_ids",
+          "allowed_operations",
+          "requires_approval",
+          "observability_required",
+          "schema_required",
+          "network_allowed",
+          "external_api_allowed",
+          "execution_enabled",
+          "risk_level"
+        ],
+        "properties": {
+          "connector_id": {
+            "type": "string",
+            "pattern": "^[a-z0-9][a-z0-9_.-]*$"
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "local",
+              "mcp",
+              "plugin",
+              "api",
+              "filesystem",
+              "git",
+              "documentation"
+            ]
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "disabled",
+              "planned",
+              "implemented",
+              "experimental"
+            ]
+          },
+          "description": {
+            "type": "string",
+            "minLength": 1
+          },
+          "default_effect": {
+            "const": "deny"
+          },
+          "policy_rule_ids": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "allowed_operations": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "operation_id",
+                "description",
+                "side_effect",
+                "status"
+              ],
+              "properties": {
+                "operation_id": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "description": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "side_effect": {
+                  "type": "string",
+                  "enum": [
+                    "none",
+                    "read",
+                    "report",
+                    "simulation",
+                    "controlled_write",
+                    "controlled_execution",
+                    "network_cost"
+                  ]
+                },
+                "status": {
+                  "type": "string",
+                  "enum": [
+                    "disabled",
+                    "planned",
+                    "implemented",
+                    "experimental"
+                  ]
+                }
+              }
+            }
+          },
+          "requires_approval": {
+            "type": "boolean"
+          },
+          "observability_required": {
+            "const": true
+          },
+          "schema_required": {
+            "const": true
+          },
+          "network_allowed": {
+            "const": false
+          },
+          "external_api_allowed": {
+            "const": false
+          },
+          "execution_enabled": {
+            "const": false
+          },
+          "risk_level": {
+            "type": "string",
+            "enum": [
+              "low",
+              "medium",
+              "medium_high",
+              "high",
+              "critical"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "x-devpilot-schema-id": "SCHEMA-DEVPL-CONNECTOR-REGISTRY-V1",
+  "x-devpilot-version": "1.0.0",
+  "x-devpilot-sprint": "FUNC-SPRINT-88",
+  "x-devpilot-status": "registered",
+  "x-devpilot-preliminary": true
+}

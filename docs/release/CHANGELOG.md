@@ -10,22 +10,14 @@ approval: internal
 
 # Changelog
 
-## Estado
-
-Documento canónico aprobado para changelog local de DevPilot.
-
-## Propósito
-
-Registrar cambios notables trazables a manifests funcionales y documentos aprobados.
-
 All notable changes to DevPilot Local are documented in this file.
 
 This changelog follows a Keep a Changelog-compatible category structure and is generated from local sprint manifests.
 
-## [0.1.0] - 2026-06-17
+## [0.1.0] - 2026-06-18
 
 Release ID: `DEVPL-0.1.0`  
-Range: `FUNC-SPRINT-74` → `FUNC-SPRINT-87`  
+Range: `FUNC-SPRINT-74` → `FUNC-SPRINT-88`  
 Source: `docs/functional_sprint_*_manifest.json`
 
 ### Added
@@ -41,8 +33,10 @@ Source: `docs/functional_sprint_*_manifest.json`
 - `FUNC-SPRINT-82` — Se incorporó `Estrategia de instalación e installer preliminar`. Source: `docs/functional_sprint_82_manifest.json`. Artefactos: `src/devpilot_core/release/installation.py`, `docs/05_operations/install_guide.md`, `docs/02_architecture/adrs/ADR-0015-installation-strategy.md`, `docs/audits/func_sprint_82_installation_audit.md` y 3 artefactos adicionales.
 - `FUNC-SPRINT-83` — Se incorporó `Backup, restore y upgrade local`. Source: `docs/functional_sprint_83_manifest.json`. Artefactos: `src/devpilot_core/release/backup.py`, `src/devpilot_core/release/upgrade.py`, `docs/05_operations/backup_restore_upgrade.md`, `docs/audits/func_sprint_83_backup_upgrade_audit.md` y 3 artefactos adicionales.
 - `FUNC-SPRINT-84` — Se incorporó `ReleaseAgent MVP dry-run y cierre Fase G`. Source: `docs/functional_sprint_84_manifest.json`. Artefactos: `src/devpilot_core/agents/release_agent.py`, `docs/audits/phase_g_productization_release_closure.md`, `docs/audits/func_sprint_84_release_agent_audit.md`, `docs/functional_sprint_84_manifest.json` y 2 artefactos adicionales.
-- `FUNC-SPRINT-85` — Se incorporó `ADR de arquitectura avanzada agentic/enterprise`. Source: `docs/functional_sprint_85_manifest.json`; audit: `docs/audits/func_sprint_85_advanced_architecture_audit.md`. Artefactos: `docs/02_architecture/adrs/ADR-0016-advanced-agentic-enterprise.md`, `docs/03_security/advanced_agentic_threat_model.md`, `docs/02_architecture/c4_component.md`, `docs/functional_sprint_85_manifest.json` y MIASI cards actualizadas.
-- `FUNC-SPRINT-86` — Se incorporó `Agent session state y memoria operativa controlada`. Source: `docs/functional_sprint_86_manifest.json`; audit: `docs/audits/func_sprint_86_agent_session_audit.md`. Artefactos: `src/devpilot_core/agents/session.py`, `docs/06_miasi/agent_session_card.md`, `docs/audits/func_sprint_86_agent_session_audit.md`, `docs/functional_sprint_86_manifest.json` y tests focalizados.
+- `FUNC-SPRINT-85` — Se incorporó `ADR de arquitectura avanzada agentic/enterprise`. Source: `docs/functional_sprint_85_manifest.json`. Artefactos: `docs/02_architecture/adrs/ADR-0016-advanced-agentic-enterprise.md`, `docs/03_security/advanced_agentic_threat_model.md`, `docs/audits/func_sprint_85_advanced_architecture_audit.md`, `docs/functional_sprint_85_manifest.json` y 1 artefactos adicionales.
+- `FUNC-SPRINT-86` — Se incorporó `Agent session state y memoria operativa controlada`. Source: `docs/functional_sprint_86_manifest.json`. Artefactos: `src/devpilot_core/agents/session.py`, `docs/06_miasi/agent_session_card.md`, `docs/audits/func_sprint_86_agent_session_audit.md`, `docs/functional_sprint_86_manifest.json` y 2 artefactos adicionales.
+- `FUNC-SPRINT-87` — Se incorporó `RAG documental local MVP`. Source: `docs/functional_sprint_87_manifest.json`. Artefactos: `src/devpilot_core/rag/__init__.py`, `src/devpilot_core/rag/indexer.py`, `src/devpilot_core/rag/retriever.py`, `docs/06_miasi/rag_card.md` y 4 artefactos adicionales.
+- `FUNC-SPRINT-88` — Se incorporó `MCP threat model y Connector Registry`. Source: `docs/functional_sprint_88_manifest.json`. Artefactos: `src/devpilot_core/connectors/__init__.py`, `src/devpilot_core/connectors/registry.py`, `.devpilot/connectors/connector_registry.json`, `docs/schemas/connector_registry.schema.json` y 6 artefactos adicionales.
 
 ### Changed
 
@@ -57,10 +51,10 @@ Source: `docs/functional_sprint_*_manifest.json`
 - `FUNC-SPRINT-82` — Se sincronizaron artefactos de ingeniería y contratos existentes. Source: `docs/functional_sprint_82_manifest.json`. Artefactos: `src/devpilot_core/cli.py`, `src/devpilot_core/release/__init__.py`, `src/devpilot_core/release/manifest.py`, `README.md` y 7 artefactos adicionales.
 - `FUNC-SPRINT-83` — Se sincronizaron artefactos de ingeniería y contratos existentes. Source: `docs/functional_sprint_83_manifest.json`. Artefactos: `src/devpilot_core/cli.py`, `src/devpilot_core/release/__init__.py`, `src/devpilot_core/release/manifest.py`, `README.md` y 7 artefactos adicionales.
 - `FUNC-SPRINT-84` — Se sincronizaron artefactos de ingeniería y contratos existentes. Source: `docs/functional_sprint_84_manifest.json`. Artefactos: `src/devpilot_core/agents/__init__.py`, `src/devpilot_core/agents/runtime.py`, `src/devpilot_core/cli.py`, `src/devpilot_core/quality/gate.py` y 14 artefactos adicionales.
-
-- `FUNC-SPRINT-85` — Se sincronizaron arquitectura C4, MIASI cards, README, runbook y backlog Fase H para iniciar capacidades avanzadas sin runtime prematuro. Source: `docs/functional_sprint_85_manifest.json`.
-- `FUNC-SPRINT-86` — Se sincronizaron AgentRuntime, CLI, package/release exclusions, README, runbook, backlog Fase H y MIASI policy/tool registry para soporte de AgentSession local. Source: `docs/functional_sprint_86_manifest.json`.
-- `FUNC-SPRINT-87` — Se sincronizaron RAG documental local, CLI `rag index/query`, MIASI policy/tool registry, README, runbook, backlog Fase H y exclusiones de runtime RAG para packages. Source: `docs/functional_sprint_87_manifest.json`.
+- `FUNC-SPRINT-85` — Se sincronizaron artefactos de ingeniería y contratos existentes. Source: `docs/functional_sprint_85_manifest.json`. Artefactos: `README.md`, `docs/05_operations/runbook.md`, `docs/devpilot_backlog_fase_H_capacidades_avanzadas.md`, `docs/functional_backlog_after_precode.md` y 11 artefactos adicionales.
+- `FUNC-SPRINT-86` — Se sincronizaron artefactos de ingeniería y contratos existentes. Source: `docs/functional_sprint_86_manifest.json`. Artefactos: `src/devpilot_core/agents/__init__.py`, `src/devpilot_core/agents/runtime.py`, `src/devpilot_core/cli.py`, `src/devpilot_core/release/package_builder.py` y 9 artefactos adicionales.
+- `FUNC-SPRINT-87` — Se sincronizaron artefactos de ingeniería y contratos existentes. Source: `docs/functional_sprint_87_manifest.json`. Artefactos: `src/devpilot_core/cli.py`, `src/devpilot_core/release/package_builder.py`, `src/devpilot_core/release/verification.py`, `.devpilot/miasi/tool_registry.json` y 7 artefactos adicionales.
+- `FUNC-SPRINT-88` — Se sincronizaron artefactos de ingeniería y contratos existentes. Source: `docs/functional_sprint_88_manifest.json`. Artefactos: `src/devpilot_core/cli.py`, `.devpilot/miasi/tool_registry.json`, `.devpilot/miasi/policy_matrix.json`, `docs/schemas/schema_catalog.json` y 7 artefactos adicionales.
 
 ### Deprecated
 
@@ -77,9 +71,6 @@ Source: `docs/functional_sprint_*_manifest.json`
 
 ### Security
 
-- `FUNC-SPRINT-86` — Se preservan límites local-first: sesiones redacted, inspección read-only, `semantic_memory_enabled=False`, `rag_enabled=False`, sin red, sin API externa y `.devpilot/agent_sessions/` excluido de packages. Source: `docs/functional_sprint_86_manifest.json`.
-- `FUNC-SPRINT-87` — Se preservan límites RAG local-first: fuentes obligatorias, SecretGuard, PathGuard, `embeddings_enabled=False`, sin red, sin API externa y `.devpilot/rag/` excluido de packages. Source: `docs/functional_sprint_87_manifest.json`.
-
 - `FUNC-SPRINT-74` — Se preservaron límites local-first/dry-run-first, exclusión de secretos/runtime state o bloqueo de publicación/despliegue según el contrato del sprint. Source: `docs/functional_sprint_74_manifest.json`; audit: `docs/audits/func_sprint_74_release_versioning_audit.md`. Controles declarados: `destructive_actions_added=False`, `external_publication_out_of_scope=True`.
 - `FUNC-SPRINT-75` — Se preservaron límites local-first/dry-run-first, exclusión de secretos/runtime state o bloqueo de publicación/despliegue según el contrato del sprint. Source: `docs/functional_sprint_75_manifest.json`; audit: `docs/audits/func_sprint_75_quality_gate_audit.md`. Controles declarados: `destructive_actions_added=False`, `external_publication_out_of_scope=True`.
 - `FUNC-SPRINT-76` — Se preservaron límites local-first/dry-run-first, exclusión de secretos/runtime state o bloqueo de publicación/despliegue según el contrato del sprint. Source: `docs/functional_sprint_76_manifest.json`; audit: `docs/audits/func_sprint_76_ci_scaffolding_audit.md`. Controles declarados: `destructive_actions_added=False`, `external_publication_out_of_scope=True`, `workflow_deploys=False`, `workflow_publishes_artifacts=False`, `workflow_requires_secrets=False`.
@@ -90,8 +81,9 @@ Source: `docs/functional_sprint_*_manifest.json`
 - `FUNC-SPRINT-81` — Se preservaron límites local-first/dry-run-first, exclusión de secretos/runtime state o bloqueo de publicación/despliegue según el contrato del sprint. Source: `docs/functional_sprint_81_manifest.json`; audit: `docs/audits/func_sprint_81_release_verification_audit.md`. Controles declarados: `deploys_artifacts=False`, `external_api_used=False`, `publishes_artifacts=False`.
 - `FUNC-SPRINT-83` — Se preservaron límites local-first/dry-run-first, exclusión de secretos/runtime state o bloqueo de publicación/despliegue según el contrato del sprint. Source: `docs/functional_sprint_83_manifest.json`. Controles declarados: `deploys_artifacts=False`, `external_api_used=False`, `outputs_excluded_by_default=True`, `publishes_artifacts=False`, `secret_guard_integrated=True`.
 - `FUNC-SPRINT-84` — Se preservaron límites local-first/dry-run-first, exclusión de secretos/runtime state o bloqueo de publicación/despliegue según el contrato del sprint. Source: `docs/functional_sprint_84_manifest.json`. Controles declarados: `deploys_artifacts=False`, `external_api_used=False`, `publishes_artifacts=False`.
-
-- `FUNC-SPRINT-85` — Se preservaron límites de Fase H: no multiagente/RAG/MCP runtime, conectores deny-by-default, remote runners disabled y sin APIs externas. Source: `docs/functional_sprint_85_manifest.json`.
+- `FUNC-SPRINT-86` — Se preservaron límites local-first/dry-run-first, exclusión de secretos/runtime state o bloqueo de publicación/despliegue según el contrato del sprint. Source: `docs/functional_sprint_86_manifest.json`. Controles declarados: `external_api_used=False`, `secret_redaction_integrated=True`.
+- `FUNC-SPRINT-87` — Se preservaron límites local-first/dry-run-first, exclusión de secretos/runtime state o bloqueo de publicación/despliegue según el contrato del sprint. Source: `docs/functional_sprint_87_manifest.json`. Controles declarados: `external_api_used=False`, `secret_guard_integrated=True`.
+- `FUNC-SPRINT-88` — Se preservaron límites local-first/dry-run-first, exclusión de secretos/runtime state o bloqueo de publicación/despliegue según el contrato del sprint. Source: `docs/functional_sprint_88_manifest.json`. Controles declarados: `external_api_used=False`.
 
 ### References
 
@@ -109,9 +101,10 @@ Source: `docs/functional_sprint_*_manifest.json`
 - `FUNC-SPRINT-85` — `docs/functional_sprint_85_manifest.json`
 - `FUNC-SPRINT-86` — `docs/functional_sprint_86_manifest.json`
 - `FUNC-SPRINT-87` — `docs/functional_sprint_87_manifest.json`
+- `FUNC-SPRINT-88` — `docs/functional_sprint_88_manifest.json`
 
 ### Policy notes
 
 - The changelog must not invent changes outside local manifests, commits or approved docs; no debe inventar cambios sin evidencia local.
 - The CLI does not overwrite `docs/release/CHANGELOG.md`; report writing is limited to `outputs/reports`.
-- Publication, Git tagging, signing and external deployment remain out of scope for Fase G; Sprint 84 only adds ReleaseAgent dry-run and formal closure evidence.
+- Publication, Git tagging, signing and packaging remain outside FUNC-SPRINT-78.

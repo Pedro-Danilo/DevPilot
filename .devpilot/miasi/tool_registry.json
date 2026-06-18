@@ -902,6 +902,33 @@
         "RAG_QUERY_LOCAL_ALLOW",
         "SECRETS_RAW_DENY"
       ]
+    },
+    {
+      "tool_id": "connector.validate",
+      "name": "validate_connector_registry",
+      "phase": "MVP+",
+      "side_effect": "none",
+      "risk_level": "medium_high",
+      "status": "implemented-initial",
+      "requires_approval": false,
+      "policy_rule_ids": [
+        "CONNECTOR_REGISTRY_VALIDATE_ALLOW",
+        "CONNECTOR_DISCOVERY_DENY_BY_DEFAULT",
+        "SECRETS_RAW_DENY"
+      ]
+    },
+    {
+      "tool_id": "connector.discover",
+      "name": "discover_registered_connector_metadata",
+      "phase": "MVP+",
+      "side_effect": "read",
+      "risk_level": "medium_high",
+      "status": "planned",
+      "requires_approval": false,
+      "policy_rule_ids": [
+        "CONNECTOR_DISCOVERY_DENY_BY_DEFAULT",
+        "SECRETS_RAW_DENY"
+      ]
     }
   ]
 }

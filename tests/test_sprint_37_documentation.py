@@ -29,8 +29,8 @@ def test_sprint_37_readme_runbook_backlog_and_test_strategy_are_synchronized() -
     backlog = _read("docs/devpilot_backlog_fase_C_ingenieria_repositorio.md")
     test_strategy = _read("docs/04_quality/test_strategy.md")
 
-    assert "Último hito: `FUNC-SPRINT-87" in readme
-    assert "Siguiente hito: `FUNC-SPRINT-88" in readme
+    assert "Último hito: `FUNC-SPRINT-88" in readme
+    assert "Siguiente hito: `FUNC-SPRINT-89" in readme
     assert "## FUNC-SPRINT-37 — RepoAnalyzer v2" in runbook
     assert "python -m devpilot_core repo analyze --json --write-report" in runbook
     assert 'phase_c_status: "completed"' in backlog
@@ -56,7 +56,7 @@ def test_sprint_37_miasi_repo_analyze_tool_declared() -> None:
 
 def test_sprint_37_functional_backlog_points_to_sprint_38_without_overclaiming() -> None:
     functional_backlog = _read("docs/functional_backlog_after_precode.md")
-    assert 'next_sprint: "FUNC-SPRINT-88"' in functional_backlog
+    assert 'next_sprint: "FUNC-SPRINT-89"' in functional_backlog
     assert "Transición posterior a FUNC-SPRINT-37" in functional_backlog
     assert "no ejecuta código analizado" in functional_backlog
     assert "no habilita patch apply" in functional_backlog

@@ -1,13 +1,30 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
 Estado actual: `baseline pre-code approved + Fases A-G cerradas + Fase H en implementación controlada`  
-Último hito: `FUNC-SPRINT-87 — RAG documental local MVP`  
-Siguiente hito: `FUNC-SPRINT-88 — MCP threat model y Connector Registry`  
+Último hito: `FUNC-SPRINT-88 — MCP threat model y Connector Registry`  
+Siguiente hito: `FUNC-SPRINT-89 — MCP MVP controlado y herramientas read-only`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
 
 
+
+
+## FUNC-SPRINT-88 — MCP threat model y Connector Registry
+
+`FUNC-SPRINT-88` introduce la base gobernada para MCP/conectores como capacidad `implemented-initial`: schema, registry, threat model, validación CLI y registro MIASI/policy. No implementa cliente MCP, servidor MCP, adapter ni llamadas reales a conectores.
+
+### Capacidades
+
+- `docs/schemas/connector_registry.schema.json` define el contrato estructural del Connector Registry.
+- `.devpilot/connectors/connector_registry.json` declara conectores locales/futuros en modo deny-by-default.
+- `src/devpilot_core/connectors/registry.py` valida estructura y reglas semánticas de seguridad.
+- `python -m devpilot_core connector validate --json` ejecuta validación local read-only.
+- `docs/03_security/mcp_connector_threat_model.md` documenta amenazas MCP: tool poisoning, connector abuse, data leakage, privilege escalation, prompt injection y workspace confusion.
+
+### Seguridad
+
+Todos los conectores requieren `policy_rule_ids`, `default_effect=deny`, schema y observabilidad. MCP queda con `enabled_by_default=false`, `client_implemented=false`, `server_implemented=false`, `execution_enabled=false`, sin red y sin API externa. Sprint 89 podrá crear un MVP read-only únicamente si este registry permanece en PASS.
 
 
 ## FUNC-SPRINT-87 — RAG documental local MVP

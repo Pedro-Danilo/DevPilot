@@ -1,0 +1,87 @@
+{
+  "agent_ids": [
+    "security.agent"
+  ],
+  "created_at": "2026-06-18T17:09:13Z",
+  "events": [
+    {
+      "agent_id": "security.agent",
+      "command": "agent run",
+      "dry_run": true,
+      "event_id": "d90a88163a4b4c408bd0bfc74c0c6281",
+      "event_type": "agent.session.started",
+      "metadata": {
+        "runtime_version": "v2-model-aware",
+        "sprint": "FUNC-SPRINT-86"
+      },
+      "run_id": "run_0e02e68eb6f64d34bd0c1d42b759eec5",
+      "summary": {
+        "requested_agent": "security",
+        "session_created": true
+      },
+      "target": "outputs\\tests\\sdlc_alias_fixture\\security",
+      "timestamp": "2026-06-18T17:09:13Z",
+      "trace_id": "trace_21593b757cb1416fbc6525328e05b5c6"
+    },
+    {
+      "agent_id": "security.agent",
+      "command": "agent run",
+      "dry_run": true,
+      "event_id": "5af75b99bbc24836832ef3aa28b013ec",
+      "event_type": "agent.session.completed",
+      "metadata": {
+        "runtime_version": "v2-model-aware",
+        "sprint": "FUNC-SPRINT-86"
+      },
+      "ok": true,
+      "run_id": "run_0e02e68eb6f64d34bd0c1d42b759eec5",
+      "summary": {
+        "findings_total": 4,
+        "model_calls_total": 1,
+        "suggestions_total": 4,
+        "tool_calls_total": 3
+      },
+      "target": "outputs\\tests\\sdlc_alias_fixture\\security",
+      "timestamp": "2026-06-18T17:09:14Z",
+      "trace_id": "trace_21593b757cb1416fbc6525328e05b5c6"
+    }
+  ],
+  "memory": {
+    "last_result": {
+      "agent_id": "security.agent",
+      "findings_total": 4,
+      "model_calls_total": 1,
+      "ok": true,
+      "suggestions_total": 4,
+      "tool_calls_total": 3
+    },
+    "operational_context": {
+      "last_agent_id": "security.agent",
+      "last_dry_run": true,
+      "last_target": "outputs\\tests\\sdlc_alias_fixture\\security"
+    }
+  },
+  "metadata": {
+    "rag_enabled": false,
+    "raw_outputs_stored": false,
+    "raw_prompts_stored": false,
+    "redaction_applied": true,
+    "retention_policy": "local-short-lived-operational-memory",
+    "semantic_memory_enabled": false
+  },
+  "retention_days": 14,
+  "session_id": "agsess_ea0173dfa96449e984a2aeee8d266c10",
+  "status": "completed",
+  "summary": {
+    "agents_total": 1,
+    "events_total": 2,
+    "local_only": true,
+    "memory_items_total": 2,
+    "rag_enabled": false,
+    "raw_outputs_stored": false,
+    "raw_prompts_stored": false,
+    "semantic_memory_enabled": false
+  },
+  "updated_at": "2026-06-18T17:09:14Z",
+  "workspace": "."
+}

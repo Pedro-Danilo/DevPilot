@@ -1,0 +1,84 @@
+{
+  "schema_version": "1.0.0",
+  "sprint": "FUNC-SPRINT-88",
+  "title": "MCP threat model y Connector Registry",
+  "status": "implemented",
+  "implemented_on": "2026-06-18",
+  "phase": "FASE-H-CAPACIDADES-AVANZADAS",
+  "source_repo": "repo_DevPilot_Local_112.zip",
+  "source_backlog": "docs/devpilot_backlog_fase_H_capacidades_avanzadas.md",
+  "summary": {
+    "connector_schema_added": true,
+    "connector_registry_added": true,
+    "connector_validate_cli_added": true,
+    "mcp_threat_model_added": true,
+    "connector_miasi_card_added": true,
+    "deny_by_default": true,
+    "policy_rule_ids_required": true,
+    "mcp_enabled_by_default": false,
+    "mcp_client_implemented": false,
+    "mcp_server_implemented": false,
+    "connector_execution_enabled": false,
+    "network_used": false,
+    "external_api_used": false,
+    "dependencies_added": false,
+    "preliminary": true
+  },
+  "created_files": [
+    "src/devpilot_core/connectors/__init__.py",
+    "src/devpilot_core/connectors/registry.py",
+    ".devpilot/connectors/connector_registry.json",
+    "docs/schemas/connector_registry.schema.json",
+    "docs/03_security/mcp_connector_threat_model.md",
+    "docs/06_miasi/connector_registry_card.md",
+    "docs/audits/func_sprint_88_connector_registry_audit.md",
+    "docs/functional_sprint_88_manifest.json",
+    "tests/test_connector_registry.py",
+    "tests/test_sprint_88_documentation.py"
+  ],
+  "modified_files": [
+    "src/devpilot_core/cli.py",
+    ".devpilot/miasi/tool_registry.json",
+    ".devpilot/miasi/policy_matrix.json",
+    "docs/schemas/schema_catalog.json",
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/devpilot_backlog_fase_H_capacidades_avanzadas.md",
+    "docs/functional_backlog_after_precode.md",
+    "docs/release/CHANGELOG.md",
+    "tests/test_release_changelog.py",
+    "tests/test_phase_h_backlog_approval.py"
+  ],
+  "commands": [
+    "python -m devpilot_core connector validate --json",
+    "python -m devpilot_core schema validate --schema docs/schemas/connector_registry.schema.json --instance .devpilot/connectors/connector_registry.json --json",
+    "python -m devpilot_core validate-artifact docs/03_security/mcp_connector_threat_model.md --json",
+    "python -m pytest tests/test_connector_registry.py tests/test_sprint_88_documentation.py -q"
+  ],
+  "tests": [
+    "tests/test_connector_registry.py",
+    "tests/test_sprint_88_documentation.py"
+  ],
+  "pass_criteria": [
+    "Connector Registry is valid against schema.",
+    "Registry distinguishes disabled/planned/implemented/experimental.",
+    "All connectors have policy_rule_ids.",
+    "MCP is disabled by default.",
+    "No real connector execution exists in Sprint 88."
+  ],
+  "block_criteria": [
+    "Connector without policy_rule_ids.",
+    "MCP allow-by-default.",
+    "MCP client/server runtime implemented prematurely.",
+    "Connector execution/network/external API enabled.",
+    "Secrets stored in registry."
+  ],
+  "risks": [
+    "Tool poisoning.",
+    "Connector abuse.",
+    "Data leakage from connector output.",
+    "Privilege escalation.",
+    "Future adapter may accidentally weaken deny-by-default."
+  ],
+  "next_sprint": "FUNC-SPRINT-89"
+}
