@@ -4777,3 +4777,57 @@ python -m pytest tests\test_sprint_85_documentation.py -q
 ### Riesgos
 
 El riesgo principal es confundir arquitectura aprobada con runtime operativo. Toda capacidad avanzada posterior debe implementarse por sprint, con manifest, auditoría, pruebas y controles.
+
+
+## FUNC-SPRINT-86 — Operación de AgentSession y memoria operativa controlada
+
+### Propósito
+
+`FUNC-SPRINT-86` agrega estado local de sesión para agentes. Cada `agent run` puede producir un `session_id` y persistir memoria operativa mínima bajo `.devpilot/agent_sessions/`, con redacción y sin guardar prompts ni respuestas crudas.
+
+### Comandos
+
+```powershell
+python -m devpilot_core agent run release-assistant --dry-run --json
+python -m devpilot_core agent run release-assistant --dry-run --json --write-report
+python -m devpilot_core agent session inspect --session-id <session_id> --json
+python -m devpilot_core agent session inspect --session-id <session_id> --json --write-report
+```
+
+### Funcionamiento
+
+1. `AgentRuntime` crea una sesión si no se pasa `--session-id`.
+2. El resultado de `agent run` incluye `data.summary.agent_session_id` y `data.metadata.agent_session`.
+3. `AgentSessionStore` escribe JSON redacted local.
+4. `LocalStore` recibe una proyección best-effort para trazabilidad operacional.
+5. `agent session inspect` consulta la sesión en modo read-only.
+
+### Criterios PASS
+
+- El `session_id` existe y usa formato `agsess_<32 hex>`.
+- La sesión se inspecciona con `CommandResult` PASS.
+- `raw_prompts_stored=false`, `raw_outputs_stored=false`, `semantic_memory_enabled=false`, `rag_enabled=false`.
+- No se requiere red ni API externa.
+- `.devpilot/agent_sessions/` no entra en packages de release.
+
+### Criterios BLOCK
+
+- Sesión inexistente o id inválido.
+- Guardar secretos, prompts u outputs crudos.
+- Activar memoria semántica/RAG en Sprint 86.
+- Escribir fuera del workspace.
+
+### Riesgos
+
+- La retención todavía es documental; pruning queda pendiente.
+- La persistencia SQLite es proyección best-effort; el JSON local es fuente inspectable.
+- Esta capacidad no debe confundirse con memoria semántica ni con RAG.
+
+### Verificación
+
+```powershell
+python -m devpilot_core validate-artifact docs\06_miasi\agent_session_card.md --json
+python -m devpilot_core validate-artifact docs\audits\func_sprint_86_agent_session_audit.md --json
+python -m devpilot_core schema validate-manifest docs\functional_sprint_86_manifest.json --json
+python -m pytest tests\test_agent_session.py tests\test_sprint_86_documentation.py -q
+```

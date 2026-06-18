@@ -1,26 +1,29 @@
 {
-  "sprint": "FUNC-SPRINT-81",
-  "title": "Checksums, smoke tests y verificación de release",
-  "source_repo": "repo_DevPilot_Local_103.zip",
+  "sprint": "FUNC-SPRINT-86",
+  "title": "Agent session state y memoria operativa controlada",
+  "source_repo": "repo_DevPilot_Local_109.zip",
   "created_files": [
-    "docs/05_operations/release_verification.md",
-    "docs/audits/func_sprint_81_release_verification_audit.md",
-    "docs/functional_sprint_81_manifest.json",
-    "src/devpilot_core/release/verification.py",
-    "tests/test_release_verification.py",
-    "tests/test_sprint_81_documentation.py"
+    "docs/06_miasi/agent_session_card.md",
+    "docs/audits/func_sprint_86_agent_session_audit.md",
+    "docs/functional_sprint_86_manifest.json",
+    "src/devpilot_core/agents/session.py",
+    "tests/test_agent_session.py",
+    "tests/test_sprint_86_documentation.py"
   ],
   "modified_files": [
+    ".devpilot/miasi/policy_matrix.json",
+    ".devpilot/miasi/tool_registry.json",
     "README.md",
-    "docs/05_operations/release_artifacts_matrix.md",
-    "docs/05_operations/release_manifest.md",
     "docs/05_operations/runbook.md",
-    "docs/devpilot_backlog_fase_G_productizacion_release.md",
+    "docs/devpilot_backlog_fase_H_capacidades_avanzadas.md",
     "docs/functional_backlog_after_precode.md",
     "docs/release/CHANGELOG.md",
+    "src/devpilot_core/agents/__init__.py",
+    "src/devpilot_core/agents/runtime.py",
     "src/devpilot_core/cli.py",
-    "src/devpilot_core/release/__init__.py",
-    "src/devpilot_core/release/manifest.py",
+    "src/devpilot_core/release/package_builder.py",
+    "src/devpilot_core/release/verification.py",
+    "tests/test_phase_h_backlog_approval.py",
     "tests/test_release_changelog.py",
     "tests/test_sprint_32_documentation.py",
     "tests/test_sprint_33_documentation.py",
@@ -70,10 +73,15 @@
     "tests/test_sprint_77_documentation.py",
     "tests/test_sprint_78_documentation.py",
     "tests/test_sprint_79_documentation.py",
-    "tests/test_sprint_80_documentation.py"
+    "tests/test_sprint_80_documentation.py",
+    "tests/test_sprint_81_documentation.py",
+    "tests/test_sprint_82_documentation.py",
+    "tests/test_sprint_83_documentation.py",
+    "tests/test_sprint_84_documentation.py",
+    "tests/test_sprint_85_documentation.py"
   ],
   "deleted_files": [],
-  "excluded_from_delivery": [
+  "excluded_from_zip": [
     "outputs/",
     "dist/",
     ".git/",
@@ -83,6 +91,9 @@
     ".pytest_cache/",
     "*.pyc",
     "*.pyo",
-    ".devpilot/devpilot.db"
+    ".devpilot/devpilot.db",
+    ".devpilot/providers.yaml",
+    ".devpilot/backups/",
+    ".devpilot/agent_sessions/"
   ]
 }

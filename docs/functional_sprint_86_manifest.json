@@ -1,0 +1,97 @@
+{
+  "schema_version": "1.0.0",
+  "sprint": "FUNC-SPRINT-86",
+  "title": "FUNC-SPRINT-86 — Agent session state y memoria operativa controlada",
+  "status": "implemented",
+  "implemented_at": "2026-06-18",
+  "phase": "FASE-H-CAPACIDADES-AVANZADAS",
+  "wave": "Ola 11 — Multiagente, RAG, MCP y ecosistema",
+  "source_repo": "repo_DevPilot_Local_109.zip",
+  "source_backlog": "docs/devpilot_backlog_fase_H_capacidades_avanzadas.md",
+  "summary": {
+    "fh_level": "FH-L1",
+    "agent_session_model_added": true,
+    "agent_session_store_added": true,
+    "agent_run_session_id_added": true,
+    "agent_session_inspect_cli_added": true,
+    "localstore_projection_added": true,
+    "tracestore_compatible": true,
+    "path_guard_integrated": true,
+    "secret_redaction_integrated": true,
+    "retention_policy_documented": true,
+    "semantic_memory_enabled": false,
+    "rag_enabled": false,
+    "multiagent_runtime_added": false,
+    "mcp_runtime_added": false,
+    "remote_runner_enabled": false,
+    "network_used": false,
+    "external_api_used": false,
+    "dependencies_added": false,
+    "preliminary": true
+  },
+  "created_files": [
+    "src/devpilot_core/agents/session.py",
+    "docs/06_miasi/agent_session_card.md",
+    "docs/audits/func_sprint_86_agent_session_audit.md",
+    "docs/functional_sprint_86_manifest.json",
+    "tests/test_agent_session.py",
+    "tests/test_sprint_86_documentation.py"
+  ],
+  "modified_files": [
+    "src/devpilot_core/agents/__init__.py",
+    "src/devpilot_core/agents/runtime.py",
+    "src/devpilot_core/cli.py",
+    "src/devpilot_core/release/package_builder.py",
+    "src/devpilot_core/release/verification.py",
+    ".devpilot/miasi/tool_registry.json",
+    ".devpilot/miasi/policy_matrix.json",
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/devpilot_backlog_fase_H_capacidades_avanzadas.md",
+    "docs/functional_backlog_after_precode.md",
+    "docs/release/CHANGELOG.md",
+    "historical sprint documentation tests"
+  ],
+  "commands": [
+    "python -m devpilot_core agent run release-assistant --dry-run --json",
+    "python -m devpilot_core agent session inspect --session-id <session_id> --json",
+    "python -m devpilot_core validate-artifact docs/06_miasi/agent_session_card.md --json",
+    "python -m devpilot_core schema validate-manifest docs/functional_sprint_86_manifest.json --json"
+  ],
+  "tests": [
+    "tests/test_agent_session.py",
+    "tests/test_sprint_86_documentation.py",
+    "historical sprint documentation tests synchronized with README/backlog current milestone"
+  ],
+  "pass_criteria": [
+    "AgentRuntime associates each agent run with a local session_id.",
+    "AgentSession state is local and inspectable through CLI.",
+    "Session state stores summaries and metadata only, not raw prompts or raw outputs.",
+    "Semantic memory and RAG remain disabled.",
+    "Invalid or missing sessions block safely."
+  ],
+  "block_criteria": [
+    "Do not close if secrets are persisted without redaction.",
+    "Do not close if sessions can escape workspace boundaries.",
+    "Do not close if semantic memory or RAG is enabled.",
+    "Do not close if agent session inspect mutates source files."
+  ],
+  "risks": [
+    {
+      "id": "RISK-FUNC-86-001",
+      "risk": "Local session state grows without pruning.",
+      "mitigation": "Retention policy is documented; pruning is future work."
+    },
+    {
+      "id": "RISK-FUNC-86-002",
+      "risk": "Sensitive data could be summarized into sessions.",
+      "mitigation": "Only summaries are stored and payloads are redacted."
+    },
+    {
+      "id": "RISK-FUNC-86-003",
+      "risk": "Operational memory confused with semantic memory.",
+      "mitigation": "Manifest, docs and runtime flags mark semantic memory and RAG as disabled."
+    }
+  ],
+  "next_sprint": "FUNC-SPRINT-87 — RAG documental local MVP"
+}

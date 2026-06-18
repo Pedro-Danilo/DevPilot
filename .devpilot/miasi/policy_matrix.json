@@ -426,6 +426,24 @@
       "gate": "PolicyEngine+ApprovalPolicyChecker+ReleasePolicy",
       "approval_required": true,
       "observability_required": true
+    },
+    {
+      "rule_id": "AGENT_SESSION_INSPECT_ALLOW",
+      "domain": "AgentSession",
+      "action": "inspect_session_state",
+      "default_effect": "allow",
+      "gate": "PathGuard+SecretGuard+LocalStore+TraceStoreReadOnly",
+      "approval_required": false,
+      "observability_required": true
+    },
+    {
+      "rule_id": "AGENT_SESSION_STATE_ALLOW",
+      "domain": "AgentSession",
+      "action": "record_operational_session_state",
+      "default_effect": "allow",
+      "gate": "AgentSessionStore+PathGuard+SecretGuard+LocalStore+TraceContext",
+      "approval_required": false,
+      "observability_required": true
     }
   ]
 }

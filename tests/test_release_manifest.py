@@ -199,3 +199,36 @@ def test_release_manifest_cli_json_and_report_are_parseable_for_sprint_77() -> N
     assert reports["markdown"] == "outputs/reports/release_manifest.md"
     assert (ROOT / reports["json"]).exists()
     assert (ROOT / reports["markdown"]).exists()
+
+
+def test_release_manifest_builder_degrades_when_git_executable_is_missing(monkeypatch, tmp_path: Path) -> None:
+    """Regression for Windows subprocesses launched with a reduced environment.
+
+    Some CLI tests intentionally spawn `python -m devpilot_core` with a minimal
+    env. On Windows that can remove PATH and make `git` unresolvable even when
+    `.git` exists. Release manifest generation must not crash ReleaseAgent; it
+    should report Git metadata as unavailable and keep the release workflow
+    local/read-only.
+    """
+
+    from devpilot_core.release import manifest as manifest_module
+    from devpilot_core.release import ReleaseManifestBuilder, ReleaseManifestOptions
+
+    (tmp_path / ".git").mkdir()
+    (tmp_path / "pyproject.toml").write_text(
+        "[project]\nname = \"devpilot-local\"\nversion = \"0.1.0\"\nrequires-python = \">=3.12\"\n",
+        encoding="utf-8",
+    )
+
+    def _missing_git(*args, **kwargs):  # noqa: ANN001, ANN002, ANN003
+        raise FileNotFoundError("git")
+
+    monkeypatch.setattr(manifest_module.subprocess, "run", _missing_git)
+
+    result = ReleaseManifestBuilder(tmp_path, options=ReleaseManifestOptions(version="0.1.0")).build()
+
+    assert result.ok is True
+    git = result.data["release_manifest"]["git"]
+    assert git["is_git_repo"] is True
+    assert git["metadata_available"] is False
+    assert "git executable was not found" in git["error"]

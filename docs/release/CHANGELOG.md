@@ -4,7 +4,7 @@ title: DevPilot Local — Changelog
 status: approved
 version: 0.1.0
 owner: Ordóñez
-updated: 2026-06-17
+updated: 2026-06-18
 approval: internal
 ---
 
@@ -25,7 +25,7 @@ This changelog follows a Keep a Changelog-compatible category structure and is g
 ## [0.1.0] - 2026-06-17
 
 Release ID: `DEVPL-0.1.0`  
-Range: `FUNC-SPRINT-74` → `FUNC-SPRINT-85`  
+Range: `FUNC-SPRINT-74` → `FUNC-SPRINT-86`  
 Source: `docs/functional_sprint_*_manifest.json`
 
 ### Added
@@ -42,6 +42,7 @@ Source: `docs/functional_sprint_*_manifest.json`
 - `FUNC-SPRINT-83` — Se incorporó `Backup, restore y upgrade local`. Source: `docs/functional_sprint_83_manifest.json`. Artefactos: `src/devpilot_core/release/backup.py`, `src/devpilot_core/release/upgrade.py`, `docs/05_operations/backup_restore_upgrade.md`, `docs/audits/func_sprint_83_backup_upgrade_audit.md` y 3 artefactos adicionales.
 - `FUNC-SPRINT-84` — Se incorporó `ReleaseAgent MVP dry-run y cierre Fase G`. Source: `docs/functional_sprint_84_manifest.json`. Artefactos: `src/devpilot_core/agents/release_agent.py`, `docs/audits/phase_g_productization_release_closure.md`, `docs/audits/func_sprint_84_release_agent_audit.md`, `docs/functional_sprint_84_manifest.json` y 2 artefactos adicionales.
 - `FUNC-SPRINT-85` — Se incorporó `ADR de arquitectura avanzada agentic/enterprise`. Source: `docs/functional_sprint_85_manifest.json`; audit: `docs/audits/func_sprint_85_advanced_architecture_audit.md`. Artefactos: `docs/02_architecture/adrs/ADR-0016-advanced-agentic-enterprise.md`, `docs/03_security/advanced_agentic_threat_model.md`, `docs/02_architecture/c4_component.md`, `docs/functional_sprint_85_manifest.json` y MIASI cards actualizadas.
+- `FUNC-SPRINT-86` — Se incorporó `Agent session state y memoria operativa controlada`. Source: `docs/functional_sprint_86_manifest.json`; audit: `docs/audits/func_sprint_86_agent_session_audit.md`. Artefactos: `src/devpilot_core/agents/session.py`, `docs/06_miasi/agent_session_card.md`, `docs/audits/func_sprint_86_agent_session_audit.md`, `docs/functional_sprint_86_manifest.json` y tests focalizados.
 
 ### Changed
 
@@ -58,6 +59,7 @@ Source: `docs/functional_sprint_*_manifest.json`
 - `FUNC-SPRINT-84` — Se sincronizaron artefactos de ingeniería y contratos existentes. Source: `docs/functional_sprint_84_manifest.json`. Artefactos: `src/devpilot_core/agents/__init__.py`, `src/devpilot_core/agents/runtime.py`, `src/devpilot_core/cli.py`, `src/devpilot_core/quality/gate.py` y 14 artefactos adicionales.
 
 - `FUNC-SPRINT-85` — Se sincronizaron arquitectura C4, MIASI cards, README, runbook y backlog Fase H para iniciar capacidades avanzadas sin runtime prematuro. Source: `docs/functional_sprint_85_manifest.json`.
+- `FUNC-SPRINT-86` — Se sincronizaron AgentRuntime, CLI, package/release exclusions, README, runbook, backlog Fase H y MIASI policy/tool registry para soporte de AgentSession local. Source: `docs/functional_sprint_86_manifest.json`.
 
 ### Deprecated
 
@@ -73,6 +75,8 @@ Source: `docs/functional_sprint_*_manifest.json`
 - `FUNC-SPRINT-78` — Se registró una corrección soportada por el manifest funcional del sprint. Source: `docs/functional_sprint_78_manifest.json`; audit: `docs/audits/func_sprint_78_changelog_audit.md`. Changelog is human-readable and Keep a Changelog-compatible.; Changelog is generated from local manifests and includes traceability to sprint manifests.; +4 criterios adicionales
 
 ### Security
+
+- `FUNC-SPRINT-86` — Se preservan límites local-first: sesiones redacted, inspección read-only, `semantic_memory_enabled=False`, `rag_enabled=False`, sin red, sin API externa y `.devpilot/agent_sessions/` excluido de packages. Source: `docs/functional_sprint_86_manifest.json`.
 
 - `FUNC-SPRINT-74` — Se preservaron límites local-first/dry-run-first, exclusión de secretos/runtime state o bloqueo de publicación/despliegue según el contrato del sprint. Source: `docs/functional_sprint_74_manifest.json`; audit: `docs/audits/func_sprint_74_release_versioning_audit.md`. Controles declarados: `destructive_actions_added=False`, `external_publication_out_of_scope=True`.
 - `FUNC-SPRINT-75` — Se preservaron límites local-first/dry-run-first, exclusión de secretos/runtime state o bloqueo de publicación/despliegue según el contrato del sprint. Source: `docs/functional_sprint_75_manifest.json`; audit: `docs/audits/func_sprint_75_quality_gate_audit.md`. Controles declarados: `destructive_actions_added=False`, `external_publication_out_of_scope=True`.

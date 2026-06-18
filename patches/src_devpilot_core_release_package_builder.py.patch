@@ -1,0 +1,19 @@
+--- /mnt/data/devpilot_s86_orig/src/devpilot_core/release/package_builder.py	2026-06-17 22:49:56.000000000 +0000
++++ /mnt/data/devpilot_s86/src/devpilot_core/release/package_builder.py	2026-06-18 13:19:17.731005801 +0000
+@@ -27,6 +27,7 @@
+     ".pytest_cache/",
+     ".devpilot/devpilot.db",
+     ".devpilot/backups/",
++    ".devpilot/agent_sessions/",
+     ".devpilot/providers.yaml",
+     ".pyc",
+     ".pyo",
+@@ -371,7 +372,7 @@
+     rel = rel.replace("\\", "/")
+     if rel in {".devpilot/devpilot.db", ".devpilot/providers.yaml"}:
+         return True
+-    if rel.startswith(".devpilot/backups/"):
++    if rel.startswith((".devpilot/backups/", ".devpilot/agent_sessions/")):
+         return True
+     if rel.endswith((".pyc", ".pyo")):
+         return True

@@ -1,13 +1,30 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
 Estado actual: `baseline pre-code approved + Fases A-G cerradas + Fase H en implementación controlada`  
-Último hito: `FUNC-SPRINT-85 — ADR de arquitectura avanzada agentic/enterprise`  
-Siguiente hito: `FUNC-SPRINT-86 — Agent session state y memoria operativa controlada`  
+Último hito: `FUNC-SPRINT-86 — Agent session state y memoria operativa controlada`  
+Siguiente hito: `FUNC-SPRINT-87 — RAG documental local MVP`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
 
 
+
+
+## FUNC-SPRINT-86 — Agent session state y memoria operativa controlada
+
+`FUNC-SPRINT-86` introduce una primera versión de `AgentSession`: estado local, redacted y auditable para asociar cada `agent run` con un `session_id`. La capacidad permite reconstruir eventos básicos de la ejecución mediante `agent session inspect`, sin habilitar memoria semántica, RAG, MCP, multiagente, plugins ni remote runners.
+
+### Capacidades
+
+- `src/devpilot_core/agents/session.py` define `AgentSession`, `AgentSessionEvent`, `AgentSessionStore` e inspección CLI.
+- `AgentRuntime` crea o reutiliza sesiones y adjunta `agent_session_id` al resultado.
+- `python -m devpilot_core agent session inspect --session-id <id> --json` consulta estado local read-only.
+- `.devpilot/agent_sessions/` almacena JSON redacted regenerable de runtime y queda excluido de paquetes release.
+- `docs/06_miasi/agent_session_card.md` documenta contrato, límites, PASS/BLOCK y evolución.
+
+### Seguridad
+
+La implementación es `implemented-initial`: no guarda prompts crudos (`raw_prompts_stored=false`), no guarda outputs crudos (`raw_outputs_stored=false`), no habilita memoria semántica (`semantic_memory_enabled=false`) ni RAG (`rag_enabled=false`) y no cruza workspaces. `LocalStore` recibe proyecciones best-effort; el JSON local es la fuente inspectable.
 
 ## FUNC-SPRINT-85 — ADR de arquitectura avanzada agentic/enterprise
 

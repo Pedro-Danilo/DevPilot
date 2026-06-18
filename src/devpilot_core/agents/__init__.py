@@ -11,6 +11,7 @@ from .release_agent import ReleaseAgent
 from .architecture_agent import ArchitectureAgent
 from .requirements_agent import RequirementsAgent
 from .runtime import AgentRuntime, AgentRuntimeConfig
+from .session import AgentSession, AgentSessionEvent, AgentSessionInspectOptions, AgentSessionStore, inspect_agent_session
 from .security_agent import SecurityAgent
 
 __all__ = [
@@ -19,6 +20,11 @@ __all__ = [
     "AgentRunResult",
     "AgentRuntime",
     "AgentRuntimeConfig",
+    "AgentSession",
+    "AgentSessionEvent",
+    "AgentSessionInspectOptions",
+    "AgentSessionStore",
+    "inspect_agent_session",
     "RequirementsAgent",
     "ArchitectureAgent",
     "SecurityAgent",

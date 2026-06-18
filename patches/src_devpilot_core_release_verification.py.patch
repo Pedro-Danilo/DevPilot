@@ -1,0 +1,21 @@
+--- /mnt/data/devpilot_s86_orig/src/devpilot_core/release/verification.py	2026-06-17 22:49:56.000000000 +0000
++++ /mnt/data/devpilot_s86/src/devpilot_core/release/verification.py	2026-06-18 13:25:42.541210702 +0000
+@@ -26,6 +26,7 @@
+     ".pytest_cache/",
+     ".devpilot/devpilot.db",
+     ".devpilot/backups/",
++    ".devpilot/agent_sessions/",
+     ".devpilot/providers.yaml",
+     ".pyc",
+     ".pyo",
+@@ -515,6 +516,10 @@
+         return True
+     if cleaned.endswith((".pyc", ".pyo")):
+         return True
++    if cleaned.startswith((".devpilot/backups/", ".devpilot/agent_sessions/")):
++        return True
++    if "/.devpilot/backups/" in cleaned or "/.devpilot/agent_sessions/" in cleaned:
++        return True
+     return cleaned in {".devpilot/devpilot.db", ".devpilot/providers.yaml"}
+ 
+ 

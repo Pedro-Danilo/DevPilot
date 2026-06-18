@@ -26,6 +26,7 @@ _FORBIDDEN_MARKERS = [
     ".pytest_cache/",
     ".devpilot/devpilot.db",
     ".devpilot/backups/",
+    ".devpilot/agent_sessions/",
     ".devpilot/providers.yaml",
     ".pyc",
     ".pyo",
@@ -514,6 +515,10 @@ def _contains_forbidden_marker(name: str) -> bool:
     if any(part in {".git", ".venv", "node_modules", "outputs", "dist", "__pycache__", ".pytest_cache"} for part in parts):
         return True
     if cleaned.endswith((".pyc", ".pyo")):
+        return True
+    if cleaned.startswith((".devpilot/backups/", ".devpilot/agent_sessions/")):
+        return True
+    if "/.devpilot/backups/" in cleaned or "/.devpilot/agent_sessions/" in cleaned:
         return True
     return cleaned in {".devpilot/devpilot.db", ".devpilot/providers.yaml"}
 

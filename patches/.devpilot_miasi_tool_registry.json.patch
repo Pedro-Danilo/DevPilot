@@ -1,92 +1,21 @@
---- /mnt/data/devpilot_s84_orig/.devpilot/miasi/tool_registry.json	2026-06-17 23:13:36.726309497 +0000
-+++ /mnt/data/devpilot_s84/.devpilot/miasi/tool_registry.json	2026-06-17 23:18:25.087465316 +0000
-@@ -779,6 +779,90 @@
+--- /mnt/data/devpilot_s86_orig/.devpilot/miasi/tool_registry.json	2026-06-18 00:06:54.000000000 +0000
++++ /mnt/data/devpilot_s86/.devpilot/miasi/tool_registry.json	2026-06-18 13:21:47.693732993 +0000
+@@ -863,6 +863,19 @@
        "policy_rule_ids": [
-         "AGENTOPS_STATUS_ALLOW"
+         "RELEASE_AGENT_DRY_RUN_ALLOW"
        ]
 +    },
 +    {
-+      "tool_id": "release.quality_gate",
-+      "name": "run_release_quality_gate",
++      "tool_id": "agent.session.inspect",
++      "name": "inspect_agent_session_state",
 +      "phase": "MVP+",
-+      "side_effect": "none",
++      "side_effect": "read",
 +      "risk_level": "medium",
 +      "status": "implemented-initial",
 +      "requires_approval": false,
 +      "policy_rule_ids": [
-+        "RELEASE_AGENT_DRY_RUN_ALLOW"
-+      ]
-+    },
-+    {
-+      "tool_id": "release.manifest",
-+      "name": "build_release_manifest",
-+      "phase": "MVP+",
-+      "side_effect": "none",
-+      "risk_level": "medium",
-+      "status": "implemented-initial",
-+      "requires_approval": false,
-+      "policy_rule_ids": [
-+        "RELEASE_AGENT_DRY_RUN_ALLOW"
-+      ]
-+    },
-+    {
-+      "tool_id": "release.changelog",
-+      "name": "build_release_changelog",
-+      "phase": "MVP+",
-+      "side_effect": "none",
-+      "risk_level": "medium",
-+      "status": "implemented-initial",
-+      "requires_approval": false,
-+      "policy_rule_ids": [
-+        "RELEASE_AGENT_DRY_RUN_ALLOW"
-+      ]
-+    },
-+    {
-+      "tool_id": "release.package",
-+      "name": "plan_release_package",
-+      "phase": "MVP+",
-+      "side_effect": "report",
-+      "risk_level": "medium",
-+      "status": "implemented-initial",
-+      "requires_approval": false,
-+      "policy_rule_ids": [
-+        "RELEASE_AGENT_DRY_RUN_ALLOW"
-+      ]
-+    },
-+    {
-+      "tool_id": "release.sbom",
-+      "name": "build_release_sbom",
-+      "phase": "MVP+",
-+      "side_effect": "none",
-+      "risk_level": "medium",
-+      "status": "implemented-initial",
-+      "requires_approval": false,
-+      "policy_rule_ids": [
-+        "RELEASE_AGENT_DRY_RUN_ALLOW"
-+      ]
-+    },
-+    {
-+      "tool_id": "release.install_plan",
-+      "name": "build_install_plan",
-+      "phase": "MVP+",
-+      "side_effect": "none",
-+      "risk_level": "medium",
-+      "status": "implemented-initial",
-+      "requires_approval": false,
-+      "policy_rule_ids": [
-+        "RELEASE_AGENT_DRY_RUN_ALLOW"
-+      ]
-+    },
-+    {
-+      "tool_id": "release.upgrade_check",
-+      "name": "build_upgrade_check",
-+      "phase": "MVP+",
-+      "side_effect": "none",
-+      "risk_level": "medium",
-+      "status": "implemented-initial",
-+      "requires_approval": false,
-+      "policy_rule_ids": [
-+        "RELEASE_AGENT_DRY_RUN_ALLOW"
++        "AGENT_SESSION_INSPECT_ALLOW",
++        "SECRETS_RAW_DENY"
 +      ]
      }
    ]

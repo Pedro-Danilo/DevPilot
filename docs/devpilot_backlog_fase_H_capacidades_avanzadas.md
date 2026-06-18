@@ -2,13 +2,13 @@
 title: "DevPilot Local — Backlog ejecutable Fase H: Capacidades avanzadas"
 doc_id: "DEVPL-FUNC-BACKLOG-FASE-H-001"
 status: "approved"
-version: "1.1.0"
+version: "1.2.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
 phase: "FASE-H-CAPACIDADES-AVANZADAS"
 updated: "2026-06-18"
-source_repo: "repo_DevPilot_Local_108.zip"
+source_repo: "repo_DevPilot_Local_109.zip"
 source_report: "Informe de avance DevPilot - sprint 0 - 18.docx"
 source_backlog_model: "docs/functional_backlog_after_precode.md"
 baseline_dependency: "Fases A-G cerradas; Fase G cerrada por FUNC-SPRINT-84 como implemented-initial"
@@ -17,9 +17,9 @@ last_planned_sprint: "FUNC-SPRINT-99"
 approved_on: "2026-06-17"
 approval: "approved_after_phase_g_closure_validation"
 phase_h_status: "in_progress"
-first_open_sprint: "FUNC-SPRINT-86"
-last_completed_sprint: "FUNC-SPRINT-85"
-next_sprint: "FUNC-SPRINT-86"
+first_open_sprint: "FUNC-SPRINT-87"
+last_completed_sprint: "FUNC-SPRINT-86"
+next_sprint: "FUNC-SPRINT-87"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "phase_h_executable_backlog_review"
 ---
@@ -322,6 +322,22 @@ Implementa FUNC-SPRINT-86. Crea AgentSession local con límites de retención y 
 ```
 
 ---
+
+## Estado de implementación Sprint 86
+
+`FUNC-SPRINT-86 — Agent session state y memoria operativa controlada` queda implementado en estado `implemented-initial` / `PASS focalizado`. Este sprint introduce memoria operativa local y redacted para ejecuciones agentic, asociando cada `agent run` con un `session_id` inspeccionable.
+
+Entregables de cierre:
+
+- `src/devpilot_core/agents/session.py`.
+- `docs/06_miasi/agent_session_card.md`.
+- `docs/audits/func_sprint_86_agent_session_audit.md`.
+- `docs/functional_sprint_86_manifest.json`.
+- `tests/test_agent_session.py`.
+- `tests/test_sprint_86_documentation.py`.
+
+Límites explícitos: no se implementa memoria semántica, embeddings, RAG, MCP runtime, MultiAgentCoordinator, plugins ni remote runners. El siguiente sprint autorizado es `FUNC-SPRINT-87 — RAG documental local MVP`.
+
 
 ## FUNC-SPRINT-87 — RAG documental local MVP
 

@@ -1,20 +1,20 @@
---- /mnt/data/devpilot_s84_orig/tests/test_sprint_67_documentation.py	2026-06-17 23:13:36.935921590 +0000
-+++ /mnt/data/devpilot_s84/tests/test_sprint_67_documentation.py	2026-06-17 23:26:23.672238195 +0000
+--- /mnt/data/devpilot_s86_orig/tests/test_sprint_67_documentation.py	2026-06-18 12:29:41.000000000 +0000
++++ /mnt/data/devpilot_s86/tests/test_sprint_67_documentation.py	2026-06-18 13:23:33.116484848 +0000
 @@ -23,14 +23,14 @@
      runbook = _read("docs/05_operations/runbook.md")
      internal_contract = _read("docs/07_interfaces/internal_application_contract.md")
  
--    assert "Último hito: `FUNC-SPRINT-83" in readme
--    assert "Siguiente hito: `FUNC-SPRINT-84" in readme
-+    assert "Último hito: `FUNC-SPRINT-84" in readme
-+    assert "Siguiente hito: `FUNC-SPRINT-85" in readme
+-    assert "Último hito: `FUNC-SPRINT-85" in readme
+-    assert "Siguiente hito: `FUNC-SPRINT-86" in readme
++    assert "Último hito: `FUNC-SPRINT-86" in readme
++    assert "Siguiente hito: `FUNC-SPRINT-87" in readme
      assert "FUNC-SPRINT-67 — API local MVP read-only/dry-run" in readme
      assert 'source_repo: "repo_DevPilot_Local_92.zip"' in backlog
      assert 'first_open_sprint: "FUNC-SPRINT-74"' in backlog
      assert 'last_completed_sprint: "FUNC-SPRINT-73"' in backlog
      assert 'next_sprint: "FUNC-SPRINT-74"' in backlog
--    assert 'next_sprint: "FUNC-SPRINT-84"' in functional_backlog
-+    assert 'next_sprint: "FUNC-SPRINT-85"' in functional_backlog
+-    assert 'next_sprint: "FUNC-SPRINT-86"' in functional_backlog
++    assert 'next_sprint: "FUNC-SPRINT-87"' in functional_backlog
      assert "FUNC-SPRINT-67 — Operación de API local MVP read-only/dry-run" in runbook
      assert "Sprint 67 — API local MVP read-only/dry-run" in internal_contract
  

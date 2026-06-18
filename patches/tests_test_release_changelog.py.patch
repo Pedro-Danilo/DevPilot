@@ -1,18 +1,19 @@
---- /mnt/data/devpilot_s84_orig/tests/test_release_changelog.py	2026-06-17 23:13:36.927729875 +0000
-+++ /mnt/data/devpilot_s84/tests/test_release_changelog.py	2026-06-17 23:21:20.848018803 +0000
-@@ -26,13 +26,14 @@
+--- /mnt/data/devpilot_s86_orig/tests/test_release_changelog.py	2026-06-18 12:29:41.000000000 +0000
++++ /mnt/data/devpilot_s86/tests/test_release_changelog.py	2026-06-18 13:24:03.351597821 +0000
+@@ -26,7 +26,7 @@
      assert summary["source_mutations_performed"] is False
      assert changelog["format"] == "keep-a-changelog-compatible"
      assert changelog["from_sprint"] == "FUNC-SPRINT-74"
--    assert changelog["to_sprint"] == "FUNC-SPRINT-83"
-+    assert changelog["to_sprint"] == "FUNC-SPRINT-84"
+-    assert changelog["to_sprint"] == "FUNC-SPRINT-85"
++    assert changelog["to_sprint"] == "FUNC-SPRINT-86"
      for category in ["Added", "Changed", "Deprecated", "Removed", "Fixed", "Security"]:
          assert category in changelog["sections"]
          assert f"### {category}" in markdown
-     assert any(item["sprint"] == "FUNC-SPRINT-78" for item in changelog["source_manifests"])
-     assert "docs/functional_sprint_78_manifest.json" in markdown
+@@ -35,6 +35,7 @@
      assert "docs/functional_sprint_81_manifest.json" in markdown
-+    assert "docs/functional_sprint_84_manifest.json" in markdown
+     assert "docs/functional_sprint_84_manifest.json" in markdown
+     assert "docs/functional_sprint_85_manifest.json" in markdown
++    assert "docs/functional_sprint_86_manifest.json" in markdown
  
  
  def test_release_changelog_rejects_invalid_semver() -> None:

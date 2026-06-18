@@ -405,7 +405,25 @@ class ReleaseManifestBuilder:
 
 
 def _run_git(root: Path, args: list[str]) -> str:
-    completed = subprocess.run(["git", *args], cwd=root, text=True, capture_output=True, check=False, timeout=5)
+    """Run one read-only Git metadata command with a safe failure mode.
+
+    Release manifest generation is allowed to enrich metadata from Git when a
+    workspace contains `.git`, but Git is optional for local source ZIPs,
+    extracted artifacts and constrained subprocess environments.  In
+    particular, Windows child processes launched with a reduced `env` may not
+    inherit `PATH`, which makes `git` unresolvable and raises `FileNotFoundError`
+    before a return code exists.  The release manifest must degrade to
+    `metadata_available=false` instead of crashing the caller.
+    """
+
+    try:
+        completed = subprocess.run(["git", *args], cwd=root, text=True, capture_output=True, check=False, timeout=5)
+    except FileNotFoundError as exc:
+        raise RuntimeError("git executable was not found in PATH; Git metadata is unavailable.") from exc
+    except subprocess.TimeoutExpired as exc:
+        raise RuntimeError("git metadata command timed out.") from exc
+    except OSError as exc:
+        raise RuntimeError(f"git metadata command could not be started: {exc}") from exc
     if completed.returncode != 0:
         raise RuntimeError((completed.stderr or completed.stdout or "git command failed").strip())
     return completed.stdout.strip()

@@ -1,0 +1,56 @@
+{
+  "agent_ids": [
+    "release.assistant"
+  ],
+  "created_at": "2026-06-18T13:50:48Z",
+  "events": [
+    {
+      "agent_id": "release.assistant",
+      "command": "agent run",
+      "dry_run": true,
+      "event_id": "f53b65a4730341b6a182fe37caaf4fd4",
+      "event_type": "agent.session.started",
+      "metadata": {
+        "runtime_version": "v2-model-aware",
+        "sprint": "FUNC-SPRINT-86"
+      },
+      "run_id": "run_78ad3eef18224bcf84b64d7a19388b28",
+      "summary": {
+        "requested_agent": "release-assistant",
+        "session_created": true
+      },
+      "timestamp": "2026-06-18T13:50:48Z",
+      "trace_id": "trace_7e0a792f27da40ed8eae3234e383d946"
+    }
+  ],
+  "memory": {
+    "operational_context": {
+      "last_agent_id": "release.assistant",
+      "last_dry_run": true,
+      "last_target": null
+    }
+  },
+  "metadata": {
+    "rag_enabled": false,
+    "raw_outputs_stored": false,
+    "raw_prompts_stored": false,
+    "redaction_applied": true,
+    "retention_policy": "local-short-lived-operational-memory",
+    "semantic_memory_enabled": false
+  },
+  "retention_days": 14,
+  "session_id": "agsess_d721a03bbbd4492e9cc713b48d9a7005",
+  "status": "active",
+  "summary": {
+    "agents_total": 1,
+    "events_total": 1,
+    "local_only": true,
+    "memory_items_total": 1,
+    "rag_enabled": false,
+    "raw_outputs_stored": false,
+    "raw_prompts_stored": false,
+    "semantic_memory_enabled": false
+  },
+  "updated_at": "2026-06-18T13:50:48Z",
+  "workspace": "."
+}

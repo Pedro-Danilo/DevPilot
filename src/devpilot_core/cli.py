@@ -6,7 +6,7 @@ import sys
 from pathlib import Path
 
 from . import __version__
-from .agents import AgentRuntime, AgentRuntimeConfig
+from .agents import AgentRuntime, AgentRuntimeConfig, inspect_agent_session
 from .approval.models import ApprovalStatus
 from .approval.service import ApprovalCliInput, ApprovalService
 from .application import ApplicationService
@@ -1428,6 +1428,7 @@ def agent_run_command(
     fallback_to_mock: bool = False,
     json_output: bool = False,
     write_report: bool = False,
+    session_id: str | None = None,
 ) -> int:
     """Run one mono-agent through AgentRuntime v2.
 
@@ -1473,6 +1474,7 @@ def agent_run_command(
         timeout_seconds=timeout_seconds,
         fallback_to_mock=fallback_to_mock,
         patch_file=patch_file,
+        session_id=session_id,
     )
     result = _write_optional_command_report(
         root,
@@ -1480,13 +1482,44 @@ def agent_run_command(
         subject=target or agent_name,
         report_id=f"agent_run_{agent_name.replace('-', '_').replace('.', '_')}",
         write_report=write_report,
-        metadata={"sprint": "FUNC-SPRINT-51", "component": "AgentRuntime v2 model-aware"},
+        metadata={"sprint": "FUNC-SPRINT-86", "component": "AgentRuntime v2 + AgentSession"},
     )
     _emit_result_event(root, result, subject=target or agent_name)
     _persist_result(root, result, subject=target or agent_name)
     print_result(result, json_output=json_output)
     return int(result.exit_code)
 
+
+
+
+def agent_session_inspect_command(
+    *,
+    session_id: str,
+    include_events: bool = True,
+    limit: int = 20,
+    json_output: bool = False,
+    write_report: bool = False,
+) -> int:
+    """Inspect local AgentSession operational state.
+
+    FUNC-SPRINT-86 exposes redacted, local-only session state. The command is
+    read-only and does not enable semantic memory, RAG or multiagent runtime.
+    """
+
+    root = project_root()
+    result = inspect_agent_session(root, session_id=session_id, include_events=include_events, limit=limit)
+    result = _write_optional_command_report(
+        root,
+        result,
+        subject=session_id,
+        report_id=f"agent_session_inspect_{session_id}",
+        write_report=write_report,
+        metadata={"sprint": "FUNC-SPRINT-86", "component": "AgentSession"},
+    )
+    _emit_result_event(root, result, subject=session_id)
+    _persist_result(root, result, subject=session_id)
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
 
 
 def quality_gate_run_command(
@@ -3421,6 +3454,16 @@ def build_parser() -> argparse.ArgumentParser:
     agent_run.add_argument("--fallback-to-mock", action="store_true", help="Fallback to mock if enabled local provider is unavailable")
     agent_run.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     agent_run.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+    agent_run.add_argument("--session-id", default=None, help="Optional existing AgentSession id; omitted creates a new local session")
+
+    agent_session = agent_sub.add_parser("session", help="Inspect local AgentSession state")
+    agent_session_sub = agent_session.add_subparsers(dest="agent_session_command")
+    agent_session_inspect = agent_session_sub.add_parser("inspect", help="Inspect one local AgentSession by id")
+    agent_session_inspect.add_argument("--session-id", required=True, help="AgentSession id returned by agent run")
+    agent_session_inspect.add_argument("--limit", type=int, default=20, help="Maximum events to return, capped at 200")
+    agent_session_inspect.add_argument("--no-events", action="store_true", help="Return session summary without event list")
+    agent_session_inspect.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    agent_session_inspect.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
 
     quality_gate = sub.add_parser("quality-gate", help="Run local productization quality gates")
     quality_gate_sub = quality_gate.add_subparsers(dest="quality_gate_command")
@@ -4066,7 +4109,17 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
                 fallback_to_mock=args.fallback_to_mock,
                 json_output=args.json,
                 write_report=args.write_report,
+                session_id=args.session_id,
             )
+        if args.agent_command == "session":
+            if getattr(args, "agent_session_command", None) == "inspect":
+                return agent_session_inspect_command(
+                    session_id=args.session_id,
+                    include_events=not args.no_events,
+                    limit=args.limit,
+                    json_output=args.json,
+                    write_report=args.write_report,
+                )
         parser.print_help()
         return int(ExitCode.FAIL)
     if args.command == "quality-gate":

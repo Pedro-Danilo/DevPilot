@@ -1,13 +1,13 @@
---- /mnt/data/devpilot_s84_orig/tests/test_sprint_38_documentation.py	2026-06-17 23:13:36.931974301 +0000
-+++ /mnt/data/devpilot_s84/tests/test_sprint_38_documentation.py	2026-06-17 23:26:23.668422643 +0000
+--- /mnt/data/devpilot_s86_orig/tests/test_sprint_38_documentation.py	2026-06-18 12:29:41.000000000 +0000
++++ /mnt/data/devpilot_s86/tests/test_sprint_38_documentation.py	2026-06-18 13:23:33.112964937 +0000
 @@ -30,8 +30,8 @@
      backlog = _read("docs/devpilot_backlog_fase_C_ingenieria_repositorio.md")
      test_strategy = _read("docs/04_quality/test_strategy.md")
  
--    assert "Último hito: `FUNC-SPRINT-83" in readme
--    assert "Siguiente hito: `FUNC-SPRINT-84" in readme
-+    assert "Último hito: `FUNC-SPRINT-84" in readme
-+    assert "Siguiente hito: `FUNC-SPRINT-85" in readme
+-    assert "Último hito: `FUNC-SPRINT-85" in readme
+-    assert "Siguiente hito: `FUNC-SPRINT-86" in readme
++    assert "Último hito: `FUNC-SPRINT-86" in readme
++    assert "Siguiente hito: `FUNC-SPRINT-87" in readme
      assert "## FUNC-SPRINT-38 — Architecture/code drift inicial" in runbook
      assert "python -m devpilot_core repo architecture-drift --json --write-report" in runbook
      assert 'phase_c_status: "completed"' in backlog
@@ -15,8 +15,8 @@
  
  def test_sprint_38_functional_backlog_points_to_sprint_39_without_overclaiming() -> None:
      functional_backlog = _read("docs/functional_backlog_after_precode.md")
--    assert 'next_sprint: "FUNC-SPRINT-84"' in functional_backlog
-+    assert 'next_sprint: "FUNC-SPRINT-85"' in functional_backlog
+-    assert 'next_sprint: "FUNC-SPRINT-86"' in functional_backlog
++    assert 'next_sprint: "FUNC-SPRINT-87"' in functional_backlog
      assert "Transición posterior a FUNC-SPRINT-38" in functional_backlog
      assert "no ejecuta código analizado" in functional_backlog
      assert "no modifica documentación" in functional_backlog

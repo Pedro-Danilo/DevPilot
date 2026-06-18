@@ -1,0 +1,124 @@
+{
+  "agent_ids": [
+    "release.assistant"
+  ],
+  "created_at": "2026-06-18T14:56:30Z",
+  "events": [
+    {
+      "agent_id": "release.assistant",
+      "command": "agent run",
+      "dry_run": true,
+      "event_id": "cd61708579424787a2e84d443bb80819",
+      "event_type": "agent.session.started",
+      "metadata": {
+        "runtime_version": "v2-model-aware",
+        "sprint": "FUNC-SPRINT-86"
+      },
+      "run_id": "run_2fb0261831504785a98da683c8726ab1",
+      "summary": {
+        "requested_agent": "release-assistant",
+        "session_created": true
+      },
+      "timestamp": "2026-06-18T14:56:30Z",
+      "trace_id": "trace_725fc459fb54425bbd23034def5cbca4"
+    },
+    {
+      "agent_id": "release.assistant",
+      "command": "agent run",
+      "dry_run": true,
+      "event_id": "5723aed6acb245e2b7292124c2cf0688",
+      "event_type": "agent.session.completed",
+      "metadata": {
+        "runtime_version": "v2-model-aware",
+        "sprint": "FUNC-SPRINT-86"
+      },
+      "ok": true,
+      "run_id": "run_2fb0261831504785a98da683c8726ab1",
+      "summary": {
+        "findings_total": 7,
+        "model_calls_total": 0,
+        "suggestions_total": 1,
+        "tool_calls_total": 7
+      },
+      "timestamp": "2026-06-18T14:57:02Z",
+      "trace_id": "trace_725fc459fb54425bbd23034def5cbca4"
+    },
+    {
+      "agent_id": "release.assistant",
+      "command": "agent run",
+      "dry_run": true,
+      "event_id": "257f996ba07f4a11a2900ecbcfda5b75",
+      "event_type": "agent.session.started",
+      "metadata": {
+        "runtime_version": "v2-model-aware",
+        "sprint": "FUNC-SPRINT-86"
+      },
+      "run_id": "run_8f87c91b34424b17872c4ab8c4a5cb3f",
+      "summary": {
+        "requested_agent": "release-assistant",
+        "session_created": false
+      },
+      "timestamp": "2026-06-18T14:57:02Z",
+      "trace_id": "trace_6c574bfcca2c4ec7b30534dbeec5b4b9"
+    },
+    {
+      "agent_id": "release.assistant",
+      "command": "agent run",
+      "dry_run": true,
+      "event_id": "f5af7bc6965347dabaecc1e6bdc171f4",
+      "event_type": "agent.session.completed",
+      "metadata": {
+        "runtime_version": "v2-model-aware",
+        "sprint": "FUNC-SPRINT-86"
+      },
+      "ok": true,
+      "run_id": "run_8f87c91b34424b17872c4ab8c4a5cb3f",
+      "summary": {
+        "findings_total": 7,
+        "model_calls_total": 0,
+        "suggestions_total": 1,
+        "tool_calls_total": 7
+      },
+      "timestamp": "2026-06-18T14:57:33Z",
+      "trace_id": "trace_6c574bfcca2c4ec7b30534dbeec5b4b9"
+    }
+  ],
+  "memory": {
+    "last_result": {
+      "agent_id": "release.assistant",
+      "findings_total": 7,
+      "model_calls_total": 0,
+      "ok": true,
+      "suggestions_total": 1,
+      "tool_calls_total": 7
+    },
+    "operational_context": {
+      "last_agent_id": "release.assistant",
+      "last_dry_run": true,
+      "last_target": null
+    }
+  },
+  "metadata": {
+    "rag_enabled": false,
+    "raw_outputs_stored": false,
+    "raw_prompts_stored": false,
+    "redaction_applied": true,
+    "retention_policy": "local-short-lived-operational-memory",
+    "semantic_memory_enabled": false
+  },
+  "retention_days": 14,
+  "session_id": "agsess_8d31c6cf540f4c6ea635ed094dd213fa",
+  "status": "completed",
+  "summary": {
+    "agents_total": 1,
+    "events_total": 4,
+    "local_only": true,
+    "memory_items_total": 2,
+    "rag_enabled": false,
+    "raw_outputs_stored": false,
+    "raw_prompts_stored": false,
+    "semantic_memory_enabled": false
+  },
+  "updated_at": "2026-06-18T14:57:33Z",
+  "workspace": "."
+}

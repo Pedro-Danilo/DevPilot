@@ -863,6 +863,19 @@
       "policy_rule_ids": [
         "RELEASE_AGENT_DRY_RUN_ALLOW"
       ]
+    },
+    {
+      "tool_id": "agent.session.inspect",
+      "name": "inspect_agent_session_state",
+      "phase": "MVP+",
+      "side_effect": "read",
+      "risk_level": "medium",
+      "status": "implemented-initial",
+      "requires_approval": false,
+      "policy_rule_ids": [
+        "AGENT_SESSION_INSPECT_ALLOW",
+        "SECRETS_RAW_DENY"
+      ]
     }
   ]
 }
