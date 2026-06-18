@@ -2,19 +2,19 @@
 title: "DevPilot Local — Backlog ejecutable posterior a pre-code"
 doc_id: "DEVPL-FUNC-BACKLOG-001"
 status: "approved"
-version: "5.3.0"
+version: "5.4.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
 phase: "POST-PRECODE"
-updated: "2026-06-17"
+updated: "2026-06-18"
 approval: "approved_by_owner_direction"
 source_baseline: "precode_baseline_approved"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approved_on: "2026-06-06"
 approval_scope: "functional_backlog_after_precode"
 baseline_execution: "FUNC-SPRINT-00"
-next_sprint: "FUNC-SPRINT-85"
+next_sprint: "FUNC-SPRINT-86"
 ---
 
 # DevPilot Local — Backlog ejecutable posterior a pre-code
@@ -25,6 +25,11 @@ next_sprint: "FUNC-SPRINT-85"
 
 La aprobación de Fase H es controlada: no habilita multiagente, RAG, MCP, plugins, remote runners ni capacidades enterprise en runtime hasta que cada bloque tenga ADR/threat model, MIASI/policy, trazabilidad, evals y criterios PASS/BLOCK.
 
+
+
+## Transición posterior a FUNC-SPRINT-85
+
+`FUNC-SPRINT-85 — ADR de arquitectura avanzada agentic/enterprise` abre Fase H con arquitectura y threat model. DevPilot no habilita aún multiagente, RAG, MCP, plugins ni remote runners. El siguiente paso es `FUNC-SPRINT-86 — Agent session state y memoria operativa controlada`, que debe crear sesión/memoria operativa sin memoria semántica ni RAG todavía.
 
 ## Estado de aprobación funcional
 

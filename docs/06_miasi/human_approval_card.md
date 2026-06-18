@@ -134,3 +134,30 @@ Bloquear acción si:
 - el costo no está estimado;
 - el riesgo declarado es menor al riesgo real.
 
+
+## Actualización FUNC-SPRINT-85 — Fase H agentic/enterprise
+
+`FUNC-SPRINT-85` sincroniza esta tarjeta MIASI con `ADR-0016 — Arquitectura avanzada agentic/enterprise` y `advanced_agentic_threat_model.md`.
+
+Estados aplicables a Fase H:
+
+| Estado | Uso permitido |
+|---|---|
+| `implemented` | Capacidad funcional y cubierta por pruebas. |
+| `implemented-initial` | Primera versión operacional con límites explícitos. |
+| `planned` | Diseñada, no operativa. |
+| `experimental` | Solo con controles, flags y ADR futura cuando aplique. |
+| `disabled` | Bloqueada por política. |
+| `future` | Fuera del alcance actual. |
+
+Reglas obligatorias:
+
+- Multiagente requiere handoffs explícitos, trazas, policy y evals.
+- RAG requiere fuentes, citas o metadatos de evidencia.
+- MCP/conectores requieren registry, schema, policy y deny-by-default.
+- Plugins requieren manifest, permisos, policy binding y loader no arbitrario.
+- Multiworkspace requiere aislamiento de estado, reportes y secretos.
+- RBAC debe influir en decisiones, no ser decorativo.
+- Remote runners quedan `experimental/future` y disabled-by-default.
+
+Criterio BLOCK: ninguna capacidad avanzada puede saltarse `PolicyEngine`, MIASI, Approval cuando aplique, trazas, evals y ReportEngine.

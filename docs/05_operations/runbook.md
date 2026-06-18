@@ -4735,3 +4735,45 @@ python -m devpilot_core quality-gate run --profile release --json
 ### Riesgos
 
 Esta es una versión `implemented-initial`: el asistente es rule-based y no sustituye revisión humana. Fase futura puede agregar modelos locales/API gobernados, firma/provenance y SCA opcional, pero sin romper local-first y dry-run-first.
+
+
+## FUNC-SPRINT-85 — Operación de arquitectura avanzada agentic/enterprise
+
+### Estado
+
+`implemented-initial` como decisión arquitectónica y threat model de Fase H. No introduce runtime avanzado.
+
+### Propósito
+
+Antes de implementar `AgentSession`, RAG, MCP, MultiAgentCoordinator, plugins, multiworkspace, RBAC o remote runners, el operador debe validar que los artefactos de arquitectura y seguridad estén aprobados.
+
+### Comandos
+
+```powershell
+python -m devpilot_core validate-artifact docs\02_architecture\adrs\ADR-0016-advanced-agentic-enterprise.md --json
+python -m devpilot_core validate-artifact docs\03_security\advanced_agentic_threat_model.md --json
+python -m devpilot_core validate-artifact docs\02_architecture\c4_component.md --json
+python -m devpilot_core miasi validate --json
+python -m devpilot_core schema validate-manifest docs\functional_sprint_85_manifest.json --json
+python -m pytest tests\test_sprint_85_documentation.py -q
+```
+
+### Criterios PASS
+
+- ADR compara supervisor, handoffs, graph orchestration y pipeline sequential.
+- Threat model cubre prompt injection, tool poisoning, data leakage, privilege escalation y connector abuse.
+- C4 y MIASI cards declaran capacidades avanzadas con estados claros.
+- MCP/conectores quedan deny-by-default.
+- Remote runners quedan `experimental/future` y disabled-by-default.
+
+### Criterios BLOCK
+
+- Implementar runtime multiagente/RAG/MCP en Sprint 85.
+- Autorizar conectores sin registry/policy.
+- Responder RAG sin fuentes.
+- Ejecutar remote runners reales.
+- Debilitar PolicyEngine, MIASI, Approval, trazas o evals.
+
+### Riesgos
+
+El riesgo principal es confundir arquitectura aprobada con runtime operativo. Toda capacidad avanzada posterior debe implementarse por sprint, con manifest, auditoría, pruebas y controles.

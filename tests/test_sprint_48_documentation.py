@@ -21,8 +21,8 @@ def test_sprint_48_readme_runbook_backlog_and_strategy_are_synchronized() -> Non
     functional_backlog = _read("docs/functional_backlog_after_precode.md")
     test_strategy = _read("docs/04_quality/test_strategy.md")
 
-    assert "Último hito: `FUNC-SPRINT-84" in readme
-    assert "Siguiente hito: `FUNC-SPRINT-85" in readme
+    assert "Último hito: `FUNC-SPRINT-85" in readme
+    assert "Siguiente hito: `FUNC-SPRINT-86" in readme
     assert "## FUNC-SPRINT-48 — Model governance: health, capability matrix y budget ledger" in readme
     assert "python -m devpilot_core model health --json" in runbook
     assert "python -m devpilot_core model capabilities --json" in runbook
@@ -32,7 +32,7 @@ def test_sprint_48_readme_runbook_backlog_and_strategy_are_synchronized() -> Non
     assert 'last_completed_sprint: "FUNC-SPRINT-55"' in backlog
     assert 'next_sprint: "FUNC-SPRINT-56"' in backlog
     assert "## Estado de implementación Sprint 48" in backlog
-    assert 'next_sprint: "FUNC-SPRINT-85"' in functional_backlog
+    assert 'next_sprint: "FUNC-SPRINT-86"' in functional_backlog
     assert "## Transición posterior a FUNC-SPRINT-48" in functional_backlog
     assert "## Actualización FUNC-SPRINT-48 — Pruebas de Model Governance" in test_strategy
 

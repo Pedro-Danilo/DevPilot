@@ -351,3 +351,20 @@ La Web UI incorpora `SettingsView`, que consume únicamente endpoints `/api/v1/s
 ## Actualización FUNC-SPRINT-73 — Cierre Fase F web-first
 
 Fase F queda cerrada con Web UI local como contenedor visual canónico, API local segura como frontera y `ApplicationService` como contrato de integración. Desktop no se implementa en esta fase y queda diferido para una ADR futura. La siguiente fase se orienta a productización, release y distribución controlada.
+
+## Actualización FUNC-SPRINT-85 — Contenedores avanzados Fase H
+
+La arquitectura de contenedores incorpora, como objetivos planificados, los siguientes contenedores lógicos:
+
+| Contenedor lógico | Estado Sprint 85 | Propósito | Restricción |
+|---|---|---|---|
+| Agent Session Store | `planned` | Persistir sesiones agentic controladas. | Redacción y retención obligatorias. |
+| RAG Local Engine | `planned` | Índice lexical local con fuentes. | No indexar secretos ni rutas prohibidas. |
+| Connector/MCP Layer | `planned` | Descubrimiento y llamadas read-only controladas. | Deny-by-default. |
+| MultiAgent Orchestrator | `planned` | Handoffs y workflows secos. | Sin autonomía abierta. |
+| Plugin Registry | `planned` | Registrar extensiones internas. | No carga dinámica arbitraria. |
+| Identity/RBAC Local | `planned` | Actor y roles locales. | Enforcement real en acciones sensibles. |
+| Enterprise Reporter | `planned` | Reportes agregados locales. | Read-only. |
+| Remote Runner Stub | `experimental/future` | Evaluación de ejecución remota. | Disabled-by-default. |
+
+Estos contenedores no se consideran implementados por Sprint 85. Su habilitación requiere ADR/threat model, tests, MIASI/policy y documentación operacional por sprint.

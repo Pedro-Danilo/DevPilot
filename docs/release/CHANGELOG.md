@@ -25,7 +25,7 @@ This changelog follows a Keep a Changelog-compatible category structure and is g
 ## [0.1.0] - 2026-06-17
 
 Release ID: `DEVPL-0.1.0`  
-Range: `FUNC-SPRINT-74` → `FUNC-SPRINT-84`  
+Range: `FUNC-SPRINT-74` → `FUNC-SPRINT-85`  
 Source: `docs/functional_sprint_*_manifest.json`
 
 ### Added
@@ -41,6 +41,7 @@ Source: `docs/functional_sprint_*_manifest.json`
 - `FUNC-SPRINT-82` — Se incorporó `Estrategia de instalación e installer preliminar`. Source: `docs/functional_sprint_82_manifest.json`. Artefactos: `src/devpilot_core/release/installation.py`, `docs/05_operations/install_guide.md`, `docs/02_architecture/adrs/ADR-0015-installation-strategy.md`, `docs/audits/func_sprint_82_installation_audit.md` y 3 artefactos adicionales.
 - `FUNC-SPRINT-83` — Se incorporó `Backup, restore y upgrade local`. Source: `docs/functional_sprint_83_manifest.json`. Artefactos: `src/devpilot_core/release/backup.py`, `src/devpilot_core/release/upgrade.py`, `docs/05_operations/backup_restore_upgrade.md`, `docs/audits/func_sprint_83_backup_upgrade_audit.md` y 3 artefactos adicionales.
 - `FUNC-SPRINT-84` — Se incorporó `ReleaseAgent MVP dry-run y cierre Fase G`. Source: `docs/functional_sprint_84_manifest.json`. Artefactos: `src/devpilot_core/agents/release_agent.py`, `docs/audits/phase_g_productization_release_closure.md`, `docs/audits/func_sprint_84_release_agent_audit.md`, `docs/functional_sprint_84_manifest.json` y 2 artefactos adicionales.
+- `FUNC-SPRINT-85` — Se incorporó `ADR de arquitectura avanzada agentic/enterprise`. Source: `docs/functional_sprint_85_manifest.json`; audit: `docs/audits/func_sprint_85_advanced_architecture_audit.md`. Artefactos: `docs/02_architecture/adrs/ADR-0016-advanced-agentic-enterprise.md`, `docs/03_security/advanced_agentic_threat_model.md`, `docs/02_architecture/c4_component.md`, `docs/functional_sprint_85_manifest.json` y MIASI cards actualizadas.
 
 ### Changed
 
@@ -55,6 +56,8 @@ Source: `docs/functional_sprint_*_manifest.json`
 - `FUNC-SPRINT-82` — Se sincronizaron artefactos de ingeniería y contratos existentes. Source: `docs/functional_sprint_82_manifest.json`. Artefactos: `src/devpilot_core/cli.py`, `src/devpilot_core/release/__init__.py`, `src/devpilot_core/release/manifest.py`, `README.md` y 7 artefactos adicionales.
 - `FUNC-SPRINT-83` — Se sincronizaron artefactos de ingeniería y contratos existentes. Source: `docs/functional_sprint_83_manifest.json`. Artefactos: `src/devpilot_core/cli.py`, `src/devpilot_core/release/__init__.py`, `src/devpilot_core/release/manifest.py`, `README.md` y 7 artefactos adicionales.
 - `FUNC-SPRINT-84` — Se sincronizaron artefactos de ingeniería y contratos existentes. Source: `docs/functional_sprint_84_manifest.json`. Artefactos: `src/devpilot_core/agents/__init__.py`, `src/devpilot_core/agents/runtime.py`, `src/devpilot_core/cli.py`, `src/devpilot_core/quality/gate.py` y 14 artefactos adicionales.
+
+- `FUNC-SPRINT-85` — Se sincronizaron arquitectura C4, MIASI cards, README, runbook y backlog Fase H para iniciar capacidades avanzadas sin runtime prematuro. Source: `docs/functional_sprint_85_manifest.json`.
 
 ### Deprecated
 
@@ -82,6 +85,8 @@ Source: `docs/functional_sprint_*_manifest.json`
 - `FUNC-SPRINT-83` — Se preservaron límites local-first/dry-run-first, exclusión de secretos/runtime state o bloqueo de publicación/despliegue según el contrato del sprint. Source: `docs/functional_sprint_83_manifest.json`. Controles declarados: `deploys_artifacts=False`, `external_api_used=False`, `outputs_excluded_by_default=True`, `publishes_artifacts=False`, `secret_guard_integrated=True`.
 - `FUNC-SPRINT-84` — Se preservaron límites local-first/dry-run-first, exclusión de secretos/runtime state o bloqueo de publicación/despliegue según el contrato del sprint. Source: `docs/functional_sprint_84_manifest.json`. Controles declarados: `deploys_artifacts=False`, `external_api_used=False`, `publishes_artifacts=False`.
 
+- `FUNC-SPRINT-85` — Se preservaron límites de Fase H: no multiagente/RAG/MCP runtime, conectores deny-by-default, remote runners disabled y sin APIs externas. Source: `docs/functional_sprint_85_manifest.json`.
+
 ### References
 
 - `FUNC-SPRINT-74` — `docs/functional_sprint_74_manifest.json`
@@ -95,6 +100,7 @@ Source: `docs/functional_sprint_*_manifest.json`
 - `FUNC-SPRINT-82` — `docs/functional_sprint_82_manifest.json`
 - `FUNC-SPRINT-83` — `docs/functional_sprint_83_manifest.json`
 - `FUNC-SPRINT-84` — `docs/functional_sprint_84_manifest.json`
+- `FUNC-SPRINT-85` — `docs/functional_sprint_85_manifest.json`
 
 ### Policy notes
 

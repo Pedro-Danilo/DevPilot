@@ -1,12 +1,28 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
-Estado actual: `baseline pre-code approved + Fases A-G cerradas + Fase H approved para implementación controlada`  
-Último hito: `FUNC-SPRINT-84 — ReleaseAgent MVP dry-run y cierre Fase G`  
-Siguiente hito: `FUNC-SPRINT-85 — ADR de arquitectura avanzada agentic/enterprise`  
+Estado actual: `baseline pre-code approved + Fases A-G cerradas + Fase H en implementación controlada`  
+Último hito: `FUNC-SPRINT-85 — ADR de arquitectura avanzada agentic/enterprise`  
+Siguiente hito: `FUNC-SPRINT-86 — Agent session state y memoria operativa controlada`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
 
+
+
+## FUNC-SPRINT-85 — ADR de arquitectura avanzada agentic/enterprise
+
+`FUNC-SPRINT-85` abre Fase H con una decisión arquitectónica y un threat model antes de habilitar runtime avanzado. El sprint crea `ADR-0016`, formaliza patrones permitidos de multiagente, delimita RAG/MCP/plugins/multiworkspace/RBAC/remote runners y actualiza C4 + MIASI cards con estados `planned`, `experimental`, `disabled` y `future`.
+
+### Capacidades
+
+- `docs/02_architecture/adrs/ADR-0016-advanced-agentic-enterprise.md` define la arquitectura objetivo agentic/enterprise.
+- `docs/03_security/advanced_agentic_threat_model.md` cubre prompt injection, tool poisoning, data leakage, privilege escalation y connector abuse.
+- `docs/02_architecture/c4_component.md` declara componentes avanzados como `planned` o `experimental/future`, no como implementados.
+- `docs/06_miasi/*.md` incorporan reglas MIASI para multiagente, RAG, MCP, plugins, RBAC y remote runners.
+
+### Seguridad
+
+La implementación es documental y `implemented-initial`: no agrega MultiAgentCoordinator, RAG runtime, MCP runtime, plugins, RBAC runtime ni remote runners. Fase H mantiene la cadena `Workspace -> PolicyEngine -> MIASI -> Approval -> TraceEngine -> EvalHarness -> ReportEngine -> LocalStore`.
 
 
 ## FUNC-SPRINT-84 — ReleaseAgent MVP dry-run y cierre Fase G
@@ -26,7 +42,7 @@ La implementación es `implemented-initial`: ReleaseAgent no tiene ruta de ejecu
 
 ## Aprobación de Fase H — Capacidades avanzadas
 
-El backlog `docs/devpilot_backlog_fase_H_capacidades_avanzadas.md` queda en estado `approved` después del cierre validado de Fase G. La siguiente unidad autorizada es `FUNC-SPRINT-85 — ADR de arquitectura avanzada agentic/enterprise`. Esta aprobación habilita la planificación e implementación progresiva de capacidades avanzadas, no ejecución autónoma abierta ni conectores allow-by-default.
+El backlog `docs/devpilot_backlog_fase_H_capacidades_avanzadas.md` queda en estado `approved` después del cierre validado de Fase G. `FUNC-SPRINT-85` ya formaliza la arquitectura avanzada y el threat model; la siguiente unidad autorizada es `FUNC-SPRINT-86 — Agent session state y memoria operativa controlada`. Esta aprobación habilita implementación progresiva de capacidades avanzadas, no ejecución autónoma abierta ni conectores allow-by-default.
 
 
 ## FUNC-SPRINT-83 — Backup, restore y upgrade local

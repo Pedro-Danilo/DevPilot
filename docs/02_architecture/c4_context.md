@@ -143,3 +143,17 @@ PASS: todos los nodos aspiracionales tienen estado `planned`, `disabled` o `futu
 ### 8.5 Riesgos
 
 Esta reconciliación es manual. Debe evolucionar hacia validación por schemas y trazabilidad en Fase A.
+
+## Actualización FUNC-SPRINT-85 — Contexto Fase H
+
+Fase H amplía el contexto de DevPilot hacia capacidades avanzadas, pero mantiene la frontera local-first. Los nuevos actores/vecinos arquitectónicos se consideran `planned`, `experimental` o `future` hasta que los sprints correspondientes creen registry, policy, trazas, evals y reportes.
+
+| Elemento externo | Estado | Relación permitida |
+|---|---|---|
+| Documentos/repos locales para RAG | `planned` | Solo indexación allowlist con SecretGuard. |
+| Conectores/MCP locales | `planned` | Deny-by-default hasta Connector Registry. |
+| Plugins internos | `planned` | Manifest y permisos antes de loader. |
+| Usuarios/roles locales | `planned` | RBAC local futuro sin SaaS. |
+| Remote runners/cloud | `experimental/future` | Disabled-by-default y sin ejecución real. |
+
+Criterio de bloqueo: ninguna integración externa o avanzada puede operar sin pasar por `PolicyEngine`, MIASI, Approval cuando aplique, TraceEngine, EvalHarness y ReportEngine.

@@ -1,0 +1,97 @@
+{
+  "schema_version": "1.0.0",
+  "sprint": "FUNC-SPRINT-85",
+  "title": "FUNC-SPRINT-85 — ADR de arquitectura avanzada agentic/enterprise",
+  "status": "implemented",
+  "implemented_at": "2026-06-18",
+  "phase": "FASE-H-CAPACIDADES-AVANZADAS",
+  "wave": "Ola 11 — Multiagente, RAG, MCP y ecosistema",
+  "source_repo": "repo_DevPilot_Local_108.zip",
+  "source_backlog": "docs/devpilot_backlog_fase_H_capacidades_avanzadas.md",
+  "summary": {
+    "fh_level": "FH-L0",
+    "advanced_architecture_adr_added": true,
+    "advanced_threat_model_added": true,
+    "c4_context_updated": true,
+    "c4_container_updated": true,
+    "c4_component_updated": true,
+    "miasi_cards_updated": true,
+    "multiagent_runtime_added": false,
+    "rag_runtime_added": false,
+    "mcp_runtime_added": false,
+    "plugin_runtime_added": false,
+    "remote_runner_enabled": false,
+    "capability_states_declared": true,
+    "deny_by_default_declared": true,
+    "network_used": false,
+    "external_api_used": false,
+    "source_mutations_performed_by_default": false,
+    "dependencies_added": false,
+    "preliminary": true
+  },
+  "created_files": [
+    "docs/02_architecture/adrs/ADR-0016-advanced-agentic-enterprise.md",
+    "docs/03_security/advanced_agentic_threat_model.md",
+    "docs/audits/func_sprint_85_advanced_architecture_audit.md",
+    "docs/functional_sprint_85_manifest.json",
+    "tests/test_sprint_85_documentation.py"
+  ],
+  "modified_files": [
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/devpilot_backlog_fase_H_capacidades_avanzadas.md",
+    "docs/functional_backlog_after_precode.md",
+    "docs/02_architecture/c4_context.md",
+    "docs/02_architecture/c4_container.md",
+    "docs/02_architecture/c4_component.md",
+    "docs/06_miasi/agent_card.md",
+    "docs/06_miasi/tool_card.md",
+    "docs/06_miasi/policy_card.md",
+    "docs/06_miasi/eval_card.md",
+    "docs/06_miasi/observability_card.md",
+    "docs/06_miasi/human_approval_card.md",
+    "docs/release/CHANGELOG.md",
+    "historical sprint documentation tests"
+  ],
+  "commands": [
+    "python -m devpilot_core validate-artifact docs/02_architecture/adrs/ADR-0016-advanced-agentic-enterprise.md --json",
+    "python -m devpilot_core validate-artifact docs/03_security/advanced_agentic_threat_model.md --json",
+    "python -m devpilot_core miasi validate --json",
+    "python -m devpilot_core schema validate-manifest docs/functional_sprint_85_manifest.json --json"
+  ],
+  "tests": [
+    "tests/test_sprint_85_documentation.py",
+    "historical sprint documentation tests synchronized with README/backlog current milestone"
+  ],
+  "pass_criteria": [
+    "ADR compares supervisor, handoffs, graph orchestration and sequential pipeline patterns.",
+    "Threat model covers prompt injection, tool poisoning, data leakage, privilege escalation and connector abuse.",
+    "Capabilities are explicitly marked implemented, implemented-initial, planned, experimental, disabled or future.",
+    "MCP and connectors remain deny-by-default.",
+    "No advanced runtime is introduced in Sprint 85."
+  ],
+  "block_criteria": [
+    "Do not close if multiagent runtime is authorized without observability, evals and approval.",
+    "Do not close if MCP is allow-by-default.",
+    "Do not close if MIASI cards are not updated.",
+    "Do not close if remote runners are enabled."
+  ],
+  "risks": [
+    {
+      "id": "RISK-FUNC-85-001",
+      "risk": "Advanced architecture becomes too ambitious.",
+      "mitigation": "Capability states and sprint-by-sprint enablement."
+    },
+    {
+      "id": "RISK-FUNC-85-002",
+      "risk": "Unsafe connectors.",
+      "mitigation": "Threat model and deny-by-default Connector Registry before runtime."
+    },
+    {
+      "id": "RISK-FUNC-85-003",
+      "risk": "Experimental features confused with production.",
+      "mitigation": "Explicit status taxonomy in ADR, C4 and MIASI cards."
+    }
+  ],
+  "next_sprint": "FUNC-SPRINT-86 — Agent session state y memoria operativa controlada"
+}

@@ -2,13 +2,13 @@
 title: "DevPilot Local — Backlog ejecutable Fase H: Capacidades avanzadas"
 doc_id: "DEVPL-FUNC-BACKLOG-FASE-H-001"
 status: "approved"
-version: "1.0.0"
+version: "1.1.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
 phase: "FASE-H-CAPACIDADES-AVANZADAS"
-updated: "2026-06-17"
-source_repo: "repo_DevPilot_Local_107.zip"
+updated: "2026-06-18"
+source_repo: "repo_DevPilot_Local_108.zip"
 source_report: "Informe de avance DevPilot - sprint 0 - 18.docx"
 source_backlog_model: "docs/functional_backlog_after_precode.md"
 baseline_dependency: "Fases A-G cerradas; Fase G cerrada por FUNC-SPRINT-84 como implemented-initial"
@@ -16,10 +16,10 @@ first_sprint: "FUNC-SPRINT-85"
 last_planned_sprint: "FUNC-SPRINT-99"
 approved_on: "2026-06-17"
 approval: "approved_after_phase_g_closure_validation"
-phase_h_status: "approved_for_implementation"
-first_open_sprint: "FUNC-SPRINT-85"
-last_completed_sprint: "FUNC-SPRINT-84"
-next_sprint: "FUNC-SPRINT-85"
+phase_h_status: "in_progress"
+first_open_sprint: "FUNC-SPRINT-86"
+last_completed_sprint: "FUNC-SPRINT-85"
+next_sprint: "FUNC-SPRINT-86"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "phase_h_executable_backlog_review"
 ---
@@ -112,7 +112,7 @@ El backlog H se considera apropiado como continuación de DevPilot porque respet
 Ajustes de aprobación aplicados:
 
 - el estado pasa de `draft-for-review` a `approved`;
-- la fuente de verdad se actualiza a `repo_DevPilot_Local_107.zip`;
+- la fuente de verdad se actualiza a `repo_DevPilot_Local_108.zip` para el cierre de `FUNC-SPRINT-85`;
 - `FUNC-SPRINT-85` queda como primera unidad autorizada;
 - capacidades de alto riesgo siguen marcadas como `experimental` o `future` hasta contar con ADR, threat model, policy, registry, pruebas y trazabilidad;
 - remote runners, marketplace público, SaaS y despliegues automáticos permanecen fuera de alcance operativo.
@@ -245,6 +245,23 @@ Implementa FUNC-SPRINT-85. Crea ADR avanzada agentic/enterprise y threat model. 
 ```
 
 ---
+
+## Estado de implementación Sprint 85
+
+`FUNC-SPRINT-85 — ADR de arquitectura avanzada agentic/enterprise` queda implementado en estado `implemented-initial` / `PASS focalizado`. Este sprint abre Fase H mediante arquitectura y seguridad, no mediante runtime avanzado.
+
+Entregables de cierre:
+
+- `docs/02_architecture/adrs/ADR-0016-advanced-agentic-enterprise.md`.
+- `docs/03_security/advanced_agentic_threat_model.md`.
+- `docs/02_architecture/c4_component.md` actualizado para Fase H.
+- `docs/06_miasi/*.md` sincronizados con reglas multiagente/RAG/MCP/plugins/RBAC.
+- `docs/audits/func_sprint_85_advanced_architecture_audit.md`.
+- `docs/functional_sprint_85_manifest.json`.
+- `tests/test_sprint_85_documentation.py`.
+
+Límites explícitos: no se implementa MultiAgentCoordinator, RAG runtime, MCP runtime, plugin loader, RBAC runtime, multiworkspace ni remote runners. El siguiente sprint autorizado es `FUNC-SPRINT-86 — Agent session state y memoria operativa controlada`.
+
 
 ## FUNC-SPRINT-86 — Agent session state y memoria operativa controlada
 

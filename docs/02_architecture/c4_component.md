@@ -157,3 +157,78 @@ Esta vista es manual y preliminar. En una versión industrial debería generarse
 ## 13. Pruebas implementadas
 
 `tests/test_sprint_20_documentation_reconciliation.py` valida existencia, frontmatter mínimo y presencia de estados `implemented`, `partial`, `planned`, `disabled` y `future` en las vistas C4 reconciliadas.
+
+## 14. Actualización FUNC-SPRINT-85 — Fase H agentic/enterprise
+
+`FUNC-SPRINT-85` actualiza esta vista C4 Component para representar el estado objetivo de Fase H sin sobredeclarar runtime avanzado. La vista sigue siendo documental, pero ahora distingue explícitamente los componentes que deberán aparecer en los sprints `86` a `99`.
+
+### 14.1 Leyenda extendida Fase H
+
+| Estado | Significado operacional |
+|---|---|
+| `implemented` | Disponible y probado para su alcance. |
+| `implemented-initial` | Disponible como primera versión con evolución pendiente. |
+| `planned` | Diseñado en backlog Fase H, sin runtime aún. |
+| `experimental` | Permitido solo con flags, ADR y evidencias futuras. |
+| `disabled` | Bloqueado por política. |
+| `future` | Fuera del alcance operativo actual. |
+
+### 14.2 Componentes avanzados previstos
+
+```mermaid
+flowchart TD
+  CLI[CLI/API/UI local] --> AppSvc[ApplicationService]
+  AppSvc --> Runtime[AgentRuntime monoagente\nimplemented-initial]
+  Runtime --> Sessions[AgentSession\nplanned Sprint 86]
+  Runtime --> RAG[RAG documental local\nplanned Sprint 87]
+  Runtime --> Connectors[Connector Registry/MCP\nplanned Sprint 88-89]
+  Runtime --> MultiAgent[MultiAgentCoordinator\nplanned Sprint 90]
+  MultiAgent --> Handoffs[Handoffs gobernados\nplanned]
+  MultiAgent --> Workflows[Workflows SDLC dry-run\nplanned Sprint 91]
+  Runtime --> Plugins[Plugin Registry\nplanned Sprint 93]
+  AppSvc --> WorkspacePortfolio[Multiworkspace/Portfolio\nplanned Sprint 94]
+  AppSvc --> RBAC[Identity/RBAC local\nplanned Sprint 95]
+  Runtime --> AdvancedEvals[Advanced evals/red-team\nplanned Sprint 92]
+  AppSvc --> Enterprise[Enterprise reporting\nplanned Sprint 98]
+  Enterprise -.-> RemoteRunner[Remote runner stub\nexperimental/future disabled]
+
+  Sessions --> Policy[PolicyEngine + MIASI + Approval]
+  RAG --> Policy
+  Connectors --> Policy
+  MultiAgent --> Policy
+  Plugins --> Policy
+  WorkspacePortfolio --> Policy
+  RBAC --> Policy
+  Policy --> Trace[TraceEngine + EvalHarness + ReportEngine + LocalStore]
+```
+
+### 14.3 Matriz de responsabilidad Fase H
+
+| Componente | Estado Sprint 85 | Responsabilidad futura | Límite explícito |
+|---|---|---|---|
+| `AgentSession` | `planned` | Estado de sesión y memoria operativa. | No memoria semántica ni RAG en Sprint 86. |
+| `RAG` | `planned` | Recuperación documental con fuentes. | No respuestas sin evidencia/citas. |
+| `ConnectorRegistry` | `planned` | Declarar conectores y permisos. | Deny-by-default. |
+| `ConnectorAdapter` | `planned` | Read-only connector calls. | No shell, no red externa por defecto. |
+| `MultiAgentCoordinator` | `planned` | Orquestación secuencial gobernada. | No autonomía abierta. |
+| `Handoff` | `planned` | Transferencias trazables entre agentes. | No handoff implícito. |
+| `WorkflowRunner` | `planned` | Workflows SDLC dry-run. | No acciones destructivas. |
+| `AdvancedEvalHarness` | `planned` | Red-team y safety scoring. | No datos sensibles reales. |
+| `PluginRegistry` | `planned` | Plugins con manifest y permisos. | No ejecución dinámica arbitraria. |
+| `Multiworkspace` | `planned` | Portfolio local aislado. | No mezclar DB, reportes ni secretos. |
+| `Identity/RBAC` | `planned` | Roles y actor binding. | No RBAC decorativo. |
+| `RemoteRunner` | `experimental/future` | Prototipo disabled. | No ejecución remota. |
+
+### 14.4 Criterios de consistencia
+
+PASS:
+
+- Todo componente avanzado conserva `PolicyEngine`, MIASI, Approval, trazas, evals y reportes.
+- Todo componente experimental/future queda declarado como no operativo.
+- Cualquier sprint posterior debe actualizar esta vista si cambia estados.
+
+BLOCK:
+
+- Marcar MultiAgentCoordinator, RAG, MCP, plugins, RBAC o remote runners como implementados antes de sus sprints.
+- Omitir deny-by-default para conectores/MCP.
+- Omitir fuentes/citas para RAG.
