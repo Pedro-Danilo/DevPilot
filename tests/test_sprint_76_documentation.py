@@ -30,15 +30,15 @@ def test_sprint_76_ci_artifacts_exist_and_are_synchronized() -> None:
     ]:
         assert (ROOT / path).exists(), path
 
-    assert "Último hito: `FUNC-SPRINT-86" in readme
-    assert "Siguiente hito: `FUNC-SPRINT-87" in readme
+    assert "Último hito: `FUNC-SPRINT-87" in readme
+    assert "Siguiente hito: `FUNC-SPRINT-88" in readme
     assert "FUNC-SPRINT-76 — CI local y workflow scaffolding" in readme
     assert "FUNC-SPRINT-76 — Operación de CI local y workflow scaffolding" in runbook
     assert 'source_repo: "repo_DevPilot_Local_106.zip"' in backlog_g
     assert 'last_completed_sprint: "FUNC-SPRINT-84"' in backlog_g
     assert 'next_sprint: "FUNC-SPRINT-85"' in backlog_g
     assert 'phase_g_status: "closed"' in backlog_g
-    assert 'next_sprint: "FUNC-SPRINT-87"' in functional_backlog
+    assert 'next_sprint: "FUNC-SPRINT-88"' in functional_backlog
 
 
 def test_sprint_76_docs_define_ci_boundaries() -> None:

@@ -444,6 +444,24 @@
       "gate": "AgentSessionStore+PathGuard+SecretGuard+LocalStore+TraceContext",
       "approval_required": false,
       "observability_required": true
+    },
+    {
+      "rule_id": "RAG_INDEX_LOCAL_ALLOW",
+      "domain": "RAG",
+      "action": "index_local_docs",
+      "default_effect": "allow",
+      "gate": "PathGuard+SecretGuard+LocalRagIndexer+DeniedPathPolicy+NoExternalAPI",
+      "approval_required": false,
+      "observability_required": true
+    },
+    {
+      "rule_id": "RAG_QUERY_LOCAL_ALLOW",
+      "domain": "RAG",
+      "action": "query_local_index",
+      "default_effect": "allow",
+      "gate": "PathGuard+SecretGuard+LocalRagRetriever+SourcesRequired+NoExternalAPI",
+      "approval_required": false,
+      "observability_required": true
     }
   ]
 }

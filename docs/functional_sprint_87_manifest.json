@@ -1,0 +1,109 @@
+{
+  "schema_version": "1.0.0",
+  "sprint": "FUNC-SPRINT-87",
+  "title": "FUNC-SPRINT-87 — RAG documental local MVP",
+  "status": "implemented",
+  "phase": "FASE-H-CAPACIDADES-AVANZADAS",
+  "source_repo": "repo_DevPilot_Local_111.zip",
+  "implemented_at": "2026-06-18",
+  "summary": {
+    "rag_indexer_added": true,
+    "rag_retriever_added": true,
+    "rag_cli_index_added": true,
+    "rag_cli_query_added": true,
+    "source_metadata_added": true,
+    "citations_required": true,
+    "secret_guard_integrated": true,
+    "path_guard_integrated": true,
+    "miasi_tools_added": true,
+    "miasi_policies_added": true,
+    "lexical_index": true,
+    "embeddings_enabled": false,
+    "llm_required": false,
+    "external_api_used": false,
+    "network_used": false,
+    "dependencies_added": false,
+    "multiagent_runtime_added": false,
+    "mcp_runtime_added": false,
+    "remote_runner_enabled": false,
+    "runtime_index_path": ".devpilot/rag/docs_index.json",
+    "release_excludes_runtime_index": true,
+    "preliminary": true,
+    "next_sprint": "FUNC-SPRINT-88 — MCP threat model y Connector Registry"
+  },
+  "artifacts": [
+    "src/devpilot_core/rag/__init__.py",
+    "src/devpilot_core/rag/indexer.py",
+    "src/devpilot_core/rag/retriever.py",
+    "tests/test_rag_local.py",
+    "tests/test_sprint_87_documentation.py",
+    "docs/06_miasi/rag_card.md",
+    "docs/audits/func_sprint_87_rag_local_audit.md"
+  ],
+  "commands": [
+    "python -m devpilot_core rag index --target docs --json",
+    "python -m devpilot_core rag query \"Qué valida readiness strict\" --json",
+    "python -m pytest tests/test_rag_local.py tests/test_sprint_87_documentation.py -q"
+  ],
+  "pass_criteria": [
+    "RAG index is local and lexical.",
+    "RAG query includes sources and line ranges.",
+    "SecretGuard is used before indexing and querying.",
+    "No external API or network is required.",
+    "Sensitive paths are excluded."
+  ],
+  "wave": "Ola 11 — Multiagente, RAG, MCP y ecosistema",
+  "source_backlog": "docs/devpilot_backlog_fase_H_capacidades_avanzadas.md",
+  "created_files": [
+    "src/devpilot_core/rag/__init__.py",
+    "src/devpilot_core/rag/indexer.py",
+    "src/devpilot_core/rag/retriever.py",
+    "docs/06_miasi/rag_card.md",
+    "docs/audits/func_sprint_87_rag_local_audit.md",
+    "docs/functional_sprint_87_manifest.json",
+    "tests/test_rag_local.py",
+    "tests/test_sprint_87_documentation.py"
+  ],
+  "modified_files": [
+    "src/devpilot_core/cli.py",
+    "src/devpilot_core/release/package_builder.py",
+    "src/devpilot_core/release/verification.py",
+    ".devpilot/miasi/tool_registry.json",
+    ".devpilot/miasi/policy_matrix.json",
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/devpilot_backlog_fase_H_capacidades_avanzadas.md",
+    "docs/functional_backlog_after_precode.md",
+    "docs/release/CHANGELOG.md",
+    "historical sprint documentation tests"
+  ],
+  "tests": [
+    "tests/test_rag_local.py",
+    "tests/test_sprint_87_documentation.py",
+    "historical sprint documentation tests synchronized with README/backlog current milestone"
+  ],
+  "risks": [
+    {
+      "id": "RISK-FUNC-87-001",
+      "risk": "Lexical retrieval may miss semantically relevant content.",
+      "mitigation": "Declare lexical MVP and defer embeddings/evals to later sprints."
+    },
+    {
+      "id": "RISK-FUNC-87-002",
+      "risk": "Local index can become stale.",
+      "mitigation": "Run rag index after documentation changes; future work can add freshness checks."
+    },
+    {
+      "id": "RISK-FUNC-87-003",
+      "risk": "Sensitive content could be present in documents.",
+      "mitigation": "Path exclusions plus SecretGuard redaction before indexing."
+    }
+  ],
+  "next_sprint": "FUNC-SPRINT-88 — MCP threat model y Connector Registry",
+  "block_criteria": [
+    "Answer without sources.",
+    "Index secrets or denied paths.",
+    "Require external API.",
+    "Enable embeddings or semantic memory as mandatory Sprint 87 behavior."
+  ]
+}

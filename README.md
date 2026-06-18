@@ -1,13 +1,30 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
 Estado actual: `baseline pre-code approved + Fases A-G cerradas + Fase H en implementación controlada`  
-Último hito: `FUNC-SPRINT-86 — Agent session state y memoria operativa controlada`  
-Siguiente hito: `FUNC-SPRINT-87 — RAG documental local MVP`  
+Último hito: `FUNC-SPRINT-87 — RAG documental local MVP`  
+Siguiente hito: `FUNC-SPRINT-88 — MCP threat model y Connector Registry`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
 
 
+
+
+## FUNC-SPRINT-87 — RAG documental local MVP
+
+`FUNC-SPRINT-87` introduce una primera versión `implemented-initial` de RAG documental local. DevPilot puede construir un índice lexical sobre `docs/` y consultar documentación con fuentes obligatorias, sin embeddings remotos, sin LLM obligatorio, sin red, sin APIs externas y sin vector database externa.
+
+### Capacidades
+
+- `src/devpilot_core/rag/indexer.py` crea `.devpilot/rag/docs_index.json` con fragmentos, tokens lexicales, hashes y metadata de fuente.
+- `src/devpilot_core/rag/retriever.py` ejecuta recuperación top-k y devuelve `source_refs` con documento y rango de líneas.
+- `python -m devpilot_core rag index --target docs --json` genera el índice local.
+- `python -m devpilot_core rag query "Qué valida readiness strict" --json` consulta el índice y solo responde si recupera fuentes.
+- `.devpilot/rag/` es estado runtime regenerable y queda excluido de paquetes release.
+
+### Seguridad
+
+La implementación usa `PathGuard` y `SecretGuard`, excluye `.git`, `.venv`, `node_modules`, `outputs`, `dist`, caches, `.env`, `.devpilot/devpilot.db`, backups y sesiones. Si no hay fuentes, `rag query` retorna `RAG_QUERY_NO_SOURCES` y no inventa respuesta. Esta versión es lexical: embeddings locales, groundedness avanzado, integración agentic y UI/API quedan para evolución posterior.
 
 
 ## FUNC-SPRINT-86 — Agent session state y memoria operativa controlada

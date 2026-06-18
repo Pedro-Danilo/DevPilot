@@ -4831,3 +4831,40 @@ python -m devpilot_core validate-artifact docs\audits\func_sprint_86_agent_sessi
 python -m devpilot_core schema validate-manifest docs\functional_sprint_86_manifest.json --json
 python -m pytest tests\test_agent_session.py tests\test_sprint_86_documentation.py -q
 ```
+
+
+## FUNC-SPRINT-87 — Operación RAG documental local MVP
+
+### Propósito
+
+Permitir consultas documentales locales con fuentes verificables. Esta primera versión es lexical y `implemented-initial`: no usa embeddings, APIs externas, LLM obligatorio, red ni vector database externa.
+
+### Comandos
+
+```powershell
+python -m devpilot_core rag index --target docs --json --write-report
+python -m devpilot_core rag query "Qué valida readiness strict" --json --write-report
+```
+
+### Funcionamiento
+
+`rag index` recorre documentación permitida, aplica `PathGuard`, excluye rutas sensibles, redacted contenido mediante `SecretGuard`, fragmenta por rangos de líneas y escribe `.devpilot/rag/docs_index.json`. `rag query` carga ese índice, calcula coincidencias lexicales y responde solo con `sources[]` y `answer.source_refs`.
+
+### Criterios PASS
+
+- El índice se genera localmente.
+- La consulta exitosa contiene `sources_total > 0`.
+- Cada fuente contiene `path`, `line_start`, `line_end` y `ref`.
+- `network_used=false` y `external_api_used=false`.
+- `embeddings_enabled=false` en Sprint 87.
+
+### Criterios BLOCK
+
+- Respuesta sin fuentes.
+- Indexación de `.env`, `.git`, `.venv`, `outputs`, `node_modules`, `.devpilot/devpilot.db`, backups o sesiones.
+- Uso obligatorio de API externa.
+- Presentar el índice lexical como RAG industrial completo.
+
+### Riesgos
+
+La recuperación lexical puede omitir documentos relevantes cuando la consulta usa sinónimos. Reindexar después de cambios importantes en `docs/`. Futuras versiones deben agregar embeddings locales opcionales, evals de groundedness y cobertura de citas.

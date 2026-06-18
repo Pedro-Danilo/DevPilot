@@ -2,13 +2,13 @@
 title: "DevPilot Local — Backlog ejecutable Fase H: Capacidades avanzadas"
 doc_id: "DEVPL-FUNC-BACKLOG-FASE-H-001"
 status: "approved"
-version: "1.2.0"
+version: "1.3.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
 phase: "FASE-H-CAPACIDADES-AVANZADAS"
 updated: "2026-06-18"
-source_repo: "repo_DevPilot_Local_109.zip"
+source_repo: "repo_DevPilot_Local_111.zip"
 source_report: "Informe de avance DevPilot - sprint 0 - 18.docx"
 source_backlog_model: "docs/functional_backlog_after_precode.md"
 baseline_dependency: "Fases A-G cerradas; Fase G cerrada por FUNC-SPRINT-84 como implemented-initial"
@@ -17,9 +17,9 @@ last_planned_sprint: "FUNC-SPRINT-99"
 approved_on: "2026-06-17"
 approval: "approved_after_phase_g_closure_validation"
 phase_h_status: "in_progress"
-first_open_sprint: "FUNC-SPRINT-87"
-last_completed_sprint: "FUNC-SPRINT-86"
-next_sprint: "FUNC-SPRINT-87"
+first_open_sprint: "FUNC-SPRINT-88"
+last_completed_sprint: "FUNC-SPRINT-87"
+next_sprint: "FUNC-SPRINT-88"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "phase_h_executable_backlog_review"
 ---
@@ -400,6 +400,10 @@ python -m pytest -q
 ```text
 Implementa FUNC-SPRINT-87. Crea RAG documental local lexical-first con índice local, retriever, referencias a fuentes y SecretGuard. No uses APIs externas.
 ```
+
+### Estado de implementación Sprint 87
+
+`FUNC-SPRINT-87 — RAG documental local MVP` queda implementado como baseline lexical local. Se agregan `rag index` y `rag query`, índice runtime bajo `.devpilot/rag/`, fuentes obligatorias, `SecretGuard`, `PathGuard`, MIASI tools/policies, auditoría y manifest. La capacidad queda `implemented-initial`: no usa embeddings obligatorios, LLM, red, APIs externas ni vector database externa. La siguiente unidad abierta es `FUNC-SPRINT-88 — MCP threat model y Connector Registry`.
 
 ---
 

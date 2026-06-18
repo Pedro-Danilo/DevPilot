@@ -876,6 +876,32 @@
         "AGENT_SESSION_INSPECT_ALLOW",
         "SECRETS_RAW_DENY"
       ]
+    },
+    {
+      "tool_id": "rag.index",
+      "name": "build_local_lexical_rag_index",
+      "phase": "MVP+",
+      "side_effect": "controlled_write",
+      "risk_level": "medium_high",
+      "status": "implemented-initial",
+      "requires_approval": false,
+      "policy_rule_ids": [
+        "RAG_INDEX_LOCAL_ALLOW",
+        "SECRETS_RAW_DENY"
+      ]
+    },
+    {
+      "tool_id": "rag.query",
+      "name": "query_local_lexical_rag_index",
+      "phase": "MVP+",
+      "side_effect": "read",
+      "risk_level": "medium",
+      "status": "implemented-initial",
+      "requires_approval": false,
+      "policy_rule_ids": [
+        "RAG_QUERY_LOCAL_ALLOW",
+        "SECRETS_RAW_DENY"
+      ]
     }
   ]
 }

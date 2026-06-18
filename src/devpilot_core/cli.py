@@ -19,6 +19,7 @@ from .modeling import BudgetLedger, CapabilityMatrix, ModelAdapterRouter, ModelE
 from .policy import CostPolicy, PolicyEngine, PolicyRequest, load_cost_policy
 from .prompts import PromptRegistry
 from .quality import QualityGate, QualityGateOptions
+from .rag import LocalRagIndexer, LocalRagRetriever, RagIndexOptions, RagQueryOptions
 from .release import (
     BackupCreateBuilder,
     BackupCreateOptions,
@@ -1518,6 +1519,74 @@ def agent_session_inspect_command(
     )
     _emit_result_event(root, result, subject=session_id)
     _persist_result(root, result, subject=session_id)
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+
+def rag_index_command(
+    *,
+    target: str = "docs",
+    index_path: str = ".devpilot/rag/docs_index.json",
+    json_output: bool = False,
+    write_report: bool = False,
+) -> int:
+    """Build the FUNC-SPRINT-87 local lexical RAG index.
+
+    The command is local-only and writes runtime index state under `.devpilot/rag`.
+    It uses PathGuard and SecretGuard, excludes denied project internals and does
+    not call embeddings, LLMs, network APIs or external services.
+    """
+
+    root = project_root()
+    result = LocalRagIndexer(root, options=RagIndexOptions(target=target, index_path=index_path)).build()
+    result = _write_optional_command_report(
+        root,
+        result,
+        subject=target,
+        report_id="rag_index",
+        write_report=write_report,
+        metadata={"sprint": "FUNC-SPRINT-87", "component": "LocalRagIndexer", "target": target},
+    )
+    if write_report and isinstance((result.data or {}).get("reports"), dict):
+        data = dict(result.data or {})
+        summary = dict(data.get("summary") or {})
+        summary["reports_written"] = True
+        data["summary"] = summary
+        result = CommandResult(command=result.command, ok=result.ok, exit_code=result.exit_code, message=result.message, data=data, findings=result.findings)
+    _emit_result_event(root, result, subject=target)
+    _persist_result(root, result, subject=target)
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+
+def rag_query_command(
+    query: str,
+    *,
+    index_path: str = ".devpilot/rag/docs_index.json",
+    top_k: int = 5,
+    json_output: bool = False,
+    write_report: bool = False,
+) -> int:
+    """Run FUNC-SPRINT-87 local lexical RAG retrieval with mandatory sources."""
+
+    root = project_root()
+    result = LocalRagRetriever(root, options=RagQueryOptions(query=query, index_path=index_path, top_k=top_k)).query()
+    result = _write_optional_command_report(
+        root,
+        result,
+        subject=query,
+        report_id="rag_query",
+        write_report=write_report,
+        metadata={"sprint": "FUNC-SPRINT-87", "component": "LocalRagRetriever"},
+    )
+    if write_report and isinstance((result.data or {}).get("reports"), dict):
+        data = dict(result.data or {})
+        summary = dict(data.get("summary") or {})
+        summary["reports_written"] = True
+        data["summary"] = summary
+        result = CommandResult(command=result.command, ok=result.ok, exit_code=result.exit_code, message=result.message, data=data, findings=result.findings)
+    _emit_result_event(root, result, subject="rag:query")
+    _persist_result(root, result, subject="rag:query")
     print_result(result, json_output=json_output)
     return int(result.exit_code)
 
@@ -3465,6 +3534,22 @@ def build_parser() -> argparse.ArgumentParser:
     agent_session_inspect.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     agent_session_inspect.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
 
+
+    rag = sub.add_parser("rag", help="Build and query local source-grounded documentation RAG")
+    rag_sub = rag.add_subparsers(dest="rag_command")
+    rag_index = rag_sub.add_parser("index", help="Build local lexical RAG index")
+    rag_index.add_argument("--target", default="docs", help="Target directory or file to index; defaults to docs")
+    rag_index.add_argument("--index-path", default=".devpilot/rag/docs_index.json", help="Local index JSON path")
+    rag_index.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    rag_index.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+
+    rag_query = rag_sub.add_parser("query", help="Query local lexical RAG index with mandatory sources")
+    rag_query.add_argument("query", help="Question or search query")
+    rag_query.add_argument("--index-path", default=".devpilot/rag/docs_index.json", help="Local index JSON path")
+    rag_query.add_argument("--top-k", type=int, default=5, help="Maximum source chunks to return, capped at 20")
+    rag_query.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    rag_query.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+
     quality_gate = sub.add_parser("quality-gate", help="Run local productization quality gates")
     quality_gate_sub = quality_gate.add_subparsers(dest="quality_gate_command")
     quality_gate_run = quality_gate_sub.add_parser("run", help="Run the unified local quality gate")
@@ -3716,6 +3801,9 @@ def _command_name_from_args(args: argparse.Namespace) -> str:
     if command == "agent":
         subcommand = getattr(args, "agent_command", None)
         return f"agent {subcommand}" if subcommand else "agent"
+    if command == "rag":
+        subcommand = getattr(args, "rag_command", None)
+        return f"rag {subcommand}" if subcommand else "rag"
     if command == "quality-gate":
         subcommand = getattr(args, "quality_gate_command", None)
         return f"quality-gate {subcommand}" if subcommand else "quality-gate"
@@ -4120,6 +4208,13 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
                     json_output=args.json,
                     write_report=args.write_report,
                 )
+        parser.print_help()
+        return int(ExitCode.FAIL)
+    if args.command == "rag":
+        if args.rag_command == "index":
+            return rag_index_command(target=args.target, index_path=args.index_path, json_output=args.json, write_report=args.write_report)
+        if args.rag_command == "query":
+            return rag_query_command(args.query, index_path=args.index_path, top_k=args.top_k, json_output=args.json, write_report=args.write_report)
         parser.print_help()
         return int(ExitCode.FAIL)
     if args.command == "quality-gate":

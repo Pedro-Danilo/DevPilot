@@ -27,6 +27,7 @@ _FORBIDDEN_MARKERS = [
     ".devpilot/devpilot.db",
     ".devpilot/backups/",
     ".devpilot/agent_sessions/",
+    ".devpilot/rag/",
     ".devpilot/providers.yaml",
     ".pyc",
     ".pyo",
@@ -516,9 +517,9 @@ def _contains_forbidden_marker(name: str) -> bool:
         return True
     if cleaned.endswith((".pyc", ".pyo")):
         return True
-    if cleaned.startswith((".devpilot/backups/", ".devpilot/agent_sessions/")):
+    if cleaned.startswith((".devpilot/backups/", ".devpilot/agent_sessions/", ".devpilot/rag/")):
         return True
-    if "/.devpilot/backups/" in cleaned or "/.devpilot/agent_sessions/" in cleaned:
+    if "/.devpilot/backups/" in cleaned or "/.devpilot/agent_sessions/" in cleaned or "/.devpilot/rag/" in cleaned:
         return True
     return cleaned in {".devpilot/devpilot.db", ".devpilot/providers.yaml"}
 

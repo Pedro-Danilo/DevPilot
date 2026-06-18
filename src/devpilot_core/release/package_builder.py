@@ -28,6 +28,7 @@ _FORBIDDEN_MARKERS = [
     ".devpilot/devpilot.db",
     ".devpilot/backups/",
     ".devpilot/agent_sessions/",
+    ".devpilot/rag/",
     ".devpilot/providers.yaml",
     ".pyc",
     ".pyo",
@@ -372,7 +373,7 @@ def _is_excluded(rel: str) -> bool:
     rel = rel.replace("\\", "/")
     if rel in {".devpilot/devpilot.db", ".devpilot/providers.yaml"}:
         return True
-    if rel.startswith((".devpilot/backups/", ".devpilot/agent_sessions/")):
+    if rel.startswith((".devpilot/backups/", ".devpilot/agent_sessions/", ".devpilot/rag/")):
         return True
     if rel.endswith((".pyc", ".pyo")):
         return True

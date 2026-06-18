@@ -25,7 +25,7 @@ This changelog follows a Keep a Changelog-compatible category structure and is g
 ## [0.1.0] - 2026-06-17
 
 Release ID: `DEVPL-0.1.0`  
-Range: `FUNC-SPRINT-74` → `FUNC-SPRINT-86`  
+Range: `FUNC-SPRINT-74` → `FUNC-SPRINT-87`  
 Source: `docs/functional_sprint_*_manifest.json`
 
 ### Added
@@ -60,6 +60,7 @@ Source: `docs/functional_sprint_*_manifest.json`
 
 - `FUNC-SPRINT-85` — Se sincronizaron arquitectura C4, MIASI cards, README, runbook y backlog Fase H para iniciar capacidades avanzadas sin runtime prematuro. Source: `docs/functional_sprint_85_manifest.json`.
 - `FUNC-SPRINT-86` — Se sincronizaron AgentRuntime, CLI, package/release exclusions, README, runbook, backlog Fase H y MIASI policy/tool registry para soporte de AgentSession local. Source: `docs/functional_sprint_86_manifest.json`.
+- `FUNC-SPRINT-87` — Se sincronizaron RAG documental local, CLI `rag index/query`, MIASI policy/tool registry, README, runbook, backlog Fase H y exclusiones de runtime RAG para packages. Source: `docs/functional_sprint_87_manifest.json`.
 
 ### Deprecated
 
@@ -77,6 +78,7 @@ Source: `docs/functional_sprint_*_manifest.json`
 ### Security
 
 - `FUNC-SPRINT-86` — Se preservan límites local-first: sesiones redacted, inspección read-only, `semantic_memory_enabled=False`, `rag_enabled=False`, sin red, sin API externa y `.devpilot/agent_sessions/` excluido de packages. Source: `docs/functional_sprint_86_manifest.json`.
+- `FUNC-SPRINT-87` — Se preservan límites RAG local-first: fuentes obligatorias, SecretGuard, PathGuard, `embeddings_enabled=False`, sin red, sin API externa y `.devpilot/rag/` excluido de packages. Source: `docs/functional_sprint_87_manifest.json`.
 
 - `FUNC-SPRINT-74` — Se preservaron límites local-first/dry-run-first, exclusión de secretos/runtime state o bloqueo de publicación/despliegue según el contrato del sprint. Source: `docs/functional_sprint_74_manifest.json`; audit: `docs/audits/func_sprint_74_release_versioning_audit.md`. Controles declarados: `destructive_actions_added=False`, `external_publication_out_of_scope=True`.
 - `FUNC-SPRINT-75` — Se preservaron límites local-first/dry-run-first, exclusión de secretos/runtime state o bloqueo de publicación/despliegue según el contrato del sprint. Source: `docs/functional_sprint_75_manifest.json`; audit: `docs/audits/func_sprint_75_quality_gate_audit.md`. Controles declarados: `destructive_actions_added=False`, `external_publication_out_of_scope=True`.
@@ -105,6 +107,8 @@ Source: `docs/functional_sprint_*_manifest.json`
 - `FUNC-SPRINT-83` — `docs/functional_sprint_83_manifest.json`
 - `FUNC-SPRINT-84` — `docs/functional_sprint_84_manifest.json`
 - `FUNC-SPRINT-85` — `docs/functional_sprint_85_manifest.json`
+- `FUNC-SPRINT-86` — `docs/functional_sprint_86_manifest.json`
+- `FUNC-SPRINT-87` — `docs/functional_sprint_87_manifest.json`
 
 ### Policy notes
 
