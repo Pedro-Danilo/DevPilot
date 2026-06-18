@@ -1,3 +1,236 @@
+(.venv) PS D:\Projects\DevPilot_Local> pytest -q
+............................................................................................................................................ [ 18%]
+............................................................................................................................................ [ 37%]
+............................................................................................................................................ [ 56%]
+............................................................................................................................................ [ 74%]
+............................................................................................................................................ [ 93%]
+................................................                                                                                             [100%]
+DEVPL TEST SUMMARY: 748 passed, 0 failed, 0 errors, 0 skipped
+(.venv) PS D:\Projects\DevPilot_Local> python -m devpilot_core validate all --json
+{
+  "command": "validate all",
+  "ok": true,
+  "exit_code": 0,
+  "message": "Validation gateway passed all configured groups.",
+  "data": {
+    "summary": {
+      "scope": "all",
+      "validations_total": 2,
+      "validations_passed": 2,
+      "validations_failed": 0,
+      "findings_total": 102,
+      "warnings_total": 12,
+      "blocking_findings_total": 0,
+      "preliminary": true,
+      "network_used": false,
+      "external_api_used": false,
+      "mutations_performed": false
+    },
+    "validations": [
+      {
+        "id": "docs",
+        "result": {
+          "command": "validate docs",
+          "ok": true,
+          "exit_code": 0,
+          "message": "Documentation validation gateway passed.",
+          "data": {
+            "summary": {
+              "scope": "docs",
+              "validations_total": 2,
+              "validations_passed": 2,
+              "validations_failed": 0,
+              "findings_total": 14,
+              "warnings_total": 12,
+              "blocking_findings_total": 0,
+              "preliminary": true,
+              "network_used": false,
+              "external_api_used": false,
+              "mutations_performed": false
+            },
+            "validations": [
+              {
+                "id": "artifact-profile-registry",
+                "result": {
+                  "command": "artifact profile registry",
+                  "ok": true,
+                  "exit_code": 0,
+                  "message": "Artifact profile registry passed.",
+                  "data": {
+                    "summary": {
+                      "catalog_path": "docs/validation/artifact_profiles.json",
+                      "profiles_total": 21,
+                      "python_profiles_total": 21,
+                      "generic_profile_id": "generic-markdown",
+                      "duplicate_ids": [],
+                      "missing_from_json": [],
+                      "extra_in_json": [],
+                      "fallback_used": false,
+                      "preliminary": true
+                    },
+                    "profiles": [
+                      {
+                        "id": "product-vision",
+                        "description": "Product vision baseline artifact.",
+                        "filename": "product_vision.md",
+                        "path_contains": [
+                          "docs/00_product"
+                        ],
+                        "required_headings": [
+                          "resumen ejecutivo",
+                          "problema",
+                          "visión",
+                          "mvp",
+                          "indicadores"
+                        ],
+                        "recommended_headings": [
+                          "workspaces",
+                          "local-first",
+                          "post-mvp"
+                        ]
+                      },
+                      {
+                        "id": "business-case",
+                        "description": "Business case baseline artifact.",
+                        "filename": "business_case.md",
+                        "path_contains": [
+                          "docs/00_product"
+                        ],
+                        "required_headings": [
+                          "propósito",
+                          "problema",
+                          "justificación",
+                          "beneficios",
+                          "riesgos"
+                        ],
+                        "recommended_headings": [
+                          "costos",
+                          "criterios",
+                          "veredicto"
+                        ]
+                      },
+                      {
+                        "id": "mvp-scope",
+                        "description": "MVP scope baseline artifact.",
+                        "filename": "mvp_scope.md",
+                        "path_contains": [
+                          "docs/00_product"
+                        ],
+                        "required_headings": [
+                          "mvp",
+                          "mvp+",
+                          "out of scope",
+                          "criterios"
+                        ],
+                        "recommended_headings": [
+                          "restricciones",
+                          "local-first",
+                          "workspaces"
+                        ]
+                      },
+                      {
+                        "id": "requirements-specification",
+                        "description": "Requirements specification artifact aligned with MIPSoftware.",
+                        "filename": "requirements_specification.md",
+                        "path_contains": [
+                          "docs/01_requirements"
+                        ],
+                        "required_headings": [
+                          "propósito",
+                          "alcance",
+                          "requerimientos funcionales del mvp",
+                          "requerimientos no funcionales",
+                          "criterios de bloqueo"
+                        ],
+                        "recommended_headings": [
+                          "mvp+",
+                          "post-mvp",
+                          "miasi"
+                        ]
+                      },
+                      {
+                        "id": "use-cases",
+                        "description": "Use cases baseline artifact.",
+                        "filename": "use_cases.md",
+                        "path_contains": [
+                          "docs/01_requirements"
+                        ],
+                        "required_headings": [
+                          "propósito",
+                          "casos de uso",
+                          "mvp"
+                        ],
+                        "recommended_headings": [
+                          "mvp+",
+                          "post-mvp",
+                          "criterios"
+                        ]
+                      },
+                      {
+                        "id": "traceability-matrix",
+                        "description": "Traceability matrix artifact.",
+                        "filename": "traceability_matrix.md",
+                        "path_contains": [
+                          "docs/01_requirements"
+                        ],
+                        "required_headings": [
+                          "propósito",
+                          "matriz"
+                        ],
+                        "recommended_headings": [
+                          "producto",
+                          "requerimiento",
+                          "prueba"
+                        ]
+                      },
+                      {
+                        "id": "architecture-document",
+                        "description": "Architecture document artifact aligned with C4/arc42 discipline.",
+                        "filename": "architecture_document.md",
+                        "path_contains": [
+                          "docs/02_architecture"
+                        ],
+                        "required_headings": [
+                          "propósito",
+                          "alcance",
+                          "drivers",
+                          "componentes",
+                          "riesgos"
+                        ],
+                        "recommended_headings": [
+                          "persistencia",
+                          "seguridad",
+                          "tecnología",
+                          "agentes"
+                        ]
+                      },
+                      {
+                        "id": "c4-context",
+                        "description": "C4 context view artifact.",
+                        "filename": "c4_context.md",
+                        "path_contains": [
+                          "docs/02_architecture"
+                        ],
+                        "required_headings": [
+                          "propósito",
+                          "contexto"
+                        ],
+                        "recommended_headings": [
+                          "mermaid",
+                          "actores",
+                          "sistemas"
+                        ]
+                      },
+                      {
+                        "id": "c4-container",
+                        "description": "C4 container view artifact.",
+                        "filename": "c4_container.md",
+                        "path_contains": [
+                          "docs/02_architecture"
+                        ],
+                        "required_headings": [
+                          "propósito",
+                          "contenedores"
                         ],
                         "recommended_headings": [
                           "mermaid",
@@ -434,7 +667,7 @@
                       {
                         "artifact": "docs/05_operations/runbook.md",
                         "exists": true,
-                        "size_bytes": 200593,
+                        "size_bytes": 201862,
                         "frontmatter_ok": true,
                         "artifact_ok": true,
                         "status": "approved",
@@ -870,10 +1103,10 @@
           "data": {
             "summary": {
               "scope": "contracts",
-              "validations_total": 75,
-              "validations_passed": 75,
+              "validations_total": 76,
+              "validations_passed": 76,
               "validations_failed": 0,
-              "findings_total": 87,
+              "findings_total": 88,
               "warnings_total": 0,
               "blocking_findings_total": 0,
               "preliminary": true,
@@ -5056,6 +5289,50 @@
                     }
                   ]
                 }
+              },
+              {
+                "id": "manifest:docs/functional_sprint_89_manifest.json",
+                "result": {
+                  "command": "schema validate-manifest",
+                  "ok": true,
+                  "exit_code": 0,
+                  "message": "Schema validation passed.",
+                  "data": {
+                    "summary": {
+                      "schema": "docs/schemas/functional_sprint_manifest.schema.json",
+                      "instance": "docs/functional_sprint_89_manifest.json",
+                      "valid": true,
+                      "errors_total": 0,
+                      "findings_total": 1,
+                      "network_used": false,
+                      "external_api_used": false,
+                      "schema_title": "DevPilot Functional Sprint Manifest v1",
+                      "schema_id": "SCHEMA-DEVPL-FUNCTIONAL-SPRINT-MANIFEST-V1",
+                      "validator": "jsonschema",
+                      "jsonschema_version": "4.26.0",
+                      "preliminary": true,
+                      "contract": "FunctionalSprintManifest",
+                      "subject": "docs/functional_sprint_89_manifest.json"
+                    },
+                    "schema": "docs/schemas/functional_sprint_manifest.schema.json",
+                    "instance": "docs/functional_sprint_89_manifest.json",
+                    "notes": [
+                      "FUNC-SPRINT-22 validates JSON structure only; semantic gates remain in dedicated validators.",
+                      "Validation is local-first and does not call network or external APIs."
+                    ]
+                  },
+                  "findings": [
+                    {
+                      "id": "SCHEMA_VALIDATION_PASS",
+                      "message": "Instance conforms to schema.",
+                      "severity": "info",
+                      "metadata": {
+                        "schema": "docs/schemas/functional_sprint_manifest.schema.json",
+                        "instance": "docs/functional_sprint_89_manifest.json"
+                      }
+                    }
+                  ]
+                }
               }
             ],
             "notes": [
@@ -6022,6 +6299,17 @@
                 "schema": "docs/schemas/functional_sprint_manifest.schema.json",
                 "instance": "docs/functional_sprint_88_manifest.json",
                 "gateway_step": "manifest:docs/functional_sprint_88_manifest.json",
+                "source_command": "schema validate-manifest"
+              }
+            },
+            {
+              "id": "SCHEMA_VALIDATION_PASS",
+              "message": "Instance conforms to schema.",
+              "severity": "info",
+              "metadata": {
+                "schema": "docs/schemas/functional_sprint_manifest.schema.json",
+                "instance": "docs/functional_sprint_89_manifest.json",
+                "gateway_step": "manifest:docs/functional_sprint_89_manifest.json",
                 "source_command": "schema validate-manifest"
               }
             }
@@ -7168,9 +7456,22 @@
         "gateway_step": "manifest:docs/functional_sprint_88_manifest.json",
         "source_command": "schema validate-manifest"
       }
+    },
+    {
+      "id": "SCHEMA_VALIDATION_PASS",
+      "message": "Instance conforms to schema.",
+      "severity": "info",
+      "metadata": {
+        "schema": "docs/schemas/functional_sprint_manifest.schema.json",
+        "instance": "docs/functional_sprint_89_manifest.json",
+        "gateway_step": "manifest:docs/functional_sprint_89_manifest.json",
+        "source_command": "schema validate-manifest"
+      }
     }
   ]
 }
+
+
 (.venv) PS D:\Projects\DevPilot_Local> python -m devpilot_core quality-gate run --profile ci --json
 {
   "command": "quality-gate run",
@@ -7184,7 +7485,7 @@
       "subgates_passed": 8,
       "subgates_failed": 0,
       "critical_subgates_failed": 0,
-      "findings_total": 120,
+      "findings_total": 121,
       "warnings_total": 24,
       "blocking_findings_total": 0,
       "include_pytest": false,
@@ -7205,7 +7506,7 @@
         "ok": true,
         "exit_code": 0,
         "critical": true,
-        "duration_ms": 87,
+        "duration_ms": 86,
         "findings_total": 12,
         "warnings_total": 12,
         "blocking_findings_total": 0,
@@ -7249,11 +7550,11 @@
         "blocking_findings_total": 0,
         "summary": {
           "agents_total": 14,
-          "tools_total": 72,
-          "policy_rules_total": 56,
+          "tools_total": 74,
+          "policy_rules_total": 58,
           "mvp_agents": 2,
           "high_risk_tools": 18,
-          "approval_gated_rules": 13,
+          "approval_gated_rules": 14,
           "source_paths": {
             "agent_registry": ".devpilot/miasi/agent_registry.json",
             "tool_registry": ".devpilot/miasi/tool_registry.json",
@@ -7369,8 +7670,8 @@
         "ok": true,
         "exit_code": 0,
         "critical": true,
-        "duration_ms": 2213,
-        "findings_total": 101,
+        "duration_ms": 2211,
+        "findings_total": 102,
         "warnings_total": 12,
         "blocking_findings_total": 0,
         "summary": {
@@ -7378,7 +7679,7 @@
           "validations_total": 2,
           "validations_passed": 2,
           "validations_failed": 0,
-          "findings_total": 101,
+          "findings_total": 102,
           "warnings_total": 12,
           "blocking_findings_total": 0,
           "preliminary": true,
@@ -7394,7 +7695,7 @@
         "ok": true,
         "exit_code": 0,
         "critical": true,
-        "duration_ms": 578,
+        "duration_ms": 629,
         "findings_total": 1,
         "warnings_total": 0,
         "blocking_findings_total": 0,
@@ -9003,6 +9304,19 @@
       }
     },
     {
+      "id": "QUALITY_GATE_VALIDATION_GATEWAY_ALL_SCHEMA_VALIDATION_PASS",
+      "message": "Instance conforms to schema.",
+      "severity": "info",
+      "metadata": {
+        "subgate": "validation-gateway-all",
+        "source_command": "schema validate-manifest",
+        "source_finding_id": "SCHEMA_VALIDATION_PASS",
+        "schema": "docs/schemas/functional_sprint_manifest.schema.json",
+        "instance": "docs/functional_sprint_89_manifest.json",
+        "gateway_step": "manifest:docs/functional_sprint_89_manifest.json"
+      }
+    },
+    {
       "id": "QUALITY_GATE_VISUAL_PRODUCT_SMOKE_VISUAL_PRODUCT_SMOKE_PASS",
       "message": "Visual product smoke gate passed.",
       "severity": "info",
@@ -9031,4 +9345,4 @@
 > node scripts/smoke-test.mjs
 
 DEVPL WEB UI SMOKE TEST: PASS
-(.venv) PS D:\Projects\DevPilot_Local> python -m devpilot_core schema validate-manifest docs\functional_sprint_87_manifest.json --json
+(.venv) PS D:\Projects\DevPilot_Local>

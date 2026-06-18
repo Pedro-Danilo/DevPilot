@@ -30,15 +30,15 @@ def test_sprint_79_packaging_artifacts_exist_and_are_synchronized() -> None:
     ]:
         assert (ROOT / path).exists(), path
 
-    assert "Último hito: `FUNC-SPRINT-88" in readme
-    assert "Siguiente hito: `FUNC-SPRINT-89" in readme
+    assert "Último hito: `FUNC-SPRINT-89" in readme
+    assert "Siguiente hito: `FUNC-SPRINT-90" in readme
     assert "FUNC-SPRINT-79 — Packaging Python y ZIP limpio reproducible" in readme
     assert "FUNC-SPRINT-79 — Operación de Packaging" in runbook
     assert 'source_repo: "repo_DevPilot_Local_106.zip"' in backlog_g
     assert 'last_completed_sprint: "FUNC-SPRINT-84"' in backlog_g
     assert 'next_sprint: "FUNC-SPRINT-85"' in backlog_g
     assert 'phase_g_status: "closed"' in backlog_g
-    assert 'next_sprint: "FUNC-SPRINT-89"' in functional_backlog
+    assert 'next_sprint: "FUNC-SPRINT-90"' in functional_backlog
 
 
 def test_sprint_79_docs_define_package_boundaries() -> None:

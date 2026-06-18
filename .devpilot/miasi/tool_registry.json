@@ -929,6 +929,33 @@
         "CONNECTOR_DISCOVERY_DENY_BY_DEFAULT",
         "SECRETS_RAW_DENY"
       ]
+    },
+    {
+      "tool_id": "connector.call",
+      "name": "call_governed_read_only_connector",
+      "phase": "MVP+",
+      "side_effect": "read",
+      "risk_level": "medium_high",
+      "status": "implemented-initial",
+      "requires_approval": false,
+      "policy_rule_ids": [
+        "CONNECTOR_CALL_READ_ONLY_ALLOW",
+        "CONNECTOR_REGISTRY_VALIDATE_ALLOW",
+        "SECRETS_RAW_DENY"
+      ]
+    },
+    {
+      "tool_id": "connector.local_docs.list",
+      "name": "list_local_docs_connector_sources",
+      "phase": "MVP+",
+      "side_effect": "read",
+      "risk_level": "medium",
+      "status": "implemented-initial",
+      "requires_approval": false,
+      "policy_rule_ids": [
+        "CONNECTOR_CALL_READ_ONLY_ALLOW",
+        "SECRETS_RAW_DENY"
+      ]
     }
   ]
 }

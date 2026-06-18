@@ -1,8 +1,8 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
 Estado actual: `baseline pre-code approved + Fases A-G cerradas + Fase H en implementación controlada`  
-Último hito: `FUNC-SPRINT-88 — MCP threat model y Connector Registry`  
-Siguiente hito: `FUNC-SPRINT-89 — MCP MVP controlado y herramientas read-only`  
+Último hito: `FUNC-SPRINT-89 — MCP MVP controlado y herramientas read-only`  
+Siguiente hito: `FUNC-SPRINT-90 — MultiAgentCoordinator mínimo gobernado`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
@@ -2274,3 +2274,18 @@ Estado: `implemented-initial`. Esta versión prepara interoperabilidad futura, p
 `FUNC-SPRINT-82` agrega una primera versión `implemented-initial` de estrategia de instalación local. La capacidad principal es `python -m devpilot_core install plan`, que genera una matriz y un plan dry-run para instalación editable, wheel, ZIP fuente limpio y puente Desktop.
 
 Límites explícitos: no instala automáticamente, no crea servicios persistentes, no requiere privilegios elevados, no habilita auto-update, no publica, no despliega y no construye un instalador desktop real. La ruta visual vigente sigue siendo Web UI local web-first; Desktop queda diferido salvo decisión arquitectónica posterior.
+
+
+## FUNC-SPRINT-89 — MCP MVP controlado y herramientas read-only
+
+DevPilot incorpora un `ConnectorAdapter` local `implemented-initial` para llamadas gobernadas a conectores read-only. La primera capacidad operativa es `local.docs`, invocable mediante `connector call --connector local-docs --operation list --dry-run --json`.
+
+La capacidad es preliminar: no implementa cliente MCP real, servidor MCP real, red externa, API externa, shell, stdio arbitrario ni ejecución remota. Toda llamada pasa por Connector Registry, `PolicyEngine`, `PathGuard`, `SecretGuard` y genera evento local de trazabilidad.
+
+Comandos principales:
+
+```powershell
+python -m devpilot_core connector validate --json
+python -m devpilot_core connector call --connector local-docs --operation list --dry-run --json
+python -m devpilot_core connector call --connector local-docs --operation query --query "readiness strict" --dry-run --json
+```

@@ -1,0 +1,80 @@
+{
+  "schema_version": "1.0.0",
+  "sprint": "FUNC-SPRINT-89",
+  "title": "MCP MVP controlado y herramientas read-only",
+  "status": "implemented",
+  "implemented_on": "2026-06-18",
+  "phase": "FASE-H-CAPACIDADES-AVANZADAS",
+  "source_repo": "repo_DevPilot_Local_114.zip",
+  "source_backlog": "docs/devpilot_backlog_fase_H_capacidades_avanzadas.md",
+  "summary": {
+    "connector_adapter_added": true,
+    "connector_call_cli_added": true,
+    "read_only_connector_enabled": true,
+    "dry_run_required": true,
+    "policy_engine_required": true,
+    "trace_event_required": true,
+    "local_docs_connector_implemented_initial": true,
+    "mcp_real_client_implemented": false,
+    "mcp_real_server_implemented": false,
+    "remote_execution_enabled": false,
+    "shell_enabled": false,
+    "stdio_raw_enabled": false,
+    "network_used": false,
+    "external_api_used": false,
+    "dependencies_added": false,
+    "preliminary": true
+  },
+  "created_files": [
+    "src/devpilot_core/connectors/adapter.py",
+    "tests/test_connector_adapter.py",
+    "tests/test_sprint_89_documentation.py",
+    "docs/audits/func_sprint_89_mcp_mvp_audit.md",
+    "docs/functional_sprint_89_manifest.json"
+  ],
+  "modified_files": [
+    "src/devpilot_core/connectors/__init__.py",
+    "src/devpilot_core/cli.py",
+    ".devpilot/connectors/connector_registry.json",
+    ".devpilot/miasi/tool_registry.json",
+    ".devpilot/miasi/policy_matrix.json",
+    "docs/03_security/mcp_connector_threat_model.md",
+    "docs/06_miasi/connector_registry_card.md",
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/devpilot_backlog_fase_H_capacidades_avanzadas.md",
+    "docs/functional_backlog_after_precode.md",
+    "docs/release/CHANGELOG.md",
+    "tests/test_release_changelog.py",
+    "tests/test_phase_h_backlog_approval.py"
+  ],
+  "commands": [
+    "python -m devpilot_core connector validate --json",
+    "python -m devpilot_core connector call --connector local-docs --operation list --dry-run --json",
+    "python -m pytest tests/test_connector_adapter.py tests/test_sprint_89_documentation.py -q"
+  ],
+  "tests": [
+    "tests/test_connector_adapter.py",
+    "tests/test_sprint_89_documentation.py"
+  ],
+  "pass_criteria": [
+    "Connector MVP is read-only.",
+    "Every connector call goes through PolicyEngine.",
+    "Every connector call emits a trace/event.",
+    "No external network is used by default.",
+    "No arbitrary shell or stdio execution is available."
+  ],
+  "block_criteria": [
+    "Connector call without --dry-run.",
+    "Arbitrary command execution.",
+    "Raw shell or stdio without allowlist.",
+    "Connector call without policy check.",
+    "Connector call without trace/event."
+  ],
+  "risks": [
+    "MVP read-only adapter is not a full MCP implementation.",
+    "Future connector runtime could weaken deny-by-default if not covered by tests.",
+    "Connector output injection requires stronger future adversarial evals."
+  ],
+  "next_sprint": "FUNC-SPRINT-90"
+}

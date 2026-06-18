@@ -2,13 +2,13 @@
 title: "DevPilot Local — Backlog ejecutable Fase H: Capacidades avanzadas"
 doc_id: "DEVPL-FUNC-BACKLOG-FASE-H-001"
 status: "approved"
-version: "1.4.0"
+version: "1.5.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
 phase: "FASE-H-CAPACIDADES-AVANZADAS"
 updated: "2026-06-18"
-source_repo: "repo_DevPilot_Local_112.zip"
+source_repo: "repo_DevPilot_Local_114.zip"
 source_report: "Informe de avance DevPilot - sprint 0 - 18.docx"
 source_backlog_model: "docs/functional_backlog_after_precode.md"
 baseline_dependency: "Fases A-G cerradas; Fase G cerrada por FUNC-SPRINT-84 como implemented-initial"
@@ -17,9 +17,9 @@ last_planned_sprint: "FUNC-SPRINT-99"
 approved_on: "2026-06-17"
 approval: "approved_after_phase_g_closure_validation"
 phase_h_status: "in_progress"
-first_open_sprint: "FUNC-SPRINT-89"
-last_completed_sprint: "FUNC-SPRINT-88"
-next_sprint: "FUNC-SPRINT-89"
+first_open_sprint: "FUNC-SPRINT-90"
+last_completed_sprint: "FUNC-SPRINT-89"
+next_sprint: "FUNC-SPRINT-90"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "phase_h_executable_backlog_review"
 ---
@@ -1196,3 +1196,8 @@ Al finalizar FUNC-SPRINT-99, DevPilot debería contar con:
 ```text
 Desarrolla la Fase H — Capacidades avanzadas, iniciando en FUNC-SPRINT-85. Respeta el modelo de backlog ejecutable de DevPilot. No habilites multiagente, RAG, MCP, plugins, remote runners o enterprise features sin PolicyEngine, MIASI, Approval, evaluación, trazas, reportes y documentación. Mantén todo local-first y deny-by-default.
 ```
+
+
+## Estado de implementación Sprint 89
+
+`FUNC-SPRINT-89` queda implementado como MVP local read-only con `ConnectorAdapter` y `connector call --dry-run`.

@@ -33,23 +33,30 @@
       "connector_id": "local.docs",
       "name": "Local Docs Connector",
       "type": "documentation",
-      "status": "planned",
-      "description": "Future read-only connector for approved local documentation and RAG-backed discovery.",
+      "status": "implemented",
+      "description": "Implemented-initial read-only local documentation connector for dry-run source listing and bounded lexical source query.",
       "default_effect": "deny",
       "policy_rule_ids": [
         "CONNECTOR_DISCOVERY_DENY_BY_DEFAULT",
-        "CONNECTOR_READ_ONLY_PLANNED_ALLOW"
+        "CONNECTOR_READ_ONLY_PLANNED_ALLOW",
+        "CONNECTOR_CALL_READ_ONLY_ALLOW"
       ],
       "allowed_operations": [
         {
           "operation_id": "list_sources",
           "description": "List approved local documentation sources after policy check.",
           "side_effect": "read",
-          "status": "planned"
+          "status": "implemented"
         },
         {
           "operation_id": "query_sources",
           "description": "Query local documentation using grounded retrieval only.",
+          "side_effect": "read",
+          "status": "implemented"
+        },
+        {
+          "operation_id": "inspect_metadata",
+          "description": "Inspect connector metadata only; reserved for future connector discover command.",
           "side_effect": "read",
           "status": "planned"
         }

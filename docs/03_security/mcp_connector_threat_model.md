@@ -110,3 +110,18 @@ No incluye:
 - No hay pruebas adversariales de output MCP hasta sprints de red-team.
 - No hay UI/API para administración del registry.
 - Sprints futuros deben evitar convertir este registry en allowlist implícita sin policy.
+
+
+## Actualización FUNC-SPRINT-89 — MVP read-only gobernado
+
+Sprint 89 habilita una primera ruta de llamada a conector local read-only mediante `ConnectorAdapter`. La amenaza principal pasa de diseño documental a control operacional: evitar que una llamada de conector derive en shell, red externa, stdio arbitrario, lectura fuera del workspace o salida sin trazabilidad.
+
+Controles añadidos:
+
+- `connector call --dry-run` obligatorio.
+- `PolicyEngine` antes de entregar resultados.
+- `PathGuard` y `SecretGuard` sobre fuentes locales.
+- Evento `connector.call.evaluated` por intento de llamada.
+- Bloqueo de conectores no registrados, no implementados o no read-only.
+
+Persisten como BLOCK: cliente/servidor MCP real sin nueva política, ejecución remota, shell arbitrario, red externa y conectores sin policy/evidencia.

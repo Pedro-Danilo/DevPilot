@@ -2,7 +2,7 @@
 title: "DevPilot Local — Backlog ejecutable posterior a pre-code"
 doc_id: "DEVPL-FUNC-BACKLOG-001"
 status: "approved"
-version: "5.7.0"
+version: "5.8.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
@@ -14,7 +14,7 @@ change_policy: "controlled_changes_allowed_via_docs_as_code"
 approved_on: "2026-06-06"
 approval_scope: "functional_backlog_after_precode"
 baseline_execution: "FUNC-SPRINT-00"
-next_sprint: "FUNC-SPRINT-89"
+next_sprint: "FUNC-SPRINT-90"
 ---
 
 # DevPilot Local — Backlog ejecutable posterior a pre-code
@@ -2364,3 +2364,10 @@ Fase F avanza con Approval Center y acciones dry-run desde UI. `next_sprint: "FU
 
 El siguiente sprint operativo es `FUNC-SPRINT-89 — MCP MVP controlado y herramientas read-only`, que solo podrá implementar llamadas read-only locales si preserva registry PASS, policy ids, trazas, evals, sin shell, sin red externa y sin ejecución destructiva.
 
+
+
+## Transición posterior a FUNC-SPRINT-89
+
+`FUNC-SPRINT-89` agrega un MVP de conector local read-only mediante `ConnectorAdapter` y `connector call --dry-run`. La capacidad queda como `implemented-initial`: valida registry, policy, PathGuard, SecretGuard y trazabilidad, pero no habilita cliente/servidor MCP real, shell, stdio arbitrario, red externa ni API externa.
+
+Siguiente paso: `FUNC-SPRINT-90 — MultiAgentCoordinator mínimo gobernado`.

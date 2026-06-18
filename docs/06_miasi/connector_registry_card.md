@@ -8,6 +8,7 @@ standard: "MIPSoftware"
 extension: "MIASI"
 sprint: "FUNC-SPRINT-88"
 updated: "2026-06-18"
+approval: "approved_by_owner_direction"
 ---
 
 # MIASI Connector Registry Card — DevPilot Local
@@ -82,3 +83,10 @@ Tool poisoning, connector abuse, data leakage, privilege escalation, workspace c
 ## Evolución pendiente
 
 Sprint 89 deberá crear un MCP/ConnectorAdapter read-only y mantener deny-by-default, trazas, evals y approval donde aplique.
+
+
+## Actualización FUNC-SPRINT-89 — ConnectorAdapter read-only
+
+Sprint 89 conserva el Connector Registry como control deny-by-default y agrega un `ConnectorAdapter` local `implemented-initial` para llamadas read-only en modo `--dry-run`. La operación permitida inicialmente es `local.docs:list_sources`/`query_sources`, siempre bajo `PolicyEngine`, `PathGuard`, `SecretGuard` y evento local `connector.call.evaluated`.
+
+Límites explícitos: no hay cliente MCP real, servidor MCP real, red externa, API externa, shell, stdio arbitrario ni ejecución remota. Las llamadas sin `--dry-run` quedan bloqueadas.

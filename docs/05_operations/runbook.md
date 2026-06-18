@@ -4909,3 +4909,39 @@ python -m devpilot_core rag query "Qué valida readiness strict" --json --write-
 ### Riesgos
 
 La recuperación lexical puede omitir documentos relevantes cuando la consulta usa sinónimos. Reindexar después de cambios importantes en `docs/`. Futuras versiones deben agregar embeddings locales opcionales, evals de groundedness y cobertura de citas.
+
+
+## FUNC-SPRINT-89 — MCP MVP controlado y herramientas read-only
+
+### Propósito
+
+Operar la primera versión controlada de llamadas a conectores locales read-only. Esta versión es `implemented-initial`: valida el camino de ejecución gobernada, pero no habilita MCP real, red externa, shell ni conectores remotos.
+
+### Comandos
+
+```powershell
+python -m devpilot_core connector validate --json
+python -m devpilot_core connector call --connector local-docs --operation list --dry-run --json
+python -m devpilot_core connector call --connector local-docs --operation query --query "readiness strict" --dry-run --json
+python -m pytest tests\test_connector_adapter.py tests\test_sprint_89_documentation.py -q
+```
+
+### PASS
+
+- Registry en PASS.
+- `connector call` en modo `--dry-run`.
+- Llamada read-only.
+- `PolicyEngine` ejecutado.
+- Evento/traza local emitida.
+- Sin red externa, API externa, shell ni ejecución remota.
+
+### BLOCK
+
+- Llamada sin `--dry-run`.
+- Conector no registrado/deshabilitado/no implementado.
+- Operación no registrada/no implementada.
+- Shell, stdio arbitrario, red externa o API externa.
+
+### Riesgos
+
+El adapter es una primera versión. No representa un runtime MCP completo ni reemplaza futuros evals adversariales de tool output injection.

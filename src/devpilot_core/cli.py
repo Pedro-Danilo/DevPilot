@@ -11,7 +11,7 @@ from .approval.models import ApprovalStatus
 from .approval.service import ApprovalCliInput, ApprovalService
 from .application import ApplicationService
 from .cli_models import CommandResult, ExitCode, Finding, Severity
-from .connectors import ConnectorRegistry, ConnectorRegistryOptions
+from .connectors import ConnectorAdapter, ConnectorCallOptions, ConnectorRegistry, ConnectorRegistryOptions
 from .errors import DevPilotError
 from .evals import EvalRunner
 from .observability import AgentOpsGateOptions, AgentOpsQualityGate, EventLogger, MetricsCollector, OTelDryRunExporter, OTelExportOptions, TraceQueryService
@@ -1563,6 +1563,57 @@ def connector_validate_command(
     print_result(result, json_output=json_output)
     return int(result.exit_code)
 
+
+
+def connector_call_command(
+    *,
+    connector: str,
+    operation: str,
+    dry_run: bool = True,
+    query: str | None = None,
+    limit: int = 20,
+    registry_path: str = ".devpilot/connectors/connector_registry.json",
+    json_output: bool = False,
+    write_report: bool = False,
+) -> int:
+    """Call a governed FUNC-SPRINT-89 read-only connector in dry-run mode.
+
+    Sprint 89 adds a controlled local ConnectorAdapter. It does not implement a
+    real MCP client/server, remote execution, raw shell, external network calls
+    or external APIs. Every call passes through the Connector Registry,
+    PolicyEngine and local trace emission.
+    """
+
+    root = project_root()
+    result = ConnectorAdapter(root, registry_path=registry_path).call(
+        ConnectorCallOptions(
+            connector=connector,
+            operation=operation,
+            dry_run=dry_run,
+            query=query,
+            limit=limit,
+            registry_path=registry_path,
+        )
+    )
+    report_id = f"connector_call_{connector.replace('.', '_').replace('-', '_')}_{operation.replace('.', '_').replace('-', '_')}"
+    result = _write_optional_command_report(
+        root,
+        result,
+        subject=f"{connector}:{operation}",
+        report_id=report_id,
+        write_report=write_report,
+        metadata={"sprint": "FUNC-SPRINT-89", "component": "ConnectorAdapter"},
+    )
+    if write_report and isinstance((result.data or {}).get("reports"), dict):
+        data = dict(result.data or {})
+        summary = dict(data.get("summary") or {})
+        summary["reports_written"] = True
+        data["summary"] = summary
+        result = CommandResult(command=result.command, ok=result.ok, exit_code=result.exit_code, message=result.message, data=data, findings=result.findings)
+    _emit_result_event(root, result, subject=f"{connector}:{operation}")
+    _persist_result(root, result, subject=f"{connector}:{operation}")
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
 
 def rag_index_command(
     *,
@@ -3585,6 +3636,16 @@ def build_parser() -> argparse.ArgumentParser:
     connector_validate.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     connector_validate.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
 
+    connector_call = connector_sub.add_parser("call", help="Call a governed local read-only connector in dry-run mode")
+    connector_call.add_argument("--connector", required=True, help="Connector id or alias, e.g. local-docs")
+    connector_call.add_argument("--operation", required=True, help="Operation id or alias, e.g. list")
+    connector_call.add_argument("--dry-run", action="store_true", help="Required for Sprint 89 connector calls; execute mode remains blocked")
+    connector_call.add_argument("--query", default=None, help="Optional query for query-like read-only operations")
+    connector_call.add_argument("--limit", type=int, default=20, help="Maximum local read-only items to return, capped at 100")
+    connector_call.add_argument("--registry-path", default=".devpilot/connectors/connector_registry.json", help="Connector Registry JSON path")
+    connector_call.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    connector_call.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+
     rag = sub.add_parser("rag", help="Build and query local source-grounded documentation RAG")
     rag_sub = rag.add_subparsers(dest="rag_command")
     rag_index = rag_sub.add_parser("index", help="Build local lexical RAG index")
@@ -4266,6 +4327,17 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
     if args.command == "connector":
         if args.connector_command == "validate":
             return connector_validate_command(registry_path=args.registry_path, schema_path=args.schema_path, json_output=args.json, write_report=args.write_report)
+        if args.connector_command == "call":
+            return connector_call_command(
+                connector=args.connector,
+                operation=args.operation,
+                dry_run=args.dry_run,
+                query=args.query,
+                limit=args.limit,
+                registry_path=args.registry_path,
+                json_output=args.json,
+                write_report=args.write_report,
+            )
         parser.print_help()
         return int(ExitCode.FAIL)
     if args.command == "rag":

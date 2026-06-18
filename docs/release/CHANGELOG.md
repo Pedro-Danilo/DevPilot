@@ -55,6 +55,7 @@ Source: `docs/functional_sprint_*_manifest.json`
 - `FUNC-SPRINT-86` — Se sincronizaron artefactos de ingeniería y contratos existentes. Source: `docs/functional_sprint_86_manifest.json`. Artefactos: `src/devpilot_core/agents/__init__.py`, `src/devpilot_core/agents/runtime.py`, `src/devpilot_core/cli.py`, `src/devpilot_core/release/package_builder.py` y 9 artefactos adicionales.
 - `FUNC-SPRINT-87` — Se sincronizaron artefactos de ingeniería y contratos existentes. Source: `docs/functional_sprint_87_manifest.json`. Artefactos: `src/devpilot_core/cli.py`, `src/devpilot_core/release/package_builder.py`, `src/devpilot_core/release/verification.py`, `.devpilot/miasi/tool_registry.json` y 7 artefactos adicionales.
 - `FUNC-SPRINT-88` — Se sincronizaron artefactos de ingeniería y contratos existentes. Source: `docs/functional_sprint_88_manifest.json`. Artefactos: `src/devpilot_core/cli.py`, `.devpilot/miasi/tool_registry.json`, `.devpilot/miasi/policy_matrix.json`, `docs/schemas/schema_catalog.json` y 7 artefactos adicionales.
+- `FUNC-SPRINT-89` — Se agregó ConnectorAdapter read-only gobernado y CLI `connector call --dry-run`. Source: `docs/functional_sprint_89_manifest.json`; audit: `docs/audits/func_sprint_89_mcp_mvp_audit.md`. Artefactos: `src/devpilot_core/connectors/adapter.py`, `src/devpilot_core/cli.py`, `.devpilot/connectors/connector_registry.json`, `.devpilot/miasi/tool_registry.json` y 8 artefactos adicionales.
 
 ### Deprecated
 
@@ -84,6 +85,7 @@ Source: `docs/functional_sprint_*_manifest.json`
 - `FUNC-SPRINT-86` — Se preservaron límites local-first/dry-run-first, exclusión de secretos/runtime state o bloqueo de publicación/despliegue según el contrato del sprint. Source: `docs/functional_sprint_86_manifest.json`. Controles declarados: `external_api_used=False`, `secret_redaction_integrated=True`.
 - `FUNC-SPRINT-87` — Se preservaron límites local-first/dry-run-first, exclusión de secretos/runtime state o bloqueo de publicación/despliegue según el contrato del sprint. Source: `docs/functional_sprint_87_manifest.json`. Controles declarados: `external_api_used=False`, `secret_guard_integrated=True`.
 - `FUNC-SPRINT-88` — Se preservaron límites local-first/dry-run-first, exclusión de secretos/runtime state o bloqueo de publicación/despliegue según el contrato del sprint. Source: `docs/functional_sprint_88_manifest.json`. Controles declarados: `external_api_used=False`.
+- `FUNC-SPRINT-89` — Se preservaron límites local-first/dry-run-first y se bloqueó ejecución remota/shell/red externa para conectores. Source: `docs/functional_sprint_89_manifest.json`. Controles declarados: `external_api_used=False`, `network_used=False`, `shell_enabled=False`, `remote_execution_enabled=False`.
 
 ### References
 
@@ -102,6 +104,7 @@ Source: `docs/functional_sprint_*_manifest.json`
 - `FUNC-SPRINT-86` — `docs/functional_sprint_86_manifest.json`
 - `FUNC-SPRINT-87` — `docs/functional_sprint_87_manifest.json`
 - `FUNC-SPRINT-88` — `docs/functional_sprint_88_manifest.json`
+- `FUNC-SPRINT-89` — `docs/functional_sprint_89_manifest.json`
 
 ### Policy notes
 

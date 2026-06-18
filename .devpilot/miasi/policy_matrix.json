@@ -507,6 +507,24 @@
       "gate": "CostGuard+SecretGuard+ApprovalPolicyChecker+FutureADR",
       "approval_required": true,
       "observability_required": true
+    },
+    {
+      "rule_id": "CONNECTOR_CALL_READ_ONLY_ALLOW",
+      "domain": "Connector",
+      "action": "read_only_connector_call_dry_run",
+      "default_effect": "allow",
+      "gate": "ConnectorRegistry+PolicyEngine+PathGuard+SecretGuard+TraceEngine+NoNetwork+NoShell",
+      "approval_required": false,
+      "observability_required": true
+    },
+    {
+      "rule_id": "CONNECTOR_CALL_EXECUTE_DENY",
+      "domain": "Connector",
+      "action": "connector_call_execute_mode",
+      "default_effect": "deny",
+      "gate": "ConnectorAdapter+ApprovalPolicyChecker+FutureSandbox",
+      "approval_required": true,
+      "observability_required": true
     }
   ]
 }
