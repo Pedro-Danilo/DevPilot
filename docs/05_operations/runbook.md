@@ -4945,3 +4945,43 @@ python -m pytest tests\test_connector_adapter.py tests\test_sprint_89_documentat
 ### Riesgos
 
 El adapter es una primera versión. No representa un runtime MCP completo ni reemplaza futuros evals adversariales de tool output injection.
+
+
+## FUNC-SPRINT-90 — Operación MultiAgentCoordinator MVP
+
+### Estado
+
+`implemented-initial` como coordinador secuencial, local-first y report-only. No habilita autonomía abierta, planner de grafos, memoria compartida semántica, shell, red externa, APIs externas ni ejecución remota.
+
+### Propósito
+
+Permitir una primera coordinación de agentes especializados ya implementados mediante un workflow local allowlisted. Cada handoff debe quedar representado como `HandoffRecord`, pasar por `PolicyEngine` y generar evento local antes de ejecutar el agente destino.
+
+### Comandos
+
+```powershell
+python -m devpilot_core multiagent run --workflow repo-review --dry-run --json
+python -m devpilot_core multiagent run --workflow repo-review --dry-run --json --write-report
+python -m devpilot_core miasi validate --json
+python -m pytest tests\test_multiagent_coordinator.py tests\test_sprint_90_documentation.py -q
+```
+
+### Criterios PASS
+
+- El comando retorna `ok=true` y `exit_code=0`.
+- `summary.handoffs_total` coincide con `summary.handoffs_traced_total`.
+- Todos los handoffs incluyen `explicit=true` y `trace_event_emitted=true`.
+- Los agentes usados tienen estado MIASI `implemented` o `implemented-initial`.
+- `mutations_performed=false`, `network_used=false`, `external_api_used=false`, `shell_used=false` y `remote_execution_used=false`.
+
+### Criterios BLOCK
+
+- Ejecutar sin `--dry-run`.
+- Usar workflow no registrado.
+- Usar agentes `planned`, `future` o `disabled`.
+- Omitir `PolicyEngine` o traza de handoff.
+- Intentar acciones destructivas, shell, red externa, API externa o ejecución remota.
+
+### Riesgos y recuperación
+
+La capacidad es un MVP secuencial. Si el comando reporta hallazgos de agentes hijos, debe tratarse como evidencia de revisión y no como corrección automática. Para investigar trazas, revisar `outputs/traces/events.jsonl` y reportes opcionales en `outputs/reports/multiagent_repo_review.*`. Los artefactos runtime son regenerables y no deben incluirse en paquetes limpios.

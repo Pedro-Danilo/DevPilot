@@ -34,15 +34,15 @@ def test_sprint_44_readme_runbook_backlog_and_test_strategy_are_synchronized() -
     functional_backlog = _read("docs/functional_backlog_after_precode.md")
     test_strategy = _read("docs/04_quality/test_strategy.md")
 
-    assert "Último hito: `FUNC-SPRINT-89" in readme
-    assert "Siguiente hito: `FUNC-SPRINT-90" in readme
+    assert "Último hito: `FUNC-SPRINT-90" in readme
+    assert "Siguiente hito: `FUNC-SPRINT-91" in readme
     assert "## FUNC-SPRINT-44 — Cierre Fase C: repository engineering quality gate" in runbook
     assert "python -m devpilot_core repo engineering-gate --profile full --json --write-report" in runbook
     assert 'first_open_sprint: "FUNC-SPRINT-45"' in backlog
     assert 'last_completed_sprint: "FUNC-SPRINT-44"' in backlog
     assert 'phase_c_status: "completed"' in backlog
     assert "Estado de implementación Sprint 44" in backlog
-    assert 'next_sprint: "FUNC-SPRINT-90"' in functional_backlog
+    assert 'next_sprint: "FUNC-SPRINT-91"' in functional_backlog
     assert "Transición posterior a FUNC-SPRINT-44" in functional_backlog
     assert "Actualización FUNC-SPRINT-44 — Pruebas de Repository Engineering Gate" in test_strategy
 

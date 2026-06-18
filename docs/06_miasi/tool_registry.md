@@ -43,6 +43,8 @@ baseline_role: "precode_approved_baseline"
 | `model.call.mock` | call_mock_model | MVP | ninguno | Bajo | Planned |
 | `model.call.local` | call_local_model | MVP+ | cómputo local | Medio | Planned |
 | `model.call.external` | call_external_model | MVP+ | red/costo | Alto | Disabled by default |
+| `multiagent.coordinator.run` | multiagent_coordinator_run | Post-MVP | reporte dry-run | Alto | Implemented-initial |
+| `multiagent.handoff` | multiagent_handoff_trace | Post-MVP | reporte | Medio-alto | Implemented-initial |
 
 ## Política
 
@@ -200,3 +202,8 @@ Criterios PASS: agentes registrados en MIASI, prompts versionados, evals offline
 El Tool Registry declara las herramientas de agentes SDLC y capacidades auxiliares de revisión como `implemented-initial`, sin side effects destructivos ni aprobación requerida para lectura/reporte.
 
 Estado: `implemented-initial`; las capacidades son preliminares y deberán evolucionar con trazas AgentOps v2, métricas y reportes persistidos por agente.
+
+## Actualización FUNC-SPRINT-90 — MultiAgentCoordinator tools
+
+Se agregan `multiagent.coordinator.run` y `multiagent.handoff` como tools `implemented-initial`. Ambas operan en modo report-only/dry-run: la primera dispara el workflow local allowlisted y la segunda representa la emisión de evidencia de handoff. No habilitan ejecución crítica, shell, red externa, API externa ni escritura productiva.
+

@@ -1,13 +1,30 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
 Estado actual: `baseline pre-code approved + Fases A-G cerradas + Fase H en implementación controlada`  
-Último hito: `FUNC-SPRINT-89 — MCP MVP controlado y herramientas read-only`  
-Siguiente hito: `FUNC-SPRINT-90 — MultiAgentCoordinator mínimo gobernado`  
+Último hito: `FUNC-SPRINT-90 — MultiAgentCoordinator MVP y handoffs gobernados`  
+Siguiente hito: `FUNC-SPRINT-91 — Workflows multiagente SDLC dry-run`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
 
 
+
+
+## FUNC-SPRINT-90 — MultiAgentCoordinator MVP y handoffs gobernados
+
+`FUNC-SPRINT-90` introduce un `MultiAgentCoordinator` MVP en estado `implemented-initial`: orquestación secuencial, local-first, en `--dry-run`, con handoffs explícitos y trazados. No habilita autonomía abierta, graph planner, memoria compartida semántica, correcciones automáticas, shell, red externa ni APIs externas.
+
+### Capacidades
+
+- `src/devpilot_core/multiagent/handoff.py` define `HandoffRecord` como evidencia explícita entre agentes.
+- `src/devpilot_core/multiagent/coordinator.py` ejecuta el workflow allowlisted `repo-review`.
+- `python -m devpilot_core multiagent run --workflow repo-review --dry-run --json` ejecuta el coordinador en modo report-only.
+- `--write-report` persiste evidencia regenerable bajo `outputs/reports/multiagent_repo_review.*`.
+- MIASI registra `multiagent.coordinator`, `multiagent.coordinator.run`, `multiagent.handoff` y reglas de policy para dry-run, bloqueo de execute y traza obligatoria.
+
+### Seguridad
+
+El coordinador exige `--dry-run`, valida MIASI, solo acepta agentes `implemented` o `implemented-initial`, evalúa `PolicyEngine` antes de cada handoff y emite eventos `multiagent.handoff.evaluated`. Los hallazgos de agentes hijos se consolidan como evidencia; el comando no es un quality gate ni modifica archivos. La evolución a workflows SDLC más amplios queda para `FUNC-SPRINT-91`.
 
 
 ## FUNC-SPRINT-88 — MCP threat model y Connector Registry

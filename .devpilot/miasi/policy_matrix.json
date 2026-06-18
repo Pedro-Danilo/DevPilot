@@ -525,6 +525,33 @@
       "gate": "ConnectorAdapter+ApprovalPolicyChecker+FutureSandbox",
       "approval_required": true,
       "observability_required": true
+    },
+    {
+      "rule_id": "MULTIAGENT_COORDINATOR_DRY_RUN_ALLOW",
+      "domain": "Agent",
+      "action": "multiagent_coordinator_dry_run",
+      "default_effect": "allow",
+      "gate": "PolicyEngine + MIASI Agent Registry + Workflow allowlist",
+      "approval_required": false,
+      "observability_required": true
+    },
+    {
+      "rule_id": "MULTIAGENT_EXECUTE_DENY",
+      "domain": "Agent",
+      "action": "multiagent_execute",
+      "default_effect": "block",
+      "gate": "PolicyEngine blocks non-dry-run/autonomous execution",
+      "approval_required": true,
+      "observability_required": true
+    },
+    {
+      "rule_id": "MULTIAGENT_HANDOFF_TRACE_REQUIRED",
+      "domain": "Agent",
+      "action": "multiagent_handoff",
+      "default_effect": "allow",
+      "gate": "Explicit HandoffRecord + EventLogger trace required",
+      "approval_required": false,
+      "observability_required": true
     }
   ]
 }

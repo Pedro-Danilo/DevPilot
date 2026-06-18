@@ -1,0 +1,33 @@
+(.venv) PS D:\Projects\DevPilot_Local> pytest -q
+............................................................................................................................................ [ 18%]
+..........................................................................................................................F................. [ 36%]
+............................................................................................................................................ [ 55%]
+............................................................................................................................................ [ 73%]
+............................................................................................................................................ [ 92%]
+..........................................................                                                                                   [100%]
+==================================================================== FAILURES =====================================================================
+_____________________________________________ test_phase_h_backlog_is_approved_after_phase_g_closure ______________________________________________
+
+    def test_phase_h_backlog_is_approved_after_phase_g_closure() -> None:
+        backlog_h = _read("docs/devpilot_backlog_fase_H_capacidades_avanzadas.md")
+        readme = _read("README.md")
+        runbook = _read("docs/05_operations/runbook.md")
+        functional = _read("docs/functional_backlog_after_precode.md")
+
+        assert 'status: "approved"' in backlog_h
+        assert 'version: "1.5.0"' in backlog_h
+>       assert 'source_repo: "repo_DevPilot_Local_115.zip"' in backlog_h
+E       assert 'source_repo: "repo_DevPilot_Local_115.zip"' in '---\ntitle: "DevPilot Local — Backlog ejecutable Fase H: Capacidades avanzadas"\ndoc_id: "DEVPL-FUNC-BACKLOG-FASE-H-0...n\n`FUNC-SPRINT-89` queda implementado como MVP local read-only con `ConnectorAdapter` y `connector call --dry-run`.\n'
+
+tests\test_phase_h_backlog_approval.py:20: AssertionError
+DEVPL TEST SUMMARY: 757 passed, 1 failed, 0 errors, 0 skipped
+============================================================= short test summary info =============================================================
+FAILED tests/test_phase_h_backlog_approval.py::test_phase_h_backlog_is_approved_after_phase_g_closure - assert 'source_repo: "repo_DevPilot_Local_115.zip"' in '---\ntitle: "DevPilot Local — Backlog ejecutable Fase H: Capacidades avanzadas"\ndoc_id...
+(.venv) PS D:\Projects\DevPilot_Local>
+
+
+
+
+
+
+

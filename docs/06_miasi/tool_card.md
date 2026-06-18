@@ -684,3 +684,10 @@ Reglas obligatorias:
 - Remote runners quedan `experimental/future` y disabled-by-default.
 
 Criterio BLOCK: ninguna capacidad avanzada puede saltarse `PolicyEngine`, MIASI, Approval cuando aplique, trazas, evals y ReportEngine.
+
+## Actualización FUNC-SPRINT-90 — Herramientas multiagente
+
+`multiagent.coordinator.run` y `multiagent.handoff` quedan declaradas como herramientas de reporte para el MVP multiagente. Deben ejecutarse únicamente en `--dry-run`, con workflow allowlisted, agentes implementados, `PolicyEngine`, trazas locales y sin acciones destructivas.
+
+PASS: reporte local, handoff explícito, evento de traza, sin mutaciones. BLOCK: execute mode, agentes no implementados, shell, red/API externa o handoff no trazado.
+

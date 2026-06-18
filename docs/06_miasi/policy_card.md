@@ -242,3 +242,10 @@ Reglas obligatorias:
 - Remote runners quedan `experimental/future` y disabled-by-default.
 
 Criterio BLOCK: ninguna capacidad avanzada puede saltarse `PolicyEngine`, MIASI, Approval cuando aplique, trazas, evals y ReportEngine.
+
+## Actualización FUNC-SPRINT-90 — Política multiagente
+
+La política multiagente queda implementada inicialmente como deny/allow condicionado: el coordinador puede correr workflows allowlisted en `--dry-run`, pero debe bloquear ejecución abierta, agentes no implementados, handoffs implícitos, acciones destructivas, shell, red externa y API externa. Cada transferencia entre agentes requiere `PolicyEngine` y traza local.
+
+PASS: `MULTIAGENT_COORDINATOR_DRY_RUN_ALLOW` + `MULTIAGENT_HANDOFF_TRACE_REQUIRED`. BLOCK: `MULTIAGENT_EXECUTE_DENY` ante cualquier ejecución no dry-run o acción crítica.
+

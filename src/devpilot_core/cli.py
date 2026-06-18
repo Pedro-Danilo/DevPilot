@@ -17,6 +17,7 @@ from .evals import EvalRunner
 from .observability import AgentOpsGateOptions, AgentOpsQualityGate, EventLogger, MetricsCollector, OTelDryRunExporter, OTelExportOptions, TraceQueryService
 from .miasi import MiasiRegistryValidator
 from .modeling import BudgetLedger, CapabilityMatrix, ModelAdapterRouter, ModelEvalRunner, ModelEvalRunnerConfig, ModelHealthService, ModelRouterConfig
+from .multiagent import MultiAgentCoordinator, MultiAgentRunOptions
 from .policy import CostPolicy, PolicyEngine, PolicyRequest, load_cost_policy
 from .prompts import PromptRegistry
 from .quality import QualityGate, QualityGateOptions
@@ -1524,6 +1525,40 @@ def agent_session_inspect_command(
     return int(result.exit_code)
 
 
+
+
+def multiagent_run_command(
+    *,
+    workflow: str,
+    target: str = "src/devpilot_core/connectors",
+    dry_run: bool = False,
+    max_steps: int = 10,
+    json_output: bool = False,
+    write_report: bool = False,
+) -> int:
+    """Run a governed FUNC-SPRINT-90 multiagent workflow in dry-run mode."""
+
+    root = project_root()
+    result = MultiAgentCoordinator(root).run(
+        MultiAgentRunOptions(
+            workflow=workflow,
+            target=target,
+            dry_run=dry_run,
+            max_steps=max_steps,
+        )
+    )
+    report_id = f"multiagent_{workflow.replace('.', '_').replace('-', '_')}"
+    result = _write_optional_command_report(
+        root,
+        result,
+        subject=workflow,
+        report_id=report_id,
+        write_report=write_report,
+        metadata={"sprint": "FUNC-SPRINT-90", "workflow": workflow},
+    )
+    _persist_result(root, result, subject=workflow)
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
 
 def connector_validate_command(
     *,
@@ -3627,6 +3662,17 @@ def build_parser() -> argparse.ArgumentParser:
     agent_session_inspect.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
 
 
+    multiagent = sub.add_parser("multiagent", help="Run governed local multiagent workflows")
+    multiagent_sub = multiagent.add_subparsers(dest="multiagent_command")
+    multiagent_run = multiagent_sub.add_parser("run", help="Run a sequential governed multiagent workflow in dry-run mode")
+    multiagent_run.add_argument("--workflow", required=True, help="Workflow id, e.g. repo-review")
+    multiagent_run.add_argument("--target", default="src/devpilot_core/connectors", help="Target path for child read-only agents")
+    multiagent_run.add_argument("--dry-run", action="store_true", help="Required for Sprint 90; execute mode remains blocked")
+    multiagent_run.add_argument("--max-steps", type=int, default=10, help="Maximum workflow steps to run, capped by coordinator")
+    multiagent_run.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    multiagent_run.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+
+
 
     connector = sub.add_parser("connector", help="Validate local MCP/connector governance registries")
     connector_sub = connector.add_subparsers(dest="connector_command")
@@ -3912,6 +3958,9 @@ def _command_name_from_args(args: argparse.Namespace) -> str:
     if command == "agent":
         subcommand = getattr(args, "agent_command", None)
         return f"agent {subcommand}" if subcommand else "agent"
+    if command == "multiagent":
+        subcommand = getattr(args, "multiagent_command", None)
+        return f"multiagent {subcommand}" if subcommand else "multiagent"
     if command == "connector":
         subcommand = getattr(args, "connector_command", None)
         return f"connector {subcommand}" if subcommand else "connector"
@@ -4324,6 +4373,19 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
                 )
         parser.print_help()
         return int(ExitCode.FAIL)
+    if args.command == "multiagent":
+        if args.multiagent_command == "run":
+            return multiagent_run_command(
+                workflow=args.workflow,
+                target=args.target,
+                dry_run=args.dry_run,
+                max_steps=args.max_steps,
+                json_output=args.json,
+                write_report=args.write_report,
+            )
+        parser.print_help()
+        return int(ExitCode.FAIL)
+
     if args.command == "connector":
         if args.connector_command == "validate":
             return connector_validate_command(registry_path=args.registry_path, schema_path=args.schema_path, json_output=args.json, write_report=args.write_report)

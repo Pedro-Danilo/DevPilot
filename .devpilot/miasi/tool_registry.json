@@ -956,6 +956,31 @@
         "CONNECTOR_CALL_READ_ONLY_ALLOW",
         "SECRETS_RAW_DENY"
       ]
+    },
+    {
+      "tool_id": "multiagent.coordinator.run",
+      "name": "multiagent_coordinator_run",
+      "phase": "Post-MVP",
+      "side_effect": "report",
+      "risk_level": "high",
+      "status": "implemented-initial",
+      "requires_approval": false,
+      "policy_rule_ids": [
+        "MULTIAGENT_COORDINATOR_DRY_RUN_ALLOW",
+        "MULTIAGENT_EXECUTE_DENY"
+      ]
+    },
+    {
+      "tool_id": "multiagent.handoff",
+      "name": "multiagent_handoff_trace",
+      "phase": "Post-MVP",
+      "side_effect": "report",
+      "risk_level": "medium_high",
+      "status": "implemented-initial",
+      "requires_approval": false,
+      "policy_rule_ids": [
+        "MULTIAGENT_HANDOFF_TRACE_REQUIRED"
+      ]
     }
   ]
 }

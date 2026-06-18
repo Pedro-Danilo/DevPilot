@@ -225,3 +225,12 @@ Reglas obligatorias:
 - Remote runners quedan `experimental/future` y disabled-by-default.
 
 Criterio BLOCK: ninguna capacidad avanzada puede saltarse `PolicyEngine`, MIASI, Approval cuando aplique, trazas, evals y ReportEngine.
+
+## Actualización FUNC-SPRINT-90 — MultiAgentCoordinator MVP
+
+Sprint 90 registra `multiagent.coordinator` como agente `implemented-initial` para coordinación secuencial y dry-run. El coordinador solo puede ejecutar workflows allowlisted, usar agentes `implemented` o `implemented-initial`, crear `HandoffRecord` explícitos, evaluar `PolicyEngine` antes del handoff y emitir eventos `multiagent.handoff.evaluated`.
+
+Criterios PASS: handoffs explícitos, trazas por handoff, MIASI/policy por agente, sin mutaciones, sin shell, sin red externa, sin API externa y sin ejecución remota.
+
+Criterios BLOCK: agentes `planned/future`, handoff implícito, ejecución sin `--dry-run`, workflow no registrado o cualquier intento de acción destructiva.
+

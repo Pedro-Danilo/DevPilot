@@ -30,15 +30,15 @@ def test_sprint_84_release_agent_artifacts_exist_and_are_synchronized() -> None:
     ]:
         assert (ROOT / path).exists(), path
 
-    assert "Último hito: `FUNC-SPRINT-89" in readme
-    assert "Siguiente hito: `FUNC-SPRINT-90" in readme
+    assert "Último hito: `FUNC-SPRINT-90" in readme
+    assert "Siguiente hito: `FUNC-SPRINT-91" in readme
     assert "FUNC-SPRINT-84 — ReleaseAgent MVP dry-run y cierre Fase G" in readme
     assert "FUNC-SPRINT-84 — Operación ReleaseAgent dry-run y cierre Fase G" in runbook
     assert 'source_repo: "repo_DevPilot_Local_106.zip"' in backlog_g
     assert 'last_completed_sprint: "FUNC-SPRINT-84"' in backlog_g
     assert 'next_sprint: "FUNC-SPRINT-85"' in backlog_g
     assert 'phase_g_status: "closed"' in backlog_g
-    assert 'next_sprint: "FUNC-SPRINT-90"' in functional_backlog
+    assert 'next_sprint: "FUNC-SPRINT-91"' in functional_backlog
 
 
 def test_sprint_84_docs_define_release_agent_boundaries() -> None:
@@ -68,7 +68,7 @@ def test_sprint_84_docs_define_release_agent_boundaries() -> None:
         assert marker in artifacts_matrix
 
     assert "FUNC-SPRINT-84` — `docs/functional_sprint_84_manifest.json`" in changelog
-    assert "Range: `FUNC-SPRINT-74` → `FUNC-SPRINT-88`" in changelog
+    assert "Range: `FUNC-SPRINT-74` → `FUNC-SPRINT-90`" in changelog
 
 
 def test_sprint_84_manifest_declares_release_agent_scope() -> None:

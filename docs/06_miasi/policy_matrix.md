@@ -59,3 +59,14 @@ Condiciones:
 - no habilita telemetría remota;
 - debe emitir `CommandResult`;
 - debe bloquear si MIASI o documentos de cierre obligatorios están ausentes.
+
+## Actualización FUNC-SPRINT-90 — Reglas MultiAgentCoordinator
+
+| Regla | Efecto | Uso |
+|---|---|---|
+| `MULTIAGENT_COORDINATOR_DRY_RUN_ALLOW` | allow | Permite `multiagent run` solo como workflow local, secuencial y dry-run. |
+| `MULTIAGENT_EXECUTE_DENY` | block | Bloquea ejecución multiagente no dry-run, autonomía abierta o acciones críticas. |
+| `MULTIAGENT_HANDOFF_TRACE_REQUIRED` | allow condicionado | Exige `HandoffRecord`, `PolicyEngine` y evento `multiagent.handoff.evaluated` antes del agente destino. |
+
+Estas reglas no autorizan graph planner, agentes `planned/future`, shell, red externa, API externa ni modificación de archivos.
+

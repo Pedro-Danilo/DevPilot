@@ -8,7 +8,7 @@ standard: "MIPSoftware"
 extension: "MIASI"
 phase: "FASE-H-CAPACIDADES-AVANZADAS"
 updated: "2026-06-18"
-source_repo: "repo_DevPilot_Local_114.zip"
+source_repo: "repo_DevPilot_Local_116.zip"
 source_report: "Informe de avance DevPilot - sprint 0 - 18.docx"
 source_backlog_model: "docs/functional_backlog_after_precode.md"
 baseline_dependency: "Fases A-G cerradas; Fase G cerrada por FUNC-SPRINT-84 como implemented-initial"
@@ -17,9 +17,9 @@ last_planned_sprint: "FUNC-SPRINT-99"
 approved_on: "2026-06-17"
 approval: "approved_after_phase_g_closure_validation"
 phase_h_status: "in_progress"
-first_open_sprint: "FUNC-SPRINT-90"
-last_completed_sprint: "FUNC-SPRINT-89"
-next_sprint: "FUNC-SPRINT-90"
+first_open_sprint: "FUNC-SPRINT-91"
+last_completed_sprint: "FUNC-SPRINT-90"
+next_sprint: "FUNC-SPRINT-91"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "phase_h_executable_backlog_review"
 ---
@@ -606,6 +606,23 @@ Implementa FUNC-SPRINT-90. Crea MultiAgentCoordinator MVP secuencial y dry-run, 
 ```
 
 ---
+
+## Estado de implementación Sprint 90
+
+`FUNC-SPRINT-90 — MultiAgentCoordinator MVP y handoffs gobernados` queda implementado como coordinador secuencial local `implemented-initial`. Se agrega `MultiAgentCoordinator`, `HandoffRecord`, CLI `multiagent run --workflow repo-review --dry-run`, MIASI agent/tool/policy updates, auditoría, manifest y pruebas.
+
+Límites explícitos:
+
+- solo workflow allowlisted `repo-review`;
+- dry-run/report-only obligatorio;
+- handoffs explícitos y trazados mediante `multiagent.handoff.evaluated`;
+- solo agentes con estado `implemented` o `implemented-initial`;
+- sin autonomía abierta, graph planner, memoria compartida semántica, ejecución destructiva, shell, red externa, APIs externas ni ejecución remota.
+
+El siguiente sprint autorizado es `FUNC-SPRINT-91 — Workflows multiagente SDLC dry-run`.
+
+---
+
 
 ## FUNC-SPRINT-91 — Workflows multiagente SDLC dry-run
 

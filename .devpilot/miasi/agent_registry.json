@@ -419,22 +419,30 @@
       "agent_id": "multiagent.coordinator",
       "name": "MultiAgentCoordinator",
       "phase": "Post-MVP",
-      "max_autonomy": "A5/A6",
-      "status": "future",
+      "max_autonomy": "A3",
+      "status": "implemented-initial",
       "risk_level": "high",
       "allowed_tools": [
+        "multiagent.coordinator.run",
+        "multiagent.handoff",
+        "agent.repo_analysis.run",
+        "agent.code_review.run",
+        "agent.security.run",
         "report.write",
         "trace.append",
         "policy.check"
       ],
       "required_artifacts": [
         "Full MIASI",
-        "governance"
+        "governance",
+        "docs/audits/func_sprint_90_multiagent_coordinator_audit.md"
       ],
       "policy_rule_ids": [
-        "AGENT_CRITICAL_TOOL_DENY"
+        "MULTIAGENT_COORDINATOR_DRY_RUN_ALLOW",
+        "MULTIAGENT_EXECUTE_DENY",
+        "MULTIAGENT_HANDOFF_TRACE_REQUIRED"
       ],
-      "approval_required": true,
+      "approval_required": false,
       "observability_required": true,
       "eval_required": true
     },

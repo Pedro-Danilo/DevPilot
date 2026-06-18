@@ -27,7 +27,7 @@ baseline_role: "precode_approved_baseline"
 | `safe.refactor` | SafeRefactorAgent | MVP+ | A3 | Implemented-initial | Agent, Tool, Policy, Eval, Obs |
 | `release.agent` | ReleaseAgent | Post-MVP | A5 | Future | Full MIASI |
 | `operations.agent` | OperationsAgent | Post-MVP | A5 | Future | Full MIASI |
-| `multiagent.coordinator` | MultiAgentCoordinator | Post-MVP | A5/A6 | Future | Full MIASI + governance |
+| `multiagent.coordinator` | MultiAgentCoordinator | Post-MVP | A3 | Implemented-initial | Full MIASI + governance |
 
 ## Política
 
@@ -37,3 +37,8 @@ Este registro no habilita automáticamente agentes. Cada agente pasa a `enabled`
 ## Actualización FUNC-SPRINT-55
 
 La Fase D cierra con agentes SDLC `requirements.agent`, `architecture.agent` y `security.agent` en estado `implemented-initial`. Todos operan monoagente, read-only, con evals y prompts gobernados.
+
+## Actualización FUNC-SPRINT-90 — MultiAgentCoordinator MVP
+
+`multiagent.coordinator` pasa a `implemented-initial` solo para el MVP secuencial `repo-review`, en modo `--dry-run` obligatorio. Su autonomía efectiva queda acotada a A3: coordina agentes implementados, emite handoffs explícitos y consolida evidencia, pero no planifica libremente, no modifica archivos, no ejecuta herramientas críticas, no usa shell, no usa red externa y no habilita APIs externas.
+

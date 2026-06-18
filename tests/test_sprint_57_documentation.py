@@ -30,15 +30,15 @@ def test_sprint_57_artifacts_exist_and_are_synchronized() -> None:
     for path in expected_paths:
         assert (ROOT / path).exists(), path
 
-    assert "Último hito: `FUNC-SPRINT-89" in readme
-    assert "Siguiente hito: `FUNC-SPRINT-90" in readme
+    assert "Último hito: `FUNC-SPRINT-90" in readme
+    assert "Siguiente hito: `FUNC-SPRINT-91" in readme
     assert "## FUNC-SPRINT-57 — TraceContext y modelo de spans" in readme
     assert "## FUNC-SPRINT-57 — Operación de TraceContext y spans internos" in runbook
     assert 'first_open_sprint: "FUNC-SPRINT-64"' in backlog
     assert 'last_completed_sprint: "FUNC-SPRINT-63"' in backlog
     assert 'next_sprint: "FUNC-SPRINT-64"' in backlog
     assert "## Estado de implementación Sprint 57" in backlog
-    assert 'next_sprint: "FUNC-SPRINT-90"' in functional_backlog
+    assert 'next_sprint: "FUNC-SPRINT-91"' in functional_backlog
     assert "## Transición posterior a FUNC-SPRINT-57" in functional_backlog
     assert manifest["sprint"] == "FUNC-SPRINT-57"
     assert manifest["status"] == "implemented"

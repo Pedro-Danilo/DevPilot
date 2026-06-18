@@ -1,11 +1,11 @@
 (.venv) PS D:\Projects\DevPilot_Local> pytest -q
 ............................................................................................................................................ [ 18%]
-............................................................................................................................................ [ 37%]
-............................................................................................................................................ [ 56%]
-............................................................................................................................................ [ 74%]
-............................................................................................................................................ [ 93%]
-................................................                                                                                             [100%]
-DEVPL TEST SUMMARY: 748 passed, 0 failed, 0 errors, 0 skipped
+............................................................................................................................................ [ 36%]
+............................................................................................................................................ [ 55%]
+............................................................................................................................................ [ 73%]
+............................................................................................................................................ [ 92%]
+..........................................................                                                                                   [100%]
+DEVPL TEST SUMMARY: 758 passed, 0 failed, 0 errors, 0 skipped
 (.venv) PS D:\Projects\DevPilot_Local> python -m devpilot_core validate all --json
 {
   "command": "validate all",
@@ -18,7 +18,7 @@ DEVPL TEST SUMMARY: 748 passed, 0 failed, 0 errors, 0 skipped
       "validations_total": 2,
       "validations_passed": 2,
       "validations_failed": 0,
-      "findings_total": 102,
+      "findings_total": 103,
       "warnings_total": 12,
       "blocking_findings_total": 0,
       "preliminary": true,
@@ -667,7 +667,7 @@ DEVPL TEST SUMMARY: 748 passed, 0 failed, 0 errors, 0 skipped
                       {
                         "artifact": "docs/05_operations/runbook.md",
                         "exists": true,
-                        "size_bytes": 201862,
+                        "size_bytes": 203875,
                         "frontmatter_ok": true,
                         "artifact_ok": true,
                         "status": "approved",
@@ -676,7 +676,7 @@ DEVPL TEST SUMMARY: 748 passed, 0 failed, 0 errors, 0 skipped
                       {
                         "artifact": "docs/06_miasi/agent_card.md",
                         "exists": true,
-                        "size_bytes": 12937,
+                        "size_bytes": 13685,
                         "frontmatter_ok": true,
                         "artifact_ok": true,
                         "status": "approved",
@@ -685,7 +685,7 @@ DEVPL TEST SUMMARY: 748 passed, 0 failed, 0 errors, 0 skipped
                       {
                         "artifact": "docs/06_miasi/tool_card.md",
                         "exists": true,
-                        "size_bytes": 34872,
+                        "size_bytes": 35382,
                         "frontmatter_ok": true,
                         "artifact_ok": true,
                         "status": "approved",
@@ -694,7 +694,7 @@ DEVPL TEST SUMMARY: 748 passed, 0 failed, 0 errors, 0 skipped
                       {
                         "artifact": "docs/06_miasi/policy_card.md",
                         "exists": true,
-                        "size_bytes": 13151,
+                        "size_bytes": 13757,
                         "frontmatter_ok": true,
                         "artifact_ok": true,
                         "status": "approved",
@@ -1103,10 +1103,10 @@ DEVPL TEST SUMMARY: 748 passed, 0 failed, 0 errors, 0 skipped
           "data": {
             "summary": {
               "scope": "contracts",
-              "validations_total": 76,
-              "validations_passed": 76,
+              "validations_total": 77,
+              "validations_passed": 77,
               "validations_failed": 0,
-              "findings_total": 88,
+              "findings_total": 89,
               "warnings_total": 0,
               "blocking_findings_total": 0,
               "preliminary": true,
@@ -5333,6 +5333,50 @@ DEVPL TEST SUMMARY: 748 passed, 0 failed, 0 errors, 0 skipped
                     }
                   ]
                 }
+              },
+              {
+                "id": "manifest:docs/functional_sprint_90_manifest.json",
+                "result": {
+                  "command": "schema validate-manifest",
+                  "ok": true,
+                  "exit_code": 0,
+                  "message": "Schema validation passed.",
+                  "data": {
+                    "summary": {
+                      "schema": "docs/schemas/functional_sprint_manifest.schema.json",
+                      "instance": "docs/functional_sprint_90_manifest.json",
+                      "valid": true,
+                      "errors_total": 0,
+                      "findings_total": 1,
+                      "network_used": false,
+                      "external_api_used": false,
+                      "schema_title": "DevPilot Functional Sprint Manifest v1",
+                      "schema_id": "SCHEMA-DEVPL-FUNCTIONAL-SPRINT-MANIFEST-V1",
+                      "validator": "jsonschema",
+                      "jsonschema_version": "4.26.0",
+                      "preliminary": true,
+                      "contract": "FunctionalSprintManifest",
+                      "subject": "docs/functional_sprint_90_manifest.json"
+                    },
+                    "schema": "docs/schemas/functional_sprint_manifest.schema.json",
+                    "instance": "docs/functional_sprint_90_manifest.json",
+                    "notes": [
+                      "FUNC-SPRINT-22 validates JSON structure only; semantic gates remain in dedicated validators.",
+                      "Validation is local-first and does not call network or external APIs."
+                    ]
+                  },
+                  "findings": [
+                    {
+                      "id": "SCHEMA_VALIDATION_PASS",
+                      "message": "Instance conforms to schema.",
+                      "severity": "info",
+                      "metadata": {
+                        "schema": "docs/schemas/functional_sprint_manifest.schema.json",
+                        "instance": "docs/functional_sprint_90_manifest.json"
+                      }
+                    }
+                  ]
+                }
               }
             ],
             "notes": [
@@ -6310,6 +6354,17 @@ DEVPL TEST SUMMARY: 748 passed, 0 failed, 0 errors, 0 skipped
                 "schema": "docs/schemas/functional_sprint_manifest.schema.json",
                 "instance": "docs/functional_sprint_89_manifest.json",
                 "gateway_step": "manifest:docs/functional_sprint_89_manifest.json",
+                "source_command": "schema validate-manifest"
+              }
+            },
+            {
+              "id": "SCHEMA_VALIDATION_PASS",
+              "message": "Instance conforms to schema.",
+              "severity": "info",
+              "metadata": {
+                "schema": "docs/schemas/functional_sprint_manifest.schema.json",
+                "instance": "docs/functional_sprint_90_manifest.json",
+                "gateway_step": "manifest:docs/functional_sprint_90_manifest.json",
                 "source_command": "schema validate-manifest"
               }
             }
@@ -7467,10 +7522,20 @@ DEVPL TEST SUMMARY: 748 passed, 0 failed, 0 errors, 0 skipped
         "gateway_step": "manifest:docs/functional_sprint_89_manifest.json",
         "source_command": "schema validate-manifest"
       }
+    },
+    {
+      "id": "SCHEMA_VALIDATION_PASS",
+      "message": "Instance conforms to schema.",
+      "severity": "info",
+      "metadata": {
+        "schema": "docs/schemas/functional_sprint_manifest.schema.json",
+        "instance": "docs/functional_sprint_90_manifest.json",
+        "gateway_step": "manifest:docs/functional_sprint_90_manifest.json",
+        "source_command": "schema validate-manifest"
+      }
     }
   ]
 }
-
 
 (.venv) PS D:\Projects\DevPilot_Local> python -m devpilot_core quality-gate run --profile ci --json
 {
@@ -7485,7 +7550,7 @@ DEVPL TEST SUMMARY: 748 passed, 0 failed, 0 errors, 0 skipped
       "subgates_passed": 8,
       "subgates_failed": 0,
       "critical_subgates_failed": 0,
-      "findings_total": 121,
+      "findings_total": 122,
       "warnings_total": 24,
       "blocking_findings_total": 0,
       "include_pytest": false,
@@ -7506,7 +7571,7 @@ DEVPL TEST SUMMARY: 748 passed, 0 failed, 0 errors, 0 skipped
         "ok": true,
         "exit_code": 0,
         "critical": true,
-        "duration_ms": 86,
+        "duration_ms": 85,
         "findings_total": 12,
         "warnings_total": 12,
         "blocking_findings_total": 0,
@@ -7550,11 +7615,11 @@ DEVPL TEST SUMMARY: 748 passed, 0 failed, 0 errors, 0 skipped
         "blocking_findings_total": 0,
         "summary": {
           "agents_total": 14,
-          "tools_total": 74,
-          "policy_rules_total": 58,
+          "tools_total": 76,
+          "policy_rules_total": 61,
           "mvp_agents": 2,
-          "high_risk_tools": 18,
-          "approval_gated_rules": 14,
+          "high_risk_tools": 19,
+          "approval_gated_rules": 15,
           "source_paths": {
             "agent_registry": ".devpilot/miasi/agent_registry.json",
             "tool_registry": ".devpilot/miasi/tool_registry.json",
@@ -7670,8 +7735,8 @@ DEVPL TEST SUMMARY: 748 passed, 0 failed, 0 errors, 0 skipped
         "ok": true,
         "exit_code": 0,
         "critical": true,
-        "duration_ms": 2211,
-        "findings_total": 102,
+        "duration_ms": 2231,
+        "findings_total": 103,
         "warnings_total": 12,
         "blocking_findings_total": 0,
         "summary": {
@@ -7679,7 +7744,7 @@ DEVPL TEST SUMMARY: 748 passed, 0 failed, 0 errors, 0 skipped
           "validations_total": 2,
           "validations_passed": 2,
           "validations_failed": 0,
-          "findings_total": 102,
+          "findings_total": 103,
           "warnings_total": 12,
           "blocking_findings_total": 0,
           "preliminary": true,
@@ -7695,7 +7760,7 @@ DEVPL TEST SUMMARY: 748 passed, 0 failed, 0 errors, 0 skipped
         "ok": true,
         "exit_code": 0,
         "critical": true,
-        "duration_ms": 629,
+        "duration_ms": 597,
         "findings_total": 1,
         "warnings_total": 0,
         "blocking_findings_total": 0,
@@ -9314,6 +9379,19 @@ DEVPL TEST SUMMARY: 748 passed, 0 failed, 0 errors, 0 skipped
         "schema": "docs/schemas/functional_sprint_manifest.schema.json",
         "instance": "docs/functional_sprint_89_manifest.json",
         "gateway_step": "manifest:docs/functional_sprint_89_manifest.json"
+      }
+    },
+    {
+      "id": "QUALITY_GATE_VALIDATION_GATEWAY_ALL_SCHEMA_VALIDATION_PASS",
+      "message": "Instance conforms to schema.",
+      "severity": "info",
+      "metadata": {
+        "subgate": "validation-gateway-all",
+        "source_command": "schema validate-manifest",
+        "source_finding_id": "SCHEMA_VALIDATION_PASS",
+        "schema": "docs/schemas/functional_sprint_manifest.schema.json",
+        "instance": "docs/functional_sprint_90_manifest.json",
+        "gateway_step": "manifest:docs/functional_sprint_90_manifest.json"
       }
     },
     {

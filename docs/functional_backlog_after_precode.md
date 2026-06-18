@@ -14,7 +14,7 @@ change_policy: "controlled_changes_allowed_via_docs_as_code"
 approved_on: "2026-06-06"
 approval_scope: "functional_backlog_after_precode"
 baseline_execution: "FUNC-SPRINT-00"
-next_sprint: "FUNC-SPRINT-90"
+next_sprint: "FUNC-SPRINT-91"
 ---
 
 # DevPilot Local — Backlog ejecutable posterior a pre-code
@@ -2371,3 +2371,10 @@ El siguiente sprint operativo es `FUNC-SPRINT-89 — MCP MVP controlado y herram
 `FUNC-SPRINT-89` agrega un MVP de conector local read-only mediante `ConnectorAdapter` y `connector call --dry-run`. La capacidad queda como `implemented-initial`: valida registry, policy, PathGuard, SecretGuard y trazabilidad, pero no habilita cliente/servidor MCP real, shell, stdio arbitrario, red externa ni API externa.
 
 Siguiente paso: `FUNC-SPRINT-90 — MultiAgentCoordinator mínimo gobernado`.
+
+## Transición posterior a FUNC-SPRINT-90
+
+`FUNC-SPRINT-90 — MultiAgentCoordinator MVP y handoffs gobernados` queda implementado como MVP secuencial y report-only. DevPilot ahora puede ejecutar `multiagent run --workflow repo-review --dry-run --json`, validar MIASI/policy por handoff, trazar cada transferencia mediante `multiagent.handoff.evaluated` y consolidar resultados de agentes implementados sin mutaciones.
+
+La siguiente unidad abierta es `FUNC-SPRINT-91 — Workflows multiagente SDLC dry-run`, que deberá mover la definición de workflows hacia contratos más expresivos y reportes multiagente, sin habilitar autonomía abierta ni ejecución destructiva.
+

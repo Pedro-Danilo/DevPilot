@@ -1,0 +1,89 @@
+{
+  "schema_version": "1.0.0",
+  "sprint": "FUNC-SPRINT-90",
+  "title": "MultiAgentCoordinator MVP y handoffs gobernados",
+  "status": "implemented",
+  "implemented_on": "2026-06-18",
+  "phase": "FASE-H-CAPACIDADES-AVANZADAS",
+  "source_repo": "repo_DevPilot_Local_115.zip",
+  "source_backlog": "docs/devpilot_backlog_fase_H_capacidades_avanzadas.md",
+  "summary": {
+    "multiagent_coordinator_added": true,
+    "handoff_model_added": true,
+    "multiagent_run_cli_added": true,
+    "workflow_repo_review_added": true,
+    "dry_run_required": true,
+    "policy_engine_required": true,
+    "handoff_trace_required": true,
+    "implemented_agents_only": true,
+    "open_autonomy_enabled": false,
+    "graph_planner_enabled": false,
+    "mutations_performed": false,
+    "destructive_actions_executed": false,
+    "network_used": false,
+    "external_api_used": false,
+    "shell_used": false,
+    "remote_execution_used": false,
+    "dependencies_added": false,
+    "preliminary": true
+  },
+  "created_files": [
+    "src/devpilot_core/multiagent/__init__.py",
+    "src/devpilot_core/multiagent/coordinator.py",
+    "src/devpilot_core/multiagent/handoff.py",
+    "tests/test_multiagent_coordinator.py",
+    "tests/test_sprint_90_documentation.py",
+    "docs/audits/func_sprint_90_multiagent_coordinator_audit.md",
+    "docs/functional_sprint_90_manifest.json"
+  ],
+  "modified_files": [
+    "src/devpilot_core/cli.py",
+    ".devpilot/miasi/agent_registry.json",
+    ".devpilot/miasi/tool_registry.json",
+    ".devpilot/miasi/policy_matrix.json",
+    "docs/06_miasi/agent_registry.md",
+    "docs/06_miasi/agent_card.md",
+    "docs/06_miasi/tool_registry.md",
+    "docs/06_miasi/tool_card.md",
+    "docs/06_miasi/policy_matrix.md",
+    "docs/06_miasi/policy_card.md",
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/devpilot_backlog_fase_H_capacidades_avanzadas.md",
+    "docs/functional_backlog_after_precode.md",
+    "docs/release/CHANGELOG.md",
+    "tests/test_release_changelog.py",
+    "tests/test_phase_h_backlog_approval.py"
+  ],
+  "commands": [
+    "python -m devpilot_core multiagent run --workflow repo-review --dry-run --json",
+    "python -m devpilot_core multiagent run --workflow repo-review --dry-run --json --write-report",
+    "python -m devpilot_core schema validate-miasi --json",
+    "python -m devpilot_core miasi validate --json",
+    "python -m pytest tests/test_multiagent_coordinator.py tests/test_sprint_90_documentation.py -q"
+  ],
+  "tests": [
+    "tests/test_multiagent_coordinator.py",
+    "tests/test_sprint_90_documentation.py"
+  ],
+  "pass_criteria": [
+    "Handoffs are explicit and traced.",
+    "Coordinator only uses implemented or implemented-initial agents.",
+    "Dry-run is required.",
+    "PolicyEngine checks every handoff.",
+    "No critical or destructive actions are executed."
+  ],
+  "block_criteria": [
+    "Multiagent run without --dry-run.",
+    "Workflow references planned/future/disabled agents.",
+    "Implicit handoff without trace.",
+    "Workspace mutation or destructive action.",
+    "Shell, network, external API or remote execution."
+  ],
+  "risks": [
+    "MVP is sequential and allowlisted; graph orchestration remains future.",
+    "Child agent findings are reported but do not replace a quality gate.",
+    "Advanced adversarial multiagent evaluation is pending."
+  ],
+  "next_sprint": "FUNC-SPRINT-91"
+}
