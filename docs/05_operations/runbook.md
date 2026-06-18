@@ -2,7 +2,7 @@
 title: "Runbook — DevPilot Local"
 doc_id: "DEVPL-OPS-002"
 status: "approved"
-version: "1.26.0"
+version: "1.27.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
@@ -4689,6 +4689,19 @@ python -m devpilot_core upgrade check --json --write-report
 - Restore de archivos redacted puede requerir reconfiguración manual de secretos.
 - SQLite se respalda como binario; migraciones versionadas quedan pendientes.
 
+
+
+## Fase H — Backlog aprobado para capacidades avanzadas
+
+Tras la validación de `FUNC-SPRINT-84`, Fase G queda cerrada y `docs/devpilot_backlog_fase_H_capacidades_avanzadas.md` queda aprobado para implementación controlada. El primer sprint autorizado es `FUNC-SPRINT-85 — ADR de arquitectura avanzada agentic/enterprise`.
+
+Reglas operativas para Fase H:
+
+- no iniciar multiagente runtime sin ADR, MIASI, PolicyEngine, trazas y evals;
+- no iniciar RAG sin fuentes/citas/metadatos y SecretGuard;
+- no iniciar MCP/conectores sin registry, schema, policy y deny-by-default;
+- no habilitar remote runners, SaaS, marketplace o despliegue automático sin ADR futura;
+- mantener `pytest -q`, `validate all`, `quality-gate ci` y, cuando aplique, `quality-gate release` en PASS.
 
 ## FUNC-SPRINT-84 — Operación ReleaseAgent dry-run y cierre Fase G
 

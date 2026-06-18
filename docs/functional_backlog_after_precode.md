@@ -2,7 +2,7 @@
 title: "DevPilot Local — Backlog ejecutable posterior a pre-code"
 doc_id: "DEVPL-FUNC-BACKLOG-001"
 status: "approved"
-version: "5.2.0"
+version: "5.3.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
@@ -18,6 +18,13 @@ next_sprint: "FUNC-SPRINT-85"
 ---
 
 # DevPilot Local — Backlog ejecutable posterior a pre-code
+
+## Transición posterior al cierre de Fase G y aprobación de Fase H
+
+`FUNC-SPRINT-84 — ReleaseAgent MVP dry-run y cierre Fase G` queda validado como cierre de productización/release local. Con base en esa validación, `docs/devpilot_backlog_fase_H_capacidades_avanzadas.md` queda promovido a `approved` para iniciar `FUNC-SPRINT-85 — ADR de arquitectura avanzada agentic/enterprise`.
+
+La aprobación de Fase H es controlada: no habilita multiagente, RAG, MCP, plugins, remote runners ni capacidades enterprise en runtime hasta que cada bloque tenga ADR/threat model, MIASI/policy, trazabilidad, evals y criterios PASS/BLOCK.
+
 
 ## Estado de aprobación funcional
 

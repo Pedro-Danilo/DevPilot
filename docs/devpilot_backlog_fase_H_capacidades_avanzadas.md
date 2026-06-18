@@ -1,19 +1,25 @@
 ---
 title: "DevPilot Local — Backlog ejecutable Fase H: Capacidades avanzadas"
 doc_id: "DEVPL-FUNC-BACKLOG-FASE-H-001"
-status: "draft-for-review"
-version: "0.2.0"
+status: "approved"
+version: "1.0.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
 phase: "FASE-H-CAPACIDADES-AVANZADAS"
 updated: "2026-06-17"
-source_repo: "repo_DevPilot_Local_106.zip"
+source_repo: "repo_DevPilot_Local_107.zip"
 source_report: "Informe de avance DevPilot - sprint 0 - 18.docx"
 source_backlog_model: "docs/functional_backlog_after_precode.md"
 baseline_dependency: "Fases A-G cerradas; Fase G cerrada por FUNC-SPRINT-84 como implemented-initial"
 first_sprint: "FUNC-SPRINT-85"
 last_planned_sprint: "FUNC-SPRINT-99"
+approved_on: "2026-06-17"
+approval: "approved_after_phase_g_closure_validation"
+phase_h_status: "approved_for_implementation"
+first_open_sprint: "FUNC-SPRINT-85"
+last_completed_sprint: "FUNC-SPRINT-84"
+next_sprint: "FUNC-SPRINT-85"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "phase_h_executable_backlog_review"
 ---
@@ -22,14 +28,15 @@ approval_scope: "phase_h_executable_backlog_review"
 
 ## Estado de aprobación funcional
 
-### Actualización posterior a Fase G
+### Aprobación posterior a Fase G
 
-Después de `FUNC-SPRINT-84`, Fase G queda cerrada como baseline de productización/release local. Este backlog se mantiene `draft-for-review`; `FUNC-SPRINT-85` no debe implementar runtime avanzado todavía, sino formalizar ADR/threat model de capacidades avanzadas.
+Después de la validación de `FUNC-SPRINT-84`, Fase G queda cerrada como baseline de productización/release local. Este backlog queda promovido a estado `approved` para iniciar implementación controlada desde `FUNC-SPRINT-85`.
 
+La aprobación no autoriza runtime avanzado inmediato: `FUNC-SPRINT-85` debe formalizar primero la ADR y el threat model de capacidades avanzadas antes de habilitar multiagentes, RAG, MCP, plugins, remote runners o capacidades enterprise.
 
-Este documento se entrega en estado `draft-for-review`. Su propósito es convertir la **Fase H — Capacidades avanzadas** en un backlog de implementación ejecutable, siguiendo el modelo operativo usado en `docs/functional_backlog_after_precode.md`.
+Este documento queda aprobado como backlog ejecutable de **Fase H — Capacidades avanzadas**, siguiendo el modelo operativo usado en `docs/functional_backlog_after_precode.md`.
 
-La Fase H corresponde a la **Ola 11 — Multiagente, RAG, MCP y ecosistema** y a la **Ola 12 — Plataforma industrial/enterprise**. Esta fase no debe iniciarse hasta que DevPilot tenga contratos, trazabilidad, seguridad operacional, repo engineering, IA local gobernada, observabilidad avanzada, producto visual y productización/release suficientemente consolidados.
+La Fase H corresponde a la **Ola 11 — Multiagente, RAG, MCP y ecosistema** y a la **Ola 12 — Plataforma industrial/enterprise**. La fase se habilita porque DevPilot ya cerró contratos, trazabilidad, seguridad operacional, repo engineering, IA local gobernada, observabilidad avanzada, producto visual y productización/release local.
 
 ## 1. Propósito
 
@@ -98,6 +105,19 @@ No incluye:
 - agentes que modifiquen repositorios sin sandbox/rollback;
 - despliegues automáticos sin Release/Approval gates.
 
+## 3.1 Decisión de aprobación
+
+El backlog H se considera apropiado como continuación de DevPilot porque respeta la secuencia industrial correcta: primero ADR/threat model, después sesión/memoria, luego RAG lexical local, después MCP/connector registry, y solo posteriormente multiagente, workflows, evaluación avanzada, plugins, multiworkspace, RBAC y reporting enterprise.
+
+Ajustes de aprobación aplicados:
+
+- el estado pasa de `draft-for-review` a `approved`;
+- la fuente de verdad se actualiza a `repo_DevPilot_Local_107.zip`;
+- `FUNC-SPRINT-85` queda como primera unidad autorizada;
+- capacidades de alto riesgo siguen marcadas como `experimental` o `future` hasta contar con ADR, threat model, policy, registry, pruebas y trazabilidad;
+- remote runners, marketplace público, SaaS y despliegues automáticos permanecen fuera de alcance operativo.
+
+
 ## 4. Niveles de implementación de Fase H
 
 | Nivel | Nombre | Objetivo | Estado esperado al cierre |
@@ -156,7 +176,7 @@ Un sprint de Fase H solo puede cerrarse si cumple:
 
 ---
 
-# FUNC-SPRINT-85 — ADR de arquitectura avanzada agentic/enterprise
+## FUNC-SPRINT-85 — ADR de arquitectura avanzada agentic/enterprise
 
 ## Objetivo
 
@@ -226,7 +246,7 @@ Implementa FUNC-SPRINT-85. Crea ADR avanzada agentic/enterprise y threat model. 
 
 ---
 
-# FUNC-SPRINT-86 — Agent session state y memoria operativa controlada
+## FUNC-SPRINT-86 — Agent session state y memoria operativa controlada
 
 ## Objetivo
 
@@ -286,7 +306,7 @@ Implementa FUNC-SPRINT-86. Crea AgentSession local con límites de retención y 
 
 ---
 
-# FUNC-SPRINT-87 — RAG documental local MVP
+## FUNC-SPRINT-87 — RAG documental local MVP
 
 ## Objetivo
 
@@ -350,7 +370,7 @@ Implementa FUNC-SPRINT-87. Crea RAG documental local lexical-first con índice l
 
 ---
 
-# FUNC-SPRINT-88 — MCP threat model y Connector Registry
+## FUNC-SPRINT-88 — MCP threat model y Connector Registry
 
 ## Objetivo
 
@@ -413,7 +433,7 @@ Implementa FUNC-SPRINT-88. Crea Connector Registry, schema y threat model MCP. N
 
 ---
 
-# FUNC-SPRINT-89 — MCP MVP controlado y herramientas read-only
+## FUNC-SPRINT-89 — MCP MVP controlado y herramientas read-only
 
 ## Objetivo
 
@@ -474,7 +494,7 @@ Implementa FUNC-SPRINT-89. Crea ConnectorAdapter read-only y dry-run. Integra po
 
 ---
 
-# FUNC-SPRINT-90 — MultiAgentCoordinator MVP y handoffs gobernados
+## FUNC-SPRINT-90 — MultiAgentCoordinator MVP y handoffs gobernados
 
 ## Objetivo
 
@@ -537,7 +557,7 @@ Implementa FUNC-SPRINT-90. Crea MultiAgentCoordinator MVP secuencial y dry-run, 
 
 ---
 
-# FUNC-SPRINT-91 — Workflows multiagente SDLC dry-run
+## FUNC-SPRINT-91 — Workflows multiagente SDLC dry-run
 
 ## Objetivo
 
@@ -598,7 +618,7 @@ Implementa FUNC-SPRINT-91. Crea workflows multiagente SDLC predefinidos en dry-r
 
 ---
 
-# FUNC-SPRINT-92 — Evaluación avanzada, red teaming y safety scoring
+## FUNC-SPRINT-92 — Evaluación avanzada, red teaming y safety scoring
 
 ## Objetivo
 
@@ -659,7 +679,7 @@ Implementa FUNC-SPRINT-92. Amplía Evaluation Harness con suite advanced-agentic
 
 ---
 
-# FUNC-SPRINT-93 — Plugin y connector ecosystem controlado
+## FUNC-SPRINT-93 — Plugin y connector ecosystem controlado
 
 ## Objetivo
 
@@ -722,7 +742,7 @@ Implementa FUNC-SPRINT-93. Crea Plugin Registry y manifests controlados. No ejec
 
 ---
 
-# FUNC-SPRINT-94 — Multiworkspace Manager y portfolio local
+## FUNC-SPRINT-94 — Multiworkspace Manager y portfolio local
 
 ## Objetivo
 
@@ -784,7 +804,7 @@ Implementa FUNC-SPRINT-94. Crea Multiworkspace Registry y Portfolio status local
 
 ---
 
-# FUNC-SPRINT-95 — RBAC local y modelo de identidad
+## FUNC-SPRINT-95 — RBAC local y modelo de identidad
 
 ## Objetivo
 
@@ -846,7 +866,7 @@ Implementa FUNC-SPRINT-95. Crea identidad local y RBAC mínimo integrado con Pol
 
 ---
 
-# FUNC-SPRINT-96 — Colaboración local y audit packs
+## FUNC-SPRINT-96 — Colaboración local y audit packs
 
 ## Objetivo
 
@@ -908,7 +928,7 @@ Implementa FUNC-SPRINT-96. Crea AuditPack builder/verifier local para compartir 
 
 ---
 
-# FUNC-SPRINT-97 — Compliance packs y policy packs
+## FUNC-SPRINT-97 — Compliance packs y policy packs
 
 ## Objetivo
 
@@ -971,7 +991,7 @@ Implementa FUNC-SPRINT-97. Crea Compliance Pack Registry y runner declarativo so
 
 ---
 
-# FUNC-SPRINT-98 — Remote runners experimentales y enterprise reporting
+## FUNC-SPRINT-98 — Remote runners experimentales y enterprise reporting
 
 ## Objetivo
 
@@ -1035,7 +1055,7 @@ Implementa FUNC-SPRINT-98. Crea enterprise report local y remote runner stub exp
 
 ---
 
-# FUNC-SPRINT-99 — Industrial readiness gate y cierre Fase H
+## FUNC-SPRINT-99 — Industrial readiness gate y cierre Fase H
 
 ## Objetivo
 
@@ -1098,7 +1118,7 @@ Implementa FUNC-SPRINT-99. Crea Industrial Readiness Gate y cierre Fase H. Debe 
 
 ---
 
-# Cierre esperado de Fase H
+## Cierre esperado de Fase H
 
 Al finalizar FUNC-SPRINT-99, DevPilot debería contar con:
 

@@ -1,6 +1,6 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
-Estado actual: `baseline pre-code approved + Fases A-G cerradas + Fase H lista para revisión`  
+Estado actual: `baseline pre-code approved + Fases A-G cerradas + Fase H approved para implementación controlada`  
 Último hito: `FUNC-SPRINT-84 — ReleaseAgent MVP dry-run y cierre Fase G`  
 Siguiente hito: `FUNC-SPRINT-85 — ADR de arquitectura avanzada agentic/enterprise`  
 Estándar rector: MIPSoftware  
@@ -22,7 +22,11 @@ Modo de trabajo: local-first híbrido, API keys opcionales, costo externo contro
 
 ### Seguridad
 
-La implementación es `implemented-initial`: ReleaseAgent no tiene ruta de ejecución real para publicar, desplegar, firmar o crear tags. Sus tool calls son consultas locales auditables sobre quality gate, manifest, changelog, package dry-run, SBOM, install plan y upgrade check. Fase H inicia solo como backlog draft y no debe habilitar multiagente/RAG/MCP sin controles adicionales.
+La implementación es `implemented-initial`: ReleaseAgent no tiene ruta de ejecución real para publicar, desplegar, firmar o crear tags. Sus tool calls son consultas locales auditables sobre quality gate, manifest, changelog, package dry-run, SBOM, install plan y upgrade check. Fase H queda aprobada como backlog ejecutable, pero `FUNC-SPRINT-85` es ADR/threat-model-only: no debe habilitar multiagente/RAG/MCP sin controles adicionales, MIASI, PolicyEngine, trazas, evals y documentación de seguridad.
+
+## Aprobación de Fase H — Capacidades avanzadas
+
+El backlog `docs/devpilot_backlog_fase_H_capacidades_avanzadas.md` queda en estado `approved` después del cierre validado de Fase G. La siguiente unidad autorizada es `FUNC-SPRINT-85 — ADR de arquitectura avanzada agentic/enterprise`. Esta aprobación habilita la planificación e implementación progresiva de capacidades avanzadas, no ejecución autónoma abierta ni conectores allow-by-default.
 
 
 ## FUNC-SPRINT-83 — Backup, restore y upgrade local
