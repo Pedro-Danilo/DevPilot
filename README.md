@@ -1,12 +1,28 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
-Estado actual: `baseline pre-code approved + Fases A-F cerradas + Fase G en progreso`  
-Último hito: `FUNC-SPRINT-83 — Backup, restore y upgrade local`  
-Siguiente hito: `FUNC-SPRINT-84 — ReleaseAgent MVP dry-run y cierre Fase G`  
+Estado actual: `baseline pre-code approved + Fases A-G cerradas + Fase H lista para revisión`  
+Último hito: `FUNC-SPRINT-84 — ReleaseAgent MVP dry-run y cierre Fase G`  
+Siguiente hito: `FUNC-SPRINT-85 — ADR de arquitectura avanzada agentic/enterprise`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
 
+
+
+## FUNC-SPRINT-84 — ReleaseAgent MVP dry-run y cierre Fase G
+
+`FUNC-SPRINT-84` cierra Fase G con un `ReleaseAgent` MVP en modo dry-run. El agente se ejecuta por `AgentRuntime`, está registrado en MIASI, pasa por `PolicyEngine`, consulta evidencia local de release y produce checklist/recomendaciones sin publicar, desplegar, firmar ni etiquetar Git.
+
+### Capacidades
+
+- `python -m devpilot_core agent run release-assistant --dry-run --json` ejecuta el asistente de release.
+- `python -m devpilot_core agent run release-assistant --dry-run --json --write-report` persiste evidencia regenerable bajo `outputs/reports`.
+- `python -m devpilot_core quality-gate run --profile release --json` ejecuta el perfil de release readiness.
+- `docs/audits/phase_g_productization_release_closure.md` formaliza el cierre de Fase G.
+
+### Seguridad
+
+La implementación es `implemented-initial`: ReleaseAgent no tiene ruta de ejecución real para publicar, desplegar, firmar o crear tags. Sus tool calls son consultas locales auditables sobre quality gate, manifest, changelog, package dry-run, SBOM, install plan y upgrade check. Fase H inicia solo como backlog draft y no debe habilitar multiagente/RAG/MCP sin controles adicionales.
 
 
 ## FUNC-SPRINT-83 — Backup, restore y upgrade local

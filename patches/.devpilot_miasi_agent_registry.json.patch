@@ -1,0 +1,44 @@
+--- /mnt/data/devpilot_s84_orig/.devpilot/miasi/agent_registry.json	2026-06-17 23:13:36.726071732 +0000
++++ /mnt/data/devpilot_s84/.devpilot/miasi/agent_registry.json	2026-06-17 23:18:25.086769609 +0000
+@@ -437,6 +437,41 @@
+       "approval_required": true,
+       "observability_required": true,
+       "eval_required": true
++    },
++    {
++      "agent_id": "release.assistant",
++      "name": "ReleaseAgent",
++      "phase": "MVP+",
++      "max_autonomy": "A3",
++      "status": "implemented-initial",
++      "risk_level": "medium_high",
++      "allowed_tools": [
++        "release.quality_gate",
++        "release.manifest",
++        "release.changelog",
++        "release.package",
++        "release.sbom",
++        "release.install_plan",
++        "release.upgrade_check",
++        "report.write",
++        "trace.append",
++        "policy.check"
++      ],
++      "required_artifacts": [
++        "Agent",
++        "Tool",
++        "Policy",
++        "Eval",
++        "Obs"
++      ],
++      "policy_rule_ids": [
++        "RELEASE_AGENT_DRY_RUN_ALLOW",
++        "RELEASE_PUBLISH_DEPLOY_TAG_DENY",
++        "SECRETS_RAW_DENY"
++      ],
++      "approval_required": false,
++      "observability_required": true,
++      "eval_required": true
+     }
+   ]
+ }

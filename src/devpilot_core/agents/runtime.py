@@ -12,6 +12,7 @@ from devpilot_core.agents.architecture_agent import ArchitectureAgent
 from devpilot_core.agents.code_review_agent import CodeReviewAgent
 from devpilot_core.agents.patch_review_agent import PatchReviewAgent
 from devpilot_core.agents.repo_analysis_agent import RepoAnalysisAgent
+from devpilot_core.agents.release_agent import ReleaseAgent
 from devpilot_core.agents.requirements_agent import RequirementsAgent
 from devpilot_core.agents.safe_refactor_agent import SafeRefactorAgent
 from devpilot_core.agents.security_agent import SecurityAgent
@@ -51,6 +52,10 @@ AGENT_ALIASES = {
     "security": "security.agent",
     "security-agent": "security.agent",
     "security.agent": "security.agent",
+    "release-assistant": "release.assistant",
+    "release.agent": "release.assistant",
+    "release-assistant-agent": "release.assistant",
+    "release.assistant": "release.assistant",
 }
 
 
@@ -107,6 +112,7 @@ class AgentRuntime:
             "requirements.agent": RequirementsAgent(self.root, self.policy),
             "architecture.agent": ArchitectureAgent(self.root, self.policy),
             "security.agent": SecurityAgent(self.root, self.policy),
+            "release.assistant": ReleaseAgent(self.root, self.policy),
         }
 
     def run(

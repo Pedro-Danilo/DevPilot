@@ -3425,7 +3425,7 @@ def build_parser() -> argparse.ArgumentParser:
     quality_gate = sub.add_parser("quality-gate", help="Run local productization quality gates")
     quality_gate_sub = quality_gate.add_subparsers(dest="quality_gate_command")
     quality_gate_run = quality_gate_sub.add_parser("run", help="Run the unified local quality gate")
-    quality_gate_run.add_argument("--profile", choices=["fast", "full", "ci"], default="fast", help="Gate profile to execute")
+    quality_gate_run.add_argument("--profile", choices=["fast", "full", "ci", "release"], default="fast", help="Gate profile to execute")
     quality_gate_run.add_argument("--include-pytest", action="store_true", help="Explicitly include pytest -q as an optional subgate")
     quality_gate_run.add_argument("--pytest-timeout-seconds", type=int, default=180, help="Timeout for the optional pytest subgate")
     quality_gate_run.add_argument("--json", action="store_true", help="Emit normalized JSON command result")

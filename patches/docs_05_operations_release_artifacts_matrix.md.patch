@@ -1,46 +1,16 @@
---- a/docs/05_operations/release_artifacts_matrix.md
-+++ b/docs/05_operations/release_artifacts_matrix.md
-@@ -35,7 +35,7 @@
- | Python package | Instalar CLI/core con tooling Python. | Definido, no automatizado. |
- | Release metadata | Trazar versión, commit, comandos, pruebas y artefactos. | Definido, no automatizado. |
- | Evidencia humana | Explicar cambios, riesgos y verificación. | Definido, parcialmente manual. |
--| Supply chain | Inventario, SBOM, checksums y hashes. | SBOM baseline automatizado en Sprint 80; checksums pendientes Sprint 81. |
-+| Supply chain | Inventario, SBOM, checksums y hashes. | SBOM baseline automatizado en Sprint 80; checksums SHA256 implementados inicialmente en Sprint 81. |
- | Install/upgrade | Permitir instalación y migración local. | Definido, no automatizado. |
- 
- ## 3. Matriz de artefactos liberables
-@@ -48,8 +48,8 @@
- | Release manifest | Sí | Sprint 77 | Versión, fecha, fuente, artefactos, checks, hashes, referencias. | Secretos y datos runtime. | JSON parseable y validable. |
- | Changelog | Sí | Sprint 78 | Cambios notables por versión. | Cambios inventados sin fuente. | Humano, trazable y revisable. |
- | SBOM baseline | Sí | Sprint 80 | Runtime/dev/build dependencies, UI deps, CycloneDX-compatible baseline. | Vulnerability scan remoto obligatorio. | No requiere red y genera evidencia local. |
--| Checksums SHA256 | Sí | Sprint 81 | Hashes de artefactos. | Datos sensibles. | Hash calculado sobre artefacto real. |
--| Release verification report | Sí | Sprint 81 | Resultado de package + checksum + smoke test. | Logs crudos con secretos. | PASS/BLOCK accionable. |
-+| Checksums SHA256 | Sí | Sprint 81 | Hashes de artefactos. | Datos sensibles. | Hash calculado sobre artefacto real/local. |
-+| Release verification report | Sí | Sprint 81 | Resultado de checksum + smoke test sobre artefacto real/local. | Logs crudos con secretos. | PASS/BLOCK accionable. |
- | Install guide | Sí | Sprint 82 | Instalación local Windows/dev. | Auto-update o privilegios innecesarios. | Procedimiento reproducible. |
- | Backup/upgrade report | Sí al cierre de G | Sprint 83 | Plan/resultado backup y upgrade check. | Backup de `.venv`/`.git` por defecto. | Dry-run seguro. |
- | ReleaseAgent report | Sí al cierre de G | Sprint 84 | Recomendaciones basadas en evidencia. | Publicación/deploy/tag real. | Dry-run auditable. |
-@@ -99,7 +99,7 @@
- | 78 | Changelog. |
- | 79 | Package builder y ZIP limpio. |
- | 80 | SBOM/supply-chain baseline. |
--| 81 | Checksums y release verify. |
-+| 81 | Checksums, smoke test y release verify. |
- | 82 | Install guide/installer strategy. |
- | 83 | Backup/restore/upgrade. |
- | 84 | ReleaseAgent dry-run y cierre Fase G. |
-@@ -127,3 +127,14 @@
- | RISK-ART-002 | Excluir demasiado y romper instalación. | Smoke test de release en Sprint 81. |
- | RISK-ART-003 | Incluir state local. | Lista BLOCK y tests de packaging. |
- | RISK-ART-004 | Divergencia Python/frontend. | Manifest y matriz de artefactos por familia. |
+--- /mnt/data/devpilot_s84_orig/docs/05_operations/release_artifacts_matrix.md	2026-06-17 23:13:36.765706163 +0000
++++ /mnt/data/devpilot_s84/docs/05_operations/release_artifacts_matrix.md	2026-06-17 23:20:19.647054092 +0000
+@@ -157,3 +157,13 @@
+ | `BACKUP-REPORT` | `outputs/reports/backup_create.json` | `implemented-initial` | Evidencia regenerable de backup create. |
+ | `RESTORE-PLAN` | `outputs/reports/backup_restore.json` | `implemented-initial` | Evidencia regenerable de restore dry-run/controlado. |
+ | `UPGRADE-CHECK` | `outputs/reports/upgrade_check.json` | `implemented-initial` | Plan local no mutante de upgrade. |
 +
 +
-+## 10. Actualización FUNC-SPRINT-81
++## FUNC-SPRINT-84 — RELEASE-ASSISTANT / PHASE-G-CLOSURE
 +
-+Sprint 81 implementa verificación local inicial de artefactos de release:
++| ID | Ruta | Estado | Descripción |
++|---|---|---|---|
++| `RELEASE-ASSISTANT` | `outputs/reports/agent_run_release_assistant.json` | `implemented-initial` | Evidencia regenerable del ReleaseAgent dry-run. |
++| `PHASE-G-CLOSURE` | `docs/audits/phase_g_productization_release_closure.md` | `implemented-initial` | Cierre formal de Fase G con resumen de sprints 74–84. |
 +
-+- `release checksum`: SHA256 sobre artefacto real/local.
-+- `release smoke-test`: inspección de contenedor y CLI mínimo con exit code observado.
-+- `release verify`: reporte consolidado y `checksums.sha256`.
-+
-+La verificación sigue siendo local y preliminar: no firma, no publica, no despliega, no etiqueta Git y no reemplaza instalación/upgrade aislados.
++Estos artefactos no autorizan publicación, despliegue, firma ni Git tagging. Son evidencia local para revisión humana y transición controlada hacia Fase H.

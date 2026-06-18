@@ -30,14 +30,14 @@ def test_sprint_81_release_verification_artifacts_exist_and_are_synchronized() -
     ]:
         assert (ROOT / path).exists(), path
 
-    assert "Último hito: `FUNC-SPRINT-83" in readme
-    assert "Siguiente hito: `FUNC-SPRINT-84" in readme
+    assert "Último hito: `FUNC-SPRINT-84" in readme
+    assert "Siguiente hito: `FUNC-SPRINT-85" in readme
     assert "FUNC-SPRINT-83 — Backup, restore y upgrade local" in readme
     assert "FUNC-SPRINT-81 — Operación de checksums" in runbook
-    assert 'source_repo: "repo_DevPilot_Local_105.zip"' in backlog_g
-    assert 'last_completed_sprint: "FUNC-SPRINT-83"' in backlog_g
-    assert 'next_sprint: "FUNC-SPRINT-84"' in backlog_g
-    assert 'next_sprint: "FUNC-SPRINT-84"' in functional_backlog
+    assert 'source_repo: "repo_DevPilot_Local_106.zip"' in backlog_g
+    assert 'last_completed_sprint: "FUNC-SPRINT-84"' in backlog_g
+    assert 'next_sprint: "FUNC-SPRINT-85"' in backlog_g
+    assert 'next_sprint: "FUNC-SPRINT-85"' in functional_backlog
 
 
 def test_sprint_81_docs_define_verification_boundaries() -> None:

@@ -1,0 +1,105 @@
+{
+  "schema_version": "1.0.0",
+  "sprint": "FUNC-SPRINT-84",
+  "title": "FUNC-SPRINT-84 — ReleaseAgent MVP dry-run y cierre Fase G",
+  "status": "implemented",
+  "implemented_at": "2026-06-17",
+  "phase": "FASE-G-PRODUCTIZACION-RELEASE",
+  "wave": "Ola 10 — CI/CD, release y distribución",
+  "source_repo": "repo_DevPilot_Local_106.zip",
+  "source_backlog": "docs/devpilot_backlog_fase_G_productizacion_release.md",
+  "summary": {
+    "fg_level": "FG-L7",
+    "phase_g_closed": true,
+    "release_agent_registered": true,
+    "release_agent_cli_added": true,
+    "release_agent_dry_run_only": true,
+    "quality_gate_release_profile_added": true,
+    "tool_calls_auditable": true,
+    "miasi_integrated": true,
+    "policy_engine_integrated": true,
+    "closure_report_added": true,
+    "dry_run_default": true,
+    "network_used": false,
+    "external_api_used": false,
+    "publishes_artifacts": false,
+    "deploys_artifacts": false,
+    "git_tagging_performed": false,
+    "signing_performed": false,
+    "source_mutations_performed_by_default": false,
+    "dependencies_added": false,
+    "preliminary": true
+  },
+  "created_files": [
+    "src/devpilot_core/agents/release_agent.py",
+    "docs/audits/phase_g_productization_release_closure.md",
+    "docs/audits/func_sprint_84_release_agent_audit.md",
+    "docs/functional_sprint_84_manifest.json",
+    "tests/test_release_agent.py",
+    "tests/test_sprint_84_documentation.py"
+  ],
+  "modified_files": [
+    "src/devpilot_core/agents/__init__.py",
+    "src/devpilot_core/agents/runtime.py",
+    "src/devpilot_core/cli.py",
+    "src/devpilot_core/quality/gate.py",
+    "src/devpilot_core/release/manifest.py",
+    ".devpilot/miasi/agent_registry.json",
+    ".devpilot/miasi/tool_registry.json",
+    ".devpilot/miasi/policy_matrix.json",
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/05_operations/release_manifest.md",
+    "docs/05_operations/release_artifacts_matrix.md",
+    "docs/devpilot_backlog_fase_G_productizacion_release.md",
+    "docs/functional_backlog_after_precode.md",
+    "docs/devpilot_backlog_fase_H_capacidades_avanzadas.md",
+    "docs/release/CHANGELOG.md",
+    "tests/test_release_changelog.py",
+    "historical sprint documentation tests"
+  ],
+  "commands": [
+    "python -m devpilot_core agent run release-assistant --dry-run --json",
+    "python -m devpilot_core agent run release-assistant --dry-run --json --write-report",
+    "python -m devpilot_core quality-gate run --profile release --json",
+    "python -m devpilot_core schema validate-manifest docs/functional_sprint_84_manifest.json --json"
+  ],
+  "tests": [
+    "tests/test_release_agent.py",
+    "tests/test_sprint_84_documentation.py",
+    "historical sprint documentation tests synchronized with README/backlog current milestone"
+  ],
+  "pass_criteria": [
+    "ReleaseAgent runs in dry-run through AgentRuntime.",
+    "ReleaseAgent is registered in MIASI with implemented-initial status.",
+    "ReleaseAgent produces release checklist and recommendations.",
+    "Tool calls are auditable and policy-gated.",
+    "quality-gate release profile returns PASS.",
+    "Fase G closure report summarizes sprints 74 through 84.",
+    "No publish, deploy, signing or Git tagging is performed."
+  ],
+  "block_criteria": [
+    "Do not close if ReleaseAgent publishes, deploys, signs or tags Git.",
+    "Do not close if ReleaseAgent bypasses MIASI or PolicyEngine.",
+    "Do not close if recommendations are not evidence-based.",
+    "Do not close if closure report is missing."
+  ],
+  "risks": [
+    {
+      "id": "RISK-FUNC-84-001",
+      "risk": "Agent with excessive release authority",
+      "mitigation": "Dry-run only, no execute path, policy-gated tool calls."
+    },
+    {
+      "id": "RISK-FUNC-84-002",
+      "risk": "Recommendations without evidence",
+      "mitigation": "Use local gates/builders and explicit checklist."
+    },
+    {
+      "id": "RISK-FUNC-84-003",
+      "risk": "Confusing release readiness with deployment",
+      "mitigation": "Deploy/publish/tag/sign remain out of scope and documented as BLOCK."
+    }
+  ],
+  "next_sprint": "FUNC-SPRINT-85 — ADR de arquitectura avanzada agentic/enterprise"
+}

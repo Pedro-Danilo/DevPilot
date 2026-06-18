@@ -779,6 +779,90 @@
       "policy_rule_ids": [
         "AGENTOPS_STATUS_ALLOW"
       ]
+    },
+    {
+      "tool_id": "release.quality_gate",
+      "name": "run_release_quality_gate",
+      "phase": "MVP+",
+      "side_effect": "none",
+      "risk_level": "medium",
+      "status": "implemented-initial",
+      "requires_approval": false,
+      "policy_rule_ids": [
+        "RELEASE_AGENT_DRY_RUN_ALLOW"
+      ]
+    },
+    {
+      "tool_id": "release.manifest",
+      "name": "build_release_manifest",
+      "phase": "MVP+",
+      "side_effect": "none",
+      "risk_level": "medium",
+      "status": "implemented-initial",
+      "requires_approval": false,
+      "policy_rule_ids": [
+        "RELEASE_AGENT_DRY_RUN_ALLOW"
+      ]
+    },
+    {
+      "tool_id": "release.changelog",
+      "name": "build_release_changelog",
+      "phase": "MVP+",
+      "side_effect": "none",
+      "risk_level": "medium",
+      "status": "implemented-initial",
+      "requires_approval": false,
+      "policy_rule_ids": [
+        "RELEASE_AGENT_DRY_RUN_ALLOW"
+      ]
+    },
+    {
+      "tool_id": "release.package",
+      "name": "plan_release_package",
+      "phase": "MVP+",
+      "side_effect": "report",
+      "risk_level": "medium",
+      "status": "implemented-initial",
+      "requires_approval": false,
+      "policy_rule_ids": [
+        "RELEASE_AGENT_DRY_RUN_ALLOW"
+      ]
+    },
+    {
+      "tool_id": "release.sbom",
+      "name": "build_release_sbom",
+      "phase": "MVP+",
+      "side_effect": "none",
+      "risk_level": "medium",
+      "status": "implemented-initial",
+      "requires_approval": false,
+      "policy_rule_ids": [
+        "RELEASE_AGENT_DRY_RUN_ALLOW"
+      ]
+    },
+    {
+      "tool_id": "release.install_plan",
+      "name": "build_install_plan",
+      "phase": "MVP+",
+      "side_effect": "none",
+      "risk_level": "medium",
+      "status": "implemented-initial",
+      "requires_approval": false,
+      "policy_rule_ids": [
+        "RELEASE_AGENT_DRY_RUN_ALLOW"
+      ]
+    },
+    {
+      "tool_id": "release.upgrade_check",
+      "name": "build_upgrade_check",
+      "phase": "MVP+",
+      "side_effect": "none",
+      "risk_level": "medium",
+      "status": "implemented-initial",
+      "requires_approval": false,
+      "policy_rule_ids": [
+        "RELEASE_AGENT_DRY_RUN_ALLOW"
+      ]
     }
   ]
 }

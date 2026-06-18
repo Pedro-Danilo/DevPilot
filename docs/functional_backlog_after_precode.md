@@ -2,7 +2,7 @@
 title: "DevPilot Local — Backlog ejecutable posterior a pre-code"
 doc_id: "DEVPL-FUNC-BACKLOG-001"
 status: "approved"
-version: "5.1.0"
+version: "5.2.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
@@ -14,7 +14,7 @@ change_policy: "controlled_changes_allowed_via_docs_as_code"
 approved_on: "2026-06-06"
 approval_scope: "functional_backlog_after_precode"
 baseline_execution: "FUNC-SPRINT-00"
-next_sprint: "FUNC-SPRINT-84"
+next_sprint: "FUNC-SPRINT-85"
 ---
 
 # DevPilot Local — Backlog ejecutable posterior a pre-code
@@ -2330,3 +2330,8 @@ Fase F avanza con Approval Center y acciones dry-run desde UI. `next_sprint: "FU
 ## Transición posterior a FUNC-SPRINT-83
 
 `FUNC-SPRINT-83 — Backup, restore y upgrade local` queda implementado como baseline local de protección operacional. DevPilot ahora puede planificar y crear backups locales, listar backups, simular restore controlado y generar un plan de upgrade local sin mutaciones automáticas. La siguiente unidad abierta es `FUNC-SPRINT-84 — ReleaseAgent MVP dry-run y cierre Fase G`.
+
+
+## Transición posterior a FUNC-SPRINT-84 — Cierre Fase G
+
+`FUNC-SPRINT-84 — ReleaseAgent MVP dry-run y cierre Fase G` cierra la Fase G de productización y release. DevPilot dispone ahora de release/versioning ADR, quality gates, CI scaffolding, release manifest, changelog, packaging local, SBOM, checksums, smoke release, install plan, backup/restore/upgrade y ReleaseAgent dry-run. La siguiente unidad lógica es `FUNC-SPRINT-85 — ADR de arquitectura avanzada agentic/enterprise`, dentro de Fase H, sin habilitar todavía multiagente, RAG, MCP, plugins o remote runners.

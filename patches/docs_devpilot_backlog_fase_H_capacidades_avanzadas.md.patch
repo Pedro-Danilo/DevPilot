@@ -1,0 +1,35 @@
+--- /mnt/data/devpilot_s84_orig/docs/devpilot_backlog_fase_H_capacidades_avanzadas.md	2026-06-17 23:13:36.799376381 +0000
++++ /mnt/data/devpilot_s84/docs/devpilot_backlog_fase_H_capacidades_avanzadas.md	2026-06-17 23:20:19.648674264 +0000
+@@ -2,16 +2,16 @@
+ title: "DevPilot Local — Backlog ejecutable Fase H: Capacidades avanzadas"
+ doc_id: "DEVPL-FUNC-BACKLOG-FASE-H-001"
+ status: "draft-for-review"
+-version: "0.1.0"
++version: "0.2.0"
+ owner: "Ordóñez"
+ standard: "MIPSoftware"
+ extension: "MIASI"
+ phase: "FASE-H-CAPACIDADES-AVANZADAS"
+-updated: "2026-06-09"
+-source_repo: "repo_DevPilot_Local_22.zip"
++updated: "2026-06-17"
++source_repo: "repo_DevPilot_Local_106.zip"
+ source_report: "Informe de avance DevPilot - sprint 0 - 18.docx"
+ source_backlog_model: "docs/functional_backlog_after_precode.md"
+-baseline_dependency: "Fases A-G aprobadas o explícitamente aceptadas como prerequisito lógico"
++baseline_dependency: "Fases A-G cerradas; Fase G cerrada por FUNC-SPRINT-84 como implemented-initial"
+ first_sprint: "FUNC-SPRINT-85"
+ last_planned_sprint: "FUNC-SPRINT-99"
+ change_policy: "controlled_changes_allowed_via_docs_as_code"
+@@ -22,6 +22,11 @@
+ 
+ ## Estado de aprobación funcional
+ 
++### Actualización posterior a Fase G
++
++Después de `FUNC-SPRINT-84`, Fase G queda cerrada como baseline de productización/release local. Este backlog se mantiene `draft-for-review`; `FUNC-SPRINT-85` no debe implementar runtime avanzado todavía, sino formalizar ADR/threat model de capacidades avanzadas.
++
++
+ Este documento se entrega en estado `draft-for-review`. Su propósito es convertir la **Fase H — Capacidades avanzadas** en un backlog de implementación ejecutable, siguiendo el modelo operativo usado en `docs/functional_backlog_after_precode.md`.
+ 
+ La Fase H corresponde a la **Ola 11 — Multiagente, RAG, MCP y ecosistema** y a la **Ola 12 — Plataforma industrial/enterprise**. Esta fase no debe iniciarse hasta que DevPilot tenga contratos, trazabilidad, seguridad operacional, repo engineering, IA local gobernada, observabilidad avanzada, producto visual y productización/release suficientemente consolidados.

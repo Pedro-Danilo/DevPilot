@@ -157,3 +157,13 @@ La verificación sigue siendo local y preliminar: no firma, no publica, no despl
 | `BACKUP-REPORT` | `outputs/reports/backup_create.json` | `implemented-initial` | Evidencia regenerable de backup create. |
 | `RESTORE-PLAN` | `outputs/reports/backup_restore.json` | `implemented-initial` | Evidencia regenerable de restore dry-run/controlado. |
 | `UPGRADE-CHECK` | `outputs/reports/upgrade_check.json` | `implemented-initial` | Plan local no mutante de upgrade. |
+
+
+## FUNC-SPRINT-84 — RELEASE-ASSISTANT / PHASE-G-CLOSURE
+
+| ID | Ruta | Estado | Descripción |
+|---|---|---|---|
+| `RELEASE-ASSISTANT` | `outputs/reports/agent_run_release_assistant.json` | `implemented-initial` | Evidencia regenerable del ReleaseAgent dry-run. |
+| `PHASE-G-CLOSURE` | `docs/audits/phase_g_productization_release_closure.md` | `implemented-initial` | Cierre formal de Fase G con resumen de sprints 74–84. |
+
+Estos artefactos no autorizan publicación, despliegue, firma ni Git tagging. Son evidencia local para revisión humana y transición controlada hacia Fase H.

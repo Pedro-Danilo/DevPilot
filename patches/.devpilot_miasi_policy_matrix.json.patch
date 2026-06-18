@@ -1,0 +1,27 @@
+--- /mnt/data/devpilot_s84_orig/.devpilot/miasi/policy_matrix.json	2026-06-17 23:13:36.726194665 +0000
++++ /mnt/data/devpilot_s84/.devpilot/miasi/policy_matrix.json	2026-06-17 23:18:25.087920506 +0000
+@@ -408,6 +408,24 @@
+       "gate": "AgentOpsQualityGate+ReportEngine+SecretGuard",
+       "approval_required": false,
+       "observability_required": true
++    },
++    {
++      "rule_id": "RELEASE_AGENT_DRY_RUN_ALLOW",
++      "domain": "Release",
++      "action": "release_assistant_dry_run",
++      "default_effect": "allow",
++      "gate": "PolicyEngine+MIASI+QualityGate+ReportEngine",
++      "approval_required": false,
++      "observability_required": true
++    },
++    {
++      "rule_id": "RELEASE_PUBLISH_DEPLOY_TAG_DENY",
++      "domain": "Release",
++      "action": "publish_deploy_tag",
++      "default_effect": "deny",
++      "gate": "PolicyEngine+ApprovalPolicyChecker+ReleasePolicy",
++      "approval_required": true,
++      "observability_required": true
+     }
+   ]
+ }

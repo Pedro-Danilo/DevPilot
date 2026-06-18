@@ -1,0 +1,18 @@
+--- /mnt/data/devpilot_s84_orig/src/devpilot_core/agents/__init__.py	2026-06-17 23:13:36.887733810 +0000
++++ /mnt/data/devpilot_s84/src/devpilot_core/agents/__init__.py	2026-06-17 23:17:31.616718013 +0000
+@@ -7,6 +7,7 @@
+ from .test_planner_agent import TestPlannerAgent
+ from .models import AgentMessage, AgentModelCall, AgentRunResult, AgentSuggestion, AgentToolCall
+ from .repo_analysis_agent import RepoAnalysisAgent
++from .release_agent import ReleaseAgent
+ from .architecture_agent import ArchitectureAgent
+ from .requirements_agent import RequirementsAgent
+ from .runtime import AgentRuntime, AgentRuntimeConfig
+@@ -21,6 +22,7 @@
+     "RequirementsAgent",
+     "ArchitectureAgent",
+     "SecurityAgent",
++    "ReleaseAgent",
+     "RepoAnalysisAgent",
+     "CodeReviewAgent",
+     "PatchReviewAgent",

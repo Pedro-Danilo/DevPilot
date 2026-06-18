@@ -153,3 +153,13 @@ Esta integración es `implemented-initial`: documenta editable install, wheel, Z
 ## Integración FUNC-SPRINT-83
 
 `FUNC-SPRINT-83` implementa backup/restore/upgrade local inicial. El Release Manifest reconoce `BACKUP-MANIFEST`, `BACKUP-REPORT`, `RESTORE-PLAN` y `UPGRADE-CHECK` como artefactos esperados iniciales. Esta integración es `implemented-initial`: no cifra backups, no firma artefactos y no ejecuta migraciones automáticas.
+
+
+## Integración FUNC-SPRINT-84
+
+`FUNC-SPRINT-84` implementa ReleaseAgent MVP en modo dry-run y cierre formal de Fase G. El Release Manifest reconoce:
+
+- `RELEASE-ASSISTANT`: reporte `outputs/reports/agent_run_release_assistant.json`.
+- `PHASE-G-CLOSURE`: documento `docs/audits/phase_g_productization_release_closure.md`.
+
+Esta integración es `implemented-initial`: el agente consolida evidencia y recomendaciones, pero no publica, no despliega, no firma, no etiqueta Git y no reemplaza revisión humana.

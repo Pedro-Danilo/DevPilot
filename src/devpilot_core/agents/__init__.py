@@ -7,6 +7,7 @@ from .safe_refactor_agent import SafeRefactorAgent
 from .test_planner_agent import TestPlannerAgent
 from .models import AgentMessage, AgentModelCall, AgentRunResult, AgentSuggestion, AgentToolCall
 from .repo_analysis_agent import RepoAnalysisAgent
+from .release_agent import ReleaseAgent
 from .architecture_agent import ArchitectureAgent
 from .requirements_agent import RequirementsAgent
 from .runtime import AgentRuntime, AgentRuntimeConfig
@@ -21,6 +22,7 @@ __all__ = [
     "RequirementsAgent",
     "ArchitectureAgent",
     "SecurityAgent",
+    "ReleaseAgent",
     "RepoAnalysisAgent",
     "CodeReviewAgent",
     "PatchReviewAgent",

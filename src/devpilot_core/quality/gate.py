@@ -45,7 +45,7 @@ class QualityGate:
     Optional report writing remains delegated to the CLI/ReportEngine.
     """
 
-    SUPPORTED_PROFILES = {"fast", "full", "ci"}
+    SUPPORTED_PROFILES = {"fast", "full", "ci", "release"}
 
     def __init__(self, root: Path, *, options: QualityGateOptions | None = None) -> None:
         self.root = Path(root).resolve()
@@ -121,6 +121,7 @@ class QualityGate:
                 "notes": [
                     "FUNC-SPRINT-75 implements the first unified local quality gate for Fase G.",
                     "FUNC-SPRINT-76 adds the CI profile as the local source of truth for optional workflow scaffolding.",
+                    "FUNC-SPRINT-84 adds the release profile as a dry-run release readiness gate for ReleaseAgent and Fase G closure.",
                     "The default and ci profiles do not run pytest implicitly; CI workflows and local checklists run pytest as an explicit step, or use --include-pytest when desired.",
                     "The gate does not publish packages, deploy, write source files, call network services or use external APIs.",
                     "Optional --write-report is handled by the CLI and writes only under outputs/reports.",
@@ -137,11 +138,19 @@ class QualityGate:
             QualitySubgate("eval-harness-ready", "Evaluation harness fixture readiness without executing eval workdir mutations.", self._eval_harness_ready),
             QualitySubgate("app-contract", "ApplicationService v2 contract availability.", self.service.application_contract),
         ]
-        if self.options.profile in {"full", "ci"}:
+        if self.options.profile in {"full", "ci", "release"}:
             subgates.append(QualitySubgate("validation-gateway-all", "Unified docs/contracts validation gateway.", lambda: self.service.validation.gateway(scope="all")))
             subgates.append(QualitySubgate("visual-product-smoke", "Fase F visual product smoke gate in dry-run JSON mode.", self._visual_product_smoke))
-        if self.options.profile == "ci":
+        if self.options.profile in {"ci", "release"}:
             subgates.append(QualitySubgate("ci-workflow-static", "Static safety validation for optional GitHub Actions workflow scaffold.", self._ci_workflow_static))
+        if self.options.profile == "release":
+            subgates.extend([
+                QualitySubgate("release-manifest-static", "Release manifest builder can generate local release evidence.", self._release_manifest_static),
+                QualitySubgate("release-changelog-static", "Release changelog builder can generate local changelog evidence.", self._release_changelog_static),
+                QualitySubgate("release-package-dry-run", "Package builder can produce a dry-run release package plan.", self._release_package_dry_run),
+                QualitySubgate("release-sbom-static", "SBOM builder can generate a local supply-chain baseline.", self._release_sbom_static),
+                QualitySubgate("release-install-upgrade-static", "Install plan and upgrade check are available for local release readiness.", self._release_install_upgrade_static),
+            ])
         if self._should_run_pytest():
             subgates.append(QualitySubgate("pytest", "Explicit pytest regression subprocess for CI/release readiness.", self._pytest_run))
         return subgates
@@ -312,6 +321,102 @@ class QualityGate:
             findings=[Finding("VISUAL_PRODUCT_SMOKE_PASS", "Visual product smoke gate passed.", Severity.INFO)] if ok else [Finding("VISUAL_PRODUCT_SMOKE_BLOCK", "Visual product smoke gate failed.", Severity.BLOCK, metadata={"returncode": completed.returncode})],
         )
 
+
+    def _release_manifest_static(self) -> CommandResult:
+        try:
+            from devpilot_core.release import ReleaseManifestBuilder, ReleaseManifestOptions
+
+            return ReleaseManifestBuilder(self.root, options=ReleaseManifestOptions(version=_project_version(self.root))).build()
+        except Exception as exc:  # pragma: no cover - defensive wrapper
+            return CommandResult(
+                command="quality release-manifest-static",
+                ok=False,
+                exit_code=ExitCode.ERROR,
+                message="Release manifest static gate failed with an exception.",
+                data={"summary": {"preliminary": True, "network_used": False, "external_api_used": False}},
+                findings=[Finding("RELEASE_MANIFEST_STATIC_EXCEPTION", str(exc), Severity.ERROR)],
+            )
+
+    def _release_changelog_static(self) -> CommandResult:
+        try:
+            from devpilot_core.release import ReleaseChangelogBuilder, ReleaseChangelogOptions
+
+            return ReleaseChangelogBuilder(self.root, options=ReleaseChangelogOptions(version=_project_version(self.root))).build()
+        except Exception as exc:  # pragma: no cover - defensive wrapper
+            return CommandResult(
+                command="quality release-changelog-static",
+                ok=False,
+                exit_code=ExitCode.ERROR,
+                message="Release changelog static gate failed with an exception.",
+                data={"summary": {"preliminary": True, "network_used": False, "external_api_used": False}},
+                findings=[Finding("RELEASE_CHANGELOG_STATIC_EXCEPTION", str(exc), Severity.ERROR)],
+            )
+
+    def _release_package_dry_run(self) -> CommandResult:
+        try:
+            from devpilot_core.release import PackageBuildBuilder, PackageBuildOptions
+
+            return PackageBuildBuilder(self.root, options=PackageBuildOptions(version=_project_version(self.root), kind="all", execute=False)).build()
+        except Exception as exc:  # pragma: no cover - defensive wrapper
+            return CommandResult(
+                command="quality release-package-dry-run",
+                ok=False,
+                exit_code=ExitCode.ERROR,
+                message="Release package dry-run gate failed with an exception.",
+                data={"summary": {"preliminary": True, "network_used": False, "external_api_used": False, "execute": False}},
+                findings=[Finding("RELEASE_PACKAGE_DRY_RUN_EXCEPTION", str(exc), Severity.ERROR)],
+            )
+
+    def _release_sbom_static(self) -> CommandResult:
+        try:
+            from devpilot_core.release import ReleaseSbomBuilder, ReleaseSbomOptions
+
+            return ReleaseSbomBuilder(self.root, options=ReleaseSbomOptions(version=_project_version(self.root))).build()
+        except Exception as exc:  # pragma: no cover - defensive wrapper
+            return CommandResult(
+                command="quality release-sbom-static",
+                ok=False,
+                exit_code=ExitCode.ERROR,
+                message="Release SBOM static gate failed with an exception.",
+                data={"summary": {"preliminary": True, "network_used": False, "external_api_used": False}},
+                findings=[Finding("RELEASE_SBOM_STATIC_EXCEPTION", str(exc), Severity.ERROR)],
+            )
+
+    def _release_install_upgrade_static(self) -> CommandResult:
+        try:
+            from devpilot_core.release import InstallPlanBuilder, InstallPlanOptions, UpgradeCheckBuilder, UpgradeCheckOptions
+
+            install = InstallPlanBuilder(self.root, options=InstallPlanOptions(mode="all", version=_project_version(self.root))).build()
+            upgrade = UpgradeCheckBuilder(self.root, options=UpgradeCheckOptions(target_version=_project_version(self.root))).build()
+            findings = [*install.findings, *upgrade.findings]
+            ok = install.ok and upgrade.ok
+            summary = {
+                "install_plan_ok": install.ok,
+                "upgrade_check_ok": upgrade.ok,
+                "dry_run_default": True,
+                "network_used": False,
+                "external_api_used": False,
+                "mutations_performed": False,
+                "preliminary": True,
+            }
+            return CommandResult(
+                command="quality release-install-upgrade-static",
+                ok=ok,
+                exit_code=ExitCode.PASS if ok else ExitCode.BLOCK,
+                message="Release install/upgrade static gate passed." if ok else "Release install/upgrade static gate failed.",
+                data={"summary": summary},
+                findings=findings or [Finding("RELEASE_INSTALL_UPGRADE_STATIC_PASS", "Install plan and upgrade check are available for release readiness.", Severity.INFO)],
+            )
+        except Exception as exc:  # pragma: no cover - defensive wrapper
+            return CommandResult(
+                command="quality release-install-upgrade-static",
+                ok=False,
+                exit_code=ExitCode.ERROR,
+                message="Release install/upgrade static gate failed with an exception.",
+                data={"summary": {"preliminary": True, "network_used": False, "external_api_used": False}},
+                findings=[Finding("RELEASE_INSTALL_UPGRADE_STATIC_EXCEPTION", str(exc), Severity.ERROR)],
+            )
+
     def _pytest_run(self) -> CommandResult:
         timeout = max(10, min(int(self.options.pytest_timeout_seconds), 1800))
         try:
@@ -409,3 +514,14 @@ class QualityGate:
         if Severity.FAIL in severities:
             return ExitCode.FAIL
         return ExitCode.PASS
+
+
+def _project_version(root: Path) -> str:
+    try:
+        import tomllib
+
+        payload = tomllib.loads((root / "pyproject.toml").read_text(encoding="utf-8"))
+        project = payload.get("project") if isinstance(payload.get("project"), dict) else {}
+        return str(project.get("version") or "0.1.0")
+    except Exception:
+        return "0.1.0"

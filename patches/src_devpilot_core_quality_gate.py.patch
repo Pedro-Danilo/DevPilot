@@ -1,136 +1,159 @@
---- /mnt/data/devpilot98_orig/src/devpilot_core/quality/gate.py	2026-06-17 13:41:12.000000000 +0000
-+++ /mnt/data/devpilot98/src/devpilot_core/quality/gate.py	2026-06-17 14:27:27.703549649 +0000
+--- /mnt/data/devpilot_s84_orig/src/devpilot_core/quality/gate.py	2026-06-17 23:13:36.903251879 +0000
++++ /mnt/data/devpilot_s84/src/devpilot_core/quality/gate.py	2026-06-17 23:17:52.670078261 +0000
 @@ -45,7 +45,7 @@
      Optional report writing remains delegated to the CLI/ReportEngine.
      """
  
--    SUPPORTED_PROFILES = {"fast", "full"}
-+    SUPPORTED_PROFILES = {"fast", "full", "ci"}
+-    SUPPORTED_PROFILES = {"fast", "full", "ci"}
++    SUPPORTED_PROFILES = {"fast", "full", "ci", "release"}
  
      def __init__(self, root: Path, *, options: QualityGateOptions | None = None) -> None:
          self.root = Path(root).resolve()
-@@ -100,8 +100,8 @@
-             "findings_total": len(aggregated_findings),
-             "warnings_total": len(warnings),
-             "blocking_findings_total": len(blocking_findings),
--            "include_pytest": self.options.include_pytest,
--            "pytest_timeout_seconds": self.options.pytest_timeout_seconds if self.options.include_pytest else None,
-+            "include_pytest": self._should_run_pytest(),
-+            "pytest_timeout_seconds": self.options.pytest_timeout_seconds if self._should_run_pytest() else None,
-             "dry_run": True,
-             "network_used": False,
-             "external_api_used": False,
-@@ -120,7 +120,8 @@
-                 "subgates": subgate_records,
+@@ -121,6 +121,7 @@
                  "notes": [
                      "FUNC-SPRINT-75 implements the first unified local quality gate for Fase G.",
--                    "The default profile is read-only and does not run pytest; use --include-pytest for an explicit regression subprocess.",
-+                    "FUNC-SPRINT-76 adds the CI profile as the local source of truth for optional workflow scaffolding.",
-+                    "The default and ci profiles do not run pytest implicitly; CI workflows and local checklists run pytest as an explicit step, or use --include-pytest when desired.",
+                     "FUNC-SPRINT-76 adds the CI profile as the local source of truth for optional workflow scaffolding.",
++                    "FUNC-SPRINT-84 adds the release profile as a dry-run release readiness gate for ReleaseAgent and Fase G closure.",
+                     "The default and ci profiles do not run pytest implicitly; CI workflows and local checklists run pytest as an explicit step, or use --include-pytest when desired.",
                      "The gate does not publish packages, deploy, write source files, call network services or use external APIs.",
                      "Optional --write-report is handled by the CLI and writes only under outputs/reports.",
-                 ],
-@@ -136,13 +137,18 @@
+@@ -137,11 +138,19 @@
              QualitySubgate("eval-harness-ready", "Evaluation harness fixture readiness without executing eval workdir mutations.", self._eval_harness_ready),
              QualitySubgate("app-contract", "ApplicationService v2 contract availability.", self.service.application_contract),
          ]
--        if self.options.profile == "full":
-+        if self.options.profile in {"full", "ci"}:
+-        if self.options.profile in {"full", "ci"}:
++        if self.options.profile in {"full", "ci", "release"}:
              subgates.append(QualitySubgate("validation-gateway-all", "Unified docs/contracts validation gateway.", lambda: self.service.validation.gateway(scope="all")))
              subgates.append(QualitySubgate("visual-product-smoke", "Fase F visual product smoke gate in dry-run JSON mode.", self._visual_product_smoke))
--        if self.options.include_pytest:
--            subgates.append(QualitySubgate("pytest", "Explicit optional pytest regression subprocess.", self._pytest_run))
-+        if self.options.profile == "ci":
-+            subgates.append(QualitySubgate("ci-workflow-static", "Static safety validation for optional GitHub Actions workflow scaffold.", self._ci_workflow_static))
-+        if self._should_run_pytest():
-+            subgates.append(QualitySubgate("pytest", "Explicit pytest regression subprocess for CI/release readiness.", self._pytest_run))
+-        if self.options.profile == "ci":
++        if self.options.profile in {"ci", "release"}:
+             subgates.append(QualitySubgate("ci-workflow-static", "Static safety validation for optional GitHub Actions workflow scaffold.", self._ci_workflow_static))
++        if self.options.profile == "release":
++            subgates.extend([
++                QualitySubgate("release-manifest-static", "Release manifest builder can generate local release evidence.", self._release_manifest_static),
++                QualitySubgate("release-changelog-static", "Release changelog builder can generate local changelog evidence.", self._release_changelog_static),
++                QualitySubgate("release-package-dry-run", "Package builder can produce a dry-run release package plan.", self._release_package_dry_run),
++                QualitySubgate("release-sbom-static", "SBOM builder can generate a local supply-chain baseline.", self._release_sbom_static),
++                QualitySubgate("release-install-upgrade-static", "Install plan and upgrade check are available for local release readiness.", self._release_install_upgrade_static),
++            ])
+         if self._should_run_pytest():
+             subgates.append(QualitySubgate("pytest", "Explicit pytest regression subprocess for CI/release readiness.", self._pytest_run))
          return subgates
- 
-+    def _should_run_pytest(self) -> bool:
-+        return self.options.include_pytest
-+
-     def _run_subgate(self, subgate: QualitySubgate) -> CommandResult:
-         try:
-             return subgate.runner()
-@@ -196,6 +202,81 @@
-             findings=findings or [Finding("EVAL_HARNESS_READY", "Evaluation fixture is parseable and declares documentation cases.", Severity.INFO, metadata={"cases_total": summary["cases_total"]})],
+@@ -312,6 +321,102 @@
+             findings=[Finding("VISUAL_PRODUCT_SMOKE_PASS", "Visual product smoke gate passed.", Severity.INFO)] if ok else [Finding("VISUAL_PRODUCT_SMOKE_BLOCK", "Visual product smoke gate failed.", Severity.BLOCK, metadata={"returncode": completed.returncode})],
          )
  
-+    def _ci_workflow_static(self) -> CommandResult:
-+        workflow = self.root / ".github" / "workflows" / "devpilot-ci.yml"
-+        findings: list[Finding] = []
-+        summary: dict[str, Any] = {
-+            "workflow_path": ".github/workflows/devpilot-ci.yml",
-+            "workflow_exists": workflow.exists(),
-+            "uses_secrets": False,
-+            "deploy_or_publish_detected": False,
-+            "external_api_markers_detected": False,
-+            "quality_gate_ci_profile_referenced": False,
-+            "pytest_referenced": False,
-+            "pull_request_trigger": False,
-+            "push_trigger": False,
-+            "permissions_read_only": False,
-+            "network_used": False,
-+            "external_api_used": False,
-+            "mutations_performed": False,
-+            "preliminary": True,
-+        }
-+        if not workflow.exists():
-+            findings.append(Finding("CI_WORKFLOW_MISSING", "Optional GitHub Actions workflow scaffold is missing.", Severity.BLOCK, path=".github/workflows/devpilot-ci.yml"))
-+            return CommandResult("quality ci-workflow-static", False, ExitCode.BLOCK, "CI workflow scaffold is missing.", data={"summary": summary}, findings=findings)
 +
-+        content = workflow.read_text(encoding="utf-8")
-+        lowered = content.lower()
-+        forbidden_markers = [
-+            "secrets.",
-+            "ghcr.io",
-+            "docker/login-action",
-+            "pypa/gh-action-pypi-publish",
-+            "twine upload",
-+            "npm publish",
-+            "git push",
-+            "release-action",
-+            "create-release",
-+            "upload-release",
-+            "deploy",
-+            "publish",
-+            "production",
-+            "cloud",
-+        ]
-+        summary["uses_secrets"] = "secrets." in lowered
-+        summary["deploy_or_publish_detected"] = any(marker in lowered for marker in forbidden_markers)
-+        summary["external_api_markers_detected"] = any(marker in lowered for marker in ["openai_api_key", "gemini_api_key", "anthropic_api_key", "mistral_api_key"])
-+        summary["quality_gate_ci_profile_referenced"] = "quality-gate run --profile ci" in lowered
-+        summary["pytest_referenced"] = "pytest -q" in lowered
-+        summary["pull_request_trigger"] = "pull_request:" in lowered
-+        summary["push_trigger"] = "push:" in lowered
-+        summary["permissions_read_only"] = "contents: read" in lowered and "permissions:" in lowered
++    def _release_manifest_static(self) -> CommandResult:
++        try:
++            from devpilot_core.release import ReleaseManifestBuilder, ReleaseManifestOptions
 +
-+        if summary["uses_secrets"]:
-+            findings.append(Finding("CI_WORKFLOW_SECRETS_USED", "CI workflow must not reference GitHub secrets in Sprint 76.", Severity.BLOCK, path=".github/workflows/devpilot-ci.yml"))
-+        if summary["deploy_or_publish_detected"]:
-+            findings.append(Finding("CI_WORKFLOW_DEPLOY_OR_PUBLISH", "CI workflow must not deploy or publish artifacts in Sprint 76.", Severity.BLOCK, path=".github/workflows/devpilot-ci.yml"))
-+        if summary["external_api_markers_detected"]:
-+            findings.append(Finding("CI_WORKFLOW_EXTERNAL_API_MARKER", "CI workflow must not configure external model API credentials.", Severity.BLOCK, path=".github/workflows/devpilot-ci.yml"))
-+        if not summary["quality_gate_ci_profile_referenced"]:
-+            findings.append(Finding("CI_WORKFLOW_QUALITY_GATE_MISSING", "CI workflow must invoke quality-gate run --profile ci.", Severity.FAIL, path=".github/workflows/devpilot-ci.yml"))
-+        if not summary["pytest_referenced"]:
-+            findings.append(Finding("CI_WORKFLOW_PYTEST_MISSING", "CI workflow must keep pytest visible in the CI contract.", Severity.FAIL, path=".github/workflows/devpilot-ci.yml"))
-+        if not summary["pull_request_trigger"]:
-+            findings.append(Finding("CI_WORKFLOW_PR_TRIGGER_MISSING", "CI workflow should run on pull_request.", Severity.WARNING, path=".github/workflows/devpilot-ci.yml"))
-+        if not summary["permissions_read_only"]:
-+            findings.append(Finding("CI_WORKFLOW_PERMISSIONS_NOT_READ_ONLY", "CI workflow should declare read-only contents permission.", Severity.WARNING, path=".github/workflows/devpilot-ci.yml"))
++            return ReleaseManifestBuilder(self.root, options=ReleaseManifestOptions(version=_project_version(self.root))).build()
++        except Exception as exc:  # pragma: no cover - defensive wrapper
++            return CommandResult(
++                command="quality release-manifest-static",
++                ok=False,
++                exit_code=ExitCode.ERROR,
++                message="Release manifest static gate failed with an exception.",
++                data={"summary": {"preliminary": True, "network_used": False, "external_api_used": False}},
++                findings=[Finding("RELEASE_MANIFEST_STATIC_EXCEPTION", str(exc), Severity.ERROR)],
++            )
 +
-+        ok = not any(finding.severity in {Severity.FAIL, Severity.BLOCK, Severity.ERROR} for finding in findings)
-+        return CommandResult(
-+            command="quality ci-workflow-static",
-+            ok=ok,
-+            exit_code=ExitCode.PASS if ok else self._exit_code_from_findings(findings),
-+            message="CI workflow scaffold is safe." if ok else "CI workflow scaffold validation failed.",
-+            data={"summary": summary},
-+            findings=findings or [Finding("CI_WORKFLOW_STATIC_PASS", "CI workflow scaffold is local-first, read-only and has no deploy/publish/secrets markers.", Severity.INFO, metadata={"workflow_path": ".github/workflows/devpilot-ci.yml"})],
-+        )
++    def _release_changelog_static(self) -> CommandResult:
++        try:
++            from devpilot_core.release import ReleaseChangelogBuilder, ReleaseChangelogOptions
 +
-     def _visual_product_smoke(self) -> CommandResult:
-         script = self.root / "scripts" / "visual_product_smoke.py"
-         if not script.exists():
++            return ReleaseChangelogBuilder(self.root, options=ReleaseChangelogOptions(version=_project_version(self.root))).build()
++        except Exception as exc:  # pragma: no cover - defensive wrapper
++            return CommandResult(
++                command="quality release-changelog-static",
++                ok=False,
++                exit_code=ExitCode.ERROR,
++                message="Release changelog static gate failed with an exception.",
++                data={"summary": {"preliminary": True, "network_used": False, "external_api_used": False}},
++                findings=[Finding("RELEASE_CHANGELOG_STATIC_EXCEPTION", str(exc), Severity.ERROR)],
++            )
++
++    def _release_package_dry_run(self) -> CommandResult:
++        try:
++            from devpilot_core.release import PackageBuildBuilder, PackageBuildOptions
++
++            return PackageBuildBuilder(self.root, options=PackageBuildOptions(version=_project_version(self.root), kind="all", execute=False)).build()
++        except Exception as exc:  # pragma: no cover - defensive wrapper
++            return CommandResult(
++                command="quality release-package-dry-run",
++                ok=False,
++                exit_code=ExitCode.ERROR,
++                message="Release package dry-run gate failed with an exception.",
++                data={"summary": {"preliminary": True, "network_used": False, "external_api_used": False, "execute": False}},
++                findings=[Finding("RELEASE_PACKAGE_DRY_RUN_EXCEPTION", str(exc), Severity.ERROR)],
++            )
++
++    def _release_sbom_static(self) -> CommandResult:
++        try:
++            from devpilot_core.release import ReleaseSbomBuilder, ReleaseSbomOptions
++
++            return ReleaseSbomBuilder(self.root, options=ReleaseSbomOptions(version=_project_version(self.root))).build()
++        except Exception as exc:  # pragma: no cover - defensive wrapper
++            return CommandResult(
++                command="quality release-sbom-static",
++                ok=False,
++                exit_code=ExitCode.ERROR,
++                message="Release SBOM static gate failed with an exception.",
++                data={"summary": {"preliminary": True, "network_used": False, "external_api_used": False}},
++                findings=[Finding("RELEASE_SBOM_STATIC_EXCEPTION", str(exc), Severity.ERROR)],
++            )
++
++    def _release_install_upgrade_static(self) -> CommandResult:
++        try:
++            from devpilot_core.release import InstallPlanBuilder, InstallPlanOptions, UpgradeCheckBuilder, UpgradeCheckOptions
++
++            install = InstallPlanBuilder(self.root, options=InstallPlanOptions(mode="all", version=_project_version(self.root))).build()
++            upgrade = UpgradeCheckBuilder(self.root, options=UpgradeCheckOptions(target_version=_project_version(self.root))).build()
++            findings = [*install.findings, *upgrade.findings]
++            ok = install.ok and upgrade.ok
++            summary = {
++                "install_plan_ok": install.ok,
++                "upgrade_check_ok": upgrade.ok,
++                "dry_run_default": True,
++                "network_used": False,
++                "external_api_used": False,
++                "mutations_performed": False,
++                "preliminary": True,
++            }
++            return CommandResult(
++                command="quality release-install-upgrade-static",
++                ok=ok,
++                exit_code=ExitCode.PASS if ok else ExitCode.BLOCK,
++                message="Release install/upgrade static gate passed." if ok else "Release install/upgrade static gate failed.",
++                data={"summary": summary},
++                findings=findings or [Finding("RELEASE_INSTALL_UPGRADE_STATIC_PASS", "Install plan and upgrade check are available for release readiness.", Severity.INFO)],
++            )
++        except Exception as exc:  # pragma: no cover - defensive wrapper
++            return CommandResult(
++                command="quality release-install-upgrade-static",
++                ok=False,
++                exit_code=ExitCode.ERROR,
++                message="Release install/upgrade static gate failed with an exception.",
++                data={"summary": {"preliminary": True, "network_used": False, "external_api_used": False}},
++                findings=[Finding("RELEASE_INSTALL_UPGRADE_STATIC_EXCEPTION", str(exc), Severity.ERROR)],
++            )
++
+     def _pytest_run(self) -> CommandResult:
+         timeout = max(10, min(int(self.options.pytest_timeout_seconds), 1800))
+         try:
+@@ -409,3 +514,14 @@
+         if Severity.FAIL in severities:
+             return ExitCode.FAIL
+         return ExitCode.PASS
++
++
++def _project_version(root: Path) -> str:
++    try:
++        import tomllib
++
++        payload = tomllib.loads((root / "pyproject.toml").read_text(encoding="utf-8"))
++        project = payload.get("project") if isinstance(payload.get("project"), dict) else {}
++        return str(project.get("version") or "0.1.0")
++    except Exception:
++        return "0.1.0"

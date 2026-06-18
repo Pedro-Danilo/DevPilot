@@ -4688,3 +4688,37 @@ python -m devpilot_core upgrade check --json --write-report
 - Backup no está cifrado ni firmado en esta versión.
 - Restore de archivos redacted puede requerir reconfiguración manual de secretos.
 - SQLite se respalda como binario; migraciones versionadas quedan pendientes.
+
+
+## FUNC-SPRINT-84 — Operación ReleaseAgent dry-run y cierre Fase G
+
+### Propósito
+
+Ejecutar el asistente de release local para consolidar evidencia de Fase G y producir recomendaciones sin ejecutar publicación, despliegue, firma ni Git tagging.
+
+### Comandos
+
+```powershell
+python -m devpilot_core agent run release-assistant --dry-run --json
+python -m devpilot_core agent run release-assistant --dry-run --json --write-report
+python -m devpilot_core quality-gate run --profile release --json
+```
+
+### Criterios PASS
+
+- ReleaseAgent retorna PASS en dry-run.
+- `quality-gate --profile release` retorna PASS.
+- Los tool calls quedan auditables.
+- El reporte de cierre Fase G existe y está aprobado.
+- No hay publish/deploy/tag/sign.
+
+### Criterios BLOCK
+
+- El agente intenta publicar, desplegar, firmar o crear tags Git.
+- El agente no pasa por MIASI/PolicyEngine.
+- No hay recomendaciones basadas en evidencia local.
+- Falta `docs/audits/phase_g_productization_release_closure.md`.
+
+### Riesgos
+
+Esta es una versión `implemented-initial`: el asistente es rule-based y no sustituye revisión humana. Fase futura puede agregar modelos locales/API gobernados, firma/provenance y SCA opcional, pero sin romper local-first y dry-run-first.

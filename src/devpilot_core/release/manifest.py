@@ -175,6 +175,20 @@ _EXPECTED_RELEASE_ARTIFACTS = [
         "implemented_in": "FUNC-SPRINT-83",
         "status": "implemented-initial",
     },
+    {
+        "id": "RELEASE-ASSISTANT",
+        "path": "outputs/reports/agent_run_release_assistant.json",
+        "kind": "release-agent-report",
+        "implemented_in": "FUNC-SPRINT-84",
+        "status": "implemented-initial",
+    },
+    {
+        "id": "PHASE-G-CLOSURE",
+        "path": "docs/audits/phase_g_productization_release_closure.md",
+        "kind": "phase-closure-report",
+        "implemented_in": "FUNC-SPRINT-84",
+        "status": "implemented-initial",
+    },
 ]
 
 
@@ -266,10 +280,10 @@ class ReleaseManifestBuilder:
             },
             "limitations": [
                 "FUNC-SPRINT-77 does not build release packages.",
-                "FUNC-SPRINT-78 provides the human-readable changelog; FUNC-SPRINT-79 provides initial local packaging; FUNC-SPRINT-80 provides initial SBOM baseline; checksum verification remains later.",
+                "FUNC-SPRINT-78 provides the human-readable changelog; FUNC-SPRINT-79 provides initial local packaging; FUNC-SPRINT-80 provides initial SBOM baseline; FUNC-SPRINT-81-83 provide checksums, verification, installation and backup/upgrade; FUNC-SPRINT-84 provides ReleaseAgent dry-run and Fase G closure.",
                 "FUNC-SPRINT-77 does not calculate checksums or perform vulnerability scanning.",
                 "FUNC-SPRINT-77 does not tag Git, sign artifacts, publish packages or deploy.",
-                "Release readiness still requires running pytest, quality-gate ci and Web UI smoke commands explicitly.",
+                "Release readiness still requires running pytest, quality-gate release/ci and Web UI smoke commands explicitly; ReleaseAgent remains dry-run and does not publish/deploy/tag.",
             ],
         }
         findings.append(

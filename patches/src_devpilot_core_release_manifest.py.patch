@@ -1,34 +1,36 @@
---- a/src/devpilot_core/release/manifest.py
-+++ b/src/devpilot_core/release/manifest.py
-@@ -123,7 +123,21 @@
-         "path": "outputs/reports/checksums.sha256",
-         "kind": "checksums",
-         "implemented_in": "FUNC-SPRINT-81",
--        "status": "planned",
-+        "status": "implemented-initial",
-+    },
-+    {
-+        "id": "RELEASE-SMOKE-TEST",
-+        "path": "outputs/reports/release_smoke_test.json",
-+        "kind": "release-smoke-test-report",
-+        "implemented_in": "FUNC-SPRINT-81",
-+        "status": "implemented-initial",
-+    },
-+    {
-+        "id": "RELEASE-VERIFICATION",
-+        "path": "outputs/reports/release_verification.json",
-+        "kind": "release-verification-report",
-+        "implemented_in": "FUNC-SPRINT-81",
-+        "status": "implemented-initial",
+--- /mnt/data/devpilot_s84_orig/src/devpilot_core/release/manifest.py	2026-06-17 23:13:36.904768136 +0000
++++ /mnt/data/devpilot_s84/src/devpilot_core/release/manifest.py	2026-06-17 23:19:14.858689231 +0000
+@@ -175,6 +175,20 @@
+         "implemented_in": "FUNC-SPRINT-83",
+         "status": "implemented-initial",
      },
++    {
++        "id": "RELEASE-ASSISTANT",
++        "path": "outputs/reports/agent_run_release_assistant.json",
++        "kind": "release-agent-report",
++        "implemented_in": "FUNC-SPRINT-84",
++        "status": "implemented-initial",
++    },
++    {
++        "id": "PHASE-G-CLOSURE",
++        "path": "docs/audits/phase_g_productization_release_closure.md",
++        "kind": "phase-closure-report",
++        "implemented_in": "FUNC-SPRINT-84",
++        "status": "implemented-initial",
++    },
  ]
  
-@@ -133,7 +147,7 @@
-     """Options for creating the local release manifest.
  
-     FUNC-SPRINT-77 deliberately creates metadata and evidence references only.
--    Packaging, SBOM, checksums, signing and publication remain future sprints.
-+    Packaging and SBOM are implemented as initial local baselines; checksums and smoke verification are implemented initially in FUNC-SPRINT-81. Signing and publication remain future/out-of-scope capabilities.
-     """
- 
-     version: str
+@@ -266,10 +280,10 @@
+             },
+             "limitations": [
+                 "FUNC-SPRINT-77 does not build release packages.",
+-                "FUNC-SPRINT-78 provides the human-readable changelog; FUNC-SPRINT-79 provides initial local packaging; FUNC-SPRINT-80 provides initial SBOM baseline; checksum verification remains later.",
++                "FUNC-SPRINT-78 provides the human-readable changelog; FUNC-SPRINT-79 provides initial local packaging; FUNC-SPRINT-80 provides initial SBOM baseline; FUNC-SPRINT-81-83 provide checksums, verification, installation and backup/upgrade; FUNC-SPRINT-84 provides ReleaseAgent dry-run and Fase G closure.",
+                 "FUNC-SPRINT-77 does not calculate checksums or perform vulnerability scanning.",
+                 "FUNC-SPRINT-77 does not tag Git, sign artifacts, publish packages or deploy.",
+-                "Release readiness still requires running pytest, quality-gate ci and Web UI smoke commands explicitly.",
++                "Release readiness still requires running pytest, quality-gate release/ci and Web UI smoke commands explicitly; ReleaseAgent remains dry-run and does not publish/deploy/tag.",
+             ],
+         }
+         findings.append(
