@@ -20,6 +20,7 @@ from .modeling import BudgetLedger, CapabilityMatrix, ModelAdapterRouter, ModelE
 from .multiagent import MultiAgentCoordinator, MultiAgentRunOptions, MultiAgentWorkflowRunner, MultiAgentWorkflowRunOptions
 from .policy import CostPolicy, PolicyEngine, PolicyRequest, load_cost_policy
 from .plugins import PluginDryRunOptions, PluginRegistry, PluginRegistryOptions
+from .portfolio import PortfolioStatusBuilder
 from .prompts import PromptRegistry
 from .quality import QualityGate, QualityGateOptions
 from .rag import LocalRagIndexer, LocalRagRetriever, RagIndexOptions, RagQueryOptions
@@ -65,7 +66,7 @@ from .store import LocalStore
 from .traceability import MarkdownTraceabilityExtractor, TraceabilityEngine
 from .testing import TestsRunTool
 from .validation import ValidationGateway
-from .workspace import WorkspaceManager
+from .workspace import MultiworkspaceRegistry, WorkspaceRegisterOptions, WorkspaceRegistryOptions, WorkspaceSelectOptions, WorkspaceManager
 from .validators.artifact import validate_artifact_file
 from .validators.checklist import validate_precode_checklist
 from .validators.frontmatter import validate_frontmatter_file
@@ -2465,6 +2466,135 @@ def workspace_status_command(*, json_output: bool = False, write_report: bool = 
     return int(result.exit_code)
 
 
+
+def workspace_register_command(
+    *,
+    path: str,
+    workspace_id: str | None = None,
+    name: str | None = None,
+    registry_path: str = ".devpilot/workspaces/workspace_registry.json",
+    json_output: bool = False,
+    write_report: bool = False,
+) -> int:
+    """Register a local DevPilot workspace in the FUNC-SPRINT-94 registry."""
+
+    root = project_root()
+    result = MultiworkspaceRegistry(root, options=WorkspaceRegistryOptions(registry_path=registry_path)).register(
+        WorkspaceRegisterOptions(path=path, workspace_id=workspace_id, name=name, registry_path=registry_path)
+    )
+    result = _write_optional_command_report(
+        root,
+        result,
+        subject=path,
+        report_id="workspace_register",
+        write_report=write_report,
+        metadata={"sprint": "FUNC-SPRINT-94", "component": "MultiworkspaceRegistry"},
+    )
+    _emit_result_event(root, result, subject=f"workspace:{path}")
+    _persist_result(root, result, subject=f"workspace:{path}")
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+
+def workspace_list_command(
+    *,
+    registry_path: str = ".devpilot/workspaces/workspace_registry.json",
+    json_output: bool = False,
+    write_report: bool = False,
+) -> int:
+    """List governed local workspaces from the FUNC-SPRINT-94 registry."""
+
+    root = project_root()
+    result = MultiworkspaceRegistry(root, options=WorkspaceRegistryOptions(registry_path=registry_path)).list()
+    result = _write_optional_command_report(
+        root,
+        result,
+        subject=registry_path,
+        report_id="workspace_list",
+        write_report=write_report,
+        metadata={"sprint": "FUNC-SPRINT-94", "component": "MultiworkspaceRegistry"},
+    )
+    _emit_result_event(root, result, subject=registry_path)
+    _persist_result(root, result, subject=registry_path)
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+
+def workspace_select_command(
+    *,
+    workspace_id: str,
+    registry_path: str = ".devpilot/workspaces/workspace_registry.json",
+    json_output: bool = False,
+    write_report: bool = False,
+) -> int:
+    """Select the active local workspace in the FUNC-SPRINT-94 registry."""
+
+    root = project_root()
+    result = MultiworkspaceRegistry(root, options=WorkspaceRegistryOptions(registry_path=registry_path)).select(
+        WorkspaceSelectOptions(workspace_id=workspace_id, registry_path=registry_path)
+    )
+    result = _write_optional_command_report(
+        root,
+        result,
+        subject=workspace_id,
+        report_id="workspace_select",
+        write_report=write_report,
+        metadata={"sprint": "FUNC-SPRINT-94", "component": "MultiworkspaceRegistry"},
+    )
+    _emit_result_event(root, result, subject=f"workspace:{workspace_id}")
+    _persist_result(root, result, subject=f"workspace:{workspace_id}")
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+
+def workspace_registry_validate_command(
+    *,
+    registry_path: str = ".devpilot/workspaces/workspace_registry.json",
+    schema_path: str = "docs/schemas/multiworkspace_registry.schema.json",
+    json_output: bool = False,
+    write_report: bool = False,
+) -> int:
+    """Validate the FUNC-SPRINT-94 Multiworkspace Registry contract."""
+
+    root = project_root()
+    result = MultiworkspaceRegistry(root, options=WorkspaceRegistryOptions(registry_path=registry_path, schema_path=schema_path)).validate()
+    result = _write_optional_command_report(
+        root,
+        result,
+        subject=registry_path,
+        report_id="workspace_registry_validate",
+        write_report=write_report,
+        metadata={"sprint": "FUNC-SPRINT-94", "component": "MultiworkspaceRegistry"},
+    )
+    _emit_result_event(root, result, subject=registry_path)
+    _persist_result(root, result, subject=registry_path)
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+
+def portfolio_status_command(
+    *,
+    registry_path: str = ".devpilot/workspaces/workspace_registry.json",
+    json_output: bool = False,
+    write_report: bool = False,
+) -> int:
+    """Build FUNC-SPRINT-94 local portfolio status in read-only mode."""
+
+    root = project_root()
+    result = PortfolioStatusBuilder(root, registry_path=registry_path).build()
+    result = _write_optional_command_report(
+        root,
+        result,
+        subject=registry_path,
+        report_id="portfolio_status",
+        write_report=write_report,
+        metadata={"sprint": "FUNC-SPRINT-94", "component": "PortfolioStatusBuilder"},
+    )
+    _emit_result_event(root, result, subject="portfolio:status")
+    _persist_result(root, result, subject="portfolio:status")
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
 def state_init_command(*, json_output: bool = False, write_report: bool = False) -> int:
     """Initialize the local SQLite operational state store."""
 
@@ -3419,6 +3549,38 @@ def build_parser() -> argparse.ArgumentParser:
     workspace_status.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     workspace_status.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
 
+    workspace_register = workspace_sub.add_parser("register", help="Register a local DevPilot workspace in the multiworkspace registry")
+    workspace_register.add_argument("--path", required=True, help="Workspace path to register; must pass PathGuard and contain .devpilot/project.yaml")
+    workspace_register.add_argument("--workspace-id", default=None, help="Optional stable workspace id; defaults to project id from project.yaml")
+    workspace_register.add_argument("--name", default=None, help="Optional display name; defaults to project name from project.yaml")
+    workspace_register.add_argument("--registry-path", default=".devpilot/workspaces/workspace_registry.json", help="Multiworkspace Registry JSON path")
+    workspace_register.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    workspace_register.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+
+    workspace_list = workspace_sub.add_parser("list", help="List registered local DevPilot workspaces")
+    workspace_list.add_argument("--registry-path", default=".devpilot/workspaces/workspace_registry.json", help="Multiworkspace Registry JSON path")
+    workspace_list.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    workspace_list.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+
+    workspace_select = workspace_sub.add_parser("select", help="Select active workspace metadata")
+    workspace_select.add_argument("--workspace-id", required=True, help="Registered workspace id to mark as active")
+    workspace_select.add_argument("--registry-path", default=".devpilot/workspaces/workspace_registry.json", help="Multiworkspace Registry JSON path")
+    workspace_select.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    workspace_select.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+
+    workspace_registry = workspace_sub.add_parser("registry-validate", help="Validate Multiworkspace Registry schema and isolation rules")
+    workspace_registry.add_argument("--registry-path", default=".devpilot/workspaces/workspace_registry.json", help="Multiworkspace Registry JSON path")
+    workspace_registry.add_argument("--schema-path", default="docs/schemas/multiworkspace_registry.schema.json", help="Multiworkspace Registry JSON Schema path")
+    workspace_registry.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    workspace_registry.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+
+    portfolio = sub.add_parser("portfolio", help="Inspect local multiworkspace portfolio")
+    portfolio_sub = portfolio.add_subparsers(dest="portfolio_command")
+    portfolio_status = portfolio_sub.add_parser("status", help="Build read-only portfolio status from registered workspaces")
+    portfolio_status.add_argument("--registry-path", default=".devpilot/workspaces/workspace_registry.json", help="Multiworkspace Registry JSON path")
+    portfolio_status.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    portfolio_status.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+
     state = sub.add_parser("state", help="Manage local SQLite operational state")
     state_sub = state.add_subparsers(dest="state_command")
     state_init = state_sub.add_parser("init", help="Initialize .devpilot/devpilot.db")
@@ -4096,6 +4258,9 @@ def _command_name_from_args(args: argparse.Namespace) -> str:
     if command == "workspace":
         subcommand = getattr(args, "workspace_command", None)
         return f"workspace {subcommand}" if subcommand else "workspace"
+    if command == "portfolio":
+        subcommand = getattr(args, "portfolio_command", None)
+        return f"portfolio {subcommand}" if subcommand else "portfolio"
     if command == "policy":
         subcommand = getattr(args, "policy_command", None)
         return f"policy {subcommand}" if subcommand else "policy"
@@ -4214,6 +4379,36 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
             )
         if args.workspace_command == "status":
             return workspace_status_command(json_output=args.json, write_report=args.write_report)
+        if args.workspace_command == "register":
+            return workspace_register_command(
+                path=args.path,
+                workspace_id=args.workspace_id,
+                name=args.name,
+                registry_path=args.registry_path,
+                json_output=args.json,
+                write_report=args.write_report,
+            )
+        if args.workspace_command == "list":
+            return workspace_list_command(registry_path=args.registry_path, json_output=args.json, write_report=args.write_report)
+        if args.workspace_command == "select":
+            return workspace_select_command(
+                workspace_id=args.workspace_id,
+                registry_path=args.registry_path,
+                json_output=args.json,
+                write_report=args.write_report,
+            )
+        if args.workspace_command == "registry-validate":
+            return workspace_registry_validate_command(
+                registry_path=args.registry_path,
+                schema_path=args.schema_path,
+                json_output=args.json,
+                write_report=args.write_report,
+            )
+        parser.print_help()
+        return int(ExitCode.FAIL)
+    if args.command == "portfolio":
+        if args.portfolio_command == "status":
+            return portfolio_status_command(registry_path=args.registry_path, json_output=args.json, write_report=args.write_report)
         parser.print_help()
         return int(ExitCode.FAIL)
     if args.command == "state":

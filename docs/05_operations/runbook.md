@@ -5119,3 +5119,40 @@ python -m devpilot_core quality-gate run --profile ci --json
 ### Riesgos y recuperación
 
 Esta versión es preliminar. No constituye runtime de plugins, marketplace, instalador, sandbox de ejecución ni ABI estable. Si `plugin validate` bloquea, revisar `.devpilot/plugins/plugin_registry.json`, restaurar `execution_enabled=false`, confirmar que los policy ids existen en `.devpilot/miasi/policy_matrix.json` y ejecutar nuevamente `miasi validate`, `schema validate-miasi` y `quality-gate run --profile ci`.
+
+
+## FUNC-SPRINT-94 — Operación Multiworkspace Manager y portfolio local
+
+Estado: `implemented-initial`. Esta operación permite registrar workspaces locales de DevPilot, listar el portfolio y consultar estado consolidado sin mezclar configuración, trazas, reportes, secretos ni `.devpilot/devpilot.db` entre proyectos.
+
+### Comandos
+
+```powershell
+python -m devpilot_core workspace registry-validate --json
+python -m devpilot_core workspace register --path . --json
+python -m devpilot_core workspace list --json
+python -m devpilot_core workspace select --workspace-id devpilot-local --json
+python -m devpilot_core portfolio status --json
+python -m devpilot_core schema validate --schema docs\schemas\multiworkspace_registry.schema.json --instance .devpilot\workspaces\workspace_registry.json --json
+python -m devpilot_core eval run --suite multiworkspace-isolation --json
+```
+
+### Criterios PASS
+
+- El registry valida contra `docs/schemas/multiworkspace_registry.schema.json`.
+- Cada workspace registrado contiene `.devpilot/project.yaml`.
+- `portfolio status` es read-only y reporta `mutations_performed=false`.
+- No se leen secretos ni bases SQLite de otros workspaces.
+- `path_isolation_passed=true` y `state_isolation_passed=true`.
+
+### Criterios BLOCK
+
+- Ruta fuera del root gobernado sin política explícita.
+- Workspace no registrado.
+- Colisión de `.devpilot/devpilot.db` entre workspaces.
+- Lectura de `.env`, providers reales o secretos.
+- Mezcla de outputs/traces/reportes entre proyectos.
+
+### Riesgos y límites
+
+Esta versión no implementa RBAC, autenticación remota, SaaS, sincronización cloud ni lectura de workspaces externos mediante registry global en `~/.devpilot`. El registry local es suficiente para Sprint 94 y reduce riesgo; el soporte de workspaces externos debe evolucionar con RBAC, audit packs y una ADR de aislamiento.

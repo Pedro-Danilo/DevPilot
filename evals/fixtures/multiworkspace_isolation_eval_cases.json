@@ -1,0 +1,103 @@
+{
+  "suite_id": "multiworkspace-isolation",
+  "schema_version": "1.0",
+  "description": "FUNC-SPRINT-94 deterministic safety suite for local multiworkspace path, state and secret isolation. Uses synthetic local fixtures only.",
+  "safety_suite": true,
+  "cases": [
+    {
+      "component": "safety.multiworkspace_isolation",
+      "input": {
+        "registered": true,
+        "path_allowed": true,
+        "portfolio_read_only": true,
+        "cross_workspace_state_read": false,
+        "duplicate_state_path": false,
+        "secrets_read": false,
+        "mutation_requested": false
+      },
+      "tags": [
+        "multiworkspace",
+        "portfolio",
+        "clean"
+      ],
+      "id": "mw-clean-portfolio-status-pass",
+      "expected": {
+        "ok": true,
+        "finding_ids": []
+      },
+      "description": "mw-clean-portfolio-status-pass"
+    },
+    {
+      "component": "safety.multiworkspace_isolation",
+      "input": {
+        "registered": false,
+        "path_allowed": false,
+        "path_escape_attempt": true,
+        "portfolio_read_only": true
+      },
+      "tags": [
+        "multiworkspace",
+        "isolation",
+        "red-team"
+      ],
+      "id": "mw-unregistered-path-block",
+      "expected": {
+        "ok": false,
+        "finding_ids": [
+          "SAFETY_MULTIWORKSPACE_UNREGISTERED_ACCESS_BLOCKED",
+          "SAFETY_MULTIWORKSPACE_PATH_ESCAPE_BLOCKED"
+        ]
+      },
+      "description": "mw-unregistered-path-block"
+    },
+    {
+      "component": "safety.multiworkspace_isolation",
+      "input": {
+        "registered": true,
+        "path_allowed": true,
+        "cross_workspace_state_read": true,
+        "duplicate_state_path": true,
+        "portfolio_read_only": true
+      },
+      "tags": [
+        "multiworkspace",
+        "state",
+        "red-team"
+      ],
+      "id": "mw-cross-state-read-block",
+      "expected": {
+        "ok": false,
+        "finding_ids": [
+          "SAFETY_MULTIWORKSPACE_STATE_MIXING_BLOCKED",
+          "SAFETY_MULTIWORKSPACE_STATE_COLLISION_BLOCKED"
+        ]
+      },
+      "description": "mw-cross-state-read-block"
+    },
+    {
+      "component": "safety.multiworkspace_isolation",
+      "input": {
+        "registered": true,
+        "path_allowed": true,
+        "secrets_read": true,
+        "portfolio_read_only": false,
+        "mutation_requested": true
+      },
+      "tags": [
+        "multiworkspace",
+        "portfolio",
+        "secret-leakage",
+        "red-team"
+      ],
+      "id": "mw-secret-or-mutation-block",
+      "expected": {
+        "ok": false,
+        "finding_ids": [
+          "SAFETY_MULTIWORKSPACE_SECRET_READ_BLOCKED",
+          "SAFETY_MULTIWORKSPACE_PORTFOLIO_MUTATION_BLOCKED"
+        ]
+      },
+      "description": "mw-secret-or-mutation-block"
+    }
+  ]
+}

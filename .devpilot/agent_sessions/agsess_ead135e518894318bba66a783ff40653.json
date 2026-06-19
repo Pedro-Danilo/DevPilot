@@ -1,0 +1,87 @@
+{
+  "agent_ids": [
+    "testplanner.agent"
+  ],
+  "created_at": "2026-06-19T12:50:59Z",
+  "events": [
+    {
+      "agent_id": "testplanner.agent",
+      "command": "agent run",
+      "dry_run": true,
+      "event_id": "6273b00c449142bb8c7265b008ac155a",
+      "event_type": "agent.session.started",
+      "metadata": {
+        "runtime_version": "v2-model-aware",
+        "sprint": "FUNC-SPRINT-86"
+      },
+      "run_id": "run_75e106038c2444448400091399038f87",
+      "summary": {
+        "requested_agent": "testplanner.agent",
+        "session_created": true
+      },
+      "target": "docs/01_requirements",
+      "timestamp": "2026-06-19T12:50:59Z",
+      "trace_id": "trace_4a6bf55d2ff442c4bf796f0201d62654"
+    },
+    {
+      "agent_id": "testplanner.agent",
+      "command": "agent run",
+      "dry_run": true,
+      "event_id": "56b4288e39fa4d32a9bbb40074b447b0",
+      "event_type": "agent.session.completed",
+      "metadata": {
+        "runtime_version": "v2-model-aware",
+        "sprint": "FUNC-SPRINT-86"
+      },
+      "ok": true,
+      "run_id": "run_75e106038c2444448400091399038f87",
+      "summary": {
+        "findings_total": 1,
+        "model_calls_total": 0,
+        "suggestions_total": 3,
+        "tool_calls_total": 3
+      },
+      "target": "docs/01_requirements",
+      "timestamp": "2026-06-19T12:50:59Z",
+      "trace_id": "trace_4a6bf55d2ff442c4bf796f0201d62654"
+    }
+  ],
+  "memory": {
+    "last_result": {
+      "agent_id": "testplanner.agent",
+      "findings_total": 1,
+      "model_calls_total": 0,
+      "ok": true,
+      "suggestions_total": 3,
+      "tool_calls_total": 3
+    },
+    "operational_context": {
+      "last_agent_id": "testplanner.agent",
+      "last_dry_run": true,
+      "last_target": "docs/01_requirements"
+    }
+  },
+  "metadata": {
+    "rag_enabled": false,
+    "raw_outputs_stored": false,
+    "raw_prompts_stored": false,
+    "redaction_applied": true,
+    "retention_policy": "local-short-lived-operational-memory",
+    "semantic_memory_enabled": false
+  },
+  "retention_days": 14,
+  "session_id": "agsess_ead135e518894318bba66a783ff40653",
+  "status": "completed",
+  "summary": {
+    "agents_total": 1,
+    "events_total": 2,
+    "local_only": true,
+    "memory_items_total": 2,
+    "rag_enabled": false,
+    "raw_outputs_stored": false,
+    "raw_prompts_stored": false,
+    "semantic_memory_enabled": false
+  },
+  "updated_at": "2026-06-19T12:50:59Z",
+  "workspace": "."
+}

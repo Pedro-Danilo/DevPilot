@@ -31,8 +31,8 @@ def test_sprint_63_artifacts_exist_and_are_synchronized() -> None:
     for path in expected_paths:
         assert (ROOT / path).exists(), path
 
-    assert "Último hito: `FUNC-SPRINT-93" in readme
-    assert "Siguiente hito: `FUNC-SPRINT-94" in readme
+    assert "Último hito: `FUNC-SPRINT-94" in readme
+    assert "Siguiente hito: `FUNC-SPRINT-95" in readme
     assert "## FUNC-SPRINT-63 — AgentOps Quality Gate y cierre Fase E" in readme
     assert "## FUNC-SPRINT-63 — Operación de AgentOps Quality Gate y cierre Fase E" in runbook
     assert 'first_open_sprint: "FUNC-SPRINT-64"' in backlog
@@ -40,7 +40,7 @@ def test_sprint_63_artifacts_exist_and_are_synchronized() -> None:
     assert 'next_sprint: "FUNC-SPRINT-64"' in backlog
     assert 'phase_e_status: "closed"' in backlog
     assert "## Estado de implementación Sprint 63 y cierre Fase E" in backlog
-    assert 'next_sprint: "FUNC-SPRINT-94"' in functional_backlog
+    assert 'next_sprint: "FUNC-SPRINT-95"' in functional_backlog
     assert "## Transición posterior a FUNC-SPRINT-63 — Cierre Fase E" in functional_backlog
     assert manifest["sprint"] == "FUNC-SPRINT-63"
     assert manifest["status"] == "implemented"

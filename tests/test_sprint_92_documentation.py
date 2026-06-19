@@ -31,12 +31,12 @@ def test_sprint_92_artifacts_exist_and_are_synchronized() -> None:
     runbook = _read("docs/05_operations/runbook.md")
     functional = _read("docs/functional_backlog_after_precode.md")
 
-    assert "Último hito: `FUNC-SPRINT-93" in readme
-    assert "Siguiente hito: `FUNC-SPRINT-94" in readme
-    assert 'last_completed_sprint: "FUNC-SPRINT-93"' in backlog
-    assert 'next_sprint: "FUNC-SPRINT-94"' in backlog
+    assert "Último hito: `FUNC-SPRINT-94" in readme
+    assert "Siguiente hito: `FUNC-SPRINT-95" in readme
+    assert 'last_completed_sprint: "FUNC-SPRINT-94"' in backlog
+    assert 'next_sprint: "FUNC-SPRINT-95"' in backlog
     assert "FUNC-SPRINT-92 — Operación Evaluación avanzada" in runbook
-    assert 'next_sprint: "FUNC-SPRINT-94"' in functional
+    assert 'next_sprint: "FUNC-SPRINT-95"' in functional
     assert "Transición posterior a FUNC-SPRINT-92" in functional
 
 
@@ -111,7 +111,7 @@ def test_sprint_92_audit_and_changelog_are_synced() -> None:
     assert "Criterios PASS" in audit
     assert "Criterios BLOCK" in audit
     assert "secreto real" in audit.lower()
-    assert "Range: `FUNC-SPRINT-74` → `FUNC-SPRINT-93`" in changelog
+    assert "Range: `FUNC-SPRINT-74` → `FUNC-SPRINT-94`" in changelog
     assert "docs/functional_sprint_92_manifest.json" in changelog
     assert "eval.safety.run" in miasi_docs
     assert "EVAL_SAFETY_SCORING_ALLOW" in miasi_docs

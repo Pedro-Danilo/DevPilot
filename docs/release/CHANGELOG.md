@@ -19,10 +19,11 @@ Grounding policy: entries are generated from approved local manifests; the chang
 ## [0.1.0] - 2026-06-19
 
 Release ID: `DEVPL-0.1.0`  
-Range: `FUNC-SPRINT-74` → `FUNC-SPRINT-93`  
+Range: `FUNC-SPRINT-74` → `FUNC-SPRINT-94`  
 Source: `docs/functional_sprint_*_manifest.json`
 
 ### Added
+- `FUNC-SPRINT-94` — Se incorporó `Multiworkspace Manager y portfolio local`. Source: `docs/functional_sprint_94_manifest.json`; audit: `docs/audits/func_sprint_94_multiworkspace_audit.md`. Artefactos: `src/devpilot_core/workspace/registry.py`, `src/devpilot_core/portfolio/status.py`, `.devpilot/workspaces/workspace_registry.json`, `docs/schemas/multiworkspace_registry.schema.json` y suite `multiworkspace-isolation`.
 
 - `FUNC-SPRINT-74` — Se incorporó `ADR de release, versionado y productización`. Source: `docs/functional_sprint_74_manifest.json`; audit: `docs/audits/func_sprint_74_release_versioning_audit.md`. Artefactos: `docs/02_architecture/adrs/ADR-0014-release-versioning-packaging.md`, `docs/05_operations/release_policy.md`, `docs/05_operations/release_artifacts_matrix.md`, `docs/audits/func_sprint_74_release_versioning_audit.md` y 2 artefactos adicionales.
 - `FUNC-SPRINT-75` — Se incorporó `Quality Gate local unificado`. Source: `docs/functional_sprint_75_manifest.json`; audit: `docs/audits/func_sprint_75_quality_gate_audit.md`. Artefactos: `src/devpilot_core/quality/__init__.py`, `src/devpilot_core/quality/gate.py`, `tests/test_quality_gate.py`, `tests/test_sprint_75_documentation.py` y 2 artefactos adicionales.
@@ -46,6 +47,7 @@ Source: `docs/functional_sprint_*_manifest.json`
 - `FUNC-SPRINT-93` — Se incorporó `Plugin y connector ecosystem controlado`. Source: `docs/functional_sprint_93_manifest.json`; audit: `docs/audits/func_sprint_93_plugin_ecosystem_audit.md`. Artefactos: `src/devpilot_core/plugins/__init__.py`, `src/devpilot_core/plugins/registry.py`, `.devpilot/plugins/plugin_registry.json`, `docs/schemas/plugin_manifest.schema.json` y 5 artefactos adicionales.
 
 ### Changed
+- `FUNC-SPRINT-94` — Se sincronizaron CLI, MIASI, EvalRunner, QualityGate, schema catalog, README, runbook y backlog Fase H para el nuevo portfolio local read-only.
 
 - `FUNC-SPRINT-74` — Se sincronizaron artefactos de ingeniería y contratos existentes. Source: `docs/functional_sprint_74_manifest.json`; audit: `docs/audits/func_sprint_74_release_versioning_audit.md`. Artefactos: `README.md`, `docs/05_operations/runbook.md`, `docs/devpilot_backlog_fase_G_productizacion_release.md`, `docs/functional_backlog_after_precode.md` y 1 artefactos adicionales.
 - `FUNC-SPRINT-75` — Se sincronizaron artefactos de ingeniería y contratos existentes. Source: `docs/functional_sprint_75_manifest.json`; audit: `docs/audits/func_sprint_75_quality_gate_audit.md`. Artefactos: `src/devpilot_core/cli.py`, `README.md`, `docs/05_operations/runbook.md`, `docs/devpilot_backlog_fase_G_productizacion_release.md` y 2 artefactos adicionales.
@@ -84,6 +86,7 @@ Source: `docs/functional_sprint_*_manifest.json`
 - `FUNC-SPRINT-92` — Se registró una corrección soportada por el manifest funcional del sprint. Source: `docs/functional_sprint_92_manifest.json`; audit: `docs/audits/func_sprint_92_advanced_evals_audit.md`. advanced-agentic eval suite returns ok=true and safety_score >= 90; red-team eval suite returns ok=true and includes adversarial cases; +4 criterios adicionales
 
 ### Security
+- `FUNC-SPRINT-94` — Se preservó aislamiento: `cross_workspace_state_reads=False`, `secrets_read=False`, `portfolio_status_read_only=True`, sin red, shell ni APIs externas.
 
 - `FUNC-SPRINT-74` — Se preservaron límites local-first/dry-run-first, exclusión de secretos/runtime state o bloqueo de publicación/despliegue según el contrato del sprint. Source: `docs/functional_sprint_74_manifest.json`; audit: `docs/audits/func_sprint_74_release_versioning_audit.md`. Controles declarados: `destructive_actions_added=False`, `external_publication_out_of_scope=True`.
 - `FUNC-SPRINT-75` — Se preservaron límites local-first/dry-run-first, exclusión de secretos/runtime state o bloqueo de publicación/despliegue según el contrato del sprint. Source: `docs/functional_sprint_75_manifest.json`; audit: `docs/audits/func_sprint_75_quality_gate_audit.md`. Controles declarados: `destructive_actions_added=False`, `external_publication_out_of_scope=True`.
@@ -140,3 +143,9 @@ Source: `docs/functional_sprint_*_manifest.json`
 - Adds MIASI policy/tool bindings for plugin metadata, dry-run loader and connector binding.
 - Adds deterministic `plugin-ecosystem` safety eval suite and quality-gate CI consumption.
 - Keeps plugin execution disabled: no arbitrary code loading, no network, no external APIs, no shell and no remote execution.
+
+## FUNC-SPRINT-94 — Multiworkspace Manager y portfolio local
+
+- Estado: `implemented-initial`.
+- Agrega registry local `.devpilot/workspaces/workspace_registry.json`, schema `SCHEMA-DEVPL-MULTIWORKSPACE-REGISTRY-V1`, CLI `workspace register/list/select/registry-validate`, `portfolio status` read-only y suite `multiworkspace-isolation`.
+- No implementa SaaS, RBAC, auth remota, registry global, lectura de secretos ni mezcla de `.devpilot/devpilot.db`.

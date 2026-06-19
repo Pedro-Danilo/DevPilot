@@ -1036,6 +1036,62 @@
         "PLUGIN_CONNECTOR_BINDING_ALLOW",
         "SECRETS_RAW_DENY"
       ]
+    },
+    {
+      "tool_id": "workspace.registry.validate",
+      "name": "validate_multiworkspace_registry",
+      "phase": "Post-MVP",
+      "side_effect": "none",
+      "risk_level": "medium_high",
+      "status": "implemented-initial",
+      "requires_approval": false,
+      "policy_rule_ids": [
+        "MULTIWORKSPACE_REGISTRY_VALIDATE_ALLOW",
+        "MULTIWORKSPACE_ISOLATION_REQUIRED",
+        "SECRETS_RAW_DENY"
+      ]
+    },
+    {
+      "tool_id": "workspace.registry.register",
+      "name": "register_local_workspace_metadata",
+      "phase": "Post-MVP",
+      "side_effect": "controlled_write",
+      "risk_level": "high",
+      "status": "implemented-initial",
+      "requires_approval": false,
+      "policy_rule_ids": [
+        "MULTIWORKSPACE_REGISTER_LOCAL_ALLOW",
+        "MULTIWORKSPACE_ISOLATION_REQUIRED",
+        "SECRETS_RAW_DENY"
+      ]
+    },
+    {
+      "tool_id": "workspace.registry.select",
+      "name": "select_active_workspace_metadata",
+      "phase": "Post-MVP",
+      "side_effect": "controlled_write",
+      "risk_level": "medium_high",
+      "status": "implemented-initial",
+      "requires_approval": false,
+      "policy_rule_ids": [
+        "MULTIWORKSPACE_SELECT_LOCAL_ALLOW",
+        "MULTIWORKSPACE_ISOLATION_REQUIRED",
+        "SECRETS_RAW_DENY"
+      ]
+    },
+    {
+      "tool_id": "portfolio.status",
+      "name": "portfolio_status_read_only",
+      "phase": "Post-MVP",
+      "side_effect": "report",
+      "risk_level": "medium_high",
+      "status": "implemented-initial",
+      "requires_approval": false,
+      "policy_rule_ids": [
+        "PORTFOLIO_STATUS_READ_ONLY_ALLOW",
+        "MULTIWORKSPACE_ISOLATION_REQUIRED",
+        "SECRETS_RAW_DENY"
+      ]
     }
   ]
 }

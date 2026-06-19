@@ -267,3 +267,13 @@ Estas políticas no autorizan mitigación automática, patch apply, ejecución d
 ## FUNC-SPRINT-93 — Plugin ecosystem controlado
 
 Sprint 93 agrega soporte `implemented-initial` para plugins metadata-only. `plugin.registry.validate` valida manifests y permisos; `plugin.loader.dry_run` simula carga sin importar ni ejecutar código. Las políticas `PLUGIN_METADATA_READ_ALLOW`, `PLUGIN_DRY_RUN_ONLY_ALLOW`, `PLUGIN_CONNECTOR_BINDING_ALLOW` y `PLUGIN_EXECUTE_DENY` mantienen el ecosistema deny-by-default, observable y sin ejecución arbitraria.
+
+## FUNC-SPRINT-94 — Políticas Multiworkspace y portfolio local
+
+- `MULTIWORKSPACE_REGISTRY_VALIDATE_ALLOW`: permite validación local del registry.
+- `MULTIWORKSPACE_REGISTER_LOCAL_ALLOW`: permite escritura controlada de metadatos de registro.
+- `MULTIWORKSPACE_SELECT_LOCAL_ALLOW`: permite selección local de workspace activo.
+- `PORTFOLIO_STATUS_READ_ONLY_ALLOW`: permite consolidar estado de portfolio sin mutaciones.
+- `MULTIWORKSPACE_ISOLATION_REQUIRED`: bloquea mezcla de estado, rutas o secretos entre workspaces.
+
+El efecto de aislamiento es `block` por defecto y debe permanecer así hasta implementar RBAC y audit packs.

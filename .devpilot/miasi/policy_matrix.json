@@ -624,6 +624,51 @@
       "gate": "PluginPolicy+ApprovalPolicyChecker+SandboxFuture",
       "approval_required": true,
       "observability_required": true
+    },
+    {
+      "rule_id": "MULTIWORKSPACE_REGISTRY_VALIDATE_ALLOW",
+      "domain": "Workspace",
+      "action": "validate_multiworkspace_registry",
+      "default_effect": "allow",
+      "gate": "MultiworkspaceRegistry+SchemaValidator+PathGuard+SecretGuard",
+      "approval_required": false,
+      "observability_required": true
+    },
+    {
+      "rule_id": "MULTIWORKSPACE_REGISTER_LOCAL_ALLOW",
+      "domain": "Workspace",
+      "action": "register_workspace_metadata",
+      "default_effect": "allow",
+      "gate": "MultiworkspaceRegistry+PolicyEngine+PathGuard+WorkspaceProjectContract",
+      "approval_required": false,
+      "observability_required": true
+    },
+    {
+      "rule_id": "MULTIWORKSPACE_SELECT_LOCAL_ALLOW",
+      "domain": "Workspace",
+      "action": "select_active_workspace_metadata",
+      "default_effect": "allow",
+      "gate": "MultiworkspaceRegistry+PolicyEngine+PathGuard",
+      "approval_required": false,
+      "observability_required": true
+    },
+    {
+      "rule_id": "PORTFOLIO_STATUS_READ_ONLY_ALLOW",
+      "domain": "Portfolio",
+      "action": "portfolio_status_read_only",
+      "default_effect": "allow",
+      "gate": "PortfolioStatusBuilder+MultiworkspaceRegistry+PathGuard",
+      "approval_required": false,
+      "observability_required": true
+    },
+    {
+      "rule_id": "MULTIWORKSPACE_ISOLATION_REQUIRED",
+      "domain": "Workspace",
+      "action": "cross_workspace_state_secret_isolation",
+      "default_effect": "block",
+      "gate": "MultiworkspaceRegistry+StatePathIsolation+SecretGuard+PathGuard",
+      "approval_required": false,
+      "observability_required": true
     }
   ]
 }

@@ -709,3 +709,12 @@ PASS: safety score JSON parseable, falsos negativos en cero, fixtures sintético
 ## FUNC-SPRINT-93 — Plugin ecosystem controlado
 
 Sprint 93 agrega soporte `implemented-initial` para plugins metadata-only. `plugin.registry.validate` valida manifests y permisos; `plugin.loader.dry_run` simula carga sin importar ni ejecutar código. Las políticas `PLUGIN_METADATA_READ_ALLOW`, `PLUGIN_DRY_RUN_ONLY_ALLOW`, `PLUGIN_CONNECTOR_BINDING_ALLOW` y `PLUGIN_EXECUTE_DENY` mantienen el ecosistema deny-by-default, observable y sin ejecución arbitraria.
+
+## FUNC-SPRINT-94 — Herramientas Multiworkspace y portfolio local
+
+- `workspace.registry.validate`: valida el registry local multiworkspace contra schema, PathGuard, SecretGuard y reglas de aislamiento.
+- `workspace.registry.register`: registra metadatos de un workspace local inicializado. Es una escritura controlada sobre `.devpilot/workspaces/workspace_registry.json`.
+- `workspace.registry.select`: actualiza el workspace activo como metadato controlado.
+- `portfolio.status`: consolida estado de portfolio en modo read-only, sin leer secretos ni `.devpilot/devpilot.db`.
+
+Estas herramientas quedan en estado `implemented-initial`; no ejecutan SaaS, no sincronizan con cloud y no habilitan lectura cruzada de estado.

@@ -8,7 +8,7 @@ standard: "MIPSoftware"
 extension: "MIASI"
 phase: "FASE-H-CAPACIDADES-AVANZADAS"
 updated: "2026-06-19"
-source_repo: "repo_DevPilot_Local_121.zip"
+source_repo: "repo_DevPilot_Local_122.zip"
 source_report: "Informe de avance DevPilot - sprint 0 - 18.docx"
 source_backlog_model: "docs/functional_backlog_after_precode.md"
 baseline_dependency: "Fases A-G cerradas; Fase G cerrada por FUNC-SPRINT-84 como implemented-initial"
@@ -17,9 +17,9 @@ last_planned_sprint: "FUNC-SPRINT-99"
 approved_on: "2026-06-17"
 approval: "approved_after_phase_g_closure_validation"
 phase_h_status: "in_progress"
-first_open_sprint: "FUNC-SPRINT-94"
-last_completed_sprint: "FUNC-SPRINT-93"
-next_sprint: "FUNC-SPRINT-94"
+first_open_sprint: "FUNC-SPRINT-95"
+last_completed_sprint: "FUNC-SPRINT-94"
+next_sprint: "FUNC-SPRINT-95"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "phase_h_executable_backlog_review"
 ---
@@ -835,6 +835,10 @@ Implementa FUNC-SPRINT-93. Crea Plugin Registry y manifests controlados. No ejec
 ---
 
 ## FUNC-SPRINT-94 — Multiworkspace Manager y portfolio local
+
+### Estado de implementación Sprint 94
+
+Estado: `implemented-initial`. Se implementa un Multiworkspace Registry local en `.devpilot/workspaces/workspace_registry.json`, schema `SCHEMA-DEVPL-MULTIWORKSPACE-REGISTRY-V1`, CLI `workspace register/list/select/registry-validate`, `portfolio status` read-only, bindings MIASI y suite `multiworkspace-isolation`. La versión no implementa SaaS, RBAC, auth remota, registry global externo ni lectura de secretos o DB cruzadas.
 
 ## Objetivo
 

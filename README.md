@@ -1,14 +1,32 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
 Estado actual: `baseline pre-code approved + Fases A-G cerradas + Fase H en implementación controlada`  
-Último hito: `FUNC-SPRINT-93 — Plugin y connector ecosystem controlado`  
-Siguiente hito: `FUNC-SPRINT-94 — Multiworkspace y portfolio local`  
+Último hito: `FUNC-SPRINT-94 — Multiworkspace Manager y portfolio local`  
+Siguiente hito: `FUNC-SPRINT-95 — RBAC local y modelo de identidad`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
 
 
 
+
+
+## FUNC-SPRINT-94 — Multiworkspace Manager y portfolio local
+
+`FUNC-SPRINT-94` introduce una primera versión `implemented-initial` del Multiworkspace Manager local. La capacidad registra workspaces DevPilot como metadatos gobernados en `.devpilot/workspaces/workspace_registry.json`, valida aislamiento de rutas/estado/secretos mediante schema, PathGuard, PolicyEngine, SecretGuard y MIASI, y permite construir `portfolio status` en modo read-only.
+
+Comandos principales:
+
+```powershell
+python -m devpilot_core workspace registry-validate --json
+python -m devpilot_core workspace register --path . --json
+python -m devpilot_core workspace list --json
+python -m devpilot_core workspace select --workspace-id devpilot-local --json
+python -m devpilot_core portfolio status --json
+python -m devpilot_core eval run --suite multiworkspace-isolation --json
+```
+
+Límites explícitos: no implementa SaaS, autenticación remota, sincronización cloud, lectura de secretos, lectura cruzada de `.devpilot/devpilot.db`, ejecución remota ni mezcla de outputs entre proyectos. El registro es local y metadata-first; la evolución industrial posterior debe incorporar RBAC, actores de aprobación, exportación de audit packs y, solo si se aprueba una ADR nueva, mecanismos de aislamiento más fuertes para workspaces externos al root controlador.
 
 ## FUNC-SPRINT-93 — Plugin y connector ecosystem controlado
 

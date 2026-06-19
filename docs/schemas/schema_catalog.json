@@ -261,6 +261,20 @@
       "dialect": "https://json-schema.org/draft/2020-12/schema",
       "validates_instances": true,
       "validation_enabled_sprint": "FUNC-SPRINT-93"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-MULTIWORKSPACE-REGISTRY-V1",
+      "title": "DevPilot Multiworkspace Registry v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/multiworkspace_registry.schema.json",
+      "description": "Structural contract for .devpilot/workspaces/workspace_registry.json with local portfolio governance and cross-workspace isolation.",
+      "status": "registered",
+      "owner": "Ordóñez",
+      "sprint": "FUNC-SPRINT-94",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "contract": "MultiworkspaceRegistry",
+      "validation_enabled_sprint": "FUNC-SPRINT-94"
     }
   ]
 }

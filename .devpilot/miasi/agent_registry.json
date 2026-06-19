@@ -157,7 +157,11 @@
         "agent.model.generate",
         "eval.safety.run",
         "plugin.registry.validate",
-        "plugin.loader.dry_run"
+        "plugin.loader.dry_run",
+        "workspace.registry.validate",
+        "workspace.registry.register",
+        "workspace.registry.select",
+        "portfolio.status"
       ],
       "required_artifacts": [
         "Agent",
@@ -176,7 +180,12 @@
         "RED_TEAM_FIXTURE_SYNTHETIC_ONLY",
         "PLUGIN_METADATA_READ_ALLOW",
         "PLUGIN_DRY_RUN_ONLY_ALLOW",
-        "PLUGIN_CONNECTOR_BINDING_ALLOW"
+        "PLUGIN_CONNECTOR_BINDING_ALLOW",
+        "MULTIWORKSPACE_REGISTRY_VALIDATE_ALLOW",
+        "MULTIWORKSPACE_REGISTER_LOCAL_ALLOW",
+        "MULTIWORKSPACE_SELECT_LOCAL_ALLOW",
+        "PORTFOLIO_STATUS_READ_ONLY_ALLOW",
+        "MULTIWORKSPACE_ISOLATION_REQUIRED"
       ],
       "approval_required": false,
       "observability_required": true,
@@ -200,7 +209,11 @@
         "agent.model.generate",
         "eval.safety.run",
         "plugin.registry.validate",
-        "plugin.loader.dry_run"
+        "plugin.loader.dry_run",
+        "workspace.registry.validate",
+        "workspace.registry.register",
+        "workspace.registry.select",
+        "portfolio.status"
       ],
       "required_artifacts": [
         "Agent",
@@ -219,7 +232,12 @@
         "RED_TEAM_FIXTURE_SYNTHETIC_ONLY",
         "PLUGIN_METADATA_READ_ALLOW",
         "PLUGIN_DRY_RUN_ONLY_ALLOW",
-        "PLUGIN_CONNECTOR_BINDING_ALLOW"
+        "PLUGIN_CONNECTOR_BINDING_ALLOW",
+        "MULTIWORKSPACE_REGISTRY_VALIDATE_ALLOW",
+        "MULTIWORKSPACE_REGISTER_LOCAL_ALLOW",
+        "MULTIWORKSPACE_SELECT_LOCAL_ALLOW",
+        "PORTFOLIO_STATUS_READ_ONLY_ALLOW",
+        "MULTIWORKSPACE_ISOLATION_REQUIRED"
       ],
       "approval_required": false,
       "observability_required": true,
@@ -412,22 +430,33 @@
       "agent_id": "operations.agent",
       "name": "OperationsAgent",
       "phase": "Post-MVP",
-      "max_autonomy": "A5",
-      "status": "future",
+      "max_autonomy": "A3",
+      "status": "implemented-initial",
       "risk_level": "high",
       "allowed_tools": [
         "artifact.read",
         "report.write",
         "trace.append",
-        "policy.check"
+        "policy.check",
+        "workspace.registry.validate",
+        "workspace.registry.register",
+        "workspace.registry.select",
+        "portfolio.status"
       ],
       "required_artifacts": [
-        "Full MIASI"
+        "Full MIASI",
+        "portfolio governance",
+        "docs/audits/func_sprint_94_multiworkspace_audit.md"
       ],
       "policy_rule_ids": [
-        "DEPLOY_DENY"
+        "DEPLOY_DENY",
+        "MULTIWORKSPACE_REGISTRY_VALIDATE_ALLOW",
+        "MULTIWORKSPACE_REGISTER_LOCAL_ALLOW",
+        "MULTIWORKSPACE_SELECT_LOCAL_ALLOW",
+        "PORTFOLIO_STATUS_READ_ONLY_ALLOW",
+        "MULTIWORKSPACE_ISOLATION_REQUIRED"
       ],
-      "approval_required": true,
+      "approval_required": false,
       "observability_required": true,
       "eval_required": true
     },
@@ -450,7 +479,11 @@
         "policy.check",
         "eval.safety.run",
         "plugin.registry.validate",
-        "plugin.loader.dry_run"
+        "plugin.loader.dry_run",
+        "workspace.registry.validate",
+        "workspace.registry.register",
+        "workspace.registry.select",
+        "portfolio.status"
       ],
       "required_artifacts": [
         "Full MIASI",
@@ -471,7 +504,12 @@
         "RED_TEAM_FIXTURE_SYNTHETIC_ONLY",
         "PLUGIN_METADATA_READ_ALLOW",
         "PLUGIN_DRY_RUN_ONLY_ALLOW",
-        "PLUGIN_CONNECTOR_BINDING_ALLOW"
+        "PLUGIN_CONNECTOR_BINDING_ALLOW",
+        "MULTIWORKSPACE_REGISTRY_VALIDATE_ALLOW",
+        "MULTIWORKSPACE_REGISTER_LOCAL_ALLOW",
+        "MULTIWORKSPACE_SELECT_LOCAL_ALLOW",
+        "PORTFOLIO_STATUS_READ_ONLY_ALLOW",
+        "MULTIWORKSPACE_ISOLATION_REQUIRED"
       ],
       "approval_required": false,
       "observability_required": true,

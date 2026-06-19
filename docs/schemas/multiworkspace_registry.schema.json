@@ -1,0 +1,104 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/SCHEMA-DEVPL-MULTIWORKSPACE-REGISTRY-V1",
+  "title": "DevPilot Multiworkspace Registry v1",
+  "description": "Structural contract for .devpilot/workspaces/workspace_registry.json with local portfolio governance and cross-workspace isolation.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "created_by",
+    "updated_at",
+    "active_workspace_id",
+    "defaults",
+    "security",
+    "workspaces"
+  ],
+  "properties": {
+    "schema_version": {"type": "string", "minLength": 1},
+    "created_by": {"type": "string", "pattern": "^FUNC-SPRINT-[0-9]{2}$"},
+    "updated_at": {"type": "string", "minLength": 1},
+    "active_workspace_id": {"type": ["string", "null"]},
+    "defaults": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["deny_unregistered_workspaces", "cross_workspace_state_reads", "secret_sharing_allowed", "portfolio_status_read_only"],
+      "properties": {
+        "deny_unregistered_workspaces": {"const": true},
+        "cross_workspace_state_reads": {"const": false},
+        "secret_sharing_allowed": {"const": false},
+        "portfolio_status_read_only": {"const": true}
+      }
+    },
+    "security": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["network_used", "external_api_used", "shell_used", "remote_execution_used", "mutations_performed", "secrets_read"],
+      "properties": {
+        "network_used": {"const": false},
+        "external_api_used": {"const": false},
+        "shell_used": {"const": false},
+        "remote_execution_used": {"const": false},
+        "mutations_performed": {"const": false},
+        "secrets_read": {"const": false}
+      }
+    },
+    "workspaces": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "workspace_id",
+          "project_id",
+          "name",
+          "path",
+          "path_mode",
+          "status",
+          "risk_level",
+          "default_effect",
+          "state_path",
+          "reports_path",
+          "traces_path",
+          "secrets_path",
+          "secret_policy",
+          "network_allowed",
+          "external_api_allowed",
+          "observability_required",
+          "eval_required",
+          "registered_at",
+          "updated_at"
+        ],
+        "properties": {
+          "workspace_id": {"type": "string", "minLength": 1, "pattern": "^[a-zA-Z0-9_.-]+$"},
+          "project_id": {"type": "string", "minLength": 1},
+          "name": {"type": "string", "minLength": 1},
+          "path": {"type": "string", "minLength": 1},
+          "path_mode": {"type": "string", "enum": ["relative-to-registry-root"]},
+          "status": {"type": "string", "enum": ["active", "registered", "disabled", "archived"]},
+          "risk_level": {"type": "string", "enum": ["low", "medium", "medium_high", "high"]},
+          "default_effect": {"const": "deny"},
+          "state_path": {"const": ".devpilot/devpilot.db"},
+          "reports_path": {"type": "string", "minLength": 1},
+          "traces_path": {"type": "string", "minLength": 1},
+          "secrets_path": {"type": "string", "minLength": 1},
+          "secret_policy": {"const": "reference-only"},
+          "network_allowed": {"const": false},
+          "external_api_allowed": {"const": false},
+          "observability_required": {"const": true},
+          "eval_required": {"const": true},
+          "registered_at": {"type": "string", "minLength": 1},
+          "updated_at": {"type": "string", "minLength": 1}
+        }
+      }
+    }
+  },
+  "x-devpilot-schema-id": "SCHEMA-DEVPL-MULTIWORKSPACE-REGISTRY-V1",
+  "x-devpilot-version": "1.0.0",
+  "x-devpilot-sprint": "FUNC-SPRINT-94",
+  "x-devpilot-status": "registered",
+  "x-devpilot-preliminary": true,
+  "x-devpilot-validation-enabled-sprint": "FUNC-SPRINT-94",
+  "x-devpilot-note": "Implemented-initial metadata-only multiworkspace registry. Portfolio reads are local, read-only and must not mix workspace state or secrets."
+}

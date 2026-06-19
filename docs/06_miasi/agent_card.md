@@ -252,3 +252,7 @@ Criterios PASS: suites `advanced-agentic` y `red-team` con `safety_score >= 90`,
 ## FUNC-SPRINT-93 — Plugin ecosystem controlado
 
 Sprint 93 agrega soporte `implemented-initial` para plugins metadata-only. `plugin.registry.validate` valida manifests y permisos; `plugin.loader.dry_run` simula carga sin importar ni ejecutar código. Las políticas `PLUGIN_METADATA_READ_ALLOW`, `PLUGIN_DRY_RUN_ONLY_ALLOW`, `PLUGIN_CONNECTOR_BINDING_ALLOW` y `PLUGIN_EXECUTE_DENY` mantienen el ecosistema deny-by-default, observable y sin ejecución arbitraria.
+
+## FUNC-SPRINT-94 — Agentes y Multiworkspace
+
+`security.agent`, `testplanner.agent`, `operations.agent` y `multiagent.coordinator` reconocen herramientas de registry/portfolio para inspección y validación local. La capacidad es `implemented-initial`: no concede autonomía para leer secretos, abrir bases SQLite de otros workspaces o ejecutar acciones remotas.

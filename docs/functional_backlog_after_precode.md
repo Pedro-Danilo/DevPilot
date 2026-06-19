@@ -14,7 +14,7 @@ change_policy: "controlled_changes_allowed_via_docs_as_code"
 approved_on: "2026-06-06"
 approval_scope: "functional_backlog_after_precode"
 baseline_execution: "FUNC-SPRINT-00"
-next_sprint: "FUNC-SPRINT-94"
+next_sprint: "FUNC-SPRINT-95"
 ---
 
 # DevPilot Local — Backlog ejecutable posterior a pre-code
@@ -2392,3 +2392,8 @@ La siguiente unidad abierta es `FUNC-SPRINT-92 — Evaluación avanzada, red tea
 `FUNC-SPRINT-92` agrega evaluación avanzada determinística para capacidades agentic: suites `advanced-agentic` y `red-team`, safety scoring, fixtures sintéticos y consumo por quality gate CI. La siguiente unidad funcional abierta es `FUNC-SPRINT-93 — Plugin y connector ecosystem controlado`.
 
 La capacidad es `implemented-initial`: sirve como control de regresión local, no como certificación de seguridad final. Todo plugin/conector posterior debe consumir estos criterios de evaluación, mantener fixtures sin secretos reales y bloquear acciones inseguras por defecto.
+
+
+## Actualización FUNC-SPRINT-94 — Multiworkspace Manager y portfolio local
+
+`FUNC-SPRINT-94` agrega Multiworkspace Registry local, schema de registry, CLI `workspace register/list/select/registry-validate`, `portfolio status` read-only y suite `multiworkspace-isolation`. La capacidad queda en estado `implemented-initial`: no implementa SaaS, RBAC, auth remota, lectura de secretos ni mezcla de `.devpilot/devpilot.db` entre workspaces. La siguiente unidad funcional abierta es `FUNC-SPRINT-95 — RBAC local y modelo de identidad`.

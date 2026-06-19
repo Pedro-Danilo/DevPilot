@@ -1,0 +1,43 @@
+{
+  "schema_version": "1.0",
+  "created_by": "FUNC-SPRINT-94",
+  "updated_at": "2026-06-19T13:13:57Z",
+  "active_workspace_id": "devpilot-local",
+  "defaults": {
+    "deny_unregistered_workspaces": true,
+    "cross_workspace_state_reads": false,
+    "secret_sharing_allowed": false,
+    "portfolio_status_read_only": true
+  },
+  "security": {
+    "network_used": false,
+    "external_api_used": false,
+    "shell_used": false,
+    "remote_execution_used": false,
+    "mutations_performed": false,
+    "secrets_read": false
+  },
+  "workspaces": [
+    {
+      "workspace_id": "devpilot-local",
+      "project_id": "devpilot-local",
+      "name": "DevPilot Local",
+      "path": ".",
+      "path_mode": "relative-to-registry-root",
+      "status": "active",
+      "risk_level": "medium_high",
+      "default_effect": "deny",
+      "state_path": ".devpilot/devpilot.db",
+      "reports_path": "outputs/reports",
+      "traces_path": "outputs/traces",
+      "secrets_path": ".devpilot/providers.yaml",
+      "secret_policy": "reference-only",
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "observability_required": true,
+      "eval_required": true,
+      "registered_at": "2026-06-19T12:51:00Z",
+      "updated_at": "2026-06-19T13:13:57Z"
+    }
+  ]
+}
