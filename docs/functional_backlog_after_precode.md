@@ -2,7 +2,7 @@
 title: "DevPilot Local — Backlog ejecutable posterior a pre-code"
 doc_id: "DEVPL-FUNC-BACKLOG-001"
 status: "approved"
-version: "5.8.0"
+version: "5.9.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
@@ -14,7 +14,7 @@ change_policy: "controlled_changes_allowed_via_docs_as_code"
 approved_on: "2026-06-06"
 approval_scope: "functional_backlog_after_precode"
 baseline_execution: "FUNC-SPRINT-00"
-next_sprint: "FUNC-SPRINT-97"
+next_sprint: "FUNC-SPRINT-98"
 ---
 
 # DevPilot Local — Backlog ejecutable posterior a pre-code
@@ -2409,3 +2409,10 @@ La capacidad es `implemented-initial`: sirve como control de regresión local, n
 `FUNC-SPRINT-96 — Colaboración local y audit packs` agrega audit packs locales exportables con manifest embebido, checksums SHA-256 y verificación local. La capacidad queda como `implemented-initial`: permite colaboración/offline review mediante evidencia limpia, pero no implementa cloud collaboration, cifrado, firma, multiusuario real ni export de runtime DB.
 
 La siguiente unidad abierta es `FUNC-SPRINT-97 — Compliance packs locales`, que deberá construir paquetes de cumplimiento sobre los audit packs sin habilitar publicación remota ni incluir secretos.
+
+
+## Transición posterior a FUNC-SPRINT-97
+
+`FUNC-SPRINT-97 — Compliance packs y policy packs` agrega Compliance Pack Registry, schema declarativo, CLI `compliance list`, CLI `compliance run --pack baseline`, suite `compliance-pack-integrity` e integración MIASI/QualityGate. La capacidad queda `implemented-initial`: agrupa gates locales existentes para evidencia PASS/BLOCK y gaps por pack, sin certificación externa, sin shell, sin red y sin reemplazar `PolicyEngine`.
+
+La siguiente unidad abierta es `FUNC-SPRINT-98 — Remote runners experimentales y enterprise reporting`, que debe mantener ejecución remota deshabilitada por defecto y documentar el riesgo mediante ADR.

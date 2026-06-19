@@ -1,0 +1,87 @@
+{
+  "agent_ids": [
+    "security.agent"
+  ],
+  "created_at": "2026-06-19T18:45:21Z",
+  "events": [
+    {
+      "agent_id": "security.agent",
+      "command": "agent run",
+      "dry_run": true,
+      "event_id": "837319c4e5794bc2b445afffd0727803",
+      "event_type": "agent.session.started",
+      "metadata": {
+        "runtime_version": "v2-model-aware",
+        "sprint": "FUNC-SPRINT-86"
+      },
+      "run_id": "run_c370292630e44eef88f834dd5725018b",
+      "summary": {
+        "requested_agent": "security.agent",
+        "session_created": true
+      },
+      "target": "src/devpilot_core/connectors",
+      "timestamp": "2026-06-19T18:45:21Z",
+      "trace_id": "trace_ac248c9f3ace47c59c656b88dc43a297"
+    },
+    {
+      "agent_id": "security.agent",
+      "command": "agent run",
+      "dry_run": true,
+      "event_id": "8c45447cd6094c9da0af2bb3b960594f",
+      "event_type": "agent.session.completed",
+      "metadata": {
+        "runtime_version": "v2-model-aware",
+        "sprint": "FUNC-SPRINT-86"
+      },
+      "ok": true,
+      "run_id": "run_c370292630e44eef88f834dd5725018b",
+      "summary": {
+        "findings_total": 2,
+        "model_calls_total": 0,
+        "suggestions_total": 3,
+        "tool_calls_total": 3
+      },
+      "target": "src/devpilot_core/connectors",
+      "timestamp": "2026-06-19T18:45:22Z",
+      "trace_id": "trace_ac248c9f3ace47c59c656b88dc43a297"
+    }
+  ],
+  "memory": {
+    "last_result": {
+      "agent_id": "security.agent",
+      "findings_total": 2,
+      "model_calls_total": 0,
+      "ok": true,
+      "suggestions_total": 3,
+      "tool_calls_total": 3
+    },
+    "operational_context": {
+      "last_agent_id": "security.agent",
+      "last_dry_run": true,
+      "last_target": "src/devpilot_core/connectors"
+    }
+  },
+  "metadata": {
+    "rag_enabled": false,
+    "raw_outputs_stored": false,
+    "raw_prompts_stored": false,
+    "redaction_applied": true,
+    "retention_policy": "local-short-lived-operational-memory",
+    "semantic_memory_enabled": false
+  },
+  "retention_days": 14,
+  "session_id": "agsess_28c31edd6c054ba2827ad6d12cee5c41",
+  "status": "completed",
+  "summary": {
+    "agents_total": 1,
+    "events_total": 2,
+    "local_only": true,
+    "memory_items_total": 2,
+    "rag_enabled": false,
+    "raw_outputs_stored": false,
+    "raw_prompts_stored": false,
+    "semantic_memory_enabled": false
+  },
+  "updated_at": "2026-06-19T18:45:22Z",
+  "workspace": "."
+}

@@ -1162,6 +1162,34 @@
         "AUDIT_PACK_SECRET_EXPORT_DENY",
         "SECRETS_RAW_DENY"
       ]
+    },
+    {
+      "tool_id": "compliance.list",
+      "name": "list_local_compliance_packs",
+      "phase": "Post-MVP",
+      "side_effect": "read",
+      "risk_level": "medium_high",
+      "status": "implemented-initial",
+      "requires_approval": false,
+      "policy_rule_ids": [
+        "COMPLIANCE_PACK_READ_ALLOW",
+        "SECRETS_RAW_DENY"
+      ]
+    },
+    {
+      "tool_id": "compliance.run",
+      "name": "run_declarative_compliance_pack",
+      "phase": "Post-MVP",
+      "side_effect": "report",
+      "risk_level": "high",
+      "status": "implemented-initial",
+      "requires_approval": false,
+      "policy_rule_ids": [
+        "COMPLIANCE_PACK_RUN_DECLARATIVE_ALLOW",
+        "COMPLIANCE_PACK_POLICY_ENGINE_REQUIRED",
+        "COMPLIANCE_PACK_UNDECLARED_ACTION_DENY",
+        "SECRETS_RAW_DENY"
+      ]
     }
   ]
 }

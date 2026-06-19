@@ -25,11 +25,11 @@ def test_sprint_91_artifacts_exist_and_are_synced() -> None:
     readme = _read("README.md")
     backlog = _read("docs/devpilot_backlog_fase_H_capacidades_avanzadas.md")
     runbook = _read("docs/05_operations/runbook.md")
-    assert "Último hito: `FUNC-SPRINT-96" in readme
-    assert "Siguiente hito: `FUNC-SPRINT-97" in readme
+    assert "Último hito: `FUNC-SPRINT-97" in readme
+    assert "Siguiente hito: `FUNC-SPRINT-98" in readme
     assert "multiagent workflow run --workflow sdlc_review --dry-run" in readme
-    assert 'last_completed_sprint: "FUNC-SPRINT-96"' in backlog
-    assert 'next_sprint: "FUNC-SPRINT-97"' in backlog
+    assert 'last_completed_sprint: "FUNC-SPRINT-97"' in backlog
+    assert 'next_sprint: "FUNC-SPRINT-98"' in backlog
     assert "Estado de implementación Sprint 91" in backlog
     assert "FUNC-SPRINT-91" in runbook
     assert "multiagent workflow run" in runbook
@@ -82,5 +82,5 @@ def test_sprint_91_changelog_and_functional_backlog_are_synced() -> None:
     functional = _read("docs/functional_backlog_after_precode.md")
     assert "FUNC-SPRINT-91" in changelog
     assert "Workflows multiagente SDLC" in changelog
-    assert 'next_sprint: "FUNC-SPRINT-97"' in functional
+    assert 'next_sprint: "FUNC-SPRINT-98"' in functional
     assert "Transición posterior a FUNC-SPRINT-91" in functional

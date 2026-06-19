@@ -1,0 +1,85 @@
+{
+  "agent_ids": [
+    "release.assistant"
+  ],
+  "created_at": "2026-06-19T19:04:54Z",
+  "events": [
+    {
+      "agent_id": "release.assistant",
+      "command": "agent run",
+      "dry_run": false,
+      "event_id": "0d76405f314b43b98b55ed1807f62e50",
+      "event_type": "agent.session.started",
+      "metadata": {
+        "runtime_version": "v2-model-aware",
+        "sprint": "FUNC-SPRINT-86"
+      },
+      "run_id": "run_04b68861ae1a423a8895217ebf9886bb",
+      "summary": {
+        "requested_agent": "release-assistant",
+        "session_created": true
+      },
+      "timestamp": "2026-06-19T19:04:54Z",
+      "trace_id": "trace_5ea22be33ec742b68d742d98d3a5ab08"
+    },
+    {
+      "agent_id": "release.assistant",
+      "command": "agent run",
+      "dry_run": false,
+      "event_id": "436c9ea983944395983426e862f5c7e2",
+      "event_type": "agent.session.completed",
+      "metadata": {
+        "runtime_version": "v2-model-aware",
+        "sprint": "FUNC-SPRINT-86"
+      },
+      "ok": false,
+      "run_id": "run_04b68861ae1a423a8895217ebf9886bb",
+      "summary": {
+        "findings_total": 1,
+        "model_calls_total": 0,
+        "suggestions_total": 0,
+        "tool_calls_total": 0
+      },
+      "timestamp": "2026-06-19T19:04:54Z",
+      "trace_id": "trace_5ea22be33ec742b68d742d98d3a5ab08"
+    }
+  ],
+  "memory": {
+    "last_result": {
+      "agent_id": "release.assistant",
+      "findings_total": 1,
+      "model_calls_total": 0,
+      "ok": false,
+      "suggestions_total": 0,
+      "tool_calls_total": 0
+    },
+    "operational_context": {
+      "last_agent_id": "release.assistant",
+      "last_dry_run": false,
+      "last_target": null
+    }
+  },
+  "metadata": {
+    "rag_enabled": false,
+    "raw_outputs_stored": false,
+    "raw_prompts_stored": false,
+    "redaction_applied": true,
+    "retention_policy": "local-short-lived-operational-memory",
+    "semantic_memory_enabled": false
+  },
+  "retention_days": 14,
+  "session_id": "agsess_d8c388ecf19a434b99086cc45869b372",
+  "status": "completed_with_findings",
+  "summary": {
+    "agents_total": 1,
+    "events_total": 2,
+    "local_only": true,
+    "memory_items_total": 2,
+    "rag_enabled": false,
+    "raw_outputs_stored": false,
+    "raw_prompts_stored": false,
+    "semantic_memory_enabled": false
+  },
+  "updated_at": "2026-06-19T19:04:54Z",
+  "workspace": "."
+}

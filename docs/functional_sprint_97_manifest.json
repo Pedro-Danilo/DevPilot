@@ -1,0 +1,94 @@
+{
+  "schema_version": "1.0",
+  "sprint_id": "FUNC-SPRINT-97",
+  "sprint": "FUNC-SPRINT-97",
+  "title": "FUNC-SPRINT-97 — Compliance packs y policy packs",
+  "status": "implemented",
+  "implemented_at": "2026-06-19",
+  "phase": "FASE-H-CAPACIDADES-AVANZADAS",
+  "wave": "Ola 12 — Plataforma industrial/enterprise",
+  "source_backlog": "docs/devpilot_backlog_fase_H_capacidades_avanzadas.md",
+  "summary": {
+    "implemented_initial": true,
+    "local_first": true,
+    "compliance_pack_registry": true,
+    "policy_packs": true,
+    "baseline_pack": true,
+    "declarative_only": true,
+    "policy_engine_used": true,
+    "policy_engine_replaced": false,
+    "arbitrary_command_execution_allowed": false,
+    "network_used": false,
+    "external_api_used": false,
+    "cloud_used": false,
+    "mutations_performed": false
+  },
+  "purpose": "Permitir que DevPilot agrupe reglas, checklists, schemas y reportes en compliance packs/policy packs declarativos ejecutados sobre gates locales existentes, con reporte PASS/BLOCK y gaps por pack.",
+  "created_files": [
+    "src/devpilot_core/compliance/__init__.py",
+    "src/devpilot_core/compliance/registry.py",
+    "src/devpilot_core/compliance/runner.py",
+    ".devpilot/compliance/packs.json",
+    "docs/schemas/compliance_pack.schema.json",
+    "evals/fixtures/compliance_pack_integrity_eval_cases.json",
+    "tests/test_compliance_packs.py",
+    "tests/test_sprint_97_documentation.py",
+    "docs/audits/func_sprint_97_compliance_packs_audit.md",
+    "docs/functional_sprint_97_manifest.json"
+  ],
+  "modified_files": [
+    "src/devpilot_core/cli.py",
+    "src/devpilot_core/evals/safety.py",
+    "src/devpilot_core/evals/runner.py",
+    "src/devpilot_core/quality/gate.py",
+    ".devpilot/miasi/agent_registry.json",
+    ".devpilot/miasi/tool_registry.json",
+    ".devpilot/miasi/policy_matrix.json",
+    "docs/schemas/schema_catalog.json",
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/devpilot_backlog_fase_H_capacidades_avanzadas.md",
+    "docs/functional_backlog_after_precode.md",
+    "docs/release/CHANGELOG.md",
+    ".devpilot/rag/docs_index.json"
+  ],
+  "commands": [
+    "python -m devpilot_core compliance list --json",
+    "python -m devpilot_core compliance run --pack baseline --json --write-report",
+    "python -m devpilot_core eval run --suite compliance-pack-integrity --json",
+    "python -m devpilot_core schema validate --schema docs/schemas/compliance_pack.schema.json --instance .devpilot/compliance/packs.json --json",
+    "python -m devpilot_core validate-artifact docs/audits/func_sprint_97_compliance_packs_audit.md --json",
+    "python -m devpilot_core validate all --json",
+    "python -m devpilot_core quality-gate run --profile ci --json"
+  ],
+  "tests": [
+    "tests/test_compliance_packs.py",
+    "tests/test_sprint_97_documentation.py",
+    "tests/test_schema_registry.py",
+    "tests/test_release_changelog.py",
+    "tests/test_phase_h_backlog_approval.py",
+    "tests/test_advanced_evals.py",
+    "tests/test_quality_gate.py"
+  ],
+  "pass_criteria": [
+    "Packs declarativos y validables por schema.",
+    "Runner usa gates existentes y PolicyEngine.",
+    "Reporte indica gaps por pack.",
+    "Suite compliance-pack-integrity pasa con safety_score >= 90 y false_negatives == 0.",
+    "MIASI declara tools/policies de compliance.",
+    "No usa shell, red, APIs externas ni ejecución remota."
+  ],
+  "block_criteria": [
+    "Bloquear si packs ejecutan acciones no declaradas.",
+    "Bloquear si compliance reemplaza PolicyEngine en vez de usarlo.",
+    "Bloquear si registry referencia policies o schemas inexistentes.",
+    "Bloquear si intenta shell, red, deploy, publish o acciones destructivas."
+  ],
+  "risks": [
+    "implemented-initial: no equivale a certificación externa.",
+    "No incluye perfiles regulatorios completos ni mapping normativo exhaustivo.",
+    "No hay firma/cifrado ni trust model enterprise.",
+    "Los packs son perfiles internos de gobernanza local."
+  ],
+  "next_sprint": "FUNC-SPRINT-98"
+}

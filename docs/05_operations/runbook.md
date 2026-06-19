@@ -5232,3 +5232,42 @@ python -m devpilot_core eval run --suite audit-pack-integrity --json
 ### Riesgos y recuperación
 
 Esta versión no cifra ni firma packs; por tanto, los ZIP deben compartirse por canales controlados y verificarse siempre antes de revisión. Si `verify` bloquea, descartar el pack y regenerarlo desde el workspace fuente. La exportación de runtime DB queda bloqueada hasta una ADR futura.
+
+
+## FUNC-SPRINT-97 — Operación de compliance packs y policy packs
+
+### Propósito
+
+Operar paquetes locales de cumplimiento que agrupan reglas, checklists, schemas y reportes sobre gates existentes de DevPilot. La capacidad queda `implemented-initial`: es una herramienta local de evidencia y brechas, no una certificación externa ni un motor de compliance regulatorio completo.
+
+### Comandos
+
+```powershell
+python -m devpilot_core compliance list --json
+python -m devpilot_core compliance run --pack baseline --json --write-report
+python -m devpilot_core eval run --suite compliance-pack-integrity --json
+```
+
+### Funcionamiento
+
+`compliance list` valida `.devpilot/compliance/packs.json` contra `docs/schemas/compliance_pack.schema.json` y muestra los packs declarados. `compliance run --pack baseline` ejecuta únicamente runners internos allowlisted: `schema.registry.list`, `readiness.strict`, `standards.status`, `miasi.validate.all` y `validation.gateway.all`. Antes de ejecutar checks, el runner evalúa la operación con `PolicyEngine` y registra evidencia local si se usa `--write-report`.
+
+### Criterios PASS
+
+- Registry existe y valida contra schema.
+- Packs son declarativos y `execution_allowed=false`.
+- Runner usa gates existentes y no reemplaza `PolicyEngine`.
+- Reporte indica checks PASS/BLOCK y gaps por pack.
+- No usa shell, red, APIs externas ni ejecución remota.
+
+### Criterios BLOCK
+
+- Pack declara runner no permitido.
+- Pack intenta shell, red, deploy, publish, delete o ejecución remota.
+- Registry referencia políticas MIASI o schemas inexistentes.
+- Compliance pretende reemplazar `PolicyEngine`.
+- Reporte no expone gaps por pack.
+
+### Riesgos y límites
+
+Esta primera versión no implementa catálogos regulatorios completos, auditoría certificable, firma digital, cifrado, evidencias legalmente vinculantes ni reporting enterprise. Los policy packs son perfiles internos de gobernanza sobre DevPilot; para usarlos en contextos regulados se requerirán mapeos normativos, revisión humana y criterios de aceptación externos.

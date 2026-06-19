@@ -166,7 +166,9 @@
         "identity.roles",
         "identity.rbac.check",
         "auditpack.build",
-        "auditpack.verify"
+        "auditpack.verify",
+        "compliance.list",
+        "compliance.run"
       ],
       "required_artifacts": [
         "Agent",
@@ -175,7 +177,8 @@
         "Eval",
         "Obs",
         "docs/audits/func_sprint_95_rbac_audit.md",
-        "docs/audits/func_sprint_96_audit_pack_audit.md"
+        "docs/audits/func_sprint_96_audit_pack_audit.md",
+        "docs/audits/func_sprint_97_compliance_packs_audit.md"
       ],
       "policy_rule_ids": [
         "SECURITY_AGENT_GOVERNED_ALLOW",
@@ -200,7 +203,11 @@
         "AUDIT_PACK_BUILD_LOCAL_ALLOW",
         "AUDIT_PACK_VERIFY_LOCAL_ALLOW",
         "AUDIT_PACK_SECRET_EXPORT_DENY",
-        "AUDIT_PACK_INTEGRITY_REQUIRED"
+        "AUDIT_PACK_INTEGRITY_REQUIRED",
+        "COMPLIANCE_PACK_READ_ALLOW",
+        "COMPLIANCE_PACK_RUN_DECLARATIVE_ALLOW",
+        "COMPLIANCE_PACK_POLICY_ENGINE_REQUIRED",
+        "COMPLIANCE_PACK_UNDECLARED_ACTION_DENY"
       ],
       "approval_required": false,
       "observability_required": true,
@@ -233,7 +240,9 @@
         "identity.roles",
         "identity.rbac.check",
         "auditpack.build",
-        "auditpack.verify"
+        "auditpack.verify",
+        "compliance.list",
+        "compliance.run"
       ],
       "required_artifacts": [
         "Agent",
@@ -242,7 +251,8 @@
         "Eval",
         "Obs",
         "docs/audits/func_sprint_95_rbac_audit.md",
-        "docs/audits/func_sprint_96_audit_pack_audit.md"
+        "docs/audits/func_sprint_96_audit_pack_audit.md",
+        "docs/audits/func_sprint_97_compliance_packs_audit.md"
       ],
       "policy_rule_ids": [
         "TEST_PLANNER_AGENT_GOVERNED_ALLOW",
@@ -267,7 +277,11 @@
         "AUDIT_PACK_BUILD_LOCAL_ALLOW",
         "AUDIT_PACK_VERIFY_LOCAL_ALLOW",
         "AUDIT_PACK_SECRET_EXPORT_DENY",
-        "AUDIT_PACK_INTEGRITY_REQUIRED"
+        "AUDIT_PACK_INTEGRITY_REQUIRED",
+        "COMPLIANCE_PACK_READ_ALLOW",
+        "COMPLIANCE_PACK_RUN_DECLARATIVE_ALLOW",
+        "COMPLIANCE_PACK_POLICY_ENGINE_REQUIRED",
+        "COMPLIANCE_PACK_UNDECLARED_ACTION_DENY"
       ],
       "approval_required": false,
       "observability_required": true,
@@ -476,14 +490,17 @@
         "identity.roles",
         "identity.rbac.check",
         "auditpack.build",
-        "auditpack.verify"
+        "auditpack.verify",
+        "compliance.list",
+        "compliance.run"
       ],
       "required_artifacts": [
         "Full MIASI",
         "portfolio governance",
         "docs/audits/func_sprint_94_multiworkspace_audit.md",
         "docs/audits/func_sprint_95_rbac_audit.md",
-        "docs/audits/func_sprint_96_audit_pack_audit.md"
+        "docs/audits/func_sprint_96_audit_pack_audit.md",
+        "docs/audits/func_sprint_97_compliance_packs_audit.md"
       ],
       "policy_rule_ids": [
         "DEPLOY_DENY",
@@ -499,7 +516,11 @@
         "AUDIT_PACK_BUILD_LOCAL_ALLOW",
         "AUDIT_PACK_VERIFY_LOCAL_ALLOW",
         "AUDIT_PACK_SECRET_EXPORT_DENY",
-        "AUDIT_PACK_INTEGRITY_REQUIRED"
+        "AUDIT_PACK_INTEGRITY_REQUIRED",
+        "COMPLIANCE_PACK_READ_ALLOW",
+        "COMPLIANCE_PACK_RUN_DECLARATIVE_ALLOW",
+        "COMPLIANCE_PACK_POLICY_ENGINE_REQUIRED",
+        "COMPLIANCE_PACK_UNDECLARED_ACTION_DENY"
       ],
       "approval_required": false,
       "observability_required": true,
@@ -533,7 +554,9 @@
         "identity.roles",
         "identity.rbac.check",
         "auditpack.build",
-        "auditpack.verify"
+        "auditpack.verify",
+        "compliance.list",
+        "compliance.run"
       ],
       "required_artifacts": [
         "Full MIASI",
@@ -544,7 +567,8 @@
         "docs/audits/func_sprint_92_advanced_evals_audit.md",
         "docs/audits/func_sprint_93_plugin_ecosystem_audit.md",
         "docs/audits/func_sprint_95_rbac_audit.md",
-        "docs/audits/func_sprint_96_audit_pack_audit.md"
+        "docs/audits/func_sprint_96_audit_pack_audit.md",
+        "docs/audits/func_sprint_97_compliance_packs_audit.md"
       ],
       "policy_rule_ids": [
         "MULTIAGENT_COORDINATOR_DRY_RUN_ALLOW",
@@ -569,7 +593,11 @@
         "AUDIT_PACK_BUILD_LOCAL_ALLOW",
         "AUDIT_PACK_VERIFY_LOCAL_ALLOW",
         "AUDIT_PACK_SECRET_EXPORT_DENY",
-        "AUDIT_PACK_INTEGRITY_REQUIRED"
+        "AUDIT_PACK_INTEGRITY_REQUIRED",
+        "COMPLIANCE_PACK_READ_ALLOW",
+        "COMPLIANCE_PACK_RUN_DECLARATIVE_ALLOW",
+        "COMPLIANCE_PACK_POLICY_ENGINE_REQUIRED",
+        "COMPLIANCE_PACK_UNDECLARED_ACTION_DENY"
       ],
       "approval_required": false,
       "observability_required": true,

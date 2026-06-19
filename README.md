@@ -1,12 +1,29 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
 Estado actual: `baseline pre-code approved + Fases A-G cerradas + Fase H en implementación controlada`  
-Último hito: `FUNC-SPRINT-96 — Colaboración local y audit packs`  
-Siguiente hito: `FUNC-SPRINT-97 — Compliance packs locales`  
+Último hito: `FUNC-SPRINT-97 — Compliance packs y policy packs`  
+Siguiente hito: `FUNC-SPRINT-98 — Remote runners experimentales y enterprise reporting`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
 
+
+
+## FUNC-SPRINT-97 — Compliance packs y policy packs
+
+`FUNC-SPRINT-97` introduce una primera versión `implemented-initial` de compliance packs y policy packs locales. DevPilot ahora puede declarar paquetes de cumplimiento en `.devpilot/compliance/packs.json`, listarlos mediante CLI y ejecutar un pack baseline que compone gates existentes: Schema Registry, readiness strict, Standards Registry, MIASI y ValidationGateway.
+
+Alcance explícito: los packs son declarativos, no ejecutan comandos arbitrarios, no usan shell, no llaman red, no usan APIs externas, no reemplazan `PolicyEngine` y no constituyen certificación externa. Esta versión produce evidencia local PASS/BLOCK y gaps por pack; perfiles regulatorios reales, mapping normativo amplio, firma/cifrado y reporting enterprise quedan para evolución posterior.
+
+Comandos principales:
+
+```powershell
+python -m devpilot_core compliance list --json
+python -m devpilot_core compliance run --pack baseline --json --write-report
+python -m devpilot_core eval run --suite compliance-pack-integrity --json
+```
+
+Criterios críticos: registry validable por schema, runner sobre allowlist interna de gates, uso explícito de `PolicyEngine`, reporte con gaps por pack, suite `compliance-pack-integrity` consumida por `quality-gate ci` y bloqueo de acciones no declaradas.
 
 
 ## FUNC-SPRINT-96 — Colaboración local y audit packs

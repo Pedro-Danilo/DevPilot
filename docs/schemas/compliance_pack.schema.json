@@ -1,0 +1,126 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/SCHEMA-DEVPL-COMPLIANCE-PACK-V1",
+  "x-devpilot-schema-id": "SCHEMA-DEVPL-COMPLIANCE-PACK-V1",
+  "title": "DevPilot Compliance Pack Registry v1",
+  "version": "1.0.0",
+  "contract": "CompliancePackRegistry",
+  "description": "Structural contract for .devpilot/compliance/packs.json with declarative compliance/policy packs and allowlisted local gates.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "created_by",
+    "updated_at",
+    "title",
+    "status",
+    "description",
+    "security",
+    "packs"
+  ],
+  "properties": {
+    "schema_version": {"type": "string", "minLength": 1},
+    "created_by": {"const": "FUNC-SPRINT-97"},
+    "updated_at": {"type": "string", "minLength": 1},
+    "title": {"type": "string", "minLength": 1},
+    "status": {"enum": ["draft", "implemented-initial", "approved"]},
+    "description": {"type": "string", "minLength": 1},
+    "security": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "local_first",
+        "policy_engine_required",
+        "packs_declarative_only",
+        "declared_actions_only",
+        "arbitrary_command_execution_allowed",
+        "shell_allowed",
+        "network_used",
+        "external_api_used",
+        "cloud_export_used",
+        "mutations_performed",
+        "source_mutations_performed",
+        "secrets_read",
+        "raw_secret_output_allowed"
+      ],
+      "properties": {
+        "local_first": {"const": true},
+        "policy_engine_required": {"const": true},
+        "packs_declarative_only": {"const": true},
+        "declared_actions_only": {"const": true},
+        "arbitrary_command_execution_allowed": {"const": false},
+        "shell_allowed": {"const": false},
+        "network_used": {"const": false},
+        "external_api_used": {"const": false},
+        "cloud_export_used": {"const": false},
+        "mutations_performed": {"const": false},
+        "source_mutations_performed": {"const": false},
+        "secrets_read": {"const": false},
+        "raw_secret_output_allowed": {"const": false}
+      }
+    },
+    "packs": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "pack_id",
+          "title",
+          "version",
+          "status",
+          "profile",
+          "description",
+          "execution_allowed",
+          "policy_engine_required",
+          "report_required",
+          "policy_pack_ids",
+          "policy_rule_ids",
+          "schema_ids",
+          "required_reports",
+          "checks"
+        ],
+        "properties": {
+          "pack_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9._-]*$"},
+          "title": {"type": "string", "minLength": 1},
+          "version": {"type": "string", "minLength": 1},
+          "status": {"enum": ["draft", "implemented-initial", "approved"]},
+          "profile": {"type": "string", "minLength": 1},
+          "description": {"type": "string", "minLength": 1},
+          "execution_allowed": {"const": false},
+          "policy_engine_required": {"const": true},
+          "report_required": {"type": "boolean"},
+          "policy_pack_ids": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
+          "policy_rule_ids": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
+          "schema_ids": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
+          "required_reports": {"type": "array", "items": {"type": "string", "minLength": 1}, "uniqueItems": true},
+          "checks": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["check_id", "runner", "required", "description"],
+              "properties": {
+                "check_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9._-]*$"},
+                "runner": {
+                  "enum": [
+                    "schema.registry.list",
+                    "validation.gateway.all",
+                    "miasi.validate.all",
+                    "readiness.strict",
+                    "standards.status"
+                  ]
+                },
+                "required": {"type": "boolean"},
+                "description": {"type": "string", "minLength": 1}
+              }
+            }
+          },
+          "notes": {"type": "array", "items": {"type": "string"}}
+        }
+      }
+    }
+  }
+}

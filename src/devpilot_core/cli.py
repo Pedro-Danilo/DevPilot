@@ -13,6 +13,7 @@ from .approval.service import ApprovalCliInput, ApprovalService
 from .application import ApplicationService
 from .cli_models import CommandResult, ExitCode, Finding, Severity
 from .connectors import ConnectorAdapter, ConnectorCallOptions, ConnectorRegistry, ConnectorRegistryOptions
+from .compliance import CompliancePackRegistry, ComplianceRegistryOptions, CompliancePackRunner, ComplianceRunOptions
 from .errors import DevPilotError
 from .evals import EvalRunner
 from .identity import IdentityRegistry, IdentityRegistryOptions, RbacCheckInput
@@ -2600,6 +2601,59 @@ def portfolio_status_command(
 
 
 
+
+
+def compliance_list_command(
+    *,
+    registry_path: str = ".devpilot/compliance/packs.json",
+    schema_path: str = "docs/schemas/compliance_pack.schema.json",
+    json_output: bool = False,
+    write_report: bool = False,
+) -> int:
+    """List governed local compliance packs after registry validation."""
+
+    root = project_root()
+    result = CompliancePackRegistry(root, options=ComplianceRegistryOptions(registry_path=registry_path, schema_path=schema_path)).list()
+    result = _write_optional_command_report(
+        root,
+        result,
+        subject=registry_path,
+        report_id="compliance_list",
+        write_report=write_report,
+        metadata={"sprint": "FUNC-SPRINT-97", "component": "CompliancePackRegistry"},
+    )
+    _emit_result_event(root, result, subject=registry_path)
+    _persist_result(root, result, subject=registry_path)
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+
+def compliance_run_command(
+    *,
+    pack: str = "baseline",
+    registry_path: str = ".devpilot/compliance/packs.json",
+    schema_path: str = "docs/schemas/compliance_pack.schema.json",
+    json_output: bool = False,
+    write_report: bool = False,
+) -> int:
+    """Run one declarative compliance pack through existing local gates."""
+
+    root = project_root()
+    result = CompliancePackRunner(root).run(ComplianceRunOptions(pack=pack, registry_path=registry_path, schema_path=schema_path))
+    result = _write_optional_command_report(
+        root,
+        result,
+        subject=f"compliance:{pack}",
+        report_id=f"compliance_run_{pack}",
+        write_report=write_report,
+        metadata={"sprint": "FUNC-SPRINT-97", "component": "CompliancePackRunner", "pack": pack},
+    )
+    _emit_result_event(root, result, subject=f"compliance:{pack}")
+    _persist_result(root, result, subject=f"compliance:{pack}")
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+
 def audit_pack_build_command(
     *,
     actor: str | None = "local-owner",
@@ -3764,6 +3818,21 @@ def build_parser() -> argparse.ArgumentParser:
     identity_check.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     identity_check.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
 
+
+    compliance = sub.add_parser("compliance", help="List and run local declarative compliance/policy packs")
+    compliance_sub = compliance.add_subparsers(dest="compliance_command")
+    compliance_list = compliance_sub.add_parser("list", help="List validated compliance packs")
+    compliance_list.add_argument("--registry-path", default=".devpilot/compliance/packs.json", help="Compliance Pack Registry JSON path")
+    compliance_list.add_argument("--schema-path", default="docs/schemas/compliance_pack.schema.json", help="Compliance Pack Registry JSON Schema path")
+    compliance_list.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    compliance_list.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+    compliance_run = compliance_sub.add_parser("run", help="Run one compliance pack using declared local gates")
+    compliance_run.add_argument("--pack", default="baseline", help="Compliance pack id, e.g. baseline")
+    compliance_run.add_argument("--registry-path", default=".devpilot/compliance/packs.json", help="Compliance Pack Registry JSON path")
+    compliance_run.add_argument("--schema-path", default="docs/schemas/compliance_pack.schema.json", help="Compliance Pack Registry JSON Schema path")
+    compliance_run.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    compliance_run.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+
     audit_pack = sub.add_parser("audit-pack", help="Build and verify local collaboration audit packs")
     audit_pack_sub = audit_pack.add_subparsers(dest="audit_pack_command")
     audit_pack_build = audit_pack_sub.add_parser("build", help="Build a clean local audit pack ZIP with manifest/checksums")
@@ -4509,6 +4578,9 @@ def _command_name_from_args(args: argparse.Namespace) -> str:
     if command == "quality-gate":
         subcommand = getattr(args, "quality_gate_command", None)
         return f"quality-gate {subcommand}" if subcommand else "quality-gate"
+    if command == "compliance":
+        subcommand = getattr(args, "compliance_command", None)
+        return f"compliance {subcommand}" if subcommand else "compliance"
     if command == "audit-pack":
         subcommand = getattr(args, "audit_pack_command", None)
         return f"audit-pack {subcommand}" if subcommand else "audit-pack"
@@ -4631,6 +4703,24 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
                 subject=args.subject,
                 workspace_id=args.workspace_id,
                 registry_path=args.registry_path,
+                json_output=args.json,
+                write_report=args.write_report,
+            )
+        parser.print_help()
+        return int(ExitCode.FAIL)
+    if args.command == "compliance":
+        if args.compliance_command == "list":
+            return compliance_list_command(
+                registry_path=args.registry_path,
+                schema_path=args.schema_path,
+                json_output=args.json,
+                write_report=args.write_report,
+            )
+        if args.compliance_command == "run":
+            return compliance_run_command(
+                pack=args.pack,
+                registry_path=args.registry_path,
+                schema_path=args.schema_path,
                 json_output=args.json,
                 write_report=args.write_report,
             )

@@ -1,0 +1,101 @@
+{
+  "schema_version": "1.0",
+  "created_by": "FUNC-SPRINT-97",
+  "updated_at": "2026-06-19",
+  "title": "DevPilot Local Compliance Pack Registry",
+  "status": "implemented-initial",
+  "description": "Declarative compliance and policy packs for local DevPilot validation. Packs compose existing gates; they do not execute arbitrary commands or replace PolicyEngine.",
+  "security": {
+    "local_first": true,
+    "policy_engine_required": true,
+    "packs_declarative_only": true,
+    "declared_actions_only": true,
+    "arbitrary_command_execution_allowed": false,
+    "shell_allowed": false,
+    "network_used": false,
+    "external_api_used": false,
+    "cloud_export_used": false,
+    "mutations_performed": false,
+    "source_mutations_performed": false,
+    "secrets_read": false,
+    "raw_secret_output_allowed": false
+  },
+  "packs": [
+    {
+      "pack_id": "baseline",
+      "title": "MIPSoftware/MIASI baseline compliance pack",
+      "version": "1.0.0",
+      "status": "implemented-initial",
+      "profile": "mipsoftware-miasi-baseline",
+      "description": "Baseline pack that groups core DevPilot governance checks for local SDLC evidence: schemas, strict readiness, standards, MIASI and validation gateway.",
+      "execution_allowed": false,
+      "policy_engine_required": true,
+      "report_required": true,
+      "policy_pack_ids": [
+        "mipsoftware-baseline",
+        "miasi-baseline",
+        "devpilot-local-first"
+      ],
+      "policy_rule_ids": [
+        "DOC_READ_ALLOW",
+        "DOC_VALIDATE_ALLOW",
+        "SECRETS_RAW_DENY",
+        "AGENT_SUGGEST_ALLOW",
+        "COMPLIANCE_PACK_READ_ALLOW",
+        "COMPLIANCE_PACK_RUN_DECLARATIVE_ALLOW",
+        "COMPLIANCE_PACK_POLICY_ENGINE_REQUIRED",
+        "COMPLIANCE_PACK_UNDECLARED_ACTION_DENY"
+      ],
+      "schema_ids": [
+        "SCHEMA-DEVPL-COMMAND-RESULT-V1",
+        "SCHEMA-DEVPL-FINDING-V1",
+        "SCHEMA-DEVPL-FUNCTIONAL-SPRINT-MANIFEST-V1",
+        "SCHEMA-DEVPL-MIASI-AGENT-REGISTRY-V1",
+        "SCHEMA-DEVPL-MIASI-TOOL-REGISTRY-V1",
+        "SCHEMA-DEVPL-MIASI-POLICY-MATRIX-V1",
+        "SCHEMA-DEVPL-COMPLIANCE-PACK-V1"
+      ],
+      "required_reports": [
+        "docs/release/CHANGELOG.md",
+        "docs/functional_sprint_97_manifest.json",
+        "docs/audits/func_sprint_97_compliance_packs_audit.md"
+      ],
+      "checks": [
+        {
+          "check_id": "schema-registry",
+          "runner": "schema.registry.list",
+          "required": true,
+          "description": "Schema catalog must be complete and locally registered."
+        },
+        {
+          "check_id": "strict-readiness",
+          "runner": "readiness.strict",
+          "required": true,
+          "description": "Strict readiness gate must pass."
+        },
+        {
+          "check_id": "standards-status",
+          "runner": "standards.status",
+          "required": true,
+          "description": "MIPSoftware/MIASI standards registry must pass."
+        },
+        {
+          "check_id": "miasi-validate",
+          "runner": "miasi.validate.all",
+          "required": true,
+          "description": "MIASI agent/tool/policy registry validation must pass."
+        },
+        {
+          "check_id": "validation-gateway-all",
+          "runner": "validation.gateway.all",
+          "required": true,
+          "description": "Unified docs/contracts validation gateway must pass."
+        }
+      ],
+      "notes": [
+        "Implemented-initial: this pack groups existing local gates; it is not an external certification.",
+        "The runner is declarative and allowlisted; it does not execute shell commands from JSON."
+      ]
+    }
+  ]
+}

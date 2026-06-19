@@ -2,13 +2,13 @@
 title: "DevPilot Local — Backlog ejecutable Fase H: Capacidades avanzadas"
 doc_id: "DEVPL-FUNC-BACKLOG-FASE-H-001"
 status: "approved"
-version: "1.8.0"
+version: "1.9.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
 phase: "FASE-H-CAPACIDADES-AVANZADAS"
 updated: "2026-06-19"
-source_repo: "repo_DevPilot_Local_125.zip"
+source_repo: "repo_DevPilot_Local_126.zip"
 source_report: "Informe de avance DevPilot - sprint 0 - 18.docx"
 source_backlog_model: "docs/functional_backlog_after_precode.md"
 baseline_dependency: "Fases A-G cerradas; Fase G cerrada por FUNC-SPRINT-84 como implemented-initial"
@@ -17,9 +17,9 @@ last_planned_sprint: "FUNC-SPRINT-99"
 approved_on: "2026-06-17"
 approval: "approved_after_phase_g_closure_validation"
 phase_h_status: "in_progress"
-first_open_sprint: "FUNC-SPRINT-97"
-last_completed_sprint: "FUNC-SPRINT-96"
-next_sprint: "FUNC-SPRINT-97"
+first_open_sprint: "FUNC-SPRINT-98"
+last_completed_sprint: "FUNC-SPRINT-97"
+next_sprint: "FUNC-SPRINT-98"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "phase_h_executable_backlog_review"
 ---
@@ -1088,6 +1088,17 @@ python -m pytest -q
 ```text
 Implementa FUNC-SPRINT-97. Crea Compliance Pack Registry y runner declarativo sobre gates existentes. Incluye baseline MIPSoftware/MIASI y reportes.
 ```
+
+
+## Estado de implementación Sprint 97
+
+`FUNC-SPRINT-97 — Compliance packs y policy packs` queda implementado como `implemented-initial`. DevPilot incorpora `.devpilot/compliance/packs.json`, schema `SCHEMA-DEVPL-COMPLIANCE-PACK-V1`, CLI `compliance list`, CLI `compliance run --pack baseline`, suite `compliance-pack-integrity` y bindings MIASI para `compliance.list`/`compliance.run`.
+
+La capacidad mantiene alcance local-first: los packs son declarativos, usan `PolicyEngine`, no ejecutan comandos arbitrarios, no usan shell, no llaman red/APIs externas y no reemplazan los gates existentes. El pack baseline agrupa Schema Registry, readiness strict, Standards Registry, MIASI y ValidationGateway para producir reporte PASS/BLOCK con gaps por pack.
+
+Limitación explícita: esta primera versión no constituye certificación externa ni cubre marcos regulatorios completos. Los compliance/policy packs son perfiles internos de gobernanza local y deberán evolucionar con mappings normativos, firma/cifrado y reporting enterprise si el producto avanza hacia contextos regulados.
+
+La siguiente unidad abierta es `FUNC-SPRINT-98 — Remote runners experimentales y enterprise reporting`, que deberá mantener remote runners deshabilitados por defecto y documentados por ADR.
 
 ---
 

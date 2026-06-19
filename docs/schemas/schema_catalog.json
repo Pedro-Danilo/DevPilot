@@ -8,7 +8,7 @@
   "updated": "2026-06-18",
   "sprint": "FUNC-SPRINT-23",
   "preliminary": true,
-  "purpose": "Catalog of versioned JSON schemas registered by DevPilot. Sprint 96 adds AuditPackManifest contract for local collaboration evidence packages with checksums.",
+  "purpose": "Catalog of versioned JSON schemas registered by DevPilot. Sprint 97 adds CompliancePackRegistry contract for local compliance/policy packs.",
   "schemas": [
     {
       "schema_id": "SCHEMA-DEVPL-FINDING-V1",
@@ -303,6 +303,20 @@
       "dialect": "https://json-schema.org/draft/2020-12/schema",
       "validates_instances": true,
       "validation_enabled_sprint": "FUNC-SPRINT-96"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-COMPLIANCE-PACK-V1",
+      "title": "DevPilot Compliance Pack Registry v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/compliance_pack.schema.json",
+      "description": "Structural contract for .devpilot/compliance/packs.json with declarative compliance/policy packs and allowlisted local gates.",
+      "status": "registered",
+      "owner": "Ordóñez",
+      "sprint": "FUNC-SPRINT-97",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "contract": "CompliancePackRegistry",
+      "validation_enabled_sprint": "FUNC-SPRINT-97"
     }
   ]
 }

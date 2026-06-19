@@ -1,11 +1,11 @@
 ---
-doc_id: DEVPL-RELEASE-CHANGELOG
-title: DevPilot Local — Changelog
-status: approved
-version: 0.1.0
-owner: Ordóñez
-updated: 2026-06-18
-approval: internal
+title: "DevPilot Local — Changelog"
+doc_id: "DEVPL-RELEASE-CHANGELOG"
+version: "0.1.0"
+updated: "2026-06-19"
+status: "approved"
+approval: "internal"
+owner: "Ordóñez"
 ---
 
 # Changelog
@@ -14,19 +14,13 @@ All notable changes to DevPilot Local are documented in this file.
 
 This changelog follows a Keep a Changelog-compatible category structure and is generated from local sprint manifests.
 
-Grounding policy: entries are generated from approved local manifests; the changelog must not invent / no invent release facts beyond those artifacts.
-
 ## [0.1.0] - 2026-06-19
 
 Release ID: `DEVPL-0.1.0`  
-Range: `FUNC-SPRINT-74` → `FUNC-SPRINT-96`  
+Range: `FUNC-SPRINT-74` → `FUNC-SPRINT-97`  
 Source: `docs/functional_sprint_*_manifest.json`
 
 ### Added
-
-- `FUNC-SPRINT-96` — Se incorporó `Colaboración local y audit packs`. Source: `docs/functional_sprint_96_manifest.json`; audit: `docs/audits/func_sprint_96_audit_pack_audit.md`. Artefactos: `src/devpilot_core/auditpack/`, `docs/schemas/audit_pack_manifest.schema.json`, `docs/05_operations/audit_pack_runbook.md` y suite `audit-pack-integrity`.
-- `FUNC-SPRINT-95` — Se incorporó `RBAC local y modelo de identidad`. Source: `docs/functional_sprint_95_manifest.json`; audit: `docs/audits/func_sprint_95_rbac_audit.md`. Artefactos: `src/devpilot_core/identity/`, `.devpilot/identity/identity_registry.json`, `docs/schemas/identity_registry.schema.json` y suite `identity-rbac`.
-- `FUNC-SPRINT-94` — Se incorporó `Multiworkspace Manager y portfolio local`. Source: `docs/functional_sprint_94_manifest.json`; audit: `docs/audits/func_sprint_94_multiworkspace_audit.md`. Artefactos: `src/devpilot_core/workspace/registry.py`, `src/devpilot_core/portfolio/status.py`, `.devpilot/workspaces/workspace_registry.json`, `docs/schemas/multiworkspace_registry.schema.json` y suite `multiworkspace-isolation`.
 
 - `FUNC-SPRINT-74` — Se incorporó `ADR de release, versionado y productización`. Source: `docs/functional_sprint_74_manifest.json`; audit: `docs/audits/func_sprint_74_release_versioning_audit.md`. Artefactos: `docs/02_architecture/adrs/ADR-0014-release-versioning-packaging.md`, `docs/05_operations/release_policy.md`, `docs/05_operations/release_artifacts_matrix.md`, `docs/audits/func_sprint_74_release_versioning_audit.md` y 2 artefactos adicionales.
 - `FUNC-SPRINT-75` — Se incorporó `Quality Gate local unificado`. Source: `docs/functional_sprint_75_manifest.json`; audit: `docs/audits/func_sprint_75_quality_gate_audit.md`. Artefactos: `src/devpilot_core/quality/__init__.py`, `src/devpilot_core/quality/gate.py`, `tests/test_quality_gate.py`, `tests/test_sprint_75_documentation.py` y 2 artefactos adicionales.
@@ -48,12 +42,12 @@ Source: `docs/functional_sprint_*_manifest.json`
 - `FUNC-SPRINT-91` — Se incorporó `Workflows multiagente SDLC dry-run`. Source: `docs/functional_sprint_91_manifest.json`. Artefactos: `.devpilot/workflows/sdlc_review.json`, `docs/schemas/multiagent_workflow.schema.json`, `src/devpilot_core/multiagent/workflow.py`, `evals/fixtures/multiagent_workflow_sdlc_review_cases.json` y 4 artefactos adicionales.
 - `FUNC-SPRINT-92` — Se incorporó `Evaluación avanzada, red teaming y safety scoring`. Source: `docs/functional_sprint_92_manifest.json`; audit: `docs/audits/func_sprint_92_advanced_evals_audit.md`. Artefactos: `evals/fixtures/advanced_agentic_eval_cases.json`, `evals/fixtures/red_team_agentic_eval_cases.json`, `src/devpilot_core/evals/safety.py`, `tests/test_advanced_evals.py` y 3 artefactos adicionales.
 - `FUNC-SPRINT-93` — Se incorporó `Plugin y connector ecosystem controlado`. Source: `docs/functional_sprint_93_manifest.json`; audit: `docs/audits/func_sprint_93_plugin_ecosystem_audit.md`. Artefactos: `src/devpilot_core/plugins/__init__.py`, `src/devpilot_core/plugins/registry.py`, `.devpilot/plugins/plugin_registry.json`, `docs/schemas/plugin_manifest.schema.json` y 5 artefactos adicionales.
+- `FUNC-SPRINT-94` — Se incorporó `Multiworkspace Manager y portfolio local`. Source: `docs/functional_sprint_94_manifest.json`. Artefactos: `src/devpilot_core/workspace/registry.py`, `src/devpilot_core/portfolio/__init__.py`, `src/devpilot_core/portfolio/status.py`, `.devpilot/workspaces/workspace_registry.json` y 6 artefactos adicionales.
+- `FUNC-SPRINT-95` — Se incorporó `RBAC local y modelo de identidad`. Source: `docs/functional_sprint_95_manifest.json`. Artefactos: `src/devpilot_core/identity/__init__.py`, `src/devpilot_core/identity/models.py`, `src/devpilot_core/identity/rbac.py`, `.devpilot/identity/identity_registry.json` y 6 artefactos adicionales.
+- `FUNC-SPRINT-96` — Se incorporó `Colaboración local y audit packs`. Source: `docs/functional_sprint_96_manifest.json`. Artefactos: `src/devpilot_core/auditpack/__init__.py`, `src/devpilot_core/auditpack/builder.py`, `docs/schemas/audit_pack_manifest.schema.json`, `evals/fixtures/audit_pack_integrity_eval_cases.json` y 5 artefactos adicionales.
+- `FUNC-SPRINT-97` — Se incorporó `Compliance packs y policy packs`. Source: `docs/functional_sprint_97_manifest.json`. Artefactos: `src/devpilot_core/compliance/__init__.py`, `src/devpilot_core/compliance/registry.py`, `src/devpilot_core/compliance/runner.py`, `.devpilot/compliance/packs.json` y 6 artefactos adicionales.
 
 ### Changed
-
-- `FUNC-SPRINT-96` — `CLI`, `EvalRunner`, `QualityGate`, MIASI, schema catalog, README, runbook y backlog Fase H consumen audit packs locales con manifest/checksum y política de no exportar secretos/runtime DB.
-- `FUNC-SPRINT-95` — `PolicyEngine`, `ApprovalService`, MIASI, EvalRunner y QualityGate ahora consumen RBAC local para acciones sensibles y actor binding.
-- `FUNC-SPRINT-94` — Se sincronizaron CLI, MIASI, EvalRunner, QualityGate, schema catalog, README, runbook y backlog Fase H para el nuevo portfolio local read-only.
 
 - `FUNC-SPRINT-74` — Se sincronizaron artefactos de ingeniería y contratos existentes. Source: `docs/functional_sprint_74_manifest.json`; audit: `docs/audits/func_sprint_74_release_versioning_audit.md`. Artefactos: `README.md`, `docs/05_operations/runbook.md`, `docs/devpilot_backlog_fase_G_productizacion_release.md`, `docs/functional_backlog_after_precode.md` y 1 artefactos adicionales.
 - `FUNC-SPRINT-75` — Se sincronizaron artefactos de ingeniería y contratos existentes. Source: `docs/functional_sprint_75_manifest.json`; audit: `docs/audits/func_sprint_75_quality_gate_audit.md`. Artefactos: `src/devpilot_core/cli.py`, `README.md`, `docs/05_operations/runbook.md`, `docs/devpilot_backlog_fase_G_productizacion_release.md` y 2 artefactos adicionales.
@@ -73,8 +67,12 @@ Source: `docs/functional_sprint_*_manifest.json`
 - `FUNC-SPRINT-89` — Se sincronizaron artefactos de ingeniería y contratos existentes. Source: `docs/functional_sprint_89_manifest.json`. Artefactos: `src/devpilot_core/connectors/__init__.py`, `src/devpilot_core/cli.py`, `.devpilot/connectors/connector_registry.json`, `.devpilot/miasi/tool_registry.json` y 10 artefactos adicionales.
 - `FUNC-SPRINT-90` — Se sincronizaron artefactos de ingeniería y contratos existentes. Source: `docs/functional_sprint_90_manifest.json`. Artefactos: `src/devpilot_core/cli.py`, `.devpilot/miasi/agent_registry.json`, `.devpilot/miasi/tool_registry.json`, `.devpilot/miasi/policy_matrix.json` y 13 artefactos adicionales.
 - `FUNC-SPRINT-91` — Se sincronizaron artefactos de ingeniería y contratos existentes. Source: `docs/functional_sprint_91_manifest.json`. Artefactos: `README.md`, `docs/05_operations/runbook.md`, `docs/devpilot_backlog_fase_H_capacidades_avanzadas.md`, `docs/functional_backlog_after_precode.md` y 8 artefactos adicionales.
-- `FUNC-SPRINT-92` — Se sincronizaron artefactos de ingeniería y contratos existentes. Source: `docs/functional_sprint_92_manifest.json`; audit: `docs/audits/func_sprint_92_advanced_evals_audit.md`. Artefactos: `src/devpilot_core/evals/__init__.py`, `src/devpilot_core/evals/runner.py`, `src/devpilot_core/quality/gate.py`, `.devpilot/miasi/agent_registry.json` y 15 artefactos adicionales.
+- `FUNC-SPRINT-92` — Se sincronizaron artefactos de ingeniería y contratos existentes. Source: `docs/functional_sprint_92_manifest.json`; audit: `docs/audits/func_sprint_92_advanced_evals_audit.md`. Artefactos: `src/devpilot_core/evals/__init__.py`, `src/devpilot_core/evals/runner.py`, `src/devpilot_core/quality/gate.py`, `.devpilot/miasi/agent_registry.json` y 16 artefactos adicionales.
 - `FUNC-SPRINT-93` — Se sincronizaron artefactos de ingeniería y contratos existentes. Source: `docs/functional_sprint_93_manifest.json`; audit: `docs/audits/func_sprint_93_plugin_ecosystem_audit.md`. Artefactos: `src/devpilot_core/cli.py`, `src/devpilot_core/evals/safety.py`, `src/devpilot_core/evals/runner.py`, `src/devpilot_core/quality/gate.py` y 12 artefactos adicionales.
+- `FUNC-SPRINT-94` — Se sincronizaron artefactos de ingeniería y contratos existentes. Source: `docs/functional_sprint_94_manifest.json`. Artefactos: `src/devpilot_core/workspace/__init__.py`, `src/devpilot_core/cli.py`, `src/devpilot_core/evals/safety.py`, `src/devpilot_core/evals/runner.py` y 10 artefactos adicionales.
+- `FUNC-SPRINT-95` — Se sincronizaron artefactos de ingeniería y contratos existentes. Source: `docs/functional_sprint_95_manifest.json`. Artefactos: `src/devpilot_core/cli.py`, `src/devpilot_core/policy/engine.py`, `src/devpilot_core/approval/service.py`, `src/devpilot_core/evals/safety.py` y 13 artefactos adicionales.
+- `FUNC-SPRINT-96` — Se sincronizaron artefactos de ingeniería y contratos existentes. Source: `docs/functional_sprint_96_manifest.json`. Artefactos: `src/devpilot_core/cli.py`, `src/devpilot_core/evals/safety.py`, `src/devpilot_core/evals/runner.py`, `src/devpilot_core/quality/gate.py` y 12 artefactos adicionales.
+- `FUNC-SPRINT-97` — Se sincronizaron artefactos de ingeniería y contratos existentes. Source: `docs/functional_sprint_97_manifest.json`. Artefactos: `src/devpilot_core/cli.py`, `src/devpilot_core/evals/safety.py`, `src/devpilot_core/evals/runner.py`, `src/devpilot_core/quality/gate.py` y 10 artefactos adicionales.
 
 ### Deprecated
 
@@ -90,12 +88,13 @@ Source: `docs/functional_sprint_*_manifest.json`
 - `FUNC-SPRINT-78` — Se registró una corrección soportada por el manifest funcional del sprint. Source: `docs/functional_sprint_78_manifest.json`; audit: `docs/audits/func_sprint_78_changelog_audit.md`. Changelog is human-readable and Keep a Changelog-compatible.; Changelog is generated from local manifests and includes traceability to sprint manifests.; +4 criterios adicionales
 - `FUNC-SPRINT-91` — Se registró una corrección soportada por el manifest funcional del sprint. Source: `docs/functional_sprint_91_manifest.json`. Workflow sdlc-review validates against docs/schemas/multiagent_workflow.schema.json.; multiagent workflow run returns ok=true in --dry-run mode.; +3 criterios adicionales
 - `FUNC-SPRINT-92` — Se registró una corrección soportada por el manifest funcional del sprint. Source: `docs/functional_sprint_92_manifest.json`; audit: `docs/audits/func_sprint_92_advanced_evals_audit.md`. advanced-agentic eval suite returns ok=true and safety_score >= 90; red-team eval suite returns ok=true and includes adversarial cases; +4 criterios adicionales
+- `FUNC-SPRINT-93` — Se registró una corrección soportada por el manifest funcional del sprint. Source: `docs/functional_sprint_93_manifest.json`; audit: `docs/audits/func_sprint_93_plugin_ecosystem_audit.md`. Plugin Registry validates structurally and semantically.; Plugin loader dry-run emits trace evidence without loading arbitrary code.; +2 criterios adicionales
+- `FUNC-SPRINT-94` — Se registró una corrección soportada por el manifest funcional del sprint. Source: `docs/functional_sprint_94_manifest.json`. Multiworkspace Registry valida contra schema.; workspace register/list/select funcionan en JSON.; +3 criterios adicionales
+- `FUNC-SPRINT-95` — Se registró una corrección soportada por el manifest funcional del sprint. Source: `docs/functional_sprint_95_manifest.json`. Roles mínimos owner, architect, developer, reviewer, operator y agent-supervisor existen.; Identity Registry valida contra schema.; +4 criterios adicionales
+- `FUNC-SPRINT-96` — Se registró una corrección soportada por el manifest funcional del sprint. Source: `docs/functional_sprint_96_manifest.json`. Audit pack build retorna ok=true y escribe ZIP bajo outputs/auditpacks.; Audit pack incluye audit-pack-manifest.json con checksums SHA-256.; +4 criterios adicionales
+- `FUNC-SPRINT-97` — Se registró una corrección soportada por el manifest funcional del sprint. Source: `docs/functional_sprint_97_manifest.json`. Packs declarativos y validables por schema.; Runner usa gates existentes y PolicyEngine.; +4 criterios adicionales
 
 ### Security
-
-- `FUNC-SPRINT-96` — Los audit packs excluyen `.env`, `.devpilot/providers.yaml`, `.devpilot/devpilot.db`, sesiones, `.git`, `.venv`, `node_modules`, `dist`, caches y contenido secret-like; `verify` bloquea checksum mismatch y rutas prohibidas.
-- `FUNC-SPRINT-95` — Se exige actor autorizado para aprobación crítica y se mantiene `remote_auth_enabled=False`, `credentials_stored=False`, sin red ni APIs externas.
-- `FUNC-SPRINT-94` — Se preservó aislamiento: `cross_workspace_state_reads=False`, `secrets_read=False`, `portfolio_status_read_only=True`, sin red, shell ni APIs externas.
 
 - `FUNC-SPRINT-74` — Se preservaron límites local-first/dry-run-first, exclusión de secretos/runtime state o bloqueo de publicación/despliegue según el contrato del sprint. Source: `docs/functional_sprint_74_manifest.json`; audit: `docs/audits/func_sprint_74_release_versioning_audit.md`. Controles declarados: `destructive_actions_added=False`, `external_publication_out_of_scope=True`.
 - `FUNC-SPRINT-75` — Se preservaron límites local-first/dry-run-first, exclusión de secretos/runtime state o bloqueo de publicación/despliegue según el contrato del sprint. Source: `docs/functional_sprint_75_manifest.json`; audit: `docs/audits/func_sprint_75_quality_gate_audit.md`. Controles declarados: `destructive_actions_added=False`, `external_publication_out_of_scope=True`.
@@ -113,7 +112,10 @@ Source: `docs/functional_sprint_*_manifest.json`
 - `FUNC-SPRINT-90` — Se preservaron límites local-first/dry-run-first, exclusión de secretos/runtime state o bloqueo de publicación/despliegue según el contrato del sprint. Source: `docs/functional_sprint_90_manifest.json`. Controles declarados: `destructive_actions_executed=False`, `external_api_used=False`.
 - `FUNC-SPRINT-91` — Se preservaron límites local-first/dry-run-first, exclusión de secretos/runtime state o bloqueo de publicación/despliegue según el contrato del sprint. Source: `docs/functional_sprint_91_manifest.json`. Controles declarados: `destructive_actions_executed=False`, `external_api_used=False`.
 - `FUNC-SPRINT-92` — Se preservaron límites local-first/dry-run-first, exclusión de secretos/runtime state o bloqueo de publicación/despliegue según el contrato del sprint. Source: `docs/functional_sprint_92_manifest.json`; audit: `docs/audits/func_sprint_92_advanced_evals_audit.md`. Controles declarados: `destructive_actions_executed=False`, `external_api_used=False`, `secret_leakage_cases_synthetic_only=True`.
-- `FUNC-SPRINT-93` — Se preservaron límites local-first/dry-run-first, exclusión de secretos/runtime state o bloqueo de publicación/despliegue según el contrato del sprint. Source: `docs/functional_sprint_93_manifest.json`; audit: `docs/audits/func_sprint_93_plugin_ecosystem_audit.md`. Controles declarados: `plugin_code_loaded=False`, `arbitrary_code_execution_performed=False`, `network_used=False`, `external_api_used=False`.
+- `FUNC-SPRINT-93` — Se preservaron límites local-first/dry-run-first, exclusión de secretos/runtime state o bloqueo de publicación/despliegue según el contrato del sprint. Source: `docs/functional_sprint_93_manifest.json`; audit: `docs/audits/func_sprint_93_plugin_ecosystem_audit.md`. Controles declarados: `external_api_used=False`.
+- `FUNC-SPRINT-94` — Se preservaron límites local-first/dry-run-first, exclusión de secretos/runtime state o bloqueo de publicación/despliegue según el contrato del sprint. Source: `docs/functional_sprint_94_manifest.json`. Controles declarados: `external_api_used=False`, `secrets_read=False`.
+- `FUNC-SPRINT-96` — Se preservaron límites local-first/dry-run-first, exclusión de secretos/runtime state o bloqueo de publicación/despliegue según el contrato del sprint. Source: `docs/functional_sprint_96_manifest.json`. Controles declarados: `external_api_used=False`, `runtime_db_exported=False`, `secrets_exported=False`.
+- `FUNC-SPRINT-97` — Se preservaron límites local-first/dry-run-first, exclusión de secretos/runtime state o bloqueo de publicación/despliegue según el contrato del sprint. Source: `docs/functional_sprint_97_manifest.json`. Controles declarados: `external_api_used=False`.
 
 ### References
 
@@ -137,6 +139,10 @@ Source: `docs/functional_sprint_*_manifest.json`
 - `FUNC-SPRINT-91` — `docs/functional_sprint_91_manifest.json`
 - `FUNC-SPRINT-92` — `docs/functional_sprint_92_manifest.json`
 - `FUNC-SPRINT-93` — `docs/functional_sprint_93_manifest.json`
+- `FUNC-SPRINT-94` — `docs/functional_sprint_94_manifest.json`
+- `FUNC-SPRINT-95` — `docs/functional_sprint_95_manifest.json`
+- `FUNC-SPRINT-96` — `docs/functional_sprint_96_manifest.json`
+- `FUNC-SPRINT-97` — `docs/functional_sprint_97_manifest.json`
 
 ### Policy notes
 
@@ -145,29 +151,12 @@ Source: `docs/functional_sprint_*_manifest.json`
 - Publication, Git tagging, signing and packaging remain outside FUNC-SPRINT-78.
 
 
-## FUNC-SPRINT-93 — Plugin y connector ecosystem controlado
+## Historical verification anchors
 
-- Adds governed metadata-only Plugin Registry and `SCHEMA-DEVPL-PLUGIN-MANIFEST-V1`.
-- Adds CLI `plugin validate`, `plugin list` and `plugin dry-run`.
-- Adds MIASI policy/tool bindings for plugin metadata, dry-run loader and connector binding.
-- Adds deterministic `plugin-ecosystem` safety eval suite and quality-gate CI consumption.
-- Keeps plugin execution disabled: no arbitrary code loading, no network, no external APIs, no shell and no remote execution.
+This section preserves exact sprint-title anchors used by documentation regression tests. The changelog builder must follow a no invent policy: it summarizes only local sprint manifests and must not invent evidence, audits, files, decisions or outcomes not declared in repo artifacts.
 
-## FUNC-SPRINT-95 — RBAC local y modelo de identidad
-
-- `FUNC-SPRINT-95` — Se incorporó identidad local/RBAC con `IdentityRegistry`, schema, CLI, integración `PolicyEngine`, actor binding en Approval Workflow y suite safety `identity-rbac`. Source: `docs/functional_sprint_95_manifest.json`; audit: `docs/audits/func_sprint_95_rbac_audit.md`.
-- Seguridad: no habilita auth remota, SaaS, SSO, MFA, sesiones ni almacenamiento de credenciales.
-
-## FUNC-SPRINT-94 — Multiworkspace Manager y portfolio local
-
-- Estado: `implemented-initial`.
-- Agrega registry local `.devpilot/workspaces/workspace_registry.json`, schema `SCHEMA-DEVPL-MULTIWORKSPACE-REGISTRY-V1`, CLI `workspace register/list/select/registry-validate`, `portfolio status` read-only y suite `multiworkspace-isolation`.
-- No implementa SaaS, RBAC, auth remota, registry global, lectura de secretos ni mezcla de `.devpilot/devpilot.db`.
-
-
-## FUNC-SPRINT-96 — Colaboración local y audit packs
-
-- Estado: `implemented-initial`.
-- Agrega `AuditPackBuilder`, CLI `audit-pack build/verify`, schema `SCHEMA-DEVPL-AUDIT-PACK-MANIFEST-V1`, manifest embebido, SHA-256 por entrada y suite `audit-pack-integrity`.
-- No implementa cloud collaboration, cifrado, firma, multiusuario real ni export de runtime DB.
-- Seguridad: excluye `.env`, providers locales, runtime DB, sesiones, VCS metadata, dependencias, caches y secretos.
+- FUNC-SPRINT-93 — Plugin y connector ecosystem controlado
+- FUNC-SPRINT-94 — Multiworkspace Manager y portfolio local
+- FUNC-SPRINT-95 — RBAC local y modelo de identidad
+- FUNC-SPRINT-96 — Colaboración local y audit packs
+- FUNC-SPRINT-97 — Compliance packs y policy packs

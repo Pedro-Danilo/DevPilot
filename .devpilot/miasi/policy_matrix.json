@@ -741,6 +741,42 @@
       "gate": "AuditPackManifest+SHA256; block when manifest/checksums are missing or invalid",
       "approval_required": false,
       "observability_required": true
+    },
+    {
+      "rule_id": "COMPLIANCE_PACK_READ_ALLOW",
+      "domain": "Compliance",
+      "action": "list_read",
+      "default_effect": "allow",
+      "gate": "PathGuard+SchemaValidator+CompliancePackRegistry",
+      "approval_required": false,
+      "observability_required": true
+    },
+    {
+      "rule_id": "COMPLIANCE_PACK_RUN_DECLARATIVE_ALLOW",
+      "domain": "Compliance",
+      "action": "run_declared_pack",
+      "default_effect": "allow",
+      "gate": "CompliancePackRunner+ValidationGateway+MIASI+Readiness+SchemaRegistry",
+      "approval_required": false,
+      "observability_required": true
+    },
+    {
+      "rule_id": "COMPLIANCE_PACK_POLICY_ENGINE_REQUIRED",
+      "domain": "Compliance",
+      "action": "policy_engine_required",
+      "default_effect": "allow",
+      "gate": "PolicyEngine preflight before pack checks",
+      "approval_required": false,
+      "observability_required": true
+    },
+    {
+      "rule_id": "COMPLIANCE_PACK_UNDECLARED_ACTION_DENY",
+      "domain": "Compliance",
+      "action": "undeclared_action",
+      "default_effect": "block",
+      "gate": "Compliance runner allowlist; no arbitrary shell or remote execution",
+      "approval_required": false,
+      "observability_required": true
     }
   ]
 }

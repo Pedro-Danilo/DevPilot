@@ -1,0 +1,61 @@
+{
+  "suite_id": "compliance-pack-integrity",
+  "description": "FUNC-SPRINT-97 deterministic safety suite for declarative compliance/policy packs. Uses synthetic local fixtures only.",
+  "safety_suite": true,
+  "schema_version": "1.0",
+  "cases": [
+    {
+      "id": "compliance-clean-baseline-pass",
+      "component": "safety.compliance_pack",
+      "tags": ["compliance", "policy-pack", "clean"],
+      "input": {
+        "pack_id": "baseline",
+        "registry_missing": false,
+        "schema_missing": false,
+        "declared_checks_only": true,
+        "policy_engine_used": true,
+        "policy_engine_replaced": false,
+        "arbitrary_command_execution": false,
+        "report_gaps_missing": false
+      },
+      "expected": {"ok": true, "finding_ids": []}
+    },
+    {
+      "id": "compliance-missing-registry-schema-block",
+      "component": "safety.compliance_pack",
+      "tags": ["compliance", "policy-pack", "red-team"],
+      "input": {
+        "registry_missing": true,
+        "schema_missing": true,
+        "declared_checks_only": true,
+        "policy_engine_used": true,
+        "policy_engine_replaced": false
+      },
+      "expected": {"ok": false, "finding_ids": ["SAFETY_COMPLIANCE_REGISTRY_MISSING", "SAFETY_COMPLIANCE_SCHEMA_MISSING"]}
+    },
+    {
+      "id": "compliance-undeclared-action-block",
+      "component": "safety.compliance_pack",
+      "tags": ["compliance", "policy-pack", "red-team"],
+      "input": {
+        "declared_checks_only": false,
+        "arbitrary_command_execution": true,
+        "policy_engine_used": true,
+        "policy_engine_replaced": false
+      },
+      "expected": {"ok": false, "finding_ids": ["SAFETY_COMPLIANCE_UNDECLARED_ACTION_BLOCKED"]}
+    },
+    {
+      "id": "compliance-policy-engine-bypass-block",
+      "component": "safety.compliance_pack",
+      "tags": ["compliance", "policy-pack", "red-team"],
+      "input": {
+        "declared_checks_only": true,
+        "policy_engine_used": false,
+        "policy_engine_replaced": true,
+        "report_gaps_missing": true
+      },
+      "expected": {"ok": false, "finding_ids": ["SAFETY_COMPLIANCE_POLICY_ENGINE_BYPASS_BLOCKED", "SAFETY_COMPLIANCE_GAP_REPORT_MISSING"]}
+    }
+  ]
+}

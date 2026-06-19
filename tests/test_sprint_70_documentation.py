@@ -22,13 +22,13 @@ def test_sprint_70_artifacts_and_global_state_are_synchronized() -> None:
     functional_backlog = _read("docs/functional_backlog_after_precode.md")
     runbook = _read("docs/05_operations/runbook.md")
 
-    assert "Último hito: `FUNC-SPRINT-96" in readme
-    assert "Siguiente hito: `FUNC-SPRINT-97" in readme
+    assert "Último hito: `FUNC-SPRINT-97" in readme
+    assert "Siguiente hito: `FUNC-SPRINT-98" in readme
     assert "FUNC-SPRINT-70 — Report Viewer y Trace Viewer" in readme
     assert 'first_open_sprint: "FUNC-SPRINT-74"' in backlog
     assert 'last_completed_sprint: "FUNC-SPRINT-73"' in backlog
     assert 'next_sprint: "FUNC-SPRINT-74"' in backlog
-    assert 'next_sprint: "FUNC-SPRINT-97"' in functional_backlog
+    assert 'next_sprint: "FUNC-SPRINT-98"' in functional_backlog
     assert "FUNC-SPRINT-70 — Operación de Report Viewer y Trace Viewer" in runbook
 
     for path in [
