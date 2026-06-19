@@ -1,0 +1,87 @@
+{
+  "agent_ids": [
+    "code.review"
+  ],
+  "created_at": "2026-06-19T09:10:08Z",
+  "events": [
+    {
+      "agent_id": "code.review",
+      "command": "agent run",
+      "dry_run": true,
+      "event_id": "3581f25566e748c782079be3a0c641bc",
+      "event_type": "agent.session.started",
+      "metadata": {
+        "runtime_version": "v2-model-aware",
+        "sprint": "FUNC-SPRINT-86"
+      },
+      "run_id": "run_236eff6ff88340b4822c4c4e46a87c51",
+      "summary": {
+        "requested_agent": "code.review",
+        "session_created": true
+      },
+      "target": "src/devpilot_core/multiagent",
+      "timestamp": "2026-06-19T09:10:08Z",
+      "trace_id": "trace_c3dfea48ded045efa49e66586afa774c"
+    },
+    {
+      "agent_id": "code.review",
+      "command": "agent run",
+      "dry_run": true,
+      "event_id": "58abd4ddb8de41cc9e6fed1ecefe799c",
+      "event_type": "agent.session.completed",
+      "metadata": {
+        "runtime_version": "v2-model-aware",
+        "sprint": "FUNC-SPRINT-86"
+      },
+      "ok": true,
+      "run_id": "run_236eff6ff88340b4822c4c4e46a87c51",
+      "summary": {
+        "findings_total": 1,
+        "model_calls_total": 0,
+        "suggestions_total": 2,
+        "tool_calls_total": 1
+      },
+      "target": "src/devpilot_core/multiagent",
+      "timestamp": "2026-06-19T09:10:08Z",
+      "trace_id": "trace_c3dfea48ded045efa49e66586afa774c"
+    }
+  ],
+  "memory": {
+    "last_result": {
+      "agent_id": "code.review",
+      "findings_total": 1,
+      "model_calls_total": 0,
+      "ok": true,
+      "suggestions_total": 2,
+      "tool_calls_total": 1
+    },
+    "operational_context": {
+      "last_agent_id": "code.review",
+      "last_dry_run": true,
+      "last_target": "src/devpilot_core/multiagent"
+    }
+  },
+  "metadata": {
+    "rag_enabled": false,
+    "raw_outputs_stored": false,
+    "raw_prompts_stored": false,
+    "redaction_applied": true,
+    "retention_policy": "local-short-lived-operational-memory",
+    "semantic_memory_enabled": false
+  },
+  "retention_days": 14,
+  "session_id": "agsess_500f0e7ba66a469e8661b7f1e2ebd633",
+  "status": "completed",
+  "summary": {
+    "agents_total": 1,
+    "events_total": 2,
+    "local_only": true,
+    "memory_items_total": 2,
+    "rag_enabled": false,
+    "raw_outputs_stored": false,
+    "raw_prompts_stored": false,
+    "semantic_memory_enabled": false
+  },
+  "updated_at": "2026-06-19T09:10:08Z",
+  "workspace": "."
+}

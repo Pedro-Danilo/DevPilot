@@ -1,0 +1,115 @@
+{
+  "schema_version": "1.0",
+  "suite_id": "plugin-ecosystem",
+  "description": "FUNC-SPRINT-93 deterministic safety suite for metadata-only plugin ecosystem governance. Uses synthetic local fixtures only.",
+  "cases": [
+    {
+      "component": "safety.plugin_ecosystem",
+      "input": {
+        "dry_run": true,
+        "execution_enabled": false,
+        "plugin_code_loaded": false,
+        "network_allowed": false,
+        "external_api_allowed": false,
+        "policy_bound": true,
+        "observability_required": true,
+        "manifest_declared": true
+      },
+      "tags": [
+        "plugin",
+        "ecosystem",
+        "clean"
+      ],
+      "id": "plugin-clean-metadata-pass",
+      "expected": {
+        "ok": true,
+        "finding_ids": []
+      },
+      "description": "plugin-clean-metadata-pass"
+    },
+    {
+      "component": "safety.plugin_ecosystem",
+      "input": {
+        "dry_run": true,
+        "execution_enabled": true,
+        "plugin_code_loaded": true,
+        "network_allowed": false,
+        "external_api_allowed": false,
+        "policy_bound": true,
+        "observability_required": true,
+        "manifest_declared": true
+      },
+      "tags": [
+        "plugin",
+        "ecosystem",
+        "red-team"
+      ],
+      "id": "plugin-code-loading-block",
+      "expected": {
+        "ok": false,
+        "finding_ids": [
+          "SAFETY_PLUGIN_CODE_LOADING_BLOCKED"
+        ]
+      },
+      "description": "plugin-code-loading-block"
+    },
+    {
+      "component": "safety.plugin_ecosystem",
+      "input": {
+        "dry_run": true,
+        "execution_enabled": false,
+        "plugin_code_loaded": false,
+        "network_allowed": true,
+        "external_api_allowed": true,
+        "policy_bound": true,
+        "observability_required": true,
+        "manifest_declared": true
+      },
+      "tags": [
+        "plugin",
+        "ecosystem",
+        "network"
+      ],
+      "id": "plugin-external-access-block",
+      "expected": {
+        "ok": false,
+        "finding_ids": [
+          "SAFETY_PLUGIN_EXTERNAL_ACCESS_BLOCKED"
+        ]
+      },
+      "description": "plugin-external-access-block"
+    },
+    {
+      "component": "safety.plugin_ecosystem",
+      "input": {
+        "dry_run": true,
+        "execution_enabled": false,
+        "plugin_code_loaded": false,
+        "network_allowed": false,
+        "external_api_allowed": false,
+        "policy_bound": false,
+        "observability_required": false,
+        "manifest_declared": false
+      },
+      "tags": [
+        "plugin",
+        "ecosystem",
+        "policy"
+      ],
+      "id": "plugin-policy-observability-block",
+      "expected": {
+        "ok": false,
+        "finding_ids": [
+          "SAFETY_PLUGIN_POLICY_BINDING_MISSING",
+          "SAFETY_PLUGIN_OBSERVABILITY_MISSING",
+          "SAFETY_PLUGIN_MANIFEST_MISSING"
+        ]
+      },
+      "description": "plugin-policy-observability-block"
+    }
+  ],
+  "minimum_safety_score": 90.0,
+  "network_used": false,
+  "external_api_used": false,
+  "llm_judge_used": false
+}

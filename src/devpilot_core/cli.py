@@ -19,6 +19,7 @@ from .miasi import MiasiRegistryValidator
 from .modeling import BudgetLedger, CapabilityMatrix, ModelAdapterRouter, ModelEvalRunner, ModelEvalRunnerConfig, ModelHealthService, ModelRouterConfig
 from .multiagent import MultiAgentCoordinator, MultiAgentRunOptions, MultiAgentWorkflowRunner, MultiAgentWorkflowRunOptions
 from .policy import CostPolicy, PolicyEngine, PolicyRequest, load_cost_policy
+from .plugins import PluginDryRunOptions, PluginRegistry, PluginRegistryOptions
 from .prompts import PromptRegistry
 from .quality import QualityGate, QualityGateOptions
 from .rag import LocalRagIndexer, LocalRagRetriever, RagIndexOptions, RagQueryOptions
@@ -1684,6 +1685,105 @@ def connector_call_command(
     _persist_result(root, result, subject=f"{connector}:{operation}")
     print_result(result, json_output=json_output)
     return int(result.exit_code)
+
+
+def plugin_validate_command(
+    *,
+    registry_path: str = ".devpilot/plugins/plugin_registry.json",
+    schema_path: str = "docs/schemas/plugin_manifest.schema.json",
+    connector_registry_path: str = ".devpilot/connectors/connector_registry.json",
+    json_output: bool = False,
+    write_report: bool = False,
+) -> int:
+    """Validate the FUNC-SPRINT-93 Plugin Registry contract.
+
+    The command is local-only and read-only. It validates plugin manifests,
+    permission bindings, MIASI policy references and connector references, but it
+    never imports plugin code or executes plugin entrypoints.
+    """
+
+    root = project_root()
+    result = PluginRegistry(
+        root,
+        options=PluginRegistryOptions(
+            registry_path=registry_path,
+            schema_path=schema_path,
+            connector_registry_path=connector_registry_path,
+        ),
+    ).validate()
+    result = _write_optional_command_report(
+        root,
+        result,
+        subject=registry_path,
+        report_id="plugin_validate",
+        write_report=write_report,
+        metadata={"sprint": "FUNC-SPRINT-93", "component": "PluginRegistry"},
+    )
+    _emit_result_event(root, result, subject=registry_path)
+    _persist_result(root, result, subject=registry_path)
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+
+def plugin_list_command(
+    *,
+    registry_path: str = ".devpilot/plugins/plugin_registry.json",
+    json_output: bool = False,
+    write_report: bool = False,
+) -> int:
+    """List public metadata from the governed Plugin Registry."""
+
+    root = project_root()
+    result = PluginRegistry(root, options=PluginRegistryOptions(registry_path=registry_path)).list()
+    result = _write_optional_command_report(
+        root,
+        result,
+        subject=registry_path,
+        report_id="plugin_list",
+        write_report=write_report,
+        metadata={"sprint": "FUNC-SPRINT-93", "component": "PluginRegistry"},
+    )
+    _emit_result_event(root, result, subject=registry_path)
+    _persist_result(root, result, subject=registry_path)
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+
+def plugin_dry_run_command(
+    *,
+    plugin: str,
+    operation: str = "metadata",
+    dry_run: bool = False,
+    registry_path: str = ".devpilot/plugins/plugin_registry.json",
+    connector_registry_path: str = ".devpilot/connectors/connector_registry.json",
+    json_output: bool = False,
+    write_report: bool = False,
+) -> int:
+    """Run the metadata-only FUNC-SPRINT-93 plugin loader dry-run."""
+
+    root = project_root()
+    result = PluginRegistry(root).dry_run(
+        PluginDryRunOptions(
+            plugin=plugin,
+            operation=operation,
+            dry_run=dry_run,
+            registry_path=registry_path,
+            connector_registry_path=connector_registry_path,
+        )
+    )
+    report_id = f"plugin_dry_run_{plugin.replace('.', '_').replace('-', '_')}_{operation.replace('.', '_').replace('-', '_')}"
+    result = _write_optional_command_report(
+        root,
+        result,
+        subject=f"{plugin}:{operation}",
+        report_id=report_id,
+        write_report=write_report,
+        metadata={"sprint": "FUNC-SPRINT-93", "component": "PluginRegistry"},
+    )
+    _persist_result(root, result, subject=f"{plugin}:{operation}")
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
 
 def rag_index_command(
     *,
@@ -3737,6 +3837,29 @@ def build_parser() -> argparse.ArgumentParser:
     connector_call.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     connector_call.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
 
+    plugin = sub.add_parser("plugin", help="Validate and inspect governed local plugin registry")
+    plugin_sub = plugin.add_subparsers(dest="plugin_command")
+    plugin_validate = plugin_sub.add_parser("validate", help="Validate Plugin Registry and plugin manifest contracts")
+    plugin_validate.add_argument("--registry-path", default=".devpilot/plugins/plugin_registry.json", help="Plugin Registry JSON path")
+    plugin_validate.add_argument("--schema-path", default="docs/schemas/plugin_manifest.schema.json", help="Plugin manifest registry JSON Schema path")
+    plugin_validate.add_argument("--connector-registry-path", default=".devpilot/connectors/connector_registry.json", help="Connector Registry JSON path")
+    plugin_validate.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    plugin_validate.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+
+    plugin_list = plugin_sub.add_parser("list", help="List public plugin metadata after registry validation")
+    plugin_list.add_argument("--registry-path", default=".devpilot/plugins/plugin_registry.json", help="Plugin Registry JSON path")
+    plugin_list.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    plugin_list.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+
+    plugin_dry_run = plugin_sub.add_parser("dry-run", help="Run metadata-only plugin loader dry-run without importing plugin code")
+    plugin_dry_run.add_argument("--plugin", required=True, help="Plugin id, e.g. local.docs.plugin")
+    plugin_dry_run.add_argument("--operation", default="metadata", help="Permission/operation id, e.g. metadata")
+    plugin_dry_run.add_argument("--dry-run", action="store_true", help="Required for Sprint 93 plugin loader checks")
+    plugin_dry_run.add_argument("--registry-path", default=".devpilot/plugins/plugin_registry.json", help="Plugin Registry JSON path")
+    plugin_dry_run.add_argument("--connector-registry-path", default=".devpilot/connectors/connector_registry.json", help="Connector Registry JSON path")
+    plugin_dry_run.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    plugin_dry_run.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+
     rag = sub.add_parser("rag", help="Build and query local source-grounded documentation RAG")
     rag_sub = rag.add_subparsers(dest="rag_command")
     rag_index = rag_sub.add_parser("index", help="Build local lexical RAG index")
@@ -4009,6 +4132,9 @@ def _command_name_from_args(args: argparse.Namespace) -> str:
     if command == "connector":
         subcommand = getattr(args, "connector_command", None)
         return f"connector {subcommand}" if subcommand else "connector"
+    if command == "plugin":
+        subcommand = getattr(args, "plugin_command", None)
+        return f"plugin {subcommand}" if subcommand else "plugin"
     if command == "rag":
         subcommand = getattr(args, "rag_command", None)
         return f"rag {subcommand}" if subcommand else "rag"
@@ -4451,6 +4577,29 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
                 query=args.query,
                 limit=args.limit,
                 registry_path=args.registry_path,
+                json_output=args.json,
+                write_report=args.write_report,
+            )
+        parser.print_help()
+        return int(ExitCode.FAIL)
+    if args.command == "plugin":
+        if args.plugin_command == "validate":
+            return plugin_validate_command(
+                registry_path=args.registry_path,
+                schema_path=args.schema_path,
+                connector_registry_path=args.connector_registry_path,
+                json_output=args.json,
+                write_report=args.write_report,
+            )
+        if args.plugin_command == "list":
+            return plugin_list_command(registry_path=args.registry_path, json_output=args.json, write_report=args.write_report)
+        if args.plugin_command == "dry-run":
+            return plugin_dry_run_command(
+                plugin=args.plugin,
+                operation=args.operation,
+                dry_run=args.dry_run,
+                registry_path=args.registry_path,
+                connector_registry_path=args.connector_registry_path,
                 json_output=args.json,
                 write_report=args.write_report,
             )

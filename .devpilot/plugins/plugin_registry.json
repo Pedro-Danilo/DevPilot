@@ -1,0 +1,128 @@
+{
+  "schema_version": "1.0.0",
+  "registry_id": "DEVPL-PLUGIN-REGISTRY-001",
+  "status": "approved",
+  "created_by": "FUNC-SPRINT-93",
+  "updated": "2026-06-19",
+  "owner": "Ordóñez",
+  "defaults": {
+    "plugin_default_effect": "deny",
+    "require_manifest": true,
+    "require_policy_rule_ids": true,
+    "require_permissions": true,
+    "require_observability": true,
+    "require_eval": true,
+    "deny_unregistered_plugins": true,
+    "executable_loading_default": false
+  },
+  "security": {
+    "plugin_code_loaded": false,
+    "arbitrary_code_execution_performed": false,
+    "network_used": false,
+    "external_api_used": false,
+    "shell_used": false,
+    "remote_execution_used": false,
+    "secrets_allowed": false,
+    "raw_outputs_allowed": false
+  },
+  "plugins": [
+    {
+      "plugin_id": "local.docs.plugin",
+      "name": "Local Docs Plugin",
+      "version": "0.1.0",
+      "owner": "Ordóñez",
+      "status": "implemented-initial",
+      "description": "Metadata-only plugin wrapper over the governed local.docs connector. It exposes no executable code and only documents controlled read/report capabilities.",
+      "risk_level": "medium_high",
+      "default_effect": "deny",
+      "manifest_path": ".devpilot/plugins/plugin_registry.json#/plugins/local.docs.plugin",
+      "entrypoint": "disabled://local.docs.plugin",
+      "loading_mode": "metadata-only",
+      "permissions": [
+        {
+          "permission_id": "metadata",
+          "capability": "Inspect plugin metadata and policy bindings.",
+          "description": "Return public plugin manifest metadata only.",
+          "side_effect": "read",
+          "allowed": true,
+          "policy_rule_ids": [
+            "PLUGIN_METADATA_READ_ALLOW",
+            "PLUGIN_DRY_RUN_ONLY_ALLOW"
+          ]
+        },
+        {
+          "permission_id": "connector.read",
+          "capability": "Use local.docs connector metadata in dry-run evidence flows.",
+          "description": "Declare read-only connector integration without invoking arbitrary plugin code.",
+          "side_effect": "report",
+          "allowed": true,
+          "policy_rule_ids": [
+            "PLUGIN_CONNECTOR_BINDING_ALLOW",
+            "CONNECTOR_CALL_READ_ONLY_ALLOW"
+          ]
+        }
+      ],
+      "policy_rule_ids": [
+        "PLUGIN_METADATA_READ_ALLOW",
+        "PLUGIN_DRY_RUN_ONLY_ALLOW",
+        "PLUGIN_CONNECTOR_BINDING_ALLOW",
+        "CONNECTOR_CALL_READ_ONLY_ALLOW",
+        "SECRETS_RAW_DENY"
+      ],
+      "connectors": [
+        "local.docs"
+      ],
+      "observability_required": true,
+      "eval_required": true,
+      "approval_required": false,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "shell_allowed": false,
+      "remote_execution_allowed": false,
+      "execution_enabled": false
+    },
+    {
+      "plugin_id": "git.readonly.plugin",
+      "name": "Git Read-only Plugin",
+      "version": "0.1.0",
+      "owner": "Ordóñez",
+      "status": "planned",
+      "description": "Planned metadata-only wrapper over future local.git.readonly connector operations. No executable loading is enabled.",
+      "risk_level": "high",
+      "default_effect": "deny",
+      "manifest_path": ".devpilot/plugins/plugin_registry.json#/plugins/git.readonly.plugin",
+      "entrypoint": "disabled://git.readonly.plugin",
+      "loading_mode": "metadata-only",
+      "permissions": [
+        {
+          "permission_id": "metadata",
+          "capability": "Inspect plugin metadata and planned policy bindings.",
+          "description": "Return public planned plugin metadata only.",
+          "side_effect": "read",
+          "allowed": true,
+          "policy_rule_ids": [
+            "PLUGIN_METADATA_READ_ALLOW",
+            "PLUGIN_DRY_RUN_ONLY_ALLOW"
+          ]
+        }
+      ],
+      "policy_rule_ids": [
+        "PLUGIN_METADATA_READ_ALLOW",
+        "PLUGIN_DRY_RUN_ONLY_ALLOW",
+        "GIT_READ_ALLOW",
+        "SECRETS_RAW_DENY"
+      ],
+      "connectors": [
+        "local.git.readonly"
+      ],
+      "observability_required": true,
+      "eval_required": true,
+      "approval_required": false,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "shell_allowed": false,
+      "remote_execution_allowed": false,
+      "execution_enabled": false
+    }
+  ]
+}

@@ -5083,3 +5083,39 @@ python -m pytest tests\test_advanced_evals.py tests\test_sprint_92_documentation
 ### Riesgos y recuperación
 
 El motor usa reglas determinísticas y fixtures sintéticos; no reemplaza red teaming humano, SAST/SCA, fuzzing, análisis semántico profundo ni LLM judges controlados. Si falla una suite, revisar el caso en `evals/fixtures/*`, ejecutar con `--case-id` y confirmar que no se hayan introducido secretos reales ni relajado políticas MIASI. Los reportes bajo `outputs/reports` son regenerables y no deben empaquetarse en ZIP limpio.
+
+
+## FUNC-SPRINT-93 — Operación Plugin y connector ecosystem controlado
+
+### Propósito
+
+Operar la primera versión `implemented-initial` del ecosistema de plugins/conectores internos de DevPilot. La capacidad sirve para registrar plugins, validar permisos/policies, verificar enlaces con conectores existentes y emitir trazas de loader dry-run sin cargar código arbitrario.
+
+### Comandos
+
+```powershell
+python -m devpilot_core plugin validate --json
+python -m devpilot_core plugin list --json
+python -m devpilot_core plugin dry-run --plugin local.docs.plugin --operation metadata --dry-run --json
+python -m devpilot_core eval run --suite plugin-ecosystem --json
+python -m devpilot_core quality-gate run --profile ci --json
+```
+
+### Criterios PASS
+
+- `plugin validate` retorna `ok=true`.
+- El schema `plugin_manifest.schema.json` valida `.devpilot/plugins/plugin_registry.json`.
+- Todos los plugins declaran owner, versión, permisos, policy, risk level, observabilidad y evaluación.
+- `plugin dry-run` emite `plugin.dry_run.evaluated` bajo `outputs/traces/events.jsonl`.
+- `plugin_code_loaded=false`, `arbitrary_code_execution_performed=false`, `network_used=false` y `external_api_used=false`.
+
+### Criterios BLOCK
+
+- Cualquier plugin con `execution_enabled=true`.
+- EntryPoints importables o ejecutables en vez de `disabled://` o `metadata://`.
+- Permisos sin policy, permisos de escritura/ejecución o conectores inexistentes.
+- Uso de red, API externa, shell, ejecución remota o secretos reales.
+
+### Riesgos y recuperación
+
+Esta versión es preliminar. No constituye runtime de plugins, marketplace, instalador, sandbox de ejecución ni ABI estable. Si `plugin validate` bloquea, revisar `.devpilot/plugins/plugin_registry.json`, restaurar `execution_enabled=false`, confirmar que los policy ids existen en `.devpilot/miasi/policy_matrix.json` y ejecutar nuevamente `miasi validate`, `schema validate-miasi` y `quality-gate run --profile ci`.

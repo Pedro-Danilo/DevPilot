@@ -704,3 +704,8 @@ PASS: schema validado, workflow local, dry-run, reporte consolidado, handoffs tr
 Se agrega `eval.safety.run` como tool `implemented-initial` de reporte local para ejecutar suites `advanced-agentic` y `red-team`. Su side effect es `report`: puede producir evidencia en `outputs/evals` y `outputs/reports`, pero no modifica código fuente, no abre red, no llama APIs externas y no usa LLM judge.
 
 PASS: safety score JSON parseable, falsos negativos en cero, fixtures sintéticos, categorías adversariales cubiertas. BLOCK: secreto real en fixture, score bajo umbral, dependencia externa o ausencia de casos adversariales.
+
+
+## FUNC-SPRINT-93 — Plugin ecosystem controlado
+
+Sprint 93 agrega soporte `implemented-initial` para plugins metadata-only. `plugin.registry.validate` valida manifests y permisos; `plugin.loader.dry_run` simula carga sin importar ni ejecutar código. Las políticas `PLUGIN_METADATA_READ_ALLOW`, `PLUGIN_DRY_RUN_ONLY_ALLOW`, `PLUGIN_CONNECTOR_BINDING_ALLOW` y `PLUGIN_EXECUTE_DENY` mantienen el ecosistema deny-by-default, observable y sin ejecución arbitraria.

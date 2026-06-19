@@ -155,7 +155,9 @@
         "trace.append",
         "policy.check",
         "agent.model.generate",
-        "eval.safety.run"
+        "eval.safety.run",
+        "plugin.registry.validate",
+        "plugin.loader.dry_run"
       ],
       "required_artifacts": [
         "Agent",
@@ -171,7 +173,10 @@
         "AGENT_CRITICAL_TOOL_DENY",
         "AGENT_MODEL_CALL_GOVERNED_ALLOW",
         "EVAL_SAFETY_SCORING_ALLOW",
-        "RED_TEAM_FIXTURE_SYNTHETIC_ONLY"
+        "RED_TEAM_FIXTURE_SYNTHETIC_ONLY",
+        "PLUGIN_METADATA_READ_ALLOW",
+        "PLUGIN_DRY_RUN_ONLY_ALLOW",
+        "PLUGIN_CONNECTOR_BINDING_ALLOW"
       ],
       "approval_required": false,
       "observability_required": true,
@@ -193,7 +198,9 @@
         "trace.append",
         "policy.check",
         "agent.model.generate",
-        "eval.safety.run"
+        "eval.safety.run",
+        "plugin.registry.validate",
+        "plugin.loader.dry_run"
       ],
       "required_artifacts": [
         "Agent",
@@ -209,7 +216,10 @@
         "SECRETS_RAW_DENY",
         "AGENT_MODEL_CALL_GOVERNED_ALLOW",
         "EVAL_SAFETY_SCORING_ALLOW",
-        "RED_TEAM_FIXTURE_SYNTHETIC_ONLY"
+        "RED_TEAM_FIXTURE_SYNTHETIC_ONLY",
+        "PLUGIN_METADATA_READ_ALLOW",
+        "PLUGIN_DRY_RUN_ONLY_ALLOW",
+        "PLUGIN_CONNECTOR_BINDING_ALLOW"
       ],
       "approval_required": false,
       "observability_required": true,
@@ -438,7 +448,9 @@
         "report.write",
         "trace.append",
         "policy.check",
-        "eval.safety.run"
+        "eval.safety.run",
+        "plugin.registry.validate",
+        "plugin.loader.dry_run"
       ],
       "required_artifacts": [
         "Full MIASI",
@@ -446,7 +458,8 @@
         "docs/audits/func_sprint_90_multiagent_coordinator_audit.md",
         "docs/audits/func_sprint_91_multiagent_workflows_audit.md",
         ".devpilot/workflows/sdlc_review.json",
-        "docs/audits/func_sprint_92_advanced_evals_audit.md"
+        "docs/audits/func_sprint_92_advanced_evals_audit.md",
+        "docs/audits/func_sprint_93_plugin_ecosystem_audit.md"
       ],
       "policy_rule_ids": [
         "MULTIAGENT_COORDINATOR_DRY_RUN_ALLOW",
@@ -455,7 +468,10 @@
         "MULTIAGENT_WORKFLOW_DRY_RUN_ALLOW",
         "MULTIAGENT_WORKFLOW_EXECUTE_DENY",
         "EVAL_SAFETY_SCORING_ALLOW",
-        "RED_TEAM_FIXTURE_SYNTHETIC_ONLY"
+        "RED_TEAM_FIXTURE_SYNTHETIC_ONLY",
+        "PLUGIN_METADATA_READ_ALLOW",
+        "PLUGIN_DRY_RUN_ONLY_ALLOW",
+        "PLUGIN_CONNECTOR_BINDING_ALLOW"
       ],
       "approval_required": false,
       "observability_required": true,

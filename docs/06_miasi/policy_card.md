@@ -262,3 +262,8 @@ PASS: workflow JSON aprobado, safety flags seguros, `required_trace=true` por pa
 `EVAL_SAFETY_SCORING_ALLOW` permite ejecutar safety scoring local con `EvalRunner`, `SafetyEvalEngine` y fixtures sintéticos sin red, APIs externas ni LLM judge. `RED_TEAM_FIXTURE_SYNTHETIC_ONLY` bloquea fixtures que parezcan contener secretos reales, claves privadas o tokens reales.
 
 Estas políticas no autorizan mitigación automática, patch apply, ejecución de herramientas críticas ni promoción de cambios sin revisión humana.
+
+
+## FUNC-SPRINT-93 — Plugin ecosystem controlado
+
+Sprint 93 agrega soporte `implemented-initial` para plugins metadata-only. `plugin.registry.validate` valida manifests y permisos; `plugin.loader.dry_run` simula carga sin importar ni ejecutar código. Las políticas `PLUGIN_METADATA_READ_ALLOW`, `PLUGIN_DRY_RUN_ONLY_ALLOW`, `PLUGIN_CONNECTOR_BINDING_ALLOW` y `PLUGIN_EXECUTE_DENY` mantienen el ecosistema deny-by-default, observable y sin ejecución arbitraria.

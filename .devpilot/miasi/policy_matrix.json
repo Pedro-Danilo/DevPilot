@@ -588,6 +588,42 @@
       "gate": "SafetyEvalEngine+SecretPatternGuard+SyntheticFixturePolicy",
       "approval_required": false,
       "observability_required": true
+    },
+    {
+      "rule_id": "PLUGIN_METADATA_READ_ALLOW",
+      "domain": "Plugin",
+      "action": "read_metadata",
+      "default_effect": "allow",
+      "gate": "PluginRegistry+SchemaValidator+PathGuard+SecretGuard",
+      "approval_required": false,
+      "observability_required": true
+    },
+    {
+      "rule_id": "PLUGIN_DRY_RUN_ONLY_ALLOW",
+      "domain": "Plugin",
+      "action": "loader_dry_run",
+      "default_effect": "allow",
+      "gate": "PluginRegistry+PolicyEngine+EventLogger",
+      "approval_required": false,
+      "observability_required": true
+    },
+    {
+      "rule_id": "PLUGIN_CONNECTOR_BINDING_ALLOW",
+      "domain": "Plugin",
+      "action": "connector_binding_metadata",
+      "default_effect": "allow",
+      "gate": "PluginRegistry+ConnectorRegistry+PolicyEngine",
+      "approval_required": false,
+      "observability_required": true
+    },
+    {
+      "rule_id": "PLUGIN_EXECUTE_DENY",
+      "domain": "Plugin",
+      "action": "execute_plugin_code",
+      "default_effect": "deny",
+      "gate": "PluginPolicy+ApprovalPolicyChecker+SandboxFuture",
+      "approval_required": true,
+      "observability_required": true
     }
   ]
 }

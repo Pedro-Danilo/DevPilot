@@ -19,6 +19,7 @@ SUITE_FIXTURE_PATHS = {
     "documentation": DEFAULT_FIXTURE_PATH,
     "advanced-agentic": Path("evals/fixtures/advanced_agentic_eval_cases.json"),
     "red-team": Path("evals/fixtures/red_team_agentic_eval_cases.json"),
+    "plugin-ecosystem": Path("evals/fixtures/plugin_ecosystem_eval_cases.json"),
 }
 SUPPORTED_COMPONENTS = {
     "validate_frontmatter",

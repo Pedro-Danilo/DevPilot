@@ -21,13 +21,13 @@ def test_sprint_88_artifacts_exist_and_are_synced() -> None:
         assert (root / rel).exists(), rel
 
     readme = (root / "README.md").read_text(encoding="utf-8")
-    assert "Último hito: `FUNC-SPRINT-92" in readme
-    assert "Siguiente hito: `FUNC-SPRINT-93" in readme
+    assert "Último hito: `FUNC-SPRINT-93" in readme
+    assert "Siguiente hito: `FUNC-SPRINT-94" in readme
     assert "connector validate" in readme
 
     backlog = (root / "docs/devpilot_backlog_fase_H_capacidades_avanzadas.md").read_text(encoding="utf-8")
-    assert 'last_completed_sprint: "FUNC-SPRINT-92"' in backlog
-    assert 'next_sprint: "FUNC-SPRINT-93"' in backlog
+    assert 'last_completed_sprint: "FUNC-SPRINT-93"' in backlog
+    assert 'next_sprint: "FUNC-SPRINT-94"' in backlog
     assert "Estado de implementación Sprint 88" in backlog
 
 
@@ -76,5 +76,5 @@ def test_sprint_88_changelog_and_functional_backlog_are_synced() -> None:
     functional = Path("docs/functional_backlog_after_precode.md").read_text(encoding="utf-8")
     assert "FUNC-SPRINT-88" in changelog
     assert "Connector Registry" in changelog
-    assert 'next_sprint: "FUNC-SPRINT-93"' in functional
+    assert 'next_sprint: "FUNC-SPRINT-94"' in functional
     assert "Transición posterior a FUNC-SPRINT-88" in functional

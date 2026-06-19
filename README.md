@@ -1,13 +1,32 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
 Estado actual: `baseline pre-code approved + Fases A-G cerradas + Fase H en implementación controlada`  
-Último hito: `FUNC-SPRINT-92 — Evaluación avanzada, red teaming y safety scoring`  
-Siguiente hito: `FUNC-SPRINT-93 — Plugin y connector ecosystem controlado`  
+Último hito: `FUNC-SPRINT-93 — Plugin y connector ecosystem controlado`  
+Siguiente hito: `FUNC-SPRINT-94 — Multiworkspace y portfolio local`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
 
 
+
+
+## FUNC-SPRINT-93 — Plugin y connector ecosystem controlado
+
+`FUNC-SPRINT-93` introduce una primera arquitectura de extensibilidad local mediante un Plugin Registry gobernado. La capacidad queda en estado `implemented-initial`: registra plugins internos, valida permisos/policies, enlaza conectores existentes y permite un loader `dry-run` que emite trazas, pero no importa ni ejecuta código arbitrario.
+
+### Capacidades
+
+- `.devpilot/plugins/plugin_registry.json` declara plugins internos con permisos, policies, riesgo, owner, versión, conectores y flags de seguridad.
+- `docs/schemas/plugin_manifest.schema.json` define el contrato estructural del Plugin Registry.
+- `src/devpilot_core/plugins/registry.py` valida schema, permisos, MIASI policies, Connector Registry y reglas deny-by-default.
+- `python -m devpilot_core plugin validate --json` valida el ecosistema de plugins.
+- `python -m devpilot_core plugin list --json` lista metadatos públicos después de validar el registry.
+- `python -m devpilot_core plugin dry-run --plugin local.docs.plugin --operation metadata --dry-run --json` ejecuta un loader metadata-only que genera evento local sin cargar código.
+- `evals/fixtures/plugin_ecosystem_eval_cases.json` añade evaluación determinística de plugin ecosystem y el quality gate CI la consume junto con `advanced-agentic` y `red-team`.
+
+### Seguridad
+
+La capacidad es `implemented-initial`: el registry es deny-by-default, `execution_enabled=false`, `plugin_code_loaded=false`, sin red, sin APIs externas, sin shell, sin ejecución remota, sin secretos reales y con observabilidad/evaluación obligatorias. Esta versión prepara extensibilidad industrial, pero todavía no habilita sandbox de ejecución real, marketplace, carga dinámica, instalación de plugins, dependencias externas ni permisos mutables.
 
 
 ## FUNC-SPRINT-92 — Evaluación avanzada, red teaming y safety scoring

@@ -1,0 +1,95 @@
+{
+  "sprint_id": "FUNC-SPRINT-93",
+  "title": "Plugin y connector ecosystem controlado",
+  "status": "implemented",
+  "implemented_on": "2026-06-19",
+  "source_repo": "repo_DevPilot_Local_121.zip",
+  "next_sprint": "FUNC-SPRINT-94",
+  "summary": {
+    "plugin_registry_added": true,
+    "plugin_manifest_schema_added": true,
+    "plugin_loader_dry_run_added": true,
+    "plugin_ecosystem_eval_added": true,
+    "quality_gate_consumes_plugin_eval": true,
+    "plugin_code_loaded": false,
+    "arbitrary_code_execution_performed": false,
+    "network_used": false,
+    "external_api_used": false,
+    "shell_used": false,
+    "remote_execution_used": false,
+    "mutations_performed": false,
+    "preliminary": true,
+    "implemented_initial": true
+  },
+  "created_files": [
+    "src/devpilot_core/plugins/__init__.py",
+    "src/devpilot_core/plugins/registry.py",
+    ".devpilot/plugins/plugin_registry.json",
+    "docs/schemas/plugin_manifest.schema.json",
+    "evals/fixtures/plugin_ecosystem_eval_cases.json",
+    "tests/test_plugin_registry.py",
+    "tests/test_sprint_93_documentation.py",
+    "docs/audits/func_sprint_93_plugin_ecosystem_audit.md",
+    "docs/functional_sprint_93_manifest.json"
+  ],
+  "modified_files": [
+    "src/devpilot_core/cli.py",
+    "src/devpilot_core/evals/safety.py",
+    "src/devpilot_core/evals/runner.py",
+    "src/devpilot_core/quality/gate.py",
+    ".devpilot/miasi/agent_registry.json",
+    ".devpilot/miasi/tool_registry.json",
+    ".devpilot/miasi/policy_matrix.json",
+    "docs/schemas/schema_catalog.json",
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/devpilot_backlog_fase_H_capacidades_avanzadas.md",
+    "docs/functional_backlog_after_precode.md",
+    "docs/release/CHANGELOG.md",
+    "tests/test_schema_registry.py",
+    "tests/test_phase_h_backlog_approval.py",
+    "tests/test_release_changelog.py"
+  ],
+  "commands": [
+    "python -m devpilot_core plugin validate --json",
+    "python -m devpilot_core plugin list --json",
+    "python -m devpilot_core plugin dry-run --plugin local.docs.plugin --operation metadata --dry-run --json",
+    "python -m devpilot_core eval run --suite plugin-ecosystem --json",
+    "python -m devpilot_core quality-gate run --profile ci --json"
+  ],
+  "tests": [
+    "PYTHONPATH=src python -m pytest tests/test_plugin_registry.py tests/test_sprint_93_documentation.py -q",
+    "PYTHONPATH=src python -m pytest tests/test_plugin_registry.py tests/test_sprint_93_documentation.py tests/test_schema_registry.py tests/test_release_changelog.py tests/test_phase_h_backlog_approval.py tests/test_advanced_evals.py tests/test_quality_gate.py -q",
+    "PYTHONPATH=src python -m devpilot_core plugin validate --json",
+    "PYTHONPATH=src python -m devpilot_core plugin list --json",
+    "PYTHONPATH=src python -m devpilot_core plugin dry-run --plugin local.docs.plugin --operation metadata --dry-run --json",
+    "PYTHONPATH=src python -m devpilot_core eval run --suite plugin-ecosystem --json",
+    "PYTHONPATH=src python -m devpilot_core validate all --json",
+    "PYTHONPATH=src python -m devpilot_core quality-gate run --profile ci --json"
+  ],
+  "pass_criteria": [
+    "Plugin Registry validates structurally and semantically.",
+    "Plugin loader dry-run emits trace evidence without loading arbitrary code.",
+    "Plugins remain deny-by-default with policy, permissions, owner, version and risk level.",
+    "No network, external API, shell, remote execution or source mutation is enabled."
+  ],
+  "block_criteria": [
+    "Plugin execution or importable entrypoints are enabled.",
+    "Plugin permissions lack MIASI policy bindings.",
+    "Plugin references unknown connectors.",
+    "Quality gate does not consume plugin ecosystem evals."
+  ],
+  "risks": [
+    "Implemented-initial only; no real plugin runtime or sandbox execution.",
+    "Registry changes must be reviewed as code because permissions affect future extensibility.",
+    "No plugin signing, dependency isolation or marketplace governance yet."
+  ],
+  "network_used": false,
+  "external_api_used": false,
+  "mutations_performed": false,
+  "preliminary": true,
+  "sprint": "FUNC-SPRINT-93",
+  "phase": "FASE-H-CAPACIDADES-AVANZADAS",
+  "source_backlog": "docs/devpilot_backlog_fase_H_capacidades_avanzadas.md",
+  "audit_report": "docs/audits/func_sprint_93_plugin_ecosystem_audit.md"
+}

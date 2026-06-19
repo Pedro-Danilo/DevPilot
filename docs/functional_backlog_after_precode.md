@@ -14,7 +14,7 @@ change_policy: "controlled_changes_allowed_via_docs_as_code"
 approved_on: "2026-06-06"
 approval_scope: "functional_backlog_after_precode"
 baseline_execution: "FUNC-SPRINT-00"
-next_sprint: "FUNC-SPRINT-93"
+next_sprint: "FUNC-SPRINT-94"
 ---
 
 # DevPilot Local — Backlog ejecutable posterior a pre-code

@@ -19,14 +19,14 @@ def test_sprint_65_artifacts_and_global_state_are_synchronized() -> None:
     runbook = read_text("docs/05_operations/runbook.md")
     internal_contract = read_text("docs/07_interfaces/internal_application_contract.md")
 
-    assert "Último hito: `FUNC-SPRINT-92" in readme
-    assert "Siguiente hito: `FUNC-SPRINT-93" in readme
+    assert "Último hito: `FUNC-SPRINT-93" in readme
+    assert "Siguiente hito: `FUNC-SPRINT-94" in readme
     assert "FUNC-SPRINT-65 — ApplicationService v2 por dominios" in readme
     assert 'source_repo: "repo_DevPilot_Local_92.zip"' in backlog
     assert 'first_open_sprint: "FUNC-SPRINT-74"' in backlog
     assert 'last_completed_sprint: "FUNC-SPRINT-73"' in backlog
     assert 'next_sprint: "FUNC-SPRINT-74"' in backlog
-    assert 'next_sprint: "FUNC-SPRINT-93"' in functional_backlog
+    assert 'next_sprint: "FUNC-SPRINT-94"' in functional_backlog
     assert "FUNC-SPRINT-65 — Operación de ApplicationService v2 por dominios" in runbook
     assert "Sprint 65 — ApplicationService v2 por dominios" in internal_contract
 

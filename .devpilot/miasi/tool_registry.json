@@ -1008,6 +1008,34 @@
         "EVAL_SAFETY_SCORING_ALLOW",
         "RED_TEAM_FIXTURE_SYNTHETIC_ONLY"
       ]
+    },
+    {
+      "tool_id": "plugin.registry.validate",
+      "name": "validate_plugin_registry",
+      "phase": "Post-MVP",
+      "side_effect": "none",
+      "risk_level": "medium_high",
+      "status": "implemented-initial",
+      "requires_approval": false,
+      "policy_rule_ids": [
+        "PLUGIN_METADATA_READ_ALLOW",
+        "PLUGIN_DRY_RUN_ONLY_ALLOW",
+        "SECRETS_RAW_DENY"
+      ]
+    },
+    {
+      "tool_id": "plugin.loader.dry_run",
+      "name": "plugin_loader_metadata_dry_run",
+      "phase": "Post-MVP",
+      "side_effect": "report",
+      "risk_level": "high",
+      "status": "implemented-initial",
+      "requires_approval": false,
+      "policy_rule_ids": [
+        "PLUGIN_DRY_RUN_ONLY_ALLOW",
+        "PLUGIN_CONNECTOR_BINDING_ALLOW",
+        "SECRETS_RAW_DENY"
+      ]
     }
   ]
 }

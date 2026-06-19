@@ -19,7 +19,7 @@ Grounding policy: entries are generated from approved local manifests; the chang
 ## [0.1.0] - 2026-06-19
 
 Release ID: `DEVPL-0.1.0`  
-Range: `FUNC-SPRINT-74` → `FUNC-SPRINT-92`  
+Range: `FUNC-SPRINT-74` → `FUNC-SPRINT-93`  
 Source: `docs/functional_sprint_*_manifest.json`
 
 ### Added
@@ -43,6 +43,7 @@ Source: `docs/functional_sprint_*_manifest.json`
 - `FUNC-SPRINT-90` — Se incorporó `MultiAgentCoordinator MVP y handoffs gobernados`. Source: `docs/functional_sprint_90_manifest.json`. Artefactos: `src/devpilot_core/multiagent/__init__.py`, `src/devpilot_core/multiagent/coordinator.py`, `src/devpilot_core/multiagent/handoff.py`, `tests/test_multiagent_coordinator.py` y 3 artefactos adicionales.
 - `FUNC-SPRINT-91` — Se incorporó `Workflows multiagente SDLC dry-run`. Source: `docs/functional_sprint_91_manifest.json`. Artefactos: `.devpilot/workflows/sdlc_review.json`, `docs/schemas/multiagent_workflow.schema.json`, `src/devpilot_core/multiagent/workflow.py`, `evals/fixtures/multiagent_workflow_sdlc_review_cases.json` y 4 artefactos adicionales.
 - `FUNC-SPRINT-92` — Se incorporó `Evaluación avanzada, red teaming y safety scoring`. Source: `docs/functional_sprint_92_manifest.json`; audit: `docs/audits/func_sprint_92_advanced_evals_audit.md`. Artefactos: `evals/fixtures/advanced_agentic_eval_cases.json`, `evals/fixtures/red_team_agentic_eval_cases.json`, `src/devpilot_core/evals/safety.py`, `tests/test_advanced_evals.py` y 3 artefactos adicionales.
+- `FUNC-SPRINT-93` — Se incorporó `Plugin y connector ecosystem controlado`. Source: `docs/functional_sprint_93_manifest.json`; audit: `docs/audits/func_sprint_93_plugin_ecosystem_audit.md`. Artefactos: `src/devpilot_core/plugins/__init__.py`, `src/devpilot_core/plugins/registry.py`, `.devpilot/plugins/plugin_registry.json`, `docs/schemas/plugin_manifest.schema.json` y 5 artefactos adicionales.
 
 ### Changed
 
@@ -65,6 +66,7 @@ Source: `docs/functional_sprint_*_manifest.json`
 - `FUNC-SPRINT-90` — Se sincronizaron artefactos de ingeniería y contratos existentes. Source: `docs/functional_sprint_90_manifest.json`. Artefactos: `src/devpilot_core/cli.py`, `.devpilot/miasi/agent_registry.json`, `.devpilot/miasi/tool_registry.json`, `.devpilot/miasi/policy_matrix.json` y 13 artefactos adicionales.
 - `FUNC-SPRINT-91` — Se sincronizaron artefactos de ingeniería y contratos existentes. Source: `docs/functional_sprint_91_manifest.json`. Artefactos: `README.md`, `docs/05_operations/runbook.md`, `docs/devpilot_backlog_fase_H_capacidades_avanzadas.md`, `docs/functional_backlog_after_precode.md` y 8 artefactos adicionales.
 - `FUNC-SPRINT-92` — Se sincronizaron artefactos de ingeniería y contratos existentes. Source: `docs/functional_sprint_92_manifest.json`; audit: `docs/audits/func_sprint_92_advanced_evals_audit.md`. Artefactos: `src/devpilot_core/evals/__init__.py`, `src/devpilot_core/evals/runner.py`, `src/devpilot_core/quality/gate.py`, `.devpilot/miasi/agent_registry.json` y 15 artefactos adicionales.
+- `FUNC-SPRINT-93` — Se sincronizaron artefactos de ingeniería y contratos existentes. Source: `docs/functional_sprint_93_manifest.json`; audit: `docs/audits/func_sprint_93_plugin_ecosystem_audit.md`. Artefactos: `src/devpilot_core/cli.py`, `src/devpilot_core/evals/safety.py`, `src/devpilot_core/evals/runner.py`, `src/devpilot_core/quality/gate.py` y 12 artefactos adicionales.
 
 ### Deprecated
 
@@ -99,6 +101,7 @@ Source: `docs/functional_sprint_*_manifest.json`
 - `FUNC-SPRINT-90` — Se preservaron límites local-first/dry-run-first, exclusión de secretos/runtime state o bloqueo de publicación/despliegue según el contrato del sprint. Source: `docs/functional_sprint_90_manifest.json`. Controles declarados: `destructive_actions_executed=False`, `external_api_used=False`.
 - `FUNC-SPRINT-91` — Se preservaron límites local-first/dry-run-first, exclusión de secretos/runtime state o bloqueo de publicación/despliegue según el contrato del sprint. Source: `docs/functional_sprint_91_manifest.json`. Controles declarados: `destructive_actions_executed=False`, `external_api_used=False`.
 - `FUNC-SPRINT-92` — Se preservaron límites local-first/dry-run-first, exclusión de secretos/runtime state o bloqueo de publicación/despliegue según el contrato del sprint. Source: `docs/functional_sprint_92_manifest.json`; audit: `docs/audits/func_sprint_92_advanced_evals_audit.md`. Controles declarados: `destructive_actions_executed=False`, `external_api_used=False`, `secret_leakage_cases_synthetic_only=True`.
+- `FUNC-SPRINT-93` — Se preservaron límites local-first/dry-run-first, exclusión de secretos/runtime state o bloqueo de publicación/despliegue según el contrato del sprint. Source: `docs/functional_sprint_93_manifest.json`; audit: `docs/audits/func_sprint_93_plugin_ecosystem_audit.md`. Controles declarados: `plugin_code_loaded=False`, `arbitrary_code_execution_performed=False`, `network_used=False`, `external_api_used=False`.
 
 ### References
 
@@ -121,9 +124,19 @@ Source: `docs/functional_sprint_*_manifest.json`
 - `FUNC-SPRINT-90` — `docs/functional_sprint_90_manifest.json`
 - `FUNC-SPRINT-91` — `docs/functional_sprint_91_manifest.json`
 - `FUNC-SPRINT-92` — `docs/functional_sprint_92_manifest.json`
+- `FUNC-SPRINT-93` — `docs/functional_sprint_93_manifest.json`
 
 ### Policy notes
 
 - The changelog must not invent changes outside local manifests, commits or approved docs.
 - The CLI does not overwrite `docs/release/CHANGELOG.md`; report writing is limited to `outputs/reports`.
 - Publication, Git tagging, signing and packaging remain outside FUNC-SPRINT-78.
+
+
+## FUNC-SPRINT-93 — Plugin y connector ecosystem controlado
+
+- Adds governed metadata-only Plugin Registry and `SCHEMA-DEVPL-PLUGIN-MANIFEST-V1`.
+- Adds CLI `plugin validate`, `plugin list` and `plugin dry-run`.
+- Adds MIASI policy/tool bindings for plugin metadata, dry-run loader and connector binding.
+- Adds deterministic `plugin-ecosystem` safety eval suite and quality-gate CI consumption.
+- Keeps plugin execution disabled: no arbitrary code loading, no network, no external APIs, no shell and no remote execution.

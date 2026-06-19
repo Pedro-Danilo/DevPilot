@@ -31,14 +31,14 @@ def test_sprint_82_installation_artifacts_exist_and_are_synchronized() -> None:
     ]:
         assert (ROOT / path).exists(), path
 
-    assert "Último hito: `FUNC-SPRINT-92" in readme
-    assert "Siguiente hito: `FUNC-SPRINT-93" in readme
+    assert "Último hito: `FUNC-SPRINT-93" in readme
+    assert "Siguiente hito: `FUNC-SPRINT-94" in readme
     assert "FUNC-SPRINT-83 — Backup, restore y upgrade local" in readme
     assert "FUNC-SPRINT-82 — Operación de instalación local" in runbook
     assert 'source_repo: "repo_DevPilot_Local_106.zip"' in backlog_g
     assert 'last_completed_sprint: "FUNC-SPRINT-84"' in backlog_g
     assert 'next_sprint: "FUNC-SPRINT-85"' in backlog_g
-    assert 'next_sprint: "FUNC-SPRINT-93"' in functional_backlog
+    assert 'next_sprint: "FUNC-SPRINT-94"' in functional_backlog
 
 
 def test_sprint_82_docs_define_installation_boundaries() -> None:
