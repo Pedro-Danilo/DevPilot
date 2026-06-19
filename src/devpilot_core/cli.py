@@ -17,7 +17,7 @@ from .evals import EvalRunner
 from .observability import AgentOpsGateOptions, AgentOpsQualityGate, EventLogger, MetricsCollector, OTelDryRunExporter, OTelExportOptions, TraceQueryService
 from .miasi import MiasiRegistryValidator
 from .modeling import BudgetLedger, CapabilityMatrix, ModelAdapterRouter, ModelEvalRunner, ModelEvalRunnerConfig, ModelHealthService, ModelRouterConfig
-from .multiagent import MultiAgentCoordinator, MultiAgentRunOptions
+from .multiagent import MultiAgentCoordinator, MultiAgentRunOptions, MultiAgentWorkflowRunner, MultiAgentWorkflowRunOptions
 from .policy import CostPolicy, PolicyEngine, PolicyRequest, load_cost_policy
 from .prompts import PromptRegistry
 from .quality import QualityGate, QualityGateOptions
@@ -1555,6 +1555,41 @@ def multiagent_run_command(
         report_id=report_id,
         write_report=write_report,
         metadata={"sprint": "FUNC-SPRINT-90", "workflow": workflow},
+    )
+    _persist_result(root, result, subject=workflow)
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+
+
+def multiagent_workflow_run_command(
+    *,
+    workflow: str,
+    target: str | None = None,
+    dry_run: bool = False,
+    max_steps: int = 10,
+    json_output: bool = False,
+    write_report: bool = False,
+) -> int:
+    """Run a FUNC-SPRINT-91 registered SDLC multiagent workflow."""
+
+    root = project_root()
+    result = MultiAgentWorkflowRunner(root).run(
+        MultiAgentWorkflowRunOptions(
+            workflow=workflow,
+            target=target,
+            dry_run=dry_run,
+            max_steps=max_steps,
+        )
+    )
+    report_id = (result.data or {}).get("summary", {}).get("report_id") or f"multiagent_workflow_{workflow.replace('.', '_').replace('-', '_')}"
+    result = _write_optional_command_report(
+        root,
+        result,
+        subject=workflow,
+        report_id=report_id,
+        write_report=write_report,
+        metadata={"sprint": "FUNC-SPRINT-91", "workflow": workflow, "component": "MultiAgentWorkflowRunner"},
     )
     _persist_result(root, result, subject=workflow)
     print_result(result, json_output=json_output)
@@ -3672,6 +3707,16 @@ def build_parser() -> argparse.ArgumentParser:
     multiagent_run.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     multiagent_run.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
 
+    multiagent_workflow = multiagent_sub.add_parser("workflow", help="Run registered multiagent workflow definitions")
+    multiagent_workflow_sub = multiagent_workflow.add_subparsers(dest="multiagent_workflow_command")
+    multiagent_workflow_run = multiagent_workflow_sub.add_parser("run", help="Run a governed registered SDLC workflow in dry-run mode")
+    multiagent_workflow_run.add_argument("--workflow", required=True, help="Workflow id, e.g. sdlc_review")
+    multiagent_workflow_run.add_argument("--target", default=None, help="Optional target path; defaults to workflow definition")
+    multiagent_workflow_run.add_argument("--dry-run", action="store_true", help="Required for Sprint 91; execute mode remains blocked")
+    multiagent_workflow_run.add_argument("--max-steps", type=int, default=10, help="Maximum workflow steps to run, capped by definition")
+    multiagent_workflow_run.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    multiagent_workflow_run.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+
 
 
     connector = sub.add_parser("connector", help="Validate local MCP/connector governance registries")
@@ -4376,6 +4421,15 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
     if args.command == "multiagent":
         if args.multiagent_command == "run":
             return multiagent_run_command(
+                workflow=args.workflow,
+                target=args.target,
+                dry_run=args.dry_run,
+                max_steps=args.max_steps,
+                json_output=args.json,
+                write_report=args.write_report,
+            )
+        if args.multiagent_command == "workflow" and args.multiagent_workflow_command == "run":
+            return multiagent_workflow_run_command(
                 workflow=args.workflow,
                 target=args.target,
                 dry_run=args.dry_run,

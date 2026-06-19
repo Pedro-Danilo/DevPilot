@@ -691,3 +691,9 @@ Criterio BLOCK: ninguna capacidad avanzada puede saltarse `PolicyEngine`, MIASI,
 
 PASS: reporte local, handoff explícito, evento de traza, sin mutaciones. BLOCK: execute mode, agentes no implementados, shell, red/API externa o handoff no trazado.
 
+
+## Actualización FUNC-SPRINT-91 — Workflow tool
+
+`multiagent.workflow.run` queda declarada como herramienta `implemented-initial` para ejecutar workflows multiagente SDLC desde definiciones JSON locales. Su side effect es `report`: puede producir evidencia bajo `outputs/reports` mediante `--write-report`, pero no modifica código ni documentación fuente.
+
+PASS: schema validado, workflow local, dry-run, reporte consolidado, handoffs trazados. BLOCK: execute mode, workflow inseguro, políticas ausentes, agentes no implementados, shell, red/API externa o mutaciones.

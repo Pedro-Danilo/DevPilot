@@ -14,7 +14,7 @@ change_policy: "controlled_changes_allowed_via_docs_as_code"
 approved_on: "2026-06-06"
 approval_scope: "functional_backlog_after_precode"
 baseline_execution: "FUNC-SPRINT-00"
-next_sprint: "FUNC-SPRINT-91"
+next_sprint: "FUNC-SPRINT-92"
 ---
 
 # DevPilot Local — Backlog ejecutable posterior a pre-code
@@ -2377,4 +2377,11 @@ Siguiente paso: `FUNC-SPRINT-90 — MultiAgentCoordinator mínimo gobernado`.
 `FUNC-SPRINT-90 — MultiAgentCoordinator MVP y handoffs gobernados` queda implementado como MVP secuencial y report-only. DevPilot ahora puede ejecutar `multiagent run --workflow repo-review --dry-run --json`, validar MIASI/policy por handoff, trazar cada transferencia mediante `multiagent.handoff.evaluated` y consolidar resultados de agentes implementados sin mutaciones.
 
 La siguiente unidad abierta es `FUNC-SPRINT-91 — Workflows multiagente SDLC dry-run`, que deberá mover la definición de workflows hacia contratos más expresivos y reportes multiagente, sin habilitar autonomía abierta ni ejecución destructiva.
+
+
+## Transición posterior a FUNC-SPRINT-91
+
+`FUNC-SPRINT-91 — Workflows multiagente SDLC dry-run` formaliza workflows multiagente como contratos JSON locales. DevPilot ahora puede ejecutar `multiagent workflow run --workflow sdlc_review --dry-run --json`, validar `.devpilot/workflows/sdlc_review.json` contra schema, reutilizar `MultiAgentCoordinator`, consolidar riesgos/recomendaciones y preservar trazas por handoff sin mutaciones.
+
+La siguiente unidad abierta es `FUNC-SPRINT-92 — Evaluación avanzada, red teaming y safety scoring`, que deberá convertir estos workflows en objetivos de evaluación adversarial y scoring de seguridad, sin activar autonomía abierta ni ejecución destructiva.
 

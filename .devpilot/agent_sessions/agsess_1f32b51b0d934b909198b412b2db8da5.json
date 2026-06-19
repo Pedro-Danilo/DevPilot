@@ -1,0 +1,87 @@
+{
+  "agent_ids": [
+    "architecture.agent"
+  ],
+  "created_at": "2026-06-18T23:48:33Z",
+  "events": [
+    {
+      "agent_id": "architecture.agent",
+      "command": "agent run",
+      "dry_run": true,
+      "event_id": "c5fca628263f4f069b2344ae82baf31b",
+      "event_type": "agent.session.started",
+      "metadata": {
+        "runtime_version": "v2-model-aware",
+        "sprint": "FUNC-SPRINT-86"
+      },
+      "run_id": "run_54b6f1242fc44b1ea39a066d41b9816b",
+      "summary": {
+        "requested_agent": "architecture.agent",
+        "session_created": true
+      },
+      "target": "docs/02_architecture",
+      "timestamp": "2026-06-18T23:48:33Z",
+      "trace_id": "trace_b6b450350c264cfe87fa6f287066c5a7"
+    },
+    {
+      "agent_id": "architecture.agent",
+      "command": "agent run",
+      "dry_run": true,
+      "event_id": "28adbd6b29d141a1910dfd611b245bcc",
+      "event_type": "agent.session.completed",
+      "metadata": {
+        "runtime_version": "v2-model-aware",
+        "sprint": "FUNC-SPRINT-86"
+      },
+      "ok": true,
+      "run_id": "run_54b6f1242fc44b1ea39a066d41b9816b",
+      "summary": {
+        "findings_total": 72,
+        "model_calls_total": 0,
+        "suggestions_total": 3,
+        "tool_calls_total": 2
+      },
+      "target": "docs/02_architecture",
+      "timestamp": "2026-06-18T23:51:11Z",
+      "trace_id": "trace_b6b450350c264cfe87fa6f287066c5a7"
+    }
+  ],
+  "memory": {
+    "last_result": {
+      "agent_id": "architecture.agent",
+      "findings_total": 72,
+      "model_calls_total": 0,
+      "ok": true,
+      "suggestions_total": 3,
+      "tool_calls_total": 2
+    },
+    "operational_context": {
+      "last_agent_id": "architecture.agent",
+      "last_dry_run": true,
+      "last_target": "docs/02_architecture"
+    }
+  },
+  "metadata": {
+    "rag_enabled": false,
+    "raw_outputs_stored": false,
+    "raw_prompts_stored": false,
+    "redaction_applied": true,
+    "retention_policy": "local-short-lived-operational-memory",
+    "semantic_memory_enabled": false
+  },
+  "retention_days": 14,
+  "session_id": "agsess_1f32b51b0d934b909198b412b2db8da5",
+  "status": "completed",
+  "summary": {
+    "agents_total": 1,
+    "events_total": 2,
+    "local_only": true,
+    "memory_items_total": 2,
+    "rag_enabled": false,
+    "raw_outputs_stored": false,
+    "raw_prompts_stored": false,
+    "semantic_memory_enabled": false
+  },
+  "updated_at": "2026-06-18T23:51:11Z",
+  "workspace": "."
+}

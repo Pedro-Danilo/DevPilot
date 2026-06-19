@@ -552,6 +552,24 @@
       "gate": "Explicit HandoffRecord + EventLogger trace required",
       "approval_required": false,
       "observability_required": true
+    },
+    {
+      "rule_id": "MULTIAGENT_WORKFLOW_DRY_RUN_ALLOW",
+      "domain": "Agent",
+      "action": "multiagent_workflow_run_dry_run",
+      "default_effect": "allow",
+      "gate": "WorkflowRegistry+SchemaValidator+PolicyEngine+MIASI+TraceEngine+ReportEngine",
+      "approval_required": false,
+      "observability_required": true
+    },
+    {
+      "rule_id": "MULTIAGENT_WORKFLOW_EXECUTE_DENY",
+      "domain": "Agent",
+      "action": "multiagent_workflow_execute",
+      "default_effect": "block",
+      "gate": "WorkflowRunner blocks non-dry-run and destructive execution",
+      "approval_required": true,
+      "observability_required": true
     }
   ]
 }

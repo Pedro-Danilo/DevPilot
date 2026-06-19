@@ -38,12 +38,19 @@ _WORKFLOWS: dict[str, list[dict[str, str]]] = {
 
 @dataclass(frozen=True)
 class MultiAgentRunOptions:
-    """Options for the FUNC-SPRINT-90 coordinator MVP."""
+    """Options for the governed multiagent coordinator.
+
+    FUNC-SPRINT-90 uses the internal allowlist. FUNC-SPRINT-91 may provide
+    already validated workflow steps loaded from `.devpilot/workflows/*.json`.
+    """
 
     workflow: str
     target: str = _DEFAULT_TARGET
     dry_run: bool = True
     max_steps: int = 10
+    workflow_steps: list[dict[str, Any]] | None = None
+    workflow_source: str = "internal-allowlist"
+    event_sprint: str = "FUNC-SPRINT-90"
 
 
 class MultiAgentCoordinator:
@@ -81,7 +88,7 @@ class MultiAgentCoordinator:
                 message="MultiAgentCoordinator blocked: --dry-run is required.",
             )
 
-        workflow = _WORKFLOWS.get(workflow_id)
+        workflow = options.workflow_steps if options.workflow_steps is not None else _WORKFLOWS.get(workflow_id)
         if workflow is None:
             return self._blocked(
                 workflow_id,
@@ -89,7 +96,7 @@ class MultiAgentCoordinator:
                 [
                     Finding(
                         "MULTIAGENT_WORKFLOW_UNKNOWN",
-                        "Requested multiagent workflow is not registered in the local allowlist.",
+                        "Requested multiagent workflow is not registered in the local allowlist or workflow registry.",
                         Severity.BLOCK,
                         metadata={"workflow": workflow_id, "available_workflows": sorted(_WORKFLOWS)},
                     )
@@ -124,13 +131,14 @@ class MultiAgentCoordinator:
         for index, step in enumerate(workflow, start=1):
             agent_id = step["agent_id"]
             agent_spec = agents[agent_id]
+            step_target = step.get("target") or target
             handoff = HandoffRecord(
                 workflow_id=workflow_id,
                 sequence=index,
                 from_agent=previous_agent,
                 to_agent=agent_id,
                 reason=step["reason"],
-                target=target,
+                target=step_target,
                 dry_run=True,
                 metadata={"step_id": step["step_id"], "coordinator_agent_id": _COORDINATOR_AGENT_ID},
             )
@@ -162,7 +170,7 @@ class MultiAgentCoordinator:
             trace_events_total += 1
             handoffs.append(handoff)
 
-            agent_result = runtime.run(agent_id, target=target, dry_run=True)
+            agent_result = runtime.run(agent_id, target=step_target, dry_run=True)
             child_summary = (agent_result.data or {}).get("summary", {})
             child_agent = (agent_result.data or {}).get("agent", {})
             child_blocking = int(child_summary.get("blocking_findings", 0) or 0)
@@ -195,6 +203,7 @@ class MultiAgentCoordinator:
                     "max_autonomy": agent_spec.max_autonomy,
                     "allowed_runtime_status": agent_spec.status in _IMPLEMENTED_AGENT_STATUSES,
                     "dry_run": True,
+                    "target": step_target,
                     "handoff_id": handoff.handoff_id,
                     "handoff_trace_event_emitted": handoff.trace_event_emitted,
                     "agent_result_ok": agent_result.ok,
@@ -248,11 +257,11 @@ class MultiAgentCoordinator:
                     "remote_execution_used": False,
                     "preliminary": True,
                 },
-                "workflow": {"workflow_id": workflow_id, "mode": "sequential-governed", "autonomy_open": False},
+                "workflow": {"workflow_id": workflow_id, "mode": "sequential-governed", "autonomy_open": False, "source": options.workflow_source},
                 "steps": steps,
                 "handoffs": [handoff.to_dict() for handoff in handoffs],
                 "notes": [
-                    "FUNC-SPRINT-90 is an implemented-initial coordinator MVP, not an autonomous planner.",
+                    "FUNC-SPRINT-90/91 use implemented-initial governed sequential orchestration, not an autonomous planner.",
                     "Child agent findings are surfaced as report evidence; this command is not a quality gate.",
                     "Only agents with implemented or implemented-initial MIASI status are eligible.",
                 ],
@@ -324,7 +333,7 @@ class MultiAgentCoordinator:
                 subject=f"{handoff.from_agent or 'user'}->{handoff.to_agent}",
                 metadata={
                     "component": "MultiAgentCoordinator",
-                    "sprint": "FUNC-SPRINT-90",
+                    "sprint": "FUNC-SPRINT-91" if handoff.workflow_id == "sdlc-review" else "FUNC-SPRINT-90",
                     "workflow_id": handoff.workflow_id,
                     "handoff_id": handoff.handoff_id,
                     "explicit_handoff": True,
@@ -351,7 +360,7 @@ class MultiAgentCoordinator:
                     "handoff_id": handoff.handoff_id,
                     "explicit": True,
                     "dry_run": True,
-                    "sprint": "FUNC-SPRINT-90",
+                    "sprint": "FUNC-SPRINT-91" if handoff.workflow_id == "sdlc-review" else "FUNC-SPRINT-90",
                 },
             )
         )

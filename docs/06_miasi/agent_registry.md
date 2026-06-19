@@ -42,3 +42,7 @@ La Fase D cierra con agentes SDLC `requirements.agent`, `architecture.agent` y `
 
 `multiagent.coordinator` pasa a `implemented-initial` solo para el MVP secuencial `repo-review`, en modo `--dry-run` obligatorio. Su autonomía efectiva queda acotada a A3: coordina agentes implementados, emite handoffs explícitos y consolida evidencia, pero no planifica libremente, no modifica archivos, no ejecuta herramientas críticas, no usa shell, no usa red externa y no habilita APIs externas.
 
+
+## Actualización FUNC-SPRINT-91 — Workflows SDLC
+
+`multiagent.coordinator` incorpora `multiagent.workflow.run` como herramienta permitida y referencia los artefactos `docs/audits/func_sprint_91_multiagent_workflows_audit.md` y `.devpilot/workflows/sdlc_review.json`. El alcance sigue siendo `implemented-initial`: workflows predefinidos, secuenciales, dry-run y report-only.

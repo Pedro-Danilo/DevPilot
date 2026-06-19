@@ -1,13 +1,30 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
 Estado actual: `baseline pre-code approved + Fases A-G cerradas + Fase H en implementación controlada`  
-Último hito: `FUNC-SPRINT-90 — MultiAgentCoordinator MVP y handoffs gobernados`  
-Siguiente hito: `FUNC-SPRINT-91 — Workflows multiagente SDLC dry-run`  
+Último hito: `FUNC-SPRINT-91 — Workflows multiagente SDLC dry-run`  
+Siguiente hito: `FUNC-SPRINT-92 — Evaluación avanzada, red teaming y safety scoring`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
 
 
+
+
+## FUNC-SPRINT-91 — Workflows multiagente SDLC dry-run
+
+`FUNC-SPRINT-91` introduce workflows multiagente SDLC predefinidos como contratos JSON locales. La primera definición aprobada es `.devpilot/workflows/sdlc_review.json`, validada por `docs/schemas/multiagent_workflow.schema.json` y ejecutada por `MultiAgentWorkflowRunner` sobre el `MultiAgentCoordinator` de Sprint 90.
+
+### Capacidades
+
+- `.devpilot/workflows/sdlc_review.json` define el workflow `sdlc-review` con seis pasos SDLC: requisitos, arquitectura, repo, código, seguridad y pruebas.
+- `src/devpilot_core/multiagent/workflow.py` carga y valida workflow definitions antes de delegar al coordinador gobernado.
+- `python -m devpilot_core multiagent workflow run --workflow sdlc_review --dry-run --json` ejecuta el workflow en modo report-only.
+- `--write-report` persiste evidencia regenerable bajo `outputs/reports/multiagent_workflow_sdlc_review.*`.
+- `evals/fixtures/multiagent_workflow_sdlc_review_cases.json` define fixtures mínimos de evaluación para PASS dry-run y BLOCK sin `--dry-run`.
+
+### Seguridad
+
+La capacidad es `implemented-initial`: exige `--dry-run`, usa schema local, valida MIASI/policies, solo usa agentes `implemented` o `implemented-initial`, conserva handoffs explícitos y trazados, y consolida riesgos/recomendaciones sin ejecutar correcciones. No habilita autonomía abierta, planner dinámico, graph orchestration, shell, red externa, APIs externas, ejecución remota ni mutaciones de archivos. La evolución a red teaming y safety scoring queda para `FUNC-SPRINT-92`.
 
 
 ## FUNC-SPRINT-90 — MultiAgentCoordinator MVP y handoffs gobernados

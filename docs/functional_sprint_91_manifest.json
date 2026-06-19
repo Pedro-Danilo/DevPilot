@@ -1,0 +1,87 @@
+{
+  "schema_version": "1.0.0",
+  "sprint": "FUNC-SPRINT-91",
+  "title": "Workflows multiagente SDLC dry-run",
+  "status": "implemented",
+  "owner": "Ordóñez",
+  "updated": "2026-06-18",
+  "phase": "FASE-H-CAPACIDADES-AVANZADAS",
+  "previous_sprint": "FUNC-SPRINT-90",
+  "next_sprint": "FUNC-SPRINT-92",
+  "summary": {
+    "workflow_definition_added": true,
+    "workflow_runner_added": true,
+    "workflow_schema_added": true,
+    "workflow_report_consolidated": true,
+    "eval_fixture_added": true,
+    "dry_run_required": true,
+    "report_only": true,
+    "policy_engine_required": true,
+    "handoff_trace_required": true,
+    "implemented_agents_only": true,
+    "open_autonomy_enabled": false,
+    "mutations_performed": false,
+    "destructive_actions_executed": false,
+    "network_used": false,
+    "external_api_used": false,
+    "shell_used": false,
+    "remote_execution_used": false,
+    "dependencies_added": false,
+    "preliminary": true
+  },
+  "commands": [
+    "python -m devpilot_core multiagent workflow run --workflow sdlc_review --dry-run --json",
+    "python -m devpilot_core multiagent workflow run --workflow sdlc_review --dry-run --json --write-report",
+    "python -m devpilot_core schema validate --schema docs\\schemas\\multiagent_workflow.schema.json --instance .devpilot\\workflows\\sdlc_review.json --json",
+    "python -m pytest tests\\test_multiagent_workflow.py tests\\test_sprint_91_documentation.py -q"
+  ],
+  "risks": [
+    "Reportes requieren revisión humana antes de convertirse en acciones.",
+    "No hay red teaming ni safety scoring avanzado hasta Sprint 92.",
+    "La ejecución es secuencial y no implementa graph orchestration."
+  ],
+  "implemented_on": "2026-06-18",
+  "source_repo": "repo_DevPilot_Local_118.zip",
+  "source_backlog": "docs/devpilot_backlog_fase_H_capacidades_avanzadas.md",
+  "created_files": [
+    ".devpilot/workflows/sdlc_review.json",
+    "docs/schemas/multiagent_workflow.schema.json",
+    "src/devpilot_core/multiagent/workflow.py",
+    "evals/fixtures/multiagent_workflow_sdlc_review_cases.json",
+    "tests/test_multiagent_workflow.py",
+    "tests/test_sprint_91_documentation.py",
+    "docs/audits/func_sprint_91_multiagent_workflows_audit.md",
+    "docs/functional_sprint_91_manifest.json"
+  ],
+  "modified_files": [
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/devpilot_backlog_fase_H_capacidades_avanzadas.md",
+    "docs/functional_backlog_after_precode.md",
+    "docs/release/CHANGELOG.md",
+    "docs/schemas/schema_catalog.json",
+    ".devpilot/miasi/agent_registry.json",
+    ".devpilot/miasi/tool_registry.json",
+    ".devpilot/miasi/policy_matrix.json",
+    "src/devpilot_core/cli.py",
+    "src/devpilot_core/multiagent/__init__.py",
+    "src/devpilot_core/multiagent/coordinator.py"
+  ],
+  "tests": [
+    "tests/test_multiagent_workflow.py",
+    "tests/test_sprint_91_documentation.py"
+  ],
+  "pass_criteria": [
+    "Workflow sdlc-review validates against docs/schemas/multiagent_workflow.schema.json.",
+    "multiagent workflow run returns ok=true in --dry-run mode.",
+    "Every step has explicit traced handoff and policy check.",
+    "Report consolidates risks and recommendations.",
+    "No mutation, shell, network, external API or remote execution is enabled."
+  ],
+  "block_criteria": [
+    "Workflow missing or invalid schema.",
+    "Execution without --dry-run.",
+    "Workflow references non-implemented agents or unknown policies.",
+    "Workflow safety flags allow destructive, network, shell or remote execution."
+  ]
+}

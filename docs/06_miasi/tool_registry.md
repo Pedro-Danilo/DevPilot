@@ -207,3 +207,7 @@ Estado: `implemented-initial`; las capacidades son preliminares y deberán evolu
 
 Se agregan `multiagent.coordinator.run` y `multiagent.handoff` como tools `implemented-initial`. Ambas operan en modo report-only/dry-run: la primera dispara el workflow local allowlisted y la segunda representa la emisión de evidencia de handoff. No habilitan ejecución crítica, shell, red externa, API externa ni escritura productiva.
 
+
+## Actualización FUNC-SPRINT-91 — `multiagent.workflow.run`
+
+Se agrega `multiagent.workflow.run` como tool `implemented-initial`. Esta herramienta carga definiciones locales `.devpilot/workflows/*.json`, valida schema y semántica de seguridad, delega al coordinador y consolida resultados. No ejecuta herramientas críticas ni acciones destructivas.

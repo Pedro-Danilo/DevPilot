@@ -1,0 +1,26 @@
+{
+  "fixture_id": "EVAL-FUNC-91-MULTIAGENT-WORKFLOW-SDLC-001",
+  "title": "FUNC-SPRINT-91 SDLC workflow evaluation fixtures",
+  "status": "approved",
+  "created_by": "FUNC-SPRINT-91",
+  "cases": [
+    {
+      "case_id": "WF91-DRY-RUN-PASS",
+      "workflow": "sdlc_review",
+      "expected_ok": true,
+      "required_summary": [
+        "workflow_definition_valid",
+        "workflow_report_consolidated",
+        "handoffs_traced_total",
+        "policy_checks_total"
+      ]
+    },
+    {
+      "case_id": "WF91-EXECUTE-BLOCK",
+      "workflow": "sdlc_review",
+      "dry_run": false,
+      "expected_ok": false,
+      "expected_finding": "MULTIAGENT_WORKFLOW_REQUIRES_DRY_RUN"
+    }
+  ]
+}

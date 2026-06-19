@@ -8,7 +8,7 @@
   "updated": "2026-06-18",
   "sprint": "FUNC-SPRINT-23",
   "preliminary": true,
-  "purpose": "Catalog of versioned JSON schemas registered by DevPilot. Sprint 88 adds ConnectorRegistry contract for MCP/connectors deny-by-default.",
+  "purpose": "Catalog of versioned JSON schemas registered by DevPilot. Sprint 91 adds MultiAgentWorkflow contract for governed SDLC workflows.",
   "schemas": [
     {
       "schema_id": "SCHEMA-DEVPL-FINDING-V1",
@@ -233,6 +233,20 @@
       "dialect": "https://json-schema.org/draft/2020-12/schema",
       "validates_instances": true,
       "validation_enabled_sprint": "FUNC-SPRINT-88"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-MULTIAGENT-WORKFLOW-V1",
+      "title": "DevPilot MultiAgent Workflow v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/multiagent_workflow.schema.json",
+      "description": "Structural contract for governed local multiagent workflow definitions under .devpilot/workflows.",
+      "status": "registered",
+      "contract": "MultiAgentWorkflow",
+      "owner": "Ordóñez",
+      "sprint": "FUNC-SPRINT-91",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "FUNC-SPRINT-91"
     }
   ]
 }

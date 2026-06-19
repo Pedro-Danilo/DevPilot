@@ -1,0 +1,128 @@
+{
+  "schema_version": "1.0.0",
+  "workflow_id": "sdlc-review",
+  "title": "SDLC Review MultiAgent Workflow",
+  "status": "approved",
+  "created_by": "FUNC-SPRINT-91",
+  "updated": "2026-06-18",
+  "owner": "Ordóñez",
+  "mode": "sequential-governed",
+  "dry_run_required": true,
+  "report_only": true,
+  "autonomy_open": false,
+  "max_steps": 6,
+  "default_target": "src/devpilot_core",
+  "policy_rule_ids": [
+    "MULTIAGENT_WORKFLOW_DRY_RUN_ALLOW",
+    "MULTIAGENT_WORKFLOW_EXECUTE_DENY",
+    "MULTIAGENT_HANDOFF_TRACE_REQUIRED",
+    "SECRETS_RAW_DENY"
+  ],
+  "safety": {
+    "mutations_allowed": false,
+    "destructive_actions_allowed": false,
+    "network_allowed": false,
+    "external_api_allowed": false,
+    "shell_allowed": false,
+    "remote_execution_allowed": false,
+    "secrets_allowed": false,
+    "raw_prompt_storage_allowed": false
+  },
+  "steps": [
+    {
+      "step_id": "requirements-review",
+      "sequence": 1,
+      "agent_id": "requirements.agent",
+      "reason": "RequirementsAgent starts the SDLC review by checking requirements and traceability evidence.",
+      "expected_output": "requirements coverage and ambiguity signals",
+      "required_trace": true,
+      "risk_categories": [
+        "requirements",
+        "traceability"
+      ],
+      "target": "docs/01_requirements"
+    },
+    {
+      "step_id": "architecture-review",
+      "sequence": 2,
+      "agent_id": "architecture.agent",
+      "reason": "ArchitectureAgent receives requirements context and checks architecture alignment and drift risks.",
+      "expected_output": "architecture alignment and drift signals",
+      "required_trace": true,
+      "risk_categories": [
+        "architecture",
+        "design-drift"
+      ],
+      "target": "docs/02_architecture"
+    },
+    {
+      "step_id": "repo-analysis",
+      "sequence": 3,
+      "agent_id": "repo.analysis",
+      "reason": "RepoAnalysisAgent inventories repository health after requirements and architecture review.",
+      "expected_output": "repository health and quality signals",
+      "required_trace": true,
+      "risk_categories": [
+        "repository",
+        "quality"
+      ],
+      "target": "src/devpilot_core"
+    },
+    {
+      "step_id": "code-review",
+      "sequence": 4,
+      "agent_id": "code.review",
+      "reason": "CodeReviewAgent checks code-level findings using prior SDLC context through explicit handoff.",
+      "expected_output": "code review findings and maintainability signals",
+      "required_trace": true,
+      "risk_categories": [
+        "code",
+        "maintainability"
+      ],
+      "target": "src/devpilot_core/multiagent"
+    },
+    {
+      "step_id": "security-review",
+      "sequence": 5,
+      "agent_id": "security.agent",
+      "reason": "SecurityAgent reviews safety, secrets and policy boundaries after code-level review.",
+      "expected_output": "security and policy boundary signals",
+      "required_trace": true,
+      "risk_categories": [
+        "security",
+        "policy"
+      ],
+      "target": "src/devpilot_core/multiagent"
+    },
+    {
+      "step_id": "test-planning",
+      "sequence": 6,
+      "agent_id": "testplanner.agent",
+      "reason": "TestPlannerAgent consolidates test strategy implications from the full SDLC review context.",
+      "expected_output": "test planning recommendations and coverage signals",
+      "required_trace": true,
+      "risk_categories": [
+        "testing",
+        "coverage"
+      ],
+      "target": "docs/01_requirements"
+    }
+  ],
+  "outputs": {
+    "report_id": "multiagent_workflow_sdlc_review",
+    "format": "json+markdown",
+    "consolidates": [
+      "risks",
+      "recommendations",
+      "agent_steps",
+      "handoffs",
+      "policy_checks",
+      "trace_events"
+    ],
+    "write_path": "outputs/reports/multiagent_workflow_sdlc_review.*"
+  },
+  "evals": {
+    "fixture_path": "evals/fixtures/multiagent_workflow_sdlc_review_cases.json",
+    "required": true
+  }
+}

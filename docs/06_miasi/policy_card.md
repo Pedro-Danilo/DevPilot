@@ -249,3 +249,9 @@ La política multiagente queda implementada inicialmente como deny/allow condici
 
 PASS: `MULTIAGENT_COORDINATOR_DRY_RUN_ALLOW` + `MULTIAGENT_HANDOFF_TRACE_REQUIRED`. BLOCK: `MULTIAGENT_EXECUTE_DENY` ante cualquier ejecución no dry-run o acción crítica.
 
+
+## Actualización FUNC-SPRINT-91 — Políticas de workflow multiagente
+
+Se agregan `MULTIAGENT_WORKFLOW_DRY_RUN_ALLOW` y `MULTIAGENT_WORKFLOW_EXECUTE_DENY`. La primera permite ejecutar workflows SDLC locales únicamente después de validar schema, MIASI, PolicyEngine y trazas; la segunda bloquea cualquier ejecución multiagente no dry-run, destructiva o autónoma abierta.
+
+PASS: workflow JSON aprobado, safety flags seguros, `required_trace=true` por paso y reporte consolidado. BLOCK: ejecución real, red externa, APIs externas, shell, mutaciones, agentes `planned/future` o workflow no validado.

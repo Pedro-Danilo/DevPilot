@@ -70,3 +70,12 @@ Condiciones:
 
 Estas reglas no autorizan graph planner, agentes `planned/future`, shell, red externa, API externa ni modificación de archivos.
 
+
+## Actualización FUNC-SPRINT-91 — Reglas de workflows SDLC
+
+| Regla | Efecto | Propósito |
+|---|---|---|
+| `MULTIAGENT_WORKFLOW_DRY_RUN_ALLOW` | allow condicionado | Permite workflow SDLC solo con schema, MIASI, PolicyEngine, handoffs y trazas en modo dry-run. |
+| `MULTIAGENT_WORKFLOW_EXECUTE_DENY` | block | Bloquea ejecución real, autonomía abierta, shell, red externa, APIs externas o mutaciones. |
+
+Estas reglas habilitan reportes multiagente SDLC como evidencia, no como automatización de cambios.

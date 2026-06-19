@@ -981,6 +981,20 @@
       "policy_rule_ids": [
         "MULTIAGENT_HANDOFF_TRACE_REQUIRED"
       ]
+    },
+    {
+      "tool_id": "multiagent.workflow.run",
+      "name": "multiagent_workflow_run",
+      "phase": "Post-MVP",
+      "side_effect": "report",
+      "risk_level": "high",
+      "status": "implemented-initial",
+      "requires_approval": false,
+      "policy_rule_ids": [
+        "MULTIAGENT_WORKFLOW_DRY_RUN_ALLOW",
+        "MULTIAGENT_WORKFLOW_EXECUTE_DENY",
+        "MULTIAGENT_HANDOFF_TRACE_REQUIRED"
+      ]
     }
   ]
 }

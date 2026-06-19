@@ -8,7 +8,7 @@ standard: "MIPSoftware"
 extension: "MIASI"
 phase: "FASE-H-CAPACIDADES-AVANZADAS"
 updated: "2026-06-18"
-source_repo: "repo_DevPilot_Local_116.zip"
+source_repo: "repo_DevPilot_Local_118.zip"
 source_report: "Informe de avance DevPilot - sprint 0 - 18.docx"
 source_backlog_model: "docs/functional_backlog_after_precode.md"
 baseline_dependency: "Fases A-G cerradas; Fase G cerrada por FUNC-SPRINT-84 como implemented-initial"
@@ -17,9 +17,9 @@ last_planned_sprint: "FUNC-SPRINT-99"
 approved_on: "2026-06-17"
 approval: "approved_after_phase_g_closure_validation"
 phase_h_status: "in_progress"
-first_open_sprint: "FUNC-SPRINT-91"
-last_completed_sprint: "FUNC-SPRINT-90"
-next_sprint: "FUNC-SPRINT-91"
+first_open_sprint: "FUNC-SPRINT-92"
+last_completed_sprint: "FUNC-SPRINT-91"
+next_sprint: "FUNC-SPRINT-92"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "phase_h_executable_backlog_review"
 ---
@@ -682,6 +682,25 @@ python -m pytest -q
 ```text
 Implementa FUNC-SPRINT-91. Crea workflows multiagente SDLC predefinidos en dry-run, con schema, runner, reportes y trazas. No ejecutes acciones destructivas.
 ```
+
+---
+
+
+## Estado de implementación Sprint 91
+
+`FUNC-SPRINT-91 — Workflows multiagente SDLC dry-run` queda implementado como capacidad `implemented-initial` de workflows SDLC predefinidos y gobernados. Se agrega `.devpilot/workflows/sdlc_review.json`, `docs/schemas/multiagent_workflow.schema.json`, `MultiAgentWorkflowRunner`, CLI `multiagent workflow run --workflow sdlc_review --dry-run`, fixtures de evaluación, auditoría, manifest y pruebas.
+
+Límites explícitos:
+
+- workflow `sdlc-review` validado por schema local antes de ejecutar;
+- `dry-run/report-only` obligatorio;
+- reutiliza `MultiAgentCoordinator` y `HandoffRecord`;
+- cada paso conserva handoff explícito, policy check y trace;
+- solo agentes `implemented` o `implemented-initial`;
+- sin autonomía abierta, planner dinámico, graph orchestration, shell, red externa, APIs externas, ejecución remota ni mutaciones;
+- el reporte consolida riesgos/recomendaciones como evidencia, no como autorización para modificar repositorio.
+
+El siguiente sprint autorizado es `FUNC-SPRINT-92 — Evaluación avanzada, red teaming y safety scoring`.
 
 ---
 

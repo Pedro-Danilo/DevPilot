@@ -4985,3 +4985,58 @@ python -m pytest tests\test_multiagent_coordinator.py tests\test_sprint_90_docum
 ### Riesgos y recuperación
 
 La capacidad es un MVP secuencial. Si el comando reporta hallazgos de agentes hijos, debe tratarse como evidencia de revisión y no como corrección automática. Para investigar trazas, revisar `outputs/traces/events.jsonl` y reportes opcionales en `outputs/reports/multiagent_repo_review.*`. Los artefactos runtime son regenerables y no deben incluirse en paquetes limpios.
+
+
+## FUNC-SPRINT-91 — Operación Workflows multiagente SDLC dry-run
+
+### Estado
+
+`implemented-initial` como runner de workflows SDLC predefinidos, locales, versionados por JSON y ejecutados en modo `dry-run/report-only`. Esta capacidad no habilita autonomía abierta, planner dinámico, graph orchestration, shell, red externa, APIs externas, ejecución remota ni mutaciones.
+
+### Propósito
+
+Permitir que DevPilot ejecute un workflow multiagente SDLC completo y repetible sin codificar el flujo dentro del CLI. El workflow `sdlc-review` se define en `.devpilot/workflows/sdlc_review.json`, se valida contra `docs/schemas/multiagent_workflow.schema.json` y se ejecuta mediante `MultiAgentWorkflowRunner`, que delega en `MultiAgentCoordinator` para preservar handoffs explícitos, policy checks y trazas.
+
+### Comandos
+
+```powershell
+python -m devpilot_core multiagent workflow run --workflow sdlc_review --dry-run --json
+python -m devpilot_core multiagent workflow run --workflow sdlc_review --dry-run --json --write-report
+python -m devpilot_core schema validate --schema docs\schemas\multiagent_workflow.schema.json --instance .devpilot\workflows\sdlc_review.json --json
+python -m devpilot_core miasi validate --json
+python -m pytest tests\test_multiagent_workflow.py tests\test_sprint_91_documentation.py -q
+```
+
+### Funcionamiento
+
+1. El runner normaliza el id solicitado (`sdlc_review` -> `sdlc-review`).
+2. Resuelve el archivo local bajo `.devpilot/workflows/` sin permitir traversal.
+3. Valida estructura JSON con `SchemaValidator`.
+4. Ejecuta validaciones semánticas: `dry_run_required=true`, `report_only=true`, safety flags en `false`, políticas existentes y agentes implementados.
+5. Traduce la definición a pasos para `MultiAgentCoordinator`.
+6. El coordinador emite handoffs y trazas por paso.
+7. El runner agrega `consolidated_report` con cobertura, categorías de riesgo y recomendaciones.
+
+### Criterios PASS
+
+- El comando retorna `ok=true` y `exit_code=0`.
+- `summary.workflow_definition_valid=true`.
+- `summary.workflow_report_consolidated=true`.
+- `summary.steps_total=6` para `sdlc-review`.
+- `summary.handoffs_total` coincide con `summary.handoffs_traced_total`.
+- `summary.policy_checks_total` coincide con los pasos ejecutados.
+- `mutations_performed=false`, `network_used=false`, `external_api_used=false`, `shell_used=false` y `remote_execution_used=false`.
+
+### Criterios BLOCK
+
+- Ejecutar sin `--dry-run`.
+- Definición de workflow inexistente.
+- JSON inválido o no conforme al schema.
+- Workflow con safety flags de mutación, red, shell, API externa o ejecución remota.
+- Agentes `planned`, `future`, `disabled` o ausentes en MIASI.
+- Políticas referenciadas inexistentes.
+- Pasos sin `required_trace=true`.
+
+### Riesgos y recuperación
+
+El reporte consolidado no aprueba cambios ni abre patches automáticamente. Si aparecen hallazgos en agentes hijos, deben revisarse manualmente y convertirse en backlog, issue o patch controlado en un sprint posterior. Los reportes en `outputs/reports/multiagent_workflow_sdlc_review.*` y trazas en `outputs/traces/events.jsonl` son regenerables y no deben incluirse en paquetes limpios.

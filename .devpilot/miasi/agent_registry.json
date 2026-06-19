@@ -424,6 +424,7 @@
       "risk_level": "high",
       "allowed_tools": [
         "multiagent.coordinator.run",
+        "multiagent.workflow.run",
         "multiagent.handoff",
         "agent.repo_analysis.run",
         "agent.code_review.run",
@@ -435,12 +436,16 @@
       "required_artifacts": [
         "Full MIASI",
         "governance",
-        "docs/audits/func_sprint_90_multiagent_coordinator_audit.md"
+        "docs/audits/func_sprint_90_multiagent_coordinator_audit.md",
+        "docs/audits/func_sprint_91_multiagent_workflows_audit.md",
+        ".devpilot/workflows/sdlc_review.json"
       ],
       "policy_rule_ids": [
         "MULTIAGENT_COORDINATOR_DRY_RUN_ALLOW",
         "MULTIAGENT_EXECUTE_DENY",
-        "MULTIAGENT_HANDOFF_TRACE_REQUIRED"
+        "MULTIAGENT_HANDOFF_TRACE_REQUIRED",
+        "MULTIAGENT_WORKFLOW_DRY_RUN_ALLOW",
+        "MULTIAGENT_WORKFLOW_EXECUTE_DENY"
       ],
       "approval_required": false,
       "observability_required": true,

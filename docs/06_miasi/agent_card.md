@@ -234,3 +234,9 @@ Criterios PASS: handoffs explícitos, trazas por handoff, MIASI/policy por agent
 
 Criterios BLOCK: agentes `planned/future`, handoff implícito, ejecución sin `--dry-run`, workflow no registrado o cualquier intento de acción destructiva.
 
+
+## Actualización FUNC-SPRINT-91 — Workflows SDLC gobernados
+
+`multiagent.coordinator` conserva estado `implemented-initial` y amplía su alcance desde el allowlist interno `repo-review` hacia workflows SDLC definidos por JSON, empezando por `sdlc-review`. El agente coordinador no gana autonomía abierta: `MultiAgentWorkflowRunner` valida schema, safety flags, MIASI y policy antes de ejecutar cada paso con handoffs trazados.
+
+Criterios PASS: workflow validado por schema, `dry-run/report-only`, agentes implementados, handoffs trazados y reporte consolidado. Criterios BLOCK: workflow sin schema, ejecución sin `--dry-run`, agentes futuros, políticas faltantes, shell, red/API externa o mutaciones.
