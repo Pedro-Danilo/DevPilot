@@ -46,3 +46,8 @@ La Fase D cierra con agentes SDLC `requirements.agent`, `architecture.agent` y `
 ## Actualización FUNC-SPRINT-91 — Workflows SDLC
 
 `multiagent.coordinator` incorpora `multiagent.workflow.run` como herramienta permitida y referencia los artefactos `docs/audits/func_sprint_91_multiagent_workflows_audit.md` y `.devpilot/workflows/sdlc_review.json`. El alcance sigue siendo `implemented-initial`: workflows predefinidos, secuenciales, dry-run y report-only.
+
+
+## Actualización FUNC-SPRINT-92 — Agent Registry
+
+El Agent Registry declara que `security.agent`, `testplanner.agent` y `multiagent.coordinator` pueden consumir `eval.safety.run` para evidencia local de safety scoring. La capacidad conserva `implemented-initial`, requiere observabilidad/evals y no habilita autonomía superior a A3.

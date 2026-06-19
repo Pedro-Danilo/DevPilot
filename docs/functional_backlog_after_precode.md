@@ -14,7 +14,7 @@ change_policy: "controlled_changes_allowed_via_docs_as_code"
 approved_on: "2026-06-06"
 approval_scope: "functional_backlog_after_precode"
 baseline_execution: "FUNC-SPRINT-00"
-next_sprint: "FUNC-SPRINT-92"
+next_sprint: "FUNC-SPRINT-93"
 ---
 
 # DevPilot Local — Backlog ejecutable posterior a pre-code
@@ -2385,3 +2385,10 @@ La siguiente unidad abierta es `FUNC-SPRINT-91 — Workflows multiagente SDLC dr
 
 La siguiente unidad abierta es `FUNC-SPRINT-92 — Evaluación avanzada, red teaming y safety scoring`, que deberá convertir estos workflows en objetivos de evaluación adversarial y scoring de seguridad, sin activar autonomía abierta ni ejecución destructiva.
 
+
+
+## Transición posterior a FUNC-SPRINT-92
+
+`FUNC-SPRINT-92` agrega evaluación avanzada determinística para capacidades agentic: suites `advanced-agentic` y `red-team`, safety scoring, fixtures sintéticos y consumo por quality gate CI. La siguiente unidad funcional abierta es `FUNC-SPRINT-93 — Plugin y connector ecosystem controlado`.
+
+La capacidad es `implemented-initial`: sirve como control de regresión local, no como certificación de seguridad final. Todo plugin/conector posterior debe consumir estos criterios de evaluación, mantener fixtures sin secretos reales y bloquear acciones inseguras por defecto.

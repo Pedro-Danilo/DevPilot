@@ -26,7 +26,7 @@ def test_release_changelog_builder_generates_keep_a_changelog_sections() -> None
     assert summary["source_mutations_performed"] is False
     assert changelog["format"] == "keep-a-changelog-compatible"
     assert changelog["from_sprint"] == "FUNC-SPRINT-74"
-    assert changelog["to_sprint"] == "FUNC-SPRINT-91"
+    assert changelog["to_sprint"] == "FUNC-SPRINT-92"
     for category in ["Added", "Changed", "Deprecated", "Removed", "Fixed", "Security"]:
         assert category in changelog["sections"]
         assert f"### {category}" in markdown
@@ -40,6 +40,7 @@ def test_release_changelog_builder_generates_keep_a_changelog_sections() -> None
     assert "docs/functional_sprint_88_manifest.json" in markdown
     assert "docs/functional_sprint_89_manifest.json" in markdown
     assert "docs/functional_sprint_91_manifest.json" in markdown
+    assert "docs/functional_sprint_92_manifest.json" in markdown
 
 
 def test_release_changelog_rejects_invalid_semver() -> None:

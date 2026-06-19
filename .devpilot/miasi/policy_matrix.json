@@ -570,6 +570,24 @@
       "gate": "WorkflowRunner blocks non-dry-run and destructive execution",
       "approval_required": true,
       "observability_required": true
+    },
+    {
+      "rule_id": "EVAL_SAFETY_SCORING_ALLOW",
+      "domain": "Eval",
+      "action": "advanced_agentic_safety_scoring",
+      "default_effect": "allow",
+      "gate": "EvalRunner+SafetyEvalEngine+SyntheticFixtures+NoLLMJudge+NoNetwork",
+      "approval_required": false,
+      "observability_required": true
+    },
+    {
+      "rule_id": "RED_TEAM_FIXTURE_SYNTHETIC_ONLY",
+      "domain": "Eval",
+      "action": "red_team_fixture_load",
+      "default_effect": "block",
+      "gate": "SafetyEvalEngine+SecretPatternGuard+SyntheticFixturePolicy",
+      "approval_required": false,
+      "observability_required": true
     }
   ]
 }

@@ -240,3 +240,10 @@ Criterios BLOCK: agentes `planned/future`, handoff implícito, ejecución sin `-
 `multiagent.coordinator` conserva estado `implemented-initial` y amplía su alcance desde el allowlist interno `repo-review` hacia workflows SDLC definidos por JSON, empezando por `sdlc-review`. El agente coordinador no gana autonomía abierta: `MultiAgentWorkflowRunner` valida schema, safety flags, MIASI y policy antes de ejecutar cada paso con handoffs trazados.
 
 Criterios PASS: workflow validado por schema, `dry-run/report-only`, agentes implementados, handoffs trazados y reporte consolidado. Criterios BLOCK: workflow sin schema, ejecución sin `--dry-run`, agentes futuros, políticas faltantes, shell, red/API externa o mutaciones.
+
+
+## Actualización FUNC-SPRINT-92 — Safety scoring para agentes avanzados
+
+`security.agent`, `testplanner.agent` y `multiagent.coordinator` pueden referenciar `eval.safety.run` como herramienta de evaluación/reporting local. Esta autorización no incrementa autonomía ni permite ejecución correctiva: solo consume fixtures sintéticos y safety scores para detectar regresiones en prompt injection, secretos, tool misuse, RAG, MCP/conectores y workflows multiagente.
+
+Criterios PASS: suites `advanced-agentic` y `red-team` con `safety_score >= 90`, falsos negativos en cero, sin secretos reales, sin red/API externa y sin LLM judge. Criterios BLOCK: fixtures con secretos reales, workflow no dry-run no detectado, tool misuse no bloqueado o evaluación adversarial inexistente.

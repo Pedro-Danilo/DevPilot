@@ -154,7 +154,8 @@
         "report.write",
         "trace.append",
         "policy.check",
-        "agent.model.generate"
+        "agent.model.generate",
+        "eval.safety.run"
       ],
       "required_artifacts": [
         "Agent",
@@ -168,7 +169,9 @@
         "SECURITY_REVIEW_READ_ONLY_ALLOW",
         "SECRETS_RAW_DENY",
         "AGENT_CRITICAL_TOOL_DENY",
-        "AGENT_MODEL_CALL_GOVERNED_ALLOW"
+        "AGENT_MODEL_CALL_GOVERNED_ALLOW",
+        "EVAL_SAFETY_SCORING_ALLOW",
+        "RED_TEAM_FIXTURE_SYNTHETIC_ONLY"
       ],
       "approval_required": false,
       "observability_required": true,
@@ -189,7 +192,8 @@
         "report.write",
         "trace.append",
         "policy.check",
-        "agent.model.generate"
+        "agent.model.generate",
+        "eval.safety.run"
       ],
       "required_artifacts": [
         "Agent",
@@ -203,7 +207,9 @@
         "TESTS_RUN_PLAN_ONLY_ALLOW",
         "AGENT_CRITICAL_TOOL_DENY",
         "SECRETS_RAW_DENY",
-        "AGENT_MODEL_CALL_GOVERNED_ALLOW"
+        "AGENT_MODEL_CALL_GOVERNED_ALLOW",
+        "EVAL_SAFETY_SCORING_ALLOW",
+        "RED_TEAM_FIXTURE_SYNTHETIC_ONLY"
       ],
       "approval_required": false,
       "observability_required": true,
@@ -431,21 +437,25 @@
         "agent.security.run",
         "report.write",
         "trace.append",
-        "policy.check"
+        "policy.check",
+        "eval.safety.run"
       ],
       "required_artifacts": [
         "Full MIASI",
         "governance",
         "docs/audits/func_sprint_90_multiagent_coordinator_audit.md",
         "docs/audits/func_sprint_91_multiagent_workflows_audit.md",
-        ".devpilot/workflows/sdlc_review.json"
+        ".devpilot/workflows/sdlc_review.json",
+        "docs/audits/func_sprint_92_advanced_evals_audit.md"
       ],
       "policy_rule_ids": [
         "MULTIAGENT_COORDINATOR_DRY_RUN_ALLOW",
         "MULTIAGENT_EXECUTE_DENY",
         "MULTIAGENT_HANDOFF_TRACE_REQUIRED",
         "MULTIAGENT_WORKFLOW_DRY_RUN_ALLOW",
-        "MULTIAGENT_WORKFLOW_EXECUTE_DENY"
+        "MULTIAGENT_WORKFLOW_EXECUTE_DENY",
+        "EVAL_SAFETY_SCORING_ALLOW",
+        "RED_TEAM_FIXTURE_SYNTHETIC_ONLY"
       ],
       "approval_required": false,
       "observability_required": true,

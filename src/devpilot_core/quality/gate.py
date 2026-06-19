@@ -10,6 +10,7 @@ from typing import Any, Callable
 
 from devpilot_core.application import ApplicationService
 from devpilot_core.cli_models import CommandResult, ExitCode, Finding, Severity
+from devpilot_core.evals import EvalRunner, EvalRunnerConfig
 
 
 @dataclass(frozen=True)
@@ -143,6 +144,7 @@ class QualityGate:
             subgates.append(QualitySubgate("visual-product-smoke", "Fase F visual product smoke gate in dry-run JSON mode.", self._visual_product_smoke))
         if self.options.profile in {"ci", "release"}:
             subgates.append(QualitySubgate("ci-workflow-static", "Static safety validation for optional GitHub Actions workflow scaffold.", self._ci_workflow_static))
+            subgates.append(QualitySubgate("advanced-evals-safety", "Advanced agentic and red-team safety eval suites meet scoring thresholds.", self._advanced_evals_safety))
         if self.options.profile == "release":
             subgates.extend([
                 QualitySubgate("release-manifest-static", "Release manifest builder can generate local release evidence.", self._release_manifest_static),
@@ -209,6 +211,41 @@ class QualityGate:
             message="Evaluation harness fixture is ready." if ok else "Evaluation harness fixture readiness failed.",
             data={"summary": summary},
             findings=findings or [Finding("EVAL_HARNESS_READY", "Evaluation fixture is parseable and declares documentation cases.", Severity.INFO, metadata={"cases_total": summary["cases_total"]})],
+        )
+
+    def _advanced_evals_safety(self) -> CommandResult:
+        """Consume Sprint 92 advanced/red-team eval results in CI/release gates."""
+
+        runner = EvalRunner(self.root, config=EvalRunnerConfig(workdir=Path("outputs/evals/workdir_quality_gate")))
+        suites = ["advanced-agentic", "red-team"]
+        results = [runner.run(suite=suite) for suite in suites]
+        subresults = [result.to_dict() for result in results]
+        blocking_findings = [finding for result in results for finding in result.findings if finding.severity in {Severity.FAIL, Severity.BLOCK, Severity.ERROR}]
+        safety_scores = {
+            result.data.get("summary", {}).get("suite_id", suite): result.data.get("summary", {}).get("safety_score")
+            for suite, result in zip(suites, results)
+        }
+        ok = all(result.ok for result in results) and not blocking_findings
+        summary = {
+            "suites": suites,
+            "suites_total": len(suites),
+            "suites_passed": sum(1 for result in results if result.ok),
+            "safety_scores": safety_scores,
+            "blocking_findings_total": len(blocking_findings),
+            "network_used": False,
+            "external_api_used": False,
+            "llm_judge_used": False,
+            "source_mutations_performed": False,
+            "outputs_written": True,
+            "preliminary": True,
+        }
+        return CommandResult(
+            command="quality advanced-evals-safety",
+            ok=ok,
+            exit_code=ExitCode.PASS if ok else self._exit_code_from_findings(blocking_findings),
+            message="Advanced safety eval suites passed." if ok else "Advanced safety eval suites failed or blocked.",
+            data={"summary": summary, "subresults": subresults},
+            findings=[Finding("ADVANCED_EVALS_SAFETY_PASS", "Advanced agentic/red-team eval suites meet safety thresholds.", Severity.INFO, metadata=summary)] if ok else blocking_findings,
         )
 
     def _ci_workflow_static(self) -> CommandResult:

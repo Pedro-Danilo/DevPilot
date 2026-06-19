@@ -211,3 +211,12 @@ Se agregan `multiagent.coordinator.run` y `multiagent.handoff` como tools `imple
 ## Actualización FUNC-SPRINT-91 — `multiagent.workflow.run`
 
 Se agrega `multiagent.workflow.run` como tool `implemented-initial`. Esta herramienta carga definiciones locales `.devpilot/workflows/*.json`, valida schema y semántica de seguridad, delega al coordinador y consolida resultados. No ejecuta herramientas críticas ni acciones destructivas.
+
+
+## Actualización FUNC-SPRINT-92 — Tool Registry
+
+| Tool | Estado | Side effect | Riesgo | Políticas |
+|---|---|---|---|---|
+| `eval.safety.run` | `implemented-initial` | `report` | `high` | `EVAL_SAFETY_SCORING_ALLOW`, `RED_TEAM_FIXTURE_SYNTHETIC_ONLY` |
+
+La herramienta ejecuta suites avanzadas/red-team locales y calcula safety score; no usa red, APIs externas, LLM judge ni secretos reales.

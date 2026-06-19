@@ -1,13 +1,31 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
 Estado actual: `baseline pre-code approved + Fases A-G cerradas + Fase H en implementación controlada`  
-Último hito: `FUNC-SPRINT-91 — Workflows multiagente SDLC dry-run`  
-Siguiente hito: `FUNC-SPRINT-92 — Evaluación avanzada, red teaming y safety scoring`  
+Último hito: `FUNC-SPRINT-92 — Evaluación avanzada, red teaming y safety scoring`  
+Siguiente hito: `FUNC-SPRINT-93 — Plugin y connector ecosystem controlado`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
 
 
+
+
+## FUNC-SPRINT-92 — Evaluación avanzada, red teaming y safety scoring
+
+`FUNC-SPRINT-92` amplía el Evaluation Harness con suites determinísticas para capacidades avanzadas de Fase H. Las suites `advanced-agentic` y `red-team` evalúan prompt injection, secret leakage sintético, tool misuse, RAG sin fuentes, MCP/conector inseguro y workflows multiagente no gobernados.
+
+### Capacidades
+
+- `src/devpilot_core/evals/safety.py` introduce `SafetyEvalEngine` y métricas de safety scoring locales.
+- `evals/fixtures/advanced_agentic_eval_cases.json` cubre RAG, MCP/conectores y workflows multiagente con controles limpios y adversariales.
+- `evals/fixtures/red_team_agentic_eval_cases.json` cubre prompt injection, secret leakage sintético, tool misuse y acceso externo de conectores.
+- `python -m devpilot_core eval run --suite advanced-agentic --json` ejecuta la suite avanzada.
+- `python -m devpilot_core eval run --suite red-team --json` ejecuta la suite adversarial.
+- `quality-gate run --profile ci` consume ambas suites mediante el subgate `advanced-evals-safety`.
+
+### Seguridad
+
+La capacidad es `implemented-initial`: no usa LLM judge, red, APIs externas ni secretos reales. Los fixtures usan únicamente marcadores sintéticos y el motor bloquea patrones compatibles con secretos reales. El resultado es un safety score local para control de regresión, no una certificación de seguridad completa ni autorización automática de cambios. La evolución industrial queda para ampliar datasets, scoring histórico, fuzzing, jueces opcionales locales y gates de promoción más estrictos.
 
 
 ## FUNC-SPRINT-91 — Workflows multiagente SDLC dry-run

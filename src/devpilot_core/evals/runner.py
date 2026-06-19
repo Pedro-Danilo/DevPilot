@@ -10,10 +10,16 @@ from typing import Any
 from devpilot_core.agents import AgentRuntime
 from devpilot_core.cli_models import CommandResult, ExitCode, Finding, Severity
 from devpilot_core.evals.models import EvalCase, EvalCaseResult, EvalSuiteResult
+from devpilot_core.evals.safety import SAFETY_SUITE_IDS, SafetyEvalEngine, build_safety_metrics, safety_suite_findings
 from devpilot_core.validators.artifact import validate_artifact_file
 from devpilot_core.validators.frontmatter import validate_frontmatter_file
 
 DEFAULT_FIXTURE_PATH = Path("evals/fixtures/documentation_eval_cases.json")
+SUITE_FIXTURE_PATHS = {
+    "documentation": DEFAULT_FIXTURE_PATH,
+    "advanced-agentic": Path("evals/fixtures/advanced_agentic_eval_cases.json"),
+    "red-team": Path("evals/fixtures/red_team_agentic_eval_cases.json"),
+}
 SUPPORTED_COMPONENTS = {
     "validate_frontmatter",
     "validate_artifact",
@@ -36,6 +42,7 @@ SUPPORTED_COMPONENTS = {
     "agent.architecture_model_aware",
     "agent.security",
     "agent.security_model_aware",
+    *SafetyEvalEngine.SUPPORTED_COMPONENTS,
 }
 
 
@@ -89,41 +96,68 @@ class EvalRunner:
                 "preliminary": True,
                 "llm_required": False,
                 "external_api_used": False,
-                "fixture_path": _repo_path(self._fixture_path(), self.root),
+                "network_used": False,
+                "fixture_path": _repo_path(self._fixture_path(suite=suite), self.root),
                 "generated_at": datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z"),
                 **metadata,
             },
         )
+        data = suite_result.to_dict()
         findings = self._suite_findings(suite_result)
+        safety_metrics: dict[str, Any] | None = None
+        if suite in SAFETY_SUITE_IDS:
+            safety_metrics = build_safety_metrics(suite, cases, results)
+            data["summary"].update(
+                {
+                    "safety_score": safety_metrics["safety_score"],
+                    "safety_score_threshold": safety_metrics["safety_score_threshold"],
+                    "safety_gate_passed": safety_metrics["gate_passed"],
+                    "adversarial_cases_total": safety_metrics["adversarial_cases_total"],
+                    "adversarial_cases_detected": safety_metrics["adversarial_cases_detected"],
+                    "clean_cases_total": safety_metrics["clean_cases_total"],
+                    "clean_cases_passed": safety_metrics["clean_cases_passed"],
+                    "llm_judge_used": False,
+                    "network_used": False,
+                    "external_api_used": False,
+                }
+            )
+            data["safety"] = safety_metrics
+            findings.extend(safety_suite_findings(safety_metrics))
         ok = suite_result.failed == 0 and suite_result.false_positives == 0 and suite_result.false_negatives == 0 and suite_result.missing_expected_findings == 0
+        if safety_metrics is not None:
+            ok = ok and bool(safety_metrics["gate_passed"])
         return CommandResult(
             command="eval run",
             ok=ok,
             exit_code=ExitCode.PASS if ok else ExitCode.FAIL,
             message="Evaluation suite passed." if ok else "Evaluation suite failed.",
-            data=suite_result.to_dict(),
+            data=data,
             findings=findings,
         )
 
     def load_cases(self, *, suite: str = "documentation") -> tuple[list[EvalCase], dict[str, Any]]:
         """Load fixture cases from JSON."""
 
-        path = self._fixture_path()
+        path = self._fixture_path(suite=suite)
         if not path.exists():
             raise FileNotFoundError(f"Evaluation fixture not found: {path}")
         payload = json.loads(path.read_text(encoding="utf-8"))
         suite_id = str(payload.get("suite_id", "documentation"))
         if suite_id != suite:
-            return [], {"declared_suite_id": suite_id}
+            return [], {"declared_suite_id": suite_id, "fixture_path": _repo_path(path, self.root)}
         cases = [EvalCase.from_dict(item) for item in payload.get("cases", [])]
         return cases, {
             "schema_version": payload.get("schema_version"),
             "declared_suite_id": suite_id,
             "description": payload.get("description"),
+            "fixture_path": _repo_path(path, self.root),
+            "safety_suite": suite in SAFETY_SUITE_IDS,
         }
 
-    def _fixture_path(self) -> Path:
+    def _fixture_path(self, *, suite: str = "documentation") -> Path:
         candidate = self.config.fixture_path
+        if self.config.fixture_path == DEFAULT_FIXTURE_PATH:
+            candidate = SUITE_FIXTURE_PATHS.get(suite, DEFAULT_FIXTURE_PATH)
         if not candidate.is_absolute():
             candidate = self.root / candidate
         return candidate.resolve()
@@ -198,6 +232,8 @@ class EvalRunner:
             result = self._run_security_case(case, suite=suite)
         elif case.component == "agent.security_model_aware":
             result = self._run_security_case(case, suite=suite, provider="mock")
+        elif case.component in SafetyEvalEngine.SUPPORTED_COMPONENTS:
+            result = SafetyEvalEngine().evaluate(case)
         else:  # pragma: no cover - guarded by SUPPORTED_COMPONENTS above.
             result = CommandResult("eval case", False, ExitCode.ERROR, "Unsupported evaluation component.")
         return EvalCaseResult.from_command_result(case, result)

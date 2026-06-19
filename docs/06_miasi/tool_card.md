@@ -697,3 +697,10 @@ PASS: reporte local, handoff explícito, evento de traza, sin mutaciones. BLOCK:
 `multiagent.workflow.run` queda declarada como herramienta `implemented-initial` para ejecutar workflows multiagente SDLC desde definiciones JSON locales. Su side effect es `report`: puede producir evidencia bajo `outputs/reports` mediante `--write-report`, pero no modifica código ni documentación fuente.
 
 PASS: schema validado, workflow local, dry-run, reporte consolidado, handoffs trazados. BLOCK: execute mode, workflow inseguro, políticas ausentes, agentes no implementados, shell, red/API externa o mutaciones.
+
+
+## Actualización FUNC-SPRINT-92 — `eval.safety.run`
+
+Se agrega `eval.safety.run` como tool `implemented-initial` de reporte local para ejecutar suites `advanced-agentic` y `red-team`. Su side effect es `report`: puede producir evidencia en `outputs/evals` y `outputs/reports`, pero no modifica código fuente, no abre red, no llama APIs externas y no usa LLM judge.
+
+PASS: safety score JSON parseable, falsos negativos en cero, fixtures sintéticos, categorías adversariales cubiertas. BLOCK: secreto real en fixture, score bajo umbral, dependencia externa o ausencia de casos adversariales.

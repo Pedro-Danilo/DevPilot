@@ -79,3 +79,13 @@ Estas reglas no autorizan graph planner, agentes `planned/future`, shell, red ex
 | `MULTIAGENT_WORKFLOW_EXECUTE_DENY` | block | Bloquea ejecución real, autonomía abierta, shell, red externa, APIs externas o mutaciones. |
 
 Estas reglas habilitan reportes multiagente SDLC como evidencia, no como automatización de cambios.
+
+
+## Actualización FUNC-SPRINT-92 — Reglas de evaluación avanzada
+
+| Regla | Efecto | Propósito |
+|---|---|---|
+| `EVAL_SAFETY_SCORING_ALLOW` | allow condicionado | Permite safety scoring local con `EvalRunner`, `SafetyEvalEngine`, fixtures sintéticos y sin red/API externa. |
+| `RED_TEAM_FIXTURE_SYNTHETIC_ONLY` | block condicionado | Bloquea fixtures red-team con patrones compatibles con secretos reales, claves privadas o tokens reales. |
+
+Estas reglas convierten las evaluaciones avanzadas en evidencia consumible por quality gate, no en aprobación automática de cambios.

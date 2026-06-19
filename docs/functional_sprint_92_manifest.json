@@ -1,0 +1,116 @@
+{
+  "schema_version": "1.0.0",
+  "sprint": "FUNC-SPRINT-92",
+  "title": "Evaluación avanzada, red teaming y safety scoring",
+  "status": "implemented",
+  "implemented_on": "2026-06-18",
+  "phase": "FASE-H-CAPACIDADES-AVANZADAS",
+  "source_repo": "repo_DevPilot_Local_120.zip",
+  "source_backlog": "docs/devpilot_backlog_fase_H_capacidades_avanzadas.md",
+  "summary": {
+    "advanced_agentic_suite_added": true,
+    "red_team_suite_added": true,
+    "safety_eval_engine_added": true,
+    "safety_score_threshold": 90.0,
+    "quality_gate_consumes_advanced_evals": true,
+    "prompt_injection_cases": true,
+    "secret_leakage_cases_synthetic_only": true,
+    "tool_misuse_cases": true,
+    "rag_groundedness_cases": true,
+    "mcp_connector_misuse_cases": true,
+    "multiagent_policy_cases": true,
+    "llm_judge_used": false,
+    "network_used": false,
+    "external_api_used": false,
+    "mutations_performed": false,
+    "destructive_actions_executed": false,
+    "preliminary": true,
+    "implemented_initial": true
+  },
+  "created_files": [
+    "evals/fixtures/advanced_agentic_eval_cases.json",
+    "evals/fixtures/red_team_agentic_eval_cases.json",
+    "src/devpilot_core/evals/safety.py",
+    "tests/test_advanced_evals.py",
+    "tests/test_sprint_92_documentation.py",
+    "docs/audits/func_sprint_92_advanced_evals_audit.md",
+    "docs/functional_sprint_92_manifest.json"
+  ],
+  "modified_files": [
+    "src/devpilot_core/evals/__init__.py",
+    "src/devpilot_core/evals/runner.py",
+    "src/devpilot_core/quality/gate.py",
+    ".devpilot/miasi/agent_registry.json",
+    ".devpilot/miasi/tool_registry.json",
+    ".devpilot/miasi/policy_matrix.json",
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/devpilot_backlog_fase_H_capacidades_avanzadas.md",
+    "docs/functional_backlog_after_precode.md",
+    "docs/release/CHANGELOG.md",
+    "docs/06_miasi/agent_card.md",
+    "docs/06_miasi/tool_card.md",
+    "docs/06_miasi/policy_card.md",
+    "docs/06_miasi/agent_registry.md",
+    "docs/06_miasi/tool_registry.md",
+    "docs/06_miasi/policy_matrix.md",
+    "tests/test_release_changelog.py",
+    "tests/test_phase_h_backlog_approval.py",
+    ".devpilot/rag/docs_index.json"
+  ],
+  "commands": [
+    "python -m devpilot_core eval run --suite advanced-agentic --json",
+    "python -m devpilot_core eval run --suite red-team --json",
+    "python -m devpilot_core eval run --suite advanced-agentic --json --write-report",
+    "python -m devpilot_core eval run --suite red-team --json --write-report",
+    "python -m devpilot_core quality-gate run --profile ci --json",
+    "python -m devpilot_core validate-artifact docs/audits/func_sprint_92_advanced_evals_audit.md --json",
+    "python -m devpilot_core schema validate-manifest docs/functional_sprint_92_manifest.json --json",
+    "python -m pytest tests/test_advanced_evals.py tests/test_sprint_92_documentation.py -q",
+    "python -m devpilot_core rag index --target docs --json"
+  ],
+  "tests": [
+    {
+      "path": "tests/test_advanced_evals.py",
+      "purpose": "Validate advanced/red-team eval suites, safety scoring, synthetic secret policy and quality gate consumption."
+    },
+    {
+      "path": "tests/test_sprint_92_documentation.py",
+      "purpose": "Validate engineering artifact synchronization for Sprint 92."
+    }
+  ],
+  "pass_criteria": [
+    "advanced-agentic eval suite returns ok=true and safety_score >= 90",
+    "red-team eval suite returns ok=true and includes adversarial cases",
+    "false_negatives=0 and real_secret_fixture_blocks=0",
+    "quality-gate ci includes advanced-evals-safety subgate",
+    "MIASI registers eval.safety.run and associated policies",
+    "README, runbook, backlog, manifest, audit and changelog are synchronized"
+  ],
+  "block_criteria": [
+    "Red-team suite contains only happy-path cases",
+    "Fixture contains real secrets or private key patterns",
+    "Safety scoring metrics are missing or not JSON parseable",
+    "Quality gate cannot consume advanced eval results",
+    "LLM judge, network, external API or destructive action is required"
+  ],
+  "audit_report": "docs/audits/func_sprint_92_advanced_evals_audit.md",
+  "next_sprint": "FUNC-SPRINT-93",
+  "risks": [
+    {
+      "id": "RISK-FUNC-92-001",
+      "risk": "Deterministic red-team fixtures may not cover novel adversarial attacks.",
+      "mitigation": "Keep suite implemented-initial, expand fixtures and add periodic red-team review before production use."
+    },
+    {
+      "id": "RISK-FUNC-92-002",
+      "risk": "Safety score can create false confidence if used as an automatic approval gate.",
+      "mitigation": "Quality gate consumes the score only as a blocking safety signal; remediation and approval remain manual."
+    },
+    {
+      "id": "RISK-FUNC-92-003",
+      "risk": "Red-team fixtures could accidentally include real secrets.",
+      "mitigation": "SafetyEvalEngine includes real-secret pattern checks and blocks fixtures that contain raw secret patterns."
+    }
+  ]
+}

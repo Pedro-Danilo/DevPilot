@@ -255,3 +255,10 @@ PASS: `MULTIAGENT_COORDINATOR_DRY_RUN_ALLOW` + `MULTIAGENT_HANDOFF_TRACE_REQUIRE
 Se agregan `MULTIAGENT_WORKFLOW_DRY_RUN_ALLOW` y `MULTIAGENT_WORKFLOW_EXECUTE_DENY`. La primera permite ejecutar workflows SDLC locales únicamente después de validar schema, MIASI, PolicyEngine y trazas; la segunda bloquea cualquier ejecución multiagente no dry-run, destructiva o autónoma abierta.
 
 PASS: workflow JSON aprobado, safety flags seguros, `required_trace=true` por paso y reporte consolidado. BLOCK: ejecución real, red externa, APIs externas, shell, mutaciones, agentes `planned/future` o workflow no validado.
+
+
+## Actualización FUNC-SPRINT-92 — Políticas de safety eval
+
+`EVAL_SAFETY_SCORING_ALLOW` permite ejecutar safety scoring local con `EvalRunner`, `SafetyEvalEngine` y fixtures sintéticos sin red, APIs externas ni LLM judge. `RED_TEAM_FIXTURE_SYNTHETIC_ONLY` bloquea fixtures que parezcan contener secretos reales, claves privadas o tokens reales.
+
+Estas políticas no autorizan mitigación automática, patch apply, ejecución de herramientas críticas ni promoción de cambios sin revisión humana.

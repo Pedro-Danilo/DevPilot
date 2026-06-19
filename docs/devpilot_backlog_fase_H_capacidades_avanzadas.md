@@ -8,7 +8,7 @@ standard: "MIPSoftware"
 extension: "MIASI"
 phase: "FASE-H-CAPACIDADES-AVANZADAS"
 updated: "2026-06-18"
-source_repo: "repo_DevPilot_Local_118.zip"
+source_repo: "repo_DevPilot_Local_120.zip"
 source_report: "Informe de avance DevPilot - sprint 0 - 18.docx"
 source_backlog_model: "docs/functional_backlog_after_precode.md"
 baseline_dependency: "Fases A-G cerradas; Fase G cerrada por FUNC-SPRINT-84 como implemented-initial"
@@ -17,9 +17,9 @@ last_planned_sprint: "FUNC-SPRINT-99"
 approved_on: "2026-06-17"
 approval: "approved_after_phase_g_closure_validation"
 phase_h_status: "in_progress"
-first_open_sprint: "FUNC-SPRINT-92"
-last_completed_sprint: "FUNC-SPRINT-91"
-next_sprint: "FUNC-SPRINT-92"
+first_open_sprint: "FUNC-SPRINT-93"
+last_completed_sprint: "FUNC-SPRINT-92"
+next_sprint: "FUNC-SPRINT-93"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "phase_h_executable_backlog_review"
 ---
@@ -764,6 +764,12 @@ Implementa FUNC-SPRINT-92. Amplía Evaluation Harness con suite advanced-agentic
 ```
 
 ---
+
+## Estado de implementación Sprint 92
+
+`FUNC-SPRINT-92 — Evaluación avanzada, red teaming y safety scoring` queda implementado como capacidad `implemented-initial` de evaluación avanzada local. El sprint agrega suites `advanced-agentic` y `red-team`, `SafetyEvalEngine`, safety scoring, fixtures sintéticos, consumo por `quality-gate run --profile ci`, MIASI/policies, auditoría, manifest y pruebas.
+
+Límites explícitos: no usa LLM judge, no usa red, no llama APIs externas, no almacena secretos reales, no autoriza correcciones automáticas y no sustituye red teaming industrial. El siguiente sprint autorizado es `FUNC-SPRINT-93 — Plugin y connector ecosystem controlado`.
 
 ## FUNC-SPRINT-93 — Plugin y connector ecosystem controlado
 

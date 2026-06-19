@@ -31,14 +31,14 @@ def test_sprint_83_backup_upgrade_artifacts_exist_and_are_synchronized() -> None
     ]:
         assert (ROOT / path).exists(), path
 
-    assert "Último hito: `FUNC-SPRINT-91" in readme
-    assert "Siguiente hito: `FUNC-SPRINT-92" in readme
+    assert "Último hito: `FUNC-SPRINT-92" in readme
+    assert "Siguiente hito: `FUNC-SPRINT-93" in readme
     assert "FUNC-SPRINT-83 — Backup, restore y upgrade local" in readme
     assert "FUNC-SPRINT-83 — Operación de backup" in runbook
     assert 'source_repo: "repo_DevPilot_Local_106.zip"' in backlog_g
     assert 'last_completed_sprint: "FUNC-SPRINT-84"' in backlog_g
     assert 'next_sprint: "FUNC-SPRINT-85"' in backlog_g
-    assert 'next_sprint: "FUNC-SPRINT-92"' in functional_backlog
+    assert 'next_sprint: "FUNC-SPRINT-93"' in functional_backlog
 
 
 def test_sprint_83_docs_define_backup_restore_boundaries() -> None:

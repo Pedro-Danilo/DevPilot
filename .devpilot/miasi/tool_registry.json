@@ -995,6 +995,19 @@
         "MULTIAGENT_WORKFLOW_EXECUTE_DENY",
         "MULTIAGENT_HANDOFF_TRACE_REQUIRED"
       ]
+    },
+    {
+      "tool_id": "eval.safety.run",
+      "name": "run_advanced_agentic_safety_evals",
+      "phase": "Post-MVP",
+      "side_effect": "report",
+      "risk_level": "high",
+      "status": "implemented-initial",
+      "requires_approval": false,
+      "policy_rule_ids": [
+        "EVAL_SAFETY_SCORING_ALLOW",
+        "RED_TEAM_FIXTURE_SYNTHETIC_ONLY"
+      ]
     }
   ]
 }

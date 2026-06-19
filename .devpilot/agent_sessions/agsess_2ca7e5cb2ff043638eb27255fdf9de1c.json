@@ -1,0 +1,87 @@
+{
+  "agent_ids": [
+    "requirements.agent"
+  ],
+  "created_at": "2026-06-19T03:10:25Z",
+  "events": [
+    {
+      "agent_id": "requirements.agent",
+      "command": "agent run",
+      "dry_run": true,
+      "event_id": "9a9fe4f8c60f4e46bdaea648c7872351",
+      "event_type": "agent.session.started",
+      "metadata": {
+        "runtime_version": "v2-model-aware",
+        "sprint": "FUNC-SPRINT-86"
+      },
+      "run_id": "run_27e13e339fbc4608bc4dbbc4697cbfc3",
+      "summary": {
+        "requested_agent": "requirements",
+        "session_created": true
+      },
+      "target": "outputs\\tests\\sdlc_alias_fixture\\requirements",
+      "timestamp": "2026-06-19T03:10:25Z",
+      "trace_id": "trace_1160632a153c423b86ba829fbfeb0c3e"
+    },
+    {
+      "agent_id": "requirements.agent",
+      "command": "agent run",
+      "dry_run": true,
+      "event_id": "3b59e06f61ed4a658eb7b202d2d69fe3",
+      "event_type": "agent.session.completed",
+      "metadata": {
+        "runtime_version": "v2-model-aware",
+        "sprint": "FUNC-SPRINT-86"
+      },
+      "ok": true,
+      "run_id": "run_27e13e339fbc4608bc4dbbc4697cbfc3",
+      "summary": {
+        "findings_total": 3,
+        "model_calls_total": 1,
+        "suggestions_total": 3,
+        "tool_calls_total": 2
+      },
+      "target": "outputs\\tests\\sdlc_alias_fixture\\requirements",
+      "timestamp": "2026-06-19T03:10:25Z",
+      "trace_id": "trace_1160632a153c423b86ba829fbfeb0c3e"
+    }
+  ],
+  "memory": {
+    "last_result": {
+      "agent_id": "requirements.agent",
+      "findings_total": 3,
+      "model_calls_total": 1,
+      "ok": true,
+      "suggestions_total": 3,
+      "tool_calls_total": 2
+    },
+    "operational_context": {
+      "last_agent_id": "requirements.agent",
+      "last_dry_run": true,
+      "last_target": "outputs\\tests\\sdlc_alias_fixture\\requirements"
+    }
+  },
+  "metadata": {
+    "rag_enabled": false,
+    "raw_outputs_stored": false,
+    "raw_prompts_stored": false,
+    "redaction_applied": true,
+    "retention_policy": "local-short-lived-operational-memory",
+    "semantic_memory_enabled": false
+  },
+  "retention_days": 14,
+  "session_id": "agsess_2ca7e5cb2ff043638eb27255fdf9de1c",
+  "status": "completed",
+  "summary": {
+    "agents_total": 1,
+    "events_total": 2,
+    "local_only": true,
+    "memory_items_total": 2,
+    "rag_enabled": false,
+    "raw_outputs_stored": false,
+    "raw_prompts_stored": false,
+    "semantic_memory_enabled": false
+  },
+  "updated_at": "2026-06-19T03:10:25Z",
+  "workspace": "."
+}
