@@ -24,6 +24,7 @@ SUITE_FIXTURE_PATHS = {
     "identity-rbac": Path("evals/fixtures/identity_rbac_eval_cases.json"),
     "audit-pack-integrity": Path("evals/fixtures/audit_pack_integrity_eval_cases.json"),
     "compliance-pack-integrity": Path("evals/fixtures/compliance_pack_integrity_eval_cases.json"),
+    "remote-enterprise": Path("evals/fixtures/remote_enterprise_eval_cases.json"),
 }
 SUPPORTED_COMPONENTS = {
     "validate_frontmatter",

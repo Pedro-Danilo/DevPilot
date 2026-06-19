@@ -718,3 +718,7 @@ Sprint 93 agrega soporte `implemented-initial` para plugins metadata-only. `plug
 - `portfolio.status`: consolida estado de portfolio en modo read-only, sin leer secretos ni `.devpilot/devpilot.db`.
 
 Estas herramientas quedan en estado `implemented-initial`; no ejecutan SaaS, no sincronizan con cloud y no habilitan lectura cruzada de estado.
+
+## FUNC-SPRINT-98 — Remote runner y enterprise reporting tools
+
+Sprint 98 agrega `remote.runner.status` y `enterprise.report`. Ambos son locales y gobernados: `remote.runner.status` solo inspecciona metadata del registry experimental deshabilitado; `enterprise.report` agrega evidencia local read-only. Ninguna herramienta ejecuta remoto, usa cloud, usa red, llama APIs externas, lee secretos ni muta fuente.

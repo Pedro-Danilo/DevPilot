@@ -17,7 +17,7 @@ This changelog follows a Keep a Changelog-compatible category structure and is g
 ## [0.1.0] - 2026-06-19
 
 Release ID: `DEVPL-0.1.0`  
-Range: `FUNC-SPRINT-74` → `FUNC-SPRINT-97`  
+Range: `FUNC-SPRINT-74` → `FUNC-SPRINT-98`  
 Source: `docs/functional_sprint_*_manifest.json`
 
 ### Added
@@ -143,6 +143,7 @@ Source: `docs/functional_sprint_*_manifest.json`
 - `FUNC-SPRINT-95` — `docs/functional_sprint_95_manifest.json`
 - `FUNC-SPRINT-96` — `docs/functional_sprint_96_manifest.json`
 - `FUNC-SPRINT-97` — `docs/functional_sprint_97_manifest.json`
+- `FUNC-SPRINT-98` — `docs/functional_sprint_98_manifest.json`
 
 ### Policy notes
 
@@ -150,6 +151,28 @@ Source: `docs/functional_sprint_*_manifest.json`
 - The CLI does not overwrite `docs/release/CHANGELOG.md`; report writing is limited to `outputs/reports`.
 - Publication, Git tagging, signing and packaging remain outside FUNC-SPRINT-78.
 
+
+
+## FUNC-SPRINT-98 — Remote runners experimentales y enterprise reporting
+
+### Added
+
+- ADR `docs/02_architecture/adrs/ADR-0017-remote-runners-experimental.md` para fijar remote runners como capacidad experimental deshabilitada por defecto.
+- Registry `.devpilot/remote/runner_registry.json` y schema `docs/schemas/remote_runner.schema.json`.
+- CLI `remote runner status --json` para inspección sin ejecución.
+- CLI `enterprise report --json --write-report` para reporte enterprise local/read-only.
+- Suite `remote-enterprise` integrada al safety gate.
+
+### Security
+
+- No hay ejecución remota real.
+- No hay cloud control plane, red, API externa, shell, credenciales ni lectura de secretos.
+- Cualquier intento futuro de ejecución requiere ADR nueva, approval, RBAC, sandboxing y evaluación ampliada.
+
+### Evidence
+
+- `docs/functional_sprint_98_manifest.json`
+- `docs/audits/func_sprint_98_enterprise_reporting_audit.md`
 
 ## Historical verification anchors
 
@@ -160,3 +183,4 @@ This section preserves exact sprint-title anchors used by documentation regressi
 - FUNC-SPRINT-95 — RBAC local y modelo de identidad
 - FUNC-SPRINT-96 — Colaboración local y audit packs
 - FUNC-SPRINT-97 — Compliance packs y policy packs
+- FUNC-SPRINT-98 — Remote runners experimentales y enterprise reporting

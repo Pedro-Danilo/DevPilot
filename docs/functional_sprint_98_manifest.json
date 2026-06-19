@@ -1,0 +1,100 @@
+{
+  "schema_version": "1.0",
+  "sprint_id": "FUNC-SPRINT-98",
+  "sprint": "FUNC-SPRINT-98",
+  "title": "FUNC-SPRINT-98 — Remote runners experimentales y enterprise reporting",
+  "status": "implemented",
+  "implemented_at": "2026-06-19",
+  "phase": "FASE-H-CAPACIDADES-AVANZADAS",
+  "wave": "Ola 12 — Plataforma industrial/enterprise",
+  "source_backlog": "docs/devpilot_backlog_fase_H_capacidades_avanzadas.md",
+  "summary": {
+    "implemented_initial": true,
+    "local_first": true,
+    "enterprise_report_local": true,
+    "enterprise_report_read_only": true,
+    "remote_runner_stub": true,
+    "remote_runner_enabled": false,
+    "remote_execution_used": false,
+    "cloud_control_plane_enabled": false,
+    "policy_engine_used": true,
+    "policy_engine_replaced": false,
+    "network_used": false,
+    "external_api_used": false,
+    "mutations_performed": false,
+    "source_mutations_performed": false,
+    "adr_created": true
+  },
+  "purpose": "Prototipar de forma segura y experimental el límite de remote runners deshabilitados por defecto y agregar enterprise reporting local/read-only sobre evidencia gobernada de DevPilot.",
+  "created_files": [
+    "src/devpilot_core/enterprise/__init__.py",
+    "src/devpilot_core/enterprise/report.py",
+    "src/devpilot_core/remote/__init__.py",
+    "src/devpilot_core/remote/runner.py",
+    ".devpilot/remote/runner_registry.json",
+    "docs/schemas/remote_runner.schema.json",
+    "evals/fixtures/remote_enterprise_eval_cases.json",
+    "tests/test_enterprise_reporting.py",
+    "tests/test_sprint_98_documentation.py",
+    "docs/02_architecture/adrs/ADR-0017-remote-runners-experimental.md",
+    "docs/audits/func_sprint_98_enterprise_reporting_audit.md",
+    "docs/functional_sprint_98_manifest.json"
+  ],
+  "modified_files": [
+    "src/devpilot_core/cli.py",
+    "src/devpilot_core/evals/safety.py",
+    "src/devpilot_core/evals/runner.py",
+    "src/devpilot_core/quality/gate.py",
+    ".devpilot/miasi/agent_registry.json",
+    ".devpilot/miasi/tool_registry.json",
+    ".devpilot/miasi/policy_matrix.json",
+    "docs/schemas/schema_catalog.json",
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/devpilot_backlog_fase_H_capacidades_avanzadas.md",
+    "docs/functional_backlog_after_precode.md",
+    "docs/release/CHANGELOG.md",
+    ".devpilot/rag/docs_index.json"
+  ],
+  "commands": [
+    "python -m devpilot_core remote runner status --json",
+    "python -m devpilot_core enterprise report --json --write-report",
+    "python -m devpilot_core eval run --suite remote-enterprise --json",
+    "python -m devpilot_core schema validate --schema docs/schemas/remote_runner.schema.json --instance .devpilot/remote/runner_registry.json --json",
+    "python -m devpilot_core validate-artifact docs/audits/func_sprint_98_enterprise_reporting_audit.md --json",
+    "python -m devpilot_core validate all --json",
+    "python -m devpilot_core quality-gate run --profile ci --json"
+  ],
+  "tests": [
+    "tests/test_enterprise_reporting.py",
+    "tests/test_sprint_98_documentation.py",
+    "tests/test_schema_registry.py",
+    "tests/test_release_changelog.py",
+    "tests/test_phase_h_backlog_approval.py",
+    "tests/test_advanced_evals.py",
+    "tests/test_quality_gate.py"
+  ],
+  "pass_criteria": [
+    "Remote runner registry validable por schema.",
+    "Remote runners deshabilitados por defecto.",
+    "RemoteRunnerStub bloquea ejecución remota.",
+    "Enterprise report es local/read-only y usa PolicyEngine.",
+    "Suite remote-enterprise pasa con safety_score >= 90 y false_negatives == 0.",
+    "MIASI declara tools/policies remote y enterprise.",
+    "No usa shell, red, APIs externas, cloud ni mutaciones de fuente."
+  ],
+  "block_criteria": [
+    "Bloquear si cualquier runner queda enabled por defecto.",
+    "Bloquear si se ejecutan comandos remotos reales.",
+    "Bloquear si requiere cloud, red, API externa o credenciales.",
+    "Bloquear si enterprise report muta fuente o reemplaza PolicyEngine.",
+    "Bloquear si no existe ADR."
+  ],
+  "risks": [
+    "implemented-initial: no es remote execution real.",
+    "No incluye transporte seguro, autenticación distribuida, firma, cifrado ni sandbox remoto.",
+    "Enterprise report es agregado local inicial, no reporting enterprise completo.",
+    "La habilitación remota futura requiere ADR nueva y safety suite ampliada."
+  ],
+  "next_sprint": "FUNC-SPRINT-99"
+}

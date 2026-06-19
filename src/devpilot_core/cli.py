@@ -14,6 +14,7 @@ from .application import ApplicationService
 from .cli_models import CommandResult, ExitCode, Finding, Severity
 from .connectors import ConnectorAdapter, ConnectorCallOptions, ConnectorRegistry, ConnectorRegistryOptions
 from .compliance import CompliancePackRegistry, ComplianceRegistryOptions, CompliancePackRunner, ComplianceRunOptions
+from .enterprise import EnterpriseReportBuilder, EnterpriseReportOptions
 from .errors import DevPilotError
 from .evals import EvalRunner
 from .identity import IdentityRegistry, IdentityRegistryOptions, RbacCheckInput
@@ -26,6 +27,7 @@ from .plugins import PluginDryRunOptions, PluginRegistry, PluginRegistryOptions
 from .portfolio import PortfolioStatusBuilder
 from .prompts import PromptRegistry
 from .quality import QualityGate, QualityGateOptions
+from .remote import RemoteRunnerStatusOptions, RemoteRunnerStub
 from .rag import LocalRagIndexer, LocalRagRetriever, RagIndexOptions, RagQueryOptions
 from .release import (
     BackupCreateBuilder,
@@ -2603,6 +2605,67 @@ def portfolio_status_command(
 
 
 
+
+def enterprise_report_command(
+    *,
+    remote_registry_path: str = ".devpilot/remote/runner_registry.json",
+    remote_schema_path: str = "docs/schemas/remote_runner.schema.json",
+    compliance_registry_path: str = ".devpilot/compliance/packs.json",
+    workspace_registry_path: str = ".devpilot/workspaces/workspace_registry.json",
+    json_output: bool = False,
+    write_report: bool = False,
+) -> int:
+    """Build FUNC-SPRINT-98 local enterprise governance report."""
+
+    root = project_root()
+    result = EnterpriseReportBuilder(
+        root,
+        options=EnterpriseReportOptions(
+            remote_registry_path=remote_registry_path,
+            remote_schema_path=remote_schema_path,
+            compliance_registry_path=compliance_registry_path,
+            workspace_registry_path=workspace_registry_path,
+        ),
+    ).build()
+    result = _write_optional_command_report(
+        root,
+        result,
+        subject="enterprise:local-report",
+        report_id="enterprise_report",
+        write_report=write_report,
+        metadata={"sprint": "FUNC-SPRINT-98", "component": "EnterpriseReportBuilder"},
+    )
+    _emit_result_event(root, result, subject="enterprise:local-report")
+    _persist_result(root, result, subject="enterprise:local-report")
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+
+def remote_runner_status_command(
+    *,
+    registry_path: str = ".devpilot/remote/runner_registry.json",
+    schema_path: str = "docs/schemas/remote_runner.schema.json",
+    json_output: bool = False,
+    write_report: bool = False,
+) -> int:
+    """Show FUNC-SPRINT-98 remote runner status without executing anything."""
+
+    root = project_root()
+    result = RemoteRunnerStub(root, options=RemoteRunnerStatusOptions(registry_path=registry_path, schema_path=schema_path)).status()
+    result = _write_optional_command_report(
+        root,
+        result,
+        subject=registry_path,
+        report_id="remote_runner_status",
+        write_report=write_report,
+        metadata={"sprint": "FUNC-SPRINT-98", "component": "RemoteRunnerStub"},
+    )
+    _emit_result_event(root, result, subject="remote:runner:status")
+    _persist_result(root, result, subject="remote:runner:status")
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+
 def compliance_list_command(
     *,
     registry_path: str = ".devpilot/compliance/packs.json",
@@ -3819,6 +3882,26 @@ def build_parser() -> argparse.ArgumentParser:
     identity_check.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
 
 
+    enterprise = sub.add_parser("enterprise", help="Build local enterprise governance reports")
+    enterprise_sub = enterprise.add_subparsers(dest="enterprise_command")
+    enterprise_report = enterprise_sub.add_parser("report", help="Build local read-only enterprise report")
+    enterprise_report.add_argument("--remote-registry-path", default=".devpilot/remote/runner_registry.json", help="Remote runner registry path")
+    enterprise_report.add_argument("--remote-schema-path", default="docs/schemas/remote_runner.schema.json", help="Remote runner registry schema path")
+    enterprise_report.add_argument("--compliance-registry-path", default=".devpilot/compliance/packs.json", help="Compliance pack registry path")
+    enterprise_report.add_argument("--workspace-registry-path", default=".devpilot/workspaces/workspace_registry.json", help="Multiworkspace registry path")
+    enterprise_report.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    enterprise_report.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+
+    remote = sub.add_parser("remote", help="Inspect experimental remote runner metadata")
+    remote_sub = remote.add_subparsers(dest="remote_command")
+    remote_runner = remote_sub.add_parser("runner", help="Remote runner experimental boundary")
+    remote_runner_sub = remote_runner.add_subparsers(dest="remote_runner_command")
+    remote_runner_status = remote_runner_sub.add_parser("status", help="Show disabled remote runner status")
+    remote_runner_status.add_argument("--registry-path", default=".devpilot/remote/runner_registry.json", help="Remote runner registry path")
+    remote_runner_status.add_argument("--schema-path", default="docs/schemas/remote_runner.schema.json", help="Remote runner registry schema path")
+    remote_runner_status.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    remote_runner_status.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+
     compliance = sub.add_parser("compliance", help="List and run local declarative compliance/policy packs")
     compliance_sub = compliance.add_subparsers(dest="compliance_command")
     compliance_list = compliance_sub.add_parser("list", help="List validated compliance packs")
@@ -4578,6 +4661,15 @@ def _command_name_from_args(args: argparse.Namespace) -> str:
     if command == "quality-gate":
         subcommand = getattr(args, "quality_gate_command", None)
         return f"quality-gate {subcommand}" if subcommand else "quality-gate"
+    if command == "enterprise":
+        subcommand = getattr(args, "enterprise_command", None)
+        return f"enterprise {subcommand}" if subcommand else "enterprise"
+    if command == "remote":
+        subcommand = getattr(args, "remote_command", None)
+        runner_subcommand = getattr(args, "remote_runner_command", None)
+        if subcommand == "runner" and runner_subcommand:
+            return f"remote runner {runner_subcommand}"
+        return f"remote {subcommand}" if subcommand else "remote"
     if command == "compliance":
         subcommand = getattr(args, "compliance_command", None)
         return f"compliance {subcommand}" if subcommand else "compliance"
@@ -4703,6 +4795,28 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
                 subject=args.subject,
                 workspace_id=args.workspace_id,
                 registry_path=args.registry_path,
+                json_output=args.json,
+                write_report=args.write_report,
+            )
+        parser.print_help()
+        return int(ExitCode.FAIL)
+    if args.command == "enterprise":
+        if args.enterprise_command == "report":
+            return enterprise_report_command(
+                remote_registry_path=args.remote_registry_path,
+                remote_schema_path=args.remote_schema_path,
+                compliance_registry_path=args.compliance_registry_path,
+                workspace_registry_path=args.workspace_registry_path,
+                json_output=args.json,
+                write_report=args.write_report,
+            )
+        parser.print_help()
+        return int(ExitCode.FAIL)
+    if args.command == "remote":
+        if args.remote_command == "runner" and args.remote_runner_command == "status":
+            return remote_runner_status_command(
+                registry_path=args.registry_path,
+                schema_path=args.schema_path,
                 json_output=args.json,
                 write_report=args.write_report,
             )

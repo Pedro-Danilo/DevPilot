@@ -2,13 +2,13 @@
 title: "DevPilot Local — Backlog ejecutable Fase H: Capacidades avanzadas"
 doc_id: "DEVPL-FUNC-BACKLOG-FASE-H-001"
 status: "approved"
-version: "1.9.0"
+version: "1.10.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
 phase: "FASE-H-CAPACIDADES-AVANZADAS"
 updated: "2026-06-19"
-source_repo: "repo_DevPilot_Local_126.zip"
+source_repo: "repo_DevPilot_Local_127.zip"
 source_report: "Informe de avance DevPilot - sprint 0 - 18.docx"
 source_backlog_model: "docs/functional_backlog_after_precode.md"
 baseline_dependency: "Fases A-G cerradas; Fase G cerrada por FUNC-SPRINT-84 como implemented-initial"
@@ -17,9 +17,9 @@ last_planned_sprint: "FUNC-SPRINT-99"
 approved_on: "2026-06-17"
 approval: "approved_after_phase_g_closure_validation"
 phase_h_status: "in_progress"
-first_open_sprint: "FUNC-SPRINT-98"
-last_completed_sprint: "FUNC-SPRINT-97"
-next_sprint: "FUNC-SPRINT-98"
+first_open_sprint: "FUNC-SPRINT-99"
+last_completed_sprint: "FUNC-SPRINT-98"
+next_sprint: "FUNC-SPRINT-99"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "phase_h_executable_backlog_review"
 ---
@@ -1163,6 +1163,19 @@ python -m pytest -q
 ```text
 Implementa FUNC-SPRINT-98. Crea enterprise report local y remote runner stub experimental deshabilitado. No ejecutes remoto ni uses cloud. Documenta ADR y riesgos.
 ```
+
+---
+
+
+## Estado de implementación Sprint 98
+
+`FUNC-SPRINT-98 — Remote runners experimentales y enterprise reporting` queda implementado como `implemented-initial`. DevPilot incorpora `.devpilot/remote/runner_registry.json`, schema `SCHEMA-DEVPL-REMOTE-RUNNER-REGISTRY-V1`, ADR `ADR-0017-remote-runners-experimental.md`, CLI `remote runner status`, CLI `enterprise report`, suite `remote-enterprise` y bindings MIASI para `remote.runner.status`/`enterprise.report`.
+
+La capacidad mantiene alcance local-first: remote runners permanecen deshabilitados por defecto, no existe ejecución remota real, no se usa cloud, red, APIs externas, shell ni credenciales. El enterprise report agrega evidencia local de schemas, MIASI, identidad/RBAC, portfolio, audit packs y compliance packs sin leer secretos ni runtime DB.
+
+Limitación explícita: esta primera versión no constituye control plane enterprise ni remote execution. La habilitación remota futura deberá abrir una nueva ADR con autenticación distribuida, sandboxing remoto, transporte seguro, aprobación humana, observabilidad y safety tests ampliados.
+
+La siguiente unidad abierta es `FUNC-SPRINT-99 — Industrial readiness gate y cierre Fase H`, que deberá consolidar las capacidades avanzadas y cerrar la fase con evidencia de madurez industrial.
 
 ---
 

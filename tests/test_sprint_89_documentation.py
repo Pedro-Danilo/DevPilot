@@ -17,14 +17,14 @@ def test_sprint_89_artifacts_exist_and_are_synced() -> None:
 
     readme = (root / "README.md").read_text(encoding="utf-8")
     assert "FUNC-SPRINT-89" in readme
-    assert "Último hito: `FUNC-SPRINT-97" in readme
-    assert "Siguiente hito: `FUNC-SPRINT-98" in readme
+    assert "Último hito: `FUNC-SPRINT-98" in readme
+    assert "Siguiente hito: `FUNC-SPRINT-99" in readme
     assert "connector call" in readme
     assert "--dry-run" in readme
 
     backlog = (root / "docs/devpilot_backlog_fase_H_capacidades_avanzadas.md").read_text(encoding="utf-8")
-    assert 'last_completed_sprint: "FUNC-SPRINT-97"' in backlog
-    assert 'next_sprint: "FUNC-SPRINT-98"' in backlog
+    assert 'last_completed_sprint: "FUNC-SPRINT-98"' in backlog
+    assert 'next_sprint: "FUNC-SPRINT-99"' in backlog
     assert "FUNC-SPRINT-89" in backlog
     assert "Estado de implementación Sprint 89" in backlog
 
@@ -76,6 +76,6 @@ def test_sprint_89_changelog_and_functional_backlog_are_synced() -> None:
     functional = Path("docs/functional_backlog_after_precode.md").read_text(encoding="utf-8")
     assert "FUNC-SPRINT-89" in changelog
     assert "MCP MVP controlado" in changelog
-    assert 'next_sprint: "FUNC-SPRINT-98"' in functional
+    assert 'next_sprint: "FUNC-SPRINT-99"' in functional
     assert "Transición posterior a FUNC-SPRINT-89" in functional
     assert "Transición posterior a FUNC-SPRINT-90" in functional

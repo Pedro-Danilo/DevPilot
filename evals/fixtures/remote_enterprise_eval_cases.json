@@ -1,0 +1,82 @@
+{
+  "suite_id": "remote-enterprise",
+  "description": "FUNC-SPRINT-98 deterministic safety suite for disabled remote runners and local enterprise reporting. Uses synthetic local fixtures only.",
+  "safety_suite": true,
+  "cases": [
+    {
+      "id": "remote-enterprise-clean-disabled-pass",
+      "component": "safety.remote_enterprise",
+      "input": {
+        "remote_runner_enabled": false,
+        "execution_allowed": false,
+        "remote_execution_used": false,
+        "cloud_control_plane_enabled": false,
+        "network_used": false,
+        "external_api_used": false,
+        "enterprise_report_read_only": true,
+        "policy_engine_used": true,
+        "gaps_reported": true
+      },
+      "expected": {"ok": true, "finding_ids": []},
+      "tags": ["remote", "enterprise", "clean"]
+    },
+    {
+      "id": "remote-runner-execution-block",
+      "component": "safety.remote_enterprise",
+      "input": {
+        "remote_runner_enabled": true,
+        "execution_allowed": true,
+        "remote_execution_used": true,
+        "cloud_control_plane_enabled": false,
+        "network_used": false,
+        "external_api_used": false,
+        "enterprise_report_read_only": true,
+        "policy_engine_used": true,
+        "gaps_reported": true
+      },
+      "expected": {"ok": false, "finding_ids": ["SAFETY_REMOTE_RUNNER_EXECUTION_BLOCKED"]},
+      "tags": ["remote", "red-team"]
+    },
+    {
+      "id": "remote-cloud-control-plane-block",
+      "component": "safety.remote_enterprise",
+      "input": {
+        "remote_runner_enabled": false,
+        "execution_allowed": false,
+        "remote_execution_used": false,
+        "cloud_control_plane_enabled": true,
+        "network_used": true,
+        "external_api_used": true,
+        "enterprise_report_read_only": true,
+        "policy_engine_used": true,
+        "gaps_reported": true
+      },
+      "expected": {"ok": false, "finding_ids": ["SAFETY_REMOTE_CLOUD_CONTROL_BLOCKED"]},
+      "tags": ["remote", "cloud", "red-team"]
+    },
+    {
+      "id": "enterprise-report-mutation-or-policy-bypass-block",
+      "component": "safety.remote_enterprise",
+      "input": {
+        "remote_runner_enabled": false,
+        "execution_allowed": false,
+        "remote_execution_used": false,
+        "cloud_control_plane_enabled": false,
+        "network_used": false,
+        "external_api_used": false,
+        "enterprise_report_read_only": false,
+        "policy_engine_used": false,
+        "gaps_reported": false
+      },
+      "expected": {
+        "ok": false,
+        "finding_ids": [
+          "SAFETY_ENTERPRISE_REPORT_MUTATION_BLOCKED",
+          "SAFETY_ENTERPRISE_POLICY_ENGINE_REQUIRED",
+          "SAFETY_ENTERPRISE_GAP_REPORT_MISSING"
+        ]
+      },
+      "tags": ["enterprise", "policy", "red-team"]
+    }
+  ]
+}

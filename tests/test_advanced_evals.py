@@ -90,7 +90,7 @@ def test_quality_gate_ci_consumes_advanced_safety_evals() -> None:
     assert "advanced-evals-safety" in subgates
     safety = subgates["advanced-evals-safety"]
     assert safety["ok"] is True
-    assert safety["summary"]["suites_passed"] == 7
+    assert safety["summary"]["suites_passed"] == 8
     assert safety["summary"]["safety_scores"]["advanced-agentic"] >= 90.0
     assert safety["summary"]["safety_scores"]["red-team"] >= 90.0
     assert safety["summary"]["safety_scores"]["plugin-ecosystem"] >= 90
@@ -98,3 +98,4 @@ def test_quality_gate_ci_consumes_advanced_safety_evals() -> None:
     assert safety["summary"]["safety_scores"]["identity-rbac"] >= 90.0
     assert safety["summary"]["safety_scores"]["audit-pack-integrity"] >= 90.0
     assert safety["summary"]["safety_scores"]["compliance-pack-integrity"] >= 90.0
+    assert safety["summary"]["safety_scores"]["remote-enterprise"] >= 90.0

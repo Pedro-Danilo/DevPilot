@@ -168,7 +168,9 @@
         "auditpack.build",
         "auditpack.verify",
         "compliance.list",
-        "compliance.run"
+        "compliance.run",
+        "remote.runner.status",
+        "enterprise.report"
       ],
       "required_artifacts": [
         "Agent",
@@ -178,7 +180,9 @@
         "Obs",
         "docs/audits/func_sprint_95_rbac_audit.md",
         "docs/audits/func_sprint_96_audit_pack_audit.md",
-        "docs/audits/func_sprint_97_compliance_packs_audit.md"
+        "docs/audits/func_sprint_97_compliance_packs_audit.md",
+        "docs/02_architecture/adrs/ADR-0017-remote-runners-experimental.md",
+        "docs/audits/func_sprint_98_enterprise_reporting_audit.md"
       ],
       "policy_rule_ids": [
         "SECURITY_AGENT_GOVERNED_ALLOW",
@@ -207,7 +211,11 @@
         "COMPLIANCE_PACK_READ_ALLOW",
         "COMPLIANCE_PACK_RUN_DECLARATIVE_ALLOW",
         "COMPLIANCE_PACK_POLICY_ENGINE_REQUIRED",
-        "COMPLIANCE_PACK_UNDECLARED_ACTION_DENY"
+        "COMPLIANCE_PACK_UNDECLARED_ACTION_DENY",
+        "REMOTE_RUNNER_STATUS_ALLOW",
+        "REMOTE_RUNNER_EXECUTE_DENY",
+        "REMOTE_CLOUD_CONTROL_PLANE_DENY",
+        "ENTERPRISE_REPORT_LOCAL_READ_ONLY_ALLOW"
       ],
       "approval_required": false,
       "observability_required": true,
@@ -242,7 +250,9 @@
         "auditpack.build",
         "auditpack.verify",
         "compliance.list",
-        "compliance.run"
+        "compliance.run",
+        "remote.runner.status",
+        "enterprise.report"
       ],
       "required_artifacts": [
         "Agent",
@@ -252,7 +262,9 @@
         "Obs",
         "docs/audits/func_sprint_95_rbac_audit.md",
         "docs/audits/func_sprint_96_audit_pack_audit.md",
-        "docs/audits/func_sprint_97_compliance_packs_audit.md"
+        "docs/audits/func_sprint_97_compliance_packs_audit.md",
+        "docs/02_architecture/adrs/ADR-0017-remote-runners-experimental.md",
+        "docs/audits/func_sprint_98_enterprise_reporting_audit.md"
       ],
       "policy_rule_ids": [
         "TEST_PLANNER_AGENT_GOVERNED_ALLOW",
@@ -281,7 +293,11 @@
         "COMPLIANCE_PACK_READ_ALLOW",
         "COMPLIANCE_PACK_RUN_DECLARATIVE_ALLOW",
         "COMPLIANCE_PACK_POLICY_ENGINE_REQUIRED",
-        "COMPLIANCE_PACK_UNDECLARED_ACTION_DENY"
+        "COMPLIANCE_PACK_UNDECLARED_ACTION_DENY",
+        "REMOTE_RUNNER_STATUS_ALLOW",
+        "REMOTE_RUNNER_EXECUTE_DENY",
+        "REMOTE_CLOUD_CONTROL_PLANE_DENY",
+        "ENTERPRISE_REPORT_LOCAL_READ_ONLY_ALLOW"
       ],
       "approval_required": false,
       "observability_required": true,
@@ -492,7 +508,9 @@
         "auditpack.build",
         "auditpack.verify",
         "compliance.list",
-        "compliance.run"
+        "compliance.run",
+        "remote.runner.status",
+        "enterprise.report"
       ],
       "required_artifacts": [
         "Full MIASI",
@@ -500,7 +518,9 @@
         "docs/audits/func_sprint_94_multiworkspace_audit.md",
         "docs/audits/func_sprint_95_rbac_audit.md",
         "docs/audits/func_sprint_96_audit_pack_audit.md",
-        "docs/audits/func_sprint_97_compliance_packs_audit.md"
+        "docs/audits/func_sprint_97_compliance_packs_audit.md",
+        "docs/02_architecture/adrs/ADR-0017-remote-runners-experimental.md",
+        "docs/audits/func_sprint_98_enterprise_reporting_audit.md"
       ],
       "policy_rule_ids": [
         "DEPLOY_DENY",
@@ -520,7 +540,11 @@
         "COMPLIANCE_PACK_READ_ALLOW",
         "COMPLIANCE_PACK_RUN_DECLARATIVE_ALLOW",
         "COMPLIANCE_PACK_POLICY_ENGINE_REQUIRED",
-        "COMPLIANCE_PACK_UNDECLARED_ACTION_DENY"
+        "COMPLIANCE_PACK_UNDECLARED_ACTION_DENY",
+        "REMOTE_RUNNER_STATUS_ALLOW",
+        "REMOTE_RUNNER_EXECUTE_DENY",
+        "REMOTE_CLOUD_CONTROL_PLANE_DENY",
+        "ENTERPRISE_REPORT_LOCAL_READ_ONLY_ALLOW"
       ],
       "approval_required": false,
       "observability_required": true,
@@ -556,7 +580,9 @@
         "auditpack.build",
         "auditpack.verify",
         "compliance.list",
-        "compliance.run"
+        "compliance.run",
+        "remote.runner.status",
+        "enterprise.report"
       ],
       "required_artifacts": [
         "Full MIASI",
@@ -568,7 +594,9 @@
         "docs/audits/func_sprint_93_plugin_ecosystem_audit.md",
         "docs/audits/func_sprint_95_rbac_audit.md",
         "docs/audits/func_sprint_96_audit_pack_audit.md",
-        "docs/audits/func_sprint_97_compliance_packs_audit.md"
+        "docs/audits/func_sprint_97_compliance_packs_audit.md",
+        "docs/02_architecture/adrs/ADR-0017-remote-runners-experimental.md",
+        "docs/audits/func_sprint_98_enterprise_reporting_audit.md"
       ],
       "policy_rule_ids": [
         "MULTIAGENT_COORDINATOR_DRY_RUN_ALLOW",
@@ -597,7 +625,11 @@
         "COMPLIANCE_PACK_READ_ALLOW",
         "COMPLIANCE_PACK_RUN_DECLARATIVE_ALLOW",
         "COMPLIANCE_PACK_POLICY_ENGINE_REQUIRED",
-        "COMPLIANCE_PACK_UNDECLARED_ACTION_DENY"
+        "COMPLIANCE_PACK_UNDECLARED_ACTION_DENY",
+        "REMOTE_RUNNER_STATUS_ALLOW",
+        "REMOTE_RUNNER_EXECUTE_DENY",
+        "REMOTE_CLOUD_CONTROL_PLANE_DENY",
+        "ENTERPRISE_REPORT_LOCAL_READ_ONLY_ALLOW"
       ],
       "approval_required": false,
       "observability_required": true,
@@ -620,19 +652,27 @@
         "release.upgrade_check",
         "report.write",
         "trace.append",
-        "policy.check"
+        "policy.check",
+        "remote.runner.status",
+        "enterprise.report"
       ],
       "required_artifacts": [
         "Agent",
         "Tool",
         "Policy",
         "Eval",
-        "Obs"
+        "Obs",
+        "docs/02_architecture/adrs/ADR-0017-remote-runners-experimental.md",
+        "docs/audits/func_sprint_98_enterprise_reporting_audit.md"
       ],
       "policy_rule_ids": [
         "RELEASE_AGENT_DRY_RUN_ALLOW",
         "RELEASE_PUBLISH_DEPLOY_TAG_DENY",
-        "SECRETS_RAW_DENY"
+        "SECRETS_RAW_DENY",
+        "REMOTE_RUNNER_STATUS_ALLOW",
+        "REMOTE_RUNNER_EXECUTE_DENY",
+        "REMOTE_CLOUD_CONTROL_PLANE_DENY",
+        "ENTERPRISE_REPORT_LOCAL_READ_ONLY_ALLOW"
       ],
       "approval_required": false,
       "observability_required": true,

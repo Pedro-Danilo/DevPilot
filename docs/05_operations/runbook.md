@@ -5271,3 +5271,58 @@ python -m devpilot_core eval run --suite compliance-pack-integrity --json
 ### Riesgos y límites
 
 Esta primera versión no implementa catálogos regulatorios completos, auditoría certificable, firma digital, cifrado, evidencias legalmente vinculantes ni reporting enterprise. Los policy packs son perfiles internos de gobernanza sobre DevPilot; para usarlos en contextos regulados se requerirán mapeos normativos, revisión humana y criterios de aceptación externos.
+
+
+## FUNC-SPRINT-98 — Operación de remote runners experimentales y enterprise reporting
+
+### Propósito
+
+Operar la primera versión `implemented-initial` de reporting enterprise local y remote runner stub deshabilitado por defecto. Esta capacidad permite revisar evidencia enterprise sin habilitar ejecución remota real.
+
+### Instalación
+
+No agrega dependencias externas. Ejecutar desde el root del repo con `PYTHONPATH=src`.
+
+### Validación
+
+```powershell
+python -m devpilot_core schema validate --schema docs\schemas\remote_runner.schema.json --instance .devpilot\remote\runner_registry.json --json
+python -m devpilot_core remote runner status --json
+python -m devpilot_core enterprise report --json --write-report
+python -m devpilot_core eval run --suite remote-enterprise --json
+python -m devpilot_core validate all --json
+python -m devpilot_core quality-gate run --profile ci --json
+```
+
+### Fallos
+
+- `REMOTE_RUNNER_UNSAFE_FLAG_BLOCKED`: el registry activó ejecución, red, cloud o credenciales. Debe corregirse a `false`.
+- `REMOTE_RUNNER_PROFILE_NOT_DISABLED`: algún runner no está en estado `disabled`.
+- `ENTERPRISE_REPORT_GAPS_DETECTED`: falta evidencia local de MIASI, RBAC, compliance, schemas o portfolio.
+
+### Recuperación
+
+1. Restaurar `.devpilot/remote/runner_registry.json` desde control de versiones.
+2. Validar el schema.
+3. Reejecutar `remote runner status`.
+4. Reejecutar `enterprise report`.
+5. Ejecutar `quality-gate run --profile ci`.
+
+### Criterios PASS
+
+- Remote runner está `disabled/experimental`.
+- No hay ejecución remota.
+- Enterprise report es local/read-only.
+- `PolicyEngine` se usa y no se reemplaza.
+- La suite `remote-enterprise` pasa.
+
+### Criterios BLOCK
+
+- Cualquier ejecución remota real.
+- Uso de cloud, red, APIs externas, credenciales o shell.
+- Falta de ADR.
+- Enterprise report muta fuente o lee secretos/runtime DB.
+
+### Riesgos
+
+Esta versión es `implemented-initial`. No implementa transporte seguro, workers remotos, control plane cloud, autenticación distribuida, firma, cifrado ni sandbox remoto.

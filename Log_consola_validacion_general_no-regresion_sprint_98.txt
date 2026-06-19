@@ -1,12 +1,12 @@
 (.venv) PS D:\Projects\DevPilot_Local> pytest -q
 ............................................................................................................................................ [ 16%]
-............................................................................................................................................ [ 33%]
+............................................................................................................................................ [ 32%]
 ............................................................................................................................................ [ 49%]
-............................................................................................................................................ [ 66%]
-............................................................................................................................................ [ 83%]
-............................................................................................................................................ [ 99%]
-..                                                                                                                                           [100%]
-DEVPL TEST SUMMARY: 842 passed, 0 failed, 0 errors, 0 skipped
+............................................................................................................................................ [ 65%]
+............................................................................................................................................ [ 81%]
+............................................................................................................................................ [ 98%]
+..............                                                                                                                               [100%]
+DEVPL TEST SUMMARY: 854 passed, 0 failed, 0 errors, 0 skipped
 (.venv) PS D:\Projects\DevPilot_Local> python -m devpilot_core validate all --json
 {
   "command": "validate all",
@@ -19,7 +19,7 @@ DEVPL TEST SUMMARY: 842 passed, 0 failed, 0 errors, 0 skipped
       "validations_total": 2,
       "validations_passed": 2,
       "validations_failed": 0,
-      "findings_total": 110,
+      "findings_total": 111,
       "warnings_total": 12,
       "blocking_findings_total": 0,
       "preliminary": true,
@@ -668,7 +668,7 @@ DEVPL TEST SUMMARY: 842 passed, 0 failed, 0 errors, 0 skipped
                       {
                         "artifact": "docs/05_operations/runbook.md",
                         "exists": true,
-                        "size_bytes": 218288,
+                        "size_bytes": 220352,
                         "frontmatter_ok": true,
                         "artifact_ok": true,
                         "status": "approved",
@@ -677,7 +677,7 @@ DEVPL TEST SUMMARY: 842 passed, 0 failed, 0 errors, 0 skipped
                       {
                         "artifact": "docs/06_miasi/agent_card.md",
                         "exists": true,
-                        "size_bytes": 16009,
+                        "size_bytes": 16390,
                         "frontmatter_ok": true,
                         "artifact_ok": true,
                         "status": "approved",
@@ -686,7 +686,7 @@ DEVPL TEST SUMMARY: 842 passed, 0 failed, 0 errors, 0 skipped
                       {
                         "artifact": "docs/06_miasi/tool_card.md",
                         "exists": true,
-                        "size_bytes": 37747,
+                        "size_bytes": 38159,
                         "frontmatter_ok": true,
                         "artifact_ok": true,
                         "status": "approved",
@@ -695,7 +695,7 @@ DEVPL TEST SUMMARY: 842 passed, 0 failed, 0 errors, 0 skipped
                       {
                         "artifact": "docs/06_miasi/policy_card.md",
                         "exists": true,
-                        "size_bytes": 15969,
+                        "size_bytes": 16402,
                         "frontmatter_ok": true,
                         "artifact_ok": true,
                         "status": "approved",
@@ -1104,10 +1104,10 @@ DEVPL TEST SUMMARY: 842 passed, 0 failed, 0 errors, 0 skipped
           "data": {
             "summary": {
               "scope": "contracts",
-              "validations_total": 84,
-              "validations_passed": 84,
+              "validations_total": 85,
+              "validations_passed": 85,
               "validations_failed": 0,
-              "findings_total": 96,
+              "findings_total": 97,
               "warnings_total": 0,
               "blocking_findings_total": 0,
               "preliminary": true,
@@ -1125,8 +1125,8 @@ DEVPL TEST SUMMARY: 842 passed, 0 failed, 0 errors, 0 skipped
                   "message": "Schema registry listed successfully.",
                   "data": {
                     "summary": {
-                      "schemas_total": 22,
-                      "schemas_existing": 22,
+                      "schemas_total": 23,
+                      "schemas_existing": 23,
                       "duplicate_schema_ids": [],
                       "missing_schema_paths": [],
                       "catalog_path": "docs/schemas/schema_catalog.json",
@@ -1440,6 +1440,20 @@ DEVPL TEST SUMMARY: 842 passed, 0 failed, 0 errors, 0 skipped
                         "validates_instances": true,
                         "contract": "CompliancePackRegistry",
                         "validation_enabled_sprint": "FUNC-SPRINT-97"
+                      },
+                      {
+                        "schema_id": "SCHEMA-DEVPL-REMOTE-RUNNER-REGISTRY-V1",
+                        "title": "DevPilot Remote Runner Experimental Registry v1",
+                        "version": "1.0.0",
+                        "path": "docs/schemas/remote_runner.schema.json",
+                        "description": "Structural contract for .devpilot/remote/runner_registry.json with remote runners disabled by default and no cloud/control-plane execution.",
+                        "status": "registered",
+                        "owner": "Ordóñez",
+                        "sprint": "FUNC-SPRINT-98",
+                        "dialect": "https://json-schema.org/draft/2020-12/schema",
+                        "validates_instances": true,
+                        "contract": "RemoteRunnerRegistry",
+                        "validation_enabled_sprint": "FUNC-SPRINT-98"
                       }
                     ],
                     "notes": [
@@ -1453,8 +1467,8 @@ DEVPL TEST SUMMARY: 842 passed, 0 failed, 0 errors, 0 skipped
                       "message": "Schema registry catalog integrity passed.",
                       "severity": "info",
                       "metadata": {
-                        "schemas_total": 22,
-                        "schemas_existing": 22,
+                        "schemas_total": 23,
+                        "schemas_existing": 23,
                         "duplicate_schema_ids": [],
                         "missing_schema_paths": [],
                         "catalog_path": "docs/schemas/schema_catalog.json",
@@ -5770,6 +5784,50 @@ DEVPL TEST SUMMARY: 842 passed, 0 failed, 0 errors, 0 skipped
                     }
                   ]
                 }
+              },
+              {
+                "id": "manifest:docs/functional_sprint_98_manifest.json",
+                "result": {
+                  "command": "schema validate-manifest",
+                  "ok": true,
+                  "exit_code": 0,
+                  "message": "Schema validation passed.",
+                  "data": {
+                    "summary": {
+                      "schema": "docs/schemas/functional_sprint_manifest.schema.json",
+                      "instance": "docs/functional_sprint_98_manifest.json",
+                      "valid": true,
+                      "errors_total": 0,
+                      "findings_total": 1,
+                      "network_used": false,
+                      "external_api_used": false,
+                      "schema_title": "DevPilot Functional Sprint Manifest v1",
+                      "schema_id": "SCHEMA-DEVPL-FUNCTIONAL-SPRINT-MANIFEST-V1",
+                      "validator": "jsonschema",
+                      "jsonschema_version": "4.26.0",
+                      "preliminary": true,
+                      "contract": "FunctionalSprintManifest",
+                      "subject": "docs/functional_sprint_98_manifest.json"
+                    },
+                    "schema": "docs/schemas/functional_sprint_manifest.schema.json",
+                    "instance": "docs/functional_sprint_98_manifest.json",
+                    "notes": [
+                      "FUNC-SPRINT-22 validates JSON structure only; semantic gates remain in dedicated validators.",
+                      "Validation is local-first and does not call network or external APIs."
+                    ]
+                  },
+                  "findings": [
+                    {
+                      "id": "SCHEMA_VALIDATION_PASS",
+                      "message": "Instance conforms to schema.",
+                      "severity": "info",
+                      "metadata": {
+                        "schema": "docs/schemas/functional_sprint_manifest.schema.json",
+                        "instance": "docs/functional_sprint_98_manifest.json"
+                      }
+                    }
+                  ]
+                }
               }
             ],
             "notes": [
@@ -5783,8 +5841,8 @@ DEVPL TEST SUMMARY: 842 passed, 0 failed, 0 errors, 0 skipped
               "message": "Schema registry catalog integrity passed.",
               "severity": "info",
               "metadata": {
-                "schemas_total": 22,
-                "schemas_existing": 22,
+                "schemas_total": 23,
+                "schemas_existing": 23,
                 "duplicate_schema_ids": [],
                 "missing_schema_paths": [],
                 "catalog_path": "docs/schemas/schema_catalog.json",
@@ -6837,6 +6895,17 @@ DEVPL TEST SUMMARY: 842 passed, 0 failed, 0 errors, 0 skipped
                 "gateway_step": "manifest:docs/functional_sprint_97_manifest.json",
                 "source_command": "schema validate-manifest"
               }
+            },
+            {
+              "id": "SCHEMA_VALIDATION_PASS",
+              "message": "Instance conforms to schema.",
+              "severity": "info",
+              "metadata": {
+                "schema": "docs/schemas/functional_sprint_manifest.schema.json",
+                "instance": "docs/functional_sprint_98_manifest.json",
+                "gateway_step": "manifest:docs/functional_sprint_98_manifest.json",
+                "source_command": "schema validate-manifest"
+              }
             }
           ]
         }
@@ -7026,8 +7095,8 @@ DEVPL TEST SUMMARY: 842 passed, 0 failed, 0 errors, 0 skipped
       "message": "Schema registry catalog integrity passed.",
       "severity": "info",
       "metadata": {
-        "schemas_total": 22,
-        "schemas_existing": 22,
+        "schemas_total": 23,
+        "schemas_existing": 23,
         "duplicate_schema_ids": [],
         "missing_schema_paths": [],
         "catalog_path": "docs/schemas/schema_catalog.json",
@@ -8080,6 +8149,17 @@ DEVPL TEST SUMMARY: 842 passed, 0 failed, 0 errors, 0 skipped
         "gateway_step": "manifest:docs/functional_sprint_97_manifest.json",
         "source_command": "schema validate-manifest"
       }
+    },
+    {
+      "id": "SCHEMA_VALIDATION_PASS",
+      "message": "Instance conforms to schema.",
+      "severity": "info",
+      "metadata": {
+        "schema": "docs/schemas/functional_sprint_manifest.schema.json",
+        "instance": "docs/functional_sprint_98_manifest.json",
+        "gateway_step": "manifest:docs/functional_sprint_98_manifest.json",
+        "source_command": "schema validate-manifest"
+      }
     }
   ]
 }
@@ -8097,7 +8177,7 @@ DEVPL TEST SUMMARY: 842 passed, 0 failed, 0 errors, 0 skipped
       "subgates_passed": 9,
       "subgates_failed": 0,
       "critical_subgates_failed": 0,
-      "findings_total": 130,
+      "findings_total": 131,
       "warnings_total": 24,
       "blocking_findings_total": 0,
       "include_pytest": false,
@@ -8118,7 +8198,7 @@ DEVPL TEST SUMMARY: 842 passed, 0 failed, 0 errors, 0 skipped
         "ok": true,
         "exit_code": 0,
         "critical": true,
-        "duration_ms": 161,
+        "duration_ms": 89,
         "findings_total": 12,
         "warnings_total": 12,
         "blocking_findings_total": 0,
@@ -8137,7 +8217,7 @@ DEVPL TEST SUMMARY: 842 passed, 0 failed, 0 errors, 0 skipped
         "ok": true,
         "exit_code": 0,
         "critical": true,
-        "duration_ms": 11,
+        "duration_ms": 6,
         "findings_total": 0,
         "warnings_total": 0,
         "blocking_findings_total": 0,
@@ -8156,17 +8236,17 @@ DEVPL TEST SUMMARY: 842 passed, 0 failed, 0 errors, 0 skipped
         "ok": true,
         "exit_code": 0,
         "critical": true,
-        "duration_ms": 9,
+        "duration_ms": 5,
         "findings_total": 3,
         "warnings_total": 0,
         "blocking_findings_total": 0,
         "summary": {
           "agents_total": 14,
-          "tools_total": 91,
-          "policy_rules_total": 86,
+          "tools_total": 93,
+          "policy_rules_total": 90,
           "mvp_agents": 2,
-          "high_risk_tools": 26,
-          "approval_gated_rules": 18,
+          "high_risk_tools": 27,
+          "approval_gated_rules": 20,
           "source_paths": {
             "agent_registry": ".devpilot/miasi/agent_registry.json",
             "tool_registry": ".devpilot/miasi/tool_registry.json",
@@ -8282,8 +8362,8 @@ DEVPL TEST SUMMARY: 842 passed, 0 failed, 0 errors, 0 skipped
         "ok": true,
         "exit_code": 0,
         "critical": true,
-        "duration_ms": 4737,
-        "findings_total": 110,
+        "duration_ms": 2947,
+        "findings_total": 111,
         "warnings_total": 12,
         "blocking_findings_total": 0,
         "summary": {
@@ -8291,7 +8371,7 @@ DEVPL TEST SUMMARY: 842 passed, 0 failed, 0 errors, 0 skipped
           "validations_total": 2,
           "validations_passed": 2,
           "validations_failed": 0,
-          "findings_total": 110,
+          "findings_total": 111,
           "warnings_total": 12,
           "blocking_findings_total": 0,
           "preliminary": true,
@@ -8307,7 +8387,7 @@ DEVPL TEST SUMMARY: 842 passed, 0 failed, 0 errors, 0 skipped
         "ok": true,
         "exit_code": 0,
         "critical": true,
-        "duration_ms": 1013,
+        "duration_ms": 727,
         "findings_total": 1,
         "warnings_total": 0,
         "blocking_findings_total": 0,
@@ -8361,12 +8441,12 @@ DEVPL TEST SUMMARY: 842 passed, 0 failed, 0 errors, 0 skipped
       },
       {
         "id": "advanced-evals-safety",
-        "description": "Advanced agentic, red-team, plugin ecosystem, multiworkspace, identity/RBAC, audit-pack and compliance-pack safety eval suites meet scoring thresholds.",
+        "description": "Advanced agentic, red-team, plugin ecosystem, multiworkspace, identity/RBAC, audit-pack, compliance-pack and remote/enterprise safety eval suites meet scoring thresholds.",
         "command": "quality advanced-evals-safety",
         "ok": true,
         "exit_code": 0,
         "critical": true,
-        "duration_ms": 22,
+        "duration_ms": 16,
         "findings_total": 1,
         "warnings_total": 0,
         "blocking_findings_total": 0,
@@ -8378,10 +8458,11 @@ DEVPL TEST SUMMARY: 842 passed, 0 failed, 0 errors, 0 skipped
             "multiworkspace-isolation",
             "identity-rbac",
             "audit-pack-integrity",
-            "compliance-pack-integrity"
+            "compliance-pack-integrity",
+            "remote-enterprise"
           ],
-          "suites_total": 7,
-          "suites_passed": 7,
+          "suites_total": 8,
+          "suites_passed": 8,
           "safety_scores": {
             "advanced-agentic": 100.0,
             "red-team": 100.0,
@@ -8389,7 +8470,8 @@ DEVPL TEST SUMMARY: 842 passed, 0 failed, 0 errors, 0 skipped
             "multiworkspace-isolation": 100.0,
             "identity-rbac": 100.0,
             "audit-pack-integrity": 100.0,
-            "compliance-pack-integrity": 100.0
+            "compliance-pack-integrity": 100.0,
+            "remote-enterprise": 100.0
           },
           "blocking_findings_total": 0,
           "network_used": false,
@@ -8829,8 +8911,8 @@ DEVPL TEST SUMMARY: 842 passed, 0 failed, 0 errors, 0 skipped
         "subgate": "validation-gateway-all",
         "source_command": "schema list",
         "source_finding_id": "SCHEMA_REGISTRY_PASS",
-        "schemas_total": 22,
-        "schemas_existing": 22,
+        "schemas_total": 23,
+        "schemas_existing": 23,
         "duplicate_schema_ids": [],
         "missing_schema_paths": [],
         "catalog_path": "docs/schemas/schema_catalog.json",
@@ -10074,6 +10156,19 @@ DEVPL TEST SUMMARY: 842 passed, 0 failed, 0 errors, 0 skipped
       }
     },
     {
+      "id": "QUALITY_GATE_VALIDATION_GATEWAY_ALL_SCHEMA_VALIDATION_PASS",
+      "message": "Instance conforms to schema.",
+      "severity": "info",
+      "metadata": {
+        "subgate": "validation-gateway-all",
+        "source_command": "schema validate-manifest",
+        "source_finding_id": "SCHEMA_VALIDATION_PASS",
+        "schema": "docs/schemas/functional_sprint_manifest.schema.json",
+        "instance": "docs/functional_sprint_98_manifest.json",
+        "gateway_step": "manifest:docs/functional_sprint_98_manifest.json"
+      }
+    },
+    {
       "id": "QUALITY_GATE_VISUAL_PRODUCT_SMOKE_VISUAL_PRODUCT_SMOKE_PASS",
       "message": "Visual product smoke gate passed.",
       "severity": "info",
@@ -10096,7 +10191,7 @@ DEVPL TEST SUMMARY: 842 passed, 0 failed, 0 errors, 0 skipped
     },
     {
       "id": "QUALITY_GATE_ADVANCED_EVALS_SAFETY_ADVANCED_EVALS_SAFETY_PASS",
-      "message": "Advanced agentic/red-team/plugin ecosystem/multiworkspace/identity/audit-pack/compliance-pack eval suites meet safety thresholds.",
+      "message": "Advanced agentic/red-team/plugin ecosystem/multiworkspace/identity/audit-pack/compliance-pack/remote-enterprise eval suites meet safety thresholds.",
       "severity": "info",
       "metadata": {
         "subgate": "advanced-evals-safety",
@@ -10109,10 +10204,11 @@ DEVPL TEST SUMMARY: 842 passed, 0 failed, 0 errors, 0 skipped
           "multiworkspace-isolation",
           "identity-rbac",
           "audit-pack-integrity",
-          "compliance-pack-integrity"
+          "compliance-pack-integrity",
+          "remote-enterprise"
         ],
-        "suites_total": 7,
-        "suites_passed": 7,
+        "suites_total": 8,
+        "suites_passed": 8,
         "safety_scores": {
           "advanced-agentic": 100.0,
           "red-team": 100.0,
@@ -10120,7 +10216,8 @@ DEVPL TEST SUMMARY: 842 passed, 0 failed, 0 errors, 0 skipped
           "multiworkspace-isolation": 100.0,
           "identity-rbac": 100.0,
           "audit-pack-integrity": 100.0,
-          "compliance-pack-integrity": 100.0
+          "compliance-pack-integrity": 100.0,
+          "remote-enterprise": 100.0
         },
         "blocking_findings_total": 0,
         "network_used": false,

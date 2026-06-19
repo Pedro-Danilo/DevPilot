@@ -14,7 +14,7 @@ change_policy: "controlled_changes_allowed_via_docs_as_code"
 approved_on: "2026-06-06"
 approval_scope: "functional_backlog_after_precode"
 baseline_execution: "FUNC-SPRINT-00"
-next_sprint: "FUNC-SPRINT-98"
+next_sprint: "FUNC-SPRINT-99"
 ---
 
 # DevPilot Local — Backlog ejecutable posterior a pre-code
@@ -2416,3 +2416,9 @@ La siguiente unidad abierta es `FUNC-SPRINT-97 — Compliance packs locales`, qu
 `FUNC-SPRINT-97 — Compliance packs y policy packs` agrega Compliance Pack Registry, schema declarativo, CLI `compliance list`, CLI `compliance run --pack baseline`, suite `compliance-pack-integrity` e integración MIASI/QualityGate. La capacidad queda `implemented-initial`: agrupa gates locales existentes para evidencia PASS/BLOCK y gaps por pack, sin certificación externa, sin shell, sin red y sin reemplazar `PolicyEngine`.
 
 La siguiente unidad abierta es `FUNC-SPRINT-98 — Remote runners experimentales y enterprise reporting`, que debe mantener ejecución remota deshabilitada por defecto y documentar el riesgo mediante ADR.
+
+## Transición posterior a FUNC-SPRINT-98
+
+`FUNC-SPRINT-98 — Remote runners experimentales y enterprise reporting` agrega ADR de remote runners deshabilitados, registry remoto metadata-only, CLI `remote runner status`, CLI `enterprise report`, suite `remote-enterprise` e integración MIASI/QualityGate. La capacidad queda `implemented-initial`: no ejecuta remoto, no usa cloud, no usa red, no requiere credenciales y no reemplaza `PolicyEngine`.
+
+La siguiente unidad abierta es `FUNC-SPRINT-99 — Industrial readiness gate y cierre Fase H`, que deberá consolidar madurez industrial y cierre de Fase H sin ocultar brechas.

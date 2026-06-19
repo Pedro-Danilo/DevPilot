@@ -1190,6 +1190,34 @@
         "COMPLIANCE_PACK_UNDECLARED_ACTION_DENY",
         "SECRETS_RAW_DENY"
       ]
+    },
+    {
+      "tool_id": "remote.runner.status",
+      "name": "remote_runner_experimental_status",
+      "phase": "Post-MVP",
+      "side_effect": "none",
+      "risk_level": "high",
+      "status": "implemented-initial",
+      "requires_approval": false,
+      "policy_rule_ids": [
+        "REMOTE_RUNNER_STATUS_ALLOW",
+        "REMOTE_RUNNER_EXECUTE_DENY",
+        "SECRETS_RAW_DENY"
+      ]
+    },
+    {
+      "tool_id": "enterprise.report",
+      "name": "build_local_enterprise_report",
+      "phase": "Post-MVP",
+      "side_effect": "report",
+      "risk_level": "medium_high",
+      "status": "implemented-initial",
+      "requires_approval": false,
+      "policy_rule_ids": [
+        "ENTERPRISE_REPORT_LOCAL_READ_ONLY_ALLOW",
+        "REMOTE_RUNNER_EXECUTE_DENY",
+        "SECRETS_RAW_DENY"
+      ]
     }
   ]
 }

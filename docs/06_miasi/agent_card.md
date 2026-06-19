@@ -256,3 +256,7 @@ Sprint 93 agrega soporte `implemented-initial` para plugins metadata-only. `plug
 ## FUNC-SPRINT-94 — Agentes y Multiworkspace
 
 `security.agent`, `testplanner.agent`, `operations.agent` y `multiagent.coordinator` reconocen herramientas de registry/portfolio para inspección y validación local. La capacidad es `implemented-initial`: no concede autonomía para leer secretos, abrir bases SQLite de otros workspaces o ejecutar acciones remotas.
+
+## FUNC-SPRINT-98 — Agentes con reporting enterprise local
+
+`security.agent`, `testplanner.agent`, `operations.agent`, `multiagent.coordinator` y `release.assistant` pueden consumir `remote.runner.status` y `enterprise.report` como herramientas de inspección/reporting. La autonomía no aumenta: remote execution permanece bloqueada y el reporte enterprise es local/read-only.

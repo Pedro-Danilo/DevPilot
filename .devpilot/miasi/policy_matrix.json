@@ -777,6 +777,42 @@
       "gate": "Compliance runner allowlist; no arbitrary shell or remote execution",
       "approval_required": false,
       "observability_required": true
+    },
+    {
+      "rule_id": "REMOTE_RUNNER_STATUS_ALLOW",
+      "domain": "RemoteRunner",
+      "action": "status_read",
+      "default_effect": "allow",
+      "gate": "RemoteRunnerRegistry+SchemaValidator+PolicyEngine; status only",
+      "approval_required": false,
+      "observability_required": true
+    },
+    {
+      "rule_id": "REMOTE_RUNNER_EXECUTE_DENY",
+      "domain": "RemoteRunner",
+      "action": "execute_remote",
+      "default_effect": "block",
+      "gate": "RemoteRunnerStub blocks every execution attempt until future ADR approval",
+      "approval_required": true,
+      "observability_required": true
+    },
+    {
+      "rule_id": "REMOTE_CLOUD_CONTROL_PLANE_DENY",
+      "domain": "RemoteRunner",
+      "action": "cloud_control_plane",
+      "default_effect": "block",
+      "gate": "No network/cloud/external API in Sprint 98 experimental boundary",
+      "approval_required": true,
+      "observability_required": true
+    },
+    {
+      "rule_id": "ENTERPRISE_REPORT_LOCAL_READ_ONLY_ALLOW",
+      "domain": "EnterpriseReporting",
+      "action": "aggregate_local_report",
+      "default_effect": "allow",
+      "gate": "EnterpriseReportBuilder read-only aggregation over local registries and summaries",
+      "approval_required": false,
+      "observability_required": true
     }
   ]
 }

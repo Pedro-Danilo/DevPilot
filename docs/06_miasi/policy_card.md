@@ -277,3 +277,7 @@ Sprint 93 agrega soporte `implemented-initial` para plugins metadata-only. `plug
 - `MULTIWORKSPACE_ISOLATION_REQUIRED`: bloquea mezcla de estado, rutas o secretos entre workspaces.
 
 El efecto de aislamiento es `block` por defecto y debe permanecer así hasta implementar RBAC y audit packs.
+
+## FUNC-SPRINT-98 — Políticas remote/enterprise
+
+Sprint 98 agrega `REMOTE_RUNNER_STATUS_ALLOW`, `REMOTE_RUNNER_EXECUTE_DENY`, `REMOTE_CLOUD_CONTROL_PLANE_DENY` y `ENTERPRISE_REPORT_LOCAL_READ_ONLY_ALLOW`. Las políticas mantienen remote runners deshabilitados por defecto y permiten solo reporting enterprise local/read-only. Cualquier ejecución remota futura requiere ADR nueva, RBAC, approval, sandbox y evaluación ampliada.

@@ -1,0 +1,88 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/SCHEMA-DEVPL-REMOTE-RUNNER-REGISTRY-V1",
+  "title": "DevPilot Remote Runner Experimental Registry v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "schema_id", "created_by", "updated_at", "title", "status", "experimental", "description", "security", "runners", "notes"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "schema_id": {"const": "SCHEMA-DEVPL-REMOTE-RUNNER-REGISTRY-V1"},
+    "created_by": {"const": "FUNC-SPRINT-98"},
+    "updated_at": {"type": "string", "minLength": 10},
+    "title": {"type": "string", "minLength": 1},
+    "status": {"enum": ["implemented-initial", "experimental"]},
+    "experimental": {"const": true},
+    "description": {"type": "string", "minLength": 1},
+    "security": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "local_first",
+        "remote_runner_enabled",
+        "execution_allowed",
+        "remote_execution_used",
+        "cloud_control_plane_enabled",
+        "network_used",
+        "external_api_used",
+        "shell_allowed",
+        "arbitrary_command_execution_allowed",
+        "credentials_required",
+        "secrets_read",
+        "source_mutations_performed",
+        "mutations_performed",
+        "policy_engine_required",
+        "approval_required_for_future_execute",
+        "adr_required_for_enablement",
+        "observability_required",
+        "eval_required"
+      ],
+      "properties": {
+        "local_first": {"const": true},
+        "remote_runner_enabled": {"const": false},
+        "execution_allowed": {"const": false},
+        "remote_execution_used": {"const": false},
+        "cloud_control_plane_enabled": {"const": false},
+        "network_used": {"const": false},
+        "external_api_used": {"const": false},
+        "shell_allowed": {"const": false},
+        "arbitrary_command_execution_allowed": {"const": false},
+        "credentials_required": {"const": false},
+        "secrets_read": {"const": false},
+        "source_mutations_performed": {"const": false},
+        "mutations_performed": {"const": false},
+        "policy_engine_required": {"const": true},
+        "approval_required_for_future_execute": {"const": true},
+        "adr_required_for_enablement": {"const": true},
+        "observability_required": {"const": true},
+        "eval_required": {"const": true}
+      }
+    },
+    "runners": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["runner_id", "title", "status", "description", "execution_allowed", "network_allowed", "external_api_allowed", "cloud_allowed", "requires_credentials", "max_autonomy", "notes"],
+        "properties": {
+          "runner_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9_.-]*$"},
+          "title": {"type": "string", "minLength": 1},
+          "status": {"const": "disabled"},
+          "description": {"type": "string", "minLength": 1},
+          "execution_allowed": {"const": false},
+          "network_allowed": {"const": false},
+          "external_api_allowed": {"const": false},
+          "cloud_allowed": {"const": false},
+          "requires_credentials": {"const": false},
+          "max_autonomy": {"const": "A0"},
+          "notes": {"type": "array", "items": {"type": "string"}}
+        }
+      }
+    },
+    "notes": {"type": "array", "items": {"type": "string"}}
+  },
+  "x-devpilot-schema-id": "SCHEMA-DEVPL-REMOTE-RUNNER-REGISTRY-V1",
+  "x-devpilot-sprint": "FUNC-SPRINT-98",
+  "x-devpilot-status": "registered"
+}

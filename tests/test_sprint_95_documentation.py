@@ -32,14 +32,14 @@ def test_sprint_95_readme_runbook_and_backlog_are_synchronized() -> None:
     runbook = read("docs/05_operations/runbook.md")
     backlog = read("docs/devpilot_backlog_fase_H_capacidades_avanzadas.md")
 
-    assert "Último hito: `FUNC-SPRINT-97" in readme
-    assert "Siguiente hito: `FUNC-SPRINT-98" in readme
+    assert "Último hito: `FUNC-SPRINT-98" in readme
+    assert "Siguiente hito: `FUNC-SPRINT-99" in readme
     assert "FUNC-SPRINT-95 — RBAC local y modelo de identidad" in readme
     assert "FUNC-SPRINT-95 — Operación RBAC local y modelo de identidad" in runbook
-    assert 'source_repo: "repo_DevPilot_Local_126.zip"' in backlog
-    assert 'last_completed_sprint: "FUNC-SPRINT-97"' in backlog
-    assert 'next_sprint: "FUNC-SPRINT-98"' in backlog
-    assert 'first_open_sprint: "FUNC-SPRINT-98"' in backlog
+    assert 'source_repo: "repo_DevPilot_Local_127.zip"' in backlog
+    assert 'last_completed_sprint: "FUNC-SPRINT-98"' in backlog
+    assert 'next_sprint: "FUNC-SPRINT-99"' in backlog
+    assert 'first_open_sprint: "FUNC-SPRINT-99"' in backlog
     assert "Estado de implementación Sprint 95" in backlog
 
 
@@ -94,5 +94,5 @@ def test_sprint_95_miasi_policy_and_tool_bindings_exist() -> None:
 def test_sprint_95_release_changelog_mentions_range() -> None:
     changelog = read("docs/release/CHANGELOG.md")
 
-    assert "Range: `FUNC-SPRINT-74` → `FUNC-SPRINT-97`" in changelog
+    assert "Range: `FUNC-SPRINT-74` → `FUNC-SPRINT-98`" in changelog
     assert "FUNC-SPRINT-95 — RBAC local y modelo de identidad" in changelog

@@ -1,12 +1,29 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
 Estado actual: `baseline pre-code approved + Fases A-G cerradas + Fase H en implementación controlada`  
-Último hito: `FUNC-SPRINT-97 — Compliance packs y policy packs`  
-Siguiente hito: `FUNC-SPRINT-98 — Remote runners experimentales y enterprise reporting`  
+Último hito: `FUNC-SPRINT-98 — Remote runners experimentales y enterprise reporting`  
+Siguiente hito: `FUNC-SPRINT-99 — Industrial readiness gate y cierre Fase H`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
 
+
+
+## FUNC-SPRINT-98 — Remote runners experimentales y enterprise reporting
+
+`FUNC-SPRINT-98` introduce una primera versión `implemented-initial` de reporting enterprise local y un stub de remote runners estrictamente deshabilitado por defecto. DevPilot ahora puede validar `.devpilot/remote/runner_registry.json`, consultar `remote runner status` y construir `enterprise report` agregando evidencia local de schemas, MIASI, identidad/RBAC, portfolio, audit packs y compliance packs.
+
+Alcance explícito: no existe ejecución remota real, no hay cloud control plane, no hay shell, no hay red, no hay APIs externas, no hay credenciales remotas y no se leen secretos ni `.devpilot/devpilot.db`. La ADR `ADR-0017` deja documentado que cualquier habilitación futura requiere una decisión arquitectónica nueva con autenticación, autorización, sandboxing, transporte seguro, aprobación humana y evaluación adversarial ampliada.
+
+Comandos principales:
+
+```powershell
+python -m devpilot_core remote runner status --json
+python -m devpilot_core enterprise report --json --write-report
+python -m devpilot_core eval run --suite remote-enterprise --json
+```
+
+Criterios críticos: remote runner `disabled/experimental`, enterprise report local/read-only, `PolicyEngine` usado y no reemplazado, suite `remote-enterprise` consumida por `quality-gate ci`, y bloqueo de cualquier intento de ejecución remota, cloud o networking.
 
 
 ## FUNC-SPRINT-97 — Compliance packs y policy packs

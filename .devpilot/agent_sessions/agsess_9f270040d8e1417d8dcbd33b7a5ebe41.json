@@ -1,0 +1,87 @@
+{
+  "agent_ids": [
+    "repo.analysis"
+  ],
+  "created_at": "2026-06-19T20:59:14Z",
+  "events": [
+    {
+      "agent_id": "repo.analysis",
+      "command": "agent run",
+      "dry_run": true,
+      "event_id": "55f9496747864732b3b50d81b8ba41c5",
+      "event_type": "agent.session.started",
+      "metadata": {
+        "runtime_version": "v2-model-aware",
+        "sprint": "FUNC-SPRINT-86"
+      },
+      "run_id": "run_c9c0300510a84424a96d5488d1c1f7a2",
+      "summary": {
+        "requested_agent": "repo.analysis",
+        "session_created": true
+      },
+      "target": "src/devpilot_core",
+      "timestamp": "2026-06-19T20:59:14Z",
+      "trace_id": "trace_1904f1d921d54019bc6259ec86db4f53"
+    },
+    {
+      "agent_id": "repo.analysis",
+      "command": "agent run",
+      "dry_run": true,
+      "event_id": "ea83117debcd434fa57936599d68b943",
+      "event_type": "agent.session.completed",
+      "metadata": {
+        "runtime_version": "v2-model-aware",
+        "sprint": "FUNC-SPRINT-86"
+      },
+      "ok": true,
+      "run_id": "run_c9c0300510a84424a96d5488d1c1f7a2",
+      "summary": {
+        "findings_total": 12,
+        "model_calls_total": 0,
+        "suggestions_total": 3,
+        "tool_calls_total": 4
+      },
+      "target": "src/devpilot_core",
+      "timestamp": "2026-06-19T21:05:51Z",
+      "trace_id": "trace_1904f1d921d54019bc6259ec86db4f53"
+    }
+  ],
+  "memory": {
+    "last_result": {
+      "agent_id": "repo.analysis",
+      "findings_total": 12,
+      "model_calls_total": 0,
+      "ok": true,
+      "suggestions_total": 3,
+      "tool_calls_total": 4
+    },
+    "operational_context": {
+      "last_agent_id": "repo.analysis",
+      "last_dry_run": true,
+      "last_target": "src/devpilot_core"
+    }
+  },
+  "metadata": {
+    "rag_enabled": false,
+    "raw_outputs_stored": false,
+    "raw_prompts_stored": false,
+    "redaction_applied": true,
+    "retention_policy": "local-short-lived-operational-memory",
+    "semantic_memory_enabled": false
+  },
+  "retention_days": 14,
+  "session_id": "agsess_9f270040d8e1417d8dcbd33b7a5ebe41",
+  "status": "completed",
+  "summary": {
+    "agents_total": 1,
+    "events_total": 2,
+    "local_only": true,
+    "memory_items_total": 2,
+    "rag_enabled": false,
+    "raw_outputs_stored": false,
+    "raw_prompts_stored": false,
+    "semantic_memory_enabled": false
+  },
+  "updated_at": "2026-06-19T21:05:51Z",
+  "workspace": "."
+}

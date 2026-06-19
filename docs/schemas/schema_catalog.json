@@ -317,6 +317,20 @@
       "validates_instances": true,
       "contract": "CompliancePackRegistry",
       "validation_enabled_sprint": "FUNC-SPRINT-97"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-REMOTE-RUNNER-REGISTRY-V1",
+      "title": "DevPilot Remote Runner Experimental Registry v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/remote_runner.schema.json",
+      "description": "Structural contract for .devpilot/remote/runner_registry.json with remote runners disabled by default and no cloud/control-plane execution.",
+      "status": "registered",
+      "owner": "Ordóñez",
+      "sprint": "FUNC-SPRINT-98",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "contract": "RemoteRunnerRegistry",
+      "validation_enabled_sprint": "FUNC-SPRINT-98"
     }
   ]
 }

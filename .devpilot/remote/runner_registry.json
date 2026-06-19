@@ -1,0 +1,52 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "SCHEMA-DEVPL-REMOTE-RUNNER-REGISTRY-V1",
+  "created_by": "FUNC-SPRINT-98",
+  "updated_at": "2026-06-19",
+  "title": "DevPilot Remote Runner Experimental Registry",
+  "status": "implemented-initial",
+  "experimental": true,
+  "description": "Metadata-only registry for future remote runners. Sprint 98 keeps all remote execution disabled by default.",
+  "security": {
+    "local_first": true,
+    "remote_runner_enabled": false,
+    "execution_allowed": false,
+    "remote_execution_used": false,
+    "cloud_control_plane_enabled": false,
+    "network_used": false,
+    "external_api_used": false,
+    "shell_allowed": false,
+    "arbitrary_command_execution_allowed": false,
+    "credentials_required": false,
+    "secrets_read": false,
+    "source_mutations_performed": false,
+    "mutations_performed": false,
+    "policy_engine_required": true,
+    "approval_required_for_future_execute": true,
+    "adr_required_for_enablement": true,
+    "observability_required": true,
+    "eval_required": true
+  },
+  "runners": [
+    {
+      "runner_id": "experimental-disabled",
+      "title": "Experimental disabled remote runner profile",
+      "status": "disabled",
+      "description": "Placeholder profile for enterprise architecture review. It cannot execute commands or contact remote systems.",
+      "execution_allowed": false,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "cloud_allowed": false,
+      "requires_credentials": false,
+      "max_autonomy": "A0",
+      "notes": [
+        "Sprint 98 is metadata-only and status-only.",
+        "Future enablement requires ADR, approval workflow, sandboxing, authentication, transport security and dedicated evals."
+      ]
+    }
+  ],
+  "notes": [
+    "Implemented-initial: this registry is not a remote execution capability.",
+    "The CLI exposes status only; execution attempts remain blocked."
+  ]
+}
