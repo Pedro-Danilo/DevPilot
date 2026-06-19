@@ -1,8 +1,8 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
 Estado actual: `baseline pre-code approved + Fases A-G cerradas + Fase H en implementación controlada`  
-Último hito: `FUNC-SPRINT-94 — Multiworkspace Manager y portfolio local`  
-Siguiente hito: `FUNC-SPRINT-95 — RBAC local y modelo de identidad`  
+Último hito: `FUNC-SPRINT-95 — RBAC local y modelo de identidad`  
+Siguiente hito: `FUNC-SPRINT-96 — Colaboración local y audit packs`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
@@ -10,6 +10,23 @@ Modo de trabajo: local-first híbrido, API keys opcionales, costo externo contro
 
 
 
+
+## FUNC-SPRINT-95 — RBAC local y modelo de identidad
+
+`FUNC-SPRINT-95` introduce una primera versión `implemented-initial` de identidad local y RBAC. DevPilot ahora declara actores locales, roles mínimos y permisos sobre acciones sensibles, integra RBAC con `PolicyEngine` y bloquea aprobaciones críticas si el actor no está autorizado.
+
+Alcance explícito: no implementa SaaS, OAuth, SSO, LDAP, MFA, sesiones remotas, passwords, tokens persistentes ni autenticación cloud. El registry es local, metadata-first y reproducible.
+
+Comandos principales:
+
+```powershell
+python -m devpilot_core identity current --json
+python -m devpilot_core identity roles --json
+python -m devpilot_core identity check --actor local-owner --action execute --tool tests.run --subject pytest --json
+python -m devpilot_core eval run --suite identity-rbac --json
+```
+
+Criterios críticos: roles mínimos presentes, RBAC no decorativo, `PolicyEngine` consulta RBAC para acciones sensibles, `ApprovalService` exige actor autorizado en aprobaciones críticas y `quality-gate ci` consume la suite `identity-rbac`.
 
 ## FUNC-SPRINT-94 — Multiworkspace Manager y portfolio local
 

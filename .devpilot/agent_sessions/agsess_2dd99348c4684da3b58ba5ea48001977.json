@@ -1,0 +1,56 @@
+{
+  "agent_ids": [
+    "precode.audit"
+  ],
+  "created_at": "2026-06-19T15:19:58Z",
+  "events": [
+    {
+      "agent_id": "precode.audit",
+      "command": "agent run",
+      "dry_run": true,
+      "event_id": "2441da98b42b4164a642ea4b926c55e3",
+      "event_type": "agent.session.started",
+      "metadata": {
+        "api_key": "[REDACTED]",
+        "safe": "visible",
+        "sprint": "FUNC-SPRINT-86"
+      },
+      "summary": {
+        "requested_agent": "precode-audit",
+        "session_created": true
+      },
+      "target": "docs",
+      "timestamp": "2026-06-19T15:19:58Z"
+    }
+  ],
+  "memory": {
+    "operational_context": {
+      "last_agent_id": "precode.audit",
+      "last_dry_run": true,
+      "last_target": "docs"
+    }
+  },
+  "metadata": {
+    "rag_enabled": false,
+    "raw_outputs_stored": false,
+    "raw_prompts_stored": false,
+    "redaction_applied": true,
+    "retention_policy": "local-short-lived-operational-memory",
+    "semantic_memory_enabled": false
+  },
+  "retention_days": 14,
+  "session_id": "agsess_2dd99348c4684da3b58ba5ea48001977",
+  "status": "active",
+  "summary": {
+    "agents_total": 1,
+    "events_total": 1,
+    "local_only": true,
+    "memory_items_total": 1,
+    "rag_enabled": false,
+    "raw_outputs_stored": false,
+    "raw_prompts_stored": false,
+    "semantic_memory_enabled": false
+  },
+  "updated_at": "2026-06-19T15:19:58Z",
+  "workspace": "."
+}

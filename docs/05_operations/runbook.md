@@ -5156,3 +5156,40 @@ python -m devpilot_core eval run --suite multiworkspace-isolation --json
 ### Riesgos y límites
 
 Esta versión no implementa RBAC, autenticación remota, SaaS, sincronización cloud ni lectura de workspaces externos mediante registry global en `~/.devpilot`. El registry local es suficiente para Sprint 94 y reduce riesgo; el soporte de workspaces externos debe evolucionar con RBAC, audit packs y una ADR de aislamiento.
+
+
+## FUNC-SPRINT-95 — Operación RBAC local y modelo de identidad
+
+### Propósito
+
+Operar la primera versión local de identidad/RBAC para proteger acciones sensibles, UI/API futura y Approval Workflow sin SaaS ni autenticación remota.
+
+### Comandos
+
+```powershell
+python -m devpilot_core identity current --json
+python -m devpilot_core identity roles --json
+python -m devpilot_core identity check --actor local-owner --action execute --tool tests.run --subject pytest --json
+python -m devpilot_core eval run --suite identity-rbac --json
+python -m devpilot_core quality-gate run --profile ci --json
+```
+
+### PASS
+
+- Registry local valida contra `docs/schemas/identity_registry.schema.json`.
+- Roles mínimos presentes: owner, architect, developer, reviewer, operator, agent-supervisor.
+- `PolicyEngine` incluye decisión RBAC en acciones sensibles.
+- `ApprovalService` bloquea aprobación crítica si el actor no tiene permiso.
+- No hay auth remota, credenciales, red ni APIs externas.
+
+### BLOCK
+
+- Actor desconocido autorizado.
+- Permisos decorativos que no afectan PolicyEngine/ApprovalService.
+- Aprobación crítica sin actor.
+- Auth remota o credenciales persistidas.
+- Quality Gate no consume `identity-rbac`.
+
+### Riesgos
+
+`implemented-initial`: esta capa no es IAM completo. No hay sesiones, SSO, MFA ni multiusuario real. La granularidad de permisos debe evolucionar para UI/API, workspaces y colaboración local.

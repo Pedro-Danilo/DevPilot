@@ -10,7 +10,7 @@ from devpilot_core.miasi import MiasiRegistryValidator
 from devpilot_core.policy import PolicyEngine, PolicyRequest, load_cost_policy
 from devpilot_core.testing import TestsRunTool
 
-from .simulation import PolicySimulationSuite, isolated_security_workspace
+from .simulation import PolicySimulationSuite, SYNTHETIC_SECURITY_ACTOR, isolated_security_workspace
 
 
 @dataclass(frozen=True)
@@ -150,14 +150,14 @@ class SecurityReadiness:
                     tool_id="tests.run",
                     action="execute",
                     subject="smoke",
-                    actor="security-readiness",
+                    actor=SYNTHETIC_SECURITY_ACTOR,
                     reason="Synthetic approval for Fase B readiness smoke test.",
                     ttl_minutes=30,
                     metadata={"source": "security-readiness", "sprint": "FUNC-SPRINT-34"},
                 )
             )
             approval_id = requested.data.get("approval", {}).get("approval_id") if requested.ok else None
-            approved = service.approve(approval_id, actor="security-readiness", reason="Synthetic approval for Fase B readiness.") if approval_id else requested
+            approved = service.approve(approval_id, actor=SYNTHETIC_SECURITY_ACTOR, reason="Synthetic approval for Fase B readiness.") if approval_id else requested
             engine = PolicyEngine(temp_root, cost_policy=load_cost_policy(temp_root))
             policy_valid = engine.evaluate(
                 PolicyRequest(

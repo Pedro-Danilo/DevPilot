@@ -8,6 +8,7 @@ from typing import Any
 
 from devpilot_core.cli_models import CommandResult, ExitCode, Finding, Severity
 from devpilot_core.policy import redact_sensitive_data
+from devpilot_core.identity import IdentityRegistry, RbacCheckInput
 
 from .models import ApprovalDecision, ApprovalRequest, ApprovalStatus, parse_utc_iso
 from .store import ApprovalStore
@@ -107,6 +108,18 @@ class ApprovalService:
 
     def request(self, data: ApprovalCliInput) -> CommandResult:
         scope, findings = parse_scope(data.scope, tool_id=data.tool_id, action=data.action, subject=data.subject)
+        rbac = IdentityRegistry(self.root).evaluate(
+            RbacCheckInput(
+                actor_id=data.actor,
+                action="approval.request",
+                permission="approval.request",
+                tool_id=data.tool_id,
+                subject=data.subject,
+                require_sensitive=False,
+            )
+        )
+        if rbac.effect.value == "block":
+            findings.append(rbac.to_finding())
         expires_at = data.expires_at or future_expiry_iso(data.ttl_minutes)
         if data.expires_at:
             try:
@@ -191,13 +204,34 @@ class ApprovalService:
         return self._transition(approval_id, status=ApprovalStatus.REVOKED.value, actor=actor, reason=reason, command="approval revoke")
 
     def _transition(self, approval_id: str, *, status: str, actor: str, reason: str, command: str) -> CommandResult:
+        permission = "approval.decide.critical" if status == ApprovalStatus.APPROVED.value else "approval.decide.noncritical"
+        rbac = IdentityRegistry(self.root).evaluate(
+            RbacCheckInput(
+                actor_id=actor,
+                action=f"approval.{status}",
+                permission=permission,
+                subject=approval_id,
+                require_sensitive=status == ApprovalStatus.APPROVED.value,
+            )
+        )
+        if rbac.effect.value == "block":
+            return _redact_command_result(
+                CommandResult(
+                    command=command,
+                    ok=False,
+                    exit_code=ExitCode.BLOCK,
+                    message="Approval decision blocked by local RBAC.",
+                    data={"summary": {"approval_id": approval_id, "actor": actor, "rbac_allowed": False, "preliminary": True}, "decision": rbac.to_dict()},
+                    findings=[rbac.to_finding()],
+                )
+            )
         result = self.store.decide(
             ApprovalDecision(
                 approval_id=approval_id,
                 status=status,
                 actor=actor,
                 reason=reason,
-                metadata={"source": "approval-cli", "sprint": "FUNC-SPRINT-29", "command": command},
+                metadata={"source": "approval-cli", "sprint": "FUNC-SPRINT-95", "command": command, "rbac_permission": permission},
             )
         )
         redacted = _redact_command_result(_rename_command(result, command))

@@ -14,7 +14,7 @@ change_policy: "controlled_changes_allowed_via_docs_as_code"
 approved_on: "2026-06-06"
 approval_scope: "functional_backlog_after_precode"
 baseline_execution: "FUNC-SPRINT-00"
-next_sprint: "FUNC-SPRINT-95"
+next_sprint: "FUNC-SPRINT-96"
 ---
 
 # DevPilot Local — Backlog ejecutable posterior a pre-code
@@ -2397,3 +2397,8 @@ La capacidad es `implemented-initial`: sirve como control de regresión local, n
 ## Actualización FUNC-SPRINT-94 — Multiworkspace Manager y portfolio local
 
 `FUNC-SPRINT-94` agrega Multiworkspace Registry local, schema de registry, CLI `workspace register/list/select/registry-validate`, `portfolio status` read-only y suite `multiworkspace-isolation`. La capacidad queda en estado `implemented-initial`: no implementa SaaS, RBAC, auth remota, lectura de secretos ni mezcla de `.devpilot/devpilot.db` entre workspaces. La siguiente unidad funcional abierta es `FUNC-SPRINT-95 — RBAC local y modelo de identidad`.
+
+
+## Actualización FUNC-SPRINT-95 — RBAC local y modelo de identidad
+
+`FUNC-SPRINT-95` agrega Identity Registry local, schema de identidad, CLI `identity current/roles/check`, integración RBAC con `PolicyEngine`, actor binding en Approval Workflow y suite `identity-rbac`. La capacidad queda en estado `implemented-initial`: no implementa SaaS, auth remota, SSO, MFA, sesiones ni almacenamiento de credenciales. La siguiente unidad funcional abierta es `FUNC-SPRINT-96 — Colaboración local y audit packs`.

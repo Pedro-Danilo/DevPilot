@@ -21,7 +21,7 @@ def test_approval_center_can_request_list_show_approve_and_deny_controlled_recor
     client = _client()
     request = client.post(
         "/api/v1/approvals/request",
-        json={"tool_id": "tests.run", "action": "execute", "subject": "pytest-sprint71", "actor": "tester", "reason": "sprint 71 test", "ttl_minutes": 30},
+        json={"tool_id": "tests.run", "action": "execute", "subject": "pytest-sprint71", "actor": "local-owner", "reason": "sprint 71 test", "ttl_minutes": 30},
     )
     assert request.status_code == 200
     approval = request.json()["data"]["approval"]
@@ -36,16 +36,16 @@ def test_approval_center_can_request_list_show_approve_and_deny_controlled_recor
     assert shown.status_code == 200
     assert shown.json()["data"]["approval"]["approval_id"] == approval_id
 
-    approved = client.post(f"/api/v1/approvals/{approval_id}/approve", json={"actor": "tester", "reason": "approved for test"})
+    approved = client.post(f"/api/v1/approvals/{approval_id}/approve", json={"actor": "local-owner", "reason": "approved for test"})
     assert approved.status_code == 200
     assert approved.json()["data"]["approval"]["status"] == "approved"
 
     second = client.post(
         "/api/v1/approvals/request",
-        json={"tool_id": "tests.run", "action": "execute", "subject": "pytest-sprint71-deny", "actor": "tester", "reason": "sprint 71 deny", "ttl_minutes": 30},
+        json={"tool_id": "tests.run", "action": "execute", "subject": "pytest-sprint71-deny", "actor": "local-owner", "reason": "sprint 71 deny", "ttl_minutes": 30},
     )
     second_id = second.json()["data"]["approval"]["approval_id"]
-    denied = client.post(f"/api/v1/approvals/{second_id}/deny", json={"actor": "tester", "reason": "denied for test"})
+    denied = client.post(f"/api/v1/approvals/{second_id}/deny", json={"actor": "local-owner", "reason": "denied for test"})
     assert denied.status_code == 200
     assert denied.json()["data"]["approval"]["status"] == "denied"
 

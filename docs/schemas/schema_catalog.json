@@ -8,7 +8,7 @@
   "updated": "2026-06-18",
   "sprint": "FUNC-SPRINT-23",
   "preliminary": true,
-  "purpose": "Catalog of versioned JSON schemas registered by DevPilot. Sprint 93 adds PluginManifest contract for deny-by-default plugin ecosystem governance.",
+  "purpose": "Catalog of versioned JSON schemas registered by DevPilot. Sprint 95 adds IdentityRegistry contract for local-only RBAC and actor binding.",
   "schemas": [
     {
       "schema_id": "SCHEMA-DEVPL-FINDING-V1",
@@ -275,6 +275,20 @@
       "validates_instances": true,
       "contract": "MultiworkspaceRegistry",
       "validation_enabled_sprint": "FUNC-SPRINT-94"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-IDENTITY-REGISTRY-V1",
+      "title": "DevPilot Identity Registry v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/identity_registry.schema.json",
+      "description": "Structural contract for .devpilot/identity/identity_registry.json with local-only actors, roles and RBAC permissions.",
+      "status": "registered",
+      "contract": "IdentityRegistry",
+      "owner": "Ordóñez",
+      "sprint": "FUNC-SPRINT-95",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "FUNC-SPRINT-95"
     }
   ]
 }

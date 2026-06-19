@@ -30,15 +30,15 @@ def test_sprint_59_artifacts_exist_and_are_synchronized() -> None:
     for path in expected_paths:
         assert (ROOT / path).exists(), path
 
-    assert "Último hito: `FUNC-SPRINT-94" in readme
-    assert "Siguiente hito: `FUNC-SPRINT-95" in readme
+    assert "Último hito: `FUNC-SPRINT-95" in readme
+    assert "Siguiente hito: `FUNC-SPRINT-96" in readme
     assert "## FUNC-SPRINT-59 — MetricsCollector para comandos, agentes, tools y modelos" in readme
     assert "## FUNC-SPRINT-59 — Operación de MetricsCollector local" in runbook
     assert 'first_open_sprint: "FUNC-SPRINT-64"' in backlog
     assert 'last_completed_sprint: "FUNC-SPRINT-63"' in backlog
     assert 'next_sprint: "FUNC-SPRINT-64"' in backlog
     assert "## Estado de implementación Sprint 59" in backlog
-    assert 'next_sprint: "FUNC-SPRINT-95"' in functional_backlog
+    assert 'next_sprint: "FUNC-SPRINT-96"' in functional_backlog
     assert "## Transición posterior a FUNC-SPRINT-59" in functional_backlog
     assert manifest["sprint"] == "FUNC-SPRINT-59"
     assert manifest["status"] == "implemented"

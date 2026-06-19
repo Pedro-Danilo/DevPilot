@@ -1092,6 +1092,48 @@
         "MULTIWORKSPACE_ISOLATION_REQUIRED",
         "SECRETS_RAW_DENY"
       ]
+    },
+    {
+      "tool_id": "identity.current",
+      "name": "identity_current_local_actor",
+      "phase": "Post-MVP",
+      "side_effect": "read",
+      "risk_level": "medium_high",
+      "status": "implemented-initial",
+      "requires_approval": false,
+      "policy_rule_ids": [
+        "IDENTITY_READ_LOCAL_ALLOW",
+        "REMOTE_AUTH_DENY",
+        "SECRETS_RAW_DENY"
+      ]
+    },
+    {
+      "tool_id": "identity.roles",
+      "name": "identity_roles_local_rbac",
+      "phase": "Post-MVP",
+      "side_effect": "read",
+      "risk_level": "medium_high",
+      "status": "implemented-initial",
+      "requires_approval": false,
+      "policy_rule_ids": [
+        "IDENTITY_READ_LOCAL_ALLOW",
+        "RBAC_CHECK_SENSITIVE_ACTION_ALLOW",
+        "SECRETS_RAW_DENY"
+      ]
+    },
+    {
+      "tool_id": "identity.rbac.check",
+      "name": "identity_rbac_check_sensitive_action",
+      "phase": "Post-MVP",
+      "side_effect": "none",
+      "risk_level": "high",
+      "status": "implemented-initial",
+      "requires_approval": false,
+      "policy_rule_ids": [
+        "RBAC_CHECK_SENSITIVE_ACTION_ALLOW",
+        "APPROVAL_ACTOR_BINDING_REQUIRED",
+        "SECRETS_RAW_DENY"
+      ]
     }
   ]
 }

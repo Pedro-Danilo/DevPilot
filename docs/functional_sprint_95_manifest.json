@@ -1,0 +1,88 @@
+{
+  "schema_version": "1.0",
+  "sprint_id": "FUNC-SPRINT-95",
+  "sprint": "FUNC-SPRINT-95",
+  "title": "FUNC-SPRINT-95 — RBAC local y modelo de identidad",
+  "status": "implemented",
+  "implemented_at": "2026-06-19",
+  "phase": "FASE-H-CAPACIDADES-AVANZADAS",
+  "wave": "Ola 12 — Plataforma industrial/enterprise",
+  "source_backlog": "docs/devpilot_backlog_fase_H_capacidades_avanzadas.md",
+  "summary": {
+    "implemented_initial": true,
+    "local_first": true,
+    "remote_auth_enabled": false,
+    "credentials_stored": false,
+    "rbac_enforced_for_sensitive_actions": true,
+    "approval_actor_binding": true,
+    "network_used": false,
+    "external_api_used": false
+  },
+  "purpose": "Agregar identidad local, roles y RBAC para proteger PolicyEngine, Approval Workflow y acciones sensibles sin SaaS ni autenticación remota.",
+  "created_files": [
+    "src/devpilot_core/identity/__init__.py",
+    "src/devpilot_core/identity/models.py",
+    "src/devpilot_core/identity/rbac.py",
+    ".devpilot/identity/identity_registry.json",
+    "docs/schemas/identity_registry.schema.json",
+    "evals/fixtures/identity_rbac_eval_cases.json",
+    "tests/test_identity_rbac.py",
+    "tests/test_sprint_95_documentation.py",
+    "docs/audits/func_sprint_95_rbac_audit.md",
+    "docs/functional_sprint_95_manifest.json"
+  ],
+  "modified_files": [
+    "src/devpilot_core/cli.py",
+    "src/devpilot_core/policy/engine.py",
+    "src/devpilot_core/approval/service.py",
+    "src/devpilot_core/evals/safety.py",
+    "src/devpilot_core/evals/runner.py",
+    "src/devpilot_core/quality/gate.py",
+    ".devpilot/miasi/agent_registry.json",
+    ".devpilot/miasi/tool_registry.json",
+    ".devpilot/miasi/policy_matrix.json",
+    "docs/schemas/schema_catalog.json",
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/devpilot_backlog_fase_H_capacidades_avanzadas.md",
+    "docs/functional_backlog_after_precode.md",
+    "docs/release/CHANGELOG.md",
+    "tests/test_schema_registry.py",
+    "tests/test_advanced_evals.py"
+  ],
+  "commands": [
+    "python -m devpilot_core identity current --json",
+    "python -m devpilot_core identity roles --json",
+    "python -m devpilot_core identity check --actor local-owner --action execute --tool tests.run --subject pytest --json",
+    "python -m devpilot_core eval run --suite identity-rbac --json",
+    "python -m devpilot_core quality-gate run --profile ci --json"
+  ],
+  "tests": [
+    "python -m pytest tests/test_identity_rbac.py tests/test_sprint_95_documentation.py -q",
+    "python -m pytest tests/test_schema_registry.py tests/test_advanced_evals.py tests/test_quality_gate.py -q",
+    "python -m devpilot_core validate all --json",
+    "python -m devpilot_core quality-gate run --profile ci --json"
+  ],
+  "pass_criteria": [
+    "Roles mínimos owner, architect, developer, reviewer, operator y agent-supervisor existen.",
+    "Identity Registry valida contra schema.",
+    "PolicyEngine consulta RBAC en acciones sensibles.",
+    "ApprovalService bloquea aprobaciones críticas sin actor autorizado.",
+    "No se habilita autenticación remota ni almacenamiento de credenciales.",
+    "Quality Gate consume suite identity-rbac."
+  ],
+  "block_criteria": [
+    "Roles solo decorativos sin enforcement.",
+    "Aprobación crítica sin actor.",
+    "Actor desconocido autorizado.",
+    "Auth remota habilitada.",
+    "Credenciales almacenadas en registry.",
+    "Suite identity-rbac no consumida por Quality Gate."
+  ],
+  "risks": [
+    "Implemented-initial: no hay IAM completo, SSO, MFA, sesiones ni multiusuario real.",
+    "Permisos coarse-grained; RBAC granular por UI/API/workspace debe evolucionar.",
+    "Alias owner se mantiene por compatibilidad histórica."
+  ],
+  "next_sprint": "FUNC-SPRINT-96"
+}

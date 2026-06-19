@@ -21,6 +21,7 @@ SUITE_FIXTURE_PATHS = {
     "red-team": Path("evals/fixtures/red_team_agentic_eval_cases.json"),
     "plugin-ecosystem": Path("evals/fixtures/plugin_ecosystem_eval_cases.json"),
     "multiworkspace-isolation": Path("evals/fixtures/multiworkspace_isolation_eval_cases.json"),
+    "identity-rbac": Path("evals/fixtures/identity_rbac_eval_cases.json"),
 }
 SUPPORTED_COMPONENTS = {
     "validate_frontmatter",

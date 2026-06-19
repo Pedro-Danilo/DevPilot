@@ -16,10 +16,10 @@ def test_phase_h_backlog_is_approved_after_phase_g_closure() -> None:
     functional = _read("docs/functional_backlog_after_precode.md")
 
     assert 'status: "approved"' in backlog_h
-    assert 'version: "1.6.0"' in backlog_h
-    assert 'source_repo: "repo_DevPilot_Local_122.zip"' in backlog_h
+    assert 'version: "1.7.0"' in backlog_h
+    assert 'source_repo: "repo_DevPilot_Local_123.zip"' in backlog_h
     assert 'phase_h_status: "in_progress"' in backlog_h
-    assert 'next_sprint: "FUNC-SPRINT-95"' in backlog_h
+    assert 'next_sprint: "FUNC-SPRINT-96"' in backlog_h
     assert "## 3.1 Decisión de aprobación" in backlog_h
     assert "FUNC-SPRINT-85" in readme
     assert "Fase H" in runbook

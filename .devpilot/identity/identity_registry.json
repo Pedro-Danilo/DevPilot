@@ -1,0 +1,140 @@
+{
+  "schema_version": "1.0",
+  "created_by": "FUNC-SPRINT-95",
+  "updated_at": "2026-06-19T00:00:00Z",
+  "active_actor_id": "local-owner",
+  "defaults": {
+    "auth_remote_enabled": false,
+    "credentials_stored": false,
+    "deny_unknown_actor": true,
+    "rbac_enforced_for_sensitive_actions": true
+  },
+  "security": {
+    "network_used": false,
+    "external_api_used": false,
+    "remote_auth_used": false,
+    "credentials_read": false,
+    "credentials_stored": false
+  },
+  "roles": [
+    {
+      "role_id": "owner",
+      "name": "Owner",
+      "risk_level": "high",
+      "permissions": [
+        "*"
+      ],
+      "description": "Full local owner for controlled personal workspace operations."
+    },
+    {
+      "role_id": "architect",
+      "name": "Architect",
+      "risk_level": "medium_high",
+      "permissions": [
+        "architecture.review",
+        "policy.evaluate",
+        "workspace.read",
+        "report.read",
+        "approval.request"
+      ],
+      "description": "Architecture and policy reviewer."
+    },
+    {
+      "role_id": "developer",
+      "name": "Developer",
+      "risk_level": "medium",
+      "permissions": [
+        "code.read",
+        "tests.run",
+        "workspace.read",
+        "report.read",
+        "approval.request"
+      ],
+      "description": "Local implementation role without critical approvals."
+    },
+    {
+      "role_id": "reviewer",
+      "name": "Reviewer",
+      "risk_level": "medium_high",
+      "permissions": [
+        "code.review",
+        "policy.read",
+        "report.read",
+        "approval.request",
+        "approval.decide.noncritical"
+      ],
+      "description": "Review role for quality/security evidence."
+    },
+    {
+      "role_id": "operator",
+      "name": "Operator",
+      "risk_level": "medium_high",
+      "permissions": [
+        "workspace.read",
+        "portfolio.status",
+        "state.read",
+        "report.read",
+        "approval.request"
+      ],
+      "description": "Local operational and portfolio inspection role."
+    },
+    {
+      "role_id": "agent-supervisor",
+      "name": "Agent Supervisor",
+      "risk_level": "high",
+      "permissions": [
+        "agent.supervise",
+        "policy.evaluate",
+        "approval.decide.critical",
+        "tool.execute.approve",
+        "external_api.approve",
+        "patch.apply.approve",
+        "release.deploy.approve",
+        "git.write.approve",
+        "filesystem.delete.approve",
+        "filesystem.write.approve",
+        "workspace.select",
+        "portfolio.status"
+      ],
+      "description": "Supervises agentic and approval-gated local operations."
+    }
+  ],
+  "actors": [
+    {
+      "actor_id": "local-owner",
+      "display_name": "Local Owner",
+      "roles": [
+        "owner",
+        "agent-supervisor"
+      ],
+      "status": "active",
+      "workspace_scope": [
+        "devpilot-local"
+      ],
+      "credentials_stored": false,
+      "remote_auth_enabled": false,
+      "metadata": {
+        "source": "FUNC-SPRINT-95",
+        "preliminary": true
+      }
+    },
+    {
+      "actor_id": "owner",
+      "display_name": "Legacy Owner Alias",
+      "roles": [
+        "owner",
+        "agent-supervisor"
+      ],
+      "status": "active",
+      "workspace_scope": [
+        "devpilot-local"
+      ],
+      "credentials_stored": false,
+      "remote_auth_enabled": false,
+      "metadata": {
+        "source": "FUNC-SPRINT-95",
+        "compatibility_alias": true
+      }
+    }
+  ]
+}

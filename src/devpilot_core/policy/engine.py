@@ -12,6 +12,7 @@ from devpilot_core.policy.path_guard import PathGuard, PathPolicy
 from devpilot_core.policy.prompt_guard import PromptInjectionGuard
 from devpilot_core.policy.secrets import REDACTED, SecretGuard
 from devpilot_core.policy.tool_injection_guard import ToolInjectionGuard
+from devpilot_core.identity import IdentityRegistry, RbacCheckInput, permission_for_action
 
 
 @dataclass(frozen=True)
@@ -29,6 +30,7 @@ class PolicyRequest:
     approval_id: str | None = None
     tool_id: str | None = None
     subject: str | None = None
+    actor: str | None = None
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -43,6 +45,7 @@ class PolicyRequest:
             "tool_id": self.tool_id,
             "subject": self.subject,
             "metadata": self.metadata,
+            "actor": self.actor,
         }
 
 
@@ -95,6 +98,26 @@ class PolicyEngine:
         )
         decisions.append(approval_decision)
         approval_valid = approval_decision.rule_id == "APPROVAL_VALID" and approval_decision.effect == PolicyEffect.ALLOW
+
+        # FUNC-SPRINT-95: local RBAC is enforced for sensitive/approval-gated
+        # requests. Missing actor falls back to the active local identity so
+        # legacy CLI/tests remain deterministic while new UI/API paths can pass
+        # actor explicitly.
+        actor = request.actor or str(request.metadata.get("actor") or "") or None
+        rbac_required = approval_decision.metadata.get("approval_required", False) or action in self.dangerous_actions
+        if rbac_required:
+            rbac_decision = IdentityRegistry(self.root).evaluate(
+                RbacCheckInput(
+                    actor_id=actor,
+                    action=action,
+                    permission=permission_for_action(action, tool_id=request.tool_id),
+                    tool_id=request.tool_id,
+                    subject=request.subject or request.path,
+                    workspace_id=str(request.metadata.get("workspace_id") or "") or None,
+                    require_sensitive=True,
+                )
+            )
+            decisions.append(rbac_decision)
 
         if action in self.dangerous_actions and request.dry_run and not approval_valid:
             decisions.append(

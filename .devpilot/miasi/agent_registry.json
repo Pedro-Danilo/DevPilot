@@ -161,14 +161,18 @@
         "workspace.registry.validate",
         "workspace.registry.register",
         "workspace.registry.select",
-        "portfolio.status"
+        "portfolio.status",
+        "identity.current",
+        "identity.roles",
+        "identity.rbac.check"
       ],
       "required_artifacts": [
         "Agent",
         "Tool",
         "Policy",
         "Eval",
-        "Obs"
+        "Obs",
+        "docs/audits/func_sprint_95_rbac_audit.md"
       ],
       "policy_rule_ids": [
         "SECURITY_AGENT_GOVERNED_ALLOW",
@@ -185,7 +189,11 @@
         "MULTIWORKSPACE_REGISTER_LOCAL_ALLOW",
         "MULTIWORKSPACE_SELECT_LOCAL_ALLOW",
         "PORTFOLIO_STATUS_READ_ONLY_ALLOW",
-        "MULTIWORKSPACE_ISOLATION_REQUIRED"
+        "MULTIWORKSPACE_ISOLATION_REQUIRED",
+        "IDENTITY_READ_LOCAL_ALLOW",
+        "RBAC_CHECK_SENSITIVE_ACTION_ALLOW",
+        "APPROVAL_ACTOR_BINDING_REQUIRED",
+        "REMOTE_AUTH_DENY"
       ],
       "approval_required": false,
       "observability_required": true,
@@ -213,14 +221,18 @@
         "workspace.registry.validate",
         "workspace.registry.register",
         "workspace.registry.select",
-        "portfolio.status"
+        "portfolio.status",
+        "identity.current",
+        "identity.roles",
+        "identity.rbac.check"
       ],
       "required_artifacts": [
         "Agent",
         "Tool",
         "Policy",
         "Eval",
-        "Obs"
+        "Obs",
+        "docs/audits/func_sprint_95_rbac_audit.md"
       ],
       "policy_rule_ids": [
         "TEST_PLANNER_AGENT_GOVERNED_ALLOW",
@@ -237,7 +249,11 @@
         "MULTIWORKSPACE_REGISTER_LOCAL_ALLOW",
         "MULTIWORKSPACE_SELECT_LOCAL_ALLOW",
         "PORTFOLIO_STATUS_READ_ONLY_ALLOW",
-        "MULTIWORKSPACE_ISOLATION_REQUIRED"
+        "MULTIWORKSPACE_ISOLATION_REQUIRED",
+        "IDENTITY_READ_LOCAL_ALLOW",
+        "RBAC_CHECK_SENSITIVE_ACTION_ALLOW",
+        "APPROVAL_ACTOR_BINDING_REQUIRED",
+        "REMOTE_AUTH_DENY"
       ],
       "approval_required": false,
       "observability_required": true,
@@ -441,12 +457,16 @@
         "workspace.registry.validate",
         "workspace.registry.register",
         "workspace.registry.select",
-        "portfolio.status"
+        "portfolio.status",
+        "identity.current",
+        "identity.roles",
+        "identity.rbac.check"
       ],
       "required_artifacts": [
         "Full MIASI",
         "portfolio governance",
-        "docs/audits/func_sprint_94_multiworkspace_audit.md"
+        "docs/audits/func_sprint_94_multiworkspace_audit.md",
+        "docs/audits/func_sprint_95_rbac_audit.md"
       ],
       "policy_rule_ids": [
         "DEPLOY_DENY",
@@ -454,7 +474,11 @@
         "MULTIWORKSPACE_REGISTER_LOCAL_ALLOW",
         "MULTIWORKSPACE_SELECT_LOCAL_ALLOW",
         "PORTFOLIO_STATUS_READ_ONLY_ALLOW",
-        "MULTIWORKSPACE_ISOLATION_REQUIRED"
+        "MULTIWORKSPACE_ISOLATION_REQUIRED",
+        "IDENTITY_READ_LOCAL_ALLOW",
+        "RBAC_CHECK_SENSITIVE_ACTION_ALLOW",
+        "APPROVAL_ACTOR_BINDING_REQUIRED",
+        "REMOTE_AUTH_DENY"
       ],
       "approval_required": false,
       "observability_required": true,
@@ -483,7 +507,10 @@
         "workspace.registry.validate",
         "workspace.registry.register",
         "workspace.registry.select",
-        "portfolio.status"
+        "portfolio.status",
+        "identity.current",
+        "identity.roles",
+        "identity.rbac.check"
       ],
       "required_artifacts": [
         "Full MIASI",
@@ -492,7 +519,8 @@
         "docs/audits/func_sprint_91_multiagent_workflows_audit.md",
         ".devpilot/workflows/sdlc_review.json",
         "docs/audits/func_sprint_92_advanced_evals_audit.md",
-        "docs/audits/func_sprint_93_plugin_ecosystem_audit.md"
+        "docs/audits/func_sprint_93_plugin_ecosystem_audit.md",
+        "docs/audits/func_sprint_95_rbac_audit.md"
       ],
       "policy_rule_ids": [
         "MULTIAGENT_COORDINATOR_DRY_RUN_ALLOW",
@@ -509,7 +537,11 @@
         "MULTIWORKSPACE_REGISTER_LOCAL_ALLOW",
         "MULTIWORKSPACE_SELECT_LOCAL_ALLOW",
         "PORTFOLIO_STATUS_READ_ONLY_ALLOW",
-        "MULTIWORKSPACE_ISOLATION_REQUIRED"
+        "MULTIWORKSPACE_ISOLATION_REQUIRED",
+        "IDENTITY_READ_LOCAL_ALLOW",
+        "RBAC_CHECK_SENSITIVE_ACTION_ALLOW",
+        "APPROVAL_ACTOR_BINDING_REQUIRED",
+        "REMOTE_AUTH_DENY"
       ],
       "approval_required": false,
       "observability_required": true,

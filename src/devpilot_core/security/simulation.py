@@ -14,6 +14,11 @@ from devpilot_core.policy import PolicyEngine, PolicyRequest, load_cost_policy
 from devpilot_core.store import LocalStore
 
 PAST_EXPIRY = "2000-01-01T00:00:00Z"
+# FUNC-SPRINT-95 introduced RBAC on approval requests/decisions.
+# Security simulations run in an isolated workspace, so they must use the
+# local registered owner actor instead of the historic free-form
+# "security-readiness" actor that existed before RBAC enforcement.
+SYNTHETIC_SECURITY_ACTOR = "local-owner"
 
 
 @dataclass(frozen=True)
@@ -179,6 +184,7 @@ def isolated_security_workspace(root: Path) -> Iterator[Path]:
     with tempfile.TemporaryDirectory(prefix="devpilot-security-") as tmp:
         temp_root = Path(tmp).resolve()
         _copy_if_exists(root / ".devpilot" / "miasi", temp_root / ".devpilot" / "miasi")
+        _copy_if_exists(root / ".devpilot" / "identity", temp_root / ".devpilot" / "identity")
         _copy_if_exists(root / ".devpilot" / "execution", temp_root / ".devpilot" / "execution")
         _copy_if_exists(root / ".devpilot" / "testing", temp_root / ".devpilot" / "testing")
         _copy_file_if_exists(root / ".devpilot" / "policy.yaml", temp_root / ".devpilot" / "policy.yaml")
@@ -211,14 +217,18 @@ def _approved_id(service: ApprovalService, *, subject: str) -> str:
             tool_id="tests.run",
             action="execute",
             subject=subject,
-            actor="security-readiness",
+            actor=SYNTHETIC_SECURITY_ACTOR,
             reason="Synthetic policy simulation approval.",
             ttl_minutes=30,
             metadata={"source": "policy-simulation", "sprint": "FUNC-SPRINT-34"},
         )
     )
-    approval_id = requested.data["approval"]["approval_id"]
-    approved = service.approve(approval_id, actor="security-readiness", reason="Synthetic approval for policy simulation.")
+    if not requested.ok:
+        raise RuntimeError(f"Could not request synthetic approval: {requested.to_dict()}")
+    approval_id = (requested.data or {}).get("approval", {}).get("approval_id")
+    if not approval_id:
+        raise RuntimeError(f"Synthetic approval request did not return approval_id: {requested.to_dict()}")
+    approved = service.approve(approval_id, actor=SYNTHETIC_SECURITY_ACTOR, reason="Synthetic approval for policy simulation.")
     if not approved.ok:
         raise RuntimeError(f"Could not create synthetic approval: {approved.to_dict()}")
     return approval_id

@@ -1,0 +1,205 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/SCHEMA-DEVPL-IDENTITY-REGISTRY-V1",
+  "title": "DevPilot Identity Registry v1",
+  "description": "Structural contract for .devpilot/identity/identity_registry.json with local-only RBAC roles and actor metadata.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "created_by",
+    "updated_at",
+    "active_actor_id",
+    "defaults",
+    "security",
+    "roles",
+    "actors"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "created_by": {
+      "const": "FUNC-SPRINT-95"
+    },
+    "updated_at": {
+      "type": "string",
+      "minLength": 1
+    },
+    "active_actor_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "defaults": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "auth_remote_enabled",
+        "credentials_stored",
+        "deny_unknown_actor",
+        "rbac_enforced_for_sensitive_actions"
+      ],
+      "properties": {
+        "auth_remote_enabled": {
+          "const": false
+        },
+        "credentials_stored": {
+          "const": false
+        },
+        "deny_unknown_actor": {
+          "const": true
+        },
+        "rbac_enforced_for_sensitive_actions": {
+          "const": true
+        }
+      }
+    },
+    "security": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "network_used",
+        "external_api_used",
+        "remote_auth_used",
+        "credentials_read",
+        "credentials_stored"
+      ],
+      "properties": {
+        "network_used": {
+          "const": false
+        },
+        "external_api_used": {
+          "const": false
+        },
+        "remote_auth_used": {
+          "const": false
+        },
+        "credentials_read": {
+          "const": false
+        },
+        "credentials_stored": {
+          "const": false
+        }
+      }
+    },
+    "roles": {
+      "type": "array",
+      "minItems": 6,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "role_id",
+          "name",
+          "risk_level",
+          "permissions",
+          "description"
+        ],
+        "properties": {
+          "role_id": {
+            "type": "string",
+            "enum": [
+              "owner",
+              "architect",
+              "developer",
+              "reviewer",
+              "operator",
+              "agent-supervisor"
+            ]
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "risk_level": {
+            "type": "string",
+            "enum": [
+              "low",
+              "medium",
+              "medium_high",
+              "high"
+            ]
+          },
+          "permissions": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "description": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "actors": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "actor_id",
+          "display_name",
+          "roles",
+          "status",
+          "workspace_scope",
+          "credentials_stored",
+          "remote_auth_enabled",
+          "metadata"
+        ],
+        "properties": {
+          "actor_id": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^[a-zA-Z0-9_.-]+$"
+          },
+          "display_name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "roles": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string"
+            }
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "active",
+              "disabled"
+            ]
+          },
+          "workspace_scope": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "credentials_stored": {
+            "const": false
+          },
+          "remote_auth_enabled": {
+            "const": false
+          },
+          "metadata": {
+            "type": "object"
+          }
+        }
+      }
+    }
+  },
+  "x-devpilot-schema-id": "SCHEMA-DEVPL-IDENTITY-REGISTRY-V1",
+  "x-devpilot-version": "1.0.0",
+  "x-devpilot-sprint": "FUNC-SPRINT-95",
+  "x-devpilot-status": "registered",
+  "x-devpilot-preliminary": true,
+  "x-devpilot-validation-enabled-sprint": "FUNC-SPRINT-95",
+  "x-devpilot-note": "Implemented-initial local-only RBAC registry. No remote authentication, sessions, passwords, tokens or SaaS identity provider are enabled."
+}

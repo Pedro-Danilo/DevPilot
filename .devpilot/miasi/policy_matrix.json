@@ -669,6 +669,42 @@
       "gate": "MultiworkspaceRegistry+StatePathIsolation+SecretGuard+PathGuard",
       "approval_required": false,
       "observability_required": true
+    },
+    {
+      "rule_id": "IDENTITY_READ_LOCAL_ALLOW",
+      "domain": "Identity",
+      "action": "identity_read_local",
+      "default_effect": "allow",
+      "gate": "IdentityRegistry+SchemaValidator+PathGuard+SecretGuard",
+      "approval_required": false,
+      "observability_required": true
+    },
+    {
+      "rule_id": "RBAC_CHECK_SENSITIVE_ACTION_ALLOW",
+      "domain": "Identity",
+      "action": "rbac_check_sensitive_action",
+      "default_effect": "allow",
+      "gate": "IdentityRegistry+RBAC+PolicyEngine+ApprovalPolicyChecker",
+      "approval_required": false,
+      "observability_required": true
+    },
+    {
+      "rule_id": "APPROVAL_ACTOR_BINDING_REQUIRED",
+      "domain": "Approval",
+      "action": "approval_actor_binding",
+      "default_effect": "block",
+      "gate": "ApprovalService+IdentityRegistry+RBAC",
+      "approval_required": false,
+      "observability_required": true
+    },
+    {
+      "rule_id": "REMOTE_AUTH_DENY",
+      "domain": "Identity",
+      "action": "remote_authentication",
+      "default_effect": "deny",
+      "gate": "IdentityRegistry+LocalOnlyPolicy",
+      "approval_required": true,
+      "observability_required": true
     }
   ]
 }

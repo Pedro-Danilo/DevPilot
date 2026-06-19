@@ -30,15 +30,15 @@ def test_sprint_60_artifacts_exist_and_are_synchronized() -> None:
     for path in expected_paths:
         assert (ROOT / path).exists(), path
 
-    assert "Último hito: `FUNC-SPRINT-94" in readme
-    assert "Siguiente hito: `FUNC-SPRINT-95" in readme
+    assert "Último hito: `FUNC-SPRINT-95" in readme
+    assert "Siguiente hito: `FUNC-SPRINT-96" in readme
     assert "## FUNC-SPRINT-60 — Instrumentación agentic: agentes, tools, approvals y model calls" in readme
     assert "## FUNC-SPRINT-60 — Operación de instrumentación AgentOps agentic" in runbook
     assert 'first_open_sprint: "FUNC-SPRINT-64"' in backlog
     assert 'last_completed_sprint: "FUNC-SPRINT-63"' in backlog
     assert 'next_sprint: "FUNC-SPRINT-64"' in backlog
     assert "## Estado de implementación Sprint 60" in backlog
-    assert 'next_sprint: "FUNC-SPRINT-95"' in functional_backlog
+    assert 'next_sprint: "FUNC-SPRINT-96"' in functional_backlog
     assert "## Transición posterior a FUNC-SPRINT-60" in functional_backlog
     assert manifest["sprint"] == "FUNC-SPRINT-60"
     assert manifest["status"] == "implemented"

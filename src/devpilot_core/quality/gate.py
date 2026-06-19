@@ -144,7 +144,7 @@ class QualityGate:
             subgates.append(QualitySubgate("visual-product-smoke", "Fase F visual product smoke gate in dry-run JSON mode.", self._visual_product_smoke))
         if self.options.profile in {"ci", "release"}:
             subgates.append(QualitySubgate("ci-workflow-static", "Static safety validation for optional GitHub Actions workflow scaffold.", self._ci_workflow_static))
-            subgates.append(QualitySubgate("advanced-evals-safety", "Advanced agentic, red-team, plugin ecosystem and multiworkspace safety eval suites meet scoring thresholds.", self._advanced_evals_safety))
+            subgates.append(QualitySubgate("advanced-evals-safety", "Advanced agentic, red-team, plugin ecosystem, multiworkspace and identity/RBAC safety eval suites meet scoring thresholds.", self._advanced_evals_safety))
         if self.options.profile == "release":
             subgates.extend([
                 QualitySubgate("release-manifest-static", "Release manifest builder can generate local release evidence.", self._release_manifest_static),
@@ -217,7 +217,7 @@ class QualityGate:
         """Consume Sprint 92 advanced/red-team eval results in CI/release gates."""
 
         runner = EvalRunner(self.root, config=EvalRunnerConfig(workdir=Path("outputs/evals/workdir_quality_gate")))
-        suites = ["advanced-agentic", "red-team", "plugin-ecosystem", "multiworkspace-isolation"]
+        suites = ["advanced-agentic", "red-team", "plugin-ecosystem", "multiworkspace-isolation", "identity-rbac"]
         results = [runner.run(suite=suite) for suite in suites]
         subresults = [result.to_dict() for result in results]
         blocking_findings = [finding for result in results for finding in result.findings if finding.severity in {Severity.FAIL, Severity.BLOCK, Severity.ERROR}]

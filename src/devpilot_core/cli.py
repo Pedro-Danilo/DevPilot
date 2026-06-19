@@ -14,6 +14,7 @@ from .cli_models import CommandResult, ExitCode, Finding, Severity
 from .connectors import ConnectorAdapter, ConnectorCallOptions, ConnectorRegistry, ConnectorRegistryOptions
 from .errors import DevPilotError
 from .evals import EvalRunner
+from .identity import IdentityRegistry, IdentityRegistryOptions, RbacCheckInput
 from .observability import AgentOpsGateOptions, AgentOpsQualityGate, EventLogger, MetricsCollector, OTelDryRunExporter, OTelExportOptions, TraceQueryService
 from .miasi import MiasiRegistryValidator
 from .modeling import BudgetLedger, CapabilityMatrix, ModelAdapterRouter, ModelEvalRunner, ModelEvalRunnerConfig, ModelHealthService, ModelRouterConfig
@@ -2595,6 +2596,95 @@ def portfolio_status_command(
     print_result(result, json_output=json_output)
     return int(result.exit_code)
 
+
+
+def identity_current_command(
+    *,
+    registry_path: str = ".devpilot/identity/identity_registry.json",
+    json_output: bool = False,
+    write_report: bool = False,
+) -> int:
+    """Show the current FUNC-SPRINT-95 local identity actor."""
+
+    root = project_root()
+    result = IdentityRegistry(root, options=IdentityRegistryOptions(registry_path=registry_path)).current()
+    result = _write_optional_command_report(
+        root,
+        result,
+        subject="identity:current",
+        report_id="identity_current",
+        write_report=write_report,
+        metadata={"sprint": "FUNC-SPRINT-95", "component": "IdentityRegistry"},
+    )
+    _emit_result_event(root, result, subject="identity:current")
+    _persist_result(root, result, subject="identity:current")
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+
+def identity_roles_command(
+    *,
+    registry_path: str = ".devpilot/identity/identity_registry.json",
+    json_output: bool = False,
+    write_report: bool = False,
+) -> int:
+    """List FUNC-SPRINT-95 local RBAC roles."""
+
+    root = project_root()
+    result = IdentityRegistry(root, options=IdentityRegistryOptions(registry_path=registry_path)).roles()
+    result = _write_optional_command_report(
+        root,
+        result,
+        subject="identity:roles",
+        report_id="identity_roles",
+        write_report=write_report,
+        metadata={"sprint": "FUNC-SPRINT-95", "component": "IdentityRegistry"},
+    )
+    _emit_result_event(root, result, subject="identity:roles")
+    _persist_result(root, result, subject="identity:roles")
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+
+def identity_check_command(
+    *,
+    action: str,
+    actor: str | None = None,
+    permission: str | None = None,
+    tool_id: str | None = None,
+    subject: str | None = None,
+    workspace_id: str | None = None,
+    registry_path: str = ".devpilot/identity/identity_registry.json",
+    json_output: bool = False,
+    write_report: bool = False,
+) -> int:
+    """Evaluate one local RBAC permission without remote auth."""
+
+    root = project_root()
+    result = IdentityRegistry(root, options=IdentityRegistryOptions(registry_path=registry_path)).check(
+        RbacCheckInput(
+            actor_id=actor,
+            action=action,
+            permission=permission,
+            tool_id=tool_id,
+            subject=subject,
+            workspace_id=workspace_id,
+            require_sensitive=True,
+        )
+    )
+    result = _write_optional_command_report(
+        root,
+        result,
+        subject=subject or action,
+        report_id="identity_check",
+        write_report=write_report,
+        metadata={"sprint": "FUNC-SPRINT-95", "component": "IdentityRegistry"},
+    )
+    _emit_result_event(root, result, subject=subject or action)
+    _persist_result(root, result, subject=subject or action)
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
 def state_init_command(*, json_output: bool = False, write_report: bool = False) -> int:
     """Initialize the local SQLite operational state store."""
 
@@ -3321,6 +3411,7 @@ def policy_check_command(
     approval_id: str | None = None,
     tool_id: str | None = None,
     subject: str | None = None,
+    actor: str | None = None,
     json_output: bool = False,
     write_report: bool = False,
 ) -> int:
@@ -3352,7 +3443,8 @@ def policy_check_command(
         approval_id=approval_id,
         tool_id=tool_id,
         subject=subject,
-        metadata={"source": "policy-check-cli", "sprint": "FUNC-SPRINT-30"} if approval_id or tool_id or subject else {},
+        actor=actor,
+        metadata={"source": "policy-check-cli", "sprint": "FUNC-SPRINT-95", "actor": actor} if approval_id or tool_id or subject or actor else {},
     )
     result = engine.evaluate(request)
     result = _write_optional_command_report(
@@ -3376,6 +3468,7 @@ def policy_simulate_command(
     subject: str | None = None,
     path: str | None = None,
     approval_id: str | None = None,
+    actor: str | None = None,
     matrix: str | None = None,
     json_output: bool = False,
     write_report: bool = False,
@@ -3412,7 +3505,8 @@ def policy_simulate_command(
                 approval_id=approval_id,
                 tool_id=tool_id,
                 subject=subject,
-                metadata={"source": "policy-simulate-cli", "sprint": "FUNC-SPRINT-30"},
+                actor=actor,
+                metadata={"source": "policy-simulate-cli", "sprint": "FUNC-SPRINT-95", "actor": actor},
             )
         )
         result = CommandResult(
@@ -3580,6 +3674,27 @@ def build_parser() -> argparse.ArgumentParser:
     portfolio_status.add_argument("--registry-path", default=".devpilot/workspaces/workspace_registry.json", help="Multiworkspace Registry JSON path")
     portfolio_status.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     portfolio_status.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+
+    identity = sub.add_parser("identity", help="Inspect local identity and RBAC model")
+    identity_sub = identity.add_subparsers(dest="identity_command")
+    identity_current = identity_sub.add_parser("current", help="Show current local identity actor")
+    identity_current.add_argument("--registry-path", default=".devpilot/identity/identity_registry.json", help="Identity Registry JSON path")
+    identity_current.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    identity_current.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+    identity_roles = identity_sub.add_parser("roles", help="List local RBAC roles")
+    identity_roles.add_argument("--registry-path", default=".devpilot/identity/identity_registry.json", help="Identity Registry JSON path")
+    identity_roles.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    identity_roles.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+    identity_check = identity_sub.add_parser("check", help="Evaluate one local RBAC permission")
+    identity_check.add_argument("--actor", default=None, help="Actor id; defaults to active local actor")
+    identity_check.add_argument("--action", required=True, help="Action to evaluate, e.g. execute or approval.approve")
+    identity_check.add_argument("--permission", default=None, help="Optional explicit permission id")
+    identity_check.add_argument("--tool", dest="tool_id", default=None, help="Optional MIASI tool id")
+    identity_check.add_argument("--subject", default=None, help="Optional subject")
+    identity_check.add_argument("--workspace-id", default=None, help="Optional workspace scope")
+    identity_check.add_argument("--registry-path", default=".devpilot/identity/identity_registry.json", help="Identity Registry JSON path")
+    identity_check.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    identity_check.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
 
     state = sub.add_parser("state", help="Manage local SQLite operational state")
     state_sub = state.add_subparsers(dest="state_command")
@@ -4225,6 +4340,7 @@ def build_parser() -> argparse.ArgumentParser:
     policy_check.add_argument("--approval-id", default=None, help="Optional human approval ID for approval-gated actions")
     policy_check.add_argument("--tool", dest="tool_id", default=None, help="Optional MIASI tool ID used for approval scope matching")
     policy_check.add_argument("--subject", default=None, help="Optional tool subject used for approval scope matching")
+    policy_check.add_argument("--actor", default=None, help="Optional local RBAC actor id")
     policy_check.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     policy_check.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
 
@@ -4234,6 +4350,7 @@ def build_parser() -> argparse.ArgumentParser:
     policy_simulate.add_argument("--subject", default=None, help="Tool subject, e.g. pytest or unit")
     policy_simulate.add_argument("--path", default=None, help="Optional path subject for PathGuard")
     policy_simulate.add_argument("--approval-id", default=None, help="Optional human approval ID")
+    policy_simulate.add_argument("--actor", default=None, help="Optional local RBAC actor id")
     policy_simulate.add_argument("--matrix", choices=["standard"], default=None, help="Run a predefined policy simulation matrix")
     policy_simulate.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     policy_simulate.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
@@ -4261,6 +4378,9 @@ def _command_name_from_args(args: argparse.Namespace) -> str:
     if command == "portfolio":
         subcommand = getattr(args, "portfolio_command", None)
         return f"portfolio {subcommand}" if subcommand else "portfolio"
+    if command == "identity":
+        subcommand = getattr(args, "identity_command", None)
+        return f"identity {subcommand}" if subcommand else "identity"
     if command == "policy":
         subcommand = getattr(args, "policy_command", None)
         return f"policy {subcommand}" if subcommand else "policy"
@@ -4409,6 +4529,25 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
     if args.command == "portfolio":
         if args.portfolio_command == "status":
             return portfolio_status_command(registry_path=args.registry_path, json_output=args.json, write_report=args.write_report)
+        parser.print_help()
+        return int(ExitCode.FAIL)
+    if args.command == "identity":
+        if args.identity_command == "current":
+            return identity_current_command(registry_path=args.registry_path, json_output=args.json, write_report=args.write_report)
+        if args.identity_command == "roles":
+            return identity_roles_command(registry_path=args.registry_path, json_output=args.json, write_report=args.write_report)
+        if args.identity_command == "check":
+            return identity_check_command(
+                actor=args.actor,
+                action=args.action,
+                permission=args.permission,
+                tool_id=args.tool_id,
+                subject=args.subject,
+                workspace_id=args.workspace_id,
+                registry_path=args.registry_path,
+                json_output=args.json,
+                write_report=args.write_report,
+            )
         parser.print_help()
         return int(ExitCode.FAIL)
     if args.command == "state":
@@ -4966,6 +5105,7 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
                 approval_id=args.approval_id,
                 tool_id=args.tool_id,
                 subject=args.subject,
+                actor=args.actor,
                 json_output=args.json,
                 write_report=args.write_report,
             )
@@ -4976,6 +5116,7 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
                 subject=args.subject,
                 path=args.path,
                 approval_id=args.approval_id,
+                actor=args.actor,
                 matrix=args.matrix,
                 json_output=args.json,
                 write_report=args.write_report,

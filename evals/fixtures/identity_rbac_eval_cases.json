@@ -1,0 +1,117 @@
+{
+  "suite_id": "identity-rbac",
+  "schema_version": "1.0",
+  "description": "FUNC-SPRINT-95 deterministic safety suite for local identity/RBAC and approval actor binding. Uses synthetic local fixtures only.",
+  "cases": [
+    {
+      "component": "safety.identity_rbac",
+      "input": {
+        "actor_registered": true,
+        "actor_active": true,
+        "required_permission": "tool.execute.approve",
+        "actor_permissions": [
+          "*"
+        ],
+        "remote_auth_enabled": false,
+        "credentials_stored": false,
+        "approval_actor_required": true,
+        "approval_actor_present": true
+      },
+      "expected": {
+        "ok": true,
+        "finding_ids": []
+      },
+      "tags": [
+        "identity",
+        "rbac",
+        "clean"
+      ],
+      "id": "rbac-owner-critical-pass",
+      "description": "rbac-owner-critical-pass"
+    },
+    {
+      "component": "safety.identity_rbac",
+      "input": {
+        "actor_registered": false,
+        "actor_active": false,
+        "required_permission": "tool.execute.approve",
+        "actor_permissions": [],
+        "remote_auth_enabled": false,
+        "credentials_stored": false,
+        "approval_actor_required": true,
+        "approval_actor_present": false
+      },
+      "expected": {
+        "ok": false,
+        "finding_ids": [
+          "SAFETY_IDENTITY_UNKNOWN_ACTOR_BLOCKED",
+          "SAFETY_IDENTITY_APPROVAL_ACTOR_REQUIRED"
+        ]
+      },
+      "tags": [
+        "identity",
+        "rbac",
+        "red-team"
+      ],
+      "id": "rbac-missing-actor-block",
+      "description": "rbac-missing-actor-block"
+    },
+    {
+      "component": "safety.identity_rbac",
+      "input": {
+        "actor_registered": true,
+        "actor_active": true,
+        "required_permission": "tool.execute.approve",
+        "actor_permissions": [
+          "tests.run"
+        ],
+        "remote_auth_enabled": false,
+        "credentials_stored": false,
+        "approval_actor_required": true,
+        "approval_actor_present": true
+      },
+      "expected": {
+        "ok": false,
+        "finding_ids": [
+          "SAFETY_RBAC_PERMISSION_DENIED"
+        ]
+      },
+      "tags": [
+        "identity",
+        "rbac",
+        "red-team"
+      ],
+      "id": "rbac-permission-denied-block",
+      "description": "rbac-permission-denied-block"
+    },
+    {
+      "component": "safety.identity_rbac",
+      "input": {
+        "actor_registered": true,
+        "actor_active": true,
+        "required_permission": "approval.decide.critical",
+        "actor_permissions": [
+          "approval.decide.critical"
+        ],
+        "remote_auth_enabled": true,
+        "credentials_stored": true,
+        "approval_actor_required": true,
+        "approval_actor_present": true
+      },
+      "expected": {
+        "ok": false,
+        "finding_ids": [
+          "SAFETY_IDENTITY_REMOTE_AUTH_BLOCKED",
+          "SAFETY_IDENTITY_CREDENTIAL_STORAGE_BLOCKED"
+        ]
+      },
+      "tags": [
+        "identity",
+        "rbac",
+        "red-team"
+      ],
+      "id": "rbac-remote-auth-or-credentials-block",
+      "description": "rbac-remote-auth-or-credentials-block"
+    }
+  ]
+}

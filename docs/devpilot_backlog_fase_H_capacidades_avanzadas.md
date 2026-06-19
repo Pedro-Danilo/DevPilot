@@ -2,13 +2,13 @@
 title: "DevPilot Local — Backlog ejecutable Fase H: Capacidades avanzadas"
 doc_id: "DEVPL-FUNC-BACKLOG-FASE-H-001"
 status: "approved"
-version: "1.6.0"
+version: "1.7.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
 phase: "FASE-H-CAPACIDADES-AVANZADAS"
 updated: "2026-06-19"
-source_repo: "repo_DevPilot_Local_122.zip"
+source_repo: "repo_DevPilot_Local_123.zip"
 source_report: "Informe de avance DevPilot - sprint 0 - 18.docx"
 source_backlog_model: "docs/functional_backlog_after_precode.md"
 baseline_dependency: "Fases A-G cerradas; Fase G cerrada por FUNC-SPRINT-84 como implemented-initial"
@@ -17,9 +17,9 @@ last_planned_sprint: "FUNC-SPRINT-99"
 approved_on: "2026-06-17"
 approval: "approved_after_phase_g_closure_validation"
 phase_h_status: "in_progress"
-first_open_sprint: "FUNC-SPRINT-95"
-last_completed_sprint: "FUNC-SPRINT-94"
-next_sprint: "FUNC-SPRINT-95"
+first_open_sprint: "FUNC-SPRINT-96"
+last_completed_sprint: "FUNC-SPRINT-95"
+next_sprint: "FUNC-SPRINT-96"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "phase_h_executable_backlog_review"
 ---
@@ -901,6 +901,10 @@ Implementa FUNC-SPRINT-94. Crea Multiworkspace Registry y Portfolio status local
 ---
 
 ## FUNC-SPRINT-95 — RBAC local y modelo de identidad
+
+### Estado de implementación Sprint 95
+
+`FUNC-SPRINT-95` queda implementado como primera versión `implemented-initial` de identidad local/RBAC. Se agregan `IdentityRegistry`, roles mínimos, actor local, schema formal, CLI `identity current/roles/check`, integración con `PolicyEngine`, bloqueo RBAC en `ApprovalService` para aprobaciones críticas, MIASI bindings, suite `identity-rbac` y consumo por `quality-gate ci`. No implementa SaaS, auth remota, SSO, MFA, sesiones, passwords, tokens persistentes ni proveedores cloud de identidad; esos puntos requieren sprints y ADR posteriores.
 
 ## Objetivo
 

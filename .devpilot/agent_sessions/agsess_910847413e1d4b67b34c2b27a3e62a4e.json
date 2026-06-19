@@ -1,0 +1,57 @@
+{
+  "agent_ids": [
+    "security.agent"
+  ],
+  "created_at": "2026-06-19T14:20:29Z",
+  "events": [
+    {
+      "agent_id": "security.agent",
+      "command": "agent run",
+      "dry_run": true,
+      "event_id": "7af4e50402dd40118ce2bc32057c7adb",
+      "event_type": "agent.session.started",
+      "metadata": {
+        "runtime_version": "v2-model-aware",
+        "sprint": "FUNC-SPRINT-86"
+      },
+      "run_id": "run_3709bb5f9d9c483ba7666652b4109f0b",
+      "summary": {
+        "requested_agent": "security.agent",
+        "session_created": true
+      },
+      "target": "src/devpilot_core/multiagent",
+      "timestamp": "2026-06-19T14:20:29Z",
+      "trace_id": "trace_7cb0926b6f964c7890c76c13d9ef0463"
+    }
+  ],
+  "memory": {
+    "operational_context": {
+      "last_agent_id": "security.agent",
+      "last_dry_run": true,
+      "last_target": "src/devpilot_core/multiagent"
+    }
+  },
+  "metadata": {
+    "rag_enabled": false,
+    "raw_outputs_stored": false,
+    "raw_prompts_stored": false,
+    "redaction_applied": true,
+    "retention_policy": "local-short-lived-operational-memory",
+    "semantic_memory_enabled": false
+  },
+  "retention_days": 14,
+  "session_id": "agsess_910847413e1d4b67b34c2b27a3e62a4e",
+  "status": "active",
+  "summary": {
+    "agents_total": 1,
+    "events_total": 1,
+    "local_only": true,
+    "memory_items_total": 1,
+    "rag_enabled": false,
+    "raw_outputs_stored": false,
+    "raw_prompts_stored": false,
+    "semantic_memory_enabled": false
+  },
+  "updated_at": "2026-06-19T14:20:29Z",
+  "workspace": "."
+}
