@@ -14,7 +14,7 @@ change_policy: "controlled_changes_allowed_via_docs_as_code"
 approved_on: "2026-06-06"
 approval_scope: "functional_backlog_after_precode"
 baseline_execution: "FUNC-SPRINT-00"
-next_sprint: "FUNC-SPRINT-96"
+next_sprint: "FUNC-SPRINT-97"
 ---
 
 # DevPilot Local — Backlog ejecutable posterior a pre-code
@@ -2402,3 +2402,10 @@ La capacidad es `implemented-initial`: sirve como control de regresión local, n
 ## Actualización FUNC-SPRINT-95 — RBAC local y modelo de identidad
 
 `FUNC-SPRINT-95` agrega Identity Registry local, schema de identidad, CLI `identity current/roles/check`, integración RBAC con `PolicyEngine`, actor binding en Approval Workflow y suite `identity-rbac`. La capacidad queda en estado `implemented-initial`: no implementa SaaS, auth remota, SSO, MFA, sesiones ni almacenamiento de credenciales. La siguiente unidad funcional abierta es `FUNC-SPRINT-96 — Colaboración local y audit packs`.
+
+
+## Transición posterior a FUNC-SPRINT-96
+
+`FUNC-SPRINT-96 — Colaboración local y audit packs` agrega audit packs locales exportables con manifest embebido, checksums SHA-256 y verificación local. La capacidad queda como `implemented-initial`: permite colaboración/offline review mediante evidencia limpia, pero no implementa cloud collaboration, cifrado, firma, multiusuario real ni export de runtime DB.
+
+La siguiente unidad abierta es `FUNC-SPRINT-97 — Compliance packs locales`, que deberá construir paquetes de cumplimiento sobre los audit packs sin habilitar publicación remota ni incluir secretos.

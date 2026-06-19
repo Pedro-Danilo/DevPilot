@@ -1,0 +1,90 @@
+{
+  "schema_version": "1.0",
+  "sprint_id": "FUNC-SPRINT-96",
+  "sprint": "FUNC-SPRINT-96",
+  "title": "FUNC-SPRINT-96 — Colaboración local y audit packs",
+  "status": "implemented",
+  "implemented_at": "2026-06-19",
+  "phase": "FASE-H-CAPACIDADES-AVANZADAS",
+  "wave": "Ola 12 — Plataforma industrial/enterprise",
+  "source_backlog": "docs/devpilot_backlog_fase_H_capacidades_avanzadas.md",
+  "summary": {
+    "implemented_initial": true,
+    "local_first": true,
+    "audit_pack_builder": true,
+    "audit_pack_verify": true,
+    "manifest_embedded": true,
+    "sha256_checksums": true,
+    "secrets_exported": false,
+    "runtime_db_exported": false,
+    "providers_local_exported": false,
+    "cloud_export_used": false,
+    "network_used": false,
+    "external_api_used": false
+  },
+  "purpose": "Crear capacidades de colaboración local/documental mediante audit packs exportables con manifest, checksums y verificación local, sin plataforma cloud ni exportación de secretos/runtime DB.",
+  "created_files": [
+    "src/devpilot_core/auditpack/__init__.py",
+    "src/devpilot_core/auditpack/builder.py",
+    "docs/schemas/audit_pack_manifest.schema.json",
+    "evals/fixtures/audit_pack_integrity_eval_cases.json",
+    "tests/test_audit_pack.py",
+    "tests/test_sprint_96_documentation.py",
+    "docs/05_operations/audit_pack_runbook.md",
+    "docs/audits/func_sprint_96_audit_pack_audit.md",
+    "docs/functional_sprint_96_manifest.json"
+  ],
+  "modified_files": [
+    "src/devpilot_core/cli.py",
+    "src/devpilot_core/evals/safety.py",
+    "src/devpilot_core/evals/runner.py",
+    "src/devpilot_core/quality/gate.py",
+    ".devpilot/miasi/agent_registry.json",
+    ".devpilot/miasi/tool_registry.json",
+    ".devpilot/miasi/policy_matrix.json",
+    "docs/schemas/schema_catalog.json",
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/devpilot_backlog_fase_H_capacidades_avanzadas.md",
+    "docs/functional_backlog_after_precode.md",
+    "docs/release/CHANGELOG.md",
+    "tests/test_schema_registry.py",
+    "tests/test_advanced_evals.py",
+    "tests/test_quality_gate.py"
+  ],
+  "commands": [
+    "python -m devpilot_core audit-pack build --json",
+    "python -m devpilot_core audit-pack verify --path outputs/auditpacks/<pack>.zip --json",
+    "python -m devpilot_core eval run --suite audit-pack-integrity --json",
+    "python -m devpilot_core quality-gate run --profile ci --json"
+  ],
+  "tests": [
+    "python -m pytest tests/test_audit_pack.py tests/test_sprint_96_documentation.py -q",
+    "python -m pytest tests/test_schema_registry.py tests/test_advanced_evals.py tests/test_quality_gate.py -q",
+    "python -m devpilot_core validate all --json",
+    "python -m devpilot_core quality-gate run --profile ci --json"
+  ],
+  "pass_criteria": [
+    "Audit pack build retorna ok=true y escribe ZIP bajo outputs/auditpacks.",
+    "Audit pack incluye audit-pack-manifest.json con checksums SHA-256.",
+    "Audit pack verify valida integridad local y retorna ok=true sobre pack generado.",
+    "No se exportan .env, providers locales, runtime DB, agent sessions ni secretos.",
+    "Suite audit-pack-integrity pasa con safety_score >= 90 y false_negatives=0.",
+    "Quality Gate consume audit-pack-integrity."
+  ],
+  "block_criteria": [
+    "Pack sin manifest.",
+    "Checksum mismatch.",
+    "Export de .env, .devpilot/providers.yaml o .devpilot/devpilot.db.",
+    "SecretGuard detecta contenido sensible en el pack.",
+    "Build o verify usa red, API externa o cloud export.",
+    "Quality Gate no consume audit-pack-integrity."
+  ],
+  "risks": [
+    "Implemented-initial: no cifra ni firma audit packs.",
+    "No implementa colaboración cloud ni multiusuario real.",
+    "Runtime DB export queda bloqueado hasta ADR futura de cifrado/retención/consentimiento.",
+    "SecretGuard es determinístico y no reemplaza un secret scanner industrial completo."
+  ],
+  "next_sprint": "FUNC-SPRINT-97"
+}

@@ -1134,6 +1134,34 @@
         "APPROVAL_ACTOR_BINDING_REQUIRED",
         "SECRETS_RAW_DENY"
       ]
+    },
+    {
+      "tool_id": "auditpack.build",
+      "name": "build_local_audit_pack",
+      "phase": "Post-MVP",
+      "side_effect": "controlled_write",
+      "risk_level": "high",
+      "status": "implemented-initial",
+      "requires_approval": false,
+      "policy_rule_ids": [
+        "AUDIT_PACK_BUILD_LOCAL_ALLOW",
+        "AUDIT_PACK_SECRET_EXPORT_DENY",
+        "SECRETS_RAW_DENY"
+      ]
+    },
+    {
+      "tool_id": "auditpack.verify",
+      "name": "verify_local_audit_pack",
+      "phase": "Post-MVP",
+      "side_effect": "read",
+      "risk_level": "medium_high",
+      "status": "implemented-initial",
+      "requires_approval": false,
+      "policy_rule_ids": [
+        "AUDIT_PACK_VERIFY_LOCAL_ALLOW",
+        "AUDIT_PACK_SECRET_EXPORT_DENY",
+        "SECRETS_RAW_DENY"
+      ]
     }
   ]
 }

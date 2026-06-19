@@ -19,11 +19,12 @@ Grounding policy: entries are generated from approved local manifests; the chang
 ## [0.1.0] - 2026-06-19
 
 Release ID: `DEVPL-0.1.0`  
-Range: `FUNC-SPRINT-74` → `FUNC-SPRINT-95`  
+Range: `FUNC-SPRINT-74` → `FUNC-SPRINT-96`  
 Source: `docs/functional_sprint_*_manifest.json`
 
 ### Added
 
+- `FUNC-SPRINT-96` — Se incorporó `Colaboración local y audit packs`. Source: `docs/functional_sprint_96_manifest.json`; audit: `docs/audits/func_sprint_96_audit_pack_audit.md`. Artefactos: `src/devpilot_core/auditpack/`, `docs/schemas/audit_pack_manifest.schema.json`, `docs/05_operations/audit_pack_runbook.md` y suite `audit-pack-integrity`.
 - `FUNC-SPRINT-95` — Se incorporó `RBAC local y modelo de identidad`. Source: `docs/functional_sprint_95_manifest.json`; audit: `docs/audits/func_sprint_95_rbac_audit.md`. Artefactos: `src/devpilot_core/identity/`, `.devpilot/identity/identity_registry.json`, `docs/schemas/identity_registry.schema.json` y suite `identity-rbac`.
 - `FUNC-SPRINT-94` — Se incorporó `Multiworkspace Manager y portfolio local`. Source: `docs/functional_sprint_94_manifest.json`; audit: `docs/audits/func_sprint_94_multiworkspace_audit.md`. Artefactos: `src/devpilot_core/workspace/registry.py`, `src/devpilot_core/portfolio/status.py`, `.devpilot/workspaces/workspace_registry.json`, `docs/schemas/multiworkspace_registry.schema.json` y suite `multiworkspace-isolation`.
 
@@ -50,6 +51,7 @@ Source: `docs/functional_sprint_*_manifest.json`
 
 ### Changed
 
+- `FUNC-SPRINT-96` — `CLI`, `EvalRunner`, `QualityGate`, MIASI, schema catalog, README, runbook y backlog Fase H consumen audit packs locales con manifest/checksum y política de no exportar secretos/runtime DB.
 - `FUNC-SPRINT-95` — `PolicyEngine`, `ApprovalService`, MIASI, EvalRunner y QualityGate ahora consumen RBAC local para acciones sensibles y actor binding.
 - `FUNC-SPRINT-94` — Se sincronizaron CLI, MIASI, EvalRunner, QualityGate, schema catalog, README, runbook y backlog Fase H para el nuevo portfolio local read-only.
 
@@ -91,6 +93,7 @@ Source: `docs/functional_sprint_*_manifest.json`
 
 ### Security
 
+- `FUNC-SPRINT-96` — Los audit packs excluyen `.env`, `.devpilot/providers.yaml`, `.devpilot/devpilot.db`, sesiones, `.git`, `.venv`, `node_modules`, `dist`, caches y contenido secret-like; `verify` bloquea checksum mismatch y rutas prohibidas.
 - `FUNC-SPRINT-95` — Se exige actor autorizado para aprobación crítica y se mantiene `remote_auth_enabled=False`, `credentials_stored=False`, sin red ni APIs externas.
 - `FUNC-SPRINT-94` — Se preservó aislamiento: `cross_workspace_state_reads=False`, `secrets_read=False`, `portfolio_status_read_only=True`, sin red, shell ni APIs externas.
 
@@ -160,3 +163,11 @@ Source: `docs/functional_sprint_*_manifest.json`
 - Estado: `implemented-initial`.
 - Agrega registry local `.devpilot/workspaces/workspace_registry.json`, schema `SCHEMA-DEVPL-MULTIWORKSPACE-REGISTRY-V1`, CLI `workspace register/list/select/registry-validate`, `portfolio status` read-only y suite `multiworkspace-isolation`.
 - No implementa SaaS, RBAC, auth remota, registry global, lectura de secretos ni mezcla de `.devpilot/devpilot.db`.
+
+
+## FUNC-SPRINT-96 — Colaboración local y audit packs
+
+- Estado: `implemented-initial`.
+- Agrega `AuditPackBuilder`, CLI `audit-pack build/verify`, schema `SCHEMA-DEVPL-AUDIT-PACK-MANIFEST-V1`, manifest embebido, SHA-256 por entrada y suite `audit-pack-integrity`.
+- No implementa cloud collaboration, cifrado, firma, multiusuario real ni export de runtime DB.
+- Seguridad: excluye `.env`, providers locales, runtime DB, sesiones, VCS metadata, dependencias, caches y secretos.

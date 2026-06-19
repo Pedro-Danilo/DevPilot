@@ -8,7 +8,7 @@
   "updated": "2026-06-18",
   "sprint": "FUNC-SPRINT-23",
   "preliminary": true,
-  "purpose": "Catalog of versioned JSON schemas registered by DevPilot. Sprint 95 adds IdentityRegistry contract for local-only RBAC and actor binding.",
+  "purpose": "Catalog of versioned JSON schemas registered by DevPilot. Sprint 96 adds AuditPackManifest contract for local collaboration evidence packages with checksums.",
   "schemas": [
     {
       "schema_id": "SCHEMA-DEVPL-FINDING-V1",
@@ -289,6 +289,20 @@
       "dialect": "https://json-schema.org/draft/2020-12/schema",
       "validates_instances": true,
       "validation_enabled_sprint": "FUNC-SPRINT-95"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-AUDIT-PACK-MANIFEST-V1",
+      "title": "DevPilot Audit Pack Manifest v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/audit_pack_manifest.schema.json",
+      "description": "Structural contract for audit-pack-manifest.json embedded in local FUNC-SPRINT-96 audit packs.",
+      "status": "registered",
+      "contract": "AuditPackManifest",
+      "owner": "Ordóñez",
+      "sprint": "FUNC-SPRINT-96",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "FUNC-SPRINT-96"
     }
   ]
 }

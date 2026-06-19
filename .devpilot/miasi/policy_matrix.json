@@ -705,6 +705,42 @@
       "gate": "IdentityRegistry+LocalOnlyPolicy",
       "approval_required": true,
       "observability_required": true
+    },
+    {
+      "rule_id": "AUDIT_PACK_BUILD_LOCAL_ALLOW",
+      "domain": "AuditPack",
+      "action": "build_local_audit_pack",
+      "default_effect": "allow",
+      "gate": "RBAC+PathGuard+SecretGuard+ChecksumManifest",
+      "approval_required": false,
+      "observability_required": true
+    },
+    {
+      "rule_id": "AUDIT_PACK_VERIFY_LOCAL_ALLOW",
+      "domain": "AuditPack",
+      "action": "verify_local_audit_pack",
+      "default_effect": "allow",
+      "gate": "PathGuard+ChecksumManifest+SecretGuard",
+      "approval_required": false,
+      "observability_required": true
+    },
+    {
+      "rule_id": "AUDIT_PACK_SECRET_EXPORT_DENY",
+      "domain": "AuditPack",
+      "action": "export_secret_runtime_state",
+      "default_effect": "deny",
+      "gate": "SecretGuard+ForbiddenPathPolicy",
+      "approval_required": false,
+      "observability_required": true
+    },
+    {
+      "rule_id": "AUDIT_PACK_INTEGRITY_REQUIRED",
+      "domain": "AuditPack",
+      "action": "share_evidence_pack",
+      "default_effect": "block",
+      "gate": "AuditPackManifest+SHA256; block when manifest/checksums are missing or invalid",
+      "approval_required": false,
+      "observability_required": true
     }
   ]
 }

@@ -5193,3 +5193,42 @@ python -m devpilot_core quality-gate run --profile ci --json
 ### Riesgos
 
 `implemented-initial`: esta capa no es IAM completo. No hay sesiones, SSO, MFA ni multiusuario real. La granularidad de permisos debe evolucionar para UI/API, workspaces y colaboración local.
+
+
+## FUNC-SPRINT-96 — Operación de audit packs locales
+
+Estado: `implemented-initial`. Esta operación permite construir y verificar paquetes locales de auditoría para colaboración documental/offline review sin plataforma cloud.
+
+### Comandos
+
+```powershell
+python -m devpilot_core audit-pack build --json
+python -m devpilot_core audit-pack verify --path outputs/auditpacks/<pack>.zip --json
+python -m devpilot_core eval run --suite audit-pack-integrity --json
+```
+
+### Funcionamiento
+
+`audit-pack build` recolecta evidencias locales controladas: README, manifests funcionales, changelog, auditorías, schemas, registries MIASI/identity/workspace/plugin/connector y reportes locales existentes cuando son seguros. El ZIP incluye `audit-pack-manifest.json` con entradas, tamaños y checksums SHA-256.
+
+`audit-pack verify` abre el ZIP local, valida que exista manifest, recalcula checksums, bloquea rutas prohibidas y escanea contenido textual con `SecretGuard`.
+
+### PASS
+
+- El pack contiene `audit-pack-manifest.json`.
+- Cada entrada tiene SHA-256 y tamaño.
+- La verificación local retorna `ok=true`.
+- No se exportan `.env`, `.devpilot/providers.yaml`, `.devpilot/devpilot.db`, sesiones, `.git`, `.venv`, `node_modules`, `dist` ni caches.
+- No se usa red, APIs externas ni colaboración cloud.
+
+### BLOCK
+
+- Falta el manifest.
+- Hay checksum mismatch.
+- El ZIP contiene secretos, runtime DB o providers locales.
+- El ZIP contiene rutas prohibidas.
+- Se intenta exportar runtime DB en Sprint 96.
+
+### Riesgos y recuperación
+
+Esta versión no cifra ni firma packs; por tanto, los ZIP deben compartirse por canales controlados y verificarse siempre antes de revisión. Si `verify` bloquea, descartar el pack y regenerarlo desde el workspace fuente. La exportación de runtime DB queda bloqueada hasta una ADR futura.

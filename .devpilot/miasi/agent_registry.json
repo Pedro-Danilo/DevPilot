@@ -164,7 +164,9 @@
         "portfolio.status",
         "identity.current",
         "identity.roles",
-        "identity.rbac.check"
+        "identity.rbac.check",
+        "auditpack.build",
+        "auditpack.verify"
       ],
       "required_artifacts": [
         "Agent",
@@ -172,7 +174,8 @@
         "Policy",
         "Eval",
         "Obs",
-        "docs/audits/func_sprint_95_rbac_audit.md"
+        "docs/audits/func_sprint_95_rbac_audit.md",
+        "docs/audits/func_sprint_96_audit_pack_audit.md"
       ],
       "policy_rule_ids": [
         "SECURITY_AGENT_GOVERNED_ALLOW",
@@ -193,7 +196,11 @@
         "IDENTITY_READ_LOCAL_ALLOW",
         "RBAC_CHECK_SENSITIVE_ACTION_ALLOW",
         "APPROVAL_ACTOR_BINDING_REQUIRED",
-        "REMOTE_AUTH_DENY"
+        "REMOTE_AUTH_DENY",
+        "AUDIT_PACK_BUILD_LOCAL_ALLOW",
+        "AUDIT_PACK_VERIFY_LOCAL_ALLOW",
+        "AUDIT_PACK_SECRET_EXPORT_DENY",
+        "AUDIT_PACK_INTEGRITY_REQUIRED"
       ],
       "approval_required": false,
       "observability_required": true,
@@ -224,7 +231,9 @@
         "portfolio.status",
         "identity.current",
         "identity.roles",
-        "identity.rbac.check"
+        "identity.rbac.check",
+        "auditpack.build",
+        "auditpack.verify"
       ],
       "required_artifacts": [
         "Agent",
@@ -232,7 +241,8 @@
         "Policy",
         "Eval",
         "Obs",
-        "docs/audits/func_sprint_95_rbac_audit.md"
+        "docs/audits/func_sprint_95_rbac_audit.md",
+        "docs/audits/func_sprint_96_audit_pack_audit.md"
       ],
       "policy_rule_ids": [
         "TEST_PLANNER_AGENT_GOVERNED_ALLOW",
@@ -253,7 +263,11 @@
         "IDENTITY_READ_LOCAL_ALLOW",
         "RBAC_CHECK_SENSITIVE_ACTION_ALLOW",
         "APPROVAL_ACTOR_BINDING_REQUIRED",
-        "REMOTE_AUTH_DENY"
+        "REMOTE_AUTH_DENY",
+        "AUDIT_PACK_BUILD_LOCAL_ALLOW",
+        "AUDIT_PACK_VERIFY_LOCAL_ALLOW",
+        "AUDIT_PACK_SECRET_EXPORT_DENY",
+        "AUDIT_PACK_INTEGRITY_REQUIRED"
       ],
       "approval_required": false,
       "observability_required": true,
@@ -460,13 +474,16 @@
         "portfolio.status",
         "identity.current",
         "identity.roles",
-        "identity.rbac.check"
+        "identity.rbac.check",
+        "auditpack.build",
+        "auditpack.verify"
       ],
       "required_artifacts": [
         "Full MIASI",
         "portfolio governance",
         "docs/audits/func_sprint_94_multiworkspace_audit.md",
-        "docs/audits/func_sprint_95_rbac_audit.md"
+        "docs/audits/func_sprint_95_rbac_audit.md",
+        "docs/audits/func_sprint_96_audit_pack_audit.md"
       ],
       "policy_rule_ids": [
         "DEPLOY_DENY",
@@ -478,7 +495,11 @@
         "IDENTITY_READ_LOCAL_ALLOW",
         "RBAC_CHECK_SENSITIVE_ACTION_ALLOW",
         "APPROVAL_ACTOR_BINDING_REQUIRED",
-        "REMOTE_AUTH_DENY"
+        "REMOTE_AUTH_DENY",
+        "AUDIT_PACK_BUILD_LOCAL_ALLOW",
+        "AUDIT_PACK_VERIFY_LOCAL_ALLOW",
+        "AUDIT_PACK_SECRET_EXPORT_DENY",
+        "AUDIT_PACK_INTEGRITY_REQUIRED"
       ],
       "approval_required": false,
       "observability_required": true,
@@ -510,7 +531,9 @@
         "portfolio.status",
         "identity.current",
         "identity.roles",
-        "identity.rbac.check"
+        "identity.rbac.check",
+        "auditpack.build",
+        "auditpack.verify"
       ],
       "required_artifacts": [
         "Full MIASI",
@@ -520,7 +543,8 @@
         ".devpilot/workflows/sdlc_review.json",
         "docs/audits/func_sprint_92_advanced_evals_audit.md",
         "docs/audits/func_sprint_93_plugin_ecosystem_audit.md",
-        "docs/audits/func_sprint_95_rbac_audit.md"
+        "docs/audits/func_sprint_95_rbac_audit.md",
+        "docs/audits/func_sprint_96_audit_pack_audit.md"
       ],
       "policy_rule_ids": [
         "MULTIAGENT_COORDINATOR_DRY_RUN_ALLOW",
@@ -541,7 +565,11 @@
         "IDENTITY_READ_LOCAL_ALLOW",
         "RBAC_CHECK_SENSITIVE_ACTION_ALLOW",
         "APPROVAL_ACTOR_BINDING_REQUIRED",
-        "REMOTE_AUTH_DENY"
+        "REMOTE_AUTH_DENY",
+        "AUDIT_PACK_BUILD_LOCAL_ALLOW",
+        "AUDIT_PACK_VERIFY_LOCAL_ALLOW",
+        "AUDIT_PACK_SECRET_EXPORT_DENY",
+        "AUDIT_PACK_INTEGRITY_REQUIRED"
       ],
       "approval_required": false,
       "observability_required": true,

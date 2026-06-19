@@ -7,6 +7,7 @@ from pathlib import Path
 
 from . import __version__
 from .agents import AgentRuntime, AgentRuntimeConfig, inspect_agent_session
+from .auditpack import AuditPackBuilder, AuditPackBuildOptions, AuditPackVerifyOptions
 from .approval.models import ApprovalStatus
 from .approval.service import ApprovalCliInput, ApprovalService
 from .application import ApplicationService
@@ -2598,6 +2599,73 @@ def portfolio_status_command(
 
 
 
+
+def audit_pack_build_command(
+    *,
+    actor: str | None = "local-owner",
+    output_dir: str = "outputs/auditpacks",
+    include_reports: bool = True,
+    include_runtime_db: bool = False,
+    confirm_include_runtime_db: bool = False,
+    json_output: bool = False,
+    write_report: bool = False,
+) -> int:
+    """Build FUNC-SPRINT-96 local collaboration audit pack.
+
+    The command writes a controlled ZIP under outputs/auditpacks and embeds an
+    audit-pack-manifest.json with checksums. It excludes .env files, local
+    provider secrets, runtime DB, agent sessions, VCS metadata, node_modules and
+    build outputs.
+    """
+
+    root = project_root()
+    result = AuditPackBuilder(root).build(
+        AuditPackBuildOptions(
+            actor=actor,
+            output_dir=output_dir,
+            include_reports=include_reports,
+            include_runtime_db=include_runtime_db,
+            confirm_include_runtime_db=confirm_include_runtime_db,
+        )
+    )
+    pack_path = (result.data or {}).get("summary", {}).get("pack_path") or "audit-pack"
+    result = _write_optional_command_report(
+        root,
+        result,
+        subject=pack_path,
+        report_id="audit_pack_build",
+        write_report=write_report,
+        metadata={"sprint": "FUNC-SPRINT-96", "component": "AuditPackBuilder"},
+    )
+    _emit_result_event(root, result, subject=pack_path)
+    _persist_result(root, result, subject=pack_path)
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+
+def audit_pack_verify_command(
+    *,
+    path: str,
+    json_output: bool = False,
+    write_report: bool = False,
+) -> int:
+    """Verify a FUNC-SPRINT-96 local audit pack ZIP and checksums."""
+
+    root = project_root()
+    result = AuditPackBuilder(root).verify(AuditPackVerifyOptions(path=path))
+    result = _write_optional_command_report(
+        root,
+        result,
+        subject=path,
+        report_id="audit_pack_verify",
+        write_report=write_report,
+        metadata={"sprint": "FUNC-SPRINT-96", "component": "AuditPackBuilder"},
+    )
+    _emit_result_event(root, result, subject=path)
+    _persist_result(root, result, subject=path)
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
 def identity_current_command(
     *,
     registry_path: str = ".devpilot/identity/identity_registry.json",
@@ -3696,6 +3764,21 @@ def build_parser() -> argparse.ArgumentParser:
     identity_check.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     identity_check.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
 
+    audit_pack = sub.add_parser("audit-pack", help="Build and verify local collaboration audit packs")
+    audit_pack_sub = audit_pack.add_subparsers(dest="audit_pack_command")
+    audit_pack_build = audit_pack_sub.add_parser("build", help="Build a clean local audit pack ZIP with manifest/checksums")
+    audit_pack_build.add_argument("--actor", default="local-owner", help="Local actor id used for RBAC evidence")
+    audit_pack_build.add_argument("--output-dir", default="outputs/auditpacks", help="Output directory for generated audit pack ZIP")
+    audit_pack_build.add_argument("--no-reports", action="store_true", help="Do not include existing outputs/reports evidence files")
+    audit_pack_build.add_argument("--include-runtime-db", action="store_true", help="Request runtime DB export; blocked in implemented-initial Sprint 96")
+    audit_pack_build.add_argument("--confirm-include-runtime-db", action="store_true", help="Explicitly acknowledge DB export risk; still blocked in Sprint 96")
+    audit_pack_build.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    audit_pack_build.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+    audit_pack_verify = audit_pack_sub.add_parser("verify", help="Verify audit pack ZIP manifest, checksums and export policy")
+    audit_pack_verify.add_argument("--path", required=True, help="Audit pack ZIP path to verify")
+    audit_pack_verify.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    audit_pack_verify.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+
     state = sub.add_parser("state", help="Manage local SQLite operational state")
     state_sub = state.add_subparsers(dest="state_command")
     state_init = state_sub.add_parser("init", help="Initialize .devpilot/devpilot.db")
@@ -4426,6 +4509,9 @@ def _command_name_from_args(args: argparse.Namespace) -> str:
     if command == "quality-gate":
         subcommand = getattr(args, "quality_gate_command", None)
         return f"quality-gate {subcommand}" if subcommand else "quality-gate"
+    if command == "audit-pack":
+        subcommand = getattr(args, "audit_pack_command", None)
+        return f"audit-pack {subcommand}" if subcommand else "audit-pack"
     if command == "validate":
         scope = getattr(args, "scope", None)
         return f"validate {scope}" if scope else "validate"
@@ -4548,6 +4634,21 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
                 json_output=args.json,
                 write_report=args.write_report,
             )
+        parser.print_help()
+        return int(ExitCode.FAIL)
+    if args.command == "audit-pack":
+        if args.audit_pack_command == "build":
+            return audit_pack_build_command(
+                actor=args.actor,
+                output_dir=args.output_dir,
+                include_reports=not args.no_reports,
+                include_runtime_db=args.include_runtime_db,
+                confirm_include_runtime_db=args.confirm_include_runtime_db,
+                json_output=args.json,
+                write_report=args.write_report,
+            )
+        if args.audit_pack_command == "verify":
+            return audit_pack_verify_command(path=args.path, json_output=args.json, write_report=args.write_report)
         parser.print_help()
         return int(ExitCode.FAIL)
     if args.command == "state":

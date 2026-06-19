@@ -1,15 +1,29 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
 Estado actual: `baseline pre-code approved + Fases A-G cerradas + Fase H en implementación controlada`  
-Último hito: `FUNC-SPRINT-95 — RBAC local y modelo de identidad`  
-Siguiente hito: `FUNC-SPRINT-96 — Colaboración local y audit packs`  
+Último hito: `FUNC-SPRINT-96 — Colaboración local y audit packs`  
+Siguiente hito: `FUNC-SPRINT-97 — Compliance packs locales`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
 
 
 
+## FUNC-SPRINT-96 — Colaboración local y audit packs
 
+`FUNC-SPRINT-96` introduce una primera versión `implemented-initial` de colaboración local mediante audit packs exportables. DevPilot ahora puede construir un ZIP limpio de evidencias con manifest embebido, checksums SHA-256 y verificación local, sin plataforma cloud ni APIs externas.
+
+Alcance explícito: no exporta `.env`, `.devpilot/providers.yaml`, `.devpilot/devpilot.db`, sesiones de agentes, `.git`, `.venv`, `node_modules`, `dist`, caches ni secretos. En esta primera versión el export de runtime DB permanece bloqueado incluso con bandera explícita, hasta que una ADR futura defina política de cifrado, consentimiento y retención.
+
+Comandos principales:
+
+```powershell
+python -m devpilot_core audit-pack build --json
+python -m devpilot_core audit-pack verify --path outputs/auditpacks/<pack>.zip --json
+python -m devpilot_core eval run --suite audit-pack-integrity --json
+```
+
+Criterios críticos: pack con `audit-pack-manifest.json`, checksums verificables, exclusión de secretos/runtime DB, verificación local PASS y consumo de la suite `audit-pack-integrity` por `quality-gate ci`.
 
 ## FUNC-SPRINT-95 — RBAC local y modelo de identidad
 

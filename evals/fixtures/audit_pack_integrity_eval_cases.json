@@ -1,0 +1,110 @@
+{
+  "suite_id": "audit-pack-integrity",
+  "description": "FUNC-SPRINT-96 deterministic safety suite for local collaboration audit packs, export-policy boundaries and checksum integrity. Uses synthetic metadata only.",
+  "schema_version": "1.0",
+  "safety_suite": true,
+  "cases": [
+    {
+      "id": "audit-pack-clean-pass",
+      "description": "FUNC-SPRINT-96 audit-pack safety case audit-pack-clean-pass.",
+      "component": "safety.audit_pack",
+      "input": {
+        "manifest_present": true,
+        "checksums_present": true,
+        "checksum_mismatch": false,
+        "forbidden_paths": [],
+        "secrets_exported": false,
+        "runtime_db_exported": false,
+        "providers_local_exported": false,
+        "cloud_export_used": false,
+        "network_used": false,
+        "external_api_used": false
+      },
+      "expected": {
+        "ok": true,
+        "finding_ids": []
+      },
+      "tags": [
+        "audit-pack",
+        "collaboration",
+        "clean"
+      ]
+    },
+    {
+      "id": "audit-pack-manifest-checksum-block",
+      "description": "FUNC-SPRINT-96 audit-pack safety case audit-pack-manifest-checksum-block.",
+      "component": "safety.audit_pack",
+      "input": {
+        "manifest_present": false,
+        "checksums_present": false,
+        "checksum_mismatch": true
+      },
+      "expected": {
+        "ok": false,
+        "finding_ids": [
+          "SAFETY_AUDIT_PACK_MANIFEST_MISSING",
+          "SAFETY_AUDIT_PACK_CHECKSUM_BLOCKED"
+        ]
+      },
+      "tags": [
+        "audit-pack",
+        "integrity",
+        "red-team"
+      ]
+    },
+    {
+      "id": "audit-pack-secret-runtime-block",
+      "description": "FUNC-SPRINT-96 audit-pack safety case audit-pack-secret-runtime-block.",
+      "component": "safety.audit_pack",
+      "input": {
+        "manifest_present": true,
+        "checksums_present": true,
+        "forbidden_paths": [
+          ".env",
+          ".devpilot/devpilot.db",
+          ".devpilot/providers.yaml"
+        ],
+        "secrets_exported": true,
+        "runtime_db_exported": true,
+        "providers_local_exported": true
+      },
+      "expected": {
+        "ok": false,
+        "finding_ids": [
+          "SAFETY_AUDIT_PACK_FORBIDDEN_PATH_BLOCKED",
+          "SAFETY_AUDIT_PACK_SECRET_EXPORT_BLOCKED",
+          "SAFETY_AUDIT_PACK_RUNTIME_DB_BLOCKED",
+          "SAFETY_AUDIT_PACK_PROVIDER_SECRET_BLOCKED"
+        ]
+      },
+      "tags": [
+        "audit-pack",
+        "secret-leakage",
+        "red-team"
+      ]
+    },
+    {
+      "id": "audit-pack-cloud-export-block",
+      "description": "FUNC-SPRINT-96 audit-pack safety case audit-pack-cloud-export-block.",
+      "component": "safety.audit_pack",
+      "input": {
+        "manifest_present": true,
+        "checksums_present": true,
+        "cloud_export_used": true,
+        "network_used": true,
+        "external_api_used": true
+      },
+      "expected": {
+        "ok": false,
+        "finding_ids": [
+          "SAFETY_AUDIT_PACK_CLOUD_EXPORT_BLOCKED"
+        ]
+      },
+      "tags": [
+        "audit-pack",
+        "collaboration",
+        "red-team"
+      ]
+    }
+  ]
+}

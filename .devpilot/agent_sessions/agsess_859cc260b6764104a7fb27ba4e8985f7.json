@@ -1,0 +1,87 @@
+{
+  "agent_ids": [
+    "repo.analysis"
+  ],
+  "created_at": "2026-06-19T16:46:46Z",
+  "events": [
+    {
+      "agent_id": "repo.analysis",
+      "command": "agent run",
+      "dry_run": true,
+      "event_id": "bd7bc4185f2d4372994cfc36f3c51304",
+      "event_type": "agent.session.started",
+      "metadata": {
+        "runtime_version": "v2-model-aware",
+        "sprint": "FUNC-SPRINT-86"
+      },
+      "run_id": "run_9ff440b14b61430c9968d0a49b3b7d39",
+      "summary": {
+        "requested_agent": "repo.analysis",
+        "session_created": true
+      },
+      "target": "src/devpilot_core/connectors",
+      "timestamp": "2026-06-19T16:46:46Z",
+      "trace_id": "trace_7e1bee6df0b547719fc74b75847ebecb"
+    },
+    {
+      "agent_id": "repo.analysis",
+      "command": "agent run",
+      "dry_run": true,
+      "event_id": "f538f42f8b874e32b26f4da81e4b3761",
+      "event_type": "agent.session.completed",
+      "metadata": {
+        "runtime_version": "v2-model-aware",
+        "sprint": "FUNC-SPRINT-86"
+      },
+      "ok": true,
+      "run_id": "run_9ff440b14b61430c9968d0a49b3b7d39",
+      "summary": {
+        "findings_total": 10,
+        "model_calls_total": 0,
+        "suggestions_total": 3,
+        "tool_calls_total": 4
+      },
+      "target": "src/devpilot_core/connectors",
+      "timestamp": "2026-06-19T16:49:43Z",
+      "trace_id": "trace_7e1bee6df0b547719fc74b75847ebecb"
+    }
+  ],
+  "memory": {
+    "last_result": {
+      "agent_id": "repo.analysis",
+      "findings_total": 10,
+      "model_calls_total": 0,
+      "ok": true,
+      "suggestions_total": 3,
+      "tool_calls_total": 4
+    },
+    "operational_context": {
+      "last_agent_id": "repo.analysis",
+      "last_dry_run": true,
+      "last_target": "src/devpilot_core/connectors"
+    }
+  },
+  "metadata": {
+    "rag_enabled": false,
+    "raw_outputs_stored": false,
+    "raw_prompts_stored": false,
+    "redaction_applied": true,
+    "retention_policy": "local-short-lived-operational-memory",
+    "semantic_memory_enabled": false
+  },
+  "retention_days": 14,
+  "session_id": "agsess_859cc260b6764104a7fb27ba4e8985f7",
+  "status": "completed",
+  "summary": {
+    "agents_total": 1,
+    "events_total": 2,
+    "local_only": true,
+    "memory_items_total": 2,
+    "rag_enabled": false,
+    "raw_outputs_stored": false,
+    "raw_prompts_stored": false,
+    "semantic_memory_enabled": false
+  },
+  "updated_at": "2026-06-19T16:49:43Z",
+  "workspace": "."
+}
