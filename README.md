@@ -1,12 +1,21 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
-Estado actual: `baseline pre-code approved + Fases A-G cerradas + Fase H cerrada como industrial baseline implemented-initial`  
-Último hito: `FUNC-SPRINT-99 — Industrial readiness gate y cierre Fase H`  
-Siguiente hito: `POST-H-001 — Industrial hardening de tests y contratos`  
+Estado actual: `baseline pre-code approved + Fases A-G cerradas + Fase H cerrada + POST-H-001 implemented-initial`  
+Último hito: `POST-H-001 — Industrial hardening de tests y contratos`  
+Siguiente hito: `POST-H-002 — Maturity dashboard local`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
 
+
+
+## POST-H-001 — Industrial hardening de tests y contratos
+
+`POST-H-001` implementa una primera versión `implemented-initial` de hardening industrial sobre pruebas y contratos. DevPilot ahora cuenta con un registry declarativo de contratos de test (`.devpilot/testing/test_contract_registry.json`), estado global centralizado (`.devpilot/project_state.json`), analizador conservador de impacto (`test-impact analyze`) y perfil `quality-gate run --profile hardening`.
+
+El sprint separa explícitamente el contrato histórico de cada sprint frente al estado global mutable del proyecto. Los tests históricos de Fase H conservan validaciones propias del sprint, mientras `tests/test_project_global_state.py` valida el último hito, siguiente hito, changelog, runbook, backlog post-H y documento `POST-H-001`.
+
+Alcance: esta es una base inicial de hardening, no un sistema completo de selección de pruebas incremental. Ante cambios desconocidos o core, el analizador recomienda `pytest -q` de forma conservadora.
 
 
 ## FUNC-SPRINT-99 — Industrial readiness gate y cierre Fase H

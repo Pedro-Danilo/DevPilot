@@ -6,9 +6,9 @@
   "version": "1.0.0",
   "owner": "Ordóñez",
   "updated": "2026-06-19",
-  "sprint": "FUNC-SPRINT-99",
+  "sprint": "POST-H-001",
   "preliminary": true,
-  "purpose": "Catalog of versioned JSON schemas registered by DevPilot. Sprint 97 adds CompliancePackRegistry contract for local compliance/policy packs.",
+  "purpose": "Catalog of versioned JSON schemas registered by DevPilot. POST-H-001 adds test contract, project state and post-H manifest contracts for hardening.",
   "schemas": [
     {
       "schema_id": "SCHEMA-DEVPL-FINDING-V1",
@@ -345,6 +345,48 @@
       "validates_instances": true,
       "contract": "IndustrialReadinessReport",
       "validation_enabled_sprint": "FUNC-SPRINT-99"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-TEST-CONTRACT-REGISTRY-V1",
+      "title": "DevPilot Test Contract Registry v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/test_contract_registry.schema.json",
+      "description": "Structural contract for .devpilot/testing/test_contract_registry.json with test scopes, criticality and mutable global-state ownership.",
+      "status": "registered",
+      "contract": "TestContractRegistry",
+      "owner": "Ordóñez",
+      "sprint": "POST-H-001",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "POST-H-001"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-PROJECT-STATE-V1",
+      "title": "DevPilot Project Global State v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/project_state.schema.json",
+      "description": "Structural contract for .devpilot/project_state.json after centralizing mutable global project state.",
+      "status": "registered",
+      "contract": "ProjectGlobalState",
+      "owner": "Ordóñez",
+      "sprint": "POST-H-001",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "POST-H-001"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-POST-H-MANIFEST-V1",
+      "title": "DevPilot Post-H Manifest v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/post_h_manifest.schema.json",
+      "description": "Structural contract for post-Fase-H sprint manifests such as docs/post_h_001_manifest.json.",
+      "status": "registered",
+      "contract": "PostHManifest",
+      "owner": "Ordóñez",
+      "sprint": "POST-H-001",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "POST-H-001"
     }
   ]
 }

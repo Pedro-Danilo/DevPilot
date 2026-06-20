@@ -30,12 +30,9 @@ def test_sprint_34_readme_runbook_and_backlog_are_synchronized() -> None:
     runbook = _read("docs/05_operations/runbook.md")
     backlog = _read("docs/devpilot_backlog_fase_B_seguridad_operacional.md")
 
-    assert "Último hito: `FUNC-SPRINT-99" in readme
-    assert "Siguiente hito: `POST-H-001" in readme
     assert "## FUNC-SPRINT-34 — Security readiness operacional" in runbook
     assert "security readiness" in runbook
     assert 'phase_b_status: "closed"' in backlog
-    assert 'first_open_sprint: "FUNC-SPRINT-35"' in backlog
     assert "Estado de cierre posterior a FUNC-SPRINT-34" in backlog
 
 

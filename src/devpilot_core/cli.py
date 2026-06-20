@@ -70,7 +70,7 @@ from .changes import RollbackManager
 from .standards.registry import build_standards_status_result
 from .store import LocalStore
 from .traceability import MarkdownTraceabilityExtractor, TraceabilityEngine
-from .testing import TestsRunTool
+from .testing import TestContractRegistry, TestImpactAnalyzer, TestImpactOptions, TestsRunTool
 from .validation import ValidationGateway
 from .workspace import MultiworkspaceRegistry, WorkspaceRegisterOptions, WorkspaceRegistryOptions, WorkspaceSelectOptions, WorkspaceManager
 from .validators.artifact import validate_artifact_file
@@ -2697,6 +2697,78 @@ def industrial_readiness_check_command(
     return int(result.exit_code)
 
 
+
+
+def test_contracts_validate_command(
+    *,
+    registry_path: str = ".devpilot/testing/test_contract_registry.json",
+    schema_path: str = "docs/schemas/test_contract_registry.schema.json",
+    json_output: bool = False,
+    write_report: bool = False,
+) -> int:
+    """Validate POST-H-001 test contract registry."""
+
+    root = project_root()
+    result = TestContractRegistry(root, registry_path=registry_path, schema_path=schema_path).validate()
+    result = _write_optional_command_report(
+        root,
+        result,
+        subject="testing:test-contracts",
+        report_id="test_contract_registry",
+        write_report=write_report,
+        metadata={"sprint": "POST-H-001", "component": "TestContractRegistry"},
+    )
+    _emit_result_event(root, result, subject="testing:test-contracts")
+    _persist_result(root, result, subject="testing:test-contracts")
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+
+def project_state_validate_command(*, json_output: bool = False, write_report: bool = False) -> int:
+    """Validate centralized mutable project state after POST-H-001."""
+
+    root = project_root()
+    result = TestContractRegistry(root).project_state()
+    result = _write_optional_command_report(
+        root,
+        result,
+        subject="testing:project-state",
+        report_id="project_state",
+        write_report=write_report,
+        metadata={"sprint": "POST-H-001", "component": "ProjectGlobalState"},
+    )
+    _emit_result_event(root, result, subject="testing:project-state")
+    _persist_result(root, result, subject="testing:project-state")
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+
+def test_impact_analyze_command(
+    *,
+    changed_files_path: str | None = None,
+    changed_files: list[str] | None = None,
+    json_output: bool = False,
+    write_report: bool = False,
+) -> int:
+    """Analyze changed files and recommend conservative verification suites."""
+
+    root = project_root()
+    options = TestImpactOptions(changed_files_path=changed_files_path, changed_files=tuple(changed_files or ()))
+    result = TestImpactAnalyzer(root).analyze(options)
+    result = _write_optional_command_report(
+        root,
+        result,
+        subject="testing:test-impact",
+        report_id="test_impact",
+        write_report=write_report,
+        metadata={"sprint": "POST-H-001", "component": "TestImpactAnalyzer"},
+    )
+    _emit_result_event(root, result, subject="testing:test-impact")
+    _persist_result(root, result, subject="testing:test-impact")
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+
 def compliance_list_command(
     *,
     registry_path: str = ".devpilot/compliance/packs.json",
@@ -3954,6 +4026,28 @@ def build_parser() -> argparse.ArgumentParser:
     industrial_check.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     industrial_check.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
 
+    test_contracts = sub.add_parser("test-contracts", help="Validate POST-H-001 test contract registry")
+    test_contracts_sub = test_contracts.add_subparsers(dest="test_contracts_command")
+    test_contracts_validate = test_contracts_sub.add_parser("validate", help="Validate test contract registry structure and semantics")
+    test_contracts_validate.add_argument("--registry-path", default=".devpilot/testing/test_contract_registry.json", help="Test contract registry path")
+    test_contracts_validate.add_argument("--schema-path", default="docs/schemas/test_contract_registry.schema.json", help="Test contract registry schema path")
+    test_contracts_validate.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    test_contracts_validate.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+
+    project_state = sub.add_parser("project-state", help="Validate centralized mutable project state")
+    project_state_sub = project_state.add_subparsers(dest="project_state_command")
+    project_state_validate = project_state_sub.add_parser("validate", help="Validate .devpilot/project_state.json and global docs sync")
+    project_state_validate.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    project_state_validate.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+
+    test_impact = sub.add_parser("test-impact", help="Analyze changed files and recommend conservative test suites")
+    test_impact_sub = test_impact.add_subparsers(dest="test_impact_command")
+    test_impact_analyze = test_impact_sub.add_parser("analyze", help="Recommend tests for a changed file list")
+    test_impact_analyze.add_argument("--changed-files", default=None, help="Path to a newline-delimited changed-files list")
+    test_impact_analyze.add_argument("--path", action="append", default=[], help="Changed path; can be repeated")
+    test_impact_analyze.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    test_impact_analyze.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+
     audit_pack = sub.add_parser("audit-pack", help="Build and verify local collaboration audit packs")
     audit_pack_sub = audit_pack.add_subparsers(dest="audit_pack_command")
     audit_pack_build = audit_pack_sub.add_parser("build", help="Build a clean local audit pack ZIP with manifest/checksums")
@@ -4428,7 +4522,7 @@ def build_parser() -> argparse.ArgumentParser:
     quality_gate = sub.add_parser("quality-gate", help="Run local productization quality gates")
     quality_gate_sub = quality_gate.add_subparsers(dest="quality_gate_command")
     quality_gate_run = quality_gate_sub.add_parser("run", help="Run the unified local quality gate")
-    quality_gate_run.add_argument("--profile", choices=["fast", "full", "ci", "release", "industrial"], default="fast", help="Gate profile to execute")
+    quality_gate_run.add_argument("--profile", choices=["fast", "full", "ci", "release", "industrial", "hardening"], default="fast", help="Gate profile to execute")
     quality_gate_run.add_argument("--include-pytest", action="store_true", help="Explicitly include pytest -q as an optional subgate")
     quality_gate_run.add_argument("--pytest-timeout-seconds", type=int, default=180, help="Timeout for the optional pytest subgate")
     quality_gate_run.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
@@ -4885,6 +4979,31 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
         if args.industrial_readiness_command == "check":
             return industrial_readiness_check_command(
                 minimum_score=args.minimum_score,
+                json_output=args.json,
+                write_report=args.write_report,
+            )
+        parser.print_help()
+        return int(ExitCode.FAIL)
+    if args.command == "test-contracts":
+        if args.test_contracts_command == "validate":
+            return test_contracts_validate_command(
+                registry_path=args.registry_path,
+                schema_path=args.schema_path,
+                json_output=args.json,
+                write_report=args.write_report,
+            )
+        parser.print_help()
+        return int(ExitCode.FAIL)
+    if args.command == "project-state":
+        if args.project_state_command == "validate":
+            return project_state_validate_command(json_output=args.json, write_report=args.write_report)
+        parser.print_help()
+        return int(ExitCode.FAIL)
+    if args.command == "test-impact":
+        if args.test_impact_command == "analyze":
+            return test_impact_analyze_command(
+                changed_files_path=args.changed_files,
+                changed_files=args.path,
                 json_output=args.json,
                 write_report=args.write_report,
             )

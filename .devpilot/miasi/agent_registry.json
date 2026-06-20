@@ -171,7 +171,10 @@
         "compliance.run",
         "remote.runner.status",
         "enterprise.report",
-        "industrial.readiness.check"
+        "industrial.readiness.check",
+        "test.contracts.validate",
+        "project.state.validate",
+        "test.impact.analyze"
       ],
       "required_artifacts": [
         "Agent",
@@ -185,7 +188,10 @@
         "docs/02_architecture/adrs/ADR-0017-remote-runners-experimental.md",
         "docs/audits/func_sprint_98_enterprise_reporting_audit.md",
         "docs/audits/phase_h_advanced_capabilities_closure.md",
-        "docs/backlogs/post_phase_h_ideas.md"
+        "docs/backlogs/post_phase_h_ideas.md",
+        "docs/audits/post_h_001_test_contract_hardening_audit.md",
+        "docs/audits/test_contract_inventory.md",
+        "docs/post_h_001_manifest.json"
       ],
       "policy_rule_ids": [
         "SECURITY_AGENT_GOVERNED_ALLOW",
@@ -221,7 +227,11 @@
         "ENTERPRISE_REPORT_LOCAL_READ_ONLY_ALLOW",
         "INDUSTRIAL_READINESS_LOCAL_ALLOW",
         "INDUSTRIAL_READINESS_OVERCLAIM_DENY",
-        "INDUSTRIAL_READINESS_PHASE_H_CLOSURE_REQUIRED"
+        "INDUSTRIAL_READINESS_PHASE_H_CLOSURE_REQUIRED",
+        "TEST_CONTRACT_REGISTRY_VALIDATE_ALLOW",
+        "PROJECT_GLOBAL_STATE_VALIDATE_ALLOW",
+        "TEST_IMPACT_ANALYZE_CONSERVATIVE_ALLOW",
+        "TEST_IMPACT_UNKNOWN_PATH_FULL_PYTEST_REQUIRED"
       ],
       "approval_required": false,
       "observability_required": true,
@@ -259,7 +269,10 @@
         "compliance.run",
         "remote.runner.status",
         "enterprise.report",
-        "industrial.readiness.check"
+        "industrial.readiness.check",
+        "test.contracts.validate",
+        "project.state.validate",
+        "test.impact.analyze"
       ],
       "required_artifacts": [
         "Agent",
@@ -273,7 +286,10 @@
         "docs/02_architecture/adrs/ADR-0017-remote-runners-experimental.md",
         "docs/audits/func_sprint_98_enterprise_reporting_audit.md",
         "docs/audits/phase_h_advanced_capabilities_closure.md",
-        "docs/backlogs/post_phase_h_ideas.md"
+        "docs/backlogs/post_phase_h_ideas.md",
+        "docs/audits/post_h_001_test_contract_hardening_audit.md",
+        "docs/audits/test_contract_inventory.md",
+        "docs/post_h_001_manifest.json"
       ],
       "policy_rule_ids": [
         "TEST_PLANNER_AGENT_GOVERNED_ALLOW",
@@ -309,7 +325,11 @@
         "ENTERPRISE_REPORT_LOCAL_READ_ONLY_ALLOW",
         "INDUSTRIAL_READINESS_LOCAL_ALLOW",
         "INDUSTRIAL_READINESS_OVERCLAIM_DENY",
-        "INDUSTRIAL_READINESS_PHASE_H_CLOSURE_REQUIRED"
+        "INDUSTRIAL_READINESS_PHASE_H_CLOSURE_REQUIRED",
+        "TEST_CONTRACT_REGISTRY_VALIDATE_ALLOW",
+        "PROJECT_GLOBAL_STATE_VALIDATE_ALLOW",
+        "TEST_IMPACT_ANALYZE_CONSERVATIVE_ALLOW",
+        "TEST_IMPACT_UNKNOWN_PATH_FULL_PYTEST_REQUIRED"
       ],
       "approval_required": false,
       "observability_required": true,
@@ -523,7 +543,10 @@
         "compliance.run",
         "remote.runner.status",
         "enterprise.report",
-        "industrial.readiness.check"
+        "industrial.readiness.check",
+        "test.contracts.validate",
+        "project.state.validate",
+        "test.impact.analyze"
       ],
       "required_artifacts": [
         "Full MIASI",
@@ -535,7 +558,10 @@
         "docs/02_architecture/adrs/ADR-0017-remote-runners-experimental.md",
         "docs/audits/func_sprint_98_enterprise_reporting_audit.md",
         "docs/audits/phase_h_advanced_capabilities_closure.md",
-        "docs/backlogs/post_phase_h_ideas.md"
+        "docs/backlogs/post_phase_h_ideas.md",
+        "docs/audits/post_h_001_test_contract_hardening_audit.md",
+        "docs/audits/test_contract_inventory.md",
+        "docs/post_h_001_manifest.json"
       ],
       "policy_rule_ids": [
         "DEPLOY_DENY",
@@ -562,7 +588,11 @@
         "ENTERPRISE_REPORT_LOCAL_READ_ONLY_ALLOW",
         "INDUSTRIAL_READINESS_LOCAL_ALLOW",
         "INDUSTRIAL_READINESS_OVERCLAIM_DENY",
-        "INDUSTRIAL_READINESS_PHASE_H_CLOSURE_REQUIRED"
+        "INDUSTRIAL_READINESS_PHASE_H_CLOSURE_REQUIRED",
+        "TEST_CONTRACT_REGISTRY_VALIDATE_ALLOW",
+        "PROJECT_GLOBAL_STATE_VALIDATE_ALLOW",
+        "TEST_IMPACT_ANALYZE_CONSERVATIVE_ALLOW",
+        "TEST_IMPACT_UNKNOWN_PATH_FULL_PYTEST_REQUIRED"
       ],
       "approval_required": false,
       "observability_required": true,
@@ -601,7 +631,10 @@
         "compliance.run",
         "remote.runner.status",
         "enterprise.report",
-        "industrial.readiness.check"
+        "industrial.readiness.check",
+        "test.contracts.validate",
+        "project.state.validate",
+        "test.impact.analyze"
       ],
       "required_artifacts": [
         "Full MIASI",
@@ -617,7 +650,10 @@
         "docs/02_architecture/adrs/ADR-0017-remote-runners-experimental.md",
         "docs/audits/func_sprint_98_enterprise_reporting_audit.md",
         "docs/audits/phase_h_advanced_capabilities_closure.md",
-        "docs/backlogs/post_phase_h_ideas.md"
+        "docs/backlogs/post_phase_h_ideas.md",
+        "docs/audits/post_h_001_test_contract_hardening_audit.md",
+        "docs/audits/test_contract_inventory.md",
+        "docs/post_h_001_manifest.json"
       ],
       "policy_rule_ids": [
         "MULTIAGENT_COORDINATOR_DRY_RUN_ALLOW",
@@ -653,7 +689,11 @@
         "ENTERPRISE_REPORT_LOCAL_READ_ONLY_ALLOW",
         "INDUSTRIAL_READINESS_LOCAL_ALLOW",
         "INDUSTRIAL_READINESS_OVERCLAIM_DENY",
-        "INDUSTRIAL_READINESS_PHASE_H_CLOSURE_REQUIRED"
+        "INDUSTRIAL_READINESS_PHASE_H_CLOSURE_REQUIRED",
+        "TEST_CONTRACT_REGISTRY_VALIDATE_ALLOW",
+        "PROJECT_GLOBAL_STATE_VALIDATE_ALLOW",
+        "TEST_IMPACT_ANALYZE_CONSERVATIVE_ALLOW",
+        "TEST_IMPACT_UNKNOWN_PATH_FULL_PYTEST_REQUIRED"
       ],
       "approval_required": false,
       "observability_required": true,
@@ -679,7 +719,10 @@
         "policy.check",
         "remote.runner.status",
         "enterprise.report",
-        "industrial.readiness.check"
+        "industrial.readiness.check",
+        "test.contracts.validate",
+        "project.state.validate",
+        "test.impact.analyze"
       ],
       "required_artifacts": [
         "Agent",
@@ -690,7 +733,10 @@
         "docs/02_architecture/adrs/ADR-0017-remote-runners-experimental.md",
         "docs/audits/func_sprint_98_enterprise_reporting_audit.md",
         "docs/audits/phase_h_advanced_capabilities_closure.md",
-        "docs/backlogs/post_phase_h_ideas.md"
+        "docs/backlogs/post_phase_h_ideas.md",
+        "docs/audits/post_h_001_test_contract_hardening_audit.md",
+        "docs/audits/test_contract_inventory.md",
+        "docs/post_h_001_manifest.json"
       ],
       "policy_rule_ids": [
         "RELEASE_AGENT_DRY_RUN_ALLOW",
@@ -702,7 +748,11 @@
         "ENTERPRISE_REPORT_LOCAL_READ_ONLY_ALLOW",
         "INDUSTRIAL_READINESS_LOCAL_ALLOW",
         "INDUSTRIAL_READINESS_OVERCLAIM_DENY",
-        "INDUSTRIAL_READINESS_PHASE_H_CLOSURE_REQUIRED"
+        "INDUSTRIAL_READINESS_PHASE_H_CLOSURE_REQUIRED",
+        "TEST_CONTRACT_REGISTRY_VALIDATE_ALLOW",
+        "PROJECT_GLOBAL_STATE_VALIDATE_ALLOW",
+        "TEST_IMPACT_ANALYZE_CONSERVATIVE_ALLOW",
+        "TEST_IMPACT_UNKNOWN_PATH_FULL_PYTEST_REQUIRED"
       ],
       "approval_required": false,
       "observability_required": true,

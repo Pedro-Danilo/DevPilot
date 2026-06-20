@@ -2,7 +2,7 @@
 title: "Runbook — DevPilot Local"
 doc_id: "DEVPL-OPS-002"
 status: "approved"
-version: "1.27.0"
+version: "1.28.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
@@ -5363,3 +5363,61 @@ python -m devpilot_core validate-artifact docs\audits\phase_h_advanced_capabilit
 ### Riesgos y recuperación
 
 Este cierre es `implemented-initial`: no es certificación externa ni garantía de producción enterprise. Si el gate bloquea, revisar `outputs/reports/industrial_readiness.json`, resolver `blocking_gaps` y repetir la validación. No habilitar remote execution ni cloud para “subir” el score.
+
+
+## POST-H-001 — Operación de hardening industrial de tests y contratos
+
+### Propósito
+
+`POST-H-001` reduce fragilidad de validación después del cierre de Fase H. La operación principal consiste en validar contratos de test, estado global centralizado, análisis conservador de impacto y perfil `hardening`.
+
+### Comandos principales
+
+```powershell
+python -m devpilot_core test-contracts validate --json
+python -m devpilot_core project-state validate --json
+python -m devpilot_core test-impact analyze --changed-files changed_files.txt --json
+python -m devpilot_core quality-gate run --profile hardening --json
+```
+
+### Verificación focal
+
+```powershell
+python -m pytest tests\test_project_global_state.py tests\test_test_contract_registry.py tests\test_test_impact.py -q
+```
+
+### Verificación general
+
+```powershell
+pytest -q
+python -m devpilot_core validate all --json
+python -m devpilot_core quality-gate run --profile ci --json
+python -m devpilot_core quality-gate run --profile hardening --json
+```
+
+### Criterios PASS
+
+```text
+test-contracts validate ok=true
+project-state validate ok=true
+test-impact analyze recomienda suites conservadoramente
+quality-gate hardening ok=true
+pytest -q PASS al cierre
+no se eliminan pruebas críticas
+los tests históricos no duplican estado global mutable
+```
+
+### Criterios BLOCK
+
+```text
+registry de contratos inválido
+project_state desincronizado con README/runbook/changelog/backlog
+impact analyzer omite full pytest ante cambios desconocidos o core
+quality-gate hardening falla
+pytest -q falla
+se ocultan warnings o blockers
+```
+
+### Riesgos
+
+Esta es una primera versión `implemented-initial`. El analizador de impacto es conservador por diseño y puede recomendar más pruebas de las estrictamente necesarias. No ejecuta tests dinámicamente desde JSON, no reemplaza `pytest` y no debe usarse para saltarse la validación completa de cierre.

@@ -29,15 +29,9 @@ def test_sprint_85_advanced_architecture_artifacts_exist_and_are_synchronized() 
     ]:
         assert (ROOT / path).exists(), path
 
-    assert "Último hito: `FUNC-SPRINT-99" in readme
-    assert "Siguiente hito: `POST-H-001" in readme
     assert "FUNC-SPRINT-85 — ADR de arquitectura avanzada agentic/enterprise" in readme
     assert "FUNC-SPRINT-85 — Operación de arquitectura avanzada agentic/enterprise" in runbook
-    assert 'source_repo: "repo_DevPilot_Local_128.zip"' in backlog_h
-    assert 'last_completed_sprint: "FUNC-SPRINT-99"' in backlog_h
-    assert 'next_sprint: "POST-H-001"' in backlog_h
     assert 'phase_h_status: "closed_implemented_initial"' in backlog_h
-    assert 'next_sprint: "POST-H-001"' in functional_backlog
 
 
 def test_sprint_85_docs_define_advanced_agentic_boundaries() -> None:

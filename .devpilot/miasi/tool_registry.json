@@ -1233,6 +1233,46 @@
         "INDUSTRIAL_READINESS_PHASE_H_CLOSURE_REQUIRED",
         "SECRETS_RAW_DENY"
       ]
+    },
+    {
+      "tool_id": "test.contracts.validate",
+      "name": "validate_test_contract_registry",
+      "phase": "Post-MVP",
+      "side_effect": "none",
+      "risk_level": "medium",
+      "status": "implemented-initial",
+      "requires_approval": false,
+      "policy_rule_ids": [
+        "TEST_CONTRACT_REGISTRY_VALIDATE_ALLOW",
+        "SECRETS_RAW_DENY"
+      ]
+    },
+    {
+      "tool_id": "project.state.validate",
+      "name": "validate_project_global_state",
+      "phase": "Post-MVP",
+      "side_effect": "none",
+      "risk_level": "medium",
+      "status": "implemented-initial",
+      "requires_approval": false,
+      "policy_rule_ids": [
+        "PROJECT_GLOBAL_STATE_VALIDATE_ALLOW",
+        "SECRETS_RAW_DENY"
+      ]
+    },
+    {
+      "tool_id": "test.impact.analyze",
+      "name": "analyze_test_impact_conservative",
+      "phase": "Post-MVP",
+      "side_effect": "none",
+      "risk_level": "medium_high",
+      "status": "implemented-initial",
+      "requires_approval": false,
+      "policy_rule_ids": [
+        "TEST_IMPACT_ANALYZE_CONSERVATIVE_ALLOW",
+        "TEST_IMPACT_UNKNOWN_PATH_FULL_PYTEST_REQUIRED",
+        "SECRETS_RAW_DENY"
+      ]
     }
   ]
 }

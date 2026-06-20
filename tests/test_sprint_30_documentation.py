@@ -18,8 +18,6 @@ def test_sprint_30_readme_runbook_and_phase_b_backlog_are_synchronized() -> None
     assert "FUNC-SPRINT-30 — Binding de aprobaciones" in readme
     assert "FUNC-SPRINT-30 — Binding de aprobaciones" in runbook
     assert "Estado de implementación Sprint 30" in phase_b
-    assert 'source_repo: "repo_DevPilot_Local_39.zip"' in phase_b
-    assert 'first_open_sprint: "FUNC-SPRINT-35"' in phase_b
     assert "FUNC-SPRINT-31 — SafeSubprocessRunner" in readme
     assert "FUNC-SPRINT-31 — SafeSubprocessRunner" in runbook
     assert "FUNC-SPRINT-32 — tests.run" in readme

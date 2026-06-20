@@ -14,6 +14,22 @@ All notable changes to DevPilot Local are documented in this file.
 
 This changelog follows a Keep a Changelog-compatible category structure and is generated from local sprint manifests.
 
+
+## [post-H-001] - 2026-06-19
+
+### Added
+
+- `POST-H-001` — Industrial hardening de tests y contratos. Se agregó `.devpilot/testing/test_contract_registry.json`, `.devpilot/project_state.json`, `test-contracts validate`, `project-state validate`, `test-impact analyze` y `quality-gate run --profile hardening`.
+- Se agregaron schemas `SCHEMA-DEVPL-TEST-CONTRACT-REGISTRY-V1`, `SCHEMA-DEVPL-PROJECT-STATE-V1` y `SCHEMA-DEVPL-POST-H-MANIFEST-V1`.
+
+### Changed
+
+- Los tests documentales históricos de Fase H dejan de duplicar estado global mutable; esa responsabilidad queda centralizada en `tests/test_project_global_state.py`.
+
+### Security
+
+- El analizador de impacto es conservador: ante rutas desconocidas o cambios core recomienda `pytest -q`. No ejecuta comandos arbitrarios ni red.
+
 ## [0.1.0] - 2026-06-19
 
 Release ID: `DEVPL-0.1.0`  

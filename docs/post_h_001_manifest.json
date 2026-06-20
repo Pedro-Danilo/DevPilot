@@ -1,0 +1,76 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "SCHEMA-DEVPL-POST-H-MANIFEST-V1",
+  "post_h_id": "POST-H-001",
+  "title": "Industrial hardening de tests y contratos",
+  "status": "implemented-initial",
+  "phase": "POST-FASE-H",
+  "implemented_at": "2026-06-19",
+  "source_repo": "repo_DevPilot_Local_130.zip",
+  "created_files": [
+    "src/devpilot_core/testing/contracts.py",
+    "src/devpilot_core/testing/impact.py",
+    ".devpilot/testing/test_contract_registry.json",
+    ".devpilot/project_state.json",
+    "docs/schemas/test_contract_registry.schema.json",
+    "docs/schemas/project_state.schema.json",
+    "docs/schemas/post_h_manifest.schema.json",
+    "docs/audits/test_contract_inventory.md",
+    "docs/audits/post_h_001_test_contract_hardening_audit.md",
+    "docs/post_h_001_manifest.json",
+    "tests/test_project_global_state.py",
+    "tests/test_test_contract_registry.py",
+    "tests/test_test_impact.py"
+  ],
+  "modified_files": [
+    "src/devpilot_core/cli.py",
+    "src/devpilot_core/quality/gate.py",
+    "src/devpilot_core/testing/__init__.py",
+    ".devpilot/miasi/tool_registry.json",
+    ".devpilot/miasi/policy_matrix.json",
+    ".devpilot/miasi/agent_registry.json",
+    "docs/schemas/schema_catalog.json",
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/POST-H-001_industrial_hardening_tests_contracts.md",
+    "docs/backlogs/post_phase_h_ideas.md",
+    "docs/release/CHANGELOG.md",
+    "tests/test_sprint_85_documentation.py ... tests/test_sprint_99_documentation.py",
+    ".gitignore"
+  ],
+  "commands": [
+    "python -m devpilot_core test-contracts validate --json",
+    "python -m devpilot_core project-state validate --json",
+    "python -m devpilot_core test-impact analyze --changed-files changed_files.txt --json",
+    "python -m devpilot_core quality-gate run --profile hardening --json"
+  ],
+  "tests": [
+    "python -m pytest tests/test_project_global_state.py tests/test_test_contract_registry.py tests/test_test_impact.py -q",
+    "python -m pytest tests/test_sprint_*_documentation.py -q",
+    "python -m pytest tests/test_quality_gate.py tests/test_schema_registry.py -q",
+    "pytest -q"
+  ],
+  "pass_criteria": [
+    "test contract registry validates structurally and semantically",
+    "project global state is centralized and synchronized",
+    "historical sprint tests do not own mutable global state",
+    "test impact analysis is conservative",
+    "quality-gate hardening passes",
+    "pytest -q passes"
+  ],
+  "block_criteria": [
+    "registry invalid or missing",
+    "project state drift detected",
+    "historical tests duplicate mutable global state",
+    "impact analyzer omits full pytest for unknown/core changes",
+    "hardening gate fails",
+    "full pytest fails"
+  ],
+  "risks": [
+    "implemented-initial impact analyzer can over-recommend tests",
+    "registry documents intent but does not execute pytest dynamically",
+    "future work should add richer dependency-aware impact analysis"
+  ],
+  "next_sprint": "POST-H-002",
+  "preliminary": true
+}

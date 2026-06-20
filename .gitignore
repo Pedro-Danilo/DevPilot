@@ -71,3 +71,6 @@ outputs/sandbox/
 
 # DevPilot rollback runtime data (generated)
 .devpilot/rollback/
+
+# DevPilot agent session runtime data (generated)
+.devpilot/agent_sessions/

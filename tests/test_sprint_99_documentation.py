@@ -31,19 +31,12 @@ def test_sprint_99_readme_runbook_and_backlogs_are_synchronized() -> None:
     backlog = read("docs/devpilot_backlog_fase_H_capacidades_avanzadas.md")
     functional = read("docs/functional_backlog_after_precode.md")
 
-    assert "Último hito: `FUNC-SPRINT-99" in readme
-    assert "Siguiente hito: `POST-H-001" in readme
     assert "FUNC-SPRINT-99 — Industrial readiness gate y cierre Fase H" in readme
     assert "FUNC-SPRINT-99 — Operación de Industrial Readiness Gate" in runbook
     assert "industrial-readiness check" in runbook
     assert "quality-gate run --profile industrial" in runbook
     assert 'version: "1.11.0"' in backlog
-    assert 'source_repo: "repo_DevPilot_Local_128.zip"' in backlog
     assert 'phase_h_status: "closed_implemented_initial"' in backlog
-    assert 'last_completed_sprint: "FUNC-SPRINT-99"' in backlog
-    assert 'next_sprint: "POST-H-001"' in backlog
-    assert 'first_open_sprint: "POST-H-001"' in backlog
-    assert 'next_sprint: "POST-H-001"' in functional
     assert "Estado de implementación Sprint 99 y cierre Fase H" in backlog
 
 
@@ -90,7 +83,6 @@ def test_sprint_99_schema_catalog_and_miasi_are_registered() -> None:
 def test_sprint_99_changelog_mentions_phase_h_closure() -> None:
     changelog = read("docs/release/CHANGELOG.md")
 
-    assert "Range: `FUNC-SPRINT-74` → `FUNC-SPRINT-99`" in changelog
     assert "FUNC-SPRINT-99" in changelog
     assert "Industrial readiness gate y cierre Fase H" in changelog
     assert "docs/functional_sprint_99_manifest.json" in changelog

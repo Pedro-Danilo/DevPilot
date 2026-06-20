@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
   "created_by": "FUNC-SPRINT-94",
-  "updated_at": "2026-06-19T23:00:01Z",
+  "updated_at": "2026-06-20T16:12:01Z",
   "active_workspace_id": "devpilot-local",
   "defaults": {
     "deny_unregistered_workspaces": true,
@@ -37,7 +37,7 @@
       "observability_required": true,
       "eval_required": true,
       "registered_at": "2026-06-19T12:51:00Z",
-      "updated_at": "2026-06-19T23:00:01Z"
+      "updated_at": "2026-06-20T16:12:01Z"
     }
   ]
 }

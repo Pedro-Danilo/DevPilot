@@ -2,7 +2,7 @@
 title: "Backlog post-Fase H — Hardening industrial"
 doc_id: "DEVPL-BACKLOG-POST-H-001"
 status: "approved"
-version: "1.0.0"
+version: "1.1.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
@@ -26,7 +26,7 @@ Este backlog semilla prioriza el trabajo posterior a Fase H. Su objetivo no es a
 
 | Prioridad | ID | Tema | Resultado esperado | Riesgo mitigado |
 |---|---|---|---|---|
-| P0 | POST-H-001 | Industrial hardening de tests y contratos | Reducir regresiones y desincronización documental | Fallos recurrentes en suites grandes |
+| P0 | POST-H-001 | Industrial hardening de tests y contratos | Implementado como registry de contratos, estado global centralizado, impact analyzer y hardening gate | Fallos recurrentes en suites grandes |
 | P0 | POST-H-002 | Maturity dashboard local | Mostrar production-ready vs implemented-initial vs experimental | Sobreclaiming de madurez |
 | P0 | POST-H-003 | Policy/MIASI semantic validator ampliado | Validar consistencia tool-policy-agent más allá de schema | Tools/policies decorativos |
 | P1 | POST-H-004 | Observability retention local | Retención, rotación y consulta de trazas/reportes | Pérdida o exceso de evidencia |
@@ -49,3 +49,10 @@ Este backlog semilla prioriza el trabajo posterior a Fase H. Su objetivo no es a
 ## Veredicto
 
 La prioridad inmediata es hardening y reducción de regresiones, no expansión de autonomía.
+
+
+## Estado posterior a POST-H-001
+
+`POST-H-001` queda implementado como `implemented-initial`. El siguiente hito recomendado es `POST-H-002 — Maturity dashboard local`, basado en el reporte de `industrial-readiness` y en el nuevo estado global `.devpilot/project_state.json`.
+
+La línea post-H mantiene una regla: antes de nuevas capacidades agentic o remotas, los contratos de prueba, estado global, MIASI, schemas y gates deben permanecer sincronizados.

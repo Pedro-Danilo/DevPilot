@@ -1,0 +1,2033 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "SCHEMA-DEVPL-TEST-CONTRACT-REGISTRY-V1",
+  "created_by": "POST-H-001",
+  "status": "implemented-initial",
+  "description": "Declarative registry classifying DevPilot tests by contract layer after POST-H-001.",
+  "contracts": [
+    {
+      "contract_id": "project-global-state",
+      "scope": "global-state",
+      "owner": "POST-H-001",
+      "phase": "POST-FASE-H",
+      "test_files": [
+        "tests/test_project_global_state.py"
+      ],
+      "validates": [
+        ".devpilot/project_state.json",
+        "README.md",
+        "docs/05_operations/runbook.md",
+        "docs/backlogs/post_phase_h_ideas.md",
+        "docs/release/CHANGELOG.md",
+        "docs/POST-H-001_industrial_hardening_tests_contracts.md"
+      ],
+      "watched_paths": [
+        ".devpilot/project_state.json",
+        "README.md",
+        "docs/05_operations/runbook.md",
+        "docs/backlogs/",
+        "docs/release/",
+        "docs/POST-H-001_industrial_hardening_tests_contracts.md"
+      ],
+      "mutable_global_state_allowed": true,
+      "global_state_source": ".devpilot/project_state.json",
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest tests/test_project_global_state.py -q"
+      ]
+    },
+    {
+      "contract_id": "test-contract-registry",
+      "scope": "quality-gate",
+      "owner": "POST-H-001",
+      "phase": "POST-FASE-H",
+      "test_files": [
+        "tests/test_test_contract_registry.py"
+      ],
+      "validates": [
+        ".devpilot/testing/test_contract_registry.json",
+        "docs/schemas/test_contract_registry.schema.json"
+      ],
+      "watched_paths": [
+        ".devpilot/testing/",
+        "docs/schemas/test_contract_registry.schema.json",
+        "src/devpilot_core/testing/contracts.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest tests/test_test_contract_registry.py -q"
+      ]
+    },
+    {
+      "contract_id": "test-impact-analyzer",
+      "scope": "feature",
+      "owner": "POST-H-001",
+      "phase": "POST-FASE-H",
+      "test_files": [
+        "tests/test_test_impact.py"
+      ],
+      "validates": [
+        "src/devpilot_core/testing/impact.py"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/testing/impact.py",
+        "src/devpilot_core/cli.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest tests/test_test_impact.py -q"
+      ]
+    },
+    {
+      "contract_id": "sprint-22-documentation",
+      "scope": "historical-sprint",
+      "owner": "FUNC-SPRINT-22",
+      "phase": "HISTORICAL-SPRINT-CONTRACT",
+      "test_files": [
+        "tests/test_sprint_22_documentation.py"
+      ],
+      "validates": [
+        "docs/functional_sprint_22_manifest.json",
+        "docs/audits/func_sprint_22"
+      ],
+      "watched_paths": [
+        "docs/functional_sprint_22_manifest.json",
+        "docs/audits/",
+        "tests/test_sprint_22_documentation.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest tests/test_sprint_22_documentation.py -q"
+      ]
+    },
+    {
+      "contract_id": "sprint-23-documentation",
+      "scope": "historical-sprint",
+      "owner": "FUNC-SPRINT-23",
+      "phase": "HISTORICAL-SPRINT-CONTRACT",
+      "test_files": [
+        "tests/test_sprint_23_documentation.py"
+      ],
+      "validates": [
+        "docs/functional_sprint_23_manifest.json",
+        "docs/audits/func_sprint_23"
+      ],
+      "watched_paths": [
+        "docs/functional_sprint_23_manifest.json",
+        "docs/audits/",
+        "tests/test_sprint_23_documentation.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest tests/test_sprint_23_documentation.py -q"
+      ]
+    },
+    {
+      "contract_id": "sprint-24-documentation",
+      "scope": "historical-sprint",
+      "owner": "FUNC-SPRINT-24",
+      "phase": "HISTORICAL-SPRINT-CONTRACT",
+      "test_files": [
+        "tests/test_sprint_24_documentation.py"
+      ],
+      "validates": [
+        "docs/functional_sprint_24_manifest.json",
+        "docs/audits/func_sprint_24"
+      ],
+      "watched_paths": [
+        "docs/functional_sprint_24_manifest.json",
+        "docs/audits/",
+        "tests/test_sprint_24_documentation.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest tests/test_sprint_24_documentation.py -q"
+      ]
+    },
+    {
+      "contract_id": "sprint-25-documentation",
+      "scope": "historical-sprint",
+      "owner": "FUNC-SPRINT-25",
+      "phase": "HISTORICAL-SPRINT-CONTRACT",
+      "test_files": [
+        "tests/test_sprint_25_documentation.py"
+      ],
+      "validates": [
+        "docs/functional_sprint_25_manifest.json",
+        "docs/audits/func_sprint_25"
+      ],
+      "watched_paths": [
+        "docs/functional_sprint_25_manifest.json",
+        "docs/audits/",
+        "tests/test_sprint_25_documentation.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest tests/test_sprint_25_documentation.py -q"
+      ]
+    },
+    {
+      "contract_id": "sprint-26-documentation",
+      "scope": "historical-sprint",
+      "owner": "FUNC-SPRINT-26",
+      "phase": "HISTORICAL-SPRINT-CONTRACT",
+      "test_files": [
+        "tests/test_sprint_26_documentation.py"
+      ],
+      "validates": [
+        "docs/functional_sprint_26_manifest.json",
+        "docs/audits/func_sprint_26"
+      ],
+      "watched_paths": [
+        "docs/functional_sprint_26_manifest.json",
+        "docs/audits/",
+        "tests/test_sprint_26_documentation.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest tests/test_sprint_26_documentation.py -q"
+      ]
+    },
+    {
+      "contract_id": "sprint-27-documentation",
+      "scope": "historical-sprint",
+      "owner": "FUNC-SPRINT-27",
+      "phase": "HISTORICAL-SPRINT-CONTRACT",
+      "test_files": [
+        "tests/test_sprint_27_documentation.py"
+      ],
+      "validates": [
+        "docs/functional_sprint_27_manifest.json",
+        "docs/audits/func_sprint_27"
+      ],
+      "watched_paths": [
+        "docs/functional_sprint_27_manifest.json",
+        "docs/audits/",
+        "tests/test_sprint_27_documentation.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest tests/test_sprint_27_documentation.py -q"
+      ]
+    },
+    {
+      "contract_id": "sprint-28-documentation",
+      "scope": "historical-sprint",
+      "owner": "FUNC-SPRINT-28",
+      "phase": "HISTORICAL-SPRINT-CONTRACT",
+      "test_files": [
+        "tests/test_sprint_28_documentation.py"
+      ],
+      "validates": [
+        "docs/functional_sprint_28_manifest.json",
+        "docs/audits/func_sprint_28"
+      ],
+      "watched_paths": [
+        "docs/functional_sprint_28_manifest.json",
+        "docs/audits/",
+        "tests/test_sprint_28_documentation.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest tests/test_sprint_28_documentation.py -q"
+      ]
+    },
+    {
+      "contract_id": "sprint-29-documentation",
+      "scope": "historical-sprint",
+      "owner": "FUNC-SPRINT-29",
+      "phase": "HISTORICAL-SPRINT-CONTRACT",
+      "test_files": [
+        "tests/test_sprint_29_documentation.py"
+      ],
+      "validates": [
+        "docs/functional_sprint_29_manifest.json",
+        "docs/audits/func_sprint_29"
+      ],
+      "watched_paths": [
+        "docs/functional_sprint_29_manifest.json",
+        "docs/audits/",
+        "tests/test_sprint_29_documentation.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest tests/test_sprint_29_documentation.py -q"
+      ]
+    },
+    {
+      "contract_id": "sprint-30-documentation",
+      "scope": "historical-sprint",
+      "owner": "FUNC-SPRINT-30",
+      "phase": "HISTORICAL-SPRINT-CONTRACT",
+      "test_files": [
+        "tests/test_sprint_30_documentation.py"
+      ],
+      "validates": [
+        "docs/functional_sprint_30_manifest.json",
+        "docs/audits/func_sprint_30"
+      ],
+      "watched_paths": [
+        "docs/functional_sprint_30_manifest.json",
+        "docs/audits/",
+        "tests/test_sprint_30_documentation.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest tests/test_sprint_30_documentation.py -q"
+      ]
+    },
+    {
+      "contract_id": "sprint-31-documentation",
+      "scope": "historical-sprint",
+      "owner": "FUNC-SPRINT-31",
+      "phase": "HISTORICAL-SPRINT-CONTRACT",
+      "test_files": [
+        "tests/test_sprint_31_documentation.py"
+      ],
+      "validates": [
+        "docs/functional_sprint_31_manifest.json",
+        "docs/audits/func_sprint_31"
+      ],
+      "watched_paths": [
+        "docs/functional_sprint_31_manifest.json",
+        "docs/audits/",
+        "tests/test_sprint_31_documentation.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest tests/test_sprint_31_documentation.py -q"
+      ]
+    },
+    {
+      "contract_id": "sprint-32-documentation",
+      "scope": "historical-sprint",
+      "owner": "FUNC-SPRINT-32",
+      "phase": "HISTORICAL-SPRINT-CONTRACT",
+      "test_files": [
+        "tests/test_sprint_32_documentation.py"
+      ],
+      "validates": [
+        "docs/functional_sprint_32_manifest.json",
+        "docs/audits/func_sprint_32"
+      ],
+      "watched_paths": [
+        "docs/functional_sprint_32_manifest.json",
+        "docs/audits/",
+        "tests/test_sprint_32_documentation.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest tests/test_sprint_32_documentation.py -q"
+      ]
+    },
+    {
+      "contract_id": "sprint-33-documentation",
+      "scope": "historical-sprint",
+      "owner": "FUNC-SPRINT-33",
+      "phase": "HISTORICAL-SPRINT-CONTRACT",
+      "test_files": [
+        "tests/test_sprint_33_documentation.py"
+      ],
+      "validates": [
+        "docs/functional_sprint_33_manifest.json",
+        "docs/audits/func_sprint_33"
+      ],
+      "watched_paths": [
+        "docs/functional_sprint_33_manifest.json",
+        "docs/audits/",
+        "tests/test_sprint_33_documentation.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest tests/test_sprint_33_documentation.py -q"
+      ]
+    },
+    {
+      "contract_id": "sprint-34-documentation",
+      "scope": "historical-sprint",
+      "owner": "FUNC-SPRINT-34",
+      "phase": "HISTORICAL-SPRINT-CONTRACT",
+      "test_files": [
+        "tests/test_sprint_34_documentation.py"
+      ],
+      "validates": [
+        "docs/functional_sprint_34_manifest.json",
+        "docs/audits/func_sprint_34"
+      ],
+      "watched_paths": [
+        "docs/functional_sprint_34_manifest.json",
+        "docs/audits/",
+        "tests/test_sprint_34_documentation.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest tests/test_sprint_34_documentation.py -q"
+      ]
+    },
+    {
+      "contract_id": "sprint-35-documentation",
+      "scope": "historical-sprint",
+      "owner": "FUNC-SPRINT-35",
+      "phase": "HISTORICAL-SPRINT-CONTRACT",
+      "test_files": [
+        "tests/test_sprint_35_documentation.py"
+      ],
+      "validates": [
+        "docs/functional_sprint_35_manifest.json",
+        "docs/audits/func_sprint_35"
+      ],
+      "watched_paths": [
+        "docs/functional_sprint_35_manifest.json",
+        "docs/audits/",
+        "tests/test_sprint_35_documentation.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest tests/test_sprint_35_documentation.py -q"
+      ]
+    },
+    {
+      "contract_id": "sprint-36-documentation",
+      "scope": "historical-sprint",
+      "owner": "FUNC-SPRINT-36",
+      "phase": "HISTORICAL-SPRINT-CONTRACT",
+      "test_files": [
+        "tests/test_sprint_36_documentation.py"
+      ],
+      "validates": [
+        "docs/functional_sprint_36_manifest.json",
+        "docs/audits/func_sprint_36"
+      ],
+      "watched_paths": [
+        "docs/functional_sprint_36_manifest.json",
+        "docs/audits/",
+        "tests/test_sprint_36_documentation.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest tests/test_sprint_36_documentation.py -q"
+      ]
+    },
+    {
+      "contract_id": "sprint-37-documentation",
+      "scope": "historical-sprint",
+      "owner": "FUNC-SPRINT-37",
+      "phase": "HISTORICAL-SPRINT-CONTRACT",
+      "test_files": [
+        "tests/test_sprint_37_documentation.py"
+      ],
+      "validates": [
+        "docs/functional_sprint_37_manifest.json",
+        "docs/audits/func_sprint_37"
+      ],
+      "watched_paths": [
+        "docs/functional_sprint_37_manifest.json",
+        "docs/audits/",
+        "tests/test_sprint_37_documentation.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest tests/test_sprint_37_documentation.py -q"
+      ]
+    },
+    {
+      "contract_id": "sprint-38-documentation",
+      "scope": "historical-sprint",
+      "owner": "FUNC-SPRINT-38",
+      "phase": "HISTORICAL-SPRINT-CONTRACT",
+      "test_files": [
+        "tests/test_sprint_38_documentation.py"
+      ],
+      "validates": [
+        "docs/functional_sprint_38_manifest.json",
+        "docs/audits/func_sprint_38"
+      ],
+      "watched_paths": [
+        "docs/functional_sprint_38_manifest.json",
+        "docs/audits/",
+        "tests/test_sprint_38_documentation.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest tests/test_sprint_38_documentation.py -q"
+      ]
+    },
+    {
+      "contract_id": "sprint-39-documentation",
+      "scope": "historical-sprint",
+      "owner": "FUNC-SPRINT-39",
+      "phase": "HISTORICAL-SPRINT-CONTRACT",
+      "test_files": [
+        "tests/test_sprint_39_documentation.py"
+      ],
+      "validates": [
+        "docs/functional_sprint_39_manifest.json",
+        "docs/audits/func_sprint_39"
+      ],
+      "watched_paths": [
+        "docs/functional_sprint_39_manifest.json",
+        "docs/audits/",
+        "tests/test_sprint_39_documentation.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest tests/test_sprint_39_documentation.py -q"
+      ]
+    },
+    {
+      "contract_id": "sprint-40-documentation",
+      "scope": "historical-sprint",
+      "owner": "FUNC-SPRINT-40",
+      "phase": "HISTORICAL-SPRINT-CONTRACT",
+      "test_files": [
+        "tests/test_sprint_40_documentation.py"
+      ],
+      "validates": [
+        "docs/functional_sprint_40_manifest.json",
+        "docs/audits/func_sprint_40"
+      ],
+      "watched_paths": [
+        "docs/functional_sprint_40_manifest.json",
+        "docs/audits/",
+        "tests/test_sprint_40_documentation.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest tests/test_sprint_40_documentation.py -q"
+      ]
+    },
+    {
+      "contract_id": "sprint-41-documentation",
+      "scope": "historical-sprint",
+      "owner": "FUNC-SPRINT-41",
+      "phase": "HISTORICAL-SPRINT-CONTRACT",
+      "test_files": [
+        "tests/test_sprint_41_documentation.py"
+      ],
+      "validates": [
+        "docs/functional_sprint_41_manifest.json",
+        "docs/audits/func_sprint_41"
+      ],
+      "watched_paths": [
+        "docs/functional_sprint_41_manifest.json",
+        "docs/audits/",
+        "tests/test_sprint_41_documentation.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest tests/test_sprint_41_documentation.py -q"
+      ]
+    },
+    {
+      "contract_id": "sprint-42-documentation",
+      "scope": "historical-sprint",
+      "owner": "FUNC-SPRINT-42",
+      "phase": "HISTORICAL-SPRINT-CONTRACT",
+      "test_files": [
+        "tests/test_sprint_42_documentation.py"
+      ],
+      "validates": [
+        "docs/functional_sprint_42_manifest.json",
+        "docs/audits/func_sprint_42"
+      ],
+      "watched_paths": [
+        "docs/functional_sprint_42_manifest.json",
+        "docs/audits/",
+        "tests/test_sprint_42_documentation.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest tests/test_sprint_42_documentation.py -q"
+      ]
+    },
+    {
+      "contract_id": "sprint-43-documentation",
+      "scope": "historical-sprint",
+      "owner": "FUNC-SPRINT-43",
+      "phase": "HISTORICAL-SPRINT-CONTRACT",
+      "test_files": [
+        "tests/test_sprint_43_documentation.py"
+      ],
+      "validates": [
+        "docs/functional_sprint_43_manifest.json",
+        "docs/audits/func_sprint_43"
+      ],
+      "watched_paths": [
+        "docs/functional_sprint_43_manifest.json",
+        "docs/audits/",
+        "tests/test_sprint_43_documentation.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest tests/test_sprint_43_documentation.py -q"
+      ]
+    },
+    {
+      "contract_id": "sprint-44-documentation",
+      "scope": "historical-sprint",
+      "owner": "FUNC-SPRINT-44",
+      "phase": "HISTORICAL-SPRINT-CONTRACT",
+      "test_files": [
+        "tests/test_sprint_44_documentation.py"
+      ],
+      "validates": [
+        "docs/functional_sprint_44_manifest.json",
+        "docs/audits/func_sprint_44"
+      ],
+      "watched_paths": [
+        "docs/functional_sprint_44_manifest.json",
+        "docs/audits/",
+        "tests/test_sprint_44_documentation.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest tests/test_sprint_44_documentation.py -q"
+      ]
+    },
+    {
+      "contract_id": "sprint-45-documentation",
+      "scope": "historical-sprint",
+      "owner": "FUNC-SPRINT-45",
+      "phase": "HISTORICAL-SPRINT-CONTRACT",
+      "test_files": [
+        "tests/test_sprint_45_documentation.py"
+      ],
+      "validates": [
+        "docs/functional_sprint_45_manifest.json",
+        "docs/audits/func_sprint_45"
+      ],
+      "watched_paths": [
+        "docs/functional_sprint_45_manifest.json",
+        "docs/audits/",
+        "tests/test_sprint_45_documentation.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest tests/test_sprint_45_documentation.py -q"
+      ]
+    },
+    {
+      "contract_id": "sprint-46-documentation",
+      "scope": "historical-sprint",
+      "owner": "FUNC-SPRINT-46",
+      "phase": "HISTORICAL-SPRINT-CONTRACT",
+      "test_files": [
+        "tests/test_sprint_46_documentation.py"
+      ],
+      "validates": [
+        "docs/functional_sprint_46_manifest.json",
+        "docs/audits/func_sprint_46"
+      ],
+      "watched_paths": [
+        "docs/functional_sprint_46_manifest.json",
+        "docs/audits/",
+        "tests/test_sprint_46_documentation.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest tests/test_sprint_46_documentation.py -q"
+      ]
+    },
+    {
+      "contract_id": "sprint-47-documentation",
+      "scope": "historical-sprint",
+      "owner": "FUNC-SPRINT-47",
+      "phase": "HISTORICAL-SPRINT-CONTRACT",
+      "test_files": [
+        "tests/test_sprint_47_documentation.py"
+      ],
+      "validates": [
+        "docs/functional_sprint_47_manifest.json",
+        "docs/audits/func_sprint_47"
+      ],
+      "watched_paths": [
+        "docs/functional_sprint_47_manifest.json",
+        "docs/audits/",
+        "tests/test_sprint_47_documentation.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest tests/test_sprint_47_documentation.py -q"
+      ]
+    },
+    {
+      "contract_id": "sprint-48-documentation",
+      "scope": "historical-sprint",
+      "owner": "FUNC-SPRINT-48",
+      "phase": "HISTORICAL-SPRINT-CONTRACT",
+      "test_files": [
+        "tests/test_sprint_48_documentation.py"
+      ],
+      "validates": [
+        "docs/functional_sprint_48_manifest.json",
+        "docs/audits/func_sprint_48"
+      ],
+      "watched_paths": [
+        "docs/functional_sprint_48_manifest.json",
+        "docs/audits/",
+        "tests/test_sprint_48_documentation.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest tests/test_sprint_48_documentation.py -q"
+      ]
+    },
+    {
+      "contract_id": "sprint-49-documentation",
+      "scope": "historical-sprint",
+      "owner": "FUNC-SPRINT-49",
+      "phase": "HISTORICAL-SPRINT-CONTRACT",
+      "test_files": [
+        "tests/test_sprint_49_documentation.py"
+      ],
+      "validates": [
+        "docs/functional_sprint_49_manifest.json",
+        "docs/audits/func_sprint_49"
+      ],
+      "watched_paths": [
+        "docs/functional_sprint_49_manifest.json",
+        "docs/audits/",
+        "tests/test_sprint_49_documentation.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest tests/test_sprint_49_documentation.py -q"
+      ]
+    },
+    {
+      "contract_id": "sprint-50-documentation",
+      "scope": "historical-sprint",
+      "owner": "FUNC-SPRINT-50",
+      "phase": "HISTORICAL-SPRINT-CONTRACT",
+      "test_files": [
+        "tests/test_sprint_50_documentation.py"
+      ],
+      "validates": [
+        "docs/functional_sprint_50_manifest.json",
+        "docs/audits/func_sprint_50"
+      ],
+      "watched_paths": [
+        "docs/functional_sprint_50_manifest.json",
+        "docs/audits/",
+        "tests/test_sprint_50_documentation.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest tests/test_sprint_50_documentation.py -q"
+      ]
+    },
+    {
+      "contract_id": "sprint-51-documentation",
+      "scope": "historical-sprint",
+      "owner": "FUNC-SPRINT-51",
+      "phase": "HISTORICAL-SPRINT-CONTRACT",
+      "test_files": [
+        "tests/test_sprint_51_documentation.py"
+      ],
+      "validates": [
+        "docs/functional_sprint_51_manifest.json",
+        "docs/audits/func_sprint_51"
+      ],
+      "watched_paths": [
+        "docs/functional_sprint_51_manifest.json",
+        "docs/audits/",
+        "tests/test_sprint_51_documentation.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest tests/test_sprint_51_documentation.py -q"
+      ]
+    },
+    {
+      "contract_id": "sprint-52-documentation",
+      "scope": "historical-sprint",
+      "owner": "FUNC-SPRINT-52",
+      "phase": "HISTORICAL-SPRINT-CONTRACT",
+      "test_files": [
+        "tests/test_sprint_52_documentation.py"
+      ],
+      "validates": [
+        "docs/functional_sprint_52_manifest.json",
+        "docs/audits/func_sprint_52"
+      ],
+      "watched_paths": [
+        "docs/functional_sprint_52_manifest.json",
+        "docs/audits/",
+        "tests/test_sprint_52_documentation.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest tests/test_sprint_52_documentation.py -q"
+      ]
+    },
+    {
+      "contract_id": "sprint-53-documentation",
+      "scope": "historical-sprint",
+      "owner": "FUNC-SPRINT-53",
+      "phase": "HISTORICAL-SPRINT-CONTRACT",
+      "test_files": [
+        "tests/test_sprint_53_documentation.py"
+      ],
+      "validates": [
+        "docs/functional_sprint_53_manifest.json",
+        "docs/audits/func_sprint_53"
+      ],
+      "watched_paths": [
+        "docs/functional_sprint_53_manifest.json",
+        "docs/audits/",
+        "tests/test_sprint_53_documentation.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest tests/test_sprint_53_documentation.py -q"
+      ]
+    },
+    {
+      "contract_id": "sprint-54-documentation",
+      "scope": "historical-sprint",
+      "owner": "FUNC-SPRINT-54",
+      "phase": "HISTORICAL-SPRINT-CONTRACT",
+      "test_files": [
+        "tests/test_sprint_54_documentation.py"
+      ],
+      "validates": [
+        "docs/functional_sprint_54_manifest.json",
+        "docs/audits/func_sprint_54"
+      ],
+      "watched_paths": [
+        "docs/functional_sprint_54_manifest.json",
+        "docs/audits/",
+        "tests/test_sprint_54_documentation.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest tests/test_sprint_54_documentation.py -q"
+      ]
+    },
+    {
+      "contract_id": "sprint-55-documentation",
+      "scope": "historical-sprint",
+      "owner": "FUNC-SPRINT-55",
+      "phase": "HISTORICAL-SPRINT-CONTRACT",
+      "test_files": [
+        "tests/test_sprint_55_documentation.py"
+      ],
+      "validates": [
+        "docs/functional_sprint_55_manifest.json",
+        "docs/audits/func_sprint_55"
+      ],
+      "watched_paths": [
+        "docs/functional_sprint_55_manifest.json",
+        "docs/audits/",
+        "tests/test_sprint_55_documentation.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest tests/test_sprint_55_documentation.py -q"
+      ]
+    },
+    {
+      "contract_id": "sprint-56-documentation",
+      "scope": "historical-sprint",
+      "owner": "FUNC-SPRINT-56",
+      "phase": "HISTORICAL-SPRINT-CONTRACT",
+      "test_files": [
+        "tests/test_sprint_56_documentation.py"
+      ],
+      "validates": [
+        "docs/functional_sprint_56_manifest.json",
+        "docs/audits/func_sprint_56"
+      ],
+      "watched_paths": [
+        "docs/functional_sprint_56_manifest.json",
+        "docs/audits/",
+        "tests/test_sprint_56_documentation.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest tests/test_sprint_56_documentation.py -q"
+      ]
+    },
+    {
+      "contract_id": "sprint-57-documentation",
+      "scope": "historical-sprint",
+      "owner": "FUNC-SPRINT-57",
+      "phase": "HISTORICAL-SPRINT-CONTRACT",
+      "test_files": [
+        "tests/test_sprint_57_documentation.py"
+      ],
+      "validates": [
+        "docs/functional_sprint_57_manifest.json",
+        "docs/audits/func_sprint_57"
+      ],
+      "watched_paths": [
+        "docs/functional_sprint_57_manifest.json",
+        "docs/audits/",
+        "tests/test_sprint_57_documentation.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest tests/test_sprint_57_documentation.py -q"
+      ]
+    },
+    {
+      "contract_id": "sprint-58-documentation",
+      "scope": "historical-sprint",
+      "owner": "FUNC-SPRINT-58",
+      "phase": "HISTORICAL-SPRINT-CONTRACT",
+      "test_files": [
+        "tests/test_sprint_58_documentation.py"
+      ],
+      "validates": [
+        "docs/functional_sprint_58_manifest.json",
+        "docs/audits/func_sprint_58"
+      ],
+      "watched_paths": [
+        "docs/functional_sprint_58_manifest.json",
+        "docs/audits/",
+        "tests/test_sprint_58_documentation.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest tests/test_sprint_58_documentation.py -q"
+      ]
+    },
+    {
+      "contract_id": "sprint-59-documentation",
+      "scope": "historical-sprint",
+      "owner": "FUNC-SPRINT-59",
+      "phase": "HISTORICAL-SPRINT-CONTRACT",
+      "test_files": [
+        "tests/test_sprint_59_documentation.py"
+      ],
+      "validates": [
+        "docs/functional_sprint_59_manifest.json",
+        "docs/audits/func_sprint_59"
+      ],
+      "watched_paths": [
+        "docs/functional_sprint_59_manifest.json",
+        "docs/audits/",
+        "tests/test_sprint_59_documentation.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest tests/test_sprint_59_documentation.py -q"
+      ]
+    },
+    {
+      "contract_id": "sprint-60-documentation",
+      "scope": "historical-sprint",
+      "owner": "FUNC-SPRINT-60",
+      "phase": "HISTORICAL-SPRINT-CONTRACT",
+      "test_files": [
+        "tests/test_sprint_60_documentation.py"
+      ],
+      "validates": [
+        "docs/functional_sprint_60_manifest.json",
+        "docs/audits/func_sprint_60"
+      ],
+      "watched_paths": [
+        "docs/functional_sprint_60_manifest.json",
+        "docs/audits/",
+        "tests/test_sprint_60_documentation.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest tests/test_sprint_60_documentation.py -q"
+      ]
+    },
+    {
+      "contract_id": "sprint-61-documentation",
+      "scope": "historical-sprint",
+      "owner": "FUNC-SPRINT-61",
+      "phase": "HISTORICAL-SPRINT-CONTRACT",
+      "test_files": [
+        "tests/test_sprint_61_documentation.py"
+      ],
+      "validates": [
+        "docs/functional_sprint_61_manifest.json",
+        "docs/audits/func_sprint_61"
+      ],
+      "watched_paths": [
+        "docs/functional_sprint_61_manifest.json",
+        "docs/audits/",
+        "tests/test_sprint_61_documentation.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest tests/test_sprint_61_documentation.py -q"
+      ]
+    },
+    {
+      "contract_id": "sprint-62-documentation",
+      "scope": "historical-sprint",
+      "owner": "FUNC-SPRINT-62",
+      "phase": "HISTORICAL-SPRINT-CONTRACT",
+      "test_files": [
+        "tests/test_sprint_62_documentation.py"
+      ],
+      "validates": [
+        "docs/functional_sprint_62_manifest.json",
+        "docs/audits/func_sprint_62"
+      ],
+      "watched_paths": [
+        "docs/functional_sprint_62_manifest.json",
+        "docs/audits/",
+        "tests/test_sprint_62_documentation.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest tests/test_sprint_62_documentation.py -q"
+      ]
+    },
+    {
+      "contract_id": "sprint-63-documentation",
+      "scope": "historical-sprint",
+      "owner": "FUNC-SPRINT-63",
+      "phase": "HISTORICAL-SPRINT-CONTRACT",
+      "test_files": [
+        "tests/test_sprint_63_documentation.py"
+      ],
+      "validates": [
+        "docs/functional_sprint_63_manifest.json",
+        "docs/audits/func_sprint_63"
+      ],
+      "watched_paths": [
+        "docs/functional_sprint_63_manifest.json",
+        "docs/audits/",
+        "tests/test_sprint_63_documentation.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest tests/test_sprint_63_documentation.py -q"
+      ]
+    },
+    {
+      "contract_id": "sprint-64-documentation",
+      "scope": "historical-sprint",
+      "owner": "FUNC-SPRINT-64",
+      "phase": "HISTORICAL-SPRINT-CONTRACT",
+      "test_files": [
+        "tests/test_sprint_64_documentation.py"
+      ],
+      "validates": [
+        "docs/functional_sprint_64_manifest.json",
+        "docs/audits/func_sprint_64"
+      ],
+      "watched_paths": [
+        "docs/functional_sprint_64_manifest.json",
+        "docs/audits/",
+        "tests/test_sprint_64_documentation.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest tests/test_sprint_64_documentation.py -q"
+      ]
+    },
+    {
+      "contract_id": "sprint-65-documentation",
+      "scope": "historical-sprint",
+      "owner": "FUNC-SPRINT-65",
+      "phase": "HISTORICAL-SPRINT-CONTRACT",
+      "test_files": [
+        "tests/test_sprint_65_documentation.py"
+      ],
+      "validates": [
+        "docs/functional_sprint_65_manifest.json",
+        "docs/audits/func_sprint_65"
+      ],
+      "watched_paths": [
+        "docs/functional_sprint_65_manifest.json",
+        "docs/audits/",
+        "tests/test_sprint_65_documentation.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest tests/test_sprint_65_documentation.py -q"
+      ]
+    },
+    {
+      "contract_id": "sprint-66-documentation",
+      "scope": "historical-sprint",
+      "owner": "FUNC-SPRINT-66",
+      "phase": "HISTORICAL-SPRINT-CONTRACT",
+      "test_files": [
+        "tests/test_sprint_66_documentation.py"
+      ],
+      "validates": [
+        "docs/functional_sprint_66_manifest.json",
+        "docs/audits/func_sprint_66"
+      ],
+      "watched_paths": [
+        "docs/functional_sprint_66_manifest.json",
+        "docs/audits/",
+        "tests/test_sprint_66_documentation.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest tests/test_sprint_66_documentation.py -q"
+      ]
+    },
+    {
+      "contract_id": "sprint-67-documentation",
+      "scope": "historical-sprint",
+      "owner": "FUNC-SPRINT-67",
+      "phase": "HISTORICAL-SPRINT-CONTRACT",
+      "test_files": [
+        "tests/test_sprint_67_documentation.py"
+      ],
+      "validates": [
+        "docs/functional_sprint_67_manifest.json",
+        "docs/audits/func_sprint_67"
+      ],
+      "watched_paths": [
+        "docs/functional_sprint_67_manifest.json",
+        "docs/audits/",
+        "tests/test_sprint_67_documentation.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest tests/test_sprint_67_documentation.py -q"
+      ]
+    },
+    {
+      "contract_id": "sprint-68-documentation",
+      "scope": "historical-sprint",
+      "owner": "FUNC-SPRINT-68",
+      "phase": "HISTORICAL-SPRINT-CONTRACT",
+      "test_files": [
+        "tests/test_sprint_68_documentation.py"
+      ],
+      "validates": [
+        "docs/functional_sprint_68_manifest.json",
+        "docs/audits/func_sprint_68"
+      ],
+      "watched_paths": [
+        "docs/functional_sprint_68_manifest.json",
+        "docs/audits/",
+        "tests/test_sprint_68_documentation.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest tests/test_sprint_68_documentation.py -q"
+      ]
+    },
+    {
+      "contract_id": "sprint-69-documentation",
+      "scope": "historical-sprint",
+      "owner": "FUNC-SPRINT-69",
+      "phase": "HISTORICAL-SPRINT-CONTRACT",
+      "test_files": [
+        "tests/test_sprint_69_documentation.py"
+      ],
+      "validates": [
+        "docs/functional_sprint_69_manifest.json",
+        "docs/audits/func_sprint_69"
+      ],
+      "watched_paths": [
+        "docs/functional_sprint_69_manifest.json",
+        "docs/audits/",
+        "tests/test_sprint_69_documentation.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest tests/test_sprint_69_documentation.py -q"
+      ]
+    },
+    {
+      "contract_id": "sprint-70-documentation",
+      "scope": "historical-sprint",
+      "owner": "FUNC-SPRINT-70",
+      "phase": "HISTORICAL-SPRINT-CONTRACT",
+      "test_files": [
+        "tests/test_sprint_70_documentation.py"
+      ],
+      "validates": [
+        "docs/functional_sprint_70_manifest.json",
+        "docs/audits/func_sprint_70"
+      ],
+      "watched_paths": [
+        "docs/functional_sprint_70_manifest.json",
+        "docs/audits/",
+        "tests/test_sprint_70_documentation.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest tests/test_sprint_70_documentation.py -q"
+      ]
+    },
+    {
+      "contract_id": "sprint-71-documentation",
+      "scope": "historical-sprint",
+      "owner": "FUNC-SPRINT-71",
+      "phase": "HISTORICAL-SPRINT-CONTRACT",
+      "test_files": [
+        "tests/test_sprint_71_documentation.py"
+      ],
+      "validates": [
+        "docs/functional_sprint_71_manifest.json",
+        "docs/audits/func_sprint_71"
+      ],
+      "watched_paths": [
+        "docs/functional_sprint_71_manifest.json",
+        "docs/audits/",
+        "tests/test_sprint_71_documentation.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest tests/test_sprint_71_documentation.py -q"
+      ]
+    },
+    {
+      "contract_id": "sprint-72-documentation",
+      "scope": "historical-sprint",
+      "owner": "FUNC-SPRINT-72",
+      "phase": "HISTORICAL-SPRINT-CONTRACT",
+      "test_files": [
+        "tests/test_sprint_72_documentation.py"
+      ],
+      "validates": [
+        "docs/functional_sprint_72_manifest.json",
+        "docs/audits/func_sprint_72"
+      ],
+      "watched_paths": [
+        "docs/functional_sprint_72_manifest.json",
+        "docs/audits/",
+        "tests/test_sprint_72_documentation.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest tests/test_sprint_72_documentation.py -q"
+      ]
+    },
+    {
+      "contract_id": "sprint-73-documentation",
+      "scope": "historical-sprint",
+      "owner": "FUNC-SPRINT-73",
+      "phase": "HISTORICAL-SPRINT-CONTRACT",
+      "test_files": [
+        "tests/test_sprint_73_documentation.py"
+      ],
+      "validates": [
+        "docs/functional_sprint_73_manifest.json",
+        "docs/audits/func_sprint_73"
+      ],
+      "watched_paths": [
+        "docs/functional_sprint_73_manifest.json",
+        "docs/audits/",
+        "tests/test_sprint_73_documentation.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest tests/test_sprint_73_documentation.py -q"
+      ]
+    },
+    {
+      "contract_id": "sprint-74-documentation",
+      "scope": "historical-sprint",
+      "owner": "FUNC-SPRINT-74",
+      "phase": "HISTORICAL-SPRINT-CONTRACT",
+      "test_files": [
+        "tests/test_sprint_74_documentation.py"
+      ],
+      "validates": [
+        "docs/functional_sprint_74_manifest.json",
+        "docs/audits/func_sprint_74"
+      ],
+      "watched_paths": [
+        "docs/functional_sprint_74_manifest.json",
+        "docs/audits/",
+        "tests/test_sprint_74_documentation.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest tests/test_sprint_74_documentation.py -q"
+      ]
+    },
+    {
+      "contract_id": "sprint-75-documentation",
+      "scope": "historical-sprint",
+      "owner": "FUNC-SPRINT-75",
+      "phase": "HISTORICAL-SPRINT-CONTRACT",
+      "test_files": [
+        "tests/test_sprint_75_documentation.py"
+      ],
+      "validates": [
+        "docs/functional_sprint_75_manifest.json",
+        "docs/audits/func_sprint_75"
+      ],
+      "watched_paths": [
+        "docs/functional_sprint_75_manifest.json",
+        "docs/audits/",
+        "tests/test_sprint_75_documentation.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest tests/test_sprint_75_documentation.py -q"
+      ]
+    },
+    {
+      "contract_id": "sprint-76-documentation",
+      "scope": "historical-sprint",
+      "owner": "FUNC-SPRINT-76",
+      "phase": "HISTORICAL-SPRINT-CONTRACT",
+      "test_files": [
+        "tests/test_sprint_76_documentation.py"
+      ],
+      "validates": [
+        "docs/functional_sprint_76_manifest.json",
+        "docs/audits/func_sprint_76"
+      ],
+      "watched_paths": [
+        "docs/functional_sprint_76_manifest.json",
+        "docs/audits/",
+        "tests/test_sprint_76_documentation.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest tests/test_sprint_76_documentation.py -q"
+      ]
+    },
+    {
+      "contract_id": "sprint-77-documentation",
+      "scope": "historical-sprint",
+      "owner": "FUNC-SPRINT-77",
+      "phase": "HISTORICAL-SPRINT-CONTRACT",
+      "test_files": [
+        "tests/test_sprint_77_documentation.py"
+      ],
+      "validates": [
+        "docs/functional_sprint_77_manifest.json",
+        "docs/audits/func_sprint_77"
+      ],
+      "watched_paths": [
+        "docs/functional_sprint_77_manifest.json",
+        "docs/audits/",
+        "tests/test_sprint_77_documentation.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest tests/test_sprint_77_documentation.py -q"
+      ]
+    },
+    {
+      "contract_id": "sprint-78-documentation",
+      "scope": "historical-sprint",
+      "owner": "FUNC-SPRINT-78",
+      "phase": "HISTORICAL-SPRINT-CONTRACT",
+      "test_files": [
+        "tests/test_sprint_78_documentation.py"
+      ],
+      "validates": [
+        "docs/functional_sprint_78_manifest.json",
+        "docs/audits/func_sprint_78"
+      ],
+      "watched_paths": [
+        "docs/functional_sprint_78_manifest.json",
+        "docs/audits/",
+        "tests/test_sprint_78_documentation.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest tests/test_sprint_78_documentation.py -q"
+      ]
+    },
+    {
+      "contract_id": "sprint-79-documentation",
+      "scope": "historical-sprint",
+      "owner": "FUNC-SPRINT-79",
+      "phase": "HISTORICAL-SPRINT-CONTRACT",
+      "test_files": [
+        "tests/test_sprint_79_documentation.py"
+      ],
+      "validates": [
+        "docs/functional_sprint_79_manifest.json",
+        "docs/audits/func_sprint_79"
+      ],
+      "watched_paths": [
+        "docs/functional_sprint_79_manifest.json",
+        "docs/audits/",
+        "tests/test_sprint_79_documentation.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest tests/test_sprint_79_documentation.py -q"
+      ]
+    },
+    {
+      "contract_id": "sprint-80-documentation",
+      "scope": "historical-sprint",
+      "owner": "FUNC-SPRINT-80",
+      "phase": "HISTORICAL-SPRINT-CONTRACT",
+      "test_files": [
+        "tests/test_sprint_80_documentation.py"
+      ],
+      "validates": [
+        "docs/functional_sprint_80_manifest.json",
+        "docs/audits/func_sprint_80"
+      ],
+      "watched_paths": [
+        "docs/functional_sprint_80_manifest.json",
+        "docs/audits/",
+        "tests/test_sprint_80_documentation.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest tests/test_sprint_80_documentation.py -q"
+      ]
+    },
+    {
+      "contract_id": "sprint-81-documentation",
+      "scope": "historical-sprint",
+      "owner": "FUNC-SPRINT-81",
+      "phase": "HISTORICAL-SPRINT-CONTRACT",
+      "test_files": [
+        "tests/test_sprint_81_documentation.py"
+      ],
+      "validates": [
+        "docs/functional_sprint_81_manifest.json",
+        "docs/audits/func_sprint_81"
+      ],
+      "watched_paths": [
+        "docs/functional_sprint_81_manifest.json",
+        "docs/audits/",
+        "tests/test_sprint_81_documentation.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest tests/test_sprint_81_documentation.py -q"
+      ]
+    },
+    {
+      "contract_id": "sprint-82-documentation",
+      "scope": "historical-sprint",
+      "owner": "FUNC-SPRINT-82",
+      "phase": "HISTORICAL-SPRINT-CONTRACT",
+      "test_files": [
+        "tests/test_sprint_82_documentation.py"
+      ],
+      "validates": [
+        "docs/functional_sprint_82_manifest.json",
+        "docs/audits/func_sprint_82"
+      ],
+      "watched_paths": [
+        "docs/functional_sprint_82_manifest.json",
+        "docs/audits/",
+        "tests/test_sprint_82_documentation.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest tests/test_sprint_82_documentation.py -q"
+      ]
+    },
+    {
+      "contract_id": "sprint-83-documentation",
+      "scope": "historical-sprint",
+      "owner": "FUNC-SPRINT-83",
+      "phase": "HISTORICAL-SPRINT-CONTRACT",
+      "test_files": [
+        "tests/test_sprint_83_documentation.py"
+      ],
+      "validates": [
+        "docs/functional_sprint_83_manifest.json",
+        "docs/audits/func_sprint_83"
+      ],
+      "watched_paths": [
+        "docs/functional_sprint_83_manifest.json",
+        "docs/audits/",
+        "tests/test_sprint_83_documentation.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest tests/test_sprint_83_documentation.py -q"
+      ]
+    },
+    {
+      "contract_id": "sprint-84-documentation",
+      "scope": "historical-sprint",
+      "owner": "FUNC-SPRINT-84",
+      "phase": "HISTORICAL-SPRINT-CONTRACT",
+      "test_files": [
+        "tests/test_sprint_84_documentation.py"
+      ],
+      "validates": [
+        "docs/functional_sprint_84_manifest.json",
+        "docs/audits/func_sprint_84"
+      ],
+      "watched_paths": [
+        "docs/functional_sprint_84_manifest.json",
+        "docs/audits/",
+        "tests/test_sprint_84_documentation.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest tests/test_sprint_84_documentation.py -q"
+      ]
+    },
+    {
+      "contract_id": "sprint-85-documentation",
+      "scope": "historical-sprint",
+      "owner": "FUNC-SPRINT-85",
+      "phase": "HISTORICAL-SPRINT-CONTRACT",
+      "test_files": [
+        "tests/test_sprint_85_documentation.py"
+      ],
+      "validates": [
+        "docs/functional_sprint_85_manifest.json",
+        "docs/audits/func_sprint_85"
+      ],
+      "watched_paths": [
+        "docs/functional_sprint_85_manifest.json",
+        "docs/audits/",
+        "tests/test_sprint_85_documentation.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest tests/test_sprint_85_documentation.py -q"
+      ]
+    },
+    {
+      "contract_id": "sprint-86-documentation",
+      "scope": "historical-sprint",
+      "owner": "FUNC-SPRINT-86",
+      "phase": "HISTORICAL-SPRINT-CONTRACT",
+      "test_files": [
+        "tests/test_sprint_86_documentation.py"
+      ],
+      "validates": [
+        "docs/functional_sprint_86_manifest.json",
+        "docs/audits/func_sprint_86"
+      ],
+      "watched_paths": [
+        "docs/functional_sprint_86_manifest.json",
+        "docs/audits/",
+        "tests/test_sprint_86_documentation.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest tests/test_sprint_86_documentation.py -q"
+      ]
+    },
+    {
+      "contract_id": "sprint-87-documentation",
+      "scope": "historical-sprint",
+      "owner": "FUNC-SPRINT-87",
+      "phase": "HISTORICAL-SPRINT-CONTRACT",
+      "test_files": [
+        "tests/test_sprint_87_documentation.py"
+      ],
+      "validates": [
+        "docs/functional_sprint_87_manifest.json",
+        "docs/audits/func_sprint_87"
+      ],
+      "watched_paths": [
+        "docs/functional_sprint_87_manifest.json",
+        "docs/audits/",
+        "tests/test_sprint_87_documentation.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest tests/test_sprint_87_documentation.py -q"
+      ]
+    },
+    {
+      "contract_id": "sprint-88-documentation",
+      "scope": "historical-sprint",
+      "owner": "FUNC-SPRINT-88",
+      "phase": "HISTORICAL-SPRINT-CONTRACT",
+      "test_files": [
+        "tests/test_sprint_88_documentation.py"
+      ],
+      "validates": [
+        "docs/functional_sprint_88_manifest.json",
+        "docs/audits/func_sprint_88"
+      ],
+      "watched_paths": [
+        "docs/functional_sprint_88_manifest.json",
+        "docs/audits/",
+        "tests/test_sprint_88_documentation.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest tests/test_sprint_88_documentation.py -q"
+      ]
+    },
+    {
+      "contract_id": "sprint-89-documentation",
+      "scope": "historical-sprint",
+      "owner": "FUNC-SPRINT-89",
+      "phase": "HISTORICAL-SPRINT-CONTRACT",
+      "test_files": [
+        "tests/test_sprint_89_documentation.py"
+      ],
+      "validates": [
+        "docs/functional_sprint_89_manifest.json",
+        "docs/audits/func_sprint_89"
+      ],
+      "watched_paths": [
+        "docs/functional_sprint_89_manifest.json",
+        "docs/audits/",
+        "tests/test_sprint_89_documentation.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest tests/test_sprint_89_documentation.py -q"
+      ]
+    },
+    {
+      "contract_id": "sprint-90-documentation",
+      "scope": "historical-sprint",
+      "owner": "FUNC-SPRINT-90",
+      "phase": "HISTORICAL-SPRINT-CONTRACT",
+      "test_files": [
+        "tests/test_sprint_90_documentation.py"
+      ],
+      "validates": [
+        "docs/functional_sprint_90_manifest.json",
+        "docs/audits/func_sprint_90"
+      ],
+      "watched_paths": [
+        "docs/functional_sprint_90_manifest.json",
+        "docs/audits/",
+        "tests/test_sprint_90_documentation.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest tests/test_sprint_90_documentation.py -q"
+      ]
+    },
+    {
+      "contract_id": "sprint-91-documentation",
+      "scope": "historical-sprint",
+      "owner": "FUNC-SPRINT-91",
+      "phase": "HISTORICAL-SPRINT-CONTRACT",
+      "test_files": [
+        "tests/test_sprint_91_documentation.py"
+      ],
+      "validates": [
+        "docs/functional_sprint_91_manifest.json",
+        "docs/audits/func_sprint_91"
+      ],
+      "watched_paths": [
+        "docs/functional_sprint_91_manifest.json",
+        "docs/audits/",
+        "tests/test_sprint_91_documentation.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest tests/test_sprint_91_documentation.py -q"
+      ]
+    },
+    {
+      "contract_id": "sprint-92-documentation",
+      "scope": "historical-sprint",
+      "owner": "FUNC-SPRINT-92",
+      "phase": "HISTORICAL-SPRINT-CONTRACT",
+      "test_files": [
+        "tests/test_sprint_92_documentation.py"
+      ],
+      "validates": [
+        "docs/functional_sprint_92_manifest.json",
+        "docs/audits/func_sprint_92"
+      ],
+      "watched_paths": [
+        "docs/functional_sprint_92_manifest.json",
+        "docs/audits/",
+        "tests/test_sprint_92_documentation.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest tests/test_sprint_92_documentation.py -q"
+      ]
+    },
+    {
+      "contract_id": "sprint-93-documentation",
+      "scope": "historical-sprint",
+      "owner": "FUNC-SPRINT-93",
+      "phase": "HISTORICAL-SPRINT-CONTRACT",
+      "test_files": [
+        "tests/test_sprint_93_documentation.py"
+      ],
+      "validates": [
+        "docs/functional_sprint_93_manifest.json",
+        "docs/audits/func_sprint_93"
+      ],
+      "watched_paths": [
+        "docs/functional_sprint_93_manifest.json",
+        "docs/audits/",
+        "tests/test_sprint_93_documentation.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest tests/test_sprint_93_documentation.py -q"
+      ]
+    },
+    {
+      "contract_id": "sprint-94-documentation",
+      "scope": "historical-sprint",
+      "owner": "FUNC-SPRINT-94",
+      "phase": "HISTORICAL-SPRINT-CONTRACT",
+      "test_files": [
+        "tests/test_sprint_94_documentation.py"
+      ],
+      "validates": [
+        "docs/functional_sprint_94_manifest.json",
+        "docs/audits/func_sprint_94"
+      ],
+      "watched_paths": [
+        "docs/functional_sprint_94_manifest.json",
+        "docs/audits/",
+        "tests/test_sprint_94_documentation.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest tests/test_sprint_94_documentation.py -q"
+      ]
+    },
+    {
+      "contract_id": "sprint-95-documentation",
+      "scope": "historical-sprint",
+      "owner": "FUNC-SPRINT-95",
+      "phase": "HISTORICAL-SPRINT-CONTRACT",
+      "test_files": [
+        "tests/test_sprint_95_documentation.py"
+      ],
+      "validates": [
+        "docs/functional_sprint_95_manifest.json",
+        "docs/audits/func_sprint_95"
+      ],
+      "watched_paths": [
+        "docs/functional_sprint_95_manifest.json",
+        "docs/audits/",
+        "tests/test_sprint_95_documentation.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest tests/test_sprint_95_documentation.py -q"
+      ]
+    },
+    {
+      "contract_id": "sprint-96-documentation",
+      "scope": "historical-sprint",
+      "owner": "FUNC-SPRINT-96",
+      "phase": "HISTORICAL-SPRINT-CONTRACT",
+      "test_files": [
+        "tests/test_sprint_96_documentation.py"
+      ],
+      "validates": [
+        "docs/functional_sprint_96_manifest.json",
+        "docs/audits/func_sprint_96"
+      ],
+      "watched_paths": [
+        "docs/functional_sprint_96_manifest.json",
+        "docs/audits/",
+        "tests/test_sprint_96_documentation.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest tests/test_sprint_96_documentation.py -q"
+      ]
+    },
+    {
+      "contract_id": "sprint-97-documentation",
+      "scope": "historical-sprint",
+      "owner": "FUNC-SPRINT-97",
+      "phase": "HISTORICAL-SPRINT-CONTRACT",
+      "test_files": [
+        "tests/test_sprint_97_documentation.py"
+      ],
+      "validates": [
+        "docs/functional_sprint_97_manifest.json",
+        "docs/audits/func_sprint_97"
+      ],
+      "watched_paths": [
+        "docs/functional_sprint_97_manifest.json",
+        "docs/audits/",
+        "tests/test_sprint_97_documentation.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest tests/test_sprint_97_documentation.py -q"
+      ]
+    },
+    {
+      "contract_id": "sprint-98-documentation",
+      "scope": "historical-sprint",
+      "owner": "FUNC-SPRINT-98",
+      "phase": "HISTORICAL-SPRINT-CONTRACT",
+      "test_files": [
+        "tests/test_sprint_98_documentation.py"
+      ],
+      "validates": [
+        "docs/functional_sprint_98_manifest.json",
+        "docs/audits/func_sprint_98"
+      ],
+      "watched_paths": [
+        "docs/functional_sprint_98_manifest.json",
+        "docs/audits/",
+        "tests/test_sprint_98_documentation.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest tests/test_sprint_98_documentation.py -q"
+      ]
+    },
+    {
+      "contract_id": "sprint-99-documentation",
+      "scope": "historical-sprint",
+      "owner": "FUNC-SPRINT-99",
+      "phase": "HISTORICAL-SPRINT-CONTRACT",
+      "test_files": [
+        "tests/test_sprint_99_documentation.py"
+      ],
+      "validates": [
+        "docs/functional_sprint_99_manifest.json",
+        "docs/audits/func_sprint_99"
+      ],
+      "watched_paths": [
+        "docs/functional_sprint_99_manifest.json",
+        "docs/audits/",
+        "tests/test_sprint_99_documentation.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest tests/test_sprint_99_documentation.py -q"
+      ]
+    },
+    {
+      "contract_id": "schema-registry",
+      "scope": "integration",
+      "owner": "POST-H-001",
+      "phase": "POST-FASE-H",
+      "test_files": [
+        "tests/test_schema_registry.py"
+      ],
+      "validates": [
+        "docs/schemas/schema_catalog.json",
+        "docs/schemas/*.schema.json"
+      ],
+      "watched_paths": [
+        "docs/schemas/",
+        "src/devpilot_core/schemas/"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest tests/test_schema_registry.py -q"
+      ]
+    },
+    {
+      "contract_id": "quality-gate-hardening",
+      "scope": "quality-gate",
+      "owner": "POST-H-001",
+      "phase": "POST-FASE-H",
+      "test_files": [
+        "tests/test_quality_gate.py",
+        "tests/test_test_contract_registry.py"
+      ],
+      "validates": [
+        "src/devpilot_core/quality/gate.py",
+        "quality-gate hardening"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/quality/",
+        "src/devpilot_core/testing/",
+        ".devpilot/testing/"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m devpilot_core quality-gate run --profile hardening --json"
+      ]
+    },
+    {
+      "contract_id": "ui-smoke",
+      "scope": "ui-smoke",
+      "owner": "POST-H-001",
+      "phase": "POST-FASE-H",
+      "test_files": [
+        "tests/test_visual_product_smoke.py"
+      ],
+      "validates": [
+        "ui/web",
+        "scripts/visual_product_smoke.py"
+      ],
+      "watched_paths": [
+        "ui/web/",
+        "scripts/visual_product_smoke.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": false,
+      "recommended_commands": [
+        "npm --prefix ui/web test"
+      ]
+    }
+  ],
+  "notes": [
+    "The registry documents and validates test intent; it does not dynamically execute pytest from JSON.",
+    "Historical sprint contracts must not validate mutable global project state."
+  ]
+}

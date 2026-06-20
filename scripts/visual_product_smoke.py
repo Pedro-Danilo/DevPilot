@@ -146,7 +146,7 @@ def run_gate(root: Path, *, run_npm: bool = False) -> dict[str, Any]:
     backlog = _read_text(root / "docs/devpilot_backlog_fase_F_producto_visual.md")
     functional_backlog = _read_text(root / "docs/functional_backlog_after_precode.md")
     readme_has_phase_f_closure = "FUNC-SPRINT-73 — Cierre Fase F web-first y decisión de evolución" in readme
-    readme_global_has_progress_marker = "Último hito: `FUNC-SPRINT-" in readme and ("Siguiente hito: `FUNC-SPRINT-" in readme or "Siguiente hito: `POST-H-" in readme)
+    readme_global_has_progress_marker = ("Último hito: `FUNC-SPRINT-" in readme or "Último hito: `POST-H-" in readme) and ("Siguiente hito: `FUNC-SPRINT-" in readme or "Siguiente hito: `POST-H-" in readme)
     checks.append(_check(
         readme_has_phase_f_closure and readme_global_has_progress_marker,
         "README_GLOBAL_STATE",

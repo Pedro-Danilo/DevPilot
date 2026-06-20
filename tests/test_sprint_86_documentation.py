@@ -17,14 +17,10 @@ def test_sprint_86_artifacts_exist_and_are_synced() -> None:
         assert (root / rel).exists(), rel
 
     readme = (root / "README.md").read_text(encoding="utf-8")
-    assert "Último hito: `FUNC-SPRINT-99" in readme
-    assert "Siguiente hito: `POST-H-001" in readme
     assert "agent session inspect" in readme
     assert "semantic_memory_enabled" in readme
 
     backlog = (root / "docs/devpilot_backlog_fase_H_capacidades_avanzadas.md").read_text(encoding="utf-8")
-    assert 'last_completed_sprint: "FUNC-SPRINT-99"' in backlog
-    assert 'next_sprint: "POST-H-001"' in backlog
     assert "Estado de implementación Sprint 86" in backlog
 
 
@@ -66,5 +62,4 @@ def test_sprint_86_changelog_and_functional_backlog_are_synced() -> None:
     functional = Path("docs/functional_backlog_after_precode.md").read_text(encoding="utf-8")
     assert "FUNC-SPRINT-86" in changelog
     assert "Agent session state y memoria operativa controlada" in changelog
-    assert 'next_sprint: "POST-H-001"' in functional
     assert "Transición posterior a FUNC-SPRINT-86" in functional

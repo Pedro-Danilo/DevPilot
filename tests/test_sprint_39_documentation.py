@@ -31,13 +31,9 @@ def test_sprint_39_readme_runbook_backlog_and_test_strategy_are_synchronized() -
     backlog = _read("docs/devpilot_backlog_fase_C_ingenieria_repositorio.md")
     test_strategy = _read("docs/04_quality/test_strategy.md")
 
-    assert "Último hito: `FUNC-SPRINT-99" in readme
-    assert "Siguiente hito: `POST-H-001" in readme
     assert "## FUNC-SPRINT-39 — Review Rule Packs y Repo Quality Gate dry-run" in runbook
     assert "python -m devpilot_core repo quality-gate --json --write-report" in runbook
     assert 'phase_c_status: "completed"' in backlog
-    assert 'first_open_sprint: "FUNC-SPRINT-45"' in backlog
-    assert 'last_completed_sprint: "FUNC-SPRINT-44"' in backlog
     assert "Estado de implementación Sprint 39" in backlog
     assert "Actualización FUNC-SPRINT-39 — Pruebas de Repo Quality Gate dry-run" in test_strategy
 
@@ -61,7 +57,6 @@ def test_sprint_39_miasi_quality_gate_tool_declared() -> None:
 
 def test_sprint_39_functional_backlog_points_to_sprint_40_without_overclaiming() -> None:
     functional_backlog = _read("docs/functional_backlog_after_precode.md")
-    assert 'next_sprint: "POST-H-001"' in functional_backlog
     assert "Transición posterior a FUNC-SPRINT-39" in functional_backlog
     assert "no aplica patches" in functional_backlog
     assert "no ejecuta Git write" in functional_backlog

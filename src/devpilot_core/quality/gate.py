@@ -46,7 +46,7 @@ class QualityGate:
     Optional report writing remains delegated to the CLI/ReportEngine.
     """
 
-    SUPPORTED_PROFILES = {"fast", "full", "ci", "release", "industrial"}
+    SUPPORTED_PROFILES = {"fast", "full", "ci", "release", "industrial", "hardening"}
 
     def __init__(self, root: Path, *, options: QualityGateOptions | None = None) -> None:
         self.root = Path(root).resolve()
@@ -124,6 +124,7 @@ class QualityGate:
                     "FUNC-SPRINT-76 adds the CI profile as the local source of truth for optional workflow scaffolding.",
                     "FUNC-SPRINT-84 adds the release profile as a dry-run release readiness gate for ReleaseAgent and Fase G closure.",
                     "FUNC-SPRINT-99 adds the industrial profile as the Fase H closure/readiness gate without overclaiming production maturity.",
+                    "POST-H-001 adds the hardening profile for test contracts, project state and industrial baseline coherence without running full pytest by default.",
                     "The default and ci profiles do not run pytest implicitly; CI workflows and local checklists run pytest as an explicit step, or use --include-pytest when desired.",
                     "The gate does not publish packages, deploy, write source files, call network services or use external APIs.",
                     "Optional --write-report is handled by the CLI and writes only under outputs/reports.",
@@ -140,10 +141,10 @@ class QualityGate:
             QualitySubgate("eval-harness-ready", "Evaluation harness fixture readiness without executing eval workdir mutations.", self._eval_harness_ready),
             QualitySubgate("app-contract", "ApplicationService v2 contract availability.", self.service.application_contract),
         ]
-        if self.options.profile in {"full", "ci", "release", "industrial"}:
+        if self.options.profile in {"full", "ci", "release", "industrial", "hardening"}:
             subgates.append(QualitySubgate("validation-gateway-all", "Unified docs/contracts validation gateway.", lambda: self.service.validation.gateway(scope="all")))
             subgates.append(QualitySubgate("visual-product-smoke", "Fase F visual product smoke gate in dry-run JSON mode.", self._visual_product_smoke))
-        if self.options.profile in {"ci", "release", "industrial"}:
+        if self.options.profile in {"ci", "release", "industrial", "hardening"}:
             subgates.append(QualitySubgate("ci-workflow-static", "Static safety validation for optional GitHub Actions workflow scaffold.", self._ci_workflow_static))
             subgates.append(QualitySubgate("advanced-evals-safety", "Advanced agentic, red-team, plugin ecosystem, multiworkspace, identity/RBAC, audit-pack, compliance-pack and remote/enterprise safety eval suites meet scoring thresholds.", self._advanced_evals_safety))
         if self.options.profile in {"release", "industrial"}:
@@ -154,8 +155,13 @@ class QualityGate:
                 QualitySubgate("release-sbom-static", "SBOM builder can generate a local supply-chain baseline.", self._release_sbom_static),
                 QualitySubgate("release-install-upgrade-static", "Install plan and upgrade check are available for local release readiness.", self._release_install_upgrade_static),
             ])
+        if self.options.profile in {"hardening", "industrial"}:
+            subgates.append(QualitySubgate("test-contract-registry", "POST-H-001 test contract registry validation.", self._test_contract_registry))
+            subgates.append(QualitySubgate("project-global-state", "Centralized mutable project state synchronization.", self._project_global_state))
         if self.options.profile == "industrial":
             subgates.append(QualitySubgate("industrial-readiness", "Fase H industrial readiness gate and maturity classification.", self._industrial_readiness))
+        if self.options.profile == "hardening":
+            subgates.append(QualitySubgate("industrial-readiness", "Industrial baseline remains coherent after test hardening.", self._industrial_readiness))
         if self._should_run_pytest():
             subgates.append(QualitySubgate("pytest", "Explicit pytest regression subprocess for CI/release readiness.", self._pytest_run))
         return subgates
@@ -215,6 +221,16 @@ class QualityGate:
             data={"summary": summary},
             findings=findings or [Finding("EVAL_HARNESS_READY", "Evaluation fixture is parseable and declares documentation cases.", Severity.INFO, metadata={"cases_total": summary["cases_total"]})],
         )
+
+    def _test_contract_registry(self) -> CommandResult:
+        from devpilot_core.testing import TestContractRegistry
+
+        return TestContractRegistry(self.root).validate()
+
+    def _project_global_state(self) -> CommandResult:
+        from devpilot_core.testing import TestContractRegistry
+
+        return TestContractRegistry(self.root).project_state()
 
     def _industrial_readiness(self) -> CommandResult:
         from devpilot_core.industrial import IndustrialReadinessGate

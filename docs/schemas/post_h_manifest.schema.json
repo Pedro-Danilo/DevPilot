@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/SCHEMA-DEVPL-POST-H-MANIFEST-V1",
+  "title": "DevPilot Post-H Manifest v1",
+  "description": "Structural contract for post-Fase-H sprint manifests.",
+  "type": "object",
+  "required": ["schema_version", "post_h_id", "title", "status", "phase", "implemented_at", "created_files", "modified_files", "commands", "tests", "pass_criteria", "block_criteria", "risks", "next_sprint"],
+  "properties": {
+    "schema_version": {"type": "string"},
+    "schema_id": {"const": "SCHEMA-DEVPL-POST-H-MANIFEST-V1"},
+    "post_h_id": {"type": "string", "pattern": "^POST-H-[0-9]{3}$"},
+    "title": {"type": "string", "minLength": 1},
+    "status": {"enum": ["implemented", "approved", "closed", "draft", "planned", "implemented-initial"]},
+    "phase": {"type": "string", "minLength": 1},
+    "implemented_at": {"type": "string", "minLength": 1},
+    "created_files": {"type": "array", "items": {"type": "string"}, "minItems": 1},
+    "modified_files": {"type": "array", "items": {"type": "string"}},
+    "commands": {"type": "array", "items": {"type": "string"}, "minItems": 1},
+    "tests": {"type": "array", "items": {"type": "string"}, "minItems": 1},
+    "pass_criteria": {"type": "array", "items": {"type": "string"}, "minItems": 1},
+    "block_criteria": {"type": "array", "items": {"type": "string"}, "minItems": 1},
+    "risks": {"type": "array", "items": {"type": "string"}, "minItems": 1},
+    "next_sprint": {"type": "string", "pattern": "^POST-H-[0-9]{3}$"},
+    "preliminary": {"type": "boolean"}
+  },
+  "additionalProperties": true,
+  "x-devpilot-schema-id": "SCHEMA-DEVPL-POST-H-MANIFEST-V1",
+  "x-devpilot-sprint": "POST-H-001",
+  "x-devpilot-status": "registered"
+}

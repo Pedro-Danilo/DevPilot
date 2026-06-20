@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/SCHEMA-DEVPL-TEST-CONTRACT-REGISTRY-V1",
+  "title": "DevPilot Test Contract Registry v1",
+  "description": "Structural contract for .devpilot/testing/test_contract_registry.json introduced by POST-H-001.",
+  "type": "object",
+  "required": ["schema_version", "schema_id", "created_by", "contracts"],
+  "properties": {
+    "schema_version": {"type": "string"},
+    "schema_id": {"const": "SCHEMA-DEVPL-TEST-CONTRACT-REGISTRY-V1"},
+    "created_by": {"const": "POST-H-001"},
+    "status": {"type": "string"},
+    "description": {"type": "string"},
+    "contracts": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["contract_id", "scope", "test_files", "critical", "mutable_global_state_allowed"],
+        "properties": {
+          "contract_id": {"type": "string", "pattern": "^[a-z0-9_.-]+$"},
+          "scope": {"enum": ["unit", "feature", "historical-sprint", "global-state", "integration", "quality-gate", "safety", "ui-smoke"]},
+          "owner": {"type": "string"},
+          "phase": {"type": "string"},
+          "test_files": {"type": "array", "items": {"type": "string"}, "minItems": 1, "uniqueItems": true},
+          "validates": {"type": "array", "items": {"type": "string"}},
+          "watched_paths": {"type": "array", "items": {"type": "string"}},
+          "mutable_global_state_allowed": {"type": "boolean"},
+          "global_state_source": {"type": ["string", "null"]},
+          "critical": {"type": "boolean"},
+          "recommended_commands": {"type": "array", "items": {"type": "string"}}
+        },
+        "additionalProperties": true
+      }
+    }
+  },
+  "additionalProperties": true,
+  "x-devpilot-schema-id": "SCHEMA-DEVPL-TEST-CONTRACT-REGISTRY-V1",
+  "x-devpilot-sprint": "POST-H-001",
+  "x-devpilot-status": "registered"
+}

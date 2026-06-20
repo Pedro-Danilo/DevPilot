@@ -840,6 +840,42 @@
       "gate": "Fase H closure requires industrial readiness score, closure report and post-H backlog seed",
       "approval_required": false,
       "observability_required": true
+    },
+    {
+      "rule_id": "TEST_CONTRACT_REGISTRY_VALIDATE_ALLOW",
+      "domain": "TestingHardening",
+      "action": "validate_test_contract_registry",
+      "default_effect": "allow",
+      "gate": "Registry validation is local, read-only and does not execute pytest dynamically from JSON",
+      "approval_required": false,
+      "observability_required": true
+    },
+    {
+      "rule_id": "PROJECT_GLOBAL_STATE_VALIDATE_ALLOW",
+      "domain": "TestingHardening",
+      "action": "validate_project_global_state",
+      "default_effect": "allow",
+      "gate": "Project global state validation reads only source-controlled docs and .devpilot/project_state.json",
+      "approval_required": false,
+      "observability_required": true
+    },
+    {
+      "rule_id": "TEST_IMPACT_ANALYZE_CONSERVATIVE_ALLOW",
+      "domain": "TestingHardening",
+      "action": "analyze_changed_paths",
+      "default_effect": "allow",
+      "gate": "Impact analyzer must be conservative and recommend full pytest for unknown/core changes",
+      "approval_required": false,
+      "observability_required": true
+    },
+    {
+      "rule_id": "TEST_IMPACT_UNKNOWN_PATH_FULL_PYTEST_REQUIRED",
+      "domain": "TestingHardening",
+      "action": "unknown_path_analysis",
+      "default_effect": "allow",
+      "gate": "Unknown changed paths require full pytest recommendation rather than false confidence",
+      "approval_required": false,
+      "observability_required": true
     }
   ]
 }
