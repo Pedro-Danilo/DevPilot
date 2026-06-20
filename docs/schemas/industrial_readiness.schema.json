@@ -1,0 +1,92 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/SCHEMA-DEVPL-INDUSTRIAL-READINESS-V1",
+  "title": "DevPilot Industrial Readiness Report v1",
+  "x-devpilot-schema-id": "SCHEMA-DEVPL-INDUSTRIAL-READINESS-V1",
+  "type": "object",
+  "required": ["command", "ok", "exit_code", "message", "data", "findings"],
+  "properties": {
+    "command": {"const": "industrial-readiness check"},
+    "ok": {"type": "boolean"},
+    "exit_code": {"type": "integer"},
+    "message": {"type": "string"},
+    "findings": {"type": "array"},
+    "data": {
+      "type": "object",
+      "required": ["summary", "capabilities", "gaps"],
+      "properties": {
+        "summary": {
+          "type": "object",
+          "required": [
+            "phase",
+            "phase_h_closed",
+            "industrial_readiness_score",
+            "maturity_level",
+            "capabilities_total",
+            "production_ready_total",
+            "implemented_initial_total",
+            "experimental_total",
+            "policy_engine_used",
+            "policy_engine_replaced",
+            "remote_runner_enabled",
+            "remote_execution_used",
+            "cloud_control_plane_enabled",
+            "network_used",
+            "external_api_used",
+            "mutations_performed",
+            "source_mutations_performed"
+          ],
+          "properties": {
+            "phase": {"const": "FASE-H-CAPACIDADES-AVANZADAS"},
+            "phase_h_closed": {"type": "boolean"},
+            "industrial_readiness_score": {"type": "number", "minimum": 0, "maximum": 100},
+            "maturity_level": {"enum": ["industrial-baseline-ready", "not-ready"]},
+            "capabilities_total": {"type": "integer", "minimum": 1},
+            "production_ready_total": {"type": "integer", "minimum": 0},
+            "implemented_initial_total": {"type": "integer", "minimum": 0},
+            "experimental_total": {"type": "integer", "minimum": 0},
+            "policy_engine_used": {"const": true},
+            "policy_engine_replaced": {"const": false},
+            "remote_runner_enabled": {"const": false},
+            "remote_execution_used": {"const": false},
+            "cloud_control_plane_enabled": {"const": false},
+            "network_used": {"const": false},
+            "external_api_used": {"const": false},
+            "mutations_performed": {"const": false},
+            "source_mutations_performed": {"const": false}
+          },
+          "additionalProperties": true
+        },
+        "capabilities": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": ["id", "title", "status", "ok", "score", "evidence", "note"],
+            "properties": {
+              "id": {"type": "string"},
+              "title": {"type": "string"},
+              "status": {"enum": ["production-ready", "implemented", "implemented-initial", "experimental", "planned", "future"]},
+              "ok": {"type": "boolean"},
+              "score": {"type": "number", "minimum": 0, "maximum": 100},
+              "evidence": {"type": "array", "items": {"type": "string"}},
+              "note": {"type": "string"}
+            },
+            "additionalProperties": true
+          }
+        },
+        "gaps": {
+          "type": "object",
+          "required": ["blocking", "non_blocking"],
+          "properties": {
+            "blocking": {"type": "array"},
+            "non_blocking": {"type": "array"}
+          },
+          "additionalProperties": true
+        }
+      },
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": true
+}

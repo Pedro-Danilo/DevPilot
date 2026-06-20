@@ -17,7 +17,7 @@ This changelog follows a Keep a Changelog-compatible category structure and is g
 ## [0.1.0] - 2026-06-19
 
 Release ID: `DEVPL-0.1.0`  
-Range: `FUNC-SPRINT-74` → `FUNC-SPRINT-98`  
+Range: `FUNC-SPRINT-74` → `FUNC-SPRINT-99`  
 Source: `docs/functional_sprint_*_manifest.json`
 
 ### Added
@@ -144,6 +144,7 @@ Source: `docs/functional_sprint_*_manifest.json`
 - `FUNC-SPRINT-96` — `docs/functional_sprint_96_manifest.json`
 - `FUNC-SPRINT-97` — `docs/functional_sprint_97_manifest.json`
 - `FUNC-SPRINT-98` — `docs/functional_sprint_98_manifest.json`
+- `FUNC-SPRINT-99` — `docs/functional_sprint_99_manifest.json`
 
 ### Policy notes
 
@@ -174,6 +175,34 @@ Source: `docs/functional_sprint_*_manifest.json`
 - `docs/functional_sprint_98_manifest.json`
 - `docs/audits/func_sprint_98_enterprise_reporting_audit.md`
 
+
+## FUNC-SPRINT-99 — Industrial readiness gate y cierre Fase H
+
+### Added
+
+- Módulo `src/devpilot_core/industrial/readiness.py` con `IndustrialReadinessGate`.
+- CLI `industrial-readiness check --json --write-report`.
+- Perfil `quality-gate run --profile industrial`.
+- Schema `docs/schemas/industrial_readiness.schema.json`.
+- Closure report `docs/audits/phase_h_advanced_capabilities_closure.md`.
+- Backlog semilla `docs/backlogs/post_phase_h_ideas.md`.
+
+### Changed
+
+- Fase H pasa de `in_progress` a `closed_implemented_initial`.
+- README, runbook, backlog Fase H, functional backlog, MIASI y schema catalog quedan sincronizados con Sprint 99.
+
+### Security
+
+- El gate bloquea sobredeclarar producción cuando existen capacidades `implemented-initial` o `experimental`.
+- Remote runners continúan disabled/default, sin ejecución remota, cloud, red ni APIs externas.
+
+### Evidence
+
+- `docs/functional_sprint_99_manifest.json`
+- `docs/audits/phase_h_advanced_capabilities_closure.md`
+- `docs/backlogs/post_phase_h_ideas.md`
+
 ## Historical verification anchors
 
 This section preserves exact sprint-title anchors used by documentation regression tests. The changelog builder must follow a no invent policy: it summarizes only local sprint manifests and must not invent evidence, audits, files, decisions or outcomes not declared in repo artifacts.
@@ -184,3 +213,5 @@ This section preserves exact sprint-title anchors used by documentation regressi
 - FUNC-SPRINT-96 — Colaboración local y audit packs
 - FUNC-SPRINT-97 — Compliance packs y policy packs
 - FUNC-SPRINT-98 — Remote runners experimentales y enterprise reporting
+
+- FUNC-SPRINT-99 — Industrial readiness gate y cierre Fase H

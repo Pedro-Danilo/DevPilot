@@ -5326,3 +5326,40 @@ python -m devpilot_core quality-gate run --profile ci --json
 ### Riesgos
 
 Esta versión es `implemented-initial`. No implementa transporte seguro, workers remotos, control plane cloud, autenticación distribuida, firma, cifrado ni sandbox remoto.
+
+
+## FUNC-SPRINT-99 — Operación de Industrial Readiness Gate y cierre Fase H
+
+### Propósito
+
+`FUNC-SPRINT-99` agrega el comando `industrial-readiness check` y el perfil `quality-gate run --profile industrial` para cerrar Fase H con evidencia de madurez, sin afirmar que todas las capacidades son production-ready.
+
+### Comandos
+
+```powershell
+python -m devpilot_core industrial-readiness check --json --write-report
+python -m devpilot_core quality-gate run --profile industrial --json
+python -m devpilot_core schema validate --schema docs\schemas\industrial_readiness.schema.json --instance outputs\reports\industrial_readiness.json --json
+python -m devpilot_core validate-artifact docs\audits\phase_h_advanced_capabilities_closure.md --json
+```
+
+### Criterios PASS
+
+- `industrial-readiness check` retorna `ok=true`.
+- `industrial_readiness_score >= 80`.
+- `phase_h_closed=true`.
+- Remote runners continúan disabled/default.
+- El reporte diferencia `production-ready`, `implemented`, `implemented-initial`, `experimental`, `planned` y `future`.
+- `quality-gate run --profile industrial` pasa.
+
+### Criterios BLOCK
+
+- Todas las capacidades se marcan como production-ready sin evidencia.
+- Remote runner queda enabled o permite ejecución.
+- `PolicyEngine` es reemplazado u omitido.
+- No existe closure report o backlog post-H.
+- Falla el quality gate industrial.
+
+### Riesgos y recuperación
+
+Este cierre es `implemented-initial`: no es certificación externa ni garantía de producción enterprise. Si el gate bloquea, revisar `outputs/reports/industrial_readiness.json`, resolver `blocking_gaps` y repetir la validación. No habilitar remote execution ni cloud para “subir” el score.

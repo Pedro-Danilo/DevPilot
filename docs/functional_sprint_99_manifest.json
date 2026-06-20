@@ -1,0 +1,99 @@
+{
+  "schema_version": "1.0",
+  "sprint_id": "FUNC-SPRINT-99",
+  "sprint": "FUNC-SPRINT-99",
+  "title": "FUNC-SPRINT-99 — Industrial readiness gate y cierre Fase H",
+  "status": "implemented",
+  "implemented_at": "2026-06-19",
+  "phase": "FASE-H-CAPACIDADES-AVANZADAS",
+  "wave": "Ola 12 — Plataforma industrial/enterprise",
+  "source_backlog": "docs/devpilot_backlog_fase_H_capacidades_avanzadas.md",
+  "summary": {
+    "implemented_initial": true,
+    "phase_h_closed": true,
+    "industrial_readiness_gate": true,
+    "industrial_profile_quality_gate": true,
+    "closure_report": true,
+    "post_h_backlog_seed": true,
+    "maturity_classification": true,
+    "overclaim_blocked": true,
+    "local_first": true,
+    "policy_engine_used": true,
+    "policy_engine_replaced": false,
+    "remote_runner_enabled": false,
+    "remote_execution_used": false,
+    "cloud_control_plane_enabled": false,
+    "network_used": false,
+    "external_api_used": false,
+    "mutations_performed": false,
+    "source_mutations_performed": false
+  },
+  "purpose": "Crear un gate de readiness industrial que consolide capacidades avanzadas, clasifique madurez sin sobredeclarar producción y cierre Fase H con evidencia local verificable.",
+  "created_files": [
+    "src/devpilot_core/industrial/__init__.py",
+    "src/devpilot_core/industrial/readiness.py",
+    "docs/schemas/industrial_readiness.schema.json",
+    "tests/test_industrial_readiness.py",
+    "tests/test_sprint_99_documentation.py",
+    "docs/audits/phase_h_advanced_capabilities_closure.md",
+    "docs/backlogs/post_phase_h_ideas.md",
+    "docs/functional_sprint_99_manifest.json"
+  ],
+  "modified_files": [
+    "src/devpilot_core/cli.py",
+    "src/devpilot_core/quality/gate.py",
+    ".devpilot/miasi/agent_registry.json",
+    ".devpilot/miasi/tool_registry.json",
+    ".devpilot/miasi/policy_matrix.json",
+    "docs/schemas/schema_catalog.json",
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/devpilot_backlog_fase_H_capacidades_avanzadas.md",
+    "docs/functional_backlog_after_precode.md",
+    "docs/release/CHANGELOG.md",
+    ".devpilot/rag/docs_index.json"
+  ],
+  "commands": [
+    "python -m devpilot_core industrial-readiness check --json --write-report",
+    "python -m devpilot_core quality-gate run --profile industrial --json",
+    "python -m devpilot_core schema validate --schema docs/schemas/industrial_readiness.schema.json --instance outputs/reports/industrial_readiness.json --json",
+    "python -m devpilot_core schema validate-manifest docs/functional_sprint_99_manifest.json --json",
+    "python -m devpilot_core validate-artifact docs/audits/phase_h_advanced_capabilities_closure.md --json",
+    "python -m devpilot_core validate all --json",
+    "python -m pytest -q"
+  ],
+  "tests": [
+    "tests/test_industrial_readiness.py",
+    "tests/test_sprint_99_documentation.py",
+    "tests/test_schema_registry.py",
+    "tests/test_release_changelog.py",
+    "tests/test_phase_h_backlog_approval.py",
+    "tests/test_quality_gate.py"
+  ],
+  "pass_criteria": [
+    "industrial-readiness check ok=true",
+    "industrial_readiness_score >= 80",
+    "phase_h_closed=true",
+    "capabilities include contract, policy, security, evals, observability, release, ui_api, multiagent, rag, connectors and enterprise",
+    "capabilities are classified by maturity and not all production-ready",
+    "remote runner remains disabled",
+    "quality-gate profile industrial passes",
+    "closure report and post-H backlog exist"
+  ],
+  "block_criteria": [
+    "all capabilities marked production-ready without evidence",
+    "remote runner enabled or execution allowed",
+    "PolicyEngine bypassed or replaced",
+    "quality-gate run --profile industrial fails",
+    "closure report missing",
+    "post-H backlog missing"
+  ],
+  "risks": [
+    "Fase H closure is not external certification or production guarantee.",
+    "Several capabilities remain implemented-initial or experimental by design.",
+    "Future remote execution requires a new ADR and stronger controls.",
+    "Post-H work must prioritize hardening and regression reduction."
+  ],
+  "next_sprint": "POST-H-001",
+  "next_focus": "Industrial hardening de tests, contratos y maturity dashboard local"
+}

@@ -2,7 +2,7 @@
 title: "DevPilot Local — Backlog ejecutable posterior a pre-code"
 doc_id: "DEVPL-FUNC-BACKLOG-001"
 status: "approved"
-version: "5.9.0"
+version: "5.10.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
@@ -14,7 +14,7 @@ change_policy: "controlled_changes_allowed_via_docs_as_code"
 approved_on: "2026-06-06"
 approval_scope: "functional_backlog_after_precode"
 baseline_execution: "FUNC-SPRINT-00"
-next_sprint: "FUNC-SPRINT-99"
+next_sprint: "POST-H-001"
 ---
 
 # DevPilot Local — Backlog ejecutable posterior a pre-code
@@ -2422,3 +2422,10 @@ La siguiente unidad abierta es `FUNC-SPRINT-98 — Remote runners experimentales
 `FUNC-SPRINT-98 — Remote runners experimentales y enterprise reporting` agrega ADR de remote runners deshabilitados, registry remoto metadata-only, CLI `remote runner status`, CLI `enterprise report`, suite `remote-enterprise` e integración MIASI/QualityGate. La capacidad queda `implemented-initial`: no ejecuta remoto, no usa cloud, no usa red, no requiere credenciales y no reemplaza `PolicyEngine`.
 
 La siguiente unidad abierta es `FUNC-SPRINT-99 — Industrial readiness gate y cierre Fase H`, que deberá consolidar madurez industrial y cierre de Fase H sin ocultar brechas.
+
+
+## Transición posterior a FUNC-SPRINT-99 — Cierre Fase H
+
+`FUNC-SPRINT-99 — Industrial readiness gate y cierre Fase H` cierra Fase H como baseline industrial local-first `implemented-initial`. DevPilot agrega `industrial-readiness check`, perfil `quality-gate run --profile industrial`, closure report y backlog post-H.
+
+El siguiente trabajo sale de Fase H y entra en `POST-H-001 — Industrial hardening de tests y contratos`, con prioridad en reducir regresiones, fortalecer contratos semánticos y evitar nuevas desincronizaciones documentales.

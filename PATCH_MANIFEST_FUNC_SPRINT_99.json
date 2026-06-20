@@ -1,0 +1,47 @@
+{
+  "sprint_id": "FUNC-SPRINT-99",
+  "title": "Industrial readiness gate y cierre Fase H",
+  "created_files": [
+    "src/devpilot_core/industrial/__init__.py",
+    "src/devpilot_core/industrial/readiness.py",
+    "docs/schemas/industrial_readiness.schema.json",
+    "tests/test_industrial_readiness.py",
+    "tests/test_sprint_99_documentation.py",
+    "docs/audits/phase_h_advanced_capabilities_closure.md",
+    "docs/backlogs/post_phase_h_ideas.md",
+    "docs/functional_sprint_99_manifest.json"
+  ],
+  "modified_files": [
+    "src/devpilot_core/cli.py",
+    "src/devpilot_core/quality/gate.py",
+    "scripts/visual_product_smoke.py",
+    ".devpilot/miasi/agent_registry.json",
+    ".devpilot/miasi/tool_registry.json",
+    ".devpilot/miasi/policy_matrix.json",
+    ".devpilot/rag/docs_index.json",
+    "docs/schemas/schema_catalog.json",
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/devpilot_backlog_fase_H_capacidades_avanzadas.md",
+    "docs/functional_backlog_after_precode.md",
+    "docs/release/CHANGELOG.md",
+    "tests/test_schema_registry.py",
+    "tests/test_release_changelog.py",
+    "tests/test_phase_h_backlog_approval.py",
+    "tests/test_visual_product_smoke.py",
+    "tests/test_sprint_*_documentation.py"
+  ],
+  "excluded_from_delivery_zips": [
+    "outputs/",
+    ".git/",
+    ".venv/",
+    "node_modules/",
+    "ui/web/node_modules/",
+    "dist/",
+    "ui/web/dist/",
+    "__pycache__/",
+    ".pytest_cache/",
+    ".devpilot/devpilot.db",
+    ".devpilot/agent_sessions/"
+  ]
+}

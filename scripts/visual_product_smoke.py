@@ -93,17 +93,23 @@ def _check(condition: bool, check_id: str, ok_msg: str, fail_msg: str, metadata:
 
 
 def _extract_next_sprint(text: str) -> str | None:
-    match = re.search(r'next_sprint:\s*["\']FUNC-SPRINT-(\d+)["\']', text)
-    if not match:
-        return None
-    return f"FUNC-SPRINT-{int(match.group(1)):02d}"
+    match = re.search(r'^next_sprint:\s*["\']FUNC-SPRINT-(\d+)["\']', text, re.MULTILINE)
+    if match:
+        return f"FUNC-SPRINT-{int(match.group(1)):02d}"
+    post_h = re.search(r'^next_sprint:\s*["\']POST-H-(\d+)["\']', text, re.MULTILINE)
+    if post_h:
+        return f"POST-H-{int(post_h.group(1)):03d}"
+    return None
 
 
 def _sprint_number(sprint_id: str | None) -> int | None:
     if not sprint_id:
         return None
     match = re.search(r'FUNC-SPRINT-(\d+)', sprint_id)
-    return int(match.group(1)) if match else None
+    if match:
+        return int(match.group(1))
+    post_h = re.search(r'POST-H-(\d+)', sprint_id)
+    return 1000 + int(post_h.group(1)) if post_h else None
 
 
 def _load_app_contract(root: Path) -> dict[str, Any]:
@@ -140,7 +146,7 @@ def run_gate(root: Path, *, run_npm: bool = False) -> dict[str, Any]:
     backlog = _read_text(root / "docs/devpilot_backlog_fase_F_producto_visual.md")
     functional_backlog = _read_text(root / "docs/functional_backlog_after_precode.md")
     readme_has_phase_f_closure = "FUNC-SPRINT-73 — Cierre Fase F web-first y decisión de evolución" in readme
-    readme_global_has_progress_marker = "Último hito: `FUNC-SPRINT-" in readme and "Siguiente hito: `FUNC-SPRINT-" in readme
+    readme_global_has_progress_marker = "Último hito: `FUNC-SPRINT-" in readme and ("Siguiente hito: `FUNC-SPRINT-" in readme or "Siguiente hito: `POST-H-" in readme)
     checks.append(_check(
         readme_has_phase_f_closure and readme_global_has_progress_marker,
         "README_GLOBAL_STATE",
@@ -154,8 +160,8 @@ def run_gate(root: Path, *, run_npm: bool = False) -> dict[str, Any]:
     checks.append(_check(
         functional_next_number is not None and functional_next_number >= 74,
         "FUNCTIONAL_BACKLOG_NEXT",
-        "Functional backlog remains at or beyond FUNC-SPRINT-74 after Fase F closure.",
-        "Functional backlog does not point to FUNC-SPRINT-74 or later.",
+        "Functional backlog remains at or beyond FUNC-SPRINT-74 or in POST-H after Fase F closure.",
+        "Functional backlog does not point to FUNC-SPRINT-74 or later/POST-H.",
         {"next_sprint": functional_next_sprint},
     ))
 

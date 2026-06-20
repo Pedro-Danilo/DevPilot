@@ -18,6 +18,7 @@ from .enterprise import EnterpriseReportBuilder, EnterpriseReportOptions
 from .errors import DevPilotError
 from .evals import EvalRunner
 from .identity import IdentityRegistry, IdentityRegistryOptions, RbacCheckInput
+from .industrial import IndustrialReadinessGate, IndustrialReadinessOptions
 from .observability import AgentOpsGateOptions, AgentOpsQualityGate, EventLogger, MetricsCollector, OTelDryRunExporter, OTelExportOptions, TraceQueryService
 from .miasi import MiasiRegistryValidator
 from .modeling import BudgetLedger, CapabilityMatrix, ModelAdapterRouter, ModelEvalRunner, ModelEvalRunnerConfig, ModelHealthService, ModelRouterConfig
@@ -1884,7 +1885,7 @@ def quality_gate_run_command(
         subject="release:quality-gate",
         report_id="quality_gate",
         write_report=write_report,
-        metadata={"sprint": "FUNC-SPRINT-76" if profile == "ci" else "FUNC-SPRINT-75", "component": "QualityGate", "profile": profile},
+        metadata={"sprint": "FUNC-SPRINT-99" if profile == "industrial" else ("FUNC-SPRINT-76" if profile == "ci" else "FUNC-SPRINT-75"), "component": "QualityGate", "profile": profile},
     )
     if write_report and isinstance((result.data or {}).get("reports"), dict):
         data = dict(result.data or {})
@@ -2662,6 +2663,36 @@ def remote_runner_status_command(
     )
     _emit_result_event(root, result, subject="remote:runner:status")
     _persist_result(root, result, subject="remote:runner:status")
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+
+def industrial_readiness_check_command(
+    *,
+    minimum_score: float = 80.0,
+    json_output: bool = False,
+    write_report: bool = False,
+) -> int:
+    """Run FUNC-SPRINT-99 industrial readiness gate and Fase H closure check."""
+
+    root = project_root()
+    result = IndustrialReadinessGate(root, options=IndustrialReadinessOptions(minimum_score=minimum_score)).check()
+    result = _write_optional_command_report(
+        root,
+        result,
+        subject="phase-h-industrial-readiness",
+        report_id="industrial_readiness",
+        write_report=write_report,
+        metadata={"sprint": "FUNC-SPRINT-99", "component": "IndustrialReadinessGate"},
+    )
+    if write_report and isinstance((result.data or {}).get("reports"), dict):
+        data = dict(result.data or {})
+        summary = dict(data.get("summary") or {})
+        summary["reports_written"] = True
+        data["summary"] = summary
+        result = CommandResult(command=result.command, ok=result.ok, exit_code=result.exit_code, message=result.message, data=data, findings=result.findings)
+    _emit_result_event(root, result, subject="industrial:readiness")
+    _persist_result(root, result, subject="industrial:readiness")
     print_result(result, json_output=json_output)
     return int(result.exit_code)
 
@@ -3916,6 +3947,13 @@ def build_parser() -> argparse.ArgumentParser:
     compliance_run.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     compliance_run.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
 
+    industrial = sub.add_parser("industrial-readiness", help="Run Fase H industrial readiness and closure gate")
+    industrial_sub = industrial.add_subparsers(dest="industrial_readiness_command")
+    industrial_check = industrial_sub.add_parser("check", help="Check industrial readiness without overclaiming production maturity")
+    industrial_check.add_argument("--minimum-score", type=float, default=80.0, help="Minimum readiness score required to pass")
+    industrial_check.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    industrial_check.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+
     audit_pack = sub.add_parser("audit-pack", help="Build and verify local collaboration audit packs")
     audit_pack_sub = audit_pack.add_subparsers(dest="audit_pack_command")
     audit_pack_build = audit_pack_sub.add_parser("build", help="Build a clean local audit pack ZIP with manifest/checksums")
@@ -4390,7 +4428,7 @@ def build_parser() -> argparse.ArgumentParser:
     quality_gate = sub.add_parser("quality-gate", help="Run local productization quality gates")
     quality_gate_sub = quality_gate.add_subparsers(dest="quality_gate_command")
     quality_gate_run = quality_gate_sub.add_parser("run", help="Run the unified local quality gate")
-    quality_gate_run.add_argument("--profile", choices=["fast", "full", "ci", "release"], default="fast", help="Gate profile to execute")
+    quality_gate_run.add_argument("--profile", choices=["fast", "full", "ci", "release", "industrial"], default="fast", help="Gate profile to execute")
     quality_gate_run.add_argument("--include-pytest", action="store_true", help="Explicitly include pytest -q as an optional subgate")
     quality_gate_run.add_argument("--pytest-timeout-seconds", type=int, default=180, help="Timeout for the optional pytest subgate")
     quality_gate_run.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
@@ -4673,6 +4711,9 @@ def _command_name_from_args(args: argparse.Namespace) -> str:
     if command == "compliance":
         subcommand = getattr(args, "compliance_command", None)
         return f"compliance {subcommand}" if subcommand else "compliance"
+    if command == "industrial-readiness":
+        subcommand = getattr(args, "industrial_readiness_command", None)
+        return f"industrial-readiness {subcommand}" if subcommand else "industrial-readiness"
     if command == "audit-pack":
         subcommand = getattr(args, "audit_pack_command", None)
         return f"audit-pack {subcommand}" if subcommand else "audit-pack"
@@ -4835,6 +4876,15 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
                 pack=args.pack,
                 registry_path=args.registry_path,
                 schema_path=args.schema_path,
+                json_output=args.json,
+                write_report=args.write_report,
+            )
+        parser.print_help()
+        return int(ExitCode.FAIL)
+    if args.command == "industrial-readiness":
+        if args.industrial_readiness_command == "check":
+            return industrial_readiness_check_command(
+                minimum_score=args.minimum_score,
                 json_output=args.json,
                 write_report=args.write_report,
             )

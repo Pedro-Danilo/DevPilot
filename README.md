@@ -1,12 +1,21 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
-Estado actual: `baseline pre-code approved + Fases A-G cerradas + Fase H en implementación controlada`  
-Último hito: `FUNC-SPRINT-98 — Remote runners experimentales y enterprise reporting`  
-Siguiente hito: `FUNC-SPRINT-99 — Industrial readiness gate y cierre Fase H`  
+Estado actual: `baseline pre-code approved + Fases A-G cerradas + Fase H cerrada como industrial baseline implemented-initial`  
+Último hito: `FUNC-SPRINT-99 — Industrial readiness gate y cierre Fase H`  
+Siguiente hito: `POST-H-001 — Industrial hardening de tests y contratos`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
 
+
+
+## FUNC-SPRINT-99 — Industrial readiness gate y cierre Fase H
+
+`FUNC-SPRINT-99` cierra Fase H como **industrial baseline implemented-initial** mediante `industrial-readiness check` y `quality-gate run --profile industrial`. El gate consolida contratos, PolicyEngine, MIASI, seguridad/RBAC, evals, observabilidad, release, UI/API, multiagente, RAG, conectores y enterprise reporting.
+
+El cierre no sobredeclara producción: el reporte diferencia capacidades `production-ready`, `implemented`, `implemented-initial`, `experimental`, `planned` y `future`. Remote runners permanecen deshabilitados, no hay cloud control plane, no hay red, no hay APIs externas y no se habilita ejecución remota.
+
+Artefactos principales: `src/devpilot_core/industrial/readiness.py`, `docs/audits/phase_h_advanced_capabilities_closure.md`, `docs/backlogs/post_phase_h_ideas.md`, `docs/schemas/industrial_readiness.schema.json` y `docs/functional_sprint_99_manifest.json`.
 
 
 ## FUNC-SPRINT-98 — Remote runners experimentales y enterprise reporting

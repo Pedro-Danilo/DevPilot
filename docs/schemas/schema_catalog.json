@@ -5,8 +5,8 @@
   "status": "approved",
   "version": "1.0.0",
   "owner": "Ordóñez",
-  "updated": "2026-06-18",
-  "sprint": "FUNC-SPRINT-23",
+  "updated": "2026-06-19",
+  "sprint": "FUNC-SPRINT-99",
   "preliminary": true,
   "purpose": "Catalog of versioned JSON schemas registered by DevPilot. Sprint 97 adds CompliancePackRegistry contract for local compliance/policy packs.",
   "schemas": [
@@ -331,6 +331,20 @@
       "validates_instances": true,
       "contract": "RemoteRunnerRegistry",
       "validation_enabled_sprint": "FUNC-SPRINT-98"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-INDUSTRIAL-READINESS-V1",
+      "title": "DevPilot Industrial Readiness Report v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/industrial_readiness.schema.json",
+      "description": "Structural contract for FUNC-SPRINT-99 industrial readiness reports and Fase H closure evidence.",
+      "status": "registered",
+      "owner": "Ordóñez",
+      "sprint": "FUNC-SPRINT-99",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "contract": "IndustrialReadinessReport",
+      "validation_enabled_sprint": "FUNC-SPRINT-99"
     }
   ]
 }

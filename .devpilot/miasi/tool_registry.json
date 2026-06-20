@@ -1218,6 +1218,21 @@
         "REMOTE_RUNNER_EXECUTE_DENY",
         "SECRETS_RAW_DENY"
       ]
+    },
+    {
+      "tool_id": "industrial.readiness.check",
+      "name": "run_industrial_readiness_gate",
+      "phase": "Post-MVP",
+      "side_effect": "report",
+      "risk_level": "high",
+      "status": "implemented-initial",
+      "requires_approval": false,
+      "policy_rule_ids": [
+        "INDUSTRIAL_READINESS_LOCAL_ALLOW",
+        "INDUSTRIAL_READINESS_OVERCLAIM_DENY",
+        "INDUSTRIAL_READINESS_PHASE_H_CLOSURE_REQUIRED",
+        "SECRETS_RAW_DENY"
+      ]
     }
   ]
 }

@@ -170,7 +170,8 @@
         "compliance.list",
         "compliance.run",
         "remote.runner.status",
-        "enterprise.report"
+        "enterprise.report",
+        "industrial.readiness.check"
       ],
       "required_artifacts": [
         "Agent",
@@ -182,7 +183,9 @@
         "docs/audits/func_sprint_96_audit_pack_audit.md",
         "docs/audits/func_sprint_97_compliance_packs_audit.md",
         "docs/02_architecture/adrs/ADR-0017-remote-runners-experimental.md",
-        "docs/audits/func_sprint_98_enterprise_reporting_audit.md"
+        "docs/audits/func_sprint_98_enterprise_reporting_audit.md",
+        "docs/audits/phase_h_advanced_capabilities_closure.md",
+        "docs/backlogs/post_phase_h_ideas.md"
       ],
       "policy_rule_ids": [
         "SECURITY_AGENT_GOVERNED_ALLOW",
@@ -215,7 +218,10 @@
         "REMOTE_RUNNER_STATUS_ALLOW",
         "REMOTE_RUNNER_EXECUTE_DENY",
         "REMOTE_CLOUD_CONTROL_PLANE_DENY",
-        "ENTERPRISE_REPORT_LOCAL_READ_ONLY_ALLOW"
+        "ENTERPRISE_REPORT_LOCAL_READ_ONLY_ALLOW",
+        "INDUSTRIAL_READINESS_LOCAL_ALLOW",
+        "INDUSTRIAL_READINESS_OVERCLAIM_DENY",
+        "INDUSTRIAL_READINESS_PHASE_H_CLOSURE_REQUIRED"
       ],
       "approval_required": false,
       "observability_required": true,
@@ -252,7 +258,8 @@
         "compliance.list",
         "compliance.run",
         "remote.runner.status",
-        "enterprise.report"
+        "enterprise.report",
+        "industrial.readiness.check"
       ],
       "required_artifacts": [
         "Agent",
@@ -264,7 +271,9 @@
         "docs/audits/func_sprint_96_audit_pack_audit.md",
         "docs/audits/func_sprint_97_compliance_packs_audit.md",
         "docs/02_architecture/adrs/ADR-0017-remote-runners-experimental.md",
-        "docs/audits/func_sprint_98_enterprise_reporting_audit.md"
+        "docs/audits/func_sprint_98_enterprise_reporting_audit.md",
+        "docs/audits/phase_h_advanced_capabilities_closure.md",
+        "docs/backlogs/post_phase_h_ideas.md"
       ],
       "policy_rule_ids": [
         "TEST_PLANNER_AGENT_GOVERNED_ALLOW",
@@ -297,7 +306,10 @@
         "REMOTE_RUNNER_STATUS_ALLOW",
         "REMOTE_RUNNER_EXECUTE_DENY",
         "REMOTE_CLOUD_CONTROL_PLANE_DENY",
-        "ENTERPRISE_REPORT_LOCAL_READ_ONLY_ALLOW"
+        "ENTERPRISE_REPORT_LOCAL_READ_ONLY_ALLOW",
+        "INDUSTRIAL_READINESS_LOCAL_ALLOW",
+        "INDUSTRIAL_READINESS_OVERCLAIM_DENY",
+        "INDUSTRIAL_READINESS_PHASE_H_CLOSURE_REQUIRED"
       ],
       "approval_required": false,
       "observability_required": true,
@@ -510,7 +522,8 @@
         "compliance.list",
         "compliance.run",
         "remote.runner.status",
-        "enterprise.report"
+        "enterprise.report",
+        "industrial.readiness.check"
       ],
       "required_artifacts": [
         "Full MIASI",
@@ -520,7 +533,9 @@
         "docs/audits/func_sprint_96_audit_pack_audit.md",
         "docs/audits/func_sprint_97_compliance_packs_audit.md",
         "docs/02_architecture/adrs/ADR-0017-remote-runners-experimental.md",
-        "docs/audits/func_sprint_98_enterprise_reporting_audit.md"
+        "docs/audits/func_sprint_98_enterprise_reporting_audit.md",
+        "docs/audits/phase_h_advanced_capabilities_closure.md",
+        "docs/backlogs/post_phase_h_ideas.md"
       ],
       "policy_rule_ids": [
         "DEPLOY_DENY",
@@ -544,7 +559,10 @@
         "REMOTE_RUNNER_STATUS_ALLOW",
         "REMOTE_RUNNER_EXECUTE_DENY",
         "REMOTE_CLOUD_CONTROL_PLANE_DENY",
-        "ENTERPRISE_REPORT_LOCAL_READ_ONLY_ALLOW"
+        "ENTERPRISE_REPORT_LOCAL_READ_ONLY_ALLOW",
+        "INDUSTRIAL_READINESS_LOCAL_ALLOW",
+        "INDUSTRIAL_READINESS_OVERCLAIM_DENY",
+        "INDUSTRIAL_READINESS_PHASE_H_CLOSURE_REQUIRED"
       ],
       "approval_required": false,
       "observability_required": true,
@@ -582,7 +600,8 @@
         "compliance.list",
         "compliance.run",
         "remote.runner.status",
-        "enterprise.report"
+        "enterprise.report",
+        "industrial.readiness.check"
       ],
       "required_artifacts": [
         "Full MIASI",
@@ -596,7 +615,9 @@
         "docs/audits/func_sprint_96_audit_pack_audit.md",
         "docs/audits/func_sprint_97_compliance_packs_audit.md",
         "docs/02_architecture/adrs/ADR-0017-remote-runners-experimental.md",
-        "docs/audits/func_sprint_98_enterprise_reporting_audit.md"
+        "docs/audits/func_sprint_98_enterprise_reporting_audit.md",
+        "docs/audits/phase_h_advanced_capabilities_closure.md",
+        "docs/backlogs/post_phase_h_ideas.md"
       ],
       "policy_rule_ids": [
         "MULTIAGENT_COORDINATOR_DRY_RUN_ALLOW",
@@ -629,7 +650,10 @@
         "REMOTE_RUNNER_STATUS_ALLOW",
         "REMOTE_RUNNER_EXECUTE_DENY",
         "REMOTE_CLOUD_CONTROL_PLANE_DENY",
-        "ENTERPRISE_REPORT_LOCAL_READ_ONLY_ALLOW"
+        "ENTERPRISE_REPORT_LOCAL_READ_ONLY_ALLOW",
+        "INDUSTRIAL_READINESS_LOCAL_ALLOW",
+        "INDUSTRIAL_READINESS_OVERCLAIM_DENY",
+        "INDUSTRIAL_READINESS_PHASE_H_CLOSURE_REQUIRED"
       ],
       "approval_required": false,
       "observability_required": true,
@@ -654,7 +678,8 @@
         "trace.append",
         "policy.check",
         "remote.runner.status",
-        "enterprise.report"
+        "enterprise.report",
+        "industrial.readiness.check"
       ],
       "required_artifacts": [
         "Agent",
@@ -663,7 +688,9 @@
         "Eval",
         "Obs",
         "docs/02_architecture/adrs/ADR-0017-remote-runners-experimental.md",
-        "docs/audits/func_sprint_98_enterprise_reporting_audit.md"
+        "docs/audits/func_sprint_98_enterprise_reporting_audit.md",
+        "docs/audits/phase_h_advanced_capabilities_closure.md",
+        "docs/backlogs/post_phase_h_ideas.md"
       ],
       "policy_rule_ids": [
         "RELEASE_AGENT_DRY_RUN_ALLOW",
@@ -672,7 +699,10 @@
         "REMOTE_RUNNER_STATUS_ALLOW",
         "REMOTE_RUNNER_EXECUTE_DENY",
         "REMOTE_CLOUD_CONTROL_PLANE_DENY",
-        "ENTERPRISE_REPORT_LOCAL_READ_ONLY_ALLOW"
+        "ENTERPRISE_REPORT_LOCAL_READ_ONLY_ALLOW",
+        "INDUSTRIAL_READINESS_LOCAL_ALLOW",
+        "INDUSTRIAL_READINESS_OVERCLAIM_DENY",
+        "INDUSTRIAL_READINESS_PHASE_H_CLOSURE_REQUIRED"
       ],
       "approval_required": false,
       "observability_required": true,

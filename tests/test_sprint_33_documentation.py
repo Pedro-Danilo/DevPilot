@@ -32,8 +32,8 @@ def test_sprint_33_readme_runbook_and_backlog_point_to_sprint_34() -> None:
     runbook = _read("docs/05_operations/runbook.md")
     backlog = _read("docs/devpilot_backlog_fase_B_seguridad_operacional.md")
 
-    assert "Último hito: `FUNC-SPRINT-98" in readme
-    assert "Siguiente hito: `FUNC-SPRINT-99" in readme
+    assert "Último hito: `FUNC-SPRINT-99" in readme
+    assert "Siguiente hito: `POST-H-001" in readme
     assert "FUNC-SPRINT-33" in runbook
     assert "PromptInjectionGuard" in runbook
     assert "ToolInjectionGuard" in runbook

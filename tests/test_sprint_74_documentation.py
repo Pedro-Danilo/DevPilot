@@ -30,15 +30,15 @@ def test_sprint_74_release_strategy_artifacts_exist_and_are_synchronized() -> No
     ]:
         assert (ROOT / path).exists(), path
 
-    assert "Último hito: `FUNC-SPRINT-98" in readme
-    assert "Siguiente hito: `FUNC-SPRINT-99" in readme
+    assert "Último hito: `FUNC-SPRINT-99" in readme
+    assert "Siguiente hito: `POST-H-001" in readme
     assert "FUNC-SPRINT-74 — ADR de release, versionado y productización" in readme
     assert "FUNC-SPRINT-74 — Operación de release, versionado y productización" in runbook
     assert 'source_repo: "repo_DevPilot_Local_106.zip"' in backlog_g
     assert 'last_completed_sprint: "FUNC-SPRINT-84"' in backlog_g
     assert 'next_sprint: "FUNC-SPRINT-85"' in backlog_g
     assert 'phase_g_status: "closed"' in backlog_g
-    assert 'next_sprint: "FUNC-SPRINT-99"' in functional_backlog
+    assert 'next_sprint: "POST-H-001"' in functional_backlog
 
 
 def test_sprint_74_policy_and_artifact_matrix_define_release_boundaries() -> None:

@@ -813,6 +813,33 @@
       "gate": "EnterpriseReportBuilder read-only aggregation over local registries and summaries",
       "approval_required": false,
       "observability_required": true
+    },
+    {
+      "rule_id": "INDUSTRIAL_READINESS_LOCAL_ALLOW",
+      "domain": "IndustrialReadiness",
+      "action": "check_local_governance_readiness",
+      "default_effect": "allow",
+      "gate": "IndustrialReadinessGate aggregates local evidence only and writes reports under outputs when requested",
+      "approval_required": false,
+      "observability_required": true
+    },
+    {
+      "rule_id": "INDUSTRIAL_READINESS_OVERCLAIM_DENY",
+      "domain": "IndustrialReadiness",
+      "action": "overclaim_production_maturity",
+      "default_effect": "block",
+      "gate": "Gate must classify production-ready, implemented, implemented-initial, experimental, planned and future capabilities explicitly",
+      "approval_required": false,
+      "observability_required": true
+    },
+    {
+      "rule_id": "INDUSTRIAL_READINESS_PHASE_H_CLOSURE_REQUIRED",
+      "domain": "IndustrialReadiness",
+      "action": "close_phase_h",
+      "default_effect": "allow",
+      "gate": "Fase H closure requires industrial readiness score, closure report and post-H backlog seed",
+      "approval_required": false,
+      "observability_required": true
     }
   ]
 }
