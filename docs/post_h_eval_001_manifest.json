@@ -1,0 +1,276 @@
+{
+  "schema_version": "1.0",
+  "id": "POST-H-EVAL-001",
+  "type": "diagnostic-executable-backlog",
+  "status": "in_progress",
+  "current_micro_sprint": "POST-H-EVAL-001-A",
+  "micro_sprint_status": "completed_initial_implementation",
+  "phase": "POST-FASE-H",
+  "created_at_utc": "2026-06-22T19:53:44Z",
+  "source_of_truth": {
+    "repo_zip": "repo_DevPilot_Local_131.zip",
+    "repo_zip_sha256": "2e6a2e18ce6066068f0bdf54fa82fe3978bb2c607d4eb99c652087d3426048f6",
+    "backlog_uploaded": "POST-H-EVAL-001_backlog_ejecutable.md",
+    "backlog_uploaded_sha256": "abab0381d9b21c66dae9e6092b459b6d39ba22b2cbb26edb9c2da3658c1429ba",
+    "backlog_repo_path": "docs/POST-H-EVAL-001_backlog_ejecutable.md",
+    "backlog_status": "approved",
+    "branch_expected": "post-h-eval-001-baseline-assessment",
+    "branch_observed": "not_available_in_zip_no_git_metadata"
+  },
+  "execution_policy": {
+    "local_first": true,
+    "dry_run": true,
+    "no_runtime_features_added": true,
+    "no_remote_execution_enabled": true,
+    "no_write_connectors_enabled": true,
+    "no_external_apis_used": true,
+    "source_code_runtime_modified": false,
+    "documentation_and_metadata_only": true
+  },
+  "inventory": {
+    "src_python_files": 199,
+    "src_python_lines": 47085,
+    "test_files": 184,
+    "test_lines": 17398,
+    "docs_files_after_micro_sprint_a": 604,
+    "docs_text_lines_after_micro_sprint_a": 92573,
+    "functional_manifests": 100,
+    "audit_markdown_docs_after_micro_sprint_a": 124,
+    "schemas_registered": 27,
+    "miasi_agents": 14,
+    "miasi_tools": 97,
+    "miasi_policy_rules": 97,
+    "test_contracts": 84,
+    "test_contract_scope_counts": {
+      "global-state": 1,
+      "quality-gate": 2,
+      "feature": 1,
+      "historical-sprint": 78,
+      "integration": 1,
+      "ui-smoke": 1
+    },
+    "project_state": {
+      "current_phase": "POST-FASE-H",
+      "phase_h_status": "closed_implemented_initial",
+      "industrial_baseline_ready": true,
+      "maturity_level": "industrial-baseline-ready",
+      "last_completed_sprint": "POST-H-001",
+      "last_functional_sprint": "FUNC-SPRINT-99",
+      "next_sprint": "POST-H-002",
+      "source_repo": "repo_DevPilot_Local_130.zip",
+      "current_repo": "repo_DevPilot_Local_131_POST_H_001.zip"
+    },
+    "gitignore_required_patterns": {
+      "outputs/": true,
+      ".devpilot/*.db": true,
+      ".devpilot/*.db-*": true,
+      ".devpilot/agent_sessions/": true,
+      "Log_consola_*.txt": true,
+      ".pytest_cache/": true,
+      ".venv/": true,
+      "node_modules/": true,
+      "ui/web/node_modules/": true,
+      "ui/web/dist/": true,
+      "__pycache__/": true
+    },
+    "runtime_artifacts_detected_in_source_zip_extract": {
+      "outputs": {
+        "present": true,
+        "entries": 21,
+        "bytes": 67176
+      },
+      ".devpilot/devpilot.db": {
+        "present": true,
+        "entries": 1,
+        "bytes": 883335168
+      },
+      ".devpilot/agent_sessions": {
+        "present": true,
+        "entries": 546,
+        "bytes": 1370703
+      },
+      ".pytest_cache": {
+        "present": false,
+        "entries": 0,
+        "bytes": 0
+      },
+      ".venv": {
+        "present": false,
+        "entries": 0,
+        "bytes": 0
+      },
+      "node_modules": {
+        "present": false,
+        "entries": 0,
+        "bytes": 0
+      },
+      "ui/web/node_modules": {
+        "present": false,
+        "entries": 0,
+        "bytes": 0
+      },
+      "ui/web/dist": {
+        "present": false,
+        "entries": 0,
+        "bytes": 0
+      },
+      "__pycache__": {
+        "present": false,
+        "entries": 0,
+        "bytes": 0
+      }
+    }
+  },
+  "deliverables": [
+    {
+      "path": "docs/POST-H-EVAL-001_backlog_ejecutable.md",
+      "status": "approved",
+      "purpose": "Executable backlog for the full POST-H-EVAL-001 diagnostic hito."
+    },
+    {
+      "path": "docs/audits/post_h_eval_001_baseline_assessment.md",
+      "status": "created",
+      "purpose": "Initial baseline assessment for POST-H-EVAL-001-A."
+    },
+    {
+      "path": "docs/post_h_eval_001_manifest.json",
+      "status": "created",
+      "purpose": "Machine-readable manifest for POST-H-EVAL-001 and micro-sprint A."
+    },
+    {
+      "path": ".gitignore",
+      "status": "hardened",
+      "purpose": "Prevent generated runtime artifacts from re-entering the repository."
+    },
+    {
+      "path": ".devpilot/rag/docs_index.json",
+      "status": "updated",
+      "purpose": "Refresh local lexical RAG index to include POST-H-EVAL-001 backlog and assessment artifacts."
+    }
+  ],
+  "validations": [
+    {
+      "command": "PYTHONPATH=src python -m devpilot_core project-state validate --json",
+      "ok": true,
+      "exit_code": 0,
+      "checks_total": 6,
+      "checks_passed": 6,
+      "network_used": false,
+      "external_api_used": false,
+      "mutations_performed": false
+    },
+    {
+      "command": "PYTHONPATH=src python -m devpilot_core test-contracts validate --json",
+      "ok": true,
+      "exit_code": 0,
+      "contracts_total": 84,
+      "scope_counts": {
+        "global-state": 1,
+        "quality-gate": 2,
+        "feature": 1,
+        "historical-sprint": 78,
+        "integration": 1,
+        "ui-smoke": 1
+      },
+      "network_used": false,
+      "external_api_used": false,
+      "mutations_performed": false
+    },
+    {
+      "command": "PYTHONPATH=src python -m devpilot_core quality-gate run --profile hardening --json",
+      "ok": true,
+      "exit_code": 0,
+      "profile": "hardening",
+      "subgates_total": 12,
+      "subgates_passed": 12,
+      "subgates_failed": 0,
+      "blocking_findings_total": 0,
+      "warnings_total": 24,
+      "dry_run": true,
+      "network_used": false,
+      "external_api_used": false,
+      "mutations_performed": false,
+      "source_mutations_performed": false
+    },
+    {
+      "command": "PYTHONPATH=src python -m devpilot_core industrial-readiness check --json",
+      "ok": true,
+      "exit_code": 0,
+      "industrial_readiness_score": 84.18,
+      "minimum_score": 80.0,
+      "maturity_level": "industrial-baseline-ready",
+      "capabilities_total": 11,
+      "production_ready_total": 1,
+      "implemented_total": 2,
+      "implemented_initial_total": 7,
+      "experimental_total": 1,
+      "blocking_gaps_total": 0,
+      "remote_runner_enabled": false,
+      "remote_execution_used": false,
+      "network_used": false,
+      "external_api_used": false,
+      "mutations_performed": false,
+      "source_mutations_performed": false
+    },
+    {
+      "command": "PYTHONPATH=src python -m devpilot_core rag index --target docs --index-path .devpilot/rag/docs_index.json --json",
+      "ok": true,
+      "exit_code": 0,
+      "files_indexed_total": 604,
+      "chunks_total": 2850,
+      "redactions_total": 82,
+      "embeddings_enabled": false,
+      "local_only": true,
+      "network_used": false,
+      "external_api_used": false,
+      "metadata_mutation": "updated .devpilot/rag/docs_index.json"
+    },
+    {
+      "command": "PYTHONPATH=src python -m pytest tests/test_project_global_state.py tests/test_test_contract_registry.py tests/test_test_impact.py -q",
+      "ok": true,
+      "tests_passed": 8,
+      "tests_failed": 0,
+      "tests_errors": 0,
+      "tests_skipped": 0
+    },
+    {
+      "command": "PYTHONPATH=src python -m pytest tests/test_sprint_*_documentation.py -q",
+      "ok": true,
+      "tests_passed": 303,
+      "tests_failed": 0,
+      "tests_errors": 0,
+      "tests_skipped": 0
+    }
+  ],
+  "decisions": [
+    {
+      "id": "DEC-POSTH-EVAL-001-A-001",
+      "decision": "Backlog POST-H-EVAL-001 is approved as executable diagnostic backlog.",
+      "rationale": "The user explicitly requested elevation to approved and implementation of micro-sprint A."
+    },
+    {
+      "id": "DEC-POSTH-EVAL-001-A-002",
+      "decision": "Micro-sprint A remains documentation/metadata-only and does not modify runtime behavior.",
+      "rationale": "The hito is diagnostic and must not introduce features or relax safety controls."
+    },
+    {
+      "id": "DEC-POSTH-EVAL-001-A-003",
+      "decision": "Runtime artifacts detected in repo_DevPilot_Local_131.zip are documented as distribution hygiene risk and excluded from generated deliverable ZIP.",
+      "rationale": "The extracted source contains outputs, local DB and agent sessions; these should not be propagated as versioned engineering artifacts."
+    }
+  ],
+  "pass_criteria": {
+    "baseline_assessment_exists": true,
+    "manifest_exists": true,
+    "validations_recorded": true,
+    "source_of_truth_documented": true,
+    "runtime_artifacts_identified": true
+  },
+  "block_criteria": {
+    "core_runtime_code_modified": false,
+    "validation_failures_hidden": false,
+    "source_of_truth_omitted": false,
+    "runtime_artifacts_ignored": false
+  },
+  "next_micro_sprint": "POST-H-EVAL-001-B"
+}

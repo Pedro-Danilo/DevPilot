@@ -19,7 +19,6 @@ venv/
 !.env.example
 
 # Outputs
-outputs/
 outputs/logs/*.jsonl
 outputs/reports/*.json
 outputs/reports/*.md
@@ -76,7 +75,10 @@ outputs/sandbox/
 # DevPilot agent session runtime data (generated)
 .devpilot/agent_sessions/
 
+# Local console validation logs
 Log_consola_*.txt
+
+# JavaScript dependencies
 node_modules/
 ui/web/node_modules/
 ui/web/dist/
