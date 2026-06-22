@@ -3,7 +3,7 @@
   "id": "POST-H-EVAL-001",
   "type": "diagnostic-executable-backlog",
   "status": "in_progress",
-  "current_micro_sprint": "POST-H-EVAL-001-A",
+  "current_micro_sprint": "POST-H-EVAL-001-B",
   "micro_sprint_status": "completed_initial_implementation",
   "phase": "POST-FASE-H",
   "created_at_utc": "2026-06-22T19:53:44Z",
@@ -146,6 +146,12 @@
       "path": ".devpilot/rag/docs_index.json",
       "status": "updated",
       "purpose": "Refresh local lexical RAG index to include POST-H-EVAL-001 backlog and assessment artifacts."
+    },
+    {
+      "path": ".devpilot/evals/post_h_eval_001_decision_matrix.json",
+      "type": "decision-matrix",
+      "micro_sprint": "POST-H-EVAL-001-B",
+      "status": "created"
     }
   ],
   "validations": [
@@ -240,6 +246,26 @@
       "tests_failed": 0,
       "tests_errors": 0,
       "tests_skipped": 0
+    },
+    {
+      "command": "python -m devpilot_core project-state validate --json",
+      "ok": true,
+      "micro_sprint": "POST-H-EVAL-001-B"
+    },
+    {
+      "command": "python -m devpilot_core test-contracts validate --json",
+      "ok": true,
+      "micro_sprint": "POST-H-EVAL-001-B"
+    },
+    {
+      "command": "python -m devpilot_core quality-gate run --profile hardening --json",
+      "ok": true,
+      "micro_sprint": "POST-H-EVAL-001-B"
+    },
+    {
+      "command": "python -m devpilot_core industrial-readiness check --json",
+      "ok": true,
+      "micro_sprint": "POST-H-EVAL-001-B"
     }
   ],
   "decisions": [
@@ -257,6 +283,22 @@
       "id": "DEC-POSTH-EVAL-001-A-003",
       "decision": "Runtime artifacts detected in repo_DevPilot_Local_131.zip are documented as distribution hygiene risk and excluded from generated deliverable ZIP.",
       "rationale": "The extracted source contains outputs, local DB and agent sessions; these should not be propagated as versioned engineering artifacts."
+    },
+    {
+      "id": "DEC-B-001",
+      "decision": "No declarar DevPilot production-ready completo; solo schemas/contratos alcanzan production-ready-local."
+    },
+    {
+      "id": "DEC-B-002",
+      "decision": "Mantener remote runner stub como experimental y deshabilitado."
+    },
+    {
+      "id": "DEC-B-003",
+      "decision": "POST-H-002 debe construirse sobre esta matriz de madurez."
+    },
+    {
+      "id": "DEC-B-004",
+      "decision": "Priorizar P0/P1 de testing, Policy/MIASI, documentación, observabilidad y CLI antes de features enterprise."
     }
   ],
   "pass_criteria": {
@@ -272,5 +314,37 @@
     "source_of_truth_omitted": false,
     "runtime_artifacts_ignored": false
   },
-  "next_micro_sprint": "POST-H-EVAL-001-B"
+  "next_micro_sprint": "POST-H-EVAL-001-B",
+  "updated_at_utc": "2026-06-22T22:58:46Z",
+  "capability_assessment_summary": {
+    "maturity_counts": {
+      "implemented": 6,
+      "production-ready-local": 1,
+      "implemented-initial": 19,
+      "experimental": 2
+    },
+    "risk_counts": {
+      "medium-high": 10,
+      "medium": 12,
+      "low": 1,
+      "high": 4,
+      "critical": 1
+    },
+    "priority_counts": {
+      "P1": 12,
+      "P0": 6,
+      "P2": 8,
+      "P3": 2
+    },
+    "production_ready_local_total": 1,
+    "implemented_total": 6,
+    "implemented_initial_total": 19,
+    "experimental_total": 2,
+    "critical_or_high_risk_total": 15,
+    "p0_total": 6,
+    "p1_total": 12,
+    "p2_total": 8,
+    "p3_total": 2
+  },
+  "capability_assessment_source": ".devpilot/evals/post_h_eval_001_decision_matrix.json"
 }

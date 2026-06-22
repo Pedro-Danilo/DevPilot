@@ -201,3 +201,155 @@ POST-H-EVAL-001-B — Assessment integral de capacidades y madurez
 ```
 
 Este siguiente micro-sprint debe construir la matriz por dominio, evidencia, madurez, riesgo, acción recomendada y prioridad. La evaluación B debe usar como insumo este snapshot y no debe habilitar nuevas capacidades runtime.
+
+---
+
+# POST-H-EVAL-001-B — Assessment integral de capacidades y madurez
+
+## Estado ejecutivo del micro-sprint B
+
+`POST-H-EVAL-001-B` clasifica el baseline post-H por dominio, evidencia, madurez industrial, riesgo, acción recomendada y prioridad. La evaluación confirma que DevPilot tiene un **baseline industrial local-first** suficientemente sólido para continuar con un maturity dashboard, pero no debe declararse como plataforma productiva enterprise completa.
+
+La principal conclusión de B es que el proyecto debe continuar con una ruta de **gobernanza de madurez, testing, seguridad y arquitectura interna** antes de ampliar capacidades remotas, conectores write-enabled, plugin execution o claims enterprise.
+
+## Señales de validación usadas como entrada
+
+| Señal | Resultado |
+|---|---:|
+| `project-state validate` | PASS |
+| `test-contracts validate` | PASS |
+| `quality-gate run --profile hardening` | PASS, 12/12 subgates, 0 blockers |
+| `industrial-readiness check` | PASS, score 84.18, maturity `industrial-baseline-ready` |
+| Red / APIs externas | No usadas |
+| Remote execution | Deshabilitada / no usada |
+
+## Resumen cuantitativo de madurez
+
+| Clasificación | Cantidad |
+|---|---:|
+| `production-ready-local` | 1 |
+| `implemented` | 6 |
+| `implemented-initial` | 19 |
+| `experimental` | 2 |
+| `planned` | 0 |
+| `deprecated` | 0 |
+
+## Resumen por prioridad
+
+| Prioridad | Cantidad | Lectura ejecutiva |
+|---|---:|---|
+| P0 | 6 | Debe sostener el baseline y orientar los próximos gates. |
+| P1 | 12 | Debe abordarse antes de escalar producto/enterprise. |
+| P2 | 8 | Debe evolucionar de forma controlada después de la gobernanza base. |
+| P3 | 2 | Debe mantenerse como diseño/experimento, no como ejecución activa. |
+
+## Matriz integral de capacidades
+
+| Dominio | Evidencia | Madurez | Riesgo | Acción recomendada | Prioridad |
+|---|---|---|---|---|---|
+| Core CLI | `src/devpilot_core/cli.py`<br>`README.md`<br>`tests/test_cli.py` ⚠️ | `implemented` | medium-high | Planear command registry/command handlers en oleada de arquitectura interna; no agregar comandos complejos sin boundary explícito. | P1 |
+| Application Services | `src/devpilot_core/application`<br>`docs/07_interfaces/internal_application_contract.md`<br>`docs/07_interfaces/api_service_mapping.md` | `implemented` | medium | Incluir ApplicationService boundary hardening y ownership de dependencias en el roadmap post-H. | P1 |
+| Schemas y contratos | `docs/schemas/schema_catalog.json`<br>`src/devpilot_core/schemas`<br>`tests/test_schema_registry.py` | `production-ready-local` | low | Mantener como núcleo de gobernanza; ampliar validadores semánticos sin relajar compatibilidad. | P0 |
+| Project state | `.devpilot/project_state.json`<br>`docs/schemas/project_state.schema.json`<br>`tests/test_project_global_state.py` | `implemented` | medium | Mantener POST-H-EVAL como hito diagnóstico sin mutar last_completed_sprint hasta cierre global; documentar cuándo se actualiza next_sprint. | P0 |
+| Quality gates | `src/devpilot_core/quality/gate.py`<br>`tests/test_quality_gate.py`<br>`.devpilot/testing/test_contract_registry.json` | `implemented` | medium | Usar hardening como gate base para POST-H-EVAL; preparar matriz por criticidad en POST-H-EVAL-001-E. | P0 |
+| Testing contracts | `.devpilot/testing/test_contract_registry.json`<br>`docs/schemas/test_contract_registry.schema.json`<br>`src/devpilot_core/testing` | `implemented-initial` | medium-high | Definir Test Contract Registry 2.0 y taxonomía P0/P1/P2/P3. | P0 |
+| PolicyEngine | `src/devpilot_core/policy`<br>`.devpilot/policy.yaml`<br>`.devpilot/miasi/policy_matrix.json` | `implemented` | medium | Ampliar validador semántico Policy/MIASI y mantener deny-by-default para acciones críticas. | P0 |
+| MIASI | `.devpilot/miasi/agent_registry.json`<br>`.devpilot/miasi/tool_registry.json`<br>`.devpilot/miasi/policy_matrix.json` | `implemented` | medium | Implementar validator ampliado de cobertura agente-tool-policy y alertas por tool high-risk sin approval. | P0 |
+| Approval | `src/devpilot_core/approval`<br>`docs/06_miasi/human_approval_card.md`<br>`.devpilot/miasi/policy_matrix.json` | `implemented-initial` | medium-high | Endurecer modelo de aprobación con actor, scope, expiración y audit trail verificable. | P1 |
+| RBAC / Identity | `src/devpilot_core/identity`<br>`.devpilot/identity/identity_registry.json`<br>`docs/schemas/identity_registry.schema.json` | `implemented-initial` | high | Definir hardening local de sesiones/actores antes de enterprise o remote. | P1 |
+| Security guards | `src/devpilot_core/security`<br>`docs/03_security/security_threat_model.md`<br>`docs/03_security/supply_chain_policy.md` | `implemented-initial` | medium-high | Convertir guardrails en contratos P0 y ampliar pruebas de inyección/secret leakage. | P1 |
+| Agent runtime | `src/devpilot_core/agents`<br>`src/devpilot_core/execution`<br>`docs/06_miasi/agent_session_card.md` | `implemented-initial` | medium | No ampliar autonomía abierta; priorizar evaluación de sesiones y trazabilidad. | P2 |
+| SDLC agents | `src/devpilot_core/agents`<br>`docs/prompts`<br>`evals/fixtures/documentation_eval_cases.json` | `implemented-initial` | medium | Vincular agentes SDLC a evals por tarea y a test contracts de cambios en prompts. | P2 |
+| MultiAgentCoordinator | `src/devpilot_core/multiagent`<br>`docs/audits/func_sprint_90_multiagent_coordinator_audit.md`<br>`tests/test_sprint_90_documentation.py` | `implemented-initial` | medium-high | Definir métricas de handoff, límites de roles y replay deterministic antes de workflows más complejos. | P2 |
+| Workflows multiagente | `.devpilot/workflows/sdlc_review.json`<br>`src/devpilot_core/multiagent`<br>`docs/audits/func_sprint_91_multiagent_workflows_audit.md` | `implemented-initial` | medium | Agregar validación semántica de workflows y criterios de replay/auditoría. | P2 |
+| RAG local | `src/devpilot_core/rag`<br>`.devpilot/rag/docs_index.json`<br>`docs/06_miasi/rag_card.md` | `implemented-initial` | medium | Definir evals de groundedness y métricas de recuperación antes de usarlo como evidencia crítica. | P1 |
+| Connectors / MCP | `src/devpilot_core/connectors`<br>`.devpilot/connectors/connector_registry.json`<br>`docs/03_security/mcp_connector_threat_model.md` | `implemented-initial` | high | Mantener read-only; diseñar sandbox/replay y ADR antes de habilitar escrituras. | P2 |
+| Plugin registry | `src/devpilot_core/plugins`<br>`.devpilot/plugins/plugin_registry.json`<br>`docs/audits/func_sprint_93_plugin_ecosystem_audit.md` | `implemented-initial` | high | Mantener metadata-only y diseñar sandbox de plugin antes de ejecución. | P2 |
+| Multiworkspace | `src/devpilot_core/workspace`<br>`.devpilot/workspaces/workspace_registry.json`<br>`docs/audits/func_sprint_94_multiworkspace_audit.md` | `implemented-initial` | medium-high | Fortalecer portfolio/workspace antes de dashboard multi-proyecto o enterprise. | P2 |
+| Observability / AgentOps | `src/devpilot_core/observability`<br>`docs/05_operations/observability_plan.md`<br>`docs/05_operations/observability_signal_catalog.md` | `implemented-initial` | medium-high | Definir runtime state lifecycle policy y retención de traces/agent_sessions. | P1 |
+| Audit packs | `src/devpilot_core/auditpack`<br>`docs/05_operations/audit_pack_runbook.md`<br>`docs/audits/func_sprint_96_audit_pack_audit.md` | `implemented-initial` | medium-high | Formalizar exclusión de outputs en fuentes Git y evaluar signing/checksums fuera de runtime source. | P1 |
+| Compliance packs | `src/devpilot_core/compliance`<br>`.devpilot/compliance/packs.json`<br>`docs/audits/func_sprint_97_compliance_pack_audit.md` ⚠️ | `implemented-initial` | medium | Mantener etiquetas de no-certificación y ampliar mappings solo con evidencia documental. | P2 |
+| Release dry-run | `src/devpilot_core/release`<br>`docs/release/CHANGELOG.md`<br>`docs/05_operations/release_verification.md` | `implemented-initial` | medium | Definir release reproducibility pack y export desde git archive. | P1 |
+| Remote runner stub | `src/devpilot_core/remote`<br>`.devpilot/remote/runner_registry.json`<br>`docs/audits/func_sprint_98_remote_enterprise_audit.md` ⚠️ | `experimental` | critical | Mantener disabled; planear solo ADR y threat model antes de cualquier implementación activa. | P3 |
+| Enterprise reports | `src/devpilot_core/enterprise`<br>`docs/audits/func_sprint_98_remote_enterprise_audit.md` ⚠️<br>`.devpilot/compliance/packs.json` | `experimental` | high | Mantener como reporte local; evitar claims enterprise hasta IAM, deployment y auditabilidad fuerte. | P3 |
+| UI web | `ui/web`<br>`scripts/visual_product_smoke.py`<br>`tests/test_visual_product_smoke.py` | `implemented-initial` | medium | POST-H-002 debe consumir la matriz de madurez de B, no solo score industrial. | P1 |
+| API local | `src/devpilot_core/interfaces/api`<br>`docs/07_interfaces/openapi_v1.json`<br>`docs/03_security/ui_api_threat_model.md` | `implemented-initial` | medium-high | Endurecer API local antes de acciones write o uso multiusuario. | P1 |
+| Documentation governance | `docs`<br>`docs/validation/artifact_profiles.json`<br>`docs/audits/post_h_eval_001_baseline_assessment.md` | `implemented-initial` | medium-high | Definir canonical sources, política de actualización documental y estrategia de tests históricos menos frágil. | P1 |
+
+## Lectura industrial por grupos
+
+### Núcleo gobernable local
+
+`Schemas y contratos`, `Project state`, `Quality gates`, `PolicyEngine` y `MIASI` forman el núcleo gobernable actual. Estas capacidades permiten continuar el proyecto con trazabilidad y validación objetiva. La única capacidad clasificada como `production-ready-local` es `Schemas y contratos`, porque posee contratos, tests, schemas, documentación y validación reproducible en modo local.
+
+### Capacidades implemented-initial que no deben sobredeclararse
+
+Testing contracts, Approval, RBAC/Identity, Security guards, Agent runtime, SDLC agents, MultiAgentCoordinator, workflows, RAG, Connectors/MCP, Plugin registry, Multiworkspace, Observability, Audit packs, Compliance packs, Release dry-run, UI web, API local y Documentation governance son capacidades útiles, pero todavía requieren hardening, cobertura semántica, retención, sandboxing, UX, límites de seguridad o pruebas más industriales.
+
+### Capacidades experimentales
+
+`Remote runner stub` y `Enterprise reports` permanecen como `experimental`. Esta clasificación es intencional y bloqueante para cualquier intento de habilitar remote execution real sin ADR, threat model, identidad fuerte, sandbox, auditoría y aprobación humana.
+
+## Decisiones de B
+
+| ID | Decisión |
+|---|---|
+| DEC-B-001 | No declarar DevPilot production-ready completo; solo schemas/contratos alcanzan `production-ready-local`. |
+| DEC-B-002 | Mantener remote runner stub como `experimental` y deshabilitado. |
+| DEC-B-003 | `POST-H-002` debe construirse sobre esta matriz de madurez, no solo sobre el score industrial. |
+| DEC-B-004 | Priorizar P0/P1 de testing, Policy/MIASI, documentación, observabilidad y CLI antes de features enterprise. |
+
+## Riesgos identificados en B
+
+| Riesgo | Severidad | Mitigación recomendada |
+|---|---:|---|
+| Sobreclaiming de producción/enterprise | Alta | Usar etiquetas explícitas de madurez y no-certificación. |
+| Remote runner activado prematuramente | Crítica | ADR + threat model + sandbox + RBAC + aprobación humana. |
+| Conectores write-enabled sin sandbox | Alta | Mantener read-only y diseñar replay/sandbox antes de write. |
+| Plugin execution sin aislamiento | Alta | Mantener plugin registry como metadata-only. |
+| CLI monolítico | Media-alta | Planear command registry/handlers. |
+| Test contracts dominados por históricos | Media-alta | Evolucionar a Test Contract Registry 2.0. |
+| Documentación extensa con riesgo de drift | Media-alta | Definir fuentes canónicas y política documental. |
+| Runtime artifacts en distribución | Alta | Exportar fuentes desde Git y excluir outputs/runtime state. |
+
+## Criterios PASS de POST-H-EVAL-001-B
+
+| Criterio | Resultado |
+|---|---:|
+| Todos los dominios mínimos evaluados | PASS |
+| Cada dominio tiene evidencia concreta | PASS |
+| Cada dominio tiene madurez asignada | PASS |
+| Cada dominio tiene acción recomendada | PASS |
+| Enterprise/remote queda marcado como experimental | PASS |
+| No se declaran capacidades enterprise productivas | PASS |
+| No se modifica código runtime | PASS |
+| No se habilita ejecución remota | PASS |
+
+## Criterios BLOCK revisados en B
+
+| Criterio BLOCK | Estado |
+|---|---:|
+| DevPilot declarado production-ready completo | No activado |
+| Remote runner clasificado como maduro | No activado |
+| Dominios mínimos omitidos | No activado |
+| Afirmaciones sin evidencia | No activado |
+
+## Entregable machine-readable
+
+La matriz anterior queda materializada en:
+
+```text
+.devpilot/evals/post_h_eval_001_decision_matrix.json
+```
+
+Este archivo debe ser usado por `POST-H-002 — Maturity dashboard local basado en assessment post-H` como fuente inicial para visualizar madurez, riesgos, prioridades y acciones recomendadas.
+
+## Próximo paso
+
+Continuar con:
+
+```text
+POST-H-EVAL-001-C — Mapa arquitectónico actual y puntos de acoplamiento
+```
+
+El micro-sprint C debe convertir esta evaluación de capacidades en un mapa arquitectónico real, destacando capas, dependencias, acoplamientos, ownership y riesgos de mantenibilidad.

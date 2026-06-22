@@ -1,0 +1,833 @@
+{
+  "schema_version": "1.0",
+  "id": "POST-H-EVAL-001-B",
+  "title": "Assessment integral de capacidades y madurez",
+  "status": "implemented",
+  "generated_at_utc": "2026-06-22T22:58:46Z",
+  "source_micro_sprint": "POST-H-EVAL-001-A",
+  "policy": {
+    "local_first": true,
+    "dry_run": true,
+    "no_runtime_features_added": true,
+    "no_remote_execution_enabled": true,
+    "no_write_connectors_enabled": true,
+    "no_external_apis_used": true,
+    "documentation_and_metadata_only": true
+  },
+  "allowed_maturity_values": [
+    "production-ready-local",
+    "implemented",
+    "implemented-initial",
+    "experimental",
+    "planned",
+    "deprecated"
+  ],
+  "required_domains_total": 28,
+  "domains_total": 28,
+  "summary": {
+    "maturity_counts": {
+      "implemented": 6,
+      "production-ready-local": 1,
+      "implemented-initial": 19,
+      "experimental": 2
+    },
+    "risk_counts": {
+      "medium-high": 10,
+      "medium": 12,
+      "low": 1,
+      "high": 4,
+      "critical": 1
+    },
+    "priority_counts": {
+      "P1": 12,
+      "P0": 6,
+      "P2": 8,
+      "P3": 2
+    },
+    "production_ready_local_total": 1,
+    "implemented_total": 6,
+    "implemented_initial_total": 19,
+    "experimental_total": 2,
+    "critical_or_high_risk_total": 15,
+    "p0_total": 6,
+    "p1_total": 12,
+    "p2_total": 8,
+    "p3_total": 2
+  },
+  "quality_signals": {
+    "project_state_ok": true,
+    "test_contracts_ok": true,
+    "hardening_quality_gate_ok": true,
+    "industrial_readiness_ok": true,
+    "industrial_readiness_score": 84.18,
+    "industrial_maturity_level": "industrial-baseline-ready",
+    "remote_runner_enabled": false,
+    "remote_execution_used": false,
+    "network_used": false,
+    "external_api_used": false
+  },
+  "domains": [
+    {
+      "domain_id": "core_cli",
+      "domain": "Core CLI",
+      "category": "interface",
+      "evidence": [
+        {
+          "path": "src/devpilot_core/cli.py",
+          "exists": true
+        },
+        {
+          "path": "README.md",
+          "exists": true
+        },
+        {
+          "path": "tests/test_cli.py",
+          "exists": false
+        }
+      ],
+      "maturity": "implemented",
+      "risk_level": "medium-high",
+      "priority": "P1",
+      "rationale": "El CLI soporta una superficie amplia de comandos locales y está integrado con contratos existentes, pero concentra demasiada responsabilidad operativa en un archivo grande; requiere modularización antes de seguir creciendo.",
+      "recommended_action": "Planear command registry/command handlers en oleada de arquitectura interna; no agregar comandos complejos sin boundary explícito.",
+      "blocking_conditions": [
+        "No bloquear cierre B; sí bloquear crecimiento remoto/enterprise sin refactor planificado."
+      ]
+    },
+    {
+      "domain_id": "application_services",
+      "domain": "Application Services",
+      "category": "application",
+      "evidence": [
+        {
+          "path": "src/devpilot_core/application",
+          "exists": true
+        },
+        {
+          "path": "docs/07_interfaces/internal_application_contract.md",
+          "exists": true
+        },
+        {
+          "path": "docs/07_interfaces/api_service_mapping.md",
+          "exists": true
+        }
+      ],
+      "maturity": "implemented",
+      "risk_level": "medium",
+      "priority": "P1",
+      "rationale": "Existe contrato v2 de ApplicationService con facades de dominio y mapeo hacia API/UI; falta endurecer ownership, límites por dominio y compatibilidad a largo plazo.",
+      "recommended_action": "Incluir ApplicationService boundary hardening y ownership de dependencias en el roadmap post-H.",
+      "blocking_conditions": []
+    },
+    {
+      "domain_id": "schemas_contracts",
+      "domain": "Schemas y contratos",
+      "category": "governance",
+      "evidence": [
+        {
+          "path": "docs/schemas/schema_catalog.json",
+          "exists": true
+        },
+        {
+          "path": "src/devpilot_core/schemas",
+          "exists": true
+        },
+        {
+          "path": "tests/test_schema_registry.py",
+          "exists": true
+        }
+      ],
+      "maturity": "production-ready-local",
+      "risk_level": "low",
+      "priority": "P0",
+      "rationale": "El catálogo de schemas tiene validación local, quality gates y cobertura de integración; es la capacidad más madura del baseline local.",
+      "recommended_action": "Mantener como núcleo de gobernanza; ampliar validadores semánticos sin relajar compatibilidad.",
+      "blocking_conditions": [
+        "Bloquear cambios que rompan schema_catalog o manifests."
+      ]
+    },
+    {
+      "domain_id": "project_state",
+      "domain": "Project state",
+      "category": "governance",
+      "evidence": [
+        {
+          "path": ".devpilot/project_state.json",
+          "exists": true
+        },
+        {
+          "path": "docs/schemas/project_state.schema.json",
+          "exists": true
+        },
+        {
+          "path": "tests/test_project_global_state.py",
+          "exists": true
+        }
+      ],
+      "maturity": "implemented",
+      "risk_level": "medium",
+      "priority": "P0",
+      "rationale": "Estado global mutable centralizado y validado; sigue siendo una fuente sensible de drift documental si no se gobiernan reglas de actualización.",
+      "recommended_action": "Mantener POST-H-EVAL como hito diagnóstico sin mutar last_completed_sprint hasta cierre global; documentar cuándo se actualiza next_sprint.",
+      "blocking_conditions": [
+        "Bloquear si project-state validate falla."
+      ]
+    },
+    {
+      "domain_id": "quality_gates",
+      "domain": "Quality gates",
+      "category": "quality",
+      "evidence": [
+        {
+          "path": "src/devpilot_core/quality/gate.py",
+          "exists": true
+        },
+        {
+          "path": "tests/test_quality_gate.py",
+          "exists": true
+        },
+        {
+          "path": ".devpilot/testing/test_contract_registry.json",
+          "exists": true
+        }
+      ],
+      "maturity": "implemented",
+      "risk_level": "medium",
+      "priority": "P0",
+      "rationale": "Perfil hardening pasa 12/12 subgates y 0 blockers; aún existen warnings documentales no bloqueantes y coste potencial de suite completa.",
+      "recommended_action": "Usar hardening como gate base para POST-H-EVAL; preparar matriz por criticidad en POST-H-EVAL-001-E.",
+      "blocking_conditions": [
+        "Bloquear si hardening tiene blockers o subgates críticos fallidos."
+      ]
+    },
+    {
+      "domain_id": "testing_contracts",
+      "domain": "Testing contracts",
+      "category": "quality",
+      "evidence": [
+        {
+          "path": ".devpilot/testing/test_contract_registry.json",
+          "exists": true
+        },
+        {
+          "path": "docs/schemas/test_contract_registry.schema.json",
+          "exists": true
+        },
+        {
+          "path": "src/devpilot_core/testing",
+          "exists": true
+        }
+      ],
+      "maturity": "implemented-initial",
+      "risk_level": "medium-high",
+      "priority": "P0",
+      "rationale": "Hay registry declarativo con 84 contratos, pero domina la cobertura histórica; falta clasificación industrial por dominio, criticidad, riesgo, tiempo y cambio.",
+      "recommended_action": "Definir Test Contract Registry 2.0 y taxonomía P0/P1/P2/P3.",
+      "blocking_conditions": []
+    },
+    {
+      "domain_id": "policy_engine",
+      "domain": "PolicyEngine",
+      "category": "security",
+      "evidence": [
+        {
+          "path": "src/devpilot_core/policy",
+          "exists": true
+        },
+        {
+          "path": ".devpilot/policy.yaml",
+          "exists": true
+        },
+        {
+          "path": ".devpilot/miasi/policy_matrix.json",
+          "exists": true
+        }
+      ],
+      "maturity": "implemented",
+      "risk_level": "medium",
+      "priority": "P0",
+      "rationale": "PolicyEngine y matriz deny-by-default existen y son señales fuertes del baseline local; falta distribución enterprise e identidad fuerte.",
+      "recommended_action": "Ampliar validador semántico Policy/MIASI y mantener deny-by-default para acciones críticas.",
+      "blocking_conditions": [
+        "Bloquear conectores write o remote si no pasan por PolicyEngine."
+      ]
+    },
+    {
+      "domain_id": "miasi",
+      "domain": "MIASI",
+      "category": "governance",
+      "evidence": [
+        {
+          "path": ".devpilot/miasi/agent_registry.json",
+          "exists": true
+        },
+        {
+          "path": ".devpilot/miasi/tool_registry.json",
+          "exists": true
+        },
+        {
+          "path": ".devpilot/miasi/policy_matrix.json",
+          "exists": true
+        },
+        {
+          "path": "docs/06_miasi",
+          "exists": true
+        }
+      ],
+      "maturity": "implemented",
+      "risk_level": "medium",
+      "priority": "P0",
+      "rationale": "MIASI declara 14 agentes, 97 tools y 97 reglas policy; necesita mayor validación semántica de cobertura, ownership y riesgos cruzados.",
+      "recommended_action": "Implementar validator ampliado de cobertura agente-tool-policy y alertas por tool high-risk sin approval.",
+      "blocking_conditions": [
+        "Bloquear expansión de tools sin policy rule."
+      ]
+    },
+    {
+      "domain_id": "approval",
+      "domain": "Approval",
+      "category": "security",
+      "evidence": [
+        {
+          "path": "src/devpilot_core/approval",
+          "exists": true
+        },
+        {
+          "path": "docs/06_miasi/human_approval_card.md",
+          "exists": true
+        },
+        {
+          "path": ".devpilot/miasi/policy_matrix.json",
+          "exists": true
+        }
+      ],
+      "maturity": "implemented-initial",
+      "risk_level": "medium-high",
+      "priority": "P1",
+      "rationale": "Approval existe como control local, pero requiere hardening de trazabilidad, vigencia, actor y acciones críticas para escenarios enterprise.",
+      "recommended_action": "Endurecer modelo de aprobación con actor, scope, expiración y audit trail verificable.",
+      "blocking_conditions": [
+        "Bloquear ejecución destructiva sin approval explícito."
+      ]
+    },
+    {
+      "domain_id": "rbac_identity",
+      "domain": "RBAC / Identity",
+      "category": "security",
+      "evidence": [
+        {
+          "path": "src/devpilot_core/identity",
+          "exists": true
+        },
+        {
+          "path": ".devpilot/identity/identity_registry.json",
+          "exists": true
+        },
+        {
+          "path": "docs/schemas/identity_registry.schema.json",
+          "exists": true
+        }
+      ],
+      "maturity": "implemented-initial",
+      "risk_level": "high",
+      "priority": "P1",
+      "rationale": "RBAC e identidad local existen, pero no equivalen a IAM productivo; falta sesión robusta, anti-spoofing y lifecycle de credenciales.",
+      "recommended_action": "Definir hardening local de sesiones/actores antes de enterprise o remote.",
+      "blocking_conditions": [
+        "Bloquear remote execution real sin identity/RBAC fuerte."
+      ]
+    },
+    {
+      "domain_id": "security_guards",
+      "domain": "Security guards",
+      "category": "security",
+      "evidence": [
+        {
+          "path": "src/devpilot_core/security",
+          "exists": true
+        },
+        {
+          "path": "docs/03_security/security_threat_model.md",
+          "exists": true
+        },
+        {
+          "path": "docs/03_security/supply_chain_policy.md",
+          "exists": true
+        }
+      ],
+      "maturity": "implemented-initial",
+      "risk_level": "medium-high",
+      "priority": "P1",
+      "rationale": "Hay PathGuard, SecretGuard y controles relacionados; faltan escenarios adversariales más amplios, retención y políticas de distribución.",
+      "recommended_action": "Convertir guardrails en contratos P0 y ampliar pruebas de inyección/secret leakage.",
+      "blocking_conditions": [
+        "Bloquear manejo de secretos o paths fuera de workspace."
+      ]
+    },
+    {
+      "domain_id": "agent_runtime",
+      "domain": "Agent runtime",
+      "category": "agentic",
+      "evidence": [
+        {
+          "path": "src/devpilot_core/agents",
+          "exists": true
+        },
+        {
+          "path": "src/devpilot_core/execution",
+          "exists": true
+        },
+        {
+          "path": "docs/06_miasi/agent_session_card.md",
+          "exists": true
+        }
+      ],
+      "maturity": "implemented-initial",
+      "risk_level": "medium",
+      "priority": "P2",
+      "rationale": "Runtime agentic local existe y está gobernado; debe mantener límites de autonomía, presupuesto, dry-run y trazas.",
+      "recommended_action": "No ampliar autonomía abierta; priorizar evaluación de sesiones y trazabilidad.",
+      "blocking_conditions": [
+        "Bloquear loops autónomos sin límite."
+      ]
+    },
+    {
+      "domain_id": "sdlc_agents",
+      "domain": "SDLC agents",
+      "category": "agentic",
+      "evidence": [
+        {
+          "path": "src/devpilot_core/agents",
+          "exists": true
+        },
+        {
+          "path": "docs/prompts",
+          "exists": true
+        },
+        {
+          "path": "evals/fixtures/documentation_eval_cases.json",
+          "exists": true
+        }
+      ],
+      "maturity": "implemented-initial",
+      "risk_level": "medium",
+      "priority": "P2",
+      "rationale": "Agentes SDLC existen con prompts y evaluaciones deterministas; faltan métricas de utilidad real por flujo y regresión con datasets representativos.",
+      "recommended_action": "Vincular agentes SDLC a evals por tarea y a test contracts de cambios en prompts.",
+      "blocking_conditions": []
+    },
+    {
+      "domain_id": "multiagent_coordinator",
+      "domain": "MultiAgentCoordinator",
+      "category": "agentic",
+      "evidence": [
+        {
+          "path": "src/devpilot_core/multiagent",
+          "exists": true
+        },
+        {
+          "path": "docs/audits/func_sprint_90_multiagent_coordinator_audit.md",
+          "exists": true
+        },
+        {
+          "path": "tests/test_sprint_90_documentation.py",
+          "exists": true
+        }
+      ],
+      "maturity": "implemented-initial",
+      "risk_level": "medium-high",
+      "priority": "P2",
+      "rationale": "Existe coordinación y handoffs gobernados, pero no debe confundirse con autonomía multiagente abierta.",
+      "recommended_action": "Definir métricas de handoff, límites de roles y replay deterministic antes de workflows más complejos.",
+      "blocking_conditions": [
+        "Bloquear delegación abierta sin políticas MIASI."
+      ]
+    },
+    {
+      "domain_id": "multiagent_workflows",
+      "domain": "Workflows multiagente",
+      "category": "agentic",
+      "evidence": [
+        {
+          "path": ".devpilot/workflows/sdlc_review.json",
+          "exists": true
+        },
+        {
+          "path": "src/devpilot_core/multiagent",
+          "exists": true
+        },
+        {
+          "path": "docs/audits/func_sprint_91_multiagent_workflows_audit.md",
+          "exists": true
+        }
+      ],
+      "maturity": "implemented-initial",
+      "risk_level": "medium",
+      "priority": "P2",
+      "rationale": "Workflows dry-run existen y están definidos como artefactos, pero requieren coverage de errores, pausas, aprobaciones y rollback conceptual.",
+      "recommended_action": "Agregar validación semántica de workflows y criterios de replay/auditoría.",
+      "blocking_conditions": []
+    },
+    {
+      "domain_id": "rag_local",
+      "domain": "RAG local",
+      "category": "knowledge",
+      "evidence": [
+        {
+          "path": "src/devpilot_core/rag",
+          "exists": true
+        },
+        {
+          "path": ".devpilot/rag/docs_index.json",
+          "exists": true
+        },
+        {
+          "path": "docs/06_miasi/rag_card.md",
+          "exists": true
+        }
+      ],
+      "maturity": "implemented-initial",
+      "risk_level": "medium",
+      "priority": "P1",
+      "rationale": "RAG lexical local está operativo y sin embeddings externos; falta groundedness, evaluación de recuperación, freshness y gestión de corpus.",
+      "recommended_action": "Definir evals de groundedness y métricas de recuperación antes de usarlo como evidencia crítica.",
+      "blocking_conditions": []
+    },
+    {
+      "domain_id": "connectors_mcp",
+      "domain": "Connectors / MCP",
+      "category": "integration",
+      "evidence": [
+        {
+          "path": "src/devpilot_core/connectors",
+          "exists": true
+        },
+        {
+          "path": ".devpilot/connectors/connector_registry.json",
+          "exists": true
+        },
+        {
+          "path": "docs/03_security/mcp_connector_threat_model.md",
+          "exists": true
+        }
+      ],
+      "maturity": "implemented-initial",
+      "risk_level": "high",
+      "priority": "P2",
+      "rationale": "Conectores read-only y MCP MVP existen; cualquier transición a write-enabled es zona de alto riesgo.",
+      "recommended_action": "Mantener read-only; diseñar sandbox/replay y ADR antes de habilitar escrituras.",
+      "blocking_conditions": [
+        "Bloquear write connectors sin ADR, policy y sandbox."
+      ]
+    },
+    {
+      "domain_id": "plugin_registry",
+      "domain": "Plugin registry",
+      "category": "extensibility",
+      "evidence": [
+        {
+          "path": "src/devpilot_core/plugins",
+          "exists": true
+        },
+        {
+          "path": ".devpilot/plugins/plugin_registry.json",
+          "exists": true
+        },
+        {
+          "path": "docs/audits/func_sprint_93_plugin_ecosystem_audit.md",
+          "exists": true
+        }
+      ],
+      "maturity": "implemented-initial",
+      "risk_level": "high",
+      "priority": "P2",
+      "rationale": "Registro de plugins existe como metadata; ejecución arbitraria de plugins no debe habilitarse sin sandbox.",
+      "recommended_action": "Mantener metadata-only y diseñar sandbox de plugin antes de ejecución.",
+      "blocking_conditions": [
+        "Bloquear plugin execution sin sandbox."
+      ]
+    },
+    {
+      "domain_id": "multiworkspace",
+      "domain": "Multiworkspace",
+      "category": "operations",
+      "evidence": [
+        {
+          "path": "src/devpilot_core/workspace",
+          "exists": true
+        },
+        {
+          "path": ".devpilot/workspaces/workspace_registry.json",
+          "exists": true
+        },
+        {
+          "path": "docs/audits/func_sprint_94_multiworkspace_audit.md",
+          "exists": true
+        }
+      ],
+      "maturity": "implemented-initial",
+      "risk_level": "medium-high",
+      "priority": "P2",
+      "rationale": "Existe registry y validación de aislamiento local, pero falta lifecycle, migraciones, pruebas con múltiples workspaces reales y policy por workspace.",
+      "recommended_action": "Fortalecer portfolio/workspace antes de dashboard multi-proyecto o enterprise.",
+      "blocking_conditions": []
+    },
+    {
+      "domain_id": "observability_agentops",
+      "domain": "Observability / AgentOps",
+      "category": "operations",
+      "evidence": [
+        {
+          "path": "src/devpilot_core/observability",
+          "exists": true
+        },
+        {
+          "path": "docs/05_operations/observability_plan.md",
+          "exists": true
+        },
+        {
+          "path": "docs/05_operations/observability_signal_catalog.md",
+          "exists": true
+        }
+      ],
+      "maturity": "implemented-initial",
+      "risk_level": "medium-high",
+      "priority": "P1",
+      "rationale": "Observabilidad local existe; falta política formal de retención, rotación, privacidad y compactación de trazas/sesiones.",
+      "recommended_action": "Definir runtime state lifecycle policy y retención de traces/agent_sessions.",
+      "blocking_conditions": [
+        "Bloquear distribución de ZIP con runtime state."
+      ]
+    },
+    {
+      "domain_id": "audit_packs",
+      "domain": "Audit packs",
+      "category": "operations",
+      "evidence": [
+        {
+          "path": "src/devpilot_core/auditpack",
+          "exists": true
+        },
+        {
+          "path": "docs/05_operations/audit_pack_runbook.md",
+          "exists": true
+        },
+        {
+          "path": "docs/audits/func_sprint_96_audit_pack_audit.md",
+          "exists": true
+        }
+      ],
+      "maturity": "implemented-initial",
+      "risk_level": "medium-high",
+      "priority": "P1",
+      "rationale": "Audit packs existen, pero pueden generar artefactos bajo outputs; falta política estricta de export, integridad y firma opcional.",
+      "recommended_action": "Formalizar exclusión de outputs en fuentes Git y evaluar signing/checksums fuera de runtime source.",
+      "blocking_conditions": [
+        "Bloquear tracking de audit packs generados."
+      ]
+    },
+    {
+      "domain_id": "compliance_packs",
+      "domain": "Compliance packs",
+      "category": "governance",
+      "evidence": [
+        {
+          "path": "src/devpilot_core/compliance",
+          "exists": true
+        },
+        {
+          "path": ".devpilot/compliance/packs.json",
+          "exists": true
+        },
+        {
+          "path": "docs/audits/func_sprint_97_compliance_pack_audit.md",
+          "exists": false
+        }
+      ],
+      "maturity": "implemented-initial",
+      "risk_level": "medium",
+      "priority": "P2",
+      "rationale": "Compliance packs son útiles como mapping local, pero no certifican cumplimiento normativo real.",
+      "recommended_action": "Mantener etiquetas de no-certificación y ampliar mappings solo con evidencia documental.",
+      "blocking_conditions": [
+        "Bloquear claims de compliance certificada."
+      ]
+    },
+    {
+      "domain_id": "release_dry_run",
+      "domain": "Release dry-run",
+      "category": "release",
+      "evidence": [
+        {
+          "path": "src/devpilot_core/release",
+          "exists": true
+        },
+        {
+          "path": "docs/release/CHANGELOG.md",
+          "exists": true
+        },
+        {
+          "path": "docs/05_operations/release_verification.md",
+          "exists": true
+        }
+      ],
+      "maturity": "implemented-initial",
+      "risk_level": "medium",
+      "priority": "P1",
+      "rationale": "Release tooling existe en modo dry-run; no publica ni despliega; falta reproducibilidad de packs y política de distribución limpia.",
+      "recommended_action": "Definir release reproducibility pack y export desde git archive.",
+      "blocking_conditions": [
+        "Bloquear publish/deploy automático."
+      ]
+    },
+    {
+      "domain_id": "remote_runner_stub",
+      "domain": "Remote runner stub",
+      "category": "enterprise",
+      "evidence": [
+        {
+          "path": "src/devpilot_core/remote",
+          "exists": true
+        },
+        {
+          "path": ".devpilot/remote/runner_registry.json",
+          "exists": true
+        },
+        {
+          "path": "docs/audits/func_sprint_98_remote_enterprise_audit.md",
+          "exists": false
+        }
+      ],
+      "maturity": "experimental",
+      "risk_level": "critical",
+      "priority": "P3",
+      "rationale": "Existe como stub/registro deshabilitado; no hay ejecución remota real y no debe haberla sin ADR, threat model, sandbox, identidad fuerte y aprobación humana.",
+      "recommended_action": "Mantener disabled; planear solo ADR y threat model antes de cualquier implementación activa.",
+      "blocking_conditions": [
+        "Bloquear remote execution real."
+      ]
+    },
+    {
+      "domain_id": "enterprise_reports",
+      "domain": "Enterprise reports",
+      "category": "enterprise",
+      "evidence": [
+        {
+          "path": "src/devpilot_core/enterprise",
+          "exists": true
+        },
+        {
+          "path": "docs/audits/func_sprint_98_remote_enterprise_audit.md",
+          "exists": false
+        },
+        {
+          "path": ".devpilot/compliance/packs.json",
+          "exists": true
+        }
+      ],
+      "maturity": "experimental",
+      "risk_level": "high",
+      "priority": "P3",
+      "rationale": "Reporting enterprise es local/read-only y útil como demostración; no equivale a operación enterprise productiva.",
+      "recommended_action": "Mantener como reporte local; evitar claims enterprise hasta IAM, deployment y auditabilidad fuerte.",
+      "blocking_conditions": [
+        "Bloquear marketing/claim de enterprise-ready."
+      ]
+    },
+    {
+      "domain_id": "web_ui",
+      "domain": "UI web",
+      "category": "product",
+      "evidence": [
+        {
+          "path": "ui/web",
+          "exists": true
+        },
+        {
+          "path": "scripts/visual_product_smoke.py",
+          "exists": true
+        },
+        {
+          "path": "tests/test_visual_product_smoke.py",
+          "exists": true
+        }
+      ],
+      "maturity": "implemented-initial",
+      "risk_level": "medium",
+      "priority": "P1",
+      "rationale": "UI web local existe y es read-only/API-only en varios flujos; falta UX industrial, autenticación más robusta y dashboard real de madurez.",
+      "recommended_action": "POST-H-002 debe consumir la matriz de madurez de B, no solo score industrial.",
+      "blocking_conditions": []
+    },
+    {
+      "domain_id": "api_local",
+      "domain": "API local",
+      "category": "product",
+      "evidence": [
+        {
+          "path": "src/devpilot_core/interfaces/api",
+          "exists": true
+        },
+        {
+          "path": "docs/07_interfaces/openapi_v1.json",
+          "exists": true
+        },
+        {
+          "path": "docs/03_security/ui_api_threat_model.md",
+          "exists": true
+        }
+      ],
+      "maturity": "implemented-initial",
+      "risk_level": "medium-high",
+      "priority": "P1",
+      "rationale": "API local MVP está definida y protegida inicialmente; falta hardening de sesión/token, rate limiting local, pruebas negativas y operación prolongada.",
+      "recommended_action": "Endurecer API local antes de acciones write o uso multiusuario.",
+      "blocking_conditions": [
+        "Bloquear exposición de API fuera de localhost sin ADR."
+      ]
+    },
+    {
+      "domain_id": "documentation_governance",
+      "domain": "Documentation governance",
+      "category": "documentation",
+      "evidence": [
+        {
+          "path": "docs",
+          "exists": true
+        },
+        {
+          "path": "docs/validation/artifact_profiles.json",
+          "exists": true
+        },
+        {
+          "path": "docs/audits/post_h_eval_001_baseline_assessment.md",
+          "exists": true
+        }
+      ],
+      "maturity": "implemented-initial",
+      "risk_level": "medium-high",
+      "priority": "P1",
+      "rationale": "El repositorio tiene documentación extensa y validadores; el riesgo principal es drift, redundancia y pruebas históricas frágiles frente a cambios editoriales.",
+      "recommended_action": "Definir canonical sources, política de actualización documental y estrategia de tests históricos menos frágil.",
+      "blocking_conditions": []
+    }
+  ],
+  "decisions": [
+    {
+      "id": "DEC-B-001",
+      "decision": "No declarar DevPilot production-ready completo; solo schemas/contratos alcanzan production-ready-local."
+    },
+    {
+      "id": "DEC-B-002",
+      "decision": "Mantener remote runner stub como experimental y deshabilitado."
+    },
+    {
+      "id": "DEC-B-003",
+      "decision": "POST-H-002 debe construirse sobre esta matriz de madurez."
+    },
+    {
+      "id": "DEC-B-004",
+      "decision": "Priorizar P0/P1 de testing, Policy/MIASI, documentación, observabilidad y CLI antes de features enterprise."
+    }
+  ]
+}
