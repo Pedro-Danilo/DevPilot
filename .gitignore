@@ -19,6 +19,7 @@ venv/
 !.env.example
 
 # Outputs
+outputs/
 outputs/logs/*.jsonl
 outputs/reports/*.json
 outputs/reports/*.md
