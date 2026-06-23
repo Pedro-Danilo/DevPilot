@@ -3,7 +3,7 @@
   "id": "POST-H-EVAL-001",
   "type": "diagnostic-executable-backlog",
   "status": "in_progress",
-  "current_micro_sprint": "POST-H-EVAL-001-B",
+  "current_micro_sprint": "POST-H-EVAL-001-C",
   "micro_sprint_status": "completed_initial_implementation",
   "phase": "POST-FASE-H",
   "created_at_utc": "2026-06-22T19:53:44Z",
@@ -152,6 +152,20 @@
       "type": "decision-matrix",
       "micro_sprint": "POST-H-EVAL-001-B",
       "status": "created"
+    },
+    {
+      "path": "docs/02_architecture/post_h_current_architecture_map.md",
+      "type": "architecture-map",
+      "micro_sprint": "POST-H-EVAL-001-C",
+      "status": "created",
+      "purpose": "Current architecture map, coupling inventory and refactor recommendations for post-H baseline."
+    },
+    {
+      "path": "tests/test_post_h_eval_001_c_architecture_map.py",
+      "type": "documentation-test",
+      "micro_sprint": "POST-H-EVAL-001-C",
+      "status": "created",
+      "purpose": "Validates required architecture map sections, risks and safety boundaries."
     }
   ],
   "validations": [
@@ -266,6 +280,82 @@
       "command": "python -m devpilot_core industrial-readiness check --json",
       "ok": true,
       "micro_sprint": "POST-H-EVAL-001-B"
+    },
+    {
+      "command": "PYTHONPATH=src python -m devpilot_core rag index --target docs --index-path .devpilot/rag/docs_index.json --json",
+      "ok": true,
+      "micro_sprint": "POST-H-EVAL-001-C",
+      "files_indexed_total": 605,
+      "chunks_total": 2874,
+      "local_only": true,
+      "network_used": false,
+      "external_api_used": false,
+      "metadata_mutation": "updated .devpilot/rag/docs_index.json"
+    },
+    {
+      "command": "PYTHONPATH=src python -m devpilot_core project-state validate --json",
+      "ok": true,
+      "micro_sprint": "POST-H-EVAL-001-C",
+      "checks_passed": 6,
+      "checks_total": 6
+    },
+    {
+      "command": "PYTHONPATH=src python -m devpilot_core test-contracts validate --json",
+      "ok": true,
+      "micro_sprint": "POST-H-EVAL-001-C",
+      "contracts_total": 84
+    },
+    {
+      "command": "PYTHONPATH=src python -m devpilot_core quality-gate run --profile hardening --json",
+      "ok": true,
+      "micro_sprint": "POST-H-EVAL-001-C",
+      "subgates_passed": 12,
+      "subgates_total": 12,
+      "blocking_findings_total": 0
+    },
+    {
+      "command": "PYTHONPATH=src python -m devpilot_core industrial-readiness check --json",
+      "ok": true,
+      "micro_sprint": "POST-H-EVAL-001-C",
+      "industrial_readiness_score": 84.18,
+      "remote_runner_enabled": false,
+      "remote_execution_used": false
+    },
+    {
+      "command": "PYTHONPATH=src python -m pytest tests/test_post_h_eval_001_b_assessment.py tests/test_post_h_eval_001_c_architecture_map.py -q",
+      "ok": true,
+      "micro_sprint": "POST-H-EVAL-001-C",
+      "tests_passed": 10,
+      "tests_failed": 0,
+      "tests_errors": 0,
+      "tests_skipped": 0
+    },
+    {
+      "command": "PYTHONPATH=src python -m pytest tests/test_project_global_state.py tests/test_test_contract_registry.py tests/test_test_impact.py -q",
+      "ok": true,
+      "micro_sprint": "POST-H-EVAL-001-C",
+      "tests_passed": 8,
+      "tests_failed": 0,
+      "tests_errors": 0,
+      "tests_skipped": 0
+    },
+    {
+      "command": "PYTHONPATH=src python -m pytest tests/test_sprint_99_documentation.py -q",
+      "ok": true,
+      "micro_sprint": "POST-H-EVAL-001-C",
+      "tests_passed": 5,
+      "tests_failed": 0,
+      "tests_errors": 0,
+      "tests_skipped": 0
+    },
+    {
+      "command": "PYTHONPATH=src python -m pytest tests/test_sprint_*_documentation.py -q",
+      "ok": true,
+      "micro_sprint": "POST-H-EVAL-001-C",
+      "tests_passed": 303,
+      "tests_failed": 0,
+      "tests_errors": 0,
+      "tests_skipped": 0
     }
   ],
   "decisions": [
@@ -299,6 +389,22 @@
     {
       "id": "DEC-B-004",
       "decision": "Priorizar P0/P1 de testing, Policy/MIASI, documentación, observabilidad y CLI antes de features enterprise."
+    },
+    {
+      "id": "DEC-C-001",
+      "decision": "Use the post-H current architecture map as input for POST-H-002 maturity dashboard design."
+    },
+    {
+      "id": "DEC-C-002",
+      "decision": "Treat CLI monolith risk as a P1 architectural refactor candidate, not as part of POST-H-EVAL-001 runtime scope."
+    },
+    {
+      "id": "DEC-C-003",
+      "decision": "Keep remote runner, write connectors and plugin execution outside active implementation until explicit ADR/threat-model/sandbox work."
+    },
+    {
+      "id": "DEC-C-004",
+      "decision": "Separate source-controlled configuration from runtime/generated state in all future source-of-truth ZIPs."
     }
   ],
   "pass_criteria": {
@@ -314,7 +420,7 @@
     "source_of_truth_omitted": false,
     "runtime_artifacts_ignored": false
   },
-  "next_micro_sprint": "POST-H-EVAL-001-B",
+  "next_micro_sprint": "POST-H-EVAL-001-D",
   "updated_at_utc": "2026-06-22T22:58:46Z",
   "capability_assessment_summary": {
     "maturity_counts": {
@@ -346,5 +452,35 @@
     "p2_total": 8,
     "p3_total": 2
   },
-  "capability_assessment_source": ".devpilot/evals/post_h_eval_001_decision_matrix.json"
+  "capability_assessment_source": ".devpilot/evals/post_h_eval_001_decision_matrix.json",
+  "architecture_map": {
+    "micro_sprint": "POST-H-EVAL-001-C",
+    "document": "docs/02_architecture/post_h_current_architecture_map.md",
+    "cli_lines": 5628,
+    "packages_total": 40,
+    "runtime_features_added": false,
+    "remote_execution_enabled": false,
+    "write_connectors_enabled": false,
+    "required_layers": [
+      "user-interfaces",
+      "core-application",
+      "governance",
+      "agentic",
+      "knowledge",
+      "integration",
+      "operations"
+    ],
+    "risks_registered": [
+      "ARCH-001",
+      "ARCH-002",
+      "ARCH-003",
+      "ARCH-004",
+      "ARCH-005",
+      "ARCH-006",
+      "ARCH-007",
+      "ARCH-008",
+      "ARCH-009",
+      "ARCH-010"
+    ]
+  }
 }

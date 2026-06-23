@@ -353,3 +353,36 @@ POST-H-EVAL-001-C — Mapa arquitectónico actual y puntos de acoplamiento
 ```
 
 El micro-sprint C debe convertir esta evaluación de capacidades en un mapa arquitectónico real, destacando capas, dependencias, acoplamientos, ownership y riesgos de mantenibilidad.
+
+## POST-H-EVAL-001-C — Mapa arquitectónico actual y puntos de acoplamiento
+
+### Resultado
+
+`POST-H-EVAL-001-C` agregó el mapa arquitectónico actual en `docs/02_architecture/post_h_current_architecture_map.md`.
+
+La evaluación confirma que DevPilot ya tiene una arquitectura local-first amplia, con CLI, API local, UI web, ApplicationService, Policy/MIASI, agentes, RAG, conectores, plugins, observabilidad, release, audit packs y enterprise reporting local. Sin embargo, la arquitectura no debe interpretarse como production-ready enterprise: remote runner permanece experimental y disabled; conectores write siguen fuera de alcance; plugins permanecen metadata-first sin sandbox real de ejecución.
+
+### Hallazgos centrales
+
+| Hallazgo | Severidad | Acción recomendada |
+|---|---:|---|
+| `src/devpilot_core/cli.py` concentra 5628 líneas y actúa como orquestador dominante. | Alta | Planear `POST-H-006 — CLI command registry`. |
+| La arquitectura está modularizada por paquetes, pero la coordinación sigue acoplada al CLI. | Media-alta | Definir ownership y handlers por dominio. |
+| UI/API existen como MVP local/read-only/dry-run. | Media | Usarlas en `POST-H-002` como consumidores de madurez, no como habilitadores de acciones críticas. |
+| Runtime artifacts ya fueron identificados como riesgo de distribución. | Alta | Mantener export vía `git archive` y checks anti-tracking. |
+| Remote/enterprise sigue experimental. | Crítica | Requiere ADR, threat model, sandbox y aprobación antes de activación. |
+
+### Decisión de arquitectura
+
+`POST-H-EVAL-001-C` recomienda que `POST-H-002` consuma explícitamente:
+
+```text
+.devpilot/project_state.json
+.devpilot/evals/post_h_eval_001_decision_matrix.json
+docs/02_architecture/post_h_current_architecture_map.md
+quality-gate hardening
+industrial-readiness check
+```
+
+para evitar un maturity dashboard superficial.
+
