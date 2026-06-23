@@ -3,7 +3,7 @@
   "id": "POST-H-EVAL-001",
   "type": "diagnostic-executable-backlog",
   "status": "in_progress",
-  "current_micro_sprint": "POST-H-EVAL-001-D",
+  "current_micro_sprint": "POST-H-EVAL-001-E",
   "micro_sprint_status": "completed_initial_implementation",
   "phase": "POST-FASE-H",
   "created_at_utc": "2026-06-22T19:53:44Z",
@@ -181,6 +181,21 @@
       "path": "tests/test_post_h_eval_001_d_security_risk_register.py",
       "status": "created",
       "purpose": "Documentation/metadata contract for POST-H-EVAL-001-D risk register."
+    },
+    {
+      "path": "docs/04_quality/post_h_test_cost_assessment.md",
+      "status": "created",
+      "purpose": "Testing, regression cost and contract assessment for POST-H-EVAL-001-E."
+    },
+    {
+      "path": ".devpilot/evals/post_h_eval_001_test_cost_assessment.json",
+      "status": "created",
+      "purpose": "Machine-readable test cost and contract assessment for dashboards and future quality gates."
+    },
+    {
+      "path": "tests/test_post_h_eval_001_e_test_cost_assessment.py",
+      "status": "created",
+      "purpose": "Documentation/metadata contract for POST-H-EVAL-001-E assessment."
     }
   ],
   "validations": [
@@ -381,6 +396,21 @@
       "name": "post_h_eval_001_b_c_d_tests",
       "command": "python -m pytest tests/test_post_h_eval_001_b_assessment.py tests/test_post_h_eval_001_c_architecture_map.py tests/test_post_h_eval_001_d_security_risk_register.py -q",
       "ok": true
+    },
+    {
+      "command": "python -m pytest tests/test_post_h_eval_001_e_test_cost_assessment.py -q",
+      "ok": true,
+      "scope": "POST-H-EVAL-001-E"
+    },
+    {
+      "command": "python -m devpilot_core test-impact analyze --path src/devpilot_core/policy/engine.py --json",
+      "ok": true,
+      "scope": "impact-analyzer-gap-evidence"
+    },
+    {
+      "command": "python -m pytest --collect-only -q",
+      "ok": true,
+      "scope": "pytest-cost-inventory"
     }
   ],
   "decisions": [
@@ -455,6 +485,26 @@
       "id": "DEC-D-005",
       "decision": "Export hygiene is treated as a security control.",
       "status": "accepted"
+    },
+    {
+      "id": "DEC-E-001",
+      "decision": "No asumir que cantidad alta de tests equivale a cobertura industrial."
+    },
+    {
+      "id": "DEC-E-002",
+      "decision": "Promover Test Contract Registry 2.0 antes de depender del impact analyzer para cambios de dominio crítico."
+    },
+    {
+      "id": "DEC-E-003",
+      "decision": "Separar ejecución always, impact, release y manual/nightly para controlar costo de regresión."
+    },
+    {
+      "id": "DEC-E-004",
+      "decision": "P0 debe priorizar seguridad, guards, RBAC, approval, remote disabled y writes denegados."
+    },
+    {
+      "id": "DEC-E-005",
+      "decision": "POST-H-002 debe consumir métricas de testing/costo como parte del dashboard de madurez."
     }
   ],
   "pass_criteria": {
@@ -470,7 +520,7 @@
     "source_of_truth_omitted": false,
     "runtime_artifacts_ignored": false
   },
-  "next_micro_sprint": "POST-H-EVAL-001-E",
+  "next_micro_sprint": "POST-H-EVAL-001-F",
   "updated_at_utc": "2026-06-23T00:00:00Z",
   "capability_assessment_summary": {
     "maturity_counts": {
@@ -546,5 +596,16 @@
     "compliance_certification_claimed": false,
     "runtime_artifacts_distribution_risk_registered": true,
     "secret_leakage_risk_registered": true
+  },
+  "test_cost_assessment": {
+    "source": "docs/04_quality/post_h_test_cost_assessment.md",
+    "machine_readable_source": ".devpilot/evals/post_h_eval_001_test_cost_assessment.json",
+    "test_files_total": 187,
+    "pytest_collect_items_total": 893,
+    "test_contracts_total": 84,
+    "historical_documentation_test_files_total": 79,
+    "unmapped_test_files_total": 103,
+    "registry_v2_recommended": true,
+    "impact_analyzer_gap_observed": "src/devpilot_core/policy/engine.py currently falls back to full pytest."
   }
 }

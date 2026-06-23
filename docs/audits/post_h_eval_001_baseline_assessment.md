@@ -411,3 +411,32 @@ Decisiones principales:
 
 El micro-sprint D no modifica runtime ni habilita capacidades nuevas; convierte hallazgos de A, B y C en restricciones de roadmap para `POST-H-002` y siguientes sprints.
 
+## Actualización POST-H-EVAL-001-E — Evaluación de testing, costos y contratos
+
+Se incorporó la evaluación de testing post-H como quinto micro-sprint del hito diagnóstico. El análisis confirma que el baseline tiene una suite amplia, pero que el Test Contract Registry v1 todavía está dominado por contratos históricos/documentales y no debe usarse como señal única de cobertura industrial.
+
+Artefactos agregados:
+
+```text
+docs/04_quality/post_h_test_cost_assessment.md
+.devpilot/evals/post_h_eval_001_test_cost_assessment.json
+tests/test_post_h_eval_001_e_test_cost_assessment.py
+```
+
+Hallazgos principales:
+
+```text
+- Tests detectados: 187 archivos test_*.py.
+- Casos recolectables por pytest: 893.
+- Contratos v1: 84.
+- Contratos historical-sprint: 78.
+- Tests no mapeados explícitamente por contratos v1: 103.
+- Impact analyzer conserva fallback seguro a pytest completo para rutas críticas no mapeadas.
+```
+
+Decisión técnica:
+
+```text
+El siguiente roadmap debe incluir Test Contract Registry 2.0, impact analyzer por dominio y perfiles de regresión always/impact/release/full antes de escalar DevPilot hacia ejecución remota, conectores write-enabled o claims enterprise.
+```
+

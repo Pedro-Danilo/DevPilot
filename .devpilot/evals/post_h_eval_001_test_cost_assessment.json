@@ -1,0 +1,194 @@
+{
+  "schema_version": "1.0",
+  "id": "POST-H-EVAL-001-E",
+  "title": "Evaluación de testing, costos y contratos",
+  "status": "implemented",
+  "generated_at_utc": "2026-06-23T00:00:00Z",
+  "source_micro_sprints": [
+    "POST-H-EVAL-001-A",
+    "POST-H-EVAL-001-B",
+    "POST-H-EVAL-001-C",
+    "POST-H-EVAL-001-D"
+  ],
+  "policy": {
+    "local_first": true,
+    "dry_run": true,
+    "no_runtime_features_added": true,
+    "no_remote_execution_enabled": true,
+    "no_write_connectors_enabled": true,
+    "no_external_apis_used": true,
+    "source_code_runtime_modified": false,
+    "documentation_and_metadata_only": true
+  },
+  "inventory": {
+    "test_files_total": 187,
+    "test_lines_total": 17801,
+    "pytest_collect_files_total": 188,
+    "pytest_collect_items_total": 893,
+    "test_contracts_total": 84,
+    "test_contract_scope_counts": {
+      "global-state": 1,
+      "quality-gate": 2,
+      "feature": 1,
+      "historical-sprint": 78,
+      "integration": 1,
+      "ui-smoke": 1
+    },
+    "critical_contracts_total": 83,
+    "noncritical_contracts_total": 1,
+    "historical_documentation_test_files_total": 79,
+    "post_h_eval_test_files_total": 4,
+    "contract_referenced_unique_test_files_total": 84,
+    "unmapped_test_files_total": 103,
+    "priority_file_counts": {
+      "P0": 13,
+      "P1": 14,
+      "P2": 63,
+      "P3": 97
+    },
+    "important_unmapped_examples": [
+      "tests/test_agent_runtime.py",
+      "tests/test_agent_runtime_v2.py",
+      "tests/test_agent_session.py",
+      "tests/test_agentops_gate.py",
+      "tests/test_agentops_instrumentation.py",
+      "tests/test_api_approvals_actions.py",
+      "tests/test_api_security.py",
+      "tests/test_approval_cli.py",
+      "tests/test_approval_policy_binding.py",
+      "tests/test_approval_store.py",
+      "tests/test_connector_adapter.py",
+      "tests/test_connector_registry.py",
+      "tests/test_contract_schemas.py",
+      "tests/test_identity_rbac.py",
+      "tests/test_industrial_readiness.py",
+      "tests/test_multiagent_coordinator.py",
+      "tests/test_multiagent_workflow.py",
+      "tests/test_phase_h_backlog_approval.py",
+      "tests/test_plugin_registry.py",
+      "tests/test_policy_engine.py",
+      "tests/test_provider_config_schema.py",
+      "tests/test_rag_local.py",
+      "tests/test_refactor_testplanner_agents.py",
+      "tests/test_release_agent.py",
+      "tests/test_repo_analysis_agent.py",
+      "tests/test_repo_quality_gate.py",
+      "tests/test_review_agents.py",
+      "tests/test_schema_validator.py",
+      "tests/test_sdlc_agents.py",
+      "tests/test_secret_guard_hardening.py",
+      "tests/test_validation_gateway.py",
+      "tests/test_web_ui_approval_center.py"
+    ]
+  },
+  "current_contract_registry_assessment": {
+    "strengths": [
+      "Centraliza 84 contratos declarativos y valida estructura mediante schema.",
+      "Distingue global-state, quality-gate, feature, historical-sprint, integration y ui-smoke.",
+      "Mantiene comandos recomendados para checks críticos y permite quality-gate hardening.",
+      "Reduce drift documental post-H al separar estado global mutable de contratos históricos."
+    ],
+    "limitations": [
+      "Registry v1 está dominado por contratos históricos documentales: 78 de 84.",
+      "Muchos tests funcionales existentes no están mapeados a contratos, especialmente seguridad, agentes, API, observabilidad, conectores y plugins.",
+      "Impact analyzer es conservador: para src/devpilot_core/policy/engine.py recomienda pytest completo por falta de mapeo contractual.",
+      "No modela aún criticidad P0/P1/P2/P3, costo esperado, dominio, riesgo, owner de dominio ni triggers de ejecución."
+    ]
+  },
+  "test_contract_registry_2_proposal": {
+    "schema_candidate": "SCHEMA-DEVPL-TEST-CONTRACT-REGISTRY-V2",
+    "new_fields": [
+      "domain",
+      "priority",
+      "risk_level",
+      "execution_tier",
+      "estimated_cost",
+      "change_triggers",
+      "security_critical",
+      "release_blocking",
+      "required_for_remote_enablement",
+      "coverage_intent",
+      "owner_role"
+    ],
+    "execution_tiers": {
+      "always": "P0/P1 rápido: seguridad, estado global, contratos, registry, hardening sin pytest implícito.",
+      "impact": "Tests seleccionados por watched_paths y dominios asociados.",
+      "release": "Suites amplias, smoke UI, históricos documentales, release artifacts y regressions pesadas.",
+      "manual_or_nightly": "Pruebas costosas, e2e futuras, integración UI/API real y datasets grandes."
+    },
+    "recommended_p0_contracts": [
+      "policy-engine-guards",
+      "approval-rbac-identity",
+      "secret-path-guards",
+      "remote-disabled",
+      "connector-write-denied",
+      "plugin-execution-denied",
+      "project-global-state",
+      "test-contract-registry"
+    ],
+    "recommended_p1_contracts": [
+      "schema-registry",
+      "manifest-registry",
+      "quality-gate-hardening",
+      "industrial-readiness",
+      "post-h-eval-artifacts"
+    ],
+    "recommended_p2_contracts": [
+      "agent-runtime",
+      "multiagent-workflows",
+      "rag-local",
+      "connectors-read-only",
+      "plugin-registry",
+      "multiworkspace"
+    ],
+    "recommended_p3_contracts": [
+      "ui-smoke",
+      "historical-documentation",
+      "release-dry-run",
+      "reports-traces-viewers"
+    ]
+  },
+  "mandatory_questions": {
+    "critical_security_tests": "PolicyEngine, ApprovalPolicyChecker, RBAC/identity, PathGuard, SecretGuard, PromptInjectionGuard, ToolInjectionGuard, remote disabled, connector write denied and plugin execution denied.",
+    "historical_documental_tests": "tests/test_sprint_*_documentation.py and documentation manifest tests; they preserve sprint history but should not be confused with runtime safety coverage.",
+    "product_tests": "UI/API, visual smoke, report/trace viewer, settings, approval center and release dry-run tests.",
+    "always_run_tests": "P0/P1 fast tests: project global state, test contract registry, test impact, post-H eval artifact tests, hardening gate, industrial readiness and security-deny tests.",
+    "impact_tests": "Tests mapped by Test Contract Registry v2 watched paths and domain triggers; today impact analyzer is too sparse.",
+    "release_only_tests": "Full pytest, historical documentation sweep, UI smoke, release/audit-pack/compliance-pack integrity, advanced evals and future e2e suites.",
+    "poorly_mapped_domains": "PolicyEngine internals, approval/RBAC, API security, agent runtime, RAG, connectors, plugins, multiworkspace, observability and release are underrepresented in registry v1 watched paths."
+  },
+  "decisions": [
+    {
+      "id": "DEC-E-001",
+      "decision": "No asumir que cantidad alta de tests equivale a cobertura industrial."
+    },
+    {
+      "id": "DEC-E-002",
+      "decision": "Promover Test Contract Registry 2.0 antes de depender del impact analyzer para cambios de dominio crítico."
+    },
+    {
+      "id": "DEC-E-003",
+      "decision": "Separar ejecución always, impact, release y manual/nightly para controlar costo de regresión."
+    },
+    {
+      "id": "DEC-E-004",
+      "decision": "P0 debe priorizar seguridad, guards, RBAC, approval, remote disabled y writes denegados."
+    },
+    {
+      "id": "DEC-E-005",
+      "decision": "POST-H-002 debe consumir métricas de testing/costo como parte del dashboard de madurez."
+    }
+  ],
+  "pass_criteria": {
+    "test_contract_registry_2_proposed": true,
+    "tests_classified_by_criticality": true,
+    "pytest_cost_evaluated": true,
+    "impact_analyzer_gaps_identified": true,
+    "testing_roadmap_recommended": true
+  },
+  "block_criteria": {
+    "assumes_many_tests_equals_industrial_coverage": false,
+    "mixes_historical_and_critical_tests": false,
+    "omits_execution_cost": false
+  }
+}
