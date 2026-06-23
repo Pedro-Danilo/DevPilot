@@ -1,0 +1,277 @@
+---
+doc_id: "POST-H-004-BACKLOG"
+id: "POST-H-004"
+title: "POST-H-004 — Policy/MIASI semantic validator ampliado"
+status: "draft"
+version: "0.1.0"
+owner: "Ordóñez"
+updated: "2026-06-23"
+phase: "POST-FASE-H"
+priority: "P0"
+roadmap_source: "docs/backlogs/post_h_prioritized_roadmap.md"
+local_first: true
+dry_run: true
+no_remote_execution_enabled: true
+---
+
+# POST-H-004 — Policy/MIASI semantic validator ampliado
+
+## 1. Objetivo
+
+Implementar un validador semántico ampliado que verifique coherencia transversal entre:
+
+```text
+agent → tool → policy_rule → side_effect → approval → RBAC → security guards → observability → evals → test contracts
+```
+
+La validación estructural actual de MIASI es necesaria, pero insuficiente para garantizar que agentes, herramientas y políticas sensibles estén correctamente gobernadas antes de escalar capacidades agentic.
+
+## 2. Contexto
+
+DevPilot cuenta con:
+
+```text
+.devpilot/miasi/agent_registry.json
+.devpilot/miasi/tool_registry.json
+.devpilot/miasi/policy_matrix.json
+src/devpilot_core/miasi/registry.py
+src/devpilot_core/policy/engine.py
+src/devpilot_core/approval/
+src/devpilot_core/identity/
+src/devpilot_core/security/
+src/devpilot_core/observability/
+src/devpilot_core/evals/
+```
+
+El assessment post-H identificó riesgos como remote execution prematura, connector write accidental, plugin execution insegura, actor spoofing, secret leakage, runtime artifacts y RAG sin groundedness. Este hito convierte esos riesgos en reglas semánticas ejecutables.
+
+## 3. Alcance
+
+Incluye:
+
+```text
+- Semantic validator para MIASI/Policy.
+- Reglas por risk_level y side_effect.
+- Validación de approvals y RBAC para herramientas sensibles.
+- Validación de observability requerida.
+- Validación de eval/test contract asociados para capacidades agentic críticas.
+- CLI read-only.
+- Integración con quality-gate como subgate o señal P0.
+```
+
+No incluye:
+
+```text
+- Activar nuevas herramientas.
+- Ejecutar tools del registry.
+- Habilitar connector write.
+- Habilitar plugin execution.
+- Habilitar remote execution.
+- Cambiar semántica de PolicyEngine sin tests explícitos.
+```
+
+## 4. Entregables
+
+```text
+src/devpilot_core/miasi/semantic.py
+src/devpilot_core/miasi/semantic_rules.py
+src/devpilot_core/miasi/semantic_models.py
+docs/schemas/miasi_semantic_report.schema.json
+docs/03_security/policy_miasi_semantic_validation.md
+tests/test_miasi_semantic_validator.py
+tests/test_miasi_semantic_validator_fixtures.py
+```
+
+Fixtures recomendados:
+
+```text
+tests/fixtures/miasi/valid_semantic_bundle.json
+tests/fixtures/miasi/missing_approval_for_high_risk_tool.json
+tests/fixtures/miasi/remote_enabled_invalid.json
+tests/fixtures/miasi/plugin_execution_without_sandbox.json
+tests/fixtures/miasi/connector_write_without_adr.json
+```
+
+## 5. Reglas semánticas mínimas
+
+### 5.1. Agentes
+
+```text
+- Todo agente debe tener allowed_tools existentes.
+- Todo agente A3+ debe declarar observability y eval strategy.
+- Todo agente high risk debe tener test contract asociado.
+- Todo agente con tool high-risk debe requerir approval o default_effect block/deny.
+- Agentes future/planned no deben ser ejecutables por AgentRuntime.
+```
+
+### 5.2. Tools
+
+```text
+- Tool high-risk + controlled_write requiere approval_required=true.
+- Tool high-risk + controlled_execution requiere approval, RBAC y observability.
+- Tool network_cost requiere CostGuard y external_api_allowed=false por defecto.
+- Tool connector.write debe permanecer blocked salvo ADR y sandbox futuros.
+- Tool plugin.execute debe permanecer blocked hasta plugin sandbox.
+- Tool remote.execute debe permanecer blocked.
+```
+
+### 5.3. Policy Matrix
+
+```text
+- Toda tool debe referenciar reglas existentes.
+- Toda regla deny/block debe tener observability_required=true.
+- Toda regla allow sobre side_effect sensible debe tener guard explícito.
+- No puede existir contradicción allow vs block para la misma agent/tool/action sin precedencia explícita.
+- Reglas de remote/plugin/connector write deben mantenerse block/deny.
+```
+
+### 5.4. Approval/RBAC
+
+```text
+- Acciones sensibles requieren approval_scope claro.
+- Acciones sensibles requieren RBAC role mínimo.
+- Actor local debe estar declarado o tratado como unknown con restricciones.
+- Approval no puede ser genérico para tool/action/subject sensibles.
+```
+
+### 5.5. Observability/Evals/Test Contracts
+
+```text
+- High-risk tools requieren observability.
+- Agentic workflows requieren handoff traces.
+- Capacidades P0/P1 deben mapearse a test contracts.
+- Casos de red-team deben existir para injection/secret/remote/plugin/connector.
+```
+
+## 6. Micro-sprints propuestos
+
+### POST-H-004-A — Modelo semántico y report schema
+
+Tareas:
+
+```text
+1. Crear MiasiSemanticReport, SemanticFinding, SemanticRuleResult.
+2. Crear schema miasi_semantic_report.schema.json.
+3. Registrar schema en schema_catalog.
+4. Definir severity mapping: info/warning/error/block.
+```
+
+PASS:
+
+```text
+PASS si el schema valida reportes válidos.
+PASS si findings block son machine-readable.
+```
+
+### POST-H-004-B — Reglas agent/tool/policy
+
+Tareas:
+
+```text
+1. Implementar carga del bundle MIASI actual.
+2. Validar allowed_tools, policy_rule_ids y status.
+3. Detectar tools sensibles sin approval.
+4. Detectar rules contradictorias.
+```
+
+Comando propuesto:
+
+```powershell
+python -m devpilot_core miasi semantic-validate --json
+```
+
+### POST-H-004-C — Reglas de approval/RBAC/security guards
+
+Tareas:
+
+```text
+1. Cruzar policy rules con approval metadata.
+2. Cruzar tool risk/side_effect con RBAC requirements.
+3. Validar que secrets/network/external-api estén bloqueados o gobernados.
+4. Generar findings BLOCK para remote/plugin/connector write prematuros.
+```
+
+### POST-H-004-D — Observability, evals y test contracts
+
+Tareas:
+
+```text
+1. Validar observability_required para reglas sensibles.
+2. Validar existencia de fixtures/evals mínimos para red-team y agentic safety.
+3. Cruzar capacidades high-risk con Test Contract Registry v1/v2 si existe.
+4. Emitir warnings si TCR v2 aún no está implementado.
+```
+
+### POST-H-004-E — Integración con quality-gate y documentación
+
+Tareas:
+
+```text
+1. Integrar miasi semantic-validate como subgate o pre-subgate.
+2. Documentar en security docs.
+3. Agregar pruebas focales.
+4. Agregar contract de POST-H-004.
+```
+
+## 7. Comandos de validación final
+
+```powershell
+$env:PYTHONPATH="src"
+
+python -m pytest tests/test_miasi_semantic_validator.py -q
+python -m pytest tests/test_miasi_semantic_validator_fixtures.py -q
+python -m devpilot_core miasi validate --json
+python -m devpilot_core miasi semantic-validate --json
+python -m devpilot_core schema validate --schema-id MiasiSemanticReport --instance outputs/reports/miasi_semantic_report.json --json
+python -m devpilot_core test-contracts validate --json
+python -m devpilot_core quality-gate run --profile hardening --json
+```
+
+## 8. Criterios PASS
+
+```text
+PASS si el bundle MIASI vigente pasa validación semántica.
+PASS si fixtures inseguros fallan con BLOCK.
+PASS si remote execution, connector write y plugin execution siguen bloqueados.
+PASS si high-risk tools requieren approval/RBAC/observability.
+PASS si el reporte generado es validable por schema.
+```
+
+## 9. Criterios BLOCK
+
+```text
+BLOCK si alguna regla permite remote.execute.
+BLOCK si connector.write está allow sin ADR/sandbox.
+BLOCK si plugin.execute está allow sin sandbox.
+BLOCK si una tool high-risk controlled_write no requiere approval.
+BLOCK si un agente future/planned aparece ejecutable.
+BLOCK si se relaja PolicyEngine para pasar tests.
+```
+
+## 10. Riesgos
+
+| Riesgo | Severidad | Mitigación |
+|---|---:|---|
+| Falsos positivos por reglas demasiado rígidas | Media | Fixtures válidos e inválidos; severity warning vs block. |
+| Falso PASS semántico | Alta | Reglas explícitas para remote/plugin/connector/high-risk. |
+| Duplicar PolicyEngine | Alta | Validator detecta coherencia; PolicyEngine sigue ejecutando decisiones. |
+| Acoplar demasiado a formato actual MIASI | Media | Modelos internos y schema de reporte estable. |
+| Bloquear desarrollo legítimo | Media | Excepciones solo con ADR y test contract. |
+
+## 11. No-go gates
+
+```text
+NO-GO si el hito modifica AgentRuntime para permitir más acciones.
+NO-GO si se habilita tool execution genérico.
+NO-GO si se habilita remote/connectors/plugins.
+NO-GO si se declaran capacidades enterprise/compliance certificadas.
+```
+
+## 12. Entregable verificable
+
+```text
+Comando miasi semantic-validate.
+Reporte JSON/Markdown con findings semánticos.
+Fixtures inseguros bloqueados.
+Quality gate hardening PASS.
+```
