@@ -386,3 +386,28 @@ industrial-readiness check
 
 para evitar un maturity dashboard superficial.
 
+## Actualización POST-H-EVAL-001-D — Registro de riesgos de seguridad, operación y compliance
+
+El micro-sprint `POST-H-EVAL-001-D` agregó el registro industrial de riesgos en `docs/03_security/post_h_security_risk_register.md` y su companion machine-readable en `.devpilot/evals/post_h_eval_001_security_risk_register.json`.
+
+Resumen del risk register:
+
+| Métrica | Valor |
+|---|---:|
+| Riesgos registrados | 14 |
+| Riesgos críticos | 1 |
+| Riesgos altos | 8 |
+| Riesgos P0 | 6 |
+| Riesgos P1 | 7 |
+
+Decisiones principales:
+
+- `remote execution` queda como riesgo crítico y permanece no habilitado.
+- `connector write` queda bloqueado por defecto hasta sandbox, replay tests, approval y rollback.
+- `plugin execution` queda bloqueado hasta diseño formal de sandbox.
+- `runtime artifacts` se tratan como riesgo de distribución, no solo como limpieza operativa.
+- `secret leakage` queda documentado como riesgo alto con SecretGuard/export checks como mitigación inicial.
+- `compliance packs` se declaran evidencia local, no certificación.
+
+El micro-sprint D no modifica runtime ni habilita capacidades nuevas; convierte hallazgos de A, B y C en restricciones de roadmap para `POST-H-002` y siguientes sprints.
+

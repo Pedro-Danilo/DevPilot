@@ -3,7 +3,7 @@
   "id": "POST-H-EVAL-001",
   "type": "diagnostic-executable-backlog",
   "status": "in_progress",
-  "current_micro_sprint": "POST-H-EVAL-001-C",
+  "current_micro_sprint": "POST-H-EVAL-001-D",
   "micro_sprint_status": "completed_initial_implementation",
   "phase": "POST-FASE-H",
   "created_at_utc": "2026-06-22T19:53:44Z",
@@ -166,6 +166,21 @@
       "micro_sprint": "POST-H-EVAL-001-C",
       "status": "created",
       "purpose": "Validates required architecture map sections, risks and safety boundaries."
+    },
+    {
+      "path": "docs/03_security/post_h_security_risk_register.md",
+      "status": "created",
+      "purpose": "Industrial security, operations and compliance risk register for POST-H-EVAL-001-D."
+    },
+    {
+      "path": ".devpilot/evals/post_h_eval_001_security_risk_register.json",
+      "status": "created",
+      "purpose": "Machine-readable companion risk register for dashboards and future quality gates."
+    },
+    {
+      "path": "tests/test_post_h_eval_001_d_security_risk_register.py",
+      "status": "created",
+      "purpose": "Documentation/metadata contract for POST-H-EVAL-001-D risk register."
     }
   ],
   "validations": [
@@ -356,6 +371,16 @@
       "tests_failed": 0,
       "tests_errors": 0,
       "tests_skipped": 0
+    },
+    {
+      "name": "post_h_eval_001_d_security_risk_register_tests",
+      "command": "python -m pytest tests/test_post_h_eval_001_d_security_risk_register.py -q",
+      "ok": true
+    },
+    {
+      "name": "post_h_eval_001_b_c_d_tests",
+      "command": "python -m pytest tests/test_post_h_eval_001_b_assessment.py tests/test_post_h_eval_001_c_architecture_map.py tests/test_post_h_eval_001_d_security_risk_register.py -q",
+      "ok": true
     }
   ],
   "decisions": [
@@ -405,6 +430,31 @@
     {
       "id": "DEC-C-004",
       "decision": "Separate source-controlled configuration from runtime/generated state in all future source-of-truth ZIPs."
+    },
+    {
+      "id": "DEC-D-001",
+      "decision": "Remote execution remains disabled and blocked until future ADR/threat model/sandbox/approval/evals.",
+      "status": "accepted"
+    },
+    {
+      "id": "DEC-D-002",
+      "decision": "Write connectors remain denied by default and require a dedicated hardening sprint.",
+      "status": "accepted"
+    },
+    {
+      "id": "DEC-D-003",
+      "decision": "Plugin execution remains blocked; registry is metadata-only until sandbox design.",
+      "status": "accepted"
+    },
+    {
+      "id": "DEC-D-004",
+      "decision": "Compliance packs are local evidence, not external certification.",
+      "status": "accepted"
+    },
+    {
+      "id": "DEC-D-005",
+      "decision": "Export hygiene is treated as a security control.",
+      "status": "accepted"
     }
   ],
   "pass_criteria": {
@@ -420,8 +470,8 @@
     "source_of_truth_omitted": false,
     "runtime_artifacts_ignored": false
   },
-  "next_micro_sprint": "POST-H-EVAL-001-D",
-  "updated_at_utc": "2026-06-22T22:58:46Z",
+  "next_micro_sprint": "POST-H-EVAL-001-E",
+  "updated_at_utc": "2026-06-23T00:00:00Z",
   "capability_assessment_summary": {
     "maturity_counts": {
       "implemented": 6,
@@ -482,5 +532,19 @@
       "ARCH-009",
       "ARCH-010"
     ]
+  },
+  "security_risk_register": {
+    "path": "docs/03_security/post_h_security_risk_register.md",
+    "machine_readable_path": ".devpilot/evals/post_h_eval_001_security_risk_register.json",
+    "risks_total": 14,
+    "critical_total": 1,
+    "high_total": 8,
+    "p0_total": 6,
+    "remote_execution_enabled": false,
+    "write_connectors_enabled": false,
+    "plugin_execution_enabled": false,
+    "compliance_certification_claimed": false,
+    "runtime_artifacts_distribution_risk_registered": true,
+    "secret_leakage_risk_registered": true
   }
 }

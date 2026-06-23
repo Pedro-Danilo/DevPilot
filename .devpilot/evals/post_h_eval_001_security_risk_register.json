@@ -1,0 +1,306 @@
+{
+  "schema_version": "1.0",
+  "id": "POST-H-EVAL-001-D",
+  "title": "Registro de riesgos de seguridad, operación y compliance",
+  "status": "implemented",
+  "generated_at_utc": "2026-06-23T00:00:00Z",
+  "source_micro_sprints": [
+    "POST-H-EVAL-001-A",
+    "POST-H-EVAL-001-B",
+    "POST-H-EVAL-001-C"
+  ],
+  "policy": {
+    "local_first": true,
+    "dry_run": true,
+    "no_runtime_features_added": true,
+    "no_remote_execution_enabled": true,
+    "no_write_connectors_enabled": true,
+    "no_external_apis_used": true,
+    "source_code_runtime_modified": false,
+    "documentation_and_metadata_only": true
+  },
+  "summary": {
+    "risks_total": 14,
+    "critical_total": 1,
+    "high_total": 8,
+    "medium_high_total": 1,
+    "medium_total": 4,
+    "p0_total": 6,
+    "p1_total": 7,
+    "p2_total": 1,
+    "remote_execution_enabled": false,
+    "write_connectors_enabled": false,
+    "plugin_execution_enabled": false,
+    "compliance_certification_claimed": false
+  },
+  "risks": [
+    {
+      "id": "SEC-001",
+      "title": "Activación prematura de remote execution",
+      "severity": "Crítica",
+      "probability": "Media",
+      "impact": "Ejecución remota fuera de control, posible uso de shell, credenciales o red sin threat model completo.",
+      "current_state": "Remote runner registrado como implemented-initial / experimental=True; remote_runner_enabled=False; execution_allowed=False.",
+      "evidence": [
+        ".devpilot/remote/runner_registry.json",
+        "docs/02_architecture/post_h_current_architecture_map.md",
+        "src/devpilot_core/remote"
+      ],
+      "mitigation": "Mantener remote execution disabled. Exigir ADR, threat model, sandbox, autenticación, transporte seguro, aprobación humana, evals adversariales y observabilidad antes de cualquier enablement.",
+      "closure_criteria": "Un ADR futuro prueba que remote execution sigue disabled por defecto y que cualquier modo execute tiene RBAC, approval, sandbox, audit trail, tests replay y kill switch.",
+      "recommended_sprint": "POST-H-021 — Remote Runner ADR-2",
+      "priority": "P0",
+      "status": "open-blocking-for-remote"
+    },
+    {
+      "id": "SEC-002",
+      "title": "Connector write accidental",
+      "severity": "Alta",
+      "probability": "Media",
+      "impact": "Un conector podría mutar archivos, repositorios, servicios o sistemas externos sin contrato de seguridad write-safe.",
+      "current_state": "Connector registry aprobado con 4 conectores, defaults deny-by-default, require_approval_for_execution=True, connector_execution_performed=False.",
+      "evidence": [
+        ".devpilot/connectors/connector_registry.json",
+        "src/devpilot_core/connectors",
+        ".devpilot/miasi/policy_matrix.json"
+      ],
+      "mitigation": "Mantener conectores read-only/metadata-only. Cualquier write connector requiere policy rule específica, dry-run, replay tests, idempotency, rollback y aprobación humana.",
+      "closure_criteria": "Existe suite de replay tests para conectores write, deny-by-default comprobado y registro de aprobación/auditoría por cada mutación.",
+      "recommended_sprint": "POST-H-018 — Connector sandbox avanzado",
+      "priority": "P0",
+      "status": "open-blocking-for-write-connectors"
+    },
+    {
+      "id": "SEC-003",
+      "title": "Plugin execution insegura",
+      "severity": "Alta",
+      "probability": "Media",
+      "impact": "Carga o ejecución de código arbitrario desde plugins sin aislamiento podría romper PathGuard, SecretGuard o límites de permisos.",
+      "current_state": "Plugin registry aprobado con 2 plugins; executable_loading_default=False; plugin_code_loaded=False; arbitrary_code_execution_performed=False.",
+      "evidence": [
+        ".devpilot/plugins/plugin_registry.json",
+        "src/devpilot_core/plugins",
+        ".devpilot/miasi/tool_registry.json"
+      ],
+      "mitigation": "Mantener plugins como metadata/manifest-only hasta diseñar sandbox, permisos, firma, allowlist, evaluación y observabilidad.",
+      "closure_criteria": "Plugin execution queda bloqueado por defecto y un futuro sandbox prueba aislamiento de filesystem, red, secretos, shell y permisos.",
+      "recommended_sprint": "POST-H-019 — Plugin sandbox design sin ejecución arbitraria",
+      "priority": "P0",
+      "status": "open-blocking-for-plugin-execution"
+    },
+    {
+      "id": "SEC-004",
+      "title": "Actor spoofing local",
+      "severity": "Alta",
+      "probability": "Media",
+      "impact": "Un actor local podría asumir identidad/rol operativo sin garantías de sesión, autenticación fuerte o separación de contexto.",
+      "current_state": "Identity registry local con 6 roles y 2 actores; active_actor_id=local-owner; remote_auth_used=False; credentials_stored=False.",
+      "evidence": [
+        ".devpilot/identity/identity_registry.json",
+        "src/devpilot_core/identity",
+        "src/devpilot_core/approval"
+      ],
+      "mitigation": "Fortalecer RBAC/Approval con actor binding, session boundary, trazabilidad de approval_id y pruebas negativas por rol.",
+      "closure_criteria": "Tests cubren actor spoofing, rol inválido, aprobación caducada, aprobación reutilizada y ejecución crítica sin actor autorizado.",
+      "recommended_sprint": "POST-H-012 — Approval/RBAC hardening",
+      "priority": "P1",
+      "status": "open"
+    },
+    {
+      "id": "SEC-005",
+      "title": "Runtime artifacts en ZIP/audit packs",
+      "severity": "Alta",
+      "probability": "Media",
+      "impact": "Distribuir ZIPs o audit packs con bases locales, sesiones, outputs o logs puede filtrar evidencia operativa, rutas, estados o datos sensibles.",
+      "current_state": "La higiene Git fue corregida en micro-sprints previos; el riesgo permanece para exports manuales, audit packs y fuentes ZIP regeneradas fuera de git archive.",
+      "evidence": [
+        ".gitignore",
+        "docs/audits/post_h_eval_001_baseline_assessment.md",
+        "docs/02_architecture/post_h_current_architecture_map.md"
+      ],
+      "mitigation": "Usar git archive como fuente de verdad; mantener outputs/, .devpilot/devpilot.db, .devpilot/agent_sessions/, logs y caches fuera de Git y fuera de paquetes exportables.",
+      "closure_criteria": "Existe export policy automatizada que falla si ZIP/audit pack contiene outputs, devpilot.db, agent_sessions, logs, caches, .venv o node_modules.",
+      "recommended_sprint": "Repo hygiene final / POST-H-017 — Release reproducibility pack",
+      "priority": "P0",
+      "status": "open"
+    },
+    {
+      "id": "SEC-006",
+      "title": "Secret leakage",
+      "severity": "Alta",
+      "probability": "Media",
+      "impact": "Secretos, tokens o credenciales podrían filtrarse en docs, RAG index, reports, traces, providers o logs.",
+      "current_state": "RAG index local reporta SecretGuard activo, raw_secrets_stored=false y redactions_total=82; aun así hay 2876 chunks indexados y múltiples flujos de reporte/traza.",
+      "evidence": [
+        ".devpilot/rag/docs_index.json",
+        "src/devpilot_core/security",
+        "src/devpilot_core/rag",
+        "docs/03_security/security_threat_model.md"
+      ],
+      "mitigation": "Mantener SecretGuard en rutas de indexación/reportes/trazas; agregar scans pre-export y pruebas con fixtures de secretos sintéticos.",
+      "closure_criteria": "Los exports, RAG index, reports y audit packs fallan ante secretos sintéticos no redactados; proveedores reales nunca se versionan.",
+      "recommended_sprint": "POST-H-012 — Approval/RBAC hardening + SecretGuard export checks",
+      "priority": "P0",
+      "status": "open"
+    },
+    {
+      "id": "SEC-007",
+      "title": "UI/API sin auth robusta",
+      "severity": "Media-alta",
+      "probability": "Media",
+      "impact": "API/UI local implemented-initial podría ser usada más allá del entorno local sin hardening de sesión, token, CORS, rate limiting y auditoría.",
+      "current_state": "API local declara token requerido y CORS restringido, pero el producto sigue en madurez implemented-initial y no debe asumirse como plataforma multiusuario.",
+      "evidence": [
+        "src/devpilot_core/interfaces/api",
+        "docs/07_interfaces/openapi_v1.json",
+        "ui/web",
+        "docs/02_architecture/post_h_current_architecture_map.md"
+      ],
+      "mitigation": "Mantener host local por defecto, documentar no-exposición a red, fortalecer session/token hardening, logs de acceso y pruebas negativas.",
+      "closure_criteria": "API/UI tiene tests de auth negativa, CORS, token rotation/manual, session expiry y límites de exposición local.",
+      "recommended_sprint": "POST-H-014 — UI/API industrial shell",
+      "priority": "P1",
+      "status": "open"
+    },
+    {
+      "id": "SEC-008",
+      "title": "Retención indefinida de traces",
+      "severity": "Media",
+      "probability": "Alta",
+      "impact": "Trazas, reportes y sesiones pueden acumular información operativa, rutas locales, decisiones, prompts o resultados sensibles.",
+      "current_state": "Observabilidad existe en modo local; todavía falta política productiva de retención, rotación, minimización y borrado seguro.",
+      "evidence": [
+        "src/devpilot_core/observability",
+        "docs/05_operations/observability_plan.md",
+        ".devpilot/rag/docs_index.json"
+      ],
+      "mitigation": "Definir retention policy local con TTL, clasificación de evidencia, rotación, purge controlado y exclusión de secretos.",
+      "closure_criteria": "Existe política y tests de retención que prueban qué se conserva, qué se purga y qué nunca se serializa.",
+      "recommended_sprint": "POST-H-010 — Observability retention local",
+      "priority": "P1",
+      "status": "open"
+    },
+    {
+      "id": "SEC-009",
+      "title": "Sobreclaiming compliance",
+      "severity": "Media",
+      "probability": "Media",
+      "impact": "El proyecto podría presentar compliance packs como certificación real, aunque hoy son checks locales/read-only y no equivalen a cumplimiento normativo certificado.",
+      "current_state": "Compliance registry local-first con packs_total=1; declared_checks_only=None.",
+      "evidence": [
+        ".devpilot/compliance/packs.json",
+        "src/devpilot_core/compliance",
+        "docs/02_architecture/post_h_current_architecture_map.md"
+      ],
+      "mitigation": "Etiquetar compliance packs como evidencia local no certificada; prohibir claims de auditoría/certificación externa sin proceso formal.",
+      "closure_criteria": "Docs, reports y dashboard distinguen compliance-evidence local de compliance-certification externa.",
+      "recommended_sprint": "POST-H-020 — Compliance mapping packs ampliados",
+      "priority": "P2",
+      "status": "open"
+    },
+    {
+      "id": "SEC-010",
+      "title": "RAG sin groundedness robusto",
+      "severity": "Media",
+      "probability": "Media",
+      "impact": "El RAG lexical puede recuperar evidencia útil pero no garantiza relevancia semántica, reranking, groundedness ni detección fuerte de respuestas no sustentadas.",
+      "current_state": "RAG local lexical con chunks_total=2876, embeddings_enabled=False, llm_used=False.",
+      "evidence": [
+        "src/devpilot_core/rag",
+        ".devpilot/rag/docs_index.json",
+        "docs/audits/post_h_eval_001_baseline_assessment.md"
+      ],
+      "mitigation": "Agregar evals de groundedness, citas obligatorias, recuperación semántica opcional/local, reranking y negative cases.",
+      "closure_criteria": "RAG responde con evidencia trazable y falla de forma segura cuando no hay soporte documental suficiente.",
+      "recommended_sprint": "POST-H-011 — RAG groundedness evals",
+      "priority": "P1",
+      "status": "open"
+    },
+    {
+      "id": "SEC-011",
+      "title": "Bypass de aprobación humana en acciones críticas",
+      "severity": "Alta",
+      "probability": "Media",
+      "impact": "Herramientas de alto riesgo podrían ejecutarse sin approval_id válido o con aprobación reutilizada si los contratos no se endurecen.",
+      "current_state": "MIASI registra 97 tools, 28 high-risk tools y 20 reglas approval-gated sobre 97 reglas de política.",
+      "evidence": [
+        ".devpilot/miasi/tool_registry.json",
+        ".devpilot/miasi/policy_matrix.json",
+        "src/devpilot_core/approval"
+      ],
+      "mitigation": "Tests negativos por herramienta crítica, approval_id único, expiración, actor binding y replay de intento sin aprobación.",
+      "closure_criteria": "Toda acción destructiva o de alto riesgo queda bloqueada sin aprobación explícita y trazable.",
+      "recommended_sprint": "POST-H-012 — Approval/RBAC hardening",
+      "priority": "P0",
+      "status": "open"
+    },
+    {
+      "id": "SEC-012",
+      "title": "Path traversal o mutación fuera de workspace permitido",
+      "severity": "Alta",
+      "probability": "Baja-media",
+      "impact": "Un agente o herramienta local podría leer o mutar rutas fuera del workspace si PathGuard no cubre nuevos flujos.",
+      "current_state": "PathGuard existe y quality gates reportan uso de policy/security; el riesgo crece al agregar nuevas herramientas o conectores.",
+      "evidence": [
+        "src/devpilot_core/security",
+        "src/devpilot_core/sandbox",
+        ".devpilot/workspaces/workspace_registry.json"
+      ],
+      "mitigation": "Mantener allowlist de rutas, pruebas de traversal, ejecución en sandbox y deny-by-default en herramientas nuevas.",
+      "closure_criteria": "Cada herramienta con filesystem tiene pruebas de path traversal y bloqueo fuera de workspace.",
+      "recommended_sprint": "POST-H-004 — Policy/MIASI semantic validator ampliado",
+      "priority": "P1",
+      "status": "open"
+    },
+    {
+      "id": "SEC-013",
+      "title": "Prompt/tool injection en agentes con herramientas",
+      "severity": "Alta",
+      "probability": "Media",
+      "impact": "Contenido documental, prompts o entradas de usuario podrían inducir herramientas no autorizadas o saltos de política.",
+      "current_state": "Existen PromptInjectionGuard y ToolInjectionGuard en PolicyEngine, pero el riesgo aumenta con RAG, plugins y conectores externos futuros.",
+      "evidence": [
+        "src/devpilot_core/policy",
+        "src/devpilot_core/security",
+        "src/devpilot_core/agents",
+        ".devpilot/miasi/policy_matrix.json"
+      ],
+      "mitigation": "Fortalecer fixtures adversariales, separación instruction/data, tool allowlist por contexto y evaluación de prompt injection antes de tool execution.",
+      "closure_criteria": "Evals adversariales prueban que contenido recuperado o input externo no puede elevar permisos ni habilitar herramientas fuera de policy.",
+      "recommended_sprint": "POST-H-004 — Policy/MIASI semantic validator ampliado",
+      "priority": "P1",
+      "status": "open"
+    },
+    {
+      "id": "SEC-014",
+      "title": "Confianza excesiva en evals deterministas",
+      "severity": "Media",
+      "probability": "Media",
+      "impact": "Scores 100% en suites locales pueden generar falsa sensación de cobertura si no incluyen datasets reales, casos adversariales amplios o regresión por impacto.",
+      "current_state": "Advanced evals safety pasa en modo determinista/local; sigue siendo preliminary y sin LLM judge ni datasets externos.",
+      "evidence": [
+        "evals/fixtures",
+        "src/devpilot_core/evals",
+        "docs/04_quality/test_strategy.md"
+      ],
+      "mitigation": "Evolucionar test contracts por criticidad, ampliar datasets locales, agregar mutation/negative tests y reportar cobertura semántica explícita.",
+      "closure_criteria": "El dashboard distingue pass determinista de cobertura real y enlaza brechas conocidas por dominio.",
+      "recommended_sprint": "POST-H-003 — Test Contract Registry 2.0",
+      "priority": "P1",
+      "status": "open"
+    }
+  ],
+  "pass_criteria": [
+    "At least 10 risks are registered.",
+    "Remote execution remains a critical risk and disabled.",
+    "Connector write remains blocked by default.",
+    "Plugin execution remains blocked until sandbox design.",
+    "Runtime artifacts are treated as distribution risk."
+  ],
+  "block_criteria": [
+    "Remote execution enabled.",
+    "Write connector proposed without ADR/sandbox/tests.",
+    "Compliance certification claimed.",
+    "Secret leakage ignored."
+  ]
+}
