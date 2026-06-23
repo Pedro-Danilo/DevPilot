@@ -1090,3 +1090,31 @@ Dirección arquitectónica post-H.
 ```
 
 Este hito evita que DevPilot siga creciendo por acumulación de funcionalidades y establece una gobernanza técnica adecuada para continuar con una línea profesional e industrial.
+
+## Actualización de ejecución POST-H-EVAL-001-G
+
+`POST-H-EVAL-001-G` cierra formalmente el hito con manifiesto final, prueba documental global, closure report y sincronización de README/runbook/changelog/test-contract-registry.
+
+Artefactos agregados o actualizados:
+
+```text
+docs/post_h_eval_001_manifest.json
+docs/audits/post_h_eval_001_closure_report.md
+tests/test_post_h_eval_001_documentation.py
+.devpilot/testing/test_contract_registry.json
+README.md
+docs/05_operations/runbook.md
+docs/release/CHANGELOG.md
+```
+
+Cierre explícito:
+
+```text
+POST-H-EVAL-001 status: closed
+Siguiente hito: POST-H-002 — Maturity dashboard local basado en assessment post-H
+Remote execution: disabled
+Connector write: disabled
+Plugin execution: disabled
+External APIs: disabled by default
+Runtime features added: false
+```

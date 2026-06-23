@@ -2,7 +2,7 @@
 title: "Runbook — DevPilot Local"
 doc_id: "DEVPL-OPS-002"
 status: "approved"
-version: "1.29.0"
+version: "1.30.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"

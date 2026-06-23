@@ -106,13 +106,14 @@ def test_post_h_eval_001_manifest_preserves_e_deliverables_after_progression() -
     assert MANIFEST.exists(), "POST-H-EVAL-001 manifest is missing."
     manifest = json.loads(MANIFEST.read_text(encoding="utf-8"))
 
-    # This is a historical contract for micro-sprint E. Once F is implemented,
-    # the manifest legitimately advances to F/G; the E contract must therefore
-    # verify that E evidence is preserved, not that the global pointer remains
-    # frozen at E.
+    # This is a historical contract for micro-sprint E. Once later micro-sprints
+    # are implemented, the manifest legitimately advances to F/G and finally
+    # to G/POST-H-002; the E contract must therefore verify that E evidence is
+    # preserved, not that the global pointer remains frozen at E.
     allowed_transitions = {
         ("POST-H-EVAL-001-E", "POST-H-EVAL-001-F"),
         ("POST-H-EVAL-001-F", "POST-H-EVAL-001-G"),
+        ("POST-H-EVAL-001-G", "POST-H-002"),
     }
     assert (manifest["current_micro_sprint"], manifest["next_micro_sprint"]) in allowed_transitions
 

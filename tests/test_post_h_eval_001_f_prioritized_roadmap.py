@@ -90,10 +90,17 @@ def test_post_h_eval_001_f_machine_readable_roadmap_contract() -> None:
     assert data["entry_criteria_for_post_h_002"]["remote_execution_disabled"] is True
 
 
-def test_post_h_eval_001_manifest_points_to_f_and_next_g() -> None:
+def test_post_h_eval_001_manifest_preserves_f_deliverables_after_progression() -> None:
     manifest = json.loads(read(MANIFEST))
-    assert manifest["current_micro_sprint"] == "POST-H-EVAL-001-F"
-    assert manifest["next_micro_sprint"] == "POST-H-EVAL-001-G"
+
+    # This is a historical contract for micro-sprint F. Once G closes the hito,
+    # the manifest legitimately advances to G/POST-H-002. The F contract must
+    # verify preservation of F evidence, not freeze the global pointer at F/G.
+    allowed_transitions = {
+        ("POST-H-EVAL-001-F", "POST-H-EVAL-001-G"),
+        ("POST-H-EVAL-001-G", "POST-H-002"),
+    }
+    assert (manifest["current_micro_sprint"], manifest["next_micro_sprint"]) in allowed_transitions
     deliverable_paths = {
         item["path"] if isinstance(item, dict) else item
         for item in manifest.get("deliverables", [])

@@ -1,9 +1,9 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
-Estado actual: `baseline pre-code approved + Fases A-G cerradas + Fase H cerrada + POST-H-001 implemented-initial + POST-H-EVAL-001-F implemented documental`  
+Estado actual: `baseline pre-code approved + Fases A-G cerradas + Fase H cerrada + POST-H-001 implemented-initial + POST-H-EVAL-001 closed`  
 Último hito: `POST-H-001 — Industrial hardening de tests y contratos`  
-Hito diagnóstico en curso: `POST-H-EVAL-001 — Evaluación integral del baseline DevPilot post-Fase H`, micro-sprint actual `POST-H-EVAL-001-F implemented`, siguiente micro-sprint `POST-H-EVAL-001-G`  
-Siguiente hito: `POST-H-002 — Maturity dashboard local`  
+Hito diagnóstico cerrado: `POST-H-EVAL-001 — Evaluación integral del baseline DevPilot post-Fase H`, cierre formal `POST-H-EVAL-001-G`  
+Siguiente hito: `POST-H-002 — Maturity dashboard local basado en assessment post-H`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
@@ -17,6 +17,21 @@ Modo de trabajo: local-first híbrido, API keys opcionales, costo externo contro
 El sprint separa explícitamente el contrato histórico de cada sprint frente al estado global mutable del proyecto. Los tests históricos de Fase H conservan validaciones propias del sprint, mientras `tests/test_project_global_state.py` valida el último hito, siguiente hito, changelog, runbook, backlog post-H y documento `POST-H-001`.
 
 Alcance: esta es una base inicial de hardening, no un sistema completo de selección de pruebas incremental. Ante cambios desconocidos o core, el analizador recomienda `pytest -q` de forma conservadora.
+
+
+## POST-H-EVAL-001-G — Manifiesto, pruebas documentales y cierre del hito
+
+`POST-H-EVAL-001-G` cierra formalmente el hito diagnóstico post-H. El cierre no introduce features runtime: consolida el manifiesto final, agrega la prueba documental global, registra el cierre en README/runbook/changelog, actualiza el backlog ejecutable y deja trazabilidad explícita para habilitar `POST-H-002`.
+
+Artefactos principales:
+
+```text
+docs/post_h_eval_001_manifest.json
+docs/audits/post_h_eval_001_closure_report.md
+tests/test_post_h_eval_001_documentation.py
+```
+
+Alcance: documental/metadata. No habilita remote execution, no habilita connectors write, no habilita plugin execution, no agrega APIs externas, no modifica agentes y no cambia semántica runtime. `POST-H-002` queda autorizado como siguiente hito únicamente bajo modo local-first/read-only, consumiendo los artefactos del assessment.
 
 
 ## POST-H-EVAL-001-F — Roadmap priorizado post-H y decisiones arquitectónicas

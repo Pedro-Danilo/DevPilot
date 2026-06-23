@@ -2,9 +2,9 @@
   "schema_version": "1.0",
   "id": "POST-H-EVAL-001",
   "type": "diagnostic-executable-backlog",
-  "status": "in_progress",
-  "current_micro_sprint": "POST-H-EVAL-001-F",
-  "micro_sprint_status": "completed_initial_implementation",
+  "status": "closed",
+  "current_micro_sprint": "POST-H-EVAL-001-G",
+  "micro_sprint_status": "closed",
   "phase": "POST-FASE-H",
   "created_at_utc": "2026-06-22T19:53:44Z",
   "source_of_truth": {
@@ -25,7 +25,9 @@
     "no_write_connectors_enabled": true,
     "no_external_apis_used": true,
     "source_code_runtime_modified": false,
-    "documentation_and_metadata_only": true
+    "documentation_and_metadata_only": true,
+    "no_connector_write_enabled": true,
+    "no_plugin_execution_enabled": true
   },
   "inventory": {
     "src_python_files": 199,
@@ -238,6 +240,48 @@
       "micro_sprint": "POST-H-EVAL-001-F",
       "status": "created",
       "purpose": "Documentation/metadata contract for POST-H-EVAL-001-F."
+    },
+    {
+      "path": "docs/audits/post_h_eval_001_closure_report.md",
+      "type": "closure-report",
+      "micro_sprint": "POST-H-EVAL-001-G",
+      "status": "created",
+      "purpose": "Formal closure report for POST-H-EVAL-001-G."
+    },
+    {
+      "path": "tests/test_post_h_eval_001_documentation.py",
+      "type": "documentation-test",
+      "micro_sprint": "POST-H-EVAL-001-G",
+      "status": "created",
+      "purpose": "Global documentation and manifest contract for POST-H-EVAL-001 closure."
+    },
+    {
+      "path": "README.md",
+      "type": "project-readme",
+      "micro_sprint": "POST-H-EVAL-001-G",
+      "status": "updated",
+      "purpose": "Registers POST-H-EVAL-001 as closed diagnostic hito."
+    },
+    {
+      "path": "docs/05_operations/runbook.md",
+      "type": "operations-runbook",
+      "micro_sprint": "POST-H-EVAL-001-G",
+      "status": "updated",
+      "purpose": "Adds closure and validation procedure for POST-H-EVAL-001-G."
+    },
+    {
+      "path": "docs/release/CHANGELOG.md",
+      "type": "changelog",
+      "micro_sprint": "POST-H-EVAL-001-G",
+      "status": "updated",
+      "purpose": "Registers diagnostic hito closure for local project traceability."
+    },
+    {
+      "path": ".devpilot/testing/test_contract_registry.json",
+      "type": "test-contract-registry",
+      "micro_sprint": "POST-H-EVAL-001-G",
+      "status": "updated",
+      "purpose": "Registers global documentation test as an integration contract."
     }
   ],
   "validations": [
@@ -553,6 +597,118 @@
       "result": "not_completed_timeout_in_sandbox",
       "tests_failed_observed": 0,
       "note": "Attempted full suite in sandbox, but execution exceeded 600 seconds before completion. Use local Windows command for definitive full regression."
+    },
+    {
+      "command": "python -m pytest tests/test_post_h_eval_001_documentation.py -q",
+      "ok": true,
+      "micro_sprint": "POST-H-EVAL-001-G",
+      "network_used": false,
+      "external_api_used": false,
+      "mutations_performed": false,
+      "tests_passed": 5,
+      "tests_failed": 0,
+      "tests_errors": 0,
+      "tests_skipped": 0
+    },
+    {
+      "command": "python -m pytest tests/test_post_h_eval_001_b_assessment.py tests/test_post_h_eval_001_c_architecture_map.py tests/test_post_h_eval_001_d_security_risk_register.py tests/test_post_h_eval_001_e_test_cost_assessment.py tests/test_post_h_eval_001_f_prioritized_roadmap.py tests/test_post_h_eval_001_documentation.py -q",
+      "ok": true,
+      "micro_sprint": "POST-H-EVAL-001-G",
+      "network_used": false,
+      "external_api_used": false,
+      "mutations_performed": false,
+      "tests_passed": 32,
+      "tests_failed": 0,
+      "tests_errors": 0,
+      "tests_skipped": 0
+    },
+    {
+      "command": "python -m pytest tests/test_project_global_state.py tests/test_test_contract_registry.py tests/test_test_impact.py -q",
+      "ok": true,
+      "micro_sprint": "POST-H-EVAL-001-G",
+      "network_used": false,
+      "external_api_used": false,
+      "mutations_performed": false,
+      "tests_passed": 8,
+      "tests_failed": 0,
+      "tests_errors": 0,
+      "tests_skipped": 0
+    },
+    {
+      "command": "python -m pytest tests/test_sprint_*_documentation.py -q",
+      "ok": true,
+      "micro_sprint": "POST-H-EVAL-001-G",
+      "network_used": false,
+      "external_api_used": false,
+      "mutations_performed": false,
+      "tests_passed": 303,
+      "tests_failed": 0,
+      "tests_errors": 0,
+      "tests_skipped": 0
+    },
+    {
+      "command": "python -m devpilot_core project-state validate --json",
+      "ok": true,
+      "micro_sprint": "POST-H-EVAL-001-G",
+      "network_used": false,
+      "external_api_used": false,
+      "mutations_performed": false,
+      "exit_code": 0,
+      "checks_passed": 6,
+      "checks_total": 6
+    },
+    {
+      "command": "python -m devpilot_core test-contracts validate --json",
+      "ok": true,
+      "micro_sprint": "POST-H-EVAL-001-G",
+      "network_used": false,
+      "external_api_used": false,
+      "mutations_performed": false,
+      "exit_code": 0,
+      "contracts_total": 85,
+      "scope_counts": {
+        "global-state": 1,
+        "quality-gate": 2,
+        "feature": 1,
+        "historical-sprint": 78,
+        "integration": 2,
+        "ui-smoke": 1
+      }
+    },
+    {
+      "command": "python -m devpilot_core quality-gate run --profile hardening --json",
+      "ok": true,
+      "micro_sprint": "POST-H-EVAL-001-G",
+      "network_used": false,
+      "external_api_used": false,
+      "mutations_performed": false,
+      "exit_code": 0,
+      "subgates_passed": 12,
+      "subgates_failed": 0,
+      "blocking_findings_total": 0,
+      "warnings_total": 24
+    },
+    {
+      "command": "python -m devpilot_core industrial-readiness check --json",
+      "ok": true,
+      "micro_sprint": "POST-H-EVAL-001-G",
+      "network_used": false,
+      "external_api_used": false,
+      "mutations_performed": false,
+      "exit_code": 0,
+      "industrial_readiness_score": 84.18,
+      "minimum_score": 80.0,
+      "maturity_level": "industrial-baseline-ready",
+      "remote_execution_used": false
+    },
+    {
+      "command": "python -m pytest tests/test_sprint_99_documentation.py -q",
+      "micro_sprint": "POST-H-EVAL-001-G",
+      "ok": true,
+      "tests_passed": 5,
+      "tests_failed": 0,
+      "tests_errors": 0,
+      "tests_skipped": 0
     }
   ],
   "decisions": [
@@ -683,6 +839,14 @@
       "decision": "Future ZIPs/audit packs must exclude runtime artifacts.",
       "status": "accepted",
       "adr": "docs/backlogs/post_h_prioritized_roadmap.md"
+    },
+    {
+      "id": "DEC-POSTH-007",
+      "title": "POST-H-EVAL-001 cerrado antes de iniciar POST-H-002",
+      "decision": "POST-H-002 solo puede iniciar después de manifest final, prueba documental global y cierre explícito de POST-H-EVAL-001.",
+      "status": "approved",
+      "micro_sprint": "POST-H-EVAL-001-G",
+      "rationale": "Evita que el maturity dashboard se construya sobre un assessment incompleto o no verificable."
     }
   ],
   "pass_criteria": {
@@ -698,8 +862,8 @@
     "source_of_truth_omitted": false,
     "runtime_artifacts_ignored": false
   },
-  "next_micro_sprint": "POST-H-EVAL-001-G",
-  "updated_at_utc": "2026-06-23T00:00:00Z",
+  "next_micro_sprint": "POST-H-002",
+  "updated_at_utc": "2026-06-23T10:35:00Z",
   "capability_assessment_summary": {
     "maturity_counts": {
       "implemented": 6,
@@ -804,5 +968,82 @@
       "docs/adr/ADR-POSTH-002-test-contract-registry-2.md",
       "docs/adr/ADR-POSTH-003-cli-modularization.md"
     ]
+  },
+  "closed_at_utc": "2026-06-23T10:35:00Z",
+  "closure_status": "closed_with_documentation_tests",
+  "no_runtime_features_added": true,
+  "no_remote_execution_enabled": true,
+  "no_external_apis_used": true,
+  "no_connector_write_enabled": true,
+  "no_plugin_execution_enabled": true,
+  "no_agent_semantics_modified": true,
+  "no_policy_relaxation": true,
+  "documentation_and_metadata_only": true,
+  "repo_source_for_g": "repo_DevPilot_Local_137_POST_H_EVAL_001_F.zip",
+  "repo_output_for_g": "repo_DevPilot_Local_138_POST_H_EVAL_001_G.zip",
+  "micro_sprints": {
+    "POST-H-EVAL-001-A": {
+      "status": "closed",
+      "type": "diagnostic-documentation"
+    },
+    "POST-H-EVAL-001-B": {
+      "status": "closed",
+      "type": "diagnostic-documentation"
+    },
+    "POST-H-EVAL-001-C": {
+      "status": "closed",
+      "type": "architecture-documentation"
+    },
+    "POST-H-EVAL-001-D": {
+      "status": "closed",
+      "type": "risk-documentation"
+    },
+    "POST-H-EVAL-001-E": {
+      "status": "closed",
+      "type": "quality-documentation"
+    },
+    "POST-H-EVAL-001-F": {
+      "status": "closed",
+      "type": "roadmap-and-adr-documentation"
+    },
+    "POST-H-EVAL-001-G": {
+      "status": "closed",
+      "type": "manifest-and-documentation-tests"
+    }
+  },
+  "post_h_002_entry_criteria": {
+    "post_h_eval_001_closed": true,
+    "roadmap_prioritized_exists": true,
+    "maturity_matrix_exists": true,
+    "baseline_assessment_exists": true,
+    "risk_register_exists": true,
+    "test_cost_assessment_exists": true,
+    "architecture_map_exists": true,
+    "manifest_final_exists": true,
+    "documentation_test_exists": true,
+    "remote_execution_disabled": true,
+    "connector_write_disabled": true,
+    "plugin_execution_disabled": true,
+    "external_apis_disabled_by_default": true,
+    "project_state_validate_required": true,
+    "test_contracts_validate_required": true,
+    "quality_gate_hardening_required": true
+  },
+  "no_go_gates": {
+    "remote_execution_enabled": false,
+    "connector_write_enabled": false,
+    "plugin_execution_enabled": false,
+    "external_apis_enabled": false,
+    "production_enterprise_claim": false,
+    "compliance_certification_claim": false,
+    "runtime_features_added_in_hito": false
+  },
+  "closure_summary": {
+    "required_docs_total": 7,
+    "required_adrs_total": 3,
+    "machine_readable_eval_artifacts_total": 4,
+    "micro_sprints_closed_total": 7,
+    "next_hito": "POST-H-002 — Maturity dashboard local basado en assessment post-H",
+    "devpilot_maturity_claim": "industrial-baseline-ready, not production-ready-enterprise"
   }
 }

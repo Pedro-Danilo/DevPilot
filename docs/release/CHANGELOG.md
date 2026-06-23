@@ -2,7 +2,7 @@
 title: "DevPilot Local — Changelog"
 doc_id: "DEVPL-RELEASE-CHANGELOG"
 version: "0.1.0"
-updated: "2026-06-19"
+updated: "2026-06-23"
 status: "approved"
 approval: "internal"
 owner: "Ordóñez"
@@ -14,6 +14,24 @@ All notable changes to DevPilot Local are documented in this file.
 
 This changelog follows a Keep a Changelog-compatible category structure and is generated from local sprint manifests.
 
+
+## [post-h-eval-001] - 2026-06-23
+
+### Added
+
+- `POST-H-EVAL-001` — Evaluación integral del baseline DevPilot post-Fase H.
+- Se agregaron assessment baseline, matriz de madurez, mapa arquitectónico, risk register, evaluación de testing/costos/contratos, roadmap priorizado, ADRs post-H y closure report.
+- Se agregó `tests/test_post_h_eval_001_documentation.py` como prueba documental global del hito.
+
+### Changed
+
+- `docs/post_h_eval_001_manifest.json` queda en `status=closed` y habilita `POST-H-002 — Maturity dashboard local basado en assessment post-H` como siguiente hito.
+- El Test Contract Registry v1 incorpora el contrato documental global `post-h-eval-001-documentation` sin modificar el contrato único de estado global mutable.
+
+### Security
+
+- No se habilitó remote execution, connector write, plugin execution ni APIs externas.
+- El cierre conserva el enfoque local-first, dry-run y sin sobredeclarar madurez enterprise ni compliance certificada.
 
 ## [post-H-001] - 2026-06-19
 

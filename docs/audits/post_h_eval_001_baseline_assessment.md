@@ -469,3 +469,38 @@ DEC-POSTH-006 — ZIP/audit pack hygiene es condición de fuente de verdad.
 ```
 
 El siguiente micro-sprint es `POST-H-EVAL-001-G`, encargado de manifest final, prueba documental global y cierre formal del hito. `POST-H-002` no debe iniciar antes de ese cierre.
+
+## Actualización POST-H-EVAL-001-G — Manifiesto, pruebas documentales y cierre
+
+`POST-H-EVAL-001-G` cierra formalmente el hito diagnóstico post-H. El cierre consolida el manifiesto final, agrega una prueba documental global y registra el cierre en los artefactos operativos mínimos.
+
+Artefactos agregados o actualizados:
+
+```text
+docs/post_h_eval_001_manifest.json
+docs/audits/post_h_eval_001_closure_report.md
+tests/test_post_h_eval_001_documentation.py
+.devpilot/testing/test_contract_registry.json
+README.md
+docs/05_operations/runbook.md
+docs/release/CHANGELOG.md
+```
+
+Resultado de cierre:
+
+```text
+POST-H-EVAL-001: closed
+POST-H-002: habilitado como siguiente hito local-first/read-only
+Remote execution: no habilitado
+Connector write: no habilitado
+Plugin execution: no habilitado
+External APIs: no habilitadas por defecto
+Runtime features agregadas: no
+```
+
+El cierre diferencia explícitamente entre capacidades implementadas, implementadas iniciales, parciales, contractuales, definidas/no implementadas, no iniciadas, bloqueadas por diseño y futuras. Esta distinción evita sobredeclarar madurez enterprise o compliance certificada.
+
+
+## Capacidades por dominio
+
+Ver `.devpilot/evals/post_h_eval_001_decision_matrix.json`.
