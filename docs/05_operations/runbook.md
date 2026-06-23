@@ -2,12 +2,12 @@
 title: "Runbook — DevPilot Local"
 doc_id: "DEVPL-OPS-002"
 status: "approved"
-version: "1.28.0"
+version: "1.29.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
 phase: "FUNC-SPRINT-31"
-updated: "2026-06-17"
+updated: "2026-06-23"
 approval: "approved_by_owner"
 source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved + 03_security approved"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
@@ -5421,3 +5421,69 @@ se ocultan warnings o blockers
 ### Riesgos
 
 Esta es una primera versión `implemented-initial`. El analizador de impacto es conservador por diseño y puede recomendar más pruebas de las estrictamente necesarias. No ejecuta tests dinámicamente desde JSON, no reemplaza `pytest` y no debe usarse para saltarse la validación completa de cierre.
+
+
+## POST-H-EVAL-001-F — Operación del roadmap priorizado post-H
+
+### Propósito
+
+`POST-H-EVAL-001-F` define la hoja de ruta post-H y registra las decisiones arquitectónicas mínimas para continuar DevPilot sin aumentar deuda estructural. Es una operación documental/metadata, no una operación runtime.
+
+### Artefactos operativos
+
+```text
+docs/backlogs/post_h_prioritized_roadmap.md
+docs/adr/ADR-POSTH-001-local-first-before-remote.md
+docs/adr/ADR-POSTH-002-test-contract-registry-2.md
+docs/adr/ADR-POSTH-003-cli-modularization.md
+.devpilot/evals/post_h_eval_001_prioritized_roadmap.json
+tests/test_post_h_eval_001_f_prioritized_roadmap.py
+```
+
+### Comandos de verificación focal
+
+```powershell
+$env:PYTHONPATH="src"
+python -m pytest tests	est_post_h_eval_001_f_prioritized_roadmap.py -q
+python -m devpilot_core validate-frontmatter docsacklogs\post_h_prioritized_roadmap.md --json
+python -m devpilot_core validate-frontmatter docsdr\ADR-POSTH-001-local-first-before-remote.md --json
+python -m devpilot_core validate-frontmatter docsdr\ADR-POSTH-002-test-contract-registry-2.md --json
+python -m devpilot_core validate-frontmatter docsdr\ADR-POSTH-003-cli-modularization.md --json
+```
+
+### Verificación general recomendada
+
+```powershell
+$env:PYTHONPATH="src"
+python -m devpilot_core project-state validate --json
+python -m devpilot_core test-contracts validate --json
+python -m devpilot_core quality-gate run --profile hardening --json
+python -m devpilot_core industrial-readiness check --json
+python -m pytest tests	est_post_h_eval_001_b_assessment.py tests	est_post_h_eval_001_c_architecture_map.py tests	est_post_h_eval_001_d_security_risk_register.py tests	est_post_h_eval_001_e_test_cost_assessment.py tests	est_post_h_eval_001_f_prioritized_roadmap.py -q
+python -m pytest tests	est_project_global_state.py tests	est_test_contract_registry.py tests	est_test_impact.py -q
+```
+
+### Criterios PASS
+
+```text
+roadmap contiene P0/P1/P2/P3
+POST-H-002 queda refinado como maturity dashboard basado en assessment
+remote/enterprise queda diferido a diseño P3
+ADRs POSTH-001/002/003 existen y tienen contexto/decisión/consecuencias
+manifest apunta a POST-H-EVAL-001-F y siguiente POST-H-EVAL-001-G
+no se agregan features runtime
+```
+
+### Criterios BLOCK
+
+```text
+remote execution habilitado
+connector write o plugin execution habilitados
+roadmap prioriza features sobre seguridad/testing/arquitectura
+POST-H-002 puede iniciar sin cierre de POST-H-EVAL-001-G
+claims enterprise/compliance sin evidencia y certificación externa
+```
+
+### Riesgos y recuperación
+
+El principal riesgo operativo es tratar el roadmap como cierre del hito completo. `POST-H-EVAL-001-F` solo deja decisiones y plan; el cierre formal depende de `POST-H-EVAL-001-G`. Si la prueba focal falla, revisar faltantes en `docs/backlogs/post_h_prioritized_roadmap.md`, ADRs y `docs/post_h_eval_001_manifest.json` antes de continuar.

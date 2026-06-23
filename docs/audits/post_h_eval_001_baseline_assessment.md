@@ -440,3 +440,32 @@ Decisión técnica:
 El siguiente roadmap debe incluir Test Contract Registry 2.0, impact analyzer por dominio y perfiles de regresión always/impact/release/full antes de escalar DevPilot hacia ejecución remota, conectores write-enabled o claims enterprise.
 ```
 
+
+
+## Actualización POST-H-EVAL-001-F — Roadmap priorizado post-H y decisiones arquitectónicas
+
+`POST-H-EVAL-001-F` convierte los hallazgos de A-E en una hoja de ruta post-H por oleadas, con prioridades P0/P1/P2/P3, criterios de entrada para `POST-H-002`, no-go gates y decisiones arquitectónicas explícitas.
+
+Artefactos agregados:
+
+```text
+docs/backlogs/post_h_prioritized_roadmap.md
+docs/adr/ADR-POSTH-001-local-first-before-remote.md
+docs/adr/ADR-POSTH-002-test-contract-registry-2.md
+docs/adr/ADR-POSTH-003-cli-modularization.md
+.devpilot/evals/post_h_eval_001_prioritized_roadmap.json
+tests/test_post_h_eval_001_f_prioritized_roadmap.py
+```
+
+Decisiones principales:
+
+```text
+DEC-POSTH-001 — Local-first antes de remote.
+DEC-POSTH-002 — POST-H-002 debe basarse en assessment, no en un dashboard ornamental.
+DEC-POSTH-003 — Remote execution real sigue bloqueado hasta ADR/threat model/sandbox/RBAC/approval.
+DEC-POSTH-004 — CLI monolítico entra al roadmap de modularización.
+DEC-POSTH-005 — Test Contract Registry 2.0 es P0.
+DEC-POSTH-006 — ZIP/audit pack hygiene es condición de fuente de verdad.
+```
+
+El siguiente micro-sprint es `POST-H-EVAL-001-G`, encargado de manifest final, prueba documental global y cierre formal del hito. `POST-H-002` no debe iniciar antes de ese cierre.

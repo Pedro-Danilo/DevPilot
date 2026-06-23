@@ -1,7 +1,8 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
-Estado actual: `baseline pre-code approved + Fases A-G cerradas + Fase H cerrada + POST-H-001 implemented-initial`  
+Estado actual: `baseline pre-code approved + Fases A-G cerradas + Fase H cerrada + POST-H-001 implemented-initial + POST-H-EVAL-001-F implemented documental`  
 Último hito: `POST-H-001 — Industrial hardening de tests y contratos`  
+Hito diagnóstico en curso: `POST-H-EVAL-001 — Evaluación integral del baseline DevPilot post-Fase H`, micro-sprint actual `POST-H-EVAL-001-F implemented`, siguiente micro-sprint `POST-H-EVAL-001-G`  
 Siguiente hito: `POST-H-002 — Maturity dashboard local`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
@@ -16,6 +17,24 @@ Modo de trabajo: local-first híbrido, API keys opcionales, costo externo contro
 El sprint separa explícitamente el contrato histórico de cada sprint frente al estado global mutable del proyecto. Los tests históricos de Fase H conservan validaciones propias del sprint, mientras `tests/test_project_global_state.py` valida el último hito, siguiente hito, changelog, runbook, backlog post-H y documento `POST-H-001`.
 
 Alcance: esta es una base inicial de hardening, no un sistema completo de selección de pruebas incremental. Ante cambios desconocidos o core, el analizador recomienda `pytest -q` de forma conservadora.
+
+
+## POST-H-EVAL-001-F — Roadmap priorizado post-H y decisiones arquitectónicas
+
+`POST-H-EVAL-001-F` convierte los hallazgos A-E del assessment post-H en un roadmap ejecutable por oleadas, tres ADRs post-H y una fuente machine-readable para `POST-H-002`.
+
+Artefactos principales:
+
+```text
+docs/backlogs/post_h_prioritized_roadmap.md
+docs/adr/ADR-POSTH-001-local-first-before-remote.md
+docs/adr/ADR-POSTH-002-test-contract-registry-2.md
+docs/adr/ADR-POSTH-003-cli-modularization.md
+.devpilot/evals/post_h_eval_001_prioritized_roadmap.json
+tests/test_post_h_eval_001_f_prioritized_roadmap.py
+```
+
+Alcance: documental/metadata. No agrega features runtime, no habilita APIs externas, no habilita remote execution, no habilita connectors write y no cambia la semántica de agentes. El hito completo `POST-H-EVAL-001` todavía requiere `POST-H-EVAL-001-G` para cierre formal.
 
 
 ## FUNC-SPRINT-99 — Industrial readiness gate y cierre Fase H

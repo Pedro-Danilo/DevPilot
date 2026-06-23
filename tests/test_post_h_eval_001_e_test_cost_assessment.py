@@ -102,11 +102,20 @@ def test_post_h_eval_001_e_security_and_runtime_limits_hold() -> None:
     assert not any(term in text for term in forbidden)
 
 
-def test_post_h_eval_001_manifest_points_to_e_and_next_f() -> None:
+def test_post_h_eval_001_manifest_preserves_e_deliverables_after_progression() -> None:
     assert MANIFEST.exists(), "POST-H-EVAL-001 manifest is missing."
     manifest = json.loads(MANIFEST.read_text(encoding="utf-8"))
-    assert manifest["current_micro_sprint"] == "POST-H-EVAL-001-E"
-    assert manifest["next_micro_sprint"] == "POST-H-EVAL-001-F"
+
+    # This is a historical contract for micro-sprint E. Once F is implemented,
+    # the manifest legitimately advances to F/G; the E contract must therefore
+    # verify that E evidence is preserved, not that the global pointer remains
+    # frozen at E.
+    allowed_transitions = {
+        ("POST-H-EVAL-001-E", "POST-H-EVAL-001-F"),
+        ("POST-H-EVAL-001-F", "POST-H-EVAL-001-G"),
+    }
+    assert (manifest["current_micro_sprint"], manifest["next_micro_sprint"]) in allowed_transitions
+
     deliverables = manifest.get("deliverables", [])
     deliverable_paths = {
         item["path"] if isinstance(item, dict) else item

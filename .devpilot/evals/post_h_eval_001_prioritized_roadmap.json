@@ -1,0 +1,193 @@
+{
+  "schema_version": "1.0",
+  "id": "POST-H-EVAL-001-F",
+  "title": "Roadmap priorizado post-H y decisiones arquitectónicas",
+  "status": "implemented",
+  "generated_at_utc": "2026-06-23T00:00:00Z",
+  "policy": {
+    "local_first": true,
+    "dry_run": true,
+    "no_runtime_features_added": true,
+    "no_remote_execution_enabled": true,
+    "no_write_connectors_enabled": true,
+    "no_external_apis_used": true,
+    "documentation_and_metadata_only": true
+  },
+  "priorities": [
+    "P0",
+    "P1",
+    "P2",
+    "P3"
+  ],
+  "waves": [
+    {
+      "id": "wave-0",
+      "name": "Baseline limpio y diagnóstico",
+      "priority_focus": "P0",
+      "milestones": [
+        "POST-H-EVAL-001",
+        "repo-hygiene-final"
+      ]
+    },
+    {
+      "id": "wave-1",
+      "name": "Gobernanza de madurez y testing",
+      "priority_focus": "P0",
+      "milestones": [
+        "POST-H-002",
+        "POST-H-003",
+        "POST-H-004",
+        "POST-H-005"
+      ]
+    },
+    {
+      "id": "wave-2",
+      "name": "Mantenibilidad y arquitectura interna",
+      "priority_focus": "P1",
+      "milestones": [
+        "POST-H-006",
+        "POST-H-007",
+        "POST-H-008",
+        "POST-H-009"
+      ]
+    },
+    {
+      "id": "wave-3",
+      "name": "Observabilidad, RAG y seguridad operacional",
+      "priority_focus": "P1",
+      "milestones": [
+        "POST-H-010",
+        "POST-H-011",
+        "POST-H-012",
+        "POST-H-013"
+      ]
+    },
+    {
+      "id": "wave-4",
+      "name": "Producto local industrial",
+      "priority_focus": "P1/P2",
+      "milestones": [
+        "POST-H-014",
+        "POST-H-015",
+        "POST-H-016",
+        "POST-H-017"
+      ]
+    },
+    {
+      "id": "wave-5",
+      "name": "Extensibilidad controlada",
+      "priority_focus": "P2",
+      "milestones": [
+        "POST-H-018",
+        "POST-H-019",
+        "POST-H-020"
+      ]
+    },
+    {
+      "id": "wave-6",
+      "name": "Remote/enterprise solo como diseño",
+      "priority_focus": "P3",
+      "milestones": [
+        "POST-H-021",
+        "POST-H-022",
+        "POST-H-023"
+      ]
+    }
+  ],
+  "decisions": [
+    {
+      "id": "DEC-POSTH-001",
+      "adr": "docs/adr/ADR-POSTH-001-local-first-before-remote.md",
+      "status": "accepted"
+    },
+    {
+      "id": "DEC-POSTH-002",
+      "adr": "docs/backlogs/post_h_prioritized_roadmap.md",
+      "status": "accepted"
+    },
+    {
+      "id": "DEC-POSTH-003",
+      "adr": "docs/adr/ADR-POSTH-001-local-first-before-remote.md",
+      "status": "accepted"
+    },
+    {
+      "id": "DEC-POSTH-004",
+      "adr": "docs/adr/ADR-POSTH-003-cli-modularization.md",
+      "status": "accepted"
+    },
+    {
+      "id": "DEC-POSTH-005",
+      "adr": "docs/adr/ADR-POSTH-002-test-contract-registry-2.md",
+      "status": "accepted"
+    },
+    {
+      "id": "DEC-POSTH-006",
+      "adr": "docs/backlogs/post_h_prioritized_roadmap.md",
+      "status": "accepted"
+    }
+  ],
+  "post_h_002_refinement": {
+    "name": "POST-H-002 — Maturity dashboard local basado en assessment post-H",
+    "must_consume": [
+      ".devpilot/project_state.json",
+      ".devpilot/evals/post_h_eval_001_decision_matrix.json",
+      ".devpilot/evals/post_h_eval_001_security_risk_register.json",
+      ".devpilot/evals/post_h_eval_001_test_cost_assessment.json",
+      ".devpilot/evals/post_h_eval_001_prioritized_roadmap.json",
+      "docs/audits/post_h_eval_001_baseline_assessment.md",
+      "docs/02_architecture/post_h_current_architecture_map.md",
+      "docs/03_security/post_h_security_risk_register.md",
+      "docs/04_quality/post_h_test_cost_assessment.md",
+      "docs/backlogs/post_h_prioritized_roadmap.md",
+      "docs/post_h_eval_001_manifest.json"
+    ],
+    "must_not_enable": [
+      "remote_execution",
+      "connector_write",
+      "plugin_execution",
+      "external_apis"
+    ]
+  },
+  "entry_criteria_for_post_h_002": {
+    "post_h_eval_001_closed_with_g": true,
+    "roadmap_exists": true,
+    "maturity_matrix_exists": true,
+    "risk_register_exists": true,
+    "test_cost_assessment_exists": true,
+    "architecture_map_exists": true,
+    "adrs_exist": true,
+    "clean_source_zip_required": true,
+    "quality_gate_hardening_required": true,
+    "remote_execution_disabled": true
+  },
+  "no_go_gates": [
+    "remote execution before ADR/threat-model/sandbox/RBAC/approval",
+    "connector write before sandbox/replay/approval/rollback",
+    "plugin execution before sandbox design",
+    "POST-H-002 without POST-H-EVAL-001 sources",
+    "enterprise/compliance claims without external certification",
+    "source ZIPs with runtime artifacts"
+  ],
+  "deliverables": [
+    "docs/backlogs/post_h_prioritized_roadmap.md",
+    "docs/adr/ADR-POSTH-001-local-first-before-remote.md",
+    "docs/adr/ADR-POSTH-002-test-contract-registry-2.md",
+    "docs/adr/ADR-POSTH-003-cli-modularization.md",
+    ".devpilot/evals/post_h_eval_001_prioritized_roadmap.json",
+    "tests/test_post_h_eval_001_f_prioritized_roadmap.py"
+  ],
+  "pass_criteria": {
+    "priorities_p0_p1_p2_p3_present": true,
+    "each_milestone_has_objective": true,
+    "dependencies_explicit": true,
+    "post_h_002_refined": true,
+    "remote_enterprise_deferred": true,
+    "architectural_decisions_explicit": true
+  },
+  "block_criteria": {
+    "features_over_security_testing_architecture": false,
+    "remote_before_local_hardening": false,
+    "missing_architectural_decisions": false,
+    "post_h_002_without_eval_closure": false
+  }
+}

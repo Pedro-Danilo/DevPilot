@@ -3,7 +3,7 @@
   "id": "POST-H-EVAL-001",
   "type": "diagnostic-executable-backlog",
   "status": "in_progress",
-  "current_micro_sprint": "POST-H-EVAL-001-E",
+  "current_micro_sprint": "POST-H-EVAL-001-F",
   "micro_sprint_status": "completed_initial_implementation",
   "phase": "POST-FASE-H",
   "created_at_utc": "2026-06-22T19:53:44Z",
@@ -196,6 +196,48 @@
       "path": "tests/test_post_h_eval_001_e_test_cost_assessment.py",
       "status": "created",
       "purpose": "Documentation/metadata contract for POST-H-EVAL-001-E assessment."
+    },
+    {
+      "path": "docs/backlogs/post_h_prioritized_roadmap.md",
+      "type": "roadmap",
+      "micro_sprint": "POST-H-EVAL-001-F",
+      "status": "created",
+      "purpose": "Prioritized post-H roadmap and entry criteria for POST-H-002."
+    },
+    {
+      "path": "docs/adr/ADR-POSTH-001-local-first-before-remote.md",
+      "type": "adr",
+      "micro_sprint": "POST-H-EVAL-001-F",
+      "status": "created",
+      "purpose": "Decision to keep DevPilot local-first before remote execution."
+    },
+    {
+      "path": "docs/adr/ADR-POSTH-002-test-contract-registry-2.md",
+      "type": "adr",
+      "micro_sprint": "POST-H-EVAL-001-F",
+      "status": "created",
+      "purpose": "Decision to evolve Test Contract Registry 2.0."
+    },
+    {
+      "path": "docs/adr/ADR-POSTH-003-cli-modularization.md",
+      "type": "adr",
+      "micro_sprint": "POST-H-EVAL-001-F",
+      "status": "created",
+      "purpose": "Decision to modularize CLI through a command registry."
+    },
+    {
+      "path": ".devpilot/evals/post_h_eval_001_prioritized_roadmap.json",
+      "type": "machine-readable-roadmap",
+      "micro_sprint": "POST-H-EVAL-001-F",
+      "status": "created",
+      "purpose": "Structured roadmap for POST-H-002 dashboard consumption."
+    },
+    {
+      "path": "tests/test_post_h_eval_001_f_prioritized_roadmap.py",
+      "type": "documentation-test",
+      "micro_sprint": "POST-H-EVAL-001-F",
+      "status": "created",
+      "purpose": "Documentation/metadata contract for POST-H-EVAL-001-F."
     }
   ],
   "validations": [
@@ -411,6 +453,106 @@
       "command": "python -m pytest --collect-only -q",
       "ok": true,
       "scope": "pytest-cost-inventory"
+    },
+    {
+      "command": "PYTHONPATH=src python -m devpilot_core rag index --target docs --index-path .devpilot/rag/docs_index.json --json",
+      "ok": true,
+      "exit_code": 0,
+      "micro_sprint": "POST-H-EVAL-001-F",
+      "files_indexed_total": 611,
+      "chunks_total": 2934,
+      "redactions_total": 82,
+      "local_only": true,
+      "network_used": false,
+      "external_api_used": false,
+      "metadata_mutation": "updated .devpilot/rag/docs_index.json"
+    },
+    {
+      "command": "PYTHONPATH=src python -m devpilot_core project-state validate --json",
+      "ok": true,
+      "exit_code": 0,
+      "micro_sprint": "POST-H-EVAL-001-F",
+      "checks_passed": 6,
+      "checks_total": 6
+    },
+    {
+      "command": "PYTHONPATH=src python -m devpilot_core test-contracts validate --json",
+      "ok": true,
+      "exit_code": 0,
+      "micro_sprint": "POST-H-EVAL-001-F",
+      "contracts_total": 84
+    },
+    {
+      "command": "PYTHONPATH=src python -m devpilot_core quality-gate run --profile hardening --json",
+      "ok": true,
+      "exit_code": 0,
+      "micro_sprint": "POST-H-EVAL-001-F",
+      "subgates_passed": 12,
+      "subgates_total": 12,
+      "blocking_findings_total": 0
+    },
+    {
+      "command": "PYTHONPATH=src python -m devpilot_core industrial-readiness check --json",
+      "ok": true,
+      "exit_code": 0,
+      "micro_sprint": "POST-H-EVAL-001-F",
+      "industrial_readiness_score": 84.18,
+      "blocking_gaps_total": 0,
+      "remote_runner_enabled": false,
+      "remote_execution_used": false
+    },
+    {
+      "command": "PYTHONPATH=src python -m pytest tests/test_post_h_eval_001_f_prioritized_roadmap.py -q",
+      "ok": true,
+      "micro_sprint": "POST-H-EVAL-001-F",
+      "tests_passed": 5,
+      "tests_failed": 0,
+      "tests_errors": 0,
+      "tests_skipped": 0
+    },
+    {
+      "command": "PYTHONPATH=src python -m pytest tests/test_post_h_eval_001_b_assessment.py tests/test_post_h_eval_001_c_architecture_map.py tests/test_post_h_eval_001_d_security_risk_register.py tests/test_post_h_eval_001_e_test_cost_assessment.py tests/test_post_h_eval_001_f_prioritized_roadmap.py -q",
+      "ok": true,
+      "micro_sprint": "POST-H-EVAL-001-F",
+      "tests_passed": 27,
+      "tests_failed": 0,
+      "tests_errors": 0,
+      "tests_skipped": 0
+    },
+    {
+      "command": "PYTHONPATH=src python -m pytest tests/test_project_global_state.py tests/test_test_contract_registry.py tests/test_test_impact.py -q",
+      "ok": true,
+      "micro_sprint": "POST-H-EVAL-001-F",
+      "tests_passed": 8,
+      "tests_failed": 0,
+      "tests_errors": 0,
+      "tests_skipped": 0
+    },
+    {
+      "command": "PYTHONPATH=src python -m pytest tests/test_sprint_99_documentation.py -q",
+      "ok": true,
+      "micro_sprint": "POST-H-EVAL-001-F",
+      "tests_passed": 5,
+      "tests_failed": 0,
+      "tests_errors": 0,
+      "tests_skipped": 0
+    },
+    {
+      "command": "PYTHONPATH=src python -m pytest tests/test_sprint_*_documentation.py -q",
+      "ok": true,
+      "micro_sprint": "POST-H-EVAL-001-F",
+      "tests_passed": 303,
+      "tests_failed": 0,
+      "tests_errors": 0,
+      "tests_skipped": 0
+    },
+    {
+      "command": "PYTHONPATH=src python -m pytest -q",
+      "ok": false,
+      "micro_sprint": "POST-H-EVAL-001-F",
+      "result": "not_completed_timeout_in_sandbox",
+      "tests_failed_observed": 0,
+      "note": "Attempted full suite in sandbox, but execution exceeded 600 seconds before completion. Use local Windows command for definitive full regression."
     }
   ],
   "decisions": [
@@ -505,6 +647,42 @@
     {
       "id": "DEC-E-005",
       "decision": "POST-H-002 debe consumir métricas de testing/costo como parte del dashboard de madurez."
+    },
+    {
+      "id": "DEC-POSTH-001",
+      "decision": "DevPilot remains local-first before remote execution.",
+      "status": "accepted",
+      "adr": "docs/adr/ADR-POSTH-001-local-first-before-remote.md"
+    },
+    {
+      "id": "DEC-POSTH-002",
+      "decision": "POST-H-002 must be assessment-driven, not ornamental.",
+      "status": "accepted",
+      "adr": "docs/backlogs/post_h_prioritized_roadmap.md"
+    },
+    {
+      "id": "DEC-POSTH-003",
+      "decision": "Remote execution remains blocked until explicit future ADR/threat model/sandbox/RBAC/approval/evals.",
+      "status": "accepted",
+      "adr": "docs/adr/ADR-POSTH-001-local-first-before-remote.md"
+    },
+    {
+      "id": "DEC-POSTH-004",
+      "decision": "CLI monolith risk enters the post-H refactor roadmap.",
+      "status": "accepted",
+      "adr": "docs/adr/ADR-POSTH-003-cli-modularization.md"
+    },
+    {
+      "id": "DEC-POSTH-005",
+      "decision": "Test Contract Registry must evolve to v2 by domain, criticality, risk and impact.",
+      "status": "accepted",
+      "adr": "docs/adr/ADR-POSTH-002-test-contract-registry-2.md"
+    },
+    {
+      "id": "DEC-POSTH-006",
+      "decision": "Future ZIPs/audit packs must exclude runtime artifacts.",
+      "status": "accepted",
+      "adr": "docs/backlogs/post_h_prioritized_roadmap.md"
     }
   ],
   "pass_criteria": {
@@ -520,7 +698,7 @@
     "source_of_truth_omitted": false,
     "runtime_artifacts_ignored": false
   },
-  "next_micro_sprint": "POST-H-EVAL-001-F",
+  "next_micro_sprint": "POST-H-EVAL-001-G",
   "updated_at_utc": "2026-06-23T00:00:00Z",
   "capability_assessment_summary": {
     "maturity_counts": {
@@ -607,5 +785,24 @@
     "unmapped_test_files_total": 103,
     "registry_v2_recommended": true,
     "impact_analyzer_gap_observed": "src/devpilot_core/policy/engine.py currently falls back to full pytest."
+  },
+  "prioritized_roadmap": {
+    "micro_sprint": "POST-H-EVAL-001-F",
+    "document": "docs/backlogs/post_h_prioritized_roadmap.md",
+    "machine_readable_source": ".devpilot/evals/post_h_eval_001_prioritized_roadmap.json",
+    "waves_total": 7,
+    "priorities": [
+      "P0",
+      "P1",
+      "P2",
+      "P3"
+    ],
+    "post_h_002_refined": true,
+    "remote_execution_deferred_to_design": true,
+    "adrs": [
+      "docs/adr/ADR-POSTH-001-local-first-before-remote.md",
+      "docs/adr/ADR-POSTH-002-test-contract-registry-2.md",
+      "docs/adr/ADR-POSTH-003-cli-modularization.md"
+    ]
   }
 }

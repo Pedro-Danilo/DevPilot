@@ -168,6 +168,21 @@ Cada micro-sprint debe poder ejecutarse, validarse y commitearse de forma indepe
 
 ---
 
+
+## 6.1 Estado de ejecución del hito
+
+| Micro-sprint | Estado actual | Evidencia principal |
+|---|---|---|
+| POST-H-EVAL-001-A | implemented | `docs/audits/post_h_eval_001_baseline_assessment.md`, `docs/post_h_eval_001_manifest.json` |
+| POST-H-EVAL-001-B | implemented | `.devpilot/evals/post_h_eval_001_decision_matrix.json` |
+| POST-H-EVAL-001-C | implemented | `docs/02_architecture/post_h_current_architecture_map.md` |
+| POST-H-EVAL-001-D | implemented | `docs/03_security/post_h_security_risk_register.md` |
+| POST-H-EVAL-001-E | implemented | `docs/04_quality/post_h_test_cost_assessment.md` |
+| POST-H-EVAL-001-F | implemented | `docs/backlogs/post_h_prioritized_roadmap.md`, `docs/adr/ADR-POSTH-*.md` |
+| POST-H-EVAL-001-G | pending | Manifest final, prueba documental global y cierre del hito |
+
+Nota: `POST-H-EVAL-001-F` es implementación documental/metadata. No introduce features runtime, no habilita remote execution, no habilita connector write ni plugin execution. El hito completo queda pendiente de cierre formal en `POST-H-EVAL-001-G`.
+
 # POST-H-EVAL-001-A — Preparación, snapshot e inventario cuantitativo
 
 ## Objetivo
@@ -801,6 +816,22 @@ BLOCK si no hay decisiones arquitectónicas explícitas.
 ```
 
 ---
+
+
+## Estado de implementación F
+
+Implementado en este repo mediante:
+
+```text
+docs/backlogs/post_h_prioritized_roadmap.md
+docs/adr/ADR-POSTH-001-local-first-before-remote.md
+docs/adr/ADR-POSTH-002-test-contract-registry-2.md
+docs/adr/ADR-POSTH-003-cli-modularization.md
+.devpilot/evals/post_h_eval_001_prioritized_roadmap.json
+tests/test_post_h_eval_001_f_prioritized_roadmap.py
+```
+
+El alcance se mantiene diagnóstico/documental. El cierre global del hito queda reservado para `POST-H-EVAL-001-G`.
 
 # POST-H-EVAL-001-G — Manifiesto, pruebas documentales y cierre
 
