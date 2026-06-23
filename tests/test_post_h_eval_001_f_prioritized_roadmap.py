@@ -84,8 +84,12 @@ def test_post_h_eval_001_f_machine_readable_roadmap_contract() -> None:
     assert data["policy"]["no_write_connectors_enabled"] is True
     assert data["policy"]["no_external_apis_used"] is True
     assert set(data["priorities"]) == {"P0", "P1", "P2", "P3"}
-    assert len(data["waves"]) == 7
+    assert len(data["waves"]) >= 7
     assert any("POST-H-002" in milestone for wave in data["waves"] for milestone in wave["milestones"])
+    # Roadmap v1.1 can include later onboarding/production-readiness waves while preserving F baseline.
+    if data.get("adjusted_after_onboarding"):
+        assert any("POST-H-024" in milestone for wave in data["waves"] for milestone in wave["milestones"])
+        assert any("POST-H-025" in milestone for wave in data["waves"] for milestone in wave["milestones"])
     assert data["entry_criteria_for_post_h_002"]["post_h_eval_001_closed_with_g"] is True
     assert data["entry_criteria_for_post_h_002"]["remote_execution_disabled"] is True
 

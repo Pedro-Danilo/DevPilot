@@ -3,7 +3,7 @@ doc_id: "POSTH-ROADMAP-001"
 id: "POST-H-EVAL-001-F"
 title: "Roadmap priorizado post-H y decisiones arquitectónicas"
 status: "approved"
-version: "1.0.0"
+version: "1.1.0"
 owner: "Ordóñez"
 updated: "2026-06-23"
 approval: "approved_by_owner"
@@ -36,6 +36,7 @@ Este artefacto no implementa features runtime. Es una decisión de producto/arqu
 | `docs/04_quality/post_h_test_cost_assessment.md` | Evaluación de testing/costos | Registry v1, gaps del impact analyzer y propuesta de Test Contract Registry 2.0 |
 | `.devpilot/evals/post_h_eval_001_test_cost_assessment.json` | Fuente machine-readable de testing | 187 tests, 893 casos recolectables, 84 contratos, 103 tests no mapeados |
 | `docs/post_h_eval_001_manifest.json` | Trazabilidad del hito | Entregables A-E, decisiones y validaciones |
+| `Informe de onboarding DevPilot — Hasta POST-H-EVAL-001.docx` | Onboarding humano y reverse engineering consolidado | Preguntas 1-16: core domain, runtime, workspace, validadores, MIASI, agentes, gap analysis, capability maturity, reverse engineering y guía de operador |
 
 ## 3. Principios de priorización
 
@@ -46,14 +47,15 @@ Este artefacto no implementa features runtime. Es una decisión de producto/arqu
 5. **Evidencia antes de claims:** los documentos deben diferenciar `production-ready-local`, `implemented`, `implemented-initial`, `experimental`, `planned`, `defined/no implementado` y `future`.
 6. **Costos controlados:** no se activan APIs externas ni ejecuciones costosas sin CostGuard, budget, trazabilidad y aprobación.
 7. **Contratos antes de acoplamientos nuevos:** toda nueva superficie de API/UI/agent/tools debe tener schema, test contract, policy y verificación.
+8. **Onboarding operable antes de declarar producción:** DevPilot no debe declararse `production-ready` completo sin playbooks de operador, bootstrap de proyectos nuevos y un gate explícito de declaración basado en evidencia.
 
 ## 4. Resumen ejecutivo de prioridades
 
 | Prioridad | Enfoque | Justificación |
 |---|---|---|
 | P0 | Cerrar `POST-H-EVAL-001`, higiene de repo, maturity dashboard, Test Contract Registry 2.0 y Policy/MIASI semantic validation | Reduce riesgos críticos y convierte el diagnóstico en señales operables |
-| P1 | CLI modularization, ApplicationService boundary, runtime state lifecycle, observabilidad, approval/RBAC y UI/API shell industrial | Reduce acoplamiento, fortalece operación local y prepara producto visual seguro |
-| P2 | Portfolio/multiworkspace, release reproducibility, connector sandbox, plugin sandbox design y compliance packs | Expande capacidades controladas sin adelantar remote/enterprise |
+| P1 | CLI modularization, ApplicationService boundary, runtime state lifecycle, observabilidad, approval/RBAC, UI/API shell industrial y onboarding operativo | Reduce acoplamiento, fortalece operación local, prepara producto visual seguro y habilita adopción controlada por operadores |
+| P2 | Portfolio/multiworkspace, release reproducibility, operator/project bootstrap, connector sandbox, plugin sandbox design y compliance packs | Expande capacidades controladas sin adelantar remote/enterprise |
 | P3 | Remote runner ADR-2, enterprise deployment threat model y secure transport design | Permanece como diseño hasta que existan garantías P0/P1 suficientes |
 
 ## 5. Roadmap priorizado por oleadas
@@ -100,6 +102,7 @@ Este artefacto no implementa features runtime. Es una decisión de producto/arqu
 | P1 | `POST-H-015 — Local operator dashboard` | Dashboard operativo para gates, riesgos, traces, test contracts y roadmap | POST-H-014 | UI/API shell estable | Vista de operación local con criterios PASS/BLOCK y drill-down documental |
 | P2 | `POST-H-016 — Workspace portfolio hardening` | Gestionar múltiples workspaces con límites de path, estado y reportes | Multiworkspace baseline | Policy/PathGuard fortalecidos | Portfolio local sin mezclar runtime state ni permisos entre workspaces |
 | P2 | `POST-H-017 — Release reproducibility pack` | Empaquetado reproducible con checksums, manifest, changelog y verificación de higiene | Repo hygiene, release dry-run | ZIP limpio y release docs actuales | Release pack reproducible sin artifacts prohibidos |
+| P1 | `POST-H-024 — Operator onboarding playbook y project bootstrap workflow` | Convertir el informe de onboarding y la guía de operador en playbooks, plantillas y flujo verificable para iniciar proyectos nuevos con DevPilot | POST-H-002, POST-H-009, POST-H-014 | Dashboard de madurez y fuentes canónicas disponibles | Playbook aprobado, templates de proyecto nuevo, checklist de operador y evidencia de uso en un proyecto piloto local sin remote/write/plugins |
 
 ### Oleada 5 — Extensibilidad controlada
 
@@ -117,6 +120,12 @@ Este artefacto no implementa features runtime. Es una decisión de producto/arqu
 | P3 | `POST-H-022 — Enterprise deployment threat model` | Threat model de despliegue enterprise antes de cualquier control plane | POST-H-021 | No hay remote execution activa | Riesgos, límites, controles, actores y criterios de no-go |
 | P3 | `POST-H-023 — Secure transport design sin implementación activa` | Diseñar transporte seguro sin habilitar red ni workers remotos | POST-H-022 | ADR/threat model aprobados | Diseño comparativo y criterios para un futuro spike aislado |
 
+### Oleada 7 — Declaración local production-ready
+
+| Prioridad | Hito | Objetivo | Dependencias | Criterio de entrada | Criterio de salida |
+|---|---|---|---|---|---|
+| P0 | `POST-H-025 — DevPilot Local production-ready declaration gate` | Ejecutar un gate final de declaración local `production-ready` basado en evidencia, sin claims enterprise/remote/compliance certificada | POST-H-002 a POST-H-017 y POST-H-024; remote/connector/plugin gates cerrados | P0/P1 completados, riesgos críticos mitigados o explícitamente bloqueados, suite y contracts PASS | Declaración `production-ready-local` o `BLOCK` con gaps; no habilita remote, connector write ni plugin execution |
+
 ## 6. Decisiones arquitectónicas mínimas
 
 | ID | Decisión | Estado | ADR |
@@ -127,6 +136,9 @@ Este artefacto no implementa features runtime. Es una decisión de producto/arqu
 | DEC-POSTH-004 | El CLI monolítico entra al roadmap de refactor arquitectónico. | Aceptada | `docs/adr/ADR-POSTH-003-cli-modularization.md` |
 | DEC-POSTH-005 | El Test Contract Registry debe evolucionar hacia contratos por dominio, criticidad, riesgo e impacto. | Aceptada | `docs/adr/ADR-POSTH-002-test-contract-registry-2.md` |
 | DEC-POSTH-006 | Los audit packs, ZIPs y fuentes de verdad futuras deben excluir runtime artifacts. | Aceptada | Este roadmap + risk register D |
+| DEC-POSTH-007 | `POST-H-EVAL-001` debe permanecer cerrado y estable antes de iniciar `POST-H-002`; cualquier ajuste posterior al roadmap debe conservar no-go gates. | Aceptada | Manifest G + este roadmap |
+| DEC-POSTH-008 | El onboarding de operadores y el bootstrap verificable de proyectos nuevos son requisitos de madurez antes de declarar DevPilot productivo localmente. | Aceptada | Este roadmap |
+| DEC-POSTH-009 | La declaración `production-ready-local` debe producirse por un gate explícito basado en evidencia, no por afirmación documental. | Aceptada | Este roadmap |
 
 ## 7. Refinamiento obligatorio de POST-H-002
 
@@ -200,6 +212,8 @@ POST-H-EVAL-001-D -> POST-H-004
 POST-H-EVAL-001-C -> POST-H-005
 POST-H-005 -> POST-H-006
 POST-H-012 -> cualquier capacidad write/sensible posterior
+POST-H-009 + POST-H-014 -> POST-H-024
+POST-H-002..POST-H-017 + POST-H-024 -> POST-H-025
 ```
 
 ### No-go gates
@@ -211,6 +225,7 @@ BLOCK si plugin execution se habilita antes de sandbox formal.
 BLOCK si POST-H-002 se construye sin usar las fuentes POST-H-EVAL-001.
 BLOCK si se declaran claims enterprise/compliance certificada.
 BLOCK si se distribuyen ZIPs con runtime artifacts.
+BLOCK si se declara production-ready completo sin POST-H-025 PASS.
 ```
 
 ## 10. Comandos de verificación
@@ -249,6 +264,7 @@ PASS si remote/enterprise queda pospuesto hasta condiciones explícitas.
 PASS si existen ADR-POSTH-001, ADR-POSTH-002 y ADR-POSTH-003.
 PASS si no se agregan features runtime ni APIs externas.
 PASS si README, runbook, backlog y manifest quedan sincronizados.
+PASS si el roadmap incluye onboarding operativo y un gate explícito de declaración production-ready-local.
 ```
 
 ## 12. Criterios BLOCK
@@ -260,6 +276,7 @@ BLOCK si no hay decisiones arquitectónicas explícitas.
 BLOCK si POST-H-002 puede iniciarse sin cierre de POST-H-EVAL-001-G.
 BLOCK si el roadmap permite connectors write o plugin execution sin sandbox.
 BLOCK si se sobredeclara DevPilot como enterprise production-ready.
+BLOCK si se intenta declarar DevPilot production-ready-local sin evidencia consolidada, playbook de operador y gate POST-H-025.
 ```
 
 ## 13. Riesgos y limitaciones
@@ -272,8 +289,41 @@ BLOCK si se sobredeclara DevPilot como enterprise production-ready.
 | Registry v2 subestimado | Alta | Tratar POST-H-003 como P0, no como mejora opcional |
 | Remote/enterprise presionado por roadmap aspiracional | Crítica | Mantener P3 como diseño, con no-go gates explícitos |
 | Drift documental | Media-alta | Usar pruebas documentales y manifest G para cierre |
+| Onboarding no operacionalizado | Alta | Convertir informe de onboarding y guía de operador en POST-H-024 con plantillas, checklist y proyecto piloto local |
+| Declaración productiva prematura | Alta | Exigir POST-H-025 como gate final con evidencia y no-go gates cerrados |
 
-## 14. Entregables de F
+## 14. Backlogs ejecutables derivados del roadmap definitivo
+
+Estos son los backlogs ejecutables que deben elaborarse para continuar el desarrollo. Cada backlog debe tener objetivo, alcance, entregables, criterios PASS/BLOCK, comandos de validación, riesgos, no-go gates y entregable verificable.
+
+| Orden | Backlog ejecutable a crear | Hito cubierto | Prioridad | Propósito |
+|---:|---|---|---|---|
+| 1 | `docs/backlogs/POST-H-002_maturity_dashboard_local.md` | POST-H-002 | P0 | Dashboard local read-only sobre madurez, riesgos, tests, gates y roadmap. |
+| 2 | `docs/backlogs/POST-H-003_test_contract_registry_2.md` | POST-H-003 | P0 | Evolución del Test Contract Registry por dominio, criticidad, riesgo, costo e impacto. |
+| 3 | `docs/backlogs/POST-H-004_policy_miasi_semantic_validator.md` | POST-H-004 | P0 | Validator semántico agent/tool/policy/approval/RBAC/observability/evals. |
+| 4 | `docs/backlogs/POST-H-005_architecture_map_executable.md` | POST-H-005 | P0 | Mapa ejecutable de arquitectura, ownership, dependencias y hotspots. |
+| 5 | `docs/backlogs/POST-H-006_cli_command_registry.md` | POST-H-006 | P1 | Modularización progresiva del CLI. |
+| 6 | `docs/backlogs/POST-H-007_application_service_boundary.md` | POST-H-007 | P1 | Endurecimiento de frontera CLI/API/UI con ApplicationService y DTOs. |
+| 7 | `docs/backlogs/POST-H-008_runtime_state_lifecycle.md` | POST-H-008 | P1 | Retención, limpieza, export y exclusión de runtime state. |
+| 8 | `docs/backlogs/POST-H-009_documentation_governance.md` | POST-H-009 | P1 | Fuentes canónicas, owners, sincronización y pruebas documentales robustas. |
+| 9 | `docs/backlogs/POST-H-010_observability_retention.md` | POST-H-010 | P1 | Retención, redacción y consulta local de trazas/eventos. |
+| 10 | `docs/backlogs/POST-H-011_rag_groundedness_evals.md` | POST-H-011 | P1 | Evaluaciones de groundedness del RAG local. |
+| 11 | `docs/backlogs/POST-H-012_approval_rbac_hardening.md` | POST-H-012 | P1 | Approval/RBAC por acciones sensibles, actor binding y scopes. |
+| 12 | `docs/backlogs/POST-H-013_audit_pack_integrity.md` | POST-H-013 | P1 | Integridad local opcional de audit packs y disclaimers. |
+| 13 | `docs/backlogs/POST-H-014_ui_api_industrial_shell.md` | POST-H-014 | P1 | Shell local seguro UI/API read-only/dry-run. |
+| 14 | `docs/backlogs/POST-H-015_local_operator_dashboard.md` | POST-H-015 | P1 | Dashboard operativo con gates, riesgos, traces y roadmap. |
+| 15 | `docs/backlogs/POST-H-016_workspace_portfolio_hardening.md` | POST-H-016 | P2 | Hardening multiworkspace y aislamiento de estado. |
+| 16 | `docs/backlogs/POST-H-017_release_reproducibility_pack.md` | POST-H-017 | P2 | Empaquetado reproducible e higiene de release. |
+| 17 | `docs/backlogs/POST-H-024_operator_onboarding_bootstrap.md` | POST-H-024 | P1 | Playbook de operador, plantillas y bootstrap de proyectos nuevos. |
+| 18 | `docs/backlogs/POST-H-018_connector_sandbox.md` | POST-H-018 | P2 | Sandbox/replay de conectores; writes siguen deshabilitados. |
+| 19 | `docs/backlogs/POST-H-019_plugin_sandbox_design.md` | POST-H-019 | P2 | Diseño de sandbox de plugins sin ejecución arbitraria. |
+| 20 | `docs/backlogs/POST-H-020_compliance_mapping_packs.md` | POST-H-020 | P2 | Packs compliance-like ampliados sin claim certificable. |
+| 21 | `docs/backlogs/POST-H-021_remote_runner_adr2.md` | POST-H-021 | P3 | ADR-2 de remote runner sin ejecución activa. |
+| 22 | `docs/backlogs/POST-H-022_enterprise_deployment_threat_model.md` | POST-H-022 | P3 | Threat model enterprise antes de cualquier control plane. |
+| 23 | `docs/backlogs/POST-H-023_secure_transport_design.md` | POST-H-023 | P3 | Diseño de transporte seguro sin habilitar red. |
+| 24 | `docs/backlogs/POST-H-025_production_ready_declaration_gate.md` | POST-H-025 | P0 | Gate final para declarar `production-ready-local` o bloquear con gaps. |
+
+## 15. Entregables de F
 
 ```text
 docs/backlogs/post_h_prioritized_roadmap.md
@@ -284,6 +334,6 @@ docs/adr/ADR-POSTH-003-cli-modularization.md
 tests/test_post_h_eval_001_f_prioritized_roadmap.py
 ```
 
-## 15. Estado de cierre del micro-sprint F
+## 16. Estado de cierre del micro-sprint F
 
 `POST-H-EVAL-001-F` queda clasificado como `implemented` a nivel documental/metadata y `PASS focal` cuando pasan las pruebas documentales y los gates de no regresión definidos. El hito completo `POST-H-EVAL-001` no queda cerrado hasta ejecutar `POST-H-EVAL-001-G` con manifest final y prueba documental global.

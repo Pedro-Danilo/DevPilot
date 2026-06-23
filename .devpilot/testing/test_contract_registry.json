@@ -2059,6 +2059,30 @@
       "recommended_commands": [
         "python -m pytest tests/test_post_h_eval_001_documentation.py -q"
       ]
+    },
+    {
+      "contract_id": "post-h-roadmap-onboarding-adjustment",
+      "scope": "integration",
+      "owner": "POST-H-EVAL-001-onboarding-adjustment",
+      "phase": "POST-FASE-H",
+      "test_files": [
+        "tests/test_post_h_roadmap_onboarding_adjustment.py"
+      ],
+      "validates": [
+        "docs/backlogs/post_h_prioritized_roadmap.md",
+        ".devpilot/evals/post_h_eval_001_prioritized_roadmap.json"
+      ],
+      "watched_paths": [
+        "docs/backlogs/post_h_prioritized_roadmap.md",
+        ".devpilot/evals/post_h_eval_001_prioritized_roadmap.json",
+        "tests/test_post_h_roadmap_onboarding_adjustment.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest tests/test_post_h_roadmap_onboarding_adjustment.py -q"
+      ]
     }
   ],
   "notes": [

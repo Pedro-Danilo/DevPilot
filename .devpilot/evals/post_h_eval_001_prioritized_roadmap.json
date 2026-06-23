@@ -70,7 +70,8 @@
         "POST-H-014",
         "POST-H-015",
         "POST-H-016",
-        "POST-H-017"
+        "POST-H-017",
+        "POST-H-024"
       ]
     },
     {
@@ -91,6 +92,14 @@
         "POST-H-021",
         "POST-H-022",
         "POST-H-023"
+      ]
+    },
+    {
+      "id": "wave-7",
+      "name": "Declaración local production-ready",
+      "priority_focus": "P0",
+      "milestones": [
+        "POST-H-025"
       ]
     }
   ],
@@ -122,6 +131,21 @@
     },
     {
       "id": "DEC-POSTH-006",
+      "adr": "docs/backlogs/post_h_prioritized_roadmap.md",
+      "status": "accepted"
+    },
+    {
+      "id": "DEC-POSTH-007",
+      "adr": "docs/post_h_eval_001_manifest.json",
+      "status": "accepted"
+    },
+    {
+      "id": "DEC-POSTH-008",
+      "adr": "docs/backlogs/post_h_prioritized_roadmap.md",
+      "status": "accepted"
+    },
+    {
+      "id": "DEC-POSTH-009",
       "adr": "docs/backlogs/post_h_prioritized_roadmap.md",
       "status": "accepted"
     }
@@ -189,5 +213,165 @@
     "remote_before_local_hardening": false,
     "missing_architectural_decisions": false,
     "post_h_002_without_eval_closure": false
+  },
+  "version": "1.1.0",
+  "adjusted_after_onboarding": true,
+  "onboarding_review": {
+    "source": "Informe de onboarding DevPilot — Hasta POST-H-EVAL-001.docx / preguntas orientadoras 1-16",
+    "decision": "roadmap_adjusted",
+    "reason": "El onboarding evidenció necesidad explícita de playbooks de operador, bootstrap de proyectos nuevos y gate formal de declaración production-ready-local antes de claims productivos."
+  },
+  "executable_backlogs_to_create": [
+    {
+      "milestone": "POST-H-002",
+      "path": "docs/backlogs/POST-H-002_maturity_dashboard_local.md",
+      "priority": "P0"
+    },
+    {
+      "milestone": "POST-H-003",
+      "path": "docs/backlogs/POST-H-003_test_contract_registry_2.md",
+      "priority": "P0"
+    },
+    {
+      "milestone": "POST-H-004",
+      "path": "docs/backlogs/POST-H-004_policy_miasi_semantic_validator.md",
+      "priority": "P0"
+    },
+    {
+      "milestone": "POST-H-005",
+      "path": "docs/backlogs/POST-H-005_architecture_map_executable.md",
+      "priority": "P0"
+    },
+    {
+      "milestone": "POST-H-006",
+      "path": "docs/backlogs/POST-H-006_cli_command_registry.md",
+      "priority": "P1"
+    },
+    {
+      "milestone": "POST-H-007",
+      "path": "docs/backlogs/POST-H-007_application_service_boundary.md",
+      "priority": "P1"
+    },
+    {
+      "milestone": "POST-H-008",
+      "path": "docs/backlogs/POST-H-008_runtime_state_lifecycle.md",
+      "priority": "P1"
+    },
+    {
+      "milestone": "POST-H-009",
+      "path": "docs/backlogs/POST-H-009_documentation_governance.md",
+      "priority": "P1"
+    },
+    {
+      "milestone": "POST-H-010",
+      "path": "docs/backlogs/POST-H-010_observability_retention.md",
+      "priority": "P1"
+    },
+    {
+      "milestone": "POST-H-011",
+      "path": "docs/backlogs/POST-H-011_rag_groundedness_evals.md",
+      "priority": "P1"
+    },
+    {
+      "milestone": "POST-H-012",
+      "path": "docs/backlogs/POST-H-012_approval_rbac_hardening.md",
+      "priority": "P1"
+    },
+    {
+      "milestone": "POST-H-013",
+      "path": "docs/backlogs/POST-H-013_audit_pack_integrity.md",
+      "priority": "P1"
+    },
+    {
+      "milestone": "POST-H-014",
+      "path": "docs/backlogs/POST-H-014_ui_api_industrial_shell.md",
+      "priority": "P1"
+    },
+    {
+      "milestone": "POST-H-015",
+      "path": "docs/backlogs/POST-H-015_local_operator_dashboard.md",
+      "priority": "P1"
+    },
+    {
+      "milestone": "POST-H-016",
+      "path": "docs/backlogs/POST-H-016_workspace_portfolio_hardening.md",
+      "priority": "P2"
+    },
+    {
+      "milestone": "POST-H-017",
+      "path": "docs/backlogs/POST-H-017_release_reproducibility_pack.md",
+      "priority": "P2"
+    },
+    {
+      "milestone": "POST-H-024",
+      "path": "docs/backlogs/POST-H-024_operator_onboarding_bootstrap.md",
+      "priority": "P1"
+    },
+    {
+      "milestone": "POST-H-018",
+      "path": "docs/backlogs/POST-H-018_connector_sandbox.md",
+      "priority": "P2"
+    },
+    {
+      "milestone": "POST-H-019",
+      "path": "docs/backlogs/POST-H-019_plugin_sandbox_design.md",
+      "priority": "P2"
+    },
+    {
+      "milestone": "POST-H-020",
+      "path": "docs/backlogs/POST-H-020_compliance_mapping_packs.md",
+      "priority": "P2"
+    },
+    {
+      "milestone": "POST-H-021",
+      "path": "docs/backlogs/POST-H-021_remote_runner_adr2.md",
+      "priority": "P3"
+    },
+    {
+      "milestone": "POST-H-022",
+      "path": "docs/backlogs/POST-H-022_enterprise_deployment_threat_model.md",
+      "priority": "P3"
+    },
+    {
+      "milestone": "POST-H-023",
+      "path": "docs/backlogs/POST-H-023_secure_transport_design.md",
+      "priority": "P3"
+    },
+    {
+      "milestone": "POST-H-025",
+      "path": "docs/backlogs/POST-H-025_production_ready_declaration_gate.md",
+      "priority": "P0"
+    }
+  ],
+  "production_ready_declaration": {
+    "milestone": "POST-H-025",
+    "allowed_claim": "production-ready-local",
+    "forbidden_claims": [
+      "enterprise-production-ready",
+      "remote-production-ready",
+      "compliance-certified"
+    ],
+    "must_not_enable": [
+      "remote_execution",
+      "connector_write",
+      "plugin_execution",
+      "external_apis_by_default"
+    ],
+    "requires": [
+      "POST-H-002",
+      "POST-H-003",
+      "POST-H-004",
+      "POST-H-005",
+      "POST-H-006",
+      "POST-H-007",
+      "POST-H-008",
+      "POST-H-009",
+      "POST-H-010",
+      "POST-H-011",
+      "POST-H-012",
+      "POST-H-014",
+      "POST-H-017",
+      "POST-H-024"
+    ]
   }
 }
