@@ -2,16 +2,18 @@
 doc_id: "POST-H-004-BACKLOG"
 id: "POST-H-004"
 title: "POST-H-004 — Policy/MIASI semantic validator ampliado"
-status: "draft"
-version: "0.1.0"
+status: "approved"
+version: "0.2.0"
 owner: "Ordóñez"
-updated: "2026-06-23"
+updated: "2026-06-24"
 phase: "POST-FASE-H"
 priority: "P0"
 roadmap_source: "docs/backlogs/post_h_prioritized_roadmap.md"
 local_first: true
 dry_run: true
 no_remote_execution_enabled: true
+implementation_status: "in-progress"
+approval: "internal"
 ---
 
 # POST-H-004 — Policy/MIASI semantic validator ampliado
@@ -162,6 +164,33 @@ PASS:
 PASS si el schema valida reportes válidos.
 PASS si findings block son machine-readable.
 ```
+
+#### Avance POST-H-004-A — implemented-initial
+
+Estado: `implemented-initial` / `schema-only`.
+
+Implementado:
+
+```text
+- `MiasiSemanticReport`, `SemanticFinding` y `SemanticRuleResult`.
+- `docs/schemas/miasi_semantic_report.schema.json`.
+- Registro `SCHEMA-DEVPL-MIASI-SEMANTIC-REPORT-V1` en `schema_catalog`.
+- Mapeo de severidad semántica `info/warning/error/block`.
+- Fixtures de reporte válido e inválido.
+- Pruebas focales de modelo/schema.
+```
+
+No implementado todavía:
+
+```text
+- Reglas agent/tool/policy.
+- Reglas approval/RBAC/security guards.
+- Cruce con observability/evals/test contracts.
+- Integración con quality-gate.
+```
+
+Criterio de alcance: `POST-H-004-A` define contrato y modelo de reporte; la ejecución semántica empieza en `POST-H-004-B`.
+
 
 ### POST-H-004-B — Reglas agent/tool/policy
 

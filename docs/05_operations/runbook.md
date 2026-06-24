@@ -2,7 +2,7 @@
 title: "Runbook — DevPilot Local"
 doc_id: "DEVPL-OPS-002"
 status: "approved"
-version: "1.30.0"
+version: "1.31.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
@@ -6086,3 +6086,36 @@ BLOCK si se declara production-ready completo, enterprise-ready, remote-ready o 
 ### Riesgos y limitaciones
 
 El dashboard puede guiar priorización y operación local, pero no sustituye `POST-H-003`, `POST-H-004`, `POST-H-005` ni la declaración final `POST-H-025`. El siguiente paso técnico es `POST-H-003 — Test Contract Registry 2.0`.
+
+
+## POST-H-004-A — Operación del modelo semántico MIASI/Policy
+
+Propósito: iniciar `POST-H-004 — Policy/MIASI semantic validator ampliado` con un contrato estable de reporte semántico antes de implementar reglas activas. Esta operación valida que el schema `MiasiSemanticReport` esté registrado, que el fixture válido pase y que el fixture mutante/inseguro falle por contrato.
+
+Comandos:
+
+```powershell
+python -m devpilot_core schema list --json
+python -m devpilot_core schema validate --schema-id MiasiSemanticReport --instance tests/fixtures/miasi_semantic_report/valid_schema_only_report.json --json
+python -m pytest tests/test_miasi_semantic_report_model.py tests/test_schema_registry.py tests/test_miasi_registry.py -q
+```
+
+Criterios PASS:
+
+```text
+PASS si `SCHEMA-DEVPL-MIASI-SEMANTIC-REPORT-V1` aparece en `schema list`.
+PASS si el fixture `valid_schema_only_report.json` valida contra `MiasiSemanticReport`.
+PASS si `invalid_mutating_report.json` falla cuando intenta declarar `dry_run=false`.
+PASS si `MiasiSemanticReport` mantiene `network_used=false`, `external_api_used=false`, `mutations_performed=false` y `source_mutations_performed=false`.
+```
+
+Criterios BLOCK:
+
+```text
+BLOCK si el reporte permite red, API externa o mutación de fuentes.
+BLOCK si un finding `block` no queda representado como dato machine-readable.
+BLOCK si el schema no está registrado en `docs/schemas/schema_catalog.json`.
+BLOCK si esta entrega ejecuta agentes, tools, PolicyEngine o reglas semánticas reales antes de POST-H-004-B/C/D.
+```
+
+Riesgos y límites: `POST-H-004-A` es una primera versión contractual (`schema-only`). No demuestra todavía que agentes, tools, approvals, RBAC, observability, evals o test contracts estén semánticamente alineados; solo establece el modelo de reporte sobre el que se construirán las reglas de `POST-H-004-B`, `POST-H-004-C` y `POST-H-004-D`.

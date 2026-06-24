@@ -1,12 +1,12 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
-Estado actual: `baseline pre-code approved + Fases A-G cerradas + Fase H cerrada + POST-H-001 implemented-initial + POST-H-EVAL-001 closed + POST-H-002 closed + POST-H-003 closed`  
+Estado actual: `baseline pre-code approved + Fases A-G cerradas + Fase H cerrada + POST-H-001 implemented-initial + POST-H-EVAL-001 closed + POST-H-002 closed + POST-H-003 closed + POST-H-004-A implemented-initial`  
 Último hito: `POST-H-003 — Test Contract Registry 2.0`  
-Último micro-sprint implementado: `POST-H-003-E — Quality gate y documentación`  
+Último micro-sprint implementado: `POST-H-004-A — Modelo semántico y report schema`  
 Hito diagnóstico cerrado: `POST-H-EVAL-001 — Evaluación integral del baseline DevPilot post-Fase H`, cierre formal `POST-H-EVAL-001-G`  
 Siguiente hito: `POST-H-004 — Policy/MIASI semantic validator ampliado`  
 Hito en ejecución: `POST-H-004 — Policy/MIASI semantic validator ampliado`  
-Siguiente micro-sprint: `POST-H-004-A — Modelo semántico y report schema`  
+Siguiente micro-sprint: `POST-H-004-B — Reglas agent/tool/policy`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
@@ -17,6 +17,21 @@ Modo de trabajo: local-first híbrido, API keys opcionales, costo externo contro
 
 
 
+
+
+## POST-H-004-A — Modelo semántico y report schema
+
+`POST-H-004-A` inicia el hito `POST-H-004 — Policy/MIASI semantic validator ampliado` con una base contractual estable para reportes semánticos. La entrega registra `SCHEMA-DEVPL-MIASI-SEMANTIC-REPORT-V1`, agrega los modelos `MiasiSemanticReport`, `SemanticFinding` y `SemanticRuleResult`, y define el mapeo de severidad `info/warning/error/block` que usarán las reglas de los siguientes micro-sprints.
+
+Comandos principales:
+
+```powershell
+python -m devpilot_core schema list --json
+python -m devpilot_core schema validate --schema-id MiasiSemanticReport --instance tests/fixtures/miasi_semantic_report/valid_schema_only_report.json --json
+python -m pytest tests/test_miasi_semantic_report_model.py tests/test_schema_registry.py tests/test_miasi_registry.py -q
+```
+
+Alcance: esta entrega es `implemented-initial` y `schema-only`. No ejecuta reglas semánticas agent/tool/policy, no modifica `PolicyEngine`, no ejecuta agentes ni herramientas, no habilita red, APIs externas, remote execution, connector write ni plugin execution. La validación semántica real empieza en `POST-H-004-B`.
 
 ## POST-H-003-E — Quality gate y documentación
 

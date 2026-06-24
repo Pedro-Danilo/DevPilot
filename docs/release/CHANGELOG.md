@@ -10,6 +10,21 @@ owner: "Ordóñez"
 
 # Changelog
 
+
+## [post-h-004-a] - 2026-06-24
+
+### Added
+
+- `MiasiSemanticReport`, `SemanticFinding` and `SemanticRuleResult` as the semantic report model for `POST-H-004`.
+- `docs/schemas/miasi_semantic_report.schema.json` and schema catalog entry `SCHEMA-DEVPL-MIASI-SEMANTIC-REPORT-V1`.
+- Severity mapping `info/warning/error/block` for future semantic rules.
+- Fixtures and tests for valid and invalid semantic report payloads.
+
+### Security
+
+- The report contract requires `dry_run=true`, `network_used=false`, `external_api_used=false`, `mutations_performed=false` and `source_mutations_performed=false`.
+- No semantic rules, agent execution, tool execution, remote execution, connector write or plugin execution are enabled in this micro-sprint.
+
 ## [post-h-003-e] - 2026-06-24
 
 - Closes `POST-H-003 — Test Contract Registry 2.0` as `implemented-initial`.

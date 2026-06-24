@@ -1,0 +1,202 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/miasi_semantic_report.schema.json",
+  "title": "DevPilot MIASI Semantic Report v1",
+  "description": "Machine-readable report for the Policy/MIASI semantic validator. POST-H-004-A defines the contract; later micro-sprints populate rule results.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "schema_id",
+    "report_id",
+    "created_by",
+    "status",
+    "generated_at_utc",
+    "preliminary",
+    "dry_run",
+    "network_used",
+    "external_api_used",
+    "mutations_performed",
+    "source_mutations_performed",
+    "source_paths",
+    "summary",
+    "rule_results",
+    "findings",
+    "no_go_gates",
+    "notes"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0"
+    },
+    "schema_id": {
+      "type": "string",
+      "const": "SCHEMA-DEVPL-MIASI-SEMANTIC-REPORT-V1"
+    },
+    "report_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]*$"
+    },
+    "created_by": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "type": "string",
+      "enum": ["schema-only", "implemented-initial", "pass", "warning", "blocked", "error"]
+    },
+    "generated_at_utc": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "preliminary": {
+      "type": "boolean"
+    },
+    "dry_run": {
+      "type": "boolean",
+      "const": true
+    },
+    "network_used": {
+      "type": "boolean",
+      "const": false
+    },
+    "external_api_used": {
+      "type": "boolean",
+      "const": false
+    },
+    "mutations_performed": {
+      "type": "boolean",
+      "const": false
+    },
+    "source_mutations_performed": {
+      "type": "boolean",
+      "const": false
+    },
+    "source_paths": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "summary": {
+      "$ref": "#/$defs/summary"
+    },
+    "rule_results": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/rule_result"
+      }
+    },
+    "findings": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/finding"
+      }
+    },
+    "no_go_gates": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "notes": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  },
+  "$defs": {
+    "semantic_severity": {
+      "type": "string",
+      "enum": ["info", "warning", "error", "block"]
+    },
+    "rule_status": {
+      "type": "string",
+      "enum": ["pass", "warning", "error", "block", "not-applicable"]
+    },
+    "summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "rules_total",
+        "rules_passed",
+        "rules_warning",
+        "rules_error",
+        "rules_blocked",
+        "findings_total",
+        "info_findings_total",
+        "warning_findings_total",
+        "error_findings_total",
+        "block_findings_total",
+        "blocking_findings_total",
+        "dry_run",
+        "network_used",
+        "external_api_used",
+        "mutations_performed",
+        "source_mutations_performed",
+        "preliminary"
+      ],
+      "properties": {
+        "rules_total": {"type": "integer", "minimum": 0},
+        "rules_passed": {"type": "integer", "minimum": 0},
+        "rules_warning": {"type": "integer", "minimum": 0},
+        "rules_error": {"type": "integer", "minimum": 0},
+        "rules_blocked": {"type": "integer", "minimum": 0},
+        "findings_total": {"type": "integer", "minimum": 0},
+        "info_findings_total": {"type": "integer", "minimum": 0},
+        "warning_findings_total": {"type": "integer", "minimum": 0},
+        "error_findings_total": {"type": "integer", "minimum": 0},
+        "block_findings_total": {"type": "integer", "minimum": 0},
+        "blocking_findings_total": {"type": "integer", "minimum": 0},
+        "dry_run": {"type": "boolean", "const": true},
+        "network_used": {"type": "boolean", "const": false},
+        "external_api_used": {"type": "boolean", "const": false},
+        "mutations_performed": {"type": "boolean", "const": false},
+        "source_mutations_performed": {"type": "boolean", "const": false},
+        "preliminary": {"type": "boolean"}
+      }
+    },
+    "rule_result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["rule_id", "title", "status", "severity", "subjects_evaluated", "findings", "summary"],
+      "properties": {
+        "rule_id": {"type": "string", "minLength": 1},
+        "title": {"type": "string", "minLength": 1},
+        "status": {"$ref": "#/$defs/rule_status"},
+        "severity": {"$ref": "#/$defs/semantic_severity"},
+        "subjects_evaluated": {"type": "integer", "minimum": 0},
+        "findings": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/finding"}
+        },
+        "summary": {"type": "object"}
+      }
+    },
+    "finding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["finding_id", "rule_id", "severity", "message", "category", "subject_type", "subject_id"],
+      "properties": {
+        "finding_id": {"type": "string", "minLength": 1},
+        "rule_id": {"type": "string", "minLength": 1},
+        "severity": {"$ref": "#/$defs/semantic_severity"},
+        "message": {"type": "string", "minLength": 1},
+        "category": {
+          "type": "string",
+          "enum": ["agent", "tool", "policy", "approval", "rbac", "security", "observability", "eval", "test-contract", "no-go", "schema"]
+        },
+        "subject_type": {"type": "string", "minLength": 1},
+        "subject_id": {"type": "string", "minLength": 1},
+        "path": {"type": "string", "minLength": 1},
+        "metadata": {"type": "object"}
+      }
+    }
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "SCHEMA-DEVPL-MIASI-SEMANTIC-REPORT-V1",
+  "report_id": "valid-post-h-004-a",
+  "created_by": "POST-H-004-A",
+  "status": "schema-only",
+  "generated_at_utc": "2026-06-24T21:49:27Z",
+  "preliminary": true,
+  "dry_run": false,
+  "network_used": false,
+  "external_api_used": false,
+  "mutations_performed": false,
+  "source_mutations_performed": false,
+  "source_paths": {
+    "agent_registry": ".devpilot/miasi/agent_registry.json",
+    "tool_registry": ".devpilot/miasi/tool_registry.json",
+    "policy_matrix": ".devpilot/miasi/policy_matrix.json",
+    "semantic_report_schema": "docs/schemas/miasi_semantic_report.schema.json"
+  },
+  "summary": {
+    "rules_total": 0,
+    "rules_passed": 0,
+    "rules_warning": 0,
+    "rules_error": 0,
+    "rules_blocked": 0,
+    "findings_total": 0,
+    "info_findings_total": 0,
+    "warning_findings_total": 0,
+    "error_findings_total": 0,
+    "block_findings_total": 0,
+    "blocking_findings_total": 0,
+    "dry_run": true,
+    "network_used": false,
+    "external_api_used": false,
+    "mutations_performed": false,
+    "source_mutations_performed": false,
+    "preliminary": true
+  },
+  "rule_results": [],
+  "findings": [],
+  "no_go_gates": [
+    "remote.execute must remain blocked",
+    "plugin.execute must remain blocked until sandboxed",
+    "connector.write must remain blocked unless future ADR/sandbox/test-contract gates approve it"
+  ],
+  "notes": [
+    "POST-H-004-A defines the semantic report schema and model only; semantic rules start in POST-H-004-B.",
+    "This report builder does not execute agents, tools, remote runners, plugins, connectors, network calls or tests."
+  ]
+}

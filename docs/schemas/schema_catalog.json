@@ -3,12 +3,12 @@
   "title": "DevPilot Local Schema Catalog",
   "schema_version": "1.0",
   "status": "approved",
-  "version": "1.6.0",
+  "version": "1.7.0",
   "owner": "Ordóñez",
   "updated": "2026-06-24",
-  "sprint": "POST-H-003-E",
+  "sprint": "POST-H-004-A",
   "preliminary": true,
-  "purpose": "Catalog of versioned JSON schemas registered by DevPilot. POST-H-002-A adds the MaturityDashboard contract for local, evidence-based maturity reporting without remote or production-overclaiming. POST-H-003-A adds the Test Contract Registry v2 design schema while preserving v1 compatibility.",
+  "purpose": "Catalog of versioned JSON schemas registered by DevPilot. POST-H-002-A adds the MaturityDashboard contract for local, evidence-based maturity reporting without remote or production-overclaiming. POST-H-003-A adds the Test Contract Registry v2 design schema while preserving v1 compatibility. POST-H-004-A registers the MiasiSemanticReport contract for local, non-executing Policy/MIASI semantic validation reports.",
   "schemas": [
     {
       "schema_id": "SCHEMA-DEVPL-FINDING-V1",
@@ -418,6 +418,23 @@
       "impact_enabled_sprint": "POST-H-003-D",
       "quality_gate_enabled_sprint": "POST-H-003-E",
       "closure_sprint": "POST-H-003-E"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-MIASI-SEMANTIC-REPORT-V1",
+      "title": "DevPilot MIASI Semantic Report v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/miasi_semantic_report.schema.json",
+      "description": "Contract for local, non-executing Policy/MIASI semantic validation reports introduced by POST-H-004-A.",
+      "status": "registered",
+      "contract": "MiasiSemanticReport",
+      "owner": "Ordóñez",
+      "sprint": "POST-H-004-A",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "POST-H-004-A",
+      "local_first": true,
+      "dry_run": true,
+      "no_remote_execution_enabled": true
     }
   ]
 }
