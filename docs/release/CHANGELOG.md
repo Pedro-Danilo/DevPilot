@@ -1,3 +1,29 @@
+## [post-h-003-a] - 2026-06-24
+
+### Added
+
+- Schema `docs/schemas/test_contract_registry_v2.schema.json` registrado como `SCHEMA-DEVPL-TEST-CONTRACT-REGISTRY-V2` / `TestContractRegistryV2`.
+- Helper `TestContractRegistryV2Design` para validar fixtures o payloads v2 sin ejecutar pruebas ni migrar v1.
+- Fixtures válidos e inválidos en `tests/fixtures/test_contract_registry_v2/`.
+- Pruebas focales `tests/test_test_contract_registry_v2.py`.
+- Documento `docs/04_quality/test_contract_registry_2_design.md`, audit `docs/audits/post_h_003_a_test_contract_registry_v2_schema_report.md` y manifest `docs/post_h_003_a_manifest.json`.
+
+### Changed
+
+- `docs/backlogs/POST-H-003_test_contract_registry_2.md` pasa a `status: approved` y versión `0.2.0`.
+- `docs/schemas/schema_catalog.json` pasa a versión `1.2.0` e incluye el schema v2.
+- README y runbook quedan sincronizados con `POST-H-003-A` y siguiente micro-sprint `POST-H-003-B`.
+
+### Security
+
+- No se reemplaza el registry v1.
+- No se habilita red, APIs externas, remote execution, connector write, plugin execution ni ejecución automática de tests desde JSON.
+- El schema exige flags explícitos para network, external API y mutaciones; cualquier excepción requiere `safety_exception` y aprobación humana.
+
+### Notes
+
+- Esta entrega es `implemented-initial`; la migración v1 → v2 queda para `POST-H-003-B` y el CLI `validate-v2` para `POST-H-003-C`.
+
 ---
 title: "DevPilot Local — Changelog"
 doc_id: "DEVPL-RELEASE-CHANGELOG"

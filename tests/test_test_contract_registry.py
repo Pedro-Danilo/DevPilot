@@ -39,5 +39,6 @@ def test_test_contract_schema_catalog_registration() -> None:
     ids = {item["schema_id"] for item in catalog["schemas"]}
 
     assert "SCHEMA-DEVPL-TEST-CONTRACT-REGISTRY-V1" in ids
+    assert "SCHEMA-DEVPL-TEST-CONTRACT-REGISTRY-V2" in ids
     assert "SCHEMA-DEVPL-PROJECT-STATE-V1" in ids
     assert "SCHEMA-DEVPL-POST-H-MANIFEST-V1" in ids

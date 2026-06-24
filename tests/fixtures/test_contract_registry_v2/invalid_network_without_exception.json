@@ -1,0 +1,96 @@
+{
+  "schema_version": "2.0",
+  "schema_id": "SCHEMA-DEVPL-TEST-CONTRACT-REGISTRY-V2",
+  "created_by": "POST-H-003-A",
+  "status": "implemented-initial",
+  "description": "Minimal valid registry fixture for POST-H-003-A schema design.",
+  "generated_from": null,
+  "compatibility": {
+    "v1_compatible": true,
+    "v1_registry_path": ".devpilot/testing/test_contract_registry.json",
+    "v1_schema_id": "SCHEMA-DEVPL-TEST-CONTRACT-REGISTRY-V1",
+    "v2_schema_path": "docs/schemas/test_contract_registry_v2.schema.json",
+    "migration_required": true,
+    "compatibility_mode": "parallel-read",
+    "notes": [
+      "POST-H-003-A registers v2 without replacing v1."
+    ]
+  },
+  "profiles": [
+    {
+      "profile_id": "p0-critical",
+      "description": "P0 contracts required for hardening/release decisions.",
+      "criticalities": [
+        "P0"
+      ],
+      "execution_profiles": [
+        "always",
+        "release"
+      ],
+      "network_allowed": false,
+      "external_api_allowed": false
+    },
+    {
+      "profile_id": "impact",
+      "description": "Contracts selected by changed watched paths.",
+      "criticalities": [
+        "P0",
+        "P1",
+        "P2"
+      ],
+      "execution_profiles": [
+        "impact"
+      ],
+      "network_allowed": false,
+      "external_api_allowed": false
+    }
+  ],
+  "contracts": [
+    {
+      "contract_id": "schema-registry-v2-design",
+      "schema_version": "2.0",
+      "source_contract_id": "schema-registry",
+      "domain": "governance.schemas",
+      "capability": "SchemaRegistry",
+      "criticality": "P0",
+      "risk_level": "high",
+      "test_type": "schema",
+      "execution_profile": "always",
+      "cost_class": "low",
+      "expected_duration_seconds": 5,
+      "test_files": [
+        "tests/test_schema_registry.py"
+      ],
+      "watched_paths": [
+        "docs/schemas/",
+        "src/devpilot_core/schemas/"
+      ],
+      "validates": [
+        "Schema catalog integrity and schema resolution remain valid."
+      ],
+      "trigger_hints": [
+        "schema-change",
+        "catalog-change"
+      ],
+      "impact_scope": [
+        "schemas",
+        "contract-validation"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": false,
+      "network_allowed": true,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "POST-H-003-A",
+      "recommended_commands": [
+        "python -m pytest tests/test_schema_registry.py -q"
+      ],
+      "classification_status": "explicit",
+      "classification_notes": [
+        "POST-H-003-A fixture: criticality and risk are intentionally separate dimensions."
+      ]
+    }
+  ]
+}

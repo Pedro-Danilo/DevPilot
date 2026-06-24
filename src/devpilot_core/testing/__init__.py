@@ -1,4 +1,14 @@
 from .contracts import TestContract, TestContractRegistry
+from .contracts_v2 import (
+    TestContractCostClass,
+    TestContractCriticality,
+    TestContractDomain,
+    TestContractExecutionProfile,
+    TestContractRegistryV2Design,
+    TestContractRiskLevel,
+    TestContractType,
+    load_registry_v2_fixture,
+)
 from .impact import TestImpactAnalyzer, TestImpactOptions
 from .profiles import TestProfile, TestProfileRegistry
 from .tests_run import TestsRunTool
@@ -6,6 +16,14 @@ from .tests_run import TestsRunTool
 __all__ = [
     "TestContract",
     "TestContractRegistry",
+    "TestContractCostClass",
+    "TestContractCriticality",
+    "TestContractDomain",
+    "TestContractExecutionProfile",
+    "TestContractRegistryV2Design",
+    "TestContractRiskLevel",
+    "TestContractType",
+    "load_registry_v2_fixture",
     "TestImpactAnalyzer",
     "TestImpactOptions",
     "TestProfile",

@@ -1,0 +1,43 @@
+{
+  "id": "POST-H-003-A",
+  "title": "Diseño de schema v2 y compatibilidad",
+  "status": "implemented-initial",
+  "parent_hito": "POST-H-003",
+  "parent_hito_status": "in-progress",
+  "schema_version": "1.0",
+  "implemented_at_utc": "2026-06-24T16:40:00Z",
+  "previous_hito": "POST-H-002",
+  "next_micro_sprint": "POST-H-003-B",
+  "deliverables": [
+    "docs/schemas/test_contract_registry_v2.schema.json",
+    "docs/04_quality/test_contract_registry_2_design.md",
+    "src/devpilot_core/testing/contracts_v2.py",
+    "tests/fixtures/test_contract_registry_v2/valid_minimal_registry.json",
+    "tests/fixtures/test_contract_registry_v2/invalid_missing_safety_flags.json",
+    "tests/fixtures/test_contract_registry_v2/invalid_network_without_exception.json",
+    "tests/test_test_contract_registry_v2.py",
+    "docs/audits/post_h_003_a_test_contract_registry_v2_schema_report.md"
+  ],
+  "compatibility": {
+    "v1_registry_preserved": true,
+    "v1_cli_validate_preserved": true,
+    "v2_schema_registered": true,
+    "migration_performed": false,
+    "validator_cli_added": false
+  },
+  "execution_policy": {
+    "local_first": true,
+    "dry_run": true,
+    "network_used": false,
+    "external_api_used": false,
+    "mutations_performed": false,
+    "no_remote_execution_enabled": true,
+    "no_connector_write_enabled": true,
+    "no_plugin_execution_enabled": true,
+    "no_external_apis_used": true
+  },
+  "notes": [
+    "POST-H-003-A is a schema/design sprint only; migration and validate-v2 CLI are intentionally deferred.",
+    "The current Test Contract Registry v1 remains the operational source of truth until POST-H-003-C or later explicitly promotes v2."
+  ]
+}

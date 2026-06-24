@@ -2,10 +2,11 @@
 doc_id: "POST-H-003-BACKLOG"
 id: "POST-H-003"
 title: "POST-H-003 — Test Contract Registry 2.0"
-status: "draft"
-version: "0.1.0"
+status: "approved"
+version: "0.2.0"
 owner: "Ordóñez"
-updated: "2026-06-23"
+approval: "internal"
+updated: "2026-06-24"
 phase: "POST-FASE-H"
 priority: "P0"
 roadmap_source: "docs/backlogs/post_h_prioritized_roadmap.md"
@@ -19,13 +20,13 @@ no_remote_execution_enabled: true
 
 ## 1. Objetivo
 
-Evolucionar el `Test Contract Registry` desde su versión actual `implemented-initial` hacia un registro de contratos de prueba por **dominio, criticidad, riesgo, costo, trigger, impacto y tipo de ejecución**, sin perder compatibilidad con los 86 contratos vigentes.
+Evolucionar el `Test Contract Registry` desde su versión actual `implemented-initial` hacia un registro de contratos de prueba por **dominio, criticidad, riesgo, costo, trigger, impacto y tipo de ejecución**, sin perder compatibilidad con los 87 contratos vigentes.
 
 El propósito es evitar el falso supuesto de que “muchos tests” equivalen automáticamente a cobertura industrial. La nueva versión debe permitir decidir qué pruebas correr siempre, por impacto, por release, por seguridad o por cambios en arquitectura/agentes/políticas.
 
 ## 2. Contexto
 
-El registry actual valida estructura y semántica básica, con 86 contratos después del ajuste del roadmap. Sin embargo, predominan contratos históricos/documentales. Para avanzar hacia `production-ready-local`, DevPilot necesita una clasificación operacional más fuerte.
+El registry actual valida estructura y semántica básica, con 87 contratos después del cierre de POST-H-002. Sin embargo, predominan contratos históricos/documentales. Para avanzar hacia `production-ready-local`, DevPilot necesita una clasificación operacional más fuerte.
 
 ## 3. Alcance
 
@@ -264,4 +265,38 @@ Validator v2 ejecutable.
 Impact analyzer v2 recomienda pruebas por cambio.
 Suite focal PASS.
 Quality gate hardening PASS.
+```
+
+
+## 11. Avance de implementación — POST-H-003-A
+
+Estado: `implemented-initial`.
+
+`POST-H-003-A — Diseño de schema v2 y compatibilidad` queda implementado como primera base contractual de Test Contract Registry 2.0. Se agregó el schema `SCHEMA-DEVPL-TEST-CONTRACT-REGISTRY-V2`, fixtures válidos e inválidos, helper `TestContractRegistryV2Design`, pruebas focales y documentación de diseño.
+
+Alcance implementado:
+
+```text
+docs/schemas/test_contract_registry_v2.schema.json
+docs/04_quality/test_contract_registry_2_design.md
+src/devpilot_core/testing/contracts_v2.py
+tests/fixtures/test_contract_registry_v2/*.json
+tests/test_test_contract_registry_v2.py
+docs/post_h_003_a_manifest.json
+docs/audits/post_h_003_a_test_contract_registry_v2_schema_report.md
+```
+
+Compatibilidad:
+
+```text
+El registry v1 continúa siendo la fuente operativa.
+El comando test-contracts validate sigue validando v1.
+No se migra ni sobrescribe .devpilot/testing/test_contract_registry.json.
+No se agrega todavía CLI validate-v2.
+```
+
+Siguiente micro-sprint:
+
+```text
+POST-H-003-B — Migrador v1 → v2 dry-run
 ```

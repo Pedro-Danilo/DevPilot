@@ -5756,6 +5756,68 @@ BLOCK si se declara production-ready completo, enterprise-ready, remote-ready o 
 
 El principal riesgo es interpretar el dashboard CLI como cierre de madurez productiva. `POST-H-002-D` solo expone y persiste el dashboard local; el quality gate específico, la documentación final del hito y la estrategia de regresión completa quedan para `POST-H-002-E`.
 
+
+
+## POST-H-003-A — Operación del diseño Test Contract Registry v2
+
+### Propósito
+
+Validar localmente el contrato estructural inicial de `Test Contract Registry 2.0` sin reemplazar el registry v1 vigente.
+
+### Instalación
+
+No requiere dependencias nuevas, API keys, red, servicios externos ni modelos LLM.
+
+### Validación específica
+
+```powershell
+$env:PYTHONPATH="src"
+python -m pytest tests/test_test_contract_registry_v2.py tests/test_test_contract_registry.py tests/test_schema_registry.py -q
+python -m devpilot_core test-contracts validate --json
+```
+
+### Validación general selectiva
+
+```powershell
+python -m devpilot_core validate docs --json
+python -m devpilot_core project-state validate --json
+python -m devpilot_core test-contracts validate --json
+python -m devpilot_core quality-gate run --profile hardening --json
+```
+
+### Fallos
+
+- Si el fixture válido falla, revisar `docs/schemas/test_contract_registry_v2.schema.json` y `tests/fixtures/test_contract_registry_v2/valid_minimal_registry.json`.
+- Si `test-contracts validate` falla, se rompió compatibilidad v1 y debe bloquearse el avance.
+- Si `schema list` falla, revisar `docs/schemas/schema_catalog.json`.
+
+### Recuperación
+
+Revertir solo los artefactos de `POST-H-003-A` o restaurar el ZIP limpio anterior `repo_DevPilot_Local_145_POST_H_002_E.zip`. No modificar `.devpilot/testing/test_contract_registry.json` para resolver errores v2, porque v1 sigue siendo fuente operativa hasta la migración.
+
+### Criterios PASS
+
+```text
+Schema v2 registrado.
+Fixture válido PASS.
+Fixtures inválidos BLOCK.
+Registry v1 sigue PASS.
+Quality gate hardening sigue PASS.
+```
+
+### Criterios BLOCK
+
+```text
+BLOCK si v1 deja de validar.
+BLOCK si se sobrescribe el registry v1.
+BLOCK si criticality y risk_level quedan mezclados.
+BLOCK si red/API/mutaciones pueden quedar sin declaración explícita.
+```
+
+### Riesgos
+
+La clasificación real de los 87 contratos todavía no existe. Esta versión es preliminar y debe evolucionar mediante migrador dry-run, validator v2, perfiles de ejecución e integración con impact analyzer.
+
 ## POST-H-002-E — Operación del quality gate del maturity dashboard
 
 ### Propósito

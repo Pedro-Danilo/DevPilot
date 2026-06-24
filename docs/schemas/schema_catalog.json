@@ -3,12 +3,12 @@
   "title": "DevPilot Local Schema Catalog",
   "schema_version": "1.0",
   "status": "approved",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "owner": "Ordóñez",
-  "updated": "2026-06-23",
+  "updated": "2026-06-24",
   "sprint": "POST-H-001",
   "preliminary": true,
-  "purpose": "Catalog of versioned JSON schemas registered by DevPilot. POST-H-002-A adds the MaturityDashboard contract for local, evidence-based maturity reporting without remote or production-overclaiming.",
+  "purpose": "Catalog of versioned JSON schemas registered by DevPilot. POST-H-002-A adds the MaturityDashboard contract for local, evidence-based maturity reporting without remote or production-overclaiming. POST-H-003-A adds the Test Contract Registry v2 design schema while preserving v1 compatibility.",
   "schemas": [
     {
       "schema_id": "SCHEMA-DEVPL-FINDING-V1",
@@ -401,6 +401,20 @@
       "dialect": "https://json-schema.org/draft/2020-12/schema",
       "validates_instances": true,
       "validation_enabled_sprint": "POST-H-002-A"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-TEST-CONTRACT-REGISTRY-V2",
+      "title": "DevPilot Test Contract Registry v2",
+      "version": "2.0.0",
+      "path": "docs/schemas/test_contract_registry_v2.schema.json",
+      "description": "POST-H-003-A structural contract for Test Contract Registry 2.0 with domain, criticality, risk, cost, execution profile, impact and explicit safety flags while keeping v1 compatibility.",
+      "status": "registered",
+      "contract": "TestContractRegistryV2",
+      "owner": "Ordóñez",
+      "sprint": "POST-H-003-A",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "POST-H-003-A"
     }
   ]
 }
