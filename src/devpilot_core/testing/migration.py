@@ -140,7 +140,7 @@ class TestContractRegistryV2Migrator:
                 "migration_required": True,
                 "compatibility_mode": "migration-dry-run",
                 "notes": [
-                    "The active v1 registry remains authoritative until POST-H-003-C/E close validator and gate integration.",
+                    "The active v1 registry remains available for compatibility after POST-H-003-E; v2 is validated by quality-gate hardening as a local non-executing contract source.",
                     "All v2 classifications generated here are deterministic and marked as inferred or needs-review where appropriate.",
                 ],
             },
@@ -279,6 +279,8 @@ class TestContractRegistryV2Migrator:
 
         if scope == "global-state":
             return self._class("governance.project_state", "ProjectGlobalState", "P0", "high", "contract", "manual", "low", 10, True, False, ["project-state-change"], ["project-state", "docs-sync"], "Global-state contract is P0 because it owns centralized mutable metadata.", "inferred")
+        if "post-h-003" in contract_id or "test_contract_registry_2" in text or "test-contract-registry-v2" in text:
+            return self._class("governance.testing", "TestContractRegistryV2", "P0", "high", "integration", "always", "low", 30, True, False, ["test-contract-registry-v2-change", "quality-gate-hardening-change"], ["testing", "contracts", "impact", "quality-gate"], "POST-H-003 closes Test Contract Registry 2.0 as a P0 local testing/governance contract with v1 compatibility.", "explicit")
         if contract_id == "test-contract-registry" or "test_contract_registry" in text:
             return self._class("governance.testing", "TestContractRegistry", "P0", "high", "contract", "always", "low", 10, True, False, ["test-contract-registry-change"], ["testing", "contracts"], "Test Contract Registry v1 remains a P0 compatibility contract.", "inferred")
         if contract_id == "schema-registry" or "schemas" in text:
@@ -286,7 +288,7 @@ class TestContractRegistryV2Migrator:
         if "quality" in contract_id or scope == "quality-gate":
             return self._class("quality.gate", "QualityGate", "P0", "high", "quality-gate", "always", "medium", 30, True, True, ["quality-gate-change"], ["quality", "hardening"], "Quality gate contracts are P0 because they guard local hardening.", "inferred")
         if contract_id == "test-impact-analyzer" or "testing/impact" in text:
-            return self._class("governance.testing", "TestImpactAnalyzer", "P1", "medium", "contract", "impact", "low", 10, False, False, ["impact-analyzer-change"], ["test-impact", "testing"], "Impact analyzer is P1 until v2 impact integration is complete.", "inferred")
+            return self._class("governance.testing", "TestImpactAnalyzer", "P1", "medium", "contract", "impact", "low", 10, False, False, ["impact-analyzer-change"], ["test-impact", "testing"], "Impact analyzer is P1 and feeds the v2 impact plan without executing tests.", "inferred")
         if scope == "ui-smoke" or "ui/web" in text:
             return self._class("product.ui", "WebUISmoke", "P2", "medium" if critical else "low", "ui-smoke", "manual", "medium", 60, False, False, ["ui-change"], ["ui", "visual-smoke"], "UI smoke is local but not always required for every backend-only change.", "inferred")
         if "post-h-002" in contract_id or "maturity" in text:

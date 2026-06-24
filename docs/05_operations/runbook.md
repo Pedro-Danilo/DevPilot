@@ -5760,6 +5760,44 @@ El principal riesgo es interpretar el dashboard CLI como cierre de madurez produ
 
 
 
+
+## POST-H-003-E — Operación del cierre Test Contract Registry 2.0
+
+Propósito: cerrar el hito `POST-H-003` integrando `Test Contract Registry v2` como señal local no ejecutora dentro de `quality-gate hardening`, manteniendo compatibilidad con v1 y dejando el proyecto listo para iniciar `POST-H-004`.
+
+Comandos de operación:
+
+```powershell
+python -m devpilot_core test-contracts validate --json
+python -m devpilot_core test-contracts validate-v2 --json
+python -m devpilot_core test-impact analyze-v2 --changed-paths src/devpilot_core/policy --json
+python -m devpilot_core quality-gate run --profile hardening --json
+python -m devpilot_core project-state validate --json
+```
+
+Criterios PASS:
+
+```text
+PASS si test-contracts validate reporta el registry v1 válido.
+PASS si test-contracts validate-v2 reporta el registry v2 válido.
+PASS si quality-gate hardening incluye y pasa el subgate test-contract-registry-v2.
+PASS si project-state validate reporta last_completed_sprint=POST-H-003 y next_sprint=POST-H-004.
+PASS si no hay red, APIs externas, remote execution, connector write ni plugin execution.
+```
+
+Criterios BLOCK:
+
+```text
+BLOCK si se elimina o rompe el registry v1.
+BLOCK si el registry v2 ejecuta pruebas automáticamente.
+BLOCK si quality-gate hardening falla o pierde subgates críticos.
+BLOCK si se declara production-ready-local completo antes del gate POST-H-025.
+```
+
+Recuperación: revertir los cambios del contrato `post-h-003-test-contract-registry-2`, restaurar `.devpilot/testing/test_contract_registry_v2.json` desde Git, ejecutar `test-contracts validate`, `test-contracts validate-v2` y repetir `quality-gate run --profile hardening`.
+
+Estado: `implemented-initial`. Esta operación cierra `POST-H-003`, pero la clasificación P0 específica para Policy/MIASI/security se profundiza en `POST-H-004`.
+
 ## POST-H-003-D — Operación del Test Impact Analyzer v2
 
 ### Propósito
@@ -5896,7 +5934,7 @@ Eliminar `.devpilot/testing/test_contract_registry_v2.json` y volver a ejecutar 
 ### Criterios PASS
 
 ```text
-87 contratos v1 representados en v2.
+88 contratos v1 representados en v2.
 Output v2 schema-valid.
 Gaps de clasificación emitidos como findings.
 Registry v1 preservado y validate PASS.
@@ -5974,7 +6012,7 @@ BLOCK si red/API/mutaciones pueden quedar sin declaración explícita.
 
 ### Riesgos
 
-La clasificación real de los 87 contratos todavía no existe. Esta versión es preliminar y debe evolucionar mediante migrador dry-run, validator v2, perfiles de ejecución e integración con impact analyzer.
+La clasificación real de los 88 contratos todavía conserva inferencias y needs-review explícitos. Esta versión es preliminar y debe evolucionar mediante migrador dry-run, validator v2, perfiles de ejecución e integración con impact analyzer.
 
 ## POST-H-002-E — Operación del quality gate del maturity dashboard
 

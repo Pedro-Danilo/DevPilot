@@ -1,12 +1,12 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
-Estado actual: `baseline pre-code approved + Fases A-G cerradas + Fase H cerrada + POST-H-001 implemented-initial + POST-H-EVAL-001 closed + POST-H-002 closed`  
-Último hito: `POST-H-002 — Maturity dashboard local basado en assessment post-H`  
-Último micro-sprint implementado: `POST-H-003-D — Integración con Test Impact Analyzer`  
+Estado actual: `baseline pre-code approved + Fases A-G cerradas + Fase H cerrada + POST-H-001 implemented-initial + POST-H-EVAL-001 closed + POST-H-002 closed + POST-H-003 closed`  
+Último hito: `POST-H-003 — Test Contract Registry 2.0`  
+Último micro-sprint implementado: `POST-H-003-E — Quality gate y documentación`  
 Hito diagnóstico cerrado: `POST-H-EVAL-001 — Evaluación integral del baseline DevPilot post-Fase H`, cierre formal `POST-H-EVAL-001-G`  
-Siguiente hito: `POST-H-003 — Test Contract Registry 2.0`  
-Hito en ejecución: `POST-H-003 — Test Contract Registry 2.0`  
-Siguiente micro-sprint: `POST-H-003-E — Quality gate y documentación`  
+Siguiente hito: `POST-H-004 — Policy/MIASI semantic validator ampliado`  
+Hito en ejecución: `POST-H-004 — Policy/MIASI semantic validator ampliado`  
+Siguiente micro-sprint: `POST-H-004-A — Modelo semántico y report schema`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
@@ -17,6 +17,21 @@ Modo de trabajo: local-first híbrido, API keys opcionales, costo externo contro
 
 
 
+
+## POST-H-003-E — Quality gate y documentación
+
+`POST-H-003-E` cierra el hito `POST-H-003 — Test Contract Registry 2.0` integrando la señal `test-contract-registry-v2` al perfil `quality-gate run --profile hardening`, registrando el contrato `post-h-003-test-contract-registry-2`, sincronizando la documentación operativa y actualizando el estado global del proyecto hacia `POST-H-004`.
+
+Comandos principales:
+
+```powershell
+python -m devpilot_core test-contracts validate --json
+python -m devpilot_core test-contracts validate-v2 --json
+python -m devpilot_core test-impact analyze-v2 --changed-paths src/devpilot_core/policy --json
+python -m devpilot_core quality-gate run --profile hardening --json
+```
+
+Alcance: esta entrega cierra `POST-H-003` como capacidad `implemented-initial`: hay schema v2, migración v1→v2, validator v2, perfiles, impact analyzer v2 y señal de quality gate. No ejecuta pruebas automáticamente desde JSON, no reemplaza de forma abrupta el registry v1, no habilita red, APIs externas, remote execution, connector write ni plugin execution. La madurez productiva local completa sigue reservada para `POST-H-025`.
 
 ## POST-H-003-D — Integración con Test Impact Analyzer
 
@@ -52,7 +67,7 @@ Alcance: esta entrega es `implemented-initial`. Los perfiles devuelven contratos
 
 ## POST-H-003-B — Migrador v1 → v2 dry-run
 
-`POST-H-003-B` implementa el migrador determinístico local desde el registry v1 hacia `Test Contract Registry 2.0`. El nuevo módulo `TestContractRegistryV2Migrator` lee `.devpilot/testing/test_contract_registry.json`, genera un payload v2 schema-backed con los 87 contratos actuales, emite gaps de clasificación como findings y conserva el registry v1 como fuente operativa.
+`POST-H-003-B` implementa el migrador determinístico local desde el registry v1 hacia `Test Contract Registry 2.0`. El nuevo módulo `TestContractRegistryV2Migrator` lee `.devpilot/testing/test_contract_registry.json`, genera un payload v2 schema-backed con los 88 contratos actuales, emite gaps de clasificación como findings y conserva el registry v1 como fuente operativa.
 
 Alcance: esta entrega es `implemented-initial`. Agrega el comando `python -m devpilot_core test-contracts migrate-v2 --dry-run --json` y escritura explícita mediante `--write-output .devpilot/testing/test_contract_registry_v2.json`. No implementa todavía `test-contracts validate-v2`, perfiles ejecutables ni integración con `test-impact analyze-v2`; eso queda para `POST-H-003-C` y `POST-H-003-D`.
 
@@ -71,7 +86,7 @@ python -m pytest tests/test_test_contract_registry_migration.py tests/test_test_
 
 `POST-H-003-A` inicia el hito `POST-H-003 — Test Contract Registry 2.0` con un contrato estructural v2 para clasificar pruebas por dominio, criticidad, riesgo, costo, perfil de ejecución, tipo de prueba, paths impactados y flags explícitos de seguridad. Se agregó `docs/schemas/test_contract_registry_v2.schema.json`, el contrato `TestContractRegistryV2` al schema catalog, fixtures válidos/inválidos y el helper `TestContractRegistryV2Design`.
 
-Alcance: esta entrega es `implemented-initial` y mantiene compatibilidad temporal con el registry v1. No migra los 87 contratos reales, no reemplaza `.devpilot/testing/test_contract_registry.json`, no agrega todavía CLI `test-contracts validate-v2` y no ejecuta pruebas desde JSON. La migración determinística queda para `POST-H-003-B` y el validator CLI v2 para `POST-H-003-C`.
+Alcance: esta entrega es `implemented-initial` y mantiene compatibilidad temporal con el registry v1. No migra todavía los contratos reales en A; B/E ya representan los 88 contratos reales, no reemplaza `.devpilot/testing/test_contract_registry.json`, no agrega todavía CLI `test-contracts validate-v2` y no ejecuta pruebas desde JSON. La migración determinística queda para `POST-H-003-B` y el validator CLI v2 para `POST-H-003-C`.
 
 No-go gates conservados: no habilita remote execution, connector write, plugin execution, APIs externas, red, ejecución remota de tests ni mutaciones destructivas.
 

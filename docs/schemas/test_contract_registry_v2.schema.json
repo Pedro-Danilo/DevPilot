@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://devpilot.local/schemas/SCHEMA-DEVPL-TEST-CONTRACT-REGISTRY-V2",
   "title": "DevPilot Test Contract Registry v2",
-  "description": "Structural contract for POST-H-003 Test Contract Registry 2.0. It classifies test contracts by domain, criticality, risk, cost, execution profile, trigger/impact and explicit safety flags without breaking v1 compatibility.",
+  "description": "Structural contract for POST-H-003 Test Contract Registry 2.0. It classifies test contracts by domain, criticality, risk, cost, execution profile, trigger/impact and explicit safety flags, with validator, impact analyzer and quality-gate hardening integration while preserving v1 compatibility.",
   "type": "object",
   "required": [
     "schema_version",
@@ -23,7 +23,9 @@
       "enum": [
         "POST-H-003-A",
         "POST-H-003-B",
-        "POST-H-003-C"
+        "POST-H-003-C",
+        "POST-H-003-D",
+        "POST-H-003-E"
       ]
     },
     "status": {
@@ -536,6 +538,6 @@
     }
   },
   "x-devpilot-schema-id": "SCHEMA-DEVPL-TEST-CONTRACT-REGISTRY-V2",
-  "x-devpilot-sprint": "POST-H-003-C",
+  "x-devpilot-sprint": "POST-H-003-E",
   "x-devpilot-status": "registered"
 }

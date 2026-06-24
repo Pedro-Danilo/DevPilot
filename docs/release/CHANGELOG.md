@@ -10,6 +10,15 @@ owner: "Ordóñez"
 
 # Changelog
 
+## [post-h-003-e] - 2026-06-24
+
+- Closes `POST-H-003 — Test Contract Registry 2.0` as `implemented-initial`.
+- Adds `test-contract-registry-v2` as a local non-executing subgate in `quality-gate run --profile hardening`.
+- Adds `post-h-003-test-contract-registry-2` to the v1 Test Contract Registry and regenerates the v2 registry with 88 contracts.
+- Updates project state to `last_completed_sprint=POST-H-003` and `next_sprint=POST-H-004`.
+- Synchronizes README, runbook, backlog, ADR-POSTH-002, manifest and closure report.
+
+
 All notable changes to DevPilot Local are documented in this file.
 
 This changelog follows a Keep a Changelog-compatible category structure and is generated from local sprint manifests.

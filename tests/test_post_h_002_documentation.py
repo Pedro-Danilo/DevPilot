@@ -25,8 +25,8 @@ def test_post_h_002_backlog_is_closed_and_points_to_post_h_003() -> None:
     assert "POST-H-002-E — Quality gate y documentación" in backlog
     assert "POST-H-002: closed / implemented-initial" in backlog
     assert "Siguiente hito: POST-H-003" in backlog
-    assert "Último hito: `POST-H-002" in readme
-    assert "Siguiente hito: `POST-H-003" in readme
+    assert "Último hito: `POST-H-003" in readme
+    assert "Siguiente hito: `POST-H-004" in readme
     assert "POST-H-002-E — Operación del quality gate del maturity dashboard" in runbook
     assert "post-h-002-e" in changelog
 
@@ -67,9 +67,9 @@ def test_post_h_002_test_contract_registry_entry_exists() -> None:
     assert "python -m devpilot_core maturity gate --json" in contract["recommended_commands"]
 
 
-def test_post_h_002_project_state_is_synchronized() -> None:
+def test_post_h_002_project_state_has_advanced_after_post_h_003_closure() -> None:
     state = _read_json(".devpilot/project_state.json")
 
-    assert state["last_completed_sprint"] == "POST-H-002"
-    assert state["next_sprint"] == "POST-H-003"
-    assert state["current_repo"] == "repo_DevPilot_Local_145_POST_H_002_E.zip"
+    assert state["last_completed_sprint"] == "POST-H-003"
+    assert state["next_sprint"] == "POST-H-004"
+    assert state["current_repo"] == "repo_DevPilot_Local_150_POST_H_003_E.zip"

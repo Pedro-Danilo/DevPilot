@@ -2,9 +2,9 @@
 doc_id: "ADR-POSTH-002"
 title: "Test Contract Registry 2.0 por dominio, criticidad, riesgo e impacto"
 status: "approved"
-version: "1.0.0"
+version: "1.1.0"
 owner: "Ordóñez"
-updated: "2026-06-23"
+updated: "2026-06-24"
 approval: "accepted_by_owner"
 decision_state: "accepted"
 micro_sprint: "POST-H-EVAL-001-F"
@@ -88,3 +88,19 @@ python -m pytest tests	est_test_contract_registry.py tests	est_test_impact.py -q
 ## Estado
 
 Aceptada en `POST-H-EVAL-001-F`. Debe materializarse en `POST-H-003`.
+
+
+## Addendum POST-H-003-E
+
+`POST-H-003` materializa esta ADR como una implementación local inicial:
+
+```text
+- Schema TestContractRegistryV2 registrado.
+- Migrador v1 → v2 dry-run disponible.
+- Validator v2 y perfiles de selección disponibles.
+- Impact analyzer v2 disponible para changed_paths.
+- Quality gate hardening consume la señal test-contract-registry-v2.
+- Registry v1 se conserva para compatibilidad.
+```
+
+La decisión sigue vigente: el registry v2 mejora selección, criticidad e impacto, pero no ejecuta pruebas automáticamente ni reemplaza abruptamente v1. El cierre de `POST-H-003` no equivale a `production-ready-local`; esa declaración queda gobernada por `POST-H-025`.

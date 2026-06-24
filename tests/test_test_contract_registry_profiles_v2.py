@@ -26,9 +26,9 @@ def test_test_contract_registry_v2_validator_passes_migrated_registry_without_ex
 
     assert result.ok, result.to_dict()
     summary = result.data["summary"]
-    assert summary["contracts_total"] == 87
+    assert summary["contracts_total"] == 88
     assert summary["profiles_total"] == 5
-    assert summary["p0_contracts_total"] >= 5
+    assert summary["p0_contracts_total"] >= 6
     assert summary["needs_review_total"] == 2
     assert summary["network_allowed_total"] == 0
     assert summary["external_api_allowed_total"] == 0
@@ -54,8 +54,8 @@ def test_test_contract_registry_v2_profiles_select_contracts_without_execution()
     assert impact.ok, impact.to_dict()
     assert docs.ok, docs.to_dict()
 
-    assert p0.data["summary"]["contracts_selected"] >= 5
-    assert security.data["summary"]["contracts_selected"] >= 5
+    assert p0.data["summary"]["contracts_selected"] >= 6
+    assert security.data["summary"]["contracts_selected"] >= 6
     assert release.data["summary"]["contracts_selected"] >= 5
     assert impact.data["summary"]["contracts_selected"] >= 80
     assert docs.data["summary"]["contracts_selected"] >= 78
@@ -119,7 +119,7 @@ def test_test_contract_registry_v2_cli_validate_and_profile_are_available() -> N
     assert validate_proc.returncode == 0, validate_proc.stderr + validate_proc.stdout
     validate_payload = json.loads(validate_proc.stdout)
     assert validate_payload["ok"] is True
-    assert validate_payload["data"]["summary"]["contracts_total"] == 87
+    assert validate_payload["data"]["summary"]["contracts_total"] == 88
 
     profile_proc = subprocess.run(
         [sys.executable, "-m", "devpilot_core", "test-contracts", "profile", "--profile", "p0-critical", "--json"],
@@ -145,7 +145,7 @@ def test_post_h_003_c_documentation_is_synchronized() -> None:
 
     assert "POST-H-003-C" in backlog
     assert "Validator v2 y perfiles de ejecución" in backlog
-    assert 'version: "0.5.0"' in backlog
+    assert 'version: "1.0.0"' in backlog
     assert "test-contracts validate-v2" in design
     assert "test-contracts profile --profile p0-critical" in runbook
     assert "POST-H-003-C" in readme

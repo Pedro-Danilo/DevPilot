@@ -2124,11 +2124,63 @@
         "python -m devpilot_core test-contracts validate --json",
         "python -m devpilot_core quality-gate run --profile hardening --json"
       ]
+    },
+    {
+      "contract_id": "post-h-003-test-contract-registry-2",
+      "scope": "integration",
+      "owner": "POST-H-003-E",
+      "phase": "POST-FASE-H",
+      "test_files": [
+        "tests/test_test_contract_registry.py",
+        "tests/test_test_contract_registry_v2.py",
+        "tests/test_test_contract_registry_migration.py",
+        "tests/test_test_contract_registry_profiles_v2.py",
+        "tests/test_test_impact.py",
+        "tests/test_test_impact_v2.py",
+        "tests/test_quality_gate.py",
+        "tests/test_post_h_003_documentation.py"
+      ],
+      "validates": [
+        ".devpilot/testing/test_contract_registry.json",
+        ".devpilot/testing/test_contract_registry_v2.json",
+        "docs/schemas/test_contract_registry_v2.schema.json",
+        "src/devpilot_core/testing/contracts_v2.py",
+        "src/devpilot_core/testing/migration.py",
+        "src/devpilot_core/testing/profiles_v2.py",
+        "src/devpilot_core/testing/impact_v2.py",
+        "src/devpilot_core/quality/gate.py",
+        "docs/backlogs/POST-H-003_test_contract_registry_2.md",
+        "docs/audits/post_h_003_closure_report.md"
+      ],
+      "watched_paths": [
+        ".devpilot/testing/",
+        "docs/schemas/test_contract_registry_v2.schema.json",
+        "docs/schemas/schema_catalog.json",
+        "src/devpilot_core/testing/",
+        "src/devpilot_core/quality/gate.py",
+        "src/devpilot_core/cli.py",
+        "docs/backlogs/POST-H-003_test_contract_registry_2.md",
+        "docs/04_quality/test_contract_registry_2_design.md",
+        "docs/05_operations/runbook.md",
+        "docs/audits/post_h_003_closure_report.md",
+        "tests/test_post_h_003_documentation.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest tests/test_test_contract_registry.py tests/test_test_contract_registry_v2.py tests/test_test_contract_registry_migration.py tests/test_test_contract_registry_profiles_v2.py tests/test_test_impact.py tests/test_test_impact_v2.py tests/test_quality_gate.py tests/test_post_h_003_documentation.py -q",
+        "python -m devpilot_core test-contracts validate --json",
+        "python -m devpilot_core test-contracts validate-v2 --json",
+        "python -m devpilot_core test-impact analyze-v2 --changed-paths src/devpilot_core/policy --json",
+        "python -m devpilot_core quality-gate run --profile hardening --json"
+      ]
     }
   ],
   "notes": [
     "The registry documents and validates test intent; it does not dynamically execute pytest from JSON.",
     "Historical sprint contracts must not validate mutable global project state.",
-    "POST-H-002-E adds post-h-002-maturity-dashboard as the closure contract for the local maturity dashboard."
+    "POST-H-002-E adds post-h-002-maturity-dashboard as the closure contract for the local maturity dashboard.",
+    "POST-H-003-E adds the post-h-003-test-contract-registry-2 integration contract while preserving the v1 registry for compatibility."
   ]
 }

@@ -61,7 +61,7 @@ def test_test_contract_registry_v1_still_validates_during_v2_design() -> None:
     result = TestContractRegistry(ROOT).validate()
 
     assert result.ok, result.to_dict()
-    assert result.data["summary"]["contracts_total"] == 87
+    assert result.data["summary"]["contracts_total"] == 88
     assert result.data["summary"]["historical_contracts_total"] == 78
     assert result.data["summary"]["global_state_contracts_total"] == 1
 
@@ -96,7 +96,9 @@ def test_post_h_003_backlog_approved_and_documents_schema_design() -> None:
     text = (ROOT / "docs" / "backlogs" / "POST-H-003_test_contract_registry_2.md").read_text(encoding="utf-8")
 
     assert 'status: "approved"' in text
-    assert 'version: "0.5.0"' in text
+    assert 'version: "1.0.0"' in text
     assert "POST-H-003-A" in text
     assert "SCHEMA-DEVPL-TEST-CONTRACT-REGISTRY-V2" in text
     assert "POST-H-003-B" in text
+    assert "POST-H-003-E" in text
+    assert 'implementation_status: "closed"' in text

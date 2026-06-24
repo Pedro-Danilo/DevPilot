@@ -138,11 +138,11 @@ class TestContractRegistryV2Validator:
         needs_review = 0
         p0_total = 0
 
-        if registry.get("created_by") not in {"POST-H-003-B", "POST-H-003-C"}:
+        if registry.get("created_by") not in {"POST-H-003-B", "POST-H-003-C", "POST-H-003-D", "POST-H-003-E"}:
             findings.append(
                 Finding(
                     id="TEST_CONTRACT_REGISTRY_V2_CREATED_BY_TRANSITIONAL",
-                    message="Registry v2 should be produced by POST-H-003-B/C during validator rollout.",
+                    message="Registry v2 should be produced by POST-H-003-B/C/D/E during Test Contract Registry 2.0 rollout.",
                     severity=Severity.WARNING,
                     metadata={"created_by": registry.get("created_by")},
                 )
@@ -165,7 +165,7 @@ class TestContractRegistryV2Validator:
                 findings.append(
                     Finding(
                         id="TEST_CONTRACT_REGISTRY_V2_PROFILE_UNSAFE_NETWORK",
-                        message="Registry v2 profiles must remain local-only in POST-H-003-C.",
+                        message="Registry v2 profiles must remain local-only during POST-H-003 rollout.",
                         severity=Severity.BLOCK,
                         metadata={"profile_id": profile.get("profile_id")},
                     )
@@ -230,7 +230,7 @@ class TestContractRegistryV2Validator:
                 findings.append(
                     Finding(
                         id="TEST_CONTRACT_REGISTRY_V2_NETWORK_DENIED_POST_H_003_C",
-                        message="POST-H-003-C does not allow network or external API test contracts.",
+                        message="POST-H-003 does not allow network or external API test contracts by default.",
                         severity=Severity.BLOCK,
                         metadata={"contract_id": cid},
                     )

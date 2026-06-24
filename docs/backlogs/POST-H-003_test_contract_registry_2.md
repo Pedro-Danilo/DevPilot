@@ -3,10 +3,12 @@ doc_id: "POST-H-003-BACKLOG"
 id: "POST-H-003"
 title: "POST-H-003 — Test Contract Registry 2.0"
 status: "approved"
-version: "0.5.0"
+implementation_status: "closed"
+version: "1.0.0"
 owner: "Ordóñez"
 approval: "internal"
 updated: "2026-06-24"
+closed_at_utc: "2026-06-24T20:30:00Z"
 phase: "POST-FASE-H"
 priority: "P0"
 roadmap_source: "docs/backlogs/post_h_prioritized_roadmap.md"
@@ -20,13 +22,13 @@ no_remote_execution_enabled: true
 
 ## 1. Objetivo
 
-Evolucionar el `Test Contract Registry` desde su versión actual `implemented-initial` hacia un registro de contratos de prueba por **dominio, criticidad, riesgo, costo, trigger, impacto y tipo de ejecución**, sin perder compatibilidad con los 87 contratos vigentes.
+Evolucionar el `Test Contract Registry` desde su versión actual `implemented-initial` hacia un registro de contratos de prueba por **dominio, criticidad, riesgo, costo, trigger, impacto y tipo de ejecución**, sin perder compatibilidad con los 88 contratos vigentes.
 
 El propósito es evitar el falso supuesto de que “muchos tests” equivalen automáticamente a cobertura industrial. La nueva versión debe permitir decidir qué pruebas correr siempre, por impacto, por release, por seguridad o por cambios en arquitectura/agentes/políticas.
 
 ## 2. Contexto
 
-El registry actual valida estructura y semántica básica, con 87 contratos después del cierre de POST-H-002. Sin embargo, predominan contratos históricos/documentales. Para avanzar hacia `production-ready-local`, DevPilot necesita una clasificación operacional más fuerte.
+El registry actual valida estructura y semántica básica, con 88 contratos después del cierre de POST-H-003-E, incluido el contrato `post-h-003-test-contract-registry-2`. Sin embargo, predominan contratos históricos/documentales. Para avanzar hacia `production-ready-local`, DevPilot necesita una clasificación operacional más fuerte.
 
 ## 3. Alcance
 
@@ -38,6 +40,7 @@ Incluye:
 - Validator v2 con compatibilidad temporal v1.
 - Campos por dominio, criticidad, riesgo, costo, trigger e impacto.
 - Integración con test-impact analyzer.
+- Señal/subgate `test-contract-registry-v2` en quality-gate hardening.
 - Perfiles de ejecución P0/P1/P2/P3.
 - Tests focales y documentación.
 ```
@@ -50,6 +53,7 @@ No incluye:
 - Ejecución remota de tests.
 - APIs externas.
 - Scheduler distribuido.
+- Declaración production-ready-local completa; eso queda reservado para POST-H-025.
 ```
 
 ## 4. Entregables
@@ -286,8 +290,8 @@ Alcance exacto de B:
 ```text
 - Implementa TestContractRegistryV2Migrator.
 - Agrega CLI test-contracts migrate-v2.
-- Genera .devpilot/testing/test_contract_registry_v2.json con 87 contratos migrados.
-- Mantiene v1 validate operativo con 87 contratos.
+- Genera .devpilot/testing/test_contract_registry_v2.json con 88 contratos migrados.
+- Mantiene v1 validate operativo con 88 contratos.
 - Marca clasificaciones como inferred o needs-review.
 - No ejecuta tests desde JSON.
 - No implementa validate-v2 ni perfiles ejecutables; eso queda para POST-H-003-C.
@@ -328,7 +332,7 @@ Alcance exacto de C:
 - Agrega CLI test-contracts profile --profile <id>.
 - Valida schema, paths, comandos recomendados y restricciones de seguridad.
 - Selecciona contratos y comandos recomendados por perfil.
-- Mantiene test-contracts validate v1 operativo con 87 contratos.
+- Mantiene test-contracts validate v1 operativo con 88 contratos.
 - No ejecuta pytest ni subprocesses desde JSON.
 - No implementa todavía impact_v2; eso queda para POST-H-003-D.
 - No agrega todavía subgate TCR v2 a quality-gate; eso queda para POST-H-003-E.
@@ -377,3 +381,40 @@ PASS si v1 y v2 siguen validando y quality-gate hardening sigue PASS.
 
 Limitación explícita: `POST-H-003-D` recomienda pruebas; no las ejecuta. La ejecución sigue siendo manual o mediante `tests.run` approval-gated. La integración como señal/subgate de quality gate y el cierre documental del hito quedan para `POST-H-003-E`.
 
+
+### POST-H-003-E — Quality gate y documentación
+
+Estado: `implemented-initial`. Hito padre: `closed`.
+
+`POST-H-003-E — Quality gate y documentación` cierra el hito `POST-H-003 — Test Contract Registry 2.0` con una señal no ejecutora en `quality-gate hardening`, documentación de cierre, contrato de prueba v1/v2 y sincronización del estado global hacia `POST-H-004`.
+
+Alcance exacto de E:
+
+```text
+- Agrega el subgate test-contract-registry-v2 al perfil hardening/industrial.
+- Registra post-h-003-test-contract-registry-2 en .devpilot/testing/test_contract_registry.json.
+- Regenera .devpilot/testing/test_contract_registry_v2.json con 88 contratos.
+- Mantiene test-contracts validate v1 operativo.
+- Mantiene test-contracts validate-v2 operativo.
+- Mantiene test-impact analyze-v2 como planificador local no ejecutor.
+- Actualiza README, runbook, changelog, ADR-POSTH-002, manifest y closure report.
+- Avanza project_state a last_completed_sprint=POST-H-003 y next_sprint=POST-H-004.
+```
+
+Criterios PASS materializados:
+
+```text
+PASS si test-contracts validate y validate-v2 pasan.
+PASS si quality-gate hardening sigue PASS con test-contract-registry-v2.
+PASS si v1 no queda roto y conserva compatibilidad.
+PASS si el hito queda documentado como implemented-initial, no como production-ready-local completo.
+PASS si no se ejecutan tests desde JSON, no hay red, APIs externas ni mutaciones destructivas.
+```
+
+Limitación explícita: `POST-H-003` queda cerrado como base industrial inicial de testing gobernado. La revisión profunda de los contratos `needs-review`, los contratos P0 específicos de Policy/MIASI/security y la validación semántica transversal quedan para `POST-H-004`.
+
+## 12. Cierre del hito POST-H-003
+
+`POST-H-003` queda cerrado en estado `implemented-initial` con compatibilidad v1/v2. No se declara que DevPilot sea `production-ready-local` completo; esa declaración requiere completar los hitos posteriores del roadmap y el gate final `POST-H-025`.
+
+Siguiente hito: `POST-H-004 — Policy/MIASI semantic validator ampliado`.

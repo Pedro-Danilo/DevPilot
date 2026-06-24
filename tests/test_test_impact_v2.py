@@ -114,7 +114,7 @@ def test_post_h_003_d_documentation_is_synchronized() -> None:
 
     assert "POST-H-003-D" in backlog
     assert "Integración con Test Impact Analyzer" in backlog
-    assert 'version: "0.5.0"' in backlog
+    assert 'version: "1.0.0"' in backlog
     assert "test-impact analyze-v2" in design
     assert "test-impact analyze-v2" in runbook
     assert "POST-H-003-D" in readme

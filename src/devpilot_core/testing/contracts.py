@@ -144,6 +144,10 @@ class TestContractRegistry:
         if last_completed == "POST-H-002":
             checks["post_h_002_backlog_closed"] = self._file_contains("docs/backlogs/POST-H-002_maturity_dashboard_local.md", 'implementation_status: "closed"')
             checks["post_h_002_closure_report"] = self._file_contains("docs/audits/post_h_002_closure_report.md", "POST-H-002")
+        if last_completed == "POST-H-003":
+            checks["post_h_003_backlog_closed"] = self._file_contains("docs/backlogs/POST-H-003_test_contract_registry_2.md", 'implementation_status: "closed"')
+            checks["post_h_003_closure_report"] = self._file_contains("docs/audits/post_h_003_closure_report.md", "POST-H-003")
+            checks["post_h_003_contract_registered"] = self._file_contains(".devpilot/testing/test_contract_registry.json", "post-h-003-test-contract-registry-2")
         for key, passed in checks.items():
             if not passed:
                 findings.append(Finding("PROJECT_GLOBAL_STATE_DRIFT", f"Project global state check failed: {key}.", Severity.FAIL, metadata={"check": key}))

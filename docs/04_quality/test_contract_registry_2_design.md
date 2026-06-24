@@ -18,7 +18,7 @@ Definir el contrato estructural inicial de `Test Contract Registry 2.0` sin reem
 
 Estado: `implemented-initial`.
 
-Este diseño registra el schema `SCHEMA-DEVPL-TEST-CONTRACT-REGISTRY-V2`, fixtures válidos/ inválidos y, desde `POST-H-003-B`, una migración determinística dry-run de los 87 contratos v1 hacia `.devpilot/testing/test_contract_registry_v2.json`. No ejecuta tests desde JSON, no sustituye `.devpilot/testing/test_contract_registry.json` y ya dispone de validator v2, perfiles de selección e impact analyzer v2 en modo no ejecutante.
+Este diseño registra el schema `SCHEMA-DEVPL-TEST-CONTRACT-REGISTRY-V2`, fixtures válidos/ inválidos y, desde `POST-H-003-B`, una migración determinística dry-run de los 88 contratos v1 hacia `.devpilot/testing/test_contract_registry_v2.json`. No ejecuta tests desde JSON, no sustituye `.devpilot/testing/test_contract_registry.json` y ya dispone de validator v2, perfiles de selección e impact analyzer v2 en modo no ejecutante.
 
 ## Alcance implementado
 
@@ -90,7 +90,7 @@ python -m devpilot_core test-contracts migrate-v2 --write-output .devpilot/testi
 
 La migración es determinística y local. Por defecto no escribe archivos; cuando se usa `--write-output`, escribe únicamente el path explícito y rechaza sobrescribir `.devpilot/testing/test_contract_registry.json`. El resultado migrado conserva `source_contract_id`, clasifica por dominio/criticidad/riesgo/tipo/costo/perfil, y genera findings `TEST_CONTRACT_V2_CLASSIFICATION_GAP` para dejar trazabilidad de inferencias y revisiones pendientes.
 
-La versión generada en `.devpilot/testing/test_contract_registry_v2.json` incluye 87 contratos v2 y valida contra `TestContractRegistryV2`. Las clasificaciones `needs-review` no bloquean el micro-sprint B: son deuda explícita para `POST-H-003-C` y `POST-H-003-D`.
+La versión generada en `.devpilot/testing/test_contract_registry_v2.json` incluye 88 contratos v2 y valida contra `TestContractRegistryV2`. Las clasificaciones `needs-review` no bloquean el micro-sprint B: son deuda explícita para `POST-H-003-C` y `POST-H-003-D`.
 
 ## Criterios PASS
 
@@ -99,7 +99,7 @@ PASS si el schema v2 está registrado en schema_catalog.
 PASS si el fixture válido cumple el schema.
 PASS si fixtures inválidos son rechazados.
 PASS si v1 sigue validando con test-contracts validate.
-PASS si migrate-v2 representa los 87 contratos v1 en v2.
+PASS si migrate-v2 representa los 88 contratos v1 en v2.
 PASS si el output `.devpilot/testing/test_contract_registry_v2.json` valida contra schema v2.
 PASS si criticality y risk_level son campos separados y obligatorios.
 PASS si red/API/mutaciones no pueden quedar sin declaración.
@@ -212,3 +212,25 @@ Reglas de seguridad:
 ```
 
 La heurística de policy/security existe porque el registry v2 migrado todavía no contiene contratos dedicados para `governance.policy` o `security.*`. Por eso `POST-H-003-D` recomienda pruebas de policy/security como recomendaciones heurísticas y selecciona contratos P0/P1 existentes, sin inventar nuevos contratos en el registry.
+
+
+## POST-H-003-E — Quality gate y cierre documental
+
+`POST-H-003-E` integra el contrato v2 como señal de calidad local en `quality-gate run --profile hardening` mediante el subgate `test-contract-registry-v2`. Esta señal ejecuta validación estructural y semántica del registry v2, pero no ejecuta pruebas desde JSON ni invoca subprocesses de `pytest`.
+
+Comandos de cierre:
+
+```powershell
+python -m devpilot_core test-contracts validate --json
+python -m devpilot_core test-contracts validate-v2 --json
+python -m devpilot_core test-impact analyze-v2 --changed-paths src/devpilot_core/policy --json
+python -m devpilot_core quality-gate run --profile hardening --json
+```
+
+El hito queda cerrado como `implemented-initial`: el registry v2 está disponible para selección, validación e impacto, pero el registry v1 se mantiene por compatibilidad y la ejecución de pruebas sigue siendo explícita por operador o por flujos approval-gated.
+
+### Criterios PASS/BLOCK de cierre
+
+PASS si v1 y v2 validan, `quality-gate hardening` incluye `test-contract-registry-v2`, el contrato `post-h-003-test-contract-registry-2` existe y no se habilitan red, APIs externas, remote execution, connector write ni plugin execution.
+
+BLOCK si se rompe v1, si v2 ejecuta pruebas automáticamente, si el subgate hace mutaciones de fuentes, si se ocultan contratos `needs-review` o si se declara madurez productiva local completa antes de `POST-H-025`.

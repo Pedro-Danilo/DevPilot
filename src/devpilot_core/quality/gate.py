@@ -126,6 +126,7 @@ class QualityGate:
                     "FUNC-SPRINT-99 adds the industrial profile as the Fase H closure/readiness gate without overclaiming production maturity.",
                     "POST-H-001 adds the hardening profile for test contracts, project state and industrial baseline coherence without running full pytest by default.",
                     "POST-H-002-E adds the maturity-dashboard subgate to hardening/industrial profiles without replacing existing gates.",
+                    "POST-H-003-E adds the Test Contract Registry v2 subgate to hardening/industrial profiles while keeping v1 compatibility.",
                     "The default and ci profiles do not run pytest implicitly; CI workflows and local checklists run pytest as an explicit step, or use --include-pytest when desired.",
                     "The gate does not publish packages, deploy, write source files, call network services or use external APIs.",
                     "Optional --write-report is handled by the CLI and writes only under outputs/reports.",
@@ -158,6 +159,7 @@ class QualityGate:
             ])
         if self.options.profile in {"hardening", "industrial"}:
             subgates.append(QualitySubgate("test-contract-registry", "POST-H-001 test contract registry validation.", self._test_contract_registry))
+            subgates.append(QualitySubgate("test-contract-registry-v2", "POST-H-003 Test Contract Registry v2 validation without executing tests.", self._test_contract_registry_v2))
             subgates.append(QualitySubgate("project-global-state", "Centralized mutable project state synchronization.", self._project_global_state))
             subgates.append(QualitySubgate("maturity-dashboard", "POST-H-002 maturity dashboard quality gate.", self.service.maturity_dashboard_gate))
         if self.options.profile == "industrial":
@@ -228,6 +230,11 @@ class QualityGate:
         from devpilot_core.testing import TestContractRegistry
 
         return TestContractRegistry(self.root).validate()
+
+    def _test_contract_registry_v2(self) -> CommandResult:
+        from devpilot_core.testing import TestContractRegistryV2Validator
+
+        return TestContractRegistryV2Validator(self.root).validate()
 
     def _project_global_state(self) -> CommandResult:
         from devpilot_core.testing import TestContractRegistry
