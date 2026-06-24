@@ -2,9 +2,10 @@
 doc_id: "POST-H-002-BACKLOG"
 id: "POST-H-002"
 title: "POST-H-002 — Maturity dashboard local basado en assessment post-H"
-status: "draft"
-version: "0.1.0"
+status: "approved"
+version: "0.2.0"
 owner: "Ordóñez"
+approval: "internal"
 updated: "2026-06-23"
 phase: "POST-FASE-H"
 priority: "P0"
@@ -333,3 +334,16 @@ Reporte Markdown legible para operador.
 Tests focales PASS.
 Quality gate hardening PASS.
 ```
+
+
+## 12. Avance de implementación
+
+### POST-H-002-A — Modelo de madurez y schema
+
+Estado: `implemented-initial`.
+
+Este micro-sprint aprueba el backlog `POST-H-002` para ejecución y entrega la primera base técnica del dashboard de madurez: vocabulario controlado de estados, niveles de madurez, cobertura de pruebas y riesgo; modelo de capacidades, dependencias de roadmap y señales de seguridad; schema JSON `MaturityDashboard`; registro del schema en el catálogo local; y pruebas focales de contrato.
+
+Alcance explícito: esta entrega **no** implementa todavía lectores de fuentes post-H, generador del dashboard, comando CLI `maturity dashboard`, integración ApplicationService ni escritura de reportes. Es una versión preliminar de modelo/schema que prepara los micro-sprints `POST-H-002-B` a `POST-H-002-E`.
+
+No-go gates conservados: no se habilita remote execution, connector write, plugin execution, external APIs, networking, mutaciones fuera de documentos/schemas/tests ni declaración `production-ready` completa. El modelo solo permite el estado `production-ready-local`, sujeto al gate final `POST-H-025`.

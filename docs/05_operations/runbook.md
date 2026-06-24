@@ -5487,3 +5487,68 @@ claims enterprise/compliance sin evidencia y certificación externa
 ### Riesgos y recuperación
 
 El principal riesgo operativo es tratar el roadmap como cierre del hito completo. `POST-H-EVAL-001-F` solo deja decisiones y plan; el cierre formal depende de `POST-H-EVAL-001-G`. Si la prueba focal falla, revisar faltantes en `docs/backlogs/post_h_prioritized_roadmap.md`, ADRs y `docs/post_h_eval_001_manifest.json` antes de continuar.
+
+
+## POST-H-002-A — Operación del modelo de madurez y schema
+
+### Propósito
+
+`POST-H-002-A` agrega la base de dominio y el contrato estructural para el futuro dashboard local de madurez. Esta capacidad permite validar instancias `MaturityDashboard` mediante JSON Schema y evita sobredeclarar madurez productiva completa.
+
+### Estado
+
+Estado: `implemented-initial`.
+
+Esta versión es preliminar: no existe todavía comando CLI `maturity dashboard`, no se generan reportes de dashboard y no se leen automáticamente las fuentes `POST-H-EVAL-001`. Esos pasos corresponden a `POST-H-002-B`, `POST-H-002-C` y `POST-H-002-D`.
+
+### Artefactos principales
+
+```text
+src/devpilot_core/maturity/__init__.py
+src/devpilot_core/maturity/models.py
+docs/schemas/maturity_dashboard.schema.json
+docs/post_h_002_a_manifest.json
+docs/audits/post_h_002_a_maturity_model_schema_report.md
+tests/test_post_h_002_maturity_dashboard.py
+```
+
+### Verificación específica
+
+```powershell
+$env:PYTHONPATH="src"
+python -m pytest tests/test_post_h_002_maturity_dashboard.py -q
+python -m pytest tests/test_schema_registry.py tests/test_post_h_002_maturity_dashboard.py -q
+python -m devpilot_core schema list --json
+python -m devpilot_core validate-frontmatter docs/backlogs/POST-H-002_maturity_dashboard_local.md --json
+```
+
+### Verificación general recomendada
+
+```powershell
+$env:PYTHONPATH="src"
+python -m devpilot_core test-contracts validate --json
+python -m devpilot_core project-state validate --json
+python -m devpilot_core quality-gate run --profile hardening --json
+python -m pytest -q
+```
+
+### Criterios PASS
+
+```text
+PASS si MaturityDashboard valida una instancia mínima.
+PASS si production-ready-local está permitido y production-ready genérico queda bloqueado.
+PASS si remote_execution_enabled, connector_write_enabled, plugin_execution_enabled y external_apis_enabled_by_default permanecen false.
+PASS si schema list incluye SCHEMA-DEVPL-MATURITY-DASHBOARD-V1.
+```
+
+### Criterios BLOCK
+
+```text
+BLOCK si un reporte de madurez permite production-ready completo.
+BLOCK si el modelo habilita remote execution, connector write, plugin execution o APIs externas.
+BLOCK si se intenta tratar POST-H-002-A como dashboard operativo completo.
+```
+
+### Riesgos
+
+El principal riesgo operativo es sobreinterpretar el modelo como dashboard terminado. `POST-H-002-A` solo crea vocabulario, dataclasses y schema; la extracción de evidencia y generación de reportes se implementará en micro-sprints posteriores.

@@ -1,0 +1,156 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/SCHEMA-DEVPL-MATURITY-DASHBOARD-V1",
+  "title": "DevPilot Maturity Dashboard v1",
+  "description": "Structural contract for POST-H-002 local maturity dashboard reports. It supports production-ready-local evidence only and does not allow generic production-ready, enterprise-ready, remote-ready or compliance-certified claims.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "dashboard_id",
+    "generated_at_utc",
+    "source_revision",
+    "summary",
+    "capabilities",
+    "roadmap_alignment",
+    "safety",
+    "preliminary"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "dashboard_id": {"type": "string", "minLength": 1},
+    "generated_at_utc": {"type": "string", "minLength": 1},
+    "source_revision": {
+      "type": "object",
+      "required": ["roadmap_version", "post_h_eval_status"],
+      "properties": {
+        "roadmap_version": {"type": "string", "minLength": 1},
+        "post_h_eval_status": {"type": "string", "minLength": 1}
+      },
+      "additionalProperties": true
+    },
+    "summary": {
+      "type": "object",
+      "required": [
+        "capabilities_total",
+        "production_ready_local_total",
+        "implemented_total",
+        "implemented_initial_total",
+        "experimental_total",
+        "planned_total",
+        "stub_total",
+        "blocked_total",
+        "critical_risks_total",
+        "blocking_gaps_total"
+      ],
+      "properties": {
+        "capabilities_total": {"type": "integer", "minimum": 0},
+        "production_ready_local_total": {"type": "integer", "minimum": 0},
+        "implemented_total": {"type": "integer", "minimum": 0},
+        "implemented_initial_total": {"type": "integer", "minimum": 0},
+        "experimental_total": {"type": "integer", "minimum": 0},
+        "planned_total": {"type": "integer", "minimum": 0},
+        "stub_total": {"type": "integer", "minimum": 0},
+        "blocked_total": {"type": "integer", "minimum": 0},
+        "critical_risks_total": {"type": "integer", "minimum": 0},
+        "blocking_gaps_total": {"type": "integer", "minimum": 0}
+      },
+      "additionalProperties": true
+    },
+    "capabilities": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "capability_id",
+          "name",
+          "domain",
+          "status",
+          "maturity",
+          "test_coverage",
+          "risk",
+          "source_evidence",
+          "no_go_gate"
+        ],
+        "properties": {
+          "capability_id": {"type": "string", "minLength": 1},
+          "name": {"type": "string", "minLength": 1},
+          "domain": {"type": "string", "minLength": 1},
+          "status": {
+            "enum": [
+              "production-ready-local",
+              "implemented",
+              "implemented-initial",
+              "experimental",
+              "planned",
+              "stub",
+              "blocked"
+            ]
+          },
+          "maturity": {"enum": ["alta-local", "media-alta", "media", "baja", "no-habilitada"]},
+          "test_coverage": {"enum": ["alta", "media-alta", "media", "baja", "n/a"]},
+          "risk": {"enum": ["critico", "alto", "medio-alto", "medio", "bajo"]},
+          "source_evidence": {"type": "array", "items": {"type": "string", "minLength": 1}},
+          "roadmap_dependency": {"type": ["string", "null"]},
+          "no_go_gate": {"type": "boolean"},
+          "notes": {"type": "array", "items": {"type": "string"}},
+          "metadata": {"type": "object"}
+        },
+        "additionalProperties": true
+      }
+    },
+    "roadmap_alignment": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["milestone", "unblocks", "priority"],
+        "properties": {
+          "milestone": {"type": "string", "minLength": 1},
+          "unblocks": {"type": "array", "items": {"type": "string", "minLength": 1}},
+          "priority": {"type": "string", "minLength": 1}
+        },
+        "additionalProperties": true
+      }
+    },
+    "safety": {
+      "type": "object",
+      "required": [
+        "remote_execution_enabled",
+        "connector_write_enabled",
+        "plugin_execution_enabled",
+        "external_apis_enabled_by_default",
+        "network_used",
+        "mutations_performed",
+        "preliminary"
+      ],
+      "properties": {
+        "remote_execution_enabled": {"const": false},
+        "connector_write_enabled": {"const": false},
+        "plugin_execution_enabled": {"const": false},
+        "external_apis_enabled_by_default": {"const": false},
+        "network_used": {"const": false},
+        "mutations_performed": {"const": false},
+        "preliminary": {"type": "boolean"}
+      },
+      "additionalProperties": true
+    },
+    "preliminary": {"type": "boolean"}
+  },
+  "additionalProperties": true,
+  "not": {
+    "properties": {
+      "capabilities": {
+        "contains": {
+          "type": "object",
+          "properties": {
+            "status": {"const": "production-ready"}
+          },
+          "required": ["status"]
+        }
+      }
+    },
+    "required": ["capabilities"]
+  },
+  "x-devpilot-schema-id": "SCHEMA-DEVPL-MATURITY-DASHBOARD-V1",
+  "x-devpilot-sprint": "POST-H-002-A",
+  "x-devpilot-status": "registered"
+}

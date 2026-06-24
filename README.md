@@ -1,13 +1,35 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
-Estado actual: `baseline pre-code approved + Fases A-G cerradas + Fase H cerrada + POST-H-001 implemented-initial + POST-H-EVAL-001 closed`  
+Estado actual: `baseline pre-code approved + Fases A-G cerradas + Fase H cerrada + POST-H-001 implemented-initial + POST-H-EVAL-001 closed + POST-H-002-A implemented-initial`  
 Último hito: `POST-H-001 — Industrial hardening de tests y contratos`  
+Último micro-sprint implementado: `POST-H-002-A — Modelo de madurez y schema`  
 Hito diagnóstico cerrado: `POST-H-EVAL-001 — Evaluación integral del baseline DevPilot post-Fase H`, cierre formal `POST-H-EVAL-001-G`  
 Siguiente hito: `POST-H-002 — Maturity dashboard local basado en assessment post-H`  
+Hito en ejecución: `POST-H-002 — Maturity dashboard local basado en assessment post-H`  
+Siguiente micro-sprint: `POST-H-002-B — Lectores de fuentes post-H`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
 
+
+
+## POST-H-002-A — Modelo de madurez y schema
+
+`POST-H-002-A` inicia el hito `POST-H-002` con una base `implemented-initial` de modelo y contrato estructural para el dashboard local de madurez. Se agregó el paquete `src/devpilot_core/maturity/`, el schema `docs/schemas/maturity_dashboard.schema.json`, el registro `SCHEMA-DEVPL-MATURITY-DASHBOARD-V1` en el catálogo de schemas, pruebas focales y evidencia documental del micro-sprint.
+
+Alcance: esta entrega es preliminar y **no** implementa todavía lectores de fuentes post-H, generador del dashboard, comando CLI `maturity dashboard`, integración ApplicationService ni escritura de reportes. Es una base de modelo/schema para `POST-H-002-B` a `POST-H-002-E`.
+
+No-go gates conservados: no habilita remote execution, connector write, plugin execution, external APIs, red ni mutaciones fuera de artefactos de ingeniería. El modelo permite `production-ready-local`, pero bloquea el claim genérico `production-ready`; la declaración formal queda reservada para `POST-H-025`.
+
+Artefactos principales:
+
+```text
+src/devpilot_core/maturity/models.py
+docs/schemas/maturity_dashboard.schema.json
+docs/post_h_002_a_manifest.json
+docs/audits/post_h_002_a_maturity_model_schema_report.md
+tests/test_post_h_002_maturity_dashboard.py
+```
 
 
 ## POST-H-001 — Industrial hardening de tests y contratos

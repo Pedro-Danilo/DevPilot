@@ -1,0 +1,46 @@
+{
+  "schema_version": "1.0",
+  "id": "POST-H-002-A",
+  "title": "Modelo de madurez y schema",
+  "status": "implemented-initial",
+  "parent_hito": "POST-H-002",
+  "implemented_at_utc": "2026-06-23T00:00:00Z",
+  "local_first": true,
+  "dry_run_default": true,
+  "no_remote_execution_enabled": true,
+  "no_connector_write_enabled": true,
+  "no_plugin_execution_enabled": true,
+  "no_external_apis_used": true,
+  "no_runtime_dashboard_cli_added": true,
+  "scope": [
+    "maturity domain model",
+    "maturity dashboard JSON schema",
+    "schema catalog registration",
+    "focused contract tests",
+    "engineering documentation synchronization"
+  ],
+  "artifacts_created": [
+    "src/devpilot_core/maturity/__init__.py",
+    "src/devpilot_core/maturity/models.py",
+    "docs/schemas/maturity_dashboard.schema.json",
+    "tests/test_post_h_002_maturity_dashboard.py",
+    "docs/post_h_002_a_manifest.json",
+    "docs/audits/post_h_002_a_maturity_model_schema_report.md"
+  ],
+  "artifacts_modified": [
+    "docs/schemas/schema_catalog.json",
+    "tests/test_schema_registry.py",
+    "docs/backlogs/POST-H-002_maturity_dashboard_local.md",
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/release/CHANGELOG.md"
+  ],
+  "validation_commands": [
+    "python -m pytest tests/test_post_h_002_maturity_dashboard.py -q",
+    "python -m pytest tests/test_schema_registry.py tests/test_post_h_002_maturity_dashboard.py -q",
+    "python -m devpilot_core schema list --json",
+    "python -m devpilot_core validate-frontmatter docs/backlogs/POST-H-002_maturity_dashboard_local.md --json",
+    "python -m devpilot_core quality-gate run --profile hardening --json"
+  ],
+  "next_micro_sprint": "POST-H-002-B"
+}

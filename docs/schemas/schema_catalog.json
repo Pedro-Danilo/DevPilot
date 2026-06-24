@@ -3,12 +3,12 @@
   "title": "DevPilot Local Schema Catalog",
   "schema_version": "1.0",
   "status": "approved",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "owner": "Ordóñez",
-  "updated": "2026-06-19",
+  "updated": "2026-06-23",
   "sprint": "POST-H-001",
   "preliminary": true,
-  "purpose": "Catalog of versioned JSON schemas registered by DevPilot. POST-H-001 adds test contract, project state and post-H manifest contracts for hardening.",
+  "purpose": "Catalog of versioned JSON schemas registered by DevPilot. POST-H-002-A adds the MaturityDashboard contract for local, evidence-based maturity reporting without remote or production-overclaiming.",
   "schemas": [
     {
       "schema_id": "SCHEMA-DEVPL-FINDING-V1",
@@ -387,6 +387,20 @@
       "dialect": "https://json-schema.org/draft/2020-12/schema",
       "validates_instances": true,
       "validation_enabled_sprint": "POST-H-001"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-MATURITY-DASHBOARD-V1",
+      "title": "DevPilot Maturity Dashboard v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/maturity_dashboard.schema.json",
+      "description": "Structural contract for POST-H-002 local maturity dashboard JSON reports with production-ready-local claims only.",
+      "status": "registered",
+      "contract": "MaturityDashboard",
+      "owner": "Ordóñez",
+      "sprint": "POST-H-002-A",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "POST-H-002-A"
     }
   ]
 }

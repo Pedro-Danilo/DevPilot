@@ -15,6 +15,25 @@ All notable changes to DevPilot Local are documented in this file.
 This changelog follows a Keep a Changelog-compatible category structure and is generated from local sprint manifests.
 
 
+## [post-h-002-a] - 2026-06-23
+
+### Added
+
+- `POST-H-002-A — Modelo de madurez y schema` como primera base del dashboard local de madurez.
+- Paquete `src/devpilot_core/maturity/` con modelos `MaturityDashboard`, `MaturityCapability`, `RoadmapDependency` y `SafetySignal`.
+- Schema `docs/schemas/maturity_dashboard.schema.json` y registro `SCHEMA-DEVPL-MATURITY-DASHBOARD-V1` en `docs/schemas/schema_catalog.json`.
+- Pruebas focales `tests/test_post_h_002_maturity_dashboard.py`.
+
+### Changed
+
+- `docs/backlogs/POST-H-002_maturity_dashboard_local.md` pasa a `status: approved` y documenta el avance `POST-H-002-A` como `implemented-initial`.
+
+### Security
+
+- El nuevo modelo no habilita remote execution, connector write, plugin execution ni APIs externas.
+- El schema permite `production-ready-local`, pero bloquea el claim genérico `production-ready`; la declaración final queda reservada para `POST-H-025`.
+
+
 ## [post-h-eval-001] - 2026-06-23
 
 ### Added
