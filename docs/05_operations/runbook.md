@@ -6169,3 +6169,38 @@ Criterios BLOCK:
 ```
 
 Riesgos y límites: `POST-H-004-B` es `implemented-initial`. Las advertencias por tools high-risk controlled_write sin approval explícito se registran como deuda semántica para `POST-H-004-C`, no como autorización de producción. El comando no sustituye `PolicyEngine`; solo valida consistencia declarativa.
+
+## POST-H-004-C — Operación de reglas approval/RBAC/security guards
+
+### Propósito
+
+Validar que el bundle MIASI no solo sea consistente en agent/tool/policy, sino que también declare guardas suficientes de aprobación humana local, RBAC e identidad para herramientas sensibles.
+
+### Comandos
+
+```powershell
+python -m devpilot_core miasi semantic-validate --json
+python -m devpilot_core miasi semantic-validate --json --write-report
+```
+
+### PASS
+
+```text
+PASS si el reporte se mantiene local-first/dry-run/no-mutating.
+PASS si Identity Registry local existe y aplica deny_unknown_actor + RBAC para acciones sensibles.
+PASS si tools network_cost están gobernadas por approval + CostGuard/NoExternalAPI/NoNetwork/LocalhostOnly.
+PASS si remote/plugin/connector write/execute permanecen deny/block o metadata/dry-run/sandbox futuro.
+```
+
+### BLOCK
+
+```text
+BLOCK si una tool sensible usa approval genérico.
+BLOCK si falta Identity Registry o RBAC está desactivado.
+BLOCK si una tool network_cost carece de CostGuard/NoExternalAPI/NoNetwork/LocalhostOnly.
+BLOCK si connector.write, plugin.execute o remote.execute aparecen como allow sin guardas futuras.
+```
+
+### Riesgos y límites
+
+`POST-H-004-C` sigue siendo `implemented-initial`: no ejecuta tools, no evalúa permisos reales en runtime y no sustituye `PolicyEngine`. Es una validación semántica declarativa. La integración con `quality-gate` queda para `POST-H-004-E`.

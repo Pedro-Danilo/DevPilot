@@ -2,11 +2,11 @@
 title: "Policy/MIASI Semantic Validation"
 doc_id: "DEVPL-SEC-POST-H-004"
 status: "approved"
-version: "0.2.0"
+version: "0.3.0"
 owner: "Ordóñez"
 updated: "2026-06-24"
 phase: "POST-FASE-H"
-sprint: "POST-H-004-B"
+sprint: "POST-H-004-C"
 local_first: true
 dry_run: true
 no_remote_execution_enabled: true
@@ -20,7 +20,7 @@ Definir la base de seguridad para el validador semántico ampliado de `POST-H-00
 
 ## 2. Estado
 
-`POST-H-004-B` eleva la entrega a una versión inicial con reglas agent/tool/policy (`implemented-initial`). El hito todavía no valida approval/RBAC/security guards, observability/evals/test contracts ni se integra como subgate de quality-gate.
+`POST-H-004-C` agrega reglas de approval/RBAC/security guards sobre la base agent/tool/policy de `POST-H-004-B`. El hito todavía no cruza observability/evals/test contracts ni se integra como subgate de quality-gate.
 
 ## 3. Contrato de reporte
 
@@ -101,3 +101,32 @@ python -m pytest tests/test_miasi_semantic_validator.py tests/test_miasi_semanti
 ## 10. Límites de POST-H-004-B
 
 `POST-H-004-B` no ejecuta agentes, tools, PolicyEngine, pytest, subprocesses, conectores, plugins, red ni APIs externas. No reemplaza el gate estructural `miasi validate`; lo complementa con una lectura semántica preliminar que será endurecida en `POST-H-004-C/D/E`.
+
+## 11. Reglas approval/RBAC/security guards implementadas en POST-H-004-C
+
+La segunda capa semántica valida:
+
+```text
+- Tools con requires_approval=true deben estar respaldadas por policy rules/gates de aprobación concretos.
+- Approval genérico para tool/action/subject sensible → BLOCK.
+- Identity Registry debe existir, negar actores desconocidos y exigir RBAC para acciones sensibles.
+- Active actor local debe existir, estar activo y usar roles conocidos.
+- Roles RBAC deben incluir permisos de aprobación/acciones críticas para operaciones sensibles.
+- Tools controlled_execution/network_cost con approval deben estar ligadas a approval/RBAC/actor gates.
+- Tools network_cost requieren approval + CostGuard/NoExternalAPI/NoNetwork/LocalhostOnly.
+- Tools write-capable requieren PathGuard/PolicyEngine/sandbox/local/rollback/registry u otros guards locales.
+- Remote/plugin/connector write o execute deben permanecer deny/block o metadata/dry-run/sandbox futuro, nunca allow prematuro.
+```
+
+El reporte mantiene `dry_run=true`, `tests_executed=false`, `network_used=false`, `external_api_used=false`, `mutations_performed=false` y `source_mutations_performed=false`.
+
+## 12. Verificación semántica approval/RBAC/security guards
+
+```powershell
+python -m devpilot_core miasi semantic-validate --json
+python -m pytest tests/test_miasi_semantic_validator.py tests/test_miasi_semantic_validator_fixtures.py -q
+```
+
+## 13. Límites de POST-H-004-C
+
+`POST-H-004-C` no ejecuta agentes, tools, PolicyEngine, pytest, subprocesses, conectores, plugins, red ni APIs externas. No integra todavía el subgate de `quality-gate`; eso queda para `POST-H-004-E`. Tampoco valida aún observability/evals/test contracts; eso corresponde a `POST-H-004-D`.

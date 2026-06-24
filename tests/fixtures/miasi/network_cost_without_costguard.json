@@ -1,0 +1,72 @@
+{
+  "agent_registry": {
+    "schema_version": "1.0",
+    "agents": [
+      {
+        "agent_id": "semantic.sensitive.agent",
+        "name": "SemanticSensitiveAgent",
+        "phase": "MVP",
+        "max_autonomy": "A3",
+        "status": "implemented",
+        "risk_level": "high",
+        "allowed_tools": [
+          "external.model.call"
+        ],
+        "required_artifacts": [
+          "Agent",
+          "Tool",
+          "Policy",
+          "Eval",
+          "Obs"
+        ],
+        "policy_rule_ids": [
+          "SENSITIVE_AGENT_ALLOW"
+        ],
+        "approval_required": false,
+        "observability_required": true,
+        "eval_required": true
+      }
+    ]
+  },
+  "tool_registry": {
+    "schema_version": "1.0",
+    "tools": [
+      {
+        "tool_id": "external.model.call",
+        "name": "external_model_call",
+        "phase": "MVP+",
+        "side_effect": "network_cost",
+        "risk_level": "high",
+        "status": "implemented",
+        "requires_approval": true,
+        "policy_rule_ids": [
+          "EXTERNAL_MODEL_APPROVAL_ALLOW",
+          "SECRETS_RAW_DENY"
+        ]
+      }
+    ]
+  },
+  "policy_matrix": {
+    "schema_version": "1.0",
+    "rules": [
+      {
+        "rule_id": "EXTERNAL_MODEL_APPROVAL_ALLOW",
+        "domain": "Model",
+        "action": "external_api",
+        "default_effect": "allow",
+        "gate": "ApprovalPolicyChecker",
+        "approval_required": true,
+        "observability_required": true
+      },
+      {
+        "rule_id": "SECRETS_RAW_DENY",
+        "domain": "Secrets",
+        "action": "print_store_raw",
+        "default_effect": "deny",
+        "gate": "SecretGuard",
+        "approval_required": false,
+        "observability_required": true
+      }
+    ]
+  }
+}

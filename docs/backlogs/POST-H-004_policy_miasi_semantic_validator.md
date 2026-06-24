@@ -3,7 +3,7 @@ doc_id: "POST-H-004-BACKLOG"
 id: "POST-H-004"
 title: "POST-H-004 — Policy/MIASI semantic validator ampliado"
 status: "approved"
-version: "0.3.0"
+version: "0.4.0"
 owner: "Ordóñez"
 updated: "2026-06-24"
 phase: "POST-FASE-H"
@@ -255,6 +255,37 @@ Tareas:
 3. Validar que secrets/network/external-api estén bloqueados o gobernados.
 4. Generar findings BLOCK para remote/plugin/connector write prematuros.
 ```
+
+## 6.3. Avance de implementación POST-H-004-C
+
+Estado: `implemented-initial`.
+
+`POST-H-004-C` amplía `miasi semantic-validate` con reglas de approval/RBAC/security guards sin ejecutar agentes, tools, subprocesses, pytest, red ni APIs externas.
+
+Alcance implementado:
+
+```text
+- Validación de approval metadata para tools sensibles.
+- Bloqueo de approvals genéricos para tool/action/subject sensible.
+- Carga y validación semántica básica de Identity Registry local.
+- Verificación de deny_unknown_actor y rbac_enforced_for_sensitive_actions.
+- Verificación de actor local activo y roles conocidos.
+- Verificación de permisos RBAC de aprobación/acciones críticas.
+- Validación de CostGuard/NoExternalAPI/NoNetwork/LocalhostOnly para network_cost.
+- Validación de guards locales para write-capable tools.
+- Bloqueo de remote/plugin/connector write/execute prematuro.
+- Fixtures inseguros para RBAC ausente, approval genérico, network cost sin CostGuard y connector write sin ADR/sandbox.
+```
+
+Límites explícitos:
+
+```text
+- No cruza aún observability/evals/test contracts; eso corresponde a POST-H-004-D.
+- No integra aún semantic-validate al quality-gate; eso corresponde a POST-H-004-E.
+- No modifica PolicyEngine ni habilita capacidades runtime.
+```
+
+Nota de madurez: el bundle vigente sigue pasando con warnings por deuda de aprobación/RBAC en high-risk `controlled_write` implementado-initial. Esas advertencias no autorizan producción; mantienen trazabilidad para hardening posterior.
 
 ### POST-H-004-D — Observability, evals y test contracts
 

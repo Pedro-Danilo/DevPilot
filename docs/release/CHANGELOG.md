@@ -10,6 +10,21 @@ owner: "Ordóñez"
 
 # Changelog
 
+## [post-h-004-c] - 2026-06-24
+
+### Added
+
+- Approval/RBAC/security guard rules inside `MiasiSemanticValidator`.
+- Semantic checks for concrete approval metadata, generic approval blocking, Identity Registry defaults, active actor/roles, RBAC approval permissions, network/cost guard semantics and remote/plugin/connector write/execute no-go guards.
+- New unsafe fixtures: missing identity/RBAC, generic approval, network cost without CostGuard, and connector write without ADR/sandbox guard.
+
+### Security
+
+- The validator remains read-only, local-first and non-executing.
+- `semantic-validate` still does not execute agents, tools, pytest, subprocesses, connectors, plugins, remote runners, network calls or external APIs.
+- Existing high-risk `controlled_write` implemented-initial paths remain warnings until explicit approval/RBAC policy is formalized.
+
+
 ## [post-h-004-b] - 2026-06-24
 
 ### Added

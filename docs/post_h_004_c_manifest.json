@@ -1,0 +1,50 @@
+{
+  "schema_version": "1.0",
+  "id": "POST-H-004-C",
+  "title": "POST-H-004-C — Reglas approval/RBAC/security guards",
+  "parent_hito": "POST-H-004",
+  "status": "implemented-initial",
+  "created_at_utc": "2026-06-24T23:10:00Z",
+  "source_repo": "repo_DevPilot_Local_152_POST_H_004_B.zip",
+  "current_repo": "repo_DevPilot_Local_153_POST_H_004_C.zip",
+  "local_first": true,
+  "dry_run": true,
+  "tests_execute_from_json": false,
+  "network_used": false,
+  "external_api_used": false,
+  "mutations_performed": false,
+  "source_mutations_performed": false,
+  "no_remote_execution_enabled": true,
+  "no_connector_write_enabled": true,
+  "no_plugin_execution_enabled": true,
+  "implemented_capabilities": [
+    "approval metadata semantic checks",
+    "generic approval blocking for sensitive tools",
+    "identity registry and RBAC defaults validation",
+    "active actor and role consistency validation",
+    "RBAC approval permission validation",
+    "network/cost guard validation",
+    "local write guard validation",
+    "remote/plugin/connector write-or-execute no-go guard validation"
+  ],
+  "new_rules": [
+    "SEM-APPROVAL-SCOPE-001",
+    "SEM-RBAC-001",
+    "SEM-SECURITY-GUARD-001",
+    "SEM-NO-GO-GUARD-001"
+  ],
+  "previous_rules_preserved": [
+    "SEM-AGENT-TOOL-001",
+    "SEM-POLICY-REF-001",
+    "SEM-STATUS-001",
+    "SEM-TOOL-APPROVAL-001",
+    "SEM-POLICY-CONTRADICTION-001",
+    "SEM-NO-GO-001"
+  ],
+  "next_micro_sprint": "POST-H-004-D",
+  "known_limitations": [
+    "Observability/evals/test contracts are not crossed yet.",
+    "semantic-validate is not yet a quality-gate subgate.",
+    "Existing high-risk controlled_write implemented-initial paths remain warnings until explicit production-local policy is defined."
+  ]
+}

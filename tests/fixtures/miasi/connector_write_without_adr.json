@@ -1,0 +1,72 @@
+{
+  "agent_registry": {
+    "schema_version": "1.0",
+    "agents": [
+      {
+        "agent_id": "semantic.sensitive.agent",
+        "name": "SemanticSensitiveAgent",
+        "phase": "MVP",
+        "max_autonomy": "A3",
+        "status": "implemented",
+        "risk_level": "high",
+        "allowed_tools": [
+          "connector.write.unsafe"
+        ],
+        "required_artifacts": [
+          "Agent",
+          "Tool",
+          "Policy",
+          "Eval",
+          "Obs"
+        ],
+        "policy_rule_ids": [
+          "SENSITIVE_AGENT_ALLOW"
+        ],
+        "approval_required": false,
+        "observability_required": true,
+        "eval_required": true
+      }
+    ]
+  },
+  "tool_registry": {
+    "schema_version": "1.0",
+    "tools": [
+      {
+        "tool_id": "connector.write.unsafe",
+        "name": "connector_write_unsafe",
+        "phase": "MVP+",
+        "side_effect": "controlled_write",
+        "risk_level": "high",
+        "status": "implemented",
+        "requires_approval": false,
+        "policy_rule_ids": [
+          "CONNECTOR_WRITE_ALLOW",
+          "SECRETS_RAW_DENY"
+        ]
+      }
+    ]
+  },
+  "policy_matrix": {
+    "schema_version": "1.0",
+    "rules": [
+      {
+        "rule_id": "CONNECTOR_WRITE_ALLOW",
+        "domain": "Connector",
+        "action": "connector_write",
+        "default_effect": "allow",
+        "gate": "ConnectorAdapter+PolicyEngine",
+        "approval_required": false,
+        "observability_required": true
+      },
+      {
+        "rule_id": "SECRETS_RAW_DENY",
+        "domain": "Secrets",
+        "action": "print_store_raw",
+        "default_effect": "deny",
+        "gate": "SecretGuard",
+        "approval_required": false,
+        "observability_required": true
+      }
+    ]
+  }
+}

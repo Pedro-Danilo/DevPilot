@@ -1,0 +1,62 @@
+{
+  "agent_registry": {
+    "schema_version": "1.0",
+    "agents": [
+      {
+        "agent_id": "semantic.sensitive.agent",
+        "name": "SemanticSensitiveAgent",
+        "phase": "MVP",
+        "max_autonomy": "A3",
+        "status": "implemented",
+        "risk_level": "high",
+        "allowed_tools": [
+          "sensitive.exec"
+        ],
+        "required_artifacts": [
+          "Agent",
+          "Tool",
+          "Policy",
+          "Eval",
+          "Obs"
+        ],
+        "policy_rule_ids": [
+          "SENSITIVE_AGENT_ALLOW"
+        ],
+        "approval_required": false,
+        "observability_required": true,
+        "eval_required": true
+      }
+    ]
+  },
+  "tool_registry": {
+    "schema_version": "1.0",
+    "tools": [
+      {
+        "tool_id": "sensitive.exec",
+        "name": "sensitive_controlled_execution",
+        "phase": "MVP",
+        "side_effect": "controlled_execution",
+        "risk_level": "high",
+        "status": "implemented",
+        "requires_approval": true,
+        "policy_rule_ids": [
+          "GENERIC_APPROVAL_ALLOW"
+        ]
+      }
+    ]
+  },
+  "policy_matrix": {
+    "schema_version": "1.0",
+    "rules": [
+      {
+        "rule_id": "GENERIC_APPROVAL_ALLOW",
+        "domain": "Execution",
+        "action": "execute",
+        "default_effect": "allow",
+        "gate": "Approval",
+        "approval_required": true,
+        "observability_required": true
+      }
+    ]
+  }
+}

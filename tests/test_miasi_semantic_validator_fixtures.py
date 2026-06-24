@@ -23,6 +23,12 @@ def _workspace_from_fixture(tmp_path: Path, fixture_name: str) -> Path:
     (miasi_dir / "agent_registry.json").write_text(json.dumps(payload["agent_registry"], indent=2), encoding="utf-8")
     (miasi_dir / "tool_registry.json").write_text(json.dumps(payload["tool_registry"], indent=2), encoding="utf-8")
     (miasi_dir / "policy_matrix.json").write_text(json.dumps(payload["policy_matrix"], indent=2), encoding="utf-8")
+    identity_dir = root / ".devpilot" / "identity"
+    identity_dir.mkdir(parents=True)
+    if "identity_registry" in payload:
+        (identity_dir / "identity_registry.json").write_text(json.dumps(payload["identity_registry"], indent=2), encoding="utf-8")
+    else:
+        shutil.copy2(ROOT / ".devpilot" / "identity" / "identity_registry.json", identity_dir / "identity_registry.json")
     shutil.copy2(ROOT / "docs" / "schemas" / "miasi_semantic_report.schema.json", schema_dir / "miasi_semantic_report.schema.json")
     shutil.copy2(ROOT / "docs" / "schemas" / "schema_catalog.json", schema_dir / "schema_catalog.json")
     return root
@@ -78,3 +84,39 @@ def test_plugin_execution_without_sandbox_fixture_blocks(tmp_path: Path) -> None
     assert result.ok is False
     assert result.exit_code == ExitCode.BLOCK
     assert "MIASI_SEMANTIC_NO_GO_RULE_ALLOWED" in {finding.id for finding in result.findings}
+
+
+def test_missing_rbac_registry_fixture_blocks(tmp_path: Path) -> None:
+    root = _workspace_from_fixture(tmp_path, "valid_semantic_bundle.json")
+    (root / ".devpilot" / "identity" / "identity_registry.json").unlink()
+
+    result = MiasiSemanticValidator(root).validate()
+
+    assert result.ok is False
+    assert result.exit_code == ExitCode.BLOCK
+    assert "MIASI_SEMANTIC_IDENTITY_REGISTRY_MISSING" in {finding.id for finding in result.findings}
+
+
+def test_generic_approval_for_sensitive_tool_fixture_blocks(tmp_path: Path) -> None:
+    result = _validate_fixture(tmp_path, "generic_approval_for_sensitive_tool.json")
+
+    assert result.ok is False
+    assert result.exit_code == ExitCode.BLOCK
+    ids = {finding.id for finding in result.findings}
+    assert "MIASI_SEMANTIC_APPROVAL_SCOPE_GENERIC" in ids
+
+
+def test_network_cost_without_cost_guard_fixture_blocks(tmp_path: Path) -> None:
+    result = _validate_fixture(tmp_path, "network_cost_without_costguard.json")
+
+    assert result.ok is False
+    assert result.exit_code == ExitCode.BLOCK
+    assert "MIASI_SEMANTIC_NETWORK_COST_GUARD_MISSING" in {finding.id for finding in result.findings}
+
+
+def test_connector_write_without_adr_fixture_blocks(tmp_path: Path) -> None:
+    result = _validate_fixture(tmp_path, "connector_write_without_adr.json")
+
+    assert result.ok is False
+    assert result.exit_code == ExitCode.BLOCK
+    assert "MIASI_SEMANTIC_CONNECTOR_WRITE_WITHOUT_FUTURE_GUARDS" in {finding.id for finding in result.findings}

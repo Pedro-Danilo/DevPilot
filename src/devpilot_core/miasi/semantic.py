@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 from pathlib import Path
 from typing import Any
 
@@ -36,6 +37,14 @@ NO_GO_ACTION_MARKERS = {
     "plugin": ("execute_plugin_code", "plugin_execute", "execute_plugin"),
     "connector": ("connector_call_execute_mode", "connector_write", "write_connector"),
 }
+
+APPROVAL_GATE_TOKENS = ("approval", "approvalpolicychecker", "approvalservice", "human", "actor")
+RBAC_GATE_TOKENS = ("rbac", "identityregistry", "role", "actor")
+SECRET_GUARD_TOKENS = ("secretguard", "secret", "redacted", "no raw secrets", "norawsecrets")
+NETWORK_GUARD_TOKENS = ("costguard", "noexternalapi", "no external api", "nonetwork", "no network", "localhostonly")
+LOCAL_GUARD_TOKENS = ("pathguard", "policyengine", "sandbox", "dry_run", "dry-run", "local", "checksum", "rollback", "registry")
+IDENTITY_REGISTRY_FILE = Path(".devpilot") / "identity" / "identity_registry.json"
+
 
 
 class MiasiSemanticReportBuilder:
@@ -81,7 +90,7 @@ class MiasiSemanticReportBuilder:
 class MiasiSemanticValidator:
     """Validate semantic consistency across MIASI agents, tools and policy rules.
 
-    POST-H-004-B intentionally remains read-only and non-executing. It loads the
+    POST-H-004-C remains read-only and non-executing. It loads the
     existing MIASI declarative bundle, evaluates semantic rules and emits a
     schema-valid ``MiasiSemanticReport``. It does not execute tools, agents,
     tests, subprocesses, remote runners, plugins, connectors, network calls or
@@ -108,6 +117,10 @@ class MiasiSemanticValidator:
                 self._validate_policy_references(bundle),
                 self._validate_status_semantics(bundle),
                 self._validate_sensitive_tool_approval(bundle),
+                self._validate_approval_metadata(bundle),
+                self._validate_rbac_requirements(bundle),
+                self._validate_security_guards(bundle),
+                self._validate_no_go_security_guards(bundle),
                 self._validate_policy_contradictions(bundle),
                 self._validate_no_go_policy_rules(bundle),
             ]
@@ -123,8 +136,8 @@ class MiasiSemanticValidator:
 
     def _report(self, *, rule_results: list[SemanticRuleResult], status: str) -> MiasiSemanticReport:
         return MiasiSemanticReport(
-            report_id="miasi-semantic-post-h-004-b",
-            created_by="POST-H-004-B",
+            report_id="miasi-semantic-post-h-004-c",
+            created_by="POST-H-004-C",
             status=status,
             rule_results=tuple(rule_results),
             source_paths=self.builder.source_paths(),
@@ -133,10 +146,11 @@ class MiasiSemanticValidator:
                 "plugin.execute must remain blocked until sandboxed",
                 "connector.write must remain blocked unless future ADR/sandbox/test-contract gates approve it",
                 "semantic validation must not relax PolicyEngine or execute agent/tool runtime paths",
+                "approval/RBAC/security guards must be explicit before high-risk runtime paths can evolve beyond implemented-initial",
             ),
             notes=(
-                "POST-H-004-B validates agent/tool/policy declarations only; approval/RBAC/security guards are hardened in POST-H-004-C.",
-                "Controlled-write tools without explicit approval are surfaced as warnings unless a present allow rule creates an immediate unsafe execution path.",
+                "POST-H-004-C validates agent/tool/policy declarations plus approval, RBAC and security guard semantics.",
+                "Controlled-write tools without explicit approval are surfaced as warnings when local guards are present; missing guards or unsafe no-go paths remain blocking.",
                 "This validator is local-first, dry-run and non-executing.",
             ),
         )
@@ -389,6 +403,423 @@ class MiasiSemanticValidator:
         # but surface them as debt. POST-H-004-C hardens approval/RBAC/security guards.
         return has_safe_gate_token or has_blocking_policy or bool(rules)
 
+    def _validate_approval_metadata(self, bundle: MiasiRegistryBundle) -> SemanticRuleResult:
+        findings: list[SemanticFinding] = []
+        rules_by_id = {rule.rule_id: rule for rule in bundle.rules}
+        sensitive_tools = [
+            tool
+            for tool in bundle.tools
+            if tool.status not in {"disabled", "future", "planned"}
+            and (tool.requires_approval or tool.side_effect in EXECUTION_SIDE_EFFECTS or (tool.risk_level == "high" and tool.side_effect in SENSITIVE_SIDE_EFFECTS))
+        ]
+        for tool in sensitive_tools:
+            associated_rules = [rules_by_id[rule_id] for rule_id in tool.policy_rule_ids if rule_id in rules_by_id]
+            if tool.requires_approval:
+                approval_rules = [rule for rule in associated_rules if rule.approval_required or self._text_has_any(rule.gate, APPROVAL_GATE_TOKENS)]
+                if not approval_rules:
+                    findings.append(
+                        self._finding(
+                            finding_id="MIASI_SEMANTIC_APPROVAL_METADATA_MISSING",
+                            rule_id="SEM-APPROVAL-SCOPE-001",
+                            severity=SemanticSeverity.BLOCK,
+                            message="Approval-required tool is not backed by a policy rule or gate with approval metadata.",
+                            category="approval",
+                            subject_type="tool",
+                            subject_id=tool.tool_id,
+                            path=TOOL_REGISTRY_FILE.as_posix(),
+                            metadata={"tool": tool.to_dict(), "policy_rule_ids": tool.policy_rule_ids},
+                        )
+                    )
+                for rule in approval_rules:
+                    if self._is_generic_approval_gate(rule):
+                        findings.append(
+                            self._finding(
+                                finding_id="MIASI_SEMANTIC_APPROVAL_SCOPE_GENERIC",
+                                rule_id="SEM-APPROVAL-SCOPE-001",
+                                severity=SemanticSeverity.BLOCK,
+                                message="Approval metadata for sensitive tool is too generic; scope must bind tool/action/subject or a concrete gate.",
+                                category="approval",
+                                subject_type="policy_rule",
+                                subject_id=rule.rule_id,
+                                path=POLICY_MATRIX_FILE.as_posix(),
+                                metadata={"tool_id": tool.tool_id, "policy_rule": rule.to_dict()},
+                            )
+                        )
+            elif tool.risk_level == "high" and tool.side_effect == "controlled_write":
+                guarded = self._rules_have_any_token(associated_rules, LOCAL_GUARD_TOKENS) and self._rules_have_any_token(associated_rules, SECRET_GUARD_TOKENS)
+                if not guarded:
+                    findings.append(
+                        self._finding(
+                            finding_id="MIASI_SEMANTIC_CONTROLLED_WRITE_APPROVAL_OR_GUARD_MISSING",
+                            rule_id="SEM-APPROVAL-SCOPE-001",
+                            severity=SemanticSeverity.BLOCK,
+                            message="High-risk controlled-write tool has no explicit approval and lacks concrete local security guards.",
+                            category="approval",
+                            subject_type="tool",
+                            subject_id=tool.tool_id,
+                            path=TOOL_REGISTRY_FILE.as_posix(),
+                            metadata={"tool": tool.to_dict(), "policy_gates": [rule.gate for rule in associated_rules]},
+                        )
+                    )
+        return self._rule_result(
+            rule_id="SEM-APPROVAL-SCOPE-001",
+            title="Sensitive tools must have explicit approval metadata or concrete local guard scope",
+            findings=findings,
+            subjects_evaluated=len(sensitive_tools),
+            summary={"sensitive_tools_evaluated": len(sensitive_tools)},
+        )
+
+    def _validate_rbac_requirements(self, bundle: MiasiRegistryBundle) -> SemanticRuleResult:
+        findings: list[SemanticFinding] = []
+        registry, registry_findings = self._load_identity_registry()
+        findings.extend(registry_findings)
+        sensitive_tools = [
+            tool
+            for tool in bundle.tools
+            if tool.status not in {"disabled", "future", "planned"}
+            and (tool.risk_level == "high" or tool.side_effect in {"controlled_execution", "network_cost", "controlled_write"})
+        ]
+        rules_by_id = {rule.rule_id: rule for rule in bundle.rules}
+        if registry:
+            defaults = registry.get("defaults", {}) if isinstance(registry.get("defaults"), dict) else {}
+            if defaults.get("rbac_enforced_for_sensitive_actions") is not True:
+                findings.append(
+                    self._finding(
+                        finding_id="MIASI_SEMANTIC_RBAC_NOT_ENFORCED",
+                        rule_id="SEM-RBAC-001",
+                        severity=SemanticSeverity.BLOCK,
+                        message="Identity registry must enforce RBAC for sensitive actions.",
+                        category="rbac",
+                        subject_type="identity_registry",
+                        subject_id="defaults",
+                        path=IDENTITY_REGISTRY_FILE.as_posix(),
+                        metadata={"defaults": defaults},
+                    )
+                )
+            if defaults.get("deny_unknown_actor") is not True:
+                findings.append(
+                    self._finding(
+                        finding_id="MIASI_SEMANTIC_UNKNOWN_ACTOR_NOT_DENIED",
+                        rule_id="SEM-RBAC-001",
+                        severity=SemanticSeverity.BLOCK,
+                        message="Identity registry must deny unknown actors for sensitive actions.",
+                        category="rbac",
+                        subject_type="identity_registry",
+                        subject_id="defaults",
+                        path=IDENTITY_REGISTRY_FILE.as_posix(),
+                        metadata={"defaults": defaults},
+                    )
+                )
+            findings.extend(self._active_actor_findings(registry))
+            findings.extend(self._approval_role_findings(registry))
+        for tool in sensitive_tools:
+            associated_rules = [rules_by_id[rule_id] for rule_id in tool.policy_rule_ids if rule_id in rules_by_id]
+            if tool.side_effect in {"controlled_execution", "network_cost"} and tool.requires_approval:
+                has_rbac_or_approval = self._rules_have_any_token(associated_rules, RBAC_GATE_TOKENS + APPROVAL_GATE_TOKENS)
+                if not has_rbac_or_approval:
+                    findings.append(
+                        self._finding(
+                            finding_id="MIASI_SEMANTIC_RBAC_BINDING_MISSING",
+                            rule_id="SEM-RBAC-001",
+                            severity=SemanticSeverity.BLOCK,
+                            message="Approval-gated execution/network tool lacks RBAC or approval actor binding in its policy gates.",
+                            category="rbac",
+                            subject_type="tool",
+                            subject_id=tool.tool_id,
+                            path=TOOL_REGISTRY_FILE.as_posix(),
+                            metadata={"tool": tool.to_dict(), "policy_gates": [rule.gate for rule in associated_rules]},
+                        )
+                    )
+            elif tool.side_effect == "controlled_write" and tool.risk_level == "high" and not tool.requires_approval:
+                # Current implemented-initial controlled-write capabilities remain local and sandboxed;
+                # C records RBAC debt as a warning when local guards exist, and blocks when no guard exists.
+                if self._rules_have_any_token(associated_rules, LOCAL_GUARD_TOKENS):
+                    findings.append(
+                        self._finding(
+                            finding_id="MIASI_SEMANTIC_RBAC_REVIEW_REQUIRED",
+                            rule_id="SEM-RBAC-001",
+                            severity=SemanticSeverity.WARNING,
+                            message="High-risk controlled-write tool is locally guarded but lacks explicit RBAC binding; harden before production-local promotion.",
+                            category="rbac",
+                            subject_type="tool",
+                            subject_id=tool.tool_id,
+                            path=TOOL_REGISTRY_FILE.as_posix(),
+                            metadata={"tool": tool.to_dict(), "policy_gates": [rule.gate for rule in associated_rules]},
+                        )
+                    )
+                else:
+                    findings.append(
+                        self._finding(
+                            finding_id="MIASI_SEMANTIC_RBAC_BINDING_MISSING",
+                            rule_id="SEM-RBAC-001",
+                            severity=SemanticSeverity.BLOCK,
+                            message="High-risk controlled-write tool lacks both explicit approval and RBAC/local guard binding.",
+                            category="rbac",
+                            subject_type="tool",
+                            subject_id=tool.tool_id,
+                            path=TOOL_REGISTRY_FILE.as_posix(),
+                            metadata={"tool": tool.to_dict(), "policy_gates": [rule.gate for rule in associated_rules]},
+                        )
+                    )
+        return self._rule_result(
+            rule_id="SEM-RBAC-001",
+            title="Sensitive actions must be constrained by local identity/RBAC metadata",
+            findings=findings,
+            subjects_evaluated=len(sensitive_tools) + 1,
+            summary={
+                "sensitive_tools_evaluated": len(sensitive_tools),
+                "identity_registry_path": IDENTITY_REGISTRY_FILE.as_posix(),
+                "identity_registry_present": registry is not None,
+            },
+        )
+
+    def _validate_security_guards(self, bundle: MiasiRegistryBundle) -> SemanticRuleResult:
+        findings: list[SemanticFinding] = []
+        rules_by_id = {rule.rule_id: rule for rule in bundle.rules}
+        sensitive_tools = [
+            tool
+            for tool in bundle.tools
+            if tool.status not in {"disabled", "future", "planned"}
+            and (tool.risk_level in {"high", "medium_high"} or tool.side_effect in SENSITIVE_SIDE_EFFECTS)
+        ]
+        for tool in sensitive_tools:
+            associated_rules = [rules_by_id[rule_id] for rule_id in tool.policy_rule_ids if rule_id in rules_by_id]
+            gate_text = " ".join(rule.gate.lower() for rule in associated_rules)
+            rule_ids_text = " ".join(tool.policy_rule_ids).lower()
+            if self._tool_needs_secret_guard(tool) and not (self._text_has_any(gate_text, SECRET_GUARD_TOKENS) or "secrets_raw_deny" in rule_ids_text):
+                findings.append(
+                    self._finding(
+                        finding_id="MIASI_SEMANTIC_SECRET_GUARD_MISSING",
+                        rule_id="SEM-SECURITY-GUARD-001",
+                        severity=SemanticSeverity.BLOCK,
+                        message="Sensitive tool is not bound to SecretGuard or SECRETS_RAW_DENY.",
+                        category="security",
+                        subject_type="tool",
+                        subject_id=tool.tool_id,
+                        path=TOOL_REGISTRY_FILE.as_posix(),
+                        metadata={"tool": tool.to_dict(), "policy_gates": [rule.gate for rule in associated_rules]},
+                    )
+                )
+            if tool.side_effect == "network_cost" and not (tool.requires_approval and self._rules_have_any_token(associated_rules, NETWORK_GUARD_TOKENS)):
+                findings.append(
+                    self._finding(
+                        finding_id="MIASI_SEMANTIC_NETWORK_COST_GUARD_MISSING",
+                        rule_id="SEM-SECURITY-GUARD-001",
+                        severity=SemanticSeverity.BLOCK,
+                        message="Network/cost tool must require approval and be guarded by CostGuard/NoExternalAPI/NoNetwork/LocalhostOnly semantics.",
+                        category="security",
+                        subject_type="tool",
+                        subject_id=tool.tool_id,
+                        path=TOOL_REGISTRY_FILE.as_posix(),
+                        metadata={"tool": tool.to_dict(), "policy_gates": [rule.gate for rule in associated_rules]},
+                    )
+                )
+            if tool.side_effect in {"controlled_write", "optional_write"} and not self._rules_have_any_token(associated_rules, LOCAL_GUARD_TOKENS):
+                findings.append(
+                    self._finding(
+                        finding_id="MIASI_SEMANTIC_LOCAL_WRITE_GUARD_MISSING",
+                        rule_id="SEM-SECURITY-GUARD-001",
+                        severity=SemanticSeverity.BLOCK,
+                        message="Write-capable tool must declare local/sandbox/path/policy guard semantics.",
+                        category="security",
+                        subject_type="tool",
+                        subject_id=tool.tool_id,
+                        path=TOOL_REGISTRY_FILE.as_posix(),
+                        metadata={"tool": tool.to_dict(), "policy_gates": [rule.gate for rule in associated_rules]},
+                    )
+                )
+        return self._rule_result(
+            rule_id="SEM-SECURITY-GUARD-001",
+            title="Sensitive tools must declare SecretGuard, local guard and network/cost guard semantics",
+            findings=findings,
+            subjects_evaluated=len(sensitive_tools),
+            summary={"sensitive_tools_evaluated": len(sensitive_tools)},
+        )
+
+    def _validate_no_go_security_guards(self, bundle: MiasiRegistryBundle) -> SemanticRuleResult:
+        findings: list[SemanticFinding] = []
+        rules_by_id = {rule.rule_id: rule for rule in bundle.rules}
+        for tool in bundle.tools:
+            identity = f"{tool.tool_id} {tool.name} {tool.side_effect}".lower()
+            associated_rules = [rules_by_id[rule_id] for rule_id in tool.policy_rule_ids if rule_id in rules_by_id]
+            rule_text = " ".join(f"{rule.domain} {rule.action} {rule.default_effect} {rule.gate}".lower() for rule in associated_rules)
+            if self._looks_like_no_go_tool(identity, rule_text):
+                allowed = any(rule.default_effect == "allow" for rule in associated_rules)
+                denied_or_blocked = any(rule.default_effect in {"deny", "block"} for rule in associated_rules) or tool.status in {"disabled", "future", "planned"}
+                has_future_sandbox_only = self._text_has_any(rule_text, ("futureadr", "future sandbox", "sandboxfuture", "sandbox", "dry_run", "dry-run", "metadata"))
+                if allowed and not denied_or_blocked:
+                    findings.append(
+                        self._finding(
+                            finding_id="MIASI_SEMANTIC_NO_GO_TOOL_ALLOWED",
+                            rule_id="SEM-NO-GO-GUARD-001",
+                            severity=SemanticSeverity.BLOCK,
+                            message="Remote/plugin/connector write or execute tool is allowed without deny/block guard.",
+                            category="no-go",
+                            subject_type="tool",
+                            subject_id=tool.tool_id,
+                            path=TOOL_REGISTRY_FILE.as_posix(),
+                            metadata={"tool": tool.to_dict(), "policy_rules": [rule.to_dict() for rule in associated_rules]},
+                        )
+                    )
+                if "connector" in identity and ("write" in identity or "write" in rule_text) and allowed and not has_future_sandbox_only:
+                    findings.append(
+                        self._finding(
+                            finding_id="MIASI_SEMANTIC_CONNECTOR_WRITE_WITHOUT_FUTURE_GUARDS",
+                            rule_id="SEM-NO-GO-GUARD-001",
+                            severity=SemanticSeverity.BLOCK,
+                            message="Connector write path is not allowed without future ADR/sandbox/test-contract guard semantics.",
+                            category="no-go",
+                            subject_type="tool",
+                            subject_id=tool.tool_id,
+                            path=TOOL_REGISTRY_FILE.as_posix(),
+                            metadata={"tool": tool.to_dict(), "policy_rules": [rule.to_dict() for rule in associated_rules]},
+                        )
+                    )
+        return self._rule_result(
+            rule_id="SEM-NO-GO-GUARD-001",
+            title="Remote/plugin/connector write or execute paths must remain deny/block guarded",
+            findings=findings,
+            subjects_evaluated=len(bundle.tools),
+            summary={"tools_total": len(bundle.tools)},
+        )
+
+    def _load_identity_registry(self) -> tuple[dict[str, Any] | None, list[SemanticFinding]]:
+        path = self.root / IDENTITY_REGISTRY_FILE
+        if not path.is_file():
+            return None, [
+                self._finding(
+                    finding_id="MIASI_SEMANTIC_IDENTITY_REGISTRY_MISSING",
+                    rule_id="SEM-RBAC-001",
+                    severity=SemanticSeverity.BLOCK,
+                    message="Identity registry is required for approval/RBAC semantic validation.",
+                    category="rbac",
+                    subject_type="identity_registry",
+                    subject_id="identity_registry",
+                    path=IDENTITY_REGISTRY_FILE.as_posix(),
+                )
+            ]
+        try:
+            payload = json.loads(path.read_text(encoding="utf-8"))
+        except json.JSONDecodeError as exc:
+            return None, [
+                self._finding(
+                    finding_id="MIASI_SEMANTIC_IDENTITY_REGISTRY_INVALID_JSON",
+                    rule_id="SEM-RBAC-001",
+                    severity=SemanticSeverity.BLOCK,
+                    message="Identity registry is not valid JSON.",
+                    category="rbac",
+                    subject_type="identity_registry",
+                    subject_id="identity_registry",
+                    path=IDENTITY_REGISTRY_FILE.as_posix(),
+                    metadata={"error": str(exc)},
+                )
+            ]
+        if not isinstance(payload, dict):
+            return None, [
+                self._finding(
+                    finding_id="MIASI_SEMANTIC_IDENTITY_REGISTRY_INVALID_SHAPE",
+                    rule_id="SEM-RBAC-001",
+                    severity=SemanticSeverity.BLOCK,
+                    message="Identity registry must be a JSON object.",
+                    category="rbac",
+                    subject_type="identity_registry",
+                    subject_id="identity_registry",
+                    path=IDENTITY_REGISTRY_FILE.as_posix(),
+                )
+            ]
+        return payload, []
+
+    def _active_actor_findings(self, registry: dict[str, Any]) -> list[SemanticFinding]:
+        findings: list[SemanticFinding] = []
+        active_actor_id = str(registry.get("active_actor_id", "")).strip()
+        actors = registry.get("actors", []) if isinstance(registry.get("actors"), list) else []
+        roles = registry.get("roles", []) if isinstance(registry.get("roles"), list) else []
+        role_ids = {str(role.get("role_id", "")).strip() for role in roles if isinstance(role, dict)}
+        actor = next((item for item in actors if isinstance(item, dict) and item.get("actor_id") == active_actor_id), None)
+        if not active_actor_id or actor is None:
+            findings.append(
+                self._finding(
+                    finding_id="MIASI_SEMANTIC_ACTIVE_ACTOR_UNKNOWN",
+                    rule_id="SEM-RBAC-001",
+                    severity=SemanticSeverity.BLOCK,
+                    message="Active local actor must be declared in identity registry.",
+                    category="rbac",
+                    subject_type="actor",
+                    subject_id=active_actor_id or "<missing>",
+                    path=IDENTITY_REGISTRY_FILE.as_posix(),
+                )
+            )
+            return findings
+        if actor.get("status") != "active":
+            findings.append(
+                self._finding(
+                    finding_id="MIASI_SEMANTIC_ACTIVE_ACTOR_INACTIVE",
+                    rule_id="SEM-RBAC-001",
+                    severity=SemanticSeverity.BLOCK,
+                    message="Active local actor is not active.",
+                    category="rbac",
+                    subject_type="actor",
+                    subject_id=active_actor_id,
+                    path=IDENTITY_REGISTRY_FILE.as_posix(),
+                    metadata={"actor": actor},
+                )
+            )
+        unknown_roles = [role_id for role_id in actor.get("roles", []) if role_id not in role_ids]
+        if unknown_roles:
+            findings.append(
+                self._finding(
+                    finding_id="MIASI_SEMANTIC_ACTIVE_ACTOR_UNKNOWN_ROLE",
+                    rule_id="SEM-RBAC-001",
+                    severity=SemanticSeverity.BLOCK,
+                    message="Active local actor references unknown roles.",
+                    category="rbac",
+                    subject_type="actor",
+                    subject_id=active_actor_id,
+                    path=IDENTITY_REGISTRY_FILE.as_posix(),
+                    metadata={"unknown_roles": unknown_roles},
+                )
+            )
+        if actor.get("remote_auth_enabled") is not False:
+            findings.append(
+                self._finding(
+                    finding_id="MIASI_SEMANTIC_REMOTE_AUTH_ENABLED",
+                    rule_id="SEM-RBAC-001",
+                    severity=SemanticSeverity.BLOCK,
+                    message="Active actor must not enable remote authentication in local-first mode.",
+                    category="rbac",
+                    subject_type="actor",
+                    subject_id=active_actor_id,
+                    path=IDENTITY_REGISTRY_FILE.as_posix(),
+                    metadata={"actor": actor},
+                )
+            )
+        return findings
+
+    def _approval_role_findings(self, registry: dict[str, Any]) -> list[SemanticFinding]:
+        roles = registry.get("roles", []) if isinstance(registry.get("roles"), list) else []
+        permissions = {
+            str(permission).strip()
+            for role in roles
+            if isinstance(role, dict)
+            for permission in role.get("permissions", [])
+        }
+        required_any = {"*", "tool.execute.approve", "approval.decide.critical", "patch.apply.approve", "filesystem.write.approve"}
+        if not permissions.intersection(required_any):
+            return [
+                self._finding(
+                    finding_id="MIASI_SEMANTIC_APPROVAL_ROLE_MISSING",
+                    rule_id="SEM-RBAC-001",
+                    severity=SemanticSeverity.BLOCK,
+                    message="RBAC roles must expose at least one approval/critical-action permission for sensitive actions.",
+                    category="rbac",
+                    subject_type="identity_registry",
+                    subject_id="roles",
+                    path=IDENTITY_REGISTRY_FILE.as_posix(),
+                    metadata={"required_any": sorted(required_any), "permissions": sorted(permissions)},
+                )
+            ]
+        return []
+
     def _validate_policy_contradictions(self, bundle: MiasiRegistryBundle) -> SemanticRuleResult:
         findings: list[SemanticFinding] = []
         grouped: dict[tuple[str, str], list[PolicyRule]] = {}
@@ -496,6 +927,43 @@ class MiasiSemanticValidator:
             path=path,
             metadata=metadata or {},
         )
+
+    @staticmethod
+    def _text_has_any(text: str, tokens: tuple[str, ...]) -> bool:
+        lowered = str(text or "").lower()
+        return any(token.lower() in lowered for token in tokens)
+
+    @classmethod
+    def _rules_have_any_token(cls, rules: list[PolicyRule], tokens: tuple[str, ...]) -> bool:
+        return any(cls._text_has_any(rule.gate, tokens) or cls._text_has_any(rule.rule_id, tokens) for rule in rules)
+
+    @staticmethod
+    def _is_generic_approval_gate(rule: PolicyRule) -> bool:
+        gate = rule.gate.strip().lower()
+        if gate in {"approval", "approvalpolicy", "approval required", "manual approval"}:
+            return True
+        # A sensitive approval gate should name a concrete checker/service or bind RBAC/actor semantics.
+        return rule.approval_required and not any(token in gate for token in ("approvalpolicychecker", "approvalservice", "rbac", "actor", "identity"))
+
+    @staticmethod
+    def _tool_needs_secret_guard(tool: ToolSpec) -> bool:
+        identifier = f"{tool.tool_id} {tool.name}".lower()
+        sensitive_name = any(
+            marker in identifier
+            for marker in ("secret", "model", "security", "connector", "plugin", "remote", "audit", "compliance", "enterprise", "release")
+        )
+        return tool.risk_level in {"high", "medium_high"} and (tool.side_effect in {"controlled_write", "optional_write", "network_cost"} or sensitive_name)
+
+    @staticmethod
+    def _looks_like_no_go_tool(identity: str, rule_text: str) -> bool:
+        combined = f"{identity} {rule_text}".lower()
+        if "remote" in combined and any(marker in combined for marker in ("execute", "runner", "auth", "cloud_control")):
+            return True
+        if "plugin" in combined and any(marker in combined for marker in ("execute", "loader", "code")):
+            return True
+        if "connector" in combined and any(marker in combined for marker in ("write", "execute", "call_execute")):
+            return True
+        return False
 
     @staticmethod
     def _report_status(rule_results: list[SemanticRuleResult]) -> str:

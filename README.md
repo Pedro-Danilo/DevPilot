@@ -1,12 +1,12 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
-Estado actual: `baseline pre-code approved + Fases A-G cerradas + Fase H cerrada + POST-H-001 implemented-initial + POST-H-EVAL-001 closed + POST-H-002 closed + POST-H-003 closed + POST-H-004-A implemented-initial + POST-H-004-B implemented-initial`  
+Estado actual: `baseline pre-code approved + Fases A-G cerradas + Fase H cerrada + POST-H-001 implemented-initial + POST-H-EVAL-001 closed + POST-H-002 closed + POST-H-003 closed + POST-H-004-A implemented-initial + POST-H-004-B implemented-initial + POST-H-004-C implemented-initial`  
 Último hito: `POST-H-003 — Test Contract Registry 2.0`  
-Último micro-sprint implementado: `POST-H-004-B — Reglas agent/tool/policy`  
+Último micro-sprint implementado: `POST-H-004-C — Reglas approval/RBAC/security guards`  
 Hito diagnóstico cerrado: `POST-H-EVAL-001 — Evaluación integral del baseline DevPilot post-Fase H`, cierre formal `POST-H-EVAL-001-G`  
 Siguiente hito: `POST-H-004 — Policy/MIASI semantic validator ampliado`  
 Hito en ejecución: `POST-H-004 — Policy/MIASI semantic validator ampliado`  
-Siguiente micro-sprint: `POST-H-004-C — Reglas approval/RBAC/security guards`  
+Siguiente micro-sprint: `POST-H-004-D — Observability, evals y test contracts`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
@@ -19,6 +19,25 @@ Modo de trabajo: local-first híbrido, API keys opcionales, costo externo contro
 
 
 
+
+## POST-H-004-C — Reglas approval/RBAC/security guards
+
+`POST-H-004-C` endurece el validador semántico MIASI con cruces explícitos de aprobación humana local, identidad/RBAC y security guards. El comando sigue siendo local y no ejecutor:
+
+```powershell
+python -m devpilot_core miasi semantic-validate --json
+```
+
+La validación ahora comprueba que herramientas sensibles con `requires_approval=true` tengan reglas/gates de aprobación concretos, que el `identity_registry` local tenga `deny_unknown_actor=true` y `rbac_enforced_for_sensitive_actions=true`, que exista actor local activo con roles conocidos y permisos de aprobación, que herramientas con red/costo declaren `CostGuard`/`NoExternalAPI`/`NoNetwork`/`LocalhostOnly`, que write-capable tools declaren guards locales, y que rutas remote/plugin/connector write/execute permanezcan `deny`/`block` salvo futuros ADR/sandbox/test-contract gates.
+
+Alcance: esta entrega es `implemented-initial`. No modifica `PolicyEngine`, no ejecuta agentes, no ejecuta tools, no ejecuta pruebas desde JSON, no habilita remote execution, connector write ni plugin execution. Las advertencias de deuda por `controlled_write` high-risk sin approval explícito siguen visibles como deuda hasta cierre de `POST-H-004-E` o hasta que se formalice una política de aprobación/RBAC más estricta por herramienta.
+
+Verificación focal:
+
+```powershell
+python -m pytest tests/test_miasi_semantic_validator.py tests/test_miasi_semantic_validator_fixtures.py tests/test_miasi_semantic_report_model.py tests/test_miasi_registry.py tests/test_schema_registry.py -q
+python -m devpilot_core miasi semantic-validate --json
+```
 
 ## POST-H-004-B — Reglas agent/tool/policy
 
