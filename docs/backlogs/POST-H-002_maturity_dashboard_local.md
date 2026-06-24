@@ -3,7 +3,7 @@ doc_id: "POST-H-002-BACKLOG"
 id: "POST-H-002"
 title: "POST-H-002 — Maturity dashboard local basado en assessment post-H"
 status: "approved"
-version: "0.4.0"
+version: "0.5.0"
 owner: "Ordóñez"
 approval: "internal"
 updated: "2026-06-24"
@@ -362,3 +362,28 @@ Alcance explícito: esta entrega **no** implementa todavía `MaturityDashboardBu
 Criterios PASS cubiertos: todas las fuentes JSON obligatorias se detectan y leen, fuentes críticas ausentes producen `BLOCK`, documentos Markdown se tratan como fallback warning-tolerant, y los resultados declaran `network_used=false`, `external_api_used=false`, `mutations_performed=false`.
 
 No-go gates conservados: no se habilita remote execution, connector write, plugin execution, external APIs, networking, shell, lectura de secretos ni mutación de fuentes post-H.
+
+
+### POST-H-002-D — CLI e integración ApplicationService
+
+Estado: `implemented-initial`.
+
+Este micro-sprint expone el dashboard de madurez mediante la frontera `ApplicationService` y el comando CLI `maturity dashboard`. La implementación agrega `MaturityApplicationService`, registra la operación `maturity.dashboard` en el contrato de aplicación y habilita el comando:
+
+```powershell
+python -m devpilot_core maturity dashboard --json
+python -m devpilot_core maturity dashboard --json --write-report
+```
+
+La escritura persistida es explícita y queda limitada a:
+
+```text
+outputs/reports/maturity_dashboard.json
+outputs/reports/maturity_dashboard.md
+```
+
+Alcance explícito: esta entrega **no** agrega Web UI, no agrega rutas HTTP nuevas, no crea quality gate específico, no reemplaza `industrial-readiness` y no declara `production-ready-local`. El cierre del hito, el gate final de dashboard y la documentación consolidada quedan para `POST-H-002-E`.
+
+Criterios PASS cubiertos: el CLI retorna `CommandResult` JSON parseable, `ApplicationService` expone la operación, `--write-report` genera los dos artefactos canónicos bajo `outputs/reports`, las pruebas focales pasan y los comandos generales selectivos no reportan findings bloqueantes.
+
+No-go gates conservados: no se habilita remote execution, connector write, plugin execution, external APIs, networking, mutaciones fuera de `outputs/reports` ni claims de producción completa.

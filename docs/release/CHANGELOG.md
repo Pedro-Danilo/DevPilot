@@ -308,3 +308,23 @@ This section preserves exact sprint-title anchors used by documentation regressi
 - FUNC-SPRINT-98 — Remote runners experimentales y enterprise reporting
 
 - FUNC-SPRINT-99 — Industrial readiness gate y cierre Fase H
+
+## [post-h-002-d] - 2026-06-24
+
+### Added
+
+- `MaturityApplicationService` como frontera de aplicación para el dashboard de madurez.
+- CLI `python -m devpilot_core maturity dashboard --json`.
+- Escritura explícita con `--write-report` de `outputs/reports/maturity_dashboard.json` y `outputs/reports/maturity_dashboard.md`.
+- Pruebas focales para ApplicationService, CLI JSON y escritura de reportes canónicos.
+- Reporte de auditoría `docs/audits/post_h_002_d_cli_application_service_report.md` y manifest `docs/post_h_002_d_manifest.json`.
+
+### Security
+
+- No se habilita remote execution, connector write, plugin execution, APIs externas ni red.
+- La escritura queda limitada a `outputs/reports` y se ejecuta solo con `--write-report`.
+- No se declara producción completa, enterprise-ready, remote-ready ni compliance-certified.
+
+### Notes
+
+- Capacidad `implemented-initial`; el quality gate específico y cierre completo de `POST-H-002` quedan para `POST-H-002-E`.

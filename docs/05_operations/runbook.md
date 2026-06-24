@@ -5687,3 +5687,71 @@ BLOCK si habilita remote execution, connector write, plugin execution, APIs exte
 ### Riesgos
 
 El riesgo principal es tratar los resúmenes de lectura como dashboard final. `POST-H-002-B` solo normaliza fuentes y evidencia; la construcción de capacidades y agregados se implementará en `POST-H-002-C`.
+
+## POST-H-002-D — Operación CLI/ApplicationService del maturity dashboard
+
+### Propósito
+
+`POST-H-002-D` expone el dashboard local de madurez a través de la frontera `ApplicationService` y del comando CLI `maturity dashboard`. El comando consume evidencia post-H, construye el dashboard conforme al schema `MaturityDashboard` y, solo con `--write-report`, persiste los artefactos canónicos `outputs/reports/maturity_dashboard.json` y `outputs/reports/maturity_dashboard.md`.
+
+### Estado
+
+Estado: `implemented-initial`. Esta versión habilita operación local por CLI y escritura explícita bajo `outputs/reports`, pero todavía no implementa Web UI, API route, quality gate específico ni declaración `production-ready-local`.
+
+### Comandos de uso
+
+```powershell
+$env:PYTHONPATH="src"
+python -m devpilot_core maturity dashboard --json
+python -m devpilot_core maturity dashboard --json --write-report
+```
+
+### Artefactos generados
+
+```text
+outputs/reports/maturity_dashboard.json
+outputs/reports/maturity_dashboard.md
+```
+
+Estos archivos son runtime outputs y no deben versionarse en el repo fuente.
+
+### Verificación específica
+
+```powershell
+python -m pytest tests/test_post_h_002_maturity_dashboard.py -q
+python -m pytest tests/test_application_services.py tests/test_post_h_002_maturity_dashboard.py -q
+python -m devpilot_core maturity dashboard --json
+python -m devpilot_core maturity dashboard --json --write-report
+python -m devpilot_core validate-frontmatter docs/audits/post_h_002_d_cli_application_service_report.md --json
+python -m devpilot_core validate-artifact docs/audits/post_h_002_d_cli_application_service_report.md --json
+```
+
+### Verificación general selectiva
+
+```powershell
+python -m devpilot_core validate docs --json
+python -m devpilot_core project-state validate --json
+python -m devpilot_core test-contracts validate --json
+python -m devpilot_core quality-gate run --profile hardening --json
+```
+
+### Criterios PASS
+
+```text
+PASS si el comando maturity dashboard --json retorna CommandResult ok=true.
+PASS si ApplicationService expone maturity.dashboard sin que el CLI importe directamente detalles de lectura/renderizado.
+PASS si --write-report escribe solo outputs/reports/maturity_dashboard.json y outputs/reports/maturity_dashboard.md.
+PASS si los flags de seguridad se mantienen en false.
+```
+
+### Criterios BLOCK
+
+```text
+BLOCK si el comando habilita red, APIs externas, remote execution, connector write o plugin execution.
+BLOCK si se escriben archivos fuera de outputs/reports.
+BLOCK si se declara production-ready completo, enterprise-ready, remote-ready o compliance-certified.
+```
+
+### Riesgos y limitaciones
+
+El principal riesgo es interpretar el dashboard CLI como cierre de madurez productiva. `POST-H-002-D` solo expone y persiste el dashboard local; el quality gate específico, la documentación final del hito y la estrategia de regresión completa quedan para `POST-H-002-E`.

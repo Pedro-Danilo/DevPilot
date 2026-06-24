@@ -11,6 +11,7 @@ from .dtos import ApplicationRequest, ApplicationResponse, InterfaceRouteContrac
 from .evals_service import EvaluationApplicationService
 from .history_service import HistoryApplicationService
 from .miasi_service import MiasiApplicationService
+from .maturity_service import MaturityApplicationService
 from .model_service import ModelApplicationService
 from .observability_service import ObservabilityApplicationService
 from .refactor_service import RefactorApplicationService
@@ -56,6 +57,7 @@ class ApplicationService:
         self.workspace = WorkspaceApplicationService(self.root)
         self.validation = ValidationApplicationService(self.root, enforce_workspace_paths=enforce_workspace_paths)
         self.miasi = MiasiApplicationService(self.root)
+        self.maturity = MaturityApplicationService(self.root)
         self.evals = EvaluationApplicationService(self.root)
         self.repo = RepoApplicationService(self.root)
         self.reports = ReportsApplicationService(self.root)
@@ -107,6 +109,9 @@ class ApplicationService:
 
     def model_providers(self) -> CommandResult:
         return self.model.providers()
+
+    def maturity_dashboard(self, *, write_report: bool = False) -> CommandResult:
+        return self.maturity.dashboard(write_report=write_report)
 
     def settings_workspace(self) -> CommandResult:
         return self.settings.workspace()
@@ -481,6 +486,7 @@ def _operation_dispatch(service: ApplicationService) -> dict[str, OperationHandl
         "observability.trace_inspect": lambda payload: service.trace_inspect(str(payload.get("trace_id", "")), limit=int(payload.get("limit", 100))),
         "observability.metrics_summary": lambda payload: service.metrics_summary(category=payload.get("category"), limit=int(payload.get("limit", 50))),
         "history.runs": lambda payload: service.history_list(limit=int(payload.get("limit", 10))),
+        "maturity.dashboard": lambda payload: service.maturity_dashboard(write_report=bool(payload.get("write_report", False))),
     }
 
 
@@ -489,6 +495,7 @@ def _domain_summaries() -> list[dict[str, Any]]:
         {"domain": "workspace", "service": "WorkspaceApplicationService", "status": "implemented-initial", "side_effects": "read_or_dry_run_plan"},
         {"domain": "validation", "service": "ValidationApplicationService", "status": "implemented", "side_effects": "none_or_explicit_report_by_adapter"},
         {"domain": "miasi", "service": "MiasiApplicationService", "status": "implemented", "side_effects": "none"},
+        {"domain": "maturity", "service": "MaturityApplicationService", "status": "implemented-initial", "side_effects": "explicit_outputs_reports_only"},
         {"domain": "evals", "service": "EvaluationApplicationService", "status": "implemented-initial", "side_effects": "bounded_local_outputs_for_eval_workdir"},
         {"domain": "repo", "service": "RepoApplicationService", "status": "implemented-initial", "side_effects": "read_only"},
         {"domain": "reports", "service": "ReportsApplicationService", "status": "implemented-initial", "side_effects": "read_only_redacted_outputs_reports"},
@@ -542,6 +549,7 @@ def _capabilities() -> list[ServiceCapability]:
         ("observability.trace_inspect", "Inspect one trace id as a span tree.", "none", True, "python -m devpilot_core trace inspect <trace_id> --json"),
         ("observability.metrics_summary", "Read bounded local metrics summary.", "none", True, "python -m devpilot_core metrics summary --json"),
         ("observability.agentops_status", "Evaluate AgentOps quality gate.", "report_when_adapter_requests_it", True, "python -m devpilot_core agentops status --json"),
+        ("maturity.dashboard", "Generate the local POST-H maturity dashboard from evidence.", "explicit_outputs_reports_only", True, "python -m devpilot_core maturity dashboard --json"),
     ]
     return [
         ServiceCapability(

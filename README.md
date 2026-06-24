@@ -1,23 +1,29 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
-Estado actual: `baseline pre-code approved + Fases A-G cerradas + Fase H cerrada + POST-H-001 implemented-initial + POST-H-EVAL-001 closed + POST-H-002-C implemented-initial`  
+Estado actual: `baseline pre-code approved + Fases A-G cerradas + Fase H cerrada + POST-H-001 implemented-initial + POST-H-EVAL-001 closed + POST-H-002-D implemented-initial`  
 Último hito: `POST-H-001 — Industrial hardening de tests y contratos`  
-Último micro-sprint implementado: `POST-H-002-C — Generador de dashboard local`  
+Último micro-sprint implementado: `POST-H-002-D — CLI e integración ApplicationService`  
 Hito diagnóstico cerrado: `POST-H-EVAL-001 — Evaluación integral del baseline DevPilot post-Fase H`, cierre formal `POST-H-EVAL-001-G`  
 Siguiente hito: `POST-H-002 — Maturity dashboard local basado en assessment post-H`  
 Hito en ejecución: `POST-H-002 — Maturity dashboard local basado en assessment post-H`  
-Siguiente micro-sprint: `POST-H-002-D — CLI e integración ApplicationService`  
+Siguiente micro-sprint: `POST-H-002-E — Quality gate y documentación`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
 
 
 
+## POST-H-002-D — CLI e integración ApplicationService
+
+`POST-H-002-D` expone el dashboard local de madurez por medio de `ApplicationService` y del comando CLI `python -m devpilot_core maturity dashboard`. La integración mantiene el core `maturity` desacoplado del CLI: el builder sigue siendo in-memory y la escritura persistida solo ocurre cuando el adaptador CLI recibe `--write-report`.
+
+Alcance: esta entrega es `implemented-initial`; habilita salida JSON por CLI y escritura explícita de `outputs/reports/maturity_dashboard.json` y `outputs/reports/maturity_dashboard.md`. No agrega Web UI, no agrega rutas HTTP nuevas, no reemplaza `industrial-readiness`, no habilita remote execution, connector write, plugin execution ni APIs externas. El quality gate específico y cierre documental del hito corresponden a `POST-H-002-E`.
+
 ## POST-H-002-C — Generador de dashboard local
 
 `POST-H-002-C` complementa los lectores de fuentes post-H con un builder local del dashboard de madurez. Se agregó `src/devpilot_core/maturity/dashboard.py` con `MaturityDashboardBuilder`, `DashboardBuildResult` y `render_maturity_dashboard_markdown()` para producir en memoria un `MaturityDashboard` validable por schema y un reporte Markdown legible para operador.
 
-Alcance: esta entrega es `implemented-initial` y todavía **no** agrega el comando CLI `maturity dashboard`, no escribe `outputs/reports/maturity_dashboard.*`, no integra ApplicationService y no crea UI/API. La exposición CLI y escritura controlada de reportes corresponden a `POST-H-002-D`.
+Alcance actualizado: esta entrega es `implemented-initial` y conserva el builder como core side-effect free. Desde `POST-H-002-D`, la exposición CLI y escritura controlada de reportes se realiza en la frontera ApplicationService/CLI, no dentro del builder.
 
 No-go gates conservados: sin remote execution, sin connector write, sin plugin execution, sin APIs externas por defecto, sin red, sin mutaciones runtime y sin declaración `production-ready` completa.
 

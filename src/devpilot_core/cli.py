@@ -3492,6 +3492,17 @@ def app_contract_command(*, json_output: bool = False, write_report: bool = Fals
     return int(result.exit_code)
 
 
+def maturity_dashboard_command(*, json_output: bool = False, write_report: bool = False) -> int:
+    """Generate the local POST-H maturity dashboard through ApplicationService."""
+
+    root = project_root()
+    result = ApplicationService(root).maturity_dashboard(write_report=write_report)
+    _emit_result_event(root, result, subject="outputs/reports/maturity_dashboard.json")
+    _persist_result(root, result, subject="outputs/reports/maturity_dashboard.json")
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+
 def api_serve_command(
     *,
     host: str = "127.0.0.1",
@@ -4679,6 +4690,12 @@ def build_parser() -> argparse.ArgumentParser:
     app_contract.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     app_contract.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
 
+    maturity = sub.add_parser("maturity", help="Generate local evidence-backed maturity dashboard reports")
+    maturity_sub = maturity.add_subparsers(dest="maturity_command")
+    maturity_dashboard = maturity_sub.add_parser("dashboard", help="Generate POST-H maturity dashboard JSON/Markdown")
+    maturity_dashboard.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    maturity_dashboard.add_argument("--write-report", action="store_true", help="Persist maturity_dashboard.json and maturity_dashboard.md under outputs/reports")
+
     api = sub.add_parser("api", help="Run, inspect or secure the local API MVP")
     api_sub = api.add_subparsers(dest="api_command")
     api_serve = api_sub.add_parser("serve", help="Dry-run or start the local API server")
@@ -5548,6 +5565,11 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
     if args.command == "app":
         if args.app_command == "contract":
             return app_contract_command(json_output=args.json, write_report=args.write_report)
+        parser.print_help()
+        return int(ExitCode.FAIL)
+    if args.command == "maturity":
+        if args.maturity_command == "dashboard":
+            return maturity_dashboard_command(json_output=args.json, write_report=args.write_report)
         parser.print_help()
         return int(ExitCode.FAIL)
     if args.command == "api":

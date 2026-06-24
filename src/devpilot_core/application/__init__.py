@@ -5,6 +5,7 @@ from .dtos import ApplicationRequest, ApplicationResponse, InterfaceRouteContrac
 from .evals_service import EvaluationApplicationService
 from .history_service import HistoryApplicationService
 from .miasi_service import MiasiApplicationService
+from .maturity_service import MaturityApplicationService
 from .model_service import ModelApplicationService
 from .observability_service import ObservabilityApplicationService
 from .refactor_service import RefactorApplicationService
@@ -25,6 +26,7 @@ __all__ = [
     "HistoryApplicationService",
     "InterfaceRouteContract",
     "MiasiApplicationService",
+    "MaturityApplicationService",
     "ModelApplicationService",
     "ObservabilityApplicationService",
     "RefactorApplicationService",

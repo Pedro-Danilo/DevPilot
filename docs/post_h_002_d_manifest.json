@@ -1,0 +1,68 @@
+{
+  "id": "POST-H-002-D",
+  "title": "CLI e integración ApplicationService",
+  "status": "implemented-initial",
+  "parent_hito": "POST-H-002",
+  "previous_micro_sprint": "POST-H-002-C",
+  "next_micro_sprint": "POST-H-002-E",
+  "implemented_at_utc": "2026-06-24T15:10:00Z",
+  "scope": {
+    "application_service_boundary_added": true,
+    "cli_command_added": true,
+    "write_report_enabled": true,
+    "canonical_reports": [
+      "outputs/reports/maturity_dashboard.json",
+      "outputs/reports/maturity_dashboard.md"
+    ],
+    "web_ui_added": false,
+    "api_route_added": false,
+    "quality_gate_added": false,
+    "production_ready_declared": false
+  },
+  "safety": {
+    "local_first": true,
+    "dry_run_default": true,
+    "read_only_without_write_report": true,
+    "writes_limited_to_outputs_reports": true,
+    "no_remote_execution_enabled": true,
+    "no_connector_write_enabled": true,
+    "no_plugin_execution_enabled": true,
+    "no_external_apis_used": true,
+    "network_used": false,
+    "source_mutations_performed": false
+  },
+  "artifacts_created": [
+    "src/devpilot_core/application/maturity_service.py",
+    "docs/post_h_002_d_manifest.json",
+    "docs/audits/post_h_002_d_cli_application_service_report.md"
+  ],
+  "artifacts_modified": [
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/backlogs/POST-H-002_maturity_dashboard_local.md",
+    "docs/release/CHANGELOG.md",
+    "src/devpilot_core/application/__init__.py",
+    "src/devpilot_core/application/services.py",
+    "src/devpilot_core/cli.py",
+    "src/devpilot_core/maturity/dashboard.py",
+    "tests/test_post_h_002_maturity_dashboard.py"
+  ],
+  "validation_commands": [
+    "python -m pytest tests/test_post_h_002_maturity_dashboard.py -q",
+    "python -m pytest tests/test_schema_registry.py tests/test_application_services.py tests/test_post_h_002_maturity_dashboard.py -q",
+    "python -m devpilot_core maturity dashboard --json",
+    "python -m devpilot_core maturity dashboard --json --write-report",
+    "python -m devpilot_core validate docs --json",
+    "python -m devpilot_core project-state validate --json",
+    "python -m devpilot_core test-contracts validate --json",
+    "python -m devpilot_core quality-gate run --profile hardening --json"
+  ],
+  "no_go_gates": [
+    "remote execution remains disabled",
+    "connector write remains disabled",
+    "plugin execution remains disabled",
+    "external APIs remain disabled by default",
+    "no production-ready, enterprise-ready, remote-ready or compliance-certified claim"
+  ],
+  "preliminary": true
+}

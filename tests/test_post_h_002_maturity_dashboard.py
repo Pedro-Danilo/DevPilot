@@ -1,8 +1,11 @@
 from __future__ import annotations
 
+import json
 from copy import deepcopy
 from pathlib import Path
 
+from devpilot_core import cli
+from devpilot_core.application import ApplicationService
 from devpilot_core.cli_models import ExitCode
 from devpilot_core.maturity import (
     CapabilityStatus,
@@ -258,9 +261,63 @@ def test_maturity_dashboard_builder_renders_operator_markdown_without_writes() -
     assert "`remote_execution_enabled` | `false`" in result.markdown
     assert "`connector_write_enabled` | `false`" in result.markdown
     assert "POST-H-021" in result.markdown
-    assert "Persistent report writing under outputs/reports and CLI exposure are deferred to POST-H-002-D." in result.markdown
+    assert "Persistent report writing is explicit and limited to outputs/reports/maturity_dashboard.json and outputs/reports/maturity_dashboard.md when the CLI uses --write-report." in result.markdown
     assert "enterprise-production-ready" not in result.markdown
     assert result.to_command_result().ok is True
     assert result.to_command_result().data["network_used"] is False
     assert result.to_command_result().data["external_api_used"] is False
     assert result.to_command_result().data["mutations_performed"] is False
+
+
+
+def test_maturity_dashboard_application_service_exposes_boundary() -> None:
+    result = ApplicationService(ROOT).maturity_dashboard()
+
+    assert result.ok is True
+    assert result.command == "maturity dashboard"
+    assert result.data["dashboard"]["dashboard_id"] == "POST-H-002-MATURITY-DASHBOARD"
+    assert result.data["summary"]["blocked_total"] >= 3
+    assert result.data["network_used"] is False
+    assert result.data["external_api_used"] is False
+    assert result.data["mutations_performed"] is False
+
+
+def test_maturity_dashboard_cli_json_is_parseable_without_writes(monkeypatch, capsys) -> None:
+    monkeypatch.chdir(ROOT)
+
+    exit_code = cli.main(["maturity", "dashboard", "--json"])
+    payload = json.loads(capsys.readouterr().out)
+
+    assert exit_code == 0
+    assert payload["command"] == "maturity dashboard"
+    assert payload["ok"] is True
+    assert payload["data"]["dashboard"]["dashboard_id"] == "POST-H-002-MATURITY-DASHBOARD"
+    assert "reports" not in payload["data"]
+    assert payload["data"]["network_used"] is False
+    assert payload["data"]["external_api_used"] is False
+    assert payload["data"]["mutations_performed"] is False
+
+
+def test_maturity_dashboard_cli_write_report_creates_canonical_outputs(monkeypatch, capsys) -> None:
+    monkeypatch.chdir(ROOT)
+    reports_dir = ROOT / "outputs" / "reports"
+    json_report = reports_dir / "maturity_dashboard.json"
+    markdown_report = reports_dir / "maturity_dashboard.md"
+    json_report.unlink(missing_ok=True)
+    markdown_report.unlink(missing_ok=True)
+
+    exit_code = cli.main(["maturity", "dashboard", "--json", "--write-report"])
+    payload = json.loads(capsys.readouterr().out)
+
+    assert exit_code == 0
+    assert payload["ok"] is True
+    assert payload["data"]["reports"] == {
+        "json": "outputs/reports/maturity_dashboard.json",
+        "markdown": "outputs/reports/maturity_dashboard.md",
+    }
+    assert json_report.is_file()
+    assert markdown_report.is_file()
+    persisted = json.loads(json_report.read_text(encoding="utf-8"))
+    assert persisted["dashboard_id"] == "POST-H-002-MATURITY-DASHBOARD"
+    assert persisted["safety"]["remote_execution_enabled"] is False
+    assert "# DevPilot Local — Maturity Dashboard" in markdown_report.read_text(encoding="utf-8")
