@@ -1,16 +1,34 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
-Estado actual: `baseline pre-code approved + Fases A-G cerradas + Fase H cerrada + POST-H-001 implemented-initial + POST-H-EVAL-001 closed + POST-H-002-A implemented-initial`  
+Estado actual: `baseline pre-code approved + Fases A-G cerradas + Fase H cerrada + POST-H-001 implemented-initial + POST-H-EVAL-001 closed + POST-H-002-B implemented-initial`  
 Último hito: `POST-H-001 — Industrial hardening de tests y contratos`  
-Último micro-sprint implementado: `POST-H-002-A — Modelo de madurez y schema`  
+Último micro-sprint implementado: `POST-H-002-B — Lectores de fuentes post-H`  
 Hito diagnóstico cerrado: `POST-H-EVAL-001 — Evaluación integral del baseline DevPilot post-Fase H`, cierre formal `POST-H-EVAL-001-G`  
 Siguiente hito: `POST-H-002 — Maturity dashboard local basado en assessment post-H`  
 Hito en ejecución: `POST-H-002 — Maturity dashboard local basado en assessment post-H`  
-Siguiente micro-sprint: `POST-H-002-B — Lectores de fuentes post-H`  
+Siguiente micro-sprint: `POST-H-002-C — Generador de dashboard local`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
 
+
+
+## POST-H-002-B — Lectores de fuentes post-H
+
+`POST-H-002-B` complementa el modelo/schema de `POST-H-002-A` con lectores locales, determinísticos y read-only de las fuentes creadas durante `POST-H-EVAL-001`. Se agregó `src/devpilot_core/maturity/sources.py` para leer manifest, decision matrix, risk register, test/cost assessment, roadmap JSON y Test Contract Registry, además de fallback controlado para documentos Markdown canónicos.
+
+Alcance: esta entrega es `implemented-initial` y todavía **no** construye el dashboard final, no genera `outputs/reports/maturity_dashboard.*`, no agrega comando CLI `maturity dashboard` y no integra ApplicationService. Es la capa de extracción de evidencia para `POST-H-002-C`.
+
+No-go gates conservados: no habilita remote execution, connector write, plugin execution, external APIs, red, shell ni mutaciones de fuentes post-H. Los lectores exponen `network_used=false`, `external_api_used=false` y `mutations_performed=false` como señales explícitas.
+
+Artefactos principales:
+
+```text
+src/devpilot_core/maturity/sources.py
+docs/post_h_002_b_manifest.json
+docs/audits/post_h_002_b_source_readers_report.md
+tests/test_post_h_002_maturity_dashboard.py
+```
 
 
 ## POST-H-002-A — Modelo de madurez y schema

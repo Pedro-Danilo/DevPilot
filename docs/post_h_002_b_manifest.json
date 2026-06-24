@@ -1,0 +1,56 @@
+{
+  "schema_version": "1.0",
+  "id": "POST-H-002-B",
+  "title": "Lectores de fuentes post-H",
+  "status": "implemented-initial",
+  "parent_hito": "POST-H-002",
+  "implemented_at_utc": "2026-06-24T00:00:00Z",
+  "local_first": true,
+  "read_only": true,
+  "dry_run_default": true,
+  "no_remote_execution_enabled": true,
+  "no_connector_write_enabled": true,
+  "no_plugin_execution_enabled": true,
+  "no_external_apis_used": true,
+  "no_network_used": true,
+  "no_source_mutations_performed": true,
+  "no_runtime_dashboard_cli_added": true,
+  "scope": [
+    "post-H JSON source reader specs",
+    "post-H Markdown fallback reader specs",
+    "source read result normalization",
+    "source bundle evidence paths",
+    "missing critical source BLOCK semantics",
+    "focused contract tests",
+    "engineering documentation synchronization"
+  ],
+  "mandatory_json_sources": [
+    "docs/post_h_eval_001_manifest.json",
+    ".devpilot/evals/post_h_eval_001_decision_matrix.json",
+    ".devpilot/evals/post_h_eval_001_security_risk_register.json",
+    ".devpilot/evals/post_h_eval_001_test_cost_assessment.json",
+    ".devpilot/evals/post_h_eval_001_prioritized_roadmap.json",
+    ".devpilot/testing/test_contract_registry.json"
+  ],
+  "artifacts_created": [
+    "src/devpilot_core/maturity/sources.py",
+    "docs/post_h_002_b_manifest.json",
+    "docs/audits/post_h_002_b_source_readers_report.md"
+  ],
+  "artifacts_modified": [
+    "src/devpilot_core/maturity/__init__.py",
+    "tests/test_post_h_002_maturity_dashboard.py",
+    "docs/backlogs/POST-H-002_maturity_dashboard_local.md",
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/release/CHANGELOG.md"
+  ],
+  "validation_commands": [
+    "python -m pytest tests/test_post_h_002_maturity_dashboard.py -q",
+    "python -m pytest tests/test_schema_registry.py tests/test_post_h_002_maturity_dashboard.py -q",
+    "python -m devpilot_core validate-frontmatter docs/audits/post_h_002_b_source_readers_report.md --json",
+    "python -m devpilot_core validate docs --json",
+    "python -m devpilot_core quality-gate run --profile hardening --json"
+  ],
+  "next_micro_sprint": "POST-H-002-C"
+}

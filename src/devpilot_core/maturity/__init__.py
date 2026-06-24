@@ -8,6 +8,14 @@ from devpilot_core.maturity.models import (
     SafetySignal,
     TestCoverageLevel,
 )
+from devpilot_core.maturity.sources import (
+    JSON_SOURCE_SPECS,
+    MARKDOWN_SOURCE_SPECS,
+    PostHSourceBundle,
+    PostHSourceReader,
+    SourceReadResult,
+    SourceSpec,
+)
 
 __all__ = [
     "CapabilityStatus",
@@ -18,4 +26,10 @@ __all__ = [
     "RoadmapDependency",
     "SafetySignal",
     "TestCoverageLevel",
+    "JSON_SOURCE_SPECS",
+    "MARKDOWN_SOURCE_SPECS",
+    "PostHSourceBundle",
+    "PostHSourceReader",
+    "SourceReadResult",
+    "SourceSpec",
 ]

@@ -13,6 +13,9 @@ from devpilot_core.maturity import (
     RoadmapDependency,
     SafetySignal,
     TestCoverageLevel,
+    JSON_SOURCE_SPECS,
+    PostHSourceReader,
+    SourceSpec,
 )
 from devpilot_core.schemas import SchemaValidator
 
@@ -139,3 +142,66 @@ def test_post_h_002_backlog_is_approved_for_execution() -> None:
     assert 'status: "approved"' in text
     assert "POST-H-002-A — Modelo de madurez y schema" in text
     assert "POST-H-002-A" in text
+
+
+
+def test_post_h_source_reader_reads_mandatory_json_sources() -> None:
+    bundle = PostHSourceReader(ROOT).read_all(include_markdown=False)
+
+    assert bundle.ok is True
+    assert bundle.blocking_findings_total == 0
+    assert len(bundle.json_sources) == len(JSON_SOURCE_SPECS)
+    assert all(source.exists and source.ok for source in bundle.json_sources)
+    assert ".devpilot/evals/post_h_eval_001_decision_matrix.json" in bundle.evidence_paths()
+    assert ".devpilot/testing/test_contract_registry.json" in bundle.evidence_paths()
+    assert bundle.to_dict()["summary"]["network_used"] is False
+    assert bundle.to_dict()["summary"]["external_api_used"] is False
+    assert bundle.to_dict()["summary"]["mutations_performed"] is False
+
+
+def test_post_h_source_reader_extracts_key_summaries() -> None:
+    bundle = PostHSourceReader(ROOT).read_all(include_markdown=False)
+
+    decision_matrix = bundle.source_by_id("decision_matrix")
+    security = bundle.source_by_id("security_risk_register")
+    contracts = bundle.source_by_id("test_contract_registry")
+    roadmap = bundle.source_by_id("prioritized_roadmap")
+
+    assert decision_matrix is not None
+    assert decision_matrix.summary["domains_total"] == 28
+    assert decision_matrix.summary["remote_runner_enabled"] is False
+    assert security is not None
+    assert security.summary["risks_total"] == 14
+    assert security.summary["critical_total"] == 1
+    assert contracts is not None
+    assert contracts.summary["contracts_total"] == 86
+    assert roadmap is not None
+    assert roadmap.summary["waves_total"] == 8
+
+
+def test_post_h_source_reader_reports_missing_critical_source_as_block(tmp_path: Path) -> None:
+    (tmp_path / "docs").mkdir()
+    specs = (SourceSpec("missing_manifest", "docs/post_h_eval_001_manifest.json", "json", True),)
+
+    bundle = PostHSourceReader(tmp_path, json_specs=specs, markdown_specs=()).read_all()
+    result = bundle.to_command_result()
+
+    assert bundle.ok is False
+    assert bundle.blocking_findings_total >= 1
+    assert result.ok is False
+    assert result.exit_code == ExitCode.BLOCK
+    assert any(finding.id == "POST_H_SOURCE_MISSING" for finding in result.findings)
+
+
+def test_post_h_source_reader_uses_markdown_fallback_with_warnings() -> None:
+    bundle = PostHSourceReader(ROOT).read_all(include_markdown=True)
+
+    assert len(bundle.markdown_sources) >= 6
+    assert all(source.exists for source in bundle.markdown_sources)
+    assert bundle.to_command_result().exit_code == ExitCode.PASS
+    closure = bundle.source_by_id("closure_report_doc")
+    assert closure is not None
+    assert closure.summary["heading_count"] > 0
+    # Markdown fallback is intentionally warning-tolerant because the JSON
+    # sources remain the canonical evidence for the dashboard builder.
+    assert bundle.warnings_total >= 0

@@ -5552,3 +5552,68 @@ BLOCK si se intenta tratar POST-H-002-A como dashboard operativo completo.
 ### Riesgos
 
 El principal riesgo operativo es sobreinterpretar el modelo como dashboard terminado. `POST-H-002-A` solo crea vocabulario, dataclasses y schema; la extracción de evidencia y generación de reportes se implementará en micro-sprints posteriores.
+
+
+## POST-H-002-B — Operación de lectores de fuentes post-H
+
+### Propósito
+
+`POST-H-002-B` agrega lectores locales, determinísticos y read-only para convertir las fuentes `POST-H-EVAL-001` en evidencia consumible por el futuro dashboard de madurez. Esta capa evita que el dashboard invente señales de madurez sin respaldo en manifest, matrices JSON, risk register, assessment de testing/costos, roadmap y Test Contract Registry.
+
+### Estado
+
+Estado: `implemented-initial`.
+
+Esta versión es preliminar: no existe todavía comando CLI `maturity dashboard`, no se generan reportes persistidos y no hay integración ApplicationService. La generación del dashboard corresponde a `POST-H-002-C`; la exposición CLI corresponde a `POST-H-002-D`.
+
+### Artefactos principales
+
+```text
+src/devpilot_core/maturity/sources.py
+src/devpilot_core/maturity/__init__.py
+docs/post_h_002_b_manifest.json
+docs/audits/post_h_002_b_source_readers_report.md
+tests/test_post_h_002_maturity_dashboard.py
+```
+
+### Verificación específica
+
+```powershell
+$env:PYTHONPATH="src"
+python -m pytest tests/test_post_h_002_maturity_dashboard.py -q
+python -m pytest tests/test_schema_registry.py tests/test_post_h_002_maturity_dashboard.py -q
+python -m devpilot_core validate-frontmatter docs/audits/post_h_002_b_source_readers_report.md --json
+```
+
+### Verificación general selectiva
+
+```powershell
+$env:PYTHONPATH="src"
+python -m pytest tests/test_project_global_state.py tests/test_post_h_eval_001_documentation.py tests/test_post_h_roadmap_onboarding_adjustment.py tests/test_schema_registry.py tests/test_post_h_002_maturity_dashboard.py -q
+python -m devpilot_core validate docs --json
+python -m devpilot_core project-state validate --json
+python -m devpilot_core test-contracts validate --json
+python -m devpilot_core quality-gate run --profile hardening --json
+```
+
+### Criterios PASS
+
+```text
+PASS si las seis fuentes JSON obligatorias existen y se leen correctamente.
+PASS si una fuente crítica faltante produce BLOCK.
+PASS si los Markdown canónicos se leen como fallback controlado.
+PASS si los resultados declaran network_used=false, external_api_used=false y mutations_performed=false.
+```
+
+### Criterios BLOCK
+
+```text
+BLOCK si el lector ignora manifest, decision matrix, risk register, test/cost assessment, roadmap JSON o test contract registry.
+BLOCK si inventa madurez sin evidencia.
+BLOCK si muta fuentes POST-H o escribe outputs.
+BLOCK si habilita remote execution, connector write, plugin execution, APIs externas, shell o red.
+```
+
+### Riesgos
+
+El riesgo principal es tratar los resúmenes de lectura como dashboard final. `POST-H-002-B` solo normaliza fuentes y evidencia; la construcción de capacidades y agregados se implementará en `POST-H-002-C`.

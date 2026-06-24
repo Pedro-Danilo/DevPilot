@@ -3,10 +3,10 @@ doc_id: "POST-H-002-BACKLOG"
 id: "POST-H-002"
 title: "POST-H-002 — Maturity dashboard local basado en assessment post-H"
 status: "approved"
-version: "0.2.0"
+version: "0.3.0"
 owner: "Ordóñez"
 approval: "internal"
-updated: "2026-06-23"
+updated: "2026-06-24"
 phase: "POST-FASE-H"
 priority: "P0"
 roadmap_source: "docs/backlogs/post_h_prioritized_roadmap.md"
@@ -347,3 +347,18 @@ Este micro-sprint aprueba el backlog `POST-H-002` para ejecución y entrega la p
 Alcance explícito: esta entrega **no** implementa todavía lectores de fuentes post-H, generador del dashboard, comando CLI `maturity dashboard`, integración ApplicationService ni escritura de reportes. Es una versión preliminar de modelo/schema que prepara los micro-sprints `POST-H-002-B` a `POST-H-002-E`.
 
 No-go gates conservados: no se habilita remote execution, connector write, plugin execution, external APIs, networking, mutaciones fuera de documentos/schemas/tests ni declaración `production-ready` completa. El modelo solo permite el estado `production-ready-local`, sujeto al gate final `POST-H-025`.
+
+
+### POST-H-002-B — Lectores de fuentes post-H
+
+Estado: `implemented-initial`.
+
+Este micro-sprint implementa la capa read-only de extracción de evidencia para el futuro dashboard local de madurez. Se agregó `PostHSourceReader`, especificaciones declarativas de fuentes JSON/Markdown, resultados normalizados `SourceReadResult`, agrupación `PostHSourceBundle`, resumen compacto de payloads JSON y fallback controlado para documentos Markdown con detección de secciones canónicas.
+
+Fuentes JSON obligatorias cubiertas: `docs/post_h_eval_001_manifest.json`, `.devpilot/evals/post_h_eval_001_decision_matrix.json`, `.devpilot/evals/post_h_eval_001_security_risk_register.json`, `.devpilot/evals/post_h_eval_001_test_cost_assessment.json`, `.devpilot/evals/post_h_eval_001_prioritized_roadmap.json` y `.devpilot/testing/test_contract_registry.json`.
+
+Alcance explícito: esta entrega **no** implementa todavía `MaturityDashboardBuilder`, no genera reportes JSON/Markdown, no expone CLI `maturity dashboard`, no integra ApplicationService y no escribe en `outputs/reports`. Es una versión preliminar de lectores para soportar `POST-H-002-C`.
+
+Criterios PASS cubiertos: todas las fuentes JSON obligatorias se detectan y leen, fuentes críticas ausentes producen `BLOCK`, documentos Markdown se tratan como fallback warning-tolerant, y los resultados declaran `network_used=false`, `external_api_used=false`, `mutations_performed=false`.
+
+No-go gates conservados: no se habilita remote execution, connector write, plugin execution, external APIs, networking, shell, lectura de secretos ni mutación de fuentes post-H.

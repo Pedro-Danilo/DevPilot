@@ -15,6 +15,26 @@ All notable changes to DevPilot Local are documented in this file.
 This changelog follows a Keep a Changelog-compatible category structure and is generated from local sprint manifests.
 
 
+## [post-h-002-b] - 2026-06-24
+
+### Added
+
+- `POST-H-002-B — Lectores de fuentes post-H` como capa read-only de extracción de evidencia para el dashboard local de madurez.
+- Módulo `src/devpilot_core/maturity/sources.py` con `PostHSourceReader`, `SourceSpec`, `SourceReadResult` y `PostHSourceBundle`.
+- Lectura determinística de manifest, decision matrix, risk register, test/cost assessment, roadmap JSON y Test Contract Registry.
+- Fallback controlado para documentos Markdown canónicos de `POST-H-EVAL-001`.
+- Manifest y reporte de auditoría del micro-sprint.
+
+### Changed
+
+- `docs/backlogs/POST-H-002_maturity_dashboard_local.md` documenta `POST-H-002-B` como `implemented-initial` y deja `POST-H-002-C` como siguiente micro-sprint.
+- `README.md` y `docs/05_operations/runbook.md` quedan sincronizados con la operación de los lectores.
+
+### Security
+
+- Los lectores son read-only y no escriben reportes, no mutan fuentes, no llaman red, no usan APIs externas y no habilitan remote execution, connector write ni plugin execution.
+
+
 ## [post-h-002-a] - 2026-06-23
 
 ### Added
