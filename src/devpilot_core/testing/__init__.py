@@ -9,6 +9,7 @@ from .contracts_v2 import (
     TestContractType,
     load_registry_v2_fixture,
 )
+from .migration import TestContractRegistryV2MigrationOptions, TestContractRegistryV2Migrator
 from .impact import TestImpactAnalyzer, TestImpactOptions
 from .profiles import TestProfile, TestProfileRegistry
 from .tests_run import TestsRunTool
@@ -24,6 +25,8 @@ __all__ = [
     "TestContractRiskLevel",
     "TestContractType",
     "load_registry_v2_fixture",
+    "TestContractRegistryV2Migrator",
+    "TestContractRegistryV2MigrationOptions",
     "TestImpactAnalyzer",
     "TestImpactOptions",
     "TestProfile",

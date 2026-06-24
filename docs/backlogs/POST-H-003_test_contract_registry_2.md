@@ -3,7 +3,7 @@ doc_id: "POST-H-003-BACKLOG"
 id: "POST-H-003"
 title: "POST-H-003 — Test Contract Registry 2.0"
 status: "approved"
-version: "0.2.0"
+version: "0.3.0"
 owner: "Ordóñez"
 approval: "internal"
 updated: "2026-06-24"
@@ -267,36 +267,49 @@ Suite focal PASS.
 Quality gate hardening PASS.
 ```
 
+## 11. Avance de implementación
 
-## 11. Avance de implementación — POST-H-003-A
+### POST-H-003-A — Diseño de schema v2 y compatibilidad
 
 Estado: `implemented-initial`.
 
-`POST-H-003-A — Diseño de schema v2 y compatibilidad` queda implementado como primera base contractual de Test Contract Registry 2.0. Se agregó el schema `SCHEMA-DEVPL-TEST-CONTRACT-REGISTRY-V2`, fixtures válidos e inválidos, helper `TestContractRegistryV2Design`, pruebas focales y documentación de diseño.
+`POST-H-003-A — Diseño de schema v2 y compatibilidad` queda implementado como primera base contractual de Test Contract Registry 2.0. Se agregó el schema `SCHEMA-DEVPL-TEST-CONTRACT-REGISTRY-V2`, fixtures válidos e inválidos, helper `TestContractRegistryV2Design`, pruebas focales y documentación de diseño. El registry v1 sigue siendo la fuente operativa de `python -m devpilot_core test-contracts validate --json`.
 
-Alcance implementado:
+### POST-H-003-B — Migrador v1 → v2 dry-run
 
-```text
-docs/schemas/test_contract_registry_v2.schema.json
-docs/04_quality/test_contract_registry_2_design.md
-src/devpilot_core/testing/contracts_v2.py
-tests/fixtures/test_contract_registry_v2/*.json
-tests/test_test_contract_registry_v2.py
-docs/post_h_003_a_manifest.json
-docs/audits/post_h_003_a_test_contract_registry_v2_schema_report.md
-```
+Estado: `implemented-initial`.
 
-Compatibilidad:
+`POST-H-003-B — Migrador v1 → v2 dry-run` implementa una migración determinística local desde `.devpilot/testing/test_contract_registry.json` hacia una representación v2 schema-backed. El migrador produce preview en memoria por defecto, genera findings explícitos para gaps de clasificación, preserva el registry v1 y solo escribe `.devpilot/testing/test_contract_registry_v2.json` cuando se usa `--write-output`.
+
+Alcance exacto de B:
 
 ```text
-El registry v1 continúa siendo la fuente operativa.
-El comando test-contracts validate sigue validando v1.
-No se migra ni sobrescribe .devpilot/testing/test_contract_registry.json.
-No se agrega todavía CLI validate-v2.
+- Implementa TestContractRegistryV2Migrator.
+- Agrega CLI test-contracts migrate-v2.
+- Genera .devpilot/testing/test_contract_registry_v2.json con 87 contratos migrados.
+- Mantiene v1 validate operativo con 87 contratos.
+- Marca clasificaciones como inferred o needs-review.
+- No ejecuta tests desde JSON.
+- No implementa validate-v2 ni perfiles ejecutables; eso queda para POST-H-003-C.
 ```
 
-Siguiente micro-sprint:
+Criterios PASS materializados:
 
 ```text
-POST-H-003-B — Migrador v1 → v2 dry-run
+PASS si todo contrato v1 tiene representación v2.
+PASS si el output v2 cumple TestContractRegistryV2.
+PASS si los gaps de clasificación quedan en findings.
+PASS si v1 no se sobrescribe.
+PASS si no hay red, APIs externas ni ejecución remota.
 ```
+
+Criterios BLOCK materializados:
+
+```text
+BLOCK si el migrador intenta sobrescribir .devpilot/testing/test_contract_registry.json.
+BLOCK si el output v2 queda fuera del workspace.
+BLOCK si el payload migrado no valida contra schema v2.
+BLOCK si test-contracts validate v1 deja de pasar.
+```
+
+Limitación explícita: la clasificación generada por B es una primera migración determinística para acelerar revisión industrial; no debe tratarse como matriz final de criticidad/costo/riesgo hasta `POST-H-003-C`, `POST-H-003-D` y `POST-H-003-E`.

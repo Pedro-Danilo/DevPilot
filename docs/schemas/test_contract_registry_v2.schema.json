@@ -20,7 +20,10 @@
       "const": "SCHEMA-DEVPL-TEST-CONTRACT-REGISTRY-V2"
     },
     "created_by": {
-      "const": "POST-H-003-A"
+      "enum": [
+        "POST-H-003-A",
+        "POST-H-003-B"
+      ]
     },
     "status": {
       "enum": [

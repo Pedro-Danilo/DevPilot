@@ -1,3 +1,51 @@
+---
+title: "DevPilot Local — Changelog"
+doc_id: "DEVPL-RELEASE-CHANGELOG"
+version: "0.1.0"
+updated: "2026-06-24"
+status: "approved"
+approval: "internal"
+owner: "Ordóñez"
+---
+
+# Changelog
+
+All notable changes to DevPilot Local are documented in this file.
+
+This changelog follows a Keep a Changelog-compatible category structure and is generated from local sprint manifests.
+
+
+
+## [post-h-003-b] - 2026-06-24
+
+### Added
+
+- `TestContractRegistryV2Migrator` in `src/devpilot_core/testing/migration.py` for deterministic v1 → v2 dry-run migration.
+- CLI `python -m devpilot_core test-contracts migrate-v2 --dry-run --json`.
+- Explicit output generation through `--write-output .devpilot/testing/test_contract_registry_v2.json`.
+- Migrated registry `.devpilot/testing/test_contract_registry_v2.json` with 87 v2 contracts.
+- Tests `tests/test_test_contract_registry_migration.py`.
+- Manifest `docs/post_h_003_b_manifest.json` and audit `docs/audits/post_h_003_b_test_contract_registry_v2_migration_report.md`.
+
+### Changed
+
+- `docs/backlogs/POST-H-003_test_contract_registry_2.md` moves to version `0.3.0` and records `POST-H-003-B` as `implemented-initial`.
+- `docs/04_quality/test_contract_registry_2_design.md` documents migration semantics and compatibility.
+- `docs/schemas/test_contract_registry_v2.schema.json` accepts POST-H-003-B generated payloads while preserving POST-H-003-A fixtures.
+- `docs/schemas/schema_catalog.json` moves to version `1.3.0` and updates the v2 schema entry metadata.
+- README and runbook now point to `POST-H-003-C` as next micro-sprint.
+
+### Security
+
+- The migrator refuses to overwrite `.devpilot/testing/test_contract_registry.json`.
+- Dry-run is the default mode.
+- No tests are executed from JSON.
+- No network, external API, remote execution, connector write or plugin execution is enabled.
+
+### Notes
+
+- Classifications are deterministic but initial; `TEST_CONTRACT_V2_CLASSIFICATION_GAP` findings are expected and must be refined by `POST-H-003-C/D/E`.
+
 ## [post-h-003-a] - 2026-06-24
 
 ### Added
@@ -24,21 +72,6 @@
 
 - Esta entrega es `implemented-initial`; la migración v1 → v2 queda para `POST-H-003-B` y el CLI `validate-v2` para `POST-H-003-C`.
 
----
-title: "DevPilot Local — Changelog"
-doc_id: "DEVPL-RELEASE-CHANGELOG"
-version: "0.1.0"
-updated: "2026-06-24"
-status: "approved"
-approval: "internal"
-owner: "Ordóñez"
----
-
-# Changelog
-
-All notable changes to DevPilot Local are documented in this file.
-
-This changelog follows a Keep a Changelog-compatible category structure and is generated from local sprint manifests.
 
 
 

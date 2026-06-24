@@ -5758,6 +5758,74 @@ El principal riesgo es interpretar el dashboard CLI como cierre de madurez produ
 
 
 
+
+## POST-H-003-B — Operación del migrador Test Contract Registry v2
+
+### Propósito
+
+Generar una representación v2 de los contratos de prueba actuales sin reemplazar el registry v1 ni ejecutar pruebas desde JSON.
+
+### Instalación
+
+No requiere dependencias nuevas, API keys, red, servicios externos ni modelos LLM.
+
+### Validación específica
+
+```powershell
+$env:PYTHONPATH="src"
+python -m pytest tests/test_test_contract_registry_migration.py tests/test_test_contract_registry_v2.py tests/test_test_contract_registry.py tests/test_schema_registry.py -q
+python -m devpilot_core test-contracts migrate-v2 --dry-run --json
+```
+
+### Generación explícita del registry v2
+
+```powershell
+python -m devpilot_core test-contracts migrate-v2 --write-output .devpilot/testing/test_contract_registry_v2.json --json
+python -m devpilot_core schema validate --schema-id TestContractRegistryV2 --instance .devpilot/testing/test_contract_registry_v2.json --json
+```
+
+### Validación general selectiva
+
+```powershell
+python -m devpilot_core test-contracts validate --json
+python -m devpilot_core validate docs --json
+python -m devpilot_core project-state validate --json
+python -m devpilot_core quality-gate run --profile hardening --json
+```
+
+### Fallos
+
+- Si `migrate-v2` falla en schema, revisar `docs/schemas/test_contract_registry_v2.schema.json` y el contrato v1 que produce el error.
+- Si `test-contracts validate` falla, se rompió compatibilidad v1 y debe bloquearse el avance.
+- Si se intenta escribir sobre `.devpilot/testing/test_contract_registry.json`, el migrador debe bloquear la operación.
+
+### Recuperación
+
+Eliminar `.devpilot/testing/test_contract_registry_v2.json` y volver a ejecutar el comando con `--write-output`. No editar ni reemplazar `.devpilot/testing/test_contract_registry.json` para corregir errores v2.
+
+### Criterios PASS
+
+```text
+87 contratos v1 representados en v2.
+Output v2 schema-valid.
+Gaps de clasificación emitidos como findings.
+Registry v1 preservado y validate PASS.
+Sin ejecución de tests desde JSON.
+```
+
+### Criterios BLOCK
+
+```text
+BLOCK si se sobrescribe v1.
+BLOCK si se escribe fuera del workspace.
+BLOCK si el output v2 no valida contra schema.
+BLOCK si se habilita red/API externa/remote execution.
+```
+
+### Riesgos
+
+La clasificación es inicial e inferida. `POST-H-003-B` no convierte la matriz v2 en fuente final de ejecución; `POST-H-003-C` debe validar semánticamente paths, comandos, perfiles y restricciones.
+
 ## POST-H-003-A — Operación del diseño Test Contract Registry v2
 
 ### Propósito

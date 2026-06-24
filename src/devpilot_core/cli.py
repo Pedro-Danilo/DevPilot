@@ -70,7 +70,7 @@ from .changes import RollbackManager
 from .standards.registry import build_standards_status_result
 from .store import LocalStore
 from .traceability import MarkdownTraceabilityExtractor, TraceabilityEngine
-from .testing import TestContractRegistry, TestImpactAnalyzer, TestImpactOptions, TestsRunTool
+from .testing import TestContractRegistry, TestContractRegistryV2MigrationOptions, TestContractRegistryV2Migrator, TestImpactAnalyzer, TestImpactOptions, TestsRunTool
 from .validation import ValidationGateway
 from .workspace import MultiworkspaceRegistry, WorkspaceRegisterOptions, WorkspaceRegistryOptions, WorkspaceSelectOptions, WorkspaceManager
 from .validators.artifact import validate_artifact_file
@@ -2724,6 +2724,38 @@ def test_contracts_validate_command(
     return int(result.exit_code)
 
 
+
+
+def test_contracts_migrate_v2_command(
+    *,
+    registry_path: str = ".devpilot/testing/test_contract_registry.json",
+    schema_path: str = "docs/schemas/test_contract_registry_v2.schema.json",
+    write_output: str | None = None,
+    json_output: bool = False,
+    write_report: bool = False,
+) -> int:
+    """Build a deterministic Test Contract Registry v2 migration preview."""
+
+    root = project_root()
+    options = TestContractRegistryV2MigrationOptions(
+        registry_path=registry_path,
+        schema_path=schema_path,
+        write_output=write_output,
+    )
+    result = TestContractRegistryV2Migrator(root, options).migrate()
+    result = _write_optional_command_report(
+        root,
+        result,
+        subject="testing:test-contracts-v2",
+        report_id="test_contract_registry_v2_migration",
+        write_report=write_report,
+        metadata={"sprint": "POST-H-003-B", "component": "TestContractRegistryV2Migrator"},
+    )
+    _emit_result_event(root, result, subject="testing:test-contracts-v2")
+    _persist_result(root, result, subject="testing:test-contracts-v2")
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
 def project_state_validate_command(*, json_output: bool = False, write_report: bool = False) -> int:
     """Validate centralized mutable project state after POST-H-001."""
 
@@ -4055,6 +4087,13 @@ def build_parser() -> argparse.ArgumentParser:
     test_contracts_validate.add_argument("--schema-path", default="docs/schemas/test_contract_registry.schema.json", help="Test contract registry schema path")
     test_contracts_validate.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     test_contracts_validate.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+    test_contracts_migrate_v2 = test_contracts_sub.add_parser("migrate-v2", help="Build deterministic v1 to v2 migration preview without replacing v1")
+    test_contracts_migrate_v2.add_argument("--registry-path", default=".devpilot/testing/test_contract_registry.json", help="Source Test Contract Registry v1 path")
+    test_contracts_migrate_v2.add_argument("--schema-path", default="docs/schemas/test_contract_registry_v2.schema.json", help="Target Test Contract Registry v2 schema path")
+    test_contracts_migrate_v2.add_argument("--dry-run", action="store_true", help="Preview migration without writing output; this is the default")
+    test_contracts_migrate_v2.add_argument("--write-output", default=None, help="Explicit output path for migrated v2 registry, e.g. .devpilot/testing/test_contract_registry_v2.json")
+    test_contracts_migrate_v2.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    test_contracts_migrate_v2.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
 
     project_state = sub.add_parser("project-state", help="Validate centralized mutable project state")
     project_state_sub = project_state.add_subparsers(dest="project_state_command")
@@ -5020,6 +5059,14 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
             return test_contracts_validate_command(
                 registry_path=args.registry_path,
                 schema_path=args.schema_path,
+                json_output=args.json,
+                write_report=args.write_report,
+            )
+        if args.test_contracts_command == "migrate-v2":
+            return test_contracts_migrate_v2_command(
+                registry_path=args.registry_path,
+                schema_path=args.schema_path,
+                write_output=args.write_output,
                 json_output=args.json,
                 write_report=args.write_report,
             )
