@@ -3,7 +3,7 @@
   "title": "DevPilot Local Schema Catalog",
   "schema_version": "1.0",
   "status": "approved",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "owner": "Ordóñez",
   "updated": "2026-06-24",
   "sprint": "POST-H-001",
@@ -405,16 +405,17 @@
     {
       "schema_id": "SCHEMA-DEVPL-TEST-CONTRACT-REGISTRY-V2",
       "title": "DevPilot Test Contract Registry v2",
-      "version": "2.0.2",
+      "version": "2.0.3",
       "path": "docs/schemas/test_contract_registry_v2.schema.json",
-      "description": "POST-H-003-C structural and semantic contract for Test Contract Registry 2.0 with domain, criticality, risk, cost, execution profiles, impact metadata and explicit local-only safety flags while keeping v1 compatibility.",
+      "description": "POST-H-003-D structural and semantic contract for Test Contract Registry 2.0 with validator, profiles and impact analyzer v2 support while keeping v1 compatibility.",
       "status": "registered",
       "contract": "TestContractRegistryV2",
       "owner": "Ordóñez",
-      "sprint": "POST-H-003-B",
+      "sprint": "POST-H-003-D",
       "dialect": "https://json-schema.org/draft/2020-12/schema",
       "validates_instances": true,
-      "validation_enabled_sprint": "POST-H-003-C"
+      "validation_enabled_sprint": "POST-H-003-C",
+      "impact_enabled_sprint": "POST-H-003-D"
     }
   ]
 }

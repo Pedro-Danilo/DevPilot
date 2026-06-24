@@ -2,11 +2,11 @@
 
 Estado actual: `baseline pre-code approved + Fases A-G cerradas + Fase H cerrada + POST-H-001 implemented-initial + POST-H-EVAL-001 closed + POST-H-002 closed`  
 Último hito: `POST-H-002 — Maturity dashboard local basado en assessment post-H`  
-Último micro-sprint implementado: `POST-H-003-C — Validator v2 y perfiles de ejecución`  
+Último micro-sprint implementado: `POST-H-003-D — Integración con Test Impact Analyzer`  
 Hito diagnóstico cerrado: `POST-H-EVAL-001 — Evaluación integral del baseline DevPilot post-Fase H`, cierre formal `POST-H-EVAL-001-G`  
 Siguiente hito: `POST-H-003 — Test Contract Registry 2.0`  
 Hito en ejecución: `POST-H-003 — Test Contract Registry 2.0`  
-Siguiente micro-sprint: `POST-H-003-D — Integración con Test Impact Analyzer`  
+Siguiente micro-sprint: `POST-H-003-E — Quality gate y documentación`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
@@ -16,6 +16,21 @@ Modo de trabajo: local-first híbrido, API keys opcionales, costo externo contro
 
 
 
+
+
+## POST-H-003-D — Integración con Test Impact Analyzer
+
+`POST-H-003-D` integra `Test Contract Registry v2` con un nuevo `TestImpactAnalyzerV2`. La capacidad cruza `changed_paths` con `watched_paths`, `validates` y `test_files` de `.devpilot/testing/test_contract_registry_v2.json`, y agrega reglas heurísticas explícitas para cambios sensibles en policy/security, schemas, CLI/API, agentes y release.
+
+Comandos principales:
+
+```powershell
+python -m devpilot_core test-impact analyze-v2 --changed-paths src/devpilot_core/policy --json
+python -m devpilot_core test-impact analyze-v2 --changed-paths docs/audits/func_sprint_24/report.md --json
+python -m devpilot_core test-impact analyze-v2 --changed-paths src/devpilot_core/cli.py --json
+```
+
+Alcance: esta entrega es `implemented-initial`. El analyzer v2 genera un plan de pruebas recomendado, perfiles sugeridos y comandos para ejecución manual, pero no ejecuta `pytest`, no lanza subprocesses, no llama red, no usa APIs externas, no muta fuentes y no reemplaza todavía la integración de quality gate prevista para `POST-H-003-E`.
 
 
 ## POST-H-003-C — Validator v2 y perfiles de ejecución

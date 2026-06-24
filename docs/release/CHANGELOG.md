@@ -15,6 +15,28 @@ All notable changes to DevPilot Local are documented in this file.
 This changelog follows a Keep a Changelog-compatible category structure and is generated from local sprint manifests.
 
 
+## [post-h-003-d] - 2026-06-24
+
+### Added
+
+- `TestImpactAnalyzerV2` in `src/devpilot_core/testing/impact_v2.py`.
+- CLI `python -m devpilot_core test-impact analyze-v2 --changed-paths <path> --json`.
+- Impact matching against v2 `test_files`, `watched_paths` and `validates`.
+- Explicit heuristics for policy/security, schemas, CLI/API, agentic runtime and release changes.
+- Tests `tests/test_test_impact_v2.py`.
+- Manifest `docs/post_h_003_d_manifest.json` and audit `docs/audits/post_h_003_d_test_impact_v2_report.md`.
+
+### Changed
+
+- `docs/backlogs/POST-H-003_test_contract_registry_2.md` moves to version `0.5.0` and records `POST-H-003-D` as `implemented-initial`.
+- `docs/04_quality/test_contract_registry_2_design.md` documents impact analyzer v2 semantics.
+- README and runbook now point to `POST-H-003-E` as next micro-sprint.
+
+### Security
+
+- `analyze-v2` does not execute pytest or subprocesses.
+- The command is local-only, dry-run, no network, no external APIs and no source mutations.
+- Recommendations are operator-facing plans, not automatic execution.
 
 
 ## [post-h-003-c] - 2026-06-24

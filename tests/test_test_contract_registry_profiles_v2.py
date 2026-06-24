@@ -145,7 +145,7 @@ def test_post_h_003_c_documentation_is_synchronized() -> None:
 
     assert "POST-H-003-C" in backlog
     assert "Validator v2 y perfiles de ejecución" in backlog
-    assert 'version: "0.4.0"' in backlog
+    assert 'version: "0.5.0"' in backlog
     assert "test-contracts validate-v2" in design
     assert "test-contracts profile --profile p0-critical" in runbook
     assert "POST-H-003-C" in readme

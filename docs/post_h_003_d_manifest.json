@@ -1,0 +1,56 @@
+{
+  "schema_version": "1.0",
+  "doc_id": "POST-H-003-D-MANIFEST",
+  "hito": "POST-H-003",
+  "micro_sprint": "POST-H-003-D",
+  "title": "POST-H-003-D — Integración con Test Impact Analyzer",
+  "status": "implemented-initial",
+  "owner": "Ordóñez",
+  "updated": "2026-06-24",
+  "previous_micro_sprint": "POST-H-003-C",
+  "next_micro_sprint": "POST-H-003-E",
+  "source_repo": "repo_DevPilot_Local_148_POST_H_003_C.zip",
+  "target_repo": "repo_DevPilot_Local_149_POST_H_003_D.zip",
+  "capabilities": {
+    "impact_v2_added": true,
+    "cli_analyze_v2_added": true,
+    "uses_test_contract_registry_v2": true,
+    "validates_v2_before_analysis": true,
+    "heuristics_for_policy_security": true,
+    "heuristics_for_schemas_cli_api_agents_release": true,
+    "tests_execute_from_json": false,
+    "quality_gate_subgate_added": false,
+    "registry_v1_preserved": true,
+    "registry_v2_preserved": true
+  },
+  "safety": {
+    "local_first": true,
+    "dry_run": true,
+    "tests_executed": false,
+    "network_used": false,
+    "external_api_used": false,
+    "mutations_performed": false,
+    "source_mutations_performed": false,
+    "remote_execution_enabled": false,
+    "connector_write_enabled": false,
+    "plugin_execution_enabled": false
+  },
+  "validation_commands": [
+    "python -m pytest tests/test_test_impact_v2.py tests/test_test_contract_registry_profiles_v2.py tests/test_test_contract_registry_migration.py tests/test_test_contract_registry_v2.py tests/test_test_contract_registry.py tests/test_schema_registry.py tests/test_test_impact.py -q",
+    "python -m devpilot_core test-impact analyze-v2 --changed-paths src/devpilot_core/policy --json",
+    "python -m devpilot_core test-impact analyze-v2 --changed-paths docs/audits/func_sprint_24/report.md --json",
+    "python -m devpilot_core test-impact analyze-v2 --changed-paths src/devpilot_core/cli.py --json",
+    "python -m devpilot_core test-contracts validate --json",
+    "python -m devpilot_core test-contracts validate-v2 --json",
+    "python -m devpilot_core validate docs --json",
+    "python -m devpilot_core project-state validate --json",
+    "python -m devpilot_core quality-gate run --profile hardening --json"
+  ],
+  "limitations": [
+    "analyze-v2 recommends tests but does not execute them",
+    "quality-gate integration remains for POST-H-003-E",
+    "policy/security recommendations are heuristic until dedicated v2 contracts are authored",
+    "v1 remains compatibility source during the POST-H-003 transition"
+  ],
+  "tests_execute_from_json": false
+}

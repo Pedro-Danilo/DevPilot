@@ -3,7 +3,7 @@ doc_id: "POST-H-003-BACKLOG"
 id: "POST-H-003"
 title: "POST-H-003 — Test Contract Registry 2.0"
 status: "approved"
-version: "0.4.0"
+version: "0.5.0"
 owner: "Ordóñez"
 approval: "internal"
 updated: "2026-06-24"
@@ -345,3 +345,35 @@ PASS si no hay red, APIs externas, ejecución remota ni mutaciones de código.
 ```
 
 Limitación explícita: `POST-H-003-C` valida y selecciona; no ejecuta pruebas. La ejecución sigue siendo explícita por comandos del operador o por `tests.run` approval-gated. El análisis de impacto por paths se implementará en `POST-H-003-D`.
+
+### POST-H-003-D — Integración con Test Impact Analyzer
+
+Estado: `implemented-initial`.
+
+`POST-H-003-D — Integración con Test Impact Analyzer` implementa `TestImpactAnalyzerV2` y el comando `test-impact analyze-v2`. La capacidad cruza rutas cambiadas con `watched_paths`, `validates` y `test_files` del registry v2, aplica reglas heurísticas explícitas para hotspots de seguridad/arquitectura y emite un plan de pruebas recomendado sin ejecutar pruebas.
+
+Alcance exacto de D:
+
+```text
+- Implementa src/devpilot_core/testing/impact_v2.py.
+- Agrega CLI test-impact analyze-v2.
+- Usa .devpilot/testing/test_contract_registry_v2.json como fuente de contratos.
+- Recomienda pruebas y comandos por impacto.
+- Prioriza P0/P1 para cambios en policy, schemas, agents, CLI, API o release.
+- Para documentación histórica, selecciona contratos documentales específicos cuando existe match exacto.
+- No ejecuta pytest ni subprocesses desde JSON.
+- No agrega todavía subgate TCR v2 a quality-gate; eso queda para POST-H-003-E.
+```
+
+Criterios PASS materializados:
+
+```text
+PASS si cambios en policy recomiendan pruebas de policy/security y perfiles p0-critical/security.
+PASS si cambios documentales específicos recomiendan la prueba documental relevante, no toda la suite histórica.
+PASS si cambios en cli.py recomiendan pruebas CLI/API/impact.
+PASS si el plan declara tests_executed=false, network_used=false, external_api_used=false y mutations_performed=false.
+PASS si v1 y v2 siguen validando y quality-gate hardening sigue PASS.
+```
+
+Limitación explícita: `POST-H-003-D` recomienda pruebas; no las ejecuta. La ejecución sigue siendo manual o mediante `tests.run` approval-gated. La integración como señal/subgate de quality gate y el cierre documental del hito quedan para `POST-H-003-E`.
+

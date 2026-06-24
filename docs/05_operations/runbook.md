@@ -5760,6 +5760,49 @@ El principal riesgo es interpretar el dashboard CLI como cierre de madurez produ
 
 
 
+## POST-H-003-D — Operación del Test Impact Analyzer v2
+
+### Propósito
+
+Recomendar una matriz de pruebas focales a partir de rutas cambiadas, usando `Test Contract Registry v2`, sin ejecutar pruebas automáticamente.
+
+### Comandos principales
+
+```powershell
+python -m devpilot_core test-impact analyze-v2 --changed-paths src/devpilot_core/policy --json
+python -m devpilot_core test-impact analyze-v2 --changed-paths docs/audits/func_sprint_24/report.md --json
+python -m devpilot_core test-impact analyze-v2 --changed-paths src/devpilot_core/cli.py --json
+python -m devpilot_core test-impact analyze-v2 --changed-paths-file changed_paths.txt --json
+```
+
+### Criterios PASS
+
+```text
+PASS si el comando devuelve ok=true.
+PASS si changed_paths_total > 0.
+PASS si tests_executed=false.
+PASS si network_used=false y external_api_used=false.
+PASS si mutations_performed=false y source_mutations_performed=false.
+PASS si policy/security recomienda pruebas y perfiles de alta criticidad.
+PASS si cambios documentales específicos no seleccionan innecesariamente toda la suite histórica.
+```
+
+### Criterios BLOCK
+
+```text
+BLOCK si no se entregan changed paths.
+BLOCK si validate-v2 falla antes del análisis.
+BLOCK si el comando intenta ejecutar pruebas.
+BLOCK si se intenta usar red, APIs externas o mutaciones.
+```
+
+### Recuperación
+
+Si `analyze-v2` no encuentra contratos para una ruta, revisar `unmatched_paths`, ejecutar manualmente `python -m devpilot_core test-contracts profile --profile p0-critical --json` y agregar watched_paths más precisos en una evolución posterior del registry v2.
+
+Estado: `implemented-initial`. Esta capacidad recomienda pruebas, no las ejecuta. La integración como subgate queda para `POST-H-003-E`.
+
+
 ## POST-H-003-C — Operación del validator Test Contract Registry v2
 
 ### Propósito

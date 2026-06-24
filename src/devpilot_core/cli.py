@@ -70,7 +70,7 @@ from .changes import RollbackManager
 from .standards.registry import build_standards_status_result
 from .store import LocalStore
 from .traceability import MarkdownTraceabilityExtractor, TraceabilityEngine
-from .testing import TestContractRegistry, TestContractRegistryV2MigrationOptions, TestContractRegistryV2Migrator, TestContractRegistryV2ValidationOptions, TestContractRegistryV2Validator, TestImpactAnalyzer, TestImpactOptions, TestsRunTool
+from .testing import TestContractRegistry, TestContractRegistryV2MigrationOptions, TestContractRegistryV2Migrator, TestContractRegistryV2ValidationOptions, TestContractRegistryV2Validator, TestImpactAnalyzer, TestImpactAnalyzerV2, TestImpactOptions, TestImpactV2Options, TestsRunTool
 from .validation import ValidationGateway
 from .workspace import MultiworkspaceRegistry, WorkspaceRegisterOptions, WorkspaceRegistryOptions, WorkspaceSelectOptions, WorkspaceManager
 from .validators.artifact import validate_artifact_file
@@ -2855,6 +2855,39 @@ def test_impact_analyze_command(
     return int(result.exit_code)
 
 
+def test_impact_analyze_v2_command(
+    *,
+    changed_paths_file: str | None = None,
+    changed_paths: list[str] | None = None,
+    registry_path: str = ".devpilot/testing/test_contract_registry_v2.json",
+    schema_path: str = "docs/schemas/test_contract_registry_v2.schema.json",
+    json_output: bool = False,
+    write_report: bool = False,
+) -> int:
+    """Analyze changed paths against Test Contract Registry v2 without executing tests."""
+
+    root = project_root()
+    options = TestImpactV2Options(
+        registry_path=registry_path,
+        schema_path=schema_path,
+        changed_paths_file=changed_paths_file,
+        changed_paths=tuple(changed_paths or ()),
+    )
+    result = TestImpactAnalyzerV2(root, options).analyze()
+    result = _write_optional_command_report(
+        root,
+        result,
+        subject="testing:test-impact-v2",
+        report_id="test_impact_v2",
+        write_report=write_report,
+        metadata={"sprint": "POST-H-003-D", "component": "TestImpactAnalyzerV2"},
+    )
+    _emit_result_event(root, result, subject="testing:test-impact-v2")
+    _persist_result(root, result, subject="testing:test-impact-v2")
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+
 def compliance_list_command(
     *,
     registry_path: str = ".devpilot/compliance/packs.json",
@@ -4176,6 +4209,14 @@ def build_parser() -> argparse.ArgumentParser:
     test_impact_analyze.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     test_impact_analyze.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
 
+    test_impact_analyze_v2 = test_impact_sub.add_parser("analyze-v2", help="Recommend a Test Contract Registry v2 impact plan without running tests")
+    test_impact_analyze_v2.add_argument("--changed-paths", action="append", default=[], help="Changed path; can be repeated")
+    test_impact_analyze_v2.add_argument("--changed-paths-file", default=None, help="Path to a newline-delimited changed-paths file")
+    test_impact_analyze_v2.add_argument("--registry-path", default=".devpilot/testing/test_contract_registry_v2.json", help="Test Contract Registry v2 path")
+    test_impact_analyze_v2.add_argument("--schema-path", default="docs/schemas/test_contract_registry_v2.schema.json", help="Test Contract Registry v2 schema path")
+    test_impact_analyze_v2.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    test_impact_analyze_v2.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+
     audit_pack = sub.add_parser("audit-pack", help="Build and verify local collaboration audit packs")
     audit_pack_sub = audit_pack.add_subparsers(dest="audit_pack_command")
     audit_pack_build = audit_pack_sub.add_parser("build", help="Build a clean local audit pack ZIP with manifest/checksums")
@@ -5164,6 +5205,15 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
             return test_impact_analyze_command(
                 changed_files_path=args.changed_files,
                 changed_files=args.path,
+                json_output=args.json,
+                write_report=args.write_report,
+            )
+        if args.test_impact_command == "analyze-v2":
+            return test_impact_analyze_v2_command(
+                changed_paths_file=args.changed_paths_file,
+                changed_paths=args.changed_paths,
+                registry_path=args.registry_path,
+                schema_path=args.schema_path,
                 json_output=args.json,
                 write_report=args.write_report,
             )

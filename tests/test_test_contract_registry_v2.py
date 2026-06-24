@@ -96,7 +96,7 @@ def test_post_h_003_backlog_approved_and_documents_schema_design() -> None:
     text = (ROOT / "docs" / "backlogs" / "POST-H-003_test_contract_registry_2.md").read_text(encoding="utf-8")
 
     assert 'status: "approved"' in text
-    assert 'version: "0.4.0"' in text
+    assert 'version: "0.5.0"' in text
     assert "POST-H-003-A" in text
     assert "SCHEMA-DEVPL-TEST-CONTRACT-REGISTRY-V2" in text
     assert "POST-H-003-B" in text

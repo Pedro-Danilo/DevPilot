@@ -2,7 +2,7 @@
 doc_id: "POST-H-003-A-DESIGN"
 title: "POST-H-003 — Test Contract Registry v2 design and migration"
 status: "approved"
-version: "1.2.0"
+version: "1.3.0"
 owner: "Ordóñez"
 updated: "2026-06-24"
 approval: "internal"
@@ -18,7 +18,7 @@ Definir el contrato estructural inicial de `Test Contract Registry 2.0` sin reem
 
 Estado: `implemented-initial`.
 
-Este diseño registra el schema `SCHEMA-DEVPL-TEST-CONTRACT-REGISTRY-V2`, fixtures válidos/ inválidos y, desde `POST-H-003-B`, una migración determinística dry-run de los 87 contratos v1 hacia `.devpilot/testing/test_contract_registry_v2.json`. No ejecuta tests desde JSON, no sustituye `.devpilot/testing/test_contract_registry.json` y no agrega todavía CLI `validate-v2`.
+Este diseño registra el schema `SCHEMA-DEVPL-TEST-CONTRACT-REGISTRY-V2`, fixtures válidos/ inválidos y, desde `POST-H-003-B`, una migración determinística dry-run de los 87 contratos v1 hacia `.devpilot/testing/test_contract_registry_v2.json`. No ejecuta tests desde JSON, no sustituye `.devpilot/testing/test_contract_registry.json` y ya dispone de validator v2, perfiles de selección e impact analyzer v2 en modo no ejecutante.
 
 ## Alcance implementado
 
@@ -179,3 +179,36 @@ docs-historical: contratos documentales/históricos.
 ### Limitación
 
 Los perfiles son selectores de contratos y comandos recomendados, no ejecutores. `POST-H-003-D` agregará cruce por paths cambiados e impacto; `POST-H-003-E` integrará el cierre documental y quality gate.
+
+
+## POST-H-003-D — Integración con Test Impact Analyzer
+
+`POST-H-003-D` agrega `TestImpactAnalyzerV2` y el comando:
+
+```powershell
+python -m devpilot_core test-impact analyze-v2 --changed-paths src/devpilot_core/policy --json
+```
+
+El analyzer v2 opera así:
+
+```text
+1. Valida primero .devpilot/testing/test_contract_registry_v2.json con TestContractRegistryV2Validator.
+2. Normaliza changed_paths.
+3. Cruza cada ruta con test_files, watched_paths y validates de los contratos v2.
+4. Aplica heurísticas explícitas para hotspots: policy/security, schemas, CLI/API, agentic runtime y release.
+5. Emite matched_contracts, heuristic_recommendations, recommended_tests, recommended_commands y recommended_profiles.
+6. Declara siempre tests_executed=false.
+```
+
+Reglas de seguridad:
+
+```text
+- No ejecuta pytest.
+- No lanza subprocesses.
+- No usa red ni APIs externas.
+- No modifica fuentes.
+- No convierte recomendaciones en approval automático.
+- No trata los contratos históricos como cobertura funcional industrial.
+```
+
+La heurística de policy/security existe porque el registry v2 migrado todavía no contiene contratos dedicados para `governance.policy` o `security.*`. Por eso `POST-H-003-D` recomienda pruebas de policy/security como recomendaciones heurísticas y selecciona contratos P0/P1 existentes, sin inventar nuevos contratos en el registry.
