@@ -5755,3 +5755,76 @@ BLOCK si se declara production-ready completo, enterprise-ready, remote-ready o 
 ### Riesgos y limitaciones
 
 El principal riesgo es interpretar el dashboard CLI como cierre de madurez productiva. `POST-H-002-D` solo expone y persiste el dashboard local; el quality gate específico, la documentación final del hito y la estrategia de regresión completa quedan para `POST-H-002-E`.
+
+## POST-H-002-E — Operación del quality gate del maturity dashboard
+
+### Propósito
+
+`POST-H-002-E` cierra el hito `POST-H-002` conectando el dashboard local de madurez con un gate específico, sin reemplazar `project-state`, `test-contracts`, `industrial-readiness` ni `quality-gate hardening`.
+
+### Estado
+
+Estado: `implemented-initial`. El hito `POST-H-002` queda cerrado como dashboard local operativo y gobernado. Esta versión no declara `production-ready-local`; esa declaración queda reservada para `POST-H-025`.
+
+### Comandos de uso
+
+```powershell
+$env:PYTHONPATH="src"
+python -m devpilot_core maturity dashboard --json --write-report
+python -m devpilot_core maturity gate --json
+python -m devpilot_core maturity gate --json --write-report
+python -m devpilot_core schema validate --schema-id MaturityDashboard --instance outputs/reports/maturity_dashboard.json --json
+```
+
+### Artefactos generados
+
+```text
+outputs/reports/maturity_dashboard.json
+outputs/reports/maturity_dashboard.md
+```
+
+Estos archivos son outputs runtime y no deben versionarse en el repo fuente.
+
+### Verificación específica
+
+```powershell
+python -m pytest tests/test_post_h_002_maturity_dashboard.py -q
+python -m pytest tests/test_schema_registry.py tests/test_application_services.py tests/test_quality_gate.py tests/test_test_contract_registry.py tests/test_project_global_state.py tests/test_post_h_002_documentation.py tests/test_post_h_002_maturity_dashboard.py -q
+python -m devpilot_core maturity dashboard --json --write-report
+python -m devpilot_core maturity gate --json --write-report
+python -m devpilot_core schema validate --schema-id MaturityDashboard --instance outputs/reports/maturity_dashboard.json --json
+```
+
+### Verificación general selectiva
+
+```powershell
+python -m devpilot_core validate docs --json
+python -m devpilot_core project-state validate --json
+python -m devpilot_core test-contracts validate --json
+python -m devpilot_core quality-gate run --profile hardening --json
+```
+
+### Criterios PASS
+
+```text
+PASS si maturity gate retorna ok=true.
+PASS si `maturity-dashboard` aparece y pasa dentro de `quality-gate run --profile hardening`.
+PASS si el JSON persistido valida contra el schema MaturityDashboard.
+PASS si project-state indica POST-H-002 cerrado y POST-H-003 como siguiente hito.
+PASS si no hay red, APIs externas, remote execution, connector write, plugin execution ni mutaciones de fuente.
+```
+
+### Criterios BLOCK
+
+```text
+BLOCK si se habilita remote execution.
+BLOCK si se habilita connector write.
+BLOCK si se habilita plugin execution.
+BLOCK si se usan APIs externas.
+BLOCK si `--write-report` escribe fuera de outputs/reports.
+BLOCK si se declara production-ready completo, enterprise-ready, remote-ready o compliance-certified.
+```
+
+### Riesgos y limitaciones
+
+El dashboard puede guiar priorización y operación local, pero no sustituye `POST-H-003`, `POST-H-004`, `POST-H-005` ni la declaración final `POST-H-025`. El siguiente paso técnico es `POST-H-003 — Test Contract Registry 2.0`.

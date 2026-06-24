@@ -4,6 +4,7 @@ doc_id: "POST-H-002-D-AUDIT"
 status: "approved"
 version: "1.0.0"
 owner: "Ordóñez"
+approval: "internal"
 updated: "2026-06-24"
 ---
 

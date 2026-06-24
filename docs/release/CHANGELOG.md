@@ -328,3 +328,33 @@ This section preserves exact sprint-title anchors used by documentation regressi
 ### Notes
 
 - Capacidad `implemented-initial`; el quality gate específico y cierre completo de `POST-H-002` quedan para `POST-H-002-E`.
+
+## [post-h-002-e] - 2026-06-24
+
+### Added
+
+- `MaturityDashboardQualityGate` para validar el dashboard local contra schema, no-go gates, evidencia, roadmap y reportes opcionales.
+- CLI `python -m devpilot_core maturity gate --json` y `--write-report`.
+- Subgate `maturity-dashboard` en `quality-gate run --profile hardening` e `industrial`.
+- Contract `post-h-002-maturity-dashboard` en `.devpilot/testing/test_contract_registry.json`.
+- Prueba documental `tests/test_post_h_002_documentation.py`.
+- Alias `schema validate --schema-id` para alinear comandos del backlog.
+- Reporte `docs/audits/post_h_002_e_quality_gate_documentation_report.md`, closure report `docs/audits/post_h_002_closure_report.md` y manifest `docs/post_h_002_e_manifest.json`.
+
+### Changed
+
+- `POST-H-002_maturity_dashboard_local.md` pasa a `implementation_status: "closed"` y versión `1.0.0`.
+- `.devpilot/project_state.json` registra `last_completed_sprint=POST-H-002` y `next_sprint=POST-H-003`.
+- README y runbook quedan sincronizados con el cierre de POST-H-002.
+- El audit de `POST-H-002-D` agrega `approval: "internal"` para eliminar el warning documental heredado.
+
+### Security
+
+- No se habilita remote execution, connector write, plugin execution, APIs externas ni red.
+- El gate no muta fuentes; `--write-report` solo escribe `outputs/reports/maturity_dashboard.json` y `outputs/reports/maturity_dashboard.md`.
+- No se declara producción completa, enterprise-ready, remote-ready ni compliance-certified.
+
+### Notes
+
+- `POST-H-002` queda cerrado como capacidad local `implemented-initial`; `production-ready-local` queda reservado para el hito final `POST-H-025`.
+- El siguiente hito recomendado es `POST-H-003 — Test Contract Registry 2.0`.

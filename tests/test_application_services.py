@@ -100,3 +100,13 @@ def test_app_contract_cli_json_and_report_are_parseable(tmp_path: Path, monkeypa
     assert payload["data"]["summary"]["web_ui_local_implemented"] is True
     assert payload["data"]["reports"]["json"] == "outputs/reports/app_contract.json"
     assert (ROOT / "outputs" / "reports" / "app_contract.json").is_file()
+
+
+def test_application_service_exposes_maturity_dashboard_gate_operation() -> None:
+    service = ApplicationService(ROOT)
+    request = ApplicationRequest(operation="maturity.dashboard_gate", payload={})
+    result = service.execute(request)
+
+    assert result.ok is True, result.to_dict()
+    assert result.command == "maturity dashboard gate"
+    assert result.data["checks"]["schema_valid"] is True

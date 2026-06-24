@@ -5,11 +5,11 @@
   "phase_h_status": "closed_implemented_initial",
   "industrial_baseline_ready": true,
   "maturity_level": "industrial-baseline-ready",
-  "last_completed_sprint": "POST-H-001",
+  "last_completed_sprint": "POST-H-002",
   "last_functional_sprint": "FUNC-SPRINT-99",
-  "next_sprint": "POST-H-002",
-  "source_repo": "repo_DevPilot_Local_130.zip",
-  "current_repo": "repo_DevPilot_Local_131_POST_H_001.zip",
+  "next_sprint": "POST-H-003",
+  "source_repo": "repo_DevPilot_Local_144_POST_H_002_D.zip",
+  "current_repo": "repo_DevPilot_Local_145_POST_H_002_E.zip",
   "global_state_owner": "tests/test_project_global_state.py",
   "mutable_global_state_fields": [
     "last_completed_sprint",
@@ -20,7 +20,8 @@
     "phase_h_status"
   ],
   "notes": [
-    "POST-H-001 centralizes mutable global project state so historical sprint tests can focus on immutable sprint contracts.",
-    "This file is source-controlled project metadata, not runtime state; it must not contain secrets."
+    "POST-H-002 closes the local maturity dashboard based on POST-H-EVAL-001 evidence and exposes a maturity-dashboard quality gate.",
+    "This file is source-controlled project metadata, not runtime state; it must not contain secrets.",
+    "POST-H-003 is the next prioritized hito: Test Contract Registry 2.0."
   ]
 }

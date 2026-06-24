@@ -113,6 +113,9 @@ class ApplicationService:
     def maturity_dashboard(self, *, write_report: bool = False) -> CommandResult:
         return self.maturity.dashboard(write_report=write_report)
 
+    def maturity_dashboard_gate(self, *, write_report: bool = False) -> CommandResult:
+        return self.maturity.dashboard_gate(write_report=write_report)
+
     def settings_workspace(self) -> CommandResult:
         return self.settings.workspace()
 
@@ -464,6 +467,8 @@ def _operation_dispatch(service: ApplicationService) -> dict[str, OperationHandl
         "validation.readiness": lambda payload: service.readiness(strict=bool(payload.get("strict", False))),
         "validation.gateway": lambda payload: service.validation.gateway(scope=str(payload.get("scope", "all"))),
         "miasi.validate": lambda payload: service.miasi_validate(scope=str(payload.get("scope", "all"))),
+        "maturity.dashboard": lambda payload: service.maturity_dashboard(write_report=bool(payload.get("write_report", False))),
+        "maturity.dashboard_gate": lambda payload: service.maturity_dashboard_gate(write_report=bool(payload.get("write_report", False))),
         "evals.documentation.run": lambda payload: service.eval_run(suite=str(payload.get("suite", "documentation")), case_id=payload.get("case_id")),
         "repo.inventory": lambda payload: service.repo_inventory(),
         "reports.list": lambda payload: service.reports_list(limit=int(payload.get("limit", 50)), severity=payload.get("severity"), status=payload.get("status"), command=payload.get("command")),
@@ -550,6 +555,7 @@ def _capabilities() -> list[ServiceCapability]:
         ("observability.metrics_summary", "Read bounded local metrics summary.", "none", True, "python -m devpilot_core metrics summary --json"),
         ("observability.agentops_status", "Evaluate AgentOps quality gate.", "report_when_adapter_requests_it", True, "python -m devpilot_core agentops status --json"),
         ("maturity.dashboard", "Generate the local POST-H maturity dashboard from evidence.", "explicit_outputs_reports_only", True, "python -m devpilot_core maturity dashboard --json"),
+        ("maturity.dashboard_gate", "Run the POST-H-002 maturity dashboard quality gate.", "explicit_outputs_reports_only", True, "python -m devpilot_core maturity gate --json"),
     ]
     return [
         ServiceCapability(

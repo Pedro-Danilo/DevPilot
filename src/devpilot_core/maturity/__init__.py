@@ -14,6 +14,10 @@ from devpilot_core.maturity.dashboard import (
     MaturityDashboardBuilder,
     render_maturity_dashboard_markdown,
 )
+from devpilot_core.maturity.gate import (
+    MaturityDashboardGateOptions,
+    MaturityDashboardQualityGate,
+)
 from devpilot_core.maturity.sources import (
     JSON_SOURCE_SPECS,
     MARKDOWN_SOURCE_SPECS,
@@ -35,6 +39,8 @@ __all__ = [
     "DashboardBuildResult",
     "MaturityDashboardBuilder",
     "render_maturity_dashboard_markdown",
+    "MaturityDashboardGateOptions",
+    "MaturityDashboardQualityGate",
     "JSON_SOURCE_SPECS",
     "MARKDOWN_SOURCE_SPECS",
     "PostHSourceBundle",

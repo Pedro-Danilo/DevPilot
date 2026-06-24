@@ -1,0 +1,53 @@
+{
+  "schema_version": "1.0",
+  "id": "POST-H-002-E",
+  "title": "Quality gate y documentación",
+  "status": "implemented-initial",
+  "parent_hito": "POST-H-002",
+  "parent_hito_status": "closed",
+  "previous_micro_sprint": "POST-H-002-D",
+  "next_hito": "POST-H-003",
+  "generated_at_utc": "2026-06-24T15:30:00Z",
+  "local_first": true,
+  "dry_run_default": true,
+  "quality_gate_added": true,
+  "quality_gate_command": "python -m devpilot_core maturity gate --json",
+  "quality_gate_hardening_subgate": "maturity-dashboard",
+  "test_contract_added": "post-h-002-maturity-dashboard",
+  "schema_alias_added": "schema validate --schema-id MaturityDashboard",
+  "reports_allowed": [
+    "outputs/reports/maturity_dashboard.json",
+    "outputs/reports/maturity_dashboard.md"
+  ],
+  "no_remote_execution_enabled": true,
+  "no_connector_write_enabled": true,
+  "no_plugin_execution_enabled": true,
+  "no_external_apis_used": true,
+  "no_source_mutations_from_gate": true,
+  "no_production_ready_claim": true,
+  "validations_expected": [
+    "python -m pytest tests/test_post_h_002_maturity_dashboard.py -q",
+    "python -m pytest tests/test_schema_registry.py tests/test_application_services.py tests/test_quality_gate.py tests/test_test_contract_registry.py tests/test_project_global_state.py tests/test_post_h_002_documentation.py tests/test_post_h_002_maturity_dashboard.py -q",
+    "python -m devpilot_core maturity dashboard --json --write-report",
+    "python -m devpilot_core maturity gate --json --write-report",
+    "python -m devpilot_core schema validate --schema-id MaturityDashboard --instance outputs/reports/maturity_dashboard.json --json",
+    "python -m devpilot_core test-contracts validate --json",
+    "python -m devpilot_core quality-gate run --profile hardening --json"
+  ],
+  "closure_summary": {
+    "micro_sprints": [
+      "POST-H-002-A",
+      "POST-H-002-B",
+      "POST-H-002-C",
+      "POST-H-002-D",
+      "POST-H-002-E"
+    ],
+    "deliverable": "Local maturity dashboard with schema, source readers, builder, CLI/ApplicationService, quality gate and documentation closure.",
+    "remaining_scope": [
+      "Web UI consumption in later product-shell milestones",
+      "Test Contract Registry 2.0 in POST-H-003",
+      "Policy/MIASI semantic validator in POST-H-004",
+      "production-ready-local declaration gate in POST-H-025"
+    ]
+  }
+}

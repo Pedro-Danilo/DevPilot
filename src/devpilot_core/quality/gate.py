@@ -125,6 +125,7 @@ class QualityGate:
                     "FUNC-SPRINT-84 adds the release profile as a dry-run release readiness gate for ReleaseAgent and Fase G closure.",
                     "FUNC-SPRINT-99 adds the industrial profile as the Fase H closure/readiness gate without overclaiming production maturity.",
                     "POST-H-001 adds the hardening profile for test contracts, project state and industrial baseline coherence without running full pytest by default.",
+                    "POST-H-002-E adds the maturity-dashboard subgate to hardening/industrial profiles without replacing existing gates.",
                     "The default and ci profiles do not run pytest implicitly; CI workflows and local checklists run pytest as an explicit step, or use --include-pytest when desired.",
                     "The gate does not publish packages, deploy, write source files, call network services or use external APIs.",
                     "Optional --write-report is handled by the CLI and writes only under outputs/reports.",
@@ -158,6 +159,7 @@ class QualityGate:
         if self.options.profile in {"hardening", "industrial"}:
             subgates.append(QualitySubgate("test-contract-registry", "POST-H-001 test contract registry validation.", self._test_contract_registry))
             subgates.append(QualitySubgate("project-global-state", "Centralized mutable project state synchronization.", self._project_global_state))
+            subgates.append(QualitySubgate("maturity-dashboard", "POST-H-002 maturity dashboard quality gate.", self.service.maturity_dashboard_gate))
         if self.options.profile == "industrial":
             subgates.append(QualitySubgate("industrial-readiness", "Fase H industrial readiness gate and maturity classification.", self._industrial_readiness))
         if self.options.profile == "hardening":

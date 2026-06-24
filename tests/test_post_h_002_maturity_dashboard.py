@@ -18,6 +18,7 @@ from devpilot_core.maturity import (
     TestCoverageLevel,
     JSON_SOURCE_SPECS,
     MaturityDashboardBuilder,
+    MaturityDashboardQualityGate,
     PostHSourceReader,
     SourceSpec,
 )
@@ -178,7 +179,7 @@ def test_post_h_source_reader_extracts_key_summaries() -> None:
     assert security.summary["risks_total"] == 14
     assert security.summary["critical_total"] == 1
     assert contracts is not None
-    assert contracts.summary["contracts_total"] == 86
+    assert contracts.summary["contracts_total"] >= 86
     assert roadmap is not None
     assert roadmap.summary["waves_total"] == 8
 
@@ -321,3 +322,83 @@ def test_maturity_dashboard_cli_write_report_creates_canonical_outputs(monkeypat
     assert persisted["dashboard_id"] == "POST-H-002-MATURITY-DASHBOARD"
     assert persisted["safety"]["remote_execution_enabled"] is False
     assert "# DevPilot Local — Maturity Dashboard" in markdown_report.read_text(encoding="utf-8")
+
+
+def test_maturity_dashboard_quality_gate_passes_without_writes() -> None:
+    result = MaturityDashboardQualityGate(ROOT).run()
+
+    assert result.ok is True, result.to_dict()
+    assert result.exit_code == ExitCode.PASS
+    assert result.command == "maturity dashboard gate"
+    assert result.data["summary"]["checks_passed"] == result.data["summary"]["checks_total"]
+    assert result.data["checks"]["schema_valid"] is True
+    assert result.data["checks"]["safety_no_go_flags_false"] is True
+    assert result.data["checks"]["no_go_capabilities_blocked"] is True
+    assert result.data["summary"]["network_used"] is False
+    assert result.data["summary"]["external_api_used"] is False
+    assert result.data["summary"]["mutations_performed"] is False
+
+
+def test_maturity_dashboard_application_service_exposes_gate_boundary() -> None:
+    result = ApplicationService(ROOT).maturity_dashboard_gate()
+
+    assert result.ok is True, result.to_dict()
+    assert result.data["checks"]["roadmap_alignment_present"] is True
+    assert result.data["checks"]["source_evidence_present"] is True
+
+
+def test_maturity_dashboard_gate_cli_json_and_write_report(monkeypatch, capsys) -> None:
+    monkeypatch.chdir(ROOT)
+    reports_dir = ROOT / "outputs" / "reports"
+    json_report = reports_dir / "maturity_dashboard.json"
+    markdown_report = reports_dir / "maturity_dashboard.md"
+    json_report.unlink(missing_ok=True)
+    markdown_report.unlink(missing_ok=True)
+
+    exit_code = cli.main(["maturity", "gate", "--json", "--write-report"])
+    payload = json.loads(capsys.readouterr().out)
+
+    assert exit_code == 0
+    assert payload["command"] == "maturity dashboard gate"
+    assert payload["ok"] is True
+    assert payload["data"]["checks"]["reports_valid"] is True
+    assert payload["data"]["reports"] == {
+        "json": "outputs/reports/maturity_dashboard.json",
+        "markdown": "outputs/reports/maturity_dashboard.md",
+    }
+    assert json_report.is_file()
+    assert markdown_report.is_file()
+
+
+def test_schema_validate_accepts_schema_id_alias_after_report_write(monkeypatch, capsys) -> None:
+    monkeypatch.chdir(ROOT)
+    cli.main(["maturity", "dashboard", "--json", "--write-report"])
+    capsys.readouterr()
+
+    exit_code = cli.main([
+        "schema",
+        "validate",
+        "--schema-id",
+        "MaturityDashboard",
+        "--instance",
+        "outputs/reports/maturity_dashboard.json",
+        "--json",
+    ])
+    payload = json.loads(capsys.readouterr().out)
+
+    assert exit_code == 0
+    assert payload["ok"] is True
+    assert payload["exit_code"] == 0
+
+
+def test_quality_gate_hardening_includes_maturity_dashboard_subgate() -> None:
+    from devpilot_core.quality import QualityGate, QualityGateOptions
+
+    result = QualityGate(ROOT, options=QualityGateOptions(profile="hardening")).run()
+
+    assert result.ok is True, result.to_dict()
+    subgate_ids = {item["id"] for item in result.data["subgates"]}
+    assert "maturity-dashboard" in subgate_ids
+    maturity = next(item for item in result.data["subgates"] if item["id"] == "maturity-dashboard")
+    assert maturity["ok"] is True
+    assert maturity["summary"]["checks_passed"] == maturity["summary"]["checks_total"]

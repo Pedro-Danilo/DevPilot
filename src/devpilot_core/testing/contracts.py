@@ -131,14 +131,19 @@ class TestContractRegistry:
         except (FileNotFoundError, json.JSONDecodeError) as exc:
             findings.append(Finding("PROJECT_STATE_LOAD_FAILED", "Project global state could not be loaded.", Severity.ERROR, path=str(DEFAULT_PROJECT_STATE_PATH), metadata={"error": str(exc)}))
             state = {}
+        last_completed = str(state.get("last_completed_sprint", ""))
+        next_sprint = str(state.get("next_sprint", ""))
         checks = {
-            "readme_current_hito": self._file_contains("README.md", f"Último hito: `{state.get('last_completed_sprint', '')}"),
-            "readme_next_hito": self._file_contains("README.md", f"Siguiente hito: `{state.get('next_sprint', '')}"),
-            "post_h_doc_approved": self._file_contains("docs/POST-H-001_industrial_hardening_tests_contracts.md", 'status: "approved"'),
-            "runbook_post_h_001": self._file_contains("docs/05_operations/runbook.md", "POST-H-001"),
-            "post_h_backlog_next": self._file_contains("docs/backlogs/post_phase_h_ideas.md", "POST-H-002"),
-            "changelog_post_h_001": self._file_contains("docs/release/CHANGELOG.md", "POST-H-001"),
+            "readme_current_hito": self._file_contains("README.md", f"Último hito: `{last_completed}"),
+            "readme_next_hito": self._file_contains("README.md", f"Siguiente hito: `{next_sprint}"),
+            "post_h_001_doc_approved": self._file_contains("docs/POST-H-001_industrial_hardening_tests_contracts.md", 'status: "approved"'),
+            "runbook_last_completed": self._file_contains("docs/05_operations/runbook.md", last_completed),
+            "post_h_backlog_next": self._file_contains("docs/backlogs/post_phase_h_ideas.md", next_sprint) or self._file_contains("docs/backlogs/post_h_prioritized_roadmap.md", next_sprint),
+            "changelog_last_completed": self._file_contains("docs/release/CHANGELOG.md", last_completed.lower()) or self._file_contains("docs/release/CHANGELOG.md", last_completed),
         }
+        if last_completed == "POST-H-002":
+            checks["post_h_002_backlog_closed"] = self._file_contains("docs/backlogs/POST-H-002_maturity_dashboard_local.md", 'implementation_status: "closed"')
+            checks["post_h_002_closure_report"] = self._file_contains("docs/audits/post_h_002_closure_report.md", "POST-H-002")
         for key, passed in checks.items():
             if not passed:
                 findings.append(Finding("PROJECT_GLOBAL_STATE_DRIFT", f"Project global state check failed: {key}.", Severity.FAIL, metadata={"check": key}))

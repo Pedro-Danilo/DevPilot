@@ -2083,10 +2083,52 @@
       "recommended_commands": [
         "python -m pytest tests/test_post_h_roadmap_onboarding_adjustment.py -q"
       ]
+    },
+    {
+      "contract_id": "post-h-002-maturity-dashboard",
+      "scope": "integration",
+      "owner": "POST-H-002-E",
+      "phase": "POST-FASE-H",
+      "test_files": [
+        "tests/test_post_h_002_maturity_dashboard.py",
+        "tests/test_post_h_002_documentation.py"
+      ],
+      "validates": [
+        "src/devpilot_core/maturity/",
+        "src/devpilot_core/application/maturity_service.py",
+        "src/devpilot_core/quality/gate.py",
+        "docs/schemas/maturity_dashboard.schema.json",
+        "docs/backlogs/POST-H-002_maturity_dashboard_local.md",
+        "docs/audits/post_h_002_closure_report.md",
+        "docs/post_h_002_e_manifest.json"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/maturity/",
+        "src/devpilot_core/application/maturity_service.py",
+        "src/devpilot_core/application/services.py",
+        "src/devpilot_core/quality/gate.py",
+        "src/devpilot_core/cli.py",
+        "docs/backlogs/POST-H-002_maturity_dashboard_local.md",
+        "docs/audits/post_h_002_closure_report.md",
+        "docs/audits/post_h_002_e_quality_gate_documentation_report.md",
+        "docs/post_h_002_e_manifest.json",
+        "tests/test_post_h_002_maturity_dashboard.py",
+        "tests/test_post_h_002_documentation.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest tests/test_post_h_002_maturity_dashboard.py tests/test_post_h_002_documentation.py -q",
+        "python -m devpilot_core maturity gate --json",
+        "python -m devpilot_core test-contracts validate --json",
+        "python -m devpilot_core quality-gate run --profile hardening --json"
+      ]
     }
   ],
   "notes": [
     "The registry documents and validates test intent; it does not dynamically execute pytest from JSON.",
-    "Historical sprint contracts must not validate mutable global project state."
+    "Historical sprint contracts must not validate mutable global project state.",
+    "POST-H-002-E adds post-h-002-maturity-dashboard as the closure contract for the local maturity dashboard."
   ]
 }

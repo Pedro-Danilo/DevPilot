@@ -6,7 +6,7 @@ from pathlib import Path
 from typing import Any
 
 from devpilot_core.cli_models import CommandResult, ExitCode, Finding, Severity
-from devpilot_core.maturity import MaturityDashboardBuilder
+from devpilot_core.maturity import MaturityDashboardBuilder, MaturityDashboardGateOptions, MaturityDashboardQualityGate
 
 
 @dataclass(frozen=True)
@@ -80,6 +80,15 @@ class MaturityApplicationService:
                 ],
             )
         return result
+
+
+    def dashboard_gate(self, *, write_report: bool = False) -> CommandResult:
+        """Run the POST-H-002-E maturity dashboard quality gate."""
+
+        return MaturityDashboardQualityGate(
+            self.root,
+            options=MaturityDashboardGateOptions(write_report=write_report),
+        ).run()
 
     def write_dashboard_reports(self, result: CommandResult) -> MaturityReportPaths:
         """Write canonical dashboard JSON/Markdown outputs under outputs/reports."""

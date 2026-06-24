@@ -81,3 +81,11 @@ def test_quality_gate_rejects_unknown_profile() -> None:
     assert result.ok is False
     assert result.exit_code == ExitCode.ERROR
     assert result.findings[0].id == "QUALITY_GATE_PROFILE_UNSUPPORTED"
+
+
+def test_quality_gate_hardening_profile_includes_maturity_dashboard() -> None:
+    result = QualityGate(ROOT, options=QualityGateOptions(profile="hardening")).run()
+
+    assert result.ok is True, result.to_dict()
+    subgate_ids = {item["id"] for item in result.data["subgates"]}
+    assert "maturity-dashboard" in subgate_ids

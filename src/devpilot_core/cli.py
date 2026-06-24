@@ -3503,6 +3503,17 @@ def maturity_dashboard_command(*, json_output: bool = False, write_report: bool 
     return int(result.exit_code)
 
 
+def maturity_dashboard_gate_command(*, json_output: bool = False, write_report: bool = False) -> int:
+    """Run the local POST-H maturity dashboard quality gate."""
+
+    root = project_root()
+    result = ApplicationService(root).maturity_dashboard_gate(write_report=write_report)
+    _emit_result_event(root, result, subject="maturity:dashboard-gate")
+    _persist_result(root, result, subject="maturity:dashboard-gate")
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+
 def api_serve_command(
     *,
     host: str = "127.0.0.1",
@@ -4658,7 +4669,7 @@ def build_parser() -> argparse.ArgumentParser:
     schema_list.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
 
     schema_validate = schema_sub.add_parser("validate", help="Validate a JSON instance or owned provider YAML against a local schema")
-    schema_validate.add_argument("--schema", required=True, help="Schema path, schema_id or contract name")
+    schema_validate.add_argument("--schema", "--schema-id", dest="schema", required=True, help="Schema path, schema_id or contract name")
     schema_validate.add_argument("--instance", required=True, help="JSON instance file to validate")
     schema_validate.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     schema_validate.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
@@ -4695,6 +4706,9 @@ def build_parser() -> argparse.ArgumentParser:
     maturity_dashboard = maturity_sub.add_parser("dashboard", help="Generate POST-H maturity dashboard JSON/Markdown")
     maturity_dashboard.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     maturity_dashboard.add_argument("--write-report", action="store_true", help="Persist maturity_dashboard.json and maturity_dashboard.md under outputs/reports")
+    maturity_gate = maturity_sub.add_parser("gate", help="Run POST-H-002 maturity dashboard quality gate")
+    maturity_gate.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    maturity_gate.add_argument("--write-report", action="store_true", help="Persist and validate maturity_dashboard.json and maturity_dashboard.md under outputs/reports")
 
     api = sub.add_parser("api", help="Run, inspect or secure the local API MVP")
     api_sub = api.add_subparsers(dest="api_command")
@@ -5570,6 +5584,8 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
     if args.command == "maturity":
         if args.maturity_command == "dashboard":
             return maturity_dashboard_command(json_output=args.json, write_report=args.write_report)
+        if args.maturity_command == "gate":
+            return maturity_dashboard_gate_command(json_output=args.json, write_report=args.write_report)
         parser.print_help()
         return int(ExitCode.FAIL)
     if args.command == "api":

@@ -1,17 +1,33 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
-Estado actual: `baseline pre-code approved + Fases A-G cerradas + Fase H cerrada + POST-H-001 implemented-initial + POST-H-EVAL-001 closed + POST-H-002-D implemented-initial`  
-Último hito: `POST-H-001 — Industrial hardening de tests y contratos`  
-Último micro-sprint implementado: `POST-H-002-D — CLI e integración ApplicationService`  
+Estado actual: `baseline pre-code approved + Fases A-G cerradas + Fase H cerrada + POST-H-001 implemented-initial + POST-H-EVAL-001 closed + POST-H-002 closed`  
+Último hito: `POST-H-002 — Maturity dashboard local basado en assessment post-H`  
+Último micro-sprint implementado: `POST-H-002-E — Quality gate y documentación`  
 Hito diagnóstico cerrado: `POST-H-EVAL-001 — Evaluación integral del baseline DevPilot post-Fase H`, cierre formal `POST-H-EVAL-001-G`  
-Siguiente hito: `POST-H-002 — Maturity dashboard local basado en assessment post-H`  
-Hito en ejecución: `POST-H-002 — Maturity dashboard local basado en assessment post-H`  
-Siguiente micro-sprint: `POST-H-002-E — Quality gate y documentación`  
+Siguiente hito: `POST-H-003 — Test Contract Registry 2.0`  
+Hito en ejecución: `POST-H-003 — Test Contract Registry 2.0`  
+Siguiente micro-sprint: `POST-H-003-A — Taxonomía de contratos por dominio/criticidad/riesgo/costo`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
 
 
+
+
+## POST-H-002-E — Quality gate y documentación
+
+`POST-H-002-E` cierra el hito `POST-H-002` con un quality gate específico del maturity dashboard, contrato de test, prueba documental y sincronización de artefactos de operación. Se agregó `MaturityDashboardQualityGate`, el comando `python -m devpilot_core maturity gate --json`, el subgate `maturity-dashboard` al perfil `quality-gate run --profile hardening`, y el contrato `post-h-002-maturity-dashboard` en `.devpilot/testing/test_contract_registry.json`.
+
+Alcance: esta entrega cierra `POST-H-002` como capacidad `implemented-initial`: dashboard local operativo, basado en evidencia, con reportes JSON/Markdown bajo `outputs/reports` y gate de calidad. No implementa Web UI nueva, no agrega API route, no declara `production-ready-local`, no habilita remote execution, connector write, plugin execution ni APIs externas. La declaración productiva local queda reservada para `POST-H-025`.
+
+Comandos principales:
+
+```powershell
+python -m devpilot_core maturity dashboard --json --write-report
+python -m devpilot_core maturity gate --json --write-report
+python -m devpilot_core schema validate --schema-id MaturityDashboard --instance outputs/reports/maturity_dashboard.json --json
+python -m devpilot_core quality-gate run --profile hardening --json
+```
 
 ## POST-H-002-D — CLI e integración ApplicationService
 

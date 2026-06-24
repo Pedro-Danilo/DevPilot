@@ -3,10 +3,12 @@ doc_id: "POST-H-002-BACKLOG"
 id: "POST-H-002"
 title: "POST-H-002 — Maturity dashboard local basado en assessment post-H"
 status: "approved"
-version: "0.5.0"
+implementation_status: "closed"
+version: "1.0.0"
 owner: "Ordóñez"
 approval: "internal"
 updated: "2026-06-24"
+closed_at_utc: "2026-06-24T15:30:00Z"
 phase: "POST-FASE-H"
 priority: "P0"
 roadmap_source: "docs/backlogs/post_h_prioritized_roadmap.md"
@@ -283,12 +285,26 @@ Tareas:
 4. Documentar limitaciones: no producción completa, no remote.
 ```
 
+Implementación cerrada:
+
+```text
+- Se agregó `MaturityDashboardQualityGate`.
+- Se agregó `python -m devpilot_core maturity gate --json`.
+- Se agregó subgate `maturity-dashboard` a `quality-gate run --profile hardening` e `industrial`.
+- Se agregó contract `post-h-002-maturity-dashboard` al Test Contract Registry v1.
+- Se agregó `tests/test_post_h_002_documentation.py`.
+- Se corrigió el warning documental de aprobación en el audit de POST-H-002-D.
+- Se actualizó project_state: último hito POST-H-002, siguiente POST-H-003.
+```
+
 Criterios PASS:
 
 ```text
 PASS si pytest focal pasa.
 PASS si test-contracts validate pasa.
 PASS si quality-gate hardening sigue PASS.
+PASS si maturity gate pasa sin red, APIs externas ni mutaciones de fuente.
+PASS si el JSON persistido valida contra `MaturityDashboard`.
 ```
 
 ## 8. Comandos de validación final
@@ -387,3 +403,17 @@ Alcance explícito: esta entrega **no** agrega Web UI, no agrega rutas HTTP nuev
 Criterios PASS cubiertos: el CLI retorna `CommandResult` JSON parseable, `ApplicationService` expone la operación, `--write-report` genera los dos artefactos canónicos bajo `outputs/reports`, las pruebas focales pasan y los comandos generales selectivos no reportan findings bloqueantes.
 
 No-go gates conservados: no se habilita remote execution, connector write, plugin execution, external APIs, networking, mutaciones fuera de `outputs/reports` ni claims de producción completa.
+
+## 12. Estado de cierre del hito
+
+```text
+POST-H-002-A: closed / implemented-initial
+POST-H-002-B: closed / implemented-initial
+POST-H-002-C: closed / implemented-initial
+POST-H-002-D: closed / implemented-initial
+POST-H-002-E: closed / implemented-initial
+POST-H-002: closed / implemented-initial
+Siguiente hito: POST-H-003 — Test Contract Registry 2.0
+```
+
+El hito entrega un dashboard local operativo, basado en evidencia post-H, con schema, lectores, builder, CLI/ApplicationService, reportes locales y gate específico. Sigue siendo una capacidad local/read-only; no declara producción completa ni habilita remote execution, connector write, plugin execution o APIs externas.
