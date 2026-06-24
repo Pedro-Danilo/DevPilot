@@ -1,17 +1,25 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
-Estado actual: `baseline pre-code approved + Fases A-G cerradas + Fase H cerrada + POST-H-001 implemented-initial + POST-H-EVAL-001 closed + POST-H-002-B implemented-initial`  
+Estado actual: `baseline pre-code approved + Fases A-G cerradas + Fase H cerrada + POST-H-001 implemented-initial + POST-H-EVAL-001 closed + POST-H-002-C implemented-initial`  
 Último hito: `POST-H-001 — Industrial hardening de tests y contratos`  
-Último micro-sprint implementado: `POST-H-002-B — Lectores de fuentes post-H`  
+Último micro-sprint implementado: `POST-H-002-C — Generador de dashboard local`  
 Hito diagnóstico cerrado: `POST-H-EVAL-001 — Evaluación integral del baseline DevPilot post-Fase H`, cierre formal `POST-H-EVAL-001-G`  
 Siguiente hito: `POST-H-002 — Maturity dashboard local basado en assessment post-H`  
 Hito en ejecución: `POST-H-002 — Maturity dashboard local basado en assessment post-H`  
-Siguiente micro-sprint: `POST-H-002-C — Generador de dashboard local`  
+Siguiente micro-sprint: `POST-H-002-D — CLI e integración ApplicationService`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
 
 
+
+## POST-H-002-C — Generador de dashboard local
+
+`POST-H-002-C` complementa los lectores de fuentes post-H con un builder local del dashboard de madurez. Se agregó `src/devpilot_core/maturity/dashboard.py` con `MaturityDashboardBuilder`, `DashboardBuildResult` y `render_maturity_dashboard_markdown()` para producir en memoria un `MaturityDashboard` validable por schema y un reporte Markdown legible para operador.
+
+Alcance: esta entrega es `implemented-initial` y todavía **no** agrega el comando CLI `maturity dashboard`, no escribe `outputs/reports/maturity_dashboard.*`, no integra ApplicationService y no crea UI/API. La exposición CLI y escritura controlada de reportes corresponden a `POST-H-002-D`.
+
+No-go gates conservados: sin remote execution, sin connector write, sin plugin execution, sin APIs externas por defecto, sin red, sin mutaciones runtime y sin declaración `production-ready` completa.
 
 ## POST-H-002-B — Lectores de fuentes post-H
 

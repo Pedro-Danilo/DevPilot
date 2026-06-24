@@ -1,0 +1,74 @@
+{
+  "schema_version": "1.0",
+  "id": "POST-H-002-C",
+  "type": "post-h-micro-sprint-manifest",
+  "status": "implemented-initial",
+  "parent_hito": "POST-H-002",
+  "title": "POST-H-002-C — Generador de dashboard local",
+  "implemented_at_utc": "2026-06-24T00:00:00Z",
+  "source_backlog": "docs/backlogs/POST-H-002_maturity_dashboard_local.md",
+  "previous_micro_sprint": "POST-H-002-B",
+  "next_micro_sprint": "POST-H-002-D",
+  "implementation_scope": {
+    "builder_in_memory": true,
+    "markdown_renderer_in_memory": true,
+    "schema_validation": true,
+    "read_only": true,
+    "cli_added": false,
+    "reports_written": false,
+    "application_service_added": false,
+    "outputs_report_generation_deferred_to": "POST-H-002-D"
+  },
+  "safety": {
+    "local_first": true,
+    "dry_run_default": true,
+    "no_remote_execution_enabled": true,
+    "no_connector_write_enabled": true,
+    "no_plugin_execution_enabled": true,
+    "no_external_apis_used": true,
+    "network_used": false,
+    "mutations_performed": false,
+    "source_mutations_performed": true,
+    "source_mutations_scope": "Versioned code, tests and documentation for POST-H-002-C only."
+  },
+  "deliverables": [
+    {
+      "path": "src/devpilot_core/maturity/dashboard.py",
+      "purpose": "Build MaturityDashboard instances from POST-H source bundle and render Markdown in memory."
+    },
+    {
+      "path": "src/devpilot_core/maturity/__init__.py",
+      "purpose": "Export dashboard builder and renderer."
+    },
+    {
+      "path": "tests/test_post_h_002_maturity_dashboard.py",
+      "purpose": "Validate builder, no-go mappings, schema conformance and markdown rendering."
+    },
+    {
+      "path": "docs/audits/post_h_002_c_dashboard_builder_report.md",
+      "purpose": "Audit/report for POST-H-002-C."
+    },
+    {
+      "path": "docs/post_h_002_c_manifest.json",
+      "purpose": "Machine-readable traceability manifest."
+    }
+  ],
+  "validation": {
+    "specific_tests": [
+      "python -m pytest tests/test_post_h_002_maturity_dashboard.py -q",
+      "python -m pytest tests/test_schema_registry.py tests/test_post_h_002_maturity_dashboard.py -q"
+    ],
+    "selected_general_gates": [
+      "python -m devpilot_core validate docs --json",
+      "python -m devpilot_core project-state validate --json",
+      "python -m devpilot_core test-contracts validate --json",
+      "python -m devpilot_core quality-gate run --profile hardening --json"
+    ]
+  },
+  "known_limitations": [
+    "No CLI maturity dashboard command is added in POST-H-002-C.",
+    "No outputs/reports/maturity_dashboard.json or .md is written in POST-H-002-C.",
+    "No ApplicationService maturity facade is added yet.",
+    "The builder consumes current POST-H evidence; deeper semantic scoring is deferred to later hardening backlogs."
+  ]
+}

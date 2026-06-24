@@ -2,7 +2,7 @@
 title: "DevPilot Local — Changelog"
 doc_id: "DEVPL-RELEASE-CHANGELOG"
 version: "0.1.0"
-updated: "2026-06-23"
+updated: "2026-06-24"
 status: "approved"
 approval: "internal"
 owner: "Ordóñez"
@@ -14,6 +14,26 @@ All notable changes to DevPilot Local are documented in this file.
 
 This changelog follows a Keep a Changelog-compatible category structure and is generated from local sprint manifests.
 
+
+
+## [post-h-002-c] - 2026-06-24
+
+### Added
+
+- `MaturityDashboardBuilder` in `src/devpilot_core/maturity/dashboard.py` to build schema-backed maturity dashboards from POST-H source bundles.
+- `DashboardBuildResult` and `render_maturity_dashboard_markdown()` for in-memory JSON/Markdown generation.
+- No-go blocked capabilities for remote execution, connector write and plugin execution based on `SEC-001`, `SEC-002` and `SEC-003`.
+- `docs/post_h_002_c_manifest.json` and `docs/audits/post_h_002_c_dashboard_builder_report.md`.
+
+### Changed
+
+- `README.md`, `docs/05_operations/runbook.md` and `docs/backlogs/POST-H-002_maturity_dashboard_local.md` now mark `POST-H-002-C` as `implemented-initial` and `POST-H-002-D` as next.
+
+### Safety
+
+- No CLI command is added in this micro-sprint.
+- No reports are written to `outputs/reports` yet.
+- No remote execution, connector write, plugin execution, external APIs, network or runtime mutation is enabled.
 
 ## [post-h-002-b] - 2026-06-24
 

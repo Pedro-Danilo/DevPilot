@@ -5554,6 +5554,76 @@ BLOCK si se intenta tratar POST-H-002-A como dashboard operativo completo.
 El principal riesgo operativo es sobreinterpretar el modelo como dashboard terminado. `POST-H-002-A` solo crea vocabulario, dataclasses y schema; la extracción de evidencia y generación de reportes se implementará en micro-sprints posteriores.
 
 
+
+## POST-H-002-C — Operación del generador de dashboard local
+
+### Propósito
+
+`POST-H-002-C` agrega el builder local del dashboard de madurez. Esta capacidad transforma el bundle de fuentes post-H en un `MaturityDashboard` validable por schema y en un reporte Markdown para operador, ambos generados en memoria.
+
+### Estado
+
+Estado: `implemented-initial`.
+
+Esta versión es preliminar: no existe todavía comando CLI `maturity dashboard`, no se escriben reportes bajo `outputs/reports` y no hay integración ApplicationService. La exposición operativa corresponde a `POST-H-002-D`.
+
+### Artefactos principales
+
+```text
+src/devpilot_core/maturity/dashboard.py
+docs/post_h_002_c_manifest.json
+docs/audits/post_h_002_c_dashboard_builder_report.md
+tests/test_post_h_002_maturity_dashboard.py
+```
+
+### Verificación específica
+
+```powershell
+$env:PYTHONPATH="src"
+python -m pytest tests/test_post_h_002_maturity_dashboard.py -q
+python -m pytest tests/test_schema_registry.py tests/test_post_h_002_maturity_dashboard.py -q
+python -m devpilot_core validate-frontmatter docs/audits/post_h_002_c_dashboard_builder_report.md --json
+python -m devpilot_core validate-artifact docs/audits/post_h_002_c_dashboard_builder_report.md --json
+```
+
+### Verificación funcional directa
+
+```powershell
+@'
+from pathlib import Path
+from devpilot_core.maturity import MaturityDashboardBuilder
+
+result = MaturityDashboardBuilder(Path(".")).build()
+print(result.to_command_result().to_dict()["ok"])
+print(result.dashboard.summary() if result.dashboard else {})
+print(result.markdown.splitlines()[0])
+'@ | python
+```
+
+### Criterios PASS
+
+```text
+PASS si el builder genera un dashboard conforme al schema.
+PASS si el dashboard incluye capacidades derivadas de decision matrix.
+PASS si SEC-001/SEC-002/SEC-003 quedan como capacidades no-go blocked.
+PASS si el Markdown incluye resumen, safety gates, capacidades, roadmap y fuentes.
+PASS si no usa red, APIs externas ni mutaciones runtime.
+```
+
+### Criterios BLOCK
+
+```text
+BLOCK si se declara production-ready completo.
+BLOCK si se habilita remote execution.
+BLOCK si se habilita connector write.
+BLOCK si se habilita plugin execution.
+BLOCK si se escriben outputs antes de POST-H-002-D.
+```
+
+### Riesgos
+
+El principal riesgo operativo es tratar el builder como producto final. `POST-H-002-C` solo construye y renderiza el dashboard en memoria; el comando CLI, la escritura controlada de reportes y la integración de servicio llegan en `POST-H-002-D`.
+
 ## POST-H-002-B — Operación de lectores de fuentes post-H
 
 ### Propósito

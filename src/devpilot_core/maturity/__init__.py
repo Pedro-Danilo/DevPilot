@@ -8,6 +8,12 @@ from devpilot_core.maturity.models import (
     SafetySignal,
     TestCoverageLevel,
 )
+
+from devpilot_core.maturity.dashboard import (
+    DashboardBuildResult,
+    MaturityDashboardBuilder,
+    render_maturity_dashboard_markdown,
+)
 from devpilot_core.maturity.sources import (
     JSON_SOURCE_SPECS,
     MARKDOWN_SOURCE_SPECS,
@@ -26,6 +32,9 @@ __all__ = [
     "RoadmapDependency",
     "SafetySignal",
     "TestCoverageLevel",
+    "DashboardBuildResult",
+    "MaturityDashboardBuilder",
+    "render_maturity_dashboard_markdown",
     "JSON_SOURCE_SPECS",
     "MARKDOWN_SOURCE_SPECS",
     "PostHSourceBundle",

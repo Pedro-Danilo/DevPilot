@@ -14,6 +14,7 @@ from devpilot_core.maturity import (
     SafetySignal,
     TestCoverageLevel,
     JSON_SOURCE_SPECS,
+    MaturityDashboardBuilder,
     PostHSourceReader,
     SourceSpec,
 )
@@ -205,3 +206,61 @@ def test_post_h_source_reader_uses_markdown_fallback_with_warnings() -> None:
     # Markdown fallback is intentionally warning-tolerant because the JSON
     # sources remain the canonical evidence for the dashboard builder.
     assert bundle.warnings_total >= 0
+
+
+
+def test_maturity_dashboard_builder_generates_schema_valid_dashboard() -> None:
+    result = MaturityDashboardBuilder(ROOT).build(generated_at_utc="2026-06-24T00:00:00Z")
+
+    assert result.ok is True
+    assert result.dashboard is not None
+    payload = result.dashboard.to_dict()
+    assert payload["dashboard_id"] == "POST-H-002-MATURITY-DASHBOARD"
+    assert payload["source_revision"]["roadmap_version"] == "1.1.0"
+    assert payload["source_revision"]["post_h_eval_status"] == "closed"
+    assert payload["summary"]["capabilities_total"] >= 28
+    assert payload["summary"]["production_ready_local_total"] >= 1
+    assert payload["summary"]["blocked_total"] >= 3
+    assert payload["safety"]["remote_execution_enabled"] is False
+    assert payload["safety"]["connector_write_enabled"] is False
+    assert payload["safety"]["plugin_execution_enabled"] is False
+    assert payload["safety"]["external_apis_enabled_by_default"] is False
+
+    validation = SchemaValidator(ROOT).validate_payload(
+        schema="MaturityDashboard",
+        payload=payload,
+        instance_label="in-memory:builder-dashboard",
+    )
+    assert validation.ok is True
+    assert validation.exit_code == ExitCode.PASS
+
+
+def test_maturity_dashboard_builder_maps_no_go_capabilities_to_roadmap() -> None:
+    result = MaturityDashboardBuilder(ROOT).build(generated_at_utc="2026-06-24T00:00:00Z")
+    assert result.dashboard is not None
+
+    by_id = {capability.capability_id: capability for capability in result.dashboard.capabilities}
+    assert by_id["no-go-sec-001"].status == CapabilityStatus.BLOCKED
+    assert by_id["no-go-sec-001"].roadmap_dependency == "POST-H-021"
+    assert by_id["no-go-sec-002"].status == CapabilityStatus.BLOCKED
+    assert by_id["no-go-sec-002"].roadmap_dependency == "POST-H-018"
+    assert by_id["no-go-sec-003"].status == CapabilityStatus.BLOCKED
+    assert by_id["no-go-sec-003"].roadmap_dependency == "POST-H-019"
+    assert all(by_id[key].no_go_gate for key in ("no-go-sec-001", "no-go-sec-002", "no-go-sec-003"))
+
+
+def test_maturity_dashboard_builder_renders_operator_markdown_without_writes() -> None:
+    result = MaturityDashboardBuilder(ROOT).build(generated_at_utc="2026-06-24T00:00:00Z")
+
+    assert result.ok is True
+    assert "# DevPilot Local — Maturity Dashboard" in result.markdown
+    assert "## Safety no-go gates" in result.markdown
+    assert "`remote_execution_enabled` | `false`" in result.markdown
+    assert "`connector_write_enabled` | `false`" in result.markdown
+    assert "POST-H-021" in result.markdown
+    assert "Persistent report writing under outputs/reports and CLI exposure are deferred to POST-H-002-D." in result.markdown
+    assert "enterprise-production-ready" not in result.markdown
+    assert result.to_command_result().ok is True
+    assert result.to_command_result().data["network_used"] is False
+    assert result.to_command_result().data["external_api_used"] is False
+    assert result.to_command_result().data["mutations_performed"] is False
