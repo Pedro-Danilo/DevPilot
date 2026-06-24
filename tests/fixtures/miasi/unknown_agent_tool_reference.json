@@ -1,0 +1,62 @@
+{
+  "agent_registry": {
+    "schema_version": "1.0",
+    "agents": [
+      {
+        "agent_id": "semantic.valid.agent",
+        "name": "SemanticValidAgent",
+        "phase": "MVP",
+        "max_autonomy": "A2",
+        "status": "implemented",
+        "risk_level": "medium",
+        "allowed_tools": [
+          "semantic.missing"
+        ],
+        "required_artifacts": [
+          "Agent",
+          "Tool",
+          "Policy",
+          "Eval",
+          "Obs"
+        ],
+        "policy_rule_ids": [
+          "SEMANTIC_READ_ALLOW"
+        ],
+        "approval_required": false,
+        "observability_required": true,
+        "eval_required": true
+      }
+    ]
+  },
+  "tool_registry": {
+    "schema_version": "1.0",
+    "tools": [
+      {
+        "tool_id": "semantic.read",
+        "name": "semantic_read",
+        "phase": "MVP",
+        "side_effect": "read",
+        "risk_level": "low",
+        "status": "implemented",
+        "requires_approval": false,
+        "policy_rule_ids": [
+          "SEMANTIC_READ_ALLOW"
+        ]
+      }
+    ]
+  },
+  "policy_matrix": {
+    "schema_version": "1.0",
+    "rules": [
+      {
+        "rule_id": "SEMANTIC_READ_ALLOW",
+        "domain": "Docs",
+        "action": "read",
+        "default_effect": "allow",
+        "gate": "PathGuard",
+        "approval_required": false,
+        "observability_required": true
+      }
+    ]
+  }
+}

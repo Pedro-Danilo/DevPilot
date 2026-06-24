@@ -1,0 +1,62 @@
+{
+  "agent_registry": {
+    "schema_version": "1.0",
+    "agents": [
+      {
+        "agent_id": "semantic.valid.agent",
+        "name": "SemanticValidAgent",
+        "phase": "MVP",
+        "max_autonomy": "A2",
+        "status": "implemented",
+        "risk_level": "medium",
+        "allowed_tools": [
+          "semantic.exec"
+        ],
+        "required_artifacts": [
+          "Agent",
+          "Tool",
+          "Policy",
+          "Eval",
+          "Obs"
+        ],
+        "policy_rule_ids": [
+          "SEMANTIC_EXEC_ALLOW"
+        ],
+        "approval_required": false,
+        "observability_required": true,
+        "eval_required": true
+      }
+    ]
+  },
+  "tool_registry": {
+    "schema_version": "1.0",
+    "tools": [
+      {
+        "tool_id": "semantic.exec",
+        "name": "semantic_exec",
+        "phase": "MVP+",
+        "side_effect": "controlled_execution",
+        "risk_level": "high",
+        "status": "implemented",
+        "requires_approval": false,
+        "policy_rule_ids": [
+          "SEMANTIC_EXEC_ALLOW"
+        ]
+      }
+    ]
+  },
+  "policy_matrix": {
+    "schema_version": "1.0",
+    "rules": [
+      {
+        "rule_id": "SEMANTIC_EXEC_ALLOW",
+        "domain": "Agent",
+        "action": "execute_critical_tool",
+        "default_effect": "allow",
+        "gate": "ToolPolicy",
+        "approval_required": false,
+        "observability_required": true
+      }
+    ]
+  }
+}

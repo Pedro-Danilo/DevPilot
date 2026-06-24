@@ -10,6 +10,23 @@ owner: "Ordóñez"
 
 # Changelog
 
+## [post-h-004-b] - 2026-06-24
+
+### Added
+
+- `MiasiSemanticValidator` for local, non-executing agent/tool/policy semantic validation.
+- CLI `python -m devpilot_core miasi semantic-validate --json`.
+- Fixtures under `tests/fixtures/miasi/` for valid bundle, unknown tools, missing approval, policy contradictions and plugin execution no-go.
+- Tests `tests/test_miasi_semantic_validator.py` and `tests/test_miasi_semantic_validator_fixtures.py`.
+- Manifest `docs/post_h_004_b_manifest.json` and audit report `docs/audits/post_h_004_b_agent_tool_policy_rules_report.md`.
+
+### Security
+
+- The validator does not execute agents, tools, pytest, subprocesses, connectors, plugins, remote runners, network calls or external APIs.
+- remote/plugin/connector execute no-go rules remain blocking when declared as `allow`.
+- Current high-risk `controlled_write` local/sandbox/registry flows without explicit approval are emitted as warnings for POST-H-004-C hardening, not accepted as production-ready behavior.
+
+
 
 ## [post-h-004-a] - 2026-06-24
 

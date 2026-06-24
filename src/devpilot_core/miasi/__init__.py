@@ -5,7 +5,7 @@ from .registry import (
     PolicyRule,
     ToolSpec,
 )
-from .semantic import MiasiSemanticReportBuilder
+from .semantic import MiasiSemanticReportBuilder, MiasiSemanticValidator
 from .semantic_models import MiasiSemanticReport, SemanticFinding, SemanticRuleResult
 from .semantic_rules import SemanticRuleStatus, SemanticSeverity
 
@@ -16,6 +16,7 @@ __all__ = [
     "PolicyRule",
     "ToolSpec",
     "MiasiSemanticReportBuilder",
+    "MiasiSemanticValidator",
     "MiasiSemanticReport",
     "SemanticFinding",
     "SemanticRuleResult",

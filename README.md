@@ -1,12 +1,12 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
-Estado actual: `baseline pre-code approved + Fases A-G cerradas + Fase H cerrada + POST-H-001 implemented-initial + POST-H-EVAL-001 closed + POST-H-002 closed + POST-H-003 closed + POST-H-004-A implemented-initial`  
+Estado actual: `baseline pre-code approved + Fases A-G cerradas + Fase H cerrada + POST-H-001 implemented-initial + POST-H-EVAL-001 closed + POST-H-002 closed + POST-H-003 closed + POST-H-004-A implemented-initial + POST-H-004-B implemented-initial`  
 Último hito: `POST-H-003 — Test Contract Registry 2.0`  
-Último micro-sprint implementado: `POST-H-004-A — Modelo semántico y report schema`  
+Último micro-sprint implementado: `POST-H-004-B — Reglas agent/tool/policy`  
 Hito diagnóstico cerrado: `POST-H-EVAL-001 — Evaluación integral del baseline DevPilot post-Fase H`, cierre formal `POST-H-EVAL-001-G`  
 Siguiente hito: `POST-H-004 — Policy/MIASI semantic validator ampliado`  
 Hito en ejecución: `POST-H-004 — Policy/MIASI semantic validator ampliado`  
-Siguiente micro-sprint: `POST-H-004-B — Reglas agent/tool/policy`  
+Siguiente micro-sprint: `POST-H-004-C — Reglas approval/RBAC/security guards`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
@@ -18,6 +18,26 @@ Modo de trabajo: local-first híbrido, API keys opcionales, costo externo contro
 
 
 
+
+
+## POST-H-004-B — Reglas agent/tool/policy
+
+`POST-H-004-B` implementa la primera validación semántica real de `POST-H-004` mediante el comando local y no ejecutor:
+
+```powershell
+python -m devpilot_core miasi semantic-validate --json
+```
+
+La validación carga el bundle declarativo MIASI actual (`agent_registry.json`, `tool_registry.json`, `policy_matrix.json`) y verifica coherencia agent/tool/policy: `allowed_tools` existentes, `policy_rule_ids` válidos, estados declarativos, herramientas sensibles sin aprobación explícita y contradicciones `allow/deny/block` para el mismo `domain/action`. El reporte se emite bajo el contrato `SCHEMA-DEVPL-MIASI-SEMANTIC-REPORT-V1` y conserva `dry_run=true`, `network_used=false`, `external_api_used=false` y `mutations_performed=false`.
+
+Alcance: esta entrega es `implemented-initial`. No modifica `PolicyEngine`, no ejecuta agentes, no ejecuta tools, no ejecuta tests desde el reporte, no habilita remote execution, connector write ni plugin execution. Las advertencias detectadas sobre `controlled_write` high-risk sin aprobación explícita quedan como deuda semántica para `POST-H-004-C`, donde se cruzarán approval/RBAC/security guards.
+
+Verificación focal:
+
+```powershell
+python -m pytest tests/test_miasi_semantic_validator.py tests/test_miasi_semantic_validator_fixtures.py tests/test_miasi_semantic_report_model.py tests/test_miasi_registry.py -q
+python -m devpilot_core miasi semantic-validate --json
+```
 
 ## POST-H-004-A — Modelo semántico y report schema
 

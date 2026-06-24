@@ -1,0 +1,46 @@
+{
+  "schema_version": "1.0",
+  "id": "POST-H-004-B",
+  "title": "Reglas agent/tool/policy",
+  "status": "implemented-initial",
+  "parent_hito": "POST-H-004",
+  "previous_micro_sprint": "POST-H-004-A",
+  "next_micro_sprint": "POST-H-004-C",
+  "implemented_at_utc": "2026-06-24T00:00:00Z",
+  "local_first": true,
+  "dry_run": true,
+  "network_used": false,
+  "external_api_used": false,
+  "mutations_performed": false,
+  "source_mutations_performed": false,
+  "runtime_features_enabled": false,
+  "agent_execution_enabled": false,
+  "tool_execution_enabled": false,
+  "remote_execution_enabled": false,
+  "connector_write_enabled": false,
+  "plugin_execution_enabled": false,
+  "command_added": "python -m devpilot_core miasi semantic-validate --json",
+  "rules_added": [
+    "SEM-AGENT-TOOL-001",
+    "SEM-POLICY-REF-001",
+    "SEM-STATUS-001",
+    "SEM-TOOL-APPROVAL-001",
+    "SEM-POLICY-CONTRADICTION-001",
+    "SEM-NO-GO-001"
+  ],
+  "fixtures_added": [
+    "tests/fixtures/miasi/valid_semantic_bundle.json",
+    "tests/fixtures/miasi/missing_approval_for_high_risk_tool.json",
+    "tests/fixtures/miasi/unknown_agent_tool_reference.json",
+    "tests/fixtures/miasi/contradictory_policy_rules.json",
+    "tests/fixtures/miasi/plugin_execution_without_sandbox.json"
+  ],
+  "quality_gate_subgate_added": false,
+  "approval_rbac_security_guards_added": false,
+  "observability_evals_test_contracts_crosscheck_added": false,
+  "notes": [
+    "POST-H-004-B validates agent/tool/policy semantics only.",
+    "POST-H-004-C must harden warnings by crossing approval/RBAC/security guards.",
+    "The validator emits a MiasiSemanticReport and does not execute runtime actions."
+  ]
+}

@@ -6119,3 +6119,53 @@ BLOCK si esta entrega ejecuta agentes, tools, PolicyEngine o reglas semánticas 
 ```
 
 Riesgos y límites: `POST-H-004-A` es una primera versión contractual (`schema-only`). No demuestra todavía que agentes, tools, approvals, RBAC, observability, evals o test contracts estén semánticamente alineados; solo establece el modelo de reporte sobre el que se construirán las reglas de `POST-H-004-B`, `POST-H-004-C` y `POST-H-004-D`.
+
+
+## POST-H-004-B — Operación del validador semántico agent/tool/policy
+
+Propósito: ejecutar una validación local, dry-run y no ejecutora sobre el bundle declarativo MIASI para detectar inconsistencias entre agentes, herramientas y reglas de política antes de endurecer approval/RBAC/security guards.
+
+Comando principal:
+
+```powershell
+python -m devpilot_core miasi semantic-validate --json
+```
+
+Comando con evidencia persistida bajo `outputs/reports/`:
+
+```powershell
+python -m devpilot_core miasi semantic-validate --json --write-report
+```
+
+Verificación focal:
+
+```powershell
+python -m pytest `
+  tests/test_miasi_semantic_validator.py `
+  tests/test_miasi_semantic_validator_fixtures.py `
+  tests/test_miasi_semantic_report_model.py `
+  tests/test_miasi_registry.py `
+  -q
+```
+
+Criterios PASS:
+
+```text
+- El comando sale con ok=true y exit_code=0 para el bundle vigente.
+- El reporte declara dry_run=true, network_used=false, external_api_used=false y mutations_performed=false.
+- El reporte valida contra MiasiSemanticReport.
+- Los fixtures inseguros fallan con BLOCK.
+- No se ejecutan agentes, herramientas, pytest, subprocesses, conectores, plugins ni remote runners.
+```
+
+Criterios BLOCK:
+
+```text
+- Un agente referencia una tool inexistente.
+- Un agente o tool referencia policy_rule_ids inexistentes.
+- Una tool high-risk controlled_execution/network_cost implementada carece de approval explícito.
+- Existen reglas contradictorias allow/deny/block para el mismo domain/action.
+- remote/plugin/connector execute aparece como allow.
+```
+
+Riesgos y límites: `POST-H-004-B` es `implemented-initial`. Las advertencias por tools high-risk controlled_write sin approval explícito se registran como deuda semántica para `POST-H-004-C`, no como autorización de producción. El comando no sustituye `PolicyEngine`; solo valida consistencia declarativa.

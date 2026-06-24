@@ -3,7 +3,7 @@ doc_id: "POST-H-004-BACKLOG"
 id: "POST-H-004"
 title: "POST-H-004 — Policy/MIASI semantic validator ampliado"
 status: "approved"
-version: "0.2.0"
+version: "0.3.0"
 owner: "Ordóñez"
 updated: "2026-06-24"
 phase: "POST-FASE-H"
@@ -208,6 +208,42 @@ Comando propuesto:
 ```powershell
 python -m devpilot_core miasi semantic-validate --json
 ```
+
+
+## 6.2. Avance de implementación POST-H-004-B
+
+Estado: `implemented-initial`.
+
+`POST-H-004-B` implementa el comando:
+
+```powershell
+python -m devpilot_core miasi semantic-validate --json
+```
+
+Alcance implementado:
+
+```text
+- Carga del bundle MIASI vigente desde .devpilot/miasi/.
+- Validación semántica de allowed_tools contra Tool Registry.
+- Validación semántica de policy_rule_ids contra Policy Matrix.
+- Validación preliminar de status para evitar ejecutabilidad prematura.
+- Detección de tools sensibles sin approval explícito.
+- Detección de contradicciones de policy rules para el mismo domain/action.
+- Detección de no-go gates remote/plugin/connector execute en allow.
+- Reporte MiasiSemanticReport validable por schema.
+- Fixtures inseguros que deben fallar con BLOCK.
+```
+
+Límites explícitos:
+
+```text
+- No integra aún approval/RBAC/security guards; eso corresponde a POST-H-004-C.
+- No cruza observability/evals/test contracts; eso corresponde a POST-H-004-D.
+- No integra semantic-validate al quality-gate; eso corresponde a POST-H-004-E.
+- No ejecuta agentes, tools, pytest, subprocesses, red, APIs externas, conectores, plugins ni remote runners.
+```
+
+Nota de madurez: el bundle vigente pasa con warnings por cuatro tools high-risk `controlled_write` sin approval explícito (`patch.sandbox`, `rollback.plan`, `workspace.registry.register`, `auditpack.build`). Se mantienen como warnings porque actualmente son flujos locales/sandboxed/registry/rollback y se endurecerán en POST-H-004-C con reglas approval/RBAC/security guards.
 
 ### POST-H-004-C — Reglas de approval/RBAC/security guards
 

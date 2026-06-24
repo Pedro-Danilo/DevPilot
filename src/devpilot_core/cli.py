@@ -20,7 +20,7 @@ from .evals import EvalRunner
 from .identity import IdentityRegistry, IdentityRegistryOptions, RbacCheckInput
 from .industrial import IndustrialReadinessGate, IndustrialReadinessOptions
 from .observability import AgentOpsGateOptions, AgentOpsQualityGate, EventLogger, MetricsCollector, OTelDryRunExporter, OTelExportOptions, TraceQueryService
-from .miasi import MiasiRegistryValidator
+from .miasi import MiasiRegistryValidator, MiasiSemanticValidator
 from .modeling import BudgetLedger, CapabilityMatrix, ModelAdapterRouter, ModelEvalRunner, ModelEvalRunnerConfig, ModelHealthService, ModelRouterConfig
 from .multiagent import MultiAgentCoordinator, MultiAgentRunOptions, MultiAgentWorkflowRunner, MultiAgentWorkflowRunOptions
 from .policy import CostPolicy, PolicyEngine, PolicyRequest, load_cost_policy
@@ -349,6 +349,29 @@ def model_budget_status_command(*, limit: int = 20, json_output: bool = False, w
     _persist_result(root, result, subject="model:budget")
     print_result(result, json_output=json_output)
     return int(result.exit_code)
+
+def miasi_semantic_validate_command(
+    *,
+    json_output: bool = False,
+    write_report: bool = False,
+) -> int:
+    """Validate MIASI agent/tool/policy semantic consistency without execution."""
+
+    root = project_root()
+    result = MiasiSemanticValidator(root).validate()
+    result = _write_optional_command_report(
+        root,
+        result,
+        subject=".devpilot/miasi",
+        report_id="miasi_semantic_validate",
+        write_report=write_report,
+        metadata={"sprint": "POST-H-004-B", "component": "MiasiSemanticValidator"},
+    )
+    _emit_result_event(root, result, subject=".devpilot/miasi")
+    _persist_result(root, result, subject=".devpilot/miasi")
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
 
 def trace_report_command(
     *,
@@ -4043,6 +4066,9 @@ def build_parser() -> argparse.ArgumentParser:
     miasi_validate_policy = miasi_sub.add_parser("validate-policy-matrix", help="Validate executable Policy Matrix")
     miasi_validate_policy.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     miasi_validate_policy.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+    miasi_semantic_validate = miasi_sub.add_parser("semantic-validate", help="Validate MIASI agent/tool/policy semantics without execution")
+    miasi_semantic_validate.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    miasi_semantic_validate.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
 
     frontmatter = sub.add_parser("validate-frontmatter", help="Validate Markdown frontmatter metadata")
     frontmatter.add_argument("path", help="Markdown document path to validate")
@@ -5034,6 +5060,8 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
             return miasi_validate_command(scope="tools", json_output=args.json, write_report=args.write_report)
         if args.miasi_command == "validate-policy-matrix":
             return miasi_validate_command(scope="policy", json_output=args.json, write_report=args.write_report)
+        if args.miasi_command == "semantic-validate":
+            return miasi_semantic_validate_command(json_output=args.json, write_report=args.write_report)
         parser.print_help()
         return int(ExitCode.FAIL)
     if args.command == "validate-frontmatter":
