@@ -2,11 +2,11 @@
 
 Estado actual: `baseline pre-code approved + Fases A-G cerradas + Fase H cerrada + POST-H-001 implemented-initial + POST-H-EVAL-001 closed + POST-H-002 closed`  
 Último hito: `POST-H-002 — Maturity dashboard local basado en assessment post-H`  
-Último micro-sprint implementado: `POST-H-003-B — Migrador v1 → v2 dry-run`  
+Último micro-sprint implementado: `POST-H-003-C — Validator v2 y perfiles de ejecución`  
 Hito diagnóstico cerrado: `POST-H-EVAL-001 — Evaluación integral del baseline DevPilot post-Fase H`, cierre formal `POST-H-EVAL-001-G`  
 Siguiente hito: `POST-H-003 — Test Contract Registry 2.0`  
 Hito en ejecución: `POST-H-003 — Test Contract Registry 2.0`  
-Siguiente micro-sprint: `POST-H-003-C — Validator v2 y perfiles de ejecución`  
+Siguiente micro-sprint: `POST-H-003-D — Integración con Test Impact Analyzer`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
@@ -16,6 +16,24 @@ Modo de trabajo: local-first híbrido, API keys opcionales, costo externo contro
 
 
 
+
+
+## POST-H-003-C — Validator v2 y perfiles de ejecución
+
+`POST-H-003-C` implementa el validador semántico local de Test Contract Registry v2 y la selección de perfiles operativos sin ejecutar pruebas desde JSON. El nuevo módulo `TestContractRegistryV2Validator` valida `.devpilot/testing/test_contract_registry_v2.json`, verifica schema, existencia de `test_files` y `watched_paths`, comandos recomendados seguros, restricciones de red/API/mutaciones y perfiles declarativos.
+
+Comandos principales:
+
+```powershell
+python -m devpilot_core test-contracts validate-v2 --json
+python -m devpilot_core test-contracts profile --profile p0-critical --json
+python -m devpilot_core test-contracts profile --profile security --json
+python -m devpilot_core test-contracts profile --profile release --json
+python -m devpilot_core test-contracts profile --profile impact --json
+python -m devpilot_core test-contracts profile --profile docs-historical --json
+```
+
+Alcance: esta entrega es `implemented-initial`. Los perfiles devuelven contratos y comandos recomendados, pero no ejecutan `pytest`, no lanzan subprocesses, no habilitan red, no activan APIs externas y no reemplazan todavía el registry v1 como fuente operativa final. La integración con análisis por cambios queda para `POST-H-003-D` y el cierre con quality gate/documentación para `POST-H-003-E`.
 
 ## POST-H-003-B — Migrador v1 → v2 dry-run
 

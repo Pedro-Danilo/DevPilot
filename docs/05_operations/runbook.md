@@ -5759,6 +5759,53 @@ El principal riesgo es interpretar el dashboard CLI como cierre de madurez produ
 
 
 
+
+## POST-H-003-C — Operación del validator Test Contract Registry v2
+
+### Propósito
+
+Validar `.devpilot/testing/test_contract_registry_v2.json` y seleccionar perfiles de contratos sin ejecutar pruebas desde el registry. Esta capacidad es `implemented-initial` y prepara `POST-H-003-D/E`.
+
+### Comandos de operación
+
+```powershell
+python -m devpilot_core test-contracts validate-v2 --json
+python -m devpilot_core test-contracts profile --profile p0-critical --json
+python -m devpilot_core test-contracts profile --profile security --json
+python -m devpilot_core test-contracts profile --profile release --json
+python -m devpilot_core test-contracts profile --profile impact --json
+python -m devpilot_core test-contracts profile --profile docs-historical --json
+```
+
+### Criterios PASS
+
+```text
+PASS si validate-v2 retorna ok=true.
+PASS si los perfiles seleccionan contratos y recommended_commands sin ejecutar pytest.
+PASS si network_used=false, external_api_used=false y mutations_performed=false.
+PASS si test-contracts validate v1 sigue pasando.
+```
+
+### Criterios BLOCK
+
+```text
+BLOCK si falta un test_file declarado.
+BLOCK si un comando recomendado contiene shell control tokens o comandos no permitidos.
+BLOCK si un contrato permite red/API externa.
+BLOCK si una excepción de mutación no declara safety_exception y aprobación humana.
+```
+
+### Recuperación
+
+Recrear el registry v2 desde v1 con:
+
+```powershell
+python -m devpilot_core test-contracts migrate-v2 --write-output .devpilot/testing/test_contract_registry_v2.json --json
+python -m devpilot_core test-contracts validate-v2 --json
+```
+
+No editar `.devpilot/testing/test_contract_registry.json` para resolver errores v2. V1 sigue siendo la fuente compatible hasta el cierre de `POST-H-003`.
+
 ## POST-H-003-B — Operación del migrador Test Contract Registry v2
 
 ### Propósito

@@ -10,6 +10,7 @@ from .contracts_v2 import (
     load_registry_v2_fixture,
 )
 from .migration import TestContractRegistryV2MigrationOptions, TestContractRegistryV2Migrator
+from .profiles_v2 import TestContractRegistryV2ValidationOptions, TestContractRegistryV2Validator
 from .impact import TestImpactAnalyzer, TestImpactOptions
 from .profiles import TestProfile, TestProfileRegistry
 from .tests_run import TestsRunTool
@@ -27,6 +28,8 @@ __all__ = [
     "load_registry_v2_fixture",
     "TestContractRegistryV2Migrator",
     "TestContractRegistryV2MigrationOptions",
+    "TestContractRegistryV2Validator",
+    "TestContractRegistryV2ValidationOptions",
     "TestImpactAnalyzer",
     "TestImpactOptions",
     "TestProfile",

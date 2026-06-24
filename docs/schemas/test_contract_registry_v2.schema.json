@@ -22,7 +22,8 @@
     "created_by": {
       "enum": [
         "POST-H-003-A",
-        "POST-H-003-B"
+        "POST-H-003-B",
+        "POST-H-003-C"
       ]
     },
     "status": {
@@ -535,6 +536,6 @@
     }
   },
   "x-devpilot-schema-id": "SCHEMA-DEVPL-TEST-CONTRACT-REGISTRY-V2",
-  "x-devpilot-sprint": "POST-H-003-A",
+  "x-devpilot-sprint": "POST-H-003-C",
   "x-devpilot-status": "registered"
 }

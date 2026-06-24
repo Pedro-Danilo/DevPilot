@@ -1,0 +1,60 @@
+{
+  "schema_version": "1.0",
+  "id": "POST-H-003-C",
+  "title": "Validator v2 y perfiles de ejecución",
+  "status": "implemented-initial",
+  "parent_hito": "POST-H-003",
+  "parent_hito_status": "in-progress",
+  "previous_micro_sprint": "POST-H-003-B",
+  "next_micro_sprint": "POST-H-003-D",
+  "implemented_at_utc": "2026-06-24T19:30:00Z",
+  "local_first": true,
+  "dry_run_default": true,
+  "registry_v1": ".devpilot/testing/test_contract_registry.json",
+  "registry_v2": ".devpilot/testing/test_contract_registry_v2.json",
+  "schema_id": "SCHEMA-DEVPL-TEST-CONTRACT-REGISTRY-V2",
+  "contracts_v2_total": 87,
+  "profiles_total": 5,
+  "profiles": [
+    "p0-critical",
+    "security",
+    "release",
+    "impact",
+    "docs-historical"
+  ],
+  "validator_cli_added": true,
+  "profiles_cli_added": true,
+  "impact_v2_added": false,
+  "quality_gate_subgate_added": false,
+  "tests_execute_from_json": false,
+  "network_used": false,
+  "external_api_used": false,
+  "remote_execution_enabled": false,
+  "connector_write_enabled": false,
+  "plugin_execution_enabled": false,
+  "no_go_gates": {
+    "no_test_execution_from_registry": true,
+    "no_network": true,
+    "no_external_api": true,
+    "no_remote_execution": true,
+    "no_connector_write": true,
+    "no_plugin_execution": true
+  },
+  "validation_commands": [
+    "python -m pytest tests/test_test_contract_registry_profiles_v2.py tests/test_test_contract_registry_migration.py tests/test_test_contract_registry_v2.py tests/test_test_contract_registry.py tests/test_schema_registry.py -q",
+    "python -m devpilot_core test-contracts validate-v2 --json",
+    "python -m devpilot_core test-contracts profile --profile p0-critical --json",
+    "python -m devpilot_core test-contracts profile --profile security --json",
+    "python -m devpilot_core test-contracts profile --profile release --json",
+    "python -m devpilot_core test-contracts profile --profile impact --json",
+    "python -m devpilot_core test-contracts profile --profile docs-historical --json",
+    "python -m devpilot_core test-contracts validate --json",
+    "python -m devpilot_core quality-gate run --profile hardening --json"
+  ],
+  "preliminary": true,
+  "notes": [
+    "POST-H-003-C validates and selects v2 contracts but does not execute tests from JSON.",
+    "POST-H-003-D will add impact_v2 by changed paths.",
+    "POST-H-003-E will close quality gate and documentation integration."
+  ]
+}

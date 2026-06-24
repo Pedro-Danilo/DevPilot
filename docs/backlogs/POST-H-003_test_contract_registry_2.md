@@ -3,7 +3,7 @@ doc_id: "POST-H-003-BACKLOG"
 id: "POST-H-003"
 title: "POST-H-003 — Test Contract Registry 2.0"
 status: "approved"
-version: "0.3.0"
+version: "0.4.0"
 owner: "Ordóñez"
 approval: "internal"
 updated: "2026-06-24"
@@ -313,3 +313,35 @@ BLOCK si test-contracts validate v1 deja de pasar.
 ```
 
 Limitación explícita: la clasificación generada por B es una primera migración determinística para acelerar revisión industrial; no debe tratarse como matriz final de criticidad/costo/riesgo hasta `POST-H-003-C`, `POST-H-003-D` y `POST-H-003-E`.
+
+### POST-H-003-C — Validator v2 y perfiles de ejecución
+
+Estado: `implemented-initial`.
+
+`POST-H-003-C — Validator v2 y perfiles de ejecución` implementa el validador semántico local de `.devpilot/testing/test_contract_registry_v2.json` y los perfiles de selección `p0-critical`, `security`, `release`, `impact` y `docs-historical`. La validación sigue siendo local-first y no ejecuta pruebas desde el registry.
+
+Alcance exacto de C:
+
+```text
+- Implementa TestContractRegistryV2Validator.
+- Agrega CLI test-contracts validate-v2.
+- Agrega CLI test-contracts profile --profile <id>.
+- Valida schema, paths, comandos recomendados y restricciones de seguridad.
+- Selecciona contratos y comandos recomendados por perfil.
+- Mantiene test-contracts validate v1 operativo con 87 contratos.
+- No ejecuta pytest ni subprocesses desde JSON.
+- No implementa todavía impact_v2; eso queda para POST-H-003-D.
+- No agrega todavía subgate TCR v2 a quality-gate; eso queda para POST-H-003-E.
+```
+
+Criterios PASS materializados:
+
+```text
+PASS si test-contracts validate-v2 pasa contra .devpilot/testing/test_contract_registry_v2.json.
+PASS si p0-critical/security/release/impact/docs-historical seleccionan contratos sin ejecutar pruebas.
+PASS si se bloquean comandos recomendados inseguros o paths inexistentes.
+PASS si v1 sigue validando y quality-gate hardening sigue PASS.
+PASS si no hay red, APIs externas, ejecución remota ni mutaciones de código.
+```
+
+Limitación explícita: `POST-H-003-C` valida y selecciona; no ejecuta pruebas. La ejecución sigue siendo explícita por comandos del operador o por `tests.run` approval-gated. El análisis de impacto por paths se implementará en `POST-H-003-D`.

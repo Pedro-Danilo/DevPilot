@@ -16,6 +16,30 @@ This changelog follows a Keep a Changelog-compatible category structure and is g
 
 
 
+
+## [post-h-003-c] - 2026-06-24
+
+### Added
+
+- `TestContractRegistryV2Validator` in `src/devpilot_core/testing/profiles_v2.py`.
+- CLI `python -m devpilot_core test-contracts validate-v2 --json`.
+- CLI `python -m devpilot_core test-contracts profile --profile <id> --json`.
+- Profiles `p0-critical`, `security`, `release`, `impact` and `docs-historical` as read-only selectors.
+- Tests `tests/test_test_contract_registry_profiles_v2.py`.
+- Manifest `docs/post_h_003_c_manifest.json` and audit `docs/audits/post_h_003_c_test_contract_registry_v2_validator_report.md`.
+
+### Changed
+
+- `docs/backlogs/POST-H-003_test_contract_registry_2.md` moves to version `0.4.0` and records `POST-H-003-C` as `implemented-initial`.
+- `docs/04_quality/test_contract_registry_2_design.md` documents validator and profile semantics.
+- README and runbook now point to `POST-H-003-D` as next micro-sprint.
+
+### Security
+
+- Profiles select contracts and recommended commands only; they do not execute pytest or subprocesses.
+- Recommended commands are inspected against a local allowlist.
+- No network, external API, remote execution, connector write or plugin execution is enabled.
+
 ## [post-h-003-b] - 2026-06-24
 
 ### Added

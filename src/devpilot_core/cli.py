@@ -70,7 +70,7 @@ from .changes import RollbackManager
 from .standards.registry import build_standards_status_result
 from .store import LocalStore
 from .traceability import MarkdownTraceabilityExtractor, TraceabilityEngine
-from .testing import TestContractRegistry, TestContractRegistryV2MigrationOptions, TestContractRegistryV2Migrator, TestImpactAnalyzer, TestImpactOptions, TestsRunTool
+from .testing import TestContractRegistry, TestContractRegistryV2MigrationOptions, TestContractRegistryV2Migrator, TestContractRegistryV2ValidationOptions, TestContractRegistryV2Validator, TestImpactAnalyzer, TestImpactOptions, TestsRunTool
 from .validation import ValidationGateway
 from .workspace import MultiworkspaceRegistry, WorkspaceRegisterOptions, WorkspaceRegistryOptions, WorkspaceSelectOptions, WorkspaceManager
 from .validators.artifact import validate_artifact_file
@@ -2756,6 +2756,60 @@ def test_contracts_migrate_v2_command(
     print_result(result, json_output=json_output)
     return int(result.exit_code)
 
+
+
+def test_contracts_validate_v2_command(
+    *,
+    registry_path: str = ".devpilot/testing/test_contract_registry_v2.json",
+    schema_path: str = "docs/schemas/test_contract_registry_v2.schema.json",
+    json_output: bool = False,
+    write_report: bool = False,
+) -> int:
+    """Validate POST-H-003 Test Contract Registry v2 without executing tests."""
+
+    root = project_root()
+    options = TestContractRegistryV2ValidationOptions(registry_path=registry_path, schema_path=schema_path)
+    result = TestContractRegistryV2Validator(root, options).validate()
+    result = _write_optional_command_report(
+        root,
+        result,
+        subject="testing:test-contracts-v2-validator",
+        report_id="test_contract_registry_v2_validation",
+        write_report=write_report,
+        metadata={"sprint": "POST-H-003-C", "component": "TestContractRegistryV2Validator"},
+    )
+    _emit_result_event(root, result, subject="testing:test-contracts-v2-validator")
+    _persist_result(root, result, subject="testing:test-contracts-v2-validator")
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+
+def test_contracts_profile_v2_command(
+    *,
+    profile: str,
+    registry_path: str = ".devpilot/testing/test_contract_registry_v2.json",
+    schema_path: str = "docs/schemas/test_contract_registry_v2.schema.json",
+    json_output: bool = False,
+    write_report: bool = False,
+) -> int:
+    """Select Test Contract Registry v2 contracts for one execution profile without running tests."""
+
+    root = project_root()
+    options = TestContractRegistryV2ValidationOptions(registry_path=registry_path, schema_path=schema_path)
+    result = TestContractRegistryV2Validator(root, options).profile(profile)
+    result = _write_optional_command_report(
+        root,
+        result,
+        subject=f"testing:test-contracts-v2-profile:{profile}",
+        report_id=f"test_contract_registry_v2_profile_{profile.replace('-', '_')}",
+        write_report=write_report,
+        metadata={"sprint": "POST-H-003-C", "component": "TestContractRegistryV2Validator", "profile": profile},
+    )
+    _emit_result_event(root, result, subject=f"testing:test-contracts-v2-profile:{profile}")
+    _persist_result(root, result, subject=f"testing:test-contracts-v2-profile:{profile}")
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
 def project_state_validate_command(*, json_output: bool = False, write_report: bool = False) -> int:
     """Validate centralized mutable project state after POST-H-001."""
 
@@ -4095,6 +4149,19 @@ def build_parser() -> argparse.ArgumentParser:
     test_contracts_migrate_v2.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     test_contracts_migrate_v2.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
 
+    test_contracts_validate_v2 = test_contracts_sub.add_parser("validate-v2", help="Validate Test Contract Registry v2 schema and semantics without executing tests")
+    test_contracts_validate_v2.add_argument("--registry-path", default=".devpilot/testing/test_contract_registry_v2.json", help="Test Contract Registry v2 path")
+    test_contracts_validate_v2.add_argument("--schema-path", default="docs/schemas/test_contract_registry_v2.schema.json", help="Test Contract Registry v2 schema path")
+    test_contracts_validate_v2.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    test_contracts_validate_v2.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+
+    test_contracts_profile = test_contracts_sub.add_parser("profile", help="Select Test Contract Registry v2 contracts for one local execution profile without running tests")
+    test_contracts_profile.add_argument("--profile", choices=["p0-critical", "security", "release", "impact", "docs-historical"], required=True, help="TCR v2 selection profile")
+    test_contracts_profile.add_argument("--registry-path", default=".devpilot/testing/test_contract_registry_v2.json", help="Test Contract Registry v2 path")
+    test_contracts_profile.add_argument("--schema-path", default="docs/schemas/test_contract_registry_v2.schema.json", help="Test Contract Registry v2 schema path")
+    test_contracts_profile.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    test_contracts_profile.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+
     project_state = sub.add_parser("project-state", help="Validate centralized mutable project state")
     project_state_sub = project_state.add_subparsers(dest="project_state_command")
     project_state_validate = project_state_sub.add_parser("validate", help="Validate .devpilot/project_state.json and global docs sync")
@@ -5067,6 +5134,21 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
                 registry_path=args.registry_path,
                 schema_path=args.schema_path,
                 write_output=args.write_output,
+                json_output=args.json,
+                write_report=args.write_report,
+            )
+        if args.test_contracts_command == "validate-v2":
+            return test_contracts_validate_v2_command(
+                registry_path=args.registry_path,
+                schema_path=args.schema_path,
+                json_output=args.json,
+                write_report=args.write_report,
+            )
+        if args.test_contracts_command == "profile":
+            return test_contracts_profile_v2_command(
+                profile=args.profile,
+                registry_path=args.registry_path,
+                schema_path=args.schema_path,
                 json_output=args.json,
                 write_report=args.write_report,
             )

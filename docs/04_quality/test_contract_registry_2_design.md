@@ -2,7 +2,7 @@
 doc_id: "POST-H-003-A-DESIGN"
 title: "POST-H-003 — Test Contract Registry v2 design and migration"
 status: "approved"
-version: "1.1.0"
+version: "1.2.0"
 owner: "Ordóñez"
 updated: "2026-06-24"
 approval: "internal"
@@ -135,3 +135,47 @@ Esta entrega es una primera versión de diseño industrial del contrato v2. El v
 ## Relación con el roadmap
 
 `POST-H-003-A` habilita la base contractual para que DevPilot pueda priorizar pruebas por riesgo/costo/impacto antes de endurecer Policy/MIASI, arquitectura y claims `production-ready-local`.
+
+
+## POST-H-003-C — Validator v2 y perfiles de ejecución
+
+### Propósito
+
+`POST-H-003-C` convierte el registry v2 migrado en un artefacto validable semánticamente. La validación cubre estructura JSON, paths locales, comandos recomendados, no-go gates de red/API/mutaciones y selección por perfiles.
+
+### Comandos
+
+```powershell
+python -m devpilot_core test-contracts validate-v2 --json
+python -m devpilot_core test-contracts profile --profile p0-critical --json
+python -m devpilot_core test-contracts profile --profile security --json
+python -m devpilot_core test-contracts profile --profile release --json
+python -m devpilot_core test-contracts profile --profile impact --json
+python -m devpilot_core test-contracts profile --profile docs-historical --json
+```
+
+### Reglas de validación
+
+```text
+- El payload debe cumplir TestContractRegistryV2.
+- contract_id debe ser único.
+- test_files y watched_paths deben existir localmente.
+- recommended_commands solo se validan como datos; no se ejecutan.
+- recommended_commands se limitan a comandos locales conocidos como python -m pytest, python -m devpilot_core o el smoke fijo npm --prefix ui/web test.
+- network_allowed/external_api_allowed deben permanecer false en esta etapa.
+- mutations_allowed/source_mutations_allowed requieren safety_exception, aprobación humana y perfil manual/release.
+```
+
+### Perfiles
+
+```text
+p0-critical: contratos con criticality P0.
+security: contratos de dominios o riesgos sensibles, o required_for_security_gate.
+release: contratos required_for_release o execution_profile release.
+impact: contratos con execution_profile impact.
+docs-historical: contratos documentales/históricos.
+```
+
+### Limitación
+
+Los perfiles son selectores de contratos y comandos recomendados, no ejecutores. `POST-H-003-D` agregará cruce por paths cambiados e impacto; `POST-H-003-E` integrará el cierre documental y quality gate.

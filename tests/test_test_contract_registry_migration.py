@@ -123,7 +123,7 @@ def test_post_h_003_b_documentation_is_synchronized() -> None:
 
     assert "POST-H-003-B" in backlog
     assert "Migrador v1 → v2 dry-run" in backlog
-    assert 'version: "0.3.0"' in backlog
+    assert 'version: "0.4.0"' in backlog
     assert "POST-H-003-B" in design
     assert "test-contracts migrate-v2" in runbook
     assert "POST-H-003-B" in readme
