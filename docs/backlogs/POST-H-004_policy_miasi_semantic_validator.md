@@ -3,7 +3,7 @@ doc_id: "POST-H-004-BACKLOG"
 id: "POST-H-004"
 title: "POST-H-004 — Policy/MIASI semantic validator ampliado"
 status: "approved"
-version: "0.4.0"
+version: "0.5.0"
 owner: "Ordóñez"
 updated: "2026-06-24"
 phase: "POST-FASE-H"
@@ -297,6 +297,40 @@ Tareas:
 3. Cruzar capacidades high-risk con Test Contract Registry v1/v2 si existe.
 4. Emitir warnings si TCR v2 aún no está implementado.
 ```
+
+
+## 6.4. Avance de implementación POST-H-004-D
+
+Estado: `implemented-initial`.
+
+`POST-H-004-D` amplía el comando:
+
+```powershell
+python -m devpilot_core miasi semantic-validate --json
+```
+
+Alcance implementado:
+
+```text
+- Validación de observability_required para agentes A3+/high-risk.
+- Validación de eval_required para agentes A3+/high-risk.
+- Validación de handoff traces para capacidades multiagent/workflow.
+- Validación de observability_required para tools sensibles y policy rules deny/block/approval/no-go.
+- Validación de fixtures/evals locales mínimos: red-team, advanced-agentic, plugin-ecosystem, identity-rbac y remote-enterprise.
+- Validación de que fixtures/evals sigan siendo locales, deterministas, sin red, sin API externa y sin LLM judge.
+- Cruce preliminar con Test Contract Registry v1/v2.
+- Warning explícito si el validador semántico todavía no tiene contrato formal v1/v2.
+```
+
+Límites explícitos:
+
+```text
+- No integra todavía semantic-validate al quality-gate; eso corresponde a POST-H-004-E.
+- No agrega aún el contrato formal de cierre POST-H-004; eso corresponde a POST-H-004-E.
+- No ejecuta agentes, tools, evals, pytest desde JSON, subprocesses, red ni APIs externas.
+```
+
+Nota de madurez: `POST-H-004-D` conserva warnings no bloqueantes para deuda de aprobación/RBAC en `controlled_write` high-risk implementado-initial y para la ausencia del contrato formal del validador semántico en TCR. Estas warnings no autorizan promoción a producción; definen deuda a cerrar en `POST-H-004-E` y/o hitos posteriores.
 
 ### POST-H-004-E — Integración con quality-gate y documentación
 

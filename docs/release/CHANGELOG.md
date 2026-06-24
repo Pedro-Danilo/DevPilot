@@ -8,6 +8,29 @@ approval: "internal"
 owner: "Ordóñez"
 ---
 
+
+## [post-h-004-d] - 2026-06-24
+
+### Added
+
+- Reglas semánticas `SEM-OBSERVABILITY-001`, `SEM-EVAL-COVERAGE-001` y `SEM-TEST-CONTRACT-COVERAGE-001` dentro de `miasi semantic-validate`.
+- Cruce declarativo de agentes A3+/high-risk con `observability_required` y `eval_required`.
+- Validación de handoff traces para capacidades multiagent/workflow.
+- Validación de fixtures/evals locales red-team, advanced-agentic, plugin-ecosystem, identity-rbac y remote-enterprise.
+- Cruce preliminar con Test Contract Registry v1/v2 y warning controlado por ausencia de contrato formal del semantic validator.
+- Reporte `docs/audits/post_h_004_d_observability_evals_test_contracts_report.md` y manifest `docs/post_h_004_d_manifest.json`.
+
+### Security
+
+- No se ejecutan agentes, tools, evals, pytest desde JSON, red, APIs externas, conectores, plugins ni remote runners.
+- Fixtures/evals se validan como evidencia local determinista; cualquier red/API externa/LLM judge declarado bloquea.
+- La integración como subgate de quality-gate se reserva para `POST-H-004-E`.
+
+### Notes
+
+- Capacidad `implemented-initial`; conserva warnings por deuda de approval/RBAC en `controlled_write` high-risk y por contrato TCR formal pendiente.
+
+
 # Changelog
 
 ## [post-h-004-c] - 2026-06-24

@@ -120,3 +120,11 @@ def test_connector_write_without_adr_fixture_blocks(tmp_path: Path) -> None:
     assert result.ok is False
     assert result.exit_code == ExitCode.BLOCK
     assert "MIASI_SEMANTIC_CONNECTOR_WRITE_WITHOUT_FUTURE_GUARDS" in {finding.id for finding in result.findings}
+
+
+def test_missing_observability_for_high_risk_agent_fixture_blocks(tmp_path: Path) -> None:
+    result = _validate_fixture(tmp_path, "missing_observability_for_high_risk_agent.json")
+
+    assert result.ok is False
+    assert result.exit_code == ExitCode.BLOCK
+    assert "MIASI_SEMANTIC_AGENT_OBSERVABILITY_MISSING" in {finding.id for finding in result.findings}

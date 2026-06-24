@@ -44,7 +44,36 @@ SECRET_GUARD_TOKENS = ("secretguard", "secret", "redacted", "no raw secrets", "n
 NETWORK_GUARD_TOKENS = ("costguard", "noexternalapi", "no external api", "nonetwork", "no network", "localhostonly")
 LOCAL_GUARD_TOKENS = ("pathguard", "policyengine", "sandbox", "dry_run", "dry-run", "local", "checksum", "rollback", "registry")
 IDENTITY_REGISTRY_FILE = Path(".devpilot") / "identity" / "identity_registry.json"
+TEST_CONTRACT_REGISTRY_V1_FILE = Path(".devpilot") / "testing" / "test_contract_registry.json"
+TEST_CONTRACT_REGISTRY_V2_FILE = Path(".devpilot") / "testing" / "test_contract_registry_v2.json"
 
+REQUIRED_EVAL_FIXTURES: tuple[dict[str, Any], ...] = (
+    {
+        "path": Path("evals") / "fixtures" / "red_team_agentic_eval_cases.json",
+        "suite_id": "red-team",
+        "required_markers": ("prompt-injection", "secret", "connector"),
+    },
+    {
+        "path": Path("evals") / "fixtures" / "advanced_agentic_eval_cases.json",
+        "suite_id": "advanced-agentic",
+        "required_markers": ("rag", "mcp", "multiagent"),
+    },
+    {
+        "path": Path("evals") / "fixtures" / "plugin_ecosystem_eval_cases.json",
+        "suite_id": "plugin-ecosystem",
+        "required_markers": ("plugin",),
+    },
+    {
+        "path": Path("evals") / "fixtures" / "identity_rbac_eval_cases.json",
+        "suite_id": "identity-rbac",
+        "required_markers": ("rbac",),
+    },
+    {
+        "path": Path("evals") / "fixtures" / "remote_enterprise_eval_cases.json",
+        "suite_id": "remote-enterprise",
+        "required_markers": ("remote",),
+    },
+)
 
 
 class MiasiSemanticReportBuilder:
@@ -121,6 +150,9 @@ class MiasiSemanticValidator:
                 self._validate_rbac_requirements(bundle),
                 self._validate_security_guards(bundle),
                 self._validate_no_go_security_guards(bundle),
+                self._validate_observability_requirements(bundle),
+                self._validate_eval_fixture_coverage(bundle),
+                self._validate_test_contract_coverage(bundle),
                 self._validate_policy_contradictions(bundle),
                 self._validate_no_go_policy_rules(bundle),
             ]
@@ -136,8 +168,8 @@ class MiasiSemanticValidator:
 
     def _report(self, *, rule_results: list[SemanticRuleResult], status: str) -> MiasiSemanticReport:
         return MiasiSemanticReport(
-            report_id="miasi-semantic-post-h-004-c",
-            created_by="POST-H-004-C",
+            report_id="miasi-semantic-post-h-004-d",
+            created_by="POST-H-004-D",
             status=status,
             rule_results=tuple(rule_results),
             source_paths=self.builder.source_paths(),
@@ -149,8 +181,8 @@ class MiasiSemanticValidator:
                 "approval/RBAC/security guards must be explicit before high-risk runtime paths can evolve beyond implemented-initial",
             ),
             notes=(
-                "POST-H-004-C validates agent/tool/policy declarations plus approval, RBAC and security guard semantics.",
-                "Controlled-write tools without explicit approval are surfaced as warnings when local guards are present; missing guards or unsafe no-go paths remain blocking.",
+                "POST-H-004-D validates agent/tool/policy declarations plus approval, RBAC, security guards, observability, eval fixtures and test-contract coverage.",
+                "Controlled-write tools without explicit approval/RBAC remain warnings when local guards are present; missing guards, unsafe no-go paths, disabled observability or invalid eval evidence remain blocking.",
                 "This validator is local-first, dry-run and non-executing.",
             ),
         )
@@ -366,7 +398,7 @@ class MiasiSemanticValidator:
                         finding_id="MIASI_SEMANTIC_CONTROLLED_WRITE_APPROVAL_REVIEW",
                         rule_id="SEM-TOOL-APPROVAL-001",
                         severity=SemanticSeverity.WARNING,
-                        message="High-risk controlled-write tool has no explicit tool-level approval; current gates appear local/sandboxed but must be hardened in POST-H-004-C.",
+                        message="High-risk controlled-write tool has no explicit tool-level approval; current gates appear local/sandboxed but must be hardened before production-local promotion.",
                         category="tool",
                         subject_type="tool",
                         subject_id=tool.tool_id,
@@ -683,6 +715,296 @@ class MiasiSemanticValidator:
             summary={"tools_total": len(bundle.tools)},
         )
 
+
+    def _validate_observability_requirements(self, bundle: MiasiRegistryBundle) -> SemanticRuleResult:
+        findings: list[SemanticFinding] = []
+        rules_by_id = {rule.rule_id: rule for rule in bundle.rules}
+        high_risk_agents = [
+            agent
+            for agent in bundle.agents
+            if agent.status not in {"disabled", "future", "planned"}
+            and (agent.risk_level in {"high", "medium_high"} or self._agent_autonomy_number(agent.max_autonomy) >= 3)
+        ]
+        for agent in high_risk_agents:
+            if not agent.observability_required:
+                findings.append(
+                    self._finding(
+                        finding_id="MIASI_SEMANTIC_AGENT_OBSERVABILITY_MISSING",
+                        rule_id="SEM-OBSERVABILITY-001",
+                        severity=SemanticSeverity.BLOCK,
+                        message="A3+/high-risk agent must declare observability_required=true.",
+                        category="observability",
+                        subject_type="agent",
+                        subject_id=agent.agent_id,
+                        path=AGENT_REGISTRY_FILE.as_posix(),
+                        metadata={"agent": agent.to_dict()},
+                    )
+                )
+            if not agent.eval_required:
+                findings.append(
+                    self._finding(
+                        finding_id="MIASI_SEMANTIC_AGENT_EVAL_STRATEGY_MISSING",
+                        rule_id="SEM-OBSERVABILITY-001",
+                        severity=SemanticSeverity.BLOCK,
+                        message="A3+/high-risk agent must declare eval_required=true before runtime promotion.",
+                        category="eval",
+                        subject_type="agent",
+                        subject_id=agent.agent_id,
+                        path=AGENT_REGISTRY_FILE.as_posix(),
+                        metadata={"agent": agent.to_dict()},
+                    )
+                )
+            if any(tool_id.startswith("multiagent.") for tool_id in agent.allowed_tools):
+                has_handoff_trace = "multiagent.handoff" in agent.allowed_tools or "MULTIAGENT_HANDOFF_TRACE_REQUIRED" in agent.policy_rule_ids
+                if not has_handoff_trace:
+                    findings.append(
+                        self._finding(
+                            finding_id="MIASI_SEMANTIC_HANDOFF_TRACE_MISSING",
+                            rule_id="SEM-OBSERVABILITY-001",
+                            severity=SemanticSeverity.BLOCK,
+                            message="Agentic workflow/multiagent capability must declare handoff trace semantics.",
+                            category="observability",
+                            subject_type="agent",
+                            subject_id=agent.agent_id,
+                            path=AGENT_REGISTRY_FILE.as_posix(),
+                            metadata={"agent": agent.to_dict()},
+                        )
+                    )
+        sensitive_tools = [
+            tool
+            for tool in bundle.tools
+            if tool.status not in {"disabled", "future", "planned"}
+            and (tool.risk_level in {"high", "medium_high"} or tool.side_effect in SENSITIVE_SIDE_EFFECTS)
+        ]
+        for tool in sensitive_tools:
+            associated_rules = [rules_by_id[rule_id] for rule_id in tool.policy_rule_ids if rule_id in rules_by_id]
+            if associated_rules and not any(rule.observability_required for rule in associated_rules):
+                findings.append(
+                    self._finding(
+                        finding_id="MIASI_SEMANTIC_TOOL_OBSERVABILITY_MISSING",
+                        rule_id="SEM-OBSERVABILITY-001",
+                        severity=SemanticSeverity.BLOCK,
+                        message="Sensitive/high-risk tool must be attached to at least one observability-required policy rule.",
+                        category="observability",
+                        subject_type="tool",
+                        subject_id=tool.tool_id,
+                        path=TOOL_REGISTRY_FILE.as_posix(),
+                        metadata={"tool": tool.to_dict(), "policy_rules": [rule.to_dict() for rule in associated_rules]},
+                    )
+                )
+        sensitive_rules = [
+            rule
+            for rule in bundle.rules
+            if rule.default_effect in {"deny", "block", "deny_unless_safe_output"}
+            or rule.approval_required
+            or self._text_has_any(f"{rule.domain} {rule.action} {rule.rule_id}", ("remote", "plugin", "connector", "secret", "approval", "rbac"))
+        ]
+        for rule in sensitive_rules:
+            if not rule.observability_required:
+                findings.append(
+                    self._finding(
+                        finding_id="MIASI_SEMANTIC_POLICY_OBSERVABILITY_MISSING",
+                        rule_id="SEM-OBSERVABILITY-001",
+                        severity=SemanticSeverity.BLOCK,
+                        message="Sensitive deny/block/approval/no-go policy rule must declare observability_required=true.",
+                        category="observability",
+                        subject_type="policy_rule",
+                        subject_id=rule.rule_id,
+                        path=POLICY_MATRIX_FILE.as_posix(),
+                        metadata=rule.to_dict(),
+                    )
+                )
+        return self._rule_result(
+            rule_id="SEM-OBSERVABILITY-001",
+            title="High-risk agents, tools and sensitive policies must declare observability/eval traceability",
+            findings=findings,
+            subjects_evaluated=len(high_risk_agents) + len(sensitive_tools) + len(sensitive_rules),
+            summary={
+                "high_risk_agents_evaluated": len(high_risk_agents),
+                "sensitive_tools_evaluated": len(sensitive_tools),
+                "sensitive_policy_rules_evaluated": len(sensitive_rules),
+            },
+        )
+
+    def _validate_eval_fixture_coverage(self, bundle: MiasiRegistryBundle) -> SemanticRuleResult:
+        findings: list[SemanticFinding] = []
+        suites_present = 0
+        cases_total = 0
+        for spec in REQUIRED_EVAL_FIXTURES:
+            fixture_path = spec["path"]
+            path = self.root / fixture_path
+            expected_suite = str(spec["suite_id"])
+            required_markers = tuple(str(item) for item in spec["required_markers"])
+            if not path.is_file():
+                findings.append(
+                    self._finding(
+                        finding_id="MIASI_SEMANTIC_EVAL_FIXTURE_MISSING",
+                        rule_id="SEM-EVAL-COVERAGE-001",
+                        severity=SemanticSeverity.WARNING,
+                        message="Expected safety eval fixture is missing; semantic validation remains non-blocking for lightweight fixture workspaces but must be present in DevPilot root.",
+                        category="eval",
+                        subject_type="eval_fixture",
+                        subject_id=expected_suite,
+                        path=fixture_path.as_posix(),
+                        metadata={"expected_markers": list(required_markers)},
+                    )
+                )
+                continue
+            payload, errors = self._load_json_payload(path=path, rule_id="SEM-EVAL-COVERAGE-001", category="eval", subject_type="eval_fixture", subject_id=expected_suite)
+            findings.extend(errors)
+            if payload is None:
+                continue
+            suites_present += 1
+            suite_id = str(payload.get("suite_id", "")).strip()
+            if suite_id != expected_suite:
+                findings.append(
+                    self._finding(
+                        finding_id="MIASI_SEMANTIC_EVAL_SUITE_ID_MISMATCH",
+                        rule_id="SEM-EVAL-COVERAGE-001",
+                        severity=SemanticSeverity.BLOCK,
+                        message="Safety eval fixture suite_id does not match the expected suite.",
+                        category="eval",
+                        subject_type="eval_fixture",
+                        subject_id=expected_suite,
+                        path=fixture_path.as_posix(),
+                        metadata={"actual_suite_id": suite_id, "expected_suite_id": expected_suite},
+                    )
+                )
+            cases = payload.get("cases", [])
+            if not isinstance(cases, list) or not cases:
+                findings.append(
+                    self._finding(
+                        finding_id="MIASI_SEMANTIC_EVAL_CASES_MISSING",
+                        rule_id="SEM-EVAL-COVERAGE-001",
+                        severity=SemanticSeverity.BLOCK,
+                        message="Safety eval fixture must declare at least one case.",
+                        category="eval",
+                        subject_type="eval_fixture",
+                        subject_id=expected_suite,
+                        path=fixture_path.as_posix(),
+                    )
+                )
+                continue
+            cases_total += len(cases)
+            markers_text = json.dumps(cases, sort_keys=True).lower()
+            missing_markers = [marker for marker in required_markers if marker.lower() not in markers_text]
+            if missing_markers:
+                findings.append(
+                    self._finding(
+                        finding_id="MIASI_SEMANTIC_EVAL_MARKER_COVERAGE_MISSING",
+                        rule_id="SEM-EVAL-COVERAGE-001",
+                        severity=SemanticSeverity.BLOCK,
+                        message="Safety eval fixture is present but lacks required risk markers.",
+                        category="eval",
+                        subject_type="eval_fixture",
+                        subject_id=expected_suite,
+                        path=fixture_path.as_posix(),
+                        metadata={"missing_markers": missing_markers, "required_markers": list(required_markers)},
+                    )
+                )
+            for flag in ("network_used", "external_api_used", "llm_judge_used"):
+                if payload.get(flag) is True:
+                    findings.append(
+                        self._finding(
+                            finding_id="MIASI_SEMANTIC_EVAL_UNSAFE_RUNTIME_FLAG",
+                            rule_id="SEM-EVAL-COVERAGE-001",
+                            severity=SemanticSeverity.BLOCK,
+                            message="Safety eval fixture must remain local, deterministic and non-networked.",
+                            category="eval",
+                            subject_type="eval_fixture",
+                            subject_id=expected_suite,
+                            path=fixture_path.as_posix(),
+                            metadata={"flag": flag, "value": payload.get(flag)},
+                        )
+                    )
+        return self._rule_result(
+            rule_id="SEM-EVAL-COVERAGE-001",
+            title="Agentic safety, red-team, plugin, RBAC and remote fixtures must cover high-risk semantic threats",
+            findings=findings,
+            subjects_evaluated=len(REQUIRED_EVAL_FIXTURES),
+            summary={
+                "required_eval_fixtures_total": len(REQUIRED_EVAL_FIXTURES),
+                "required_eval_fixtures_present": suites_present,
+                "eval_cases_total": cases_total,
+            },
+        )
+
+    def _validate_test_contract_coverage(self, bundle: MiasiRegistryBundle) -> SemanticRuleResult:
+        findings: list[SemanticFinding] = []
+        v1_payload, v1_errors = self._load_optional_json_payload(
+            relative_path=TEST_CONTRACT_REGISTRY_V1_FILE,
+            rule_id="SEM-TEST-CONTRACT-COVERAGE-001",
+            category="test-contract",
+            subject_type="test_contract_registry",
+            subject_id="v1",
+        )
+        v2_payload, v2_errors = self._load_optional_json_payload(
+            relative_path=TEST_CONTRACT_REGISTRY_V2_FILE,
+            rule_id="SEM-TEST-CONTRACT-COVERAGE-001",
+            category="test-contract",
+            subject_type="test_contract_registry",
+            subject_id="v2",
+        )
+        findings.extend(v1_errors)
+        findings.extend(v2_errors)
+        semantic_contracts_total = 0
+        p0_p1_security_contracts_total = 0
+        if isinstance(v1_payload, dict):
+            contracts = v1_payload.get("contracts", [])
+            if isinstance(contracts, list):
+                semantic_contracts_total += self._count_semantic_contracts(contracts)
+        if isinstance(v2_payload, dict):
+            contracts = v2_payload.get("contracts", [])
+            if isinstance(contracts, list):
+                semantic_contracts_total += self._count_semantic_contracts(contracts)
+                for contract in contracts:
+                    if not isinstance(contract, dict):
+                        continue
+                    criticality = str(contract.get("criticality", "")).upper()
+                    text = json.dumps(contract, sort_keys=True).lower()
+                    if criticality in {"P0", "P1"} and any(marker in text for marker in ("security", "miasi", "policy", "approval", "rbac", "plugin", "remote", "connector")):
+                        p0_p1_security_contracts_total += 1
+                        if contract.get("network_allowed") is not False or contract.get("external_api_allowed") is not False:
+                            findings.append(
+                                self._finding(
+                                    finding_id="MIASI_SEMANTIC_TCR_UNSAFE_NETWORK_ALLOWANCE",
+                                    rule_id="SEM-TEST-CONTRACT-COVERAGE-001",
+                                    severity=SemanticSeverity.BLOCK,
+                                    message="P0/P1 security/MIASI-related test contract must not allow network or external APIs.",
+                                    category="test-contract",
+                                    subject_type="test_contract",
+                                    subject_id=str(contract.get("contract_id", "<unknown>")),
+                                    path=TEST_CONTRACT_REGISTRY_V2_FILE.as_posix(),
+                                    metadata={"contract": contract},
+                                )
+                            )
+        if semantic_contracts_total == 0:
+            findings.append(
+                self._finding(
+                    finding_id="MIASI_SEMANTIC_TCR_SEMANTIC_CONTRACT_MISSING",
+                    rule_id="SEM-TEST-CONTRACT-COVERAGE-001",
+                    severity=SemanticSeverity.WARNING,
+                    message="MIASI semantic validator tests are not yet registered as a formal TCR v1/v2 contract; POST-H-004-E must close this before hito closure.",
+                    category="test-contract",
+                    subject_type="test_contract_registry",
+                    subject_id="miasi-semantic-validator",
+                    path=TEST_CONTRACT_REGISTRY_V2_FILE.as_posix(),
+                    metadata={"expected_test_files": ["tests/test_miasi_semantic_validator.py", "tests/test_miasi_semantic_validator_fixtures.py"]},
+                )
+            )
+        return self._rule_result(
+            rule_id="SEM-TEST-CONTRACT-COVERAGE-001",
+            title="High-risk semantic validation must map to local Test Contract Registry evidence",
+            findings=findings,
+            subjects_evaluated=2,
+            summary={
+                "tcr_v1_present": isinstance(v1_payload, dict),
+                "tcr_v2_present": isinstance(v2_payload, dict),
+                "semantic_contracts_total": semantic_contracts_total,
+                "p0_p1_security_contracts_total": p0_p1_security_contracts_total,
+            },
+        )
+
     def _load_identity_registry(self) -> tuple[dict[str, Any] | None, list[SemanticFinding]]:
         path = self.root / IDENTITY_REGISTRY_FILE
         if not path.is_file():
@@ -964,6 +1286,94 @@ class MiasiSemanticValidator:
         if "connector" in combined and any(marker in combined for marker in ("write", "execute", "call_execute")):
             return True
         return False
+
+
+    def _load_json_payload(
+        self,
+        *,
+        path: Path,
+        rule_id: str,
+        category: str,
+        subject_type: str,
+        subject_id: str,
+    ) -> tuple[dict[str, Any] | None, list[SemanticFinding]]:
+        try:
+            payload = json.loads(path.read_text(encoding="utf-8"))
+        except json.JSONDecodeError as exc:
+            return None, [
+                self._finding(
+                    finding_id="MIASI_SEMANTIC_JSON_INVALID",
+                    rule_id=rule_id,
+                    severity=SemanticSeverity.BLOCK,
+                    message="Semantic evidence JSON is not parseable.",
+                    category=category,
+                    subject_type=subject_type,
+                    subject_id=subject_id,
+                    path=self._relative_path(path),
+                    metadata={"error": str(exc)},
+                )
+            ]
+        if not isinstance(payload, dict):
+            return None, [
+                self._finding(
+                    finding_id="MIASI_SEMANTIC_JSON_SHAPE_INVALID",
+                    rule_id=rule_id,
+                    severity=SemanticSeverity.BLOCK,
+                    message="Semantic evidence JSON must be an object.",
+                    category=category,
+                    subject_type=subject_type,
+                    subject_id=subject_id,
+                    path=self._relative_path(path),
+                )
+            ]
+        return payload, []
+
+    def _load_optional_json_payload(
+        self,
+        *,
+        relative_path: Path,
+        rule_id: str,
+        category: str,
+        subject_type: str,
+        subject_id: str,
+    ) -> tuple[dict[str, Any] | None, list[SemanticFinding]]:
+        path = self.root / relative_path
+        if not path.is_file():
+            return None, [
+                self._finding(
+                    finding_id="MIASI_SEMANTIC_EVIDENCE_FILE_MISSING",
+                    rule_id=rule_id,
+                    severity=SemanticSeverity.WARNING,
+                    message="Optional semantic evidence file is missing; this is non-blocking for fixture workspaces but must be closed before hito completion when applicable.",
+                    category=category,
+                    subject_type=subject_type,
+                    subject_id=subject_id,
+                    path=relative_path.as_posix(),
+                )
+            ]
+        return self._load_json_payload(path=path, rule_id=rule_id, category=category, subject_type=subject_type, subject_id=subject_id)
+
+    @staticmethod
+    def _count_semantic_contracts(contracts: list[Any]) -> int:
+        total = 0
+        for contract in contracts:
+            if not isinstance(contract, dict):
+                continue
+            text = json.dumps(contract, sort_keys=True).lower()
+            if "test_miasi_semantic_validator" in text or "miasi semantic" in text or "miasissemantic" in text or "miasi_semantic" in text:
+                total += 1
+        return total
+
+    @staticmethod
+    def _agent_autonomy_number(value: str) -> int:
+        digits = "".join(ch for ch in str(value) if ch.isdigit())
+        return int(digits) if digits else -1
+
+    def _relative_path(self, path: Path) -> str:
+        try:
+            return path.resolve().relative_to(self.root).as_posix()
+        except ValueError:
+            return path.as_posix()
 
     @staticmethod
     def _report_status(rule_results: list[SemanticRuleResult]) -> str:

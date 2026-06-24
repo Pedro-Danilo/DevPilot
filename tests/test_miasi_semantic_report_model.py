@@ -130,9 +130,9 @@ def test_post_h_004_backlog_is_approved_and_documents_a() -> None:
     text = (ROOT / "docs" / "backlogs" / "POST-H-004_policy_miasi_semantic_validator.md").read_text(encoding="utf-8")
 
     assert 'status: "approved"' in text
-    assert 'version: "0.4.0"' in text
+    assert 'version: "0.5.0"' in text
     assert "POST-H-004-A" in text
     assert "SCHEMA-DEVPL-MIASI-SEMANTIC-REPORT-V1" in text
     assert "implemented-initial" in text
     assert "POST-H-004-B" in text
-    assert "POST-H-004-C" in text
+    assert "POST-H-004-D" in text

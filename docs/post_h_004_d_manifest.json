@@ -1,0 +1,29 @@
+{
+  "schema_version": "1.0",
+  "id": "POST-H-004-D",
+  "parent_hito": "POST-H-004",
+  "title": "Observability, evals y test contracts",
+  "status": "implemented-initial",
+  "created_at_utc": "2026-06-24T23:30:00Z",
+  "local_first": true,
+  "dry_run": true,
+  "read_only": true,
+  "new_semantic_rules": [
+    "SEM-OBSERVABILITY-001",
+    "SEM-EVAL-COVERAGE-001",
+    "SEM-TEST-CONTRACT-COVERAGE-001"
+  ],
+  "previous_rules_preserved": 10,
+  "total_rules": 13,
+  "reports_written_only_with_flag": true,
+  "tests_execute_from_json": false,
+  "network_used": false,
+  "external_api_used": false,
+  "mutations_performed": false,
+  "source_mutations_performed": false,
+  "next_micro_sprint": "POST-H-004-E",
+  "known_warnings": [
+    "controlled_write high-risk approval/RBAC debt remains warning",
+    "formal TCR contract for semantic validator is pending POST-H-004-E"
+  ]
+}

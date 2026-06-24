@@ -1,12 +1,12 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
-Estado actual: `baseline pre-code approved + Fases A-G cerradas + Fase H cerrada + POST-H-001 implemented-initial + POST-H-EVAL-001 closed + POST-H-002 closed + POST-H-003 closed + POST-H-004-A implemented-initial + POST-H-004-B implemented-initial + POST-H-004-C implemented-initial`  
+Estado actual: `baseline pre-code approved + Fases A-G cerradas + Fase H cerrada + POST-H-001 implemented-initial + POST-H-EVAL-001 closed + POST-H-002 closed + POST-H-003 closed + POST-H-004-A implemented-initial + POST-H-004-B implemented-initial + POST-H-004-C implemented-initial + POST-H-004-D implemented-initial`  
 Último hito: `POST-H-003 — Test Contract Registry 2.0`  
-Último micro-sprint implementado: `POST-H-004-C — Reglas approval/RBAC/security guards`  
+Último micro-sprint implementado: `POST-H-004-D — Observability, evals y test contracts`  
 Hito diagnóstico cerrado: `POST-H-EVAL-001 — Evaluación integral del baseline DevPilot post-Fase H`, cierre formal `POST-H-EVAL-001-G`  
 Siguiente hito: `POST-H-004 — Policy/MIASI semantic validator ampliado`  
 Hito en ejecución: `POST-H-004 — Policy/MIASI semantic validator ampliado`  
-Siguiente micro-sprint: `POST-H-004-D — Observability, evals y test contracts`  
+Siguiente micro-sprint: `POST-H-004-E — Integración con quality-gate y documentación`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
@@ -19,6 +19,27 @@ Modo de trabajo: local-first híbrido, API keys opcionales, costo externo contro
 
 
 
+
+
+## POST-H-004-D — Observability, evals y test contracts
+
+`POST-H-004-D` amplía `miasi semantic-validate` con cruces semánticos de observabilidad, cobertura de fixtures/evals y presencia de evidencia en Test Contract Registry v1/v2. La validación sigue siendo local, declarativa, dry-run y no ejecutora:
+
+```powershell
+python -m devpilot_core miasi semantic-validate --json
+python -m devpilot_core miasi semantic-validate --json --write-report
+```
+
+Capacidades incorporadas:
+
+```text
+- Regla SEM-OBSERVABILITY-001 para agentes A3+/high-risk, tools sensibles y policy rules deny/block/approval/no-go.
+- Regla SEM-EVAL-COVERAGE-001 para fixtures locales red-team, advanced-agentic, plugin, RBAC y remote.
+- Regla SEM-TEST-CONTRACT-COVERAGE-001 para cruce preliminar con TCR v1/v2.
+- Warning explícito si los tests del validador semántico aún no están registrados como contrato formal.
+```
+
+Alcance: esta entrega es `implemented-initial`. No integra todavía `miasi semantic-validate` al `quality-gate hardening`; eso queda para `POST-H-004-E`. No ejecuta agentes, tools, evals, pytest desde JSON, red, APIs externas, conectores, plugins ni remote runners.
 
 ## POST-H-004-C — Reglas approval/RBAC/security guards
 
@@ -49,7 +70,7 @@ python -m devpilot_core miasi semantic-validate --json
 
 La validación carga el bundle declarativo MIASI actual (`agent_registry.json`, `tool_registry.json`, `policy_matrix.json`) y verifica coherencia agent/tool/policy: `allowed_tools` existentes, `policy_rule_ids` válidos, estados declarativos, herramientas sensibles sin aprobación explícita y contradicciones `allow/deny/block` para el mismo `domain/action`. El reporte se emite bajo el contrato `SCHEMA-DEVPL-MIASI-SEMANTIC-REPORT-V1` y conserva `dry_run=true`, `network_used=false`, `external_api_used=false` y `mutations_performed=false`.
 
-Alcance: esta entrega es `implemented-initial`. No modifica `PolicyEngine`, no ejecuta agentes, no ejecuta tools, no ejecuta tests desde el reporte, no habilita remote execution, connector write ni plugin execution. Las advertencias detectadas sobre `controlled_write` high-risk sin aprobación explícita quedan como deuda semántica para `POST-H-004-C`, donde se cruzarán approval/RBAC/security guards.
+Alcance: esta entrega es `implemented-initial`. No modifica `PolicyEngine`, no ejecuta agentes, no ejecuta tools, no ejecuta tests desde el reporte, no habilita remote execution, connector write ni plugin execution. Las advertencias detectadas sobre `controlled_write` high-risk sin aprobación explícita quedan como deuda semántica visible; `POST-H-004-C` agregó approval/RBAC/security guards y `POST-H-004-D` agregó observability/evals/test contracts sin declarar producción local.
 
 Verificación focal:
 

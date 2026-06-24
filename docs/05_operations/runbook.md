@@ -6204,3 +6204,39 @@ BLOCK si connector.write, plugin.execute o remote.execute aparecen como allow si
 ### Riesgos y límites
 
 `POST-H-004-C` sigue siendo `implemented-initial`: no ejecuta tools, no evalúa permisos reales en runtime y no sustituye `PolicyEngine`. Es una validación semántica declarativa. La integración con `quality-gate` queda para `POST-H-004-E`.
+
+
+## POST-H-004-D — Operación de observability, evals y test contracts
+
+### Propósito
+
+Validar que el reporte semántico MIASI cruce capacidades high-risk con observabilidad declarada, fixtures/evals locales de seguridad y evidencia preliminar en Test Contract Registry v1/v2.
+
+### Comandos
+
+```powershell
+python -m devpilot_core miasi semantic-validate --json
+python -m devpilot_core miasi semantic-validate --json --write-report
+```
+
+### PASS
+
+```text
+PASS si agentes A3+/high-risk declaran observability_required y eval_required.
+PASS si multiagent/workflow conserva handoff traces.
+PASS si fixtures/evals red-team, advanced-agentic, plugin, RBAC y remote existen y son locales.
+PASS si TCR v1/v2 existe y no permite red/API externa para contratos P0/P1 de seguridad.
+```
+
+### BLOCK
+
+```text
+BLOCK si un agente A3+/high-risk no declara observability/eval.
+BLOCK si una capacidad multiagent/workflow carece de handoff trace.
+BLOCK si un fixture/eval existe pero permite red/API externa/LLM judge o no cubre riesgos mínimos.
+BLOCK si un contrato P0/P1 de seguridad/MIASI permite red/API externa.
+```
+
+### Riesgos y límites
+
+`POST-H-004-D` es `implemented-initial`. No ejecuta evals, no ejecuta tests desde JSON, no invoca tools ni agentes y no sustituye `PolicyEngine`. La integración con `quality-gate` y el contrato formal de cierre de `POST-H-004` quedan para `POST-H-004-E`.

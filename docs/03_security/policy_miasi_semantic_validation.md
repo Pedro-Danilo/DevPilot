@@ -2,11 +2,11 @@
 title: "Policy/MIASI Semantic Validation"
 doc_id: "DEVPL-SEC-POST-H-004"
 status: "approved"
-version: "0.3.0"
+version: "0.4.0"
 owner: "Ordóñez"
 updated: "2026-06-24"
 phase: "POST-FASE-H"
-sprint: "POST-H-004-C"
+sprint: "POST-H-004-D"
 local_first: true
 dry_run: true
 no_remote_execution_enabled: true
@@ -20,7 +20,7 @@ Definir la base de seguridad para el validador semántico ampliado de `POST-H-00
 
 ## 2. Estado
 
-`POST-H-004-C` agrega reglas de approval/RBAC/security guards sobre la base agent/tool/policy de `POST-H-004-B`. El hito todavía no cruza observability/evals/test contracts ni se integra como subgate de quality-gate.
+`POST-H-004-D` agrega cruces de observability/evals/test contracts sobre la base agent/tool/policy y approval/RBAC/security guards de `POST-H-004-B/C`. El hito todavía no integra `miasi semantic-validate` como subgate de quality-gate; eso queda para `POST-H-004-E`.
 
 ## 3. Contrato de reporte
 
@@ -65,7 +65,7 @@ connector.write debe permanecer bloqueado salvo ADR/sandbox/test-contract gates 
 
 ## 6. Límites
 
-Esta primera versión no reemplaza `miasi validate`, no modifica `PolicyEngine`, no ejecuta agentes, no ejecuta tools, no habilita conectores, no habilita plugins y no habilita ejecución remota. Las reglas semánticas se implementan progresivamente en `POST-H-004-B`, `POST-H-004-C` y `POST-H-004-D`.
+Esta primera versión no reemplaza `miasi validate`, no modifica `PolicyEngine`, no ejecuta agentes, no ejecuta tools, no habilita conectores, no habilita plugins y no habilita ejecución remota. Las reglas semánticas se implementan progresivamente en `POST-H-004-B`, `POST-H-004-C`, `POST-H-004-D` y se integrarán al gate en `POST-H-004-E`.
 
 ## 7. Verificación
 
@@ -89,7 +89,7 @@ La primera capa semántica valida:
 - Reglas no-go de remote/plugin/connector execute en allow → BLOCK.
 ```
 
-La decisión de dejar ciertos `controlled_write` high-risk como `warning` y no como `block` en esta etapa es deliberada: el bundle vigente contiene capacidades `implemented-initial` locales/sandboxed que deben seguir visibles como deuda semántica sin bloquear el avance de `POST-H-004-B`. `POST-H-004-C` debe endurecerlas con cruces explícitos de approval, RBAC y security guards.
+La decisión de dejar ciertos `controlled_write` high-risk como `warning` y no como `block` en esta etapa es deliberada: el bundle vigente contiene capacidades `implemented-initial` locales/sandboxed que deben seguir visibles como deuda semántica sin bloquear el avance de `POST-H-004-B`. `POST-H-004-C` agregó cruces de approval/RBAC/security guards; `POST-H-004-D` conserva la deuda como warning y la cruza con observability/evals/test contracts.
 
 ## 9. Verificación semántica agent/tool/policy
 
@@ -127,6 +127,20 @@ python -m devpilot_core miasi semantic-validate --json
 python -m pytest tests/test_miasi_semantic_validator.py tests/test_miasi_semantic_validator_fixtures.py -q
 ```
 
-## 13. Límites de POST-H-004-C
+## 13. Reglas observability/evals/test contracts implementadas en POST-H-004-D
 
-`POST-H-004-C` no ejecuta agentes, tools, PolicyEngine, pytest, subprocesses, conectores, plugins, red ni APIs externas. No integra todavía el subgate de `quality-gate`; eso queda para `POST-H-004-E`. Tampoco valida aún observability/evals/test contracts; eso corresponde a `POST-H-004-D`.
+La tercera capa semántica valida:
+
+```text
+- Agentes A3+/high-risk deben declarar observability_required=true y eval_required=true.
+- Capacidades multiagent/workflow deben declarar handoff traces.
+- Tools high-risk/sensibles deben mapear a policy rules con observability_required=true.
+- Policy rules deny/block/approval/no-go deben declarar observability_required=true.
+- Deben existir fixtures/evals locales para red-team, advanced-agentic, plugin-ecosystem, identity-rbac y remote-enterprise.
+- Fixtures/evals deben seguir sin red, sin APIs externas y sin LLM judge.
+- La cobertura TCR v1/v2 se revisa y se reporta warning si falta contrato formal del semantic validator.
+```
+
+## 14. Límites de POST-H-004-D
+
+`POST-H-004-D` no ejecuta agentes, tools, PolicyEngine, pytest desde JSON, evals reales, subprocesses, conectores, plugins, red ni APIs externas. No integra todavía el subgate de `quality-gate`; eso queda para `POST-H-004-E`. La ausencia del contrato formal del semantic validator en TCR se mantiene como warning controlado hasta el cierre del hito.
