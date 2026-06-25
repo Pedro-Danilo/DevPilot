@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import re
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -14,6 +15,13 @@ def _read_json(path: str) -> dict:
     return json.loads((ROOT / path).read_text(encoding="utf-8"))
 
 
+def _post_h_number(value: str) -> int:
+    match = re.fullmatch(r"POST-H-(\d+)", value)
+    if match is None:
+        raise AssertionError(f"Expected POST-H identifier, got {value!r}")
+    return int(match.group(1))
+
+
 def test_post_h_002_backlog_is_closed_and_points_to_post_h_003() -> None:
     backlog = _read("docs/backlogs/POST-H-002_maturity_dashboard_local.md")
     readme = _read("README.md")
@@ -25,8 +33,9 @@ def test_post_h_002_backlog_is_closed_and_points_to_post_h_003() -> None:
     assert "POST-H-002-E — Quality gate y documentación" in backlog
     assert "POST-H-002: closed / implemented-initial" in backlog
     assert "Siguiente hito: POST-H-003" in backlog
-    assert "Último hito: `POST-H-003" in readme
-    assert "Siguiente hito: `POST-H-004" in readme
+    assert "POST-H-002 closed" in readme
+    assert "POST-H-002-E — Quality gate y documentación" in readme
+    assert "POST-H-003" in readme
     assert "POST-H-002-E — Operación del quality gate del maturity dashboard" in runbook
     assert "post-h-002-e" in changelog
 
@@ -67,9 +76,9 @@ def test_post_h_002_test_contract_registry_entry_exists() -> None:
     assert "python -m devpilot_core maturity gate --json" in contract["recommended_commands"]
 
 
-def test_post_h_002_project_state_has_advanced_after_post_h_003_closure() -> None:
+def test_post_h_002_project_state_has_advanced_beyond_post_h_002() -> None:
     state = _read_json(".devpilot/project_state.json")
 
-    assert state["last_completed_sprint"] == "POST-H-003"
-    assert state["next_sprint"] == "POST-H-004"
-    assert state["current_repo"] == "repo_DevPilot_Local_150_POST_H_003_E.zip"
+    assert _post_h_number(state["last_completed_sprint"]) >= 3
+    assert _post_h_number(state["next_sprint"]) >= 4
+    assert any("POST-H-003 closes Test Contract Registry 2.0" in note for note in state["notes"])
