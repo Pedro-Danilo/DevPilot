@@ -1,0 +1,41 @@
+{
+  "schema_version": "1.0",
+  "id": "POST-H-007-A",
+  "title": "Inventario de operaciones y bypasses",
+  "status": "implemented-initial",
+  "parent_backlog": "POST-H-007",
+  "source_repo": "repo_DevPilot_Local_165_POST_H_006_E.zip",
+  "current_repo": "repo_DevPilot_Local_166_POST_H_007_A.zip",
+  "next_micro_sprint": "POST-H-007-B",
+  "artifacts": [
+    "src/devpilot_core/application/boundary.py",
+    "src/devpilot_core/application/report.py",
+    "docs/schemas/application_service_boundary_report.schema.json",
+    "docs/07_interfaces/application_service_boundary.md",
+    "docs/02_architecture/application_service_boundary_map.md",
+    "docs/audits/post_h_007_a_application_service_boundary_inventory_report.md",
+    "tests/test_post_h_007_application_service_boundary.py",
+    "tests/test_application_service_boundary_report_schema.py"
+  ],
+  "outputs": [
+    "outputs/reports/application_service_boundary_report.json",
+    "outputs/reports/application_service_boundary_report.md"
+  ],
+  "read_only": true,
+  "dry_run": true,
+  "network_used": false,
+  "external_api_used": false,
+  "mutations_performed": false,
+  "source_mutations_performed": false,
+  "remote_execution_enabled": false,
+  "connector_write_enabled": false,
+  "plugin_execution_enabled": false,
+  "dynamic_handler_loading_enabled": false,
+  "runtime_behavior_changed": false,
+  "preliminary": true,
+  "limitations": [
+    "POST-H-007-A inventories bypasses but does not correct them all.",
+    "Operation catalog enforcement is deferred to POST-H-007-B/E.",
+    "DTO normalization is deferred to POST-H-007-C."
+  ]
+}

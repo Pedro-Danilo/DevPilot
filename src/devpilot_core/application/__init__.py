@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 from .approval_service import ApprovalApplicationService
+from .boundary import APPLICATION_SERVICE_BOUNDARY_REPORT_ID, APPLICATION_SERVICE_BOUNDARY_REPORT_SCHEMA_ID, POST_H_007_A_CREATED_BY, ApplicationBoundaryBypass, ApplicationBoundaryOperation
+from .report import ApplicationServiceBoundaryReportBuilder, ApplicationServiceBoundaryReportOptions, render_application_service_boundary_markdown
 from .dtos import ApplicationRequest, ApplicationResponse, InterfaceRouteContract, ServiceCapability
 from .evals_service import EvaluationApplicationService
 from .history_service import HistoryApplicationService
@@ -18,6 +20,13 @@ from .validation_service import ValidationApplicationService
 from .workspace_service import WorkspaceApplicationService
 
 __all__ = [
+    "APPLICATION_SERVICE_BOUNDARY_REPORT_ID",
+    "APPLICATION_SERVICE_BOUNDARY_REPORT_SCHEMA_ID",
+    "POST_H_007_A_CREATED_BY",
+    "ApplicationBoundaryBypass",
+    "ApplicationBoundaryOperation",
+    "ApplicationServiceBoundaryReportBuilder",
+    "ApplicationServiceBoundaryReportOptions",
     "ApprovalApplicationService",
     "ApplicationRequest",
     "ApplicationResponse",
@@ -37,4 +46,5 @@ __all__ = [
     "SettingsApplicationService",
     "ValidationApplicationService",
     "WorkspaceApplicationService",
+    "render_application_service_boundary_markdown",
 ]

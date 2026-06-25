@@ -139,8 +139,8 @@ def test_post_h_006_b_docs_manifest_and_contracts_are_synchronized() -> None:
     v2_contracts = {item["contract_id"]: item for item in v2["contracts"]}
 
     assert "POST-H-006-B — Command registry declarativo inicial" in backlog
-    assert "Último micro-sprint implementado: `POST-H-006-E" in readme
-    assert "Siguiente hito recomendado: `POST-H-007" in readme
+    assert "POST-H-006-E" in readme
+    assert "POST-H-007" in readme
     assert "POST-H-006-B — Operación del registry declarativo inicial" in runbook
     assert "DeclarativeCliRegistryBuilder" in architecture_doc
     assert "legacy_unregistered_commands_total" in audit

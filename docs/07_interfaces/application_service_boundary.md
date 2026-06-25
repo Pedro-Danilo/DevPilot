@@ -1,0 +1,50 @@
+# POST-H-007 — ApplicationService boundary
+
+Estado: `implemented-initial` para `POST-H-007-A`.
+
+## Propósito
+
+Este documento define la frontera objetivo entre interfaces públicas de DevPilot y el core:
+
+```text
+CLI/API/UI
+  -> ApplicationService
+  -> domain application services
+  -> core/domain engines
+```
+
+`POST-H-007-A` no modifica runtime. Genera un inventario read-only para saber qué ya pasa por la frontera y qué queda como bypass histórico.
+
+## Resultado POST-H-007-A
+
+El reporte generado calcula, entre otras métricas:
+
+```text
+operations_total
+direct_core_bypass_total
+api_routes_total
+api_bound_total
+cli_bound_total
+cli_unbound_total
+critical_bypass_total
+```
+
+## Reglas actuales
+
+```text
+- API local debe usar dispatch_application_request + ApplicationService.
+- Web UI debe consumir API local; no debe leer outputs/ directamente.
+- CLI histórico puede seguir usando CommandResult, pero los comandos nuevos deben mapearse a ApplicationService cuando aplique.
+- Comandos sensibles deben declarar policy_required y no pueden habilitar writes remotos.
+```
+
+## Limitación explícita
+
+El estado es preliminar/industrial-initial. `POST-H-007-A` identifica bypasses; no los corrige masivamente. La corrección incremental se divide en:
+
+```text
+POST-H-007-B — Operation catalog y schema
+POST-H-007-C — Normalización DTO de operaciones prioritarias
+POST-H-007-D — Boundary policy y guardrails por interfaz
+POST-H-007-E — Integración con CLI registry y quality gate
+```

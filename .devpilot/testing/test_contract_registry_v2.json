@@ -4964,6 +4964,83 @@
         "POST-H-006-E blocks new legacy-unregistered CLI commands not present in the temporary allowlist.",
         "The gate is local/read-only for sources and does not execute public commands or import handlers dynamically."
       ]
+    },
+    {
+      "contract_id": "post-h-007-application-service-boundary-inventory",
+      "schema_version": "2.0",
+      "source_contract_id": "post-h-007-application-service-boundary-inventory",
+      "domain": "application.service",
+      "capability": "ApplicationServiceBoundaryReport",
+      "criticality": "P1",
+      "risk_level": "high",
+      "test_type": "integration",
+      "execution_profile": "always",
+      "cost_class": "low",
+      "expected_duration_seconds": 45,
+      "test_files": [
+        "tests/test_post_h_007_application_service_boundary.py",
+        "tests/test_application_service_boundary_report_schema.py",
+        "tests/test_schema_registry.py",
+        "tests/test_project_global_state.py"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/application/",
+        "src/devpilot_core/interfaces/api/routers/",
+        "src/devpilot_core/cli.py",
+        "ui/",
+        "docs/schemas/application_service_boundary_report.schema.json",
+        ".devpilot/testing/",
+        ".devpilot/project_state.json",
+        "README.md",
+        "docs/05_operations/runbook.md",
+        "docs/backlogs/POST-H-007_application_service_boundary.md",
+        "tests/test_post_h_007_application_service_boundary.py",
+        "tests/test_application_service_boundary_report_schema.py"
+      ],
+      "validates": [
+        "src/devpilot_core/application/boundary.py",
+        "src/devpilot_core/application/report.py",
+        "docs/schemas/application_service_boundary_report.schema.json",
+        "docs/backlogs/POST-H-007_application_service_boundary.md",
+        "docs/07_interfaces/application_service_boundary.md",
+        "docs/02_architecture/application_service_boundary_map.md",
+        "docs/audits/post_h_007_a_application_service_boundary_inventory_report.md",
+        "docs/post_h_007_a_manifest.json"
+      ],
+      "trigger_hints": [
+        "application-boundary",
+        "cli-bypass",
+        "api-route",
+        "post-h-source-change"
+      ],
+      "impact_scope": [
+        "application",
+        "cli",
+        "api",
+        "ui",
+        "boundary",
+        "post-h"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": false,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "POST-H-007-A",
+      "recommended_commands": [
+        "python -m pytest tests/test_post_h_007_application_service_boundary.py tests/test_application_service_boundary_report_schema.py -q",
+        "python -m pytest tests/test_schema_registry.py tests/test_project_global_state.py tests/test_test_contract_registry.py tests/test_test_contract_registry_v2.py tests/test_test_contract_registry_profiles_v2.py -q",
+        "python -m devpilot_core test-contracts validate --json",
+        "python -m devpilot_core test-contracts validate-v2 --json",
+        "python -m devpilot_core quality-gate run --profile hardening --json"
+      ],
+      "classification_status": "explicit",
+      "classification_notes": [
+        "POST-H-007-A builds a read-only inventory of ApplicationService operations, API/UI mappings and CLI direct-core bypasses.",
+        "The sprint is advisory and does not change runtime behavior or enable remote/plugin/connector execution."
+      ]
     }
   ],
   "migration_metadata": {

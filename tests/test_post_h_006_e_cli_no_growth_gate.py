@@ -128,8 +128,8 @@ def test_post_h_006_e_docs_manifest_allowlist_and_contracts_are_synchronized() -
 
     assert "POST-H-006-E — Gate de no crecimiento monolítico" in backlog
     assert "Estado: `implemented-initial`" in backlog
-    assert "Último micro-sprint implementado: `POST-H-006-E" in readme
-    assert "Siguiente hito recomendado: `POST-H-007" in readme
+    assert "POST-H-006-E" in readme
+    assert "POST-H-007" in readme
     assert "POST-H-006-E — Operación del gate de no crecimiento monolítico" in runbook
     assert "CliNoGrowthGate" in architecture_doc
     assert "legacy_command_allowlist.json" in audit

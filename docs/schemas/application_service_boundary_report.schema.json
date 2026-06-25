@@ -1,0 +1,137 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/SCHEMA-DEVPL-APPLICATION-SERVICE-BOUNDARY-REPORT-V1",
+  "title": "DevPilot ApplicationService Boundary Report v1",
+  "description": "Structural contract for the POST-H-007-A read-only ApplicationService boundary and bypass report.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "schema_id",
+    "report_id",
+    "created_by",
+    "summary",
+    "application_service",
+    "operations",
+    "interfaces",
+    "bypasses",
+    "safety",
+    "recommendations",
+    "notes"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string"
+    },
+    "schema_id": {
+      "const": "SCHEMA-DEVPL-APPLICATION-SERVICE-BOUNDARY-REPORT-V1"
+    },
+    "report_id": {
+      "const": "devpilot-application-service-boundary-report"
+    },
+    "created_by": {
+      "const": "POST-H-007-A"
+    },
+    "summary": {
+      "type": "object",
+      "required": [
+        "operations_total",
+        "cli_commands_total",
+        "direct_core_bypass_total",
+        "api_routes_total",
+        "read_only",
+        "remote_execution_enabled",
+        "source_mutations_performed"
+      ],
+      "additionalProperties": true
+    },
+    "application_service": {
+      "type": "object",
+      "required": [
+        "facade_class",
+        "facade_methods",
+        "dispatch_operations",
+        "domain_services"
+      ],
+      "additionalProperties": true
+    },
+    "operations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "operation_id",
+          "domain",
+          "service",
+          "method",
+          "request_contract",
+          "response_contract",
+          "policy_required",
+          "dry_run_default",
+          "writes_files",
+          "risk_level"
+        ],
+        "additionalProperties": true
+      }
+    },
+    "interfaces": {
+      "type": "object",
+      "required": [
+        "cli",
+        "api",
+        "ui"
+      ],
+      "additionalProperties": true
+    },
+    "bypasses": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "interface",
+          "identifier",
+          "domain",
+          "owner_module",
+          "risk_level",
+          "reason",
+          "recommendation"
+        ],
+        "additionalProperties": true
+      }
+    },
+    "top_boundary_candidates": {
+      "type": "array"
+    },
+    "safety": {
+      "type": "object",
+      "required": [
+        "read_only",
+        "network_used",
+        "external_api_used",
+        "source_mutations_performed",
+        "remote_execution_enabled",
+        "connector_write_enabled",
+        "plugin_execution_enabled"
+      ],
+      "additionalProperties": true
+    },
+    "recommendations": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "notes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "additionalProperties": true,
+  "x-devpilot-schema-id": "SCHEMA-DEVPL-APPLICATION-SERVICE-BOUNDARY-REPORT-V1",
+  "x-devpilot-version": "1.0.0",
+  "x-devpilot-sprint": "POST-H-007-A",
+  "x-devpilot-status": "registered",
+  "x-devpilot-preliminary": true,
+  "x-devpilot-note": "POST-H-007-A inventory is advisory/read-only and does not change runtime behavior."
+}

@@ -1,13 +1,13 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
-Estado actual: `baseline pre-code approved + Fases A-G cerradas + Fase H cerrada + POST-H-001 implemented-initial + POST-H-EVAL-001 closed + POST-H-002 closed + POST-H-003 closed + POST-H-004 closed + POST-H-005 closed + POST-H-006-A implemented-initial + POST-H-006-B implemented-initial + POST-H-006-C implemented-initial + POST-H-006-D implemented-initial + POST-H-006-E implemented-initial`  
-Último hito: `POST-H-005 — Architecture map executable / dependency ownership`  
-Siguiente hito: `POST-H-006 — CLI command registry y desacoplamiento de handlers`  
-Último micro-sprint implementado: `POST-H-006-E — Gate de no crecimiento monolítico`  
+Estado actual: `baseline pre-code approved + Fases A-G cerradas + Fase H cerrada + POST-H-001 implemented-initial + POST-H-EVAL-001 closed + POST-H-002 closed + POST-H-003 closed + POST-H-004 closed + POST-H-005 closed + POST-H-006 closed + POST-H-007-A implemented-initial`  
+Último hito: `POST-H-006 — CLI command registry y desacoplamiento de handlers`  
+Siguiente hito: `POST-H-007 — ApplicationService boundary hardening`  
+Último micro-sprint implementado: `POST-H-007-A — Inventario de operaciones y bypasses`  
 Hito diagnóstico cerrado: `POST-H-EVAL-001 — Evaluación integral del baseline DevPilot post-Fase H`, cierre formal `POST-H-EVAL-001-G`  
-Hito actual implementado: `POST-H-006 — CLI command registry y desacoplamiento de handlers`  
-Hito cerrado: `POST-H-005 — Architecture map executable / dependency ownership`  
-Siguiente hito recomendado: `POST-H-007 — ApplicationService boundary hardening`  
+Hito actual en implementación: `POST-H-007 — ApplicationService boundary hardening`  
+Hito cerrado: `POST-H-006 — CLI command registry y desacoplamiento de handlers`  
+Siguiente micro-sprint recomendado: `POST-H-007-B — Operation catalog y schema`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
@@ -31,6 +31,30 @@ Modo de trabajo: local-first híbrido, API keys opcionales, costo externo contro
 
 
 
+
+## POST-H-007-A — Inventario de operaciones y bypasses
+
+`POST-H-007-A` inicia el hardening de `ApplicationService` como frontera estable entre CLI/API/UI y core. La implementación es `implemented-initial`, read-only y advisory: genera un inventario estático de operaciones y bypasses, pero no corrige todavía todos los comandos que invocan motores de dominio directamente.
+
+Artefactos principales:
+
+```text
+src/devpilot_core/application/boundary.py
+src/devpilot_core/application/report.py
+docs/schemas/application_service_boundary_report.schema.json
+docs/07_interfaces/application_service_boundary.md
+docs/02_architecture/application_service_boundary_map.md
+docs/audits/post_h_007_a_application_service_boundary_inventory_report.md
+docs/post_h_007_a_manifest.json
+```
+
+Verificación focal:
+
+```powershell
+python -m pytest tests/test_post_h_007_application_service_boundary.py tests/test_application_service_boundary_report_schema.py -q
+```
+
+Estado industrial: primera versión de inventario. El reporte calcula `direct_core_bypass_total`, rutas API bound a `ApplicationService`, consumo UI vía API y candidatos high/critical para normalización posterior en `POST-H-007-B/C/D/E`.
 
 ## POST-H-006-E — Gate de no crecimiento monolítico
 

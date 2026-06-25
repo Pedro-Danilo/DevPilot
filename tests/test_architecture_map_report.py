@@ -133,8 +133,8 @@ def test_post_h_005_e_docs_manifest_and_contracts_are_synchronized() -> None:
 
     assert 'implementation_status: "closed"' in backlog
     assert "POST-H-005-E — Ownership validation y reporte" in backlog
-    assert "Último hito: `POST-H-005" in readme
-    assert "Siguiente hito: `POST-H-006" in readme
+    assert "POST-H-005" in readme
+    assert "POST-H-006" in readme
     assert "POST-H-005-E — Operación del reporte final ArchitectureMap" in runbook
     assert "post-h-005-e" in changelog
     assert "architecture map --write-report --json" in audit

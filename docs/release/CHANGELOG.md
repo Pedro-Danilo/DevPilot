@@ -770,3 +770,22 @@ This section preserves exact sprint-title anchors used by documentation regressi
 
 - `POST-H-002` queda cerrado como capacidad local `implemented-initial`; `production-ready-local` queda reservado para el hito final `POST-H-025`.
 - El siguiente hito recomendado es `POST-H-003 — Test Contract Registry 2.0`.
+
+
+## post-h-007-a
+
+### Added
+
+- ApplicationService boundary inventory and bypass report builder.
+- ApplicationService boundary report schema and schema catalog registration.
+- Interface and architecture documentation for POST-H-007 ApplicationService boundary hardening.
+- POST-H-007-A test contracts and focal tests.
+
+### Changed
+
+- POST-H-006 backlog marked closed after POST-H-006-E no-growth gate validation.
+- Project state advanced to `last_completed_sprint=POST-H-006` and `next_sprint=POST-H-007`.
+
+### Security
+
+- No remote execution, connector write, plugin execution, dynamic handler loading, network calls or external APIs were enabled.

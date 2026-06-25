@@ -2,8 +2,8 @@
 doc_id: "POST-H-007-BACKLOG"
 id: "POST-H-007"
 title: "POST-H-007 — ApplicationService boundary hardening"
-status: "draft"
-version: "0.1.0"
+status: "approved"
+version: "0.2.0"
 owner: "Ordóñez"
 updated: "2026-06-23"
 phase: "POST-FASE-H"
@@ -13,6 +13,8 @@ local_first: true
 dry_run: true
 no_runtime_features_added_by_backlog: false
 no_remote_execution_enabled: true
+implementation_status: "in-progress"
+approval: "internal"
 ---
 
 # POST-H-007 — ApplicationService boundary hardening
@@ -329,3 +331,35 @@ Reglas de exposición por interfaz.
 Tests focales PASS.
 Quality gate hardening PASS.
 ```
+
+
+## 13. Avance de implementación — POST-H-007-A
+
+Estado: `implemented-initial`.
+
+`POST-H-007-A — Inventario de operaciones y bypasses` materializa un análisis estático read-only de la frontera `ApplicationService` sin modificar comportamiento runtime. Este micro-sprint produce un reporte machine-readable y Markdown con operaciones expuestas, métodos de la fachada, servicios de dominio, rutas API, consumo UI/API y comandos CLI que aún no tienen mapping explícito hacia `ApplicationService`.
+
+Artefactos implementados:
+
+```text
+src/devpilot_core/application/boundary.py
+src/devpilot_core/application/report.py
+docs/schemas/application_service_boundary_report.schema.json
+docs/07_interfaces/application_service_boundary.md
+docs/02_architecture/application_service_boundary_map.md
+docs/audits/post_h_007_a_application_service_boundary_inventory_report.md
+docs/post_h_007_a_manifest.json
+tests/test_post_h_007_application_service_boundary.py
+tests/test_application_service_boundary_report_schema.py
+```
+
+Criterios PASS cubiertos:
+
+```text
+PASS: el reporte enumera operaciones por dominio.
+PASS: direct_core_bypass_total se calcula y se documenta.
+PASS: no se modifica comportamiento runtime.
+PASS: no se habilita remote execution, connector write ni plugin execution.
+```
+
+Limitación explícita: `POST-H-007-A` es inventario/advisory. No corrige todos los bypasses; esa normalización se mantiene incremental para `POST-H-007-B/C/D/E`.

@@ -5,11 +5,11 @@
   "phase_h_status": "closed_implemented_initial",
   "industrial_baseline_ready": true,
   "maturity_level": "industrial-baseline-ready",
-  "last_completed_sprint": "POST-H-005",
+  "last_completed_sprint": "POST-H-006",
   "last_functional_sprint": "FUNC-SPRINT-99",
-  "next_sprint": "POST-H-006",
-  "source_repo": "repo_DevPilot_Local_164_POST_H_006_D.zip",
-  "current_repo": "repo_DevPilot_Local_165_POST_H_006_E.zip",
+  "next_sprint": "POST-H-007",
+  "source_repo": "repo_DevPilot_Local_165_POST_H_006_E.zip",
+  "current_repo": "repo_DevPilot_Local_166_POST_H_007_A.zip",
   "global_state_owner": "tests/test_project_global_state.py",
   "mutable_global_state_fields": [
     "last_completed_sprint",
@@ -31,6 +31,8 @@
     "POST-H-006-B adds the initial declarative CLI registry overlay: governed groups, descriptor coverage metrics and legacy-unregistered command visibility are available locally without handler migration.",
     "POST-H-006-C adds incremental static handler migration for workspace.init, workspace.status and validate docs/contracts/all through cli_commands modules while preserving cli.py public wrappers and disabling runtime registry routing.",
     "POST-H-006-D adds a read-only CLI hotspot and command ownership report: migrated/registered_only/legacy counts, side-effect/risk/domain ownership metrics and TCR association gaps are available locally for POST-H-006-E and POST-H-007 planning.",
-    "POST-H-006-E adds a local no-growth CLI gate: commands that appear as legacy-unregistered must be covered by a temporary source-controlled allowlist, while new public commands require declarative descriptors or migrated handlers."
+    "POST-H-006-E adds a local no-growth CLI gate: commands that appear as legacy-unregistered must be covered by a temporary source-controlled allowlist, while new public commands require declarative descriptors or migrated handlers.",
+    "POST-H-006 closes CLI command registry y desacoplamiento de handlers as implemented-initial: static inventory, declarative registry, migrated handlers, hotspot ownership and no-growth gate are available locally.",
+    "POST-H-007-A starts ApplicationService boundary hardening as implemented-initial: a read-only boundary/bypass inventory report identifies ApplicationService operations, API/UI mappings and CLI direct-core bypasses without runtime behavior changes."
   ]
 }

@@ -6773,3 +6773,40 @@ BLOCK si aparece un comando público nuevo como `legacy-unregistered` y no está
 ### Estado industrial
 
 Esta versión es `implemented-initial / blocking local gate`. Bloquea crecimiento monolítico no registrado, pero no reduce por sí sola la deuda legacy existente. La allowlist es temporal y debe reducirse en iteraciones posteriores. No habilita remote execution, connector write, plugin execution, dynamic handler loading ni runtime registry routing.
+
+
+## POST-H-007-A — Operación del inventario ApplicationService boundary
+
+Propósito: generar evidencia local/read-only sobre qué operaciones pasan por `ApplicationService` y qué comandos CLI siguen como bypasses directos hacia core/domain engines.
+
+Comando de prueba focal:
+
+```powershell
+python -m pytest tests/test_post_h_007_application_service_boundary.py tests/test_application_service_boundary_report_schema.py -q
+```
+
+Generación del reporte durante tests:
+
+```text
+outputs/reports/application_service_boundary_report.json
+outputs/reports/application_service_boundary_report.md
+```
+
+Criterios PASS:
+
+```text
+PASS si operations_total > 0.
+PASS si api_bound_total == api_routes_total.
+PASS si direct_core_bypass_total se calcula y queda visible.
+PASS si safety confirma read_only=true, network_used=false, external_api_used=false, remote_execution_enabled=false, connector_write_enabled=false y plugin_execution_enabled=false.
+```
+
+Criterios BLOCK:
+
+```text
+BLOCK si el inventario oculta bypasses conocidos.
+BLOCK si intenta corregir todos los bypasses en POST-H-007-A.
+BLOCK si habilita runtime routing nuevo, remote execution, connector write o plugin execution.
+```
+
+Limitación: `POST-H-007-A` es una primera versión de inventario/advisory. La normalización de DTOs, catálogo formal de operaciones y enforcement por interfaz quedan para micro-sprints posteriores.

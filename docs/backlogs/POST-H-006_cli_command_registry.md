@@ -3,7 +3,7 @@ doc_id: "POST-H-006-BACKLOG"
 id: "POST-H-006"
 title: "POST-H-006 — CLI command registry y desacoplamiento de handlers"
 status: "approved"
-version: "0.6.0"
+version: "1.0.0"
 owner: "Ordóñez"
 updated: "2026-06-25"
 phase: "POST-FASE-H"
@@ -13,7 +13,7 @@ local_first: true
 dry_run: true
 no_runtime_features_added_by_backlog: false
 no_remote_execution_enabled: true
-implementation_status: "in-progress"
+implementation_status: "closed"
 approval: "internal"
 ---
 
@@ -608,3 +608,32 @@ Fuera de alcance explícito:
 Limitación industrial explícita: esta versión es `implemented-initial`. El gate impide crecimiento monolítico no registrado, pero la reducción real de deuda requiere migraciones/descriptor coverage por familias de comandos y `POST-H-007 — ApplicationService boundary hardening`.
 
 Siguiente hito recomendado: `POST-H-007 — ApplicationService boundary hardening`.
+
+
+## 14. Cierre del backlog POST-H-006
+
+Estado: `closed`.
+
+`POST-H-006 — CLI command registry y desacoplamiento de handlers` queda cerrado con `POST-H-006-E — Gate de no crecimiento monolítico` como último micro-sprint implementado. El hito no reemplaza todavía el parser público de `src/devpilot_core/cli.py`, pero sí deja el crecimiento de la superficie CLI gobernado por inventario estático, registry declarativo, migración incremental de handlers, reporte de hotspots/ownership y no-growth gate.
+
+Capacidades cubiertas:
+
+```text
+- Inventario estático de comandos CLI.
+- Registry declarativo inicial por grupos gobernados.
+- Migración estática de handlers de workspace/validation sin runtime router.
+- Reporte de hotspots, ownership, riesgos, side effects y test-contract associations.
+- Allowlist temporal explícita para legacy CLI.
+- Gate local/read-only que bloquea comandos públicos nuevos como legacy-unregistered.
+```
+
+Gaps que pasan a POST-H-007:
+
+```text
+- direct_core_bypass_total todavía existe para múltiples comandos CLI.
+- ApplicationService boundary no cubre todavía todo el runtime CLI.
+- API/UI están más alineadas al ApplicationService que el CLI histórico.
+- Los comandos high/critical legacy requieren priorización incremental antes de normalización DTO.
+```
+
+Siguiente backlog: `POST-H-007 — ApplicationService boundary hardening`.

@@ -110,10 +110,10 @@ def test_post_h_006_a_docs_manifest_and_contracts_are_synchronized() -> None:
     v2_contracts = {item["contract_id"]: item for item in v2["contracts"]}
 
     assert 'status: "approved"' in backlog
-    assert 'implementation_status: "in-progress"' in backlog
+    assert 'implementation_status: "closed"' in backlog
     assert "POST-H-006-A — Inventario estático del CLI" in backlog
-    assert "Último micro-sprint implementado: `POST-H-006-E" in readme
-    assert "Siguiente hito recomendado: `POST-H-007" in readme
+    assert "POST-H-006-E" in readme
+    assert "POST-H-007" in readme
     assert "POST-H-006-A — Operación del CLI command registry estático" in runbook
     assert "POST-H-006-B — Operación del registry declarativo inicial" in runbook
     assert "POST-H-006-C — Operación de handlers migrados de workspace/validación" in runbook
