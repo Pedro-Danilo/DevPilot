@@ -9,6 +9,27 @@ owner: "Ordóñez"
 ---
 
 
+## [post-h-006-b] - 2026-06-25
+
+### Added
+
+- `DeclarativeCliRegistryBuilder` for POST-H-006-B initial declarative CLI registry overlay.
+- `src/devpilot_core/cli_registry/registry.py` with curated group descriptors and command-level safety overrides.
+- Declarative registry coverage metrics: `declarative_registered_commands_total` and `legacy_unregistered_commands_total`.
+- Legacy command marking through `metadata.registration_status = legacy-unregistered`.
+- Audit report `docs/audits/post_h_006_b_declarative_registry_report.md` and manifest `docs/post_h_006_b_manifest.json`.
+- Test Contract Registry v1/v2 contract `post-h-006-declarative-cli-registry`.
+
+### Security
+
+- The registry remains advisory and does not execute commands, migrate handlers, load handlers dynamically or change public CLI names.
+- Risk metadata is strengthened for `workspace.init`, `test-contracts.migrate-v2` and `quality-gate.run`.
+- No network, external APIs, remote execution, connector write, plugin execution or source mutation is enabled.
+
+### Notes
+
+- `POST-H-006-B` is implemented-initial. Handler migration and parity tests remain future `POST-H-006-C` scope.
+
 ## [post-h-006-a] - 2026-06-25
 
 ### Added

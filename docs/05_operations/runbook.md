@@ -6414,7 +6414,7 @@ BLOCK si la generación requiere red, API externa o ejecución remota.
 BLOCK si el JSON no valida contra schema.
 ```
 
-Riesgo operativo: esta versión es preliminar y advisory. No debe usarse para ejecutar comandos ni cargar handlers; la migración real requiere `POST-H-006-B/C` y pruebas de paridad.
+Riesgo operativo: esta versión es preliminar y advisory. No debe usarse para ejecutar comandos ni cargar handlers; la migración real requiere `POST-H-006-C` y pruebas de paridad.
 
 
 ## POST-H-005-E — Operación del reporte final ArchitectureMap
@@ -6552,3 +6552,62 @@ BLOCK si no valida el payload contra ArchitectureMap schema.
 
 Riesgos y límites: `POST-H-005-C` sigue siendo una primera versión. Las boundary violations son warnings advisory; no prueban comportamiento runtime. El scoring de hotspots queda para `POST-H-005-D`; la validación de ownership y el reporte final quedan para `POST-H-005-E`.
 
+
+
+## POST-H-006-B — Operación del registry declarativo inicial
+
+### Propósito
+
+Operar y verificar la segunda etapa del Command Registry de DevPilot. `POST-H-006-B` compone el inventario AST de `POST-H-006-A` con descriptors declarativos iniciales para grupos de menor riesgo y alto valor de gobierno.
+
+### Comandos
+
+```powershell
+$env:PYTHONPATH="src"
+$env:DD_TRACE_ENABLED="false"
+
+python -m devpilot_core cli-registry report --json
+python -m devpilot_core cli-registry report --write-report --json
+python -m devpilot_core schema validate --schema-id CliCommandRegistry --instance outputs/reports/cli_command_registry.json --json
+```
+
+### Salidas esperadas
+
+```text
+outputs/reports/cli_command_registry.json
+outputs/reports/cli_command_registry.md
+```
+
+El resumen debe contener:
+
+```text
+declarative_registered_groups_total = 8
+declarative_registered_commands_total > 0
+legacy_unregistered_commands_total > 0
+dynamic_handler_loading_enabled = false
+remote_execution_enabled = false
+connector_write_enabled = false
+plugin_execution_enabled = false
+```
+
+### PASS
+
+```text
+PASS si todos los grupos iniciales están declarados.
+PASS si cada comando declarado tiene handler, owner_module, risk_level, side_effects y recommended_tests.
+PASS si comandos con efectos de escritura o ejecución declaran writes_files=true y policy metadata cuando aplica.
+PASS si los comandos no declarados permanecen visibles como legacy-unregistered.
+```
+
+### BLOCK
+
+```text
+BLOCK si falta un grupo declarativo inicial.
+BLOCK si se habilita dynamic handler loading, remote execution, connector write o plugin execution.
+BLOCK si el registry intenta ejecutar comandos o cargar handlers por strings externos.
+BLOCK si se cambia la UX pública de comandos existentes.
+```
+
+### Riesgos y limitaciones
+
+Esta versión es preliminar/advisory. El registry declarativo no enruta ejecución, no migra handlers y no sustituye el parser público. `POST-H-006-C` debe agregar pruebas de paridad antes de mover handlers fuera de `cli.py`.

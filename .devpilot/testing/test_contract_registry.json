@@ -2329,6 +2329,55 @@
         "python -m devpilot_core test-contracts validate --json",
         "python -m devpilot_core test-contracts validate-v2 --json"
       ]
+    },
+    {
+      "contract_id": "post-h-006-declarative-cli-registry",
+      "scope": "integration",
+      "owner": "POST-H-006-B",
+      "phase": "POST-FASE-H",
+      "test_files": [
+        "tests/test_post_h_006_b_declarative_registry.py",
+        "tests/test_post_h_006_cli_command_registry.py",
+        "tests/test_cli_command_registry_schema.py",
+        "tests/test_schema_registry.py",
+        "tests/test_project_global_state.py"
+      ],
+      "validates": [
+        "src/devpilot_core/cli_registry/registry.py",
+        "src/devpilot_core/cli_registry/report.py",
+        "src/devpilot_core/cli_registry/models.py",
+        "docs/schemas/cli_command_registry.schema.json",
+        "docs/backlogs/POST-H-006_cli_command_registry.md",
+        "docs/02_architecture/cli_command_registry_map.md",
+        "docs/audits/post_h_006_b_declarative_registry_report.md",
+        "docs/post_h_006_b_manifest.json"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/cli_registry/",
+        "src/devpilot_core/cli.py",
+        "docs/schemas/cli_command_registry.schema.json",
+        ".devpilot/testing/",
+        ".devpilot/project_state.json",
+        "README.md",
+        "docs/05_operations/runbook.md",
+        "docs/backlogs/POST-H-006_cli_command_registry.md",
+        "docs/02_architecture/cli_command_registry_map.md",
+        "docs/audits/post_h_006_b_declarative_registry_report.md",
+        "docs/post_h_006_b_manifest.json",
+        "tests/test_post_h_006_b_declarative_registry.py",
+        "tests/test_post_h_006_cli_command_registry.py",
+        "tests/test_cli_command_registry_schema.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest tests/test_post_h_006_b_declarative_registry.py tests/test_post_h_006_cli_command_registry.py tests/test_cli_command_registry_schema.py tests/test_schema_registry.py tests/test_project_global_state.py -q",
+        "python -m devpilot_core cli-registry report --write-report --json",
+        "python -m devpilot_core schema validate --schema-id CliCommandRegistry --instance outputs/reports/cli_command_registry.json --json",
+        "python -m devpilot_core test-contracts validate --json",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ]
     }
   ],
   "notes": [

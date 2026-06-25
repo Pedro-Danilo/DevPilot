@@ -3,7 +3,7 @@ doc_id: "POST-H-006-BACKLOG"
 id: "POST-H-006"
 title: "POST-H-006 — CLI command registry y desacoplamiento de handlers"
 status: "approved"
-version: "0.2.0"
+version: "0.3.0"
 owner: "Ordóñez"
 updated: "2026-06-25"
 phase: "POST-FASE-H"
@@ -405,4 +405,52 @@ PASS si no aumenta el acoplamiento de cli.py salvo el comando mínimo de reporte
 
 Limitación industrial explícita: esta versión es preliminar/advisory. La migración real de handlers y pruebas de paridad quedan para `POST-H-006-B/C`; no debe usarse todavía como loader dinámico ni como enforcement de runtime.
 
-Siguiente micro-sprint: `POST-H-006-B — Command registry declarativo inicial`.
+Siguiente micro-sprint posterior a B: `POST-H-006-C — Migración incremental de handlers de validación/workspace`.
+
+
+## 10. Avance de implementación — POST-H-006-B
+
+Estado: `implemented-initial`.
+
+`POST-H-006-B — Command registry declarativo inicial` queda implementado como una capa declarativa inicial sobre el inventario AST de `POST-H-006-A`.
+
+Alcance implementado:
+
+```text
+- `DeclarativeCliRegistryBuilder` en `src/devpilot_core/cli_registry/registry.py`.
+- Descriptors declarativos para grupos: workspace, standards, schema, validate, project-state, test-contracts, quality-gate e industrial-readiness.
+- Marcación `registered-declarative` para comandos cubiertos.
+- Marcación `legacy-unregistered` para comandos aún no declarados.
+- Métricas de cobertura: declarative_registered_commands_total y legacy_unregistered_commands_total.
+- Overrides de seguridad para comandos con escritura, migración o posible ejecución de subprocess.
+- Manifest, audit report, runbook, README, changelog y contratos TCR v1/v2 actualizados.
+```
+
+Fuera de alcance explícito:
+
+```text
+- No se migran handlers fuera de `cli.py`.
+- No se ejecutan comandos desde el registry.
+- No se habilita carga dinámica de handlers.
+- No se cambia ningún comando público.
+- No se habilita remote execution, connector write ni plugin execution.
+```
+
+Comando principal:
+
+```powershell
+python -m devpilot_core cli-registry report --write-report --json
+```
+
+Criterios PASS cubiertos:
+
+```text
+PASS si los grupos iniciales tienen descriptor completo.
+PASS si comandos con writes declaran writes_files=true.
+PASS si todos los descriptors tienen recommended_tests.
+PASS si el reporte identifica legacy_unregistered_commands_total.
+```
+
+Limitación industrial explícita: esta versión es preliminar/advisory. La migración física de handlers y pruebas de paridad quedan para `POST-H-006-C`; el registry no debe usarse todavía como router runtime ni loader dinámico.
+
+Siguiente micro-sprint: `POST-H-006-C — Migración incremental de handlers de validación/workspace`.

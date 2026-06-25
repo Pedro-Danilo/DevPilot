@@ -6,13 +6,14 @@ from pathlib import Path
 from typing import Any
 
 from devpilot_core.cli_models import CommandResult, ExitCode, Finding, Severity
-from devpilot_core.cli_registry.builders import CLI_REGISTRY_SCHEMA_ID, StaticCliInventoryExtractor, StaticCliInventoryOptions
+from devpilot_core.cli_registry.builders import CLI_REGISTRY_SCHEMA_ID, StaticCliInventoryOptions
+from devpilot_core.cli_registry.registry import DeclarativeCliRegistryBuilder
 from devpilot_core.schemas import SchemaValidator
 
 
 @dataclass(frozen=True)
 class CliCommandRegistryReportOptions:
-    """Options for rendering the POST-H-006-A CLI registry report."""
+    """Options for rendering the POST-H-006-A/B CLI registry report."""
 
     cli_source: Path = Path("src/devpilot_core/cli.py")
     write_report: bool = False
@@ -21,11 +22,11 @@ class CliCommandRegistryReportOptions:
 
 
 class CliCommandRegistryReportBuilder:
-    """Build a read-only static CLI command registry report.
+    """Build a read-only CLI command registry report.
 
-    POST-H-006-A does not migrate handlers and does not alter public command
-    behavior. It materializes the current CLI surface as schema-backed evidence
-    so later micro-sprints can move handlers with parity tests instead of guesses.
+    POST-H-006-B composes the POST-H-006-A static CLI inventory with a curated
+    declarative overlay for initial low/medium-risk groups. It does not migrate
+    handlers and does not alter public command behavior.
     """
 
     def __init__(self, root: Path, options: CliCommandRegistryReportOptions | None = None) -> None:
@@ -33,7 +34,7 @@ class CliCommandRegistryReportBuilder:
         self.options = options or CliCommandRegistryReportOptions()
 
     def build(self) -> CommandResult:
-        extractor = StaticCliInventoryExtractor(
+        registry = DeclarativeCliRegistryBuilder(
             self.root,
             StaticCliInventoryOptions(
                 cli_source=self.options.cli_source,
@@ -41,8 +42,7 @@ class CliCommandRegistryReportBuilder:
                 output_json=self.options.output_json,
                 output_markdown=self.options.output_markdown,
             ),
-        )
-        registry = extractor.build_registry()
+        ).build_registry()
         payload = registry.to_dict()
         validation = SchemaValidator(self.root).validate_payload(
             schema="CliCommandRegistry",
@@ -79,7 +79,7 @@ class CliCommandRegistryReportBuilder:
             findings.append(
                 Finding(
                     id="CLI_REGISTRY_MAIN_GROUPS_MISSING",
-                    message="Static CLI registry did not detect all expected main groups.",
+                    message="CLI registry did not detect all expected main groups.",
                     severity=Severity.BLOCK,
                     metadata={"missing_groups": missing_groups},
                 )
@@ -88,9 +88,32 @@ class CliCommandRegistryReportBuilder:
             findings.append(
                 Finding(
                     id="CLI_REGISTRY_MAIN_GROUPS_PRESENT",
-                    message="Static CLI registry detected expected main groups.",
+                    message="CLI registry detected expected main groups.",
                     severity=Severity.INFO,
                     metadata={"expected_groups": sorted(expected_groups)},
+                )
+            )
+
+        declarative_missing = summary.get("declarative_missing_groups", [])
+        if declarative_missing:
+            findings.append(
+                Finding(
+                    id="CLI_REGISTRY_DECLARATIVE_GROUPS_MISSING",
+                    message="Declarative CLI registry is missing expected POST-H-006-B groups.",
+                    severity=Severity.BLOCK,
+                    metadata={"missing_groups": declarative_missing},
+                )
+            )
+        else:
+            findings.append(
+                Finding(
+                    id="CLI_REGISTRY_DECLARATIVE_GROUPS_PRESENT",
+                    message="Declarative CLI registry includes the initial POST-H-006-B groups.",
+                    severity=Severity.INFO,
+                    metadata={
+                        "declarative_registered_groups_total": summary.get("declarative_registered_groups_total"),
+                        "declarative_registered_commands_total": summary.get("declarative_registered_commands_total"),
+                    },
                 )
             )
 
@@ -101,18 +124,18 @@ class CliCommandRegistryReportBuilder:
             summary["output_markdown"] = str(self.options.output_markdown).replace("\\", "/")
 
         summary["blocking_findings_total"] = _blocking_count(findings)
-        ok = validation.ok and not missing_groups and summary["commands_total"] > 0
+        ok = validation.ok and not missing_groups and not declarative_missing and summary["commands_total"] > 0
         return CommandResult(
             command="cli-registry report",
             ok=ok,
             exit_code=ExitCode.PASS if ok else ExitCode.BLOCK,
-            message="CLI command registry static report passed." if ok else "CLI command registry static report has blocking findings.",
+            message="CLI command registry declarative report passed." if ok else "CLI command registry declarative report has blocking findings.",
             data={
                 "summary": summary,
                 "registry": payload,
                 "notes": [
-                    "POST-H-006-A is a read-only static inventory; it does not migrate handlers or change command semantics.",
-                    "Handler strings are advisory until POST-H-006-B/C declare and migrate selected commands explicitly.",
+                    "POST-H-006-B adds a declarative overlay for initial low/medium-risk groups without migrating handlers or changing command semantics.",
+                    "Handler strings remain advisory until POST-H-006-C migrates selected commands with parity tests.",
                     "Reports are generated only when --write-report is passed and are intentionally excluded from release ZIPs.",
                 ],
             },
@@ -130,11 +153,11 @@ class CliCommandRegistryReportBuilder:
 def _markdown_report(payload: dict[str, Any]) -> str:
     summary = payload.get("summary", {})
     lines = [
-        "# POST-H-006-A — CLI command registry static inventory",
+        "# POST-H-006-B — CLI command registry declarative baseline",
         "",
-        "Estado: `implemented-initial / read-only static inventory`.",
+        "Estado: `implemented-initial / declarative baseline, no handler migration`.",
         "",
-        "Este reporte materializa el inventario actual del CLI sin ejecutar comandos, sin importar `build_parser()` y sin migrar handlers.",
+        "Este reporte combina inventario AST del CLI con descriptors declarativos iniciales sin ejecutar comandos, sin importar `build_parser()` y sin migrar handlers.",
         "",
         "## Summary",
         "",
@@ -142,6 +165,9 @@ def _markdown_report(payload: dict[str, Any]) -> str:
         f"- Commands total: {summary.get('commands_total')}",
         f"- Nested commands total: {summary.get('nested_commands_total')}",
         f"- High/critical risk commands total: {summary.get('high_or_critical_risk_commands_total')}",
+        f"- Declarative registered groups total: {summary.get('declarative_registered_groups_total')}",
+        f"- Declarative registered commands total: {summary.get('declarative_registered_commands_total')}",
+        f"- Legacy unregistered commands total: {summary.get('legacy_unregistered_commands_total')}",
         f"- Dynamic handler loading enabled: {summary.get('dynamic_handler_loading_enabled')}",
         f"- Remote execution enabled: {summary.get('remote_execution_enabled')}",
         "",

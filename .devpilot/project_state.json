@@ -8,8 +8,8 @@
   "last_completed_sprint": "POST-H-005",
   "last_functional_sprint": "FUNC-SPRINT-99",
   "next_sprint": "POST-H-006",
-  "source_repo": "repo_DevPilot_Local_160_POST_H_005_E.zip",
-  "current_repo": "repo_DevPilot_Local_161_POST_H_006_A.zip",
+  "source_repo": "repo_DevPilot_Local_161_POST_H_006_A.zip",
+  "current_repo": "repo_DevPilot_Local_162_POST_H_006_B.zip",
   "global_state_owner": "tests/test_project_global_state.py",
   "mutable_global_state_fields": [
     "last_completed_sprint",
@@ -27,6 +27,7 @@
     "This file is source-controlled project metadata, not runtime state; it must not contain secrets.",
     "POST-H-005 closes Architecture map executable / dependency ownership as implemented-initial: schema, AST inventory, dependency graph, hotspot analyzer, ownership validation, final ArchitectureMap report and quality-gate subgate are available locally.",
     "POST-H-006 is the next prioritized hito: CLI command registry y desacoplamiento de handlers.",
-    "POST-H-006-A starts CLI command registry as implemented-initial: static AST inventory, schema-backed registry report and read-only CLI evidence are available locally without migrating handlers."
+    "POST-H-006-A starts CLI command registry as implemented-initial: static AST inventory, schema-backed registry report and read-only CLI evidence are available locally without migrating handlers.",
+    "POST-H-006-B adds the initial declarative CLI registry overlay: governed groups, descriptor coverage metrics and legacy-unregistered command visibility are available locally without handler migration."
   ]
 }

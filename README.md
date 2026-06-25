@@ -1,12 +1,12 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
-Estado actual: `baseline pre-code approved + Fases A-G cerradas + Fase H cerrada + POST-H-001 implemented-initial + POST-H-EVAL-001 closed + POST-H-002 closed + POST-H-003 closed + POST-H-004 closed + POST-H-005 closed + POST-H-006-A implemented-initial`  
+Estado actual: `baseline pre-code approved + Fases A-G cerradas + Fase H cerrada + POST-H-001 implemented-initial + POST-H-EVAL-001 closed + POST-H-002 closed + POST-H-003 closed + POST-H-004 closed + POST-H-005 closed + POST-H-006-A implemented-initial + POST-H-006-B implemented-initial`  
 Último hito: `POST-H-005 — Architecture map executable / dependency ownership`  
-Último micro-sprint implementado: `POST-H-006-A — Inventario estático del CLI y modelo de registry`  
+Último micro-sprint implementado: `POST-H-006-B — Command registry declarativo inicial`  
 Hito diagnóstico cerrado: `POST-H-EVAL-001 — Evaluación integral del baseline DevPilot post-Fase H`, cierre formal `POST-H-EVAL-001-G`  
 Siguiente hito: `POST-H-006 — CLI command registry y desacoplamiento de handlers`  
 Hito cerrado: `POST-H-005 — Architecture map executable / dependency ownership`  
-Siguiente micro-sprint: `POST-H-006-B — Command registry declarativo inicial`  
+Siguiente micro-sprint: `POST-H-006-C — Migración incremental de handlers de validación/workspace`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
@@ -26,6 +26,43 @@ Modo de trabajo: local-first híbrido, API keys opcionales, costo externo contro
 
 
 
+
+## POST-H-006-B — Command registry declarativo inicial
+
+`POST-H-006-B` agrega una capa declarativa inicial sobre el inventario estático del CLI. La capacidad registra explícitamente grupos de comandos gobernables, sus dominios, tests recomendados, side effects, clasificación de riesgo y requisitos de policy metadata sin migrar handlers fuera de `cli.py` ni cambiar la UX pública.
+
+Grupos declarativos iniciales:
+
+```text
+workspace
+standards
+schema
+validate
+project-state
+test-contracts
+quality-gate
+industrial-readiness
+```
+
+Comandos principales:
+
+```powershell
+python -m devpilot_core cli-registry report --json
+python -m devpilot_core cli-registry report --write-report --json
+python -m devpilot_core schema validate --schema-id CliCommandRegistry --instance outputs/reports/cli_command_registry.json --json
+```
+
+El reporte expone métricas de cobertura para `declarative_registered_commands_total`, `declarative_registered_groups_total` y `legacy_unregistered_commands_total`. Los comandos todavía no declarados no se ocultan: quedan marcados como `legacy-unregistered` para planear `POST-H-006-C/D/E`.
+
+Alcance: esta entrega es `implemented-initial / declarative baseline`. No migra handlers, no ejecuta comandos desde el registry, no habilita carga dinámica, no activa red, APIs externas, remote execution, connector write, plugin execution ni cambios destructivos. Los comandos con potencial de escritura o ejecución, como `workspace.init`, `test-contracts.migrate-v2` y `quality-gate.run --include-pytest`, quedan marcados con riesgo alto y policy metadata explícita.
+
+Verificación focal:
+
+```powershell
+python -m pytest tests/test_post_h_006_b_declarative_registry.py tests/test_post_h_006_cli_command_registry.py tests/test_cli_command_registry_schema.py tests/test_schema_registry.py tests/test_project_global_state.py -q
+python -m devpilot_core cli-registry report --write-report --json
+python -m devpilot_core schema validate --schema-id CliCommandRegistry --instance outputs/reports/cli_command_registry.json --json
+```
 
 ## POST-H-006-A — Inventario estático del CLI y modelo de registry
 

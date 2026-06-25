@@ -24,7 +24,7 @@
     "schema_id": {"const": "SCHEMA-DEVPL-CLI-COMMAND-REGISTRY-V1"},
     "registry_id": {"const": "devpilot-cli-command-registry"},
     "generated_from": {"type": "string", "minLength": 1},
-    "created_by": {"const": "POST-H-006-A"},
+    "created_by": {"enum": ["POST-H-006-A", "POST-H-006-B"]},
     "commands_total": {"type": "integer", "minimum": 1},
     "groups_total": {"type": "integer", "minimum": 1},
     "summary": {
