@@ -1,0 +1,69 @@
+{
+  "id": "POST-H-007-D",
+  "title": "Boundary policy y guardrails por interfaz",
+  "status": "implemented-initial",
+  "created_by": "POST-H-007-D",
+  "created_at_utc": "2026-06-25T00:00:00Z",
+  "source_repo": "repo_DevPilot_Local_168_POST_H_007_C.zip",
+  "current_repo": "repo_DevPilot_Local_169_POST_H_007_D.zip",
+  "backlog": "docs/backlogs/POST-H-007_application_service_boundary.md",
+  "summary": {
+    "rules_total": 39,
+    "clients_total": 5,
+    "sensitive_operations_total": 7,
+    "sensitive_without_policy_required_total": 0,
+    "api_allowed_total": 27,
+    "ui_allowed_total": 12,
+    "automation_allowed_total": 32,
+    "publicly_unexposed_operations_total": 12,
+    "dry_run_default": true,
+    "remote_execution_enabled": false,
+    "connector_write_enabled": false,
+    "plugin_execution_enabled": false,
+    "network_used": false,
+    "external_api_used": false,
+    "mutations_performed": false,
+    "source_mutations_performed": false,
+    "preliminary": true
+  },
+  "artifacts_created": [
+    "src/devpilot_core/application/policy.py",
+    "tests/test_application_boundary_policy.py",
+    "docs/audits/post_h_007_d_boundary_policy_report.md",
+    "docs/post_h_007_d_manifest.json"
+  ],
+  "artifacts_modified": [
+    "src/devpilot_core/application/services.py",
+    "src/devpilot_core/application/__init__.py",
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/backlogs/POST-H-007_application_service_boundary.md",
+    "docs/07_interfaces/application_service_boundary.md",
+    "docs/02_architecture/application_service_boundary_map.md",
+    "docs/release/CHANGELOG.md",
+    ".devpilot/project_state.json",
+    ".devpilot/testing/test_contract_registry.json",
+    ".devpilot/testing/test_contract_registry_v2.json",
+    "tests/test_project_global_state.py"
+  ],
+  "validation_commands": [
+    "python -m pytest tests/test_application_boundary_policy.py tests/test_application_dto_normalization.py tests/test_application_services.py -q",
+    "python -m pytest tests/test_post_h_007_application_service_boundary.py tests/test_application_service_boundary_report_schema.py tests/test_application_operation_catalog_schema.py tests/test_application_dto_normalization.py tests/test_application_boundary_policy.py tests/test_schema_registry.py tests/test_project_global_state.py tests/test_test_contract_registry.py tests/test_test_contract_registry_v2.py tests/test_test_contract_registry_profiles_v2.py tests/test_post_h_006_e_cli_no_growth_gate.py tests/test_post_h_006_d_cli_hotspot_ownership.py tests/test_post_h_006_c_handler_migration.py tests/test_post_h_006_b_declarative_registry.py tests/test_post_h_006_cli_command_registry.py tests/test_cli_command_registry_schema.py -q",
+    "python -m devpilot_core test-contracts validate --json",
+    "python -m devpilot_core test-contracts validate-v2 --json",
+    "python -m devpilot_core project-state validate --json",
+    "python -m devpilot_core quality-gate run --profile hardening --json"
+  ],
+  "safety": {
+    "local_first": true,
+    "dry_run_default": true,
+    "network_used": false,
+    "external_api_used": false,
+    "remote_execution_enabled": false,
+    "connector_write_enabled": false,
+    "plugin_execution_enabled": false,
+    "source_mutations_performed": false
+  },
+  "preliminary": true,
+  "next_micro_sprint": "POST-H-007-E — Integración con CLI registry y quality gate"
+}

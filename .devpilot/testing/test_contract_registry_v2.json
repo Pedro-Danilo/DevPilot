@@ -5190,6 +5190,85 @@
         "POST-H-007-C validates ApplicationRequest/ApplicationResponse runtime paths for 11 priority operations.",
         "The sprint preserves CommandResult semantics and does not add HTTP routes, public CLI commands or interface enforcement."
       ]
+    },
+    {
+      "contract_id": "post-h-007-application-boundary-policy",
+      "schema_version": "2.0",
+      "source_contract_id": "post-h-007-application-boundary-policy",
+      "domain": "application.service",
+      "capability": "ApplicationBoundaryPolicy",
+      "criticality": "P1",
+      "risk_level": "high",
+      "test_type": "integration",
+      "execution_profile": "always",
+      "cost_class": "low",
+      "expected_duration_seconds": 60,
+      "test_files": [
+        "tests/test_application_boundary_policy.py",
+        "tests/test_application_dto_normalization.py",
+        "tests/test_application_services.py",
+        "tests/test_schema_registry.py",
+        "tests/test_project_global_state.py"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/application/",
+        "src/devpilot_core/policy/",
+        "src/devpilot_core/interfaces/api/routers/",
+        "ui/",
+        ".devpilot/testing/",
+        ".devpilot/project_state.json",
+        "README.md",
+        "docs/05_operations/runbook.md",
+        "docs/backlogs/POST-H-007_application_service_boundary.md",
+        "tests/test_application_boundary_policy.py",
+        "tests/test_application_dto_normalization.py",
+        "tests/test_application_services.py"
+      ],
+      "validates": [
+        "src/devpilot_core/application/policy.py",
+        "src/devpilot_core/application/services.py",
+        "src/devpilot_core/application/__init__.py",
+        "docs/backlogs/POST-H-007_application_service_boundary.md",
+        "docs/07_interfaces/application_service_boundary.md",
+        "docs/02_architecture/application_service_boundary_map.md",
+        "docs/audits/post_h_007_d_boundary_policy_report.md",
+        "docs/post_h_007_d_manifest.json"
+      ],
+      "trigger_hints": [
+        "application-boundary-policy",
+        "interface-client",
+        "policy-engine",
+        "post-h-source-change"
+      ],
+      "impact_scope": [
+        "application",
+        "boundary",
+        "policy",
+        "api",
+        "ui",
+        "test-contracts",
+        "post-h"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "POST-H-007-D",
+      "recommended_commands": [
+        "python -m pytest tests/test_application_boundary_policy.py tests/test_application_dto_normalization.py tests/test_application_services.py -q",
+        "python -m pytest tests/test_application_boundary_policy.py tests/test_application_operation_catalog_schema.py tests/test_schema_registry.py tests/test_project_global_state.py -q",
+        "python -m devpilot_core test-contracts validate --json",
+        "python -m devpilot_core test-contracts validate-v2 --json",
+        "python -m devpilot_core quality-gate run --profile hardening --json"
+      ],
+      "classification_status": "explicit",
+      "classification_notes": [
+        "POST-H-007-D applies initial interface-level guardrails inside ApplicationService.execute().",
+        "API/UI clients are strict; sensitive operations are policy-checked and dry-run guarded without adding public routes or commands."
+      ]
     }
   ],
   "migration_metadata": {

@@ -2678,6 +2678,53 @@
         "python -m devpilot_core test-contracts validate-v2 --json",
         "python -m devpilot_core quality-gate run --profile hardening --json"
       ]
+    },
+    {
+      "contract_id": "post-h-007-application-boundary-policy",
+      "scope": "integration",
+      "owner": "POST-H-007-D",
+      "phase": "POST-FASE-H",
+      "test_files": [
+        "tests/test_application_boundary_policy.py",
+        "tests/test_application_dto_normalization.py",
+        "tests/test_application_services.py",
+        "tests/test_schema_registry.py",
+        "tests/test_project_global_state.py"
+      ],
+      "validates": [
+        "src/devpilot_core/application/policy.py",
+        "src/devpilot_core/application/services.py",
+        "src/devpilot_core/application/__init__.py",
+        "docs/backlogs/POST-H-007_application_service_boundary.md",
+        "docs/07_interfaces/application_service_boundary.md",
+        "docs/02_architecture/application_service_boundary_map.md",
+        "docs/audits/post_h_007_d_boundary_policy_report.md",
+        "docs/post_h_007_d_manifest.json"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/application/",
+        "src/devpilot_core/policy/",
+        "src/devpilot_core/interfaces/api/routers/",
+        "ui/",
+        ".devpilot/testing/",
+        ".devpilot/project_state.json",
+        "README.md",
+        "docs/05_operations/runbook.md",
+        "docs/backlogs/POST-H-007_application_service_boundary.md",
+        "tests/test_application_boundary_policy.py",
+        "tests/test_application_dto_normalization.py",
+        "tests/test_application_services.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest tests/test_application_boundary_policy.py tests/test_application_dto_normalization.py tests/test_application_services.py -q",
+        "python -m pytest tests/test_application_boundary_policy.py tests/test_application_operation_catalog_schema.py tests/test_schema_registry.py tests/test_project_global_state.py -q",
+        "python -m devpilot_core test-contracts validate --json",
+        "python -m devpilot_core test-contracts validate-v2 --json",
+        "python -m devpilot_core quality-gate run --profile hardening --json"
+      ]
     }
   ],
   "notes": [

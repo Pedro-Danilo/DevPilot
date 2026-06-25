@@ -9,6 +9,27 @@ owner: "Ordóñez"
 ---
 
 
+
+## [post-h-007-d] - 2026-06-25
+
+### Added
+
+- `src/devpilot_core/application/policy.py` with `InterfaceClient`, `ApplicationBoundaryPolicy`, per-operation allowed clients and boundary policy report generation.
+- Runtime guardrail in `ApplicationService.execute()` before dispatching supported operations.
+- Tests in `tests/test_application_boundary_policy.py` validating API/UI blocking, dry-run enforcement and PolicyEngine invocation for sensitive operations.
+- Audit report `docs/audits/post_h_007_d_boundary_policy_report.md` and manifest `docs/post_h_007_d_manifest.json`.
+- Test Contract Registry v1/v2 contract `post-h-007-application-boundary-policy`.
+
+### Security
+
+- API/UI are strict clients: operations require explicit exposure through the operation catalog.
+- Sensitive operations invoke PolicyEngine before domain dispatch and require `dry_run=true` for public/automation clients.
+- No public CLI command, HTTP route, remote execution, connector write, plugin execution, network call or external API was added.
+
+### Notes
+
+- `POST-H-007-D` is initial runtime boundary enforcement. CLI registry integration and quality-gate coupling remain for `POST-H-007-E`.
+
 ## [post-h-007-c] - 2026-06-25
 
 ### Added

@@ -15,6 +15,7 @@ from .miasi_service import MiasiApplicationService
 from .maturity_service import MaturityApplicationService
 from .model_service import ModelApplicationService
 from .observability_service import ObservabilityApplicationService
+from .policy import ApplicationBoundaryPolicy
 from .refactor_service import RefactorApplicationService
 from .repo_service import RepoApplicationService
 from .reports_service import ReportsApplicationService
@@ -69,6 +70,7 @@ class ApplicationService:
         self.model = ModelApplicationService(self.root)
         self.history = HistoryApplicationService(self.root)
         self.observability = ObservabilityApplicationService(self.root)
+        self.boundary_policy = ApplicationBoundaryPolicy(self.root)
 
     # Backward-compatible validator facade from Sprint 18.
     def validate_frontmatter(self, path: str | Path, *, strict: bool = False) -> CommandResult:
@@ -375,6 +377,10 @@ class ApplicationService:
                     )
                 ],
             )
+
+        boundary_decision = self.boundary_policy.evaluate(request)
+        if not boundary_decision.allowed:
+            return boundary_decision.to_command_result()
         return handler(payload)
 
     def application_contract(self) -> CommandResult:

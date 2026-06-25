@@ -1,6 +1,6 @@
-# ApplicationService boundary map — POST-H-007-A/B/C
+# ApplicationService boundary map — POST-H-007-A/B/C/D
 
-Estado: `implemented-initial` acumulativo hasta `POST-H-007-C`.
+Estado: `implemented-initial` acumulativo hasta `POST-H-007-D`.
 
 ## Modelo mental
 
@@ -60,3 +60,33 @@ ApplicationRequest(priority operation)
 ```
 
 Esta ruta no reemplaza `CommandResult`; lo envuelve para API/UI/CLI-equivalent paths. Tampoco agrega rutas HTTP ni comandos CLI públicos.
+
+
+## POST-H-007-D — Runtime boundary policy
+
+El mapa incorpora una compuerta previa al dispatch:
+
+```text
+ApplicationRequest
+  -> normalize_priority_application_request
+  -> ApplicationBoundaryPolicy.evaluate
+      -> InterfaceClient allowlist
+      -> dry-run guardrail para operaciones sensibles
+      -> PolicyEngine para operaciones sensibles
+  -> domain operation handler
+  -> CommandResult
+  -> ApplicationResponse
+```
+
+Métricas iniciales:
+
+```text
+rules_total = 39
+sensitive_operations_total = 7
+api_allowed_total = 27
+ui_allowed_total = 12
+automation_allowed_total = 32
+publicly_unexposed_operations_total = 12
+```
+
+La política no reemplaza `PolicyEngine`; lo invoca cuando corresponde. Tampoco corrige todos los bypasses CLI históricos. La conexión con `CLI Command Registry` y quality gate queda para `POST-H-007-E`.

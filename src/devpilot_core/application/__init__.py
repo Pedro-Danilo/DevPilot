@@ -32,6 +32,16 @@ from .miasi_service import MiasiApplicationService
 from .maturity_service import MaturityApplicationService
 from .model_service import ModelApplicationService
 from .observability_service import ObservabilityApplicationService
+from .policy import (
+    APPLICATION_BOUNDARY_POLICY_REPORT_ID,
+    POST_H_007_D_CREATED_BY,
+    ApplicationBoundaryPolicy,
+    ApplicationBoundaryPolicyDecision,
+    ApplicationBoundaryPolicyRule,
+    InterfaceClient,
+    application_boundary_policy_report,
+    normalize_interface_client,
+)
 from .refactor_service import RefactorApplicationService
 from .repo_service import RepoApplicationService
 from .reports_service import ReportsApplicationService
@@ -50,6 +60,14 @@ __all__ = [
     "POST_H_007_B_CREATED_BY",
     "POST_H_007_C_CREATED_BY",
     "APPLICATION_DTO_NORMALIZATION_REPORT_ID",
+    "POST_H_007_D_CREATED_BY",
+    "APPLICATION_BOUNDARY_POLICY_REPORT_ID",
+    "ApplicationBoundaryPolicy",
+    "ApplicationBoundaryPolicyDecision",
+    "ApplicationBoundaryPolicyRule",
+    "InterfaceClient",
+    "application_boundary_policy_report",
+    "normalize_interface_client",
     "PRIORITY_OPERATION_IDS",
     "ApplicationCapabilityRegistry",
     "ApplicationOperationCatalog",

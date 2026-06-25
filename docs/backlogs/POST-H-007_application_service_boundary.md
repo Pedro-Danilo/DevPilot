@@ -3,7 +3,7 @@ doc_id: "POST-H-007-BACKLOG"
 id: "POST-H-007"
 title: "POST-H-007 — ApplicationService boundary hardening"
 status: "approved"
-version: "0.4.0"
+version: "0.5.0"
 owner: "Ordóñez"
 updated: "2026-06-25"
 phase: "POST-FASE-H"
@@ -453,4 +453,47 @@ PASS: validation.docs, validation.contracts, settings.status y observability.tra
 PASS: no se agregan rutas HTTP públicas, comandos CLI públicos ni enforcement por interfaz.
 ```
 
-Limitación explícita: `POST-H-007-C` es una primera versión de normalización DTO prioritaria. La autorización por interfaz (`cli`, `api`, `ui`, `automation`, `internal`) queda para `POST-H-007-D`, y la integración con CLI registry/quality gate queda para `POST-H-007-E`.
+Limitación explícita: `POST-H-007-C` es una primera versión de normalización DTO prioritaria. La autorización por interfaz (`cli`, `api`, `ui`, `automation`, `internal`) queda cubierta de forma inicial por `POST-H-007-D`, y la integración con CLI registry/quality gate queda para `POST-H-007-E`.
+
+
+## 16. Avance de implementación — POST-H-007-D
+
+Estado: `implemented-initial`.
+
+`POST-H-007-D — Boundary policy y guardrails por interfaz` introduce una capa `ApplicationBoundaryPolicy` aplicada antes del dispatch de `ApplicationService.execute()`. Esta implementación define clientes formales (`cli`, `api`, `ui`, `automation`, `internal`), reglas permitidas por cliente, enforcement inicial de exposición API/UI, preservación de `dry_run` para operaciones sensibles y uso de `PolicyEngine` antes del handler de dominio cuando la operación lo requiere.
+
+Artefactos implementados:
+
+```text
+src/devpilot_core/application/policy.py
+src/devpilot_core/application/services.py
+src/devpilot_core/application/__init__.py
+tests/test_application_boundary_policy.py
+docs/audits/post_h_007_d_boundary_policy_report.md
+docs/post_h_007_d_manifest.json
+```
+
+Métricas iniciales:
+
+```text
+rules_total = 39
+clients_total = 5
+sensitive_operations_total = 7
+sensitive_without_policy_required_total = 0
+api_allowed_total = 27
+ui_allowed_total = 12
+automation_allowed_total = 32
+publicly_unexposed_operations_total = 12
+```
+
+Criterios PASS cubiertos:
+
+```text
+PASS: API/UI no pueden ejecutar operaciones no declaradas como expuestas.
+PASS: operaciones sensibles requieren policy_required=true o se tratan como sensibles por riesgo/write-like behavior.
+PASS: operaciones sensibles ejecutan PolicyEngine antes del handler.
+PASS: dry-run se preserva para api/ui/automation en operaciones sensibles.
+PASS: no se agregan rutas HTTP públicas, comandos CLI públicos, remote execution, connector write ni plugin execution.
+```
+
+Limitación explícita: `POST-H-007-D` es una primera versión de boundary policy dentro del runtime DTO. No corrige todos los bypasses CLI históricos ni integra todavía `CommandDescriptor` con `ApplicationOperationDescriptor`; esa integración queda para `POST-H-007-E`.

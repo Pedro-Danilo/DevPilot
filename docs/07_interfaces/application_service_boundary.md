@@ -1,6 +1,6 @@
 # POST-H-007 — ApplicationService boundary
 
-Estado: `implemented-initial` acumulativo hasta `POST-H-007-C`.
+Estado: `implemented-initial` acumulativo hasta `POST-H-007-D`.
 
 ## Propósito
 
@@ -89,4 +89,31 @@ Garantías:
 - sin nuevos comandos CLI públicos
 ```
 
-Límite: la decisión de qué cliente puede ejecutar qué operación no se implementa aquí; queda para `POST-H-007-D`.
+Límite actualizado: la decisión de qué cliente puede ejecutar qué operación queda cubierta de forma inicial por `POST-H-007-D`; la integración con CLI registry y quality gate queda para `POST-H-007-E`.
+
+
+## POST-H-007-D — Boundary policy por interfaz
+
+`POST-H-007-D` agrega `ApplicationBoundaryPolicy` como guardrail previo al dispatch de `ApplicationService.execute()`.
+
+Clientes reconocidos:
+
+```text
+cli
+api
+ui
+automation
+internal
+```
+
+Reglas iniciales:
+
+```text
+- api/ui son clientes estrictos y solo pueden invocar operaciones con mapping explícito.
+- automation solo recibe operaciones no sensibles, no write-like y de riesgo bajo/medio.
+- operaciones sensibles invocan PolicyEngine antes del handler.
+- operaciones sensibles llamadas desde api/ui/automation requieren dry_run=true.
+- unknown/local testing clients se normalizan a internal para compatibilidad, no a clientes públicos.
+```
+
+Esta versión no crea rutas HTTP nuevas, no cambia la UI y no migra comandos CLI históricos. Es un enforcement `implemented-initial` orientado a cerrar la brecha de autorización por interfaz antes de `POST-H-007-E`.

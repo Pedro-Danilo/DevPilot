@@ -6901,3 +6901,58 @@ BLOCK si se activa enforcement por interfaz antes de POST-H-007-D.
 ```
 
 Limitación: `POST-H-007-C` es normalización DTO prioritaria. No resuelve todos los bypasses CLI, no habilita autorización por cliente y no conecta aún CommandDescriptor con ApplicationOperationDescriptor.
+
+
+## POST-H-007-D — Operación de boundary policy por interfaz
+
+Propósito: verificar que `ApplicationService.execute()` aplique guardrails por cliente antes del dispatch de dominio, sin crear rutas HTTP nuevas ni comandos CLI públicos.
+
+Clientes declarados:
+
+```text
+cli
+api
+ui
+automation
+internal
+```
+
+Reglas operativas:
+
+```text
+- api/ui solo pueden ejecutar operaciones explícitamente expuestas por ApplicationOperationCatalog.
+- automation solo puede ejecutar operaciones no write-like, no sensibles y de riesgo bajo/medio.
+- cli/internal conservan compatibilidad local.
+- clientes locales/desconocidos se normalizan a internal para compatibilidad de pruebas y código histórico, pero no son clientes públicos.
+- operaciones sensibles ejecutan PolicyEngine antes del handler.
+- operaciones sensibles en api/ui/automation requieren dry_run=true.
+```
+
+Comandos focales:
+
+```powershell
+python -m pytest tests/test_application_boundary_policy.py tests/test_application_dto_normalization.py tests/test_application_services.py -q
+python -m pytest tests/test_application_boundary_policy.py tests/test_application_operation_catalog_schema.py tests/test_schema_registry.py tests/test_project_global_state.py -q
+```
+
+Criterios PASS:
+
+```text
+PASS si ApplicationBoundaryPolicy declara los 5 clientes.
+PASS si api/ui bloquean operaciones sin exposición explícita.
+PASS si una operación read-only expuesta a API ejecuta correctamente vía ApplicationRequest/ApplicationResponse.
+PASS si operaciones sensibles reportan policy_checked=true.
+PASS si operaciones sensibles con dry_run=false son bloqueadas para api/ui/automation.
+PASS si no se activa remote execution, connector write, plugin execution, red ni API externa.
+```
+
+Criterios BLOCK:
+
+```text
+BLOCK si api/ui ejecutan operaciones no declaradas.
+BLOCK si una operación sensible evita PolicyEngine.
+BLOCK si una operación sensible de cliente público ignora dry_run=false.
+BLOCK si se agregan rutas HTTP o comandos públicos fuera del alcance de POST-H-007-D.
+```
+
+Limitación: `POST-H-007-D` es enforcement inicial dentro de `ApplicationService.execute()`. No corrige todos los bypasses CLI históricos ni integra todavía `CommandDescriptor` con `ApplicationOperationDescriptor`; eso queda para `POST-H-007-E`.
