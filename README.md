@@ -2,11 +2,11 @@
 
 Estado actual: `baseline pre-code approved + Fases A-G cerradas + Fase H cerrada + POST-H-001 implemented-initial + POST-H-EVAL-001 closed + POST-H-002 closed + POST-H-003 closed + POST-H-004 closed`  
 Último hito: `POST-H-004 — Policy/MIASI semantic validator ampliado`  
-Último micro-sprint implementado: `POST-H-005-B — Inventario AST de paquetes y módulos`  
+Último micro-sprint implementado: `POST-H-005-C — Grafo de dependencias y boundaries`  
 Hito diagnóstico cerrado: `POST-H-EVAL-001 — Evaluación integral del baseline DevPilot post-Fase H`, cierre formal `POST-H-EVAL-001-G`  
 Siguiente hito: `POST-H-005 — Architecture map executable / dependency ownership`  
 Hito en ejecución: `POST-H-005 — Architecture map executable / dependency ownership`  
-Siguiente micro-sprint: `POST-H-005-C — Grafo de dependencias y boundaries`  
+Siguiente micro-sprint: `POST-H-005-D — Hotspot analyzer`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
@@ -21,6 +21,26 @@ Modo de trabajo: local-first híbrido, API keys opcionales, costo externo contro
 
 
 
+
+
+## POST-H-005-C — Grafo de dependencias y boundaries
+
+`POST-H-005-C` materializa el primer grafo ejecutable de dependencias internas de DevPilot. La capacidad convierte imports Python `devpilot_core` en `DependencyEdge` paquete→paquete, calcula `fan_in`/`fan_out`, clasifica boundaries como `allow`, `restricted`, `forbidden` o `unknown`, y marca como sensibles las dependencias hacia/desde `remote`, `plugins` y `connectors`.
+
+Comando principal:
+
+```powershell
+python -m devpilot_core architecture dependencies --json
+```
+
+Alcance: esta entrega es `implemented-initial / advisory dependency graph`. No refactoriza módulos, no mueve código, no cambia `ApplicationService`, no ejecuta tests desde el grafo y no convierte warnings de boundary en blockers. Hotspot scoring queda para `POST-H-005-D` y el reporte final con ownership validation queda para `POST-H-005-E`.
+
+Verificación focal:
+
+```powershell
+python -m pytest tests/test_architecture_dependencies.py tests/test_architecture_inventory.py tests/test_post_h_005_architecture_map.py tests/test_architecture_ownership_registry.py tests/test_schema_registry.py -q
+python -m devpilot_core architecture dependencies --json
+```
 
 ## POST-H-005-B — Inventario AST de paquetes y módulos
 

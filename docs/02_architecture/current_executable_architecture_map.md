@@ -159,3 +159,11 @@ PASS si el resumen conserva dry_run=true y network/API/mutations=false.
 - Hotspot score: POST-H-005-D.
 - Reporte final architecture_map.json/.md y quality-gate: POST-H-005-E.
 ```
+
+
+## POST-H-005-C — Dependency graph baseline
+
+`POST-H-005-C` adds a schema-backed package-level dependency graph built from Python AST imports. The graph enriches the ArchitectureMap with `DependencyEdge` records, package `direct_dependencies`, `fan_in`, `fan_out`, advisory boundary policy classification and sensitive dependency markers for remote/plugins/connectors.
+
+This baseline remains `implemented-initial`: it is static, local-first and non-mutating. It does not enforce boundaries, move modules, calculate hotspot scores or generate the final architecture map report yet.
+

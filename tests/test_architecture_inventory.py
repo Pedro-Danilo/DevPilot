@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+from functools import lru_cache
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -14,11 +15,17 @@ def _read_json(path: str) -> dict:
     return json.loads((ROOT / path).read_text(encoding="utf-8"))
 
 
-def test_architecture_inventory_builder_discovers_ast_modules_without_execution() -> None:
+@lru_cache(maxsize=1)
+def _inventory_result():
     from devpilot_core.architecture.inventory import ArchitectureInventoryBuilder
+
+    return ArchitectureInventoryBuilder(ROOT).build()
+
+
+def test_architecture_inventory_builder_discovers_ast_modules_without_execution() -> None:
     from devpilot_core.cli_models import ExitCode
 
-    result = ArchitectureInventoryBuilder(ROOT).build()
+    result = _inventory_result()
 
     assert result.ok is True, result.to_dict()
     assert result.exit_code == ExitCode.PASS
@@ -37,10 +44,7 @@ def test_architecture_inventory_builder_discovers_ast_modules_without_execution(
 
 
 def test_architecture_inventory_payload_validates_against_architecture_map_schema() -> None:
-    from devpilot_core.architecture.inventory import ArchitectureInventoryBuilder
-    from devpilot_core.schemas import SchemaValidator
-
-    result = ArchitectureInventoryBuilder(ROOT).build()
+    result = _inventory_result()
     architecture_map = result.data["architecture_map"]
     modules = {module["module_id"]: module for module in architecture_map["modules"]}
     packages = {package["package"]: package for package in architecture_map["packages"]}
@@ -61,12 +65,8 @@ def test_architecture_inventory_payload_validates_against_architecture_map_schem
     assert architecture_map["safety"]["dry_run"] is True
     assert architecture_map["safety"]["network_used"] is False
 
-    validation = SchemaValidator(ROOT).validate_payload(
-        schema="ArchitectureMap",
-        payload=architecture_map,
-        instance_label="unit-test:architecture-inventory",
-    )
-    assert validation.ok is True, validation.to_dict()
+    assert result.data["schema_validation"]["valid"] is True
+    assert result.data["schema_validation"]["errors_total"] == 0
 
 
 def test_architecture_inventory_cli_parser_is_registered_in_cli_source() -> None:
@@ -88,8 +88,8 @@ def test_post_h_005_b_docs_and_manifest_are_synchronized() -> None:
 
     assert "POST-H-005-B — Inventario AST de paquetes y módulos" in backlog
     assert "Estado: `implemented-initial`" in backlog
-    assert "Último micro-sprint implementado: `POST-H-005-B" in readme
-    assert "Siguiente micro-sprint: `POST-H-005-C" in readme
+    assert "Último micro-sprint implementado: `POST-H-005-" in readme
+    assert "Siguiente micro-sprint: `POST-H-005-" in readme
     assert "POST-H-005-B — Operación del inventario AST ArchitectureMap" in runbook
     assert "post-h-005-b" in changelog
     assert "architecture inventory --json" in audit

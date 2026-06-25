@@ -11,7 +11,7 @@ from .auditpack import AuditPackBuilder, AuditPackBuildOptions, AuditPackVerifyO
 from .approval.models import ApprovalStatus
 from .approval.service import ApprovalCliInput, ApprovalService
 from .application import ApplicationService
-from .architecture import ArchitectureInventoryBuilder, ArchitectureInventoryOptions
+from .architecture import ArchitectureDependenciesBuilder, ArchitectureDependenciesOptions, ArchitectureInventoryBuilder, ArchitectureInventoryOptions
 from .cli_models import CommandResult, ExitCode, Finding, Severity
 from .connectors import ConnectorAdapter, ConnectorCallOptions, ConnectorRegistry, ConnectorRegistryOptions
 from .compliance import CompliancePackRegistry, ComplianceRegistryOptions, CompliancePackRunner, ComplianceRunOptions
@@ -4030,6 +4030,47 @@ def architecture_inventory_command(
     print_result(result, json_output=json_output)
     return int(result.exit_code)
 
+
+def architecture_dependencies_command(
+    *,
+    source_root: str = "src/devpilot_core",
+    tests_root: str = "tests",
+    ownership_registry: str = ".devpilot/architecture/ownership_registry.json",
+    json_output: bool = False,
+    write_report: bool = False,
+) -> int:
+    """Build the POST-H-005-C read-only architecture dependency graph."""
+
+    root = project_root()
+    result = ArchitectureDependenciesBuilder(
+        root,
+        ArchitectureDependenciesOptions(
+            source_root=Path(source_root),
+            tests_root=Path(tests_root),
+            ownership_registry=Path(ownership_registry),
+        ),
+    ).build()
+    result = _write_optional_command_report(
+        root,
+        result,
+        subject="architecture:dependencies",
+        report_id="architecture_dependencies",
+        write_report=write_report,
+        metadata={"sprint": "POST-H-005-C", "component": "ArchitectureDependenciesBuilder"},
+    )
+    dependencies_summary_result = CommandResult(
+        command=result.command,
+        ok=result.ok,
+        exit_code=result.exit_code,
+        message=result.message,
+        data={"summary": (result.data or {}).get("summary", {})},
+        findings=result.findings,
+    )
+    _emit_result_event(root, dependencies_summary_result, subject="architecture:dependencies")
+    _persist_result(root, dependencies_summary_result, subject="architecture:dependencies")
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
 def tests_profiles_command(*, json_output: bool = False, write_report: bool = False) -> int:
     """List configured tests.run profiles without executing subprocesses."""
 
@@ -4246,6 +4287,12 @@ def build_parser() -> argparse.ArgumentParser:
     architecture_inventory.add_argument("--ownership-registry", default=".devpilot/architecture/ownership_registry.json", help="Architecture ownership registry path")
     architecture_inventory.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     architecture_inventory.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+    architecture_dependencies = architecture_sub.add_parser("dependencies", help="Build read-only package dependency graph and boundary findings")
+    architecture_dependencies.add_argument("--source-root", default="src/devpilot_core", help="Source root to analyze; defaults to src/devpilot_core")
+    architecture_dependencies.add_argument("--tests-root", default="tests", help="Tests root used to reuse inventory heuristics")
+    architecture_dependencies.add_argument("--ownership-registry", default=".devpilot/architecture/ownership_registry.json", help="Architecture ownership registry path")
+    architecture_dependencies.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    architecture_dependencies.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
 
     test_contracts = sub.add_parser("test-contracts", help="Validate POST-H-001 test contract registry")
     test_contracts_sub = test_contracts.add_subparsers(dest="test_contracts_command")
@@ -5250,6 +5297,14 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
     if args.command == "architecture":
         if args.architecture_command == "inventory":
             return architecture_inventory_command(
+                source_root=args.source_root,
+                tests_root=args.tests_root,
+                ownership_registry=args.ownership_registry,
+                json_output=args.json,
+                write_report=args.write_report,
+            )
+        if args.architecture_command == "dependencies":
+            return architecture_dependencies_command(
                 source_root=args.source_root,
                 tests_root=args.tests_root,
                 ownership_registry=args.ownership_registry,

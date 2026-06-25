@@ -8,6 +8,28 @@ approval: "internal"
 owner: "Ordóñez"
 ---
 
+## [post-h-005-c] - 2026-06-25
+
+### Added
+
+- `ArchitectureDependenciesBuilder` for read-only package dependency graph generation from Python AST imports.
+- CLI command `python -m devpilot_core architecture dependencies --json`.
+- `DependencyEdge` materialization, package `direct_dependencies`, `fan_in` and `fan_out`.
+- Advisory boundary classification for allow/restricted/forbidden/unknown dependencies.
+- Sensitive dependency marking for remote/plugins/connectors.
+- POST-H-005-C audit, manifest and tests.
+
+### Security
+
+- Dependency graph generation uses Python standard-library `ast` only and does not import project modules dynamically.
+- Boundary findings are advisory warnings only; no aggressive blocking or runtime enforcement is enabled.
+- No tests, subprocesses, network, external APIs, source mutations, remote execution, connector write or plugin execution are enabled.
+
+### Notes
+
+- This is `implemented-initial / advisory dependency graph`; hotspot scoring, final architecture report and quality-gate integration remain future POST-H-005 micro-sprints.
+
+
 
 ## [post-h-005-b] - 2026-06-25
 

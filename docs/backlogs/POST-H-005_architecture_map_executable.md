@@ -3,7 +3,7 @@ doc_id: "POST-H-005-BACKLOG"
 id: "POST-H-005"
 title: "POST-H-005 — Architecture map executable / dependency ownership"
 status: "approved"
-version: "0.3.0"
+version: "0.4.0"
 owner: "Ordóñez"
 updated: "2026-06-25"
 phase: "POST-FASE-H"
@@ -380,3 +380,40 @@ Límites explícitos:
 ```
 
 Siguiente micro-sprint: `POST-H-005-C — Grafo de dependencias y boundaries`.
+
+
+## 12. Avance de implementación — POST-H-005-C
+
+Estado: `implemented-initial`.
+
+`POST-H-005-C — Grafo de dependencias y boundaries` implementa el comando local y read-only:
+
+```powershell
+python -m devpilot_core architecture dependencies --json
+```
+
+Alcance implementado:
+
+```text
+- Parseo AST de imports internos `devpilot_core`.
+- Construcción de `DependencyEdge` paquete→paquete.
+- Cálculo de `direct_dependencies`, `fan_in` y `fan_out` por paquete.
+- Clasificación advisory de boundaries con ownership_registry.json.
+- Detección de core -> interfaces como posible violation.
+- Detección de dependencias sensibles hacia/desde remote, plugins y connectors.
+- Payload ArchitectureMap schema-backed en memoria.
+```
+
+Límites explícitos:
+
+```text
+- No refactoriza CLI ni mueve módulos.
+- No cambia boundaries runtime ni ApplicationService.
+- No ejecuta tests desde el grafo.
+- No convierte findings advisory en blockers de quality-gate.
+- No calcula hotspot score; queda para POST-H-005-D.
+- No genera architecture_map.json/.md final; queda para POST-H-005-E.
+```
+
+Siguiente micro-sprint: `POST-H-005-D — Hotspot analyzer`.
+
