@@ -1,12 +1,12 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
-Estado actual: `baseline pre-code approved + Fases A-G cerradas + Fase H cerrada + POST-H-001 implemented-initial + POST-H-EVAL-001 closed + POST-H-002 closed + POST-H-003 closed + POST-H-004-A implemented-initial + POST-H-004-B implemented-initial + POST-H-004-C implemented-initial + POST-H-004-D implemented-initial`  
-Último hito: `POST-H-003 — Test Contract Registry 2.0`  
-Último micro-sprint implementado: `POST-H-004-D — Observability, evals y test contracts`  
+Estado actual: `baseline pre-code approved + Fases A-G cerradas + Fase H cerrada + POST-H-001 implemented-initial + POST-H-EVAL-001 closed + POST-H-002 closed + POST-H-003 closed + POST-H-004 closed`  
+Último hito: `POST-H-004 — Policy/MIASI semantic validator ampliado`  
+Último micro-sprint implementado: `POST-H-004-E — Integración con quality-gate y documentación`  
 Hito diagnóstico cerrado: `POST-H-EVAL-001 — Evaluación integral del baseline DevPilot post-Fase H`, cierre formal `POST-H-EVAL-001-G`  
-Siguiente hito: `POST-H-004 — Policy/MIASI semantic validator ampliado`  
-Hito en ejecución: `POST-H-004 — Policy/MIASI semantic validator ampliado`  
-Siguiente micro-sprint: `POST-H-004-E — Integración con quality-gate y documentación`  
+Siguiente hito: `POST-H-005 — Architecture map executable / dependency ownership`  
+Hito en ejecución: `POST-H-005 — Architecture map executable / dependency ownership`  
+Siguiente micro-sprint: `POST-H-005-A — Modelo ejecutable de mapa arquitectónico`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
@@ -20,6 +20,21 @@ Modo de trabajo: local-first híbrido, API keys opcionales, costo externo contro
 
 
 
+
+## POST-H-004-E — Integración con quality-gate y documentación
+
+`POST-H-004-E` cierra el hito `POST-H-004 — Policy/MIASI semantic validator ampliado` como capacidad `implemented-initial`. La entrega integra `miasi semantic-validate` como subgate crítico `miasi-semantic-validate` dentro de `quality-gate hardening` e `industrial`, registra el contrato formal `post-h-004-miasi-semantic-validator` en Test Contract Registry v1/v2 y sincroniza la documentación de seguridad, operación y cierre.
+
+Comandos principales:
+
+```powershell
+python -m devpilot_core miasi semantic-validate --json
+python -m devpilot_core quality-gate run --profile hardening --json
+python -m devpilot_core test-contracts validate --json
+python -m devpilot_core test-contracts validate-v2 --json
+```
+
+Alcance: esta entrega cierra `POST-H-004` como primera versión industrial local de validación semántica declarativa. No ejecuta agentes, tools, evals, pytest desde JSON, subprocesses, red, APIs externas, conectores, plugins ni remote runners. No declara `production-ready-local` completo; conserva warnings trazables para hardening posterior de approval/RBAC sobre `controlled_write` high-risk.
 
 ## POST-H-004-D — Observability, evals y test contracts
 

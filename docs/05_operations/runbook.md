@@ -6240,3 +6240,43 @@ BLOCK si un contrato P0/P1 de seguridad/MIASI permite red/API externa.
 ### Riesgos y límites
 
 `POST-H-004-D` es `implemented-initial`. No ejecuta evals, no ejecuta tests desde JSON, no invoca tools ni agentes y no sustituye `PolicyEngine`. La integración con `quality-gate` y el contrato formal de cierre de `POST-H-004` quedan para `POST-H-004-E`.
+
+## POST-H-004-E — Operación del cierre Policy/MIASI semantic validator
+
+Propósito: cerrar `POST-H-004` integrando `miasi semantic-validate` como subgate crítico de `quality-gate hardening/industrial`, registrar el contrato formal en Test Contract Registry v1/v2 y dejar el proyecto listo para iniciar `POST-H-005`.
+
+Comandos principales:
+
+```powershell
+python -m devpilot_core miasi semantic-validate --json
+python -m devpilot_core test-contracts validate --json
+python -m devpilot_core test-contracts validate-v2 --json
+python -m devpilot_core quality-gate run --profile hardening --json
+```
+
+Verificación específica:
+
+```powershell
+python -m pytest tests/test_miasi_semantic_validator.py tests/test_miasi_semantic_validator_fixtures.py tests/test_miasi_semantic_report_model.py tests/test_miasi_registry.py tests/test_schema_registry.py tests/test_quality_gate.py tests/test_post_h_004_documentation.py -q
+```
+
+Criterios PASS:
+
+```text
+PASS si quality-gate hardening incluye miasi-semantic-validate.
+PASS si el subgate miasi-semantic-validate queda ok=true.
+PASS si TCR v1/v2 contiene post-h-004-miasi-semantic-validator.
+PASS si project-state validate reporta last_completed_sprint=POST-H-004 y next_sprint=POST-H-005.
+PASS si no se habilita ejecución de agentes, tools, evals, tests desde JSON, red, APIs externas, plugins, conectores ni remote runners.
+```
+
+Criterios BLOCK:
+
+```text
+BLOCK si semantic-validate se elimina del hardening profile.
+BLOCK si el contrato POST-H-004 no existe en TCR v1/v2.
+BLOCK si se relaja PolicyEngine o los no-go gates de remote/plugin/connector para pasar tests.
+BLOCK si esta entrega declara production-ready-local completo.
+```
+
+Estado: `implemented-initial / hito closed`. Esta operación cierra POST-H-004 como validación semántica declarativa industrial inicial. La promoción a production-ready-local y el hardening profundo de Approval/RBAC quedan para hitos posteriores.

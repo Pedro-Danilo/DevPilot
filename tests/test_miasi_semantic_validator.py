@@ -23,7 +23,7 @@ def test_miasi_semantic_validator_current_bundle_passes_with_read_only_report() 
     assert result.data["network_used"] is False
     assert result.data["external_api_used"] is False
     assert result.data["mutations_performed"] is False
-    assert result.data["report"]["created_by"] == "POST-H-004-D"
+    assert result.data["report"]["created_by"] == "POST-H-004-E"
     assert result.data["report"]["status"] in {"pass", "warning"}
 
     schema_result = SchemaValidator(ROOT).validate_payload(
@@ -61,22 +61,22 @@ def test_miasi_semantic_validate_cli_can_write_evidence_report(monkeypatch, caps
     assert (ROOT / payload["data"]["reports"]["markdown"]).is_file()
 
 
-def test_post_h_004_d_documentation_markers_are_synchronized() -> None:
+def test_post_h_004_e_documentation_markers_are_synchronized() -> None:
     backlog = (ROOT / "docs/backlogs/POST-H-004_policy_miasi_semantic_validator.md").read_text(encoding="utf-8")
     readme = (ROOT / "README.md").read_text(encoding="utf-8")
     runbook = (ROOT / "docs/05_operations/runbook.md").read_text(encoding="utf-8")
     security_doc = (ROOT / "docs/03_security/policy_miasi_semantic_validation.md").read_text(encoding="utf-8")
 
-    assert 'version: "0.5.0"' in backlog
-    assert "POST-H-004-D" in backlog
+    assert 'version: "1.0.0"' in backlog
+    assert "POST-H-004-E" in backlog
     assert "miasi semantic-validate" in backlog
-    assert "POST-H-004-D" in readme
     assert "POST-H-004-E" in readme
-    assert "POST-H-004-D" in runbook
-    assert "observability/evals/test contracts" in security_doc
+    assert "POST-H-005" in readme
+    assert "POST-H-004-E" in runbook
+    assert "quality-gate" in security_doc
 
 
-def test_miasi_semantic_validator_includes_post_h_004_d_rules() -> None:
+def test_miasi_semantic_validator_includes_post_h_004_rules() -> None:
     result = MiasiSemanticValidator(ROOT).validate()
     rule_ids = {rule["rule_id"] for rule in result.data["report"]["rule_results"]}
 

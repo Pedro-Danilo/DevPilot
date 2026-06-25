@@ -127,6 +127,7 @@ class QualityGate:
                     "POST-H-001 adds the hardening profile for test contracts, project state and industrial baseline coherence without running full pytest by default.",
                     "POST-H-002-E adds the maturity-dashboard subgate to hardening/industrial profiles without replacing existing gates.",
                     "POST-H-003-E adds the Test Contract Registry v2 subgate to hardening/industrial profiles while keeping v1 compatibility.",
+                    "POST-H-004-E adds the MIASI semantic validator subgate to hardening/industrial profiles without executing agents, tools, evals or tests from JSON.",
                     "The default and ci profiles do not run pytest implicitly; CI workflows and local checklists run pytest as an explicit step, or use --include-pytest when desired.",
                     "The gate does not publish packages, deploy, write source files, call network services or use external APIs.",
                     "Optional --write-report is handled by the CLI and writes only under outputs/reports.",
@@ -162,6 +163,7 @@ class QualityGate:
             subgates.append(QualitySubgate("test-contract-registry-v2", "POST-H-003 Test Contract Registry v2 validation without executing tests.", self._test_contract_registry_v2))
             subgates.append(QualitySubgate("project-global-state", "Centralized mutable project state synchronization.", self._project_global_state))
             subgates.append(QualitySubgate("maturity-dashboard", "POST-H-002 maturity dashboard quality gate.", self.service.maturity_dashboard_gate))
+            subgates.append(QualitySubgate("miasi-semantic-validate", "POST-H-004 MIASI semantic validator quality gate.", self._miasi_semantic_validate))
         if self.options.profile == "industrial":
             subgates.append(QualitySubgate("industrial-readiness", "Fase H industrial readiness gate and maturity classification.", self._industrial_readiness))
         if self.options.profile == "hardening":
@@ -235,6 +237,11 @@ class QualityGate:
         from devpilot_core.testing import TestContractRegistryV2Validator
 
         return TestContractRegistryV2Validator(self.root).validate()
+
+    def _miasi_semantic_validate(self) -> CommandResult:
+        from devpilot_core.miasi import MiasiSemanticValidator
+
+        return MiasiSemanticValidator(self.root).validate()
 
     def _project_global_state(self) -> CommandResult:
         from devpilot_core.testing import TestContractRegistry

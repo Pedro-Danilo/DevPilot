@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import re
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -14,6 +15,13 @@ def _read_json(path: str) -> dict:
     return json.loads((ROOT / path).read_text(encoding="utf-8"))
 
 
+def _post_h_number(value: str) -> int:
+    match = re.fullmatch(r"POST-H-(\d+)", value)
+    if match is None:
+        raise AssertionError(f"Expected POST-H identifier, got {value!r}")
+    return int(match.group(1))
+
+
 def test_post_h_003_backlog_is_closed_and_points_to_post_h_004() -> None:
     backlog = _read("docs/backlogs/POST-H-003_test_contract_registry_2.md")
     readme = _read("README.md")
@@ -23,8 +31,9 @@ def test_post_h_003_backlog_is_closed_and_points_to_post_h_004() -> None:
     assert 'implementation_status: "closed"' in backlog
     assert 'version: "1.0.0"' in backlog
     assert "POST-H-003-E — Quality gate y documentación" in backlog
-    assert "Siguiente hito: `POST-H-004" in readme
-    assert "Último hito: `POST-H-003" in readme
+    assert "POST-H-003 closed" in readme
+    assert "POST-H-004" in readme
+    assert "POST-H-003-E — Quality gate y documentación" in readme
     assert "POST-H-003-E — Operación del cierre Test Contract Registry 2.0" in runbook
     assert "post-h-003-e" in changelog
 
@@ -59,8 +68,8 @@ def test_post_h_003_contracts_exist_in_v1_and_v2() -> None:
     v1_contracts = {item["contract_id"]: item for item in v1["contracts"]}
     v2_contracts = {item["contract_id"]: item for item in v2["contracts"]}
 
-    assert len(v1_contracts) == 88
-    assert len(v2_contracts) == 88
+    assert len(v1_contracts) >= 88
+    assert len(v2_contracts) >= 88
     assert "post-h-003-test-contract-registry-2" in v1_contracts
     assert "post-h-003-test-contract-registry-2" in v2_contracts
     assert v1_contracts["post-h-003-test-contract-registry-2"]["owner"] == "POST-H-003-E"
@@ -69,10 +78,9 @@ def test_post_h_003_contracts_exist_in_v1_and_v2() -> None:
     assert v2_contracts["post-h-003-test-contract-registry-2"]["classification_status"] == "explicit"
 
 
-def test_post_h_003_project_state_advances_to_post_h_004() -> None:
+def test_post_h_003_project_state_advances_to_or_beyond_post_h_004() -> None:
     state = _read_json(".devpilot/project_state.json")
 
-    assert state["last_completed_sprint"] == "POST-H-003"
-    assert state["next_sprint"] == "POST-H-004"
-    assert state["source_repo"] == "repo_DevPilot_Local_149_POST_H_003_D.zip"
-    assert state["current_repo"] == "repo_DevPilot_Local_150_POST_H_003_E.zip"
+    assert _post_h_number(state["last_completed_sprint"]) >= 3
+    assert _post_h_number(state["next_sprint"]) >= 4
+    assert any("POST-H-003 closes Test Contract Registry 2.0" in note for note in state["notes"])

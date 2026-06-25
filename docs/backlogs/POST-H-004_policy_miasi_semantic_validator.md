@@ -3,7 +3,7 @@ doc_id: "POST-H-004-BACKLOG"
 id: "POST-H-004"
 title: "POST-H-004 — Policy/MIASI semantic validator ampliado"
 status: "approved"
-version: "0.5.0"
+version: "1.0.0"
 owner: "Ordóñez"
 updated: "2026-06-24"
 phase: "POST-FASE-H"
@@ -12,7 +12,7 @@ roadmap_source: "docs/backlogs/post_h_prioritized_roadmap.md"
 local_first: true
 dry_run: true
 no_remote_execution_enabled: true
-implementation_status: "in-progress"
+implementation_status: "closed"
 approval: "internal"
 ---
 
@@ -343,6 +343,34 @@ Tareas:
 4. Agregar contract de POST-H-004.
 ```
 
+
+## 6.5. Avance de implementación POST-H-004-E
+
+Estado: `implemented-initial` / hito `closed`.
+
+`POST-H-004-E` cierra el hito integrando el validador semántico en el quality gate local y registrando su contrato formal en TCR v1/v2.
+
+Alcance implementado:
+
+```text
+- Subgate `miasi-semantic-validate` agregado a `quality-gate hardening` e `industrial`.
+- Contrato `post-h-004-miasi-semantic-validator` agregado a Test Contract Registry v1.
+- Contrato P0 `post-h-004-miasi-semantic-validator` agregado a Test Contract Registry v2.
+- `miasi semantic-validate` emite reporte schema-backed `created_by=POST-H-004-E`.
+- Documentación de seguridad, runbook, README, changelog, manifest y closure report sincronizados.
+- Project state avanza a `last_completed_sprint=POST-H-004` y `next_sprint=POST-H-005`.
+```
+
+Límites explícitos:
+
+```text
+- No ejecuta agentes, tools, evals, pytest desde JSON ni subprocesses.
+- No habilita red, APIs externas, remote execution, connector write ni plugin execution.
+- No declara production-ready-local completo; el cierre es `implemented-initial`.
+```
+
+Nota de madurez: `POST-H-004` entrega una primera versión industrial local de validación semántica declarativa. Los warnings de `controlled_write` high-risk sin approval/RBAC explícito por herramienta permanecen trazados para `POST-H-012` y hardening posterior.
+
 ## 7. Comandos de validación final
 
 ```powershell
@@ -352,8 +380,9 @@ python -m pytest tests/test_miasi_semantic_validator.py -q
 python -m pytest tests/test_miasi_semantic_validator_fixtures.py -q
 python -m devpilot_core miasi validate --json
 python -m devpilot_core miasi semantic-validate --json
-python -m devpilot_core schema validate --schema-id MiasiSemanticReport --instance outputs/reports/miasi_semantic_report.json --json
+python -m devpilot_core miasi semantic-validate --json --write-report
 python -m devpilot_core test-contracts validate --json
+python -m devpilot_core test-contracts validate-v2 --json
 python -m devpilot_core quality-gate run --profile hardening --json
 ```
 

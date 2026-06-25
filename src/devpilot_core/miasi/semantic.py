@@ -119,7 +119,7 @@ class MiasiSemanticReportBuilder:
 class MiasiSemanticValidator:
     """Validate semantic consistency across MIASI agents, tools and policy rules.
 
-    POST-H-004-C remains read-only and non-executing. It loads the
+    POST-H-004-E remains read-only and non-executing. It loads the
     existing MIASI declarative bundle, evaluates semantic rules and emits a
     schema-valid ``MiasiSemanticReport``. It does not execute tools, agents,
     tests, subprocesses, remote runners, plugins, connectors, network calls or
@@ -168,8 +168,8 @@ class MiasiSemanticValidator:
 
     def _report(self, *, rule_results: list[SemanticRuleResult], status: str) -> MiasiSemanticReport:
         return MiasiSemanticReport(
-            report_id="miasi-semantic-post-h-004-d",
-            created_by="POST-H-004-D",
+            report_id="miasi-semantic-post-h-004-e",
+            created_by="POST-H-004-E",
             status=status,
             rule_results=tuple(rule_results),
             source_paths=self.builder.source_paths(),
@@ -181,7 +181,7 @@ class MiasiSemanticValidator:
                 "approval/RBAC/security guards must be explicit before high-risk runtime paths can evolve beyond implemented-initial",
             ),
             notes=(
-                "POST-H-004-D validates agent/tool/policy declarations plus approval, RBAC, security guards, observability, eval fixtures and test-contract coverage.",
+                "POST-H-004-E validates agent/tool/policy declarations plus approval, RBAC, security guards, observability, eval fixtures, test-contract coverage and quality-gate integration.",
                 "Controlled-write tools without explicit approval/RBAC remain warnings when local guards are present; missing guards, unsafe no-go paths, disabled observability or invalid eval evidence remain blocking.",
                 "This validator is local-first, dry-run and non-executing.",
             ),

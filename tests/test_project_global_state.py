@@ -22,28 +22,28 @@ def test_project_global_state_schema_and_docs_are_synchronized() -> None:
     changelog = read("docs/release/CHANGELOG.md")
 
     assert state["current_phase"] == "POST-FASE-H"
-    assert state["last_completed_sprint"] == "POST-H-003"
+    assert state["last_completed_sprint"] == "POST-H-004"
     assert state["last_functional_sprint"] == "FUNC-SPRINT-99"
-    assert state["next_sprint"] == "POST-H-004"
+    assert state["next_sprint"] == "POST-H-005"
     assert state["phase_h_status"] == "closed_implemented_initial"
     assert state["industrial_baseline_ready"] is True
     assert state["global_state_owner"] == "tests/test_project_global_state.py"
 
-    assert "Último hito: `POST-H-003" in readme
-    assert "Siguiente hito: `POST-H-004" in readme
-    assert "POST-H-003 — Test Contract Registry 2.0" in readme
-    assert "POST-H-003-E — Operación del cierre Test Contract Registry 2.0" in runbook
+    assert "Último hito: `POST-H-004" in readme
+    assert "Siguiente hito: `POST-H-005" in readme
+    assert "POST-H-004 — Policy/MIASI semantic validator ampliado" in readme
+    assert "POST-H-004-E — Operación del cierre Policy/MIASI semantic validator" in runbook
     assert 'status: "approved"' in post_h_doc
     assert 'implementation_status: "implemented-initial"' in post_h_doc
     assert 'implementation_status: "closed"' in post_h_002_backlog
-    assert "POST-H-004" in post_h_roadmap
-    assert "post-h-003-e" in changelog
+    assert "POST-H-005" in post_h_roadmap
+    assert "post-h-004-e" in changelog
 
 
 def test_project_global_state_command_result_passes() -> None:
     result = TestContractRegistry(ROOT).project_state()
 
     assert result.ok, result.to_dict()
-    assert result.data["summary"]["last_completed_sprint"] == "POST-H-003"
-    assert result.data["summary"]["next_sprint"] == "POST-H-004"
+    assert result.data["summary"]["last_completed_sprint"] == "POST-H-004"
+    assert result.data["summary"]["next_sprint"] == "POST-H-005"
     assert result.data["summary"]["checks_passed"] == result.data["summary"]["checks_total"]

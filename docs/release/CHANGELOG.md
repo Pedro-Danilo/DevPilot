@@ -8,6 +8,25 @@ approval: "internal"
 owner: "Ordóñez"
 ---
 
+## [post-h-004-e] - 2026-06-24
+
+### Added
+
+- Subgate `miasi-semantic-validate` inside `quality-gate hardening` and `industrial` profiles.
+- Formal Test Contract Registry v1/v2 contract `post-h-004-miasi-semantic-validator`.
+- Closure report `docs/audits/post_h_004_closure_report.md` and manifest `docs/post_h_004_e_manifest.json`.
+- Documentation sync for README, runbook and Policy/MIASI security documentation.
+
+### Security
+
+- The semantic validator remains local-first, dry-run and non-executing.
+- The quality gate does not execute agents, tools, evals, pytest from JSON, network calls, external APIs, connectors, plugins or remote runners.
+- POST-H-004 closes as `implemented-initial`, not as full production-ready-local.
+
+### Notes
+
+- Project state advances to `last_completed_sprint=POST-H-004` and `next_sprint=POST-H-005`.
+- The remaining high-risk controlled-write warnings stay visible for future Approval/RBAC hardening.
 
 ## [post-h-004-d] - 2026-06-24
 
