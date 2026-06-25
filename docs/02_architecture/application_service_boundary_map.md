@@ -1,6 +1,6 @@
-# ApplicationService boundary map — POST-H-007-A
+# ApplicationService boundary map — POST-H-007-A/B/C
 
-Estado: `implemented-initial`.
+Estado: `implemented-initial` acumulativo hasta `POST-H-007-C`.
 
 ## Modelo mental
 
@@ -44,3 +44,19 @@ src/devpilot_core/application/capability_registry.py
 docs/schemas/application_operation_catalog.schema.json
 outputs/reports/application_operation_catalog.json  # generado, no versionar
 ```
+
+
+## POST-H-007-C — DTO runtime normalization
+
+El mapa acumula una nueva ruta interna:
+
+```text
+ApplicationRequest(priority operation)
+  -> ApplicationService.execute()
+  -> priority DTO normalization/default payloads
+  -> domain application service
+  -> CommandResult
+  -> ApplicationResponse
+```
+
+Esta ruta no reemplaza `CommandResult`; lo envuelve para API/UI/CLI-equivalent paths. Tampoco agrega rutas HTTP ni comandos CLI públicos.

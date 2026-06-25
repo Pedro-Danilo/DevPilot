@@ -3,7 +3,7 @@ doc_id: "POST-H-007-BACKLOG"
 id: "POST-H-007"
 title: "POST-H-007 — ApplicationService boundary hardening"
 status: "approved"
-version: "0.3.0"
+version: "0.4.0"
 owner: "Ordóñez"
 updated: "2026-06-25"
 phase: "POST-FASE-H"
@@ -406,4 +406,51 @@ PASS: CLI/API/UI mappings son opcionales, pero explícitos como arrays.
 PASS: no se modifica comportamiento runtime ni se agregan rutas/comandos públicos.
 ```
 
-Limitación explícita: `POST-H-007-B` es una primera versión contractual. No normaliza aún DTOs runtime (`POST-H-007-C`), no aplica boundary policy por cliente (`POST-H-007-D`) y no conecta aún CommandDescriptor con ApplicationOperationDescriptor (`POST-H-007-E`).
+Limitación explícita: `POST-H-007-B` es una primera versión contractual. Al cierre de `POST-H-007-B` no normalizaba aún DTOs runtime; esa primera cobertura queda incorporada por `POST-H-007-C`. Todavía no aplica boundary policy por cliente (`POST-H-007-D`) y no conecta aún CommandDescriptor con ApplicationOperationDescriptor (`POST-H-007-E`).
+
+
+## 15. Avance de implementación — POST-H-007-C
+
+Estado: `implemented-initial`.
+
+`POST-H-007-C — Normalización DTO de operaciones prioritarias` introduce una ruta runtime incremental para que las operaciones priorizadas por el backlog puedan ejecutarse mediante `ApplicationRequest` y retornar `ApplicationResponse`, preservando el `CommandResult` como resultado core. El cambio endurece el boundary sin alterar rutas públicas, sin agregar comandos CLI y sin habilitar capacidades remotas o write externas.
+
+Operaciones cubiertas:
+
+```text
+workspace.status
+validation.docs
+validation.contracts
+reports.list
+reports.read
+approvals.list
+settings.status
+repo.inventory
+review.code
+refactor.plan
+observability.traces
+```
+
+Artefactos implementados:
+
+```text
+src/devpilot_core/application/dto_normalization.py
+src/devpilot_core/application/services.py
+src/devpilot_core/application/__init__.py
+tests/test_application_dto_normalization.py
+docs/audits/post_h_007_c_dto_normalization_report.md
+docs/post_h_007_c_manifest.json
+```
+
+Criterios PASS cubiertos:
+
+```text
+PASS: las operaciones seleccionadas retornan ApplicationResponse válida.
+PASS: findings se preservan durante la conversión desde CommandResult.
+PASS: exit_code se conserva durante la conversión.
+PASS: data, report_paths y metadata crítica se preservan.
+PASS: validation.docs, validation.contracts, settings.status y observability.traces quedan declaradas como operaciones DTO prioritarias.
+PASS: no se agregan rutas HTTP públicas, comandos CLI públicos ni enforcement por interfaz.
+```
+
+Limitación explícita: `POST-H-007-C` es una primera versión de normalización DTO prioritaria. La autorización por interfaz (`cli`, `api`, `ui`, `automation`, `internal`) queda para `POST-H-007-D`, y la integración con CLI registry/quality gate queda para `POST-H-007-E`.

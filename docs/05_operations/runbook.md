@@ -6850,4 +6850,54 @@ BLOCK si el catálogo pretende normalizar DTOs runtime o aplicar enforcement por
 BLOCK si se agregan comandos CLI públicos nuevos para producir el catálogo.
 ```
 
-Limitación: `POST-H-007-B` es catálogo/schema únicamente. No corrige bypasses CLI, no normaliza DTOs y no bloquea operaciones por interfaz. Es una base contractual para `POST-H-007-C/D/E`.
+Limitación: `POST-H-007-B` es catálogo/schema únicamente. No corrige bypasses CLI y no bloquea operaciones por interfaz; la normalización DTO prioritaria queda cubierta por `POST-H-007-C`. Es una base contractual para `POST-H-007-C/D/E`.
+
+
+## POST-H-007-C — Operación de normalización DTO prioritaria
+
+Propósito: verificar que las operaciones prioritarias del boundary puedan ejecutarse en proceso mediante `ApplicationRequest` y retornar `ApplicationResponse` válido sin perder el `CommandResult` core, sus `exit_code`, `findings`, `data`, `report_paths` o metadata crítica.
+
+Operaciones cubiertas:
+
+```text
+workspace.status
+validation.docs
+validation.contracts
+reports.list
+reports.read
+approvals.list
+settings.status
+repo.inventory
+review.code
+refactor.plan
+observability.traces
+```
+
+Comandos focales:
+
+```powershell
+python -m pytest tests/test_application_dto_normalization.py tests/test_application_services.py -q
+python -m pytest tests/test_application_dto_normalization.py tests/test_application_operation_catalog_schema.py tests/test_schema_registry.py tests/test_project_global_state.py -q
+```
+
+Criterios PASS:
+
+```text
+PASS si las 11 operaciones prioritarias retornan ApplicationResponse válido.
+PASS si ApplicationResponse conserva exit_code, findings, data, report_paths y metadata crítica.
+PASS si validation.docs y validation.contracts funcionan como aliases DTO explícitos del ValidationGateway.
+PASS si settings.status expone un agregado read-only de workspace/providers/policy.
+PASS si observability.traces expone un alias DTO estable hacia trace_report.
+PASS si no se agregan rutas HTTP, comandos CLI públicos, remote execution, connector write ni plugin execution.
+```
+
+Criterios BLOCK:
+
+```text
+BLOCK si la normalización cambia la semántica de CommandResult.
+BLOCK si se pierden findings o metadata crítica durante la conversión.
+BLOCK si se abre una operación write desde API/UI sin policy/approval.
+BLOCK si se activa enforcement por interfaz antes de POST-H-007-D.
+```
+
+Limitación: `POST-H-007-C` es normalización DTO prioritaria. No resuelve todos los bypasses CLI, no habilita autorización por cliente y no conecta aún CommandDescriptor con ApplicationOperationDescriptor.

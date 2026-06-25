@@ -9,6 +9,24 @@ owner: "Ordóñez"
 ---
 
 
+## [post-h-007-c] - 2026-06-25
+
+### Added
+
+- `src/devpilot_core/application/dto_normalization.py` with POST-H-007-C priority DTO operation descriptors and default payload normalization.
+- Runtime dispatch aliases for `validation.docs`, `validation.contracts`, `settings.status` and `observability.traces`.
+- Tests in `tests/test_application_dto_normalization.py` validating `ApplicationResponse` schema conformance and preservation of `exit_code`, `findings`, `data`, `report_paths` and metadata.
+- Audit report `docs/audits/post_h_007_c_dto_normalization_report.md` and manifest `docs/post_h_007_c_manifest.json`.
+- Test Contract Registry v1/v2 contract `post-h-007-application-dto-normalization`.
+
+### Security
+
+- DTO normalization is in-process and local-first. It does not add public CLI commands, HTTP routes, remote execution, connector write, plugin execution, network calls or external APIs.
+
+### Notes
+
+- `POST-H-007-C` normalizes priority DTO paths only. Boundary policy enforcement remains for `POST-H-007-D`; CLI registry integration remains for `POST-H-007-E`.
+
 ## [post-h-007-b] - 2026-06-25
 
 ### Added

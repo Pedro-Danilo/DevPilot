@@ -15,6 +15,17 @@ from .operation_catalog import (
 )
 from .report import ApplicationServiceBoundaryReportBuilder, ApplicationServiceBoundaryReportOptions, render_application_service_boundary_markdown
 from .dtos import ApplicationRequest, ApplicationResponse, InterfaceRouteContract, ServiceCapability
+from .dto_normalization import (
+    APPLICATION_DTO_NORMALIZATION_REPORT_ID,
+    POST_H_007_C_CREATED_BY,
+    PRIORITY_OPERATION_IDS,
+    PriorityDtoOperation,
+    application_dto_normalization_report,
+    is_priority_dto_operation,
+    normalize_priority_application_request,
+    priority_dto_operation_ids,
+    priority_dto_operations,
+)
 from .evals_service import EvaluationApplicationService
 from .history_service import HistoryApplicationService
 from .miasi_service import MiasiApplicationService
@@ -37,11 +48,20 @@ __all__ = [
     "APPLICATION_OPERATION_CATALOG_ID",
     "APPLICATION_OPERATION_CATALOG_SCHEMA_ID",
     "POST_H_007_B_CREATED_BY",
+    "POST_H_007_C_CREATED_BY",
+    "APPLICATION_DTO_NORMALIZATION_REPORT_ID",
+    "PRIORITY_OPERATION_IDS",
     "ApplicationCapabilityRegistry",
     "ApplicationOperationCatalog",
     "ApplicationOperationCatalogBuilder",
     "ApplicationOperationCatalogOptions",
     "ApplicationOperationDescriptor",
+    "PriorityDtoOperation",
+    "application_dto_normalization_report",
+    "is_priority_dto_operation",
+    "normalize_priority_application_request",
+    "priority_dto_operation_ids",
+    "priority_dto_operations",
     "render_application_operation_catalog_markdown",
     "ApplicationBoundaryBypass",
     "ApplicationBoundaryOperation",

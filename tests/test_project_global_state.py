@@ -41,6 +41,7 @@ def test_project_global_state_schema_and_docs_are_synchronized() -> None:
     assert "POST-H-007" in post_h_roadmap or "POST-H-007" in readme
     assert "post-h-007-a" in changelog
     assert "post-h-007-b" in changelog
+    assert "post-h-007-c" in changelog
 
 
 def test_project_global_state_command_result_passes() -> None:

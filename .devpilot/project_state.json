@@ -8,8 +8,8 @@
   "last_completed_sprint": "POST-H-006",
   "last_functional_sprint": "FUNC-SPRINT-99",
   "next_sprint": "POST-H-007",
-  "source_repo": "repo_DevPilot_Local_166_POST_H_007_A.zip",
-  "current_repo": "repo_DevPilot_Local_167_POST_H_007_B.zip",
+  "source_repo": "repo_DevPilot_Local_167_POST_H_007_B.zip",
+  "current_repo": "repo_DevPilot_Local_168_POST_H_007_C.zip",
   "global_state_owner": "tests/test_project_global_state.py",
   "mutable_global_state_fields": [
     "last_completed_sprint",
@@ -34,6 +34,7 @@
     "POST-H-006-E adds a local no-growth CLI gate: commands that appear as legacy-unregistered must be covered by a temporary source-controlled allowlist, while new public commands require declarative descriptors or migrated handlers.",
     "POST-H-006 closes CLI command registry y desacoplamiento de handlers as implemented-initial: static inventory, declarative registry, migrated handlers, hotspot ownership and no-growth gate are available locally.",
     "POST-H-007-A starts ApplicationService boundary hardening as implemented-initial: a read-only boundary/bypass inventory report identifies ApplicationService operations, API/UI mappings and CLI direct-core bypasses without runtime behavior changes.",
-    "POST-H-007-B adds a schema-valid ApplicationOperationCatalog: operations declare risk, writes, policy_required, dry_run_default, test coverage and explicit CLI/API/UI mappings without runtime behavior changes."
+    "POST-H-007-B adds a schema-valid ApplicationOperationCatalog: operations declare risk, writes, policy_required, dry_run_default, test coverage and explicit CLI/API/UI mappings without runtime behavior changes.",
+    "POST-H-007-C adds priority DTO normalization: 11 operations execute through ApplicationRequest/ApplicationResponse while preserving CommandResult exit_code, findings, data/report_paths and metadata without adding public CLI commands or HTTP routes."
   ]
 }

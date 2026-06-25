@@ -1,6 +1,6 @@
 # POST-H-007 — ApplicationService boundary
 
-Estado: `implemented-initial` para `POST-H-007-A`.
+Estado: `implemented-initial` acumulativo hasta `POST-H-007-C`.
 
 ## Propósito
 
@@ -62,3 +62,31 @@ src/devpilot_core/application/capability_registry.py
 docs/schemas/application_operation_catalog.schema.json
 outputs/reports/application_operation_catalog.json  # generado, no versionar
 ```
+
+
+## POST-H-007-C — DTO normalization priority path
+
+`POST-H-007-C` agrega normalización runtime para 11 operaciones prioritarias usando `ApplicationRequest`/`ApplicationResponse`. El adapter conserva `CommandResult` como contrato core y no cambia rutas públicas.
+
+Nuevas operaciones/aliases DTO:
+
+```text
+validation.docs -> ValidationGateway(scope=docs)
+validation.contracts -> ValidationGateway(scope=contracts)
+settings.status -> agregado read-only workspace/providers/policy
+observability.traces -> trace_report estable para API/UI
+```
+
+Garantías:
+
+```text
+- findings preservados
+- exit_code preservado
+- data/report_paths/metadata preservados
+- sin remote execution
+- sin connector write
+- sin plugin execution
+- sin nuevos comandos CLI públicos
+```
+
+Límite: la decisión de qué cliente puede ejecutar qué operación no se implementa aquí; queda para `POST-H-007-D`.

@@ -1,0 +1,60 @@
+{
+  "id": "POST-H-007-C",
+  "title": "Normalización DTO de operaciones prioritarias",
+  "status": "implemented-initial",
+  "parent_backlog": "POST-H-007",
+  "created_by": "POST-H-007-C",
+  "source_repo": "repo_DevPilot_Local_167_POST_H_007_B.zip",
+  "current_repo": "repo_DevPilot_Local_168_POST_H_007_C.zip",
+  "next_micro_sprint": "POST-H-007-D",
+  "artifacts": [
+    "src/devpilot_core/application/dto_normalization.py",
+    "src/devpilot_core/application/services.py",
+    "src/devpilot_core/application/__init__.py",
+    "tests/test_application_dto_normalization.py",
+    "docs/audits/post_h_007_c_dto_normalization_report.md",
+    "docs/post_h_007_c_manifest.json"
+  ],
+  "priority_operations": [
+    "workspace.status",
+    "validation.docs",
+    "validation.contracts",
+    "reports.list",
+    "reports.read",
+    "approvals.list",
+    "settings.status",
+    "repo.inventory",
+    "review.code",
+    "refactor.plan",
+    "observability.traces"
+  ],
+  "safety": {
+    "read_only": true,
+    "dry_run": true,
+    "network_used": false,
+    "external_api_used": false,
+    "mutations_performed": false,
+    "source_mutations_performed": false,
+    "remote_execution_enabled": false,
+    "connector_write_enabled": false,
+    "plugin_execution_enabled": false,
+    "runtime_routes_added": false,
+    "public_cli_commands_added": false
+  },
+  "contracts": {
+    "request": "ApplicationRequest",
+    "response": "ApplicationResponse",
+    "core_result": "CommandResult",
+    "preserves_exit_code": true,
+    "preserves_findings": true,
+    "preserves_data": true,
+    "preserves_report_paths": true,
+    "preserves_metadata": true
+  },
+  "preliminary": true,
+  "limitations": [
+    "No per-interface enforcement; POST-H-007-D owns boundary policy.",
+    "No CLI registry integration; POST-H-007-E owns CommandDescriptor to ApplicationOperationDescriptor mapping.",
+    "Does not remove all CLI direct-core bypasses."
+  ]
+}

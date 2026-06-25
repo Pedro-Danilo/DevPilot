@@ -8,6 +8,7 @@ from devpilot_core.policy import PolicyEngine, PolicyRequest
 
 from .approval_service import ApprovalApplicationService
 from .dtos import ApplicationRequest, ApplicationResponse, InterfaceRouteContract, ServiceCapability
+from .dto_normalization import normalize_priority_application_request
 from .evals_service import EvaluationApplicationService
 from .history_service import HistoryApplicationService
 from .miasi_service import MiasiApplicationService
@@ -124,6 +125,54 @@ class ApplicationService:
 
     def settings_policy(self) -> CommandResult:
         return self.settings.policy()
+
+    def settings_status(self) -> CommandResult:
+        """Read-only aggregate settings status for POST-H-007-C DTO normalization."""
+
+        steps = [
+            ("workspace", self.settings_workspace()),
+            ("providers", self.settings_providers()),
+            ("policy", self.settings_policy()),
+        ]
+        findings: list[Finding] = []
+        projections: dict[str, Any] = {}
+        for step_id, result in steps:
+            projections[step_id] = result.to_dict()
+            for finding in result.findings:
+                metadata = dict(finding.metadata or {})
+                metadata.setdefault("settings_step", step_id)
+                metadata.setdefault("source_command", result.command)
+                findings.append(Finding(finding.id, finding.message, finding.severity, path=finding.path, metadata=metadata))
+        codes = {result.exit_code for _, result in steps}
+        if ExitCode.ERROR in codes:
+            exit_code = ExitCode.ERROR
+        elif ExitCode.BLOCK in codes:
+            exit_code = ExitCode.BLOCK
+        elif ExitCode.FAIL in codes:
+            exit_code = ExitCode.FAIL
+        else:
+            exit_code = ExitCode.PASS
+        ok = all(result.ok for _, result in steps)
+        summary = {
+            "operation": "settings.status",
+            "steps_total": len(steps),
+            "steps_passed": sum(1 for _, result in steps if result.ok),
+            "read_only": True,
+            "dry_run": True,
+            "network_used": False,
+            "external_api_used": False,
+            "mutations_performed": False,
+            "source_mutations_performed": False,
+            "preliminary": True,
+        }
+        return CommandResult(
+            command="settings status",
+            ok=ok,
+            exit_code=exit_code,
+            message="Settings status aggregate passed." if ok else "Settings status aggregate reported blocking findings.",
+            data={"summary": summary, "settings": projections},
+            findings=findings,
+        )
 
     def settings_provider_plan(self, *, provider_id: str, changes: dict[str, Any] | None = None, actor: str = "ui-local", reason: str = "Settings UI plan-only provider change") -> CommandResult:
         return self.settings.provider_plan(provider_id=provider_id, changes=changes, actor=actor, reason=reason)
@@ -296,6 +345,7 @@ class ApplicationService:
         return self.as_application_response(result, operation=request.operation)
 
     def execute(self, request: ApplicationRequest) -> CommandResult:
+        request = normalize_priority_application_request(request)
         operation = request.operation.strip()
         payload = dict(request.payload or {})
         dispatch = _operation_dispatch(self)
@@ -466,6 +516,8 @@ def _operation_dispatch(service: ApplicationService) -> dict[str, OperationHandl
         "validation.artifact": lambda payload: service.validate_artifact(str(payload.get("path", "")), strict=bool(payload.get("strict", False))),
         "validation.readiness": lambda payload: service.readiness(strict=bool(payload.get("strict", False))),
         "validation.gateway": lambda payload: service.validation.gateway(scope=str(payload.get("scope", "all"))),
+        "validation.docs": lambda payload: service.validation.gateway(scope="docs"),
+        "validation.contracts": lambda payload: service.validation.gateway(scope="contracts"),
         "miasi.validate": lambda payload: service.miasi_validate(scope=str(payload.get("scope", "all"))),
         "maturity.dashboard": lambda payload: service.maturity_dashboard(write_report=bool(payload.get("write_report", False))),
         "maturity.dashboard_gate": lambda payload: service.maturity_dashboard_gate(write_report=bool(payload.get("write_report", False))),
@@ -482,12 +534,14 @@ def _operation_dispatch(service: ApplicationService) -> dict[str, OperationHandl
         "settings.workspace": lambda payload: service.settings_workspace(),
         "settings.providers": lambda payload: service.settings_providers(prefer_example=bool(payload.get("prefer_example", False))),
         "settings.policy": lambda payload: service.settings_policy(),
+        "settings.status": lambda payload: service.settings_status(),
         "settings.providers.plan": lambda payload: service.settings_provider_plan(provider_id=str(payload.get("provider_id", "")), changes=dict(payload.get("changes") or {}), actor=str(payload.get("actor", "ui-local")), reason=str(payload.get("reason", "Settings UI plan-only provider change"))),
         "repo.analyze": lambda payload: service.repo_analyze(target=str(payload.get("target", "."))),
         "review.code": lambda payload: service.code_review(target=str(payload.get("target", "."))),
         "refactor.plan": lambda payload: service.refactor_plan(target=str(payload.get("target", ".")), goal=str(payload.get("goal", "")), include_code_review=bool(payload.get("include_code_review", True))),
         "model.providers": lambda payload: service.model_providers(),
         "observability.trace_report": lambda payload: service.trace_report(limit=int(payload.get("limit", 20)), include_events=bool(payload.get("include_events", True)), include_metrics=bool(payload.get("include_metrics", True))),
+        "observability.traces": lambda payload: service.trace_report(limit=int(payload.get("limit", 20)), include_events=bool(payload.get("include_events", True)), include_metrics=bool(payload.get("include_metrics", True))),
         "observability.trace_inspect": lambda payload: service.trace_inspect(str(payload.get("trace_id", "")), limit=int(payload.get("limit", 100))),
         "observability.metrics_summary": lambda payload: service.metrics_summary(category=payload.get("category"), limit=int(payload.get("limit", 50))),
         "history.runs": lambda payload: service.history_list(limit=int(payload.get("limit", 10))),

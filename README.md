@@ -1,13 +1,13 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
-Estado actual: `baseline pre-code approved + Fases A-G cerradas + Fase H cerrada + POST-H-001 implemented-initial + POST-H-EVAL-001 closed + POST-H-002 closed + POST-H-003 closed + POST-H-004 closed + POST-H-005 closed + POST-H-006 closed + POST-H-007-A implemented-initial + POST-H-007-B implemented-initial`  
+Estado actual: `baseline pre-code approved + Fases A-G cerradas + Fase H cerrada + POST-H-001 implemented-initial + POST-H-EVAL-001 closed + POST-H-002 closed + POST-H-003 closed + POST-H-004 closed + POST-H-005 closed + POST-H-006 closed + POST-H-007-A implemented-initial + POST-H-007-B implemented-initial + POST-H-007-C implemented-initial`  
 Último hito: `POST-H-006 — CLI command registry y desacoplamiento de handlers`  
 Siguiente hito: `POST-H-007 — ApplicationService boundary hardening`  
-Último micro-sprint implementado: `POST-H-007-B — Operation catalog y schema`  
+Último micro-sprint implementado: `POST-H-007-C — Normalización DTO de operaciones prioritarias`  
 Hito diagnóstico cerrado: `POST-H-EVAL-001 — Evaluación integral del baseline DevPilot post-Fase H`, cierre formal `POST-H-EVAL-001-G`  
 Hito actual en implementación: `POST-H-007 — ApplicationService boundary hardening`  
 Hito cerrado: `POST-H-006 — CLI command registry y desacoplamiento de handlers`  
-Siguiente micro-sprint recomendado: `POST-H-007-C — Normalización DTO de operaciones prioritarias`  
+Siguiente micro-sprint recomendado: `POST-H-007-D — Boundary policy y guardrails por interfaz`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
@@ -33,6 +33,38 @@ Modo de trabajo: local-first híbrido, API keys opcionales, costo externo contro
 
 
 
+
+## POST-H-007-C — Normalización DTO de operaciones prioritarias
+
+`POST-H-007-C` agrega una normalización incremental para que operaciones prioritarias puedan ejecutarse mediante `ApplicationRequest` y retornar `ApplicationResponse` sin reemplazar `CommandResult` como contrato core. La implementación es `implemented-initial`: conserva `exit_code`, `findings`, `data`, `report_paths` y metadata crítica, y no agrega comandos CLI públicos ni rutas HTTP nuevas.
+
+Operaciones cubiertas:
+
+```text
+workspace.status
+validation.docs
+validation.contracts
+reports.list
+reports.read
+approvals.list
+settings.status
+repo.inventory
+review.code
+refactor.plan
+observability.traces
+```
+
+Artefactos principales:
+
+```text
+src/devpilot_core/application/dto_normalization.py
+src/devpilot_core/application/services.py
+tests/test_application_dto_normalization.py
+docs/audits/post_h_007_c_dto_normalization_report.md
+docs/post_h_007_c_manifest.json
+```
+
+Estado industrial: primera versión runtime DTO del boundary. El enforcement por cliente/interfaz queda para `POST-H-007-D`; la conexión con CLI registry y quality gate queda para `POST-H-007-E`.
 
 ## POST-H-007-B — Operation catalog y schema
 
@@ -71,7 +103,7 @@ python -m pytest tests/test_application_operation_catalog_schema.py tests/test_s
 python -m devpilot_core schema validate --schema-id ApplicationOperationCatalog --instance outputs/reports/application_operation_catalog.json --json
 ```
 
-Estado industrial: primera versión contractual del catálogo. La normalización runtime vía `ApplicationRequest`/`ApplicationResponse` queda para `POST-H-007-C`; el enforcement por interfaz queda para `POST-H-007-D`; y la integración con CLI registry/quality-gate queda para `POST-H-007-E`.
+Estado industrial: primera versión contractual del catálogo. La normalización runtime vía `ApplicationRequest`/`ApplicationResponse` ya tiene primera cobertura prioritaria en `POST-H-007-C`; el enforcement por interfaz queda para `POST-H-007-D`; y la integración con CLI registry/quality-gate queda para `POST-H-007-E`.
 
 ## POST-H-007-A — Inventario de operaciones y bypasses
 
