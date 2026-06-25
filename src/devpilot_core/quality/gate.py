@@ -128,6 +128,7 @@ class QualityGate:
                     "POST-H-002-E adds the maturity-dashboard subgate to hardening/industrial profiles without replacing existing gates.",
                     "POST-H-003-E adds the Test Contract Registry v2 subgate to hardening/industrial profiles while keeping v1 compatibility.",
                     "POST-H-004-E adds the MIASI semantic validator subgate to hardening/industrial profiles without executing agents, tools, evals or tests from JSON.",
+                    "POST-H-005-E adds the executable architecture map subgate to hardening/industrial profiles without enforcing refactors or mutating source files.",
                     "The default and ci profiles do not run pytest implicitly; CI workflows and local checklists run pytest as an explicit step, or use --include-pytest when desired.",
                     "The gate does not publish packages, deploy, write source files, call network services or use external APIs.",
                     "Optional --write-report is handled by the CLI and writes only under outputs/reports.",
@@ -164,6 +165,7 @@ class QualityGate:
             subgates.append(QualitySubgate("project-global-state", "Centralized mutable project state synchronization.", self._project_global_state))
             subgates.append(QualitySubgate("maturity-dashboard", "POST-H-002 maturity dashboard quality gate.", self.service.maturity_dashboard_gate))
             subgates.append(QualitySubgate("miasi-semantic-validate", "POST-H-004 MIASI semantic validator quality gate.", self._miasi_semantic_validate))
+            subgates.append(QualitySubgate("architecture-map", "POST-H-005 executable architecture map and ownership validation gate.", self._architecture_map))
         if self.options.profile == "industrial":
             subgates.append(QualitySubgate("industrial-readiness", "Fase H industrial readiness gate and maturity classification.", self._industrial_readiness))
         if self.options.profile == "hardening":
@@ -242,6 +244,11 @@ class QualityGate:
         from devpilot_core.miasi import MiasiSemanticValidator
 
         return MiasiSemanticValidator(self.root).validate()
+
+    def _architecture_map(self) -> CommandResult:
+        from devpilot_core.architecture import ArchitectureMapReportBuilder, ArchitectureMapReportOptions
+
+        return ArchitectureMapReportBuilder(self.root, ArchitectureMapReportOptions(write_report=False)).build()
 
     def _project_global_state(self) -> CommandResult:
         from devpilot_core.testing import TestContractRegistry

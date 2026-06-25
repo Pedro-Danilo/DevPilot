@@ -88,8 +88,8 @@ def test_post_h_005_b_docs_and_manifest_are_synchronized() -> None:
 
     assert "POST-H-005-B — Inventario AST de paquetes y módulos" in backlog
     assert "Estado: `implemented-initial`" in backlog
-    assert "Último micro-sprint implementado: `POST-H-005-" in readme
-    assert "Siguiente micro-sprint: `POST-H-005-" in readme
+    assert "POST-H-005-B — Inventario AST de paquetes y módulos" in readme
+    assert "POST-H-005-E — Ownership validation y reporte" in readme
     assert "POST-H-005-B — Operación del inventario AST ArchitectureMap" in runbook
     assert "post-h-005-b" in changelog
     assert "architecture inventory --json" in audit

@@ -104,8 +104,8 @@ def test_post_h_005_c_docs_and_manifest_are_synchronized() -> None:
 
     assert "POST-H-005-C — Grafo de dependencias y boundaries" in backlog
     assert "Estado: `implemented-initial`" in backlog
-    assert "Último micro-sprint implementado: `POST-H-005-" in readme
-    assert "Siguiente micro-sprint: `POST-H-005-" in readme
+    assert "POST-H-005-C — Grafo de dependencias y boundaries" in readme
+    assert "POST-H-005-E — Ownership validation y reporte" in readme
     assert "POST-H-005-C — Operación del grafo de dependencias ArchitectureMap" in runbook
     assert "post-h-005-c" in changelog
     assert "architecture dependencies --json" in audit

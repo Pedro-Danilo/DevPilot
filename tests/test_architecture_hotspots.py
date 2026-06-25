@@ -105,8 +105,8 @@ def test_post_h_005_d_docs_and_manifest_are_synchronized() -> None:
 
     assert "POST-H-005-D — Hotspot analyzer" in backlog
     assert "Estado: `implemented-initial`" in backlog
-    assert "Último micro-sprint implementado: `POST-H-005-D" in readme
-    assert "Siguiente micro-sprint: `POST-H-005-E" in readme
+    assert "POST-H-005-D — Hotspot analyzer" in readme
+    assert "POST-H-005-E — Ownership validation y reporte" in readme
     assert "POST-H-005-D — Operación del hotspot analyzer ArchitectureMap" in runbook
     assert "post-h-005-d" in changelog
     assert "architecture hotspots --json" in audit

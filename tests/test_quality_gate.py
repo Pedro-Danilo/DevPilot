@@ -83,7 +83,7 @@ def test_quality_gate_rejects_unknown_profile() -> None:
     assert result.findings[0].id == "QUALITY_GATE_PROFILE_UNSUPPORTED"
 
 
-def test_quality_gate_hardening_profile_includes_maturity_dashboard_tcr_v2_and_miasi_semantic() -> None:
+def test_quality_gate_hardening_profile_includes_post_h_subgates() -> None:
     result = QualityGate(ROOT, options=QualityGateOptions(profile="hardening")).run()
 
     assert result.ok is True, result.to_dict()
@@ -91,6 +91,9 @@ def test_quality_gate_hardening_profile_includes_maturity_dashboard_tcr_v2_and_m
     assert "maturity-dashboard" in subgates
     assert "test-contract-registry-v2" in subgates
     assert "miasi-semantic-validate" in subgates
+    assert "architecture-map" in subgates
     assert subgates["miasi-semantic-validate"]["ok"] is True
     assert subgates["miasi-semantic-validate"]["summary"]["blocking_findings_total"] == 0
+    assert subgates["architecture-map"]["ok"] is True
+    assert subgates["architecture-map"]["summary"]["blocking_findings_total"] == 0
     assert result.data["summary"]["subgates_passed"] == result.data["summary"]["subgates_total"]

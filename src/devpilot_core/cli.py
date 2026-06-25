@@ -18,6 +18,8 @@ from .architecture import (
     ArchitectureHotspotsOptions,
     ArchitectureInventoryBuilder,
     ArchitectureInventoryOptions,
+    ArchitectureMapReportBuilder,
+    ArchitectureMapReportOptions,
 )
 from .cli_models import CommandResult, ExitCode, Finding, Severity
 from .connectors import ConnectorAdapter, ConnectorCallOptions, ConnectorRegistry, ConnectorRegistryOptions
@@ -4121,6 +4123,43 @@ def architecture_hotspots_command(
     print_result(result, json_output=json_output)
     return int(result.exit_code)
 
+
+
+def architecture_map_command(
+    *,
+    source_root: str = "src/devpilot_core",
+    tests_root: str = "tests",
+    ownership_registry: str = ".devpilot/architecture/ownership_registry.json",
+    top_limit: int = 20,
+    json_output: bool = False,
+    write_report: bool = False,
+) -> int:
+    """Build the POST-H-005-E final executable ArchitectureMap report."""
+
+    root = project_root()
+    result = ArchitectureMapReportBuilder(
+        root,
+        ArchitectureMapReportOptions(
+            source_root=Path(source_root),
+            tests_root=Path(tests_root),
+            ownership_registry=Path(ownership_registry),
+            top_limit=top_limit,
+            write_report=write_report,
+        ),
+    ).build()
+    map_summary_result = CommandResult(
+        command=result.command,
+        ok=result.ok,
+        exit_code=result.exit_code,
+        message=result.message,
+        data={"summary": (result.data or {}).get("summary", {})},
+        findings=result.findings,
+    )
+    _emit_result_event(root, map_summary_result, subject="architecture:map")
+    _persist_result(root, map_summary_result, subject="architecture:map")
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
 def tests_profiles_command(*, json_output: bool = False, write_report: bool = False) -> int:
     """List configured tests.run profiles without executing subprocesses."""
 
@@ -4350,6 +4389,13 @@ def build_parser() -> argparse.ArgumentParser:
     architecture_hotspots.add_argument("--top", type=int, default=20, help="Number of top hotspots to emit; defaults to 20")
     architecture_hotspots.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     architecture_hotspots.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+    architecture_map = architecture_sub.add_parser("map", help="Build final schema-valid architecture_map.json/.md report")
+    architecture_map.add_argument("--source-root", default="src/devpilot_core", help="Source root to analyze; defaults to src/devpilot_core")
+    architecture_map.add_argument("--tests-root", default="tests", help="Tests root used to reuse inventory heuristics")
+    architecture_map.add_argument("--ownership-registry", default=".devpilot/architecture/ownership_registry.json", help="Architecture ownership registry path")
+    architecture_map.add_argument("--top", type=int, default=20, help="Number of top hotspots to keep; defaults to 20")
+    architecture_map.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    architecture_map.add_argument("--write-report", action="store_true", help="Persist raw ArchitectureMap JSON/Markdown reports under outputs/reports")
 
     test_contracts = sub.add_parser("test-contracts", help="Validate POST-H-001 test contract registry")
     test_contracts_sub = test_contracts.add_subparsers(dest="test_contracts_command")
@@ -5370,6 +5416,15 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
             )
         if args.architecture_command == "hotspots":
             return architecture_hotspots_command(
+                source_root=args.source_root,
+                tests_root=args.tests_root,
+                ownership_registry=args.ownership_registry,
+                top_limit=args.top,
+                json_output=args.json,
+                write_report=args.write_report,
+            )
+        if args.architecture_command == "map":
+            return architecture_map_command(
                 source_root=args.source_root,
                 tests_root=args.tests_root,
                 ownership_registry=args.ownership_registry,

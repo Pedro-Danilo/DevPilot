@@ -1,12 +1,12 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
-Estado actual: `baseline pre-code approved + Fases A-G cerradas + Fase H cerrada + POST-H-001 implemented-initial + POST-H-EVAL-001 closed + POST-H-002 closed + POST-H-003 closed + POST-H-004 closed`  
-Último hito: `POST-H-004 — Policy/MIASI semantic validator ampliado`  
-Último micro-sprint implementado: `POST-H-005-D — Hotspot analyzer`  
+Estado actual: `baseline pre-code approved + Fases A-G cerradas + Fase H cerrada + POST-H-001 implemented-initial + POST-H-EVAL-001 closed + POST-H-002 closed + POST-H-003 closed + POST-H-004 closed + POST-H-005 closed`  
+Último hito: `POST-H-005 — Architecture map executable / dependency ownership`  
+Último micro-sprint implementado: `POST-H-005-E — Ownership validation y reporte`  
 Hito diagnóstico cerrado: `POST-H-EVAL-001 — Evaluación integral del baseline DevPilot post-Fase H`, cierre formal `POST-H-EVAL-001-G`  
-Siguiente hito: `POST-H-005 — Architecture map executable / dependency ownership`  
-Hito en ejecución: `POST-H-005 — Architecture map executable / dependency ownership`  
-Siguiente micro-sprint: `POST-H-005-E — Ownership validation y reporte`  
+Siguiente hito: `POST-H-006 — CLI command registry y desacoplamiento de handlers`  
+Hito cerrado: `POST-H-005 — Architecture map executable / dependency ownership`  
+Siguiente micro-sprint: `POST-H-006-A — Command registry baseline`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
@@ -23,6 +23,37 @@ Modo de trabajo: local-first híbrido, API keys opcionales, costo externo contro
 
 
 
+
+
+## POST-H-005-E — Ownership validation y reporte
+
+`POST-H-005-E` cierra el hito `POST-H-005 — Architecture map executable / dependency ownership` como capacidad `implemented-initial`. La entrega materializa el reporte final `ArchitectureMap` combinando inventario AST, grafo de dependencias, hotspot analyzer, ownership registry, ownership gaps, recomendaciones y subgate de quality-gate.
+
+Comandos principales:
+
+```powershell
+python -m devpilot_core architecture map --json
+python -m devpilot_core architecture map --write-report --json
+python -m devpilot_core schema validate --schema-id ArchitectureMap --instance outputs/reports/architecture_map.json --json
+python -m devpilot_core quality-gate run --profile hardening --json
+```
+
+El comando con `--write-report` genera los artefactos canónicos:
+
+```text
+outputs/reports/architecture_map.json
+outputs/reports/architecture_map.md
+```
+
+Alcance: esta entrega es `implemented-initial / advisory architecture baseline`. No refactoriza módulos, no mueve código, no cambia `ApplicationService`, no habilita enforcement blocking, no ejecuta tests desde el mapa y no activa red, APIs externas, remote execution, connector write ni plugin execution. Los ownership gaps y dependency policy findings quedan explícitos como señales de arquitectura para `POST-H-006` y `POST-H-007`.
+
+Verificación focal:
+
+```powershell
+python -m pytest tests/test_architecture_map_report.py tests/test_architecture_hotspots.py tests/test_architecture_dependencies.py tests/test_architecture_inventory.py tests/test_post_h_005_architecture_map.py tests/test_architecture_ownership_registry.py tests/test_schema_registry.py tests/test_quality_gate.py tests/test_project_global_state.py -q
+python -m devpilot_core architecture map --write-report --json
+python -m devpilot_core schema validate --schema-id ArchitectureMap --instance outputs/reports/architecture_map.json --json
+```
 
 ## POST-H-005-D — Hotspot analyzer
 

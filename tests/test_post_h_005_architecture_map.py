@@ -133,12 +133,12 @@ def test_post_h_005_backlog_and_docs_mark_a_as_implemented_initial() -> None:
     audit = _read("docs/audits/post_h_005_a_architecture_map_schema_report.md")
 
     assert 'status: "approved"' in backlog
-    assert 'implementation_status: "in-progress"' in backlog
+    assert 'implementation_status: "closed"' in backlog
     assert "POST-H-005-A — Modelos y schema de architecture map" in backlog
     assert "Estado: `implemented-initial`" in backlog
     assert "POST-H-005-A — Modelos y schema de architecture map" in readme
-    assert "Último micro-sprint implementado: `POST-H-005-" in readme
-    assert "Siguiente micro-sprint: `POST-H-005-" in readme
+    assert "Último micro-sprint implementado: `POST-H-005-E" in readme
+    assert "Siguiente micro-sprint: `POST-H-006-A" in readme
     assert "POST-H-005-A — Operación del modelo y schema ArchitectureMap" in runbook
     assert "post-h-005-a" in changelog
     assert "SCHEMA-DEVPL-ARCHITECTURE-MAP-V1" in design_doc

@@ -26,6 +26,10 @@ from devpilot_core.architecture.models import (
     Hotspot,
     OwnershipEntry,
 )
+from devpilot_core.architecture.report import (
+    ArchitectureMapReportBuilder,
+    ArchitectureMapReportOptions,
+)
 from devpilot_core.architecture.ownership import (
     DEFAULT_OWNERSHIP_REGISTRY,
     load_ownership_registry,
@@ -44,6 +48,8 @@ __all__ = [
     "ArchitectureHotspotsBuilder",
     "ArchitectureHotspotsOptions",
     "ArchitectureMap",
+    "ArchitectureMapReportOptions",
+    "ArchitectureMapReportBuilder",
     "ArchitectureMapSafety",
     "ArchitectureModule",
     "ArchitecturePackage",

@@ -6366,6 +6366,56 @@ Riesgos y límites: `POST-H-005-B` sigue siendo una primera versión. Las depend
 
 
 
+
+## POST-H-005-E — Operación del reporte final ArchitectureMap
+
+Propósito: cerrar `POST-H-005 — Architecture map executable / dependency ownership` materializando un reporte ejecutable, reproducible y validable de paquetes, módulos, dependencias, hotspots, ownership, ownership gaps y recomendaciones de modularización.
+
+Estado: `implemented-initial / hito closed / advisory architecture baseline`.
+
+Comandos de verificación:
+
+```powershell
+$env:PYTHONPATH="src"
+
+python -m pytest tests/test_architecture_map_report.py tests/test_architecture_hotspots.py tests/test_architecture_dependencies.py tests/test_architecture_inventory.py tests/test_post_h_005_architecture_map.py tests/test_architecture_ownership_registry.py tests/test_schema_registry.py tests/test_quality_gate.py tests/test_project_global_state.py -q
+python -m devpilot_core architecture map --json
+python -m devpilot_core architecture map --write-report --json
+python -m devpilot_core schema validate --schema-id ArchitectureMap --instance outputs/reports/architecture_map.json --json
+python -m devpilot_core quality-gate run --profile hardening --json
+```
+
+Artefactos generados en runtime:
+
+```text
+outputs/reports/architecture_map.json
+outputs/reports/architecture_map.md
+```
+
+Estos outputs no deben versionarse ni incluirse en ZIP de entrega; deben generarse localmente cuando se valide el repo.
+
+PASS:
+
+```text
+PASS si architecture map devuelve ok=true.
+PASS si architecture_map.json valida contra SCHEMA-DEVPL-ARCHITECTURE-MAP-V1.
+PASS si el top 20 de hotspots se conserva y devpilot_core.cli no se omite.
+PASS si ownership gaps, paquetes sin owner y paquetes críticos sin contrato quedan explícitos como findings o gaps.
+PASS si quality-gate hardening incluye y aprueba el subgate architecture-map.
+PASS si safety mantiene dry_run=true y network/API/mutations/remote/plugin/connector-write=false.
+```
+
+BLOCK:
+
+```text
+BLOCK si el reporte no valida contra el schema ArchitectureMap.
+BLOCK si se omiten paquetes críticos iniciales: cli, policy, schemas, agents, testing, quality, industrial, application o miasi.
+BLOCK si se habilita enforcement blocking, refactor automático, remote execution, connector write o plugin execution.
+BLOCK si el reporte escribe fuera de outputs/reports o modifica fuentes.
+```
+
+Riesgos y límites: `POST-H-005-E` entrega un baseline ejecutable y advisory. No declara DevPilot como plataforma enterprise ni como arquitectura production-ready completa. Las señales de acoplamiento, forbidden/restricted dependencies y paquetes sin owner alimentan `POST-H-006` y `POST-H-007`, pero cualquier refactor requiere sprint propio, revisión humana, pruebas focales y, si aplica, ADR.
+
 ## POST-H-005-D — Operación del hotspot analyzer ArchitectureMap
 
 Propósito: calcular un top 20 reproducible de hotspots arquitectónicos usando inventario AST, grafo de dependencias, fan-in/fan-out, métricas de código, comandos CLI, criticality y señales advisory de boundaries.

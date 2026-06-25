@@ -153,6 +153,11 @@ class TestContractRegistry:
             checks["post_h_004_closure_report"] = self._file_contains("docs/audits/post_h_004_closure_report.md", "POST-H-004")
             checks["post_h_004_contract_registered"] = self._file_contains(".devpilot/testing/test_contract_registry.json", "post-h-004-miasi-semantic-validator")
             checks["post_h_004_quality_gate_subgate"] = self._file_contains("src/devpilot_core/quality/gate.py", "miasi-semantic-validate")
+        if last_completed == "POST-H-005":
+            checks["post_h_005_backlog_closed"] = self._file_contains("docs/backlogs/POST-H-005_architecture_map_executable.md", 'implementation_status: "closed"')
+            checks["post_h_005_closure_report"] = self._file_contains("docs/audits/post_h_005_closure_report.md", "POST-H-005")
+            checks["post_h_005_contract_registered"] = self._file_contains(".devpilot/testing/test_contract_registry.json", "post-h-005-architecture-map")
+            checks["post_h_005_quality_gate_subgate"] = self._file_contains("src/devpilot_core/quality/gate.py", "architecture-map")
         for key, passed in checks.items():
             if not passed:
                 findings.append(Finding("PROJECT_GLOBAL_STATE_DRIFT", f"Project global state check failed: {key}.", Severity.FAIL, metadata={"check": key}))

@@ -3,7 +3,7 @@ doc_id: "POST-H-005-BACKLOG"
 id: "POST-H-005"
 title: "POST-H-005 — Architecture map executable / dependency ownership"
 status: "approved"
-version: "0.5.0"
+version: "1.0.0"
 owner: "Ordóñez"
 updated: "2026-06-25"
 phase: "POST-FASE-H"
@@ -13,7 +13,7 @@ adr_source: "docs/adr/ADR-POSTH-003-cli-modularization.md"
 local_first: true
 dry_run: true
 no_remote_execution_enabled: true
-implementation_status: "in-progress"
+implementation_status: "closed"
 approval: "internal"
 ---
 
@@ -452,3 +452,51 @@ Límites explícitos:
 ```
 
 Siguiente micro-sprint: `POST-H-005-E — Ownership validation y reporte`.
+
+
+## 14. Avance de implementación — POST-H-005-E
+
+Estado: `implemented-initial / hito closed`.
+
+`POST-H-005-E — Ownership validation y reporte` implementa el comando local y read-only:
+
+```powershell
+python -m devpilot_core architecture map --json
+python -m devpilot_core architecture map --write-report --json
+```
+
+Alcance implementado:
+
+```text
+- Reutilización del inventario AST, grafo de dependencias y hotspot analyzer.
+- Validación estructural/advisory de .devpilot/architecture/ownership_registry.json.
+- Detección explícita de paquetes sin owner.
+- Detección explícita de paquetes críticos sin test contracts asociados.
+- Materialización de architecture_map.json y architecture_map.md bajo outputs/reports/.
+- Validación schema-backed del reporte final contra SCHEMA-DEVPL-ARCHITECTURE-MAP-V1.
+- Subgate architecture-map dentro de quality-gate hardening/industrial.
+- Registro del contrato post-h-005-architecture-map en Test Contract Registry v1/v2.
+- Cierre documental del hito y avance de project_state a POST-H-006.
+```
+
+Límites explícitos:
+
+```text
+- No refactoriza CLI ni mueve módulos.
+- No cambia boundaries runtime ni ApplicationService.
+- No ejecuta tests desde el mapa.
+- No convierte findings advisory en enforcement blocking.
+- No usa red, APIs externas, subprocesses, ejecución remota, connector write ni plugin execution.
+- No declara DevPilot production-ready completo ni compliance certificado.
+```
+
+Entregables runtime:
+
+```text
+outputs/reports/architecture_map.json
+outputs/reports/architecture_map.md
+```
+
+Estos archivos se generan al correr el comando y no deben incluirse en ZIP limpio de entrega.
+
+Siguiente hito: `POST-H-006 — CLI command registry y desacoplamiento de handlers`.

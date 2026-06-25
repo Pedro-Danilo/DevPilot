@@ -8,6 +8,29 @@ approval: "internal"
 owner: "Ordóñez"
 ---
 
+## [post-h-005-e] - 2026-06-25
+
+### Added
+
+- `ArchitectureMapReportBuilder` for final executable ArchitectureMap report generation.
+- CLI command `python -m devpilot_core architecture map --json`.
+- Raw schema-valid reports `outputs/reports/architecture_map.json` and `outputs/reports/architecture_map.md` when `--write-report` is used.
+- Ownership validation for missing owners and critical packages without test contracts.
+- Quality-gate subgate `architecture-map` in hardening/industrial profiles.
+- Formal Test Contract Registry v1/v2 contract `post-h-005-architecture-map`.
+- Closure report `docs/audits/post_h_005_closure_report.md` and manifest `docs/post_h_005_e_manifest.json`.
+
+### Security
+
+- The final architecture map remains local-first, dry-run and advisory.
+- No refactor, source mutation, runtime boundary change, tests-from-map execution, network, external APIs, remote execution, connector write or plugin execution is enabled.
+- POST-H-005 closes as `implemented-initial`, not as full enterprise or production-ready architecture governance.
+
+### Notes
+
+- Project state advances to `last_completed_sprint=POST-H-005` and `next_sprint=POST-H-006`.
+- Findings for ownership gaps and forbidden/restricted dependencies remain inputs for POST-H-006 and POST-H-007.
+
 
 ## [post-h-005-d] - 2026-06-25
 

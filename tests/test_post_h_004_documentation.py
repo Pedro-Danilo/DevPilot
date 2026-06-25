@@ -1,9 +1,19 @@
 from __future__ import annotations
 
 import json
+import re
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+
+
+
+
+def _post_h_number(value: str) -> int:
+    match = re.fullmatch(r"POST-H-(\d+)", value)
+    if match is None:
+        raise AssertionError(f"Expected POST-H identifier, got {value!r}")
+    return int(match.group(1))
 
 
 def _read(path: str) -> str:
@@ -78,7 +88,7 @@ def test_post_h_004_contracts_exist_in_v1_and_v2() -> None:
 def test_post_h_004_project_state_advances_to_post_h_005() -> None:
     state = _read_json(".devpilot/project_state.json")
 
-    assert state["last_completed_sprint"] == "POST-H-004"
-    assert state["next_sprint"] == "POST-H-005"
-    assert state["source_repo"] == "repo_DevPilot_Local_154_POST_H_004_D.zip"
-    assert state["current_repo"] == "repo_DevPilot_Local_155_POST_H_004_E.zip"
+    assert _post_h_number(state["last_completed_sprint"]) >= 4
+    assert _post_h_number(state["next_sprint"]) >= 5
+    assert "POST-H-004 closes the Policy/MIASI semantic validator" in "\n".join(state["notes"])
+    assert "POST-H-005" in state["last_completed_sprint"] or _post_h_number(state["last_completed_sprint"]) > 4

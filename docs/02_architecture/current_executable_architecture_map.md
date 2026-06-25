@@ -2,7 +2,7 @@
 doc_id: "POST-H-005-ARCHITECTURE-MAP-DESIGN"
 title: "POST-H-005 — Modelo e inventario ejecutable de architecture map"
 status: "approved"
-version: "1.2.0"
+version: "1.3.0"
 owner: "Ordóñez"
 updated: "2026-06-25"
 phase: "POST-FASE-H"
@@ -19,7 +19,7 @@ approval: "internal"
 
 ## Estado
 
-Estado: `implemented-initial / executable inventory, dependency graph and advisory hotspot ranking`.
+Estado: `implemented-initial / executable inventory, dependency graph, advisory hotspot ranking and final report baseline`.
 
 Esta entrega no ejecuta análisis AST, no calcula fan-in/fan-out real, no mueve módulos, no modifica dependencias, no agrega subgate de quality-gate y no cambia la semántica de comandos. Define el contrato sobre el cual trabajarán `POST-H-005-B/C/D/E`.
 
@@ -182,3 +182,17 @@ hotspot_kind: technical, core-domain or technical-and-core-domain.
 ```
 
 This baseline remains non-enforcing. It does not refactor modules, execute tests, mutate sources or alter runtime boundaries. `POST-H-005-E` remains responsible for the final `architecture_map.json/.md`, ownership validation and any quality-gate decision.
+
+
+## POST-H-005-E — Reporte final y ownership validation
+
+`POST-H-005-E` materializa el reporte final ejecutable del hito. El comando `python -m devpilot_core architecture map --write-report --json` escribe un JSON crudo validable por schema y un Markdown humano:
+
+```text
+outputs/reports/architecture_map.json
+outputs/reports/architecture_map.md
+```
+
+El reporte combina paquetes, módulos, dependencias, hotspots, ownership registry, ownership gaps y recomendaciones. La validación queda integrada como subgate `architecture-map` en `quality-gate hardening` e `industrial`.
+
+El baseline sigue siendo advisory: las dependencias `forbidden`/`restricted`, los paquetes sin owner y otros gaps se exponen para revisión y planificación, pero no activan refactor automático ni enforcement blocking.
