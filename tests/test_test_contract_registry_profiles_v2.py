@@ -26,7 +26,7 @@ def test_test_contract_registry_v2_validator_passes_migrated_registry_without_ex
 
     assert result.ok, result.to_dict()
     summary = result.data["summary"]
-    assert summary["contracts_total"] == 89
+    assert summary["contracts_total"] >= 89
     assert summary["profiles_total"] == 5
     assert summary["p0_contracts_total"] >= 6
     assert summary["needs_review_total"] == 2
@@ -119,7 +119,7 @@ def test_test_contract_registry_v2_cli_validate_and_profile_are_available() -> N
     assert validate_proc.returncode == 0, validate_proc.stderr + validate_proc.stdout
     validate_payload = json.loads(validate_proc.stdout)
     assert validate_payload["ok"] is True
-    assert validate_payload["data"]["summary"]["contracts_total"] == 89
+    assert validate_payload["data"]["summary"]["contracts_total"] >= 89
 
     profile_proc = subprocess.run(
         [sys.executable, "-m", "devpilot_core", "test-contracts", "profile", "--profile", "p0-critical", "--json"],

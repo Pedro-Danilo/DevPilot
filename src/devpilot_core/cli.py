@@ -22,6 +22,7 @@ from .architecture import (
     ArchitectureMapReportOptions,
 )
 from .cli_models import CommandResult, ExitCode, Finding, Severity
+from .cli_registry import CliCommandRegistryReportBuilder, CliCommandRegistryReportOptions
 from .connectors import ConnectorAdapter, ConnectorCallOptions, ConnectorRegistry, ConnectorRegistryOptions
 from .compliance import CompliancePackRegistry, ComplianceRegistryOptions, CompliancePackRunner, ComplianceRunOptions
 from .enterprise import EnterpriseReportBuilder, EnterpriseReportOptions
@@ -4160,6 +4161,27 @@ def architecture_map_command(
     print_result(result, json_output=json_output)
     return int(result.exit_code)
 
+
+
+def cli_registry_report_command(*, json_output: bool = False, write_report: bool = False) -> int:
+    """Build the POST-H-006-A read-only static CLI command registry report."""
+
+    root = project_root()
+    result = CliCommandRegistryReportBuilder(root, CliCommandRegistryReportOptions(write_report=write_report)).build()
+    summary_result = CommandResult(
+        command=result.command,
+        ok=result.ok,
+        exit_code=result.exit_code,
+        message=result.message,
+        data={"summary": (result.data or {}).get("summary", {})},
+        findings=result.findings,
+    )
+    _emit_result_event(root, summary_result, subject="cli-registry:report")
+    _persist_result(root, summary_result, subject="cli-registry:report")
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+
 def tests_profiles_command(*, json_output: bool = False, write_report: bool = False) -> int:
     """List configured tests.run profiles without executing subprocesses."""
 
@@ -4396,6 +4418,12 @@ def build_parser() -> argparse.ArgumentParser:
     architecture_map.add_argument("--top", type=int, default=20, help="Number of top hotspots to keep; defaults to 20")
     architecture_map.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     architecture_map.add_argument("--write-report", action="store_true", help="Persist raw ArchitectureMap JSON/Markdown reports under outputs/reports")
+
+    cli_registry = sub.add_parser("cli-registry", help="Inspect static DevPilot CLI command registry")
+    cli_registry_sub = cli_registry.add_subparsers(dest="cli_registry_command")
+    cli_registry_report = cli_registry_sub.add_parser("report", help="Build read-only static CLI command registry report")
+    cli_registry_report.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    cli_registry_report.add_argument("--write-report", action="store_true", help="Write cli_command_registry.json/.md under outputs/reports")
 
     test_contracts = sub.add_parser("test-contracts", help="Validate POST-H-001 test contract registry")
     test_contracts_sub = test_contracts.add_subparsers(dest="test_contracts_command")
@@ -5219,6 +5247,9 @@ def _command_name_from_args(args: argparse.Namespace) -> str:
     if command == "architecture":
         subcommand = getattr(args, "architecture_command", None)
         return f"architecture {subcommand}" if subcommand else "architecture"
+    if command == "cli-registry":
+        subcommand = getattr(args, "cli_registry_command", None)
+        return f"cli-registry {subcommand}" if subcommand else "cli-registry"
     if command == "audit-pack":
         subcommand = getattr(args, "audit_pack_command", None)
         return f"audit-pack {subcommand}" if subcommand else "audit-pack"
@@ -5432,6 +5463,11 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
                 json_output=args.json,
                 write_report=args.write_report,
             )
+        parser.print_help()
+        return int(ExitCode.FAIL)
+    if args.command == "cli-registry":
+        if args.cli_registry_command == "report":
+            return cli_registry_report_command(json_output=args.json, write_report=args.write_report)
         parser.print_help()
         return int(ExitCode.FAIL)
     if args.command == "test-contracts":

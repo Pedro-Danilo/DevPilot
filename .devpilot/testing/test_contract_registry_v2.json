@@ -4553,6 +4553,83 @@
         "POST-H-005-E closes the executable architecture map hito as an implemented-initial local architecture governance baseline.",
         "The contract validates schema-backed reports, ownership gaps, hotspot evidence, quality-gate integration and no-go semantics without refactoring or executing external systems."
       ]
+    },
+    {
+      "contract_id": "post-h-006-cli-command-registry",
+      "schema_version": "2.0",
+      "source_contract_id": "post-h-006-cli-command-registry",
+      "domain": "interface.cli",
+      "capability": "CliCommandRegistry",
+      "criticality": "P1",
+      "risk_level": "high",
+      "test_type": "integration",
+      "execution_profile": "always",
+      "cost_class": "low",
+      "expected_duration_seconds": 30,
+      "test_files": [
+        "tests/test_post_h_006_cli_command_registry.py",
+        "tests/test_cli_command_registry_schema.py",
+        "tests/test_schema_registry.py",
+        "tests/test_project_global_state.py"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/cli_registry/",
+        "src/devpilot_core/cli.py",
+        "docs/schemas/cli_command_registry.schema.json",
+        "docs/schemas/schema_catalog.json",
+        ".devpilot/testing/",
+        ".devpilot/project_state.json",
+        "README.md",
+        "docs/05_operations/runbook.md",
+        "docs/backlogs/POST-H-006_cli_command_registry.md",
+        "docs/02_architecture/cli_command_registry_map.md",
+        "docs/audits/post_h_006_a_cli_command_registry_report.md",
+        "docs/post_h_006_a_manifest.json",
+        "tests/test_post_h_006_cli_command_registry.py",
+        "tests/test_cli_command_registry_schema.py"
+      ],
+      "validates": [
+        "src/devpilot_core/cli_registry/",
+        "src/devpilot_core/cli.py",
+        "docs/schemas/cli_command_registry.schema.json",
+        "docs/schemas/schema_catalog.json",
+        "docs/backlogs/POST-H-006_cli_command_registry.md",
+        "docs/02_architecture/cli_command_registry_map.md",
+        "docs/audits/post_h_006_a_cli_command_registry_report.md",
+        "docs/post_h_006_a_manifest.json"
+      ],
+      "trigger_hints": [
+        "cli-registry-change",
+        "cli-parser-change",
+        "schema-change",
+        "post-h-source-change"
+      ],
+      "impact_scope": [
+        "cli",
+        "registry",
+        "schema",
+        "post-h"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": false,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "POST-H-006-A",
+      "recommended_commands": [
+        "python -m pytest tests/test_post_h_006_cli_command_registry.py tests/test_cli_command_registry_schema.py tests/test_schema_registry.py tests/test_project_global_state.py -q",
+        "python -m devpilot_core cli-registry report --write-report --json",
+        "python -m devpilot_core schema validate --schema-id CliCommandRegistry --instance outputs/reports/cli_command_registry.json --json",
+        "python -m devpilot_core test-contracts validate --json",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ],
+      "classification_status": "explicit",
+      "classification_notes": [
+        "POST-H-006-A starts the CLI command registry hito as an implemented-initial read-only static inventory.",
+        "The contract validates schema-backed registry reports and safety invariants without migrating handlers or changing public command behavior."
+      ]
     }
   ],
   "migration_metadata": {

@@ -449,6 +449,23 @@
       "dialect": "https://json-schema.org/draft/2020-12/schema",
       "validates_instances": true,
       "validation_enabled_sprint": "POST-H-005-A"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-CLI-COMMAND-REGISTRY-V1",
+      "title": "DevPilot CLI Command Registry v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/cli_command_registry.schema.json",
+      "description": "Structural contract for POST-H-006 static CLI command registry reports with command groups, risk metadata and safety invariants.",
+      "status": "registered",
+      "contract": "CliCommandRegistry",
+      "owner": "Ordóñez",
+      "sprint": "POST-H-006-A",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "POST-H-006-A",
+      "local_first": true,
+      "dry_run": true,
+      "no_remote_execution_enabled": true
     }
   ]
 }

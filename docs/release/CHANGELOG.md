@@ -8,6 +8,28 @@ approval: "internal"
 owner: "Ordóñez"
 ---
 
+
+## [post-h-006-a] - 2026-06-25
+
+### Added
+
+- `src/devpilot_core/cli_registry/` package for static CLI command registry modeling and reporting.
+- `CommandDescriptor`, `CommandGroupDescriptor`, `CommandRiskLevel` and `CommandSideEffect`.
+- AST-based read-only extractor over `src/devpilot_core/cli.py`.
+- CLI command `python -m devpilot_core cli-registry report --json`.
+- Schema `docs/schemas/cli_command_registry.schema.json` registered as `CliCommandRegistry`.
+- Optional raw reports `outputs/reports/cli_command_registry.json` and `.md` when `--write-report` is used.
+- Test Contract Registry v1/v2 contract `post-h-006-cli-command-registry`.
+
+### Security
+
+- The registry is read-only and advisory. It does not execute registered commands, import `build_parser()`, migrate handlers, rename public commands or enable dynamic handler loading.
+- No network, external APIs, remote execution, connector write, plugin execution or source mutation is enabled.
+
+### Notes
+
+- `POST-H-006` is now approved and in progress. `POST-H-006-A` is implemented-initial; handler migration remains future `POST-H-006-B/C` scope.
+
 ## [post-h-005-e] - 2026-06-25
 
 ### Added

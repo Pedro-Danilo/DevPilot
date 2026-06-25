@@ -1,0 +1,32 @@
+{
+  "id": "POST-H-006-A",
+  "parent_hito": "POST-H-006",
+  "title": "Inventario estático del CLI y modelo de registry",
+  "status": "implemented-initial",
+  "source_repo": "repo_DevPilot_Local_160_POST_H_005_E.zip",
+  "current_repo": "repo_DevPilot_Local_161_POST_H_006_A.zip",
+  "previous_hito": "POST-H-005",
+  "next_micro_sprint": "POST-H-006-B",
+  "cli_command_registry_package_created": true,
+  "static_cli_inventory_implemented": true,
+  "cli_registry_schema_created": true,
+  "schema_catalog_registered": true,
+  "cli_command_exposed": "cli-registry report",
+  "report_outputs": [
+    "outputs/reports/cli_command_registry.json",
+    "outputs/reports/cli_command_registry.md"
+  ],
+  "handler_migration_performed": false,
+  "public_commands_renamed": false,
+  "dynamic_handler_loading_enabled": false,
+  "advisory_only": true,
+  "dry_run": true,
+  "network_used": false,
+  "external_api_used": false,
+  "mutations_performed": false,
+  "source_mutations_performed": false,
+  "remote_execution_enabled": false,
+  "connector_write_enabled": false,
+  "plugin_execution_enabled": false,
+  "preliminary": true
+}

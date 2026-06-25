@@ -1,12 +1,12 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
-Estado actual: `baseline pre-code approved + Fases A-G cerradas + Fase H cerrada + POST-H-001 implemented-initial + POST-H-EVAL-001 closed + POST-H-002 closed + POST-H-003 closed + POST-H-004 closed + POST-H-005 closed`  
+Estado actual: `baseline pre-code approved + Fases A-G cerradas + Fase H cerrada + POST-H-001 implemented-initial + POST-H-EVAL-001 closed + POST-H-002 closed + POST-H-003 closed + POST-H-004 closed + POST-H-005 closed + POST-H-006-A implemented-initial`  
 Último hito: `POST-H-005 — Architecture map executable / dependency ownership`  
-Último micro-sprint implementado: `POST-H-005-E — Ownership validation y reporte`  
+Último micro-sprint implementado: `POST-H-006-A — Inventario estático del CLI y modelo de registry`  
 Hito diagnóstico cerrado: `POST-H-EVAL-001 — Evaluación integral del baseline DevPilot post-Fase H`, cierre formal `POST-H-EVAL-001-G`  
 Siguiente hito: `POST-H-006 — CLI command registry y desacoplamiento de handlers`  
 Hito cerrado: `POST-H-005 — Architecture map executable / dependency ownership`  
-Siguiente micro-sprint: `POST-H-006-A — Command registry baseline`  
+Siguiente micro-sprint: `POST-H-006-B — Command registry declarativo inicial`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
@@ -24,6 +24,37 @@ Modo de trabajo: local-first híbrido, API keys opcionales, costo externo contro
 
 
 
+
+
+
+## POST-H-006-A — Inventario estático del CLI y modelo de registry
+
+`POST-H-006-A` inicia el hito `POST-H-006 — CLI command registry y desacoplamiento de handlers` como capacidad `implemented-initial`. La entrega materializa un inventario estático, read-only y schema-backed de la superficie actual del CLI sin migrar handlers ni cambiar nombres públicos de comandos.
+
+Comandos principales:
+
+```powershell
+python -m devpilot_core cli-registry report --json
+python -m devpilot_core cli-registry report --write-report --json
+python -m devpilot_core schema validate --schema-id CliCommandRegistry --instance outputs/reports/cli_command_registry.json --json
+```
+
+El comando con `--write-report` genera:
+
+```text
+outputs/reports/cli_command_registry.json
+outputs/reports/cli_command_registry.md
+```
+
+Alcance: esta entrega es `implemented-initial / read-only static inventory`. No migra handlers fuera de `cli.py`, no cambia UX pública, no ejecuta comandos desde el registry, no habilita carga dinámica de handlers y no activa red, APIs externas, remote execution, connector write ni plugin execution. El registry sirve como baseline para `POST-H-006-B/C`, donde se declararán grupos de bajo riesgo y se migrarán handlers con pruebas de paridad.
+
+Verificación focal:
+
+```powershell
+python -m pytest tests/test_post_h_006_cli_command_registry.py tests/test_cli_command_registry_schema.py tests/test_schema_registry.py tests/test_project_global_state.py -q
+python -m devpilot_core cli-registry report --write-report --json
+python -m devpilot_core schema validate --schema-id CliCommandRegistry --instance outputs/reports/cli_command_registry.json --json
+```
 
 ## POST-H-005-E — Ownership validation y reporte
 

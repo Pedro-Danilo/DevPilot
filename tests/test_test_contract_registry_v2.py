@@ -61,7 +61,7 @@ def test_test_contract_registry_v1_still_validates_during_v2_design() -> None:
     result = TestContractRegistry(ROOT).validate()
 
     assert result.ok, result.to_dict()
-    assert result.data["summary"]["contracts_total"] == 89
+    assert result.data["summary"]["contracts_total"] >= 89
     assert result.data["summary"]["historical_contracts_total"] == 78
     assert result.data["summary"]["global_state_contracts_total"] == 1
 

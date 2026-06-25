@@ -6367,6 +6367,56 @@ Riesgos y límites: `POST-H-005-B` sigue siendo una primera versión. Las depend
 
 
 
+
+
+## POST-H-006-A — Operación del CLI command registry estático
+
+Estado: `implemented-initial / read-only static inventory`.
+
+Propósito: generar un inventario machine-readable de la superficie actual del CLI para gobernar la migración gradual de handlers y reducir el acoplamiento de `src/devpilot_core/cli.py` sin cambiar comandos públicos.
+
+Comando principal:
+
+```powershell
+$env:PYTHONPATH="src"
+python -m devpilot_core cli-registry report --json
+```
+
+Generación de evidencia local:
+
+```powershell
+python -m devpilot_core cli-registry report --write-report --json
+python -m devpilot_core schema validate --schema-id CliCommandRegistry --instance outputs/reports/cli_command_registry.json --json
+```
+
+Artefactos generados bajo `outputs/`:
+
+```text
+outputs/reports/cli_command_registry.json
+outputs/reports/cli_command_registry.md
+```
+
+Criterios PASS:
+
+```text
+PASS si el comando retorna exit_code=0.
+PASS si el JSON valida contra CliCommandRegistry.
+PASS si se detectan grupos principales como workspace, schema, validate, quality-gate, test-contracts y architecture.
+PASS si remote_execution_enabled, connector_write_enabled, plugin_execution_enabled y dynamic_handler_loading_enabled permanecen en false.
+```
+
+Criterios BLOCK:
+
+```text
+BLOCK si el registry habilita carga dinámica arbitraria de handlers.
+BLOCK si se elimina o renombra un comando público.
+BLOCK si la generación requiere red, API externa o ejecución remota.
+BLOCK si el JSON no valida contra schema.
+```
+
+Riesgo operativo: esta versión es preliminar y advisory. No debe usarse para ejecutar comandos ni cargar handlers; la migración real requiere `POST-H-006-B/C` y pruebas de paridad.
+
+
 ## POST-H-005-E — Operación del reporte final ArchitectureMap
 
 Propósito: cerrar `POST-H-005 — Architecture map executable / dependency ownership` materializando un reporte ejecutable, reproducible y validable de paquetes, módulos, dependencias, hotspots, ownership, ownership gaps y recomendaciones de modularización.

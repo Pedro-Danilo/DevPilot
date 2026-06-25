@@ -2,10 +2,10 @@
 doc_id: "POST-H-006-BACKLOG"
 id: "POST-H-006"
 title: "POST-H-006 — CLI command registry y desacoplamiento de handlers"
-status: "draft"
-version: "0.1.0"
+status: "approved"
+version: "0.2.0"
 owner: "Ordóñez"
-updated: "2026-06-23"
+updated: "2026-06-25"
 phase: "POST-FASE-H"
 priority: "P1"
 roadmap_source: "docs/backlogs/post_h_prioritized_roadmap.md"
@@ -13,6 +13,8 @@ local_first: true
 dry_run: true
 no_runtime_features_added_by_backlog: false
 no_remote_execution_enabled: true
+implementation_status: "in-progress"
+approval: "internal"
 ---
 
 # POST-H-006 — CLI command registry y desacoplamiento de handlers
@@ -356,3 +358,51 @@ Gate que impide nuevos comandos sin descriptor.
 Tests focales PASS.
 Quality gate hardening PASS.
 ```
+
+
+## 9. Avance de implementación — POST-H-006-A
+
+Estado: `implemented-initial`.
+
+`POST-H-006-A — Inventario estático del CLI y modelo de registry` queda implementado como baseline read-only del Command Registry. La entrega crea el paquete `src/devpilot_core/cli_registry/`, registra el schema `CliCommandRegistry`, expone el comando `python -m devpilot_core cli-registry report --json` y genera reportes opcionales bajo `outputs/reports/cli_command_registry.json` y `.md`.
+
+Alcance implementado:
+
+```text
+- Modelo CommandDescriptor / CommandGroupDescriptor.
+- Enums CommandRiskLevel y CommandSideEffect.
+- Extractor AST read-only sobre src/devpilot_core/cli.py.
+- Reporte schema-backed del CLI actual.
+- Registro de schema en schema_catalog.json.
+- Test contracts v1/v2 para POST-H-006-A.
+- Documentación técnica y audit report.
+```
+
+Fuera de alcance explícito:
+
+```text
+- No se migran handlers fuera de cli.py.
+- No se cambia ningún nombre público de comando.
+- No se ejecutan comandos desde el registry.
+- No se permite carga dinámica arbitraria de handlers.
+- No se habilita remote execution, connector write ni plugin execution.
+```
+
+Comando principal:
+
+```powershell
+python -m devpilot_core cli-registry report --write-report --json
+```
+
+Criterios PASS cubiertos:
+
+```text
+PASS si el inventario detecta los grupos principales del CLI.
+PASS si el registry JSON generado valida contra CliCommandRegistry.
+PASS si no cambia ningún comando público.
+PASS si no aumenta el acoplamiento de cli.py salvo el comando mínimo de reporte.
+```
+
+Limitación industrial explícita: esta versión es preliminar/advisory. La migración real de handlers y pruebas de paridad quedan para `POST-H-006-B/C`; no debe usarse todavía como loader dinámico ni como enforcement de runtime.
+
+Siguiente micro-sprint: `POST-H-006-B — Command registry declarativo inicial`.
