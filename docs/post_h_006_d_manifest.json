@@ -1,0 +1,63 @@
+{
+  "id": "POST-H-006-D",
+  "parent_hito": "POST-H-006",
+  "title": "POST-H-006-D — Reporte de hotspots CLI y ownership por comando",
+  "status": "implemented-initial",
+  "phase": "POST-FASE-H",
+  "created_by": "POST-H-006-D",
+  "source_repo": "repo_DevPilot_Local_163_POST_H_006_C.zip",
+  "current_repo": "repo_DevPilot_Local_164_POST_H_006_D.zip",
+  "previous_micro_sprint": "POST-H-006-C",
+  "next_micro_sprint": "POST-H-006-E",
+  "read_only": true,
+  "advisory_only": true,
+  "reports": [
+    "outputs/reports/cli_command_registry.json",
+    "outputs/reports/cli_command_registry.md",
+    "outputs/reports/cli_command_registry_report.json",
+    "outputs/reports/cli_command_registry_report.md"
+  ],
+  "implemented_components": [
+    "src/devpilot_core/cli_registry/hotspots.py",
+    "src/devpilot_core/cli_registry/report.py",
+    "src/devpilot_core/cli_registry/registry.py",
+    "tests/test_post_h_006_d_cli_hotspot_ownership.py"
+  ],
+  "capabilities": [
+    "Differentiates migrated, registered_only and legacy CLI commands.",
+    "Calculates command counts by domain, owner, risk level and side effects.",
+    "Identifies commands without explicit cli_commands/ApplicationService boundary.",
+    "Infers Test Contract Registry association from recommended_tests.",
+    "Produces read-only JSON/Markdown hotspot and ownership reports for POST-H-006-E/POST-H-007 planning."
+  ],
+  "safety": {
+    "remote_execution_enabled": false,
+    "connector_write_enabled": false,
+    "plugin_execution_enabled": false,
+    "dynamic_handler_loading_enabled": false,
+    "runtime_router_enabled": false,
+    "network_used": false,
+    "external_api_used": false,
+    "mutations_performed": false,
+    "source_mutations_performed": false
+  },
+  "runtime_router_enabled": false,
+  "dynamic_handler_loading_enabled": false,
+  "remote_execution_enabled": false,
+  "connector_write_enabled": false,
+  "plugin_execution_enabled": false,
+  "validation_commands": [
+    "python -m pytest tests/test_post_h_006_d_cli_hotspot_ownership.py tests/test_post_h_006_c_handler_migration.py tests/test_post_h_006_b_declarative_registry.py tests/test_post_h_006_cli_command_registry.py tests/test_cli_command_registry_schema.py -q",
+    "python -m devpilot_core cli-registry report --write-report --json",
+    "python -m devpilot_core schema validate --schema-id CliCommandRegistry --instance outputs/reports/cli_command_registry.json --json",
+    "python -m devpilot_core test-contracts validate --json",
+    "python -m devpilot_core test-contracts validate-v2 --json",
+    "python -m devpilot_core quality-gate run --profile hardening --json"
+  ],
+  "known_limitations": [
+    "The hotspot report is advisory and does not yet fail on legacy growth.",
+    "Test-contract association is inferred from recommended_tests and may be broader than command-specific coverage.",
+    "The report does not migrate additional handlers and does not create a runtime registry router.",
+    "Full no-growth enforcement is reserved for POST-H-006-E."
+  ]
+}

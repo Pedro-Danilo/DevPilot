@@ -8,6 +8,27 @@ approval: "internal"
 owner: "Ordóñez"
 ---
 
+## [post-h-006-d] - 2026-06-25
+
+### Added
+
+- `src/devpilot_core/cli_registry/hotspots.py` with `CliHotspotOwnershipReportBuilder` for read-only command hotspot and ownership analysis.
+- Optional reports `outputs/reports/cli_command_registry_report.json` and `.md` when `cli-registry report --write-report` is used.
+- Registry metadata for `POST-H-006-D`, including hotspot report id and ownership metrics.
+- Tests in `tests/test_post_h_006_d_cli_hotspot_ownership.py`.
+- Audit report `docs/audits/post_h_006_d_hotspot_ownership_report.md` and manifest `docs/post_h_006_d_manifest.json`.
+- Test Contract Registry v1/v2 contract `post-h-006-cli-hotspot-ownership`.
+
+### Security
+
+- The hotspot report is read-only and advisory. It does not execute commands, import domain handlers, modify sources, enable runtime registry routing or load handlers dynamically.
+- Remote execution, connector write and plugin execution remain disabled.
+
+### Notes
+
+- `POST-H-006-D` prepares `POST-H-006-E` no-growth enforcement and `POST-H-007` ApplicationService boundary hardening; it does not yet block legacy command growth.
+
+
 ## [post-h-006-c] - 2026-06-25
 
 ### Added

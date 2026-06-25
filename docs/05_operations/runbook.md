@@ -6657,3 +6657,56 @@ BLOCK si se cambia un nombre público, se rompe un flag existente, se omite Even
 ### Estado industrial
 
 Esta versión es `implemented-initial`. La migración es incremental y estática: no hay carga dinámica por strings, no hay ejecución desde el registry y no se elimina todavía el wrapper público en `cli.py`.
+
+
+## POST-H-006-D — Operación del reporte de hotspots CLI y ownership
+
+### Propósito
+
+Verificar la cuarta etapa del Command Registry de DevPilot. `POST-H-006-D` genera un reporte read-only de hotspots CLI y ownership por comando a partir del registry acumulado A/B/C y del Test Contract Registry local. Sirve como evidencia para priorizar `POST-H-006-E` y `POST-H-007`.
+
+### Comandos principales
+
+```powershell
+$env:PYTHONPATH="src"
+
+python -m devpilot_core cli-registry report --write-report --json
+python -m devpilot_core schema validate `
+  --schema-id CliCommandRegistry `
+  --instance outputs/reports/cli_command_registry.json `
+  --json
+```
+
+Con `--write-report`, se generan estos artefactos locales:
+
+```text
+outputs/reports/cli_command_registry.json
+outputs/reports/cli_command_registry.md
+outputs/reports/cli_command_registry_report.json
+outputs/reports/cli_command_registry_report.md
+```
+
+### Verificación específica
+
+```powershell
+python -m pytest `
+  tests/test_post_h_006_d_cli_hotspot_ownership.py `
+  tests/test_post_h_006_c_handler_migration.py `
+  tests/test_post_h_006_b_declarative_registry.py `
+  tests/test_post_h_006_cli_command_registry.py `
+  tests/test_cli_command_registry_schema.py `
+  -q
+
+python -m devpilot_core test-contracts validate --json
+python -m devpilot_core test-contracts validate-v2 --json
+```
+
+### PASS/BLOCK
+
+PASS si el reporte diferencia `migrated`, `registered_only` y `legacy`; si lista comandos por dominio/owner; si expone side effects, comandos high/critical, gaps de ApplicationService boundary y gaps inferidos de Test Contract Registry.
+
+BLOCK si el reporte ejecuta comandos, importa handlers de dominio, modifica fuentes, habilita runtime router, carga dinámica, remote execution, connector write o plugin execution.
+
+### Estado industrial
+
+Esta versión es `implemented-initial / advisory`. No bloquea todavía comandos legacy ni crecimiento monolítico; prepara la evidencia para `POST-H-006-E — Gate de no crecimiento monolítico`. La asociación a test contracts se infiere desde `recommended_tests` y debe refinarse con cobertura semántica por comando en ciclos posteriores.

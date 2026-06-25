@@ -16,6 +16,7 @@ from devpilot_core.cli_registry.models import (
 DECLARATIVE_DESCRIPTOR_SOURCE = "src/devpilot_core/cli_registry/registry.py"
 POST_H_006_B_CREATED_BY = "POST-H-006-B"
 POST_H_006_C_CREATED_BY = "POST-H-006-C"
+POST_H_006_D_CREATED_BY = "POST-H-006-D"
 POST_H_006_B_INITIAL_GROUPS: tuple[str, ...] = (
     "workspace",
     "standards",
@@ -261,7 +262,7 @@ class DeclarativeCliRegistryBuilder:
         summary = dict(static_registry.summary)
         summary.update(
             {
-                "created_by": POST_H_006_C_CREATED_BY,
+                "created_by": POST_H_006_D_CREATED_BY,
                 "declarative_descriptor_source": DECLARATIVE_DESCRIPTOR_SOURCE,
                 "declarative_registered_groups_total": registered_groups,
                 "declarative_expected_groups_total": len(DECLARATIVE_GROUPS),
@@ -293,8 +294,8 @@ class DeclarativeCliRegistryBuilder:
             schema_version=static_registry.schema_version,
             schema_id=static_registry.schema_id,
             registry_id=static_registry.registry_id,
-            generated_from="static-cli-parser-ast-plus-declarative-descriptors-plus-migrated-handlers",
-            created_by=POST_H_006_C_CREATED_BY,
+            generated_from="static-cli-parser-ast-plus-declarative-descriptors-plus-migrated-handlers-plus-hotspot-ownership-report",
+            created_by=POST_H_006_D_CREATED_BY,
             groups=transformed_groups,
             summary=summary,
             safety={
@@ -311,6 +312,7 @@ class DeclarativeCliRegistryBuilder:
             },
             recommendations=[
                 "Use migrated_handlers_total and migrated_command_ids to verify POST-H-006-C coverage.",
+                "Use POST-H-006-D hotspot and ownership metrics to prioritize POST-H-006-E and POST-H-007 work.",
                 "Keep cli.py as the public parser/dispatch boundary until registry routing is designed and tested.",
                 "Treat non-migrated registered commands as governed metadata only; dynamic handler loading remains disabled.",
             ],
@@ -322,6 +324,8 @@ class DeclarativeCliRegistryBuilder:
                 "migrated_handlers_total": len(MIGRATED_HANDLERS),
                 "migrated_command_ids": sorted(MIGRATED_HANDLERS),
                 "runtime_router_enabled": False,
+                "hotspot_ownership_report_enabled": True,
+                "hotspot_ownership_report_id": "devpilot-cli-command-hotspot-ownership-report",
                 "no_runtime_behavior_changed": True,
                 "advisory_only": True,
             },

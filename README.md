@@ -1,12 +1,12 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
-Estado actual: `baseline pre-code approved + Fases A-G cerradas + Fase H cerrada + POST-H-001 implemented-initial + POST-H-EVAL-001 closed + POST-H-002 closed + POST-H-003 closed + POST-H-004 closed + POST-H-005 closed + POST-H-006-A implemented-initial + POST-H-006-B implemented-initial + POST-H-006-C implemented-initial`  
+Estado actual: `baseline pre-code approved + Fases A-G cerradas + Fase H cerrada + POST-H-001 implemented-initial + POST-H-EVAL-001 closed + POST-H-002 closed + POST-H-003 closed + POST-H-004 closed + POST-H-005 closed + POST-H-006-A implemented-initial + POST-H-006-B implemented-initial + POST-H-006-C implemented-initial + POST-H-006-D implemented-initial`  
 Último hito: `POST-H-005 — Architecture map executable / dependency ownership`  
-Último micro-sprint implementado: `POST-H-006-C — Migración incremental de handlers de validación/workspace`  
+Último micro-sprint implementado: `POST-H-006-D — Reporte de hotspots CLI y ownership por comando`  
 Hito diagnóstico cerrado: `POST-H-EVAL-001 — Evaluación integral del baseline DevPilot post-Fase H`, cierre formal `POST-H-EVAL-001-G`  
 Siguiente hito: `POST-H-006 — CLI command registry y desacoplamiento de handlers`  
 Hito cerrado: `POST-H-005 — Architecture map executable / dependency ownership`  
-Siguiente micro-sprint: `POST-H-006-D — Reporte de hotspots CLI y ownership por comando`  
+Siguiente micro-sprint: `POST-H-006-E — Gate de no crecimiento monolítico`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
@@ -27,6 +27,58 @@ Modo de trabajo: local-first híbrido, API keys opcionales, costo externo contro
 
 
 
+
+
+## POST-H-006-D — Reporte de hotspots CLI y ownership por comando
+
+`POST-H-006-D` agrega un reporte read-only/advisory que convierte el Command Registry acumulado A/B/C en evidencia de deuda técnica por comando. La capacidad no ejecuta comandos, no importa handlers de dominio, no modifica fuentes y no convierte el registry en router runtime.
+
+Artefactos principales:
+
+```text
+src/devpilot_core/cli_registry/hotspots.py
+outputs/reports/cli_command_registry_report.json
+outputs/reports/cli_command_registry_report.md
+docs/audits/post_h_006_d_hotspot_ownership_report.md
+docs/post_h_006_d_manifest.json
+```
+
+Métricas generadas:
+
+```text
+- migrated / registered_only / legacy por comando;
+- comandos por dominio y owner_module;
+- comandos con side effects;
+- comandos high/critical;
+- comandos sin boundary explícito fuera de cli.py;
+- comandos sin asociación inferida a Test Contract Registry;
+- top hotspots CLI priorizados.
+```
+
+Comando principal:
+
+```powershell
+python -m devpilot_core cli-registry report --write-report --json
+```
+
+El comando genera, cuando se solicita `--write-report`:
+
+```text
+outputs/reports/cli_command_registry.json
+outputs/reports/cli_command_registry.md
+outputs/reports/cli_command_registry_report.json
+outputs/reports/cli_command_registry_report.md
+```
+
+Limitación industrial explícita: esta versión es `implemented-initial / advisory`. No bloquea todavía crecimiento del CLI ni obliga a migrar comandos legacy. La conversión de esta evidencia en gate de no crecimiento corresponde a `POST-H-006-E`, y los gaps de boundary alimentan `POST-H-007`.
+
+Verificación focal:
+
+```powershell
+python -m pytest tests/test_post_h_006_d_cli_hotspot_ownership.py tests/test_post_h_006_c_handler_migration.py tests/test_post_h_006_b_declarative_registry.py tests/test_post_h_006_cli_command_registry.py tests/test_cli_command_registry_schema.py -q
+python -m devpilot_core cli-registry report --write-report --json
+python -m devpilot_core schema validate --schema-id CliCommandRegistry --instance outputs/reports/cli_command_registry.json --json
+```
 
 ## POST-H-006-C — Migración incremental de handlers de validación/workspace
 

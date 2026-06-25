@@ -4793,6 +4793,89 @@
         "POST-H-006-C migrates selected CLI handlers into cli_commands modules while preserving public CLI wrappers.",
         "Runtime registry routing and dynamic handler loading remain disabled; parity tests protect UX and CommandResult semantics."
       ]
+    },
+    {
+      "contract_id": "post-h-006-cli-hotspot-ownership",
+      "schema_version": "2.0",
+      "source_contract_id": "post-h-006-cli-hotspot-ownership",
+      "domain": "interface.cli",
+      "capability": "CliHotspotOwnershipReport",
+      "criticality": "P1",
+      "risk_level": "high",
+      "test_type": "integration",
+      "execution_profile": "always",
+      "cost_class": "low",
+      "expected_duration_seconds": 45,
+      "test_files": [
+        "tests/test_post_h_006_d_cli_hotspot_ownership.py",
+        "tests/test_post_h_006_c_handler_migration.py",
+        "tests/test_post_h_006_b_declarative_registry.py",
+        "tests/test_post_h_006_cli_command_registry.py",
+        "tests/test_cli_command_registry_schema.py",
+        "tests/test_schema_registry.py",
+        "tests/test_project_global_state.py",
+        "tests/test_test_contract_registry.py",
+        "tests/test_test_contract_registry_v2.py"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/cli_registry/",
+        "src/devpilot_core/cli.py",
+        "src/devpilot_core/cli_commands/",
+        "docs/schemas/cli_command_registry.schema.json",
+        ".devpilot/testing/",
+        ".devpilot/project_state.json",
+        "README.md",
+        "docs/05_operations/runbook.md",
+        "docs/backlogs/POST-H-006_cli_command_registry.md",
+        "docs/02_architecture/cli_command_registry_map.md",
+        "docs/audits/post_h_006_d_hotspot_ownership_report.md",
+        "docs/post_h_006_d_manifest.json",
+        "tests/test_post_h_006_d_cli_hotspot_ownership.py"
+      ],
+      "validates": [
+        "src/devpilot_core/cli_registry/hotspots.py",
+        "src/devpilot_core/cli_registry/report.py",
+        "src/devpilot_core/cli_registry/registry.py",
+        "docs/schemas/cli_command_registry.schema.json",
+        "docs/backlogs/POST-H-006_cli_command_registry.md",
+        "docs/02_architecture/cli_command_registry_map.md",
+        "docs/audits/post_h_006_d_hotspot_ownership_report.md",
+        "docs/post_h_006_d_manifest.json"
+      ],
+      "trigger_hints": [
+        "cli-hotspot-report",
+        "cli-registry-change",
+        "test-contract-coverage-gap",
+        "post-h-source-change"
+      ],
+      "impact_scope": [
+        "cli",
+        "registry",
+        "ownership",
+        "hotspots",
+        "test-contracts",
+        "post-h"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": false,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "POST-H-006-D",
+      "recommended_commands": [
+        "python -m pytest tests/test_post_h_006_d_cli_hotspot_ownership.py tests/test_post_h_006_c_handler_migration.py tests/test_post_h_006_b_declarative_registry.py tests/test_post_h_006_cli_command_registry.py tests/test_cli_command_registry_schema.py -q",
+        "python -m devpilot_core cli-registry report --write-report --json",
+        "python -m devpilot_core schema validate --schema-id CliCommandRegistry --instance outputs/reports/cli_command_registry.json --json",
+        "python -m devpilot_core test-contracts validate --json",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ],
+      "classification_status": "explicit",
+      "classification_notes": [
+        "POST-H-006-D produces a read-only CLI hotspot and ownership report derived from the CLI registry and Test Contract Registry.",
+        "The report is advisory and prepares POST-H-006-E no-growth enforcement and POST-H-007 ApplicationService boundary hardening."
+      ]
     }
   ],
   "migration_metadata": {

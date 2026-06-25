@@ -4164,7 +4164,7 @@ def architecture_map_command(
 
 
 def cli_registry_report_command(*, json_output: bool = False, write_report: bool = False) -> int:
-    """Build the POST-H-006-A read-only static CLI command registry report."""
+    """Build the POST-H-006-D read-only CLI registry, hotspot and ownership report."""
 
     root = project_root()
     result = CliCommandRegistryReportBuilder(root, CliCommandRegistryReportOptions(write_report=write_report)).build()
@@ -4419,11 +4419,11 @@ def build_parser() -> argparse.ArgumentParser:
     architecture_map.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     architecture_map.add_argument("--write-report", action="store_true", help="Persist raw ArchitectureMap JSON/Markdown reports under outputs/reports")
 
-    cli_registry = sub.add_parser("cli-registry", help="Inspect static DevPilot CLI command registry")
+    cli_registry = sub.add_parser("cli-registry", help="Inspect DevPilot CLI command registry and hotspot ownership report")
     cli_registry_sub = cli_registry.add_subparsers(dest="cli_registry_command")
-    cli_registry_report = cli_registry_sub.add_parser("report", help="Build read-only static CLI command registry report")
+    cli_registry_report = cli_registry_sub.add_parser("report", help="Build read-only CLI command registry plus hotspot/ownership report")
     cli_registry_report.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
-    cli_registry_report.add_argument("--write-report", action="store_true", help="Write cli_command_registry.json/.md under outputs/reports")
+    cli_registry_report.add_argument("--write-report", action="store_true", help="Write cli_command_registry.json/.md and cli_command_registry_report.json/.md under outputs/reports")
 
     test_contracts = sub.add_parser("test-contracts", help="Validate POST-H-001 test contract registry")
     test_contracts_sub = test_contracts.add_subparsers(dest="test_contracts_command")

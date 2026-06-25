@@ -3,7 +3,7 @@ doc_id: "POST-H-006-BACKLOG"
 id: "POST-H-006"
 title: "POST-H-006 — CLI command registry y desacoplamiento de handlers"
 status: "approved"
-version: "0.4.0"
+version: "0.5.0"
 owner: "Ordóñez"
 updated: "2026-06-25"
 phase: "POST-FASE-H"
@@ -453,7 +453,7 @@ PASS si el reporte identifica legacy_unregistered_commands_total.
 
 Limitación industrial explícita: esta versión es preliminar/advisory. La migración física de handlers y pruebas de paridad quedan para `POST-H-006-C`; el registry no debe usarse todavía como router runtime ni loader dinámico.
 
-Siguiente micro-sprint: `POST-H-006-D — Reporte de hotspots CLI y ownership por comando`.
+Micro-sprint posterior ejecutado: `POST-H-006-D — Reporte de hotspots CLI y ownership por comando`.
 
 
 ## 11. Avance de implementación — POST-H-006-C
@@ -497,4 +497,59 @@ Criterios PASS cubiertos:
 
 Limitación industrial explícita: esta versión es incremental. No elimina wrappers legacy de `cli.py`, no activa ejecución desde registry, no habilita carga dinámica de handlers y no migra comandos de mayor riesgo. La reducción completa de hotspot CLI requiere `POST-H-006-D/E` y probablemente coordinación con `POST-H-007`.
 
-Siguiente micro-sprint: `POST-H-006-D — Reporte de hotspots CLI y ownership por comando`.
+Micro-sprint posterior ejecutado: `POST-H-006-D — Reporte de hotspots CLI y ownership por comando`.
+
+
+## 12. Avance de implementación — POST-H-006-D
+
+Estado: `implemented-initial`.
+
+`POST-H-006-D — Reporte de hotspots CLI y ownership por comando` implementa una lectura industrial de la deuda restante del CLI. El reporte se deriva del Command Registry acumulado A/B/C y del Test Contract Registry local; no ejecuta comandos, no importa handlers de dominio y no modifica fuentes.
+
+Artefactos implementados:
+
+```text
+src/devpilot_core/cli_registry/hotspots.py
+tests/test_post_h_006_d_cli_hotspot_ownership.py
+docs/audits/post_h_006_d_hotspot_ownership_report.md
+docs/post_h_006_d_manifest.json
+outputs/reports/cli_command_registry_report.json
+outputs/reports/cli_command_registry_report.md
+```
+
+Alcance implementado:
+
+```text
+- Conteo migrated / registered_only / legacy por comando.
+- Conteo por dominio y owner_module.
+- Conteo de comandos con side effects.
+- Identificación de comandos high/critical.
+- Identificación de comandos sin boundary explícito fuera de cli.py.
+- Asociación inferida a Test Contract Registry desde recommended_tests.
+- Ranking de top hotspots por score.
+- Links explícitos a POST-H-003, POST-H-006-E y POST-H-007.
+```
+
+Criterios PASS cubiertos:
+
+```text
+- El reporte diferencia migrated, registered_only y legacy.
+- Los comandos críticos aparecen con risk_level high/critical.
+- El reporte es read-only y no modifica fuentes.
+- Los artefactos cli_command_registry_report.json/.md solo se escriben con --write-report.
+- TCR v1/v2 queda sincronizado con el contrato post-h-006-cli-hotspot-ownership.
+```
+
+Fuera de alcance explícito:
+
+```text
+- No se bloquea crecimiento del CLI todavía.
+- No se migra ningún handler adicional.
+- No se convierte el registry en runtime router.
+- No se activa dynamic handler loading.
+- No se habilita remote execution, connector write ni plugin execution.
+```
+
+Limitación industrial explícita: esta versión es preliminar/advisory. La asociación a test contracts se infiere desde `recommended_tests`, por lo que puede ser más amplia que una cobertura semántica específica por comando. El enforcement real de crecimiento monolítico queda para `POST-H-006-E`.
+
+Siguiente micro-sprint: `POST-H-006-E — Gate de no crecimiento monolítico`.

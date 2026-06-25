@@ -81,8 +81,8 @@ def test_post_h_006_c_registry_marks_migrated_handlers_without_runtime_router() 
     commands = _commands_by_id()
     summary = registry["summary"]
 
-    assert registry["created_by"] == "POST-H-006-C"
-    assert registry["generated_from"] == "static-cli-parser-ast-plus-declarative-descriptors-plus-migrated-handlers"
+    assert registry["created_by"] == "POST-H-006-D"
+    assert registry["generated_from"] == "static-cli-parser-ast-plus-declarative-descriptors-plus-migrated-handlers-plus-hotspot-ownership-report"
     assert registry["metadata"]["handler_migration_performed"] is True
     assert registry["metadata"]["runtime_router_enabled"] is False
     assert summary["migrated_handlers_total"] == 3

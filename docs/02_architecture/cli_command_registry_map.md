@@ -1,13 +1,13 @@
 ---
 title: "CLI command registry map"
 doc_id: "ARCH-CLI-COMMAND-REGISTRY-MAP"
-version: "0.3.0"
+version: "0.4.0"
 status: "implemented-initial"
 approval: "internal"
 owner: "Ordóñez"
 updated: "2026-06-25"
 phase: "POST-FASE-H"
-sprint: "POST-H-006-C"
+sprint: "POST-H-006-D"
 local_first: true
 dry_run: true
 ---
@@ -16,11 +16,11 @@ dry_run: true
 
 ## Propósito
 
-Este documento describe la baseline técnica acumulada de `POST-H-006-A/B/C`: inventario estático de la superficie pública del CLI y overlay declarativo inicial en formato machine-readable y validable por schema.
+Este documento describe la baseline técnica acumulada de `POST-H-006-A/B/C/D`: inventario estático de la superficie pública del CLI y overlay declarativo inicial en formato machine-readable y validable por schema.
 
 ## Estado
 
-Estado: `implemented-initial / incremental handler migration, no runtime registry router`.
+Estado: `implemented-initial / hotspot ownership report, no runtime registry router`.
 
 La capacidad actual inventaria el CLI, agrega una capa declarativa inicial para grupos gobernables y migra de forma controlada la lógica de resultado de `workspace.init`, `workspace.status` y `validate` a módulos `cli_commands`. La modularización sigue siendo incremental: el parser público y los wrappers de compatibilidad permanecen en `cli.py`.
 
@@ -36,6 +36,7 @@ src/devpilot_core/cli.py
   -> DeclarativeCliRegistryBuilder
   -> migrated handler metadata
   -> CliCommandRegistry payload
+  -> CliHotspotOwnershipReportBuilder
   -> SchemaValidator(CliCommandRegistry)
   -> outputs/reports/cli_command_registry.json
   -> outputs/reports/cli_command_registry.md
@@ -48,7 +49,8 @@ src/devpilot_core/cli.py
 | `cli_registry/models.py` | Dataclasses y enums del registry. |
 | `cli_registry/builders.py` | `StaticCliInventoryExtractor`: extractor AST y construcción del inventario base. |
 | `cli_registry/registry.py` | `DeclarativeCliRegistryBuilder`: overlay declarativo inicial y metadata de handlers migrados POST-H-006-C. |
-| `cli_registry/report.py` | Builder de `CommandResult`, validación y escritura opcional de reportes. |
+| `cli_registry/report.py` | Builder de `CommandResult`, validación, hotspot report y escritura opcional de reportes. |
+| `cli_registry/hotspots.py` | `CliHotspotOwnershipReportBuilder`: métricas read-only de ownership, riesgos, side effects, gaps TCR y top hotspots por comando. |
 | `cli_registry/__init__.py` | API pública interna del paquete. |
 | `cli.py` | Mantiene parser público, wrappers de compatibilidad, eventos, persistencia y reportes opcionales. |
 | `cli_commands/workspace.py` | Handlers migrados de `workspace.init` y `workspace.status` que construyen `CommandResult` sin renderizar salida. |
@@ -73,9 +75,9 @@ source_mutations_performed = false
 
 ## Próximos pasos
 
-- `POST-H-006-D`: reporte de hotspots CLI y ownership por comando.
-- `POST-H-006-E`: cierre de cobertura/paridad del hito si aplica.
-- `POST-H-006-D/E`: paridad, cobertura y cierre del hito.
+- `POST-H-006-E`: gate de no crecimiento monolítico y allowlist explícita de legacy.
+- `POST-H-007`: hardening de ApplicationService boundary usando los gaps del reporte D.
+- Cierre posterior del hito: paridad, cobertura y control de crecimiento del CLI.
 
 ## POST-H-006-B — Registry declarativo inicial
 
@@ -153,3 +155,43 @@ dynamic_handler_loading_enabled = false
 ```
 
 Esta decisión reduce acoplamiento sin esconder deuda: los comandos no migrados siguen visibles como declarativos o `legacy-unregistered`.
+
+
+## POST-H-006-D — Hotspot ownership report
+
+La cuarta etapa introduce `CliHotspotOwnershipReportBuilder` en `src/devpilot_core/cli_registry/hotspots.py`. Este builder deriva métricas read-only del registry acumulado y del Test Contract Registry local.
+
+Arquitectura extendida:
+
+```text
+CliCommandRegistry payload
+  -> CliHotspotOwnershipReportBuilder
+  -> Test Contract Registry v1/v2 index
+  -> ownership status classifier
+  -> command hotspot scorer
+  -> outputs/reports/cli_command_registry_report.json
+  -> outputs/reports/cli_command_registry_report.md
+```
+
+Métricas producidas:
+
+```text
+migrated_commands_total
+registered_only_commands_total
+legacy_commands_total
+commands_with_side_effects_total
+high_or_critical_risk_commands_total
+commands_without_application_service_boundary_total
+commands_without_test_contract_total
+top_hotspots_total
+```
+
+Estados de ownership:
+
+```text
+migrated        = handler ya movido a cli_commands con wrapper público preservado.
+registered_only = descriptor declarativo existe, pero handler aún no migrado.
+legacy          = comando sigue visible únicamente como legacy-unregistered.
+```
+
+Limitación industrial explícita: el reporte es advisory y no bloquea cambios. El enforcement de no crecimiento monolítico queda para `POST-H-006-E`; los gaps de ApplicationService boundary alimentan `POST-H-007`.

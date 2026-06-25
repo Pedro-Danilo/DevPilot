@@ -79,8 +79,8 @@ def test_cli_command_registry_writes_schema_valid_reports() -> None:
     assert raw_md.exists()
     raw_payload = json.loads(raw_json.read_text(encoding="utf-8"))
     assert raw_payload["schema_id"] == "SCHEMA-DEVPL-CLI-COMMAND-REGISTRY-V1"
-    assert raw_payload["created_by"] == "POST-H-006-C"
-    assert "CLI command registry incremental handler migration" in raw_md.read_text(encoding="utf-8")
+    assert raw_payload["created_by"] == "POST-H-006-D"
+    assert "CLI command registry hotspots and ownership" in raw_md.read_text(encoding="utf-8")
 
 
 def test_cli_registry_cli_contract_is_registered_with_incremental_handler_migration() -> None:
@@ -110,8 +110,8 @@ def test_post_h_006_a_docs_manifest_and_contracts_are_synchronized() -> None:
     assert 'status: "approved"' in backlog
     assert 'implementation_status: "in-progress"' in backlog
     assert "POST-H-006-A — Inventario estático del CLI" in backlog
-    assert "Último micro-sprint implementado: `POST-H-006-C" in readme
-    assert "Siguiente micro-sprint: `POST-H-006-D" in readme
+    assert "Último micro-sprint implementado: `POST-H-006-D" in readme
+    assert "Siguiente micro-sprint: `POST-H-006-E" in readme
     assert "POST-H-006-A — Operación del CLI command registry estático" in runbook
     assert "POST-H-006-B — Operación del registry declarativo inicial" in runbook
     assert "POST-H-006-C — Operación de handlers migrados de workspace/validación" in runbook

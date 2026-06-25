@@ -7,27 +7,30 @@ from typing import Any
 
 from devpilot_core.cli_models import CommandResult, ExitCode, Finding, Severity
 from devpilot_core.cli_registry.builders import CLI_REGISTRY_SCHEMA_ID, StaticCliInventoryOptions
+from devpilot_core.cli_registry.hotspots import CliHotspotOwnershipReportBuilder, render_hotspot_markdown
 from devpilot_core.cli_registry.registry import DeclarativeCliRegistryBuilder
 from devpilot_core.schemas import SchemaValidator
 
 
 @dataclass(frozen=True)
 class CliCommandRegistryReportOptions:
-    """Options for rendering the POST-H-006-A/B/C CLI registry report."""
+    """Options for rendering the POST-H-006-A/B/C/D CLI registry report."""
 
     cli_source: Path = Path("src/devpilot_core/cli.py")
     write_report: bool = False
     output_json: Path = Path("outputs/reports/cli_command_registry.json")
     output_markdown: Path = Path("outputs/reports/cli_command_registry.md")
+    output_hotspot_json: Path = Path("outputs/reports/cli_command_registry_report.json")
+    output_hotspot_markdown: Path = Path("outputs/reports/cli_command_registry_report.md")
 
 
 class CliCommandRegistryReportBuilder:
     """Build a read-only CLI command registry report.
 
-    POST-H-006-C composes the POST-H-006-A static CLI inventory, POST-H-006-B
-    declarative overlay and an incremental, statically imported handler
-    migration for selected workspace/validation commands. It does not enable a
-    runtime registry router and does not alter public command behavior.
+    POST-H-006-D composes the POST-H-006-A static CLI inventory, POST-H-006-B
+    declarative overlay, POST-H-006-C migrated handlers and a read-only hotspot
+    / ownership report for remaining CLI debt. It does not enable a runtime
+    registry router and does not alter public command behavior.
     """
 
     def __init__(self, root: Path, options: CliCommandRegistryReportOptions | None = None) -> None:
@@ -45,6 +48,20 @@ class CliCommandRegistryReportBuilder:
             ),
         ).build_registry()
         payload = registry.to_dict()
+        hotspot_report = CliHotspotOwnershipReportBuilder(self.root, payload).build()
+        payload.setdefault("summary", {}).update(
+            {
+                "hotspot_report_id": hotspot_report["report_id"],
+                "hotspot_report_created_by": hotspot_report["created_by"],
+                "migrated_commands_total": hotspot_report["summary"].get("migrated_commands_total"),
+                "registered_only_commands_total": hotspot_report["summary"].get("registered_only_commands_total"),
+                "legacy_commands_total": hotspot_report["summary"].get("legacy_commands_total"),
+                "commands_with_side_effects_total": hotspot_report["summary"].get("commands_with_side_effects_total"),
+                "commands_without_application_service_boundary_total": hotspot_report["summary"].get("commands_without_application_service_boundary_total"),
+                "commands_without_test_contract_total": hotspot_report["summary"].get("commands_without_test_contract_total"),
+                "ownership_status_counts": hotspot_report["summary"].get("ownership_status_counts"),
+            }
+        )
         validation = SchemaValidator(self.root).validate_payload(
             schema="CliCommandRegistry",
             payload=payload,
@@ -61,6 +78,17 @@ class CliCommandRegistryReportBuilder:
                 "output_json": None,
                 "output_markdown": None,
                 "blocking_findings_total": _blocking_count(findings),
+                "hotspot_report_id": hotspot_report["report_id"],
+                "hotspot_report_created_by": hotspot_report["created_by"],
+                "hotspot_report_written": False,
+                "output_hotspot_json": None,
+                "output_hotspot_markdown": None,
+                "migrated_commands_total": hotspot_report["summary"].get("migrated_commands_total"),
+                "registered_only_commands_total": hotspot_report["summary"].get("registered_only_commands_total"),
+                "legacy_commands_total": hotspot_report["summary"].get("legacy_commands_total"),
+                "commands_with_side_effects_total": hotspot_report["summary"].get("commands_with_side_effects_total"),
+                "commands_without_application_service_boundary_total": hotspot_report["summary"].get("commands_without_application_service_boundary_total"),
+                "commands_without_test_contract_total": hotspot_report["summary"].get("commands_without_test_contract_total"),
                 "dry_run": True,
                 "network_used": False,
                 "external_api_used": False,
@@ -109,7 +137,7 @@ class CliCommandRegistryReportBuilder:
             findings.append(
                 Finding(
                     id="CLI_REGISTRY_DECLARATIVE_GROUPS_PRESENT",
-                    message="Declarative CLI registry includes the initial POST-H-006-B groups and POST-H-006-C migrated handlers.",
+                    message="Declarative CLI registry includes the initial POST-H-006-B groups, POST-H-006-C migrated handlers and POST-H-006-D hotspot report inputs.",
                     severity=Severity.INFO,
                     metadata={
                         "declarative_registered_groups_total": summary.get("declarative_registered_groups_total"),
@@ -119,10 +147,13 @@ class CliCommandRegistryReportBuilder:
             )
 
         if self.options.write_report:
-            self._write_reports(payload)
+            self._write_reports(payload, hotspot_report)
             summary["reports_written"] = True
             summary["output_json"] = str(self.options.output_json).replace("\\", "/")
             summary["output_markdown"] = str(self.options.output_markdown).replace("\\", "/")
+            summary["hotspot_report_written"] = True
+            summary["output_hotspot_json"] = str(self.options.output_hotspot_json).replace("\\", "/")
+            summary["output_hotspot_markdown"] = str(self.options.output_hotspot_markdown).replace("\\", "/")
 
         summary["blocking_findings_total"] = _blocking_count(findings)
         ok = validation.ok and not missing_groups and not declarative_missing and summary["commands_total"] > 0
@@ -130,35 +161,41 @@ class CliCommandRegistryReportBuilder:
             command="cli-registry report",
             ok=ok,
             exit_code=ExitCode.PASS if ok else ExitCode.BLOCK,
-            message="CLI command registry incremental migration report passed." if ok else "CLI command registry incremental migration report has blocking findings.",
+            message="CLI command registry hotspot and ownership report passed." if ok else "CLI command registry hotspot and ownership report has blocking findings.",
             data={
                 "summary": summary,
                 "registry": payload,
+                "hotspot_report": hotspot_report,
                 "notes": [
-                    "POST-H-006-C adds a statically imported handler migration for selected workspace/validation commands.",
-                    "cli.py remains the public parser/dispatch wrapper; runtime registry routing and dynamic handler loading remain disabled.",
+                    "POST-H-006-D adds a read-only hotspot and ownership report derived from the CLI registry and Test Contract Registry.",
+                    "POST-H-006-C migrated selected workspace/validation handlers; cli.py remains the public parser/dispatch wrapper.",
+                    "Runtime registry routing and dynamic handler loading remain disabled.",
                     "Reports are generated only when --write-report is passed and are intentionally excluded from release ZIPs.",
                 ],
             },
             findings=findings,
         )
 
-    def _write_reports(self, payload: dict[str, Any]) -> None:
+    def _write_reports(self, payload: dict[str, Any], hotspot_report: dict[str, Any]) -> None:
         json_path = self.root / self.options.output_json
         markdown_path = self.root / self.options.output_markdown
+        hotspot_json_path = self.root / self.options.output_hotspot_json
+        hotspot_markdown_path = self.root / self.options.output_hotspot_markdown
         json_path.parent.mkdir(parents=True, exist_ok=True)
         json_path.write_text(json.dumps(payload, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
         markdown_path.write_text(_markdown_report(payload), encoding="utf-8")
+        hotspot_json_path.write_text(json.dumps(hotspot_report, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+        hotspot_markdown_path.write_text(render_hotspot_markdown(hotspot_report), encoding="utf-8")
 
 
 def _markdown_report(payload: dict[str, Any]) -> str:
     summary = payload.get("summary", {})
     lines = [
-        "# POST-H-006-C — CLI command registry incremental handler migration",
+        "# POST-H-006-D — CLI command registry hotspots and ownership",
         "",
-        "Estado: `implemented-initial / incremental handler migration, no runtime registry router`.",
+        "Estado: `implemented-initial / hotspot ownership report, no runtime registry router`.",
         "",
-        "Este reporte combina inventario AST del CLI, descriptors declarativos iniciales y migración incremental de handlers seleccionados sin habilitar carga dinámica ni cambiar comandos públicos.",
+        "Este reporte combina inventario AST del CLI, descriptors declarativos iniciales, migración incremental de handlers seleccionados y métricas read-only de hotspots/ownership sin habilitar carga dinámica ni cambiar comandos públicos.",
         "",
         "## Summary",
         "",
@@ -173,6 +210,11 @@ def _markdown_report(payload: dict[str, Any]) -> str:
         f"- Migrated command ids: {summary.get('migrated_command_ids')}",
         f"- Dynamic handler loading enabled: {summary.get('dynamic_handler_loading_enabled')}",
         f"- Remote execution enabled: {summary.get('remote_execution_enabled')}",
+        f"- Migrated commands total: {summary.get('migrated_commands_total')}",
+        f"- Registered-only commands total: {summary.get('registered_only_commands_total')}",
+        f"- Legacy commands total: {summary.get('legacy_commands_total')}",
+        f"- Commands without ApplicationService boundary total: {summary.get('commands_without_application_service_boundary_total')}",
+        f"- Commands without test-contract association total: {summary.get('commands_without_test_contract_total')}",
         "",
         "## Groups",
         "",
@@ -186,7 +228,7 @@ def _markdown_report(payload: dict[str, Any]) -> str:
         "## Industrial notes",
         "",
         "- Esta versión es preliminar y advisory; no debe usarse todavía para cargar handlers dinámicamente.",
-        "- La migración real de handlers queda para micro-sprints posteriores con pruebas de paridad.",
+        "- La reducción completa de hotspot CLI queda para micro-sprints posteriores con pruebas de paridad y gate de no crecimiento.",
         "- No habilita remote execution, connector write ni plugin execution.",
         "",
     ])

@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://devpilot.local/schemas/cli_command_registry.schema.json",
   "title": "DevPilot CLI Command Registry v1",
-  "description": "Static read-only registry of DevPilot CLI command groups, command descriptors, risks and safety invariants.",
+  "description": "Static/read-only registry of DevPilot CLI command groups, command descriptors, risks, safety invariants, handler migration and hotspot ownership metadata.",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -37,7 +37,8 @@
       "enum": [
         "POST-H-006-A",
         "POST-H-006-B",
-        "POST-H-006-C"
+        "POST-H-006-C",
+        "POST-H-006-D"
       ]
     },
     "commands_total": {
