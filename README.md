@@ -2,11 +2,11 @@
 
 Estado actual: `baseline pre-code approved + Fases A-G cerradas + Fase H cerrada + POST-H-001 implemented-initial + POST-H-EVAL-001 closed + POST-H-002 closed + POST-H-003 closed + POST-H-004 closed`  
 Último hito: `POST-H-004 — Policy/MIASI semantic validator ampliado`  
-Último micro-sprint implementado: `POST-H-005-A — Modelos y schema de architecture map`  
+Último micro-sprint implementado: `POST-H-005-B — Inventario AST de paquetes y módulos`  
 Hito diagnóstico cerrado: `POST-H-EVAL-001 — Evaluación integral del baseline DevPilot post-Fase H`, cierre formal `POST-H-EVAL-001-G`  
 Siguiente hito: `POST-H-005 — Architecture map executable / dependency ownership`  
 Hito en ejecución: `POST-H-005 — Architecture map executable / dependency ownership`  
-Siguiente micro-sprint: `POST-H-005-B — Inventario AST de paquetes y módulos`  
+Siguiente micro-sprint: `POST-H-005-C — Grafo de dependencias y boundaries`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
@@ -21,6 +21,27 @@ Modo de trabajo: local-first híbrido, API keys opcionales, costo externo contro
 
 
 
+
+## POST-H-005-B — Inventario AST de paquetes y módulos
+
+`POST-H-005-B` implementa el primer inventario ejecutable y reproducible del código Python bajo `src/devpilot_core`. La capacidad usa únicamente `ast` de la librería estándar: no importa módulos dinámicamente, no ejecuta tests, no llama red, no usa APIs externas y no muta archivos fuente.
+
+Comando principal:
+
+```powershell
+python -m devpilot_core architecture inventory --json
+```
+
+El inventario calcula por módulo: LOC, clases, funciones, imports, exports aproximados, comandos CLI detectados, handlers CLI y relación heurística con tests locales. También agrega un resumen por paquete y cruza los paquetes descubiertos con `.devpilot/architecture/ownership_registry.json`.
+
+Alcance: esta entrega es `implemented-initial`. No materializa aún grafo de dependencias como `DependencyEdge`, no calcula fan-in/fan-out real, no emite score de hotspots y no integra quality-gate; esos pasos quedan para `POST-H-005-C/D/E`. El output del comando es un `ArchitectureMap` schema-backed en memoria, validable por `SCHEMA-DEVPL-ARCHITECTURE-MAP-V1`.
+
+Verificación focal:
+
+```powershell
+python -m pytest tests/test_architecture_inventory.py tests/test_post_h_005_architecture_map.py tests/test_architecture_ownership_registry.py tests/test_schema_registry.py -q
+python -m devpilot_core architecture inventory --json
+```
 
 ## POST-H-005-A — Modelos y schema de architecture map
 

@@ -3,23 +3,6 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from devpilot_core.architecture import (
-    ARCHITECTURE_MAP_CONTRACT,
-    ARCHITECTURE_MAP_SCHEMA_ID,
-    ArchitectureMap,
-    ArchitectureModule,
-    ArchitecturePackage,
-    DependencyEdge,
-    DependencyKind,
-    DependencyPolicy,
-    Hotspot,
-    OwnershipEntry,
-    load_ownership_registry,
-    ownership_entries_from_payload,
-)
-from devpilot_core.cli_models import ExitCode
-from devpilot_core.schemas import SchemaValidator
-
 ROOT = Path(__file__).resolve().parents[1]
 VALID_FIXTURE = ROOT / "tests/fixtures/architecture_map/valid_minimal_architecture_map.json"
 INVALID_NETWORK_FIXTURE = ROOT / "tests/fixtures/architecture_map/invalid_network_architecture_map.json"
@@ -34,6 +17,10 @@ def _read_json(path: str) -> dict:
 
 
 def test_architecture_map_schema_registered_and_validates_minimal_fixture() -> None:
+    from devpilot_core.architecture import ARCHITECTURE_MAP_CONTRACT, ARCHITECTURE_MAP_SCHEMA_ID
+    from devpilot_core.cli_models import ExitCode
+    from devpilot_core.schemas import SchemaValidator
+
     catalog = _read_json("docs/schemas/schema_catalog.json")
     schemas = {item["schema_id"]: item for item in catalog["schemas"]}
 
@@ -48,6 +35,9 @@ def test_architecture_map_schema_registered_and_validates_minimal_fixture() -> N
 
 
 def test_architecture_map_schema_rejects_network_usage() -> None:
+    from devpilot_core.cli_models import ExitCode
+    from devpilot_core.schemas import SchemaValidator
+
     result = SchemaValidator(ROOT).validate(schema="ArchitectureMap", instance=INVALID_NETWORK_FIXTURE)
 
     assert result.ok is False
@@ -57,6 +47,18 @@ def test_architecture_map_schema_rejects_network_usage() -> None:
 
 
 def test_architecture_model_serializes_expected_contract_shape() -> None:
+    from devpilot_core.architecture import (
+        ARCHITECTURE_MAP_SCHEMA_ID,
+        ArchitectureMap,
+        ArchitectureModule,
+        ArchitecturePackage,
+        DependencyEdge,
+        DependencyKind,
+        DependencyPolicy,
+        Hotspot,
+        OwnershipEntry,
+    )
+
     package = ArchitecturePackage(
         package="devpilot_core.policy",
         domain="governance.security",
@@ -134,8 +136,9 @@ def test_post_h_005_backlog_and_docs_mark_a_as_implemented_initial() -> None:
     assert 'implementation_status: "in-progress"' in backlog
     assert "POST-H-005-A — Modelos y schema de architecture map" in backlog
     assert "Estado: `implemented-initial`" in backlog
-    assert "Último micro-sprint implementado: `POST-H-005-A" in readme
-    assert "Siguiente micro-sprint: `POST-H-005-B" in readme
+    assert "POST-H-005-A — Modelos y schema de architecture map" in readme
+    assert "Último micro-sprint implementado: `POST-H-005-" in readme
+    assert "Siguiente micro-sprint: `POST-H-005-" in readme
     assert "POST-H-005-A — Operación del modelo y schema ArchitectureMap" in runbook
     assert "post-h-005-a" in changelog
     assert "SCHEMA-DEVPL-ARCHITECTURE-MAP-V1" in design_doc
@@ -143,6 +146,8 @@ def test_post_h_005_backlog_and_docs_mark_a_as_implemented_initial() -> None:
 
 
 def test_post_h_005_manifest_records_preliminary_non_executing_scope() -> None:
+    from devpilot_core.architecture import ARCHITECTURE_MAP_SCHEMA_ID
+
     manifest = _read_json("docs/post_h_005_a_manifest.json")
 
     assert manifest["id"] == "POST-H-005-A"

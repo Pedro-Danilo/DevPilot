@@ -1,17 +1,17 @@
 ---
-doc_id: "POST-H-005-A-ARCHITECTURE-MAP-DESIGN"
-title: "POST-H-005-A — Modelo ejecutable de architecture map"
+doc_id: "POST-H-005-ARCHITECTURE-MAP-DESIGN"
+title: "POST-H-005 — Modelo e inventario ejecutable de architecture map"
 status: "approved"
-version: "1.0.0"
+version: "1.1.0"
 owner: "Ordóñez"
-updated: "2026-06-24"
+updated: "2026-06-25"
 phase: "POST-FASE-H"
 local_first: true
 dry_run: true
 approval: "internal"
 ---
 
-# POST-H-005-A — Modelo ejecutable de architecture map
+# POST-H-005 — Modelo e inventario ejecutable de architecture map
 
 ## Propósito
 
@@ -102,4 +102,60 @@ POST-H-005-B — Inventario AST de paquetes y módulos.
 POST-H-005-C — Grafo de dependencias y boundaries.
 POST-H-005-D — Hotspot analyzer.
 POST-H-005-E — Ownership validation y reporte final.
+```
+
+## POST-H-005-B — Inventario AST implementado
+
+Estado: `implemented-initial / AST inventory only`.
+
+`POST-H-005-B` agrega `ArchitectureInventoryBuilder` y el comando:
+
+```powershell
+python -m devpilot_core architecture inventory --json
+```
+
+El inventario recorre `src/devpilot_core`, parsea cada archivo `.py` con `ast` y calcula evidencia estructural por módulo sin ejecutar código del proyecto:
+
+```text
+- module_id y package.
+- path relativo.
+- LOC no vacías/no comentario.
+- clases y funciones detectadas por AST.
+- imports internos/externos aproximados.
+- exports aproximados por __all__ y símbolos públicos top-level.
+- comandos CLI declarados con add_parser.
+- handlers CLI por funciones *_command.
+- tests relacionados por heurística de naming/path.
+```
+
+La salida principal es un `ArchitectureMap` en memoria validado contra `SCHEMA-DEVPL-ARCHITECTURE-MAP-V1`. En esta fase `dependencies` y `hotspots` permanecen vacíos por diseño: `POST-H-005-C` materializará los `DependencyEdge` y `POST-H-005-D` calculará el scoring de hotspots.
+
+## Restricciones del inventario AST
+
+```text
+- No importa módulos dinámicamente.
+- No ejecuta pytest ni comandos del sistema.
+- No genera dependencia en herramientas externas.
+- No usa red ni APIs externas.
+- No escribe fuentes.
+- No activa remote execution, plugin execution ni connector write.
+```
+
+## Criterios PASS adicionales de POST-H-005-B
+
+```text
+PASS si architecture inventory devuelve ok=true.
+PASS si cli.py aparece como is_cli_entrypoint=true.
+PASS si se detectan comandos y handlers CLI por AST.
+PASS si el payload generado valida contra ArchitectureMap.
+PASS si el resumen conserva dry_run=true y network/API/mutations=false.
+```
+
+## Límites pendientes
+
+```text
+- DependencyEdge real: POST-H-005-C.
+- fan-in/fan-out real: POST-H-005-C.
+- Hotspot score: POST-H-005-D.
+- Reporte final architecture_map.json/.md y quality-gate: POST-H-005-E.
 ```

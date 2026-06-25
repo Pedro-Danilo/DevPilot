@@ -6319,3 +6319,47 @@ BLOCK si se agrega enforcement de quality-gate antes de POST-H-005-E.
 ```
 
 Riesgos y límites: `POST-H-005-A` no representa todavía la arquitectura real calculada por AST. Es la base contractual para que `POST-H-005-B/C/D/E` generen inventario, grafo, hotspots y reporte final sin seguir acumulando features sobre un mapa arquitectónico manual.
+
+## POST-H-005-B — Operación del inventario AST ArchitectureMap
+
+Propósito: generar el primer inventario ejecutable y reproducible de paquetes y módulos Python bajo `src/devpilot_core`, usando análisis AST local y read-only. Esta operación alimenta el futuro grafo de dependencias, hotspot analyzer y reporte `ArchitectureMap`, pero todavía no materializa edges ni scores.
+
+Estado: `implemented-initial / AST inventory only`.
+
+Comandos de verificación:
+
+```powershell
+$env:PYTHONPATH="src"
+
+python -m pytest tests/test_architecture_inventory.py tests/test_post_h_005_architecture_map.py tests/test_architecture_ownership_registry.py tests/test_schema_registry.py -q
+python -m devpilot_core architecture inventory --json
+```
+
+Comando con reporte opcional:
+
+```powershell
+python -m devpilot_core architecture inventory --json --write-report
+```
+
+El reporte opcional escribe evidencia bajo `outputs/reports/` mediante `ReportEngine`; no modifica fuentes, no ejecuta tests, no importa módulos dinámicamente y no usa red/APIs externas.
+
+PASS:
+
+```text
+PASS si el comando architecture inventory devuelve ok=true.
+PASS si modules_total y packages_total son mayores que cero y cli.py aparece como is_cli_entrypoint=true.
+PASS si se detectan comandos y handlers CLI por AST.
+PASS si el payload ArchitectureMap en memoria valida contra SCHEMA-DEVPL-ARCHITECTURE-MAP-V1.
+PASS si safety mantiene dry_run=true y network/API/mutations=false.
+```
+
+BLOCK:
+
+```text
+BLOCK si el inventario no puede parsear src/devpilot_core.
+BLOCK si el comando importa módulos del proyecto en vez de usar AST.
+BLOCK si ejecuta pruebas, subprocesses, red, APIs externas o mutaciones fuente.
+BLOCK si materializa enforcement de dependencias antes de POST-H-005-C/E.
+```
+
+Riesgos y límites: `POST-H-005-B` sigue siendo una primera versión. Las dependencias internas se exponen como metadata de imports, no como `DependencyEdge`; fan-in/fan-out real queda para `POST-H-005-C`; el scoring de hotspots queda para `POST-H-005-D`; la integración con quality-gate y el reporte final quedan para `POST-H-005-E`.

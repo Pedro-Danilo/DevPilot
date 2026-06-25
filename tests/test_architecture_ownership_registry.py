@@ -3,8 +3,6 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from devpilot_core.architecture import load_ownership_registry, ownership_entries_from_payload
-
 ROOT = Path(__file__).resolve().parents[1]
 REQUIRED_PACKAGES = {
     "devpilot_core.cli",
@@ -18,6 +16,8 @@ REQUIRED_PACKAGES = {
 
 
 def test_ownership_registry_contains_critical_initial_packages() -> None:
+    from devpilot_core.architecture import load_ownership_registry
+
     payload = load_ownership_registry(ROOT)
     packages = {item["package"]: item for item in payload["packages"]}
 
@@ -33,6 +33,8 @@ def test_ownership_registry_contains_critical_initial_packages() -> None:
 
 
 def test_ownership_registry_can_be_converted_to_model_entries() -> None:
+    from devpilot_core.architecture import load_ownership_registry, ownership_entries_from_payload
+
     payload = load_ownership_registry(ROOT)
     entries = ownership_entries_from_payload(payload)
 

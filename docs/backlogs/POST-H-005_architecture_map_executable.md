@@ -3,9 +3,9 @@ doc_id: "POST-H-005-BACKLOG"
 id: "POST-H-005"
 title: "POST-H-005 — Architecture map executable / dependency ownership"
 status: "approved"
-version: "0.2.0"
+version: "0.3.0"
 owner: "Ordóñez"
-updated: "2026-06-24"
+updated: "2026-06-25"
 phase: "POST-FASE-H"
 priority: "P0"
 roadmap_source: "docs/backlogs/post_h_prioritized_roadmap.md"
@@ -343,3 +343,40 @@ Cobertura inicial:
 
 Siguiente micro-sprint: `POST-H-005-B — Inventario AST de paquetes y módulos`.
 
+
+
+## 11. Avance de implementación — POST-H-005-B
+
+Estado: `implemented-initial`.
+
+`POST-H-005-B — Inventario AST de paquetes y módulos` implementa el comando local y read-only:
+
+```powershell
+python -m devpilot_core architecture inventory --json
+```
+
+Alcance implementado:
+
+```text
+- Recorrido determinista de src/devpilot_core.
+- Parseo AST con librería estándar, sin import dinámico de módulos del proyecto.
+- Cálculo por módulo de LOC, clases, funciones, imports y exports aproximados.
+- Detección AST de comandos CLI declarados con add_parser.
+- Detección de handlers CLI por funciones *_command.
+- Relación heurística con tests locales por naming/path.
+- Cruce inicial con ownership_registry.json.
+- Payload ArchitectureMap schema-backed en memoria.
+```
+
+Límites explícitos:
+
+```text
+- No materializa DependencyEdge todavía.
+- No calcula fan-in/fan-out real todavía.
+- No calcula hotspot score todavía.
+- No agrega subgate de quality-gate todavía.
+- No mueve módulos, no refactoriza CLI, no cambia ApplicationService.
+- No usa red, APIs externas, subprocesses, ejecución de tests ni mutaciones fuente.
+```
+
+Siguiente micro-sprint: `POST-H-005-C — Grafo de dependencias y boundaries`.

@@ -11,6 +11,7 @@ from .auditpack import AuditPackBuilder, AuditPackBuildOptions, AuditPackVerifyO
 from .approval.models import ApprovalStatus
 from .approval.service import ApprovalCliInput, ApprovalService
 from .application import ApplicationService
+from .architecture import ArchitectureInventoryBuilder, ArchitectureInventoryOptions
 from .cli_models import CommandResult, ExitCode, Finding, Severity
 from .connectors import ConnectorAdapter, ConnectorCallOptions, ConnectorRegistry, ConnectorRegistryOptions
 from .compliance import CompliancePackRegistry, ComplianceRegistryOptions, CompliancePackRunner, ComplianceRunOptions
@@ -3985,6 +3986,50 @@ def policy_simulate_command(
     print_result(result, json_output=json_output)
     return int(result.exit_code)
 
+
+def architecture_inventory_command(
+    *,
+    source_root: str = "src/devpilot_core",
+    tests_root: str = "tests",
+    ownership_registry: str = ".devpilot/architecture/ownership_registry.json",
+    json_output: bool = False,
+    write_report: bool = False,
+) -> int:
+    """Build the POST-H-005-B read-only AST inventory for devpilot_core."""
+
+    root = project_root()
+    result = ArchitectureInventoryBuilder(
+        root,
+        ArchitectureInventoryOptions(
+            source_root=Path(source_root),
+            tests_root=Path(tests_root),
+            ownership_registry=Path(ownership_registry),
+        ),
+    ).build()
+    result = _write_optional_command_report(
+        root,
+        result,
+        subject="architecture:inventory",
+        report_id="architecture_inventory",
+        write_report=write_report,
+        metadata={"sprint": "POST-H-005-B", "component": "ArchitectureInventoryBuilder"},
+    )
+    # Keep operational event/history payload compact. The full architecture map
+    # remains available in the command output and optional report, but storing it
+    # in SQLite/JSONL on every run is unnecessarily heavy for local gates.
+    inventory_summary_result = CommandResult(
+        command=result.command,
+        ok=result.ok,
+        exit_code=result.exit_code,
+        message=result.message,
+        data={"summary": (result.data or {}).get("summary", {})},
+        findings=result.findings,
+    )
+    _emit_result_event(root, inventory_summary_result, subject="architecture:inventory")
+    _persist_result(root, inventory_summary_result, subject="architecture:inventory")
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
 def tests_profiles_command(*, json_output: bool = False, write_report: bool = False) -> int:
     """List configured tests.run profiles without executing subprocesses."""
 
@@ -4192,6 +4237,15 @@ def build_parser() -> argparse.ArgumentParser:
     industrial_check.add_argument("--minimum-score", type=float, default=80.0, help="Minimum readiness score required to pass")
     industrial_check.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     industrial_check.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+
+    architecture = sub.add_parser("architecture", help="Build executable local architecture map evidence")
+    architecture_sub = architecture.add_subparsers(dest="architecture_command")
+    architecture_inventory = architecture_sub.add_parser("inventory", help="Build read-only AST inventory of devpilot_core packages and modules")
+    architecture_inventory.add_argument("--source-root", default="src/devpilot_core", help="Source root to inventory; defaults to src/devpilot_core")
+    architecture_inventory.add_argument("--tests-root", default="tests", help="Tests root used for heuristic test mapping")
+    architecture_inventory.add_argument("--ownership-registry", default=".devpilot/architecture/ownership_registry.json", help="Architecture ownership registry path")
+    architecture_inventory.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    architecture_inventory.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
 
     test_contracts = sub.add_parser("test-contracts", help="Validate POST-H-001 test contract registry")
     test_contracts_sub = test_contracts.add_subparsers(dest="test_contracts_command")
@@ -5012,6 +5066,9 @@ def _command_name_from_args(args: argparse.Namespace) -> str:
     if command == "industrial-readiness":
         subcommand = getattr(args, "industrial_readiness_command", None)
         return f"industrial-readiness {subcommand}" if subcommand else "industrial-readiness"
+    if command == "architecture":
+        subcommand = getattr(args, "architecture_command", None)
+        return f"architecture {subcommand}" if subcommand else "architecture"
     if command == "audit-pack":
         subcommand = getattr(args, "audit_pack_command", None)
         return f"audit-pack {subcommand}" if subcommand else "audit-pack"
@@ -5185,6 +5242,17 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
         if args.industrial_readiness_command == "check":
             return industrial_readiness_check_command(
                 minimum_score=args.minimum_score,
+                json_output=args.json,
+                write_report=args.write_report,
+            )
+        parser.print_help()
+        return int(ExitCode.FAIL)
+    if args.command == "architecture":
+        if args.architecture_command == "inventory":
+            return architecture_inventory_command(
+                source_root=args.source_root,
+                tests_root=args.tests_root,
+                ownership_registry=args.ownership_registry,
                 json_output=args.json,
                 write_report=args.write_report,
             )

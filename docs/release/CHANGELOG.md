@@ -2,12 +2,30 @@
 title: "DevPilot Local — Changelog"
 doc_id: "DEVPL-RELEASE-CHANGELOG"
 version: "0.1.0"
-updated: "2026-06-24"
+updated: "2026-06-25"
 status: "approved"
 approval: "internal"
 owner: "Ordóñez"
 ---
 
+
+## [post-h-005-b] - 2026-06-25
+
+### Added
+
+- `ArchitectureInventoryBuilder` for read-only AST inventory of `src/devpilot_core`.
+- CLI command `python -m devpilot_core architecture inventory --json`.
+- Module/package evidence for LOC, classes, functions, imports, approximate exports, CLI commands, CLI handlers and heuristic test mapping.
+- POST-H-005-B audit, manifest and tests.
+
+### Security
+
+- Inventory uses Python standard-library `ast` only and does not import project modules dynamically.
+- No tests, subprocesses, network, external APIs, source mutations, remote execution, connector write or plugin execution are enabled.
+
+### Notes
+
+- This is `implemented-initial / AST inventory only`; dependency graph, fan-in/fan-out, hotspots, final report and quality-gate integration remain future POST-H-005 micro-sprints.
 
 ## [post-h-005-a] - 2026-06-24
 

@@ -1,3 +1,7 @@
+from devpilot_core.architecture.inventory import (
+    ArchitectureInventoryBuilder,
+    ArchitectureInventoryOptions,
+)
 from devpilot_core.architecture.models import (
     ARCHITECTURE_MAP_CONTRACT,
     ARCHITECTURE_MAP_SCHEMA_ID,
@@ -25,6 +29,8 @@ __all__ = [
     "ARCHITECTURE_MAP_SCHEMA_ID",
     "ARCHITECTURE_MAP_VERSION",
     "ArchitectureCriticality",
+    "ArchitectureInventoryBuilder",
+    "ArchitectureInventoryOptions",
     "ArchitectureMap",
     "ArchitectureMapSafety",
     "ArchitectureModule",
