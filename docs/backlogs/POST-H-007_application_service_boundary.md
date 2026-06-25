@@ -3,9 +3,9 @@ doc_id: "POST-H-007-BACKLOG"
 id: "POST-H-007"
 title: "POST-H-007 — ApplicationService boundary hardening"
 status: "approved"
-version: "0.2.0"
+version: "0.3.0"
 owner: "Ordóñez"
-updated: "2026-06-23"
+updated: "2026-06-25"
 phase: "POST-FASE-H"
 priority: "P1"
 roadmap_source: "docs/backlogs/post_h_prioritized_roadmap.md"
@@ -363,3 +363,47 @@ PASS: no se habilita remote execution, connector write ni plugin execution.
 ```
 
 Limitación explícita: `POST-H-007-A` es inventario/advisory. No corrige todos los bypasses; esa normalización se mantiene incremental para `POST-H-007-B/C/D/E`.
+
+
+## 14. Avance de implementación — POST-H-007-B
+
+Estado: `implemented-initial`.
+
+`POST-H-007-B — Operation catalog y schema` crea el contrato declarativo de operaciones de aplicación requerido por el backlog. El catálogo se deriva del inventario read-only de `POST-H-007-A`, deduplica operaciones, declara mappings CLI/API/UI como arrays explícitos, y agrega metadata obligatoria de riesgo, writes, `policy_required`, `dry_run_default` y cobertura mediante Test Contract Registry.
+
+Artefactos implementados:
+
+```text
+src/devpilot_core/application/operation_catalog.py
+src/devpilot_core/application/capability_registry.py
+docs/schemas/application_operation_catalog.schema.json
+docs/audits/post_h_007_b_operation_catalog_report.md
+docs/post_h_007_b_manifest.json
+tests/test_application_operation_catalog_schema.py
+```
+
+Métricas iniciales:
+
+```text
+operations_total = 35
+domains_total = 18
+required_initial_domains_covered_total = 10/10
+cli_bound_total = 17
+api_bound_total = 27
+ui_bound_total = 12
+policy_required_total = 7
+writes_files_total = 4
+operations_without_test_contracts_total = 0
+direct_core_bypass_total = 105
+```
+
+Criterios PASS cubiertos:
+
+```text
+PASS: el catálogo valida contra schema ApplicationOperationCatalog.
+PASS: cada operación declara riesgo, writes, policy_required y test coverage.
+PASS: CLI/API/UI mappings son opcionales, pero explícitos como arrays.
+PASS: no se modifica comportamiento runtime ni se agregan rutas/comandos públicos.
+```
+
+Limitación explícita: `POST-H-007-B` es una primera versión contractual. No normaliza aún DTOs runtime (`POST-H-007-C`), no aplica boundary policy por cliente (`POST-H-007-D`) y no conecta aún CommandDescriptor con ApplicationOperationDescriptor (`POST-H-007-E`).

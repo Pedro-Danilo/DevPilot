@@ -48,3 +48,17 @@ POST-H-007-C — Normalización DTO de operaciones prioritarias
 POST-H-007-D — Boundary policy y guardrails por interfaz
 POST-H-007-E — Integración con CLI registry y quality gate
 ```
+
+
+## POST-H-007-B — ApplicationOperationCatalog
+
+`POST-H-007-B` agrega un catálogo declarativo validable (`ApplicationOperationCatalog`) para describir operaciones de aplicación con contratos `ApplicationRequest`/`ApplicationResponse`, mappings CLI/API/UI explícitos, riesgo, writes, `policy_required`, `dry_run_default` y cobertura de pruebas. Esta versión es `implemented-initial`: no cambia rutas runtime, no ejecuta operaciones y no impone enforcement por interfaz.
+
+Artefactos:
+
+```text
+src/devpilot_core/application/operation_catalog.py
+src/devpilot_core/application/capability_registry.py
+docs/schemas/application_operation_catalog.schema.json
+outputs/reports/application_operation_catalog.json  # generado, no versionar
+```

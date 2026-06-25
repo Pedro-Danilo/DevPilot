@@ -6810,3 +6810,44 @@ BLOCK si habilita runtime routing nuevo, remote execution, connector write o plu
 ```
 
 Limitación: `POST-H-007-A` es una primera versión de inventario/advisory. La normalización de DTOs, catálogo formal de operaciones y enforcement por interfaz quedan para micro-sprints posteriores.
+
+
+## POST-H-007-B — Operación del ApplicationOperationCatalog
+
+Propósito: generar un catálogo declarativo y validable de operaciones de `ApplicationService` a partir del inventario `POST-H-007-A`, incluyendo riesgo, writes, `policy_required`, contratos `ApplicationRequest`/`ApplicationResponse`, mappings CLI/API/UI y cobertura de pruebas.
+
+Comandos de prueba focal:
+
+```powershell
+python -m pytest tests/test_application_operation_catalog_schema.py tests/test_schema_registry.py -q
+python -m devpilot_core schema validate `
+  --schema-id ApplicationOperationCatalog `
+  --instance outputs/reports/application_operation_catalog.json `
+  --json
+```
+
+Generación del catálogo durante tests:
+
+```text
+outputs/reports/application_operation_catalog.json
+outputs/reports/application_operation_catalog.md
+```
+
+Criterios PASS:
+
+```text
+PASS si el catálogo valida contra ApplicationOperationCatalog schema.
+PASS si cubre los dominios iniciales workspace, validation, reports, approvals, settings, repo, review, refactor, model y observability.
+PASS si cada operación declara risk_level, writes_files, policy_required, dry_run_default, test_contract_ids y mappings CLI/API/UI explícitos aunque puedan estar vacíos.
+PASS si no habilita rutas runtime nuevas, remote execution, connector write, plugin execution, red externa ni APIs externas.
+```
+
+Criterios BLOCK:
+
+```text
+BLOCK si alguna operación queda sin test_contract_ids.
+BLOCK si el catálogo pretende normalizar DTOs runtime o aplicar enforcement por interfaz en este micro-sprint.
+BLOCK si se agregan comandos CLI públicos nuevos para producir el catálogo.
+```
+
+Limitación: `POST-H-007-B` es catálogo/schema únicamente. No corrige bypasses CLI, no normaliza DTOs y no bloquea operaciones por interfaz. Es una base contractual para `POST-H-007-C/D/E`.

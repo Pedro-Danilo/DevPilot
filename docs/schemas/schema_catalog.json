@@ -3,12 +3,12 @@
   "title": "DevPilot Local Schema Catalog",
   "schema_version": "1.0",
   "status": "approved",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "owner": "Ordóñez",
   "updated": "2026-06-25",
-  "sprint": "POST-H-007-A",
+  "sprint": "POST-H-007-B",
   "preliminary": true,
-  "purpose": "Catalog of versioned JSON schemas registered by DevPilot. POST-H-002-A adds the MaturityDashboard contract for local, evidence-based maturity reporting without remote or production-overclaiming. POST-H-003-A adds the Test Contract Registry v2 design schema while preserving v1 compatibility. POST-H-004-A registers the MiasiSemanticReport contract for local, non-executing Policy/MIASI semantic validation reports. POST-H-005-A registers the ArchitectureMap contract for executable architecture inventory and dependency ownership baselines without running AST inventory yet.",
+  "purpose": "Catalog of versioned JSON schemas registered by DevPilot. POST-H-002-A adds the MaturityDashboard contract for local, evidence-based maturity reporting without remote or production-overclaiming. POST-H-003-A adds the Test Contract Registry v2 design schema while preserving v1 compatibility. POST-H-004-A registers the MiasiSemanticReport contract for local, non-executing Policy/MIASI semantic validation reports. POST-H-005-A registers the ArchitectureMap contract for executable architecture inventory and dependency ownership baselines without running AST inventory yet. POST-H-007-B registers ApplicationOperationCatalog for declarative ApplicationService operation mapping, schema validation and test coverage metadata without changing runtime behavior.",
   "schemas": [
     {
       "schema_id": "SCHEMA-DEVPL-FINDING-V1",
@@ -480,6 +480,20 @@
       "dialect": "https://json-schema.org/draft/2020-12/schema",
       "validates_instances": true,
       "validation_enabled_sprint": "POST-H-007-A"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-APPLICATION-OPERATION-CATALOG-V1",
+      "title": "DevPilot Application Operation Catalog v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/application_operation_catalog.schema.json",
+      "description": "Declarative POST-H-007-B catalog of ApplicationService operations with risk, writes, policy, test coverage and explicit CLI/API/UI mappings.",
+      "status": "registered",
+      "contract": "ApplicationOperationCatalog",
+      "owner": "Ordóñez",
+      "sprint": "POST-H-007-B",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "POST-H-007-B"
     }
   ]
 }

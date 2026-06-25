@@ -1,13 +1,13 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
-Estado actual: `baseline pre-code approved + Fases A-G cerradas + Fase H cerrada + POST-H-001 implemented-initial + POST-H-EVAL-001 closed + POST-H-002 closed + POST-H-003 closed + POST-H-004 closed + POST-H-005 closed + POST-H-006 closed + POST-H-007-A implemented-initial`  
+Estado actual: `baseline pre-code approved + Fases A-G cerradas + Fase H cerrada + POST-H-001 implemented-initial + POST-H-EVAL-001 closed + POST-H-002 closed + POST-H-003 closed + POST-H-004 closed + POST-H-005 closed + POST-H-006 closed + POST-H-007-A implemented-initial + POST-H-007-B implemented-initial`  
 Último hito: `POST-H-006 — CLI command registry y desacoplamiento de handlers`  
 Siguiente hito: `POST-H-007 — ApplicationService boundary hardening`  
-Último micro-sprint implementado: `POST-H-007-A — Inventario de operaciones y bypasses`  
+Último micro-sprint implementado: `POST-H-007-B — Operation catalog y schema`  
 Hito diagnóstico cerrado: `POST-H-EVAL-001 — Evaluación integral del baseline DevPilot post-Fase H`, cierre formal `POST-H-EVAL-001-G`  
 Hito actual en implementación: `POST-H-007 — ApplicationService boundary hardening`  
 Hito cerrado: `POST-H-006 — CLI command registry y desacoplamiento de handlers`  
-Siguiente micro-sprint recomendado: `POST-H-007-B — Operation catalog y schema`  
+Siguiente micro-sprint recomendado: `POST-H-007-C — Normalización DTO de operaciones prioritarias`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
@@ -31,6 +31,47 @@ Modo de trabajo: local-first híbrido, API keys opcionales, costo externo contro
 
 
 
+
+
+
+## POST-H-007-B — Operation catalog y schema
+
+`POST-H-007-B` promueve el inventario advisory de `POST-H-007-A` a un catálogo declarativo y validable de operaciones de aplicación. La implementación es `implemented-initial`, local-first y read-only: no agrega rutas runtime, no cambia dispatch de CLI/API/UI y no ejecuta operaciones de dominio.
+
+Artefactos principales:
+
+```text
+src/devpilot_core/application/operation_catalog.py
+src/devpilot_core/application/capability_registry.py
+docs/schemas/application_operation_catalog.schema.json
+tests/test_application_operation_catalog_schema.py
+docs/audits/post_h_007_b_operation_catalog_report.md
+docs/post_h_007_b_manifest.json
+```
+
+Métricas del catálogo inicial:
+
+```text
+operations_total = 35
+domains_total = 18
+required_initial_domains_covered_total = 10/10
+cli_bound_total = 17
+api_bound_total = 27
+ui_bound_total = 12
+policy_required_total = 7
+writes_files_total = 4
+operations_without_test_contracts_total = 0
+direct_core_bypass_total = 105
+```
+
+Verificación focal:
+
+```powershell
+python -m pytest tests/test_application_operation_catalog_schema.py tests/test_schema_registry.py -q
+python -m devpilot_core schema validate --schema-id ApplicationOperationCatalog --instance outputs/reports/application_operation_catalog.json --json
+```
+
+Estado industrial: primera versión contractual del catálogo. La normalización runtime vía `ApplicationRequest`/`ApplicationResponse` queda para `POST-H-007-C`; el enforcement por interfaz queda para `POST-H-007-D`; y la integración con CLI registry/quality-gate queda para `POST-H-007-E`.
 
 ## POST-H-007-A — Inventario de operaciones y bypasses
 

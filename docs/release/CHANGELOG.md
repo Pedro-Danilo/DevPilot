@@ -8,6 +8,26 @@ approval: "internal"
 owner: "Ordóñez"
 ---
 
+
+## [post-h-007-b] - 2026-06-25
+
+### Added
+
+- `src/devpilot_core/application/operation_catalog.py` with `ApplicationOperationDescriptor`, `ApplicationOperationCatalog` and `ApplicationOperationCatalogBuilder`.
+- `src/devpilot_core/application/capability_registry.py` as a read-only lookup facade over the operation catalog.
+- `docs/schemas/application_operation_catalog.schema.json` and schema catalog registration for `ApplicationOperationCatalog`.
+- Tests in `tests/test_application_operation_catalog_schema.py`.
+- Audit report `docs/audits/post_h_007_b_operation_catalog_report.md` and manifest `docs/post_h_007_b_manifest.json`.
+- Test Contract Registry v1/v2 contract `post-h-007-application-operation-catalog`.
+
+### Security
+
+- Catalog generation is local/read-only and does not execute operations, add runtime routes, enable remote execution, connector write, plugin execution, network calls or external APIs.
+
+### Notes
+
+- `POST-H-007-B` is catalog/schema only. DTO runtime normalization remains for `POST-H-007-C`; boundary policy enforcement remains for `POST-H-007-D`; CLI registry integration remains for `POST-H-007-E`.
+
 ## [post-h-006-e] - 2026-06-25
 
 ### Added
