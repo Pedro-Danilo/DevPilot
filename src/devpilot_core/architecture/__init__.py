@@ -2,6 +2,10 @@ from devpilot_core.architecture.dependencies import (
     ArchitectureDependenciesBuilder,
     ArchitectureDependenciesOptions,
 )
+from devpilot_core.architecture.hotspots import (
+    ArchitectureHotspotsBuilder,
+    ArchitectureHotspotsOptions,
+)
 from devpilot_core.architecture.inventory import (
     ArchitectureInventoryBuilder,
     ArchitectureInventoryOptions,
@@ -37,6 +41,8 @@ __all__ = [
     "ArchitectureDependenciesOptions",
     "ArchitectureInventoryBuilder",
     "ArchitectureInventoryOptions",
+    "ArchitectureHotspotsBuilder",
+    "ArchitectureHotspotsOptions",
     "ArchitectureMap",
     "ArchitectureMapSafety",
     "ArchitectureModule",

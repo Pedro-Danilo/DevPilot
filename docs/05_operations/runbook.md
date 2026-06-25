@@ -6365,6 +6365,48 @@ BLOCK si materializa enforcement de dependencias antes de POST-H-005-C/E.
 Riesgos y límites: `POST-H-005-B` sigue siendo una primera versión. Las dependencias internas se exponen como metadata de imports, no como `DependencyEdge`; fan-in/fan-out real queda para `POST-H-005-C`; el scoring de hotspots queda para `POST-H-005-D`; la integración con quality-gate y el reporte final quedan para `POST-H-005-E`.
 
 
+
+## POST-H-005-D — Operación del hotspot analyzer ArchitectureMap
+
+Propósito: calcular un top 20 reproducible de hotspots arquitectónicos usando inventario AST, grafo de dependencias, fan-in/fan-out, métricas de código, comandos CLI, criticality y señales advisory de boundaries.
+
+Comando principal:
+
+```powershell
+$env:PYTHONPATH="src"
+python -m devpilot_core architecture hotspots --json
+```
+
+Comando con evidencia persistida bajo `outputs/reports/`:
+
+```powershell
+$env:PYTHONPATH="src"
+python -m devpilot_core architecture hotspots --json --write-report
+```
+
+Criterios PASS:
+
+```text
+PASS si el comando devuelve ok=true.
+PASS si `hotspots_total` es 20 por defecto.
+PASS si `devpilot_core.cli` o `src/devpilot_core/cli.py` aparece en el top de hotspots.
+PASS si existen hotspots con metadata `technical_hotspot` y `core_domain_hotspot`.
+PASS si cada hotspot incluye reasons, recommendations y raw_metrics.
+PASS si safety mantiene dry_run=true y network/API/mutations=false.
+```
+
+Criterios BLOCK:
+
+```text
+BLOCK si el analizador importa dinámicamente módulos del proyecto.
+BLOCK si ejecuta pruebas, subprocesses, red o APIs externas.
+BLOCK si muta fuentes o cambia boundaries runtime.
+BLOCK si ignora cli.py como hotspot.
+BLOCK si no valida el payload contra ArchitectureMap.
+```
+
+Riesgos y límites: `POST-H-005-D` es una primera versión advisory. No mide complejidad ciclomática ni call graph y no debe usarse como decisión automática de refactor. El reporte final con ownership validation y posible integración a quality-gate queda para `POST-H-005-E`.
+
 ## POST-H-005-C — Operación del grafo de dependencias ArchitectureMap
 
 Propósito: materializar un grafo ejecutable de dependencias internas paquete→paquete a partir de imports Python bajo `src/devpilot_core`, con clasificación advisory de boundaries. Esta operación alimenta el futuro hotspot analyzer y el reporte final `ArchitectureMap`.

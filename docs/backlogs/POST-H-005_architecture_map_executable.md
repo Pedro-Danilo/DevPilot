@@ -3,7 +3,7 @@ doc_id: "POST-H-005-BACKLOG"
 id: "POST-H-005"
 title: "POST-H-005 — Architecture map executable / dependency ownership"
 status: "approved"
-version: "0.4.0"
+version: "0.5.0"
 owner: "Ordóñez"
 updated: "2026-06-25"
 phase: "POST-FASE-H"
@@ -417,3 +417,38 @@ Límites explícitos:
 
 Siguiente micro-sprint: `POST-H-005-D — Hotspot analyzer`.
 
+
+
+## 13. Avance de implementación — POST-H-005-D
+
+Estado: `implemented-initial`.
+
+`POST-H-005-D — Hotspot analyzer` implementa el comando local y read-only:
+
+```powershell
+python -m devpilot_core architecture hotspots --json
+```
+
+Alcance implementado:
+
+```text
+- Reutilización del inventario AST y grafo de dependencias.
+- Scoring advisory por LOC, fan-in, fan-out, funciones, comandos CLI, criticality y policy signals.
+- Top 20 hotspots reproducible a nivel package/module.
+- Clasificación `technical_hotspot` vs `core_domain_hotspot` en metadata.
+- Reasons, recommendations y raw_metrics por hotspot.
+- Payload ArchitectureMap schema-backed en memoria.
+```
+
+Límites explícitos:
+
+```text
+- No refactoriza CLI ni mueve módulos.
+- No cambia boundaries runtime ni ApplicationService.
+- No ejecuta tests desde el analizador.
+- No convierte hotspots en blockers de quality-gate.
+- No genera architecture_map.json/.md final; queda para POST-H-005-E.
+- No usa red, APIs externas, subprocesses, ejecución remota, connector write ni plugin execution.
+```
+
+Siguiente micro-sprint: `POST-H-005-E — Ownership validation y reporte`.

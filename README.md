@@ -2,11 +2,11 @@
 
 Estado actual: `baseline pre-code approved + Fases A-G cerradas + Fase H cerrada + POST-H-001 implemented-initial + POST-H-EVAL-001 closed + POST-H-002 closed + POST-H-003 closed + POST-H-004 closed`  
 Último hito: `POST-H-004 — Policy/MIASI semantic validator ampliado`  
-Último micro-sprint implementado: `POST-H-005-C — Grafo de dependencias y boundaries`  
+Último micro-sprint implementado: `POST-H-005-D — Hotspot analyzer`  
 Hito diagnóstico cerrado: `POST-H-EVAL-001 — Evaluación integral del baseline DevPilot post-Fase H`, cierre formal `POST-H-EVAL-001-G`  
 Siguiente hito: `POST-H-005 — Architecture map executable / dependency ownership`  
 Hito en ejecución: `POST-H-005 — Architecture map executable / dependency ownership`  
-Siguiente micro-sprint: `POST-H-005-D — Hotspot analyzer`  
+Siguiente micro-sprint: `POST-H-005-E — Ownership validation y reporte`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
@@ -22,6 +22,28 @@ Modo de trabajo: local-first híbrido, API keys opcionales, costo externo contro
 
 
 
+
+
+## POST-H-005-D — Hotspot analyzer
+
+`POST-H-005-D` agrega el primer ranking ejecutable de hotspots arquitectónicos de DevPilot. La capacidad reutiliza el inventario AST y el grafo de dependencias para calcular un score advisory por LOC, fan-in, fan-out, funciones, comandos CLI, criticality y señales de boundary sensitive/restricted/forbidden.
+
+Comando principal:
+
+```powershell
+python -m devpilot_core architecture hotspots --json
+```
+
+El resultado emite un top 20 reproducible de hotspots a nivel `package` y `module`. Cada hotspot diferencia en metadata si corresponde a deuda técnica (`technical_hotspot`) o a un dominio crítico legítimo (`core_domain_hotspot`), incluye razones, métricas crudas y recomendaciones accionables para `POST-H-006` y `POST-H-007`.
+
+Alcance: esta entrega es `implemented-initial / advisory hotspot ranking`. No refactoriza módulos, no mueve código, no cambia `ApplicationService`, no ejecuta tests desde el analizador y no convierte hotspots en blockers. La validación de ownership y el reporte final `architecture_map.json/.md` quedan para `POST-H-005-E`.
+
+Verificación focal:
+
+```powershell
+python -m pytest tests/test_architecture_hotspots.py tests/test_architecture_dependencies.py tests/test_architecture_inventory.py tests/test_post_h_005_architecture_map.py tests/test_architecture_ownership_registry.py tests/test_schema_registry.py -q
+python -m devpilot_core architecture hotspots --json
+```
 
 ## POST-H-005-C — Grafo de dependencias y boundaries
 

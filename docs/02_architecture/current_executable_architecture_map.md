@@ -2,7 +2,7 @@
 doc_id: "POST-H-005-ARCHITECTURE-MAP-DESIGN"
 title: "POST-H-005 — Modelo e inventario ejecutable de architecture map"
 status: "approved"
-version: "1.1.0"
+version: "1.2.0"
 owner: "Ordóñez"
 updated: "2026-06-25"
 phase: "POST-FASE-H"
@@ -19,7 +19,7 @@ approval: "internal"
 
 ## Estado
 
-Estado: `implemented-initial / schema-only`.
+Estado: `implemented-initial / executable inventory, dependency graph and advisory hotspot ranking`.
 
 Esta entrega no ejecuta análisis AST, no calcula fan-in/fan-out real, no mueve módulos, no modifica dependencias, no agrega subgate de quality-gate y no cambia la semántica de comandos. Define el contrato sobre el cual trabajarán `POST-H-005-B/C/D/E`.
 
@@ -167,3 +167,18 @@ PASS si el resumen conserva dry_run=true y network/API/mutations=false.
 
 This baseline remains `implemented-initial`: it is static, local-first and non-mutating. It does not enforce boundaries, move modules, calculate hotspot scores or generate the final architecture map report yet.
 
+
+
+## POST-H-005-D — Hotspot analyzer baseline
+
+`POST-H-005-D` adds an advisory hotspot ranking on top of the executable ArchitectureMap baseline. It consumes the AST inventory and dependency graph, then scores package/module subjects using normalized LOC, fan-in, fan-out, function count, CLI command count and criticality. Boundary policy signals from POST-H-005-C are retained as advisory metadata.
+
+The analyzer emits a top 20 list and separates technical debt hotspots from core-domain hotspots through explicit metadata:
+
+```text
+technical_hotspot: pressure from LOC, CLI command concentration, fan-out, function density or boundary findings.
+core_domain_hotspot: P0/P1 domain package that is strategically important and must be protected before refactor.
+hotspot_kind: technical, core-domain or technical-and-core-domain.
+```
+
+This baseline remains non-enforcing. It does not refactor modules, execute tests, mutate sources or alter runtime boundaries. `POST-H-005-E` remains responsible for the final `architecture_map.json/.md`, ownership validation and any quality-gate decision.

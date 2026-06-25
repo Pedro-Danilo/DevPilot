@@ -11,7 +11,14 @@ from .auditpack import AuditPackBuilder, AuditPackBuildOptions, AuditPackVerifyO
 from .approval.models import ApprovalStatus
 from .approval.service import ApprovalCliInput, ApprovalService
 from .application import ApplicationService
-from .architecture import ArchitectureDependenciesBuilder, ArchitectureDependenciesOptions, ArchitectureInventoryBuilder, ArchitectureInventoryOptions
+from .architecture import (
+    ArchitectureDependenciesBuilder,
+    ArchitectureDependenciesOptions,
+    ArchitectureHotspotsBuilder,
+    ArchitectureHotspotsOptions,
+    ArchitectureInventoryBuilder,
+    ArchitectureInventoryOptions,
+)
 from .cli_models import CommandResult, ExitCode, Finding, Severity
 from .connectors import ConnectorAdapter, ConnectorCallOptions, ConnectorRegistry, ConnectorRegistryOptions
 from .compliance import CompliancePackRegistry, ComplianceRegistryOptions, CompliancePackRunner, ComplianceRunOptions
@@ -4071,6 +4078,49 @@ def architecture_dependencies_command(
     print_result(result, json_output=json_output)
     return int(result.exit_code)
 
+
+def architecture_hotspots_command(
+    *,
+    source_root: str = "src/devpilot_core",
+    tests_root: str = "tests",
+    ownership_registry: str = ".devpilot/architecture/ownership_registry.json",
+    top_limit: int = 20,
+    json_output: bool = False,
+    write_report: bool = False,
+) -> int:
+    """Build the POST-H-005-D read-only architecture hotspot ranking."""
+
+    root = project_root()
+    result = ArchitectureHotspotsBuilder(
+        root,
+        ArchitectureHotspotsOptions(
+            source_root=Path(source_root),
+            tests_root=Path(tests_root),
+            ownership_registry=Path(ownership_registry),
+            top_limit=top_limit,
+        ),
+    ).build()
+    result = _write_optional_command_report(
+        root,
+        result,
+        subject="architecture:hotspots",
+        report_id="architecture_hotspots",
+        write_report=write_report,
+        metadata={"sprint": "POST-H-005-D", "component": "ArchitectureHotspotsBuilder"},
+    )
+    hotspots_summary_result = CommandResult(
+        command=result.command,
+        ok=result.ok,
+        exit_code=result.exit_code,
+        message=result.message,
+        data={"summary": (result.data or {}).get("summary", {})},
+        findings=result.findings,
+    )
+    _emit_result_event(root, hotspots_summary_result, subject="architecture:hotspots")
+    _persist_result(root, hotspots_summary_result, subject="architecture:hotspots")
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
 def tests_profiles_command(*, json_output: bool = False, write_report: bool = False) -> int:
     """List configured tests.run profiles without executing subprocesses."""
 
@@ -4293,6 +4343,13 @@ def build_parser() -> argparse.ArgumentParser:
     architecture_dependencies.add_argument("--ownership-registry", default=".devpilot/architecture/ownership_registry.json", help="Architecture ownership registry path")
     architecture_dependencies.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     architecture_dependencies.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+    architecture_hotspots = architecture_sub.add_parser("hotspots", help="Build read-only top architecture hotspot ranking")
+    architecture_hotspots.add_argument("--source-root", default="src/devpilot_core", help="Source root to analyze; defaults to src/devpilot_core")
+    architecture_hotspots.add_argument("--tests-root", default="tests", help="Tests root used to reuse inventory heuristics")
+    architecture_hotspots.add_argument("--ownership-registry", default=".devpilot/architecture/ownership_registry.json", help="Architecture ownership registry path")
+    architecture_hotspots.add_argument("--top", type=int, default=20, help="Number of top hotspots to emit; defaults to 20")
+    architecture_hotspots.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    architecture_hotspots.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
 
     test_contracts = sub.add_parser("test-contracts", help="Validate POST-H-001 test contract registry")
     test_contracts_sub = test_contracts.add_subparsers(dest="test_contracts_command")
@@ -5308,6 +5365,15 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
                 source_root=args.source_root,
                 tests_root=args.tests_root,
                 ownership_registry=args.ownership_registry,
+                json_output=args.json,
+                write_report=args.write_report,
+            )
+        if args.architecture_command == "hotspots":
+            return architecture_hotspots_command(
+                source_root=args.source_root,
+                tests_root=args.tests_root,
+                ownership_registry=args.ownership_registry,
+                top_limit=args.top,
                 json_output=args.json,
                 write_report=args.write_report,
             )

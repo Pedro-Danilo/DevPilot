@@ -8,6 +8,29 @@ approval: "internal"
 owner: "Ordóñez"
 ---
 
+
+## [post-h-005-d] - 2026-06-25
+
+### Added
+
+- `ArchitectureHotspotsBuilder` for read-only architecture hotspot ranking.
+- CLI command `python -m devpilot_core architecture hotspots --json`.
+- Advisory score based on LOC, fan-in, fan-out, functions, CLI commands, criticality and boundary policy signals.
+- Top 20 package/module hotspots with `technical_hotspot` vs `core_domain_hotspot` metadata.
+- Hotspot-specific reasons and recommendations for POST-H-006/007 planning.
+- POST-H-005-D audit, manifest and tests.
+
+### Security
+
+- Hotspot analysis reuses AST inventory and dependency graph evidence only; it does not import project modules dynamically.
+- Hotspots are advisory prioritization findings only; no quality-gate enforcement, refactor or source mutation is enabled.
+- No tests, subprocesses, network, external APIs, source mutations, remote execution, connector write or plugin execution are enabled.
+
+### Notes
+
+- This is `implemented-initial / advisory hotspot ranking`; final architecture map report, ownership validation and quality-gate integration remain future POST-H-005-E scope.
+
+
 ## [post-h-005-c] - 2026-06-25
 
 ### Added
