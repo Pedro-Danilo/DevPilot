@@ -1,0 +1,41 @@
+from devpilot_core.architecture.models import (
+    ARCHITECTURE_MAP_CONTRACT,
+    ARCHITECTURE_MAP_SCHEMA_ID,
+    ARCHITECTURE_MAP_VERSION,
+    ArchitectureCriticality,
+    ArchitectureMap,
+    ArchitectureMapSafety,
+    ArchitectureModule,
+    ArchitecturePackage,
+    ArchitectureRiskLevel,
+    DependencyEdge,
+    DependencyKind,
+    DependencyPolicy,
+    Hotspot,
+    OwnershipEntry,
+)
+from devpilot_core.architecture.ownership import (
+    DEFAULT_OWNERSHIP_REGISTRY,
+    load_ownership_registry,
+    ownership_entries_from_payload,
+)
+
+__all__ = [
+    "ARCHITECTURE_MAP_CONTRACT",
+    "ARCHITECTURE_MAP_SCHEMA_ID",
+    "ARCHITECTURE_MAP_VERSION",
+    "ArchitectureCriticality",
+    "ArchitectureMap",
+    "ArchitectureMapSafety",
+    "ArchitectureModule",
+    "ArchitecturePackage",
+    "ArchitectureRiskLevel",
+    "DEFAULT_OWNERSHIP_REGISTRY",
+    "DependencyEdge",
+    "DependencyKind",
+    "DependencyPolicy",
+    "Hotspot",
+    "OwnershipEntry",
+    "load_ownership_registry",
+    "ownership_entries_from_payload",
+]

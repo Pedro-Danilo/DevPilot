@@ -6280,3 +6280,42 @@ BLOCK si esta entrega declara production-ready-local completo.
 ```
 
 Estado: `implemented-initial / hito closed`. Esta operación cierra POST-H-004 como validación semántica declarativa industrial inicial. La promoción a production-ready-local y el hardening profundo de Approval/RBAC quedan para hitos posteriores.
+
+## POST-H-005-A — Operación del modelo y schema ArchitectureMap
+
+Propósito: iniciar `POST-H-005 — Architecture map executable / dependency ownership` con un contrato estable para mapas arquitectónicos ejecutables y un registry inicial de ownership antes de activar inventario AST, cálculo de dependencias o scoring de hotspots.
+
+Estado: `implemented-initial / schema-only`.
+
+Comandos de verificación:
+
+```powershell
+$env:PYTHONPATH="src"
+
+python -m pytest tests/test_post_h_005_architecture_map.py tests/test_architecture_ownership_registry.py tests/test_schema_registry.py -q
+python -m devpilot_core schema list --json
+python -m devpilot_core schema validate --schema-id ArchitectureMap --instance tests/fixtures/architecture_map/valid_minimal_architecture_map.json --json
+python -m devpilot_core schema validate --schema-id ArchitectureMap --instance tests/fixtures/architecture_map/invalid_network_architecture_map.json --json
+```
+
+El último comando debe fallar con `SCHEMA_VALIDATION_ERROR`, porque el schema exige `network_used=false` dentro de `safety`.
+
+PASS:
+
+```text
+PASS si ArchitectureMap aparece en schema list.
+PASS si el fixture válido valida contra ArchitectureMap.
+PASS si el fixture con network_used=true falla.
+PASS si .devpilot/architecture/ownership_registry.json contiene cli, policy, schemas, agents, testing, quality e industrial.
+```
+
+BLOCK:
+
+```text
+BLOCK si el schema permite red, APIs externas o mutaciones.
+BLOCK si se omite ownership de paquetes críticos.
+BLOCK si se implementa inventario AST antes de POST-H-005-B.
+BLOCK si se agrega enforcement de quality-gate antes de POST-H-005-E.
+```
+
+Riesgos y límites: `POST-H-005-A` no representa todavía la arquitectura real calculada por AST. Es la base contractual para que `POST-H-005-B/C/D/E` generen inventario, grafo, hotspots y reporte final sin seguir acumulando features sobre un mapa arquitectónico manual.

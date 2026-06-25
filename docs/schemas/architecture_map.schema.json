@@ -1,0 +1,661 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/SCHEMA-DEVPL-ARCHITECTURE-MAP-V1",
+  "title": "DevPilot Architecture Map v1",
+  "description": "Structural contract for POST-H-005 executable architecture maps. The contract is local-first and non-executing; inventory/dependency/hotspot data must be produced without network, external APIs or source mutations.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "schema_id",
+    "map_id",
+    "created_by",
+    "status",
+    "generated_at_utc",
+    "preliminary",
+    "source_paths",
+    "summary",
+    "packages",
+    "modules",
+    "dependencies",
+    "hotspots",
+    "ownership_registry",
+    "ownership_gaps",
+    "recommendations",
+    "safety"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "schema_id": {
+      "const": "SCHEMA-DEVPL-ARCHITECTURE-MAP-V1"
+    },
+    "map_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "created_by": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "enum": [
+        "schema-only",
+        "implemented-initial",
+        "warning",
+        "blocked"
+      ]
+    },
+    "generated_at_utc": {
+      "type": "string",
+      "minLength": 1
+    },
+    "preliminary": {
+      "type": "boolean"
+    },
+    "source_paths": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "summary": {
+      "type": "object",
+      "required": [
+        "packages_total",
+        "modules_total",
+        "dependencies_total",
+        "hotspots_total",
+        "ownership_entries_total",
+        "forbidden_dependency_findings_total",
+        "unowned_packages_total"
+      ],
+      "properties": {
+        "packages_total": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "modules_total": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "dependencies_total": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "hotspots_total": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "ownership_entries_total": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "forbidden_dependency_findings_total": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "unowned_packages_total": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "additionalProperties": true
+    },
+    "packages": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/architecture_package"
+      }
+    },
+    "modules": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/architecture_module"
+      }
+    },
+    "dependencies": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/dependency_edge"
+      }
+    },
+    "hotspots": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/hotspot"
+      }
+    },
+    "ownership_registry": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/ownership_entry"
+      }
+    },
+    "ownership_gaps": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "recommendations": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "safety": {
+      "type": "object",
+      "required": [
+        "dry_run",
+        "network_used",
+        "external_api_used",
+        "mutations_performed",
+        "source_mutations_performed",
+        "remote_execution_enabled",
+        "connector_write_enabled",
+        "plugin_execution_enabled",
+        "preliminary"
+      ],
+      "properties": {
+        "dry_run": {
+          "const": true
+        },
+        "network_used": {
+          "const": false
+        },
+        "external_api_used": {
+          "const": false
+        },
+        "mutations_performed": {
+          "const": false
+        },
+        "source_mutations_performed": {
+          "const": false
+        },
+        "remote_execution_enabled": {
+          "const": false
+        },
+        "connector_write_enabled": {
+          "const": false
+        },
+        "plugin_execution_enabled": {
+          "const": false
+        },
+        "preliminary": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": true
+    }
+  },
+  "$defs": {
+    "criticality": {
+      "enum": [
+        "P0",
+        "P1",
+        "P2",
+        "P3"
+      ]
+    },
+    "risk_level": {
+      "enum": [
+        "critical",
+        "high",
+        "medium",
+        "low"
+      ]
+    },
+    "architecture_module": {
+      "type": "object",
+      "required": [
+        "module_id",
+        "package",
+        "path",
+        "loc",
+        "classes_total",
+        "functions_total",
+        "imports_total",
+        "exports_total",
+        "is_cli_entrypoint",
+        "is_test_module"
+      ],
+      "properties": {
+        "module_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "package": {
+          "type": "string",
+          "pattern": "^devpilot_core(\\.|$)"
+        },
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "loc": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "classes_total": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "functions_total": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "imports_total": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "exports_total": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "is_cli_entrypoint": {
+          "type": "boolean"
+        },
+        "is_test_module": {
+          "type": "boolean"
+        },
+        "metadata": {
+          "type": "object"
+        }
+      },
+      "additionalProperties": true
+    },
+    "architecture_package": {
+      "type": "object",
+      "required": [
+        "package",
+        "domain",
+        "owner",
+        "criticality",
+        "risk_level",
+        "modules",
+        "direct_dependencies",
+        "fan_in",
+        "fan_out",
+        "loc",
+        "test_contracts",
+        "ownership_status"
+      ],
+      "properties": {
+        "package": {
+          "type": "string",
+          "pattern": "^devpilot_core(\\.|$)"
+        },
+        "domain": {
+          "type": "string",
+          "minLength": 1
+        },
+        "owner": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "criticality": {
+          "$ref": "#/$defs/criticality"
+        },
+        "risk_level": {
+          "$ref": "#/$defs/risk_level"
+        },
+        "modules": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "direct_dependencies": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "fan_in": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "fan_out": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "loc": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "test_contracts": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "ownership_status": {
+          "enum": [
+            "declared",
+            "missing",
+            "inferred",
+            "needs-review"
+          ]
+        },
+        "metadata": {
+          "type": "object"
+        }
+      },
+      "additionalProperties": true
+    },
+    "ownership_entry": {
+      "type": "object",
+      "required": [
+        "package",
+        "domain",
+        "owner",
+        "criticality",
+        "risk_level",
+        "allowed_dependencies",
+        "restricted_dependencies",
+        "forbidden_dependencies",
+        "test_contracts",
+        "preliminary"
+      ],
+      "properties": {
+        "package": {
+          "type": "string",
+          "pattern": "^devpilot_core(\\.|$)"
+        },
+        "domain": {
+          "type": "string",
+          "minLength": 1
+        },
+        "owner": {
+          "type": "string",
+          "minLength": 1
+        },
+        "criticality": {
+          "$ref": "#/$defs/criticality"
+        },
+        "risk_level": {
+          "$ref": "#/$defs/risk_level"
+        },
+        "allowed_dependencies": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "restricted_dependencies": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "forbidden_dependencies": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "test_contracts": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "notes": {
+          "type": "string"
+        },
+        "preliminary": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": true
+    },
+    "dependency_edge": {
+      "type": "object",
+      "required": [
+        "source",
+        "target",
+        "kind",
+        "policy",
+        "sensitive"
+      ],
+      "properties": {
+        "source": {
+          "type": "string",
+          "minLength": 1
+        },
+        "target": {
+          "type": "string",
+          "minLength": 1
+        },
+        "kind": {
+          "enum": [
+            "internal-import",
+            "external-import",
+            "test-reference",
+            "cli-reference",
+            "schema-reference",
+            "documentation-reference"
+          ]
+        },
+        "policy": {
+          "enum": [
+            "allow",
+            "restricted",
+            "forbidden",
+            "unknown"
+          ]
+        },
+        "sensitive": {
+          "type": "boolean"
+        },
+        "reason": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "metadata": {
+          "type": "object"
+        }
+      },
+      "additionalProperties": true
+    },
+    "hotspot": {
+      "type": "object",
+      "required": [
+        "subject_id",
+        "subject_type",
+        "score",
+        "criticality",
+        "reasons",
+        "recommendations"
+      ],
+      "properties": {
+        "subject_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "subject_type": {
+          "enum": [
+            "module",
+            "package",
+            "cli-command",
+            "domain"
+          ]
+        },
+        "score": {
+          "type": "number",
+          "minimum": 0
+        },
+        "criticality": {
+          "$ref": "#/$defs/criticality"
+        },
+        "reasons": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "recommendations": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "metadata": {
+          "type": "object"
+        }
+      },
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": true,
+  "allOf": [
+    {
+      "properties": {
+        "packages": {
+          "contains": {
+            "type": "object",
+            "properties": {
+              "package": {
+                "const": "devpilot_core.cli"
+              }
+            },
+            "required": [
+              "package"
+            ]
+          }
+        }
+      },
+      "required": [
+        "packages"
+      ]
+    },
+    {
+      "properties": {
+        "ownership_registry": {
+          "contains": {
+            "type": "object",
+            "properties": {
+              "package": {
+                "const": "devpilot_core.policy"
+              }
+            },
+            "required": [
+              "package"
+            ]
+          }
+        }
+      },
+      "required": [
+        "ownership_registry"
+      ]
+    },
+    {
+      "properties": {
+        "ownership_registry": {
+          "contains": {
+            "type": "object",
+            "properties": {
+              "package": {
+                "const": "devpilot_core.schemas"
+              }
+            },
+            "required": [
+              "package"
+            ]
+          }
+        }
+      },
+      "required": [
+        "ownership_registry"
+      ]
+    },
+    {
+      "properties": {
+        "ownership_registry": {
+          "contains": {
+            "type": "object",
+            "properties": {
+              "package": {
+                "const": "devpilot_core.agents"
+              }
+            },
+            "required": [
+              "package"
+            ]
+          }
+        }
+      },
+      "required": [
+        "ownership_registry"
+      ]
+    },
+    {
+      "properties": {
+        "ownership_registry": {
+          "contains": {
+            "type": "object",
+            "properties": {
+              "package": {
+                "const": "devpilot_core.testing"
+              }
+            },
+            "required": [
+              "package"
+            ]
+          }
+        }
+      },
+      "required": [
+        "ownership_registry"
+      ]
+    },
+    {
+      "properties": {
+        "ownership_registry": {
+          "contains": {
+            "type": "object",
+            "properties": {
+              "package": {
+                "const": "devpilot_core.quality"
+              }
+            },
+            "required": [
+              "package"
+            ]
+          }
+        }
+      },
+      "required": [
+        "ownership_registry"
+      ]
+    },
+    {
+      "properties": {
+        "ownership_registry": {
+          "contains": {
+            "type": "object",
+            "properties": {
+              "package": {
+                "const": "devpilot_core.industrial"
+              }
+            },
+            "required": [
+              "package"
+            ]
+          }
+        }
+      },
+      "required": [
+        "ownership_registry"
+      ]
+    }
+  ],
+  "x-devpilot-schema-id": "SCHEMA-DEVPL-ARCHITECTURE-MAP-V1",
+  "x-devpilot-sprint": "POST-H-005-A",
+  "x-devpilot-status": "registered"
+}

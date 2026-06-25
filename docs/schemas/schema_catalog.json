@@ -3,12 +3,12 @@
   "title": "DevPilot Local Schema Catalog",
   "schema_version": "1.0",
   "status": "approved",
-  "version": "1.7.0",
+  "version": "1.8.0",
   "owner": "Ordóñez",
   "updated": "2026-06-24",
-  "sprint": "POST-H-004-A",
+  "sprint": "POST-H-005-A",
   "preliminary": true,
-  "purpose": "Catalog of versioned JSON schemas registered by DevPilot. POST-H-002-A adds the MaturityDashboard contract for local, evidence-based maturity reporting without remote or production-overclaiming. POST-H-003-A adds the Test Contract Registry v2 design schema while preserving v1 compatibility. POST-H-004-A registers the MiasiSemanticReport contract for local, non-executing Policy/MIASI semantic validation reports.",
+  "purpose": "Catalog of versioned JSON schemas registered by DevPilot. POST-H-002-A adds the MaturityDashboard contract for local, evidence-based maturity reporting without remote or production-overclaiming. POST-H-003-A adds the Test Contract Registry v2 design schema while preserving v1 compatibility. POST-H-004-A registers the MiasiSemanticReport contract for local, non-executing Policy/MIASI semantic validation reports. POST-H-005-A registers the ArchitectureMap contract for executable architecture inventory and dependency ownership baselines without running AST inventory yet.",
   "schemas": [
     {
       "schema_id": "SCHEMA-DEVPL-FINDING-V1",
@@ -435,6 +435,20 @@
       "local_first": true,
       "dry_run": true,
       "no_remote_execution_enabled": true
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-ARCHITECTURE-MAP-V1",
+      "title": "DevPilot Architecture Map v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/architecture_map.schema.json",
+      "description": "Structural contract for POST-H-005 executable architecture maps with package ownership, dependency edges, hotspots, recommendations and local safety invariants.",
+      "status": "registered",
+      "contract": "ArchitectureMap",
+      "owner": "Ordóñez",
+      "sprint": "POST-H-005-A",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "POST-H-005-A"
     }
   ]
 }

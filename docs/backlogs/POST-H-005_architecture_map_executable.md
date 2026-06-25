@@ -2,10 +2,10 @@
 doc_id: "POST-H-005-BACKLOG"
 id: "POST-H-005"
 title: "POST-H-005 — Architecture map executable / dependency ownership"
-status: "draft"
-version: "0.1.0"
+status: "approved"
+version: "0.2.0"
 owner: "Ordóñez"
-updated: "2026-06-23"
+updated: "2026-06-24"
 phase: "POST-FASE-H"
 priority: "P0"
 roadmap_source: "docs/backlogs/post_h_prioritized_roadmap.md"
@@ -13,6 +13,8 @@ adr_source: "docs/adr/ADR-POSTH-003-cli-modularization.md"
 local_first: true
 dry_run: true
 no_remote_execution_enabled: true
+implementation_status: "in-progress"
+approval: "internal"
 ---
 
 # POST-H-005 — Architecture map executable / dependency ownership
@@ -307,3 +309,37 @@ Top 20 hotspots reproducible.
 Tests focales PASS.
 Quality gate hardening PASS.
 ```
+
+## 10. Avance de implementación — POST-H-005-A
+
+Estado: `implemented-initial`.
+
+`POST-H-005-A — Modelos y schema de architecture map` aprueba el backlog `POST-H-005` y crea la base contractual del mapa arquitectónico ejecutable. Esta entrega es `schema-only`: no implementa aún inventario AST, grafo de dependencias, hotspot analyzer, report builder final ni subgate de quality-gate.
+
+Artefactos implementados:
+
+```text
+src/devpilot_core/architecture/__init__.py
+src/devpilot_core/architecture/models.py
+src/devpilot_core/architecture/ownership.py
+docs/schemas/architecture_map.schema.json
+.devpilot/architecture/ownership_registry.json
+docs/02_architecture/current_executable_architecture_map.md
+docs/audits/post_h_005_a_architecture_map_schema_report.md
+docs/post_h_005_a_manifest.json
+tests/fixtures/architecture_map/valid_minimal_architecture_map.json
+tests/fixtures/architecture_map/invalid_network_architecture_map.json
+tests/test_post_h_005_architecture_map.py
+tests/test_architecture_ownership_registry.py
+```
+
+Cobertura inicial:
+
+```text
+- ArchitectureMap schema registrado como SCHEMA-DEVPL-ARCHITECTURE-MAP-V1.
+- Ownership registry inicial para cli, cli_models, application, policy, miasi, schemas, agents, multiagent, testing, quality, industrial e interfaces.
+- Invariantes locales: dry_run=true, network/API/mutations/remote/plugin/connector-write deshabilitados.
+```
+
+Siguiente micro-sprint: `POST-H-005-B — Inventario AST de paquetes y módulos`.
+

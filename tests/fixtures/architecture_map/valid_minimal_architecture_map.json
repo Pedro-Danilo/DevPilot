@@ -1,0 +1,585 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "SCHEMA-DEVPL-ARCHITECTURE-MAP-V1",
+  "map_id": "architecture-map-post-h-005-a-minimal",
+  "created_by": "POST-H-005-A",
+  "status": "implemented-initial",
+  "generated_at_utc": "2026-06-25T02:34:36Z",
+  "preliminary": true,
+  "source_paths": {
+    "ownership_registry": ".devpilot/architecture/ownership_registry.json",
+    "schema": "docs/schemas/architecture_map.schema.json",
+    "source_root": "src/devpilot_core"
+  },
+  "summary": {
+    "packages_total": 12,
+    "modules_total": 3,
+    "dependencies_total": 0,
+    "hotspots_total": 0,
+    "ownership_entries_total": 12,
+    "forbidden_dependency_findings_total": 0,
+    "unowned_packages_total": 0
+  },
+  "packages": [
+    {
+      "package": "devpilot_core.cli",
+      "domain": "interface.cli",
+      "owner": "architecture/platform",
+      "criticality": "P0",
+      "risk_level": "high",
+      "modules": [
+        "devpilot_core.cli.__init__"
+      ],
+      "direct_dependencies": [],
+      "fan_in": 0,
+      "fan_out": 0,
+      "loc": 0,
+      "test_contracts": [
+        "project-global-state",
+        "test-impact-analyzer"
+      ],
+      "ownership_status": "declared",
+      "metadata": {}
+    },
+    {
+      "package": "devpilot_core.cli_models",
+      "domain": "interface.contracts",
+      "owner": "architecture/platform",
+      "criticality": "P0",
+      "risk_level": "high",
+      "modules": [
+        "devpilot_core.cli_models.__init__"
+      ],
+      "direct_dependencies": [],
+      "fan_in": 0,
+      "fan_out": 0,
+      "loc": 0,
+      "test_contracts": [
+        "project-global-state"
+      ],
+      "ownership_status": "declared",
+      "metadata": {}
+    },
+    {
+      "package": "devpilot_core.application",
+      "domain": "application.boundary",
+      "owner": "architecture/application",
+      "criticality": "P0",
+      "risk_level": "high",
+      "modules": [
+        "devpilot_core.application.__init__"
+      ],
+      "direct_dependencies": [],
+      "fan_in": 0,
+      "fan_out": 0,
+      "loc": 0,
+      "test_contracts": [
+        "project-global-state"
+      ],
+      "ownership_status": "declared",
+      "metadata": {}
+    },
+    {
+      "package": "devpilot_core.policy",
+      "domain": "governance.security",
+      "owner": "architecture/security",
+      "criticality": "P0",
+      "risk_level": "critical",
+      "modules": [
+        "devpilot_core.policy.__init__"
+      ],
+      "direct_dependencies": [],
+      "fan_in": 0,
+      "fan_out": 0,
+      "loc": 0,
+      "test_contracts": [
+        "post-h-004-miasi-semantic-validator"
+      ],
+      "ownership_status": "declared",
+      "metadata": {}
+    },
+    {
+      "package": "devpilot_core.miasi",
+      "domain": "governance.miasi",
+      "owner": "architecture/security",
+      "criticality": "P0",
+      "risk_level": "critical",
+      "modules": [
+        "devpilot_core.miasi.__init__"
+      ],
+      "direct_dependencies": [],
+      "fan_in": 0,
+      "fan_out": 0,
+      "loc": 0,
+      "test_contracts": [
+        "post-h-004-miasi-semantic-validator"
+      ],
+      "ownership_status": "declared",
+      "metadata": {}
+    },
+    {
+      "package": "devpilot_core.schemas",
+      "domain": "governance.schemas",
+      "owner": "architecture/platform",
+      "criticality": "P0",
+      "risk_level": "high",
+      "modules": [
+        "devpilot_core.schemas.__init__"
+      ],
+      "direct_dependencies": [],
+      "fan_in": 0,
+      "fan_out": 0,
+      "loc": 0,
+      "test_contracts": [
+        "schema-registry-v2-design"
+      ],
+      "ownership_status": "declared",
+      "metadata": {}
+    },
+    {
+      "package": "devpilot_core.agents",
+      "domain": "agent.runtime",
+      "owner": "architecture/agents",
+      "criticality": "P0",
+      "risk_level": "high",
+      "modules": [
+        "devpilot_core.agents.__init__"
+      ],
+      "direct_dependencies": [],
+      "fan_in": 0,
+      "fan_out": 0,
+      "loc": 0,
+      "test_contracts": [
+        "post-h-004-miasi-semantic-validator"
+      ],
+      "ownership_status": "declared",
+      "metadata": {}
+    },
+    {
+      "package": "devpilot_core.multiagent",
+      "domain": "agent.orchestration",
+      "owner": "architecture/agents",
+      "criticality": "P0",
+      "risk_level": "high",
+      "modules": [
+        "devpilot_core.multiagent.__init__"
+      ],
+      "direct_dependencies": [],
+      "fan_in": 0,
+      "fan_out": 0,
+      "loc": 0,
+      "test_contracts": [
+        "post-h-004-miasi-semantic-validator"
+      ],
+      "ownership_status": "declared",
+      "metadata": {}
+    },
+    {
+      "package": "devpilot_core.testing",
+      "domain": "quality.testing",
+      "owner": "architecture/quality",
+      "criticality": "P0",
+      "risk_level": "high",
+      "modules": [
+        "devpilot_core.testing.__init__"
+      ],
+      "direct_dependencies": [],
+      "fan_in": 0,
+      "fan_out": 0,
+      "loc": 0,
+      "test_contracts": [
+        "test-contract-registry",
+        "test-contract-registry-v2"
+      ],
+      "ownership_status": "declared",
+      "metadata": {}
+    },
+    {
+      "package": "devpilot_core.quality",
+      "domain": "quality.gates",
+      "owner": "architecture/quality",
+      "criticality": "P0",
+      "risk_level": "high",
+      "modules": [
+        "devpilot_core.quality.__init__"
+      ],
+      "direct_dependencies": [],
+      "fan_in": 0,
+      "fan_out": 0,
+      "loc": 0,
+      "test_contracts": [
+        "post-h-004-miasi-semantic-validator"
+      ],
+      "ownership_status": "declared",
+      "metadata": {}
+    },
+    {
+      "package": "devpilot_core.industrial",
+      "domain": "quality.readiness",
+      "owner": "architecture/quality",
+      "criticality": "P1",
+      "risk_level": "medium",
+      "modules": [
+        "devpilot_core.industrial.__init__"
+      ],
+      "direct_dependencies": [],
+      "fan_in": 0,
+      "fan_out": 0,
+      "loc": 0,
+      "test_contracts": [
+        "project-global-state"
+      ],
+      "ownership_status": "declared",
+      "metadata": {}
+    },
+    {
+      "package": "devpilot_core.interfaces",
+      "domain": "interface.api",
+      "owner": "architecture/interfaces",
+      "criticality": "P1",
+      "risk_level": "medium",
+      "modules": [
+        "devpilot_core.interfaces.__init__"
+      ],
+      "direct_dependencies": [],
+      "fan_in": 0,
+      "fan_out": 0,
+      "loc": 0,
+      "test_contracts": [
+        "project-global-state"
+      ],
+      "ownership_status": "declared",
+      "metadata": {}
+    }
+  ],
+  "modules": [
+    {
+      "module_id": "devpilot_core.cli",
+      "package": "devpilot_core.cli",
+      "path": "src/devpilot_core/cli.py",
+      "loc": 0,
+      "classes_total": 0,
+      "functions_total": 0,
+      "imports_total": 0,
+      "exports_total": 0,
+      "is_cli_entrypoint": true,
+      "is_test_module": false,
+      "metadata": {}
+    },
+    {
+      "module_id": "devpilot_core.policy.engine",
+      "package": "devpilot_core.policy",
+      "path": "src/devpilot_core/policy/engine.py",
+      "loc": 0,
+      "classes_total": 0,
+      "functions_total": 0,
+      "imports_total": 0,
+      "exports_total": 0,
+      "is_cli_entrypoint": false,
+      "is_test_module": false,
+      "metadata": {}
+    },
+    {
+      "module_id": "devpilot_core.schemas.registry",
+      "package": "devpilot_core.schemas",
+      "path": "src/devpilot_core/schemas/registry.py",
+      "loc": 0,
+      "classes_total": 0,
+      "functions_total": 0,
+      "imports_total": 0,
+      "exports_total": 0,
+      "is_cli_entrypoint": false,
+      "is_test_module": false,
+      "metadata": {}
+    }
+  ],
+  "dependencies": [],
+  "hotspots": [],
+  "ownership_registry": [
+    {
+      "package": "devpilot_core.cli",
+      "domain": "interface.cli",
+      "owner": "architecture/platform",
+      "criticality": "P0",
+      "risk_level": "high",
+      "allowed_dependencies": [
+        "devpilot_core.cli_models",
+        "devpilot_core.application"
+      ],
+      "restricted_dependencies": [
+        "devpilot_core.remote",
+        "devpilot_core.plugins"
+      ],
+      "forbidden_dependencies": [
+        "devpilot_core.interfaces"
+      ],
+      "test_contracts": [
+        "project-global-state",
+        "test-impact-analyzer"
+      ],
+      "notes": "CLI remains a known hotspot; POST-H-006 will modularize command ownership.",
+      "preliminary": true
+    },
+    {
+      "package": "devpilot_core.cli_models",
+      "domain": "interface.contracts",
+      "owner": "architecture/platform",
+      "criticality": "P0",
+      "risk_level": "high",
+      "allowed_dependencies": [],
+      "restricted_dependencies": [],
+      "forbidden_dependencies": [
+        "devpilot_core.interfaces",
+        "devpilot_core.remote"
+      ],
+      "test_contracts": [
+        "project-global-state"
+      ],
+      "notes": "Stable cross-cutting DTOs for CLI CommandResult boundaries.",
+      "preliminary": true
+    },
+    {
+      "package": "devpilot_core.application",
+      "domain": "application.boundary",
+      "owner": "architecture/application",
+      "criticality": "P0",
+      "risk_level": "high",
+      "allowed_dependencies": [
+        "devpilot_core.cli_models"
+      ],
+      "restricted_dependencies": [
+        "devpilot_core.interfaces"
+      ],
+      "forbidden_dependencies": [
+        "devpilot_core.remote"
+      ],
+      "test_contracts": [
+        "project-global-state"
+      ],
+      "notes": "Application service boundary to harden in POST-H-007.",
+      "preliminary": true
+    },
+    {
+      "package": "devpilot_core.policy",
+      "domain": "governance.security",
+      "owner": "architecture/security",
+      "criticality": "P0",
+      "risk_level": "critical",
+      "allowed_dependencies": [
+        "devpilot_core.cli_models",
+        "devpilot_core.approval",
+        "devpilot_core.identity"
+      ],
+      "restricted_dependencies": [
+        "devpilot_core.miasi"
+      ],
+      "forbidden_dependencies": [
+        "devpilot_core.interfaces",
+        "devpilot_core.remote"
+      ],
+      "test_contracts": [
+        "post-h-004-miasi-semantic-validator"
+      ],
+      "notes": "Cross-cutting policy/security layer; must not depend on UI/API or remote execution.",
+      "preliminary": true
+    },
+    {
+      "package": "devpilot_core.miasi",
+      "domain": "governance.miasi",
+      "owner": "architecture/security",
+      "criticality": "P0",
+      "risk_level": "critical",
+      "allowed_dependencies": [
+        "devpilot_core.cli_models",
+        "devpilot_core.schemas"
+      ],
+      "restricted_dependencies": [
+        "devpilot_core.testing"
+      ],
+      "forbidden_dependencies": [
+        "devpilot_core.remote",
+        "devpilot_core.interfaces"
+      ],
+      "test_contracts": [
+        "post-h-004-miasi-semantic-validator"
+      ],
+      "notes": "MIASI executable registries and semantic validation.",
+      "preliminary": true
+    },
+    {
+      "package": "devpilot_core.schemas",
+      "domain": "governance.schemas",
+      "owner": "architecture/platform",
+      "criticality": "P0",
+      "risk_level": "high",
+      "allowed_dependencies": [
+        "devpilot_core.cli_models"
+      ],
+      "restricted_dependencies": [],
+      "forbidden_dependencies": [
+        "devpilot_core.interfaces",
+        "devpilot_core.remote"
+      ],
+      "test_contracts": [
+        "schema-registry-v2-design"
+      ],
+      "notes": "Schema Registry and validator for local contracts.",
+      "preliminary": true
+    },
+    {
+      "package": "devpilot_core.agents",
+      "domain": "agent.runtime",
+      "owner": "architecture/agents",
+      "criticality": "P0",
+      "risk_level": "high",
+      "allowed_dependencies": [
+        "devpilot_core.policy",
+        "devpilot_core.modeling",
+        "devpilot_core.observability"
+      ],
+      "restricted_dependencies": [
+        "devpilot_core.repo",
+        "devpilot_core.review",
+        "devpilot_core.refactor"
+      ],
+      "forbidden_dependencies": [
+        "devpilot_core.remote",
+        "devpilot_core.interfaces"
+      ],
+      "test_contracts": [
+        "post-h-004-miasi-semantic-validator"
+      ],
+      "notes": "Agent layer must remain governed by MIASI and policy boundaries.",
+      "preliminary": true
+    },
+    {
+      "package": "devpilot_core.multiagent",
+      "domain": "agent.orchestration",
+      "owner": "architecture/agents",
+      "criticality": "P0",
+      "risk_level": "high",
+      "allowed_dependencies": [
+        "devpilot_core.agents",
+        "devpilot_core.policy",
+        "devpilot_core.observability"
+      ],
+      "restricted_dependencies": [
+        "devpilot_core.evals"
+      ],
+      "forbidden_dependencies": [
+        "devpilot_core.remote",
+        "devpilot_core.interfaces"
+      ],
+      "test_contracts": [
+        "post-h-004-miasi-semantic-validator"
+      ],
+      "notes": "Multi-agent orchestration stays dry-run/governed.",
+      "preliminary": true
+    },
+    {
+      "package": "devpilot_core.testing",
+      "domain": "quality.testing",
+      "owner": "architecture/quality",
+      "criticality": "P0",
+      "risk_level": "high",
+      "allowed_dependencies": [
+        "devpilot_core.cli_models",
+        "devpilot_core.schemas"
+      ],
+      "restricted_dependencies": [
+        "devpilot_core.miasi"
+      ],
+      "forbidden_dependencies": [
+        "devpilot_core.remote",
+        "devpilot_core.interfaces"
+      ],
+      "test_contracts": [
+        "test-contract-registry",
+        "test-contract-registry-v2"
+      ],
+      "notes": "Test Contract Registry, impact analysis and test selection logic.",
+      "preliminary": true
+    },
+    {
+      "package": "devpilot_core.quality",
+      "domain": "quality.gates",
+      "owner": "architecture/quality",
+      "criticality": "P0",
+      "risk_level": "high",
+      "allowed_dependencies": [
+        "devpilot_core.cli_models",
+        "devpilot_core.testing",
+        "devpilot_core.miasi"
+      ],
+      "restricted_dependencies": [
+        "devpilot_core.maturity",
+        "devpilot_core.industrial"
+      ],
+      "forbidden_dependencies": [
+        "devpilot_core.interfaces",
+        "devpilot_core.remote"
+      ],
+      "test_contracts": [
+        "post-h-004-miasi-semantic-validator"
+      ],
+      "notes": "Quality gate aggregation must be read-only/dry-run.",
+      "preliminary": true
+    },
+    {
+      "package": "devpilot_core.industrial",
+      "domain": "quality.readiness",
+      "owner": "architecture/quality",
+      "criticality": "P1",
+      "risk_level": "medium",
+      "allowed_dependencies": [
+        "devpilot_core.cli_models"
+      ],
+      "restricted_dependencies": [
+        "devpilot_core.quality"
+      ],
+      "forbidden_dependencies": [
+        "devpilot_core.remote"
+      ],
+      "test_contracts": [
+        "project-global-state"
+      ],
+      "notes": "Industrial readiness aggregates evidence without production overclaiming.",
+      "preliminary": true
+    },
+    {
+      "package": "devpilot_core.interfaces",
+      "domain": "interface.api",
+      "owner": "architecture/interfaces",
+      "criticality": "P1",
+      "risk_level": "medium",
+      "allowed_dependencies": [
+        "devpilot_core.application"
+      ],
+      "restricted_dependencies": [],
+      "forbidden_dependencies": [
+        "devpilot_core.policy",
+        "devpilot_core.remote"
+      ],
+      "test_contracts": [
+        "project-global-state"
+      ],
+      "notes": "API/UI shell may depend on application services, not deep core internals.",
+      "preliminary": true
+    }
+  ],
+  "ownership_gaps": [],
+  "recommendations": [
+    "Run POST-H-005-B inventory before using package metrics as operational signals."
+  ],
+  "safety": {
+    "dry_run": true,
+    "network_used": false,
+    "external_api_used": false,
+    "mutations_performed": false,
+    "source_mutations_performed": false,
+    "remote_execution_enabled": false,
+    "connector_write_enabled": false,
+    "plugin_execution_enabled": false,
+    "preliminary": true
+  }
+}

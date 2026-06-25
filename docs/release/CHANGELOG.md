@@ -8,6 +8,21 @@ approval: "internal"
 owner: "Ordóñez"
 ---
 
+
+## [post-h-005-a] - 2026-06-24
+
+### Added
+
+- `ArchitectureMap` schema registered as `SCHEMA-DEVPL-ARCHITECTURE-MAP-V1`.
+- Architecture model package with `ArchitectureMap`, `ArchitectureModule`, `ArchitecturePackage`, `DependencyEdge`, `Hotspot` and `OwnershipEntry`.
+- Initial `.devpilot/architecture/ownership_registry.json` covering CLI, policy, schemas, agents, testing, quality and industrial packages.
+- POST-H-005-A audit, manifest, fixtures and tests.
+
+### Notes
+
+- This is `implemented-initial / schema-only`; AST inventory, dependency graph, hotspots, report builder and quality-gate integration remain future POST-H-005 micro-sprints.
+- No network, external APIs, source mutations, remote execution, connector write or plugin execution were enabled.
+
 ## [post-h-004-e] - 2026-06-24
 
 ### Added

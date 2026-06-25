@@ -2,11 +2,11 @@
 
 Estado actual: `baseline pre-code approved + Fases A-G cerradas + Fase H cerrada + POST-H-001 implemented-initial + POST-H-EVAL-001 closed + POST-H-002 closed + POST-H-003 closed + POST-H-004 closed`  
 Último hito: `POST-H-004 — Policy/MIASI semantic validator ampliado`  
-Último micro-sprint implementado: `POST-H-004-E — Integración con quality-gate y documentación`  
+Último micro-sprint implementado: `POST-H-005-A — Modelos y schema de architecture map`  
 Hito diagnóstico cerrado: `POST-H-EVAL-001 — Evaluación integral del baseline DevPilot post-Fase H`, cierre formal `POST-H-EVAL-001-G`  
 Siguiente hito: `POST-H-005 — Architecture map executable / dependency ownership`  
 Hito en ejecución: `POST-H-005 — Architecture map executable / dependency ownership`  
-Siguiente micro-sprint: `POST-H-005-A — Modelo ejecutable de mapa arquitectónico`  
+Siguiente micro-sprint: `POST-H-005-B — Inventario AST de paquetes y módulos`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
@@ -20,6 +20,20 @@ Modo de trabajo: local-first híbrido, API keys opcionales, costo externo contro
 
 
 
+
+
+## POST-H-005-A — Modelos y schema de architecture map
+
+`POST-H-005-A` inicia el hito `POST-H-005 — Architecture map executable / dependency ownership` con una base contractual estable para el mapa arquitectónico ejecutable. La entrega registra `SCHEMA-DEVPL-ARCHITECTURE-MAP-V1`, crea modelos de dominio para `ArchitectureMap`, `ArchitectureModule`, `ArchitecturePackage`, `DependencyEdge`, `Hotspot` y `OwnershipEntry`, y agrega el registry inicial `.devpilot/architecture/ownership_registry.json`.
+
+Comandos principales de verificación:
+
+```powershell
+python -m pytest tests/test_post_h_005_architecture_map.py tests/test_architecture_ownership_registry.py tests/test_schema_registry.py -q
+python -m devpilot_core schema validate --schema-id ArchitectureMap --instance tests/fixtures/architecture_map/valid_minimal_architecture_map.json --json
+```
+
+Alcance: esta entrega es `implemented-initial / schema-only`. No ejecuta inventario AST, no calcula dependencias reales, no implementa hotspot analyzer, no agrega `architecture map` CLI, no integra quality-gate, no mueve módulos, no modifica runtime ni habilita red, APIs externas, remote execution, connector write o plugin execution. La ejecución real del inventario empieza en `POST-H-005-B`.
 
 ## POST-H-004-E — Integración con quality-gate y documentación
 
