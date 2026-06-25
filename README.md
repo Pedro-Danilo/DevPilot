@@ -1,12 +1,13 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
-Estado actual: `baseline pre-code approved + Fases A-G cerradas + Fase H cerrada + POST-H-001 implemented-initial + POST-H-EVAL-001 closed + POST-H-002 closed + POST-H-003 closed + POST-H-004 closed + POST-H-005 closed + POST-H-006-A implemented-initial + POST-H-006-B implemented-initial + POST-H-006-C implemented-initial + POST-H-006-D implemented-initial`  
+Estado actual: `baseline pre-code approved + Fases A-G cerradas + Fase H cerrada + POST-H-001 implemented-initial + POST-H-EVAL-001 closed + POST-H-002 closed + POST-H-003 closed + POST-H-004 closed + POST-H-005 closed + POST-H-006-A implemented-initial + POST-H-006-B implemented-initial + POST-H-006-C implemented-initial + POST-H-006-D implemented-initial + POST-H-006-E implemented-initial`  
 Último hito: `POST-H-005 — Architecture map executable / dependency ownership`  
-Último micro-sprint implementado: `POST-H-006-D — Reporte de hotspots CLI y ownership por comando`  
-Hito diagnóstico cerrado: `POST-H-EVAL-001 — Evaluación integral del baseline DevPilot post-Fase H`, cierre formal `POST-H-EVAL-001-G`  
 Siguiente hito: `POST-H-006 — CLI command registry y desacoplamiento de handlers`  
+Último micro-sprint implementado: `POST-H-006-E — Gate de no crecimiento monolítico`  
+Hito diagnóstico cerrado: `POST-H-EVAL-001 — Evaluación integral del baseline DevPilot post-Fase H`, cierre formal `POST-H-EVAL-001-G`  
+Hito actual implementado: `POST-H-006 — CLI command registry y desacoplamiento de handlers`  
 Hito cerrado: `POST-H-005 — Architecture map executable / dependency ownership`  
-Siguiente micro-sprint: `POST-H-006-E — Gate de no crecimiento monolítico`  
+Siguiente hito recomendado: `POST-H-007 — ApplicationService boundary hardening`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
@@ -28,6 +29,36 @@ Modo de trabajo: local-first híbrido, API keys opcionales, costo externo contro
 
 
 
+
+
+
+## POST-H-006-E — Gate de no crecimiento monolítico
+
+`POST-H-006-E` convierte la evidencia advisory de `POST-H-006-D` en un gate operativo: ningún comando público nuevo puede quedar como `legacy-unregistered` sin descriptor declarativo o handler migrado. El legacy histórico queda cubierto por una allowlist temporal source-controlled que debe reducirse progresivamente.
+
+Artefactos principales:
+
+```text
+src/devpilot_core/cli_registry/growth_gate.py
+.devpilot/cli_registry/legacy_command_allowlist.json
+tests/test_post_h_006_e_cli_no_growth_gate.py
+docs/audits/post_h_006_e_no_growth_gate_report.md
+docs/post_h_006_e_manifest.json
+```
+
+Comando principal:
+
+```powershell
+python -m devpilot_core cli-registry guard --json
+```
+
+Con reporte explícito:
+
+```powershell
+python -m devpilot_core cli-registry guard --write-report --json
+```
+
+Estado industrial: `implemented-initial / blocking local gate`. El gate es local, determinístico y read-only para fuentes; no ejecuta comandos públicos, no importa handlers dinámicamente, no habilita runtime router, remote execution, connector write ni plugin execution. La allowlist legacy es temporal y debe disminuir conforme avancen migraciones o descriptors declarativos.
 
 ## POST-H-006-D — Reporte de hotspots CLI y ownership por comando
 

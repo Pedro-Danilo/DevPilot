@@ -30,17 +30,17 @@ def test_post_h_006_d_report_differentiates_migrated_registered_and_legacy_comma
     hotspot_report = result.data["hotspot_report"]
     summary = result.data["summary"]
 
-    assert registry["created_by"] == "POST-H-006-D"
+    assert registry["created_by"] == "POST-H-006-E"
     assert registry["metadata"]["hotspot_ownership_report_enabled"] is True
     assert hotspot_report["created_by"] == "POST-H-006-D"
     assert hotspot_report["report_id"] == "devpilot-cli-command-hotspot-ownership-report"
     assert summary["hotspot_report_created_by"] == "POST-H-006-D"
     assert summary["migrated_commands_total"] == 3
-    assert summary["registered_only_commands_total"] >= 18
+    assert summary["registered_only_commands_total"] >= 20
     assert summary["legacy_commands_total"] > 100
     assert summary["migrated_commands_total"] + summary["registered_only_commands_total"] + summary["legacy_commands_total"] == summary["commands_total"]
     assert hotspot_report["summary"]["ownership_status_counts"]["migrated"] == 3
-    assert hotspot_report["summary"]["ownership_status_counts"]["registered_only"] >= 18
+    assert hotspot_report["summary"]["ownership_status_counts"]["registered_only"] >= 20
     assert hotspot_report["summary"]["ownership_status_counts"]["legacy"] > 100
 
 
@@ -104,7 +104,7 @@ def test_post_h_006_d_writes_registry_and_hotspot_reports() -> None:
     hotspot_payload = _read_json("outputs/reports/cli_command_registry_report.json")
     hotspot_md = _read("outputs/reports/cli_command_registry_report.md")
 
-    assert registry_payload["created_by"] == "POST-H-006-D"
+    assert registry_payload["created_by"] == "POST-H-006-E"
     assert hotspot_payload["created_by"] == "POST-H-006-D"
     assert hotspot_payload["summary"]["migrated_commands_total"] == 3
     assert "CLI hotspots and command ownership report" in hotspot_md
@@ -124,8 +124,8 @@ def test_post_h_006_d_docs_manifest_and_contracts_are_synchronized() -> None:
     v2_contracts = {item["contract_id"]: item for item in v2["contracts"]}
 
     assert "POST-H-006-D — Reporte de hotspots CLI y ownership por comando" in backlog
-    assert "Último micro-sprint implementado: `POST-H-006-D" in readme
-    assert "Siguiente micro-sprint: `POST-H-006-E" in readme
+    assert "Último micro-sprint implementado: `POST-H-006-E" in readme
+    assert "Siguiente hito recomendado: `POST-H-007" in readme
     assert "POST-H-006-D — Operación del reporte de hotspots CLI y ownership" in runbook
     assert "CliHotspotOwnershipReportBuilder" in architecture_doc
     assert "cli_command_registry_report.json" in audit

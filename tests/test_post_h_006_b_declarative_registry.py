@@ -5,7 +5,7 @@ from functools import lru_cache
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-INITIAL_GROUPS = {
+B_INITIAL_GROUPS = {
     "workspace",
     "standards",
     "schema",
@@ -15,6 +15,7 @@ INITIAL_GROUPS = {
     "quality-gate",
     "industrial-readiness",
 }
+CURRENT_DECLARATIVE_GROUPS = {*B_INITIAL_GROUPS, "cli-registry"}
 
 
 def _read(path: str) -> str:
@@ -45,10 +46,10 @@ def test_post_h_006_b_declarative_overlay_registers_initial_groups_and_coverage(
     registry = result.data["registry"]
     groups = {group["group_id"]: group for group in registry["groups"]}
 
-    assert registry["created_by"] == "POST-H-006-D"
-    assert registry["generated_from"] == "static-cli-parser-ast-plus-declarative-descriptors-plus-migrated-handlers-plus-hotspot-ownership-report"
+    assert registry["created_by"] == "POST-H-006-E"
+    assert registry["generated_from"] == "static-cli-parser-ast-plus-declarative-descriptors-plus-migrated-handlers-plus-hotspot-ownership-report-plus-no-growth-gate"
     assert registry["metadata"]["handler_migration_performed"] is True
-    assert summary["declarative_registered_groups_total"] == len(INITIAL_GROUPS)
+    assert summary["declarative_registered_groups_total"] == len(CURRENT_DECLARATIVE_GROUPS)
     assert summary["declarative_missing_groups_total"] == 0
     assert summary["declarative_registered_commands_total"] >= 20
     assert summary["legacy_unregistered_commands_total"] > 0
@@ -61,8 +62,10 @@ def test_post_h_006_b_declarative_overlay_registers_initial_groups_and_coverage(
         "test-contracts.validate-v2",
         "quality-gate.run",
         "industrial-readiness.check",
+        "cli-registry.report",
+        "cli-registry.guard",
     }
-    for group_id in INITIAL_GROUPS:
+    for group_id in CURRENT_DECLARATIVE_GROUPS:
         assert group_id in groups
 
 
@@ -136,14 +139,14 @@ def test_post_h_006_b_docs_manifest_and_contracts_are_synchronized() -> None:
     v2_contracts = {item["contract_id"]: item for item in v2["contracts"]}
 
     assert "POST-H-006-B — Command registry declarativo inicial" in backlog
-    assert "Último micro-sprint implementado: `POST-H-006-D" in readme
-    assert "Siguiente micro-sprint: `POST-H-006-E" in readme
+    assert "Último micro-sprint implementado: `POST-H-006-E" in readme
+    assert "Siguiente hito recomendado: `POST-H-007" in readme
     assert "POST-H-006-B — Operación del registry declarativo inicial" in runbook
     assert "DeclarativeCliRegistryBuilder" in architecture_doc
     assert "legacy_unregistered_commands_total" in audit
     assert "post-h-006-b" in changelog
     assert manifest["id"] == "POST-H-006-B"
-    assert manifest["initial_declarative_groups"] == sorted(INITIAL_GROUPS)
+    assert manifest["initial_declarative_groups"] == sorted(B_INITIAL_GROUPS)
     assert manifest["handler_migration_performed"] is False
     assert manifest["dynamic_handler_loading_enabled"] is False
     assert "post-h-006-declarative-cli-registry" in v1_contracts

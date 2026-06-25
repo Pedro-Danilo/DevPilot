@@ -34,8 +34,10 @@ def test_post_h_004_backlog_is_closed_and_points_to_post_h_005() -> None:
     assert 'implementation_status: "closed"' in backlog
     assert 'version: "1.0.0"' in backlog
     assert "POST-H-004-E — Integración con quality-gate y documentación" in backlog
-    assert "Último hito: `POST-H-004" in readme
-    assert "Siguiente hito: `POST-H-005" in readme
+    # README is cumulative: after later POST-H increments it no longer declares
+    # POST-H-004 as the current hito, but it must preserve POST-H-004/005 context.
+    assert "POST-H-004" in readme
+    assert "POST-H-005" in readme
     assert "POST-H-004-E — Operación del cierre Policy/MIASI semantic validator" in runbook
     assert "post-h-004-e" in changelog
     assert "miasi-semantic-validate" in security_doc
@@ -74,8 +76,10 @@ def test_post_h_004_contracts_exist_in_v1_and_v2() -> None:
     v1_contracts = {item["contract_id"]: item for item in v1["contracts"]}
     v2_contracts = {item["contract_id"]: item for item in v2["contracts"]}
 
-    assert len(v1_contracts) == 89
-    assert len(v2_contracts) == 89
+    # POST-H-004 originally closed with 89 contracts. Later POST-H increments
+    # append contracts while preserving the POST-H-004 contract and v1/v2 parity.
+    assert len(v1_contracts) >= 89
+    assert len(v2_contracts) == len(v1_contracts)
     assert "post-h-004-miasi-semantic-validator" in v1_contracts
     assert "post-h-004-miasi-semantic-validator" in v2_contracts
     assert v1_contracts["post-h-004-miasi-semantic-validator"]["owner"] == "POST-H-004-E"

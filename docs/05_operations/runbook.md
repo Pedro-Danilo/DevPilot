@@ -6710,3 +6710,66 @@ BLOCK si el reporte ejecuta comandos, importa handlers de dominio, modifica fuen
 ### Estado industrial
 
 Esta versión es `implemented-initial / advisory`. No bloquea todavía comandos legacy ni crecimiento monolítico; prepara la evidencia para `POST-H-006-E — Gate de no crecimiento monolítico`. La asociación a test contracts se infiere desde `recommended_tests` y debe refinarse con cobertura semántica por comando en ciclos posteriores.
+
+## POST-H-006-E — Operación del gate de no crecimiento monolítico
+
+### Propósito
+
+Verificar que la superficie pública del CLI no vuelva a crecer como monolito no gobernado. `POST-H-006-E` ejecuta un gate local/read-only que compara el Command Registry actual contra `.devpilot/cli_registry/legacy_command_allowlist.json`.
+
+### Comandos principales
+
+```powershell
+$env:PYTHONPATH="src"
+
+python -m devpilot_core cli-registry guard --json
+python -m devpilot_core cli-registry guard --write-report --json
+```
+
+Con `--write-report`, se generan estos artefactos locales bajo `outputs/reports/`:
+
+```text
+outputs/reports/cli_command_registry_no_growth_gate.json
+outputs/reports/cli_command_registry_no_growth_gate.md
+```
+
+### Flujo para alta de comando CLI nuevo
+
+```text
+1. Agregar parser/UX pública solo si existe necesidad funcional aprobada.
+2. Crear descriptor declarativo en src/devpilot_core/cli_registry/registry.py o migrar el handler a cli_commands/.
+3. Declarar risk_level, side_effects, writes_files, dry_run_supported, policy_check_required y recommended_tests.
+4. Agregar o actualizar test focal del comando.
+5. Ejecutar cli-registry guard; no se debe agregar el comando nuevo a la allowlist legacy salvo decisión arquitectónica explícita.
+6. Actualizar contratos y documentación del sprint.
+```
+
+### Verificación específica
+
+```powershell
+python -m pytest `
+  tests/test_post_h_006_e_cli_no_growth_gate.py `
+  tests/test_post_h_006_d_cli_hotspot_ownership.py `
+  tests/test_post_h_006_c_handler_migration.py `
+  tests/test_post_h_006_b_declarative_registry.py `
+  tests/test_post_h_006_cli_command_registry.py `
+  tests/test_cli_command_registry_schema.py `
+  -q
+
+python -m devpilot_core cli-registry guard --json
+python -m devpilot_core cli-registry report --write-report --json
+python -m devpilot_core schema validate `
+  --schema-id CliCommandRegistry `
+  --instance outputs/reports/cli_command_registry.json `
+  --json
+```
+
+### PASS/BLOCK
+
+PASS si todos los comandos `legacy-unregistered` actuales están en la allowlist temporal y todo comando público nuevo tiene descriptor declarativo o handler migrado.
+
+BLOCK si aparece un comando público nuevo como `legacy-unregistered` y no está en la allowlist, si la allowlist está ausente/dañada, si se duplican entradas o si se intenta usar el registry como loader runtime sin ADR.
+
+### Estado industrial
+
+Esta versión es `implemented-initial / blocking local gate`. Bloquea crecimiento monolítico no registrado, pero no reduce por sí sola la deuda legacy existente. La allowlist es temporal y debe reducirse en iteraciones posteriores. No habilita remote execution, connector write, plugin execution, dynamic handler loading ni runtime registry routing.

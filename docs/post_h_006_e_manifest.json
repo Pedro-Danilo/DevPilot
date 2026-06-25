@@ -1,0 +1,70 @@
+{
+  "schema_version": "1.0",
+  "id": "POST-H-006-E",
+  "title": "Gate de no crecimiento monolítico",
+  "status": "implemented-initial",
+  "phase": "POST-FASE-H",
+  "parent_hito": "POST-H-006",
+  "source_repo": "repo_DevPilot_Local_164_POST_H_006_D.zip",
+  "current_repo": "repo_DevPilot_Local_165_POST_H_006_E.zip",
+  "created_by": "POST-H-006-E",
+  "read_only": true,
+  "local_first": true,
+  "requires_api_key": false,
+  "external_api_used": false,
+  "network_used": false,
+  "mutations_performed": false,
+  "source_mutations_performed": false,
+  "remote_execution_enabled": false,
+  "connector_write_enabled": false,
+  "plugin_execution_enabled": false,
+  "runtime_router_enabled": false,
+  "dynamic_handler_loading_enabled": false,
+  "no_growth_gate_enabled": true,
+  "allowlist_path": ".devpilot/cli_registry/legacy_command_allowlist.json",
+  "new_files": [
+    "src/devpilot_core/cli_registry/growth_gate.py",
+    ".devpilot/cli_registry/legacy_command_allowlist.json",
+    "tests/test_post_h_006_e_cli_no_growth_gate.py",
+    "docs/audits/post_h_006_e_no_growth_gate_report.md",
+    "docs/post_h_006_e_manifest.json"
+  ],
+  "modified_files": [
+    "src/devpilot_core/cli.py",
+    "src/devpilot_core/cli_registry/__init__.py",
+    "src/devpilot_core/cli_registry/registry.py",
+    "src/devpilot_core/cli_registry/report.py",
+    "docs/schemas/cli_command_registry.schema.json",
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/backlogs/POST-H-006_cli_command_registry.md",
+    "docs/02_architecture/cli_command_registry_map.md",
+    "docs/release/CHANGELOG.md",
+    ".devpilot/project_state.json",
+    ".devpilot/testing/test_contract_registry.json",
+    ".devpilot/testing/test_contract_registry_v2.json",
+    "tests/test_post_h_006_b_declarative_registry.py",
+    "tests/test_post_h_006_c_handler_migration.py",
+    "tests/test_post_h_006_cli_command_registry.py",
+    "tests/test_post_h_006_d_cli_hotspot_ownership.py"
+  ],
+  "commands": [
+    "python -m devpilot_core cli-registry guard --json",
+    "python -m devpilot_core cli-registry guard --write-report --json",
+    "python -m devpilot_core cli-registry report --write-report --json"
+  ],
+  "recommended_tests": [
+    "python -m pytest tests/test_post_h_006_e_cli_no_growth_gate.py tests/test_post_h_006_d_cli_hotspot_ownership.py tests/test_post_h_006_c_handler_migration.py tests/test_post_h_006_b_declarative_registry.py tests/test_post_h_006_cli_command_registry.py tests/test_cli_command_registry_schema.py -q",
+    "python -m pytest tests/test_schema_registry.py tests/test_project_global_state.py tests/test_test_contract_registry.py tests/test_test_contract_registry_v2.py tests/test_test_contract_registry_profiles_v2.py -q",
+    "python -m devpilot_core cli-registry guard --json",
+    "python -m devpilot_core test-contracts validate --json",
+    "python -m devpilot_core test-contracts validate-v2 --json",
+    "python -m devpilot_core quality-gate run --profile hardening --json"
+  ],
+  "limitations": [
+    "Implemented-initial gate; it blocks new unregistered legacy commands but does not automatically reduce existing legacy debt.",
+    "The legacy allowlist is temporary and must shrink as descriptors/migrations are added.",
+    "No runtime registry router or dynamic handler loading is enabled."
+  ],
+  "next_recommended_hito": "POST-H-007 — ApplicationService boundary hardening"
+}

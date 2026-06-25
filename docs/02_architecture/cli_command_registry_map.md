@@ -1,13 +1,13 @@
 ---
 title: "CLI command registry map"
 doc_id: "ARCH-CLI-COMMAND-REGISTRY-MAP"
-version: "0.4.0"
+version: "0.5.0"
 status: "implemented-initial"
 approval: "internal"
 owner: "Ordóñez"
 updated: "2026-06-25"
 phase: "POST-FASE-H"
-sprint: "POST-H-006-D"
+sprint: "POST-H-006-E"
 local_first: true
 dry_run: true
 ---
@@ -16,11 +16,11 @@ dry_run: true
 
 ## Propósito
 
-Este documento describe la baseline técnica acumulada de `POST-H-006-A/B/C/D`: inventario estático de la superficie pública del CLI y overlay declarativo inicial en formato machine-readable y validable por schema.
+Este documento describe la baseline técnica acumulada de `POST-H-006-A/B/C/D/E`: inventario estático de la superficie pública del CLI y overlay declarativo inicial en formato machine-readable y validable por schema.
 
 ## Estado
 
-Estado: `implemented-initial / hotspot ownership report, no runtime registry router`.
+Estado: `implemented-initial / hotspot ownership report + no-growth gate, no runtime registry router`.
 
 La capacidad actual inventaria el CLI, agrega una capa declarativa inicial para grupos gobernables y migra de forma controlada la lógica de resultado de `workspace.init`, `workspace.status` y `validate` a módulos `cli_commands`. La modularización sigue siendo incremental: el parser público y los wrappers de compatibilidad permanecen en `cli.py`.
 
@@ -37,6 +37,8 @@ src/devpilot_core/cli.py
   -> migrated handler metadata
   -> CliCommandRegistry payload
   -> CliHotspotOwnershipReportBuilder
+  -> CliNoGrowthGate
+  -> legacy_command_allowlist.json
   -> SchemaValidator(CliCommandRegistry)
   -> outputs/reports/cli_command_registry.json
   -> outputs/reports/cli_command_registry.md
@@ -51,6 +53,8 @@ src/devpilot_core/cli.py
 | `cli_registry/registry.py` | `DeclarativeCliRegistryBuilder`: overlay declarativo inicial y metadata de handlers migrados POST-H-006-C. |
 | `cli_registry/report.py` | Builder de `CommandResult`, validación, hotspot report y escritura opcional de reportes. |
 | `cli_registry/hotspots.py` | `CliHotspotOwnershipReportBuilder`: métricas read-only de ownership, riesgos, side effects, gaps TCR y top hotspots por comando. |
+| `cli_registry/growth_gate.py` | `CliNoGrowthGate`: gate local que bloquea nuevos comandos legacy-unregistered no cubiertos por allowlist temporal. |
+| `.devpilot/cli_registry/legacy_command_allowlist.json` | Allowlist explícita y temporal del legacy conocido para impedir crecimiento monolítico no registrado. |
 | `cli_registry/__init__.py` | API pública interna del paquete. |
 | `cli.py` | Mantiene parser público, wrappers de compatibilidad, eventos, persistencia y reportes opcionales. |
 | `cli_commands/workspace.py` | Handlers migrados de `workspace.init` y `workspace.status` que construyen `CommandResult` sin renderizar salida. |
@@ -195,3 +199,45 @@ legacy          = comando sigue visible únicamente como legacy-unregistered.
 ```
 
 Limitación industrial explícita: el reporte es advisory y no bloquea cambios. El enforcement de no crecimiento monolítico queda para `POST-H-006-E`; los gaps de ApplicationService boundary alimentan `POST-H-007`.
+
+
+## POST-H-006-E — No-growth gate
+
+La quinta etapa introduce `CliNoGrowthGate` en `src/devpilot_core/cli_registry/growth_gate.py`. Este componente convierte la visibilidad advisory de POST-H-006-D en una regla operativa bloqueante: todo comando público nuevo debe tener descriptor declarativo o handler migrado.
+
+Arquitectura extendida:
+
+```text
+CliCommandRegistry payload
+  -> CliNoGrowthGate
+  -> .devpilot/cli_registry/legacy_command_allowlist.json
+  -> unexpected legacy command detector
+  -> CommandResult PASS/BLOCK
+  -> outputs/reports/cli_command_registry_no_growth_gate.json
+  -> outputs/reports/cli_command_registry_no_growth_gate.md
+```
+
+Regla principal:
+
+```text
+PASS si set(legacy_unregistered_command_ids) <= set(allowed_legacy_command_ids)
+BLOCK si aparece cualquier legacy_unregistered_command_id no allowlisted
+```
+
+El comando público es:
+
+```powershell
+python -m devpilot_core cli-registry guard --json
+```
+
+Invariantes:
+
+```text
+- No ejecuta comandos públicos.
+- No importa handlers dinámicamente.
+- No modifica archivos fuente.
+- Solo escribe reportes con --write-report bajo outputs/reports.
+- No habilita runtime router, remote execution, connector write ni plugin execution.
+```
+
+Limitación industrial explícita: el gate impide crecimiento monolítico no registrado, pero no reduce automáticamente la deuda legacy. La allowlist debe disminuir con nuevas migraciones o descriptors por dominio y la siguiente frontera es `POST-H-007 — ApplicationService boundary hardening`.

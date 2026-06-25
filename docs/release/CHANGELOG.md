@@ -8,6 +8,28 @@ approval: "internal"
 owner: "Ordóñez"
 ---
 
+## [post-h-006-e] - 2026-06-25
+
+### Added
+
+- `src/devpilot_core/cli_registry/growth_gate.py` with `CliNoGrowthGate` for blocking unregistered CLI command growth.
+- Source-controlled legacy allowlist `.devpilot/cli_registry/legacy_command_allowlist.json`.
+- CLI command `python -m devpilot_core cli-registry guard --json`.
+- Optional evidence reports `outputs/reports/cli_command_registry_no_growth_gate.json` and `.md` with `--write-report`.
+- Tests in `tests/test_post_h_006_e_cli_no_growth_gate.py`.
+- Audit report `docs/audits/post_h_006_e_no_growth_gate_report.md` and manifest `docs/post_h_006_e_manifest.json`.
+- Test Contract Registry v1/v2 contract `post-h-006-cli-no-growth-gate`.
+
+### Security
+
+- The gate is local/read-only for source files and does not execute public commands or import handlers dynamically.
+- Runtime registry routing, remote execution, connector write and plugin execution remain disabled.
+
+### Notes
+
+- `POST-H-006-E` blocks new `legacy-unregistered` commands not present in the temporary allowlist; the allowlist must shrink as descriptors and handler migrations advance.
+
+
 ## [post-h-006-d] - 2026-06-25
 
 ### Added

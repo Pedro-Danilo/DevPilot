@@ -22,7 +22,12 @@ from .architecture import (
     ArchitectureMapReportOptions,
 )
 from .cli_models import CommandResult, ExitCode, Finding, Severity
-from .cli_registry import CliCommandRegistryReportBuilder, CliCommandRegistryReportOptions
+from .cli_registry import (
+    CliCommandRegistryReportBuilder,
+    CliCommandRegistryReportOptions,
+    CliNoGrowthGate,
+    CliNoGrowthGateOptions,
+)
 from .cli_commands import handle_validate_scope, handle_workspace_init, handle_workspace_status
 from .connectors import ConnectorAdapter, ConnectorCallOptions, ConnectorRegistry, ConnectorRegistryOptions
 from .compliance import CompliancePackRegistry, ComplianceRegistryOptions, CompliancePackRunner, ComplianceRunOptions
@@ -4164,7 +4169,7 @@ def architecture_map_command(
 
 
 def cli_registry_report_command(*, json_output: bool = False, write_report: bool = False) -> int:
-    """Build the POST-H-006-D read-only CLI registry, hotspot and ownership report."""
+    """Build the POST-H-006-E read-only CLI registry, hotspot and ownership report."""
 
     root = project_root()
     result = CliCommandRegistryReportBuilder(root, CliCommandRegistryReportOptions(write_report=write_report)).build()
@@ -4178,6 +4183,36 @@ def cli_registry_report_command(*, json_output: bool = False, write_report: bool
     )
     _emit_result_event(root, summary_result, subject="cli-registry:report")
     _persist_result(root, summary_result, subject="cli-registry:report")
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+
+def cli_registry_guard_command(
+    *,
+    allowlist_path: str = ".devpilot/cli_registry/legacy_command_allowlist.json",
+    json_output: bool = False,
+    write_report: bool = False,
+) -> int:
+    """Run the POST-H-006-E gate that blocks unregistered monolithic CLI growth."""
+
+    root = project_root()
+    result = CliNoGrowthGate(
+        root,
+        CliNoGrowthGateOptions(
+            allowlist_path=Path(allowlist_path),
+            write_report=write_report,
+        ),
+    ).run()
+    summary_result = CommandResult(
+        command=result.command,
+        ok=result.ok,
+        exit_code=result.exit_code,
+        message=result.message,
+        data={"summary": (result.data or {}).get("summary", {})},
+        findings=result.findings,
+    )
+    _emit_result_event(root, summary_result, subject="cli-registry:guard")
+    _persist_result(root, summary_result, subject="cli-registry:guard")
     print_result(result, json_output=json_output)
     return int(result.exit_code)
 
@@ -4424,6 +4459,10 @@ def build_parser() -> argparse.ArgumentParser:
     cli_registry_report = cli_registry_sub.add_parser("report", help="Build read-only CLI command registry plus hotspot/ownership report")
     cli_registry_report.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     cli_registry_report.add_argument("--write-report", action="store_true", help="Write cli_command_registry.json/.md and cli_command_registry_report.json/.md under outputs/reports")
+    cli_registry_guard = cli_registry_sub.add_parser("guard", help="Run POST-H-006-E no-growth gate for unregistered CLI commands")
+    cli_registry_guard.add_argument("--allowlist", default=".devpilot/cli_registry/legacy_command_allowlist.json", help="Temporary legacy CLI command allowlist path")
+    cli_registry_guard.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    cli_registry_guard.add_argument("--write-report", action="store_true", help="Write cli_command_registry_no_growth_gate.json/.md under outputs/reports")
 
     test_contracts = sub.add_parser("test-contracts", help="Validate POST-H-001 test contract registry")
     test_contracts_sub = test_contracts.add_subparsers(dest="test_contracts_command")
@@ -5468,6 +5507,8 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
     if args.command == "cli-registry":
         if args.cli_registry_command == "report":
             return cli_registry_report_command(json_output=args.json, write_report=args.write_report)
+        if args.cli_registry_command == "guard":
+            return cli_registry_guard_command(allowlist_path=args.allowlist, json_output=args.json, write_report=args.write_report)
         parser.print_help()
         return int(ExitCode.FAIL)
     if args.command == "test-contracts":

@@ -14,7 +14,7 @@ from devpilot_core.schemas import SchemaValidator
 
 @dataclass(frozen=True)
 class CliCommandRegistryReportOptions:
-    """Options for rendering the POST-H-006-A/B/C/D CLI registry report."""
+    """Options for rendering the POST-H-006-A/B/C/D/E CLI registry report."""
 
     cli_source: Path = Path("src/devpilot_core/cli.py")
     write_report: bool = False
@@ -27,9 +27,9 @@ class CliCommandRegistryReportOptions:
 class CliCommandRegistryReportBuilder:
     """Build a read-only CLI command registry report.
 
-    POST-H-006-D composes the POST-H-006-A static CLI inventory, POST-H-006-B
-    declarative overlay, POST-H-006-C migrated handlers and a read-only hotspot
-    / ownership report for remaining CLI debt. It does not enable a runtime
+    POST-H-006-E composes the POST-H-006-A static CLI inventory, POST-H-006-B
+    declarative overlay, POST-H-006-C migrated handlers, POST-H-006-D hotspot
+    / ownership report and POST-H-006-E no-growth gate metadata for remaining CLI debt. It does not enable a runtime
     registry router and does not alter public command behavior.
     """
 
@@ -161,13 +161,13 @@ class CliCommandRegistryReportBuilder:
             command="cli-registry report",
             ok=ok,
             exit_code=ExitCode.PASS if ok else ExitCode.BLOCK,
-            message="CLI command registry hotspot and ownership report passed." if ok else "CLI command registry hotspot and ownership report has blocking findings.",
+            message="CLI command registry hotspot, ownership and no-growth metadata report passed." if ok else "CLI command registry hotspot, ownership and no-growth metadata report has blocking findings.",
             data={
                 "summary": summary,
                 "registry": payload,
                 "hotspot_report": hotspot_report,
                 "notes": [
-                    "POST-H-006-D adds a read-only hotspot and ownership report derived from the CLI registry and Test Contract Registry.",
+                    "POST-H-006-D adds a read-only hotspot and ownership report derived from the CLI registry and Test Contract Registry; POST-H-006-E adds a no-growth gate over unregistered commands.",
                     "POST-H-006-C migrated selected workspace/validation handlers; cli.py remains the public parser/dispatch wrapper.",
                     "Runtime registry routing and dynamic handler loading remain disabled.",
                     "Reports are generated only when --write-report is passed and are intentionally excluded from release ZIPs.",
@@ -191,7 +191,7 @@ class CliCommandRegistryReportBuilder:
 def _markdown_report(payload: dict[str, Any]) -> str:
     summary = payload.get("summary", {})
     lines = [
-        "# POST-H-006-D — CLI command registry hotspots and ownership",
+        "# POST-H-006-E — CLI command registry hotspots, ownership and no-growth metadata",
         "",
         "Estado: `implemented-initial / hotspot ownership report, no runtime registry router`.",
         "",

@@ -137,8 +137,10 @@ def test_post_h_005_backlog_and_docs_mark_a_as_implemented_initial() -> None:
     assert "POST-H-005-A — Modelos y schema de architecture map" in backlog
     assert "Estado: `implemented-initial`" in backlog
     assert "POST-H-005-A — Modelos y schema de architecture map" in readme
-    assert "Último micro-sprint implementado: `POST-H-005-E" in readme
-    assert "Siguiente micro-sprint: `POST-H-006-A" in readme
+    # README is cumulative: POST-H-006 micro-sprints may be current, but
+    # the POST-H-005-E closure and POST-H-006 transition must remain visible.
+    assert "POST-H-005-E" in readme
+    assert "POST-H-006" in readme
     assert "POST-H-005-A — Operación del modelo y schema ArchitectureMap" in runbook
     assert "post-h-005-a" in changelog
     assert "SCHEMA-DEVPL-ARCHITECTURE-MAP-V1" in design_doc

@@ -8,8 +8,8 @@
   "last_completed_sprint": "POST-H-005",
   "last_functional_sprint": "FUNC-SPRINT-99",
   "next_sprint": "POST-H-006",
-  "source_repo": "repo_DevPilot_Local_163_POST_H_006_C.zip",
-  "current_repo": "repo_DevPilot_Local_164_POST_H_006_D.zip",
+  "source_repo": "repo_DevPilot_Local_164_POST_H_006_D.zip",
+  "current_repo": "repo_DevPilot_Local_165_POST_H_006_E.zip",
   "global_state_owner": "tests/test_project_global_state.py",
   "mutable_global_state_fields": [
     "last_completed_sprint",
@@ -30,6 +30,7 @@
     "POST-H-006-A starts CLI command registry as implemented-initial: static AST inventory, schema-backed registry report and read-only CLI evidence are available locally without migrating handlers.",
     "POST-H-006-B adds the initial declarative CLI registry overlay: governed groups, descriptor coverage metrics and legacy-unregistered command visibility are available locally without handler migration.",
     "POST-H-006-C adds incremental static handler migration for workspace.init, workspace.status and validate docs/contracts/all through cli_commands modules while preserving cli.py public wrappers and disabling runtime registry routing.",
-    "POST-H-006-D adds a read-only CLI hotspot and command ownership report: migrated/registered_only/legacy counts, side-effect/risk/domain ownership metrics and TCR association gaps are available locally for POST-H-006-E and POST-H-007 planning."
+    "POST-H-006-D adds a read-only CLI hotspot and command ownership report: migrated/registered_only/legacy counts, side-effect/risk/domain ownership metrics and TCR association gaps are available locally for POST-H-006-E and POST-H-007 planning.",
+    "POST-H-006-E adds a local no-growth CLI gate: commands that appear as legacy-unregistered must be covered by a temporary source-controlled allowlist, while new public commands require declarative descriptors or migrated handlers."
   ]
 }

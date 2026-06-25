@@ -2485,6 +2485,63 @@
         "python -m devpilot_core test-contracts validate --json",
         "python -m devpilot_core test-contracts validate-v2 --json"
       ]
+    },
+    {
+      "contract_id": "post-h-006-cli-no-growth-gate",
+      "scope": "integration",
+      "owner": "POST-H-006-E",
+      "phase": "POST-FASE-H",
+      "test_files": [
+        "tests/test_post_h_006_e_cli_no_growth_gate.py",
+        "tests/test_post_h_006_d_cli_hotspot_ownership.py",
+        "tests/test_post_h_006_c_handler_migration.py",
+        "tests/test_post_h_006_b_declarative_registry.py",
+        "tests/test_post_h_006_cli_command_registry.py",
+        "tests/test_cli_command_registry_schema.py",
+        "tests/test_schema_registry.py",
+        "tests/test_project_global_state.py",
+        "tests/test_test_contract_registry.py",
+        "tests/test_test_contract_registry_v2.py"
+      ],
+      "validates": [
+        "src/devpilot_core/cli_registry/growth_gate.py",
+        "src/devpilot_core/cli_registry/registry.py",
+        "src/devpilot_core/cli_registry/report.py",
+        "src/devpilot_core/cli.py",
+        ".devpilot/cli_registry/legacy_command_allowlist.json",
+        "docs/schemas/cli_command_registry.schema.json",
+        "docs/backlogs/POST-H-006_cli_command_registry.md",
+        "docs/02_architecture/cli_command_registry_map.md",
+        "docs/audits/post_h_006_e_no_growth_gate_report.md",
+        "docs/post_h_006_e_manifest.json"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/cli_registry/",
+        "src/devpilot_core/cli.py",
+        "src/devpilot_core/cli_commands/",
+        ".devpilot/cli_registry/",
+        "docs/schemas/cli_command_registry.schema.json",
+        ".devpilot/testing/",
+        ".devpilot/project_state.json",
+        "README.md",
+        "docs/05_operations/runbook.md",
+        "docs/backlogs/POST-H-006_cli_command_registry.md",
+        "docs/02_architecture/cli_command_registry_map.md",
+        "docs/audits/post_h_006_e_no_growth_gate_report.md",
+        "docs/post_h_006_e_manifest.json",
+        "tests/test_post_h_006_e_cli_no_growth_gate.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest tests/test_post_h_006_e_cli_no_growth_gate.py tests/test_post_h_006_d_cli_hotspot_ownership.py tests/test_post_h_006_c_handler_migration.py tests/test_post_h_006_b_declarative_registry.py tests/test_post_h_006_cli_command_registry.py tests/test_cli_command_registry_schema.py -q",
+        "python -m devpilot_core cli-registry guard --json",
+        "python -m devpilot_core cli-registry report --write-report --json",
+        "python -m devpilot_core schema validate --schema-id CliCommandRegistry --instance outputs/reports/cli_command_registry.json --json",
+        "python -m devpilot_core test-contracts validate --json",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ]
     }
   ],
   "notes": [
@@ -2493,6 +2550,7 @@
     "POST-H-002-E adds post-h-002-maturity-dashboard as the closure contract for the local maturity dashboard.",
     "POST-H-003-E adds the post-h-003-test-contract-registry-2 integration contract while preserving the v1 registry for compatibility.",
     "POST-H-004-E registers MIASI semantic validator as a formal local, non-executing test contract.",
-    "POST-H-006-C adds post-h-006-cli-handler-migration as the incremental CLI handler migration contract."
+    "POST-H-006-C adds post-h-006-cli-handler-migration as the incremental CLI handler migration contract.",
+    "POST-H-006-E adds no-growth gate contract post-h-006-cli-no-growth-gate."
   ]
 }

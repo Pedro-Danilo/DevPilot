@@ -3,7 +3,7 @@ doc_id: "POST-H-006-BACKLOG"
 id: "POST-H-006"
 title: "POST-H-006 — CLI command registry y desacoplamiento de handlers"
 status: "approved"
-version: "0.5.0"
+version: "0.6.0"
 owner: "Ordóñez"
 updated: "2026-06-25"
 phase: "POST-FASE-H"
@@ -552,4 +552,59 @@ Fuera de alcance explícito:
 
 Limitación industrial explícita: esta versión es preliminar/advisory. La asociación a test contracts se infiere desde `recommended_tests`, por lo que puede ser más amplia que una cobertura semántica específica por comando. El enforcement real de crecimiento monolítico queda para `POST-H-006-E`.
 
-Siguiente micro-sprint: `POST-H-006-E — Gate de no crecimiento monolítico`.
+Micro-sprint posterior ejecutado: `POST-H-006-E — Gate de no crecimiento monolítico`.
+
+
+## 13. Avance de implementación — POST-H-006-E
+
+Estado: `implemented-initial`.
+
+`POST-H-006-E — Gate de no crecimiento monolítico` convierte la evidencia advisory del reporte D en un gate local bloqueante: si aparece un comando público como `legacy-unregistered` y no está cubierto por la allowlist temporal source-controlled, el gate devuelve `BLOCK`.
+
+Artefactos implementados:
+
+```text
+src/devpilot_core/cli_registry/growth_gate.py
+.devpilot/cli_registry/legacy_command_allowlist.json
+tests/test_post_h_006_e_cli_no_growth_gate.py
+docs/audits/post_h_006_e_no_growth_gate_report.md
+docs/post_h_006_e_manifest.json
+outputs/reports/cli_command_registry_no_growth_gate.json
+outputs/reports/cli_command_registry_no_growth_gate.md
+```
+
+Alcance implementado:
+
+```text
+- Gate `CliNoGrowthGate` para comparar registry actual contra allowlist legacy.
+- Comando CLI `python -m devpilot_core cli-registry guard --json`.
+- Opción `--write-report` para evidencia local en outputs/reports.
+- Allowlist explícita `.devpilot/cli_registry/legacy_command_allowlist.json` con legacy conocido.
+- Descriptor declarativo para `cli-registry.guard`.
+- Test focal que demuestra que un comando legacy no allowlisted produce BLOCK.
+- TCR v1/v2 sincronizado con `post-h-006-cli-no-growth-gate`.
+```
+
+Criterios PASS cubiertos:
+
+```text
+- Un comando legacy no cubierto por allowlist falla en test focal.
+- Legacy actual queda registrado en allowlist explícita y temporal.
+- `test-contracts validate` y `validate-v2` siguen PASS.
+- El gate no ejecuta comandos públicos ni importa handlers dinámicamente.
+- Reportes se escriben solo con `--write-report`.
+```
+
+Fuera de alcance explícito:
+
+```text
+- No reduce automáticamente deuda legacy existente.
+- No migra handlers adicionales.
+- No activa runtime registry router.
+- No activa dynamic handler loading.
+- No habilita remote execution, connector write ni plugin execution.
+```
+
+Limitación industrial explícita: esta versión es `implemented-initial`. El gate impide crecimiento monolítico no registrado, pero la reducción real de deuda requiere migraciones/descriptor coverage por familias de comandos y `POST-H-007 — ApplicationService boundary hardening`.
+
+Siguiente hito recomendado: `POST-H-007 — ApplicationService boundary hardening`.

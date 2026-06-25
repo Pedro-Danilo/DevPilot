@@ -17,6 +17,7 @@ DECLARATIVE_DESCRIPTOR_SOURCE = "src/devpilot_core/cli_registry/registry.py"
 POST_H_006_B_CREATED_BY = "POST-H-006-B"
 POST_H_006_C_CREATED_BY = "POST-H-006-C"
 POST_H_006_D_CREATED_BY = "POST-H-006-D"
+POST_H_006_E_CREATED_BY = "POST-H-006-E"
 POST_H_006_B_INITIAL_GROUPS: tuple[str, ...] = (
     "workspace",
     "standards",
@@ -171,6 +172,13 @@ DECLARATIVE_GROUPS: dict[str, DeclarativeGroupDescriptor] = {
         recommended_tests=("python -m pytest tests/test_industrial_readiness.py tests/test_post_h_006_b_declarative_registry.py -q",),
         rationale="Industrial-readiness is deterministic and suitable for early declarative ownership.",
     ),
+    "cli-registry": DeclarativeGroupDescriptor(
+        group_id="cli-registry",
+        domain="interface.cli",
+        owner_module="src/devpilot_core/cli.py",
+        recommended_tests=("python -m pytest tests/test_post_h_006_e_cli_no_growth_gate.py tests/test_post_h_006_d_cli_hotspot_ownership.py tests/test_post_h_006_cli_command_registry.py -q",),
+        rationale="CLI registry commands govern the command surface and must be registered before enforcing no-growth gates.",
+    ),
 }
 
 
@@ -201,6 +209,18 @@ COMMAND_OVERRIDES: dict[str, DeclarativeCommandOverride] = {
         dry_run_supported=False,
         policy_check_required=True,
         rationale="`quality-gate run --include-pytest` can invoke pytest; subprocess side effect is explicit even when the default path is bounded.",
+    ),
+    "cli-registry.guard": DeclarativeCommandOverride(
+        command_id="cli-registry.guard",
+        risk_level=CommandRiskLevel.HIGH,
+        side_effects=(CommandSideEffect.WRITE_REPORT,),
+        writes_files=True,
+        dry_run_supported=True,
+        policy_check_required=True,
+        recommended_tests=(
+            "python -m pytest tests/test_post_h_006_e_cli_no_growth_gate.py tests/test_post_h_006_d_cli_hotspot_ownership.py -q",
+        ),
+        rationale="No-growth enforcement can block merges and optionally writes evidence reports; it remains local/read-only for source files.",
     ),
 }
 
@@ -262,7 +282,7 @@ class DeclarativeCliRegistryBuilder:
         summary = dict(static_registry.summary)
         summary.update(
             {
-                "created_by": POST_H_006_D_CREATED_BY,
+                "created_by": POST_H_006_E_CREATED_BY,
                 "declarative_descriptor_source": DECLARATIVE_DESCRIPTOR_SOURCE,
                 "declarative_registered_groups_total": registered_groups,
                 "declarative_expected_groups_total": len(DECLARATIVE_GROUPS),
@@ -294,8 +314,8 @@ class DeclarativeCliRegistryBuilder:
             schema_version=static_registry.schema_version,
             schema_id=static_registry.schema_id,
             registry_id=static_registry.registry_id,
-            generated_from="static-cli-parser-ast-plus-declarative-descriptors-plus-migrated-handlers-plus-hotspot-ownership-report",
-            created_by=POST_H_006_D_CREATED_BY,
+            generated_from="static-cli-parser-ast-plus-declarative-descriptors-plus-migrated-handlers-plus-hotspot-ownership-report-plus-no-growth-gate",
+            created_by=POST_H_006_E_CREATED_BY,
             groups=transformed_groups,
             summary=summary,
             safety={
@@ -312,7 +332,7 @@ class DeclarativeCliRegistryBuilder:
             },
             recommendations=[
                 "Use migrated_handlers_total and migrated_command_ids to verify POST-H-006-C coverage.",
-                "Use POST-H-006-D hotspot and ownership metrics to prioritize POST-H-006-E and POST-H-007 work.",
+                "Use POST-H-006-D hotspot and ownership metrics plus POST-H-006-E no-growth gate results to prioritize POST-H-007 work.",
                 "Keep cli.py as the public parser/dispatch boundary until registry routing is designed and tested.",
                 "Treat non-migrated registered commands as governed metadata only; dynamic handler loading remains disabled.",
             ],
@@ -326,6 +346,9 @@ class DeclarativeCliRegistryBuilder:
                 "runtime_router_enabled": False,
                 "hotspot_ownership_report_enabled": True,
                 "hotspot_ownership_report_id": "devpilot-cli-command-hotspot-ownership-report",
+                "no_growth_gate_enabled": True,
+                "no_growth_gate_id": "devpilot-cli-no-growth-gate",
+                "legacy_allowlist_path": ".devpilot/cli_registry/legacy_command_allowlist.json",
                 "no_runtime_behavior_changed": True,
                 "advisory_only": True,
             },

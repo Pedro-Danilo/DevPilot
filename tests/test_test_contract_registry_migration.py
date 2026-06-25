@@ -9,6 +9,10 @@ from devpilot_core.testing import TestContractRegistry, TestContractRegistryV2Mi
 ROOT = Path(__file__).resolve().parents[1]
 
 
+def _current_v1_contracts_total() -> int:
+    return len(read_json(".devpilot/testing/test_contract_registry.json").get("contracts", []))
+
+
 def read_json(path: str | Path) -> dict:
     return json.loads((ROOT / path).read_text(encoding="utf-8") if isinstance(path, str) else path.read_text(encoding="utf-8"))
 
@@ -19,9 +23,10 @@ def test_test_contract_registry_v2_migration_dry_run_preserves_v1_and_validates_
 
     assert result.ok, result.to_dict()
     summary = result.data["summary"]
-    assert summary["contracts_v1_total"] == 89
-    assert summary["contracts_v2_total"] == 89
-    assert summary["classification_gaps_total"] == 89
+    expected_total = _current_v1_contracts_total()
+    assert summary["contracts_v1_total"] == expected_total
+    assert summary["contracts_v2_total"] == expected_total
+    assert summary["classification_gaps_total"] == expected_total
     assert summary["needs_review_total"] >= 1
     assert summary["v1_registry_preserved"] is True
     assert summary["dry_run"] is True
@@ -34,7 +39,7 @@ def test_test_contract_registry_v2_migration_dry_run_preserves_v1_and_validates_
     assert registry["created_by"] == "POST-H-003-B"
     assert registry["generated_from"] == ".devpilot/testing/test_contract_registry.json"
     assert registry["compatibility"]["compatibility_mode"] == "migration-dry-run"
-    assert len(registry["contracts"]) == 89
+    assert len(registry["contracts"]) == expected_total
 
     schema_result = SchemaValidator(ROOT).validate_payload(
         schema="TestContractRegistryV2",
@@ -59,7 +64,7 @@ def test_test_contract_registry_v2_migration_write_output_is_explicit_and_valid(
         assert output.exists()
 
         persisted = json.loads(output.read_text(encoding="utf-8"))
-        assert len(persisted["contracts"]) == 89
+        assert len(persisted["contracts"]) == _current_v1_contracts_total()
         assert persisted["contracts"][0]["schema_version"] == "2.0"
 
         schema_result = SchemaValidator(ROOT).validate(schema="TestContractRegistryV2", instance=output)
@@ -86,7 +91,7 @@ def test_migrated_registry_v2_file_is_present_and_schema_valid_after_post_h_003_
     payload = json.loads(path.read_text(encoding="utf-8"))
     assert payload["created_by"] == "POST-H-003-B"
     assert payload["status"] == "implemented-initial"
-    assert len(payload["contracts"]) == 89
+    assert len(payload["contracts"]) == _current_v1_contracts_total()
     assert {item["source_contract_id"] for item in payload["contracts"] if item.get("source_contract_id")}
 
     result = SchemaValidator(ROOT).validate(schema="TestContractRegistryV2", instance=path)
