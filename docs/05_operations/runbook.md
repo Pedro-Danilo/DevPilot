@@ -6611,3 +6611,49 @@ BLOCK si se cambia la UX pública de comandos existentes.
 ### Riesgos y limitaciones
 
 Esta versión es preliminar/advisory. El registry declarativo no enruta ejecución, no migra handlers y no sustituye el parser público. `POST-H-006-C` debe agregar pruebas de paridad antes de mover handlers fuera de `cli.py`.
+
+
+## POST-H-006-C — Operación de handlers migrados de workspace/validación
+
+### Propósito
+
+Verificar la tercera etapa del Command Registry de DevPilot. `POST-H-006-C` mueve la lógica de resultado de handlers seleccionados a módulos `cli_commands` sin cambiar la UX pública. `cli.py` conserva parser, wrappers, emisión de eventos, persistencia best-effort y escritura opcional de reportes.
+
+### Comandos principales
+
+```powershell
+$env:PYTHONPATH="src"
+
+python -m devpilot_core workspace init --dry-run --json
+python -m devpilot_core workspace status --json
+python -m devpilot_core validate docs --json
+python -m devpilot_core validate contracts --json
+python -m devpilot_core validate all --json
+python -m devpilot_core cli-registry report --write-report --json
+```
+
+### Verificación específica
+
+```powershell
+python -m pytest `
+  tests/test_post_h_006_c_handler_migration.py `
+  tests/test_post_h_006_b_declarative_registry.py `
+  tests/test_post_h_006_cli_command_registry.py `
+  tests/test_cli_command_registry_schema.py `
+  -q
+
+python -m devpilot_core schema validate `
+  --schema-id CliCommandRegistry `
+  --instance outputs/reports/cli_command_registry.json `
+  --json
+```
+
+### PASS/BLOCK
+
+PASS si `workspace init/status` y `validate docs/contracts/all` preservan `CommandResult`, `exit_code`, flags y salida JSON.
+
+BLOCK si se cambia un nombre público, se rompe un flag existente, se omite EventLogger/persistencia best-effort o se habilita runtime router, carga dinámica, remote execution, connector write o plugin execution.
+
+### Estado industrial
+
+Esta versión es `implemented-initial`. La migración es incremental y estática: no hay carga dinámica por strings, no hay ejecución desde el registry y no se elimina todavía el wrapper público en `cli.py`.

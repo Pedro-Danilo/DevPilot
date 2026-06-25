@@ -23,6 +23,7 @@ from .architecture import (
 )
 from .cli_models import CommandResult, ExitCode, Finding, Severity
 from .cli_registry import CliCommandRegistryReportBuilder, CliCommandRegistryReportOptions
+from .cli_commands import handle_validate_scope, handle_workspace_init, handle_workspace_status
 from .connectors import ConnectorAdapter, ConnectorCallOptions, ConnectorRegistry, ConnectorRegistryOptions
 from .compliance import CompliancePackRegistry, ComplianceRegistryOptions, CompliancePackRunner, ComplianceRunOptions
 from .enterprise import EnterpriseReportBuilder, EnterpriseReportOptions
@@ -2465,12 +2466,12 @@ def workspace_init_command(
     """Initialize `.devpilot/project.yaml` in dry-run mode unless executed."""
 
     root = project_root()
-    manager = WorkspaceManager(root)
-    result = manager.init_workspace(
+    result = handle_workspace_init(
+        root,
         execute=execute,
-        project_id=project_id or "devpilot-local",
-        project_name=project_name or "DevPilot Local",
-        project_type=project_type or "agent-assisted-sdlc",
+        project_id=project_id,
+        project_name=project_name,
+        project_type=project_type,
     )
     result = _write_optional_command_report(
         root,
@@ -2490,8 +2491,7 @@ def workspace_status_command(*, json_output: bool = False, write_report: bool = 
     """Report the current DevPilot workspace status."""
 
     root = project_root()
-    manager = WorkspaceManager(root)
-    result = ApplicationService(root).workspace_status()
+    result = handle_workspace_status(root)
     result = _write_optional_command_report(
         root,
         result,
@@ -3324,7 +3324,7 @@ def validate_gateway_command(scope: str, *, json_output: bool = False, write_rep
     """
 
     root = project_root()
-    result = ValidationGateway(root).validate_scope(scope)
+    result = handle_validate_scope(root, scope)
     result = _write_optional_command_report(
         root,
         result,

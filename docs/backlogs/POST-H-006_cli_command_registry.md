@@ -3,7 +3,7 @@ doc_id: "POST-H-006-BACKLOG"
 id: "POST-H-006"
 title: "POST-H-006 — CLI command registry y desacoplamiento de handlers"
 status: "approved"
-version: "0.3.0"
+version: "0.4.0"
 owner: "Ordóñez"
 updated: "2026-06-25"
 phase: "POST-FASE-H"
@@ -453,4 +453,48 @@ PASS si el reporte identifica legacy_unregistered_commands_total.
 
 Limitación industrial explícita: esta versión es preliminar/advisory. La migración física de handlers y pruebas de paridad quedan para `POST-H-006-C`; el registry no debe usarse todavía como router runtime ni loader dinámico.
 
-Siguiente micro-sprint: `POST-H-006-C — Migración incremental de handlers de validación/workspace`.
+Siguiente micro-sprint: `POST-H-006-D — Reporte de hotspots CLI y ownership por comando`.
+
+
+## 11. Avance de implementación — POST-H-006-C
+
+Estado: `implemented-initial`.
+
+`POST-H-006-C — Migración incremental de handlers de validación/workspace` implementa la primera migración real de lógica de handlers fuera de `src/devpilot_core/cli.py`, manteniendo compatibilidad pública y sin convertir el registry en router runtime.
+
+Artefactos implementados:
+
+```text
+src/devpilot_core/cli_commands/__init__.py
+src/devpilot_core/cli_commands/workspace.py
+src/devpilot_core/cli_commands/validation.py
+tests/test_post_h_006_c_handler_migration.py
+docs/audits/post_h_006_c_handler_migration_report.md
+docs/post_h_006_c_manifest.json
+```
+
+Alcance implementado:
+
+```text
+- `workspace init` delega la construcción de CommandResult a `handle_workspace_init`.
+- `workspace status` delega la construcción de CommandResult a `handle_workspace_status`.
+- `validate docs/contracts/all` delega a `handle_validate_scope`.
+- `cli.py` conserva parser, wrappers, flags, print_result, EventLogger, persistencia y reportes opcionales.
+- `CliCommandRegistry` marca comandos migrados con `handler-migrated-incremental`.
+- `runtime_router_enabled=false` y `dynamic_handler_loading_enabled=false`.
+```
+
+Criterios PASS cubiertos:
+
+```text
+- `workspace status` conserva CommandResult y salida JSON equivalente.
+- `workspace init --dry-run` conserva dry-run y no escribe project.yaml.
+- `validate docs/contracts/all` conserva semántica de ValidationGateway.
+- Tests de paridad focales PASS.
+- No se renombraron comandos públicos ni flags.
+- No se omitieron EventLogger ni persistencia best-effort en wrappers.
+```
+
+Limitación industrial explícita: esta versión es incremental. No elimina wrappers legacy de `cli.py`, no activa ejecución desde registry, no habilita carga dinámica de handlers y no migra comandos de mayor riesgo. La reducción completa de hotspot CLI requiere `POST-H-006-D/E` y probablemente coordinación con `POST-H-007`.
+
+Siguiente micro-sprint: `POST-H-006-D — Reporte de hotspots CLI y ownership por comando`.

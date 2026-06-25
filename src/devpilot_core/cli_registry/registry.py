@@ -15,6 +15,7 @@ from devpilot_core.cli_registry.models import (
 
 DECLARATIVE_DESCRIPTOR_SOURCE = "src/devpilot_core/cli_registry/registry.py"
 POST_H_006_B_CREATED_BY = "POST-H-006-B"
+POST_H_006_C_CREATED_BY = "POST-H-006-C"
 POST_H_006_B_INITIAL_GROUPS: tuple[str, ...] = (
     "workspace",
     "standards",
@@ -57,6 +58,57 @@ class DeclarativeCommandOverride:
     policy_check_required: bool | None = None
     recommended_tests: tuple[str, ...] | None = None
     rationale: str = "Explicit POST-H-006-B command metadata."
+
+
+@dataclass(frozen=True)
+class MigratedHandlerDescriptor:
+    """POST-H-006-C explicit handler migration metadata.
+
+    This is not a dynamic loader descriptor. It documents migrated, statically
+    imported Python handlers while the public parser/dispatch remains in
+    ``src/devpilot_core/cli.py`` for backward compatibility.
+    """
+
+    command_id: str
+    owner_module: str
+    handler: str
+    wrapper: str
+    recommended_tests: tuple[str, ...]
+    rationale: str
+
+
+MIGRATED_HANDLERS: dict[str, MigratedHandlerDescriptor] = {
+    "workspace.init": MigratedHandlerDescriptor(
+        command_id="workspace.init",
+        owner_module="src/devpilot_core/cli_commands/workspace.py",
+        handler="handle_workspace_init",
+        wrapper="workspace_init_command",
+        recommended_tests=(
+            "python -m pytest tests/test_workspace_manager.py tests/test_post_h_006_c_handler_migration.py -q",
+        ),
+        rationale="Workspace init result-building logic migrated; cli.py preserves parser, flags, events, reports and persistence.",
+    ),
+    "workspace.status": MigratedHandlerDescriptor(
+        command_id="workspace.status",
+        owner_module="src/devpilot_core/cli_commands/workspace.py",
+        handler="handle_workspace_status",
+        wrapper="workspace_status_command",
+        recommended_tests=(
+            "python -m pytest tests/test_workspace_manager.py tests/test_post_h_006_c_handler_migration.py -q",
+        ),
+        rationale="Workspace status result-building logic migrated with CLI JSON parity tests.",
+    ),
+    "validate": MigratedHandlerDescriptor(
+        command_id="validate",
+        owner_module="src/devpilot_core/cli_commands/validation.py",
+        handler="handle_validate_scope",
+        wrapper="validate_gateway_command",
+        recommended_tests=(
+            "python -m pytest tests/test_validation_gateway.py tests/test_post_h_006_c_handler_migration.py -q",
+        ),
+        rationale="Validation gateway scope handler migrated for docs/contracts/all while preserving public UX.",
+    ),
+}
 
 
 DECLARATIVE_GROUPS: dict[str, DeclarativeGroupDescriptor] = {
@@ -209,7 +261,7 @@ class DeclarativeCliRegistryBuilder:
         summary = dict(static_registry.summary)
         summary.update(
             {
-                "created_by": POST_H_006_B_CREATED_BY,
+                "created_by": POST_H_006_C_CREATED_BY,
                 "declarative_descriptor_source": DECLARATIVE_DESCRIPTOR_SOURCE,
                 "declarative_registered_groups_total": registered_groups,
                 "declarative_expected_groups_total": len(DECLARATIVE_GROUPS),
@@ -218,7 +270,10 @@ class DeclarativeCliRegistryBuilder:
                 "declarative_registered_commands_total": registered_commands,
                 "legacy_unregistered_commands_total": commands_total - registered_commands,
                 "legacy_unregistered_groups_total": len(transformed_groups) - registered_groups,
-                "handler_migration_performed": False,
+                "handler_migration_performed": True,
+                "migrated_handlers_total": len(MIGRATED_HANDLERS),
+                "migrated_command_ids": sorted(MIGRATED_HANDLERS),
+                "migrated_handler_owner_modules": sorted({item.owner_module for item in MIGRATED_HANDLERS.values()}),
                 "registered_command_ids": sorted(
                     command.command_id
                     for group in transformed_groups
@@ -238,8 +293,8 @@ class DeclarativeCliRegistryBuilder:
             schema_version=static_registry.schema_version,
             schema_id=static_registry.schema_id,
             registry_id=static_registry.registry_id,
-            generated_from="static-cli-parser-ast-plus-declarative-descriptors",
-            created_by=POST_H_006_B_CREATED_BY,
+            generated_from="static-cli-parser-ast-plus-declarative-descriptors-plus-migrated-handlers",
+            created_by=POST_H_006_C_CREATED_BY,
             groups=transformed_groups,
             summary=summary,
             safety={
@@ -255,15 +310,17 @@ class DeclarativeCliRegistryBuilder:
                 "preliminary": True,
             },
             recommendations=[
-                "Use declarative_registered_commands_total vs legacy_unregistered_commands_total to plan POST-H-006-C migrations.",
-                "Do not move handlers until command parity tests exist for the selected group.",
-                "Treat high-risk registered commands as governed metadata only; POST-H-006-B does not execute or route commands from the registry.",
+                "Use migrated_handlers_total and migrated_command_ids to verify POST-H-006-C coverage.",
+                "Keep cli.py as the public parser/dispatch boundary until registry routing is designed and tested.",
+                "Treat non-migrated registered commands as governed metadata only; dynamic handler loading remains disabled.",
             ],
             metadata={
                 **static_registry.metadata,
                 "declarative_descriptor_source": DECLARATIVE_DESCRIPTOR_SOURCE,
                 "declarative_initial_groups": list(POST_H_006_B_INITIAL_GROUPS),
-                "handler_migration_performed": False,
+                "handler_migration_performed": True,
+                "migrated_handlers_total": len(MIGRATED_HANDLERS),
+                "migrated_command_ids": sorted(MIGRATED_HANDLERS),
                 "runtime_router_enabled": False,
                 "no_runtime_behavior_changed": True,
                 "advisory_only": True,
@@ -272,26 +329,43 @@ class DeclarativeCliRegistryBuilder:
 
     def _apply_declaration(self, command: CommandDescriptor, group_declaration: DeclarativeGroupDescriptor) -> CommandDescriptor:
         override = COMMAND_OVERRIDES.get(command.command_id)
+        migration = MIGRATED_HANDLERS.get(command.command_id)
         side_effects = list(override.side_effects) if override and override.side_effects is not None else list(command.side_effects)
         writes_files = override.writes_files if override and override.writes_files is not None else command.writes_files
         dry_run_supported = override.dry_run_supported if override and override.dry_run_supported is not None else command.dry_run_supported
         policy_required = override.policy_check_required if override and override.policy_check_required is not None else command.policy_check_required
         if any(effect in side_effects for effect in (CommandSideEffect.MUTATE_STATE, CommandSideEffect.EXECUTE_SUBPROCESS)):
             policy_required = True
-        recommended_tests = list(override.recommended_tests) if override and override.recommended_tests else list(group_declaration.recommended_tests)
+        if migration is not None:
+            recommended_tests = list(migration.recommended_tests)
+        elif override and override.recommended_tests:
+            recommended_tests = list(override.recommended_tests)
+        else:
+            recommended_tests = list(group_declaration.recommended_tests)
         risk_level = override.risk_level if override and override.risk_level is not None else command.risk_level
         metadata: dict[str, Any] = {
             **command.metadata,
-            "registry_phase": "declarative-initial",
-            "registration_status": "registered-declarative",
+            "registry_phase": "handler-migrated-incremental" if migration else "declarative-initial",
+            "registration_status": "handler-migrated" if migration else "registered-declarative",
             "declarative_registered": True,
             "declarative_descriptor_source": DECLARATIVE_DESCRIPTOR_SOURCE,
-            "declared_by": POST_H_006_B_CREATED_BY,
-            "handler_migration_performed": False,
+            "declared_by": POST_H_006_C_CREATED_BY if migration else POST_H_006_B_CREATED_BY,
+            "handler_migration_performed": bool(migration),
             "group_rationale": group_declaration.rationale,
         }
         if override:
             metadata["command_rationale"] = override.rationale
+        if migration:
+            metadata.update(
+                {
+                    "migrated_by": POST_H_006_C_CREATED_BY,
+                    "migration_source": migration.owner_module,
+                    "cli_wrapper": migration.wrapper,
+                    "wrapper_module": "src/devpilot_core/cli.py",
+                    "runtime_router_enabled": False,
+                    "migration_rationale": migration.rationale,
+                }
+            )
 
         return CommandDescriptor(
             command_id=command.command_id,
@@ -299,8 +373,8 @@ class DeclarativeCliRegistryBuilder:
             public_invocation=command.public_invocation,
             group_id=command.group_id,
             domain=group_declaration.domain,
-            owner_module=group_declaration.owner_module,
-            handler=command.handler,
+            owner_module=migration.owner_module if migration else group_declaration.owner_module,
+            handler=migration.handler if migration else command.handler,
             returns=command.returns,
             risk_level=risk_level,
             side_effects=side_effects,
@@ -309,7 +383,7 @@ class DeclarativeCliRegistryBuilder:
             policy_check_required=bool(policy_required),
             recommended_tests=recommended_tests,
             options=list(command.options),
-            legacy_cli_owned=True,
+            legacy_cli_owned=False if migration else True,
             remote_execution_enabled=False,
             connector_write_enabled=False,
             plugin_execution_enabled=False,

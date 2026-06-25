@@ -8,6 +8,28 @@ approval: "internal"
 owner: "Ordóñez"
 ---
 
+## [post-h-006-c] - 2026-06-25
+
+### Added
+
+- `src/devpilot_core/cli_commands/` package for explicit incremental CLI handler modules.
+- `cli_commands/workspace.py` with `handle_workspace_init` and `handle_workspace_status`.
+- `cli_commands/validation.py` with `handle_validate_scope` for `validate docs/contracts/all`.
+- Registry metadata for migrated commands: `handler-migrated-incremental`, `migrated_handlers_total` and `migrated_command_ids`.
+- Parity tests in `tests/test_post_h_006_c_handler_migration.py`.
+- Audit report `docs/audits/post_h_006_c_handler_migration_report.md` and manifest `docs/post_h_006_c_manifest.json`.
+- Test Contract Registry v1/v2 contract `post-h-006-cli-handler-migration`.
+
+### Security
+
+- The public parser remains in `cli.py`; wrappers preserve EventLogger, persistence and optional report semantics.
+- Runtime registry routing and dynamic handler loading remain disabled.
+- No network, external APIs, remote execution, connector write, plugin execution or source mutation is enabled by the migrated handlers.
+
+### Notes
+
+- `POST-H-006-C` is implemented-initial. It migrates only selected workspace/validation result-building logic; broader CLI modularization remains future scope.
+
 
 ## [post-h-006-b] - 2026-06-25
 

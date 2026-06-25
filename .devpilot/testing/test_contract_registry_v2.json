@@ -4708,6 +4708,91 @@
         "POST-H-006-B adds an initial declarative overlay for governed CLI command groups without migrating handlers.",
         "The contract validates descriptor completeness, coverage metrics, legacy-unregistered visibility and safety invariants without executing commands from the registry."
       ]
+    },
+    {
+      "contract_id": "post-h-006-cli-handler-migration",
+      "schema_version": "2.0",
+      "source_contract_id": "post-h-006-cli-handler-migration",
+      "domain": "interface.cli",
+      "capability": "CliHandlerMigration",
+      "criticality": "P1",
+      "risk_level": "high",
+      "test_type": "integration",
+      "execution_profile": "always",
+      "cost_class": "low",
+      "expected_duration_seconds": 45,
+      "test_files": [
+        "tests/test_post_h_006_c_handler_migration.py",
+        "tests/test_post_h_006_b_declarative_registry.py",
+        "tests/test_post_h_006_cli_command_registry.py",
+        "tests/test_cli_command_registry_schema.py",
+        "tests/test_workspace_manager.py",
+        "tests/test_validation_gateway.py",
+        "tests/test_schema_registry.py",
+        "tests/test_project_global_state.py"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/cli_commands/",
+        "src/devpilot_core/cli.py",
+        "src/devpilot_core/cli_registry/",
+        "docs/schemas/cli_command_registry.schema.json",
+        ".devpilot/testing/",
+        ".devpilot/project_state.json",
+        "README.md",
+        "docs/05_operations/runbook.md",
+        "docs/backlogs/POST-H-006_cli_command_registry.md",
+        "docs/02_architecture/cli_command_registry_map.md",
+        "docs/audits/post_h_006_c_handler_migration_report.md",
+        "docs/post_h_006_c_manifest.json",
+        "tests/test_post_h_006_c_handler_migration.py",
+        "tests/test_workspace_manager.py",
+        "tests/test_validation_gateway.py"
+      ],
+      "validates": [
+        "src/devpilot_core/cli_commands/",
+        "src/devpilot_core/cli.py",
+        "src/devpilot_core/cli_registry/registry.py",
+        "src/devpilot_core/cli_registry/report.py",
+        "docs/schemas/cli_command_registry.schema.json",
+        "docs/backlogs/POST-H-006_cli_command_registry.md",
+        "docs/02_architecture/cli_command_registry_map.md",
+        "docs/audits/post_h_006_c_handler_migration_report.md",
+        "docs/post_h_006_c_manifest.json"
+      ],
+      "trigger_hints": [
+        "cli-handler-migration",
+        "cli-registry-change",
+        "cli-parser-change",
+        "post-h-source-change"
+      ],
+      "impact_scope": [
+        "cli",
+        "registry",
+        "validation",
+        "workspace",
+        "post-h"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": false,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "POST-H-006-C",
+      "recommended_commands": [
+        "python -m pytest tests/test_post_h_006_c_handler_migration.py tests/test_post_h_006_b_declarative_registry.py tests/test_post_h_006_cli_command_registry.py tests/test_cli_command_registry_schema.py -q",
+        "python -m pytest tests/test_workspace_manager.py tests/test_validation_gateway.py -q",
+        "python -m devpilot_core cli-registry report --write-report --json",
+        "python -m devpilot_core schema validate --schema-id CliCommandRegistry --instance outputs/reports/cli_command_registry.json --json",
+        "python -m devpilot_core test-contracts validate --json",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ],
+      "classification_status": "explicit",
+      "classification_notes": [
+        "POST-H-006-C migrates selected CLI handlers into cli_commands modules while preserving public CLI wrappers.",
+        "Runtime registry routing and dynamic handler loading remain disabled; parity tests protect UX and CommandResult semantics."
+      ]
     }
   ],
   "migration_metadata": {

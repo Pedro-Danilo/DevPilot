@@ -1,12 +1,12 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
-Estado actual: `baseline pre-code approved + Fases A-G cerradas + Fase H cerrada + POST-H-001 implemented-initial + POST-H-EVAL-001 closed + POST-H-002 closed + POST-H-003 closed + POST-H-004 closed + POST-H-005 closed + POST-H-006-A implemented-initial + POST-H-006-B implemented-initial`  
+Estado actual: `baseline pre-code approved + Fases A-G cerradas + Fase H cerrada + POST-H-001 implemented-initial + POST-H-EVAL-001 closed + POST-H-002 closed + POST-H-003 closed + POST-H-004 closed + POST-H-005 closed + POST-H-006-A implemented-initial + POST-H-006-B implemented-initial + POST-H-006-C implemented-initial`  
 Último hito: `POST-H-005 — Architecture map executable / dependency ownership`  
-Último micro-sprint implementado: `POST-H-006-B — Command registry declarativo inicial`  
+Último micro-sprint implementado: `POST-H-006-C — Migración incremental de handlers de validación/workspace`  
 Hito diagnóstico cerrado: `POST-H-EVAL-001 — Evaluación integral del baseline DevPilot post-Fase H`, cierre formal `POST-H-EVAL-001-G`  
 Siguiente hito: `POST-H-006 — CLI command registry y desacoplamiento de handlers`  
 Hito cerrado: `POST-H-005 — Architecture map executable / dependency ownership`  
-Siguiente micro-sprint: `POST-H-006-C — Migración incremental de handlers de validación/workspace`  
+Siguiente micro-sprint: `POST-H-006-D — Reporte de hotspots CLI y ownership por comando`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
@@ -26,6 +26,34 @@ Modo de trabajo: local-first híbrido, API keys opcionales, costo externo contro
 
 
 
+
+
+## POST-H-006-C — Migración incremental de handlers de validación/workspace
+
+`POST-H-006-C` migra de forma incremental la lógica de resultado de comandos seleccionados desde `src/devpilot_core/cli.py` hacia módulos explícitos bajo `src/devpilot_core/cli_commands/`, sin cambiar nombres públicos, flags, `exit_code`, rendering JSON, eventos, persistencia best-effort ni parser principal.
+
+Alcance implementado:
+
+```text
+src/devpilot_core/cli_commands/workspace.py
+  - handle_workspace_init
+  - handle_workspace_status
+
+src/devpilot_core/cli_commands/validation.py
+  - handle_validate_scope para validate docs/contracts/all
+```
+
+El registry marca estos comandos con:
+
+```text
+registry_phase = handler-migrated-incremental
+registration_status = handler-migrated
+handler_migration_performed = true
+runtime_router_enabled = false
+dynamic_handler_loading_enabled = false
+```
+
+Limitación industrial explícita: esta versión es `implemented-initial`. `cli.py` conserva el parser público y wrappers de compatibilidad; el registry todavía no es un runtime router ni loader dinámico. La migración de más dominios, consolidación de builders de parser y enforcement de ownership quedan para micro-sprints posteriores.
 
 ## POST-H-006-B — Command registry declarativo inicial
 

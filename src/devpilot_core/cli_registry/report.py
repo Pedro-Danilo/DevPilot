@@ -13,7 +13,7 @@ from devpilot_core.schemas import SchemaValidator
 
 @dataclass(frozen=True)
 class CliCommandRegistryReportOptions:
-    """Options for rendering the POST-H-006-A/B CLI registry report."""
+    """Options for rendering the POST-H-006-A/B/C CLI registry report."""
 
     cli_source: Path = Path("src/devpilot_core/cli.py")
     write_report: bool = False
@@ -24,9 +24,10 @@ class CliCommandRegistryReportOptions:
 class CliCommandRegistryReportBuilder:
     """Build a read-only CLI command registry report.
 
-    POST-H-006-B composes the POST-H-006-A static CLI inventory with a curated
-    declarative overlay for initial low/medium-risk groups. It does not migrate
-    handlers and does not alter public command behavior.
+    POST-H-006-C composes the POST-H-006-A static CLI inventory, POST-H-006-B
+    declarative overlay and an incremental, statically imported handler
+    migration for selected workspace/validation commands. It does not enable a
+    runtime registry router and does not alter public command behavior.
     """
 
     def __init__(self, root: Path, options: CliCommandRegistryReportOptions | None = None) -> None:
@@ -108,7 +109,7 @@ class CliCommandRegistryReportBuilder:
             findings.append(
                 Finding(
                     id="CLI_REGISTRY_DECLARATIVE_GROUPS_PRESENT",
-                    message="Declarative CLI registry includes the initial POST-H-006-B groups.",
+                    message="Declarative CLI registry includes the initial POST-H-006-B groups and POST-H-006-C migrated handlers.",
                     severity=Severity.INFO,
                     metadata={
                         "declarative_registered_groups_total": summary.get("declarative_registered_groups_total"),
@@ -129,13 +130,13 @@ class CliCommandRegistryReportBuilder:
             command="cli-registry report",
             ok=ok,
             exit_code=ExitCode.PASS if ok else ExitCode.BLOCK,
-            message="CLI command registry declarative report passed." if ok else "CLI command registry declarative report has blocking findings.",
+            message="CLI command registry incremental migration report passed." if ok else "CLI command registry incremental migration report has blocking findings.",
             data={
                 "summary": summary,
                 "registry": payload,
                 "notes": [
-                    "POST-H-006-B adds a declarative overlay for initial low/medium-risk groups without migrating handlers or changing command semantics.",
-                    "Handler strings remain advisory until POST-H-006-C migrates selected commands with parity tests.",
+                    "POST-H-006-C adds a statically imported handler migration for selected workspace/validation commands.",
+                    "cli.py remains the public parser/dispatch wrapper; runtime registry routing and dynamic handler loading remain disabled.",
                     "Reports are generated only when --write-report is passed and are intentionally excluded from release ZIPs.",
                 ],
             },
@@ -153,11 +154,11 @@ class CliCommandRegistryReportBuilder:
 def _markdown_report(payload: dict[str, Any]) -> str:
     summary = payload.get("summary", {})
     lines = [
-        "# POST-H-006-B — CLI command registry declarative baseline",
+        "# POST-H-006-C — CLI command registry incremental handler migration",
         "",
-        "Estado: `implemented-initial / declarative baseline, no handler migration`.",
+        "Estado: `implemented-initial / incremental handler migration, no runtime registry router`.",
         "",
-        "Este reporte combina inventario AST del CLI con descriptors declarativos iniciales sin ejecutar comandos, sin importar `build_parser()` y sin migrar handlers.",
+        "Este reporte combina inventario AST del CLI, descriptors declarativos iniciales y migración incremental de handlers seleccionados sin habilitar carga dinámica ni cambiar comandos públicos.",
         "",
         "## Summary",
         "",
@@ -168,6 +169,8 @@ def _markdown_report(payload: dict[str, Any]) -> str:
         f"- Declarative registered groups total: {summary.get('declarative_registered_groups_total')}",
         f"- Declarative registered commands total: {summary.get('declarative_registered_commands_total')}",
         f"- Legacy unregistered commands total: {summary.get('legacy_unregistered_commands_total')}",
+        f"- Migrated handlers total: {summary.get('migrated_handlers_total')}",
+        f"- Migrated command ids: {summary.get('migrated_command_ids')}",
         f"- Dynamic handler loading enabled: {summary.get('dynamic_handler_loading_enabled')}",
         f"- Remote execution enabled: {summary.get('remote_execution_enabled')}",
         "",

@@ -45,9 +45,9 @@ def test_post_h_006_b_declarative_overlay_registers_initial_groups_and_coverage(
     registry = result.data["registry"]
     groups = {group["group_id"]: group for group in registry["groups"]}
 
-    assert registry["created_by"] == "POST-H-006-B"
-    assert registry["generated_from"] == "static-cli-parser-ast-plus-declarative-descriptors"
-    assert registry["metadata"]["handler_migration_performed"] is False
+    assert registry["created_by"] == "POST-H-006-C"
+    assert registry["generated_from"] == "static-cli-parser-ast-plus-declarative-descriptors-plus-migrated-handlers"
+    assert registry["metadata"]["handler_migration_performed"] is True
     assert summary["declarative_registered_groups_total"] == len(INITIAL_GROUPS)
     assert summary["declarative_missing_groups_total"] == 0
     assert summary["declarative_registered_commands_total"] >= 20
@@ -74,14 +74,14 @@ def test_post_h_006_b_registered_descriptors_are_complete_safe_and_not_dynamic()
             metadata = command["metadata"]
             if metadata.get("declarative_registered") is not True:
                 continue
-            assert metadata["registry_phase"] == "declarative-initial"
-            assert metadata["registration_status"] == "registered-declarative"
+            assert metadata["registry_phase"] in {"declarative-initial", "handler-migrated-incremental"}
+            assert metadata["registration_status"] in {"registered-declarative", "handler-migrated"}
             assert metadata["declarative_descriptor_source"] == "src/devpilot_core/cli_registry/registry.py"
-            assert metadata["handler_migration_performed"] is False
+            assert isinstance(metadata["handler_migration_performed"], bool)
             assert command["handler"]
             assert command["returns"] == "CommandResult"
             assert command["domain"]
-            assert command["owner_module"] == "src/devpilot_core/cli.py"
+            assert command["owner_module"].startswith("src/devpilot_core/")
             assert command["recommended_tests"]
             assert command["remote_execution_enabled"] is False
             assert command["connector_write_enabled"] is False
@@ -136,8 +136,8 @@ def test_post_h_006_b_docs_manifest_and_contracts_are_synchronized() -> None:
     v2_contracts = {item["contract_id"]: item for item in v2["contracts"]}
 
     assert "POST-H-006-B — Command registry declarativo inicial" in backlog
-    assert "Último micro-sprint implementado: `POST-H-006-B" in readme
-    assert "Siguiente micro-sprint: `POST-H-006-C" in readme
+    assert "Último micro-sprint implementado: `POST-H-006-C" in readme
+    assert "Siguiente micro-sprint: `POST-H-006-D" in readme
     assert "POST-H-006-B — Operación del registry declarativo inicial" in runbook
     assert "DeclarativeCliRegistryBuilder" in architecture_doc
     assert "legacy_unregistered_commands_total" in audit

@@ -79,11 +79,11 @@ def test_cli_command_registry_writes_schema_valid_reports() -> None:
     assert raw_md.exists()
     raw_payload = json.loads(raw_json.read_text(encoding="utf-8"))
     assert raw_payload["schema_id"] == "SCHEMA-DEVPL-CLI-COMMAND-REGISTRY-V1"
-    assert raw_payload["created_by"] == "POST-H-006-B"
-    assert "CLI command registry declarative baseline" in raw_md.read_text(encoding="utf-8")
+    assert raw_payload["created_by"] == "POST-H-006-C"
+    assert "CLI command registry incremental handler migration" in raw_md.read_text(encoding="utf-8")
 
 
-def test_cli_registry_cli_contract_is_registered_without_handler_migration() -> None:
+def test_cli_registry_cli_contract_is_registered_with_incremental_handler_migration() -> None:
     cli = _read("src/devpilot_core/cli.py")
 
     assert 'sub.add_parser("cli-registry"' in cli
@@ -110,20 +110,27 @@ def test_post_h_006_a_docs_manifest_and_contracts_are_synchronized() -> None:
     assert 'status: "approved"' in backlog
     assert 'implementation_status: "in-progress"' in backlog
     assert "POST-H-006-A — Inventario estático del CLI" in backlog
-    assert "Último micro-sprint implementado: `POST-H-006-B" in readme
-    assert "Siguiente micro-sprint: `POST-H-006-C" in readme
+    assert "Último micro-sprint implementado: `POST-H-006-C" in readme
+    assert "Siguiente micro-sprint: `POST-H-006-D" in readme
     assert "POST-H-006-A — Operación del CLI command registry estático" in runbook
     assert "POST-H-006-B — Operación del registry declarativo inicial" in runbook
+    assert "POST-H-006-C — Operación de handlers migrados de workspace/validación" in runbook
     assert "post-h-006-a" in changelog
     assert "post-h-006-b" in changelog
+    assert "post-h-006-c" in changelog
     assert "StaticCliInventoryExtractor" in architecture_doc
     assert "DeclarativeCliRegistryBuilder" in architecture_doc
+    assert "cli_commands/workspace.py" in architecture_doc
     assert "cli-registry report --write-report --json" in audit
     assert manifest["id"] == "POST-H-006-A"
     manifest_b = _read_json("docs/post_h_006_b_manifest.json")
     assert manifest_b["id"] == "POST-H-006-B"
     assert manifest["parent_hito"] == "POST-H-006"
     assert manifest["handler_migration_performed"] is False
+    manifest_c = _read_json("docs/post_h_006_c_manifest.json")
+    assert manifest_c["id"] == "POST-H-006-C"
+    assert manifest_c["handler_migration_performed"] is True
+    assert manifest_c["runtime_router_enabled"] is False
     assert manifest["dynamic_handler_loading_enabled"] is False
     assert manifest["remote_execution_enabled"] is False
     assert "post-h-006-cli-command-registry" in v1_contracts
