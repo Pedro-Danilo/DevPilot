@@ -2792,7 +2792,8 @@
         "docs/POST-H-008_runtime_state_lifecycle.md",
         "docs/05_operations/runtime_state_lifecycle_policy.md",
         "docs/audits/post_h_008_a_runtime_state_policy_schema_report.md",
-        "docs/post_h_008_a_manifest.json"
+        "docs/post_h_008_a_manifest.json",
+        "docs/backlogs/POST-H-008_runtime_state_lifecycle.md"
       ],
       "watched_paths": [
         ".devpilot/runtime_state_policy.json",
@@ -2806,7 +2807,8 @@
         "docs/05_operations/runtime_state_lifecycle_policy.md",
         "docs/POST-H-008_runtime_state_lifecycle.md",
         "tests/test_runtime_state_policy_schema.py",
-        "tests/test_post_h_008_runtime_state_lifecycle.py"
+        "tests/test_post_h_008_runtime_state_lifecycle.py",
+        "docs/backlogs/POST-H-008_runtime_state_lifecycle.md"
       ],
       "mutable_global_state_allowed": false,
       "global_state_source": null,
@@ -2815,6 +2817,57 @@
         "python -m pytest tests/test_runtime_state_policy_schema.py tests/test_post_h_008_runtime_state_lifecycle.py -q",
         "python -m pytest tests/test_runtime_state_policy_schema.py tests/test_schema_registry.py tests/test_project_global_state.py tests/test_test_contract_registry.py tests/test_test_contract_registry_v2.py tests/test_test_contract_registry_profiles_v2.py -q",
         "python -m devpilot_core schema validate --schema-id RuntimeStatePolicy --instance .devpilot/runtime_state_policy.json --json",
+        "python -m devpilot_core test-contracts validate --json",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ]
+    },
+    {
+      "contract_id": "post-h-008-runtime-state-inventory",
+      "scope": "integration",
+      "owner": "POST-H-008-B",
+      "phase": "POST-FASE-H",
+      "test_files": [
+        "tests/test_runtime_state_inventory.py",
+        "tests/test_runtime_state_policy_schema.py",
+        "tests/test_post_h_008_runtime_state_lifecycle.py",
+        "tests/test_schema_registry.py",
+        "tests/test_project_global_state.py"
+      ],
+      "validates": [
+        "src/devpilot_core/runtime_state/",
+        "src/devpilot_core/cli.py",
+        "src/devpilot_core/cli_registry/registry.py",
+        ".devpilot/runtime_state_policy.json",
+        "docs/schemas/runtime_state_inventory.schema.json",
+        "docs/POST-H-008_runtime_state_lifecycle.md",
+        "docs/05_operations/runtime_state_lifecycle_policy.md",
+        "docs/audits/post_h_008_b_runtime_state_inventory_report.md",
+        "docs/post_h_008_b_manifest.json",
+        "docs/backlogs/POST-H-008_runtime_state_lifecycle.md"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/runtime_state/",
+        "src/devpilot_core/cli.py",
+        "src/devpilot_core/cli_registry/registry.py",
+        ".devpilot/runtime_state_policy.json",
+        "docs/schemas/runtime_state_inventory.schema.json",
+        ".devpilot/testing/",
+        ".devpilot/project_state.json",
+        "README.md",
+        "docs/05_operations/runbook.md",
+        "docs/05_operations/runtime_state_lifecycle_policy.md",
+        "docs/POST-H-008_runtime_state_lifecycle.md",
+        "tests/test_runtime_state_inventory.py",
+        "tests/test_post_h_008_runtime_state_lifecycle.py",
+        "docs/backlogs/POST-H-008_runtime_state_lifecycle.md"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest tests/test_runtime_state_inventory.py tests/test_runtime_state_policy_schema.py tests/test_post_h_008_runtime_state_lifecycle.py -q",
+        "python -m devpilot_core runtime-state inventory --write-report --json",
+        "python -m devpilot_core schema validate --schema-id RuntimeStateInventory --instance outputs/reports/runtime_state_inventory.json --json",
         "python -m devpilot_core test-contracts validate --json",
         "python -m devpilot_core test-contracts validate-v2 --json"
       ]

@@ -43,6 +43,28 @@ def test_post_h_008_backlog_is_approved_and_taxonomy_is_documented() -> None:
     assert manifest["status"] == "implemented-initial"
 
 
+def test_post_h_008_b_inventory_is_documented_and_manifested() -> None:
+    backlog = read("docs/POST-H-008_runtime_state_lifecycle.md")
+    readme = read("README.md")
+    runbook = read("docs/05_operations/runbook.md")
+    policy_doc = read("docs/05_operations/runtime_state_lifecycle_policy.md")
+    audit = read("docs/audits/post_h_008_b_runtime_state_inventory_report.md")
+    manifest = read_json("docs/post_h_008_b_manifest.json")
+    changelog = read("docs/release/CHANGELOG.md")
+
+    assert "## 14. Avance de implementación — POST-H-008-B" in backlog
+    assert "runtime-state inventory" in readme
+    assert "POST-H-008-B — Runtime state inventory read-only" in runbook
+    assert "POST-H-008-B — Inventory read-only" in policy_doc
+    assert "Runtime state inventory read-only" in audit
+    assert manifest["id"] == "POST-H-008-B"
+    assert manifest["status"] == "implemented-initial"
+    assert manifest["read_only_inventory"] is True
+    assert manifest["cleanup_execution_enabled"] is False
+    assert manifest["export_execution_enabled"] is False
+    assert "post-h-008-b" in changelog
+
+
 def test_post_h_007_backlog_is_closed_before_post_h_008_starts() -> None:
     backlog_007 = read("docs/backlogs/POST-H-007_application_service_boundary.md")
     readme = read("README.md")
@@ -62,6 +84,8 @@ def test_post_h_008_a_artifacts_are_registered_in_tcr() -> None:
 
     assert "post-h-008-runtime-state-policy-schema" in contract_ids
     assert "post-h-008-runtime-state-policy-schema" in contract_ids_v2
+    assert "post-h-008-runtime-state-inventory" in contract_ids
+    assert "post-h-008-runtime-state-inventory" in contract_ids_v2
 
     contract = next(item for item in tcr["contracts"] if item["contract_id"] == "post-h-008-runtime-state-policy-schema")
     assert "tests/test_runtime_state_policy_schema.py" in contract["test_files"]
@@ -75,3 +99,16 @@ def test_post_h_008_a_artifacts_are_registered_in_tcr() -> None:
     assert contract_v2["network_allowed"] is False
     assert contract_v2["external_api_allowed"] is False
     assert contract_v2["mutations_allowed"] is False
+
+    inventory_contract = next(item for item in tcr["contracts"] if item["contract_id"] == "post-h-008-runtime-state-inventory")
+    assert inventory_contract["owner"] == "POST-H-008-B"
+    assert "tests/test_runtime_state_inventory.py" in inventory_contract["test_files"]
+    assert "src/devpilot_core/runtime_state/" in inventory_contract["validates"]
+
+    inventory_contract_v2 = next(item for item in tcr_v2["contracts"] if item["contract_id"] == "post-h-008-runtime-state-inventory")
+    assert inventory_contract_v2["capability"] == "RuntimeStateInventory"
+    assert inventory_contract_v2["required_for_release"] is True
+    assert inventory_contract_v2["required_for_security_gate"] is True
+    assert inventory_contract_v2["network_allowed"] is False
+    assert inventory_contract_v2["external_api_allowed"] is False
+    assert inventory_contract_v2["mutations_allowed"] is False

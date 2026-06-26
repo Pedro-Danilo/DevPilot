@@ -2,10 +2,10 @@
 doc_id: "POST-H-008-BACKLOG"
 id: "POST-H-008"
 title: "POST-H-008 — Runtime state lifecycle policy"
-status: "draft"
-version: "0.1.0"
+status: "approved"
+version: "0.3.0"
 owner: "Ordóñez"
-updated: "2026-06-23"
+updated: "2026-06-26"
 phase: "POST-FASE-H"
 priority: "P1"
 roadmap_source: "docs/backlogs/post_h_prioritized_roadmap.md"
@@ -13,6 +13,8 @@ local_first: true
 dry_run: true
 no_runtime_features_added_by_backlog: false
 no_remote_execution_enabled: true
+implementation_status: "in-progress"
+approval: "internal"
 ---
 
 # POST-H-008 — Runtime state lifecycle policy
@@ -374,3 +376,96 @@ Gate de higiene runtime.
 Tests focales PASS.
 Quality gate hardening PASS.
 ```
+
+
+## 13. Avance de implementación — POST-H-008-A
+
+Estado: `implemented-initial`.
+
+`POST-H-008-A — Taxonomía y policy schema` eleva este backlog a `approved` e implementa la primera base gobernada del runtime state lifecycle.
+
+Artefactos creados:
+
+```text
+docs/schemas/runtime_state_policy.schema.json
+docs/schemas/runtime_state_inventory.schema.json
+.devpilot/runtime_state_policy.json
+docs/05_operations/runtime_state_lifecycle_policy.md
+docs/audits/post_h_008_a_runtime_state_policy_schema_report.md
+docs/post_h_008_a_manifest.json
+tests/test_runtime_state_policy_schema.py
+tests/test_post_h_008_runtime_state_lifecycle.py
+```
+
+Criterios PASS cubiertos:
+
+```text
+- La policy valida contra `RuntimeStatePolicy`.
+- `must_exclude` incluye `outputs/`, `.devpilot/devpilot.db` y `.devpilot/agent_sessions/`.
+- `destructive_cleanup_default=false`.
+- Source-of-truth queda como `never_delete` y `cleanup_allowed=false`.
+- RuntimeStateInventory queda registrado como contrato estructural para `POST-H-008-B`.
+```
+
+Límites explícitos de esta versión:
+
+```text
+- No implementa todavía scanner read-only.
+- No implementa cleanup-plan.
+- No implementa export/redacción.
+- No integra todavía runtime-state-hygiene al quality gate.
+```
+
+## 14. Avance de implementación — POST-H-008-B
+
+Estado: `implemented-initial`.
+
+`POST-H-008-B — Runtime state inventory read-only` implementa el scanner local de inventario runtime sin modificar archivos fuente ni ejecutar cleanup/export.
+
+### Implementado
+
+```text
+- src/devpilot_core/runtime_state/models.py
+- src/devpilot_core/runtime_state/policy.py
+- src/devpilot_core/runtime_state/inventory.py
+- src/devpilot_core/runtime_state/report.py
+- src/devpilot_core/runtime_state/__init__.py
+- Comando CLI: python -m devpilot_core runtime-state inventory --json
+- Reporte opcional: outputs/reports/runtime_state_inventory.json
+- Reporte opcional: outputs/reports/runtime_state_lifecycle_report.md
+- Tests focales: tests/test_runtime_state_inventory.py
+- Manifest: docs/post_h_008_b_manifest.json
+- Auditoría: docs/audits/post_h_008_b_runtime_state_inventory_report.md
+```
+
+### Capacidades adicionadas
+
+```text
+- Inventario basado en artifact_classes de .devpilot/runtime_state_policy.json.
+- Resumen por clase con artifacts_total, bytes_total, versionable, cleanup_allowed y redaction_required.
+- Detección de runtime artifacts conocidos: outputs, traces, evals, drafts, devpilot.db, agent_sessions, RAG index y caches.
+- Detección bloqueante de runtime artifacts no versionables rastreados por Git.
+- Reportes JSON/Markdown generados solo bajo --write-report.
+- Registro declarativo de runtime-state.inventory en CLI registry para no violar el no-growth gate.
+```
+
+### Criterios PASS cubiertos
+
+```text
+PASS si inventory es read-only.
+PASS si detecta runtime artifacts conocidos.
+PASS si reporta violaciones sin borrar nada.
+```
+
+### Límites de esta versión
+
+```text
+- No implementa cleanup plan.
+- No implementa cleanup --execute.
+- No implementa export/redacción.
+- No integra aún runtime-state-hygiene al quality gate.
+```
+
+### Siguiente micro-sprint
+
+`POST-H-008-C — Cleanup plan dry-run`.

@@ -1,0 +1,52 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "SCHEMA-DEVPL-POST-H-MANIFEST-V1",
+  "id": "POST-H-008-B",
+  "title": "Runtime state inventory read-only",
+  "status": "implemented-initial",
+  "phase": "POST-FASE-H",
+  "source_repo": "repo_DevPilot_Local_171_POST_H_008_A.zip",
+  "current_repo": "repo_DevPilot_Local_172_POST_H_008_B.zip",
+  "created_by": "POST-H-008-B",
+  "local_first": true,
+  "dry_run": true,
+  "network_used": false,
+  "external_api_used": false,
+  "mutations_performed": false,
+  "source_mutations_performed": false,
+  "destructive_cleanup_performed": false,
+  "cleanup_execution_enabled": false,
+  "export_execution_enabled": false,
+  "remote_execution_enabled": false,
+  "connector_write_enabled": false,
+  "plugin_execution_enabled": false,
+  "runtime_inventory_enabled": true,
+  "read_only_inventory": true,
+  "reports": {
+    "json": "outputs/reports/runtime_state_inventory.json",
+    "markdown": "outputs/reports/runtime_state_lifecycle_report.md",
+    "versioned": false
+  },
+  "artifacts": [
+    "src/devpilot_core/runtime_state/models.py",
+    "src/devpilot_core/runtime_state/policy.py",
+    "src/devpilot_core/runtime_state/inventory.py",
+    "src/devpilot_core/runtime_state/report.py",
+    "src/devpilot_core/runtime_state/__init__.py",
+    "tests/test_runtime_state_inventory.py",
+    "docs/audits/post_h_008_b_runtime_state_inventory_report.md"
+  ],
+  "validation_commands": [
+    "python -m pytest tests/test_runtime_state_inventory.py tests/test_runtime_state_policy_schema.py tests/test_post_h_008_runtime_state_lifecycle.py -q",
+    "python -m devpilot_core runtime-state inventory --write-report --json",
+    "python -m devpilot_core schema validate --schema-id RuntimeStateInventory --instance outputs/reports/runtime_state_inventory.json --json",
+    "python -m devpilot_core test-contracts validate --json",
+    "python -m devpilot_core test-contracts validate-v2 --json"
+  ],
+  "limitations": [
+    "Cleanup planning is not implemented in POST-H-008-B.",
+    "Cleanup execution is not implemented or enabled.",
+    "Export/redaction is not implemented in POST-H-008-B.",
+    "Quality-gate runtime-state-hygiene is deferred to POST-H-008-E."
+  ]
+}

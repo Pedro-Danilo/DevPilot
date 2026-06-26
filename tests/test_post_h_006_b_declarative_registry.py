@@ -15,7 +15,7 @@ B_INITIAL_GROUPS = {
     "quality-gate",
     "industrial-readiness",
 }
-CURRENT_DECLARATIVE_GROUPS = {*B_INITIAL_GROUPS, "cli-registry"}
+CURRENT_DECLARATIVE_GROUPS = {*B_INITIAL_GROUPS, "cli-registry", "runtime-state"}
 
 
 def _read(path: str) -> str:
@@ -64,6 +64,7 @@ def test_post_h_006_b_declarative_overlay_registers_initial_groups_and_coverage(
         "industrial-readiness.check",
         "cli-registry.report",
         "cli-registry.guard",
+        "runtime-state.inventory",
     }
     for group_id in CURRENT_DECLARATIVE_GROUPS:
         assert group_id in groups

@@ -45,7 +45,9 @@ def test_project_global_state_schema_and_docs_are_synchronized() -> None:
     assert "post-h-007-d" in changelog
     assert "post-h-007-e" in changelog
     assert "post-h-008-a" in changelog
+    assert "post-h-008-b" in changelog
     assert "POST-H-008-A — Runtime state lifecycle" in readme
+    assert "POST-H-008-B — Runtime state lifecycle" in readme
 
 
 def test_project_global_state_command_result_passes() -> None:

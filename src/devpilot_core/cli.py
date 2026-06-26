@@ -47,6 +47,7 @@ from .prompts import PromptRegistry
 from .quality import QualityGate, QualityGateOptions
 from .remote import RemoteRunnerStatusOptions, RemoteRunnerStub
 from .rag import LocalRagIndexer, LocalRagRetriever, RagIndexOptions, RagQueryOptions
+from .runtime_state import RuntimeStateInventoryBuilder, RuntimeStateInventoryOptions
 from .release import (
     BackupCreateBuilder,
     BackupCreateOptions,
@@ -3131,6 +3132,21 @@ def identity_check_command(
     print_result(result, json_output=json_output)
     return int(result.exit_code)
 
+def runtime_state_inventory_command(*, json_output: bool = False, write_report: bool = False) -> int:
+    """Build the POST-H-008-B read-only runtime-state inventory.
+
+    This command intentionally does not call _emit_result_event() or
+    _persist_result(): inventory read-only semantics must not create trace events
+    or SQLite history as a side effect. With --write-report it writes only the
+    explicit inventory evidence files under outputs/reports/.
+    """
+
+    root = project_root()
+    result = RuntimeStateInventoryBuilder(root, RuntimeStateInventoryOptions(write_report=write_report)).run()
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+
 def state_init_command(*, json_output: bool = False, write_report: bool = False) -> int:
     """Initialize the local SQLite operational state store."""
 
@@ -4498,6 +4514,12 @@ def build_parser() -> argparse.ArgumentParser:
     project_state_validate.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     project_state_validate.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
 
+    runtime_state = sub.add_parser("runtime-state", help="Inspect DevPilot runtime state lifecycle artifacts")
+    runtime_state_sub = runtime_state.add_subparsers(dest="runtime_state_command")
+    runtime_state_inventory = runtime_state_sub.add_parser("inventory", help="Build read-only runtime-state inventory")
+    runtime_state_inventory.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    runtime_state_inventory.add_argument("--write-report", action="store_true", help="Persist runtime-state inventory JSON/Markdown reports")
+
     test_impact = sub.add_parser("test-impact", help="Analyze changed files and recommend conservative test suites")
     test_impact_sub = test_impact.add_subparsers(dest="test_impact_command")
     test_impact_analyze = test_impact_sub.add_parser("analyze", help="Recommend tests for a changed file list")
@@ -5549,6 +5571,11 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
             return project_state_validate_command(json_output=args.json, write_report=args.write_report)
         parser.print_help()
         return int(ExitCode.FAIL)
+    if args.command == "runtime-state":
+        if args.runtime_state_command == "inventory":
+            return runtime_state_inventory_command(json_output=args.json, write_report=args.write_report)
+        parser.print_help()
+        return int(ExitCode.FAIL)
     if args.command == "test-impact":
         if args.test_impact_command == "analyze":
             return test_impact_analyze_command(
@@ -6177,18 +6204,26 @@ def main(argv: list[str] | None = None) -> int:
     args = parser.parse_args(argv)
     command_name = _command_name_from_args(args)
     root = project_root()
-    logger = EventLogger(root)
-    logger.emit_started(command_name, argv=argv if argv is not None else sys.argv[1:])
+    # POST-H-008-B: runtime-state inventory must be truly read-only.
+    # Unlike normal CLI commands, it must not create trace events or SQLite
+    # history as a side effect while proving runtime hygiene.
+    skip_event_logging = command_name == "runtime-state" and getattr(args, "runtime_state_command", None) == "inventory"
+    logger = None if skip_event_logging else EventLogger(root)
+    if logger is not None:
+        logger.emit_started(command_name, argv=argv if argv is not None else sys.argv[1:])
 
     try:
         exit_code = _dispatch(args, parser)
-        logger.emit_completed(command_name, exit_code=exit_code, ok=exit_code == int(ExitCode.PASS))
+        if logger is not None:
+            logger.emit_completed(command_name, exit_code=exit_code, ok=exit_code == int(ExitCode.PASS))
         return exit_code
     except DevPilotError as exc:
-        logger.emit_error(command_name, error=exc, exit_code=int(exc.exit_code))
+        if logger is not None:
+            logger.emit_error(command_name, error=exc, exit_code=int(exc.exit_code))
         print(json.dumps({"ok": False, "error": str(exc)}, indent=2, ensure_ascii=False))
         return int(exc.exit_code)
     except Exception as exc:  # defensive boundary for CLI users
-        logger.emit_error(command_name, error=exc, exit_code=int(ExitCode.ERROR))
+        if logger is not None:
+            logger.emit_error(command_name, error=exc, exit_code=int(ExitCode.ERROR))
         print(json.dumps({"ok": False, "error": str(exc)}, indent=2, ensure_ascii=False))
         return int(ExitCode.ERROR)

@@ -102,3 +102,35 @@ POST-H-008-C — Cleanup plan dry-run
 POST-H-008-D — Export y redacción de evidencia runtime
 POST-H-008-E — Gate de higiene runtime y release archive
 ```
+
+## POST-H-008-B — Inventory read-only
+
+`POST-H-008-B` materializa el inventario read-only de la taxonomía declarada en esta política.
+
+### Comando
+
+```powershell
+python -m devpilot_core runtime-state inventory --json
+python -m devpilot_core runtime-state inventory --write-report --json
+```
+
+### Salidas generadas bajo demanda
+
+```text
+outputs/reports/runtime_state_inventory.json
+outputs/reports/runtime_state_lifecycle_report.md
+```
+
+### Semántica
+
+El inventario clasifica archivos por `artifact_classes`, agrega métricas `by_class`, enumera artefactos detectados y reporta violaciones. Cuando `.git` está disponible, cualquier artefacto con `versionable=false` rastreado por Git produce una violación bloqueante `RUNTIME_STATE_VERSIONED`.
+
+Para preservar el carácter read-only, el comando no ejecuta cleanup, no exporta evidencia runtime, no redacta payloads y no genera eventos de traza ni historial SQLite por su ejecución. Los reportes solo se escriben cuando el operador pasa explícitamente `--write-report`.
+
+### Evolución pendiente
+
+```text
+POST-H-008-C: cleanup plan dry-run.
+POST-H-008-D: export y redacción.
+POST-H-008-E: quality gate runtime-state-hygiene y verificación de release archive.
+```

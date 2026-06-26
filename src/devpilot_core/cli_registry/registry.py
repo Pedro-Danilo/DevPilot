@@ -18,6 +18,7 @@ POST_H_006_B_CREATED_BY = "POST-H-006-B"
 POST_H_006_C_CREATED_BY = "POST-H-006-C"
 POST_H_006_D_CREATED_BY = "POST-H-006-D"
 POST_H_006_E_CREATED_BY = "POST-H-006-E"
+POST_H_008_B_CREATED_BY = "POST-H-008-B"
 
 # POST-H-007-E keeps this metadata static to avoid coupling CLI registry
 # generation to ApplicationOperationCatalog imports. The runtime integration
@@ -189,6 +190,13 @@ DECLARATIVE_GROUPS: dict[str, DeclarativeGroupDescriptor] = {
         recommended_tests=("python -m pytest tests/test_post_h_006_e_cli_no_growth_gate.py tests/test_post_h_006_d_cli_hotspot_ownership.py tests/test_post_h_006_cli_command_registry.py -q",),
         rationale="CLI registry commands govern the command surface and must be registered before enforcing no-growth gates.",
     ),
+    "runtime-state": DeclarativeGroupDescriptor(
+        group_id="runtime-state",
+        domain="operations.runtime_state",
+        owner_module="src/devpilot_core/cli.py",
+        recommended_tests=("python -m pytest tests/test_runtime_state_inventory.py tests/test_post_h_008_runtime_state_lifecycle.py -q",),
+        rationale="POST-H-008 runtime-state commands inspect local lifecycle artifacts without cleanup/export execution.",
+    ),
 }
 
 
@@ -231,6 +239,18 @@ COMMAND_OVERRIDES: dict[str, DeclarativeCommandOverride] = {
             "python -m pytest tests/test_post_h_006_e_cli_no_growth_gate.py tests/test_post_h_006_d_cli_hotspot_ownership.py -q",
         ),
         rationale="No-growth enforcement can block merges and optionally writes evidence reports; it remains local/read-only for source files.",
+    ),
+    "runtime-state.inventory": DeclarativeCommandOverride(
+        command_id="runtime-state.inventory",
+        risk_level=CommandRiskLevel.MEDIUM,
+        side_effects=(CommandSideEffect.WRITE_REPORT,),
+        writes_files=True,
+        dry_run_supported=True,
+        policy_check_required=True,
+        recommended_tests=(
+            "python -m pytest tests/test_runtime_state_inventory.py tests/test_post_h_008_runtime_state_lifecycle.py -q",
+        ),
+        rationale="Inventory is read-only for source/runtime artifacts. --write-report may materialize JSON/Markdown evidence under outputs/reports.",
     ),
 }
 

@@ -7094,3 +7094,62 @@ BLOCK si la policy requiere red, APIs externas o backup remoto.
 ### Nota operativa sobre `pytest -q` global
 
 Después de `POST-H-007-E` existe evidencia reciente de `pytest -q` completo con `1069 passed`. A partir de `POST-H-008`, es procedente usar pruebas focales por impacto para cada micro-sprint y reservar la suite global completa para cierre de backlog, cada dos o tres backlogs, o antes de una entrega/release local relevante. Esta decisión reduce costo operativo sin perder trazabilidad, siempre que se mantengan test contracts, quality gates y comandos focales documentados.
+
+## POST-H-008-B — Runtime state inventory read-only
+
+`POST-H-008-B` agrega el inventario ejecutable local de runtime state. El comando principal es read-only: clasifica artefactos desde `.devpilot/runtime_state_policy.json`, calcula métricas por clase, detecta runtime artifacts no versionables rastreados por Git y genera evidencia opcional bajo `outputs/reports/`.
+
+### Comandos
+
+```powershell
+$env:PYTHONPATH="src"
+$env:DD_TRACE_ENABLED="false"
+
+python -m devpilot_core runtime-state inventory --json
+python -m devpilot_core runtime-state inventory --write-report --json
+python -m devpilot_core schema validate --schema-id RuntimeStateInventory --instance outputs/reports/runtime_state_inventory.json --json
+```
+
+### Garantías de seguridad
+
+```text
+- No borra archivos.
+- No ejecuta cleanup.
+- No exporta payloads runtime.
+- No redacta contenidos en esta fase.
+- No llama red ni APIs externas.
+- No habilita remote execution, connector write ni plugin execution.
+- No emite trazas ni persiste SQLite history para `runtime-state inventory`, con el fin de preservar el comportamiento read-only.
+```
+
+### Reportes
+
+```text
+outputs/reports/runtime_state_inventory.json
+outputs/reports/runtime_state_lifecycle_report.md
+```
+
+Estos reportes son runtime artifacts generados y no deben versionarse. Los ZIPs limpios entregables deben omitir `outputs/`.
+
+### Criterios PASS/BLOCK
+
+PASS:
+
+```text
+- El comando termina con exit_code=0 si no hay runtime artifacts no versionables versionados.
+- El JSON generado valida contra RuntimeStateInventory.
+- Las clases runtime conocidas aparecen en by_class, incluso con conteo cero.
+- La detección no modifica source-of-truth ni runtime state.
+```
+
+BLOCK:
+
+```text
+- Un archivo de clase no versionable aparece rastreado por Git.
+- Una clase source-of-truth queda con cleanup_allowed=true.
+- Se detecta path excluido de ZIP limpio rastreado por Git.
+```
+
+### Limitaciones
+
+Esta versión es `implemented-initial`: `cleanup-plan`, `cleanup --execute`, `runtime-state export` y `runtime-state-hygiene` en quality gate quedan para `POST-H-008-C`, `POST-H-008-D` y `POST-H-008-E`.

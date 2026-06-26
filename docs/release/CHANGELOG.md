@@ -889,3 +889,25 @@ This section preserves exact sprint-title anchors used by documentation regressi
 ### Security
 
 - No remote execution, connector write, plugin execution, dynamic handler loading, network calls or external APIs were enabled.
+
+## post-h-008-b — Runtime state inventory read-only
+
+### Added
+
+- `src/devpilot_core/runtime_state/` package with policy loading and read-only runtime-state inventory builder.
+- `python -m devpilot_core runtime-state inventory --json` command.
+- Optional inventory reports: `outputs/reports/runtime_state_inventory.json` and `outputs/reports/runtime_state_lifecycle_report.md`.
+- RuntimeStateInventory schema expanded for concrete inventory payloads with artifact lists, class summaries and safety invariants.
+- TCR v1/v2 contract `post-h-008-runtime-state-inventory`.
+
+### Safety
+
+- Inventory does not clean, delete, export, redact or mutate source/runtime state.
+- Runtime-state inventory command avoids automatic CLI trace/SQLite persistence to preserve read-only behavior.
+- Remote execution, connector write and plugin execution remain disabled.
+
+### Deferred
+
+- Cleanup plan: POST-H-008-C.
+- Export/redaction: POST-H-008-D.
+- Quality-gate runtime-state hygiene: POST-H-008-E.

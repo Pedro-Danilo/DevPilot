@@ -1,13 +1,13 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
-Estado actual: `baseline pre-code approved + Fases A-G cerradas + Fase H cerrada + POST-H-001 implemented-initial + POST-H-EVAL-001 closed + POST-H-002 closed + POST-H-003 closed + POST-H-004 closed + POST-H-005 closed + POST-H-006 closed + POST-H-007 closed + POST-H-008-A implemented-initial`  
+Estado actual: `baseline pre-code approved + Fases A-G cerradas + Fase H cerrada + POST-H-001 implemented-initial + POST-H-EVAL-001 closed + POST-H-002 closed + POST-H-003 closed + POST-H-004 closed + POST-H-005 closed + POST-H-006 closed + POST-H-007 closed + POST-H-008-A implemented-initial + POST-H-008-B implemented-initial`  
 Último hito: `POST-H-007 — ApplicationService boundary hardening`  
 Siguiente hito: `POST-H-008 — Runtime state lifecycle policy`  
-Último micro-sprint implementado: `POST-H-008-A — Taxonomía y policy schema`  
+Último micro-sprint implementado: `POST-H-008-B — Runtime state inventory read-only`  
 Hito diagnóstico cerrado: `POST-H-EVAL-001 — Evaluación integral del baseline DevPilot post-Fase H`, cierre formal `POST-H-EVAL-001-G`  
 Hito actual en implementación: `POST-H-008 — Runtime state lifecycle policy`  
 Hito cerrado: `POST-H-007 — ApplicationService boundary hardening`  
-Siguiente micro-sprint recomendado: `POST-H-008-B — Runtime state inventory read-only`  
+Siguiente micro-sprint recomendado: `POST-H-008-C — Cleanup plan dry-run`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
@@ -34,6 +34,32 @@ Modo de trabajo: local-first híbrido, API keys opcionales, costo externo contro
 
 
 
+
+
+## POST-H-008-B — Runtime state lifecycle: inventory read-only
+
+`POST-H-008-B` implementa el scanner local de runtime state basado en `.devpilot/runtime_state_policy.json`. El comando inventaría clases de artefactos, calcula conteos/bytes por clase, detecta runtime artifacts no versionables cuando están rastreados por Git y puede generar reportes JSON/Markdown bajo `outputs/reports/`.
+
+Comandos principales:
+
+```powershell
+python -m devpilot_core runtime-state inventory --json
+python -m devpilot_core runtime-state inventory --write-report --json
+python -m devpilot_core schema validate --schema-id RuntimeStateInventory --instance outputs/reports/runtime_state_inventory.json --json
+```
+
+Capacidades adicionadas:
+
+```text
+- RuntimeStateInventoryBuilder con scanner read-only basado en policy.
+- Detección de outputs, traces, evals, drafts, local DB, agent_sessions, RAG index y caches.
+- Detección bloqueante de runtime artifacts no versionables rastreados por Git.
+- Reportes runtime_state_inventory.json y runtime_state_lifecycle_report.md generados solo bajo demanda.
+- Comando CLI declarativo `runtime-state inventory` registrado para no violar el no-growth gate.
+- TCR v1/v2 actualizado con el contrato `post-h-008-runtime-state-inventory`.
+```
+
+Esta versión es `implemented-initial`: no borra archivos, no genera cleanup plan, no ejecuta export/redacción y no integra aún `runtime-state-hygiene` al `quality-gate hardening`. Esas capacidades quedan para `POST-H-008-C`, `POST-H-008-D` y `POST-H-008-E`.
 
 
 ## POST-H-008-A — Runtime state lifecycle: taxonomía y policy schema
@@ -63,7 +89,7 @@ tests/test_runtime_state_policy_schema.py
 tests/test_post_h_008_runtime_state_lifecycle.py
 ```
 
-Esta versión es `implemented-initial`: no borra archivos, no genera inventario real, no exporta evidencia y no integra aún el gate `runtime-state-hygiene`. Esas capacidades se implementan en `POST-H-008-B` a `POST-H-008-E`.
+Esta versión es `implemented-initial`: no borra archivos, no ejecuta cleanup, no exporta evidencia y delega el inventario real a `POST-H-008-B`. La higiene bloqueante de release queda para `POST-H-008-E`.
 
 
 ## POST-H-007-E — Integración con CLI registry y quality gate

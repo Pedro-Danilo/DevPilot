@@ -3,9 +3,9 @@ doc_id: "POST-H-008-BACKLOG"
 id: "POST-H-008"
 title: "POST-H-008 — Runtime state lifecycle policy"
 status: "approved"
-version: "0.2.0"
+version: "0.3.0"
 owner: "Ordóñez"
-updated: "2026-06-25"
+updated: "2026-06-26"
 phase: "POST-FASE-H"
 priority: "P1"
 roadmap_source: "docs/backlogs/post_h_prioritized_roadmap.md"
@@ -415,3 +415,57 @@ Límites explícitos de esta versión:
 - No implementa export/redacción.
 - No integra todavía runtime-state-hygiene al quality gate.
 ```
+
+## 14. Avance de implementación — POST-H-008-B
+
+Estado: `implemented-initial`.
+
+`POST-H-008-B — Runtime state inventory read-only` implementa el scanner local de inventario runtime sin modificar archivos fuente ni ejecutar cleanup/export.
+
+### Implementado
+
+```text
+- src/devpilot_core/runtime_state/models.py
+- src/devpilot_core/runtime_state/policy.py
+- src/devpilot_core/runtime_state/inventory.py
+- src/devpilot_core/runtime_state/report.py
+- src/devpilot_core/runtime_state/__init__.py
+- Comando CLI: python -m devpilot_core runtime-state inventory --json
+- Reporte opcional: outputs/reports/runtime_state_inventory.json
+- Reporte opcional: outputs/reports/runtime_state_lifecycle_report.md
+- Tests focales: tests/test_runtime_state_inventory.py
+- Manifest: docs/post_h_008_b_manifest.json
+- Auditoría: docs/audits/post_h_008_b_runtime_state_inventory_report.md
+```
+
+### Capacidades adicionadas
+
+```text
+- Inventario basado en artifact_classes de .devpilot/runtime_state_policy.json.
+- Resumen por clase con artifacts_total, bytes_total, versionable, cleanup_allowed y redaction_required.
+- Detección de runtime artifacts conocidos: outputs, traces, evals, drafts, devpilot.db, agent_sessions, RAG index y caches.
+- Detección bloqueante de runtime artifacts no versionables rastreados por Git.
+- Reportes JSON/Markdown generados solo bajo --write-report.
+- Registro declarativo de runtime-state.inventory en CLI registry para no violar el no-growth gate.
+```
+
+### Criterios PASS cubiertos
+
+```text
+PASS si inventory es read-only.
+PASS si detecta runtime artifacts conocidos.
+PASS si reporta violaciones sin borrar nada.
+```
+
+### Límites de esta versión
+
+```text
+- No implementa cleanup plan.
+- No implementa cleanup --execute.
+- No implementa export/redacción.
+- No integra aún runtime-state-hygiene al quality gate.
+```
+
+### Siguiente micro-sprint
+
+`POST-H-008-C — Cleanup plan dry-run`.
