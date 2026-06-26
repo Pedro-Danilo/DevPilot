@@ -2,11 +2,11 @@
 title: "Runbook — DevPilot Local"
 doc_id: "DEVPL-OPS-002"
 status: "approved"
-version: "1.35.0"
+version: "1.36.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "POST-H-009-E"
+phase: "POST-H-010-A"
 updated: "2026-06-26"
 approval: "approved_by_owner"
 source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved + 03_security approved"
@@ -7456,6 +7456,55 @@ BLOCK si el validator usa red, APIs externas, LLM judge o mutaciones de fuentes.
 Esta capacidad es `implemented-initial`. En `POST-H-009-D` ya se agregó governance de backlogs derivados; la integración como subgate del quality gate queda para `POST-H-009-E`.
 
 
+
+
+## POST-H-010-A — Retention policy schema y defaults locales
+
+### Propósito
+
+`POST-H-010-A` define la primera política local versionada de retención de observabilidad. El objetivo operacional es separar claramente artefactos runtime de fuentes versionables y fijar defaults seguros antes de implementar inventario, cleanup o export.
+
+### Artefactos fuente
+
+```text
+docs/schemas/observability_retention_policy.schema.json
+.devpilot/observability/retention_policy.json
+src/devpilot_core/observability/retention.py
+```
+
+### Verificación
+
+```powershell
+python -m pytest tests/test_observability_retention_schema.py tests/test_post_h_010_observability_retention.py -q
+python -m devpilot_core schema validate --schema-id ObservabilityRetentionPolicy --instance .devpilot/observability/retention_policy.json --json
+```
+
+### Clasificación runtime vs fuente versionable
+
+```text
+Fuente versionable:
+- docs/schemas/observability_retention_policy.schema.json
+- .devpilot/observability/retention_policy.json
+- src/devpilot_core/observability/retention.py
+- tests/test_observability_retention_schema.py
+
+Runtime no versionable / excluido de ZIP limpio:
+- outputs/traces/events.jsonl
+- outputs/traces/
+- outputs/reports/
+- .devpilot/devpilot.db
+- .devpilot/agent_sessions/
+```
+
+### PASS/BLOCK
+
+PASS si la política valida contra schema, `remote_export_enabled=false`, `default_mode=dry-run`, `raw_prompts_allowed=false`, `raw_outputs_allowed=false`, `secrets_allowed=false` y todos los targets runtime tienen `clean_zip_excluded=true`.
+
+BLOCK si se habilita export remoto, red/API externa, almacenamiento de raw prompts/raw outputs, o si se omiten `.devpilot/devpilot.db` o `.devpilot/agent_sessions/`.
+
+### Límites
+
+Esta versión es `implemented-initial`: no borra, rota, archiva, exporta ni inspecciona payloads runtime. `POST-H-010-B/C/D/E` implementarán inventario read-only, cleanup plan dry-run, export redactado e integración con quality gate.
 
 ## POST-H-009-E — Quality gate documental y runbook
 

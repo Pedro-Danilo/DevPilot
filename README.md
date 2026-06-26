@@ -1,13 +1,13 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
-Estado actual: `baseline pre-code approved + Fases A-G cerradas + Fase H cerrada + POST-H-001 implemented-initial + POST-H-EVAL-001 closed + POST-H-002 closed + POST-H-003 closed + POST-H-004 closed + POST-H-005 closed + POST-H-006 closed + POST-H-007 closed + POST-H-008 closed + POST-H-009-A implemented-initial + POST-H-009-B implemented-initial + POST-H-009-C implemented-initial + POST-H-009-D implemented-initial + POST-H-009-E implemented-initial + POST-H-009 closed`  
+Estado actual: `baseline pre-code approved + Fases A-G cerradas + Fase H cerrada + POST-H-001 implemented-initial + POST-H-EVAL-001 closed + POST-H-002 closed + POST-H-003 closed + POST-H-004 closed + POST-H-005 closed + POST-H-006 closed + POST-H-007 closed + POST-H-008 closed + POST-H-009-A implemented-initial + POST-H-009-B implemented-initial + POST-H-009-C implemented-initial + POST-H-009-D implemented-initial + POST-H-009-E implemented-initial + POST-H-009 closed + POST-H-010-A implemented-initial`  
 Último hito: `POST-H-009 — Documentation governance y canonical sources`  
 Siguiente hito: `POST-H-010 — Observability retention local`  
-Último micro-sprint implementado: `POST-H-009-E — Quality gate documental y runbook`  
+Último micro-sprint implementado: `POST-H-010-A — Retention policy schema y defaults locales`  
 Hito diagnóstico cerrado: `POST-H-EVAL-001 — Evaluación integral del baseline DevPilot post-Fase H`, cierre formal `POST-H-EVAL-001-G`  
 Hito cerrado: `POST-H-009 — Documentation governance y canonical sources`  
 Hito cerrado: `POST-H-008 — Runtime state lifecycle policy`  
-Siguiente micro-sprint recomendado: `POST-H-010-A — Observability retention local`  
+Siguiente micro-sprint recomendado: `POST-H-010-B — Observability inventory read-only`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
@@ -40,6 +40,45 @@ Modo de trabajo: local-first híbrido, API keys opcionales, costo externo contro
 
 
 
+
+
+## POST-H-010-A — Observability retention: Retention policy schema y defaults locales
+
+`POST-H-010-A` inicia el hito `POST-H-010 — Observability retention local` elevando el backlog a `approved` y creando una política local versionada para targets de observabilidad. Esta versión define contrato y defaults; no ejecuta inventario, cleanup, rotación, exportación ni mutaciones runtime.
+
+Artefactos principales:
+
+```text
+docs/schemas/observability_retention_policy.schema.json
+.devpilot/observability/retention_policy.json
+src/devpilot_core/observability/retention.py
+tests/test_observability_retention_schema.py
+tests/test_post_h_010_observability_retention.py
+docs/audits/post_h_010_a_retention_policy_schema_report.md
+docs/post_h_010_a_manifest.json
+```
+
+Targets gobernados inicialmente:
+
+```text
+outputs/traces/events.jsonl
+outputs/traces/
+.devpilot/devpilot.db
+.devpilot/agent_sessions/
+outputs/reports/
+metrics-local-store lógico sobre .devpilot/devpilot.db
+```
+
+Comandos principales:
+
+```powershell
+python -m pytest tests/test_observability_retention_schema.py tests/test_post_h_010_observability_retention.py -q
+python -m devpilot_core schema validate --schema-id ObservabilityRetentionPolicy --instance .devpilot/observability/retention_policy.json --json
+```
+
+Criterio PASS: `remote_export_enabled=false`, `default_mode=dry-run`, `raw_prompts_allowed=false`, `raw_outputs_allowed=false`, `secrets_allowed=false` y `clean_zip_excluded=true` para `outputs/`, `.devpilot/devpilot.db` y `.devpilot/agent_sessions/`.
+
+Esta versión es `implemented-initial`: establece el contrato de retención y defaults locales. El inventario read-only, el cleanup plan dry-run, el export redactado y la integración de `observability-retention` al `quality-gate hardening` quedan para `POST-H-010-B/C/D/E`.
 
 ## POST-H-009-E — Documentation governance: Quality gate documental y runbook
 

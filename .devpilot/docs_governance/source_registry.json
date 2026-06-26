@@ -622,7 +622,7 @@
       "classification": "derived",
       "domain": "roadmap-derived-backlog",
       "owner": "Ordóñez",
-      "status_required": "draft",
+      "status_required": "approved",
       "criticality": "P1",
       "machine_readable_counterparts": [
         ".devpilot/evals/post_h_eval_001_prioritized_roadmap.json"
@@ -630,9 +630,13 @@
       "human_readable_counterparts": [
         "docs/backlogs/post_h_prioritized_roadmap.md"
       ],
-      "derived_documents": [],
+      "derived_documents": [
+        "docs/POST-H-010_observability_retention.md"
+      ],
       "required_tests": [
-        "tests/test_documentation_governance_backlogs.py"
+        "tests/test_documentation_governance_backlogs.py",
+        "tests/test_observability_retention_schema.py",
+        "tests/test_post_h_010_observability_retention.py"
       ],
       "sync_rules": [
         "backlog_naming",
@@ -643,10 +647,12 @@
       "roadmap_milestones": [
         "POST-H-010"
       ],
-      "lifecycle": "planned",
+      "lifecycle": "active",
       "notes": [
         "Roadmap-derived executable backlog governed by POST-H-009-D.",
-        "Missing future backlog files are informational planned items; existing files must pass naming and frontmatter checks."
+        "Missing future backlog files are informational planned items; existing files must pass naming and frontmatter checks.",
+        "POST-H-010-A promotes this backlog to approved and starts local observability retention policy defaults.",
+        "Inventory, cleanup plan, redacted export and quality-gate integration remain deferred to POST-H-010-B/C/D/E."
       ]
     },
     {
@@ -1163,7 +1169,8 @@
     "docs_governance_quality_gate_profiles": [
       "hardening",
       "industrial"
-    ]
+    ],
+    "approved_backlogs_require_runtime_policy_tests": true
   },
   "summary": {
     "documents_total": 37,
@@ -1179,7 +1186,7 @@
     "network_used": false,
     "external_api_used": false,
     "mutations_performed": false,
-    "last_updated_by": "POST-H-009-E",
+    "last_updated_by": "POST-H-010-A",
     "markdown_json_sync_checks_enabled": true,
     "sync_checks_scope": "version_match, milestones_match, decisions_match, closure_status_match, next_hito_match",
     "backlog_governance_enabled": true,
@@ -1190,7 +1197,9 @@
     "quality_gate_profiles": [
       "hardening",
       "industrial"
-    ]
+    ],
+    "observability_retention_policy_registered": true,
+    "observability_retention_policy_path": ".devpilot/observability/retention_policy.json"
   },
   "safety": {
     "local_first": true,
@@ -1203,13 +1212,16 @@
     "llm_judge_used": false,
     "remote_execution_enabled": false,
     "connector_write_enabled": false,
-    "plugin_execution_enabled": false
+    "plugin_execution_enabled": false,
+    "observability_retention_remote_export_enabled": false
   },
   "notes": [
     "POST-H-009-A creates the first canonical documentation source registry and schema baseline.",
     "POST-H-009-B adds deterministic frontmatter/status/ownership validation.",
     "POST-H-009-C adds deterministic Markdown/JSON synchronization checks.",
     "POST-H-009-D registers and validates executable backlogs derived from the roadmap; missing future backlog files are reported as planned info, not blocking drift.",
-    "Quality-gate integration remains deferred to POST-H-009-E."
+    "Quality-gate integration remains deferred to POST-H-009-E.",
+    "POST-H-010-A promotes POST-H-010 to approved and registers its source-controlled observability retention policy defaults.",
+    "Observability runtime artifacts remain non-versionable and excluded from clean archives; inventory/cleanup/export are deferred to later POST-H-010 micro-sprints."
   ]
 }

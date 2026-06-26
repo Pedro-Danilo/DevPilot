@@ -1,0 +1,178 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "SCHEMA-DEVPL-OBSERVABILITY-RETENTION-POLICY-V1",
+  "policy_id": "devpilot-local-observability-retention",
+  "created_by": "POST-H-010-A",
+  "status": "approved",
+  "local_first": true,
+  "remote_export_enabled": false,
+  "default_mode": "dry-run",
+  "targets": [
+    {
+      "target_id": "events-jsonl",
+      "path": "outputs/traces/events.jsonl",
+      "kind": "jsonl",
+      "classification": "runtime-observability",
+      "required": true,
+      "source_of_truth": false,
+      "versionable": false,
+      "contains_sensitive_payloads": false,
+      "redaction_required": true,
+      "retention_days": 30,
+      "max_size_mb": 25,
+      "rotation": {
+        "enabled": true,
+        "strategy": "size-or-age",
+        "keep_rotated_files": 5
+      },
+      "clean_zip_excluded": true,
+      "export_allowed": true,
+      "cleanup_allowed": true,
+      "raw_payload_storage_allowed": false,
+      "notes": [
+        "Append-only EventLogger JSONL target; content is already redacted defensively but exports must remain redacted."
+      ]
+    },
+    {
+      "target_id": "trace-files",
+      "path": "outputs/traces/",
+      "kind": "directory",
+      "classification": "runtime-observability",
+      "required": true,
+      "source_of_truth": false,
+      "versionable": false,
+      "contains_sensitive_payloads": true,
+      "redaction_required": true,
+      "retention_days": 30,
+      "max_size_mb": 50,
+      "rotation": {
+        "enabled": true,
+        "strategy": "size-or-age",
+        "keep_rotated_files": 5
+      },
+      "clean_zip_excluded": true,
+      "export_allowed": true,
+      "cleanup_allowed": true,
+      "raw_payload_storage_allowed": false,
+      "notes": [
+        "Directory-level target for future trace artifacts and generated trace reports under outputs/traces/."
+      ]
+    },
+    {
+      "target_id": "devpilot-db",
+      "path": ".devpilot/devpilot.db",
+      "kind": "sqlite",
+      "classification": "runtime-persistence",
+      "required": true,
+      "source_of_truth": false,
+      "versionable": false,
+      "contains_sensitive_payloads": true,
+      "redaction_required": true,
+      "retention_days": 90,
+      "max_size_mb": 250,
+      "rotation": {
+        "enabled": true,
+        "strategy": "size-or-age",
+        "keep_rotated_files": 3
+      },
+      "clean_zip_excluded": true,
+      "export_allowed": true,
+      "cleanup_allowed": true,
+      "raw_payload_storage_allowed": false,
+      "notes": [
+        "Local SQLite runtime persistence for runs, findings, gates, cost events and related operational records; never include in clean source ZIPs."
+      ]
+    },
+    {
+      "target_id": "agent-sessions",
+      "path": ".devpilot/agent_sessions/",
+      "kind": "directory",
+      "classification": "runtime-sensitive",
+      "required": true,
+      "source_of_truth": false,
+      "versionable": false,
+      "contains_sensitive_payloads": true,
+      "redaction_required": true,
+      "retention_days": 30,
+      "max_size_mb": 100,
+      "rotation": {
+        "enabled": true,
+        "strategy": "size-or-age",
+        "keep_rotated_files": 5
+      },
+      "clean_zip_excluded": true,
+      "export_allowed": true,
+      "cleanup_allowed": true,
+      "raw_payload_storage_allowed": false,
+      "notes": [
+        "Local agentic session state; no raw prompts/raw outputs are allowed by this policy."
+      ]
+    },
+    {
+      "target_id": "generated-reports",
+      "path": "outputs/reports/",
+      "kind": "directory",
+      "classification": "runtime-generated",
+      "required": true,
+      "source_of_truth": false,
+      "versionable": false,
+      "contains_sensitive_payloads": false,
+      "redaction_required": false,
+      "retention_days": 30,
+      "max_size_mb": 100,
+      "rotation": {
+        "enabled": true,
+        "strategy": "size-or-age",
+        "keep_rotated_files": 5
+      },
+      "clean_zip_excluded": true,
+      "export_allowed": true,
+      "cleanup_allowed": true,
+      "raw_payload_storage_allowed": false,
+      "notes": [
+        "Generated evidence reports are reproducible runtime artifacts; they must be regenerated locally and excluded from clean archives."
+      ]
+    },
+    {
+      "target_id": "metrics-local-store",
+      "path": ".devpilot/devpilot.db",
+      "kind": "sqlite-table",
+      "classification": "runtime-persistence",
+      "required": true,
+      "source_of_truth": false,
+      "versionable": false,
+      "contains_sensitive_payloads": true,
+      "redaction_required": true,
+      "retention_days": 90,
+      "max_size_mb": 250,
+      "rotation": {
+        "enabled": true,
+        "strategy": "size-or-age",
+        "keep_rotated_files": 3
+      },
+      "clean_zip_excluded": true,
+      "export_allowed": true,
+      "cleanup_allowed": true,
+      "raw_payload_storage_allowed": false,
+      "notes": [
+        "Logical metrics scope stored in the local SQLite store; POST-H-010-B will inventory actual records without reading raw sensitive payloads."
+      ],
+      "logical_scope": "metrics"
+    }
+  ],
+  "safety": {
+    "delete_requires_execute": true,
+    "dry_run_required_by_default": true,
+    "raw_prompts_allowed": false,
+    "raw_outputs_allowed": false,
+    "secrets_allowed": false,
+    "path_escape_allowed": false,
+    "network_allowed": false,
+    "external_api_allowed": false
+  },
+  "notes": [
+    "POST-H-010-A defines policy defaults only; inventory, cleanup plan, redacted export and quality-gate integration remain deferred to POST-H-010-B/C/D/E.",
+    "All targets are local runtime artifacts and must remain excluded from clean source archives.",
+    "This policy is deterministic and source-controlled; it does not enable deletion, rotation, network, external APIs or remote observability backends."
+  ]
+}

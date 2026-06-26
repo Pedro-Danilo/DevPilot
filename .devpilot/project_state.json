@@ -8,8 +8,8 @@
   "last_completed_sprint": "POST-H-009",
   "last_functional_sprint": "FUNC-SPRINT-99",
   "next_sprint": "POST-H-010",
-  "source_repo": "repo_DevPilot_Local_179_POST_H_009_D.zip",
-  "current_repo": "repo_DevPilot_Local_180_POST_H_009_E.zip",
+  "source_repo": "repo_DevPilot_Local_180_POST_H_009_E.zip",
+  "current_repo": "repo_DevPilot_Local_181_POST_H_010_A.zip",
   "global_state_owner": "tests/test_project_global_state.py",
   "mutable_global_state_fields": [
     "last_completed_sprint",
@@ -48,6 +48,7 @@
     "POST-H-009-B adds Documentation governance validator as implemented-initial: docs-governance validate checks canonical registry paths, owner/status_required, approved frontmatter, doc_id/status consistency and required_tests without drift checks, network, external APIs or LLM judge.",
     "POST-H-009-C adds Documentation governance sync validation as implemented-initial: roadmap Markdown/JSON version, milestones, decisions, closure status and next hito checks are available locally through docs-governance validate/report.",
     "POST-H-009-D adds Documentation governance backlog governance as implemented-initial: roadmap-derived executable backlogs POST-H-002..POST-H-025 are registered/governed, backlog naming/frontmatter/milestone/priority checks are available through docs-governance validate/report, with missing future backlog files treated as planned info rather than blocking drift.",
-    "POST-H-009-E closes Documentation governance y canonical sources as implemented-initial: docs-governance is integrated into quality-gate hardening/industrial as a read-only deterministic subgate, TCR v1/v2 is registered, and the canonical docs update/runbook procedure is documented without enabling network, external APIs, LLM judge or source mutations."
+    "POST-H-009-E closes Documentation governance y canonical sources as implemented-initial: docs-governance is integrated into quality-gate hardening/industrial as a read-only deterministic subgate, TCR v1/v2 is registered, and the canonical docs update/runbook procedure is documented without enabling network, external APIs, LLM judge or source mutations.",
+    "POST-H-010-A starts Observability retention local as implemented-initial: ObservabilityRetentionPolicy schema, local retention_policy.json defaults, semantic loader/validator and tests are available without inventory, cleanup, export or quality-gate integration yet."
   ]
 }

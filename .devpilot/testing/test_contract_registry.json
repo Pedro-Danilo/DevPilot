@@ -3,7 +3,7 @@
   "schema_id": "SCHEMA-DEVPL-TEST-CONTRACT-REGISTRY-V1",
   "created_by": "POST-H-001",
   "status": "implemented-initial",
-  "description": "Declarative registry classifying DevPilot tests by contract layer after POST-H-001.",
+  "description": "Declarative registry classifying DevPilot tests by contract layer after POST-H-001. POST-H-010-A adds observability retention policy tests.",
   "contracts": [
     {
       "contract_id": "project-global-state",
@@ -3325,6 +3325,52 @@
         "python -m devpilot_core quality-gate run --profile hardening --json",
         "python -m devpilot_core test-contracts validate --json",
         "python -m devpilot_core test-contracts validate-v2 --json"
+      ]
+    },
+    {
+      "contract_id": "post-h-010-observability-retention-policy",
+      "scope": "integration",
+      "owner": "POST-H-010-A",
+      "phase": "POST-FASE-H",
+      "test_files": [
+        "tests/test_observability_retention_schema.py",
+        "tests/test_post_h_010_observability_retention.py",
+        "tests/test_schema_registry.py",
+        "tests/test_project_global_state.py",
+        "tests/test_documentation_governance_validator.py"
+      ],
+      "validates": [
+        "docs/schemas/observability_retention_policy.schema.json",
+        "docs/schemas/schema_catalog.json",
+        ".devpilot/observability/retention_policy.json",
+        "src/devpilot_core/observability/retention.py",
+        "src/devpilot_core/observability/__init__.py",
+        "docs/backlogs/POST-H-010_observability_retention.md",
+        "docs/POST-H-010_observability_retention.md",
+        "docs/audits/post_h_010_a_retention_policy_schema_report.md",
+        "docs/post_h_010_a_manifest.json"
+      ],
+      "watched_paths": [
+        "docs/schemas/observability_retention_policy.schema.json",
+        "docs/schemas/schema_catalog.json",
+        ".devpilot/observability/",
+        "src/devpilot_core/observability/retention.py",
+        "src/devpilot_core/observability/__init__.py",
+        "README.md",
+        "docs/05_operations/runbook.md",
+        "docs/backlogs/POST-H-010_observability_retention.md",
+        "docs/POST-H-010_observability_retention.md",
+        "docs/release/CHANGELOG.md",
+        "tests/test_observability_retention_schema.py",
+        "tests/test_post_h_010_observability_retention.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest tests/test_observability_retention_schema.py tests/test_post_h_010_observability_retention.py tests/test_schema_registry.py tests/test_project_global_state.py -q",
+        "python -m devpilot_core schema validate --schema-id ObservabilityRetentionPolicy --instance .devpilot/observability/retention_policy.json --json",
+        "python -m devpilot_core schema validate --schema-id PostHManifest --instance docs/post_h_010_a_manifest.json --json"
       ]
     }
   ],

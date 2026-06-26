@@ -1,0 +1,83 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "SCHEMA-DEVPL-POST-H-MANIFEST-V1",
+  "post_h_id": "POST-H-010",
+  "id": "POST-H-010-A",
+  "title": "POST-H-010-A — Retention policy schema y defaults locales",
+  "status": "implemented-initial",
+  "phase": "POST-FASE-H",
+  "implemented_at": "2026-06-26",
+  "created_files": [
+    ".devpilot/observability/retention_policy.json",
+    "docs/schemas/observability_retention_policy.schema.json",
+    "src/devpilot_core/observability/retention.py",
+    "tests/test_observability_retention_schema.py",
+    "tests/test_post_h_010_observability_retention.py",
+    "docs/POST-H-010_observability_retention.md",
+    "docs/audits/post_h_010_a_retention_policy_schema_report.md",
+    "docs/post_h_010_a_manifest.json"
+  ],
+  "modified_files": [
+    ".devpilot/docs_governance/source_registry.json",
+    ".devpilot/project_state.json",
+    ".devpilot/testing/test_contract_registry.json",
+    ".devpilot/testing/test_contract_registry_v2.json",
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/backlogs/POST-H-010_observability_retention.md",
+    "docs/release/CHANGELOG.md",
+    "docs/schemas/schema_catalog.json",
+    "src/devpilot_core/observability/__init__.py",
+    "tests/test_schema_registry.py",
+    "tests/test_documentation_governance_validator.py",
+    "tests/test_project_global_state.py"
+  ],
+  "commands": [
+    "python -m pytest tests/test_observability_retention_schema.py tests/test_post_h_010_observability_retention.py tests/test_schema_registry.py tests/test_documentation_governance_validator.py tests/test_project_global_state.py -q",
+    "python -m devpilot_core schema validate --schema-id ObservabilityRetentionPolicy --instance .devpilot/observability/retention_policy.json --json",
+    "python -m devpilot_core schema validate --schema-id PostHManifest --instance docs/post_h_010_a_manifest.json --json",
+    "python -m devpilot_core docs-governance validate --json",
+    "python -m devpilot_core test-contracts validate --json",
+    "python -m devpilot_core test-contracts validate-v2 --json"
+  ],
+  "tests": [
+    "tests/test_observability_retention_schema.py",
+    "tests/test_post_h_010_observability_retention.py",
+    "tests/test_schema_registry.py",
+    "tests/test_documentation_governance_validator.py",
+    "tests/test_project_global_state.py"
+  ],
+  "pass_criteria": [
+    "retention_policy.json valida contra ObservabilityRetentionPolicy.",
+    "Todos los targets críticos están clasificados.",
+    "remote_export_enabled=false, default_mode=dry-run y raw_prompts/raw_outputs/secrets=false.",
+    "outputs, .devpilot/devpilot.db y .devpilot/agent_sessions tienen clean_zip_excluded=true.",
+    "El backlog POST-H-010 queda approved y sincronizado con su mirror docs/POST-H-010_observability_retention.md."
+  ],
+  "block_criteria": [
+    "Bloquear si se habilita export remoto o red/API externa.",
+    "Bloquear si se permite almacenar raw prompts, raw outputs o secretos.",
+    "Bloquear si se omiten events.jsonl, devpilot.db, agent_sessions, outputs/reports, metrics o traces.",
+    "Bloquear si un target runtime queda versionable/source_of_truth.",
+    "Bloquear si se implementa cleanup/export real en POST-H-010-A."
+  ],
+  "risks": [
+    "La política no calcula todavía tamaños, fechas ni expiración real; eso queda para inventario POST-H-010-B.",
+    "La existencia de targets puede variar por workspace; POST-H-010-A valida contrato y defaults, no presencia runtime.",
+    "El scope metrics está modelado como ámbito lógico de .devpilot/devpilot.db hasta que POST-H-010-B inspeccione records de forma segura.",
+    "El gate de calidad todavía no consume esta política; queda para POST-H-010-E."
+  ],
+  "next_sprint": "POST-H-010",
+  "preliminary": true,
+  "security": {
+    "local_first": true,
+    "dry_run": true,
+    "network_used": false,
+    "external_api_used": false,
+    "mutations_performed": false,
+    "source_mutations_performed": false,
+    "remote_execution_enabled": false,
+    "connector_write_enabled": false,
+    "plugin_execution_enabled": false
+  }
+}

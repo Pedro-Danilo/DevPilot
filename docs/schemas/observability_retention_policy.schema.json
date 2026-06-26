@@ -1,0 +1,241 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/observability_retention_policy.schema.json",
+  "title": "DevPilot Observability Retention Policy v1",
+  "description": "POST-H-010-A local-first policy schema for observability retention targets, rotation defaults, redaction flags and clean ZIP hygiene without enabling remote export or destructive cleanup.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "schema_id",
+    "policy_id",
+    "created_by",
+    "status",
+    "local_first",
+    "remote_export_enabled",
+    "default_mode",
+    "targets",
+    "safety",
+    "notes"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "schema_id": {
+      "const": "SCHEMA-DEVPL-OBSERVABILITY-RETENTION-POLICY-V1"
+    },
+    "policy_id": {
+      "const": "devpilot-local-observability-retention"
+    },
+    "created_by": {
+      "const": "POST-H-010-A"
+    },
+    "status": {
+      "enum": [
+        "approved",
+        "implemented-initial",
+        "draft"
+      ]
+    },
+    "local_first": {
+      "const": true
+    },
+    "remote_export_enabled": {
+      "const": false
+    },
+    "default_mode": {
+      "const": "dry-run"
+    },
+    "targets": {
+      "type": "array",
+      "minItems": 6,
+      "items": {
+        "$ref": "#/$defs/target"
+      }
+    },
+    "safety": {
+      "$ref": "#/$defs/safety"
+    },
+    "notes": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  },
+  "$defs": {
+    "target": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "target_id",
+        "path",
+        "kind",
+        "classification",
+        "required",
+        "source_of_truth",
+        "versionable",
+        "contains_sensitive_payloads",
+        "redaction_required",
+        "retention_days",
+        "max_size_mb",
+        "rotation",
+        "clean_zip_excluded",
+        "export_allowed",
+        "cleanup_allowed",
+        "raw_payload_storage_allowed"
+      ],
+      "properties": {
+        "target_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9_.-]*$"
+        },
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "kind": {
+          "enum": [
+            "jsonl",
+            "json",
+            "sqlite",
+            "sqlite-table",
+            "directory",
+            "file-glob",
+            "directory-glob"
+          ]
+        },
+        "classification": {
+          "enum": [
+            "runtime-observability",
+            "runtime-sensitive",
+            "runtime-generated",
+            "runtime-persistence"
+          ]
+        },
+        "required": {
+          "type": "boolean"
+        },
+        "source_of_truth": {
+          "type": "boolean"
+        },
+        "versionable": {
+          "type": "boolean"
+        },
+        "contains_sensitive_payloads": {
+          "type": "boolean"
+        },
+        "redaction_required": {
+          "type": "boolean"
+        },
+        "retention_days": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 3650
+        },
+        "max_size_mb": {
+          "type": "number",
+          "minimum": 0
+        },
+        "rotation": {
+          "$ref": "#/$defs/rotation"
+        },
+        "clean_zip_excluded": {
+          "type": "boolean"
+        },
+        "export_allowed": {
+          "type": "boolean"
+        },
+        "cleanup_allowed": {
+          "type": "boolean"
+        },
+        "raw_payload_storage_allowed": {
+          "type": "boolean"
+        },
+        "logical_scope": {
+          "type": "string",
+          "minLength": 1
+        },
+        "notes": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "rotation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "enabled",
+        "strategy",
+        "keep_rotated_files"
+      ],
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "strategy": {
+          "enum": [
+            "none",
+            "size",
+            "age",
+            "size-or-age"
+          ]
+        },
+        "keep_rotated_files": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100
+        }
+      }
+    },
+    "safety": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "delete_requires_execute",
+        "dry_run_required_by_default",
+        "raw_prompts_allowed",
+        "raw_outputs_allowed",
+        "secrets_allowed",
+        "path_escape_allowed",
+        "network_allowed",
+        "external_api_allowed"
+      ],
+      "properties": {
+        "delete_requires_execute": {
+          "const": true
+        },
+        "dry_run_required_by_default": {
+          "const": true
+        },
+        "raw_prompts_allowed": {
+          "const": false
+        },
+        "raw_outputs_allowed": {
+          "const": false
+        },
+        "secrets_allowed": {
+          "const": false
+        },
+        "path_escape_allowed": {
+          "const": false
+        },
+        "network_allowed": {
+          "const": false
+        },
+        "external_api_allowed": {
+          "const": false
+        }
+      }
+    }
+  },
+  "x-devpilot-schema-id": "SCHEMA-DEVPL-OBSERVABILITY-RETENTION-POLICY-V1",
+  "x-devpilot-sprint": "POST-H-010-A",
+  "x-devpilot-status": "registered"
+}

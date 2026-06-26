@@ -14,6 +14,18 @@ from .events import (
 from .trace_store import TraceStore
 from .exporters import OTelDryRunExporter, OTelExportOptions, build_otel_like_payload
 from .trace_queries import TraceQueryService, TraceReportOptions
+
+from .retention import (
+    CRITICAL_TARGETS,
+    DEFAULT_OBSERVABILITY_RETENTION_POLICY,
+    OBSERVABILITY_RETENTION_POLICY_CONTRACT,
+    OBSERVABILITY_RETENTION_POLICY_SCHEMA_ID,
+    ObservabilityRetentionPolicy,
+    ObservabilityRetentionPolicyValidator,
+    ObservabilityRetentionTarget,
+    RetentionRotation,
+    load_observability_retention_policy,
+)
 from .tracing import (
     SpanRecord,
     SpanStatus,
@@ -25,6 +37,15 @@ from .tracing import (
 )
 
 __all__ = [
+    "load_observability_retention_policy",
+    "RetentionRotation",
+    "ObservabilityRetentionTarget",
+    "ObservabilityRetentionPolicyValidator",
+    "ObservabilityRetentionPolicy",
+    "OBSERVABILITY_RETENTION_POLICY_SCHEMA_ID",
+    "OBSERVABILITY_RETENTION_POLICY_CONTRACT",
+    "DEFAULT_OBSERVABILITY_RETENTION_POLICY",
+    "CRITICAL_TARGETS",
     "AgentOpsGateOptions",
     "AgentOpsInstrumentor",
     "AgentOpsQualityGate",

@@ -67,6 +67,8 @@ def test_project_global_state_schema_and_docs_are_synchronized() -> None:
     assert "POST-H-009-C — Documentation governance" in readme
     assert "POST-H-009-D — Documentation governance" in readme
     assert "POST-H-009-E — Documentation governance" in readme
+    assert "POST-H-010-A — Observability retention" in readme
+    assert any("POST-H-010-A starts Observability retention" in note for note in state["notes"])
 
 
 def test_project_global_state_command_result_passes() -> None:

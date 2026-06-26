@@ -1,5 +1,32 @@
 # Changelog
 
+## [post-h-010-a] - 2026-06-26
+
+### Added
+
+- `ObservabilityRetentionPolicy` schema in `docs/schemas/observability_retention_policy.schema.json`.
+- Local policy defaults in `.devpilot/observability/retention_policy.json`.
+- `src/devpilot_core/observability/retention.py` loader and semantic validator for retention defaults.
+- Tests `tests/test_observability_retention_schema.py` and `tests/test_post_h_010_observability_retention.py`.
+- POST-H-010-A audit report and manifest.
+
+### Changed
+
+- `POST-H-010 — Observability retention local` promoted to `approved`.
+- README, runbook, source registry, project_state and changelog synchronized with POST-H-010-A.
+- Schema catalog registered `SCHEMA-DEVPL-OBSERVABILITY-RETENTION-POLICY-V1`.
+
+### Security
+
+- Remote export remains disabled.
+- Default mode remains `dry-run`.
+- Raw prompts, raw outputs and secrets are prohibited by policy defaults.
+- Runtime targets remain non-versionable and excluded from clean source ZIPs.
+
+### Deferred
+
+- Inventory read-only, cleanup plan dry-run, redacted export and quality-gate integration remain for POST-H-010-B/C/D/E.
+
 ## [post-h-009-e] - 2026-06-26
 
 ### Added

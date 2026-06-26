@@ -6220,6 +6220,84 @@
         "The subgate blocks canonical-source, Markdown/JSON sync and backlog-governance drift without writing reports by default.",
         "The integration uses no network, external APIs, LLM judge, source mutations or remote execution."
       ]
+    },
+    {
+      "contract_id": "post-h-010-observability-retention-policy",
+      "schema_version": "2.0",
+      "source_contract_id": "post-h-010-observability-retention-policy",
+      "domain": "operations.observability",
+      "capability": "ObservabilityRetentionPolicy",
+      "criticality": "P1",
+      "risk_level": "high",
+      "test_type": "integration",
+      "execution_profile": "always",
+      "cost_class": "low",
+      "expected_duration_seconds": 30,
+      "test_files": [
+        "tests/test_observability_retention_schema.py",
+        "tests/test_post_h_010_observability_retention.py",
+        "tests/test_schema_registry.py",
+        "tests/test_project_global_state.py",
+        "tests/test_documentation_governance_validator.py"
+      ],
+      "watched_paths": [
+        "docs/schemas/observability_retention_policy.schema.json",
+        "docs/schemas/schema_catalog.json",
+        ".devpilot/observability/",
+        "src/devpilot_core/observability/retention.py",
+        "src/devpilot_core/observability/__init__.py",
+        "README.md",
+        "docs/05_operations/runbook.md",
+        "docs/backlogs/POST-H-010_observability_retention.md",
+        "docs/POST-H-010_observability_retention.md",
+        "docs/release/CHANGELOG.md",
+        "tests/test_observability_retention_schema.py",
+        "tests/test_post_h_010_observability_retention.py"
+      ],
+      "validates": [
+        "docs/schemas/observability_retention_policy.schema.json",
+        "docs/schemas/schema_catalog.json",
+        ".devpilot/observability/retention_policy.json",
+        "src/devpilot_core/observability/retention.py",
+        "src/devpilot_core/observability/__init__.py",
+        "docs/backlogs/POST-H-010_observability_retention.md",
+        "docs/POST-H-010_observability_retention.md",
+        "docs/audits/post_h_010_a_retention_policy_schema_report.md",
+        "docs/post_h_010_a_manifest.json"
+      ],
+      "trigger_hints": [
+        "observability-retention",
+        "retention-policy",
+        "runtime-artifacts",
+        "clean-zip-hygiene",
+        "post-h-010"
+      ],
+      "impact_scope": [
+        "observability",
+        "runtime-state",
+        "schema-catalog",
+        "docs",
+        "test-contracts",
+        "post-h"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "POST-H-010-A",
+      "recommended_commands": [
+        "python -m pytest tests/test_observability_retention_schema.py tests/test_post_h_010_observability_retention.py tests/test_schema_registry.py tests/test_project_global_state.py -q",
+        "python -m devpilot_core schema validate --schema-id ObservabilityRetentionPolicy --instance .devpilot/observability/retention_policy.json --json",
+        "python -m devpilot_core schema validate --schema-id PostHManifest --instance docs/post_h_010_a_manifest.json --json"
+      ],
+      "classification_status": "explicit",
+      "classification_notes": [
+        "POST-H-010-A defines observability retention policy defaults only; no inventory, cleanup, export or quality-gate integration is executed in this micro-sprint.",
+        "The policy is local-first, dry-run-first and blocks remote export/raw payload/secrets by contract."
+      ]
     }
   ],
   "migration_metadata": {
