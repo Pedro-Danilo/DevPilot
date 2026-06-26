@@ -1,0 +1,104 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "SCHEMA-DEVPL-POST-H-MANIFEST-V1",
+  "manifest_id": "post-h-008-a-runtime-state-policy-schema",
+  "sprint_id": "POST-H-008-A",
+  "title": "Runtime state taxonomy and policy schema",
+  "status": "implemented-initial",
+  "created_by": "POST-H-008-A",
+  "source_repo": "repo_DevPilot_Local_170_POST_H_007_E.zip",
+  "current_repo": "repo_DevPilot_Local_171_POST_H_008_A.zip",
+  "local_first": true,
+  "dry_run": true,
+  "network_used": false,
+  "external_api_used": false,
+  "mutations_performed": false,
+  "summary": {
+    "policy_id": "devpilot-runtime-state-policy",
+    "artifact_classes_total": 13,
+    "schemas_added_total": 2,
+    "destructive_cleanup_default": false,
+    "clean_zip_required": true,
+    "preliminary": true
+  },
+  "artifacts": [
+    ".devpilot/runtime_state_policy.json",
+    "docs/schemas/runtime_state_policy.schema.json",
+    "docs/schemas/runtime_state_inventory.schema.json",
+    "docs/05_operations/runtime_state_lifecycle_policy.md",
+    "docs/audits/post_h_008_a_runtime_state_policy_schema_report.md",
+    "tests/test_runtime_state_policy_schema.py",
+    "tests/test_post_h_008_runtime_state_lifecycle.py"
+  ],
+  "validation_commands": [
+    "python -m pytest tests/test_runtime_state_policy_schema.py tests/test_post_h_008_runtime_state_lifecycle.py -q",
+    "python -m pytest tests/test_runtime_state_policy_schema.py tests/test_schema_registry.py tests/test_project_global_state.py tests/test_test_contract_registry.py tests/test_test_contract_registry_v2.py tests/test_test_contract_registry_profiles_v2.py -q",
+    "python -m devpilot_core schema validate --schema-id RuntimeStatePolicy --instance .devpilot/runtime_state_policy.json --json",
+    "python -m devpilot_core test-contracts validate --json",
+    "python -m devpilot_core test-contracts validate-v2 --json"
+  ],
+  "limitations": [
+    "Inventory scanner is deferred to POST-H-008-B.",
+    "Cleanup plan and execute flow are deferred to POST-H-008-C.",
+    "Export/redaction runtime evidence is deferred to POST-H-008-D.",
+    "Runtime-state hygiene quality gate is deferred to POST-H-008-E."
+  ],
+  "post_h_id": "POST-H-008",
+  "phase": "POST-FASE-H",
+  "implemented_at": "2026-06-25",
+  "created_files": [
+    ".devpilot/runtime_state_policy.json",
+    "docs/schemas/runtime_state_policy.schema.json",
+    "docs/schemas/runtime_state_inventory.schema.json",
+    "docs/05_operations/runtime_state_lifecycle_policy.md",
+    "docs/audits/post_h_008_a_runtime_state_policy_schema_report.md",
+    "docs/post_h_008_a_manifest.json",
+    "tests/test_runtime_state_policy_schema.py",
+    "tests/test_post_h_008_runtime_state_lifecycle.py"
+  ],
+  "modified_files": [
+    "README.md",
+    ".devpilot/project_state.json",
+    ".devpilot/testing/test_contract_registry.json",
+    ".devpilot/testing/test_contract_registry_v2.json",
+    "docs/POST-H-008_runtime_state_lifecycle.md",
+    "docs/backlogs/POST-H-007_application_service_boundary.md",
+    "docs/schemas/schema_catalog.json",
+    "docs/05_operations/runbook.md",
+    "docs/release/CHANGELOG.md",
+    "tests/test_schema_registry.py",
+    "tests/test_project_global_state.py"
+  ],
+  "commands": [
+    "python -m pytest tests/test_runtime_state_policy_schema.py tests/test_post_h_008_runtime_state_lifecycle.py -q",
+    "python -m devpilot_core schema validate --schema-id RuntimeStatePolicy --instance .devpilot/runtime_state_policy.json --json",
+    "python -m devpilot_core test-contracts validate --json",
+    "python -m devpilot_core test-contracts validate-v2 --json"
+  ],
+  "tests": [
+    "tests/test_runtime_state_policy_schema.py",
+    "tests/test_post_h_008_runtime_state_lifecycle.py",
+    "tests/test_schema_registry.py",
+    "tests/test_project_global_state.py",
+    "tests/test_test_contract_registry.py",
+    "tests/test_test_contract_registry_v2.py"
+  ],
+  "pass_criteria": [
+    "RuntimeStatePolicy schema is registered and validates .devpilot/runtime_state_policy.json.",
+    "RuntimeStateInventory schema is registered and can validate a synthetic read-only inventory payload.",
+    "must_exclude includes outputs/, .devpilot/devpilot.db and .devpilot/agent_sessions/.",
+    "destructive_cleanup_default is false and source_of_truth_never_delete is true."
+  ],
+  "block_criteria": [
+    "Source-of-truth cleanup is allowed.",
+    "Destructive cleanup is enabled by default.",
+    "Clean ZIP rules allow outputs, local DB or agent sessions.",
+    "Policy requires network, external API or remote backup."
+  ],
+  "risks": [
+    "This micro-sprint is taxonomy/schema only and does not yet scan actual runtime artifacts.",
+    "RAG docs_index remains conditionally versionable until inventory and gate logic are implemented."
+  ],
+  "next_sprint": "POST-H-008",
+  "preliminary": true
+}

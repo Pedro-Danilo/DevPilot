@@ -5347,6 +5347,82 @@
         "POST-H-007-E relates CommandDescriptor metadata to ApplicationOperationCatalog operation_id values and adds a hardening quality-gate subgate.",
         "Missing command-operation mappings are warnings in this initial version; API/UI operations without explicit contracts remain blocking."
       ]
+    },
+    {
+      "contract_id": "post-h-008-runtime-state-policy-schema",
+      "schema_version": "2.0",
+      "source_contract_id": "post-h-008-runtime-state-policy-schema",
+      "domain": "operations.audit",
+      "capability": "RuntimeStatePolicySchema",
+      "criticality": "P1",
+      "risk_level": "high",
+      "test_type": "contract",
+      "execution_profile": "always",
+      "cost_class": "low",
+      "expected_duration_seconds": 30,
+      "test_files": [
+        "tests/test_runtime_state_policy_schema.py",
+        "tests/test_post_h_008_runtime_state_lifecycle.py",
+        "tests/test_schema_registry.py",
+        "tests/test_project_global_state.py"
+      ],
+      "watched_paths": [
+        ".devpilot/runtime_state_policy.json",
+        "docs/schemas/runtime_state_policy.schema.json",
+        "docs/schemas/runtime_state_inventory.schema.json",
+        "docs/schemas/schema_catalog.json",
+        ".devpilot/testing/",
+        ".devpilot/project_state.json",
+        "README.md",
+        "docs/05_operations/runbook.md",
+        "docs/05_operations/runtime_state_lifecycle_policy.md",
+        "docs/POST-H-008_runtime_state_lifecycle.md",
+        "tests/test_runtime_state_policy_schema.py",
+        "tests/test_post_h_008_runtime_state_lifecycle.py"
+      ],
+      "validates": [
+        ".devpilot/runtime_state_policy.json",
+        "docs/schemas/runtime_state_policy.schema.json",
+        "docs/schemas/runtime_state_inventory.schema.json",
+        "docs/schemas/schema_catalog.json",
+        "docs/POST-H-008_runtime_state_lifecycle.md",
+        "docs/05_operations/runtime_state_lifecycle_policy.md",
+        "docs/audits/post_h_008_a_runtime_state_policy_schema_report.md",
+        "docs/post_h_008_a_manifest.json"
+      ],
+      "trigger_hints": [
+        "runtime-state-policy",
+        "schema-catalog",
+        "clean-zip-hygiene",
+        "post-h-source-change"
+      ],
+      "impact_scope": [
+        "runtime-state",
+        "schemas",
+        "test-contracts",
+        "docs-sync",
+        "post-h"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "POST-H-008-A",
+      "recommended_commands": [
+        "python -m pytest tests/test_runtime_state_policy_schema.py tests/test_post_h_008_runtime_state_lifecycle.py -q",
+        "python -m pytest tests/test_runtime_state_policy_schema.py tests/test_schema_registry.py tests/test_project_global_state.py tests/test_test_contract_registry.py tests/test_test_contract_registry_v2.py tests/test_test_contract_registry_profiles_v2.py -q",
+        "python -m devpilot_core schema validate --schema-id RuntimeStatePolicy --instance .devpilot/runtime_state_policy.json --json",
+        "python -m devpilot_core test-contracts validate --json",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ],
+      "classification_status": "explicit",
+      "classification_notes": [
+        "POST-H-008-A defines runtime state taxonomy and policy schemas only; no cleanup execution is enabled.",
+        "The contract is P1/high because runtime artifacts can contain sensitive traces, DB state or agent sessions and clean ZIP hygiene is release-critical."
+      ]
     }
   ],
   "migration_metadata": {

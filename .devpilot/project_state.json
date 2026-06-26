@@ -5,11 +5,11 @@
   "phase_h_status": "closed_implemented_initial",
   "industrial_baseline_ready": true,
   "maturity_level": "industrial-baseline-ready",
-  "last_completed_sprint": "POST-H-006",
+  "last_completed_sprint": "POST-H-007",
   "last_functional_sprint": "FUNC-SPRINT-99",
-  "next_sprint": "POST-H-007",
-  "source_repo": "repo_DevPilot_Local_169_POST_H_007_D.zip",
-  "current_repo": "repo_DevPilot_Local_170_POST_H_007_E.zip",
+  "next_sprint": "POST-H-008",
+  "source_repo": "repo_DevPilot_Local_170_POST_H_007_E.zip",
+  "current_repo": "repo_DevPilot_Local_171_POST_H_008_A.zip",
   "global_state_owner": "tests/test_project_global_state.py",
   "mutable_global_state_fields": [
     "last_completed_sprint",
@@ -37,6 +37,8 @@
     "POST-H-007-B adds a schema-valid ApplicationOperationCatalog: operations declare risk, writes, policy_required, dry_run_default, test coverage and explicit CLI/API/UI mappings without runtime behavior changes.",
     "POST-H-007-C adds priority DTO normalization: 11 operations execute through ApplicationRequest/ApplicationResponse while preserving CommandResult exit_code, findings, data/report_paths and metadata without adding public CLI commands or HTTP routes.",
     "POST-H-007-D adds initial ApplicationService boundary policy: InterfaceClient allowlists, API/UI strict exposure checks, sensitive-operation PolicyEngine evaluation and dry-run guardrails without adding public CLI commands or HTTP routes.",
-    "POST-H-007-E adds initial CLI registry/ApplicationService integration: selected CommandDescriptor metadata can point to operation_id, API/UI operation contracts are checked, and quality-gate hardening includes an application-cli-boundary-integration subgate without enabling runtime registry routing."
+    "POST-H-007-E adds initial CLI registry/ApplicationService integration: selected CommandDescriptor metadata can point to operation_id, API/UI operation contracts are checked, and quality-gate hardening includes an application-cli-boundary-integration subgate without enabling runtime registry routing.",
+    "POST-H-007 closes ApplicationService boundary hardening as implemented-initial: boundary inventory, operation catalog, DTO normalization, interface policy and CLI registry/ApplicationService quality-gate integration are available locally.",
+    "POST-H-008-A starts Runtime state lifecycle policy as implemented-initial: runtime artifact taxonomy, RuntimeStatePolicy/RuntimeStateInventory schemas and .devpilot/runtime_state_policy.json are available locally without cleanup execution."
   ]
 }

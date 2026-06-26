@@ -1,0 +1,234 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/runtime_state_policy.schema.json",
+  "title": "DevPilot Runtime State Policy v1",
+  "description": "POST-H-008-A declarative local-first policy for classifying runtime artifacts, retention, cleanup/export permissions, redaction and clean archive hygiene.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "schema_id",
+    "policy_id",
+    "created_by",
+    "status",
+    "default_mode",
+    "artifact_classes",
+    "zip_hygiene",
+    "safety",
+    "notes"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "schema_id": {
+      "const": "SCHEMA-DEVPL-RUNTIME-STATE-POLICY-V1"
+    },
+    "policy_id": {
+      "const": "devpilot-runtime-state-policy"
+    },
+    "created_by": {
+      "const": "POST-H-008-A"
+    },
+    "status": {
+      "enum": [
+        "approved",
+        "implemented-initial",
+        "draft"
+      ]
+    },
+    "default_mode": {
+      "const": "dry-run"
+    },
+    "artifact_classes": {
+      "type": "array",
+      "minItems": 8,
+      "items": {
+        "$ref": "#/$defs/artifact_class"
+      },
+      "uniqueItems": true
+    },
+    "zip_hygiene": {
+      "$ref": "#/$defs/zip_hygiene"
+    },
+    "safety": {
+      "$ref": "#/$defs/safety"
+    },
+    "notes": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  },
+  "$defs": {
+    "artifact_class": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "class_id",
+        "description",
+        "paths",
+        "source_of_truth",
+        "versionable",
+        "sensitive",
+        "retention_days",
+        "cleanup_allowed",
+        "export_allowed",
+        "redaction_required",
+        "never_delete",
+        "classification"
+      ],
+      "properties": {
+        "class_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9_.-]+$"
+        },
+        "description": {
+          "type": "string",
+          "minLength": 1
+        },
+        "paths": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        },
+        "source_of_truth": {
+          "type": "boolean"
+        },
+        "versionable": {
+          "type": "boolean"
+        },
+        "sensitive": {
+          "type": "boolean"
+        },
+        "retention_days": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "cleanup_allowed": {
+          "type": "boolean"
+        },
+        "export_allowed": {
+          "type": "boolean"
+        },
+        "redaction_required": {
+          "type": "boolean"
+        },
+        "never_delete": {
+          "type": "boolean"
+        },
+        "classification": {
+          "enum": [
+            "source-of-truth",
+            "runtime-generated",
+            "runtime-sensitive",
+            "runtime-cache",
+            "conditional-source",
+            "release-evidence"
+          ]
+        },
+        "notes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "zip_hygiene": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "must_exclude",
+        "git_archive_required",
+        "clean_zip_required",
+        "runtime_artifacts_allowed_in_release_zip"
+      ],
+      "properties": {
+        "must_exclude": {
+          "type": "array",
+          "minItems": 5,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true,
+          "allOf": [
+            {
+              "contains": {
+                "const": "outputs/"
+              }
+            },
+            {
+              "contains": {
+                "const": ".devpilot/devpilot.db"
+              }
+            },
+            {
+              "contains": {
+                "const": ".devpilot/agent_sessions/"
+              }
+            },
+            {
+              "contains": {
+                "const": ".pytest_cache/"
+              }
+            },
+            {
+              "contains": {
+                "const": "__pycache__/"
+              }
+            }
+          ]
+        },
+        "git_archive_required": {
+          "const": true
+        },
+        "clean_zip_required": {
+          "const": true
+        },
+        "runtime_artifacts_allowed_in_release_zip": {
+          "const": false
+        }
+      }
+    },
+    "safety": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "destructive_cleanup_default",
+        "requires_execute_flag",
+        "source_of_truth_never_delete",
+        "network_required",
+        "external_api_required",
+        "remote_backup_enabled"
+      ],
+      "properties": {
+        "destructive_cleanup_default": {
+          "const": false
+        },
+        "requires_execute_flag": {
+          "const": true
+        },
+        "source_of_truth_never_delete": {
+          "const": true
+        },
+        "network_required": {
+          "const": false
+        },
+        "external_api_required": {
+          "const": false
+        },
+        "remote_backup_enabled": {
+          "const": false
+        }
+      }
+    }
+  }
+}

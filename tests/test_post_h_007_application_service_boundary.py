@@ -16,7 +16,7 @@ def _read_json(path: str) -> dict:
     return json.loads((ROOT / path).read_text(encoding="utf-8"))
 
 
-def test_post_h_006_e_and_parent_backlog_are_closed_before_post_h_007() -> None:
+def test_post_h_007_backlog_is_closed_before_post_h_008() -> None:
     backlog = _read("docs/backlogs/POST-H-006_cli_command_registry.md")
     readme = _read("README.md")
     runbook = _read("docs/05_operations/runbook.md")
@@ -26,13 +26,13 @@ def test_post_h_006_e_and_parent_backlog_are_closed_before_post_h_007() -> None:
     assert 'implementation_status: "closed"' in backlog
     assert "POST-H-006-E — Gate de no crecimiento monolítico" in backlog
     assert "Estado: `closed`" in backlog
-    assert "Último hito: `POST-H-006" in readme
-    assert "Siguiente hito: `POST-H-007" in readme
-    assert "POST-H-007-A — Inventario de operaciones y bypasses" in readme
+    assert "Último hito: `POST-H-007" in readme
+    assert "Siguiente hito: `POST-H-008" in readme
+    assert "POST-H-008-A — Runtime state lifecycle" in readme
     assert "POST-H-007-A — Operación del inventario ApplicationService boundary" in runbook
     assert "post-h-007-a" in changelog
-    assert state["last_completed_sprint"] == "POST-H-006"
-    assert state["next_sprint"] == "POST-H-007"
+    assert state["last_completed_sprint"] == "POST-H-007"
+    assert state["next_sprint"] == "POST-H-008"
 
 
 def test_post_h_007_backlog_is_approved_and_a_is_documented() -> None:
@@ -43,9 +43,10 @@ def test_post_h_007_backlog_is_approved_and_a_is_documented() -> None:
     manifest = _read_json("docs/post_h_007_a_manifest.json")
 
     assert 'status: "approved"' in backlog
-    assert 'implementation_status: "in-progress"' in backlog
+    assert 'implementation_status: "closed"' in backlog
     assert "POST-H-007-A — Inventario de operaciones y bypasses" in backlog
     assert "Estado: `implemented-initial`" in backlog
+    assert "## 17. Cierre del backlog — POST-H-007" in backlog
     assert "ApplicationService boundary" in interface_doc
     assert "direct_core_bypass_total" in interface_doc
     assert "CLI/API/UI" in architecture_doc

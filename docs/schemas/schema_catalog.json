@@ -3,12 +3,12 @@
   "title": "DevPilot Local Schema Catalog",
   "schema_version": "1.0",
   "status": "approved",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "owner": "Ordóñez",
   "updated": "2026-06-25",
-  "sprint": "POST-H-007-B",
+  "sprint": "POST-H-008-A",
   "preliminary": true,
-  "purpose": "Catalog of versioned JSON schemas registered by DevPilot. POST-H-002-A adds the MaturityDashboard contract for local, evidence-based maturity reporting without remote or production-overclaiming. POST-H-003-A adds the Test Contract Registry v2 design schema while preserving v1 compatibility. POST-H-004-A registers the MiasiSemanticReport contract for local, non-executing Policy/MIASI semantic validation reports. POST-H-005-A registers the ArchitectureMap contract for executable architecture inventory and dependency ownership baselines without running AST inventory yet. POST-H-007-B registers ApplicationOperationCatalog for declarative ApplicationService operation mapping, schema validation and test coverage metadata without changing runtime behavior.",
+  "purpose": "Catalog of versioned JSON schemas registered by DevPilot. POST-H-002-A adds the MaturityDashboard contract for local, evidence-based maturity reporting without remote or production-overclaiming. POST-H-003-A adds the Test Contract Registry v2 design schema while preserving v1 compatibility. POST-H-004-A registers the MiasiSemanticReport contract for local, non-executing Policy/MIASI semantic validation reports. POST-H-005-A registers the ArchitectureMap contract for executable architecture inventory and dependency ownership baselines without running AST inventory yet. POST-H-007-B registers ApplicationOperationCatalog for declarative ApplicationService operation mapping, schema validation and test coverage metadata without changing runtime behavior. POST-H-008-A registers RuntimeStatePolicy and RuntimeStateInventory schemas for local lifecycle taxonomy, retention, clean ZIP hygiene and future read-only inventory without enabling cleanup execution.",
   "schemas": [
     {
       "schema_id": "SCHEMA-DEVPL-FINDING-V1",
@@ -494,6 +494,34 @@
       "dialect": "https://json-schema.org/draft/2020-12/schema",
       "validates_instances": true,
       "validation_enabled_sprint": "POST-H-007-B"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-RUNTIME-STATE-POLICY-V1",
+      "title": "DevPilot Runtime State Policy v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/runtime_state_policy.schema.json",
+      "description": "Declarative local-first policy for runtime artifact classification, retention, cleanup/export permissions, redaction and clean ZIP hygiene.",
+      "status": "registered",
+      "contract": "RuntimeStatePolicy",
+      "owner": "Ordóñez",
+      "sprint": "POST-H-008-A",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "POST-H-008-A"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-RUNTIME-STATE-INVENTORY-V1",
+      "title": "DevPilot Runtime State Inventory v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/runtime_state_inventory.schema.json",
+      "description": "Structural contract for future read-only runtime-state inventory reports produced from RuntimeStatePolicy.",
+      "status": "registered",
+      "contract": "RuntimeStateInventory",
+      "owner": "Ordóñez",
+      "sprint": "POST-H-008-A",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "POST-H-008-A"
     }
   ]
 }

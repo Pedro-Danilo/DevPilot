@@ -1,0 +1,266 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "SCHEMA-DEVPL-RUNTIME-STATE-POLICY-V1",
+  "policy_id": "devpilot-runtime-state-policy",
+  "created_by": "POST-H-008-A",
+  "status": "approved",
+  "default_mode": "dry-run",
+  "artifact_classes": [
+    {
+      "class_id": "source-code",
+      "description": "Source-of-truth implementation files.",
+      "paths": [
+        "src/**/*.py",
+        "tests/**/*.py"
+      ],
+      "source_of_truth": true,
+      "versionable": true,
+      "sensitive": false,
+      "retention_days": 0,
+      "cleanup_allowed": false,
+      "export_allowed": true,
+      "redaction_required": false,
+      "never_delete": true,
+      "classification": "source-of-truth",
+      "notes": [
+        "Never delete through runtime-state cleanup."
+      ]
+    },
+    {
+      "class_id": "engineering-docs",
+      "description": "Versioned engineering documentation, backlogs, ADRs, runbooks and manifests.",
+      "paths": [
+        "docs/**/*.md",
+        "docs/**/*.json",
+        "README.md"
+      ],
+      "source_of_truth": true,
+      "versionable": true,
+      "sensitive": false,
+      "retention_days": 0,
+      "cleanup_allowed": false,
+      "export_allowed": true,
+      "redaction_required": false,
+      "never_delete": true,
+      "classification": "source-of-truth"
+    },
+    {
+      "class_id": "runtime-policy",
+      "description": "Versioned runtime state lifecycle policy and selected DevPilot governance metadata.",
+      "paths": [
+        ".devpilot/runtime_state_policy.json",
+        ".devpilot/project_state.json",
+        ".devpilot/testing/*.json"
+      ],
+      "source_of_truth": true,
+      "versionable": true,
+      "sensitive": false,
+      "retention_days": 0,
+      "cleanup_allowed": false,
+      "export_allowed": true,
+      "redaction_required": false,
+      "never_delete": true,
+      "classification": "source-of-truth"
+    },
+    {
+      "class_id": "generated-reports",
+      "description": "Generated reports and evidence outputs that should be recreated locally, not committed as source.",
+      "paths": [
+        "outputs/reports/**/*"
+      ],
+      "source_of_truth": false,
+      "versionable": false,
+      "sensitive": false,
+      "retention_days": 30,
+      "cleanup_allowed": true,
+      "export_allowed": true,
+      "redaction_required": false,
+      "never_delete": false,
+      "classification": "runtime-generated"
+    },
+    {
+      "class_id": "trace-events",
+      "description": "Observability traces/events that can contain prompts, payloads, paths or operational context.",
+      "paths": [
+        "outputs/traces/**/*.jsonl",
+        "outputs/traces/**/*.json"
+      ],
+      "source_of_truth": false,
+      "versionable": false,
+      "sensitive": true,
+      "retention_days": 30,
+      "cleanup_allowed": true,
+      "export_allowed": true,
+      "redaction_required": true,
+      "never_delete": false,
+      "classification": "runtime-sensitive"
+    },
+    {
+      "class_id": "eval-outputs",
+      "description": "Evaluation outputs produced by local runs.",
+      "paths": [
+        "outputs/evals/**/*"
+      ],
+      "source_of_truth": false,
+      "versionable": false,
+      "sensitive": true,
+      "retention_days": 30,
+      "cleanup_allowed": true,
+      "export_allowed": true,
+      "redaction_required": true,
+      "never_delete": false,
+      "classification": "runtime-sensitive"
+    },
+    {
+      "class_id": "draft-outputs",
+      "description": "Generated drafts and temporary authored outputs.",
+      "paths": [
+        "outputs/drafts/**/*"
+      ],
+      "source_of_truth": false,
+      "versionable": false,
+      "sensitive": true,
+      "retention_days": 14,
+      "cleanup_allowed": true,
+      "export_allowed": true,
+      "redaction_required": true,
+      "never_delete": false,
+      "classification": "runtime-sensitive"
+    },
+    {
+      "class_id": "local-db",
+      "description": "Local SQLite database containing operational history/state.",
+      "paths": [
+        ".devpilot/devpilot.db"
+      ],
+      "source_of_truth": false,
+      "versionable": false,
+      "sensitive": true,
+      "retention_days": 90,
+      "cleanup_allowed": false,
+      "export_allowed": true,
+      "redaction_required": true,
+      "never_delete": false,
+      "classification": "runtime-sensitive",
+      "notes": [
+        "Cleanup requires backup/export workflow in later micro-sprints."
+      ]
+    },
+    {
+      "class_id": "agent-sessions",
+      "description": "Local agent session files and run context.",
+      "paths": [
+        ".devpilot/agent_sessions/**/*"
+      ],
+      "source_of_truth": false,
+      "versionable": false,
+      "sensitive": true,
+      "retention_days": 30,
+      "cleanup_allowed": true,
+      "export_allowed": true,
+      "redaction_required": true,
+      "never_delete": false,
+      "classification": "runtime-sensitive"
+    },
+    {
+      "class_id": "rag-index",
+      "description": "Regenerable local RAG index. Versioning is conditional only when used as deterministic bootstrap evidence.",
+      "paths": [
+        ".devpilot/rag/docs_index.json"
+      ],
+      "source_of_truth": false,
+      "versionable": true,
+      "sensitive": false,
+      "retention_days": 0,
+      "cleanup_allowed": false,
+      "export_allowed": true,
+      "redaction_required": false,
+      "never_delete": false,
+      "classification": "conditional-source"
+    },
+    {
+      "class_id": "python-caches",
+      "description": "Python runtime caches.",
+      "paths": [
+        ".pytest_cache/**/*",
+        "**/__pycache__/**/*",
+        "**/*.pyc",
+        "**/*.pyo"
+      ],
+      "source_of_truth": false,
+      "versionable": false,
+      "sensitive": false,
+      "retention_days": 7,
+      "cleanup_allowed": true,
+      "export_allowed": false,
+      "redaction_required": false,
+      "never_delete": false,
+      "classification": "runtime-cache"
+    },
+    {
+      "class_id": "node-artifacts",
+      "description": "Node/npm and frontend build artifacts.",
+      "paths": [
+        "node_modules/**/*",
+        "ui/web/node_modules/**/*",
+        "ui/web/dist/**/*"
+      ],
+      "source_of_truth": false,
+      "versionable": false,
+      "sensitive": false,
+      "retention_days": 7,
+      "cleanup_allowed": true,
+      "export_allowed": false,
+      "redaction_required": false,
+      "never_delete": false,
+      "classification": "runtime-cache"
+    },
+    {
+      "class_id": "release-evidence",
+      "description": "Versioned release/manifest/changelog evidence.",
+      "paths": [
+        "docs/release/CHANGELOG.md",
+        "docs/post_h_*_manifest.json",
+        "docs/audits/post_h_*_report.md"
+      ],
+      "source_of_truth": true,
+      "versionable": true,
+      "sensitive": false,
+      "retention_days": 0,
+      "cleanup_allowed": false,
+      "export_allowed": true,
+      "redaction_required": false,
+      "never_delete": true,
+      "classification": "release-evidence"
+    }
+  ],
+  "zip_hygiene": {
+    "must_exclude": [
+      "outputs/",
+      ".devpilot/devpilot.db",
+      ".devpilot/agent_sessions/",
+      ".pytest_cache/",
+      "__pycache__/",
+      "node_modules/",
+      "ui/web/dist/",
+      "*.pyc",
+      "*.pyo"
+    ],
+    "git_archive_required": true,
+    "clean_zip_required": true,
+    "runtime_artifacts_allowed_in_release_zip": false
+  },
+  "safety": {
+    "destructive_cleanup_default": false,
+    "requires_execute_flag": true,
+    "source_of_truth_never_delete": true,
+    "network_required": false,
+    "external_api_required": false,
+    "remote_backup_enabled": false
+  },
+  "notes": [
+    "POST-H-008-A only defines taxonomy and schemas; inventory, cleanup and export commands are implemented in later micro-sprints.",
+    "Runtime cleanup remains dry-run by default and destructive cleanup is forbidden unless a later sprint adds explicit execute flow and approvals.",
+    "Clean ZIPs must exclude outputs, local DB, agent sessions and caches. User-provided validation ZIPs may include runtime outputs for evidence analysis."
+  ]
+}

@@ -1,13 +1,13 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
-Estado actual: `baseline pre-code approved + Fases A-G cerradas + Fase H cerrada + POST-H-001 implemented-initial + POST-H-EVAL-001 closed + POST-H-002 closed + POST-H-003 closed + POST-H-004 closed + POST-H-005 closed + POST-H-006 closed + POST-H-007-A implemented-initial + POST-H-007-B implemented-initial + POST-H-007-C implemented-initial + POST-H-007-D implemented-initial + POST-H-007-E implemented-initial`  
-Último hito: `POST-H-006 — CLI command registry y desacoplamiento de handlers`  
-Siguiente hito: `POST-H-007 — ApplicationService boundary hardening`  
-Último micro-sprint implementado: `POST-H-007-E — Integración con CLI registry y quality gate`  
+Estado actual: `baseline pre-code approved + Fases A-G cerradas + Fase H cerrada + POST-H-001 implemented-initial + POST-H-EVAL-001 closed + POST-H-002 closed + POST-H-003 closed + POST-H-004 closed + POST-H-005 closed + POST-H-006 closed + POST-H-007 closed + POST-H-008-A implemented-initial`  
+Último hito: `POST-H-007 — ApplicationService boundary hardening`  
+Siguiente hito: `POST-H-008 — Runtime state lifecycle policy`  
+Último micro-sprint implementado: `POST-H-008-A — Taxonomía y policy schema`  
 Hito diagnóstico cerrado: `POST-H-EVAL-001 — Evaluación integral del baseline DevPilot post-Fase H`, cierre formal `POST-H-EVAL-001-G`  
-Hito actual en implementación: `POST-H-007 — ApplicationService boundary hardening`  
-Hito cerrado: `POST-H-006 — CLI command registry y desacoplamiento de handlers`  
-Siguiente micro-sprint recomendado: `POST-H-007 closure/finalización del hito ApplicationService boundary hardening`  
+Hito actual en implementación: `POST-H-008 — Runtime state lifecycle policy`  
+Hito cerrado: `POST-H-007 — ApplicationService boundary hardening`  
+Siguiente micro-sprint recomendado: `POST-H-008-B — Runtime state inventory read-only`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
@@ -32,6 +32,38 @@ Modo de trabajo: local-first híbrido, API keys opcionales, costo externo contro
 
 
 
+
+
+
+
+## POST-H-008-A — Runtime state lifecycle: taxonomía y policy schema
+
+`POST-H-008-A` inicia el backlog `POST-H-008 — Runtime state lifecycle policy` y eleva su backlog a `approved`. La implementación define una taxonomía formal para artefactos runtime, registra los schemas `RuntimeStatePolicy` y `RuntimeStateInventory`, y versiona `.devpilot/runtime_state_policy.json` como fuente local de reglas de retención, limpieza, exportación, redacción y ZIP limpio.
+
+Capacidades iniciales:
+
+```text
+- Clasificación de source-of-truth vs runtime-generated/runtime-sensitive/runtime-cache.
+- Política declarativa local para `outputs/`, trazas, evals, drafts, DB local, sesiones de agentes, caches y RAG index.
+- Reglas de ZIP limpio con exclusión obligatoria de outputs, devpilot.db y agent_sessions.
+- Safety invariants: dry-run por defecto, destructive_cleanup_default=false y source_of_truth_never_delete=true.
+- Schema de inventory preparado para POST-H-008-B sin implementar todavía scanner runtime.
+```
+
+Artefactos principales:
+
+```text
+.devpilot/runtime_state_policy.json
+docs/schemas/runtime_state_policy.schema.json
+docs/schemas/runtime_state_inventory.schema.json
+docs/05_operations/runtime_state_lifecycle_policy.md
+docs/audits/post_h_008_a_runtime_state_policy_schema_report.md
+docs/post_h_008_a_manifest.json
+tests/test_runtime_state_policy_schema.py
+tests/test_post_h_008_runtime_state_lifecycle.py
+```
+
+Esta versión es `implemented-initial`: no borra archivos, no genera inventario real, no exporta evidencia y no integra aún el gate `runtime-state-hygiene`. Esas capacidades se implementan en `POST-H-008-B` a `POST-H-008-E`.
 
 
 ## POST-H-007-E — Integración con CLI registry y quality gate

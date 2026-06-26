@@ -10,6 +10,27 @@ owner: "Ordóñez"
 
 
 
+## [post-h-008-a] - 2026-06-25
+
+### Added
+
+- Runtime state lifecycle policy schema in `docs/schemas/runtime_state_policy.schema.json`.
+- Runtime state inventory schema in `docs/schemas/runtime_state_inventory.schema.json`.
+- Versioned local policy `.devpilot/runtime_state_policy.json`.
+- Operational documentation `docs/05_operations/runtime_state_lifecycle_policy.md`.
+- Audit report `docs/audits/post_h_008_a_runtime_state_policy_schema_report.md` and manifest `docs/post_h_008_a_manifest.json`.
+- Tests in `tests/test_runtime_state_policy_schema.py` and `tests/test_post_h_008_runtime_state_lifecycle.py`.
+- Test Contract Registry v1/v2 contract `post-h-008-runtime-state-policy-schema`.
+
+### Security
+
+- Declares `destructive_cleanup_default=false`, `source_of_truth_never_delete=true`, `network_required=false`, `external_api_required=false` and `remote_backup_enabled=false`.
+- Clean ZIP hygiene requires excluding `outputs/`, `.devpilot/devpilot.db`, `.devpilot/agent_sessions/`, caches and generated build artifacts.
+
+### Notes
+
+- This micro-sprint is taxonomy/schema only. Runtime inventory, cleanup plan, export/redaction and quality-gate runtime-state hygiene are deferred to `POST-H-008-B` through `POST-H-008-E`.
+
 
 ## [post-h-007-e] - 2026-06-25
 

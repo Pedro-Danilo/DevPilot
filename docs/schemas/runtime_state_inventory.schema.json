@@ -1,0 +1,186 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/runtime_state_inventory.schema.json",
+  "title": "DevPilot Runtime State Inventory v1",
+  "description": "POST-H-008-A structural contract for future read-only runtime-state inventory reports generated from runtime_state_policy.json.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "schema_id",
+    "inventory_id",
+    "generated_at_utc",
+    "policy_id",
+    "artifacts_total",
+    "by_class",
+    "violations",
+    "summary",
+    "safety"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "schema_id": {
+      "const": "SCHEMA-DEVPL-RUNTIME-STATE-INVENTORY-V1"
+    },
+    "inventory_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "generated_at_utc": {
+      "type": "string",
+      "minLength": 10
+    },
+    "policy_id": {
+      "const": "devpilot-runtime-state-policy"
+    },
+    "artifacts_total": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "by_class": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/$defs/class_summary"
+      }
+    },
+    "violations": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/violation"
+      }
+    },
+    "summary": {
+      "$ref": "#/$defs/summary"
+    },
+    "safety": {
+      "$ref": "#/$defs/safety"
+    }
+  },
+  "$defs": {
+    "class_summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "class_id",
+        "artifacts_total",
+        "bytes_total",
+        "versionable",
+        "cleanup_allowed",
+        "redaction_required"
+      ],
+      "properties": {
+        "class_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9_.-]+$"
+        },
+        "artifacts_total": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "bytes_total": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "versionable": {
+          "type": "boolean"
+        },
+        "cleanup_allowed": {
+          "type": "boolean"
+        },
+        "redaction_required": {
+          "type": "boolean"
+        }
+      }
+    },
+    "violation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "violation_id",
+        "path",
+        "severity",
+        "recommended_action"
+      ],
+      "properties": {
+        "violation_id": {
+          "type": "string",
+          "pattern": "^[A-Z0-9_]+$"
+        },
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "severity": {
+          "enum": [
+            "info",
+            "warn",
+            "block"
+          ]
+        },
+        "recommended_action": {
+          "type": "string",
+          "minLength": 1
+        },
+        "class_id": {
+          "type": "string"
+        }
+      }
+    },
+    "summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "policy_loaded",
+        "read_only",
+        "blocking_violations_total",
+        "warnings_total",
+        "preliminary"
+      ],
+      "properties": {
+        "policy_loaded": {
+          "type": "boolean"
+        },
+        "read_only": {
+          "const": true
+        },
+        "blocking_violations_total": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "warnings_total": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "preliminary": {
+          "const": true
+        }
+      }
+    },
+    "safety": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "mutations_performed",
+        "network_used",
+        "external_api_used",
+        "destructive_cleanup_performed"
+      ],
+      "properties": {
+        "mutations_performed": {
+          "const": false
+        },
+        "network_used": {
+          "const": false
+        },
+        "external_api_used": {
+          "const": false
+        },
+        "destructive_cleanup_performed": {
+          "const": false
+        }
+      }
+    }
+  }
+}

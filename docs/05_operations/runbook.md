@@ -2,12 +2,12 @@
 title: "Runbook — DevPilot Local"
 doc_id: "DEVPL-OPS-002"
 status: "approved"
-version: "1.31.0"
+version: "1.32.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
 phase: "FUNC-SPRINT-31"
-updated: "2026-06-23"
+updated: "2026-06-25"
 approval: "approved_by_owner"
 source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved + 03_security approved"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
@@ -7023,3 +7023,74 @@ BLOCK si se agregan rutas HTTP o comandos CLI públicos fuera del alcance de POS
 ```
 
 Limitación: `POST-H-007-E` es integración inicial governance/quality-gate. Los warnings de comandos sin mapping se mantienen no bloqueantes para proteger compatibilidad histórica; la migración/enforcement completo de comandos legacy queda para sprints posteriores.
+
+## POST-H-008-A — Runtime state lifecycle: taxonomía y policy schema
+
+`POST-H-008-A` introduce la política inicial de ciclo de vida de runtime state. Esta versión es `implemented-initial`: solo declara taxonomía, policy JSON y schemas; no ejecuta inventario, limpieza ni exportación.
+
+### Artefactos fuente
+
+```text
+.devpilot/runtime_state_policy.json
+docs/schemas/runtime_state_policy.schema.json
+docs/schemas/runtime_state_inventory.schema.json
+docs/05_operations/runtime_state_lifecycle_policy.md
+```
+
+### Validación específica
+
+```powershell
+$env:PYTHONPATH="src"
+$env:DD_TRACE_ENABLED="false"
+
+python -m pytest `
+  tests/test_runtime_state_policy_schema.py `
+  tests/test_post_h_008_runtime_state_lifecycle.py `
+  -q
+
+python -m devpilot_core schema validate `
+  --schema-id RuntimeStatePolicy `
+  --instance .devpilot/runtime_state_policy.json `
+  --json
+```
+
+### Validación focal de no regresión
+
+```powershell
+python -m pytest `
+  tests/test_runtime_state_policy_schema.py `
+  tests/test_post_h_008_runtime_state_lifecycle.py `
+  tests/test_schema_registry.py `
+  tests/test_project_global_state.py `
+  tests/test_test_contract_registry.py `
+  tests/test_test_contract_registry_v2.py `
+  tests/test_test_contract_registry_profiles_v2.py `
+  -q
+
+python -m devpilot_core test-contracts validate --json
+python -m devpilot_core test-contracts validate-v2 --json
+python -m devpilot_core project-state validate --json
+```
+
+### Criterios PASS
+
+```text
+PASS si RuntimeStatePolicy valida contra schema.
+PASS si RuntimeStateInventory está registrado en schema_catalog.
+PASS si must_exclude contiene outputs/, .devpilot/devpilot.db y .devpilot/agent_sessions/.
+PASS si destructive_cleanup_default=false.
+PASS si source-of-truth tiene cleanup_allowed=false y never_delete=true.
+```
+
+### Criterios BLOCK
+
+```text
+BLOCK si se permite borrar source-of-truth por política.
+BLOCK si cleanup destructivo queda habilitado por defecto.
+BLOCK si ZIP limpio permite outputs/, devpilot.db o agent_sessions.
+BLOCK si la policy requiere red, APIs externas o backup remoto.
+```
+
+### Nota operativa sobre `pytest -q` global
+
+Después de `POST-H-007-E` existe evidencia reciente de `pytest -q` completo con `1069 passed`. A partir de `POST-H-008`, es procedente usar pruebas focales por impacto para cada micro-sprint y reservar la suite global completa para cierre de backlog, cada dos o tres backlogs, o antes de una entrega/release local relevante. Esta decisión reduce costo operativo sin perder trazabilidad, siempre que se mantengan test contracts, quality gates y comandos focales documentados.

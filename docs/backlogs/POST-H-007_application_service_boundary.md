@@ -3,7 +3,7 @@ doc_id: "POST-H-007-BACKLOG"
 id: "POST-H-007"
 title: "POST-H-007 — ApplicationService boundary hardening"
 status: "approved"
-version: "0.5.0"
+version: "1.0.0"
 owner: "Ordóñez"
 updated: "2026-06-25"
 phase: "POST-FASE-H"
@@ -13,7 +13,7 @@ local_first: true
 dry_run: true
 no_runtime_features_added_by_backlog: false
 no_remote_execution_enabled: true
-implementation_status: "in-progress"
+implementation_status: "closed"
 approval: "internal"
 ---
 
@@ -539,3 +539,41 @@ PASS si quality-gate hardening conserva estado PASS.
 ```
 
 Limitación explícita: `POST-H-007-E` no activa runtime registry routing ni migra todos los comandos legacy. Los warnings de mapping son no bloqueantes en esta versión inicial; una versión posterior puede promoverlos a enforcement cuando exista plan de migración o excepciones explícitas por comando.
+
+
+## 17. Cierre del backlog — POST-H-007
+
+`POST-H-007 — ApplicationService boundary hardening` queda cerrado como `implemented-initial` después de `POST-H-007-E`.
+
+Capacidades adicionadas:
+
+```text
+- Inventario ApplicationService/API/UI/CLI y bypasses directos.
+- ApplicationOperationCatalog con contratos, riesgos, policy_required, dry_run_default, mappings y test coverage.
+- Normalización DTO prioritaria para operaciones ApplicationService.
+- Boundary policy por InterfaceClient: cli, api, ui, automation e internal.
+- Guardrails API/UI para operaciones no expuestas y operaciones sensibles.
+- Integración inicial CLI registry/ApplicationOperationCatalog.
+- Subgate application-cli-boundary-integration en quality-gate hardening.
+```
+
+Gaps cubiertos:
+
+```text
+- Reducción de divergencia CLI/API/UI mediante catálogo declarativo.
+- Exposición API/UI explícita y verificable.
+- Operaciones sensibles con policy_required y dry-run preservado.
+- Test contracts explícitos para operaciones API/UI.
+- Warnings no bloqueantes para comandos CLI aún no mapeados a operation_id.
+```
+
+Limitaciones que quedan para evolución posterior:
+
+```text
+- No se migraron todos los comandos legacy al ApplicationService.
+- No se habilitó runtime registry routing.
+- Los warnings de comandos aplicables sin operation_id siguen no bloqueantes.
+- La promoción de warnings a blockers requiere allowlist/excepciones explícitas en un backlog posterior.
+```
+
+El cierre de este backlog habilita `POST-H-008 — Runtime state lifecycle policy`.
