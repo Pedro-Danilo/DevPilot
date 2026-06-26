@@ -1,0 +1,375 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "SCHEMA-DEVPL-DOCUMENTATION-SOURCE-REGISTRY-V1",
+  "registry_id": "devpilot-documentation-source-registry",
+  "created_by": "POST-H-009-A",
+  "status": "implemented-initial",
+  "phase": "POST-FASE-H",
+  "owner": "Ordóñez",
+  "updated": "2026-06-26",
+  "preliminary": true,
+  "documents": [
+    {
+      "doc_id": "POSTH-ROADMAP-001",
+      "path": "docs/backlogs/post_h_prioritized_roadmap.md",
+      "classification": "source-of-truth",
+      "domain": "roadmap",
+      "owner": "Ordóñez",
+      "status_required": "approved",
+      "criticality": "P0",
+      "machine_readable_counterparts": [
+        ".devpilot/evals/post_h_eval_001_prioritized_roadmap.json"
+      ],
+      "derived_documents": [
+        "docs/backlogs/POST-H-002_maturity_dashboard_local.md",
+        "docs/backlogs/POST-H-003_test_contract_registry_2.md",
+        "docs/backlogs/POST-H-004_policy_miasi_semantic_validator.md",
+        "docs/backlogs/POST-H-005_architecture_map_executable.md",
+        "docs/backlogs/POST-H-006_cli_command_registry.md",
+        "docs/backlogs/POST-H-007_application_service_boundary.md",
+        "docs/backlogs/POST-H-008_runtime_state_lifecycle.md",
+        "docs/backlogs/POST-H-009_documentation_governance.md"
+      ],
+      "required_tests": [
+        "tests/test_post_h_roadmap_onboarding_adjustment.py",
+        "tests/test_project_global_state.py"
+      ],
+      "sync_rules": [
+        "version_match",
+        "milestones_match",
+        "decisions_match",
+        "next_hito_match"
+      ],
+      "related_adrs": [
+        "docs/adr/ADR-POSTH-001-local-first-before-remote.md",
+        "docs/adr/ADR-POSTH-002-test-contract-registry-2.md",
+        "docs/adr/ADR-POSTH-003-cli-modularization.md"
+      ],
+      "roadmap_milestones": [
+        "POST-H-002",
+        "POST-H-003",
+        "POST-H-004",
+        "POST-H-005",
+        "POST-H-006",
+        "POST-H-007",
+        "POST-H-008",
+        "POST-H-009"
+      ],
+      "lifecycle": "active",
+      "notes": [
+        "Roadmap Markdown is the human-readable planning authority; JSON counterpart is the machine-readable planning source."
+      ]
+    },
+    {
+      "doc_id": "POSTH-ROADMAP-JSON-001",
+      "path": ".devpilot/evals/post_h_eval_001_prioritized_roadmap.json",
+      "classification": "machine-readable-source",
+      "domain": "roadmap",
+      "owner": "Ordóñez",
+      "status_required": "implemented",
+      "criticality": "P0",
+      "human_readable_counterparts": [
+        "docs/backlogs/post_h_prioritized_roadmap.md"
+      ],
+      "derived_documents": [
+        "docs/backlogs/POST-H-009_documentation_governance.md"
+      ],
+      "required_tests": [
+        "tests/test_post_h_roadmap_onboarding_adjustment.py"
+      ],
+      "sync_rules": [
+        "version_match",
+        "milestones_match",
+        "decisions_match"
+      ],
+      "roadmap_milestones": [
+        "POST-H-009"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "POSTH-EVAL-001-MANIFEST",
+      "path": "docs/post_h_eval_001_manifest.json",
+      "classification": "machine-readable-source",
+      "domain": "post-h-eval",
+      "owner": "Ordóñez",
+      "status_required": "closed",
+      "criticality": "P1",
+      "human_readable_counterparts": [
+        "docs/audits/post_h_eval_001_closure_report.md"
+      ],
+      "required_tests": [
+        "tests/test_post_h_eval_001_documentation.py"
+      ],
+      "sync_rules": [
+        "closure_status_match"
+      ],
+      "lifecycle": "closed"
+    },
+    {
+      "doc_id": "POSTH-EVAL-001-CLOSURE",
+      "path": "docs/audits/post_h_eval_001_closure_report.md",
+      "classification": "source-of-truth",
+      "domain": "post-h-eval",
+      "owner": "Ordóñez",
+      "status_required": "approved",
+      "criticality": "P1",
+      "machine_readable_counterparts": [
+        "docs/post_h_eval_001_manifest.json"
+      ],
+      "required_tests": [
+        "tests/test_post_h_eval_001_documentation.py"
+      ],
+      "sync_rules": [
+        "closure_status_match"
+      ],
+      "lifecycle": "closed"
+    },
+    {
+      "doc_id": "DEVPL-README-001",
+      "path": "README.md",
+      "classification": "derived",
+      "domain": "operator-status",
+      "owner": "Ordóñez",
+      "status_required": "current",
+      "criticality": "P1",
+      "machine_readable_counterparts": [
+        ".devpilot/project_state.json"
+      ],
+      "required_tests": [
+        "tests/test_project_global_state.py"
+      ],
+      "sync_rules": [
+        "next_hito_match",
+        "closure_status_match"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "DEVPL-PROJECT-STATE-001",
+      "path": ".devpilot/project_state.json",
+      "classification": "machine-readable-source",
+      "domain": "project-state",
+      "owner": "tests/test_project_global_state.py",
+      "status_required": "current",
+      "criticality": "P0",
+      "human_readable_counterparts": [
+        "README.md",
+        "docs/05_operations/runbook.md",
+        "docs/release/CHANGELOG.md"
+      ],
+      "required_tests": [
+        "tests/test_project_global_state.py"
+      ],
+      "sync_rules": [
+        "next_hito_match",
+        "closure_status_match"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "DEVPL-OPS-002",
+      "path": "docs/05_operations/runbook.md",
+      "classification": "source-of-truth",
+      "domain": "operations",
+      "owner": "Ordóñez",
+      "status_required": "approved",
+      "criticality": "P1",
+      "required_tests": [
+        "tests/test_project_global_state.py",
+        "tests/test_post_h_009_documentation_governance.py"
+      ],
+      "sync_rules": [
+        "closure_status_match",
+        "next_hito_match"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "DEVPL-CHANGELOG-001",
+      "path": "docs/release/CHANGELOG.md",
+      "classification": "source-of-truth",
+      "domain": "release-history",
+      "owner": "Ordóñez",
+      "status_required": "current",
+      "criticality": "P1",
+      "required_tests": [
+        "tests/test_project_global_state.py",
+        "tests/test_post_h_009_documentation_governance.py"
+      ],
+      "sync_rules": [
+        "closure_status_match",
+        "next_hito_match"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "DEVPL-TCR-001",
+      "path": ".devpilot/testing/test_contract_registry.json",
+      "classification": "machine-readable-source",
+      "domain": "testing-contracts",
+      "owner": "POST-H-001",
+      "status_required": "implemented-initial",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_test_contract_registry.py"
+      ],
+      "sync_rules": [
+        "contract_registry_integrity"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "DEVPL-TCR-002",
+      "path": ".devpilot/testing/test_contract_registry_v2.json",
+      "classification": "machine-readable-source",
+      "domain": "testing-contracts",
+      "owner": "POST-H-003",
+      "status_required": "implemented-initial",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_test_contract_registry_v2.py",
+        "tests/test_test_contract_registry_profiles_v2.py"
+      ],
+      "sync_rules": [
+        "contract_registry_integrity"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "ADR-POSTH-001",
+      "path": "docs/adr/ADR-POSTH-001-local-first-before-remote.md",
+      "classification": "source-of-truth",
+      "domain": "architecture-decision",
+      "owner": "Ordóñez",
+      "status_required": "approved",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_eval_001_documentation.py"
+      ],
+      "sync_rules": [
+        "adr_linked"
+      ],
+      "roadmap_milestones": [
+        "POST-H-012",
+        "POST-H-018",
+        "POST-H-020"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "ADR-POSTH-002",
+      "path": "docs/adr/ADR-POSTH-002-test-contract-registry-2.md",
+      "classification": "source-of-truth",
+      "domain": "architecture-decision",
+      "owner": "Ordóñez",
+      "status_required": "approved",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_eval_001_documentation.py",
+        "tests/test_test_contract_registry_v2.py"
+      ],
+      "sync_rules": [
+        "adr_linked",
+        "contract_registry_integrity"
+      ],
+      "roadmap_milestones": [
+        "POST-H-003"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "ADR-POSTH-003",
+      "path": "docs/adr/ADR-POSTH-003-cli-modularization.md",
+      "classification": "source-of-truth",
+      "domain": "architecture-decision",
+      "owner": "Ordóñez",
+      "status_required": "approved",
+      "criticality": "P1",
+      "required_tests": [
+        "tests/test_post_h_eval_001_documentation.py",
+        "tests/test_post_h_006_b_declarative_registry.py"
+      ],
+      "sync_rules": [
+        "adr_linked",
+        "cli_registry_integrity"
+      ],
+      "roadmap_milestones": [
+        "POST-H-006",
+        "POST-H-007"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "POST-H-009-BACKLOG",
+      "path": "docs/backlogs/POST-H-009_documentation_governance.md",
+      "classification": "source-of-truth",
+      "domain": "documentation-governance",
+      "owner": "Ordóñez",
+      "status_required": "approved",
+      "criticality": "P1",
+      "required_tests": [
+        "tests/test_post_h_009_documentation_governance.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "sync_rules": [
+        "backlog_registered",
+        "source_registry_integrity"
+      ],
+      "roadmap_milestones": [
+        "POST-H-009"
+      ],
+      "lifecycle": "active",
+      "notes": [
+        "POST-H-009-A promotes this backlog to approved and registers the first canonical source registry."
+      ],
+      "derived_documents": [
+        "docs/POST-H-009_documentation_governance.md"
+      ]
+    }
+  ],
+  "rules": {
+    "approved_docs_require_frontmatter": true,
+    "source_of_truth_requires_tests": true,
+    "source_of_truth_requires_owner": true,
+    "source_of_truth_requires_status_required": true,
+    "markdown_json_pairs_require_sync": true,
+    "generated_runtime_must_not_be_versioned": true,
+    "historical_documents_are_not_current_authority_by_default": true,
+    "registry_is_local_first": true,
+    "llm_judge_required": false
+  },
+  "summary": {
+    "documents_total": 14,
+    "source_of_truth_total": 8,
+    "machine_readable_source_total": 5,
+    "derived_total": 1,
+    "generated_runtime_total": 0,
+    "historical_total": 0,
+    "deprecated_total": 0,
+    "critical_sources_total": 14,
+    "markdown_json_pairs_total": 6,
+    "documents_with_required_tests_total": 14,
+    "network_used": false,
+    "external_api_used": false,
+    "mutations_performed": false
+  },
+  "safety": {
+    "local_first": true,
+    "read_only_registry": true,
+    "dry_run_default": true,
+    "network_used": false,
+    "external_api_used": false,
+    "mutations_performed": false,
+    "source_mutations_performed": false,
+    "llm_judge_used": false,
+    "remote_execution_enabled": false,
+    "connector_write_enabled": false,
+    "plugin_execution_enabled": false
+  },
+  "notes": [
+    "POST-H-009-A creates the first canonical documentation source registry and schema baseline.",
+    "The registry is versioned source-of-truth; generated reports under outputs/reports remain unversioned runtime evidence.",
+    "This is implemented-initial: executable frontmatter/status/drift validation is deferred to POST-H-009-B/C/E."
+  ]
+}

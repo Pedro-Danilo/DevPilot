@@ -1,4 +1,24 @@
 
+## [post-h-009-a] - 2026-06-26
+
+### Added
+
+- `DocumentationSourceRegistry` schema and canonical source registry at `.devpilot/docs_governance/source_registry.json`.
+- `DocumentationGovernanceReport` schema registered for future validator/report micro-sprints.
+- Initial `src/devpilot_core/docs_governance/` read-only registry loader and models.
+- Tests for registry schema, roadmap Markdown/JSON pair declaration and POST-H-009-A documentation synchronization.
+- TCR v1/v2 contract `post-h-009-documentation-source-registry`.
+
+### Safety
+
+- Registry is local-first, read-only and version-controlled.
+- No network, external APIs, LLM judge, remote execution, connector write or plugin execution.
+
+### Deferred
+
+- Executable `docs-governance validate`, frontmatter/status validation, drift detection and quality-gate integration remain for POST-H-009-B/C/E.
+
+
 ## [post-h-008-e] - 2026-06-26
 
 ### Added

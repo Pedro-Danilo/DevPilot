@@ -1,0 +1,191 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/documentation_source_registry.schema.json",
+  "title": "DevPilot Documentation Source Registry v1",
+  "description": "Canonical registry of documentation sources, machine-readable counterparts, derived documents, owners, tests and synchronization rules for DevPilot documentation governance.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "schema_id",
+    "registry_id",
+    "created_by",
+    "status",
+    "phase",
+    "owner",
+    "updated",
+    "documents",
+    "rules",
+    "summary",
+    "safety",
+    "notes"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "schema_id": {"const": "SCHEMA-DEVPL-DOCUMENTATION-SOURCE-REGISTRY-V1"},
+    "registry_id": {"const": "devpilot-documentation-source-registry"},
+    "created_by": {"const": "POST-H-009-A"},
+    "status": {"enum": ["implemented-initial", "approved"]},
+    "phase": {"const": "POST-FASE-H"},
+    "owner": {"type": "string", "minLength": 1},
+    "updated": {"type": "string", "minLength": 10},
+    "preliminary": {"type": "boolean"},
+    "documents": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/document"},
+      "uniqueItems": true
+    },
+    "rules": {
+      "type": "object",
+      "required": [
+        "approved_docs_require_frontmatter",
+        "source_of_truth_requires_tests",
+        "source_of_truth_requires_owner",
+        "source_of_truth_requires_status_required",
+        "markdown_json_pairs_require_sync",
+        "generated_runtime_must_not_be_versioned"
+      ],
+      "properties": {
+        "approved_docs_require_frontmatter": {"type": "boolean"},
+        "source_of_truth_requires_tests": {"const": true},
+        "source_of_truth_requires_owner": {"const": true},
+        "source_of_truth_requires_status_required": {"const": true},
+        "markdown_json_pairs_require_sync": {"type": "boolean"},
+        "generated_runtime_must_not_be_versioned": {"const": true},
+        "historical_documents_are_not_current_authority_by_default": {"type": "boolean"},
+        "registry_is_local_first": {"const": true},
+        "llm_judge_required": {"const": false}
+      },
+      "additionalProperties": true
+    },
+    "summary": {
+      "type": "object",
+      "required": [
+        "documents_total",
+        "source_of_truth_total",
+        "machine_readable_source_total",
+        "derived_total",
+        "historical_total",
+        "critical_sources_total",
+        "markdown_json_pairs_total",
+        "documents_with_required_tests_total",
+        "network_used",
+        "external_api_used",
+        "mutations_performed"
+      ],
+      "properties": {
+        "documents_total": {"type": "integer", "minimum": 1},
+        "source_of_truth_total": {"type": "integer", "minimum": 0},
+        "machine_readable_source_total": {"type": "integer", "minimum": 0},
+        "derived_total": {"type": "integer", "minimum": 0},
+        "generated_runtime_total": {"type": "integer", "minimum": 0},
+        "historical_total": {"type": "integer", "minimum": 0},
+        "deprecated_total": {"type": "integer", "minimum": 0},
+        "critical_sources_total": {"type": "integer", "minimum": 0},
+        "markdown_json_pairs_total": {"type": "integer", "minimum": 0},
+        "documents_with_required_tests_total": {"type": "integer", "minimum": 0},
+        "network_used": {"const": false},
+        "external_api_used": {"const": false},
+        "mutations_performed": {"const": false}
+      },
+      "additionalProperties": true
+    },
+    "safety": {
+      "type": "object",
+      "required": ["local_first", "read_only_registry", "dry_run_default", "network_used", "external_api_used", "mutations_performed", "llm_judge_used"],
+      "properties": {
+        "local_first": {"const": true},
+        "read_only_registry": {"const": true},
+        "dry_run_default": {"const": true},
+        "network_used": {"const": false},
+        "external_api_used": {"const": false},
+        "mutations_performed": {"const": false},
+        "source_mutations_performed": {"const": false},
+        "llm_judge_used": {"const": false},
+        "remote_execution_enabled": {"const": false},
+        "connector_write_enabled": {"const": false},
+        "plugin_execution_enabled": {"const": false}
+      },
+      "additionalProperties": true
+    },
+    "notes": {"type": "array", "items": {"type": "string"}}
+  },
+  "$defs": {
+    "document": {
+      "type": "object",
+      "required": [
+        "doc_id",
+        "path",
+        "classification",
+        "domain",
+        "owner",
+        "status_required",
+        "criticality",
+        "required_tests",
+        "sync_rules"
+      ],
+      "properties": {
+        "doc_id": {"type": "string", "minLength": 1},
+        "path": {"type": "string", "minLength": 1},
+        "classification": {
+          "enum": [
+            "source-of-truth",
+            "machine-readable-source",
+            "derived",
+            "generated-runtime",
+            "historical",
+            "deprecated"
+          ]
+        },
+        "domain": {"type": "string", "minLength": 1},
+        "owner": {"type": "string", "minLength": 1},
+        "status_required": {"type": "string", "minLength": 1},
+        "criticality": {"enum": ["P0", "P1", "P2", "P3"]},
+        "machine_readable_counterparts": {"type": "array", "items": {"type": "string"}, "default": []},
+        "human_readable_counterparts": {"type": "array", "items": {"type": "string"}, "default": []},
+        "derived_documents": {"type": "array", "items": {"type": "string"}, "default": []},
+        "required_tests": {"type": "array", "items": {"type": "string"}, "minItems": 1},
+        "sync_rules": {"type": "array", "items": {"type": "string"}},
+        "related_adrs": {"type": "array", "items": {"type": "string"}, "default": []},
+        "roadmap_milestones": {"type": "array", "items": {"type": "string"}, "default": []},
+        "lifecycle": {"enum": ["active", "closed", "historical", "planned", "deprecated"]},
+        "notes": {"type": "array", "items": {"type": "string"}}
+      },
+      "additionalProperties": true
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "documents": {
+            "contains": {
+              "type": "object",
+              "properties": {"path": {"const": "docs/backlogs/post_h_prioritized_roadmap.md"}}
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "documents": {
+            "contains": {
+              "type": "object",
+              "required": ["path", "machine_readable_counterparts"],
+              "properties": {
+                "path": {"const": "docs/backlogs/post_h_prioritized_roadmap.md"},
+                "machine_readable_counterparts": {
+                  "contains": {"const": ".devpilot/evals/post_h_eval_001_prioritized_roadmap.json"}
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "additionalProperties": true,
+  "x-devpilot-schema-id": "SCHEMA-DEVPL-DOCUMENTATION-SOURCE-REGISTRY-V1",
+  "x-devpilot-sprint": "POST-H-009-A",
+  "x-devpilot-status": "registered"
+}

@@ -1,0 +1,89 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/documentation_governance_report.schema.json",
+  "title": "DevPilot Documentation Governance Report v1",
+  "description": "Future executable report for documentation governance validation and drift detection. POST-H-009-A registers the contract before validator implementation in later micro-sprints.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "schema_id",
+    "report_id",
+    "created_by",
+    "status",
+    "generated_at_utc",
+    "registry_path",
+    "summary",
+    "findings",
+    "safety",
+    "notes"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "schema_id": {"const": "SCHEMA-DEVPL-DOCUMENTATION-GOVERNANCE-REPORT-V1"},
+    "report_id": {"const": "devpilot-documentation-governance-report"},
+    "created_by": {"enum": ["POST-H-009-A", "POST-H-009-B", "POST-H-009-C", "POST-H-009-D", "POST-H-009-E"]},
+    "status": {"enum": ["implemented-initial", "planned"]},
+    "generated_at_utc": {"type": "string", "minLength": 10},
+    "registry_path": {"const": ".devpilot/docs_governance/source_registry.json"},
+    "summary": {
+      "type": "object",
+      "required": [
+        "documents_total",
+        "documents_checked_total",
+        "blocking_findings_total",
+        "warnings_total",
+        "network_used",
+        "external_api_used",
+        "mutations_performed"
+      ],
+      "properties": {
+        "documents_total": {"type": "integer", "minimum": 0},
+        "documents_checked_total": {"type": "integer", "minimum": 0},
+        "frontmatter_checked_total": {"type": "integer", "minimum": 0},
+        "markdown_json_pairs_checked_total": {"type": "integer", "minimum": 0},
+        "drift_findings_total": {"type": "integer", "minimum": 0},
+        "blocking_findings_total": {"type": "integer", "minimum": 0},
+        "warnings_total": {"type": "integer", "minimum": 0},
+        "network_used": {"const": false},
+        "external_api_used": {"const": false},
+        "mutations_performed": {"const": false}
+      },
+      "additionalProperties": true
+    },
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "message", "severity"],
+        "properties": {
+          "id": {"type": "string"},
+          "message": {"type": "string"},
+          "severity": {"enum": ["info", "warning", "error", "block"]},
+          "path": {"type": "string"},
+          "metadata": {"type": "object"}
+        },
+        "additionalProperties": true
+      }
+    },
+    "safety": {
+      "type": "object",
+      "required": ["local_first", "read_only", "dry_run", "network_used", "external_api_used", "mutations_performed", "llm_judge_used"],
+      "properties": {
+        "local_first": {"const": true},
+        "read_only": {"const": true},
+        "dry_run": {"const": true},
+        "network_used": {"const": false},
+        "external_api_used": {"const": false},
+        "mutations_performed": {"const": false},
+        "source_mutations_performed": {"const": false},
+        "llm_judge_used": {"const": false}
+      },
+      "additionalProperties": true
+    },
+    "notes": {"type": "array", "items": {"type": "string"}}
+  },
+  "additionalProperties": true,
+  "x-devpilot-schema-id": "SCHEMA-DEVPL-DOCUMENTATION-GOVERNANCE-REPORT-V1",
+  "x-devpilot-sprint": "POST-H-009-A",
+  "x-devpilot-status": "registered"
+}

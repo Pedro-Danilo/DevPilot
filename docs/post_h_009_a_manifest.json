@@ -1,0 +1,70 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "SCHEMA-DEVPL-POST-H-MANIFEST-V1",
+  "post_h_id": "POST-H-009",
+  "id": "POST-H-009-A",
+  "sprint_id": "POST-H-009-A",
+  "title": "POST-H-009-A — Source registry y schema",
+  "status": "implemented-initial",
+  "phase": "POST-FASE-H",
+  "implemented_at": "2026-06-26",
+  "preliminary": true,
+  "created_files": [
+    ".devpilot/docs_governance/source_registry.json",
+    "docs/POST-H-009_documentation_governance.md",
+    "docs/05_operations/documentation_governance.md",
+    "docs/audits/post_h_009_a_documentation_source_registry_report.md",
+    "docs/post_h_009_a_manifest.json",
+    "docs/schemas/documentation_source_registry.schema.json",
+    "docs/schemas/documentation_governance_report.schema.json",
+    "src/devpilot_core/docs_governance/__init__.py",
+    "src/devpilot_core/docs_governance/models.py",
+    "src/devpilot_core/docs_governance/registry.py",
+    "tests/test_documentation_source_registry_schema.py",
+    "tests/test_post_h_009_documentation_governance.py"
+  ],
+  "modified_files": [
+    "README.md",
+    ".devpilot/project_state.json",
+    ".devpilot/testing/test_contract_registry.json",
+    ".devpilot/testing/test_contract_registry_v2.json",
+    "docs/05_operations/runbook.md",
+    "docs/backlogs/POST-H-009_documentation_governance.md",
+    "docs/release/CHANGELOG.md",
+    "docs/schemas/schema_catalog.json",
+    "tests/test_schema_registry.py"
+  ],
+  "commands": [
+    "python -m devpilot_core schema validate --schema-id DocumentationSourceRegistry --instance .devpilot/docs_governance/source_registry.json --json",
+    "python -m devpilot_core schema list --json",
+    "python -m devpilot_core test-contracts validate --json",
+    "python -m devpilot_core test-contracts validate-v2 --json"
+  ],
+  "tests": [
+    "tests/test_documentation_source_registry_schema.py",
+    "tests/test_post_h_009_documentation_governance.py",
+    "tests/test_schema_registry.py",
+    "tests/test_project_global_state.py",
+    "tests/test_test_contract_registry.py",
+    "tests/test_test_contract_registry_v2.py"
+  ],
+  "pass_criteria": [
+    "DocumentationSourceRegistry validates against schema.",
+    "DocumentationGovernanceReport schema is registered for later micro-sprints.",
+    "Roadmap Markdown and JSON counterpart are declared.",
+    "Every source-of-truth entry has owner, status_required and required_tests.",
+    "Test contracts validate locally without network or external APIs."
+  ],
+  "block_criteria": [
+    "A critical source-of-truth document is registered without tests.",
+    "Roadmap JSON is not linked to roadmap Markdown.",
+    "Registry schema is not registered in schema_catalog.",
+    "Validation requires network, LLM judge or external APIs."
+  ],
+  "risks": [
+    "This is a registry/schema baseline only; executable drift detection is deferred.",
+    "Manual registry maintenance may drift until POST-H-009-B/C validators are implemented.",
+    "Some documents remain derived/current-state summaries rather than canonical decision sources."
+  ],
+  "next_sprint": "POST-H-009"
+}

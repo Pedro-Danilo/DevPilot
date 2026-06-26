@@ -1,13 +1,13 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
-Estado actual: `baseline pre-code approved + Fases A-G cerradas + Fase H cerrada + POST-H-001 implemented-initial + POST-H-EVAL-001 closed + POST-H-002 closed + POST-H-003 closed + POST-H-004 closed + POST-H-005 closed + POST-H-006 closed + POST-H-007 closed + POST-H-008-A implemented-initial + POST-H-008-B implemented-initial + POST-H-008-C implemented-initial + POST-H-008-D implemented-initial + POST-H-008-E implemented-initial + POST-H-008 closed`  
+Estado actual: `baseline pre-code approved + Fases A-G cerradas + Fase H cerrada + POST-H-001 implemented-initial + POST-H-EVAL-001 closed + POST-H-002 closed + POST-H-003 closed + POST-H-004 closed + POST-H-005 closed + POST-H-006 closed + POST-H-007 closed + POST-H-008-A implemented-initial + POST-H-008-B implemented-initial + POST-H-008-C implemented-initial + POST-H-008-D implemented-initial + POST-H-008-E implemented-initial + POST-H-008 closed + POST-H-009-A implemented-initial`  
 Último hito: `POST-H-008 — Runtime state lifecycle policy`  
 Siguiente hito: `POST-H-009 — Documentation governance`  
-Último micro-sprint implementado: `POST-H-008-E — Gate de higiene runtime y release archive`  
+Último micro-sprint implementado: `POST-H-009-A — Source registry y schema`  
 Hito diagnóstico cerrado: `POST-H-EVAL-001 — Evaluación integral del baseline DevPilot post-Fase H`, cierre formal `POST-H-EVAL-001-G`  
 Hito cerrado: `POST-H-008 — Runtime state lifecycle policy`  
 Hito cerrado: `POST-H-007 — ApplicationService boundary hardening`  
-Siguiente micro-sprint recomendado: `POST-H-009-A — Documentation governance canonical source registry`  
+Siguiente micro-sprint recomendado: `POST-H-009-B — Validator de frontmatter/status/ownership`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
@@ -37,6 +37,44 @@ Modo de trabajo: local-first híbrido, API keys opcionales, costo externo contro
 
 
 
+
+
+## POST-H-009-A — Documentation governance: source registry y schema
+
+`POST-H-009-A` inicia el backlog `POST-H-009 — Documentation governance y canonical sources`, eleva su backlog a `approved` y crea el primer registry canónico de fuentes documentales de DevPilot. La implementación es local-first, read-only, sin red, sin APIs externas y sin LLM judge.
+
+Artefactos principales:
+
+```text
+.devpilot/docs_governance/source_registry.json
+docs/schemas/documentation_source_registry.schema.json
+docs/schemas/documentation_governance_report.schema.json
+docs/05_operations/documentation_governance.md
+docs/audits/post_h_009_a_documentation_source_registry_report.md
+docs/post_h_009_a_manifest.json
+src/devpilot_core/docs_governance/
+```
+
+Comandos principales:
+
+```powershell
+python -m devpilot_core schema validate --schema-id DocumentationSourceRegistry --instance .devpilot/docs_governance/source_registry.json --json
+python -m devpilot_core schema list --json
+python -m pytest tests/test_documentation_source_registry_schema.py tests/test_post_h_009_documentation_governance.py -q
+```
+
+Controles implementados:
+
+```text
+- Clasificación source-of-truth / machine-readable-source / derived.
+- Registro del roadmap Markdown y su JSON counterpart.
+- Registro de manifest, closure report, ADRs, runbook, changelog, README, project_state y test contract registries.
+- Owner, status_required y required_tests por fuente canónica.
+- Schemas DocumentationSourceRegistry y DocumentationGovernanceReport.
+- Contrato TCR v1/v2 post-h-009-documentation-source-registry.
+```
+
+Esta versión es `implemented-initial`: no implementa todavía `docs-governance validate`, detección de drift Markdown ↔ JSON ni subgate de quality gate. Esas capacidades quedan para `POST-H-009-B` a `POST-H-009-E`.
 
 ## POST-H-008-E — Runtime state lifecycle: gate de higiene runtime y release archive
 

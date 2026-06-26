@@ -3038,6 +3038,55 @@
         "python -m devpilot_core test-contracts validate --json",
         "python -m devpilot_core test-contracts validate-v2 --json"
       ]
+    },
+    {
+      "contract_id": "post-h-009-documentation-source-registry",
+      "scope": "integration",
+      "owner": "POST-H-009-A",
+      "phase": "POST-FASE-H",
+      "test_files": [
+        "tests/test_documentation_source_registry_schema.py",
+        "tests/test_post_h_009_documentation_governance.py",
+        "tests/test_schema_registry.py",
+        "tests/test_project_global_state.py"
+      ],
+      "validates": [
+        ".devpilot/docs_governance/source_registry.json",
+        "src/devpilot_core/docs_governance/",
+        "docs/schemas/documentation_source_registry.schema.json",
+        "docs/schemas/documentation_governance_report.schema.json",
+        "docs/schemas/schema_catalog.json",
+        "docs/POST-H-009_documentation_governance.md",
+        "docs/backlogs/POST-H-009_documentation_governance.md",
+        "docs/05_operations/documentation_governance.md",
+        "docs/audits/post_h_009_a_documentation_source_registry_report.md",
+        "docs/post_h_009_a_manifest.json"
+      ],
+      "watched_paths": [
+        ".devpilot/docs_governance/",
+        "src/devpilot_core/docs_governance/",
+        "docs/schemas/documentation_source_registry.schema.json",
+        "docs/schemas/documentation_governance_report.schema.json",
+        "docs/schemas/schema_catalog.json",
+        "README.md",
+        "docs/05_operations/runbook.md",
+        "docs/05_operations/documentation_governance.md",
+        "docs/backlogs/POST-H-009_documentation_governance.md",
+        "docs/POST-H-009_documentation_governance.md",
+        "docs/release/CHANGELOG.md",
+        "tests/test_documentation_source_registry_schema.py",
+        "tests/test_post_h_009_documentation_governance.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest tests/test_documentation_source_registry_schema.py tests/test_post_h_009_documentation_governance.py tests/test_schema_registry.py tests/test_project_global_state.py -q",
+        "python -m devpilot_core schema validate --schema-id DocumentationSourceRegistry --instance .devpilot/docs_governance/source_registry.json --json",
+        "python -m devpilot_core schema list --json",
+        "python -m devpilot_core test-contracts validate --json",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ]
     }
   ],
   "notes": [

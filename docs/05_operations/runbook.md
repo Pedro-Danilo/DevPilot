@@ -7279,3 +7279,48 @@ BLOCK si outputs, devpilot.db, agent_sessions, caches o build artifacts aparecen
 ```
 
 El comando no crea ZIPs ni modifica archivos fuente. Solo escribe `outputs/reports/runtime_state_hygiene_report.{json,md}` cuando se usa `--write-report`.
+
+## POST-H-009-A — Source registry y schema
+
+`POST-H-009-A` inicia la gobernanza documental de DevPilot. Eleva `docs/backlogs/POST-H-009_documentation_governance.md` a `approved` y crea el registry canónico `.devpilot/docs_governance/source_registry.json`.
+
+Comandos de verificación:
+
+```powershell
+python -m devpilot_core schema validate --schema-id DocumentationSourceRegistry --instance .devpilot/docs_governance/source_registry.json --json
+python -m devpilot_core schema list --json
+python -m pytest tests/test_documentation_source_registry_schema.py tests/test_post_h_009_documentation_governance.py -q
+```
+
+Capacidades:
+
+```text
+- Registry local-first de fuentes canónicas.
+- Clasificación documental: source-of-truth, machine-readable-source, derived, generated-runtime, historical y deprecated.
+- Pair roadmap Markdown ↔ roadmap JSON.
+- Owner, status_required y required_tests por fuente crítica.
+- Schemas DocumentationSourceRegistry y DocumentationGovernanceReport.
+- Contrato TCR v1/v2 para post-h-009-documentation-source-registry.
+```
+
+Límites:
+
+```text
+- No implementa todavía docs-governance validate.
+- No calcula drift Markdown ↔ JSON.
+- No integra aún subgate docs-governance a quality-gate hardening.
+- No usa LLM judge ni servicios externos.
+```
+
+### Política de verificación general después de POST-H-008
+
+Dado que la suite global ya supera 1000 tests, es procedente no ejecutar `pytest -q` en cada micro-sprint. La política recomendada es:
+
+```text
+- Ejecutar pruebas focales por impacto en cada micro-sprint.
+- Ejecutar test-contracts validate y validate-v2 cuando se toquen contratos o tests.
+- Ejecutar quality-gate hardening cuando se agreguen gates o artefactos de gobierno.
+- Ejecutar pytest -q completo al cierre de un backlog, cada dos o tres backlogs, o antes de release/archive local relevante.
+```
+
+Esta política no sustituye la suite global; la convierte en checkpoint periódico de mayor costo. `POST-H-008-E` ya aportó evidencia reciente de `pytest -q` completo con `1100 passed`, por lo que `POST-H-009-A` puede validarse focalmente.

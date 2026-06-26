@@ -3,12 +3,12 @@
   "title": "DevPilot Local Schema Catalog",
   "schema_version": "1.0",
   "status": "approved",
-  "version": "1.5.0",
+  "version": "1.6.0",
   "owner": "Ordóñez",
   "updated": "2026-06-26",
-  "sprint": "POST-H-008-E",
+  "sprint": "POST-H-009-A",
   "preliminary": true,
-  "purpose": "Catalog of versioned JSON schemas registered by DevPilot. POST-H-002-A adds the MaturityDashboard contract for local, evidence-based maturity reporting without remote or production-overclaiming. POST-H-003-A adds the Test Contract Registry v2 design schema while preserving v1 compatibility. POST-H-004-A registers the MiasiSemanticReport contract for local, non-executing Policy/MIASI semantic validation reports. POST-H-005-A registers the ArchitectureMap contract for executable architecture inventory and dependency ownership baselines without running AST inventory yet. POST-H-007-B registers ApplicationOperationCatalog for declarative ApplicationService operation mapping, schema validation and test coverage metadata without changing runtime behavior. POST-H-008-A registers RuntimeStatePolicy and RuntimeStateInventory schemas for local lifecycle taxonomy, retention, clean ZIP hygiene and read-only inventory without enabling cleanup execution; POST-H-008-B expands RuntimeStateInventory for concrete scanner reports. POST-H-008-C registers RuntimeStateCleanupPlan for dry-run-first cleanup planning with explicit execute confirmation and source-of-truth never-delete safeguards.",
+  "purpose": "Catalog of versioned JSON schemas registered by DevPilot. POST-H-002-A adds the MaturityDashboard contract for local, evidence-based maturity reporting without remote or production-overclaiming. POST-H-003-A adds the Test Contract Registry v2 design schema while preserving v1 compatibility. POST-H-004-A registers the MiasiSemanticReport contract for local, non-executing Policy/MIASI semantic validation reports. POST-H-005-A registers the ArchitectureMap contract for executable architecture inventory and dependency ownership baselines without running AST inventory yet. POST-H-007-B registers ApplicationOperationCatalog for declarative ApplicationService operation mapping, schema validation and test coverage metadata without changing runtime behavior. POST-H-008-A registers RuntimeStatePolicy and RuntimeStateInventory schemas for local lifecycle taxonomy, retention, clean ZIP hygiene and read-only inventory without enabling cleanup execution; POST-H-008-B expands RuntimeStateInventory for concrete scanner reports. POST-H-008-C registers RuntimeStateCleanupPlan for dry-run-first cleanup planning with explicit execute confirmation and source-of-truth never-delete safeguards. POST-H-009-A registers DocumentationSourceRegistry and DocumentationGovernanceReport schemas for local documentation governance, canonical source mapping and future drift validation without enabling LLM judge or remote documentation services.",
   "schemas": [
     {
       "schema_id": "SCHEMA-DEVPL-FINDING-V1",
@@ -573,6 +573,34 @@
       "local_first": true,
       "dry_run_default": true,
       "no_remote_execution_enabled": true
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-DOCUMENTATION-SOURCE-REGISTRY-V1",
+      "title": "DevPilot Documentation Source Registry v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/documentation_source_registry.schema.json",
+      "description": "Canonical registry for source-of-truth, machine-readable, derived, generated and historical documentation sources, owners, tests and sync rules.",
+      "status": "registered",
+      "contract": "DocumentationSourceRegistry",
+      "owner": "Ordóñez",
+      "sprint": "POST-H-009-A",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "POST-H-009-A"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-DOCUMENTATION-GOVERNANCE-REPORT-V1",
+      "title": "DevPilot Documentation Governance Report v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/documentation_governance_report.schema.json",
+      "description": "Future executable report contract for documentation governance validation and drift detection.",
+      "status": "registered",
+      "contract": "DocumentationGovernanceReport",
+      "owner": "Ordóñez",
+      "sprint": "POST-H-009-A",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "POST-H-009-A"
     }
   ]
 }
