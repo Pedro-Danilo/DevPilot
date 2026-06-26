@@ -14,7 +14,7 @@ def test_documentation_governance_sync_passes_baseline() -> None:
 
     assert result.ok, result.to_dict()
     summary = result.data["summary"]
-    assert summary["created_by"] == "POST-H-009-D"
+    assert summary["created_by"] == "POST-H-009-E"
     assert summary["markdown_json_sync_passed"] is True
     assert summary["roadmap_markdown_json_sync_passed"] is True
     assert summary["markdown_json_pairs_checked_total"] >= 7
@@ -47,7 +47,7 @@ def test_documentation_governance_report_command_writes_sync_report(monkeypatch,
     assert exit_code == 0
     assert payload["command"] == "docs-governance report"
     assert payload["ok"] is True
-    assert payload["data"]["summary"]["created_by"] == "POST-H-009-D"
+    assert payload["data"]["summary"]["created_by"] == "POST-H-009-E"
     assert payload["data"]["summary"]["reports_written"] is True
     assert payload["data"]["summary"]["markdown_json_sync_passed"] is True
     assert payload["data"]["summary"]["backlog_governance_passed"] is True

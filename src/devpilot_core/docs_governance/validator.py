@@ -15,7 +15,8 @@ from devpilot_core.validators.frontmatter import parse_frontmatter_file, validat
 POST_H_009_B_CREATED_BY = "POST-H-009-B"
 POST_H_009_C_CREATED_BY = "POST-H-009-C"
 POST_H_009_D_CREATED_BY = "POST-H-009-D"
-POST_H_009_CURRENT_CREATED_BY = POST_H_009_D_CREATED_BY
+POST_H_009_E_CREATED_BY = "POST-H-009-E"
+POST_H_009_CURRENT_CREATED_BY = POST_H_009_E_CREATED_BY
 DOCUMENTATION_GOVERNANCE_REPORT_SCHEMA_ID = "SCHEMA-DEVPL-DOCUMENTATION-GOVERNANCE-REPORT-V1"
 DOCUMENTATION_GOVERNANCE_REPORT_ID = "devpilot-documentation-governance-report"
 DOCUMENTATION_GOVERNANCE_CONTRACT = "DocumentationGovernanceReport"
@@ -47,6 +48,9 @@ class DocumentationGovernanceValidator:
     consistency and status consistency when the governed file exposes status.
     POST-H-009-C extends the same command with deterministic Markdown/JSON
     synchronization checks for roadmap, decisions, closure status and next hito.
+    POST-H-009-D adds backlog governance and POST-H-009-E binds the validator
+    to the hardening/industrial quality-gate process without changing the
+    validator into a mutating tool.
     """
 
     def __init__(self, root: Path, options: DocumentationGovernanceValidationOptions | None = None) -> None:
@@ -265,7 +269,7 @@ class DocumentationGovernanceValidator:
                 "POST-H-009-C adds deterministic Markdown/JSON sync checks for roadmap, decisions, closure status and next hito.",
                 "POST-H-009-D adds deterministic governance for executable backlogs derived from the roadmap.",
                 "This validator is deterministic and read-only; it does not use LLM judge, network or external APIs.",
-                "Quality-gate integration remains deferred to POST-H-009-E.",
+                "POST-H-009-E integrates this validator as the docs-governance quality-gate subgate.",
             ],
         }
 

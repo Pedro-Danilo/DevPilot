@@ -2,11 +2,11 @@
 title: "Runbook — DevPilot Local"
 doc_id: "DEVPL-OPS-002"
 status: "approved"
-version: "1.34.0"
+version: "1.35.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "POST-H-009-D"
+phase: "POST-H-009-E"
 updated: "2026-06-26"
 approval: "approved_by_owner"
 source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved + 03_security approved"
@@ -7455,3 +7455,55 @@ BLOCK si el validator usa red, APIs externas, LLM judge o mutaciones de fuentes.
 
 Esta capacidad es `implemented-initial`. En `POST-H-009-D` ya se agregó governance de backlogs derivados; la integración como subgate del quality gate queda para `POST-H-009-E`.
 
+
+
+## POST-H-009-E — Quality gate documental y runbook
+
+Propósito: cerrar `POST-H-009 — Documentation governance y canonical sources` integrando `docs-governance validate` al `quality-gate hardening/industrial`, dejando documentado el proceso de actualización de fuentes canónicas y evitando drift entre roadmap, ADRs, manifests, README, runbook, changelog y project_state.
+
+Siguiente hito operativo: `POST-H-010 — Observability retention local`.
+
+### Comandos de operación
+
+```powershell
+$env:PYTHONPATH="src"
+
+python -m devpilot_core docs-governance validate --json
+python -m devpilot_core docs-governance report --write-report --json
+python -m devpilot_core quality-gate run --profile hardening --json
+python -m devpilot_core test-contracts validate --json
+python -m devpilot_core test-contracts validate-v2 --json
+```
+
+### Criterios PASS
+
+```text
+PASS si docs-governance validate retorna ok=true.
+PASS si quality-gate hardening incluye subgate docs-governance y todos los subgates críticos pasan.
+PASS si test-contracts validate y validate-v2 pasan.
+PASS si README, runbook, changelog, project_state y backlog POST-H-009 declaran el mismo avance.
+```
+
+### Criterios BLOCK
+
+```text
+BLOCK si docs-governance detecta drift Markdown/JSON crítico.
+BLOCK si un backlog derivado del roadmap no cumple frontmatter/naming/correspondencia.
+BLOCK si el subgate docs-governance desaparece de hardening/industrial.
+BLOCK si se intenta resolver drift usando reportes runtime bajo outputs/ como fuente versionada.
+```
+
+### Procedimiento anti-drift para cambios documentales
+
+1. Confirmar el documento canónico en `.devpilot/docs_governance/source_registry.json`.
+2. Actualizar source-of-truth y counterpart en el mismo cambio cuando exista pareja Markdown/JSON.
+3. Actualizar manifest/audit/changelog/project_state/README/runbook de forma atómica para cierres de hito.
+4. Ejecutar primero `docs-governance validate --json`.
+5. Ejecutar después `quality-gate run --profile hardening --json`.
+6. Solo generar reportes con `--write-report` para evidencia; los archivos bajo `outputs/` no se empaquetan en ZIP de entrega.
+
+### Recuperación
+
+Si el subgate `docs-governance` falla, revisar el `finding.id`, corregir la fuente indicada por `path`, repetir `docs-governance validate --json` y luego repetir `quality-gate hardening`. No se debe relajar el quality gate ni eliminar evidencias históricas para reducir warnings.
+
+Limitación: esta integración es `implemented-initial` y determinística. No sustituye revisión editorial humana ni evaluación semántica profunda de documentos; no usa LLM judge, red, APIs externas ni acciones correctivas automáticas.

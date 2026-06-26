@@ -23,15 +23,15 @@ def test_project_global_state_schema_and_docs_are_synchronized() -> None:
     changelog = read("docs/release/CHANGELOG.md")
 
     assert state["current_phase"] == "POST-FASE-H"
-    assert state["last_completed_sprint"] == "POST-H-008"
+    assert state["last_completed_sprint"] == "POST-H-009"
     assert state["last_functional_sprint"] == "FUNC-SPRINT-99"
-    assert state["next_sprint"] == "POST-H-009"
+    assert state["next_sprint"] == "POST-H-010"
     assert state["phase_h_status"] == "closed_implemented_initial"
     assert state["industrial_baseline_ready"] is True
     assert state["global_state_owner"] == "tests/test_project_global_state.py"
 
-    assert "Último hito: `POST-H-008" in readme
-    assert "Siguiente hito: `POST-H-009" in readme
+    assert "Último hito: `POST-H-009" in readme
+    assert "Siguiente hito: `POST-H-010" in readme
     assert "POST-H-006 — CLI command registry y desacoplamiento de handlers" in readme
     assert "POST-H-005-E — Operación del reporte final ArchitectureMap" in runbook
     assert 'status: "approved"' in post_h_doc
@@ -52,10 +52,12 @@ def test_project_global_state_schema_and_docs_are_synchronized() -> None:
     assert "post-h-009-b" in changelog
     assert "post-h-009-c" in changelog
     assert "post-h-009-d" in changelog
+    assert "post-h-009-e" in changelog
     assert any("POST-H-009-A starts Documentation governance" in note for note in state["notes"])
     assert any("POST-H-009-B adds Documentation governance" in note for note in state["notes"])
     assert any("POST-H-009-C adds Documentation governance" in note for note in state["notes"])
     assert any("POST-H-009-D adds Documentation governance" in note for note in state["notes"])
+    assert any("POST-H-009-E closes Documentation governance" in note for note in state["notes"])
     assert "POST-H-008-A — Runtime state lifecycle" in readme
     assert "POST-H-008-B — Runtime state lifecycle" in readme
     assert "POST-H-008-D — Runtime state lifecycle" in readme
@@ -64,12 +66,13 @@ def test_project_global_state_schema_and_docs_are_synchronized() -> None:
     assert "POST-H-009-B — Documentation governance" in readme
     assert "POST-H-009-C — Documentation governance" in readme
     assert "POST-H-009-D — Documentation governance" in readme
+    assert "POST-H-009-E — Documentation governance" in readme
 
 
 def test_project_global_state_command_result_passes() -> None:
     result = TestContractRegistry(ROOT).project_state()
 
     assert result.ok, result.to_dict()
-    assert result.data["summary"]["last_completed_sprint"] == "POST-H-008"
-    assert result.data["summary"]["next_sprint"] == "POST-H-009"
+    assert result.data["summary"]["last_completed_sprint"] == "POST-H-009"
+    assert result.data["summary"]["next_sprint"] == "POST-H-010"
     assert result.data["summary"]["checks_passed"] == result.data["summary"]["checks_total"]

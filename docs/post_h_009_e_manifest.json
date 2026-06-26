@@ -1,0 +1,85 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "SCHEMA-DEVPL-POST-H-MANIFEST-V1",
+  "post_h_id": "POST-H-009",
+  "id": "POST-H-009-E",
+  "title": "POST-H-009-E — Quality gate documental y runbook",
+  "status": "implemented-initial",
+  "phase": "POST-FASE-H",
+  "implemented_at": "2026-06-26",
+  "created_files": [
+    "src/devpilot_core/docs_governance/quality_gate.py",
+    "tests/test_documentation_governance_quality_gate.py",
+    "docs/audits/post_h_009_e_quality_gate_documental_report.md",
+    "docs/post_h_009_e_manifest.json"
+  ],
+  "modified_files": [
+    ".devpilot/docs_governance/source_registry.json",
+    ".devpilot/project_state.json",
+    ".devpilot/testing/test_contract_registry.json",
+    ".devpilot/testing/test_contract_registry_v2.json",
+    "README.md",
+    "docs/05_operations/documentation_governance.md",
+    "docs/05_operations/runbook.md",
+    "docs/POST-H-009_documentation_governance.md",
+    "docs/backlogs/POST-H-009_documentation_governance.md",
+    "docs/release/CHANGELOG.md",
+    "src/devpilot_core/docs_governance/__init__.py",
+    "src/devpilot_core/docs_governance/validator.py",
+    "src/devpilot_core/quality/gate.py",
+    "tests/test_quality_gate.py",
+    "tests/test_post_h_009_documentation_governance.py",
+    "tests/test_project_global_state.py"
+  ],
+  "commands": [
+    "python -m pytest tests/test_documentation_governance_quality_gate.py tests/test_quality_gate.py tests/test_documentation_governance_backlogs.py tests/test_documentation_governance_sync.py tests/test_documentation_governance_validator.py tests/test_post_h_009_documentation_governance.py tests/test_project_global_state.py -q",
+    "python -m devpilot_core docs-governance validate --json",
+    "python -m devpilot_core docs-governance report --write-report --json",
+    "python -m devpilot_core schema validate --schema-id DocumentationGovernanceReport --instance outputs/reports/documentation_governance_report.json --json",
+    "python -m devpilot_core schema validate --schema-id PostHManifest --instance docs/post_h_009_e_manifest.json --json",
+    "python -m devpilot_core quality-gate run --profile hardening --json",
+    "python -m devpilot_core test-contracts validate --json",
+    "python -m devpilot_core test-contracts validate-v2 --json"
+  ],
+  "tests": [
+    "tests/test_documentation_governance_quality_gate.py",
+    "tests/test_quality_gate.py",
+    "tests/test_documentation_governance_backlogs.py",
+    "tests/test_documentation_governance_sync.py",
+    "tests/test_documentation_governance_validator.py",
+    "tests/test_post_h_009_documentation_governance.py",
+    "tests/test_project_global_state.py"
+  ],
+  "pass_criteria": [
+    "docs-governance validate retorna ok=true en baseline válido.",
+    "quality-gate hardening incluye subgate docs-governance y retorna ok=true.",
+    "test-contracts validate retorna ok=true.",
+    "test-contracts validate-v2 retorna ok=true.",
+    "README, runbook, changelog, project_state y backlog POST-H-009 quedan sincronizados con POST-H-009 cerrado y POST-H-010 como siguiente hito."
+  ],
+  "block_criteria": [
+    "Bloquear si docs-governance detecta drift crítico Markdown/JSON, metadata canónica incompleta o backlog derivado inconsistente.",
+    "Bloquear si quality-gate hardening no incluye docs-governance.",
+    "Bloquear si se habilita red, API externa, LLM judge, remote execution, connector write o plugin execution.",
+    "Bloquear si se versionan outputs runtime como fuente para resolver drift."
+  ],
+  "risks": [
+    "La validación sigue siendo determinística y contractual; no evalúa calidad editorial profunda.",
+    "Agregar más fuentes canónicas sin actualizar source_registry puede bloquear el quality gate.",
+    "El quality gate hardening aumenta levemente su costo por ejecutar docs-governance.",
+    "La corrección automática de drift queda fuera de alcance para evitar mutaciones no aprobadas."
+  ],
+  "next_sprint": "POST-H-010",
+  "preliminary": true,
+  "security": {
+    "local_first": true,
+    "dry_run": true,
+    "network_used": false,
+    "external_api_used": false,
+    "llm_judge_used": false,
+    "source_mutations_performed": false,
+    "remote_execution_enabled": false,
+    "connector_write_enabled": false,
+    "plugin_execution_enabled": false
+  }
+}

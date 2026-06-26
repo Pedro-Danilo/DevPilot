@@ -3,7 +3,7 @@ doc_id: "POST-H-009-BACKLOG"
 id: "POST-H-009"
 title: "POST-H-009 — Documentation governance y canonical sources"
 status: "approved"
-version: "0.4.0"
+version: "1.0.0"
 owner: "Ordóñez"
 updated: "2026-06-26"
 approval: "approved_by_owner"
@@ -14,9 +14,9 @@ local_first: true
 dry_run: true
 no_runtime_features_added_by_backlog: false
 no_remote_execution_enabled: true
-implementation_status: "in-progress"
-current_micro_sprint: "POST-H-009-D"
-next_micro_sprint: "POST-H-009-E"
+implementation_status: "closed"
+current_micro_sprint: "POST-H-009-E"
+next_micro_sprint: "POST-H-010"
 ---
 
 # POST-H-009 — Documentation governance y canonical sources
@@ -507,11 +507,11 @@ Límites de esta versión:
 
 ```text
 - En POST-H-009-D se agregó governance de backlogs derivados del roadmap.
-- No integra aún subgate docs-governance al quality-gate hardening; queda para POST-H-009-E.
+- El subgate docs-governance ya queda integrado a quality-gate hardening/industrial desde POST-H-009-E.
 - No usa LLM judge, red, APIs externas ni mutaciones de fuentes.
 ```
 
-La capacidad restante queda para `POST-H-009-E`.
+Con `POST-H-009-E`, el hito `POST-H-009` queda cerrado como implementación inicial.
 ## 17. Avance de implementación — POST-H-009-D
 
 Estado: `implemented-initial`.
@@ -565,10 +565,79 @@ PASS si blocking_findings_total=0.
 Límites de esta versión:
 
 ```text
-- No integra aún subgate docs-governance al quality-gate hardening; queda para POST-H-009-E.
+- El subgate docs-governance ya queda integrado a quality-gate hardening/industrial desde POST-H-009-E.
 - No usa LLM judge, red, APIs externas ni mutaciones de fuentes.
 - No evalúa suficiencia semántica profunda de cada backlog; valida contrato documental y trazabilidad con roadmap.
 ```
 
-La capacidad restante queda para `POST-H-009-E`.
+Con `POST-H-009-E`, el hito `POST-H-009` queda cerrado como implementación inicial.
 
+
+
+## 18. Avance de implementación — POST-H-009-E
+
+Estado: `implemented-initial`; hito `POST-H-009` cerrado como implementación inicial.
+
+`POST-H-009-E — Quality gate documental y runbook` integra la gobernanza documental al proceso de calidad de DevPilot:
+
+```text
+python -m devpilot_core docs-governance validate --json
+python -m devpilot_core quality-gate run --profile hardening --json
+python -m devpilot_core test-contracts validate --json
+python -m devpilot_core test-contracts validate-v2 --json
+```
+
+Artefactos implementados:
+
+```text
+src/devpilot_core/docs_governance/quality_gate.py
+tests/test_documentation_governance_quality_gate.py
+docs/audits/post_h_009_e_quality_gate_documental_report.md
+docs/post_h_009_e_manifest.json
+```
+
+Artefactos modificados principales:
+
+```text
+src/devpilot_core/quality/gate.py
+src/devpilot_core/docs_governance/validator.py
+src/devpilot_core/docs_governance/__init__.py
+.devpilot/testing/test_contract_registry.json
+.devpilot/testing/test_contract_registry_v2.json
+.devpilot/docs_governance/source_registry.json
+README.md
+docs/05_operations/runbook.md
+docs/05_operations/documentation_governance.md
+docs/release/CHANGELOG.md
+.devpilot/project_state.json
+```
+
+Capacidades implementadas:
+
+```text
+- Subgate docs-governance en quality-gate hardening/industrial.
+- Wrapper read-only `run_docs_governance_quality_subgate`.
+- Reuso de DocumentationGovernanceValidator con write_report=false dentro del quality gate.
+- Contrato TCR v1/v2 para DocumentationGovernanceQualityGate.
+- Procedimiento documentado para actualizar fuentes canónicas sin drift.
+- Procedimiento documentado para cambiar roadmap, ADRs y manifests sin desincronizar README/runbook/changelog/project_state.
+```
+
+Criterios PASS cubiertos:
+
+```text
+PASS si docs-governance validate pasa en baseline válido.
+PASS si quality-gate hardening incluye y aprueba el subgate docs-governance.
+PASS si test-contracts validate pasa.
+PASS si test-contracts validate-v2 pasa.
+```
+
+Límites de esta versión:
+
+```text
+- No ejecuta LLM judge ni validación editorial semántica profunda.
+- No corrige drift automáticamente; lo bloquea o reporta para corrección controlada.
+- No publica documentación externa ni implementa CMS/wiki.
+- No habilita remote execution, connector write, plugin execution, red ni APIs externas.
+- No declara DevPilot production-ready; esa declaración queda reservada para POST-H-025.
+```

@@ -1158,7 +1158,12 @@
     "roadmap_derived_backlogs_require_registry": true,
     "backlogs_require_naming_convention": true,
     "backlogs_require_minimum_frontmatter": true,
-    "missing_future_backlogs_are_planned_info": true
+    "missing_future_backlogs_are_planned_info": true,
+    "docs_governance_quality_gate_required": true,
+    "docs_governance_quality_gate_profiles": [
+      "hardening",
+      "industrial"
+    ]
   },
   "summary": {
     "documents_total": 37,
@@ -1174,13 +1179,18 @@
     "network_used": false,
     "external_api_used": false,
     "mutations_performed": false,
-    "last_updated_by": "POST-H-009-D",
+    "last_updated_by": "POST-H-009-E",
     "markdown_json_sync_checks_enabled": true,
     "sync_checks_scope": "version_match, milestones_match, decisions_match, closure_status_match, next_hito_match",
     "backlog_governance_enabled": true,
     "backlogs_expected_total": 24,
     "backlogs_registered_total": 24,
-    "backlog_governance_scope": "POST-H-002..POST-H-025 executable backlogs from roadmap JSON"
+    "backlog_governance_scope": "POST-H-002..POST-H-025 executable backlogs from roadmap JSON",
+    "quality_gate_integration_enabled": true,
+    "quality_gate_profiles": [
+      "hardening",
+      "industrial"
+    ]
   },
   "safety": {
     "local_first": true,

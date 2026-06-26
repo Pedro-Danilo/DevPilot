@@ -6129,6 +6129,97 @@
         "Missing future backlog files are planned informational findings, not blocking drift; existing backlog files must pass naming, frontmatter and milestone checks.",
         "The validator is deterministic, read-only and local-first."
       ]
+    },
+    {
+      "contract_id": "post-h-009-documentation-quality-gate",
+      "schema_version": "2.0",
+      "source_contract_id": "post-h-009-documentation-quality-gate",
+      "domain": "documentation.governance",
+      "capability": "DocumentationGovernanceQualityGate",
+      "criticality": "P1",
+      "risk_level": "medium",
+      "test_type": "integration",
+      "execution_profile": "always",
+      "cost_class": "low",
+      "expected_duration_seconds": 60,
+      "test_files": [
+        "tests/test_documentation_governance_quality_gate.py",
+        "tests/test_quality_gate.py",
+        "tests/test_documentation_governance_backlogs.py",
+        "tests/test_documentation_governance_sync.py",
+        "tests/test_documentation_governance_validator.py",
+        "tests/test_post_h_009_documentation_governance.py",
+        "tests/test_project_global_state.py"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/docs_governance/",
+        "src/devpilot_core/quality/gate.py",
+        ".devpilot/docs_governance/",
+        ".devpilot/testing/",
+        ".devpilot/project_state.json",
+        "README.md",
+        "docs/05_operations/runbook.md",
+        "docs/05_operations/documentation_governance.md",
+        "docs/backlogs/POST-H-009_documentation_governance.md",
+        "docs/POST-H-009_documentation_governance.md",
+        "docs/release/CHANGELOG.md",
+        "tests/test_documentation_governance_quality_gate.py",
+        "tests/test_quality_gate.py",
+        "tests/test_post_h_009_documentation_governance.py"
+      ],
+      "validates": [
+        "src/devpilot_core/docs_governance/quality_gate.py",
+        "src/devpilot_core/docs_governance/validator.py",
+        "src/devpilot_core/docs_governance/backlogs.py",
+        "src/devpilot_core/docs_governance/drift.py",
+        "src/devpilot_core/docs_governance/__init__.py",
+        "src/devpilot_core/quality/gate.py",
+        ".devpilot/docs_governance/source_registry.json",
+        ".devpilot/testing/test_contract_registry.json",
+        ".devpilot/testing/test_contract_registry_v2.json",
+        "docs/POST-H-009_documentation_governance.md",
+        "docs/backlogs/POST-H-009_documentation_governance.md",
+        "docs/05_operations/documentation_governance.md",
+        "docs/05_operations/runbook.md",
+        "docs/audits/post_h_009_e_quality_gate_documental_report.md",
+        "docs/post_h_009_e_manifest.json"
+      ],
+      "trigger_hints": [
+        "docs-governance-quality-gate",
+        "quality-gate-hardening",
+        "canonical-sources",
+        "roadmap-sync",
+        "post-h-source-change"
+      ],
+      "impact_scope": [
+        "documentation-governance",
+        "quality-gate",
+        "docs-sync",
+        "test-contracts",
+        "runbook",
+        "post-h"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "POST-H-009-E",
+      "recommended_commands": [
+        "python -m pytest tests/test_documentation_governance_quality_gate.py tests/test_quality_gate.py tests/test_documentation_governance_backlogs.py tests/test_documentation_governance_sync.py tests/test_documentation_governance_validator.py tests/test_post_h_009_documentation_governance.py tests/test_project_global_state.py -q",
+        "python -m devpilot_core docs-governance validate --json",
+        "python -m devpilot_core quality-gate run --profile hardening --json",
+        "python -m devpilot_core test-contracts validate --json",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ],
+      "classification_status": "explicit",
+      "classification_notes": [
+        "POST-H-009-E binds documentation governance to hardening/industrial quality gates as a deterministic read-only subgate.",
+        "The subgate blocks canonical-source, Markdown/JSON sync and backlog-governance drift without writing reports by default.",
+        "The integration uses no network, external APIs, LLM judge, source mutations or remote execution."
+      ]
     }
   ],
   "migration_metadata": {

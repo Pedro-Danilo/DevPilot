@@ -37,7 +37,7 @@ def test_documentation_governance_validate_includes_backlog_governance() -> None
     summary = result.data["summary"]
 
     assert result.ok, result.to_dict()
-    assert summary["created_by"] == "POST-H-009-D"
+    assert summary["created_by"] == "POST-H-009-E"
     assert summary["backlog_governance_passed"] is True
     assert summary["backlogs_expected_total"] == 24
     assert summary["backlogs_registered_total"] == 24
@@ -54,7 +54,7 @@ def test_documentation_governance_report_command_includes_backlog_checks(monkeyp
     assert exit_code == 0
     assert payload["command"] == "docs-governance report"
     assert payload["ok"] is True
-    assert payload["data"]["summary"]["created_by"] == "POST-H-009-D"
+    assert payload["data"]["summary"]["created_by"] == "POST-H-009-E"
     assert payload["data"]["summary"]["backlog_governance_passed"] is True
     assert payload["data"]["summary"]["backlogs_checked_total"] == 24
     assert len(payload["data"]["governance"]["backlog_checks"]) == 24

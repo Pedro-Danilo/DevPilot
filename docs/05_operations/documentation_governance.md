@@ -2,12 +2,12 @@
 doc_id: "DEVPL-OPS-DOCS-GOVERNANCE-001"
 title: "Documentation governance y fuentes canónicas"
 status: "approved"
-version: "0.4.0"
+version: "1.0.0"
 owner: "Ordóñez"
 updated: "2026-06-26"
 approval: "approved_by_owner"
 phase: "POST-FASE-H"
-micro_sprint: "POST-H-009-D"
+micro_sprint: "POST-H-009-E"
 local_first: true
 dry_run: true
 no_remote_execution_enabled: true
@@ -17,7 +17,7 @@ no_remote_execution_enabled: true
 
 ## 1. Propósito
 
-Este documento describe la primera versión ejecutable de la gobernanza documental de DevPilot Local, ampliada hasta `POST-H-009-D — Backlog governance y derivados del roadmap`.
+Este documento describe la primera versión ejecutable de la gobernanza documental de DevPilot Local, ampliada hasta `POST-H-009-E — Quality gate documental y runbook`.
 
 La meta es separar explícitamente:
 
@@ -110,15 +110,85 @@ Reglas determinísticas:
 
 La validación emite `backlog_checks` dentro de `DocumentationGovernanceReport` y expone métricas como `backlogs_expected_total`, `backlogs_registered_total`, `backlogs_checked_total`, `backlogs_planned_missing_total` y `backlog_governance_passed`.
 
-## 5. Límites de esta versión
 
-`POST-H-009-D` es `implemented-initial`. Aún no implementa:
+## 4.4. Quality gate documental y proceso anti-drift
 
-```text
-- subgate docs-governance en quality-gate hardening.
+`POST-H-009-E` integra la gobernanza documental al proceso normal de desarrollo mediante el subgate `docs-governance` en los perfiles `hardening` e `industrial` del quality gate. La integración reusa `DocumentationGovernanceValidator` como fuente única de verdad y lo ejecuta con `write_report=false`.
+
+Comando de verificación operacional:
+
+```powershell
+python -m devpilot_core quality-gate run --profile hardening --json
 ```
 
-Esta capacidad se implementará en `POST-H-009-E`.
+El subgate debe exponer en su summary:
+
+```text
+quality_gate_subgate=docs-governance
+docs_governance_passed=true
+frontmatter_status_ownership_passed=true
+markdown_json_sync_passed=true
+roadmap_markdown_json_sync_passed=true
+backlog_governance_passed=true
+blocking_findings_total=0
+read_only=true
+dry_run=true
+network_used=false
+external_api_used=false
+llm_judge_used=false
+source_mutations_performed=false
+```
+
+### Procedimiento para actualizar fuentes canónicas
+
+1. Identificar la fuente de autoridad en `.devpilot/docs_governance/source_registry.json`.
+2. Actualizar primero el source-of-truth humano o machine-readable correspondiente.
+3. Si existe counterpart Markdown/JSON, actualizar ambos en la misma unidad de cambio.
+4. Ejecutar `docs-governance validate --json` antes de tocar README, runbook o changelog.
+5. Actualizar `README.md`, `docs/05_operations/runbook.md`, `docs/release/CHANGELOG.md` y `.devpilot/project_state.json` solo después de confirmar el nuevo estado.
+6. Ejecutar `quality-gate run --profile hardening --json` como checkpoint de cierre.
+7. Generar reporte con `docs-governance report --write-report --json` únicamente cuando se requiera evidencia versionable o audit pack; los reportes runtime bajo `outputs/` no se versionan.
+
+### Cómo cambiar roadmap sin drift
+
+```text
+1. Editar docs/backlogs/post_h_prioritized_roadmap.md.
+2. Editar .devpilot/evals/post_h_eval_001_prioritized_roadmap.json.
+3. Confirmar version_match, milestones_match y decisions_match.
+4. Si se agrega hito POST-H nuevo, crear/actualizar backlog ejecutable o registrarlo como planned.
+5. Ejecutar docs-governance validate y quality-gate hardening.
+```
+
+### Cómo cambiar ADRs sin drift
+
+```text
+1. Crear o actualizar docs/adr/ADR-POSTH-###-*.md con frontmatter approved/draft explícito.
+2. Registrar el ADR en source_registry si se convierte en decisión activa.
+3. Vincular la decisión desde roadmap o backlog cuando aplique.
+4. Ejecutar docs-governance validate y test-contracts validate-v2.
+```
+
+### Cómo cambiar manifest/closure/changelog sin drift
+
+```text
+1. Actualizar manifest JSON del hito o micro-sprint.
+2. Actualizar closure/audit report si el estado cambia a closed.
+3. Actualizar README, runbook, changelog y project_state en la misma unidad de cambio.
+4. Validar schema del manifest y ejecutar docs-governance validate.
+5. Confirmar quality-gate hardening PASS.
+```
+
+## 5. Límites de esta versión
+
+`POST-H-009-E` deja el hito `POST-H-009` en estado `closed` como implementación inicial. Límites explícitos:
+
+```text
+- no evalúa suficiencia editorial o semántica profunda mediante LLM judge;
+- no publica documentación externa ni implementa CMS/wiki remota;
+- no corrige automáticamente drift; bloquea o informa para que el cambio sea corregido por el owner;
+- no habilita red, APIs externas, remote execution, connector write ni plugin execution;
+- no declara DevPilot production-ready; esa declaración queda para POST-H-025.
+```
 
 ## 6. Seguridad y operación
 

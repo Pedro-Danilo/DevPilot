@@ -333,7 +333,7 @@ COMMAND_OVERRIDES: dict[str, DeclarativeCommandOverride] = {
         recommended_tests=(
             "python -m pytest tests/test_documentation_governance_validator.py tests/test_documentation_governance_sync.py tests/test_post_h_009_documentation_governance.py -q",
         ),
-        rationale="Documentation governance report is read-only for source documents and writes JSON/Markdown evidence under outputs/reports only; POST-H-009-D adds backlog governance checks without source mutations.",
+        rationale="Documentation governance report is read-only for source documents and writes JSON/Markdown evidence under outputs/reports only; POST-H-009-D adds backlog governance checks and POST-H-009-E integrates the same validator into quality-gate hardening without source mutations.",
     ),
 }
 

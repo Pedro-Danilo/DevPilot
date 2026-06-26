@@ -1,3 +1,29 @@
+# Changelog
+
+## [post-h-009-e] - 2026-06-26
+
+### Added
+
+- `docs-governance` subgate in `quality-gate run --profile hardening` and `industrial`.
+- `src/devpilot_core/docs_governance/quality_gate.py` wrapper for read-only quality-gate integration.
+- TCR v1/v2 contract `post-h-009-documentation-quality-gate`.
+- POST-H-009-E audit report and manifest.
+
+### Changed
+
+- POST-H-009 backlog marked closed as an implemented-initial documentation governance capability.
+- README, runbook, documentation governance guide, project_state and changelog synchronized to POST-H-010 as next hito.
+- `DocumentationGovernanceValidator` report metadata advanced to `created_by=POST-H-009-E`.
+
+### Security
+
+- No network, external APIs, LLM judge, source mutations, remote execution, connector write or plugin execution were enabled.
+- The quality-gate subgate runs with `write_report=false`; generated evidence remains opt-in and under `outputs/`.
+
+### Notes
+
+- This closes POST-H-009 as `implemented-initial`; production-ready documentation governance remains bounded by future POST-H-025 declaration criteria.
+
 ## [post-h-009-d] - 2026-06-26
 
 ### Added
