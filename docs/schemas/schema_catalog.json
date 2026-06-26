@@ -3,10 +3,10 @@
   "title": "DevPilot Local Schema Catalog",
   "schema_version": "1.0",
   "status": "approved",
-  "version": "1.9.0",
+  "version": "1.10.0",
   "owner": "Ordóñez",
   "updated": "2026-06-26",
-  "sprint": "POST-H-010-E",
+  "sprint": "POST-H-011-B",
   "preliminary": true,
   "purpose": "Catalog of versioned JSON schemas registered by DevPilot. POST-H-002-A adds the MaturityDashboard contract for local, evidence-based maturity reporting without remote or production-overclaiming. POST-H-003-A adds the Test Contract Registry v2 design schema while preserving v1 compatibility. POST-H-004-A registers the MiasiSemanticReport contract for local, non-executing Policy/MIASI semantic validation reports. POST-H-005-A registers the ArchitectureMap contract for executable architecture inventory and dependency ownership baselines without running AST inventory yet. POST-H-007-B registers ApplicationOperationCatalog for declarative ApplicationService operation mapping, schema validation and test coverage metadata without changing runtime behavior. POST-H-008-A registers RuntimeStatePolicy and RuntimeStateInventory schemas for local lifecycle taxonomy, retention, clean ZIP hygiene and read-only inventory without enabling cleanup execution; POST-H-008-B expands RuntimeStateInventory for concrete scanner reports. POST-H-008-C registers RuntimeStateCleanupPlan for dry-run-first cleanup planning with explicit execute confirmation and source-of-truth never-delete safeguards. POST-H-009-A registers DocumentationSourceRegistry and DocumentationGovernanceReport schemas for local documentation governance, canonical source mapping and future drift validation without enabling LLM judge or remote documentation services. POST-H-010-A registers ObservabilityRetentionPolicy for local retention, rotation, redaction and clean ZIP hygiene defaults without enabling inventory, cleanup execution, remote export or external observability services. POST-H-010-E registers ObservabilityRetentionHygiene for local quality-gate integration of policy, inventory and clean ZIP checks without requiring runtime outputs, network or external APIs.",
   "schemas": [
@@ -703,17 +703,18 @@
       "title": "DevPilot RAG Groundedness Report v1",
       "version": "1.0.0",
       "path": "docs/schemas/rag_groundedness_report.schema.json",
-      "description": "POST-H-011-A local-first report schema for future deterministic RAG groundedness evaluation results including source coverage, claim support, unsupported claims and safety flags.",
+      "description": "POST-H-011-A/B local-first report schema for deterministic RAG groundedness evaluation results including source coverage, citation evidence, claim support, unsupported claims and safety flags.",
       "status": "registered",
       "owner": "Ordóñez",
       "sprint": "POST-H-011-A",
       "dialect": "https://json-schema.org/draft/2020-12/schema",
       "validates_instances": true,
       "contract": "RagGroundednessReport",
-      "validation_enabled_sprint": "POST-H-011-A",
+      "validation_enabled_sprint": "POST-H-011-B",
       "local_first": true,
       "dry_run_default": true,
-      "no_remote_execution_enabled": true
+      "no_remote_execution_enabled": true,
+      "last_updated_by": "POST-H-011-B"
     }
   ]
 }

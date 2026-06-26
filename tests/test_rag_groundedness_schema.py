@@ -136,3 +136,74 @@ def test_rag_groundedness_expected_sources_are_local_existing_non_runtime_paths(
             assert not source.startswith("outputs/"), (case["case_id"], source)
             assert "://" not in source, (case["case_id"], source)
             assert (ROOT / source).exists(), (case["case_id"], source)
+
+
+def test_rag_groundedness_report_schema_accepts_source_coverage_fields() -> None:
+    payload = {
+        "schema_version": "1.0",
+        "schema_id": "SCHEMA-DEVPL-RAG-GROUNDEDNESS-REPORT-V1",
+        "report_id": "synthetic-post-h-011-b-source-coverage",
+        "suite_id": "rag-groundedness-post-h",
+        "created_by": "POST-H-011-B",
+        "status": "pass",
+        "generated_at_utc": "2026-06-26T22:30:00Z",
+        "summary": {
+            "cases_total": 1,
+            "cases_passed": 1,
+            "cases_warned": 0,
+            "cases_blocked": 0,
+            "source_coverage_avg": 1.0,
+            "claim_support_avg": 0,
+            "unsupported_claims_total": 0,
+            "missing_sources_total": 0,
+            "stale_sources_total": 0,
+            "forbidden_claims_detected_total": 0,
+            "network_used": False,
+            "external_api_used": False,
+            "web_search_used": False,
+            "llm_judge_used": False,
+        },
+        "case_results": [
+            {
+                "case_id": "rag-posth-roadmap-prioritized-hitos",
+                "status": "pass",
+                "source_coverage": 1.0,
+                "claim_support": 0,
+                "expected_sources_total": 1,
+                "matched_sources_total": 1,
+                "required_claims_total": 0,
+                "supported_claims_total": 0,
+                "unsupported_claims": [],
+                "forbidden_claims_detected": [],
+                "findings": [],
+                "matched_sources": [{"path": "docs/backlogs/post_h_prioritized_roadmap.md"}],
+                "missing_sources": [],
+                "stale_sources": [],
+                "citation_refs": ["docs/backlogs/post_h_prioritized_roadmap.md#L1-L5"],
+            }
+        ],
+        "findings": [],
+        "safety": {
+            "local_first": True,
+            "dry_run": True,
+            "network_used": False,
+            "external_api_used": False,
+            "web_search_used": False,
+            "llm_judge_used": False,
+            "remote_execution_enabled": False,
+            "connector_write_enabled": False,
+            "plugin_execution_enabled": False,
+            "mutations_performed": False,
+            "source_mutations_performed": False,
+        },
+        "notes": ["Synthetic source coverage payload for POST-H-011-B."],
+    }
+
+    result = SchemaValidator(ROOT).validate_payload(
+        schema="RagGroundednessReport",
+        payload=payload,
+        instance_label="in-memory:rag-groundedness-report-source-coverage",
+    )
+
+    assert result.ok, result.to_dict()
+    assert result.data["summary"]["valid"] is True

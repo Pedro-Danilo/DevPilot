@@ -16,7 +16,7 @@ approval_scope: "SPRINT-PRECODE-05 quality operations baseline"
 
 # Runbook — DevPilot Local
 
-Siguiente hito operativo: `POST-H-011 — RAG groundedness evals`; micro-sprint activo: `POST-H-011-A — Schema y fixtures de groundedness`.
+Siguiente hito operativo: `POST-H-011 — RAG groundedness evals`; micro-sprint activo: `POST-H-011-B — Citation extractor y source coverage`.
 
 
 ## 1. Propósito
@@ -7763,3 +7763,25 @@ BLOCK si se detecta source_mutations_performed=true.
 
 Limitación: esta versión es `implemented-initial`. No borra, rota, archiva, redacta ni exporta. La exportación redactada queda para `POST-H-010-D` y el quality-gate de retención/higiene para `POST-H-010-E`.
 
+
+
+## POST-H-011-B — Citation extractor y source coverage
+
+`POST-H-011-B` agrega utilidades locales para mapear casos de groundedness a fuentes citables. La operación es read-only y determinística: valida fuentes esperadas, calcula cobertura, extrae metadata/headings/snippets y bloquea fuentes remotas, inexistentes, runtime outputs o documentos `deprecated/stale`.
+
+Comandos de verificación local:
+
+```powershell
+python -m pytest -p no:ddtrace `
+  tests/test_rag_citations_source_coverage.py `
+  tests/test_post_h_011_rag_groundedness.py `
+  tests/test_rag_groundedness_schema.py `
+  -q
+
+python -m devpilot_core schema validate `
+  --schema-id RagGroundednessEval `
+  --instance evals/fixtures/rag_groundedness_post_h_cases.json `
+  --json
+```
+
+Límites: todavía no se evalúa claim support, unsupported claims ni forbidden claims. Esa lógica queda para `POST-H-011-C`; CLI y reportes runtime quedan para `POST-H-011-D`; quality-gate queda para `POST-H-011-E`.

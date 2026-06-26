@@ -1,0 +1,88 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "SCHEMA-DEVPL-POST-H-MANIFEST-V1",
+  "post_h_id": "POST-H-011",
+  "id": "POST-H-011-B",
+  "title": "POST-H-011-B — Citation extractor y source coverage",
+  "status": "implemented-initial",
+  "phase": "POST-FASE-H",
+  "implemented_at": "2026-06-26",
+  "created_files": [
+    "src/devpilot_core/rag/citations.py",
+    "tests/test_rag_citations_source_coverage.py",
+    "docs/audits/post_h_011_b_citation_source_coverage_report.md",
+    "docs/post_h_011_b_manifest.json"
+  ],
+  "modified_files": [
+    "src/devpilot_core/rag/__init__.py",
+    "docs/schemas/rag_groundedness_report.schema.json",
+    "docs/schemas/schema_catalog.json",
+    "docs/backlogs/POST-H-011_rag_groundedness_evals.md",
+    "docs/POST-H-011_rag_groundedness_evals.md",
+    ".devpilot/docs_governance/source_registry.json",
+    ".devpilot/project_state.json",
+    ".devpilot/testing/test_contract_registry.json",
+    ".devpilot/testing/test_contract_registry_v2.json",
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/release/CHANGELOG.md",
+    "tests/test_post_h_011_rag_groundedness.py",
+    "tests/test_rag_groundedness_schema.py",
+    "tests/test_project_global_state.py"
+  ],
+  "commands": [
+    "python -m pytest -p no:ddtrace tests/test_rag_citations_source_coverage.py tests/test_post_h_011_rag_groundedness.py tests/test_rag_groundedness_schema.py -q",
+    "python -m devpilot_core schema validate --schema-id RagGroundednessEval --instance evals/fixtures/rag_groundedness_post_h_cases.json --json",
+    "python -m devpilot_core schema validate --schema-id PostHManifest --instance docs/post_h_011_b_manifest.json --json",
+    "python -m devpilot_core docs-governance validate --json",
+    "python -m devpilot_core test-contracts validate --json",
+    "python -m devpilot_core test-contracts validate-v2 --json",
+    "python -m devpilot_core project-state validate --json"
+  ],
+  "tests": [
+    "tests/test_rag_citations_source_coverage.py",
+    "tests/test_post_h_011_rag_groundedness.py",
+    "tests/test_rag_groundedness_schema.py",
+    "tests/test_schema_registry.py",
+    "tests/test_project_global_state.py",
+    "tests/test_documentation_governance_validator.py",
+    "tests/test_test_contract_registry.py",
+    "tests/test_test_contract_registry_v2.py"
+  ],
+  "pass_criteria": [
+    "Calcula source_coverage por fuente esperada.",
+    "Detecta fuentes inexistentes.",
+    "Funciona con docs_index y con lectura directa de documentos.",
+    "Bloquea fuentes remotas, runtime outputs y stale/deprecated.",
+    "No usa web, APIs externas, LLM judge, remote execution, connector write ni plugin execution."
+  ],
+  "block_criteria": [
+    "Bloquear si inventa fuentes.",
+    "Bloquear si outputs/ se aceptan como fuente canónica.",
+    "Bloquear si fuentes deprecated/stale pasan como válidas.",
+    "Bloquear si la cobertura queda bajo el umbral del caso.",
+    "Bloquear si la implementación requiere red o proveedor externo."
+  ],
+  "risks": [
+    "Todavía no evalúa required_claims ni forbidden_claims; esa lógica queda para POST-H-011-C.",
+    "El uso de docs_index es auxiliar; la fuente de verdad sigue siendo el documento local canónico.",
+    "La clasificación stale depende de metadata declarada; documentos sin frontmatter se tratan como no stale hasta tener reglas adicionales.",
+    "La integración CLI y quality-gate queda diferida a POST-H-011-D/E."
+  ],
+  "next_sprint": "POST-H-011",
+  "preliminary": true,
+  "security": {
+    "local_first": true,
+    "dry_run": true,
+    "read_only": true,
+    "network_used": false,
+    "external_api_used": false,
+    "web_search_used": false,
+    "llm_judge_required": false,
+    "remote_execution_enabled": false,
+    "connector_write_enabled": false,
+    "plugin_execution_enabled": false,
+    "mutations_performed": false,
+    "source_mutations_performed": false
+  }
+}

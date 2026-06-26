@@ -691,12 +691,15 @@
       "derived_documents": [
         "docs/POST-H-011_rag_groundedness_evals.md",
         "docs/audits/post_h_011_a_schema_fixtures_report.md",
-        "docs/post_h_011_a_manifest.json"
+        "docs/post_h_011_a_manifest.json",
+        "docs/audits/post_h_011_b_citation_source_coverage_report.md",
+        "docs/post_h_011_b_manifest.json"
       ],
       "required_tests": [
         "tests/test_documentation_governance_backlogs.py",
         "tests/test_rag_groundedness_schema.py",
-        "tests/test_post_h_011_rag_groundedness.py"
+        "tests/test_post_h_011_rag_groundedness.py",
+        "tests/test_rag_citations_source_coverage.py"
       ],
       "sync_rules": [
         "backlog_naming",
@@ -711,7 +714,8 @@
       "notes": [
         "Roadmap-derived executable backlog governed by POST-H-009-D.",
         "Approved for implementation in POST-H-011-A after POST-H-010 closure.",
-        "POST-H-011-A registers schema and fixture contracts only; evaluator, CLI and quality-gate integration are later micro-sprints."
+        "POST-H-011-A registers schema and fixture contracts only; evaluator, CLI and quality-gate integration are later micro-sprints.",
+        "POST-H-011-B adds local citation extraction and source coverage without claim evaluation, network or external APIs."
       ]
     },
     {
@@ -1245,7 +1249,7 @@
     "network_used": false,
     "external_api_used": false,
     "mutations_performed": false,
-    "last_updated_by": "POST-H-011-A",
+    "last_updated_by": "POST-H-011-B",
     "markdown_json_sync_checks_enabled": true,
     "sync_checks_scope": "version_match, milestones_match, decisions_match, closure_status_match, next_hito_match",
     "backlog_governance_enabled": true,
@@ -1277,7 +1281,10 @@
     "rag_groundedness_fixture_path": "evals/fixtures/rag_groundedness_post_h_cases.json",
     "post_h_011_approved": true,
     "post_h_011_current_micro_sprint": "POST-H-011-A",
-    "post_h_011_schema_fixture_baseline_registered": true
+    "post_h_011_schema_fixture_baseline_registered": true,
+    "rag_source_coverage_enabled": true,
+    "rag_source_coverage_module": "src/devpilot_core/rag/citations.py",
+    "rag_source_coverage_tests": "tests/test_rag_citations_source_coverage.py"
   },
   "safety": {
     "local_first": true,
@@ -1295,7 +1302,10 @@
     "observability_redacted_export_remote_enabled": false,
     "observability_retention_hygiene_network_used": false,
     "observability_retention_hygiene_external_api_used": false,
-    "observability_retention_hygiene_source_mutations_performed": false
+    "observability_retention_hygiene_source_mutations_performed": false,
+    "rag_source_coverage_network_used": false,
+    "rag_source_coverage_external_api_used": false,
+    "rag_source_coverage_llm_judge_used": false
   },
   "notes": [
     "POST-H-009-A creates the first canonical documentation source registry and schema baseline.",

@@ -4,7 +4,7 @@ doc_id: "POST-H-011-BACKLOG"
 id: "POST-H-011"
 title: "POST-H-011 — RAG groundedness evals"
 status: "approved"
-version: "0.2.0"
+version: "0.3.0"
 owner: "Ordóñez"
 updated: "2026-06-26"
 approval: "approved_by_owner"
@@ -18,8 +18,8 @@ no_external_apis_used_by_default: true
 no_connector_write_enabled: true
 no_plugin_execution_enabled: true
 implementation_status: "active"
-current_micro_sprint: "POST-H-011-A"
-next_micro_sprint: "POST-H-011-B"
+current_micro_sprint: "POST-H-011-B"
+next_micro_sprint: "POST-H-011-C"
 ---
 
 # POST-H-011 — RAG groundedness evals
@@ -481,3 +481,53 @@ Límites explícitos:
 ```
 
 Siguiente micro-sprint: `POST-H-011-B — Citation extractor y source coverage`.
+
+
+## 15. Avance de implementación — POST-H-011-B
+
+Estado: `implemented-initial`.
+
+`POST-H-011-B` implementa el extractor local de citas y source coverage para los fixtures de groundedness. El alcance sigue siendo determinístico y local-first: no ejecuta LLM judge, no usa embeddings externos, no usa web search, no llama APIs y no genera outputs versionables.
+
+Artefactos principales:
+
+```text
+src/devpilot_core/rag/citations.py
+tests/test_rag_citations_source_coverage.py
+docs/audits/post_h_011_b_citation_source_coverage_report.md
+docs/post_h_011_b_manifest.json
+```
+
+Capacidades implementadas:
+
+```text
+- Normalización segura de paths locales de fuentes RAG.
+- Extracción de doc_id, status, updated, headings y snippets desde Markdown/JSON/YAML/TXT cuando la metadata está disponible.
+- Cálculo determinístico de source_coverage por caso de fixture.
+- Detección BLOCK de fuentes faltantes, remotas, runtime outputs y stale/deprecated.
+- Fallback a lectura directa de documentos cuando docs_index no existe.
+- Uso de .devpilot/rag/docs_index.json cuando está disponible, sin tratarlo como fuente canónica final.
+- Reporte in-memory compatible con RagGroundednessReport.
+```
+
+Criterios PASS cubiertos:
+
+```text
+- Calcula cobertura por fuente esperada.
+- Detecta fuentes inexistentes.
+- No requiere contenido remoto.
+- Funciona con docs_index actual y con lectura directa de docs.
+- No considera outputs/ como fuente canónica.
+- Bloquea fuentes marcadas como deprecated/stale por metadata local.
+```
+
+Límites explícitos:
+
+```text
+- No evalúa required_claims ni forbidden_claims; eso queda para POST-H-011-C.
+- No añade todavía comando CLI rag groundedness-eval; eso queda para POST-H-011-D.
+- No integra todavía quality-gate; eso queda para POST-H-011-E.
+- No declara RAG production-grade ni reemplaza fuentes canónicas.
+```
+
+Siguiente micro-sprint: `POST-H-011-C — Evaluador determinístico de claims`.

@@ -3620,6 +3620,46 @@
         "python -m pytest tests/test_rag_groundedness_schema.py tests/test_post_h_011_rag_groundedness.py -q",
         "python -m devpilot_core schema validate --schema-id RagGroundednessEval --instance evals/fixtures/rag_groundedness_post_h_cases.json --json"
       ]
+    },
+    {
+      "contract_id": "post-h-011-rag-citation-source-coverage",
+      "scope": "integration",
+      "owner": "POST-H-011-B",
+      "phase": "POST-FASE-H",
+      "test_files": [
+        "tests/test_rag_citations_source_coverage.py",
+        "tests/test_post_h_011_rag_groundedness.py",
+        "tests/test_rag_groundedness_schema.py",
+        "tests/test_schema_registry.py",
+        "tests/test_documentation_governance_validator.py",
+        "tests/test_project_global_state.py"
+      ],
+      "validates": [
+        "src/devpilot_core/rag/citations.py",
+        "src/devpilot_core/rag/__init__.py",
+        "docs/schemas/rag_groundedness_report.schema.json",
+        "evals/fixtures/rag_groundedness_post_h_cases.json",
+        "docs/backlogs/POST-H-011_rag_groundedness_evals.md",
+        "docs/POST-H-011_rag_groundedness_evals.md",
+        "docs/post_h_011_b_manifest.json",
+        "docs/audits/post_h_011_b_citation_source_coverage_report.md"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/rag/",
+        "docs/schemas/rag_groundedness_report.schema.json",
+        "evals/fixtures/rag_groundedness_post_h_cases.json",
+        "docs/backlogs/POST-H-011_rag_groundedness_evals.md",
+        "docs/POST-H-011_rag_groundedness_evals.md",
+        "tests/test_rag_citations_source_coverage.py",
+        "tests/test_post_h_011_rag_groundedness.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest tests/test_rag_citations_source_coverage.py tests/test_post_h_011_rag_groundedness.py tests/test_rag_groundedness_schema.py -q",
+        "python -m devpilot_core schema validate --schema-id RagGroundednessEval --instance evals/fixtures/rag_groundedness_post_h_cases.json --json"
+      ]
     }
   ],
   "notes": [

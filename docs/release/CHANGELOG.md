@@ -1,5 +1,19 @@
 # Changelog
 
+## [post-h-011-b] - 2026-06-26
+
+### Added
+- Implementado `src/devpilot_core/rag/citations.py` para extracción local de citas, metadata, headings, snippets y cálculo determinístico de source coverage.
+- Agregado `tests/test_rag_citations_source_coverage.py` con cobertura de docs_index, fallback directo, fuentes faltantes, runtime outputs, fuentes remotas y metadata stale/deprecated.
+
+### Changed
+- Actualizado `POST-H-011` a `current_micro_sprint=POST-H-011-B` y `next_micro_sprint=POST-H-011-C`.
+- `RagGroundednessReport` ahora admite reportes generados por `POST-H-011-B` y campos opcionales de evidencia de fuentes.
+
+### Safety
+- Sin red, sin APIs externas, sin web search, sin LLM judge, sin mutaciones de código fuente y sin outputs versionables.
+
+
 
 ## [post-h-011-a] - 2026-06-26
 
@@ -16,7 +30,7 @@
 - This is a schema/fixture baseline only; evaluator, CLI and quality-gate integration are planned for later POST-H-011 micro-sprints.
 
 
-Siguiente hito: `POST-H-011 — RAG groundedness evals`; micro-sprint activo `POST-H-011-A`.
+Siguiente hito: `POST-H-011 — RAG groundedness evals`; micro-sprint activo `POST-H-011-B`.
 
 ## [post-h-010-e] - 2026-06-26
 
@@ -671,7 +685,7 @@ owner: "Ordóñez"
 
 # Changelog
 
-Siguiente hito: `POST-H-011 — RAG groundedness evals`; micro-sprint activo `POST-H-011-A`.
+Siguiente hito: `POST-H-011 — RAG groundedness evals`; micro-sprint activo `POST-H-011-B`.
 
 ## [post-h-010-e] - 2026-06-26
 

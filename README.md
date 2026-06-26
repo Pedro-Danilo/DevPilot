@@ -1,15 +1,15 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
-Estado actual: `baseline pre-code approved + Fases A-G cerradas + Fase H cerrada + POST-H-001 implemented-initial + POST-H-EVAL-001 closed + POST-H-002 closed + POST-H-003 closed + POST-H-004 closed + POST-H-005 closed + POST-H-006 closed + POST-H-007 closed + POST-H-008 closed + POST-H-009-A implemented-initial + POST-H-009-B implemented-initial + POST-H-009-C implemented-initial + POST-H-009-D implemented-initial + POST-H-009-E implemented-initial + POST-H-009 closed + POST-H-010-A implemented-initial + POST-H-010-B implemented-initial + POST-H-010-C implemented-initial + POST-H-010-D implemented-initial + POST-H-010-E implemented-initial + POST-H-010 closed + POST-H-011-A implemented-initial`  
+Estado actual: `baseline pre-code approved + Fases A-G cerradas + Fase H cerrada + POST-H-001 implemented-initial + POST-H-EVAL-001 closed + POST-H-002 closed + POST-H-003 closed + POST-H-004 closed + POST-H-005 closed + POST-H-006 closed + POST-H-007 closed + POST-H-008 closed + POST-H-009-A implemented-initial + POST-H-009-B implemented-initial + POST-H-009-C implemented-initial + POST-H-009-D implemented-initial + POST-H-009-E implemented-initial + POST-H-009 closed + POST-H-010-A implemented-initial + POST-H-010-B implemented-initial + POST-H-010-C implemented-initial + POST-H-010-D implemented-initial + POST-H-010-E implemented-initial + POST-H-010 closed + POST-H-011-A implemented-initial + POST-H-011-B implemented-initial`  
 Último hito: `POST-H-010 — Observability retention local`  
 Siguiente hito: `POST-H-011 — RAG groundedness evals`  
-Último micro-sprint implementado: `POST-H-011-A — Schema y fixtures de groundedness`  
+Último micro-sprint implementado: `POST-H-011-B — Citation extractor y source coverage`  
 Hito diagnóstico cerrado: `POST-H-EVAL-001 — Evaluación integral del baseline DevPilot post-Fase H`, cierre formal `POST-H-EVAL-001-G`  
 Hito cerrado: `POST-H-010 — Observability retention local`  
 Hito cerrado: `POST-H-009 — Documentation governance y canonical sources`  
 Hito cerrado: `POST-H-008 — Runtime state lifecycle policy`  
 Hito cerrado: `POST-H-007 — ApplicationService boundary hardening`  
-Siguiente micro-sprint recomendado: `POST-H-011-B — Citation extractor y source coverage`  
+Siguiente micro-sprint recomendado: `POST-H-011-C — Evaluador determinístico de claims`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
@@ -49,6 +49,19 @@ Modo de trabajo: local-first híbrido, API keys opcionales, costo externo contro
 
 
 
+
+## POST-H-011-B — Citation extractor y source coverage
+
+`POST-H-011-B` complementa la base contractual de groundedness con `src/devpilot_core/rag/citations.py`, un extractor local de citas y cobertura de fuentes. La capacidad calcula `source_coverage` por caso, normaliza paths, extrae metadata (`doc_id`, `status`, `updated`), headings y snippets, usa `.devpilot/rag/docs_index.json` cuando está disponible y cae a lectura directa de documentos locales cuando el índice no existe.
+
+Estado: `implemented-initial`. No evalúa aún claims, no ejecuta LLM judge, no usa web search, no llama APIs externas, no habilita remote execution, connector write ni plugin execution.
+
+Validación focal recomendada:
+
+```powershell
+python -m pytest -p no:ddtrace tests/test_rag_citations_source_coverage.py tests/test_post_h_011_rag_groundedness.py tests/test_rag_groundedness_schema.py -q
+```
+
 ## POST-H-011-A — RAG groundedness: Schema y fixtures de groundedness
 
 `POST-H-011-A` inicia `POST-H-011 — RAG groundedness evals` como `implemented-initial`. Este micro-sprint aprueba el backlog y crea la base contractual local para evaluar groundedness de respuestas RAG: schema de suite, schema de reporte futuro y un fixture inicial con 10 casos post-H.
@@ -80,7 +93,7 @@ plugin_execution_enabled=false
 outputs_as_sources_allowed=false
 ```
 
-Limitación explícita: esta versión no ejecuta RAG, no calcula métricas reales de source coverage/claim support y no integra quality-gate. Define contratos y fixtures para que `POST-H-011-B/C/D/E` implementen extractor de citas, evaluador determinístico, CLI y gate.
+Limitación histórica de POST-H-011-A: esa versión no ejecutaba RAG ni calculaba métricas reales de source coverage/claim support. POST-H-011-B ya implementa source coverage; claim support, CLI y quality-gate quedan para `POST-H-011-C/D/E`.
 
 ## POST-H-010-E — Observability retention: Gate de retención e higiene observability
 

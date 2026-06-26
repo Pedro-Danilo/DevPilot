@@ -55,6 +55,7 @@ def test_project_global_state_schema_and_docs_are_synchronized() -> None:
     assert "post-h-009-e" in changelog
     assert "post-h-010-d" in changelog
     assert "post-h-010-e" in changelog
+    assert "post-h-011-b" in changelog
     assert any("POST-H-009-A starts Documentation governance" in note for note in state["notes"])
     assert any("POST-H-009-B adds Documentation governance" in note for note in state["notes"])
     assert any("POST-H-009-C adds Documentation governance" in note for note in state["notes"])
@@ -79,9 +80,9 @@ def test_project_global_state_schema_and_docs_are_synchronized() -> None:
     assert any("POST-H-010-C adds Observability cleanup plan" in note for note in state["notes"])
     assert any("POST-H-010-D adds local redacted observability export" in note for note in state["notes"])
     assert any("POST-H-010-E closes Observability retention local" in note for note in state["notes"])
-    assert any("POST-H-011-A starts RAG groundedness evals" in note for note in state["notes"])
-    assert "POST-H-011-A — RAG groundedness" in readme
-    assert "POST-H-011-A — Schema y fixtures de groundedness" in runbook
+    assert any("POST-H-011-B adds local citation extraction" in note for note in state["notes"])
+    assert "POST-H-011-B — Citation extractor y source coverage" in readme
+    assert "POST-H-011-B — Citation extractor y source coverage" in runbook
 
 
 def test_project_global_state_command_result_passes() -> None:
