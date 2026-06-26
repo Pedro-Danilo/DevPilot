@@ -16,7 +16,7 @@ approval_scope: "SPRINT-PRECODE-05 quality operations baseline"
 
 # Runbook — DevPilot Local
 
-Siguiente hito operativo: `POST-H-011 — RAG groundedness evals`; micro-sprint activo: `POST-H-011-C — Evaluador determinístico de claims`.
+Siguiente hito operativo: `POST-H-011 — RAG groundedness evals`; micro-sprint activo: `POST-H-011-D — Integración con RAG query y eval runner`.
 
 
 ## 1. Propósito
@@ -7804,7 +7804,41 @@ Límites operativos:
 - Implementación implemented-initial.
 - No usa LLM judge, web search, APIs externas ni embeddings remotos.
 - No habilita remote execution, connector write ni plugin execution.
-- No añade todavía el comando CLI rag groundedness-eval ni escritura de outputs/evals; eso queda para POST-H-011-D.
+- POST-H-011-D ya añade CLI y escritura explícita de outputs/evals; quality-gate queda para POST-H-011-E.
 - No integra todavía quality-gate; eso queda para POST-H-011-E.
 ```
 
+
+
+## POST-H-011-D — Integración con RAG query y eval runner
+
+`POST-H-011-D` habilita operación local de la suite RAG groundedness mediante CLI y eval runner. La capacidad se mantiene `implemented-initial`, local-first y dry-run: no usa proveedores externos, LLM judge, web search, embeddings remotos, conectores, plugins ni ejecución remota.
+
+Comandos operativos:
+
+```powershell
+python -m devpilot_core rag groundedness-eval --suite evals/fixtures/rag_groundedness_post_h_cases.json --json
+python -m devpilot_core rag groundedness-eval --suite evals/fixtures/rag_groundedness_post_h_cases.json --case-id rag-posth-roadmap-prioritized-hitos --json
+python -m devpilot_core rag groundedness-eval --suite evals/fixtures/rag_groundedness_post_h_cases.json --write-report --json
+python -m devpilot_core eval run --suite rag-groundedness --json
+```
+
+Reportes runtime:
+
+```text
+outputs/evals/rag_groundedness_report.json
+outputs/evals/rag_groundedness_report.md
+```
+
+Estos reportes son regenerables y no deben versionarse como fuente de verdad. Los ZIP limpios del repo deben omitir `outputs/`.
+
+Verificación focal:
+
+```powershell
+python -m pytest -p no:ddtrace tests/test_rag_groundedness_eval_runner.py tests/test_rag_groundedness_claims.py tests/test_rag_citations_source_coverage.py tests/test_post_h_011_rag_groundedness.py tests/test_rag_groundedness_schema.py -q
+python -m devpilot_core schema validate --schema-id PostHManifest --instance docs/post_h_011_d_manifest.json --json
+python -m devpilot_core test-contracts validate --json
+python -m devpilot_core docs-governance validate --json
+```
+
+Límites: `POST-H-011-D` no integra todavía `quality-gate`; esa integración y la documentación final de límites de RAG quedan para `POST-H-011-E`.

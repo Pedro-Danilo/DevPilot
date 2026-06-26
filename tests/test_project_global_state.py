@@ -81,8 +81,9 @@ def test_project_global_state_schema_and_docs_are_synchronized() -> None:
     assert any("POST-H-010-D adds local redacted observability export" in note for note in state["notes"])
     assert any("POST-H-010-E closes Observability retention local" in note for note in state["notes"])
     assert any("POST-H-011-C adds deterministic RAG claim groundedness" in note for note in state["notes"])
-    assert "POST-H-011-C — Evaluador determinístico de claims" in readme
-    assert "POST-H-011-C — Evaluador determinístico de claims" in runbook
+    assert any("POST-H-011-D adds RAG groundedness eval runner integration" in note for note in state["notes"])
+    assert "POST-H-011-D — Integración con RAG query y eval runner" in readme
+    assert "POST-H-011-D — Integración con RAG query y eval runner" in runbook
 
 
 def test_project_global_state_command_result_passes() -> None:

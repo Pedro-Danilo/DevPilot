@@ -154,6 +154,24 @@
         },
         "llm_judge_used": {
           "const": false
+        },
+        "rag_query_used": {
+          "type": "boolean"
+        },
+        "queries_total": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "queries_with_sources_total": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "query_failures_total": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "reports_written": {
+          "type": "boolean"
         }
       }
     },
@@ -296,6 +314,22 @@
         },
         "candidate_answer_evaluated": {
           "type": "boolean"
+        },
+        "query_executed": {
+          "type": "boolean"
+        },
+        "query_grounded": {
+          "type": "boolean"
+        },
+        "query_sources_total": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "query_source_refs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         }
       }
     },

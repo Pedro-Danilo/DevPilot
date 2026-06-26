@@ -4,7 +4,7 @@ doc_id: "POST-H-011-BACKLOG"
 id: "POST-H-011"
 title: "POST-H-011 — RAG groundedness evals"
 status: "approved"
-version: "0.4.0"
+version: "0.5.0"
 owner: "Ordóñez"
 updated: "2026-06-26"
 approval: "approved_by_owner"
@@ -18,8 +18,8 @@ no_external_apis_used_by_default: true
 no_connector_write_enabled: true
 no_plugin_execution_enabled: true
 implementation_status: "active"
-current_micro_sprint: "POST-H-011-C"
-next_micro_sprint: "POST-H-011-D"
+current_micro_sprint: "POST-H-011-D"
+next_micro_sprint: "POST-H-011-E"
 ---
 
 # POST-H-011 — RAG groundedness evals
@@ -587,3 +587,53 @@ Límites explícitos:
 
 Siguiente micro-sprint: `POST-H-011-D — Integración con RAG query y eval runner`.
 
+
+
+## 17. Avance de implementación — POST-H-011-D
+
+Estado: `implemented-initial`.
+
+`POST-H-011-D` integra el evaluator de groundedness con `rag query` y con el runner de evals local. La implementación agrega el comando `python -m devpilot_core rag groundedness-eval`, permite ejecutar la suite completa o un `case_id` individual, y expone el puente `python -m devpilot_core eval run --suite rag-groundedness`.
+
+Artefactos principales:
+
+```text
+src/devpilot_core/rag/evals.py
+tests/test_rag_groundedness_eval_runner.py
+docs/04_quality/rag_groundedness_eval_strategy.md
+docs/audits/post_h_011_d_eval_runner_report.md
+docs/post_h_011_d_manifest.json
+```
+
+Capacidades implementadas:
+
+```text
+- Comando CLI `rag groundedness-eval` con --suite, --case-id, --index-path, --top-k, --non-strict y --write-report.
+- Ejecución offline de suite completa o caso individual.
+- Integración con `LocalRagRetriever` para verificar que cada pregunta del fixture recupera fuentes locales.
+- Reutilización del source coverage de POST-H-011-B y del claim evaluator de POST-H-011-C.
+- Escritura explícita de `outputs/evals/rag_groundedness_report.json` y `.md` cuando se usa --write-report.
+- Puente desde `eval run --suite rag-groundedness` sin acoplar el EvalRunner histórico a schemas RAG.
+```
+
+Criterios PASS cubiertos:
+
+```text
+- La suite corre offline.
+- El comando produce CommandResult estándar.
+- El reporte declara network_used=false y external_api_used=false.
+- `outputs/evals` se trata como runtime regenerable, no como fuente versionable obligatoria.
+- El bridge de eval runner permite CI local sin proveedor externo.
+```
+
+Límites explícitos:
+
+```text
+- Implementación implemented-initial.
+- No se integra todavía al quality-gate; eso queda para POST-H-011-E.
+- El RAG query integrado sigue siendo lexical; no usa embeddings obligatorios ni reranking semántico.
+- El matcher de claims sigue siendo determinístico y no reemplaza revisión humana para decisiones críticas.
+- Los reportes bajo outputs/evals son artefactos runtime y no deben versionarse como fuente de verdad.
+```
+
+Siguiente micro-sprint: `POST-H-011-E — Gate y documentación de límites RAG`.

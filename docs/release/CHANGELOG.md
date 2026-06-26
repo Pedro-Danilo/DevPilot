@@ -2,6 +2,27 @@
 
 
 
+## [post-h-011-d] - 2026-06-26
+
+### Added
+- Implementado `src/devpilot_core/rag/evals.py` con `RagGroundednessEvalRunner` y `RagGroundednessEvalRunOptions`.
+- Agregado comando CLI `rag groundedness-eval` para suite/caso individual, salida JSON y reportes opcionales en `outputs/evals`.
+- Agregado bridge `eval run --suite rag-groundedness` mediante `EvaluationApplicationService`.
+- Agregado `tests/test_rag_groundedness_eval_runner.py`, auditoría, manifest y estrategia de evaluación.
+- Registrado contrato TCR v1/v2 `post-h-011-rag-groundedness-eval-runner`.
+
+### Changed
+- Actualizado `POST-H-011` a `current_micro_sprint=POST-H-011-D` y `next_micro_sprint=POST-H-011-E`.
+- `RagGroundednessReport` ahora admite métricas opcionales de integración RAG query (`rag_query_used`, `queries_total`, `query_grounded`, source refs por caso).
+
+### Security
+- Local-first, offline y sin APIs externas. `outputs/evals` se escribe solo con `--write-report` y no se convierte en fuente versionable.
+
+### Limitations
+- La integración con `quality-gate` queda para `POST-H-011-E`.
+
+
+
 ## [post-h-011-c] - 2026-06-26
 
 ### Added
@@ -49,7 +70,7 @@
 - This is a schema/fixture baseline only; evaluator, CLI and quality-gate integration are planned for later POST-H-011 micro-sprints.
 
 
-Siguiente hito: `POST-H-011 — RAG groundedness evals`; micro-sprint activo `POST-H-011-C`.
+Siguiente hito: `POST-H-011 — RAG groundedness evals`; micro-sprint activo `POST-H-011-D`.
 
 ## [post-h-010-e] - 2026-06-26
 
@@ -704,7 +725,7 @@ owner: "Ordóñez"
 
 # Changelog
 
-Siguiente hito: `POST-H-011 — RAG groundedness evals`; micro-sprint activo `POST-H-011-C`.
+Siguiente hito: `POST-H-011 — RAG groundedness evals`; micro-sprint activo `POST-H-011-D`.
 
 ## [post-h-010-e] - 2026-06-26
 

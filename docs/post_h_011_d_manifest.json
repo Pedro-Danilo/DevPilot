@@ -1,0 +1,95 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "SCHEMA-DEVPL-POST-H-MANIFEST-V1",
+  "post_h_id": "POST-H-011",
+  "id": "POST-H-011-D",
+  "title": "POST-H-011-D — Integración con RAG query y eval runner",
+  "status": "implemented-initial",
+  "phase": "POST-FASE-H",
+  "implemented_at": "2026-06-26",
+  "created_files": [
+    "src/devpilot_core/rag/evals.py",
+    "tests/test_rag_groundedness_eval_runner.py",
+    "docs/04_quality/rag_groundedness_eval_strategy.md",
+    "docs/audits/post_h_011_d_eval_runner_report.md",
+    "docs/post_h_011_d_manifest.json"
+  ],
+  "modified_files": [
+    "src/devpilot_core/rag/groundedness.py",
+    "src/devpilot_core/rag/__init__.py",
+    "src/devpilot_core/application/evals_service.py",
+    "src/devpilot_core/application/services.py",
+    "src/devpilot_core/cli.py",
+    "docs/schemas/rag_groundedness_report.schema.json",
+    "docs/backlogs/POST-H-011_rag_groundedness_evals.md",
+    "docs/POST-H-011_rag_groundedness_evals.md",
+    ".devpilot/docs_governance/source_registry.json",
+    ".devpilot/project_state.json",
+    ".devpilot/testing/test_contract_registry.json",
+    ".devpilot/testing/test_contract_registry_v2.json",
+    ".devpilot/cli_registry/legacy_command_allowlist.json",
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/release/CHANGELOG.md",
+    "tests/test_post_h_011_rag_groundedness.py",
+    "tests/test_project_global_state.py"
+  ],
+  "commands": [
+    "python -m pytest -p no:ddtrace tests/test_rag_groundedness_eval_runner.py tests/test_rag_groundedness_claims.py tests/test_rag_citations_source_coverage.py tests/test_post_h_011_rag_groundedness.py tests/test_rag_groundedness_schema.py -q",
+    "python -m devpilot_core rag groundedness-eval --suite evals/fixtures/rag_groundedness_post_h_cases.json --json",
+    "python -m devpilot_core eval run --suite rag-groundedness --json",
+    "python -m devpilot_core schema validate --schema-id PostHManifest --instance docs/post_h_011_d_manifest.json --json",
+    "python -m devpilot_core docs-governance validate --json",
+    "python -m devpilot_core test-contracts validate --json",
+    "python -m devpilot_core test-contracts validate-v2 --json",
+    "python -m devpilot_core project-state validate --json"
+  ],
+  "tests": [
+    "tests/test_rag_groundedness_eval_runner.py",
+    "tests/test_rag_groundedness_claims.py",
+    "tests/test_rag_citations_source_coverage.py",
+    "tests/test_post_h_011_rag_groundedness.py",
+    "tests/test_rag_groundedness_schema.py",
+    "tests/test_schema_registry.py",
+    "tests/test_project_global_state.py",
+    "tests/test_documentation_governance_validator.py",
+    "tests/test_test_contract_registry.py",
+    "tests/test_test_contract_registry_v2.py"
+  ],
+  "pass_criteria": [
+    "La suite corre offline mediante rag groundedness-eval.",
+    "El comando produce CommandResult estándar.",
+    "La ejecución por case_id está soportada.",
+    "eval run --suite rag-groundedness ejecuta el runner RAG sin proveedor externo.",
+    "Los reportes se escriben bajo outputs/evals solo cuando --write-report es explícito.",
+    "network_used=false y external_api_used=false."
+  ],
+  "block_criteria": [
+    "Bloquear si el eval requiere provider externo.",
+    "Bloquear si outputs/evals se vuelven fuente versionable obligatoria.",
+    "Bloquear si una pregunta no recupera fuentes locales y pasa silenciosamente.",
+    "Bloquear si se usa red, web search, LLM judge o APIs externas por defecto."
+  ],
+  "risks": [
+    "POST-H-011-D no integra todavía quality-gate; esa integración queda para POST-H-011-E.",
+    "El RAG local sigue siendo lexical y puede requerir evolución semántica local opcional.",
+    "Los reportes outputs/evals son runtime regenerable y no deben incluirse en ZIPs limpios.",
+    "RAG sigue sin ser fuente de verdad; la fuente canónica sigue siendo documentación local gobernada."
+  ],
+  "next_sprint": "POST-H-011",
+  "preliminary": true,
+  "security": {
+    "local_first": true,
+    "dry_run": true,
+    "read_only": true,
+    "network_used": false,
+    "external_api_used": false,
+    "web_search_used": false,
+    "llm_judge_required": false,
+    "remote_execution_enabled": false,
+    "connector_write_enabled": false,
+    "plugin_execution_enabled": false,
+    "mutations_performed": false,
+    "source_mutations_performed": false
+  }
+}

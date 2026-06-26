@@ -1,15 +1,15 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
-Estado actual: `baseline pre-code approved + Fases A-G cerradas + Fase H cerrada + POST-H-001 implemented-initial + POST-H-EVAL-001 closed + POST-H-002 closed + POST-H-003 closed + POST-H-004 closed + POST-H-005 closed + POST-H-006 closed + POST-H-007 closed + POST-H-008 closed + POST-H-009-A implemented-initial + POST-H-009-B implemented-initial + POST-H-009-C implemented-initial + POST-H-009-D implemented-initial + POST-H-009-E implemented-initial + POST-H-009 closed + POST-H-010-A implemented-initial + POST-H-010-B implemented-initial + POST-H-010-C implemented-initial + POST-H-010-D implemented-initial + POST-H-010-E implemented-initial + POST-H-010 closed + POST-H-011-A implemented-initial + POST-H-011-B implemented-initial + POST-H-011-C implemented-initial`  
+Estado actual: `baseline pre-code approved + Fases A-G cerradas + Fase H cerrada + POST-H-001 implemented-initial + POST-H-EVAL-001 closed + POST-H-002 closed + POST-H-003 closed + POST-H-004 closed + POST-H-005 closed + POST-H-006 closed + POST-H-007 closed + POST-H-008 closed + POST-H-009-A implemented-initial + POST-H-009-B implemented-initial + POST-H-009-C implemented-initial + POST-H-009-D implemented-initial + POST-H-009-E implemented-initial + POST-H-009 closed + POST-H-010-A implemented-initial + POST-H-010-B implemented-initial + POST-H-010-C implemented-initial + POST-H-010-D implemented-initial + POST-H-010-E implemented-initial + POST-H-010 closed + POST-H-011-A implemented-initial + POST-H-011-B implemented-initial + POST-H-011-C implemented-initial + POST-H-011-D implemented-initial`  
 Último hito: `POST-H-010 — Observability retention local`  
 Siguiente hito: `POST-H-011 — RAG groundedness evals`  
-Último micro-sprint implementado: `POST-H-011-C — Evaluador determinístico de claims`  
+Último micro-sprint implementado: `POST-H-011-D — Integración con RAG query y eval runner`  
 Hito diagnóstico cerrado: `POST-H-EVAL-001 — Evaluación integral del baseline DevPilot post-Fase H`, cierre formal `POST-H-EVAL-001-G`  
 Hito cerrado: `POST-H-010 — Observability retention local`  
 Hito cerrado: `POST-H-009 — Documentation governance y canonical sources`  
 Hito cerrado: `POST-H-008 — Runtime state lifecycle policy`  
 Hito cerrado: `POST-H-007 — ApplicationService boundary hardening`  
-Siguiente micro-sprint recomendado: `POST-H-011-D — Integración con RAG query y eval runner`  
+Siguiente micro-sprint recomendado: `POST-H-011-E — Gate y documentación de límites RAG`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
@@ -51,11 +51,25 @@ Modo de trabajo: local-first híbrido, API keys opcionales, costo externo contro
 
 
 
+## POST-H-011-D — Integración con RAG query y eval runner
+
+`POST-H-011-D` conecta el evaluator de groundedness con el RAG lexical local y con el runner de evals. DevPilot ahora expone `python -m devpilot_core rag groundedness-eval --suite evals/fixtures/rag_groundedness_post_h_cases.json --json`, permite ejecutar un caso con `--case-id`, y ofrece el puente `python -m devpilot_core eval run --suite rag-groundedness --json`.
+
+La implementación es `implemented-initial`: escribe reportes en `outputs/evals/rag_groundedness_report.json` y `.md` solo cuando se usa `--write-report`; esos outputs son runtime regenerable y no fuente versionable. No usa red, APIs externas, LLM judge, embeddings remotos, remote execution, connector write ni plugin execution. La integración con `quality-gate` queda para `POST-H-011-E`.
+
+Validación focal recomendada:
+
+```powershell
+python -m pytest -p no:ddtrace tests/test_rag_groundedness_eval_runner.py tests/test_rag_groundedness_claims.py tests/test_rag_citations_source_coverage.py tests/test_post_h_011_rag_groundedness.py tests/test_rag_groundedness_schema.py -q
+python -m devpilot_core rag groundedness-eval --suite evals/fixtures/rag_groundedness_post_h_cases.json --json
+python -m devpilot_core eval run --suite rag-groundedness --json
+```
+
 ## POST-H-011-C — Evaluador determinístico de claims
 
 `POST-H-011-C` agrega `src/devpilot_core/rag/groundedness.py`, una primera versión local y determinística del evaluador de claims para RAG groundedness. La capacidad valida `required_claims` contra fuentes locales esperadas, calcula `claim_support`, reporta `unsupported_claims` y bloquea `forbidden_claims` cuando aparecen en una respuesta candidata.
 
-La implementación es `implemented-initial`: no usa LLM judge, web search, APIs externas, embeddings remotos, remote execution, connector write ni plugin execution. Todavía no expone CLI ni escribe `outputs/evals/rag_groundedness_report.json`; esa integración queda para `POST-H-011-D`. El RAG local sigue sin ser fuente de verdad: las fuentes canónicas son los documentos gobernados por el source registry.
+La implementación es `implemented-initial`: no usa LLM judge, web search, APIs externas, embeddings remotos, remote execution, connector write ni plugin execution. La exposición CLI y la escritura opcional de `outputs/evals/rag_groundedness_report.json` ya quedan cubiertas por `POST-H-011-D`; la integración con quality-gate queda para `POST-H-011-E`. El RAG local sigue sin ser fuente de verdad: las fuentes canónicas son los documentos gobernados por el source registry.
 
 ## POST-H-011-B — Citation extractor y source coverage
 
@@ -100,7 +114,7 @@ plugin_execution_enabled=false
 outputs_as_sources_allowed=false
 ```
 
-Limitación histórica de POST-H-011-A: esa versión no ejecutaba RAG ni calculaba métricas reales de source coverage/claim support. POST-H-011-B ya implementa source coverage y POST-H-011-C implementa claim support determinístico; CLI, reportes persistidos y quality-gate quedan para `POST-H-011-D/E`.
+Limitación histórica de POST-H-011-A: esa versión no ejecutaba RAG ni calculaba métricas reales de source coverage/claim support. POST-H-011-B ya implementa source coverage y POST-H-011-C implementa claim support determinístico; CLI y reportes persistidos ya quedan cubiertos por POST-H-011-D; quality-gate queda para `POST-H-011-E`.
 
 ## POST-H-010-E — Observability retention: Gate de retención e higiene observability
 

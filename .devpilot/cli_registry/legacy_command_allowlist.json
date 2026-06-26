@@ -91,6 +91,7 @@
     "prompt.list",
     "prompt.show",
     "prompt.validate",
+    "rag.groundedness-eval",
     "rag.index",
     "rag.query",
     "readiness-check",
@@ -134,6 +135,7 @@
   "notes": [
     "This allowlist is intentionally explicit and should shrink over time.",
     "POST-H-006-E fails when a public CLI command appears as legacy-unregistered and is not listed here.",
-    "Do not add new commands to this allowlist as a shortcut; create a declarative descriptor or migrate the handler instead."
+    "Do not add new commands to this allowlist as a shortcut; create a declarative descriptor or migrate the handler instead.",
+    "POST-H-011-D adds rag.groundedness-eval as a governed temporary legacy CLI command until the rag group is moved into the declarative registry."
   ]
 }

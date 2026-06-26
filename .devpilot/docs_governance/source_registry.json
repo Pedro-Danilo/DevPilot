@@ -695,14 +695,18 @@
         "docs/audits/post_h_011_b_citation_source_coverage_report.md",
         "docs/post_h_011_b_manifest.json",
         "docs/audits/post_h_011_c_claim_groundedness_report.md",
-        "docs/post_h_011_c_manifest.json"
+        "docs/post_h_011_c_manifest.json",
+        "docs/04_quality/rag_groundedness_eval_strategy.md",
+        "docs/audits/post_h_011_d_eval_runner_report.md",
+        "docs/post_h_011_d_manifest.json"
       ],
       "required_tests": [
         "tests/test_documentation_governance_backlogs.py",
         "tests/test_rag_groundedness_schema.py",
         "tests/test_post_h_011_rag_groundedness.py",
         "tests/test_rag_citations_source_coverage.py",
-        "tests/test_rag_groundedness_claims.py"
+        "tests/test_rag_groundedness_claims.py",
+        "tests/test_rag_groundedness_eval_runner.py"
       ],
       "sync_rules": [
         "backlog_naming",
@@ -719,7 +723,8 @@
         "Approved for implementation in POST-H-011-A after POST-H-010 closure.",
         "POST-H-011-A registers schema and fixture contracts only; evaluator, CLI and quality-gate integration are later micro-sprints.",
         "POST-H-011-B adds local citation extraction and source coverage without claim evaluation, network or external APIs.",
-        "POST-H-011-C adds deterministic required/forbidden claim evaluation and claim_support without LLM judge, web search or external APIs."
+        "POST-H-011-C adds deterministic required/forbidden claim evaluation and claim_support without LLM judge, web search or external APIs.",
+        "POST-H-011-D adds local rag groundedness-eval CLI, eval runner bridge and outputs/evals report writing without network, external APIs or source mutations."
       ]
     },
     {

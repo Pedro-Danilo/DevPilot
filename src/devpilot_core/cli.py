@@ -61,7 +61,14 @@ from .portfolio import PortfolioStatusBuilder
 from .prompts import PromptRegistry
 from .quality import QualityGate, QualityGateOptions
 from .remote import RemoteRunnerStatusOptions, RemoteRunnerStub
-from .rag import LocalRagIndexer, LocalRagRetriever, RagIndexOptions, RagQueryOptions
+from .rag import (
+    LocalRagIndexer,
+    LocalRagRetriever,
+    RagGroundednessEvalRunOptions,
+    RagGroundednessEvalRunner,
+    RagIndexOptions,
+    RagQueryOptions,
+)
 from .runtime_state import (
     RuntimeStateCleanupOptions,
     RuntimeStateCleanupPlanner,
@@ -1473,15 +1480,16 @@ def eval_run_command(
     """
 
     root = project_root()
-    result = ApplicationService(root).eval_run(suite=suite, case_id=case_id)
-    result = _write_optional_command_report(
-        root,
-        result,
-        subject=f"evals/fixtures/{suite}",
-        report_id=f"eval_run_{suite}",
-        write_report=write_report,
-        metadata={"sprint": "FUNC-SPRINT-13", "component": "EvalRunner"},
-    )
+    result = ApplicationService(root).eval_run(suite=suite, case_id=case_id, write_report=write_report)
+    if not (suite == "rag-groundedness" and write_report):
+        result = _write_optional_command_report(
+            root,
+            result,
+            subject=f"evals/fixtures/{suite}",
+            report_id=f"eval_run_{suite}",
+            write_report=write_report,
+            metadata={"sprint": "FUNC-SPRINT-13", "component": "EvalRunner"},
+        )
     _emit_result_event(root, result, subject=f"evals/fixtures/{suite}")
     _persist_result(root, result, subject=f"evals/fixtures/{suite}")
     print_result(result, json_output=json_output)
@@ -1921,6 +1929,45 @@ def rag_query_command(
         result = CommandResult(command=result.command, ok=result.ok, exit_code=result.exit_code, message=result.message, data=data, findings=result.findings)
     _emit_result_event(root, result, subject="rag:query")
     _persist_result(root, result, subject="rag:query")
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+
+
+
+def rag_groundedness_eval_command(
+    *,
+    suite: str = "evals/fixtures/rag_groundedness_post_h_cases.json",
+    case_id: str | None = None,
+    index_path: str = ".devpilot/rag/docs_index.json",
+    top_k: int = 5,
+    strict: bool = True,
+    no_rag_query: bool = False,
+    json_output: bool = False,
+    write_report: bool = False,
+) -> int:
+    """Run POST-H-011-D local RAG groundedness eval runner.
+
+    The command integrates lexical `rag query` with deterministic source/claim
+    groundedness scoring. It remains offline and local-first: no provider, LLM
+    judge, embeddings, web search, connector, plugin or external API is used.
+    Optional report writing is constrained to outputs/evals.
+    """
+
+    root = project_root()
+    result = RagGroundednessEvalRunner(
+        root,
+        options=RagGroundednessEvalRunOptions(
+            suite_path=suite,
+            index_path=index_path,
+            case_id=case_id,
+            strict=strict,
+            top_k=top_k,
+            run_rag_query=not no_rag_query,
+        ),
+    ).run(write_report=write_report)
+    _emit_result_event(root, result, subject=f"rag-groundedness:{suite}")
+    _persist_result(root, result, subject=f"rag-groundedness:{suite}")
     print_result(result, json_output=json_output)
     return int(result.exit_code)
 
@@ -5271,6 +5318,16 @@ def build_parser() -> argparse.ArgumentParser:
     rag_query.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     rag_query.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
 
+    rag_groundedness = rag_sub.add_parser("groundedness-eval", help="Run local RAG groundedness eval suite")
+    rag_groundedness.add_argument("--suite", default="evals/fixtures/rag_groundedness_post_h_cases.json", help="Groundedness fixture path")
+    rag_groundedness.add_argument("--case-id", default=None, help="Optional single groundedness case id")
+    rag_groundedness.add_argument("--index-path", default=".devpilot/rag/docs_index.json", help="Local RAG index JSON path")
+    rag_groundedness.add_argument("--top-k", type=int, default=5, help="Maximum RAG query source chunks per case, capped by retriever")
+    rag_groundedness.add_argument("--non-strict", action="store_true", help="Convert low claim support to warnings where allowed")
+    rag_groundedness.add_argument("--no-rag-query", action="store_true", help="Skip rag query integration and run source/claim evaluator only")
+    rag_groundedness.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    rag_groundedness.add_argument("--write-report", action="store_true", help="Persist RagGroundednessReport JSON/Markdown under outputs/evals")
+
     quality_gate = sub.add_parser("quality-gate", help="Run local productization quality gates")
     quality_gate_sub = quality_gate.add_subparsers(dest="quality_gate_command")
     quality_gate_run = quality_gate_sub.add_parser("run", help="Run the unified local quality gate")
@@ -6304,6 +6361,17 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
             return rag_index_command(target=args.target, index_path=args.index_path, json_output=args.json, write_report=args.write_report)
         if args.rag_command == "query":
             return rag_query_command(args.query, index_path=args.index_path, top_k=args.top_k, json_output=args.json, write_report=args.write_report)
+        if args.rag_command == "groundedness-eval":
+            return rag_groundedness_eval_command(
+                suite=args.suite,
+                case_id=args.case_id,
+                index_path=args.index_path,
+                top_k=args.top_k,
+                strict=not args.non_strict,
+                no_rag_query=args.no_rag_query,
+                json_output=args.json,
+                write_report=args.write_report,
+            )
         parser.print_help()
         return int(ExitCode.FAIL)
     if args.command == "quality-gate":

@@ -95,8 +95,8 @@ class ApplicationService:
     def miasi_validate(self, *, scope: str = "all") -> CommandResult:
         return self.miasi.validate(scope=scope)
 
-    def eval_run(self, *, suite: str = "documentation", case_id: str | None = None) -> CommandResult:
-        return self.evals.run_documentation(suite=suite, case_id=case_id)
+    def eval_run(self, *, suite: str = "documentation", case_id: str | None = None, write_report: bool = False) -> CommandResult:
+        return self.evals.run_documentation(suite=suite, case_id=case_id, write_report=write_report)
 
     def repo_inventory(self) -> CommandResult:
         return self.repo.inventory()

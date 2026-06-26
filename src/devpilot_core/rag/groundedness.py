@@ -39,6 +39,7 @@ class GroundednessOptions:
     use_index: bool = True
     strict: bool = True
     candidate_answers: Mapping[str, str] = field(default_factory=dict)
+    case_id: str | None = None
     detect_forbidden_in_context: bool = False
     max_evidence_chars_per_source: int = 250_000
 
@@ -81,8 +82,27 @@ class RagGroundednessEvaluator:
 
         index, index_findings = self.extractor.load_index()
         findings.extend(index_findings)
+        cases = list(fixture.get("cases") or [])
+        if self.options.case_id:
+            cases = [case for case in cases if str(case.get("case_id")) == self.options.case_id]
+            if not cases:
+                finding = Finding(
+                    "RAG_GROUNDEDNESS_CASE_NOT_FOUND",
+                    "Requested RAG groundedness case was not found in the selected suite.",
+                    Severity.ERROR,
+                    metadata={"case_id": self.options.case_id, "fixture_path": self.options.fixture_path},
+                )
+                return CommandResult(
+                    command=RAG_GROUNDEDNESS_EVAL_COMMAND,
+                    ok=False,
+                    exit_code=ExitCode.ERROR,
+                    message="RAG groundedness case was not found.",
+                    data={"summary": {**_summary_template(self.options, cases_total=0), "case_id": self.options.case_id}, "case_results": [], "report": None},
+                    findings=[finding],
+                )
+
         case_results: list[dict[str, Any]] = []
-        for case in fixture.get("cases") or []:
+        for case in cases:
             source_case, source_findings = self.extractor.evaluate_case_sources(case)
             findings.extend(source_findings)
             case_result, claim_findings = self.evaluate_case_claims(case, source_case)
@@ -116,6 +136,7 @@ class RagGroundednessEvaluator:
             "blocking_findings_total": blocking_total,
             "error_findings_total": error_total,
             "findings_total": len(findings),
+            "case_id": self.options.case_id,
         }
         report = _build_report(summary, case_results, findings)
         ok = error_total == 0 and blocking_total == 0 and cases_blocked == 0
@@ -271,6 +292,7 @@ def _summary_template(options: GroundednessOptions, *, cases_total: int) -> dict
         "fixture_path": options.fixture_path,
         "cases_total": cases_total,
         "strict": options.strict,
+        "case_id": options.case_id,
         "source_coverage_avg": 0.0,
         "claim_support_avg": 0.0,
         "network_used": False,
