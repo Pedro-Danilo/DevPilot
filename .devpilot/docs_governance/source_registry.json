@@ -635,14 +635,17 @@
         "docs/audits/post_h_010_b_observability_inventory_report.md",
         "docs/post_h_010_b_manifest.json",
         "docs/audits/post_h_010_c_cleanup_plan_report.md",
-        "docs/post_h_010_c_manifest.json"
+        "docs/post_h_010_c_manifest.json",
+        "docs/audits/post_h_010_d_redacted_export_report.md",
+        "docs/post_h_010_d_manifest.json"
       ],
       "required_tests": [
         "tests/test_documentation_governance_backlogs.py",
         "tests/test_observability_retention_schema.py",
         "tests/test_post_h_010_observability_retention.py",
         "tests/test_observability_inventory.py",
-        "tests/test_observability_cleanup_plan.py"
+        "tests/test_observability_cleanup_plan.py",
+        "tests/test_observability_export.py"
       ],
       "sync_rules": [
         "backlog_naming",
@@ -660,7 +663,8 @@
         "POST-H-010-A promotes this backlog to approved and starts local observability retention policy defaults.",
         "POST-H-010-B adds read-only metadata inventory for observability targets without cleanup/export execution.",
         "POST-H-010-C adds dry-run cleanup/rotation/archive/redaction/export planning for observability targets without executing mutations.",
-        "Redacted export and quality-gate integration remain deferred to POST-H-010-D/E."
+        "POST-H-010-D adds local redacted observability export under outputs/reports and outputs/audit_exports without raw payloads, secrets, network or remote export.",
+        "Quality-gate integration remains deferred to POST-H-010-E."
       ]
     },
     {
@@ -1195,7 +1199,7 @@
     "network_used": false,
     "external_api_used": false,
     "mutations_performed": false,
-    "last_updated_by": "POST-H-010-C",
+    "last_updated_by": "POST-H-010-D",
     "markdown_json_sync_checks_enabled": true,
     "sync_checks_scope": "version_match, milestones_match, decisions_match, closure_status_match, next_hito_match",
     "backlog_governance_enabled": true,
@@ -1214,7 +1218,10 @@
     "observability_inventory_cli_enabled": true,
     "observability_cleanup_plan_schema_registered": true,
     "observability_cleanup_plan_schema_path": "docs/schemas/observability_cleanup_plan.schema.json",
-    "observability_cleanup_plan_cli_enabled": true
+    "observability_cleanup_plan_cli_enabled": true,
+    "observability_redacted_export_schema_registered": true,
+    "observability_redacted_export_schema_path": "docs/schemas/observability_redacted_export.schema.json",
+    "observability_redacted_export_cli_enabled": true
   },
   "safety": {
     "local_first": true,
@@ -1228,7 +1235,8 @@
     "remote_execution_enabled": false,
     "connector_write_enabled": false,
     "plugin_execution_enabled": false,
-    "observability_retention_remote_export_enabled": false
+    "observability_retention_remote_export_enabled": false,
+    "observability_redacted_export_remote_enabled": false
   },
   "notes": [
     "POST-H-009-A creates the first canonical documentation source registry and schema baseline.",
@@ -1237,6 +1245,7 @@
     "POST-H-009-D registers and validates executable backlogs derived from the roadmap; missing future backlog files are reported as planned info, not blocking drift.",
     "Quality-gate integration remains deferred to POST-H-009-E.",
     "POST-H-010-A promotes POST-H-010 to approved and registers its source-controlled observability retention policy defaults.",
-    "Observability runtime artifacts remain non-versionable and excluded from clean archives; inventory/cleanup/export are deferred to later POST-H-010 micro-sprints."
+    "Observability runtime artifacts remain non-versionable and excluded from clean archives; inventory/cleanup/export are deferred to later POST-H-010 micro-sprints.",
+    "POST-H-010-D registers redacted observability export schema/CLI and keeps export local-only."
   ]
 }

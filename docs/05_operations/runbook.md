@@ -2,11 +2,11 @@
 title: "Runbook — DevPilot Local"
 doc_id: "DEVPL-OPS-002"
 status: "approved"
-version: "1.38.0"
+version: "1.39.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "POST-H-010-C"
+phase: "POST-H-010-D"
 updated: "2026-06-26"
 approval: "approved_by_owner"
 source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved + 03_security approved"
@@ -7611,6 +7611,53 @@ BLOCK si se intenta resolver drift usando reportes runtime bajo outputs/ como fu
 Si el subgate `docs-governance` falla, revisar el `finding.id`, corregir la fuente indicada por `path`, repetir `docs-governance validate --json` y luego repetir `quality-gate hardening`. No se debe relajar el quality gate ni eliminar evidencias históricas para reducir warnings.
 
 Limitación: esta integración es `implemented-initial` y determinística. No sustituye revisión editorial humana ni evaluación semántica profunda de documentos; no usa LLM judge, red, APIs externas ni acciones correctivas automáticas.
+
+
+## POST-H-010-D — Export local redactado
+
+`POST-H-010-D` introduce el comando local `observability export` para construir evidencia de observabilidad apta para revisión/auditoría sin transportar payloads sensibles. La operación es local-first y exige `--redacted`; si se omite ese flag, el comando bloquea.
+
+Comandos de uso:
+
+```powershell
+python -m devpilot_core observability export --redacted --json
+python -m devpilot_core observability export --redacted --json --write-report
+python -m devpilot_core schema validate --schema-id ObservabilityRedactedExport --instance outputs/reports/observability_redacted_export.json --json
+```
+
+Salidas generadas con `--write-report`:
+
+```text
+outputs/reports/observability_redacted_export.json
+outputs/reports/observability_redacted_export.md
+outputs/audit_exports/observability_redacted_export/observability_redacted_summary.json
+outputs/audit_exports/observability_redacted_export/observability_redacted_summary.md
+outputs/audit_exports/observability_redacted_export/checksums.sha256
+```
+
+PASS operacional:
+
+```text
+redaction_applied=true
+raw_prompts_exported=false
+raw_outputs_exported=false
+secrets_exported=false
+sqlite_raw_exported=false
+network_used=false
+external_api_used=false
+remote_export_enabled=false
+```
+
+BLOCK operacional:
+
+```text
+Bloquear si se intenta export sin --redacted.
+Bloquear si aparece API key, token, password, .env o payload crudo en el export.
+Bloquear si se habilita export remoto o red.
+Bloquear si se exportan bytes crudos de .devpilot/devpilot.db o sesiones agentic.
+```
+
+Limitación: esta versión es `implemented-initial`; no reemplaza un backend industrial de observabilidad ni integra todavía el subgate final `observability-retention` en `quality-gate hardening`. Esa integración queda para `POST-H-010-E`.
 
 ## POST-H-010-C — Cleanup plan dry-run
 

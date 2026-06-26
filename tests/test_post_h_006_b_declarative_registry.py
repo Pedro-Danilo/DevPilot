@@ -72,6 +72,7 @@ def test_post_h_006_b_declarative_overlay_registers_initial_groups_and_coverage(
         "docs-governance.validate",
         "observability.inventory",
         "observability.cleanup-plan",
+        "observability.export",
     }
     for group_id in CURRENT_DECLARATIVE_GROUPS:
         assert group_id in groups

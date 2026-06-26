@@ -26,6 +26,18 @@ from .cleanup import (
     render_observability_cleanup_plan_markdown,
 )
 
+
+from .export import (
+    DEFAULT_OBSERVABILITY_AUDIT_EXPORT_DIR,
+    DEFAULT_OBSERVABILITY_EXPORT_JSON,
+    DEFAULT_OBSERVABILITY_EXPORT_MARKDOWN,
+    OBSERVABILITY_REDACTED_EXPORT_CONTRACT,
+    OBSERVABILITY_REDACTED_EXPORT_SCHEMA_ID,
+    ObservabilityRedactedExporter,
+    ObservabilityRedactedExportOptions,
+    render_observability_redacted_export_markdown,
+)
+
 from .inventory import (
     DEFAULT_OBSERVABILITY_INVENTORY_JSON,
     DEFAULT_OBSERVABILITY_INVENTORY_MARKDOWN,
@@ -58,6 +70,14 @@ from .tracing import (
 )
 
 __all__ = [
+    "render_observability_redacted_export_markdown",
+    "ObservabilityRedactedExportOptions",
+    "ObservabilityRedactedExporter",
+    "OBSERVABILITY_REDACTED_EXPORT_SCHEMA_ID",
+    "OBSERVABILITY_REDACTED_EXPORT_CONTRACT",
+    "DEFAULT_OBSERVABILITY_EXPORT_MARKDOWN",
+    "DEFAULT_OBSERVABILITY_EXPORT_JSON",
+    "DEFAULT_OBSERVABILITY_AUDIT_EXPORT_DIR",
     "DEFAULT_OBSERVABILITY_CLEANUP_PLAN_JSON",
     "DEFAULT_OBSERVABILITY_CLEANUP_PLAN_MARKDOWN",
     "OBSERVABILITY_CLEANUP_PLAN_CONTRACT",

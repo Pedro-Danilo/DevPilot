@@ -46,6 +46,8 @@ from .observability import (
     ObservabilityCleanupPlanOptions,
     ObservabilityInventoryBuilder,
     ObservabilityInventoryOptions,
+    ObservabilityRedactedExporter,
+    ObservabilityRedactedExportOptions,
     OTelDryRunExporter,
     OTelExportOptions,
     TraceQueryService,
@@ -3288,6 +3290,25 @@ def observability_cleanup_plan_command(*, json_output: bool = False, write_repor
     print_result(result, json_output=json_output)
     return int(result.exit_code)
 
+
+
+def observability_export_command(*, json_output: bool = False, write_report: bool = False, redacted: bool = False, limit: int = 100) -> int:
+    """Build the POST-H-010-D local redacted observability export.
+
+    The exporter emits bounded summaries of events, spans, metrics, sessions and
+    report metadata without raw prompts, raw outputs, secrets, network calls or
+    remote export. Evidence files are written only when --write-report is
+    explicit, under outputs/reports and outputs/audit_exports/.
+    """
+
+    root = project_root()
+    result = ObservabilityRedactedExporter(
+        root,
+        ObservabilityRedactedExportOptions(redacted=redacted, write_report=write_report, limit=limit),
+    ).run()
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
 def docs_governance_validate_command(*, json_output: bool = False, write_report: bool = False) -> int:
     """Run POST-H-009-B/C documentation governance validator.
 
@@ -4747,6 +4768,12 @@ def build_parser() -> argparse.ArgumentParser:
     observability_cleanup_plan.add_argument("--write-report", action="store_true", help="Persist observability cleanup plan JSON/Markdown reports")
     observability_cleanup_plan.add_argument("--execute", action="store_true", help="Safety probe only: cleanup-plan never mutates and will block execute mode")
 
+    observability_export = observability_sub.add_parser("export", help="Build local redacted observability export without raw payloads")
+    observability_export.add_argument("--redacted", action="store_true", help="Required: export only redacted summaries and metadata")
+    observability_export.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    observability_export.add_argument("--write-report", action="store_true", help="Persist redacted export JSON/Markdown and audit export evidence")
+    observability_export.add_argument("--limit", type=int, default=100, help="Bounded sample size for events, spans and metrics, capped at 500")
+
     docs_governance = sub.add_parser("docs-governance", help="Validate documentation governance and canonical source metadata")
     docs_governance_sub = docs_governance.add_subparsers(dest="docs_governance_command")
     docs_governance_validate = docs_governance_sub.add_parser("validate", help="Validate metadata, Markdown/JSON sync and roadmap-derived backlog governance")
@@ -5838,6 +5865,8 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
             return observability_inventory_command(json_output=args.json, write_report=args.write_report)
         if args.observability_command == "cleanup-plan":
             return observability_cleanup_plan_command(json_output=args.json, write_report=args.write_report, execute=args.execute)
+        if args.observability_command == "export":
+            return observability_export_command(json_output=args.json, write_report=args.write_report, redacted=args.redacted, limit=args.limit)
         parser.print_help()
         return int(ExitCode.FAIL)
     if args.command == "docs-governance":

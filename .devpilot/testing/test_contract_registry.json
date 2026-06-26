@@ -3472,6 +3472,60 @@
         "python -m devpilot_core schema validate --schema-id ObservabilityCleanupPlan --instance outputs/reports/observability_cleanup_plan.json --json",
         "python -m devpilot_core schema validate --schema-id PostHManifest --instance docs/post_h_010_c_manifest.json --json"
       ]
+    },
+    {
+      "contract_id": "post-h-010-observability-redacted-export",
+      "scope": "integration",
+      "owner": "POST-H-010-D",
+      "phase": "POST-FASE-H",
+      "test_files": [
+        "tests/test_observability_export.py",
+        "tests/test_observability_cleanup_plan.py",
+        "tests/test_observability_inventory.py",
+        "tests/test_post_h_010_observability_retention.py",
+        "tests/test_schema_registry.py",
+        "tests/test_project_global_state.py"
+      ],
+      "validates": [
+        "src/devpilot_core/observability/export.py",
+        "src/devpilot_core/observability/inventory.py",
+        "src/devpilot_core/observability/__init__.py",
+        "src/devpilot_core/cli.py",
+        "src/devpilot_core/cli_registry/registry.py",
+        "docs/schemas/observability_redacted_export.schema.json",
+        "docs/schemas/schema_catalog.json",
+        ".devpilot/observability/retention_policy.json",
+        "docs/backlogs/POST-H-010_observability_retention.md",
+        "docs/POST-H-010_observability_retention.md",
+        "docs/audits/post_h_010_d_redacted_export_report.md",
+        "docs/post_h_010_d_manifest.json"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/observability/",
+        "src/devpilot_core/cli.py",
+        "src/devpilot_core/cli_registry/registry.py",
+        "docs/schemas/observability_redacted_export.schema.json",
+        "docs/schemas/schema_catalog.json",
+        ".devpilot/observability/",
+        "README.md",
+        "docs/05_operations/runbook.md",
+        "docs/backlogs/POST-H-010_observability_retention.md",
+        "docs/POST-H-010_observability_retention.md",
+        "docs/release/CHANGELOG.md",
+        "tests/test_observability_export.py",
+        "tests/test_observability_cleanup_plan.py",
+        "tests/test_observability_inventory.py",
+        "tests/test_post_h_010_observability_retention.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest tests/test_observability_export.py tests/test_observability_cleanup_plan.py tests/test_observability_inventory.py tests/test_post_h_010_observability_retention.py tests/test_schema_registry.py tests/test_project_global_state.py -q",
+        "python -m devpilot_core observability export --redacted --json --write-report",
+        "python -m devpilot_core schema validate --schema-id ObservabilityRedactedExport --instance outputs/reports/observability_redacted_export.json --json",
+        "python -m devpilot_core schema validate --schema-id PostHManifest --instance docs/post_h_010_d_manifest.json --json"
+      ]
     }
   ],
   "notes": [

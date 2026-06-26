@@ -4,7 +4,7 @@ doc_id: "POST-H-010-BACKLOG"
 id: "POST-H-010"
 title: "POST-H-010 — Observability retention local"
 status: "approved"
-version: "1.1.0"
+version: "1.2.0"
 owner: "Ordóñez"
 updated: "2026-06-26"
 approval: "approved_by_owner"
@@ -18,8 +18,8 @@ no_external_apis_used: true
 no_connector_write_enabled: true
 no_plugin_execution_enabled: true
 implementation_status: "active"
-current_micro_sprint: "POST-H-010-C"
-next_micro_sprint: "POST-H-010-D"
+current_micro_sprint: "POST-H-010-D"
+next_micro_sprint: "POST-H-010-E"
 ---
 
 # POST-H-010 — Observability retention local
@@ -614,3 +614,51 @@ python -m devpilot_core schema validate --schema-id ObservabilityCleanupPlan --i
 python -m pytest tests/test_observability_cleanup_plan.py tests/test_post_h_010_observability_retention.py -q
 ```
 
+
+## 17. Avance de implementación — POST-H-010-D
+
+Estado: `implemented-initial`.
+
+`POST-H-010-D — Export local redactado` agrega una capacidad local-first para exportar evidencia de observabilidad apta para auditoría sin incluir payloads crudos, secretos, `.env`, bytes SQLite ni sesiones agentic completas. La exportación se limita a resúmenes y metadatos redactados de eventos, spans, métricas, sesiones y reportes runtime.
+
+Artefactos implementados:
+
+```text
+src/devpilot_core/observability/export.py
+docs/schemas/observability_redacted_export.schema.json
+tests/test_observability_export.py
+docs/audits/post_h_010_d_redacted_export_report.md
+docs/post_h_010_d_manifest.json
+```
+
+Capacidades implementadas:
+
+```text
+- Schema `ObservabilityRedactedExport` registrado en `schema_catalog`.
+- Builder `ObservabilityRedactedExporter` con salida `CommandResult`.
+- CLI `python -m devpilot_core observability export --redacted --json [--write-report]`.
+- Reportes opt-in `outputs/reports/observability_redacted_export.json|md`.
+- Paquete local opt-in `outputs/audit_exports/observability_redacted_export/` con summary JSON/Markdown y checksums SHA-256.
+- Export de eventos JSONL como agregados y sample seguro de campos top-level, removiendo raw prompts/outputs.
+- Export de spans y métricas desde SQLite como muestras redacted/metadata-only.
+- Agent sessions y reportes runtime se tratan como metadata-only; no se exportan payloads ni bytes crudos.
+- `--redacted` es obligatorio; un export no redactado se bloquea.
+```
+
+Límites de esta versión:
+
+```text
+- No exporta a servicios remotos ni usa red/API externa.
+- No reemplaza un backend de observabilidad industrial.
+- No integra todavía `observability-retention` al `quality-gate hardening`; queda para `POST-H-010-E`.
+- Los outputs generados son runtime artifacts y no deben entrar en ZIPs limpios de fuente.
+- Esta versión no es una declaración production-ready; es una base local determinística para auditoría y futura integración de gate.
+```
+
+Comandos de validación del micro-sprint:
+
+```powershell
+python -m devpilot_core observability export --redacted --json --write-report
+python -m devpilot_core schema validate --schema-id ObservabilityRedactedExport --instance outputs/reports/observability_redacted_export.json --json
+python -m pytest tests/test_observability_export.py tests/test_post_h_010_observability_retention.py -q
+```

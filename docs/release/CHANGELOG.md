@@ -1,5 +1,32 @@
 # Changelog
 
+## [post-h-010-d] - 2026-06-26
+
+### Added
+
+- `src/devpilot_core/observability/export.py` local redacted observability evidence exporter.
+- `docs/schemas/observability_redacted_export.schema.json` and schema catalog entry `SCHEMA-DEVPL-OBSERVABILITY-REDACTED-EXPORT-V1`.
+- CLI `python -m devpilot_core observability export --redacted --json [--write-report]`.
+- Tests `tests/test_observability_export.py` plus POST-H-010 documentation/contract assertions.
+- POST-H-010-D audit report and manifest.
+
+### Changed
+
+- README, runbook, source registry, project_state and changelog synchronized with POST-H-010-D.
+- TCR v1/v2 registered `post-h-010-observability-redacted-export`.
+- CLI registry declares `observability.export` as high-risk, local-only, redacted and report/audit-export writing only.
+
+### Security
+
+- Export requires `--redacted`; raw export is blocked.
+- `raw_prompts_exported=false`, `raw_outputs_exported=false`, `secrets_exported=false`, `sqlite_raw_exported=false`.
+- SQLite and agent sessions are metadata-only; raw bytes/payloads are not exported.
+- `network_used=false`, `external_api_used=false`, `remote_export_enabled=false`, `source_mutations_performed=false`.
+
+### Deferred
+
+- Observability-retention quality-gate integration remains for POST-H-010-E.
+
 ## [post-h-010-c] - 2026-06-26
 
 ### Added
