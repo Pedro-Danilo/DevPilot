@@ -632,6 +632,23 @@
       "local_first": true,
       "dry_run_default": true,
       "no_remote_execution_enabled": true
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-OBSERVABILITY-CLEANUP-PLAN-V1",
+      "title": "DevPilot Observability Cleanup Plan v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/observability_cleanup_plan.schema.json",
+      "description": "POST-H-010-C dry-run-first local cleanup/rotation/archive/redaction/export planning schema for observability runtime targets, including PolicyEngine simulation and no-mutation safety controls.",
+      "status": "registered",
+      "owner": "Ordóñez",
+      "sprint": "POST-H-010-C",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "contract": "ObservabilityCleanupPlan",
+      "validation_enabled_sprint": "POST-H-010-C",
+      "local_first": true,
+      "dry_run_default": true,
+      "no_remote_execution_enabled": true
     }
   ]
 }

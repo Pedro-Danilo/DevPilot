@@ -15,6 +15,17 @@ from .trace_store import TraceStore
 from .exporters import OTelDryRunExporter, OTelExportOptions, build_otel_like_payload
 from .trace_queries import TraceQueryService, TraceReportOptions
 
+
+from .cleanup import (
+    DEFAULT_OBSERVABILITY_CLEANUP_PLAN_JSON,
+    DEFAULT_OBSERVABILITY_CLEANUP_PLAN_MARKDOWN,
+    OBSERVABILITY_CLEANUP_PLAN_CONTRACT,
+    OBSERVABILITY_CLEANUP_PLAN_SCHEMA_ID,
+    ObservabilityCleanupPlanner,
+    ObservabilityCleanupPlanOptions,
+    render_observability_cleanup_plan_markdown,
+)
+
 from .inventory import (
     DEFAULT_OBSERVABILITY_INVENTORY_JSON,
     DEFAULT_OBSERVABILITY_INVENTORY_MARKDOWN,
@@ -47,6 +58,13 @@ from .tracing import (
 )
 
 __all__ = [
+    "DEFAULT_OBSERVABILITY_CLEANUP_PLAN_JSON",
+    "DEFAULT_OBSERVABILITY_CLEANUP_PLAN_MARKDOWN",
+    "OBSERVABILITY_CLEANUP_PLAN_CONTRACT",
+    "OBSERVABILITY_CLEANUP_PLAN_SCHEMA_ID",
+    "ObservabilityCleanupPlanner",
+    "ObservabilityCleanupPlanOptions",
+    "render_observability_cleanup_plan_markdown",
     "DEFAULT_OBSERVABILITY_INVENTORY_JSON",
     "DEFAULT_OBSERVABILITY_INVENTORY_MARKDOWN",
     "OBSERVABILITY_INVENTORY_CONTRACT",

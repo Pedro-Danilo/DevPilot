@@ -1,13 +1,13 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
-Estado actual: `baseline pre-code approved + Fases A-G cerradas + Fase H cerrada + POST-H-001 implemented-initial + POST-H-EVAL-001 closed + POST-H-002 closed + POST-H-003 closed + POST-H-004 closed + POST-H-005 closed + POST-H-006 closed + POST-H-007 closed + POST-H-008 closed + POST-H-009-A implemented-initial + POST-H-009-B implemented-initial + POST-H-009-C implemented-initial + POST-H-009-D implemented-initial + POST-H-009-E implemented-initial + POST-H-009 closed + POST-H-010-A implemented-initial + POST-H-010-B implemented-initial`  
+Estado actual: `baseline pre-code approved + Fases A-G cerradas + Fase H cerrada + POST-H-001 implemented-initial + POST-H-EVAL-001 closed + POST-H-002 closed + POST-H-003 closed + POST-H-004 closed + POST-H-005 closed + POST-H-006 closed + POST-H-007 closed + POST-H-008 closed + POST-H-009-A implemented-initial + POST-H-009-B implemented-initial + POST-H-009-C implemented-initial + POST-H-009-D implemented-initial + POST-H-009-E implemented-initial + POST-H-009 closed + POST-H-010-A implemented-initial + POST-H-010-B implemented-initial + POST-H-010-C implemented-initial`  
 Último hito: `POST-H-009 — Documentation governance y canonical sources`  
 Siguiente hito: `POST-H-010 — Observability retention local`  
-Último micro-sprint implementado: `POST-H-010-B — Observability inventory read-only`  
+Último micro-sprint implementado: `POST-H-010-C — Cleanup plan dry-run`  
 Hito diagnóstico cerrado: `POST-H-EVAL-001 — Evaluación integral del baseline DevPilot post-Fase H`, cierre formal `POST-H-EVAL-001-G`  
 Hito cerrado: `POST-H-009 — Documentation governance y canonical sources`  
 Hito cerrado: `POST-H-008 — Runtime state lifecycle policy`  
-Siguiente micro-sprint recomendado: `POST-H-010-C — Cleanup plan dry-run`  
+Siguiente micro-sprint recomendado: `POST-H-010-D — Export local redactado`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
@@ -41,6 +41,42 @@ Modo de trabajo: local-first híbrido, API keys opcionales, costo externo contro
 
 
 
+
+
+
+## POST-H-010-C — Observability retention: Cleanup plan dry-run
+
+`POST-H-010-C` agrega un plan local dry-run para higiene de observabilidad. La capacidad consume `.devpilot/observability/retention_policy.json` y el inventario `POST-H-010-B`, calcula acciones `would_rotate`, `would_delete`, `would_archive`, `would_redact` y `would_export`, e integra simulaciones `PolicyEngine` para acciones destructivas sin ejecutar ninguna mutación.
+
+Artefactos principales:
+
+```text
+src/devpilot_core/observability/cleanup.py
+docs/schemas/observability_cleanup_plan.schema.json
+tests/test_observability_cleanup_plan.py
+docs/audits/post_h_010_c_cleanup_plan_report.md
+docs/post_h_010_c_manifest.json
+```
+
+Comandos principales:
+
+```powershell
+python -m devpilot_core observability cleanup-plan --json
+python -m devpilot_core observability cleanup-plan --json --write-report
+python -m devpilot_core schema validate --schema-id ObservabilityCleanupPlan --instance outputs/reports/observability_cleanup_plan.json --json
+```
+
+Criterios PASS implementados:
+
+```text
+- default dry_run=true;
+- mutations_performed=false sin --execute y también cuando --execute se usa como probe bloqueado;
+- rotate/delete/archive requieren PolicyEngine y approval id;
+- path escape y targets bajo .git/src/docs/tests se bloquean;
+- reportes se escriben solo con --write-report y siempre bajo outputs/reports/.
+```
+
+Limitación explícita: esta versión es `implemented-initial` y plan-only. No borra, rota, archiva, redacta ni exporta. `POST-H-010-D` implementará export local redactado; `POST-H-010-E` integrará la higiene de observabilidad con quality gate.
 
 
 ## POST-H-010-B — Observability retention: Observability inventory read-only

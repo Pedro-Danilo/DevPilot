@@ -6379,6 +6379,91 @@
         "POST-H-010-B inventories observability runtime targets by metadata only; it does not cleanup, export, redact, call network or mutate sources.",
         "Missing runtime targets in a clean source checkout are warnings and do not block local development gates."
       ]
+    },
+    {
+      "contract_id": "post-h-010-observability-cleanup-plan",
+      "schema_version": "2.0",
+      "source_contract_id": "post-h-010-observability-cleanup-plan",
+      "domain": "operations.observability",
+      "capability": "ObservabilityCleanupPlan",
+      "criticality": "P1",
+      "risk_level": "high",
+      "test_type": "integration",
+      "execution_profile": "always",
+      "cost_class": "low",
+      "expected_duration_seconds": 45,
+      "test_files": [
+        "tests/test_observability_cleanup_plan.py",
+        "tests/test_observability_inventory.py",
+        "tests/test_post_h_010_observability_retention.py",
+        "tests/test_schema_registry.py",
+        "tests/test_project_global_state.py"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/observability/",
+        "src/devpilot_core/cli.py",
+        "src/devpilot_core/cli_registry/registry.py",
+        "docs/schemas/observability_cleanup_plan.schema.json",
+        "docs/schemas/schema_catalog.json",
+        ".devpilot/observability/",
+        "README.md",
+        "docs/05_operations/runbook.md",
+        "docs/backlogs/POST-H-010_observability_retention.md",
+        "docs/POST-H-010_observability_retention.md",
+        "docs/release/CHANGELOG.md",
+        "tests/test_observability_cleanup_plan.py",
+        "tests/test_observability_inventory.py",
+        "tests/test_post_h_010_observability_retention.py"
+      ],
+      "validates": [
+        "src/devpilot_core/observability/cleanup.py",
+        "src/devpilot_core/observability/inventory.py",
+        "src/devpilot_core/observability/__init__.py",
+        "src/devpilot_core/cli.py",
+        "src/devpilot_core/cli_registry/registry.py",
+        "docs/schemas/observability_cleanup_plan.schema.json",
+        "docs/schemas/schema_catalog.json",
+        ".devpilot/observability/retention_policy.json",
+        "docs/backlogs/POST-H-010_observability_retention.md",
+        "docs/POST-H-010_observability_retention.md",
+        "docs/audits/post_h_010_c_cleanup_plan_report.md",
+        "docs/post_h_010_c_manifest.json"
+      ],
+      "trigger_hints": [
+        "observability-cleanup-plan",
+        "retention-policy",
+        "policy-engine",
+        "dry-run-cleanup",
+        "post-h-010"
+      ],
+      "impact_scope": [
+        "observability",
+        "runtime-state",
+        "policy",
+        "schema-catalog",
+        "docs",
+        "test-contracts",
+        "post-h"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "POST-H-010-C",
+      "recommended_commands": [
+        "python -m pytest tests/test_observability_cleanup_plan.py tests/test_observability_inventory.py tests/test_post_h_010_observability_retention.py tests/test_schema_registry.py tests/test_project_global_state.py -q",
+        "python -m devpilot_core observability cleanup-plan --json --write-report",
+        "python -m devpilot_core schema validate --schema-id ObservabilityCleanupPlan --instance outputs/reports/observability_cleanup_plan.json --json",
+        "python -m devpilot_core schema validate --schema-id PostHManifest --instance docs/post_h_010_c_manifest.json --json"
+      ],
+      "classification_status": "explicit",
+      "classification_notes": [
+        "POST-H-010-C generates a dry-run-only ObservabilityCleanupPlan with would_rotate/would_delete/would_archive/would_redact/would_export actions and no mutations.",
+        "Destructive actions embed PolicyEngine simulations and approval identifiers; actual cleanup/export execution remains disabled."
+      ]
     }
   ],
   "migration_metadata": {

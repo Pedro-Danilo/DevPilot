@@ -20,6 +20,7 @@ POST_H_006_D_CREATED_BY = "POST-H-006-D"
 POST_H_006_E_CREATED_BY = "POST-H-006-E"
 POST_H_008_B_CREATED_BY = "POST-H-008-B"
 POST_H_010_B_CREATED_BY = "POST-H-010-B"
+POST_H_010_C_CREATED_BY = "POST-H-010-C"
 
 # POST-H-007-E keeps this metadata static to avoid coupling CLI registry
 # generation to ApplicationOperationCatalog imports. The runtime integration
@@ -203,8 +204,8 @@ DECLARATIVE_GROUPS: dict[str, DeclarativeGroupDescriptor] = {
         group_id="observability",
         domain="operations.observability",
         owner_module="src/devpilot_core/cli.py",
-        recommended_tests=("python -m pytest tests/test_observability_inventory.py tests/test_post_h_010_observability_retention.py -q",),
-        rationale="POST-H-010 observability commands inspect local retention targets with read-only metadata and dry-run defaults; cleanup/export remain deferred to later micro-sprints.",
+        recommended_tests=("python -m pytest tests/test_observability_inventory.py tests/test_observability_cleanup_plan.py tests/test_post_h_010_observability_retention.py -q",),
+        rationale="POST-H-010 observability commands inspect local retention targets and generate dry-run cleanup plans without enabling destructive cleanup or export execution.",
     ),
     "docs-governance": DeclarativeGroupDescriptor(
         group_id="docs-governance",
@@ -332,6 +333,20 @@ COMMAND_OVERRIDES: dict[str, DeclarativeCommandOverride] = {
             "python -m pytest tests/test_observability_inventory.py tests/test_post_h_010_observability_retention.py -q",
         ),
         rationale="Observability inventory is read-only for runtime/source artifacts. --write-report may materialize JSON/Markdown evidence under outputs/reports only.",
+    ),
+
+
+    "observability.cleanup-plan": DeclarativeCommandOverride(
+        command_id="observability.cleanup-plan",
+        risk_level=CommandRiskLevel.HIGH,
+        side_effects=(CommandSideEffect.WRITE_REPORT,),
+        writes_files=True,
+        dry_run_supported=True,
+        policy_check_required=True,
+        recommended_tests=(
+            "python -m pytest tests/test_observability_cleanup_plan.py tests/test_observability_inventory.py tests/test_post_h_010_observability_retention.py -q",
+        ),
+        rationale="Observability cleanup-plan is dry-run-only: it computes would_rotate/would_delete/would_archive/would_redact/would_export actions, embeds PolicyEngine simulations for destructive actions and writes evidence only with --write-report.",
     ),
 
     "docs-governance.validate": DeclarativeCommandOverride(

@@ -1,5 +1,33 @@
 # Changelog
 
+## [post-h-010-c] - 2026-06-26
+
+### Added
+
+- `src/devpilot_core/observability/cleanup.py` dry-run-only cleanup/rotation/archive/redaction/export planner.
+- `docs/schemas/observability_cleanup_plan.schema.json` and schema catalog entry `SCHEMA-DEVPL-OBSERVABILITY-CLEANUP-PLAN-V1`.
+- CLI `python -m devpilot_core observability cleanup-plan --json [--write-report]`.
+- Tests `tests/test_observability_cleanup_plan.py` plus POST-H-010 documentation/contract assertions.
+- POST-H-010-C audit report and manifest.
+
+### Changed
+
+- README, runbook, source registry, project_state and changelog synchronized with POST-H-010-C.
+- TCR v1/v2 registered `post-h-010-observability-cleanup-plan`.
+- CLI registry declares `observability.cleanup-plan` as high-risk, dry-run-supported, policy-aware and report-writing only.
+
+### Security
+
+- `cleanup-plan` is plan-only and never mutates runtime/source artifacts.
+- `--execute` is accepted only as a safety probe and returns a blocking result.
+- Destructive action candidates embed PolicyEngine simulations and approval identifiers.
+- `raw_payloads_read=false`, `network_used=false`, `external_api_used=false`, `mutations_performed=false`.
+
+### Deferred
+
+- Redacted export remains for POST-H-010-D.
+- Observability-retention quality-gate integration remains for POST-H-010-E.
+
 ## [post-h-010-b] - 2026-06-26
 
 ### Added
@@ -570,6 +598,34 @@ owner: "Ordóñez"
 
 
 # Changelog
+
+## [post-h-010-c] - 2026-06-26
+
+### Added
+
+- `src/devpilot_core/observability/cleanup.py` dry-run-only cleanup/rotation/archive/redaction/export planner.
+- `docs/schemas/observability_cleanup_plan.schema.json` and schema catalog entry `SCHEMA-DEVPL-OBSERVABILITY-CLEANUP-PLAN-V1`.
+- CLI `python -m devpilot_core observability cleanup-plan --json [--write-report]`.
+- Tests `tests/test_observability_cleanup_plan.py` plus POST-H-010 documentation/contract assertions.
+- POST-H-010-C audit report and manifest.
+
+### Changed
+
+- README, runbook, source registry, project_state and changelog synchronized with POST-H-010-C.
+- TCR v1/v2 registered `post-h-010-observability-cleanup-plan`.
+- CLI registry declares `observability.cleanup-plan` as high-risk, dry-run-supported, policy-aware and report-writing only.
+
+### Security
+
+- `cleanup-plan` is plan-only and never mutates runtime/source artifacts.
+- `--execute` is accepted only as a safety probe and returns a blocking result.
+- Destructive action candidates embed PolicyEngine simulations and approval identifiers.
+- `raw_payloads_read=false`, `network_used=false`, `external_api_used=false`, `mutations_performed=false`.
+
+### Deferred
+
+- Redacted export remains for POST-H-010-D.
+- Observability-retention quality-gate integration remains for POST-H-010-E.
 
 ## [post-h-010-b] - 2026-06-26
 

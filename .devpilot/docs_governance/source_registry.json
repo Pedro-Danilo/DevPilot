@@ -633,13 +633,16 @@
       "derived_documents": [
         "docs/POST-H-010_observability_retention.md",
         "docs/audits/post_h_010_b_observability_inventory_report.md",
-        "docs/post_h_010_b_manifest.json"
+        "docs/post_h_010_b_manifest.json",
+        "docs/audits/post_h_010_c_cleanup_plan_report.md",
+        "docs/post_h_010_c_manifest.json"
       ],
       "required_tests": [
         "tests/test_documentation_governance_backlogs.py",
         "tests/test_observability_retention_schema.py",
         "tests/test_post_h_010_observability_retention.py",
-        "tests/test_observability_inventory.py"
+        "tests/test_observability_inventory.py",
+        "tests/test_observability_cleanup_plan.py"
       ],
       "sync_rules": [
         "backlog_naming",
@@ -656,7 +659,8 @@
         "Missing future backlog files are informational planned items; existing files must pass naming and frontmatter checks.",
         "POST-H-010-A promotes this backlog to approved and starts local observability retention policy defaults.",
         "POST-H-010-B adds read-only metadata inventory for observability targets without cleanup/export execution.",
-        "Cleanup plan, redacted export and quality-gate integration remain deferred to POST-H-010-C/D/E."
+        "POST-H-010-C adds dry-run cleanup/rotation/archive/redaction/export planning for observability targets without executing mutations.",
+        "Redacted export and quality-gate integration remain deferred to POST-H-010-D/E."
       ]
     },
     {
@@ -1191,7 +1195,7 @@
     "network_used": false,
     "external_api_used": false,
     "mutations_performed": false,
-    "last_updated_by": "POST-H-010-B",
+    "last_updated_by": "POST-H-010-C",
     "markdown_json_sync_checks_enabled": true,
     "sync_checks_scope": "version_match, milestones_match, decisions_match, closure_status_match, next_hito_match",
     "backlog_governance_enabled": true,
@@ -1207,7 +1211,10 @@
     "observability_retention_policy_path": ".devpilot/observability/retention_policy.json",
     "observability_inventory_schema_registered": true,
     "observability_inventory_schema_path": "docs/schemas/observability_inventory.schema.json",
-    "observability_inventory_cli_enabled": true
+    "observability_inventory_cli_enabled": true,
+    "observability_cleanup_plan_schema_registered": true,
+    "observability_cleanup_plan_schema_path": "docs/schemas/observability_cleanup_plan.schema.json",
+    "observability_cleanup_plan_cli_enabled": true
   },
   "safety": {
     "local_first": true,

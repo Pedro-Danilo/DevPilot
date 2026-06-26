@@ -1,0 +1,88 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "SCHEMA-DEVPL-POST-H-MANIFEST-V1",
+  "post_h_id": "POST-H-010",
+  "id": "POST-H-010-C",
+  "title": "POST-H-010-C — Cleanup plan dry-run",
+  "status": "implemented-initial",
+  "phase": "POST-FASE-H",
+  "implemented_at": "2026-06-26",
+  "created_files": [
+    "src/devpilot_core/observability/cleanup.py",
+    "docs/schemas/observability_cleanup_plan.schema.json",
+    "tests/test_observability_cleanup_plan.py",
+    "docs/audits/post_h_010_c_cleanup_plan_report.md",
+    "docs/post_h_010_c_manifest.json"
+  ],
+  "modified_files": [
+    "src/devpilot_core/observability/__init__.py",
+    "src/devpilot_core/cli.py",
+    "src/devpilot_core/cli_registry/registry.py",
+    "docs/schemas/schema_catalog.json",
+    ".devpilot/docs_governance/source_registry.json",
+    ".devpilot/project_state.json",
+    ".devpilot/testing/test_contract_registry.json",
+    ".devpilot/testing/test_contract_registry_v2.json",
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/backlogs/POST-H-010_observability_retention.md",
+    "docs/POST-H-010_observability_retention.md",
+    "docs/release/CHANGELOG.md",
+    "tests/test_schema_registry.py",
+    "tests/test_project_global_state.py",
+    "tests/test_post_h_010_observability_retention.py",
+    "tests/test_post_h_006_b_declarative_registry.py"
+  ],
+  "commands": [
+    "python -m pytest tests/test_observability_cleanup_plan.py tests/test_observability_inventory.py tests/test_post_h_010_observability_retention.py tests/test_observability_retention_schema.py tests/test_schema_registry.py tests/test_project_global_state.py -q",
+    "python -m devpilot_core observability cleanup-plan --json --write-report",
+    "python -m devpilot_core schema validate --schema-id ObservabilityCleanupPlan --instance outputs/reports/observability_cleanup_plan.json --json",
+    "python -m devpilot_core schema validate --schema-id PostHManifest --instance docs/post_h_010_c_manifest.json --json",
+    "python -m devpilot_core docs-governance validate --json",
+    "python -m devpilot_core test-contracts validate --json",
+    "python -m devpilot_core test-contracts validate-v2 --json"
+  ],
+  "tests": [
+    "tests/test_observability_cleanup_plan.py",
+    "tests/test_observability_inventory.py",
+    "tests/test_post_h_010_observability_retention.py",
+    "tests/test_observability_retention_schema.py",
+    "tests/test_schema_registry.py",
+    "tests/test_project_global_state.py"
+  ],
+  "pass_criteria": [
+    "Cleanup plan default es dry-run y mutations_performed=false.",
+    "El plan calcula acciones would_rotate, would_delete, would_archive, would_redact y would_export.",
+    "Acciones destructivas declaran requires_policy_engine=true y approval ids determinísticos.",
+    "El reporte ObservabilityCleanupPlan valida contra schema.",
+    "Path escape y targets bajo .git/src/docs/tests se bloquean."
+  ],
+  "block_criteria": [
+    "Bloquear si se permite cleanup fuera del workspace.",
+    "Bloquear si el plan incluye .git, src, docs o tests como runtime cleanup targets.",
+    "Bloquear si se ejecuta borrado, rotación o archivado sin comando execute dedicado y aprobación.",
+    "Bloquear si network_used, external_api_used o source_mutations_performed son true.",
+    "Bloquear si --execute intenta mutar desde observability cleanup-plan."
+  ],
+  "risks": [
+    "El comando es plan-only; no ejecuta cleanup real.",
+    "PolicyEngine se usa como simulación de aprobación, no como ejecución.",
+    "La exportación redactada todavía queda fuera del alcance hasta POST-H-010-D.",
+    "La integración de quality-gate queda para POST-H-010-E."
+  ],
+  "next_sprint": "POST-H-010",
+  "preliminary": true,
+  "security": {
+    "local_first": true,
+    "dry_run": true,
+    "read_only": true,
+    "raw_payloads_read": false,
+    "network_used": false,
+    "external_api_used": false,
+    "mutations_performed": false,
+    "source_mutations_performed": false,
+    "remote_execution_enabled": false,
+    "connector_write_enabled": false,
+    "plugin_execution_enabled": false
+  }
+}

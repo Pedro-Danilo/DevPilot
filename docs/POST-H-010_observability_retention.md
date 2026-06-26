@@ -18,8 +18,8 @@ no_external_apis_used: true
 no_connector_write_enabled: true
 no_plugin_execution_enabled: true
 implementation_status: "active"
-current_micro_sprint: "POST-H-010-B"
-next_micro_sprint: "POST-H-010-C"
+current_micro_sprint: "POST-H-010-C"
+next_micro_sprint: "POST-H-010-D"
 ---
 
 # POST-H-010 — Observability retention local
@@ -567,3 +567,50 @@ python -m devpilot_core observability inventory --json --write-report
 python -m devpilot_core schema validate --schema-id ObservabilityInventory --instance outputs/reports/observability_inventory.json --json
 python -m pytest tests/test_observability_inventory.py tests/test_post_h_010_observability_retention.py -q
 ```
+
+## 16. Avance de implementación — POST-H-010-C
+
+Estado: `implemented-initial`.
+
+`POST-H-010-C — Cleanup plan dry-run` agrega un planificador local de acciones de higiene de observabilidad sin ejecutar mutaciones. Consume el inventario metadata-only de `POST-H-010-B` y calcula acciones `would_rotate`, `would_delete`, `would_archive`, `would_redact` y `would_export`, dejando explícito qué acciones destructivas requieren `PolicyEngine` y aprobación antes de cualquier ejecución futura.
+
+Artefactos implementados:
+
+```text
+src/devpilot_core/observability/cleanup.py
+docs/schemas/observability_cleanup_plan.schema.json
+tests/test_observability_cleanup_plan.py
+docs/audits/post_h_010_c_cleanup_plan_report.md
+docs/post_h_010_c_manifest.json
+```
+
+Capacidades implementadas:
+
+```text
+- Schema `ObservabilityCleanupPlan` registrado en `schema_catalog`.
+- Builder `ObservabilityCleanupPlanner` con salida `CommandResult`.
+- CLI `python -m devpilot_core observability cleanup-plan --json [--write-report]`.
+- Reportes opt-in `outputs/reports/observability_cleanup_plan.json|md`.
+- Plan de acciones sin mutaciones: rotate/delete/archive/redact/export.
+- Simulación `PolicyEngine` para acciones destructivas (`rotate`, `delete`, `archive`) con approval ids determinísticos.
+- Bloqueo explícito de path escape y de targets bajo `.git/`, `src/`, `docs/`, `tests/` o metadata source-controlled.
+```
+
+Límites de esta versión:
+
+```text
+- `observability cleanup-plan` no borra, rota, archiva, redacta ni exporta.
+- `--execute` funciona como safety probe y bloquea: este comando es plan-only.
+- La ejecución real de export redactado queda para `POST-H-010-D`.
+- La integración `observability-retention` con `quality-gate hardening` queda para `POST-H-010-E`.
+- Esta versión no representa estado production-ready; es una base deterministic/local-first para evolucionar el hito.
+```
+
+Comandos de validación del micro-sprint:
+
+```powershell
+python -m devpilot_core observability cleanup-plan --json --write-report
+python -m devpilot_core schema validate --schema-id ObservabilityCleanupPlan --instance outputs/reports/observability_cleanup_plan.json --json
+python -m pytest tests/test_observability_cleanup_plan.py tests/test_post_h_010_observability_retention.py -q
+```
+

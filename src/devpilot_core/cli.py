@@ -37,7 +37,19 @@ from .errors import DevPilotError
 from .evals import EvalRunner
 from .identity import IdentityRegistry, IdentityRegistryOptions, RbacCheckInput
 from .industrial import IndustrialReadinessGate, IndustrialReadinessOptions
-from .observability import AgentOpsGateOptions, AgentOpsQualityGate, EventLogger, MetricsCollector, ObservabilityInventoryBuilder, ObservabilityInventoryOptions, OTelDryRunExporter, OTelExportOptions, TraceQueryService
+from .observability import (
+    AgentOpsGateOptions,
+    AgentOpsQualityGate,
+    EventLogger,
+    MetricsCollector,
+    ObservabilityCleanupPlanner,
+    ObservabilityCleanupPlanOptions,
+    ObservabilityInventoryBuilder,
+    ObservabilityInventoryOptions,
+    OTelDryRunExporter,
+    OTelExportOptions,
+    TraceQueryService,
+)
 from .miasi import MiasiRegistryValidator, MiasiSemanticValidator
 from .modeling import BudgetLedger, CapabilityMatrix, ModelAdapterRouter, ModelEvalRunner, ModelEvalRunnerConfig, ModelHealthService, ModelRouterConfig
 from .multiagent import MultiAgentCoordinator, MultiAgentRunOptions, MultiAgentWorkflowRunner, MultiAgentWorkflowRunOptions
@@ -3257,6 +3269,25 @@ def observability_inventory_command(*, json_output: bool = False, write_report: 
     print_result(result, json_output=json_output)
     return int(result.exit_code)
 
+
+
+def observability_cleanup_plan_command(*, json_output: bool = False, write_report: bool = False, execute: bool = False) -> int:
+    """Build the POST-H-010-C observability cleanup plan in dry-run mode.
+
+    The planner computes would_rotate/would_delete/would_archive/would_redact
+    and would_export actions without mutating files. --execute is accepted only
+    as a safety probe and produces a blocking result; no destructive cleanup is
+    performed by this command.
+    """
+
+    root = project_root()
+    result = ObservabilityCleanupPlanner(
+        root,
+        ObservabilityCleanupPlanOptions(write_report=write_report, execute=execute),
+    ).run()
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
 def docs_governance_validate_command(*, json_output: bool = False, write_report: bool = False) -> int:
     """Run POST-H-009-B/C documentation governance validator.
 
@@ -4711,6 +4742,11 @@ def build_parser() -> argparse.ArgumentParser:
     observability_inventory.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     observability_inventory.add_argument("--write-report", action="store_true", help="Persist observability inventory JSON/Markdown reports")
 
+    observability_cleanup_plan = observability_sub.add_parser("cleanup-plan", help="Build observability cleanup/rotation plan without mutating files")
+    observability_cleanup_plan.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    observability_cleanup_plan.add_argument("--write-report", action="store_true", help="Persist observability cleanup plan JSON/Markdown reports")
+    observability_cleanup_plan.add_argument("--execute", action="store_true", help="Safety probe only: cleanup-plan never mutates and will block execute mode")
+
     docs_governance = sub.add_parser("docs-governance", help="Validate documentation governance and canonical source metadata")
     docs_governance_sub = docs_governance.add_subparsers(dest="docs_governance_command")
     docs_governance_validate = docs_governance_sub.add_parser("validate", help="Validate metadata, Markdown/JSON sync and roadmap-derived backlog governance")
@@ -5800,6 +5836,8 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
     if args.command == "observability":
         if args.observability_command == "inventory":
             return observability_inventory_command(json_output=args.json, write_report=args.write_report)
+        if args.observability_command == "cleanup-plan":
+            return observability_cleanup_plan_command(json_output=args.json, write_report=args.write_report, execute=args.execute)
         parser.print_help()
         return int(ExitCode.FAIL)
     if args.command == "docs-governance":

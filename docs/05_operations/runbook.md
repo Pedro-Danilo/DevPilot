@@ -2,11 +2,11 @@
 title: "Runbook — DevPilot Local"
 doc_id: "DEVPL-OPS-002"
 status: "approved"
-version: "1.37.0"
+version: "1.38.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "POST-H-010-B"
+phase: "POST-H-010-C"
 updated: "2026-06-26"
 approval: "approved_by_owner"
 source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved + 03_security approved"
@@ -7611,3 +7611,46 @@ BLOCK si se intenta resolver drift usando reportes runtime bajo outputs/ como fu
 Si el subgate `docs-governance` falla, revisar el `finding.id`, corregir la fuente indicada por `path`, repetir `docs-governance validate --json` y luego repetir `quality-gate hardening`. No se debe relajar el quality gate ni eliminar evidencias históricas para reducir warnings.
 
 Limitación: esta integración es `implemented-initial` y determinística. No sustituye revisión editorial humana ni evaluación semántica profunda de documentos; no usa LLM judge, red, APIs externas ni acciones correctivas automáticas.
+
+## POST-H-010-C — Cleanup plan dry-run
+
+`POST-H-010-C` agrega el comando local de planificación de cleanup de observabilidad. El comando es plan-only y no ejecuta mutaciones: calcula acciones potenciales y evidencia de política para que el operador sepa qué debería rotarse, archivarse, borrarse, redactarse o exportarse en fases posteriores.
+
+### Comandos operativos
+
+```powershell
+python -m devpilot_core observability cleanup-plan --json
+python -m devpilot_core observability cleanup-plan --json --write-report
+python -m devpilot_core schema validate --schema-id ObservabilityCleanupPlan --instance outputs/reports/observability_cleanup_plan.json --json
+```
+
+### Criterios PASS
+
+```text
+PASS si dry_run=true.
+PASS si mutations_performed=false y destructive_cleanup_performed=false.
+PASS si rotate/delete/archive declaran requires_policy_engine=true.
+PASS si las acciones destructivas incluyen required_approval_id.
+PASS si path escape o targets bajo .git/src/docs/tests producen findings bloqueantes.
+```
+
+### Criterios BLOCK
+
+```text
+BLOCK si el plan intenta limpiar rutas fuera del workspace.
+BLOCK si el plan incluye .git, src, docs o tests como runtime cleanup targets.
+BLOCK si --execute se usa con cleanup-plan; este comando no ejecuta mutaciones.
+BLOCK si se detecta source_mutations_performed=true.
+```
+
+### Recuperación
+
+```text
+1. Si aparece OBSERVABILITY_CLEANUP_PATH_ESCAPE, revisar .devpilot/observability/retention_policy.json y corregir el path.
+2. Si aparece OBSERVABILITY_CLEANUP_FORBIDDEN_SOURCE_PATH, retirar el target fuente del retention policy.
+3. Si el schema falla, regenerar el reporte con --write-report y validar de nuevo.
+4. No ejecutar acciones manuales de borrado desde el plan sin revisar approval id y retención.
+```
+
+Limitación: esta versión es `implemented-initial`. No borra, rota, archiva, redacta ni exporta. La exportación redactada queda para `POST-H-010-D` y el quality-gate de retención/higiene para `POST-H-010-E`.
+
