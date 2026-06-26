@@ -5854,6 +5854,89 @@
         "POST-H-009-A creates a local canonical source registry for documentation governance.",
         "The contract is P1/medium because documentation drift can mislead gates, roadmaps and release evidence, but this initial registry is read-only and has no runtime execution side effects."
       ]
+    },
+    {
+      "contract_id": "post-h-009-documentation-governance-validator",
+      "schema_version": "2.0",
+      "source_contract_id": "post-h-009-documentation-governance-validator",
+      "domain": "documentation.governance",
+      "capability": "DocumentationGovernanceValidator",
+      "criticality": "P1",
+      "risk_level": "medium",
+      "test_type": "integration",
+      "execution_profile": "always",
+      "cost_class": "low",
+      "expected_duration_seconds": 45,
+      "test_files": [
+        "tests/test_documentation_governance_validator.py",
+        "tests/test_post_h_009_documentation_governance.py",
+        "tests/test_post_h_006_b_declarative_registry.py",
+        "tests/test_schema_registry.py",
+        "tests/test_project_global_state.py"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/docs_governance/",
+        "src/devpilot_core/cli.py",
+        "src/devpilot_core/cli_registry/registry.py",
+        ".devpilot/docs_governance/",
+        "docs/schemas/documentation_governance_report.schema.json",
+        "README.md",
+        "docs/05_operations/runbook.md",
+        "docs/05_operations/documentation_governance.md",
+        "docs/backlogs/POST-H-009_documentation_governance.md",
+        "docs/POST-H-009_documentation_governance.md",
+        "docs/release/CHANGELOG.md",
+        "tests/test_documentation_governance_validator.py",
+        "tests/test_post_h_009_documentation_governance.py"
+      ],
+      "validates": [
+        "src/devpilot_core/docs_governance/validator.py",
+        "src/devpilot_core/docs_governance/report.py",
+        "src/devpilot_core/docs_governance/__init__.py",
+        "src/devpilot_core/cli.py",
+        "src/devpilot_core/cli_registry/registry.py",
+        ".devpilot/docs_governance/source_registry.json",
+        "docs/schemas/documentation_governance_report.schema.json",
+        "docs/POST-H-009_documentation_governance.md",
+        "docs/backlogs/POST-H-009_documentation_governance.md",
+        "docs/05_operations/documentation_governance.md",
+        "docs/audits/post_h_009_b_documentation_governance_validator_report.md",
+        "docs/post_h_009_b_manifest.json"
+      ],
+      "trigger_hints": [
+        "docs-governance-validate",
+        "frontmatter-status-ownership",
+        "canonical-sources",
+        "post-h-source-change"
+      ],
+      "impact_scope": [
+        "documentation-governance",
+        "docs-sync",
+        "schemas",
+        "test-contracts",
+        "cli-registry"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "POST-H-009-B",
+      "recommended_commands": [
+        "python -m pytest tests/test_documentation_governance_validator.py tests/test_post_h_009_documentation_governance.py tests/test_post_h_006_b_declarative_registry.py -q",
+        "python -m devpilot_core docs-governance validate --json",
+        "python -m devpilot_core docs-governance validate --write-report --json",
+        "python -m devpilot_core schema validate --schema-id DocumentationGovernanceReport --instance outputs/reports/documentation_governance_report.json --json",
+        "python -m devpilot_core test-contracts validate --json",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ],
+      "classification_status": "explicit",
+      "classification_notes": [
+        "POST-H-009-B introduces deterministic validation for frontmatter, status and ownership metadata declared in DocumentationSourceRegistry.",
+        "This contract is P1/medium because documentation governance failures can mislead release evidence, but the validator is local, read-only and does not run LLM judge or external services."
+      ]
     }
   ],
   "migration_metadata": {

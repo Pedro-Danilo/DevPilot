@@ -27,10 +27,14 @@ def test_post_h_009_backlog_is_approved_and_source_registry_is_documented() -> N
     assert 'status: "approved"' in backlog
     assert 'implementation_status: "in-progress"' in backlog
     assert "## 14. Avance de implementación — POST-H-009-A" in backlog
+    assert "## 15. Avance de implementación — POST-H-009-B" in backlog
     assert canonical_doc == backlog
     assert "POST-H-009-A — Documentation governance" in readme
+    assert "POST-H-009-B — Documentation governance" in readme
     assert "POST-H-009-A — Source registry y schema" in runbook
+    assert "POST-H-009-B — Validator de frontmatter/status/ownership" in runbook
     assert "post-h-009-a" in changelog
+    assert "post-h-009-b" in changelog
     assert manifest["id"] == "POST-H-009-A"
     assert manifest["post_h_id"] == "POST-H-009"
     assert manifest["status"] == "implemented-initial"
@@ -63,6 +67,26 @@ def test_post_h_009_a_contract_is_registered_in_tcr() -> None:
 
     contract_v2 = next(item for item in tcr_v2["contracts"] if item["contract_id"] == "post-h-009-documentation-source-registry")
     assert contract_v2["capability"] == "DocumentationSourceRegistry"
+    assert contract_v2["required_for_release"] is True
+    assert contract_v2["required_for_security_gate"] is True
+    assert contract_v2["network_allowed"] is False
+    assert contract_v2["external_api_allowed"] is False
+    assert contract_v2["mutations_allowed"] is False
+    assert contract_v2["source_mutations_allowed"] is False
+
+
+def test_post_h_009_b_validator_contract_is_registered_in_tcr() -> None:
+    tcr = read_json(".devpilot/testing/test_contract_registry.json")
+    tcr_v2 = read_json(".devpilot/testing/test_contract_registry_v2.json")
+
+    contract = next(item for item in tcr["contracts"] if item["contract_id"] == "post-h-009-documentation-governance-validator")
+    assert contract["owner"] == "POST-H-009-B"
+    assert "tests/test_documentation_governance_validator.py" in contract["test_files"]
+    assert "src/devpilot_core/docs_governance/validator.py" in contract["validates"]
+    assert "python -m devpilot_core docs-governance validate --json" in contract["recommended_commands"]
+
+    contract_v2 = next(item for item in tcr_v2["contracts"] if item["contract_id"] == "post-h-009-documentation-governance-validator")
+    assert contract_v2["capability"] == "DocumentationGovernanceValidator"
     assert contract_v2["required_for_release"] is True
     assert contract_v2["required_for_security_gate"] is True
     assert contract_v2["network_allowed"] is False

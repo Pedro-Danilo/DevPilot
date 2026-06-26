@@ -3,9 +3,10 @@ doc_id: "POST-H-009-BACKLOG"
 id: "POST-H-009"
 title: "POST-H-009 — Documentation governance y canonical sources"
 status: "approved"
-version: "0.1.0"
+version: "0.2.0"
 owner: "Ordóñez"
 updated: "2026-06-26"
+approval: "approved_by_owner"
 phase: "POST-FASE-H"
 priority: "P1"
 roadmap_source: "docs/backlogs/post_h_prioritized_roadmap.md"
@@ -14,8 +15,8 @@ dry_run: true
 no_runtime_features_added_by_backlog: false
 no_remote_execution_enabled: true
 implementation_status: "in-progress"
-current_micro_sprint: "POST-H-009-A"
-next_micro_sprint: "POST-H-009-B"
+current_micro_sprint: "POST-H-009-B"
+next_micro_sprint: "POST-H-009-C"
 ---
 
 # POST-H-009 — Documentation governance y canonical sources
@@ -405,3 +406,55 @@ Límites de esta versión:
 ```
 
 Estas capacidades quedan para `POST-H-009-B`, `POST-H-009-C`, `POST-H-009-D` y `POST-H-009-E`.
+
+
+## 15. Avance de implementación — POST-H-009-B
+
+Estado: `implemented-initial`.
+
+`POST-H-009-B — Validator de frontmatter/status/ownership` agrega el primer validator ejecutable de gobernanza documental:
+
+```text
+python -m devpilot_core docs-governance validate --json
+python -m devpilot_core docs-governance validate --write-report --json
+```
+
+Artefactos implementados:
+
+```text
+src/devpilot_core/docs_governance/validator.py
+src/devpilot_core/docs_governance/report.py
+tests/test_documentation_governance_validator.py
+docs/audits/post_h_009_b_documentation_governance_validator_report.md
+docs/post_h_009_b_manifest.json
+```
+
+Capacidades implementadas:
+
+```text
+- Valida existencia de fuentes declaradas en `.devpilot/docs_governance/source_registry.json`.
+- Valida owner y status_required obligatorios por documento registrado.
+- Reutiliza el parser/validator de frontmatter para documentos Markdown approved.
+- Valida doc_id de frontmatter contra doc_id del registry.
+- Valida status de frontmatter o JSON cuando el documento expone status.
+- Valida required_tests existentes para documentos críticos/source-of-truth.
+- Genera `DocumentationGovernanceReport` JSON/Markdown bajo `outputs/reports` solo con `--write-report`.
+- Registra contrato TCR v1/v2 para el validator.
+```
+
+Inconsistencia heredada corregida:
+
+```text
+- El backlog POST-H-009 estaba approved pero no declaraba `approval` en frontmatter. Se agregó `approval: "approved_by_owner"` tanto en `docs/backlogs/POST-H-009_documentation_governance.md` como en su espejo `docs/POST-H-009_documentation_governance.md` para evitar warning documental.
+```
+
+Límites de esta versión:
+
+```text
+- No implementa todavía drift Markdown ↔ JSON; queda para POST-H-009-C.
+- No gobierna aún todos los backlogs derivados del roadmap; queda para POST-H-009-D.
+- No integra aún subgate `docs-governance` al `quality-gate hardening`; queda para POST-H-009-E.
+- No usa LLM judge, red, APIs externas ni mutaciones de fuentes.
+```
+
+Estas capacidades quedan para `POST-H-009-C`, `POST-H-009-D` y `POST-H-009-E`.

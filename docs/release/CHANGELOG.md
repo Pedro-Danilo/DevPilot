@@ -1,4 +1,19 @@
 
+
+## [post-h-009-b] - 2026-06-26
+
+### Added
+- `docs-governance validate` as a deterministic POST-H-009-B validator for frontmatter/status/ownership metadata declared in the canonical documentation source registry.
+- `DocumentationGovernanceValidator` and `DocumentationGovernanceReport` JSON/Markdown evidence generation.
+- TCR v1/v2 contract for `post-h-009-documentation-governance-validator`.
+
+### Changed
+- Updated POST-H-009 backlog/runbook/README/project-state to reflect POST-H-009-B implemented-initial and next micro-sprint POST-H-009-C.
+- Added `approval: "approved_by_owner"` to POST-H-009 backlog frontmatter and mirror document.
+
+### Safety
+- Validator is local-first, read-only for source files, dry-run by default, and does not use network, external APIs or LLM judge.
+
 ## [post-h-009-a] - 2026-06-26
 
 ### Added

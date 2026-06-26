@@ -1,13 +1,13 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
-Estado actual: `baseline pre-code approved + Fases A-G cerradas + Fase H cerrada + POST-H-001 implemented-initial + POST-H-EVAL-001 closed + POST-H-002 closed + POST-H-003 closed + POST-H-004 closed + POST-H-005 closed + POST-H-006 closed + POST-H-007 closed + POST-H-008-A implemented-initial + POST-H-008-B implemented-initial + POST-H-008-C implemented-initial + POST-H-008-D implemented-initial + POST-H-008-E implemented-initial + POST-H-008 closed + POST-H-009-A implemented-initial`  
+Estado actual: `baseline pre-code approved + Fases A-G cerradas + Fase H cerrada + POST-H-001 implemented-initial + POST-H-EVAL-001 closed + POST-H-002 closed + POST-H-003 closed + POST-H-004 closed + POST-H-005 closed + POST-H-006 closed + POST-H-007 closed + POST-H-008-A implemented-initial + POST-H-008-B implemented-initial + POST-H-008-C implemented-initial + POST-H-008-D implemented-initial + POST-H-008-E implemented-initial + POST-H-008 closed + POST-H-009-A implemented-initial + POST-H-009-B implemented-initial`  
 Último hito: `POST-H-008 — Runtime state lifecycle policy`  
 Siguiente hito: `POST-H-009 — Documentation governance`  
-Último micro-sprint implementado: `POST-H-009-A — Source registry y schema`  
+Último micro-sprint implementado: `POST-H-009-B — Validator de frontmatter/status/ownership`  
 Hito diagnóstico cerrado: `POST-H-EVAL-001 — Evaluación integral del baseline DevPilot post-Fase H`, cierre formal `POST-H-EVAL-001-G`  
 Hito cerrado: `POST-H-008 — Runtime state lifecycle policy`  
 Hito cerrado: `POST-H-007 — ApplicationService boundary hardening`  
-Siguiente micro-sprint recomendado: `POST-H-009-B — Validator de frontmatter/status/ownership`  
+Siguiente micro-sprint recomendado: `POST-H-009-C — Sync validator Markdown ↔ JSON`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
@@ -38,6 +38,44 @@ Modo de trabajo: local-first híbrido, API keys opcionales, costo externo contro
 
 
 
+
+
+## POST-H-009-B — Documentation governance: validator de frontmatter/status/ownership
+
+`POST-H-009-B` agrega el primer validator ejecutable de gobernanza documental: `docs-governance validate`. El comando lee `.devpilot/docs_governance/source_registry.json`, valida metadata mínima por clasificación y bloquea inconsistencias críticas sin usar red, APIs externas ni LLM judge.
+
+Artefactos principales:
+
+```text
+src/devpilot_core/docs_governance/validator.py
+src/devpilot_core/docs_governance/report.py
+docs/audits/post_h_009_b_documentation_governance_validator_report.md
+docs/post_h_009_b_manifest.json
+tests/test_documentation_governance_validator.py
+```
+
+Comandos principales:
+
+```powershell
+python -m devpilot_core docs-governance validate --json
+python -m devpilot_core docs-governance validate --write-report --json
+python -m devpilot_core schema validate --schema-id DocumentationGovernanceReport --instance outputs/reports/documentation_governance_report.json --json
+python -m pytest tests/test_documentation_governance_validator.py tests/test_post_h_009_documentation_governance.py -q
+```
+
+Controles implementados:
+
+```text
+- Existencia de fuentes declaradas en el registry.
+- Owner y status_required obligatorios.
+- Frontmatter obligatorio para Markdown approved.
+- doc_id de frontmatter consistente con el registry.
+- status de frontmatter/JSON consistente cuando el documento expone status.
+- required_tests existentes para fuentes críticas/source-of-truth.
+- Historical docs no promovidos silenciosamente a autoridad actual.
+```
+
+Esta versión es `implemented-initial`: todavía no calcula drift semántico Markdown ↔ JSON ni integra `docs-governance` al `quality-gate hardening`; esas capacidades quedan para `POST-H-009-C` y `POST-H-009-E`.
 
 ## POST-H-009-A — Documentation governance: source registry y schema
 
@@ -74,7 +112,7 @@ Controles implementados:
 - Contrato TCR v1/v2 post-h-009-documentation-source-registry.
 ```
 
-Esta versión es `implemented-initial`: no implementa todavía `docs-governance validate`, detección de drift Markdown ↔ JSON ni subgate de quality gate. Esas capacidades quedan para `POST-H-009-B` a `POST-H-009-E`.
+Esta versión es `implemented-initial`: en `POST-H-009-B` ya se agregó `docs-governance validate`; la detección de drift Markdown ↔ JSON, governance de derivados y subgate de quality gate quedan para `POST-H-009-C` a `POST-H-009-E`.
 
 ## POST-H-008-E — Runtime state lifecycle: gate de higiene runtime y release archive
 

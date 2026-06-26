@@ -7312,6 +7312,39 @@ Límites:
 - No usa LLM judge ni servicios externos.
 ```
 
+
+## POST-H-009-B — Validator de frontmatter/status/ownership
+
+`POST-H-009-B` agrega el comando ejecutable `docs-governance validate`, que valida la capa mínima de metadata documental declarada en `.devpilot/docs_governance/source_registry.json`.
+
+Comandos de operación:
+
+```powershell
+python -m devpilot_core docs-governance validate --json
+python -m devpilot_core docs-governance validate --write-report --json
+python -m devpilot_core schema validate --schema-id DocumentationGovernanceReport --instance outputs/reports/documentation_governance_report.json --json
+```
+
+Reglas PASS/BLOCK:
+
+```text
+PASS si los documentos approved tienen frontmatter válido.
+PASS si source-of-truth críticos tienen required_tests existentes.
+PASS si owner/status_required/doc_id son consistentes.
+BLOCK si falta un documento registrado.
+BLOCK si un source-of-truth crítico queda sin test.
+BLOCK si frontmatter doc_id/status contradice el registry.
+```
+
+Límites `implemented-initial`:
+
+```text
+- No calcula drift Markdown ↔ JSON.
+- No implementa governance de todos los backlogs derivados.
+- No integra todavía subgate docs-governance a quality-gate hardening.
+- No usa LLM judge ni servicios externos.
+```
+
 ### Política de verificación general después de POST-H-008
 
 Dado que la suite global ya supera 1000 tests, es procedente no ejecutar `pytest -q` en cada micro-sprint. La política recomendada es:

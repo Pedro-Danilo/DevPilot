@@ -49,12 +49,15 @@ def test_project_global_state_schema_and_docs_are_synchronized() -> None:
     assert "post-h-008-d" in changelog
     assert "post-h-008-e" in changelog
     assert "post-h-009-a" in changelog
+    assert "post-h-009-b" in changelog
     assert any("POST-H-009-A starts Documentation governance" in note for note in state["notes"])
+    assert any("POST-H-009-B adds Documentation governance" in note for note in state["notes"])
     assert "POST-H-008-A — Runtime state lifecycle" in readme
     assert "POST-H-008-B — Runtime state lifecycle" in readme
     assert "POST-H-008-D — Runtime state lifecycle" in readme
     assert "POST-H-008-E — Runtime state lifecycle" in readme
     assert "POST-H-009-A — Documentation governance" in readme
+    assert "POST-H-009-B — Documentation governance" in readme
 
 
 def test_project_global_state_command_result_passes() -> None:

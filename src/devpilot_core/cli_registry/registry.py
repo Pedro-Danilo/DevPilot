@@ -197,6 +197,13 @@ DECLARATIVE_GROUPS: dict[str, DeclarativeGroupDescriptor] = {
         recommended_tests=("python -m pytest tests/test_runtime_state_inventory.py tests/test_runtime_state_cleanup_plan.py tests/test_runtime_state_export.py tests/test_runtime_state_hygiene.py tests/test_post_h_008_runtime_state_lifecycle.py -q",),
         rationale="POST-H-008 runtime-state commands inspect local lifecycle artifacts and plan cleanup/export with dry-run defaults and explicit execution guards.",
     ),
+    "docs-governance": DeclarativeGroupDescriptor(
+        group_id="docs-governance",
+        domain="documentation.governance",
+        owner_module="src/devpilot_core/cli.py",
+        recommended_tests=("python -m pytest tests/test_documentation_governance_validator.py tests/test_post_h_009_documentation_governance.py -q",),
+        rationale="POST-H-009-B documentation governance commands validate canonical-source metadata without using LLM judge, network or source mutations.",
+    ),
 }
 
 
@@ -303,6 +310,18 @@ COMMAND_OVERRIDES: dict[str, DeclarativeCommandOverride] = {
             "python -m pytest tests/test_runtime_state_hygiene.py tests/test_runtime_state_inventory.py tests/test_post_h_008_runtime_state_lifecycle.py -q",
         ),
         rationale="Runtime-state hygiene is read-only for source/runtime artifacts and optionally writes evidence; it may inspect git archive HEAD in memory when Git metadata is available.",
+    ),
+    "docs-governance.validate": DeclarativeCommandOverride(
+        command_id="docs-governance.validate",
+        risk_level=CommandRiskLevel.MEDIUM,
+        side_effects=(CommandSideEffect.WRITE_REPORT,),
+        writes_files=True,
+        dry_run_supported=True,
+        policy_check_required=True,
+        recommended_tests=(
+            "python -m pytest tests/test_documentation_governance_validator.py tests/test_post_h_009_documentation_governance.py -q",
+        ),
+        rationale="Documentation governance validation is read-only for source documents; --write-report writes JSON/Markdown evidence under outputs/reports only.",
     ),
 }
 
