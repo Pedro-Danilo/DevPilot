@@ -637,7 +637,10 @@
         "docs/audits/post_h_010_c_cleanup_plan_report.md",
         "docs/post_h_010_c_manifest.json",
         "docs/audits/post_h_010_d_redacted_export_report.md",
-        "docs/post_h_010_d_manifest.json"
+        "docs/post_h_010_d_manifest.json",
+        "docs/audits/post_h_010_e_retention_hygiene_gate_report.md",
+        "docs/post_h_010_e_manifest.json",
+        "docs/05_operations/observability_retention_runbook.md"
       ],
       "required_tests": [
         "tests/test_documentation_governance_backlogs.py",
@@ -645,7 +648,9 @@
         "tests/test_post_h_010_observability_retention.py",
         "tests/test_observability_inventory.py",
         "tests/test_observability_cleanup_plan.py",
-        "tests/test_observability_export.py"
+        "tests/test_observability_export.py",
+        "tests/test_observability_hygiene_gate.py",
+        "tests/test_project_global_state.py"
       ],
       "sync_rules": [
         "backlog_naming",
@@ -656,7 +661,7 @@
       "roadmap_milestones": [
         "POST-H-010"
       ],
-      "lifecycle": "active",
+      "lifecycle": "closed",
       "notes": [
         "Roadmap-derived executable backlog governed by POST-H-009-D.",
         "Missing future backlog files are informational planned items; existing files must pass naming and frontmatter checks.",
@@ -664,7 +669,9 @@
         "POST-H-010-B adds read-only metadata inventory for observability targets without cleanup/export execution.",
         "POST-H-010-C adds dry-run cleanup/rotation/archive/redaction/export planning for observability targets without executing mutations.",
         "POST-H-010-D adds local redacted observability export under outputs/reports and outputs/audit_exports without raw payloads, secrets, network or remote export.",
-        "Quality-gate integration remains deferred to POST-H-010-E."
+        "Quality-gate integration remains deferred to POST-H-010-E.",
+        "POST-H-010-E integrates observability-retention with quality-gate hardening/industrial as a read-only deterministic subgate.",
+        "POST-H-010 closes as implemented-initial; production-ready declaration remains out of scope for this hito."
       ]
     },
     {
@@ -1161,6 +1168,37 @@
         "Roadmap-derived executable backlog governed by POST-H-009-D.",
         "Missing future backlog files are informational planned items; existing files must pass naming and frontmatter checks."
       ]
+    },
+    {
+      "doc_id": "POST-H-010-OBSERVABILITY-RETENTION-RUNBOOK",
+      "path": "docs/05_operations/observability_retention_runbook.md",
+      "classification": "source-of-truth",
+      "domain": "operations.observability",
+      "owner": "Ordóñez",
+      "status_required": "approved",
+      "criticality": "P1",
+      "machine_readable_counterparts": [],
+      "derived_documents": [
+        "docs/audits/post_h_010_e_retention_hygiene_gate_report.md",
+        "docs/post_h_010_e_manifest.json"
+      ],
+      "required_tests": [
+        "tests/test_observability_hygiene_gate.py",
+        "tests/test_post_h_010_observability_retention.py",
+        "tests/test_documentation_governance_validator.py"
+      ],
+      "sync_rules": [
+        "frontmatter_status_ownership"
+      ],
+      "related_adrs": [],
+      "roadmap_milestones": [
+        "POST-H-010"
+      ],
+      "lifecycle": "active",
+      "notes": [
+        "Operational runbook for POST-H-010 local observability retention maintenance commands and PASS/BLOCK criteria.",
+        "Registered when POST-H-010-E integrates observability-retention into quality-gate hardening."
+      ]
     }
   ],
   "rules": {
@@ -1183,7 +1221,8 @@
       "industrial"
     ],
     "approved_backlogs_require_runtime_policy_tests": true,
-    "observability_inventory_is_read_only": true
+    "observability_inventory_is_read_only": true,
+    "approved_backlogs_require_observability_retention_hygiene_gate": true
   },
   "summary": {
     "documents_total": 37,
@@ -1199,7 +1238,7 @@
     "network_used": false,
     "external_api_used": false,
     "mutations_performed": false,
-    "last_updated_by": "POST-H-010-D",
+    "last_updated_by": "POST-H-010-E",
     "markdown_json_sync_checks_enabled": true,
     "sync_checks_scope": "version_match, milestones_match, decisions_match, closure_status_match, next_hito_match",
     "backlog_governance_enabled": true,
@@ -1221,7 +1260,9 @@
     "observability_cleanup_plan_cli_enabled": true,
     "observability_redacted_export_schema_registered": true,
     "observability_redacted_export_schema_path": "docs/schemas/observability_redacted_export.schema.json",
-    "observability_redacted_export_cli_enabled": true
+    "observability_redacted_export_cli_enabled": true,
+    "observability_retention_hygiene_registered": true,
+    "post_h_010_closed": true
   },
   "safety": {
     "local_first": true,
@@ -1236,7 +1277,10 @@
     "connector_write_enabled": false,
     "plugin_execution_enabled": false,
     "observability_retention_remote_export_enabled": false,
-    "observability_redacted_export_remote_enabled": false
+    "observability_redacted_export_remote_enabled": false,
+    "observability_retention_hygiene_network_used": false,
+    "observability_retention_hygiene_external_api_used": false,
+    "observability_retention_hygiene_source_mutations_performed": false
   },
   "notes": [
     "POST-H-009-A creates the first canonical documentation source registry and schema baseline.",
@@ -1246,6 +1290,7 @@
     "Quality-gate integration remains deferred to POST-H-009-E.",
     "POST-H-010-A promotes POST-H-010 to approved and registers its source-controlled observability retention policy defaults.",
     "Observability runtime artifacts remain non-versionable and excluded from clean archives; inventory/cleanup/export are deferred to later POST-H-010 micro-sprints.",
-    "POST-H-010-D registers redacted observability export schema/CLI and keeps export local-only."
+    "POST-H-010-D registers redacted observability export schema/CLI and keeps export local-only.",
+    "POST-H-010-E closes Observability retention local with an observability-retention quality-gate subgate and dedicated runbook."
   ]
 }

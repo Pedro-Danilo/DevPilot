@@ -6551,6 +6551,79 @@
         "POST-H-010-D exports local redacted observability evidence summaries and metadata under outputs/reports and outputs/audit_exports when --write-report is explicit.",
         "Raw prompts, raw outputs, secrets, .env content, SQLite bytes, network, external APIs and remote export remain blocked."
       ]
+    },
+    {
+      "contract_id": "post-h-010-observability-retention-hygiene-gate",
+      "schema_version": "2.0",
+      "source_contract_id": "post-h-010-observability-retention-hygiene-gate",
+      "domain": "operations.observability",
+      "capability": "ObservabilityRetentionHygiene",
+      "criticality": "P1",
+      "risk_level": "high",
+      "test_type": "integration",
+      "execution_profile": "always",
+      "cost_class": "low",
+      "expected_duration_seconds": 60,
+      "test_files": [
+        "tests/test_observability_hygiene_gate.py",
+        "tests/test_observability_export.py",
+        "tests/test_observability_cleanup_plan.py",
+        "tests/test_observability_inventory.py",
+        "tests/test_post_h_010_observability_retention.py",
+        "tests/test_schema_registry.py",
+        "tests/test_project_global_state.py",
+        "tests/test_quality_gate.py"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/observability/",
+        "src/devpilot_core/quality/gate.py",
+        "docs/schemas/observability_retention_hygiene.schema.json",
+        "docs/schemas/schema_catalog.json",
+        ".devpilot/observability/",
+        ".devpilot/testing/",
+        "README.md",
+        "docs/05_operations/runbook.md",
+        "docs/05_operations/observability_retention_runbook.md",
+        "docs/backlogs/POST-H-010_observability_retention.md",
+        "docs/POST-H-010_observability_retention.md",
+        "docs/release/CHANGELOG.md",
+        "tests/test_observability_hygiene_gate.py"
+      ],
+      "validates": [
+        "src/devpilot_core/observability/hygiene.py",
+        "src/devpilot_core/quality/gate.py",
+        "docs/schemas/observability_retention_hygiene.schema.json",
+        ".devpilot/observability/retention_policy.json",
+        "docs/05_operations/observability_retention_runbook.md",
+        "docs/audits/post_h_010_e_retention_hygiene_gate_report.md",
+        "docs/post_h_010_e_manifest.json"
+      ],
+      "recommended_commands": [
+        "python -m pytest tests/test_observability_hygiene_gate.py tests/test_post_h_010_observability_retention.py -q",
+        "python -m devpilot_core quality-gate run --profile hardening --json",
+        "python -m devpilot_core schema validate --schema-id ObservabilityRetentionHygiene --instance outputs/reports/observability_retention_hygiene.json --json"
+      ],
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "llm_judge_allowed": false,
+      "requires_api_key": false,
+      "requires_paid_api": false,
+      "local_first": true,
+      "dry_run_required": true,
+      "notes": [
+        "POST-H-010-E integrates observability-retention as a read-only quality-gate subgate without runtime-output dependency.",
+        "The gate validates policy, metadata inventory and clean ZIP hygiene without network, external APIs, raw payload reads or cleanup/export execution."
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": true,
+      "requires_human_approval": false,
+      "owner": "POST-H-010-E",
+      "classification_status": "explicit",
+      "classification_notes": [
+        "Local-first read-only observability retention hygiene quality-gate subgate; no network, no external APIs, no mutations and no raw payload reads."
+      ]
     }
   ],
   "migration_metadata": {

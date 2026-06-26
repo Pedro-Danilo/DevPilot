@@ -5,11 +5,11 @@
   "phase_h_status": "closed_implemented_initial",
   "industrial_baseline_ready": true,
   "maturity_level": "industrial-baseline-ready",
-  "last_completed_sprint": "POST-H-009",
+  "last_completed_sprint": "POST-H-010",
   "last_functional_sprint": "FUNC-SPRINT-99",
-  "next_sprint": "POST-H-010",
-  "source_repo": "repo_DevPilot_Local_183_POST_H_010_C.zip",
-  "current_repo": "repo_DevPilot_Local_184_POST_H_010_D.zip",
+  "next_sprint": "POST-H-011",
+  "source_repo": "repo_DevPilot_Local_184_POST_H_010_D.zip",
+  "current_repo": "repo_DevPilot_Local_185_POST_H_010_E.zip",
   "global_state_owner": "tests/test_project_global_state.py",
   "mutable_global_state_fields": [
     "last_completed_sprint",
@@ -52,6 +52,8 @@
     "POST-H-010-A starts Observability retention local as implemented-initial: ObservabilityRetentionPolicy schema, local retention_policy.json defaults, semantic loader/validator and tests are available without inventory, cleanup, export or quality-gate integration yet.",
     "POST-H-010-B adds Observability inventory read-only as implemented-initial: ObservabilityInventory schema, metadata-only inventory builder, CLI observability inventory, optional reports and tests are available without cleanup, export, redaction execution or quality-gate integration yet.",
     "POST-H-010-C adds Observability cleanup plan dry-run as implemented-initial: ObservabilityCleanupPlan schema, planner, CLI observability cleanup-plan, PolicyEngine simulations and optional reports are available without cleanup/export/redaction execution or source mutations.",
-    "POST-H-010-D adds local redacted observability export as implemented-initial: ObservabilityRedactedExport schema, exporter, CLI observability export, SecretGuard-backed redaction, checksums and optional reports/audit_exports are available without raw prompts, raw outputs, secrets, SQLite raw export, network or remote export."
+    "POST-H-010-D adds local redacted observability export as implemented-initial: ObservabilityRedactedExport schema, exporter, CLI observability export, SecretGuard-backed redaction, checksums and optional reports/audit_exports are available without raw prompts, raw outputs, secrets, SQLite raw export, network or remote export.",
+    "POST-H-010-E closes Observability retention local as implemented-initial: ObservabilityRetentionHygiene schema, read-only hygiene gate, observability-retention quality-gate subgate and dedicated runbook are available without runtime-output dependency, network, external APIs, cleanup execution or source mutations.",
+    "POST-H-011 is the next prioritized hito: RAG groundedness evals."
   ]
 }

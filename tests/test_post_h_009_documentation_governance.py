@@ -65,7 +65,13 @@ def test_post_h_009_a_registry_model_loads_expected_canonical_sources() -> None:
     assert "docs/backlogs/POST-H-009_documentation_governance.md" in by_path
     assert by_path["docs/backlogs/post_h_prioritized_roadmap.md"].is_source_of_truth
     assert by_path[".devpilot/project_state.json"].is_machine_readable_source
-    assert len(registry.documents) == 37
+    # POST-H-010-E registers docs/05_operations/observability_retention_runbook.md,
+    # so the source registry now contains 38 governed documents. Keep this
+    # assertion aligned with the governance validator instead of the older
+    # POST-H-009-A baseline count.
+    assert len(registry.documents) == 38
+    assert "docs/05_operations/observability_retention_runbook.md" in by_path
+    assert by_path["docs/05_operations/observability_retention_runbook.md"].classification == "source-of-truth"
     assert "docs/backlogs/POST-H-025_production_ready_declaration_gate.md" in by_path
     assert by_path["docs/backlogs/POST-H-025_production_ready_declaration_gate.md"].classification == "derived"
 

@@ -1,0 +1,95 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "SCHEMA-DEVPL-POST-H-MANIFEST-V1",
+  "post_h_id": "POST-H-010",
+  "id": "POST-H-010-E",
+  "title": "POST-H-010-E — Gate de retención e higiene observability",
+  "status": "implemented-initial",
+  "phase": "POST-FASE-H",
+  "implemented_at": "2026-06-26",
+  "created_files": [
+    "src/devpilot_core/observability/hygiene.py",
+    "docs/schemas/observability_retention_hygiene.schema.json",
+    "tests/test_observability_hygiene_gate.py",
+    "docs/05_operations/observability_retention_runbook.md",
+    "docs/audits/post_h_010_e_retention_hygiene_gate_report.md",
+    "docs/post_h_010_e_manifest.json"
+  ],
+  "modified_files": [
+    "src/devpilot_core/observability/__init__.py",
+    "src/devpilot_core/quality/gate.py",
+    "docs/schemas/schema_catalog.json",
+    ".devpilot/docs_governance/source_registry.json",
+    ".devpilot/project_state.json",
+    ".devpilot/testing/test_contract_registry.json",
+    ".devpilot/testing/test_contract_registry_v2.json",
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/backlogs/POST-H-010_observability_retention.md",
+    "docs/POST-H-010_observability_retention.md",
+    "docs/release/CHANGELOG.md",
+    "tests/test_schema_registry.py",
+    "tests/test_project_global_state.py",
+    "tests/test_post_h_010_observability_retention.py"
+  ],
+  "commands": [
+    "python -m pytest -p no:ddtrace tests/test_observability_hygiene_gate.py tests/test_observability_export.py tests/test_observability_cleanup_plan.py tests/test_observability_inventory.py tests/test_post_h_010_observability_retention.py tests/test_observability_retention_schema.py tests/test_schema_registry.py tests/test_project_global_state.py -q",
+    "python -m devpilot_core quality-gate run --profile hardening --json",
+    "python -m devpilot_core schema validate --schema-id ObservabilityRetentionHygiene --instance outputs/reports/observability_retention_hygiene.json --json",
+    "python -m devpilot_core schema validate --schema-id PostHManifest --instance docs/post_h_010_e_manifest.json --json",
+    "python -m devpilot_core docs-governance validate --json",
+    "python -m devpilot_core test-contracts validate --json",
+    "python -m devpilot_core test-contracts validate-v2 --json",
+    "python -m devpilot_core project-state validate --json"
+  ],
+  "tests": [
+    "tests/test_observability_hygiene_gate.py",
+    "tests/test_observability_export.py",
+    "tests/test_observability_cleanup_plan.py",
+    "tests/test_observability_inventory.py",
+    "tests/test_post_h_010_observability_retention.py",
+    "tests/test_observability_retention_schema.py",
+    "tests/test_schema_registry.py",
+    "tests/test_project_global_state.py"
+  ],
+  "pass_criteria": [
+    "quality-gate hardening incluye el subgate observability-retention.",
+    "El subgate valida policy, inventory metadata-only y clean ZIP hygiene sin depender de outputs efímeros.",
+    "test-contracts validate y validate-v2 pasan.",
+    "project-state validate pasa y POST-H-010 queda cerrado como implemented-initial.",
+    "No se versionan outputs, .devpilot/devpilot.db ni .devpilot/agent_sessions."
+  ],
+  "block_criteria": [
+    "Bloquear si el gate requiere red, API externa o backend remoto de observabilidad.",
+    "Bloquear si el gate exige outputs efímeros para pasar en un ZIP limpio de fuente.",
+    "Bloquear si se relajan exclusiones de outputs, .devpilot/devpilot.db o .devpilot/agent_sessions.",
+    "Bloquear si se leen raw prompts/outputs o se ejecuta cleanup real.",
+    "Bloquear si runtime observability targets son source_of_truth o versionable."
+  ],
+  "risks": [
+    "El gate es implemented-initial y no reemplaza un DLP industrial completo.",
+    "La firma/cifrado de audit exports queda para hardening posterior.",
+    "POST-H-010 queda cerrado como base local de retención/higiene, no como declaración production-ready final.",
+    "La ejecución real de cleanup sigue deshabilitada por diseño."
+  ],
+  "next_sprint": "POST-H-011",
+  "preliminary": true,
+  "security": {
+    "local_first": true,
+    "dry_run": true,
+    "read_only": true,
+    "redaction_required": true,
+    "raw_payloads_read": false,
+    "raw_prompts_exported": false,
+    "raw_outputs_exported": false,
+    "secrets_exported": false,
+    "network_used": false,
+    "external_api_used": false,
+    "mutations_performed": false,
+    "destructive_cleanup_performed": false,
+    "source_mutations_performed": false,
+    "remote_execution_enabled": false,
+    "connector_write_enabled": false,
+    "plugin_execution_enabled": false
+  }
+}

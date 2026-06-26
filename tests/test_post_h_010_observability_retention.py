@@ -26,33 +26,41 @@ def test_post_h_010_backlog_is_approved_and_synced_with_mirror() -> None:
     assert backlog == mirror
     assert 'status: "approved"' in backlog
     assert 'approval: "approved_by_owner"' in backlog
-    assert 'implementation_status: "active"' in backlog
-    assert 'current_micro_sprint: "POST-H-010-D"' in backlog
-    assert 'next_micro_sprint: "POST-H-010-E"' in backlog
+    assert 'implementation_status: "closed"' in backlog
+    assert 'current_micro_sprint: "POST-H-010-E"' in backlog
+    assert 'next_micro_sprint: "POST-H-011"' in backlog
     assert "## 14. Avance de implementación — POST-H-010-A" in backlog
     assert "## 15. Avance de implementación — POST-H-010-B" in backlog
     assert "## 16. Avance de implementación — POST-H-010-C" in backlog
     assert "## 17. Avance de implementación — POST-H-010-D" in backlog
+    assert "## 18. Avance de implementación — POST-H-010-E" in backlog
+    assert "## 19. Cierre de POST-H-010" in backlog
     assert "docs/schemas/observability_retention_policy.schema.json" in backlog
     assert "docs/schemas/observability_inventory.schema.json" in backlog
     assert "docs/schemas/observability_cleanup_plan.schema.json" in backlog
     assert "docs/schemas/observability_redacted_export.schema.json" in backlog
+    assert "docs/schemas/observability_retention_hygiene.schema.json" in backlog
     assert ".devpilot/observability/retention_policy.json" in backlog
     assert "src/devpilot_core/observability/inventory.py" in backlog
     assert "src/devpilot_core/observability/cleanup.py" in backlog
     assert "src/devpilot_core/observability/export.py" in backlog
+    assert "src/devpilot_core/observability/hygiene.py" in backlog
     assert "POST-H-010-A — Observability retention" in readme
     assert "POST-H-010-B — Observability retention" in readme
     assert "POST-H-010-C — Observability retention" in readme
     assert "POST-H-010-D — Observability retention" in readme
+    assert "POST-H-010-E — Observability retention" in readme
     assert "POST-H-010-A — Retention policy schema y defaults locales" in runbook
     assert "POST-H-010-B — Observability inventory read-only" in runbook
     assert "POST-H-010-C — Cleanup plan dry-run" in runbook
     assert "POST-H-010-D — Export local redactado" in runbook
+    assert "POST-H-010-E — Gate de retención e higiene observability" in runbook
+    assert "docs/05_operations/observability_retention_runbook.md" in runbook
     assert "post-h-010-a" in changelog
     assert "post-h-010-b" in changelog
     assert "post-h-010-c" in changelog
     assert "post-h-010-d" in changelog
+    assert "post-h-010-e" in changelog
 
 
 def test_post_h_010_source_registry_and_docs_governance_pass() -> None:
@@ -62,13 +70,20 @@ def test_post_h_010_source_registry_and_docs_governance_pass() -> None:
 
     assert doc.doc_id == "POST-H-010-BACKLOG"
     assert doc.status_required == "approved"
-    assert doc.lifecycle == "active"
+    assert doc.lifecycle == "closed"
     assert "docs/POST-H-010_observability_retention.md" in doc.derived_documents
     assert "tests/test_observability_retention_schema.py" in doc.required_tests
     assert "tests/test_observability_inventory.py" in doc.required_tests
     assert "tests/test_observability_cleanup_plan.py" in doc.required_tests
     assert "tests/test_observability_export.py" in doc.required_tests
+    assert "tests/test_observability_hygiene_gate.py" in doc.required_tests
     assert "tests/test_post_h_010_observability_retention.py" in doc.required_tests
+    assert "docs/05_operations/observability_retention_runbook.md" in doc.derived_documents
+
+    runbook_doc = by_path["docs/05_operations/observability_retention_runbook.md"]
+    assert runbook_doc.doc_id == "POST-H-010-OBSERVABILITY-RETENTION-RUNBOOK"
+    assert runbook_doc.status_required == "approved"
+    assert "tests/test_observability_hygiene_gate.py" in runbook_doc.required_tests
 
     result = DocumentationGovernanceValidator(ROOT).run()
     assert result.ok, result.to_dict()
@@ -155,6 +170,31 @@ def test_post_h_010_d_redacted_export_contracts_are_registered() -> None:
     assert contract_v2["capability"] == "ObservabilityRedactedExport"
     assert contract_v2["criticality"] == "P1"
     assert contract_v2["risk_level"] == "high"
+    assert contract_v2["network_allowed"] is False
+    assert contract_v2["external_api_allowed"] is False
+    assert contract_v2["mutations_allowed"] is False
+    assert contract_v2["source_mutations_allowed"] is False
+
+
+def test_post_h_010_e_retention_hygiene_gate_contracts_are_registered() -> None:
+    tcr = read_json(".devpilot/testing/test_contract_registry.json")
+    tcr_v2 = read_json(".devpilot/testing/test_contract_registry_v2.json")
+
+    contract = next(item for item in tcr["contracts"] if item["contract_id"] == "post-h-010-observability-retention-hygiene-gate")
+    assert contract["owner"] == "POST-H-010-E"
+    assert contract["scope"] == "quality-gate"
+    assert "tests/test_observability_hygiene_gate.py" in contract["test_files"]
+    assert "src/devpilot_core/observability/hygiene.py" in contract["validates"]
+    assert "src/devpilot_core/quality/gate.py" in contract["validates"]
+    assert "docs/schemas/observability_retention_hygiene.schema.json" in contract["validates"]
+    assert contract["mutable_global_state_allowed"] is False
+
+    contract_v2 = next(item for item in tcr_v2["contracts"] if item["contract_id"] == "post-h-010-observability-retention-hygiene-gate")
+    assert contract_v2["capability"] == "ObservabilityRetentionHygiene"
+    assert contract_v2["criticality"] == "P1"
+    assert contract_v2["risk_level"] == "high"
+    assert contract_v2["required_for_release"] is True
+    assert contract_v2["required_for_security_gate"] is True
     assert contract_v2["network_allowed"] is False
     assert contract_v2["external_api_allowed"] is False
     assert contract_v2["mutations_allowed"] is False

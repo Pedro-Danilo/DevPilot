@@ -4,7 +4,7 @@ doc_id: "POST-H-010-BACKLOG"
 id: "POST-H-010"
 title: "POST-H-010 — Observability retention local"
 status: "approved"
-version: "1.2.0"
+version: "1.3.0"
 owner: "Ordóñez"
 updated: "2026-06-26"
 approval: "approved_by_owner"
@@ -17,9 +17,9 @@ no_remote_execution_enabled: true
 no_external_apis_used: true
 no_connector_write_enabled: true
 no_plugin_execution_enabled: true
-implementation_status: "active"
-current_micro_sprint: "POST-H-010-D"
-next_micro_sprint: "POST-H-010-E"
+implementation_status: "closed"
+current_micro_sprint: "POST-H-010-E"
+next_micro_sprint: "POST-H-011"
 ---
 
 # POST-H-010 — Observability retention local
@@ -662,3 +662,76 @@ python -m devpilot_core observability export --redacted --json --write-report
 python -m devpilot_core schema validate --schema-id ObservabilityRedactedExport --instance outputs/reports/observability_redacted_export.json --json
 python -m pytest tests/test_observability_export.py tests/test_post_h_010_observability_retention.py -q
 ```
+
+
+## 18. Avance de implementación — POST-H-010-E
+
+Estado: `implemented-initial`.
+
+`POST-H-010-E — Gate de retención e higiene observability` cierra `POST-H-010` como base local de retención/higiene de observabilidad. El micro-sprint integra la política de retención con `quality-gate hardening` mediante el subgate `observability-retention`, validando policy, inventario metadata-only y clean ZIP hygiene sin depender de outputs efímeros, red, APIs externas ni backends remotos.
+
+Artefactos implementados:
+
+```text
+src/devpilot_core/observability/hygiene.py
+docs/schemas/observability_retention_hygiene.schema.json
+tests/test_observability_hygiene_gate.py
+docs/05_operations/observability_retention_runbook.md
+docs/audits/post_h_010_e_retention_hygiene_gate_report.md
+docs/post_h_010_e_manifest.json
+```
+
+Capacidades implementadas:
+
+```text
+- Schema `ObservabilityRetentionHygiene` registrado en `schema_catalog`.
+- Builder `ObservabilityRetentionHygieneGate` con salida `CommandResult`.
+- Subgate `observability-retention` añadido al perfil `quality-gate hardening` e `industrial`.
+- Validación de `remote_export_enabled=false`, `default_mode=dry-run`, targets runtime no versionables y redaction_required para targets sensibles.
+- Inventario metadata-only integrado como insumo del gate, con missing runtime artifacts como warnings no bloqueantes para ZIPs limpios.
+- Simulación determinística de source archive hygiene y check opcional de `git archive HEAD` cuando existe `.git`.
+- Runbook específico de mantenimiento local en `docs/05_operations/observability_retention_runbook.md`.
+```
+
+Criterios PASS implementados:
+
+```text
+- `quality-gate hardening` incluye subgate `observability-retention`.
+- `test-contracts validate` y `test-contracts validate-v2` pasan.
+- `project-state validate` pasa con POST-H-010 cerrado y POST-H-011 como siguiente hito.
+- No se versionan ni empaquetan `outputs/`, `.devpilot/devpilot.db` ni `.devpilot/agent_sessions/` en ZIPs limpios.
+```
+
+Limitaciones de esta versión:
+
+```text
+- No ejecuta cleanup real; solo gobierna policy/inventory/hygiene.
+- No habilita export remoto.
+- No firma ni cifra los exports redactados.
+- No sustituye DLP industrial completo ni declaración production-ready final.
+- `POST-H-010` queda cerrado como `implemented-initial`; producción estricta requiere hardening posterior, especialmente POST-H-013 y POST-H-025.
+```
+
+Comandos de validación del micro-sprint:
+
+```powershell
+python -m pytest tests/test_observability_hygiene_gate.py tests/test_post_h_010_observability_retention.py -q
+python -m devpilot_core quality-gate run --profile hardening --json
+python -m devpilot_core test-contracts validate --json
+python -m devpilot_core test-contracts validate-v2 --json
+python -m devpilot_core project-state validate --json
+```
+
+## 19. Cierre de POST-H-010
+
+`POST-H-010 — Observability retention local` queda cerrado como `implemented-initial`. El hito cubre:
+
+```text
+A. Retention policy schema y defaults locales.
+B. Observability inventory read-only.
+C. Cleanup plan dry-run.
+D. Export local redactado.
+E. Gate de retención e higiene observability.
+```
+
+El cierre no equivale a una declaración production-ready final. El alcance cerrado establece una base local, determinística y gobernada para retención/higiene de observabilidad; las capacidades de firma, cifrado, DLP profundo, cleanup execute y declaración production-ready quedan fuera de este hito.

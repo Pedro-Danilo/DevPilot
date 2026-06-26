@@ -1,13 +1,15 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
-Estado actual: `baseline pre-code approved + Fases A-G cerradas + Fase H cerrada + POST-H-001 implemented-initial + POST-H-EVAL-001 closed + POST-H-002 closed + POST-H-003 closed + POST-H-004 closed + POST-H-005 closed + POST-H-006 closed + POST-H-007 closed + POST-H-008 closed + POST-H-009-A implemented-initial + POST-H-009-B implemented-initial + POST-H-009-C implemented-initial + POST-H-009-D implemented-initial + POST-H-009-E implemented-initial + POST-H-009 closed + POST-H-010-A implemented-initial + POST-H-010-B implemented-initial + POST-H-010-C implemented-initial + POST-H-010-D implemented-initial`  
-Último hito: `POST-H-009 — Documentation governance y canonical sources`  
-Siguiente hito: `POST-H-010 — Observability retention local`  
-Último micro-sprint implementado: `POST-H-010-D — Export local redactado`  
+Estado actual: `baseline pre-code approved + Fases A-G cerradas + Fase H cerrada + POST-H-001 implemented-initial + POST-H-EVAL-001 closed + POST-H-002 closed + POST-H-003 closed + POST-H-004 closed + POST-H-005 closed + POST-H-006 closed + POST-H-007 closed + POST-H-008 closed + POST-H-009-A implemented-initial + POST-H-009-B implemented-initial + POST-H-009-C implemented-initial + POST-H-009-D implemented-initial + POST-H-009-E implemented-initial + POST-H-009 closed + POST-H-010-A implemented-initial + POST-H-010-B implemented-initial + POST-H-010-C implemented-initial + POST-H-010-D implemented-initial + POST-H-010-E implemented-initial + POST-H-010 closed`  
+Último hito: `POST-H-010 — Observability retention local`  
+Siguiente hito: `POST-H-011 — RAG groundedness evals`  
+Último micro-sprint implementado: `POST-H-010-E — Gate de retención e higiene observability`  
 Hito diagnóstico cerrado: `POST-H-EVAL-001 — Evaluación integral del baseline DevPilot post-Fase H`, cierre formal `POST-H-EVAL-001-G`  
+Hito cerrado: `POST-H-010 — Observability retention local`  
 Hito cerrado: `POST-H-009 — Documentation governance y canonical sources`  
 Hito cerrado: `POST-H-008 — Runtime state lifecycle policy`  
-Siguiente micro-sprint recomendado: `POST-H-010-E — Gate de retención e higiene observability`  
+Hito cerrado: `POST-H-007 — ApplicationService boundary hardening`  
+Siguiente micro-sprint recomendado: `POST-H-011-A — Groundedness eval baseline local`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
@@ -44,6 +46,44 @@ Modo de trabajo: local-first híbrido, API keys opcionales, costo externo contro
 
 
 
+
+
+## POST-H-010-E — Observability retention: Gate de retención e higiene observability
+
+`POST-H-010-E` cierra `POST-H-010` como `implemented-initial` integrando la higiene de observabilidad en `quality-gate hardening` mediante el subgate `observability-retention`. La integración valida política local, inventario metadata-only y clean ZIP hygiene sin depender de outputs efímeros, red, APIs externas ni backends remotos.
+
+Artefactos principales:
+
+```text
+src/devpilot_core/observability/hygiene.py
+docs/schemas/observability_retention_hygiene.schema.json
+tests/test_observability_hygiene_gate.py
+docs/05_operations/observability_retention_runbook.md
+docs/audits/post_h_010_e_retention_hygiene_gate_report.md
+docs/post_h_010_e_manifest.json
+```
+
+Comandos operativos:
+
+```powershell
+python -m devpilot_core quality-gate run --profile hardening --json
+python -m devpilot_core schema validate --schema-id ObservabilityRetentionHygiene --instance outputs/reports/observability_retention_hygiene.json --json
+```
+
+Controles de seguridad:
+
+```text
+read_only=true
+dry_run=true
+raw_payloads_read=false
+network_used=false
+external_api_used=false
+mutations_performed=false
+destructive_cleanup_performed=false
+remote_export_enabled=false
+```
+
+Limitación explícita: `POST-H-010` queda cerrado como base local `implemented-initial`, no como declaración production-ready final. Cleanup real, firma/cifrado de exports, DLP industrial completo y producción estricta quedan para hardening posterior.
 
 ## POST-H-010-D — Observability retention: Export local redactado
 
@@ -82,7 +122,7 @@ external_api_used=false
 source_mutations_performed=false
 ```
 
-Limitación explícita: esta versión es `implemented-initial`. No integra todavía el subgate `observability-retention` dentro de `quality-gate hardening`; esa consolidación queda para `POST-H-010-E`.
+Limitación explícita: esta versión es `implemented-initial`. Integra el subgate `observability-retention` dentro de `quality-gate hardening` desde `POST-H-010-E`.
 
 ## POST-H-010-C — Observability retention: Cleanup plan dry-run
 

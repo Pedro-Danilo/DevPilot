@@ -2,11 +2,11 @@
 title: "Runbook — DevPilot Local"
 doc_id: "DEVPL-OPS-002"
 status: "approved"
-version: "1.39.0"
+version: "1.40.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "POST-H-010-D"
+phase: "POST-H-010-E"
 updated: "2026-06-26"
 approval: "approved_by_owner"
 source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved + 03_security approved"
@@ -15,6 +15,9 @@ approval_scope: "SPRINT-PRECODE-05 quality operations baseline"
 ---
 
 # Runbook — DevPilot Local
+
+Siguiente hito operativo: `POST-H-011 — RAG groundedness evals`.
+
 
 ## 1. Propósito
 
@@ -7612,6 +7615,49 @@ Si el subgate `docs-governance` falla, revisar el `finding.id`, corregir la fuen
 
 Limitación: esta integración es `implemented-initial` y determinística. No sustituye revisión editorial humana ni evaluación semántica profunda de documentos; no usa LLM judge, red, APIs externas ni acciones correctivas automáticas.
 
+
+
+
+## POST-H-010-E — Gate de retención e higiene observability
+
+`POST-H-010-E` integra la retención/higiene de observabilidad en el perfil `quality-gate hardening` mediante el subgate `observability-retention`. El gate es local-first, read-only y dry-run: valida policy, inventario metadata-only y clean ZIP hygiene sin requerir que existan outputs runtime en un ZIP limpio de fuente.
+
+Comandos de uso:
+
+```powershell
+python -m devpilot_core quality-gate run --profile hardening --json
+python -m devpilot_core schema validate --schema-id ObservabilityRetentionHygiene --instance outputs/reports/observability_retention_hygiene.json --json
+```
+
+Runbook específico:
+
+```text
+docs/05_operations/observability_retention_runbook.md
+```
+
+PASS operacional:
+
+```text
+observability-retention presente en quality-gate hardening
+quality_gate_ready=true
+policy_validation_passed=true
+inventory_validation_passed=true
+clean_zip_hygiene_passed=true
+network_used=false
+external_api_used=false
+mutations_performed=false
+```
+
+BLOCK operacional:
+
+```text
+Bloquear si remote_export_enabled=true.
+Bloquear si runtime observability targets son versionable/source_of_truth.
+Bloquear si outputs/, .devpilot/devpilot.db o .devpilot/agent_sessions/ entran en ZIP limpio.
+Bloquear si el gate depende de outputs efímeros, red o APIs externas.
+```
+
+Limitación: `POST-H-010` queda cerrado como `implemented-initial`. El gate no ejecuta cleanup real, no firma/cifra exports y no reemplaza un DLP enterprise completo.
 
 ## POST-H-010-D — Export local redactado
 

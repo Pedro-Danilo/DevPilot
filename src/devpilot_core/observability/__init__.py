@@ -38,6 +38,18 @@ from .export import (
     render_observability_redacted_export_markdown,
 )
 
+
+from .hygiene import (
+    DEFAULT_OBSERVABILITY_HYGIENE_JSON,
+    DEFAULT_OBSERVABILITY_HYGIENE_MARKDOWN,
+    OBSERVABILITY_RETENTION_HYGIENE_CONTRACT,
+    OBSERVABILITY_RETENTION_HYGIENE_REPORT_ID,
+    OBSERVABILITY_RETENTION_HYGIENE_SCHEMA_ID,
+    ObservabilityRetentionHygieneGate,
+    ObservabilityRetentionHygieneOptions,
+    render_observability_retention_hygiene_markdown,
+)
+
 from .inventory import (
     DEFAULT_OBSERVABILITY_INVENTORY_JSON,
     DEFAULT_OBSERVABILITY_INVENTORY_MARKDOWN,
@@ -70,6 +82,14 @@ from .tracing import (
 )
 
 __all__ = [
+    "DEFAULT_OBSERVABILITY_HYGIENE_JSON",
+    "DEFAULT_OBSERVABILITY_HYGIENE_MARKDOWN",
+    "OBSERVABILITY_RETENTION_HYGIENE_CONTRACT",
+    "OBSERVABILITY_RETENTION_HYGIENE_REPORT_ID",
+    "OBSERVABILITY_RETENTION_HYGIENE_SCHEMA_ID",
+    "ObservabilityRetentionHygieneGate",
+    "ObservabilityRetentionHygieneOptions",
+    "render_observability_retention_hygiene_markdown",
     "render_observability_redacted_export_markdown",
     "ObservabilityRedactedExportOptions",
     "ObservabilityRedactedExporter",

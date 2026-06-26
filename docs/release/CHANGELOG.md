@@ -1,5 +1,34 @@
 # Changelog
 
+Siguiente hito: `POST-H-011 — RAG groundedness evals`.
+
+## [post-h-010-e] - 2026-06-26
+
+### Added
+
+- `src/devpilot_core/observability/hygiene.py` read-only observability retention hygiene gate.
+- `docs/schemas/observability_retention_hygiene.schema.json` and schema catalog entry `SCHEMA-DEVPL-OBSERVABILITY-RETENTION-HYGIENE-V1`.
+- `observability-retention` subgate integrated into `quality-gate hardening` and `industrial`.
+- `docs/05_operations/observability_retention_runbook.md` maintenance runbook.
+- Tests `tests/test_observability_hygiene_gate.py` plus POST-H-010 documentation/contract assertions.
+- POST-H-010-E audit report and manifest.
+
+### Changed
+
+- POST-H-010 closed as implemented-initial.
+- README, runbook, source registry, project_state and changelog synchronized with POST-H-010-E.
+- TCR v1/v2 registered `post-h-010-observability-retention-hygiene-gate`.
+
+### Security
+
+- Gate is read-only and does not require runtime outputs to pass in clean source ZIPs.
+- `raw_payloads_read=false`, `network_used=false`, `external_api_used=false`, `mutations_performed=false`.
+- Clean ZIP hygiene enforces exclusion of `outputs/`, `.devpilot/devpilot.db` and `.devpilot/agent_sessions/`.
+
+### Deferred
+
+- Cleanup execution, export signing/encryption and production-ready declaration remain future hardening scope.
+
 ## [post-h-010-d] - 2026-06-26
 
 ### Added
@@ -625,6 +654,35 @@ owner: "Ordóñez"
 
 
 # Changelog
+
+Siguiente hito: `POST-H-011 — RAG groundedness evals`.
+
+## [post-h-010-e] - 2026-06-26
+
+### Added
+
+- `src/devpilot_core/observability/hygiene.py` read-only observability retention hygiene gate.
+- `docs/schemas/observability_retention_hygiene.schema.json` and schema catalog entry `SCHEMA-DEVPL-OBSERVABILITY-RETENTION-HYGIENE-V1`.
+- `observability-retention` subgate integrated into `quality-gate hardening` and `industrial`.
+- `docs/05_operations/observability_retention_runbook.md` maintenance runbook.
+- Tests `tests/test_observability_hygiene_gate.py` plus POST-H-010 documentation/contract assertions.
+- POST-H-010-E audit report and manifest.
+
+### Changed
+
+- POST-H-010 closed as implemented-initial.
+- README, runbook, source registry, project_state and changelog synchronized with POST-H-010-E.
+- TCR v1/v2 registered `post-h-010-observability-retention-hygiene-gate`.
+
+### Security
+
+- Gate is read-only and does not require runtime outputs to pass in clean source ZIPs.
+- `raw_payloads_read=false`, `network_used=false`, `external_api_used=false`, `mutations_performed=false`.
+- Clean ZIP hygiene enforces exclusion of `outputs/`, `.devpilot/devpilot.db` and `.devpilot/agent_sessions/`.
+
+### Deferred
+
+- Cleanup execution, export signing/encryption and production-ready declaration remain future hardening scope.
 
 ## [post-h-010-c] - 2026-06-26
 

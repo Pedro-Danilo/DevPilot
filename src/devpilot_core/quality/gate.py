@@ -130,6 +130,7 @@ class QualityGate:
                     "POST-H-004-E adds the MIASI semantic validator subgate to hardening/industrial profiles without executing agents, tools, evals or tests from JSON.",
                     "POST-H-005-E adds the executable architecture map subgate to hardening/industrial profiles without enforcing refactors or mutating source files.",
                     "POST-H-007-E adds an Application CLI boundary integration subgate to hardening/industrial profiles without enabling runtime registry routing.",
+                    "POST-H-010-E adds the observability-retention hygiene subgate to hardening/industrial profiles without requiring runtime outputs, network or external observability services.",
                     "POST-H-008-E adds runtime-state-hygiene to hardening/industrial profiles to block dirty source/release archives.",
                     "POST-H-009-E adds docs-governance to hardening/industrial profiles to block canonical-source, sync and backlog-governance drift.",
                     "The default and ci profiles do not run pytest implicitly; CI workflows and local checklists run pytest as an explicit step, or use --include-pytest when desired.",
@@ -172,6 +173,7 @@ class QualityGate:
             subgates.append(QualitySubgate("application-cli-boundary-integration", "POST-H-007-E CLI registry to ApplicationService operation mapping and API/UI contract gate.", self._application_cli_boundary_integration))
             subgates.append(QualitySubgate("runtime-state-hygiene", "Runtime-state hygiene and source archive readiness gate.", self._runtime_state_hygiene))
             subgates.append(QualitySubgate("docs-governance", "POST-H-009 documentation governance, canonical source sync and backlog governance gate.", self._docs_governance))
+            subgates.append(QualitySubgate("observability-retention", "POST-H-010 observability retention, redaction and clean ZIP hygiene gate.", self._observability_retention_hygiene))
         if self.options.profile == "industrial":
             subgates.append(QualitySubgate("industrial-readiness", "Fase H industrial readiness gate and maturity classification.", self._industrial_readiness))
         if self.options.profile == "hardening":
@@ -277,6 +279,11 @@ class QualityGate:
         from devpilot_core.docs_governance import run_docs_governance_quality_subgate
 
         return run_docs_governance_quality_subgate(self.root)
+
+    def _observability_retention_hygiene(self) -> CommandResult:
+        from devpilot_core.observability import ObservabilityRetentionHygieneGate, ObservabilityRetentionHygieneOptions
+
+        return ObservabilityRetentionHygieneGate(self.root, ObservabilityRetentionHygieneOptions(write_report=False)).run()
 
     def _industrial_readiness(self) -> CommandResult:
         from devpilot_core.industrial import IndustrialReadinessGate
