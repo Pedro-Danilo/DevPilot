@@ -6,6 +6,7 @@ from pathlib import Path
 from typing import Any
 
 from devpilot_core.cli_models import CommandResult, ExitCode, Finding, Severity, exit_code_for_findings
+from devpilot_core.docs_governance.backlogs import DocumentationBacklogGovernanceValidator
 from devpilot_core.docs_governance.drift import DocumentationSyncValidator
 from devpilot_core.docs_governance.registry import DEFAULT_DOCUMENTATION_SOURCE_REGISTRY, load_documentation_source_registry
 from devpilot_core.runtime_state.models import utc_now_iso
@@ -13,7 +14,8 @@ from devpilot_core.validators.frontmatter import parse_frontmatter_file, validat
 
 POST_H_009_B_CREATED_BY = "POST-H-009-B"
 POST_H_009_C_CREATED_BY = "POST-H-009-C"
-POST_H_009_CURRENT_CREATED_BY = POST_H_009_C_CREATED_BY
+POST_H_009_D_CREATED_BY = "POST-H-009-D"
+POST_H_009_CURRENT_CREATED_BY = POST_H_009_D_CREATED_BY
 DOCUMENTATION_GOVERNANCE_REPORT_SCHEMA_ID = "SCHEMA-DEVPL-DOCUMENTATION-GOVERNANCE-REPORT-V1"
 DOCUMENTATION_GOVERNANCE_REPORT_ID = "devpilot-documentation-governance-report"
 DOCUMENTATION_GOVERNANCE_CONTRACT = "DocumentationGovernanceReport"
@@ -178,6 +180,11 @@ class DocumentationGovernanceValidator:
         sync_summary = dict(sync_result["summary"])
         findings.extend(sync_result["findings"])
 
+        backlog_result = DocumentationBacklogGovernanceValidator(self.root, registry).run()
+        backlog_checks = list(backlog_result["backlog_checks"])
+        backlog_summary = dict(backlog_result["summary"])
+        findings.extend(backlog_result["findings"])
+
         blocking_total = sum(1 for item in findings if item["severity"] in {"fail", "block", "error"})
         warnings_total = sum(1 for item in findings if item["severity"] == "warning")
         info_total = sum(1 for item in findings if item["severity"] == "info")
@@ -209,6 +216,16 @@ class DocumentationGovernanceValidator:
             "decisions_match_checked_total": sync_summary.get("decisions_match_checked_total", 0),
             "closure_status_match_checked_total": sync_summary.get("closure_status_match_checked_total", 0),
             "next_hito_match_checked_total": sync_summary.get("next_hito_match_checked_total", 0),
+            "backlogs_expected_total": backlog_summary.get("backlogs_expected_total", 0),
+            "backlogs_checked_total": backlog_summary.get("backlogs_checked_total", 0),
+            "backlogs_registered_total": backlog_summary.get("backlogs_registered_total", 0),
+            "backlogs_existing_total": backlog_summary.get("backlogs_existing_total", 0),
+            "backlogs_planned_missing_total": backlog_summary.get("backlogs_planned_missing_total", 0),
+            "backlog_naming_checked_total": backlog_summary.get("backlog_naming_checked_total", 0),
+            "backlog_frontmatter_checked_total": backlog_summary.get("backlog_frontmatter_checked_total", 0),
+            "backlog_milestone_match_checked_total": backlog_summary.get("backlog_milestone_match_checked_total", 0),
+            "backlog_governance_passed": backlog_summary.get("backlog_governance_passed", False),
+            "backlog_governance_findings_total": backlog_summary.get("backlog_governance_findings_total", 0),
             "read_only": True,
             "dry_run": True,
             "network_used": False,
@@ -228,6 +245,7 @@ class DocumentationGovernanceValidator:
             "summary": summary,
             "document_checks": document_checks,
             "sync_checks": sync_checks,
+            "backlog_checks": backlog_checks,
             "findings": findings,
             "safety": {
                 "local_first": True,
@@ -245,8 +263,8 @@ class DocumentationGovernanceValidator:
             "notes": [
                 "POST-H-009-B validates minimum documentation metadata declared by the canonical source registry.",
                 "POST-H-009-C adds deterministic Markdown/JSON sync checks for roadmap, decisions, closure status and next hito.",
+                "POST-H-009-D adds deterministic governance for executable backlogs derived from the roadmap.",
                 "This validator is deterministic and read-only; it does not use LLM judge, network or external APIs.",
-                "Backlog derivative governance remains deferred to POST-H-009-D.",
                 "Quality-gate integration remains deferred to POST-H-009-E.",
             ],
         }
@@ -349,6 +367,8 @@ def render_documentation_governance_markdown(report: dict[str, Any]) -> str:
         f"- Markdown/JSON sync checks: `{summary.get('markdown_json_pairs_checked_total')}`",
         f"- Markdown/JSON sync passed: `{summary.get('markdown_json_sync_passed')}`",
         f"- Roadmap Markdown/JSON sync passed: `{summary.get('roadmap_markdown_json_sync_passed')}`",
+        f"- Backlogs checked: `{summary.get('backlogs_checked_total')}` / `{summary.get('backlogs_expected_total')}`",
+        f"- Backlog governance passed: `{summary.get('backlog_governance_passed')}`",
         f"- Passed: `{summary.get('docs_governance_passed')}`",
         "",
         "## Safety",
@@ -377,6 +397,15 @@ def render_documentation_governance_markdown(report: dict[str, Any]) -> str:
         for check in sync_checks:
             lines.append(
                 f"- `{check.get('rule')}` `{check.get('source_path')}` ↔ `{check.get('counterpart_path')}`: ok=`{check.get('ok')}`"
+            )
+    lines.extend(["", "## Backlog checks", ""])
+    backlog_checks = report.get("backlog_checks", [])
+    if not backlog_checks:
+        lines.append("No backlog checks executed.")
+    else:
+        for check in backlog_checks:
+            lines.append(
+                f"- `{check.get('milestone')}` `{check.get('path')}`: registered=`{check.get('registered')}`, exists=`{check.get('exists')}`, ok=`{check.get('ok')}`"
             )
     lines.extend([
         "",

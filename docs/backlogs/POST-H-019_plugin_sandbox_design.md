@@ -1,4 +1,5 @@
 ---
+
 doc_id: "POST-H-019-BACKLOG"
 id: "POST-H-019"
 title: "POST-H-019 — Plugin sandbox design sin ejecución arbitraria"
@@ -6,6 +7,7 @@ status: "draft"
 version: "0.1.0"
 owner: "Ordóñez"
 updated: "2026-06-23"
+approval: "pending_owner_review"
 phase: "POST-FASE-H"
 priority: "P2"
 roadmap_source: "docs/backlogs/post_h_prioritized_roadmap.md"

@@ -2,12 +2,12 @@
 doc_id: "DEVPL-OPS-DOCS-GOVERNANCE-001"
 title: "Documentation governance y fuentes canónicas"
 status: "approved"
-version: "0.3.0"
+version: "0.4.0"
 owner: "Ordóñez"
 updated: "2026-06-26"
 approval: "approved_by_owner"
 phase: "POST-FASE-H"
-micro_sprint: "POST-H-009-C"
+micro_sprint: "POST-H-009-D"
 local_first: true
 dry_run: true
 no_remote_execution_enabled: true
@@ -17,7 +17,7 @@ no_remote_execution_enabled: true
 
 ## 1. Propósito
 
-Este documento describe la primera versión ejecutable de la gobernanza documental de DevPilot Local, ampliada hasta `POST-H-009-C — Sync validator Markdown ↔ JSON`.
+Este documento describe la primera versión ejecutable de la gobernanza documental de DevPilot Local, ampliada hasta `POST-H-009-D — Backlog governance y derivados del roadmap`.
 
 La meta es separar explícitamente:
 
@@ -27,7 +27,8 @@ La meta es separar explícitamente:
 - documentos derivados;
 - evidencia histórica;
 - reportes runtime generados;
-- reglas de sincronización ejecutables para pares Markdown ↔ JSON críticos.
+- reglas de sincronización ejecutables para pares Markdown ↔ JSON críticos;
+- governance determinística de backlogs ejecutables derivados del roadmap.
 ```
 
 ## 2. Registry canónico
@@ -38,7 +39,7 @@ El registry versionado es:
 .devpilot/docs_governance/source_registry.json
 ```
 
-Este archivo es fuente controlada por Git. No es runtime state y no debe contener secretos. Registra documentos críticos como roadmap, manifest, closure report, ADRs, runbook, changelog, README, project_state y test contract registries.
+Este archivo es fuente controlada por Git. No es runtime state y no debe contener secretos. Registra documentos críticos como roadmap, manifest, closure report, ADRs, runbook, changelog, README, project_state, test contract registries y backlogs ejecutables POST-H-002..POST-H-025 derivados del roadmap.
 
 ## 3. Schemas
 
@@ -56,7 +57,7 @@ python -m devpilot_core schema validate --schema-id DocumentationSourceRegistry 
 python -m devpilot_core docs-governance validate --json
 python -m devpilot_core docs-governance validate --write-report --json
 python -m devpilot_core schema validate --schema-id DocumentationGovernanceReport --instance outputs/reports/documentation_governance_report.json --json
-python -m pytest tests/test_documentation_source_registry_schema.py tests/test_documentation_governance_validator.py tests/test_documentation_governance_sync.py tests/test_post_h_009_documentation_governance.py -q
+python -m pytest tests/test_documentation_source_registry_schema.py tests/test_documentation_governance_validator.py tests/test_documentation_governance_sync.py tests/test_documentation_governance_backlogs.py tests/test_post_h_009_documentation_governance.py -q
 ```
 
 ## 4.1. Validator `docs-governance validate`
@@ -73,7 +74,7 @@ python -m pytest tests/test_documentation_source_registry_schema.py tests/test_d
 - clasificación historical sin promover evidencia histórica como autoridad actual no declarada.
 ```
 
-`POST-H-009-C` agrega drift checks Markdown ↔ JSON para roadmap, decisiones, cierre y siguiente hito; el mismo comando conserva las validaciones de metadata de `POST-H-009-B`.
+`POST-H-009-C` agrega drift checks Markdown ↔ JSON para roadmap, decisiones, cierre y siguiente hito; `POST-H-009-D` agrega governance de backlogs derivados del roadmap. El mismo comando conserva las validaciones de metadata de `POST-H-009-B`.
 
 
 ## 4.2. Sync validator Markdown ↔ JSON
@@ -90,16 +91,34 @@ python -m pytest tests/test_documentation_source_registry_schema.py tests/test_d
 
 El reporte identifica `source_path`, `counterpart_path`, regla evaluada, totales comparados y faltantes por lado.
 
-## 5. Límites de esta versión
 
-`POST-H-009-C` es `implemented-initial`. Aún no implementa:
+## 4.3. Backlog governance y derivados del roadmap
+
+`POST-H-009-D` gobierna los backlogs ejecutables declarados en `.devpilot/evals/post_h_eval_001_prioritized_roadmap.json` bajo `executable_backlogs_to_create`. El scope actual cubre `POST-H-002..POST-H-025`.
+
+Reglas determinísticas:
 
 ```text
-- governance de todos los backlogs derivados;
+- cada backlog del roadmap JSON debe estar registrado en `.devpilot/docs_governance/source_registry.json`;
+- cada backlog existente debe cumplir `docs/backlogs/POST-H-###_<slug>.md`;
+- cada backlog existente debe declarar frontmatter mínimo: doc_id, id, title, status, version, owner, updated, priority y roadmap_source;
+- doc_id debe seguir `POST-H-###-BACKLOG`;
+- id y priority deben coincidir con el roadmap machine-readable;
+- roadmap_source debe apuntar a `docs/backlogs/post_h_prioritized_roadmap.md`;
+- un backlog futuro faltante se reporta como `DOCUMENTATION_BACKLOG_PLANNED_MISSING` informativo, no como bloqueo.
+```
+
+La validación emite `backlog_checks` dentro de `DocumentationGovernanceReport` y expone métricas como `backlogs_expected_total`, `backlogs_registered_total`, `backlogs_checked_total`, `backlogs_planned_missing_total` y `backlog_governance_passed`.
+
+## 5. Límites de esta versión
+
+`POST-H-009-D` es `implemented-initial`. Aún no implementa:
+
+```text
 - subgate docs-governance en quality-gate hardening.
 ```
 
-Estas capacidades se implementarán en `POST-H-009-D` y `POST-H-009-E`.
+Esta capacidad se implementará en `POST-H-009-E`.
 
 ## 6. Seguridad y operación
 

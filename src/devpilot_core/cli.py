@@ -4691,11 +4691,11 @@ def build_parser() -> argparse.ArgumentParser:
 
     docs_governance = sub.add_parser("docs-governance", help="Validate documentation governance and canonical source metadata")
     docs_governance_sub = docs_governance.add_subparsers(dest="docs_governance_command")
-    docs_governance_validate = docs_governance_sub.add_parser("validate", help="Validate metadata and Markdown/JSON sync from the canonical source registry")
+    docs_governance_validate = docs_governance_sub.add_parser("validate", help="Validate metadata, Markdown/JSON sync and roadmap-derived backlog governance")
     docs_governance_validate.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     docs_governance_validate.add_argument("--write-report", action="store_true", help="Persist documentation governance JSON/Markdown report")
 
-    docs_governance_report = docs_governance_sub.add_parser("report", help="Generate documentation governance JSON/Markdown report evidence")
+    docs_governance_report = docs_governance_sub.add_parser("report", help="Generate documentation governance JSON/Markdown report evidence including backlog governance")
     docs_governance_report.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     docs_governance_report.add_argument("--write-report", action="store_true", help="Persist documentation governance JSON/Markdown report; enabled by default for this command")
 

@@ -6033,6 +6033,102 @@
         "POST-H-009-C introduces deterministic Markdown/JSON synchronization checks for roadmap version, milestones, decisions, closure status and next hito.",
         "This contract is P1/medium because documentation drift can mislead release evidence, but the validator is local, read-only and does not use LLM judge or external services."
       ]
+    },
+    {
+      "contract_id": "post-h-009-documentation-backlog-governance",
+      "schema_version": "2.0",
+      "source_contract_id": "post-h-009-documentation-backlog-governance",
+      "domain": "documentation.governance",
+      "capability": "DocumentationBacklogGovernanceValidator",
+      "criticality": "P1",
+      "risk_level": "medium",
+      "test_type": "integration",
+      "execution_profile": "always",
+      "cost_class": "low",
+      "expected_duration_seconds": 60,
+      "test_files": [
+        "tests/test_documentation_governance_backlogs.py",
+        "tests/test_documentation_governance_sync.py",
+        "tests/test_documentation_governance_validator.py",
+        "tests/test_post_h_009_documentation_governance.py",
+        "tests/test_post_h_006_b_declarative_registry.py",
+        "tests/test_schema_registry.py",
+        "tests/test_project_global_state.py"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/docs_governance/",
+        "src/devpilot_core/cli.py",
+        "src/devpilot_core/cli_registry/registry.py",
+        ".devpilot/docs_governance/",
+        ".devpilot/evals/post_h_eval_001_prioritized_roadmap.json",
+        "docs/backlogs/post_h_prioritized_roadmap.md",
+        "docs/backlogs/",
+        "docs/schemas/documentation_governance_report.schema.json",
+        "README.md",
+        "docs/05_operations/runbook.md",
+        "docs/05_operations/documentation_governance.md",
+        "docs/POST-H-009_documentation_governance.md",
+        "docs/release/CHANGELOG.md",
+        "tests/test_documentation_governance_backlogs.py",
+        "tests/test_documentation_governance_validator.py",
+        "tests/test_post_h_009_documentation_governance.py"
+      ],
+      "validates": [
+        "src/devpilot_core/docs_governance/backlogs.py",
+        "src/devpilot_core/docs_governance/validator.py",
+        "src/devpilot_core/docs_governance/report.py",
+        "src/devpilot_core/docs_governance/__init__.py",
+        "src/devpilot_core/cli.py",
+        "src/devpilot_core/cli_registry/registry.py",
+        ".devpilot/docs_governance/source_registry.json",
+        ".devpilot/evals/post_h_eval_001_prioritized_roadmap.json",
+        "docs/backlogs/post_h_prioritized_roadmap.md",
+        "docs/backlogs/POST-H-002_maturity_dashboard_local.md",
+        "docs/backlogs/POST-H-009_documentation_governance.md",
+        "docs/backlogs/POST-H-025_production_ready_declaration_gate.md",
+        "docs/schemas/documentation_governance_report.schema.json",
+        "docs/POST-H-009_documentation_governance.md",
+        "docs/05_operations/documentation_governance.md",
+        "docs/audits/post_h_009_d_backlog_governance_report.md",
+        "docs/post_h_009_d_manifest.json"
+      ],
+      "trigger_hints": [
+        "docs-governance-backlogs",
+        "backlog-governance",
+        "roadmap-derived-backlogs",
+        "post-h-source-change"
+      ],
+      "impact_scope": [
+        "documentation-governance",
+        "roadmap",
+        "backlogs",
+        "docs-sync",
+        "test-contracts",
+        "cli-registry"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "POST-H-009-D",
+      "recommended_commands": [
+        "python -m pytest tests/test_documentation_governance_backlogs.py tests/test_documentation_governance_sync.py tests/test_documentation_governance_validator.py tests/test_post_h_009_documentation_governance.py tests/test_post_h_006_b_declarative_registry.py -q",
+        "python -m devpilot_core docs-governance validate --json",
+        "python -m devpilot_core docs-governance report --write-report --json",
+        "python -m devpilot_core schema validate --schema-id DocumentationGovernanceReport --instance outputs/reports/documentation_governance_report.json --json",
+        "python -m devpilot_core schema validate --schema-id DocumentationSourceRegistry --instance .devpilot/docs_governance/source_registry.json --json",
+        "python -m devpilot_core test-contracts validate --json",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ],
+      "classification_status": "explicit",
+      "classification_notes": [
+        "POST-H-009-D extends documentation governance to executable backlogs derived from the post-H roadmap.",
+        "Missing future backlog files are planned informational findings, not blocking drift; existing backlog files must pass naming, frontmatter and milestone checks.",
+        "The validator is deterministic, read-only and local-first."
+      ]
     }
   ],
   "migration_metadata": {

@@ -28,7 +28,23 @@
         "docs/backlogs/POST-H-006_cli_command_registry.md",
         "docs/backlogs/POST-H-007_application_service_boundary.md",
         "docs/backlogs/POST-H-008_runtime_state_lifecycle.md",
-        "docs/backlogs/POST-H-009_documentation_governance.md"
+        "docs/backlogs/POST-H-009_documentation_governance.md",
+        "docs/backlogs/POST-H-010_observability_retention.md",
+        "docs/backlogs/POST-H-011_rag_groundedness_evals.md",
+        "docs/backlogs/POST-H-012_approval_rbac_hardening.md",
+        "docs/backlogs/POST-H-013_audit_pack_integrity.md",
+        "docs/backlogs/POST-H-014_ui_api_industrial_shell.md",
+        "docs/backlogs/POST-H-015_local_operator_dashboard.md",
+        "docs/backlogs/POST-H-016_workspace_portfolio_hardening.md",
+        "docs/backlogs/POST-H-017_release_reproducibility_pack.md",
+        "docs/backlogs/POST-H-024_operator_onboarding_bootstrap.md",
+        "docs/backlogs/POST-H-018_connector_sandbox.md",
+        "docs/backlogs/POST-H-019_plugin_sandbox_design.md",
+        "docs/backlogs/POST-H-020_compliance_mapping_packs.md",
+        "docs/backlogs/POST-H-021_remote_runner_adr2.md",
+        "docs/backlogs/POST-H-022_enterprise_deployment_threat_model.md",
+        "docs/backlogs/POST-H-023_secure_transport_design.md",
+        "docs/backlogs/POST-H-025_production_ready_declaration_gate.md"
       ],
       "required_tests": [
         "tests/test_post_h_roadmap_onboarding_adjustment.py",
@@ -38,7 +54,8 @@
         "version_match",
         "milestones_match",
         "decisions_match",
-        "next_hito_match"
+        "next_hito_match",
+        "backlog_governance"
       ],
       "related_adrs": [
         "docs/adr/ADR-POSTH-001-local-first-before-remote.md",
@@ -73,7 +90,8 @@
       ],
       "lifecycle": "active",
       "notes": [
-        "Roadmap Markdown is the human-readable planning authority; JSON counterpart is the machine-readable planning source."
+        "Roadmap Markdown is the human-readable planning authority; JSON counterpart is the machine-readable planning source.",
+        "POST-H-009-D governs executable backlog documents derived from executable_backlogs_to_create."
       ]
     },
     {
@@ -366,6 +384,765 @@
       "derived_documents": [
         "docs/POST-H-009_documentation_governance.md"
       ]
+    },
+    {
+      "doc_id": "POST-H-002-BACKLOG",
+      "path": "docs/backlogs/POST-H-002_maturity_dashboard_local.md",
+      "classification": "derived",
+      "domain": "roadmap-derived-backlog",
+      "owner": "Ordóñez",
+      "status_required": "approved",
+      "criticality": "P0",
+      "machine_readable_counterparts": [
+        ".devpilot/evals/post_h_eval_001_prioritized_roadmap.json"
+      ],
+      "human_readable_counterparts": [
+        "docs/backlogs/post_h_prioritized_roadmap.md"
+      ],
+      "derived_documents": [],
+      "required_tests": [
+        "tests/test_documentation_governance_backlogs.py"
+      ],
+      "sync_rules": [
+        "backlog_naming",
+        "backlog_frontmatter_minimum",
+        "backlog_milestone_match"
+      ],
+      "related_adrs": [],
+      "roadmap_milestones": [
+        "POST-H-002"
+      ],
+      "lifecycle": "closed",
+      "notes": [
+        "Roadmap-derived executable backlog governed by POST-H-009-D.",
+        "Missing future backlog files are informational planned items; existing files must pass naming and frontmatter checks."
+      ]
+    },
+    {
+      "doc_id": "POST-H-003-BACKLOG",
+      "path": "docs/backlogs/POST-H-003_test_contract_registry_2.md",
+      "classification": "derived",
+      "domain": "roadmap-derived-backlog",
+      "owner": "Ordóñez",
+      "status_required": "approved",
+      "criticality": "P0",
+      "machine_readable_counterparts": [
+        ".devpilot/evals/post_h_eval_001_prioritized_roadmap.json"
+      ],
+      "human_readable_counterparts": [
+        "docs/backlogs/post_h_prioritized_roadmap.md"
+      ],
+      "derived_documents": [],
+      "required_tests": [
+        "tests/test_documentation_governance_backlogs.py"
+      ],
+      "sync_rules": [
+        "backlog_naming",
+        "backlog_frontmatter_minimum",
+        "backlog_milestone_match"
+      ],
+      "related_adrs": [],
+      "roadmap_milestones": [
+        "POST-H-003"
+      ],
+      "lifecycle": "closed",
+      "notes": [
+        "Roadmap-derived executable backlog governed by POST-H-009-D.",
+        "Missing future backlog files are informational planned items; existing files must pass naming and frontmatter checks."
+      ]
+    },
+    {
+      "doc_id": "POST-H-004-BACKLOG",
+      "path": "docs/backlogs/POST-H-004_policy_miasi_semantic_validator.md",
+      "classification": "derived",
+      "domain": "roadmap-derived-backlog",
+      "owner": "Ordóñez",
+      "status_required": "approved",
+      "criticality": "P0",
+      "machine_readable_counterparts": [
+        ".devpilot/evals/post_h_eval_001_prioritized_roadmap.json"
+      ],
+      "human_readable_counterparts": [
+        "docs/backlogs/post_h_prioritized_roadmap.md"
+      ],
+      "derived_documents": [],
+      "required_tests": [
+        "tests/test_documentation_governance_backlogs.py"
+      ],
+      "sync_rules": [
+        "backlog_naming",
+        "backlog_frontmatter_minimum",
+        "backlog_milestone_match"
+      ],
+      "related_adrs": [],
+      "roadmap_milestones": [
+        "POST-H-004"
+      ],
+      "lifecycle": "closed",
+      "notes": [
+        "Roadmap-derived executable backlog governed by POST-H-009-D.",
+        "Missing future backlog files are informational planned items; existing files must pass naming and frontmatter checks."
+      ]
+    },
+    {
+      "doc_id": "POST-H-005-BACKLOG",
+      "path": "docs/backlogs/POST-H-005_architecture_map_executable.md",
+      "classification": "derived",
+      "domain": "roadmap-derived-backlog",
+      "owner": "Ordóñez",
+      "status_required": "approved",
+      "criticality": "P0",
+      "machine_readable_counterparts": [
+        ".devpilot/evals/post_h_eval_001_prioritized_roadmap.json"
+      ],
+      "human_readable_counterparts": [
+        "docs/backlogs/post_h_prioritized_roadmap.md"
+      ],
+      "derived_documents": [],
+      "required_tests": [
+        "tests/test_documentation_governance_backlogs.py"
+      ],
+      "sync_rules": [
+        "backlog_naming",
+        "backlog_frontmatter_minimum",
+        "backlog_milestone_match"
+      ],
+      "related_adrs": [],
+      "roadmap_milestones": [
+        "POST-H-005"
+      ],
+      "lifecycle": "closed",
+      "notes": [
+        "Roadmap-derived executable backlog governed by POST-H-009-D.",
+        "Missing future backlog files are informational planned items; existing files must pass naming and frontmatter checks."
+      ]
+    },
+    {
+      "doc_id": "POST-H-006-BACKLOG",
+      "path": "docs/backlogs/POST-H-006_cli_command_registry.md",
+      "classification": "derived",
+      "domain": "roadmap-derived-backlog",
+      "owner": "Ordóñez",
+      "status_required": "approved",
+      "criticality": "P1",
+      "machine_readable_counterparts": [
+        ".devpilot/evals/post_h_eval_001_prioritized_roadmap.json"
+      ],
+      "human_readable_counterparts": [
+        "docs/backlogs/post_h_prioritized_roadmap.md"
+      ],
+      "derived_documents": [],
+      "required_tests": [
+        "tests/test_documentation_governance_backlogs.py"
+      ],
+      "sync_rules": [
+        "backlog_naming",
+        "backlog_frontmatter_minimum",
+        "backlog_milestone_match"
+      ],
+      "related_adrs": [],
+      "roadmap_milestones": [
+        "POST-H-006"
+      ],
+      "lifecycle": "closed",
+      "notes": [
+        "Roadmap-derived executable backlog governed by POST-H-009-D.",
+        "Missing future backlog files are informational planned items; existing files must pass naming and frontmatter checks."
+      ]
+    },
+    {
+      "doc_id": "POST-H-007-BACKLOG",
+      "path": "docs/backlogs/POST-H-007_application_service_boundary.md",
+      "classification": "derived",
+      "domain": "roadmap-derived-backlog",
+      "owner": "Ordóñez",
+      "status_required": "approved",
+      "criticality": "P1",
+      "machine_readable_counterparts": [
+        ".devpilot/evals/post_h_eval_001_prioritized_roadmap.json"
+      ],
+      "human_readable_counterparts": [
+        "docs/backlogs/post_h_prioritized_roadmap.md"
+      ],
+      "derived_documents": [],
+      "required_tests": [
+        "tests/test_documentation_governance_backlogs.py"
+      ],
+      "sync_rules": [
+        "backlog_naming",
+        "backlog_frontmatter_minimum",
+        "backlog_milestone_match"
+      ],
+      "related_adrs": [],
+      "roadmap_milestones": [
+        "POST-H-007"
+      ],
+      "lifecycle": "closed",
+      "notes": [
+        "Roadmap-derived executable backlog governed by POST-H-009-D.",
+        "Missing future backlog files are informational planned items; existing files must pass naming and frontmatter checks."
+      ]
+    },
+    {
+      "doc_id": "POST-H-008-BACKLOG",
+      "path": "docs/backlogs/POST-H-008_runtime_state_lifecycle.md",
+      "classification": "derived",
+      "domain": "roadmap-derived-backlog",
+      "owner": "Ordóñez",
+      "status_required": "approved",
+      "criticality": "P1",
+      "machine_readable_counterparts": [
+        ".devpilot/evals/post_h_eval_001_prioritized_roadmap.json"
+      ],
+      "human_readable_counterparts": [
+        "docs/backlogs/post_h_prioritized_roadmap.md"
+      ],
+      "derived_documents": [],
+      "required_tests": [
+        "tests/test_documentation_governance_backlogs.py"
+      ],
+      "sync_rules": [
+        "backlog_naming",
+        "backlog_frontmatter_minimum",
+        "backlog_milestone_match"
+      ],
+      "related_adrs": [],
+      "roadmap_milestones": [
+        "POST-H-008"
+      ],
+      "lifecycle": "closed",
+      "notes": [
+        "Roadmap-derived executable backlog governed by POST-H-009-D.",
+        "Missing future backlog files are informational planned items; existing files must pass naming and frontmatter checks."
+      ]
+    },
+    {
+      "doc_id": "POST-H-010-BACKLOG",
+      "path": "docs/backlogs/POST-H-010_observability_retention.md",
+      "classification": "derived",
+      "domain": "roadmap-derived-backlog",
+      "owner": "Ordóñez",
+      "status_required": "draft",
+      "criticality": "P1",
+      "machine_readable_counterparts": [
+        ".devpilot/evals/post_h_eval_001_prioritized_roadmap.json"
+      ],
+      "human_readable_counterparts": [
+        "docs/backlogs/post_h_prioritized_roadmap.md"
+      ],
+      "derived_documents": [],
+      "required_tests": [
+        "tests/test_documentation_governance_backlogs.py"
+      ],
+      "sync_rules": [
+        "backlog_naming",
+        "backlog_frontmatter_minimum",
+        "backlog_milestone_match"
+      ],
+      "related_adrs": [],
+      "roadmap_milestones": [
+        "POST-H-010"
+      ],
+      "lifecycle": "planned",
+      "notes": [
+        "Roadmap-derived executable backlog governed by POST-H-009-D.",
+        "Missing future backlog files are informational planned items; existing files must pass naming and frontmatter checks."
+      ]
+    },
+    {
+      "doc_id": "POST-H-011-BACKLOG",
+      "path": "docs/backlogs/POST-H-011_rag_groundedness_evals.md",
+      "classification": "derived",
+      "domain": "roadmap-derived-backlog",
+      "owner": "Ordóñez",
+      "status_required": "draft",
+      "criticality": "P1",
+      "machine_readable_counterparts": [
+        ".devpilot/evals/post_h_eval_001_prioritized_roadmap.json"
+      ],
+      "human_readable_counterparts": [
+        "docs/backlogs/post_h_prioritized_roadmap.md"
+      ],
+      "derived_documents": [],
+      "required_tests": [
+        "tests/test_documentation_governance_backlogs.py"
+      ],
+      "sync_rules": [
+        "backlog_naming",
+        "backlog_frontmatter_minimum",
+        "backlog_milestone_match"
+      ],
+      "related_adrs": [],
+      "roadmap_milestones": [
+        "POST-H-011"
+      ],
+      "lifecycle": "planned",
+      "notes": [
+        "Roadmap-derived executable backlog governed by POST-H-009-D.",
+        "Missing future backlog files are informational planned items; existing files must pass naming and frontmatter checks."
+      ]
+    },
+    {
+      "doc_id": "POST-H-012-BACKLOG",
+      "path": "docs/backlogs/POST-H-012_approval_rbac_hardening.md",
+      "classification": "derived",
+      "domain": "roadmap-derived-backlog",
+      "owner": "Ordóñez",
+      "status_required": "draft",
+      "criticality": "P1",
+      "machine_readable_counterparts": [
+        ".devpilot/evals/post_h_eval_001_prioritized_roadmap.json"
+      ],
+      "human_readable_counterparts": [
+        "docs/backlogs/post_h_prioritized_roadmap.md"
+      ],
+      "derived_documents": [],
+      "required_tests": [
+        "tests/test_documentation_governance_backlogs.py"
+      ],
+      "sync_rules": [
+        "backlog_naming",
+        "backlog_frontmatter_minimum",
+        "backlog_milestone_match"
+      ],
+      "related_adrs": [],
+      "roadmap_milestones": [
+        "POST-H-012"
+      ],
+      "lifecycle": "planned",
+      "notes": [
+        "Roadmap-derived executable backlog governed by POST-H-009-D.",
+        "Missing future backlog files are informational planned items; existing files must pass naming and frontmatter checks."
+      ]
+    },
+    {
+      "doc_id": "POST-H-013-BACKLOG",
+      "path": "docs/backlogs/POST-H-013_audit_pack_integrity.md",
+      "classification": "derived",
+      "domain": "roadmap-derived-backlog",
+      "owner": "Ordóñez",
+      "status_required": "draft",
+      "criticality": "P1",
+      "machine_readable_counterparts": [
+        ".devpilot/evals/post_h_eval_001_prioritized_roadmap.json"
+      ],
+      "human_readable_counterparts": [
+        "docs/backlogs/post_h_prioritized_roadmap.md"
+      ],
+      "derived_documents": [],
+      "required_tests": [
+        "tests/test_documentation_governance_backlogs.py"
+      ],
+      "sync_rules": [
+        "backlog_naming",
+        "backlog_frontmatter_minimum",
+        "backlog_milestone_match"
+      ],
+      "related_adrs": [],
+      "roadmap_milestones": [
+        "POST-H-013"
+      ],
+      "lifecycle": "planned",
+      "notes": [
+        "Roadmap-derived executable backlog governed by POST-H-009-D.",
+        "Missing future backlog files are informational planned items; existing files must pass naming and frontmatter checks."
+      ]
+    },
+    {
+      "doc_id": "POST-H-014-BACKLOG",
+      "path": "docs/backlogs/POST-H-014_ui_api_industrial_shell.md",
+      "classification": "derived",
+      "domain": "roadmap-derived-backlog",
+      "owner": "Ordóñez",
+      "status_required": "draft",
+      "criticality": "P1",
+      "machine_readable_counterparts": [
+        ".devpilot/evals/post_h_eval_001_prioritized_roadmap.json"
+      ],
+      "human_readable_counterparts": [
+        "docs/backlogs/post_h_prioritized_roadmap.md"
+      ],
+      "derived_documents": [],
+      "required_tests": [
+        "tests/test_documentation_governance_backlogs.py"
+      ],
+      "sync_rules": [
+        "backlog_naming",
+        "backlog_frontmatter_minimum",
+        "backlog_milestone_match"
+      ],
+      "related_adrs": [],
+      "roadmap_milestones": [
+        "POST-H-014"
+      ],
+      "lifecycle": "planned",
+      "notes": [
+        "Roadmap-derived executable backlog governed by POST-H-009-D.",
+        "Missing future backlog files are informational planned items; existing files must pass naming and frontmatter checks."
+      ]
+    },
+    {
+      "doc_id": "POST-H-015-BACKLOG",
+      "path": "docs/backlogs/POST-H-015_local_operator_dashboard.md",
+      "classification": "derived",
+      "domain": "roadmap-derived-backlog",
+      "owner": "Ordóñez",
+      "status_required": "draft",
+      "criticality": "P1",
+      "machine_readable_counterparts": [
+        ".devpilot/evals/post_h_eval_001_prioritized_roadmap.json"
+      ],
+      "human_readable_counterparts": [
+        "docs/backlogs/post_h_prioritized_roadmap.md"
+      ],
+      "derived_documents": [],
+      "required_tests": [
+        "tests/test_documentation_governance_backlogs.py"
+      ],
+      "sync_rules": [
+        "backlog_naming",
+        "backlog_frontmatter_minimum",
+        "backlog_milestone_match"
+      ],
+      "related_adrs": [],
+      "roadmap_milestones": [
+        "POST-H-015"
+      ],
+      "lifecycle": "planned",
+      "notes": [
+        "Roadmap-derived executable backlog governed by POST-H-009-D.",
+        "Missing future backlog files are informational planned items; existing files must pass naming and frontmatter checks."
+      ]
+    },
+    {
+      "doc_id": "POST-H-016-BACKLOG",
+      "path": "docs/backlogs/POST-H-016_workspace_portfolio_hardening.md",
+      "classification": "derived",
+      "domain": "roadmap-derived-backlog",
+      "owner": "Ordóñez",
+      "status_required": "draft",
+      "criticality": "P2",
+      "machine_readable_counterparts": [
+        ".devpilot/evals/post_h_eval_001_prioritized_roadmap.json"
+      ],
+      "human_readable_counterparts": [
+        "docs/backlogs/post_h_prioritized_roadmap.md"
+      ],
+      "derived_documents": [],
+      "required_tests": [
+        "tests/test_documentation_governance_backlogs.py"
+      ],
+      "sync_rules": [
+        "backlog_naming",
+        "backlog_frontmatter_minimum",
+        "backlog_milestone_match"
+      ],
+      "related_adrs": [],
+      "roadmap_milestones": [
+        "POST-H-016"
+      ],
+      "lifecycle": "planned",
+      "notes": [
+        "Roadmap-derived executable backlog governed by POST-H-009-D.",
+        "Missing future backlog files are informational planned items; existing files must pass naming and frontmatter checks."
+      ]
+    },
+    {
+      "doc_id": "POST-H-017-BACKLOG",
+      "path": "docs/backlogs/POST-H-017_release_reproducibility_pack.md",
+      "classification": "derived",
+      "domain": "roadmap-derived-backlog",
+      "owner": "Ordóñez",
+      "status_required": "draft",
+      "criticality": "P2",
+      "machine_readable_counterparts": [
+        ".devpilot/evals/post_h_eval_001_prioritized_roadmap.json"
+      ],
+      "human_readable_counterparts": [
+        "docs/backlogs/post_h_prioritized_roadmap.md"
+      ],
+      "derived_documents": [],
+      "required_tests": [
+        "tests/test_documentation_governance_backlogs.py"
+      ],
+      "sync_rules": [
+        "backlog_naming",
+        "backlog_frontmatter_minimum",
+        "backlog_milestone_match"
+      ],
+      "related_adrs": [],
+      "roadmap_milestones": [
+        "POST-H-017"
+      ],
+      "lifecycle": "planned",
+      "notes": [
+        "Roadmap-derived executable backlog governed by POST-H-009-D.",
+        "Missing future backlog files are informational planned items; existing files must pass naming and frontmatter checks."
+      ]
+    },
+    {
+      "doc_id": "POST-H-024-BACKLOG",
+      "path": "docs/backlogs/POST-H-024_operator_onboarding_bootstrap.md",
+      "classification": "derived",
+      "domain": "roadmap-derived-backlog",
+      "owner": "Ordóñez",
+      "status_required": "draft",
+      "criticality": "P1",
+      "machine_readable_counterparts": [
+        ".devpilot/evals/post_h_eval_001_prioritized_roadmap.json"
+      ],
+      "human_readable_counterparts": [
+        "docs/backlogs/post_h_prioritized_roadmap.md"
+      ],
+      "derived_documents": [],
+      "required_tests": [
+        "tests/test_documentation_governance_backlogs.py"
+      ],
+      "sync_rules": [
+        "backlog_naming",
+        "backlog_frontmatter_minimum",
+        "backlog_milestone_match"
+      ],
+      "related_adrs": [],
+      "roadmap_milestones": [
+        "POST-H-024"
+      ],
+      "lifecycle": "planned",
+      "notes": [
+        "Roadmap-derived executable backlog governed by POST-H-009-D.",
+        "Missing future backlog files are informational planned items; existing files must pass naming and frontmatter checks."
+      ]
+    },
+    {
+      "doc_id": "POST-H-018-BACKLOG",
+      "path": "docs/backlogs/POST-H-018_connector_sandbox.md",
+      "classification": "derived",
+      "domain": "roadmap-derived-backlog",
+      "owner": "Ordóñez",
+      "status_required": "draft",
+      "criticality": "P2",
+      "machine_readable_counterparts": [
+        ".devpilot/evals/post_h_eval_001_prioritized_roadmap.json"
+      ],
+      "human_readable_counterparts": [
+        "docs/backlogs/post_h_prioritized_roadmap.md"
+      ],
+      "derived_documents": [],
+      "required_tests": [
+        "tests/test_documentation_governance_backlogs.py"
+      ],
+      "sync_rules": [
+        "backlog_naming",
+        "backlog_frontmatter_minimum",
+        "backlog_milestone_match"
+      ],
+      "related_adrs": [],
+      "roadmap_milestones": [
+        "POST-H-018"
+      ],
+      "lifecycle": "planned",
+      "notes": [
+        "Roadmap-derived executable backlog governed by POST-H-009-D.",
+        "Missing future backlog files are informational planned items; existing files must pass naming and frontmatter checks."
+      ]
+    },
+    {
+      "doc_id": "POST-H-019-BACKLOG",
+      "path": "docs/backlogs/POST-H-019_plugin_sandbox_design.md",
+      "classification": "derived",
+      "domain": "roadmap-derived-backlog",
+      "owner": "Ordóñez",
+      "status_required": "draft",
+      "criticality": "P2",
+      "machine_readable_counterparts": [
+        ".devpilot/evals/post_h_eval_001_prioritized_roadmap.json"
+      ],
+      "human_readable_counterparts": [
+        "docs/backlogs/post_h_prioritized_roadmap.md"
+      ],
+      "derived_documents": [],
+      "required_tests": [
+        "tests/test_documentation_governance_backlogs.py"
+      ],
+      "sync_rules": [
+        "backlog_naming",
+        "backlog_frontmatter_minimum",
+        "backlog_milestone_match"
+      ],
+      "related_adrs": [],
+      "roadmap_milestones": [
+        "POST-H-019"
+      ],
+      "lifecycle": "planned",
+      "notes": [
+        "Roadmap-derived executable backlog governed by POST-H-009-D.",
+        "Missing future backlog files are informational planned items; existing files must pass naming and frontmatter checks."
+      ]
+    },
+    {
+      "doc_id": "POST-H-020-BACKLOG",
+      "path": "docs/backlogs/POST-H-020_compliance_mapping_packs.md",
+      "classification": "derived",
+      "domain": "roadmap-derived-backlog",
+      "owner": "Ordóñez",
+      "status_required": "draft",
+      "criticality": "P2",
+      "machine_readable_counterparts": [
+        ".devpilot/evals/post_h_eval_001_prioritized_roadmap.json"
+      ],
+      "human_readable_counterparts": [
+        "docs/backlogs/post_h_prioritized_roadmap.md"
+      ],
+      "derived_documents": [],
+      "required_tests": [
+        "tests/test_documentation_governance_backlogs.py"
+      ],
+      "sync_rules": [
+        "backlog_naming",
+        "backlog_frontmatter_minimum",
+        "backlog_milestone_match"
+      ],
+      "related_adrs": [],
+      "roadmap_milestones": [
+        "POST-H-020"
+      ],
+      "lifecycle": "planned",
+      "notes": [
+        "Roadmap-derived executable backlog governed by POST-H-009-D.",
+        "Missing future backlog files are informational planned items; existing files must pass naming and frontmatter checks."
+      ]
+    },
+    {
+      "doc_id": "POST-H-021-BACKLOG",
+      "path": "docs/backlogs/POST-H-021_remote_runner_adr2.md",
+      "classification": "derived",
+      "domain": "roadmap-derived-backlog",
+      "owner": "Ordóñez",
+      "status_required": "draft",
+      "criticality": "P3",
+      "machine_readable_counterparts": [
+        ".devpilot/evals/post_h_eval_001_prioritized_roadmap.json"
+      ],
+      "human_readable_counterparts": [
+        "docs/backlogs/post_h_prioritized_roadmap.md"
+      ],
+      "derived_documents": [],
+      "required_tests": [
+        "tests/test_documentation_governance_backlogs.py"
+      ],
+      "sync_rules": [
+        "backlog_naming",
+        "backlog_frontmatter_minimum",
+        "backlog_milestone_match"
+      ],
+      "related_adrs": [],
+      "roadmap_milestones": [
+        "POST-H-021"
+      ],
+      "lifecycle": "planned",
+      "notes": [
+        "Roadmap-derived executable backlog governed by POST-H-009-D.",
+        "Missing future backlog files are informational planned items; existing files must pass naming and frontmatter checks."
+      ]
+    },
+    {
+      "doc_id": "POST-H-022-BACKLOG",
+      "path": "docs/backlogs/POST-H-022_enterprise_deployment_threat_model.md",
+      "classification": "derived",
+      "domain": "roadmap-derived-backlog",
+      "owner": "Ordóñez",
+      "status_required": "draft",
+      "criticality": "P3",
+      "machine_readable_counterparts": [
+        ".devpilot/evals/post_h_eval_001_prioritized_roadmap.json"
+      ],
+      "human_readable_counterparts": [
+        "docs/backlogs/post_h_prioritized_roadmap.md"
+      ],
+      "derived_documents": [],
+      "required_tests": [
+        "tests/test_documentation_governance_backlogs.py"
+      ],
+      "sync_rules": [
+        "backlog_naming",
+        "backlog_frontmatter_minimum",
+        "backlog_milestone_match"
+      ],
+      "related_adrs": [],
+      "roadmap_milestones": [
+        "POST-H-022"
+      ],
+      "lifecycle": "planned",
+      "notes": [
+        "Roadmap-derived executable backlog governed by POST-H-009-D.",
+        "Missing future backlog files are informational planned items; existing files must pass naming and frontmatter checks."
+      ]
+    },
+    {
+      "doc_id": "POST-H-023-BACKLOG",
+      "path": "docs/backlogs/POST-H-023_secure_transport_design.md",
+      "classification": "derived",
+      "domain": "roadmap-derived-backlog",
+      "owner": "Ordóñez",
+      "status_required": "draft",
+      "criticality": "P3",
+      "machine_readable_counterparts": [
+        ".devpilot/evals/post_h_eval_001_prioritized_roadmap.json"
+      ],
+      "human_readable_counterparts": [
+        "docs/backlogs/post_h_prioritized_roadmap.md"
+      ],
+      "derived_documents": [],
+      "required_tests": [
+        "tests/test_documentation_governance_backlogs.py"
+      ],
+      "sync_rules": [
+        "backlog_naming",
+        "backlog_frontmatter_minimum",
+        "backlog_milestone_match"
+      ],
+      "related_adrs": [],
+      "roadmap_milestones": [
+        "POST-H-023"
+      ],
+      "lifecycle": "planned",
+      "notes": [
+        "Roadmap-derived executable backlog governed by POST-H-009-D.",
+        "Missing future backlog files are informational planned items; existing files must pass naming and frontmatter checks."
+      ]
+    },
+    {
+      "doc_id": "POST-H-025-BACKLOG",
+      "path": "docs/backlogs/POST-H-025_production_ready_declaration_gate.md",
+      "classification": "derived",
+      "domain": "roadmap-derived-backlog",
+      "owner": "Ordóñez",
+      "status_required": "draft",
+      "criticality": "P0",
+      "machine_readable_counterparts": [
+        ".devpilot/evals/post_h_eval_001_prioritized_roadmap.json"
+      ],
+      "human_readable_counterparts": [
+        "docs/backlogs/post_h_prioritized_roadmap.md"
+      ],
+      "derived_documents": [],
+      "required_tests": [
+        "tests/test_documentation_governance_backlogs.py"
+      ],
+      "sync_rules": [
+        "backlog_naming",
+        "backlog_frontmatter_minimum",
+        "backlog_milestone_match"
+      ],
+      "related_adrs": [],
+      "roadmap_milestones": [
+        "POST-H-025"
+      ],
+      "lifecycle": "planned",
+      "notes": [
+        "Roadmap-derived executable backlog governed by POST-H-009-D.",
+        "Missing future backlog files are informational planned items; existing files must pass naming and frontmatter checks."
+      ]
     }
   ],
   "rules": {
@@ -377,25 +1154,33 @@
     "generated_runtime_must_not_be_versioned": true,
     "historical_documents_are_not_current_authority_by_default": true,
     "registry_is_local_first": true,
-    "llm_judge_required": false
+    "llm_judge_required": false,
+    "roadmap_derived_backlogs_require_registry": true,
+    "backlogs_require_naming_convention": true,
+    "backlogs_require_minimum_frontmatter": true,
+    "missing_future_backlogs_are_planned_info": true
   },
   "summary": {
-    "documents_total": 14,
+    "documents_total": 37,
     "source_of_truth_total": 8,
     "machine_readable_source_total": 5,
-    "derived_total": 1,
+    "derived_total": 24,
     "generated_runtime_total": 0,
     "historical_total": 0,
     "deprecated_total": 0,
-    "critical_sources_total": 14,
-    "markdown_json_pairs_total": 6,
-    "documents_with_required_tests_total": 14,
+    "critical_sources_total": 29,
+    "markdown_json_pairs_total": 26,
+    "documents_with_required_tests_total": 37,
     "network_used": false,
     "external_api_used": false,
     "mutations_performed": false,
-    "last_updated_by": "POST-H-009-C",
+    "last_updated_by": "POST-H-009-D",
     "markdown_json_sync_checks_enabled": true,
-    "sync_checks_scope": "version_match, milestones_match, decisions_match, closure_status_match, next_hito_match"
+    "sync_checks_scope": "version_match, milestones_match, decisions_match, closure_status_match, next_hito_match",
+    "backlog_governance_enabled": true,
+    "backlogs_expected_total": 24,
+    "backlogs_registered_total": 24,
+    "backlog_governance_scope": "POST-H-002..POST-H-025 executable backlogs from roadmap JSON"
   },
   "safety": {
     "local_first": true,
@@ -412,7 +1197,9 @@
   },
   "notes": [
     "POST-H-009-A creates the first canonical documentation source registry and schema baseline.",
-    "The registry is versioned source-of-truth; generated reports under outputs/reports remain unversioned runtime evidence.",
-    "This is implemented-initial: executable frontmatter/status/drift validation is deferred to POST-H-009-B/C/E."
+    "POST-H-009-B adds deterministic frontmatter/status/ownership validation.",
+    "POST-H-009-C adds deterministic Markdown/JSON synchronization checks.",
+    "POST-H-009-D registers and validates executable backlogs derived from the roadmap; missing future backlog files are reported as planned info, not blocking drift.",
+    "Quality-gate integration remains deferred to POST-H-009-E."
   ]
 }

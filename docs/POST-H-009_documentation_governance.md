@@ -3,7 +3,7 @@ doc_id: "POST-H-009-BACKLOG"
 id: "POST-H-009"
 title: "POST-H-009 — Documentation governance y canonical sources"
 status: "approved"
-version: "0.3.0"
+version: "0.4.0"
 owner: "Ordóñez"
 updated: "2026-06-26"
 approval: "approved_by_owner"
@@ -15,8 +15,8 @@ dry_run: true
 no_runtime_features_added_by_backlog: false
 no_remote_execution_enabled: true
 implementation_status: "in-progress"
-current_micro_sprint: "POST-H-009-C"
-next_micro_sprint: "POST-H-009-D"
+current_micro_sprint: "POST-H-009-D"
+next_micro_sprint: "POST-H-009-E"
 ---
 
 # POST-H-009 — Documentation governance y canonical sources
@@ -506,10 +506,69 @@ PASS si el reporte identifica source_path y counterpart_path por regla evaluada.
 Límites de esta versión:
 
 ```text
-- No gobierna aún todos los backlogs derivados del roadmap; queda para POST-H-009-D.
+- En POST-H-009-D se agregó governance de backlogs derivados del roadmap.
 - No integra aún subgate docs-governance al quality-gate hardening; queda para POST-H-009-E.
 - No usa LLM judge, red, APIs externas ni mutaciones de fuentes.
 ```
 
-Estas capacidades quedan para `POST-H-009-D` y `POST-H-009-E`.
+La capacidad restante queda para `POST-H-009-E`.
+## 17. Avance de implementación — POST-H-009-D
+
+Estado: `implemented-initial`.
+
+`POST-H-009-D — Backlog governance y derivados del roadmap` amplía el validator ejecutable de gobernanza documental para controlar los backlogs derivados del roadmap post-H:
+
+```text
+python -m devpilot_core docs-governance validate --json
+python -m devpilot_core docs-governance report --write-report --json
+```
+
+Artefactos implementados:
+
+```text
+src/devpilot_core/docs_governance/backlogs.py
+tests/test_documentation_governance_backlogs.py
+docs/audits/post_h_009_d_backlog_governance_report.md
+docs/post_h_009_d_manifest.json
+```
+
+Capacidades implementadas:
+
+```text
+- Registro gobernado de backlogs POST-H-002..POST-H-025 desde executable_backlogs_to_create.
+- Validación de naming convention docs/backlogs/POST-H-###_<slug>.md.
+- Validación de frontmatter mínimo: doc_id, id, title, status, version, owner, updated, priority y roadmap_source.
+- Validación de doc_id POST-H-###-BACKLOG y correspondencia id ↔ milestone.
+- Validación de priority contra roadmap JSON.
+- Validación de roadmap_source contra docs/backlogs/post_h_prioritized_roadmap.md.
+- Reporte backlog_checks dentro de DocumentationGovernanceReport.
+- Manejo informativo de backlogs futuros faltantes como planned, no como bloqueo.
+- Contrato TCR v1/v2 para DocumentationBacklogGovernanceValidator.
+```
+
+Inconsistencia heredada corregida:
+
+```text
+- Backlogs draft POST-H-010..POST-H-025 no declaraban approval. Se agregó approval: "pending_owner_review" para alinear la metadata documental mínima, sin promoverlos a approved.
+```
+
+Criterios PASS cubiertos:
+
+```text
+PASS si backlog_governance_passed=true.
+PASS si backlogs_expected_total=24.
+PASS si backlogs_registered_total=24.
+PASS si backlogs_checked_total=24.
+PASS si blocking_findings_total=0.
+```
+
+Límites de esta versión:
+
+```text
+- No integra aún subgate docs-governance al quality-gate hardening; queda para POST-H-009-E.
+- No usa LLM judge, red, APIs externas ni mutaciones de fuentes.
+- No evalúa suficiencia semántica profunda de cada backlog; valida contrato documental y trazabilidad con roadmap.
+```
+
+La capacidad restante queda para `POST-H-009-E`.
 

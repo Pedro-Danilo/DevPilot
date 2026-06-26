@@ -29,16 +29,20 @@ def test_post_h_009_backlog_is_approved_and_source_registry_is_documented() -> N
     assert "## 14. Avance de implementación — POST-H-009-A" in backlog
     assert "## 15. Avance de implementación — POST-H-009-B" in backlog
     assert "## 16. Avance de implementación — POST-H-009-C" in backlog
+    assert "## 17. Avance de implementación — POST-H-009-D" in backlog
     assert canonical_doc == backlog
     assert "POST-H-009-A — Documentation governance" in readme
     assert "POST-H-009-B — Documentation governance" in readme
     assert "POST-H-009-C — Documentation governance" in readme
+    assert "POST-H-009-D — Documentation governance" in readme
     assert "POST-H-009-A — Source registry y schema" in runbook
     assert "POST-H-009-B — Validator de frontmatter/status/ownership" in runbook
     assert "POST-H-009-C — Sync validator Markdown ↔ JSON" in runbook
+    assert "POST-H-009-D — Backlog governance y derivados del roadmap" in runbook
     assert "post-h-009-a" in changelog
     assert "post-h-009-b" in changelog
     assert "post-h-009-c" in changelog
+    assert "post-h-009-d" in changelog
     assert manifest["id"] == "POST-H-009-A"
     assert manifest["post_h_id"] == "POST-H-009"
     assert manifest["status"] == "implemented-initial"
@@ -57,6 +61,9 @@ def test_post_h_009_a_registry_model_loads_expected_canonical_sources() -> None:
     assert "docs/backlogs/POST-H-009_documentation_governance.md" in by_path
     assert by_path["docs/backlogs/post_h_prioritized_roadmap.md"].is_source_of_truth
     assert by_path[".devpilot/project_state.json"].is_machine_readable_source
+    assert len(registry.documents) == 37
+    assert "docs/backlogs/POST-H-025_production_ready_declaration_gate.md" in by_path
+    assert by_path["docs/backlogs/POST-H-025_production_ready_declaration_gate.md"].classification == "derived"
 
 
 def test_post_h_009_a_contract_is_registered_in_tcr() -> None:
@@ -111,6 +118,27 @@ def test_post_h_009_c_sync_validator_contract_is_registered_in_tcr() -> None:
 
     contract_v2 = next(item for item in tcr_v2["contracts"] if item["contract_id"] == "post-h-009-documentation-sync-validator")
     assert contract_v2["capability"] == "DocumentationSyncValidator"
+    assert contract_v2["required_for_release"] is True
+    assert contract_v2["required_for_security_gate"] is True
+    assert contract_v2["network_allowed"] is False
+    assert contract_v2["external_api_allowed"] is False
+    assert contract_v2["mutations_allowed"] is False
+    assert contract_v2["source_mutations_allowed"] is False
+
+
+def test_post_h_009_d_backlog_governance_contract_is_registered_in_tcr() -> None:
+    tcr = read_json(".devpilot/testing/test_contract_registry.json")
+    tcr_v2 = read_json(".devpilot/testing/test_contract_registry_v2.json")
+
+    contract = next(item for item in tcr["contracts"] if item["contract_id"] == "post-h-009-documentation-backlog-governance")
+    assert contract["owner"] == "POST-H-009-D"
+    assert "tests/test_documentation_governance_backlogs.py" in contract["test_files"]
+    assert "src/devpilot_core/docs_governance/backlogs.py" in contract["validates"]
+    assert "docs/backlogs/POST-H-025_production_ready_declaration_gate.md" in contract["validates"]
+    assert "python -m devpilot_core docs-governance validate --json" in contract["recommended_commands"]
+
+    contract_v2 = next(item for item in tcr_v2["contracts"] if item["contract_id"] == "post-h-009-documentation-backlog-governance")
+    assert contract_v2["capability"] == "DocumentationBacklogGovernanceValidator"
     assert contract_v2["required_for_release"] is True
     assert contract_v2["required_for_security_gate"] is True
     assert contract_v2["network_allowed"] is False

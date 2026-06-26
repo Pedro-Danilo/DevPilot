@@ -1,3 +1,20 @@
+## [post-h-009-d] - 2026-06-26
+
+### Added
+- Deterministic backlog governance validation inside `docs-governance validate` for roadmap-derived executable backlogs `POST-H-002..POST-H-025`.
+- `DocumentationBacklogGovernanceValidator` in `src/devpilot_core/docs_governance/backlogs.py`.
+- `backlog_checks` in `DocumentationGovernanceReport`, including registry coverage, naming, frontmatter, milestone and priority checks.
+- TCR v1/v2 contract for `post-h-009-documentation-backlog-governance`.
+
+### Changed
+- Extended `.devpilot/docs_governance/source_registry.json` to govern executable backlogs derived from the roadmap.
+- Updated POST-H-009 backlog/runbook/README/project-state to reflect POST-H-009-D implemented-initial and next micro-sprint POST-H-009-E.
+- Added `approval: "pending_owner_review"` to draft future backlogs POST-H-010..POST-H-025 without promoting them to approved.
+
+### Safety
+- Backlog validator is local-first, read-only for source documents, dry-run by default, and does not use network, external APIs, LLM judge or source mutations.
+
+
 ## [post-h-009-c] - 2026-06-26
 
 ### Added

@@ -2,12 +2,12 @@
 title: "Runbook — DevPilot Local"
 doc_id: "DEVPL-OPS-002"
 status: "approved"
-version: "1.33.0"
+version: "1.34.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "POST-H-009-C"
-updated: "2026-06-25"
+phase: "POST-H-009-D"
+updated: "2026-06-26"
 approval: "approved_by_owner"
 source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved + 03_security approved"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
@@ -7357,6 +7357,56 @@ Dado que la suite global ya supera 1000 tests, es procedente no ejecutar `pytest
 ```
 
 Esta política no sustituye la suite global; la convierte en checkpoint periódico de mayor costo. `POST-H-008-E` ya aportó evidencia reciente de `pytest -q` completo con `1100 passed`, por lo que `POST-H-009-A` puede validarse focalmente.
+## POST-H-009-D — Backlog governance y derivados del roadmap
+
+`POST-H-009-D` amplía `docs-governance validate` para gobernar los backlogs ejecutables derivados de `docs/backlogs/post_h_prioritized_roadmap.md` y `.devpilot/evals/post_h_eval_001_prioritized_roadmap.json`. El validator es local-first, read-only, sin red, sin APIs externas y sin LLM judge.
+
+### Comandos
+
+```powershell
+python -m devpilot_core docs-governance validate --json
+python -m devpilot_core docs-governance report --write-report --json
+python -m pytest tests/test_documentation_governance_backlogs.py `
+  tests/test_documentation_governance_sync.py `
+  tests/test_documentation_governance_validator.py `
+  tests/test_post_h_009_documentation_governance.py `
+  -q
+```
+
+### Reglas ejecutadas
+
+```text
+backlog registry coverage: cada POST-H-002..POST-H-025 del roadmap JSON debe estar gobernado por el registry.
+backlog_naming: cada backlog existente debe seguir docs/backlogs/POST-H-###_<slug>.md.
+backlog_frontmatter_minimum: cada backlog existente debe declarar doc_id, id, title, status, version, owner, updated, priority y roadmap_source.
+backlog_milestone_match: id/doc_id/prioridad deben coincidir con el roadmap machine-readable.
+planned_missing: un backlog futuro faltante se reporta como info planned, no como bloqueo.
+```
+
+### PASS
+
+```text
+PASS si backlog_governance_passed=true.
+PASS si backlogs_expected_total=24.
+PASS si backlogs_registered_total=24.
+PASS si backlogs_checked_total=24.
+PASS si blocking_findings_total=0.
+```
+
+### BLOCK
+
+```text
+BLOCK si un backlog existente no está registrado.
+BLOCK si el path no cumple la convención POST-H-###_<slug>.md.
+BLOCK si falta frontmatter mínimo.
+BLOCK si doc_id/id/priority/roadmap_source contradicen el roadmap.
+BLOCK si el validator usa red, APIs externas, LLM judge o mutaciones de fuentes.
+```
+
+### Límite de versión
+
+Esta capacidad es `implemented-initial`. La integración como subgate del quality gate queda para `POST-H-009-E`.
+
 ## POST-H-009-C — Sync validator Markdown ↔ JSON
 
 `POST-H-009-C` amplía la operación `docs-governance validate` para detectar drift determinístico entre documentación humana y fuentes JSON machine-readable. La validación es local-first, read-only, sin red, sin APIs externas y sin LLM judge.
@@ -7403,5 +7453,5 @@ BLOCK si el validator usa red, APIs externas, LLM judge o mutaciones de fuentes.
 
 ### Límite de versión
 
-Esta capacidad es `implemented-initial`. La governance de todos los backlogs derivados del roadmap queda para `POST-H-009-D`; la integración como subgate del quality gate queda para `POST-H-009-E`.
+Esta capacidad es `implemented-initial`. En `POST-H-009-D` ya se agregó governance de backlogs derivados; la integración como subgate del quality gate queda para `POST-H-009-E`.
 
