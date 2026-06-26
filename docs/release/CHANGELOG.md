@@ -1,4 +1,26 @@
 
+## [post-h-008-e] - 2026-06-26
+
+### Added
+
+- `RuntimeStateHygieneGate` for read-only runtime-state hygiene and release archive checks.
+- CLI `python -m devpilot_core runtime-state hygiene --json`.
+- `RuntimeStateHygieneReport` schema and schema catalog registration.
+- Quality gate subgate `runtime-state-hygiene` in hardening and industrial profiles.
+- TCR v1/v2 contract `post-h-008-runtime-state-hygiene`.
+- Audit report `docs/audits/post_h_008_e_runtime_state_hygiene_report.md` and manifest `docs/post_h_008_e_manifest.json`.
+
+### Safety
+
+- Gate is read-only and dry-run.
+- Inspects `git archive HEAD` in memory when Git metadata is available.
+- Uses a deterministic source archive plan when validating clean ZIPs without `.git`.
+- Blocks `outputs/`, `.devpilot/devpilot.db`, `.devpilot/agent_sessions/`, caches, builds and non-versionable runtime artifacts in archives.
+
+### Deferred
+
+- Signing/encryption and full DLP remain future hardening work.
+
 ## [post-h-008-d] - 2026-06-26
 
 ### Added
@@ -28,7 +50,7 @@
 title: "DevPilot Local — Changelog"
 doc_id: "DEVPL-RELEASE-CHANGELOG"
 version: "0.1.0"
-updated: "2026-06-25"
+updated: "2026-06-26"
 status: "approved"
 approval: "internal"
 owner: "Ordóñez"

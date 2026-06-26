@@ -5,11 +5,11 @@
   "phase_h_status": "closed_implemented_initial",
   "industrial_baseline_ready": true,
   "maturity_level": "industrial-baseline-ready",
-  "last_completed_sprint": "POST-H-007",
+  "last_completed_sprint": "POST-H-008",
   "last_functional_sprint": "FUNC-SPRINT-99",
-  "next_sprint": "POST-H-008",
-  "source_repo": "repo_DevPilot_Local_173_POST_H_008_C.zip",
-  "current_repo": "repo_DevPilot_Local_174_POST_H_008_D.zip",
+  "next_sprint": "POST-H-009",
+  "source_repo": "repo_DevPilot_Local_174_POST_H_008_D.zip",
+  "current_repo": "repo_DevPilot_Local_175_POST_H_008_E.zip",
   "global_state_owner": "tests/test_project_global_state.py",
   "mutable_global_state_fields": [
     "last_completed_sprint",
@@ -42,6 +42,7 @@
     "POST-H-008-A starts Runtime state lifecycle policy as implemented-initial: runtime artifact taxonomy, RuntimeStatePolicy/RuntimeStateInventory schemas and .devpilot/runtime_state_policy.json are available locally without cleanup execution.",
     "POST-H-008-B adds read-only runtime state inventory: policy-driven scanner, class summaries, versioned runtime artifact detection and JSON/Markdown reports are available locally without cleanup/export execution.",
     "POST-H-008-C adds dry-run-first runtime cleanup planning: artifacts are grouped as safe-cleanup/requires-approval/never-delete/retained, source-of-truth paths are protected, and cleanup --execute requires explicit confirmation.",
-    "POST-H-008-D adds local redacted runtime evidence export: runtime-state export dry-run/execute, RuntimeStateExportManifest, checksums, SecretGuard redaction and metadata-only binary/local DB handling are available without network or external APIs."
+    "POST-H-008-D adds local redacted runtime evidence export: runtime-state export dry-run/execute, RuntimeStateExportManifest, checksums, SecretGuard redaction and metadata-only binary/local DB handling are available without network or external APIs.",
+    "POST-H-008-E closes Runtime state lifecycle policy as implemented-initial: runtime-state-hygiene blocks dirty runtime artifacts in source/release archives, checks git archive HEAD when available, falls back to a deterministic source archive plan for clean ZIPs, and integrates with quality-gate hardening/industrial."
   ]
 }

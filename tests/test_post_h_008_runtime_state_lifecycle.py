@@ -21,7 +21,7 @@ def test_post_h_008_backlog_is_approved_and_taxonomy_is_documented() -> None:
     manifest = read_json("docs/post_h_008_a_manifest.json")
 
     assert 'status: "approved"' in backlog
-    assert 'implementation_status: "in-progress"' in backlog
+    assert 'implementation_status: "closed"' in backlog
     assert "POST-H-008-A — Taxonomía y policy schema" in backlog
     assert "## 13. Avance de implementación — POST-H-008-A" in backlog
 
@@ -198,3 +198,57 @@ def test_post_h_008_d_export_contract_is_registered_in_tcr() -> None:
     assert export_contract_v2["external_api_allowed"] is False
     assert export_contract_v2["mutations_allowed"] is False
     assert export_contract_v2["source_mutations_allowed"] is False
+
+
+def test_post_h_008_e_hygiene_is_documented_manifested_and_gate_integrated() -> None:
+    backlog = read("docs/POST-H-008_runtime_state_lifecycle.md")
+    readme = read("README.md")
+    runbook = read("docs/05_operations/runbook.md")
+    policy_doc = read("docs/05_operations/runtime_state_lifecycle_policy.md")
+    audit = read("docs/audits/post_h_008_e_runtime_state_hygiene_report.md")
+    manifest = read_json("docs/post_h_008_e_manifest.json")
+    changelog = read("docs/release/CHANGELOG.md")
+
+    assert 'implementation_status: "closed"' in backlog
+    assert "## 17. Avance de implementación — POST-H-008-E" in backlog
+    assert "## 18. Cierre del backlog — POST-H-008" in backlog
+    assert "runtime-state hygiene" in readme
+    assert "POST-H-008-E — Gate de higiene runtime y release archive" in runbook
+    assert "POST-H-008-E — Gate de higiene runtime y release archive" in policy_doc
+    assert "Runtime state hygiene and release archive report" in audit
+    assert manifest["id"] == "POST-H-008-E"
+    assert manifest["post_h_id"] == "POST-H-008"
+    assert manifest["status"] == "implemented-initial"
+    assert manifest["dry_run"] is True
+    assert manifest["read_only"] is True
+    assert manifest["quality_gate_subgate_added"] is True
+    assert manifest["runtime_state_hygiene_gate"] is True
+    assert manifest["release_archive_clean_required"] is True
+    assert manifest["git_archive_checked_when_available"] is True
+    assert manifest["next_sprint"] == "POST-H-009"
+    assert "post-h-008-e" in changelog
+
+
+def test_post_h_008_e_hygiene_contract_is_registered_in_tcr() -> None:
+    tcr = read_json(".devpilot/testing/test_contract_registry.json")
+    tcr_v2 = read_json(".devpilot/testing/test_contract_registry_v2.json")
+
+    contract_ids = {item["contract_id"] for item in tcr["contracts"]}
+    contract_ids_v2 = {item["contract_id"] for item in tcr_v2["contracts"]}
+    assert "post-h-008-runtime-state-hygiene" in contract_ids
+    assert "post-h-008-runtime-state-hygiene" in contract_ids_v2
+
+    hygiene_contract = next(item for item in tcr["contracts"] if item["contract_id"] == "post-h-008-runtime-state-hygiene")
+    assert hygiene_contract["owner"] == "POST-H-008-E"
+    assert "tests/test_runtime_state_hygiene.py" in hygiene_contract["test_files"]
+    assert "docs/schemas/runtime_state_hygiene_report.schema.json" in hygiene_contract["validates"]
+    assert hygiene_contract["mutable_global_state_allowed"] is False
+
+    hygiene_contract_v2 = next(item for item in tcr_v2["contracts"] if item["contract_id"] == "post-h-008-runtime-state-hygiene")
+    assert hygiene_contract_v2["capability"] == "RuntimeStateHygieneReport"
+    assert hygiene_contract_v2["required_for_release"] is True
+    assert hygiene_contract_v2["required_for_security_gate"] is True
+    assert hygiene_contract_v2["network_allowed"] is False
+    assert hygiene_contract_v2["external_api_allowed"] is False
+    assert hygiene_contract_v2["mutations_allowed"] is False
+    assert hygiene_contract_v2["source_mutations_allowed"] is False

@@ -1,0 +1,89 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "SCHEMA-DEVPL-POST-H-MANIFEST-V1",
+  "id": "POST-H-008-E",
+  "post_h_id": "POST-H-008",
+  "title": "Gate de higiene runtime y release archive",
+  "status": "implemented-initial",
+  "phase": "POST-FASE-H",
+  "implemented_at": "2026-06-26",
+  "source_repo": "repo_DevPilot_Local_174_POST_H_008_D.zip",
+  "current_repo": "repo_DevPilot_Local_175_POST_H_008_E.zip",
+  "created_by": "POST-H-008-E",
+  "local_first": true,
+  "dry_run": true,
+  "read_only": true,
+  "network_used": false,
+  "external_api_used": false,
+  "mutations_performed": false,
+  "source_mutations_performed": false,
+  "destructive_cleanup_performed": false,
+  "cleanup_execution_enabled": false,
+  "export_execution_enabled": false,
+  "remote_execution_enabled": false,
+  "connector_write_enabled": false,
+  "plugin_execution_enabled": false,
+  "quality_gate_subgate_added": true,
+  "runtime_state_hygiene_gate": true,
+  "release_archive_clean_required": true,
+  "git_archive_checked_when_available": true,
+  "source_archive_plan_fallback": true,
+  "created_files": [
+    "src/devpilot_core/runtime_state/hygiene.py",
+    "docs/schemas/runtime_state_hygiene_report.schema.json",
+    "tests/test_runtime_state_hygiene.py",
+    "docs/audits/post_h_008_e_runtime_state_hygiene_report.md",
+    "docs/post_h_008_e_manifest.json"
+  ],
+  "modified_files": [
+    "README.md",
+    ".devpilot/project_state.json",
+    ".devpilot/testing/test_contract_registry.json",
+    ".devpilot/testing/test_contract_registry_v2.json",
+    "docs/05_operations/runbook.md",
+    "docs/05_operations/runtime_state_lifecycle_policy.md",
+    "docs/POST-H-008_runtime_state_lifecycle.md",
+    "docs/backlogs/POST-H-008_runtime_state_lifecycle.md",
+    "docs/release/CHANGELOG.md",
+    "docs/schemas/schema_catalog.json",
+    "src/devpilot_core/cli.py",
+    "src/devpilot_core/cli_registry/registry.py",
+    "src/devpilot_core/quality/gate.py",
+    "src/devpilot_core/runtime_state/__init__.py",
+    "src/devpilot_core/runtime_state/report.py",
+    "tests/test_post_h_006_b_declarative_registry.py",
+    "tests/test_post_h_008_runtime_state_lifecycle.py",
+    "tests/test_project_global_state.py",
+    "tests/test_schema_registry.py"
+  ],
+  "commands": [
+    "python -m devpilot_core runtime-state hygiene --json",
+    "python -m devpilot_core runtime-state hygiene --write-report --json",
+    "python -m devpilot_core schema validate --schema-id RuntimeStateHygieneReport --instance outputs/reports/runtime_state_hygiene_report.json --json",
+    "python -m devpilot_core quality-gate run --profile hardening --json"
+  ],
+  "tests": [
+    "python -m pytest tests/test_runtime_state_hygiene.py tests/test_runtime_state_inventory.py tests/test_runtime_state_policy_schema.py tests/test_post_h_008_runtime_state_lifecycle.py -q",
+    "python -m pytest tests/test_runtime_state_hygiene.py tests/test_runtime_state_export.py tests/test_runtime_state_cleanup_plan.py tests/test_runtime_state_inventory.py tests/test_runtime_state_policy_schema.py tests/test_post_h_008_runtime_state_lifecycle.py tests/test_schema_registry.py tests/test_project_global_state.py tests/test_test_contract_registry.py tests/test_test_contract_registry_v2.py tests/test_test_contract_registry_profiles_v2.py tests/test_post_h_006_b_declarative_registry.py tests/test_post_h_006_e_cli_no_growth_gate.py tests/test_application_cli_boundary_integration.py tests/test_application_boundary_policy.py tests/test_application_operation_catalog_schema.py -q"
+  ],
+  "pass_criteria": [
+    "Quality gate hardening incluye y pasa el subgate runtime-state-hygiene.",
+    "Runtime artifacts no versionables rastreados por Git producen bloqueo.",
+    "git archive HEAD queda limpio cuando `.git` está disponible.",
+    "El plan determinista de source archive queda limpio cuando `.git` no está disponible.",
+    "Test Contract Registry v1/v2 valida con el nuevo contrato."
+  ],
+  "block_criteria": [
+    "BLOCK si outputs, devpilot.db, agent_sessions, caches o build artifacts entran al archive.",
+    "BLOCK si la policy deja de exigir exclusiones críticas.",
+    "BLOCK si runtime_artifacts_allowed_in_release_zip=true.",
+    "BLOCK si se ejecutan mutaciones de source o limpieza destructiva."
+  ],
+  "risks": [
+    "El gate no firma ni cifra archives; esa capacidad queda para hardening posterior.",
+    "En ZIPs sin `.git`, la inspección git archive se reemplaza por plan determinista local.",
+    "No sustituye un DLP industrial completo ni análisis semántico de todo contenido textual."
+  ],
+  "next_sprint": "POST-H-009",
+  "preliminary": true
+}

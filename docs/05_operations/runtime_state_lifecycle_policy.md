@@ -194,3 +194,32 @@ Límites explícitos:
 - No se habilitan backups remotos ni cloud storage.
 - `outputs/runtime_exports/` debe seguir excluido de ZIPs limpios.
 ```
+
+
+## POST-H-008-E — Gate de higiene runtime y release archive
+
+Estado: `implemented-initial`.
+
+`POST-H-008-E` agrega `RuntimeStateHygieneGate`, una verificación read-only que consolida policy, inventario y archive hygiene para impedir que el estado runtime se mezcle con source-of-truth o paquetes de release.
+
+Comandos:
+
+```powershell
+python -m devpilot_core runtime-state hygiene --json
+python -m devpilot_core runtime-state hygiene --write-report --json
+python -m devpilot_core schema validate --schema-id RuntimeStateHygieneReport --instance outputs/reports/runtime_state_hygiene_report.json --json
+python -m devpilot_core quality-gate run --profile hardening --json
+```
+
+Invariantes:
+
+```text
+- runtime-state-hygiene es read-only.
+- No escribe archives ni muta source files.
+- `git archive HEAD` se inspecciona en memoria cuando `.git` está disponible.
+- En ZIPs limpios sin `.git`, se evalúa un plan determinista de source archive.
+- `outputs/`, `.devpilot/devpilot.db`, `.devpilot/agent_sessions/`, caches y build artifacts quedan bloqueados en archives.
+- Runtime artifacts no versionables rastreados por Git producen BLOCK.
+```
+
+Límites: no implementa signing, cifrado ni DLP semántico completo; esos controles quedan para hardening posterior.

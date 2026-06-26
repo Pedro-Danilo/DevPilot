@@ -3,7 +3,7 @@ doc_id: "POST-H-008-BACKLOG"
 id: "POST-H-008"
 title: "POST-H-008 — Runtime state lifecycle policy"
 status: "approved"
-version: "0.3.0"
+version: "0.4.0"
 owner: "Ordóñez"
 updated: "2026-06-26"
 phase: "POST-FASE-H"
@@ -13,7 +13,7 @@ local_first: true
 dry_run: true
 no_runtime_features_added_by_backlog: false
 no_remote_execution_enabled: true
-implementation_status: "in-progress"
+implementation_status: "closed"
 approval: "internal"
 ---
 
@@ -576,4 +576,69 @@ PASS si no requiere red ni APIs externas.
 
 ### Siguiente micro-sprint
 
-`POST-H-008-E — Gate de higiene runtime y release archive`.
+`POST-H-009-A — Documentation governance canonical source registry`.
+
+
+## 17. Avance de implementación — POST-H-008-E
+
+Estado: `implemented-initial`.
+
+`POST-H-008-E — Gate de higiene runtime y release archive` implementa el cierre operativo del ciclo runtime-state: el repositorio y los archives de release quedan protegidos contra mezcla accidental de outputs, trazas, SQLite local, agent sessions, caches, builds o dependencias generadas.
+
+### Implementado
+
+```text
+- src/devpilot_core/runtime_state/hygiene.py
+- Comando CLI: python -m devpilot_core runtime-state hygiene --json
+- Reporte opcional: outputs/reports/runtime_state_hygiene_report.json
+- Reporte opcional: outputs/reports/runtime_state_hygiene_report.md
+- Schema: docs/schemas/runtime_state_hygiene_report.schema.json
+- Subgate quality-gate: runtime-state-hygiene en perfiles hardening e industrial
+- Tests focales: tests/test_runtime_state_hygiene.py
+- Manifest: docs/post_h_008_e_manifest.json
+- Auditoría: docs/audits/post_h_008_e_runtime_state_hygiene_report.md
+```
+
+### Capacidades adicionadas
+
+```text
+- Detección bloqueante de runtime artifacts no versionables rastreados por Git.
+- Inspección de git archive HEAD en memoria cuando .git está disponible.
+- Fallback determinista de source archive plan para ZIPs limpios sin .git.
+- Bloqueo de outputs, devpilot.db, agent_sessions, caches, builds y dependencias en archive.
+- Integración con quality-gate hardening/industrial.
+- Contrato RuntimeStateHygieneReport y TCR v1/v2.
+```
+
+### Criterios PASS cubiertos
+
+```text
+PASS si quality-gate detecta runtime artifacts versionados.
+PASS si git archive basado en HEAD queda limpio.
+PASS si test-contracts validate pasa.
+```
+
+### Límites de esta versión
+
+```text
+- No firma ni cifra archives.
+- No implementa DLP semántico completo.
+- No crea release ZIPs; valida higiene de archive en modo read-only.
+- En ZIPs sin .git, git archive se reemplaza por un plan determinista equivalente; en checkout Git real sí se inspecciona HEAD.
+```
+
+## 18. Cierre del backlog — POST-H-008
+
+Estado: `closed` como baseline `implemented-initial`.
+
+POST-H-008 queda cerrado con las capacidades mínimas requeridas para una política local de runtime state lifecycle:
+
+```text
+- POST-H-008-A: taxonomía y RuntimeStatePolicy.
+- POST-H-008-B: RuntimeStateInventory read-only.
+- POST-H-008-C: cleanup plan dry-run y ejecución segura explícita.
+- POST-H-008-D: export redactado, manifest y checksums.
+- POST-H-008-E: runtime-state-hygiene en quality gate y release archive hygiene.
+```
+
+La solución sigue marcada como `implemented-initial`: signing, cifrado, DLP semántico, rotación avanzada por cuotas y supply-chain release governance quedan para sprints posteriores.

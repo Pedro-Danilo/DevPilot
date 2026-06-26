@@ -7250,3 +7250,32 @@ BLOCK si `.devpilot/devpilot.db` se exporta como payload raw.
 ```
 
 Los artefactos bajo `outputs/runtime_exports/` son runtime evidence generado y no deben versionarse ni incluirse en ZIPs limpios del repo.
+
+
+## POST-H-008-E — Gate de higiene runtime y release archive
+
+`POST-H-008-E` cierra el ciclo mínimo de runtime-state lifecycle con un gate read-only para release/archive hygiene.
+
+Comandos operativos:
+
+```powershell
+$env:PYTHONPATH="src"
+$env:DD_TRACE_ENABLED="false"
+
+python -m devpilot_core runtime-state hygiene --json
+python -m devpilot_core runtime-state hygiene --write-report --json
+python -m devpilot_core schema validate --schema-id RuntimeStateHygieneReport --instance outputs/reports/runtime_state_hygiene_report.json --json
+python -m devpilot_core quality-gate run --profile hardening --json
+```
+
+Reglas PASS/BLOCK:
+
+```text
+PASS si quality-gate hardening incluye y pasa `runtime-state-hygiene`.
+PASS si `git archive HEAD` queda limpio cuando `.git` está disponible.
+PASS si el source archive plan queda limpio cuando se valida desde ZIP sin `.git`.
+BLOCK si hay runtime artifacts no versionables rastreados por Git.
+BLOCK si outputs, devpilot.db, agent_sessions, caches o build artifacts aparecen en archive.
+```
+
+El comando no crea ZIPs ni modifica archivos fuente. Solo escribe `outputs/reports/runtime_state_hygiene_report.{json,md}` cuando se usa `--write-report`.

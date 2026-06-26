@@ -16,23 +16,31 @@ def _read_json(path: str) -> dict:
     return json.loads((ROOT / path).read_text(encoding="utf-8"))
 
 
+def _post_h_number(value: str) -> int:
+    prefix = "POST-H-"
+    if not value.startswith(prefix):
+        raise AssertionError(f"Expected POST-H sprint identifier, got: {value!r}")
+    return int(value.removeprefix(prefix).split("-", maxsplit=1)[0])
+
+
 def test_post_h_007_backlog_is_closed_before_post_h_008() -> None:
     backlog = _read("docs/backlogs/POST-H-006_cli_command_registry.md")
     readme = _read("README.md")
     runbook = _read("docs/05_operations/runbook.md")
     changelog = _read("docs/release/CHANGELOG.md")
     state = _read_json(".devpilot/project_state.json")
+    state_notes = "\n".join(state.get("notes", []))
 
     assert 'implementation_status: "closed"' in backlog
     assert "POST-H-006-E — Gate de no crecimiento monolítico" in backlog
     assert "Estado: `closed`" in backlog
-    assert "Último hito: `POST-H-007" in readme
-    assert "Siguiente hito: `POST-H-008" in readme
+    assert "Hito cerrado: `POST-H-007 — ApplicationService boundary hardening`" in readme
     assert "POST-H-008-A — Runtime state lifecycle" in readme
     assert "POST-H-007-A — Operación del inventario ApplicationService boundary" in runbook
     assert "post-h-007-a" in changelog
-    assert state["last_completed_sprint"] == "POST-H-007"
-    assert state["next_sprint"] == "POST-H-008"
+    assert "POST-H-007 closes ApplicationService boundary hardening" in state_notes
+    assert _post_h_number(state["last_completed_sprint"]) >= 7
+    assert _post_h_number(state["next_sprint"]) >= 8
 
 
 def test_post_h_007_backlog_is_approved_and_a_is_documented() -> None:

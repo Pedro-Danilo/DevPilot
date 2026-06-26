@@ -130,6 +130,7 @@ class QualityGate:
                     "POST-H-004-E adds the MIASI semantic validator subgate to hardening/industrial profiles without executing agents, tools, evals or tests from JSON.",
                     "POST-H-005-E adds the executable architecture map subgate to hardening/industrial profiles without enforcing refactors or mutating source files.",
                     "POST-H-007-E adds an Application CLI boundary integration subgate to hardening/industrial profiles without enabling runtime registry routing.",
+                    "POST-H-008-E adds runtime-state-hygiene to hardening/industrial profiles to block dirty source/release archives.",
                     "The default and ci profiles do not run pytest implicitly; CI workflows and local checklists run pytest as an explicit step, or use --include-pytest when desired.",
                     "The gate does not publish packages, deploy, write source files, call network services or use external APIs.",
                     "Optional --write-report is handled by the CLI and writes only under outputs/reports.",
@@ -168,6 +169,7 @@ class QualityGate:
             subgates.append(QualitySubgate("miasi-semantic-validate", "POST-H-004 MIASI semantic validator quality gate.", self._miasi_semantic_validate))
             subgates.append(QualitySubgate("architecture-map", "POST-H-005 executable architecture map and ownership validation gate.", self._architecture_map))
             subgates.append(QualitySubgate("application-cli-boundary-integration", "POST-H-007-E CLI registry to ApplicationService operation mapping and API/UI contract gate.", self._application_cli_boundary_integration))
+            subgates.append(QualitySubgate("runtime-state-hygiene", "Runtime-state hygiene and source archive readiness gate.", self._runtime_state_hygiene))
         if self.options.profile == "industrial":
             subgates.append(QualitySubgate("industrial-readiness", "Fase H industrial readiness gate and maturity classification.", self._industrial_readiness))
         if self.options.profile == "hardening":
@@ -262,6 +264,11 @@ class QualityGate:
         from devpilot_core.application import CliApplicationBoundaryIntegrationReportBuilder
 
         return CliApplicationBoundaryIntegrationReportBuilder(self.root).run()
+
+    def _runtime_state_hygiene(self) -> CommandResult:
+        from devpilot_core.runtime_state import RuntimeStateHygieneGate, RuntimeStateHygieneOptions
+
+        return RuntimeStateHygieneGate(self.root, RuntimeStateHygieneOptions(write_report=False)).run()
 
     def _industrial_readiness(self) -> CommandResult:
         from devpilot_core.industrial import IndustrialReadinessGate

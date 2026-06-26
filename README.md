@@ -1,13 +1,13 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
-Estado actual: `baseline pre-code approved + Fases A-G cerradas + Fase H cerrada + POST-H-001 implemented-initial + POST-H-EVAL-001 closed + POST-H-002 closed + POST-H-003 closed + POST-H-004 closed + POST-H-005 closed + POST-H-006 closed + POST-H-007 closed + POST-H-008-A implemented-initial + POST-H-008-B implemented-initial + POST-H-008-C implemented-initial + POST-H-008-D implemented-initial`  
-Último hito: `POST-H-007 — ApplicationService boundary hardening`  
-Siguiente hito: `POST-H-008 — Runtime state lifecycle policy`  
-Último micro-sprint implementado: `POST-H-008-D — Export y redacción de evidencia runtime`  
+Estado actual: `baseline pre-code approved + Fases A-G cerradas + Fase H cerrada + POST-H-001 implemented-initial + POST-H-EVAL-001 closed + POST-H-002 closed + POST-H-003 closed + POST-H-004 closed + POST-H-005 closed + POST-H-006 closed + POST-H-007 closed + POST-H-008-A implemented-initial + POST-H-008-B implemented-initial + POST-H-008-C implemented-initial + POST-H-008-D implemented-initial + POST-H-008-E implemented-initial + POST-H-008 closed`  
+Último hito: `POST-H-008 — Runtime state lifecycle policy`  
+Siguiente hito: `POST-H-009 — Documentation governance`  
+Último micro-sprint implementado: `POST-H-008-E — Gate de higiene runtime y release archive`  
 Hito diagnóstico cerrado: `POST-H-EVAL-001 — Evaluación integral del baseline DevPilot post-Fase H`, cierre formal `POST-H-EVAL-001-G`  
-Hito actual en implementación: `POST-H-008 — Runtime state lifecycle policy`  
+Hito cerrado: `POST-H-008 — Runtime state lifecycle policy`  
 Hito cerrado: `POST-H-007 — ApplicationService boundary hardening`  
-Siguiente micro-sprint recomendado: `POST-H-008-E — Gate de higiene runtime y release archive`  
+Siguiente micro-sprint recomendado: `POST-H-009-A — Documentation governance canonical source registry`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
@@ -38,6 +38,32 @@ Modo de trabajo: local-first híbrido, API keys opcionales, costo externo contro
 
 
 
+## POST-H-008-E — Runtime state lifecycle: gate de higiene runtime y release archive
+
+`POST-H-008-E` agrega el gate `runtime-state-hygiene` para impedir que runtime artifacts, SQLite local, agent sessions, outputs, caches o build artifacts entren al repositorio versionado o a archives de release. El gate es read-only y queda integrado a `quality-gate run --profile hardening` e `industrial`.
+
+Comandos principales:
+
+```powershell
+python -m devpilot_core runtime-state hygiene --json
+python -m devpilot_core runtime-state hygiene --write-report --json
+python -m devpilot_core schema validate --schema-id RuntimeStateHygieneReport --instance outputs/reports/runtime_state_hygiene_report.json --json
+python -m devpilot_core quality-gate run --profile hardening --json
+```
+
+Controles implementados:
+
+```text
+- Inspección de `git archive HEAD` en memoria cuando `.git` está disponible.
+- Fallback determinista de source archive plan cuando se valida desde un ZIP limpio sin metadata Git.
+- Bloqueo de runtime artifacts no versionables rastreados por Git.
+- Bloqueo de `outputs/`, `.devpilot/devpilot.db`, `.devpilot/agent_sessions/`, caches, builds y dependencias en archives.
+- Reporte `RuntimeStateHygieneReport` validable por schema.
+- Contrato TCR v1/v2 `post-h-008-runtime-state-hygiene`.
+```
+
+Esta versión es `implemented-initial`: cierra el ciclo mínimo de `POST-H-008`, pero no firma ni cifra archives, no implementa DLP semántico completo y no reemplaza controles futuros de supply-chain/release signing. Esas mejoras quedan para backlogs posteriores como `POST-H-013` y la evolución de release governance.
+
 ## POST-H-008-D — Runtime state lifecycle: export y redacción de evidencia runtime
 
 `POST-H-008-D` implementa la primera versión local de exportación redactada de evidencia runtime. La capacidad permite planificar export en dry-run y ejecutar export explícito bajo `outputs/runtime_exports/<id>`, generando manifest y checksums sin incluir raw prompts, raw outputs, secretos ni payloads binarios no redactables.
@@ -61,7 +87,7 @@ Controles implementados:
 - No se habilita red, APIs externas, remote execution, connector write ni plugin execution.
 ```
 
-Esta versión es `implemented-initial`: no integra todavía el export con `auditpack/release` como flujo automático, no implementa cifrado/signing de paquetes y no agrega todavía el subgate `runtime-state-hygiene` al quality gate. Esas capacidades quedan para `POST-H-008-E` y backlogs posteriores como `POST-H-013`.
+Esta versión es `implemented-initial`: entrega el export como fuente opcional y queda complementada por `POST-H-008-E`, que implementa el subgate `runtime-state-hygiene`. La integración automática completa con auditpack/release, signing y cifrado quedan para backlogs posteriores como `POST-H-013`.
 
 ## POST-H-008-C — Runtime state lifecycle: cleanup plan dry-run
 

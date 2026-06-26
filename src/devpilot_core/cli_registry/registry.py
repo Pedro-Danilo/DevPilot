@@ -194,7 +194,7 @@ DECLARATIVE_GROUPS: dict[str, DeclarativeGroupDescriptor] = {
         group_id="runtime-state",
         domain="operations.runtime_state",
         owner_module="src/devpilot_core/cli.py",
-        recommended_tests=("python -m pytest tests/test_runtime_state_inventory.py tests/test_runtime_state_cleanup_plan.py tests/test_runtime_state_export.py tests/test_post_h_008_runtime_state_lifecycle.py -q",),
+        recommended_tests=("python -m pytest tests/test_runtime_state_inventory.py tests/test_runtime_state_cleanup_plan.py tests/test_runtime_state_export.py tests/test_runtime_state_hygiene.py tests/test_post_h_008_runtime_state_lifecycle.py -q",),
         rationale="POST-H-008 runtime-state commands inspect local lifecycle artifacts and plan cleanup/export with dry-run defaults and explicit execution guards.",
     ),
 }
@@ -289,6 +289,20 @@ COMMAND_OVERRIDES: dict[str, DeclarativeCommandOverride] = {
             "python -m pytest tests/test_runtime_state_export.py tests/test_runtime_state_inventory.py tests/test_post_h_008_runtime_state_lifecycle.py -q",
         ),
         rationale="Runtime evidence export is dry-run by default; execute mode writes only redacted evidence, manifest and checksums under outputs/runtime_exports/.",
+    ),
+
+
+    "runtime-state.hygiene": DeclarativeCommandOverride(
+        command_id="runtime-state.hygiene",
+        risk_level=CommandRiskLevel.HIGH,
+        side_effects=(CommandSideEffect.WRITE_REPORT, CommandSideEffect.EXECUTE_SUBPROCESS),
+        writes_files=True,
+        dry_run_supported=True,
+        policy_check_required=True,
+        recommended_tests=(
+            "python -m pytest tests/test_runtime_state_hygiene.py tests/test_runtime_state_inventory.py tests/test_post_h_008_runtime_state_lifecycle.py -q",
+        ),
+        rationale="Runtime-state hygiene is read-only for source/runtime artifacts and optionally writes evidence; it may inspect git archive HEAD in memory when Git metadata is available.",
     ),
 }
 

@@ -1,0 +1,178 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/runtime_state_hygiene_report.schema.json",
+  "title": "DevPilot Runtime State Hygiene Report v1",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "schema_id",
+    "report_id",
+    "created_by",
+    "status",
+    "generated_at_utc",
+    "policy_id",
+    "must_exclude",
+    "policy_checks",
+    "inventory_checks",
+    "source_archive_plan",
+    "git_archive_check",
+    "summary",
+    "safety",
+    "notes"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "schema_id": {"const": "SCHEMA-DEVPL-RUNTIME-STATE-HYGIENE-REPORT-V1"},
+    "report_id": {"const": "devpilot-runtime-state-hygiene-report"},
+    "created_by": {"const": "POST-H-008-E"},
+    "status": {"enum": ["implemented-initial"]},
+    "generated_at_utc": {"type": "string", "minLength": 10},
+    "policy_id": {"type": "string", "minLength": 1},
+    "policy_path": {"type": "string"},
+    "must_exclude": {
+      "type": "array",
+      "items": {"type": "string"},
+      "contains": {"const": "outputs/"}
+    },
+    "policy_checks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "ok", "severity", "message"],
+        "properties": {
+          "id": {"type": "string"},
+          "ok": {"type": "boolean"},
+          "severity": {"enum": ["info", "warning", "fail", "block", "error"]},
+          "path": {"type": "string"},
+          "message": {"type": "string"}
+        },
+        "additionalProperties": true
+      }
+    },
+    "inventory_checks": {
+      "type": "object",
+      "required": ["inventory_available", "versioned_runtime_artifacts_total"],
+      "properties": {
+        "inventory_available": {"type": "boolean"},
+        "git_metadata_available": {"type": "boolean"},
+        "artifacts_total": {"type": "integer", "minimum": 0},
+        "runtime_artifacts_total": {"type": "integer", "minimum": 0},
+        "versioned_runtime_artifacts_total": {"type": "integer", "minimum": 0},
+        "versioned_runtime_paths": {"type": "array", "items": {"type": "string"}},
+        "blocking_violations_total": {"type": "integer", "minimum": 0},
+        "warnings_total": {"type": "integer", "minimum": 0}
+      },
+      "additionalProperties": true
+    },
+    "source_archive_plan": {"$ref": "#/$defs/archive_check"},
+    "git_archive_check": {
+      "type": "object",
+      "required": ["available", "checked", "ok", "clean", "strategy", "forbidden_entries_total", "runtime_entries_total"],
+      "properties": {
+        "available": {"type": "boolean"},
+        "checked": {"type": "boolean"},
+        "ok": {"type": "boolean"},
+        "clean": {"type": "boolean"},
+        "strategy": {"type": "string"},
+        "entries_total": {"type": "integer", "minimum": 0},
+        "entries_sha256": {"type": ["string", "null"]},
+        "forbidden_entries_total": {"type": "integer", "minimum": 0},
+        "runtime_entries_total": {"type": "integer", "minimum": 0},
+        "forbidden_entries": {"type": "array"},
+        "runtime_entries": {"type": "array"},
+        "reason": {"type": ["string", "null"]}
+      },
+      "additionalProperties": true
+    },
+    "summary": {
+      "type": "object",
+      "required": [
+        "created_by",
+        "status",
+        "dry_run",
+        "read_only",
+        "quality_gate_ready",
+        "runtime_state_hygiene_passed",
+        "release_archive_clean",
+        "network_used",
+        "external_api_used",
+        "mutations_performed",
+        "source_mutations_performed"
+      ],
+      "properties": {
+        "created_by": {"const": "POST-H-008-E"},
+        "status": {"const": "implemented-initial"},
+        "preliminary": {"type": "boolean"},
+        "dry_run": {"const": true},
+        "read_only": {"const": true},
+        "quality_gate_ready": {"type": "boolean"},
+        "runtime_state_hygiene_passed": {"type": "boolean"},
+        "release_archive_clean": {"type": "boolean"},
+        "git_archive_required": {"type": "boolean"},
+        "git_archive_available": {"type": "boolean"},
+        "git_archive_checked": {"type": "boolean"},
+        "source_archive_plan_checked": {"type": "boolean"},
+        "source_archive_plan_clean": {"type": "boolean"},
+        "versioned_runtime_artifacts_total": {"type": "integer", "minimum": 0},
+        "runtime_archive_entries_total": {"type": "integer", "minimum": 0},
+        "forbidden_archive_entries_total": {"type": "integer", "minimum": 0},
+        "must_exclude_total": {"type": "integer", "minimum": 0},
+        "blocking_reasons_total": {"type": "integer", "minimum": 0},
+        "network_used": {"const": false},
+        "external_api_used": {"const": false},
+        "mutations_performed": {"const": false},
+        "source_mutations_performed": {"const": false},
+        "destructive_cleanup_performed": {"const": false},
+        "cleanup_execution_enabled": {"const": false},
+        "export_execution_enabled": {"const": false},
+        "remote_execution_enabled": {"const": false},
+        "connector_write_enabled": {"const": false},
+        "plugin_execution_enabled": {"const": false},
+        "reports_written": {"type": "boolean"},
+        "output_json": {"type": ["string", "null"]},
+        "output_markdown": {"type": ["string", "null"]}
+      },
+      "additionalProperties": true
+    },
+    "safety": {
+      "type": "object",
+      "required": ["read_only", "dry_run_default", "network_used", "external_api_used", "mutations_performed", "source_mutations_performed", "release_archive_artifacts_written"],
+      "properties": {
+        "read_only": {"const": true},
+        "dry_run_default": {"const": true},
+        "network_used": {"const": false},
+        "external_api_used": {"const": false},
+        "mutations_performed": {"const": false},
+        "source_mutations_performed": {"const": false},
+        "destructive_cleanup_performed": {"const": false},
+        "remote_execution_enabled": {"const": false},
+        "connector_write_enabled": {"const": false},
+        "plugin_execution_enabled": {"const": false},
+        "release_archive_artifacts_written": {"const": false}
+      },
+      "additionalProperties": true
+    },
+    "notes": {"type": "array", "items": {"type": "string"}}
+  },
+  "$defs": {
+    "archive_check": {
+      "type": "object",
+      "required": ["checked", "clean", "strategy", "forbidden_entries_total", "runtime_entries_total"],
+      "properties": {
+        "checked": {"type": "boolean"},
+        "strategy": {"type": "string"},
+        "clean": {"type": "boolean"},
+        "included_files_total": {"type": "integer", "minimum": 0},
+        "excluded_files_total": {"type": "integer", "minimum": 0},
+        "forbidden_entries_total": {"type": "integer", "minimum": 0},
+        "runtime_entries_total": {"type": "integer", "minimum": 0},
+        "included_files_sha256": {"type": "string"},
+        "forbidden_entries": {"type": "array"},
+        "runtime_entries": {"type": "array"},
+        "excluded_samples": {"type": "array"}
+      },
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": true
+}

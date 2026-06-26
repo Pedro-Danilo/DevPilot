@@ -15,6 +15,18 @@ from devpilot_core.runtime_state.export import (
     render_runtime_state_export_manifest_markdown,
 )
 from devpilot_core.runtime_state.inventory import RuntimeStateInventoryBuilder, RuntimeStateInventoryOptions, render_runtime_state_inventory_markdown
+
+from devpilot_core.runtime_state.hygiene import (
+    DEFAULT_HYGIENE_JSON,
+    DEFAULT_HYGIENE_MARKDOWN,
+    POST_H_008_E_CREATED_BY,
+    RUNTIME_STATE_HYGIENE_CONTRACT,
+    RUNTIME_STATE_HYGIENE_REPORT_ID,
+    RUNTIME_STATE_HYGIENE_SCHEMA_ID,
+    RuntimeStateHygieneGate,
+    RuntimeStateHygieneOptions,
+    render_runtime_state_hygiene_markdown,
+)
 from devpilot_core.runtime_state.models import (
     POST_H_008_B_CREATED_BY,
     RUNTIME_STATE_INVENTORY_CONTRACT,
@@ -29,7 +41,7 @@ from devpilot_core.runtime_state.models import (
     RuntimeViolationSeverity,
 )
 from devpilot_core.runtime_state.policy import DEFAULT_RUNTIME_STATE_POLICY, RuntimeStatePolicyLoader
-from devpilot_core.runtime_state.report import runtime_state_export, runtime_state_inventory
+from devpilot_core.runtime_state.report import runtime_state_export, runtime_state_hygiene, runtime_state_inventory
 
 __all__ = [
     "DEFAULT_RUNTIME_STATE_POLICY",
@@ -51,6 +63,15 @@ __all__ = [
     "RuntimeStateCleanupPlanner",
     "RuntimeStateExportOptions",
     "RuntimeStateExporter",
+    "RuntimeStateHygieneGate",
+    "RuntimeStateHygieneOptions",
+    "RUNTIME_STATE_HYGIENE_SCHEMA_ID",
+    "RUNTIME_STATE_HYGIENE_REPORT_ID",
+    "RUNTIME_STATE_HYGIENE_CONTRACT",
+    "POST_H_008_E_CREATED_BY",
+    "DEFAULT_HYGIENE_JSON",
+    "DEFAULT_HYGIENE_MARKDOWN",
+    "render_runtime_state_hygiene_markdown",
     "RuntimeStateInventoryBuilder",
     "RuntimeStateInventoryOptions",
     "RuntimeStatePolicy",
@@ -61,5 +82,6 @@ __all__ = [
     "render_runtime_state_export_manifest_markdown",
     "render_runtime_state_inventory_markdown",
     "runtime_state_export",
+    "runtime_state_hygiene",
     "runtime_state_inventory",
 ]

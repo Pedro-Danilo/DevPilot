@@ -5681,6 +5681,99 @@
         "POST-H-008-D implements local-only redacted runtime evidence export; dry-run remains default and execute writes only under outputs/runtime_exports/.",
         "The contract is P1/high because runtime evidence may contain secrets, prompts, outputs or local operational state; tests enforce no raw prompt/output export and metadata-only DB handling."
       ]
+    },
+    {
+      "contract_id": "post-h-008-runtime-state-hygiene",
+      "schema_version": "2.0",
+      "source_contract_id": "post-h-008-runtime-state-hygiene",
+      "domain": "operations.audit",
+      "capability": "RuntimeStateHygieneReport",
+      "criticality": "P1",
+      "risk_level": "high",
+      "test_type": "integration",
+      "execution_profile": "always",
+      "cost_class": "low",
+      "expected_duration_seconds": 60,
+      "test_files": [
+        "tests/test_runtime_state_hygiene.py",
+        "tests/test_runtime_state_inventory.py",
+        "tests/test_runtime_state_policy_schema.py",
+        "tests/test_post_h_008_runtime_state_lifecycle.py",
+        "tests/test_schema_registry.py",
+        "tests/test_project_global_state.py",
+        "tests/test_post_h_006_b_declarative_registry.py"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/runtime_state/",
+        "src/devpilot_core/quality/gate.py",
+        "src/devpilot_core/cli.py",
+        "src/devpilot_core/cli_registry/registry.py",
+        ".devpilot/runtime_state_policy.json",
+        "docs/schemas/runtime_state_hygiene_report.schema.json",
+        "docs/schemas/schema_catalog.json",
+        ".devpilot/testing/",
+        ".devpilot/project_state.json",
+        "README.md",
+        "docs/05_operations/runbook.md",
+        "docs/05_operations/runtime_state_lifecycle_policy.md",
+        "docs/POST-H-008_runtime_state_lifecycle.md",
+        "docs/backlogs/POST-H-008_runtime_state_lifecycle.md",
+        "tests/test_runtime_state_hygiene.py"
+      ],
+      "validates": [
+        "src/devpilot_core/runtime_state/hygiene.py",
+        "src/devpilot_core/runtime_state/",
+        "src/devpilot_core/quality/gate.py",
+        "src/devpilot_core/cli.py",
+        "src/devpilot_core/cli_registry/registry.py",
+        ".devpilot/runtime_state_policy.json",
+        "docs/schemas/runtime_state_hygiene_report.schema.json",
+        "docs/schemas/schema_catalog.json",
+        "docs/POST-H-008_runtime_state_lifecycle.md",
+        "docs/backlogs/POST-H-008_runtime_state_lifecycle.md",
+        "docs/05_operations/runtime_state_lifecycle_policy.md",
+        "docs/audits/post_h_008_e_runtime_state_hygiene_report.md",
+        "docs/post_h_008_e_manifest.json"
+      ],
+      "trigger_hints": [
+        "runtime-state-hygiene",
+        "clean-zip-hygiene",
+        "git-archive",
+        "release-archive",
+        "post-h-source-change"
+      ],
+      "impact_scope": [
+        "runtime-state",
+        "release-archive",
+        "quality-gate",
+        "operations",
+        "schemas",
+        "cli-registry",
+        "test-contracts",
+        "docs-sync",
+        "post-h"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "POST-H-008-E",
+      "recommended_commands": [
+        "python -m pytest tests/test_runtime_state_hygiene.py tests/test_runtime_state_inventory.py tests/test_runtime_state_policy_schema.py tests/test_post_h_008_runtime_state_lifecycle.py -q",
+        "python -m devpilot_core runtime-state hygiene --write-report --json",
+        "python -m devpilot_core schema validate --schema-id RuntimeStateHygieneReport --instance outputs/reports/runtime_state_hygiene_report.json --json",
+        "python -m devpilot_core quality-gate run --profile hardening --json",
+        "python -m devpilot_core test-contracts validate --json",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ],
+      "classification_status": "explicit",
+      "classification_notes": [
+        "POST-H-008-E adds a read-only runtime-state hygiene gate to hardening/industrial quality profiles and blocks dirty source/release archive candidates.",
+        "The contract is P1/high because versioned runtime artifacts, local DBs, agent sessions, caches or outputs in release ZIPs can leak sensitive state or corrupt source-of-truth packages."
+      ]
     }
   ],
   "migration_metadata": {

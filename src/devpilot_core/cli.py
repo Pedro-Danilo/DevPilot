@@ -47,7 +47,16 @@ from .prompts import PromptRegistry
 from .quality import QualityGate, QualityGateOptions
 from .remote import RemoteRunnerStatusOptions, RemoteRunnerStub
 from .rag import LocalRagIndexer, LocalRagRetriever, RagIndexOptions, RagQueryOptions
-from .runtime_state import RuntimeStateCleanupOptions, RuntimeStateCleanupPlanner, RuntimeStateExportOptions, RuntimeStateExporter, RuntimeStateInventoryBuilder, RuntimeStateInventoryOptions
+from .runtime_state import (
+    RuntimeStateCleanupOptions,
+    RuntimeStateCleanupPlanner,
+    RuntimeStateExportOptions,
+    RuntimeStateExporter,
+    RuntimeStateHygieneGate,
+    RuntimeStateHygieneOptions,
+    RuntimeStateInventoryBuilder,
+    RuntimeStateInventoryOptions,
+)
 from .release import (
     BackupCreateBuilder,
     BackupCreateOptions,
@@ -3230,6 +3239,22 @@ def runtime_state_export_command(
     print_result(result, json_output=json_output)
     return int(result.exit_code)
 
+
+
+def runtime_state_hygiene_command(*, json_output: bool = False, write_report: bool = False) -> int:
+    """Run POST-H-008-E runtime-state hygiene and release archive gate.
+
+    The command is read-only for source/runtime files. It can write explicit
+    JSON/Markdown evidence under outputs/reports only with --write-report.
+    Normal CLI trace/SQLite side effects remain disabled for lifecycle tools.
+    """
+
+    root = project_root()
+    result = RuntimeStateHygieneGate(root, RuntimeStateHygieneOptions(write_report=write_report)).run()
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+
 def state_init_command(*, json_output: bool = False, write_report: bool = False) -> int:
     """Initialize the local SQLite operational state store."""
 
@@ -4620,6 +4645,11 @@ def build_parser() -> argparse.ArgumentParser:
     runtime_state_export.add_argument("--output", help="Required with --execute; must be under outputs/runtime_exports/<id>")
     runtime_state_export.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
 
+
+    runtime_state_hygiene = runtime_state_sub.add_parser("hygiene", help="Run runtime-state hygiene and release archive gate")
+    runtime_state_hygiene.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    runtime_state_hygiene.add_argument("--write-report", action="store_true", help="Persist runtime-state hygiene JSON/Markdown reports")
+
     test_impact = sub.add_parser("test-impact", help="Analyze changed files and recommend conservative test suites")
     test_impact_sub = test_impact.add_subparsers(dest="test_impact_command")
     test_impact_analyze = test_impact_sub.add_parser("analyze", help="Recommend tests for a changed file list")
@@ -5691,6 +5721,8 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
                 execute=args.execute,
                 output=args.output,
             )
+        if args.runtime_state_command == "hygiene":
+            return runtime_state_hygiene_command(json_output=args.json, write_report=args.write_report)
         parser.print_help()
         return int(ExitCode.FAIL)
     if args.command == "test-impact":
