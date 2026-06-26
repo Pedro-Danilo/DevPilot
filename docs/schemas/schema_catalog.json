@@ -615,6 +615,23 @@
       "validates_instances": true,
       "contract": "ObservabilityRetentionPolicy",
       "validation_enabled_sprint": "POST-H-010-A"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-OBSERVABILITY-INVENTORY-V1",
+      "title": "DevPilot Observability Inventory v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/observability_inventory.schema.json",
+      "description": "POST-H-010-B read-only local inventory schema for observability runtime targets declared in ObservabilityRetentionPolicy, including metadata-only size, date, retention and ZIP-hygiene checks.",
+      "status": "registered",
+      "owner": "Ordóñez",
+      "sprint": "POST-H-010-B",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "contract": "ObservabilityInventory",
+      "validation_enabled_sprint": "POST-H-010-B",
+      "local_first": true,
+      "dry_run_default": true,
+      "no_remote_execution_enabled": true
     }
   ]
 }

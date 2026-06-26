@@ -631,12 +631,15 @@
         "docs/backlogs/post_h_prioritized_roadmap.md"
       ],
       "derived_documents": [
-        "docs/POST-H-010_observability_retention.md"
+        "docs/POST-H-010_observability_retention.md",
+        "docs/audits/post_h_010_b_observability_inventory_report.md",
+        "docs/post_h_010_b_manifest.json"
       ],
       "required_tests": [
         "tests/test_documentation_governance_backlogs.py",
         "tests/test_observability_retention_schema.py",
-        "tests/test_post_h_010_observability_retention.py"
+        "tests/test_post_h_010_observability_retention.py",
+        "tests/test_observability_inventory.py"
       ],
       "sync_rules": [
         "backlog_naming",
@@ -652,7 +655,8 @@
         "Roadmap-derived executable backlog governed by POST-H-009-D.",
         "Missing future backlog files are informational planned items; existing files must pass naming and frontmatter checks.",
         "POST-H-010-A promotes this backlog to approved and starts local observability retention policy defaults.",
-        "Inventory, cleanup plan, redacted export and quality-gate integration remain deferred to POST-H-010-B/C/D/E."
+        "POST-H-010-B adds read-only metadata inventory for observability targets without cleanup/export execution.",
+        "Cleanup plan, redacted export and quality-gate integration remain deferred to POST-H-010-C/D/E."
       ]
     },
     {
@@ -1170,7 +1174,8 @@
       "hardening",
       "industrial"
     ],
-    "approved_backlogs_require_runtime_policy_tests": true
+    "approved_backlogs_require_runtime_policy_tests": true,
+    "observability_inventory_is_read_only": true
   },
   "summary": {
     "documents_total": 37,
@@ -1186,7 +1191,7 @@
     "network_used": false,
     "external_api_used": false,
     "mutations_performed": false,
-    "last_updated_by": "POST-H-010-A",
+    "last_updated_by": "POST-H-010-B",
     "markdown_json_sync_checks_enabled": true,
     "sync_checks_scope": "version_match, milestones_match, decisions_match, closure_status_match, next_hito_match",
     "backlog_governance_enabled": true,
@@ -1199,7 +1204,10 @@
       "industrial"
     ],
     "observability_retention_policy_registered": true,
-    "observability_retention_policy_path": ".devpilot/observability/retention_policy.json"
+    "observability_retention_policy_path": ".devpilot/observability/retention_policy.json",
+    "observability_inventory_schema_registered": true,
+    "observability_inventory_schema_path": "docs/schemas/observability_inventory.schema.json",
+    "observability_inventory_cli_enabled": true
   },
   "safety": {
     "local_first": true,

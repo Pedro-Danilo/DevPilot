@@ -2,11 +2,11 @@
 title: "Runbook — DevPilot Local"
 doc_id: "DEVPL-OPS-002"
 status: "approved"
-version: "1.36.0"
+version: "1.37.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "POST-H-010-A"
+phase: "POST-H-010-B"
 updated: "2026-06-26"
 approval: "approved_by_owner"
 source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved + 03_security approved"
@@ -7458,6 +7458,61 @@ Esta capacidad es `implemented-initial`. En `POST-H-009-D` ya se agregó governa
 
 
 
+
+
+## POST-H-010-B — Observability inventory read-only
+
+### Propósito
+
+`POST-H-010-B` materializa el primer inventario local de observabilidad basado en la política `.devpilot/observability/retention_policy.json`. El comando es de diagnóstico operacional: inspecciona metadatos de archivos/directorios/SQLite para saber qué existe, cuánto pesa, si excede retención, si requiere redacción y si permanece excluido de ZIPs limpios.
+
+### Comandos
+
+```powershell
+$env:PYTHONPATH="src"
+
+python -m devpilot_core observability inventory --json
+python -m devpilot_core observability inventory --json --write-report
+python -m devpilot_core schema validate --schema-id ObservabilityInventory --instance outputs/reports/observability_inventory.json --json
+python -m pytest tests/test_observability_inventory.py tests/test_post_h_010_observability_retention.py -q
+```
+
+### Reportes
+
+Con `--write-report` se generan exclusivamente:
+
+```text
+outputs/reports/observability_inventory.json
+outputs/reports/observability_inventory.md
+```
+
+Estos reportes son runtime/generated evidence y no deben versionarse ni incluirse en ZIPs limpios de entrega.
+
+### Seguridad operacional
+
+```text
+read_only=true
+raw_payloads_read=false
+network_used=false
+external_api_used=false
+mutations_performed=false
+source_mutations_performed=false
+cleanup_execution_enabled=false
+export_execution_enabled=false
+```
+
+El inventario puede estimar registros contando líneas JSONL, archivos en directorios o row counts SQLite metadata-only. No parsea payloads crudos ni lee prompts/outputs.
+
+### PASS/BLOCK
+
+PASS si se reportan todos los targets de la policy, no hay findings bloqueantes y los targets ausentes en un checkout limpio se reportan como warning operacional.
+
+BLOCK si un target resuelve fuera del workspace, si se detecta un runtime target versionable/source-of-truth, si se permite raw payload storage o si un runtime artifact existente no está marcado `clean_zip_excluded=true`.
+
+### Límites
+
+Esta versión es `implemented-initial`: no ejecuta cleanup, rotación, archivado ni export redactado. `POST-H-010-C/D/E` implementarán cleanup plan dry-run, export local redactado e integración con quality gate.
+
 ## POST-H-010-A — Retention policy schema y defaults locales
 
 ### Propósito
@@ -7504,7 +7559,7 @@ BLOCK si se habilita export remoto, red/API externa, almacenamiento de raw promp
 
 ### Límites
 
-Esta versión es `implemented-initial`: no borra, rota, archiva, exporta ni inspecciona payloads runtime. `POST-H-010-B/C/D/E` implementarán inventario read-only, cleanup plan dry-run, export redactado e integración con quality gate.
+Esta versión es `implemented-initial`: no borra, rota, archiva ni exporta. `POST-H-010-B` ya implementa inventario read-only; `POST-H-010-C/D/E` implementarán cleanup plan dry-run, export redactado e integración con quality gate.
 
 ## POST-H-009-E — Quality gate documental y runbook
 

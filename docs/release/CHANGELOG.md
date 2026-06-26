@@ -1,5 +1,31 @@
 # Changelog
 
+## [post-h-010-b] - 2026-06-26
+
+### Added
+
+- `src/devpilot_core/observability/inventory.py` read-only metadata inventory for observability targets.
+- `docs/schemas/observability_inventory.schema.json` and schema catalog entry `SCHEMA-DEVPL-OBSERVABILITY-INVENTORY-V1`.
+- CLI `python -m devpilot_core observability inventory --json [--write-report]`.
+- Tests `tests/test_observability_inventory.py` plus POST-H-010 documentation/contract assertions.
+- POST-H-010-B audit report and manifest.
+
+### Changed
+
+- README, runbook, source registry, project_state and changelog synchronized with POST-H-010-B.
+- TCR v1/v2 registered `post-h-010-observability-inventory`.
+- CLI registry declares the `observability` group and `observability.inventory` command metadata.
+
+### Security
+
+- Inventory is read-only and metadata-only.
+- `raw_payloads_read=false`, `network_used=false`, `external_api_used=false`, `mutations_performed=false`.
+- Normal CLI event logging is skipped for `observability inventory` to avoid creating the artifacts being inventoried.
+
+### Deferred
+
+- Cleanup plan dry-run, redacted export and quality-gate integration remain for POST-H-010-C/D/E.
+
 ## [post-h-010-a] - 2026-06-26
 
 ### Added
@@ -544,6 +570,32 @@ owner: "Ordóñez"
 
 
 # Changelog
+
+## [post-h-010-b] - 2026-06-26
+
+### Added
+
+- `src/devpilot_core/observability/inventory.py` read-only metadata inventory for observability targets.
+- `docs/schemas/observability_inventory.schema.json` and schema catalog entry `SCHEMA-DEVPL-OBSERVABILITY-INVENTORY-V1`.
+- CLI `python -m devpilot_core observability inventory --json [--write-report]`.
+- Tests `tests/test_observability_inventory.py` plus POST-H-010 documentation/contract assertions.
+- POST-H-010-B audit report and manifest.
+
+### Changed
+
+- README, runbook, source registry, project_state and changelog synchronized with POST-H-010-B.
+- TCR v1/v2 registered `post-h-010-observability-inventory`.
+- CLI registry declares the `observability` group and `observability.inventory` command metadata.
+
+### Security
+
+- Inventory is read-only and metadata-only.
+- `raw_payloads_read=false`, `network_used=false`, `external_api_used=false`, `mutations_performed=false`.
+- Normal CLI event logging is skipped for `observability inventory` to avoid creating the artifacts being inventoried.
+
+### Deferred
+
+- Cleanup plan dry-run, redacted export and quality-gate integration remain for POST-H-010-C/D/E.
 
 ## [post-h-004-c] - 2026-06-24
 

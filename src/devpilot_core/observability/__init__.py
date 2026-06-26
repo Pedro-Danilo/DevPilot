@@ -15,6 +15,16 @@ from .trace_store import TraceStore
 from .exporters import OTelDryRunExporter, OTelExportOptions, build_otel_like_payload
 from .trace_queries import TraceQueryService, TraceReportOptions
 
+from .inventory import (
+    DEFAULT_OBSERVABILITY_INVENTORY_JSON,
+    DEFAULT_OBSERVABILITY_INVENTORY_MARKDOWN,
+    OBSERVABILITY_INVENTORY_CONTRACT,
+    OBSERVABILITY_INVENTORY_SCHEMA_ID,
+    ObservabilityInventoryBuilder,
+    ObservabilityInventoryOptions,
+    render_observability_inventory_markdown,
+)
+
 from .retention import (
     CRITICAL_TARGETS,
     DEFAULT_OBSERVABILITY_RETENTION_POLICY,
@@ -37,6 +47,13 @@ from .tracing import (
 )
 
 __all__ = [
+    "DEFAULT_OBSERVABILITY_INVENTORY_JSON",
+    "DEFAULT_OBSERVABILITY_INVENTORY_MARKDOWN",
+    "OBSERVABILITY_INVENTORY_CONTRACT",
+    "OBSERVABILITY_INVENTORY_SCHEMA_ID",
+    "ObservabilityInventoryBuilder",
+    "ObservabilityInventoryOptions",
+    "render_observability_inventory_markdown",
     "load_observability_retention_policy",
     "RetentionRotation",
     "ObservabilityRetentionTarget",

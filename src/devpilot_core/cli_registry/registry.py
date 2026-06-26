@@ -19,6 +19,7 @@ POST_H_006_C_CREATED_BY = "POST-H-006-C"
 POST_H_006_D_CREATED_BY = "POST-H-006-D"
 POST_H_006_E_CREATED_BY = "POST-H-006-E"
 POST_H_008_B_CREATED_BY = "POST-H-008-B"
+POST_H_010_B_CREATED_BY = "POST-H-010-B"
 
 # POST-H-007-E keeps this metadata static to avoid coupling CLI registry
 # generation to ApplicationOperationCatalog imports. The runtime integration
@@ -197,6 +198,14 @@ DECLARATIVE_GROUPS: dict[str, DeclarativeGroupDescriptor] = {
         recommended_tests=("python -m pytest tests/test_runtime_state_inventory.py tests/test_runtime_state_cleanup_plan.py tests/test_runtime_state_export.py tests/test_runtime_state_hygiene.py tests/test_post_h_008_runtime_state_lifecycle.py -q",),
         rationale="POST-H-008 runtime-state commands inspect local lifecycle artifacts and plan cleanup/export with dry-run defaults and explicit execution guards.",
     ),
+
+    "observability": DeclarativeGroupDescriptor(
+        group_id="observability",
+        domain="operations.observability",
+        owner_module="src/devpilot_core/cli.py",
+        recommended_tests=("python -m pytest tests/test_observability_inventory.py tests/test_post_h_010_observability_retention.py -q",),
+        rationale="POST-H-010 observability commands inspect local retention targets with read-only metadata and dry-run defaults; cleanup/export remain deferred to later micro-sprints.",
+    ),
     "docs-governance": DeclarativeGroupDescriptor(
         group_id="docs-governance",
         domain="documentation.governance",
@@ -311,6 +320,20 @@ COMMAND_OVERRIDES: dict[str, DeclarativeCommandOverride] = {
         ),
         rationale="Runtime-state hygiene is read-only for source/runtime artifacts and optionally writes evidence; it may inspect git archive HEAD in memory when Git metadata is available.",
     ),
+
+    "observability.inventory": DeclarativeCommandOverride(
+        command_id="observability.inventory",
+        risk_level=CommandRiskLevel.MEDIUM,
+        side_effects=(CommandSideEffect.WRITE_REPORT,),
+        writes_files=True,
+        dry_run_supported=True,
+        policy_check_required=True,
+        recommended_tests=(
+            "python -m pytest tests/test_observability_inventory.py tests/test_post_h_010_observability_retention.py -q",
+        ),
+        rationale="Observability inventory is read-only for runtime/source artifacts. --write-report may materialize JSON/Markdown evidence under outputs/reports only.",
+    ),
+
     "docs-governance.validate": DeclarativeCommandOverride(
         command_id="docs-governance.validate",
         risk_level=CommandRiskLevel.MEDIUM,

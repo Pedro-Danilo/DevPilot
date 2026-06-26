@@ -37,7 +37,7 @@ from .errors import DevPilotError
 from .evals import EvalRunner
 from .identity import IdentityRegistry, IdentityRegistryOptions, RbacCheckInput
 from .industrial import IndustrialReadinessGate, IndustrialReadinessOptions
-from .observability import AgentOpsGateOptions, AgentOpsQualityGate, EventLogger, MetricsCollector, OTelDryRunExporter, OTelExportOptions, TraceQueryService
+from .observability import AgentOpsGateOptions, AgentOpsQualityGate, EventLogger, MetricsCollector, ObservabilityInventoryBuilder, ObservabilityInventoryOptions, OTelDryRunExporter, OTelExportOptions, TraceQueryService
 from .miasi import MiasiRegistryValidator, MiasiSemanticValidator
 from .modeling import BudgetLedger, CapabilityMatrix, ModelAdapterRouter, ModelEvalRunner, ModelEvalRunnerConfig, ModelHealthService, ModelRouterConfig
 from .multiagent import MultiAgentCoordinator, MultiAgentRunOptions, MultiAgentWorkflowRunner, MultiAgentWorkflowRunOptions
@@ -3242,6 +3242,21 @@ def runtime_state_export_command(
 
 
 
+
+def observability_inventory_command(*, json_output: bool = False, write_report: bool = False) -> int:
+    """Build the POST-H-010-B read-only observability inventory.
+
+    This command intentionally avoids normal CLI event logging and SQLite
+    persistence through main() skip rules: inventory must not create the very
+    observability artifacts it is inspecting. With --write-report it writes only
+    explicit evidence under outputs/reports/.
+    """
+
+    root = project_root()
+    result = ObservabilityInventoryBuilder(root, ObservabilityInventoryOptions(write_report=write_report)).run()
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
 def docs_governance_validate_command(*, json_output: bool = False, write_report: bool = False) -> int:
     """Run POST-H-009-B/C documentation governance validator.
 
@@ -4689,6 +4704,13 @@ def build_parser() -> argparse.ArgumentParser:
     runtime_state_hygiene.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     runtime_state_hygiene.add_argument("--write-report", action="store_true", help="Persist runtime-state hygiene JSON/Markdown reports")
 
+
+    observability = sub.add_parser("observability", help="Inspect local observability retention artifacts")
+    observability_sub = observability.add_subparsers(dest="observability_command")
+    observability_inventory = observability_sub.add_parser("inventory", help="Build read-only observability inventory")
+    observability_inventory.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    observability_inventory.add_argument("--write-report", action="store_true", help="Persist observability inventory JSON/Markdown reports")
+
     docs_governance = sub.add_parser("docs-governance", help="Validate documentation governance and canonical source metadata")
     docs_governance_sub = docs_governance.add_subparsers(dest="docs_governance_command")
     docs_governance_validate = docs_governance_sub.add_parser("validate", help="Validate metadata, Markdown/JSON sync and roadmap-derived backlog governance")
@@ -5774,6 +5796,12 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
             return runtime_state_hygiene_command(json_output=args.json, write_report=args.write_report)
         parser.print_help()
         return int(ExitCode.FAIL)
+
+    if args.command == "observability":
+        if args.observability_command == "inventory":
+            return observability_inventory_command(json_output=args.json, write_report=args.write_report)
+        parser.print_help()
+        return int(ExitCode.FAIL)
     if args.command == "docs-governance":
         if args.docs_governance_command == "validate":
             return docs_governance_validate_command(json_output=args.json, write_report=args.write_report)
@@ -6412,7 +6440,7 @@ def main(argv: list[str] | None = None) -> int:
     # POST-H-008-B/C: runtime-state lifecycle commands must avoid creating
     # the very trace/SQLite artifacts they inspect or plan to clean. Explicit
     # report writes remain opt-in through --write-report.
-    skip_event_logging = command_name == "runtime-state"
+    skip_event_logging = command_name in {"runtime-state", "observability"}
     logger = None if skip_event_logging else EventLogger(root)
     if logger is not None:
         logger.emit_started(command_name, argv=argv if argv is not None else sys.argv[1:])

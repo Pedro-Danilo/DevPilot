@@ -1,0 +1,86 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "SCHEMA-DEVPL-POST-H-MANIFEST-V1",
+  "post_h_id": "POST-H-010",
+  "id": "POST-H-010-B",
+  "title": "POST-H-010-B — Observability inventory read-only",
+  "status": "implemented-initial",
+  "phase": "POST-FASE-H",
+  "implemented_at": "2026-06-26",
+  "created_files": [
+    "src/devpilot_core/observability/inventory.py",
+    "docs/schemas/observability_inventory.schema.json",
+    "tests/test_observability_inventory.py",
+    "docs/audits/post_h_010_b_observability_inventory_report.md",
+    "docs/post_h_010_b_manifest.json"
+  ],
+  "modified_files": [
+    "src/devpilot_core/observability/__init__.py",
+    "src/devpilot_core/cli.py",
+    "src/devpilot_core/cli_registry/registry.py",
+    "docs/schemas/schema_catalog.json",
+    ".devpilot/docs_governance/source_registry.json",
+    ".devpilot/project_state.json",
+    ".devpilot/testing/test_contract_registry.json",
+    ".devpilot/testing/test_contract_registry_v2.json",
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/backlogs/POST-H-010_observability_retention.md",
+    "docs/POST-H-010_observability_retention.md",
+    "docs/release/CHANGELOG.md",
+    "tests/test_schema_registry.py",
+    "tests/test_project_global_state.py",
+    "tests/test_post_h_010_observability_retention.py"
+  ],
+  "commands": [
+    "python -m pytest tests/test_observability_inventory.py tests/test_post_h_010_observability_retention.py tests/test_observability_retention_schema.py tests/test_schema_registry.py tests/test_project_global_state.py -q",
+    "python -m devpilot_core observability inventory --json --write-report",
+    "python -m devpilot_core schema validate --schema-id ObservabilityInventory --instance outputs/reports/observability_inventory.json --json",
+    "python -m devpilot_core schema validate --schema-id PostHManifest --instance docs/post_h_010_b_manifest.json --json",
+    "python -m devpilot_core docs-governance validate --json",
+    "python -m devpilot_core test-contracts validate --json",
+    "python -m devpilot_core test-contracts validate-v2 --json"
+  ],
+  "tests": [
+    "tests/test_observability_inventory.py",
+    "tests/test_post_h_010_observability_retention.py",
+    "tests/test_observability_retention_schema.py",
+    "tests/test_schema_registry.py",
+    "tests/test_project_global_state.py"
+  ],
+  "pass_criteria": [
+    "Inventory reporta todos los targets definidos por retention_policy.json.",
+    "Inventory no modifica archivos y no lee raw payloads.",
+    "Reports se escriben solo con --write-report bajo outputs/reports.",
+    "ObservabilityInventory schema valida el reporte generado.",
+    "Targets runtime conservan clean_zip_excluded=true y versionable=false."
+  ],
+  "block_criteria": [
+    "Bloquear si un target resuelve fuera del workspace.",
+    "Bloquear si un runtime target es source_of_truth o versionable.",
+    "Bloquear si raw_payload_storage_allowed=true.",
+    "Bloquear si se habilita red, API externa, cleanup o export en este micro-sprint.",
+    "Bloquear si un runtime artifact existente no está marcado clean_zip_excluded=true."
+  ],
+  "risks": [
+    "Targets ausentes en un checkout limpio aparecen como warnings operacionales; no prueban presencia runtime real.",
+    "Conteos SQLite son metadata-only y no reemplazan auditoría semántica de contenido.",
+    "El inventario no decide acciones de limpieza; POST-H-010-C debe calcular cleanup plan dry-run.",
+    "El subgate observability-retention queda para POST-H-010-E."
+  ],
+  "next_sprint": "POST-H-010",
+  "preliminary": true,
+  "security": {
+    "local_first": true,
+    "dry_run": true,
+    "read_only": true,
+    "raw_payloads_read": false,
+    "network_used": false,
+    "external_api_used": false,
+    "mutations_performed": false,
+    "source_mutations_performed": false,
+    "remote_execution_enabled": false,
+    "connector_write_enabled": false,
+    "plugin_execution_enabled": false
+  }
+}

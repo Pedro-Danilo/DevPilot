@@ -4,7 +4,7 @@ doc_id: "POST-H-010-BACKLOG"
 id: "POST-H-010"
 title: "POST-H-010 — Observability retention local"
 status: "approved"
-version: "1.0.0"
+version: "1.1.0"
 owner: "Ordóñez"
 updated: "2026-06-26"
 approval: "approved_by_owner"
@@ -18,8 +18,8 @@ no_external_apis_used: true
 no_connector_write_enabled: true
 no_plugin_execution_enabled: true
 implementation_status: "active"
-current_micro_sprint: "POST-H-010-A"
-next_micro_sprint: "POST-H-010-B"
+current_micro_sprint: "POST-H-010-B"
+next_micro_sprint: "POST-H-010-C"
 ---
 
 # POST-H-010 — Observability retention local
@@ -509,7 +509,7 @@ Capacidades implementadas:
 Límites de esta versión:
 
 ```text
-- No implementa todavía inventario real de archivos (`POST-H-010-B`).
+- El inventario real read-only queda implementado en `POST-H-010-B`.
 - No calcula plan de cleanup/rotación (`POST-H-010-C`).
 - No exporta evidencia redactada (`POST-H-010-D`).
 - No integra aún subgate `observability-retention` al `quality-gate hardening` (`POST-H-010-E`).
@@ -521,4 +521,49 @@ Comandos de validación del micro-sprint:
 ```powershell
 python -m pytest tests/test_observability_retention_schema.py tests/test_post_h_010_observability_retention.py -q
 python -m devpilot_core schema validate --schema-id ObservabilityRetentionPolicy --instance .devpilot/observability/retention_policy.json --json
+```
+
+
+## 15. Avance de implementación — POST-H-010-B
+
+Estado: `implemented-initial`.
+
+`POST-H-010-B — Observability inventory read-only` implementa el primer inventario local de observabilidad basado en `.devpilot/observability/retention_policy.json`. La capacidad inspecciona metadatos de los targets runtime sin limpiar, rotar, exportar, leer payloads crudos ni mutar fuentes.
+
+Artefactos implementados:
+
+```text
+src/devpilot_core/observability/inventory.py
+docs/schemas/observability_inventory.schema.json
+tests/test_observability_inventory.py
+docs/audits/post_h_010_b_observability_inventory_report.md
+docs/post_h_010_b_manifest.json
+```
+
+Capacidades implementadas:
+
+```text
+- Schema `ObservabilityInventory` registrado en `schema_catalog`.
+- Builder `ObservabilityInventoryBuilder` con salida `CommandResult`.
+- CLI `python -m devpilot_core observability inventory --json [--write-report]`.
+- Reportes opt-in `outputs/reports/observability_inventory.json|md`.
+- Inspección metadata-only: existencia, tamaño, fecha, conteo estimado, expiración, recomendación de rotación, redacción requerida, clean_zip_excluded y risk_level.
+- Conteo SQLite metadata-only cuando `.devpilot/devpilot.db` existe; no se leen prompts/outputs ni payloads crudos.
+```
+
+Límites de esta versión:
+
+```text
+- No ejecuta cleanup, delete, rotate, archive ni export.
+- No integra todavía `observability-retention` al `quality-gate hardening` (`POST-H-010-E`).
+- Los targets ausentes en un checkout limpio son warnings operacionales, no bloqueo.
+- El plan de acciones `would_rotate/would_delete/would_export` queda para `POST-H-010-C/D`.
+```
+
+Comandos de validación del micro-sprint:
+
+```powershell
+python -m devpilot_core observability inventory --json --write-report
+python -m devpilot_core schema validate --schema-id ObservabilityInventory --instance outputs/reports/observability_inventory.json --json
+python -m pytest tests/test_observability_inventory.py tests/test_post_h_010_observability_retention.py -q
 ```
