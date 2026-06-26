@@ -3,7 +3,7 @@ doc_id: "POST-H-009-BACKLOG"
 id: "POST-H-009"
 title: "POST-H-009 — Documentation governance y canonical sources"
 status: "approved"
-version: "0.2.0"
+version: "0.3.0"
 owner: "Ordóñez"
 updated: "2026-06-26"
 approval: "approved_by_owner"
@@ -15,8 +15,8 @@ dry_run: true
 no_runtime_features_added_by_backlog: false
 no_remote_execution_enabled: true
 implementation_status: "in-progress"
-current_micro_sprint: "POST-H-009-B"
-next_micro_sprint: "POST-H-009-C"
+current_micro_sprint: "POST-H-009-C"
+next_micro_sprint: "POST-H-009-D"
 ---
 
 # POST-H-009 — Documentation governance y canonical sources
@@ -458,3 +458,58 @@ Límites de esta versión:
 ```
 
 Estas capacidades quedan para `POST-H-009-C`, `POST-H-009-D` y `POST-H-009-E`.
+
+## 16. Avance de implementación — POST-H-009-C
+
+Estado: `implemented-initial`.
+
+`POST-H-009-C — Sync validator Markdown ↔ JSON` amplía el validator ejecutable de gobernanza documental para detectar drift entre documentación humana y fuentes machine-readable críticas:
+
+```text
+python -m devpilot_core docs-governance validate --json
+python -m devpilot_core docs-governance report --write-report --json
+```
+
+Artefactos implementados:
+
+```text
+src/devpilot_core/docs_governance/drift.py
+tests/test_documentation_governance_sync.py
+docs/audits/post_h_009_c_documentation_sync_validator_report.md
+docs/post_h_009_c_manifest.json
+```
+
+Capacidades implementadas:
+
+```text
+- Regla version_match para roadmap Markdown ↔ JSON.
+- Regla milestones_match para hitos POST-H-002..POST-H-025.
+- Validación explícita de POST-H-024 y POST-H-025 en roadmap MD/JSON.
+- Regla decisions_match para DEC-POSTH-* con validación explícita de DEC-POSTH-008 y DEC-POSTH-009.
+- Regla closure_status_match entre manifest POST-H-EVAL-001 y closure report.
+- Regla next_hito_match entre project_state y README/runbook/changelog.
+- Reporte DocumentationGovernanceReport extendido con sync_checks.
+- Comando alias docs-governance report para generar evidencia JSON/Markdown.
+- Contrato TCR v1/v2 para DocumentationSyncValidator.
+```
+
+Criterios PASS cubiertos:
+
+```text
+PASS si markdown_json_sync_passed=true.
+PASS si roadmap_markdown_json_sync_passed=true.
+PASS si POST-H-024 y POST-H-025 aparecen sincronizados en roadmap MD/JSON.
+PASS si DEC-POSTH-008 y DEC-POSTH-009 aparecen sincronizadas.
+PASS si el reporte identifica source_path y counterpart_path por regla evaluada.
+```
+
+Límites de esta versión:
+
+```text
+- No gobierna aún todos los backlogs derivados del roadmap; queda para POST-H-009-D.
+- No integra aún subgate docs-governance al quality-gate hardening; queda para POST-H-009-E.
+- No usa LLM judge, red, APIs externas ni mutaciones de fuentes.
+```
+
+Estas capacidades quedan para `POST-H-009-D` y `POST-H-009-E`.
+

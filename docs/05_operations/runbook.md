@@ -2,11 +2,11 @@
 title: "Runbook — DevPilot Local"
 doc_id: "DEVPL-OPS-002"
 status: "approved"
-version: "1.32.0"
+version: "1.33.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "FUNC-SPRINT-31"
+phase: "POST-H-009-C"
 updated: "2026-06-25"
 approval: "approved_by_owner"
 source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved + 03_security approved"
@@ -7357,3 +7357,51 @@ Dado que la suite global ya supera 1000 tests, es procedente no ejecutar `pytest
 ```
 
 Esta política no sustituye la suite global; la convierte en checkpoint periódico de mayor costo. `POST-H-008-E` ya aportó evidencia reciente de `pytest -q` completo con `1100 passed`, por lo que `POST-H-009-A` puede validarse focalmente.
+## POST-H-009-C — Sync validator Markdown ↔ JSON
+
+`POST-H-009-C` amplía la operación `docs-governance validate` para detectar drift determinístico entre documentación humana y fuentes JSON machine-readable. La validación es local-first, read-only, sin red, sin APIs externas y sin LLM judge.
+
+### Comandos
+
+```powershell
+python -m devpilot_core docs-governance validate --json
+python -m devpilot_core docs-governance report --write-report --json
+python -m devpilot_core schema validate `
+  --schema-id DocumentationGovernanceReport `
+  --instance outputs/reports/documentation_governance_report.json `
+  --json
+```
+
+### Reglas ejecutadas
+
+```text
+version_match: roadmap Markdown y JSON deben declarar la misma version.
+milestones_match: POST-H-002..POST-H-025 deben estar sincronizados entre roadmap MD/JSON.
+decisions_match: DEC-POSTH-* deben estar sincronizadas entre roadmap MD/JSON.
+closure_status_match: manifest POST-H-EVAL-001 y closure report no deben contradecir cierre.
+next_hito_match: project_state.next_sprint debe aparecer en README, runbook y changelog.
+```
+
+### PASS
+
+```text
+PASS si markdown_json_sync_passed=true.
+PASS si roadmap_markdown_json_sync_passed=true.
+PASS si POST-H-024 y POST-H-025 existen en roadmap MD/JSON.
+PASS si DEC-POSTH-008 y DEC-POSTH-009 existen en roadmap MD/JSON.
+PASS si blocking_findings_total=0.
+```
+
+### BLOCK
+
+```text
+BLOCK si roadmap MD y JSON difieren en hitos o decisiones críticas.
+BLOCK si manifest/closure report contradicen cierre del hito.
+BLOCK si project_state.next_sprint no aparece en sus contrapartes humanas registradas.
+BLOCK si el validator usa red, APIs externas, LLM judge o mutaciones de fuentes.
+```
+
+### Límite de versión
+
+Esta capacidad es `implemented-initial`. La governance de todos los backlogs derivados del roadmap queda para `POST-H-009-D`; la integración como subgate del quality gate queda para `POST-H-009-E`.
+

@@ -6,11 +6,14 @@ from pathlib import Path
 from typing import Any
 
 from devpilot_core.cli_models import CommandResult, ExitCode, Finding, Severity, exit_code_for_findings
+from devpilot_core.docs_governance.drift import DocumentationSyncValidator
 from devpilot_core.docs_governance.registry import DEFAULT_DOCUMENTATION_SOURCE_REGISTRY, load_documentation_source_registry
 from devpilot_core.runtime_state.models import utc_now_iso
 from devpilot_core.validators.frontmatter import parse_frontmatter_file, validate_frontmatter_document
 
 POST_H_009_B_CREATED_BY = "POST-H-009-B"
+POST_H_009_C_CREATED_BY = "POST-H-009-C"
+POST_H_009_CURRENT_CREATED_BY = POST_H_009_C_CREATED_BY
 DOCUMENTATION_GOVERNANCE_REPORT_SCHEMA_ID = "SCHEMA-DEVPL-DOCUMENTATION-GOVERNANCE-REPORT-V1"
 DOCUMENTATION_GOVERNANCE_REPORT_ID = "devpilot-documentation-governance-report"
 DOCUMENTATION_GOVERNANCE_CONTRACT = "DocumentationGovernanceReport"
@@ -40,7 +43,8 @@ class DocumentationGovernanceValidator:
     It validates the minimum metadata layer: path existence, registry ownership,
     required test existence, Markdown frontmatter for approved documents, doc_id
     consistency and status consistency when the governed file exposes status.
-    Markdown/JSON semantic drift is deliberately deferred to POST-H-009-C.
+    POST-H-009-C extends the same command with deterministic Markdown/JSON
+    synchronization checks for roadmap, decisions, closure status and next hito.
     """
 
     def __init__(self, root: Path, options: DocumentationGovernanceValidationOptions | None = None) -> None:
@@ -62,7 +66,7 @@ class DocumentationGovernanceValidator:
                 False,
                 ExitCode.ERROR,
                 "Documentation governance validation failed with an unexpected error.",
-                data={"summary": {"created_by": POST_H_009_B_CREATED_BY, "preliminary": True}},
+                data={"summary": {"created_by": POST_H_009_CURRENT_CREATED_BY, "preliminary": True}},
                 findings=[finding],
             )
 
@@ -169,12 +173,17 @@ class DocumentationGovernanceValidator:
 
             document_checks.append(check)
 
+        sync_result = DocumentationSyncValidator(self.root, registry).run()
+        sync_checks = list(sync_result["sync_checks"])
+        sync_summary = dict(sync_result["summary"])
+        findings.extend(sync_result["findings"])
+
         blocking_total = sum(1 for item in findings if item["severity"] in {"fail", "block", "error"})
         warnings_total = sum(1 for item in findings if item["severity"] == "warning")
         info_total = sum(1 for item in findings if item["severity"] == "info")
         ok = blocking_total == 0
         summary = {
-            "created_by": POST_H_009_B_CREATED_BY,
+            "created_by": POST_H_009_CURRENT_CREATED_BY,
             "status": "implemented-initial",
             "preliminary": True,
             "documents_total": len(registry.documents),
@@ -184,15 +193,22 @@ class DocumentationGovernanceValidator:
             "source_of_truth_checked_total": source_of_truth_checked_total,
             "machine_readable_checked_total": machine_readable_checked_total,
             "required_tests_checked_total": required_tests_checked_total,
-            "markdown_json_pairs_checked_total": 0,
-            "drift_findings_total": 0,
+            "markdown_json_pairs_checked_total": sync_summary.get("sync_checks_total", 0),
+            "drift_findings_total": sync_summary.get("sync_findings_total", 0),
             "historical_current_authority_total": historical_current_authority_total,
             "findings_total": len(findings),
             "info_total": info_total,
             "warnings_total": warnings_total,
             "blocking_findings_total": blocking_total,
             "docs_governance_passed": ok,
-            "frontmatter_status_ownership_passed": ok,
+            "frontmatter_status_ownership_passed": ok and sync_summary.get("sync_passed", False),
+            "markdown_json_sync_passed": sync_summary.get("sync_passed", False),
+            "roadmap_markdown_json_sync_passed": sync_summary.get("roadmap_markdown_json_sync_passed", False),
+            "version_match_checked_total": sync_summary.get("version_match_checked_total", 0),
+            "milestones_match_checked_total": sync_summary.get("milestones_match_checked_total", 0),
+            "decisions_match_checked_total": sync_summary.get("decisions_match_checked_total", 0),
+            "closure_status_match_checked_total": sync_summary.get("closure_status_match_checked_total", 0),
+            "next_hito_match_checked_total": sync_summary.get("next_hito_match_checked_total", 0),
             "read_only": True,
             "dry_run": True,
             "network_used": False,
@@ -205,12 +221,13 @@ class DocumentationGovernanceValidator:
             "schema_version": "1.0",
             "schema_id": DOCUMENTATION_GOVERNANCE_REPORT_SCHEMA_ID,
             "report_id": DOCUMENTATION_GOVERNANCE_REPORT_ID,
-            "created_by": POST_H_009_B_CREATED_BY,
+            "created_by": POST_H_009_CURRENT_CREATED_BY,
             "status": "implemented-initial",
             "generated_at_utc": utc_now_iso(),
             "registry_path": _posix(self.options.registry_path),
             "summary": summary,
             "document_checks": document_checks,
+            "sync_checks": sync_checks,
             "findings": findings,
             "safety": {
                 "local_first": True,
@@ -227,8 +244,9 @@ class DocumentationGovernanceValidator:
             },
             "notes": [
                 "POST-H-009-B validates minimum documentation metadata declared by the canonical source registry.",
+                "POST-H-009-C adds deterministic Markdown/JSON sync checks for roadmap, decisions, closure status and next hito.",
                 "This validator is deterministic and read-only; it does not use LLM judge, network or external APIs.",
-                "Markdown/JSON semantic drift checks remain deferred to POST-H-009-C.",
+                "Backlog derivative governance remains deferred to POST-H-009-D.",
                 "Quality-gate integration remains deferred to POST-H-009-E.",
             ],
         }
@@ -328,6 +346,9 @@ def render_documentation_governance_markdown(report: dict[str, Any]) -> str:
         f"- Frontmatter checked: `{summary.get('frontmatter_checked_total')}`",
         f"- Blocking findings: `{summary.get('blocking_findings_total')}`",
         f"- Warnings: `{summary.get('warnings_total')}`",
+        f"- Markdown/JSON sync checks: `{summary.get('markdown_json_pairs_checked_total')}`",
+        f"- Markdown/JSON sync passed: `{summary.get('markdown_json_sync_passed')}`",
+        f"- Roadmap Markdown/JSON sync passed: `{summary.get('roadmap_markdown_json_sync_passed')}`",
         f"- Passed: `{summary.get('docs_governance_passed')}`",
         "",
         "## Safety",
@@ -348,6 +369,15 @@ def render_documentation_governance_markdown(report: dict[str, Any]) -> str:
         for finding in findings:
             path = f" — `{finding.get('path')}`" if finding.get("path") else ""
             lines.append(f"- `{finding.get('severity')}` `{finding.get('id')}`{path}: {finding.get('message')}")
+    lines.extend(["", "## Sync checks", ""])
+    sync_checks = report.get("sync_checks", [])
+    if not sync_checks:
+        lines.append("No sync checks executed.")
+    else:
+        for check in sync_checks:
+            lines.append(
+                f"- `{check.get('rule')}` `{check.get('source_path')}` ↔ `{check.get('counterpart_path')}`: ok=`{check.get('ok')}`"
+            )
     lines.extend([
         "",
         "## Notes",

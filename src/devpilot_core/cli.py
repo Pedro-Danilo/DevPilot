@@ -3243,12 +3243,12 @@ def runtime_state_export_command(
 
 
 def docs_governance_validate_command(*, json_output: bool = False, write_report: bool = False) -> int:
-    """Run POST-H-009-B documentation governance metadata validator.
+    """Run POST-H-009-B/C documentation governance validator.
 
     The command is deterministic, local-first and read-only for source files.
     It validates frontmatter/status/ownership/test coverage metadata declared
-    in .devpilot/docs_governance/source_registry.json. Markdown/JSON drift
-    checks are intentionally deferred to POST-H-009-C.
+    in .devpilot/docs_governance/source_registry.json and POST-H-009-C
+    Markdown/JSON sync checks for roadmap, decisions, closure status and next hito.
     """
 
     root = project_root()
@@ -3259,6 +3259,25 @@ def docs_governance_validate_command(*, json_output: bool = False, write_report:
     print_result(result, json_output=json_output)
     return int(result.exit_code)
 
+
+def docs_governance_report_command(*, json_output: bool = False, write_report: bool = True) -> int:
+    """Generate POST-H-009-C documentation governance report evidence."""
+
+    root = project_root()
+    result = DocumentationGovernanceValidator(
+        root,
+        DocumentationGovernanceValidationOptions(write_report=write_report),
+    ).run()
+    result = CommandResult(
+        "docs-governance report",
+        result.ok,
+        result.exit_code,
+        result.message,
+        data=result.data,
+        findings=result.findings,
+    )
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
 
 
 def runtime_state_hygiene_command(*, json_output: bool = False, write_report: bool = False) -> int:
@@ -4672,9 +4691,13 @@ def build_parser() -> argparse.ArgumentParser:
 
     docs_governance = sub.add_parser("docs-governance", help="Validate documentation governance and canonical source metadata")
     docs_governance_sub = docs_governance.add_subparsers(dest="docs_governance_command")
-    docs_governance_validate = docs_governance_sub.add_parser("validate", help="Validate frontmatter/status/ownership metadata from the canonical source registry")
+    docs_governance_validate = docs_governance_sub.add_parser("validate", help="Validate metadata and Markdown/JSON sync from the canonical source registry")
     docs_governance_validate.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     docs_governance_validate.add_argument("--write-report", action="store_true", help="Persist documentation governance JSON/Markdown report")
+
+    docs_governance_report = docs_governance_sub.add_parser("report", help="Generate documentation governance JSON/Markdown report evidence")
+    docs_governance_report.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    docs_governance_report.add_argument("--write-report", action="store_true", help="Persist documentation governance JSON/Markdown report; enabled by default for this command")
 
     test_impact = sub.add_parser("test-impact", help="Analyze changed files and recommend conservative test suites")
     test_impact_sub = test_impact.add_subparsers(dest="test_impact_command")
@@ -5754,6 +5777,8 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
     if args.command == "docs-governance":
         if args.docs_governance_command == "validate":
             return docs_governance_validate_command(json_output=args.json, write_report=args.write_report)
+        if args.docs_governance_command == "report":
+            return docs_governance_report_command(json_output=args.json, write_report=True)
         parser.print_help()
         return int(ExitCode.FAIL)
     if args.command == "test-impact":

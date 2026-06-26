@@ -2,11 +2,12 @@
 doc_id: "DEVPL-OPS-DOCS-GOVERNANCE-001"
 title: "Documentation governance y fuentes canónicas"
 status: "approved"
-version: "0.2.0"
+version: "0.3.0"
 owner: "Ordóñez"
 updated: "2026-06-26"
+approval: "approved_by_owner"
 phase: "POST-FASE-H"
-micro_sprint: "POST-H-009-B"
+micro_sprint: "POST-H-009-C"
 local_first: true
 dry_run: true
 no_remote_execution_enabled: true
@@ -16,7 +17,7 @@ no_remote_execution_enabled: true
 
 ## 1. Propósito
 
-Este documento describe la primera versión ejecutable de la gobernanza documental de DevPilot Local, ampliada en `POST-H-009-B — Validator de frontmatter/status/ownership`.
+Este documento describe la primera versión ejecutable de la gobernanza documental de DevPilot Local, ampliada hasta `POST-H-009-C — Sync validator Markdown ↔ JSON`.
 
 La meta es separar explícitamente:
 
@@ -26,7 +27,7 @@ La meta es separar explícitamente:
 - documentos derivados;
 - evidencia histórica;
 - reportes runtime generados;
-- reglas de sincronización pendientes de validación ejecutable.
+- reglas de sincronización ejecutables para pares Markdown ↔ JSON críticos.
 ```
 
 ## 2. Registry canónico
@@ -55,7 +56,7 @@ python -m devpilot_core schema validate --schema-id DocumentationSourceRegistry 
 python -m devpilot_core docs-governance validate --json
 python -m devpilot_core docs-governance validate --write-report --json
 python -m devpilot_core schema validate --schema-id DocumentationGovernanceReport --instance outputs/reports/documentation_governance_report.json --json
-python -m pytest tests/test_documentation_source_registry_schema.py tests/test_documentation_governance_validator.py tests/test_post_h_009_documentation_governance.py -q
+python -m pytest tests/test_documentation_source_registry_schema.py tests/test_documentation_governance_validator.py tests/test_documentation_governance_sync.py tests/test_post_h_009_documentation_governance.py -q
 ```
 
 ## 4.1. Validator `docs-governance validate`
@@ -72,19 +73,33 @@ python -m pytest tests/test_documentation_source_registry_schema.py tests/test_d
 - clasificación historical sin promover evidencia histórica como autoridad actual no declarada.
 ```
 
-El comando no calcula todavía drift Markdown ↔ JSON; esa capa corresponde a `POST-H-009-C`.
+`POST-H-009-C` agrega drift checks Markdown ↔ JSON para roadmap, decisiones, cierre y siguiente hito; el mismo comando conserva las validaciones de metadata de `POST-H-009-B`.
+
+
+## 4.2. Sync validator Markdown ↔ JSON
+
+`POST-H-009-C` ejecuta estas reglas determinísticas:
+
+```text
+- version_match para `docs/backlogs/post_h_prioritized_roadmap.md` ↔ `.devpilot/evals/post_h_eval_001_prioritized_roadmap.json`;
+- milestones_match para hitos `POST-H-002..POST-H-025`, incluyendo `POST-H-024` y `POST-H-025`;
+- decisions_match para `DEC-POSTH-*`, incluyendo `DEC-POSTH-008` y `DEC-POSTH-009`;
+- closure_status_match entre `docs/post_h_eval_001_manifest.json` y `docs/audits/post_h_eval_001_closure_report.md`;
+- next_hito_match entre `.devpilot/project_state.json` y README/runbook/changelog.
+```
+
+El reporte identifica `source_path`, `counterpart_path`, regla evaluada, totales comparados y faltantes por lado.
 
 ## 5. Límites de esta versión
 
-`POST-H-009-B` es `implemented-initial`. Aún no implementa:
+`POST-H-009-C` es `implemented-initial`. Aún no implementa:
 
 ```text
-- detección ejecutable de drift Markdown ↔ JSON;
 - governance de todos los backlogs derivados;
 - subgate docs-governance en quality-gate hardening.
 ```
 
-Estas capacidades se implementarán en `POST-H-009-C` a `POST-H-009-E`.
+Estas capacidades se implementarán en `POST-H-009-D` y `POST-H-009-E`.
 
 ## 6. Seguridad y operación
 

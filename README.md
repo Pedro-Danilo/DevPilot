@@ -1,13 +1,13 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
-Estado actual: `baseline pre-code approved + Fases A-G cerradas + Fase H cerrada + POST-H-001 implemented-initial + POST-H-EVAL-001 closed + POST-H-002 closed + POST-H-003 closed + POST-H-004 closed + POST-H-005 closed + POST-H-006 closed + POST-H-007 closed + POST-H-008-A implemented-initial + POST-H-008-B implemented-initial + POST-H-008-C implemented-initial + POST-H-008-D implemented-initial + POST-H-008-E implemented-initial + POST-H-008 closed + POST-H-009-A implemented-initial + POST-H-009-B implemented-initial`  
+Estado actual: `baseline pre-code approved + Fases A-G cerradas + Fase H cerrada + POST-H-001 implemented-initial + POST-H-EVAL-001 closed + POST-H-002 closed + POST-H-003 closed + POST-H-004 closed + POST-H-005 closed + POST-H-006 closed + POST-H-007 closed + POST-H-008-A implemented-initial + POST-H-008-B implemented-initial + POST-H-008-C implemented-initial + POST-H-008-D implemented-initial + POST-H-008-E implemented-initial + POST-H-008 closed + POST-H-009-A implemented-initial + POST-H-009-B implemented-initial + POST-H-009-C implemented-initial`  
 Último hito: `POST-H-008 — Runtime state lifecycle policy`  
 Siguiente hito: `POST-H-009 — Documentation governance`  
-Último micro-sprint implementado: `POST-H-009-B — Validator de frontmatter/status/ownership`  
+Último micro-sprint implementado: `POST-H-009-C — Sync validator Markdown ↔ JSON`  
 Hito diagnóstico cerrado: `POST-H-EVAL-001 — Evaluación integral del baseline DevPilot post-Fase H`, cierre formal `POST-H-EVAL-001-G`  
 Hito cerrado: `POST-H-008 — Runtime state lifecycle policy`  
 Hito cerrado: `POST-H-007 — ApplicationService boundary hardening`  
-Siguiente micro-sprint recomendado: `POST-H-009-C — Sync validator Markdown ↔ JSON`  
+Siguiente micro-sprint recomendado: `POST-H-009-D — Backlog governance y derivados del roadmap`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
@@ -39,6 +39,32 @@ Modo de trabajo: local-first híbrido, API keys opcionales, costo externo contro
 
 
 
+
+
+## POST-H-009-C — Documentation governance: Sync validator Markdown ↔ JSON
+
+`POST-H-009-C` amplía `docs-governance validate` con validación determinística de sincronización entre fuentes humanas Markdown y artefactos machine-readable JSON. La validación compara roadmap Markdown ↔ JSON, hitos críticos `POST-H-024`/`POST-H-025`, decisiones `DEC-POSTH-008`/`DEC-POSTH-009`, cierre manifest ↔ closure report y `next_sprint` de `project_state` contra README/runbook/changelog.
+
+Artefactos principales:
+
+```text
+src/devpilot_core/docs_governance/drift.py
+tests/test_documentation_governance_sync.py
+docs/audits/post_h_009_c_documentation_sync_validator_report.md
+docs/post_h_009_c_manifest.json
+```
+
+Comandos principales:
+
+```powershell
+python -m devpilot_core docs-governance validate --json
+python -m devpilot_core docs-governance report --write-report --json
+python -m devpilot_core schema validate --schema-id DocumentationGovernanceReport --instance outputs/reports/documentation_governance_report.json --json
+```
+
+Criterio PASS: `markdown_json_sync_passed=true`, `roadmap_markdown_json_sync_passed=true`, `blocking_findings_total=0`, sin red, sin APIs externas, sin LLM judge y sin mutaciones de fuentes.
+
+Esta versión es `implemented-initial`: aún no gobierna todos los backlogs derivados POST-H-002..POST-H-025 ni integra el subgate al `quality-gate hardening`; eso queda para `POST-H-009-D` y `POST-H-009-E`.
 
 ## POST-H-009-B — Documentation governance: validator de frontmatter/status/ownership
 

@@ -1,0 +1,76 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "SCHEMA-DEVPL-POST-H-MANIFEST-V1",
+  "post_h_id": "POST-H-009",
+  "id": "POST-H-009-C",
+  "sprint_id": "POST-H-009-C",
+  "title": "POST-H-009-C — Sync validator Markdown ↔ JSON",
+  "status": "implemented-initial",
+  "phase": "POST-FASE-H",
+  "implemented_at": "2026-06-26",
+  "preliminary": true,
+  "created_files": [
+    "src/devpilot_core/docs_governance/drift.py",
+    "docs/audits/post_h_009_c_documentation_sync_validator_report.md",
+    "docs/post_h_009_c_manifest.json",
+    "tests/test_documentation_governance_sync.py"
+  ],
+  "modified_files": [
+    "README.md",
+    ".devpilot/project_state.json",
+    ".devpilot/docs_governance/source_registry.json",
+    ".devpilot/testing/test_contract_registry.json",
+    ".devpilot/testing/test_contract_registry_v2.json",
+    "docs/05_operations/documentation_governance.md",
+    "docs/05_operations/runbook.md",
+    "docs/POST-H-009_documentation_governance.md",
+    "docs/backlogs/POST-H-009_documentation_governance.md",
+    "docs/release/CHANGELOG.md",
+    "src/devpilot_core/cli.py",
+    "src/devpilot_core/cli_registry/registry.py",
+    "src/devpilot_core/docs_governance/__init__.py",
+    "src/devpilot_core/docs_governance/report.py",
+    "src/devpilot_core/docs_governance/validator.py",
+    "tests/test_documentation_governance_validator.py",
+    "tests/test_post_h_009_documentation_governance.py",
+    "tests/test_project_global_state.py"
+  ],
+  "commands": [
+    "python -m devpilot_core docs-governance validate --json",
+    "python -m devpilot_core docs-governance report --write-report --json",
+    "python -m devpilot_core schema validate --schema-id DocumentationGovernanceReport --instance outputs/reports/documentation_governance_report.json --json",
+    "python -m devpilot_core test-contracts validate --json",
+    "python -m devpilot_core test-contracts validate-v2 --json"
+  ],
+  "tests": [
+    "tests/test_documentation_governance_sync.py",
+    "tests/test_documentation_governance_validator.py",
+    "tests/test_post_h_009_documentation_governance.py",
+    "tests/test_documentation_source_registry_schema.py",
+    "tests/test_post_h_006_b_declarative_registry.py",
+    "tests/test_project_global_state.py",
+    "tests/test_test_contract_registry.py",
+    "tests/test_test_contract_registry_v2.py"
+  ],
+  "pass_criteria": [
+    "docs-governance validate passes in the valid baseline.",
+    "markdown_json_sync_passed is true.",
+    "roadmap_markdown_json_sync_passed is true.",
+    "POST-H-024 and POST-H-025 are present in roadmap Markdown and JSON.",
+    "DEC-POSTH-008 and DEC-POSTH-009 are present in roadmap Markdown and JSON.",
+    "DocumentationGovernanceReport exposes source_path and counterpart_path per sync check."
+  ],
+  "block_criteria": [
+    "Roadmap Markdown and JSON differ in critical milestones.",
+    "Roadmap Markdown and JSON differ in decisions.",
+    "Manifest and closure report contradict closed status.",
+    "project_state.next_sprint is missing from registered human-readable counterparts.",
+    "The validator uses network, external APIs, LLM judge or source mutations."
+  ],
+  "risks": [
+    "This validator checks contractual synchronization only; full backlog derivative governance is deferred to POST-H-009-D.",
+    "Quality-gate hardening integration remains deferred to POST-H-009-E.",
+    "Markdown parsing is intentionally conservative to avoid LLM-based semantic judging."
+  ],
+  "next_sprint": "POST-H-009"
+}

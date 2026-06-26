@@ -2,10 +2,11 @@
 
 POST-H-009-A introduces the canonical source registry and schemas.
 POST-H-009-B adds the first deterministic validator for frontmatter,
-status and ownership metadata without enabling drift checks or quality-gate
-integration yet.
+status and ownership metadata. POST-H-009-C adds deterministic
+Markdown/JSON synchronization checks without enabling quality-gate integration yet.
 """
 
+from .drift import DocumentationSyncValidator
 from .registry import (
     DEFAULT_DOCUMENTATION_SOURCE_REGISTRY,
     DOCUMENTATION_GOVERNANCE_REPORT_SCHEMA_ID,
@@ -24,6 +25,7 @@ from .validator import (
 )
 
 __all__ = [
+    "DocumentationSyncValidator",
     "DEFAULT_DOCUMENTATION_SOURCE_REGISTRY",
     "DOCUMENTATION_GOVERNANCE_REPORT_SCHEMA_ID",
     "DOCUMENTATION_SOURCE_REGISTRY_SCHEMA_ID",

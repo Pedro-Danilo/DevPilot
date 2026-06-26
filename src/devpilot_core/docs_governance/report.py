@@ -6,6 +6,6 @@ from .validator import DocumentationGovernanceValidationOptions, DocumentationGo
 
 
 def validate_documentation_governance(root: Path, *, write_report: bool = False):
-    """Facade for POST-H-009-B documentation governance validation."""
+    """Facade for POST-H-009-B/C documentation governance validation and sync reporting."""
 
     return DocumentationGovernanceValidator(root, DocumentationGovernanceValidationOptions(write_report=write_report)).run()

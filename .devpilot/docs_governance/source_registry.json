@@ -53,7 +53,23 @@
         "POST-H-006",
         "POST-H-007",
         "POST-H-008",
-        "POST-H-009"
+        "POST-H-009",
+        "POST-H-010",
+        "POST-H-011",
+        "POST-H-012",
+        "POST-H-013",
+        "POST-H-014",
+        "POST-H-015",
+        "POST-H-016",
+        "POST-H-017",
+        "POST-H-018",
+        "POST-H-019",
+        "POST-H-020",
+        "POST-H-021",
+        "POST-H-022",
+        "POST-H-023",
+        "POST-H-024",
+        "POST-H-025"
       ],
       "lifecycle": "active",
       "notes": [
@@ -83,7 +99,30 @@
         "decisions_match"
       ],
       "roadmap_milestones": [
-        "POST-H-009"
+        "POST-H-002",
+        "POST-H-003",
+        "POST-H-004",
+        "POST-H-005",
+        "POST-H-006",
+        "POST-H-007",
+        "POST-H-008",
+        "POST-H-009",
+        "POST-H-010",
+        "POST-H-011",
+        "POST-H-012",
+        "POST-H-013",
+        "POST-H-014",
+        "POST-H-015",
+        "POST-H-016",
+        "POST-H-017",
+        "POST-H-018",
+        "POST-H-019",
+        "POST-H-020",
+        "POST-H-021",
+        "POST-H-022",
+        "POST-H-023",
+        "POST-H-024",
+        "POST-H-025"
       ],
       "lifecycle": "active"
     },
@@ -321,7 +360,8 @@
       ],
       "lifecycle": "active",
       "notes": [
-        "POST-H-009-A promotes this backlog to approved and registers the first canonical source registry."
+        "POST-H-009-A promotes this backlog to approved and registers the first canonical source registry.",
+        "POST-H-009-C adds deterministic Markdown/JSON sync validation to docs-governance validate/report."
       ],
       "derived_documents": [
         "docs/POST-H-009_documentation_governance.md"
@@ -352,7 +392,10 @@
     "documents_with_required_tests_total": 14,
     "network_used": false,
     "external_api_used": false,
-    "mutations_performed": false
+    "mutations_performed": false,
+    "last_updated_by": "POST-H-009-C",
+    "markdown_json_sync_checks_enabled": true,
+    "sync_checks_scope": "version_match, milestones_match, decisions_match, closure_status_match, next_hito_match"
   },
   "safety": {
     "local_first": true,

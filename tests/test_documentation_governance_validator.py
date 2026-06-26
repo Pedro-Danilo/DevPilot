@@ -15,12 +15,13 @@ def test_documentation_governance_validator_passes_baseline() -> None:
 
     assert result.ok, result.to_dict()
     summary = result.data["summary"]
-    assert summary["created_by"] == "POST-H-009-B"
+    assert summary["created_by"] == "POST-H-009-C"
     assert summary["documents_checked_total"] == summary["documents_total"] == 14
     assert summary["frontmatter_checked_total"] >= 7
     assert summary["blocking_findings_total"] == 0
     assert summary["warnings_total"] == 0
     assert summary["docs_governance_passed"] is True
+    assert summary["markdown_json_sync_passed"] is True
     assert summary["network_used"] is False
     assert summary["external_api_used"] is False
     assert summary["mutations_performed"] is False

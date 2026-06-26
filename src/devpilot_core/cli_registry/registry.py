@@ -323,6 +323,18 @@ COMMAND_OVERRIDES: dict[str, DeclarativeCommandOverride] = {
         ),
         rationale="Documentation governance validation is read-only for source documents; --write-report writes JSON/Markdown evidence under outputs/reports only.",
     ),
+    "docs-governance.report": DeclarativeCommandOverride(
+        command_id="docs-governance.report",
+        risk_level=CommandRiskLevel.MEDIUM,
+        side_effects=(CommandSideEffect.WRITE_REPORT,),
+        writes_files=True,
+        dry_run_supported=True,
+        policy_check_required=True,
+        recommended_tests=(
+            "python -m pytest tests/test_documentation_governance_validator.py tests/test_documentation_governance_sync.py tests/test_post_h_009_documentation_governance.py -q",
+        ),
+        rationale="Documentation governance report is read-only for source documents and writes JSON/Markdown evidence under outputs/reports only.",
+    ),
 }
 
 

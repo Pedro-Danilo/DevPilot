@@ -3140,6 +3140,70 @@
         "python -m devpilot_core test-contracts validate --json",
         "python -m devpilot_core test-contracts validate-v2 --json"
       ]
+    },
+    {
+      "contract_id": "post-h-009-documentation-sync-validator",
+      "scope": "integration",
+      "owner": "POST-H-009-C",
+      "phase": "POST-FASE-H",
+      "test_files": [
+        "tests/test_documentation_governance_sync.py",
+        "tests/test_documentation_governance_validator.py",
+        "tests/test_post_h_009_documentation_governance.py",
+        "tests/test_post_h_006_b_declarative_registry.py",
+        "tests/test_schema_registry.py",
+        "tests/test_project_global_state.py"
+      ],
+      "validates": [
+        "src/devpilot_core/docs_governance/drift.py",
+        "src/devpilot_core/docs_governance/validator.py",
+        "src/devpilot_core/docs_governance/report.py",
+        "src/devpilot_core/docs_governance/__init__.py",
+        "src/devpilot_core/cli.py",
+        "src/devpilot_core/cli_registry/registry.py",
+        ".devpilot/docs_governance/source_registry.json",
+        ".devpilot/evals/post_h_eval_001_prioritized_roadmap.json",
+        "docs/backlogs/post_h_prioritized_roadmap.md",
+        "docs/post_h_eval_001_manifest.json",
+        "docs/audits/post_h_eval_001_closure_report.md",
+        "docs/schemas/documentation_governance_report.schema.json",
+        "docs/POST-H-009_documentation_governance.md",
+        "docs/backlogs/POST-H-009_documentation_governance.md",
+        "docs/05_operations/documentation_governance.md",
+        "docs/audits/post_h_009_c_documentation_sync_validator_report.md",
+        "docs/post_h_009_c_manifest.json"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/docs_governance/",
+        "src/devpilot_core/cli.py",
+        "src/devpilot_core/cli_registry/registry.py",
+        ".devpilot/docs_governance/",
+        ".devpilot/evals/post_h_eval_001_prioritized_roadmap.json",
+        "docs/backlogs/post_h_prioritized_roadmap.md",
+        "docs/post_h_eval_001_manifest.json",
+        "docs/audits/post_h_eval_001_closure_report.md",
+        "docs/schemas/documentation_governance_report.schema.json",
+        "README.md",
+        "docs/05_operations/runbook.md",
+        "docs/05_operations/documentation_governance.md",
+        "docs/backlogs/POST-H-009_documentation_governance.md",
+        "docs/POST-H-009_documentation_governance.md",
+        "docs/release/CHANGELOG.md",
+        "tests/test_documentation_governance_sync.py",
+        "tests/test_documentation_governance_validator.py",
+        "tests/test_post_h_009_documentation_governance.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest tests/test_documentation_governance_sync.py tests/test_documentation_governance_validator.py tests/test_post_h_009_documentation_governance.py tests/test_post_h_006_b_declarative_registry.py -q",
+        "python -m devpilot_core docs-governance validate --json",
+        "python -m devpilot_core docs-governance report --write-report --json",
+        "python -m devpilot_core schema validate --schema-id DocumentationGovernanceReport --instance outputs/reports/documentation_governance_report.json --json",
+        "python -m devpilot_core test-contracts validate --json",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ]
     }
   ],
   "notes": [

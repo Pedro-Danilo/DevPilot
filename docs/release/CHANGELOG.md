@@ -1,3 +1,18 @@
+## [post-h-009-c] - 2026-06-26
+
+### Added
+- Deterministic Markdown ↔ JSON sync validation inside `docs-governance validate` for roadmap version, milestones, decisions, closure status and next hito.
+- `DocumentationSyncValidator` in `src/devpilot_core/docs_governance/drift.py`.
+- `docs-governance report --write-report --json` as an explicit evidence-generation alias for documentation governance reports.
+- TCR v1/v2 contract for `post-h-009-documentation-sync-validator`.
+
+### Changed
+- Updated POST-H-009 backlog/runbook/README/project-state to reflect POST-H-009-C implemented-initial and next micro-sprint POST-H-009-D.
+- Extended `.devpilot/docs_governance/source_registry.json` roadmap milestone coverage to `POST-H-002..POST-H-025`.
+
+### Safety
+- Sync validator is local-first, read-only for source documents, dry-run by default, and does not use network, external APIs, LLM judge or source mutations.
+
 
 
 ## [post-h-009-b] - 2026-06-26
