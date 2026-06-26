@@ -47,7 +47,7 @@ from .prompts import PromptRegistry
 from .quality import QualityGate, QualityGateOptions
 from .remote import RemoteRunnerStatusOptions, RemoteRunnerStub
 from .rag import LocalRagIndexer, LocalRagRetriever, RagIndexOptions, RagQueryOptions
-from .runtime_state import RuntimeStateInventoryBuilder, RuntimeStateInventoryOptions
+from .runtime_state import RuntimeStateCleanupOptions, RuntimeStateCleanupPlanner, RuntimeStateInventoryBuilder, RuntimeStateInventoryOptions
 from .release import (
     BackupCreateBuilder,
     BackupCreateOptions,
@@ -3147,6 +3147,60 @@ def runtime_state_inventory_command(*, json_output: bool = False, write_report: 
     return int(result.exit_code)
 
 
+
+
+def runtime_state_cleanup_plan_command(*, json_output: bool = False, write_report: bool = False) -> int:
+    """Build the POST-H-008-C cleanup plan in dry-run mode.
+
+    This command does not emit normal CLI trace events or persist SQLite
+    history, preserving lifecycle tool hygiene. With --write-report it writes
+    only explicit cleanup-plan evidence under outputs/reports/.
+    """
+
+    root = project_root()
+    result = RuntimeStateCleanupPlanner(root, RuntimeStateCleanupOptions(write_report=write_report)).run()
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+
+def runtime_state_cleanup_command(
+    *,
+    json_output: bool = False,
+    write_report: bool = False,
+    dry_run: bool = False,
+    execute: bool = False,
+    confirm_cleanup: bool = False,
+) -> int:
+    """Run runtime-state cleanup as dry-run by default, execute only with confirmation."""
+
+    root = project_root()
+    if dry_run and execute:
+        result = CommandResult(
+            command="runtime-state cleanup",
+            ok=False,
+            exit_code=ExitCode.BLOCK,
+            message="Use either --dry-run or --execute, not both.",
+            data={"summary": {"dry_run": True, "execute_requested": execute, "preliminary": True}},
+            findings=[
+                Finding(
+                    id="RUNTIME_STATE_CLEANUP_MODE_CONFLICT",
+                    message="--dry-run and --execute are mutually exclusive.",
+                    severity=Severity.BLOCK,
+                )
+            ],
+        )
+    else:
+        result = RuntimeStateCleanupPlanner(
+            root,
+            RuntimeStateCleanupOptions(
+                write_report=write_report,
+                execute=execute,
+                confirm_cleanup=confirm_cleanup,
+            ),
+        ).run()
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
 def state_init_command(*, json_output: bool = False, write_report: bool = False) -> int:
     """Initialize the local SQLite operational state store."""
 
@@ -4520,6 +4574,17 @@ def build_parser() -> argparse.ArgumentParser:
     runtime_state_inventory.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     runtime_state_inventory.add_argument("--write-report", action="store_true", help="Persist runtime-state inventory JSON/Markdown reports")
 
+    runtime_state_cleanup_plan = runtime_state_sub.add_parser("cleanup-plan", help="Build runtime-state cleanup plan without deleting files")
+    runtime_state_cleanup_plan.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    runtime_state_cleanup_plan.add_argument("--write-report", action="store_true", help="Persist cleanup plan JSON/Markdown reports")
+
+    runtime_state_cleanup = runtime_state_sub.add_parser("cleanup", help="Dry-run or explicitly execute safe runtime-state cleanup")
+    runtime_state_cleanup.add_argument("--dry-run", action="store_true", help="Preview cleanup without deleting files; this is the default")
+    runtime_state_cleanup.add_argument("--execute", action="store_true", help="Delete only safe-cleanup artifacts; requires --confirm-cleanup")
+    runtime_state_cleanup.add_argument("--confirm-cleanup", action="store_true", help="Explicit confirmation required with --execute")
+    runtime_state_cleanup.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    runtime_state_cleanup.add_argument("--write-report", action="store_true", help="Persist cleanup plan JSON/Markdown reports")
+
     test_impact = sub.add_parser("test-impact", help="Analyze changed files and recommend conservative test suites")
     test_impact_sub = test_impact.add_subparsers(dest="test_impact_command")
     test_impact_analyze = test_impact_sub.add_parser("analyze", help="Recommend tests for a changed file list")
@@ -5574,6 +5639,16 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
     if args.command == "runtime-state":
         if args.runtime_state_command == "inventory":
             return runtime_state_inventory_command(json_output=args.json, write_report=args.write_report)
+        if args.runtime_state_command == "cleanup-plan":
+            return runtime_state_cleanup_plan_command(json_output=args.json, write_report=args.write_report)
+        if args.runtime_state_command == "cleanup":
+            return runtime_state_cleanup_command(
+                json_output=args.json,
+                write_report=args.write_report,
+                dry_run=args.dry_run,
+                execute=args.execute,
+                confirm_cleanup=args.confirm_cleanup,
+            )
         parser.print_help()
         return int(ExitCode.FAIL)
     if args.command == "test-impact":
@@ -6204,10 +6279,10 @@ def main(argv: list[str] | None = None) -> int:
     args = parser.parse_args(argv)
     command_name = _command_name_from_args(args)
     root = project_root()
-    # POST-H-008-B: runtime-state inventory must be truly read-only.
-    # Unlike normal CLI commands, it must not create trace events or SQLite
-    # history as a side effect while proving runtime hygiene.
-    skip_event_logging = command_name == "runtime-state" and getattr(args, "runtime_state_command", None) == "inventory"
+    # POST-H-008-B/C: runtime-state lifecycle commands must avoid creating
+    # the very trace/SQLite artifacts they inspect or plan to clean. Explicit
+    # report writes remain opt-in through --write-report.
+    skip_event_logging = command_name == "runtime-state"
     logger = None if skip_event_logging else EventLogger(root)
     if logger is not None:
         logger.emit_started(command_name, argv=argv if argv is not None else sys.argv[1:])

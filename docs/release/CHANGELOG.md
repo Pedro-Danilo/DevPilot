@@ -10,6 +10,22 @@ owner: "Ordóñez"
 
 
 
+
+## [post-h-008-c] - 2026-06-25
+
+### Added
+
+- Implemented `POST-H-008-C — Cleanup plan dry-run` with `RuntimeStateCleanupPlanner`.
+- Added CLI commands `runtime-state cleanup-plan` and `runtime-state cleanup` with dry-run default and explicit `--execute --confirm-cleanup` guard.
+- Added `RuntimeStateCleanupPlan` schema and registered it in `schema_catalog.json`.
+- Added tests for safe-cleanup, requires-approval, never-delete, schema validation and explicit execute guard.
+
+### Safety
+
+- Source-of-truth paths, `src/`, `docs/`, `tests/`, runtime policy, project state and TCR files are never eligible for automatic deletion.
+- Sensitive runtime artifacts are classified as `requires-approval`, not automatic safe cleanup.
+- Export/redaction and runtime-state quality-gate enforcement remain deferred to `POST-H-008-D/E`.
+
 ## [post-h-008-a] - 2026-06-25
 
 ### Added

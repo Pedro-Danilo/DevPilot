@@ -7153,3 +7153,71 @@ BLOCK:
 ### Limitaciones
 
 Esta versión es `implemented-initial`: `cleanup-plan`, `cleanup --execute`, `runtime-state export` y `runtime-state-hygiene` en quality gate quedan para `POST-H-008-C`, `POST-H-008-D` y `POST-H-008-E`.
+
+
+## POST-H-008-C — Cleanup plan dry-run
+
+`POST-H-008-C` agrega un planificador de limpieza runtime con dry-run por defecto. El plan consume el inventario `POST-H-008-B` y clasifica artefactos en cuatro grupos: `safe-cleanup`, `requires-approval`, `never-delete` y `retained`.
+
+### Comandos
+
+```powershell
+$env:PYTHONPATH="src"
+$env:DD_TRACE_ENABLED="false"
+
+python -m devpilot_core runtime-state cleanup-plan --json
+python -m devpilot_core runtime-state cleanup-plan --write-report --json
+python -m devpilot_core runtime-state cleanup --dry-run --json
+python -m devpilot_core runtime-state cleanup --execute --confirm-cleanup --json
+python -m devpilot_core schema validate --schema-id RuntimeStateCleanupPlan --instance outputs/reports/runtime_state_cleanup_plan.json --json
+```
+
+### Garantías de seguridad
+
+```text
+- Dry-run es el comportamiento por defecto.
+- --execute sin --confirm-cleanup produce BLOCK y no borra archivos.
+- --execute solo puede borrar elementos clasificados como safe-cleanup.
+- src/, docs/, tests/, .devpilot/project_state.json, .devpilot/runtime_state_policy.json y .devpilot/testing/ son never-delete.
+- Artefactos sensibles quedan en requires-approval, no en safe-cleanup.
+- No llama red ni APIs externas.
+- No habilita export/redacción, remote execution, connector write ni plugin execution.
+```
+
+### Validación específica
+
+```powershell
+python -m pytest `
+  tests/test_runtime_state_cleanup_plan.py `
+  tests/test_runtime_state_inventory.py `
+  tests/test_runtime_state_policy_schema.py `
+  tests/test_post_h_008_runtime_state_lifecycle.py `
+  -q
+
+python -m devpilot_core runtime-state cleanup-plan --write-report --json
+python -m devpilot_core schema validate `
+  --schema-id RuntimeStateCleanupPlan `
+  --instance outputs/reports/runtime_state_cleanup_plan.json `
+  --json
+```
+
+### Criterios PASS
+
+```text
+PASS si dry-run no borra nada.
+PASS si source-of-truth aparece como never-delete.
+PASS si --execute exige --confirm-cleanup.
+PASS si safe-cleanup no contiene docs/src/tests ni policy/TCR/proyecto.
+PASS si RuntimeStateCleanupPlan valida contra schema.
+```
+
+### Criterios BLOCK
+
+```text
+BLOCK si --execute puede borrar docs/src/tests.
+BLOCK si .devpilot/project_state.json, runtime_state_policy.json o TCR quedan como safe-cleanup.
+BLOCK si cleanup sensible se ejecuta sin aprobación/redacción.
+BLOCK si la capacidad usa red, APIs externas o ejecución remota.
+```
+
+Esta versión es `implemented-initial`: no reemplaza un sistema completo de retención/rotación industrial, no implementa export/redacción y no integra todavía el subgate `runtime-state-hygiene` al `quality-gate hardening`.

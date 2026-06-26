@@ -134,3 +134,38 @@ POST-H-008-C: cleanup plan dry-run.
 POST-H-008-D: export y redacción.
 POST-H-008-E: quality gate runtime-state-hygiene y verificación de release archive.
 ```
+
+
+## POST-H-008-C — Cleanup plan dry-run
+
+Estado: `implemented-initial`.
+
+El planificador `RuntimeStateCleanupPlanner` convierte el inventario runtime en un plan operativo seguro. No ejecuta limpieza por defecto y separa los artefactos en:
+
+```text
+safe-cleanup       -> runtime no sensible, cleanup_allowed=true y fuera de ventana de retención.
+requires-approval  -> runtime sensible o de riesgo que requiere aprobación/redacción futura.
+never-delete       -> source-of-truth, versionable, policy, docs, src, tests, TCR o cleanup_allowed=false.
+retained           -> runtime cleanup_allowed pero todavía dentro de retención.
+```
+
+Invariantes:
+
+```text
+- source_of_truth_never_delete=true
+- dry_run_default=true
+- execute_requires_confirmation=true
+- only_safe_cleanup_execute_allowed=true
+- destructive_cleanup_default=false
+```
+
+Comandos:
+
+```powershell
+python -m devpilot_core runtime-state cleanup-plan --json
+python -m devpilot_core runtime-state cleanup-plan --write-report --json
+python -m devpilot_core runtime-state cleanup --dry-run --json
+python -m devpilot_core runtime-state cleanup --execute --confirm-cleanup --json
+```
+
+Límites: export/redacción, rotación industrial, cuotas por tamaño y subgate de release quedan pendientes para `POST-H-008-D/E`.

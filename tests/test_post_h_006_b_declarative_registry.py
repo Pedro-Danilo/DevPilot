@@ -65,6 +65,8 @@ def test_post_h_006_b_declarative_overlay_registers_initial_groups_and_coverage(
         "cli-registry.report",
         "cli-registry.guard",
         "runtime-state.inventory",
+        "runtime-state.cleanup-plan",
+        "runtime-state.cleanup",
     }
     for group_id in CURRENT_DECLARATIVE_GROUPS:
         assert group_id in groups

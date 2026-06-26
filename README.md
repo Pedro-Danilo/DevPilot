@@ -1,13 +1,13 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
-Estado actual: `baseline pre-code approved + Fases A-G cerradas + Fase H cerrada + POST-H-001 implemented-initial + POST-H-EVAL-001 closed + POST-H-002 closed + POST-H-003 closed + POST-H-004 closed + POST-H-005 closed + POST-H-006 closed + POST-H-007 closed + POST-H-008-A implemented-initial + POST-H-008-B implemented-initial`  
+Estado actual: `baseline pre-code approved + Fases A-G cerradas + Fase H cerrada + POST-H-001 implemented-initial + POST-H-EVAL-001 closed + POST-H-002 closed + POST-H-003 closed + POST-H-004 closed + POST-H-005 closed + POST-H-006 closed + POST-H-007 closed + POST-H-008-A implemented-initial + POST-H-008-B implemented-initial + POST-H-008-C implemented-initial`  
 Último hito: `POST-H-007 — ApplicationService boundary hardening`  
 Siguiente hito: `POST-H-008 — Runtime state lifecycle policy`  
-Último micro-sprint implementado: `POST-H-008-B — Runtime state inventory read-only`  
+Último micro-sprint implementado: `POST-H-008-C — Cleanup plan dry-run`  
 Hito diagnóstico cerrado: `POST-H-EVAL-001 — Evaluación integral del baseline DevPilot post-Fase H`, cierre formal `POST-H-EVAL-001-G`  
 Hito actual en implementación: `POST-H-008 — Runtime state lifecycle policy`  
 Hito cerrado: `POST-H-007 — ApplicationService boundary hardening`  
-Siguiente micro-sprint recomendado: `POST-H-008-C — Cleanup plan dry-run`  
+Siguiente micro-sprint recomendado: `POST-H-008-D — Export seguro y redacción`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
@@ -35,6 +35,34 @@ Modo de trabajo: local-first híbrido, API keys opcionales, costo externo contro
 
 
 
+
+
+## POST-H-008-C — Runtime state lifecycle: cleanup plan dry-run
+
+`POST-H-008-C` implementa el planificador de limpieza runtime con dry-run por defecto. La capacidad usa el inventario de `POST-H-008-B` y clasifica artefactos en `safe-cleanup`, `requires-approval`, `never-delete` y `retained`, preservando como invariante que `src/`, `docs/`, `tests/`, `.devpilot/project_state.json`, `.devpilot/runtime_state_policy.json` y `.devpilot/testing/` nunca puedan quedar en limpieza automática.
+
+Comandos principales:
+
+```powershell
+python -m devpilot_core runtime-state cleanup-plan --json
+python -m devpilot_core runtime-state cleanup-plan --write-report --json
+python -m devpilot_core runtime-state cleanup --dry-run --json
+python -m devpilot_core runtime-state cleanup --execute --confirm-cleanup --json
+python -m devpilot_core schema validate --schema-id RuntimeStateCleanupPlan --instance outputs/reports/runtime_state_cleanup_plan.json --json
+```
+
+Capacidades adicionadas:
+
+```text
+- RuntimeStateCleanupPlanner con dry-run por defecto.
+- Plan JSON/Markdown bajo outputs/reports/ generado solo bajo demanda.
+- Separación explícita safe-cleanup / requires-approval / never-delete / retained.
+- Ejecución limitada únicamente a safe-cleanup y solo con --execute --confirm-cleanup.
+- Bloqueo defensivo para source-of-truth y prefijos protegidos.
+- Schema RuntimeStateCleanupPlan y contrato TCR v1/v2.
+```
+
+Esta versión es `implemented-initial`: no implementa export/redacción, no implementa retention avanzada por cuotas/tamaño máximo, no integra todavía `runtime-state-hygiene` al `quality-gate hardening` y mantiene la ejecución restringida a limpieza segura explícita. Esas capacidades quedan para `POST-H-008-D` y `POST-H-008-E`.
 
 ## POST-H-008-B — Runtime state lifecycle: inventory read-only
 

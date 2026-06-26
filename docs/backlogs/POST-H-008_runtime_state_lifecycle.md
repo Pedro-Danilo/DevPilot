@@ -468,4 +468,58 @@ PASS si reporta violaciones sin borrar nada.
 
 ### Siguiente micro-sprint
 
-`POST-H-008-C — Cleanup plan dry-run`.
+`POST-H-008-D — Export seguro y redacción`.
+
+
+## 15. Avance de implementación — POST-H-008-C
+
+Estado: `implemented-initial`.
+
+`POST-H-008-C — Cleanup plan dry-run` implementa el planificador local de limpieza runtime basado en `RuntimeStateInventory` y `.devpilot/runtime_state_policy.json`. El objetivo sigue siendo conservador: planificar primero, ejecutar solo limpieza segura explícita y nunca permitir borrado automático de source-of-truth.
+
+### Implementado
+
+```text
+- src/devpilot_core/runtime_state/cleanup.py
+- Comando CLI: python -m devpilot_core runtime-state cleanup-plan --json
+- Comando CLI: python -m devpilot_core runtime-state cleanup --dry-run --json
+- Ejecución explícita: python -m devpilot_core runtime-state cleanup --execute --confirm-cleanup --json
+- Reporte opcional: outputs/reports/runtime_state_cleanup_plan.json
+- Reporte opcional: outputs/reports/runtime_state_cleanup_plan.md
+- Schema: docs/schemas/runtime_state_cleanup_plan.schema.json
+- Tests focales: tests/test_runtime_state_cleanup_plan.py
+- Manifest: docs/post_h_008_c_manifest.json
+- Auditoría: docs/audits/post_h_008_c_cleanup_plan_report.md
+```
+
+### Capacidades adicionadas
+
+```text
+- Clasificación safe-cleanup / requires-approval / never-delete / retained.
+- Cálculo de elegibilidad por retention_days y edad del archivo.
+- Bloqueo de docs/src/tests/.devpilot project state/runtime policy/TCR como never-delete.
+- --execute bloqueado sin --confirm-cleanup.
+- --execute limitado a safe-cleanup.
+- RuntimeStateCleanupPlan registrado como contrato estructural.
+```
+
+### Criterios PASS cubiertos
+
+```text
+PASS si dry-run no borra nada.
+PASS si source-of-truth aparece como never-delete.
+PASS si --execute exige confirmación/flag explícito.
+```
+
+### Límites de esta versión
+
+```text
+- No implementa export/redacción de payloads runtime.
+- No implementa cuotas por tamaño ni rotación industrial avanzada.
+- No integra todavía runtime-state-hygiene al quality-gate hardening.
+- La ejecución real solo cubre safe-cleanup y debe usarse con revisión previa del plan.
+```
+
+### Siguiente micro-sprint
+
+`POST-H-008-D — Export seguro y redacción`.

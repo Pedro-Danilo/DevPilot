@@ -65,6 +65,29 @@ def test_post_h_008_b_inventory_is_documented_and_manifested() -> None:
     assert "post-h-008-b" in changelog
 
 
+
+def test_post_h_008_c_cleanup_plan_is_documented_manifested_and_guarded() -> None:
+    backlog = read("docs/POST-H-008_runtime_state_lifecycle.md")
+    readme = read("README.md")
+    runbook = read("docs/05_operations/runbook.md")
+    policy_doc = read("docs/05_operations/runtime_state_lifecycle_policy.md")
+    audit = read("docs/audits/post_h_008_c_cleanup_plan_report.md")
+    manifest = read_json("docs/post_h_008_c_manifest.json")
+    changelog = read("docs/release/CHANGELOG.md")
+
+    assert "## 15. Avance de implementación — POST-H-008-C" in backlog
+    assert "runtime-state cleanup-plan" in readme
+    assert "POST-H-008-C — Cleanup plan dry-run" in runbook
+    assert "POST-H-008-C — Cleanup plan dry-run" in policy_doc
+    assert "Cleanup plan dry-run" in audit
+    assert manifest["id"] == "POST-H-008-C"
+    assert manifest["status"] == "implemented-initial"
+    assert manifest["dry_run"] is True
+    assert manifest["execute_requires_confirmation"] is True
+    assert manifest["source_of_truth_never_delete"] is True
+    assert manifest["export_execution_enabled"] is False
+    assert "post-h-008-c" in changelog
+
 def test_post_h_007_backlog_is_closed_before_post_h_008_starts() -> None:
     backlog_007 = read("docs/backlogs/POST-H-007_application_service_boundary.md")
     readme = read("README.md")
@@ -86,6 +109,8 @@ def test_post_h_008_a_artifacts_are_registered_in_tcr() -> None:
     assert "post-h-008-runtime-state-policy-schema" in contract_ids_v2
     assert "post-h-008-runtime-state-inventory" in contract_ids
     assert "post-h-008-runtime-state-inventory" in contract_ids_v2
+    assert "post-h-008-runtime-state-cleanup-plan" in contract_ids
+    assert "post-h-008-runtime-state-cleanup-plan" in contract_ids_v2
 
     contract = next(item for item in tcr["contracts"] if item["contract_id"] == "post-h-008-runtime-state-policy-schema")
     assert "tests/test_runtime_state_policy_schema.py" in contract["test_files"]
@@ -112,3 +137,16 @@ def test_post_h_008_a_artifacts_are_registered_in_tcr() -> None:
     assert inventory_contract_v2["network_allowed"] is False
     assert inventory_contract_v2["external_api_allowed"] is False
     assert inventory_contract_v2["mutations_allowed"] is False
+
+    cleanup_contract = next(item for item in tcr["contracts"] if item["contract_id"] == "post-h-008-runtime-state-cleanup-plan")
+    assert cleanup_contract["owner"] == "POST-H-008-C"
+    assert "tests/test_runtime_state_cleanup_plan.py" in cleanup_contract["test_files"]
+    assert "docs/schemas/runtime_state_cleanup_plan.schema.json" in cleanup_contract["validates"]
+
+    cleanup_contract_v2 = next(item for item in tcr_v2["contracts"] if item["contract_id"] == "post-h-008-runtime-state-cleanup-plan")
+    assert cleanup_contract_v2["capability"] == "RuntimeStateCleanupPlan"
+    assert cleanup_contract_v2["required_for_release"] is True
+    assert cleanup_contract_v2["required_for_security_gate"] is True
+    assert cleanup_contract_v2["network_allowed"] is False
+    assert cleanup_contract_v2["external_api_allowed"] is False
+    assert cleanup_contract_v2["mutations_allowed"] is False

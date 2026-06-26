@@ -5508,6 +5508,92 @@
         "POST-H-008-B implements a read-only inventory and report generator; cleanup and export execution remain disabled.",
         "The contract is P1/high because versioned runtime artifacts can leak sensitive traces, local DB state, agent sessions or generated outputs into clean release archives."
       ]
+    },
+    {
+      "contract_id": "post-h-008-runtime-state-cleanup-plan",
+      "schema_version": "2.0",
+      "source_contract_id": "post-h-008-runtime-state-cleanup-plan",
+      "domain": "operations.audit",
+      "capability": "RuntimeStateCleanupPlan",
+      "criticality": "P1",
+      "risk_level": "high",
+      "test_type": "integration",
+      "execution_profile": "always",
+      "cost_class": "low",
+      "expected_duration_seconds": 45,
+      "test_files": [
+        "tests/test_runtime_state_cleanup_plan.py",
+        "tests/test_runtime_state_inventory.py",
+        "tests/test_runtime_state_policy_schema.py",
+        "tests/test_post_h_008_runtime_state_lifecycle.py",
+        "tests/test_schema_registry.py",
+        "tests/test_project_global_state.py"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/runtime_state/",
+        "src/devpilot_core/cli.py",
+        "src/devpilot_core/cli_registry/registry.py",
+        ".devpilot/runtime_state_policy.json",
+        "docs/schemas/runtime_state_cleanup_plan.schema.json",
+        "docs/schemas/schema_catalog.json",
+        ".devpilot/testing/",
+        ".devpilot/project_state.json",
+        "README.md",
+        "docs/05_operations/runbook.md",
+        "docs/05_operations/runtime_state_lifecycle_policy.md",
+        "docs/POST-H-008_runtime_state_lifecycle.md",
+        "docs/backlogs/POST-H-008_runtime_state_lifecycle.md",
+        "tests/test_runtime_state_cleanup_plan.py"
+      ],
+      "validates": [
+        "src/devpilot_core/runtime_state/cleanup.py",
+        "src/devpilot_core/runtime_state/",
+        "src/devpilot_core/cli.py",
+        "src/devpilot_core/cli_registry/registry.py",
+        "docs/schemas/runtime_state_cleanup_plan.schema.json",
+        "docs/schemas/schema_catalog.json",
+        "docs/POST-H-008_runtime_state_lifecycle.md",
+        "docs/backlogs/POST-H-008_runtime_state_lifecycle.md",
+        "docs/05_operations/runtime_state_lifecycle_policy.md",
+        "docs/audits/post_h_008_c_cleanup_plan_report.md",
+        "docs/post_h_008_c_manifest.json"
+      ],
+      "trigger_hints": [
+        "runtime-state-cleanup-plan",
+        "runtime-state-policy",
+        "clean-zip-hygiene",
+        "post-h-source-change"
+      ],
+      "impact_scope": [
+        "runtime-state",
+        "operations",
+        "schemas",
+        "cli-registry",
+        "test-contracts",
+        "docs-sync",
+        "post-h"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "POST-H-008-C",
+      "recommended_commands": [
+        "python -m pytest tests/test_runtime_state_cleanup_plan.py tests/test_runtime_state_inventory.py tests/test_runtime_state_policy_schema.py tests/test_post_h_008_runtime_state_lifecycle.py -q",
+        "python -m devpilot_core runtime-state cleanup-plan --write-report --json",
+        "python -m devpilot_core schema validate --schema-id RuntimeStateCleanupPlan --instance outputs/reports/runtime_state_cleanup_plan.json --json",
+        "python -m devpilot_core runtime-state cleanup --execute --json",
+        "python -m devpilot_core test-contracts validate --json",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ],
+      "classification_status": "explicit",
+      "classification_notes": [
+        "POST-H-008-C implements dry-run-first cleanup planning with guarded execution only for safe-cleanup artifacts.",
+        "The contract is P1/high because cleanup planning touches deletion semantics; tests enforce source-of-truth never-delete and confirmation-required execution."
+      ]
     }
   ],
   "migration_metadata": {

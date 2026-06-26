@@ -2871,6 +2871,60 @@
         "python -m devpilot_core test-contracts validate --json",
         "python -m devpilot_core test-contracts validate-v2 --json"
       ]
+    },
+    {
+      "contract_id": "post-h-008-runtime-state-cleanup-plan",
+      "scope": "integration",
+      "owner": "POST-H-008-C",
+      "phase": "POST-FASE-H",
+      "test_files": [
+        "tests/test_runtime_state_cleanup_plan.py",
+        "tests/test_runtime_state_inventory.py",
+        "tests/test_runtime_state_policy_schema.py",
+        "tests/test_post_h_008_runtime_state_lifecycle.py",
+        "tests/test_schema_registry.py",
+        "tests/test_project_global_state.py"
+      ],
+      "validates": [
+        "src/devpilot_core/runtime_state/cleanup.py",
+        "src/devpilot_core/runtime_state/",
+        "src/devpilot_core/cli.py",
+        "src/devpilot_core/cli_registry/registry.py",
+        "docs/schemas/runtime_state_cleanup_plan.schema.json",
+        "docs/schemas/schema_catalog.json",
+        "docs/POST-H-008_runtime_state_lifecycle.md",
+        "docs/backlogs/POST-H-008_runtime_state_lifecycle.md",
+        "docs/05_operations/runtime_state_lifecycle_policy.md",
+        "docs/audits/post_h_008_c_cleanup_plan_report.md",
+        "docs/post_h_008_c_manifest.json"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/runtime_state/",
+        "src/devpilot_core/cli.py",
+        "src/devpilot_core/cli_registry/registry.py",
+        ".devpilot/runtime_state_policy.json",
+        "docs/schemas/runtime_state_cleanup_plan.schema.json",
+        "docs/schemas/schema_catalog.json",
+        ".devpilot/testing/",
+        ".devpilot/project_state.json",
+        "README.md",
+        "docs/05_operations/runbook.md",
+        "docs/05_operations/runtime_state_lifecycle_policy.md",
+        "docs/POST-H-008_runtime_state_lifecycle.md",
+        "docs/backlogs/POST-H-008_runtime_state_lifecycle.md",
+        "tests/test_runtime_state_cleanup_plan.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest tests/test_runtime_state_cleanup_plan.py tests/test_runtime_state_inventory.py tests/test_runtime_state_policy_schema.py tests/test_post_h_008_runtime_state_lifecycle.py -q",
+        "python -m devpilot_core runtime-state cleanup-plan --write-report --json",
+        "python -m devpilot_core schema validate --schema-id RuntimeStateCleanupPlan --instance outputs/reports/runtime_state_cleanup_plan.json --json",
+        "python -m devpilot_core runtime-state cleanup --execute --json",
+        "python -m devpilot_core test-contracts validate --json",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ]
     }
   ],
   "notes": [
