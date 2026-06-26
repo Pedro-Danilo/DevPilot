@@ -1,15 +1,15 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
-Estado actual: `baseline pre-code approved + Fases A-G cerradas + Fase H cerrada + POST-H-001 implemented-initial + POST-H-EVAL-001 closed + POST-H-002 closed + POST-H-003 closed + POST-H-004 closed + POST-H-005 closed + POST-H-006 closed + POST-H-007 closed + POST-H-008 closed + POST-H-009-A implemented-initial + POST-H-009-B implemented-initial + POST-H-009-C implemented-initial + POST-H-009-D implemented-initial + POST-H-009-E implemented-initial + POST-H-009 closed + POST-H-010-A implemented-initial + POST-H-010-B implemented-initial + POST-H-010-C implemented-initial + POST-H-010-D implemented-initial + POST-H-010-E implemented-initial + POST-H-010 closed + POST-H-011-A implemented-initial + POST-H-011-B implemented-initial`  
+Estado actual: `baseline pre-code approved + Fases A-G cerradas + Fase H cerrada + POST-H-001 implemented-initial + POST-H-EVAL-001 closed + POST-H-002 closed + POST-H-003 closed + POST-H-004 closed + POST-H-005 closed + POST-H-006 closed + POST-H-007 closed + POST-H-008 closed + POST-H-009-A implemented-initial + POST-H-009-B implemented-initial + POST-H-009-C implemented-initial + POST-H-009-D implemented-initial + POST-H-009-E implemented-initial + POST-H-009 closed + POST-H-010-A implemented-initial + POST-H-010-B implemented-initial + POST-H-010-C implemented-initial + POST-H-010-D implemented-initial + POST-H-010-E implemented-initial + POST-H-010 closed + POST-H-011-A implemented-initial + POST-H-011-B implemented-initial + POST-H-011-C implemented-initial`  
 Último hito: `POST-H-010 — Observability retention local`  
 Siguiente hito: `POST-H-011 — RAG groundedness evals`  
-Último micro-sprint implementado: `POST-H-011-B — Citation extractor y source coverage`  
+Último micro-sprint implementado: `POST-H-011-C — Evaluador determinístico de claims`  
 Hito diagnóstico cerrado: `POST-H-EVAL-001 — Evaluación integral del baseline DevPilot post-Fase H`, cierre formal `POST-H-EVAL-001-G`  
 Hito cerrado: `POST-H-010 — Observability retention local`  
 Hito cerrado: `POST-H-009 — Documentation governance y canonical sources`  
 Hito cerrado: `POST-H-008 — Runtime state lifecycle policy`  
 Hito cerrado: `POST-H-007 — ApplicationService boundary hardening`  
-Siguiente micro-sprint recomendado: `POST-H-011-C — Evaluador determinístico de claims`  
+Siguiente micro-sprint recomendado: `POST-H-011-D — Integración con RAG query y eval runner`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
@@ -49,6 +49,13 @@ Modo de trabajo: local-first híbrido, API keys opcionales, costo externo contro
 
 
 
+
+
+## POST-H-011-C — Evaluador determinístico de claims
+
+`POST-H-011-C` agrega `src/devpilot_core/rag/groundedness.py`, una primera versión local y determinística del evaluador de claims para RAG groundedness. La capacidad valida `required_claims` contra fuentes locales esperadas, calcula `claim_support`, reporta `unsupported_claims` y bloquea `forbidden_claims` cuando aparecen en una respuesta candidata.
+
+La implementación es `implemented-initial`: no usa LLM judge, web search, APIs externas, embeddings remotos, remote execution, connector write ni plugin execution. Todavía no expone CLI ni escribe `outputs/evals/rag_groundedness_report.json`; esa integración queda para `POST-H-011-D`. El RAG local sigue sin ser fuente de verdad: las fuentes canónicas son los documentos gobernados por el source registry.
 
 ## POST-H-011-B — Citation extractor y source coverage
 
@@ -93,7 +100,7 @@ plugin_execution_enabled=false
 outputs_as_sources_allowed=false
 ```
 
-Limitación histórica de POST-H-011-A: esa versión no ejecutaba RAG ni calculaba métricas reales de source coverage/claim support. POST-H-011-B ya implementa source coverage; claim support, CLI y quality-gate quedan para `POST-H-011-C/D/E`.
+Limitación histórica de POST-H-011-A: esa versión no ejecutaba RAG ni calculaba métricas reales de source coverage/claim support. POST-H-011-B ya implementa source coverage y POST-H-011-C implementa claim support determinístico; CLI, reportes persistidos y quality-gate quedan para `POST-H-011-D/E`.
 
 ## POST-H-010-E — Observability retention: Gate de retención e higiene observability
 

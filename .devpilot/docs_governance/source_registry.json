@@ -693,13 +693,16 @@
         "docs/audits/post_h_011_a_schema_fixtures_report.md",
         "docs/post_h_011_a_manifest.json",
         "docs/audits/post_h_011_b_citation_source_coverage_report.md",
-        "docs/post_h_011_b_manifest.json"
+        "docs/post_h_011_b_manifest.json",
+        "docs/audits/post_h_011_c_claim_groundedness_report.md",
+        "docs/post_h_011_c_manifest.json"
       ],
       "required_tests": [
         "tests/test_documentation_governance_backlogs.py",
         "tests/test_rag_groundedness_schema.py",
         "tests/test_post_h_011_rag_groundedness.py",
-        "tests/test_rag_citations_source_coverage.py"
+        "tests/test_rag_citations_source_coverage.py",
+        "tests/test_rag_groundedness_claims.py"
       ],
       "sync_rules": [
         "backlog_naming",
@@ -715,7 +718,8 @@
         "Roadmap-derived executable backlog governed by POST-H-009-D.",
         "Approved for implementation in POST-H-011-A after POST-H-010 closure.",
         "POST-H-011-A registers schema and fixture contracts only; evaluator, CLI and quality-gate integration are later micro-sprints.",
-        "POST-H-011-B adds local citation extraction and source coverage without claim evaluation, network or external APIs."
+        "POST-H-011-B adds local citation extraction and source coverage without claim evaluation, network or external APIs.",
+        "POST-H-011-C adds deterministic required/forbidden claim evaluation and claim_support without LLM judge, web search or external APIs."
       ]
     },
     {

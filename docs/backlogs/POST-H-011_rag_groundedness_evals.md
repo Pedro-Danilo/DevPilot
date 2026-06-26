@@ -4,7 +4,7 @@ doc_id: "POST-H-011-BACKLOG"
 id: "POST-H-011"
 title: "POST-H-011 — RAG groundedness evals"
 status: "approved"
-version: "0.3.0"
+version: "0.4.0"
 owner: "Ordóñez"
 updated: "2026-06-26"
 approval: "approved_by_owner"
@@ -18,8 +18,8 @@ no_external_apis_used_by_default: true
 no_connector_write_enabled: true
 no_plugin_execution_enabled: true
 implementation_status: "active"
-current_micro_sprint: "POST-H-011-B"
-next_micro_sprint: "POST-H-011-C"
+current_micro_sprint: "POST-H-011-C"
+next_micro_sprint: "POST-H-011-D"
 ---
 
 # POST-H-011 — RAG groundedness evals
@@ -301,8 +301,8 @@ BLOCK si forbidden_claims solo generan info.
 Validación:
 
 ```powershell
-python -m devpilot_core rag groundedness-eval --suite evals/fixtures/rag_groundedness_post_h_cases.json --json --write-report
-python -m pytest tests/test_post_h_011_rag_groundedness.py -q
+python -m pytest tests/test_rag_groundedness_claims.py tests/test_post_h_011_rag_groundedness.py -q
+# CLI rag groundedness-eval se integra en POST-H-011-D.
 ```
 
 ### POST-H-011-D — Integración con RAG query y eval runner
@@ -524,10 +524,66 @@ Criterios PASS cubiertos:
 Límites explícitos:
 
 ```text
-- No evalúa required_claims ni forbidden_claims; eso queda para POST-H-011-C.
 - No añade todavía comando CLI rag groundedness-eval; eso queda para POST-H-011-D.
 - No integra todavía quality-gate; eso queda para POST-H-011-E.
 - No declara RAG production-grade ni reemplaza fuentes canónicas.
 ```
 
 Siguiente micro-sprint: `POST-H-011-C — Evaluador determinístico de claims`.
+
+## 16. Avance de implementación — POST-H-011-C
+
+Estado: `implemented-initial`.
+
+`POST-H-011-C` implementa el evaluador determinístico de claims para groundedness RAG. La evaluación se mantiene local-first y sin LLM judge: `required_claims` se contrastan contra fuentes locales esperadas y `forbidden_claims` bloquean cuando aparecen en una respuesta candidata suministrada por pruebas o por la futura integración CLI.
+
+Artefactos principales:
+
+```text
+src/devpilot_core/rag/groundedness.py
+tests/test_rag_groundedness_claims.py
+docs/audits/post_h_011_c_claim_groundedness_report.md
+docs/post_h_011_c_manifest.json
+```
+
+Capacidades implementadas:
+
+```text
+- Evaluación determinística de required_claims con umbral configurable minimum_claim_support.
+- Cálculo de claim_support por caso y promedio de suite.
+- Detección y reporte de unsupported_claims.
+- Detección BLOCK de forbidden_claims en respuestas candidatas.
+- Modo strict=true por defecto para bloquear baja cobertura de claims.
+- Modo strict=false para convertir baja cobertura de claims en warning controlado.
+- Reporte in-memory compatible con RagGroundednessReport.
+```
+
+Criterios PASS cubiertos:
+
+```text
+- required_claims se evalúan con umbral configurable.
+- forbidden_claims generan BLOCK cuando aparecen en respuesta candidata.
+- unsupported_claims aparecen en reporte.
+- No se usa LLM judge, web search, APIs externas, embeddings externos ni conectores remotos.
+- Los 10 casos actuales del fixture post-H pasan con claim_support suficiente contra fuentes locales.
+```
+
+Corrección de alcance aplicada:
+
+```text
+La sección de validación original de POST-H-011-C mencionaba el comando `rag groundedness-eval`, pero POST-H-011-D reserva explícitamente la creación del comando CLI. Para mantener micro-sprints atómicos, POST-H-011-C implementa el evaluator y sus pruebas; la exposición CLI, ejecución por caso/suite y escritura de outputs/evals quedan en POST-H-011-D.
+```
+
+Límites explícitos:
+
+```text
+- No añade todavía comando CLI rag groundedness-eval; eso queda para POST-H-011-D.
+- No escribe todavía outputs/evals/rag_groundedness_report.json ni .md.
+- No integra todavía eval runner; eso queda para POST-H-011-D.
+- No integra todavía quality-gate; eso queda para POST-H-011-E.
+- El matching es lexical determinístico con normalización/variantes simples; no equivale a razonamiento semántico completo.
+- No declara RAG production-grade ni reemplaza fuentes canónicas.
+```
+
+Siguiente micro-sprint: `POST-H-011-D — Integración con RAG query y eval runner`.
+

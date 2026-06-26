@@ -1,0 +1,88 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "SCHEMA-DEVPL-POST-H-MANIFEST-V1",
+  "post_h_id": "POST-H-011",
+  "id": "POST-H-011-C",
+  "title": "POST-H-011-C — Evaluador determinístico de claims",
+  "status": "implemented-initial",
+  "phase": "POST-FASE-H",
+  "implemented_at": "2026-06-26",
+  "created_files": [
+    "src/devpilot_core/rag/groundedness.py",
+    "tests/test_rag_groundedness_claims.py",
+    "docs/audits/post_h_011_c_claim_groundedness_report.md",
+    "docs/post_h_011_c_manifest.json"
+  ],
+  "modified_files": [
+    "src/devpilot_core/rag/__init__.py",
+    "docs/schemas/rag_groundedness_report.schema.json",
+    "docs/backlogs/POST-H-011_rag_groundedness_evals.md",
+    "docs/POST-H-011_rag_groundedness_evals.md",
+    ".devpilot/docs_governance/source_registry.json",
+    ".devpilot/project_state.json",
+    ".devpilot/testing/test_contract_registry.json",
+    ".devpilot/testing/test_contract_registry_v2.json",
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/release/CHANGELOG.md",
+    "tests/test_post_h_011_rag_groundedness.py",
+    "tests/test_rag_groundedness_schema.py",
+    "tests/test_project_global_state.py"
+  ],
+  "commands": [
+    "python -m pytest -p no:ddtrace tests/test_rag_groundedness_claims.py tests/test_rag_citations_source_coverage.py tests/test_post_h_011_rag_groundedness.py tests/test_rag_groundedness_schema.py -q",
+    "python -m devpilot_core schema validate --schema-id RagGroundednessEval --instance evals/fixtures/rag_groundedness_post_h_cases.json --json",
+    "python -m devpilot_core schema validate --schema-id PostHManifest --instance docs/post_h_011_c_manifest.json --json",
+    "python -m devpilot_core docs-governance validate --json",
+    "python -m devpilot_core test-contracts validate --json",
+    "python -m devpilot_core test-contracts validate-v2 --json",
+    "python -m devpilot_core project-state validate --json"
+  ],
+  "tests": [
+    "tests/test_rag_groundedness_claims.py",
+    "tests/test_rag_citations_source_coverage.py",
+    "tests/test_post_h_011_rag_groundedness.py",
+    "tests/test_rag_groundedness_schema.py",
+    "tests/test_schema_registry.py",
+    "tests/test_project_global_state.py",
+    "tests/test_documentation_governance_validator.py",
+    "tests/test_test_contract_registry.py",
+    "tests/test_test_contract_registry_v2.py"
+  ],
+  "pass_criteria": [
+    "Evalúa required_claims con umbral configurable.",
+    "Calcula claim_support por caso y promedio de suite.",
+    "Reporta unsupported_claims en el reporte de groundedness.",
+    "Forbidden claims detectadas en respuesta candidata generan BLOCK.",
+    "No usa LLM judge, web search, APIs externas, embeddings remotos, remote execution, connector write ni plugin execution."
+  ],
+  "block_criteria": [
+    "Bloquear si una respuesta/caso puede pasar sin fuentes locales esperadas.",
+    "Bloquear si claim_support queda bajo el umbral en modo strict.",
+    "Bloquear si se detectan forbidden_claims en respuesta candidata.",
+    "Bloquear si una fuente faltante/stale/desautorizada deja al caso sin evidencia.",
+    "Bloquear si la implementación requiere red o proveedor externo."
+  ],
+  "risks": [
+    "POST-H-011-C no añade todavía comando CLI ni escritura de outputs/evals; esa integración queda para POST-H-011-D.",
+    "El matcher es determinístico lexical/flexible, no un verificador semántico completo; puede requerir ampliación con reglas por dominio.",
+    "Forbidden claims se evalúan sobre respuestas candidatas cuando se suministran; la integración con respuestas reales de RAG queda para POST-H-011-D.",
+    "RAG sigue sin ser fuente de verdad; la fuente canónica sigue siendo documentación local gobernada."
+  ],
+  "next_sprint": "POST-H-011",
+  "preliminary": true,
+  "security": {
+    "local_first": true,
+    "dry_run": true,
+    "read_only": true,
+    "network_used": false,
+    "external_api_used": false,
+    "web_search_used": false,
+    "llm_judge_required": false,
+    "remote_execution_enabled": false,
+    "connector_write_enabled": false,
+    "plugin_execution_enabled": false,
+    "mutations_performed": false,
+    "source_mutations_performed": false
+  }
+}

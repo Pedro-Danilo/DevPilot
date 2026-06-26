@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://devpilot.local/schemas/rag_groundedness_report.schema.json",
   "title": "DevPilot RAG Groundedness Report v1",
-  "description": "POST-H-011-A/B report schema for local deterministic RAG groundedness evaluation outputs; POST-H-011-B adds citation/source coverage evidence fields. The executable evaluator is planned for POST-H-011-C/D; this schema fixes the future report contract early.",
+  "description": "POST-H-011-A/B/C report schema for local deterministic RAG groundedness evaluation outputs. POST-H-011-B adds citation/source coverage evidence fields; POST-H-011-C adds deterministic required/forbidden claim support fields without LLM judge, web search or external APIs.",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -252,6 +252,50 @@
           "items": {
             "type": "string"
           }
+        },
+        "supported_claims": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "claim_evidence": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "claim",
+              "supported",
+              "sources"
+            ],
+            "properties": {
+              "claim": {
+                "type": "string"
+              },
+              "supported": {
+                "type": "boolean"
+              },
+              "sources": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "minimum_claim_support": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "forbidden_claims_total": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "candidate_answer_evaluated": {
+          "type": "boolean"
         }
       }
     },

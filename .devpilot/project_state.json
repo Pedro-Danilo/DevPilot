@@ -8,8 +8,8 @@
   "last_completed_sprint": "POST-H-010",
   "last_functional_sprint": "FUNC-SPRINT-99",
   "next_sprint": "POST-H-011",
-  "source_repo": "repo_DevPilot_Local_186_POST_H_011_A.zip",
-  "current_repo": "repo_DevPilot_Local_188_POST_H_011_B.zip",
+  "source_repo": "repo_DevPilot_Local_187_POST_H_011_B.zip",
+  "current_repo": "repo_DevPilot_Local_188_POST_H_011_C.zip",
   "global_state_owner": "tests/test_project_global_state.py",
   "mutable_global_state_fields": [
     "last_completed_sprint",
@@ -56,6 +56,7 @@
     "POST-H-010-E closes Observability retention local as implemented-initial: ObservabilityRetentionHygiene schema, read-only hygiene gate, observability-retention quality-gate subgate and dedicated runbook are available without runtime-output dependency, network, external APIs, cleanup execution or source mutations.",
     "POST-H-011 is the next prioritized hito: RAG groundedness evals.",
     "POST-H-011-A starts RAG groundedness evals as implemented-initial: RagGroundednessEval/RagGroundednessReport schemas and the rag_groundedness_post_h_cases fixture define local expected sources, required claims and forbidden claims without web search, external APIs, LLM judge, remote execution, connector write or plugin execution.",
-    "POST-H-011-B adds local citation extraction and source coverage for RAG groundedness fixtures as implemented-initial: paths/doc_id/headings/snippets are normalized locally; source_coverage detects missing, runtime, remote and stale sources without web search, external APIs, LLM judge or mutations."
+    "POST-H-011-B adds local citation extraction and source coverage for RAG groundedness fixtures as implemented-initial: paths/doc_id/headings/snippets are normalized locally; source_coverage detects missing, runtime, remote and stale sources without web search, external APIs, LLM judge or mutations.",
+    "POST-H-011-C adds deterministic RAG claim groundedness evaluation: required_claims, forbidden_claims, claim_support and unsupported_claims are evaluated locally without LLM judge, web search or external APIs."
   ]
 }

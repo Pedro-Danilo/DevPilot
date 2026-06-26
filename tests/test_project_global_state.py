@@ -80,9 +80,9 @@ def test_project_global_state_schema_and_docs_are_synchronized() -> None:
     assert any("POST-H-010-C adds Observability cleanup plan" in note for note in state["notes"])
     assert any("POST-H-010-D adds local redacted observability export" in note for note in state["notes"])
     assert any("POST-H-010-E closes Observability retention local" in note for note in state["notes"])
-    assert any("POST-H-011-B adds local citation extraction" in note for note in state["notes"])
-    assert "POST-H-011-B — Citation extractor y source coverage" in readme
-    assert "POST-H-011-B — Citation extractor y source coverage" in runbook
+    assert any("POST-H-011-C adds deterministic RAG claim groundedness" in note for note in state["notes"])
+    assert "POST-H-011-C — Evaluador determinístico de claims" in readme
+    assert "POST-H-011-C — Evaluador determinístico de claims" in runbook
 
 
 def test_project_global_state_command_result_passes() -> None:

@@ -16,7 +16,7 @@ approval_scope: "SPRINT-PRECODE-05 quality operations baseline"
 
 # Runbook — DevPilot Local
 
-Siguiente hito operativo: `POST-H-011 — RAG groundedness evals`; micro-sprint activo: `POST-H-011-B — Citation extractor y source coverage`.
+Siguiente hito operativo: `POST-H-011 — RAG groundedness evals`; micro-sprint activo: `POST-H-011-C — Evaluador determinístico de claims`.
 
 
 ## 1. Propósito
@@ -7785,3 +7785,26 @@ python -m devpilot_core schema validate `
 ```
 
 Límites: todavía no se evalúa claim support, unsupported claims ni forbidden claims. Esa lógica queda para `POST-H-011-C`; CLI y reportes runtime quedan para `POST-H-011-D`; quality-gate queda para `POST-H-011-E`.
+
+## POST-H-011-C — Evaluador determinístico de claims
+
+`POST-H-011-C` incorpora `RagGroundednessEvaluator` para validar claims de groundedness RAG de forma local, determinística y read-only. El evaluator usa los fixtures de `evals/fixtures/rag_groundedness_post_h_cases.json`, verifica `required_claims` contra fuentes locales esperadas, calcula `claim_support`, reporta `unsupported_claims` y bloquea `forbidden_claims` cuando aparecen en respuestas candidatas.
+
+Comandos de validación local recomendados:
+
+```powershell
+python -m pytest -p no:ddtrace tests/test_rag_groundedness_claims.py tests/test_rag_citations_source_coverage.py tests/test_post_h_011_rag_groundedness.py tests/test_rag_groundedness_schema.py -q
+python -m devpilot_core schema validate --schema-id RagGroundednessEval --instance evals/fixtures/rag_groundedness_post_h_cases.json --json
+python -m devpilot_core schema validate --schema-id PostHManifest --instance docs/post_h_011_c_manifest.json --json
+```
+
+Límites operativos:
+
+```text
+- Implementación implemented-initial.
+- No usa LLM judge, web search, APIs externas ni embeddings remotos.
+- No habilita remote execution, connector write ni plugin execution.
+- No añade todavía el comando CLI rag groundedness-eval ni escritura de outputs/evals; eso queda para POST-H-011-D.
+- No integra todavía quality-gate; eso queda para POST-H-011-E.
+```
+

@@ -1,5 +1,24 @@
 # Changelog
 
+
+
+## [post-h-011-c] - 2026-06-26
+
+### Added
+- Implementado `src/devpilot_core/rag/groundedness.py` con `RagGroundednessEvaluator` y `GroundednessOptions`.
+- Agregadas pruebas `tests/test_rag_groundedness_claims.py` para claim support, unsupported claims, forbidden claims y modo no estricto.
+- Agregados `docs/audits/post_h_011_c_claim_groundedness_report.md` y `docs/post_h_011_c_manifest.json`.
+- Registrado contrato TCR v1/v2 `post-h-011-rag-deterministic-claim-groundedness`.
+
+### Changed
+- Actualizado `POST-H-011` a `current_micro_sprint=POST-H-011-C` y `next_micro_sprint=POST-H-011-D`.
+- `RagGroundednessReport` ahora admite evidencia de claims (`supported_claims`, `claim_evidence`, `minimum_claim_support`, `forbidden_claims_total`, `candidate_answer_evaluated`).
+
+### Security
+- Local-first, read-only y dry-run. Sin LLM judge, web search, APIs externas, embeddings remotos, remote execution, connector write ni plugin execution.
+
+### Limitations
+- No se añade todavía CLI `rag groundedness-eval` ni escritura de `outputs/evals`; esa integración queda para `POST-H-011-D`.
 ## [post-h-011-b] - 2026-06-26
 
 ### Added
@@ -30,7 +49,7 @@
 - This is a schema/fixture baseline only; evaluator, CLI and quality-gate integration are planned for later POST-H-011 micro-sprints.
 
 
-Siguiente hito: `POST-H-011 — RAG groundedness evals`; micro-sprint activo `POST-H-011-B`.
+Siguiente hito: `POST-H-011 — RAG groundedness evals`; micro-sprint activo `POST-H-011-C`.
 
 ## [post-h-010-e] - 2026-06-26
 
@@ -685,7 +704,7 @@ owner: "Ordóñez"
 
 # Changelog
 
-Siguiente hito: `POST-H-011 — RAG groundedness evals`; micro-sprint activo `POST-H-011-B`.
+Siguiente hito: `POST-H-011 — RAG groundedness evals`; micro-sprint activo `POST-H-011-C`.
 
 ## [post-h-010-e] - 2026-06-26
 
