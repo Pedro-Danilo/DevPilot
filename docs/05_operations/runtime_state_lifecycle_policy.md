@@ -169,3 +169,28 @@ python -m devpilot_core runtime-state cleanup --execute --confirm-cleanup --json
 ```
 
 Límites: export/redacción, rotación industrial, cuotas por tamaño y subgate de release quedan pendientes para `POST-H-008-D/E`.
+
+
+## POST-H-008-D — Export y redacción de evidencia runtime
+
+`POST-H-008-D` implementa export local de evidencia runtime con redacción. La política efectiva es conservadora:
+
+```text
+- `runtime-state export --dry-run` no escribe archivos.
+- `runtime-state export --execute` exige `--output` bajo `outputs/runtime_exports/`.
+- JSON/JSONL se procesa de forma estructural para eliminar campos de raw prompt/output.
+- SecretGuard redacta claves y valores tipo token, API key, password, bearer y connection string.
+- Artefactos binarios o no redactables, incluyendo `.devpilot/devpilot.db`, se exportan como metadata-only.
+- Cada payload exportado tiene checksum SHA-256 en manifest y `checksums.sha256`.
+```
+
+Esta es una versión `implemented-initial`: el export queda listo como fuente opcional para auditpack/release, pero la integración automática, signing, cifrado y gate de higiene runtime quedan para evolución posterior.
+
+Límites explícitos:
+
+```text
+- No se garantiza redacción semántica perfecta de todo texto libre.
+- No se exportan payloads raw de SQLite local.
+- No se habilitan backups remotos ni cloud storage.
+- `outputs/runtime_exports/` debe seguir excluido de ZIPs limpios.
+```

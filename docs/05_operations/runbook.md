@@ -7221,3 +7221,32 @@ BLOCK si la capacidad usa red, APIs externas o ejecución remota.
 ```
 
 Esta versión es `implemented-initial`: no reemplaza un sistema completo de retención/rotación industrial, no implementa export/redacción y no integra todavía el subgate `runtime-state-hygiene` al `quality-gate hardening`.
+
+
+## POST-H-008-D — Export y redacción de evidencia runtime
+
+`POST-H-008-D` agrega exportación local de evidencia runtime con redacción y manifest de integridad. La capacidad está diseñada como `implemented-initial`: es suficiente para exportar evidencia local sin secretos obvios ni raw prompts/raw outputs, pero aún no reemplaza cifrado/signing industrial ni integración automática con release/auditpack.
+
+Comandos operativos:
+
+```powershell
+$env:PYTHONPATH="src"
+$env:DD_TRACE_ENABLED="false"
+
+python -m devpilot_core runtime-state export --dry-run --json
+python -m devpilot_core runtime-state export --execute --output outputs/runtime_exports/post_h_008_d_local --json
+python -m devpilot_core schema validate --schema-id RuntimeStateExportManifest --instance outputs/runtime_exports/post_h_008_d_local/runtime_state_export_manifest.json --json
+```
+
+Reglas de seguridad:
+
+```text
+PASS si el export genera manifest y checksums.
+PASS si secretos conocidos se redactan.
+PASS si no requiere red ni APIs externas.
+BLOCK si el manifest permite raw_prompts_exported=true o raw_outputs_exported=true.
+BLOCK si el output se escribe fuera de outputs/runtime_exports/.
+BLOCK si `.devpilot/devpilot.db` se exporta como payload raw.
+```
+
+Los artefactos bajo `outputs/runtime_exports/` son runtime evidence generado y no deben versionarse ni incluirse en ZIPs limpios del repo.

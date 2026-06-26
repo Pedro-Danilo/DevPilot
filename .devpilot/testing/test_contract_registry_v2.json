@@ -5594,6 +5594,93 @@
         "POST-H-008-C implements dry-run-first cleanup planning with guarded execution only for safe-cleanup artifacts.",
         "The contract is P1/high because cleanup planning touches deletion semantics; tests enforce source-of-truth never-delete and confirmation-required execution."
       ]
+    },
+    {
+      "contract_id": "post-h-008-runtime-state-export",
+      "schema_version": "2.0",
+      "source_contract_id": "post-h-008-runtime-state-export",
+      "domain": "operations.audit",
+      "capability": "RuntimeStateExportManifest",
+      "criticality": "P1",
+      "risk_level": "high",
+      "test_type": "integration",
+      "execution_profile": "always",
+      "cost_class": "low",
+      "expected_duration_seconds": 45,
+      "test_files": [
+        "tests/test_runtime_state_export.py",
+        "tests/test_runtime_state_inventory.py",
+        "tests/test_runtime_state_policy_schema.py",
+        "tests/test_post_h_008_runtime_state_lifecycle.py",
+        "tests/test_schema_registry.py",
+        "tests/test_project_global_state.py"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/runtime_state/",
+        "src/devpilot_core/cli.py",
+        "src/devpilot_core/cli_registry/registry.py",
+        ".devpilot/runtime_state_policy.json",
+        "docs/schemas/runtime_state_export_manifest.schema.json",
+        "docs/schemas/schema_catalog.json",
+        ".devpilot/testing/",
+        ".devpilot/project_state.json",
+        "README.md",
+        "docs/05_operations/runbook.md",
+        "docs/05_operations/runtime_state_lifecycle_policy.md",
+        "docs/POST-H-008_runtime_state_lifecycle.md",
+        "docs/backlogs/POST-H-008_runtime_state_lifecycle.md",
+        "tests/test_runtime_state_export.py"
+      ],
+      "validates": [
+        "src/devpilot_core/runtime_state/export.py",
+        "src/devpilot_core/runtime_state/",
+        "src/devpilot_core/cli.py",
+        "src/devpilot_core/cli_registry/registry.py",
+        ".devpilot/runtime_state_policy.json",
+        "docs/schemas/runtime_state_export_manifest.schema.json",
+        "docs/schemas/schema_catalog.json",
+        "docs/POST-H-008_runtime_state_lifecycle.md",
+        "docs/backlogs/POST-H-008_runtime_state_lifecycle.md",
+        "docs/05_operations/runtime_state_lifecycle_policy.md",
+        "docs/audits/post_h_008_d_runtime_state_export_report.md",
+        "docs/post_h_008_d_manifest.json"
+      ],
+      "trigger_hints": [
+        "runtime-state-export",
+        "runtime-state-redaction",
+        "clean-zip-hygiene",
+        "post-h-source-change"
+      ],
+      "impact_scope": [
+        "runtime-state",
+        "operations",
+        "schemas",
+        "cli-registry",
+        "test-contracts",
+        "docs-sync",
+        "post-h"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "POST-H-008-D",
+      "recommended_commands": [
+        "python -m pytest tests/test_runtime_state_export.py tests/test_runtime_state_inventory.py tests/test_runtime_state_policy_schema.py tests/test_post_h_008_runtime_state_lifecycle.py -q",
+        "python -m devpilot_core runtime-state export --dry-run --json",
+        "python -m devpilot_core runtime-state export --execute --output outputs/runtime_exports/post_h_008_d_local --json",
+        "python -m devpilot_core schema validate --schema-id RuntimeStateExportManifest --instance outputs/runtime_exports/post_h_008_d_local/runtime_state_export_manifest.json --json",
+        "python -m devpilot_core test-contracts validate --json",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ],
+      "classification_status": "explicit",
+      "classification_notes": [
+        "POST-H-008-D implements local-only redacted runtime evidence export; dry-run remains default and execute writes only under outputs/runtime_exports/.",
+        "The contract is P1/high because runtime evidence may contain secrets, prompts, outputs or local operational state; tests enforce no raw prompt/output export and metadata-only DB handling."
+      ]
     }
   ],
   "migration_metadata": {

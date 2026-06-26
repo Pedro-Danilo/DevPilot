@@ -468,7 +468,7 @@ PASS si reporta violaciones sin borrar nada.
 
 ### Siguiente micro-sprint
 
-`POST-H-008-D — Export seguro y redacción`.
+`POST-H-008-D — Export y redacción de evidencia runtime`.
 
 
 ## 15. Avance de implementación — POST-H-008-C
@@ -522,4 +522,58 @@ PASS si --execute exige confirmación/flag explícito.
 
 ### Siguiente micro-sprint
 
-`POST-H-008-D — Export seguro y redacción`.
+`POST-H-008-D — Export y redacción de evidencia runtime`.
+
+
+## 16. Avance de implementación — POST-H-008-D
+
+Estado: `implemented-initial`.
+
+`POST-H-008-D — Export y redacción de evidencia runtime` implementa export local de evidencia runtime con redacción, manifest y checksums. El diseño conserva dry-run por defecto y exige salida explícita bajo `outputs/runtime_exports/` para cualquier ejecución que escriba archivos.
+
+### Implementado
+
+```text
+- src/devpilot_core/runtime_state/export.py
+- Comando CLI: python -m devpilot_core runtime-state export --dry-run --json
+- Ejecución explícita: python -m devpilot_core runtime-state export --execute --output outputs/runtime_exports/<id> --json
+- Manifest generado: outputs/runtime_exports/<id>/runtime_state_export_manifest.json
+- Checksums generados: outputs/runtime_exports/<id>/checksums.sha256
+- Schema: docs/schemas/runtime_state_export_manifest.schema.json
+- Tests focales: tests/test_runtime_state_export.py
+- Manifest: docs/post_h_008_d_manifest.json
+- Auditoría: docs/audits/post_h_008_d_runtime_state_export_report.md
+```
+
+### Capacidades adicionadas
+
+```text
+- Export plan dry-run sin escritura.
+- Export execute con salida explícita gobernada bajo outputs/runtime_exports/.
+- Redacción recursiva de JSON/JSONL con SecretGuard.
+- Eliminación de campos raw prompt/raw output.
+- Metadata-only para `.devpilot/devpilot.db` y payloads binarios no redactables.
+- Manifest estructural RuntimeStateExportManifest con checksums SHA-256.
+- Registro declarativo de runtime-state.export en CLI registry.
+```
+
+### Criterios PASS cubiertos
+
+```text
+PASS si export genera manifest y checksums.
+PASS si secretos conocidos se redactan.
+PASS si no requiere red ni APIs externas.
+```
+
+### Límites de esta versión
+
+```text
+- No implementa integración automática con auditpack/release.
+- No implementa signing/cifrado de export packs.
+- No integra todavía runtime-state-hygiene al quality-gate hardening.
+- La redacción textual es conservadora y no sustituye un DLP industrial completo.
+```
+
+### Siguiente micro-sprint
+
+`POST-H-008-E — Gate de higiene runtime y release archive`.

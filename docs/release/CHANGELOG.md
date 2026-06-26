@@ -1,3 +1,29 @@
+
+## [post-h-008-d] - 2026-06-26
+
+### Added
+
+- `RuntimeStateExporter` for local redacted runtime evidence export.
+- CLI `python -m devpilot_core runtime-state export --dry-run --json`.
+- CLI `python -m devpilot_core runtime-state export --execute --output outputs/runtime_exports/<id> --json`.
+- `RuntimeStateExportManifest` schema and schema catalog registration.
+- TCR v1/v2 contract `post-h-008-runtime-state-export`.
+- Audit report `docs/audits/post_h_008_d_runtime_state_export_report.md` and manifest `docs/post_h_008_d_manifest.json`.
+
+### Safety
+
+- Export is dry-run by default.
+- Execute writes only under `outputs/runtime_exports/`.
+- JSON/JSONL raw prompt/output fields are removed.
+- SecretGuard redacts known token/API-key/password/connection-string patterns.
+- `.devpilot/devpilot.db` and binary artifacts are exported metadata-only, not raw payloads.
+- No network, external APIs, remote execution, connector write or plugin execution enabled.
+
+### Deferred
+
+- Runtime-state hygiene quality gate and release archive blocking remain for POST-H-008-E.
+- Signing/encryption remains deferred to later hardening.
+
 ---
 title: "DevPilot Local — Changelog"
 doc_id: "DEVPL-RELEASE-CHANGELOG"

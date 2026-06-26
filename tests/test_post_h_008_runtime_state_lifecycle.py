@@ -111,6 +111,8 @@ def test_post_h_008_a_artifacts_are_registered_in_tcr() -> None:
     assert "post-h-008-runtime-state-inventory" in contract_ids_v2
     assert "post-h-008-runtime-state-cleanup-plan" in contract_ids
     assert "post-h-008-runtime-state-cleanup-plan" in contract_ids_v2
+    assert "post-h-008-runtime-state-export" in contract_ids
+    assert "post-h-008-runtime-state-export" in contract_ids_v2
 
     contract = next(item for item in tcr["contracts"] if item["contract_id"] == "post-h-008-runtime-state-policy-schema")
     assert "tests/test_runtime_state_policy_schema.py" in contract["test_files"]
@@ -150,3 +152,49 @@ def test_post_h_008_a_artifacts_are_registered_in_tcr() -> None:
     assert cleanup_contract_v2["network_allowed"] is False
     assert cleanup_contract_v2["external_api_allowed"] is False
     assert cleanup_contract_v2["mutations_allowed"] is False
+
+
+def test_post_h_008_d_export_is_documented_manifested_and_guarded() -> None:
+    backlog = read("docs/POST-H-008_runtime_state_lifecycle.md")
+    readme = read("README.md")
+    runbook = read("docs/05_operations/runbook.md")
+    policy_doc = read("docs/05_operations/runtime_state_lifecycle_policy.md")
+    audit = read("docs/audits/post_h_008_d_runtime_state_export_report.md")
+    manifest = read_json("docs/post_h_008_d_manifest.json")
+    changelog = read("docs/release/CHANGELOG.md")
+
+    assert "## 16. Avance de implementación — POST-H-008-D" in backlog
+    assert "runtime-state export" in readme
+    assert "POST-H-008-D — Export y redacción de evidencia runtime" in runbook
+    assert "POST-H-008-D — Export y redacción de evidencia runtime" in policy_doc
+    assert "Runtime state export/redaction report" in audit
+    assert manifest["id"] == "POST-H-008-D"
+    assert manifest["status"] == "implemented-initial"
+    assert manifest["dry_run"] is True
+    assert manifest["execute_requires_explicit_output"] is True
+    assert manifest["redaction_execution_enabled"] is True
+    assert manifest["raw_prompts_exported"] is False
+    assert manifest["raw_outputs_exported"] is False
+    assert manifest["secrets_exported"] is False
+    assert manifest["local_db_raw_exported"] is False
+    assert "post-h-008-d" in changelog
+
+
+def test_post_h_008_d_export_contract_is_registered_in_tcr() -> None:
+    tcr = read_json(".devpilot/testing/test_contract_registry.json")
+    tcr_v2 = read_json(".devpilot/testing/test_contract_registry_v2.json")
+
+    export_contract = next(item for item in tcr["contracts"] if item["contract_id"] == "post-h-008-runtime-state-export")
+    assert export_contract["owner"] == "POST-H-008-D"
+    assert "tests/test_runtime_state_export.py" in export_contract["test_files"]
+    assert "docs/schemas/runtime_state_export_manifest.schema.json" in export_contract["validates"]
+    assert export_contract["mutable_global_state_allowed"] is False
+
+    export_contract_v2 = next(item for item in tcr_v2["contracts"] if item["contract_id"] == "post-h-008-runtime-state-export")
+    assert export_contract_v2["capability"] == "RuntimeStateExportManifest"
+    assert export_contract_v2["required_for_release"] is True
+    assert export_contract_v2["required_for_security_gate"] is True
+    assert export_contract_v2["network_allowed"] is False
+    assert export_contract_v2["external_api_allowed"] is False
+    assert export_contract_v2["mutations_allowed"] is False
+    assert export_contract_v2["source_mutations_allowed"] is False

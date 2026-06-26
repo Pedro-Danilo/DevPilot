@@ -6,6 +6,14 @@ from devpilot_core.runtime_state.cleanup import (
     RuntimeStateCleanupPlanner,
     render_runtime_state_cleanup_plan_markdown,
 )
+from devpilot_core.runtime_state.export import (
+    POST_H_008_D_CREATED_BY,
+    RUNTIME_STATE_EXPORT_ID,
+    RUNTIME_STATE_EXPORT_MANIFEST_SCHEMA_ID,
+    RuntimeStateExportOptions,
+    RuntimeStateExporter,
+    render_runtime_state_export_manifest_markdown,
+)
 from devpilot_core.runtime_state.inventory import RuntimeStateInventoryBuilder, RuntimeStateInventoryOptions, render_runtime_state_inventory_markdown
 from devpilot_core.runtime_state.models import (
     POST_H_008_B_CREATED_BY,
@@ -21,23 +29,28 @@ from devpilot_core.runtime_state.models import (
     RuntimeViolationSeverity,
 )
 from devpilot_core.runtime_state.policy import DEFAULT_RUNTIME_STATE_POLICY, RuntimeStatePolicyLoader
-from devpilot_core.runtime_state.report import runtime_state_inventory
+from devpilot_core.runtime_state.report import runtime_state_export, runtime_state_inventory
 
 __all__ = [
     "DEFAULT_RUNTIME_STATE_POLICY",
     "POST_H_008_B_CREATED_BY",
     "POST_H_008_C_CREATED_BY",
+    "POST_H_008_D_CREATED_BY",
     "RUNTIME_STATE_INVENTORY_CONTRACT",
     "RUNTIME_STATE_INVENTORY_ID",
     "RUNTIME_STATE_INVENTORY_SCHEMA_ID",
     "RUNTIME_STATE_CLEANUP_PLAN_ID",
     "RUNTIME_STATE_CLEANUP_PLAN_SCHEMA_ID",
+    "RUNTIME_STATE_EXPORT_ID",
+    "RUNTIME_STATE_EXPORT_MANIFEST_SCHEMA_ID",
     "RUNTIME_STATE_POLICY_CONTRACT",
     "RuntimeArtifact",
     "RuntimeArtifactClass",
     "RuntimeClassSummary",
     "RuntimeStateCleanupOptions",
     "RuntimeStateCleanupPlanner",
+    "RuntimeStateExportOptions",
+    "RuntimeStateExporter",
     "RuntimeStateInventoryBuilder",
     "RuntimeStateInventoryOptions",
     "RuntimeStatePolicy",
@@ -45,6 +58,8 @@ __all__ = [
     "RuntimeViolation",
     "RuntimeViolationSeverity",
     "render_runtime_state_cleanup_plan_markdown",
+    "render_runtime_state_export_manifest_markdown",
     "render_runtime_state_inventory_markdown",
+    "runtime_state_export",
     "runtime_state_inventory",
 ]

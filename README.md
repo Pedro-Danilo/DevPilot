@@ -1,13 +1,13 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
-Estado actual: `baseline pre-code approved + Fases A-G cerradas + Fase H cerrada + POST-H-001 implemented-initial + POST-H-EVAL-001 closed + POST-H-002 closed + POST-H-003 closed + POST-H-004 closed + POST-H-005 closed + POST-H-006 closed + POST-H-007 closed + POST-H-008-A implemented-initial + POST-H-008-B implemented-initial + POST-H-008-C implemented-initial`  
+Estado actual: `baseline pre-code approved + Fases A-G cerradas + Fase H cerrada + POST-H-001 implemented-initial + POST-H-EVAL-001 closed + POST-H-002 closed + POST-H-003 closed + POST-H-004 closed + POST-H-005 closed + POST-H-006 closed + POST-H-007 closed + POST-H-008-A implemented-initial + POST-H-008-B implemented-initial + POST-H-008-C implemented-initial + POST-H-008-D implemented-initial`  
 Último hito: `POST-H-007 — ApplicationService boundary hardening`  
 Siguiente hito: `POST-H-008 — Runtime state lifecycle policy`  
-Último micro-sprint implementado: `POST-H-008-C — Cleanup plan dry-run`  
+Último micro-sprint implementado: `POST-H-008-D — Export y redacción de evidencia runtime`  
 Hito diagnóstico cerrado: `POST-H-EVAL-001 — Evaluación integral del baseline DevPilot post-Fase H`, cierre formal `POST-H-EVAL-001-G`  
 Hito actual en implementación: `POST-H-008 — Runtime state lifecycle policy`  
 Hito cerrado: `POST-H-007 — ApplicationService boundary hardening`  
-Siguiente micro-sprint recomendado: `POST-H-008-D — Export seguro y redacción`  
+Siguiente micro-sprint recomendado: `POST-H-008-E — Gate de higiene runtime y release archive`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
@@ -36,6 +36,32 @@ Modo de trabajo: local-first híbrido, API keys opcionales, costo externo contro
 
 
 
+
+
+## POST-H-008-D — Runtime state lifecycle: export y redacción de evidencia runtime
+
+`POST-H-008-D` implementa la primera versión local de exportación redactada de evidencia runtime. La capacidad permite planificar export en dry-run y ejecutar export explícito bajo `outputs/runtime_exports/<id>`, generando manifest y checksums sin incluir raw prompts, raw outputs, secretos ni payloads binarios no redactables.
+
+Comandos principales:
+
+```powershell
+python -m devpilot_core runtime-state export --dry-run --json
+python -m devpilot_core runtime-state export --execute --output outputs/runtime_exports/post_h_008_d_local --json
+python -m devpilot_core schema validate --schema-id RuntimeStateExportManifest --instance outputs/runtime_exports/post_h_008_d_local/runtime_state_export_manifest.json --json
+```
+
+Controles implementados:
+
+```text
+- Dry-run por defecto.
+- Execute requiere `--output` explícito bajo `outputs/runtime_exports/`.
+- JSON/JSONL sensible se redacta con SecretGuard y se eliminan campos de raw prompt/output.
+- `.devpilot/devpilot.db` y binarios no redactables se exportan como metadata-only.
+- Manifest `runtime_state_export_manifest.json` y `checksums.sha256` se generan en execute.
+- No se habilita red, APIs externas, remote execution, connector write ni plugin execution.
+```
+
+Esta versión es `implemented-initial`: no integra todavía el export con `auditpack/release` como flujo automático, no implementa cifrado/signing de paquetes y no agrega todavía el subgate `runtime-state-hygiene` al quality gate. Esas capacidades quedan para `POST-H-008-E` y backlogs posteriores como `POST-H-013`.
 
 ## POST-H-008-C — Runtime state lifecycle: cleanup plan dry-run
 

@@ -47,7 +47,7 @@ from .prompts import PromptRegistry
 from .quality import QualityGate, QualityGateOptions
 from .remote import RemoteRunnerStatusOptions, RemoteRunnerStub
 from .rag import LocalRagIndexer, LocalRagRetriever, RagIndexOptions, RagQueryOptions
-from .runtime_state import RuntimeStateCleanupOptions, RuntimeStateCleanupPlanner, RuntimeStateInventoryBuilder, RuntimeStateInventoryOptions
+from .runtime_state import RuntimeStateCleanupOptions, RuntimeStateCleanupPlanner, RuntimeStateExportOptions, RuntimeStateExporter, RuntimeStateInventoryBuilder, RuntimeStateInventoryOptions
 from .release import (
     BackupCreateBuilder,
     BackupCreateOptions,
@@ -3201,6 +3201,35 @@ def runtime_state_cleanup_command(
     print_result(result, json_output=json_output)
     return int(result.exit_code)
 
+
+
+def runtime_state_export_command(
+    *,
+    json_output: bool = False,
+    dry_run: bool = False,
+    execute: bool = False,
+    output: str | None = None,
+) -> int:
+    """Run POST-H-008-D runtime evidence export with redaction controls.
+
+    Dry-run is the default and writes nothing. Execute mode requires an explicit
+    --output under outputs/runtime_exports/ and writes only sanitized evidence,
+    manifest and checksums. Normal CLI trace/SQLite side effects remain disabled
+    for runtime-state lifecycle commands.
+    """
+
+    root = project_root()
+    result = RuntimeStateExporter(
+        root,
+        RuntimeStateExportOptions(
+            dry_run=bool(dry_run or not execute),
+            execute=bool(execute),
+            output=output,
+        ),
+    ).run()
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
 def state_init_command(*, json_output: bool = False, write_report: bool = False) -> int:
     """Initialize the local SQLite operational state store."""
 
@@ -4585,6 +4614,12 @@ def build_parser() -> argparse.ArgumentParser:
     runtime_state_cleanup.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     runtime_state_cleanup.add_argument("--write-report", action="store_true", help="Persist cleanup plan JSON/Markdown reports")
 
+    runtime_state_export = runtime_state_sub.add_parser("export", help="Dry-run or execute redacted runtime evidence export")
+    runtime_state_export.add_argument("--dry-run", action="store_true", help="Preview export without writing files; this is the default")
+    runtime_state_export.add_argument("--execute", action="store_true", help="Write sanitized export evidence, manifest and checksums")
+    runtime_state_export.add_argument("--output", help="Required with --execute; must be under outputs/runtime_exports/<id>")
+    runtime_state_export.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+
     test_impact = sub.add_parser("test-impact", help="Analyze changed files and recommend conservative test suites")
     test_impact_sub = test_impact.add_subparsers(dest="test_impact_command")
     test_impact_analyze = test_impact_sub.add_parser("analyze", help="Recommend tests for a changed file list")
@@ -5648,6 +5683,13 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
                 dry_run=args.dry_run,
                 execute=args.execute,
                 confirm_cleanup=args.confirm_cleanup,
+            )
+        if args.runtime_state_command == "export":
+            return runtime_state_export_command(
+                json_output=args.json,
+                dry_run=args.dry_run,
+                execute=args.execute,
+                output=args.output,
             )
         parser.print_help()
         return int(ExitCode.FAIL)
