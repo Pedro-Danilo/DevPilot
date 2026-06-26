@@ -16,7 +16,7 @@ approval_scope: "SPRINT-PRECODE-05 quality operations baseline"
 
 # Runbook — DevPilot Local
 
-Siguiente hito operativo: `POST-H-011 — RAG groundedness evals`.
+Siguiente hito operativo: `POST-H-011 — RAG groundedness evals`; micro-sprint activo: `POST-H-011-A — Schema y fixtures de groundedness`.
 
 
 ## 1. Propósito
@@ -7617,6 +7617,22 @@ Limitación: esta integración es `implemented-initial` y determinística. No su
 
 
 
+
+
+## POST-H-011-A — Schema y fixtures de groundedness
+
+`POST-H-011-A` aprueba el backlog de RAG groundedness y versiona los contratos mínimos para fixtures y reportes. Es una capacidad `implemented-initial`: crea evidencia local y validable, pero aún no ejecuta RAG ni calcula métricas de groundedness.
+
+Comandos de verificación:
+
+```powershell
+python -m pytest tests/test_rag_groundedness_schema.py tests/test_post_h_011_rag_groundedness.py -q
+python -m devpilot_core schema validate --schema-id RagGroundednessEval --instance evals/fixtures/rag_groundedness_post_h_cases.json --json
+```
+
+PASS si el fixture tiene al menos 10 casos, todas las fuentes existen localmente, hay casos negativos con `forbidden_claims` y la suite declara `network_used=false`, `external_api_used=false`, `web_search_used=false`, `llm_judge_required=false`, `remote_execution_enabled=false`, `connector_write_enabled=false` y `plugin_execution_enabled=false`.
+
+BLOCK si alguna fuente esperada no existe, si se usan `outputs/` como fuente canónica, si se requiere web/API externa/LLM judge o si se declara RAG production-grade sin evaluador y gate.
 
 ## POST-H-010-E — Gate de retención e higiene observability
 

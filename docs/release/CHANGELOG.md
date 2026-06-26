@@ -1,6 +1,22 @@
 # Changelog
 
-Siguiente hito: `POST-H-011 — RAG groundedness evals`.
+
+## [post-h-011-a] - 2026-06-26
+
+### Added
+- Registered `RagGroundednessEval` and `RagGroundednessReport` schemas for local deterministic RAG groundedness contracts.
+- Added `evals/fixtures/rag_groundedness_post_h_cases.json` with 10 local post-H cases covering roadmap, security, testing, architecture, onboarding, operations, release, RAG and governance.
+- Added tests and documentation synchronization for the approved `POST-H-011` backlog.
+
+### Safety
+- No web search, external API, LLM judge, remote execution, connector write or plugin execution is enabled.
+- Outputs are not allowed as canonical expected sources in the initial fixture.
+
+### Limitations
+- This is a schema/fixture baseline only; evaluator, CLI and quality-gate integration are planned for later POST-H-011 micro-sprints.
+
+
+Siguiente hito: `POST-H-011 — RAG groundedness evals`; micro-sprint activo `POST-H-011-A`.
 
 ## [post-h-010-e] - 2026-06-26
 
@@ -655,7 +671,7 @@ owner: "Ordóñez"
 
 # Changelog
 
-Siguiente hito: `POST-H-011 — RAG groundedness evals`.
+Siguiente hito: `POST-H-011 — RAG groundedness evals`; micro-sprint activo `POST-H-011-A`.
 
 ## [post-h-010-e] - 2026-06-26
 

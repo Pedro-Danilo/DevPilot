@@ -1,15 +1,15 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
-Estado actual: `baseline pre-code approved + Fases A-G cerradas + Fase H cerrada + POST-H-001 implemented-initial + POST-H-EVAL-001 closed + POST-H-002 closed + POST-H-003 closed + POST-H-004 closed + POST-H-005 closed + POST-H-006 closed + POST-H-007 closed + POST-H-008 closed + POST-H-009-A implemented-initial + POST-H-009-B implemented-initial + POST-H-009-C implemented-initial + POST-H-009-D implemented-initial + POST-H-009-E implemented-initial + POST-H-009 closed + POST-H-010-A implemented-initial + POST-H-010-B implemented-initial + POST-H-010-C implemented-initial + POST-H-010-D implemented-initial + POST-H-010-E implemented-initial + POST-H-010 closed`  
+Estado actual: `baseline pre-code approved + Fases A-G cerradas + Fase H cerrada + POST-H-001 implemented-initial + POST-H-EVAL-001 closed + POST-H-002 closed + POST-H-003 closed + POST-H-004 closed + POST-H-005 closed + POST-H-006 closed + POST-H-007 closed + POST-H-008 closed + POST-H-009-A implemented-initial + POST-H-009-B implemented-initial + POST-H-009-C implemented-initial + POST-H-009-D implemented-initial + POST-H-009-E implemented-initial + POST-H-009 closed + POST-H-010-A implemented-initial + POST-H-010-B implemented-initial + POST-H-010-C implemented-initial + POST-H-010-D implemented-initial + POST-H-010-E implemented-initial + POST-H-010 closed + POST-H-011-A implemented-initial`  
 Último hito: `POST-H-010 — Observability retention local`  
 Siguiente hito: `POST-H-011 — RAG groundedness evals`  
-Último micro-sprint implementado: `POST-H-010-E — Gate de retención e higiene observability`  
+Último micro-sprint implementado: `POST-H-011-A — Schema y fixtures de groundedness`  
 Hito diagnóstico cerrado: `POST-H-EVAL-001 — Evaluación integral del baseline DevPilot post-Fase H`, cierre formal `POST-H-EVAL-001-G`  
 Hito cerrado: `POST-H-010 — Observability retention local`  
 Hito cerrado: `POST-H-009 — Documentation governance y canonical sources`  
 Hito cerrado: `POST-H-008 — Runtime state lifecycle policy`  
 Hito cerrado: `POST-H-007 — ApplicationService boundary hardening`  
-Siguiente micro-sprint recomendado: `POST-H-011-A — Groundedness eval baseline local`  
+Siguiente micro-sprint recomendado: `POST-H-011-B — Citation extractor y source coverage`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
@@ -47,6 +47,40 @@ Modo de trabajo: local-first híbrido, API keys opcionales, costo externo contro
 
 
 
+
+
+## POST-H-011-A — RAG groundedness: Schema y fixtures de groundedness
+
+`POST-H-011-A` inicia `POST-H-011 — RAG groundedness evals` como `implemented-initial`. Este micro-sprint aprueba el backlog y crea la base contractual local para evaluar groundedness de respuestas RAG: schema de suite, schema de reporte futuro y un fixture inicial con 10 casos post-H.
+
+Artefactos principales:
+
+```text
+docs/schemas/rag_groundedness_eval.schema.json
+docs/schemas/rag_groundedness_report.schema.json
+evals/fixtures/rag_groundedness_post_h_cases.json
+tests/test_rag_groundedness_schema.py
+tests/test_post_h_011_rag_groundedness.py
+docs/audits/post_h_011_a_schema_fixtures_report.md
+docs/post_h_011_a_manifest.json
+```
+
+Controles de seguridad:
+
+```text
+local_first=true
+dry_run=true
+network_used=false
+external_api_used=false
+web_search_used=false
+llm_judge_required=false
+remote_execution_enabled=false
+connector_write_enabled=false
+plugin_execution_enabled=false
+outputs_as_sources_allowed=false
+```
+
+Limitación explícita: esta versión no ejecuta RAG, no calcula métricas reales de source coverage/claim support y no integra quality-gate. Define contratos y fixtures para que `POST-H-011-B/C/D/E` implementen extractor de citas, evaluador determinístico, CLI y gate.
 
 ## POST-H-010-E — Observability retention: Gate de retención e higiene observability
 

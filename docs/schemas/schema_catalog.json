@@ -680,6 +680,40 @@
       "dialect": "https://json-schema.org/draft/2020-12/schema",
       "validates_instances": true,
       "validation_enabled_sprint": "POST-H-010-E"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-RAG-GROUNDEDNESS-EVAL-V1",
+      "title": "DevPilot RAG Groundedness Eval Suite v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/rag_groundedness_eval.schema.json",
+      "description": "POST-H-011-A local-first fixture schema for deterministic RAG groundedness evaluation cases, expected local sources, required claims and forbidden claims without web search, external APIs, embeddings or LLM judge.",
+      "status": "registered",
+      "owner": "Ordóñez",
+      "sprint": "POST-H-011-A",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "contract": "RagGroundednessEval",
+      "validation_enabled_sprint": "POST-H-011-A",
+      "local_first": true,
+      "dry_run_default": true,
+      "no_remote_execution_enabled": true
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-RAG-GROUNDEDNESS-REPORT-V1",
+      "title": "DevPilot RAG Groundedness Report v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/rag_groundedness_report.schema.json",
+      "description": "POST-H-011-A local-first report schema for future deterministic RAG groundedness evaluation results including source coverage, claim support, unsupported claims and safety flags.",
+      "status": "registered",
+      "owner": "Ordóñez",
+      "sprint": "POST-H-011-A",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "contract": "RagGroundednessReport",
+      "validation_enabled_sprint": "POST-H-011-A",
+      "local_first": true,
+      "dry_run_default": true,
+      "no_remote_execution_enabled": true
     }
   ]
 }

@@ -1,0 +1,335 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "SCHEMA-DEVPL-RAG-GROUNDEDNESS-EVAL-V1",
+  "suite_id": "rag-groundedness-post-h",
+  "created_by": "POST-H-011-A",
+  "status": "implemented-initial",
+  "version": "1.0.0",
+  "owner": "Ordóñez",
+  "generated_at_utc": "2026-06-26T22:00:00Z",
+  "description": "Initial local deterministic fixture suite for POST-H RAG groundedness baseline. The suite only declares cases, expected sources, required claims and forbidden claims; scoring is implemented in later POST-H-011 micro-sprints.",
+  "local_first": true,
+  "dry_run": true,
+  "network_used": false,
+  "external_api_used": false,
+  "web_search_used": false,
+  "llm_judge_required": false,
+  "remote_execution_enabled": false,
+  "connector_write_enabled": false,
+  "plugin_execution_enabled": false,
+  "minimum_cases_required": 10,
+  "suite_defaults": {
+    "minimum_source_coverage": 0.8,
+    "minimum_claim_support": 0.8,
+    "forbidden_claims_block": true,
+    "expected_sources_required": true,
+    "canonical_sources_only": true,
+    "outputs_as_sources_allowed": false
+  },
+  "cases": [
+    {
+      "case_id": "rag-posth-roadmap-prioritized-hitos",
+      "question": "¿Cuáles son los próximos hitos priorizados del roadmap post-H y qué restricciones deben respetar?",
+      "case_type": "positive",
+      "domain": "roadmap",
+      "expected_sources": [
+        "docs/backlogs/post_h_prioritized_roadmap.md",
+        ".devpilot/evals/post_h_eval_001_prioritized_roadmap.json"
+      ],
+      "required_claims": [
+        "POST-H-011",
+        "POST-H-012",
+        "POST-H-014",
+        "local-first"
+      ],
+      "forbidden_claims": [
+        "remote execution enabled",
+        "connector write enabled",
+        "plugin execution enabled"
+      ],
+      "minimum_source_coverage": 0.8,
+      "minimum_claim_support": 0.8,
+      "risk_level": "high",
+      "expected_behavior": "pass_with_sources",
+      "tags": [
+        "roadmap",
+        "priorities",
+        "no-go"
+      ]
+    },
+    {
+      "case_id": "rag-posth-security-risk-register",
+      "question": "¿Qué riesgos de seguridad post-H deben considerarse antes de habilitar capacidades agentic más sensibles?",
+      "case_type": "positive",
+      "domain": "security",
+      "expected_sources": [
+        "docs/03_security/post_h_security_risk_register.md",
+        "docs/audits/post_h_eval_001_baseline_assessment.md"
+      ],
+      "required_claims": [
+        "remote execution",
+        "connector write",
+        "plugin execution",
+        "approval"
+      ],
+      "forbidden_claims": [
+        "security certified",
+        "production certified",
+        "remote execution safe by default"
+      ],
+      "minimum_source_coverage": 0.8,
+      "minimum_claim_support": 0.8,
+      "risk_level": "critical",
+      "expected_behavior": "pass_with_sources",
+      "tags": [
+        "security",
+        "risk",
+        "agentic"
+      ]
+    },
+    {
+      "case_id": "rag-posth-test-contract-registry-state",
+      "question": "¿Qué rol cumple Test Contract Registry en el baseline industrial local de DevPilot?",
+      "case_type": "positive",
+      "domain": "testing",
+      "expected_sources": [
+        "docs/04_quality/post_h_test_cost_assessment.md",
+        "docs/backlogs/POST-H-003_test_contract_registry_2.md",
+        ".devpilot/testing/test_contract_registry.json"
+      ],
+      "required_claims": [
+        "test contracts",
+        "quality-gate",
+        "local",
+        "dry-run"
+      ],
+      "forbidden_claims": [
+        "full pytest always required",
+        "external API required"
+      ],
+      "minimum_source_coverage": 0.67,
+      "minimum_claim_support": 0.75,
+      "risk_level": "high",
+      "expected_behavior": "pass_with_sources",
+      "tags": [
+        "testing",
+        "contracts",
+        "quality-gate"
+      ]
+    },
+    {
+      "case_id": "rag-posth-architecture-hotspots",
+      "question": "¿Cuáles son los hotspots arquitectónicos principales que afectan cambios futuros?",
+      "case_type": "positive",
+      "domain": "architecture",
+      "expected_sources": [
+        "docs/02_architecture/post_h_current_architecture_map.md",
+        "docs/backlogs/POST-H-005_architecture_map_executable.md"
+      ],
+      "required_claims": [
+        "cli.py",
+        "policy",
+        "schemas",
+        "quality/gate.py"
+      ],
+      "forbidden_claims": [
+        "architecture fully production-ready",
+        "no refactor needed"
+      ],
+      "minimum_source_coverage": 0.8,
+      "minimum_claim_support": 0.75,
+      "risk_level": "high",
+      "expected_behavior": "pass_with_sources",
+      "tags": [
+        "architecture",
+        "hotspots",
+        "boundaries"
+      ]
+    },
+    {
+      "case_id": "rag-posth-observability-clean-zip",
+      "question": "¿Qué artefactos de observabilidad no deben entrar en un ZIP limpio de fuente?",
+      "case_type": "positive",
+      "domain": "operations",
+      "expected_sources": [
+        "docs/backlogs/POST-H-010_observability_retention.md",
+        "docs/05_operations/observability_retention_runbook.md",
+        "docs/05_operations/runbook.md"
+      ],
+      "required_claims": [
+        "outputs/",
+        ".devpilot/devpilot.db",
+        ".devpilot/agent_sessions/",
+        "clean ZIP"
+      ],
+      "forbidden_claims": [
+        "export raw prompts",
+        "export raw outputs",
+        "include SQLite raw"
+      ],
+      "minimum_source_coverage": 0.8,
+      "minimum_claim_support": 0.8,
+      "risk_level": "critical",
+      "expected_behavior": "pass_with_sources",
+      "tags": [
+        "observability",
+        "clean-zip",
+        "privacy"
+      ]
+    },
+    {
+      "case_id": "rag-posth-onboarding-rag-status",
+      "question": "¿Cuál es el estado del RAG local y por qué requiere groundedness evals?",
+      "case_type": "positive",
+      "domain": "onboarding",
+      "expected_sources": [
+        "docs/audits/post_h_eval_001_baseline_assessment.md",
+        "docs/audits/post_h_eval_001_closure_report.md",
+        "docs/backlogs/POST-H-011_rag_groundedness_evals.md"
+      ],
+      "required_claims": [
+        "RAG",
+        "implemented-initial",
+        "groundedness",
+        "fuentes locales"
+      ],
+      "forbidden_claims": [
+        "RAG production-grade",
+        "LLM judge required",
+        "web search default"
+      ],
+      "minimum_source_coverage": 0.67,
+      "minimum_claim_support": 0.75,
+      "risk_level": "high",
+      "expected_behavior": "pass_with_sources",
+      "tags": [
+        "onboarding",
+        "rag",
+        "groundedness"
+      ]
+    },
+    {
+      "case_id": "rag-posth-no-go-remote-execution",
+      "question": "¿Puede una respuesta RAG afirmar que la ejecución remota ya está habilitada?",
+      "case_type": "negative",
+      "domain": "security",
+      "expected_sources": [
+        "docs/backlogs/post_h_prioritized_roadmap.md",
+        "docs/03_security/post_h_security_risk_register.md"
+      ],
+      "required_claims": [
+        "remote execution bloqueado",
+        "deny-by-default"
+      ],
+      "forbidden_claims": [
+        "remote execution enabled",
+        "cloud control plane enabled",
+        "deploy real enabled"
+      ],
+      "minimum_source_coverage": 0.8,
+      "minimum_claim_support": 0.8,
+      "risk_level": "critical",
+      "expected_behavior": "block_forbidden_claim",
+      "tags": [
+        "negative",
+        "remote",
+        "no-go"
+      ]
+    },
+    {
+      "case_id": "rag-posth-plugin-registry-vs-execution",
+      "question": "¿Cuál es la diferencia entre registrar plugins y ejecutar plugins en DevPilot?",
+      "case_type": "mixed",
+      "domain": "governance",
+      "expected_sources": [
+        "docs/backlogs/post_h_prioritized_roadmap.md",
+        "docs/audits/post_h_eval_001_closure_report.md"
+      ],
+      "required_claims": [
+        "plugin registry",
+        "plugin execution",
+        "bloqueado",
+        "metadata-only"
+      ],
+      "forbidden_claims": [
+        "plugin execution enabled",
+        "arbitrary plugin execution allowed"
+      ],
+      "minimum_source_coverage": 0.8,
+      "minimum_claim_support": 0.75,
+      "risk_level": "critical",
+      "expected_behavior": "block_forbidden_claim",
+      "tags": [
+        "plugins",
+        "no-go",
+        "governance"
+      ]
+    },
+    {
+      "case_id": "rag-posth-release-dry-run-boundary",
+      "question": "¿Qué límites conserva la capacidad de release dry-run frente a publicación o despliegue real?",
+      "case_type": "positive",
+      "domain": "release",
+      "expected_sources": [
+        "docs/audits/post_h_eval_001_closure_report.md",
+        "docs/release/CHANGELOG.md",
+        "docs/backlogs/post_h_prioritized_roadmap.md"
+      ],
+      "required_claims": [
+        "dry-run",
+        "no publish",
+        "no deploy",
+        "evidence"
+      ],
+      "forbidden_claims": [
+        "publish enabled",
+        "deploy enabled",
+        "production release automatic"
+      ],
+      "minimum_source_coverage": 0.67,
+      "minimum_claim_support": 0.75,
+      "risk_level": "high",
+      "expected_behavior": "pass_with_sources",
+      "tags": [
+        "release",
+        "dry-run",
+        "no-go"
+      ]
+    },
+    {
+      "case_id": "rag-posth-canonical-source-rule",
+      "question": "¿Por qué RAG no debe tratar outputs generados como fuente canónica sin registry?",
+      "case_type": "negative",
+      "domain": "rag",
+      "expected_sources": [
+        "docs/backlogs/POST-H-009_documentation_governance.md",
+        "docs/backlogs/POST-H-011_rag_groundedness_evals.md",
+        ".devpilot/docs_governance/source_registry.json"
+      ],
+      "required_claims": [
+        "fuente canónica",
+        "source registry",
+        "outputs no versionables",
+        "evidence-first"
+      ],
+      "forbidden_claims": [
+        "outputs are canonical by default",
+        "RAG answer is source of truth"
+      ],
+      "minimum_source_coverage": 0.8,
+      "minimum_claim_support": 0.8,
+      "risk_level": "critical",
+      "expected_behavior": "block_forbidden_claim",
+      "tags": [
+        "canonical-sources",
+        "rag",
+        "governance"
+      ]
+    }
+  ],
+  "notes": [
+    "POST-H-011-A is schema-and-fixture only; it does not execute RAG or score groundedness yet.",
+    "All expected sources are local workspace paths. Outputs are not allowed as canonical sources.",
+    "Forbidden claims model no-go gates for remote execution, connector write, plugin execution, web search and unsupported production claims."
+  ]
+}

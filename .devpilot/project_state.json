@@ -8,8 +8,8 @@
   "last_completed_sprint": "POST-H-010",
   "last_functional_sprint": "FUNC-SPRINT-99",
   "next_sprint": "POST-H-011",
-  "source_repo": "repo_DevPilot_Local_184_POST_H_010_D.zip",
-  "current_repo": "repo_DevPilot_Local_185_POST_H_010_E.zip",
+  "source_repo": "repo_DevPilot_Local_185_POST_H_010_E.zip",
+  "current_repo": "repo_DevPilot_Local_187_POST_H_011_A.zip",
   "global_state_owner": "tests/test_project_global_state.py",
   "mutable_global_state_fields": [
     "last_completed_sprint",
@@ -54,6 +54,7 @@
     "POST-H-010-C adds Observability cleanup plan dry-run as implemented-initial: ObservabilityCleanupPlan schema, planner, CLI observability cleanup-plan, PolicyEngine simulations and optional reports are available without cleanup/export/redaction execution or source mutations.",
     "POST-H-010-D adds local redacted observability export as implemented-initial: ObservabilityRedactedExport schema, exporter, CLI observability export, SecretGuard-backed redaction, checksums and optional reports/audit_exports are available without raw prompts, raw outputs, secrets, SQLite raw export, network or remote export.",
     "POST-H-010-E closes Observability retention local as implemented-initial: ObservabilityRetentionHygiene schema, read-only hygiene gate, observability-retention quality-gate subgate and dedicated runbook are available without runtime-output dependency, network, external APIs, cleanup execution or source mutations.",
-    "POST-H-011 is the next prioritized hito: RAG groundedness evals."
+    "POST-H-011 is the next prioritized hito: RAG groundedness evals.",
+    "POST-H-011-A starts RAG groundedness evals as implemented-initial: RagGroundednessEval/RagGroundednessReport schemas and the rag_groundedness_post_h_cases fixture define local expected sources, required claims and forbidden claims without web search, external APIs, LLM judge, remote execution, connector write or plugin execution."
   ]
 }

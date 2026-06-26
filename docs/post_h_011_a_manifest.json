@@ -1,0 +1,88 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "SCHEMA-DEVPL-POST-H-MANIFEST-V1",
+  "post_h_id": "POST-H-011",
+  "id": "POST-H-011-A",
+  "title": "POST-H-011-A — Schema y fixtures de groundedness",
+  "status": "implemented-initial",
+  "phase": "POST-FASE-H",
+  "implemented_at": "2026-06-26",
+  "created_files": [
+    "docs/schemas/rag_groundedness_eval.schema.json",
+    "docs/schemas/rag_groundedness_report.schema.json",
+    "evals/fixtures/rag_groundedness_post_h_cases.json",
+    "tests/test_rag_groundedness_schema.py",
+    "tests/test_post_h_011_rag_groundedness.py",
+    "docs/POST-H-011_rag_groundedness_evals.md",
+    "docs/audits/post_h_011_a_schema_fixtures_report.md",
+    "docs/post_h_011_a_manifest.json"
+  ],
+  "modified_files": [
+    "docs/backlogs/POST-H-011_rag_groundedness_evals.md",
+    "docs/schemas/schema_catalog.json",
+    ".devpilot/docs_governance/source_registry.json",
+    ".devpilot/project_state.json",
+    ".devpilot/testing/test_contract_registry.json",
+    ".devpilot/testing/test_contract_registry_v2.json",
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/release/CHANGELOG.md",
+    "tests/test_schema_registry.py",
+    "tests/test_project_global_state.py",
+    "tests/test_documentation_governance_validator.py"
+  ],
+  "commands": [
+    "python -m pytest -p no:ddtrace tests/test_rag_groundedness_schema.py tests/test_post_h_011_rag_groundedness.py -q",
+    "python -m devpilot_core schema validate --schema-id RagGroundednessEval --instance evals/fixtures/rag_groundedness_post_h_cases.json --json",
+    "python -m devpilot_core schema validate --schema-id PostHManifest --instance docs/post_h_011_a_manifest.json --json",
+    "python -m devpilot_core docs-governance validate --json",
+    "python -m devpilot_core test-contracts validate --json",
+    "python -m devpilot_core test-contracts validate-v2 --json",
+    "python -m devpilot_core project-state validate --json"
+  ],
+  "tests": [
+    "tests/test_rag_groundedness_schema.py",
+    "tests/test_post_h_011_rag_groundedness.py",
+    "tests/test_schema_registry.py",
+    "tests/test_project_global_state.py",
+    "tests/test_documentation_governance_validator.py",
+    "tests/test_test_contract_registry.py",
+    "tests/test_test_contract_registry_v2.py"
+  ],
+  "pass_criteria": [
+    "RagGroundednessEval y RagGroundednessReport están registrados en schema_catalog.json.",
+    "evals/fixtures/rag_groundedness_post_h_cases.json valida contra RagGroundednessEval.",
+    "El fixture incluye al menos 10 casos locales con expected_sources existentes.",
+    "La suite incluye casos negativos con forbidden_claims.",
+    "La suite declara network_used=false, external_api_used=false, web_search_used=false y llm_judge_required=false."
+  ],
+  "block_criteria": [
+    "Bloquear si el fixture requiere web o APIs externas.",
+    "Bloquear si alguna fuente esperada no existe localmente.",
+    "Bloquear si outputs/ se usan como fuente canónica esperada.",
+    "Bloquear si se declara LLM judge obligatorio.",
+    "Bloquear si se habilita remote execution, connector write o plugin execution."
+  ],
+  "risks": [
+    "Esta versión es contractual y de fixtures; todavía no calcula groundedness real.",
+    "El keyword/claim matching determinístico puede producir falsa precisión si no se complementa con source coverage en POST-H-011-B/C.",
+    "RAG local no debe tratarse como fuente de verdad; la fuente canónica sigue siendo documentación gobernada.",
+    "La integración con quality-gate queda diferida a POST-H-011-E."
+  ],
+  "next_sprint": "POST-H-011",
+  "preliminary": true,
+  "security": {
+    "local_first": true,
+    "dry_run": true,
+    "read_only": true,
+    "network_used": false,
+    "external_api_used": false,
+    "web_search_used": false,
+    "llm_judge_required": false,
+    "remote_execution_enabled": false,
+    "connector_write_enabled": false,
+    "plugin_execution_enabled": false,
+    "mutations_performed": false,
+    "source_mutations_performed": false
+  }
+}

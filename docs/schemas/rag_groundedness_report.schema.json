@@ -1,0 +1,319 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/rag_groundedness_report.schema.json",
+  "title": "DevPilot RAG Groundedness Report v1",
+  "description": "POST-H-011-A report schema reserved for local deterministic RAG groundedness evaluation outputs. The executable evaluator is planned for POST-H-011-C/D; this schema fixes the future report contract early.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "schema_id",
+    "report_id",
+    "suite_id",
+    "created_by",
+    "status",
+    "generated_at_utc",
+    "summary",
+    "case_results",
+    "findings",
+    "safety",
+    "notes"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "schema_id": {
+      "const": "SCHEMA-DEVPL-RAG-GROUNDEDNESS-REPORT-V1"
+    },
+    "report_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "suite_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "created_by": {
+      "enum": [
+        "POST-H-011-A",
+        "POST-H-011-C",
+        "POST-H-011-D",
+        "POST-H-011-E"
+      ]
+    },
+    "status": {
+      "enum": [
+        "implemented-initial",
+        "pass",
+        "warning",
+        "block"
+      ]
+    },
+    "generated_at_utc": {
+      "type": "string",
+      "minLength": 10
+    },
+    "summary": {
+      "$ref": "#/$defs/summary"
+    },
+    "case_results": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/case_result"
+      }
+    },
+    "findings": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/finding"
+      }
+    },
+    "safety": {
+      "$ref": "#/$defs/safety"
+    },
+    "notes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "$defs": {
+    "summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "cases_total",
+        "cases_passed",
+        "cases_warned",
+        "cases_blocked",
+        "source_coverage_avg",
+        "claim_support_avg",
+        "unsupported_claims_total",
+        "missing_sources_total",
+        "stale_sources_total",
+        "forbidden_claims_detected_total",
+        "network_used",
+        "external_api_used",
+        "web_search_used",
+        "llm_judge_used"
+      ],
+      "properties": {
+        "cases_total": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "cases_passed": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "cases_warned": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "cases_blocked": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "source_coverage_avg": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "claim_support_avg": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "unsupported_claims_total": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "missing_sources_total": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "stale_sources_total": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "forbidden_claims_detected_total": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "network_used": {
+          "const": false
+        },
+        "external_api_used": {
+          "const": false
+        },
+        "web_search_used": {
+          "const": false
+        },
+        "llm_judge_used": {
+          "const": false
+        }
+      }
+    },
+    "case_result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "case_id",
+        "status",
+        "source_coverage",
+        "claim_support",
+        "expected_sources_total",
+        "matched_sources_total",
+        "required_claims_total",
+        "supported_claims_total",
+        "unsupported_claims",
+        "forbidden_claims_detected",
+        "findings"
+      ],
+      "properties": {
+        "case_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "status": {
+          "enum": [
+            "pass",
+            "warning",
+            "block"
+          ]
+        },
+        "source_coverage": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "claim_support": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "expected_sources_total": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "matched_sources_total": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "required_claims_total": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "supported_claims_total": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "unsupported_claims": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "forbidden_claims_detected": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "findings": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/finding"
+          }
+        }
+      }
+    },
+    "finding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "severity",
+        "message"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[A-Z0-9_]+$"
+        },
+        "severity": {
+          "enum": [
+            "info",
+            "warning",
+            "block",
+            "error"
+          ]
+        },
+        "message": {
+          "type": "string",
+          "minLength": 1
+        },
+        "path": {
+          "type": "string"
+        },
+        "metadata": {
+          "type": "object"
+        }
+      }
+    },
+    "safety": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "local_first",
+        "dry_run",
+        "network_used",
+        "external_api_used",
+        "web_search_used",
+        "llm_judge_used",
+        "remote_execution_enabled",
+        "connector_write_enabled",
+        "plugin_execution_enabled",
+        "mutations_performed",
+        "source_mutations_performed"
+      ],
+      "properties": {
+        "local_first": {
+          "const": true
+        },
+        "dry_run": {
+          "const": true
+        },
+        "network_used": {
+          "const": false
+        },
+        "external_api_used": {
+          "const": false
+        },
+        "web_search_used": {
+          "const": false
+        },
+        "llm_judge_used": {
+          "const": false
+        },
+        "remote_execution_enabled": {
+          "const": false
+        },
+        "connector_write_enabled": {
+          "const": false
+        },
+        "plugin_execution_enabled": {
+          "const": false
+        },
+        "mutations_performed": {
+          "const": false
+        },
+        "source_mutations_performed": {
+          "const": false
+        }
+      }
+    }
+  }
+}

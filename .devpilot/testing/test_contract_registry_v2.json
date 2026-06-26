@@ -6624,6 +6624,73 @@
       "classification_notes": [
         "Local-first read-only observability retention hygiene quality-gate subgate; no network, no external APIs, no mutations and no raw payload reads."
       ]
+    },
+    {
+      "contract_id": "post-h-011-rag-groundedness-schema-fixtures",
+      "schema_version": "2.0",
+      "source_contract_id": "post-h-011-rag-groundedness-schema-fixtures",
+      "domain": "knowledge.rag",
+      "capability": "RagGroundednessSchemaFixtures",
+      "criticality": "P1",
+      "risk_level": "high",
+      "test_type": "integration",
+      "execution_profile": "always",
+      "cost_class": "low",
+      "expected_duration_seconds": 30,
+      "test_files": [
+        "tests/test_rag_groundedness_schema.py",
+        "tests/test_post_h_011_rag_groundedness.py",
+        "tests/test_schema_registry.py",
+        "tests/test_documentation_governance_validator.py",
+        "tests/test_project_global_state.py"
+      ],
+      "watched_paths": [
+        "docs/schemas/rag_groundedness_eval.schema.json",
+        "docs/schemas/rag_groundedness_report.schema.json",
+        "evals/fixtures/rag_groundedness_post_h_cases.json",
+        "docs/backlogs/POST-H-011_rag_groundedness_evals.md",
+        "docs/POST-H-011_rag_groundedness_evals.md",
+        "tests/test_rag_groundedness_schema.py",
+        "tests/test_post_h_011_rag_groundedness.py"
+      ],
+      "validates": [
+        "docs/schemas/rag_groundedness_eval.schema.json",
+        "docs/schemas/rag_groundedness_report.schema.json",
+        "evals/fixtures/rag_groundedness_post_h_cases.json",
+        "docs/backlogs/POST-H-011_rag_groundedness_evals.md",
+        "docs/POST-H-011_rag_groundedness_evals.md"
+      ],
+      "recommended_commands": [
+        "python -m pytest tests/test_rag_groundedness_schema.py tests/test_post_h_011_rag_groundedness.py -q",
+        "python -m devpilot_core schema validate --schema-id RagGroundednessEval --instance evals/fixtures/rag_groundedness_post_h_cases.json --json"
+      ],
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "required_for_release": true,
+      "required_for_security_gate": true,
+      "requires_human_approval": false,
+      "owner": "POST-H-011-A",
+      "classification_status": "explicit",
+      "classification_notes": [
+        "POST-H-011-A is a local schema/fixture contract for RAG groundedness; it does not execute RAG, web search, external APIs or LLM judge.",
+        "Capability is high risk because false groundedness can mislead SDLC decisions, but this micro-sprint only defines testable fixtures."
+      ],
+      "trigger_hints": [
+        "rag-groundedness",
+        "schemas",
+        "fixtures",
+        "post-h-011"
+      ],
+      "impact_scope": [
+        "rag",
+        "schemas",
+        "fixtures",
+        "docs",
+        "test-contracts",
+        "post-h"
+      ]
     }
   ],
   "migration_metadata": {
@@ -6633,6 +6700,7 @@
     "tests_executed": false,
     "network_used": false,
     "external_api_used": false,
-    "mutations_performed_by_default": false
+    "mutations_performed_by_default": false,
+    "contracts_total": 116
   }
 }
