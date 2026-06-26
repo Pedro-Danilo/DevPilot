@@ -406,7 +406,7 @@ PASS: CLI/API/UI mappings son opcionales, pero explícitos como arrays.
 PASS: no se modifica comportamiento runtime ni se agregan rutas/comandos públicos.
 ```
 
-Limitación explícita: `POST-H-007-B` es una primera versión contractual. Al cierre de `POST-H-007-B` no normalizaba aún DTOs runtime; esa primera cobertura queda incorporada por `POST-H-007-C`. Todavía no aplica boundary policy por cliente (`POST-H-007-D`) y no conecta aún CommandDescriptor con ApplicationOperationDescriptor (`POST-H-007-E`).
+Limitación explícita: `POST-H-007-B` es una primera versión contractual. Al cierre de `POST-H-007-B` no normalizaba aún DTOs runtime; esa primera cobertura queda incorporada por `POST-H-007-C`. La boundary policy por cliente queda incorporada por `POST-H-007-D` y la integración inicial CommandDescriptor/ApplicationOperationDescriptor por `POST-H-007-E`.
 
 
 ## 15. Avance de implementación — POST-H-007-C
@@ -453,7 +453,7 @@ PASS: validation.docs, validation.contracts, settings.status y observability.tra
 PASS: no se agregan rutas HTTP públicas, comandos CLI públicos ni enforcement por interfaz.
 ```
 
-Limitación explícita: `POST-H-007-C` es una primera versión de normalización DTO prioritaria. La autorización por interfaz (`cli`, `api`, `ui`, `automation`, `internal`) queda cubierta de forma inicial por `POST-H-007-D`, y la integración con CLI registry/quality gate queda para `POST-H-007-E`.
+Limitación explícita: `POST-H-007-C` es una primera versión de normalización DTO prioritaria. La autorización por interfaz (`cli`, `api`, `ui`, `automation`, `internal`) queda cubierta de forma inicial por `POST-H-007-D`, y la integración inicial con CLI registry/quality gate queda cubierta por `POST-H-007-E`.
 
 
 ## 16. Avance de implementación — POST-H-007-D
@@ -496,4 +496,46 @@ PASS: dry-run se preserva para api/ui/automation en operaciones sensibles.
 PASS: no se agregan rutas HTTP públicas, comandos CLI públicos, remote execution, connector write ni plugin execution.
 ```
 
-Limitación explícita: `POST-H-007-D` es una primera versión de boundary policy dentro del runtime DTO. No corrige todos los bypasses CLI históricos ni integra todavía `CommandDescriptor` con `ApplicationOperationDescriptor`; esa integración queda para `POST-H-007-E`.
+Limitación explícita: `POST-H-007-D` es una primera versión de boundary policy dentro del runtime DTO. No corrige todos los bypasses CLI históricos. La integración inicial `CommandDescriptor`/`ApplicationOperationDescriptor` queda incorporada por `POST-H-007-E`, pero la migración completa de comandos legacy sigue siendo incremental.
+
+
+## 17. Avance de implementación — POST-H-007-E
+
+`POST-H-007-E — Integración con CLI registry y quality gate` conecta el trabajo de `POST-H-006` con la frontera `ApplicationService` de `POST-H-007`. La implementación agrega un reporte local/read-only que relaciona `CommandDescriptor` con `ApplicationOperationDescriptor`, agrega metadata `application_operation_id` a comandos registrados seleccionados y conecta la verificación al perfil `quality-gate hardening`.
+
+Artefactos implementados:
+
+```text
+src/devpilot_core/application/cli_integration.py
+src/devpilot_core/cli_registry/registry.py
+src/devpilot_core/quality/gate.py
+tests/test_application_cli_boundary_integration.py
+docs/audits/post_h_007_e_cli_boundary_integration_report.md
+docs/post_h_007_e_manifest.json
+```
+
+Métricas iniciales:
+
+```text
+commands_total = 130
+registered_commands_total = 23
+registered_commands_with_operation_mapping_total = 3
+applicable_commands_without_mapping_total = 8
+api_ui_operations_total = 27
+api_ui_operations_with_contract_total = 27
+api_ui_operations_without_contract_total = 0
+blocking_findings_total = 0
+warnings_total = 8
+quality_gate_hardening_bound = true
+```
+
+Estado de criterios PASS:
+
+```text
+PASS si comandos registrados pueden apuntar a operation_id.
+PASS si operaciones API/UI tienen contract explícito.
+PASS si test-contracts validate pasa.
+PASS si quality-gate hardening conserva estado PASS.
+```
+
+Limitación explícita: `POST-H-007-E` no activa runtime registry routing ni migra todos los comandos legacy. Los warnings de mapping son no bloqueantes en esta versión inicial; una versión posterior puede promoverlos a enforcement cuando exista plan de migración o excepciones explícitas por comando.

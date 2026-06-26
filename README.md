@@ -1,13 +1,13 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
-Estado actual: `baseline pre-code approved + Fases A-G cerradas + Fase H cerrada + POST-H-001 implemented-initial + POST-H-EVAL-001 closed + POST-H-002 closed + POST-H-003 closed + POST-H-004 closed + POST-H-005 closed + POST-H-006 closed + POST-H-007-A implemented-initial + POST-H-007-B implemented-initial + POST-H-007-C implemented-initial + POST-H-007-D implemented-initial`  
+Estado actual: `baseline pre-code approved + Fases A-G cerradas + Fase H cerrada + POST-H-001 implemented-initial + POST-H-EVAL-001 closed + POST-H-002 closed + POST-H-003 closed + POST-H-004 closed + POST-H-005 closed + POST-H-006 closed + POST-H-007-A implemented-initial + POST-H-007-B implemented-initial + POST-H-007-C implemented-initial + POST-H-007-D implemented-initial + POST-H-007-E implemented-initial`  
 Último hito: `POST-H-006 — CLI command registry y desacoplamiento de handlers`  
 Siguiente hito: `POST-H-007 — ApplicationService boundary hardening`  
-Último micro-sprint implementado: `POST-H-007-D — Boundary policy y guardrails por interfaz`  
+Último micro-sprint implementado: `POST-H-007-E — Integración con CLI registry y quality gate`  
 Hito diagnóstico cerrado: `POST-H-EVAL-001 — Evaluación integral del baseline DevPilot post-Fase H`, cierre formal `POST-H-EVAL-001-G`  
 Hito actual en implementación: `POST-H-007 — ApplicationService boundary hardening`  
 Hito cerrado: `POST-H-006 — CLI command registry y desacoplamiento de handlers`  
-Siguiente micro-sprint recomendado: `POST-H-007-E — Integración con CLI registry y quality gate`  
+Siguiente micro-sprint recomendado: `POST-H-007 closure/finalización del hito ApplicationService boundary hardening`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
@@ -32,6 +32,39 @@ Modo de trabajo: local-first híbrido, API keys opcionales, costo externo contro
 
 
 
+
+
+## POST-H-007-E — Integración con CLI registry y quality gate
+
+`POST-H-007-E` conecta `POST-H-006` y `POST-H-007` mediante una verificación local/read-only que relaciona `CommandDescriptor` con `ApplicationOperationDescriptor`. La integración agrega metadata `application_operation_id` a comandos registrados seleccionados, produce el reporte `CliApplicationBoundaryIntegrationReportBuilder` y agrega el subgate `application-cli-boundary-integration` al perfil `quality-gate hardening`.
+
+Métricas iniciales:
+
+```text
+commands_total = 130
+registered_commands_total = 23
+registered_commands_with_operation_mapping_total = 3
+applicable_commands_without_mapping_total = 8
+api_ui_operations_total = 27
+api_ui_operations_with_contract_total = 27
+api_ui_operations_without_contract_total = 0
+blocking_findings_total = 0
+warnings_total = 8
+quality_gate_hardening_bound = true
+```
+
+Artefactos principales:
+
+```text
+src/devpilot_core/application/cli_integration.py
+src/devpilot_core/cli_registry/registry.py
+src/devpilot_core/quality/gate.py
+tests/test_application_cli_boundary_integration.py
+docs/audits/post_h_007_e_cli_boundary_integration_report.md
+docs/post_h_007_e_manifest.json
+```
+
+Estado industrial: primera versión de integración governance/quality-gate. No activa routing dinámico del CLI, no agrega comandos públicos ni rutas HTTP, no corrige todos los bypasses históricos y mantiene warnings de mapping como no bloqueantes hasta que un sprint posterior promueva la política a enforcement.
 
 
 ## POST-H-007-D — Boundary policy y guardrails por interfaz
@@ -61,7 +94,7 @@ docs/audits/post_h_007_d_boundary_policy_report.md
 docs/post_h_007_d_manifest.json
 ```
 
-Estado industrial: primera versión de guardrails por interfaz. No crea rutas HTTP nuevas, no cambia UI, no migra todos los comandos CLI y no conecta aún `CommandDescriptor` con `ApplicationOperationDescriptor`; esa integración queda para `POST-H-007-E`.
+Estado industrial: primera versión de guardrails por interfaz. No crea rutas HTTP nuevas, no cambia UI y no migra todos los comandos CLI. La integración inicial entre `CommandDescriptor` y `ApplicationOperationDescriptor` queda cubierta por `POST-H-007-E`; los warnings de mapping siguen siendo no bloqueantes para proteger compatibilidad histórica.
 
 ## POST-H-007-C — Normalización DTO de operaciones prioritarias
 
@@ -93,7 +126,7 @@ docs/audits/post_h_007_c_dto_normalization_report.md
 docs/post_h_007_c_manifest.json
 ```
 
-Estado industrial: primera versión runtime DTO del boundary. El enforcement por cliente/interfaz queda cubierto de forma inicial por `POST-H-007-D`; la conexión con CLI registry y quality gate queda para `POST-H-007-E`.
+Estado industrial: primera versión runtime DTO del boundary. El enforcement por cliente/interfaz queda cubierto de forma inicial por `POST-H-007-D`; la conexión inicial con CLI registry y quality gate queda cubierta por `POST-H-007-E`.
 
 ## POST-H-007-B — Operation catalog y schema
 
@@ -132,7 +165,7 @@ python -m pytest tests/test_application_operation_catalog_schema.py tests/test_s
 python -m devpilot_core schema validate --schema-id ApplicationOperationCatalog --instance outputs/reports/application_operation_catalog.json --json
 ```
 
-Estado industrial: primera versión contractual del catálogo. La normalización runtime vía `ApplicationRequest`/`ApplicationResponse` ya tiene primera cobertura prioritaria en `POST-H-007-C`; el enforcement por interfaz queda cubierto de forma inicial por `POST-H-007-D`; y la integración con CLI registry/quality-gate queda para `POST-H-007-E`.
+Estado industrial: primera versión contractual del catálogo. La normalización runtime vía `ApplicationRequest`/`ApplicationResponse` ya tiene primera cobertura prioritaria en `POST-H-007-C`; el enforcement por interfaz queda cubierto de forma inicial por `POST-H-007-D`; y la integración inicial con CLI registry/quality-gate queda cubierta por `POST-H-007-E`.
 
 ## POST-H-007-A — Inventario de operaciones y bypasses
 

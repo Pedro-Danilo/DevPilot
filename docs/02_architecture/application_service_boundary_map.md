@@ -1,6 +1,6 @@
-# ApplicationService boundary map — POST-H-007-A/B/C/D
+# ApplicationService boundary map — POST-H-007-A/B/C/D/E
 
-Estado: `implemented-initial` acumulativo hasta `POST-H-007-D`.
+Estado: `implemented-initial` acumulativo hasta `POST-H-007-E`.
 
 ## Modelo mental
 
@@ -89,4 +89,21 @@ automation_allowed_total = 32
 publicly_unexposed_operations_total = 12
 ```
 
-La política no reemplaza `PolicyEngine`; lo invoca cuando corresponde. Tampoco corrige todos los bypasses CLI históricos. La conexión con `CLI Command Registry` y quality gate queda para `POST-H-007-E`.
+La política no reemplaza `PolicyEngine`; lo invoca cuando corresponde. Tampoco corrige todos los bypasses CLI históricos. La conexión inicial con `CLI Command Registry` y quality gate queda cubierta por `POST-H-007-E`.
+
+
+## POST-H-007-E — CLI registry and quality gate coupling
+
+El mapa incorpora una ruta de gobernanza, no de routing runtime:
+
+```text
+CLI Command Registry
+  -> CommandDescriptor.metadata.application_operation_id
+  -> ApplicationOperationCatalog.operation_id
+  -> CliApplicationBoundaryIntegrationReportBuilder
+  -> QualityGate hardening subgate
+```
+
+Esta ruta permite detectar comandos registrados o grupos que requieren `ApplicationService` pero aún no tienen operación de aplicación explícita. Los gaps se reportan como warning no bloqueante salvo cuando una operación API/UI carece de contrato explícito o una metadata CLI apunta a una operación inexistente.
+
+No se habilita `dynamic_handler_loading`, no se activa runtime registry routing, no se agregan rutas HTTP y no se agregan comandos públicos.

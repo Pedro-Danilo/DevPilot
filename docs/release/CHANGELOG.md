@@ -10,6 +10,26 @@ owner: "Ordóñez"
 
 
 
+
+## [post-h-007-e] - 2026-06-25
+
+### Added
+
+- `src/devpilot_core/application/cli_integration.py` with `CliApplicationBoundaryIntegrationReportBuilder`.
+- Static `application_operation_id` metadata for selected registered CLI commands in `src/devpilot_core/cli_registry/registry.py`.
+- `application-cli-boundary-integration` subgate in `quality-gate hardening`.
+- Tests in `tests/test_application_cli_boundary_integration.py`.
+- Audit report `docs/audits/post_h_007_e_cli_boundary_integration_report.md` and manifest `docs/post_h_007_e_manifest.json`.
+- Test Contract Registry v1/v2 contract `post-h-007-application-cli-boundary-integration`.
+
+### Security
+
+- The integration is local/read-only and does not enable dynamic handler loading, runtime CLI registry routing, public HTTP routes, public CLI commands, remote execution, connector write, plugin execution, network calls or external APIs.
+
+### Notes
+
+- `POST-H-007-E` emits non-blocking warnings for commands that still need operation mapping. API/UI operations without explicit contracts remain blocking.
+
 ## [post-h-007-d] - 2026-06-25
 
 ### Added
@@ -28,7 +48,7 @@ owner: "Ordóñez"
 
 ### Notes
 
-- `POST-H-007-D` is initial runtime boundary enforcement. CLI registry integration and quality-gate coupling remain for `POST-H-007-E`.
+- `POST-H-007-D` is initial runtime boundary enforcement. CLI registry integration and quality-gate coupling are introduced by `POST-H-007-E`; complete legacy command migration remains incremental.
 
 ## [post-h-007-c] - 2026-06-25
 
@@ -46,7 +66,7 @@ owner: "Ordóñez"
 
 ### Notes
 
-- `POST-H-007-C` normalizes priority DTO paths only. Boundary policy enforcement remains for `POST-H-007-D`; CLI registry integration remains for `POST-H-007-E`.
+- `POST-H-007-C` normalizes priority DTO paths only. Boundary policy enforcement is introduced by `POST-H-007-D`; CLI registry integration is introduced by `POST-H-007-E`.
 
 ## [post-h-007-b] - 2026-06-25
 
@@ -65,7 +85,7 @@ owner: "Ordóñez"
 
 ### Notes
 
-- `POST-H-007-B` is catalog/schema only. DTO runtime normalization remains for `POST-H-007-C`; boundary policy enforcement remains for `POST-H-007-D`; CLI registry integration remains for `POST-H-007-E`.
+- `POST-H-007-B` is catalog/schema only. DTO runtime normalization is introduced by `POST-H-007-C`; boundary policy enforcement by `POST-H-007-D`; CLI registry integration by `POST-H-007-E`.
 
 ## [post-h-006-e] - 2026-06-25
 

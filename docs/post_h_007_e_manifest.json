@@ -1,0 +1,52 @@
+{
+  "id": "POST-H-007-E",
+  "title": "Integración con CLI registry y quality gate",
+  "status": "implemented-initial",
+  "created_by": "POST-H-007-E",
+  "phase": "POST-FASE-H",
+  "source_repo": "repo_DevPilot_Local_169_POST_H_007_D.zip",
+  "current_repo": "repo_DevPilot_Local_170_POST_H_007_E.zip",
+  "summary": {
+    "commands_total": 130,
+    "registered_commands_total": 23,
+    "registered_commands_with_operation_mapping_total": 3,
+    "applicable_commands_without_mapping_total": 8,
+    "api_ui_operations_without_contract_total": 0,
+    "blocking_findings_total": 0,
+    "quality_gate_hardening_bound": true,
+    "preliminary": true
+  },
+  "artifacts": [
+    "src/devpilot_core/application/cli_integration.py",
+    "src/devpilot_core/cli_registry/registry.py",
+    "src/devpilot_core/quality/gate.py",
+    "tests/test_application_cli_boundary_integration.py",
+    "docs/audits/post_h_007_e_cli_boundary_integration_report.md",
+    "docs/post_h_007_e_manifest.json"
+  ],
+  "validation_commands": [
+    "python -m pytest tests/test_application_cli_boundary_integration.py tests/test_application_boundary_policy.py tests/test_application_operation_catalog_schema.py tests/test_post_h_006_e_cli_no_growth_gate.py -q",
+    "python -m pytest tests/test_application_cli_boundary_integration.py tests/test_application_boundary_policy.py tests/test_application_dto_normalization.py tests/test_application_services.py -q",
+    "python -m devpilot_core test-contracts validate --json",
+    "python -m devpilot_core test-contracts validate-v2 --json",
+    "python -m devpilot_core quality-gate run --profile hardening --json"
+  ],
+  "safety": {
+    "read_only": true,
+    "dry_run": true,
+    "network_used": false,
+    "external_api_used": false,
+    "mutations_performed": false,
+    "source_mutations_performed": false,
+    "remote_execution_enabled": false,
+    "connector_write_enabled": false,
+    "plugin_execution_enabled": false,
+    "runtime_router_enabled": false,
+    "dynamic_handler_loading_enabled": false
+  },
+  "limitations": [
+    "Initial quality-gate integration only; CLI runtime routing remains disabled.",
+    "Mapping warnings are advisory/non-blocking until a future migration sprint promotes them to enforcement.",
+    "The sprint does not migrate all legacy CLI bypasses."
+  ]
+}

@@ -18,6 +18,16 @@ POST_H_006_B_CREATED_BY = "POST-H-006-B"
 POST_H_006_C_CREATED_BY = "POST-H-006-C"
 POST_H_006_D_CREATED_BY = "POST-H-006-D"
 POST_H_006_E_CREATED_BY = "POST-H-006-E"
+
+# POST-H-007-E keeps this metadata static to avoid coupling CLI registry
+# generation to ApplicationOperationCatalog imports. The runtime integration
+# report validates these operation ids against the catalog.
+APPLICATION_OPERATION_BY_COMMAND_ID: dict[str, str] = {
+    "standards.status": "standards.status",
+    "validate": "validation.gateway",
+    "workspace.status": "workspace.status",
+}
+
 POST_H_006_B_INITIAL_GROUPS: tuple[str, ...] = (
     "workspace",
     "standards",
@@ -370,6 +380,7 @@ class DeclarativeCliRegistryBuilder:
         else:
             recommended_tests = list(group_declaration.recommended_tests)
         risk_level = override.risk_level if override and override.risk_level is not None else command.risk_level
+        operation_id = APPLICATION_OPERATION_BY_COMMAND_ID.get(command.command_id)
         metadata: dict[str, Any] = {
             **command.metadata,
             "registry_phase": "handler-migrated-incremental" if migration else "declarative-initial",
@@ -379,7 +390,23 @@ class DeclarativeCliRegistryBuilder:
             "declared_by": POST_H_006_C_CREATED_BY if migration else POST_H_006_B_CREATED_BY,
             "handler_migration_performed": bool(migration),
             "group_rationale": group_declaration.rationale,
+            "application_service_boundary_present": bool(operation_id),
         }
+        if operation_id:
+            metadata.update(
+                {
+                    "application_operation_id": operation_id,
+                    "application_operation_mapping_source": "POST-H-007-E static CLI registry mapping",
+                    "application_operation_mapping_status": "mapped-initial",
+                }
+            )
+        elif group_declaration.application_service_required:
+            metadata.update(
+                {
+                    "application_operation_mapping_status": "missing-initial",
+                    "application_operation_mapping_warning": True,
+                }
+            )
         if override:
             metadata["command_rationale"] = override.rationale
         if migration:

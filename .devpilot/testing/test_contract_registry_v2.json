@@ -5269,6 +5269,84 @@
         "POST-H-007-D applies initial interface-level guardrails inside ApplicationService.execute().",
         "API/UI clients are strict; sensitive operations are policy-checked and dry-run guarded without adding public routes or commands."
       ]
+    },
+    {
+      "contract_id": "post-h-007-application-cli-boundary-integration",
+      "schema_version": "2.0",
+      "source_contract_id": "post-h-007-application-cli-boundary-integration",
+      "domain": "application.service",
+      "capability": "ApplicationCliBoundaryIntegration",
+      "criticality": "P1",
+      "risk_level": "high",
+      "test_type": "integration",
+      "execution_profile": "always",
+      "cost_class": "low",
+      "expected_duration_seconds": 90,
+      "test_files": [
+        "tests/test_application_cli_boundary_integration.py",
+        "tests/test_application_boundary_policy.py",
+        "tests/test_application_operation_catalog_schema.py",
+        "tests/test_post_h_006_e_cli_no_growth_gate.py",
+        "tests/test_schema_registry.py",
+        "tests/test_project_global_state.py"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/application/",
+        "src/devpilot_core/cli_registry/",
+        "src/devpilot_core/quality/gate.py",
+        ".devpilot/testing/",
+        ".devpilot/project_state.json",
+        "README.md",
+        "docs/05_operations/runbook.md",
+        "docs/backlogs/POST-H-007_application_service_boundary.md",
+        "tests/test_application_cli_boundary_integration.py",
+        "tests/test_application_boundary_policy.py",
+        "tests/test_post_h_006_e_cli_no_growth_gate.py"
+      ],
+      "validates": [
+        "src/devpilot_core/application/cli_integration.py",
+        "src/devpilot_core/cli_registry/registry.py",
+        "src/devpilot_core/quality/gate.py",
+        "docs/backlogs/POST-H-007_application_service_boundary.md",
+        "docs/07_interfaces/application_service_boundary.md",
+        "docs/02_architecture/application_service_boundary_map.md",
+        "docs/audits/post_h_007_e_cli_boundary_integration_report.md",
+        "docs/post_h_007_e_manifest.json"
+      ],
+      "trigger_hints": [
+        "cli-application-boundary",
+        "application-operation-mapping",
+        "quality-gate-hardening",
+        "post-h-source-change"
+      ],
+      "impact_scope": [
+        "application",
+        "cli",
+        "boundary",
+        "quality-gate",
+        "test-contracts",
+        "post-h"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "POST-H-007-E",
+      "recommended_commands": [
+        "python -m pytest tests/test_application_cli_boundary_integration.py tests/test_application_boundary_policy.py tests/test_application_operation_catalog_schema.py tests/test_post_h_006_e_cli_no_growth_gate.py -q",
+        "python -m pytest tests/test_application_cli_boundary_integration.py tests/test_application_boundary_policy.py tests/test_application_dto_normalization.py tests/test_application_services.py -q",
+        "python -m devpilot_core test-contracts validate --json",
+        "python -m devpilot_core test-contracts validate-v2 --json",
+        "python -m devpilot_core quality-gate run --profile hardening --json"
+      ],
+      "classification_status": "explicit",
+      "classification_notes": [
+        "POST-H-007-E relates CommandDescriptor metadata to ApplicationOperationCatalog operation_id values and adds a hardening quality-gate subgate.",
+        "Missing command-operation mappings are warnings in this initial version; API/UI operations without explicit contracts remain blocking."
+      ]
     }
   ],
   "migration_metadata": {

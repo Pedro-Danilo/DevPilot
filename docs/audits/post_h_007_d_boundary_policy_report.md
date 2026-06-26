@@ -65,4 +65,4 @@ source_mutations_performed: false
 
 ## Limitaciones
 
-Esta es una primera versión de guardrails por interfaz. No migra todos los comandos CLI a `ApplicationService`, no crea rutas HTTP nuevas, no cambia la UI y no conecta todavía `CommandDescriptor` con `ApplicationOperationDescriptor`. Esa integración queda para `POST-H-007-E`.
+Esta es una primera versión de guardrails por interfaz. No migra todos los comandos CLI a `ApplicationService`, no crea rutas HTTP nuevas y no cambia la UI. La integración inicial entre `CommandDescriptor` y `ApplicationOperationDescriptor` queda cubierta por `POST-H-007-E`, aunque la migración completa de comandos legacy continúa pendiente.

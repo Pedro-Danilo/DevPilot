@@ -43,6 +43,7 @@ def test_project_global_state_schema_and_docs_are_synchronized() -> None:
     assert "post-h-007-b" in changelog
     assert "post-h-007-c" in changelog
     assert "post-h-007-d" in changelog
+    assert "post-h-007-e" in changelog
 
 
 def test_project_global_state_command_result_passes() -> None:

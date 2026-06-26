@@ -3,6 +3,14 @@ from __future__ import annotations
 from .approval_service import ApprovalApplicationService
 from .boundary import APPLICATION_SERVICE_BOUNDARY_REPORT_ID, APPLICATION_SERVICE_BOUNDARY_REPORT_SCHEMA_ID, POST_H_007_A_CREATED_BY, ApplicationBoundaryBypass, ApplicationBoundaryOperation
 from .capability_registry import ApplicationCapabilityRegistry
+from .cli_integration import (
+    APPLICATION_CLI_BOUNDARY_INTEGRATION_REPORT_ID,
+    POST_H_007_E_CREATED_BY,
+    CliApplicationBoundaryIntegrationReportBuilder,
+    CliBoundaryIntegrationOptions,
+    application_cli_boundary_integration_report,
+    render_cli_boundary_integration_markdown,
+)
 from .operation_catalog import (
     APPLICATION_OPERATION_CATALOG_ID,
     APPLICATION_OPERATION_CATALOG_SCHEMA_ID,
@@ -61,12 +69,17 @@ __all__ = [
     "POST_H_007_C_CREATED_BY",
     "APPLICATION_DTO_NORMALIZATION_REPORT_ID",
     "POST_H_007_D_CREATED_BY",
+    "POST_H_007_E_CREATED_BY",
     "APPLICATION_BOUNDARY_POLICY_REPORT_ID",
+    "APPLICATION_CLI_BOUNDARY_INTEGRATION_REPORT_ID",
     "ApplicationBoundaryPolicy",
+    "CliApplicationBoundaryIntegrationReportBuilder",
+    "CliBoundaryIntegrationOptions",
     "ApplicationBoundaryPolicyDecision",
     "ApplicationBoundaryPolicyRule",
     "InterfaceClient",
     "application_boundary_policy_report",
+    "application_cli_boundary_integration_report",
     "normalize_interface_client",
     "PRIORITY_OPERATION_IDS",
     "ApplicationCapabilityRegistry",
@@ -81,6 +94,7 @@ __all__ = [
     "priority_dto_operation_ids",
     "priority_dto_operations",
     "render_application_operation_catalog_markdown",
+    "render_cli_boundary_integration_markdown",
     "ApplicationBoundaryBypass",
     "ApplicationBoundaryOperation",
     "ApplicationServiceBoundaryReportBuilder",

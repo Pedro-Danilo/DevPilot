@@ -6900,7 +6900,7 @@ BLOCK si se abre una operación write desde API/UI sin policy/approval.
 BLOCK si se activa enforcement por interfaz antes de POST-H-007-D.
 ```
 
-Limitación: `POST-H-007-C` es normalización DTO prioritaria. No resuelve todos los bypasses CLI, no habilita autorización por cliente y no conecta aún CommandDescriptor con ApplicationOperationDescriptor.
+Limitación: `POST-H-007-C` es normalización DTO prioritaria. No resuelve todos los bypasses CLI. La autorización por cliente queda cubierta de forma inicial por `POST-H-007-D` y la conexión inicial CommandDescriptor/ApplicationOperationDescriptor queda cubierta por `POST-H-007-E`.
 
 
 ## POST-H-007-D — Operación de boundary policy por interfaz
@@ -6955,4 +6955,71 @@ BLOCK si una operación sensible de cliente público ignora dry_run=false.
 BLOCK si se agregan rutas HTTP o comandos públicos fuera del alcance de POST-H-007-D.
 ```
 
-Limitación: `POST-H-007-D` es enforcement inicial dentro de `ApplicationService.execute()`. No corrige todos los bypasses CLI históricos ni integra todavía `CommandDescriptor` con `ApplicationOperationDescriptor`; eso queda para `POST-H-007-E`.
+Limitación: `POST-H-007-D` es enforcement inicial dentro de `ApplicationService.execute()`. No corrige todos los bypasses CLI históricos. La integración inicial `CommandDescriptor`/`ApplicationOperationDescriptor` queda cubierta por `POST-H-007-E`, pero la migración completa de comandos legacy sigue siendo incremental.
+
+
+## POST-H-007-E — Operación de integración CLI registry / ApplicationService / quality gate
+
+Propósito: verificar que la superficie CLI gobernada por `POST-H-006` pueda relacionarse de forma trazable con el catálogo `ApplicationOperationCatalog` y que el `quality-gate hardening` incorpore una señal explícita de boundary.
+
+Artefactos runtime/gobernanza:
+
+```text
+src/devpilot_core/application/cli_integration.py
+src/devpilot_core/cli_registry/registry.py
+src/devpilot_core/quality/gate.py
+tests/test_application_cli_boundary_integration.py
+```
+
+Flujo operativo:
+
+```text
+DeclarativeCliRegistryBuilder
+  -> CommandDescriptor metadata application_operation_id cuando aplica
+ApplicationOperationCatalogBuilder
+  -> cli_commands / api_routes / ui_surfaces / test_contract_ids
+CliApplicationBoundaryIntegrationReportBuilder
+  -> command_operation_links + warnings + API/UI contract check
+QualityGate(profile=hardening)
+  -> subgate application-cli-boundary-integration
+```
+
+Comandos focales:
+
+```powershell
+python -m pytest tests/test_application_cli_boundary_integration.py tests/test_application_boundary_policy.py tests/test_application_operation_catalog_schema.py tests/test_post_h_006_e_cli_no_growth_gate.py -q
+python -m pytest tests/test_application_cli_boundary_integration.py tests/test_application_boundary_policy.py tests/test_application_dto_normalization.py tests/test_application_services.py -q
+python -m devpilot_core quality-gate run --profile hardening --json
+```
+
+Cómo agregar una operación nueva de forma gobernada:
+
+```text
+1. Agregar o actualizar ApplicationOperationDescriptor en el catálogo.
+2. Declarar cli_commands, api_routes o ui_surfaces explícitos cuando existan.
+3. Declarar risk_level, writes_files, dry_run_default y policy_required.
+4. Asociar test_contract_ids antes de exponer la operación a API/UI.
+5. Si existe comando CLI relacionado, agregar metadata/mapping application_operation_id desde el CLI registry o asegurar match por public_invocation.
+6. Ejecutar tests focales de CLI registry + ApplicationOperationCatalog + boundary policy.
+7. Ejecutar quality-gate hardening para confirmar que el subgate application-cli-boundary-integration queda PASS.
+```
+
+Criterios PASS:
+
+```text
+PASS si comandos registrados pueden apuntar a operation_id.
+PASS si operaciones API/UI tienen contract explícito.
+PASS si test-contracts validate y validate-v2 pasan.
+PASS si quality-gate hardening conserva exit_code=0.
+```
+
+Criterios BLOCK:
+
+```text
+BLOCK si una operación API/UI no tiene test_contract_ids.
+BLOCK si metadata CLI apunta a un operation_id inexistente.
+BLOCK si se activa runtime registry routing o dynamic handler loading.
+BLOCK si se agregan rutas HTTP o comandos CLI públicos fuera del alcance de POST-H-007-E.
+```
+
+Limitación: `POST-H-007-E` es integración inicial governance/quality-gate. Los warnings de comandos sin mapping se mantienen no bloqueantes para proteger compatibilidad histórica; la migración/enforcement completo de comandos legacy queda para sprints posteriores.

@@ -1,6 +1,6 @@
 # POST-H-007 — ApplicationService boundary
 
-Estado: `implemented-initial` acumulativo hasta `POST-H-007-D`.
+Estado: `implemented-initial` acumulativo hasta `POST-H-007-E`.
 
 ## Propósito
 
@@ -89,7 +89,7 @@ Garantías:
 - sin nuevos comandos CLI públicos
 ```
 
-Límite actualizado: la decisión de qué cliente puede ejecutar qué operación queda cubierta de forma inicial por `POST-H-007-D`; la integración con CLI registry y quality gate queda para `POST-H-007-E`.
+Límite actualizado: la decisión de qué cliente puede ejecutar qué operación queda cubierta de forma inicial por `POST-H-007-D`; la integración inicial con CLI registry y quality gate queda cubierta por `POST-H-007-E`.
 
 
 ## POST-H-007-D — Boundary policy por interfaz
@@ -116,4 +116,21 @@ Reglas iniciales:
 - unknown/local testing clients se normalizan a internal para compatibilidad, no a clientes públicos.
 ```
 
-Esta versión no crea rutas HTTP nuevas, no cambia la UI y no migra comandos CLI históricos. Es un enforcement `implemented-initial` orientado a cerrar la brecha de autorización por interfaz antes de `POST-H-007-E`.
+Esta versión no crea rutas HTTP nuevas, no cambia la UI y no migra comandos CLI históricos. Es un enforcement `implemented-initial` orientado a cerrar la brecha de autorización por interfaz; la integración inicial con CLI registry y quality gate queda cubierta por `POST-H-007-E`.
+
+
+## POST-H-007-E — CLI registry / quality gate integration
+
+`POST-H-007-E` agrega una verificación de frontera entre el `CLI Command Registry` y `ApplicationOperationCatalog`. Los comandos registrados seleccionados pueden declarar `metadata.application_operation_id`, y el reporte `CliApplicationBoundaryIntegrationReportBuilder` valida que dichos ids existan en el catálogo.
+
+Reglas iniciales:
+
+```text
+- CommandDescriptor puede apuntar a ApplicationOperationDescriptor mediante application_operation_id.
+- Las operaciones expuestas a API/UI deben tener test_contract_ids explícitos.
+- Los comandos que requieren ApplicationService pero aún no tienen mapping generan warning no bloqueante.
+- quality-gate hardening ejecuta el subgate application-cli-boundary-integration.
+- Runtime registry routing y dynamic handler loading siguen deshabilitados.
+```
+
+Esta versión es `implemented-initial`: complementa trazabilidad y quality gates, pero no corrige todos los bypasses históricos del CLI.
