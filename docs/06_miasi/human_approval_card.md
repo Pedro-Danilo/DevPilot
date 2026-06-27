@@ -2,12 +2,12 @@
 title: "Human Approval Card — DevPilot Local"
 doc_id: "DEVPL-MIASI-HUMAN_APPROVAL"
 status: "approved"
-version: "1.0.0"
+version: "1.1.0"
 owner: "Ordóñez"
 standard: "MIASI"
 parent_standard: "MIPSoftware"
 phase: "SPRINT-PRECODE-07"
-updated: "2026-06-05"
+updated: "2026-06-27"
 approval: "approved_by_owner_direction"
 source_baseline: "security approved + policy card reviewed"
 change_policy: "controlled_changes_allowed_until_precode_baseline"
@@ -161,3 +161,41 @@ Reglas obligatorias:
 - Remote runners quedan `experimental/future` y disabled-by-default.
 
 Criterio BLOCK: ninguna capacidad avanzada puede saltarse `PolicyEngine`, MIASI, Approval cuando aplique, trazas, evals y ReportEngine.
+
+
+## Actualización POST-H-012-E — Approval/RBAC hardening operativo
+
+`POST-H-012-E` sincroniza esta tarjeta MIASI con el hardening local de aprobaciones y RBAC. El ciclo operativo vigente para acciones sensibles es:
+
+```text
+approval request -> approval approve | approval deny -> optional approval revoke -> policy check -> quality-gate approval-rbac-hardening
+```
+
+Reglas obligatorias:
+
+- `approval request` debe declarar `actor`, `tool`, `action`, `subject`, expiración y scope exacto.
+- Las acciones críticas deben incluir `role_at_decision`, `command_id` y `tool_call_id` en el scope cuando el catálogo lo requiere.
+- `approval approve` no convierte una acción bloqueada por catálogo en ejecutable.
+- `approval deny` debe usarse cuando el scope, evidencia o riesgo no es aceptable.
+- `approval revoke` debe usarse si cambia el diff, sujeto, actor, herramienta, interfaz o contexto de riesgo.
+- `interface` debe evaluarse explícitamente en `PolicyEngine`; API/UI/agent/remote/connector/plugin permanecen bloqueadas para acciones no expuestas.
+- No approvals globales permanentes para acciones críticas.
+- No remote execution, connector write ni plugin execution.
+
+Ejemplo seguro de verificación:
+
+```powershell
+python -m devpilot_core policy check publish_deploy_tag `
+  --tool release.manager `
+  --subject v1.2.3 `
+  --actor local-owner `
+  --role-at-decision owner `
+  --command-id cmd-demo `
+  --tool-call-id tool-call-demo `
+  --interface cli `
+  --json
+```
+
+Criterio PASS: el request anterior bloquea si no hay approval válido y conserva findings normalizados como `APPROVAL_REQUIRED`, `RBAC_DENIED`, `APPROVAL_SCOPE_MISMATCH` o bloqueos del `SensitiveActionCatalog`.
+
+Criterio BLOCK: cualquier ruta que omita actor, rol, expiración, revocación, interfaz o binding de comando/tool-call para acciones críticas.

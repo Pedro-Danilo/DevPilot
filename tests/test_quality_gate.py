@@ -93,6 +93,7 @@ def test_quality_gate_hardening_profile_includes_post_h_subgates() -> None:
     assert "miasi-semantic-validate" in subgates
     assert "architecture-map" in subgates
     assert "docs-governance" in subgates
+    assert "approval-rbac-hardening" in subgates
     assert subgates["miasi-semantic-validate"]["ok"] is True
     assert subgates["miasi-semantic-validate"]["summary"]["blocking_findings_total"] == 0
     assert subgates["architecture-map"]["ok"] is True
@@ -100,4 +101,7 @@ def test_quality_gate_hardening_profile_includes_post_h_subgates() -> None:
     assert subgates["docs-governance"]["ok"] is True
     assert subgates["docs-governance"]["summary"]["docs_governance_passed"] is True
     assert subgates["docs-governance"]["summary"]["blocking_findings_total"] == 0
+    assert subgates["approval-rbac-hardening"]["ok"] is True
+    assert subgates["approval-rbac-hardening"]["summary"]["quality_gate_ready"] is True
+    assert subgates["approval-rbac-hardening"]["summary"]["blocking_findings_total"] == 0
     assert result.data["summary"]["subgates_passed"] == result.data["summary"]["subgates_total"]

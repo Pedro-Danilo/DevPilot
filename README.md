@@ -1,17 +1,18 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
-Estado actual: `baseline pre-code approved + Fases A-G cerradas + Fase H cerrada + POST-H-001 implemented-initial + POST-H-EVAL-001 closed + POST-H-002 closed + POST-H-003 closed + POST-H-004 closed + POST-H-005 closed + POST-H-006 closed + POST-H-007 closed + POST-H-008 closed + POST-H-009-A implemented-initial + POST-H-009-B implemented-initial + POST-H-009-C implemented-initial + POST-H-009-D implemented-initial + POST-H-009-E implemented-initial + POST-H-009 closed + POST-H-010-A implemented-initial + POST-H-010-B implemented-initial + POST-H-010-C implemented-initial + POST-H-010-D implemented-initial + POST-H-010-E implemented-initial + POST-H-010 closed + POST-H-011-A implemented-initial + POST-H-011-B implemented-initial + POST-H-011-C implemented-initial + POST-H-011-D implemented-initial + POST-H-011-E implemented-initial + POST-H-011 closed + POST-H-012-A implemented-initial + POST-H-012-B implemented-initial + POST-H-012-C implemented-initial + POST-H-012-D implemented-initial`  
-Último hito: `POST-H-011 — RAG groundedness evals`
-Último hito cerrado: `POST-H-011 — RAG groundedness evals`  
-Siguiente hito: `POST-H-012 — Approval/RBAC hardening`  
-Último micro-sprint implementado: `POST-H-012-D — PolicyEngine enforcement homogéneo`  
+Estado actual: `baseline pre-code approved + Fases A-G cerradas + Fase H cerrada + POST-H-001 implemented-initial + POST-H-EVAL-001 closed + POST-H-002 closed + POST-H-003 closed + POST-H-004 closed + POST-H-005 closed + POST-H-006 closed + POST-H-007 closed + POST-H-008 closed + POST-H-009-A implemented-initial + POST-H-009-B implemented-initial + POST-H-009-C implemented-initial + POST-H-009-D implemented-initial + POST-H-009-E implemented-initial + POST-H-009 closed + POST-H-010-A implemented-initial + POST-H-010-B implemented-initial + POST-H-010-C implemented-initial + POST-H-010-D implemented-initial + POST-H-010-E implemented-initial + POST-H-010 closed + POST-H-011-A implemented-initial + POST-H-011-B implemented-initial + POST-H-011-C implemented-initial + POST-H-011-D implemented-initial + POST-H-011-E implemented-initial + POST-H-011 closed + POST-H-012-A implemented-initial + POST-H-012-B implemented-initial + POST-H-012-C implemented-initial + POST-H-012-D implemented-initial + POST-H-012-E implemented-initial + POST-H-012 closed`  
+Último hito: `POST-H-012 — Approval/RBAC hardening`
+Último hito cerrado: `POST-H-012 — Approval/RBAC hardening`  
+Siguiente hito: `POST-H-013 — Audit pack integrity`  
+Último micro-sprint implementado: `POST-H-012-E — Quality gate y runbook de aprobación`  
 Hito diagnóstico cerrado: `POST-H-EVAL-001 — Evaluación integral del baseline DevPilot post-Fase H`, cierre formal `POST-H-EVAL-001-G`  
+Hito cerrado: `POST-H-012 — Approval/RBAC hardening`
 Hito cerrado: `POST-H-011 — RAG groundedness evals`  
 Hito cerrado: `POST-H-010 — Observability retention local`  
 Hito cerrado: `POST-H-009 — Documentation governance y canonical sources`  
 Hito cerrado: `POST-H-008 — Runtime state lifecycle policy`  
 Hito cerrado: `POST-H-007 — ApplicationService boundary hardening`  
-Siguiente micro-sprint recomendado: `POST-H-012-E — Quality gate y runbook de aprobación`  
+Siguiente micro-sprint recomendado: `POST-H-013-A — Audit pack integrity`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
@@ -55,6 +56,24 @@ Modo de trabajo: local-first híbrido, API keys opcionales, costo externo contro
 
 
 
+
+
+## POST-H-012-E — Quality gate y runbook de aprobación
+
+Estado: `implemented-initial`. DevPilot integra el subgate `approval-rbac-hardening` en `quality-gate run --profile hardening` e `industrial`, y documenta el ciclo operativo de aprobación humana local.
+
+Capacidades añadidas:
+
+```text
+- `src/devpilot_core/approval/hardening.py` con `ApprovalRbacHardeningGate`.
+- Subgate `approval-rbac-hardening` dentro de `QualityGate`.
+- Documento `docs/03_security/approval_rbac_hardening.md`.
+- Actualización de `Human Approval Card` y runbook con request/approve/deny/revoke.
+- Registro TCR v1/v2 para la capacidad final de POST-H-012.
+- Manifest y auditoría de cierre POST-H-012-E.
+```
+
+Límites: la capacidad es un baseline local `implemented-initial`; no habilita ejecución sensible, remote execution, connector write, plugin execution, APIs externas ni mutaciones destructivas. Un approval válido nunca sobreescribe bloqueos del catálogo ni de `PolicyEngine`.
 
 ## POST-H-012-D — PolicyEngine enforcement homogéneo
 

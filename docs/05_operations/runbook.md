@@ -2,11 +2,11 @@
 title: "Runbook — DevPilot Local"
 doc_id: "DEVPL-OPS-002"
 status: "approved"
-version: "1.44.0"
+version: "1.45.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "POST-H-012-D"
+phase: "POST-H-012-E"
 updated: "2026-06-27"
 approval: "approved_by_owner"
 source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved + 03_security approved"
@@ -16,7 +16,7 @@ approval_scope: "SPRINT-PRECODE-05 quality operations baseline"
 
 # Runbook — DevPilot Local
 
-Hito operativo activo: `POST-H-012 — Approval/RBAC hardening`; último micro-sprint implementado: `POST-H-012-D — PolicyEngine enforcement homogéneo`; siguiente micro-sprint: `POST-H-012-E — Quality gate y runbook de aprobación`.
+Hito operativo activo: `POST-H-013 — Audit pack integrity`; último hito cerrado: `POST-H-012 — Approval/RBAC hardening`; último micro-sprint implementado: `POST-H-012-E — Quality gate y runbook de aprobación`; siguiente hito: `POST-H-013 — Audit pack integrity`.
 
 
 ## 1. Propósito
@@ -98,6 +98,74 @@ git diff -- docs
 git status
 git add docs
 git commit -m "docs: describe change"
+```
+
+
+
+
+## POST-H-012-E — Quality gate y runbook de aprobación
+
+Estado: `implemented-initial`. DevPilot convierte el hardening Approval/RBAC en operación verificable mediante el subgate `approval-rbac-hardening`, integrado en `quality-gate run --profile hardening` e `industrial`.
+
+### Propósito operativo
+
+Validar de forma local, determinística y read-only que:
+
+```text
+- SensitiveActionCatalog sigue coherente.
+- StrongApprovalBindingValidator bloquea scope mismatch.
+- RBAC exposure report no expone acciones críticas por API/UI/agent/remote/connector/plugin.
+- PolicyEngine emite APPROVAL_REQUIRED, RBAC_DENIED y APPROVAL_SCOPE_MISMATCH cuando corresponde.
+- El ciclo approval request/approve/deny/revoke está documentado y no recomienda approvals permanentes.
+```
+
+### Ciclo seguro
+
+```powershell
+$approval = python -m devpilot_core approval request `
+  --tool patch.sandbox `
+  --action apply `
+  --subject changes.patch `
+  --actor local-owner `
+  --reason "Revisión local dry-run de patch" `
+  --scope '{"actor_id":"local-owner","role_at_decision":"maintainer","command_id":"cmd-001","tool_call_id":"tool-001"}' `
+  --ttl-minutes 60 `
+  --json | ConvertFrom-Json
+
+$approvalId = $approval.data.approval.approval_id
+python -m devpilot_core approval show $approvalId --json
+python -m devpilot_core approval approve $approvalId --actor local-owner --reason "Scope revisado" --json
+python -m devpilot_core approval deny $approvalId --actor local-owner --reason "Riesgo no aceptado" --json
+python -m devpilot_core approval revoke $approvalId --actor local-owner --reason "Scope cambió" --json
+```
+
+Nota: los ejemplos `deny` y `revoke` deben ejecutarse sobre registros en estado compatible; no se reabren approvals terminales.
+
+### Verificación del gate
+
+```powershell
+python -m devpilot_core quality-gate run --profile hardening --json
+python -m devpilot_core test-contracts validate --json
+python -m devpilot_core test-contracts validate-v2 --json
+python -m pytest -p no:ddtrace tests/test_approval_rbac_hardening_gate.py tests/test_post_h_012_approval_rbac_hardening.py -q
+```
+
+### Criterios PASS
+
+```text
+PASS si approval-rbac-hardening aparece como subgate y ok=true.
+PASS si las acciones críticas sin approval válido bloquean.
+PASS si actor, role_at_decision, command_id, tool_call_id e interface están cubiertos por documentación y tests.
+PASS si no se habilita remote execution, connector write, plugin execution ni APIs externas.
+```
+
+### Criterios BLOCK
+
+```text
+BLOCK si se recomienda approval permanente para acciones críticas.
+BLOCK si se omite revocation.
+BLOCK si se omite actor, role_at_decision o interface.
+BLOCK si se declara executable=true para remote/plugin/connector write.
 ```
 
 

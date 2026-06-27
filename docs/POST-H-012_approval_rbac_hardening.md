@@ -4,7 +4,7 @@ doc_id: "POST-H-012-BACKLOG"
 id: "POST-H-012"
 title: "POST-H-012 — Approval/RBAC hardening"
 status: "approved"
-version: "0.5.0"
+version: "1.0.0"
 owner: "Ordóñez"
 updated: "2026-06-27"
 approval: "approved_by_owner"
@@ -16,9 +16,9 @@ dry_run: true
 no_remote_execution_enabled: true
 no_connector_write_enabled: true
 no_plugin_execution_enabled: true
-implementation_status: "active"
-current_micro_sprint: "POST-H-012-D"
-next_micro_sprint: "POST-H-012-E"
+implementation_status: "closed"
+current_micro_sprint: "POST-H-012-E"
+next_micro_sprint: "POST-H-013"
 ---
 
 # POST-H-012 — Approval/RBAC hardening
@@ -637,4 +637,49 @@ POST-H-012-D es implemented-initial: aplica enforcement determinístico en Polic
 POST-H-012-D no habilita side effects catalogados como bloqueados/non-executable.
 POST-H-012-D no habilita remote execution, connector write, plugin execution, APIs externas ni mutaciones destructivas.
 POST-H-012-E debe cerrar el hito con quality gate, runbook de aprobación y documentación de ciclo approve/deny/revoke.
+```
+
+
+## 18. Avance de implementación — POST-H-012-E
+
+Estado: `implemented-initial`.
+
+Capacidad incorporada:
+
+```text
+- Subgate `approval-rbac-hardening` integrado en `quality-gate run --profile hardening` e `industrial`.
+- Gate local read-only para validar SensitiveActionCatalog, RBAC exposure, PolicyEngine scenarios, StrongApprovalBindingValidator y documentación de ciclo de aprobación.
+- Documento operativo `docs/03_security/approval_rbac_hardening.md` con lifecycle request/approve/deny/revoke, PASS/BLOCK, riesgos y comandos.
+- Human Approval Card actualizada con reglas de actor, role_at_decision, command_id, tool_call_id, interface y revocation.
+- Runbook actualizado con comandos seguros de aprobación y verificación.
+- Test Contract Registry v1/v2 actualizado para cubrir la capacidad final de POST-H-012.
+- Auditoría y manifest de cierre `POST-H-012-E`.
+```
+
+Artefactos principales:
+
+```text
+src/devpilot_core/approval/hardening.py
+tests/test_approval_rbac_hardening_gate.py
+docs/03_security/approval_rbac_hardening.md
+docs/audits/post_h_012_e_quality_gate_runbook_report.md
+docs/post_h_012_e_manifest.json
+```
+
+Criterios PASS cubiertos:
+
+```text
+PASS si quality-gate hardening valida approval/RBAC.
+PASS si test-contracts validate pasa.
+PASS si runbook explica approval lifecycle.
+PASS si ejemplos mantienen dry-run por defecto.
+```
+
+Límites explícitos:
+
+```text
+POST-H-012-E no habilita ejecución remota, connector write, plugin execution, APIs externas ni acciones destructivas.
+Un approval válido no hace ejecutable una acción marcada como blocked/non-executable por SensitiveActionCatalog.
+El gate es local-first, read-only y no escribe outputs salvo que otros comandos se invoquen explícitamente con --write-report.
+POST-H-012 queda cerrado como implemented-initial; el siguiente hito recomendado es POST-H-013.
 ```

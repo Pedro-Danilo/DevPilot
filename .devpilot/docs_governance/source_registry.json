@@ -762,14 +762,22 @@
         "src/devpilot_core/approval/policy.py",
         "tests/test_policy_engine_approval_rbac_enforcement.py",
         "docs/audits/post_h_012_d_policy_engine_enforcement_report.md",
-        "docs/post_h_012_d_manifest.json"
+        "docs/post_h_012_d_manifest.json",
+        "src/devpilot_core/approval/hardening.py",
+        "tests/test_approval_rbac_hardening_gate.py",
+        "docs/03_security/approval_rbac_hardening.md",
+        "docs/06_miasi/human_approval_card.md",
+        "docs/audits/post_h_012_e_quality_gate_runbook_report.md",
+        "docs/post_h_012_e_manifest.json"
       ],
       "required_tests": [
         "tests/test_documentation_governance_backlogs.py",
         "tests/test_post_h_012_approval_rbac_hardening.py",
         "tests/test_approval_binding.py",
         "tests/test_rbac_exposure.py",
-        "tests/test_policy_engine_approval_rbac_enforcement.py"
+        "tests/test_policy_engine_approval_rbac_enforcement.py",
+        "tests/test_approval_rbac_hardening_gate.py",
+        "tests/test_quality_gate.py"
       ],
       "sync_rules": [
         "backlog_naming",
@@ -780,14 +788,15 @@
       "roadmap_milestones": [
         "POST-H-012"
       ],
-      "lifecycle": "active",
+      "lifecycle": "closed",
       "notes": [
         "POST-H-012 approved for implementation after POST-H-011 closure.",
         "POST-H-012-A adds SensitiveActionCatalog schema/catalog/validator as implemented-initial.",
         "Remote execution, connector write and plugin execution remain blocked by design.",
         "POST-H-012-B adds strong approval binding for exact actor/role/tool/action/subject/command/tool_call scope as implemented-initial.",
         "POST-H-012-C adds read-only RBAC exposure reporting across actors, roles, actions and interfaces as implemented-initial.",
-        "POST-H-012-D adds homogeneous PolicyEngine enforcement for SensitiveActionCatalog, strong approval binding and local RBAC as implemented-initial."
+        "POST-H-012-D adds homogeneous PolicyEngine enforcement for SensitiveActionCatalog, strong approval binding and local RBAC as implemented-initial.",
+        "POST-H-012-E closes Approval/RBAC hardening as implemented-initial with approval-rbac-hardening quality-gate integration and operational approval lifecycle documentation."
       ]
     },
     {

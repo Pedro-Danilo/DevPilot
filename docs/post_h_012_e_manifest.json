@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "SCHEMA-DEVPL-POST-H-MANIFEST-V1",
+  "post_h_id": "POST-H-012",
+  "title": "POST-H-012-E — Quality gate y runbook de aprobación",
+  "status": "implemented-initial",
+  "phase": "POST-FASE-H",
+  "implemented_at": "2026-06-27T00:00:00Z",
+  "created_files": [
+    "src/devpilot_core/approval/hardening.py",
+    "tests/test_approval_rbac_hardening_gate.py",
+    "docs/03_security/approval_rbac_hardening.md",
+    "docs/audits/post_h_012_e_quality_gate_runbook_report.md",
+    "docs/post_h_012_e_manifest.json"
+  ],
+  "modified_files": [
+    "src/devpilot_core/approval/__init__.py",
+    "src/devpilot_core/quality/gate.py",
+    "tests/test_post_h_012_approval_rbac_hardening.py",
+    "tests/test_quality_gate.py",
+    "tests/test_project_global_state.py",
+    ".devpilot/testing/test_contract_registry.json",
+    ".devpilot/testing/test_contract_registry_v2.json",
+    ".devpilot/docs_governance/source_registry.json",
+    ".devpilot/project_state.json",
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/06_miasi/human_approval_card.md",
+    "docs/backlogs/POST-H-012_approval_rbac_hardening.md",
+    "docs/POST-H-012_approval_rbac_hardening.md",
+    "docs/release/CHANGELOG.md"
+  ],
+  "commands": [
+    "python -m pytest -p no:ddtrace tests/test_approval_rbac_hardening_gate.py tests/test_post_h_012_approval_rbac_hardening.py tests/test_quality_gate.py -q",
+    "python -m devpilot_core quality-gate run --profile hardening --json",
+    "python -m devpilot_core test-contracts validate --json",
+    "python -m devpilot_core test-contracts validate-v2 --json",
+    "python -m devpilot_core schema validate --schema-id PostHManifest --instance docs/post_h_012_e_manifest.json --json"
+  ],
+  "tests": [
+    "tests/test_approval_rbac_hardening_gate.py",
+    "tests/test_post_h_012_approval_rbac_hardening.py",
+    "tests/test_quality_gate.py",
+    "tests/test_project_global_state.py",
+    "tests/test_test_contract_registry.py",
+    "tests/test_test_contract_registry_v2.py"
+  ],
+  "pass_criteria": [
+    "Quality gate hardening includes approval-rbac-hardening and passes.",
+    "Test Contract Registry v1/v2 includes the POST-H-012-E contract and validates.",
+    "Runbook and Human Approval Card document request/approve/deny/revoke, actor, role_at_decision and interface.",
+    "Examples keep dry-run/local-first semantics and no remote/write/plugin execution remains enabled."
+  ],
+  "block_criteria": [
+    "Permanent global approval for critical actions is recommended.",
+    "Revocation or denial path is missing from operational docs.",
+    "Actor, role_at_decision or interface are omitted from approval/RBAC lifecycle.",
+    "Remote execution, connector write, plugin execution or destructive side effects are enabled."
+  ],
+  "risks": [
+    "Capability is implemented-initial and local-first, not IAM enterprise.",
+    "Role taxonomy gaps remain visible and blocking by design.",
+    "Sensitive actions remain non-executable even when approval/RBAC metadata is valid."
+  ],
+  "next_sprint": "POST-H-013",
+  "preliminary": true,
+  "micro_sprint": "POST-H-012-E",
+  "source_repo": "repo_DevPilot_Local_194_POST_H_012_D.zip",
+  "current_repo": "repo_DevPilot_Local_195_POST_H_012_E.zip",
+  "local_first": true,
+  "dry_run": true,
+  "no_remote_execution_enabled": true,
+  "no_connector_write_enabled": true,
+  "no_plugin_execution_enabled": true,
+  "no_external_apis_used": true,
+  "summary": "POST-H-012-E adds approval-rbac-hardening quality gate integration and approval lifecycle runbook documentation, closing POST-H-012 as implemented-initial."
+}

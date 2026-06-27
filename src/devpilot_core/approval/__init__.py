@@ -10,6 +10,8 @@ __all__ = [
     "ApprovalRecord",
     "ApprovalRequest",
     "ApprovalService",
+    "ApprovalRbacHardeningGate",
+    "ApprovalRbacHardeningGateOptions",
     "StrongApprovalBindingValidator",
     "compute_subject_hash",
     "ApprovalStatus",
@@ -29,6 +31,10 @@ def __getattr__(name: str):
         from .store import ApprovalStore
 
         return ApprovalStore
+    if name in {"ApprovalRbacHardeningGate", "ApprovalRbacHardeningGateOptions"}:
+        from . import hardening as _hardening
+
+        return getattr(_hardening, name)
     if name in {"ApprovalPolicyChecker", "ApprovalPolicyInput"}:
         from . import policy as _policy
 

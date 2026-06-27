@@ -1,5 +1,22 @@
 # Changelog
 
+## [post-h-012-e] - 2026-06-27
+
+### Added
+- Added the `approval-rbac-hardening` subgate to the hardening and industrial quality-gate profiles.
+- Added read-only `ApprovalRbacHardeningGate` for SensitiveActionCatalog validation, RBAC exposure validation, PolicyEngine enforcement smoke checks, approval binding scope checks and documentation/contract synchronization.
+- Added `docs/03_security/approval_rbac_hardening.md` as the operational runbook for local approval lifecycle and Approval/RBAC enforcement.
+- Added POST-H-012-E audit report, manifest and focused tests.
+
+### Changed
+- Closed `POST-H-012 — Approval/RBAC hardening` as implemented-initial.
+- Advanced project state to `last_completed_sprint=POST-H-012` and `next_sprint=POST-H-013`.
+- Updated README, operations runbook, human approval card, test contract registries and documentation governance source registry.
+
+### Safety
+- No remote execution, connector write, plugin execution, external APIs, network calls or destructive mutations are enabled.
+- Approval/RBAC hardening remains local-first, deterministic, dry-run/read-only and does not authorize sensitive side effects by itself.
+
 ## [post-h-012-d] - 2026-06-27
 
 ### Added

@@ -132,6 +132,7 @@ class QualityGate:
                     "POST-H-007-E adds an Application CLI boundary integration subgate to hardening/industrial profiles without enabling runtime registry routing.",
                     "POST-H-010-E adds the observability-retention hygiene subgate to hardening/industrial profiles without requiring runtime outputs, network or external observability services.",
                     "POST-H-011-E adds rag-groundedness-ready to hardening/industrial profiles without requiring providers, web search, external APIs, LLM judge or versioned outputs/evals.",
+                    "POST-H-012-E adds approval-rbac-hardening to hardening/industrial profiles to validate sensitive actions, approval binding, RBAC exposure, PolicyEngine enforcement and approval lifecycle docs without enabling side effects.",
                     "POST-H-008-E adds runtime-state-hygiene to hardening/industrial profiles to block dirty source/release archives.",
                     "POST-H-009-E adds docs-governance to hardening/industrial profiles to block canonical-source, sync and backlog-governance drift.",
                     "The default and ci profiles do not run pytest implicitly; CI workflows and local checklists run pytest as an explicit step, or use --include-pytest when desired.",
@@ -176,6 +177,7 @@ class QualityGate:
             subgates.append(QualitySubgate("docs-governance", "POST-H-009 documentation governance, canonical source sync and backlog governance gate.", self._docs_governance))
             subgates.append(QualitySubgate("observability-retention", "POST-H-010 observability retention, redaction and clean ZIP hygiene gate.", self._observability_retention_hygiene))
             subgates.append(QualitySubgate("rag-groundedness-ready", "POST-H-011 RAG groundedness local readiness gate.", self._rag_groundedness_ready))
+            subgates.append(QualitySubgate("approval-rbac-hardening", "POST-H-012 Approval/RBAC hardening operational gate.", self._approval_rbac_hardening))
         if self.options.profile == "industrial":
             subgates.append(QualitySubgate("industrial-readiness", "Fase H industrial readiness gate and maturity classification.", self._industrial_readiness))
         if self.options.profile == "hardening":
@@ -291,6 +293,11 @@ class QualityGate:
         from devpilot_core.rag import RagGroundednessReadyGate, RagGroundednessReadyGateOptions
 
         return RagGroundednessReadyGate(self.root, options=RagGroundednessReadyGateOptions()).run()
+
+    def _approval_rbac_hardening(self) -> CommandResult:
+        from devpilot_core.approval import ApprovalRbacHardeningGate
+
+        return ApprovalRbacHardeningGate(self.root).run()
 
     def _industrial_readiness(self) -> CommandResult:
         from devpilot_core.industrial import IndustrialReadinessGate
