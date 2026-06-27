@@ -4,7 +4,7 @@ doc_id: "POST-H-013-BACKLOG"
 id: "POST-H-013"
 title: "POST-H-013 — Audit pack signing/encryption local opcional"
 status: "approved"
-version: "0.5.0"
+version: "0.6.0"
 owner: "Ordóñez"
 updated: "2026-06-27"
 approval: "approved_by_owner"
@@ -18,9 +18,9 @@ no_remote_execution_enabled: true
 no_external_apis_used: true
 no_connector_write_enabled: true
 no_plugin_execution_enabled: true
-implementation_status: "active"
-current_micro_sprint: "POST-H-013-D"
-next_micro_sprint: "POST-H-013-E"
+implementation_status: "closed"
+current_micro_sprint: "POST-H-013-E"
+next_micro_sprint: "POST-H-014"
 ---
 
 # POST-H-013 — Audit pack signing/encryption local opcional
@@ -660,4 +660,59 @@ POST-H-013-D implementa crypto local opcional como primera versión: HMAC local 
 POST-H-013-D no implementa PKI enterprise, certificados X.509, hardware tokens, KMS cloud, rotación avanzada de claves ni custodia multiusuario.
 El cifrado se ejecuta después de redaction/build; no se permite que encryption oculte fallos de secretos, redaction o integridad.
 La integración del subgate final `audit-pack-integrity` y los disclaimers operativos finales quedan para POST-H-013-E.
+```
+
+
+
+## 18. Avance de implementación — POST-H-013-E
+
+Estado: `implemented-initial` y cierre del hito `POST-H-013` como `closed`.
+
+Capacidad incorporada:
+
+```text
+- `AuditPackIntegrityGate` convierte POST-H-013 A-D en un subgate read-only `audit-pack-integrity`.
+- `quality-gate run --profile hardening` e `industrial` validan política, no-go gates, redaction report, dry-run builder v2, contratos y documentación operativa.
+- El gate ejecuta `audit-pack build-v2` en dry-run; no escribe ZIPs, manifests runtime, integrity reports ni sidecars crypto.
+- El runbook documenta build/verify/sign/encrypt, verificación de pack recibido, manejo de keyfile externo y `compliance_certification_claimed=false`.
+- TCR v1/v2 registra el contrato final `post-h-013-audit-pack-integrity-gate`.
+- El hito queda cerrado como baseline local de integridad de audit packs, no como certificación compliance/enterprise.
+```
+
+Artefactos principales:
+
+```text
+src/devpilot_core/auditpack/gate.py
+src/devpilot_core/auditpack/__init__.py
+src/devpilot_core/quality/gate.py
+tests/test_post_h_013_audit_pack_integrity.py
+docs/audits/post_h_013_e_quality_gate_runbook_disclaimers_report.md
+docs/post_h_013_e_manifest.json
+docs/05_operations/audit_pack_runbook.md
+```
+
+Criterios PASS cubiertos:
+
+```text
+PASS si quality-gate valida manifest policy y no-go gates.
+PASS si runbook explica build/verify/sign/encrypt.
+PASS si test-contracts validate pasa.
+PASS si docs declaran compliance_certification_claimed=false.
+```
+
+Criterios BLOCK cubiertos:
+
+```text
+BLOCK si se declara cumplimiento certificado.
+BLOCK si se recomienda subir packs a terceros por defecto.
+BLOCK si se omite redaction report.
+```
+
+Límites explícitos:
+
+```text
+POST-H-013-E cierra el baseline local implemented-initial de audit packs con manifest v2, redacción, verificación, firma/cifrado local opcional y quality gate.
+No implementa PKI enterprise, certificados X.509, KMS cloud, distribución pública, custodia multiusuario, DLP semántico completo ni compliance certification.
+Los audit packs son evidencia local verificable; no constituyen garantía legal, SOC2/ISO ni certificación enterprise.
+No se recomienda subir packs a terceros por defecto; cualquier envío externo debe tratarse como decisión operacional separada, con revisión humana, redacción y canal seguro fuera del alcance de POST-H-013.
 ```

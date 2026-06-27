@@ -6,7 +6,7 @@ version: "1.47.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "POST-H-013-B"
+phase: "POST-H-013-E"
 updated: "2026-06-27"
 approval: "approved_by_owner"
 source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved + 03_security approved"
@@ -16,7 +16,7 @@ approval_scope: "SPRINT-PRECODE-05 quality operations baseline"
 
 # Runbook — DevPilot Local
 
-Hito operativo activo: `POST-H-013 — Audit pack integrity`; último hito cerrado: `POST-H-012 — Approval/RBAC hardening`; último micro-sprint implementado: `POST-H-013-D — Firma y cifrado local opcional`; siguiente micro-sprint: `POST-H-013-E — Quality gate, runbook y disclaimers`.
+Último hito cerrado: `POST-H-013 — Audit pack integrity`; hito operativo activo: `POST-H-014 — UI/API industrial shell`; último micro-sprint implementado: `POST-H-013-E — Quality gate, runbook y disclaimers`; siguiente hito: `POST-H-014 — UI/API industrial shell`.
 
 
 ## POST-H-013-A — Audit pack manifest v2 y policy
@@ -8170,6 +8170,29 @@ BLOCK operativo:
 
 Limitación explícita: esta versión no firma ni cifra; POST-H-013-D cubre crypto local opcional. La integración de subgate final queda para POST-H-013-E.
 
+
+
+## POST-H-013-E — Quality gate, runbook y disclaimers
+
+Estado: `implemented-initial`. DevPilot integra `audit-pack-integrity` en `quality-gate run --profile hardening` e `industrial`, y cierra `POST-H-013` como baseline local para evidencia verificable de audit packs.
+
+Capacidades añadidas:
+
+```text
+- `src/devpilot_core/auditpack/gate.py` con `AuditPackIntegrityGate`.
+- Subgate `audit-pack-integrity` dentro de `QualityGate`.
+- Validación read-only de policy, no-go gates, redaction_report, build-v2 dry-run, TCR v1/v2 y documentación.
+- Runbook dedicado con build/verify/sign/encrypt y verificación de pack recibido.
+- Disclaimers: compliance_certification_claimed=false, no-certificación, no subida a terceros por defecto.
+```
+
+Comando operativo:
+
+```powershell
+python -m devpilot_core quality-gate run --profile hardening --json
+```
+
+Límites: no habilita red, APIs externas, KMS remoto, remote execution, connector write ni plugin execution. No implementa PKI enterprise ni certificación compliance/enterprise. Los outputs de audit pack e integrity reports siguen siendo evidencia runtime local y no se versionan.
 
 ## POST-H-013-D — Firma y cifrado local opcional
 

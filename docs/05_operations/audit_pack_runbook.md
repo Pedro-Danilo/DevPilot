@@ -2,7 +2,7 @@
 title: "DevPilot Local — Audit Pack Runbook"
 doc_id: "DEVPL-OPS-AUDIT-PACK-RUNBOOK-001"
 status: "approved"
-version: "1.1.0"
+version: "1.2.0"
 owner: "Ordóñez"
 updated: "2026-06-27"
 approval: "approved"
@@ -12,7 +12,7 @@ approval: "approved"
 
 ## Estado
 
-`FUNC-SPRINT-96` mantiene el builder v1. `POST-H-013-B` agrega el builder v2 `implemented-initial` con manifest v2, checksums por archivo y redaction report obligatorio.
+`FUNC-SPRINT-96` mantiene el builder v1. `POST-H-013` queda cerrado como baseline local `implemented-initial`: builder v2, verifier v2, redaction report obligatorio, firma/cifrado local opcional y subgate `audit-pack-integrity`.
 
 ## Propósito
 
@@ -196,3 +196,68 @@ Controles de seguridad:
 ```
 
 Limitación explícita: esta es una primera versión local opcional, no una PKI enterprise ni una certificación de compliance. POST-H-013-E debe cerrar el subgate y los disclaimers operativos finales.
+
+## Quality gate y disclaimers finales — POST-H-013-E
+
+`POST-H-013-E` integra el subgate `audit-pack-integrity` en `quality-gate run --profile hardening` e `industrial`. El subgate es read-only y ejecuta `audit-pack build-v2` solo en dry-run para validar política, no-go gates y redaction report sin escribir ZIPs ni sidecars runtime.
+
+Verificación operacional:
+
+```powershell
+python -m devpilot_core quality-gate run --profile hardening --json
+```
+
+El subgate valida:
+
+```text
+- `.devpilot/auditpack/audit_pack_policy.json` mantiene local_first=true y compliance_certification_claimed=false.
+- `redaction_report` es obligatorio y raw_secret_export_policy=block.
+- La política excluye outputs, `.devpilot/devpilot.db`, agent_sessions, `.env` y material de llaves.
+- No se habilitan red, APIs externas, KMS remoto, remote execution, connector write ni plugin execution.
+- El runbook documenta build/verify/sign/encrypt y verificación de pack recibido.
+```
+
+### Verificación de un pack recibido
+
+Antes de usar un pack recibido como evidencia, copiarlo a una ruta local controlada del workspace y ejecutar:
+
+```powershell
+python -m devpilot_core audit-pack verify-v2 `
+  --pack outputs/auditpacks/<pack_recibido>.zip `
+  --json
+```
+
+Si el pack viene con firma o cifrado local opcional, usar sidecars y keyfile externo al repo:
+
+```powershell
+python -m devpilot_core audit-pack verify-v2 `
+  --pack outputs/auditpacks/<pack_recibido>.zip `
+  --signature outputs/auditpacks/<pack_recibido>.sig.json `
+  --encrypted-pack outputs/auditpacks/<pack_recibido>.zip.fernet `
+  --crypto-keyfile C:\ruta\externa\auditpack.key `
+  --json
+```
+
+Criterios mínimos para aceptar el pack recibido:
+
+```text
+manifest_schema_valid=true
+manifest_hash_valid=true
+files_total=files_verified
+missing_files_total=0
+hash_mismatches_total=0
+extra_files_total=0
+redaction_passed=true
+secrets_detected=0
+compliance_certification_claimed=false
+network_used=false
+external_api_used=false
+```
+
+### No-certificación y terceros
+
+`compliance_certification_claimed=false` es obligatorio. Los audit packs son evidencia técnica local verificable; no son certificación SOC2, ISO, legal, compliance ni enterprise assurance.
+
+No se recomienda subir packs a terceros por defecto. Cualquier envío externo queda fuera del alcance de POST-H-013 y debe tratarse como una decisión operacional separada con revisión humana, redacción previa, autorización explícita y canal seguro.
+
+Limitación explícita: POST-H-013-E cierra una primera versión local `implemented-initial`. No implementa PKI enterprise, certificados X.509, KMS cloud, custodia multiusuario, DLP semántico completo ni distribución pública segura.

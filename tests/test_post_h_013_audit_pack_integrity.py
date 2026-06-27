@@ -6,7 +6,7 @@ import zipfile
 from pathlib import Path
 
 from devpilot_core import cli
-from devpilot_core.auditpack import AuditPackV2BuildOptions, AuditPackV2Builder, AuditPackV2VerifyOptions, AuditPackV2Verifier
+from devpilot_core.auditpack import AuditPackIntegrityGate, AuditPackV2BuildOptions, AuditPackV2Builder, AuditPackV2VerifyOptions, AuditPackV2Verifier
 from devpilot_core.cli_models import ExitCode
 from devpilot_core.schemas import SchemaValidator
 
@@ -182,8 +182,8 @@ def test_post_h_013_b_docs_and_contracts_are_synchronized() -> None:
     tcr_v2 = json.loads((ROOT / ".devpilot/testing/test_contract_registry_v2.json").read_text(encoding="utf-8"))
 
     assert backlog == mirror
-    assert 'current_micro_sprint: "POST-H-013-D"' in backlog
-    assert 'next_micro_sprint: "POST-H-013-E"' in backlog
+    assert 'current_micro_sprint: "POST-H-013-E"' in backlog
+    assert 'next_micro_sprint: "POST-H-014"' in backlog
     assert "## 15. Avance de implementación — POST-H-013-B" in backlog
     assert "## 16. Avance de implementación — POST-H-013-C" in backlog
     assert "## 17. Avance de implementación — POST-H-013-D" in backlog
@@ -486,3 +486,64 @@ def test_audit_pack_crypto_blocks_key_material_inside_repo() -> None:
         assert any(finding.id == "AUDIT_PACK_CRYPTO_KEY_IN_REPO_BLOCKED" for finding in result.findings)
     finally:
         _cleanup_test_output()
+
+
+
+def test_audit_pack_integrity_gate_policy_docs_and_contracts_are_ready() -> None:
+    gate = AuditPackIntegrityGate(ROOT)
+    findings = []
+
+    required = gate._check_required_files(findings)
+    policy = gate._check_policy(findings)
+    docs = gate._documentation_checks(findings)
+    contracts = gate._test_contract_checks(findings)
+
+    assert findings == []
+    assert required["required_files_total"] == required["required_files_existing_total"]
+    assert policy["policy_ok"] is True
+    assert policy["no_go_gates_ok"] is True
+    assert policy["exclusions_ok"] is True
+    assert docs["build_verify_crypto_documented"] is True
+    assert docs["no_certification_disclaimer_present"] is True
+    assert docs["received_pack_verification_documented"] is True
+    assert contracts["v1_registered"] is True
+    assert contracts["v2_registered"] is True
+
+
+def test_post_h_013_e_closure_docs_and_contracts_are_synchronized() -> None:
+    backlog = (ROOT / "docs/backlogs/POST-H-013_audit_pack_integrity.md").read_text(encoding="utf-8")
+    mirror = (ROOT / "docs/POST-H-013_audit_pack_integrity.md").read_text(encoding="utf-8")
+    manifest = json.loads((ROOT / "docs/post_h_013_e_manifest.json").read_text(encoding="utf-8"))
+    runbook = (ROOT / "docs/05_operations/audit_pack_runbook.md").read_text(encoding="utf-8")
+    quality_gate_source = (ROOT / "src/devpilot_core/quality/gate.py").read_text(encoding="utf-8")
+    tcr = json.loads((ROOT / ".devpilot/testing/test_contract_registry.json").read_text(encoding="utf-8"))
+    tcr_v2 = json.loads((ROOT / ".devpilot/testing/test_contract_registry_v2.json").read_text(encoding="utf-8"))
+
+    assert backlog == mirror
+    assert 'implementation_status: "closed"' in backlog
+    assert 'current_micro_sprint: "POST-H-013-E"' in backlog
+    assert 'next_micro_sprint: "POST-H-014"' in backlog
+    assert "## 18. Avance de implementación — POST-H-013-E" in backlog
+    assert "compliance_certification_claimed=false" in backlog
+    assert "no se recomienda subir packs a terceros por defecto" in backlog.lower()
+    assert "audit-pack-integrity" in runbook
+    assert "audit-pack-integrity" in quality_gate_source
+    assert "_audit_pack_integrity" in quality_gate_source
+    assert "pack recibido" in runbook.lower()
+    assert "redaction_report" in runbook
+    assert manifest["micro_sprint"] == "POST-H-013-E"
+    assert manifest["current_repo"] == "repo_DevPilot_Local_200_POST_H_013_E.zip"
+    assert manifest["network_used"] is False
+    assert manifest["external_api_used"] is False
+
+    contract = next(item for item in tcr["contracts"] if item["contract_id"] == "post-h-013-audit-pack-integrity-gate")
+    assert contract["owner"] == "POST-H-013-E"
+    assert contract["scope"] == "quality-gate"
+    assert "src/devpilot_core/auditpack/gate.py" in contract["validates"]
+
+    contract_v2 = next(item for item in tcr_v2["contracts"] if item["contract_id"] == "post-h-013-audit-pack-integrity-gate")
+    assert contract_v2["capability"] == "AuditPackIntegrityGate"
+    assert contract_v2["network_allowed"] is False
+    assert contract_v2["external_api_allowed"] is False
+    assert contract_v2["source_mutations_allowed"] is False
+    assert contract_v2["required_for_security_gate"] is True

@@ -7569,6 +7569,71 @@
         "documentation"
       ],
       "required_for_security_gate": true
+    },
+    {
+      "contract_id": "post-h-013-audit-pack-integrity-gate",
+      "schema_version": "2.0",
+      "source_contract_id": "post-h-013-audit-pack-integrity-gate",
+      "domain": "operations.audit",
+      "capability": "AuditPackIntegrityGate",
+      "criticality": "P1",
+      "risk_level": "high",
+      "test_type": "quality-gate",
+      "execution_profile": "impact",
+      "cost_class": "medium",
+      "expected_duration_seconds": 45,
+      "test_files": [
+        "tests/test_post_h_013_audit_pack_integrity.py"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/auditpack/",
+        "src/devpilot_core/quality/gate.py",
+        ".devpilot/auditpack/",
+        ".devpilot/testing/",
+        "docs/05_operations/",
+        "docs/backlogs/POST-H-013_audit_pack_integrity.md"
+      ],
+      "validates": [
+        "src/devpilot_core/auditpack/gate.py",
+        "src/devpilot_core/quality/gate.py",
+        "docs/05_operations/audit_pack_runbook.md",
+        "docs/05_operations/runbook.md",
+        ".devpilot/auditpack/audit_pack_policy.json",
+        "docs/post_h_013_e_manifest.json"
+      ],
+      "recommended_commands": [
+        "python -m pytest tests/test_post_h_013_audit_pack_integrity.py tests/test_audit_pack_manifest_v2_schema.py -q",
+        "python -m devpilot_core quality-gate run --profile hardening --json",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ],
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "required_for_release": false,
+      "required_for_hardening": true,
+      "required_for_impact": true,
+      "required_for_security_gate": true,
+      "requires_human_approval": false,
+      "owner": "POST-H-013-E",
+      "created_by": "POST-H-013-E",
+      "status": "implemented-initial",
+      "classification_status": "explicit",
+      "classification_notes": [
+        "Read-only local quality-gate contract for audit pack manifest policy, no-go gates, runbook and no-certification disclaimers.",
+        "Does not write packs, use network, external APIs, KMS, connector write, plugin execution or remote execution."
+      ],
+      "trigger_hints": [
+        "auditpack-change",
+        "quality-gate-change",
+        "docs-operations-change"
+      ],
+      "impact_scope": [
+        "operations.audit",
+        "quality.gate",
+        "documentation.operations",
+        "security.guards"
+      ]
     }
   ],
   "migration_metadata": {

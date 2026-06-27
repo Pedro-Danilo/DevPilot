@@ -4103,6 +4103,39 @@
         "python -m devpilot_core audit-pack build-v2 --dry-run --sign optional --encrypt optional --json",
         "python -m devpilot_core test-contracts validate --json"
       ]
+    },
+    {
+      "contract_id": "post-h-013-audit-pack-integrity-gate",
+      "scope": "quality-gate",
+      "owner": "POST-H-013-E",
+      "phase": "POST-FASE-H",
+      "test_files": [
+        "tests/test_post_h_013_audit_pack_integrity.py"
+      ],
+      "validates": [
+        "src/devpilot_core/auditpack/gate.py",
+        "src/devpilot_core/quality/gate.py",
+        "docs/05_operations/audit_pack_runbook.md",
+        "docs/05_operations/runbook.md",
+        ".devpilot/auditpack/audit_pack_policy.json",
+        "docs/post_h_013_e_manifest.json"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/auditpack/",
+        "src/devpilot_core/quality/gate.py",
+        ".devpilot/auditpack/",
+        ".devpilot/testing/",
+        "docs/05_operations/",
+        "docs/backlogs/POST-H-013_audit_pack_integrity.md"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest tests/test_post_h_013_audit_pack_integrity.py tests/test_audit_pack_manifest_v2_schema.py -q",
+        "python -m devpilot_core quality-gate run --profile hardening --json",
+        "python -m devpilot_core test-contracts validate --json"
+      ]
     }
   ],
   "notes": [
@@ -4113,6 +4146,7 @@
     "POST-H-004-E registers MIASI semantic validator as a formal local, non-executing test contract.",
     "POST-H-006-C adds post-h-006-cli-handler-migration as the incremental CLI handler migration contract.",
     "POST-H-006-E adds no-growth gate contract post-h-006-cli-no-growth-gate.",
-    "POST-H-011-A adds a RAG groundedness schema/fixtures contract without executing RAG, using web search, external APIs or LLM judge."
+    "POST-H-011-A adds a RAG groundedness schema/fixtures contract without executing RAG, using web search, external APIs or LLM judge.",
+    "POST-H-013-E registers audit-pack-integrity as a hardening quality-gate contract without executing external services or writing source files."
   ]
 }

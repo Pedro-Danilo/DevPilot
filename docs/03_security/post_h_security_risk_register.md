@@ -474,3 +474,21 @@ compliance_certification_claimed=false
 ```
 
 Riesgo residual: HMAC local no equivale a PKI enterprise; no hay certificados, rotación avanzada ni custodia multiusuario. El cierre operativo del gate queda para POST-H-013-E.
+
+## Actualización POST-H-013-E — Quality gate y disclaimers audit pack
+
+POST-H-013-E reduce el riesgo residual de operación insegura de audit packs al integrar el subgate `audit-pack-integrity` en `quality-gate run --profile hardening` e `industrial`.
+
+Controles agregados:
+
+```text
+- Validación read-only de `.devpilot/auditpack/audit_pack_policy.json`.
+- Verificación de no-go gates: sin red, sin APIs externas, sin KMS remoto, sin remote execution, sin connector write y sin plugin execution.
+- Ejecución de `audit-pack build-v2` en dry-run para comprobar redaction_report, secrets_detected=0 y compliance_certification_claimed=false.
+- Documentación operativa para build/verify/sign/encrypt y verificación de pack recibido.
+- Disclaimer explícito: audit packs son evidencia local verificable, no certificación compliance/enterprise.
+```
+
+No se recomienda subir packs a terceros por defecto. Cualquier envío externo queda fuera de POST-H-013 y requiere revisión humana, redacción, autorización explícita y canal seguro.
+
+Riesgo residual: no hay PKI enterprise, certificados X.509, hardware tokens, KMS cloud, custodia multiusuario ni DLP semántico completo.

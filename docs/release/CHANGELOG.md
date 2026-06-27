@@ -1,3 +1,16 @@
+## [post-h-013-e] - 2026-06-27
+
+Estado de proyecto: `last_completed_sprint=POST-H-013`; `next_sprint=POST-H-014`.
+
+### Added
+- Added `AuditPackIntegrityGate` and the `audit-pack-integrity` hardening/industrial quality-gate subgate.
+- Updated audit pack runbook with build/verify/sign/encrypt, pack recibido verification and no-certification disclaimers.
+- Registered POST-H-013-E in Test Contract Registry v1/v2 and added POST-H manifest/report.
+
+### Safety
+- Keeps `compliance_certification_claimed=false`; audit packs remain local evidence, not compliance/enterprise certification.
+- No network, external APIs, KMS, remote execution, connector write or plugin execution enabled.
+
 ## post-h-013-d — Firma y cifrado local opcional
 
 ### Added

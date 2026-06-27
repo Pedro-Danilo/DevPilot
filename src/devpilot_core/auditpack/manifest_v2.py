@@ -92,6 +92,18 @@ class AuditPackV2Builder:
             return policy_result
         policy = policy_result.data["policy"]
 
+        if _has_blocking(crypto_findings):
+            pack_id = _pack_id([], execute=options.execute)
+            summary = _blocked_crypto_summary(options, pack_id, crypto_plan, findings)
+            return CommandResult(
+                "audit-pack build-v2",
+                False,
+                _exit_code_from_findings(findings),
+                "Audit pack v2 build blocked by local crypto findings before file collection.",
+                data={"summary": summary, "crypto": _public_crypto_plan(crypto_plan)},
+                findings=findings,
+            )
+
         selected, excluded = self._collect_candidates(policy)
         files: list[dict[str, Any]] = []
         payloads: list[tuple[str, bytes]] = []
@@ -629,6 +641,66 @@ def _resolve_mode(options: AuditPackV2BuildOptions) -> CommandResult | None:
         return CommandResult("audit-pack build-v2", False, ExitCode.BLOCK, "Audit pack v2 mode is invalid.", data={"summary": {"dry_run": options.dry_run, "execute": options.execute}}, findings=[finding])
     return None
 
+
+
+def _blocked_crypto_summary(options: AuditPackV2BuildOptions, pack_id: str, crypto_plan: dict[str, Any], findings: list[Finding]) -> dict[str, Any]:
+    return {
+        "created_by": POST_H_013_B_CREATED_BY,
+        "status": "blocked",
+        "preliminary": True,
+        "pack_id": pack_id,
+        "mode": "execute" if options.execute else "dry-run",
+        "dry_run": bool(options.dry_run and not options.execute),
+        "execute": bool(options.execute),
+        "policy_path": options.policy_path,
+        "output_dir": options.output_dir,
+        "candidates_total": 0,
+        "files_included": 0,
+        "files_with_sha256": 0,
+        "excluded_total": 0,
+        "read_errors_total": 0,
+        "redaction_report_present": False,
+        "redaction_report_written": False,
+        "redaction_report_embedded": False,
+        "redaction_report_path": None,
+        "secrets_detected": 0,
+        "redaction_passed": False,
+        "raw_secrets_exported": False,
+        "manifest_schema_id": "SCHEMA-DEVPL-AUDIT-PACK-MANIFEST-V2",
+        "manifest_hash": None,
+        "manifest_embedded": False,
+        "manifest_path": None,
+        "pack_path": None,
+        "pack_sha256": None,
+        "local_first": True,
+        "network_used": False,
+        "external_api_used": False,
+        "remote_export_used": False,
+        "compliance_certification_claimed": False,
+        "runtime_db_exported": False,
+        "agent_sessions_exported": False,
+        "env_files_exported": False,
+        "mutations_performed": False,
+        "source_mutations_performed": False,
+        "remote_execution_enabled": False,
+        "connector_write_enabled": False,
+        "plugin_execution_enabled": False,
+        "crypto_available": crypto_plan["crypto_available"],
+        "sign_requested": crypto_plan["sign_requested"],
+        "encrypt_requested": crypto_plan["encrypt_requested"],
+        "signed": False,
+        "encrypted": False,
+        "signature_path": None,
+        "encrypted_pack_path": None,
+        "crypto_report_path": None,
+        "crypto_key_source": crypto_plan["key_source"],
+        "crypto_key_fingerprint": crypto_plan["key_fingerprint"],
+        "signing_backend": crypto_plan["signing_backend"],
+        "encryption_backend": crypto_plan["encryption_backend"],
+        "remote_kms_used": False,
+        "keys_in_repo_used": False,
+        "blocking_findings_total": _blocking_count(findings),
+    }
 
 def _glob_pattern(root: Path, pattern: str) -> list[Path]:
     pattern = pattern.replace("\\", "/").strip("/")

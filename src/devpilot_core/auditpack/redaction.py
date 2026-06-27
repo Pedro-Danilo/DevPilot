@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import re
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
@@ -17,6 +18,10 @@ _TEXT_SUFFIXES = {
     ".sha256",
     ".example",
 }
+
+_MATERIAL_SECRET_HINT_PATTERN = re.compile(
+    r"(?i)(sk-proj-|sk-[A-Za-z0-9_-]{8,}|ghp_|github_pat_|glpat-|hf_|xox[baprs]-|AKIA[0-9A-Z]{8,}|ASIA[0-9A-Z]{8,}|AIza|BEGIN\s+(RSA\s+|EC\s+|OPENSSH\s+)?PRIVATE\s+KEY|postgres(?:ql)?://|mysql://|mongodb(?:\+srv)?://|redis://|hooks\.slack\.com/services/|discord(?:app)?\.com/api/webhooks/|bearer\s+[A-Za-z0-9._-]{12,}|basic\s+[A-Za-z0-9+/=]{12,}|api[_-]?key\s*[:=]|access[_-]?token\s*[:=]|refresh[_-]?token\s*[:=]|id[_-]?token\s*[:=]|auth[_-]?token\s*[:=]|client[_-]?secret\s*[:=]|database[_-]?url\s*[:=]|connection[_-]?string\s*[:=]|password\s*[:=]|passwd\s*[:=]|pwd\s*[:=]|authorization\s*[:=])"
+)
 
 
 @dataclass(frozen=True)
@@ -149,8 +154,12 @@ def _count_material_secret_redactions(text: str, *, secret_guard: SecretGuard) -
     clearly placeholder/example instructions.
     """
 
+    if not _MATERIAL_SECRET_HINT_PATTERN.search(text):
+        return 0
     redactions = 0
     for line in text.splitlines():
+        if not _MATERIAL_SECRET_HINT_PATTERN.search(line):
+            continue
         if _is_placeholder_or_documentation_example(line):
             continue
         result = secret_guard.redact(line)
