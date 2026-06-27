@@ -13,6 +13,8 @@ from devpilot_core.cli_models import CommandResult, ExitCode, Finding, Severity
 from devpilot_core.policy.path_guard import PathGuard
 from devpilot_core.schemas import SchemaValidator
 
+from .crypto import AuditPackCryptoOptions, decrypt_bytes, json_bytes as crypto_json_bytes, load_local_key_material, verify_signature
+
 MANIFEST_V2_NAME = "audit-pack-manifest-v2.json"
 REDACTION_REPORT_NAME = "redaction_report.json"
 POST_H_013_C_CREATED_BY = "POST-H-013-C"
@@ -33,6 +35,10 @@ class AuditPackV2VerifyOptions:
     pack: str
     output_dir: str = _DEFAULT_OUTPUT_DIR
     write_integrity_report: bool = True
+    signature: str | None = None
+    encrypted_pack: str | None = None
+    crypto_keyfile: str | None = None
+    crypto_passphrase_env: str | None = None
 
 
 class AuditPackV2Verifier:
@@ -52,6 +58,15 @@ class AuditPackV2Verifier:
 
     def verify(self, options: AuditPackV2VerifyOptions) -> CommandResult:
         findings: list[Finding] = []
+        crypto_options = AuditPackCryptoOptions(
+            sign_mode="optional" if options.signature else "none",
+            encrypt_mode="optional" if options.encrypted_pack else "none",
+            keyfile=options.crypto_keyfile,
+            passphrase_env=options.crypto_passphrase_env,
+        )
+        key_material = load_local_key_material(self.root, crypto_options)
+        if (options.signature or options.encrypted_pack) and not key_material.available:
+            findings.extend(key_material.findings)
         input_path = Path(options.pack)
         absolute = input_path if input_path.is_absolute() else self.root / input_path
         absolute = absolute.resolve()
@@ -99,6 +114,7 @@ class AuditPackV2Verifier:
         extra_files: list[str] = []
         schema_valid = False
         manifest_hash_valid = False
+        pack_bytes: bytes | None = None
 
         if not absolute.exists() or not absolute.is_file():
             findings.append(Finding("AUDIT_PACK_V2_MISSING", "Audit pack v2 ZIP does not exist.", Severity.BLOCK, path=rel))
@@ -107,6 +123,7 @@ class AuditPackV2Verifier:
             return self._result(options, rel, report, report_path, zip_valid, manifest_present, redaction_report_present, schema_valid, manifest_hash_valid, findings)
 
         try:
+            pack_bytes = absolute.read_bytes()
             with zipfile.ZipFile(absolute, "r") as archive:
                 names = set(archive.namelist())
                 zip_valid = True
@@ -233,6 +250,15 @@ class AuditPackV2Verifier:
         if secrets_detected > 0:
             findings.append(Finding("AUDIT_PACK_V2_SECRETS_DETECTED_BLOCKED", "Audit pack v2 declares detected secrets and must not pass verification.", Severity.BLOCK, path=REDACTION_REPORT_NAME, metadata={"secrets_detected": secrets_detected}))
 
+        crypto_status = self._verify_optional_crypto(
+            options=options,
+            pack_bytes=pack_bytes,
+            pack_rel=rel,
+            key=key_material.value,
+            key_fingerprint=key_material.fingerprint,
+        )
+        findings.extend(crypto_status["findings"])
+
         status = "passed" if _verification_ok(findings, zip_valid, manifest_present, schema_valid, manifest_hash_valid, files_total, files_verified) else "blocked"
         report = _integrity_report(
             pack_id=pack_id,
@@ -243,8 +269,9 @@ class AuditPackV2Verifier:
             hash_mismatches=hash_mismatches,
             redaction_passed=redaction_passed,
             secrets_detected=secrets_detected,
-            encryption_used=bool(manifest.get("integrity", {}).get("encrypted", False)) if isinstance(manifest, dict) else False,
-            signature_verified=None,
+            encryption_used=bool(manifest.get("integrity", {}).get("encrypted", False)) or bool(crypto_status["encryption_used"]) if isinstance(manifest, dict) else bool(crypto_status["encryption_used"]),
+            signature_verified=crypto_status["signature_verified"],
+            crypto_status=crypto_status,
             findings=findings,
             extra_files=extra_files,
             schema_valid=schema_valid,
@@ -252,6 +279,151 @@ class AuditPackV2Verifier:
         )
         report_path = self._write_report(options, report)
         return self._result(options, rel, report, report_path, zip_valid, manifest_present, redaction_report_present, schema_valid, manifest_hash_valid, findings)
+
+
+    def _verify_optional_crypto(
+        self,
+        *,
+        options: AuditPackV2VerifyOptions,
+        pack_bytes: bytes | None,
+        pack_rel: str,
+        key: bytes | None,
+        key_fingerprint: str | None,
+    ) -> dict[str, Any]:
+        findings: list[Finding] = []
+        status: dict[str, Any] = {
+            "created_by": "POST-H-013-D",
+            "status": "implemented-initial",
+            "signature_provided": bool(options.signature),
+            "signature_verified": None,
+            "encryption_artifact_provided": bool(options.encrypted_pack),
+            "encryption_used": bool(options.encrypted_pack),
+            "encryption_verified": None,
+            "key_fingerprint_sha256_16": key_fingerprint,
+            "network_used": False,
+            "external_api_used": False,
+            "remote_kms_used": False,
+            "findings": findings,
+        }
+        if pack_bytes is None:
+            return status
+        if options.signature:
+            if not key:
+                findings.append(
+                    Finding(
+                        "AUDIT_PACK_CRYPTO_SIGNATURE_KEY_MISSING",
+                        "Audit pack signature verification requires explicit local key material.",
+                        Severity.BLOCK,
+                        path=options.signature,
+                    )
+                )
+            else:
+                signature_payload, signature_finding = self._read_json_sidecar(options.signature, label="signature")
+                if signature_finding is not None:
+                    findings.append(signature_finding)
+                elif signature_payload is not None:
+                    verified = verify_signature(pack_bytes, key=key, signature_report=signature_payload)
+                    status["signature_verified"] = verified
+                    if not verified:
+                        findings.append(
+                            Finding(
+                                "AUDIT_PACK_CRYPTO_SIGNATURE_INVALID",
+                                "Audit pack local signature sidecar does not match the provided pack and key material.",
+                                Severity.BLOCK,
+                                path=options.signature,
+                            )
+                        )
+        if options.encrypted_pack:
+            if not key:
+                findings.append(
+                    Finding(
+                        "AUDIT_PACK_CRYPTO_DECRYPT_KEY_MISSING",
+                        "Audit pack encrypted artifact verification requires explicit local key material.",
+                        Severity.BLOCK,
+                        path=options.encrypted_pack,
+                    )
+                )
+            else:
+                encrypted_bytes, encrypted_finding = self._read_binary_sidecar(options.encrypted_pack, label="encrypted-pack")
+                if encrypted_finding is not None:
+                    findings.append(encrypted_finding)
+                elif encrypted_bytes is not None:
+                    decrypted, decrypt_finding = decrypt_bytes(encrypted_bytes, key=key)
+                    if decrypt_finding is not None:
+                        findings.append(decrypt_finding)
+                    if decrypted is not None:
+                        verified = decrypted == pack_bytes
+                        status["encryption_verified"] = verified
+                        if not verified:
+                            findings.append(
+                                Finding(
+                                    "AUDIT_PACK_CRYPTO_ENCRYPTION_MISMATCH",
+                                    "Audit pack encrypted artifact decrypts but does not match the plain pack bytes.",
+                                    Severity.BLOCK,
+                                    path=options.encrypted_pack,
+                                    metadata={"pack_path": pack_rel},
+                                )
+                            )
+        return status
+
+    def _read_json_sidecar(self, path_value: str, *, label: str) -> tuple[dict[str, Any] | None, Finding | None]:
+        raw, finding = self._read_binary_sidecar(path_value, label=label)
+        if finding is not None or raw is None:
+            return None, finding
+        try:
+            payload = json.loads(raw.decode("utf-8"))
+        except json.JSONDecodeError as exc:
+            return None, Finding(
+                "AUDIT_PACK_CRYPTO_SIDECAR_JSON_INVALID",
+                "Audit pack crypto sidecar JSON is invalid.",
+                Severity.BLOCK,
+                path=path_value,
+                metadata={"label": label, "error": str(exc)},
+            )
+        if not isinstance(payload, dict):
+            return None, Finding(
+                "AUDIT_PACK_CRYPTO_SIDECAR_INVALID",
+                "Audit pack crypto sidecar root must be an object.",
+                Severity.BLOCK,
+                path=path_value,
+                metadata={"label": label},
+            )
+        return payload, None
+
+    def _read_binary_sidecar(self, path_value: str, *, label: str) -> tuple[bytes | None, Finding | None]:
+        input_path = Path(path_value)
+        absolute = input_path if input_path.is_absolute() else self.root / input_path
+        absolute = absolute.resolve()
+        rel = _relative_or_none(absolute, self.root)
+        if rel is None:
+            return None, Finding(
+                "AUDIT_PACK_CRYPTO_SIDECAR_OUTSIDE_ROOT_BLOCKED",
+                "Audit pack crypto sidecar must be inside the governed workspace root.",
+                Severity.BLOCK,
+                path=path_value,
+                metadata={"label": label},
+            )
+        decision = self.path_guard.evaluate(rel, action="read")
+        if decision.effect.value == "block":
+            return None, decision.to_finding()
+        if not absolute.exists() or not absolute.is_file():
+            return None, Finding(
+                "AUDIT_PACK_CRYPTO_SIDECAR_MISSING",
+                "Audit pack crypto sidecar does not exist.",
+                Severity.BLOCK,
+                path=rel,
+                metadata={"label": label},
+            )
+        try:
+            return absolute.read_bytes(), None
+        except OSError as exc:
+            return None, Finding(
+                "AUDIT_PACK_CRYPTO_SIDECAR_READ_ERROR",
+                "Audit pack crypto sidecar could not be read.",
+                Severity.BLOCK,
+                path=rel,
+                metadata={"label": label, "error": str(exc)},
+            )
 
     def _write_report(self, options: AuditPackV2VerifyOptions, report: dict[str, Any]) -> str | None:
         if not options.write_integrity_report:
@@ -319,6 +491,7 @@ def _summary(
     redaction_report_present: bool = False,
     schema_valid: bool = False,
     manifest_hash_valid: bool = False,
+    crypto_status: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     return {
         "created_by": POST_H_013_C_CREATED_BY,
@@ -349,6 +522,14 @@ def _summary(
         "connector_write_enabled": False,
         "plugin_execution_enabled": False,
         "blocking_findings_total": _blocking_count([_finding_from_dict(item) for item in report.get("findings", [])]),
+        "crypto_available": report.get("crypto", {}).get("crypto_available"),
+        "signed": report.get("crypto", {}).get("signed"),
+        "signature_provided": report.get("crypto", {}).get("signature_provided"),
+        "signature_verified": report.get("signature_verified"),
+        "encrypted": report.get("crypto", {}).get("encrypted"),
+        "encryption_used": report.get("encryption_used"),
+        "encryption_verified": report.get("crypto", {}).get("encryption_verified"),
+        "remote_kms_used": False,
         "output_dir": options.output_dir,
     }
 
@@ -369,11 +550,13 @@ def _integrity_report(
     extra_files: list[str] | None = None,
     schema_valid: bool = False,
     manifest_hash_valid: bool = False,
+    crypto_status: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     missing_files = missing_files or []
     hash_mismatches = hash_mismatches or []
     extra_files = extra_files or []
     findings = findings or []
+    crypto_status = crypto_status or {}
     files_failed = len(missing_files) + len(hash_mismatches) + len(extra_files)
     return {
         "schema_version": "1.0",
@@ -395,6 +578,21 @@ def _integrity_report(
         "secrets_detected": secrets_detected,
         "signature_verified": signature_verified,
         "encryption_used": encryption_used,
+        "crypto": {
+            "created_by": "POST-H-013-D",
+            "status": "implemented-initial",
+            "preliminary": True,
+            "crypto_available": True,
+            "signed": signature_verified is not None or bool(crypto_status.get("signature_provided", False)),
+            "encrypted": encryption_used,
+            "signature_provided": bool(crypto_status.get("signature_provided", False)),
+            "signature_verified": signature_verified,
+            "encryption_artifact_provided": bool(crypto_status.get("encryption_artifact_provided", False)),
+            "encryption_verified": crypto_status.get("encryption_verified"),
+            "remote_kms_used": False,
+            "network_used": False,
+            "external_api_used": False,
+        },
         "network_used": False,
         "external_api_used": False,
         "remote_export_used": False,
@@ -413,7 +611,7 @@ def _integrity_report(
         },
         "notes": [
             "POST-H-013-C verifies audit pack v2 integrity locally without network or external APIs.",
-            "Signature and encryption verification remain optional later-sprint capabilities.",
+            "POST-H-013-D reports optional local signature/encryption status without remote KMS.",
             "This report is evidence integrity metadata only and does not claim compliance certification.",
         ],
     }

@@ -151,3 +151,48 @@ external_api_used=false
 ```
 
 Este reporte es evidencia runtime local, no fuente de verdad versionada. No se debe incluir en ZIPs limpios de entrega; debe regenerarse en el entorno del operador.
+
+
+## Crypto local opcional — POST-H-013-D
+
+`audit-pack build-v2` soporta firma y cifrado local opcional únicamente mediante banderas explícitas. El flujo base sin crypto debe seguir funcionando.
+
+Dry-run con intención crypto sin escribir artefactos:
+
+```powershell
+python -m devpilot_core audit-pack build-v2 --dry-run --sign optional --encrypt optional --json
+```
+
+Ejecución con keyfile externo al repositorio:
+
+```powershell
+python -m devpilot_core audit-pack build-v2 `
+  --execute `
+  --sign optional `
+  --encrypt optional `
+  --crypto-keyfile C:\ruta\externa\auditpack.key `
+  --json
+```
+
+Verificación de sidecars crypto:
+
+```powershell
+python -m devpilot_core audit-pack verify-v2 `
+  --pack outputs/auditpacks/<pack>.zip `
+  --signature outputs/auditpacks/<pack>.sig.json `
+  --encrypted-pack outputs/auditpacks/<pack>.zip.fernet `
+  --crypto-keyfile C:\ruta\externa\auditpack.key `
+  --json
+```
+
+Controles de seguridad:
+
+```text
+- No se permite keyfile dentro del repo.
+- No se usa red ni API externa.
+- No se usa KMS remoto.
+- La firma/cifrado se ejecuta después de redaction y policy checks.
+- El cifrado no puede ocultar errores de secretos o integridad.
+```
+
+Limitación explícita: esta es una primera versión local opcional, no una PKI enterprise ni una certificación de compliance. POST-H-013-E debe cerrar el subgate y los disclaimers operativos finales.

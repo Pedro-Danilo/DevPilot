@@ -457,3 +457,20 @@ Controles activos:
 ## POST-H-013-C — Audit pack integrity verification risk note
 
 `AuditPackV2Verifier` reduces tampering risk by blocking hash mismatch, missing declared files, extra undeclared ZIP members and invalid compliance claim drift. Remaining risks: no local signing/encryption until POST-H-013-D and no final quality-gate subgate until POST-H-013-E. No network, external API, remote execution, connector write or plugin execution is enabled.
+
+
+## Actualización POST-H-013-D — Crypto local opcional para audit packs
+
+POST-H-013-D reduce el riesgo de distribución local de evidencias sin autenticidad o protección en reposo mediante firma HMAC-SHA256 local y cifrado Fernet opcional cuando `cryptography` está disponible.
+
+Controles:
+
+```text
+remote_kms_used=false
+network_used=false
+external_api_used=false
+keys_in_repo_used=false
+compliance_certification_claimed=false
+```
+
+Riesgo residual: HMAC local no equivale a PKI enterprise; no hay certificados, rotación avanzada ni custodia multiusuario. El cierre operativo del gate queda para POST-H-013-E.

@@ -828,7 +828,10 @@
         "tests/test_post_h_013_audit_pack_integrity.py",
         "docs/audits/post_h_013_b_builder_v2_report.md",
         "docs/post_h_013_b_manifest.json",
-        "docs/05_operations/audit_pack_runbook.md"
+        "docs/05_operations/audit_pack_runbook.md",
+        "src/devpilot_core/auditpack/crypto.py",
+        "docs/audits/post_h_013_d_crypto_optional_report.md",
+        "docs/post_h_013_d_manifest.json"
       ],
       "required_tests": [
         "tests/test_documentation_governance_backlogs.py",
@@ -848,9 +851,9 @@
       "notes": [
         "POST-H-013 approved for implementation after POST-H-012 closure.",
         "POST-H-013-A adds AuditPackManifestV2, AuditPackIntegrityReport and local audit pack policy as implemented-initial.",
-        "Builder v2, verifier v2, redaction runtime, signing and encryption remain scheduled for later micro-sprints.",
         "POST-H-013-B adds AuditPackV2Builder with dry-run default, execute mode, SHA-256 file checksums and mandatory redaction report.",
-        "Verifier v2, signing and encryption remain scheduled for later micro-sprints."
+        "POST-H-013-C adds AuditPackV2Verifier with local manifest/hash/member verification and integrity report generation.",
+        "POST-H-013-D adds optional local crypto sidecars for HMAC signing and Fernet encryption without remote KMS."
       ]
     },
     {

@@ -4,7 +4,7 @@ doc_id: "POST-H-013-BACKLOG"
 id: "POST-H-013"
 title: "POST-H-013 — Audit pack signing/encryption local opcional"
 status: "approved"
-version: "0.4.0"
+version: "0.5.0"
 owner: "Ordóñez"
 updated: "2026-06-27"
 approval: "approved_by_owner"
@@ -19,8 +19,8 @@ no_external_apis_used: true
 no_connector_write_enabled: true
 no_plugin_execution_enabled: true
 implementation_status: "active"
-current_micro_sprint: "POST-H-013-C"
-next_micro_sprint: "POST-H-013-D"
+current_micro_sprint: "POST-H-013-D"
+next_micro_sprint: "POST-H-013-E"
 ---
 
 # POST-H-013 — Audit pack signing/encryption local opcional
@@ -604,4 +604,60 @@ POST-H-013-C no implementa firma ni cifrado local; esos controles quedan para PO
 POST-H-013-C no integra todavía el subgate final `audit-pack-integrity`; eso queda para POST-H-013-E.
 POST-H-013-C no habilita remote signing, KMS cloud, APIs externas, connector write, plugin execution, remote execution ni compliance certification claim.
 La escritura del integrity report bajo `outputs/auditpacks` es evidencia runtime local y no debe versionarse ni incluirse en ZIPs limpios de entrega.
+```
+
+
+## 17. Avance de implementación — POST-H-013-D
+
+Estado: `implemented-initial`.
+
+Capacidad incorporada:
+
+```text
+- `src/devpilot_core/auditpack/crypto.py` implementa una capa local opcional de crypto sin KMS remoto.
+- `audit-pack build-v2 --sign optional|required` habilita firma local explícita con HMAC-SHA256 y keyfile externo o passphrase vía variable de entorno.
+- `audit-pack build-v2 --encrypt optional|required` habilita cifrado local opcional con Fernet cuando `cryptography` está disponible; si no está disponible y el modo es optional, el flujo base sigue funcionando.
+- `AuditPackV2Builder` reporta `crypto_available`, `signed`, `encrypted`, `signature_path`, `encrypted_pack_path`, `crypto_report_path`, `remote_kms_used=false` y `keys_in_repo_used=false`.
+- `AuditPackV2Verifier` puede verificar firma local sidecar y artefacto cifrado sidecar cuando se proveen explícitamente `--signature`, `--encrypted-pack` y key material local.
+- Se bloquea el uso de keyfiles dentro del repo para evitar versionar claves o material sensible.
+```
+
+Artefactos principales:
+
+```text
+src/devpilot_core/auditpack/crypto.py
+src/devpilot_core/auditpack/manifest_v2.py
+src/devpilot_core/auditpack/verify_v2.py
+src/devpilot_core/auditpack/__init__.py
+src/devpilot_core/cli.py
+tests/test_post_h_013_audit_pack_integrity.py
+docs/audits/post_h_013_d_crypto_optional_report.md
+docs/post_h_013_d_manifest.json
+docs/05_operations/audit_pack_runbook.md
+```
+
+Criterios PASS cubiertos:
+
+```text
+PASS si modo sin crypto sigue funcionando.
+PASS si firma/cifrado opcional requiere bandera explícita.
+PASS si verify reporta claramente estado crypto.
+PASS si no hay llamadas remotas a KMS.
+```
+
+Criterios BLOCK cubiertos:
+
+```text
+BLOCK si crypto requiere servicio externo.
+BLOCK si claves se guardan en repo.
+BLOCK si encryption oculta errores de redacción o secretos.
+```
+
+Límites explícitos:
+
+```text
+POST-H-013-D implementa crypto local opcional como primera versión: HMAC local para autenticidad e integración Fernet opcional si `cryptography` está disponible.
+POST-H-013-D no implementa PKI enterprise, certificados X.509, hardware tokens, KMS cloud, rotación avanzada de claves ni custodia multiusuario.
+El cifrado se ejecuta después de redaction/build; no se permite que encryption oculte fallos de secretos, redaction o integridad.
+La integración del subgate final `audit-pack-integrity` y los disclaimers operativos finales quedan para POST-H-013-E.
 ```

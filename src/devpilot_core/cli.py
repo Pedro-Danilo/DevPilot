@@ -2305,6 +2305,10 @@ def backup_create_command(
     *,
     dry_run: bool = True,
     execute: bool = False,
+    sign_mode: str = "none",
+    encrypt_mode: str = "none",
+    crypto_keyfile: str | None = None,
+    crypto_passphrase_env: str | None = None,
     json_output: bool = False,
     write_report: bool = False,
 ) -> int:
@@ -3100,6 +3104,10 @@ def audit_pack_build_v2_command(
     policy_path: str = ".devpilot/auditpack/audit_pack_policy.json",
     dry_run: bool = True,
     execute: bool = False,
+    sign_mode: str = "none",
+    encrypt_mode: str = "none",
+    crypto_keyfile: str | None = None,
+    crypto_passphrase_env: str | None = None,
     json_output: bool = False,
     write_report: bool = False,
 ) -> int:
@@ -3118,6 +3126,10 @@ def audit_pack_build_v2_command(
             policy_path=policy_path,
             dry_run=dry_run,
             execute=execute,
+            sign_mode=sign_mode,
+            encrypt_mode=encrypt_mode,
+            crypto_keyfile=crypto_keyfile,
+            crypto_passphrase_env=crypto_passphrase_env,
         )
     )
     subject = (result.data or {}).get("summary", {}).get("pack_path") or "audit-pack-v2"
@@ -3127,7 +3139,7 @@ def audit_pack_build_v2_command(
         subject=subject,
         report_id="audit_pack_build_v2",
         write_report=write_report,
-        metadata={"sprint": "POST-H-013-B", "component": "AuditPackV2Builder"},
+        metadata={"sprint": "POST-H-013-D", "component": "AuditPackV2Builder"},
     )
     _emit_result_event(root, result, subject=subject)
     _persist_result(root, result, subject=subject)
@@ -3139,6 +3151,10 @@ def audit_pack_verify_v2_command(
     *,
     pack: str,
     output_dir: str = "outputs/auditpacks",
+    signature: str | None = None,
+    encrypted_pack: str | None = None,
+    crypto_keyfile: str | None = None,
+    crypto_passphrase_env: str | None = None,
     json_output: bool = False,
     write_report: bool = False,
 ) -> int:
@@ -3156,6 +3172,10 @@ def audit_pack_verify_v2_command(
             pack=pack,
             output_dir=output_dir,
             write_integrity_report=True,
+            signature=signature,
+            encrypted_pack=encrypted_pack,
+            crypto_keyfile=crypto_keyfile,
+            crypto_passphrase_env=crypto_passphrase_env,
         )
     )
     subject = (result.data or {}).get("summary", {}).get("pack_path") or pack
@@ -3165,7 +3185,7 @@ def audit_pack_verify_v2_command(
         subject=subject,
         report_id="audit_pack_verify_v2",
         write_report=write_report,
-        metadata={"sprint": "POST-H-013-C", "component": "AuditPackV2Verifier"},
+        metadata={"sprint": "POST-H-013-D", "component": "AuditPackV2Verifier"},
     )
     _emit_result_event(root, result, subject=subject)
     _persist_result(root, result, subject=subject)
@@ -4060,6 +4080,10 @@ def api_serve_command(
     port: int = 8787,
     dry_run: bool = True,
     execute: bool = False,
+    sign_mode: str = "none",
+    encrypt_mode: str = "none",
+    crypto_keyfile: str | None = None,
+    crypto_passphrase_env: str | None = None,
     json_output: bool = False,
     write_report: bool = False,
 ) -> int:
@@ -4984,6 +5008,10 @@ def build_parser() -> argparse.ArgumentParser:
     audit_pack_build_v2.add_argument("--policy-path", default=".devpilot/auditpack/audit_pack_policy.json", help="Audit pack v2 policy path")
     audit_pack_build_v2.add_argument("--dry-run", action="store_true", help="Plan build-v2 without writing pack artifacts; default mode")
     audit_pack_build_v2.add_argument("--execute", action="store_true", help="Write audit pack v2 ZIP and reports under outputs/auditpacks")
+    audit_pack_build_v2.add_argument("--sign", choices=["none", "optional", "required"], default="none", help="Optional local signing mode; requires explicit local key material to sign")
+    audit_pack_build_v2.add_argument("--encrypt", choices=["none", "optional", "required"], default="none", help="Optional local encryption mode; requires optional cryptography backend and explicit local key material")
+    audit_pack_build_v2.add_argument("--crypto-keyfile", default=None, help="Local crypto keyfile outside the repository workspace")
+    audit_pack_build_v2.add_argument("--crypto-passphrase-env", default=None, help="Environment variable name containing local crypto passphrase")
     audit_pack_build_v2.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     audit_pack_build_v2.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
     audit_pack_verify = audit_pack_sub.add_parser("verify", help="Verify audit pack ZIP manifest, checksums and export policy")
@@ -4993,6 +5021,10 @@ def build_parser() -> argparse.ArgumentParser:
     audit_pack_verify_v2 = audit_pack_sub.add_parser("verify-v2", help="Verify POST-H-013 audit pack v2 manifest, hashes and redaction evidence")
     audit_pack_verify_v2.add_argument("--pack", required=True, help="Audit pack v2 ZIP path to verify")
     audit_pack_verify_v2.add_argument("--output-dir", default="outputs/auditpacks", help="Directory for generated integrity report")
+    audit_pack_verify_v2.add_argument("--signature", default=None, help="Optional local signature sidecar JSON produced by build-v2")
+    audit_pack_verify_v2.add_argument("--encrypted-pack", default=None, help="Optional encrypted audit pack sidecar produced by build-v2")
+    audit_pack_verify_v2.add_argument("--crypto-keyfile", default=None, help="Local crypto keyfile outside the repository workspace")
+    audit_pack_verify_v2.add_argument("--crypto-passphrase-env", default=None, help="Environment variable name containing local crypto passphrase")
     audit_pack_verify_v2.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     audit_pack_verify_v2.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown command report in outputs/reports")
 
@@ -6117,6 +6149,10 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
                 policy_path=args.policy_path,
                 dry_run=(args.dry_run or not args.execute),
                 execute=args.execute,
+                sign_mode=args.sign,
+                encrypt_mode=args.encrypt,
+                crypto_keyfile=args.crypto_keyfile,
+                crypto_passphrase_env=args.crypto_passphrase_env,
                 json_output=args.json,
                 write_report=args.write_report,
             )
@@ -6126,6 +6162,10 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
             return audit_pack_verify_v2_command(
                 pack=args.pack,
                 output_dir=args.output_dir,
+                signature=args.signature,
+                encrypted_pack=args.encrypted_pack,
+                crypto_keyfile=args.crypto_keyfile,
+                crypto_passphrase_env=args.crypto_passphrase_env,
                 json_output=args.json,
                 write_report=args.write_report,
             )

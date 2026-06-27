@@ -182,10 +182,11 @@ def test_post_h_013_b_docs_and_contracts_are_synchronized() -> None:
     tcr_v2 = json.loads((ROOT / ".devpilot/testing/test_contract_registry_v2.json").read_text(encoding="utf-8"))
 
     assert backlog == mirror
-    assert 'current_micro_sprint: "POST-H-013-C"' in backlog
-    assert 'next_micro_sprint: "POST-H-013-D"' in backlog
+    assert 'current_micro_sprint: "POST-H-013-D"' in backlog
+    assert 'next_micro_sprint: "POST-H-013-E"' in backlog
     assert "## 15. Avance de implementación — POST-H-013-B" in backlog
     assert "## 16. Avance de implementación — POST-H-013-C" in backlog
+    assert "## 17. Avance de implementación — POST-H-013-D" in backlog
     manifest = json.loads((ROOT / "docs/post_h_013_c_manifest.json").read_text(encoding="utf-8"))
     assert manifest["micro_sprint"] == "POST-H-013-C"
     assert manifest["current_repo"] == "repo_DevPilot_Local_198_POST_H_013_C.zip"
@@ -210,6 +211,16 @@ def test_post_h_013_b_docs_and_contracts_are_synchronized() -> None:
     assert verifier_contract_v2["network_allowed"] is False
     assert verifier_contract_v2["external_api_allowed"] is False
     assert verifier_contract_v2["source_mutations_allowed"] is False
+
+    crypto_contract = next(item for item in tcr["contracts"] if item["contract_id"] == "post-h-013-audit-pack-crypto-optional")
+    assert crypto_contract["owner"] == "POST-H-013-D"
+    assert "src/devpilot_core/auditpack/crypto.py" in crypto_contract["validates"]
+
+    crypto_contract_v2 = next(item for item in tcr_v2["contracts"] if item["contract_id"] == "post-h-013-audit-pack-crypto-optional")
+    assert crypto_contract_v2["capability"] == "AuditPackV2CryptoOptional"
+    assert crypto_contract_v2["network_allowed"] is False
+    assert crypto_contract_v2["external_api_allowed"] is False
+    assert crypto_contract_v2["source_mutations_allowed"] is False
 
 
 def test_audit_pack_verify_v2_passes_clean_pack_and_writes_integrity_report() -> None:
@@ -336,5 +347,142 @@ def test_audit_pack_verify_v2_cli_json_is_parseable(monkeypatch, capsys) -> None
         assert payload["ok"] is True
         assert payload["data"]["summary"]["manifest_schema_valid"] is True
         assert payload["data"]["summary"]["files_total"] == payload["data"]["summary"]["files_verified"]
+    finally:
+        _cleanup_test_output()
+
+
+def _write_external_crypto_key(tmp_path: Path) -> Path:
+    key_path = tmp_path / "auditpack-local.key"
+    key_path.write_text("local-test-key-material-for-post-h-013-d-123456", encoding="utf-8")
+    return key_path
+
+
+def test_audit_pack_build_v2_crypto_optional_dry_run_requires_explicit_flags(monkeypatch, capsys) -> None:
+    _cleanup_test_output()
+    monkeypatch.chdir(ROOT)
+
+    exit_code = cli.main(["audit-pack", "build-v2", "--dry-run", "--sign", "optional", "--encrypt", "optional", "--json"])
+    payload = json.loads(capsys.readouterr().out)
+
+    assert exit_code == 0
+    assert payload["ok"] is True
+    summary = payload["data"]["summary"]
+    assert summary["dry_run"] is True
+    assert summary["pack_path"] is None
+    assert summary["sign_requested"] is True
+    assert summary["encrypt_requested"] is True
+    assert summary["signed"] is False
+    assert summary["encrypted"] is False
+    assert summary["remote_kms_used"] is False
+    assert summary["keys_in_repo_used"] is False
+    assert summary["network_used"] is False
+    assert summary["external_api_used"] is False
+    assert not (ROOT / TEST_OUTPUT_DIR).exists()
+
+
+def test_audit_pack_build_v2_crypto_execute_signs_and_optionally_encrypts(tmp_path: Path) -> None:
+    _cleanup_test_output()
+    key_path = _write_external_crypto_key(tmp_path)
+    try:
+        result = AuditPackV2Builder(ROOT).build(
+            AuditPackV2BuildOptions(
+                output_dir=TEST_OUTPUT_DIR,
+                dry_run=False,
+                execute=True,
+                sign_mode="optional",
+                encrypt_mode="optional",
+                crypto_keyfile=str(key_path),
+            )
+        )
+
+        assert result.ok is True, result.to_dict()
+        summary = result.data["summary"]
+        assert summary["signed"] is True
+        assert summary["signature_path"]
+        assert (ROOT / summary["signature_path"]).exists()
+        assert summary["crypto_key_source"] == "external-keyfile"
+        assert summary["remote_kms_used"] is False
+        assert summary["keys_in_repo_used"] is False
+        assert summary["network_used"] is False
+        assert summary["external_api_used"] is False
+        assert summary["crypto_report_path"]
+        assert (ROOT / summary["crypto_report_path"]).exists()
+        if summary["encrypted"]:
+            assert summary["encrypted_pack_path"]
+            assert (ROOT / summary["encrypted_pack_path"]).exists()
+        with zipfile.ZipFile(ROOT / summary["pack_path"], "r") as archive:
+            manifest = json.loads(archive.read("audit-pack-manifest-v2.json").decode("utf-8"))
+        assert manifest["integrity"]["signed"] is True
+        assert manifest["integrity"]["encrypted"] is summary["encrypted"]
+        assert manifest["crypto"]["keys_in_repo_used"] is False
+        assert manifest["crypto"]["remote_kms_used"] is False
+    finally:
+        _cleanup_test_output()
+
+
+def test_audit_pack_verify_v2_reports_signature_and_encryption_status(tmp_path: Path) -> None:
+    _cleanup_test_output()
+    key_path = _write_external_crypto_key(tmp_path)
+    try:
+        build = AuditPackV2Builder(ROOT).build(
+            AuditPackV2BuildOptions(
+                output_dir=TEST_OUTPUT_DIR,
+                dry_run=False,
+                execute=True,
+                sign_mode="optional",
+                encrypt_mode="optional",
+                crypto_keyfile=str(key_path),
+            )
+        )
+        assert build.ok is True, build.to_dict()
+        summary = build.data["summary"]
+
+        verify = AuditPackV2Verifier(ROOT).verify(
+            AuditPackV2VerifyOptions(
+                pack=summary["pack_path"],
+                output_dir=TEST_OUTPUT_DIR,
+                signature=summary["signature_path"],
+                encrypted_pack=summary["encrypted_pack_path"],
+                crypto_keyfile=str(key_path),
+            )
+        )
+
+        assert verify.ok is True, verify.to_dict()
+        verify_summary = verify.data["summary"]
+        report = verify.data["integrity_report"]
+        assert verify_summary["signature_verified"] is True
+        assert report["signature_verified"] is True
+        assert report["crypto"]["signature_verified"] is True
+        if summary["encrypted"]:
+            assert verify_summary["encryption_used"] is True
+            assert verify_summary["encryption_verified"] is True
+            assert report["crypto"]["encryption_verified"] is True
+        assert verify_summary["remote_kms_used"] is False
+        assert verify_summary["network_used"] is False
+        assert verify_summary["external_api_used"] is False
+    finally:
+        _cleanup_test_output()
+
+
+def test_audit_pack_crypto_blocks_key_material_inside_repo() -> None:
+    _cleanup_test_output()
+    repo_key = ROOT / TEST_OUTPUT_DIR / "repo-local.key"
+    repo_key.parent.mkdir(parents=True, exist_ok=True)
+    repo_key.write_text("repo-local-key-material-that-must-be-blocked", encoding="utf-8")
+    try:
+        result = AuditPackV2Builder(ROOT).build(
+            AuditPackV2BuildOptions(
+                output_dir=TEST_OUTPUT_DIR,
+                dry_run=True,
+                execute=False,
+                sign_mode="required",
+                crypto_keyfile=str(repo_key),
+            )
+        )
+
+        assert result.ok is False
+        assert result.exit_code == ExitCode.BLOCK
+        assert result.data["summary"]["keys_in_repo_used"] is False
+        assert any(finding.id == "AUDIT_PACK_CRYPTO_KEY_IN_REPO_BLOCKED" for finding in result.findings)
     finally:
         _cleanup_test_output()

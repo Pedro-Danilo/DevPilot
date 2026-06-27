@@ -92,9 +92,12 @@ def test_project_global_state_schema_and_docs_are_synchronized() -> None:
     assert "POST-H-013-B — Builder v2 con checksums y redaction report" in runbook
     assert "POST-H-013-C — Verifier v2 de integridad local" in readme
     assert "POST-H-013-C — Verifier v2 de integridad local" in runbook
+    assert "POST-H-013-D — Firma y cifrado local opcional" in readme
+    assert "POST-H-013-D — Firma y cifrado local opcional" in runbook
     assert any("POST-H-013-A starts Audit pack integrity" in note for note in state["notes"])
     assert any("POST-H-013-B adds AuditPackV2Builder" in note for note in state["notes"])
     assert any("POST-H-013-C adds AuditPackV2Verifier" in note for note in state["notes"])
+    assert any("POST-H-013-D adds optional local crypto" in note for note in state["notes"])
     assert any("POST-H-012-A approves" in note for note in state["notes"])
     assert any("POST-H-012-C adds RBAC exposure reporting" in note for note in state["notes"])
     assert any("POST-H-012-D adds homogeneous PolicyEngine enforcement" in note for note in state["notes"])

@@ -1,3 +1,18 @@
+## post-h-013-d — Firma y cifrado local opcional
+
+### Added
+
+- `src/devpilot_core/auditpack/crypto.py` with local optional HMAC-SHA256 signing and optional Fernet encryption when `cryptography` is available.
+- `audit-pack build-v2 --sign/--encrypt` flags with external keyfile or passphrase environment variable.
+- `audit-pack verify-v2 --signature/--encrypted-pack` verification status for local crypto sidecars.
+- POST-H-013-D report and manifest.
+
+### Safety
+
+- No remote KMS, network, external APIs, remote execution, connector write, plugin execution or compliance certification claim.
+- Keyfiles inside the repository are blocked.
+- Crypto runs after redaction/build checks and cannot hide secret or integrity failures.
+
 
 ## [post-h-013-c] - 2026-06-27
 

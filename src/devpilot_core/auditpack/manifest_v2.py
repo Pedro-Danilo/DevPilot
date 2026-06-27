@@ -12,6 +12,16 @@ from typing import Any
 from devpilot_core.cli_models import CommandResult, ExitCode, Finding, Severity
 from devpilot_core.policy.path_guard import PathGuard
 
+from .crypto import (
+    AuditPackCryptoOptions,
+    build_encryption_report,
+    crypto_capabilities,
+    encrypt_bytes,
+    json_bytes as crypto_json_bytes,
+    load_local_key_material,
+    sha256_bytes as crypto_sha256_bytes,
+    sign_bytes,
+)
 from .redaction import AuditPackRedactionEntry, AuditPackRedactionScanner, build_redaction_report
 
 POST_H_013_B_CREATED_BY = "POST-H-013-B"
@@ -37,6 +47,10 @@ class AuditPackV2BuildOptions:
     policy_path: str = _DEFAULT_POLICY_PATH
     dry_run: bool = True
     execute: bool = False
+    sign_mode: str = "none"
+    encrypt_mode: str = "none"
+    crypto_keyfile: str | None = None
+    crypto_passphrase_env: str | None = None
 
 
 class AuditPackV2Builder:
@@ -64,7 +78,15 @@ class AuditPackV2Builder:
         if not rbac_result.ok:
             return rbac_result
 
-        findings: list[Finding] = []
+        crypto_options = AuditPackCryptoOptions(
+            sign_mode=options.sign_mode,
+            encrypt_mode=options.encrypt_mode,
+            keyfile=options.crypto_keyfile,
+            passphrase_env=options.crypto_passphrase_env,
+        )
+        crypto_findings, crypto_plan = self._plan_crypto(crypto_options)
+
+        findings: list[Finding] = [*crypto_findings]
         policy_result = self._load_policy(options.policy_path)
         if not policy_result.ok:
             return policy_result
@@ -145,6 +167,7 @@ class AuditPackV2Builder:
             excluded=excluded,
             redaction_report=redaction_report,
             status="blocked" if blocked else ("built" if options.execute else "implemented-initial"),
+            crypto_plan=crypto_plan,
         )
         manifest_bytes = _json_bytes(manifest)
 
@@ -189,6 +212,20 @@ class AuditPackV2Builder:
             "remote_execution_enabled": False,
             "connector_write_enabled": False,
             "plugin_execution_enabled": False,
+            "crypto_available": crypto_plan["crypto_available"],
+            "sign_requested": crypto_plan["sign_requested"],
+            "encrypt_requested": crypto_plan["encrypt_requested"],
+            "signed": False,
+            "encrypted": False,
+            "signature_path": None,
+            "encrypted_pack_path": None,
+            "crypto_report_path": None,
+            "crypto_key_source": crypto_plan["key_source"],
+            "crypto_key_fingerprint": crypto_plan["key_fingerprint"],
+            "signing_backend": crypto_plan["signing_backend"],
+            "encryption_backend": crypto_plan["encryption_backend"],
+            "remote_kms_used": False,
+            "keys_in_repo_used": False,
             "blocking_findings_total": _blocking_count(findings),
         }
 
@@ -198,7 +235,7 @@ class AuditPackV2Builder:
                 False,
                 _exit_code_from_findings(findings),
                 "Audit pack v2 build blocked by redaction or safety findings.",
-                data={"summary": summary, "manifest": manifest, "redaction_report": redaction_report},
+                data={"summary": summary, "manifest": manifest, "redaction_report": redaction_report, "crypto": _public_crypto_plan(crypto_plan)},
                 findings=findings,
             )
 
@@ -215,17 +252,43 @@ class AuditPackV2Builder:
                 archive.writestr(MANIFEST_V2_NAME, manifest_bytes)
             manifest_path.write_bytes(manifest_bytes)
             redaction_report_path.write_bytes(redaction_report_bytes)
+            pack_rel = _to_posix(pack_path.relative_to(self.root))
+            pack_sha256 = _sha256_file(pack_path)
+            crypto_result = self._write_optional_crypto_artifacts(
+                pack_path=pack_path,
+                pack_rel=pack_rel,
+                pack_id=pack_id,
+                pack_sha256=pack_sha256,
+                crypto_plan=crypto_plan,
+                output_dir=output_dir,
+            )
+            findings.extend(crypto_result["findings"])
+            if _has_blocking(crypto_result["findings"]):
+                summary.update({"blocking_findings_total": _blocking_count(findings)})
+                return CommandResult(
+                    "audit-pack build-v2",
+                    False,
+                    _exit_code_from_findings(findings),
+                    "Audit pack v2 build blocked by local crypto findings.",
+                    data={"summary": summary, "manifest": manifest, "redaction_report": redaction_report, "crypto": crypto_result},
+                    findings=findings,
+                )
             summary.update(
                 {
                     "status": "built",
-                    "pack_path": _to_posix(pack_path.relative_to(self.root)),
-                    "pack_sha256": _sha256_file(pack_path),
+                    "pack_path": pack_rel,
+                    "pack_sha256": pack_sha256,
                     "manifest_embedded": True,
                     "manifest_path": _to_posix(manifest_path.relative_to(self.root)),
                     "redaction_report_written": True,
                     "redaction_report_embedded": True,
                     "redaction_report_path": _to_posix(redaction_report_path.relative_to(self.root)),
                     "mutations_performed": True,
+                    "signed": crypto_result["signed"],
+                    "encrypted": crypto_result["encrypted"],
+                    "signature_path": crypto_result["signature_path"],
+                    "encrypted_pack_path": crypto_result["encrypted_pack_path"],
+                    "crypto_report_path": crypto_result["crypto_report_path"],
                 }
             )
             message = "Audit pack v2 built successfully under outputs/auditpacks."
@@ -251,7 +314,7 @@ class AuditPackV2Builder:
             True,
             ExitCode.PASS,
             message,
-            data={"summary": summary, "manifest": manifest, "redaction_report": redaction_report},
+            data={"summary": summary, "manifest": manifest, "redaction_report": redaction_report, "crypto": _public_crypto_plan(crypto_plan)},
             findings=findings,
         )
 
@@ -306,6 +369,163 @@ class AuditPackV2Builder:
 
         return sorted(selected), sorted(excluded.values(), key=lambda item: item["path"])
 
+
+    def _plan_crypto(self, options: AuditPackCryptoOptions) -> tuple[list[Finding], dict[str, Any]]:
+        findings: list[Finding] = []
+        sign_mode = _normalize_crypto_mode(options.sign_mode, field="sign")
+        encrypt_mode = _normalize_crypto_mode(options.encrypt_mode, field="encrypt")
+        capabilities = crypto_capabilities()
+        normalized_options = AuditPackCryptoOptions(
+            sign_mode=sign_mode,
+            encrypt_mode=encrypt_mode,
+            keyfile=options.keyfile,
+            passphrase_env=options.passphrase_env,
+        )
+        if sign_mode == "invalid" or encrypt_mode == "invalid":
+            findings.append(
+                Finding(
+                    "AUDIT_PACK_CRYPTO_MODE_INVALID",
+                    "Audit pack local crypto mode must be one of none, optional or required.",
+                    Severity.BLOCK,
+                    metadata={"sign_mode": options.sign_mode, "encrypt_mode": options.encrypt_mode},
+                )
+            )
+        key_material = load_local_key_material(self.root, normalized_options)
+        findings.extend(key_material.findings)
+        sign_requested = sign_mode in {"optional", "required"}
+        encrypt_requested = encrypt_mode in {"optional", "required"}
+        sign_planned = sign_requested and key_material.available and sign_mode != "invalid"
+        encrypt_planned = encrypt_requested and key_material.available and bool(capabilities["encryption_available"]) and encrypt_mode != "invalid"
+        if sign_mode == "required" and not sign_planned:
+            findings.append(
+                Finding(
+                    "AUDIT_PACK_CRYPTO_SIGN_REQUIRED_UNAVAILABLE",
+                    "Audit pack local signing was required but no usable local key material was available.",
+                    Severity.BLOCK,
+                    metadata={"key_source": key_material.source},
+                )
+            )
+        if encrypt_mode == "required" and not encrypt_planned:
+            findings.append(
+                Finding(
+                    "AUDIT_PACK_CRYPTO_ENCRYPT_REQUIRED_UNAVAILABLE",
+                    "Audit pack local encryption was required but the optional backend or key material was unavailable.",
+                    Severity.BLOCK,
+                    metadata={"encryption_available": capabilities["encryption_available"], "key_source": key_material.source},
+                )
+            )
+        if encrypt_mode == "optional" and encrypt_requested and key_material.available and not capabilities["encryption_available"]:
+            findings.append(
+                Finding(
+                    "AUDIT_PACK_CRYPTO_ENCRYPT_OPTIONAL_UNAVAILABLE",
+                    "Audit pack local encryption optional backend is unavailable; build continues without encryption.",
+                    Severity.WARNING,
+                    metadata={"remote_kms_used": False},
+                )
+            )
+        return findings, {
+            **capabilities,
+            "sign_mode": sign_mode,
+            "encrypt_mode": encrypt_mode,
+            "sign_requested": sign_requested,
+            "encrypt_requested": encrypt_requested,
+            "sign_planned": sign_planned,
+            "encrypt_planned": encrypt_planned,
+            "crypto_available": bool(capabilities["signing_available"] or capabilities["encryption_available"]),
+            "signature_algorithm": "hmac-sha256-local-keyfile-or-env" if sign_planned else None,
+            "encryption_algorithm": "fernet-sha256-derived-local-key" if encrypt_planned else None,
+            "key_source": key_material.source,
+            "key_fingerprint": key_material.fingerprint,
+            "key_material": key_material.value,
+            "findings": [finding.to_dict() for finding in findings],
+        }
+
+    def _write_optional_crypto_artifacts(
+        self,
+        *,
+        pack_path: Path,
+        pack_rel: str,
+        pack_id: str,
+        pack_sha256: str,
+        crypto_plan: dict[str, Any],
+        output_dir: Path,
+    ) -> dict[str, Any]:
+        findings: list[Finding] = []
+        key = crypto_plan.get("key_material")
+        result: dict[str, Any] = {
+            "created_by": "POST-H-013-D",
+            "status": "implemented-initial",
+            "signed": False,
+            "encrypted": False,
+            "signature_path": None,
+            "encrypted_pack_path": None,
+            "crypto_report_path": None,
+            "findings": findings,
+            "network_used": False,
+            "external_api_used": False,
+            "remote_kms_used": False,
+            "keys_in_repo_used": False,
+        }
+        if not key:
+            return result
+        pack_bytes = pack_path.read_bytes()
+        crypto_report: dict[str, Any] = {
+            "schema_version": "1.0",
+            "schema_id": "SCHEMA-DEVPL-AUDIT-PACK-LOCAL-CRYPTO-REPORT-V1",
+            "report_id": f"audit-pack-local-crypto-{pack_id}",
+            "pack_id": pack_id,
+            "created_by": "POST-H-013-D",
+            "status": "implemented-initial",
+            "preliminary": True,
+            "pack_path": pack_rel,
+            "pack_sha256": pack_sha256,
+            "signed": False,
+            "encrypted": False,
+            "signature_path": None,
+            "encrypted_pack_path": None,
+            "network_used": False,
+            "external_api_used": False,
+            "remote_kms_used": False,
+            "compliance_certification_claimed": False,
+        }
+        if crypto_plan.get("sign_planned"):
+            signature = sign_bytes(pack_bytes, key=key, pack_id=pack_id, signed_artifact=pack_rel)
+            signature_path = output_dir / f"{pack_id}.sig.json"
+            signature_path.write_bytes(crypto_json_bytes(signature))
+            result["signed"] = True
+            result["signature_path"] = _to_posix(signature_path.relative_to(self.root))
+            crypto_report.update({"signed": True, "signature_path": result["signature_path"], "signature_algorithm": signature["algorithm"]})
+        if crypto_plan.get("encrypt_planned"):
+            encrypted_bytes, finding = encrypt_bytes(pack_bytes, key=key)
+            if finding is not None:
+                findings.append(finding)
+            if encrypted_bytes is not None:
+                encrypted_path = output_dir / f"{pack_id}.zip.fernet"
+                encrypted_path.write_bytes(encrypted_bytes)
+                encrypted_report = build_encryption_report(
+                    pack_id=pack_id,
+                    source_pack=pack_rel,
+                    encrypted_artifact=_to_posix(encrypted_path.relative_to(self.root)),
+                    plaintext_sha256=pack_sha256,
+                    encrypted_sha256=crypto_sha256_bytes(encrypted_bytes),
+                    key_fingerprint=crypto_plan.get("key_fingerprint"),
+                )
+                encryption_report_path = output_dir / f"{pack_id}_encryption_report.json"
+                encryption_report_path.write_bytes(crypto_json_bytes(encrypted_report))
+                result["encrypted"] = True
+                result["encrypted_pack_path"] = _to_posix(encrypted_path.relative_to(self.root))
+                crypto_report.update({
+                    "encrypted": True,
+                    "encrypted_pack_path": result["encrypted_pack_path"],
+                    "encryption_report_path": _to_posix(encryption_report_path.relative_to(self.root)),
+                    "encryption_algorithm": encrypted_report["algorithm"],
+                })
+        if result["signed"] or result["encrypted"]:
+            crypto_report_path = output_dir / f"{pack_id}_crypto_report.json"
+            crypto_report_path.write_bytes(crypto_json_bytes(crypto_report))
+            result["crypto_report_path"] = _to_posix(crypto_report_path.relative_to(self.root))
+        return result
+
     def _manifest(
         self,
         *,
@@ -315,6 +535,7 @@ class AuditPackV2Builder:
         excluded: list[dict[str, Any]],
         redaction_report: dict[str, Any],
         status: str,
+        crypto_plan: dict[str, Any],
     ) -> dict[str, Any]:
         base = {
             "schema_version": "2.0",
@@ -342,10 +563,10 @@ class AuditPackV2Builder:
             "integrity": {
                 "algorithm": "sha256",
                 "manifest_hash": _DEFAULT_MANIFEST_HASH_PLACEHOLDER,
-                "signed": False,
-                "encrypted": False,
-                "signature_algorithm": None,
-                "encryption_algorithm": None,
+                "signed": bool(crypto_plan.get("sign_planned", False)),
+                "encrypted": bool(crypto_plan.get("encrypt_planned", False)),
+                "signature_algorithm": crypto_plan.get("signature_algorithm"),
+                "encryption_algorithm": crypto_plan.get("encryption_algorithm"),
                 "manifest_hash_source": "canonical-json-before-final-hash-injection",
             },
             "safety": {
@@ -357,9 +578,23 @@ class AuditPackV2Builder:
                 "connector_write_enabled": False,
                 "plugin_execution_enabled": False,
             },
+            "crypto": {
+                "created_by": "POST-H-013-D",
+                "status": "implemented-initial",
+                "preliminary": True,
+                "crypto_available": bool(crypto_plan.get("crypto_available", False)),
+                "sign_requested": bool(crypto_plan.get("sign_requested", False)),
+                "encrypt_requested": bool(crypto_plan.get("encrypt_requested", False)),
+                "sign_planned": bool(crypto_plan.get("sign_planned", False)),
+                "encrypt_planned": bool(crypto_plan.get("encrypt_planned", False)),
+                "key_source": crypto_plan.get("key_source"),
+                "key_fingerprint_sha256_16": crypto_plan.get("key_fingerprint"),
+                "remote_kms_used": False,
+                "keys_in_repo_used": False,
+            },
             "notes": [
                 "POST-H-013-B implements the first audit pack v2 builder with dry-run default and execute flag.",
-                "Signing, encryption and received-pack verification are intentionally deferred to later POST-H-013 micro-sprints.",
+                "POST-H-013-D adds optional local signing/encryption planning and sidecar artifacts without remote KMS.",
                 "This artifact is local evidence only and does not claim SOC2, ISO or enterprise compliance certification.",
             ],
         }
@@ -374,6 +609,15 @@ class AuditPackV2Builder:
         if result.ok:
             return CommandResult("audit-pack build-v2 rbac", True, ExitCode.PASS, "Audit pack v2 actor is authorized.", data=result.data, findings=[])
         return CommandResult("audit-pack build-v2", False, result.exit_code, "Audit pack v2 actor is not authorized.", data=result.data, findings=result.findings)
+
+
+def _public_crypto_plan(plan: dict[str, Any]) -> dict[str, Any]:
+    return {key: value for key, value in plan.items() if key != "key_material"}
+
+
+def _normalize_crypto_mode(value: str, *, field: str) -> str:
+    normalized = (value or "none").strip().lower()
+    return normalized if normalized in {"none", "optional", "required"} else "invalid"
 
 
 def _resolve_mode(options: AuditPackV2BuildOptions) -> CommandResult | None:

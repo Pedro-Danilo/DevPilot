@@ -16,7 +16,7 @@ approval_scope: "SPRINT-PRECODE-05 quality operations baseline"
 
 # Runbook — DevPilot Local
 
-Hito operativo activo: `POST-H-013 — Audit pack integrity`; último hito cerrado: `POST-H-012 — Approval/RBAC hardening`; último micro-sprint implementado: `POST-H-013-C — Verifier v2 de integridad local`; siguiente micro-sprint: `POST-H-013-D — Firma y cifrado local opcional`.
+Hito operativo activo: `POST-H-013 — Audit pack integrity`; último hito cerrado: `POST-H-012 — Approval/RBAC hardening`; último micro-sprint implementado: `POST-H-013-D — Firma y cifrado local opcional`; siguiente micro-sprint: `POST-H-013-E — Quality gate, runbook y disclaimers`.
 
 
 ## POST-H-013-A — Audit pack manifest v2 y policy
@@ -8169,3 +8169,28 @@ BLOCK operativo:
 ```
 
 Limitación explícita: esta versión no firma ni cifra; POST-H-013-D cubre crypto local opcional. La integración de subgate final queda para POST-H-013-E.
+
+
+## POST-H-013-D — Firma y cifrado local opcional
+
+Estado: `implemented-initial`.
+
+Uso operativo focal:
+
+```powershell
+python -m devpilot_core audit-pack build-v2 --dry-run --sign optional --encrypt optional --json
+python -m devpilot_core audit-pack build-v2 --execute --sign optional --encrypt optional --crypto-keyfile C:\ruta\externa\auditpack.key --json
+python -m devpilot_core audit-pack verify-v2 --pack outputs/auditpacks/<pack>.zip --signature outputs/auditpacks/<pack>.sig.json --encrypted-pack outputs/auditpacks/<pack>.zip.fernet --crypto-keyfile C:\ruta\externa\auditpack.key --json
+```
+
+PASS operativo:
+
+```text
+- El modo sin crypto continúa funcionando.
+- Firma/cifrado requieren bandera explícita.
+- Las claves no se almacenan en el repo.
+- `remote_kms_used=false`, `network_used=false`, `external_api_used=false`.
+- `verify-v2` reporta `signature_verified` y `encryption_verified` cuando se entregan sidecars y key material.
+```
+
+Limitación explícita: no hay PKI enterprise, certificados, KMS cloud ni compliance certification claim. POST-H-013-E integra el gate final.

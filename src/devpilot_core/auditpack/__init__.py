@@ -6,6 +6,7 @@ __all__ = [
     "AuditPackVerifyOptions",
     "AuditPackV2BuildOptions",
     "AuditPackV2Builder",
+    "AuditPackCryptoOptions",
     "AuditPackV2VerifyOptions",
     "AuditPackV2Verifier",
 ]
@@ -29,6 +30,10 @@ def __getattr__(name: str):
             "AuditPackV2Builder": AuditPackV2Builder,
         }
         return mapping[name]
+    if name in {"AuditPackCryptoOptions"}:
+        from .crypto import AuditPackCryptoOptions
+
+        return AuditPackCryptoOptions
     if name in {"AuditPackV2VerifyOptions", "AuditPackV2Verifier"}:
         from .verify_v2 import AuditPackV2VerifyOptions, AuditPackV2Verifier
 

@@ -1,0 +1,75 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "SCHEMA-DEVPL-POST-H-MANIFEST-V1",
+  "post_h_id": "POST-H-013",
+  "micro_sprint": "POST-H-013-D",
+  "title": "POST-H-013-D — Firma y cifrado local opcional",
+  "status": "implemented-initial",
+  "phase": "POST-FASE-H",
+  "implemented_at": "2026-06-27T00:00:00Z",
+  "created_files": [
+    "src/devpilot_core/auditpack/crypto.py",
+    "docs/audits/post_h_013_d_crypto_optional_report.md",
+    "docs/post_h_013_d_manifest.json"
+  ],
+  "modified_files": [
+    "src/devpilot_core/auditpack/manifest_v2.py",
+    "src/devpilot_core/auditpack/verify_v2.py",
+    "src/devpilot_core/auditpack/__init__.py",
+    "src/devpilot_core/cli.py",
+    "tests/test_post_h_013_audit_pack_integrity.py",
+    "tests/test_audit_pack_manifest_v2_schema.py",
+    "tests/test_project_global_state.py",
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/05_operations/audit_pack_runbook.md",
+    "docs/backlogs/POST-H-013_audit_pack_integrity.md",
+    "docs/POST-H-013_audit_pack_integrity.md",
+    "docs/03_security/post_h_security_risk_register.md",
+    ".devpilot/testing/test_contract_registry.json",
+    ".devpilot/testing/test_contract_registry_v2.json",
+    ".devpilot/docs_governance/source_registry.json",
+    ".devpilot/project_state.json",
+    "docs/release/CHANGELOG.md"
+  ],
+  "commands": [
+    "python -m pytest -p no:ddtrace tests/test_post_h_013_audit_pack_integrity.py tests/test_audit_pack_manifest_v2_schema.py -q",
+    "python -m devpilot_core audit-pack build-v2 --dry-run --sign optional --encrypt optional --json",
+    "python -m devpilot_core audit-pack build-v2 --execute --sign optional --encrypt optional --crypto-keyfile C:/external/auditpack.key --json",
+    "python -m devpilot_core audit-pack verify-v2 --pack outputs/auditpacks/audit-pack-v2.zip --signature outputs/auditpacks/audit-pack-v2.sig.json --encrypted-pack outputs/auditpacks/audit-pack-v2.zip.fernet --crypto-keyfile C:/external/auditpack.key --json",
+    "python -m devpilot_core test-contracts validate --json",
+    "python -m devpilot_core test-contracts validate-v2 --json"
+  ],
+  "tests": [
+    "tests/test_post_h_013_audit_pack_integrity.py",
+    "tests/test_audit_pack_manifest_v2_schema.py"
+  ],
+  "pass_criteria": [
+    "modo sin crypto sigue funcionando",
+    "firma/cifrado opcional requiere bandera explícita",
+    "verify-v2 reporta signature_verified y encryption_verified cuando se entregan sidecars",
+    "no hay KMS remoto, red ni APIs externas"
+  ],
+  "block_criteria": [
+    "crypto requiere servicio externo",
+    "keyfile dentro del repo pasa",
+    "encryption oculta errores de redacción o secretos",
+    "sign/encrypt required pasa sin key/backend"
+  ],
+  "risks": [
+    "HMAC local es una primera capa de autenticidad, no PKI enterprise.",
+    "Fernet depende de cryptography y se degrada explícitamente en modo optional si no está disponible.",
+    "El subgate final queda para POST-H-013-E."
+  ],
+  "next_sprint": "POST-H-013",
+  "next_micro_sprint": "POST-H-013-E",
+  "current_repo": "repo_DevPilot_Local_199_POST_H_013_D.zip",
+  "preliminary": true,
+  "local_first": true,
+  "dry_run": true,
+  "network_used": false,
+  "external_api_used": false,
+  "remote_execution_enabled": false,
+  "connector_write_enabled": false,
+  "plugin_execution_enabled": false
+}
