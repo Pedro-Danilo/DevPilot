@@ -2,11 +2,11 @@
 title: "Runbook — DevPilot Local"
 doc_id: "DEVPL-OPS-002"
 status: "approved"
-version: "1.47.0"
+version: "1.48.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "POST-H-013-E"
+phase: "POST-H-014-A"
 updated: "2026-06-27"
 approval: "approved_by_owner"
 source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved + 03_security approved"
@@ -16,7 +16,39 @@ approval_scope: "SPRINT-PRECODE-05 quality operations baseline"
 
 # Runbook — DevPilot Local
 
-Último hito cerrado: `POST-H-013 — Audit pack integrity`; hito operativo activo: `POST-H-014 — UI/API industrial shell`; último micro-sprint implementado: `POST-H-013-E — Quality gate, runbook y disclaimers`; siguiente hito: `POST-H-014 — UI/API industrial shell`.
+Último hito cerrado: `POST-H-013 — Audit pack integrity`; hito operativo activo: `POST-H-014 — UI/API industrial shell`; último micro-sprint implementado: `POST-H-014-A — Route Contract Registry y API inventory`; siguiente hito: `POST-H-014 — UI/API industrial shell`.
+
+
+## POST-H-014-A — Route Contract Registry y API inventory
+
+Objetivo operativo: aprobar POST-H-014 y contractar la superficie FastAPI local `/api/v1/*` antes de modificar response mapping, UI, seguridad local o quality gates.
+
+Comandos de verificación:
+
+```powershell
+python -m devpilot_core schema validate --schema-id ApiRouteContractRegistry --instance .devpilot/interfaces/api_route_contract_registry.json --json
+python -m pytest -p no:ddtrace tests/test_post_h_014_api_route_contracts.py tests/test_schema_registry.py -q
+python -m devpilot_core test-contracts validate --json
+python -m devpilot_core test-contracts validate-v2 --json
+```
+
+Criterios PASS:
+
+```text
+PASS si toda ruta FastAPI /api/v1/* aparece en el registry.
+PASS si toda ruta no pública exige auth y policy.
+PASS si toda ruta ApplicationService-backed declara ApplicationResponse.
+PASS si rutas con mutación local tienen justificación explícita y no son destructivas.
+PASS si remote execution, connector write, plugin execution y external APIs están bloqueados en todos los contratos.
+```
+
+Criterios BLOCK:
+
+```text
+BLOCK si hay ruta no registrada, contrato obsoleto, ruta sensible sin auth/policy o cualquier no-go gate habilitado.
+```
+
+Límites: versión `implemented-initial`. Response mapping queda para POST-H-014-B; UI routes para POST-H-014-C; security hardening local para POST-H-014-D; quality gate final para POST-H-014-E.
 
 
 ## POST-H-013-A — Audit pack manifest v2 y policy

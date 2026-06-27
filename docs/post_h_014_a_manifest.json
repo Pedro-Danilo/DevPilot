@@ -1,0 +1,110 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "SCHEMA-DEVPL-POST-H-MANIFEST-V1",
+  "post_h_id": "POST-H-014",
+  "id": "POST-H-014-A",
+  "title": "POST-H-014-A — Route Contract Registry y API inventory",
+  "status": "implemented-initial",
+  "phase": "POST-FASE-H",
+  "implemented_at": "2026-06-27",
+  "created_files": [
+    "docs/schemas/api_route_contract_registry.schema.json",
+    ".devpilot/interfaces/api_route_contract_registry.json",
+    "src/devpilot_core/interfaces/api/contracts.py",
+    "src/devpilot_core/interfaces/api/route_registry.py",
+    "tests/test_post_h_014_api_route_contracts.py",
+    "docs/07_interfaces/ui_api_industrial_shell.md",
+    "docs/05_operations/ui_api_local_runbook.md",
+    "docs/audits/post_h_014_a_api_route_contract_registry_report.md",
+    "docs/POST-H-014_ui_api_industrial_shell.md",
+    "docs/post_h_014_a_manifest.json"
+  ],
+  "modified_files": [
+    "src/devpilot_core/interfaces/api/__init__.py",
+    "docs/schemas/schema_catalog.json",
+    "docs/backlogs/POST-H-014_ui_api_industrial_shell.md",
+    ".devpilot/docs_governance/source_registry.json",
+    ".devpilot/project_state.json",
+    ".devpilot/testing/test_contract_registry.json",
+    ".devpilot/testing/test_contract_registry_v2.json",
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/release/CHANGELOG.md",
+    "tests/test_schema_registry.py",
+    "tests/test_project_global_state.py"
+  ],
+  "validation_commands": [
+    "python -m pytest -p no:ddtrace tests/test_post_h_014_api_route_contracts.py tests/test_schema_registry.py tests/test_project_global_state.py -q",
+    "python -m pytest -p no:ddtrace tests/test_documentation_governance_backlogs.py tests/test_documentation_governance_validator.py tests/test_test_contract_registry.py tests/test_test_contract_registry_v2.py tests/test_test_contract_registry_profiles_v2.py -q",
+    "python -m devpilot_core schema validate --schema-id ApiRouteContractRegistry --instance .devpilot/interfaces/api_route_contract_registry.json --json",
+    "python -m devpilot_core schema validate --schema-id PostHManifest --instance docs/post_h_014_a_manifest.json --json",
+    "python -m devpilot_core docs-governance validate --json",
+    "python -m devpilot_core test-contracts validate --json",
+    "python -m devpilot_core test-contracts validate-v2 --json"
+  ],
+  "safety": {
+    "local_first": true,
+    "dry_run_default": true,
+    "network_used": false,
+    "external_api_used": false,
+    "remote_execution_enabled": false,
+    "connector_write_enabled": false,
+    "plugin_execution_enabled": false,
+    "source_mutations_performed": true,
+    "runtime_outputs_required": false
+  },
+  "capabilities_added": [
+    "Contract-driven FastAPI route inventory",
+    "ApiRouteContractRegistry schema and registry",
+    "Read-only route registry validator",
+    "Route risk/auth/policy/mutation classification",
+    "API route consistency tests against FastAPI route tree"
+  ],
+  "limits": [
+    "implemented-initial only",
+    "Response mapping deferred to POST-H-014-B",
+    "UI route contracts deferred to POST-H-014-C",
+    "API/UI local security hardening deferred to POST-H-014-D",
+    "Quality gate UI/API final subgate deferred to POST-H-014-E"
+  ],
+  "next_sprint": "POST-H-014",
+  "next_micro_sprint": "POST-H-014-B",
+  "commands": [
+    "python -m devpilot_core schema validate --schema-id ApiRouteContractRegistry --instance .devpilot/interfaces/api_route_contract_registry.json --json",
+    "python -m pytest -p no:ddtrace tests/test_post_h_014_api_route_contracts.py tests/test_schema_registry.py tests/test_project_global_state.py -q",
+    "python -m devpilot_core docs-governance validate --json",
+    "python -m devpilot_core test-contracts validate --json",
+    "python -m devpilot_core test-contracts validate-v2 --json"
+  ],
+  "tests": [
+    "tests/test_post_h_014_api_route_contracts.py",
+    "tests/test_schema_registry.py",
+    "tests/test_project_global_state.py",
+    "tests/test_documentation_governance_backlogs.py",
+    "tests/test_documentation_governance_validator.py",
+    "tests/test_test_contract_registry.py",
+    "tests/test_test_contract_registry_v2.py",
+    "tests/test_test_contract_registry_profiles_v2.py"
+  ],
+  "pass_criteria": [
+    "Every FastAPI /api/v1 route is registered in ApiRouteContractRegistry.",
+    "Every non-public API route is auth-required, policy-bound and ApplicationService-backed.",
+    "No route allows remote execution, connector write, plugin execution or external APIs.",
+    "Mutating routes are limited to local Approval lifecycle and include explicit justification.",
+    "Schema, documentation governance and test contract registries pass locally."
+  ],
+  "block_criteria": [
+    "Unregistered FastAPI API route or stale registry route.",
+    "Sensitive route without auth_required or policy_check_required.",
+    "ApplicationService-backed route without ApplicationResponse contract.",
+    "Any remote_execution_allowed, connector_write_allowed, plugin_execution_allowed or external_api_allowed flag set to true.",
+    "Mutating route without explicit local-state justification."
+  ],
+  "risks": [
+    "Implemented-initial registry can drift if future routes are added without updating contracts and tests.",
+    "Public OpenAPI/docs/health routes remain local-only but are intentionally unauthenticated.",
+    "Approval lifecycle routes mutate local state and must remain policy-bound and non-destructive.",
+    "Response mapping, UI contracts, additional security hardening and quality-gate subgate remain pending in POST-H-014-B/C/D/E."
+  ],
+  "preliminary": true
+}

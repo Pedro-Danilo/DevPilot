@@ -8,8 +8,8 @@
   "last_completed_sprint": "POST-H-013",
   "last_functional_sprint": "FUNC-SPRINT-99",
   "next_sprint": "POST-H-014",
-  "source_repo": "repo_DevPilot_Local_198_POST_H_013_C.zip",
-  "current_repo": "repo_DevPilot_Local_199_POST_H_013_D.zip",
+  "source_repo": "repo_DevPilot_Local_200_POST_H_013_E.zip",
+  "current_repo": "repo_DevPilot_Local_201_POST_H_014_A.zip",
   "global_state_owner": "tests/test_project_global_state.py",
   "mutable_global_state_fields": [
     "last_completed_sprint",
@@ -17,7 +17,9 @@
     "source_repo",
     "current_repo",
     "maturity_level",
-    "phase_h_status"
+    "phase_h_status",
+    "current_micro_sprint",
+    "next_micro_sprint"
   ],
   "notes": [
     "POST-H-002 closes the local maturity dashboard based on POST-H-EVAL-001 evidence and exposes a maturity-dashboard quality gate.",
@@ -76,6 +78,10 @@
     "POST-H-013-C adds AuditPackV2Verifier with local manifest schema validation, manifest self-hash verification, SHA-256 file verification, missing-file detection, extra-member detection and integrity report generation under outputs/auditpacks; optional signing and encryption are implemented in POST-H-013-D.",
     "POST-H-013-D adds optional local crypto for audit packs: HMAC-SHA256 sidecar signing, optional Fernet encryption when available, verify-v2 crypto status reporting, no remote KMS and no repo-stored keys.",
     "POST-H-013-E closes Audit pack integrity as implemented-initial: audit-pack-integrity is bound to hardening/industrial quality-gate profiles and validates policy, no-go gates, redaction report, build-v2 dry-run, TCR registration and no-certification docs without writing packs or enabling network, external APIs, KMS, remote execution, connector write or plugin execution.",
-    "POST-H-014 is the next prioritized hito: UI/API industrial shell."
-  ]
+    "POST-H-014 is the next prioritized hito: UI/API industrial shell.",
+    "POST-H-014-A approves UI/API industrial shell and adds ApiRouteContractRegistry for local FastAPI route inventory.",
+    "POST-H-014-B is the next micro-sprint: Response mapping y errores homogéneos."
+  ],
+  "current_micro_sprint": "POST-H-014-A",
+  "next_micro_sprint": "POST-H-014-B"
 }

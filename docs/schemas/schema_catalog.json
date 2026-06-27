@@ -780,6 +780,23 @@
       "local_first": true,
       "dry_run_default": true,
       "no_remote_execution_enabled": true
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-API-ROUTE-CONTRACT-REGISTRY-V1",
+      "title": "DevPilot API Route Contract Registry v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/api_route_contract_registry.schema.json",
+      "description": "POST-H-014-A local-first schema for FastAPI route contract registry, ApplicationService binding, auth/policy requirements and UI/API no-go safety flags.",
+      "status": "registered",
+      "owner": "Ordóñez",
+      "sprint": "POST-H-014-A",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "contract": "ApiRouteContractRegistry",
+      "validation_enabled_sprint": "POST-H-014-A",
+      "local_first": true,
+      "dry_run_default": true,
+      "no_remote_execution_enabled": true
     }
   ]
 }

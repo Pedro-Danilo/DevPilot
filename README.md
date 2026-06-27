@@ -1,5 +1,19 @@
 ## POST-H-013-E — Quality gate, runbook y disclaimers
 
+## POST-H-014-A — Route Contract Registry y API inventory
+
+Estado: `implemented-initial`. POST-H-014 queda aprobado y activo como hito `UI/API industrial shell`. Este micro-sprint crea el contrato local inicial para la API FastAPI: `ApiRouteContractRegistry`, schema, registry JSON y validador read-only para asegurar que toda ruta `/api/v1/*` esté inventariada, asociada a ApplicationService cuando corresponde, policy-bound, local-only y sin remote execution, connector write, plugin execution ni external APIs.
+
+Artefactos principales: `docs/schemas/api_route_contract_registry.schema.json`, `.devpilot/interfaces/api_route_contract_registry.json`, `src/devpilot_core/interfaces/api/contracts.py`, `src/devpilot_core/interfaces/api/route_registry.py`, `tests/test_post_h_014_api_route_contracts.py`, `docs/07_interfaces/ui_api_industrial_shell.md` y `docs/05_operations/ui_api_local_runbook.md`.
+
+Límites: esta versión es preliminar/implemented-initial; POST-H-014-B debe normalizar response mapping y errores HTTP; POST-H-014-C debe contractar UI routes; POST-H-014-D debe endurecer seguridad local; POST-H-014-E debe integrar el quality gate final.
+
+Último hito: `POST-H-013 — Audit pack integrity`
+Siguiente hito: `POST-H-014 — UI/API industrial shell`
+Último micro-sprint implementado: `POST-H-014-A — Route Contract Registry y API inventory`
+Siguiente micro-sprint: `POST-H-014-B — Response mapping y errores homogéneos`
+
+
 Estado: `implemented-initial`. DevPilot cierra `POST-H-013 — Audit pack integrity` con el subgate `audit-pack-integrity`, integrado en `quality-gate run --profile hardening` e `industrial`.
 
 Capacidades añadidas:
@@ -100,7 +114,7 @@ Hito activo: `POST-H-014 — UI/API industrial shell`
 Siguiente hito: `POST-H-014 — UI/API industrial shell`
 Último hito cerrado: `POST-H-013 — Audit pack integrity`  
 Siguiente hito: `POST-H-014 — UI/API industrial shell`  
-Último micro-sprint implementado: `POST-H-013-E — Quality gate, runbook y disclaimers`  
+Último micro-sprint implementado: `POST-H-014-A — Route Contract Registry y API inventory`  
 Hito diagnóstico cerrado: `POST-H-EVAL-001 — Evaluación integral del baseline DevPilot post-Fase H`, cierre formal `POST-H-EVAL-001-G`  
 Hito cerrado: `POST-H-012 — Approval/RBAC hardening`
 Hito cerrado: `POST-H-011 — RAG groundedness evals`  

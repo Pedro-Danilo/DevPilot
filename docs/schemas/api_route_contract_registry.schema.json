@@ -1,0 +1,123 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/SCHEMA-DEVPL-API-ROUTE-CONTRACT-REGISTRY-V1",
+  "title": "DevPilot API Route Contract Registry v1",
+  "description": "POST-H-014-A local-first schema for contract-driven inventory of local FastAPI routes, ApplicationService binding, policy/auth requirements and no-go safety flags.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "schema_id",
+    "registry_id",
+    "status",
+    "created_by",
+    "updated",
+    "routes",
+    "summary",
+    "safety"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "schema_id": {"const": "SCHEMA-DEVPL-API-ROUTE-CONTRACT-REGISTRY-V1"},
+    "registry_id": {"type": "string", "minLength": 1},
+    "status": {"type": "string", "enum": ["draft", "approved", "implemented-initial", "closed"]},
+    "created_by": {"type": "string", "minLength": 1},
+    "updated": {"type": "string", "minLength": 1},
+    "routes": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/api_route_contract"}
+    },
+    "summary": {
+      "type": "object",
+      "required": ["routes_total", "protected_routes_total", "public_routes_total", "mutating_routes_total", "application_service_routes_total", "policy_bound_routes_total", "remote_execution_allowed_total", "connector_write_allowed_total", "plugin_execution_allowed_total"],
+      "properties": {
+        "routes_total": {"type": "integer", "minimum": 0},
+        "protected_routes_total": {"type": "integer", "minimum": 0},
+        "public_routes_total": {"type": "integer", "minimum": 0},
+        "mutating_routes_total": {"type": "integer", "minimum": 0},
+        "application_service_routes_total": {"type": "integer", "minimum": 0},
+        "policy_bound_routes_total": {"type": "integer", "minimum": 0},
+        "remote_execution_allowed_total": {"type": "integer", "minimum": 0},
+        "connector_write_allowed_total": {"type": "integer", "minimum": 0},
+        "plugin_execution_allowed_total": {"type": "integer", "minimum": 0}
+      },
+      "additionalProperties": true
+    },
+    "safety": {
+      "type": "object",
+      "required": ["local_first", "dry_run_default", "network_used", "external_api_used", "remote_execution_enabled", "connector_write_enabled", "plugin_execution_enabled"],
+      "properties": {
+        "local_first": {"const": true},
+        "dry_run_default": {"const": true},
+        "network_used": {"const": false},
+        "external_api_used": {"const": false},
+        "remote_execution_enabled": {"const": false},
+        "connector_write_enabled": {"const": false},
+        "plugin_execution_enabled": {"const": false}
+      },
+      "additionalProperties": true
+    },
+    "notes": {"type": "array", "items": {"type": "string"}}
+  },
+  "$defs": {
+    "api_route_contract": {
+      "type": "object",
+      "required": [
+        "route_id",
+        "method",
+        "path",
+        "operation",
+        "application_service_required",
+        "policy_check_required",
+        "auth_required",
+        "local_only",
+        "dry_run_only",
+        "mutations_allowed",
+        "external_api_allowed",
+        "remote_execution_allowed",
+        "connector_write_allowed",
+        "plugin_execution_allowed",
+        "response_contract",
+        "risk_level",
+        "owner"
+      ],
+      "properties": {
+        "route_id": {"type": "string", "pattern": "^api\\.[a-z0-9_.-]+$"},
+        "method": {"type": "string", "enum": ["GET", "POST", "PUT", "PATCH", "DELETE"]},
+        "path": {"type": "string", "pattern": "^/api/v1(/|$).+"},
+        "operation": {"type": "string", "minLength": 1},
+        "application_service_required": {"type": "boolean"},
+        "policy_check_required": {"type": "boolean"},
+        "auth_required": {"type": "boolean"},
+        "public": {"type": "boolean"},
+        "local_only": {"const": true},
+        "dry_run_only": {"type": "boolean"},
+        "mutations_allowed": {"type": "boolean"},
+        "local_state_mutation_allowed": {"type": "boolean"},
+        "mutation_exception_justification": {"type": "string"},
+        "destructive_action_allowed": {"type": "boolean"},
+        "external_api_allowed": {"const": false},
+        "remote_execution_allowed": {"const": false},
+        "connector_write_allowed": {"const": false},
+        "plugin_execution_allowed": {"const": false},
+        "response_contract": {"type": "string", "minLength": 1},
+        "risk_level": {"type": "string", "enum": ["low", "medium", "high", "critical"]},
+        "owner": {"type": "string", "minLength": 1},
+        "router_module": {"type": "string"},
+        "policy_action": {"type": "string"},
+        "policy_sensitivity": {"type": "string"},
+        "path_subject": {"type": ["string", "null"]},
+        "tags": {"type": "array", "items": {"type": "string"}},
+        "notes": {"type": "array", "items": {"type": "string"}}
+      },
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": false,
+  "x-devpilot-schema-id": "SCHEMA-DEVPL-API-ROUTE-CONTRACT-REGISTRY-V1",
+  "x-devpilot-version": "1.0.0",
+  "x-devpilot-sprint": "POST-H-014-A",
+  "x-devpilot-status": "registered",
+  "x-devpilot-preliminary": true,
+  "x-devpilot-note": "Schema for the initial local API route contract registry. UI route contracts are intentionally deferred to POST-H-014-C."
+}

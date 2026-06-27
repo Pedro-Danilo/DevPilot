@@ -1,3 +1,17 @@
+## [post-h-014-a] - 2026-06-27
+
+Estado de proyecto: `last_completed_sprint=POST-H-013`; `next_sprint=POST-H-014`; `current_micro_sprint=POST-H-014-A`; `next_micro_sprint=POST-H-014-B`.
+
+### Added
+- Approved `POST-H-014 — UI/API industrial shell` backlog.
+- Added `ApiRouteContractRegistry` schema and `.devpilot/interfaces/api_route_contract_registry.json` covering 32 local FastAPI `/api/v1/*` routes.
+- Added read-only `ApiRouteContractRegistryValidator` and POST-H-014-A API route contract tests.
+- Added UI/API shell interface documentation and local runbook.
+
+### Safety
+- No remote execution, connector write, plugin execution, public internet exposure or external APIs enabled.
+- Mutating routes are limited to local Approval lifecycle and require explicit justification, auth and policy binding.
+
 ## [post-h-013-e] - 2026-06-27
 
 Estado de proyecto: `last_completed_sprint=POST-H-013`; `next_sprint=POST-H-014`.

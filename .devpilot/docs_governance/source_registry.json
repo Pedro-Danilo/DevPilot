@@ -862,7 +862,7 @@
       "classification": "derived",
       "domain": "roadmap-derived-backlog",
       "owner": "Ordóñez",
-      "status_required": "draft",
+      "status_required": "approved",
       "criticality": "P1",
       "machine_readable_counterparts": [
         ".devpilot/evals/post_h_eval_001_prioritized_roadmap.json"
@@ -872,7 +872,8 @@
       ],
       "derived_documents": [],
       "required_tests": [
-        "tests/test_documentation_governance_backlogs.py"
+        "tests/test_documentation_governance_backlogs.py",
+        "tests/test_post_h_014_api_route_contracts.py"
       ],
       "sync_rules": [
         "backlog_naming",
@@ -883,10 +884,11 @@
       "roadmap_milestones": [
         "POST-H-014"
       ],
-      "lifecycle": "planned",
+      "lifecycle": "active",
       "notes": [
         "Roadmap-derived executable backlog governed by POST-H-009-D.",
-        "Missing future backlog files are informational planned items; existing files must pass naming and frontmatter checks."
+        "Missing future backlog files are informational planned items; existing files must pass naming and frontmatter checks.",
+        "POST-H-014 approved and started by POST-H-014-A with API route contract registry implemented-initial."
       ]
     },
     {
