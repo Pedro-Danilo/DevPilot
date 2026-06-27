@@ -3883,6 +3883,43 @@
         "python -m devpilot_core identity exposure --json --write-report",
         "python -m devpilot_core schema validate --schema-id RbacExposureReport --instance outputs/reports/approval_rbac_exposure.json --json"
       ]
+    },
+    {
+      "contract_id": "post-h-012-policy-engine-enforcement",
+      "scope": "integration",
+      "owner": "POST-H-012-D",
+      "test_files": [
+        "tests/test_policy_engine_approval_rbac_enforcement.py",
+        "tests/test_policy_engine.py",
+        "tests/test_approval_binding.py",
+        "tests/test_rbac_exposure.py",
+        "tests/test_post_h_012_approval_rbac_hardening.py"
+      ],
+      "validates": [
+        "src/devpilot_core/policy/engine.py",
+        "src/devpilot_core/approval/policy.py",
+        "src/devpilot_core/cli.py",
+        ".devpilot/approval/sensitive_action_catalog.json",
+        ".devpilot/identity/identity_registry.json",
+        "docs/audits/post_h_012_d_policy_engine_enforcement_report.md",
+        "docs/post_h_012_d_manifest.json"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/policy/",
+        "src/devpilot_core/approval/",
+        "src/devpilot_core/identity/",
+        ".devpilot/approval/sensitive_action_catalog.json",
+        ".devpilot/identity/identity_registry.json",
+        "docs/backlogs/POST-H-012_approval_rbac_hardening.md",
+        "tests/test_policy_engine_approval_rbac_enforcement.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace tests/test_policy_engine_approval_rbac_enforcement.py tests/test_policy_engine.py tests/test_approval_binding.py tests/test_rbac_exposure.py -q",
+        "python -m devpilot_core schema validate --schema-id PostHManifest --instance docs/post_h_012_d_manifest.json --json"
+      ]
     }
   ],
   "notes": [

@@ -1,5 +1,23 @@
 # Changelog
 
+## [post-h-012-d] - 2026-06-27
+
+### Added
+- Added homogeneous Approval/RBAC enforcement in `PolicyEngine` for sensitive catalog actions.
+- Added normalized findings `APPROVAL_REQUIRED`, `RBAC_DENIED` and `APPROVAL_SCOPE_MISMATCH`.
+- Added strict required-role checks against Identity Registry and interface checks against `SensitiveActionCatalog`.
+- Added policy check CLI binding parameters: `--role-at-decision`, `--command-id`, `--tool-call-id`, `--subject-hash` and `--interface`.
+- Added POST-H-012-D audit report, manifest and focused enforcement tests.
+
+### Changed
+- `ApprovalPolicyChecker` now treats `SensitiveActionCatalog` actions as approval-gated.
+- `PolicyEngine` keeps PathGuard, SecretGuard, PromptInjectionGuard, ToolInjectionGuard and CostGuard active after Approval/RBAC checks.
+- Advanced POST-H-012 current micro-sprint to D and next micro-sprint to E.
+
+### Safety
+- No remote execution, connector write, plugin execution, external APIs, network calls or destructive mutations are enabled.
+- Sensitive actions marked non-executable or block/deny-by-default remain blocked even when approval/RBAC metadata is present.
+
 ## [post-h-012-c] - 2026-06-27
 
 ### Added
@@ -10,7 +28,7 @@
 
 ### Safety
 - No remote execution, connector write, plugin execution, external APIs, network calls or destructive mutations are enabled.
-- The report is evidence-only and does not grant authorization; PolicyEngine enforcement remains planned for POST-H-012-D.
+- The report is evidence-only and does not grant authorization; PolicyEngine enforcement is covered by POST-H-012-D; the final quality gate remains planned for POST-H-012-E.
 
 
 ## [post-h-012-b] - 2026-06-27
@@ -796,7 +814,7 @@ owner: "Ordóñez"
 
 ### Safety
 - No remote execution, connector write, plugin execution, external APIs, network calls or destructive mutations are enabled.
-- The report is evidence-only and does not grant authorization; PolicyEngine enforcement remains planned for POST-H-012-D.
+- The report is evidence-only and does not grant authorization; PolicyEngine enforcement is covered by POST-H-012-D; the final quality gate remains planned for POST-H-012-E.
 
 
 Siguiente hito: `POST-H-012 — Approval/RBAC hardening`; POST-H-011 cerrado con `POST-H-011-E`.

@@ -4182,6 +4182,11 @@ def policy_check_command(
     tool_id: str | None = None,
     subject: str | None = None,
     actor: str | None = None,
+    role_at_decision: str | None = None,
+    command_id: str | None = None,
+    tool_call_id: str | None = None,
+    subject_hash: str | None = None,
+    interface: str | None = None,
     json_output: bool = False,
     write_report: bool = False,
 ) -> int:
@@ -4214,7 +4219,12 @@ def policy_check_command(
         tool_id=tool_id,
         subject=subject,
         actor=actor,
-        metadata={"source": "policy-check-cli", "sprint": "FUNC-SPRINT-95", "actor": actor} if approval_id or tool_id or subject or actor else {},
+        role_at_decision=role_at_decision,
+        command_id=command_id,
+        tool_call_id=tool_call_id,
+        subject_hash=subject_hash,
+        interface=interface or "cli",
+        metadata={"source": "policy-check-cli", "sprint": "POST-H-012-D", "actor": actor, "actor_id": actor, "role_at_decision": role_at_decision, "command_id": command_id, "tool_call_id": tool_call_id, "subject_hash": subject_hash, "interface": interface or "cli"} if approval_id or tool_id or subject or actor or role_at_decision or command_id or tool_call_id or subject_hash or interface else {},
     )
     result = engine.evaluate(request)
     result = _write_optional_command_report(
@@ -5557,6 +5567,11 @@ def build_parser() -> argparse.ArgumentParser:
     policy_check.add_argument("--tool", dest="tool_id", default=None, help="Optional MIASI tool ID used for approval scope matching")
     policy_check.add_argument("--subject", default=None, help="Optional tool subject used for approval scope matching")
     policy_check.add_argument("--actor", default=None, help="Optional local RBAC actor id")
+    policy_check.add_argument("--role-at-decision", default=None, help="Optional local RBAC role bound to the approval decision")
+    policy_check.add_argument("--command-id", default=None, help="Optional command identifier required by strong approval binding")
+    policy_check.add_argument("--tool-call-id", default=None, help="Optional tool-call identifier required by strong approval binding")
+    policy_check.add_argument("--subject-hash", default=None, help="Optional subject hash required by strong approval binding")
+    policy_check.add_argument("--interface", choices=["cli", "api", "ui", "agent", "multiagent", "remote", "connector", "plugin"], default="cli", help="Interface surface used for Approval/RBAC enforcement")
     policy_check.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     policy_check.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
 
@@ -6580,6 +6595,11 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
                 tool_id=args.tool_id,
                 subject=args.subject,
                 actor=args.actor,
+                role_at_decision=args.role_at_decision,
+                command_id=args.command_id,
+                tool_call_id=args.tool_call_id,
+                subject_hash=args.subject_hash,
+                interface=args.interface,
                 json_output=args.json,
                 write_report=args.write_report,
             )

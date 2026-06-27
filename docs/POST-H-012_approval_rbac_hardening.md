@@ -4,7 +4,7 @@ doc_id: "POST-H-012-BACKLOG"
 id: "POST-H-012"
 title: "POST-H-012 — Approval/RBAC hardening"
 status: "approved"
-version: "0.4.0"
+version: "0.5.0"
 owner: "Ordóñez"
 updated: "2026-06-27"
 approval: "approved_by_owner"
@@ -17,8 +17,8 @@ no_remote_execution_enabled: true
 no_connector_write_enabled: true
 no_plugin_execution_enabled: true
 implementation_status: "active"
-current_micro_sprint: "POST-H-012-C"
-next_micro_sprint: "POST-H-012-D"
+current_micro_sprint: "POST-H-012-D"
+next_micro_sprint: "POST-H-012-E"
 ---
 
 # POST-H-012 — Approval/RBAC hardening
@@ -586,8 +586,55 @@ Límites explícitos:
 
 ```text
 POST-H-012-C no concede permisos ni ejecuta acciones.
-POST-H-012-C no implementa todavía enforcement homogéneo completo en PolicyEngine.
+POST-H-012-C no concede permisos ni ejecuta acciones; el enforcement homogéneo queda cubierto por POST-H-012-D.
 POST-H-012-C no agrega todavía el subgate approval-rbac-hardening.
 Los reportes bajo outputs/reports son evidencia runtime regenerable y no fuente versionable.
 Remote execution, connector write, plugin execution y acciones destructivas siguen bloqueadas.
+```
+
+
+## 17. Avance de implementación — POST-H-012-D
+
+Estado: `implemented-initial`.
+
+Capacidad incorporada:
+
+```text
+- Enforcement homogéneo inicial de Approval/RBAC dentro de `PolicyEngine`.
+- Integración runtime con `SensitiveActionCatalog` para resolver acciones sensibles por `action_id`, acción corta o `tool_id`.
+- Propagación de binding fuerte hacia `ApprovalPolicyChecker`: `actor_id`, `role_at_decision`, `command_id`, `tool_call_id`, `subject_hash` e `interface`.
+- Findings normalizados: `APPROVAL_REQUIRED`, `RBAC_DENIED`, `APPROVAL_SCOPE_MISMATCH`.
+- Enforcement estricto de rol requerido por acción sensible contra Identity Registry.
+- Enforcement de interfaz mediante `allowed_interfaces`/`blocked_interfaces`.
+- Bloqueo explícito de acciones catalogadas como non-executable, deny-by-default o block-by-default.
+- Parámetros CLI adicionales para policy check: `--role-at-decision`, `--command-id`, `--tool-call-id`, `--subject-hash` y `--interface`.
+```
+
+Artefactos principales:
+
+```text
+src/devpilot_core/policy/engine.py
+src/devpilot_core/approval/policy.py
+src/devpilot_core/cli.py
+tests/test_policy_engine_approval_rbac_enforcement.py
+docs/audits/post_h_012_d_policy_engine_enforcement_report.md
+docs/post_h_012_d_manifest.json
+```
+
+Criterios PASS cubiertos:
+
+```text
+PASS si PolicyEngine bloquea acciones críticas sin approval válido.
+PASS si PolicyEngine bloquea role insuficiente.
+PASS si findings explican la causa.
+PASS si comandos read-only existentes no se rompen.
+```
+
+Límites explícitos:
+
+```text
+POST-H-012-D es implemented-initial: aplica enforcement determinístico en PolicyEngine, pero no agrega todavía el subgate approval-rbac-hardening.
+POST-H-012-D no habilita side effects catalogados como bloqueados/non-executable.
+POST-H-012-D no habilita remote execution, connector write, plugin execution, APIs externas ni mutaciones destructivas.
+POST-H-012-E debe cerrar el hito con quality gate, runbook de aprobación y documentación de ciclo approve/deny/revoke.
 ```

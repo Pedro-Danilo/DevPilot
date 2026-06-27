@@ -33,11 +33,12 @@ def test_post_h_012_backlog_is_approved_and_synced() -> None:
     assert 'status: "approved"' in backlog
     assert 'approval: "approved_by_owner"' in backlog
     assert 'implementation_status: "active"' in backlog
-    assert 'current_micro_sprint: "POST-H-012-C"' in backlog
-    assert 'next_micro_sprint: "POST-H-012-D"' in backlog
+    assert 'current_micro_sprint: "POST-H-012-D"' in backlog
+    assert 'next_micro_sprint: "POST-H-012-E"' in backlog
     assert "## 14. Avance de implementación — POST-H-012-A" in backlog
     assert "## 15. Avance de implementación — POST-H-012-B" in backlog
     assert "## 16. Avance de implementación — POST-H-012-C" in backlog
+    assert "## 17. Avance de implementación — POST-H-012-D" in backlog
     assert "docs/schemas/sensitive_action_catalog.schema.json" in backlog
     assert ".devpilot/approval/sensitive_action_catalog.json" in backlog
     assert "src/devpilot_core/policy/sensitive_actions.py" in backlog
@@ -47,10 +48,11 @@ def test_post_h_012_backlog_is_approved_and_synced() -> None:
     assert "src/devpilot_core/identity/exposure.py" in backlog
     assert "tests/test_rbac_exposure.py" in backlog
     assert "docs/schemas/rbac_exposure_report.schema.json" in backlog
-    assert "POST-H-012-C — RBAC exposure report" in readme
-    assert "POST-H-012-C — RBAC exposure report" in runbook
+    assert "POST-H-012-D — PolicyEngine enforcement homogéneo" in readme
+    assert "POST-H-012-D — PolicyEngine enforcement homogéneo" in runbook
     assert "post-h-012-b" in changelog
     assert "post-h-012-c" in changelog
+    assert "post-h-012-d" in changelog
 
 
 def test_sensitive_action_catalog_schema_and_validator_pass(monkeypatch, capsys) -> None:
@@ -151,9 +153,14 @@ def test_post_h_012_source_registry_and_contracts_are_registered() -> None:
     assert "docs/schemas/rbac_exposure_report.schema.json" in doc.derived_documents
     assert "docs/audits/post_h_012_c_rbac_exposure_report.md" in doc.derived_documents
     assert "docs/post_h_012_c_manifest.json" in doc.derived_documents
+    assert "src/devpilot_core/policy/engine.py" in doc.derived_documents
+    assert "src/devpilot_core/approval/policy.py" in doc.derived_documents
+    assert "docs/audits/post_h_012_d_policy_engine_enforcement_report.md" in doc.derived_documents
+    assert "docs/post_h_012_d_manifest.json" in doc.derived_documents
     assert "tests/test_post_h_012_approval_rbac_hardening.py" in doc.required_tests
     assert "tests/test_approval_binding.py" in doc.required_tests
     assert "tests/test_rbac_exposure.py" in doc.required_tests
+    assert "tests/test_policy_engine_approval_rbac_enforcement.py" in doc.required_tests
 
     result = DocumentationGovernanceValidator(ROOT).run()
     assert result.ok, result.to_dict()
@@ -197,6 +204,16 @@ def test_post_h_012_source_registry_and_contracts_are_registered() -> None:
     assert exposure_contract_v2["network_allowed"] is False
     assert exposure_contract_v2["source_mutations_allowed"] is False
 
+    enforcement_contract = next(item for item in tcr["contracts"] if item["contract_id"] == "post-h-012-policy-engine-enforcement")
+    assert enforcement_contract["owner"] == "POST-H-012-D"
+    assert "tests/test_policy_engine_approval_rbac_enforcement.py" in enforcement_contract["test_files"]
+    assert "src/devpilot_core/policy/engine.py" in enforcement_contract["validates"]
+    enforcement_contract_v2 = next(item for item in tcr_v2["contracts"] if item["contract_id"] == "post-h-012-policy-engine-enforcement")
+    assert enforcement_contract_v2["domain"] == "security.rbac"
+    assert enforcement_contract_v2["capability"] == "PolicyEngineApprovalRbacEnforcement"
+    assert enforcement_contract_v2["network_allowed"] is False
+    assert enforcement_contract_v2["source_mutations_allowed"] is False
+
 
 def test_post_h_012_project_state_is_synchronized() -> None:
     state = read_json(".devpilot/project_state.json")
@@ -205,8 +222,9 @@ def test_post_h_012_project_state_is_synchronized() -> None:
 
     assert state["last_completed_sprint"] == "POST-H-011"
     assert state["next_sprint"] == "POST-H-012"
-    assert state["current_repo"] == "repo_DevPilot_Local_193_POST_H_012_C.zip"
+    assert state["current_repo"] == "repo_DevPilot_Local_194_POST_H_012_D.zip"
     assert any("POST-H-012-C adds RBAC exposure reporting" in note for note in state["notes"])
-    assert "Último micro-sprint implementado: `POST-H-012-C" in readme
-    assert "Siguiente micro-sprint recomendado: `POST-H-012-D" in readme
-    assert "POST-H-012-C — RBAC exposure report" in runbook
+    assert any("POST-H-012-D adds homogeneous PolicyEngine enforcement" in note for note in state["notes"])
+    assert "Último micro-sprint implementado: `POST-H-012-D" in readme
+    assert "Siguiente micro-sprint recomendado: `POST-H-012-E" in readme
+    assert "POST-H-012-D — PolicyEngine enforcement homogéneo" in runbook

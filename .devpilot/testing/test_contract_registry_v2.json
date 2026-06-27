@@ -7152,6 +7152,72 @@
         "identity",
         "interfaces"
       ]
+    },
+    {
+      "contract_id": "post-h-012-policy-engine-enforcement",
+      "schema_version": "2.0",
+      "source_contract_id": "post-h-012-policy-engine-enforcement",
+      "domain": "security.rbac",
+      "capability": "PolicyEngineApprovalRbacEnforcement",
+      "criticality": "P1",
+      "risk_level": "critical",
+      "test_type": "integration",
+      "execution_profile": "impact",
+      "cost_class": "low",
+      "expected_duration_seconds": 20,
+      "test_files": [
+        "tests/test_policy_engine_approval_rbac_enforcement.py",
+        "tests/test_policy_engine.py",
+        "tests/test_approval_binding.py",
+        "tests/test_rbac_exposure.py",
+        "tests/test_post_h_012_approval_rbac_hardening.py"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/policy/",
+        "src/devpilot_core/approval/",
+        "src/devpilot_core/identity/",
+        ".devpilot/approval/sensitive_action_catalog.json",
+        ".devpilot/identity/identity_registry.json",
+        "docs/backlogs/POST-H-012_approval_rbac_hardening.md",
+        "tests/test_policy_engine_approval_rbac_enforcement.py"
+      ],
+      "validates": [
+        "src/devpilot_core/policy/engine.py",
+        "src/devpilot_core/approval/policy.py",
+        "src/devpilot_core/cli.py",
+        "docs/audits/post_h_012_d_policy_engine_enforcement_report.md",
+        "docs/post_h_012_d_manifest.json"
+      ],
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace tests/test_policy_engine_approval_rbac_enforcement.py tests/test_policy_engine.py tests/test_approval_binding.py tests/test_rbac_exposure.py -q",
+        "python -m devpilot_core schema validate --schema-id PostHManifest --instance docs/post_h_012_d_manifest.json --json"
+      ],
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "required_for_release": true,
+      "required_for_security_gate": true,
+      "requires_human_approval": false,
+      "owner": "POST-H-012-D",
+      "classification_status": "explicit",
+      "classification_notes": [
+        "POST-H-012-D is PolicyEngine enforcement-only; it evaluates and blocks sensitive actions without enabling remote/plugin/connector execution."
+      ],
+      "trigger_hints": [
+        "policy",
+        "approval",
+        "rbac",
+        "sensitive-actions",
+        "interface",
+        "tool-call"
+      ],
+      "impact_scope": [
+        "security",
+        "policy",
+        "approval",
+        "identity"
+      ]
     }
   ],
   "migration_metadata": {

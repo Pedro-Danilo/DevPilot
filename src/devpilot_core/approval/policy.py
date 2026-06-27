@@ -51,6 +51,7 @@ class ApprovalPolicyChecker:
             self.store = store
         self.tool_registry_path = self.root / ".devpilot" / "miasi" / "tool_registry.json"
         self.policy_matrix_path = self.root / ".devpilot" / "miasi" / "policy_matrix.json"
+        self.sensitive_catalog_path = self.root / ".devpilot" / "approval" / "sensitive_action_catalog.json"
 
     def evaluate(self, data: ApprovalPolicyInput) -> PolicyDecision:
         action = data.action.strip().lower() or "unknown"
@@ -67,6 +68,7 @@ class ApprovalPolicyChecker:
             "approval_required": approval_required,
             "tool_registry": str(self.tool_registry_path.relative_to(self.root)) if self.tool_registry_path.exists() else None,
             "policy_matrix": str(self.policy_matrix_path.relative_to(self.root)) if self.policy_matrix_path.exists() else None,
+            "sensitive_action_catalog": str(self.sensitive_catalog_path.relative_to(self.root)) if self.sensitive_catalog_path.exists() else None,
         }
         if data.metadata:
             metadata.update(data.metadata)
@@ -209,11 +211,34 @@ class ApprovalPolicyChecker:
 
     def approval_required(self, *, action: str, tool_id: str | None) -> bool:
         action = action.strip().lower()
+        if self._sensitive_action_requires_approval(action=action, tool_id=tool_id):
+            return True
         if tool_id and self._tool_requires_approval(tool_id):
             return True
         if action in self.critical_actions:
             return True
         return self._policy_action_requires_approval(action)
+
+
+    def _sensitive_action_requires_approval(self, *, action: str, tool_id: str | None) -> bool:
+        entry = self._resolve_sensitive_action(action=action, tool_id=tool_id)
+        return bool(entry and entry.get("requires_approval"))
+
+    def _resolve_sensitive_action(self, *, action: str, tool_id: str | None) -> dict[str, Any] | None:
+        payload = self._load_json(self.sensitive_catalog_path)
+        requested_action = str(action or "").strip().lower()
+        requested_tool = str(tool_id or "").strip().lower()
+        for entry in payload.get("actions", []):
+            if not isinstance(entry, dict):
+                continue
+            action_id = str(entry.get("action_id", "")).strip().lower()
+            action_tail = action_id.split(".")[-1]
+            tool_ids = {str(item).strip().lower() for item in entry.get("tool_ids", [])}
+            if requested_action and requested_action in {action_id, action_tail}:
+                return entry
+            if requested_tool and requested_tool in tool_ids and requested_action in {action_id, action_tail}:
+                return entry
+        return None
 
     def _tool_requires_approval(self, tool_id: str) -> bool:
         data = self._load_json(self.tool_registry_path)

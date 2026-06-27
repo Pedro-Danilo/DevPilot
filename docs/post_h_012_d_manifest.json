@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "SCHEMA-DEVPL-POST-H-MANIFEST-V1",
+  "post_h_id": "POST-H-012",
+  "title": "POST-H-012-D — PolicyEngine enforcement homogéneo",
+  "status": "implemented-initial",
+  "phase": "POST-FASE-H",
+  "implemented_at": "2026-06-27T00:00:00Z",
+  "created_files": [
+    "tests/test_policy_engine_approval_rbac_enforcement.py",
+    "docs/audits/post_h_012_d_policy_engine_enforcement_report.md",
+    "docs/post_h_012_d_manifest.json"
+  ],
+  "modified_files": [
+    "src/devpilot_core/policy/engine.py",
+    "src/devpilot_core/policy/__init__.py",
+    "src/devpilot_core/approval/policy.py",
+    "src/devpilot_core/cli.py",
+    "docs/backlogs/POST-H-012_approval_rbac_hardening.md",
+    "docs/POST-H-012_approval_rbac_hardening.md",
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/release/CHANGELOG.md",
+    ".devpilot/docs_governance/source_registry.json",
+    ".devpilot/testing/test_contract_registry.json",
+    ".devpilot/testing/test_contract_registry_v2.json",
+    ".devpilot/project_state.json",
+    "tests/test_post_h_012_approval_rbac_hardening.py",
+    "tests/test_project_global_state.py",
+    "tests/test_post_h_011_rag_groundedness.py"
+  ],
+  "commands": [
+    "python -m pytest -p no:ddtrace tests/test_policy_engine_approval_rbac_enforcement.py tests/test_policy_engine.py tests/test_approval_binding.py tests/test_rbac_exposure.py -q",
+    "python -m pytest -p no:ddtrace tests/test_approval_policy_binding.py tests/test_approval_cli.py tests/test_policy_engine.py -q",
+    "python -m devpilot_core schema validate --schema-id PostHManifest --instance docs/post_h_012_d_manifest.json --json"
+  ],
+  "tests": [
+    "tests/test_policy_engine_approval_rbac_enforcement.py",
+    "tests/test_policy_engine.py",
+    "tests/test_approval_binding.py",
+    "tests/test_rbac_exposure.py",
+    "tests/test_post_h_012_approval_rbac_hardening.py",
+    "tests/test_project_global_state.py"
+  ],
+  "pass_criteria": [
+    "PolicyEngine blocks critical/sensitive actions without valid approval.",
+    "PolicyEngine blocks insufficient role for sensitive actions.",
+    "PolicyEngine emits normalized findings for approval, RBAC and scope mismatch.",
+    "Existing read-only commands remain allowed and deterministic."
+  ],
+  "block_criteria": [
+    "PathGuard, SecretGuard, ToolInjectionGuard, PromptInjectionGuard or CostGuard is relaxed.",
+    "PolicyEngine becomes non-deterministic or relies on network/API/LLM judge.",
+    "Any remote execution, connector write, plugin execution or destructive side effect is enabled."
+  ],
+  "risks": [
+    "PolicyEngine enforcement is implemented-initial and the final quality gate remains planned for POST-H-012-E.",
+    "Sensitive actions remain non-executable by design even with approval/RBAC metadata.",
+    "RBAC taxonomy gaps such as undeclared maintainer role are surfaced and blocked, not silently bypassed."
+  ],
+  "next_sprint": "POST-H-012",
+  "preliminary": true,
+  "micro_sprint": "POST-H-012-D",
+  "source_repo": "repo_DevPilot_Local_193_POST_H_012_C.zip",
+  "current_repo": "repo_DevPilot_Local_194_POST_H_012_D.zip",
+  "local_first": true,
+  "dry_run": true,
+  "no_remote_execution_enabled": true,
+  "no_connector_write_enabled": true,
+  "no_plugin_execution_enabled": true,
+  "no_external_apis_used": true,
+  "summary": "POST-H-012-D adds homogeneous PolicyEngine enforcement for SensitiveActionCatalog, strong approval binding and RBAC without enabling side effects."
+}

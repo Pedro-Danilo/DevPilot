@@ -2,11 +2,11 @@
 title: "Runbook — DevPilot Local"
 doc_id: "DEVPL-OPS-002"
 status: "approved"
-version: "1.43.0"
+version: "1.44.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "POST-H-012-C"
+phase: "POST-H-012-D"
 updated: "2026-06-27"
 approval: "approved_by_owner"
 source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved + 03_security approved"
@@ -16,7 +16,7 @@ approval_scope: "SPRINT-PRECODE-05 quality operations baseline"
 
 # Runbook — DevPilot Local
 
-Hito operativo activo: `POST-H-012 — Approval/RBAC hardening`; último micro-sprint implementado: `POST-H-012-C — RBAC exposure report`; siguiente micro-sprint: `POST-H-012-D — PolicyEngine enforcement homogéneo`.
+Hito operativo activo: `POST-H-012 — Approval/RBAC hardening`; último micro-sprint implementado: `POST-H-012-D — PolicyEngine enforcement homogéneo`; siguiente micro-sprint: `POST-H-012-E — Quality gate y runbook de aprobación`.
 
 
 ## 1. Propósito
@@ -7880,6 +7880,52 @@ Límites: RAG local no reemplaza las fuentes canónicas gobernadas. Para decisio
 
 
 
+## POST-H-012-D — PolicyEngine enforcement homogéneo
+
+Estado: `implemented-initial`.
+
+Propósito operativo: validar que toda acción sensible evaluada por `policy check` pase por `SensitiveActionCatalog`, approval binding fuerte, RBAC local e interfaz declarada antes de cualquier ejecución. La operación sigue siendo de evaluación: no ejecuta herramientas ni habilita side effects.
+
+Comandos de verificación específica:
+
+```powershell
+python -m pytest -p no:ddtrace `
+  tests/test_policy_engine_approval_rbac_enforcement.py `
+  tests/test_policy_engine.py `
+  tests/test_approval_binding.py `
+  tests/test_rbac_exposure.py `
+  -q
+
+python -m devpilot_core schema validate `
+  --schema-id PostHManifest `
+  --instance docs/post_h_012_d_manifest.json `
+  --json
+```
+
+Ejemplo seguro de policy check sin approval válido:
+
+```powershell
+python -m devpilot_core policy check release.publish_deploy_tag `
+  --tool release.manager `
+  --subject v1.2.3 `
+  --actor local-owner `
+  --role-at-decision owner `
+  --command-id cmd-demo `
+  --tool-call-id tool-call-demo `
+  --interface cli `
+  --json
+```
+
+Criterios PASS:
+
+```text
+PASS si aparecen findings normalizados como APPROVAL_REQUIRED, RBAC_DENIED o APPROVAL_SCOPE_MISMATCH según corresponda.
+PASS si PathGuard, SecretGuard, PromptInjectionGuard, ToolInjectionGuard y CostGuard siguen ejecutándose.
+PASS si acciones non-executable, remote, connector write y plugin execution siguen bloqueadas.
+```
+
+Límites operativos: POST-H-012-D no agrega todavía el subgate `approval-rbac-hardening`; ese cierre queda para POST-H-012-E. No habilita ejecución remota, connector write, plugin execution, APIs externas ni mutaciones destructivas.
+
 ## POST-H-012-C — RBAC exposure report
 
 Estado: `implemented-initial`.
@@ -7927,7 +7973,7 @@ PASS si subject_hash mismatch bloquea cuando el record lo declara.
 PASS si command_id/tool_call_id faltantes o distintos bloquean acciones sensibles que los requieren.
 ```
 
-Límites operativos: esta versión no habilita ejecución sensible, remote execution, connector write ni plugin execution. Es una primera capa de binding; RBAC exposure, PolicyEngine enforcement homogéneo y quality-gate integral quedan para POST-H-012-C/D/E.
+Límites operativos: esta versión no habilita ejecución sensible, remote execution, connector write ni plugin execution. Es una primera capa de binding; RBAC exposure y PolicyEngine enforcement homogéneo quedan cubiertos por POST-H-012-C/D; quality-gate integral queda para POST-H-012-E.
 
 ## POST-H-012-A — Sensitive action catalog y schema
 
@@ -7953,4 +7999,4 @@ PASS si acciones críticas requieren approval y RBAC.
 PASS si remote execution, connector write y plugin execution aparecen blocked/non-executable.
 ```
 
-Límites operativos: esta versión no autoriza ejecución sensible; solo declara y valida el catálogo. El enforcement homogéneo queda para POST-H-012-D y el gate integral para POST-H-012-E.
+Límites operativos: esta versión no autoriza ejecución sensible; solo declara y valida el catálogo. El enforcement homogéneo queda cubierto por POST-H-012-D y el gate integral queda para POST-H-012-E.

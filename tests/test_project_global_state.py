@@ -83,10 +83,11 @@ def test_project_global_state_schema_and_docs_are_synchronized() -> None:
     assert any("POST-H-011-C adds deterministic RAG claim groundedness" in note for note in state["notes"])
     assert any("POST-H-011-E closes RAG groundedness evals" in note for note in state["notes"])
     assert "POST-H-011-E — Gate y documentación de límites RAG" in readme
-    assert "POST-H-012-C — RBAC exposure report" in readme
-    assert "POST-H-012-C — RBAC exposure report" in runbook
+    assert "POST-H-012-D — PolicyEngine enforcement homogéneo" in readme
+    assert "POST-H-012-D — PolicyEngine enforcement homogéneo" in runbook
     assert any("POST-H-012-A approves" in note for note in state["notes"])
     assert any("POST-H-012-C adds RBAC exposure reporting" in note for note in state["notes"])
+    assert any("POST-H-012-D adds homogeneous PolicyEngine enforcement" in note for note in state["notes"])
 
 
 def test_project_global_state_command_result_passes() -> None:
