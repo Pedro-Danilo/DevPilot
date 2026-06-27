@@ -95,7 +95,8 @@ def test_post_h_013_a_docs_and_contracts_are_synchronized() -> None:
     assert backlog == mirror
     assert 'status: "approved"' in backlog
     assert 'implementation_status: "active"' in backlog
-    assert 'current_micro_sprint: "POST-H-013-B"' in backlog
+    assert 'current_micro_sprint: "POST-H-013-C"' in backlog
+    assert 'next_micro_sprint: "POST-H-013-D"' in backlog
     assert "## 14. Avance de implementación — POST-H-013-A" in backlog
     assert manifest["micro_sprint"] == "POST-H-013-A"
     assert manifest["current_repo"] == "repo_DevPilot_Local_196_POST_H_013_A.zip"

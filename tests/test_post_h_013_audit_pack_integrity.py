@@ -6,7 +6,7 @@ import zipfile
 from pathlib import Path
 
 from devpilot_core import cli
-from devpilot_core.auditpack import AuditPackV2BuildOptions, AuditPackV2Builder
+from devpilot_core.auditpack import AuditPackV2BuildOptions, AuditPackV2Builder, AuditPackV2VerifyOptions, AuditPackV2Verifier
 from devpilot_core.cli_models import ExitCode
 from devpilot_core.schemas import SchemaValidator
 
@@ -16,6 +16,35 @@ TEST_OUTPUT_DIR = "outputs/auditpacks/post_h_013_b_tests"
 
 def _cleanup_test_output() -> None:
     shutil.rmtree(ROOT / TEST_OUTPUT_DIR, ignore_errors=True)
+
+
+def _build_test_pack() -> Path:
+    result = AuditPackV2Builder(ROOT).build(
+        AuditPackV2BuildOptions(output_dir=TEST_OUTPUT_DIR, dry_run=False, execute=True)
+    )
+    assert result.ok is True, result.to_dict()
+    return ROOT / result.data["summary"]["pack_path"]
+
+
+def _rewrite_zip(source: Path, target: Path, replace: dict[str, bytes] | None = None, drop: set[str] | None = None, extra: dict[str, bytes] | None = None) -> None:
+    replace = replace or {}
+    drop = drop or set()
+    extra = extra or {}
+    with zipfile.ZipFile(source, "r") as src, zipfile.ZipFile(target, "w", compression=zipfile.ZIP_DEFLATED) as dst:
+        for name in src.namelist():
+            if name in drop:
+                continue
+            dst.writestr(name, replace.get(name, src.read(name)))
+        for name, content in extra.items():
+            dst.writestr(name, content)
+
+
+def _first_payload_member(pack: Path) -> str:
+    with zipfile.ZipFile(pack, "r") as archive:
+        for name in archive.namelist():
+            if name not in {"audit-pack-manifest-v2.json", "redaction_report.json"}:
+                return name
+    raise AssertionError("No payload member found in audit pack")
 
 
 def test_audit_pack_build_v2_dry_run_does_not_write_pack_artifacts() -> None:
@@ -153,11 +182,13 @@ def test_post_h_013_b_docs_and_contracts_are_synchronized() -> None:
     tcr_v2 = json.loads((ROOT / ".devpilot/testing/test_contract_registry_v2.json").read_text(encoding="utf-8"))
 
     assert backlog == mirror
-    assert 'current_micro_sprint: "POST-H-013-B"' in backlog
-    assert 'next_micro_sprint: "POST-H-013-C"' in backlog
+    assert 'current_micro_sprint: "POST-H-013-C"' in backlog
+    assert 'next_micro_sprint: "POST-H-013-D"' in backlog
     assert "## 15. Avance de implementación — POST-H-013-B" in backlog
-    assert manifest["micro_sprint"] == "POST-H-013-B"
-    assert manifest["current_repo"] == "repo_DevPilot_Local_197_POST_H_013_B.zip"
+    assert "## 16. Avance de implementación — POST-H-013-C" in backlog
+    manifest = json.loads((ROOT / "docs/post_h_013_c_manifest.json").read_text(encoding="utf-8"))
+    assert manifest["micro_sprint"] == "POST-H-013-C"
+    assert manifest["current_repo"] == "repo_DevPilot_Local_198_POST_H_013_C.zip"
 
     contract = next(item for item in tcr["contracts"] if item["contract_id"] == "post-h-013-audit-pack-builder-v2")
     assert contract["owner"] == "POST-H-013-B"
@@ -169,3 +200,141 @@ def test_post_h_013_b_docs_and_contracts_are_synchronized() -> None:
     assert contract_v2["network_allowed"] is False
     assert contract_v2["external_api_allowed"] is False
     assert contract_v2["source_mutations_allowed"] is False
+
+    verifier_contract = next(item for item in tcr["contracts"] if item["contract_id"] == "post-h-013-audit-pack-verifier-v2")
+    assert verifier_contract["owner"] == "POST-H-013-C"
+    assert "src/devpilot_core/auditpack/verify_v2.py" in verifier_contract["validates"]
+
+    verifier_contract_v2 = next(item for item in tcr_v2["contracts"] if item["contract_id"] == "post-h-013-audit-pack-verifier-v2")
+    assert verifier_contract_v2["capability"] == "AuditPackV2Verifier"
+    assert verifier_contract_v2["network_allowed"] is False
+    assert verifier_contract_v2["external_api_allowed"] is False
+    assert verifier_contract_v2["source_mutations_allowed"] is False
+
+
+def test_audit_pack_verify_v2_passes_clean_pack_and_writes_integrity_report() -> None:
+    _cleanup_test_output()
+    try:
+        pack_path = _build_test_pack()
+
+        result = AuditPackV2Verifier(ROOT).verify(AuditPackV2VerifyOptions(pack=str(pack_path.relative_to(ROOT)), output_dir=TEST_OUTPUT_DIR))
+
+        assert result.ok is True, result.to_dict()
+        assert result.exit_code == ExitCode.PASS
+        summary = result.data["summary"]
+        report = result.data["integrity_report"]
+        assert summary["manifest_schema_valid"] is True
+        assert summary["manifest_hash_valid"] is True
+        assert summary["files_total"] == summary["files_verified"]
+        assert summary["hash_mismatches_total"] == 0
+        assert summary["missing_files_total"] == 0
+        assert summary["extra_files_total"] == 0
+        assert summary["network_used"] is False
+        assert summary["external_api_used"] is False
+        assert summary["source_mutations_performed"] is False
+        assert report["schema_id"] == "SCHEMA-DEVPL-AUDIT-PACK-INTEGRITY-REPORT-V1"
+        assert report["status"] == "passed"
+        assert report["compliance_certification_claimed"] is False
+        assert (ROOT / summary["integrity_report_path"]).exists()
+        schema_result = SchemaValidator(ROOT).validate(
+            schema="AuditPackIntegrityReport",
+            instance=summary["integrity_report_path"],
+        )
+        assert schema_result.ok is True, schema_result.to_dict()
+    finally:
+        _cleanup_test_output()
+
+
+def test_audit_pack_verify_v2_blocks_hash_mismatch() -> None:
+    _cleanup_test_output()
+    try:
+        pack_path = _build_test_pack()
+        member = _first_payload_member(pack_path)
+        tampered = ROOT / TEST_OUTPUT_DIR / "tampered_hash.zip"
+        _rewrite_zip(pack_path, tampered, replace={member: b"tampered-content"})
+
+        result = AuditPackV2Verifier(ROOT).verify(AuditPackV2VerifyOptions(pack=str(tampered.relative_to(ROOT)), output_dir=TEST_OUTPUT_DIR))
+
+        assert result.ok is False
+        assert result.exit_code == ExitCode.BLOCK
+        assert result.data["summary"]["hash_mismatches_total"] == 1
+        assert any(finding.id == "AUDIT_PACK_V2_HASH_MISMATCH" for finding in result.findings)
+    finally:
+        _cleanup_test_output()
+
+
+def test_audit_pack_verify_v2_blocks_missing_declared_file() -> None:
+    _cleanup_test_output()
+    try:
+        pack_path = _build_test_pack()
+        member = _first_payload_member(pack_path)
+        tampered = ROOT / TEST_OUTPUT_DIR / "tampered_missing.zip"
+        _rewrite_zip(pack_path, tampered, drop={member})
+
+        result = AuditPackV2Verifier(ROOT).verify(AuditPackV2VerifyOptions(pack=str(tampered.relative_to(ROOT)), output_dir=TEST_OUTPUT_DIR))
+
+        assert result.ok is False
+        assert result.exit_code == ExitCode.BLOCK
+        assert result.data["summary"]["missing_files_total"] == 1
+        assert any(finding.id == "AUDIT_PACK_V2_ENTRY_MISSING" for finding in result.findings)
+    finally:
+        _cleanup_test_output()
+
+
+def test_audit_pack_verify_v2_blocks_extra_undeclared_file() -> None:
+    _cleanup_test_output()
+    try:
+        pack_path = _build_test_pack()
+        tampered = ROOT / TEST_OUTPUT_DIR / "tampered_extra.zip"
+        _rewrite_zip(pack_path, tampered, extra={"undeclared-extra.txt": b"extra"})
+
+        result = AuditPackV2Verifier(ROOT).verify(AuditPackV2VerifyOptions(pack=str(tampered.relative_to(ROOT)), output_dir=TEST_OUTPUT_DIR))
+
+        assert result.ok is False
+        assert result.exit_code == ExitCode.BLOCK
+        assert result.data["summary"]["extra_files_total"] == 1
+        assert any(finding.id == "AUDIT_PACK_V2_EXTRA_MEMBER_BLOCKED" for finding in result.findings)
+    finally:
+        _cleanup_test_output()
+
+
+def test_audit_pack_verify_v2_blocks_compliance_claim_drift() -> None:
+    _cleanup_test_output()
+    try:
+        pack_path = _build_test_pack()
+        with zipfile.ZipFile(pack_path, "r") as archive:
+            manifest = json.loads(archive.read("audit-pack-manifest-v2.json").decode("utf-8"))
+        manifest["compliance_certification_claimed"] = True
+        tampered = ROOT / TEST_OUTPUT_DIR / "tampered_compliance.zip"
+        _rewrite_zip(
+            pack_path,
+            tampered,
+            replace={"audit-pack-manifest-v2.json": json.dumps(manifest, indent=2, ensure_ascii=False, sort_keys=True).encode("utf-8")},
+        )
+
+        result = AuditPackV2Verifier(ROOT).verify(AuditPackV2VerifyOptions(pack=str(tampered.relative_to(ROOT)), output_dir=TEST_OUTPUT_DIR))
+
+        assert result.ok is False
+        assert result.exit_code == ExitCode.BLOCK
+        assert any(finding.id == "AUDIT_PACK_V2_MANIFEST_SCHEMA_INVALID" for finding in result.findings)
+        assert any(finding.id == "AUDIT_PACK_V2_SAFETY_FLAG_INVALID" for finding in result.findings)
+    finally:
+        _cleanup_test_output()
+
+
+def test_audit_pack_verify_v2_cli_json_is_parseable(monkeypatch, capsys) -> None:
+    _cleanup_test_output()
+    try:
+        pack_path = _build_test_pack()
+        monkeypatch.chdir(ROOT)
+
+        exit_code = cli.main(["audit-pack", "verify-v2", "--pack", str(pack_path.relative_to(ROOT)), "--output-dir", TEST_OUTPUT_DIR, "--json"])
+        payload = json.loads(capsys.readouterr().out)
+
+        assert exit_code == 0
+        assert payload["command"] == "audit-pack verify-v2"
+        assert payload["ok"] is True
+        assert payload["data"]["summary"]["manifest_schema_valid"] is True
+        assert payload["data"]["summary"]["files_total"] == payload["data"]["summary"]["files_verified"]
+    finally:
+        _cleanup_test_output()

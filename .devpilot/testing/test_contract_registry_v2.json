@@ -7435,6 +7435,73 @@
         "documentation"
       ],
       "required_for_security_gate": true
+    },
+    {
+      "contract_id": "post-h-013-audit-pack-verifier-v2",
+      "schema_version": "2.0",
+      "source_contract_id": "post-h-013-audit-pack-verifier-v2",
+      "domain": "operations.audit",
+      "capability": "AuditPackV2Verifier",
+      "criticality": "P1",
+      "risk_level": "high",
+      "test_type": "integration",
+      "execution_profile": "impact",
+      "cost_class": "medium",
+      "expected_duration_seconds": 45,
+      "test_files": [
+        "tests/test_post_h_013_audit_pack_integrity.py",
+        "tests/test_audit_pack_manifest_v2_schema.py"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/auditpack/",
+        "src/devpilot_core/cli.py",
+        "docs/backlogs/POST-H-013_audit_pack_integrity.md",
+        "docs/05_operations/audit_pack_runbook.md",
+        "tests/test_post_h_013_audit_pack_integrity.py"
+      ],
+      "validates": [
+        "src/devpilot_core/auditpack/verify_v2.py",
+        "src/devpilot_core/auditpack/__init__.py",
+        "src/devpilot_core/cli.py",
+        "docs/schemas/audit_pack_integrity_report.schema.json",
+        "docs/audits/post_h_013_c_verifier_v2_report.md",
+        "docs/post_h_013_c_manifest.json"
+      ],
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace tests/test_post_h_013_audit_pack_integrity.py tests/test_audit_pack_manifest_v2_schema.py -q",
+        "python -m devpilot_core audit-pack verify-v2 --pack outputs/auditpacks/audit-pack-v2.zip --json",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ],
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "required_for_release": true,
+      "required_for_hardening": true,
+      "required_for_impact": true,
+      "requires_human_approval": false,
+      "owner": "POST-H-013-C",
+      "created_by": "POST-H-013-C",
+      "status": "implemented-initial",
+      "classification_status": "explicit",
+      "classification_notes": [
+        "POST-H-013-C verifies received local audit pack v2 ZIPs, writes only runtime integrity reports under outputs/auditpacks and blocks hash mismatch, missing file, extra member or invalid compliance claim."
+      ],
+      "trigger_hints": [
+        "audit-pack",
+        "verify-v2",
+        "integrity",
+        "hash-mismatch",
+        "manifest-v2"
+      ],
+      "impact_scope": [
+        "auditpack",
+        "security",
+        "cli",
+        "schemas",
+        "documentation"
+      ],
+      "required_for_security_gate": true
     }
   ],
   "migration_metadata": {

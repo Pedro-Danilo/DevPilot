@@ -16,7 +16,7 @@ approval_scope: "SPRINT-PRECODE-05 quality operations baseline"
 
 # Runbook — DevPilot Local
 
-Hito operativo activo: `POST-H-013 — Audit pack integrity`; último hito cerrado: `POST-H-012 — Approval/RBAC hardening`; último micro-sprint implementado: `POST-H-013-B — Builder v2 con checksums y redaction report`; siguiente micro-sprint: `POST-H-013-C — Verifier v2 de integridad local`.
+Hito operativo activo: `POST-H-013 — Audit pack integrity`; último hito cerrado: `POST-H-012 — Approval/RBAC hardening`; último micro-sprint implementado: `POST-H-013-C — Verifier v2 de integridad local`; siguiente micro-sprint: `POST-H-013-D — Firma y cifrado local opcional`.
 
 
 ## POST-H-013-A — Audit pack manifest v2 y policy
@@ -8134,3 +8134,38 @@ PASS si remote execution, connector write y plugin execution aparecen blocked/no
 ```
 
 Límites operativos: esta versión no autoriza ejecución sensible; solo declara y valida el catálogo. El enforcement homogéneo queda cubierto por POST-H-012-D y el gate integral queda para POST-H-012-E.
+
+## POST-H-013-C — Verifier v2 de integridad local
+
+Estado: `implemented-initial`.
+
+Uso operativo:
+
+```powershell
+python -m devpilot_core audit-pack build-v2 --execute --json
+python -m devpilot_core audit-pack verify-v2 --pack outputs/auditpacks/<pack>.zip --json
+```
+
+PASS operativo:
+
+```text
+- `manifest_schema_valid=true`.
+- `manifest_hash_valid=true`.
+- `files_total == files_verified`.
+- `hash_mismatches_total=0`.
+- `missing_files_total=0`.
+- `extra_files_total=0`.
+- `network_used=false` y `external_api_used=false`.
+```
+
+BLOCK operativo:
+
+```text
+- Manifest v2 ausente, inválido o con hash propio inconsistente.
+- Archivo declarado faltante.
+- Hash SHA-256 diferente al manifest.
+- Miembro ZIP extra no declarado.
+- `compliance_certification_claimed=true` o safety flags prohibidos.
+```
+
+Limitación explícita: esta versión no firma ni cifra; POST-H-013-D cubre crypto local opcional. La integración de subgate final queda para POST-H-013-E.

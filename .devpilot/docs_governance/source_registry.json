@@ -1399,6 +1399,7 @@
     "POST-H-010-D registers redacted observability export schema/CLI and keeps export local-only.",
     "POST-H-010-E closes Observability retention local with an observability-retention quality-gate subgate and dedicated runbook.",
     "POST-H-011-A approves RAG groundedness evals and registers local schema/fixture contracts without web search, external APIs, LLM judge, remote execution, connector write or plugin execution.",
-    "POST-H-012-A registers and validates a local SensitiveActionCatalog without enabling remote execution, connector write or plugin execution."
+    "POST-H-012-A registers and validates a local SensitiveActionCatalog without enabling remote execution, connector write or plugin execution.",
+    "POST-H-013-C adds AuditPackV2Verifier with local integrity report generation and tamper detection."
   ]
 }

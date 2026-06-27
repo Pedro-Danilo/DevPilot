@@ -4,7 +4,7 @@ doc_id: "POST-H-013-BACKLOG"
 id: "POST-H-013"
 title: "POST-H-013 — Audit pack signing/encryption local opcional"
 status: "approved"
-version: "0.3.0"
+version: "0.4.0"
 owner: "Ordóñez"
 updated: "2026-06-27"
 approval: "approved_by_owner"
@@ -19,8 +19,8 @@ no_external_apis_used: true
 no_connector_write_enabled: true
 no_plugin_execution_enabled: true
 implementation_status: "active"
-current_micro_sprint: "POST-H-013-B"
-next_micro_sprint: "POST-H-013-C"
+current_micro_sprint: "POST-H-013-C"
+next_micro_sprint: "POST-H-013-D"
 ---
 
 # POST-H-013 — Audit pack signing/encryption local opcional
@@ -550,4 +550,58 @@ POST-H-013-B no implementa verify-v2 de packs recibidos ni detección de tamperi
 POST-H-013-B no implementa signing ni encryption; eso queda para POST-H-013-D.
 POST-H-013-B no integra todavía el subgate final `audit-pack-integrity`; eso queda para POST-H-013-E.
 POST-H-013-B no declara compliance certification, no usa red, no usa APIs externas, no usa KMS y no habilita connector write, plugin execution ni remote execution.
+```
+
+
+## 16. Avance de implementación — POST-H-013-C
+
+Estado: `implemented-initial`.
+
+Capacidad incorporada:
+
+```text
+- `AuditPackV2Verifier` verifica localmente ZIPs de audit pack v2 generados por `build-v2 --execute`.
+- `audit-pack verify-v2 --pack <pack>.zip --json` valida el manifest embebido contra `AuditPackManifestV2`.
+- El verificador comprueba el self-hash del manifest, la existencia de cada archivo declarado y el SHA-256 real de cada miembro ZIP.
+- El verificador detecta y bloquea archivos extra no declarados, archivos faltantes, hash mismatch, manifest JSON/schema inválido y drift de `compliance_certification_claimed`.
+- Se genera `audit_pack_integrity_report.json` bajo `outputs/auditpacks` como evidencia runtime local, sin mutaciones de código fuente.
+- El reporte valida contra `AuditPackIntegrityReport` y conserva invariantes `network_used=false`, `external_api_used=false`, `remote_export_used=false` y `compliance_certification_claimed=false`.
+```
+
+Artefactos principales:
+
+```text
+src/devpilot_core/auditpack/verify_v2.py
+src/devpilot_core/auditpack/__init__.py
+src/devpilot_core/cli.py
+tests/test_post_h_013_audit_pack_integrity.py
+docs/audits/post_h_013_c_verifier_v2_report.md
+docs/post_h_013_c_manifest.json
+docs/05_operations/audit_pack_runbook.md
+```
+
+Criterios PASS cubiertos:
+
+```text
+PASS si verifier detecta hash mismatch.
+PASS si verifier detecta missing file.
+PASS si verifier valida schema.
+PASS si verifier no requiere red.
+```
+
+Criterios BLOCK cubiertos:
+
+```text
+BLOCK si un pack modificado pasa.
+BLOCK si missing file solo genera info.
+BLOCK si compliance claim no permitido pasa.
+```
+
+Límites explícitos:
+
+```text
+POST-H-013-C no implementa firma ni cifrado local; esos controles quedan para POST-H-013-D.
+POST-H-013-C no integra todavía el subgate final `audit-pack-integrity`; eso queda para POST-H-013-E.
+POST-H-013-C no habilita remote signing, KMS cloud, APIs externas, connector write, plugin execution, remote execution ni compliance certification claim.
+La escritura del integrity report bajo `outputs/auditpacks` es evidencia runtime local y no debe versionarse ni incluirse en ZIPs limpios de entrega.
 ```

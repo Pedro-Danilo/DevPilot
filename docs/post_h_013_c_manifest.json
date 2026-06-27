@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "SCHEMA-DEVPL-POST-H-MANIFEST-V1",
+  "post_h_id": "POST-H-013",
+  "micro_sprint": "POST-H-013-C",
+  "title": "POST-H-013-C — Verifier v2 de integridad local",
+  "status": "implemented-initial",
+  "phase": "POST-FASE-H",
+  "implemented_at": "2026-06-27T00:00:00Z",
+  "created_files": [
+    "src/devpilot_core/auditpack/verify_v2.py",
+    "docs/audits/post_h_013_c_verifier_v2_report.md",
+    "docs/post_h_013_c_manifest.json"
+  ],
+  "modified_files": [
+    "src/devpilot_core/auditpack/__init__.py",
+    "src/devpilot_core/cli.py",
+    "tests/test_post_h_013_audit_pack_integrity.py",
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/05_operations/audit_pack_runbook.md",
+    "docs/backlogs/POST-H-013_audit_pack_integrity.md",
+    "docs/POST-H-013_audit_pack_integrity.md",
+    ".devpilot/testing/test_contract_registry.json",
+    ".devpilot/testing/test_contract_registry_v2.json",
+    ".devpilot/docs_governance/source_registry.json",
+    ".devpilot/project_state.json",
+    "docs/release/CHANGELOG.md",
+    "tests/test_project_global_state.py"
+  ],
+  "commands": [
+    "python -m pytest -p no:ddtrace tests/test_post_h_013_audit_pack_integrity.py tests/test_audit_pack_manifest_v2_schema.py -q",
+    "python -m devpilot_core audit-pack build-v2 --execute --json",
+    "python -m devpilot_core audit-pack verify-v2 --pack outputs/auditpacks/audit-pack-v2.zip --json",
+    "python -m devpilot_core schema validate --schema-id AuditPackIntegrityReport --instance outputs/auditpacks/audit-pack-v2_integrity_report.json --json",
+    "python -m devpilot_core test-contracts validate --json",
+    "python -m devpilot_core test-contracts validate-v2 --json"
+  ],
+  "tests": [
+    "tests/test_post_h_013_audit_pack_integrity.py",
+    "tests/test_audit_pack_manifest_v2_schema.py"
+  ],
+  "pass_criteria": [
+    "verify-v2 passes a clean generated audit pack v2.",
+    "verify-v2 detects hash mismatch.",
+    "verify-v2 detects missing declared file.",
+    "verify-v2 detects extra undeclared member.",
+    "verify-v2 blocks disallowed compliance claim drift.",
+    "generated integrity report validates against AuditPackIntegrityReport."
+  ],
+  "block_criteria": [
+    "A modified pack passes verification.",
+    "A missing declared file is only informational.",
+    "A compliance certification claim passes verification.",
+    "Network, external API, remote execution, connector write or plugin execution is required."
+  ],
+  "risks": [
+    "Signature and encryption are not implemented until POST-H-013-D.",
+    "Quality gate integration remains pending until POST-H-013-E.",
+    "Integrity reports are runtime evidence and must be regenerated locally."
+  ],
+  "next_sprint": "POST-H-013",
+  "next_micro_sprint": "POST-H-013-D",
+  "current_repo": "repo_DevPilot_Local_198_POST_H_013_C.zip",
+  "preliminary": true,
+  "local_first": true,
+  "dry_run": true,
+  "network_used": false,
+  "external_api_used": false,
+  "remote_execution_enabled": false,
+  "connector_write_enabled": false,
+  "plugin_execution_enabled": false
+}

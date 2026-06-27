@@ -125,3 +125,29 @@ El ZIP embebe:
 Si `SecretGuard` detecta secreto material, el resultado es BLOCK y no se escribe pack. Los ejemplos documentales explícitos con placeholders se tratan como documentación, no como secreto real.
 
 Límites: `build-v2` no verifica packs recibidos, no firma y no cifra. Esas capacidades quedan para POST-H-013-C/D.
+
+## Verifier v2 — POST-H-013-C
+
+Objetivo: verificar localmente un audit pack v2 recibido o generado antes de usarlo como evidencia.
+
+```powershell
+python -m devpilot_core audit-pack verify-v2 --pack outputs/auditpacks/<pack>.zip --json
+```
+
+El comando valida schema, self-hash del manifest, existencia de miembros declarados, SHA-256 por archivo y ausencia de miembros extra. Genera un integrity report bajo `outputs/auditpacks/<pack_id>_integrity_report.json`.
+
+Criterios de aceptación:
+
+```text
+manifest_schema_valid=true
+manifest_hash_valid=true
+files_total=files_verified
+missing_files_total=0
+hash_mismatches_total=0
+extra_files_total=0
+compliance_certification_claimed=false
+network_used=false
+external_api_used=false
+```
+
+Este reporte es evidencia runtime local, no fuente de verdad versionada. No se debe incluir en ZIPs limpios de entrega; debe regenerarse en el entorno del operador.

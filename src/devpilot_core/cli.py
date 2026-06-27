@@ -7,7 +7,7 @@ from pathlib import Path
 
 from . import __version__
 from .agents import AgentRuntime, AgentRuntimeConfig, inspect_agent_session
-from .auditpack import AuditPackBuilder, AuditPackBuildOptions, AuditPackVerifyOptions, AuditPackV2BuildOptions, AuditPackV2Builder
+from .auditpack import AuditPackBuilder, AuditPackBuildOptions, AuditPackVerifyOptions, AuditPackV2BuildOptions, AuditPackV2Builder, AuditPackV2VerifyOptions, AuditPackV2Verifier
 from .approval.models import ApprovalStatus
 from .approval.service import ApprovalCliInput, ApprovalService
 from .application import ApplicationService
@@ -3135,6 +3135,44 @@ def audit_pack_build_v2_command(
     return int(result.exit_code)
 
 
+def audit_pack_verify_v2_command(
+    *,
+    pack: str,
+    output_dir: str = "outputs/auditpacks",
+    json_output: bool = False,
+    write_report: bool = False,
+) -> int:
+    """Verify POST-H-013-C audit pack v2 integrity locally.
+
+    The verifier validates the embedded manifest v2 against schema, checks the
+    manifest self-hash, verifies every declared file SHA-256, detects missing or
+    extra ZIP members, writes an integrity report under outputs/auditpacks and
+    does not use network or external APIs.
+    """
+
+    root = project_root()
+    result = AuditPackV2Verifier(root).verify(
+        AuditPackV2VerifyOptions(
+            pack=pack,
+            output_dir=output_dir,
+            write_integrity_report=True,
+        )
+    )
+    subject = (result.data or {}).get("summary", {}).get("pack_path") or pack
+    result = _write_optional_command_report(
+        root,
+        result,
+        subject=subject,
+        report_id="audit_pack_verify_v2",
+        write_report=write_report,
+        metadata={"sprint": "POST-H-013-C", "component": "AuditPackV2Verifier"},
+    )
+    _emit_result_event(root, result, subject=subject)
+    _persist_result(root, result, subject=subject)
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+
 def audit_pack_verify_command(
     *,
     path: str,
@@ -4952,6 +4990,11 @@ def build_parser() -> argparse.ArgumentParser:
     audit_pack_verify.add_argument("--path", required=True, help="Audit pack ZIP path to verify")
     audit_pack_verify.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     audit_pack_verify.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+    audit_pack_verify_v2 = audit_pack_sub.add_parser("verify-v2", help="Verify POST-H-013 audit pack v2 manifest, hashes and redaction evidence")
+    audit_pack_verify_v2.add_argument("--pack", required=True, help="Audit pack v2 ZIP path to verify")
+    audit_pack_verify_v2.add_argument("--output-dir", default="outputs/auditpacks", help="Directory for generated integrity report")
+    audit_pack_verify_v2.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    audit_pack_verify_v2.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown command report in outputs/reports")
 
     state = sub.add_parser("state", help="Manage local SQLite operational state")
     state_sub = state.add_subparsers(dest="state_command")
@@ -6079,6 +6122,13 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
             )
         if args.audit_pack_command == "verify":
             return audit_pack_verify_command(path=args.path, json_output=args.json, write_report=args.write_report)
+        if args.audit_pack_command == "verify-v2":
+            return audit_pack_verify_v2_command(
+                pack=args.pack,
+                output_dir=args.output_dir,
+                json_output=args.json,
+                write_report=args.write_report,
+            )
         parser.print_help()
         return int(ExitCode.FAIL)
     if args.command == "state":

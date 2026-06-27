@@ -453,3 +453,7 @@ Controles activos:
 - Exclusión de `.env`, `.devpilot/devpilot.db`, `.devpilot/agent_sessions/**`, llaves y outputs crudos.
 - BLOCK ante secreto material detectado.
 - Sin red, APIs externas, KMS, connector write, plugin execution ni remote execution.
+
+## POST-H-013-C — Audit pack integrity verification risk note
+
+`AuditPackV2Verifier` reduces tampering risk by blocking hash mismatch, missing declared files, extra undeclared ZIP members and invalid compliance claim drift. Remaining risks: no local signing/encryption until POST-H-013-D and no final quality-gate subgate until POST-H-013-E. No network, external API, remote execution, connector write or plugin execution is enabled.

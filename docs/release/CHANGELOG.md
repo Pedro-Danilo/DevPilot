@@ -1,3 +1,15 @@
+
+## [post-h-013-c] - 2026-06-27
+
+### Added
+- Implemented `AuditPackV2Verifier` and CLI `audit-pack verify-v2` for local audit pack v2 integrity verification.
+- Added detection for hash mismatch, missing declared files, extra ZIP members, invalid manifest schema/hash and invalid compliance claim drift.
+- Added POST-H-013-C manifest and audit report.
+
+### Notes
+- Local-first only: no network, external APIs, KMS, remote execution, connector write, plugin execution or compliance certification claim.
+- Signing/encryption remains deferred to POST-H-013-D; final quality-gate integration remains deferred to POST-H-013-E.
+
 # Changelog
 
 ## [post-h-013-b] - 2026-06-27
