@@ -3,7 +3,7 @@
   "schema_id": "SCHEMA-DEVPL-TEST-CONTRACT-REGISTRY-V1",
   "created_by": "POST-H-001",
   "status": "implemented-initial",
-  "description": "Declarative registry classifying DevPilot tests by contract layer after POST-H-001. POST-H-010-A adds observability retention policy tests. POST-H-012-A adds sensitive action catalog validation. POST-H-013-A adds audit pack manifest v2 and local policy validation.",
+  "description": "Declarative registry classifying DevPilot tests by contract layer after POST-H-001. POST-H-010-A adds observability retention policy tests. POST-H-012-A adds sensitive action catalog validation. POST-H-013-A adds audit pack manifest v2 and local policy validation. POST-H-013-B adds audit pack builder v2 dry-run/execute validation.",
   "contracts": [
     {
       "contract_id": "project-global-state",
@@ -3995,6 +3995,44 @@
         "python -m devpilot_core schema validate --schema-id AuditPackManifestV2 --instance tests/fixtures/audit_pack_manifest_v2_sample.json --json",
         "python -m devpilot_core schema list --json",
         "python -m devpilot_core schema validate --schema-id AuditPackIntegrityReport --instance tests/fixtures/audit_pack_integrity_report_sample.json --json"
+      ]
+    },
+    {
+      "contract_id": "post-h-013-audit-pack-builder-v2",
+      "scope": "integration",
+      "owner": "POST-H-013-B",
+      "phase": "POST-FASE-H",
+      "test_files": [
+        "tests/test_post_h_013_audit_pack_integrity.py",
+        "tests/test_audit_pack_manifest_v2_schema.py"
+      ],
+      "validates": [
+        "src/devpilot_core/auditpack/manifest_v2.py",
+        "src/devpilot_core/auditpack/redaction.py",
+        "src/devpilot_core/auditpack/__init__.py",
+        "src/devpilot_core/cli.py",
+        ".devpilot/auditpack/audit_pack_policy.json",
+        "docs/schemas/audit_pack_manifest_v2.schema.json",
+        "docs/backlogs/POST-H-013_audit_pack_integrity.md",
+        "docs/audits/post_h_013_b_builder_v2_report.md",
+        "docs/post_h_013_b_manifest.json"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/auditpack/",
+        "src/devpilot_core/cli.py",
+        ".devpilot/auditpack/",
+        "docs/backlogs/POST-H-013_audit_pack_integrity.md",
+        "docs/05_operations/audit_pack_runbook.md",
+        "tests/test_post_h_013_audit_pack_integrity.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace tests/test_post_h_013_audit_pack_integrity.py tests/test_audit_pack_manifest_v2_schema.py -q",
+        "python -m devpilot_core audit-pack build-v2 --dry-run --json",
+        "python -m devpilot_core audit-pack build-v2 --execute --json",
+        "python -m devpilot_core schema validate --schema-id AuditPackManifestV2 --instance outputs/auditpacks/<pack>_manifest_v2.json --json"
       ]
     }
   ],

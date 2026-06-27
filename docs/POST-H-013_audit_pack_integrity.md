@@ -4,7 +4,7 @@ doc_id: "POST-H-013-BACKLOG"
 id: "POST-H-013"
 title: "POST-H-013 — Audit pack signing/encryption local opcional"
 status: "approved"
-version: "0.2.0"
+version: "0.3.0"
 owner: "Ordóñez"
 updated: "2026-06-27"
 approval: "approved_by_owner"
@@ -19,8 +19,8 @@ no_external_apis_used: true
 no_connector_write_enabled: true
 no_plugin_execution_enabled: true
 implementation_status: "active"
-current_micro_sprint: "POST-H-013-A"
-next_micro_sprint: "POST-H-013-B"
+current_micro_sprint: "POST-H-013-B"
+next_micro_sprint: "POST-H-013-C"
 ---
 
 # POST-H-013 — Audit pack signing/encryption local opcional
@@ -500,5 +500,54 @@ Límites explícitos:
 POST-H-013-A no implementa todavía builder v2, verifier v2, redaction report runtime, firma local ni cifrado local.
 POST-H-013-A no genera ni versiona outputs/auditpacks.
 POST-H-013-A no habilita remote signing, KMS cloud, APIs externas, connector write, plugin execution ni compliance certification claim.
-POST-H-013-B debe implementar builder v2 con checksums y redaction report bajo outputs/auditpacks.
+POST-H-013-B implementa el builder v2 con checksums y redaction report bajo outputs/auditpacks; verifier v2, signing y encryption quedan pendientes.
+```
+
+
+## 15. Avance de implementación — POST-H-013-B
+
+Estado: `implemented-initial`.
+
+Capacidad incorporada:
+
+```text
+- `AuditPackV2Builder` construye el plan y el pack v2 gobernado por `.devpilot/auditpack/audit_pack_policy.json`.
+- `audit-pack build-v2 --dry-run` es el modo por defecto y no escribe ZIP, manifest ni redaction report bajo `outputs/auditpacks`.
+- `audit-pack build-v2 --execute` escribe únicamente artefactos generados bajo `outputs/auditpacks`: ZIP, manifest v2 sidecar y redaction report sidecar.
+- Cada archivo incluido declara `sha256`, `size_bytes`, `kind`, `included=true` y `redaction_applied`.
+- El ZIP embebe `audit-pack-manifest-v2.json` y `redaction_report.json`.
+- `SecretGuard` se usa como scanner compatible; ante secreto material detectado se genera BLOCK y no se escribe pack.
+- La política excluye `.env`, `.devpilot/devpilot.db`, `.devpilot/agent_sessions/**`, outputs crudos, llaves y carpetas de secretos.
+```
+
+Artefactos principales:
+
+```text
+src/devpilot_core/auditpack/manifest_v2.py
+src/devpilot_core/auditpack/redaction.py
+src/devpilot_core/auditpack/__init__.py
+src/devpilot_core/cli.py
+tests/test_post_h_013_audit_pack_integrity.py
+docs/audits/post_h_013_b_builder_v2_report.md
+docs/post_h_013_b_manifest.json
+docs/05_operations/audit_pack_runbook.md
+```
+
+Criterios PASS cubiertos:
+
+```text
+PASS si build-v2 dry-run no escribe pack.
+PASS si build-v2 --execute escribe en outputs/auditpacks.
+PASS si todos los archivos incluidos tienen sha256.
+PASS si redaction_report existe.
+PASS si secrets_detected > 0 genera BLOCK.
+```
+
+Límites explícitos:
+
+```text
+POST-H-013-B no implementa verify-v2 de packs recibidos ni detección de tampering posterior; eso queda para POST-H-013-C.
+POST-H-013-B no implementa signing ni encryption; eso queda para POST-H-013-D.
+POST-H-013-B no integra todavía el subgate final `audit-pack-integrity`; eso queda para POST-H-013-E.
+POST-H-013-B no declara compliance certification, no usa red, no usa APIs externas, no usa KMS y no habilita connector write, plugin execution ni remote execution.
 ```

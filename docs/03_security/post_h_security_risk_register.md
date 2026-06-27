@@ -433,3 +433,23 @@ Plugin execution: no habilitada
 Compliance certification: no declarada
 Siguiente micro-sprint: POST-H-EVAL-001-E — Evaluación de testing, costos y contratos
 ```
+
+
+## Actualización POST-H-013-B — Audit pack builder v2
+
+POST-H-013-B reduce el riesgo de audit packs no reproducibles al agregar `AuditPackV2Builder`, checksums SHA-256 por archivo y redaction report obligatorio. La capacidad se mantiene `implemented-initial`: no firma, no cifra y no verifica packs recibidos.
+
+Riesgos vigentes:
+
+- Un pack construido localmente todavía requiere `verify-v2` para detección formal de tampering posterior.
+- `SecretGuard` es un scanner determinístico local, no una suite industrial completa de secret scanning.
+- Los artefactos bajo `outputs/auditpacks` son runtime artifacts y no deben versionarse.
+- No existe claim de certificación SOC2/ISO/compliance enterprise.
+
+Controles activos:
+
+- Dry-run por defecto.
+- Execute explícito.
+- Exclusión de `.env`, `.devpilot/devpilot.db`, `.devpilot/agent_sessions/**`, llaves y outputs crudos.
+- BLOCK ante secreto material detectado.
+- Sin red, APIs externas, KMS, connector write, plugin execution ni remote execution.

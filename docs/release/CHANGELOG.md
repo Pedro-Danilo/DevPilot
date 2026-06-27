@@ -1,5 +1,22 @@
 # Changelog
 
+## [post-h-013-b] - 2026-06-27
+
+### Added
+
+- Implemented `AuditPackV2Builder` with dry-run default and explicit execute mode.
+- Added `audit-pack build-v2 --dry-run/--execute`.
+- Added mandatory redaction report generation and SHA-256 file checksum evidence for manifest v2.
+- Added POST-H-013-B manifest, audit report and test contract coverage.
+
+### Safety
+
+- No network, external APIs, remote KMS, connector write, plugin execution or remote execution.
+- Execute mode writes only generated runtime artifacts under `outputs/auditpacks`.
+- SecretGuard material detections block pack creation.
+- No compliance certification claim is introduced.
+
+
 ## [post-h-013-a] - 2026-06-27
 
 - Approved POST-H-013 backlog and started Audit pack integrity implementation.

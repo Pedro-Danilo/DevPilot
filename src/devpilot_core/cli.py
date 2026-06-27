@@ -7,7 +7,7 @@ from pathlib import Path
 
 from . import __version__
 from .agents import AgentRuntime, AgentRuntimeConfig, inspect_agent_session
-from .auditpack import AuditPackBuilder, AuditPackBuildOptions, AuditPackVerifyOptions
+from .auditpack import AuditPackBuilder, AuditPackBuildOptions, AuditPackVerifyOptions, AuditPackV2BuildOptions, AuditPackV2Builder
 from .approval.models import ApprovalStatus
 from .approval.service import ApprovalCliInput, ApprovalService
 from .application import ApplicationService
@@ -3093,6 +3093,48 @@ def audit_pack_build_command(
     return int(result.exit_code)
 
 
+def audit_pack_build_v2_command(
+    *,
+    actor: str | None = "local-owner",
+    output_dir: str = "outputs/auditpacks",
+    policy_path: str = ".devpilot/auditpack/audit_pack_policy.json",
+    dry_run: bool = True,
+    execute: bool = False,
+    json_output: bool = False,
+    write_report: bool = False,
+) -> int:
+    """Build POST-H-013-B audit pack v2 evidence with checksums and redaction report.
+
+    Dry-run is the default and does not write pack artifacts. Execute mode writes
+    only under outputs/auditpacks and still blocks if SecretGuard detects
+    secret-like material or policy exclusions are violated.
+    """
+
+    root = project_root()
+    result = AuditPackV2Builder(root).build(
+        AuditPackV2BuildOptions(
+            actor=actor,
+            output_dir=output_dir,
+            policy_path=policy_path,
+            dry_run=dry_run,
+            execute=execute,
+        )
+    )
+    subject = (result.data or {}).get("summary", {}).get("pack_path") or "audit-pack-v2"
+    result = _write_optional_command_report(
+        root,
+        result,
+        subject=subject,
+        report_id="audit_pack_build_v2",
+        write_report=write_report,
+        metadata={"sprint": "POST-H-013-B", "component": "AuditPackV2Builder"},
+    )
+    _emit_result_event(root, result, subject=subject)
+    _persist_result(root, result, subject=subject)
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+
 def audit_pack_verify_command(
     *,
     path: str,
@@ -4898,6 +4940,14 @@ def build_parser() -> argparse.ArgumentParser:
     audit_pack_build.add_argument("--confirm-include-runtime-db", action="store_true", help="Explicitly acknowledge DB export risk; still blocked in Sprint 96")
     audit_pack_build.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     audit_pack_build.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+    audit_pack_build_v2 = audit_pack_sub.add_parser("build-v2", help="Build POST-H-013 audit pack v2 with manifest, checksums and redaction report")
+    audit_pack_build_v2.add_argument("--actor", default="local-owner", help="Local actor id used for RBAC evidence")
+    audit_pack_build_v2.add_argument("--output-dir", default="outputs/auditpacks", help="Output directory for generated audit pack v2 artifacts")
+    audit_pack_build_v2.add_argument("--policy-path", default=".devpilot/auditpack/audit_pack_policy.json", help="Audit pack v2 policy path")
+    audit_pack_build_v2.add_argument("--dry-run", action="store_true", help="Plan build-v2 without writing pack artifacts; default mode")
+    audit_pack_build_v2.add_argument("--execute", action="store_true", help="Write audit pack v2 ZIP and reports under outputs/auditpacks")
+    audit_pack_build_v2.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    audit_pack_build_v2.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
     audit_pack_verify = audit_pack_sub.add_parser("verify", help="Verify audit pack ZIP manifest, checksums and export policy")
     audit_pack_verify.add_argument("--path", required=True, help="Audit pack ZIP path to verify")
     audit_pack_verify.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
@@ -6014,6 +6064,16 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
                 include_reports=not args.no_reports,
                 include_runtime_db=args.include_runtime_db,
                 confirm_include_runtime_db=args.confirm_include_runtime_db,
+                json_output=args.json,
+                write_report=args.write_report,
+            )
+        if args.audit_pack_command == "build-v2":
+            return audit_pack_build_v2_command(
+                actor=args.actor,
+                output_dir=args.output_dir,
+                policy_path=args.policy_path,
+                dry_run=(args.dry_run or not args.execute),
+                execute=args.execute,
                 json_output=args.json,
                 write_report=args.write_report,
             )

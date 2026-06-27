@@ -2,11 +2,11 @@
 title: "Runbook — DevPilot Local"
 doc_id: "DEVPL-OPS-002"
 status: "approved"
-version: "1.46.0"
+version: "1.47.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "POST-H-013-A"
+phase: "POST-H-013-B"
 updated: "2026-06-27"
 approval: "approved_by_owner"
 source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved + 03_security approved"
@@ -16,7 +16,7 @@ approval_scope: "SPRINT-PRECODE-05 quality operations baseline"
 
 # Runbook — DevPilot Local
 
-Hito operativo activo: `POST-H-013 — Audit pack integrity`; último hito cerrado: `POST-H-012 — Approval/RBAC hardening`; último micro-sprint implementado: `POST-H-013-A — Audit pack manifest v2 y policy`; siguiente micro-sprint: `POST-H-013-B — Builder v2 con checksums y redaction report`.
+Hito operativo activo: `POST-H-013 — Audit pack integrity`; último hito cerrado: `POST-H-012 — Approval/RBAC hardening`; último micro-sprint implementado: `POST-H-013-B — Builder v2 con checksums y redaction report`; siguiente micro-sprint: `POST-H-013-C — Verifier v2 de integridad local`.
 
 
 ## POST-H-013-A — Audit pack manifest v2 y policy
@@ -51,6 +51,38 @@ BLOCK si audit pack policy requiere red o proveedor externo.
 ```
 
 Límites: esta versión es `implemented-initial`; no genera `outputs/auditpacks`, no firma, no cifra y no verifica ZIPs reales. Esos puntos quedan para POST-H-013-B/C/D/E.
+
+
+## POST-H-013-B — Builder v2 con checksums y redaction report
+
+Objetivo operativo: construir audit packs v2 locales de forma controlada, con dry-run por defecto, checksums SHA-256 y redaction report obligatorio.
+
+Comandos de verificación:
+
+```powershell
+python -m pytest -p no:ddtrace tests/test_post_h_013_audit_pack_integrity.py tests/test_audit_pack_manifest_v2_schema.py -q
+python -m devpilot_core audit-pack build-v2 --dry-run --json
+python -m devpilot_core audit-pack build-v2 --execute --json
+```
+
+Criterios PASS:
+
+```text
+PASS si build-v2 dry-run no escribe pack artifacts.
+PASS si build-v2 --execute escribe ZIP, manifest v2 y redaction report bajo outputs/auditpacks.
+PASS si todos los archivos incluidos tienen sha256.
+PASS si SecretGuard no detecta secretos materiales.
+```
+
+Criterios BLOCK:
+
+```text
+BLOCK si SecretGuard detecta secreto material.
+BLOCK si se intenta exportar .env, .devpilot/devpilot.db o .devpilot/agent_sessions/**.
+BLOCK si se requiere red, API externa, KMS remoto, connector write, plugin execution o remote execution.
+```
+
+Límites: esta versión es `implemented-initial`; `verify-v2`, firma, cifrado y subgate final quedan para POST-H-013-C/D/E.
 
 
 ## 1. Propósito
