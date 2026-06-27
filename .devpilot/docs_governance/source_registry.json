@@ -698,7 +698,9 @@
         "docs/post_h_011_c_manifest.json",
         "docs/04_quality/rag_groundedness_eval_strategy.md",
         "docs/audits/post_h_011_d_eval_runner_report.md",
-        "docs/post_h_011_d_manifest.json"
+        "docs/post_h_011_d_manifest.json",
+        "docs/audits/post_h_011_e_rag_groundedness_gate_report.md",
+        "docs/post_h_011_e_manifest.json"
       ],
       "required_tests": [
         "tests/test_documentation_governance_backlogs.py",
@@ -706,7 +708,8 @@
         "tests/test_post_h_011_rag_groundedness.py",
         "tests/test_rag_citations_source_coverage.py",
         "tests/test_rag_groundedness_claims.py",
-        "tests/test_rag_groundedness_eval_runner.py"
+        "tests/test_rag_groundedness_eval_runner.py",
+        "tests/test_rag_groundedness_ready_gate.py"
       ],
       "sync_rules": [
         "backlog_naming",
@@ -717,14 +720,15 @@
       "roadmap_milestones": [
         "POST-H-011"
       ],
-      "lifecycle": "active",
+      "lifecycle": "closed",
       "notes": [
         "Roadmap-derived executable backlog governed by POST-H-009-D.",
         "Approved for implementation in POST-H-011-A after POST-H-010 closure.",
         "POST-H-011-A registers schema and fixture contracts only; evaluator, CLI and quality-gate integration are later micro-sprints.",
         "POST-H-011-B adds local citation extraction and source coverage without claim evaluation, network or external APIs.",
         "POST-H-011-C adds deterministic required/forbidden claim evaluation and claim_support without LLM judge, web search or external APIs.",
-        "POST-H-011-D adds local rag groundedness-eval CLI, eval runner bridge and outputs/evals report writing without network, external APIs or source mutations."
+        "POST-H-011-D adds local rag groundedness-eval CLI, eval runner bridge and outputs/evals report writing without network, external APIs or source mutations.",
+        "POST-H-011-E binds rag-groundedness-ready to quality-gate hardening/industrial profiles and closes POST-H-011 as implemented-initial."
       ]
     },
     {
@@ -1258,7 +1262,7 @@
     "network_used": false,
     "external_api_used": false,
     "mutations_performed": false,
-    "last_updated_by": "POST-H-011-B",
+    "last_updated_by": "POST-H-011-E",
     "markdown_json_sync_checks_enabled": true,
     "sync_checks_scope": "version_match, milestones_match, decisions_match, closure_status_match, next_hito_match",
     "backlog_governance_enabled": true,
@@ -1289,11 +1293,15 @@
     "rag_groundedness_report_schema_path": "docs/schemas/rag_groundedness_report.schema.json",
     "rag_groundedness_fixture_path": "evals/fixtures/rag_groundedness_post_h_cases.json",
     "post_h_011_approved": true,
-    "post_h_011_current_micro_sprint": "POST-H-011-A",
+    "post_h_011_current_micro_sprint": "POST-H-011-E",
     "post_h_011_schema_fixture_baseline_registered": true,
     "rag_source_coverage_enabled": true,
     "rag_source_coverage_module": "src/devpilot_core/rag/citations.py",
-    "rag_source_coverage_tests": "tests/test_rag_citations_source_coverage.py"
+    "rag_source_coverage_tests": "tests/test_rag_citations_source_coverage.py",
+    "post_h_011_rag_groundedness_ready_gate_bound": true,
+    "post_h_011_closed": true,
+    "machine_readable_total": 5,
+    "required_tests_total": 60
   },
   "safety": {
     "local_first": true,

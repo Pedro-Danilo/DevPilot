@@ -6904,6 +6904,76 @@
         "test-contracts",
         "post-h"
       ]
+    },
+    {
+      "contract_id": "post-h-011-rag-groundedness-ready-gate",
+      "domain": "knowledge.rag",
+      "capability": "RagGroundednessReadyGate",
+      "scope": "integration",
+      "owner": "POST-H-011-E",
+      "criticality": "P1",
+      "risk_level": "high",
+      "cost_class": "low",
+      "runtime_class": "local",
+      "deterministic": true,
+      "required_for_release": true,
+      "required_for_security_gate": true,
+      "test_files": [
+        "tests/test_rag_groundedness_ready_gate.py",
+        "tests/test_post_h_011_rag_groundedness.py"
+      ],
+      "validates": [
+        "src/devpilot_core/rag/evals.py",
+        "src/devpilot_core/quality/gate.py",
+        "docs/04_quality/rag_groundedness_eval_strategy.md",
+        "docs/audits/post_h_011_e_rag_groundedness_gate_report.md",
+        "docs/post_h_011_e_manifest.json"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/rag/",
+        "src/devpilot_core/quality/gate.py",
+        "evals/fixtures/rag_groundedness_post_h_cases.json",
+        "docs/backlogs/POST-H-011_rag_groundedness_evals.md",
+        "docs/04_quality/rag_groundedness_eval_strategy.md"
+      ],
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "writes_outputs_allowed": false,
+      "requires_secrets": false,
+      "approval_required": false,
+      "recommended_commands": [
+        "python -m pytest tests/test_rag_groundedness_ready_gate.py tests/test_post_h_011_rag_groundedness.py -q",
+        "python -m devpilot_core quality-gate run --profile hardening --json",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ],
+      "classification_status": "explicit",
+      "schema_version": "2.0",
+      "source_contract_id": "post-h-011-rag-groundedness-ready-gate",
+      "test_type": "integration",
+      "execution_profile": "always",
+      "expected_duration_seconds": 120,
+      "requires_human_approval": false,
+      "classification_notes": [
+        "POST-H-011-E binds the local deterministic RAG groundedness runner to the hardening/industrial quality gate without external providers.",
+        "outputs/evals are runtime evidence and are not canonical versioned sources."
+      ],
+      "trigger_hints": [
+        "rag-groundedness",
+        "quality-gate",
+        "hardening",
+        "post-h-011",
+        "forbidden-claims"
+      ],
+      "impact_scope": [
+        "rag",
+        "groundedness",
+        "quality",
+        "docs",
+        "test-contracts",
+        "post-h"
+      ]
     }
   ],
   "migration_metadata": {

@@ -2,6 +2,23 @@
 
 
 
+
+## [post-h-011-e] - 2026-06-26
+
+### Added
+- Integrated `rag-groundedness-ready` into the hardening/industrial quality-gate profiles.
+- Added readiness checks for suite execution, source coverage, claim support, local RAG query coverage and negative forbidden-claim blocking.
+- Added POST-H-011-E manifest, audit report and tests.
+
+### Changed
+- Closed `POST-H-011 — RAG groundedness evals` as implemented-initial.
+- Advanced project state to `last_completed_sprint=POST-H-011` and `next_sprint=POST-H-012`.
+- Updated RAG groundedness strategy and runbook with final limits and no-go gates.
+
+### Safety
+- No network, external APIs, web search, LLM judge, remote execution, connector write or plugin execution.
+- `outputs/evals` remains runtime evidence and is not a versionable canonical source.
+
 ## [post-h-011-d] - 2026-06-26
 
 ### Added
@@ -70,7 +87,7 @@
 - This is a schema/fixture baseline only; evaluator, CLI and quality-gate integration are planned for later POST-H-011 micro-sprints.
 
 
-Siguiente hito: `POST-H-011 — RAG groundedness evals`; micro-sprint activo `POST-H-011-D`.
+Siguiente hito: `POST-H-012 — Approval/RBAC hardening`; POST-H-011 cerrado con `POST-H-011-E`.
 
 ## [post-h-010-e] - 2026-06-26
 
@@ -725,7 +742,7 @@ owner: "Ordóñez"
 
 # Changelog
 
-Siguiente hito: `POST-H-011 — RAG groundedness evals`; micro-sprint activo `POST-H-011-D`.
+Siguiente hito: `POST-H-012 — Approval/RBAC hardening`; POST-H-011 cerrado con `POST-H-011-E`.
 
 ## [post-h-010-e] - 2026-06-26
 

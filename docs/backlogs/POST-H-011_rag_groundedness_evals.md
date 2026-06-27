@@ -17,9 +17,9 @@ no_remote_execution_enabled: true
 no_external_apis_used_by_default: true
 no_connector_write_enabled: true
 no_plugin_execution_enabled: true
-implementation_status: "active"
-current_micro_sprint: "POST-H-011-D"
-next_micro_sprint: "POST-H-011-E"
+implementation_status: "closed"
+current_micro_sprint: "POST-H-011-E"
+next_micro_sprint: "POST-H-012"
 ---
 
 # POST-H-011 — RAG groundedness evals
@@ -525,7 +525,6 @@ Límites explícitos:
 
 ```text
 - No añade todavía comando CLI rag groundedness-eval; eso queda para POST-H-011-D.
-- No integra todavía quality-gate; eso queda para POST-H-011-E.
 - No declara RAG production-grade ni reemplaza fuentes canónicas.
 ```
 
@@ -580,7 +579,6 @@ Límites explícitos:
 - No añade todavía comando CLI rag groundedness-eval; eso queda para POST-H-011-D.
 - No escribe todavía outputs/evals/rag_groundedness_report.json ni .md.
 - No integra todavía eval runner; eso queda para POST-H-011-D.
-- No integra todavía quality-gate; eso queda para POST-H-011-E.
 - El matching es lexical determinístico con normalización/variantes simples; no equivale a razonamiento semántico completo.
 - No declara RAG production-grade ni reemplaza fuentes canónicas.
 ```
@@ -637,3 +635,52 @@ Límites explícitos:
 ```
 
 Siguiente micro-sprint: `POST-H-011-E — Gate y documentación de límites RAG`.
+
+## 18. Avance de implementación — POST-H-011-E
+
+Estado: `implemented-initial`; cierre del hito `POST-H-011`.
+
+`POST-H-011-E` integra la evaluación de RAG groundedness al `quality-gate` mediante el subgate `rag-groundedness-ready`. La validación se ejecuta localmente, sin escribir reportes runtime, sin red, sin APIs externas, sin web search, sin LLM judge, sin embeddings remotos, sin ejecución remota, sin connector write y sin plugin execution.
+
+Artefactos principales:
+
+```text
+src/devpilot_core/rag/evals.py
+src/devpilot_core/quality/gate.py
+tests/test_rag_groundedness_ready_gate.py
+docs/audits/post_h_011_e_rag_groundedness_gate_report.md
+docs/post_h_011_e_manifest.json
+docs/04_quality/rag_groundedness_eval_strategy.md
+```
+
+Capacidades implementadas:
+
+```text
+- Subgate `rag-groundedness-ready` en los perfiles `hardening` e `industrial`.
+- Verificación offline de suite completa, source coverage, claim support y RAG query local.
+- Verificación explícita de que los casos con `forbidden_claims` bloquean mediante una respuesta candidata sintética insegura.
+- Bloqueo si la suite no cumple mínimo de casos, cobertura de fuentes, soporte de claims o si intenta aceptar outputs/evals como fuente canónica.
+- Documentación final de límites: RAG no reemplaza fuentes canónicas ni revisión humana para decisiones críticas.
+```
+
+Criterios PASS cubiertos:
+
+```text
+- `quality-gate run --profile hardening` incluye `rag-groundedness-ready`.
+- `test-contracts validate` y `test-contracts validate-v2` registran el contrato POST-H-011-E.
+- La documentación declara no-go gates y límites operativos del RAG local.
+- Los casos negativos con `forbidden_claims` bloquean correctamente.
+```
+
+Límites explícitos al cierre de POST-H-011:
+
+```text
+- El RAG local permanece `implemented-initial` y lexical.
+- No hay entailment semántico completo ni LLM judge obligatorio.
+- Los reportes `outputs/evals` son evidencia runtime regenerable y no fuente de verdad versionable.
+- La fuente canónica continúa siendo la documentación gobernada por `.devpilot/docs_governance/source_registry.json`.
+- La declaración production-ready global queda fuera de este hito y corresponde a POST-H-025.
+```
+
+Siguiente hito: `POST-H-012 — Approval/RBAC hardening`.
+

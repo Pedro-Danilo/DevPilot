@@ -17,7 +17,9 @@ from devpilot_core.rag.indexer import _DEFAULT_INDEX_PATH
 from devpilot_core.rag.retriever import LocalRagRetriever, RagQueryOptions
 
 POST_H_011_D_CREATED_BY = "POST-H-011-D"
+POST_H_011_E_CREATED_BY = "POST-H-011-E"
 RAG_GROUNDEDNESS_EVAL_RUNNER_COMMAND = "rag groundedness-eval"
+RAG_GROUNDEDNESS_READY_GATE_COMMAND = "quality rag-groundedness-ready"
 DEFAULT_RAG_GROUNDEDNESS_REPORT_JSON = "outputs/evals/rag_groundedness_report.json"
 DEFAULT_RAG_GROUNDEDNESS_REPORT_MD = "outputs/evals/rag_groundedness_report.md"
 
@@ -306,6 +308,171 @@ class RagGroundednessEvalRunner:
             raise ValueError("RAG groundedness reports must be written under outputs/evals/.")
         return candidate
 
+
+
+@dataclass(frozen=True)
+class RagGroundednessReadyGateOptions:
+    """Options for POST-H-011-E quality-gate integration.
+
+    The gate intentionally does not write runtime reports. It verifies that the
+    POST-H-011 suite can run offline, that local RAG query evidence is present,
+    that deterministic claim scoring reaches thresholds, and that at least one
+    negative/forbidden-claim case blocks when exercised with a synthetic bad
+    candidate answer.
+    """
+
+    suite_path: str = DEFAULT_RAG_GROUNDEDNESS_FIXTURE
+    index_path: str = _DEFAULT_INDEX_PATH
+    min_cases: int = 10
+    min_source_coverage: float = 1.0
+    min_claim_support: float = 0.8
+    top_k: int = 5
+
+
+class RagGroundednessReadyGate:
+    """Quality subgate for POST-H-011 RAG groundedness readiness.
+
+    The gate is local-first, read-only and dry-run. It is designed for
+    ``quality-gate run --profile hardening`` and ``industrial`` profiles, and it
+    does not create ``outputs/evals`` artifacts. Report writing remains an
+    explicit operator action through ``rag groundedness-eval --write-report``.
+    """
+
+    def __init__(self, root: Path, *, options: RagGroundednessReadyGateOptions | None = None) -> None:
+        self.root = Path(root).resolve()
+        self.options = options or RagGroundednessReadyGateOptions()
+
+    def run(self) -> CommandResult:
+        findings: list[Finding] = []
+        runner = RagGroundednessEvalRunner(
+            self.root,
+            options=RagGroundednessEvalRunOptions(
+                suite_path=self.options.suite_path,
+                index_path=self.options.index_path,
+                strict=True,
+                top_k=self.options.top_k,
+                run_rag_query=True,
+            ),
+        )
+        result = runner.run(write_report=False)
+        findings.extend(result.findings)
+        summary = dict((result.data or {}).get("summary") or {})
+        case_results = list((result.data or {}).get("case_results") or [])
+
+        negative_ok, negative_summary, negative_findings = self._exercise_negative_case()
+        findings.extend(negative_findings)
+
+        cases_total = int(summary.get("cases_total") or 0)
+        source_coverage_avg = float(summary.get("source_coverage_avg") or 0.0)
+        claim_support_avg = float(summary.get("claim_support_avg") or 0.0)
+        reports_written = bool(summary.get("reports_written"))
+        cases_with_forbidden = len([case for case in case_results if int(case.get("forbidden_claims_total") or 0) > 0])
+
+        if cases_total < self.options.min_cases:
+            findings.append(Finding("RAG_GROUNDEDNESS_READY_MIN_CASES_BLOCK", "RAG groundedness suite has fewer cases than the readiness threshold.", Severity.BLOCK, metadata={"cases_total": cases_total, "min_cases": self.options.min_cases}))
+        if source_coverage_avg < self.options.min_source_coverage:
+            findings.append(Finding("RAG_GROUNDEDNESS_READY_SOURCE_COVERAGE_BLOCK", "RAG groundedness source coverage is below the readiness threshold.", Severity.BLOCK, metadata={"source_coverage_avg": source_coverage_avg, "min_source_coverage": self.options.min_source_coverage}))
+        if claim_support_avg < self.options.min_claim_support:
+            findings.append(Finding("RAG_GROUNDEDNESS_READY_CLAIM_SUPPORT_BLOCK", "RAG groundedness claim support is below the readiness threshold.", Severity.BLOCK, metadata={"claim_support_avg": claim_support_avg, "min_claim_support": self.options.min_claim_support}))
+        if cases_with_forbidden <= 0:
+            findings.append(Finding("RAG_GROUNDEDNESS_READY_NEGATIVE_CASES_MISSING", "RAG groundedness suite must include forbidden_claims negative cases.", Severity.BLOCK))
+        if not negative_ok:
+            findings.append(Finding("RAG_GROUNDEDNESS_READY_NEGATIVE_CASE_NOT_BLOCKED", "Synthetic forbidden-claim candidate did not block as expected.", Severity.BLOCK, metadata=negative_summary))
+        if reports_written:
+            findings.append(Finding("RAG_GROUNDEDNESS_READY_REPORT_WRITTEN", "Quality subgate must not write outputs/evals reports.", Severity.BLOCK))
+        if summary.get("network_used") or summary.get("external_api_used") or summary.get("web_search_used") or summary.get("llm_judge_used"):
+            findings.append(Finding("RAG_GROUNDEDNESS_READY_REMOTE_DEPENDENCY_BLOCK", "RAG groundedness readiness must stay offline and must not use external providers.", Severity.BLOCK))
+        if summary.get("outputs_as_sources_allowed"):
+            findings.append(Finding("RAG_GROUNDEDNESS_READY_OUTPUTS_AS_SOURCES_BLOCK", "outputs/evals must not be accepted as canonical groundedness sources.", Severity.BLOCK))
+
+        blocking = [item for item in findings if item.severity in {Severity.BLOCK, Severity.ERROR, Severity.FAIL}]
+        gate_summary = {
+            "created_by": POST_H_011_E_CREATED_BY,
+            "status": "implemented-initial",
+            "preliminary": True,
+            "quality_gate_ready": not blocking and bool(result.ok),
+            "quality_gate_subgate": "rag-groundedness-ready",
+            "suite_path": self.options.suite_path,
+            "index_path": self.options.index_path,
+            "cases_total": cases_total,
+            "min_cases": self.options.min_cases,
+            "source_coverage_avg": source_coverage_avg,
+            "min_source_coverage": self.options.min_source_coverage,
+            "claim_support_avg": claim_support_avg,
+            "min_claim_support": self.options.min_claim_support,
+            "cases_passed": int(summary.get("cases_passed") or 0),
+            "cases_blocked": int(summary.get("cases_blocked") or 0),
+            "queries_total": int(summary.get("queries_total") or 0),
+            "queries_with_sources_total": int(summary.get("queries_with_sources_total") or 0),
+            "query_failures_total": int(summary.get("query_failures_total") or 0),
+            "cases_with_forbidden_claims_total": cases_with_forbidden,
+            "negative_case_block_checked": True,
+            "negative_case_blocked": negative_ok,
+            "negative_case_id": negative_summary.get("case_id"),
+            "forbidden_claim_tested": negative_summary.get("forbidden_claim"),
+            "reports_written": reports_written,
+            "read_only": True,
+            "dry_run": True,
+            "local_first": True,
+            "network_used": False,
+            "external_api_used": False,
+            "web_search_used": False,
+            "llm_judge_used": False,
+            "embeddings_used": False,
+            "remote_execution_enabled": False,
+            "connector_write_enabled": False,
+            "plugin_execution_enabled": False,
+            "mutations_performed": False,
+            "source_mutations_performed": False,
+            "outputs_as_sources_allowed": False,
+            "blocking_findings_total": len(blocking),
+            "findings_total": len(findings),
+        }
+        ok = bool(result.ok) and not blocking
+        gate_findings = []
+        if ok:
+            gate_findings.append(Finding("RAG_GROUNDEDNESS_READY_PASS", "RAG groundedness readiness gate passed offline with local sources, deterministic claims and negative-case blocking.", Severity.INFO, metadata={"cases_total": cases_total, "source_coverage_avg": source_coverage_avg, "claim_support_avg": claim_support_avg}))
+        else:
+            gate_findings = findings
+        return CommandResult(
+            command=RAG_GROUNDEDNESS_READY_GATE_COMMAND,
+            ok=ok,
+            exit_code=ExitCode.PASS if ok else _exit_code(findings),
+            message="RAG groundedness readiness gate passed." if ok else "RAG groundedness readiness gate failed or blocked.",
+            data={"summary": gate_summary, "runner_summary": summary, "negative_case": negative_summary},
+            findings=gate_findings,
+        )
+
+    def _exercise_negative_case(self) -> tuple[bool, dict[str, Any], list[Finding]]:
+        suite_path = self.root / self.options.suite_path
+        try:
+            suite = json.loads(suite_path.read_text(encoding="utf-8"))
+        except Exception as exc:  # pragma: no cover - defensive; load failures are covered by runner too
+            return False, {"error": str(exc), "case_id": None, "forbidden_claim": None}, [Finding("RAG_GROUNDEDNESS_READY_NEGATIVE_LOAD_ERROR", "Could not load groundedness fixture for negative-case readiness check.", Severity.ERROR, path=self.options.suite_path, metadata={"error": str(exc)})]
+        cases = suite.get("cases") if isinstance(suite, dict) else None
+        if not isinstance(cases, list):
+            return False, {"case_id": None, "forbidden_claim": None}, [Finding("RAG_GROUNDEDNESS_READY_NEGATIVE_CASES_INVALID", "Groundedness fixture has no cases array for negative-case readiness check.", Severity.ERROR, path=self.options.suite_path)]
+        candidate_case = next((case for case in cases if case.get("forbidden_claims")), None)
+        if not candidate_case:
+            return False, {"case_id": None, "forbidden_claim": None}, []
+        case_id = str(candidate_case.get("case_id"))
+        forbidden_claim = str((candidate_case.get("forbidden_claims") or [""])[0])
+        evaluator = RagGroundednessEvaluator(
+            self.root,
+            options=GroundednessOptions(
+                fixture_path=self.options.suite_path,
+                index_path=self.options.index_path,
+                use_index=True,
+                strict=True,
+                case_id=case_id,
+                candidate_answers={case_id: f"This unsafe candidate asserts: {forbidden_claim}."},
+            ),
+        )
+        result = evaluator.run()
+        summary = dict((result.data or {}).get("summary") or {})
+        case_results = list((result.data or {}).get("case_results") or [])
+        blocked = (not result.ok) and bool(case_results) and case_results[0].get("status") == "block" and int(summary.get("forbidden_claims_detected_total") or 0) > 0
+        return blocked, {"case_id": case_id, "forbidden_claim": forbidden_claim, "result_ok": result.ok, "case_status": case_results[0].get("status") if case_results else None, "forbidden_claims_detected_total": int(summary.get("forbidden_claims_detected_total") or 0)}, []
 
 def _build_eval_runner_report(summary: dict[str, Any], case_results: list[dict[str, Any]], findings: list[Finding]) -> dict[str, Any]:
     status = "pass"

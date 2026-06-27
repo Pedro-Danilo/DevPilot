@@ -1,0 +1,91 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "SCHEMA-DEVPL-POST-H-MANIFEST-V1",
+  "post_h_id": "POST-H-011",
+  "id": "POST-H-011-E",
+  "title": "POST-H-011-E — Gate y documentación de límites RAG",
+  "status": "implemented-initial",
+  "phase": "POST-FASE-H",
+  "implemented_at": "2026-06-26",
+  "created_files": [
+    "tests/test_rag_groundedness_ready_gate.py",
+    "docs/audits/post_h_011_e_rag_groundedness_gate_report.md",
+    "docs/post_h_011_e_manifest.json"
+  ],
+  "modified_files": [
+    "src/devpilot_core/rag/evals.py",
+    "src/devpilot_core/rag/__init__.py",
+    "src/devpilot_core/quality/gate.py",
+    "docs/04_quality/rag_groundedness_eval_strategy.md",
+    "docs/backlogs/POST-H-011_rag_groundedness_evals.md",
+    "docs/POST-H-011_rag_groundedness_evals.md",
+    ".devpilot/docs_governance/source_registry.json",
+    ".devpilot/project_state.json",
+    ".devpilot/testing/test_contract_registry.json",
+    ".devpilot/testing/test_contract_registry_v2.json",
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/release/CHANGELOG.md",
+    "tests/test_post_h_011_rag_groundedness.py",
+    "tests/test_project_global_state.py"
+  ],
+  "commands": [
+    "python -m pytest -p no:ddtrace tests/test_rag_groundedness_ready_gate.py tests/test_rag_groundedness_eval_runner.py tests/test_rag_groundedness_claims.py tests/test_rag_citations_source_coverage.py tests/test_post_h_011_rag_groundedness.py tests/test_rag_groundedness_schema.py -q",
+    "python -m devpilot_core quality-gate run --profile hardening --json",
+    "python -m devpilot_core rag groundedness-eval --suite evals/fixtures/rag_groundedness_post_h_cases.json --json",
+    "python -m devpilot_core schema validate --schema-id PostHManifest --instance docs/post_h_011_e_manifest.json --json",
+    "python -m devpilot_core docs-governance validate --json",
+    "python -m devpilot_core test-contracts validate --json",
+    "python -m devpilot_core test-contracts validate-v2 --json",
+    "python -m devpilot_core project-state validate --json"
+  ],
+  "tests": [
+    "tests/test_rag_groundedness_ready_gate.py",
+    "tests/test_rag_groundedness_eval_runner.py",
+    "tests/test_rag_groundedness_claims.py",
+    "tests/test_rag_citations_source_coverage.py",
+    "tests/test_post_h_011_rag_groundedness.py",
+    "tests/test_rag_groundedness_schema.py",
+    "tests/test_schema_registry.py",
+    "tests/test_project_global_state.py",
+    "tests/test_documentation_governance_validator.py",
+    "tests/test_test_contract_registry.py",
+    "tests/test_test_contract_registry_v2.py"
+  ],
+  "pass_criteria": [
+    "quality-gate hardening incluye rag-groundedness-ready",
+    "test-contracts validate y validate-v2 pasan",
+    "la documentación declara límites y no-go gates",
+    "los casos negativos con forbidden_claims bloquean correctamente",
+    "RAG no se declara production-grade ni fuente canónica"
+  ],
+  "block_criteria": [
+    "Bloquear si RAG requiere provider externo",
+    "Bloquear si outputs/evals se vuelven fuente versionable obligatoria",
+    "Bloquear si se recomienda LLM judge externo obligatorio",
+    "Bloquear si se habilita web search o API externa por defecto",
+    "Bloquear si una respuesta con forbidden_claims pasa silenciosamente"
+  ],
+  "risks": [
+    "El RAG local sigue siendo lexical implemented-initial",
+    "El matching de claims no equivale a entailment semántico completo",
+    "El quality gate no escribe outputs/evals por diseño",
+    "RAG sigue sin reemplazar fuentes canónicas ni aprobación humana para acciones críticas"
+  ],
+  "next_sprint": "POST-H-012",
+  "preliminary": true,
+  "security": {
+    "local_first": true,
+    "dry_run": true,
+    "read_only": true,
+    "network_used": false,
+    "external_api_used": false,
+    "web_search_used": false,
+    "llm_judge_required": false,
+    "remote_execution_enabled": false,
+    "connector_write_enabled": false,
+    "plugin_execution_enabled": false,
+    "mutations_performed": false,
+    "source_mutations_performed": false
+  }
+}

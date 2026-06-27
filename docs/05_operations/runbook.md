@@ -2,11 +2,11 @@
 title: "Runbook — DevPilot Local"
 doc_id: "DEVPL-OPS-002"
 status: "approved"
-version: "1.40.0"
+version: "1.41.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "POST-H-010-E"
+phase: "POST-H-011-E"
 updated: "2026-06-26"
 approval: "approved_by_owner"
 source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved + 03_security approved"
@@ -16,7 +16,7 @@ approval_scope: "SPRINT-PRECODE-05 quality operations baseline"
 
 # Runbook — DevPilot Local
 
-Siguiente hito operativo: `POST-H-011 — RAG groundedness evals`; micro-sprint activo: `POST-H-011-D — Integración con RAG query y eval runner`.
+Siguiente hito operativo: `POST-H-012 — Approval/RBAC hardening`; último micro-sprint cerrado: `POST-H-011-E — Gate y documentación de límites RAG`.
 
 
 ## 1. Propósito
@@ -7784,7 +7784,7 @@ python -m devpilot_core schema validate `
   --json
 ```
 
-Límites: todavía no se evalúa claim support, unsupported claims ni forbidden claims. Esa lógica queda para `POST-H-011-C`; CLI y reportes runtime quedan para `POST-H-011-D`; quality-gate queda para `POST-H-011-E`.
+Límites: todavía no se evalúa claim support, unsupported claims ni forbidden claims. Esa lógica queda para `POST-H-011-C`; CLI y reportes runtime quedan para `POST-H-011-D`; quality-gate queda cubierto por `POST-H-011-E`.
 
 ## POST-H-011-C — Evaluador determinístico de claims
 
@@ -7804,7 +7804,7 @@ Límites operativos:
 - Implementación implemented-initial.
 - No usa LLM judge, web search, APIs externas ni embeddings remotos.
 - No habilita remote execution, connector write ni plugin execution.
-- POST-H-011-D ya añade CLI y escritura explícita de outputs/evals; quality-gate queda para POST-H-011-E.
+- POST-H-011-D ya añade CLI y escritura explícita de outputs/evals; quality-gate queda cubierto por POST-H-011-E.
 - No integra todavía quality-gate; eso queda para POST-H-011-E.
 ```
 
@@ -7841,4 +7841,40 @@ python -m devpilot_core test-contracts validate --json
 python -m devpilot_core docs-governance validate --json
 ```
 
-Límites: `POST-H-011-D` no integra todavía `quality-gate`; esa integración y la documentación final de límites de RAG quedan para `POST-H-011-E`.
+Límites: `POST-H-011-D` dejó la integración de `quality-gate` para `POST-H-011-E`; esa integración ya queda cubierta por el subgate `rag-groundedness-ready`.
+
+## POST-H-011-E — Gate y documentación de límites RAG
+
+`POST-H-011-E` integra RAG groundedness al quality gate local. La capacidad es `implemented-initial`, local-first y dry-run: no usa proveedores externos, LLM judge, web search, embeddings remotos, conectores, plugins ni ejecución remota.
+
+Comandos operativos:
+
+```powershell
+python -m devpilot_core rag groundedness-eval --suite evals/fixtures/rag_groundedness_post_h_cases.json --json
+python -m devpilot_core rag groundedness-eval --suite evals/fixtures/rag_groundedness_post_h_cases.json --write-report --json
+python -m devpilot_core quality-gate run --profile hardening --json
+```
+
+Criterios PASS:
+
+```text
+PASS si el subgate `rag-groundedness-ready` aparece en hardening/industrial.
+PASS si cases_total >= 10.
+PASS si source_coverage_avg cumple el umbral del gate.
+PASS si claim_support_avg cumple el umbral del gate.
+PASS si los casos con forbidden_claims bloquean cuando se inyecta una respuesta candidata insegura.
+PASS si no hay red, APIs externas, web search, LLM judge, remote execution, connector write ni plugin execution.
+```
+
+Criterios BLOCK:
+
+```text
+BLOCK si la suite requiere provider externo.
+BLOCK si `outputs/evals` se tratan como fuente canónica versionable.
+BLOCK si RAG se declara production-grade.
+BLOCK si una respuesta con forbidden_claims pasa silenciosamente.
+BLOCK si el quality gate escribe reportes runtime sin `--write-report` explícito.
+```
+
+Límites: RAG local no reemplaza las fuentes canónicas gobernadas. Para decisiones críticas, el resultado de RAG groundedness es una señal de calidad y no una autorización automática.
+
