@@ -2,11 +2,11 @@
 title: "Runbook — DevPilot Local"
 doc_id: "DEVPL-OPS-002"
 status: "approved"
-version: "1.45.0"
+version: "1.46.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "POST-H-012-E"
+phase: "POST-H-013-A"
 updated: "2026-06-27"
 approval: "approved_by_owner"
 source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved + 03_security approved"
@@ -16,7 +16,41 @@ approval_scope: "SPRINT-PRECODE-05 quality operations baseline"
 
 # Runbook — DevPilot Local
 
-Hito operativo activo: `POST-H-013 — Audit pack integrity`; último hito cerrado: `POST-H-012 — Approval/RBAC hardening`; último micro-sprint implementado: `POST-H-012-E — Quality gate y runbook de aprobación`; siguiente hito: `POST-H-013 — Audit pack integrity`.
+Hito operativo activo: `POST-H-013 — Audit pack integrity`; último hito cerrado: `POST-H-012 — Approval/RBAC hardening`; último micro-sprint implementado: `POST-H-013-A — Audit pack manifest v2 y policy`; siguiente micro-sprint: `POST-H-013-B — Builder v2 con checksums y redaction report`.
+
+
+## POST-H-013-A — Audit pack manifest v2 y policy
+
+Objetivo operativo: dejar definidos los contratos y la política local que gobernarán los audit packs v2 antes de construir o verificar ZIPs reales.
+
+Comandos de verificación:
+
+```powershell
+python -m pytest -p no:ddtrace tests/test_audit_pack_manifest_v2_schema.py -q
+python -m devpilot_core schema validate --schema-id AuditPackManifestV2 --instance tests/fixtures/audit_pack_manifest_v2_sample.json --json
+python -m devpilot_core schema list --json
+python -m devpilot_core test-contracts validate --json
+python -m devpilot_core test-contracts validate-v2 --json
+```
+
+Criterios PASS:
+
+```text
+PASS si el manifest v2 valida contra schema.
+PASS si la política excluye outputs, devpilot.db, agent_sessions, .env y archivos de secretos.
+PASS si compliance_certification_claimed=false y remote_export_used=false.
+PASS si no se requiere red, API externa, KMS remoto ni plugin execution.
+```
+
+Criterios BLOCK:
+
+```text
+BLOCK si se permite claim de certificación.
+BLOCK si se permite .env, .devpilot/devpilot.db o .devpilot/agent_sessions/**.
+BLOCK si audit pack policy requiere red o proveedor externo.
+```
+
+Límites: esta versión es `implemented-initial`; no genera `outputs/auditpacks`, no firma, no cifra y no verifica ZIPs reales. Esos puntos quedan para POST-H-013-B/C/D/E.
 
 
 ## 1. Propósito

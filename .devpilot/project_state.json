@@ -8,8 +8,8 @@
   "last_completed_sprint": "POST-H-012",
   "last_functional_sprint": "FUNC-SPRINT-99",
   "next_sprint": "POST-H-013",
-  "source_repo": "repo_DevPilot_Local_194_POST_H_012_D.zip",
-  "current_repo": "repo_DevPilot_Local_195_POST_H_012_E.zip",
+  "source_repo": "repo_DevPilot_Local_195_POST_H_012_E.zip",
+  "current_repo": "repo_DevPilot_Local_196_POST_H_013_A.zip",
   "global_state_owner": "tests/test_project_global_state.py",
   "mutable_global_state_fields": [
     "last_completed_sprint",
@@ -68,6 +68,8 @@
     "POST-H-012-C adds RBAC exposure reporting as implemented-initial: identity exposure builds a read-only actor/role/action/interface/effect matrix from Identity Registry, SensitiveActionCatalog and MIASI policy matrix, with optional outputs/reports evidence and without granting permissions, network, external APIs, remote execution, connector write, plugin execution or source mutations.",
     "POST-H-012-D adds homogeneous PolicyEngine enforcement as implemented-initial: PolicyEngine now evaluates SensitiveActionCatalog, strong approval binding, exact RBAC required-role checks and interface blocking with normalized APPROVAL_REQUIRED, RBAC_DENIED and APPROVAL_SCOPE_MISMATCH findings, without enabling remote execution, connector write, plugin execution, external APIs or destructive mutations.",
     "POST-H-012-E closes Approval/RBAC hardening as implemented-initial: approval-rbac-hardening is bound to hardening/industrial quality-gate profiles, validates SensitiveActionCatalog, RBAC exposure, PolicyEngine scenarios, strong approval binding and approval lifecycle docs without enabling remote execution, connector write, plugin execution, external APIs or destructive mutations.",
-    "POST-H-013 is the next prioritized hito: Audit pack integrity."
+    "POST-H-013 is the next prioritized hito: Audit pack integrity.",
+    "POST-H-013-A starts Audit pack integrity with manifest v2 schemas and local policy; builder/verifier/crypto remain future micro-sprints.",
+    "POST-H-013-A keeps last_completed_sprint=POST-H-012 because the POST-H-013 backlog is active but not closed."
   ]
 }

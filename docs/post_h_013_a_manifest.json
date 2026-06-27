@@ -1,0 +1,70 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "SCHEMA-DEVPL-POST-H-MANIFEST-V1",
+  "post_h_id": "POST-H-013",
+  "micro_sprint": "POST-H-013-A",
+  "title": "POST-H-013-A — Audit pack manifest v2 y policy",
+  "status": "implemented-initial",
+  "phase": "POST-FASE-H",
+  "implemented_at": "2026-06-27T00:00:00Z",
+  "created_files": [
+    "docs/schemas/audit_pack_manifest_v2.schema.json",
+    "docs/schemas/audit_pack_integrity_report.schema.json",
+    ".devpilot/auditpack/audit_pack_policy.json",
+    "tests/fixtures/audit_pack_manifest_v2_sample.json",
+    "tests/fixtures/audit_pack_integrity_report_sample.json",
+    "tests/test_audit_pack_manifest_v2_schema.py",
+    "docs/audits/post_h_013_a_audit_pack_manifest_v2_policy_report.md",
+    "docs/post_h_013_a_manifest.json",
+    "docs/POST-H-013_audit_pack_integrity.md"
+  ],
+  "modified_files": [
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/backlogs/POST-H-013_audit_pack_integrity.md",
+    "docs/schemas/schema_catalog.json",
+    ".devpilot/testing/test_contract_registry.json",
+    ".devpilot/testing/test_contract_registry_v2.json",
+    ".devpilot/docs_governance/source_registry.json",
+    ".devpilot/project_state.json",
+    "docs/release/CHANGELOG.md",
+    "tests/test_project_global_state.py"
+  ],
+  "commands": [
+    "python -m pytest -p no:ddtrace tests/test_audit_pack_manifest_v2_schema.py -q",
+    "python -m devpilot_core schema validate --schema-id AuditPackManifestV2 --instance tests/fixtures/audit_pack_manifest_v2_sample.json --json",
+    "python -m devpilot_core schema list --json",
+    "python -m devpilot_core test-contracts validate --json",
+    "python -m devpilot_core test-contracts validate-v2 --json"
+  ],
+  "tests": [
+    "tests/test_audit_pack_manifest_v2_schema.py"
+  ],
+  "pass_criteria": [
+    "AuditPackManifestV2 validates sample manifest.",
+    "AuditPackIntegrityReport schema is registered.",
+    "Audit pack policy excludes outputs, devpilot.db, agent_sessions and secrets.",
+    "Compliance certification claim and remote export remain false."
+  ],
+  "block_criteria": [
+    "Compliance certification claim allowed.",
+    "Remote export or external API required.",
+    "Secrets, .env, raw agent sessions or devpilot.db allowed by policy."
+  ],
+  "risks": [
+    "Builder/verifier/crypto are not yet implemented in POST-H-013-A.",
+    "Schema validation is structural; semantic ZIP verification arrives later.",
+    "Generated outputs remain non-versionable and must be regenerated locally."
+  ],
+  "next_sprint": "POST-H-013",
+  "next_micro_sprint": "POST-H-013-B",
+  "current_repo": "repo_DevPilot_Local_196_POST_H_013_A.zip",
+  "preliminary": true,
+  "local_first": true,
+  "dry_run": true,
+  "network_used": false,
+  "external_api_used": false,
+  "remote_execution_enabled": false,
+  "connector_write_enabled": false,
+  "plugin_execution_enabled": false
+}

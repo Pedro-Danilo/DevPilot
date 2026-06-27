@@ -241,10 +241,10 @@ def test_post_h_012_project_state_is_synchronized() -> None:
 
     assert state["last_completed_sprint"] == "POST-H-012"
     assert state["next_sprint"] == "POST-H-013"
-    assert state["current_repo"] == "repo_DevPilot_Local_195_POST_H_012_E.zip"
+    assert state["current_repo"] in {"repo_DevPilot_Local_195_POST_H_012_E.zip", "repo_DevPilot_Local_196_POST_H_013_A.zip"}
     assert any("POST-H-012-C adds RBAC exposure reporting" in note for note in state["notes"])
     assert any("POST-H-012-D adds homogeneous PolicyEngine enforcement" in note for note in state["notes"])
     assert any("POST-H-012-E closes Approval/RBAC hardening" in note for note in state["notes"])
-    assert "Último micro-sprint implementado: `POST-H-012-E" in readme
+    assert "POST-H-012-E — Quality gate y runbook de aprobación" in readme
     assert "Siguiente hito: `POST-H-013" in readme
     assert "POST-H-012-E — Quality gate y runbook de aprobación" in runbook

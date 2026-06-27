@@ -1,0 +1,116 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/SCHEMA-DEVPL-AUDIT-PACK-INTEGRITY-REPORT-V1",
+  "x-devpilot-schema-id": "SCHEMA-DEVPL-AUDIT-PACK-INTEGRITY-REPORT-V1",
+  "title": "DevPilot Audit Pack Integrity Report v1",
+  "version": "1.0.0",
+  "contract": "AuditPackIntegrityReport",
+  "description": "POST-H-013-A local-first integrity report contract for audit pack verification with checksums, redaction status, optional crypto status and no compliance certification claim.",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema_version",
+    "schema_id",
+    "report_id",
+    "pack_id",
+    "status",
+    "files_total",
+    "files_verified",
+    "files_failed",
+    "missing_files",
+    "hash_mismatches",
+    "redaction_passed",
+    "secrets_detected",
+    "signature_verified",
+    "encryption_used",
+    "network_used",
+    "external_api_used",
+    "compliance_certification_claimed",
+    "findings"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "schema_id": {
+      "const": "SCHEMA-DEVPL-AUDIT-PACK-INTEGRITY-REPORT-V1"
+    },
+    "report_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "pack_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "enum": [
+        "passed",
+        "blocked",
+        "failed",
+        "implemented-initial"
+      ]
+    },
+    "files_total": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "files_verified": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "files_failed": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "missing_files": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "hash_mismatches": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "redaction_passed": {
+      "type": "boolean"
+    },
+    "secrets_detected": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "signature_verified": {
+      "type": [
+        "boolean",
+        "null"
+      ]
+    },
+    "encryption_used": {
+      "type": "boolean"
+    },
+    "network_used": {
+      "const": false
+    },
+    "external_api_used": {
+      "const": false
+    },
+    "remote_export_used": {
+      "const": false
+    },
+    "compliance_certification_claimed": {
+      "const": false
+    },
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "safety": {
+      "type": "object"
+    }
+  }
+}

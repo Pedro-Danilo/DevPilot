@@ -1,0 +1,271 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/SCHEMA-DEVPL-AUDIT-PACK-MANIFEST-V2",
+  "x-devpilot-schema-id": "SCHEMA-DEVPL-AUDIT-PACK-MANIFEST-V2",
+  "title": "DevPilot Audit Pack Manifest v2",
+  "version": "2.0.0",
+  "contract": "AuditPackManifestV2",
+  "description": "POST-H-013-A local-first manifest contract for audit packs with file-level checksums, exclusion evidence, redaction metadata and no compliance certification claim.",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema_version",
+    "schema_id",
+    "pack_id",
+    "created_at_utc",
+    "local_first",
+    "remote_export_used",
+    "network_used",
+    "external_api_used",
+    "compliance_certification_claimed",
+    "files",
+    "excluded",
+    "redaction",
+    "integrity",
+    "safety"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "2.0"
+    },
+    "schema_id": {
+      "const": "SCHEMA-DEVPL-AUDIT-PACK-MANIFEST-V2"
+    },
+    "pack_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^audit-pack-[a-z0-9][a-z0-9_.:-]*$"
+    },
+    "created_at_utc": {
+      "type": "string",
+      "minLength": 10
+    },
+    "created_by": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "enum": [
+        "planned",
+        "draft",
+        "implemented-initial",
+        "built",
+        "verified",
+        "blocked"
+      ]
+    },
+    "local_first": {
+      "const": true
+    },
+    "remote_export_used": {
+      "const": false
+    },
+    "network_used": {
+      "const": false
+    },
+    "external_api_used": {
+      "const": false
+    },
+    "compliance_certification_claimed": {
+      "const": false
+    },
+    "files": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/file_entry"
+      }
+    },
+    "excluded": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/excluded_entry"
+      }
+    },
+    "redaction": {
+      "$ref": "#/$defs/redaction_summary"
+    },
+    "integrity": {
+      "$ref": "#/$defs/integrity"
+    },
+    "safety": {
+      "$ref": "#/$defs/safety"
+    },
+    "notes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "$defs": {
+    "file_entry": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "path",
+        "kind",
+        "sha256",
+        "size_bytes",
+        "redaction_applied",
+        "included"
+      ],
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1,
+          "not": {
+            "pattern": "(^|/)\\.env($|\\.)|(^|/)\\.git(/|$)|(^|/)node_modules(/|$)|(^|/)__pycache__(/|$)"
+          }
+        },
+        "kind": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "size_bytes": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "redaction_applied": {
+          "type": "boolean"
+        },
+        "included": {
+          "const": true
+        },
+        "source": {
+          "type": "string"
+        }
+      }
+    },
+    "excluded_entry": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "path",
+        "reason"
+      ],
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1
+        },
+        "policy_rule_id": {
+          "type": "string"
+        }
+      }
+    },
+    "redaction_summary": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "redaction_report_required",
+        "redaction_report_present",
+        "redaction_passed",
+        "secrets_detected",
+        "raw_secrets_exported"
+      ],
+      "properties": {
+        "redaction_report_required": {
+          "const": true
+        },
+        "redaction_report_present": {
+          "type": "boolean"
+        },
+        "redaction_passed": {
+          "type": "boolean"
+        },
+        "secrets_detected": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "raw_secrets_exported": {
+          "const": false
+        },
+        "redacted_files_total": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "integrity": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "algorithm",
+        "manifest_hash",
+        "signed",
+        "encrypted"
+      ],
+      "properties": {
+        "algorithm": {
+          "const": "sha256"
+        },
+        "manifest_hash": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "signed": {
+          "type": "boolean"
+        },
+        "encrypted": {
+          "type": "boolean"
+        },
+        "signature_algorithm": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "encryption_algorithm": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "safety": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "runtime_db_exported",
+        "agent_sessions_exported",
+        "env_files_exported",
+        "secrets_exported",
+        "remote_execution_enabled",
+        "connector_write_enabled",
+        "plugin_execution_enabled"
+      ],
+      "properties": {
+        "runtime_db_exported": {
+          "const": false
+        },
+        "agent_sessions_exported": {
+          "const": false
+        },
+        "env_files_exported": {
+          "const": false
+        },
+        "secrets_exported": {
+          "const": false
+        },
+        "remote_execution_enabled": {
+          "const": false
+        },
+        "connector_write_enabled": {
+          "const": false
+        },
+        "plugin_execution_enabled": {
+          "const": false
+        }
+      }
+    }
+  }
+}

@@ -3,7 +3,7 @@
   "schema_id": "SCHEMA-DEVPL-TEST-CONTRACT-REGISTRY-V1",
   "created_by": "POST-H-001",
   "status": "implemented-initial",
-  "description": "Declarative registry classifying DevPilot tests by contract layer after POST-H-001. POST-H-010-A adds observability retention policy tests. POST-H-012-A adds sensitive action catalog validation.",
+  "description": "Declarative registry classifying DevPilot tests by contract layer after POST-H-001. POST-H-010-A adds observability retention policy tests. POST-H-012-A adds sensitive action catalog validation. POST-H-013-A adds audit pack manifest v2 and local policy validation.",
   "contracts": [
     {
       "contract_id": "project-global-state",
@@ -3961,6 +3961,40 @@
         "python -m pytest -p no:ddtrace tests/test_approval_rbac_hardening_gate.py tests/test_post_h_012_approval_rbac_hardening.py tests/test_quality_gate.py -q",
         "python -m devpilot_core quality-gate run --profile hardening --json",
         "python -m devpilot_core test-contracts validate --json"
+      ]
+    },
+    {
+      "contract_id": "post-h-013-audit-pack-manifest-v2-policy",
+      "scope": "integration",
+      "owner": "POST-H-013-A",
+      "phase": "POST-FASE-H",
+      "test_files": [
+        "tests/test_audit_pack_manifest_v2_schema.py"
+      ],
+      "validates": [
+        "docs/schemas/audit_pack_manifest_v2.schema.json",
+        "docs/schemas/audit_pack_integrity_report.schema.json",
+        ".devpilot/auditpack/audit_pack_policy.json",
+        "tests/fixtures/audit_pack_manifest_v2_sample.json",
+        "tests/fixtures/audit_pack_integrity_report_sample.json",
+        "docs/audits/post_h_013_a_audit_pack_manifest_v2_policy_report.md",
+        "docs/post_h_013_a_manifest.json"
+      ],
+      "watched_paths": [
+        "docs/schemas/audit_pack_manifest_v2.schema.json",
+        "docs/schemas/audit_pack_integrity_report.schema.json",
+        ".devpilot/auditpack/",
+        "docs/backlogs/POST-H-013_audit_pack_integrity.md",
+        "tests/test_audit_pack_manifest_v2_schema.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace tests/test_audit_pack_manifest_v2_schema.py -q",
+        "python -m devpilot_core schema validate --schema-id AuditPackManifestV2 --instance tests/fixtures/audit_pack_manifest_v2_sample.json --json",
+        "python -m devpilot_core schema list --json",
+        "python -m devpilot_core schema validate --schema-id AuditPackIntegrityReport --instance tests/fixtures/audit_pack_integrity_report_sample.json --json"
       ]
     }
   ],

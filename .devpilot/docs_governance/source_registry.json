@@ -805,7 +805,7 @@
       "classification": "derived",
       "domain": "roadmap-derived-backlog",
       "owner": "Ordóñez",
-      "status_required": "draft",
+      "status_required": "approved",
       "criticality": "P1",
       "machine_readable_counterparts": [
         ".devpilot/evals/post_h_eval_001_prioritized_roadmap.json"
@@ -813,9 +813,20 @@
       "human_readable_counterparts": [
         "docs/backlogs/post_h_prioritized_roadmap.md"
       ],
-      "derived_documents": [],
+      "derived_documents": [
+        "docs/POST-H-013_audit_pack_integrity.md",
+        "docs/schemas/audit_pack_manifest_v2.schema.json",
+        "docs/schemas/audit_pack_integrity_report.schema.json",
+        ".devpilot/auditpack/audit_pack_policy.json",
+        "tests/fixtures/audit_pack_manifest_v2_sample.json",
+        "tests/fixtures/audit_pack_integrity_report_sample.json",
+        "tests/test_audit_pack_manifest_v2_schema.py",
+        "docs/audits/post_h_013_a_audit_pack_manifest_v2_policy_report.md",
+        "docs/post_h_013_a_manifest.json"
+      ],
       "required_tests": [
-        "tests/test_documentation_governance_backlogs.py"
+        "tests/test_documentation_governance_backlogs.py",
+        "tests/test_audit_pack_manifest_v2_schema.py"
       ],
       "sync_rules": [
         "backlog_naming",
@@ -826,10 +837,11 @@
       "roadmap_milestones": [
         "POST-H-013"
       ],
-      "lifecycle": "planned",
+      "lifecycle": "active",
       "notes": [
-        "Roadmap-derived executable backlog governed by POST-H-009-D.",
-        "Missing future backlog files are informational planned items; existing files must pass naming and frontmatter checks."
+        "POST-H-013 approved for implementation after POST-H-012 closure.",
+        "POST-H-013-A adds AuditPackManifestV2, AuditPackIntegrityReport and local audit pack policy as implemented-initial.",
+        "Builder v2, verifier v2, redaction runtime, signing and encryption remain scheduled for later micro-sprints."
       ]
     },
     {

@@ -1,0 +1,92 @@
+{
+  "schema_version": "1.0",
+  "policy_id": "devpilot-audit-pack-policy-v2",
+  "title": "DevPilot Audit Pack Policy v2",
+  "created_by": "POST-H-013-A",
+  "status": "implemented-initial",
+  "updated": "2026-06-27",
+  "local_first": true,
+  "dry_run_default": true,
+  "optional_crypto": true,
+  "manifest_contract": "AuditPackManifestV2",
+  "integrity_report_contract": "AuditPackIntegrityReport",
+  "compliance_certification_claimed": false,
+  "remote_export_allowed": false,
+  "network_required": false,
+  "external_api_required": false,
+  "include_patterns": [
+    "README.md",
+    "docs/**",
+    ".devpilot/miasi/*.json",
+    ".devpilot/identity/identity_registry.json",
+    ".devpilot/approval/sensitive_action_catalog.json",
+    ".devpilot/auditpack/audit_pack_policy.json",
+    ".devpilot/testing/test_contract_registry*.json"
+  ],
+  "exclude_patterns": [
+    "outputs/**",
+    ".devpilot/devpilot.db",
+    ".devpilot/agent_sessions/**",
+    ".devpilot/backups/**",
+    ".devpilot/providers.yaml",
+    ".env",
+    ".env.*",
+    "**/*.pem",
+    "**/*.key",
+    "**/*.p12",
+    "**/*.pfx",
+    "**/secrets/**",
+    ".git/**",
+    ".venv/**",
+    "node_modules/**",
+    "ui/web/node_modules/**",
+    "dist/**",
+    "__pycache__/**",
+    ".pytest_cache/**"
+  ],
+  "forbidden_exact_paths": [
+    ".devpilot/devpilot.db",
+    ".devpilot/providers.yaml",
+    ".env"
+  ],
+  "forbidden_prefixes": [
+    "outputs/",
+    ".devpilot/agent_sessions/",
+    ".devpilot/backups/",
+    ".git/",
+    ".venv/",
+    "node_modules/",
+    "ui/web/node_modules/"
+  ],
+  "redaction": {
+    "required": true,
+    "redaction_report_required": true,
+    "raw_secret_export_policy": "block",
+    "secret_guard_required": true,
+    "block_on_secrets_detected": true
+  },
+  "integrity": {
+    "algorithm": "sha256",
+    "manifest_hash_required": true,
+    "file_hash_required": true,
+    "fail_closed_on_hash_mismatch": true
+  },
+  "crypto": {
+    "signing": "optional-local-only",
+    "encryption": "optional-local-only",
+    "remote_kms_allowed": false,
+    "keys_in_repo_allowed": false
+  },
+  "safety": {
+    "remote_execution_enabled": false,
+    "connector_write_enabled": false,
+    "plugin_execution_enabled": false,
+    "remote_signing_enabled": false,
+    "remote_kms_enabled": false
+  },
+  "notes": [
+    "POST-H-013-A defines policy and schemas only; builder/verifier/crypto are implemented by later micro-sprints.",
+    "Audit packs are evidence artifacts, not compliance certification artifacts.",
+    "Generated outputs/auditpacks content is intentionally non-versionable."
+  ]
+}

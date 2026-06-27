@@ -1,0 +1,74 @@
+{
+  "schema_version": "2.0",
+  "schema_id": "SCHEMA-DEVPL-AUDIT-PACK-MANIFEST-V2",
+  "pack_id": "audit-pack-post-h-013-a-sample",
+  "created_at_utc": "2026-06-27T00:00:00Z",
+  "created_by": "POST-H-013-A",
+  "status": "implemented-initial",
+  "local_first": true,
+  "remote_export_used": false,
+  "network_used": false,
+  "external_api_used": false,
+  "compliance_certification_claimed": false,
+  "files": [
+    {
+      "path": "docs/backlogs/post_h_prioritized_roadmap.md",
+      "kind": "source-document",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+      "size_bytes": 12345,
+      "redaction_applied": false,
+      "included": true,
+      "source": "repo"
+    }
+  ],
+  "excluded": [
+    {
+      "path": ".devpilot/devpilot.db",
+      "reason": "runtime-state",
+      "policy_rule_id": "AUDITPACK-RUNTIME-DB-EXCLUDE"
+    },
+    {
+      "path": ".devpilot/agent_sessions/",
+      "reason": "raw-agent-session-state",
+      "policy_rule_id": "AUDITPACK-AGENT-SESSIONS-EXCLUDE"
+    },
+    {
+      "path": "outputs/",
+      "reason": "runtime-output",
+      "policy_rule_id": "AUDITPACK-OUTPUTS-EXCLUDE"
+    },
+    {
+      "path": ".env",
+      "reason": "secret-file",
+      "policy_rule_id": "AUDITPACK-SECRETS-EXCLUDE"
+    }
+  ],
+  "redaction": {
+    "redaction_report_required": true,
+    "redaction_report_present": true,
+    "redaction_passed": true,
+    "secrets_detected": 0,
+    "raw_secrets_exported": false,
+    "redacted_files_total": 0
+  },
+  "integrity": {
+    "algorithm": "sha256",
+    "manifest_hash": "1111111111111111111111111111111111111111111111111111111111111111",
+    "signed": false,
+    "encrypted": false,
+    "signature_algorithm": null,
+    "encryption_algorithm": null
+  },
+  "safety": {
+    "runtime_db_exported": false,
+    "agent_sessions_exported": false,
+    "env_files_exported": false,
+    "secrets_exported": false,
+    "remote_execution_enabled": false,
+    "connector_write_enabled": false,
+    "plugin_execution_enabled": false
+  },
+  "notes": [
+    "Versioned schema fixture used by POST-H-013-A tests; generated runtime outputs remain excluded from release ZIPs."
+  ]
+}

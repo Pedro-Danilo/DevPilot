@@ -86,6 +86,9 @@ def test_project_global_state_schema_and_docs_are_synchronized() -> None:
     assert "POST-H-012-D — PolicyEngine enforcement homogéneo" in readme
     assert "POST-H-012-E — Quality gate y runbook de aprobación" in readme
     assert "POST-H-012-E — Quality gate y runbook de aprobación" in runbook
+    assert "POST-H-013-A — Audit pack manifest v2 y policy" in readme
+    assert "POST-H-013-A — Audit pack manifest v2 y policy" in runbook
+    assert any("POST-H-013-A starts Audit pack integrity" in note for note in state["notes"])
     assert any("POST-H-012-A approves" in note for note in state["notes"])
     assert any("POST-H-012-C adds RBAC exposure reporting" in note for note in state["notes"])
     assert any("POST-H-012-D adds homogeneous PolicyEngine enforcement" in note for note in state["notes"])

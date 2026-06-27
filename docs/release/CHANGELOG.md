@@ -1,5 +1,14 @@
 # Changelog
 
+## [post-h-013-a] - 2026-06-27
+
+- Approved POST-H-013 backlog and started Audit pack integrity implementation.
+- Added AuditPackManifestV2 and AuditPackIntegrityReport schemas.
+- Added local audit pack policy excluding outputs, devpilot.db, agent sessions, .env and secret key material.
+- Added schema fixture, audit report, manifest and test contract entries for POST-H-013-A.
+- Kept builder v2, verifier v2, redaction runtime, signing and encryption explicitly future.
+
+
 ## [post-h-012-e] - 2026-06-27
 
 ### Added

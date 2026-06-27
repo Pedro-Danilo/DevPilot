@@ -1,0 +1,27 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "SCHEMA-DEVPL-AUDIT-PACK-INTEGRITY-REPORT-V1",
+  "report_id": "audit-pack-integrity-report-post-h-013-a-sample",
+  "pack_id": "audit-pack-post-h-013-a-sample",
+  "status": "implemented-initial",
+  "files_total": 1,
+  "files_verified": 1,
+  "files_failed": 0,
+  "missing_files": [],
+  "hash_mismatches": [],
+  "redaction_passed": true,
+  "secrets_detected": 0,
+  "signature_verified": null,
+  "encryption_used": false,
+  "network_used": false,
+  "external_api_used": false,
+  "remote_export_used": false,
+  "compliance_certification_claimed": false,
+  "findings": [],
+  "safety": {
+    "local_first": true,
+    "remote_execution_enabled": false,
+    "connector_write_enabled": false,
+    "plugin_execution_enabled": false
+  }
+}

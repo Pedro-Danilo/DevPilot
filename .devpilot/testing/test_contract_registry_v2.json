@@ -7297,6 +7297,74 @@
         "identity",
         "quality-gate"
       ]
+    },
+    {
+      "contract_id": "post-h-013-audit-pack-manifest-v2-policy",
+      "schema_version": "2.0",
+      "source_contract_id": "post-h-013-audit-pack-manifest-v2-policy",
+      "domain": "operations.audit",
+      "capability": "AuditPackManifestV2Policy",
+      "criticality": "P1",
+      "risk_level": "high",
+      "test_type": "schema",
+      "execution_profile": "impact",
+      "cost_class": "low",
+      "expected_duration_seconds": 10,
+      "test_files": [
+        "tests/test_audit_pack_manifest_v2_schema.py"
+      ],
+      "watched_paths": [
+        "docs/schemas/audit_pack_manifest_v2.schema.json",
+        "docs/schemas/audit_pack_integrity_report.schema.json",
+        ".devpilot/auditpack/",
+        "docs/backlogs/POST-H-013_audit_pack_integrity.md",
+        "tests/test_audit_pack_manifest_v2_schema.py"
+      ],
+      "validates": [
+        "docs/schemas/audit_pack_manifest_v2.schema.json",
+        "docs/schemas/audit_pack_integrity_report.schema.json",
+        ".devpilot/auditpack/audit_pack_policy.json",
+        "tests/fixtures/audit_pack_manifest_v2_sample.json",
+        "tests/fixtures/audit_pack_integrity_report_sample.json",
+        "docs/audits/post_h_013_a_audit_pack_manifest_v2_policy_report.md",
+        "docs/post_h_013_a_manifest.json"
+      ],
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace tests/test_audit_pack_manifest_v2_schema.py -q",
+        "python -m devpilot_core schema validate --schema-id AuditPackManifestV2 --instance tests/fixtures/audit_pack_manifest_v2_sample.json --json",
+        "python -m devpilot_core schema list --json",
+        "python -m devpilot_core test-contracts validate-v2 --json",
+        "python -m devpilot_core schema validate --schema-id AuditPackIntegrityReport --instance tests/fixtures/audit_pack_integrity_report_sample.json --json"
+      ],
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "required_for_release": true,
+      "required_for_hardening": true,
+      "required_for_impact": true,
+      "requires_human_approval": false,
+      "owner": "POST-H-013-A",
+      "created_by": "POST-H-013-A",
+      "status": "implemented-initial",
+      "classification_status": "explicit",
+      "classification_notes": [
+        "POST-H-013-A is schema/policy-only; it does not build, sign, encrypt or verify runtime audit pack ZIPs."
+      ],
+      "trigger_hints": [
+        "audit-pack",
+        "manifest-v2",
+        "integrity",
+        "policy",
+        "schema"
+      ],
+      "impact_scope": [
+        "auditpack",
+        "security",
+        "schemas",
+        "documentation"
+      ],
+      "required_for_security_gate": true
     }
   ],
   "migration_metadata": {

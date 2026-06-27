@@ -1,10 +1,33 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
-Estado actual: `baseline pre-code approved + Fases A-G cerradas + Fase H cerrada + POST-H-001 implemented-initial + POST-H-EVAL-001 closed + POST-H-002 closed + POST-H-003 closed + POST-H-004 closed + POST-H-005 closed + POST-H-006 closed + POST-H-007 closed + POST-H-008 closed + POST-H-009-A implemented-initial + POST-H-009-B implemented-initial + POST-H-009-C implemented-initial + POST-H-009-D implemented-initial + POST-H-009-E implemented-initial + POST-H-009 closed + POST-H-010-A implemented-initial + POST-H-010-B implemented-initial + POST-H-010-C implemented-initial + POST-H-010-D implemented-initial + POST-H-010-E implemented-initial + POST-H-010 closed + POST-H-011-A implemented-initial + POST-H-011-B implemented-initial + POST-H-011-C implemented-initial + POST-H-011-D implemented-initial + POST-H-011-E implemented-initial + POST-H-011 closed + POST-H-012-A implemented-initial + POST-H-012-B implemented-initial + POST-H-012-C implemented-initial + POST-H-012-D implemented-initial + POST-H-012-E implemented-initial + POST-H-012 closed`  
+
+## POST-H-013-A — Audit pack manifest v2 y policy
+
+Estado: `implemented-initial`.
+
+Capacidad nueva:
+
+- `AuditPackManifestV2` define manifest v2 local-first para audit packs con hashes por archivo, exclusiones, redacción e integridad.
+- `AuditPackIntegrityReport` define el contrato para verificación local futura.
+- `.devpilot/auditpack/audit_pack_policy.json` fija include/exclude patterns, no-certification claim, redaction required y crypto opcional local-only.
+- Se registra el contrato en Schema Catalog y Test Contract Registry v1/v2.
+
+Comandos focales:
+
+```powershell
+python -m pytest -p no:ddtrace tests/test_audit_pack_manifest_v2_schema.py -q
+python -m devpilot_core schema validate --schema-id AuditPackManifestV2 --instance tests/fixtures/audit_pack_manifest_v2_sample.json --json
+python -m devpilot_core schema list --json
+```
+
+Límites: POST-H-013-A no implementa builder v2, verifier v2, firma, cifrado ni redaction runtime. No habilita remote signing, KMS, APIs externas, connector write, plugin execution ni compliance certification claim.
+
+Estado actual: `baseline pre-code approved + Fases A-G cerradas + Fase H cerrada + POST-H-001 implemented-initial + POST-H-EVAL-001 closed + POST-H-002 closed + POST-H-003 closed + POST-H-004 closed + POST-H-005 closed + POST-H-006 closed + POST-H-007 closed + POST-H-008 closed + POST-H-009-A implemented-initial + POST-H-009-B implemented-initial + POST-H-009-C implemented-initial + POST-H-009-D implemented-initial + POST-H-009-E implemented-initial + POST-H-009 closed + POST-H-010-A implemented-initial + POST-H-010-B implemented-initial + POST-H-010-C implemented-initial + POST-H-010-D implemented-initial + POST-H-010-E implemented-initial + POST-H-010 closed + POST-H-011-A implemented-initial + POST-H-011-B implemented-initial + POST-H-011-C implemented-initial + POST-H-011-D implemented-initial + POST-H-011-E implemented-initial + POST-H-011 closed + POST-H-012-A implemented-initial + POST-H-012-B implemented-initial + POST-H-012-C implemented-initial + POST-H-012-D implemented-initial + POST-H-012-E implemented-initial + POST-H-012 closed + POST-H-013-A implemented-initial`  
 Último hito: `POST-H-012 — Approval/RBAC hardening`
+Hito activo: `POST-H-013 — Audit pack integrity`
 Último hito cerrado: `POST-H-012 — Approval/RBAC hardening`  
-Siguiente hito: `POST-H-013 — Audit pack integrity`  
-Último micro-sprint implementado: `POST-H-012-E — Quality gate y runbook de aprobación`  
+Siguiente hito: `POST-H-013-B — Builder v2 con checksums y redaction report`  
+Último micro-sprint implementado: `POST-H-013-A — Audit pack manifest v2 y policy`  
 Hito diagnóstico cerrado: `POST-H-EVAL-001 — Evaluación integral del baseline DevPilot post-Fase H`, cierre formal `POST-H-EVAL-001-G`  
 Hito cerrado: `POST-H-012 — Approval/RBAC hardening`
 Hito cerrado: `POST-H-011 — RAG groundedness evals`  
@@ -12,7 +35,7 @@ Hito cerrado: `POST-H-010 — Observability retention local`
 Hito cerrado: `POST-H-009 — Documentation governance y canonical sources`  
 Hito cerrado: `POST-H-008 — Runtime state lifecycle policy`  
 Hito cerrado: `POST-H-007 — ApplicationService boundary hardening`  
-Siguiente micro-sprint recomendado: `POST-H-013-A — Audit pack integrity`  
+Siguiente micro-sprint recomendado: `POST-H-013-B — Builder v2 con checksums y redaction report`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
