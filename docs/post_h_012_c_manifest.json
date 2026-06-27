@@ -1,0 +1,76 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "SCHEMA-DEVPL-POST-H-MANIFEST-V1",
+  "post_h_id": "POST-H-012",
+  "title": "POST-H-012-C — RBAC exposure report",
+  "status": "implemented-initial",
+  "phase": "POST-FASE-H",
+  "implemented_at": "2026-06-27T00:00:00Z",
+  "created_files": [
+    "src/devpilot_core/identity/exposure.py",
+    "docs/schemas/rbac_exposure_report.schema.json",
+    "tests/test_rbac_exposure.py",
+    "docs/audits/post_h_012_c_rbac_exposure_report.md",
+    "docs/post_h_012_c_manifest.json"
+  ],
+  "modified_files": [
+    "src/devpilot_core/identity/__init__.py",
+    "src/devpilot_core/cli.py",
+    ".devpilot/cli_registry/legacy_command_allowlist.json",
+    "docs/schemas/schema_catalog.json",
+    "tests/test_schema_registry.py",
+    "docs/backlogs/POST-H-012_approval_rbac_hardening.md",
+    "docs/POST-H-012_approval_rbac_hardening.md",
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/release/CHANGELOG.md",
+    ".devpilot/docs_governance/source_registry.json",
+    ".devpilot/testing/test_contract_registry.json",
+    ".devpilot/testing/test_contract_registry_v2.json",
+    ".devpilot/project_state.json",
+    "tests/test_post_h_012_approval_rbac_hardening.py",
+    "tests/test_project_global_state.py",
+    "tests/test_post_h_011_rag_groundedness.py"
+  ],
+  "commands": [
+    "python -m pytest -p no:ddtrace tests/test_rbac_exposure.py tests/test_post_h_012_approval_rbac_hardening.py -q",
+    "python -m devpilot_core identity exposure --json --write-report",
+    "python -m devpilot_core schema validate --schema-id RbacExposureReport --instance outputs/reports/approval_rbac_exposure.json --json",
+    "python -m devpilot_core schema validate --schema-id PostHManifest --instance docs/post_h_012_c_manifest.json --json"
+  ],
+  "tests": [
+    "tests/test_rbac_exposure.py",
+    "tests/test_post_h_012_approval_rbac_hardening.py",
+    "tests/test_project_global_state.py",
+    "tests/test_schema_registry.py"
+  ],
+  "pass_criteria": [
+    "Reports all critical domains from SensitiveActionCatalog.",
+    "Detects missing or unknown role bindings without granting access.",
+    "API/UI do not expose blocked critical actions.",
+    "Remote/plugin/connector write remain blocked in the exposure matrix."
+  ],
+  "block_criteria": [
+    "A critical action is exposed without RBAC role binding.",
+    "API/UI can execute patch apply, remote execution or plugin execution.",
+    "The report ignores Identity Registry.",
+    "The command enables network, external APIs or source mutations."
+  ],
+  "risks": [
+    "RbacExposureReport is implemented-initial and does not grant authorization.",
+    "Homogeneous PolicyEngine enforcement remains planned for POST-H-012-D.",
+    "Approval/RBAC quality gate remains planned for POST-H-012-E."
+  ],
+  "next_sprint": "POST-H-012",
+  "preliminary": true,
+  "micro_sprint": "POST-H-012-C",
+  "source_repo": "repo_DevPilot_Local_192_POST_H_012_B.zip",
+  "current_repo": "repo_DevPilot_Local_193_POST_H_012_C.zip",
+  "local_first": true,
+  "dry_run": true,
+  "no_remote_execution_enabled": true,
+  "no_connector_write_enabled": true,
+  "no_plugin_execution_enabled": true,
+  "no_external_apis_used": true,
+  "summary": "POST-H-012-C adds local RBAC exposure reporting for actor/role/action/interface/effect without granting permissions or enabling dangerous execution."
+}

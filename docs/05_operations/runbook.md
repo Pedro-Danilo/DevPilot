@@ -2,11 +2,11 @@
 title: "Runbook — DevPilot Local"
 doc_id: "DEVPL-OPS-002"
 status: "approved"
-version: "1.42.0"
+version: "1.43.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "POST-H-012-B"
+phase: "POST-H-012-C"
 updated: "2026-06-27"
 approval: "approved_by_owner"
 source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved + 03_security approved"
@@ -16,7 +16,7 @@ approval_scope: "SPRINT-PRECODE-05 quality operations baseline"
 
 # Runbook — DevPilot Local
 
-Hito operativo activo: `POST-H-012 — Approval/RBAC hardening`; último micro-sprint implementado: `POST-H-012-B — Approval binding fuerte`; siguiente micro-sprint: `POST-H-012-C — RBAC exposure report`.
+Hito operativo activo: `POST-H-012 — Approval/RBAC hardening`; último micro-sprint implementado: `POST-H-012-C — RBAC exposure report`; siguiente micro-sprint: `POST-H-012-D — PolicyEngine enforcement homogéneo`.
 
 
 ## 1. Propósito
@@ -7879,6 +7879,28 @@ BLOCK si el quality gate escribe reportes runtime sin `--write-report` explícit
 Límites: RAG local no reemplaza las fuentes canónicas gobernadas. Para decisiones críticas, el resultado de RAG groundedness es una señal de calidad y no una autorización automática.
 
 
+
+## POST-H-012-C — RBAC exposure report
+
+Estado: `implemented-initial`.
+
+Comandos operativos:
+
+```powershell
+python -m devpilot_core identity exposure --json
+python -m devpilot_core identity exposure --json --write-report
+python -m devpilot_core schema validate --schema-id RbacExposureReport --instance outputs/reports/approval_rbac_exposure.json --json
+```
+
+Reglas operativas:
+
+```text
+- El comando es read-only para fuentes del repositorio.
+- Solo escribe evidencia cuando se usa --write-report.
+- La escritura queda limitada a outputs/reports/approval_rbac_exposure.json y .md.
+- outputs/reports no debe versionarse ni incluirse en ZIPs limpios.
+- El reporte no concede permisos; solo muestra exposición y gaps.
+```
 
 ## POST-H-012-B — Approval binding fuerte
 

@@ -8,8 +8,8 @@
   "last_completed_sprint": "POST-H-011",
   "last_functional_sprint": "FUNC-SPRINT-99",
   "next_sprint": "POST-H-012",
-  "source_repo": "repo_DevPilot_Local_191_POST_H_012_A.zip",
-  "current_repo": "repo_DevPilot_Local_192_POST_H_012_B.zip",
+  "source_repo": "repo_DevPilot_Local_192_POST_H_012_B.zip",
+  "current_repo": "repo_DevPilot_Local_193_POST_H_012_C.zip",
   "global_state_owner": "tests/test_project_global_state.py",
   "mutable_global_state_fields": [
     "last_completed_sprint",
@@ -64,6 +64,7 @@
     "POST-H-012-A approves the Approval/RBAC hardening backlog and adds a declarative SensitiveActionCatalog schema/catalog/validator as implemented-initial; enforcement remains planned for POST-H-012-B/C/D/E.",
     "POST-H-012-A keeps remote execution, connector write and plugin execution disabled and non-executable.",
     "POST-H-012-B adds strong approval binding as implemented-initial: approval_id can be checked against exact actor_id, role_at_decision, tool_id, action, subject, subject_hash, command_id and tool_call_id without enabling sensitive execution.",
-    "POST-H-012-B keeps RBAC exposure, homogeneous PolicyEngine enforcement and approval-rbac quality gate planned for POST-H-012-C/D/E."
+    "POST-H-012-B keeps RBAC exposure, homogeneous PolicyEngine enforcement and approval-rbac quality gate planned for POST-H-012-C/D/E.",
+    "POST-H-012-C adds RBAC exposure reporting as implemented-initial: identity exposure builds a read-only actor/role/action/interface/effect matrix from Identity Registry, SensitiveActionCatalog and MIASI policy matrix, with optional outputs/reports evidence and without granting permissions, network, external APIs, remote execution, connector write, plugin execution or source mutations."
   ]
 }

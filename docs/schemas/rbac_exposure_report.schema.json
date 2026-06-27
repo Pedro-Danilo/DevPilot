@@ -1,0 +1,383 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/rbac_exposure_report.schema.json",
+  "title": "DevPilot RBAC Exposure Report v1",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema_version",
+    "schema_id",
+    "report_id",
+    "created_by",
+    "status",
+    "generated_at_utc",
+    "preliminary",
+    "source_paths",
+    "summary",
+    "matrix",
+    "findings",
+    "safety",
+    "notes"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "schema_id": {
+      "const": "SCHEMA-DEVPL-RBAC-EXPOSURE-REPORT-V1"
+    },
+    "report_id": {
+      "const": "devpilot-approval-rbac-exposure"
+    },
+    "created_by": {
+      "const": "POST-H-012-C"
+    },
+    "status": {
+      "enum": [
+        "implemented-initial",
+        "blocked"
+      ]
+    },
+    "generated_at_utc": {
+      "type": "string",
+      "minLength": 10
+    },
+    "preliminary": {
+      "type": "boolean"
+    },
+    "source_paths": {
+      "type": "object",
+      "required": [
+        "identity_registry",
+        "sensitive_action_catalog",
+        "policy_matrix"
+      ],
+      "properties": {
+        "identity_registry": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sensitive_action_catalog": {
+          "type": "string",
+          "minLength": 1
+        },
+        "policy_matrix": {
+          "type": "string",
+          "minLength": 1
+        },
+        "report_json": {
+          "type": "string"
+        },
+        "report_markdown": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": true
+    },
+    "summary": {
+      "$ref": "#/$defs/summary"
+    },
+    "matrix": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/matrix_entry"
+      }
+    },
+    "findings": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/finding"
+      }
+    },
+    "safety": {
+      "$ref": "#/$defs/safety"
+    },
+    "notes": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  },
+  "$defs": {
+    "summary": {
+      "type": "object",
+      "required": [
+        "actions_total",
+        "critical_actions_total",
+        "domains_total",
+        "actors_total",
+        "roles_total",
+        "interfaces_total",
+        "matrix_entries_total",
+        "allow_entries_total",
+        "blocked_entries_total",
+        "critical_actions_without_required_role_total",
+        "missing_required_role_refs_total",
+        "critical_exposed_without_role_total",
+        "api_ui_exposed_critical_total",
+        "dangerous_capability_exposed_total",
+        "remote_plugin_connector_write_blocked_total",
+        "identity_registry_read",
+        "sensitive_action_catalog_read",
+        "policy_matrix_read",
+        "reports_written",
+        "read_only",
+        "dry_run",
+        "network_used",
+        "external_api_used",
+        "mutations_performed",
+        "source_mutations_performed",
+        "remote_execution_enabled",
+        "connector_write_enabled",
+        "plugin_execution_enabled"
+      ],
+      "properties": {
+        "actions_total": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "critical_actions_total": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "domains_total": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "actors_total": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "roles_total": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "interfaces_total": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "matrix_entries_total": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "allow_entries_total": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "blocked_entries_total": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "critical_actions_without_required_role_total": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "missing_required_role_refs_total": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "critical_exposed_without_role_total": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "api_ui_exposed_critical_total": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "dangerous_capability_exposed_total": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "remote_plugin_connector_write_blocked_total": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "reports_written": {
+          "type": "boolean"
+        },
+        "read_only": {
+          "const": true
+        },
+        "dry_run": {
+          "const": true
+        },
+        "network_used": {
+          "const": false
+        },
+        "external_api_used": {
+          "const": false
+        },
+        "mutations_performed": {
+          "const": false
+        },
+        "source_mutations_performed": {
+          "const": false
+        },
+        "remote_execution_enabled": {
+          "const": false
+        },
+        "connector_write_enabled": {
+          "const": false
+        },
+        "plugin_execution_enabled": {
+          "const": false
+        }
+      },
+      "additionalProperties": true
+    },
+    "matrix_entry": {
+      "type": "object",
+      "required": [
+        "actor_id",
+        "role_id",
+        "action_id",
+        "domain",
+        "interface",
+        "effect",
+        "reason"
+      ],
+      "properties": {
+        "actor_id": {
+          "type": "string"
+        },
+        "role_id": {
+          "type": "string"
+        },
+        "action_id": {
+          "type": "string"
+        },
+        "domain": {
+          "type": "string"
+        },
+        "interface": {
+          "type": "string"
+        },
+        "effect": {
+          "enum": [
+            "allow",
+            "warn",
+            "deny",
+            "block"
+          ]
+        },
+        "reason": {
+          "type": "string"
+        },
+        "risk_level": {
+          "type": "string"
+        },
+        "requires_rbac_role": {
+          "type": "string"
+        },
+        "required_role_declared": {
+          "type": "boolean"
+        },
+        "role_matches_required": {
+          "type": "boolean"
+        },
+        "interface_declared_allowed": {
+          "type": "boolean"
+        },
+        "interface_declared_blocked": {
+          "type": "boolean"
+        },
+        "executable": {
+          "type": "boolean"
+        },
+        "source_mutation_allowed": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": true
+    },
+    "finding": {
+      "type": "object",
+      "required": [
+        "id",
+        "message",
+        "severity"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "message": {
+          "type": "string",
+          "minLength": 1
+        },
+        "severity": {
+          "enum": [
+            "info",
+            "warning",
+            "fail",
+            "block",
+            "error"
+          ]
+        },
+        "path": {
+          "type": "string"
+        },
+        "metadata": {
+          "type": "object",
+          "additionalProperties": true
+        }
+      },
+      "additionalProperties": true
+    },
+    "safety": {
+      "type": "object",
+      "required": [
+        "local_first",
+        "read_only",
+        "dry_run",
+        "network_used",
+        "external_api_used",
+        "mutations_performed",
+        "source_mutations_performed",
+        "llm_judge_used",
+        "remote_execution_enabled",
+        "connector_write_enabled",
+        "plugin_execution_enabled"
+      ],
+      "properties": {
+        "local_first": {
+          "const": true
+        },
+        "read_only": {
+          "const": true
+        },
+        "dry_run": {
+          "const": true
+        },
+        "network_used": {
+          "const": false
+        },
+        "external_api_used": {
+          "const": false
+        },
+        "mutations_performed": {
+          "const": false
+        },
+        "source_mutations_performed": {
+          "const": false
+        },
+        "llm_judge_used": {
+          "const": false
+        },
+        "remote_execution_enabled": {
+          "const": false
+        },
+        "connector_write_enabled": {
+          "const": false
+        },
+        "plugin_execution_enabled": {
+          "const": false
+        }
+      },
+      "additionalProperties": true
+    }
+  }
+}

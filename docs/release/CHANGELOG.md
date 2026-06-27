@@ -1,5 +1,18 @@
 # Changelog
 
+## [post-h-012-c] - 2026-06-27
+
+### Added
+- Added read-only RBAC exposure reporter and `identity exposure` CLI.
+- Added `RbacExposureReport` schema and focused tests.
+- Added optional `outputs/reports/approval_rbac_exposure.json`/`.md` report generation.
+- Added POST-H-012-C audit report and manifest.
+
+### Safety
+- No remote execution, connector write, plugin execution, external APIs, network calls or destructive mutations are enabled.
+- The report is evidence-only and does not grant authorization; PolicyEngine enforcement remains planned for POST-H-012-D.
+
+
 ## [post-h-012-b] - 2026-06-27
 
 ### Added
@@ -772,6 +785,19 @@ owner: "Ordóñez"
 
 
 # Changelog
+
+## [post-h-012-c] - 2026-06-27
+
+### Added
+- Added read-only RBAC exposure reporter and `identity exposure` CLI.
+- Added `RbacExposureReport` schema and focused tests.
+- Added optional `outputs/reports/approval_rbac_exposure.json`/`.md` report generation.
+- Added POST-H-012-C audit report and manifest.
+
+### Safety
+- No remote execution, connector write, plugin execution, external APIs, network calls or destructive mutations are enabled.
+- The report is evidence-only and does not grant authorization; PolicyEngine enforcement remains planned for POST-H-012-D.
+
 
 Siguiente hito: `POST-H-012 — Approval/RBAC hardening`; POST-H-011 cerrado con `POST-H-011-E`.
 

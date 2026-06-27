@@ -35,7 +35,7 @@ from .compliance import CompliancePackRegistry, ComplianceRegistryOptions, Compl
 from .enterprise import EnterpriseReportBuilder, EnterpriseReportOptions
 from .errors import DevPilotError
 from .evals import EvalRunner
-from .identity import IdentityRegistry, IdentityRegistryOptions, RbacCheckInput
+from .identity import IdentityRegistry, IdentityRegistryOptions, RbacCheckInput, RbacExposureOptions, RbacExposureReporter
 from .industrial import IndustrialReadinessGate, IndustrialReadinessOptions
 from .observability import (
     AgentOpsGateOptions,
@@ -3203,6 +3203,31 @@ def identity_check_command(
     print_result(result, json_output=json_output)
     return int(result.exit_code)
 
+
+
+def identity_exposure_command(
+    *,
+    registry_path: str = ".devpilot/identity/identity_registry.json",
+    catalog_path: str = ".devpilot/approval/sensitive_action_catalog.json",
+    policy_matrix_path: str = ".devpilot/miasi/policy_matrix.json",
+    json_output: bool = False,
+    write_report: bool = False,
+) -> int:
+    """Build the POST-H-012-C read-only Approval/RBAC exposure report."""
+
+    root = project_root()
+    result = RbacExposureReporter(
+        root,
+        options=RbacExposureOptions(
+            identity_registry_path=Path(registry_path),
+            sensitive_action_catalog_path=Path(catalog_path),
+            policy_matrix_path=Path(policy_matrix_path),
+            write_report=write_report,
+        ),
+    ).run()
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
 def runtime_state_inventory_command(*, json_output: bool = False, write_report: bool = False) -> int:
     """Build the POST-H-008-B read-only runtime-state inventory.
 
@@ -4659,6 +4684,12 @@ def build_parser() -> argparse.ArgumentParser:
     identity_check.add_argument("--registry-path", default=".devpilot/identity/identity_registry.json", help="Identity Registry JSON path")
     identity_check.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     identity_check.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+    identity_exposure = identity_sub.add_parser("exposure", help="Build read-only Approval/RBAC exposure report")
+    identity_exposure.add_argument("--registry-path", default=".devpilot/identity/identity_registry.json", help="Identity Registry JSON path")
+    identity_exposure.add_argument("--catalog-path", default=".devpilot/approval/sensitive_action_catalog.json", help="Sensitive action catalog path")
+    identity_exposure.add_argument("--policy-matrix-path", default=".devpilot/miasi/policy_matrix.json", help="MIASI policy matrix path")
+    identity_exposure.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    identity_exposure.add_argument("--write-report", action="store_true", help="Persist approval_rbac_exposure JSON/Markdown under outputs/reports")
 
 
     enterprise = sub.add_parser("enterprise", help="Build local enterprise governance reports")
@@ -5756,6 +5787,14 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
                 subject=args.subject,
                 workspace_id=args.workspace_id,
                 registry_path=args.registry_path,
+                json_output=args.json,
+                write_report=args.write_report,
+            )
+        if args.identity_command == "exposure":
+            return identity_exposure_command(
+                registry_path=args.registry_path,
+                catalog_path=args.catalog_path,
+                policy_matrix_path=args.policy_matrix_path,
                 json_output=args.json,
                 write_report=args.write_report,
             )

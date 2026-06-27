@@ -7090,6 +7090,68 @@
         "approval",
         "identity"
       ]
+    },
+    {
+      "contract_id": "post-h-012-rbac-exposure-report",
+      "schema_version": "2.0",
+      "source_contract_id": "post-h-012-rbac-exposure-report",
+      "domain": "security.rbac",
+      "capability": "RbacExposureReport",
+      "criticality": "P1",
+      "risk_level": "critical",
+      "test_type": "integration",
+      "execution_profile": "impact",
+      "cost_class": "low",
+      "expected_duration_seconds": 15,
+      "test_files": [
+        "tests/test_rbac_exposure.py",
+        "tests/test_post_h_012_approval_rbac_hardening.py"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/identity/",
+        ".devpilot/identity/identity_registry.json",
+        ".devpilot/approval/sensitive_action_catalog.json",
+        ".devpilot/miasi/policy_matrix.json",
+        "docs/schemas/rbac_exposure_report.schema.json",
+        "tests/test_rbac_exposure.py"
+      ],
+      "validates": [
+        "src/devpilot_core/identity/exposure.py",
+        "docs/schemas/rbac_exposure_report.schema.json",
+        "docs/audits/post_h_012_c_rbac_exposure_report.md"
+      ],
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace tests/test_rbac_exposure.py tests/test_post_h_012_approval_rbac_hardening.py -q",
+        "python -m devpilot_core identity exposure --json --write-report",
+        "python -m devpilot_core schema validate --schema-id RbacExposureReport --instance outputs/reports/approval_rbac_exposure.json --json"
+      ],
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "required_for_release": true,
+      "required_for_security_gate": true,
+      "requires_human_approval": false,
+      "owner": "POST-H-012-C",
+      "classification_status": "explicit",
+      "classification_notes": [
+        "POST-H-012-C is a read-only exposure report; it does not grant access or execute sensitive actions."
+      ],
+      "trigger_hints": [
+        "approval",
+        "rbac",
+        "identity",
+        "exposure",
+        "sensitive-actions",
+        "interface"
+      ],
+      "impact_scope": [
+        "security",
+        "policy",
+        "approval",
+        "identity",
+        "interfaces"
+      ]
     }
   ],
   "migration_metadata": {

@@ -4,7 +4,7 @@ doc_id: "POST-H-012-BACKLOG"
 id: "POST-H-012"
 title: "POST-H-012 — Approval/RBAC hardening"
 status: "approved"
-version: "0.3.0"
+version: "0.4.0"
 owner: "Ordóñez"
 updated: "2026-06-27"
 approval: "approved_by_owner"
@@ -17,8 +17,8 @@ no_remote_execution_enabled: true
 no_connector_write_enabled: true
 no_plugin_execution_enabled: true
 implementation_status: "active"
-current_micro_sprint: "POST-H-012-B"
-next_micro_sprint: "POST-H-012-C"
+current_micro_sprint: "POST-H-012-C"
+next_micro_sprint: "POST-H-012-D"
 ---
 
 # POST-H-012 — Approval/RBAC hardening
@@ -543,4 +543,51 @@ POST-H-012-B no implementa todavía RBAC exposure report.
 POST-H-012-B no implementa enforcement homogéneo completo en PolicyEngine para todas las rutas CLI/API/UI/agents.
 POST-H-012-B no agrega quality-gate approval-rbac-hardening.
 POST-H-012-B no habilita ejecución remota, connector write, plugin execution ni acciones destructivas.
+```
+
+
+## 16. Avance de implementación — POST-H-012-C
+
+Estado: `implemented-initial`.
+
+Capacidad incorporada:
+
+```text
+- Reporte local de exposición Approval/RBAC mediante `src/devpilot_core/identity/exposure.py`.
+- CLI `python -m devpilot_core identity exposure --json` y escritura explícita con `--write-report`.
+- Schema `docs/schemas/rbac_exposure_report.schema.json` registrado como `RbacExposureReport`.
+- Matriz actor/role/action/interface/effect construida desde Identity Registry, SensitiveActionCatalog y MIASI policy matrix.
+- Detección de acciones críticas sin rol requerido o con roles no declarados.
+- Verificación de que API/UI no exponen acciones críticas catalogadas.
+- Verificación de que remote execution, plugin execution y connector write permanecen bloqueados y non-executable.
+```
+
+Artefactos principales:
+
+```text
+src/devpilot_core/identity/exposure.py
+docs/schemas/rbac_exposure_report.schema.json
+tests/test_rbac_exposure.py
+docs/audits/post_h_012_c_rbac_exposure_report.md
+docs/post_h_012_c_manifest.json
+outputs/reports/approval_rbac_exposure.json  # generado, no versionable
+```
+
+Criterios PASS cubiertos:
+
+```text
+PASS si reporta todos los dominios críticos.
+PASS si detecta acciones sin role binding.
+PASS si API/UI no exponen acciones bloqueadas.
+PASS si remote/plugin/connector write aparecen blocked.
+```
+
+Límites explícitos:
+
+```text
+POST-H-012-C no concede permisos ni ejecuta acciones.
+POST-H-012-C no implementa todavía enforcement homogéneo completo en PolicyEngine.
+POST-H-012-C no agrega todavía el subgate approval-rbac-hardening.
+Los reportes bajo outputs/reports son evidencia runtime regenerable y no fuente versionable.
+Remote execution, connector write, plugin execution y acciones destructivas siguen bloqueadas.
 ```

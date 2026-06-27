@@ -57,6 +57,7 @@
     "history.list",
     "identity.check",
     "identity.current",
+    "identity.exposure",
     "identity.roles",
     "install.plan",
     "maturity.dashboard",
