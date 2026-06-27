@@ -1,16 +1,17 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
-Estado actual: `baseline pre-code approved + Fases A-G cerradas + Fase H cerrada + POST-H-001 implemented-initial + POST-H-EVAL-001 closed + POST-H-002 closed + POST-H-003 closed + POST-H-004 closed + POST-H-005 closed + POST-H-006 closed + POST-H-007 closed + POST-H-008 closed + POST-H-009-A implemented-initial + POST-H-009-B implemented-initial + POST-H-009-C implemented-initial + POST-H-009-D implemented-initial + POST-H-009-E implemented-initial + POST-H-009 closed + POST-H-010-A implemented-initial + POST-H-010-B implemented-initial + POST-H-010-C implemented-initial + POST-H-010-D implemented-initial + POST-H-010-E implemented-initial + POST-H-010 closed + POST-H-011-A implemented-initial + POST-H-011-B implemented-initial + POST-H-011-C implemented-initial + POST-H-011-D implemented-initial + POST-H-011-E implemented-initial + POST-H-011 closed`  
-Último hito: `POST-H-011 — RAG groundedness evals`  
+Estado actual: `baseline pre-code approved + Fases A-G cerradas + Fase H cerrada + POST-H-001 implemented-initial + POST-H-EVAL-001 closed + POST-H-002 closed + POST-H-003 closed + POST-H-004 closed + POST-H-005 closed + POST-H-006 closed + POST-H-007 closed + POST-H-008 closed + POST-H-009-A implemented-initial + POST-H-009-B implemented-initial + POST-H-009-C implemented-initial + POST-H-009-D implemented-initial + POST-H-009-E implemented-initial + POST-H-009 closed + POST-H-010-A implemented-initial + POST-H-010-B implemented-initial + POST-H-010-C implemented-initial + POST-H-010-D implemented-initial + POST-H-010-E implemented-initial + POST-H-010 closed + POST-H-011-A implemented-initial + POST-H-011-B implemented-initial + POST-H-011-C implemented-initial + POST-H-011-D implemented-initial + POST-H-011-E implemented-initial + POST-H-011 closed + POST-H-012-A implemented-initial`  
+Último hito: `POST-H-011 — RAG groundedness evals`
+Último hito cerrado: `POST-H-011 — RAG groundedness evals`  
 Siguiente hito: `POST-H-012 — Approval/RBAC hardening`  
-Último micro-sprint implementado: `POST-H-011-E — Gate y documentación de límites RAG`  
+Último micro-sprint implementado: `POST-H-012-A — Sensitive action catalog y schema`  
 Hito diagnóstico cerrado: `POST-H-EVAL-001 — Evaluación integral del baseline DevPilot post-Fase H`, cierre formal `POST-H-EVAL-001-G`  
 Hito cerrado: `POST-H-011 — RAG groundedness evals`  
 Hito cerrado: `POST-H-010 — Observability retention local`  
 Hito cerrado: `POST-H-009 — Documentation governance y canonical sources`  
 Hito cerrado: `POST-H-008 — Runtime state lifecycle policy`  
 Hito cerrado: `POST-H-007 — ApplicationService boundary hardening`  
-Siguiente micro-sprint recomendado: `POST-H-012-A — Approval/RBAC hardening`  
+Siguiente micro-sprint recomendado: `POST-H-012-B — Approval binding fuerte`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
@@ -52,6 +53,23 @@ Modo de trabajo: local-first híbrido, API keys opcionales, costo externo contro
 
 
 
+
+
+## POST-H-012-A — Sensitive action catalog y schema
+
+Estado: `implemented-initial`. DevPilot incorpora un catálogo local y machine-readable de acciones sensibles, con validación por schema y cruce determinístico con MIASI. Esta versión declara controles de approval/RBAC para acciones críticas, pero todavía no cambia el enforcement runtime de `PolicyEngine`.
+
+Capacidades añadidas:
+
+```text
+- SensitiveActionCatalog schema registrado.
+- Catálogo `.devpilot/approval/sensitive_action_catalog.json`.
+- Validador `SensitiveActionCatalogValidator`.
+- Remote execution, connector write y plugin execution bloqueados/non-executable.
+- Acciones críticas marcadas con approval, RBAC role, command binding y tool_call binding.
+```
+
+Límites: no se habilita ejecución remota, connector write, plugin execution ni mutación destructiva. El binding fuerte, RBAC exposure, PolicyEngine enforcement y quality gate quedan para POST-H-012-B/C/D/E.
 
 ## POST-H-011-E — Gate y documentación de límites RAG
 

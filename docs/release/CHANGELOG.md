@@ -1,5 +1,19 @@
 # Changelog
 
+## [post-h-012-a] - 2026-06-27
+
+### Added
+- Approved `POST-H-012 — Approval/RBAC hardening` for implementation.
+- Added `SensitiveActionCatalog` schema and `.devpilot/approval/sensitive_action_catalog.json`.
+- Added `SensitiveActionCatalogValidator` for local deterministic validation and MIASI policy-rule cross-checks.
+- Added POST-H-012-A audit report, manifest and focused tests.
+
+### Safety
+- Remote execution, connector write and plugin execution remain blocked and non-executable.
+- No network, external APIs, LLM judge or destructive mutations are enabled.
+- Runtime enforcement is intentionally deferred to POST-H-012-B/C/D/E.
+
+
 
 
 

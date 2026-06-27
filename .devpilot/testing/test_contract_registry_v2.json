@@ -6974,6 +6974,65 @@
         "test-contracts",
         "post-h"
       ]
+    },
+    {
+      "contract_id": "post-h-012-sensitive-action-catalog",
+      "schema_version": "2.0",
+      "source_contract_id": "post-h-012-sensitive-action-catalog",
+      "domain": "security.approval",
+      "capability": "SensitiveActionCatalog",
+      "criticality": "P1",
+      "risk_level": "critical",
+      "test_type": "integration",
+      "execution_profile": "impact",
+      "cost_class": "low",
+      "expected_duration_seconds": 5,
+      "test_files": [
+        "tests/test_post_h_012_approval_rbac_hardening.py"
+      ],
+      "watched_paths": [
+        "docs/backlogs/POST-H-012_approval_rbac_hardening.md",
+        "docs/schemas/sensitive_action_catalog.schema.json",
+        ".devpilot/approval/sensitive_action_catalog.json",
+        "src/devpilot_core/policy/sensitive_actions.py",
+        ".devpilot/miasi/policy_matrix.json",
+        ".devpilot/miasi/tool_registry.json"
+      ],
+      "validates": [
+        "docs/schemas/sensitive_action_catalog.schema.json",
+        ".devpilot/approval/sensitive_action_catalog.json",
+        "src/devpilot_core/policy/sensitive_actions.py",
+        "docs/audits/post_h_012_a_sensitive_action_catalog_report.md"
+      ],
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace tests/test_post_h_012_approval_rbac_hardening.py -q",
+        "python -m devpilot_core schema validate --schema-id SensitiveActionCatalog --instance .devpilot/approval/sensitive_action_catalog.json --json"
+      ],
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "required_for_release": true,
+      "required_for_security_gate": true,
+      "requires_human_approval": false,
+      "owner": "POST-H-012-A",
+      "classification_status": "explicit",
+      "classification_notes": [
+        "POST-H-012-A is declarative/validation-only; it blocks remote/plugin/connector execution and requires approval/RBAC metadata for critical actions."
+      ],
+      "trigger_hints": [
+        "approval",
+        "rbac",
+        "policy",
+        "miasi",
+        "sensitive-actions"
+      ],
+      "impact_scope": [
+        "security",
+        "policy",
+        "approval",
+        "identity"
+      ]
     }
   ],
   "migration_metadata": {

@@ -3,7 +3,7 @@
   "schema_id": "SCHEMA-DEVPL-TEST-CONTRACT-REGISTRY-V1",
   "created_by": "POST-H-001",
   "status": "implemented-initial",
-  "description": "Declarative registry classifying DevPilot tests by contract layer after POST-H-001. POST-H-010-A adds observability retention policy tests.",
+  "description": "Declarative registry classifying DevPilot tests by contract layer after POST-H-001. POST-H-010-A adds observability retention policy tests. POST-H-012-A adds sensitive action catalog validation.",
   "contracts": [
     {
       "contract_id": "project-global-state",
@@ -3783,6 +3783,40 @@
         "python -m pytest tests/test_rag_groundedness_ready_gate.py tests/test_post_h_011_rag_groundedness.py -q",
         "python -m devpilot_core quality-gate run --profile hardening --json",
         "python -m devpilot_core test-contracts validate --json"
+      ]
+    },
+    {
+      "contract_id": "post-h-012-sensitive-action-catalog",
+      "scope": "integration",
+      "owner": "POST-H-012-A",
+      "phase": "POST-FASE-H",
+      "test_files": [
+        "tests/test_post_h_012_approval_rbac_hardening.py"
+      ],
+      "validates": [
+        "docs/backlogs/POST-H-012_approval_rbac_hardening.md",
+        "docs/POST-H-012_approval_rbac_hardening.md",
+        "docs/schemas/sensitive_action_catalog.schema.json",
+        ".devpilot/approval/sensitive_action_catalog.json",
+        "src/devpilot_core/policy/sensitive_actions.py",
+        "docs/audits/post_h_012_a_sensitive_action_catalog_report.md",
+        "docs/post_h_012_a_manifest.json"
+      ],
+      "watched_paths": [
+        "docs/backlogs/POST-H-012_approval_rbac_hardening.md",
+        "docs/schemas/sensitive_action_catalog.schema.json",
+        ".devpilot/approval/sensitive_action_catalog.json",
+        "src/devpilot_core/policy/sensitive_actions.py",
+        ".devpilot/miasi/policy_matrix.json",
+        ".devpilot/miasi/tool_registry.json"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace tests/test_post_h_012_approval_rbac_hardening.py -q",
+        "python -m devpilot_core schema validate --schema-id SensitiveActionCatalog --instance .devpilot/approval/sensitive_action_catalog.json --json",
+        "python -m devpilot_core schema validate --schema-id PostHManifest --instance docs/post_h_012_a_manifest.json --json"
       ]
     }
   ],

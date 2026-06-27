@@ -1,0 +1,179 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/sensitive_action_catalog.schema.json",
+  "title": "DevPilot Sensitive Action Catalog v1",
+  "description": "POST-H-012-A declarative local-first catalog for sensitive actions, approval/RBAC requirements and blocked connector/plugin/remote execution surfaces without enabling dangerous capabilities.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "schema_id",
+    "catalog_id",
+    "created_by",
+    "status",
+    "local_first",
+    "dry_run",
+    "default_effect",
+    "required_domains",
+    "actions",
+    "safety",
+    "summary",
+    "notes"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "schema_id": {"const": "SCHEMA-DEVPL-SENSITIVE-ACTION-CATALOG-V1"},
+    "catalog_id": {"const": "devpilot-sensitive-actions"},
+    "created_by": {"const": "POST-H-012-A"},
+    "status": {"enum": ["approved", "implemented-initial", "draft"]},
+    "local_first": {"const": true},
+    "dry_run": {"const": true},
+    "default_effect": {"enum": ["block", "deny"]},
+    "required_domains": {
+      "type": "array",
+      "minItems": 11,
+      "uniqueItems": true,
+      "items": {"enum": ["patch", "refactor", "release", "connector", "plugin", "remote", "filesystem", "model", "agent", "approval", "identity"]}
+    },
+    "actions": {
+      "type": "array",
+      "minItems": 11,
+      "items": {"$ref": "#/$defs/action"}
+    },
+    "safety": {"$ref": "#/$defs/safety"},
+    "summary": {"$ref": "#/$defs/summary"},
+    "notes": {
+      "type": "array",
+      "items": {"type": "string", "minLength": 1}
+    }
+  },
+  "$defs": {
+    "action": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "action_id",
+        "domain",
+        "description",
+        "risk_level",
+        "status",
+        "requires_approval",
+        "requires_rbac_role",
+        "requires_tool_call_binding",
+        "requires_command_binding",
+        "allowed_interfaces",
+        "blocked_interfaces",
+        "default_effect",
+        "executable",
+        "source_mutation_allowed",
+        "workspace_scope_required",
+        "miasi_policy_rule_ids",
+        "test_contract_ids",
+        "notes"
+      ],
+      "properties": {
+        "action_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9_.-]*$"},
+        "domain": {"enum": ["patch", "refactor", "release", "connector", "plugin", "remote", "filesystem", "model", "agent", "approval", "identity"]},
+        "description": {"type": "string", "minLength": 1},
+        "risk_level": {"enum": ["low", "medium", "high", "critical"]},
+        "status": {"enum": ["declared", "blocked", "implemented-initial", "planned"]},
+        "requires_approval": {"type": "boolean"},
+        "requires_rbac_role": {"type": "string", "minLength": 1},
+        "requires_tool_call_binding": {"type": "boolean"},
+        "requires_command_binding": {"type": "boolean"},
+        "allowed_interfaces": {
+          "type": "array",
+          "items": {"enum": ["cli", "api", "ui", "agent", "multiagent", "internal"]},
+          "uniqueItems": true
+        },
+        "blocked_interfaces": {
+          "type": "array",
+          "items": {"enum": ["cli", "api", "ui", "agent", "multiagent", "internal", "remote", "connector", "plugin"]},
+          "uniqueItems": true
+        },
+        "default_effect": {"enum": ["allow", "warn", "deny", "block"]},
+        "executable": {"type": "boolean"},
+        "source_mutation_allowed": {"type": "boolean"},
+        "workspace_scope_required": {"const": true},
+        "miasi_policy_rule_ids": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"type": "string", "minLength": 1},
+          "uniqueItems": true
+        },
+        "tool_ids": {
+          "type": "array",
+          "items": {"type": "string", "minLength": 1},
+          "uniqueItems": true
+        },
+        "test_contract_ids": {
+          "type": "array",
+          "items": {"type": "string", "minLength": 1},
+          "uniqueItems": true
+        },
+        "notes": {
+          "type": "array",
+          "items": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "safety": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "remote_execution_enabled",
+        "connector_write_enabled",
+        "plugin_execution_enabled",
+        "network_used",
+        "external_api_used",
+        "llm_judge_used",
+        "mutations_performed",
+        "source_mutations_performed",
+        "dry_run_default",
+        "deny_by_default"
+      ],
+      "properties": {
+        "remote_execution_enabled": {"const": false},
+        "connector_write_enabled": {"const": false},
+        "plugin_execution_enabled": {"const": false},
+        "network_used": {"const": false},
+        "external_api_used": {"const": false},
+        "llm_judge_used": {"const": false},
+        "mutations_performed": {"const": false},
+        "source_mutations_performed": {"const": false},
+        "dry_run_default": {"const": true},
+        "deny_by_default": {"const": true}
+      }
+    },
+    "summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "actions_total",
+        "domains_total",
+        "critical_actions_total",
+        "actions_requiring_approval_total",
+        "actions_requiring_rbac_total",
+        "blocked_actions_total",
+        "remote_actions_blocked_total",
+        "connector_write_actions_blocked_total",
+        "plugin_execution_actions_blocked_total",
+        "miasi_policy_links_total",
+        "preliminary"
+      ],
+      "properties": {
+        "actions_total": {"type": "integer", "minimum": 1},
+        "domains_total": {"type": "integer", "minimum": 1},
+        "critical_actions_total": {"type": "integer", "minimum": 0},
+        "actions_requiring_approval_total": {"type": "integer", "minimum": 0},
+        "actions_requiring_rbac_total": {"type": "integer", "minimum": 0},
+        "blocked_actions_total": {"type": "integer", "minimum": 0},
+        "remote_actions_blocked_total": {"type": "integer", "minimum": 0},
+        "connector_write_actions_blocked_total": {"type": "integer", "minimum": 0},
+        "plugin_execution_actions_blocked_total": {"type": "integer", "minimum": 0},
+        "miasi_policy_links_total": {"type": "integer", "minimum": 0},
+        "preliminary": {"type": "boolean"}
+      }
+    }
+  }
+}

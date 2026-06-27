@@ -1,0 +1,70 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "SCHEMA-DEVPL-POST-H-MANIFEST-V1",
+  "post_h_id": "POST-H-012",
+  "title": "POST-H-012-A — Sensitive action catalog y schema",
+  "status": "implemented-initial",
+  "phase": "POST-FASE-H",
+  "implemented_at": "2026-06-27T00:00:00Z",
+  "created_files": [
+    "docs/schemas/sensitive_action_catalog.schema.json",
+    ".devpilot/approval/sensitive_action_catalog.json",
+    "src/devpilot_core/policy/sensitive_actions.py",
+    "tests/test_post_h_012_approval_rbac_hardening.py",
+    "docs/audits/post_h_012_a_sensitive_action_catalog_report.md",
+    "docs/post_h_012_a_manifest.json",
+    "docs/POST-H-012_approval_rbac_hardening.md"
+  ],
+  "modified_files": [
+    "docs/backlogs/POST-H-012_approval_rbac_hardening.md",
+    "docs/schemas/schema_catalog.json",
+    "src/devpilot_core/policy/__init__.py",
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/release/CHANGELOG.md",
+    ".devpilot/docs_governance/source_registry.json",
+    ".devpilot/testing/test_contract_registry.json",
+    ".devpilot/testing/test_contract_registry_v2.json",
+    ".devpilot/project_state.json",
+    "tests/test_schema_registry.py",
+    "tests/test_project_global_state.py"
+  ],
+  "commands": [
+    "python -m devpilot_core schema validate --schema-id SensitiveActionCatalog --instance .devpilot/approval/sensitive_action_catalog.json --json",
+    "python -m devpilot_core schema validate --schema-id PostHManifest --instance docs/post_h_012_a_manifest.json --json",
+    "python -m pytest -p no:ddtrace tests/test_post_h_012_approval_rbac_hardening.py -q"
+  ],
+  "tests": [
+    "tests/test_post_h_012_approval_rbac_hardening.py",
+    "tests/test_schema_registry.py",
+    "tests/test_project_global_state.py"
+  ],
+  "pass_criteria": [
+    "Catalog validates against schema.",
+    "Critical actions require approval and RBAC role.",
+    "Remote/plugin/connector write actions are blocked and non-executable.",
+    "Catalog references existing MIASI policy rules."
+  ],
+  "block_criteria": [
+    "Critical action is allow without approval.",
+    "Remote execution is enabled.",
+    "Connector write or plugin execution is executable.",
+    "MIASI policy reference is missing."
+  ],
+  "risks": [
+    "Catalog-only validation does not yet enforce runtime policy decisions.",
+    "Binding, expiration/revocation and RBAC exposure are planned for later micro-sprints."
+  ],
+  "next_sprint": "POST-H-012",
+  "preliminary": true,
+  "micro_sprint": "POST-H-012-A",
+  "source_repo": "repo_DevPilot_Local_190_POST_H_011_E.zip",
+  "current_repo": "repo_DevPilot_Local_191_POST_H_012_A.zip",
+  "local_first": true,
+  "dry_run": true,
+  "no_remote_execution_enabled": true,
+  "no_connector_write_enabled": true,
+  "no_plugin_execution_enabled": true,
+  "no_external_apis_used": true,
+  "summary": "POST-H-012-A adds a local SensitiveActionCatalog schema, catalog and validator. It is declarative/validation-only and does not enable dangerous execution paths."
+}

@@ -6,6 +6,7 @@ from devpilot_core.policy.engine import PolicyEngine, PolicyRequest
 from devpilot_core.policy.path_guard import PathGuard, PathPolicy
 from devpilot_core.policy.prompt_guard import PromptInjectionGuard
 from devpilot_core.policy.secrets import REDACTED, RedactionResult, SecretGuard, redact_sensitive_data, redact_string
+from devpilot_core.policy.sensitive_actions import SensitiveActionCatalogOptions, SensitiveActionCatalogValidator
 from devpilot_core.policy.tool_injection_guard import ToolInjectionGuard
 
 __all__ = [
@@ -21,6 +22,8 @@ __all__ = [
     "PromptInjectionGuard",
     "REDACTED",
     "RedactionResult",
+    "SensitiveActionCatalogOptions",
+    "SensitiveActionCatalogValidator",
     "SecretGuard",
     "ToolInjectionGuard",
     "redact_sensitive_data",

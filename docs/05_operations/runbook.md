@@ -2,12 +2,12 @@
 title: "Runbook — DevPilot Local"
 doc_id: "DEVPL-OPS-002"
 status: "approved"
-version: "1.41.0"
+version: "1.42.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "POST-H-011-E"
-updated: "2026-06-26"
+phase: "POST-H-012-A"
+updated: "2026-06-27"
 approval: "approved_by_owner"
 source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved + 03_security approved"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
@@ -16,7 +16,7 @@ approval_scope: "SPRINT-PRECODE-05 quality operations baseline"
 
 # Runbook — DevPilot Local
 
-Siguiente hito operativo: `POST-H-012 — Approval/RBAC hardening`; último micro-sprint cerrado: `POST-H-011-E — Gate y documentación de límites RAG`.
+Hito operativo activo: `POST-H-012 — Approval/RBAC hardening`; último micro-sprint implementado: `POST-H-012-A — Sensitive action catalog y schema`; siguiente micro-sprint: `POST-H-012-B — Approval binding fuerte`.
 
 
 ## 1. Propósito
@@ -7878,3 +7878,29 @@ BLOCK si el quality gate escribe reportes runtime sin `--write-report` explícit
 
 Límites: RAG local no reemplaza las fuentes canónicas gobernadas. Para decisiones críticas, el resultado de RAG groundedness es una señal de calidad y no una autorización automática.
 
+
+## POST-H-012-A — Sensitive action catalog y schema
+
+Validación específica del catálogo local de acciones sensibles:
+
+```powershell
+python -m devpilot_core schema validate `
+  --schema-id SensitiveActionCatalog `
+  --instance .devpilot/approval/sensitive_action_catalog.json `
+  --json
+
+python -m pytest -p no:ddtrace `
+  tests/test_post_h_012_approval_rbac_hardening.py `
+  -q
+```
+
+Criterios PASS:
+
+```text
+PASS si el catálogo valida contra schema.
+PASS si todos los dominios críticos están cubiertos.
+PASS si acciones críticas requieren approval y RBAC.
+PASS si remote execution, connector write y plugin execution aparecen blocked/non-executable.
+```
+
+Límites operativos: esta versión no autoriza ejecución sensible; solo declara y valida el catálogo. El enforcement homogéneo queda para POST-H-012-D y el gate integral para POST-H-012-E.

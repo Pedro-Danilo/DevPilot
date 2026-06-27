@@ -30,7 +30,7 @@ def test_project_global_state_schema_and_docs_are_synchronized() -> None:
     assert state["industrial_baseline_ready"] is True
     assert state["global_state_owner"] == "tests/test_project_global_state.py"
 
-    assert "Último hito: `POST-H-011" in readme
+    assert "Último hito cerrado: `POST-H-011" in readme
     assert "Siguiente hito: `POST-H-012" in readme
     assert "POST-H-006 — CLI command registry y desacoplamiento de handlers" in readme
     assert "POST-H-005-E — Operación del reporte final ArchitectureMap" in runbook
@@ -83,7 +83,9 @@ def test_project_global_state_schema_and_docs_are_synchronized() -> None:
     assert any("POST-H-011-C adds deterministic RAG claim groundedness" in note for note in state["notes"])
     assert any("POST-H-011-E closes RAG groundedness evals" in note for note in state["notes"])
     assert "POST-H-011-E — Gate y documentación de límites RAG" in readme
-    assert "POST-H-011-E — Gate y documentación de límites RAG" in runbook
+    assert "POST-H-012-A — Sensitive action catalog y schema" in readme
+    assert "POST-H-012-A — Sensitive action catalog y schema" in runbook
+    assert any("POST-H-012-A approves" in note for note in state["notes"])
 
 
 def test_project_global_state_command_result_passes() -> None:
