@@ -1,5 +1,22 @@
 # Changelog
 
+## [post-h-012-b] - 2026-06-27
+
+### Added
+- Added strong approval binding validator for exact actor/role/tool/action/subject/command/tool_call scope.
+- Added optional subject hash binding for path/patch-like subjects.
+- Added focused negative tests for actor spoofing, scope mismatch, expiration, revocation, subject hash mismatch and command/tool_call mismatch.
+- Added POST-H-012-B audit report and manifest.
+
+### Changed
+- `ApprovalPolicyChecker` now uses strong binding for actions matched in `SensitiveActionCatalog` without enabling any sensitive execution.
+- Advanced POST-H-012 current micro-sprint to B and next micro-sprint to C.
+
+### Safety
+- No remote execution, connector write, plugin execution, external APIs, network calls or destructive mutations are enabled.
+- Binding is validation-only and does not replace RBAC, PathGuard, SecretGuard, CostGuard or PolicyEngine enforcement.
+
+
 ## [post-h-012-a] - 2026-06-27
 
 ### Added

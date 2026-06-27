@@ -7,6 +7,7 @@ from typing import TYPE_CHECKING, Any
 
 from devpilot_core.policy.decisions import PolicyDecision, PolicyEffect
 
+from .binding import ApprovalBindingRequest, StrongApprovalBindingValidator
 from .models import ApprovalStatus
 
 if TYPE_CHECKING:
@@ -23,6 +24,11 @@ class ApprovalPolicyInput:
     subject: str | None = None
     path: str | None = None
     metadata: dict[str, Any] | None = None
+    actor_id: str | None = None
+    role_at_decision: str | None = None
+    command_id: str | None = None
+    tool_call_id: str | None = None
+    subject_hash: str | None = None
 
 
 class ApprovalPolicyChecker:
@@ -137,6 +143,46 @@ class ApprovalPolicyChecker:
                 metadata=metadata,
             )
 
+        binding_validator = StrongApprovalBindingValidator(self.root)
+        sensitive_action = binding_validator._resolve_sensitive_action(tool_id or record.tool_id, action)
+        if sensitive_action is not None:
+            binding_result = binding_validator.evaluate(
+                record,
+                ApprovalBindingRequest(
+                    approval_id=approval_id,
+                    actor_id=data.actor_id or str(metadata.get("actor_id") or metadata.get("actor") or ""),
+                    role_at_decision=data.role_at_decision or metadata.get("role_at_decision"),
+                    tool_id=tool_id or record.tool_id,
+                    action=action,
+                    subject=subject or record.subject,
+                    command_id=data.command_id or metadata.get("command_id"),
+                    tool_call_id=data.tool_call_id or metadata.get("tool_call_id"),
+                    subject_hash=data.subject_hash or metadata.get("subject_hash"),
+                    interface=metadata.get("interface"),
+                ),
+            )
+            metadata["approval_scope"] = record.scope
+            metadata["strong_binding_required"] = True
+            metadata["binding_summary"] = binding_result.data.get("summary", {})
+            if not binding_result.ok:
+                metadata["binding_findings"] = [finding.id for finding in binding_result.findings]
+                return PolicyDecision(
+                    effect=PolicyEffect.BLOCK,
+                    reason="Provided approval_id failed strong approval binding checks.",
+                    guard="ApprovalPolicyChecker",
+                    rule_id="APPROVAL_BINDING_MISMATCH",
+                    subject=subject or record.subject,
+                    metadata=metadata,
+                )
+            return PolicyDecision(
+                effect=PolicyEffect.ALLOW,
+                reason="Provided approval_id is approved, unexpired and strongly bound to this sensitive request.",
+                guard="ApprovalPolicyChecker",
+                rule_id="APPROVAL_VALID",
+                subject=subject or record.subject,
+                metadata=metadata,
+            )
+
         scope_findings = self._scope_mismatches(record_scope=record.scope, record_tool=record.tool_id, record_action=record.action, record_subject=record.subject, tool_id=tool_id, action=action, subject=subject)
         if scope_findings:
             metadata["scope_mismatches"] = scope_findings
@@ -151,6 +197,7 @@ class ApprovalPolicyChecker:
             )
 
         metadata["approval_scope"] = record.scope
+        metadata["strong_binding_required"] = False
         return PolicyDecision(
             effect=PolicyEffect.ALLOW,
             reason="Provided approval_id is approved, unexpired and scoped to this request.",

@@ -7033,6 +7033,63 @@
         "approval",
         "identity"
       ]
+    },
+    {
+      "contract_id": "post-h-012-approval-binding",
+      "schema_version": "2.0",
+      "source_contract_id": "post-h-012-approval-binding",
+      "domain": "security.approval",
+      "capability": "StrongApprovalBinding",
+      "criticality": "P1",
+      "risk_level": "critical",
+      "test_type": "integration",
+      "execution_profile": "impact",
+      "cost_class": "low",
+      "expected_duration_seconds": 10,
+      "test_files": [
+        "tests/test_approval_binding.py",
+        "tests/test_post_h_012_approval_rbac_hardening.py"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/approval/",
+        ".devpilot/approval/sensitive_action_catalog.json",
+        "docs/backlogs/POST-H-012_approval_rbac_hardening.md",
+        "tests/test_approval_binding.py"
+      ],
+      "validates": [
+        "src/devpilot_core/approval/binding.py",
+        "src/devpilot_core/approval/policy.py",
+        "docs/audits/post_h_012_b_approval_binding_report.md"
+      ],
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace tests/test_approval_binding.py tests/test_post_h_012_approval_rbac_hardening.py -q"
+      ],
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "required_for_release": true,
+      "required_for_security_gate": true,
+      "requires_human_approval": false,
+      "owner": "POST-H-012-B",
+      "classification_status": "explicit",
+      "classification_notes": [
+        "POST-H-012-B is validation-only strong binding; it does not execute sensitive actions and does not enable remote/plugin/connector execution."
+      ],
+      "trigger_hints": [
+        "approval",
+        "binding",
+        "rbac",
+        "policy",
+        "sensitive-actions",
+        "tool-call"
+      ],
+      "impact_scope": [
+        "security",
+        "policy",
+        "approval",
+        "identity"
+      ]
     }
   ],
   "migration_metadata": {

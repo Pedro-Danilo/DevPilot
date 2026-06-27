@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "SCHEMA-DEVPL-POST-H-MANIFEST-V1",
+  "post_h_id": "POST-H-012",
+  "title": "POST-H-012-B — Approval binding fuerte",
+  "status": "implemented-initial",
+  "phase": "POST-FASE-H",
+  "implemented_at": "2026-06-27T00:00:00Z",
+  "created_files": [
+    "src/devpilot_core/approval/binding.py",
+    "tests/test_approval_binding.py",
+    "docs/audits/post_h_012_b_approval_binding_report.md",
+    "docs/post_h_012_b_manifest.json"
+  ],
+  "modified_files": [
+    "src/devpilot_core/approval/__init__.py",
+    "src/devpilot_core/approval/policy.py",
+    "docs/backlogs/POST-H-012_approval_rbac_hardening.md",
+    "docs/POST-H-012_approval_rbac_hardening.md",
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/release/CHANGELOG.md",
+    ".devpilot/docs_governance/source_registry.json",
+    ".devpilot/testing/test_contract_registry.json",
+    ".devpilot/testing/test_contract_registry_v2.json",
+    ".devpilot/project_state.json",
+    "tests/test_post_h_012_approval_rbac_hardening.py",
+    "tests/test_project_global_state.py"
+  ],
+  "commands": [
+    "python -m pytest -p no:ddtrace tests/test_approval_binding.py tests/test_post_h_012_approval_rbac_hardening.py -q",
+    "python -m devpilot_core schema validate --schema-id PostHManifest --instance docs/post_h_012_b_manifest.json --json"
+  ],
+  "tests": [
+    "tests/test_approval_binding.py",
+    "tests/test_post_h_012_approval_rbac_hardening.py",
+    "tests/test_project_global_state.py"
+  ],
+  "pass_criteria": [
+    "Approval only authorizes exact actor/role/tool/action/subject scope.",
+    "Expired approvals block.",
+    "Revoked approvals block.",
+    "Subject mismatch blocks.",
+    "tool_call_id mismatch blocks when required by SensitiveActionCatalog."
+  ],
+  "block_criteria": [
+    "Generic approval can authorize a critical action.",
+    "Actor spoofing passes.",
+    "Expiration is optional for critical actions.",
+    "Missing command_id/tool_call_id authorizes an action that requires binding."
+  ],
+  "risks": [
+    "Binding is implemented-initial and not yet full PolicyEngine homogeneous enforcement for all surfaces.",
+    "RBAC exposure report and quality-gate approval-rbac-hardening remain planned for later micro-sprints."
+  ],
+  "next_sprint": "POST-H-012",
+  "preliminary": true,
+  "micro_sprint": "POST-H-012-B",
+  "source_repo": "repo_DevPilot_Local_191_POST_H_012_A.zip",
+  "current_repo": "repo_DevPilot_Local_192_POST_H_012_B.zip",
+  "local_first": true,
+  "dry_run": true,
+  "no_remote_execution_enabled": true,
+  "no_connector_write_enabled": true,
+  "no_plugin_execution_enabled": true,
+  "no_external_apis_used": true,
+  "summary": "POST-H-012-B adds strong local approval binding for exact actor/role/tool/action/subject/command/tool_call scope without enabling sensitive execution."
+}

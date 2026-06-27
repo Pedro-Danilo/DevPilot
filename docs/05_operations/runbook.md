@@ -6,7 +6,7 @@ version: "1.42.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "POST-H-012-A"
+phase: "POST-H-012-B"
 updated: "2026-06-27"
 approval: "approved_by_owner"
 source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved + 03_security approved"
@@ -16,7 +16,7 @@ approval_scope: "SPRINT-PRECODE-05 quality operations baseline"
 
 # Runbook — DevPilot Local
 
-Hito operativo activo: `POST-H-012 — Approval/RBAC hardening`; último micro-sprint implementado: `POST-H-012-A — Sensitive action catalog y schema`; siguiente micro-sprint: `POST-H-012-B — Approval binding fuerte`.
+Hito operativo activo: `POST-H-012 — Approval/RBAC hardening`; último micro-sprint implementado: `POST-H-012-B — Approval binding fuerte`; siguiente micro-sprint: `POST-H-012-C — RBAC exposure report`.
 
 
 ## 1. Propósito
@@ -7878,6 +7878,34 @@ BLOCK si el quality gate escribe reportes runtime sin `--write-report` explícit
 
 Límites: RAG local no reemplaza las fuentes canónicas gobernadas. Para decisiones críticas, el resultado de RAG groundedness es una señal de calidad y no una autorización automática.
 
+
+
+## POST-H-012-B — Approval binding fuerte
+
+Validación específica del binding fuerte de approvals:
+
+```powershell
+python -m pytest -p no:ddtrace `
+  tests/test_approval_binding.py `
+  tests/test_post_h_012_approval_rbac_hardening.py `
+  -q
+
+python -m devpilot_core schema validate `
+  --schema-id PostHManifest `
+  --instance docs/post_h_012_b_manifest.json `
+  --json
+```
+
+Criterios PASS:
+
+```text
+PASS si approval_id solo autoriza actor/role/tool/action/subject exactos.
+PASS si approvals expirados o revocados bloquean.
+PASS si subject_hash mismatch bloquea cuando el record lo declara.
+PASS si command_id/tool_call_id faltantes o distintos bloquean acciones sensibles que los requieren.
+```
+
+Límites operativos: esta versión no habilita ejecución sensible, remote execution, connector write ni plugin execution. Es una primera capa de binding; RBAC exposure, PolicyEngine enforcement homogéneo y quality-gate integral quedan para POST-H-012-C/D/E.
 
 ## POST-H-012-A — Sensitive action catalog y schema
 

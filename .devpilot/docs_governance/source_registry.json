@@ -750,11 +750,15 @@
         "docs/POST-H-012_approval_rbac_hardening.md",
         "docs/audits/post_h_012_a_sensitive_action_catalog_report.md",
         "docs/post_h_012_a_manifest.json",
-        "docs/schemas/sensitive_action_catalog.schema.json"
+        "docs/schemas/sensitive_action_catalog.schema.json",
+        "src/devpilot_core/approval/binding.py",
+        "docs/audits/post_h_012_b_approval_binding_report.md",
+        "docs/post_h_012_b_manifest.json"
       ],
       "required_tests": [
         "tests/test_documentation_governance_backlogs.py",
-        "tests/test_post_h_012_approval_rbac_hardening.py"
+        "tests/test_post_h_012_approval_rbac_hardening.py",
+        "tests/test_approval_binding.py"
       ],
       "sync_rules": [
         "backlog_naming",
@@ -769,7 +773,8 @@
       "notes": [
         "POST-H-012 approved for implementation after POST-H-011 closure.",
         "POST-H-012-A adds SensitiveActionCatalog schema/catalog/validator as implemented-initial.",
-        "Remote execution, connector write and plugin execution remain blocked by design."
+        "Remote execution, connector write and plugin execution remain blocked by design.",
+        "POST-H-012-B adds strong approval binding for exact actor/role/tool/action/subject/command/tool_call scope as implemented-initial."
       ]
     },
     {
@@ -1309,7 +1314,7 @@
     "post_h_011_rag_groundedness_ready_gate_bound": true,
     "post_h_011_closed": true,
     "machine_readable_total": 5,
-    "required_tests_total": 60,
+    "required_tests_total": 62,
     "active_backlog": "POST-H-012",
     "active_micro_sprint": "POST-H-012-A",
     "sensitive_action_catalog_enabled": true,

@@ -212,11 +212,11 @@ def test_post_h_011_a_project_state_notes_are_synchronized() -> None:
 
     assert state["last_completed_sprint"] == "POST-H-011"
     assert state["next_sprint"] == "POST-H-012"
-    assert state["current_repo"] == "repo_DevPilot_Local_191_POST_H_012_A.zip"
+    assert state["current_repo"] == "repo_DevPilot_Local_192_POST_H_012_B.zip"
     assert any("POST-H-011-C adds deterministic RAG claim groundedness" in note for note in state["notes"])
     assert any("POST-H-011-D adds RAG groundedness eval runner integration" in note for note in state["notes"])
     assert any("POST-H-011-E closes RAG groundedness evals" in note for note in state["notes"])
-    assert "Último micro-sprint implementado: `POST-H-012-A" in readme
+    assert "Último micro-sprint implementado: `POST-H-012-B" in readme
     assert "POST-H-011-E — Gate y documentación de límites RAG" in runbook
     assert "POST-H-011-E — Gate y documentación de límites RAG" in readme
     assert "POST-H-011-E — Gate y documentación de límites RAG" in runbook

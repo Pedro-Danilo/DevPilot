@@ -1,17 +1,17 @@
 # DevPilot Local — Agent-assisted SDLC personal
 
-Estado actual: `baseline pre-code approved + Fases A-G cerradas + Fase H cerrada + POST-H-001 implemented-initial + POST-H-EVAL-001 closed + POST-H-002 closed + POST-H-003 closed + POST-H-004 closed + POST-H-005 closed + POST-H-006 closed + POST-H-007 closed + POST-H-008 closed + POST-H-009-A implemented-initial + POST-H-009-B implemented-initial + POST-H-009-C implemented-initial + POST-H-009-D implemented-initial + POST-H-009-E implemented-initial + POST-H-009 closed + POST-H-010-A implemented-initial + POST-H-010-B implemented-initial + POST-H-010-C implemented-initial + POST-H-010-D implemented-initial + POST-H-010-E implemented-initial + POST-H-010 closed + POST-H-011-A implemented-initial + POST-H-011-B implemented-initial + POST-H-011-C implemented-initial + POST-H-011-D implemented-initial + POST-H-011-E implemented-initial + POST-H-011 closed + POST-H-012-A implemented-initial`  
+Estado actual: `baseline pre-code approved + Fases A-G cerradas + Fase H cerrada + POST-H-001 implemented-initial + POST-H-EVAL-001 closed + POST-H-002 closed + POST-H-003 closed + POST-H-004 closed + POST-H-005 closed + POST-H-006 closed + POST-H-007 closed + POST-H-008 closed + POST-H-009-A implemented-initial + POST-H-009-B implemented-initial + POST-H-009-C implemented-initial + POST-H-009-D implemented-initial + POST-H-009-E implemented-initial + POST-H-009 closed + POST-H-010-A implemented-initial + POST-H-010-B implemented-initial + POST-H-010-C implemented-initial + POST-H-010-D implemented-initial + POST-H-010-E implemented-initial + POST-H-010 closed + POST-H-011-A implemented-initial + POST-H-011-B implemented-initial + POST-H-011-C implemented-initial + POST-H-011-D implemented-initial + POST-H-011-E implemented-initial + POST-H-011 closed + POST-H-012-A implemented-initial + POST-H-012-B implemented-initial`  
 Último hito: `POST-H-011 — RAG groundedness evals`
 Último hito cerrado: `POST-H-011 — RAG groundedness evals`  
 Siguiente hito: `POST-H-012 — Approval/RBAC hardening`  
-Último micro-sprint implementado: `POST-H-012-A — Sensitive action catalog y schema`  
+Último micro-sprint implementado: `POST-H-012-B — Approval binding fuerte`  
 Hito diagnóstico cerrado: `POST-H-EVAL-001 — Evaluación integral del baseline DevPilot post-Fase H`, cierre formal `POST-H-EVAL-001-G`  
 Hito cerrado: `POST-H-011 — RAG groundedness evals`  
 Hito cerrado: `POST-H-010 — Observability retention local`  
 Hito cerrado: `POST-H-009 — Documentation governance y canonical sources`  
 Hito cerrado: `POST-H-008 — Runtime state lifecycle policy`  
 Hito cerrado: `POST-H-007 — ApplicationService boundary hardening`  
-Siguiente micro-sprint recomendado: `POST-H-012-B — Approval binding fuerte`  
+Siguiente micro-sprint recomendado: `POST-H-012-C — RBAC exposure report`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.
@@ -54,6 +54,24 @@ Modo de trabajo: local-first híbrido, API keys opcionales, costo externo contro
 
 
 
+
+
+## POST-H-012-B — Approval binding fuerte
+
+Estado: `implemented-initial`. DevPilot incorpora `StrongApprovalBindingValidator`, un validador local y determinístico para impedir que un `approval_id` aprobado se reutilice fuera de su alcance exacto. El binding cubre `actor_id`, `role_at_decision`, `tool_id`, `action`, `subject`, `subject_hash`, `command_id` y `tool_call_id`.
+
+Capacidades añadidas:
+
+```text
+- `src/devpilot_core/approval/binding.py` con `ApprovalBindingRequest` y `StrongApprovalBindingValidator`.
+- Hash determinístico de subject mediante `compute_subject_hash()`.
+- Bloqueo de approvals expirados o revocados.
+- Bloqueo de actor/tool/action/subject mismatch.
+- Bloqueo de command_id/tool_call_id faltante o distinto cuando el catálogo lo requiere.
+- Integración inicial con `ApprovalPolicyChecker` para acciones sensibles catalogadas.
+```
+
+Límites: no se habilita ejecución sensible ni enforcement homogéneo completo. El RBAC exposure report queda para POST-H-012-C, la integración transversal de PolicyEngine para POST-H-012-D y el quality gate integral para POST-H-012-E.
 
 ## POST-H-012-A — Sensitive action catalog y schema
 

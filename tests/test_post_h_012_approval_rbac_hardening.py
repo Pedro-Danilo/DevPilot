@@ -33,16 +33,19 @@ def test_post_h_012_backlog_is_approved_and_synced() -> None:
     assert 'status: "approved"' in backlog
     assert 'approval: "approved_by_owner"' in backlog
     assert 'implementation_status: "active"' in backlog
-    assert 'current_micro_sprint: "POST-H-012-A"' in backlog
-    assert 'next_micro_sprint: "POST-H-012-B"' in backlog
+    assert 'current_micro_sprint: "POST-H-012-B"' in backlog
+    assert 'next_micro_sprint: "POST-H-012-C"' in backlog
     assert "## 14. Avance de implementación — POST-H-012-A" in backlog
+    assert "## 15. Avance de implementación — POST-H-012-B" in backlog
     assert "docs/schemas/sensitive_action_catalog.schema.json" in backlog
     assert ".devpilot/approval/sensitive_action_catalog.json" in backlog
     assert "src/devpilot_core/policy/sensitive_actions.py" in backlog
     assert "tests/test_post_h_012_approval_rbac_hardening.py" in backlog
-    assert "POST-H-012-A — Sensitive action catalog y schema" in readme
-    assert "POST-H-012-A — Sensitive action catalog y schema" in runbook
-    assert "post-h-012-a" in changelog
+    assert "src/devpilot_core/approval/binding.py" in backlog
+    assert "tests/test_approval_binding.py" in backlog
+    assert "POST-H-012-B — Approval binding fuerte" in readme
+    assert "POST-H-012-B — Approval binding fuerte" in runbook
+    assert "post-h-012-b" in changelog
 
 
 def test_sensitive_action_catalog_schema_and_validator_pass(monkeypatch, capsys) -> None:
@@ -136,7 +139,11 @@ def test_post_h_012_source_registry_and_contracts_are_registered() -> None:
     assert ".devpilot/approval/sensitive_action_catalog.json" in doc.derived_documents
     assert "docs/audits/post_h_012_a_sensitive_action_catalog_report.md" in doc.derived_documents
     assert "docs/post_h_012_a_manifest.json" in doc.derived_documents
+    assert "src/devpilot_core/approval/binding.py" in doc.derived_documents
+    assert "docs/audits/post_h_012_b_approval_binding_report.md" in doc.derived_documents
+    assert "docs/post_h_012_b_manifest.json" in doc.derived_documents
     assert "tests/test_post_h_012_approval_rbac_hardening.py" in doc.required_tests
+    assert "tests/test_approval_binding.py" in doc.required_tests
 
     result = DocumentationGovernanceValidator(ROOT).run()
     assert result.ok, result.to_dict()
@@ -161,6 +168,15 @@ def test_post_h_012_source_registry_and_contracts_are_registered() -> None:
     assert contract_v2["mutations_allowed"] is False
     assert contract_v2["source_mutations_allowed"] is False
 
+    binding_contract = next(item for item in tcr["contracts"] if item["contract_id"] == "post-h-012-approval-binding")
+    assert binding_contract["owner"] == "POST-H-012-B"
+    assert "tests/test_approval_binding.py" in binding_contract["test_files"]
+    assert "src/devpilot_core/approval/binding.py" in binding_contract["validates"]
+    binding_contract_v2 = next(item for item in tcr_v2["contracts"] if item["contract_id"] == "post-h-012-approval-binding")
+    assert binding_contract_v2["capability"] == "StrongApprovalBinding"
+    assert binding_contract_v2["network_allowed"] is False
+    assert binding_contract_v2["source_mutations_allowed"] is False
+
 
 def test_post_h_012_project_state_is_synchronized() -> None:
     state = read_json(".devpilot/project_state.json")
@@ -169,8 +185,8 @@ def test_post_h_012_project_state_is_synchronized() -> None:
 
     assert state["last_completed_sprint"] == "POST-H-011"
     assert state["next_sprint"] == "POST-H-012"
-    assert state["current_repo"] == "repo_DevPilot_Local_191_POST_H_012_A.zip"
-    assert any("POST-H-012-A approves" in note for note in state["notes"])
-    assert "Último micro-sprint implementado: `POST-H-012-A" in readme
-    assert "Siguiente micro-sprint recomendado: `POST-H-012-B" in readme
-    assert "POST-H-012-A — Sensitive action catalog y schema" in runbook
+    assert state["current_repo"] == "repo_DevPilot_Local_192_POST_H_012_B.zip"
+    assert any("POST-H-012-B adds strong approval binding" in note for note in state["notes"])
+    assert "Último micro-sprint implementado: `POST-H-012-B" in readme
+    assert "Siguiente micro-sprint recomendado: `POST-H-012-C" in readme
+    assert "POST-H-012-B — Approval binding fuerte" in runbook

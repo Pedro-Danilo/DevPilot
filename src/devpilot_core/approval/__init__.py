@@ -1,6 +1,8 @@
 from .models import ApprovalDecision, ApprovalRecord, ApprovalRequest, ApprovalStatus
 
 __all__ = [
+    "ApprovalBindingOptions",
+    "ApprovalBindingRequest",
     "ApprovalCliInput",
     "ApprovalDecision",
     "ApprovalPolicyChecker",
@@ -8,6 +10,8 @@ __all__ = [
     "ApprovalRecord",
     "ApprovalRequest",
     "ApprovalService",
+    "StrongApprovalBindingValidator",
+    "compute_subject_hash",
     "ApprovalStatus",
     "ApprovalStore",
     "DEFAULT_APPROVAL_TTL_MINUTES",
@@ -17,6 +21,10 @@ __all__ = [
 
 
 def __getattr__(name: str):
+    if name in {"ApprovalBindingOptions", "ApprovalBindingRequest", "StrongApprovalBindingValidator", "compute_subject_hash"}:
+        from . import binding as _binding
+
+        return getattr(_binding, name)
     if name == "ApprovalStore":
         from .store import ApprovalStore
 

@@ -4,7 +4,7 @@ doc_id: "POST-H-012-BACKLOG"
 id: "POST-H-012"
 title: "POST-H-012 — Approval/RBAC hardening"
 status: "approved"
-version: "0.2.0"
+version: "0.3.0"
 owner: "Ordóñez"
 updated: "2026-06-27"
 approval: "approved_by_owner"
@@ -17,8 +17,8 @@ no_remote_execution_enabled: true
 no_connector_write_enabled: true
 no_plugin_execution_enabled: true
 implementation_status: "active"
-current_micro_sprint: "POST-H-012-A"
-next_micro_sprint: "POST-H-012-B"
+current_micro_sprint: "POST-H-012-B"
+next_micro_sprint: "POST-H-012-C"
 ---
 
 # POST-H-012 — Approval/RBAC hardening
@@ -498,4 +498,49 @@ POST-H-012-A no implementa approval binding fuerte.
 POST-H-012-A no implementa RBAC exposure report.
 POST-H-012-A no habilita ejecución remota, connector write ni plugin execution.
 POST-H-012-A no habilita acciones destructivas.
+```
+
+
+## 15. Avance de implementación — POST-H-012-B
+
+Estado: `implemented-initial`.
+
+Capacidad incorporada:
+
+```text
+- Binding fuerte de approvals locales mediante `src/devpilot_core/approval/binding.py`.
+- Validación exacta approval_id → actor_id → role_at_decision → tool_id → action → subject.
+- Validación opcional de `subject_hash` para paths, patches o sujetos materializados.
+- Enforcement determinístico de expiración y revocación en el binding.
+- Enforcement de `command_id` y `tool_call_id` cuando el SensitiveActionCatalog lo requiere.
+- Bloqueo de approvals genéricos/wildcard para acciones sensibles.
+- Integración inicial con `ApprovalPolicyChecker` para acciones sensibles declaradas en el catálogo sin activar ejecución real.
+```
+
+Artefactos principales:
+
+```text
+src/devpilot_core/approval/binding.py
+tests/test_approval_binding.py
+docs/audits/post_h_012_b_approval_binding_report.md
+docs/post_h_012_b_manifest.json
+```
+
+Criterios PASS cubiertos:
+
+```text
+PASS si un approval solo sirve para su scope.
+PASS si approval expirado bloquea.
+PASS si approval revocado bloquea.
+PASS si subject mismatch bloquea.
+PASS si tool_call_id mismatch bloquea cuando es requerido.
+```
+
+Límites explícitos:
+
+```text
+POST-H-012-B no implementa todavía RBAC exposure report.
+POST-H-012-B no implementa enforcement homogéneo completo en PolicyEngine para todas las rutas CLI/API/UI/agents.
+POST-H-012-B no agrega quality-gate approval-rbac-hardening.
+POST-H-012-B no habilita ejecución remota, connector write, plugin execution ni acciones destructivas.
 ```
