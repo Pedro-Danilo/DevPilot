@@ -6,9 +6,10 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
-from devpilot_core.application import ApplicationResponse
-from devpilot_core.cli_models import CommandResult, ExitCode, Finding, Severity
+from devpilot_core.cli_models import CommandResult, Severity
 from devpilot_core.policy import PolicyEngine, PolicyRequest
+
+from .response_mapping import api_error_response
 
 API_TOKEN_ENV_VAR = "DEVPILOT_API_TOKEN"
 API_TOKEN_HEADER = "X-DevPilot-Token"
@@ -168,15 +169,14 @@ def is_public_api_path(path: str, *, method: str = "GET", config: ApiSecurityCon
 
 
 def build_security_error_response(*, status_code: int, message: str, finding_id: str, operation: str = "api.security") -> tuple[dict[str, Any], int]:
-    result = CommandResult(
-        command="api security",
-        ok=False,
-        exit_code=ExitCode.BLOCK,
+    return api_error_response(
+        operation=operation,
         message=message,
-        data={"summary": {"operation": operation, "status_hint": status_code, "token_redacted": True, "preliminary": True}},
-        findings=[Finding(id=finding_id, message=message, severity=Severity.BLOCK, metadata={"operation": operation})],
+        finding_id=finding_id,
+        severity=Severity.BLOCK,
+        status_hint=status_code,
+        metadata={"token_redacted": True},
     )
-    return ApplicationResponse.from_command_result(result, operation=operation).to_dict(), status_code
 
 
 def validate_api_token(config: ApiSecurityConfig, supplied_token: str | None) -> tuple[bool, str | None]:

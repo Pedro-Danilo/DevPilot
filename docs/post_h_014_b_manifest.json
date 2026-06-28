@@ -1,0 +1,106 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "SCHEMA-DEVPL-POST-H-MANIFEST-V1",
+  "post_h_id": "POST-H-014",
+  "id": "POST-H-014-B",
+  "title": "POST-H-014-B — Response mapping y errores homogéneos",
+  "status": "implemented-initial",
+  "phase": "POST-FASE-H",
+  "implemented_at": "2026-06-27",
+  "created_files": [
+    "src/devpilot_core/interfaces/api/response_mapping.py",
+    "tests/test_post_h_014_response_mapping.py",
+    "docs/audits/post_h_014_b_response_mapping_report.md",
+    "docs/post_h_014_b_manifest.json"
+  ],
+  "modified_files": [
+    "src/devpilot_core/interfaces/api/__init__.py",
+    "src/devpilot_core/interfaces/api/models.py",
+    "src/devpilot_core/interfaces/api/app.py",
+    "src/devpilot_core/interfaces/api/security.py",
+    "docs/backlogs/POST-H-014_ui_api_industrial_shell.md",
+    "docs/POST-H-014_ui_api_industrial_shell.md",
+    "docs/07_interfaces/ui_api_industrial_shell.md",
+    "docs/05_operations/ui_api_local_runbook.md",
+    "docs/05_operations/runbook.md",
+    "README.md",
+    "docs/release/CHANGELOG.md",
+    ".devpilot/project_state.json",
+    ".devpilot/docs_governance/source_registry.json",
+    ".devpilot/testing/test_contract_registry.json",
+    ".devpilot/testing/test_contract_registry_v2.json",
+    "tests/test_project_global_state.py"
+  ],
+  "validation_commands": [
+    "python -m pytest -p no:ddtrace tests/test_post_h_014_response_mapping.py tests/test_api_local.py tests/test_api_security.py tests/test_api_approvals_actions.py tests/test_api_reports_traces.py tests/test_api_settings.py tests/test_post_h_014_api_route_contracts.py -q",
+    "python -m pytest -p no:ddtrace tests/test_schema_registry.py tests/test_project_global_state.py tests/test_test_contract_registry.py tests/test_test_contract_registry_v2.py tests/test_test_contract_registry_profiles_v2.py -q",
+    "python -m devpilot_core schema validate --schema-id PostHManifest --instance docs/post_h_014_b_manifest.json --json",
+    "python -m devpilot_core docs-governance validate --json",
+    "python -m devpilot_core test-contracts validate --json",
+    "python -m devpilot_core test-contracts validate-v2 --json"
+  ],
+  "capabilities": [
+    "Explicit CommandResult to ApplicationResponse HTTP mapping",
+    "PASS/FAIL/BLOCK/ERROR HTTP status semantics",
+    "Homogeneous validation/HTTP/unhandled error payloads",
+    "Stack trace and raw exception message redaction for local API errors"
+  ],
+  "safety": {
+    "local_first": true,
+    "dry_run_default": true,
+    "network_used": false,
+    "external_api_used": false,
+    "remote_execution_enabled": false,
+    "connector_write_enabled": false,
+    "plugin_execution_enabled": false,
+    "source_mutations_performed": true,
+    "runtime_mutations_performed": false
+  },
+  "limitations": [
+    "Implemented-initial response mapping baseline, not final production API hardening.",
+    "UI route registry remains pending for POST-H-014-C.",
+    "Additional local security posture remains pending for POST-H-014-D.",
+    "Final UI/API quality gate remains pending for POST-H-014-E."
+  ],
+  "next_micro_sprint": "POST-H-014-C",
+  "commands": [
+    "python -m pytest -p no:ddtrace tests/test_post_h_014_response_mapping.py tests/test_api_local.py tests/test_api_security.py tests/test_api_approvals_actions.py tests/test_api_reports_traces.py tests/test_api_settings.py tests/test_post_h_014_api_route_contracts.py -q",
+    "python -m pytest -p no:ddtrace tests/test_schema_registry.py tests/test_project_global_state.py tests/test_test_contract_registry.py tests/test_test_contract_registry_v2.py tests/test_test_contract_registry_profiles_v2.py -q",
+    "python -m devpilot_core schema validate --schema-id PostHManifest --instance docs/post_h_014_b_manifest.json --json",
+    "python -m devpilot_core docs-governance validate --json",
+    "python -m devpilot_core test-contracts validate --json",
+    "python -m devpilot_core test-contracts validate-v2 --json"
+  ],
+  "tests": [
+    "tests/test_post_h_014_response_mapping.py",
+    "tests/test_api_local.py",
+    "tests/test_api_security.py",
+    "tests/test_api_approvals_actions.py",
+    "tests/test_api_reports_traces.py",
+    "tests/test_api_settings.py",
+    "tests/test_post_h_014_api_route_contracts.py",
+    "tests/test_schema_registry.py",
+    "tests/test_project_global_state.py"
+  ],
+  "pass_criteria": [
+    "PASS maps to HTTP 200.",
+    "FAIL maps to HTTP 400.",
+    "BLOCK maps to HTTP 403 and is never reported as HTTP 200.",
+    "ERROR and unhandled exceptions map to HTTP 500 with stack traces redacted.",
+    "FastAPI request validation maps to ApplicationResponse HTTP 422.",
+    "Docs governance and test contract registries pass locally."
+  ],
+  "block_criteria": [
+    "BLOCK response mapped as HTTP 200.",
+    "Unhandled exception leaks Traceback, secret material or raw exception messages.",
+    "Security/validation errors return non-ApplicationResponse payloads.",
+    "Response mapping is duplicated ad hoc in routers instead of centralized in response_mapping.py."
+  ],
+  "risks": [
+    "Implemented-initial mapping may require extension in POST-H-014-D/E for final API quality-gate enforcement.",
+    "Public transport routes remain local-only and intentionally unauthenticated.",
+    "The health endpoint keeps backward-compatible top-level fields while also adding ApplicationResponse envelope."
+  ],
+  "next_sprint": "POST-H-014",
+  "preliminary": true
+}

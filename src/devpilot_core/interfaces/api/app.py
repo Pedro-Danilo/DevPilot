@@ -4,11 +4,15 @@ from pathlib import Path
 from typing import Any
 
 from fastapi import FastAPI, Request
+from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
+from starlette.exceptions import HTTPException as StarletteHTTPException
 
-from devpilot_core.application import ApplicationService
+from devpilot_core.application import ApplicationResponse, ApplicationService
+from devpilot_core.cli_models import CommandResult, ExitCode
 
+from .response_mapping import http_exception_response, unhandled_exception_response, validation_error_response
 from .routers import actions, approvals, reports, settings, status, traces, validation
 from .security import (
     API_ROUTE_POLICIES,
@@ -82,6 +86,32 @@ def create_app(
     app.state.application_service = ApplicationService(resolved_root, enforce_workspace_paths=True)
     app.state.api_security = security_config
 
+    def _api_error_json_response(request: Request, payload: dict[str, Any], status_code: int) -> JSONResponse:
+        headers = dict(SECURITY_HEADERS)
+        origin = request.headers.get("origin")
+        if _origin_is_allowed(origin, request.app.state.api_security):
+            headers["Access-Control-Allow-Origin"] = str(origin)
+            headers["Vary"] = "Origin"
+            headers["Access-Control-Expose-Headers"] = "X-DevPilot-Policy, X-DevPilot-Api-Security"
+        headers["X-DevPilot-Api-Security"] = "token+cors+policy"
+        return JSONResponse(content=payload, status_code=status_code, headers=headers)
+
+    @app.exception_handler(RequestValidationError)
+    async def api_request_validation_exception_handler(request: Request, exc: RequestValidationError) -> JSONResponse:  # type: ignore[override]
+        payload, status_code = validation_error_response(errors_total=len(exc.errors()))
+        return _api_error_json_response(request, payload, status_code)
+
+    @app.exception_handler(StarletteHTTPException)
+    async def api_http_exception_handler(request: Request, exc: StarletteHTTPException) -> JSONResponse:  # type: ignore[override]
+        detail = exc.detail if isinstance(exc.detail, str) else None
+        payload, status_code = http_exception_response(operation="api.http", status_code=int(exc.status_code), detail=detail)
+        return _api_error_json_response(request, payload, status_code)
+
+    @app.exception_handler(Exception)
+    async def api_unhandled_exception_handler(request: Request, exc: Exception) -> JSONResponse:  # type: ignore[override]
+        payload, status_code = unhandled_exception_response(operation="api.unhandled", exc=exc)
+        return _api_error_json_response(request, payload, status_code)
+
     if security_config.cors_enabled:
         app.add_middleware(
             CORSMiddleware,
@@ -147,10 +177,10 @@ def create_app(
 
     @app.get("/api/v1/health", tags=["status"])
     def health() -> dict[str, object]:
-        return {
-            "ok": True,
+        summary = {
             "service": "devpilot-local-api",
             "sprint": "FUNC-SPRINT-72",
+            "post_h_014_b_response_mapping": True,
             "api_implemented": True,
             "api_security_implemented": True,
             "host_default": DEFAULT_API_HOST,
@@ -167,6 +197,16 @@ def create_app(
             "settings_provider_editor_plan_only": True,
             "settings_secrets_redacted": True,
         }
+        result = CommandResult(
+            command="api health",
+            ok=True,
+            exit_code=ExitCode.PASS,
+            message="DevPilot local API is healthy.",
+            data={"summary": summary},
+        )
+        payload = ApplicationResponse.from_command_result(result, operation="api.health").to_dict()
+        payload.update(summary)  # backward-compatible health fields for existing UI/tests.
+        return payload
 
     return app
 

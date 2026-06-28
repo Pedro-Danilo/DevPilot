@@ -2,11 +2,11 @@
 title: "Runbook — DevPilot Local"
 doc_id: "DEVPL-OPS-002"
 status: "approved"
-version: "1.48.0"
+version: "1.49.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "POST-H-014-A"
+phase: "POST-H-014-B"
 updated: "2026-06-27"
 approval: "approved_by_owner"
 source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved + 03_security approved"
@@ -16,7 +16,40 @@ approval_scope: "SPRINT-PRECODE-05 quality operations baseline"
 
 # Runbook — DevPilot Local
 
-Último hito cerrado: `POST-H-013 — Audit pack integrity`; hito operativo activo: `POST-H-014 — UI/API industrial shell`; último micro-sprint implementado: `POST-H-014-A — Route Contract Registry y API inventory`; siguiente hito: `POST-H-014 — UI/API industrial shell`.
+Último hito cerrado: `POST-H-013 — Audit pack integrity`; hito operativo activo: `POST-H-014 — UI/API industrial shell`; último micro-sprint implementado: `POST-H-014-B — Response mapping y errores homogéneos`; siguiente hito: `POST-H-014 — UI/API industrial shell`.
+
+
+## POST-H-014-B — Response mapping y errores homogéneos
+
+Objetivo operativo: normalizar la salida HTTP de la API local para que `CommandResult`/`ApplicationResponse` tenga códigos explícitos y errores sin filtración técnica.
+
+Comandos de verificación:
+
+```powershell
+python -m pytest -p no:ddtrace tests/test_post_h_014_response_mapping.py tests/test_api_local.py tests/test_api_security.py tests/test_api_approvals_actions.py tests/test_api_reports_traces.py tests/test_api_settings.py tests/test_post_h_014_api_route_contracts.py -q
+python -m devpilot_core schema validate --schema-id PostHManifest --instance docs/post_h_014_b_manifest.json --json
+python -m devpilot_core test-contracts validate --json
+python -m devpilot_core test-contracts validate-v2 --json
+```
+
+Criterios PASS:
+
+```text
+PASS si PASS -> HTTP 200, FAIL -> HTTP 400, BLOCK -> HTTP 403 y ERROR -> HTTP 500.
+PASS si errores 422/HTTP/excepciones retornan ApplicationResponse.
+PASS si errores técnicos no exponen stack traces, secretos ni mensajes crudos.
+PASS si los errores de seguridad mantienen CORS restringido para orígenes locales allow-listed.
+```
+
+Criterios BLOCK:
+
+```text
+BLOCK si una respuesta de bloqueo se reporta como HTTP 200.
+BLOCK si un error técnico filtra Traceback, secretos o rutas internas innecesarias.
+BLOCK si el mapping se duplica en routers en lugar de usar response_mapping.py.
+```
+
+Límites: versión `implemented-initial`. UI route contract queda para POST-H-014-C; security hardening adicional para POST-H-014-D; quality gate final para POST-H-014-E.
 
 
 ## POST-H-014-A — Route Contract Registry y API inventory

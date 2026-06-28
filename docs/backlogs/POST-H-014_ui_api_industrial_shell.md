@@ -4,7 +4,7 @@ doc_id: "POST-H-014-BACKLOG"
 id: "POST-H-014"
 title: "POST-H-014 — UI/API industrial shell"
 status: "approved"
-version: "0.2.0"
+version: "0.3.0"
 owner: "Ordóñez"
 updated: "2026-06-27"
 approval: "approved_by_owner"
@@ -17,8 +17,8 @@ no_remote_execution_enabled: true
 no_external_apis_used: true
 no_connector_write_enabled: true
 no_plugin_execution_enabled: true
-current_micro_sprint: "POST-H-014-A"
-next_micro_sprint: "POST-H-014-B"
+current_micro_sprint: "POST-H-014-B"
+next_micro_sprint: "POST-H-014-C"
 implementation_status: "active"
 ---
 
@@ -413,4 +413,43 @@ Limitaciones explícitas:
 - No crea UI route contract registry; eso queda para POST-H-014-C.
 - No endurece todavía CORS/token más allá de lo existente; eso queda para POST-H-014-D.
 - No integra todavía el subgate ui-api-industrial-shell al quality-gate; eso queda para POST-H-014-E.
+```
+
+
+## 14. Avance de implementación — POST-H-014-B
+
+Estado: `implemented-initial`.
+
+POST-H-014-B normaliza el response mapping HTTP de la API local y centraliza la conversión `CommandResult` → `ApplicationResponse` con códigos HTTP explícitos. Esta versión evita que `BLOCK` sea presentado como éxito HTTP ambiguo, agrega handlers homogéneos para validación/HTTP/excepciones no controladas y redacta detalles técnicos para no filtrar stack traces ni secretos por payloads HTTP.
+
+Capacidades implementadas:
+
+```text
+- src/devpilot_core/interfaces/api/response_mapping.py con ApiResponseMapping y mapas PASS/FAIL/BLOCK/ERROR.
+- dispatch_application_request usa mapping centralizado y captura excepciones del ApplicationService boundary.
+- Security middleware reutiliza el mapping homogéneo para 401/403.
+- create_app registra handlers para RequestValidationError, HTTPException y Exception.
+- /api/v1/health conserva compatibilidad con clientes existentes y añade envelope ApplicationResponse.
+- tests/test_post_h_014_response_mapping.py valida códigos, contratos, BLOCK, 422 y redacción.
+```
+
+Criterios PASS cubiertos:
+
+```text
+PASS si CommandResult PASS -> HTTP 200.
+PASS si CommandResult FAIL -> HTTP 400.
+PASS si CommandResult BLOCK -> HTTP 403 y no HTTP 200.
+PASS si CommandResult ERROR/excepción técnica -> HTTP 500 con detalles redactados.
+PASS si errores de validación FastAPI -> ApplicationResponse con HTTP 422.
+PASS si security errors mantienen ApplicationResponse y CORS restringido cuando aplica.
+```
+
+Limitaciones explícitas:
+
+```text
+- Esta versión es implemented-initial.
+- No contracta navegación UI; eso queda para POST-H-014-C.
+- No introduce auth enterprise, OIDC, multiusuario ni despliegue cloud.
+- No habilita remote execution, connector write, plugin execution ni APIs externas.
+- No integra aún el subgate final ui-api-industrial-shell; eso queda para POST-H-014-E.
 ```

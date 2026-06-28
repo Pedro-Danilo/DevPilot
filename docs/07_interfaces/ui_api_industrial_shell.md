@@ -2,10 +2,10 @@
 doc_id: "POST-H-014-UI-API-INDUSTRIAL-SHELL"
 title: "UI/API industrial shell — contrato operativo local"
 status: "implemented-initial"
-version: "0.1.0"
+version: "0.2.0"
 owner: "Ordóñez"
 updated: "2026-06-27"
-phase: "POST-H-014-A"
+phase: "POST-H-014-B"
 approval: "approved_by_owner"
 ---
 
@@ -67,12 +67,32 @@ external_api_allowed
 - Las únicas mutaciones permitidas en esta fase son de ciclo de vida local de approvals y deben tener justificación explícita.
 ```
 
+
+## Response mapping POST-H-014-B
+
+Artefacto canónico:
+
+```text
+src/devpilot_core/interfaces/api/response_mapping.py
+```
+
+Invariantes añadidas:
+
+```text
+- PASS se expone como HTTP 200.
+- FAIL se expone como HTTP 400.
+- BLOCK se expone como HTTP 403, nunca como HTTP 200 ambiguo.
+- ERROR/excepciones técnicas se exponen como HTTP 500 con detalles redactados.
+- RequestValidationError se expone como ApplicationResponse con HTTP 422.
+- El payload no debe incluir stack traces ni mensajes crudos de excepción.
+```
+
 ## Límites
 
 Esta capacidad es `implemented-initial`. No sustituye todavía:
 
 ```text
-- Response mapping homogéneo final: POST-H-014-B.
+- UI Route Contract Registry: POST-H-014-C.
 - UI Route Contract Registry: POST-H-014-C.
 - Security hardening local adicional: POST-H-014-D.
 - Quality gate final UI/API: POST-H-014-E.

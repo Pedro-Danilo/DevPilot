@@ -2,10 +2,10 @@
 doc_id: "POST-H-014-UI-API-LOCAL-RUNBOOK"
 title: "Runbook local UI/API industrial shell"
 status: "implemented-initial"
-version: "0.1.0"
+version: "0.2.0"
 owner: "Ordóñez"
 updated: "2026-06-27"
-phase: "POST-H-014-A"
+phase: "POST-H-014-B"
 approval: "approved_by_owner"
 ---
 
@@ -44,3 +44,25 @@ BLOCK si una mutación carece de justificación local explícita.
 ```
 
 Límites: esta versión es `implemented-initial`. POST-H-014-A no crea UI route registry, no cambia UX, no normaliza errores HTTP, no agrega auth enterprise y no integra aún un subgate `ui-api-industrial-shell` al quality gate.
+
+## POST-H-014-B — Response mapping y errores homogéneos
+
+Objetivo operativo: verificar que las respuestas de API local usen `ApplicationResponse` y códigos HTTP explícitos.
+
+Comandos de verificación:
+
+```powershell
+$env:PYTHONPATH="src"
+python -m pytest -p no:ddtrace tests/test_post_h_014_response_mapping.py tests/test_api_local.py tests/test_api_security.py -q
+```
+
+Criterios PASS:
+
+```text
+PASS si BLOCK retorna HTTP 403, no HTTP 200.
+PASS si errores de validación retornan ApplicationResponse con HTTP 422.
+PASS si errores técnicos retornan HTTP 500 con stack traces y mensajes crudos redactados.
+```
+
+Límites: esta versión es `implemented-initial`; no implementa UI route registry ni quality gate final.
+

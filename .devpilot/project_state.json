@@ -8,8 +8,8 @@
   "last_completed_sprint": "POST-H-013",
   "last_functional_sprint": "FUNC-SPRINT-99",
   "next_sprint": "POST-H-014",
-  "source_repo": "repo_DevPilot_Local_200_POST_H_013_E.zip",
-  "current_repo": "repo_DevPilot_Local_201_POST_H_014_A.zip",
+  "source_repo": "repo_DevPilot_Local_201_POST_H_014_A.zip",
+  "current_repo": "repo_DevPilot_Local_202_POST_H_014_B.zip",
   "global_state_owner": "tests/test_project_global_state.py",
   "mutable_global_state_fields": [
     "last_completed_sprint",
@@ -80,8 +80,10 @@
     "POST-H-013-E closes Audit pack integrity as implemented-initial: audit-pack-integrity is bound to hardening/industrial quality-gate profiles and validates policy, no-go gates, redaction report, build-v2 dry-run, TCR registration and no-certification docs without writing packs or enabling network, external APIs, KMS, remote execution, connector write or plugin execution.",
     "POST-H-014 is the next prioritized hito: UI/API industrial shell.",
     "POST-H-014-A approves UI/API industrial shell and adds ApiRouteContractRegistry for local FastAPI route inventory.",
-    "POST-H-014-B is the next micro-sprint: Response mapping y errores homogéneos."
+    "POST-H-014-B is the next micro-sprint: Response mapping y errores homogéneos.",
+    "POST-H-014-B adds homogeneous response mapping for the local UI/API shell: CommandResult/ApplicationResponse HTTP mapping, 422 validation errors and redacted technical exception payloads.",
+    "POST-H-014-C is the next micro-sprint: UI Route Contract y shell de producto."
   ],
-  "current_micro_sprint": "POST-H-014-A",
-  "next_micro_sprint": "POST-H-014-B"
+  "current_micro_sprint": "POST-H-014-B",
+  "next_micro_sprint": "POST-H-014-C"
 }

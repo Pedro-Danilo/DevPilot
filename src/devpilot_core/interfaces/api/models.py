@@ -5,7 +5,15 @@ from typing import Any
 from pydantic import BaseModel, Field
 
 from devpilot_core.application import ApplicationRequest, ApplicationResponse, ApplicationService
-from devpilot_core.cli_models import CommandResult, ExitCode, Finding, Severity
+from devpilot_core.cli_models import CommandResult, Severity
+
+from .response_mapping import (
+    api_error_response,
+    command_result_to_api_response,
+    http_status_for_exit_code,
+    operation_mismatch_response,
+    unhandled_exception_response,
+)
 
 
 class ApiApplicationRequest(BaseModel):
@@ -32,16 +40,13 @@ def response_dict(response: ApplicationResponse) -> dict[str, Any]:
 
 
 def error_response(*, operation: str, message: str, finding_id: str, severity: Severity = Severity.FAIL, status_hint: int = 400) -> tuple[dict[str, Any], int]:
-    result = CommandResult(
-        command="api request",
-        ok=False,
-        exit_code=ExitCode.BLOCK if severity == Severity.BLOCK else ExitCode.FAIL,
+    return api_error_response(
+        operation=operation,
         message=message,
-        data={"summary": {"operation": operation, "status_hint": status_hint, "preliminary": True}},
-        findings=[Finding(id=finding_id, message=message, severity=severity, metadata={"operation": operation})],
+        finding_id=finding_id,
+        severity=severity,
+        status_hint=status_hint,
     )
-    response = ApplicationResponse.from_command_result(result, operation=operation)
-    return response.to_dict(), status_hint
 
 
 def dispatch_application_request(
@@ -58,19 +63,12 @@ def dispatch_application_request(
     """
 
     if request is not None and request.operation and request.operation != operation:
-        return error_response(
-            operation=operation,
-            message="Request operation does not match the endpoint contract.",
-            finding_id="API_OPERATION_MISMATCH_BLOCK",
-            severity=Severity.BLOCK,
-            status_hint=403,
-        )
+        return operation_mismatch_response(expected_operation=operation)
     app_request = request.as_application_request(operation=operation, payload=payload) if request else ApplicationRequest(operation=operation, payload=payload or {}, client="api-local", dry_run=True)
-    app_response = service.handle(app_request)
-    if app_response.ok:
-        return app_response.to_dict(), 200
-    if app_response.exit_code == int(ExitCode.BLOCK):
-        return app_response.to_dict(), 403
-    if app_response.exit_code == int(ExitCode.ERROR):
-        return app_response.to_dict(), 500
-    return app_response.to_dict(), 400
+    try:
+        app_response = service.handle(app_request)
+    except Exception as exc:  # defensive transport boundary: never leak stack traces through HTTP payloads
+        return unhandled_exception_response(operation=operation, exc=exc)
+    if isinstance(app_response, CommandResult):
+        return command_result_to_api_response(app_response, operation=operation)
+    return app_response.to_dict(), http_status_for_exit_code(app_response.exit_code)

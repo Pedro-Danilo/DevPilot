@@ -1,3 +1,17 @@
+## [post-h-014-b] - 2026-06-27
+
+Estado de proyecto: `last_completed_sprint=POST-H-013`; `next_sprint=POST-H-014`; `current_micro_sprint=POST-H-014-B`; `next_micro_sprint=POST-H-014-C`.
+
+### Added
+- Added `src/devpilot_core/interfaces/api/response_mapping.py` with explicit PASS/FAIL/BLOCK/ERROR HTTP mapping.
+- Added normalized ApplicationResponse handlers for validation, HTTP and unhandled local API errors.
+- Added POST-H-014-B response mapping tests and manifest/report.
+
+### Safety
+- BLOCK is never mapped as HTTP 200.
+- Technical exceptions redact stack traces and raw messages.
+- No remote execution, connector write, plugin execution, public internet exposure or external APIs enabled.
+
 ## [post-h-014-a] - 2026-06-27
 
 Estado de proyecto: `last_completed_sprint=POST-H-013`; `next_sprint=POST-H-014`; `current_micro_sprint=POST-H-014-A`; `next_micro_sprint=POST-H-014-B`.

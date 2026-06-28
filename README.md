@@ -1,3 +1,19 @@
+## POST-H-014-B — Response mapping y errores homogéneos
+
+Estado: `implemented-initial`. DevPilot agrega una capa explícita `response_mapping.py` para que la API local traduzca `CommandResult`/`ApplicationResponse` a HTTP de forma homogénea: `PASS=200`, `FAIL=400`, `BLOCK=403`, `ERROR=500` y validación HTTP `422`.
+
+Capacidades añadidas:
+
+```text
+- `src/devpilot_core/interfaces/api/response_mapping.py` centraliza mapping y errores.
+- `dispatch_application_request` evita que `BLOCK` se reporte como HTTP 200.
+- `create_app` registra handlers ApplicationResponse para validation/HTTP/unhandled errors.
+- Los errores técnicos redactan stack traces y mensajes crudos.
+- `/api/v1/health` conserva compatibilidad y añade envelope ApplicationResponse.
+```
+
+Límites: versión `implemented-initial`; no crea UI route registry, no implementa auth enterprise, no expone SaaS/cloud y no habilita remote execution, connector write, plugin execution ni APIs externas. POST-H-014-C queda como siguiente micro-sprint para UI Route Contract y shell de producto.
+
 ## POST-H-013-E — Quality gate, runbook y disclaimers
 
 ## POST-H-014-A — Route Contract Registry y API inventory
@@ -10,8 +26,8 @@ Límites: esta versión es preliminar/implemented-initial; POST-H-014-B debe nor
 
 Último hito: `POST-H-013 — Audit pack integrity`
 Siguiente hito: `POST-H-014 — UI/API industrial shell`
-Último micro-sprint implementado: `POST-H-014-A — Route Contract Registry y API inventory`
-Siguiente micro-sprint: `POST-H-014-B — Response mapping y errores homogéneos`
+Último micro-sprint implementado: `POST-H-014-B — Response mapping y errores homogéneos`
+Siguiente micro-sprint: `POST-H-014-C — UI Route Contract y shell de producto`
 
 
 Estado: `implemented-initial`. DevPilot cierra `POST-H-013 — Audit pack integrity` con el subgate `audit-pack-integrity`, integrado en `quality-gate run --profile hardening` e `industrial`.
@@ -114,7 +130,7 @@ Hito activo: `POST-H-014 — UI/API industrial shell`
 Siguiente hito: `POST-H-014 — UI/API industrial shell`
 Último hito cerrado: `POST-H-013 — Audit pack integrity`  
 Siguiente hito: `POST-H-014 — UI/API industrial shell`  
-Último micro-sprint implementado: `POST-H-014-A — Route Contract Registry y API inventory`  
+Último micro-sprint implementado: `POST-H-014-B — Response mapping y errores homogéneos`  
 Hito diagnóstico cerrado: `POST-H-EVAL-001 — Evaluación integral del baseline DevPilot post-Fase H`, cierre formal `POST-H-EVAL-001-G`  
 Hito cerrado: `POST-H-012 — Approval/RBAC hardening`
 Hito cerrado: `POST-H-011 — RAG groundedness evals`  

@@ -6,10 +6,30 @@ from devpilot_core.interfaces.api.contracts import (
     ApiRouteContractRegistryValidator,
     ApiRouteContractValidationOptions,
 )
+from devpilot_core.interfaces.api.response_mapping import (
+    DEFAULT_API_RESPONSE_MAPPING,
+    POST_H_014_B_CREATED_BY,
+    ApiResponseMapping,
+    api_error_response,
+    command_result_to_api_response,
+    http_status_for_exit_code,
+    response_mapping_summary,
+    unhandled_exception_response,
+    validation_error_response,
+)
 from devpilot_core.interfaces.api.security import API_TOKEN_ENV_VAR, API_TOKEN_HEADER, DEFAULT_ALLOWED_ORIGINS, generate_api_token, redact_token
 
 __all__ = [
     "DEFAULT_API_ROUTE_CONTRACT_REGISTRY",
+    "DEFAULT_API_RESPONSE_MAPPING",
+    "POST_H_014_B_CREATED_BY",
+    "ApiResponseMapping",
+    "api_error_response",
+    "command_result_to_api_response",
+    "http_status_for_exit_code",
+    "response_mapping_summary",
+    "unhandled_exception_response",
+    "validation_error_response",
     "ApiRouteContractRegistryValidator",
     "ApiRouteContractValidationOptions",
     "API_TOKEN_ENV_VAR",

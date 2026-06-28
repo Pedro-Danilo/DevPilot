@@ -102,12 +102,16 @@ def test_project_global_state_schema_and_docs_are_synchronized() -> None:
     assert any("POST-H-013-D adds optional local crypto" in note for note in state["notes"])
     assert any("POST-H-013-E closes Audit pack integrity" in note for note in state["notes"])
     assert any("POST-H-014 is the next prioritized hito" in note for note in state["notes"])
-    assert state.get("current_micro_sprint") == "POST-H-014-A"
-    assert state.get("next_micro_sprint") == "POST-H-014-B"
+    assert state.get("current_micro_sprint") == "POST-H-014-B"
+    assert state.get("next_micro_sprint") == "POST-H-014-C"
     assert "POST-H-014-A — Route Contract Registry y API inventory" in readme
+    assert "POST-H-014-B — Response mapping y errores homogéneos" in readme
     assert "POST-H-014-A — Route Contract Registry y API inventory" in runbook
+    assert "POST-H-014-B — Response mapping y errores homogéneos" in runbook
     assert "post-h-014-a" in changelog
+    assert "post-h-014-b" in changelog
     assert any("POST-H-014-A approves UI/API industrial shell" in note for note in state["notes"])
+    assert any("POST-H-014-B adds homogeneous response mapping" in note for note in state["notes"])
     assert any("POST-H-012-A approves" in note for note in state["notes"])
     assert any("POST-H-012-C adds RBAC exposure reporting" in note for note in state["notes"])
     assert any("POST-H-012-D adds homogeneous PolicyEngine enforcement" in note for note in state["notes"])
