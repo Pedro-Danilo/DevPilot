@@ -71,7 +71,9 @@ button:disabled { cursor: wait; opacity: 0.7; }
 .status-card__badge { padding: 4px 9px; border-radius: 999px; font-size: 0.75rem; font-weight: 900; }
 .status-card--pass .status-card__badge { background: #dff8ea; color: #0d6532; }
 .status-card--warn .status-card__badge { background: #fff3cd; color: #725100; }
+.status-card--fail .status-card__badge { background: #ffe9cf; color: #7a3d00; }
 .status-card--block .status-card__badge { background: #ffe2e1; color: #92211b; }
+.status-card--error .status-card__badge { background: #2d0c0c; color: #ffffff; }
 .status-card--pending .status-card__badge { background: #e8edf7; color: #44506a; }
 
 .status-card__details {
@@ -171,3 +173,12 @@ button:disabled { cursor: wait; opacity: 0.7; }
   margin-bottom: 0.5rem;
   overflow-wrap: anywhere;
 }
+
+
+.contract-badges { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; align-items: center; }
+.contract-badge { display: inline-flex; border-radius: 999px; padding: 4px 9px; font-size: 0.72rem; font-weight: 900; background: #e9eefb; color: #26324a; }
+.contract-badges__note { color: #53627a; font-size: 0.82rem; }
+.ui-state { margin: 10px 0; padding: 10px 12px; border-radius: 12px; border: 1px solid #d9e2f2; background: #f8fbff; color: #31415e; }
+.ui-state--error, .ui-state--block { background: #fff4f3; border-color: #ffd2cf; color: #7c1f19; }
+.ui-state--loading { background: #eef4ff; }
+.ui-state--empty { background: #f7f9fd; }

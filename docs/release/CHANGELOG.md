@@ -1,3 +1,17 @@
+## [post-h-014-c] - 2026-06-28
+
+Estado de proyecto: `last_completed_sprint=POST-H-013`; `next_sprint=POST-H-014`; `current_micro_sprint=POST-H-014-C`; `next_micro_sprint=POST-H-014-D`.
+
+### Added
+- Added `UiRouteContractRegistry` schema and `.devpilot/interfaces/ui_route_contract_registry.json` for Dashboard, Reports, Traces, Approvals and Settings.
+- Added read-only `UiRouteContractRegistryValidator` and POST-H-014-C UI shell contract tests.
+- Added `ContractBadges` and explicit local-first/dry-run/no-remote badges plus loading/empty/error state markers in the local Web UI.
+
+### Safety
+- The UI remains API-only and local-first.
+- No remote execution, connector write, plugin execution, public internet exposure or external APIs enabled.
+- Mutating controls remain limited to approval lifecycle or provider plan-only flows.
+
 ## [post-h-014-b] - 2026-06-27
 
 Estado de proyecto: `last_completed_sprint=POST-H-013`; `next_sprint=POST-H-014`; `current_micro_sprint=POST-H-014-B`; `next_micro_sprint=POST-H-014-C`.

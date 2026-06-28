@@ -4,9 +4,9 @@ doc_id: "POST-H-014-BACKLOG"
 id: "POST-H-014"
 title: "POST-H-014 — UI/API industrial shell"
 status: "approved"
-version: "0.3.0"
+version: "0.4.0"
 owner: "Ordóñez"
-updated: "2026-06-27"
+updated: "2026-06-28"
 approval: "approved_by_owner"
 phase: "POST-FASE-H"
 priority: "P1"
@@ -17,8 +17,8 @@ no_remote_execution_enabled: true
 no_external_apis_used: true
 no_connector_write_enabled: true
 no_plugin_execution_enabled: true
-current_micro_sprint: "POST-H-014-B"
-next_micro_sprint: "POST-H-014-C"
+current_micro_sprint: "POST-H-014-C"
+next_micro_sprint: "POST-H-014-D"
 implementation_status: "active"
 ---
 
@@ -452,4 +452,42 @@ Limitaciones explícitas:
 - No introduce auth enterprise, OIDC, multiusuario ni despliegue cloud.
 - No habilita remote execution, connector write, plugin execution ni APIs externas.
 - No integra aún el subgate final ui-api-industrial-shell; eso queda para POST-H-014-E.
+```
+
+
+## 15. Avance de implementación — POST-H-014-C
+
+Estado: `implemented-initial`.
+
+POST-H-014-C contracta la shell Web UI local mediante `UiRouteContractRegistry` y la alinea con `ApiRouteContractRegistry`. La implementación no convierte DevPilot en SaaS, no agrega rutas remotas y no habilita conectores write ni plugins ejecutables. Su alcance es asegurar que la superficie visual crítica sea explícita, local-first, dry-run/plan-only y testeable.
+
+Capacidades implementadas:
+
+```text
+- Schema UiRouteContractRegistry para contratos de navegación UI.
+- Registry .devpilot/interfaces/ui_route_contract_registry.json con Dashboard, Reports, Traces, Approvals y Settings.
+- Validator read-only UiRouteContractRegistryValidator.
+- ContractBadges para local-first, dry-run/plan-only, no-remote, no connector write y no plugin execution.
+- Estados loading/empty/error y visibilidad BLOCK/ERROR en la shell local.
+- Smoke tests por contrato sin navegador ni servidor remoto.
+```
+
+Criterios PASS cubiertos:
+
+```text
+PASS si toda página crítica tiene contrato.
+PASS si allowed_api_routes referencia rutas del ApiRouteContractRegistry.
+PASS si la UI no oculta estados BLOCK/ERROR.
+PASS si acciones dry-run/plan-only muestran claramente su naturaleza.
+PASS si no existe remote execution, connector write, plugin execution ni external APIs.
+```
+
+Limitaciones explícitas:
+
+```text
+- Esta versión es implemented-initial.
+- No implementa router SPA completo, navegación final ni diseño visual definitivo.
+- No introduce auth enterprise ni despliegue cloud.
+- No integra aún el subgate final ui-api-industrial-shell; eso queda para POST-H-014-E.
+- Security hardening local adicional queda para POST-H-014-D.
 ```

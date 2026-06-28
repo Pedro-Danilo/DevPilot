@@ -875,7 +875,8 @@
         "tests/test_documentation_governance_backlogs.py",
         "tests/test_post_h_014_api_route_contracts.py",
         "tests/test_post_h_014_response_mapping.py",
-        "tests/test_api_security.py"
+        "tests/test_api_security.py",
+        "tests/test_post_h_014_ui_shell_contract.py"
       ],
       "sync_rules": [
         "backlog_naming",
@@ -891,7 +892,8 @@
         "Roadmap-derived executable backlog governed by POST-H-009-D.",
         "Missing future backlog files are informational planned items; existing files must pass naming and frontmatter checks.",
         "POST-H-014 approved and started by POST-H-014-A with API route contract registry implemented-initial.",
-        "POST-H-014-B adds homogeneous response mapping and redacted HTTP error payloads."
+        "POST-H-014-B adds homogeneous response mapping and redacted HTTP error payloads.",
+        "POST-H-014-C adds UI route contracts and product-shell smoke checks."
       ]
     },
     {

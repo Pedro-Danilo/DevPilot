@@ -797,6 +797,23 @@
       "local_first": true,
       "dry_run_default": true,
       "no_remote_execution_enabled": true
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-UI-ROUTE-CONTRACT-REGISTRY-V1",
+      "title": "DevPilot UI Route Contract Registry v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/ui_route_contract.schema.json",
+      "description": "POST-H-014-C local-first schema for Web UI critical page contracts, allowed API bindings, local/dry-run/no-remote badges and product-state visibility.",
+      "status": "registered",
+      "owner": "Ordóñez",
+      "sprint": "POST-H-014-C",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "contract": "UiRouteContractRegistry",
+      "validation_enabled_sprint": "POST-H-014-C",
+      "local_first": true,
+      "dry_run_default": true,
+      "no_remote_execution_enabled": true
     }
   ]
 }

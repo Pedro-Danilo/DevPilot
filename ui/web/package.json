@@ -1,6 +1,6 @@
 {
   "name": "devpilot-local-web-ui",
-  "version": "0.5.0-sprint-73",
+  "version": "0.6.0-post-h-014-c",
   "private": true,
   "type": "module",
   "description": "DevPilot Local Web UI visual MVP for Fase F closure: dashboard, report/trace viewers, Approval Center and Settings UI.",
@@ -39,6 +39,24 @@
     "phaseFClosed": true,
     "desktopDeferred": true,
     "webRealEvolutionPlanned": true,
-    "visualProductQualityGate": true
+    "visualProductQualityGate": true,
+    "postH014C": true,
+    "uiRouteContractRegistry": true,
+    "uiCriticalPages": [
+      "ui.dashboard",
+      "ui.reports",
+      "ui.traces",
+      "ui.approvals",
+      "ui.settings"
+    ],
+    "localFirstBadges": true,
+    "dryRunBadges": true,
+    "noRemoteBadges": true,
+    "emptyErrorLoadingStates": true,
+    "blockErrorVisible": true,
+    "externalApiUsed": false,
+    "remoteExecutionEnabled": false,
+    "connectorWriteEnabled": false,
+    "pluginExecutionEnabled": false
   }
 }

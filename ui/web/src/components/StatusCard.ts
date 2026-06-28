@@ -1,3 +1,4 @@
+// POST-H-014-C contract marker: ui.dashboard
 import type { DashboardStatus, DevPilotApplicationResponse } from '../api/types';
 
 export interface StatusCardModel {
@@ -8,8 +9,10 @@ export interface StatusCardModel {
 }
 
 export function deriveStatus(response?: DevPilotApplicationResponse, error?: string): DashboardStatus {
-  if (error) return 'BLOCK';
+  if (error) return 'ERROR';
   if (!response) return 'PENDING';
+  if (!response.ok && response.exit_code === 1) return 'FAIL';
+  if (!response.ok && response.exit_code === 3) return 'ERROR';
   if (!response.ok) return 'BLOCK';
   const severities = response.findings?.map((finding) => String(finding.severity).toLowerCase()) ?? [];
   if (severities.some((severity) => severity === 'block' || severity === 'error')) return 'BLOCK';
@@ -23,8 +26,12 @@ function statusLabel(status: DashboardStatus): string {
       return 'PASS';
     case 'WARN':
       return 'WARN';
+    case 'FAIL':
+      return 'FAIL';
     case 'BLOCK':
       return 'BLOCK';
+    case 'ERROR':
+      return 'ERROR';
     default:
       return 'PENDING';
   }

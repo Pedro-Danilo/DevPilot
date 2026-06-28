@@ -2,6 +2,7 @@ import { DevPilotApiClient } from '../api/client';
 import type { ApprovalRecordItem, DevPilotApplicationResponse } from '../api/types';
 import { renderDryRunActionForm } from '../components/DryRunActionForm';
 import { renderFindingTable } from '../components/FindingTable';
+import { renderContractBadges, renderUiStateNotice } from '../components/ContractBadges';
 
 interface ApprovalState {
   approvals?: DevPilotApplicationResponse;
@@ -10,14 +11,16 @@ interface ApprovalState {
   requestResult?: DevPilotApplicationResponse;
   errors: Record<string, string>;
   statusFilter: string;
+  loading: boolean;
 }
 
 export function renderApprovalCenterView(tokenProvider: () => string): HTMLElement {
   const section = document.createElement('section');
   section.className = 'approval-panel';
-  const state: ApprovalState = { errors: {}, statusFilter: '' };
+  const state: ApprovalState = { errors: {}, statusFilter: '', loading: false };
 
   async function refresh(): Promise<void> {
+    state.loading = true;
     state.errors = {};
     try {
       const client = new DevPilotApiClient({ token: tokenProvider() });
@@ -25,6 +28,7 @@ export function renderApprovalCenterView(tokenProvider: () => string): HTMLEleme
     } catch (error) {
       state.errors.approvals = error instanceof Error ? error.message : String(error);
     }
+    state.loading = false;
     draw();
   }
 
@@ -76,8 +80,8 @@ export function renderApprovalCenterView(tokenProvider: () => string): HTMLEleme
     const title = document.createElement('h2');
     title.textContent = 'Approval Center y Action Launcher';
     const subtitle = document.createElement('p');
-    subtitle.textContent = 'Sprint 71 MVP · approvals locales · acciones dry-run seguras · ejecución crítica bloqueada.';
-    titleBlock.append(title, subtitle);
+    subtitle.textContent = 'POST-H-014-C · ui.approvals · approvals locales · action launcher dry-run · no-remote · BLOCK/ERROR visibles.';
+    titleBlock.append(title, subtitle, renderContractBadges('ui.approvals', { warning: 'Mutaciones limitadas al lifecycle local de approvals; ejecución destructiva bloqueada.' }));
 
     const controls = document.createElement('div');
     controls.className = 'viewer-controls';
@@ -110,6 +114,8 @@ export function renderApprovalCenterView(tokenProvider: () => string): HTMLEleme
     grid.append(renderApprovalsPanel(state, selectApproval, decide));
     grid.append(renderActionPanel(state, tokenProvider));
     section.append(grid);
+    if (state.loading) section.append(renderUiStateNotice('loading', 'POST-H-014-C ui.approvals loading state: consultando approvals por API local.'));
+    if (state.errors.approvals || state.errors.selected || state.errors.requestResult) section.append(renderUiStateNotice('error', 'POST-H-014-C ui.approvals error state: BLOCK/ERROR se mantiene visible.'));
     section.append(renderDetailPanel('Approval seleccionado', state.selected, state.errors.selected));
     section.append(renderDetailPanel('Última solicitud approval', state.requestResult, state.errors.requestResult));
   }
@@ -123,6 +129,7 @@ function renderApprovalsPanel(state: ApprovalState, onSelect: (approvalId: strin
   const panel = panelShell('Approval Center', state.errors.approvals ?? state.approvals?.message ?? 'Pendiente de consulta.');
   const approvals = ((state.approvals?.data as { approvals?: ApprovalRecordItem[] } | undefined)?.approvals ?? []);
   if (!approvals.length) {
+    panel.append(renderUiStateNotice('empty', 'POST-H-014-C ui.approvals empty state: Sin approvals para mostrar.'));
     panel.append(emptyPre('Sin approvals para mostrar. Puedes crear un approval demo.'));
     return panel;
   }
@@ -156,7 +163,7 @@ function renderApprovalsPanel(state: ApprovalState, onSelect: (approvalId: strin
 }
 
 function renderActionPanel(state: ApprovalState, tokenProvider: () => string): HTMLElement {
-  const panel = panelShell('Action Launcher dry-run', state.errors.actionResult ?? state.actionResult?.message ?? 'Solo acciones read-only/dry-run.');
+  const panel = panelShell('Action Launcher dry-run — POST-H-014-C ui.approvals', state.errors.actionResult ?? state.actionResult?.message ?? 'Solo acciones read-only/dry-run.');
   panel.append(renderDryRunActionForm(tokenProvider, (response, error) => {
     state.actionResult = response;
     if (error) state.errors.actionResult = error;

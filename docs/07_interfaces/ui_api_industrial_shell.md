@@ -2,10 +2,10 @@
 doc_id: "POST-H-014-UI-API-INDUSTRIAL-SHELL"
 title: "UI/API industrial shell — contrato operativo local"
 status: "implemented-initial"
-version: "0.2.0"
+version: "0.3.0"
 owner: "Ordóñez"
-updated: "2026-06-27"
-phase: "POST-H-014-B"
+updated: "2026-06-28"
+phase: "POST-H-014-C"
 approval: "approved_by_owner"
 ---
 
@@ -92,8 +92,6 @@ Invariantes añadidas:
 Esta capacidad es `implemented-initial`. No sustituye todavía:
 
 ```text
-- UI Route Contract Registry: POST-H-014-C.
-- UI Route Contract Registry: POST-H-014-C.
 - Security hardening local adicional: POST-H-014-D.
 - Quality gate final UI/API: POST-H-014-E.
 ```
@@ -103,4 +101,45 @@ Esta capacidad es `implemented-initial`. No sustituye todavía:
 ```powershell
 python -m devpilot_core schema validate --schema-id ApiRouteContractRegistry --instance .devpilot/interfaces/api_route_contract_registry.json --json
 python -m pytest -p no:ddtrace tests/test_post_h_014_api_route_contracts.py -q
+```
+
+
+## UI route contract POST-H-014-C
+
+Artefacto canónico:
+
+```text
+.devpilot/interfaces/ui_route_contract_registry.json
+```
+
+Schema:
+
+```text
+docs/schemas/ui_route_contract.schema.json
+```
+
+Validador:
+
+```text
+src/devpilot_core/interfaces/api/ui_contracts.py
+```
+
+Invariantes añadidas:
+
+```text
+- Dashboard, Reports, Traces, Approvals y Settings deben tener contrato UI.
+- Cada contrato UI debe listar allowed_api_routes existentes en ApiRouteContractRegistry.
+- Cada página crítica debe mostrar badges local-first, dry-run/plan-only y no-remote.
+- La UI debe mantener visibles estados loading, empty, error y BLOCK/ERROR.
+- La UI no puede importar devpilot_core, leer outputs directamente, ejecutar procesos ni exponer acciones destructivas.
+```
+
+Límites: esta versión es `implemented-initial`; el routing visual final, hardening local adicional y quality gate integrado quedan para POST-H-014-D/E.
+
+Comandos:
+
+```powershell
+python -m devpilot_core schema validate --schema-id UiRouteContractRegistry --instance .devpilot/interfaces/ui_route_contract_registry.json --json
+python -m pytest -p no:ddtrace tests/test_post_h_014_ui_shell_contract.py -q
+npm --prefix ui/web test
 ```

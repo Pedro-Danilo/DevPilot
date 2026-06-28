@@ -25,7 +25,7 @@ export interface DashboardSnapshot {
   miasi?: DevPilotApplicationResponse;
 }
 
-export type DashboardStatus = 'PASS' | 'WARN' | 'BLOCK' | 'PENDING';
+export type DashboardStatus = 'PASS' | 'WARN' | 'FAIL' | 'BLOCK' | 'ERROR' | 'PENDING';
 
 
 export interface ReportIndexItem {

@@ -50,11 +50,15 @@ export function renderSettingsView(client: DevPilotApiClient, token: () => strin
     const root = document.getElementById(sectionId);
     if (!root) return;
     root.innerHTML = `
-      <section class="panel settings-panel">
+      <section class="panel settings-panel" data-devpilot-ui-contract="ui.settings">
         <div class="section-heading-row">
           <div>
             <h2>Settings UI</h2>
-            <p>Sprint 72 MVP · workspace/providers/policy · read-only · providers plan-only · secretos redactados.</p>
+            <p>POST-H-014-C · ui.settings · local-first · plan-only/dry-run visible · no-remote · BLOCK/ERROR visibles · secretos redactados.</p>
+            <div class="contract-badges" data-devpilot-ui-contract="ui.settings"><span class="contract-badge contract-badge--local-first">Local-first</span><span class="contract-badge contract-badge--dry-run">Plan-only/dry-run visible</span><span class="contract-badge contract-badge--no-remote">No remote</span><span class="contract-badge contract-badge--no-connector-write">No connector write</span><span class="contract-badge contract-badge--no-plugin-execution">No plugin execution</span></div>
+            <p class="ui-state ui-state--loading" data-ui-state="loading">POST-H-014-C ui.settings loading state: consulta settings por API local.</p>
+            <p class="ui-state ui-state--empty" data-ui-state="empty">POST-H-014-C ui.settings empty state: sin settings cargados todavía.</p>
+            <p class="ui-state ui-state--error" data-ui-state="error">POST-H-014-C ui.settings error state: BLOCK/ERROR permanece visible.</p>
           </div>
           <button id="settings-refresh">Actualizar settings</button>
         </div>

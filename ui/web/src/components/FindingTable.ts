@@ -1,3 +1,4 @@
+// POST-H-014-C contract markers: ui.reports ui.traces
 import type { DevPilotFinding } from '../api/types';
 
 export function renderFindingTable(findings: DevPilotFinding[]): HTMLElement {

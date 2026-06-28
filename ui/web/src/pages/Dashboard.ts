@@ -2,6 +2,7 @@ import { DevPilotApiClient, readStoredToken, storeToken } from '../api/client';
 import type { DashboardSnapshot, DevPilotApplicationResponse } from '../api/types';
 import { renderFindingList } from '../components/FindingList';
 import { renderStatusCard } from '../components/StatusCard';
+import { renderContractBadges, renderUiStateNotice } from '../components/ContractBadges';
 import { renderReportTraceView } from './ReportTraceView';
 import { renderApprovalCenterView } from './ApprovalCenterView';
 import { renderSettingsView } from './SettingsView';
@@ -69,6 +70,15 @@ export function renderDashboard(root: HTMLElement): void {
       grid.append(renderStatusCard({ title, description, response: state.snapshot[key], error: state.errors[key] }));
     }
     root.append(grid);
+    if (state.loading) {
+      root.append(renderUiStateNotice('loading', 'POST-H-014-C ui.dashboard loading state: consultando API local con token del operador.'));
+    }
+    if (!state.loading && !Object.keys(state.snapshot).length) {
+      root.append(renderUiStateNotice('empty', 'POST-H-014-C ui.dashboard empty state: agrega token local y actualiza para consultar el API.'));
+    }
+    if (Object.keys(state.errors).length) {
+      root.append(renderUiStateNotice('error', 'POST-H-014-C ui.dashboard error state: BLOCK/ERROR se muestra y no se oculta detrás de estado exitoso.'));
+    }
 
     const allFindings = Object.values(state.snapshot)
       .flatMap((response) => response?.findings ?? [])
@@ -76,6 +86,9 @@ export function renderDashboard(root: HTMLElement): void {
     root.append(renderFindingList(allFindings));
     root.append(renderReportTraceView(() => state.token));
     root.append(renderApprovalCenterView(() => state.token));
+    const settingsWrapper = document.createElement('div');
+    settingsWrapper.innerHTML = renderSettingsView(new DevPilotApiClient({ token: state.token }), () => state.token);
+    root.append(settingsWrapper);
   }
 
   draw();
@@ -92,8 +105,8 @@ function renderHeader(state: DashboardState, refresh: () => Promise<void>): HTML
   const title = document.createElement('h1');
   title.textContent = 'DevPilot Local Dashboard';
   const subtitle = document.createElement('p');
-  subtitle.textContent = 'Sprint 73 cierre Fase F · workspace/readiness/standards/MIASI/reportes/trazas/approvals/settings · API-only · dry-run · Desktop diferido';
-  titleBlock.append(title, subtitle);
+  subtitle.textContent = 'POST-H-014-C · ui.dashboard · local-first · dry-run visible · no-remote · PASS/FAIL/BLOCK/ERROR explícitos.';
+  titleBlock.append(title, subtitle, renderContractBadges('ui.dashboard', { warning: 'Shell local: no SaaS, no connector write, no plugin execution.' }));
 
   const form = document.createElement('form');
   form.className = 'token-form';

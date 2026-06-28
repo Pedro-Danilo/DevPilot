@@ -1,3 +1,26 @@
+## POST-H-014-C — UI Route Contract y shell de producto
+
+Estado: `implemented-initial`. DevPilot agrega `UiRouteContractRegistry` para contractar la navegación crítica de la Web UI local: Dashboard, Reports, Traces, Approvals y Settings. La UI ahora declara vínculos permitidos hacia `ApiRouteContractRegistry`, badges `local-first`, `dry-run/plan-only`, `no-remote`, `no connector write` y `no plugin execution`, además de estados explícitos loading/empty/error y visibilidad de `BLOCK/ERROR`.
+
+Capacidades añadidas:
+
+```text
+- `docs/schemas/ui_route_contract.schema.json` registra el contrato UI local.
+- `.devpilot/interfaces/ui_route_contract_registry.json` contracta 5 páginas/secciones críticas.
+- `src/devpilot_core/interfaces/api/ui_contracts.py` valida registry UI ↔ API registry ↔ fuentes TypeScript.
+- `ui/web/src/components/ContractBadges.ts` centraliza badges de seguridad/product shell.
+- Dashboard integra Reports, Traces, Approvals y Settings dentro de la shell visible.
+- Smoke tests verifican que la UI sea API-only, local-first, sin remote, sin connector write y sin plugin execution.
+```
+
+Límites: versión `implemented-initial`; no implementa routing SPA completo, navegación visual avanzada, auth enterprise, ejecución remota, conectores write, plugins ejecutables ni quality-gate final. POST-H-014-D queda como siguiente micro-sprint para security hardening local API/UI.
+
+Último hito: `POST-H-013 — Audit pack integrity`
+Siguiente hito: `POST-H-014 — UI/API industrial shell`
+Último micro-sprint implementado: `POST-H-014-C — UI Route Contract y shell de producto`
+Siguiente micro-sprint: `POST-H-014-D — Security hardening local de API/UI`
+
+
 ## POST-H-014-B — Response mapping y errores homogéneos
 
 Estado: `implemented-initial`. DevPilot agrega una capa explícita `response_mapping.py` para que la API local traduzca `CommandResult`/`ApplicationResponse` a HTTP de forma homogénea: `PASS=200`, `FAIL=400`, `BLOCK=403`, `ERROR=500` y validación HTTP `422`.
@@ -26,8 +49,8 @@ Límites: esta versión es preliminar/implemented-initial; POST-H-014-B debe nor
 
 Último hito: `POST-H-013 — Audit pack integrity`
 Siguiente hito: `POST-H-014 — UI/API industrial shell`
-Último micro-sprint implementado: `POST-H-014-B — Response mapping y errores homogéneos`
-Siguiente micro-sprint: `POST-H-014-C — UI Route Contract y shell de producto`
+Último micro-sprint implementado: `POST-H-014-C — UI Route Contract y shell de producto`
+Siguiente micro-sprint: `POST-H-014-D — Security hardening local de API/UI`
 
 
 Estado: `implemented-initial`. DevPilot cierra `POST-H-013 — Audit pack integrity` con el subgate `audit-pack-integrity`, integrado en `quality-gate run --profile hardening` e `industrial`.

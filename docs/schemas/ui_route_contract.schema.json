@@ -1,0 +1,127 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/SCHEMA-DEVPL-UI-ROUTE-CONTRACT-REGISTRY-V1",
+  "title": "DevPilot UI Route Contract Registry v1",
+  "description": "POST-H-014-C local-first contract for DevPilot Web UI critical pages, allowed API route bindings, product-state visibility and UI/API safety flags.",
+  "type": "object",
+  "required": ["schema_version", "schema_id", "registry_id", "status", "created_by", "updated", "routes", "summary", "safety"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "schema_id": {"const": "SCHEMA-DEVPL-UI-ROUTE-CONTRACT-REGISTRY-V1"},
+    "registry_id": {"const": "devpilot-ui-route-contract-registry"},
+    "status": {"enum": ["implemented-initial", "approved", "draft"]},
+    "created_by": {"const": "POST-H-014-C"},
+    "updated": {"type": "string", "minLength": 1},
+    "routes": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/ui_route_contract"}
+    },
+    "summary": {
+      "type": "object",
+      "required": ["routes_total", "critical_routes_total", "local_only_routes_total", "dry_run_badged_routes_total", "no_remote_badged_routes_total", "mutation_control_routes_total"],
+      "properties": {
+        "routes_total": {"type": "integer", "minimum": 0},
+        "critical_routes_total": {"type": "integer", "minimum": 0},
+        "local_only_routes_total": {"type": "integer", "minimum": 0},
+        "dry_run_badged_routes_total": {"type": "integer", "minimum": 0},
+        "no_remote_badged_routes_total": {"type": "integer", "minimum": 0},
+        "mutation_control_routes_total": {"type": "integer", "minimum": 0}
+      },
+      "additionalProperties": true
+    },
+    "safety": {
+      "type": "object",
+      "required": ["local_first", "dry_run_visible", "no_remote_execution_enabled", "no_connector_write_enabled", "no_plugin_execution_enabled", "external_api_allowed"],
+      "properties": {
+        "local_first": {"const": true},
+        "dry_run_visible": {"const": true},
+        "no_remote_execution_enabled": {"const": true},
+        "no_connector_write_enabled": {"const": true},
+        "no_plugin_execution_enabled": {"const": true},
+        "external_api_allowed": {"const": false}
+      },
+      "additionalProperties": true
+    },
+    "notes": {"type": "array", "items": {"type": "string"}}
+  },
+  "$defs": {
+    "ui_route_contract": {
+      "type": "object",
+      "required": [
+        "route_id",
+        "title",
+        "path",
+        "page_component",
+        "source_files",
+        "allowed_api_routes",
+        "critical",
+        "local_only",
+        "local_first_badge_required",
+        "dry_run_badge_required",
+        "no_remote_badge_required",
+        "shows_mutation_controls",
+        "state_contract",
+        "status_visibility",
+        "remote_execution_allowed",
+        "connector_write_allowed",
+        "plugin_execution_allowed",
+        "external_api_allowed",
+        "owner"
+      ],
+      "properties": {
+        "route_id": {"type": "string", "pattern": "^ui\\.[a-z0-9_.-]+$"},
+        "title": {"type": "string", "minLength": 1},
+        "path": {"type": "string", "pattern": "^/"},
+        "page_component": {"type": "string", "minLength": 1},
+        "source_files": {"type": "array", "items": {"type": "string", "minLength": 1}, "minItems": 1},
+        "allowed_api_routes": {"type": "array", "items": {"type": "string", "pattern": "^api\\.[a-z0-9_.-]+$"}, "minItems": 1, "uniqueItems": true},
+        "critical": {"type": "boolean"},
+        "local_only": {"const": true},
+        "local_first_badge_required": {"const": true},
+        "dry_run_badge_required": {"const": true},
+        "no_remote_badge_required": {"const": true},
+        "shows_mutation_controls": {"type": "boolean"},
+        "mutation_controls": {
+          "type": "object",
+          "properties": {
+            "local_state_mutation_only": {"type": "boolean"},
+            "approval_required": {"type": "boolean"},
+            "destructive_action_allowed": {"const": false},
+            "plan_only": {"type": "boolean"},
+            "justification": {"type": "string"}
+          },
+          "additionalProperties": true
+        },
+        "state_contract": {
+          "type": "object",
+          "required": ["loading", "empty", "error", "block_visible"],
+          "properties": {
+            "loading": {"const": true},
+            "empty": {"const": true},
+            "error": {"const": true},
+            "block_visible": {"const": true}
+          },
+          "additionalProperties": true
+        },
+        "status_visibility": {
+          "type": "array",
+          "items": {"enum": ["PASS", "FAIL", "BLOCK", "ERROR", "WARN", "PENDING"]},
+          "minItems": 4,
+          "uniqueItems": true
+        },
+        "remote_execution_allowed": {"const": false},
+        "connector_write_allowed": {"const": false},
+        "plugin_execution_allowed": {"const": false},
+        "external_api_allowed": {"const": false},
+        "owner": {"type": "string", "minLength": 1},
+        "notes": {"type": "array", "items": {"type": "string"}}
+      },
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": false,
+  "x-devpilot-schema-id": "SCHEMA-DEVPL-UI-ROUTE-CONTRACT-REGISTRY-V1",
+  "x-devpilot-sprint": "POST-H-014-C",
+  "x-devpilot-status": "registered"
+}

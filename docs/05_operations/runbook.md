@@ -2,12 +2,12 @@
 title: "Runbook — DevPilot Local"
 doc_id: "DEVPL-OPS-002"
 status: "approved"
-version: "1.49.0"
+version: "1.50.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "POST-H-014-B"
-updated: "2026-06-27"
+phase: "POST-H-014-C"
+updated: "2026-06-28"
 approval: "approved_by_owner"
 source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved + 03_security approved"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
@@ -16,7 +16,41 @@ approval_scope: "SPRINT-PRECODE-05 quality operations baseline"
 
 # Runbook — DevPilot Local
 
-Último hito cerrado: `POST-H-013 — Audit pack integrity`; hito operativo activo: `POST-H-014 — UI/API industrial shell`; último micro-sprint implementado: `POST-H-014-B — Response mapping y errores homogéneos`; siguiente hito: `POST-H-014 — UI/API industrial shell`.
+Último hito cerrado: `POST-H-013 — Audit pack integrity`; hito operativo activo: `POST-H-014 — UI/API industrial shell`; último micro-sprint implementado: `POST-H-014-C — UI Route Contract y shell de producto`; siguiente hito: `POST-H-014 — UI/API industrial shell`.
+
+## POST-H-014-C — UI Route Contract y shell de producto
+
+Objetivo operativo: validar que la Web UI local tenga contratos por página/sección crítica, esté acoplada solo a rutas API permitidas, muestre badges local-first/dry-run/no-remote y no oculte estados `BLOCK/ERROR`.
+
+Comandos de verificación:
+
+```powershell
+$env:PYTHONPATH="src"
+python -m devpilot_core schema validate --schema-id UiRouteContractRegistry --instance .devpilot/interfaces/ui_route_contract_registry.json --json
+python -m pytest -p no:ddtrace tests/test_post_h_014_ui_shell_contract.py tests/test_web_ui_mvp.py tests/test_web_ui_report_trace_viewer.py tests/test_web_ui_approval_center.py tests/test_web_ui_settings.py -q
+npm --prefix ui/web test
+```
+
+Criterios PASS:
+
+```text
+PASS si Dashboard, Reports, Traces, Approvals y Settings tienen contrato UI.
+PASS si todo allowed_api_routes referencia una ruta existente en ApiRouteContractRegistry.
+PASS si cada página declara badges local-first, dry-run/plan-only y no-remote.
+PASS si loading/empty/error y BLOCK/ERROR quedan visibles en la shell local.
+PASS si la UI no importa Python/core, no lee outputs directamente y no invoca acciones destructivas.
+```
+
+Criterios BLOCK:
+
+```text
+BLOCK si una página crítica no tiene contrato.
+BLOCK si la UI referencia una ruta API no contractada.
+BLOCK si aparece remote_execution_allowed, connector_write_allowed, plugin_execution_allowed o external_api_allowed=true.
+BLOCK si una acción destructiva aparece en client.ts o en la shell.
+```
+
+Límites: versión `implemented-initial`. No implementa router SPA completo ni UX final; POST-H-014-D debe endurecer seguridad local y POST-H-014-E integrará el subgate final `ui-api-industrial-shell`.
 
 
 ## POST-H-014-B — Response mapping y errores homogéneos
@@ -49,7 +83,7 @@ BLOCK si un error técnico filtra Traceback, secretos o rutas internas innecesar
 BLOCK si el mapping se duplica en routers en lugar de usar response_mapping.py.
 ```
 
-Límites: versión `implemented-initial`. UI route contract queda para POST-H-014-C; security hardening adicional para POST-H-014-D; quality gate final para POST-H-014-E.
+Límites: versión `implemented-initial`. UI route contract ya queda cubierto por POST-H-014-C; security hardening adicional corresponde a POST-H-014-D y quality gate final a POST-H-014-E.
 
 
 ## POST-H-014-A — Route Contract Registry y API inventory

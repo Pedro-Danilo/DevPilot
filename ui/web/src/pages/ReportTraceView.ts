@@ -1,6 +1,7 @@
 import { DevPilotApiClient } from '../api/client';
 import type { DevPilotApplicationResponse, ReportIndexItem, TraceSummaryItem } from '../api/types';
 import { renderFindingTable } from '../components/FindingTable';
+import { renderContractBadges, renderUiStateNotice } from '../components/ContractBadges';
 
 interface ViewerState {
   loading: boolean;
@@ -63,7 +64,9 @@ export function renderReportTraceView(tokenProvider: () => string): HTMLElement 
     const header = document.createElement('div');
     header.className = 'viewer-panel__header';
     const title = document.createElement('div');
-    title.innerHTML = '<h2>Report Viewer y Trace Viewer</h2><p>Sprint 70 MVP · API-only · reportes/trazas/métricas redacted y bounded.</p>';
+    title.innerHTML = '<h2>Report Viewer y Trace Viewer</h2><p>POST-H-014-C · ui.reports/ui.traces · API-only · local-first · dry-run visible · no-remote · BLOCK/ERROR visibles.</p>';
+    title.append(renderContractBadges('ui.reports', { dryRunLabel: 'Read-only/dry-run evidence' }));
+    title.append(renderContractBadges('ui.traces', { dryRunLabel: 'Read-only trace view' }));
     const controls = document.createElement('form');
     controls.className = 'viewer-controls';
     controls.innerHTML = '<label>Filtrar severity <select name="severity"><option value="">Todas</option><option value="info">info</option><option value="warning">warning</option><option value="block">block</option><option value="error">error</option></select></label><button type="submit">Actualizar viewers</button>';
@@ -82,6 +85,8 @@ export function renderReportTraceView(tokenProvider: () => string): HTMLElement 
     grid.append(renderReportsPanel(state, loadReport));
     grid.append(renderTracesPanel(state, loadTrace));
     section.append(grid);
+    if (state.loading) section.append(renderUiStateNotice('loading', 'POST-H-014-C ui.reports/ui.traces loading state: consultando reportes y trazas por API local.'));
+    if (state.errors.reports || state.errors.traces || state.errors.metrics) section.append(renderUiStateNotice('error', 'POST-H-014-C ui.reports/ui.traces error state: BLOCK/ERROR no se ocultan.'));
     section.append(renderDetailPanel('Reporte seleccionado', state.reportDetail, state.errors.reportDetail));
     section.append(renderDetailPanel('Traza seleccionada', state.traceDetail, state.errors.traceDetail));
     section.append(renderMetricsPanel(state.metrics, state.errors.metrics));
@@ -96,6 +101,7 @@ function renderReportsPanel(state: ViewerState, onSelect: (reportId: string) => 
   const panel = panelShell('Report Viewer', state.errors.reports ?? state.reports?.message ?? 'Pendiente de consulta.');
   const reports = ((state.reports?.data as { reports?: ReportIndexItem[] } | undefined)?.reports ?? []);
   if (!reports.length) {
+    panel.append(renderUiStateNotice('empty', 'POST-H-014-C ui.reports empty state: Sin reportes para mostrar.'));
     panel.append(emptyPre('Sin reportes para mostrar.'));
     return panel;
   }
@@ -119,6 +125,7 @@ function renderTracesPanel(state: ViewerState, onSelect: (traceId: string) => Pr
   const panel = panelShell('Trace Viewer', state.errors.traces ?? state.traces?.message ?? 'Pendiente de consulta.');
   const traces = ((state.traces?.data as { traces?: TraceSummaryItem[] } | undefined)?.traces ?? []);
   if (!traces.length) {
+    panel.append(renderUiStateNotice('empty', 'POST-H-014-C ui.traces empty state: Sin trazas para mostrar.'));
     panel.append(emptyPre('Sin trazas para mostrar. El viewer maneja trazas vacías sin bloquear la UI.'));
     return panel;
   }

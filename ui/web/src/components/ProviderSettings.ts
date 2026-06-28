@@ -1,3 +1,4 @@
+// POST-H-014-C contract marker: ui.settings
 import type { DevPilotApplicationResponse, ProviderSettingsItem } from '../api/types';
 
 function asProviders(response?: DevPilotApplicationResponse): ProviderSettingsItem[] {
