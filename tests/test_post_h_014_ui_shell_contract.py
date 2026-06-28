@@ -111,6 +111,7 @@ def test_post_h_014_c_smoke_script_and_package_track_contract() -> None:
 
     assert package["devpilot"]["sprint"] == "FUNC-SPRINT-73"  # historical Fase F compatibility remains stable
     assert package["devpilot"]["postH014C"] is True
+    assert package["devpilot"]["postH014D"] is True
     assert package["devpilot"]["uiRouteContractRegistry"] is True
     assert package["devpilot"]["remoteExecutionEnabled"] is False
     assert package["devpilot"]["connectorWriteEnabled"] is False
@@ -130,8 +131,8 @@ def test_post_h_014_c_docs_contracts_and_backlog_are_synchronized() -> None:
     tcr_v1 = (ROOT / ".devpilot/testing/test_contract_registry.json").read_text(encoding="utf-8")
     tcr_v2 = (ROOT / ".devpilot/testing/test_contract_registry_v2.json").read_text(encoding="utf-8")
 
-    assert 'current_micro_sprint: "POST-H-014-C"' in backlog
-    assert 'next_micro_sprint: "POST-H-014-D"' in backlog
+    assert 'current_micro_sprint: "POST-H-014-D"' in backlog
+    assert 'next_micro_sprint: "POST-H-014-E"' in backlog
     assert "POST-H-014-C — UI Route Contract y shell de producto" in backlog
     assert "UiRouteContractRegistry" in readme
     assert "UiRouteContractRegistry" in runbook
@@ -139,3 +140,5 @@ def test_post_h_014_c_docs_contracts_and_backlog_are_synchronized() -> None:
     assert "UiRouteContractRegistry" in ui_runbook
     assert "post-h-014-ui-route-contract" in tcr_v1
     assert "post-h-014-ui-route-contract" in tcr_v2
+    assert "post-h-014-security-hardening" in tcr_v1
+    assert "post-h-014-security-hardening" in tcr_v2

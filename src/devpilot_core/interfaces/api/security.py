@@ -2,11 +2,12 @@ from __future__ import annotations
 
 import os
 import secrets
+from urllib.parse import urlparse
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
-from devpilot_core.cli_models import CommandResult, Severity
+from devpilot_core.cli_models import CommandResult, ExitCode, Finding, Severity
 from devpilot_core.policy import PolicyEngine, PolicyRequest
 
 from .response_mapping import api_error_response
@@ -14,6 +15,9 @@ from .response_mapping import api_error_response
 API_TOKEN_ENV_VAR = "DEVPILOT_API_TOKEN"
 API_TOKEN_HEADER = "X-DevPilot-Token"
 AUTHORIZATION_HEADER = "Authorization"
+API_REMOTE_BIND_OVERRIDE_ENV_VAR = "DEVPILOT_API_ALLOW_NON_LOCALHOST"
+LOCAL_API_ALLOWED_HOSTS: tuple[str, ...] = ("127.0.0.1", "localhost", "::1")
+SECURITY_POSTURE_ROUTE = "/api/v1/security/posture"
 DEFAULT_ALLOWED_ORIGINS: tuple[str, ...] = (
     "http://127.0.0.1:8787",
     "http://localhost:8787",
@@ -31,6 +35,8 @@ SECURITY_HEADERS: dict[str, str] = {
     "Referrer-Policy": "no-referrer",
     "Cache-Control": "no-store",
     "Permissions-Policy": "geolocation=(), microphone=(), camera=()",
+    "Cross-Origin-Opener-Policy": "same-origin",
+    "X-Permitted-Cross-Domain-Policies": "none",
 }
 
 
@@ -50,6 +56,12 @@ class ApiSecurityConfig:
     token_required: bool = True
     cors_enabled: bool = True
     policy_binding_enabled: bool = True
+    non_local_bind_allowed: bool = False
+    remote_bind_override_env_var: str = API_REMOTE_BIND_OVERRIDE_ENV_VAR
+    remote_bind_override_status: str = "disabled"
+    security_posture_endpoint: str = SECURITY_POSTURE_ROUTE
+    settings_secrets_redacted: bool = True
+    secrets_in_api_responses_allowed: bool = False
 
     @property
     def wildcard_cors_enabled(self) -> bool:
@@ -65,6 +77,12 @@ class ApiSecurityConfig:
             "allowed_origins": list(self.allowed_origins),
             "public_paths": list(self.public_paths),
             "policy_binding_enabled": self.policy_binding_enabled,
+            "non_local_bind_allowed": self.non_local_bind_allowed,
+            "remote_bind_override_env_var": self.remote_bind_override_env_var,
+            "remote_bind_override_status": self.remote_bind_override_status,
+            "security_posture_endpoint": self.security_posture_endpoint,
+            "settings_secrets_redacted": self.settings_secrets_redacted,
+            "secrets_in_api_responses_allowed": self.secrets_in_api_responses_allowed,
             "token_env_var": API_TOKEN_ENV_VAR,
             "preliminary": True,
         }
@@ -94,6 +112,7 @@ API_ROUTE_POLICIES: dict[tuple[str, str], ApiRoutePolicy] = {
     ("GET", "/api/v1/traces/{trace_id}"): ApiRoutePolicy("observability.trace_inspect", "read", "protected-read", path_subject=".devpilot/devpilot.db"),
     ("GET", "/api/v1/metrics/summary"): ApiRoutePolicy("observability.metrics_summary", "read", "protected-read", path_subject=".devpilot/devpilot.db"),
     ("GET", "/api/v1/history/runs"): ApiRoutePolicy("history.runs", "read", "protected-read"),
+    ("GET", "/api/v1/security/posture"): ApiRoutePolicy("api.security.posture", "read", "protected-security"),
     ("POST", "/api/v1/validation/frontmatter"): ApiRoutePolicy("validation.frontmatter", "read", "protected-validation"),
     ("POST", "/api/v1/validation/artifact"): ApiRoutePolicy("validation.artifact", "read", "protected-validation"),
     ("POST", "/api/v1/validation/readiness"): ApiRoutePolicy("validation.readiness", "read", "protected-validation"),
@@ -124,6 +143,93 @@ def redact_token(token: str | None) -> str:
     return f"{token[:4]}...{token[-4:]}"
 
 
+def _normalized_local_host(value: str) -> str:
+    host = str(value or "").strip().lower()
+    if host.startswith("[") and host.endswith("]"):
+        host = host[1:-1]
+    return host
+
+
+def is_local_api_host(host: str) -> bool:
+    """Return whether an API bind host is allowed for the local-only shell."""
+
+    return _normalized_local_host(host) in set(LOCAL_API_ALLOWED_HOSTS)
+
+
+def is_allowed_local_origin(origin: str) -> bool:
+    """Return whether a browser origin is allowed by the local CORS policy."""
+
+    if not origin or origin == "*":
+        return False
+    parsed = urlparse(origin)
+    if parsed.scheme not in {"http", "https"}:
+        return False
+    return is_local_api_host(parsed.hostname or "")
+
+
+def sanitize_allowed_origins(origins: tuple[str, ...] | list[str] | None) -> tuple[str, ...]:
+    """Keep only explicit localhost/loopback origins; wildcard CORS is never accepted."""
+
+    candidates = tuple(origins) if origins is not None else DEFAULT_ALLOWED_ORIGINS
+    sanitized = tuple(origin for origin in candidates if is_allowed_local_origin(str(origin)))
+    return sanitized or DEFAULT_ALLOWED_ORIGINS
+
+
+def remote_bind_override_state(env: dict[str, str] | None = None) -> dict[str, Any]:
+    """Describe the future non-local bind override without enabling it."""
+
+    effective_env = env if env is not None else os.environ
+    requested = bool(str(effective_env.get(API_REMOTE_BIND_OVERRIDE_ENV_VAR, "")).strip())
+    return {
+        "remote_bind_override_env_var": API_REMOTE_BIND_OVERRIDE_ENV_VAR,
+        "remote_bind_override_requested": requested,
+        "remote_bind_override_enabled": False,
+        "remote_bind_override_status": "future_disabled_by_design",
+    }
+
+
+def validate_api_bind_host(*, host: str, port: int, env: dict[str, str] | None = None) -> CommandResult:
+    """Validate that the local API is not bound to a non-local interface."""
+
+    override = remote_bind_override_state(env)
+    summary = {
+        "host": host,
+        "port": port,
+        "allowed_hosts": sorted(LOCAL_API_ALLOWED_HOSTS),
+        "server_started": False,
+        "api_implemented": True,
+        "api_security_implemented": True,
+        "local_bind_required": True,
+        "non_local_bind_allowed": False,
+        "created_by": "POST-H-014-D",
+        **override,
+    }
+    if is_local_api_host(host):
+        return CommandResult(
+            command="api serve host validation",
+            ok=True,
+            exit_code=ExitCode.PASS,
+            message="API host is local and allowed.",
+            data={"summary": summary},
+            findings=[Finding("API_LOCAL_BIND_ALLOWED", "API host is restricted to localhost/loopback.", Severity.INFO, metadata={"host": host})],
+        )
+    return CommandResult(
+        command="api serve",
+        ok=False,
+        exit_code=ExitCode.BLOCK,
+        message="Secured API local shell refuses non-local bind hosts.",
+        data={"summary": summary},
+        findings=[
+            Finding(
+                id="API_HOST_NOT_LOCALHOST_BLOCK",
+                message="Refusing to bind secured local API to a non-localhost host. Non-local override remains future-disabled by design.",
+                severity=Severity.BLOCK,
+                metadata={"host": host, **override},
+            )
+        ],
+    )
+
+
 def resolve_api_security_config(
     *,
     token: str | None = None,
@@ -141,7 +247,7 @@ def resolve_api_security_config(
         resolved_token = generate_api_token()
         source = "generated-ephemeral"
 
-    origins = tuple(allowed_origins) if allowed_origins is not None else DEFAULT_ALLOWED_ORIGINS
+    origins = sanitize_allowed_origins(allowed_origins)
     return ApiSecurityConfig(token=resolved_token, token_source=source, allowed_origins=origins)
 
 
@@ -206,6 +312,33 @@ def evaluate_api_policy(root: Path, route_policy: ApiRoutePolicy) -> CommandResu
         )
     )
 
+
+
+def api_security_posture_summary(*, root: Path, config: ApiSecurityConfig, routes_total: int, policy_bound_routes_total: int) -> dict[str, Any]:
+    """Return a redacted local API/UI security posture summary for operators."""
+
+    return {
+        **config.to_safe_summary(),
+        "created_by": "POST-H-014-D",
+        "root": str(root),
+        "routes_total": routes_total,
+        "policy_bound_routes_total": policy_bound_routes_total,
+        "security_headers_total": len(SECURITY_HEADERS),
+        "security_headers": sorted(SECURITY_HEADERS),
+        "local_bind_required": True,
+        "allowed_bind_hosts": sorted(LOCAL_API_ALLOWED_HOSTS),
+        "non_local_bind_allowed": False,
+        "remote_execution_enabled": False,
+        "connector_write_enabled": False,
+        "plugin_execution_enabled": False,
+        "external_api_used": False,
+        "network_used": False,
+        "settings_secrets_redacted": True,
+        "raw_secret_values_redacted": True,
+        "stack_traces_redacted": True,
+        "preliminary": True,
+        **remote_bind_override_state(),
+    }
 
 
 def resolve_route_policy(method: str, path: str) -> ApiRoutePolicy | None:

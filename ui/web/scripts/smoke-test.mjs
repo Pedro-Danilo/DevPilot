@@ -17,7 +17,8 @@ const statusCard = read('src/components/StatusCard.ts');
 const contractBadges = read('src/components/ContractBadges.ts');
 const uiContractRegistry = JSON.parse(read('../../.devpilot/interfaces/ui_route_contract_registry.json'));
 const apiContractRegistry = JSON.parse(read('../../.devpilot/interfaces/api_route_contract_registry.json'));
-const filesToScan = [client, dashboard, statusCard, reportTraceView, findingTable, approvalCenterView, dryRunActionForm, settingsView, providerSettings, contractBadges, read('src/main.ts')];
+const sanitizeUtils = read('src/utils/sanitize.ts');
+const filesToScan = [client, dashboard, statusCard, reportTraceView, findingTable, approvalCenterView, dryRunActionForm, settingsView, providerSettings, contractBadges, sanitizeUtils, read('src/main.ts')];
 
 function assert(condition, message) {
   if (!condition) {
@@ -32,6 +33,8 @@ assert(packageJson.devpilot.phaseFClosed === true, 'La UI debe declarar cierre F
 assert(packageJson.devpilot.desktopDeferred === true, 'La UI debe declarar Desktop diferido');
 assert(packageJson.devpilot.webRealEvolutionPlanned === true, 'La UI debe declarar evolución Web real');
 assert(packageJson.devpilot.postH014C === true, 'La UI debe declarar POST-H-014-C activo');
+assert(packageJson.devpilot.postH014D === true, 'La UI debe declarar POST-H-014-D activo');
+assert(packageJson.devpilot.securityPosture === true, 'La UI debe declarar security posture local');
 assert(packageJson.devpilot.uiRouteContractRegistry === true, 'La UI debe declarar UI Route Contract Registry');
 assert(packageJson.devpilot.localFirstBadges === true, 'La UI debe declarar badges local-first');
 assert(packageJson.devpilot.noRemoteBadges === true, 'La UI debe declarar badges no-remote');
@@ -63,7 +66,7 @@ for (const source of filesToScan) {
   assert(!source.includes('outputs/'), 'La UI no debe leer outputs directamente');
 }
 
-for (const expectedPath of ['/workspace/status', '/validation/readiness', '/standards/status', '/miasi/status', '/reports', '/traces', '/metrics/summary', '/approvals', '/actions/dry-run', '/settings/workspace', '/settings/providers', '/settings/policy', '/settings/providers/plan']) {
+for (const expectedPath of ['/workspace/status', '/validation/readiness', '/standards/status', '/miasi/status', '/reports', '/traces', '/metrics/summary', '/approvals', '/actions/dry-run', '/settings/workspace', '/settings/providers', '/settings/policy', '/security/posture', '/settings/providers/plan']) {
   assert(client.includes(expectedPath), `El cliente API debe consumir ${expectedPath}`);
 }
 
@@ -78,8 +81,11 @@ assert(settingsView.includes('ui.settings'), 'SettingsView debe declarar marker 
 assert(reportTraceView.includes('Sin trazas para mostrar'), 'Trace Viewer debe manejar trazas vacías');
 assert(approvalCenterView.includes('Approval Center') && approvalCenterView.includes('Action Launcher'), 'La UI debe incluir Approval Center y Action Launcher');
 assert(settingsView.includes('Settings UI') && settingsView.includes('Provider editor plan-only'), 'La UI debe incluir Settings UI y editor plan-only');
+assert(settingsView.includes('Security posture') && settingsView.includes('POST-H-014-D'), 'Settings UI debe mostrar Security posture POST-H-014-D');
 assert(settingsView.includes('data-ui-state=\"loading\"') && settingsView.includes('data-ui-state=\"empty\"') && settingsView.includes('data-ui-state=\"error\"'), 'Settings UI debe declarar loading/empty/error states');
 assert(providerSettings.includes('api_key_env'), 'Providers settings puede mostrar nombres de env var, no secretos crudos');
+assert(providerSettings.includes('escapeHtml') && settingsView.includes('safeJsonForHtml'), 'Settings UI debe escapar HTML y redactar secretos antes de renderizar');
+assert(sanitizeUtils.includes('redactSecrets') && sanitizeUtils.includes('escapeHtml'), 'La UI debe incluir utilidades locales de redacción/escape');
 assert(dryRunActionForm.includes('Solo acciones read-only/dry-run'), 'El formulario debe declarar dry-run seguro');
 assert(!client.includes('/patch/apply'), 'La UI no debe invocar acciones destructivas');
 assert(!client.includes('/rollback/execute'), 'La UI no debe invocar rollback execute');

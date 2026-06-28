@@ -25,6 +25,7 @@ CANONICAL_FASTAPI_ROUTER_MODULES = (
     "devpilot_core.interfaces.api.routers.reports",
     "devpilot_core.interfaces.api.routers.traces",
     "devpilot_core.interfaces.api.routers.settings",
+    "devpilot_core.interfaces.api.routers.security_posture",
 )
 ALLOWED_API_CONTRACT_METHODS = frozenset({"GET", "POST", "PUT", "PATCH", "DELETE"})
 
@@ -295,7 +296,7 @@ class ApiRouteContractRegistryValidator:
                     "POST-H-014-A validates local FastAPI route inventory against a versioned contract registry.",
                     "The validator is read-only and does not start a server, execute route handlers, call network services or mutate source files.",
                     "The blocking route comparison uses canonical APIRouter modules plus app-level public transport routes; runtime app assembly drift is emitted as a warning diagnostic.",
-                    "UI route contracts remain deferred to POST-H-014-C.",
+                    "UI route contracts were added in POST-H-014-C; local API/UI security posture is hardened in POST-H-014-D.",
                 ],
             },
             findings=findings or [Finding("API_ROUTE_CONTRACT_REGISTRY_PASS", "API route contract registry matches FastAPI app routes and no-go flags.", Severity.INFO, metadata=summary)],

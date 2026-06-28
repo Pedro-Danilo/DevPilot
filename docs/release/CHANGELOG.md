@@ -1,3 +1,18 @@
+## [post-h-014-d] - 2026-06-28
+
+Estado de proyecto: `last_completed_sprint=POST-H-013`; `next_sprint=POST-H-014`; `current_micro_sprint=POST-H-014-D`; `next_micro_sprint=POST-H-014-E`.
+
+### Added
+- Added protected `GET /api/v1/security/posture` local API/UI security posture diagnostic.
+- Added local-only CORS sanitizer, non-local bind guard and POST-H-014-D security hardening tests.
+- Added Settings UI HTML escaping and secret-like value redaction before rendering.
+
+### Safety
+- Token remains required for protected routes.
+- CORS wildcard and non-local origins remain blocked.
+- Non-local API bind remains future-disabled by design.
+- No remote execution, connector write, plugin execution, public internet exposure or external APIs enabled.
+
 ## [post-h-014-c] - 2026-06-28
 
 Estado de proyecto: `last_completed_sprint=POST-H-013`; `next_sprint=POST-H-014`; `current_micro_sprint=POST-H-014-C`; `next_micro_sprint=POST-H-014-D`.

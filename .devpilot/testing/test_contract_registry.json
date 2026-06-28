@@ -4256,6 +4256,46 @@
         "npm --prefix ui/web test",
         "python -m devpilot_core test-contracts validate --json"
       ]
+    },
+    {
+      "contract_id": "post-h-014-security-hardening",
+      "scope": "integration",
+      "owner": "POST-H-014-D",
+      "test_files": [
+        "tests/test_post_h_014_security_hardening.py",
+        "tests/test_api_security.py",
+        "tests/test_api_settings.py",
+        "tests/test_post_h_014_api_route_contracts.py"
+      ],
+      "validates": [
+        "src/devpilot_core/interfaces/api/security.py",
+        "src/devpilot_core/interfaces/api/app.py",
+        "src/devpilot_core/interfaces/api/routers/security_posture.py",
+        ".devpilot/interfaces/api_route_contract_registry.json",
+        ".devpilot/interfaces/ui_route_contract_registry.json",
+        "ui/web/src/pages/SettingsView.ts",
+        "ui/web/src/utils/sanitize.ts",
+        "docs/post_h_014_d_manifest.json",
+        "docs/audits/post_h_014_d_security_hardening_report.md"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/interfaces/api/",
+        ".devpilot/interfaces/",
+        "ui/web/",
+        "docs/backlogs/POST-H-014_ui_api_industrial_shell.md",
+        "docs/07_interfaces/ui_api_industrial_shell.md",
+        "docs/05_operations/ui_api_local_runbook.md",
+        "tests/test_post_h_014_security_hardening.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace tests/test_post_h_014_security_hardening.py tests/test_api_security.py tests/test_api_settings.py tests/test_post_h_014_api_route_contracts.py -q",
+        "python -m devpilot_core schema validate --schema-id ApiRouteContractRegistry --instance .devpilot/interfaces/api_route_contract_registry.json --json",
+        "python -m devpilot_core schema validate --schema-id PostHManifest --instance docs/post_h_014_d_manifest.json --json",
+        "npm --prefix ui/web test"
+      ]
     }
   ],
   "notes": [

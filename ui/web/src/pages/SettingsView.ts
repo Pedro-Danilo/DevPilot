@@ -1,9 +1,10 @@
 import { DevPilotApiClient } from '../api/client';
 import type { DevPilotApplicationResponse, SettingsSnapshot } from '../api/types';
 import { renderProviderSettings } from '../components/ProviderSettings';
+import { escapeHtml, safeJsonForHtml } from '../utils/sanitize';
 
 function pretty(value: unknown): string {
-  return JSON.stringify(value ?? {}, null, 2);
+  return safeJsonForHtml(value);
 }
 
 function status(response?: DevPilotApplicationResponse): string {
@@ -17,19 +18,21 @@ export function renderSettingsView(client: DevPilotApiClient, token: () => strin
 
   async function refresh(): Promise<void> {
     const fresh = new DevPilotApiClient({ token: token() });
-    const [workspace, providers, policy] = await Promise.all([
+    const [workspace, providers, policy, securityPosture] = await Promise.all([
       fresh.settingsWorkspace().catch((error) => error),
       fresh.settingsProviders().catch((error) => error),
       fresh.settingsPolicy().catch((error) => error),
+      fresh.securityPosture().catch((error) => error),
     ]);
     if ('operation' in workspace) state.workspace = workspace;
     if ('operation' in providers) state.providers = providers;
     if ('operation' in policy) state.policy = policy;
+    if ('operation' in securityPosture) state.securityPosture = securityPosture;
     draw();
   }
 
   async function planProvider(): Promise<void> {
-    const providerId = (document.getElementById('settings-provider-id') as HTMLInputElement | null)?.value || 'ollama';
+    const providerId = escapeHtml((document.getElementById('settings-provider-id') as HTMLInputElement | null)?.value || 'ollama');
     const enabled = (document.getElementById('settings-provider-enabled') as HTMLInputElement | null)?.checked ?? false;
     const model = (document.getElementById('settings-provider-model') as HTMLInputElement | null)?.value || '';
     const endpoint = (document.getElementById('settings-provider-endpoint') as HTMLInputElement | null)?.value || '';
@@ -65,6 +68,7 @@ export function renderSettingsView(client: DevPilotApiClient, token: () => strin
         <div class="grid two-cols">
           <article class="card"><span class="badge ${status(state.workspace).toLowerCase()}">${status(state.workspace)}</span><h3>Workspace settings</h3><p>Project.yaml y rutas locales.</p><pre>${pretty(state.workspace?.data)}</pre></article>
           <article class="card"><span class="badge ${status(state.policy).toLowerCase()}">${status(state.policy)}</span><h3>Policy settings</h3><p>Política local, CostGuard y MIASI policy matrix.</p><pre>${pretty(state.policy?.data)}</pre></article>
+          <article class="card"><span class="badge ${status(state.securityPosture).toLowerCase()}">${status(state.securityPosture)}</span><h3>Security posture</h3><p>POST-H-014-D · token requerido · CORS local restrictivo · secrets redacted · no remote bind.</p><pre>${pretty(state.securityPosture?.data?.summary)}</pre></article>
         </div>
         <div class="grid two-cols">
           <article class="card"><span class="badge ${status(state.providers).toLowerCase()}">${status(state.providers)}</span><h3>Providers</h3><p>Listado seguro sin secretos ni activación externa accidental.</p>${renderProviderSettings(state.providers)}<pre>${pretty(state.providers?.data?.summary)}</pre></article>

@@ -2,10 +2,10 @@
 doc_id: "POST-H-014-UI-API-INDUSTRIAL-SHELL"
 title: "UI/API industrial shell — contrato operativo local"
 status: "implemented-initial"
-version: "0.3.0"
+version: "0.4.0"
 owner: "Ordóñez"
 updated: "2026-06-28"
-phase: "POST-H-014-C"
+phase: "POST-H-014-D"
 approval: "approved_by_owner"
 ---
 
@@ -141,5 +141,35 @@ Comandos:
 ```powershell
 python -m devpilot_core schema validate --schema-id UiRouteContractRegistry --instance .devpilot/interfaces/ui_route_contract_registry.json --json
 python -m pytest -p no:ddtrace tests/test_post_h_014_ui_shell_contract.py -q
+npm --prefix ui/web test
+```
+
+
+## Security hardening local POST-H-014-D
+
+Artefactos canónicos:
+
+```text
+src/devpilot_core/interfaces/api/security.py
+src/devpilot_core/interfaces/api/routers/security_posture.py
+/api/v1/security/posture
+```
+
+Invariantes añadidas:
+
+```text
+- Toda ruta no pública exige token local y policy binding.
+- CORS descarta wildcard y orígenes no locales.
+- La API local no puede bindear 0.0.0.0 ni hosts no locales; el override queda future-disabled.
+- Security posture es un endpoint protegido y no expone token raw, secretos ni stack traces.
+- Settings UI escapa HTML y redacta claves secret-like antes de renderizar JSON.
+```
+
+Límites: esta versión es `implemented-initial`; auth enterprise/OIDC, transporte seguro externo y quality gate final quedan fuera de POST-H-014-D.
+
+Comandos:
+
+```powershell
+python -m pytest -p no:ddtrace tests/test_post_h_014_security_hardening.py tests/test_api_security.py tests/test_api_settings.py -q
 npm --prefix ui/web test
 ```

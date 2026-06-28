@@ -13,7 +13,7 @@ from devpilot_core.application import ApplicationResponse, ApplicationService
 from devpilot_core.cli_models import CommandResult, ExitCode
 
 from .response_mapping import http_exception_response, unhandled_exception_response, validation_error_response
-from .routers import actions, approvals, reports, settings, status, traces, validation
+from .routers import actions, approvals, reports, security_posture, settings, status, traces, validation
 from .security import (
     API_ROUTE_POLICIES,
     DEFAULT_ALLOWED_ORIGINS,
@@ -76,8 +76,8 @@ def create_app(
     security_config = resolve_api_security_config(token=api_token, allowed_origins=allowed_origins)
     app = FastAPI(
         title="DevPilot Local API",
-        version="1.0.0-settings-ui",
-        description="Local secured MVP API for DevPilot visual dashboard, report/trace viewers, Approval Center and Settings UI. Sprint 72 implementation.",
+        version="1.0.0-post-h-014-d",
+        description="Local secured API/UI shell for DevPilot visual dashboard, report/trace viewers, Approval Center, Settings UI and security posture diagnostics. POST-H-014-D implementation.",
         openapi_url="/api/v1/openapi.json",
         docs_url="/api/v1/docs",
         redoc_url=None,
@@ -174,6 +174,7 @@ def create_app(
     app.include_router(reports.router)
     app.include_router(traces.router)
     app.include_router(settings.router)
+    app.include_router(security_posture.router)
 
     @app.get("/api/v1/health", tags=["status"])
     def health() -> dict[str, object]:
@@ -181,6 +182,8 @@ def create_app(
             "service": "devpilot-local-api",
             "sprint": "FUNC-SPRINT-72",
             "post_h_014_b_response_mapping": True,
+            "post_h_014_c_ui_route_contract": True,
+            "post_h_014_d_security_hardening": True,
             "api_implemented": True,
             "api_security_implemented": True,
             "host_default": DEFAULT_API_HOST,
@@ -196,6 +199,9 @@ def create_app(
             "settings_ui_implemented": True,
             "settings_provider_editor_plan_only": True,
             "settings_secrets_redacted": True,
+            "security_posture_endpoint": "/api/v1/security/posture",
+            "non_local_bind_allowed": False,
+            "remote_bind_override_status": "future_disabled_by_design",
         }
         result = CommandResult(
             command="api health",

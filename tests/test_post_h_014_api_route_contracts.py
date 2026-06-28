@@ -80,9 +80,9 @@ def test_post_h_014_a_contract_validator_blocks_no_unregistered_or_unsafe_routes
 
     assert result.ok, result.to_dict()
     summary = result.data["summary"]
-    assert summary["routes_total"] == 32
-    assert summary["fastapi_route_keys_total"] == 32
-    assert summary["canonical_router_route_keys_total"] == 32
+    assert summary["routes_total"] == 33
+    assert summary["fastapi_route_keys_total"] == 33
+    assert summary["canonical_router_route_keys_total"] == 33
     assert summary["unregistered_routes_total"] == 0
     assert summary["stale_registry_routes_total"] == 0
     assert summary["remote_execution_allowed_total"] == 0
@@ -96,13 +96,15 @@ def test_post_h_014_a_contract_validator_blocks_no_unregistered_or_unsafe_routes
 def test_post_h_014_a_every_service_route_is_application_service_and_policy_bound() -> None:
     payload = read_registry()
     routes = payload["routes"]
-    service_routes = [route for route in routes if not route.get("public")]
+    protected_routes = [route for route in routes if not route.get("public")]
+    service_routes = [route for route in protected_routes if route["application_service_required"]]
 
+    assert protected_routes
     assert service_routes
-    assert all(route["application_service_required"] is True for route in service_routes)
-    assert all(route["response_contract"] == "ApplicationResponse" for route in service_routes)
-    assert all(route["auth_required"] is True for route in service_routes)
-    assert all(route["policy_check_required"] is True for route in service_routes)
+    assert all(route["response_contract"] == "ApplicationResponse" for route in protected_routes)
+    assert all(route["auth_required"] is True for route in protected_routes)
+    assert all(route["policy_check_required"] is True for route in protected_routes)
+    assert any(route["route_id"] == "api.security.posture" and route["application_service_required"] is False for route in protected_routes)
 
 
 def test_post_h_014_a_mutating_routes_are_explicitly_justified_and_local_only() -> None:
@@ -132,11 +134,13 @@ def test_post_h_014_a_docs_contracts_and_backlog_are_synchronized() -> None:
     tcr_v2 = (ROOT / ".devpilot/testing/test_contract_registry_v2.json").read_text(encoding="utf-8")
 
     assert 'status: "approved"' in backlog
-    assert 'current_micro_sprint: "POST-H-014-C"' in backlog
-    assert 'next_micro_sprint: "POST-H-014-D"' in backlog
+    assert 'current_micro_sprint: "POST-H-014-D"' in backlog
+    assert 'next_micro_sprint: "POST-H-014-E"' in backlog
     assert "POST-H-014-A — Route Contract Registry y API inventory" in backlog
     assert "POST-H-014-A — Route Contract Registry y API inventory" in readme
     assert "POST-H-014-A — Route Contract Registry y API inventory" in runbook
     assert "ApiRouteContractRegistry" in interface_doc
     assert "post-h-014-api-route-contract-registry" in tcr_v1
     assert "post-h-014-api-route-contract-registry" in tcr_v2
+    assert "post-h-014-security-hardening" in tcr_v1
+    assert "post-h-014-security-hardening" in tcr_v2

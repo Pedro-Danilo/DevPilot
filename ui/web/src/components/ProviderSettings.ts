@@ -1,5 +1,6 @@
 // POST-H-014-C contract marker: ui.settings
 import type { DevPilotApplicationResponse, ProviderSettingsItem } from '../api/types';
+import { escapeHtml } from '../utils/sanitize';
 
 function asProviders(response?: DevPilotApplicationResponse): ProviderSettingsItem[] {
   const data = (response?.data ?? {}) as { providers?: ProviderSettingsItem[] };
@@ -13,11 +14,14 @@ export function renderProviderSettings(response?: DevPilotApplicationResponse): 
   }
   return providers
     .map((provider) => {
-      const id = provider.provider_id ?? provider.id ?? 'unknown';
+      const id = escapeHtml(provider.provider_id ?? provider.id ?? 'unknown');
       const enabled = provider.enabled ? 'enabled' : 'disabled';
       const external = provider.external_api ? 'external-api' : 'local/mock';
-      const keyEnv = provider.api_key_env ? ` · env=${provider.api_key_env}` : '';
-      return `<div class="list-item"><strong>${id}</strong> · ${provider.kind ?? 'unknown'} · ${enabled} · ${external}${keyEnv}<br/><small>${provider.default_model ?? ''} ${provider.endpoint ?? ''}</small></div>`;
+      const kind = escapeHtml(provider.kind ?? 'unknown');
+      const keyEnv = provider.api_key_env ? ` · env=${escapeHtml(provider.api_key_env)}` : '';
+      const model = escapeHtml(provider.default_model ?? '');
+      const endpoint = escapeHtml(provider.endpoint ?? '');
+      return `<div class="list-item"><strong>${id}</strong> · ${kind} · ${enabled} · ${external}${keyEnv}<br/><small>${model} ${endpoint}</small></div>`;
     })
     .join('');
 }

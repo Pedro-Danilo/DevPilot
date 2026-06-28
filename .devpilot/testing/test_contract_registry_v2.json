@@ -7845,6 +7845,84 @@
         "documentation.interfaces",
         "security.boundary"
       ]
+    },
+    {
+      "contract_id": "post-h-014-security-hardening",
+      "schema_version": "2.0",
+      "source_contract_id": "post-h-014-security-hardening",
+      "domain": "security.guards",
+      "capability": "LocalApiUiSecurityHardening",
+      "criticality": "P1",
+      "risk_level": "high",
+      "test_type": "integration",
+      "execution_profile": "impact",
+      "cost_class": "low",
+      "expected_duration_seconds": 60,
+      "test_files": [
+        "tests/test_post_h_014_security_hardening.py",
+        "tests/test_api_security.py",
+        "tests/test_api_settings.py",
+        "tests/test_post_h_014_api_route_contracts.py"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/interfaces/api/",
+        ".devpilot/interfaces/",
+        "ui/web/",
+        "docs/backlogs/POST-H-014_ui_api_industrial_shell.md",
+        "docs/07_interfaces/ui_api_industrial_shell.md",
+        "docs/05_operations/ui_api_local_runbook.md",
+        "tests/test_post_h_014_security_hardening.py"
+      ],
+      "validates": [
+        "src/devpilot_core/interfaces/api/security.py",
+        "src/devpilot_core/interfaces/api/app.py",
+        "src/devpilot_core/interfaces/api/routers/security_posture.py",
+        ".devpilot/interfaces/api_route_contract_registry.json",
+        ".devpilot/interfaces/ui_route_contract_registry.json",
+        "ui/web/src/pages/SettingsView.ts",
+        "ui/web/src/utils/sanitize.ts",
+        "docs/post_h_014_d_manifest.json",
+        "docs/audits/post_h_014_d_security_hardening_report.md"
+      ],
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace tests/test_post_h_014_security_hardening.py tests/test_api_security.py tests/test_api_settings.py tests/test_post_h_014_api_route_contracts.py -q",
+        "python -m devpilot_core schema validate --schema-id ApiRouteContractRegistry --instance .devpilot/interfaces/api_route_contract_registry.json --json",
+        "python -m devpilot_core schema validate --schema-id PostHManifest --instance docs/post_h_014_d_manifest.json --json",
+        "npm --prefix ui/web test",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ],
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "required_for_release": false,
+      "required_for_hardening": true,
+      "required_for_impact": true,
+      "required_for_security_gate": true,
+      "requires_human_approval": false,
+      "owner": "POST-H-014-D",
+      "created_by": "POST-H-014-D",
+      "status": "implemented-initial",
+      "classification_status": "explicit",
+      "classification_notes": [
+        "POST-H-014-D validates token protection, local-only CORS, non-local bind blocking, security posture redaction and Settings UI secret-safe rendering.",
+        "The tests are local-only and do not start external servers, browsers or APIs."
+      ],
+      "trigger_hints": [
+        "security-posture",
+        "api-security",
+        "cors",
+        "local-bind",
+        "settings-redaction",
+        "ui-api-shell"
+      ],
+      "impact_scope": [
+        "interfaces.api",
+        "product.ui",
+        "security.boundary",
+        "documentation.operations",
+        "test-contracts"
+      ]
     }
   ],
   "migration_metadata": {

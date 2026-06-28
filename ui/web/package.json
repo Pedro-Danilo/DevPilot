@@ -57,6 +57,10 @@
     "externalApiUsed": false,
     "remoteExecutionEnabled": false,
     "connectorWriteEnabled": false,
-    "pluginExecutionEnabled": false
+    "pluginExecutionEnabled": false,
+    "postH014D": true,
+    "securityPosture": true,
+    "htmlEscaping": true,
+    "settingsSecretRedaction": true
   }
 }

@@ -91,6 +91,7 @@ export interface SettingsSnapshot {
   workspace?: DevPilotApplicationResponse;
   providers?: DevPilotApplicationResponse;
   policy?: DevPilotApplicationResponse;
+  securityPosture?: DevPilotApplicationResponse;
   providerPlan?: DevPilotApplicationResponse;
 }
 

@@ -1,3 +1,25 @@
+## POST-H-014-D — Security hardening local de API/UI
+
+Estado: `implemented-initial`. DevPilot refuerza la shell local API/UI con un endpoint protegido de `security posture`, saneamiento CORS local-only, bloqueo explícito de bind no local y redacción/escape adicional en Settings UI. La capacidad sigue siendo local-first: no SaaS, no remote execution, no connector write, no plugin execution y no APIs externas.
+
+Capacidades añadidas:
+
+```text
+- `GET /api/v1/security/posture` devuelve ApplicationResponse protegido por token y PolicyEngine.
+- `sanitize_allowed_origins` descarta wildcard CORS y orígenes no locales.
+- `validate_api_bind_host` bloquea 0.0.0.0/non-local incluso con override futuro solicitado.
+- Security headers se aplican a respuestas success/error.
+- Settings UI muestra posture local y aplica escape/redaction para evitar filtrado de secretos.
+```
+
+Límites: versión `implemented-initial`; no implementa auth enterprise/OIDC, exposición pública, despliegue cloud ni quality-gate final. POST-H-014-E queda como siguiente micro-sprint para integrar el subgate `ui-api-industrial-shell`.
+
+Último hito: `POST-H-013 — Audit pack integrity`
+Siguiente hito: `POST-H-014 — UI/API industrial shell`
+Último micro-sprint implementado: `POST-H-014-D — Security hardening local de API/UI`
+Siguiente micro-sprint: `POST-H-014-E — Quality gate UI/API industrial shell`
+
+
 ## POST-H-014-C — UI Route Contract y shell de producto
 
 Estado: `implemented-initial`. DevPilot agrega `UiRouteContractRegistry` para contractar la navegación crítica de la Web UI local: Dashboard, Reports, Traces, Approvals y Settings. La UI ahora declara vínculos permitidos hacia `ApiRouteContractRegistry`, badges `local-first`, `dry-run/plan-only`, `no-remote`, `no connector write` y `no plugin execution`, además de estados explícitos loading/empty/error y visibilidad de `BLOCK/ERROR`.

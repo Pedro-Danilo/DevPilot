@@ -99,3 +99,24 @@ BLOCK si la UI lee outputs o .devpilot directamente en lugar de consumir API loc
 ```
 
 Límites: versión `implemented-initial`; POST-H-014-D/E deben completar security hardening y quality-gate final.
+
+
+## POST-H-014-D — Security hardening local
+
+La operación local debe mantener:
+
+```text
+- Host permitido: 127.0.0.1, localhost o ::1.
+- Token obligatorio para rutas no públicas.
+- CORS restringido a orígenes locales explícitos; wildcard queda bloqueado.
+- Endpoint protegido /api/v1/security/posture para diagnóstico redacted.
+- Settings UI sin secretos raw; solo nombres de variables de entorno pueden mostrarse.
+```
+
+Validación recomendada:
+
+```powershell
+python -m pytest -p no:ddtrace tests/test_post_h_014_security_hardening.py tests/test_api_security.py tests/test_api_settings.py -q
+```
+
+Límite: no habilita acceso remoto ni autenticación enterprise.

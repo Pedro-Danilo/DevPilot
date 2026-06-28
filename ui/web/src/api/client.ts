@@ -107,6 +107,10 @@ export class DevPilotApiClient {
     return this.get('/settings/policy');
   }
 
+  async securityPosture(): Promise<DevPilotApplicationResponse> {
+    return this.get('/security/posture');
+  }
+
   async planProviderChange(payload: { provider_id: string; changes: Record<string, unknown>; actor?: string; reason?: string }): Promise<DevPilotApplicationResponse> {
     return this.post('/settings/providers/plan', payload);
   }

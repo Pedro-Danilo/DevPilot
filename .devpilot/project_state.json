@@ -84,8 +84,9 @@
     "POST-H-014-B adds homogeneous response mapping for the local UI/API shell: CommandResult/ApplicationResponse HTTP mapping, 422 validation errors and redacted technical exception payloads.",
     "POST-H-014-C is the next micro-sprint: UI Route Contract y shell de producto.",
     "POST-H-014-C adds UI Route Contract Registry and local product shell badges/states for Dashboard, Reports, Traces, Approvals and Settings.",
-    "POST-H-014-D is the next micro-sprint: Security hardening local de API/UI."
+    "POST-H-014-D is the next micro-sprint: Security hardening local de API/UI.",
+    "POST-H-014-D adds local API/UI security hardening: protected security posture endpoint, CORS sanitization, non-local bind guard and UI secret redaction checks."
   ],
-  "current_micro_sprint": "POST-H-014-C",
-  "next_micro_sprint": "POST-H-014-D"
+  "current_micro_sprint": "POST-H-014-D",
+  "next_micro_sprint": "POST-H-014-E"
 }

@@ -4095,33 +4095,11 @@ def api_serve_command(
     """
 
     root = project_root()
-    allowed_hosts = {"127.0.0.1", "localhost"}
-    if host not in allowed_hosts:
-        result = CommandResult(
-            command="api serve",
-            ok=False,
-            exit_code=ExitCode.BLOCK,
-            message="Secured API local MVP only allows localhost hosts.",
-            data={
-                "summary": {
-                    "host": host,
-                    "port": port,
-                    "allowed_hosts": sorted(allowed_hosts),
-                    "server_started": False,
-                    "api_implemented": True,
-                    "api_security_implemented": True,
-                    "sprint": "FUNC-SPRINT-68",
-                }
-            },
-            findings=[
-                Finding(
-                    id="API_HOST_NOT_LOCALHOST_BLOCK",
-                    message="Refusing to bind secured local API to a non-localhost host.",
-                    severity=Severity.BLOCK,
-                    metadata={"host": host},
-                )
-            ],
-        )
+    from .interfaces.api import validate_api_bind_host
+
+    bind_guard = validate_api_bind_host(host=host, port=port)
+    if not bind_guard.ok:
+        result = bind_guard
     else:
         from .interfaces.api import DEFAULT_API_HOST, DEFAULT_API_PORT, api_route_paths, api_security_summary, create_app
 
@@ -4138,20 +4116,21 @@ def api_serve_command(
                 "execute": execute,
                 "server_started": False,
                 "api_implemented": True,
-                "api_status": "secured-initial",
+                "api_status": "secured-post-h-014-d",
                 "api_security_implemented": True,
                 "routes_total": len(route_paths),
                 "dangerous_routes_total": len([p for p in route_paths if any(fragment in p for fragment in ["apply", "execute", "rollback/execute", "refactor/execute"])]),
                 "external_api_used": False,
                 "network_used": False,
                 "preliminary": True,
+                "host_bind_validation": bind_guard.data.get("summary", {}),
                 **security_summary,
             },
             "routes": route_paths,
             "notes": [
                 "Dry-run is the default for this CLI command.",
                 "Use --execute only to start the local uvicorn server on localhost.",
-                "Sprint 68 requires token for protected endpoints and restricts CORS by default.",
+                "POST-H-014-D requires token for protected endpoints, restricts CORS and exposes a protected security posture diagnostic.",
                 "Use `python -m devpilot_core api token --json` to generate a session token, then set DEVPILOT_API_TOKEN before serving.",
             ],
         }
@@ -4164,7 +4143,7 @@ def api_serve_command(
             findings=[
                 Finding(
                     id="API_LOCAL_SECURITY_READY",
-                    message="FastAPI local MVP is protected by token, restricted CORS and policy binding.",
+                    message="FastAPI local shell is protected by token, restricted CORS, policy binding and POST-H-014-D posture diagnostics.",
                     severity=Severity.INFO,
                     metadata={"host": host, "port": port, "routes_total": len(route_paths), "token_required": True},
                 )
@@ -4211,7 +4190,7 @@ def api_serve_command(
         subject="api-local",
         report_id="api_serve",
         write_report=write_report,
-        metadata={"sprint": "FUNC-SPRINT-68", "component": "LocalAPI Security"},
+        metadata={"sprint": "POST-H-014-D", "component": "LocalAPI Security"},
     )
     _emit_result_event(root, result, subject="api-local")
     _persist_result(root, result, subject="api-local")

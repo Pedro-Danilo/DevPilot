@@ -6,13 +6,46 @@ version: "1.50.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "POST-H-014-C"
+phase: "POST-H-014-D"
 updated: "2026-06-28"
 approval: "approved_by_owner"
 source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved + 03_security approved"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "SPRINT-PRECODE-05 quality operations baseline"
 ---
+
+## POST-H-014-D — Security hardening local de API/UI
+
+Objetivo operativo: operar la shell local API/UI con token obligatorio en rutas protegidas, CORS restrictivo, headers de seguridad, posture protegido y Settings UI sin filtración de secretos.
+
+Comandos de verificación:
+
+```powershell
+python -m pytest -p no:ddtrace tests/test_post_h_014_security_hardening.py tests/test_api_security.py tests/test_api_settings.py tests/test_post_h_014_api_route_contracts.py -q
+python -m devpilot_core schema validate --schema-id ApiRouteContractRegistry --instance .devpilot/interfaces/api_route_contract_registry.json --json
+python -m devpilot_core schema validate --schema-id PostHManifest --instance docs/post_h_014_d_manifest.json --json
+npm --prefix ui/web test
+```
+
+Criterios PASS:
+
+```text
+PASS si /api/v1/security/posture exige token y policy binding.
+PASS si CORS no acepta wildcard ni orígenes no locales.
+PASS si bind host no local queda bloqueado aunque exista override futuro solicitado.
+PASS si Settings UI y payloads API redactan secretos y no devuelven el token raw.
+```
+
+Criterios BLOCK:
+
+```text
+BLOCK si una ruta protegida responde sin token.
+BLOCK si Access-Control-Allow-Origin permite * o un origen no local.
+BLOCK si 0.0.0.0/non-local puede iniciar la API local.
+BLOCK si un secreto aparece en settings, posture o UI renderizada.
+```
+
+Límites: versión `implemented-initial`; no sustituye auth enterprise/OIDC, no habilita remote execution y no integra aún el subgate final de POST-H-014-E.
 
 # Runbook — DevPilot Local
 

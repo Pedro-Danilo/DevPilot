@@ -4,7 +4,7 @@
   "registry_id": "devpilot-api-route-contract-registry",
   "status": "implemented-initial",
   "created_by": "POST-H-014-A",
-  "updated": "2026-06-27",
+  "updated": "2026-06-28",
   "routes": [
     {
       "route_id": "api.openapi",
@@ -374,6 +374,40 @@
         "read-only"
       ],
       "notes": []
+    },
+    {
+      "route_id": "api.security.posture",
+      "method": "GET",
+      "path": "/api/v1/security/posture",
+      "operation": "api.security.posture",
+      "application_service_required": false,
+      "policy_check_required": true,
+      "auth_required": true,
+      "public": false,
+      "local_only": true,
+      "dry_run_only": true,
+      "mutations_allowed": false,
+      "local_state_mutation_allowed": false,
+      "destructive_action_allowed": false,
+      "external_api_allowed": false,
+      "remote_execution_allowed": false,
+      "connector_write_allowed": false,
+      "plugin_execution_allowed": false,
+      "response_contract": "ApplicationResponse",
+      "risk_level": "medium",
+      "owner": "interfaces.api.security",
+      "router_module": "security_posture",
+      "policy_action": "read",
+      "policy_sensitivity": "protected-security",
+      "path_subject": null,
+      "tags": [
+        "security",
+        "read-only",
+        "posture"
+      ],
+      "notes": [
+        "Protected local API/UI security posture diagnostic added by POST-H-014-D. It never exposes raw tokens or secrets."
+      ]
     },
     {
       "route_id": "api.validation.frontmatter",
@@ -1006,16 +1040,17 @@
     }
   ],
   "summary": {
-    "routes_total": 32,
-    "protected_routes_total": 29,
+    "routes_total": 33,
+    "protected_routes_total": 30,
     "public_routes_total": 3,
     "mutating_routes_total": 3,
     "application_service_routes_total": 29,
-    "policy_bound_routes_total": 29,
+    "policy_bound_routes_total": 30,
     "remote_execution_allowed_total": 0,
     "connector_write_allowed_total": 0,
     "plugin_execution_allowed_total": 0,
-    "preliminary": true
+    "preliminary": true,
+    "security_posture_routes_total": 1
   },
   "safety": {
     "local_first": true,
@@ -1031,6 +1066,7 @@
     "POST-H-014-A contracts the existing local FastAPI API surface without adding new execution capabilities.",
     "UI route contracts are intentionally deferred to POST-H-014-C.",
     "Approval write routes are local approval lifecycle mutations only; they are explicitly classified and policy-bound.",
-    "This registry is implemented-initial and must evolve with response mapping, UI contracts, API security hardening and final quality gate sprints."
+    "This registry is implemented-initial and must evolve with response mapping, UI contracts, API security hardening and final quality gate sprints.",
+    "POST-H-014-D adds protected local API/UI security posture diagnostics and confirms token/CORS/local-bind hardening."
   ]
 }

@@ -17,8 +17,8 @@ no_remote_execution_enabled: true
 no_external_apis_used: true
 no_connector_write_enabled: true
 no_plugin_execution_enabled: true
-current_micro_sprint: "POST-H-014-C"
-next_micro_sprint: "POST-H-014-D"
+current_micro_sprint: "POST-H-014-D"
+next_micro_sprint: "POST-H-014-E"
 implementation_status: "active"
 ---
 
@@ -490,4 +490,41 @@ Limitaciones explícitas:
 - No introduce auth enterprise ni despliegue cloud.
 - No integra aún el subgate final ui-api-industrial-shell; eso queda para POST-H-014-E.
 - Security hardening local adicional queda para POST-H-014-D.
+```
+
+
+## 16. Avance de implementación — POST-H-014-D
+
+Estado: `implemented-initial`.
+
+POST-H-014-D refuerza la seguridad local API/UI sin introducir auth enterprise, SaaS, cloud deployment ni ejecución remota. La implementación agrega diagnóstico protegido de posture, saneamiento CORS local-only, guardia explícita de bind host no local y redacción/escape adicional en Settings UI.
+
+Capacidades implementadas:
+
+```text
+- Endpoint protegido GET /api/v1/security/posture con ApplicationResponse y datos redactados.
+- Política API explícita api.security.posture y contrato ApiRouteContractRegistry actualizado.
+- CORS sanitizer que descarta wildcard y orígenes no locales.
+- validate_api_bind_host mantiene bloqueado 0.0.0.0/non-local incluso si se solicita override futuro.
+- Security headers ampliados para respuestas success/error.
+- Settings UI consume security posture y escapa/redacta JSON antes de renderizar.
+- tests/test_post_h_014_security_hardening.py cubre token, CORS, headers, bind host, posture y sincronía documental.
+```
+
+Criterios PASS cubiertos:
+
+```text
+PASS si API local requiere token en rutas no públicas, incluyendo /api/v1/security/posture.
+PASS si CORS restringe orígenes por defecto y descarta wildcard.
+PASS si secrets no aparecen en UI ni respuestas API de posture/settings.
+PASS si non-local bind permanece bloqueado y el override se declara future-disabled.
+```
+
+Limitaciones explícitas:
+
+```text
+- Esta versión es implemented-initial.
+- No introduce auth enterprise, OIDC, multiusuario ni despliegue cloud.
+- No habilita remote execution, connector write, plugin execution ni APIs externas.
+- No integra aún el subgate final ui-api-industrial-shell; eso queda para POST-H-014-E.
 ```
