@@ -1,3 +1,22 @@
+## post-h-015-b — Aggregator read-only de señales operacionales
+
+Estado de proyecto: `last_completed_sprint=POST-H-014`; `next_sprint=POST-H-015`; `current_micro_sprint=POST-H-015-B`; `next_micro_sprint=POST-H-015-C`.
+
+- Added `OperatorDashboardAggregator` for local read-only operational signal aggregation.
+- Added optional report writing for `outputs/reports/operator_dashboard_snapshot.json` and `.md`.
+- Added required-source blocking and optional-runtime-source unknown/warn handling.
+- Added POST-H-015-B tests, manifest and audit report.
+- Corrected `docs/post_h_015_a_manifest.json` so `next_sprint` remains the hito `POST-H-015` while `next_micro_sprint` carries `POST-H-015-B`.
+
+Safety:
+
+```text
+- No shell execution from the aggregator.
+- No network or external APIs.
+- No source mutations.
+- No remote execution, connector write or plugin execution.
+```
+
 ## post-h-015-a — Dashboard snapshot schema y config
 
 Estado de proyecto: `last_completed_sprint=POST-H-014`; `next_sprint=POST-H-015`; `current_micro_sprint=POST-H-015-A`; `next_micro_sprint=POST-H-015-B`.

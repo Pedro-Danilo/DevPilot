@@ -8,8 +8,8 @@
   "last_completed_sprint": "POST-H-014",
   "last_functional_sprint": "FUNC-SPRINT-99",
   "next_sprint": "POST-H-015",
-  "source_repo": "repo_DevPilot_Local_205_POST_H_014_E.zip",
-  "current_repo": "repo_DevPilot_Local_206_POST_H_015_A.zip",
+  "source_repo": "repo_DevPilot_Local_206_POST_H_015_A.zip",
+  "current_repo": "repo_DevPilot_Local_207_POST_H_015_B.zip",
   "global_state_owner": "tests/test_project_global_state.py",
   "mutable_global_state_fields": [
     "last_completed_sprint",
@@ -88,8 +88,9 @@
     "POST-H-014-D adds local API/UI security hardening: protected security posture endpoint, CORS sanitization, non-local bind guard and UI secret redaction checks.",
     "POST-H-014-E closes UI/API industrial shell as implemented-initial: ui-api-industrial-shell quality subgate, schema-backed report, API/UI registry validation, Web UI smoke and operational docs are integrated into hardening/industrial quality gates.",
     "POST-H-015 is the next prioritized hito: Local operator dashboard.",
-    "POST-H-015-A approves Local operator dashboard and adds OperatorDashboardSnapshot schema, local dashboard_config, source_refs requirements and CLI-valid fixture without implementing aggregator/API/UI yet."
+    "POST-H-015-A approves Local operator dashboard and adds OperatorDashboardSnapshot schema, local dashboard_config, source_refs requirements and CLI-valid fixture without implementing aggregator/API/UI yet.",
+    "POST-H-015-B adds OperatorDashboardAggregator read-only local signal aggregation, optional outputs/reports/operator_dashboard_snapshot JSON/Markdown writing and required-source blocking without ApplicationService/API/UI exposure yet."
   ],
-  "current_micro_sprint": "POST-H-015-A",
-  "next_micro_sprint": "POST-H-015-B"
+  "current_micro_sprint": "POST-H-015-B",
+  "next_micro_sprint": "POST-H-015-C"
 }

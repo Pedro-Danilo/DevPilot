@@ -99,7 +99,10 @@ def test_post_h_015_a_schema_cli_and_docs_are_synchronized(monkeypatch, capsys) 
 
     assert "SCHEMA-DEVPL-OPERATOR-DASHBOARD-SNAPSHOT-V1" in catalog
     assert 'status: "approved"' in backlog
-    assert 'current_micro_sprint: "POST-H-015-A"' in backlog
+    assert 'current_micro_sprint: "POST-H-015-B"' in backlog
+    assert 'next_micro_sprint: "POST-H-015-C"' in backlog
+    assert "POST-H-015-A — Dashboard snapshot schema y config" in backlog
+    assert "docs/post_h_015_a_manifest.json" in backlog
     assert "POST-H-015-A — Dashboard snapshot schema y config" in runbook
     assert "post-h-015-operator-dashboard-schema-config" in tcr_v1
     assert "post-h-015-operator-dashboard-schema-config" in tcr_v2

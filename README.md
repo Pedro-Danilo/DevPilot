@@ -1,3 +1,24 @@
+## POST-H-015-B — Aggregator read-only de señales operacionales
+
+Estado: `implemented-initial`. DevPilot agrega `OperatorDashboardAggregator`, un agregador local deterministico para construir el snapshot operacional del dashboard desde fuentes versionadas y evidencia runtime opcional. El agregador es read-only por defecto, no ejecuta shell, no usa red, no consume APIs externas y solo escribe `outputs/reports/operator_dashboard_snapshot.json` y `.md` cuando se invoca con `write_report=True`.
+
+Capacidades:
+
+```text
+- Agregacion local de project_state, roadmap, test contracts, quality gates, seguridad, observabilidad, agentes, aprobaciones, release y workspace.
+- Snapshot compatible con OperatorDashboardSnapshot.
+- Fuentes requeridas ausentes producen BLOCK explicito.
+- Fuentes runtime opcionales ausentes producen unknown/warn, no falso PASS.
+- Reporte JSON/Markdown generado bajo outputs/reports solo por solicitud explicita.
+```
+
+Limites: version `implemented-initial`; no expone todavia ApplicationService, API, CLI publico, UI operator dashboard ni quality gate final. POST-H-015-C debe integrar el aggregator al boundary ApplicationService/API sin bypass.
+
+Ultimo hito cerrado: `POST-H-014 — UI/API industrial shell`
+Hito activo: `POST-H-015 — Local operator dashboard`
+Ultimo micro-sprint implementado: `POST-H-015-B — Aggregator read-only de señales operacionales`
+Siguiente micro-sprint: `POST-H-015-C — ApplicationService/API integration`
+
 ## POST-H-015-A — Dashboard snapshot schema y config
 
 Estado: `implemented-initial`. POST-H-015 queda aprobado y comienza la construcción del Local operator dashboard con un contrato de snapshot y configuración local versionada. Esta primera versión no implementa todavía aggregator, API ni UI; fija la estructura obligatoria para que el dashboard futuro sea read-only, source-linked, local-first y no-go safe.

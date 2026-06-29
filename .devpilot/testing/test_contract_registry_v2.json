@@ -8078,6 +8078,82 @@
         "test-contracts",
         "project-state"
       ]
+    },
+    {
+      "contract_id": "post-h-015-operator-dashboard-aggregator",
+      "schema_version": "2.0",
+      "source_contract_id": "post-h-015-operator-dashboard-aggregator",
+      "domain": "operator.dashboard",
+      "capability": "OperatorDashboardAggregator",
+      "criticality": "P1",
+      "risk_level": "medium",
+      "test_type": "integration",
+      "execution_profile": "impact",
+      "cost_class": "low",
+      "expected_duration_seconds": 45,
+      "test_files": [
+        "tests/test_post_h_015_operator_dashboard_aggregator.py",
+        "tests/test_post_h_015_operator_dashboard_schema.py",
+        "tests/test_schema_registry.py",
+        "tests/test_project_global_state.py"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/portfolio/operator_dashboard.py",
+        ".devpilot/operator/",
+        "docs/backlogs/POST-H-015_local_operator_dashboard.md",
+        "docs/POST-H-015_local_operator_dashboard.md",
+        "docs/05_operations/local_operator_dashboard_runbook.md",
+        "tests/test_post_h_015_operator_dashboard_aggregator.py"
+      ],
+      "validates": [
+        "src/devpilot_core/portfolio/operator_dashboard.py",
+        "src/devpilot_core/portfolio/__init__.py",
+        ".devpilot/operator/dashboard_config.json",
+        "docs/schemas/operator_dashboard_snapshot.schema.json",
+        "docs/backlogs/POST-H-015_local_operator_dashboard.md",
+        "docs/POST-H-015_local_operator_dashboard.md",
+        "docs/05_operations/local_operator_dashboard_runbook.md",
+        "docs/post_h_015_b_manifest.json",
+        "docs/audits/post_h_015_b_operator_dashboard_aggregator_report.md"
+      ],
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace tests/test_post_h_015_operator_dashboard_aggregator.py tests/test_post_h_015_operator_dashboard_schema.py tests/test_schema_registry.py tests/test_project_global_state.py -q",
+        "python -m devpilot_core schema validate --schema-id OperatorDashboardSnapshot --instance outputs/reports/operator_dashboard_snapshot.json --json",
+        "python -m devpilot_core schema validate --schema-id PostHManifest --instance docs/post_h_015_b_manifest.json --json",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ],
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "required_for_release": false,
+      "required_for_hardening": true,
+      "required_for_impact": true,
+      "required_for_security_gate": false,
+      "requires_human_approval": false,
+      "owner": "POST-H-015-B",
+      "created_by": "POST-H-015-B",
+      "status": "implemented-initial",
+      "classification_status": "explicit",
+      "classification_notes": [
+        "POST-H-015-B validates local read-only operator dashboard aggregation, required-source blocking and optional runtime evidence handling.",
+        "The tests are local-only and do not require network, external APIs, browsers or remote execution."
+      ],
+      "trigger_hints": [
+        "operator-dashboard",
+        "dashboard-aggregator",
+        "operator-dashboard-snapshot",
+        "source-refs",
+        "post-h-015"
+      ],
+      "impact_scope": [
+        "operator.dashboard",
+        "portfolio",
+        "schemas",
+        "documentation.operations",
+        "test-contracts",
+        "project-state"
+      ]
     }
   ],
   "migration_metadata": {

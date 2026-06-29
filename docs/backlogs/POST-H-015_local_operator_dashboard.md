@@ -4,7 +4,7 @@ doc_id: "POST-H-015-BACKLOG"
 id: "POST-H-015"
 title: "POST-H-015 — Local operator dashboard"
 status: "approved"
-version: "0.2.0"
+version: "0.3.0"
 owner: "Ordóñez"
 updated: "2026-06-28"
 approval: "approved_for_implementation"
@@ -12,8 +12,8 @@ phase: "POST-FASE-H"
 priority: "P1"
 roadmap_source: "docs/backlogs/post_h_prioritized_roadmap.md"
 implementation_status: "implemented-initial"
-current_micro_sprint: "POST-H-015-A"
-next_micro_sprint: "POST-H-015-B"
+current_micro_sprint: "POST-H-015-B"
+next_micro_sprint: "POST-H-015-C"
 local_first: true
 dry_run: true
 no_remote_execution_enabled: true
@@ -251,6 +251,36 @@ Criterios PASS:
 PASS si el aggregator no muta archivos.
 PASS si no usa red ni APIs externas.
 PASS si reporta fuentes ausentes de forma explícita.
+```
+
+Estado de implementación: `implemented-initial`.
+
+Artefactos creados por POST-H-015-B:
+
+```text
+src/devpilot_core/portfolio/operator_dashboard.py
+tests/test_post_h_015_operator_dashboard_aggregator.py
+docs/audits/post_h_015_b_operator_dashboard_aggregator_report.md
+docs/post_h_015_b_manifest.json
+```
+
+Alcance real aplicado:
+
+```text
+- Implementa OperatorDashboardAggregator como componente local read-only.
+- Lee .devpilot/operator/dashboard_config.json y fuentes locales versionadas.
+- Agrega señales de maturity, quality_gates, test_contracts, roadmap, security, observability, agents, approvals, release y workspace.
+- Bloquea cuando falta una fuente requerida.
+- Tolera evidencia runtime opcional ausente como unknown/warn, no como falso PASS.
+- Escribe outputs/reports/operator_dashboard_snapshot.json y .md solo cuando write_report=True.
+- Mantiene network_used=false, external_api_used=false, mutations_performed=false y source_mutations_performed=false.
+```
+
+Limitación explícita:
+
+```text
+POST-H-015-B es una primera versión de agregación operacional. No expone ApplicationService, API, CLI público, UI ni quality gate final.
+POST-H-015-C debe integrar el aggregator al boundary ApplicationService/API sin bypass.
 ```
 
 ### POST-H-015-C — ApplicationService/API integration

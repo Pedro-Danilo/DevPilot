@@ -1,0 +1,97 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "SCHEMA-DEVPL-POST-H-MANIFEST-V1",
+  "post_h_id": "POST-H-015",
+  "id": "POST-H-015-B",
+  "title": "POST-H-015-B — Aggregator read-only de señales operacionales",
+  "status": "implemented-initial",
+  "phase": "POST-FASE-H",
+  "implemented_at": "2026-06-28",
+  "created_files": [
+    "src/devpilot_core/portfolio/operator_dashboard.py",
+    "tests/test_post_h_015_operator_dashboard_aggregator.py",
+    "docs/audits/post_h_015_b_operator_dashboard_aggregator_report.md",
+    "docs/post_h_015_b_manifest.json"
+  ],
+  "modified_files": [
+    "src/devpilot_core/portfolio/__init__.py",
+    "docs/post_h_015_a_manifest.json",
+    "docs/backlogs/POST-H-015_local_operator_dashboard.md",
+    "docs/POST-H-015_local_operator_dashboard.md",
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/05_operations/local_operator_dashboard_runbook.md",
+    "docs/release/CHANGELOG.md",
+    ".devpilot/project_state.json",
+    ".devpilot/docs_governance/source_registry.json",
+    ".devpilot/testing/test_contract_registry.json",
+    ".devpilot/testing/test_contract_registry_v2.json",
+    "tests/test_project_global_state.py"
+  ],
+  "validation_commands": [
+    "python -m pytest -p no:ddtrace tests/test_post_h_015_operator_dashboard_aggregator.py tests/test_post_h_015_operator_dashboard_schema.py tests/test_schema_registry.py tests/test_project_global_state.py -q",
+    "python -m devpilot_core schema validate --schema-id OperatorDashboardSnapshot --instance outputs/reports/operator_dashboard_snapshot.json --json",
+    "python -m devpilot_core schema validate --schema-id PostHManifest --instance docs/post_h_015_b_manifest.json --json",
+    "python -m devpilot_core docs-governance validate --json",
+    "python -m devpilot_core test-contracts validate --json",
+    "python -m devpilot_core test-contracts validate-v2 --json"
+  ],
+  "capabilities": [
+    "OperatorDashboardAggregator read-only local signal aggregation",
+    "Required-source blocking for operator dashboard snapshots",
+    "Optional runtime evidence represented as unknown/warn",
+    "Optional JSON/Markdown runtime report generation under outputs/reports"
+  ],
+  "safety": {
+    "local_first": true,
+    "dry_run": true,
+    "read_only": true,
+    "network_used": false,
+    "external_api_used": false,
+    "remote_execution_enabled": false,
+    "connector_write_enabled": false,
+    "plugin_execution_enabled": false,
+    "source_mutations_performed_by_aggregator": false
+  },
+  "limitations": [
+    "implemented-initial; exposes the aggregator module only",
+    "Does not expose a public CLI command yet",
+    "Does not expose ApplicationService/API routes yet",
+    "Does not implement the Web UI dashboard yet",
+    "Does not integrate the operator-dashboard-ready quality gate yet",
+    "Runtime outputs are generated locally and are not included in clean delivery ZIPs"
+  ],
+  "next_micro_sprint": "POST-H-015-C",
+  "commands": [
+    "python -c \"from pathlib import Path; from devpilot_core.portfolio import OperatorDashboardAggregator, OperatorDashboardAggregatorOptions; r=OperatorDashboardAggregator(Path('.'), OperatorDashboardAggregatorOptions(write_report=True)).build(); print(r.to_dict())\"",
+    "python -m devpilot_core schema validate --schema-id OperatorDashboardSnapshot --instance outputs/reports/operator_dashboard_snapshot.json --json",
+    "python -m pytest -p no:ddtrace tests/test_post_h_015_operator_dashboard_aggregator.py -q"
+  ],
+  "tests": [
+    "tests/test_post_h_015_operator_dashboard_aggregator.py",
+    "tests/test_post_h_015_operator_dashboard_schema.py",
+    "tests/test_schema_registry.py",
+    "tests/test_project_global_state.py"
+  ],
+  "pass_criteria": [
+    "Aggregator builds a schema-compatible snapshot from local sources",
+    "Required missing sources block the result",
+    "Optional runtime outputs do not create false PASS",
+    "write_report=True writes only under outputs/reports",
+    "No network, external APIs or source mutations are used"
+  ],
+  "block_criteria": [
+    "Aggregator executes shell commands or uses network",
+    "Aggregator mutates source-controlled files",
+    "Missing required source is reported as PASS",
+    "Snapshot fails OperatorDashboardSnapshot validation",
+    "TCR/docs governance/project state are not synchronized"
+  ],
+  "risks": [
+    "The dashboard remains non-UI until POST-H-015-D",
+    "Public CLI/API exposure remains future scope until POST-H-015-C",
+    "Runtime evidence under outputs/reports must be regenerated in each local environment"
+  ],
+  "next_sprint": "POST-H-015",
+  "preliminary": true
+}

@@ -88,6 +88,6 @@
     "The dashboard remains contractual until POST-H-015-B implements aggregation",
     "Runtime outputs are intentionally absent from clean ZIPs"
   ],
-  "next_sprint": "POST-H-015-B",
+  "next_sprint": "POST-H-015",
   "preliminary": true
 }

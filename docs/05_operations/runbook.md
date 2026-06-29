@@ -2,17 +2,46 @@
 title: "Runbook — DevPilot Local"
 doc_id: "DEVPL-OPS-002"
 status: "approved"
-version: "1.51.0"
+version: "1.52.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "POST-H-015-A"
+phase: "POST-H-015-B"
 updated: "2026-06-28"
 approval: "approved_by_owner"
 source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved + 03_security approved"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "SPRINT-PRECODE-05 quality operations baseline"
 ---
+
+## POST-H-015-B — Aggregator read-only de señales operacionales
+
+Proposito operativo: construir un snapshot local del dashboard de operador desde fuentes versionadas y evidencia runtime opcional, sin ejecutar shell, sin red, sin APIs externas y sin mutaciones de fuente.
+
+Comandos principales:
+
+```powershell
+$env:PYTHONPATH="src"
+python -m pytest -p no:ddtrace tests/test_post_h_015_operator_dashboard_aggregator.py tests/test_post_h_015_operator_dashboard_schema.py -q
+python -c "from pathlib import Path; from devpilot_core.portfolio import OperatorDashboardAggregator, OperatorDashboardAggregatorOptions; r=OperatorDashboardAggregator(Path('.'), OperatorDashboardAggregatorOptions(write_report=True)).build(); print(r.to_dict())"
+python -m devpilot_core schema validate --schema-id OperatorDashboardSnapshot --instance outputs/reports/operator_dashboard_snapshot.json --json
+python -m devpilot_core schema validate --schema-id PostHManifest --instance docs/post_h_015_b_manifest.json --json
+python -m devpilot_core docs-governance validate --json
+python -m devpilot_core test-contracts validate --json
+python -m devpilot_core test-contracts validate-v2 --json
+```
+
+Criterios PASS:
+
+```text
+- OperatorDashboardAggregator consolida secciones desde fuentes locales.
+- Las fuentes requeridas ausentes producen BLOCK.
+- Las fuentes runtime opcionales ausentes producen unknown/warn sin falso PASS.
+- write_report=True escribe solo outputs/reports/operator_dashboard_snapshot.json y .md.
+- No hay remote execution, connector write, plugin execution, red ni external APIs.
+```
+
+Limites: `implemented-initial`; POST-H-015-B no expone todavia CLI publico, ApplicationService, API, UI ni quality gate final. Es la capa de agregacion read-only que POST-H-015-C/D/E deben consumir.
 
 ## POST-H-015-A — Dashboard snapshot schema y config
 
@@ -102,7 +131,7 @@ Límites: versión `implemented-initial`; no sustituye auth enterprise/OIDC, no 
 
 # Runbook — DevPilot Local
 
-Último hito cerrado: `POST-H-014 — UI/API industrial shell`; hito activo: `POST-H-015 — Local operator dashboard`; último micro-sprint implementado: `POST-H-015-A — Dashboard snapshot schema y config`; siguiente micro-sprint: `POST-H-015-B — Aggregator read-only de señales operacionales`.
+Último hito cerrado: `POST-H-014 — UI/API industrial shell`; hito activo: `POST-H-015 — Local operator dashboard`; último micro-sprint implementado: `POST-H-015-B — Aggregator read-only de señales operacionales`; siguiente micro-sprint: `POST-H-015-C — ApplicationService/API integration`.
 
 ## POST-H-014-C — UI Route Contract y shell de producto
 
