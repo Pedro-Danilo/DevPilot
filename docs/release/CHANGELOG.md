@@ -1,3 +1,22 @@
+## post-h-016-a — Registry v2 y migración compatible
+
+Estado de proyecto: `last_completed_sprint=POST-H-015`; `next_sprint=POST-H-016`; `current_micro_sprint=POST-H-016-A`; `next_micro_sprint=POST-H-016-B`.
+
+- Approved `POST-H-016 — Workspace portfolio hardening`.
+- Added `MultiworkspaceRegistryV2` read-only migration from the current v1 registry.
+- Added `docs/schemas/multiworkspace_registry_v2.schema.json`.
+- Added `python -m devpilot_core workspace registry-validate --registry-version v2 --json`.
+- Registered POST-H-016-A in schema catalog, TCR v1/v2, docs governance, README, runbooks and manifest.
+
+Safety:
+
+```text
+- v1 registry remains source-compatible.
+- v2 migration is in-memory and read-only by default.
+- cross_workspace_writes=false and secret_sharing_allowed=false are enforced.
+- No remote execution, connector write, plugin execution, network or external APIs enabled.
+```
+
 ## post-h-015-e — Quality gate y runbook operacional
 
 Estado de proyecto: `last_completed_sprint=POST-H-015`; `next_sprint=POST-H-016`; `current_micro_sprint=POST-H-015-E`; `next_micro_sprint=POST-H-016-A`.

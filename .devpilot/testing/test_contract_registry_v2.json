@@ -8371,6 +8371,69 @@
       "classification_notes": [
         "POST-H-015-E quality gate for local operator dashboard readiness."
       ]
+    },
+    {
+      "contract_id": "post-h-016-workspace-registry-v2",
+      "schema_version": "2.0",
+      "source_contract_id": "post-h-016-workspace-registry-v2",
+      "domain": "operations.workspace",
+      "capability": "MultiworkspaceRegistryV2",
+      "criticality": "P1",
+      "risk_level": "high",
+      "test_type": "contract",
+      "execution_profile": "impact",
+      "cost_class": "low",
+      "expected_duration_seconds": 45,
+      "test_files": [
+        "tests/test_post_h_016_workspace_registry_v2.py",
+        "tests/test_multiworkspace.py",
+        "tests/test_schema_registry.py",
+        "tests/test_project_global_state.py"
+      ],
+      "watched_paths": [
+        ".devpilot/workspaces/workspace_registry.json",
+        "src/devpilot_core/workspace/registry_v2.py",
+        "src/devpilot_core/cli.py",
+        "docs/schemas/multiworkspace_registry_v2.schema.json",
+        "tests/test_post_h_016_workspace_registry_v2.py",
+        "tests/fixtures/multiworkspace_registry_v2.valid.json"
+      ],
+      "validates": [
+        "src/devpilot_core/workspace/registry_v2.py",
+        "src/devpilot_core/workspace/registry.py",
+        "src/devpilot_core/cli.py",
+        "docs/schemas/multiworkspace_registry_v2.schema.json",
+        "docs/post_h_016_a_manifest.json",
+        "tests/fixtures/multiworkspace_registry_v2.valid.json"
+      ],
+      "trigger_hints": [
+        "workspace",
+        "registry-v2",
+        "post-h-016-a",
+        "multiworkspace"
+      ],
+      "impact_scope": [
+        "workspace-registry",
+        "portfolio-hardening",
+        "schema-governance"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "POST-H-016-A",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace tests/test_post_h_016_workspace_registry_v2.py tests/test_multiworkspace.py tests/test_schema_registry.py tests/test_project_global_state.py -q",
+        "python -m devpilot_core workspace registry-validate --registry-version v2 --json",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ],
+      "classification_status": "explicit",
+      "classification_notes": [
+        "POST-H-016-A validates read-only Workspace Registry v2 migration while preserving v1 compatibility."
+      ]
     }
   ],
   "migration_metadata": {
@@ -8381,6 +8444,6 @@
     "network_used": false,
     "external_api_used": false,
     "mutations_performed_by_default": false,
-    "contracts_total": 116
+    "contracts_total": 141
   }
 }

@@ -1024,7 +1024,7 @@
       "classification": "derived",
       "domain": "roadmap-derived-backlog",
       "owner": "Ordóñez",
-      "status_required": "draft",
+      "status_required": "approved",
       "criticality": "P2",
       "machine_readable_counterparts": [
         ".devpilot/evals/post_h_eval_001_prioritized_roadmap.json"
@@ -1034,7 +1034,9 @@
       ],
       "derived_documents": [],
       "required_tests": [
-        "tests/test_documentation_governance_backlogs.py"
+        "tests/test_documentation_governance_backlogs.py",
+        "tests/test_post_h_016_workspace_registry_v2.py",
+        "tests/test_documentation_governance_validator.py"
       ],
       "sync_rules": [
         "backlog_naming",
@@ -1045,10 +1047,11 @@
       "roadmap_milestones": [
         "POST-H-016"
       ],
-      "lifecycle": "planned",
+      "lifecycle": "active",
       "notes": [
         "Roadmap-derived executable backlog governed by POST-H-009-D.",
-        "Missing future backlog files are informational planned items; existing files must pass naming and frontmatter checks."
+        "Missing future backlog files are informational planned items; existing files must pass naming and frontmatter checks.",
+        "POST-H-016 approved for implementation by POST-H-016-A; backlog remains local-first and implemented-initial."
       ]
     },
     {
@@ -1378,6 +1381,41 @@
         "Operational runbook for POST-H-010 local observability retention maintenance commands and PASS/BLOCK criteria.",
         "Registered when POST-H-010-E integrates observability-retention into quality-gate hardening."
       ]
+    },
+    {
+      "doc_id": "POST-H-016",
+      "path": "docs/POST-H-016_workspace_portfolio_hardening.md",
+      "classification": "source-of-truth",
+      "domain": "roadmap-derived-backlog",
+      "owner": "Ordóñez",
+      "status_required": "approved",
+      "criticality": "P2",
+      "machine_readable_counterparts": [
+        ".devpilot/evals/post_h_eval_001_prioritized_roadmap.json"
+      ],
+      "human_readable_counterparts": [
+        "docs/backlogs/POST-H-016_workspace_portfolio_hardening.md",
+        "docs/backlogs/post_h_prioritized_roadmap.md"
+      ],
+      "derived_documents": [
+        "docs/audits/post_h_016_a_workspace_registry_v2_report.md",
+        "docs/post_h_016_a_manifest.json"
+      ],
+      "required_tests": [
+        "tests/test_post_h_016_workspace_registry_v2.py",
+        "tests/test_documentation_governance_validator.py"
+      ],
+      "sync_rules": [
+        "frontmatter_status_ownership"
+      ],
+      "related_adrs": [],
+      "roadmap_milestones": [
+        "POST-H-016"
+      ],
+      "lifecycle": "active",
+      "notes": [
+        "Canonical approved POST-H-016 hito document created for Workspace portfolio hardening."
+      ]
     }
   ],
   "rules": {
@@ -1404,20 +1442,20 @@
     "approved_backlogs_require_observability_retention_hygiene_gate": true
   },
   "summary": {
-    "documents_total": 39,
-    "source_of_truth_total": 9,
+    "documents_total": 40,
+    "source_of_truth_total": 11,
     "machine_readable_source_total": 5,
     "derived_total": 24,
     "generated_runtime_total": 0,
     "historical_total": 0,
     "deprecated_total": 0,
-    "critical_sources_total": 30,
+    "critical_sources_total": 37,
     "markdown_json_pairs_total": 26,
-    "documents_with_required_tests_total": 38,
+    "documents_with_required_tests_total": 40,
     "network_used": false,
     "external_api_used": false,
     "mutations_performed": false,
-    "last_updated_by": "POST-H-015-E",
+    "last_updated_by": "POST-H-016-A",
     "markdown_json_sync_checks_enabled": true,
     "sync_checks_scope": "version_match, milestones_match, decisions_match, closure_status_match, next_hito_match",
     "backlog_governance_enabled": true,
@@ -1456,13 +1494,13 @@
     "post_h_011_rag_groundedness_ready_gate_bound": true,
     "post_h_011_closed": true,
     "machine_readable_total": 5,
-    "required_tests_total": 86,
+    "required_tests_total": 90,
     "active_backlog": "POST-H-016",
-    "active_micro_sprint": "POST-H-015-E",
+    "active_micro_sprint": "POST-H-016-A",
     "sensitive_action_catalog_enabled": true,
     "sensitive_action_catalog_path": ".devpilot/approval/sensitive_action_catalog.json",
     "sensitive_action_catalog_schema": "docs/schemas/sensitive_action_catalog.schema.json",
-    "required_tests_checked_total": 86,
+    "required_tests_checked_total": 90,
     "post_h_012_policy_engine_enforcement_enabled": true,
     "post_h_012_current_micro_sprint": "POST-H-012-D",
     "ui_api_shell_report_schema_registered": true,
@@ -1487,7 +1525,14 @@
     "operator_dashboard_cli_command": "python -m devpilot_core operator dashboard --json --write-report",
     "post_h_015_closed": true,
     "last_completed_sprint": "POST-H-015",
-    "next_sprint": "POST-H-016"
+    "next_sprint": "POST-H-016",
+    "post_h_016_approved": true,
+    "post_h_016_current_micro_sprint": "POST-H-016-A",
+    "post_h_016_next_micro_sprint": "POST-H-016-B",
+    "multiworkspace_registry_v2_schema_registered": true,
+    "multiworkspace_registry_v2_schema_path": "docs/schemas/multiworkspace_registry_v2.schema.json",
+    "workspace_registry_v2_migration_module": "src/devpilot_core/workspace/registry_v2.py",
+    "workspace_registry_v2_cli_command": "python -m devpilot_core workspace registry-validate --registry-version v2 --json"
   },
   "safety": {
     "local_first": true,

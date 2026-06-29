@@ -3,11 +3,11 @@
 doc_id: "POST-H-016-BACKLOG"
 id: "POST-H-016"
 title: "POST-H-016 — Workspace portfolio hardening"
-status: "draft"
-version: "0.1.0"
+status: "approved"
+version: "0.2.0"
 owner: "Ordóñez"
-updated: "2026-06-23"
-approval: "pending_owner_review"
+updated: "2026-06-29"
+approval: "approved_by_owner"
 phase: "POST-FASE-H"
 priority: "P2"
 roadmap_source: "docs/backlogs/post_h_prioritized_roadmap.md"
@@ -17,6 +17,9 @@ no_remote_execution_enabled: true
 no_external_apis_used: true
 no_connector_write_enabled: true
 no_plugin_execution_enabled: true
+implementation_status: "in_progress"
+current_micro_sprint: "POST-H-016-A"
+next_micro_sprint: "POST-H-016-B"
 ---
 
 # POST-H-016 — Workspace portfolio hardening

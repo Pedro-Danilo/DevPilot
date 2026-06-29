@@ -277,6 +277,20 @@
       "validation_enabled_sprint": "FUNC-SPRINT-94"
     },
     {
+      "schema_id": "SCHEMA-DEVPL-MULTIWORKSPACE-REGISTRY-V2",
+      "title": "DevPilot Multiworkspace Registry v2",
+      "version": "1.0.0",
+      "path": "docs/schemas/multiworkspace_registry_v2.schema.json",
+      "description": "POST-H-016-A contract for read-only v1 to v2 Workspace Registry migration and deny-by-default portfolio hardening.",
+      "status": "registered",
+      "contract": "MultiworkspaceRegistryV2",
+      "owner": "Ordóñez",
+      "sprint": "POST-H-016-A",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "POST-H-016-A"
+    },
+    {
       "schema_id": "SCHEMA-DEVPL-IDENTITY-REGISTRY-V1",
       "title": "DevPilot Identity Registry v1",
       "version": "1.0.0",

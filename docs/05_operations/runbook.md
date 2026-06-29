@@ -2,17 +2,39 @@
 title: "Runbook — DevPilot Local"
 doc_id: "DEVPL-OPS-002"
 status: "approved"
-version: "1.55.0"
+version: "1.56.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "POST-H-015-E"
+phase: "POST-H-016-A"
 updated: "2026-06-29"
 approval: "approved_by_owner"
 source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved + 03_security approved"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "SPRINT-PRECODE-05 quality operations baseline"
 ---
+
+## POST-H-016-A — Registry v2 y migración compatible
+
+Estado: `implemented-initial`. DevPilot inicia `POST-H-016 — Workspace portfolio hardening` con `MultiworkspaceRegistryV2`, un contrato local read-only para interpretar el registry v1 vigente como v2 sin mutar `.devpilot/workspaces/workspace_registry.json`.
+
+Validación v1:
+
+```powershell
+$env:PYTHONPATH="src"
+python -m devpilot_core workspace registry-validate --json
+```
+
+Validación v2:
+
+```powershell
+$env:PYTHONPATH="src"
+python -m devpilot_core workspace registry-validate --registry-version v2 --json
+```
+
+PASS si la salida v2 reporta `v1_registry_valid=true`, `v2_schema_valid=true`, `migration_mode=read-only`, `cross_workspace_writes=false`, `secret_sharing_allowed=false` y `mutations_performed=false`.
+
+Límites: esta versión no implementa todavía isolation report, hardening de `portfolio status`, API integration ni quality gate final `workspace-portfolio-hardening`. POST-H-016-B/C/D/E completan esas capas.
 
 ## POST-H-015-E — Quality gate y runbook operacional
 

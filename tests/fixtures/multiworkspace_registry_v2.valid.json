@@ -1,0 +1,59 @@
+{
+  "schema_version": "2.0",
+  "schema_id": "SCHEMA-DEVPL-MULTIWORKSPACE-REGISTRY-V2",
+  "created_by": "POST-H-016-A",
+  "updated_at": "2026-06-19T13:12:25Z",
+  "active_workspace_id": "devpilot-local",
+  "defaults": {
+    "deny_unregistered_workspaces": true,
+    "cross_workspace_state_reads": false,
+    "cross_workspace_writes": false,
+    "secret_sharing_allowed": false,
+    "portfolio_status_read_only": true
+  },
+  "security": {
+    "network_used": false,
+    "external_api_used": false,
+    "shell_used": false,
+    "remote_execution_used": false,
+    "connector_write_used": false,
+    "plugin_execution_used": false,
+    "mutations_performed": false,
+    "source_mutations_performed": false,
+    "secrets_read": false
+  },
+  "migration": {
+    "source_registry_path": ".devpilot/workspaces/workspace_registry.json",
+    "source_schema_version": "1.0",
+    "target_schema_version": "2.0",
+    "mode": "read-only",
+    "source_registry_preserved": true,
+    "compatible_with_v1": true,
+    "mutations_performed": false
+  },
+  "workspaces": [
+    {
+      "workspace_id": "devpilot-local",
+      "project_id": "devpilot-local",
+      "name": "DevPilot Local",
+      "root_path": ".",
+      "path_mode": "relative-to-registry-root",
+      "project_file": ".devpilot/project.yaml",
+      "state_path": ".devpilot/devpilot.db",
+      "reports_path": "outputs/reports",
+      "traces_path": "outputs/traces",
+      "secrets_path": ".devpilot/providers.yaml",
+      "status": "active",
+      "risk_level": "medium_high",
+      "default_effect": "deny",
+      "secret_policy": "reference-only",
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "observability_required": true,
+      "eval_required": true,
+      "registered_at_utc": "2026-06-19T00:00:00Z",
+      "last_validated_at_utc": null,
+      "source_registry_version": "1.0"
+    }
+  ]
+}

@@ -1,3 +1,22 @@
+## POST-H-016-A — Registry v2 y migración compatible
+
+Estado: `implemented-initial`. POST-H-016 queda aprobado como hito `Workspace portfolio hardening` y DevPilot agrega `MultiworkspaceRegistryV2`, una migración read-only v1→v2 para validar el Workspace Registry vigente sin mutar `.devpilot/workspaces/workspace_registry.json`.
+
+Capacidades:
+
+- Schema `MultiworkspaceRegistryV2`: `docs/schemas/multiworkspace_registry_v2.schema.json`.
+- Migración local en memoria desde el registry v1 actual.
+- CLI: `python -m devpilot_core workspace registry-validate --registry-version v2 --json`.
+- Defaults endurecidos: `deny_unregistered_workspaces=true`, `cross_workspace_writes=false`, `secret_sharing_allowed=false`, `portfolio_status_read_only=true`.
+- No-go gates explícitos: sin red, sin APIs externas, sin remote execution, sin connector write, sin plugin execution y sin mutaciones por defecto.
+
+Límites: versión `implemented-initial`; no implementa todavía isolation report, hardening completo de portfolio status, API integration ni quality gate `workspace-portfolio-hardening`. Estas capacidades quedan para POST-H-016-B/C/D/E.
+
+Hito activo: `POST-H-016 — Workspace portfolio hardening`
+Último hito cerrado: `POST-H-015 — Local operator dashboard`
+Último micro-sprint implementado: `POST-H-016-A — Registry v2 y migración compatible`
+Siguiente micro-sprint: `POST-H-016-B`
+
 ## POST-H-015-E — Quality gate y runbook operacional
 
 Estado: `implemented-initial / hito cerrado`. DevPilot cierra `POST-H-015 — Local operator dashboard` con el subgate `operator-dashboard-ready`, el comando CLI `operator dashboard` y el runbook operacional final del dashboard local.

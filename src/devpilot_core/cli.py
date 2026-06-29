@@ -121,7 +121,16 @@ from .store import LocalStore
 from .traceability import MarkdownTraceabilityExtractor, TraceabilityEngine
 from .testing import TestContractRegistry, TestContractRegistryV2MigrationOptions, TestContractRegistryV2Migrator, TestContractRegistryV2ValidationOptions, TestContractRegistryV2Validator, TestImpactAnalyzer, TestImpactAnalyzerV2, TestImpactOptions, TestImpactV2Options, TestsRunTool
 from .validation import ValidationGateway
-from .workspace import MultiworkspaceRegistry, WorkspaceRegisterOptions, WorkspaceRegistryOptions, WorkspaceSelectOptions, WorkspaceManager
+from .workspace import (
+    DEFAULT_WORKSPACE_REGISTRY_V2_SCHEMA,
+    MultiworkspaceRegistry,
+    MultiworkspaceRegistryV2,
+    WorkspaceManager,
+    WorkspaceRegisterOptions,
+    WorkspaceRegistryOptions,
+    WorkspaceRegistryV2Options,
+    WorkspaceSelectOptions,
+)
 from .validators.artifact import validate_artifact_file
 from .validators.checklist import validate_precode_checklist
 from .validators.frontmatter import validate_frontmatter_file
@@ -2672,20 +2681,33 @@ def workspace_registry_validate_command(
     *,
     registry_path: str = ".devpilot/workspaces/workspace_registry.json",
     schema_path: str = "docs/schemas/multiworkspace_registry.schema.json",
+    registry_version: str = "v1",
     json_output: bool = False,
     write_report: bool = False,
 ) -> int:
-    """Validate the FUNC-SPRINT-94 Multiworkspace Registry contract."""
+    """Validate the local Multiworkspace Registry contract."""
 
     root = project_root()
-    result = MultiworkspaceRegistry(root, options=WorkspaceRegistryOptions(registry_path=registry_path, schema_path=schema_path)).validate()
+    normalized_version = registry_version.strip().lower()
+    if normalized_version == "v2":
+        effective_schema_path = DEFAULT_WORKSPACE_REGISTRY_V2_SCHEMA if schema_path == "docs/schemas/multiworkspace_registry.schema.json" else schema_path
+        result = MultiworkspaceRegistryV2(
+            root,
+            options=WorkspaceRegistryV2Options(registry_path=registry_path, schema_path=effective_schema_path),
+        ).validate()
+        component = "MultiworkspaceRegistryV2"
+        sprint = "POST-H-016-A"
+    else:
+        result = MultiworkspaceRegistry(root, options=WorkspaceRegistryOptions(registry_path=registry_path, schema_path=schema_path)).validate()
+        component = "MultiworkspaceRegistry"
+        sprint = "FUNC-SPRINT-94"
     result = _write_optional_command_report(
         root,
         result,
         subject=registry_path,
         report_id="workspace_registry_validate",
         write_report=write_report,
-        metadata={"sprint": "FUNC-SPRINT-94", "component": "MultiworkspaceRegistry"},
+        metadata={"sprint": sprint, "component": component, "registry_version": normalized_version},
     )
     _emit_result_event(root, result, subject=registry_path)
     _persist_result(root, result, subject=registry_path)
@@ -4776,6 +4798,7 @@ def build_parser() -> argparse.ArgumentParser:
     workspace_registry = workspace_sub.add_parser("registry-validate", help="Validate Multiworkspace Registry schema and isolation rules")
     workspace_registry.add_argument("--registry-path", default=".devpilot/workspaces/workspace_registry.json", help="Multiworkspace Registry JSON path")
     workspace_registry.add_argument("--schema-path", default="docs/schemas/multiworkspace_registry.schema.json", help="Multiworkspace Registry JSON Schema path")
+    workspace_registry.add_argument("--registry-version", choices=["v1", "v2"], default="v1", help="Registry contract version to validate; v2 migrates the v1 registry in memory")
     workspace_registry.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     workspace_registry.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
 
@@ -5925,6 +5948,7 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
             return workspace_registry_validate_command(
                 registry_path=args.registry_path,
                 schema_path=args.schema_path,
+                registry_version=args.registry_version,
                 json_output=args.json,
                 write_report=args.write_report,
             )

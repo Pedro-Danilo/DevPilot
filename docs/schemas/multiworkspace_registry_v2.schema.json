@@ -1,0 +1,152 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/SCHEMA-DEVPL-MULTIWORKSPACE-REGISTRY-V2",
+  "title": "DevPilot Multiworkspace Registry v2",
+  "description": "POST-H-016-A structural contract for the read-only v1 to v2 Workspace Registry migration used by workspace portfolio hardening.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "schema_id",
+    "created_by",
+    "updated_at",
+    "active_workspace_id",
+    "defaults",
+    "security",
+    "migration",
+    "workspaces"
+  ],
+  "properties": {
+    "schema_version": {"const": "2.0"},
+    "schema_id": {"const": "SCHEMA-DEVPL-MULTIWORKSPACE-REGISTRY-V2"},
+    "created_by": {"const": "POST-H-016-A"},
+    "updated_at": {"type": "string", "minLength": 1},
+    "active_workspace_id": {"type": ["string", "null"]},
+    "defaults": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "deny_unregistered_workspaces",
+        "cross_workspace_state_reads",
+        "cross_workspace_writes",
+        "secret_sharing_allowed",
+        "portfolio_status_read_only"
+      ],
+      "properties": {
+        "deny_unregistered_workspaces": {"const": true},
+        "cross_workspace_state_reads": {"const": false},
+        "cross_workspace_writes": {"const": false},
+        "secret_sharing_allowed": {"const": false},
+        "portfolio_status_read_only": {"const": true}
+      }
+    },
+    "security": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "network_used",
+        "external_api_used",
+        "shell_used",
+        "remote_execution_used",
+        "connector_write_used",
+        "plugin_execution_used",
+        "mutations_performed",
+        "source_mutations_performed",
+        "secrets_read"
+      ],
+      "properties": {
+        "network_used": {"const": false},
+        "external_api_used": {"const": false},
+        "shell_used": {"const": false},
+        "remote_execution_used": {"const": false},
+        "connector_write_used": {"const": false},
+        "plugin_execution_used": {"const": false},
+        "mutations_performed": {"const": false},
+        "source_mutations_performed": {"const": false},
+        "secrets_read": {"const": false}
+      }
+    },
+    "migration": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_registry_path",
+        "source_schema_version",
+        "target_schema_version",
+        "mode",
+        "source_registry_preserved",
+        "compatible_with_v1",
+        "mutations_performed"
+      ],
+      "properties": {
+        "source_registry_path": {"const": ".devpilot/workspaces/workspace_registry.json"},
+        "source_schema_version": {"const": "1.0"},
+        "target_schema_version": {"const": "2.0"},
+        "mode": {"const": "read-only"},
+        "source_registry_preserved": {"const": true},
+        "compatible_with_v1": {"const": true},
+        "mutations_performed": {"const": false}
+      }
+    },
+    "workspaces": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "workspace_id",
+          "project_id",
+          "name",
+          "root_path",
+          "path_mode",
+          "project_file",
+          "state_path",
+          "reports_path",
+          "traces_path",
+          "secrets_path",
+          "status",
+          "risk_level",
+          "default_effect",
+          "secret_policy",
+          "network_allowed",
+          "external_api_allowed",
+          "observability_required",
+          "eval_required",
+          "registered_at_utc",
+          "last_validated_at_utc",
+          "source_registry_version"
+        ],
+        "properties": {
+          "workspace_id": {"type": "string", "minLength": 1, "pattern": "^[a-zA-Z0-9_.-]+$"},
+          "project_id": {"type": "string", "minLength": 1},
+          "name": {"type": "string", "minLength": 1},
+          "root_path": {"type": "string", "minLength": 1},
+          "path_mode": {"const": "relative-to-registry-root"},
+          "project_file": {"const": ".devpilot/project.yaml"},
+          "state_path": {"const": ".devpilot/devpilot.db"},
+          "reports_path": {"type": "string", "minLength": 1},
+          "traces_path": {"type": "string", "minLength": 1},
+          "secrets_path": {"type": "string", "minLength": 1},
+          "status": {"type": "string", "enum": ["active", "registered", "disabled", "archived"]},
+          "risk_level": {"type": "string", "enum": ["low", "medium", "medium_high", "high"]},
+          "default_effect": {"const": "deny"},
+          "secret_policy": {"const": "reference-only"},
+          "network_allowed": {"const": false},
+          "external_api_allowed": {"const": false},
+          "observability_required": {"const": true},
+          "eval_required": {"const": true},
+          "registered_at_utc": {"type": "string", "minLength": 1},
+          "last_validated_at_utc": {"type": ["string", "null"]},
+          "source_registry_version": {"const": "1.0"}
+        }
+      }
+    }
+  },
+  "x-devpilot-schema-id": "SCHEMA-DEVPL-MULTIWORKSPACE-REGISTRY-V2",
+  "x-devpilot-version": "1.0.0",
+  "x-devpilot-sprint": "POST-H-016-A",
+  "x-devpilot-status": "registered",
+  "x-devpilot-preliminary": true,
+  "x-devpilot-note": "POST-H-016-A keeps the v1 registry as source-compatible and validates a deterministic v2 view in memory; source writes are not performed by default."
+}

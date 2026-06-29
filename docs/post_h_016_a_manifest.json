@@ -1,0 +1,87 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "SCHEMA-DEVPL-POST-H-MANIFEST-V1",
+  "post_h_id": "POST-H-016",
+  "id": "POST-H-016-A",
+  "title": "POST-H-016-A — Registry v2 y migración compatible",
+  "status": "implemented-initial",
+  "phase": "POST-H-016-A",
+  "implemented_at": "2026-06-29",
+  "created_files": [
+    "src/devpilot_core/workspace/registry_v2.py",
+    "docs/schemas/multiworkspace_registry_v2.schema.json",
+    "docs/POST-H-016_workspace_portfolio_hardening.md",
+    "docs/05_operations/workspace_portfolio_runbook.md",
+    "docs/audits/post_h_016_a_workspace_registry_v2_report.md",
+    "docs/post_h_016_a_manifest.json",
+    "tests/fixtures/multiworkspace_registry_v2.valid.json",
+    "tests/test_post_h_016_workspace_registry_v2.py"
+  ],
+  "modified_files": [
+    "src/devpilot_core/workspace/__init__.py",
+    "src/devpilot_core/cli.py",
+    "docs/backlogs/POST-H-016_workspace_portfolio_hardening.md",
+    "docs/schemas/schema_catalog.json",
+    ".devpilot/docs_governance/source_registry.json",
+    ".devpilot/project_state.json",
+    ".devpilot/testing/test_contract_registry.json",
+    ".devpilot/testing/test_contract_registry_v2.json",
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/release/CHANGELOG.md",
+    "tests/test_schema_registry.py",
+    "tests/test_project_global_state.py",
+    "tests/test_documentation_governance_validator.py"
+  ],
+  "commands": [
+    "python -m pytest -p no:ddtrace tests/test_post_h_016_workspace_registry_v2.py tests/test_multiworkspace.py tests/test_schema_registry.py tests/test_project_global_state.py tests/test_documentation_governance_validator.py -q",
+    "python -m devpilot_core workspace registry-validate --registry-version v2 --json",
+    "python -m devpilot_core schema validate --schema-id MultiworkspaceRegistryV2 --instance tests/fixtures/multiworkspace_registry_v2.valid.json --json",
+    "python -m devpilot_core schema validate --schema-id PostHManifest --instance docs/post_h_016_a_manifest.json --json",
+    "python -m devpilot_core docs-governance validate --json",
+    "python -m devpilot_core test-contracts validate --json",
+    "python -m devpilot_core test-contracts validate-v2 --json"
+  ],
+  "tests": [
+    "tests/test_post_h_016_workspace_registry_v2.py",
+    "tests/test_multiworkspace.py",
+    "tests/test_schema_registry.py",
+    "tests/test_project_global_state.py",
+    "tests/test_documentation_governance_validator.py"
+  ],
+  "pass_criteria": [
+    "The current v1 workspace registry remains valid.",
+    "The v2 migration validates against MultiworkspaceRegistryV2 without mutating the source registry.",
+    "registry-validate supports --registry-version v2.",
+    "deny_unregistered_workspaces=true, cross_workspace_writes=false and secret_sharing_allowed=false are enforced."
+  ],
+  "block_criteria": [
+    "The v2 migration writes source files by default.",
+    "secret_sharing_allowed=true passes validation.",
+    "cross_workspace_writes=true passes validation.",
+    "TCR, schema catalog, docs-governance or project_state drift from POST-H-016-A."
+  ],
+  "risks": [
+    "implemented-initial contract; isolation report and portfolio hardening remain for POST-H-016-B/C.",
+    "The v1 registry remains the source-compatible file for historical commands.",
+    "Full pytest -q regression remains deferred because the repo has a large test set."
+  ],
+  "next_sprint": "POST-H-016-B",
+  "preliminary": true,
+  "capabilities": [
+    "MultiworkspaceRegistryV2",
+    "Read-only v1 to v2 Workspace Registry migration",
+    "CLI workspace registry-validate --registry-version v2",
+    "MultiworkspaceRegistryV2 schema"
+  ],
+  "safety": {
+    "local_first": true,
+    "dry_run": true,
+    "read_only": true,
+    "network_used": false,
+    "external_api_used": false,
+    "remote_execution_enabled": false,
+    "connector_write_enabled": false,
+    "plugin_execution_enabled": false
+  }
+}
