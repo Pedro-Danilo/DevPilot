@@ -34,7 +34,7 @@ def test_post_h_015_b_operator_dashboard_aggregates_local_sources_read_only() ->
     assert snapshot["created_by"] == "POST-H-015-B"
     assert snapshot["status"] in {"pass", "warn"}
     assert set(snapshot["sections"]) == set(json.loads((ROOT / ".devpilot/operator/dashboard_config.json").read_text(encoding="utf-8"))["required_sections"])
-    assert snapshot["sections"]["roadmap"]["metrics"]["current_micro_sprint"] in {"POST-H-015-B", "POST-H-015-C"}
+    assert snapshot["sections"]["roadmap"]["metrics"]["current_micro_sprint"] in {"POST-H-015-B", "POST-H-015-C", "POST-H-015-D"}
     assert all(section["source_refs"] for section in snapshot["sections"].values())
     assert all(action["dry_run"] is True for action in snapshot["recommended_next_actions"])
 

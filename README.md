@@ -1,3 +1,24 @@
+## POST-H-015-D — UI operator dashboard
+
+Estado: `implemented-initial`. DevPilot incorpora la vista Web UI del operador local dentro de `ui.dashboard`. La UI consume `GET /api/v1/operator/dashboard` por `DevPilotApiClient`, muestra secciones del snapshot, `source_refs`, no-go gates y acciones recomendadas local/dry-run sin leer archivos locales desde el navegador.
+
+Capacidades:
+
+```text
+- Operator Dashboard visible en la pantalla principal.
+- Cards por seccion operacional: maturity, quality_gates, test_contracts, roadmap, security, observability, agents, approvals, release y workspace.
+- Panel no-go gates con local_first/read_only/dry_run/no remote/no connector write/no plugin execution.
+- Next actions renderizadas como comandos locales/dry-run recomendados por el snapshot.
+- UiRouteContractRegistry amplia ui.dashboard con api.operator.dashboard sin crear rutas criticas nuevas.
+```
+
+Limites: version `implemented-initial`; no implementa todavia el subgate final `operator-dashboard-ready`, no agrega control plane remoto, no habilita ejecucion destructiva y no sustituye los reportes fuente. POST-H-015-E debe integrar quality gate y runbook operacional final.
+
+Ultimo hito cerrado: `POST-H-014 — UI/API industrial shell`
+Hito activo: `POST-H-015 — Local operator dashboard`
+Ultimo micro-sprint implementado: `POST-H-015-D — UI operator dashboard`
+Siguiente micro-sprint: `POST-H-015-E — Quality gate y runbook operacional`
+
 ## POST-H-015-C — ApplicationService/API integration
 
 Estado: `implemented-initial`. DevPilot expone el snapshot del operador local mediante `OperatorDashboardApplicationService` y la ruta protegida `GET /api/v1/operator/dashboard`. La API no importa el aggregator directamente: pasa por `ApplicationService`, `ApplicationRequest/ApplicationResponse`, `ApplicationBoundaryPolicy`, token local y `PolicyEngine`.

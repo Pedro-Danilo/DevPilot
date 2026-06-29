@@ -8,8 +8,8 @@
   "last_completed_sprint": "POST-H-014",
   "last_functional_sprint": "FUNC-SPRINT-99",
   "next_sprint": "POST-H-015",
-  "source_repo": "repo_DevPilot_Local_207_POST_H_015_B.zip",
-  "current_repo": "repo_DevPilot_Local_208_POST_H_015_C.zip",
+  "source_repo": "repo_DevPilot_Local_208_POST_H_015_C.zip",
+  "current_repo": "repo_DevPilot_Local_209_POST_H_015_D.zip",
   "global_state_owner": "tests/test_project_global_state.py",
   "mutable_global_state_fields": [
     "last_completed_sprint",
@@ -91,8 +91,9 @@
     "POST-H-015-A approves Local operator dashboard and adds OperatorDashboardSnapshot schema, local dashboard_config, source_refs requirements and CLI-valid fixture without implementing aggregator/API/UI yet.",
     "POST-H-015-B adds OperatorDashboardAggregator read-only local signal aggregation, optional outputs/reports/operator_dashboard_snapshot JSON/Markdown writing and required-source blocking without ApplicationService/API/UI exposure yet.",
     "POST-H-015-B closes after correcting TestContractRegistryV2 domain drift: operator.dashboard was not a valid domain enum and is mapped to product.ui.",
-    "POST-H-015-C adds OperatorDashboardApplicationService and protected GET /api/v1/operator/dashboard through ApplicationService/ApplicationResponse without enabling UI, remote execution, connector write, plugin execution or external APIs."
+    "POST-H-015-C adds OperatorDashboardApplicationService and protected GET /api/v1/operator/dashboard through ApplicationService/ApplicationResponse without enabling UI, remote execution, connector write, plugin execution or external APIs.",
+    "POST-H-015-D adds the Web UI Operator Dashboard inside ui.dashboard, consuming api.operator.dashboard through DevPilotApiClient and showing source_refs, no-go gates and local/dry-run next actions without frontend filesystem reads."
   ],
-  "current_micro_sprint": "POST-H-015-C",
-  "next_micro_sprint": "POST-H-015-D"
+  "current_micro_sprint": "POST-H-015-D",
+  "next_micro_sprint": "POST-H-015-E"
 }

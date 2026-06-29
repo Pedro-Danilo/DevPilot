@@ -48,7 +48,7 @@ def test_web_ui_consumes_api_only_and_never_imports_core() -> None:
     assert "http://127.0.0.1:8787/api/v1" in combined
     assert "X-DevPilot-Token" in combined
 
-    for endpoint in ["/workspace/status", "/validation/readiness", "/standards/status", "/miasi/status", "/reports", "/traces", "/metrics/summary", "/approvals", "/actions/dry-run"]:
+    for endpoint in ["/operator/dashboard", "/workspace/status", "/validation/readiness", "/standards/status", "/miasi/status", "/reports", "/traces", "/metrics/summary", "/approvals", "/actions/dry-run"]:
         assert endpoint in combined
 
     for forbidden_endpoint in ["/patch/apply", "/rollback/execute", "/refactor/execute"]:
@@ -73,7 +73,7 @@ def _assert_web_ui_smoke_contract_without_node() -> None:
         assert "child_process" not in source
         assert "outputs/" not in source
 
-    for expected_path in ["/workspace/status", "/validation/readiness", "/standards/status", "/miasi/status", "/reports", "/traces", "/metrics/summary", "/approvals", "/actions/dry-run"]:
+    for expected_path in ["/operator/dashboard", "/workspace/status", "/validation/readiness", "/standards/status", "/miasi/status", "/reports", "/traces", "/metrics/summary", "/approvals", "/actions/dry-run"]:
         assert expected_path in client
 
     assert "X-DevPilot-Token" in client

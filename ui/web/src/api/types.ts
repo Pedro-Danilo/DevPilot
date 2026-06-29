@@ -23,6 +23,7 @@ export interface DashboardSnapshot {
   readiness?: DevPilotApplicationResponse;
   standards?: DevPilotApplicationResponse;
   miasi?: DevPilotApplicationResponse;
+  operator?: DevPilotApplicationResponse<OperatorDashboardResponseData>;
 }
 
 export type DashboardStatus = 'PASS' | 'WARN' | 'FAIL' | 'BLOCK' | 'ERROR' | 'PENDING';
@@ -106,4 +107,61 @@ export interface ProviderSettingsItem {
   requires_api_key?: boolean;
   api_key_env?: string;
   status?: string;
+}
+
+export interface OperatorSourceRef {
+  path: string;
+  kind?: string;
+  required?: boolean;
+  available?: boolean;
+  description?: string;
+}
+
+export interface OperatorDashboardSection {
+  status: string;
+  title?: string;
+  summary?: string;
+  source_refs?: OperatorSourceRef[];
+  metrics?: Record<string, unknown>;
+  score?: number | null;
+  blocking_findings_total?: number | null;
+  warnings_total?: number | null;
+}
+
+export interface OperatorNextAction {
+  action_id?: string;
+  command: string;
+  reason: string;
+  priority?: string;
+  dry_run?: boolean;
+  source_refs?: OperatorSourceRef[];
+}
+
+export interface OperatorDashboardSnapshot {
+  schema_version: string;
+  schema_id: string;
+  snapshot_id: string;
+  workspace_id: string;
+  created_by: string;
+  status: string;
+  generated_at_utc: string;
+  local_first: boolean;
+  read_only: boolean;
+  dry_run: boolean;
+  network_used: boolean;
+  external_api_used: boolean;
+  mutations_performed: boolean;
+  source_mutations_performed: boolean;
+  remote_execution_enabled: boolean;
+  connector_write_enabled: boolean;
+  plugin_execution_enabled: boolean;
+  sections: Record<string, OperatorDashboardSection>;
+  recommended_next_actions: OperatorNextAction[];
+  notes?: string[];
+}
+
+export interface OperatorDashboardResponseData {
+  summary?: Record<string, unknown>;
+  snapshot?: OperatorDashboardSnapshot;
+  reports?: Record<string, string>;
 }

@@ -1,4 +1,4 @@
-import type { DevPilotApplicationResponse } from './types';
+import type { DevPilotApplicationResponse, OperatorDashboardResponseData } from './types';
 
 export const DEFAULT_API_BASE = 'http://127.0.0.1:8787/api/v1';
 export const TOKEN_STORAGE_KEY = 'devpilot.apiToken';
@@ -109,6 +109,10 @@ export class DevPilotApiClient {
 
   async securityPosture(): Promise<DevPilotApplicationResponse> {
     return this.get('/security/posture');
+  }
+
+  async operatorDashboard(writeReport = false): Promise<DevPilotApplicationResponse<OperatorDashboardResponseData>> {
+    return this.get(`/operator/dashboard${this.query({ write_report: writeReport })}`);
   }
 
   async planProviderChange(payload: { provider_id: string; changes: Record<string, unknown>; actor?: string; reason?: string }): Promise<DevPilotApplicationResponse> {

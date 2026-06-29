@@ -2,15 +2,48 @@
 doc_id: "DEVPL-OPS-LOCAL-OPERATOR-DASHBOARD"
 title: "Local Operator Dashboard Runbook"
 status: "approved"
-version: "0.3.0"
+version: "0.4.0"
 owner: "Ordóñez"
 updated: "2026-06-28"
 phase: "POST-FASE-H"
 related_backlog: "POST-H-015"
-current_micro_sprint: "POST-H-015-C"
+current_micro_sprint: "POST-H-015-D"
 ---
 
 # Local Operator Dashboard Runbook
+
+## POST-H-015-D — UI operator dashboard
+
+POST-H-015-D integra el snapshot operacional en la Web UI local.
+
+Superficie:
+
+```text
+ui.dashboard
+GET /api/v1/operator/dashboard
+ui/web/src/pages/OperatorDashboard.ts
+ui/web/src/components/OperatorStatusCard.ts
+ui/web/src/components/OperatorGatePanel.ts
+ui/web/src/components/OperatorNextActions.ts
+```
+
+Verificacion local:
+
+```bash
+PYTHONPATH=src python -m pytest -p no:ddtrace tests/test_post_h_015_operator_dashboard_ui.py tests/test_web_ui_mvp.py tests/test_post_h_014_ui_shell_contract.py -q
+npm --prefix ui/web test
+```
+
+Interpretacion:
+
+```text
+PASS/BLOCK/ERROR se muestran en cards por seccion.
+source_refs indican fuente, disponibilidad y obligatoriedad.
+No-go gates deben permanecer visibles aunque el snapshot no cargue.
+Next actions son comandos locales/dry-run sugeridos por el snapshot.
+```
+
+Limite: esta version es `implemented-initial`; no crea todavia el subgate `operator-dashboard-ready`.
 
 ## POST-H-015-C — ApplicationService/API integration
 

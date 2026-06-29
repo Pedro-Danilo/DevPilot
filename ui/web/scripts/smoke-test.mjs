@@ -15,10 +15,14 @@ const dryRunActionForm = read('src/components/DryRunActionForm.ts');
 const findingTable = read('src/components/FindingTable.ts');
 const statusCard = read('src/components/StatusCard.ts');
 const contractBadges = read('src/components/ContractBadges.ts');
+const operatorDashboard = read('src/pages/OperatorDashboard.ts');
+const operatorStatusCard = read('src/components/OperatorStatusCard.ts');
+const operatorGatePanel = read('src/components/OperatorGatePanel.ts');
+const operatorNextActions = read('src/components/OperatorNextActions.ts');
 const uiContractRegistry = JSON.parse(read('../../.devpilot/interfaces/ui_route_contract_registry.json'));
 const apiContractRegistry = JSON.parse(read('../../.devpilot/interfaces/api_route_contract_registry.json'));
 const sanitizeUtils = read('src/utils/sanitize.ts');
-const filesToScan = [client, dashboard, statusCard, reportTraceView, findingTable, approvalCenterView, dryRunActionForm, settingsView, providerSettings, contractBadges, sanitizeUtils, read('src/main.ts')];
+const filesToScan = [client, dashboard, statusCard, reportTraceView, findingTable, approvalCenterView, dryRunActionForm, settingsView, providerSettings, contractBadges, sanitizeUtils, operatorDashboard, operatorStatusCard, operatorGatePanel, operatorNextActions, read('src/main.ts')];
 
 function assert(condition, message) {
   if (!condition) {
@@ -35,6 +39,8 @@ assert(packageJson.devpilot.webRealEvolutionPlanned === true, 'La UI debe declar
 assert(packageJson.devpilot.postH014C === true, 'La UI debe declarar POST-H-014-C activo');
 assert(packageJson.devpilot.postH014D === true, 'La UI debe declarar POST-H-014-D activo');
 assert(packageJson.devpilot.postH014E === true, 'La UI debe declarar POST-H-014-E activo');
+assert(packageJson.devpilot.postH015D === true, 'La UI debe declarar POST-H-015-D activo');
+assert(packageJson.devpilot.operatorDashboardUi === true, 'La UI debe declarar Operator Dashboard activo');
 assert(packageJson.devpilot.uiApiShellQualityGate === true, 'La UI debe declarar quality gate UI/API shell');
 assert(packageJson.devpilot.securityPosture === true, 'La UI debe declarar security posture local');
 assert(packageJson.devpilot.uiRouteContractRegistry === true, 'La UI debe declarar UI Route Contract Registry');
@@ -68,7 +74,7 @@ for (const source of filesToScan) {
   assert(!source.includes('outputs/'), 'La UI no debe leer outputs directamente');
 }
 
-for (const expectedPath of ['/workspace/status', '/validation/readiness', '/standards/status', '/miasi/status', '/reports', '/traces', '/metrics/summary', '/approvals', '/actions/dry-run', '/settings/workspace', '/settings/providers', '/settings/policy', '/security/posture', '/settings/providers/plan']) {
+for (const expectedPath of ['/operator/dashboard', '/workspace/status', '/validation/readiness', '/standards/status', '/miasi/status', '/reports', '/traces', '/metrics/summary', '/approvals', '/actions/dry-run', '/settings/workspace', '/settings/providers', '/settings/policy', '/security/posture', '/settings/providers/plan']) {
   assert(client.includes(expectedPath), `El cliente API debe consumir ${expectedPath}`);
 }
 
@@ -84,6 +90,11 @@ assert(reportTraceView.includes('Sin trazas para mostrar'), 'Trace Viewer debe m
 assert(approvalCenterView.includes('Approval Center') && approvalCenterView.includes('Action Launcher'), 'La UI debe incluir Approval Center y Action Launcher');
 assert(settingsView.includes('Settings UI') && settingsView.includes('Provider editor plan-only'), 'La UI debe incluir Settings UI y editor plan-only');
 assert(settingsView.includes('Security posture') && settingsView.includes('POST-H-014-D'), 'Settings UI debe mostrar Security posture POST-H-014-D');
+assert(dashboard.includes('renderOperatorDashboard'), 'Dashboard debe integrar OperatorDashboard POST-H-015-D');
+assert(operatorDashboard.includes('Operator Dashboard') && operatorDashboard.includes('POST-H-015-D'), 'OperatorDashboard debe declarar POST-H-015-D');
+assert(operatorStatusCard.includes('source_refs'), 'OperatorStatusCard debe mostrar fuentes del snapshot');
+assert(operatorGatePanel.includes('No-go gates') && operatorGatePanel.includes('remote_execution_enabled=false'), 'OperatorGatePanel debe mostrar no-go gates');
+assert(operatorNextActions.includes('Next actions') && operatorNextActions.includes('dry-run'), 'OperatorNextActions debe mostrar acciones locales/dry-run');
 assert(settingsView.includes('data-ui-state=\"loading\"') && settingsView.includes('data-ui-state=\"empty\"') && settingsView.includes('data-ui-state=\"error\"'), 'Settings UI debe declarar loading/empty/error states');
 assert(providerSettings.includes('api_key_env'), 'Providers settings puede mostrar nombres de env var, no secretos crudos');
 assert(providerSettings.includes('escapeHtml') && settingsView.includes('safeJsonForHtml'), 'Settings UI debe escapar HTML y redactar secretos antes de renderizar');

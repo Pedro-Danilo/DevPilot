@@ -6,6 +6,7 @@ import { renderContractBadges, renderUiStateNotice } from '../components/Contrac
 import { renderReportTraceView } from './ReportTraceView';
 import { renderApprovalCenterView } from './ApprovalCenterView';
 import { renderSettingsView } from './SettingsView';
+import { renderOperatorDashboard } from './OperatorDashboard';
 
 interface DashboardState {
   loading: boolean;
@@ -34,7 +35,8 @@ export function renderDashboard(root: HTMLElement): void {
     state.errors = {};
     draw();
     const client = new DevPilotApiClient({ token: state.token });
-    const tasks: Array<[keyof DashboardSnapshot, () => Promise<DevPilotApplicationResponse>]> = [
+    const tasks: Array<[keyof DashboardSnapshot, () => Promise<DevPilotApplicationResponse<any>>]> = [
+      ['operator', () => client.operatorDashboard(false)],
       ['workspace', () => client.workspaceStatus()],
       ['readiness', () => client.readiness(true)],
       ['standards', () => client.standardsStatus()],
@@ -62,6 +64,7 @@ export function renderDashboard(root: HTMLElement): void {
   function draw(): void {
     root.replaceChildren();
     root.append(renderHeader(state, refresh));
+    root.append(renderOperatorDashboard(state.snapshot.operator, state.errors.operator));
 
     const grid = document.createElement('main');
     grid.className = 'dashboard-grid';
@@ -71,13 +74,13 @@ export function renderDashboard(root: HTMLElement): void {
     }
     root.append(grid);
     if (state.loading) {
-      root.append(renderUiStateNotice('loading', 'POST-H-014-C ui.dashboard loading state: consultando API local con token del operador.'));
+      root.append(renderUiStateNotice('loading', 'POST-H-015-D ui.dashboard loading state: consultando API local con token del operador.'));
     }
     if (!state.loading && !Object.keys(state.snapshot).length) {
-      root.append(renderUiStateNotice('empty', 'POST-H-014-C ui.dashboard empty state: agrega token local y actualiza para consultar el API.'));
+      root.append(renderUiStateNotice('empty', 'POST-H-015-D ui.dashboard empty state: agrega token local y actualiza para consultar el API.'));
     }
     if (Object.keys(state.errors).length) {
-      root.append(renderUiStateNotice('error', 'POST-H-014-C ui.dashboard error state: BLOCK/ERROR se muestra y no se oculta detrás de estado exitoso.'));
+      root.append(renderUiStateNotice('error', 'POST-H-015-D ui.dashboard error state: BLOCK/ERROR se muestra y no se oculta detrás de estado exitoso.'));
     }
 
     const allFindings = Object.values(state.snapshot)
@@ -105,7 +108,7 @@ function renderHeader(state: DashboardState, refresh: () => Promise<void>): HTML
   const title = document.createElement('h1');
   title.textContent = 'DevPilot Local Dashboard';
   const subtitle = document.createElement('p');
-  subtitle.textContent = 'POST-H-014-C · ui.dashboard · local-first · dry-run visible · no-remote · PASS/FAIL/BLOCK/ERROR explícitos.';
+  subtitle.textContent = 'POST-H-015-D · ui.dashboard · operator snapshot · local-first · dry-run visible · PASS/FAIL/BLOCK/ERROR explícitos.';
   titleBlock.append(title, subtitle, renderContractBadges('ui.dashboard', { warning: 'Shell local: no SaaS, no connector write, no plugin execution.' }));
 
   const form = document.createElement('form');

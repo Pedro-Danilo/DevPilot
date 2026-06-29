@@ -1,3 +1,13 @@
+## post-h-015-d — UI operator dashboard
+
+Estado de proyecto: `last_completed_sprint=POST-H-014`; `next_sprint=POST-H-015`; `current_micro_sprint=POST-H-015-D`; `next_micro_sprint=POST-H-015-E`.
+
+- Added Web UI Operator Dashboard inside `ui.dashboard`.
+- Added `OperatorStatusCard`, `OperatorGatePanel` and `OperatorNextActions`.
+- Extended `DevPilotApiClient` with `/operator/dashboard`.
+- Extended `UiRouteContractRegistry` so `ui.dashboard` consumes `api.operator.dashboard`.
+- Added POST-H-015-D tests, manifest and audit report.
+
 ## post-h-015-c — ApplicationService/API integration
 
 Estado de proyecto: `last_completed_sprint=POST-H-014`; `next_sprint=POST-H-015`; `current_micro_sprint=POST-H-015-C`; `next_micro_sprint=POST-H-015-D`.

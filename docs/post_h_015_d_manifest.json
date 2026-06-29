@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "SCHEMA-DEVPL-POST-H-MANIFEST-V1",
+  "id": "POST-H-015-D",
+  "title": "POST-H-015-D — UI operator dashboard",
+  "parent_backlog": "POST-H-015",
+  "status": "implemented-initial",
+  "created_by": "POST-H-015-D",
+  "updated": "2026-06-29",
+  "artifacts_created": [
+    "ui/web/src/pages/OperatorDashboard.ts",
+    "ui/web/src/components/OperatorStatusCard.ts",
+    "ui/web/src/components/OperatorGatePanel.ts",
+    "ui/web/src/components/OperatorNextActions.ts",
+    "tests/test_post_h_015_operator_dashboard_ui.py",
+    "docs/audits/post_h_015_d_operator_dashboard_ui_report.md",
+    "docs/post_h_015_d_manifest.json"
+  ],
+  "artifacts_modified": [
+    "ui/web/src/pages/Dashboard.ts",
+    "ui/web/src/api/client.ts",
+    "ui/web/src/api/types.ts",
+    "ui/web/src/styles.css",
+    "ui/web/scripts/smoke-test.mjs",
+    "ui/web/package.json",
+    ".devpilot/interfaces/ui_route_contract_registry.json",
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/05_operations/local_operator_dashboard_runbook.md",
+    "docs/POST-H-015_local_operator_dashboard.md",
+    "docs/backlogs/POST-H-015_local_operator_dashboard.md",
+    "docs/release/CHANGELOG.md"
+  ],
+  "tests": [
+    "python -m pytest -p no:ddtrace tests/test_post_h_015_operator_dashboard_ui.py tests/test_web_ui_mvp.py tests/test_post_h_014_ui_shell_contract.py tests/test_project_global_state.py -q",
+    "npm --prefix ui/web test",
+    "python -m devpilot_core schema validate --schema-id UiRouteContractRegistry --instance .devpilot/interfaces/ui_route_contract_registry.json --json",
+    "python -m devpilot_core docs-governance validate --json"
+  ],
+  "summary": {
+    "operator_dashboard_ui": true,
+    "api_only": true,
+    "source_refs_visible": true,
+    "no_go_gates_visible": true,
+    "next_actions_visible": true,
+    "read_only_default": true,
+    "preliminary": true
+  },
+  "local_first": true,
+  "dry_run": true,
+  "network_used": false,
+  "external_api_used": false,
+  "mutations_performed": false,
+  "source_mutations_performed": true,
+  "remote_execution_enabled": false,
+  "connector_write_enabled": false,
+  "plugin_execution_enabled": false,
+  "next_sprint": "POST-H-015",
+  "next_micro_sprint": "POST-H-015-E",
+  "known_limitations": [
+    "Does not implement the final operator-dashboard-ready quality gate",
+    "Does not add remote monitoring, SaaS control plane or multiuser enterprise auth",
+    "Does not enable destructive actions from the UI"
+  ]
+}

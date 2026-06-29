@@ -2,17 +2,41 @@
 title: "Runbook — DevPilot Local"
 doc_id: "DEVPL-OPS-002"
 status: "approved"
-version: "1.53.0"
+version: "1.54.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "POST-H-015-C"
+phase: "POST-H-015-D"
 updated: "2026-06-28"
 approval: "approved_by_owner"
 source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved + 03_security approved"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "SPRINT-PRECODE-05 quality operations baseline"
 ---
+
+## POST-H-015-D — UI operator dashboard
+
+POST-H-015-D agrega la vista Web UI del operador local dentro de `ui.dashboard`.
+
+Verificacion local:
+
+```bash
+PYTHONPATH=src python -m pytest -p no:ddtrace tests/test_post_h_015_operator_dashboard_ui.py tests/test_web_ui_mvp.py tests/test_post_h_014_ui_shell_contract.py tests/test_project_global_state.py -q
+npm --prefix ui/web test
+PYTHONPATH=src python -m devpilot_core schema validate --schema-id UiRouteContractRegistry --instance .devpilot/interfaces/ui_route_contract_registry.json --json
+PYTHONPATH=src python -m devpilot_core docs-governance validate --json
+```
+
+La UI debe mostrar:
+
+```text
+- Operator Dashboard en la pantalla principal.
+- Secciones del snapshot con source_refs visibles.
+- No-go gates: local_first, read_only, dry_run, no remote, no connector write, no plugin execution.
+- Next actions como comandos locales/dry-run.
+```
+
+Limites: `implemented-initial`; POST-H-015-D no implementa todavia el subgate `operator-dashboard-ready`. El gate final queda para POST-H-015-E.
 
 ## POST-H-015-C — ApplicationService/API integration
 
@@ -163,7 +187,7 @@ Límites: versión `implemented-initial`; no sustituye auth enterprise/OIDC, no 
 
 # Runbook — DevPilot Local
 
-Último hito cerrado: `POST-H-014 — UI/API industrial shell`; hito activo: `POST-H-015 — Local operator dashboard`; último micro-sprint implementado: `POST-H-015-C — ApplicationService/API integration`; siguiente micro-sprint: `POST-H-015-D — UI operator dashboard`.
+Último hito cerrado: `POST-H-014 — UI/API industrial shell`; hito activo: `POST-H-015 — Local operator dashboard`; último micro-sprint implementado: `POST-H-015-D — UI operator dashboard`; siguiente micro-sprint: `POST-H-015-E — Quality gate y runbook operacional`.
 
 ## POST-H-014-C — UI Route Contract y shell de producto
 

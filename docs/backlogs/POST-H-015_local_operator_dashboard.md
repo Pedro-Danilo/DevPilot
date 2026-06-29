@@ -4,7 +4,7 @@ doc_id: "POST-H-015-BACKLOG"
 id: "POST-H-015"
 title: "POST-H-015 — Local operator dashboard"
 status: "approved"
-version: "0.4.0"
+version: "0.5.0"
 owner: "Ordóñez"
 updated: "2026-06-28"
 approval: "approved_for_implementation"
@@ -12,8 +12,8 @@ phase: "POST-FASE-H"
 priority: "P1"
 roadmap_source: "docs/backlogs/post_h_prioritized_roadmap.md"
 implementation_status: "implemented-initial"
-current_micro_sprint: "POST-H-015-C"
-next_micro_sprint: "POST-H-015-D"
+current_micro_sprint: "POST-H-015-D"
+next_micro_sprint: "POST-H-015-E"
 local_first: true
 dry_run: true
 no_remote_execution_enabled: true
@@ -369,6 +369,49 @@ Criterios PASS:
 PASS si el operador ve estado global en una pantalla.
 PASS si fallos BLOCK/ERROR son visualmente claros.
 PASS si las acciones sugeridas son comandos dry-run/locales.
+```
+
+Estado de implementación: `implemented-initial`.
+
+Artefactos creados por POST-H-015-D:
+
+```text
+ui/web/src/pages/OperatorDashboard.ts
+ui/web/src/components/OperatorStatusCard.ts
+ui/web/src/components/OperatorGatePanel.ts
+ui/web/src/components/OperatorNextActions.ts
+tests/test_post_h_015_operator_dashboard_ui.py
+docs/audits/post_h_015_d_operator_dashboard_ui_report.md
+docs/post_h_015_d_manifest.json
+```
+
+Artefactos modificados principales:
+
+```text
+ui/web/src/pages/Dashboard.ts
+ui/web/src/api/client.ts
+ui/web/src/api/types.ts
+ui/web/src/styles.css
+ui/web/scripts/smoke-test.mjs
+ui/web/package.json
+.devpilot/interfaces/ui_route_contract_registry.json
+```
+
+Alcance real aplicado:
+
+```text
+- Se integra OperatorDashboard en ui.dashboard sin crear una ruta critica adicional.
+- La UI consume api.operator.dashboard por DevPilotApiClient.
+- Se muestran secciones, source_refs, no-go gates y next actions.
+- No se leen outputs ni .devpilot desde el frontend.
+- No se habilitan remote execution, connector write, plugin execution ni APIs externas.
+```
+
+Limitación explícita:
+
+```text
+POST-H-015-D es una primera version UI. No implementa todavia el subgate operator-dashboard-ready.
+POST-H-015-E debe cerrar el hito con quality gate y runbook operacional final.
 ```
 
 ### POST-H-015-E — Quality gate y runbook operacional

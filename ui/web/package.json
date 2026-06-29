@@ -63,6 +63,9 @@
     "htmlEscaping": true,
     "settingsSecretRedaction": true,
     "postH014E": true,
+    "postH015D": true,
+    "operatorDashboardUi": true,
+    "operatorDashboardApiRoute": "api.operator.dashboard",
     "uiApiShellQualityGate": true,
     "uiApiShellReport": "outputs/reports/ui_api_shell_report.json"
   }

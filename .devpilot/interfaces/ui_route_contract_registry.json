@@ -4,7 +4,7 @@
   "registry_id": "devpilot-ui-route-contract-registry",
   "status": "implemented-initial",
   "created_by": "POST-H-014-C",
-  "updated": "2026-06-28",
+  "updated": "2026-06-29",
   "routes": [
     {
       "route_id": "ui.dashboard",
@@ -13,14 +13,19 @@
       "page_component": "Dashboard",
       "source_files": [
         "ui/web/src/pages/Dashboard.ts",
-        "ui/web/src/components/StatusCard.ts"
+        "ui/web/src/components/StatusCard.ts",
+        "ui/web/src/pages/OperatorDashboard.ts",
+        "ui/web/src/components/OperatorStatusCard.ts",
+        "ui/web/src/components/OperatorGatePanel.ts",
+        "ui/web/src/components/OperatorNextActions.ts"
       ],
       "allowed_api_routes": [
         "api.health",
         "api.workspace.status",
         "api.validation.readiness",
         "api.standards.status",
-        "api.miasi.status"
+        "api.miasi.status",
+        "api.operator.dashboard"
       ],
       "critical": true,
       "local_only": true,
@@ -47,7 +52,9 @@
       "external_api_allowed": false,
       "owner": "ui.web",
       "notes": [
-        "Single page dashboard shell for local status/readiness/standards/MIASI signals."
+        "Single page dashboard shell for local status/readiness/standards/MIASI signals.",
+        "POST-H-015-D embeds the local Operator Dashboard surface in ui.dashboard.",
+        "Operator dashboard consumes only api.operator.dashboard and never reads local outputs or .devpilot paths from the browser."
       ]
     },
     {
@@ -246,7 +253,8 @@
     "dry_run_badged_routes_total": 5,
     "no_remote_badged_routes_total": 5,
     "mutation_control_routes_total": 2,
-    "allowed_api_routes_unique_total": 21
+    "allowed_api_routes_unique_total": 22,
+    "post_h_015_d_operator_dashboard_ui_registered": true
   },
   "safety": {
     "local_first": true,
@@ -261,6 +269,7 @@
   "notes": [
     "POST-H-014-C contracts critical local UI sections without enabling SaaS, remote execution, connector write, plugin execution or external APIs.",
     "The Web UI remains a local product shell; quality-gate integration is deferred to POST-H-014-E.",
-    "POST-H-014-D aligns Settings UI with protected security posture diagnostics."
+    "POST-H-014-D aligns Settings UI with protected security posture diagnostics.",
+    "POST-H-015-D extends ui.dashboard with the Operator Dashboard visual surface while preserving the POST-H-014-C critical-route set."
   ]
 }

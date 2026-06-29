@@ -3,15 +3,15 @@ doc_id: "POST-H-015-IMPLEMENTATION"
 id: "POST-H-015"
 title: "POST-H-015 — Local operator dashboard"
 status: "approved"
-version: "0.4.0"
+version: "0.5.0"
 owner: "Ordóñez"
 updated: "2026-06-28"
 approval: "approved_for_implementation"
 phase: "POST-FASE-H"
 priority: "P1"
 implementation_status: "implemented-initial"
-current_micro_sprint: "POST-H-015-C"
-next_micro_sprint: "POST-H-015-D"
+current_micro_sprint: "POST-H-015-D"
+next_micro_sprint: "POST-H-015-E"
 local_first: true
 dry_run: true
 no_remote_execution_enabled: true
@@ -29,7 +29,7 @@ POST-H-015 queda aprobado para implementación acumulativa después del cierre d
 El micro-sprint activo implementado es:
 
 ```text
-POST-H-015-C — ApplicationService/API integration
+POST-H-015-D — UI operator dashboard
 ```
 
 Estado real:
@@ -38,7 +38,33 @@ Estado real:
 implemented-initial
 ```
 
-## 2. Alcance de POST-H-015-A
+## 2. Alcance de POST-H-015-D
+
+POST-H-015-D crea la primera vista visual del operador local:
+
+```text
+ui/web/src/pages/OperatorDashboard.ts
+ui/web/src/components/OperatorStatusCard.ts
+ui/web/src/components/OperatorGatePanel.ts
+ui/web/src/components/OperatorNextActions.ts
+tests/test_post_h_015_operator_dashboard_ui.py
+docs/audits/post_h_015_d_operator_dashboard_ui_report.md
+docs/post_h_015_d_manifest.json
+```
+
+Capacidades:
+
+```text
+- La pantalla principal muestra Operator Dashboard.
+- El cliente Web UI consume GET /api/v1/operator/dashboard.
+- Las cards muestran secciones, estado, metricas y source_refs.
+- El panel no-go gates deja visibles local_first/read_only/dry_run/no remote/no connector/no plugin.
+- Next actions muestra comandos locales/dry-run recomendados.
+```
+
+Limite: version `implemented-initial`; el subgate final operator-dashboard-ready queda para POST-H-015-E.
+
+## 3. Alcance de POST-H-015-A
 
 POST-H-015-A define el contrato base para el dashboard local de operador:
 
@@ -64,7 +90,7 @@ El contrato exige:
 - secciones obligatorias con status y source_refs.
 ```
 
-## 3. Alcance de POST-H-015-B
+## 4. Alcance de POST-H-015-B
 
 POST-H-015-B implementa la primera capa ejecutable del dashboard:
 
@@ -86,7 +112,7 @@ Capacidades:
 - No ejecuta shell, no usa red, no consume APIs externas y no muta fuentes.
 ```
 
-## 4. Alcance de POST-H-015-C
+## 5. Alcance de POST-H-015-C
 
 POST-H-015-C integra el aggregator al boundary ApplicationService/API:
 
@@ -110,16 +136,15 @@ Capacidades:
 - TCR v2 queda corregido para POST-H-015-A/B usando dominio product.ui y C agrega application.service.
 ```
 
-## 5. Límites explícitos
+## 6. Límites explícitos
 
 Esta es una versión `implemented-initial`. Ya existe schema/config, agregador read-only y exposición ApplicationService/API, pero no implementa todavía:
 
 ```text
-- UI operator dashboard;
 - quality gate final del hito.
 ```
 
-Esas capacidades quedan planificadas para `POST-H-015-D/E`.
+Esa capacidad queda planificada para `POST-H-015-E`.
 
 ## 6. Verificación focal
 
