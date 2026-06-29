@@ -4231,6 +4231,24 @@ def api_token_command(*, json_output: bool = False) -> int:
     return int(result.exit_code)
 
 
+
+
+def api_shell_gate_command(*, json_output: bool = False, write_report: bool = False, run_ui_smoke: bool = True) -> int:
+    """Run the POST-H-014-E local UI/API industrial shell quality subgate."""
+
+    root = project_root()
+    from .interfaces.api import UiApiIndustrialShellGate, UiApiIndustrialShellGateOptions
+
+    result = UiApiIndustrialShellGate(
+        root,
+        UiApiIndustrialShellGateOptions(write_report=write_report, run_ui_smoke=run_ui_smoke),
+    ).run()
+    _emit_result_event(root, result, subject="ui-api-industrial-shell")
+    _persist_result(root, result, subject="ui-api-industrial-shell")
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+
 def security_readiness_command(*, json_output: bool = False, write_report: bool = False) -> int:
     """Run the Fase B operational security readiness gate."""
 
@@ -5655,6 +5673,11 @@ def build_parser() -> argparse.ArgumentParser:
     api_token = api_sub.add_parser("token", help="Generate a local API session token without persisting it")
     api_token.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
 
+    api_shell_gate = api_sub.add_parser("shell-gate", help="Run POST-H-014-E UI/API industrial shell quality subgate")
+    api_shell_gate.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    api_shell_gate.add_argument("--write-report", action="store_true", help="Persist outputs/reports/ui_api_shell_report.json and .md")
+    api_shell_gate.add_argument("--no-ui-smoke", action="store_true", help="Skip npm UI smoke execution and keep only registry/docs checks")
+
     policy = sub.add_parser("policy", help="Evaluate deterministic DevPilot safety policies")
     policy_sub = policy.add_subparsers(dest="policy_command")
     policy_check = policy_sub.add_parser("check", help="Evaluate a simulated action through PolicyEngine")
@@ -6706,6 +6729,8 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
             )
         if args.api_command == "token":
             return api_token_command(json_output=args.json)
+        if args.api_command == "shell-gate":
+            return api_shell_gate_command(json_output=args.json, write_report=args.write_report, run_ui_smoke=not args.no_ui_smoke)
         parser.print_help()
         return int(ExitCode.FAIL)
     if args.command == "policy":

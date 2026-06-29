@@ -30,6 +30,7 @@ APPLICATION_OPERATION_BY_COMMAND_ID: dict[str, str] = {
     "standards.status": "standards.status",
     "validate": "validation.gateway",
     "workspace.status": "workspace.status",
+    "api.shell-gate": "api.shell_gate",
 }
 
 POST_H_006_B_INITIAL_GROUPS: tuple[str, ...] = (
@@ -245,6 +246,18 @@ COMMAND_OVERRIDES: dict[str, DeclarativeCommandOverride] = {
         dry_run_supported=False,
         policy_check_required=True,
         rationale="`quality-gate run --include-pytest` can invoke pytest; subprocess side effect is explicit even when the default path is bounded.",
+    ),
+    "api.shell-gate": DeclarativeCommandOverride(
+        command_id="api.shell-gate",
+        risk_level=CommandRiskLevel.HIGH,
+        side_effects=(CommandSideEffect.EXECUTE_SUBPROCESS, CommandSideEffect.WRITE_REPORT),
+        writes_files=True,
+        dry_run_supported=True,
+        policy_check_required=True,
+        recommended_tests=(
+            "python -m pytest tests/test_post_h_014_ui_api_shell_gate.py -q",
+        ),
+        rationale="POST-H-014-E UI/API shell-gate runs only local registry/docs checks plus the existing npm smoke test and writes evidence only under outputs/reports when --write-report is explicit.",
     ),
     "cli-registry.guard": DeclarativeCommandOverride(
         command_id="cli-registry.guard",

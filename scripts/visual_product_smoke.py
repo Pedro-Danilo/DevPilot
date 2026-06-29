@@ -182,7 +182,22 @@ def run_gate(root: Path, *, run_npm: bool = False) -> dict[str, Any]:
     package_json = _read_json(root / "ui/web/package.json")
     devpilot = package_json.get("devpilot", {})
     flag_mismatches = {key: {"expected": expected, "actual": devpilot.get(key)} for key, expected in REQUIRED_UI_FLAGS.items() if devpilot.get(key) is not expected}
-    checks.append(_check(package_json.get("version") == "0.5.0-sprint-73" and devpilot.get("sprint") == "FUNC-SPRINT-73", "UI_PACKAGE_SPRINT73", "Web UI package metadata is synchronized with Sprint 73.", "Web UI package metadata is not synchronized with Sprint 73.", {"version": package_json.get("version"), "sprint": devpilot.get("sprint")}))
+    package_version = str(package_json.get("version", ""))
+    package_declares_sprint_73_lineage = (
+        package_version == "0.5.0-sprint-73"
+        or package_version.startswith("0.6.0-post-h-")
+    ) and devpilot.get("sprint") == "FUNC-SPRINT-73"
+    checks.append(_check(
+        package_declares_sprint_73_lineage,
+        "UI_PACKAGE_SPRINT73",
+        "Web UI package metadata preserves Sprint 73 lineage while allowing POST-H evolution.",
+        "Web UI package metadata no longer preserves Sprint 73 lineage or POST-H evolution metadata.",
+        {
+            "version": package_json.get("version"),
+            "sprint": devpilot.get("sprint"),
+            "post_h_evolution": package_version.startswith("0.6.0-post-h-"),
+        },
+    ))
     checks.append(_check(not flag_mismatches, "UI_SAFETY_FLAGS", "Web UI safety flags are set for API-only local MVP.", "Web UI safety flags are missing or unsafe.", {"mismatches": flag_mismatches}))
 
     ui_sources = [

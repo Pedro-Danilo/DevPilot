@@ -1,6 +1,15 @@
+## post-h-014-e — Quality gate UI/API industrial shell
+
+Estado de proyecto: `last_completed_sprint=POST-H-014`; `next_sprint=POST-H-015`; `current_micro_sprint=POST-H-014-E`; `next_micro_sprint=POST-H-015`.
+
+- Added `UiApiIndustrialShellGate` and `api shell-gate --write-report`.
+- Added schema-backed `outputs/reports/ui_api_shell_report.json` evidence.
+- Integrated `ui-api-industrial-shell` into hardening/industrial quality-gate profiles.
+- Synchronized README, runbooks, POST-H-014 backlog, schema catalog and TCR v1/v2.
+
 ## [post-h-014-d] - 2026-06-28
 
-Estado de proyecto: `last_completed_sprint=POST-H-013`; `next_sprint=POST-H-014`; `current_micro_sprint=POST-H-014-D`; `next_micro_sprint=POST-H-014-E`.
+Estado de proyecto: `last_completed_sprint=POST-H-013`; `next_sprint=POST-H-014`; `current_micro_sprint=POST-H-014-E`; `next_micro_sprint=POST-H-015`.
 
 ### Added
 - Added protected `GET /api/v1/security/posture` local API/UI security posture diagnostic.

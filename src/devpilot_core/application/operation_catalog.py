@@ -316,6 +316,29 @@ class ApplicationOperationCatalogBuilder:
                     notes=notes,
                 )
             )
+        if not any(descriptor.operation_id == "api.shell_gate" for descriptor in descriptors):
+            descriptors.append(
+                ApplicationOperationDescriptor(
+                    operation_id="api.shell_gate",
+                    domain="api",
+                    service="UiApiIndustrialShellGate",
+                    method="run",
+                    cli_commands=["python -m devpilot_core api shell-gate"],
+                    api_routes=[],
+                    ui_surfaces=["ui-api-industrial-shell"],
+                    policy_required=True,
+                    dry_run_default=True,
+                    writes_files=True,
+                    risk_level="high",
+                    side_effects=["execute-subprocess", "write-report"],
+                    test_contract_ids=["post-h-014-ui-api-shell-quality-gate"],
+                    source="post-h-014-e-ui-api-shell-quality-gate",
+                    notes=[
+                        "POST-H-014-E binds the UI/API shell quality subgate to CLI/API/UI contract evidence.",
+                        "The command writes only optional reports under outputs/reports and runs a local npm smoke script without network or servers.",
+                    ],
+                )
+            )
         return descriptors
 
     def _write_reports(self, payload: dict[str, Any]) -> dict[str, str]:
@@ -398,4 +421,6 @@ def _test_contract_ids_for_operation(operation_id: str, domain: str) -> list[str
         ids.add("post-h-006-cli-handler-migration")
     if operation_id.startswith("validation."):
         ids.add("post-h-006-cli-handler-migration")
+    if operation_id == "api.shell_gate" or operation_id.startswith("api."):
+        ids.add("post-h-014-ui-api-shell-quality-gate")
     return sorted(ids)

@@ -1,0 +1,106 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "SCHEMA-DEVPL-POST-H-MANIFEST-V1",
+  "post_h_id": "POST-H-014",
+  "id": "POST-H-014-E",
+  "title": "POST-H-014-E — Quality gate UI/API industrial shell",
+  "status": "implemented-initial",
+  "phase": "POST-FASE-H",
+  "implemented_at": "2026-06-28",
+  "created_files": [
+    "src/devpilot_core/interfaces/api/shell_gate.py",
+    "docs/schemas/ui_api_shell_report.schema.json",
+    "tests/test_post_h_014_ui_api_shell_gate.py",
+    "docs/audits/post_h_014_e_quality_gate_report.md",
+    "docs/post_h_014_e_manifest.json"
+  ],
+  "modified_files": [
+    "src/devpilot_core/interfaces/api/__init__.py",
+    "src/devpilot_core/quality/gate.py",
+    "src/devpilot_core/cli.py",
+    "src/devpilot_core/cli_registry/registry.py",
+    "src/devpilot_core/application/operation_catalog.py",
+    "docs/schemas/schema_catalog.json",
+    "ui/web/package.json",
+    "ui/web/scripts/smoke-test.mjs",
+    "docs/backlogs/POST-H-014_ui_api_industrial_shell.md",
+    "docs/POST-H-014_ui_api_industrial_shell.md",
+    "docs/07_interfaces/ui_api_industrial_shell.md",
+    "docs/05_operations/ui_api_local_runbook.md",
+    "docs/05_operations/runbook.md",
+    "README.md",
+    "docs/release/CHANGELOG.md",
+    ".devpilot/project_state.json",
+    ".devpilot/docs_governance/source_registry.json",
+    ".devpilot/testing/test_contract_registry.json",
+    ".devpilot/testing/test_contract_registry_v2.json",
+    "tests/test_schema_registry.py",
+    "tests/test_project_global_state.py"
+  ],
+  "validation_commands": [
+    "python -m pytest -p no:ddtrace tests/test_post_h_014_ui_api_shell_gate.py tests/test_post_h_014_api_route_contracts.py tests/test_post_h_014_ui_shell_contract.py tests/test_post_h_014_security_hardening.py -q",
+    "python -m devpilot_core api shell-gate --json --write-report",
+    "python -m devpilot_core schema validate --schema-id UiApiShellReport --instance outputs/reports/ui_api_shell_report.json --json",
+    "python -m devpilot_core quality-gate run --profile hardening --json",
+    "python -m devpilot_core schema validate --schema-id PostHManifest --instance docs/post_h_014_e_manifest.json --json",
+    "npm --prefix ui/web test",
+    "python -m devpilot_core docs-governance validate --json",
+    "python -m devpilot_core test-contracts validate --json",
+    "python -m devpilot_core test-contracts validate-v2 --json"
+  ],
+  "capabilities": [
+    "UiApiIndustrialShellGate as final POST-H-014 quality subgate",
+    "Hardening/industrial quality-gate integration for UI/API shell",
+    "Schema-backed outputs/reports/ui_api_shell_report.json evidence",
+    "CLI command python -m devpilot_core api shell-gate",
+    "TCR v1/v2 coverage for UI/API quality gate"
+  ],
+  "safety": {
+    "local_first": true,
+    "dry_run": true,
+    "network_used": false,
+    "external_api_used": false,
+    "remote_execution_enabled": false,
+    "connector_write_enabled": false,
+    "plugin_execution_enabled": false,
+    "source_mutations_performed_by_validator": false
+  },
+  "limitations": [
+    "implemented-initial; validates local UI/API shell readiness but does not certify production SaaS maturity",
+    "No enterprise auth/OIDC, no public cloud deployment and no multitenant operation",
+    "The Web UI remains a local product shell; advanced UX/routing can evolve in POST-H-015"
+  ],
+  "next_micro_sprint": "POST-H-015",
+  "commands": [
+    "python -m devpilot_core api shell-gate --json --write-report",
+    "python -m devpilot_core quality-gate run --profile hardening --json",
+    "python -m pytest -p no:ddtrace tests/test_post_h_014_ui_api_shell_gate.py -q"
+  ],
+  "tests": [
+    "tests/test_post_h_014_ui_api_shell_gate.py",
+    "tests/test_post_h_014_api_route_contracts.py",
+    "tests/test_post_h_014_ui_shell_contract.py",
+    "tests/test_post_h_014_security_hardening.py"
+  ],
+  "pass_criteria": [
+    "Hardening quality gate includes ui-api-industrial-shell subgate",
+    "API and UI route registries pass without stale or uncontracted routes",
+    "Web UI smoke test passes locally",
+    "Operational documentation and TCR registries are synchronized",
+    "outputs/reports/ui_api_shell_report.json validates against UiApiShellReport"
+  ],
+  "block_criteria": [
+    "ui-api-industrial-shell subgate missing from hardening quality gate",
+    "API or UI registry drift detected",
+    "Web UI smoke test fails",
+    "No-go flags enable remote execution, connector write, plugin execution or external APIs",
+    "Operational documentation is not synchronized"
+  ],
+  "risks": [
+    "Gate is implemented-initial and local-only",
+    "Node/npm must be available for Web UI smoke execution",
+    "Production-grade UX, OIDC and deployment remain future scope"
+  ],
+  "next_sprint": "POST-H-015",
+  "preliminary": true
+}

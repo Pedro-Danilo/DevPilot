@@ -134,6 +134,7 @@ class QualityGate:
                     "POST-H-011-E adds rag-groundedness-ready to hardening/industrial profiles without requiring providers, web search, external APIs, LLM judge or versioned outputs/evals.",
                     "POST-H-012-E adds approval-rbac-hardening to hardening/industrial profiles to validate sensitive actions, approval binding, RBAC exposure, PolicyEngine enforcement and approval lifecycle docs without enabling side effects.",
                     "POST-H-013-E adds audit-pack-integrity to hardening/industrial profiles to validate manifest policy, no-go gates, redaction, local verification docs and no-certification disclaimers without writing packs.",
+                    "POST-H-014-E adds ui-api-industrial-shell to hardening/industrial profiles to validate API/UI contracts, local Web UI smoke, security posture and operational docs without enabling SaaS, remote execution, connector write or plugin execution.",
                     "POST-H-008-E adds runtime-state-hygiene to hardening/industrial profiles to block dirty source/release archives.",
                     "POST-H-009-E adds docs-governance to hardening/industrial profiles to block canonical-source, sync and backlog-governance drift.",
                     "The default and ci profiles do not run pytest implicitly; CI workflows and local checklists run pytest as an explicit step, or use --include-pytest when desired.",
@@ -180,6 +181,7 @@ class QualityGate:
             subgates.append(QualitySubgate("rag-groundedness-ready", "POST-H-011 RAG groundedness local readiness gate.", self._rag_groundedness_ready))
             subgates.append(QualitySubgate("approval-rbac-hardening", "POST-H-012 Approval/RBAC hardening operational gate.", self._approval_rbac_hardening))
             subgates.append(QualitySubgate("audit-pack-integrity", "POST-H-013 Audit pack integrity, no-go gates, runbook and disclaimer gate.", self._audit_pack_integrity))
+            subgates.append(QualitySubgate("ui-api-industrial-shell", "POST-H-014 UI/API route registries, Web UI smoke, local security posture and operations docs gate.", self._ui_api_industrial_shell))
         if self.options.profile == "industrial":
             subgates.append(QualitySubgate("industrial-readiness", "Fase H industrial readiness gate and maturity classification.", self._industrial_readiness))
         if self.options.profile == "hardening":
@@ -305,6 +307,11 @@ class QualityGate:
         from devpilot_core.auditpack import AuditPackIntegrityGate
 
         return AuditPackIntegrityGate(self.root).run()
+
+    def _ui_api_industrial_shell(self) -> CommandResult:
+        from devpilot_core.interfaces.api import UiApiIndustrialShellGate, UiApiIndustrialShellGateOptions
+
+        return UiApiIndustrialShellGate(self.root, UiApiIndustrialShellGateOptions(write_report=False)).run()
 
     def _industrial_readiness(self) -> CommandResult:
         from devpilot_core.industrial import IndustrialReadinessGate

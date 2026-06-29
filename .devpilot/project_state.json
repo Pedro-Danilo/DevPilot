@@ -5,11 +5,11 @@
   "phase_h_status": "closed_implemented_initial",
   "industrial_baseline_ready": true,
   "maturity_level": "industrial-baseline-ready",
-  "last_completed_sprint": "POST-H-013",
+  "last_completed_sprint": "POST-H-014",
   "last_functional_sprint": "FUNC-SPRINT-99",
-  "next_sprint": "POST-H-014",
-  "source_repo": "repo_DevPilot_Local_202_POST_H_014_B.zip",
-  "current_repo": "repo_DevPilot_Local_203_POST_H_014_C.zip",
+  "next_sprint": "POST-H-015",
+  "source_repo": "repo_DevPilot_Local_204_POST_H_014_D.zip",
+  "current_repo": "repo_DevPilot_Local_205_POST_H_014_E.zip",
   "global_state_owner": "tests/test_project_global_state.py",
   "mutable_global_state_fields": [
     "last_completed_sprint",
@@ -85,8 +85,10 @@
     "POST-H-014-C is the next micro-sprint: UI Route Contract y shell de producto.",
     "POST-H-014-C adds UI Route Contract Registry and local product shell badges/states for Dashboard, Reports, Traces, Approvals and Settings.",
     "POST-H-014-D is the next micro-sprint: Security hardening local de API/UI.",
-    "POST-H-014-D adds local API/UI security hardening: protected security posture endpoint, CORS sanitization, non-local bind guard and UI secret redaction checks."
+    "POST-H-014-D adds local API/UI security hardening: protected security posture endpoint, CORS sanitization, non-local bind guard and UI secret redaction checks.",
+    "POST-H-014-E closes UI/API industrial shell as implemented-initial: ui-api-industrial-shell quality subgate, schema-backed report, API/UI registry validation, Web UI smoke and operational docs are integrated into hardening/industrial quality gates.",
+    "POST-H-015 is the next prioritized hito: Local operator dashboard."
   ],
-  "current_micro_sprint": "POST-H-014-D",
-  "next_micro_sprint": "POST-H-014-E"
+  "current_micro_sprint": "POST-H-014-E",
+  "next_micro_sprint": "POST-H-015"
 }

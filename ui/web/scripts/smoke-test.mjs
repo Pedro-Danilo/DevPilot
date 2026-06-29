@@ -34,6 +34,8 @@ assert(packageJson.devpilot.desktopDeferred === true, 'La UI debe declarar Deskt
 assert(packageJson.devpilot.webRealEvolutionPlanned === true, 'La UI debe declarar evolución Web real');
 assert(packageJson.devpilot.postH014C === true, 'La UI debe declarar POST-H-014-C activo');
 assert(packageJson.devpilot.postH014D === true, 'La UI debe declarar POST-H-014-D activo');
+assert(packageJson.devpilot.postH014E === true, 'La UI debe declarar POST-H-014-E activo');
+assert(packageJson.devpilot.uiApiShellQualityGate === true, 'La UI debe declarar quality gate UI/API shell');
 assert(packageJson.devpilot.securityPosture === true, 'La UI debe declarar security posture local');
 assert(packageJson.devpilot.uiRouteContractRegistry === true, 'La UI debe declarar UI Route Contract Registry');
 assert(packageJson.devpilot.localFirstBadges === true, 'La UI debe declarar badges local-first');

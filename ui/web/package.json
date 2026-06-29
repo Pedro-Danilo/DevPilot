@@ -1,6 +1,6 @@
 {
   "name": "devpilot-local-web-ui",
-  "version": "0.6.0-post-h-014-c",
+  "version": "0.6.0-post-h-014-e",
   "private": true,
   "type": "module",
   "description": "DevPilot Local Web UI visual MVP for Fase F closure: dashboard, report/trace viewers, Approval Center and Settings UI.",
@@ -61,6 +61,9 @@
     "postH014D": true,
     "securityPosture": true,
     "htmlEscaping": true,
-    "settingsSecretRedaction": true
+    "settingsSecretRedaction": true,
+    "postH014E": true,
+    "uiApiShellQualityGate": true,
+    "uiApiShellReport": "outputs/reports/ui_api_shell_report.json"
   }
 }

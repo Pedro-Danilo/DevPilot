@@ -5,7 +5,7 @@ status: "implemented-initial"
 version: "0.4.0"
 owner: "Ordóñez"
 updated: "2026-06-28"
-phase: "POST-H-014-D"
+phase: "POST-H-014-E"
 approval: "approved_by_owner"
 ---
 
@@ -93,7 +93,7 @@ Esta capacidad es `implemented-initial`. No sustituye todavía:
 
 ```text
 - Security hardening local adicional: POST-H-014-D.
-- Quality gate final UI/API: POST-H-014-E.
+- Quality gate final UI/API: POST-H-014-E implementado como subgate `ui-api-industrial-shell`.
 ```
 
 ## Comandos
@@ -173,3 +173,17 @@ Comandos:
 python -m pytest -p no:ddtrace tests/test_post_h_014_security_hardening.py tests/test_api_security.py tests/test_api_settings.py -q
 npm --prefix ui/web test
 ```
+## Quality gate POST-H-014-E
+
+POST-H-014-E agrega el subgate `ui-api-industrial-shell` a `quality-gate run --profile hardening` y `quality-gate run --profile industrial`. El subgate valida que la shell local UI/API conserve las garantías contract-driven acumuladas:
+
+```text
+- Todas las rutas API /api/v1 están registradas en ApiRouteContractRegistry.
+- Todas las páginas UI críticas están registradas en UiRouteContractRegistry.
+- La Web UI smoke test pasa sin servidor, navegador ni red.
+- La documentación operacional y TCR están sincronizados.
+- outputs/reports/ui_api_shell_report.json es schema-valid cuando se genera.
+```
+
+La capacidad queda en estado `implemented-initial`: es evidencia de shell local industrial, no certificación de producción SaaS, OIDC, multiusuario, cloud, remote execution, connector write o plugin execution.
+

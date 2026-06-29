@@ -870,7 +870,10 @@
       "human_readable_counterparts": [
         "docs/backlogs/post_h_prioritized_roadmap.md"
       ],
-      "derived_documents": [],
+      "derived_documents": [
+        "docs/audits/post_h_014_e_quality_gate_report.md",
+        "docs/post_h_014_e_manifest.json"
+      ],
       "required_tests": [
         "tests/test_documentation_governance_backlogs.py",
         "tests/test_post_h_014_api_route_contracts.py",
@@ -878,7 +881,8 @@
         "tests/test_api_security.py",
         "tests/test_post_h_014_ui_shell_contract.py",
         "tests/test_post_h_014_security_hardening.py",
-        "tests/test_api_settings.py"
+        "tests/test_api_settings.py",
+        "tests/test_post_h_014_ui_api_shell_gate.py"
       ],
       "sync_rules": [
         "backlog_naming",
@@ -889,14 +893,15 @@
       "roadmap_milestones": [
         "POST-H-014"
       ],
-      "lifecycle": "active",
+      "lifecycle": "closed",
       "notes": [
         "Roadmap-derived executable backlog governed by POST-H-009-D.",
         "Missing future backlog files are informational planned items; existing files must pass naming and frontmatter checks.",
         "POST-H-014 approved and started by POST-H-014-A with API route contract registry implemented-initial.",
         "POST-H-014-B adds homogeneous response mapping and redacted HTTP error payloads.",
         "POST-H-014-C adds UI route contracts and product-shell smoke checks.",
-        "POST-H-014-D adds local API/UI security hardening, protected posture diagnostics and UI redaction checks."
+        "POST-H-014-D adds local API/UI security hardening, protected posture diagnostics and UI redaction checks.",
+        "POST-H-014-E closes UI/API industrial shell with the ui-api-industrial-shell quality gate, schema-backed report and TCR coverage."
       ]
     },
     {
@@ -1331,7 +1336,7 @@
     "network_used": false,
     "external_api_used": false,
     "mutations_performed": false,
-    "last_updated_by": "POST-H-012-D",
+    "last_updated_by": "POST-H-014-E",
     "markdown_json_sync_checks_enabled": true,
     "sync_checks_scope": "version_match, milestones_match, decisions_match, closure_status_match, next_hito_match",
     "backlog_governance_enabled": true,
@@ -1371,14 +1376,19 @@
     "post_h_011_closed": true,
     "machine_readable_total": 5,
     "required_tests_total": 62,
-    "active_backlog": "POST-H-012",
-    "active_micro_sprint": "POST-H-012-A",
+    "active_backlog": "POST-H-015",
+    "active_micro_sprint": "POST-H-015",
     "sensitive_action_catalog_enabled": true,
     "sensitive_action_catalog_path": ".devpilot/approval/sensitive_action_catalog.json",
     "sensitive_action_catalog_schema": "docs/schemas/sensitive_action_catalog.schema.json",
     "required_tests_checked_total": 56,
     "post_h_012_policy_engine_enforcement_enabled": true,
-    "post_h_012_current_micro_sprint": "POST-H-012-D"
+    "post_h_012_current_micro_sprint": "POST-H-012-D",
+    "ui_api_shell_report_schema_registered": true,
+    "ui_api_shell_report_schema_path": "docs/schemas/ui_api_shell_report.schema.json",
+    "post_h_014_current_micro_sprint": "POST-H-014-E",
+    "post_h_014_quality_gate_bound": true,
+    "post_h_014_closed": true
   },
   "safety": {
     "local_first": true,
@@ -1413,6 +1423,7 @@
     "POST-H-010-E closes Observability retention local with an observability-retention quality-gate subgate and dedicated runbook.",
     "POST-H-011-A approves RAG groundedness evals and registers local schema/fixture contracts without web search, external APIs, LLM judge, remote execution, connector write or plugin execution.",
     "POST-H-012-A registers and validates a local SensitiveActionCatalog without enabling remote execution, connector write or plugin execution.",
-    "POST-H-013-C adds AuditPackV2Verifier with local integrity report generation and tamper detection."
+    "POST-H-013-C adds AuditPackV2Verifier with local integrity report generation and tamper detection.",
+    "POST-H-014-E integrates ui-api-industrial-shell into hardening/industrial quality gates without remote execution, connector write, plugin execution or external APIs."
   ]
 }

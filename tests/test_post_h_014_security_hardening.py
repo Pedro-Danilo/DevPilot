@@ -127,8 +127,8 @@ def test_post_h_014_d_contract_docs_and_tcr_are_synchronized() -> None:
     tcr_v1 = (ROOT / ".devpilot/testing/test_contract_registry.json").read_text(encoding="utf-8")
     tcr_v2 = (ROOT / ".devpilot/testing/test_contract_registry_v2.json").read_text(encoding="utf-8")
 
-    assert 'current_micro_sprint: "POST-H-014-D"' in backlog
-    assert 'next_micro_sprint: "POST-H-014-E"' in backlog
+    assert 'current_micro_sprint: "POST-H-014-E"' in backlog
+    assert 'next_micro_sprint: "POST-H-015"' in backlog
     assert "POST-H-014-D — Security hardening local de API/UI" in readme
     assert "POST-H-014-D — Security hardening local de API/UI" in runbook
     assert "security posture" in interface_doc.lower()

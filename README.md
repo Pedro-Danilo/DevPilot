@@ -1,3 +1,25 @@
+## POST-H-014-E — Quality gate UI/API industrial shell
+
+Estado: `implemented-initial`. POST-H-014-E integra la shell local UI/API al quality gate mediante el subgate `ui-api-industrial-shell`, ejecutable desde `quality-gate run --profile hardening` y desde `api shell-gate`. El gate valida `ApiRouteContractRegistry`, `UiRouteContractRegistry`, smoke test Web UI, documentación operacional, TCR v1/v2 y genera evidencia schema-backed en `outputs/reports/ui_api_shell_report.json` cuando se solicita `--write-report`.
+
+Capacidades:
+
+```text
+- UiApiIndustrialShellGate como subgate final de POST-H-014.
+- Schema UiApiShellReport y reporte outputs/reports/ui_api_shell_report.json.
+- Integración en quality-gate hardening/industrial.
+- Comando local: python -m devpilot_core api shell-gate --json --write-report.
+- TCR v1/v2 sincronizado para impacto y hardening.
+```
+
+Límites: versión `implemented-initial`; no certifica producción SaaS, no implementa OIDC/multiusuario/cloud deployment, no habilita remote execution, connector write, plugin execution ni APIs externas. La evolución visual/operativa avanzada queda para POST-H-015.
+
+Último hito: `POST-H-014 — UI/API industrial shell`
+Último hito cerrado: `POST-H-014 — UI/API industrial shell`
+Siguiente hito: `POST-H-015 — Local operator dashboard`
+Último micro-sprint implementado: `POST-H-014-E — Quality gate UI/API industrial shell`
+Siguiente micro-sprint: `POST-H-015`
+
 ## POST-H-014-D — Security hardening local de API/UI
 
 Estado: `implemented-initial`. DevPilot refuerza la shell local API/UI con un endpoint protegido de `security posture`, saneamiento CORS local-only, bloqueo explícito de bind no local y redacción/escape adicional en Settings UI. La capacidad sigue siendo local-first: no SaaS, no remote execution, no connector write, no plugin execution y no APIs externas.
@@ -12,10 +34,10 @@ Capacidades añadidas:
 - Settings UI muestra posture local y aplica escape/redaction para evitar filtrado de secretos.
 ```
 
-Límites: versión `implemented-initial`; no implementa auth enterprise/OIDC, exposición pública, despliegue cloud ni quality-gate final. POST-H-014-E queda como siguiente micro-sprint para integrar el subgate `ui-api-industrial-shell`.
+Límites: versión `implemented-initial`; no implementa auth enterprise/OIDC, exposición pública ni despliegue cloud. El subgate `ui-api-industrial-shell` queda integrado por POST-H-014-E.
 
 Último hito: `POST-H-013 — Audit pack integrity`
-Siguiente hito: `POST-H-014 — UI/API industrial shell`
+Siguiente hito: `POST-H-015 — Local operator dashboard`
 Último micro-sprint implementado: `POST-H-014-D — Security hardening local de API/UI`
 Siguiente micro-sprint: `POST-H-014-E — Quality gate UI/API industrial shell`
 
@@ -35,10 +57,10 @@ Capacidades añadidas:
 - Smoke tests verifican que la UI sea API-only, local-first, sin remote, sin connector write y sin plugin execution.
 ```
 
-Límites: versión `implemented-initial`; no implementa routing SPA completo, navegación visual avanzada, auth enterprise, ejecución remota, conectores write, plugins ejecutables ni quality-gate final. POST-H-014-D queda como siguiente micro-sprint para security hardening local API/UI.
+Límites: versión `implemented-initial`; no implementa routing SPA completo, navegación visual avanzada, auth enterprise, ejecución remota, conectores write, plugins ejecutables ni quality-gate final. POST-H-014-D queda implementado y POST-H-014-E integra el quality gate final.
 
 Último hito: `POST-H-013 — Audit pack integrity`
-Siguiente hito: `POST-H-014 — UI/API industrial shell`
+Siguiente hito: `POST-H-015 — Local operator dashboard`
 Último micro-sprint implementado: `POST-H-014-C — UI Route Contract y shell de producto`
 Siguiente micro-sprint: `POST-H-014-D — Security hardening local de API/UI`
 
@@ -70,7 +92,7 @@ Artefactos principales: `docs/schemas/api_route_contract_registry.schema.json`, 
 Límites: esta versión es preliminar/implemented-initial; POST-H-014-B debe normalizar response mapping y errores HTTP; POST-H-014-C debe contractar UI routes; POST-H-014-D debe endurecer seguridad local; POST-H-014-E debe integrar el quality gate final.
 
 Último hito: `POST-H-013 — Audit pack integrity`
-Siguiente hito: `POST-H-014 — UI/API industrial shell`
+Siguiente hito: `POST-H-015 — Local operator dashboard`
 Último micro-sprint implementado: `POST-H-014-C — UI Route Contract y shell de producto`
 Siguiente micro-sprint: `POST-H-014-D — Security hardening local de API/UI`
 
@@ -172,9 +194,9 @@ Límites: POST-H-013-A no implementa builder v2, verifier v2, firma, cifrado ni 
 Estado actual: `baseline pre-code approved + Fases A-G cerradas + Fase H cerrada + POST-H-001 implemented-initial + POST-H-EVAL-001 closed + POST-H-002 closed + POST-H-003 closed + POST-H-004 closed + POST-H-005 closed + POST-H-006 closed + POST-H-007 closed + POST-H-008 closed + POST-H-009-A implemented-initial + POST-H-009-B implemented-initial + POST-H-009-C implemented-initial + POST-H-009-D implemented-initial + POST-H-009-E implemented-initial + POST-H-009 closed + POST-H-010-A implemented-initial + POST-H-010-B implemented-initial + POST-H-010-C implemented-initial + POST-H-010-D implemented-initial + POST-H-010-E implemented-initial + POST-H-010 closed + POST-H-011-A implemented-initial + POST-H-011-B implemented-initial + POST-H-011-C implemented-initial + POST-H-011-D implemented-initial + POST-H-011-E implemented-initial + POST-H-011 closed + POST-H-012-A implemented-initial + POST-H-012-B implemented-initial + POST-H-012-C implemented-initial + POST-H-012-D implemented-initial + POST-H-012-E implemented-initial + POST-H-012 closed + POST-H-013-A implemented-initial + POST-H-013-B implemented-initial + POST-H-013-C implemented-initial + POST-H-013-D implemented-initial + POST-H-013-E implemented-initial + POST-H-013 closed`  
 Último hito: `POST-H-013 — Audit pack integrity`
 Hito activo: `POST-H-014 — UI/API industrial shell`
-Siguiente hito: `POST-H-014 — UI/API industrial shell`
-Último hito cerrado: `POST-H-013 — Audit pack integrity`  
-Siguiente hito: `POST-H-014 — UI/API industrial shell`  
+Siguiente hito: `POST-H-015 — Local operator dashboard`
+Último hito cerrado: `POST-H-014 — UI/API industrial shell`  
+Siguiente hito: `POST-H-015 — Local operator dashboard`  
 Último micro-sprint implementado: `POST-H-014-B — Response mapping y errores homogéneos`  
 Hito diagnóstico cerrado: `POST-H-EVAL-001 — Evaluación integral del baseline DevPilot post-Fase H`, cierre formal `POST-H-EVAL-001-G`  
 Hito cerrado: `POST-H-012 — Approval/RBAC hardening`
@@ -183,7 +205,7 @@ Hito cerrado: `POST-H-010 — Observability retention local`
 Hito cerrado: `POST-H-009 — Documentation governance y canonical sources`  
 Hito cerrado: `POST-H-008 — Runtime state lifecycle policy`  
 Hito cerrado: `POST-H-007 — ApplicationService boundary hardening`  
-Siguiente hito recomendado: `POST-H-014 — UI/API industrial shell`  
+Siguiente hito recomendado: `POST-H-015 — Local operator dashboard`  
 Estándar rector: MIPSoftware  
 Extensión inteligente: MIASI  
 Modo de trabajo: local-first híbrido, API keys opcionales, costo externo controlado, dry-run por defecto.

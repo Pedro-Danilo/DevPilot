@@ -40,14 +40,31 @@ from devpilot_core.interfaces.api.ui_contracts import (
     validate_ui_route_contract_registry,
 )
 
+from devpilot_core.interfaces.api.shell_gate import (
+    DEFAULT_UI_API_SHELL_REPORT_JSON,
+    DEFAULT_UI_API_SHELL_REPORT_MARKDOWN,
+    POST_H_014_E_CREATED_BY,
+    UI_API_SHELL_GATE_COMMAND,
+    UI_API_SHELL_REPORT_CONTRACT,
+    UI_API_SHELL_REPORT_SCHEMA_ID,
+    UiApiIndustrialShellGate,
+    UiApiIndustrialShellGateOptions,
+)
+
 __all__ = [
     "DEFAULT_API_ROUTE_CONTRACT_REGISTRY",
     "DEFAULT_API_RESPONSE_MAPPING",
     "DEFAULT_UI_ROUTE_CONTRACT_REGISTRY",
+    "DEFAULT_UI_API_SHELL_REPORT_JSON",
+    "DEFAULT_UI_API_SHELL_REPORT_MARKDOWN",
     "POST_H_014_B_CREATED_BY",
     "POST_H_014_C_CREATED_BY",
+    "POST_H_014_E_CREATED_BY",
     "API_REMOTE_BIND_OVERRIDE_ENV_VAR",
     "UI_ROUTE_CONTRACT_REGISTRY_SCHEMA",
+    "UI_API_SHELL_GATE_COMMAND",
+    "UI_API_SHELL_REPORT_CONTRACT",
+    "UI_API_SHELL_REPORT_SCHEMA_ID",
     "ApiResponseMapping",
     "api_error_response",
     "command_result_to_api_response",
@@ -59,6 +76,8 @@ __all__ = [
     "ApiRouteContractValidationOptions",
     "UiRouteContractRegistryValidator",
     "validate_ui_route_contract_registry",
+    "UiApiIndustrialShellGate",
+    "UiApiIndustrialShellGateOptions",
     "API_TOKEN_ENV_VAR",
     "API_TOKEN_HEADER",
     "DEFAULT_ALLOWED_ORIGINS",

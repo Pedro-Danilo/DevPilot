@@ -5,7 +5,7 @@ status: "implemented-initial"
 version: "0.3.0"
 owner: "Ordóñez"
 updated: "2026-06-28"
-phase: "POST-H-014-C"
+phase: "POST-H-014-E"
 approval: "approved_by_owner"
 ---
 
@@ -120,3 +120,27 @@ python -m pytest -p no:ddtrace tests/test_post_h_014_security_hardening.py tests
 ```
 
 Límite: no habilita acceso remoto ni autenticación enterprise.
+## POST-H-014-E — Quality gate UI/API industrial shell
+
+El cierre del backlog POST-H-014 se opera con el subgate `ui-api-industrial-shell`. Este gate es local-only y compone:
+
+```text
+- ApiRouteContractRegistryValidator
+- UiRouteContractRegistryValidator
+- npm --prefix ui/web test
+- documentación operacional POST-H-014
+- TCR v1/v2
+- schema UiApiShellReport
+```
+
+Comando de evidencia:
+
+```powershell
+python -m devpilot_core api shell-gate --json --write-report
+python -m devpilot_core schema validate --schema-id UiApiShellReport --instance outputs/reports/ui_api_shell_report.json --json
+```
+
+El reporte generado es `outputs/reports/ui_api_shell_report.json`. No debe versionarse dentro de ZIPs limpios; se regenera en cada entorno local.
+
+Límites: versión `implemented-initial`; no habilita SaaS, OIDC, cloud deployment, remote execution, connector write, plugin execution ni APIs externas.
+

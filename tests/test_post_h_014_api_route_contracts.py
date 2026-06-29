@@ -134,8 +134,8 @@ def test_post_h_014_a_docs_contracts_and_backlog_are_synchronized() -> None:
     tcr_v2 = (ROOT / ".devpilot/testing/test_contract_registry_v2.json").read_text(encoding="utf-8")
 
     assert 'status: "approved"' in backlog
-    assert 'current_micro_sprint: "POST-H-014-D"' in backlog
-    assert 'next_micro_sprint: "POST-H-014-E"' in backlog
+    assert 'current_micro_sprint: "POST-H-014-E"' in backlog
+    assert 'next_micro_sprint: "POST-H-015"' in backlog
     assert "POST-H-014-A — Route Contract Registry y API inventory" in backlog
     assert "POST-H-014-A — Route Contract Registry y API inventory" in readme
     assert "POST-H-014-A — Route Contract Registry y API inventory" in runbook

@@ -17,9 +17,9 @@ no_remote_execution_enabled: true
 no_external_apis_used: true
 no_connector_write_enabled: true
 no_plugin_execution_enabled: true
-current_micro_sprint: "POST-H-014-D"
-next_micro_sprint: "POST-H-014-E"
-implementation_status: "active"
+current_micro_sprint: "POST-H-014-E"
+next_micro_sprint: "POST-H-015"
+implementation_status: "closed"
 ---
 
 # POST-H-014 — UI/API industrial shell
@@ -353,13 +353,13 @@ NO-GO si se exponen conectores write o plugins ejecutables.
 ## 12. Definition of Done
 
 ```text
-[ ] Todas las rutas API están contractadas.
-[ ] Todas las páginas UI críticas están contractadas.
-[ ] API responde ApplicationResponse homogéneo.
-[ ] UI muestra estados PASS/FAIL/BLOCK/ERROR.
-[ ] No hay remote, connector write ni plugin execution.
-[ ] Quality gate incluye señal UI/API.
-[ ] Runbook UI/API aprobado.
+[x] Todas las rutas API están contractadas.
+[x] Todas las páginas UI críticas están contractadas.
+[x] API responde ApplicationResponse homogéneo.
+[x] UI muestra estados PASS/FAIL/BLOCK/ERROR.
+[x] No hay remote, connector write ni plugin execution.
+[x] Quality gate incluye señal UI/API.
+[x] Runbook UI/API aprobado.
 ```
 
 
@@ -412,7 +412,7 @@ Limitaciones explícitas:
 - No normaliza aún todos los errores HTTP; eso queda para POST-H-014-B.
 - No crea UI route contract registry; eso queda para POST-H-014-C.
 - No endurece todavía CORS/token más allá de lo existente; eso queda para POST-H-014-D.
-- No integra todavía el subgate ui-api-industrial-shell al quality-gate; eso queda para POST-H-014-E.
+- Subgate ui-api-industrial-shell integrado al quality-gate por POST-H-014-E.
 ```
 
 
@@ -451,7 +451,7 @@ Limitaciones explícitas:
 - No contracta navegación UI; eso queda para POST-H-014-C.
 - No introduce auth enterprise, OIDC, multiusuario ni despliegue cloud.
 - No habilita remote execution, connector write, plugin execution ni APIs externas.
-- No integra aún el subgate final ui-api-industrial-shell; eso queda para POST-H-014-E.
+- Integra el subgate final ui-api-industrial-shell mediante POST-H-014-E.
 ```
 
 
@@ -488,7 +488,7 @@ Limitaciones explícitas:
 - Esta versión es implemented-initial.
 - No implementa router SPA completo, navegación final ni diseño visual definitivo.
 - No introduce auth enterprise ni despliegue cloud.
-- No integra aún el subgate final ui-api-industrial-shell; eso queda para POST-H-014-E.
+- Integra el subgate final ui-api-industrial-shell mediante POST-H-014-E.
 - Security hardening local adicional queda para POST-H-014-D.
 ```
 
@@ -526,5 +526,31 @@ Limitaciones explícitas:
 - Esta versión es implemented-initial.
 - No introduce auth enterprise, OIDC, multiusuario ni despliegue cloud.
 - No habilita remote execution, connector write, plugin execution ni APIs externas.
-- No integra aún el subgate final ui-api-industrial-shell; eso queda para POST-H-014-E.
+- Integra el subgate final ui-api-industrial-shell mediante POST-H-014-E.
+```
+
+## 18. Avance de implementación — POST-H-014-E
+
+Estado: `implemented-initial`.
+
+POST-H-014-E integra la shell local UI/API al quality gate con el subgate `ui-api-industrial-shell`. El gate valida los contratos acumulados de POST-H-014-A/C/D, ejecuta el smoke test Web UI local, verifica documentación operacional y TCR, y puede generar `outputs/reports/ui_api_shell_report.json` validable contra `UiApiShellReport`.
+
+Capacidades implementadas:
+
+```text
+- UiApiIndustrialShellGate en src/devpilot_core/interfaces/api/shell_gate.py.
+- Integración del subgate en quality-gate hardening/industrial.
+- Comando python -m devpilot_core api shell-gate --json --write-report.
+- Schema UiApiShellReport para outputs/reports/ui_api_shell_report.json.
+- TCR v1/v2 actualizado para impacto, seguridad y hardening.
+```
+
+Limitaciones explícitas:
+
+```text
+- Versión implemented-initial.
+- No declara producción SaaS ni certificación compliance.
+- No implementa OIDC, multiusuario, cloud deployment ni transporte externo seguro.
+- No habilita remote execution, connector write, plugin execution ni APIs externas.
+- La evolución UX/producto continúa en POST-H-015.
 ```

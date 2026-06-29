@@ -76,8 +76,8 @@ def create_app(
     security_config = resolve_api_security_config(token=api_token, allowed_origins=allowed_origins)
     app = FastAPI(
         title="DevPilot Local API",
-        version="1.0.0-post-h-014-d",
-        description="Local secured API/UI shell for DevPilot visual dashboard, report/trace viewers, Approval Center, Settings UI and security posture diagnostics. POST-H-014-D implementation.",
+        version="1.0.0-post-h-014-e",
+        description="Local secured API/UI shell for DevPilot visual dashboard, report/trace viewers, Approval Center, Settings UI and security posture diagnostics. POST-H-014-E quality-gated implementation.",
         openapi_url="/api/v1/openapi.json",
         docs_url="/api/v1/docs",
         redoc_url=None,
@@ -184,6 +184,8 @@ def create_app(
             "post_h_014_b_response_mapping": True,
             "post_h_014_c_ui_route_contract": True,
             "post_h_014_d_security_hardening": True,
+            "post_h_014_e_quality_gate": True,
+            "ui_api_shell_quality_gate": "ui-api-industrial-shell",
             "api_implemented": True,
             "api_security_implemented": True,
             "host_default": DEFAULT_API_HOST,

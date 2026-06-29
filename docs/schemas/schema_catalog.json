@@ -814,6 +814,23 @@
       "local_first": true,
       "dry_run_default": true,
       "no_remote_execution_enabled": true
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-UI-API-SHELL-REPORT-V1",
+      "title": "DevPilot UI/API Shell Report v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/ui_api_shell_report.schema.json",
+      "description": "POST-H-014-E local-first quality-gate report schema for the UI/API industrial shell, route registries, smoke test, documentation and no-go safety flags.",
+      "status": "registered",
+      "owner": "Ordóñez",
+      "sprint": "POST-H-014-E",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "contract": "UiApiShellReport",
+      "validation_enabled_sprint": "POST-H-014-E",
+      "local_first": true,
+      "dry_run_default": true,
+      "no_remote_execution_enabled": true
     }
   ]
 }

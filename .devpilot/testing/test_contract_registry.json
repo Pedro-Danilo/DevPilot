@@ -4296,6 +4296,51 @@
         "python -m devpilot_core schema validate --schema-id PostHManifest --instance docs/post_h_014_d_manifest.json --json",
         "npm --prefix ui/web test"
       ]
+    },
+    {
+      "contract_id": "post-h-014-ui-api-shell-quality-gate",
+      "scope": "quality-gate",
+      "owner": "POST-H-014-E",
+      "phase": "POST-FASE-H",
+      "test_files": [
+        "tests/test_post_h_014_ui_api_shell_gate.py",
+        "tests/test_post_h_014_api_route_contracts.py",
+        "tests/test_post_h_014_ui_shell_contract.py",
+        "tests/test_post_h_014_security_hardening.py",
+        "tests/test_quality_gate.py"
+      ],
+      "validates": [
+        "src/devpilot_core/interfaces/api/shell_gate.py",
+        "src/devpilot_core/quality/gate.py",
+        "src/devpilot_core/cli.py",
+        "docs/schemas/ui_api_shell_report.schema.json",
+        ".devpilot/interfaces/api_route_contract_registry.json",
+        ".devpilot/interfaces/ui_route_contract_registry.json",
+        "ui/web/scripts/smoke-test.mjs",
+        "docs/post_h_014_e_manifest.json",
+        "docs/audits/post_h_014_e_quality_gate_report.md"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/interfaces/api/",
+        "src/devpilot_core/quality/gate.py",
+        "src/devpilot_core/cli.py",
+        ".devpilot/interfaces/",
+        "ui/web/",
+        "docs/backlogs/POST-H-014_ui_api_industrial_shell.md",
+        "docs/07_interfaces/ui_api_industrial_shell.md",
+        "docs/05_operations/ui_api_local_runbook.md",
+        "tests/test_post_h_014_ui_api_shell_gate.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace tests/test_post_h_014_ui_api_shell_gate.py tests/test_post_h_014_api_route_contracts.py tests/test_post_h_014_ui_shell_contract.py tests/test_post_h_014_security_hardening.py -q",
+        "python -m devpilot_core api shell-gate --json --write-report",
+        "python -m devpilot_core schema validate --schema-id UiApiShellReport --instance outputs/reports/ui_api_shell_report.json --json",
+        "python -m devpilot_core quality-gate run --profile hardening --json",
+        "python -m devpilot_core test-contracts validate --json"
+      ]
     }
   ],
   "notes": [

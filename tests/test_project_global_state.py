@@ -23,15 +23,15 @@ def test_project_global_state_schema_and_docs_are_synchronized() -> None:
     changelog = read("docs/release/CHANGELOG.md")
 
     assert state["current_phase"] == "POST-FASE-H"
-    assert state["last_completed_sprint"] == "POST-H-013"
+    assert state["last_completed_sprint"] == "POST-H-014"
     assert state["last_functional_sprint"] == "FUNC-SPRINT-99"
-    assert state["next_sprint"] == "POST-H-014"
+    assert state["next_sprint"] == "POST-H-015"
     assert state["phase_h_status"] == "closed_implemented_initial"
     assert state["industrial_baseline_ready"] is True
     assert state["global_state_owner"] == "tests/test_project_global_state.py"
 
-    assert "Último hito cerrado: `POST-H-013" in readme
-    assert "Siguiente hito: `POST-H-014" in readme
+    assert "Último hito cerrado: `POST-H-014" in readme
+    assert "Siguiente hito: `POST-H-015" in readme
     assert "POST-H-006 — CLI command registry y desacoplamiento de handlers" in readme
     assert "POST-H-005-E — Operación del reporte final ArchitectureMap" in runbook
     assert 'status: "approved"' in post_h_doc
@@ -102,24 +102,28 @@ def test_project_global_state_schema_and_docs_are_synchronized() -> None:
     assert any("POST-H-013-D adds optional local crypto" in note for note in state["notes"])
     assert any("POST-H-013-E closes Audit pack integrity" in note for note in state["notes"])
     assert any("POST-H-014 is the next prioritized hito" in note for note in state["notes"])
-    assert state.get("current_micro_sprint") == "POST-H-014-D"
-    assert state.get("next_micro_sprint") == "POST-H-014-E"
+    assert state.get("current_micro_sprint") == "POST-H-014-E"
+    assert state.get("next_micro_sprint") == "POST-H-015"
     assert "POST-H-014-A — Route Contract Registry y API inventory" in readme
     assert "POST-H-014-B — Response mapping y errores homogéneos" in readme
     assert "POST-H-014-C — UI Route Contract y shell de producto" in readme
     assert "POST-H-014-D — Security hardening local de API/UI" in readme
+    assert "POST-H-014-E — Quality gate UI/API industrial shell" in readme
     assert "POST-H-014-A — Route Contract Registry y API inventory" in runbook
     assert "POST-H-014-B — Response mapping y errores homogéneos" in runbook
     assert "POST-H-014-C — UI Route Contract y shell de producto" in runbook
     assert "POST-H-014-D — Security hardening local de API/UI" in runbook
+    assert "POST-H-014-E — Quality gate UI/API industrial shell" in runbook
     assert "post-h-014-a" in changelog
     assert "post-h-014-b" in changelog
     assert "post-h-014-c" in changelog
     assert "post-h-014-d" in changelog
+    assert "post-h-014-e" in changelog
     assert any("POST-H-014-A approves UI/API industrial shell" in note for note in state["notes"])
     assert any("POST-H-014-B adds homogeneous response mapping" in note for note in state["notes"])
     assert any("POST-H-014-C adds UI Route Contract Registry" in note for note in state["notes"])
     assert any("POST-H-014-D adds local API/UI security hardening" in note for note in state["notes"])
+    assert any("POST-H-014-E closes UI/API industrial shell" in note for note in state["notes"])
     assert any("POST-H-012-A approves" in note for note in state["notes"])
     assert any("POST-H-012-C adds RBAC exposure reporting" in note for note in state["notes"])
     assert any("POST-H-012-D adds homogeneous PolicyEngine enforcement" in note for note in state["notes"])
@@ -130,6 +134,6 @@ def test_project_global_state_command_result_passes() -> None:
     result = TestContractRegistry(ROOT).project_state()
 
     assert result.ok, result.to_dict()
-    assert result.data["summary"]["last_completed_sprint"] == "POST-H-013"
-    assert result.data["summary"]["next_sprint"] == "POST-H-014"
+    assert result.data["summary"]["last_completed_sprint"] == "POST-H-014"
+    assert result.data["summary"]["next_sprint"] == "POST-H-015"
     assert result.data["summary"]["checks_passed"] == result.data["summary"]["checks_total"]

@@ -6,13 +6,38 @@ version: "1.50.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "POST-H-014-D"
+phase: "POST-H-014-E"
 updated: "2026-06-28"
 approval: "approved_by_owner"
 source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved + 03_security approved"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "SPRINT-PRECODE-05 quality operations baseline"
 ---
+
+## POST-H-014-E — Quality gate UI/API industrial shell
+
+Propósito operativo: ejecutar el cierre local de POST-H-014 con el subgate `ui-api-industrial-shell`, que compone los contratos API/UI, smoke test Web UI, security posture local y documentación operacional.
+
+Comandos principales:
+
+```powershell
+$env:PYTHONPATH="src"
+python -m devpilot_core api shell-gate --json --write-report
+python -m devpilot_core schema validate --schema-id UiApiShellReport --instance outputs/reports/ui_api_shell_report.json --json
+python -m devpilot_core quality-gate run --profile hardening --json
+```
+
+Criterios PASS:
+
+```text
+- El subgate ui-api-industrial-shell aparece en quality-gate hardening/industrial.
+- ApiRouteContractRegistry y UiRouteContractRegistry pasan sin rutas stale/no contractadas.
+- npm --prefix ui/web test pasa localmente.
+- outputs/reports/ui_api_shell_report.json valida contra UiApiShellReport.
+- No se habilita remote execution, connector write, plugin execution ni external APIs.
+```
+
+Límites: `implemented-initial`; este gate no reemplaza auth enterprise/OIDC, despliegue cloud, certificación compliance ni hardening de producción. Mantiene operación local-first y dry-run.
 
 ## POST-H-014-D — Security hardening local de API/UI
 
@@ -45,11 +70,11 @@ BLOCK si 0.0.0.0/non-local puede iniciar la API local.
 BLOCK si un secreto aparece en settings, posture o UI renderizada.
 ```
 
-Límites: versión `implemented-initial`; no sustituye auth enterprise/OIDC, no habilita remote execution y no integra aún el subgate final de POST-H-014-E.
+Límites: versión `implemented-initial`; no sustituye auth enterprise/OIDC, no habilita remote execution y mantiene el subgate final POST-H-014-E integrado como evidencia local implemented-initial.
 
 # Runbook — DevPilot Local
 
-Último hito cerrado: `POST-H-013 — Audit pack integrity`; hito operativo activo: `POST-H-014 — UI/API industrial shell`; último micro-sprint implementado: `POST-H-014-C — UI Route Contract y shell de producto`; siguiente hito: `POST-H-014 — UI/API industrial shell`.
+Último hito cerrado: `POST-H-014 — UI/API industrial shell`; último micro-sprint implementado: `POST-H-014-E — Quality gate UI/API industrial shell`; siguiente hito: `POST-H-015 — Local operator dashboard`.
 
 ## POST-H-014-C — UI Route Contract y shell de producto
 
@@ -83,7 +108,7 @@ BLOCK si aparece remote_execution_allowed, connector_write_allowed, plugin_execu
 BLOCK si una acción destructiva aparece en client.ts o en la shell.
 ```
 
-Límites: versión `implemented-initial`. No implementa router SPA completo ni UX final; POST-H-014-D debe endurecer seguridad local y POST-H-014-E integrará el subgate final `ui-api-industrial-shell`.
+Límites: versión `implemented-initial`. No implementa router SPA completo ni UX final; POST-H-014-D endurece seguridad local y POST-H-014-E integra el subgate final `ui-api-industrial-shell`.
 
 
 ## POST-H-014-B — Response mapping y errores homogéneos
@@ -116,7 +141,7 @@ BLOCK si un error técnico filtra Traceback, secretos o rutas internas innecesar
 BLOCK si el mapping se duplica en routers en lugar de usar response_mapping.py.
 ```
 
-Límites: versión `implemented-initial`. UI route contract ya queda cubierto por POST-H-014-C; security hardening adicional corresponde a POST-H-014-D y quality gate final a POST-H-014-E.
+Límites: versión `implemented-initial`. UI route contract ya queda cubierto por POST-H-014-C; security hardening corresponde a POST-H-014-D y quality gate final queda implementado por POST-H-014-E.
 
 
 ## POST-H-014-A — Route Contract Registry y API inventory
@@ -148,7 +173,7 @@ Criterios BLOCK:
 BLOCK si hay ruta no registrada, contrato obsoleto, ruta sensible sin auth/policy o cualquier no-go gate habilitado.
 ```
 
-Límites: versión `implemented-initial`. Response mapping queda para POST-H-014-B; UI routes para POST-H-014-C; security hardening local para POST-H-014-D; quality gate final para POST-H-014-E.
+Límites: versión `implemented-initial`. Response mapping queda cubierto por POST-H-014-B; UI routes por POST-H-014-C; security hardening local por POST-H-014-D; quality gate final por POST-H-014-E.
 
 
 ## POST-H-013-A — Audit pack manifest v2 y policy

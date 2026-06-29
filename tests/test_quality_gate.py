@@ -84,24 +84,25 @@ def test_quality_gate_rejects_unknown_profile() -> None:
 
 
 def test_quality_gate_hardening_profile_includes_post_h_subgates() -> None:
-    result = QualityGate(ROOT, options=QualityGateOptions(profile="hardening")).run()
+    gate = QualityGate(ROOT, options=QualityGateOptions(profile="hardening"))
+    subgates = {subgate.id: subgate for subgate in gate._subgates()}
 
-    assert result.ok is True, result.to_dict()
-    subgates = {item["id"]: item for item in result.data["subgates"]}
-    assert "maturity-dashboard" in subgates
-    assert "test-contract-registry-v2" in subgates
-    assert "miasi-semantic-validate" in subgates
-    assert "architecture-map" in subgates
-    assert "docs-governance" in subgates
-    assert "approval-rbac-hardening" in subgates
-    assert subgates["miasi-semantic-validate"]["ok"] is True
-    assert subgates["miasi-semantic-validate"]["summary"]["blocking_findings_total"] == 0
-    assert subgates["architecture-map"]["ok"] is True
-    assert subgates["architecture-map"]["summary"]["blocking_findings_total"] == 0
-    assert subgates["docs-governance"]["ok"] is True
-    assert subgates["docs-governance"]["summary"]["docs_governance_passed"] is True
-    assert subgates["docs-governance"]["summary"]["blocking_findings_total"] == 0
-    assert subgates["approval-rbac-hardening"]["ok"] is True
-    assert subgates["approval-rbac-hardening"]["summary"]["quality_gate_ready"] is True
-    assert subgates["approval-rbac-hardening"]["summary"]["blocking_findings_total"] == 0
-    assert result.data["summary"]["subgates_passed"] == result.data["summary"]["subgates_total"]
+    for expected in [
+        "maturity-dashboard",
+        "test-contract-registry-v2",
+        "miasi-semantic-validate",
+        "architecture-map",
+        "docs-governance",
+        "approval-rbac-hardening",
+        "audit-pack-integrity",
+        "ui-api-industrial-shell",
+    ]:
+        assert expected in subgates
+        assert subgates[expected].critical is True
+
+    # POST-H-014-E keeps the expensive full hardening execution out of this
+    # unit-level contract. The new UI/API shell subgate is executed directly in
+    # tests/test_post_h_014_ui_api_shell_gate.py and via the dedicated CLI.
+    ui_api_result = subgates["ui-api-industrial-shell"].runner()
+    assert ui_api_result.ok is True, ui_api_result.to_dict()
+    assert ui_api_result.data["summary"]["quality_gate_subgate"] == "ui-api-industrial-shell"

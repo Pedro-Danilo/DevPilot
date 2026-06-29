@@ -131,8 +131,8 @@ def test_post_h_014_c_docs_contracts_and_backlog_are_synchronized() -> None:
     tcr_v1 = (ROOT / ".devpilot/testing/test_contract_registry.json").read_text(encoding="utf-8")
     tcr_v2 = (ROOT / ".devpilot/testing/test_contract_registry_v2.json").read_text(encoding="utf-8")
 
-    assert 'current_micro_sprint: "POST-H-014-D"' in backlog
-    assert 'next_micro_sprint: "POST-H-014-E"' in backlog
+    assert 'current_micro_sprint: "POST-H-014-E"' in backlog
+    assert 'next_micro_sprint: "POST-H-015"' in backlog
     assert "POST-H-014-C — UI Route Contract y shell de producto" in backlog
     assert "UiRouteContractRegistry" in readme
     assert "UiRouteContractRegistry" in runbook
