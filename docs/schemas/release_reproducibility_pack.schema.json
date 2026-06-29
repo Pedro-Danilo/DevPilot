@@ -1,0 +1,134 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/SCHEMA-DEVPL-RELEASE-REPRODUCIBILITY-PACK-V1",
+  "title": "DevPilot Release Reproducibility Pack v1",
+  "description": "POST-H-017-A structural contract for a local dry-run release reproducibility evidence pack. It declares git state, validation evidence, artifacts, exclusions and safety flags without publishing or deploying anything.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "schema_id",
+    "pack_id",
+    "created_by",
+    "status",
+    "generated_at_utc",
+    "git",
+    "validation",
+    "artifacts",
+    "exclusions",
+    "policy",
+    "safety",
+    "preliminary"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "schema_id": {"const": "SCHEMA-DEVPL-RELEASE-REPRODUCIBILITY-PACK-V1"},
+    "pack_id": {"type": "string", "minLength": 8, "pattern": "^[a-z0-9_.:-]+$"},
+    "created_by": {"const": "POST-H-017-A"},
+    "status": {"enum": ["draft", "implemented-initial", "verified-local"]},
+    "generated_at_utc": {"type": "string", "minLength": 10},
+    "git": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["commit", "branch", "dirty", "archive_method", "source_archive_required", "git_metadata_required"],
+      "properties": {
+        "commit": {"type": "string", "minLength": 4},
+        "branch": {"type": ["string", "null"]},
+        "dirty": {"type": "boolean"},
+        "archive_method": {"enum": ["git archive", "source-archive-manifest"]},
+        "source_archive_required": {"const": true},
+        "git_metadata_required": {"const": true}
+      }
+    },
+    "validation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["pytest_summary", "quality_gate_hardening", "test_contracts", "test_contracts_v2", "docs_governance", "industrial_readiness"],
+      "properties": {
+        "pytest_summary": {"type": "string", "minLength": 1},
+        "quality_gate_hardening": {"enum": ["pass", "fail", "blocked", "not-run-in-pack"]},
+        "test_contracts": {"enum": ["pass", "fail", "blocked", "not-run-in-pack"]},
+        "test_contracts_v2": {"enum": ["pass", "fail", "blocked", "not-run-in-pack"]},
+        "docs_governance": {"enum": ["pass", "fail", "blocked", "not-run-in-pack"]},
+        "industrial_readiness": {"enum": ["pass", "fail", "blocked", "not-run-in-pack"]}
+      }
+    },
+    "artifacts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["changelog", "manifest", "sbom", "checksums", "environment_snapshot", "source_archive_manifest"],
+      "properties": {
+        "changelog": {"type": "string", "minLength": 1},
+        "manifest": {"type": "string", "minLength": 1},
+        "sbom": {"type": "string", "minLength": 1},
+        "checksums": {"type": "string", "minLength": 1},
+        "environment_snapshot": {"type": "string", "minLength": 1},
+        "source_archive_manifest": {"type": "string", "minLength": 1}
+      }
+    },
+    "exclusions": {
+      "type": "array",
+      "minItems": 5,
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1},
+      "contains": {"const": "outputs/"}
+    },
+    "policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["policy_id", "policy_path", "runtime_artifacts_forbidden", "dirty_repo_blocks_reproducible_release", "secret_free_required", "dry_run_only"],
+      "properties": {
+        "policy_id": {"const": "devpilot-release-reproducibility-policy"},
+        "policy_path": {"const": ".devpilot/release/reproducibility_policy.json"},
+        "runtime_artifacts_forbidden": {"const": true},
+        "dirty_repo_blocks_reproducible_release": {"const": true},
+        "secret_free_required": {"const": true},
+        "dry_run_only": {"const": true}
+      }
+    },
+    "safety": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "local_first",
+        "dry_run",
+        "published",
+        "deployed",
+        "network_used",
+        "external_api_used",
+        "remote_execution_used",
+        "connector_write_used",
+        "plugin_execution_used",
+        "mutations_performed",
+        "source_mutations_performed",
+        "secrets_included"
+      ],
+      "properties": {
+        "local_first": {"const": true},
+        "dry_run": {"const": true},
+        "published": {"const": false},
+        "deployed": {"const": false},
+        "network_used": {"const": false},
+        "external_api_used": {"const": false},
+        "remote_execution_used": {"const": false},
+        "connector_write_used": {"const": false},
+        "plugin_execution_used": {"const": false},
+        "mutations_performed": {"const": false},
+        "source_mutations_performed": {"const": false},
+        "secrets_included": {"const": false}
+      }
+    },
+    "preliminary": {"const": true}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"git": {"properties": {"dirty": {"const": true}}}}},
+      "then": {"properties": {"status": {"not": {"const": "verified-local"}}}}
+    }
+  ],
+  "x-devpilot-schema-id": "SCHEMA-DEVPL-RELEASE-REPRODUCIBILITY-PACK-V1",
+  "x-devpilot-version": "1.0.0",
+  "x-devpilot-sprint": "POST-H-017-A",
+  "x-devpilot-status": "registered",
+  "x-devpilot-preliminary": true
+}

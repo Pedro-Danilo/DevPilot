@@ -1,0 +1,103 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/SCHEMA-DEVPL-RELEASE-ENVIRONMENT-SNAPSHOT-V1",
+  "title": "DevPilot Release Environment Snapshot v1",
+  "description": "POST-H-017-A structural contract for a redacted local environment snapshot used by release reproducibility evidence. It must not include secret values or full .env contents.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "schema_id",
+    "snapshot_id",
+    "created_by",
+    "status",
+    "generated_at_utc",
+    "python",
+    "platform",
+    "package_managers",
+    "project_files",
+    "redaction",
+    "safety",
+    "preliminary"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "schema_id": {"const": "SCHEMA-DEVPL-RELEASE-ENVIRONMENT-SNAPSHOT-V1"},
+    "snapshot_id": {"type": "string", "minLength": 8, "pattern": "^[a-z0-9_.:-]+$"},
+    "created_by": {"const": "POST-H-017-A"},
+    "status": {"enum": ["draft", "implemented-initial", "verified-local"]},
+    "generated_at_utc": {"type": "string", "minLength": 10},
+    "python": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["version", "implementation", "executable_kind"],
+      "properties": {
+        "version": {"type": "string", "minLength": 1},
+        "implementation": {"type": "string", "minLength": 1},
+        "executable_kind": {"enum": ["python", "venv-python", "unknown"]}
+      }
+    },
+    "platform": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["system", "release", "machine"],
+      "properties": {
+        "system": {"type": "string", "minLength": 1},
+        "release": {"type": "string"},
+        "machine": {"type": "string"}
+      }
+    },
+    "package_managers": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["pip", "npm", "node"],
+      "properties": {
+        "pip": {"type": ["string", "null"]},
+        "npm": {"type": ["string", "null"]},
+        "node": {"type": ["string", "null"]}
+      }
+    },
+    "project_files": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["pyproject_toml", "ui_package_json", "ui_package_lock"],
+      "properties": {
+        "pyproject_toml": {"type": "boolean"},
+        "ui_package_json": {"type": "boolean"},
+        "ui_package_lock": {"type": "boolean"}
+      }
+    },
+    "redaction": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["env_files_read", "secret_values_read", "secret_values_included", "redacted_keys", "blocked_key_patterns"],
+      "properties": {
+        "env_files_read": {"const": false},
+        "secret_values_read": {"const": false},
+        "secret_values_included": {"const": false},
+        "redacted_keys": {"type": "array", "items": {"type": "string"}},
+        "blocked_key_patterns": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}}
+      }
+    },
+    "safety": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["local_first", "dry_run", "network_used", "external_api_used", "mutations_performed", "source_mutations_performed", "secrets_included"],
+      "properties": {
+        "local_first": {"const": true},
+        "dry_run": {"const": true},
+        "network_used": {"const": false},
+        "external_api_used": {"const": false},
+        "mutations_performed": {"const": false},
+        "source_mutations_performed": {"const": false},
+        "secrets_included": {"const": false}
+      }
+    },
+    "preliminary": {"const": true}
+  },
+  "x-devpilot-schema-id": "SCHEMA-DEVPL-RELEASE-ENVIRONMENT-SNAPSHOT-V1",
+  "x-devpilot-version": "1.0.0",
+  "x-devpilot-sprint": "POST-H-017-A",
+  "x-devpilot-status": "registered",
+  "x-devpilot-preliminary": true
+}

@@ -8695,16 +8695,72 @@
       "classification_notes": [
         "POST-H-016-E validates local read-only workspace portfolio hardening and closes the POST-H-016 hito without enabling remote execution, connector write or plugin execution."
       ]
+    },
+    {
+      "contract_id": "post-h-017-release-reproducibility-schema-policy",
+      "schema_version": "2.0",
+      "source_contract_id": "post-h-017-release-reproducibility-schema-policy",
+      "domain": "release",
+      "capability": "Release reproducibility schema and policy",
+      "criticality": "P2",
+      "risk_level": "medium",
+      "test_type": "schema",
+      "execution_profile": "release",
+      "cost_class": "low",
+      "expected_duration_seconds": 8,
+      "test_files": [
+        "tests/test_post_h_017_release_reproducibility_schema.py"
+      ],
+      "watched_paths": [
+        "docs/schemas/release_reproducibility_pack.schema.json",
+        "docs/schemas/release_environment_snapshot.schema.json",
+        ".devpilot/release/reproducibility_policy.json",
+        "src/devpilot_core/release/reproducibility_policy.py",
+        "tests/fixtures/release_reproducibility_pack.valid.json",
+        "tests/fixtures/release_environment_snapshot.valid.json"
+      ],
+      "validates": [
+        "ReleaseReproducibilityPack schema validity",
+        "ReleaseEnvironmentSnapshot schema redaction contract",
+        "Release reproducibility policy runtime exclusions and secret-free/dry-run safety flags",
+        "POST-H-017-A documentation/project-state/TCR synchronization"
+      ],
+      "trigger_hints": [
+        "release-reproducibility",
+        "schema-catalog",
+        "release-policy",
+        "post-h-017"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": false,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "POST-H-017-A",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace tests/test_post_h_017_release_reproducibility_schema.py tests/test_schema_registry.py tests/test_documentation_governance_validator.py tests/test_project_global_state.py -q",
+        "python -m devpilot_core schema validate --schema-id ReleaseReproducibilityPack --instance tests/fixtures/release_reproducibility_pack.valid.json --json",
+        "python -m devpilot_core schema validate --schema-id ReleaseEnvironmentSnapshot --instance tests/fixtures/release_environment_snapshot.valid.json --json",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ],
+      "classification_status": "explicit",
+      "notes": [
+        "POST-H-017-A creates schema and policy only; pack generation and verifier are later micro-sprints.",
+        "All checks are local-first, dry-run and secret-free."
+      ]
     }
   ],
   "migration_metadata": {
-    "source_contracts_total": 145,
+    "source_contracts_total": 146,
     "migrator": "TestContractRegistryV2Migrator",
     "source_registry_preserved": true,
     "tests_executed": false,
     "network_used": false,
     "external_api_used": false,
     "mutations_performed_by_default": false,
-    "contracts_total": 145
+    "contracts_total": 145,
+    "last_updated_by": "POST-H-017-A"
   }
 }

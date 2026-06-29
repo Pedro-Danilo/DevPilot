@@ -2,8 +2,10 @@
 doc_id: "POST-H-016-WORKSPACE-ONBOARDING-CHECKLIST"
 title: "Workspace onboarding checklist"
 status: "approved"
+version: "1.0.0"
 owner: "Ordóñez"
 updated: "2026-06-29"
+approval: "approved_by_owner"
 phase: "POST-H-016-E"
 ---
 

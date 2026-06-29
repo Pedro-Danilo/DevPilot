@@ -8,8 +8,8 @@
   "last_completed_sprint": "POST-H-016",
   "last_functional_sprint": "FUNC-SPRINT-99",
   "next_sprint": "POST-H-017",
-  "source_repo": "repo_DevPilot_Local_214_POST_H_016_D.zip",
-  "current_repo": "repo_DevPilot_Local_215_POST_H_016_E.zip",
+  "source_repo": "repo_DevPilot_Local_215_POST_H_016_E.zip",
+  "current_repo": "repo_DevPilot_Local_216_POST_H_017_A.zip",
   "global_state_owner": "tests/test_project_global_state.py",
   "mutable_global_state_fields": [
     "last_completed_sprint",
@@ -102,8 +102,11 @@
     "POST-H-016-C hardens portfolio status over Workspace Registry v2 plus WorkspaceIsolationValidator, reporting only registered workspaces, unknown operational sources and no-go metadata without reading secrets or state DBs.",
     "POST-H-016-D adds secure CLI/API integration for portfolio status through ApplicationService and protected GET /api/v1/portfolio/status without active workspace mutation.",
     "POST-H-016-E closes Workspace portfolio hardening as implemented-initial: workspace-portfolio-hardening is bound to hardening/industrial quality gates, validates registry v2, isolation, portfolio status, operation catalog, api.portfolio.status and onboarding docs without enabling remote execution, connector write, plugin execution, network or external APIs.",
-    "POST-H-017 is the next prioritized hito: Release reproducibility pack."
+    "POST-H-017 is the next prioritized hito: Release reproducibility pack.",
+    "POST-H-017-A approves Release reproducibility pack and adds schema-backed ReleaseReproducibilityPack plus ReleaseEnvironmentSnapshot contracts.",
+    "POST-H-017-A adds local release reproducibility policy with runtime exclusions, dirty-repo block semantics, secret-free evidence requirements and dry-run-only safety flags.",
+    "POST-H-017-B is next: redacted environment snapshot generation without reading .env or secret values."
   ],
-  "current_micro_sprint": "POST-H-016-E",
-  "next_micro_sprint": "POST-H-017"
+  "current_micro_sprint": "POST-H-017-A",
+  "next_micro_sprint": "POST-H-017-B"
 }

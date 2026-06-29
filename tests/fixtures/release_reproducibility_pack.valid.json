@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "SCHEMA-DEVPL-RELEASE-REPRODUCIBILITY-PACK-V1",
+  "pack_id": "devpilot-release-reproducibility-20260629",
+  "created_by": "POST-H-017-A",
+  "status": "implemented-initial",
+  "generated_at_utc": "2026-06-29T19:30:00Z",
+  "git": {
+    "commit": "HEAD",
+    "branch": "post-h",
+    "dirty": false,
+    "archive_method": "git archive",
+    "source_archive_required": true,
+    "git_metadata_required": true
+  },
+  "validation": {
+    "pytest_summary": "not-run-in-pack",
+    "quality_gate_hardening": "not-run-in-pack",
+    "test_contracts": "not-run-in-pack",
+    "test_contracts_v2": "not-run-in-pack",
+    "docs_governance": "not-run-in-pack",
+    "industrial_readiness": "not-run-in-pack"
+  },
+  "artifacts": {
+    "changelog": "docs/release/CHANGELOG.md",
+    "manifest": "outputs/reports/release_manifest.json",
+    "sbom": "outputs/reports/sbom.json",
+    "checksums": "outputs/reports/checksums.sha256",
+    "environment_snapshot": "outputs/release/environment_snapshot.json",
+    "source_archive_manifest": "outputs/release/source_archive_manifest.json"
+  },
+  "exclusions": [
+    "outputs/",
+    ".devpilot/devpilot.db",
+    ".devpilot/agent_sessions/",
+    ".venv/",
+    "node_modules/"
+  ],
+  "policy": {
+    "policy_id": "devpilot-release-reproducibility-policy",
+    "policy_path": ".devpilot/release/reproducibility_policy.json",
+    "runtime_artifacts_forbidden": true,
+    "dirty_repo_blocks_reproducible_release": true,
+    "secret_free_required": true,
+    "dry_run_only": true
+  },
+  "safety": {
+    "local_first": true,
+    "dry_run": true,
+    "published": false,
+    "deployed": false,
+    "network_used": false,
+    "external_api_used": false,
+    "remote_execution_used": false,
+    "connector_write_used": false,
+    "plugin_execution_used": false,
+    "mutations_performed": false,
+    "source_mutations_performed": false,
+    "secrets_included": false
+  },
+  "preliminary": true
+}

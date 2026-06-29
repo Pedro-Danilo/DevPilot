@@ -1,0 +1,72 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "SCHEMA-DEVPL-POST-H-MANIFEST-V1",
+  "post_h_id": "POST-H-017",
+  "title": "POST-H-017-A — Release reproducibility schema y policy",
+  "status": "implemented-initial",
+  "phase": "POST-FASE-H",
+  "implemented_at": "2026-06-29",
+  "created_files": [
+    "docs/schemas/release_reproducibility_pack.schema.json",
+    "docs/schemas/release_environment_snapshot.schema.json",
+    ".devpilot/release/reproducibility_policy.json",
+    "src/devpilot_core/release/reproducibility_policy.py",
+    "tests/fixtures/release_reproducibility_pack.valid.json",
+    "tests/fixtures/release_environment_snapshot.valid.json",
+    "tests/test_post_h_017_release_reproducibility_schema.py",
+    "docs/POST-H-017_release_reproducibility_pack.md",
+    "docs/audits/post_h_017_a_release_reproducibility_schema_policy_report.md"
+  ],
+  "modified_files": [
+    "docs/backlogs/POST-H-017_release_reproducibility_pack.md",
+    "docs/schemas/schema_catalog.json",
+    "src/devpilot_core/release/__init__.py",
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/05_operations/workspace_onboarding_checklist.md",
+    "docs/release/CHANGELOG.md",
+    ".devpilot/project_state.json",
+    ".devpilot/docs_governance/source_registry.json",
+    ".devpilot/testing/test_contract_registry.json",
+    ".devpilot/testing/test_contract_registry_v2.json",
+    "tests/test_schema_registry.py",
+    "tests/test_project_global_state.py",
+    "tests/test_documentation_governance_validator.py"
+  ],
+  "commands": [
+    "python -m pytest -p no:ddtrace tests/test_post_h_017_release_reproducibility_schema.py tests/test_schema_registry.py tests/test_documentation_governance_validator.py tests/test_project_global_state.py -q",
+    "python -m devpilot_core schema validate --schema-id ReleaseReproducibilityPack --instance tests/fixtures/release_reproducibility_pack.valid.json --json",
+    "python -m devpilot_core schema validate --schema-id ReleaseEnvironmentSnapshot --instance tests/fixtures/release_environment_snapshot.valid.json --json",
+    "python -m devpilot_core docs-governance validate --json",
+    "python -m devpilot_core test-contracts validate --json",
+    "python -m devpilot_core test-contracts validate-v2 --json"
+  ],
+  "tests": [
+    "tests/test_post_h_017_release_reproducibility_schema.py",
+    "tests/test_schema_registry.py",
+    "tests/test_documentation_governance_validator.py",
+    "tests/test_project_global_state.py"
+  ],
+  "pass_criteria": [
+    "ReleaseReproducibilityPack schema is registered and validates the contractual fixture.",
+    "ReleaseEnvironmentSnapshot schema is registered and validates a redacted fixture.",
+    "Policy declares critical runtime exclusions including outputs/, .devpilot/devpilot.db, .venv/ and node_modules/.",
+    "Policy requires dirty repo block semantics, secret-free evidence and dry-run-only behavior.",
+    "POST-H-017 is approved and synchronized across README, runbook, backlog, source registry, project state and TCR v1/v2."
+  ],
+  "block_criteria": [
+    "BLOCK if the pack schema allows secrets_included=true, network_used=true, published=true or deployed=true.",
+    "BLOCK if the environment snapshot schema allows reading .env files or secret values.",
+    "BLOCK if the policy misses runtime artifact exclusions.",
+    "BLOCK if dirty_repo_blocks_reproducible_release=false, secret_free_required=false or dry_run_only=false.",
+    "BLOCK if POST-H-017-A is not registered in TCR v1/v2 and docs governance."
+  ],
+  "risks": [
+    "This is a schema/policy baseline only; pack generation, environment capture, archive manifest, verifier and final quality gate remain pending.",
+    "A future verifier must avoid false reproducibility claims when git state is dirty or runtime artifacts are included.",
+    "Secret redaction must remain deny-by-default in POST-H-017-B and later."
+  ],
+  "next_sprint": "POST-H-017",
+  "next_micro_sprint": "POST-H-017-B",
+  "preliminary": true
+}

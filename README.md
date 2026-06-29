@@ -1,3 +1,24 @@
+## POST-H-017-A — Release reproducibility schema y policy
+
+Estado: `implemented-initial / hito activo`.
+
+DevPilot inicia `POST-H-017 — Release reproducibility pack` con contratos schema-backed y policy local para evidencia reproducible de release dry-run. Esta entrega no genera todavía el pack final: define el contrato industrial mínimo que deberán cumplir los micro-sprints posteriores.
+
+Capacidades:
+
+- `ReleaseReproducibilityPack` (`docs/schemas/release_reproducibility_pack.schema.json`) define git state, validations, artifacts, exclusions, policy y safety flags.
+- `ReleaseEnvironmentSnapshot` (`docs/schemas/release_environment_snapshot.schema.json`) define snapshot de ambiente redactado sin leer `.env` ni valores de secretos.
+- `.devpilot/release/reproducibility_policy.json` declara exclusiones críticas, bloqueo de dirty repo, modo dry-run y safety flags secret-free.
+- `ReleaseReproducibilityPolicyValidator` valida semánticamente la policy sin red, APIs externas, shell, secretos ni mutaciones.
+
+Límites: versión `implemented-initial`; no publica, no despliega, no firma remoto, no genera todavía `outputs/release/reproducibility_pack.json`, no captura ambiente real y no calcula checksums/source archive manifest. Eso queda para POST-H-017-B/C/D/E.
+
+Último hito: `POST-H-016 — Workspace portfolio hardening`
+Último hito cerrado: `POST-H-016 — Workspace portfolio hardening`
+Siguiente hito: `POST-H-017 — Release reproducibility pack`
+Último micro-sprint implementado: `POST-H-017-A — Release reproducibility schema y policy`
+Siguiente micro-sprint: `POST-H-017-B — Environment snapshot redactado`
+
 ## POST-H-016-E — Quality gate y runbook
 
 Estado: `implemented-initial / hito cerrado`. DevPilot cierra `POST-H-016 — Workspace portfolio hardening` con el subgate `workspace-portfolio-hardening`, el comando focal `portfolio hardening-gate` y el checklist operacional de onboarding de workspaces.

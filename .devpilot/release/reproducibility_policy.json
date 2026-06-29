@@ -1,0 +1,75 @@
+{
+  "schema_version": "1.0",
+  "policy_id": "devpilot-release-reproducibility-policy",
+  "created_by": "POST-H-017-A",
+  "status": "implemented-initial",
+  "preliminary": true,
+  "purpose": "Local-first policy for release reproducibility evidence. It defines runtime exclusions, dirty-repo handling and secret-free guarantees for future pack generation and verification.",
+  "archive_method": "git archive",
+  "dirty_repo_blocks_reproducible_release": true,
+  "secret_free_required": true,
+  "dry_run_only": true,
+  "runtime_artifacts_forbidden": true,
+  "critical_exclusions": [
+    "outputs/",
+    ".devpilot/devpilot.db",
+    ".devpilot/agent_sessions/",
+    ".devpilot/backups/",
+    ".venv/",
+    "node_modules/",
+    "__pycache__/",
+    ".pytest_cache/",
+    "*.pyc",
+    "*.pyo"
+  ],
+  "forbidden_archive_entries": [
+    "outputs/",
+    ".devpilot/devpilot.db",
+    ".devpilot/agent_sessions/",
+    ".devpilot/backups/",
+    ".venv/",
+    "node_modules/",
+    "__pycache__/",
+    ".pytest_cache/",
+    ".env",
+    ".env.local",
+    ".env.dev"
+  ],
+  "required_pack_fields": [
+    "git.commit",
+    "git.dirty",
+    "validation.quality_gate_hardening",
+    "validation.test_contracts",
+    "validation.test_contracts_v2",
+    "artifacts.changelog",
+    "artifacts.manifest",
+    "artifacts.sbom",
+    "artifacts.checksums",
+    "exclusions",
+    "safety.secrets_included"
+  ],
+  "required_safety_flags": {
+    "local_first": true,
+    "dry_run": true,
+    "published": false,
+    "deployed": false,
+    "network_used": false,
+    "external_api_used": false,
+    "remote_execution_used": false,
+    "connector_write_used": false,
+    "plugin_execution_used": false,
+    "mutations_performed": false,
+    "source_mutations_performed": false,
+    "secrets_included": false
+  },
+  "environment_snapshot_policy": {
+    "env_files_read": false,
+    "secret_values_read": false,
+    "secret_values_included": false,
+    "blocked_key_patterns": ["SECRET", "TOKEN", "KEY", "PASSWORD", "CREDENTIAL", "OPENAI_API_KEY", "GEMINI_API_KEY"]
+  },
+  "notes": [
+    "POST-H-017-A defines schemas and policy only; generation, source archive manifest, verifier and quality gate are implemented by later micro-sprints.",
+    "The policy is intentionally conservative: reproducibility evidence is local, dry-run and secret-free."
+  ]
+}

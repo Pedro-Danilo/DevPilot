@@ -1,0 +1,45 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "SCHEMA-DEVPL-RELEASE-ENVIRONMENT-SNAPSHOT-V1",
+  "snapshot_id": "devpilot-release-env-20260629",
+  "created_by": "POST-H-017-A",
+  "status": "implemented-initial",
+  "generated_at_utc": "2026-06-29T19:30:00Z",
+  "python": {
+    "version": "3.12.x",
+    "implementation": "CPython",
+    "executable_kind": "venv-python"
+  },
+  "platform": {
+    "system": "Windows",
+    "release": "local",
+    "machine": "AMD64"
+  },
+  "package_managers": {
+    "pip": "available",
+    "npm": "available",
+    "node": "available"
+  },
+  "project_files": {
+    "pyproject_toml": true,
+    "ui_package_json": true,
+    "ui_package_lock": true
+  },
+  "redaction": {
+    "env_files_read": false,
+    "secret_values_read": false,
+    "secret_values_included": false,
+    "redacted_keys": [],
+    "blocked_key_patterns": ["SECRET", "TOKEN", "KEY", "PASSWORD", "CREDENTIAL"]
+  },
+  "safety": {
+    "local_first": true,
+    "dry_run": true,
+    "network_used": false,
+    "external_api_used": false,
+    "mutations_performed": false,
+    "source_mutations_performed": false,
+    "secrets_included": false
+  },
+  "preliminary": true
+}

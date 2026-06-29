@@ -102,8 +102,8 @@ def test_project_global_state_schema_and_docs_are_synchronized() -> None:
     assert any("POST-H-013-D adds optional local crypto" in note for note in state["notes"])
     assert any("POST-H-013-E closes Audit pack integrity" in note for note in state["notes"])
     assert any("POST-H-014 is the next prioritized hito" in note for note in state["notes"])
-    assert state.get("current_micro_sprint") == "POST-H-016-E"
-    assert state.get("next_micro_sprint") == "POST-H-017"
+    assert state.get("current_micro_sprint") == "POST-H-017-A"
+    assert state.get("next_micro_sprint") == "POST-H-017-B"
     assert "POST-H-014-A — Route Contract Registry y API inventory" in readme
     assert "POST-H-014-B — Response mapping y errores homogéneos" in readme
     assert "POST-H-014-C — UI Route Contract y shell de producto" in readme
@@ -134,6 +134,11 @@ def test_project_global_state_schema_and_docs_are_synchronized() -> None:
     assert any("POST-H-016-C hardens portfolio status" in note for note in state["notes"])
     assert any("POST-H-016-D adds secure CLI/API integration" in note for note in state["notes"])
     assert any("POST-H-016-E closes Workspace portfolio hardening" in note for note in state["notes"])
+    assert any("POST-H-017-A approves Release reproducibility pack" in note for note in state["notes"])
+    assert any("POST-H-017-A adds local release reproducibility policy" in note for note in state["notes"])
+    assert "POST-H-017-A — Release reproducibility schema y policy" in readme
+    assert "POST-H-017-A — Release reproducibility schema y policy" in runbook
+    assert "post-h-017-a" in changelog
     assert "POST-H-015-A — Dashboard snapshot schema y config" in readme
     assert "POST-H-015-A — Dashboard snapshot schema y config" in runbook
     assert "POST-H-015-B — Aggregator read-only de señales operacionales" in readme

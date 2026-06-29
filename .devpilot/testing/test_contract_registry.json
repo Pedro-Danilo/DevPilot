@@ -4722,6 +4722,41 @@
         "python -m devpilot_core portfolio hardening-gate --json --write-report",
         "python -m devpilot_core test-contracts validate --json"
       ]
+    },
+    {
+      "contract_id": "post-h-017-release-reproducibility-schema-policy",
+      "scope": "integration",
+      "owner": "POST-H-017-A",
+      "phase": "POST-FASE-H",
+      "test_files": [
+        "tests/test_post_h_017_release_reproducibility_schema.py"
+      ],
+      "validates": [
+        "docs/schemas/release_reproducibility_pack.schema.json",
+        "docs/schemas/release_environment_snapshot.schema.json",
+        ".devpilot/release/reproducibility_policy.json",
+        "src/devpilot_core/release/reproducibility_policy.py",
+        "tests/fixtures/release_reproducibility_pack.valid.json",
+        "tests/fixtures/release_environment_snapshot.valid.json"
+      ],
+      "watched_paths": [
+        "docs/schemas/",
+        ".devpilot/release/reproducibility_policy.json",
+        "src/devpilot_core/release/",
+        "tests/test_post_h_017_release_reproducibility_schema.py",
+        "tests/fixtures/release_reproducibility_pack.valid.json",
+        "tests/fixtures/release_environment_snapshot.valid.json"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace tests/test_post_h_017_release_reproducibility_schema.py tests/test_schema_registry.py tests/test_documentation_governance_validator.py tests/test_project_global_state.py -q",
+        "python -m devpilot_core schema validate --schema-id ReleaseReproducibilityPack --instance tests/fixtures/release_reproducibility_pack.valid.json --json",
+        "python -m devpilot_core schema validate --schema-id ReleaseEnvironmentSnapshot --instance tests/fixtures/release_environment_snapshot.valid.json --json",
+        "python -m devpilot_core test-contracts validate --json",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ]
     }
   ],
   "notes": [

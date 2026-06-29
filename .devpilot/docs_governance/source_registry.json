@@ -1072,7 +1072,7 @@
       "classification": "derived",
       "domain": "roadmap-derived-backlog",
       "owner": "Ordóñez",
-      "status_required": "draft",
+      "status_required": "approved",
       "criticality": "P2",
       "machine_readable_counterparts": [
         ".devpilot/evals/post_h_eval_001_prioritized_roadmap.json"
@@ -1080,9 +1080,18 @@
       "human_readable_counterparts": [
         "docs/backlogs/post_h_prioritized_roadmap.md"
       ],
-      "derived_documents": [],
+      "derived_documents": [
+        "docs/POST-H-017_release_reproducibility_pack.md",
+        ".devpilot/release/reproducibility_policy.json",
+        "docs/post_h_017_a_manifest.json",
+        "docs/audits/post_h_017_a_release_reproducibility_schema_policy_report.md"
+      ],
       "required_tests": [
-        "tests/test_documentation_governance_backlogs.py"
+        "tests/test_documentation_governance_backlogs.py",
+        "tests/test_documentation_governance_validator.py",
+        "tests/test_post_h_017_release_reproducibility_schema.py",
+        "tests/test_project_global_state.py",
+        "tests/test_schema_registry.py"
       ],
       "sync_rules": [
         "backlog_naming",
@@ -1093,10 +1102,12 @@
       "roadmap_milestones": [
         "POST-H-017"
       ],
-      "lifecycle": "planned",
+      "lifecycle": "active",
       "notes": [
         "Roadmap-derived executable backlog governed by POST-H-009-D.",
-        "Missing future backlog files are informational planned items; existing files must pass naming and frontmatter checks."
+        "Missing future backlog files are informational planned items; existing files must pass naming and frontmatter checks.",
+        "POST-H-017 approved by POST-H-017-A for local release reproducibility pack implementation.",
+        "POST-H-017-A adds release reproducibility schemas and policy; pack generation remains future work."
       ]
     },
     {
@@ -1482,6 +1493,78 @@
         "Operational onboarding checklist for local workspaces governed by POST-H-016-E.",
         "Checklist remains local-first and does not enable remote workspace execution or connector writes."
       ]
+    },
+    {
+      "doc_id": "POST-H-017-IMPLEMENTATION",
+      "path": "docs/POST-H-017_release_reproducibility_pack.md",
+      "classification": "source-of-truth",
+      "domain": "release",
+      "owner": "Ordóñez",
+      "status_required": "approved",
+      "criticality": "P2",
+      "machine_readable_counterparts": [
+        ".devpilot/evals/post_h_eval_001_prioritized_roadmap.json",
+        ".devpilot/release/reproducibility_policy.json"
+      ],
+      "human_readable_counterparts": [
+        "docs/backlogs/POST-H-017_release_reproducibility_pack.md",
+        "docs/backlogs/post_h_prioritized_roadmap.md"
+      ],
+      "derived_documents": [
+        "docs/post_h_017_a_manifest.json",
+        "docs/audits/post_h_017_a_release_reproducibility_schema_policy_report.md"
+      ],
+      "required_tests": [
+        "tests/test_post_h_017_release_reproducibility_schema.py",
+        "tests/test_schema_registry.py",
+        "tests/test_documentation_governance_validator.py",
+        "tests/test_project_global_state.py"
+      ],
+      "sync_rules": [
+        "frontmatter_status_ownership"
+      ],
+      "related_adrs": [],
+      "roadmap_milestones": [
+        "POST-H-017"
+      ],
+      "lifecycle": "active",
+      "notes": [
+        "Canonical approved POST-H-017 hito document created for Release reproducibility pack.",
+        "POST-H-017-A adds schemas and policy only; later micro-sprints generate and verify release packs."
+      ]
+    },
+    {
+      "doc_id": "POST-H-017-REPRODUCIBILITY-POLICY",
+      "path": ".devpilot/release/reproducibility_policy.json",
+      "classification": "machine-readable-source",
+      "domain": "release",
+      "owner": "POST-H-017-A",
+      "status_required": "implemented-initial",
+      "criticality": "P2",
+      "machine_readable_counterparts": [
+        "docs/schemas/release_reproducibility_pack.schema.json",
+        "docs/schemas/release_environment_snapshot.schema.json"
+      ],
+      "human_readable_counterparts": [
+        "docs/POST-H-017_release_reproducibility_pack.md",
+        "docs/backlogs/POST-H-017_release_reproducibility_pack.md"
+      ],
+      "derived_documents": [
+        "tests/fixtures/release_reproducibility_pack.valid.json",
+        "tests/fixtures/release_environment_snapshot.valid.json"
+      ],
+      "required_tests": [
+        "tests/test_post_h_017_release_reproducibility_schema.py"
+      ],
+      "sync_rules": [],
+      "related_adrs": [],
+      "roadmap_milestones": [
+        "POST-H-017"
+      ],
+      "lifecycle": "active",
+      "notes": [
+        "POST-H-017-A machine-readable policy for runtime exclusions, dirty repo blocking, dry-run mode and secret-free release reproducibility evidence."
+      ]
     }
   ],
   "rules": {
@@ -1508,20 +1591,20 @@
     "approved_backlogs_require_observability_retention_hygiene_gate": true
   },
   "summary": {
-    "documents_total": 41,
-    "source_of_truth_total": 12,
-    "machine_readable_source_total": 5,
+    "documents_total": 43,
+    "source_of_truth_total": 13,
+    "machine_readable_source_total": 6,
     "derived_total": 24,
     "generated_runtime_total": 0,
     "historical_total": 0,
     "deprecated_total": 0,
-    "critical_sources_total": 38,
+    "critical_sources_total": 40,
     "markdown_json_pairs_total": 29,
-    "documents_with_required_tests_total": 41,
+    "documents_with_required_tests_total": 43,
     "network_used": false,
     "external_api_used": false,
     "mutations_performed": false,
-    "last_updated_by": "POST-H-016-E",
+    "last_updated_by": "POST-H-017-A",
     "markdown_json_sync_checks_enabled": true,
     "sync_checks_scope": "version_match, milestones_match, decisions_match, closure_status_match, next_hito_match",
     "backlog_governance_enabled": true,
@@ -1560,13 +1643,13 @@
     "post_h_011_rag_groundedness_ready_gate_bound": true,
     "post_h_011_closed": true,
     "machine_readable_total": 5,
-    "required_tests_total": 101,
+    "required_tests_total": 110,
     "active_backlog": "POST-H-017",
-    "active_micro_sprint": "POST-H-016-E",
+    "active_micro_sprint": "POST-H-017-A",
     "sensitive_action_catalog_enabled": true,
     "sensitive_action_catalog_path": ".devpilot/approval/sensitive_action_catalog.json",
     "sensitive_action_catalog_schema": "docs/schemas/sensitive_action_catalog.schema.json",
-    "required_tests_checked_total": 101,
+    "required_tests_checked_total": 110,
     "post_h_012_policy_engine_enforcement_enabled": true,
     "post_h_012_current_micro_sprint": "POST-H-012-D",
     "ui_api_shell_report_schema_registered": true,
@@ -1616,7 +1699,18 @@
     "workspace_portfolio_hardening_gate_module": "src/devpilot_core/portfolio/workspace_portfolio_gate.py",
     "workspace_portfolio_hardening_subgate": "workspace-portfolio-hardening",
     "workspace_portfolio_hardening_cli_command": "python -m devpilot_core portfolio hardening-gate --json --write-report",
-    "workspace_onboarding_checklist_path": "docs/05_operations/workspace_onboarding_checklist.md"
+    "workspace_onboarding_checklist_path": "docs/05_operations/workspace_onboarding_checklist.md",
+    "post_h_017_approved": true,
+    "post_h_017_current_micro_sprint": "POST-H-017-A",
+    "post_h_017_next_micro_sprint": "POST-H-017-B",
+    "release_reproducibility_pack_schema_registered": true,
+    "release_reproducibility_pack_schema_path": "docs/schemas/release_reproducibility_pack.schema.json",
+    "release_environment_snapshot_schema_registered": true,
+    "release_environment_snapshot_schema_path": "docs/schemas/release_environment_snapshot.schema.json",
+    "release_reproducibility_policy_path": ".devpilot/release/reproducibility_policy.json",
+    "release_reproducibility_policy_module": "src/devpilot_core/release/reproducibility_policy.py",
+    "release_reproducibility_pack_generated": false,
+    "release_reproducibility_verifier_enabled": false
   },
   "safety": {
     "local_first": true,
@@ -1657,6 +1751,8 @@
     "POST-H-015-D manifest/TCR v2 drift was corrected before closing POST-H-015.",
     "POST-H-016-D adds secure CLI/API integration for portfolio status without API workspace selection mutation.",
     "POST-H-016-E closes Workspace portfolio hardening with workspace-portfolio-hardening quality gate and workspace onboarding checklist.",
-    "POST-H-017 becomes the next active backlog after POST-H-016 closure."
+    "POST-H-017 becomes the next active backlog after POST-H-016 closure.",
+    "POST-H-017-A approves Release reproducibility pack and registers schema/policy evidence contracts.",
+    "POST-H-017-A does not generate release packs or read secrets; later micro-sprints implement snapshot, archive manifest, verifier and gate."
   ]
 }

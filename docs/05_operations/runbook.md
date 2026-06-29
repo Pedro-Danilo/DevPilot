@@ -14,6 +14,46 @@ change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "SPRINT-PRECODE-05 quality operations baseline"
 ---
 
+## POST-H-017-A — Release reproducibility schema y policy
+
+Estado: `implemented-initial`.
+
+Propósito operativo: iniciar el hito `POST-H-017 — Release reproducibility pack` con contratos verificables para un release dry-run reproducible y secret-free.
+
+Artefactos versionados:
+
+```text
+docs/schemas/release_reproducibility_pack.schema.json
+docs/schemas/release_environment_snapshot.schema.json
+.devpilot/release/reproducibility_policy.json
+src/devpilot_core/release/reproducibility_policy.py
+tests/fixtures/release_reproducibility_pack.valid.json
+tests/fixtures/release_environment_snapshot.valid.json
+```
+
+Comandos de verificación focal:
+
+```powershell
+python -m pytest -p no:ddtrace tests/test_post_h_017_release_reproducibility_schema.py tests/test_schema_registry.py tests/test_documentation_governance_validator.py tests/test_project_global_state.py -q
+python -m devpilot_core schema validate --schema-id ReleaseReproducibilityPack --instance tests/fixtures/release_reproducibility_pack.valid.json --json
+python -m devpilot_core schema validate --schema-id ReleaseEnvironmentSnapshot --instance tests/fixtures/release_environment_snapshot.valid.json --json
+python -m devpilot_core docs-governance validate --json
+python -m devpilot_core test-contracts validate --json
+python -m devpilot_core test-contracts validate-v2 --json
+```
+
+Criterios BLOCK:
+
+```text
+BLOCK si la policy no incluye outputs/, .devpilot/devpilot.db, .venv/ o node_modules/.
+BLOCK si dirty_repo_blocks_reproducible_release=false.
+BLOCK si secret_free_required=false.
+BLOCK si dry_run_only=false.
+BLOCK si ReleaseReproducibilityPack permite secrets_included=true, network_used=true o published=true.
+```
+
+Límites: esta entrega solo define schema y policy. Environment snapshot real, source archive manifest, verifier y quality gate corresponden a POST-H-017-B/C/D/E.
+
 ## POST-H-016-E — Quality gate y runbook
 
 Estado: `implemented-initial / hito cerrado`. DevPilot integra `workspace-portfolio-hardening` como subgate de los perfiles `hardening` e `industrial` y documenta el onboarding local de workspaces.

@@ -1,3 +1,20 @@
+## post-h-017-a — Release reproducibility schema y policy
+
+Estado de proyecto: `last_completed_sprint=POST-H-016`; `next_sprint=POST-H-017`; `current_micro_sprint=POST-H-017-A`; `next_micro_sprint=POST-H-017-B`.
+
+- Approved `POST-H-017 — Release reproducibility pack` for implementation.
+- Added `ReleaseReproducibilityPack` and `ReleaseEnvironmentSnapshot` schemas.
+- Added `.devpilot/release/reproducibility_policy.json` with critical runtime exclusions and secret-free/dry-run policy.
+- Added `ReleaseReproducibilityPolicyValidator` and focused schema/policy tests.
+- Fixed POST-H-016-E documentation governance drift in `workspace_onboarding_checklist.md` by adding `version` and `approval` frontmatter.
+
+Safety:
+
+```text
+- POST-H-017-A does not publish, deploy, sign remotely, call network, call external APIs or read secrets.
+- Pack generation, environment capture, archive manifest, verifier and release reproducibility gate remain future POST-H-017-B/C/D/E work.
+```
+
 ## post-h-016-e — Quality gate y runbook
 
 Estado de proyecto: `last_completed_sprint=POST-H-016`; `next_sprint=POST-H-017`; `current_micro_sprint=POST-H-016-E`; `next_micro_sprint=POST-H-017`.
