@@ -4,7 +4,7 @@ doc_id: "POST-H-017-IMPLEMENTATION"
 id: "POST-H-017"
 title: "POST-H-017 — Release reproducibility pack"
 status: "approved"
-version: "0.2.0"
+version: "0.3.0"
 owner: "Ordóñez"
 updated: "2026-06-29"
 approval: "approved_by_owner"
@@ -18,8 +18,8 @@ no_external_apis_used: true
 no_connector_write_enabled: true
 no_plugin_execution_enabled: true
 implementation_status: "active"
-current_micro_sprint: "POST-H-017-A"
-next_micro_sprint: "POST-H-017-B"
+current_micro_sprint: "POST-H-017-B"
+next_micro_sprint: "POST-H-017-C"
 ---
 
 # POST-H-017 — Release reproducibility pack
@@ -329,5 +329,5 @@ Límites explícitos:
 - No publica, no despliega, no firma remoto, no usa red y no lee secretos.
 ```
 
-Evolución pendiente: POST-H-017-B/C/D/E implementarán snapshot redactado, source archive manifest/checksums, verifier local y gate/runbook de release reproducibility.
+Evolución pendiente: POST-H-017-C/D/E implementarán source archive manifest/checksums, verifier local y gate/runbook de release reproducibility.
 

@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://devpilot.local/schemas/SCHEMA-DEVPL-RELEASE-ENVIRONMENT-SNAPSHOT-V1",
   "title": "DevPilot Release Environment Snapshot v1",
-  "description": "POST-H-017-A structural contract for a redacted local environment snapshot used by release reproducibility evidence. It must not include secret values or full .env contents.",
+  "description": "POST-H-017-A/B structural contract for a redacted local environment snapshot used by release reproducibility evidence. It must not include secret values or full .env contents.",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -16,6 +16,8 @@
     "platform",
     "package_managers",
     "project_files",
+    "dependencies",
+    "diagnostics",
     "redaction",
     "safety",
     "preliminary"
@@ -24,7 +26,7 @@
     "schema_version": {"const": "1.0"},
     "schema_id": {"const": "SCHEMA-DEVPL-RELEASE-ENVIRONMENT-SNAPSHOT-V1"},
     "snapshot_id": {"type": "string", "minLength": 8, "pattern": "^[a-z0-9_.:-]+$"},
-    "created_by": {"const": "POST-H-017-A"},
+    "created_by": {"enum": ["POST-H-017-A", "POST-H-017-B"]},
     "status": {"enum": ["draft", "implemented-initial", "verified-local"]},
     "generated_at_utc": {"type": "string", "minLength": 10},
     "python": {
@@ -67,6 +69,75 @@
         "ui_package_lock": {"type": "boolean"}
       }
     },
+    "dependencies": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "sources",
+        "python_runtime",
+        "python_optional_groups",
+        "python_build",
+        "node_declared",
+        "dependency_names",
+        "python_runtime_dependencies_total",
+        "python_optional_groups_total",
+        "python_build_dependencies_total",
+        "node_declared_dependencies_total",
+        "dependencies_total",
+        "dependency_values_redacted"
+      ],
+      "properties": {
+        "sources": {"type": "array", "items": {"type": "string"}},
+        "python_runtime": {"type": "array", "items": {"$ref": "#/$defs/dependency_record"}},
+        "python_optional_groups": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["group", "dependencies"],
+            "properties": {
+              "group": {"type": "string"},
+              "dependencies": {"type": "array", "items": {"$ref": "#/$defs/dependency_record"}}
+            }
+          }
+        },
+        "python_build": {"type": "array", "items": {"$ref": "#/$defs/dependency_record"}},
+        "node_declared": {"type": "array", "items": {"$ref": "#/$defs/dependency_record"}},
+        "dependency_names": {"type": "array", "items": {"type": "string", "minLength": 1}},
+        "python_runtime_dependencies_total": {"type": "integer", "minimum": 0},
+        "python_optional_groups_total": {"type": "integer", "minimum": 0},
+        "python_build_dependencies_total": {"type": "integer", "minimum": 0},
+        "node_declared_dependencies_total": {"type": "integer", "minimum": 0},
+        "dependencies_total": {"type": "integer", "minimum": 0},
+        "dependency_values_redacted": {"const": true}
+      }
+    },
+    "diagnostics": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["allows_local_diagnosis", "dependency_sources_read", "env_file_paths_detected", "env_file_contents_read", "environment_values_read", "package_manager_processes_executed", "network_diagnostics_executed"],
+      "properties": {
+        "allows_local_diagnosis": {"const": true},
+        "dependency_sources_read": {"type": "array", "items": {"type": "string"}},
+        "env_file_paths_detected": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["path", "exists", "contents_read"],
+            "properties": {
+              "path": {"type": "string"},
+              "exists": {"type": "boolean"},
+              "contents_read": {"const": false}
+            }
+          }
+        },
+        "env_file_contents_read": {"const": false},
+        "environment_values_read": {"const": false},
+        "package_manager_processes_executed": {"const": false},
+        "network_diagnostics_executed": {"const": false}
+      }
+    },
     "redaction": {
       "type": "object",
       "additionalProperties": false,
@@ -82,7 +153,7 @@
     "safety": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["local_first", "dry_run", "network_used", "external_api_used", "mutations_performed", "source_mutations_performed", "secrets_included"],
+      "required": ["local_first", "dry_run", "network_used", "external_api_used", "mutations_performed", "source_mutations_performed", "secrets_included", "remote_execution_used", "connector_write_used", "plugin_execution_used", "env_files_read", "secret_values_read"],
       "properties": {
         "local_first": {"const": true},
         "dry_run": {"const": true},
@@ -90,14 +161,31 @@
         "external_api_used": {"const": false},
         "mutations_performed": {"const": false},
         "source_mutations_performed": {"const": false},
-        "secrets_included": {"const": false}
+        "secrets_included": {"const": false},
+        "remote_execution_used": {"const": false},
+        "connector_write_used": {"const": false},
+        "plugin_execution_used": {"const": false},
+        "env_files_read": {"const": false},
+        "secret_values_read": {"const": false}
       }
     },
     "preliminary": {"const": true}
   },
+  "$defs": {
+    "dependency_record": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "ecosystem", "scope"],
+      "properties": {
+        "name": {"type": "string", "minLength": 1},
+        "ecosystem": {"enum": ["pypi", "npm"]},
+        "scope": {"type": "string", "minLength": 1}
+      }
+    }
+  },
   "x-devpilot-schema-id": "SCHEMA-DEVPL-RELEASE-ENVIRONMENT-SNAPSHOT-V1",
-  "x-devpilot-version": "1.0.0",
-  "x-devpilot-sprint": "POST-H-017-A",
+  "x-devpilot-version": "1.1.0",
+  "x-devpilot-sprint": "POST-H-017-B",
   "x-devpilot-status": "registered",
   "x-devpilot-preliminary": true
 }

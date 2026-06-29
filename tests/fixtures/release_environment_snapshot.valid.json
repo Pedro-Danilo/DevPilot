@@ -1,36 +1,169 @@
 {
   "schema_version": "1.0",
   "schema_id": "SCHEMA-DEVPL-RELEASE-ENVIRONMENT-SNAPSHOT-V1",
-  "snapshot_id": "devpilot-release-env-20260629",
-  "created_by": "POST-H-017-A",
+  "snapshot_id": "devpilot-release-environment-snapshot",
+  "created_by": "POST-H-017-B",
   "status": "implemented-initial",
-  "generated_at_utc": "2026-06-29T19:30:00Z",
+  "generated_at_utc": "2026-06-29T19:52:35Z",
   "python": {
-    "version": "3.12.x",
+    "version": "3.13.5",
     "implementation": "CPython",
     "executable_kind": "venv-python"
   },
   "platform": {
-    "system": "Windows",
-    "release": "local",
-    "machine": "AMD64"
+    "system": "Linux",
+    "release": "4.4.0",
+    "machine": "x86_64"
   },
   "package_managers": {
-    "pip": "available",
-    "npm": "available",
-    "node": "available"
+    "pip": "25.1.1",
+    "npm": null,
+    "node": null
   },
   "project_files": {
     "pyproject_toml": true,
     "ui_package_json": true,
     "ui_package_lock": true
   },
+  "dependencies": {
+    "sources": [
+      "pyproject.toml",
+      "ui/web/package.json"
+    ],
+    "python_runtime": [
+      {
+        "name": "jsonschema",
+        "ecosystem": "pypi",
+        "scope": "runtime"
+      }
+    ],
+    "python_optional_groups": [
+      {
+        "group": "api",
+        "dependencies": [
+          {
+            "name": "fastapi",
+            "ecosystem": "pypi",
+            "scope": "api"
+          },
+          {
+            "name": "uvicorn",
+            "ecosystem": "pypi",
+            "scope": "api"
+          }
+        ]
+      },
+      {
+        "group": "dev",
+        "dependencies": [
+          {
+            "name": "pytest",
+            "ecosystem": "pypi",
+            "scope": "dev"
+          },
+          {
+            "name": "fastapi",
+            "ecosystem": "pypi",
+            "scope": "dev"
+          },
+          {
+            "name": "uvicorn",
+            "ecosystem": "pypi",
+            "scope": "dev"
+          },
+          {
+            "name": "httpx2",
+            "ecosystem": "pypi",
+            "scope": "dev"
+          }
+        ]
+      }
+    ],
+    "python_build": [
+      {
+        "name": "setuptools",
+        "ecosystem": "pypi",
+        "scope": "build"
+      }
+    ],
+    "node_declared": [
+      {
+        "name": "typescript",
+        "ecosystem": "npm",
+        "scope": "dev"
+      },
+      {
+        "name": "vite",
+        "ecosystem": "npm",
+        "scope": "dev"
+      }
+    ],
+    "dependency_names": [
+      "fastapi",
+      "httpx2",
+      "jsonschema",
+      "pytest",
+      "setuptools",
+      "typescript",
+      "uvicorn",
+      "vite"
+    ],
+    "python_runtime_dependencies_total": 1,
+    "python_optional_groups_total": 2,
+    "python_build_dependencies_total": 1,
+    "node_declared_dependencies_total": 2,
+    "dependencies_total": 8,
+    "dependency_values_redacted": true
+  },
+  "diagnostics": {
+    "allows_local_diagnosis": true,
+    "dependency_sources_read": [
+      "pyproject.toml",
+      "ui/web/package.json"
+    ],
+    "env_file_paths_detected": [
+      {
+        "path": ".env",
+        "exists": false,
+        "contents_read": false
+      },
+      {
+        "path": ".env.local",
+        "exists": false,
+        "contents_read": false
+      },
+      {
+        "path": ".env.dev",
+        "exists": false,
+        "contents_read": false
+      },
+      {
+        "path": ".env.test",
+        "exists": false,
+        "contents_read": false
+      }
+    ],
+    "env_file_contents_read": false,
+    "environment_values_read": false,
+    "package_manager_processes_executed": false,
+    "network_diagnostics_executed": false
+  },
   "redaction": {
     "env_files_read": false,
     "secret_values_read": false,
     "secret_values_included": false,
-    "redacted_keys": [],
-    "blocked_key_patterns": ["SECRET", "TOKEN", "KEY", "PASSWORD", "CREDENTIAL"]
+    "redacted_keys": [
+      "<redacted-sensitive-env-key>"
+    ],
+    "blocked_key_patterns": [
+      "SECRET",
+      "TOKEN",
+      "KEY",
+      "PASSWORD",
+      "CREDENTIAL",
+      "OPENAI_API_KEY",
+      "GEMINI_API_KEY"
+    ]
   },
   "safety": {
     "local_first": true,
@@ -39,7 +172,12 @@
     "external_api_used": false,
     "mutations_performed": false,
     "source_mutations_performed": false,
-    "secrets_included": false
+    "secrets_included": false,
+    "remote_execution_used": false,
+    "connector_write_used": false,
+    "plugin_execution_used": false,
+    "env_files_read": false,
+    "secret_values_read": false
   },
   "preliminary": true
 }

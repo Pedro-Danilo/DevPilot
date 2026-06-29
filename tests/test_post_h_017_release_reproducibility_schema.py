@@ -87,8 +87,8 @@ def test_post_h_017_a_docs_state_and_contracts_are_synchronized() -> None:
     source_registry = (ROOT / ".devpilot/docs_governance/source_registry.json").read_text(encoding="utf-8")
 
     assert 'status: "approved"' in backlog
-    assert 'current_micro_sprint: "POST-H-017-A"' in backlog
-    assert 'next_micro_sprint: "POST-H-017-B"' in backlog
+    assert 'current_micro_sprint: "POST-H-017-B"' in backlog
+    assert 'next_micro_sprint: "POST-H-017-C"' in backlog
     assert 'status: "approved"' in post_doc
     assert "POST-H-017-A — Release reproducibility schema y policy" in backlog
     assert "POST-H-017-A — Release reproducibility schema y policy" in post_doc
@@ -96,8 +96,8 @@ def test_post_h_017_a_docs_state_and_contracts_are_synchronized() -> None:
     assert "release_reproducibility_pack.schema.json" in runbook
     assert state["last_completed_sprint"] == "POST-H-016"
     assert state["next_sprint"] == "POST-H-017"
-    assert state["current_micro_sprint"] == "POST-H-017-A"
-    assert state["next_micro_sprint"] == "POST-H-017-B"
+    assert state["current_micro_sprint"] == "POST-H-017-B"
+    assert state["next_micro_sprint"] == "POST-H-017-C"
     assert "post-h-017-release-reproducibility-schema-policy" in tcr_v1
     assert "post-h-017-release-reproducibility-schema-policy" in tcr_v2
     assert "POST-H-017-IMPLEMENTATION" in source_registry

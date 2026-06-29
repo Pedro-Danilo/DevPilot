@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "SCHEMA-DEVPL-POST-H-MANIFEST-V1",
+  "post_h_id": "POST-H-017",
+  "title": "POST-H-017-B — Environment snapshot redactado",
+  "status": "implemented-initial",
+  "phase": "POST-FASE-H",
+  "implemented_at": "2026-06-29",
+  "created_files": [
+    "src/devpilot_core/release/environment.py",
+    "tests/test_post_h_017_environment_snapshot.py",
+    "docs/audits/post_h_017_b_environment_snapshot_report.md",
+    "docs/post_h_017_b_manifest.json"
+  ],
+  "modified_files": [
+    "docs/schemas/release_environment_snapshot.schema.json",
+    "tests/fixtures/release_environment_snapshot.valid.json",
+    "src/devpilot_core/release/__init__.py",
+    "src/devpilot_core/cli.py",
+    "tests/test_post_h_017_release_reproducibility_schema.py",
+    "tests/test_project_global_state.py",
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/backlogs/POST-H-017_release_reproducibility_pack.md",
+    "docs/POST-H-017_release_reproducibility_pack.md",
+    "docs/release/CHANGELOG.md",
+    ".devpilot/project_state.json",
+    ".devpilot/docs_governance/source_registry.json",
+    ".devpilot/testing/test_contract_registry.json",
+    ".devpilot/testing/test_contract_registry_v2.json"
+  ],
+  "commands": [
+    "python -m pytest -p no:ddtrace tests/test_post_h_017_environment_snapshot.py tests/test_post_h_017_release_reproducibility_schema.py tests/test_schema_registry.py tests/test_documentation_governance_validator.py tests/test_project_global_state.py -q",
+    "python -m devpilot_core release environment-snapshot --json --write-report",
+    "python -m devpilot_core schema validate --schema-id ReleaseEnvironmentSnapshot --instance outputs/release/environment_snapshot.json --json",
+    "python -m devpilot_core docs-governance validate --json",
+    "python -m devpilot_core test-contracts validate --json",
+    "python -m devpilot_core test-contracts validate-v2 --json"
+  ],
+  "tests": [
+    "tests/test_post_h_017_environment_snapshot.py",
+    "tests/test_post_h_017_release_reproducibility_schema.py",
+    "tests/test_schema_registry.py",
+    "tests/test_documentation_governance_validator.py",
+    "tests/test_project_global_state.py"
+  ],
+  "pass_criteria": [
+    "Environment snapshot captures Python version, platform, package manager signal and declared dependency names from local manifests.",
+    "Snapshot validates against ReleaseEnvironmentSnapshot schema after generation.",
+    "redaction.env_files_read=false, redaction.secret_values_read=false and safety.secrets_included=false.",
+    "Synthetic .env secret content does not appear in snapshot output.",
+    "POST-H-017-B is synchronized across README, runbook, backlog, source registry, project state and TCR v1/v2."
+  ],
+  "block_criteria": [
+    "BLOCK if any .env file content is read into the snapshot.",
+    "BLOCK if environment variable values or secret values are included.",
+    "BLOCK if the command uses network, external APIs, remote execution, connector write or plugin execution.",
+    "BLOCK if generated outputs/release/environment_snapshot.json does not validate against ReleaseEnvironmentSnapshot.",
+    "BLOCK if POST-H-017-B is not registered in TCR v1/v2 and docs governance."
+  ],
+  "risks": [
+    "Snapshot is diagnostic evidence only; it is not the final reproducibility pack.",
+    "Package manager versions for node/npm are not executed; this avoids shell/network risk but provides a limited signal until later release hardening.",
+    "Future POST-H-017-C/D/E must bind this snapshot to source archive manifests, checksums, verifier and quality gate."
+  ],
+  "next_sprint": "POST-H-017",
+  "next_micro_sprint": "POST-H-017-C",
+  "preliminary": true
+}

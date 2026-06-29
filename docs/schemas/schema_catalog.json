@@ -896,14 +896,14 @@
       "title": "DevPilot Release Environment Snapshot v1",
       "version": "1.0.0",
       "path": "docs/schemas/release_environment_snapshot.schema.json",
-      "description": "POST-H-017-A schema for redacted local environment snapshots used by reproducibility packs without reading .env files or secret values.",
+      "description": "POST-H-017-A/B schema for generated redacted local environment snapshots without reading .env files, secret values, network or external APIs.",
       "status": "registered",
       "contract": "ReleaseEnvironmentSnapshot",
       "owner": "Ordóñez",
-      "sprint": "POST-H-017-A",
+      "sprint": "POST-H-017-B",
       "dialect": "https://json-schema.org/draft/2020-12/schema",
       "validates_instances": true,
-      "validation_enabled_sprint": "POST-H-017-A"
+      "validation_enabled_sprint": "POST-H-017-B"
     }
   ]
 }

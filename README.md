@@ -1,3 +1,13 @@
+## POST-H-017-B — Environment snapshot redactado
+
+Estado: `implemented-initial / hito activo`.
+
+DevPilot ahora puede generar un snapshot local redactado del ambiente de release con `python -m devpilot_core release environment-snapshot --json --write-report`. El snapshot captura versión Python, plataforma, presencia de manifiestos locales y dependencias declaradas por nombre, sin leer `.env`, sin leer valores de variables de entorno, sin incluir secretos y sin usar red ni APIs externas.
+
+Artefactos principales: `src/devpilot_core/release/environment.py`, `tests/test_post_h_017_environment_snapshot.py`, `outputs/release/environment_snapshot.json` generado localmente, `docs/post_h_017_b_manifest.json`.
+
+Límite explícito: POST-H-017-B no genera todavía el release reproducibility pack completo, no calcula checksums del source archive y no implementa verifier ni quality gate final; eso queda para POST-H-017-C/D/E.
+
 ## POST-H-017-A — Release reproducibility schema y policy
 
 Estado: `implemented-initial / hito activo`.
@@ -11,13 +21,13 @@ Capacidades:
 - `.devpilot/release/reproducibility_policy.json` declara exclusiones críticas, bloqueo de dirty repo, modo dry-run y safety flags secret-free.
 - `ReleaseReproducibilityPolicyValidator` valida semánticamente la policy sin red, APIs externas, shell, secretos ni mutaciones.
 
-Límites: versión `implemented-initial`; no publica, no despliega, no firma remoto, no genera todavía `outputs/release/reproducibility_pack.json`, no captura ambiente real y no calcula checksums/source archive manifest. Eso queda para POST-H-017-B/C/D/E.
+Límites: versión `implemented-initial`; no publica, no despliega, no firma remoto, no genera todavía `outputs/release/reproducibility_pack.json`, no calcula checksums/source archive manifest. Eso queda para POST-H-017-C/D/E; el snapshot redactado ya queda cubierto por POST-H-017-B.
 
 Último hito: `POST-H-016 — Workspace portfolio hardening`
 Último hito cerrado: `POST-H-016 — Workspace portfolio hardening`
 Siguiente hito: `POST-H-017 — Release reproducibility pack`
-Último micro-sprint implementado: `POST-H-017-A — Release reproducibility schema y policy`
-Siguiente micro-sprint: `POST-H-017-B — Environment snapshot redactado`
+Último micro-sprint implementado: `POST-H-017-B — Environment snapshot redactado`
+Siguiente micro-sprint: `POST-H-017-C — Source archive manifest y checksums`
 
 ## POST-H-016-E — Quality gate y runbook
 

@@ -8,8 +8,8 @@
   "last_completed_sprint": "POST-H-016",
   "last_functional_sprint": "FUNC-SPRINT-99",
   "next_sprint": "POST-H-017",
-  "source_repo": "repo_DevPilot_Local_215_POST_H_016_E.zip",
-  "current_repo": "repo_DevPilot_Local_216_POST_H_017_A.zip",
+  "source_repo": "repo_DevPilot_Local_216_POST_H_017_A.zip",
+  "current_repo": "repo_DevPilot_Local_217_POST_H_017_B.zip",
   "global_state_owner": "tests/test_project_global_state.py",
   "mutable_global_state_fields": [
     "last_completed_sprint",
@@ -105,8 +105,9 @@
     "POST-H-017 is the next prioritized hito: Release reproducibility pack.",
     "POST-H-017-A approves Release reproducibility pack and adds schema-backed ReleaseReproducibilityPack plus ReleaseEnvironmentSnapshot contracts.",
     "POST-H-017-A adds local release reproducibility policy with runtime exclusions, dirty-repo block semantics, secret-free evidence requirements and dry-run-only safety flags.",
-    "POST-H-017-B is next: redacted environment snapshot generation without reading .env or secret values."
+    "POST-H-017-B is next: redacted environment snapshot generation without reading .env or secret values.",
+    "POST-H-017-B adds redacted ReleaseEnvironmentSnapshotBuilder and release environment-snapshot CLI without reading .env files, secret values, network resources or external APIs."
   ],
-  "current_micro_sprint": "POST-H-017-A",
-  "next_micro_sprint": "POST-H-017-B"
+  "current_micro_sprint": "POST-H-017-B",
+  "next_micro_sprint": "POST-H-017-C"
 }

@@ -1,3 +1,9 @@
+## post-h-017-b — Environment snapshot redactado
+
+- Agrega `ReleaseEnvironmentSnapshotBuilder` y CLI `release environment-snapshot --json --write-report`.
+- Genera snapshot local redactado bajo `outputs/release/environment_snapshot.json` sin leer `.env`, sin incluir secretos, sin red y sin APIs externas.
+- Sincroniza tests, manifest, auditoría, TCR v1/v2, README, runbook y backlog POST-H-017.
+
 ## post-h-017-a — Release reproducibility schema y policy
 
 Estado de proyecto: `last_completed_sprint=POST-H-016`; `next_sprint=POST-H-017`; `current_micro_sprint=POST-H-017-A`; `next_micro_sprint=POST-H-017-B`.

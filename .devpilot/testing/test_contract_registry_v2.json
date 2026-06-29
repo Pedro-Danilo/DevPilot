@@ -8750,17 +8750,76 @@
         "POST-H-017-A creates schema and policy only; pack generation and verifier are later micro-sprints.",
         "All checks are local-first, dry-run and secret-free."
       ]
+    },
+    {
+      "contract_id": "post-h-017-environment-snapshot-redacted",
+      "schema_version": "2.0",
+      "source_contract_id": "post-h-017-environment-snapshot-redacted",
+      "domain": "release",
+      "capability": "Release environment snapshot redacted",
+      "criticality": "P2",
+      "risk_level": "medium",
+      "test_type": "security",
+      "execution_profile": "release",
+      "cost_class": "low",
+      "expected_duration_seconds": 12,
+      "test_files": [
+        "tests/test_post_h_017_environment_snapshot.py"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/release/environment.py",
+        "src/devpilot_core/release/__init__.py",
+        "src/devpilot_core/cli.py",
+        "docs/schemas/release_environment_snapshot.schema.json",
+        "tests/test_post_h_017_environment_snapshot.py"
+      ],
+      "validates": [
+        "ReleaseEnvironmentSnapshot generated output schema validity",
+        "No .env content is read into environment snapshot evidence",
+        "No secret values are read or included",
+        "POST-H-017-B documentation/project-state/TCR synchronization"
+      ],
+      "trigger_hints": [
+        "release-environment",
+        "environment-snapshot",
+        "secret-redaction",
+        "post-h-017"
+      ],
+      "impact_scope": [
+        "release-reproducibility",
+        "environment-snapshot",
+        "secret-redaction",
+        "release-cli"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "POST-H-017-B",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace tests/test_post_h_017_environment_snapshot.py tests/test_post_h_017_release_reproducibility_schema.py tests/test_schema_registry.py tests/test_documentation_governance_validator.py tests/test_project_global_state.py -q",
+        "python -m devpilot_core release environment-snapshot --json --write-report",
+        "python -m devpilot_core schema validate --schema-id ReleaseEnvironmentSnapshot --instance outputs/release/environment_snapshot.json --json",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ],
+      "classification_status": "explicit",
+      "notes": [
+        "POST-H-017-B captures redacted local environment diagnostics without reading .env files, secret values, network resources or external APIs."
+      ]
     }
   ],
   "migration_metadata": {
-    "source_contracts_total": 146,
+    "source_contracts_total": 147,
     "migrator": "TestContractRegistryV2Migrator",
     "source_registry_preserved": true,
     "tests_executed": false,
     "network_used": false,
     "external_api_used": false,
     "mutations_performed_by_default": false,
-    "contracts_total": 145,
-    "last_updated_by": "POST-H-017-A"
+    "contracts_total": 147,
+    "last_updated_by": "POST-H-017-B"
   }
 }

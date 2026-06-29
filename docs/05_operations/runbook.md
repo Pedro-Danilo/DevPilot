@@ -2,17 +2,50 @@
 title: "Runbook — DevPilot Local"
 doc_id: "DEVPL-OPS-002"
 status: "approved"
-version: "1.58.0"
+version: "1.59.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "POST-H-016-E"
+phase: "POST-H-017-B"
 updated: "2026-06-29"
 approval: "approved_by_owner"
 source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved + 03_security approved"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "SPRINT-PRECODE-05 quality operations baseline"
 ---
+
+## POST-H-017-B — Environment snapshot redactado
+
+Estado: `implemented-initial`.
+
+Comando principal:
+
+```powershell
+python -m devpilot_core release environment-snapshot --json --write-report
+python -m devpilot_core schema validate --schema-id ReleaseEnvironmentSnapshot --instance outputs/release/environment_snapshot.json --json
+```
+
+Criterios PASS:
+
+```text
+PASS si secrets_included=false.
+PASS si redaction.env_files_read=false.
+PASS si redaction.secret_values_read=false.
+PASS si diagnostics.allows_local_diagnosis=true.
+PASS si network_used=false y external_api_used=false.
+```
+
+Criterios BLOCK:
+
+```text
+BLOCK si se lee contenido de .env.
+BLOCK si se incluye un valor de secreto.
+BLOCK si se usa red, API externa o ejecución remota.
+BLOCK si el snapshot no valida contra ReleaseEnvironmentSnapshot.
+```
+
+Límite: este snapshot no es el pack reproducible completo; POST-H-017-C/D/E agregan archive manifest, checksums, verifier y gate final.
+
 
 ## POST-H-017-A — Release reproducibility schema y policy
 
