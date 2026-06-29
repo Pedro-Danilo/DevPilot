@@ -1,3 +1,24 @@
+## POST-H-015-C — ApplicationService/API integration
+
+Estado: `implemented-initial`. DevPilot expone el snapshot del operador local mediante `OperatorDashboardApplicationService` y la ruta protegida `GET /api/v1/operator/dashboard`. La API no importa el aggregator directamente: pasa por `ApplicationService`, `ApplicationRequest/ApplicationResponse`, `ApplicationBoundaryPolicy`, token local y `PolicyEngine`.
+
+Capacidades:
+
+```text
+- Operacion ApplicationService: operator.dashboard.
+- Router local protegido: GET /api/v1/operator/dashboard.
+- ApiRouteContractRegistry actualizado con api.operator.dashboard.
+- ApplicationOperationCatalog detecta operator.dashboard como operacion API-bound.
+- TCR v2 corrige los contratos POST-H-015-A/B a dominio permitido product.ui y agrega cobertura application.service para POST-H-015-C.
+```
+
+Limites: version `implemented-initial`; no implementa todavia UI operator dashboard ni quality gate final. El endpoint es local-first, read-only por defecto y solo escribe outputs/reports cuando se solicita explicitamente `write_report=true`.
+
+Ultimo hito cerrado: `POST-H-014 — UI/API industrial shell`
+Hito activo: `POST-H-015 — Local operator dashboard`
+Ultimo micro-sprint implementado: `POST-H-015-C — ApplicationService/API integration`
+Siguiente micro-sprint: `POST-H-015-D — UI operator dashboard`
+
 ## POST-H-015-B — Aggregator read-only de señales operacionales
 
 Estado: `implemented-initial`. DevPilot agrega `OperatorDashboardAggregator`, un agregador local deterministico para construir el snapshot operacional del dashboard desde fuentes versionadas y evidencia runtime opcional. El agregador es read-only por defecto, no ejecuta shell, no usa red, no consume APIs externas y solo escribe `outputs/reports/operator_dashboard_snapshot.json` y `.md` cuando se invoca con `write_report=True`.

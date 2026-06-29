@@ -15,7 +15,15 @@ B_INITIAL_GROUPS = {
     "quality-gate",
     "industrial-readiness",
 }
-CURRENT_DECLARATIVE_GROUPS = {*B_INITIAL_GROUPS, "cli-registry", "runtime-state", "docs-governance", "observability"}
+CURRENT_DECLARATIVE_GROUPS = {
+    *B_INITIAL_GROUPS,
+    "cli-registry",
+    "runtime-state",
+    "docs-governance",
+    "observability",
+    "api",
+    "audit-pack",
+}
 
 
 def _read(path: str) -> str:
@@ -73,6 +81,9 @@ def test_post_h_006_b_declarative_overlay_registers_initial_groups_and_coverage(
         "observability.inventory",
         "observability.cleanup-plan",
         "observability.export",
+        "api.shell-gate",
+        "audit-pack.build-v2",
+        "audit-pack.verify-v2",
     }
     for group_id in CURRENT_DECLARATIVE_GROUPS:
         assert group_id in groups

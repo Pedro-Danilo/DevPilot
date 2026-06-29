@@ -139,3 +139,14 @@ Sprint 72 mantiene la regla API-only: la Web UI no lee `.devpilot/`, `outputs/` 
 ## FUNC-SPRINT-73 — Cierre Fase F
 
 No se agregan rutas nuevas. El mapping queda congelado como superficie visual MVP inicial: dashboard, reportes, trazas, approvals y settings. `scripts/visual_product_smoke.py` verifica que las rutas publicadas por OpenAPI sigan alineadas con `ApplicationService` y que no existan rutas críticas libres.
+
+
+## POST-H-015-C — Operator dashboard ApplicationService/API
+
+POST-H-015-C extiende la superficie `/api/v1` sin habilitar capacidades remotas ni acciones destructivas. La ruta queda protegida por token local, `API_ROUTE_POLICIES`, `PolicyEngine` y `ApplicationService`.
+
+| API ID | Método | Path | Operation | Domain service | Side effect | Auth | Policy/gate |
+|---|---|---|---|---|---|---|---|
+| `API-OPERATOR-DASHBOARD` | `GET` | `/api/v1/operator/dashboard` | `operator.dashboard` | `OperatorDashboardApplicationService` | `read_only_optional_outputs_reports` | `local-token-required` | `Policy/gate: token + CORS + API_ROUTE_POLICIES + PolicyEngine` |
+
+Regla: `write_report=false` es el valor por defecto. `write_report=true` solo puede escribir evidencia regenerable bajo `outputs/reports/operator_dashboard_snapshot.json` y `.md`.

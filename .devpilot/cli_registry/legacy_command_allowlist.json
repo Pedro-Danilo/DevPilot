@@ -26,8 +26,6 @@
     "agent.run",
     "agent.session.inspect",
     "agentops.status",
-    "api.serve",
-    "api.token",
     "app.contract",
     "approval.list",
     "approval.request",
@@ -36,8 +34,6 @@
     "architecture.hotspots",
     "architecture.inventory",
     "architecture.map",
-    "audit-pack.build",
-    "audit-pack.verify",
     "backup.create",
     "backup.list",
     "backup.restore",
@@ -137,6 +133,7 @@
     "This allowlist is intentionally explicit and should shrink over time.",
     "POST-H-006-E fails when a public CLI command appears as legacy-unregistered and is not listed here.",
     "Do not add new commands to this allowlist as a shortcut; create a declarative descriptor or migrate the handler instead.",
-    "POST-H-011-D adds rag.groundedness-eval as a governed temporary legacy CLI command until the rag group is moved into the declarative registry."
+    "POST-H-011-D adds rag.groundedness-eval as a governed temporary legacy CLI command until the rag group is moved into the declarative registry.",
+    "POST-H-015-C corrective patch registers api and audit-pack groups declaratively; api.serve, api.token, audit-pack.build and audit-pack.verify are removed from the temporary legacy allowlist as stale entries."
   ]
 }

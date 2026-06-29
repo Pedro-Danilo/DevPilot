@@ -2,15 +2,45 @@
 doc_id: "DEVPL-OPS-LOCAL-OPERATOR-DASHBOARD"
 title: "Local Operator Dashboard Runbook"
 status: "approved"
-version: "0.2.0"
+version: "0.3.0"
 owner: "Ordóñez"
 updated: "2026-06-28"
 phase: "POST-FASE-H"
 related_backlog: "POST-H-015"
-current_micro_sprint: "POST-H-015-B"
+current_micro_sprint: "POST-H-015-C"
 ---
 
 # Local Operator Dashboard Runbook
+
+## POST-H-015-C — ApplicationService/API integration
+
+POST-H-015-C expone el snapshot del operador local por el boundary ApplicationService/API:
+
+```text
+ApplicationService operation: operator.dashboard
+API route: GET /api/v1/operator/dashboard
+Response contract: ApplicationResponse
+Default mode: read-only, dry-run, no report write
+```
+
+Verificacion local:
+
+```bash
+PYTHONPATH=src python -m pytest -p no:ddtrace tests/test_post_h_015_operator_dashboard_application_api.py tests/test_post_h_014_api_route_contracts.py -q
+PYTHONPATH=src python -m devpilot_core schema validate --schema-id ApiRouteContractRegistry --instance .devpilot/interfaces/api_route_contract_registry.json --json
+PYTHONPATH=src python -m devpilot_core test-contracts validate-v2 --json
+```
+
+Uso API esperado:
+
+```text
+GET /api/v1/operator/dashboard
+GET /api/v1/operator/dashboard?write_report=true
+```
+
+La primera forma no escribe reportes. La segunda genera `outputs/reports/operator_dashboard_snapshot.json` y `.md` de manera explicita. Ambas requieren token local y policy binding.
+
+Limitacion: esta version es `implemented-initial`; no crea la UI visual ni el subgate final `operator-dashboard-ready`.
 
 ## POST-H-015-B — Aggregator read-only de señales operacionales
 

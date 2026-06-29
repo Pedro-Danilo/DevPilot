@@ -15,6 +15,7 @@ from .miasi_service import MiasiApplicationService
 from .maturity_service import MaturityApplicationService
 from .model_service import ModelApplicationService
 from .observability_service import ObservabilityApplicationService
+from .operator_dashboard_service import OperatorDashboardApplicationService
 from .policy import ApplicationBoundaryPolicy
 from .refactor_service import RefactorApplicationService
 from .repo_service import RepoApplicationService
@@ -70,6 +71,7 @@ class ApplicationService:
         self.model = ModelApplicationService(self.root)
         self.history = HistoryApplicationService(self.root)
         self.observability = ObservabilityApplicationService(self.root)
+        self.operator_dashboard = OperatorDashboardApplicationService(self.root)
         self.boundary_policy = ApplicationBoundaryPolicy(self.root)
 
     # Backward-compatible validator facade from Sprint 18.
@@ -118,6 +120,9 @@ class ApplicationService:
 
     def maturity_dashboard_gate(self, *, write_report: bool = False) -> CommandResult:
         return self.maturity.dashboard_gate(write_report=write_report)
+
+    def operator_dashboard_snapshot(self, *, write_report: bool = False) -> CommandResult:
+        return self.operator_dashboard.dashboard(write_report=write_report)
 
     def settings_workspace(self) -> CommandResult:
         return self.settings.workspace()
@@ -527,6 +532,7 @@ def _operation_dispatch(service: ApplicationService) -> dict[str, OperationHandl
         "miasi.validate": lambda payload: service.miasi_validate(scope=str(payload.get("scope", "all"))),
         "maturity.dashboard": lambda payload: service.maturity_dashboard(write_report=bool(payload.get("write_report", False))),
         "maturity.dashboard_gate": lambda payload: service.maturity_dashboard_gate(write_report=bool(payload.get("write_report", False))),
+        "operator.dashboard": lambda payload: service.operator_dashboard_snapshot(write_report=bool(payload.get("write_report", False))),
         "evals.documentation.run": lambda payload: service.eval_run(suite=str(payload.get("suite", "documentation")), case_id=payload.get("case_id")),
         "repo.inventory": lambda payload: service.repo_inventory(),
         "reports.list": lambda payload: service.reports_list(limit=int(payload.get("limit", 50)), severity=payload.get("severity"), status=payload.get("status"), command=payload.get("command")),
@@ -571,6 +577,7 @@ def _domain_summaries() -> list[dict[str, Any]]:
         {"domain": "model", "service": "ModelApplicationService", "status": "implemented-initial", "side_effects": "mock_or_local_governed_calls"},
         {"domain": "history", "service": "HistoryApplicationService", "status": "implemented-initial", "side_effects": "read_only"},
         {"domain": "observability", "service": "ObservabilityApplicationService", "status": "implemented-initial", "side_effects": "read_or_dry_run_export"},
+        {"domain": "operator", "service": "OperatorDashboardApplicationService", "status": "implemented-initial", "side_effects": "read_only_optional_outputs_reports"},
     ]
 
 
@@ -616,6 +623,7 @@ def _capabilities() -> list[ServiceCapability]:
         ("observability.agentops_status", "Evaluate AgentOps quality gate.", "report_when_adapter_requests_it", True, "python -m devpilot_core agentops status --json"),
         ("maturity.dashboard", "Generate the local POST-H maturity dashboard from evidence.", "explicit_outputs_reports_only", True, "python -m devpilot_core maturity dashboard --json"),
         ("maturity.dashboard_gate", "Run the POST-H-002 maturity dashboard quality gate.", "explicit_outputs_reports_only", True, "python -m devpilot_core maturity gate --json"),
+        ("operator.dashboard", "Build the local operator dashboard snapshot through ApplicationService.", "read_only_optional_outputs_reports", True, "GET /api/v1/operator/dashboard"),
     ]
     return [
         ServiceCapability(
@@ -660,5 +668,6 @@ def _routes() -> list[InterfaceRouteContract]:
         ("APP-ROUTE-027", "GET", "/api/v1/settings/providers", "settings.providers", ["Active Sprint 72 Settings route; providers are redacted and read-only."]),
         ("APP-ROUTE-028", "GET", "/api/v1/settings/policy", "settings.policy", ["Active Sprint 72 Settings route; policy summary is read-only."]),
         ("APP-ROUTE-029", "POST", "/api/v1/settings/providers/plan", "settings.providers.plan", ["Active Sprint 72 Settings route; provider edits are plan-only and never write files."]),
+        ("APP-ROUTE-030", "GET", "/api/v1/operator/dashboard", "operator.dashboard", ["Active POST-H-015-C local operator dashboard snapshot route; read-only by default and ApplicationService-bound."]),
     ]
     return [InterfaceRouteContract(route_id=rid, method=method, path=path, operation=operation, status="secured-initial", notes=notes) for rid, method, path, operation, notes in route_specs]

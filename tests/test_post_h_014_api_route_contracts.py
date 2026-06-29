@@ -80,9 +80,9 @@ def test_post_h_014_a_contract_validator_blocks_no_unregistered_or_unsafe_routes
 
     assert result.ok, result.to_dict()
     summary = result.data["summary"]
-    assert summary["routes_total"] == 33
-    assert summary["fastapi_route_keys_total"] == 33
-    assert summary["canonical_router_route_keys_total"] == 33
+    assert summary["routes_total"] == 34
+    assert summary["fastapi_route_keys_total"] == 34
+    assert summary["canonical_router_route_keys_total"] == 34
     assert summary["unregistered_routes_total"] == 0
     assert summary["stale_registry_routes_total"] == 0
     assert summary["remote_execution_allowed_total"] == 0
@@ -90,7 +90,7 @@ def test_post_h_014_a_contract_validator_blocks_no_unregistered_or_unsafe_routes
     assert summary["plugin_execution_allowed_total"] == 0
     assert summary["sensitive_routes_missing_auth_or_policy_total"] == 0
     assert summary["public_routes_total"] == 3
-    assert summary["application_service_routes_total"] == 29
+    assert summary["application_service_routes_total"] == 30
 
 
 def test_post_h_014_a_every_service_route_is_application_service_and_policy_bound() -> None:

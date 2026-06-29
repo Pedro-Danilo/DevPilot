@@ -1,3 +1,22 @@
+## post-h-015-c — ApplicationService/API integration
+
+Estado de proyecto: `last_completed_sprint=POST-H-014`; `next_sprint=POST-H-015`; `current_micro_sprint=POST-H-015-C`; `next_micro_sprint=POST-H-015-D`.
+
+- Added `OperatorDashboardApplicationService`.
+- Added `GET /api/v1/operator/dashboard` protected local API route.
+- Registered `operator.dashboard` in ApplicationService dispatch, ApplicationOperationCatalog and ApiRouteContractRegistry.
+- Added POST-H-015-C tests, manifest and audit report.
+- Corrected inherited TCR v2 domain drift for POST-H-015-A/B: `operator.dashboard` is not a valid v2 domain enum and is now mapped to `product.ui`.
+
+Safety:
+
+```text
+- Endpoint is token-protected and policy-bound.
+- Default API call is read-only and does not write reports.
+- write_report=true writes only outputs/reports/operator_dashboard_snapshot.json and .md.
+- No remote execution, connector write, plugin execution, public internet exposure or external APIs enabled.
+```
+
 ## post-h-015-b — Aggregator read-only de señales operacionales
 
 Estado de proyecto: `last_completed_sprint=POST-H-014`; `next_sprint=POST-H-015`; `current_micro_sprint=POST-H-015-B`; `next_micro_sprint=POST-H-015-C`.

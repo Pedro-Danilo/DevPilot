@@ -102,8 +102,8 @@ def test_project_global_state_schema_and_docs_are_synchronized() -> None:
     assert any("POST-H-013-D adds optional local crypto" in note for note in state["notes"])
     assert any("POST-H-013-E closes Audit pack integrity" in note for note in state["notes"])
     assert any("POST-H-014 is the next prioritized hito" in note for note in state["notes"])
-    assert state.get("current_micro_sprint") == "POST-H-015-B"
-    assert state.get("next_micro_sprint") == "POST-H-015-C"
+    assert state.get("current_micro_sprint") == "POST-H-015-C"
+    assert state.get("next_micro_sprint") == "POST-H-015-D"
     assert "POST-H-014-A — Route Contract Registry y API inventory" in readme
     assert "POST-H-014-B — Response mapping y errores homogéneos" in readme
     assert "POST-H-014-C — UI Route Contract y shell de producto" in readme
@@ -126,10 +126,13 @@ def test_project_global_state_schema_and_docs_are_synchronized() -> None:
     assert any("POST-H-014-E closes UI/API industrial shell" in note for note in state["notes"])
     assert any("POST-H-015-A approves Local operator dashboard" in note for note in state["notes"])
     assert any("POST-H-015-B adds OperatorDashboardAggregator" in note for note in state["notes"])
+    assert any("POST-H-015-C adds OperatorDashboardApplicationService" in note for note in state["notes"])
     assert "POST-H-015-A — Dashboard snapshot schema y config" in readme
     assert "POST-H-015-A — Dashboard snapshot schema y config" in runbook
     assert "POST-H-015-B — Aggregator read-only de señales operacionales" in readme
     assert "POST-H-015-B — Aggregator read-only de señales operacionales" in runbook
+    assert "POST-H-015-C — ApplicationService/API integration" in readme
+    assert "POST-H-015-C — ApplicationService/API integration" in runbook
     assert any("POST-H-012-A approves" in note for note in state["notes"])
     assert any("POST-H-012-C adds RBAC exposure reporting" in note for note in state["notes"])
     assert any("POST-H-012-D adds homogeneous PolicyEngine enforcement" in note for note in state["notes"])

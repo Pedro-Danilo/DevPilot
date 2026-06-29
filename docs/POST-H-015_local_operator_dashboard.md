@@ -3,15 +3,15 @@ doc_id: "POST-H-015-IMPLEMENTATION"
 id: "POST-H-015"
 title: "POST-H-015 — Local operator dashboard"
 status: "approved"
-version: "0.3.0"
+version: "0.4.0"
 owner: "Ordóñez"
 updated: "2026-06-28"
 approval: "approved_for_implementation"
 phase: "POST-FASE-H"
 priority: "P1"
 implementation_status: "implemented-initial"
-current_micro_sprint: "POST-H-015-B"
-next_micro_sprint: "POST-H-015-C"
+current_micro_sprint: "POST-H-015-C"
+next_micro_sprint: "POST-H-015-D"
 local_first: true
 dry_run: true
 no_remote_execution_enabled: true
@@ -29,7 +29,7 @@ POST-H-015 queda aprobado para implementación acumulativa después del cierre d
 El micro-sprint activo implementado es:
 
 ```text
-POST-H-015-B — Aggregator read-only de señales operacionales
+POST-H-015-C — ApplicationService/API integration
 ```
 
 Estado real:
@@ -86,25 +86,49 @@ Capacidades:
 - No ejecuta shell, no usa red, no consume APIs externas y no muta fuentes.
 ```
 
-## 4. Límites explícitos
+## 4. Alcance de POST-H-015-C
 
-Esta es una versión `implemented-initial`. Ya existe schema/config y agregador read-only, pero no implementa todavía:
+POST-H-015-C integra el aggregator al boundary ApplicationService/API:
 
 ```text
-- ApplicationService;
-- router API;
+src/devpilot_core/application/operator_dashboard_service.py
+src/devpilot_core/interfaces/api/routers/operator.py
+tests/test_post_h_015_operator_dashboard_application_api.py
+docs/audits/post_h_015_c_operator_dashboard_application_api_report.md
+docs/post_h_015_c_manifest.json
+```
+
+Capacidades:
+
+```text
+- OperatorDashboardApplicationService encapsula OperatorDashboardAggregator.
+- ApplicationService expone operator.dashboard.
+- GET /api/v1/operator/dashboard devuelve ApplicationResponse.
+- La ruta exige token local y policy binding.
+- ApiRouteContractRegistry incluye api.operator.dashboard.
+- ApplicationOperationCatalog detecta operator.dashboard como operacion API-bound.
+- TCR v2 queda corregido para POST-H-015-A/B usando dominio product.ui y C agrega application.service.
+```
+
+## 5. Límites explícitos
+
+Esta es una versión `implemented-initial`. Ya existe schema/config, agregador read-only y exposición ApplicationService/API, pero no implementa todavía:
+
+```text
 - UI operator dashboard;
 - quality gate final del hito.
 ```
 
-Esas capacidades quedan planificadas para `POST-H-015-C/D/E`.
+Esas capacidades quedan planificadas para `POST-H-015-D/E`.
 
-## 5. Verificación focal
+## 6. Verificación focal
 
 ```bash
 PYTHONPATH=src python -m pytest -p no:ddtrace tests/test_post_h_015_operator_dashboard_schema.py -q
 PYTHONPATH=src python -m pytest -p no:ddtrace tests/test_post_h_015_operator_dashboard_aggregator.py -q
+PYTHONPATH=src python -m pytest -p no:ddtrace tests/test_post_h_015_operator_dashboard_application_api.py -q
 PYTHONPATH=src python -c "from pathlib import Path; from devpilot_core.portfolio import OperatorDashboardAggregator, OperatorDashboardAggregatorOptions; r=OperatorDashboardAggregator(Path('.'), OperatorDashboardAggregatorOptions(write_report=True)).build(); print(r.to_dict())"
 PYTHONPATH=src python -m devpilot_core schema validate --schema-id OperatorDashboardSnapshot --instance tests/fixtures/operator_dashboard_snapshot.valid.json --json
 PYTHONPATH=src python -m devpilot_core schema validate --schema-id OperatorDashboardSnapshot --instance outputs/reports/operator_dashboard_snapshot.json --json
+PYTHONPATH=src python -m devpilot_core schema validate --schema-id ApiRouteContractRegistry --instance .devpilot/interfaces/api_route_contract_registry.json --json
 ```

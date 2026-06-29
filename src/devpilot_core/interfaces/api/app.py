@@ -13,7 +13,7 @@ from devpilot_core.application import ApplicationResponse, ApplicationService
 from devpilot_core.cli_models import CommandResult, ExitCode
 
 from .response_mapping import http_exception_response, unhandled_exception_response, validation_error_response
-from .routers import actions, approvals, reports, security_posture, settings, status, traces, validation
+from .routers import actions, approvals, operator, reports, security_posture, settings, status, traces, validation
 from .security import (
     API_ROUTE_POLICIES,
     DEFAULT_ALLOWED_ORIGINS,
@@ -174,6 +174,7 @@ def create_app(
     app.include_router(reports.router)
     app.include_router(traces.router)
     app.include_router(settings.router)
+    app.include_router(operator.router)
     app.include_router(security_posture.router)
 
     @app.get("/api/v1/health", tags=["status"])

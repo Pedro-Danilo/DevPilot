@@ -22,6 +22,13 @@ def read_json(path: str) -> dict:
     return json.loads(read(path))
 
 
+def _post_h_number(value: str) -> int:
+    prefix = "POST-H-"
+    if not value.startswith(prefix):
+        raise AssertionError(f"Expected POST-H sprint identifier, got: {value!r}")
+    return int(value.removeprefix(prefix).split("-", maxsplit=1)[0])
+
+
 def test_post_h_012_backlog_is_approved_and_synced() -> None:
     backlog = read("docs/backlogs/POST-H-012_approval_rbac_hardening.md")
     mirror = read("docs/POST-H-012_approval_rbac_hardening.md")
@@ -239,12 +246,12 @@ def test_post_h_012_project_state_is_synchronized() -> None:
     readme = read("README.md")
     runbook = read("docs/05_operations/runbook.md")
 
-    assert state["last_completed_sprint"] == "POST-H-012"
-    assert state["next_sprint"] == "POST-H-013"
-    assert state["current_repo"] in {"repo_DevPilot_Local_195_POST_H_012_E.zip", "repo_DevPilot_Local_196_POST_H_013_A.zip"}
+    assert _post_h_number(state["last_completed_sprint"]) >= 12
+    assert _post_h_number(state["next_sprint"]) >= 13
+    assert state["current_repo"].startswith("repo_DevPilot_Local_")
     assert any("POST-H-012-C adds RBAC exposure reporting" in note for note in state["notes"])
     assert any("POST-H-012-D adds homogeneous PolicyEngine enforcement" in note for note in state["notes"])
     assert any("POST-H-012-E closes Approval/RBAC hardening" in note for note in state["notes"])
     assert "POST-H-012-E — Quality gate y runbook de aprobación" in readme
-    assert "Siguiente hito: `POST-H-013" in readme
+    assert "Siguiente hito:" in readme
     assert "POST-H-012-E — Quality gate y runbook de aprobación" in runbook

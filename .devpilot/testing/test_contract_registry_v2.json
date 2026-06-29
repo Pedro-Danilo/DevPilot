@@ -8010,7 +8010,7 @@
       "contract_id": "post-h-015-operator-dashboard-schema-config",
       "schema_version": "2.0",
       "source_contract_id": "post-h-015-operator-dashboard-schema-config",
-      "domain": "operator.dashboard",
+      "domain": "product.ui",
       "capability": "OperatorDashboardSnapshotContract",
       "criticality": "P1",
       "risk_level": "medium",
@@ -8062,7 +8062,8 @@
       "classification_status": "explicit",
       "classification_notes": [
         "POST-H-015-A validates the operator dashboard snapshot schema, mandatory source references and local read-only config.",
-        "The tests are local-only and do not generate runtime dashboard outputs."
+        "The tests are local-only and do not generate runtime dashboard outputs.",
+        "POST-H-015 contracts are mapped to product.ui because TestContractRegistryV2 has no operator.dashboard domain enum."
       ],
       "trigger_hints": [
         "operator-dashboard",
@@ -8072,18 +8073,18 @@
         "post-h-015"
       ],
       "impact_scope": [
-        "operator.dashboard",
         "schemas",
         "documentation.operations",
         "test-contracts",
-        "project-state"
+        "project-state",
+        "product.ui"
       ]
     },
     {
       "contract_id": "post-h-015-operator-dashboard-aggregator",
       "schema_version": "2.0",
       "source_contract_id": "post-h-015-operator-dashboard-aggregator",
-      "domain": "operator.dashboard",
+      "domain": "product.ui",
       "capability": "OperatorDashboardAggregator",
       "criticality": "P1",
       "risk_level": "medium",
@@ -8137,7 +8138,8 @@
       "classification_status": "explicit",
       "classification_notes": [
         "POST-H-015-B validates local read-only operator dashboard aggregation, required-source blocking and optional runtime evidence handling.",
-        "The tests are local-only and do not require network, external APIs, browsers or remote execution."
+        "The tests are local-only and do not require network, external APIs, browsers or remote execution.",
+        "POST-H-015 contracts are mapped to product.ui because TestContractRegistryV2 has no operator.dashboard domain enum."
       ],
       "trigger_hints": [
         "operator-dashboard",
@@ -8147,10 +8149,88 @@
         "post-h-015"
       ],
       "impact_scope": [
-        "operator.dashboard",
         "portfolio",
         "schemas",
         "documentation.operations",
+        "test-contracts",
+        "project-state",
+        "product.ui"
+      ]
+    },
+    {
+      "contract_id": "post-h-015-operator-dashboard-application-service-api",
+      "schema_version": "2.0",
+      "source_contract_id": "post-h-015-operator-dashboard-application-service-api",
+      "domain": "application.service",
+      "capability": "OperatorDashboardApplicationServiceApi",
+      "criticality": "P1",
+      "risk_level": "medium",
+      "test_type": "integration",
+      "execution_profile": "impact",
+      "cost_class": "low",
+      "expected_duration_seconds": 60,
+      "test_files": [
+        "tests/test_post_h_015_operator_dashboard_application_api.py",
+        "tests/test_post_h_015_operator_dashboard_aggregator.py",
+        "tests/test_post_h_014_api_route_contracts.py",
+        "tests/test_application_operation_catalog_schema.py",
+        "tests/test_project_global_state.py"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/application/operator_dashboard_service.py",
+        "src/devpilot_core/application/services.py",
+        "src/devpilot_core/interfaces/api/",
+        ".devpilot/interfaces/api_route_contract_registry.json",
+        "docs/backlogs/POST-H-015_local_operator_dashboard.md",
+        "tests/test_post_h_015_operator_dashboard_application_api.py"
+      ],
+      "validates": [
+        "src/devpilot_core/application/operator_dashboard_service.py",
+        "src/devpilot_core/application/services.py",
+        "src/devpilot_core/application/operation_catalog.py",
+        "src/devpilot_core/interfaces/api/routers/operator.py",
+        "src/devpilot_core/interfaces/api/app.py",
+        "src/devpilot_core/interfaces/api/security.py",
+        "src/devpilot_core/interfaces/api/contracts.py",
+        ".devpilot/interfaces/api_route_contract_registry.json",
+        "docs/post_h_015_c_manifest.json",
+        "docs/audits/post_h_015_c_operator_dashboard_application_api_report.md"
+      ],
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace tests/test_post_h_015_operator_dashboard_application_api.py tests/test_post_h_014_api_route_contracts.py tests/test_application_operation_catalog_schema.py -q",
+        "python -m devpilot_core schema validate --schema-id ApiRouteContractRegistry --instance .devpilot/interfaces/api_route_contract_registry.json --json",
+        "python -m devpilot_core schema validate --schema-id PostHManifest --instance docs/post_h_015_c_manifest.json --json",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ],
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "required_for_release": false,
+      "required_for_hardening": true,
+      "required_for_impact": true,
+      "required_for_security_gate": false,
+      "requires_human_approval": false,
+      "owner": "POST-H-015-C",
+      "created_by": "POST-H-015-C",
+      "status": "implemented-initial",
+      "classification_status": "explicit",
+      "classification_notes": [
+        "POST-H-015-C validates ApplicationService/API exposure for the local operator dashboard snapshot.",
+        "The endpoint is token-protected, policy-bound and read-only by default."
+      ],
+      "trigger_hints": [
+        "operator-dashboard",
+        "application-service",
+        "api-route-contract",
+        "operator-dashboard-api",
+        "post-h-015"
+      ],
+      "impact_scope": [
+        "application.service",
+        "product.api",
+        "product.ui",
+        "operator.dashboard",
         "test-contracts",
         "project-state"
       ]

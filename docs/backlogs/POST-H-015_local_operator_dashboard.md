@@ -4,7 +4,7 @@ doc_id: "POST-H-015-BACKLOG"
 id: "POST-H-015"
 title: "POST-H-015 — Local operator dashboard"
 status: "approved"
-version: "0.3.0"
+version: "0.4.0"
 owner: "Ordóñez"
 updated: "2026-06-28"
 approval: "approved_for_implementation"
@@ -12,8 +12,8 @@ phase: "POST-FASE-H"
 priority: "P1"
 roadmap_source: "docs/backlogs/post_h_prioritized_roadmap.md"
 implementation_status: "implemented-initial"
-current_micro_sprint: "POST-H-015-B"
-next_micro_sprint: "POST-H-015-C"
+current_micro_sprint: "POST-H-015-C"
+next_micro_sprint: "POST-H-015-D"
 local_first: true
 dry_run: true
 no_remote_execution_enabled: true
@@ -303,6 +303,50 @@ Criterios PASS:
 PASS si CLI/API usan ApplicationService.
 PASS si API route es read-only.
 PASS si response es ApplicationResponse.
+```
+
+Estado de implementación: `implemented-initial`.
+
+Artefactos creados por POST-H-015-C:
+
+```text
+src/devpilot_core/application/operator_dashboard_service.py
+src/devpilot_core/interfaces/api/routers/operator.py
+tests/test_post_h_015_operator_dashboard_application_api.py
+docs/audits/post_h_015_c_operator_dashboard_application_api_report.md
+docs/post_h_015_c_manifest.json
+```
+
+Artefactos modificados principales:
+
+```text
+src/devpilot_core/application/services.py
+src/devpilot_core/application/__init__.py
+src/devpilot_core/application/operation_catalog.py
+src/devpilot_core/application/report.py
+src/devpilot_core/interfaces/api/app.py
+src/devpilot_core/interfaces/api/security.py
+src/devpilot_core/interfaces/api/contracts.py
+.devpilot/interfaces/api_route_contract_registry.json
+.devpilot/testing/test_contract_registry.json
+.devpilot/testing/test_contract_registry_v2.json
+```
+
+Alcance real aplicado:
+
+```text
+- Se agrega OperatorDashboardApplicationService.
+- Se registra la operación operator.dashboard en ApplicationService.
+- Se expone GET /api/v1/operator/dashboard con token local y policy binding.
+- Se actualiza ApiRouteContractRegistry con api.operator.dashboard.
+- Se mantiene write_report=false por defecto; write_report=true es explícito y limitado a outputs/reports.
+- Se corrige el dominio TCR v2 heredado de POST-H-015-A/B: operator.dashboard no existe en el enum y se mapea a product.ui.
+```
+
+Limitación explícita:
+
+```text
+POST-H-015-C no implementa la UI visual ni el quality gate final. POST-H-015-D debe construir la vista Web UI del operador y POST-H-015-E debe integrar operator-dashboard-ready.
 ```
 
 ### POST-H-015-D — UI operator dashboard

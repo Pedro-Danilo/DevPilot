@@ -1,0 +1,107 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "SCHEMA-DEVPL-POST-H-MANIFEST-V1",
+  "post_h_id": "POST-H-015",
+  "id": "POST-H-015-C",
+  "title": "POST-H-015-C — ApplicationService/API integration",
+  "status": "implemented-initial",
+  "phase": "POST-FASE-H",
+  "implemented_at": "2026-06-29",
+  "created_files": [
+    "src/devpilot_core/application/operator_dashboard_service.py",
+    "src/devpilot_core/interfaces/api/routers/operator.py",
+    "tests/test_post_h_015_operator_dashboard_application_api.py",
+    "docs/audits/post_h_015_c_operator_dashboard_application_api_report.md",
+    "docs/post_h_015_c_manifest.json"
+  ],
+  "modified_files": [
+    "src/devpilot_core/application/__init__.py",
+    "src/devpilot_core/application/services.py",
+    "src/devpilot_core/application/operation_catalog.py",
+    "src/devpilot_core/application/report.py",
+    "src/devpilot_core/interfaces/api/app.py",
+    "src/devpilot_core/interfaces/api/security.py",
+    "src/devpilot_core/interfaces/api/contracts.py",
+    ".devpilot/interfaces/api_route_contract_registry.json",
+    ".devpilot/testing/test_contract_registry.json",
+    ".devpilot/testing/test_contract_registry_v2.json",
+    ".devpilot/project_state.json",
+    ".devpilot/docs_governance/source_registry.json",
+    "tests/test_post_h_014_api_route_contracts.py",
+    "tests/test_project_global_state.py",
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/05_operations/local_operator_dashboard_runbook.md",
+    "docs/POST-H-015_local_operator_dashboard.md",
+    "docs/backlogs/POST-H-015_local_operator_dashboard.md",
+    "docs/release/CHANGELOG.md"
+  ],
+  "validation_commands": [
+    "python -m pytest -p no:ddtrace tests/test_post_h_015_operator_dashboard_application_api.py tests/test_post_h_015_operator_dashboard_aggregator.py tests/test_post_h_015_operator_dashboard_schema.py tests/test_post_h_014_api_route_contracts.py tests/test_application_operation_catalog_schema.py tests/test_project_global_state.py -q",
+    "python -m devpilot_core schema validate --schema-id ApiRouteContractRegistry --instance .devpilot/interfaces/api_route_contract_registry.json --json",
+    "python -m devpilot_core schema validate --schema-id PostHManifest --instance docs/post_h_015_c_manifest.json --json",
+    "python -m devpilot_core docs-governance validate --json",
+    "python -m devpilot_core test-contracts validate --json",
+    "python -m devpilot_core test-contracts validate-v2 --json",
+    "npm --prefix ui/web test"
+  ],
+  "capabilities": [
+    "OperatorDashboardApplicationService",
+    "ApplicationService operation operator.dashboard",
+    "Protected local API route GET /api/v1/operator/dashboard",
+    "ApiRouteContractRegistry coverage for api.operator.dashboard",
+    "ApplicationOperationCatalog coverage for operator.dashboard"
+  ],
+  "safety": {
+    "local_first": true,
+    "dry_run": true,
+    "read_only": true,
+    "network_used": false,
+    "external_api_used": false,
+    "remote_execution_enabled": false,
+    "connector_write_enabled": false,
+    "plugin_execution_enabled": false,
+    "source_mutations_performed_by_api": false
+  },
+  "limitations": [
+    "implemented-initial; exposes ApplicationService/API integration only",
+    "Does not implement the Web UI dashboard yet",
+    "Does not integrate the operator-dashboard-ready quality gate yet",
+    "write_report=true is explicit and writes only generated runtime evidence under outputs/reports"
+  ],
+  "next_micro_sprint": "POST-H-015-D",
+  "commands": [
+    "python -m pytest -p no:ddtrace tests/test_post_h_015_operator_dashboard_application_api.py -q",
+    "python -m devpilot_core schema validate --schema-id ApiRouteContractRegistry --instance .devpilot/interfaces/api_route_contract_registry.json --json",
+    "python -m devpilot_core test-contracts validate-v2 --json"
+  ],
+  "tests": [
+    "tests/test_post_h_015_operator_dashboard_application_api.py",
+    "tests/test_post_h_015_operator_dashboard_aggregator.py",
+    "tests/test_post_h_015_operator_dashboard_schema.py",
+    "tests/test_post_h_014_api_route_contracts.py",
+    "tests/test_application_operation_catalog_schema.py",
+    "tests/test_project_global_state.py"
+  ],
+  "pass_criteria": [
+    "operator.dashboard is exposed through ApplicationService",
+    "GET /api/v1/operator/dashboard returns ApplicationResponse",
+    "The route requires token and policy binding",
+    "ApiRouteContractRegistry and Test Contract Registry v1/v2 remain synchronized",
+    "No remote execution, connector write, plugin execution, external API or source mutation is enabled"
+  ],
+  "block_criteria": [
+    "Router imports the aggregator directly instead of using ApplicationService",
+    "API route is missing token or policy binding",
+    "ApiRouteContractRegistry has stale or missing routes",
+    "TCR v2 uses a domain outside its schema enum",
+    "POST-H docs/backlog/project_state point to a stale micro-sprint"
+  ],
+  "risks": [
+    "The visual operator dashboard remains future scope until POST-H-015-D",
+    "The final operator-dashboard-ready quality gate remains future scope until POST-H-015-E",
+    "Runtime outputs under outputs/reports must be regenerated locally and are excluded from clean ZIP deliverables"
+  ],
+  "next_sprint": "POST-H-015",
+  "preliminary": true
+}

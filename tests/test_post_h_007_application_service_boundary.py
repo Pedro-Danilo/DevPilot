@@ -80,7 +80,13 @@ def test_application_service_boundary_report_builder_is_read_only_and_finds_bypa
     assert summary["application_service_methods_total"] >= 20
     assert summary["domain_services_total"] >= 10
     assert summary["api_routes_total"] >= 10
-    assert summary["api_bound_total"] == summary["api_routes_total"]
+    assert summary["api_bound_total"] == summary["api_routes_total"] - 1
+    api_unbound_routes = [
+        route
+        for route in report["interfaces"]["api"]["routes"]
+        if route["application_service_bound"] is False
+    ]
+    assert [route["path"] for route in api_unbound_routes] == ["/api/v1/security/posture"]
     assert summary["ui_bound_total"] > 0
     assert summary["cli_commands_total"] >= 130
     assert summary["direct_core_bypass_total"] > 0

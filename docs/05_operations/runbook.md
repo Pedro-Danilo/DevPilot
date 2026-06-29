@@ -2,17 +2,49 @@
 title: "Runbook — DevPilot Local"
 doc_id: "DEVPL-OPS-002"
 status: "approved"
-version: "1.52.0"
+version: "1.53.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "POST-H-015-B"
+phase: "POST-H-015-C"
 updated: "2026-06-28"
 approval: "approved_by_owner"
 source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved + 03_security approved"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "SPRINT-PRECODE-05 quality operations baseline"
 ---
+
+## POST-H-015-C — ApplicationService/API integration
+
+Proposito operativo: validar que el dashboard local de operador se consuma por el boundary ApplicationService/API, sin que routers o UI futuras importen directamente el aggregator.
+
+Comandos principales:
+
+```powershell
+$env:PYTHONPATH="src"
+python -m pytest -p no:ddtrace tests/test_post_h_015_operator_dashboard_application_api.py tests/test_post_h_015_operator_dashboard_aggregator.py tests/test_post_h_015_operator_dashboard_schema.py tests/test_post_h_014_api_route_contracts.py tests/test_application_operation_catalog_schema.py -q
+python -m devpilot_core schema validate --schema-id ApiRouteContractRegistry --instance .devpilot/interfaces/api_route_contract_registry.json --json
+python -m devpilot_core test-contracts validate --json
+python -m devpilot_core test-contracts validate-v2 --json
+```
+
+Endpoint local:
+
+```powershell
+GET /api/v1/operator/dashboard
+```
+
+Criterios PASS:
+
+```text
+- operator.dashboard responde desde ApplicationService.
+- GET /api/v1/operator/dashboard exige token y policy binding.
+- ApiRouteContractRegistry contiene api.operator.dashboard.
+- ApplicationOperationCatalog contiene operator.dashboard como API-bound.
+- La ruta no habilita remote execution, connector write, plugin execution, external APIs ni mutaciones.
+```
+
+Limites: `implemented-initial`; POST-H-015-C no implementa todavia la UI visual del dashboard ni el quality gate final. La UI queda para POST-H-015-D y el gate para POST-H-015-E.
 
 ## POST-H-015-B — Aggregator read-only de señales operacionales
 
@@ -131,7 +163,7 @@ Límites: versión `implemented-initial`; no sustituye auth enterprise/OIDC, no 
 
 # Runbook — DevPilot Local
 
-Último hito cerrado: `POST-H-014 — UI/API industrial shell`; hito activo: `POST-H-015 — Local operator dashboard`; último micro-sprint implementado: `POST-H-015-B — Aggregator read-only de señales operacionales`; siguiente micro-sprint: `POST-H-015-C — ApplicationService/API integration`.
+Último hito cerrado: `POST-H-014 — UI/API industrial shell`; hito activo: `POST-H-015 — Local operator dashboard`; último micro-sprint implementado: `POST-H-015-C — ApplicationService/API integration`; siguiente micro-sprint: `POST-H-015-D — UI operator dashboard`.
 
 ## POST-H-014-C — UI Route Contract y shell de producto
 

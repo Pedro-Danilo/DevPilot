@@ -4,7 +4,7 @@
   "registry_id": "devpilot-api-route-contract-registry",
   "status": "implemented-initial",
   "created_by": "POST-H-014-A",
-  "updated": "2026-06-28",
+  "updated": "2026-06-29",
   "routes": [
     {
       "route_id": "api.openapi",
@@ -1037,20 +1037,55 @@
       "notes": [
         "Plan-only route; must not write .devpilot/providers.yaml or expose secret material."
       ]
+    },
+    {
+      "route_id": "api.operator.dashboard",
+      "method": "GET",
+      "path": "/api/v1/operator/dashboard",
+      "operation": "operator.dashboard",
+      "application_service_required": true,
+      "policy_check_required": true,
+      "auth_required": true,
+      "public": false,
+      "local_only": true,
+      "dry_run_only": true,
+      "mutations_allowed": false,
+      "local_state_mutation_allowed": false,
+      "destructive_action_allowed": false,
+      "external_api_allowed": false,
+      "remote_execution_allowed": false,
+      "connector_write_allowed": false,
+      "plugin_execution_allowed": false,
+      "response_contract": "ApplicationResponse",
+      "risk_level": "medium",
+      "owner": "interfaces.api.operator",
+      "router_module": "operator",
+      "policy_action": "read",
+      "policy_sensitivity": "protected-operator-dashboard",
+      "path_subject": ".devpilot/operator/dashboard_config.json",
+      "tags": [
+        "operator",
+        "dashboard",
+        "read"
+      ],
+      "notes": [
+        "POST-H-015-C exposes OperatorDashboardAggregator only through ApplicationService/API boundary."
+      ]
     }
   ],
   "summary": {
-    "routes_total": 33,
-    "protected_routes_total": 30,
+    "routes_total": 34,
+    "protected_routes_total": 31,
     "public_routes_total": 3,
     "mutating_routes_total": 3,
-    "application_service_routes_total": 29,
+    "application_service_routes_total": 30,
     "policy_bound_routes_total": 30,
     "remote_execution_allowed_total": 0,
     "connector_write_allowed_total": 0,
     "plugin_execution_allowed_total": 0,
     "preliminary": true,
-    "security_posture_routes_total": 1
+    "security_posture_routes_total": 1,
+    "post_h_015_c_operator_dashboard_route_registered": true
   },
   "safety": {
     "local_first": true,
@@ -1067,6 +1102,7 @@
     "UI route contracts are intentionally deferred to POST-H-014-C.",
     "Approval write routes are local approval lifecycle mutations only; they are explicitly classified and policy-bound.",
     "This registry is implemented-initial and must evolve with response mapping, UI contracts, API security hardening and final quality gate sprints.",
-    "POST-H-014-D adds protected local API/UI security posture diagnostics and confirms token/CORS/local-bind hardening."
+    "POST-H-014-D adds protected local API/UI security posture diagnostics and confirms token/CORS/local-bind hardening.",
+    "POST-H-015-C adds GET /api/v1/operator/dashboard as a protected ApplicationService-bound read-only route."
   ]
 }

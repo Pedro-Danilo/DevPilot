@@ -47,6 +47,9 @@
     },
     {
       "name": "settings"
+    },
+    {
+      "name": "operator"
     }
   ],
   "x-devpilot": {
@@ -2960,6 +2963,104 @@
             }
           }
         }
+      }
+    },
+    "/api/v1/operator/dashboard": {
+      "get": {
+        "tags": [
+          "operator"
+        ],
+        "summary": "Operator Dashboard Snapshot",
+        "operationId": "operator_dashboard",
+        "security": [
+          {
+            "LocalTokenAuth": []
+          }
+        ],
+        "x-devpilot-api-id": "API-OPERATOR-DASHBOARD",
+        "x-devpilot-operation": "operator.dashboard",
+        "x-devpilot-status": "secured-initial",
+        "x-devpilot-side-effect": "read_only_optional_outputs_reports",
+        "x-devpilot-dry-run-default": true,
+        "x-devpilot-auth": "local-token-required",
+        "x-devpilot-policy": "PolicyEngine bound",
+        "responses": {
+          "200": {
+            "description": "ApplicationResponse",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid local token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Policy binding block",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true,
+        "x-devpilot-domain-service": "OperatorDashboardApplicationService",
+        "parameters": [
+          {
+            "name": "write_report",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": false
+            },
+            "description": "When true, writes operator dashboard snapshot evidence under outputs/reports. Default is read-only."
+          }
+        ]
       }
     }
   },

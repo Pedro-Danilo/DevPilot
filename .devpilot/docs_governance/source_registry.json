@@ -6,7 +6,7 @@
   "status": "implemented-initial",
   "phase": "POST-FASE-H",
   "owner": "Ordóñez",
-  "updated": "2026-06-28",
+  "updated": "2026-06-29",
   "preliminary": true,
   "documents": [
     {
@@ -924,12 +924,15 @@
         "docs/audits/post_h_015_a_operator_dashboard_schema_config_report.md",
         "docs/post_h_015_a_manifest.json",
         "docs/audits/post_h_015_b_operator_dashboard_aggregator_report.md",
-        "docs/post_h_015_b_manifest.json"
+        "docs/post_h_015_b_manifest.json",
+        "docs/audits/post_h_015_c_operator_dashboard_application_api_report.md",
+        "docs/post_h_015_c_manifest.json"
       ],
       "required_tests": [
         "tests/test_documentation_governance_backlogs.py",
         "tests/test_post_h_015_operator_dashboard_schema.py",
-        "tests/test_post_h_015_operator_dashboard_aggregator.py"
+        "tests/test_post_h_015_operator_dashboard_aggregator.py",
+        "tests/test_post_h_015_operator_dashboard_application_api.py"
       ],
       "sync_rules": [
         "backlog_naming",
@@ -945,7 +948,9 @@
         "Roadmap-derived executable backlog governed by POST-H-009-D.",
         "Missing future backlog files are informational planned items; existing files must pass naming and frontmatter checks.",
         "POST-H-015 approved and started by POST-H-015-A with OperatorDashboardSnapshot schema and local dashboard config.",
-        "POST-H-015-B adds the read-only OperatorDashboardAggregator and optional snapshot report writing under outputs/reports."
+        "POST-H-015-B adds the read-only OperatorDashboardAggregator and optional snapshot report writing under outputs/reports.",
+        "POST-H-015-C adds OperatorDashboardApplicationService and a protected local API route for operator dashboard snapshots.",
+        "POST-H-015-B closure required correcting TestContractRegistryV2 domain enum drift from operator.dashboard to product.ui."
       ]
     },
     {
@@ -959,7 +964,9 @@
       "machine_readable_counterparts": [
         "docs/post_h_015_a_manifest.json",
         ".devpilot/operator/dashboard_config.json",
-        "docs/post_h_015_b_manifest.json"
+        "docs/post_h_015_b_manifest.json",
+        "docs/post_h_015_c_manifest.json",
+        ".devpilot/interfaces/api_route_contract_registry.json"
       ],
       "human_readable_counterparts": [
         "docs/backlogs/POST-H-015_local_operator_dashboard.md",
@@ -967,12 +974,14 @@
       ],
       "derived_documents": [
         "docs/audits/post_h_015_a_operator_dashboard_schema_config_report.md",
-        "docs/audits/post_h_015_b_operator_dashboard_aggregator_report.md"
+        "docs/audits/post_h_015_b_operator_dashboard_aggregator_report.md",
+        "docs/audits/post_h_015_c_operator_dashboard_application_api_report.md"
       ],
       "required_tests": [
         "tests/test_post_h_015_operator_dashboard_schema.py",
         "tests/test_project_global_state.py",
-        "tests/test_post_h_015_operator_dashboard_aggregator.py"
+        "tests/test_post_h_015_operator_dashboard_aggregator.py",
+        "tests/test_post_h_015_operator_dashboard_application_api.py"
       ],
       "sync_rules": [
         "backlog_naming",
@@ -986,7 +995,8 @@
       "notes": [
         "Current hito implementation document for the Local operator dashboard.",
         "POST-H-015-A is implemented-initial and intentionally limited to schema/config.",
-        "POST-H-015-B is implemented-initial and intentionally limited to the aggregator layer; ApplicationService/API/UI remain POST-H-015-C/D scope."
+        "POST-H-015-B is implemented-initial and intentionally limited to the aggregator layer; ApplicationService/API/UI remain POST-H-015-C/D scope.",
+        "POST-H-015-C is implemented-initial and intentionally limited to ApplicationService/API exposure; Web UI remains POST-H-015-D scope."
       ]
     },
     {
@@ -1388,7 +1398,7 @@
     "network_used": false,
     "external_api_used": false,
     "mutations_performed": false,
-    "last_updated_by": "POST-H-015-B",
+    "last_updated_by": "POST-H-015-C",
     "markdown_json_sync_checks_enabled": true,
     "sync_checks_scope": "version_match, milestones_match, decisions_match, closure_status_match, next_hito_match",
     "backlog_governance_enabled": true,
@@ -1427,13 +1437,13 @@
     "post_h_011_rag_groundedness_ready_gate_bound": true,
     "post_h_011_closed": true,
     "machine_readable_total": 5,
-    "required_tests_total": 80,
+    "required_tests_total": 82,
     "active_backlog": "POST-H-015",
-    "active_micro_sprint": "POST-H-015-B",
+    "active_micro_sprint": "POST-H-015-C",
     "sensitive_action_catalog_enabled": true,
     "sensitive_action_catalog_path": ".devpilot/approval/sensitive_action_catalog.json",
     "sensitive_action_catalog_schema": "docs/schemas/sensitive_action_catalog.schema.json",
-    "required_tests_checked_total": 80,
+    "required_tests_checked_total": 82,
     "post_h_012_policy_engine_enforcement_enabled": true,
     "post_h_012_current_micro_sprint": "POST-H-012-D",
     "ui_api_shell_report_schema_registered": true,
@@ -1443,11 +1453,14 @@
     "operator_dashboard_snapshot_schema_registered": true,
     "operator_dashboard_snapshot_schema_path": "docs/schemas/operator_dashboard_snapshot.schema.json",
     "operator_dashboard_config_path": ".devpilot/operator/dashboard_config.json",
-    "post_h_015_current_micro_sprint": "POST-H-015-B",
-    "post_h_015_next_micro_sprint": "POST-H-015-C",
+    "post_h_015_current_micro_sprint": "POST-H-015-C",
+    "post_h_015_next_micro_sprint": "POST-H-015-D",
     "post_h_014_closed": true,
     "operator_dashboard_aggregator_module": "src/devpilot_core/portfolio/operator_dashboard.py",
-    "operator_dashboard_snapshot_output_path": "outputs/reports/operator_dashboard_snapshot.json"
+    "operator_dashboard_snapshot_output_path": "outputs/reports/operator_dashboard_snapshot.json",
+    "operator_dashboard_application_service": "src/devpilot_core/application/operator_dashboard_service.py",
+    "operator_dashboard_api_route": "GET /api/v1/operator/dashboard",
+    "operator_dashboard_tcr_v2_domain_patch": "product.ui"
   },
   "safety": {
     "local_first": true,

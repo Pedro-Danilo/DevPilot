@@ -423,4 +423,7 @@ def _test_contract_ids_for_operation(operation_id: str, domain: str) -> list[str
         ids.add("post-h-006-cli-handler-migration")
     if operation_id == "api.shell_gate" or operation_id.startswith("api."):
         ids.add("post-h-014-ui-api-shell-quality-gate")
+    if operation_id.startswith("operator."):
+        ids.add("post-h-015-operator-dashboard-aggregator")
+        ids.add("post-h-015-operator-dashboard-application-service-api")
     return sorted(ids)

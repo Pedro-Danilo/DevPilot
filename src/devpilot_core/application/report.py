@@ -539,6 +539,7 @@ def _service_for_operation(operation_id: str) -> str:
         "approvals": "ApprovalApplicationService",
         "settings": "SettingsApplicationService",
         "maturity": "MaturityApplicationService",
+        "operator": "OperatorDashboardApplicationService",
         "ui": "ApplicationService",
         "app": "ApplicationService",
     }.get(prefix, "ApplicationService")

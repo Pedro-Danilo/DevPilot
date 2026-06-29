@@ -216,6 +216,20 @@ DECLARATIVE_GROUPS: dict[str, DeclarativeGroupDescriptor] = {
         recommended_tests=("python -m pytest tests/test_documentation_governance_validator.py tests/test_post_h_009_documentation_governance.py -q",),
         rationale="POST-H-009-B documentation governance commands validate canonical-source metadata without using LLM judge, network or source mutations.",
     ),
+    "api": DeclarativeGroupDescriptor(
+        group_id="api",
+        domain="product.api",
+        owner_module="src/devpilot_core/cli.py",
+        recommended_tests=("python -m pytest tests/test_post_h_014_ui_api_shell_gate.py tests/test_api_contract.py -q",),
+        rationale="POST-H-014-E API shell-gate is a governed local quality surface; it must be registered instead of remaining legacy-unregistered.",
+    ),
+    "audit-pack": DeclarativeGroupDescriptor(
+        group_id="audit-pack",
+        domain="operations.audit",
+        owner_module="src/devpilot_core/cli.py",
+        recommended_tests=("python -m pytest tests/test_audit_pack_v2.py tests/test_audit_pack_integrity_gate.py -q",),
+        rationale="POST-H-013 audit-pack v2 commands are governed local audit surfaces with explicit dry-run/execute semantics and must be registered before the no-growth gate runs.",
+    ),
 }
 
 
@@ -399,6 +413,30 @@ COMMAND_OVERRIDES: dict[str, DeclarativeCommandOverride] = {
             "python -m pytest tests/test_documentation_governance_validator.py tests/test_documentation_governance_sync.py tests/test_post_h_009_documentation_governance.py -q",
         ),
         rationale="Documentation governance report is read-only for source documents and writes JSON/Markdown evidence under outputs/reports only; POST-H-009-D adds backlog governance checks and POST-H-009-E integrates the same validator into quality-gate hardening without source mutations.",
+    ),
+    "audit-pack.build-v2": DeclarativeCommandOverride(
+        command_id="audit-pack.build-v2",
+        risk_level=CommandRiskLevel.HIGH,
+        side_effects=(CommandSideEffect.WRITE_FILES, CommandSideEffect.WRITE_REPORT),
+        writes_files=True,
+        dry_run_supported=True,
+        policy_check_required=True,
+        recommended_tests=(
+            "python -m pytest tests/test_audit_pack_v2.py tests/test_post_h_013_audit_pack_manifest_v2.py -q",
+        ),
+        rationale="POST-H-013-B audit-pack builder is dry-run by default and writes local audit-pack artifacts only when execute mode is explicit.",
+    ),
+    "audit-pack.verify-v2": DeclarativeCommandOverride(
+        command_id="audit-pack.verify-v2",
+        risk_level=CommandRiskLevel.HIGH,
+        side_effects=(CommandSideEffect.WRITE_REPORT,),
+        writes_files=True,
+        dry_run_supported=True,
+        policy_check_required=True,
+        recommended_tests=(
+            "python -m pytest tests/test_audit_pack_v2.py tests/test_post_h_013_audit_pack_manifest_v2.py -q",
+        ),
+        rationale="POST-H-013-C audit-pack verifier reads local audit packs and optionally writes verification evidence under outputs/reports.",
     ),
 }
 
