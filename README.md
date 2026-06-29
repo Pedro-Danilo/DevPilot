@@ -1,3 +1,27 @@
+## POST-H-015-E — Quality gate y runbook operacional
+
+Estado: `implemented-initial / hito cerrado`. DevPilot cierra `POST-H-015 — Local operator dashboard` con el subgate `operator-dashboard-ready`, el comando CLI `operator dashboard` y el runbook operacional final del dashboard local.
+
+Capacidades:
+
+```text
+- OperatorDashboardReadyGate valida snapshot, schema, source_refs, no-go gates y next actions.
+- QualityGate integra operator-dashboard-ready en perfiles hardening e industrial.
+- CLI local: python -m devpilot_core operator dashboard --json --write-report.
+- Reporte operacional JSON/Markdown: outputs/reports/operator_dashboard_snapshot.json y .md.
+- Cierre documental: README, runbook, backlog, manifest, TCR v1/v2 y docs-governance sincronizados.
+```
+
+Corrección heredada aplicada antes del cierre: `docs/post_h_015_d_manifest.json` se corrigió al contrato `PostHManifest` y `post-h-015-operator-dashboard-ui` en TCR v2 se corrigió de `classification_status=classified`/`safety_exception=null` a valores schema-valid.
+
+Límites: versión `implemented-initial`; no es una consola SRE enterprise, no implementa multiusuario, SaaS, remote execution, connector write, plugin execution ni acciones destructivas. La evolución visual/profunda del operador queda para hitos posteriores.
+
+Último hito: `POST-H-015 — Local operator dashboard`
+Último hito cerrado: `POST-H-015 — Local operator dashboard`
+Siguiente hito: `POST-H-016 — Workspace portfolio hardening`
+Último micro-sprint implementado: `POST-H-015-E — Quality gate y runbook operacional`
+Siguiente micro-sprint: `POST-H-016-A`
+
 ## POST-H-015-D — UI operator dashboard
 
 Estado: `implemented-initial`. DevPilot incorpora la vista Web UI del operador local dentro de `ui.dashboard`. La UI consume `GET /api/v1/operator/dashboard` por `DevPilotApiClient`, muestra secciones del snapshot, `source_refs`, no-go gates y acciones recomendadas local/dry-run sin leer archivos locales desde el navegador.

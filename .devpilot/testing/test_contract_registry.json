@@ -4502,6 +4502,44 @@
         "npm --prefix ui/web test",
         "python -m devpilot_core test-contracts validate --json"
       ]
+    },
+    {
+      "contract_id": "post-h-015-operator-dashboard-ready-gate",
+      "scope": "quality-gate",
+      "owner": "POST-H-015-E",
+      "phase": "POST-FASE-H",
+      "test_files": [
+        "tests/test_post_h_015_operator_dashboard_ready_gate.py",
+        "tests/test_post_h_015_operator_dashboard_aggregator.py",
+        "tests/test_project_global_state.py"
+      ],
+      "validates": [
+        "src/devpilot_core/portfolio/operator_dashboard_gate.py",
+        "src/devpilot_core/quality/gate.py",
+        "src/devpilot_core/cli.py",
+        "src/devpilot_core/portfolio/operator_dashboard.py",
+        "docs/schemas/operator_dashboard_snapshot.schema.json",
+        "docs/05_operations/local_operator_dashboard_runbook.md",
+        "docs/audits/post_h_015_e_operator_dashboard_ready_gate_report.md"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/portfolio/operator_dashboard.py",
+        "src/devpilot_core/portfolio/operator_dashboard_gate.py",
+        "src/devpilot_core/quality/gate.py",
+        "src/devpilot_core/cli.py",
+        ".devpilot/operator/dashboard_config.json",
+        "docs/schemas/operator_dashboard_snapshot.schema.json",
+        "tests/test_post_h_015_operator_dashboard_ready_gate.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace tests/test_post_h_015_operator_dashboard_ready_gate.py tests/test_post_h_015_operator_dashboard_aggregator.py -q",
+        "python -m devpilot_core operator dashboard --json --write-report",
+        "python -m devpilot_core quality-gate run --profile hardening --json",
+        "python -m devpilot_core test-contracts validate --json"
+      ]
     }
   ],
   "notes": [

@@ -61,5 +61,55 @@
     "Does not implement the final operator-dashboard-ready quality gate",
     "Does not add remote monitoring, SaaS control plane or multiuser enterprise auth",
     "Does not enable destructive actions from the UI"
-  ]
+  ],
+  "post_h_id": "POST-H-015",
+  "phase": "POST-H-015-D",
+  "implemented_at": "2026-06-29",
+  "created_files": [
+    "ui/web/src/pages/OperatorDashboard.ts",
+    "ui/web/src/components/OperatorStatusCard.ts",
+    "ui/web/src/components/OperatorGatePanel.ts",
+    "ui/web/src/components/OperatorNextActions.ts",
+    "tests/test_post_h_015_operator_dashboard_ui.py",
+    "docs/audits/post_h_015_d_operator_dashboard_ui_report.md",
+    "docs/post_h_015_d_manifest.json"
+  ],
+  "modified_files": [
+    "ui/web/src/pages/Dashboard.ts",
+    "ui/web/src/api/client.ts",
+    "ui/web/src/api/types.ts",
+    "ui/web/src/styles.css",
+    "ui/web/scripts/smoke-test.mjs",
+    "ui/web/package.json",
+    ".devpilot/interfaces/ui_route_contract_registry.json",
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/05_operations/local_operator_dashboard_runbook.md",
+    "docs/POST-H-015_local_operator_dashboard.md",
+    "docs/backlogs/POST-H-015_local_operator_dashboard.md",
+    "docs/release/CHANGELOG.md"
+  ],
+  "commands": [
+    "python -m pytest -p no:ddtrace tests/test_post_h_015_operator_dashboard_ui.py tests/test_web_ui_mvp.py tests/test_post_h_014_ui_shell_contract.py tests/test_project_global_state.py -q",
+    "npm --prefix ui/web test",
+    "python -m devpilot_core schema validate --schema-id UiRouteContractRegistry --instance .devpilot/interfaces/ui_route_contract_registry.json --json",
+    "python -m devpilot_core docs-governance validate --json"
+  ],
+  "pass_criteria": [
+    "The operator dashboard UI is integrated into ui.dashboard.",
+    "The UI consumes api.operator.dashboard only through DevPilotApiClient.",
+    "No-go gates, source_refs and dry-run next actions are visible.",
+    "UiRouteContractRegistry and Web UI smoke test remain synchronized."
+  ],
+  "block_criteria": [
+    "UI reads local files directly instead of using the API client.",
+    "No-go gates are hidden or omitted from the operator view.",
+    "The UI suggests remote execution, connector write or plugin execution.",
+    "UiRouteContractRegistry omits api.operator.dashboard or the new UI source files."
+  ],
+  "risks": [
+    "POST-H-015-D is implemented-initial and does not include the final operator-dashboard-ready gate.",
+    "Runtime reports under outputs/reports are generated locally and excluded from clean ZIP deliverables."
+  ],
+  "preliminary": true
 }

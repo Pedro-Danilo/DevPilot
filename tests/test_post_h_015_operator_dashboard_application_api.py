@@ -117,9 +117,11 @@ def test_post_h_015_c_route_registry_tcr_and_docs_are_synchronized() -> None:
 
     backlog = (ROOT / "docs/backlogs/POST-H-015_local_operator_dashboard.md").read_text(encoding="utf-8")
     runbook = (ROOT / "docs/05_operations/local_operator_dashboard_runbook.md").read_text(encoding="utf-8")
-    assert 'current_micro_sprint: "POST-H-015-D"' in backlog
-    assert 'next_micro_sprint: "POST-H-015-E"' in backlog
+    assert 'current_micro_sprint: "POST-H-015-E"' in backlog
+    assert 'next_micro_sprint: "POST-H-016-A"' in backlog
     assert "POST-H-015-C — ApplicationService/API integration" in backlog
     assert "POST-H-015-C — ApplicationService/API integration" in runbook
     assert "POST-H-015-D — UI operator dashboard" in backlog
     assert "POST-H-015-D — UI operator dashboard" in runbook
+    assert "POST-H-015-E — Quality gate y runbook operacional" in backlog
+    assert "POST-H-015-E — Quality gate y runbook operacional" in runbook

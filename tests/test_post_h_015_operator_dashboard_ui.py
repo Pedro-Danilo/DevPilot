@@ -80,8 +80,10 @@ def test_post_h_015_d_package_smoke_and_docs_are_synchronized() -> None:
     assert package["devpilot"]["operatorDashboardUi"] is True
     assert "/operator/dashboard" in smoke
     assert "OperatorDashboard" in smoke
-    assert 'current_micro_sprint: "POST-H-015-D"' in backlog
-    assert 'next_micro_sprint: "POST-H-015-E"' in backlog
+    assert 'current_micro_sprint: "POST-H-015-E"' in backlog
+    assert 'next_micro_sprint: "POST-H-016-A"' in backlog
     assert "POST-H-015-D — UI operator dashboard" in runbook
     assert "POST-H-015-D — UI operator dashboard" in readme
+    assert "POST-H-015-E — Quality gate y runbook operacional" in runbook
+    assert "POST-H-015-E — Quality gate y runbook operacional" in readme
     assert "post-h-015-operator-dashboard-ui" in tcr_v2

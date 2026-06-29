@@ -3,15 +3,15 @@ doc_id: "POST-H-015-IMPLEMENTATION"
 id: "POST-H-015"
 title: "POST-H-015 — Local operator dashboard"
 status: "approved"
-version: "0.5.0"
+version: "0.6.0"
 owner: "Ordóñez"
-updated: "2026-06-28"
+updated: "2026-06-29"
 approval: "approved_for_implementation"
 phase: "POST-FASE-H"
 priority: "P1"
-implementation_status: "implemented-initial"
-current_micro_sprint: "POST-H-015-D"
-next_micro_sprint: "POST-H-015-E"
+implementation_status: "closed"
+current_micro_sprint: "POST-H-015-E"
+next_micro_sprint: "POST-H-016-A"
 local_first: true
 dry_run: true
 no_remote_execution_enabled: true
@@ -24,12 +24,12 @@ no_plugin_execution_enabled: true
 
 ## 1. Estado
 
-POST-H-015 queda aprobado para implementación acumulativa después del cierre de `POST-H-014 — UI/API industrial shell`.
+POST-H-015 queda cerrado como `implemented-initial` después de completar schema/config, aggregator read-only, ApplicationService/API, Web UI y quality gate operacional.
 
 El micro-sprint activo implementado es:
 
 ```text
-POST-H-015-D — UI operator dashboard
+POST-H-015-E — Quality gate y runbook operacional
 ```
 
 Estado real:
@@ -38,7 +38,34 @@ Estado real:
 implemented-initial
 ```
 
-## 2. Alcance de POST-H-015-D
+## 2. Alcance de POST-H-015-E
+
+POST-H-015-E cierra el hito con integración operacional:
+
+```text
+src/devpilot_core/portfolio/operator_dashboard_gate.py
+src/devpilot_core/quality/gate.py
+src/devpilot_core/cli.py
+tests/test_post_h_015_operator_dashboard_ready_gate.py
+docs/audits/post_h_015_e_operator_dashboard_ready_gate_report.md
+docs/post_h_015_e_manifest.json
+```
+
+Capacidades:
+
+```text
+- OperatorDashboardReadyGate valida el snapshot generado por OperatorDashboardAggregator.
+- QualityGate hardening/industrial incluye operator-dashboard-ready.
+- CLI operator dashboard genera outputs/reports/operator_dashboard_snapshot.json y .md solo con --write-report.
+- El gate detecta snapshot inválido, no-go gates incorrectos, secciones incompletas y acciones no dry-run.
+- El runbook operacional explica estados pass/warn/block/error y comandos de verificación.
+```
+
+Corrección heredada: antes de cerrar POST-H-015-D se corrigió `docs/post_h_015_d_manifest.json` para cumplir `PostHManifest` y se corrigió el contrato v2 `post-h-015-operator-dashboard-ui`.
+
+Límite: versión `implemented-initial`; no declara producción enterprise ni habilita ejecución remota, conectores write, plugins ejecutables, SaaS o multiusuario.
+
+## 3. Alcance de POST-H-015-D
 
 POST-H-015-D crea la primera vista visual del operador local:
 
@@ -64,7 +91,7 @@ Capacidades:
 
 Limite: version `implemented-initial`; el subgate final operator-dashboard-ready queda para POST-H-015-E.
 
-## 3. Alcance de POST-H-015-A
+## 4. Alcance de POST-H-015-A
 
 POST-H-015-A define el contrato base para el dashboard local de operador:
 
@@ -90,7 +117,7 @@ El contrato exige:
 - secciones obligatorias con status y source_refs.
 ```
 
-## 4. Alcance de POST-H-015-B
+## 5. Alcance de POST-H-015-B
 
 POST-H-015-B implementa la primera capa ejecutable del dashboard:
 
@@ -112,7 +139,7 @@ Capacidades:
 - No ejecuta shell, no usa red, no consume APIs externas y no muta fuentes.
 ```
 
-## 5. Alcance de POST-H-015-C
+## 6. Alcance de POST-H-015-C
 
 POST-H-015-C integra el aggregator al boundary ApplicationService/API:
 
@@ -136,17 +163,11 @@ Capacidades:
 - TCR v2 queda corregido para POST-H-015-A/B usando dominio product.ui y C agrega application.service.
 ```
 
-## 6. Límites explícitos
+## 7. Límites explícitos
 
-Esta es una versión `implemented-initial`. Ya existe schema/config, agregador read-only y exposición ApplicationService/API, pero no implementa todavía:
+Esta es una versión `implemented-initial` cerrada. No implementa consola SRE enterprise, SaaS, multiusuario, ejecución remota, connector write, plugin execution ni acciones destructivas. Es la base operacional local para futuras mejoras de producto.
 
-```text
-- quality gate final del hito.
-```
-
-Esa capacidad queda planificada para `POST-H-015-E`.
-
-## 6. Verificación focal
+## 8. Verificación focal
 
 ```bash
 PYTHONPATH=src python -m pytest -p no:ddtrace tests/test_post_h_015_operator_dashboard_schema.py -q

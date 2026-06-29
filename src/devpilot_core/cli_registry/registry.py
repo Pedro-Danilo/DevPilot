@@ -31,6 +31,7 @@ APPLICATION_OPERATION_BY_COMMAND_ID: dict[str, str] = {
     "validate": "validation.gateway",
     "workspace.status": "workspace.status",
     "api.shell-gate": "api.shell_gate",
+    "operator.dashboard": "operator.dashboard",
 }
 
 POST_H_006_B_INITIAL_GROUPS: tuple[str, ...] = (
@@ -223,6 +224,14 @@ DECLARATIVE_GROUPS: dict[str, DeclarativeGroupDescriptor] = {
         recommended_tests=("python -m pytest tests/test_post_h_014_ui_api_shell_gate.py tests/test_api_contract.py -q",),
         rationale="POST-H-014-E API shell-gate is a governed local quality surface; it must be registered instead of remaining legacy-unregistered.",
     ),
+    "operator": DeclarativeGroupDescriptor(
+        group_id="operator",
+        domain="product.operator",
+        owner_module="src/devpilot_core/cli.py",
+        application_service_required=True,
+        recommended_tests=("python -m pytest tests/test_post_h_015_operator_dashboard_ready_gate.py tests/test_post_h_015_operator_dashboard_application_api.py -q",),
+        rationale="POST-H-015-E exposes the local operator dashboard snapshot through the ApplicationService boundary and writes evidence only under outputs/reports when requested.",
+    ),
     "audit-pack": DeclarativeGroupDescriptor(
         group_id="audit-pack",
         domain="operations.audit",
@@ -272,6 +281,18 @@ COMMAND_OVERRIDES: dict[str, DeclarativeCommandOverride] = {
             "python -m pytest tests/test_post_h_014_ui_api_shell_gate.py -q",
         ),
         rationale="POST-H-014-E UI/API shell-gate runs only local registry/docs checks plus the existing npm smoke test and writes evidence only under outputs/reports when --write-report is explicit.",
+    ),
+    "operator.dashboard": DeclarativeCommandOverride(
+        command_id="operator.dashboard",
+        risk_level=CommandRiskLevel.MEDIUM,
+        side_effects=(CommandSideEffect.WRITE_REPORT,),
+        writes_files=True,
+        dry_run_supported=True,
+        policy_check_required=True,
+        recommended_tests=(
+            "python -m pytest tests/test_post_h_015_operator_dashboard_ready_gate.py tests/test_post_h_015_operator_dashboard_application_api.py -q",
+        ),
+        rationale="POST-H-015-E operator dashboard is read-only by default and writes only operator_dashboard_snapshot JSON/Markdown under outputs/reports when --write-report is explicit.",
     ),
     "cli-registry.guard": DeclarativeCommandOverride(
         command_id="cli-registry.guard",

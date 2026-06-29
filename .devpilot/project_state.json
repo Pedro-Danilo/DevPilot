@@ -5,11 +5,11 @@
   "phase_h_status": "closed_implemented_initial",
   "industrial_baseline_ready": true,
   "maturity_level": "industrial-baseline-ready",
-  "last_completed_sprint": "POST-H-014",
+  "last_completed_sprint": "POST-H-015",
   "last_functional_sprint": "FUNC-SPRINT-99",
-  "next_sprint": "POST-H-015",
-  "source_repo": "repo_DevPilot_Local_208_POST_H_015_C.zip",
-  "current_repo": "repo_DevPilot_Local_209_POST_H_015_D.zip",
+  "next_sprint": "POST-H-016",
+  "source_repo": "repo_DevPilot_Local_209_POST_H_015_D.zip",
+  "current_repo": "repo_DevPilot_Local_210_POST_H_015_E.zip",
   "global_state_owner": "tests/test_project_global_state.py",
   "mutable_global_state_fields": [
     "last_completed_sprint",
@@ -92,8 +92,10 @@
     "POST-H-015-B adds OperatorDashboardAggregator read-only local signal aggregation, optional outputs/reports/operator_dashboard_snapshot JSON/Markdown writing and required-source blocking without ApplicationService/API/UI exposure yet.",
     "POST-H-015-B closes after correcting TestContractRegistryV2 domain drift: operator.dashboard was not a valid domain enum and is mapped to product.ui.",
     "POST-H-015-C adds OperatorDashboardApplicationService and protected GET /api/v1/operator/dashboard through ApplicationService/ApplicationResponse without enabling UI, remote execution, connector write, plugin execution or external APIs.",
-    "POST-H-015-D adds the Web UI Operator Dashboard inside ui.dashboard, consuming api.operator.dashboard through DevPilotApiClient and showing source_refs, no-go gates and local/dry-run next actions without frontend filesystem reads."
+    "POST-H-015-D adds the Web UI Operator Dashboard inside ui.dashboard, consuming api.operator.dashboard through DevPilotApiClient and showing source_refs, no-go gates and local/dry-run next actions without frontend filesystem reads.",
+    "POST-H-015-E closes Local operator dashboard with operator-dashboard-ready quality gate and operational runbook.",
+    "POST-H-015-D closure required correcting PostHManifest field drift and TestContractRegistryV2 enum/null drift before advancing."
   ],
-  "current_micro_sprint": "POST-H-015-D",
-  "next_micro_sprint": "POST-H-015-E"
+  "current_micro_sprint": "POST-H-015-E",
+  "next_micro_sprint": "POST-H-016-A"
 }

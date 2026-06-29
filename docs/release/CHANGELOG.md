@@ -1,3 +1,21 @@
+## post-h-015-e — Quality gate y runbook operacional
+
+Estado de proyecto: `last_completed_sprint=POST-H-015`; `next_sprint=POST-H-016`; `current_micro_sprint=POST-H-015-E`; `next_micro_sprint=POST-H-016-A`.
+
+- Added `OperatorDashboardReadyGate` and `operator-dashboard-ready` quality subgate.
+- Added `python -m devpilot_core operator dashboard --json --write-report`.
+- Integrated the subgate into hardening and industrial quality-gate profiles.
+- Corrected inherited POST-H-015-D manifest and TCR v2 schema drift before closing the hito.
+- Updated runbooks, POST-H-015 docs, manifests, TCR v1/v2 and docs governance registry.
+
+Safety:
+
+```text
+- Gate is local-first and read-only for source files.
+- Reports are written only under outputs/reports when --write-report is explicit.
+- No remote execution, connector write, plugin execution, public internet exposure or external APIs enabled.
+```
+
 ## post-h-015-d — UI operator dashboard
 
 Estado de proyecto: `last_completed_sprint=POST-H-014`; `next_sprint=POST-H-015`; `current_micro_sprint=POST-H-015-D`; `next_micro_sprint=POST-H-015-E`.

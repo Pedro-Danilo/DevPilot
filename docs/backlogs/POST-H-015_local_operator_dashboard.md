@@ -4,16 +4,16 @@ doc_id: "POST-H-015-BACKLOG"
 id: "POST-H-015"
 title: "POST-H-015 — Local operator dashboard"
 status: "approved"
-version: "0.5.0"
+version: "0.6.0"
 owner: "Ordóñez"
-updated: "2026-06-28"
+updated: "2026-06-29"
 approval: "approved_for_implementation"
 phase: "POST-FASE-H"
 priority: "P1"
 roadmap_source: "docs/backlogs/post_h_prioritized_roadmap.md"
-implementation_status: "implemented-initial"
-current_micro_sprint: "POST-H-015-D"
-next_micro_sprint: "POST-H-015-E"
+implementation_status: "closed"
+current_micro_sprint: "POST-H-015-E"
+next_micro_sprint: "POST-H-016-A"
 local_first: true
 dry_run: true
 no_remote_execution_enabled: true
@@ -435,6 +435,49 @@ PASS si el runbook explica interpretación de estados.
 PASS si quality gate detecta snapshot inválido.
 ```
 
+Estado de implementación: `implemented-initial / hito cerrado`.
+
+Artefactos creados por POST-H-015-E:
+
+```text
+src/devpilot_core/portfolio/operator_dashboard_gate.py
+tests/test_post_h_015_operator_dashboard_ready_gate.py
+docs/audits/post_h_015_e_operator_dashboard_ready_gate_report.md
+docs/post_h_015_e_manifest.json
+```
+
+Artefactos modificados principales:
+
+```text
+src/devpilot_core/quality/gate.py
+src/devpilot_core/cli.py
+src/devpilot_core/cli_registry/registry.py
+.devpilot/testing/test_contract_registry.json
+.devpilot/testing/test_contract_registry_v2.json
+.devpilot/project_state.json
+.devpilot/docs_governance/source_registry.json
+README.md
+docs/05_operations/runbook.md
+docs/05_operations/local_operator_dashboard_runbook.md
+```
+
+Alcance real aplicado:
+
+```text
+- Se agrega OperatorDashboardReadyGate.
+- Se integra operator-dashboard-ready en QualityGate hardening/industrial.
+- Se agrega CLI operator dashboard para generar snapshot JSON/Markdown.
+- El gate valida schema, secciones, no-go gates y next actions dry-run.
+- Se corrige drift heredado en post_h_015_d_manifest y TCR v2.
+```
+
+Limitación explícita:
+
+```text
+POST-H-015-E cierra el hito como implemented-initial. No implementa consola SRE enterprise, multiusuario, SaaS, ejecución remota, connector write, plugin execution ni acciones destructivas.
+```
+
+
 ## 9. Comandos esperados
 
 ```powershell
@@ -467,11 +510,11 @@ BLOCK si muestra como PASS una fuente ausente crítica.
 ## 12. Definition of Done
 
 ```text
-[ ] Snapshot schema validado.
-[ ] Aggregator local read-only implementado.
-[ ] CLI/API/Service integrados.
-[ ] UI OperatorDashboard implementada.
-[ ] No-go gates visibles.
-[ ] Runbook aprobado.
-[ ] Tests y quality gate pasan.
+[x] Snapshot schema validado.
+[x] Aggregator local read-only implementado.
+[x] CLI/API/Service integrados.
+[x] UI OperatorDashboard implementada.
+[x] No-go gates visibles.
+[x] Runbook aprobado.
+[x] Tests y quality gate pasan.
 ```

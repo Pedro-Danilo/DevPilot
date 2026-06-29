@@ -4074,6 +4074,17 @@ def maturity_dashboard_gate_command(*, json_output: bool = False, write_report: 
     return int(result.exit_code)
 
 
+def operator_dashboard_command(*, json_output: bool = False, write_report: bool = False) -> int:
+    """Generate the POST-H-015 local operator dashboard through ApplicationService."""
+
+    root = project_root()
+    result = ApplicationService(root).operator_dashboard_snapshot(write_report=write_report)
+    _emit_result_event(root, result, subject="outputs/reports/operator_dashboard_snapshot.json")
+    _persist_result(root, result, subject="outputs/reports/operator_dashboard_snapshot.json")
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+
 def api_serve_command(
     *,
     host: str = "127.0.0.1",
@@ -5660,6 +5671,12 @@ def build_parser() -> argparse.ArgumentParser:
     maturity_gate.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     maturity_gate.add_argument("--write-report", action="store_true", help="Persist and validate maturity_dashboard.json and maturity_dashboard.md under outputs/reports")
 
+    operator = sub.add_parser("operator", help="Generate and validate the local operator dashboard")
+    operator_sub = operator.add_subparsers(dest="operator_command")
+    operator_dashboard = operator_sub.add_parser("dashboard", help="Generate POST-H-015 operator dashboard JSON/Markdown")
+    operator_dashboard.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    operator_dashboard.add_argument("--write-report", action="store_true", help="Persist operator_dashboard_snapshot.json and .md under outputs/reports")
+
     api = sub.add_parser("api", help="Run, inspect or secure the local API MVP")
     api_sub = api.add_subparsers(dest="api_command")
     api_serve = api_sub.add_parser("serve", help="Dry-run or start the local API server")
@@ -5784,6 +5801,9 @@ def _command_name_from_args(args: argparse.Namespace) -> str:
     if command == "quality-gate":
         subcommand = getattr(args, "quality_gate_command", None)
         return f"quality-gate {subcommand}" if subcommand else "quality-gate"
+    if command == "operator":
+        subcommand = getattr(args, "operator_command", None)
+        return f"operator {subcommand}" if subcommand else "operator"
     if command == "enterprise":
         subcommand = getattr(args, "enterprise_command", None)
         return f"enterprise {subcommand}" if subcommand else "enterprise"
@@ -6715,6 +6735,11 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
             return maturity_dashboard_command(json_output=args.json, write_report=args.write_report)
         if args.maturity_command == "gate":
             return maturity_dashboard_gate_command(json_output=args.json, write_report=args.write_report)
+        parser.print_help()
+        return int(ExitCode.FAIL)
+    if args.command == "operator":
+        if args.operator_command == "dashboard":
+            return operator_dashboard_command(json_output=args.json, write_report=args.write_report)
         parser.print_help()
         return int(ExitCode.FAIL)
     if args.command == "api":

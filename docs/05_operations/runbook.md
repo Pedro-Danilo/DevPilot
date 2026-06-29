@@ -2,17 +2,46 @@
 title: "Runbook — DevPilot Local"
 doc_id: "DEVPL-OPS-002"
 status: "approved"
-version: "1.54.0"
+version: "1.55.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "POST-H-015-D"
-updated: "2026-06-28"
+phase: "POST-H-015-E"
+updated: "2026-06-29"
 approval: "approved_by_owner"
 source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved + 03_security approved"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "SPRINT-PRECODE-05 quality operations baseline"
 ---
+
+## POST-H-015-E — Quality gate y runbook operacional
+
+POST-H-015-E cierra el Local operator dashboard con el subgate `operator-dashboard-ready` y el comando CLI operativo del snapshot.
+
+Verificación local:
+
+```powershell
+$env:PYTHONPATH="src"
+python -m pytest -p no:ddtrace tests/test_post_h_015_operator_dashboard_ready_gate.py tests/test_post_h_015_operator_dashboard_ui.py tests/test_post_h_015_operator_dashboard_application_api.py tests/test_post_h_015_operator_dashboard_aggregator.py tests/test_project_global_state.py -q
+python -m devpilot_core operator dashboard --json --write-report
+python -m devpilot_core schema validate --schema-id OperatorDashboardSnapshot --instance outputs/reports/operator_dashboard_snapshot.json --json
+python -m devpilot_core quality-gate run --profile hardening --json
+python -m devpilot_core docs-governance validate --json
+python -m devpilot_core test-contracts validate --json
+python -m devpilot_core test-contracts validate-v2 --json
+npm --prefix ui/web test
+```
+
+Interpretación operacional:
+
+```text
+pass    El snapshot cumple schema, fuentes requeridas y no-go gates.
+warn    El snapshot es utilizable, pero faltan evidencias runtime opcionales.
+block   Falta fuente requerida o se viola una regla de readiness.
+error   Hay error de contrato, JSON/schema o ejecución local.
+```
+
+Límites: `implemented-initial`; no sustituye revisión humana, no es consola multiusuario/SaaS y no habilita acciones destructivas. Los outputs generados son evidencia runtime regenerable y no deben incluirse en ZIPs limpios.
 
 ## POST-H-015-D — UI operator dashboard
 
@@ -187,7 +216,7 @@ Límites: versión `implemented-initial`; no sustituye auth enterprise/OIDC, no 
 
 # Runbook — DevPilot Local
 
-Último hito cerrado: `POST-H-014 — UI/API industrial shell`; hito activo: `POST-H-015 — Local operator dashboard`; último micro-sprint implementado: `POST-H-015-D — UI operator dashboard`; siguiente micro-sprint: `POST-H-015-E — Quality gate y runbook operacional`.
+Último hito cerrado: `POST-H-015 — Local operator dashboard`; siguiente hito: `POST-H-016 — Workspace portfolio hardening`; último micro-sprint implementado: `POST-H-015-E — Quality gate y runbook operacional`; siguiente micro-sprint: `POST-H-016-A`.
 
 ## POST-H-014-C — UI Route Contract y shell de producto
 

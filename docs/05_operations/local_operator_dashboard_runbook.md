@@ -2,15 +2,49 @@
 doc_id: "DEVPL-OPS-LOCAL-OPERATOR-DASHBOARD"
 title: "Local Operator Dashboard Runbook"
 status: "approved"
-version: "0.4.0"
+version: "0.5.0"
 owner: "Ordóñez"
-updated: "2026-06-28"
+updated: "2026-06-29"
 phase: "POST-FASE-H"
 related_backlog: "POST-H-015"
-current_micro_sprint: "POST-H-015-D"
+current_micro_sprint: "POST-H-015-E"
 ---
 
 # Local Operator Dashboard Runbook
+
+## POST-H-015-E — Quality gate y runbook operacional
+
+POST-H-015-E integra el dashboard al flujo formal de operación local.
+
+Superficie:
+
+```text
+Subgate: operator-dashboard-ready
+CLI: python -m devpilot_core operator dashboard --json --write-report
+QualityGate: python -m devpilot_core quality-gate run --profile hardening --json
+Reportes: outputs/reports/operator_dashboard_snapshot.json y .md
+```
+
+Uso operativo:
+
+```bash
+PYTHONPATH=src python -m devpilot_core operator dashboard --json --write-report
+PYTHONPATH=src python -m devpilot_core schema validate --schema-id OperatorDashboardSnapshot --instance outputs/reports/operator_dashboard_snapshot.json --json
+PYTHONPATH=src python -m devpilot_core quality-gate run --profile hardening --json
+```
+
+Reglas de interpretación:
+
+```text
+pass  avanzar si no hay hallazgos bloqueantes y los no-go gates siguen en false.
+warn  revisar evidencia opcional ausente antes de preparar release o demo.
+block detener avance; falta fuente requerida o el snapshot no es confiable.
+error corregir contrato, JSON/schema o error de ejecución local.
+```
+
+El gate debe bloquear si el snapshot viola `remote_execution_enabled=false`, `connector_write_enabled=false`, `plugin_execution_enabled=false`, si faltan secciones requeridas o si una acción sugerida no es dry-run.
+
+Limitación: cierre `implemented-initial`; el dashboard local queda operativo para ingeniería, pero no declara producción enterprise ni consola multiusuario.
 
 ## POST-H-015-D — UI operator dashboard
 

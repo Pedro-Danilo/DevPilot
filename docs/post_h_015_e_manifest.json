@@ -1,0 +1,89 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "SCHEMA-DEVPL-POST-H-MANIFEST-V1",
+  "post_h_id": "POST-H-015",
+  "id": "POST-H-015-E",
+  "title": "POST-H-015-E — Quality gate y runbook operacional",
+  "status": "implemented-initial",
+  "phase": "POST-H-015-E",
+  "implemented_at": "2026-06-29",
+  "created_files": [
+    "src/devpilot_core/portfolio/operator_dashboard_gate.py",
+    "tests/test_post_h_015_operator_dashboard_ready_gate.py",
+    "docs/audits/post_h_015_e_operator_dashboard_ready_gate_report.md",
+    "docs/post_h_015_e_manifest.json"
+  ],
+  "modified_files": [
+    "src/devpilot_core/portfolio/__init__.py",
+    "src/devpilot_core/quality/gate.py",
+    "src/devpilot_core/cli.py",
+    "src/devpilot_core/cli_registry/registry.py",
+    ".devpilot/testing/test_contract_registry.json",
+    ".devpilot/testing/test_contract_registry_v2.json",
+    ".devpilot/project_state.json",
+    ".devpilot/docs_governance/source_registry.json",
+    "tests/test_post_h_015_operator_dashboard_aggregator.py",
+    "tests/test_project_global_state.py",
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/05_operations/local_operator_dashboard_runbook.md",
+    "docs/POST-H-015_local_operator_dashboard.md",
+    "docs/backlogs/POST-H-015_local_operator_dashboard.md",
+    "docs/release/CHANGELOG.md",
+    "docs/post_h_015_d_manifest.json"
+  ],
+  "commands": [
+    "python -m pytest -p no:ddtrace tests/test_post_h_015_operator_dashboard_ready_gate.py tests/test_post_h_015_operator_dashboard_ui.py tests/test_post_h_015_operator_dashboard_application_api.py tests/test_post_h_015_operator_dashboard_aggregator.py tests/test_project_global_state.py -q",
+    "python -m devpilot_core operator dashboard --json --write-report",
+    "python -m devpilot_core quality-gate run --profile hardening --json",
+    "python -m devpilot_core schema validate --schema-id OperatorDashboardSnapshot --instance outputs/reports/operator_dashboard_snapshot.json --json",
+    "python -m devpilot_core schema validate --schema-id PostHManifest --instance docs/post_h_015_e_manifest.json --json",
+    "python -m devpilot_core docs-governance validate --json",
+    "python -m devpilot_core test-contracts validate --json",
+    "python -m devpilot_core test-contracts validate-v2 --json",
+    "npm --prefix ui/web test"
+  ],
+  "tests": [
+    "tests/test_post_h_015_operator_dashboard_ready_gate.py",
+    "tests/test_post_h_015_operator_dashboard_ui.py",
+    "tests/test_post_h_015_operator_dashboard_application_api.py",
+    "tests/test_post_h_015_operator_dashboard_aggregator.py",
+    "tests/test_project_global_state.py"
+  ],
+  "pass_criteria": [
+    "operator-dashboard-ready is registered in hardening and industrial QualityGate profiles.",
+    "python -m devpilot_core operator dashboard --json --write-report generates the snapshot JSON/Markdown under outputs/reports.",
+    "The generated snapshot validates against OperatorDashboardSnapshot.",
+    "The gate blocks invalid no-go flags or incomplete required sections.",
+    "The operational runbook explains state interpretation and verification commands."
+  ],
+  "block_criteria": [
+    "The operator dashboard mutates source or runtime state by default.",
+    "The quality gate passes with an invalid snapshot or hidden no-go gates.",
+    "The CLI recommends remote execution, connector write or plugin execution.",
+    "TCR v1/v2, project_state or docs-governance registry drift from POST-H-015-E."
+  ],
+  "risks": [
+    "implemented-initial gate; it validates local snapshot readiness but is not a production SRE console.",
+    "The full pytest -q regression remains deferred to final backlog/hito validation due cost.",
+    "Runtime outputs under outputs/reports must be regenerated locally and are excluded from clean ZIP deliverables."
+  ],
+  "next_sprint": "POST-H-016",
+  "preliminary": true,
+  "capabilities": [
+    "OperatorDashboardReadyGate",
+    "quality-gate subgate operator-dashboard-ready",
+    "CLI command python -m devpilot_core operator dashboard",
+    "Operational snapshot Markdown report generation"
+  ],
+  "safety": {
+    "local_first": true,
+    "dry_run": true,
+    "read_only": true,
+    "network_used": false,
+    "external_api_used": false,
+    "remote_execution_enabled": false,
+    "connector_write_enabled": false,
+    "plugin_execution_enabled": false
+  }
+}
