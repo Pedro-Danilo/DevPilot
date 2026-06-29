@@ -1,3 +1,24 @@
+## POST-H-015-A — Dashboard snapshot schema y config
+
+Estado: `implemented-initial`. POST-H-015 queda aprobado y comienza la construcción del Local operator dashboard con un contrato de snapshot y configuración local versionada. Esta primera versión no implementa todavía aggregator, API ni UI; fija la estructura obligatoria para que el dashboard futuro sea read-only, source-linked, local-first y no-go safe.
+
+Capacidades:
+
+```text
+- Schema OperatorDashboardSnapshot registrado en schema_catalog.
+- Config local .devpilot/operator/dashboard_config.json.
+- Secciones obligatorias: maturity, quality_gates, test_contracts, roadmap, security, observability, agents, approvals, release y workspace.
+- Cada sección exige status y source_refs.
+- Fixture CLI-valid para validar el contrato antes del aggregator.
+```
+
+Límites: versión `implemented-initial`; no genera todavía outputs/reports/operator_dashboard_snapshot.json, no expone API, no crea UI y no habilita remote execution, connector write, plugin execution ni APIs externas. POST-H-015-B implementa el aggregator read-only.
+
+Último hito cerrado: `POST-H-014 — UI/API industrial shell`
+Hito activo: `POST-H-015 — Local operator dashboard`
+Último micro-sprint implementado: `POST-H-015-A — Dashboard snapshot schema y config`
+Siguiente micro-sprint: `POST-H-015-B — Aggregator read-only de señales operacionales`
+
 ## POST-H-014-E — Quality gate UI/API industrial shell
 
 Estado: `implemented-initial`. POST-H-014-E integra la shell local UI/API al quality gate mediante el subgate `ui-api-industrial-shell`, ejecutable desde `quality-gate run --profile hardening` y desde `api shell-gate`. El gate valida `ApiRouteContractRegistry`, `UiRouteContractRegistry`, smoke test Web UI, documentación operacional, TCR v1/v2 y genera evidencia schema-backed en `outputs/reports/ui_api_shell_report.json` cuando se solicita `--write-report`.

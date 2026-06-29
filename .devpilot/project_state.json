@@ -8,8 +8,8 @@
   "last_completed_sprint": "POST-H-014",
   "last_functional_sprint": "FUNC-SPRINT-99",
   "next_sprint": "POST-H-015",
-  "source_repo": "repo_DevPilot_Local_204_POST_H_014_D.zip",
-  "current_repo": "repo_DevPilot_Local_205_POST_H_014_E.zip",
+  "source_repo": "repo_DevPilot_Local_205_POST_H_014_E.zip",
+  "current_repo": "repo_DevPilot_Local_206_POST_H_015_A.zip",
   "global_state_owner": "tests/test_project_global_state.py",
   "mutable_global_state_fields": [
     "last_completed_sprint",
@@ -87,8 +87,9 @@
     "POST-H-014-D is the next micro-sprint: Security hardening local de API/UI.",
     "POST-H-014-D adds local API/UI security hardening: protected security posture endpoint, CORS sanitization, non-local bind guard and UI secret redaction checks.",
     "POST-H-014-E closes UI/API industrial shell as implemented-initial: ui-api-industrial-shell quality subgate, schema-backed report, API/UI registry validation, Web UI smoke and operational docs are integrated into hardening/industrial quality gates.",
-    "POST-H-015 is the next prioritized hito: Local operator dashboard."
+    "POST-H-015 is the next prioritized hito: Local operator dashboard.",
+    "POST-H-015-A approves Local operator dashboard and adds OperatorDashboardSnapshot schema, local dashboard_config, source_refs requirements and CLI-valid fixture without implementing aggregator/API/UI yet."
   ],
-  "current_micro_sprint": "POST-H-014-E",
-  "next_micro_sprint": "POST-H-015"
+  "current_micro_sprint": "POST-H-015-A",
+  "next_micro_sprint": "POST-H-015-B"
 }

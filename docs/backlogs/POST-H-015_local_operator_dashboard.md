@@ -3,14 +3,17 @@
 doc_id: "POST-H-015-BACKLOG"
 id: "POST-H-015"
 title: "POST-H-015 — Local operator dashboard"
-status: "draft"
-version: "0.1.0"
+status: "approved"
+version: "0.2.0"
 owner: "Ordóñez"
-updated: "2026-06-23"
-approval: "pending_owner_review"
+updated: "2026-06-28"
+approval: "approved_for_implementation"
 phase: "POST-FASE-H"
 priority: "P1"
 roadmap_source: "docs/backlogs/post_h_prioritized_roadmap.md"
+implementation_status: "implemented-initial"
+current_micro_sprint: "POST-H-015-A"
+next_micro_sprint: "POST-H-015-B"
 local_first: true
 dry_run: true
 no_remote_execution_enabled: true
@@ -194,6 +197,38 @@ Criterios PASS:
 PASS si el snapshot expresa local_first, read_only y mutations_performed=false.
 PASS si cada sección tiene status y source_refs.
 PASS si existe configuración local versionada.
+```
+
+Estado de implementación: `implemented-initial`.
+
+Artefactos creados por POST-H-015-A:
+
+```text
+docs/schemas/operator_dashboard_snapshot.schema.json
+.devpilot/operator/dashboard_config.json
+tests/fixtures/operator_dashboard_snapshot.valid.json
+tests/test_post_h_015_operator_dashboard_schema.py
+docs/05_operations/local_operator_dashboard_runbook.md
+docs/audits/post_h_015_a_operator_dashboard_schema_config_report.md
+docs/post_h_015_a_manifest.json
+docs/POST-H-015_local_operator_dashboard.md
+```
+
+Alcance real aplicado:
+
+```text
+- Se aprueba POST-H-015 para implementación controlada.
+- Se registra el contrato OperatorDashboardSnapshot en schema_catalog.
+- Se define configuración local read-only para secciones, fuentes y acciones recomendadas.
+- Se agrega fixture de snapshot válido para validación CLI temprana.
+- No se implementa todavía aggregator, ApplicationService, API ni UI; eso queda para POST-H-015-B/C/D.
+```
+
+Limitación explícita:
+
+```text
+POST-H-015-A es una primera versión contractual. No genera snapshots desde fuentes reales todavía.
+El snapshot real bajo outputs/reports/operator_dashboard_snapshot.json debe ser producido por el aggregator read-only en POST-H-015-B.
 ```
 
 ### POST-H-015-B — Aggregator read-only de señales operacionales

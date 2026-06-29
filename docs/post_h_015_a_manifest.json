@@ -1,0 +1,93 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "SCHEMA-DEVPL-POST-H-MANIFEST-V1",
+  "post_h_id": "POST-H-015",
+  "id": "POST-H-015-A",
+  "title": "POST-H-015-A — Dashboard snapshot schema y config",
+  "status": "implemented-initial",
+  "phase": "POST-FASE-H",
+  "implemented_at": "2026-06-28",
+  "created_files": [
+    "docs/schemas/operator_dashboard_snapshot.schema.json",
+    ".devpilot/operator/dashboard_config.json",
+    "tests/fixtures/operator_dashboard_snapshot.valid.json",
+    "tests/test_post_h_015_operator_dashboard_schema.py",
+    "docs/05_operations/local_operator_dashboard_runbook.md",
+    "docs/audits/post_h_015_a_operator_dashboard_schema_config_report.md",
+    "docs/post_h_015_a_manifest.json",
+    "docs/POST-H-015_local_operator_dashboard.md"
+  ],
+  "modified_files": [
+    "docs/schemas/schema_catalog.json",
+    "docs/backlogs/POST-H-015_local_operator_dashboard.md",
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/release/CHANGELOG.md",
+    ".devpilot/project_state.json",
+    ".devpilot/docs_governance/source_registry.json",
+    ".devpilot/testing/test_contract_registry.json",
+    ".devpilot/testing/test_contract_registry_v2.json",
+    "tests/test_schema_registry.py",
+    "tests/test_project_global_state.py"
+  ],
+  "validation_commands": [
+    "python -m pytest -p no:ddtrace tests/test_post_h_015_operator_dashboard_schema.py tests/test_schema_registry.py tests/test_project_global_state.py -q",
+    "python -m devpilot_core schema validate --schema-id OperatorDashboardSnapshot --instance tests/fixtures/operator_dashboard_snapshot.valid.json --json",
+    "python -m devpilot_core schema validate --schema-id PostHManifest --instance docs/post_h_015_a_manifest.json --json",
+    "python -m devpilot_core docs-governance validate --json",
+    "python -m devpilot_core test-contracts validate --json",
+    "python -m devpilot_core test-contracts validate-v2 --json"
+  ],
+  "capabilities": [
+    "OperatorDashboardSnapshot schema baseline",
+    "Local read-only dashboard configuration",
+    "Source-referenced section contract for maturity, gates, test contracts, roadmap, security, observability, agents, approvals, release and workspace",
+    "CLI-valid fixture for early schema verification"
+  ],
+  "safety": {
+    "local_first": true,
+    "dry_run": true,
+    "read_only": true,
+    "network_used": false,
+    "external_api_used": false,
+    "remote_execution_enabled": false,
+    "connector_write_enabled": false,
+    "plugin_execution_enabled": false,
+    "source_mutations_performed_by_validator": false
+  },
+  "limitations": [
+    "implemented-initial; defines schema/config only",
+    "Does not implement the read-only aggregator yet",
+    "Does not expose ApplicationService/API routes yet",
+    "Does not implement the Web UI dashboard yet",
+    "Does not generate outputs/reports/operator_dashboard_snapshot.json yet"
+  ],
+  "next_micro_sprint": "POST-H-015-B",
+  "commands": [
+    "python -m devpilot_core schema validate --schema-id OperatorDashboardSnapshot --instance tests/fixtures/operator_dashboard_snapshot.valid.json --json",
+    "python -m pytest -p no:ddtrace tests/test_post_h_015_operator_dashboard_schema.py -q"
+  ],
+  "tests": [
+    "tests/test_post_h_015_operator_dashboard_schema.py",
+    "tests/test_schema_registry.py",
+    "tests/test_project_global_state.py"
+  ],
+  "pass_criteria": [
+    "OperatorDashboardSnapshot schema is registered in schema_catalog",
+    "Valid fixture passes schema validation",
+    "Each dashboard section requires status and source_refs",
+    "Local config is read-only, dry-run and no-go safe"
+  ],
+  "block_criteria": [
+    "Snapshot permits mutations, network or external APIs",
+    "Any mandatory section lacks source_refs",
+    "Config enables remote execution, connector write or plugin execution",
+    "Schema catalog/TCR/docs governance are not synchronized"
+  ],
+  "risks": [
+    "The dashboard remains contractual until POST-H-015-B implements aggregation",
+    "Runtime outputs are intentionally absent from clean ZIPs"
+  ],
+  "next_sprint": "POST-H-015-B",
+  "preliminary": true
+}

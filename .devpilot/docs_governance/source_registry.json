@@ -910,7 +910,7 @@
       "classification": "derived",
       "domain": "roadmap-derived-backlog",
       "owner": "Ordóñez",
-      "status_required": "draft",
+      "status_required": "approved",
       "criticality": "P1",
       "machine_readable_counterparts": [
         ".devpilot/evals/post_h_eval_001_prioritized_roadmap.json"
@@ -918,9 +918,15 @@
       "human_readable_counterparts": [
         "docs/backlogs/post_h_prioritized_roadmap.md"
       ],
-      "derived_documents": [],
+      "derived_documents": [
+        "docs/POST-H-015_local_operator_dashboard.md",
+        "docs/05_operations/local_operator_dashboard_runbook.md",
+        "docs/audits/post_h_015_a_operator_dashboard_schema_config_report.md",
+        "docs/post_h_015_a_manifest.json"
+      ],
       "required_tests": [
-        "tests/test_documentation_governance_backlogs.py"
+        "tests/test_documentation_governance_backlogs.py",
+        "tests/test_post_h_015_operator_dashboard_schema.py"
       ],
       "sync_rules": [
         "backlog_naming",
@@ -931,10 +937,48 @@
       "roadmap_milestones": [
         "POST-H-015"
       ],
-      "lifecycle": "planned",
+      "lifecycle": "active",
       "notes": [
         "Roadmap-derived executable backlog governed by POST-H-009-D.",
-        "Missing future backlog files are informational planned items; existing files must pass naming and frontmatter checks."
+        "Missing future backlog files are informational planned items; existing files must pass naming and frontmatter checks.",
+        "POST-H-015 approved and started by POST-H-015-A with OperatorDashboardSnapshot schema and local dashboard config."
+      ]
+    },
+    {
+      "doc_id": "POST-H-015-IMPLEMENTATION",
+      "path": "docs/POST-H-015_local_operator_dashboard.md",
+      "classification": "source-of-truth",
+      "domain": "operator-dashboard",
+      "owner": "Ordóñez",
+      "status_required": "approved",
+      "criticality": "P1",
+      "machine_readable_counterparts": [
+        "docs/post_h_015_a_manifest.json",
+        ".devpilot/operator/dashboard_config.json"
+      ],
+      "human_readable_counterparts": [
+        "docs/backlogs/POST-H-015_local_operator_dashboard.md",
+        "docs/05_operations/local_operator_dashboard_runbook.md"
+      ],
+      "derived_documents": [
+        "docs/audits/post_h_015_a_operator_dashboard_schema_config_report.md"
+      ],
+      "required_tests": [
+        "tests/test_post_h_015_operator_dashboard_schema.py",
+        "tests/test_project_global_state.py"
+      ],
+      "sync_rules": [
+        "backlog_naming",
+        "backlog_frontmatter_minimum"
+      ],
+      "related_adrs": [],
+      "roadmap_milestones": [
+        "POST-H-015"
+      ],
+      "lifecycle": "active",
+      "notes": [
+        "Current hito implementation document for the Local operator dashboard.",
+        "POST-H-015-A is implemented-initial and intentionally limited to schema/config."
       ]
     },
     {
@@ -1377,7 +1421,7 @@
     "machine_readable_total": 5,
     "required_tests_total": 62,
     "active_backlog": "POST-H-015",
-    "active_micro_sprint": "POST-H-015",
+    "active_micro_sprint": "POST-H-015-A",
     "sensitive_action_catalog_enabled": true,
     "sensitive_action_catalog_path": ".devpilot/approval/sensitive_action_catalog.json",
     "sensitive_action_catalog_schema": "docs/schemas/sensitive_action_catalog.schema.json",
@@ -1388,6 +1432,11 @@
     "ui_api_shell_report_schema_path": "docs/schemas/ui_api_shell_report.schema.json",
     "post_h_014_current_micro_sprint": "POST-H-014-E",
     "post_h_014_quality_gate_bound": true,
+    "operator_dashboard_snapshot_schema_registered": true,
+    "operator_dashboard_snapshot_schema_path": "docs/schemas/operator_dashboard_snapshot.schema.json",
+    "operator_dashboard_config_path": ".devpilot/operator/dashboard_config.json",
+    "post_h_015_current_micro_sprint": "POST-H-015-A",
+    "post_h_015_next_micro_sprint": "POST-H-015-B",
     "post_h_014_closed": true
   },
   "safety": {

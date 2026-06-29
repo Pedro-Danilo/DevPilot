@@ -1,0 +1,112 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "SCHEMA-DEVPL-OPERATOR-DASHBOARD-SNAPSHOT-V1",
+  "snapshot_id": "operator-dashboard-20260628T000000Z",
+  "workspace_id": "devpilot-local",
+  "created_by": "POST-H-015-A",
+  "status": "implemented-initial",
+  "generated_at_utc": "2026-06-28T00:00:00Z",
+  "local_first": true,
+  "read_only": true,
+  "dry_run": true,
+  "network_used": false,
+  "external_api_used": false,
+  "mutations_performed": false,
+  "source_mutations_performed": false,
+  "remote_execution_enabled": false,
+  "connector_write_enabled": false,
+  "plugin_execution_enabled": false,
+  "sections": {
+    "maturity": {
+      "status": "unknown",
+      "title": "Maturity",
+      "summary": "POST-H-015-A defines the section contract; aggregation is implemented later.",
+      "score": null,
+      "source_refs": [
+        {"path": "outputs/reports/maturity_dashboard.json", "kind": "generated-report", "required": false, "available": false}
+      ]
+    },
+    "quality_gates": {
+      "status": "pass",
+      "title": "Quality Gates",
+      "blocking_findings_total": 0,
+      "source_refs": [
+        {"path": "src/devpilot_core/quality/gate.py", "kind": "python", "required": true, "available": true}
+      ]
+    },
+    "test_contracts": {
+      "status": "pass",
+      "title": "Test Contracts",
+      "metrics": {"contracts_total": 135},
+      "source_refs": [
+        {"path": ".devpilot/testing/test_contract_registry.json", "kind": "json", "required": true, "available": true}
+      ]
+    },
+    "roadmap": {
+      "status": "pass",
+      "title": "Roadmap",
+      "metrics": {"active_hito": "POST-H-015", "previous_hito": "POST-H-014"},
+      "source_refs": [
+        {"path": ".devpilot/project_state.json", "kind": "json", "required": true, "available": true}
+      ]
+    },
+    "security": {
+      "status": "pass",
+      "title": "Security",
+      "metrics": {"no_go_active": false},
+      "source_refs": [
+        {"path": "docs/03_security/post_h_security_risk_register.md", "kind": "markdown", "required": true, "available": true}
+      ]
+    },
+    "observability": {
+      "status": "unknown",
+      "title": "Observability",
+      "source_refs": [
+        {"path": "outputs/traces/events.jsonl", "kind": "jsonl", "required": false, "available": false}
+      ]
+    },
+    "agents": {
+      "status": "unknown",
+      "title": "Agents",
+      "source_refs": [
+        {"path": "src/devpilot_core/agents", "kind": "directory", "required": true, "available": true}
+      ]
+    },
+    "approvals": {
+      "status": "unknown",
+      "title": "Approvals",
+      "source_refs": [
+        {"path": "src/devpilot_core/approval", "kind": "directory", "required": true, "available": true}
+      ]
+    },
+    "release": {
+      "status": "unknown",
+      "title": "Release",
+      "source_refs": [
+        {"path": "src/devpilot_core/release", "kind": "directory", "required": true, "available": true}
+      ]
+    },
+    "workspace": {
+      "status": "unknown",
+      "title": "Workspace",
+      "source_refs": [
+        {"path": ".devpilot/workspaces", "kind": "directory", "required": false, "available": true}
+      ]
+    }
+  },
+  "recommended_next_actions": [
+    {
+      "action_id": "run-hardening-gate",
+      "command": "python -m devpilot_core quality-gate run --profile hardening --json",
+      "reason": "Verify local hardening state before advancing.",
+      "priority": "P1",
+      "dry_run": true,
+      "source_refs": [
+        {"path": "src/devpilot_core/quality/gate.py", "kind": "python", "required": true, "available": true}
+      ]
+    }
+  ],
+  "notes": [
+    "Fixture for POST-H-015-A schema validation only."
+  ]
+}

@@ -1,0 +1,109 @@
+{
+  "schema_version": "1.0",
+  "config_id": "devpilot-local-operator-dashboard-config",
+  "created_by": "POST-H-015-A",
+  "status": "implemented-initial",
+  "preliminary": true,
+  "workspace_id": "devpilot-local",
+  "snapshot_schema_id": "SCHEMA-DEVPL-OPERATOR-DASHBOARD-SNAPSHOT-V1",
+  "snapshot_output_path": "outputs/reports/operator_dashboard_snapshot.json",
+  "markdown_output_path": "outputs/reports/operator_dashboard_snapshot.md",
+  "local_first": true,
+  "read_only": true,
+  "dry_run": true,
+  "network_used": false,
+  "external_api_used": false,
+  "mutations_performed": false,
+  "source_mutations_performed": false,
+  "remote_execution_enabled": false,
+  "connector_write_enabled": false,
+  "plugin_execution_enabled": false,
+  "required_sections": [
+    "maturity",
+    "quality_gates",
+    "test_contracts",
+    "roadmap",
+    "security",
+    "observability",
+    "agents",
+    "approvals",
+    "release",
+    "workspace"
+  ],
+  "section_order": [
+    "roadmap",
+    "quality_gates",
+    "test_contracts",
+    "security",
+    "maturity",
+    "observability",
+    "agents",
+    "approvals",
+    "release",
+    "workspace"
+  ],
+  "required_source_refs": [
+    {
+      "section": "roadmap",
+      "path": ".devpilot/project_state.json",
+      "kind": "json",
+      "required": true
+    },
+    {
+      "section": "roadmap",
+      "path": ".devpilot/evals/post_h_eval_001_prioritized_roadmap.json",
+      "kind": "json",
+      "required": true
+    },
+    {
+      "section": "quality_gates",
+      "path": "src/devpilot_core/quality/gate.py",
+      "kind": "python",
+      "required": true
+    },
+    {
+      "section": "test_contracts",
+      "path": ".devpilot/testing/test_contract_registry.json",
+      "kind": "json",
+      "required": true
+    },
+    {
+      "section": "security",
+      "path": "docs/03_security/post_h_security_risk_register.md",
+      "kind": "markdown",
+      "required": true
+    },
+    {
+      "section": "observability",
+      "path": "outputs/traces/events.jsonl",
+      "kind": "jsonl",
+      "required": false
+    },
+    {
+      "section": "workspace",
+      "path": ".devpilot/workspaces",
+      "kind": "directory",
+      "required": false
+    }
+  ],
+  "recommended_next_actions": [
+    {
+      "action_id": "run-hardening-gate",
+      "command": "python -m devpilot_core quality-gate run --profile hardening --json",
+      "reason": "Verify current local hardening state before advancing the active POST-H backlog.",
+      "priority": "P1",
+      "dry_run": true
+    },
+    {
+      "action_id": "validate-test-contracts",
+      "command": "python -m devpilot_core test-contracts validate --json",
+      "reason": "Confirm that the test contract registry remains synchronized with the active operator dashboard work.",
+      "priority": "P1",
+      "dry_run": true
+    }
+  ],
+  "notes": [
+    "POST-H-015-A defines only the schema/config baseline. The read-only aggregator, API and UI are intentionally deferred to POST-H-015-B/C/D.",
+    "Outputs under outputs/reports are generated runtime evidence and are not versioned in clean delivery ZIPs."
+  ]
+}

@@ -1,0 +1,148 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/operator_dashboard_snapshot.schema.json",
+  "title": "DevPilot Operator Dashboard Snapshot v1",
+  "description": "POST-H-015-A local-first snapshot contract for the read-only operator dashboard. It defines operational sections, source references, safety flags and recommended next actions without enabling remote control, connector write, plugin execution or destructive operations.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "schema_id",
+    "snapshot_id",
+    "workspace_id",
+    "created_by",
+    "status",
+    "generated_at_utc",
+    "local_first",
+    "read_only",
+    "dry_run",
+    "network_used",
+    "external_api_used",
+    "mutations_performed",
+    "source_mutations_performed",
+    "remote_execution_enabled",
+    "connector_write_enabled",
+    "plugin_execution_enabled",
+    "sections",
+    "recommended_next_actions",
+    "notes"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "schema_id": {"const": "SCHEMA-DEVPL-OPERATOR-DASHBOARD-SNAPSHOT-V1"},
+    "snapshot_id": {"type": "string", "pattern": "^operator-dashboard-[0-9]{8}T[0-9]{6}Z$"},
+    "workspace_id": {"type": "string", "minLength": 1},
+    "created_by": {"type": "string", "minLength": 1},
+    "status": {"enum": ["implemented-initial", "pass", "warn", "block", "error", "unknown"]},
+    "generated_at_utc": {"type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"},
+    "local_first": {"const": true},
+    "read_only": {"const": true},
+    "dry_run": {"const": true},
+    "network_used": {"const": false},
+    "external_api_used": {"const": false},
+    "mutations_performed": {"const": false},
+    "source_mutations_performed": {"const": false},
+    "remote_execution_enabled": {"const": false},
+    "connector_write_enabled": {"const": false},
+    "plugin_execution_enabled": {"const": false},
+    "sections": {
+      "type": "object",
+      "required": [
+        "maturity",
+        "quality_gates",
+        "test_contracts",
+        "roadmap",
+        "security",
+        "observability",
+        "agents",
+        "approvals",
+        "release",
+        "workspace"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "maturity": {"$ref": "#/$defs/dashboard_section"},
+        "quality_gates": {"$ref": "#/$defs/dashboard_section"},
+        "test_contracts": {"$ref": "#/$defs/dashboard_section"},
+        "roadmap": {"$ref": "#/$defs/dashboard_section"},
+        "security": {"$ref": "#/$defs/dashboard_section"},
+        "observability": {"$ref": "#/$defs/dashboard_section"},
+        "agents": {"$ref": "#/$defs/dashboard_section"},
+        "approvals": {"$ref": "#/$defs/dashboard_section"},
+        "release": {"$ref": "#/$defs/dashboard_section"},
+        "workspace": {"$ref": "#/$defs/dashboard_section"}
+      }
+    },
+    "recommended_next_actions": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/next_action"}
+    },
+    "notes": {"type": "array", "items": {"type": "string"}}
+  },
+  "$defs": {
+    "status": {"enum": ["pass", "warn", "block", "error", "unknown", "pending"]},
+    "source_ref": {
+      "type": "object",
+      "required": ["path", "kind", "required", "available"],
+      "additionalProperties": false,
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "kind": {
+          "enum": [
+            "json",
+            "markdown",
+            "jsonl",
+            "python",
+            "typescript",
+            "command",
+            "directory",
+            "generated-report"
+          ]
+        },
+        "required": {"type": "boolean"},
+        "available": {"type": "boolean"},
+        "description": {"type": "string"}
+      }
+    },
+    "dashboard_section": {
+      "type": "object",
+      "required": ["status", "title", "source_refs"],
+      "additionalProperties": false,
+      "properties": {
+        "status": {"$ref": "#/$defs/status"},
+        "title": {"type": "string", "minLength": 1},
+        "summary": {"type": "string"},
+        "score": {"type": ["number", "null"], "minimum": 0},
+        "blocking_findings_total": {"type": ["integer", "null"], "minimum": 0},
+        "warnings_total": {"type": ["integer", "null"], "minimum": 0},
+        "metrics": {"type": "object", "additionalProperties": true},
+        "source_refs": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/source_ref"}
+        }
+      }
+    },
+    "next_action": {
+      "type": "object",
+      "required": ["action_id", "command", "reason", "priority", "dry_run", "source_refs"],
+      "additionalProperties": false,
+      "properties": {
+        "action_id": {"type": "string", "minLength": 1},
+        "command": {"type": "string", "minLength": 1},
+        "reason": {"type": "string", "minLength": 1},
+        "priority": {"enum": ["P0", "P1", "P2", "P3"]},
+        "dry_run": {"const": true},
+        "source_refs": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/source_ref"}
+        }
+      }
+    }
+  },
+  "x-devpilot-schema-id": "SCHEMA-DEVPL-OPERATOR-DASHBOARD-SNAPSHOT-V1",
+  "x-devpilot-sprint": "POST-H-015-A",
+  "x-devpilot-status": "registered"
+}

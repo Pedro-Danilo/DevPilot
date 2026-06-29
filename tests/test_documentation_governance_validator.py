@@ -16,7 +16,7 @@ def test_documentation_governance_validator_passes_baseline() -> None:
     assert result.ok, result.to_dict()
     summary = result.data["summary"]
     assert summary["created_by"] == "POST-H-009-E"
-    assert summary["documents_checked_total"] == summary["documents_total"] == 38
+    assert summary["documents_checked_total"] == summary["documents_total"] == 39
     assert summary["frontmatter_checked_total"] >= 7
     assert summary["blocking_findings_total"] == 0
     assert summary["warnings_total"] == 0

@@ -2,17 +2,45 @@
 title: "Runbook — DevPilot Local"
 doc_id: "DEVPL-OPS-002"
 status: "approved"
-version: "1.50.0"
+version: "1.51.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "POST-H-014-E"
+phase: "POST-H-015-A"
 updated: "2026-06-28"
 approval: "approved_by_owner"
 source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved + 03_security approved"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "SPRINT-PRECODE-05 quality operations baseline"
 ---
+
+## POST-H-015-A — Dashboard snapshot schema y config
+
+Propósito operativo: validar el contrato inicial del dashboard local de operador y su configuración versionada antes de implementar el aggregator/API/UI.
+
+Comandos principales:
+
+```powershell
+$env:PYTHONPATH="src"
+python -m pytest -p no:ddtrace tests/test_post_h_015_operator_dashboard_schema.py -q
+python -m devpilot_core schema validate --schema-id OperatorDashboardSnapshot --instance tests/fixtures/operator_dashboard_snapshot.valid.json --json
+python -m devpilot_core schema validate --schema-id PostHManifest --instance docs/post_h_015_a_manifest.json --json
+python -m devpilot_core docs-governance validate --json
+python -m devpilot_core test-contracts validate --json
+python -m devpilot_core test-contracts validate-v2 --json
+```
+
+Criterios PASS:
+
+```text
+- OperatorDashboardSnapshot está registrado en schema_catalog.
+- El fixture válido pasa validación por CLI.
+- .devpilot/operator/dashboard_config.json declara todas las secciones obligatorias.
+- Cada sección del snapshot exige status y source_refs.
+- Las acciones recomendadas son dry-run y no habilitan mutaciones.
+```
+
+Límites: `implemented-initial`; POST-H-015-A no genera el snapshot real ni expone API/UI. El aggregator read-only queda para POST-H-015-B.
 
 ## POST-H-014-E — Quality gate UI/API industrial shell
 
@@ -74,7 +102,7 @@ Límites: versión `implemented-initial`; no sustituye auth enterprise/OIDC, no 
 
 # Runbook — DevPilot Local
 
-Último hito cerrado: `POST-H-014 — UI/API industrial shell`; último micro-sprint implementado: `POST-H-014-E — Quality gate UI/API industrial shell`; siguiente hito: `POST-H-015 — Local operator dashboard`.
+Último hito cerrado: `POST-H-014 — UI/API industrial shell`; hito activo: `POST-H-015 — Local operator dashboard`; último micro-sprint implementado: `POST-H-015-A — Dashboard snapshot schema y config`; siguiente micro-sprint: `POST-H-015-B — Aggregator read-only de señales operacionales`.
 
 ## POST-H-014-C — UI Route Contract y shell de producto
 

@@ -1,3 +1,12 @@
+## post-h-015-a — Dashboard snapshot schema y config
+
+Estado de proyecto: `last_completed_sprint=POST-H-014`; `next_sprint=POST-H-015`; `current_micro_sprint=POST-H-015-A`; `next_micro_sprint=POST-H-015-B`.
+
+- Approved `POST-H-015 — Local operator dashboard` for controlled implementation.
+- Added `OperatorDashboardSnapshot` schema and CLI-valid fixture.
+- Added `.devpilot/operator/dashboard_config.json` with local read-only sections, source refs and dry-run next actions.
+- Synchronized README, runbooks, POST-H-015 docs, schema catalog and TCR v1/v2.
+
 ## post-h-014-e — Quality gate UI/API industrial shell
 
 Estado de proyecto: `last_completed_sprint=POST-H-014`; `next_sprint=POST-H-015`; `current_micro_sprint=POST-H-014-E`; `next_micro_sprint=POST-H-015`.

@@ -8005,6 +8005,79 @@
         "schemas",
         "test-contracts"
       ]
+    },
+    {
+      "contract_id": "post-h-015-operator-dashboard-schema-config",
+      "schema_version": "2.0",
+      "source_contract_id": "post-h-015-operator-dashboard-schema-config",
+      "domain": "operator.dashboard",
+      "capability": "OperatorDashboardSnapshotContract",
+      "criticality": "P1",
+      "risk_level": "medium",
+      "test_type": "schema",
+      "execution_profile": "impact",
+      "cost_class": "low",
+      "expected_duration_seconds": 30,
+      "test_files": [
+        "tests/test_post_h_015_operator_dashboard_schema.py",
+        "tests/test_schema_registry.py",
+        "tests/test_project_global_state.py"
+      ],
+      "watched_paths": [
+        "docs/schemas/operator_dashboard_snapshot.schema.json",
+        ".devpilot/operator/",
+        "tests/fixtures/operator_dashboard_snapshot.valid.json",
+        "docs/backlogs/POST-H-015_local_operator_dashboard.md",
+        "docs/POST-H-015_local_operator_dashboard.md",
+        "docs/05_operations/local_operator_dashboard_runbook.md",
+        "tests/test_post_h_015_operator_dashboard_schema.py"
+      ],
+      "validates": [
+        "docs/schemas/operator_dashboard_snapshot.schema.json",
+        ".devpilot/operator/dashboard_config.json",
+        "tests/fixtures/operator_dashboard_snapshot.valid.json",
+        "docs/backlogs/POST-H-015_local_operator_dashboard.md",
+        "docs/POST-H-015_local_operator_dashboard.md",
+        "docs/05_operations/local_operator_dashboard_runbook.md",
+        "docs/post_h_015_a_manifest.json"
+      ],
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace tests/test_post_h_015_operator_dashboard_schema.py tests/test_schema_registry.py tests/test_project_global_state.py -q",
+        "python -m devpilot_core schema validate --schema-id OperatorDashboardSnapshot --instance tests/fixtures/operator_dashboard_snapshot.valid.json --json",
+        "python -m devpilot_core schema validate --schema-id PostHManifest --instance docs/post_h_015_a_manifest.json --json",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ],
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "required_for_release": false,
+      "required_for_hardening": true,
+      "required_for_impact": true,
+      "required_for_security_gate": false,
+      "requires_human_approval": false,
+      "owner": "POST-H-015-A",
+      "created_by": "POST-H-015-A",
+      "status": "implemented-initial",
+      "classification_status": "explicit",
+      "classification_notes": [
+        "POST-H-015-A validates the operator dashboard snapshot schema, mandatory source references and local read-only config.",
+        "The tests are local-only and do not generate runtime dashboard outputs."
+      ],
+      "trigger_hints": [
+        "operator-dashboard",
+        "dashboard-config",
+        "snapshot-schema",
+        "source-refs",
+        "post-h-015"
+      ],
+      "impact_scope": [
+        "operator.dashboard",
+        "schemas",
+        "documentation.operations",
+        "test-contracts",
+        "project-state"
+      ]
     }
   ],
   "migration_metadata": {

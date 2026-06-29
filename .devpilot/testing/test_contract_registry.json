@@ -4341,6 +4341,44 @@
         "python -m devpilot_core quality-gate run --profile hardening --json",
         "python -m devpilot_core test-contracts validate --json"
       ]
+    },
+    {
+      "contract_id": "post-h-015-operator-dashboard-schema-config",
+      "scope": "feature",
+      "owner": "POST-H-015-A",
+      "phase": "POST-FASE-H",
+      "test_files": [
+        "tests/test_post_h_015_operator_dashboard_schema.py",
+        "tests/test_schema_registry.py",
+        "tests/test_project_global_state.py"
+      ],
+      "validates": [
+        "docs/schemas/operator_dashboard_snapshot.schema.json",
+        ".devpilot/operator/dashboard_config.json",
+        "tests/fixtures/operator_dashboard_snapshot.valid.json",
+        "docs/backlogs/POST-H-015_local_operator_dashboard.md",
+        "docs/POST-H-015_local_operator_dashboard.md",
+        "docs/05_operations/local_operator_dashboard_runbook.md",
+        "docs/post_h_015_a_manifest.json"
+      ],
+      "watched_paths": [
+        "docs/schemas/operator_dashboard_snapshot.schema.json",
+        ".devpilot/operator/",
+        "tests/fixtures/operator_dashboard_snapshot.valid.json",
+        "docs/backlogs/POST-H-015_local_operator_dashboard.md",
+        "docs/POST-H-015_local_operator_dashboard.md",
+        "docs/05_operations/local_operator_dashboard_runbook.md",
+        "tests/test_post_h_015_operator_dashboard_schema.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace tests/test_post_h_015_operator_dashboard_schema.py tests/test_schema_registry.py tests/test_project_global_state.py -q",
+        "python -m devpilot_core schema validate --schema-id OperatorDashboardSnapshot --instance tests/fixtures/operator_dashboard_snapshot.valid.json --json",
+        "python -m devpilot_core schema validate --schema-id PostHManifest --instance docs/post_h_015_a_manifest.json --json",
+        "python -m devpilot_core test-contracts validate --json"
+      ]
     }
   ],
   "notes": [
@@ -4352,6 +4390,7 @@
     "POST-H-006-C adds post-h-006-cli-handler-migration as the incremental CLI handler migration contract.",
     "POST-H-006-E adds no-growth gate contract post-h-006-cli-no-growth-gate.",
     "POST-H-011-A adds a RAG groundedness schema/fixtures contract without executing RAG, using web search, external APIs or LLM judge.",
-    "POST-H-013-E registers audit-pack-integrity as a hardening quality-gate contract without executing external services or writing source files."
+    "POST-H-013-E registers audit-pack-integrity as a hardening quality-gate contract without executing external services or writing source files.",
+    "POST-H-015-A registers operator-dashboard schema/config tests without generating runtime outputs or enabling write actions."
   ]
 }
