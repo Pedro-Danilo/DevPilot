@@ -1407,13 +1407,16 @@
         "docs/audits/post_h_016_b_workspace_isolation_report.md",
         "docs/post_h_016_b_manifest.json",
         "docs/audits/post_h_016_c_portfolio_status_hardening_report.md",
-        "docs/post_h_016_c_manifest.json"
+        "docs/post_h_016_c_manifest.json",
+        "docs/audits/post_h_016_d_cli_api_integration_report.md",
+        "docs/post_h_016_d_manifest.json"
       ],
       "required_tests": [
         "tests/test_post_h_016_workspace_registry_v2.py",
         "tests/test_documentation_governance_validator.py",
         "tests/test_post_h_016_workspace_isolation.py",
-        "tests/test_post_h_016_portfolio_status_hardening.py"
+        "tests/test_post_h_016_portfolio_status_hardening.py",
+        "tests/test_post_h_016_cli_api_integration.py"
       ],
       "sync_rules": [
         "frontmatter_status_ownership"
@@ -1426,7 +1429,8 @@
       "notes": [
         "Canonical approved POST-H-016 hito document created for Workspace portfolio hardening.",
         "POST-H-016-B adds read-only workspace isolation validation for root/state/outputs/traces boundaries.",
-        "POST-H-016-C hardens portfolio status as registered-only/read-only over registry v2 and workspace isolation."
+        "POST-H-016-C hardens portfolio status as registered-only/read-only over registry v2 and workspace isolation.",
+        "POST-H-016-D adds PortfolioApplicationService, protected GET /api/v1/portfolio/status and active-workspace non-mutation boundary tests."
       ]
     }
   ],
@@ -1467,7 +1471,7 @@
     "network_used": false,
     "external_api_used": false,
     "mutations_performed": false,
-    "last_updated_by": "POST-H-016-C",
+    "last_updated_by": "POST-H-016-D",
     "markdown_json_sync_checks_enabled": true,
     "sync_checks_scope": "version_match, milestones_match, decisions_match, closure_status_match, next_hito_match",
     "backlog_governance_enabled": true,
@@ -1506,13 +1510,13 @@
     "post_h_011_rag_groundedness_ready_gate_bound": true,
     "post_h_011_closed": true,
     "machine_readable_total": 5,
-    "required_tests_total": 92,
+    "required_tests_total": 95,
     "active_backlog": "POST-H-016",
-    "active_micro_sprint": "POST-H-016-C",
+    "active_micro_sprint": "POST-H-016-D",
     "sensitive_action_catalog_enabled": true,
     "sensitive_action_catalog_path": ".devpilot/approval/sensitive_action_catalog.json",
     "sensitive_action_catalog_schema": "docs/schemas/sensitive_action_catalog.schema.json",
-    "required_tests_checked_total": 92,
+    "required_tests_checked_total": 95,
     "post_h_012_policy_engine_enforcement_enabled": true,
     "post_h_012_current_micro_sprint": "POST-H-012-D",
     "ui_api_shell_report_schema_registered": true,
@@ -1539,8 +1543,8 @@
     "last_completed_sprint": "POST-H-015",
     "next_sprint": "POST-H-016",
     "post_h_016_approved": true,
-    "post_h_016_current_micro_sprint": "POST-H-016-C",
-    "post_h_016_next_micro_sprint": "POST-H-016-D",
+    "post_h_016_current_micro_sprint": "POST-H-016-D",
+    "post_h_016_next_micro_sprint": "POST-H-016-E",
     "multiworkspace_registry_v2_schema_registered": true,
     "multiworkspace_registry_v2_schema_path": "docs/schemas/multiworkspace_registry_v2.schema.json",
     "workspace_registry_v2_migration_module": "src/devpilot_core/workspace/registry_v2.py",
@@ -1550,7 +1554,13 @@
     "workspace_isolation_validator_module": "src/devpilot_core/workspace/isolation.py",
     "workspace_isolation_cli_command": "python -m devpilot_core workspace isolation-check --json --write-report",
     "portfolio_status_hardening_module": "src/devpilot_core/portfolio/status.py",
-    "portfolio_status_hardening_cli_command": "python -m devpilot_core portfolio status --json"
+    "portfolio_status_hardening_cli_command": "python -m devpilot_core portfolio status --json",
+    "portfolio_application_service": "src/devpilot_core/application/portfolio_service.py",
+    "portfolio_status_api_route": "GET /api/v1/portfolio/status",
+    "portfolio_status_api_route_id": "api.portfolio.status",
+    "portfolio_status_api_read_only": true,
+    "portfolio_status_api_active_workspace_mutation_allowed": false,
+    "portfolio_status_cli_application_service_bound": true
   },
   "safety": {
     "local_first": true,
@@ -1588,6 +1598,7 @@
     "POST-H-013-C adds AuditPackV2Verifier with local integrity report generation and tamper detection.",
     "POST-H-014-E integrates ui-api-industrial-shell into hardening/industrial quality gates without remote execution, connector write, plugin execution or external APIs.",
     "POST-H-015-E closes Local operator dashboard with operator-dashboard-ready quality gate.",
-    "POST-H-015-D manifest/TCR v2 drift was corrected before closing POST-H-015."
+    "POST-H-015-D manifest/TCR v2 drift was corrected before closing POST-H-015.",
+    "POST-H-016-D adds secure CLI/API integration for portfolio status without API workspace selection mutation."
   ]
 }

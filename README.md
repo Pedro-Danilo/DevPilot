@@ -1,3 +1,17 @@
+## POST-H-016-D — CLI/API integration segura
+
+Estado: `implemented-initial`. DevPilot expone `portfolio.status` por ApplicationService y por la API local protegida `GET /api/v1/portfolio/status`, manteniendo `portfolio status` en CLI a través de la misma frontera de aplicación.
+
+Capacidades:
+
+- `PortfolioApplicationService` centraliza la lectura endurecida del portfolio.
+- `python -m devpilot_core portfolio status --json` usa ApplicationService.
+- `GET /api/v1/portfolio/status` exige token, policy binding y `ApplicationResponse`.
+- La API no acepta operación de selección de workspace ni modifica `active_workspace_id`.
+- El registry de API sube a 35 rutas totales y 31 rutas ApplicationService-bound.
+
+Límites: versión `implemented-initial`; no implementa UI específica de portfolio ni el subgate final `workspace-portfolio-hardening`. POST-H-016-E completa el gate operacional.
+
 ## POST-H-016-C — Portfolio status hardening
 
 Estado: `implemented-initial`. DevPilot endurece `portfolio status` para construir el estado del portfolio únicamente desde `Workspace Registry v2` y `WorkspaceIsolationValidator`, sin descubrir workspaces fuera del registro, sin leer `.devpilot/devpilot.db`, sin leer secretos y sin ejecutar red, shell, APIs externas, remote execution, connector write ni plugin execution.
@@ -18,12 +32,12 @@ python -m pytest -p no:ddtrace tests/test_post_h_016_portfolio_status_hardening.
 python -m devpilot_core portfolio status --json
 ```
 
-Límites: versión `implemented-initial`; no expone todavía API dedicada y no integra el subgate final `workspace-portfolio-hardening`. POST-H-016-D/E completan esas capas.
+Límites: versión `implemented-initial` de POST-H-016-C; la API dedicada queda cubierta por POST-H-016-D y el subgate final `workspace-portfolio-hardening` queda para POST-H-016-E.
 
 Hito activo: `POST-H-016 — Workspace portfolio hardening`
 Último hito cerrado: `POST-H-015 — Local operator dashboard`
-Último micro-sprint implementado: `POST-H-016-C — Portfolio status hardening`
-Siguiente micro-sprint: `POST-H-016-D`
+Último micro-sprint implementado: `POST-H-016-D — CLI/API integration segura`
+Siguiente micro-sprint: `POST-H-016-E`
 
 ## POST-H-016-B — Workspace isolation validator
 

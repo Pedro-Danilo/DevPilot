@@ -284,7 +284,7 @@ class ApplicationServiceBoundaryReportBuilder:
         if not self.ui_dir.exists():
             return calls
         absolute_pattern = re.compile(r"/api/v1/[A-Za-z0-9_./{}?=&${}:-]+")
-        relative_pattern = re.compile(r"[\'\"](/(?:workspace|application|standards|miasi|validation|reports|traces|metrics|approvals|actions|settings)[A-Za-z0-9_./{}?=&${}:-]*)[\'\"]")
+        relative_pattern = re.compile(r"[\'\"](/(?:workspace|application|standards|miasi|validation|reports|traces|metrics|approvals|actions|settings|portfolio)[A-Za-z0-9_./{}?=&${}:-]*)[\'\"]")
         for path in sorted(self.ui_dir.rglob("*")):
             if not path.is_file() or path.suffix.lower() not in {".js", ".jsx", ".ts", ".tsx", ".html", ".md"}:
                 continue
@@ -540,6 +540,7 @@ def _service_for_operation(operation_id: str) -> str:
         "settings": "SettingsApplicationService",
         "maturity": "MaturityApplicationService",
         "operator": "OperatorDashboardApplicationService",
+        "portfolio": "PortfolioApplicationService",
         "ui": "ApplicationService",
         "app": "ApplicationService",
     }.get(prefix, "ApplicationService")

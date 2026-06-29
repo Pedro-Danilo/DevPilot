@@ -8561,16 +8561,82 @@
       "classification_notes": [
         "POST-H-016-C validates registered-only read-only portfolio status without reading secrets or state databases."
       ]
+    },
+    {
+      "contract_id": "post-h-016-cli-api-integration-secure",
+      "schema_version": "2.0",
+      "source_contract_id": "post-h-016-cli-api-integration-secure",
+      "domain": "operations.workspace",
+      "capability": "PortfolioApplicationService",
+      "criticality": "P1",
+      "risk_level": "high",
+      "test_type": "security",
+      "execution_profile": "impact",
+      "cost_class": "low",
+      "expected_duration_seconds": 60,
+      "test_files": [
+        "tests/test_post_h_016_cli_api_integration.py",
+        "tests/test_post_h_016_portfolio_status_hardening.py",
+        "tests/test_post_h_016_workspace_isolation.py",
+        "tests/test_post_h_014_api_route_contracts.py",
+        "tests/test_post_h_015_operator_dashboard_application_api.py"
+      ],
+      "watched_paths": [
+        ".devpilot/workspaces/workspace_registry.json",
+        ".devpilot/interfaces/api_route_contract_registry.json",
+        "src/devpilot_core/application/portfolio_service.py",
+        "src/devpilot_core/interfaces/api/routers/portfolio.py",
+        "tests/test_post_h_016_cli_api_integration.py"
+      ],
+      "validates": [
+        "src/devpilot_core/application/portfolio_service.py",
+        "src/devpilot_core/application/services.py",
+        "src/devpilot_core/interfaces/api/routers/portfolio.py",
+        "src/devpilot_core/interfaces/api/security.py",
+        "src/devpilot_core/cli.py",
+        ".devpilot/interfaces/api_route_contract_registry.json",
+        "docs/post_h_016_d_manifest.json"
+      ],
+      "trigger_hints": [
+        "portfolio",
+        "api",
+        "application-service",
+        "post-h-016-d",
+        "active-workspace"
+      ],
+      "impact_scope": [
+        "portfolio-status",
+        "application-service",
+        "api-route-contract-registry",
+        "workspace-selection-non-mutation"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "POST-H-016-D",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace tests/test_post_h_016_cli_api_integration.py tests/test_post_h_016_portfolio_status_hardening.py tests/test_post_h_016_workspace_isolation.py tests/test_post_h_014_api_route_contracts.py tests/test_post_h_015_operator_dashboard_application_api.py -q",
+        "python -m devpilot_core portfolio status --json",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ],
+      "classification_status": "explicit",
+      "classification_notes": [
+        "POST-H-016-D validates secure read-only CLI/API integration for portfolio status without changing active workspace selection."
+      ]
     }
   ],
   "migration_metadata": {
-    "source_contracts_total": 88,
+    "source_contracts_total": 89,
     "migrator": "TestContractRegistryV2Migrator",
     "source_registry_preserved": true,
     "tests_executed": false,
     "network_used": false,
     "external_api_used": false,
     "mutations_performed_by_default": false,
-    "contracts_total": 143
+    "contracts_total": 144
   }
 }

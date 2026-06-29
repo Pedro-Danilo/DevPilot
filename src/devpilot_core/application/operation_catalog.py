@@ -25,6 +25,7 @@ REQUIRED_INITIAL_DOMAINS = (
     "refactor",
     "model",
     "observability",
+    "portfolio",
 )
 
 
@@ -415,7 +416,7 @@ def _max_risk(left: str, right: str) -> str:
 
 def _test_contract_ids_for_operation(operation_id: str, domain: str) -> list[str]:
     ids = {"post-h-007-application-operation-catalog"}
-    if domain in REQUIRED_INITIAL_DOMAINS or operation_id.startswith(("validation.", "reports.", "approvals.", "settings.", "repo.", "review.", "refactor.", "model.", "observability.", "workspace.")):
+    if domain in REQUIRED_INITIAL_DOMAINS or operation_id.startswith(("validation.", "reports.", "approvals.", "settings.", "repo.", "review.", "refactor.", "model.", "observability.", "workspace.", "portfolio.")):
         ids.add("post-h-007-application-service-boundary-inventory")
     if operation_id.startswith("workspace."):
         ids.add("post-h-006-cli-handler-migration")
@@ -426,4 +427,7 @@ def _test_contract_ids_for_operation(operation_id: str, domain: str) -> list[str
     if operation_id.startswith("operator."):
         ids.add("post-h-015-operator-dashboard-aggregator")
         ids.add("post-h-015-operator-dashboard-application-service-api")
+    if operation_id.startswith("portfolio."):
+        ids.add("post-h-016-portfolio-status-hardening")
+        ids.add("post-h-016-cli-api-integration-secure")
     return sorted(ids)

@@ -90,10 +90,10 @@ def test_post_h_015_c_route_registry_tcr_and_docs_are_synchronized() -> None:
     result = ApiRouteContractRegistryValidator(ROOT).validate()
     assert result.ok, result.to_dict()
     summary = result.data["summary"]
-    assert summary["routes_total"] == 34
-    assert summary["fastapi_route_keys_total"] == 34
-    assert summary["canonical_router_route_keys_total"] == 34
-    assert summary["application_service_routes_total"] == 30
+    assert summary["routes_total"] == 35
+    assert summary["fastapi_route_keys_total"] == 35
+    assert summary["canonical_router_route_keys_total"] == 35
+    assert summary["application_service_routes_total"] == 31
 
     route_registry = json.loads((ROOT / ".devpilot/interfaces/api_route_contract_registry.json").read_text(encoding="utf-8"))
     routes = {route["route_id"]: route for route in route_registry["routes"]}

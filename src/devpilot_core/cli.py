@@ -57,7 +57,6 @@ from .modeling import BudgetLedger, CapabilityMatrix, ModelAdapterRouter, ModelE
 from .multiagent import MultiAgentCoordinator, MultiAgentRunOptions, MultiAgentWorkflowRunner, MultiAgentWorkflowRunOptions
 from .policy import CostPolicy, PolicyEngine, PolicyRequest, load_cost_policy
 from .plugins import PluginDryRunOptions, PluginRegistry, PluginRegistryOptions
-from .portfolio import PortfolioStatusBuilder
 from .prompts import PromptRegistry
 from .quality import QualityGate, QualityGateOptions
 from .remote import RemoteRunnerStatusOptions, RemoteRunnerStub
@@ -2622,7 +2621,7 @@ def workspace_register_command(
         subject=path,
         report_id="workspace_register",
         write_report=write_report,
-        metadata={"sprint": "FUNC-SPRINT-94", "component": "MultiworkspaceRegistry"},
+        metadata={"sprint": "POST-H-016-D", "component": "MultiworkspaceRegistry", "operation": "workspace.list", "active_workspace_mutation": "none"},
     )
     _emit_result_event(root, result, subject=f"workspace:{path}")
     _persist_result(root, result, subject=f"workspace:{path}")
@@ -2646,7 +2645,7 @@ def workspace_list_command(
         subject=registry_path,
         report_id="workspace_list",
         write_report=write_report,
-        metadata={"sprint": "FUNC-SPRINT-94", "component": "MultiworkspaceRegistry"},
+        metadata={"sprint": "POST-H-016-D", "component": "MultiworkspaceRegistry", "operation": "workspace.select", "active_workspace_mutation": "explicit_cli_only"},
     )
     _emit_result_event(root, result, subject=registry_path)
     _persist_result(root, result, subject=registry_path)
@@ -2711,7 +2710,7 @@ def workspace_registry_validate_command(
         subject=registry_path,
         report_id="workspace_registry_validate",
         write_report=write_report,
-        metadata={"sprint": sprint, "component": component, "registry_version": normalized_version},
+        metadata={"sprint": "POST-H-016-D", "component": component, "registry_version": normalized_version, "operation": "workspace.registry_validate"},
     )
     _emit_result_event(root, result, subject=registry_path)
     _persist_result(root, result, subject=registry_path)
@@ -2751,17 +2750,17 @@ def portfolio_status_command(
     json_output: bool = False,
     write_report: bool = False,
 ) -> int:
-    """Build POST-H-016-C hardened local portfolio status in read-only mode."""
+    """Build hardened local portfolio status through ApplicationService."""
 
     root = project_root()
-    result = PortfolioStatusBuilder(root, registry_path=registry_path).build()
+    result = ApplicationService(root).portfolio_status(registry_path=registry_path)
     result = _write_optional_command_report(
         root,
         result,
         subject=registry_path,
         report_id="portfolio_status",
         write_report=write_report,
-        metadata={"sprint": "POST-H-016-C", "component": "PortfolioStatusBuilder"},
+        metadata={"sprint": "POST-H-016-D", "component": "PortfolioApplicationService", "registry_path": registry_path},
     )
     _emit_result_event(root, result, subject="portfolio:status")
     _persist_result(root, result, subject="portfolio:status")

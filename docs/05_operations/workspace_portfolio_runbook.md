@@ -11,7 +11,28 @@ phase: "POST-FASE-H"
 
 ## Estado
 
-Runbook `implemented-initial` para POST-H-016-A/B/C. Cubre validación de Workspace Registry v1, migración read-only v2, workspace isolation check y hardening de `portfolio status`. La integración API y el subgate final se documentarán en POST-H-016-D/E.
+Runbook `implemented-initial` para POST-H-016-A/B/C/D. Cubre validación de Workspace Registry v1, migración read-only v2, workspace isolation check, hardening de `portfolio status` e integración CLI/API segura. El subgate final se documentará en POST-H-016-E.
+
+## Validar integración CLI/API segura
+
+```powershell
+$env:PYTHONPATH="src"
+python -m devpilot_core portfolio status --json
+python -m pytest -p no:ddtrace tests/test_post_h_016_cli_api_integration.py -q
+```
+
+PASS si:
+
+```text
+- CLI portfolio status usa ApplicationService.
+- GET /api/v1/portfolio/status requiere token.
+- GET /api/v1/portfolio/status devuelve ApplicationResponse.
+- GET /api/v1/portfolio/status no cambia active_workspace_id.
+- POST /api/v1/portfolio/status queda bloqueado por ausencia de policy binding.
+- api.portfolio.status existe en ApiRouteContractRegistry.
+```
+
+La ruta API es deliberadamente read-only. La selección de workspace sigue siendo una operación explícita de CLI `workspace select`; no existe mutación API para cambiar el workspace activo en POST-H-016-D.
 
 ## Validar registry v1 vigente
 

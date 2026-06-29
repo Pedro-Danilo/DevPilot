@@ -1,3 +1,22 @@
+## post-h-016-d — CLI/API integration segura
+
+Estado de proyecto: `last_completed_sprint=POST-H-015`; `next_sprint=POST-H-016`; `current_micro_sprint=POST-H-016-D`; `next_micro_sprint=POST-H-016-E`.
+
+- Added `PortfolioApplicationService` for read-only portfolio status.
+- Routed `python -m devpilot_core portfolio status --json` through ApplicationService.
+- Added protected API route `GET /api/v1/portfolio/status`.
+- Registered `api.portfolio.status` in `ApiRouteContractRegistry`.
+- Added boundary tests proving token/policy protection and no `active_workspace_id` mutation from API.
+- Restored `docs/POST-H-016_workspace_portfolio_hardening.md` from the complete backlog after detecting the truncated ZIP artifact.
+
+Safety:
+
+```text
+- Portfolio API is local-first and read-only.
+- API does not expose workspace selection or registry mutation.
+- No cross-workspace writes, remote execution, connector write, plugin execution, network or external APIs enabled.
+```
+
 ## post-h-016-c — Portfolio status hardening
 
 Estado de proyecto: `last_completed_sprint=POST-H-015`; `next_sprint=POST-H-016`; `current_micro_sprint=POST-H-016-C`; `next_micro_sprint=POST-H-016-D`.

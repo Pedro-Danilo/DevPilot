@@ -6,13 +6,31 @@ version: "1.58.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "POST-H-016-C"
+phase: "POST-H-016-D"
 updated: "2026-06-29"
 approval: "approved_by_owner"
 source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved + 03_security approved"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "SPRINT-PRECODE-05 quality operations baseline"
 ---
+
+## POST-H-016-D — CLI/API integration segura
+
+Estado: `implemented-initial`. DevPilot integra el portfolio local endurecido con ApplicationService y con la API local protegida sin introducir mutaciones desde API.
+
+Verificación local:
+
+```powershell
+$env:PYTHONPATH="src"
+python -m devpilot_core portfolio status --json
+python -m pytest -p no:ddtrace tests/test_post_h_016_cli_api_integration.py tests/test_post_h_016_portfolio_status_hardening.py tests/test_post_h_016_workspace_isolation.py tests/test_post_h_014_api_route_contracts.py tests/test_post_h_015_operator_dashboard_application_api.py -q
+```
+
+PASS si `GET /api/v1/portfolio/status` devuelve `ApplicationResponse`, requiere token, tiene `X-DevPilot-Policy=allowed`, reporta `portfolio_status_read_only=true` y no modifica `.devpilot/workspaces/workspace_registry.json`.
+
+BLOCK si la API cambia `active_workspace_id`, permite POST/selección implícita de workspace, habilita writes cross-workspace o expone una ruta no registrada en `ApiRouteContractRegistry`.
+
+Límites: esta versión no implementa UI de portfolio ni el subgate final `workspace-portfolio-hardening`; ambos quedan para evolución posterior.
 
 ## POST-H-016-C — Portfolio status hardening
 
@@ -30,7 +48,7 @@ PASS si `registered_workspaces_only=true`, `unregistered_workspace_policy=denied
 
 BLOCK si falla el registry v2, si `WorkspaceIsolationValidator` detecta rutas fuera del workspace, referencias cruzadas entre workspaces o colisiones de estado/outputs/traces.
 
-Límites: esta versión no expone API dedicada ni integra todavía el subgate final `workspace-portfolio-hardening`. No descubre workspaces fuera del registry y no genera outputs por defecto.
+Límites: POST-H-016-C no expuso API dedicada; esa capa queda cubierta por POST-H-016-D. El subgate final `workspace-portfolio-hardening` sigue pendiente para POST-H-016-E. No descubre workspaces fuera del registry y no genera outputs por defecto.
 
 ## POST-H-016-B — Workspace isolation validator
 

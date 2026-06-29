@@ -4,7 +4,7 @@ doc_id: "POST-H-016-BACKLOG"
 id: "POST-H-016"
 title: "POST-H-016 — Workspace portfolio hardening"
 status: "approved"
-version: "0.2.0"
+version: "0.4.0"
 owner: "Ordóñez"
 updated: "2026-06-29"
 approval: "approved_by_owner"
@@ -18,8 +18,8 @@ no_external_apis_used: true
 no_connector_write_enabled: true
 no_plugin_execution_enabled: true
 implementation_status: "in_progress"
-current_micro_sprint: "POST-H-016-B"
-next_micro_sprint: "POST-H-016-C"
+current_micro_sprint: "POST-H-016-D"
+next_micro_sprint: "POST-H-016-E"
 ---
 
 # POST-H-016 — Workspace portfolio hardening
@@ -272,6 +272,19 @@ PASS:
 PASS si selección de workspace queda auditada.
 PASS si no hay writes cross-workspace desde API.
 ```
+
+Implementación POST-H-016-D:
+
+```text
+- PortfolioApplicationService expone portfolio.status como operación read-only.
+- CLI portfolio status pasa por ApplicationService.
+- API local protegida: GET /api/v1/portfolio/status.
+- ApiRouteContractRegistry registra api.portfolio.status.
+- API no expone selección de workspace ni modifica active_workspace_id.
+- Tests de boundary validan token, policy binding, ApplicationResponse y no mutación del registry.
+```
+
+Límites: `implemented-initial`; no implementa UI de portfolio ni quality gate final. `POST-H-016-E` debe integrar `workspace-portfolio-hardening`.
 
 ### POST-H-016-E — Quality gate y runbook
 

@@ -8,8 +8,8 @@
   "last_completed_sprint": "POST-H-015",
   "last_functional_sprint": "FUNC-SPRINT-99",
   "next_sprint": "POST-H-016",
-  "source_repo": "repo_DevPilot_Local_212_POST_H_016_B.zip",
-  "current_repo": "repo_DevPilot_Local_213_POST_H_016_C.zip",
+  "source_repo": "repo_DevPilot_Local_213_POST_H_016_C.zip",
+  "current_repo": "repo_DevPilot_Local_214_POST_H_016_D.zip",
   "global_state_owner": "tests/test_project_global_state.py",
   "mutable_global_state_fields": [
     "last_completed_sprint",
@@ -99,8 +99,9 @@
     "POST-H-016-A approves Workspace portfolio hardening and adds MultiworkspaceRegistryV2 schema, read-only v1 to v2 migration and registry-validate v2 CLI without mutating the v1 registry.",
     "POST-H-016-A closure corrected PostHManifest next_sprint and TCR v1 scope drift before advancing.",
     "POST-H-016-B adds WorkspaceIsolationValidator and workspace isolation-check CLI as read-only metadata validation for root/state/outputs/traces boundaries without reading secrets or state DBs.",
-    "POST-H-016-C hardens portfolio status over Workspace Registry v2 plus WorkspaceIsolationValidator, reporting only registered workspaces, unknown operational sources and no-go metadata without reading secrets or state DBs."
+    "POST-H-016-C hardens portfolio status over Workspace Registry v2 plus WorkspaceIsolationValidator, reporting only registered workspaces, unknown operational sources and no-go metadata without reading secrets or state DBs.",
+    "POST-H-016-D adds secure CLI/API integration for portfolio status through ApplicationService and protected GET /api/v1/portfolio/status without active workspace mutation."
   ],
-  "current_micro_sprint": "POST-H-016-C",
-  "next_micro_sprint": "POST-H-016-D"
+  "current_micro_sprint": "POST-H-016-D",
+  "next_micro_sprint": "POST-H-016-E"
 }

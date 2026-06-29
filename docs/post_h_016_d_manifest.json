@@ -1,0 +1,94 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "SCHEMA-DEVPL-POST-H-MANIFEST-V1",
+  "post_h_id": "POST-H-016",
+  "id": "POST-H-016-D",
+  "title": "POST-H-016-D — CLI/API integration segura",
+  "status": "implemented-initial",
+  "phase": "POST-H-016-D",
+  "implemented_at": "2026-06-29",
+  "created_files": [
+    "src/devpilot_core/application/portfolio_service.py",
+    "src/devpilot_core/interfaces/api/routers/portfolio.py",
+    "docs/audits/post_h_016_d_cli_api_integration_report.md",
+    "docs/post_h_016_d_manifest.json",
+    "tests/test_post_h_016_cli_api_integration.py"
+  ],
+  "modified_files": [
+    "src/devpilot_core/application/__init__.py",
+    "src/devpilot_core/application/operation_catalog.py",
+    "src/devpilot_core/application/report.py",
+    "src/devpilot_core/application/services.py",
+    "src/devpilot_core/cli.py",
+    "src/devpilot_core/interfaces/api/app.py",
+    "src/devpilot_core/interfaces/api/contracts.py",
+    "src/devpilot_core/interfaces/api/security.py",
+    ".devpilot/interfaces/api_route_contract_registry.json",
+    ".devpilot/docs_governance/source_registry.json",
+    ".devpilot/project_state.json",
+    ".devpilot/testing/test_contract_registry.json",
+    ".devpilot/testing/test_contract_registry_v2.json",
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/05_operations/workspace_portfolio_runbook.md",
+    "docs/POST-H-016_workspace_portfolio_hardening.md",
+    "docs/backlogs/POST-H-016_workspace_portfolio_hardening.md",
+    "docs/release/CHANGELOG.md",
+    "tests/test_post_h_014_api_route_contracts.py",
+    "tests/test_post_h_014_ui_api_shell_gate.py",
+    "tests/test_post_h_015_operator_dashboard_application_api.py"
+  ],
+  "commands": [
+    "python -m pytest -p no:ddtrace tests/test_post_h_016_cli_api_integration.py tests/test_post_h_016_portfolio_status_hardening.py tests/test_post_h_016_workspace_isolation.py tests/test_post_h_014_api_route_contracts.py tests/test_post_h_015_operator_dashboard_application_api.py -q",
+    "python -m devpilot_core portfolio status --json",
+    "python -m devpilot_core schema validate --schema-id PostHManifest --instance docs/post_h_016_d_manifest.json --json",
+    "python -m devpilot_core docs-governance validate --json",
+    "python -m devpilot_core test-contracts validate --json",
+    "python -m devpilot_core test-contracts validate-v2 --json"
+  ],
+  "tests": [
+    "tests/test_post_h_016_cli_api_integration.py",
+    "tests/test_post_h_016_portfolio_status_hardening.py",
+    "tests/test_post_h_016_workspace_isolation.py",
+    "tests/test_post_h_014_api_route_contracts.py",
+    "tests/test_post_h_015_operator_dashboard_application_api.py"
+  ],
+  "pass_criteria": [
+    "Portfolio status is exposed through ApplicationService.",
+    "CLI portfolio status uses ApplicationService.",
+    "GET /api/v1/portfolio/status is token and policy protected.",
+    "API portfolio status returns ApplicationResponse.",
+    "API portfolio status does not mutate active_workspace_id or workspace registry content."
+  ],
+  "block_criteria": [
+    "API changes active workspace selection.",
+    "API exposes workspace selection without a future explicit operation.",
+    "Portfolio status route bypasses ApplicationService.",
+    "ApiRouteContractRegistry is stale.",
+    "Cross-workspace writes or external execution capabilities are enabled."
+  ],
+  "risks": [
+    "implemented-initial API integration; dedicated UI remains future scope.",
+    "Quality gate workspace-portfolio-hardening remains for POST-H-016-E.",
+    "Full pytest -q regression remains deferred due large test-suite cost."
+  ],
+  "next_sprint": "POST-H-016",
+  "preliminary": true,
+  "capabilities": [
+    "PortfolioApplicationService",
+    "ApplicationService portfolio.status operation",
+    "Protected GET /api/v1/portfolio/status",
+    "Policy-bound portfolio API route",
+    "No active workspace mutation from portfolio API"
+  ],
+  "safety": {
+    "local_first": true,
+    "dry_run": true,
+    "read_only": true,
+    "network_used": false,
+    "external_api_used": false,
+    "remote_execution_enabled": false,
+    "connector_write_enabled": false,
+    "plugin_execution_enabled": false
+  }
+}

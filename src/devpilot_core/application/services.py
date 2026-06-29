@@ -16,6 +16,7 @@ from .maturity_service import MaturityApplicationService
 from .model_service import ModelApplicationService
 from .observability_service import ObservabilityApplicationService
 from .operator_dashboard_service import OperatorDashboardApplicationService
+from .portfolio_service import PortfolioApplicationService
 from .policy import ApplicationBoundaryPolicy
 from .refactor_service import RefactorApplicationService
 from .repo_service import RepoApplicationService
@@ -72,6 +73,7 @@ class ApplicationService:
         self.history = HistoryApplicationService(self.root)
         self.observability = ObservabilityApplicationService(self.root)
         self.operator_dashboard = OperatorDashboardApplicationService(self.root)
+        self.portfolio = PortfolioApplicationService(self.root)
         self.boundary_policy = ApplicationBoundaryPolicy(self.root)
 
     # Backward-compatible validator facade from Sprint 18.
@@ -123,6 +125,9 @@ class ApplicationService:
 
     def operator_dashboard_snapshot(self, *, write_report: bool = False) -> CommandResult:
         return self.operator_dashboard.dashboard(write_report=write_report)
+
+    def portfolio_status(self, *, registry_path: str = ".devpilot/workspaces/workspace_registry.json") -> CommandResult:
+        return self.portfolio.status(registry_path=registry_path)
 
     def settings_workspace(self) -> CommandResult:
         return self.settings.workspace()
@@ -533,6 +538,7 @@ def _operation_dispatch(service: ApplicationService) -> dict[str, OperationHandl
         "maturity.dashboard": lambda payload: service.maturity_dashboard(write_report=bool(payload.get("write_report", False))),
         "maturity.dashboard_gate": lambda payload: service.maturity_dashboard_gate(write_report=bool(payload.get("write_report", False))),
         "operator.dashboard": lambda payload: service.operator_dashboard_snapshot(write_report=bool(payload.get("write_report", False))),
+        "portfolio.status": lambda payload: service.portfolio_status(registry_path=str(payload.get("registry_path", ".devpilot/workspaces/workspace_registry.json"))),
         "evals.documentation.run": lambda payload: service.eval_run(suite=str(payload.get("suite", "documentation")), case_id=payload.get("case_id")),
         "repo.inventory": lambda payload: service.repo_inventory(),
         "reports.list": lambda payload: service.reports_list(limit=int(payload.get("limit", 50)), severity=payload.get("severity"), status=payload.get("status"), command=payload.get("command")),
@@ -578,6 +584,7 @@ def _domain_summaries() -> list[dict[str, Any]]:
         {"domain": "history", "service": "HistoryApplicationService", "status": "implemented-initial", "side_effects": "read_only"},
         {"domain": "observability", "service": "ObservabilityApplicationService", "status": "implemented-initial", "side_effects": "read_or_dry_run_export"},
         {"domain": "operator", "service": "OperatorDashboardApplicationService", "status": "implemented-initial", "side_effects": "read_only_optional_outputs_reports"},
+        {"domain": "portfolio", "service": "PortfolioApplicationService", "status": "implemented-initial", "side_effects": "read_only"},
     ]
 
 
@@ -624,6 +631,7 @@ def _capabilities() -> list[ServiceCapability]:
         ("maturity.dashboard", "Generate the local POST-H maturity dashboard from evidence.", "explicit_outputs_reports_only", True, "python -m devpilot_core maturity dashboard --json"),
         ("maturity.dashboard_gate", "Run the POST-H-002 maturity dashboard quality gate.", "explicit_outputs_reports_only", True, "python -m devpilot_core maturity gate --json"),
         ("operator.dashboard", "Build the local operator dashboard snapshot through ApplicationService.", "read_only_optional_outputs_reports", True, "GET /api/v1/operator/dashboard"),
+        ("portfolio.status", "Build hardened registered-workspace portfolio status through ApplicationService.", "read_only", True, "python -m devpilot_core portfolio status --json / GET /api/v1/portfolio/status"),
     ]
     return [
         ServiceCapability(
@@ -669,5 +677,6 @@ def _routes() -> list[InterfaceRouteContract]:
         ("APP-ROUTE-028", "GET", "/api/v1/settings/policy", "settings.policy", ["Active Sprint 72 Settings route; policy summary is read-only."]),
         ("APP-ROUTE-029", "POST", "/api/v1/settings/providers/plan", "settings.providers.plan", ["Active Sprint 72 Settings route; provider edits are plan-only and never write files."]),
         ("APP-ROUTE-030", "GET", "/api/v1/operator/dashboard", "operator.dashboard", ["Active POST-H-015-C local operator dashboard snapshot route; read-only by default and ApplicationService-bound."]),
+        ("APP-ROUTE-031", "GET", "/api/v1/portfolio/status", "portfolio.status", ["Active POST-H-016-D portfolio status route; read-only, policy-bound and does not change active workspace."]),
     ]
     return [InterfaceRouteContract(route_id=rid, method=method, path=path, operation=operation, status="secured-initial", notes=notes) for rid, method, path, operation, notes in route_specs]

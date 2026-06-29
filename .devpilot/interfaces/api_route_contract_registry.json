@@ -1071,21 +1071,57 @@
       "notes": [
         "POST-H-015-C exposes OperatorDashboardAggregator only through ApplicationService/API boundary."
       ]
+    },
+    {
+      "route_id": "api.portfolio.status",
+      "method": "GET",
+      "path": "/api/v1/portfolio/status",
+      "operation": "portfolio.status",
+      "application_service_required": true,
+      "policy_check_required": true,
+      "auth_required": true,
+      "public": false,
+      "local_only": true,
+      "dry_run_only": true,
+      "mutations_allowed": false,
+      "local_state_mutation_allowed": false,
+      "destructive_action_allowed": false,
+      "external_api_allowed": false,
+      "remote_execution_allowed": false,
+      "connector_write_allowed": false,
+      "plugin_execution_allowed": false,
+      "response_contract": "ApplicationResponse",
+      "risk_level": "medium",
+      "owner": "interfaces.api.portfolio",
+      "router_module": "portfolio",
+      "policy_action": "read",
+      "policy_sensitivity": "protected-portfolio-status",
+      "path_subject": ".devpilot/workspaces/workspace_registry.json",
+      "tags": [
+        "portfolio",
+        "workspace",
+        "read"
+      ],
+      "notes": [
+        "POST-H-016-D exposes hardened portfolio status only through ApplicationService/API boundary.",
+        "The route is read-only and must not change active_workspace_id or write cross-workspace state."
+      ]
     }
   ],
   "summary": {
-    "routes_total": 34,
-    "protected_routes_total": 31,
+    "routes_total": 35,
+    "protected_routes_total": 32,
     "public_routes_total": 3,
     "mutating_routes_total": 3,
-    "application_service_routes_total": 30,
-    "policy_bound_routes_total": 30,
+    "application_service_routes_total": 31,
+    "policy_bound_routes_total": 32,
     "remote_execution_allowed_total": 0,
     "connector_write_allowed_total": 0,
     "plugin_execution_allowed_total": 0,
     "preliminary": true,
     "security_posture_routes_total": 1,
-    "post_h_015_c_operator_dashboard_route_registered": true
+    "post_h_015_c_operator_dashboard_route_registered": true,
+    "post_h_016_d_portfolio_status_route_registered": true
   },
   "safety": {
     "local_first": true,
@@ -1103,6 +1139,7 @@
     "Approval write routes are local approval lifecycle mutations only; they are explicitly classified and policy-bound.",
     "This registry is implemented-initial and must evolve with response mapping, UI contracts, API security hardening and final quality gate sprints.",
     "POST-H-014-D adds protected local API/UI security posture diagnostics and confirms token/CORS/local-bind hardening.",
-    "POST-H-015-C adds GET /api/v1/operator/dashboard as a protected ApplicationService-bound read-only route."
+    "POST-H-015-C adds GET /api/v1/operator/dashboard as a protected ApplicationService-bound read-only route.",
+    "POST-H-016-D adds GET /api/v1/portfolio/status as a protected ApplicationService-bound read-only route that must not mutate active workspace selection."
   ]
 }

@@ -41,6 +41,7 @@ from .maturity_service import MaturityApplicationService
 from .model_service import ModelApplicationService
 from .observability_service import ObservabilityApplicationService
 from .operator_dashboard_service import OperatorDashboardApplicationService
+from .portfolio_service import PortfolioApplicationService
 from .policy import (
     APPLICATION_BOUNDARY_POLICY_REPORT_ID,
     POST_H_007_D_CREATED_BY,
@@ -112,6 +113,7 @@ __all__ = [
     "ModelApplicationService",
     "ObservabilityApplicationService",
     "OperatorDashboardApplicationService",
+    "PortfolioApplicationService",
     "RefactorApplicationService",
     "RepoApplicationService",
     "ReportsApplicationService",
