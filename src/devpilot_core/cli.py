@@ -2768,9 +2768,25 @@ def portfolio_status_command(
     return int(result.exit_code)
 
 
+def portfolio_hardening_gate_command(
+    *,
+    registry_path: str = ".devpilot/workspaces/workspace_registry.json",
+    json_output: bool = False,
+    write_report: bool = False,
+) -> int:
+    """Run the POST-H-016-E workspace portfolio hardening gate."""
 
+    from devpilot_core.portfolio import WorkspacePortfolioHardeningGate, WorkspacePortfolioHardeningGateOptions
 
-
+    root = project_root()
+    result = WorkspacePortfolioHardeningGate(
+        root,
+        WorkspacePortfolioHardeningGateOptions(registry_path=registry_path, write_report=write_report),
+    ).run()
+    _emit_result_event(root, result, subject="portfolio:hardening-gate")
+    _persist_result(root, result, subject="portfolio:hardening-gate")
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
 
 
 def enterprise_report_command(
@@ -4844,6 +4860,10 @@ def build_parser() -> argparse.ArgumentParser:
     portfolio_status.add_argument("--registry-path", default=".devpilot/workspaces/workspace_registry.json", help="Multiworkspace Registry JSON path")
     portfolio_status.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     portfolio_status.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+    portfolio_gate = portfolio_sub.add_parser("hardening-gate", help="Run POST-H-016 workspace portfolio hardening quality gate")
+    portfolio_gate.add_argument("--registry-path", default=".devpilot/workspaces/workspace_registry.json", help="Multiworkspace Registry JSON path")
+    portfolio_gate.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    portfolio_gate.add_argument("--write-report", action="store_true", help="Persist workspace portfolio hardening JSON/Markdown report")
 
     identity = sub.add_parser("identity", help="Inspect local identity and RBAC model")
     identity_sub = identity.add_subparsers(dest="identity_command")
@@ -6001,6 +6021,8 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
     if args.command == "portfolio":
         if args.portfolio_command == "status":
             return portfolio_status_command(registry_path=args.registry_path, json_output=args.json, write_report=args.write_report)
+        if args.portfolio_command == "hardening-gate":
+            return portfolio_hardening_gate_command(registry_path=args.registry_path, json_output=args.json, write_report=args.write_report)
         parser.print_help()
         return int(ExitCode.FAIL)
     if args.command == "identity":

@@ -1032,13 +1032,19 @@
       "human_readable_counterparts": [
         "docs/backlogs/post_h_prioritized_roadmap.md"
       ],
-      "derived_documents": [],
+      "derived_documents": [
+        "docs/audits/post_h_016_e_workspace_portfolio_hardening_gate_report.md",
+        "docs/post_h_016_e_manifest.json",
+        "docs/05_operations/workspace_onboarding_checklist.md"
+      ],
       "required_tests": [
         "tests/test_documentation_governance_backlogs.py",
         "tests/test_post_h_016_workspace_registry_v2.py",
         "tests/test_documentation_governance_validator.py",
         "tests/test_post_h_016_workspace_isolation.py",
-        "tests/test_post_h_016_portfolio_status_hardening.py"
+        "tests/test_post_h_016_portfolio_status_hardening.py",
+        "tests/test_post_h_016_cli_api_integration.py",
+        "tests/test_post_h_016_workspace_portfolio_hardening_gate.py"
       ],
       "sync_rules": [
         "backlog_naming",
@@ -1049,13 +1055,15 @@
       "roadmap_milestones": [
         "POST-H-016"
       ],
-      "lifecycle": "active",
+      "lifecycle": "closed",
       "notes": [
         "Roadmap-derived executable backlog governed by POST-H-009-D.",
         "Missing future backlog files are informational planned items; existing files must pass naming and frontmatter checks.",
         "POST-H-016 approved for implementation by POST-H-016-A; backlog remains local-first and implemented-initial.",
         "POST-H-016-B adds read-only workspace isolation validation for root/state/outputs/traces boundaries.",
-        "POST-H-016-C hardens portfolio status as registered-only/read-only over registry v2 and workspace isolation."
+        "POST-H-016-C hardens portfolio status as registered-only/read-only over registry v2 and workspace isolation.",
+        "POST-H-016-D adds secure CLI/API integration for portfolio status.",
+        "POST-H-016-E closes workspace portfolio hardening with the workspace-portfolio-hardening quality gate and onboarding checklist."
       ]
     },
     {
@@ -1409,14 +1417,58 @@
         "docs/audits/post_h_016_c_portfolio_status_hardening_report.md",
         "docs/post_h_016_c_manifest.json",
         "docs/audits/post_h_016_d_cli_api_integration_report.md",
-        "docs/post_h_016_d_manifest.json"
+        "docs/post_h_016_d_manifest.json",
+        "docs/audits/post_h_016_e_workspace_portfolio_hardening_gate_report.md",
+        "docs/post_h_016_e_manifest.json",
+        "docs/05_operations/workspace_onboarding_checklist.md"
       ],
       "required_tests": [
         "tests/test_post_h_016_workspace_registry_v2.py",
         "tests/test_documentation_governance_validator.py",
         "tests/test_post_h_016_workspace_isolation.py",
         "tests/test_post_h_016_portfolio_status_hardening.py",
-        "tests/test_post_h_016_cli_api_integration.py"
+        "tests/test_post_h_016_cli_api_integration.py",
+        "tests/test_post_h_016_workspace_portfolio_hardening_gate.py",
+        "tests/test_project_global_state.py"
+      ],
+      "sync_rules": [
+        "frontmatter_status_ownership"
+      ],
+      "related_adrs": [],
+      "roadmap_milestones": [
+        "POST-H-016"
+      ],
+      "lifecycle": "closed",
+      "notes": [
+        "Canonical approved POST-H-016 hito document created for Workspace portfolio hardening.",
+        "POST-H-016-B adds read-only workspace isolation validation for root/state/outputs/traces boundaries.",
+        "POST-H-016-C hardens portfolio status as registered-only/read-only over registry v2 and workspace isolation.",
+        "POST-H-016-D adds PortfolioApplicationService, protected GET /api/v1/portfolio/status and active-workspace non-mutation boundary tests.",
+        "POST-H-016-E closes Workspace portfolio hardening with a local read-only quality gate and onboarding checklist."
+      ]
+    },
+    {
+      "doc_id": "POST-H-016-WORKSPACE-ONBOARDING-CHECKLIST",
+      "path": "docs/05_operations/workspace_onboarding_checklist.md",
+      "classification": "source-of-truth",
+      "domain": "operations.workspace",
+      "owner": "Ordóñez",
+      "status_required": "approved",
+      "criticality": "P2",
+      "machine_readable_counterparts": [
+        ".devpilot/workspaces/workspace_registry.json"
+      ],
+      "human_readable_counterparts": [
+        "docs/05_operations/workspace_portfolio_runbook.md",
+        "docs/POST-H-016_workspace_portfolio_hardening.md"
+      ],
+      "derived_documents": [
+        "docs/audits/post_h_016_e_workspace_portfolio_hardening_gate_report.md",
+        "docs/post_h_016_e_manifest.json"
+      ],
+      "required_tests": [
+        "tests/test_post_h_016_workspace_portfolio_hardening_gate.py",
+        "tests/test_documentation_governance_validator.py"
       ],
       "sync_rules": [
         "frontmatter_status_ownership"
@@ -1427,10 +1479,8 @@
       ],
       "lifecycle": "active",
       "notes": [
-        "Canonical approved POST-H-016 hito document created for Workspace portfolio hardening.",
-        "POST-H-016-B adds read-only workspace isolation validation for root/state/outputs/traces boundaries.",
-        "POST-H-016-C hardens portfolio status as registered-only/read-only over registry v2 and workspace isolation.",
-        "POST-H-016-D adds PortfolioApplicationService, protected GET /api/v1/portfolio/status and active-workspace non-mutation boundary tests."
+        "Operational onboarding checklist for local workspaces governed by POST-H-016-E.",
+        "Checklist remains local-first and does not enable remote workspace execution or connector writes."
       ]
     }
   ],
@@ -1458,20 +1508,20 @@
     "approved_backlogs_require_observability_retention_hygiene_gate": true
   },
   "summary": {
-    "documents_total": 40,
-    "source_of_truth_total": 11,
+    "documents_total": 41,
+    "source_of_truth_total": 12,
     "machine_readable_source_total": 5,
     "derived_total": 24,
     "generated_runtime_total": 0,
     "historical_total": 0,
     "deprecated_total": 0,
-    "critical_sources_total": 37,
-    "markdown_json_pairs_total": 26,
-    "documents_with_required_tests_total": 40,
+    "critical_sources_total": 38,
+    "markdown_json_pairs_total": 29,
+    "documents_with_required_tests_total": 41,
     "network_used": false,
     "external_api_used": false,
     "mutations_performed": false,
-    "last_updated_by": "POST-H-016-D",
+    "last_updated_by": "POST-H-016-E",
     "markdown_json_sync_checks_enabled": true,
     "sync_checks_scope": "version_match, milestones_match, decisions_match, closure_status_match, next_hito_match",
     "backlog_governance_enabled": true,
@@ -1510,13 +1560,13 @@
     "post_h_011_rag_groundedness_ready_gate_bound": true,
     "post_h_011_closed": true,
     "machine_readable_total": 5,
-    "required_tests_total": 95,
-    "active_backlog": "POST-H-016",
-    "active_micro_sprint": "POST-H-016-D",
+    "required_tests_total": 101,
+    "active_backlog": "POST-H-017",
+    "active_micro_sprint": "POST-H-016-E",
     "sensitive_action_catalog_enabled": true,
     "sensitive_action_catalog_path": ".devpilot/approval/sensitive_action_catalog.json",
     "sensitive_action_catalog_schema": "docs/schemas/sensitive_action_catalog.schema.json",
-    "required_tests_checked_total": 95,
+    "required_tests_checked_total": 101,
     "post_h_012_policy_engine_enforcement_enabled": true,
     "post_h_012_current_micro_sprint": "POST-H-012-D",
     "ui_api_shell_report_schema_registered": true,
@@ -1540,11 +1590,11 @@
     "operator_dashboard_ready_gate_module": "src/devpilot_core/portfolio/operator_dashboard_gate.py",
     "operator_dashboard_cli_command": "python -m devpilot_core operator dashboard --json --write-report",
     "post_h_015_closed": true,
-    "last_completed_sprint": "POST-H-015",
-    "next_sprint": "POST-H-016",
+    "last_completed_sprint": "POST-H-016",
+    "next_sprint": "POST-H-017",
     "post_h_016_approved": true,
-    "post_h_016_current_micro_sprint": "POST-H-016-D",
-    "post_h_016_next_micro_sprint": "POST-H-016-E",
+    "post_h_016_current_micro_sprint": "POST-H-016-E",
+    "post_h_016_next_micro_sprint": "POST-H-017",
     "multiworkspace_registry_v2_schema_registered": true,
     "multiworkspace_registry_v2_schema_path": "docs/schemas/multiworkspace_registry_v2.schema.json",
     "workspace_registry_v2_migration_module": "src/devpilot_core/workspace/registry_v2.py",
@@ -1560,7 +1610,13 @@
     "portfolio_status_api_route_id": "api.portfolio.status",
     "portfolio_status_api_read_only": true,
     "portfolio_status_api_active_workspace_mutation_allowed": false,
-    "portfolio_status_cli_application_service_bound": true
+    "portfolio_status_cli_application_service_bound": true,
+    "post_h_016_closed": true,
+    "workspace_portfolio_hardening_gate_bound": true,
+    "workspace_portfolio_hardening_gate_module": "src/devpilot_core/portfolio/workspace_portfolio_gate.py",
+    "workspace_portfolio_hardening_subgate": "workspace-portfolio-hardening",
+    "workspace_portfolio_hardening_cli_command": "python -m devpilot_core portfolio hardening-gate --json --write-report",
+    "workspace_onboarding_checklist_path": "docs/05_operations/workspace_onboarding_checklist.md"
   },
   "safety": {
     "local_first": true,
@@ -1599,6 +1655,8 @@
     "POST-H-014-E integrates ui-api-industrial-shell into hardening/industrial quality gates without remote execution, connector write, plugin execution or external APIs.",
     "POST-H-015-E closes Local operator dashboard with operator-dashboard-ready quality gate.",
     "POST-H-015-D manifest/TCR v2 drift was corrected before closing POST-H-015.",
-    "POST-H-016-D adds secure CLI/API integration for portfolio status without API workspace selection mutation."
+    "POST-H-016-D adds secure CLI/API integration for portfolio status without API workspace selection mutation.",
+    "POST-H-016-E closes Workspace portfolio hardening with workspace-portfolio-hardening quality gate and workspace onboarding checklist.",
+    "POST-H-017 becomes the next active backlog after POST-H-016 closure."
   ]
 }

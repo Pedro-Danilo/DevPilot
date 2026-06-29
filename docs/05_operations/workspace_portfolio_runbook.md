@@ -4,14 +4,61 @@ title: "Workspace Portfolio Hardening Runbook"
 status: "approved"
 owner: "Ordóñez"
 updated: "2026-06-29"
-phase: "POST-FASE-H"
+phase: "POST-H-016-E"
 ---
 
 # Workspace Portfolio Hardening Runbook
 
 ## Estado
 
-Runbook `implemented-initial` para POST-H-016-A/B/C/D. Cubre validación de Workspace Registry v1, migración read-only v2, workspace isolation check, hardening de `portfolio status` e integración CLI/API segura. El subgate final se documentará en POST-H-016-E.
+Runbook `implemented-initial` para POST-H-016-A/B/C/D/E. Cubre validación de Workspace Registry v1, migración read-only v2, workspace isolation check, hardening de `portfolio status`, integración CLI/API segura y quality gate final `workspace-portfolio-hardening`.
+
+POST-H-016 queda cerrado como hito local-first. La versión actual no habilita workspace remoto, multiusuario enterprise, cloud sync, remote execution, connector write ni plugin execution.
+
+## Validar quality gate de portfolio
+
+```powershell
+$env:PYTHONPATH="src"
+python -m devpilot_core portfolio hardening-gate --json --write-report
+python -m devpilot_core quality-gate run --profile hardening --json
+```
+
+PASS si:
+
+```text
+- workspace_portfolio_hardening_ready=true
+- registry_ok=true
+- isolation_ok=true
+- portfolio_status_ok=true
+- operation_catalog_ok=true
+- registered_workspaces_only=true
+- portfolio_status_read_only=true
+- remote_execution_enabled=false
+- connector_write_enabled=false
+- plugin_execution_enabled=false
+```
+
+El reporte runtime se genera en:
+
+```text
+outputs/reports/workspace_portfolio_hardening_report.json
+outputs/reports/workspace_portfolio_hardening_report.md
+```
+
+Estos outputs son regenerables y no deben incluirse en ZIPs limpios.
+
+BLOCK si:
+
+```text
+- Workspace Registry v2 no valida.
+- WorkspaceIsolationValidator detecta state/outputs/traces fuera del workspace.
+- portfolio status deja de ser read-only o incluye workspaces no registrados.
+- ApplicationOperationCatalog pierde contratos POST-H-016 sobre operaciones portfolio.
+- ApiRouteContractRegistry pierde api.portfolio.status.
+- Falta docs/05_operations/workspace_onboarding_checklist.md.
+```
+
+Checklist operativo: `docs/05_operations/workspace_onboarding_checklist.md`.
 
 ## Validar integración CLI/API segura
 

@@ -1,0 +1,90 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "SCHEMA-DEVPL-POST-H-MANIFEST-V1",
+  "post_h_id": "POST-H-016",
+  "id": "POST-H-016-E",
+  "title": "POST-H-016-E — Quality gate y runbook",
+  "status": "implemented-initial",
+  "phase": "POST-H-016-E",
+  "implemented_at": "2026-06-29",
+  "created_files": [
+    "src/devpilot_core/portfolio/workspace_portfolio_gate.py",
+    "docs/05_operations/workspace_onboarding_checklist.md",
+    "docs/audits/post_h_016_e_workspace_portfolio_hardening_gate_report.md",
+    "docs/post_h_016_e_manifest.json",
+    "tests/test_post_h_016_workspace_portfolio_hardening_gate.py"
+  ],
+  "modified_files": [
+    "src/devpilot_core/portfolio/__init__.py",
+    "src/devpilot_core/quality/gate.py",
+    "src/devpilot_core/cli.py",
+    "src/devpilot_core/application/operation_catalog.py",
+    ".devpilot/docs_governance/source_registry.json",
+    ".devpilot/project_state.json",
+    ".devpilot/testing/test_contract_registry.json",
+    ".devpilot/testing/test_contract_registry_v2.json",
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/05_operations/workspace_portfolio_runbook.md",
+    "docs/POST-H-016_workspace_portfolio_hardening.md",
+    "docs/backlogs/POST-H-016_workspace_portfolio_hardening.md",
+    "docs/release/CHANGELOG.md",
+    "tests/test_project_global_state.py"
+  ],
+  "commands": [
+    "python -m pytest -p no:ddtrace tests/test_post_h_016_workspace_portfolio_hardening_gate.py tests/test_post_h_016_cli_api_integration.py tests/test_post_h_016_portfolio_status_hardening.py tests/test_post_h_016_workspace_isolation.py tests/test_post_h_016_workspace_registry_v2.py tests/test_project_global_state.py -q",
+    "python -m devpilot_core portfolio hardening-gate --json --write-report",
+    "python -m devpilot_core quality-gate run --profile hardening --json",
+    "python -m devpilot_core schema validate --schema-id PostHManifest --instance docs/post_h_016_e_manifest.json --json",
+    "python -m devpilot_core docs-governance validate --json",
+    "python -m devpilot_core test-contracts validate --json",
+    "python -m devpilot_core test-contracts validate-v2 --json"
+  ],
+  "tests": [
+    "tests/test_post_h_016_workspace_portfolio_hardening_gate.py",
+    "tests/test_post_h_016_cli_api_integration.py",
+    "tests/test_post_h_016_portfolio_status_hardening.py",
+    "tests/test_post_h_016_workspace_isolation.py",
+    "tests/test_post_h_016_workspace_registry_v2.py",
+    "tests/test_project_global_state.py"
+  ],
+  "pass_criteria": [
+    "workspace-portfolio-hardening is registered in hardening and industrial quality-gate profiles.",
+    "portfolio hardening-gate validates registry v2, workspace isolation, portfolio status, operation catalog and api.portfolio.status.",
+    "Workspace onboarding checklist is documented.",
+    "TCR v1/v2, docs governance, project state, README, runbooks and changelog are synchronized.",
+    "POST-H-016 backlog is closed as implemented-initial."
+  ],
+  "block_criteria": [
+    "Workspace Registry v2 is invalid.",
+    "Workspace isolation reports path escapes or cross-workspace contamination.",
+    "portfolio status is not registered-only or read-only.",
+    "ApplicationOperationCatalog loses POST-H-016 test contracts for portfolio operations.",
+    "ApiRouteContractRegistry loses api.portfolio.status.",
+    "Operational checklist or runbook documentation is missing."
+  ],
+  "risks": [
+    "implemented-initial local quality gate; full enterprise workspace lifecycle remains future scope.",
+    "Generated reports under outputs/reports are runtime evidence and excluded from clean delivery ZIPs.",
+    "Full pytest -q regression remains deferred because the suite exceeds 1100 tests and is costly for this sprint cadence."
+  ],
+  "next_sprint": "POST-H-017",
+  "preliminary": true,
+  "capabilities": [
+    "WorkspacePortfolioHardeningGate",
+    "workspace-portfolio-hardening quality subgate",
+    "portfolio hardening-gate CLI",
+    "Workspace onboarding checklist",
+    "POST-H-016 hito closure evidence"
+  ],
+  "safety": {
+    "local_first": true,
+    "dry_run": true,
+    "read_only": true,
+    "network_used": false,
+    "external_api_used": false,
+    "remote_execution_enabled": false,
+    "connector_write_enabled": false,
+    "plugin_execution_enabled": false
+  }
+}

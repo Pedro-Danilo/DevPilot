@@ -115,8 +115,11 @@ def test_post_h_016_d_route_registry_docs_and_tcr_are_synchronized() -> None:
     backlog = (ROOT / "docs/backlogs/POST-H-016_workspace_portfolio_hardening.md").read_text(encoding="utf-8")
     post_doc = (ROOT / "docs/POST-H-016_workspace_portfolio_hardening.md").read_text(encoding="utf-8")
     runbook = (ROOT / "docs/05_operations/runbook.md").read_text(encoding="utf-8")
-    assert 'current_micro_sprint: "POST-H-016-D"' in backlog
-    assert 'next_micro_sprint: "POST-H-016-E"' in backlog
+    assert 'implementation_status: "closed"' in backlog
+    assert 'current_micro_sprint: "POST-H-016-E"' in backlog
+    assert 'next_micro_sprint: "POST-H-017"' in backlog
+    assert "POST-H-016-D — CLI/API integration segura" in backlog
+    assert "POST-H-016-E — Quality gate y runbook" in backlog
     assert "POST-H-016-D — CLI/API integration segura" in post_doc
     assert "POST-H-016-E — Quality gate y runbook" in post_doc
     assert len(post_doc.splitlines()) >= 300

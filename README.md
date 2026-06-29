@@ -1,3 +1,22 @@
+## POST-H-016-E — Quality gate y runbook
+
+Estado: `implemented-initial / hito cerrado`. DevPilot cierra `POST-H-016 — Workspace portfolio hardening` con el subgate `workspace-portfolio-hardening`, el comando focal `portfolio hardening-gate` y el checklist operacional de onboarding de workspaces.
+
+Capacidades:
+
+- `WorkspacePortfolioHardeningGate` compone registry v2, isolation validator, portfolio status, ApplicationOperationCatalog, API route contract y documentación operacional.
+- `quality-gate run --profile hardening` e `industrial` incluyen `workspace-portfolio-hardening`.
+- `python -m devpilot_core portfolio hardening-gate --json --write-report` genera evidencia JSON/Markdown regenerable bajo `outputs/reports`.
+- `docs/05_operations/workspace_onboarding_checklist.md` documenta registro, validación, aislamiento, portfolio y criterios BLOCK.
+
+Límites: versión `implemented-initial`; no habilita workspaces remotos, multiusuario enterprise, sincronización cloud, remote execution, connector write ni plugin execution. La evolución hacia operación enterprise/multiusuario queda fuera de POST-H-016.
+
+Último hito: `POST-H-016 — Workspace portfolio hardening`
+Último hito cerrado: `POST-H-016 — Workspace portfolio hardening`
+Siguiente hito: `POST-H-017 — Release reproducibility pack`
+Último micro-sprint implementado: `POST-H-016-E — Quality gate y runbook`
+Siguiente micro-sprint: `POST-H-017`
+
 ## POST-H-016-D — CLI/API integration segura
 
 Estado: `implemented-initial`. DevPilot expone `portfolio.status` por ApplicationService y por la API local protegida `GET /api/v1/portfolio/status`, manteniendo `portfolio status` en CLI a través de la misma frontera de aplicación.

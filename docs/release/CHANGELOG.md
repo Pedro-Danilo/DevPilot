@@ -1,3 +1,22 @@
+## post-h-016-e — Quality gate y runbook
+
+Estado de proyecto: `last_completed_sprint=POST-H-016`; `next_sprint=POST-H-017`; `current_micro_sprint=POST-H-016-E`; `next_micro_sprint=POST-H-017`.
+
+- Added `WorkspacePortfolioHardeningGate` as the final quality gate for POST-H-016.
+- Added `python -m devpilot_core portfolio hardening-gate --json --write-report`.
+- Bound `workspace-portfolio-hardening` to hardening and industrial quality-gate profiles.
+- Added `docs/05_operations/workspace_onboarding_checklist.md` for local workspace onboarding.
+- Registered POST-H-016-E in TCR v1/v2, docs governance, project state, runbooks and manifest.
+- Closed POST-H-016 as `implemented-initial`.
+
+Safety:
+
+```text
+- Gate is local-first and read-only.
+- Registry v2, isolation, portfolio status, ApplicationOperationCatalog and ApiRouteContractRegistry are checked without enabling writes.
+- No workspace remote sync, remote execution, connector write, plugin execution, network or external APIs enabled.
+```
+
 ## post-h-016-d — CLI/API integration segura
 
 Estado de proyecto: `last_completed_sprint=POST-H-015`; `next_sprint=POST-H-016`; `current_micro_sprint=POST-H-016-D`; `next_micro_sprint=POST-H-016-E`.

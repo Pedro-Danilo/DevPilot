@@ -6,13 +6,34 @@ version: "1.58.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "POST-H-016-D"
+phase: "POST-H-016-E"
 updated: "2026-06-29"
 approval: "approved_by_owner"
 source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved + 03_security approved"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "SPRINT-PRECODE-05 quality operations baseline"
 ---
+
+## POST-H-016-E — Quality gate y runbook
+
+Estado: `implemented-initial / hito cerrado`. DevPilot integra `workspace-portfolio-hardening` como subgate de los perfiles `hardening` e `industrial` y documenta el onboarding local de workspaces.
+
+Verificación local:
+
+```powershell
+$env:PYTHONPATH="src"
+python -m devpilot_core portfolio hardening-gate --json --write-report
+python -m devpilot_core quality-gate run --profile hardening --json
+python -m pytest -p no:ddtrace tests/test_post_h_016_workspace_portfolio_hardening_gate.py tests/test_post_h_016_cli_api_integration.py tests/test_post_h_016_portfolio_status_hardening.py tests/test_post_h_016_workspace_isolation.py tests/test_project_global_state.py -q
+```
+
+PASS si el subgate reporta `workspace_portfolio_hardening_ready=true`, `registry_ok=true`, `isolation_ok=true`, `portfolio_status_ok=true`, `registered_workspaces_only=true` y `portfolio_status_read_only=true`.
+
+BLOCK si el registry v2 es inválido, si existe contaminación de state/outputs/traces, si la API de portfolio muta `active_workspace_id` o si falta el checklist `docs/05_operations/workspace_onboarding_checklist.md`.
+
+Límites: esta versión cierra POST-H-016 como `implemented-initial`; no habilita workspace remoto, multiusuario enterprise, cloud sync, remote execution, connector write ni plugin execution.
+
+Último hito cerrado: `POST-H-016 — Workspace portfolio hardening`; siguiente hito: `POST-H-017 — Release reproducibility pack`; último micro-sprint implementado: `POST-H-016-E — Quality gate y runbook`; siguiente micro-sprint: `POST-H-017`.
 
 ## POST-H-016-D — CLI/API integration segura
 

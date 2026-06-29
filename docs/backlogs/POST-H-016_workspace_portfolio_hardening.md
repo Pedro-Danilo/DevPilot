@@ -4,7 +4,7 @@ doc_id: "POST-H-016-BACKLOG"
 id: "POST-H-016"
 title: "POST-H-016 — Workspace portfolio hardening"
 status: "approved"
-version: "0.4.0"
+version: "1.0.0"
 owner: "Ordóñez"
 updated: "2026-06-29"
 approval: "approved_by_owner"
@@ -17,9 +17,9 @@ no_remote_execution_enabled: true
 no_external_apis_used: true
 no_connector_write_enabled: true
 no_plugin_execution_enabled: true
-implementation_status: "in_progress"
-current_micro_sprint: "POST-H-016-D"
-next_micro_sprint: "POST-H-016-E"
+implementation_status: "closed"
+current_micro_sprint: "POST-H-016-E"
+next_micro_sprint: "POST-H-017"
 ---
 
 # POST-H-016 — Workspace portfolio hardening
@@ -304,6 +304,18 @@ PASS si quality gate falla ante registry inválido.
 PASS si runbook explica selección, validación y límites.
 ```
 
+Implementación POST-H-016-E:
+
+```text
+- Subgate workspace-portfolio-hardening integrado en quality-gate hardening/industrial.
+- Comando focal: python -m devpilot_core portfolio hardening-gate --json --write-report.
+- Reporte regenerable: outputs/reports/workspace_portfolio_hardening_report.json/.md.
+- Checklist operacional: docs/05_operations/workspace_onboarding_checklist.md.
+- Cierre documental: README, runbook, workspace portfolio runbook, TCR v1/v2, docs-governance y manifest sincronizados.
+```
+
+Límites: `implemented-initial`; no habilita workspaces remotos, multiusuario enterprise, sincronización cloud, connector write, plugin execution ni remote execution.
+
 ## 9. Comandos esperados
 
 ```powershell
@@ -338,10 +350,10 @@ BLOCK si portfolio status muta estado.
 ## 12. Definition of Done
 
 ```text
-[ ] Registry v2 validado.
-[ ] Isolation report implementado.
-[ ] Portfolio status read-only endurecido.
-[ ] PathGuard alineado con workspace root.
-[ ] Quality gate integrado.
-[ ] Runbook aprobado.
+[x] Registry v2 validado.
+[x] Isolation report implementado.
+[x] Portfolio status read-only endurecido.
+[x] PathGuard alineado con workspace root.
+[x] Quality gate integrado.
+[x] Runbook aprobado.
 ```

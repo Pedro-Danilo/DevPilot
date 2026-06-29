@@ -8627,16 +8627,84 @@
       "classification_notes": [
         "POST-H-016-D validates secure read-only CLI/API integration for portfolio status without changing active workspace selection."
       ]
+    },
+    {
+      "contract_id": "post-h-016-workspace-portfolio-hardening-gate",
+      "schema_version": "2.0",
+      "source_contract_id": "post-h-016-workspace-portfolio-hardening-gate",
+      "domain": "operations.workspace",
+      "capability": "WorkspacePortfolioHardeningGate",
+      "criticality": "P1",
+      "risk_level": "high",
+      "test_type": "security",
+      "execution_profile": "impact",
+      "cost_class": "low",
+      "expected_duration_seconds": 90,
+      "test_files": [
+        "tests/test_post_h_016_workspace_portfolio_hardening_gate.py",
+        "tests/test_post_h_016_cli_api_integration.py",
+        "tests/test_post_h_016_portfolio_status_hardening.py",
+        "tests/test_post_h_016_workspace_isolation.py",
+        "tests/test_post_h_016_workspace_registry_v2.py",
+        "tests/test_project_global_state.py"
+      ],
+      "watched_paths": [
+        ".devpilot/workspaces/workspace_registry.json",
+        ".devpilot/testing/test_contract_registry.json",
+        ".devpilot/testing/test_contract_registry_v2.json",
+        "src/devpilot_core/portfolio/workspace_portfolio_gate.py",
+        "src/devpilot_core/quality/gate.py",
+        "tests/test_post_h_016_workspace_portfolio_hardening_gate.py"
+      ],
+      "validates": [
+        "src/devpilot_core/portfolio/workspace_portfolio_gate.py",
+        "src/devpilot_core/quality/gate.py",
+        "src/devpilot_core/cli.py",
+        "src/devpilot_core/application/operation_catalog.py",
+        "docs/05_operations/workspace_onboarding_checklist.md",
+        "docs/post_h_016_e_manifest.json"
+      ],
+      "trigger_hints": [
+        "workspace",
+        "portfolio",
+        "quality-gate",
+        "post-h-016-e",
+        "hardening"
+      ],
+      "impact_scope": [
+        "workspace-registry-v2",
+        "workspace-isolation",
+        "portfolio-status",
+        "quality-gate-hardening",
+        "quality-gate-industrial"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "POST-H-016-E",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace tests/test_post_h_016_workspace_portfolio_hardening_gate.py tests/test_post_h_016_cli_api_integration.py tests/test_post_h_016_portfolio_status_hardening.py tests/test_post_h_016_workspace_isolation.py tests/test_post_h_016_workspace_registry_v2.py tests/test_project_global_state.py -q",
+        "python -m devpilot_core portfolio hardening-gate --json --write-report",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ],
+      "classification_status": "explicit",
+      "classification_notes": [
+        "POST-H-016-E validates local read-only workspace portfolio hardening and closes the POST-H-016 hito without enabling remote execution, connector write or plugin execution."
+      ]
     }
   ],
   "migration_metadata": {
-    "source_contracts_total": 89,
+    "source_contracts_total": 145,
     "migrator": "TestContractRegistryV2Migrator",
     "source_registry_preserved": true,
     "tests_executed": false,
     "network_used": false,
     "external_api_used": false,
     "mutations_performed_by_default": false,
-    "contracts_total": 144
+    "contracts_total": 145
   }
 }
