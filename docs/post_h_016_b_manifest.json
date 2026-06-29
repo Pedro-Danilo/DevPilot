@@ -1,0 +1,86 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "SCHEMA-DEVPL-POST-H-MANIFEST-V1",
+  "post_h_id": "POST-H-016",
+  "id": "POST-H-016-B",
+  "title": "POST-H-016-B — Workspace isolation validator",
+  "status": "implemented-initial",
+  "phase": "POST-H-016-B",
+  "implemented_at": "2026-06-29",
+  "created_files": [
+    "src/devpilot_core/workspace/isolation.py",
+    "docs/schemas/workspace_isolation_report.schema.json",
+    "docs/audits/post_h_016_b_workspace_isolation_report.md",
+    "docs/post_h_016_b_manifest.json",
+    "tests/test_post_h_016_workspace_isolation.py"
+  ],
+  "modified_files": [
+    "docs/post_h_016_a_manifest.json",
+    ".devpilot/testing/test_contract_registry.json",
+    "src/devpilot_core/workspace/__init__.py",
+    "src/devpilot_core/cli.py",
+    "docs/schemas/schema_catalog.json",
+    ".devpilot/docs_governance/source_registry.json",
+    ".devpilot/project_state.json",
+    ".devpilot/testing/test_contract_registry_v2.json",
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/05_operations/workspace_portfolio_runbook.md",
+    "docs/POST-H-016_workspace_portfolio_hardening.md",
+    "docs/backlogs/POST-H-016_workspace_portfolio_hardening.md",
+    "docs/release/CHANGELOG.md",
+    "tests/test_schema_registry.py",
+    "tests/test_project_global_state.py"
+  ],
+  "commands": [
+    "python -m pytest -p no:ddtrace tests/test_post_h_016_workspace_isolation.py tests/test_post_h_016_workspace_registry_v2.py tests/test_multiworkspace.py tests/test_schema_registry.py tests/test_project_global_state.py -q",
+    "python -m devpilot_core workspace isolation-check --json --write-report",
+    "python -m devpilot_core schema validate --schema-id WorkspaceIsolationReport --instance outputs/reports/workspace_isolation_report.json --json",
+    "python -m devpilot_core schema validate --schema-id PostHManifest --instance docs/post_h_016_b_manifest.json --json",
+    "python -m devpilot_core docs-governance validate --json",
+    "python -m devpilot_core test-contracts validate --json",
+    "python -m devpilot_core test-contracts validate-v2 --json"
+  ],
+  "tests": [
+    "tests/test_post_h_016_workspace_isolation.py",
+    "tests/test_post_h_016_workspace_registry_v2.py",
+    "tests/test_multiworkspace.py",
+    "tests/test_schema_registry.py",
+    "tests/test_project_global_state.py"
+  ],
+  "pass_criteria": [
+    "Workspace isolation check validates registered workspaces only.",
+    "state_path, outputs/reports and traces resolve inside each workspace root.",
+    "state DB and secrets are not read.",
+    "workspace isolation report validates against WorkspaceIsolationReport schema."
+  ],
+  "block_criteria": [
+    "state_path outside workspace root passes validation.",
+    "outputs or traces outside workspace root pass validation.",
+    "Cross-workspace references pass validation.",
+    "The validator reads secrets or state DB payloads."
+  ],
+  "risks": [
+    "implemented-initial isolation validator; portfolio status hardening remains for POST-H-016-C.",
+    "The report is generated under outputs/reports and excluded from clean ZIP deliverables.",
+    "Full pytest -q regression remains deferred due large test-suite cost."
+  ],
+  "next_sprint": "POST-H-016",
+  "preliminary": true,
+  "capabilities": [
+    "WorkspaceIsolationValidator",
+    "CLI workspace isolation-check",
+    "WorkspaceIsolationReport schema",
+    "outputs/reports/workspace_isolation_report.json generation"
+  ],
+  "safety": {
+    "local_first": true,
+    "dry_run": true,
+    "read_only": true,
+    "network_used": false,
+    "external_api_used": false,
+    "remote_execution_enabled": false,
+    "connector_write_enabled": false,
+    "plugin_execution_enabled": false
+  }
+}

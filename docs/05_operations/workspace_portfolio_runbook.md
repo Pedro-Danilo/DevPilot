@@ -11,7 +11,7 @@ phase: "POST-FASE-H"
 
 ## Estado
 
-Runbook inicial `implemented-initial` para POST-H-016-A. Cubre validación de Workspace Registry v1 y migración read-only v2. El isolation report, hardening de portfolio status, integración API y subgate final se documentarán en POST-H-016-B/C/D/E.
+Runbook `implemented-initial` para POST-H-016-A/B. Cubre validación de Workspace Registry v1, migración read-only v2 y workspace isolation check. El hardening de portfolio status, integración API y subgate final se documentarán en POST-H-016-C/D/E.
 
 ## Validar registry v1 vigente
 
@@ -53,6 +53,29 @@ PASS si:
 ## Límites operacionales
 
 POST-H-016-A no escribe `.devpilot/workspaces/workspace_registry.json` durante la migración v2. La v2 es una vista en memoria para endurecer contratos sin romper compatibilidad con los comandos históricos `workspace list/register/select/registry-validate`.
+
+## Validar aislamiento de workspaces
+
+```powershell
+$env:PYTHONPATH="src"
+python -m devpilot_core workspace isolation-check --json --write-report
+python -m devpilot_core schema validate --schema-id WorkspaceIsolationReport --instance outputs/reports/workspace_isolation_report.json --json
+```
+
+PASS si:
+
+```text
+- registered_workspaces_only=true
+- path_guard_aligned=true
+- state_paths_inside_workspace=true
+- outputs_inside_workspace=true
+- traces_inside_workspace=true
+- secrets_read=false
+- state_files_read=false
+- source_mutations_performed=false
+```
+
+El reporte `outputs/reports/workspace_isolation_report.json` es evidencia runtime regenerable y no debe incluirse en ZIPs limpios.
 
 BLOCK si:
 

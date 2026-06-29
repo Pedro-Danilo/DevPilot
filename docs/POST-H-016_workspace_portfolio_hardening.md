@@ -17,8 +17,8 @@ no_external_apis_used: true
 no_connector_write_enabled: true
 no_plugin_execution_enabled: true
 implementation_status: "in_progress"
-current_micro_sprint: "POST-H-016-A"
-next_micro_sprint: "POST-H-016-B"
+current_micro_sprint: "POST-H-016-B"
+next_micro_sprint: "POST-H-016-C"
 ---
 
 # POST-H-016 — Workspace portfolio hardening
@@ -88,3 +88,23 @@ POST-H-016-A no implementa todavía:
 ```
 
 Estas capacidades quedan para POST-H-016-B/C/D/E.
+
+## POST-H-016-B
+
+Alcance del micro-sprint actual:
+
+```text
+1. Implementar WorkspaceIsolationValidator.
+2. Validar que root/state/outputs/traces permanecen dentro del workspace.
+3. Detectar referencias cruzadas a otros roots registrados.
+4. Integrar PathGuard.
+5. Generar workspace_isolation_report.json bajo outputs/reports solo cuando se solicita.
+```
+
+Comando operacional:
+
+```powershell
+python -m devpilot_core workspace isolation-check --json --write-report
+```
+
+Límites: `implemented-initial`; no endurece todavía `portfolio status`, no expone API dedicada y no integra el subgate final `workspace-portfolio-hardening`. POST-H-016-C/D/E completan esas capas.

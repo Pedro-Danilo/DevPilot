@@ -1,3 +1,23 @@
+## POST-H-016-B — Workspace isolation validator
+
+Estado: `implemented-initial`. DevPilot agrega `WorkspaceIsolationValidator` y el comando `workspace isolation-check` para validar, de forma local y read-only, que cada workspace registrado mantiene `root_path`, `state_path`, `outputs/reports`, `traces` y referencias de secretos dentro de su propia frontera.
+
+Capacidades:
+
+- Schema `WorkspaceIsolationReport`: `docs/schemas/workspace_isolation_report.schema.json`.
+- CLI: `python -m devpilot_core workspace isolation-check --json --write-report`.
+- Detección de `state_path`, reports/outputs o traces fuera del workspace root.
+- Detección de referencias cruzadas hacia otro workspace registrado.
+- Reporte regenerable: `outputs/reports/workspace_isolation_report.json`.
+- No lee `.devpilot/devpilot.db`, no lee secretos y no usa red, APIs externas, shell, remote execution, connector write ni plugin execution.
+
+Límites: versión `implemented-initial`; no endurece todavía `portfolio status`, no expone API dedicada y no integra el subgate final `workspace-portfolio-hardening`. POST-H-016-C/D/E completan esas capas.
+
+Hito activo: `POST-H-016 — Workspace portfolio hardening`
+Último hito cerrado: `POST-H-015 — Local operator dashboard`
+Último micro-sprint implementado: `POST-H-016-B — Workspace isolation validator`
+Siguiente micro-sprint: `POST-H-016-C`
+
 ## POST-H-016-A — Registry v2 y migración compatible
 
 Estado: `implemented-initial`. POST-H-016 queda aprobado como hito `Workspace portfolio hardening` y DevPilot agrega `MultiworkspaceRegistryV2`, una migración read-only v1→v2 para validar el Workspace Registry vigente sin mutar `.devpilot/workspaces/workspace_registry.json`.

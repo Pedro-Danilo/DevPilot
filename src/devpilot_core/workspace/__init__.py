@@ -10,6 +10,13 @@ from devpilot_core.workspace.manager import (
     parse_project_yaml_metadata,
     render_project_yaml,
 )
+from devpilot_core.workspace.isolation import (
+    DEFAULT_WORKSPACE_ISOLATION_REPORT_JSON,
+    DEFAULT_WORKSPACE_ISOLATION_REPORT_MD,
+    WORKSPACE_ISOLATION_REPORT_SCHEMA_ID,
+    WorkspaceIsolationOptions,
+    WorkspaceIsolationValidator,
+)
 
 from devpilot_core.workspace.registry import (
     MultiworkspaceRegistry,
@@ -32,6 +39,11 @@ __all__ = [
     "WorkspaceManager",
     "WorkspacePaths",
     "WorkspaceStatus",
+    "WorkspaceIsolationOptions",
+    "WorkspaceIsolationValidator",
+    "DEFAULT_WORKSPACE_ISOLATION_REPORT_JSON",
+    "DEFAULT_WORKSPACE_ISOLATION_REPORT_MD",
+    "WORKSPACE_ISOLATION_REPORT_SCHEMA_ID",
     "MultiworkspaceRegistry",
     "WorkspaceRegisterOptions",
     "WorkspaceRegistryOptions",

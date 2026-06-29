@@ -122,9 +122,13 @@ from .traceability import MarkdownTraceabilityExtractor, TraceabilityEngine
 from .testing import TestContractRegistry, TestContractRegistryV2MigrationOptions, TestContractRegistryV2Migrator, TestContractRegistryV2ValidationOptions, TestContractRegistryV2Validator, TestImpactAnalyzer, TestImpactAnalyzerV2, TestImpactOptions, TestImpactV2Options, TestsRunTool
 from .validation import ValidationGateway
 from .workspace import (
+    DEFAULT_WORKSPACE_ISOLATION_REPORT_JSON,
+    DEFAULT_WORKSPACE_ISOLATION_REPORT_MD,
     DEFAULT_WORKSPACE_REGISTRY_V2_SCHEMA,
     MultiworkspaceRegistry,
     MultiworkspaceRegistryV2,
+    WorkspaceIsolationOptions,
+    WorkspaceIsolationValidator,
     WorkspaceManager,
     WorkspaceRegisterOptions,
     WorkspaceRegistryOptions,
@@ -2715,6 +2719,32 @@ def workspace_registry_validate_command(
     return int(result.exit_code)
 
 
+def workspace_isolation_check_command(
+    *,
+    registry_path: str = ".devpilot/workspaces/workspace_registry.json",
+    json_output: bool = False,
+    write_report: bool = False,
+    output_json: str | Path = DEFAULT_WORKSPACE_ISOLATION_REPORT_JSON,
+    output_markdown: str | Path = DEFAULT_WORKSPACE_ISOLATION_REPORT_MD,
+) -> int:
+    """Validate POST-H-016-B workspace isolation boundaries in read-only mode."""
+
+    root = project_root()
+    result = WorkspaceIsolationValidator(
+        root,
+        options=WorkspaceIsolationOptions(
+            registry_path=registry_path,
+            write_report=write_report,
+            output_json=output_json,
+            output_markdown=output_markdown,
+        ),
+    ).run()
+    _emit_result_event(root, result, subject=registry_path)
+    _persist_result(root, result, subject=registry_path)
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+
 def portfolio_status_command(
     *,
     registry_path: str = ".devpilot/workspaces/workspace_registry.json",
@@ -4802,6 +4832,13 @@ def build_parser() -> argparse.ArgumentParser:
     workspace_registry.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     workspace_registry.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
 
+    workspace_isolation = workspace_sub.add_parser("isolation-check", help="Validate workspace root/state/outputs/traces isolation")
+    workspace_isolation.add_argument("--registry-path", default=".devpilot/workspaces/workspace_registry.json", help="Multiworkspace Registry JSON path")
+    workspace_isolation.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    workspace_isolation.add_argument("--write-report", action="store_true", help="Persist workspace isolation JSON/Markdown report")
+    workspace_isolation.add_argument("--output-json", default=str(DEFAULT_WORKSPACE_ISOLATION_REPORT_JSON), help="Workspace isolation JSON report path")
+    workspace_isolation.add_argument("--output-markdown", default=str(DEFAULT_WORKSPACE_ISOLATION_REPORT_MD), help="Workspace isolation Markdown report path")
+
     portfolio = sub.add_parser("portfolio", help="Inspect local multiworkspace portfolio")
     portfolio_sub = portfolio.add_subparsers(dest="portfolio_command")
     portfolio_status = portfolio_sub.add_parser("status", help="Build read-only portfolio status from registered workspaces")
@@ -5951,6 +5988,14 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
                 registry_version=args.registry_version,
                 json_output=args.json,
                 write_report=args.write_report,
+            )
+        if args.workspace_command == "isolation-check":
+            return workspace_isolation_check_command(
+                registry_path=args.registry_path,
+                json_output=args.json,
+                write_report=args.write_report,
+                output_json=args.output_json,
+                output_markdown=args.output_markdown,
             )
         parser.print_help()
         return int(ExitCode.FAIL)

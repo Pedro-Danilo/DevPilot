@@ -1036,7 +1036,8 @@
       "required_tests": [
         "tests/test_documentation_governance_backlogs.py",
         "tests/test_post_h_016_workspace_registry_v2.py",
-        "tests/test_documentation_governance_validator.py"
+        "tests/test_documentation_governance_validator.py",
+        "tests/test_post_h_016_workspace_isolation.py"
       ],
       "sync_rules": [
         "backlog_naming",
@@ -1051,7 +1052,8 @@
       "notes": [
         "Roadmap-derived executable backlog governed by POST-H-009-D.",
         "Missing future backlog files are informational planned items; existing files must pass naming and frontmatter checks.",
-        "POST-H-016 approved for implementation by POST-H-016-A; backlog remains local-first and implemented-initial."
+        "POST-H-016 approved for implementation by POST-H-016-A; backlog remains local-first and implemented-initial.",
+        "POST-H-016-B adds read-only workspace isolation validation for root/state/outputs/traces boundaries."
       ]
     },
     {
@@ -1403,7 +1405,8 @@
       ],
       "required_tests": [
         "tests/test_post_h_016_workspace_registry_v2.py",
-        "tests/test_documentation_governance_validator.py"
+        "tests/test_documentation_governance_validator.py",
+        "tests/test_post_h_016_workspace_isolation.py"
       ],
       "sync_rules": [
         "frontmatter_status_ownership"
@@ -1414,7 +1417,8 @@
       ],
       "lifecycle": "active",
       "notes": [
-        "Canonical approved POST-H-016 hito document created for Workspace portfolio hardening."
+        "Canonical approved POST-H-016 hito document created for Workspace portfolio hardening.",
+        "POST-H-016-B adds read-only workspace isolation validation for root/state/outputs/traces boundaries."
       ]
     }
   ],
@@ -1455,7 +1459,7 @@
     "network_used": false,
     "external_api_used": false,
     "mutations_performed": false,
-    "last_updated_by": "POST-H-016-A",
+    "last_updated_by": "POST-H-016-B",
     "markdown_json_sync_checks_enabled": true,
     "sync_checks_scope": "version_match, milestones_match, decisions_match, closure_status_match, next_hito_match",
     "backlog_governance_enabled": true,
@@ -1494,13 +1498,13 @@
     "post_h_011_rag_groundedness_ready_gate_bound": true,
     "post_h_011_closed": true,
     "machine_readable_total": 5,
-    "required_tests_total": 90,
+    "required_tests_total": 92,
     "active_backlog": "POST-H-016",
-    "active_micro_sprint": "POST-H-016-A",
+    "active_micro_sprint": "POST-H-016-B",
     "sensitive_action_catalog_enabled": true,
     "sensitive_action_catalog_path": ".devpilot/approval/sensitive_action_catalog.json",
     "sensitive_action_catalog_schema": "docs/schemas/sensitive_action_catalog.schema.json",
-    "required_tests_checked_total": 90,
+    "required_tests_checked_total": 92,
     "post_h_012_policy_engine_enforcement_enabled": true,
     "post_h_012_current_micro_sprint": "POST-H-012-D",
     "ui_api_shell_report_schema_registered": true,
@@ -1527,12 +1531,16 @@
     "last_completed_sprint": "POST-H-015",
     "next_sprint": "POST-H-016",
     "post_h_016_approved": true,
-    "post_h_016_current_micro_sprint": "POST-H-016-A",
-    "post_h_016_next_micro_sprint": "POST-H-016-B",
+    "post_h_016_current_micro_sprint": "POST-H-016-B",
+    "post_h_016_next_micro_sprint": "POST-H-016-C",
     "multiworkspace_registry_v2_schema_registered": true,
     "multiworkspace_registry_v2_schema_path": "docs/schemas/multiworkspace_registry_v2.schema.json",
     "workspace_registry_v2_migration_module": "src/devpilot_core/workspace/registry_v2.py",
-    "workspace_registry_v2_cli_command": "python -m devpilot_core workspace registry-validate --registry-version v2 --json"
+    "workspace_registry_v2_cli_command": "python -m devpilot_core workspace registry-validate --registry-version v2 --json",
+    "workspace_isolation_report_schema_registered": true,
+    "workspace_isolation_report_schema_path": "docs/schemas/workspace_isolation_report.schema.json",
+    "workspace_isolation_validator_module": "src/devpilot_core/workspace/isolation.py",
+    "workspace_isolation_cli_command": "python -m devpilot_core workspace isolation-check --json --write-report"
   },
   "safety": {
     "local_first": true,

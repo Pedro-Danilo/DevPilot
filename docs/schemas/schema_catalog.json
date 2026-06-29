@@ -291,6 +291,20 @@
       "validation_enabled_sprint": "POST-H-016-A"
     },
     {
+      "schema_id": "SCHEMA-DEVPL-WORKSPACE-ISOLATION-REPORT-V1",
+      "title": "DevPilot Workspace Isolation Report v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/workspace_isolation_report.schema.json",
+      "description": "POST-H-016-B report schema for local read-only workspace root/state/outputs/traces isolation checks without reading secrets or state databases.",
+      "status": "registered",
+      "contract": "WorkspaceIsolationReport",
+      "owner": "Ordóñez",
+      "sprint": "POST-H-016-B",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "POST-H-016-B"
+    },
+    {
       "schema_id": "SCHEMA-DEVPL-IDENTITY-REGISTRY-V1",
       "title": "DevPilot Identity Registry v1",
       "version": "1.0.0",

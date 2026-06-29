@@ -8434,6 +8434,69 @@
       "classification_notes": [
         "POST-H-016-A validates read-only Workspace Registry v2 migration while preserving v1 compatibility."
       ]
+    },
+    {
+      "contract_id": "post-h-016-workspace-isolation-validator",
+      "schema_version": "2.0",
+      "source_contract_id": "post-h-016-workspace-isolation-validator",
+      "domain": "operations.workspace",
+      "capability": "WorkspaceIsolationValidator",
+      "criticality": "P1",
+      "risk_level": "high",
+      "test_type": "security",
+      "execution_profile": "impact",
+      "cost_class": "low",
+      "expected_duration_seconds": 60,
+      "test_files": [
+        "tests/test_post_h_016_workspace_isolation.py",
+        "tests/test_post_h_016_workspace_registry_v2.py",
+        "tests/test_multiworkspace.py",
+        "tests/test_schema_registry.py",
+        "tests/test_project_global_state.py"
+      ],
+      "watched_paths": [
+        ".devpilot/workspaces/workspace_registry.json",
+        "src/devpilot_core/workspace/isolation.py",
+        "src/devpilot_core/workspace/registry_v2.py",
+        "src/devpilot_core/cli.py",
+        "docs/schemas/workspace_isolation_report.schema.json",
+        "tests/test_post_h_016_workspace_isolation.py"
+      ],
+      "validates": [
+        "src/devpilot_core/workspace/isolation.py",
+        "src/devpilot_core/workspace/registry_v2.py",
+        "src/devpilot_core/cli.py",
+        "docs/schemas/workspace_isolation_report.schema.json",
+        "docs/post_h_016_b_manifest.json"
+      ],
+      "trigger_hints": [
+        "workspace",
+        "isolation-check",
+        "post-h-016-b",
+        "pathguard"
+      ],
+      "impact_scope": [
+        "workspace-isolation",
+        "pathguard",
+        "portfolio-hardening"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "POST-H-016-B",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace tests/test_post_h_016_workspace_isolation.py tests/test_post_h_016_workspace_registry_v2.py tests/test_multiworkspace.py tests/test_schema_registry.py tests/test_project_global_state.py -q",
+        "python -m devpilot_core workspace isolation-check --json --write-report",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ],
+      "classification_status": "explicit",
+      "classification_notes": [
+        "POST-H-016-B validates workspace root/state/outputs/traces isolation without reading secrets or state databases."
+      ]
     }
   ],
   "migration_metadata": {
@@ -8444,6 +8507,6 @@
     "network_used": false,
     "external_api_used": false,
     "mutations_performed_by_default": false,
-    "contracts_total": 141
+    "contracts_total": 142
   }
 }

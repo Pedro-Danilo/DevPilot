@@ -8,8 +8,8 @@
   "last_completed_sprint": "POST-H-015",
   "last_functional_sprint": "FUNC-SPRINT-99",
   "next_sprint": "POST-H-016",
-  "source_repo": "repo_DevPilot_Local_210_POST_H_015_E.zip",
-  "current_repo": "repo_DevPilot_Local_211_POST_H_016_A.zip",
+  "source_repo": "repo_DevPilot_Local_211_POST_H_016_A.zip",
+  "current_repo": "repo_DevPilot_Local_212_POST_H_016_B.zip",
   "global_state_owner": "tests/test_project_global_state.py",
   "mutable_global_state_fields": [
     "last_completed_sprint",
@@ -96,8 +96,10 @@
     "POST-H-015-E closes Local operator dashboard with operator-dashboard-ready quality gate and operational runbook.",
     "POST-H-015-D closure required correcting PostHManifest field drift and TestContractRegistryV2 enum/null drift before advancing.",
     "POST-H-016 is the next prioritized hito: Workspace portfolio hardening.",
-    "POST-H-016-A approves Workspace portfolio hardening and adds MultiworkspaceRegistryV2 schema, read-only v1 to v2 migration and registry-validate v2 CLI without mutating the v1 registry."
+    "POST-H-016-A approves Workspace portfolio hardening and adds MultiworkspaceRegistryV2 schema, read-only v1 to v2 migration and registry-validate v2 CLI without mutating the v1 registry.",
+    "POST-H-016-A closure corrected PostHManifest next_sprint and TCR v1 scope drift before advancing.",
+    "POST-H-016-B adds WorkspaceIsolationValidator and workspace isolation-check CLI as read-only metadata validation for root/state/outputs/traces boundaries without reading secrets or state DBs."
   ],
-  "current_micro_sprint": "POST-H-016-A",
-  "next_micro_sprint": "POST-H-016-B"
+  "current_micro_sprint": "POST-H-016-B",
+  "next_micro_sprint": "POST-H-016-C"
 }

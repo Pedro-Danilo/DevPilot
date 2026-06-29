@@ -1,3 +1,22 @@
+## post-h-016-b — Workspace isolation validator
+
+Estado de proyecto: `last_completed_sprint=POST-H-015`; `next_sprint=POST-H-016`; `current_micro_sprint=POST-H-016-B`; `next_micro_sprint=POST-H-016-C`.
+
+- Corrected POST-H-016-A closure drift: `docs/post_h_016_a_manifest.json` now uses `next_sprint=POST-H-016`, and TCR v1 maps POST-H-016-A to a valid v1 scope.
+- Added `WorkspaceIsolationValidator`.
+- Added `docs/schemas/workspace_isolation_report.schema.json`.
+- Added `python -m devpilot_core workspace isolation-check --json --write-report`.
+- Added tests for pass, report writing, state path escape blocking and cross-workspace reference detection.
+
+Safety:
+
+```text
+- Validator is local-first and read-only by default.
+- It does not read .devpilot/devpilot.db payloads.
+- It does not read provider secrets.
+- No remote execution, connector write, plugin execution, network or external APIs enabled.
+```
+
 ## post-h-016-a — Registry v2 y migración compatible
 
 Estado de proyecto: `last_completed_sprint=POST-H-015`; `next_sprint=POST-H-016`; `current_micro_sprint=POST-H-016-A`; `next_micro_sprint=POST-H-016-B`.

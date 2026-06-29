@@ -18,8 +18,8 @@ no_external_apis_used: true
 no_connector_write_enabled: true
 no_plugin_execution_enabled: true
 implementation_status: "in_progress"
-current_micro_sprint: "POST-H-016-A"
-next_micro_sprint: "POST-H-016-B"
+current_micro_sprint: "POST-H-016-B"
+next_micro_sprint: "POST-H-016-C"
 ---
 
 # POST-H-016 — Workspace portfolio hardening

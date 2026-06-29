@@ -2,17 +2,33 @@
 title: "Runbook — DevPilot Local"
 doc_id: "DEVPL-OPS-002"
 status: "approved"
-version: "1.56.0"
+version: "1.57.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "POST-H-016-A"
+phase: "POST-H-016-B"
 updated: "2026-06-29"
 approval: "approved_by_owner"
 source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved + 03_security approved"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "SPRINT-PRECODE-05 quality operations baseline"
 ---
+
+## POST-H-016-B — Workspace isolation validator
+
+Estado: `implemented-initial`. DevPilot valida aislamiento local de workspaces registrados mediante `WorkspaceIsolationValidator`.
+
+Verificación local:
+
+```powershell
+$env:PYTHONPATH="src"
+python -m devpilot_core workspace isolation-check --json --write-report
+python -m devpilot_core schema validate --schema-id WorkspaceIsolationReport --instance outputs/reports/workspace_isolation_report.json --json
+```
+
+PASS si `registered_workspaces_only=true`, `path_guard_aligned=true`, `state_paths_inside_workspace=true`, `outputs_inside_workspace=true`, `traces_inside_workspace=true`, `secrets_read=false` y `state_files_read=false`.
+
+Límites: esta versión no endurece todavía `portfolio status`, no expone API dedicada y no integra el subgate final `workspace-portfolio-hardening`. El reporte bajo `outputs/reports` es evidencia runtime regenerable y se excluye de ZIPs limpios.
 
 ## POST-H-016-A — Registry v2 y migración compatible
 
