@@ -2,17 +2,35 @@
 title: "Runbook — DevPilot Local"
 doc_id: "DEVPL-OPS-002"
 status: "approved"
-version: "1.57.0"
+version: "1.58.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "POST-H-016-B"
+phase: "POST-H-016-C"
 updated: "2026-06-29"
 approval: "approved_by_owner"
 source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved + 03_security approved"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "SPRINT-PRECODE-05 quality operations baseline"
 ---
+
+## POST-H-016-C — Portfolio status hardening
+
+Estado: `implemented-initial`. DevPilot endurece `portfolio status` para operar sobre `Workspace Registry v2` y `WorkspaceIsolationValidator`, manteniendo compatibilidad con el comando histórico y bloqueando la consolidación si el aislamiento local falla.
+
+Verificación local:
+
+```powershell
+$env:PYTHONPATH="src"
+python -m devpilot_core portfolio status --json
+python -m pytest -p no:ddtrace tests/test_post_h_016_portfolio_status_hardening.py tests/test_post_h_016_workspace_isolation.py tests/test_post_h_016_workspace_registry_v2.py tests/test_multiworkspace.py tests/test_project_global_state.py -q
+```
+
+PASS si `registered_workspaces_only=true`, `unregistered_workspace_policy=denied`, `portfolio_status_read_only=true`, `state_files_read=false`, `secrets_read=false`, `source_mutations_performed=false` y `cross_workspace_writes=false`.
+
+BLOCK si falla el registry v2, si `WorkspaceIsolationValidator` detecta rutas fuera del workspace, referencias cruzadas entre workspaces o colisiones de estado/outputs/traces.
+
+Límites: esta versión no expone API dedicada ni integra todavía el subgate final `workspace-portfolio-hardening`. No descubre workspaces fuera del registry y no genera outputs por defecto.
 
 ## POST-H-016-B — Workspace isolation validator
 

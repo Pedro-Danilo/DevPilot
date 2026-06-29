@@ -4612,6 +4612,41 @@
         "python -m devpilot_core workspace isolation-check --json --write-report",
         "python -m devpilot_core test-contracts validate --json"
       ]
+    },
+    {
+      "contract_id": "post-h-016-portfolio-status-hardening",
+      "scope": "safety",
+      "owner": "POST-H-016-C",
+      "phase": "POST-FASE-H",
+      "test_files": [
+        "tests/test_post_h_016_portfolio_status_hardening.py",
+        "tests/test_post_h_016_workspace_isolation.py",
+        "tests/test_post_h_016_workspace_registry_v2.py",
+        "tests/test_multiworkspace.py",
+        "tests/test_project_global_state.py"
+      ],
+      "validates": [
+        "src/devpilot_core/portfolio/status.py",
+        "src/devpilot_core/workspace/isolation.py",
+        "src/devpilot_core/workspace/registry_v2.py",
+        "src/devpilot_core/cli.py",
+        "docs/post_h_016_c_manifest.json"
+      ],
+      "watched_paths": [
+        ".devpilot/workspaces/workspace_registry.json",
+        "src/devpilot_core/portfolio/status.py",
+        "src/devpilot_core/workspace/isolation.py",
+        "src/devpilot_core/workspace/registry_v2.py",
+        "tests/test_post_h_016_portfolio_status_hardening.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace tests/test_post_h_016_portfolio_status_hardening.py tests/test_post_h_016_workspace_isolation.py tests/test_post_h_016_workspace_registry_v2.py tests/test_multiworkspace.py tests/test_project_global_state.py -q",
+        "python -m devpilot_core portfolio status --json",
+        "python -m devpilot_core test-contracts validate --json"
+      ]
     }
   ],
   "notes": [

@@ -11,7 +11,7 @@ phase: "POST-FASE-H"
 
 ## Estado
 
-Runbook `implemented-initial` para POST-H-016-A/B. Cubre validación de Workspace Registry v1, migración read-only v2 y workspace isolation check. El hardening de portfolio status, integración API y subgate final se documentarán en POST-H-016-C/D/E.
+Runbook `implemented-initial` para POST-H-016-A/B/C. Cubre validación de Workspace Registry v1, migración read-only v2, workspace isolation check y hardening de `portfolio status`. La integración API y el subgate final se documentarán en POST-H-016-D/E.
 
 ## Validar registry v1 vigente
 
@@ -76,6 +76,39 @@ PASS si:
 ```
 
 El reporte `outputs/reports/workspace_isolation_report.json` es evidencia runtime regenerable y no debe incluirse en ZIPs limpios.
+
+## Validar portfolio status endurecido
+
+```powershell
+$env:PYTHONPATH="src"
+python -m devpilot_core portfolio status --json
+```
+
+PASS si:
+
+```text
+- registered_workspaces_only=true
+- unregistered_workspace_policy=denied
+- portfolio_status_read_only=true
+- state_files_read=false
+- secrets_read=false
+- source_mutations_performed=false
+- cross_workspace_writes=false
+- workspaces contiene solo entradas con is_registered=true
+```
+
+Cada workspace debe exponer resumen local de:
+
+```text
+- readiness: project_file, docs, miasi;
+- state: status/path/read=false;
+- reports: status/path;
+- traces: status/path;
+- risks: risk_level, flags, findings_total;
+- isolation: state_path_inside_workspace, outputs_inside_workspace, traces_inside_workspace, cross_workspace_refs_detected.
+```
+
+Las fuentes operacionales ausentes se reportan como `unknown`. Este estado no lee los archivos de runtime ni infiere éxito falso; comunica que la evidencia aún no existe en el workspace local.
 
 BLOCK si:
 

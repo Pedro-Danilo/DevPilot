@@ -102,8 +102,8 @@ def test_project_global_state_schema_and_docs_are_synchronized() -> None:
     assert any("POST-H-013-D adds optional local crypto" in note for note in state["notes"])
     assert any("POST-H-013-E closes Audit pack integrity" in note for note in state["notes"])
     assert any("POST-H-014 is the next prioritized hito" in note for note in state["notes"])
-    assert state.get("current_micro_sprint") == "POST-H-016-B"
-    assert state.get("next_micro_sprint") == "POST-H-016-C"
+    assert state.get("current_micro_sprint") == "POST-H-016-C"
+    assert state.get("next_micro_sprint") == "POST-H-016-D"
     assert "POST-H-014-A — Route Contract Registry y API inventory" in readme
     assert "POST-H-014-B — Response mapping y errores homogéneos" in readme
     assert "POST-H-014-C — UI Route Contract y shell de producto" in readme
@@ -131,6 +131,7 @@ def test_project_global_state_schema_and_docs_are_synchronized() -> None:
     assert any("POST-H-015-E closes Local operator dashboard" in note for note in state["notes"])
     assert any("POST-H-016-A approves Workspace portfolio hardening" in note for note in state["notes"])
     assert any("POST-H-016-B adds WorkspaceIsolationValidator" in note for note in state["notes"])
+    assert any("POST-H-016-C hardens portfolio status" in note for note in state["notes"])
     assert "POST-H-015-A — Dashboard snapshot schema y config" in readme
     assert "POST-H-015-A — Dashboard snapshot schema y config" in runbook
     assert "POST-H-015-B — Aggregator read-only de señales operacionales" in readme
@@ -145,6 +146,8 @@ def test_project_global_state_schema_and_docs_are_synchronized() -> None:
     assert "POST-H-016-A — Registry v2 y migración compatible" in runbook
     assert "POST-H-016-B — Workspace isolation validator" in readme
     assert "POST-H-016-B — Workspace isolation validator" in runbook
+    assert "POST-H-016-C — Portfolio status hardening" in readme
+    assert "POST-H-016-C — Portfolio status hardening" in runbook
     assert any("POST-H-012-A approves" in note for note in state["notes"])
     assert any("POST-H-012-C adds RBAC exposure reporting" in note for note in state["notes"])
     assert any("POST-H-012-D adds homogeneous PolicyEngine enforcement" in note for note in state["notes"])

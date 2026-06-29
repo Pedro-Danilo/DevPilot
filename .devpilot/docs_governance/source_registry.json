@@ -1037,7 +1037,8 @@
         "tests/test_documentation_governance_backlogs.py",
         "tests/test_post_h_016_workspace_registry_v2.py",
         "tests/test_documentation_governance_validator.py",
-        "tests/test_post_h_016_workspace_isolation.py"
+        "tests/test_post_h_016_workspace_isolation.py",
+        "tests/test_post_h_016_portfolio_status_hardening.py"
       ],
       "sync_rules": [
         "backlog_naming",
@@ -1053,7 +1054,8 @@
         "Roadmap-derived executable backlog governed by POST-H-009-D.",
         "Missing future backlog files are informational planned items; existing files must pass naming and frontmatter checks.",
         "POST-H-016 approved for implementation by POST-H-016-A; backlog remains local-first and implemented-initial.",
-        "POST-H-016-B adds read-only workspace isolation validation for root/state/outputs/traces boundaries."
+        "POST-H-016-B adds read-only workspace isolation validation for root/state/outputs/traces boundaries.",
+        "POST-H-016-C hardens portfolio status as registered-only/read-only over registry v2 and workspace isolation."
       ]
     },
     {
@@ -1401,12 +1403,17 @@
       ],
       "derived_documents": [
         "docs/audits/post_h_016_a_workspace_registry_v2_report.md",
-        "docs/post_h_016_a_manifest.json"
+        "docs/post_h_016_a_manifest.json",
+        "docs/audits/post_h_016_b_workspace_isolation_report.md",
+        "docs/post_h_016_b_manifest.json",
+        "docs/audits/post_h_016_c_portfolio_status_hardening_report.md",
+        "docs/post_h_016_c_manifest.json"
       ],
       "required_tests": [
         "tests/test_post_h_016_workspace_registry_v2.py",
         "tests/test_documentation_governance_validator.py",
-        "tests/test_post_h_016_workspace_isolation.py"
+        "tests/test_post_h_016_workspace_isolation.py",
+        "tests/test_post_h_016_portfolio_status_hardening.py"
       ],
       "sync_rules": [
         "frontmatter_status_ownership"
@@ -1418,7 +1425,8 @@
       "lifecycle": "active",
       "notes": [
         "Canonical approved POST-H-016 hito document created for Workspace portfolio hardening.",
-        "POST-H-016-B adds read-only workspace isolation validation for root/state/outputs/traces boundaries."
+        "POST-H-016-B adds read-only workspace isolation validation for root/state/outputs/traces boundaries.",
+        "POST-H-016-C hardens portfolio status as registered-only/read-only over registry v2 and workspace isolation."
       ]
     }
   ],
@@ -1459,7 +1467,7 @@
     "network_used": false,
     "external_api_used": false,
     "mutations_performed": false,
-    "last_updated_by": "POST-H-016-B",
+    "last_updated_by": "POST-H-016-C",
     "markdown_json_sync_checks_enabled": true,
     "sync_checks_scope": "version_match, milestones_match, decisions_match, closure_status_match, next_hito_match",
     "backlog_governance_enabled": true,
@@ -1500,7 +1508,7 @@
     "machine_readable_total": 5,
     "required_tests_total": 92,
     "active_backlog": "POST-H-016",
-    "active_micro_sprint": "POST-H-016-B",
+    "active_micro_sprint": "POST-H-016-C",
     "sensitive_action_catalog_enabled": true,
     "sensitive_action_catalog_path": ".devpilot/approval/sensitive_action_catalog.json",
     "sensitive_action_catalog_schema": "docs/schemas/sensitive_action_catalog.schema.json",
@@ -1531,8 +1539,8 @@
     "last_completed_sprint": "POST-H-015",
     "next_sprint": "POST-H-016",
     "post_h_016_approved": true,
-    "post_h_016_current_micro_sprint": "POST-H-016-B",
-    "post_h_016_next_micro_sprint": "POST-H-016-C",
+    "post_h_016_current_micro_sprint": "POST-H-016-C",
+    "post_h_016_next_micro_sprint": "POST-H-016-D",
     "multiworkspace_registry_v2_schema_registered": true,
     "multiworkspace_registry_v2_schema_path": "docs/schemas/multiworkspace_registry_v2.schema.json",
     "workspace_registry_v2_migration_module": "src/devpilot_core/workspace/registry_v2.py",
@@ -1540,7 +1548,9 @@
     "workspace_isolation_report_schema_registered": true,
     "workspace_isolation_report_schema_path": "docs/schemas/workspace_isolation_report.schema.json",
     "workspace_isolation_validator_module": "src/devpilot_core/workspace/isolation.py",
-    "workspace_isolation_cli_command": "python -m devpilot_core workspace isolation-check --json --write-report"
+    "workspace_isolation_cli_command": "python -m devpilot_core workspace isolation-check --json --write-report",
+    "portfolio_status_hardening_module": "src/devpilot_core/portfolio/status.py",
+    "portfolio_status_hardening_cli_command": "python -m devpilot_core portfolio status --json"
   },
   "safety": {
     "local_first": true,

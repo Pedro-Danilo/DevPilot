@@ -1,3 +1,22 @@
+## post-h-016-c — Portfolio status hardening
+
+Estado de proyecto: `last_completed_sprint=POST-H-015`; `next_sprint=POST-H-016`; `current_micro_sprint=POST-H-016-C`; `next_micro_sprint=POST-H-016-D`.
+
+- Hardened `PortfolioStatusBuilder` to use Workspace Registry v2 plus `WorkspaceIsolationValidator`.
+- `portfolio status` now reports only registered workspaces and declares `unregistered_workspace_policy=denied`.
+- Workspace summaries now include readiness, state, reports, traces, risks, isolation and no-go metadata.
+- Missing operational sources are reported as `unknown` instead of being silently treated as ready.
+- Added focused POST-H-016-C tests and manifest/audit artifacts.
+
+Safety:
+
+```text
+- Portfolio status remains local-first and read-only.
+- It does not read .devpilot/devpilot.db payloads.
+- It does not read provider secrets.
+- No remote execution, connector write, plugin execution, network or external APIs enabled.
+```
+
 ## post-h-016-b — Workspace isolation validator
 
 Estado de proyecto: `last_completed_sprint=POST-H-015`; `next_sprint=POST-H-016`; `current_micro_sprint=POST-H-016-B`; `next_micro_sprint=POST-H-016-C`.

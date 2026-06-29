@@ -3,7 +3,7 @@ doc_id: "POST-H-016"
 id: "POST-H-016"
 title: "POST-H-016 — Workspace portfolio hardening"
 status: "approved"
-version: "0.2.0"
+version: "0.3.0"
 owner: "Ordóñez"
 updated: "2026-06-29"
 approval: "approved_by_owner"
@@ -17,8 +17,8 @@ no_external_apis_used: true
 no_connector_write_enabled: true
 no_plugin_execution_enabled: true
 implementation_status: "in_progress"
-current_micro_sprint: "POST-H-016-B"
-next_micro_sprint: "POST-H-016-C"
+current_micro_sprint: "POST-H-016-C"
+next_micro_sprint: "POST-H-016-D"
 ---
 
 # POST-H-016 — Workspace portfolio hardening
@@ -108,3 +108,47 @@ python -m devpilot_core workspace isolation-check --json --write-report
 ```
 
 Límites: `implemented-initial`; no endurece todavía `portfolio status`, no expone API dedicada y no integra el subgate final `workspace-portfolio-hardening`. POST-H-016-C/D/E completan esas capas.
+
+## POST-H-016-C
+
+Alcance del micro-sprint actual:
+
+```text
+1. Endurecer PortfolioStatusBuilder sobre Workspace Registry v2.
+2. Validar portfolio status contra WorkspaceIsolationValidator antes de consolidar señales.
+3. Mostrar únicamente workspaces registrados.
+4. Reportar un summary por workspace: readiness, state, reports, traces y risks.
+5. Reportar como unknown las fuentes operacionales ausentes.
+6. Mantener no-go gates: read-only, sin secrets read, sin state DB read y sin cross-workspace writes.
+```
+
+Comando operacional:
+
+```powershell
+python -m devpilot_core portfolio status --json
+```
+
+Criterios PASS:
+
+```text
+- registered_workspaces_only=true;
+- unregistered_workspace_policy=denied;
+- portfolio_status_read_only=true;
+- state_files_read=false;
+- secrets_read=false;
+- source_mutations_performed=false;
+- cross_workspace_writes=false;
+- cada workspace reportado tiene is_registered=true.
+```
+
+Criterios BLOCK:
+
+```text
+- Registry v2 inválido;
+- WorkspaceIsolationValidator detecta rutas fuera del workspace;
+- referencias cruzadas entre workspaces;
+- colisiones de state/reports/traces;
+- intento de leer secretos o state DB.
+```
+
+Límites: `implemented-initial`; POST-H-016-C no expone API dedicada, no implementa UI específica ni integra todavía el subgate final `workspace-portfolio-hardening`. POST-H-016-D/E completan esas capas.

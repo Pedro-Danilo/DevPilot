@@ -2751,7 +2751,7 @@ def portfolio_status_command(
     json_output: bool = False,
     write_report: bool = False,
 ) -> int:
-    """Build FUNC-SPRINT-94 local portfolio status in read-only mode."""
+    """Build POST-H-016-C hardened local portfolio status in read-only mode."""
 
     root = project_root()
     result = PortfolioStatusBuilder(root, registry_path=registry_path).build()
@@ -2761,7 +2761,7 @@ def portfolio_status_command(
         subject=registry_path,
         report_id="portfolio_status",
         write_report=write_report,
-        metadata={"sprint": "FUNC-SPRINT-94", "component": "PortfolioStatusBuilder"},
+        metadata={"sprint": "POST-H-016-C", "component": "PortfolioStatusBuilder"},
     )
     _emit_result_event(root, result, subject="portfolio:status")
     _persist_result(root, result, subject="portfolio:status")

@@ -1,0 +1,81 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "SCHEMA-DEVPL-POST-H-MANIFEST-V1",
+  "post_h_id": "POST-H-016",
+  "id": "POST-H-016-C",
+  "title": "POST-H-016-C — Portfolio status hardening",
+  "status": "implemented-initial",
+  "phase": "POST-H-016-C",
+  "implemented_at": "2026-06-29",
+  "created_files": [
+    "docs/audits/post_h_016_c_portfolio_status_hardening_report.md",
+    "docs/post_h_016_c_manifest.json",
+    "tests/test_post_h_016_portfolio_status_hardening.py"
+  ],
+  "modified_files": [
+    "src/devpilot_core/portfolio/status.py",
+    ".devpilot/docs_governance/source_registry.json",
+    ".devpilot/project_state.json",
+    ".devpilot/testing/test_contract_registry.json",
+    ".devpilot/testing/test_contract_registry_v2.json",
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/05_operations/workspace_portfolio_runbook.md",
+    "docs/POST-H-016_workspace_portfolio_hardening.md",
+    "docs/backlogs/POST-H-016_workspace_portfolio_hardening.md",
+    "docs/release/CHANGELOG.md",
+    "tests/test_project_global_state.py"
+  ],
+  "commands": [
+    "python -m pytest -p no:ddtrace tests/test_post_h_016_portfolio_status_hardening.py tests/test_post_h_016_workspace_isolation.py tests/test_post_h_016_workspace_registry_v2.py tests/test_multiworkspace.py tests/test_project_global_state.py -q",
+    "python -m devpilot_core portfolio status --json",
+    "python -m devpilot_core schema validate --schema-id PostHManifest --instance docs/post_h_016_c_manifest.json --json",
+    "python -m devpilot_core docs-governance validate --json",
+    "python -m devpilot_core test-contracts validate --json",
+    "python -m devpilot_core test-contracts validate-v2 --json"
+  ],
+  "tests": [
+    "tests/test_post_h_016_portfolio_status_hardening.py",
+    "tests/test_post_h_016_workspace_isolation.py",
+    "tests/test_post_h_016_workspace_registry_v2.py",
+    "tests/test_multiworkspace.py",
+    "tests/test_project_global_state.py"
+  ],
+  "pass_criteria": [
+    "Portfolio status is read-only and registered-only.",
+    "Unregistered workspaces are denied by policy.",
+    "Workspace summaries include readiness, state, reports, traces and risks.",
+    "Absent operational sources are reported as unknown.",
+    "No secrets or state DB payloads are read."
+  ],
+  "block_criteria": [
+    "Portfolio status consolidates unregistered workspaces.",
+    "Workspace isolation failures pass as OK.",
+    "Cross-workspace references pass validation.",
+    "The builder reads secrets or state DB payloads.",
+    "Portfolio status performs cross-workspace writes or source mutations."
+  ],
+  "risks": [
+    "implemented-initial hardening; dedicated API integration remains for POST-H-016-D.",
+    "Quality gate workspace-portfolio-hardening remains for POST-H-016-E.",
+    "Full pytest -q regression remains deferred due large test-suite cost."
+  ],
+  "next_sprint": "POST-H-016",
+  "preliminary": true,
+  "capabilities": [
+    "Hardened PortfolioStatusBuilder",
+    "Registered-only portfolio status",
+    "Unknown operational source reporting",
+    "Workspace isolation blocking before portfolio consolidation"
+  ],
+  "safety": {
+    "local_first": true,
+    "dry_run": true,
+    "read_only": true,
+    "network_used": false,
+    "external_api_used": false,
+    "remote_execution_enabled": false,
+    "connector_write_enabled": false,
+    "plugin_execution_enabled": false
+  }
+}

@@ -1,3 +1,30 @@
+## POST-H-016-C — Portfolio status hardening
+
+Estado: `implemented-initial`. DevPilot endurece `portfolio status` para construir el estado del portfolio únicamente desde `Workspace Registry v2` y `WorkspaceIsolationValidator`, sin descubrir workspaces fuera del registro, sin leer `.devpilot/devpilot.db`, sin leer secretos y sin ejecutar red, shell, APIs externas, remote execution, connector write ni plugin execution.
+
+Capacidades:
+
+- `PortfolioStatusBuilder` usa la vista v2 del registry y bloquea si falla el aislamiento.
+- `portfolio status` reporta solo workspaces registrados y declara `unregistered_workspace_policy=denied`.
+- Cada workspace incorpora resumen de `readiness`, `state`, `reports`, `traces` y `risks`.
+- Fuentes operacionales ausentes se reportan como `unknown`, no como éxito falso.
+- Se preservan campos históricos (`portfolio_status_read_only`, `state_files_read`, `secrets_read`, `mutations_performed`) para compatibilidad con `FUNC-SPRINT-94`.
+
+Verificación local:
+
+```powershell
+$env:PYTHONPATH="src"
+python -m pytest -p no:ddtrace tests/test_post_h_016_portfolio_status_hardening.py tests/test_post_h_016_workspace_isolation.py tests/test_post_h_016_workspace_registry_v2.py tests/test_multiworkspace.py tests/test_project_global_state.py -q
+python -m devpilot_core portfolio status --json
+```
+
+Límites: versión `implemented-initial`; no expone todavía API dedicada y no integra el subgate final `workspace-portfolio-hardening`. POST-H-016-D/E completan esas capas.
+
+Hito activo: `POST-H-016 — Workspace portfolio hardening`
+Último hito cerrado: `POST-H-015 — Local operator dashboard`
+Último micro-sprint implementado: `POST-H-016-C — Portfolio status hardening`
+Siguiente micro-sprint: `POST-H-016-D`
+
 ## POST-H-016-B — Workspace isolation validator
 
 Estado: `implemented-initial`. DevPilot agrega `WorkspaceIsolationValidator` y el comando `workspace isolation-check` para validar, de forma local y read-only, que cada workspace registrado mantiene `root_path`, `state_path`, `outputs/reports`, `traces` y referencias de secretos dentro de su propia frontera.
