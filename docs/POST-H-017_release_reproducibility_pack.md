@@ -4,7 +4,7 @@ doc_id: "POST-H-017-IMPLEMENTATION"
 id: "POST-H-017"
 title: "POST-H-017 — Release reproducibility pack"
 status: "approved"
-version: "0.4.0"
+version: "0.5.0"
 owner: "Ordóñez"
 updated: "2026-06-30"
 approval: "approved_by_owner"
@@ -18,8 +18,8 @@ no_external_apis_used: true
 no_connector_write_enabled: true
 no_plugin_execution_enabled: true
 implementation_status: "active"
-current_micro_sprint: "POST-H-017-C"
-next_micro_sprint: "POST-H-017-D"
+current_micro_sprint: "POST-H-017-D"
+next_micro_sprint: "POST-H-017-E"
 ---
 
 # POST-H-017 — Release reproducibility pack
@@ -302,7 +302,7 @@ BLOCK si se presenta como release publicado.
 [x] Schema pack validado.
 [x] Environment snapshot redactado.
 [x] Source archive manifest generado.
-[ ] Verifier local implementado.
+[x] Verifier local implementado.
 [ ] Quality gate integrado.
 [x] Runbook aprobado en versión inicial A-C.
 ```
@@ -382,6 +382,32 @@ Límites explícitos:
 - En ZIPs sin .git, la enumeración es un plan determinístico de fuente, no una ejecución real de git archive.
 - No valida todavía checksum alterado contra pack final; eso queda para POST-H-017-D.
 - No integra todavía quality-gate release-reproducibility; eso queda para POST-H-017-E.
+- No publica, no despliega, no firma remoto, no usa red, no usa APIs externas y no lee secretos.
+```
+
+### POST-H-017-D — Verifier local de reproducibilidad
+
+Estado: `implemented-initial`.
+
+Implementado:
+
+```text
+- ReleaseReproducibilityVerification schema registrado.
+- ReleaseReproducibilityVerifier valida un ReleaseReproducibilityPack local existente.
+- CLI release reproducibility-verify --pack ... --json --write-report.
+- Validación de schema del pack, policy local, dirty state declarado, safety flags y declaraciones de gates requeridos.
+- Validación de environment snapshot redactado y source archive manifest.
+- Validación de checksums críticos contra archivos locales presentes.
+- Casos bloqueantes focales: dirty=true, secrets_included=true y checksum alterado.
+- Reportes regenerables outputs/release/reproducibility_verification.json y .md.
+```
+
+Límites explícitos:
+
+```text
+- POST-H-017-D verifica packs existentes; no genera todavía outputs/release/reproducibility_pack.json.
+- Los artifacts opcionales heredados de Fase G se reportan como warning si no existen; el cierre gate completo queda para POST-H-017-E.
+- No integra todavía quality-gate release-reproducibility.
 - No publica, no despliega, no firma remoto, no usa red, no usa APIs externas y no lee secretos.
 ```
 

@@ -102,8 +102,8 @@ def test_project_global_state_schema_and_docs_are_synchronized() -> None:
     assert any("POST-H-013-D adds optional local crypto" in note for note in state["notes"])
     assert any("POST-H-013-E closes Audit pack integrity" in note for note in state["notes"])
     assert any("POST-H-014 is the next prioritized hito" in note for note in state["notes"])
-    assert state.get("current_micro_sprint") == "POST-H-017-C"
-    assert state.get("next_micro_sprint") == "POST-H-017-D"
+    assert state.get("current_micro_sprint") == "POST-H-017-D"
+    assert state.get("next_micro_sprint") == "POST-H-017-E"
     assert "POST-H-014-A — Route Contract Registry y API inventory" in readme
     assert "POST-H-014-B — Response mapping y errores homogéneos" in readme
     assert "POST-H-014-C — UI Route Contract y shell de producto" in readme
@@ -142,8 +142,11 @@ def test_project_global_state_schema_and_docs_are_synchronized() -> None:
     assert "POST-H-017-B — Environment snapshot redactado" in readme
     assert "POST-H-017-B — Environment snapshot redactado" in runbook
     assert any("POST-H-017-C adds SourceArchiveManifestBuilder" in note for note in state["notes"])
+    assert any("POST-H-017-D adds ReleaseReproducibilityVerifier" in note for note in state["notes"])
     assert "POST-H-017-C — Source archive manifest y checksums" in readme
+    assert "POST-H-017-D — Verifier local de reproducibilidad" in readme
     assert "POST-H-017-C — Source archive manifest y checksums" in runbook
+    assert "POST-H-017-D — Verifier local de reproducibilidad" in runbook
     assert "post-h-017-a" in changelog
     assert "post-h-017-b" in changelog
     assert "post-h-017-c" in changelog

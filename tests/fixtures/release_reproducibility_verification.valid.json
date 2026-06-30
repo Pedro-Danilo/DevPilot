@@ -1,0 +1,44 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "SCHEMA-DEVPL-RELEASE-REPRODUCIBILITY-VERIFICATION-V1",
+  "verification_id": "devpilot-release-reproducibility-verification",
+  "created_by": "POST-H-017-D",
+  "status": "implemented-initial",
+  "generated_at_utc": "2026-06-30T00:00:00Z",
+  "summary": {
+    "created_by": "POST-H-017-D",
+    "status": "implemented-initial",
+    "pack_path": "outputs/release/reproducibility_pack.json",
+    "release_reproducibility_verified": true,
+    "blocking_findings_total": 0,
+    "local_first": true,
+    "dry_run": true,
+    "network_used": false,
+    "external_api_used": false
+  },
+  "pack": {
+    "path": "outputs/release/reproducibility_pack.json",
+    "pack_id": "devpilot-release-reproducibility-20260630",
+    "status": "implemented-initial"
+  },
+  "artifact_checks": {
+    "source_archive_manifest": {
+      "exists": true,
+      "checksum_mismatches_total": 0
+    }
+  },
+  "safety": {
+    "local_first": true,
+    "dry_run": true,
+    "read_only": true,
+    "network_used": false,
+    "external_api_used": false,
+    "remote_execution_used": false,
+    "connector_write_used": false,
+    "plugin_execution_used": false,
+    "mutations_performed": false,
+    "source_mutations_performed": false,
+    "secrets_included": false
+  },
+  "preliminary": true
+}

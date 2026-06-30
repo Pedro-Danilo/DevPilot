@@ -357,6 +357,18 @@ COMMAND_OVERRIDES: dict[str, DeclarativeCommandOverride] = {
         ),
         rationale="POST-H-017-C optionally inspects git archive HEAD in memory and writes source archive/checksum evidence under outputs/release when --write-report is explicit.",
     ),
+    "release.reproducibility-verify": DeclarativeCommandOverride(
+        command_id="release.reproducibility-verify",
+        risk_level=CommandRiskLevel.HIGH,
+        side_effects=(CommandSideEffect.WRITE_REPORT, CommandSideEffect.EXECUTE_SUBPROCESS),
+        writes_files=True,
+        dry_run_supported=True,
+        policy_check_required=True,
+        recommended_tests=(
+            "python -m pytest tests/test_post_h_017_reproducibility_verify.py tests/test_post_h_017_release_reproducibility_schema.py -q",
+        ),
+        rationale="POST-H-017-D verifies local reproducibility-pack evidence and critical checksums without publishing, deploying, network, external APIs or source mutations; --write-report writes only outputs/release evidence.",
+    ),
     "cli-registry.guard": DeclarativeCommandOverride(
         command_id="cli-registry.guard",
         risk_level=CommandRiskLevel.HIGH,

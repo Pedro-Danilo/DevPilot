@@ -97,6 +97,8 @@ from .release import (
     ReleaseChecksumOptions,
     ReleaseManifestBuilder,
     ReleaseManifestOptions,
+    ReleaseReproducibilityVerifier,
+    ReleaseReproducibilityVerifyOptions,
     ReleaseSbomBuilder,
     ReleaseSbomOptions,
     SourceArchiveManifestBuilder,
@@ -2214,6 +2216,25 @@ def release_source_archive_manifest_command(
     ).build()
     _emit_result_event(root, result, subject="release:source-archive-manifest")
     _persist_result(root, result, subject="release:source-archive-manifest")
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+
+def release_reproducibility_verify_command(
+    *,
+    pack: str,
+    json_output: bool = False,
+    write_report: bool = False,
+) -> int:
+    """Verify a POST-H-017-D local release reproducibility pack."""
+
+    root = project_root()
+    result = ReleaseReproducibilityVerifier(
+        root,
+        options=ReleaseReproducibilityVerifyOptions(pack=pack, write_report=write_report),
+    ).verify()
+    _emit_result_event(root, result, subject="release:reproducibility-verify")
+    _persist_result(root, result, subject="release:reproducibility-verify")
     print_result(result, json_output=json_output)
     return int(result.exit_code)
 
@@ -5657,6 +5678,11 @@ def build_parser() -> argparse.ArgumentParser:
     release_source_archive_manifest.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     release_source_archive_manifest.add_argument("--write-report", action="store_true", help="Persist outputs/release/source_archive_manifest.{json,md} and source_archive_checksums.sha256")
 
+    release_reproducibility_verify = release_sub.add_parser("reproducibility-verify", help="Verify a local release reproducibility pack")
+    release_reproducibility_verify.add_argument("--pack", required=True, help="Local ReleaseReproducibilityPack JSON path")
+    release_reproducibility_verify.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    release_reproducibility_verify.add_argument("--write-report", action="store_true", help="Persist outputs/release/reproducibility_verification.{json,md}")
+
     release_checksum = release_sub.add_parser("checksum", help="Generate SHA256 evidence for one local release artifact")
     release_checksum.add_argument("--artifact", required=True, help="Local release artifact to checksum, for example dist/release/devpilot-local-0.1.0-source.zip")
     release_checksum.add_argument("--version", dest="release_version", default=None, help="Optional SemVer release version; defaults to pyproject.toml")
@@ -6768,6 +6794,8 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
             return release_environment_snapshot_command(json_output=args.json, write_report=args.write_report)
         if args.release_command == "source-archive-manifest":
             return release_source_archive_manifest_command(json_output=args.json, write_report=args.write_report)
+        if args.release_command == "reproducibility-verify":
+            return release_reproducibility_verify_command(pack=args.pack, json_output=args.json, write_report=args.write_report)
         if args.release_command == "checksum":
             return release_checksum_command(artifact=args.artifact, version=args.release_version, json_output=args.json, write_report=args.write_report)
         if args.release_command == "smoke-test":

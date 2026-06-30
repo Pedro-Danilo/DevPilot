@@ -1,3 +1,13 @@
+## POST-H-017-D — Verifier local de reproducibilidad
+
+Estado: `implemented-initial / hito activo`.
+
+DevPilot ahora puede verificar localmente un `ReleaseReproducibilityPack` con `python -m devpilot_core release reproducibility-verify --pack outputs/release/reproducibility_pack.json --json`. El verifier valida schema del pack, policy local, declaración `git.dirty=false`, safety flags secret-free, snapshot de ambiente redactado y checksums críticos del `source_archive_manifest`. Con `--write-report` genera `outputs/release/reproducibility_verification.json` y `.md` como evidencia runtime regenerable.
+
+Artefactos principales: `src/devpilot_core/release/reproducibility_verify.py`, `docs/schemas/release_reproducibility_verification.schema.json`, `tests/test_post_h_017_reproducibility_verify.py`, `docs/audits/post_h_017_d_reproducibility_verifier_report.md`, `docs/post_h_017_d_manifest.json`.
+
+Límite explícito: POST-H-017-D no genera todavía el pack final ni integra el subgate `release-reproducibility` en `quality-gate`; eso queda para POST-H-017-E. El verifier es local-first, dry-run, read-only para fuentes y no publica, despliega, firma remoto, usa red, APIs externas, remote execution, connector write ni plugin execution.
+
 ## POST-H-017-C — Source archive manifest y checksums
 
 Estado: `implemented-initial / hito activo`.
@@ -36,8 +46,8 @@ Límites: versión `implemented-initial`; no publica, no despliega, no firma rem
 Último hito: `POST-H-016 — Workspace portfolio hardening`
 Último hito cerrado: `POST-H-016 — Workspace portfolio hardening`
 Siguiente hito: `POST-H-017 — Release reproducibility pack`
-Último micro-sprint implementado: `POST-H-017-C — Source archive manifest y checksums`
-Siguiente micro-sprint: `POST-H-017-D — Verifier local de reproducibilidad`
+Último micro-sprint implementado: `POST-H-017-D — Verifier local de reproducibilidad`
+Siguiente micro-sprint: `POST-H-017-E — Quality gate y runbook release`
 
 ## POST-H-016-E — Quality gate y runbook
 

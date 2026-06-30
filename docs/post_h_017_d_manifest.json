@@ -1,0 +1,79 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "SCHEMA-DEVPL-POST-H-MANIFEST-V1",
+  "post_h_id": "POST-H-017",
+  "title": "POST-H-017-D — Verifier local de reproducibilidad",
+  "status": "implemented-initial",
+  "phase": "POST-FASE-H",
+  "implemented_at": "2026-06-30",
+  "created_files": [
+    "src/devpilot_core/release/reproducibility_verify.py",
+    "docs/schemas/release_reproducibility_verification.schema.json",
+    "tests/fixtures/release_reproducibility_verification.valid.json",
+    "tests/test_post_h_017_reproducibility_verify.py",
+    "docs/audits/post_h_017_d_reproducibility_verifier_report.md",
+    "docs/post_h_017_d_manifest.json"
+  ],
+  "modified_files": [
+    "src/devpilot_core/release/__init__.py",
+    "src/devpilot_core/cli.py",
+    "src/devpilot_core/cli_registry/registry.py",
+    "docs/schemas/schema_catalog.json",
+    "tests/test_post_h_017_release_reproducibility_schema.py",
+    "tests/test_post_h_017_environment_snapshot.py",
+    "tests/test_post_h_017_source_archive_manifest.py",
+    "tests/test_project_global_state.py",
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/05_operations/release_reproducibility_runbook.md",
+    "docs/backlogs/POST-H-017_release_reproducibility_pack.md",
+    "docs/POST-H-017_release_reproducibility_pack.md",
+    "docs/release/CHANGELOG.md",
+    ".devpilot/project_state.json",
+    ".devpilot/docs_governance/source_registry.json",
+    ".devpilot/testing/test_contract_registry.json",
+    ".devpilot/testing/test_contract_registry_v2.json"
+  ],
+  "commands": [
+    "python -m pytest -p no:ddtrace tests/test_post_h_017_reproducibility_verify.py tests/test_post_h_017_source_archive_manifest.py tests/test_post_h_017_environment_snapshot.py tests/test_post_h_017_release_reproducibility_schema.py tests/test_post_h_006_b_declarative_registry.py tests/test_project_global_state.py -q",
+    "python -m devpilot_core release environment-snapshot --json --write-report",
+    "python -m devpilot_core release source-archive-manifest --json --write-report",
+    "python -m devpilot_core release reproducibility-verify --pack outputs/release/reproducibility_pack.json --json --write-report",
+    "python -m devpilot_core schema validate --schema-id ReleaseReproducibilityVerification --instance outputs/release/reproducibility_verification.json --json",
+    "python -m devpilot_core docs-governance validate --json",
+    "python -m devpilot_core test-contracts validate --json",
+    "python -m devpilot_core test-contracts validate-v2 --json",
+    "python -m devpilot_core cli-registry guard --json"
+  ],
+  "tests": [
+    "tests/test_post_h_017_reproducibility_verify.py",
+    "tests/test_post_h_017_release_reproducibility_schema.py",
+    "tests/test_post_h_017_environment_snapshot.py",
+    "tests/test_post_h_017_source_archive_manifest.py",
+    "tests/test_project_global_state.py"
+  ],
+  "pass_criteria": [
+    "ReleaseReproducibilityVerification schema is registered and validates generated reports.",
+    "Verifier passes for a local pack with valid environment snapshot and source archive manifest.",
+    "Verifier blocks dirty=true.",
+    "Verifier blocks secrets_included=true.",
+    "Verifier blocks altered critical artifact checksums.",
+    "POST-H-017-D is synchronized across README, runbook, backlog, source registry, project state, CLI registry and TCR v1/v2."
+  ],
+  "block_criteria": [
+    "BLOCK if pack schema validation fails.",
+    "BLOCK if git.dirty=true or commit is missing.",
+    "BLOCK if secrets_included=true.",
+    "BLOCK if environment snapshot or source archive manifest is missing or invalid.",
+    "BLOCK if a critical artifact checksum does not match.",
+    "BLOCK if POST-H-017-D is presented as the final quality gate before POST-H-017-E."
+  ],
+  "risks": [
+    "POST-H-017-D verifies packs but does not generate the final reproducibility pack.",
+    "Optional legacy release artifacts remain advisory until POST-H-017-E integrates pack generation and quality gate.",
+    "Verification is local integrity evidence and does not replace signing or supply-chain certification."
+  ],
+  "next_sprint": "POST-H-017",
+  "next_micro_sprint": "POST-H-017-E",
+  "preliminary": true
+}

@@ -8,8 +8,8 @@
   "last_completed_sprint": "POST-H-016",
   "last_functional_sprint": "FUNC-SPRINT-99",
   "next_sprint": "POST-H-017",
-  "source_repo": "repo_DevPilot_Local_217_POST_H_017_B.zip",
-  "current_repo": "repo_DevPilot_Local_218_POST_H_017_C.zip",
+  "source_repo": "repo_DevPilot_Local_218_POST_H_017_C.zip",
+  "current_repo": "repo_DevPilot_Local_219_POST_H_017_D.zip",
   "global_state_owner": "tests/test_project_global_state.py",
   "mutable_global_state_fields": [
     "last_completed_sprint",
@@ -108,8 +108,9 @@
     "POST-H-017-B is next: redacted environment snapshot generation without reading .env or secret values.",
     "POST-H-017-B adds redacted ReleaseEnvironmentSnapshotBuilder and release environment-snapshot CLI without reading .env files, secret values, network resources or external APIs.",
     "POST-H-017-B was verified as closable based on focused tests, generated redacted environment snapshot, schema validation, docs governance, TCR v1/v2 and hardening quality gate evidence.",
-    "POST-H-017-C adds SourceArchiveManifestBuilder, ReleaseSourceArchiveManifest schema and release source-archive-manifest CLI with critical artifact SHA-256 checksums and forbidden archive entry detection without network, external APIs, remote execution, connector write, plugin execution or secret reads."
+    "POST-H-017-C adds SourceArchiveManifestBuilder, ReleaseSourceArchiveManifest schema and release source-archive-manifest CLI with critical artifact SHA-256 checksums and forbidden archive entry detection without network, external APIs, remote execution, connector write, plugin execution or secret reads.",
+    "POST-H-017-D adds ReleaseReproducibilityVerifier, ReleaseReproducibilityVerification schema and release reproducibility-verify CLI to validate local packs, dirty=false, secret-free safety flags, generated environment/source archive evidence and critical checksums without publishing, deploying, network, external APIs, remote execution, connector write or plugin execution."
   ],
-  "current_micro_sprint": "POST-H-017-C",
-  "next_micro_sprint": "POST-H-017-D"
+  "current_micro_sprint": "POST-H-017-D",
+  "next_micro_sprint": "POST-H-017-E"
 }

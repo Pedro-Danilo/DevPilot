@@ -8868,17 +8868,76 @@
         "POST-H-017-C generates local source archive manifest and critical checksums without publishing, signing, network, external APIs or secret reads.",
         "Verifier and release-reproducibility quality gate remain POST-H-017-D/E scope."
       ]
+    },
+    {
+      "contract_id": "post-h-017-reproducibility-verifier",
+      "schema_version": "2.0",
+      "source_contract_id": "post-h-017-reproducibility-verifier",
+      "domain": "release",
+      "capability": "Release reproducibility local verifier",
+      "criticality": "P2",
+      "risk_level": "high",
+      "test_type": "security",
+      "execution_profile": "release",
+      "cost_class": "low",
+      "expected_duration_seconds": 20,
+      "test_files": [
+        "tests/test_post_h_017_reproducibility_verify.py"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/release/reproducibility_verify.py",
+        "src/devpilot_core/release/__init__.py",
+        "src/devpilot_core/cli.py",
+        "docs/schemas/release_reproducibility_verification.schema.json",
+        "tests/test_post_h_017_reproducibility_verify.py"
+      ],
+      "validates": [
+        "ReleaseReproducibilityVerification generated output schema validity",
+        "Dirty pack blocking",
+        "Secret-including pack blocking",
+        "Critical checksum mismatch blocking",
+        "POST-H-017-D documentation/project-state/TCR synchronization"
+      ],
+      "trigger_hints": [
+        "release-reproducibility",
+        "reproducibility-verify",
+        "checksum-verifier",
+        "post-h-017"
+      ],
+      "impact_scope": [
+        "release-reproducibility",
+        "release-cli",
+        "release-verification"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "POST-H-017-D",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace tests/test_post_h_017_reproducibility_verify.py tests/test_post_h_017_source_archive_manifest.py tests/test_post_h_017_environment_snapshot.py tests/test_post_h_017_release_reproducibility_schema.py tests/test_project_global_state.py -q",
+        "python -m devpilot_core release reproducibility-verify --pack outputs/release/reproducibility_pack.json --json --write-report",
+        "python -m devpilot_core schema validate --schema-id ReleaseReproducibilityVerification --instance outputs/release/reproducibility_verification.json --json",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ],
+      "classification_status": "explicit",
+      "notes": [
+        "POST-H-017-D verifies local reproducibility packs and blocks dirty=true, secrets_included=true and checksum mismatch without publishing, deploying, network or external APIs."
+      ]
     }
   ],
   "migration_metadata": {
-    "source_contracts_total": 148,
+    "source_contracts_total": 149,
     "migrator": "TestContractRegistryV2Migrator",
     "source_registry_preserved": true,
     "tests_executed": false,
     "network_used": false,
     "external_api_used": false,
     "mutations_performed_by_default": false,
-    "contracts_total": 148,
-    "last_updated_by": "POST-H-017-C"
+    "contracts_total": 149,
+    "last_updated_by": "POST-H-017-D"
   }
 }

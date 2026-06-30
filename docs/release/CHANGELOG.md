@@ -1,3 +1,18 @@
+## post-h-017-d — Verifier local de reproducibilidad
+
+- Agrega `ReleaseReproducibilityVerifier` y CLI `release reproducibility-verify --pack ... --json`.
+- Registra `ReleaseReproducibilityVerification` para reportes locales de verificación del pack.
+- Valida schema del pack, policy local, dirty state declarado, safety flags, snapshot redactado y checksums críticos del source archive manifest.
+- Bloquea `dirty=true`, `secrets_included=true` y checksum alterado sin publicar, desplegar, firmar remoto, usar red ni APIs externas.
+- Mantiene la generación del pack final y el subgate `release-reproducibility` como alcance POST-H-017-E.
+
+Safety:
+
+```text
+- POST-H-017-D es local-first, dry-run y read-only para fuentes.
+- Los reportes se escriben solo bajo outputs/release con --write-report.
+```
+
 ## post-h-017-c — Source archive manifest y checksums
 
 - Agrega `SourceArchiveManifestBuilder` y CLI `release source-archive-manifest --json --write-report`.

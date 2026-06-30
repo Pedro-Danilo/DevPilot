@@ -1091,7 +1091,8 @@
         "tests/test_documentation_governance_validator.py",
         "tests/test_post_h_017_release_reproducibility_schema.py",
         "tests/test_project_global_state.py",
-        "tests/test_schema_registry.py"
+        "tests/test_schema_registry.py",
+        "tests/test_post_h_017_reproducibility_verify.py"
       ],
       "sync_rules": [
         "backlog_naming",
@@ -1108,6 +1109,15 @@
         "Missing future backlog files are informational planned items; existing files must pass naming and frontmatter checks.",
         "POST-H-017 approved by POST-H-017-A for local release reproducibility pack implementation.",
         "POST-H-017-A adds release reproducibility schemas and policy; pack generation remains future work."
+      ],
+      "related_files": [
+        "src/devpilot_core/release/reproducibility_verify.py",
+        "docs/schemas/release_reproducibility_verification.schema.json",
+        "docs/audits/post_h_017_d_reproducibility_verifier_report.md",
+        "docs/post_h_017_d_manifest.json"
+      ],
+      "implementation_notes": [
+        "POST-H-017-D registers ReleaseReproducibilityVerifier and release reproducibility-verify CLI as local dry-run verification for pack schema, dirty state, secret-free safety flags and critical checksums."
       ]
     },
     {
@@ -1524,7 +1534,8 @@
         "tests/test_documentation_governance_validator.py",
         "tests/test_project_global_state.py",
         "tests/test_post_h_017_environment_snapshot.py",
-        "tests/test_post_h_017_source_archive_manifest.py"
+        "tests/test_post_h_017_source_archive_manifest.py",
+        "tests/test_post_h_017_reproducibility_verify.py"
       ],
       "sync_rules": [
         "frontmatter_status_ownership"
@@ -1539,6 +1550,15 @@
         "POST-H-017-A adds schemas and policy only; later micro-sprints generate and verify release packs.",
         "POST-H-017-B adds a redacted environment snapshot builder and CLI that never reads .env files or secret values.",
         "POST-H-017-C adds source archive manifest and critical artifact checksums while leaving verifier and quality gate to POST-H-017-D/E."
+      ],
+      "related_files": [
+        "src/devpilot_core/release/reproducibility_verify.py",
+        "docs/schemas/release_reproducibility_verification.schema.json",
+        "docs/audits/post_h_017_d_reproducibility_verifier_report.md",
+        "docs/post_h_017_d_manifest.json"
+      ],
+      "implementation_notes": [
+        "POST-H-017-D registers ReleaseReproducibilityVerifier and release reproducibility-verify CLI as local dry-run verification for pack schema, dirty state, secret-free safety flags and critical checksums."
       ]
     },
     {
@@ -1616,6 +1636,43 @@
         "Operational runbook for POST-H-017-A/B/C release reproducibility evidence.",
         "Verifier and quality gate remain future POST-H-017-D/E scope."
       ]
+    },
+    {
+      "doc_id": "POST-H-017-D-REPRODUCIBILITY-VERIFIER-REPORT",
+      "path": "docs/audits/post_h_017_d_reproducibility_verifier_report.md",
+      "classification": "audit-report",
+      "domain": "release",
+      "owner": "Ordóñez",
+      "status_required": "approved",
+      "criticality": "P2",
+      "required_tests": [
+        "tests/test_post_h_017_reproducibility_verify.py"
+      ],
+      "related_files": [
+        "src/devpilot_core/release/reproducibility_verify.py",
+        "docs/schemas/release_reproducibility_verification.schema.json"
+      ],
+      "implementation_notes": [
+        "POST-H-017-D registers ReleaseReproducibilityVerifier and release reproducibility-verify CLI as local dry-run verification for pack schema, dirty state, secret-free safety flags and critical checksums."
+      ]
+    },
+    {
+      "doc_id": "POST-H-017-D-MANIFEST",
+      "path": "docs/post_h_017_d_manifest.json",
+      "classification": "machine-readable-manifest",
+      "domain": "release",
+      "owner": "Ordóñez",
+      "status_required": "implemented-initial",
+      "criticality": "P2",
+      "required_tests": [
+        "tests/test_post_h_017_reproducibility_verify.py"
+      ],
+      "related_files": [
+        "src/devpilot_core/release/reproducibility_verify.py"
+      ],
+      "implementation_notes": [
+        "POST-H-017-D registers ReleaseReproducibilityVerifier and release reproducibility-verify CLI as local dry-run verification for pack schema, dirty state, secret-free safety flags and critical checksums."
+      ]
     }
   ],
   "rules": {
@@ -1655,7 +1712,7 @@
     "network_used": false,
     "external_api_used": false,
     "mutations_performed": false,
-    "last_updated_by": "POST-H-017-C",
+    "last_updated_by": "POST-H-017-D",
     "markdown_json_sync_checks_enabled": true,
     "sync_checks_scope": "version_match, milestones_match, decisions_match, closure_status_match, next_hito_match",
     "backlog_governance_enabled": true,
@@ -1752,8 +1809,8 @@
     "workspace_portfolio_hardening_cli_command": "python -m devpilot_core portfolio hardening-gate --json --write-report",
     "workspace_onboarding_checklist_path": "docs/05_operations/workspace_onboarding_checklist.md",
     "post_h_017_approved": true,
-    "post_h_017_current_micro_sprint": "POST-H-017-C",
-    "post_h_017_next_micro_sprint": "POST-H-017-D",
+    "post_h_017_current_micro_sprint": "POST-H-017-D",
+    "post_h_017_next_micro_sprint": "POST-H-017-E",
     "release_reproducibility_pack_schema_registered": true,
     "release_reproducibility_pack_schema_path": "docs/schemas/release_reproducibility_pack.schema.json",
     "release_environment_snapshot_schema_registered": true,
@@ -1761,7 +1818,7 @@
     "release_reproducibility_policy_path": ".devpilot/release/reproducibility_policy.json",
     "release_reproducibility_policy_module": "src/devpilot_core/release/reproducibility_policy.py",
     "release_reproducibility_pack_generated": false,
-    "release_reproducibility_verifier_enabled": false,
+    "release_reproducibility_verifier_enabled": true,
     "release_environment_module": "src/devpilot_core/release/environment.py",
     "release_environment_snapshot_cli_command": "python -m devpilot_core release environment-snapshot --json --write-report",
     "release_environment_snapshot_output_path": "outputs/release/environment_snapshot.json",
@@ -1776,7 +1833,13 @@
     "release_source_archive_manifest_output_path": "outputs/release/source_archive_manifest.json",
     "release_source_archive_checksums_output_path": "outputs/release/source_archive_checksums.sha256",
     "release_source_archive_manifest_generated": true,
-    "release_source_archive_forbidden_entries_expected": 0
+    "release_source_archive_forbidden_entries_expected": 0,
+    "release_reproducibility_verifier_module": "src/devpilot_core/release/reproducibility_verify.py",
+    "release_reproducibility_verifier_cli_command": "python -m devpilot_core release reproducibility-verify --pack outputs/release/reproducibility_pack.json --json --write-report",
+    "release_reproducibility_verification_schema_registered": true,
+    "release_reproducibility_verification_schema_path": "docs/schemas/release_reproducibility_verification.schema.json",
+    "release_reproducibility_verification_output_path": "outputs/release/reproducibility_verification.json",
+    "release_reproducibility_quality_gate_integrated": false
   },
   "safety": {
     "local_first": true,
@@ -1822,6 +1885,7 @@
     "POST-H-017-A does not generate release packs or read secrets; later micro-sprints implement snapshot, archive manifest, verifier and gate.",
     "POST-H-017-B keeps docs-governance read-only while documenting generated outputs/release/environment_snapshot.json as runtime evidence, not a versioned source artifact.",
     "POST-H-017-C registers ReleaseSourceArchiveManifest and release source-archive-manifest CLI as local dry-run evidence for source archive inventory and critical checksums.",
-    "POST-H-017-C keeps release verifier and quality gate pending for POST-H-017-D/E."
+    "POST-H-017-C keeps release verifier and quality gate pending for POST-H-017-D/E.",
+    "POST-H-017-D registers ReleaseReproducibilityVerifier and release reproducibility-verify CLI as local dry-run verification for pack schema, dirty state, secret-free safety flags and critical checksums."
   ]
 }

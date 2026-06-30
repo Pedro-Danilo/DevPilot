@@ -2,11 +2,11 @@
 title: "Runbook — Release reproducibility pack"
 doc_id: "DEVPL-OPS-RELEASE-REPRODUCIBILITY"
 status: "approved"
-version: "1.0.0"
+version: "1.1.0"
 owner: "Ordóñez"
 updated: "2026-06-30"
 approval: "approved_by_owner"
-phase: "POST-H-017-C"
+phase: "POST-H-017-D"
 local_first: true
 dry_run: true
 ---
@@ -15,7 +15,7 @@ dry_run: true
 
 ## Propósito
 
-Este runbook documenta la operación local de `POST-H-017 — Release reproducibility pack` hasta POST-H-017-C. La capacidad está en estado `implemented-initial`: produce evidencia local de policy, ambiente redactado, inventario de archivo fuente y checksums críticos, pero todavía no declara un release completamente verificable. El verifier local y el quality gate final quedan para POST-H-017-D/E.
+Este runbook documenta la operación local de `POST-H-017 — Release reproducibility pack` hasta POST-H-017-D. La capacidad está en estado `implemented-initial`: produce evidencia local de policy, ambiente redactado, inventario de archivo fuente, checksums críticos y verificación local de un pack existente. El generador final del pack y el quality gate final quedan para POST-H-017-E.
 
 ## Comandos principales
 
@@ -23,7 +23,10 @@ Este runbook documenta la operación local de `POST-H-017 — Release reproducib
 $env:PYTHONPATH="src"
 python -m devpilot_core release environment-snapshot --json --write-report
 python -m devpilot_core release source-archive-manifest --json --write-report
+python -m devpilot_core release reproducibility-verify --pack outputs/release/reproducibility_pack.json --json --write-report
 ```
+
+Nota operativa: hasta POST-H-017-E, DevPilot verifica un pack existente pero no genera todavía `outputs/release/reproducibility_pack.json`. Para verificación focal de POST-H-017-D puede usarse `--pack tests/fixtures/release_reproducibility_pack.valid.json` después de regenerar `environment_snapshot` y `source_archive_manifest`, o un pack local preparado por el operador.
 
 Validación de schemas:
 
@@ -37,6 +40,11 @@ python -m devpilot_core schema validate `
   --schema-id ReleaseSourceArchiveManifest `
   --instance outputs/release/source_archive_manifest.json `
   --json
+
+python -m devpilot_core schema validate `
+  --schema-id ReleaseReproducibilityVerification `
+  --instance outputs/release/reproducibility_verification.json `
+  --json
 ```
 
 ## Artefactos generados
@@ -47,6 +55,8 @@ outputs/release/environment_snapshot.md
 outputs/release/source_archive_manifest.json
 outputs/release/source_archive_manifest.md
 outputs/release/source_archive_checksums.sha256
+outputs/release/reproducibility_verification.json
+outputs/release/reproducibility_verification.md
 ```
 
 Estos artefactos son evidencia runtime regenerable. No deben versionarse ni incluirse en ZIPs limpios de fuente.
@@ -60,6 +70,8 @@ PASS si secrets_included=false, env_files_read=false y secret_values_read=false.
 PASS si forbidden_entries_total=0 para el source archive manifest.
 PASS si outputs/, .devpilot/devpilot.db, .venv/ y node_modules/ están declarados como exclusiones o entradas prohibidas.
 PASS si los checksums SHA-256 de artefactos críticos se generan para los archivos presentes.
+PASS si ReleaseReproducibilityVerification valida contra schema.
+PASS si el verifier bloquea dirty=true, secrets_included=true y checksum alterado.
 ```
 
 ## Criterios BLOCK
@@ -70,6 +82,7 @@ BLOCK si se detectan outputs/, .devpilot/devpilot.db, .devpilot/agent_sessions/,
 BLOCK si el manifest generado no valida contra ReleaseSourceArchiveManifest.
 BLOCK si se usa red, API externa, remote execution, connector write o plugin execution.
 BLOCK si el operador interpreta POST-H-017-C como release reproducible final; esa declaración exige POST-H-017-D/E.
+BLOCK si el operador interpreta POST-H-017-D como quality gate final; esa integración exige POST-H-017-E.
 ```
 
 ## Riesgos y límites
@@ -78,7 +91,7 @@ BLOCK si el operador interpreta POST-H-017-C como release reproducible final; es
 - En un checkout Git real, DevPilot inspecciona git archive HEAD en memoria y filtra entradas runtime/build/cache contra la policy antes de evaluar `forbidden_entries_total`.
 - En ZIPs limpios sin .git, DevPilot usa un deterministic-source-archive-plan para auditoría local.
 - Los checksums no reemplazan firma criptográfica ni certificación supply-chain.
-- La validación de checksum alterado corresponde al verifier POST-H-017-D.
+- La validación de checksum alterado queda cubierta por el verifier POST-H-017-D.
 - La integración con quality-gate release-reproducibility corresponde a POST-H-017-E.
 ```
 

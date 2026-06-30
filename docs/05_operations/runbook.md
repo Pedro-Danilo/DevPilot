@@ -2,17 +2,58 @@
 title: "Runbook — DevPilot Local"
 doc_id: "DEVPL-OPS-002"
 status: "approved"
-version: "1.60.0"
+version: "1.61.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "POST-H-017-C"
+phase: "POST-H-017-D"
 updated: "2026-06-30"
 approval: "approved_by_owner"
 source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved + 03_security approved"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "SPRINT-PRECODE-05 quality operations baseline"
 ---
+
+## POST-H-017-D — Verifier local de reproducibilidad
+
+Estado: `implemented-initial`.
+
+Comando principal:
+
+```powershell
+python -m devpilot_core release environment-snapshot --json --write-report
+python -m devpilot_core release source-archive-manifest --json --write-report
+python -m devpilot_core release reproducibility-verify --pack outputs/release/reproducibility_pack.json --json --write-report
+python -m devpilot_core schema validate --schema-id ReleaseReproducibilityVerification --instance outputs/release/reproducibility_verification.json --json
+```
+
+Evidencia generada:
+
+```text
+outputs/release/reproducibility_verification.json
+outputs/release/reproducibility_verification.md
+```
+
+Criterios PASS:
+
+```text
+PASS si el pack valida contra ReleaseReproducibilityPack.
+PASS si git.dirty=false en el pack.
+PASS si safety.secrets_included=false y no hay uso de red/API externa.
+PASS si el environment snapshot valida y declara secrets_included=false.
+PASS si el source archive manifest valida, forbidden_entries_total=0 y los checksums críticos coinciden.
+```
+
+Criterios BLOCK:
+
+```text
+BLOCK si el pack es inválido, dirty=true, secrets_included=true o falta commit.
+BLOCK si el snapshot o source archive manifest requerido no existe o no valida contra schema.
+BLOCK si un checksum crítico no coincide con el archivo local.
+BLOCK si se presenta POST-H-017-D como release reproducibility gate final; esa integración corresponde a POST-H-017-E.
+```
+
+Límite: POST-H-017-D verifica packs locales existentes; no genera todavía el pack final ni integra el subgate release-reproducibility.
 
 ## POST-H-017-C — Source archive manifest y checksums
 
