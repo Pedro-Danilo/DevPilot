@@ -34,6 +34,8 @@ from .connectors import (
     ConnectorCallOptions,
     ConnectorRegistry,
     ConnectorRegistryOptions,
+    ConnectorPolicyBindingOptions,
+    ConnectorPolicyBindingValidator,
     ConnectorSandboxOptions,
     ConnectorSandboxRequest,
     ConnectorSandboxRunner,
@@ -1843,6 +1845,41 @@ def connector_sandbox_run_command(
     )
     _emit_result_event(root, result, subject=f"{connector}:{operation}:{mode}")
     _persist_result(root, result, subject=f"{connector}:{operation}:{mode}")
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+
+
+def connector_sandbox_exposure_command(
+    *,
+    policy_path: str = ".devpilot/connectors/connector_sandbox_policy.json",
+    registry_path: str = ".devpilot/connectors/connector_registry.json",
+    output_json: str = "outputs/reports/connector_policy_exposure_report.json",
+    output_markdown: str = "outputs/reports/connector_policy_exposure_report.md",
+    actor_id: str | None = None,
+    json_output: bool = False,
+    write_report: bool = False,
+) -> int:
+    """Build POST-H-018-D connector Policy/Approval/RBAC exposure evidence.
+
+    The report is deterministic, local-first and validation-only. It lists
+    connectors by risk, proves high/critical RBAC evaluation, proves read-only
+    policy coverage and confirms that connector.write_future remains blocked.
+    """
+
+    root = project_root()
+    result = ConnectorPolicyBindingValidator(
+        root,
+        options=ConnectorPolicyBindingOptions(
+            policy_path=policy_path,
+            registry_path=registry_path,
+            output_json=output_json,
+            output_markdown=output_markdown,
+            write_report=write_report,
+        ),
+    ).exposure_report(actor_id=actor_id)
+    _emit_result_event(root, result, subject="connector-policy-exposure")
+    _persist_result(root, result, subject="connector-policy-exposure")
     print_result(result, json_output=json_output)
     return int(result.exit_code)
 
@@ -5684,7 +5721,7 @@ def build_parser() -> argparse.ArgumentParser:
 
     connector_sandbox = connector_sub.add_parser("sandbox", help="Run connector sandbox validate/dry-run/replay operations without write")
     connector_sandbox_sub = connector_sandbox.add_subparsers(dest="connector_sandbox_command")
-    connector_sandbox_run = connector_sandbox_sub.add_parser("run", help="Run POST-H-018-C local connector sandbox simulation/replay")
+    connector_sandbox_run = connector_sandbox_sub.add_parser("run", help="Run POST-H-018-D local connector sandbox simulation/replay with Policy/Approval/RBAC binding")
     connector_sandbox_run.add_argument("--connector", default="local.docs", help="Connector id, default local.docs")
     connector_sandbox_run.add_argument("--operation", default="list_sources", help="Operation label for sandbox policy traceability")
     connector_sandbox_run.add_argument("--mode", choices=["validate", "dry-run", "replay"], default="validate", help="Sandbox mode; write/execute modes are intentionally unavailable")
@@ -5697,6 +5734,15 @@ def build_parser() -> argparse.ArgumentParser:
     connector_sandbox_run.add_argument("--redaction-output-markdown", default="outputs/reports/connector_replay_redaction_report.md", help="Connector replay redaction Markdown report path")
     connector_sandbox_run.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     connector_sandbox_run.add_argument("--write-report", action="store_true", help="Persist ConnectorSandboxReport JSON/Markdown evidence")
+
+    connector_sandbox_exposure = connector_sandbox_sub.add_parser("exposure", help="Build POST-H-018-D connector Policy/Approval/RBAC exposure report")
+    connector_sandbox_exposure.add_argument("--policy-path", default=".devpilot/connectors/connector_sandbox_policy.json", help="Connector sandbox policy path")
+    connector_sandbox_exposure.add_argument("--registry-path", default=".devpilot/connectors/connector_registry.json", help="Connector Registry JSON path")
+    connector_sandbox_exposure.add_argument("--output-json", default="outputs/reports/connector_policy_exposure_report.json", help="Connector policy exposure JSON report path")
+    connector_sandbox_exposure.add_argument("--output-markdown", default="outputs/reports/connector_policy_exposure_report.md", help="Connector policy exposure Markdown report path")
+    connector_sandbox_exposure.add_argument("--actor-id", default=None, help="Optional local actor id for RBAC exposure checks; defaults to active local actor")
+    connector_sandbox_exposure.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    connector_sandbox_exposure.add_argument("--write-report", action="store_true", help="Persist connector policy exposure JSON/Markdown evidence")
 
     plugin = sub.add_parser("plugin", help="Validate and inspect governed local plugin registry")
     plugin_sub = plugin.add_subparsers(dest="plugin_command")
@@ -6846,6 +6892,16 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
                 replay_fixtures_path=args.fixtures_path,
                 redaction_output_json=args.redaction_output_json,
                 redaction_output_markdown=args.redaction_output_markdown,
+                json_output=args.json,
+                write_report=args.write_report,
+            )
+        if args.connector_command == "sandbox" and args.connector_sandbox_command == "exposure":
+            return connector_sandbox_exposure_command(
+                policy_path=args.policy_path,
+                registry_path=args.registry_path,
+                output_json=args.output_json,
+                output_markdown=args.output_markdown,
+                actor_id=args.actor_id,
                 json_output=args.json,
                 write_report=args.write_report,
             )

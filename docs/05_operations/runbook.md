@@ -6,13 +6,32 @@ version: "1.65.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "POST-H-018-C"
+phase: "POST-H-018-D"
 updated: "2026-06-30"
 approval: "approved_by_owner"
 source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved + 03_security approved"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "SPRINT-PRECODE-05 quality operations baseline"
 ---
+
+## POST-H-018-D — Policy/approval/RBAC binding para conectores
+
+Estado: `implemented-initial`. El sandbox de conectores ahora valida binding local contra PolicyEngine, ApprovalPolicyChecker y RBAC antes de aceptar evidencia de replay/dry-run.
+
+Comandos operativos:
+
+```powershell
+$env:PYTHONPATH="src"
+python -m devpilot_core connector sandbox exposure --json --write-report
+python -m devpilot_core connector sandbox run --mode replay --json --write-report
+python -m devpilot_core schema validate --schema-id ConnectorPolicyExposureReport --instance outputs/reports/connector_policy_exposure_report.json --json
+```
+
+PASS si `write_future_blocked_total` cubre todos los conectores, `all_high_risk_rbac_evaluated=true`, `policy_coverage_complete=true`, y los flags `network_used`, `external_api_used`, `mutations_performed` y `connector_write_used` permanecen en `false`.
+
+BLOCK si `connector.write_future` pasa, si un conector high/critical no evalúa RBAC, si un conector side-effecting no pasa por ApprovalPolicyChecker, si falta policy coverage o si aparece red/API externa/mutación/write.
+
+Límite: POST-H-018-D es validación y reporte local. No ejecuta conectores reales, no habilita escritura ni integra APIs externas. POST-H-018-E debe integrar el quality gate y el runbook específico de cierre.
 
 ## POST-H-018-C — Replay fixtures y redacción
 

@@ -1,3 +1,28 @@
+## POST-H-018-D — Policy/approval/RBAC binding para conectores
+
+Estado actual: `implemented-initial`. DevPilot agrega `ConnectorPolicyBindingValidator`, schema `ConnectorPolicyExposureReport`, CLI `connector sandbox exposure` e integración del binding en `connector sandbox run`.
+
+Capacidades nuevas:
+
+- Reglas mínimas `connector.validate`, `connector.replay` y `connector.write_future`.
+- `connector.write_future` queda bloqueado de forma verificable para todos los conectores.
+- Conectores side-effecting requieren `ApprovalPolicyChecker` y bloquean sin approval válido.
+- Conectores `high` y `critical` evalúan RBAC local.
+- Exposure report lista conectores por riesgo/side effect/policy coverage/binding.
+
+Comandos principales:
+
+```powershell
+python -m devpilot_core connector sandbox exposure --json --write-report
+python -m devpilot_core connector sandbox run --mode replay --json --write-report
+python -m devpilot_core schema validate --schema-id ConnectorPolicyExposureReport --instance outputs/reports/connector_policy_exposure_report.json --json
+```
+
+Límite explícito: POST-H-018-D no habilita `connector write`, no ejecuta conectores reales, no usa red, no llama APIs externas, no ejecuta remote runners ni plugins. El quality gate final y runbook específico de conectores quedan para POST-H-018-E.
+
+Último micro-sprint implementado: `POST-H-018-D — Policy/approval/RBAC binding para conectores`
+Siguiente micro-sprint: `POST-H-018-E — Quality gate, runbook y cierre`
+
 ## POST-H-018-C — Replay fixtures y redacción
 
 Estado: `implemented-initial / hito activo`.

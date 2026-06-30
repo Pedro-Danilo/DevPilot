@@ -420,9 +420,21 @@ COMMAND_OVERRIDES: dict[str, DeclarativeCommandOverride] = {
         dry_run_supported=True,
         policy_check_required=True,
         recommended_tests=(
-            "python -m pytest tests/test_post_h_018_connector_sandbox_runner.py tests/test_post_h_018_connector_replay.py tests/test_post_h_018_connector_sandbox_policy.py -q",
+            "python -m pytest tests/test_post_h_018_connector_sandbox_runner.py tests/test_post_h_018_connector_replay.py tests/test_post_h_018_connector_policy_binding.py tests/test_post_h_018_connector_sandbox_policy.py -q",
         ),
-        rationale="POST-H-018-C connector sandbox run validates/dry-runs/replays locally through policy, deterministic fixtures, redaction checks and report generation only; it does not enable connector write, network, external APIs, remote execution or plugin execution.",
+        rationale="POST-H-018-D connector sandbox run validates/dry-runs/replays locally through policy, deterministic fixtures, redaction checks, Policy/Approval/RBAC binding and report generation only; it does not enable connector write, network, external APIs, remote execution or plugin execution.",
+    ),
+    "connector.sandbox.exposure": DeclarativeCommandOverride(
+        command_id="connector.sandbox.exposure",
+        risk_level=CommandRiskLevel.HIGH,
+        side_effects=(CommandSideEffect.WRITE_REPORT,),
+        writes_files=True,
+        dry_run_supported=True,
+        policy_check_required=True,
+        recommended_tests=(
+            "python -m pytest tests/test_post_h_018_connector_policy_binding.py tests/test_post_h_018_connector_sandbox_policy.py -q",
+        ),
+        rationale="POST-H-018-D connector sandbox exposure builds a local Policy/Approval/RBAC report proving connector.write_future is blocked, high-risk connectors evaluate RBAC and read-only connectors keep policy coverage without network or external APIs.",
     ),
     "cli-registry.guard": DeclarativeCommandOverride(
         command_id="cli-registry.guard",

@@ -19,6 +19,7 @@ def test_post_h_018_a_connector_sandbox_schemas_are_registered() -> None:
     assert "SCHEMA-DEVPL-CONNECTOR-SANDBOX-POLICY-V1" in schema_ids
     assert "SCHEMA-DEVPL-CONNECTOR-REPLAY-FIXTURE-V1" in schema_ids
     assert "SCHEMA-DEVPL-CONNECTOR-SANDBOX-REPORT-V1" in schema_ids
+    assert "SCHEMA-DEVPL-CONNECTOR-POLICY-EXPOSURE-REPORT-V1" in schema_ids
 
 
 def test_post_h_018_a_connector_sandbox_policy_schema_validates() -> None:
@@ -111,8 +112,8 @@ def test_post_h_018_a_docs_state_and_contracts_are_synchronized() -> None:
     assert 'status: "approved"' in backlog
     assert 'approval: "approved_by_owner"' in backlog
     assert 'implementation_status: "active"' in backlog
-    assert 'current_micro_sprint: "POST-H-018-C"' in backlog
-    assert 'next_micro_sprint: "POST-H-018-D"' in backlog
+    assert 'current_micro_sprint: "POST-H-018-D"' in backlog
+    assert 'next_micro_sprint: "POST-H-018-E"' in backlog
     assert 'status: "approved"' in post_doc
     assert "POST-H-018-A — Connector sandbox policy y schemas" in backlog
     assert "POST-H-018-A — Connector sandbox policy y schemas" in post_doc
@@ -121,8 +122,8 @@ def test_post_h_018_a_docs_state_and_contracts_are_synchronized() -> None:
     assert "post-h-018-a" in changelog
     assert state["last_completed_sprint"] == "POST-H-017"
     assert state["next_sprint"] == "POST-H-018"
-    assert state["current_micro_sprint"] == "POST-H-018-C"
-    assert state["next_micro_sprint"] == "POST-H-018-D"
+    assert state["current_micro_sprint"] == "POST-H-018-D"
+    assert state["next_micro_sprint"] == "POST-H-018-E"
     assert "post-h-018-connector-sandbox-policy-schemas" in tcr_v1
     assert "post-h-018-connector-sandbox-policy-schemas" in tcr_v2
     assert "post-h-018-connector-sandbox-runner" in tcr_v1
@@ -134,8 +135,16 @@ def test_post_h_018_a_docs_state_and_contracts_are_synchronized() -> None:
     assert "POST-H-018-CONNECTOR-REPLAY-CASES" in source_registry
     assert "POST-H-018-C-CONNECTOR-REPLAY-REDACTION-REPORT" in source_registry
     assert "POST-H-018-C-MANIFEST" in source_registry
+    assert "POST-H-018-D-CONNECTOR-POLICY-BINDING-REPORT" in source_registry
+    assert "POST-H-018-D-MANIFEST" in source_registry
+    assert "POST-H-018-CONNECTOR-POLICY-EXPOSURE-SCHEMA" in source_registry
     assert "post-h-018-connector-replay-redaction" in tcr_v1
     assert "post-h-018-connector-replay-redaction" in tcr_v2
+    assert "post-h-018-connector-policy-binding" in tcr_v1
+    assert "post-h-018-connector-policy-binding" in tcr_v2
     assert "POST-H-018-C — Replay fixtures y redacción" in readme
     assert "POST-H-018-C — Replay fixtures y redacción" in runbook
     assert "post-h-018-c" in changelog
+    assert "POST-H-018-D — Policy/approval/RBAC binding para conectores" in readme
+    assert "POST-H-018-D — Policy/approval/RBAC binding para conectores" in runbook
+    assert "post-h-018-d" in changelog

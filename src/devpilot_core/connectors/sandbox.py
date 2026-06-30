@@ -15,6 +15,11 @@ from devpilot_core.connectors.replay import (
     ConnectorReplayRequest,
     ConnectorReplayRunner,
 )
+from devpilot_core.connectors.policy_binding import (
+    ConnectorPolicyBindingOptions,
+    ConnectorPolicyBindingRequest,
+    ConnectorPolicyBindingValidator,
+)
 from devpilot_core.connectors.sandbox_policy import (
     DEFAULT_CONNECTOR_REGISTRY_PATH,
     DEFAULT_SANDBOX_POLICY_PATH,
@@ -33,7 +38,7 @@ _POLICY_CHECK_RISKS = {"medium", "medium_high", "high", "critical"}
 
 @dataclass(frozen=True)
 class ConnectorSandboxRequest:
-    """Input contract for the POST-H-018-C connector sandbox runner.
+    """Input contract for the POST-H-018-D connector sandbox runner.
 
     The request is intentionally small and safe. It selects a connector,
     operation label and sandbox mode, but it does not authorize real connector
@@ -74,7 +79,7 @@ class ConnectorSandboxResult:
 class ConnectorSandboxRunner:
     """Run local read-only/dry-run connector sandbox validation.
 
-    POST-H-018-C extends the runner boundary, not connector write
+    POST-H-018-D extends the runner boundary, not connector write
     or a real external connector runtime. The runner validates the sandbox
     policy, checks per-connector mode permissions, invokes PolicyEngine for
     medium/high risk connectors before any simulated operation and materializes
@@ -102,6 +107,7 @@ class ConnectorSandboxRunner:
         findings: list[Finding] = []
         policy_result: CommandResult | None = None
         replay_result: CommandResult | None = None
+        binding_result: CommandResult | None = None
 
         policy_validator = ConnectorSandboxPolicyValidator(
             self.root,
@@ -130,6 +136,7 @@ class ConnectorSandboxRunner:
                 policy_validation=policy_validation,
                 policy_result=None,
                 replay_result=None,
+                binding_result=None,
                 findings=findings,
                 reports_written=False,
             )
@@ -188,6 +195,31 @@ class ConnectorSandboxRunner:
                             metadata={"connector_id": connector_id, "mode": mode, "risk_level": policy_connector.get("risk_level")},
                         )
                     )
+            binding_result = ConnectorPolicyBindingValidator(
+                self.root,
+                options=ConnectorPolicyBindingOptions(
+                    policy_path=self.options.policy_path,
+                    registry_path=self.options.registry_path,
+                ),
+            ).evaluate_request(
+                ConnectorPolicyBindingRequest(
+                    connector_id=connector_id,
+                    operation=operation,
+                    mode=mode,
+                    input_payload=request.input_payload,
+                )
+            )
+            if not binding_result.ok:
+                findings.extend(_prefix_findings(binding_result.findings, prefix="BINDING_"))
+            else:
+                findings.append(
+                    Finding(
+                        "CONNECTOR_SANDBOX_BINDING_PASS",
+                        "Connector Policy/Approval/RBAC binding was evaluated before accepting sandbox evidence.",
+                        Severity.INFO,
+                        metadata={"connector_id": connector_id, "mode": mode},
+                    )
+                )
 
         has_block = any(item.severity in {Severity.BLOCK, Severity.ERROR, Severity.FAIL} for item in findings)
         if not has_block and mode == "replay":
@@ -233,6 +265,7 @@ class ConnectorSandboxRunner:
             policy_validation=policy_validation,
             policy_result=policy_result,
             replay_result=replay_result,
+            binding_result=binding_result,
             findings=findings,
             reports_written=False,
         )
@@ -314,6 +347,7 @@ class ConnectorSandboxRunner:
         policy_validation: CommandResult,
         policy_result: CommandResult | None,
         replay_result: CommandResult | None,
+        binding_result: CommandResult | None,
         findings: list[Finding],
         reports_written: bool,
     ) -> CommandResult:
@@ -322,11 +356,12 @@ class ConnectorSandboxRunner:
         status = "passed" if ok else "blocked"
         policy_summary = (policy_result.data or {}).get("summary", {}) if policy_result is not None else {}
         replay_summary = (replay_result.data or {}).get("summary", {}) if replay_result is not None else {}
+        binding_summary = (binding_result.data or {}).get("summary", {}) if binding_result is not None else {}
         policy_checked = policy_result is not None
         policy_passed = bool(policy_result.ok) if policy_result is not None else (policy_connector is not None and ok)
         approval_required = bool(policy_connector.get("approval_required")) if isinstance(policy_connector, dict) else False
         rbac_required = bool(policy_connector.get("rbac_required")) if isinstance(policy_connector, dict) else False
-        created_by = "POST-H-018-C" if replay_result is not None else "POST-H-018-B"
+        created_by = "POST-H-018-D" if binding_result is not None else ("POST-H-018-C" if replay_result is not None else "POST-H-018-B")
         fixtures_total = int(replay_summary.get("fixtures_total", 0)) if replay_result is not None else 0
         fixtures_passed = int(replay_summary.get("fixtures_passed", 0)) if replay_result is not None else 0
         redaction_passed = bool(replay_summary.get("redaction_passed", False)) if replay_result is not None else None
@@ -346,8 +381,16 @@ class ConnectorSandboxRunner:
             "policy_engine_invoked": policy_checked,
             "policy_passed": policy_passed,
             "policy_allowed": policy_passed,
-            "approval_required": approval_required,
+            "connector_binding_checked": binding_result is not None,
+            "connector_binding_passed": bool(binding_result.ok) if binding_result is not None else False,
+            "binding_rules": binding_summary.get("binding_rules", []),
+            "write_future_blocked": bool(binding_summary.get("write_future_blocked", False)) if binding_result is not None else False,
+            "approval_required": bool(binding_summary.get("approval_required", approval_required)),
+            "approval_policy_checked": bool(binding_summary.get("approval_policy_checked", False)) if binding_result is not None else False,
+            "approval_missing_blocks": bool(binding_summary.get("approval_missing_blocks", False)) if binding_result is not None else False,
             "rbac_required": rbac_required,
+            "rbac_evaluated": bool(binding_summary.get("rbac_evaluated", False)) if binding_result is not None else False,
+            "rbac_allowed": binding_summary.get("rbac_allowed") if binding_result is not None else None,
             "connector_status": policy_connector.get("status") if isinstance(policy_connector, dict) else None,
             "risk_level": policy_connector.get("risk_level") if isinstance(policy_connector, dict) else None,
             "side_effect": policy_connector.get("side_effect") if isinstance(policy_connector, dict) else None,
@@ -398,10 +441,11 @@ class ConnectorSandboxRunner:
                 "policy_validation": (policy_validation.data or {}).get("summary", {}),
                 "policy_engine": policy_summary,
             },
+            "binding": (binding_result.data if binding_result is not None else {}),
             "replay": (replay_result.data if replay_result is not None else {}),
             "notes": [
-                "POST-H-018-C runs local sandbox replay with deterministic fixtures and redaction checks only; it does not perform connector write, network, external APIs, remote execution or plugin execution.",
-                "Policy/Approval/RBAC binding hardening and the final connector-sandbox quality gate remain POST-H-018-D/E scope.",
+                "POST-H-018-D runs local sandbox replay with deterministic fixtures plus Policy/Approval/RBAC binding checks; it does not perform connector write, network, external APIs, remote execution or plugin execution.",
+                "The final connector-sandbox quality gate remains POST-H-018-E scope.",
             ],
         }
         return CommandResult(

@@ -102,8 +102,8 @@ def test_project_global_state_schema_and_docs_are_synchronized() -> None:
     assert any("POST-H-013-D adds optional local crypto" in note for note in state["notes"])
     assert any("POST-H-013-E closes Audit pack integrity" in note for note in state["notes"])
     assert any("POST-H-014 is the next prioritized hito" in note for note in state["notes"])
-    assert state.get("current_micro_sprint") == "POST-H-018-C"
-    assert state.get("next_micro_sprint") == "POST-H-018-D"
+    assert state.get("current_micro_sprint") == "POST-H-018-D"
+    assert state.get("next_micro_sprint") == "POST-H-018-E"
     assert "POST-H-014-A — Route Contract Registry y API inventory" in readme
     assert "POST-H-014-B — Response mapping y errores homogéneos" in readme
     assert "POST-H-014-C — UI Route Contract y shell de producto" in readme
@@ -167,6 +167,10 @@ def test_project_global_state_schema_and_docs_are_synchronized() -> None:
     assert "POST-H-018-C — Replay fixtures y redacción" in readme
     assert "POST-H-018-C — Replay fixtures y redacción" in runbook
     assert "post-h-018-c" in changelog
+    assert any("POST-H-018-D adds ConnectorPolicyBindingValidator" in note for note in state["notes"])
+    assert "POST-H-018-D — Policy/approval/RBAC binding para conectores" in readme
+    assert "POST-H-018-D — Policy/approval/RBAC binding para conectores" in runbook
+    assert "post-h-018-d" in changelog
     assert "POST-H-015-A — Dashboard snapshot schema y config" in readme
     assert "POST-H-015-A — Dashboard snapshot schema y config" in runbook
     assert "POST-H-015-B — Aggregator read-only de señales operacionales" in readme

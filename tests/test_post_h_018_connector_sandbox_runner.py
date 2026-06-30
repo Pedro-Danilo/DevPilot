@@ -1,10 +1,9 @@
 from __future__ import annotations
 
 import json
-import subprocess
-import sys
 from pathlib import Path
 
+from devpilot_core import cli
 from devpilot_core.cli_models import ExitCode
 from devpilot_core.connectors import ConnectorSandboxOptions, ConnectorSandboxRequest, ConnectorSandboxRunner
 from devpilot_core.schemas import SchemaValidator
@@ -21,7 +20,7 @@ def test_post_h_018_b_runner_accepts_replay_without_network_or_mutation() -> Non
     assert result.exit_code == ExitCode.PASS
     summary = result.data["summary"]
     report = result.data["report"]
-    assert summary["created_by"] == "POST-H-018-C"
+    assert summary["created_by"] == "POST-H-018-D"
     assert summary["mode"] == "replay"
     assert summary["policy_valid"] is True
     assert summary["policy_engine_invoked"] is True
@@ -31,7 +30,7 @@ def test_post_h_018_b_runner_accepts_replay_without_network_or_mutation() -> Non
     assert summary["mutations_performed"] is False
     assert summary["connector_write_used"] is False
     assert report["schema_id"] == "SCHEMA-DEVPL-CONNECTOR-SANDBOX-REPORT-V1"
-    assert report["created_by"] == "POST-H-018-C"
+    assert report["created_by"] == "POST-H-018-D"
     assert report["status"] == "passed"
     assert report["summary"]["fixtures_total"] == 1
     assert report["summary"]["fixtures_passed"] == 1
@@ -76,7 +75,7 @@ def test_post_h_018_b_runner_writes_schema_valid_report(tmp_path: Path) -> None:
     assert output_json.exists()
     assert output_markdown.exists()
     payload = json.loads(output_json.read_text(encoding="utf-8"))
-    assert payload["created_by"] == "POST-H-018-B"
+    assert payload["created_by"] == "POST-H-018-D"
     assert payload["summary"]["reports_written"] is True
     validation = SchemaValidator(ROOT).validate_payload(
         schema="ConnectorSandboxReport",
@@ -86,30 +85,14 @@ def test_post_h_018_b_runner_writes_schema_valid_report(tmp_path: Path) -> None:
     assert validation.ok, validation.to_dict()
 
 
-def test_post_h_018_b_cli_exposes_connector_sandbox_run() -> None:
-    completed = subprocess.run(
-        [
-            sys.executable,
-            "-m",
-            "devpilot_core",
-            "connector",
-            "sandbox",
-            "run",
-            "--mode",
-            "validate",
-            "--json",
-        ],
-        cwd=ROOT,
-        env={"PYTHONPATH": "src"},
-        text=True,
-        capture_output=True,
-        check=False,
-    )
+def test_post_h_018_b_cli_exposes_connector_sandbox_run(monkeypatch, capsys) -> None:
+    monkeypatch.chdir(ROOT)
+    exit_code = cli.main(["connector", "sandbox", "run", "--mode", "validate", "--json"])
 
-    assert completed.returncode == 0, completed.stderr
-    payload = json.loads(completed.stdout)
+    assert exit_code == 0
+    payload = json.loads(capsys.readouterr().out)
     assert payload["command"] == "connector sandbox run"
     assert payload["ok"] is True
-    assert payload["data"]["summary"]["created_by"] == "POST-H-018-B"
+    assert payload["data"]["summary"]["created_by"] == "POST-H-018-D"
     assert payload["data"]["summary"]["network_used"] is False
     assert payload["data"]["summary"]["mutations_performed"] is False

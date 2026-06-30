@@ -4,7 +4,7 @@ doc_id: "POST-H-018-IMPLEMENTATION"
 id: "POST-H-018"
 title: "POST-H-018 — Connector sandbox avanzado"
 status: "approved"
-version: "0.4.0"
+version: "0.5.0"
 owner: "Ordóñez"
 updated: "2026-06-30"
 approval: "approved_by_owner"
@@ -18,8 +18,8 @@ no_external_apis_used: true
 no_connector_write_enabled: true
 no_plugin_execution_enabled: true
 implementation_status: "active"
-current_micro_sprint: "POST-H-018-C"
-next_micro_sprint: "POST-H-018-D"
+current_micro_sprint: "POST-H-018-D"
+next_micro_sprint: "POST-H-018-E"
 ---
 
 # POST-H-018 — Connector sandbox avanzado
@@ -29,7 +29,7 @@ next_micro_sprint: "POST-H-018-D"
 
 Estado del backlog: `approved / active`.
 
-Micro-sprint actual: `POST-H-018-C — Replay fixtures y redacción`.
+Micro-sprint actual: `POST-H-018-D — Policy/approval/RBAC binding para conectores`.
 
 Resultado POST-H-018-A: `implemented-initial`. Se aprueba el backlog para implementación y se agregan schemas/policy de sandbox de conectores con deny-write por defecto.
 
@@ -37,9 +37,11 @@ Resultado POST-H-018-B: `implemented-initial`. Se agrega `ConnectorSandboxRunner
 
 Resultado POST-H-018-C: `implemented-initial`. Se agrega `ConnectorReplayRunner`, `evals/fixtures/connector_replay_cases.json`, redaction report y la integración de fixtures determinísticos al modo `connector sandbox run --mode replay`, manteniendo `network_used=false`, `external_api_used=false`, `mutations_performed=false` y `secrets_included=false`.
 
-Pendiente: binding Policy/Approval/RBAC fuerte y quality gate final quedan para POST-H-018-D/E.
+Resultado POST-H-018-D: `implemented-initial`. Se agrega `ConnectorPolicyBindingValidator`, schema `ConnectorPolicyExposureReport`, CLI `connector sandbox exposure`, reglas mínimas `connector.validate`/`connector.replay`/`connector.write_future`, bloqueo verificable de write futuro, evaluación de ApprovalPolicyChecker para side_effect distinto de read/report/none y RBAC para conectores high/critical.
 
-Límites explícitos: no se habilita `connector write`, no se realizan llamadas de red, no se llaman APIs externas, no se almacenan tokens, no se mutan sistemas externos, no se ejecutan plugins y no se ejecutan conectores reales. POST-H-018-C reproduce únicamente fixtures locales sanitizados; no equivale a integración productiva.
+Pendiente: el quality gate final, runbook operativo específico y cierre del backlog quedan para POST-H-018-E.
+
+Límites explícitos: no se habilita `connector write`, no se realizan llamadas de red, no se llaman APIs externas, no se almacenan tokens, no se mutan sistemas externos, no se ejecutan plugins y no se ejecutan conectores reales. POST-H-018-D agrega binding y exposure reporting local; no equivale a integración productiva ni autorización de escritura.
 
 ## 1. Objetivo
 

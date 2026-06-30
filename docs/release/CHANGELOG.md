@@ -1,3 +1,19 @@
+## post-h-018-d — Policy/approval/RBAC binding para conectores
+
+Estado de proyecto: `last_completed_sprint=POST-H-017`; `next_sprint=POST-H-018`; `current_micro_sprint=POST-H-018-D`; `next_micro_sprint=POST-H-018-E`.
+
+Cambios:
+
+- Added `ConnectorPolicyBindingValidator` for deterministic local PolicyEngine/ApprovalPolicyChecker/RBAC checks on connector sandbox requests.
+- Added `ConnectorPolicyExposureReport` schema and `connector sandbox exposure` CLI command.
+- Integrated binding evidence into `connector sandbox run`, including `write_future_blocked`, `approval_policy_checked`, `rbac_evaluated` and deny-write invariants.
+- Added tests for future write blocking, high-risk RBAC evaluation and side-effecting connector approval denial.
+
+Límites:
+
+- POST-H-018-D does not enable connector write, real connector execution, network, external APIs, remote execution or plugin execution.
+- Final quality gate and connector sandbox runbook remain POST-H-018-E scope.
+
 ## post-h-018-c — Replay fixtures y redacción
 
 Estado de proyecto: `last_completed_sprint=POST-H-017`; `next_sprint=POST-H-018`; `current_micro_sprint=POST-H-018-C`; `next_micro_sprint=POST-H-018-D`.

@@ -1,0 +1,129 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/SCHEMA-DEVPL-CONNECTOR-POLICY-EXPOSURE-REPORT-V1",
+  "title": "DevPilot Connector Policy Exposure Report v1",
+  "description": "Report contract for POST-H-018-D connector Policy/Approval/RBAC binding exposure. It is local-first, dry-run and deny-write by design.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "schema_id",
+    "report_id",
+    "created_by",
+    "status",
+    "ok",
+    "summary",
+    "connectors",
+    "safety",
+    "findings"
+  ],
+  "properties": {
+    "schema_version": {"type": "string", "minLength": 1},
+    "schema_id": {"const": "SCHEMA-DEVPL-CONNECTOR-POLICY-EXPOSURE-REPORT-V1"},
+    "report_id": {"type": "string", "minLength": 1},
+    "created_by": {"const": "POST-H-018-D"},
+    "status": {"type": "string", "enum": ["implemented-initial", "passed", "blocked", "failed"]},
+    "ok": {"type": "boolean"},
+    "summary": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "connectors_total",
+        "connectors_by_risk",
+        "high_risk_connectors_total",
+        "rbac_evaluated_high_risk_total",
+        "write_future_blocked_total",
+        "policy_coverage_complete",
+        "all_high_risk_rbac_evaluated",
+        "blocking_findings_total",
+        "network_used",
+        "external_api_used",
+        "mutations_performed",
+        "connector_write_used"
+      ],
+      "properties": {
+        "connectors_total": {"type": "integer", "minimum": 0},
+        "connectors_by_risk": {"type": "object"},
+        "high_risk_connectors_total": {"type": "integer", "minimum": 0},
+        "rbac_evaluated_high_risk_total": {"type": "integer", "minimum": 0},
+        "write_future_blocked_total": {"type": "integer", "minimum": 0},
+        "policy_coverage_complete": {"type": "boolean"},
+        "all_high_risk_rbac_evaluated": {"type": "boolean"},
+        "blocking_findings_total": {"type": "integer", "minimum": 0},
+        "network_used": {"const": false},
+        "external_api_used": {"const": false},
+        "mutations_performed": {"const": false},
+        "connector_write_used": {"const": false}
+      }
+    },
+    "connectors": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": true,
+        "required": [
+          "connector_id",
+          "risk_level",
+          "side_effect",
+          "policy_coverage",
+          "approval_policy_checked",
+          "rbac_evaluated",
+          "write_future_blocked",
+          "network_used",
+          "external_api_used",
+          "mutations_performed",
+          "connector_write_used"
+        ],
+        "properties": {
+          "connector_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9_.-]*$"},
+          "risk_level": {"type": "string"},
+          "side_effect": {"type": "string"},
+          "policy_coverage": {"type": "boolean"},
+          "approval_policy_checked": {"type": "boolean"},
+          "rbac_evaluated": {"type": "boolean"},
+          "write_future_blocked": {"type": "boolean"},
+          "network_used": {"const": false},
+          "external_api_used": {"const": false},
+          "mutations_performed": {"const": false},
+          "connector_write_used": {"const": false}
+        }
+      }
+    },
+    "policy": {"type": "object", "additionalProperties": true},
+    "safety": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "local_first",
+        "dry_run",
+        "network_used",
+        "external_api_used",
+        "mutations_performed",
+        "source_mutations_performed",
+        "connector_write_used",
+        "remote_execution_used",
+        "plugin_execution_used",
+        "secrets_included"
+      ],
+      "properties": {
+        "local_first": {"const": true},
+        "dry_run": {"const": true},
+        "network_used": {"const": false},
+        "external_api_used": {"const": false},
+        "mutations_performed": {"const": false},
+        "source_mutations_performed": {"const": false},
+        "connector_write_used": {"const": false},
+        "remote_execution_used": {"const": false},
+        "plugin_execution_used": {"const": false},
+        "secrets_included": {"const": false}
+      }
+    },
+    "findings": {"type": "array", "items": {"type": "object"}},
+    "preliminary": {"type": "boolean"}
+  },
+  "x-devpilot-schema-id": "SCHEMA-DEVPL-CONNECTOR-POLICY-EXPOSURE-REPORT-V1",
+  "x-devpilot-version": "1.0.0",
+  "x-devpilot-sprint": "POST-H-018-D",
+  "x-devpilot-status": "registered",
+  "x-devpilot-preliminary": true
+}

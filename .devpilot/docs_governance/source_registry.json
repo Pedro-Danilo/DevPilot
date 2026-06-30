@@ -1996,6 +1996,48 @@
         "required_tests_must_pass",
         "owner_status_and_path_must_remain_current"
       ]
+    },
+    {
+      "domain": "integration.connectors",
+      "owner": "Ordóñez",
+      "criticality": "P2",
+      "required_tests": [
+        "tests/test_post_h_018_connector_policy_binding.py"
+      ],
+      "doc_id": "POST-H-018-CONNECTOR-POLICY-EXPOSURE-SCHEMA",
+      "path": "docs/schemas/connector_policy_exposure_report.schema.json",
+      "classification": "machine-readable-source",
+      "status_required": "implemented-initial",
+      "frontmatter_required": false,
+      "sync_rules": []
+    },
+    {
+      "domain": "integration.connectors",
+      "owner": "Ordóñez",
+      "criticality": "P2",
+      "required_tests": [
+        "tests/test_post_h_018_connector_policy_binding.py"
+      ],
+      "doc_id": "POST-H-018-D-CONNECTOR-POLICY-BINDING-REPORT",
+      "path": "docs/audits/post_h_018_d_connector_policy_binding_report.md",
+      "classification": "source-of-truth",
+      "status_required": "approved",
+      "frontmatter_required": true,
+      "sync_rules": []
+    },
+    {
+      "domain": "integration.connectors",
+      "owner": "Ordóñez",
+      "criticality": "P2",
+      "required_tests": [
+        "tests/test_post_h_018_connector_policy_binding.py"
+      ],
+      "doc_id": "POST-H-018-D-MANIFEST",
+      "path": "docs/post_h_018_d_manifest.json",
+      "classification": "machine-readable-source",
+      "status_required": "implemented-initial",
+      "frontmatter_required": false,
+      "sync_rules": []
     }
   ],
   "rules": {
@@ -2022,8 +2064,8 @@
     "approved_backlogs_require_observability_retention_hygiene_gate": true
   },
   "summary": {
-    "documents_total": 54,
-    "source_of_truth_total": 19,
+    "documents_total": 60,
+    "source_of_truth_total": 21,
     "machine_readable_source_total": 11,
     "derived_total": 24,
     "generated_runtime_total": 0,
@@ -2073,7 +2115,7 @@
     "rag_source_coverage_tests": "tests/test_rag_citations_source_coverage.py",
     "post_h_011_rag_groundedness_ready_gate_bound": true,
     "post_h_011_closed": true,
-    "machine_readable_total": 5,
+    "machine_readable_total": 15,
     "required_tests_total": 52,
     "active_backlog": "POST-H-018",
     "active_micro_sprint": "POST-H-018-B",
@@ -2222,6 +2264,7 @@
     "POST-H-017-C registers ReleaseSourceArchiveManifest and release source-archive-manifest CLI as local dry-run evidence for source archive inventory and critical checksums.",
     "POST-H-017-C keeps release verifier and quality gate pending for POST-H-017-D/E.",
     "POST-H-017-D registers ReleaseReproducibilityVerifier and release reproducibility-verify CLI as local dry-run verification for pack schema, dirty state, secret-free safety flags and critical checksums.",
-    "POST-H-017-E closes Release reproducibility pack with local pack generation and quality-gate release-reproducibility integration as implemented-initial evidence."
+    "POST-H-017-E closes Release reproducibility pack with local pack generation and quality-gate release-reproducibility integration as implemented-initial evidence.",
+    "POST-H-018-D registers connector policy exposure schema, audit report and manifest for local Policy/Approval/RBAC binding evidence."
   ]
 }

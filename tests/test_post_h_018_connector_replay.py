@@ -2,10 +2,9 @@ from __future__ import annotations
 
 import copy
 import json
-import subprocess
-import sys
 from pathlib import Path
 
+from devpilot_core import cli
 from devpilot_core.cli_models import ExitCode
 from devpilot_core.connectors import (
     ConnectorReplayOptions,
@@ -108,7 +107,7 @@ def test_post_h_018_c_sandbox_replay_integrates_fixture_summary_and_reports(tmp_
 
     assert result.ok is True, result.to_dict()
     summary = result.data["summary"]
-    assert summary["created_by"] == "POST-H-018-C"
+    assert summary["created_by"] == "POST-H-018-D"
     assert summary["fixtures_total"] == 1
     assert summary["fixtures_passed"] == 1
     assert summary["redaction_passed"] is True
@@ -121,7 +120,7 @@ def test_post_h_018_c_sandbox_replay_integrates_fixture_summary_and_reports(tmp_
     assert redaction_md.exists()
     sandbox_payload = json.loads(sandbox_json.read_text(encoding="utf-8"))
     redaction_payload = json.loads(redaction_json.read_text(encoding="utf-8"))
-    assert sandbox_payload["created_by"] == "POST-H-018-C"
+    assert sandbox_payload["created_by"] == "POST-H-018-D"
     assert redaction_payload["created_by"] == "POST-H-018-C"
     validation = SchemaValidator(ROOT).validate_payload(
         schema="ConnectorSandboxReport",
@@ -131,16 +130,17 @@ def test_post_h_018_c_sandbox_replay_integrates_fixture_summary_and_reports(tmp_
     assert validation.ok, validation.to_dict()
 
 
-def test_post_h_018_c_cli_replay_uses_fixtures_and_writes_redaction_report(tmp_path: Path) -> None:
+def test_post_h_018_c_cli_replay_uses_fixtures_and_writes_redaction_report(
+    tmp_path: Path, monkeypatch, capsys
+) -> None:
     sandbox_json = tmp_path / "sandbox.json"
     sandbox_md = tmp_path / "sandbox.md"
     redaction_json = tmp_path / "redaction.json"
     redaction_md = tmp_path / "redaction.md"
-    completed = subprocess.run(
+
+    monkeypatch.chdir(ROOT)
+    exit_code = cli.main(
         [
-            sys.executable,
-            "-m",
-            "devpilot_core",
             "connector",
             "sandbox",
             "run",
@@ -156,19 +156,14 @@ def test_post_h_018_c_cli_replay_uses_fixtures_and_writes_redaction_report(tmp_p
             str(redaction_json),
             "--redaction-output-markdown",
             str(redaction_md),
-        ],
-        cwd=ROOT,
-        env={"PYTHONPATH": "src"},
-        text=True,
-        capture_output=True,
-        check=False,
+        ]
     )
 
-    assert completed.returncode == 0, completed.stderr
-    payload = json.loads(completed.stdout)
+    assert exit_code == 0
+    payload = json.loads(capsys.readouterr().out)
     assert payload["command"] == "connector sandbox run"
     assert payload["ok"] is True
-    assert payload["data"]["summary"]["created_by"] == "POST-H-018-C"
+    assert payload["data"]["summary"]["created_by"] == "POST-H-018-D"
     assert payload["data"]["summary"]["fixtures_total"] == 1
     assert payload["data"]["summary"]["redaction_passed"] is True
     assert sandbox_json.exists()

@@ -127,6 +127,7 @@
     "POST-H-011-D adds rag.groundedness-eval as a governed temporary legacy CLI command until the rag group is moved into the declarative registry.",
     "POST-H-015-C corrective patch registers api and audit-pack groups declaratively; api.serve, api.token, audit-pack.build and audit-pack.verify are removed from the temporary legacy allowlist as stale entries.",
     "POST-H-017-C registers portfolio and release groups declaratively; portfolio.status and release.* commands are removed from the temporary legacy allowlist as stale entries.",
-    "POST-H-018-B registers connector.validate, connector.call and connector.sandbox.run declaratively, so connector.* commands are no longer legacy allowlist entries."
+    "POST-H-018-B registers connector.validate, connector.call and connector.sandbox.run declaratively, so connector.* commands are no longer legacy allowlist entries.",
+    "POST-H-018-D registers connector.sandbox.exposure declaratively; it is not added as a legacy command."
   ]
 }
