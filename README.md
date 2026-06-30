@@ -1,3 +1,31 @@
+## POST-H-019-A — Threat model y sandbox design
+
+Estado: `implemented-initial / hito activo`.
+
+DevPilot inicia `POST-H-019 — Plugin sandbox design sin ejecución arbitraria` con dos artefactos normativos: `docs/03_security/plugin_sandbox_threat_model.md` y `docs/02_architecture/plugin_sandbox_design.md`. El objetivo es fijar límites verificables para un futuro ecosistema de plugins sin convertir el registry metadata-only en ejecución autorizada.
+
+Capacidades nuevas:
+
+- Threat model de plugins con 15 amenazas: arbitrary code execution, dependency confusion, secret exfiltration, path traversal, persistence, network abuse, supply-chain, sandbox escape y sobreclaim, entre otras.
+- Diseño de sandbox metadata-only con `plugin_execution_allowed=false`, `dynamic_import_allowed=false`, `subprocess_allowed=false`, `network_allowed=false`, `filesystem_write_allowed=false`.
+- Requisitos de ADR futura para cualquier ejecución real: sandbox técnico, permisos deny-by-default, Approval/RBAC, guards, observabilidad, rollback y quality gate.
+- Backlog POST-H-019 elevado a `approved` y sincronizado con project state/TCR/source registry.
+
+Comandos principales:
+
+```powershell
+python -m pytest -p no:ddtrace tests/test_post_h_019_plugin_sandbox_design.py tests/test_plugin_registry.py -q
+python -m devpilot_core plugin validate --json
+python -m devpilot_core docs-governance validate --json
+```
+
+Límite explícito: POST-H-019-A no implementa permission model runtime, manifest hardening, install dry-run nuevo, exposure report ni quality gate. No habilita ejecución de plugins, `importlib`, `subprocess`, red, APIs externas, `pip install`, marketplace ni remote execution. El siguiente micro-sprint es `POST-H-019-B — Permission model y manifest hardening`.
+
+Último hito cerrado: `POST-H-018 — Connector sandbox avanzado`
+Hito activo: `POST-H-019 — Plugin sandbox design sin ejecución arbitraria`
+Último micro-sprint implementado: `POST-H-019-A — Threat model y sandbox design`
+Siguiente micro-sprint: `POST-H-019-B — Permission model y manifest hardening`
+
 ## POST-H-018-E — Quality gate, runbook y cierre
 
 Estado: `implemented-initial / hito cerrado`.

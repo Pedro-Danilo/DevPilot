@@ -1206,7 +1206,7 @@
       "classification": "derived",
       "domain": "roadmap-derived-backlog",
       "owner": "Ordóñez",
-      "status_required": "draft",
+      "status_required": "approved",
       "criticality": "P2",
       "machine_readable_counterparts": [
         ".devpilot/evals/post_h_eval_001_prioritized_roadmap.json"
@@ -1216,21 +1216,23 @@
       ],
       "derived_documents": [],
       "required_tests": [
-        "tests/test_documentation_governance_backlogs.py"
+        "tests/test_post_h_019_plugin_sandbox_design.py"
       ],
       "sync_rules": [
-        "backlog_naming",
-        "backlog_frontmatter_minimum",
-        "backlog_milestone_match"
+        "required_tests_must_pass",
+        "owner_status_and_path_must_remain_current"
       ],
       "related_adrs": [],
       "roadmap_milestones": [
         "POST-H-019"
       ],
-      "lifecycle": "planned",
+      "lifecycle": "active",
       "notes": [
         "Roadmap-derived executable backlog governed by POST-H-009-D.",
         "Missing future backlog files are informational planned items; existing files must pass naming and frontmatter checks."
+      ],
+      "implementation_notes": [
+        "POST-H-019 is approved for implementation; POST-H-019-A starts with threat model and sandbox design without execution."
       ]
     },
     {
@@ -2137,6 +2139,122 @@
         "required_tests_must_pass",
         "owner_status_and_path_must_remain_current"
       ]
+    },
+    {
+      "doc_id": "POST-H-019-IMPLEMENTATION",
+      "path": "docs/POST-H-019_plugin_sandbox_design.md",
+      "classification": "source-of-truth",
+      "domain": "extensibility.plugins",
+      "owner": "Ordóñez",
+      "status_required": "approved",
+      "criticality": "P2",
+      "required_tests": [
+        "tests/test_post_h_019_plugin_sandbox_design.py"
+      ],
+      "related_files": [
+        "docs/backlogs/POST-H-019_plugin_sandbox_design.md",
+        "docs/03_security/plugin_sandbox_threat_model.md",
+        "docs/02_architecture/plugin_sandbox_design.md"
+      ],
+      "implementation_notes": [
+        "POST-H-019 implementation authority mirrors the approved backlog and records implemented-initial progress."
+      ],
+      "sync_rules": [
+        "required_tests_must_pass",
+        "owner_status_and_path_must_remain_current"
+      ]
+    },
+    {
+      "doc_id": "POST-H-019-PLUGIN-SANDBOX-THREAT-MODEL",
+      "path": "docs/03_security/plugin_sandbox_threat_model.md",
+      "classification": "source-of-truth",
+      "domain": "security.plugins",
+      "owner": "Ordóñez",
+      "status_required": "approved",
+      "criticality": "P2",
+      "required_tests": [
+        "tests/test_post_h_019_plugin_sandbox_design.py"
+      ],
+      "related_files": [
+        "src/devpilot_core/plugins/registry.py",
+        ".devpilot/plugins/plugin_registry.json"
+      ],
+      "implementation_notes": [
+        "Threat model records plugin no-go risks including arbitrary code execution, dependency confusion, secret exfiltration, path traversal, persistence and network abuse."
+      ],
+      "sync_rules": [
+        "required_tests_must_pass",
+        "owner_status_and_path_must_remain_current"
+      ]
+    },
+    {
+      "doc_id": "POST-H-019-PLUGIN-SANDBOX-DESIGN",
+      "path": "docs/02_architecture/plugin_sandbox_design.md",
+      "classification": "source-of-truth",
+      "domain": "extensibility.plugins",
+      "owner": "Ordóñez",
+      "status_required": "approved",
+      "criticality": "P2",
+      "required_tests": [
+        "tests/test_post_h_019_plugin_sandbox_design.py"
+      ],
+      "related_files": [
+        "src/devpilot_core/plugins/registry.py",
+        "docs/schemas/plugin_manifest.schema.json"
+      ],
+      "implementation_notes": [
+        "Sandbox design declares metadata-only, validator-only and plugin_execution_allowed=false."
+      ],
+      "sync_rules": [
+        "required_tests_must_pass",
+        "owner_status_and_path_must_remain_current"
+      ]
+    },
+    {
+      "doc_id": "POST-H-019-A-PLUGIN-SANDBOX-DESIGN-REPORT",
+      "path": "docs/audits/post_h_019_a_plugin_sandbox_design_report.md",
+      "classification": "source-of-truth",
+      "domain": "extensibility.plugins",
+      "owner": "Ordóñez",
+      "status_required": "approved",
+      "criticality": "P2",
+      "required_tests": [
+        "tests/test_post_h_019_plugin_sandbox_design.py"
+      ],
+      "related_files": [
+        "docs/03_security/plugin_sandbox_threat_model.md",
+        "docs/02_architecture/plugin_sandbox_design.md"
+      ],
+      "implementation_notes": [
+        "POST-H-019-A audit report records PASS/BLOCK criteria and limitations."
+      ],
+      "sync_rules": [
+        "required_tests_must_pass",
+        "owner_status_and_path_must_remain_current"
+      ]
+    },
+    {
+      "doc_id": "POST-H-019-A-MANIFEST",
+      "path": "docs/post_h_019_a_manifest.json",
+      "classification": "machine-readable-source",
+      "domain": "extensibility.plugins",
+      "owner": "Ordóñez",
+      "status_required": "implemented-initial",
+      "criticality": "P2",
+      "required_tests": [
+        "tests/test_post_h_019_plugin_sandbox_design.py"
+      ],
+      "related_files": [
+        "docs/03_security/plugin_sandbox_threat_model.md",
+        "docs/02_architecture/plugin_sandbox_design.md"
+      ],
+      "implementation_notes": [
+        "POST-H-019-A manifest records created/modified files, commands, risks and implemented-initial limitations."
+      ],
+      "sync_rules": [
+        "required_tests_must_pass",
+        "owner_status_and_path_must_remain_current"
+      ]
     }
   ],
   "rules": {
@@ -2163,20 +2281,20 @@
     "approved_backlogs_require_observability_retention_hygiene_gate": true
   },
   "summary": {
-    "documents_total": 64,
-    "source_of_truth_total": 24,
-    "machine_readable_source_total": 16,
+    "documents_total": 69,
+    "source_of_truth_total": 28,
+    "machine_readable_source_total": 17,
     "derived_total": 24,
     "generated_runtime_total": 0,
     "historical_total": 0,
     "deprecated_total": 0,
-    "critical_sources_total": 61,
+    "critical_sources_total": 66,
     "markdown_json_pairs_total": 29,
-    "documents_with_required_tests_total": 64,
+    "documents_with_required_tests_total": 69,
     "network_used": false,
     "external_api_used": false,
     "mutations_performed": false,
-    "last_updated_by": "POST-H-018-E",
+    "last_updated_by": "POST-H-019-A",
     "markdown_json_sync_checks_enabled": true,
     "sync_checks_scope": "version_match, milestones_match, decisions_match, closure_status_match, next_hito_match",
     "backlog_governance_enabled": true,

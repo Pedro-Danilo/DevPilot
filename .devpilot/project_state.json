@@ -8,8 +8,8 @@
   "last_completed_sprint": "POST-H-018",
   "last_functional_sprint": "FUNC-SPRINT-99",
   "next_sprint": "POST-H-019",
-  "source_repo": "repo_DevPilot_Local_224_POST_H_018_D.zip",
-  "current_repo": "repo_DevPilot_Local_225_POST_H_018_E.zip",
+  "source_repo": "repo_DevPilot_Local_225_POST_H_018_E.zip",
+  "current_repo": "repo_DevPilot_Local_226_POST_H_019_A.zip",
   "global_state_owner": "tests/test_project_global_state.py",
   "mutable_global_state_fields": [
     "last_completed_sprint",
@@ -120,8 +120,10 @@
     "POST-H-018-E adds ConnectorSandboxQualityGate and integrates connector-sandbox into quality-gate hardening/industrial profiles without enabling connector write, network, external APIs, remote execution or plugin execution.",
     "POST-H-018-E adds the approved connector sandbox runbook and threat model with no-go gates for read-only/replay/dry-run operation.",
     "POST-H-018 closes Connector sandbox avanzado as implemented-initial; future connector write or external integration requires ADR, threat model, approvals, RBAC, observability and additional quality gates.",
-    "POST-H-019 is the next prioritized hito: Plugin sandbox design sin ejecución arbitraria."
+    "POST-H-019 is the next prioritized hito: Plugin sandbox design sin ejecución arbitraria.",
+    "POST-H-019-A approves Plugin sandbox design sin ejecución arbitraria and adds plugin_sandbox_threat_model plus plugin_sandbox_design as metadata-only/validator-only architecture without enabling plugin execution, importlib, subprocess, network, external APIs, pip install, marketplace or remote execution.",
+    "POST-H-019-B is the next micro-sprint: Permission model y manifest hardening."
   ],
-  "current_micro_sprint": "POST-H-018-E",
-  "next_micro_sprint": "POST-H-019"
+  "current_micro_sprint": "POST-H-019-A",
+  "next_micro_sprint": "POST-H-019-B"
 }

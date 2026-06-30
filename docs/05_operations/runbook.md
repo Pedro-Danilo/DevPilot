@@ -2,17 +2,55 @@
 title: "Runbook — DevPilot Local"
 doc_id: "DEVPL-OPS-002"
 status: "approved"
-version: "1.66.0"
+version: "1.67.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "POST-H-018-E"
+phase: "POST-H-019-A"
 updated: "2026-06-30"
 approval: "approved_by_owner"
 source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved + 03_security approved"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "SPRINT-PRECODE-05 quality operations baseline"
 ---
+
+## POST-H-019-A — Threat model y sandbox design
+
+Estado: `implemented-initial / hito activo`.
+
+Operación segura vigente para plugins:
+
+```powershell
+$env:PYTHONPATH="src"
+python -m pytest -p no:ddtrace tests/test_post_h_019_plugin_sandbox_design.py tests/test_plugin_registry.py -q
+python -m devpilot_core plugin validate --json
+python -m devpilot_core docs-governance validate --json
+python -m devpilot_core test-contracts validate --json
+python -m devpilot_core test-contracts validate-v2 --json
+python -m devpilot_core project-state validate --json
+```
+
+Criterios PASS:
+
+```text
+PASS si el threat model cubre al menos 10 amenazas.
+PASS si el diseño declara plugin_execution_allowed=false.
+PASS si dynamic_import_allowed=false, subprocess_allowed=false, network_allowed=false y filesystem_write_allowed=false.
+PASS si los no-go gates y future ADR requirements están documentados.
+PASS si plugin validate sigue reportando plugin_code_loaded=false y arbitrary_code_execution_performed=false.
+```
+
+No-go gates:
+
+```text
+NO-GO si se habilita plugin execution.
+NO-GO si se propone importlib, subprocess, shell, pip install o marketplace.
+NO-GO si se permite red/API externa por defecto.
+NO-GO si un manifest se interpreta como permiso de ejecución.
+NO-GO si se omite ADR futura para cualquier ejecución real.
+```
+
+Límite: POST-H-019-A es diseño/threat model. Permission model, static validator, exposure report, quality gate y runbook metadata-only completo quedan para POST-H-019-B/C/D/E.
 
 ## POST-H-018-E — Quality gate, runbook y cierre
 

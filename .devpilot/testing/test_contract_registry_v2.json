@@ -9289,6 +9289,69 @@
       "notes": [
         "POST-H-018-E is gate/runbook/closure only; it does not execute real connectors, network, external APIs or writes."
       ]
+    },
+    {
+      "contract_id": "post-h-019-plugin-sandbox-design",
+      "schema_version": "2.0",
+      "source_contract_id": "post-h-019-plugin-sandbox-design",
+      "domain": "extensibility.plugins",
+      "capability": "Plugin sandbox threat model and metadata-only design",
+      "criticality": "P2",
+      "risk_level": "high",
+      "test_type": "security",
+      "execution_profile": "release",
+      "cost_class": "low",
+      "expected_duration_seconds": 20,
+      "test_files": [
+        "tests/test_post_h_019_plugin_sandbox_design.py"
+      ],
+      "watched_paths": [
+        "docs/03_security/plugin_sandbox_threat_model.md",
+        "docs/02_architecture/plugin_sandbox_design.md",
+        "docs/backlogs/POST-H-019_plugin_sandbox_design.md",
+        "docs/POST-H-019_plugin_sandbox_design.md",
+        "src/devpilot_core/plugins/registry.py",
+        ".devpilot/plugins/plugin_registry.json",
+        "tests/test_post_h_019_plugin_sandbox_design.py"
+      ],
+      "validates": [
+        "Threat model covers at least 10 plugin threats",
+        "Sandbox design declares plugin_execution_allowed=false and metadata_only=true",
+        "No-go gates block importlib, subprocess, network, filesystem write, pip install and marketplace",
+        "Plugin registry validation remains metadata-only and non-executable",
+        "POST-H-019 docs, project state and TCR are synchronized"
+      ],
+      "trigger_hints": [
+        "post-h-019",
+        "plugin-sandbox",
+        "plugin-execution",
+        "metadata-only",
+        "threat-model"
+      ],
+      "impact_scope": [
+        "extensibility.plugins",
+        "security.plugins",
+        "governance.policy",
+        "documentation.governance"
+      ],
+      "required_for_release": false,
+      "required_for_security_gate": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "POST-H-019-A",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace tests/test_post_h_019_plugin_sandbox_design.py tests/test_plugin_registry.py -q",
+        "python -m devpilot_core plugin validate --json",
+        "python -m devpilot_core docs-governance validate --json",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ],
+      "classification_status": "explicit",
+      "classification_notes": [
+        "POST-H-019-A is design-only and does not enable plugin execution."
+      ]
     }
   ],
   "migration_metadata": {

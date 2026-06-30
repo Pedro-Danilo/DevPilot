@@ -27,9 +27,9 @@ next_micro_sprint: "POST-H-019"
 
 ## 0. Estado de implementación
 
-Estado del backlog: `approved / active`.
+Estado del backlog: `approved / closed`.
 
-Micro-sprint actual: `POST-H-018-D — Policy/approval/RBAC binding para conectores`.
+Micro-sprint actual: `POST-H-018-E — Quality gate, runbook y cierre`.
 
 Resultado POST-H-018-A: `implemented-initial`. Se aprueba el backlog para implementación y se agregan schemas/policy de sandbox de conectores con deny-write por defecto.
 

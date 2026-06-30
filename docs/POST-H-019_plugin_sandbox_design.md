@@ -1,8 +1,8 @@
 ---
 
-doc_id: "POST-H-019-BACKLOG"
+doc_id: "POST-H-019-IMPLEMENTATION"
 id: "POST-H-019"
-title: "POST-H-019 — Plugin sandbox design sin ejecución arbitraria"
+title: "POST-H-019 — Plugin sandbox design implementation"
 status: "approved"
 version: "0.2.0"
 owner: "Ordóñez"

@@ -1,3 +1,10 @@
+## post-h-019-a — Plugin sandbox threat model y design
+
+- Aprueba POST-H-019 como hito activo y agrega threat model + sandbox design metadata-only.
+- Declara explícitamente `plugin_execution_allowed=false`, `dynamic_import_allowed=false`, `subprocess_allowed=false`, `network_allowed=false` y `filesystem_write_allowed=false`.
+- Documenta no-go gates y requisitos de ADR futura para cualquier ejecución real de plugins.
+- Mantiene DevPilot sin plugin execution, marketplace, `pip install`, red, APIs externas ni remote execution.
+
 ## post-h-018-e — Quality gate, runbook y cierre
 
 Estado de proyecto: `last_completed_sprint=POST-H-018`; `next_sprint=POST-H-019`; `current_micro_sprint=POST-H-018-E`; `next_micro_sprint=POST-H-019`.
