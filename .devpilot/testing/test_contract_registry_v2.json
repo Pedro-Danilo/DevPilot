@@ -9352,6 +9352,69 @@
       "classification_notes": [
         "POST-H-019-A is design-only and does not enable plugin execution."
       ]
+    },
+    {
+      "contract_id": "post-h-019-plugin-permission-model",
+      "schema_version": "2.0",
+      "source_contract_id": "post-h-019-plugin-permission-model",
+      "domain": "extensibility.plugins",
+      "capability": "Plugin permission model and manifest hardening",
+      "criticality": "P2",
+      "risk_level": "high",
+      "test_type": "security",
+      "execution_profile": "release",
+      "cost_class": "low",
+      "expected_duration_seconds": 20,
+      "test_files": [
+        "tests/test_post_h_019_plugin_permission_model.py"
+      ],
+      "watched_paths": [
+        "docs/schemas/plugin_permission_model.schema.json",
+        ".devpilot/plugins/plugin_permission_model.json",
+        ".devpilot/plugins/plugin_registry.json",
+        "src/devpilot_core/plugins/permission_model.py",
+        "src/devpilot_core/plugins/registry.py",
+        "tests/test_post_h_019_plugin_permission_model.py"
+      ],
+      "validates": [
+        "PluginPermissionModel schema validates the permission model JSON",
+        "plugin.code.execute remains deny/critical/future-ADR",
+        "dynamic import, subprocess, network, filesystem write, pip install and marketplace remain false",
+        "Plugin Registry rejects unknown manifest permissions",
+        "Plugin Registry rejects denied execution permissions in manifests",
+        "Dry-run remains metadata-only and does not load plugin code"
+      ],
+      "trigger_hints": [
+        "post-h-019",
+        "plugin-permission-model",
+        "plugin-sandbox",
+        "manifest-hardening",
+        "plugin-execution"
+      ],
+      "impact_scope": [
+        "extensibility.plugins",
+        "security.plugins",
+        "governance.policy",
+        "schema.registry"
+      ],
+      "required_for_release": false,
+      "required_for_security_gate": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "POST-H-019-B",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace tests/test_post_h_019_plugin_permission_model.py tests/test_plugin_registry.py tests/test_schema_registry.py -q",
+        "python -m devpilot_core plugin validate --json",
+        "python -m devpilot_core schema validate --schema-id PluginPermissionModel --instance .devpilot/plugins/plugin_permission_model.json --json",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ],
+      "classification_status": "explicit",
+      "classification_notes": [
+        "POST-H-019-B security contract; no network, external APIs, source mutations or plugin execution."
+      ]
     }
   ],
   "migration_metadata": {

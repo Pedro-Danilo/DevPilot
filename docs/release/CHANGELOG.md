@@ -1,3 +1,18 @@
+## post-h-019-b — Permission model y manifest hardening
+
+- Adds `PluginPermissionModel` schema and `.devpilot/plugins/plugin_permission_model.json` with deny-by-default semantics.
+- Adds `src/devpilot_core/plugins/permission_model.py` and integrates it into `plugin validate`.
+- Hardens `plugin_manifest.schema.json` and Plugin Registry metadata with permission-model binding, unknown-permission deny, future-ADR requirements and no-go flags.
+- Blocks unknown manifest permissions and denied execution permissions such as `plugin.code.execute`.
+- Preserves metadata-only dry-run compatibility through the legacy `metadata` alias without loading plugin code.
+
+Safety:
+
+```text
+- POST-H-019-B does not enable plugin execution, dynamic import, subprocess, filesystem write, network, external APIs, dependency install, marketplace, remote execution or connector write.
+- Manifest validation remains declarative evidence only; it is not execution permission.
+```
+
 ## post-h-019-a — Plugin sandbox threat model y design
 
 - Aprueba POST-H-019 como hito activo y agrega threat model + sandbox design metadata-only.

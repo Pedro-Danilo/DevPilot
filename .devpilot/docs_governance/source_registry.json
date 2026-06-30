@@ -2255,6 +2255,100 @@
         "required_tests_must_pass",
         "owner_status_and_path_must_remain_current"
       ]
+    },
+    {
+      "doc_id": "POST-H-019-PLUGIN-PERMISSION-MODEL-SCHEMA",
+      "path": "docs/schemas/plugin_permission_model.schema.json",
+      "classification": "machine-readable-source",
+      "domain": "extensibility.plugins",
+      "owner": "Ordóñez",
+      "status_required": "implemented-initial",
+      "criticality": "P2",
+      "required_tests": [
+        "tests/test_post_h_019_plugin_permission_model.py",
+        "tests/test_schema_registry.py"
+      ],
+      "related_files": [
+        ".devpilot/plugins/plugin_permission_model.json",
+        "src/devpilot_core/plugins/permission_model.py"
+      ],
+      "implementation_notes": [
+        "POST-H-019-B schema defines deny-by-default plugin permission model semantics."
+      ],
+      "sync_rules": [
+        "required_tests_must_pass",
+        "owner_status_and_path_must_remain_current"
+      ]
+    },
+    {
+      "doc_id": "POST-H-019-PLUGIN-PERMISSION-MODEL",
+      "path": ".devpilot/plugins/plugin_permission_model.json",
+      "classification": "machine-readable-source",
+      "domain": "extensibility.plugins",
+      "owner": "POST-H-019-B",
+      "status_required": "implemented-initial",
+      "criticality": "P2",
+      "required_tests": [
+        "tests/test_post_h_019_plugin_permission_model.py"
+      ],
+      "related_files": [
+        "docs/schemas/plugin_permission_model.schema.json",
+        "src/devpilot_core/plugins/permission_model.py"
+      ],
+      "implementation_notes": [
+        "Permission model keeps plugin.code.execute and other critical permissions denied until future ADR."
+      ],
+      "sync_rules": [
+        "required_tests_must_pass",
+        "owner_status_and_path_must_remain_current"
+      ]
+    },
+    {
+      "doc_id": "POST-H-019-B-PLUGIN-PERMISSION-MODEL-REPORT",
+      "path": "docs/audits/post_h_019_b_plugin_permission_model_report.md",
+      "classification": "source-of-truth",
+      "domain": "extensibility.plugins",
+      "owner": "Ordóñez",
+      "status_required": "approved",
+      "criticality": "P2",
+      "required_tests": [
+        "tests/test_post_h_019_plugin_permission_model.py"
+      ],
+      "related_files": [
+        "src/devpilot_core/plugins/permission_model.py",
+        ".devpilot/plugins/plugin_permission_model.json"
+      ],
+      "implementation_notes": [
+        "POST-H-019-B report documents PASS/BLOCK criteria, safety invariants and scope limitations."
+      ],
+      "sync_rules": [
+        "required_tests_must_pass",
+        "owner_status_and_path_must_remain_current"
+      ]
+    },
+    {
+      "doc_id": "POST-H-019-B-MANIFEST",
+      "path": "docs/post_h_019_b_manifest.json",
+      "classification": "machine-readable-source",
+      "domain": "extensibility.plugins",
+      "owner": "Ordóñez",
+      "status_required": "implemented-initial",
+      "criticality": "P2",
+      "required_tests": [
+        "tests/test_post_h_019_plugin_permission_model.py"
+      ],
+      "related_files": [
+        "docs/schemas/plugin_permission_model.schema.json",
+        ".devpilot/plugins/plugin_permission_model.json",
+        "src/devpilot_core/plugins/permission_model.py"
+      ],
+      "implementation_notes": [
+        "POST-H-019-B manifest records permission model and manifest hardening evidence."
+      ],
+      "sync_rules": [
+        "required_tests_must_pass",
+        "owner_status_and_path_must_remain_current"
+      ]
     }
   ],
   "rules": {
@@ -2281,7 +2375,7 @@
     "approved_backlogs_require_observability_retention_hygiene_gate": true
   },
   "summary": {
-    "documents_total": 69,
+    "documents_total": 73,
     "source_of_truth_total": 28,
     "machine_readable_source_total": 17,
     "derived_total": 24,

@@ -1,0 +1,107 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/SCHEMA-DEVPL-PLUGIN-PERMISSION-MODEL-V1",
+  "title": "DevPilot Plugin Permission Model v1",
+  "description": "POST-H-019-B permission model for metadata-only plugins. It keeps plugin execution, dynamic imports, subprocesses, network, filesystem writes, pip install and marketplaces blocked until a future ADR.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "schema_id",
+    "model_id",
+    "created_by",
+    "status",
+    "owner",
+    "updated",
+    "preliminary",
+    "default_effect",
+    "unknown_permissions_effect",
+    "critical_permissions_require_future_adr",
+    "plugin_execution_allowed",
+    "dynamic_import_allowed",
+    "subprocess_allowed",
+    "network_allowed",
+    "external_api_allowed",
+    "filesystem_write_allowed",
+    "shell_allowed",
+    "remote_execution_allowed",
+    "pip_install_allowed",
+    "marketplace_enabled",
+    "permissions"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "schema_id": {"const": "SCHEMA-DEVPL-PLUGIN-PERMISSION-MODEL-V1"},
+    "model_id": {"type": "string", "minLength": 1},
+    "created_by": {"const": "POST-H-019-B"},
+    "status": {"enum": ["implemented-initial", "approved"]},
+    "owner": {"type": "string", "minLength": 1},
+    "updated": {"type": "string", "minLength": 1},
+    "preliminary": {"const": true},
+    "default_effect": {"const": "deny"},
+    "unknown_permissions_effect": {"const": "deny"},
+    "critical_permissions_require_future_adr": {"const": true},
+    "plugin_execution_allowed": {"const": false},
+    "dynamic_import_allowed": {"const": false},
+    "subprocess_allowed": {"const": false},
+    "network_allowed": {"const": false},
+    "external_api_allowed": {"const": false},
+    "filesystem_write_allowed": {"const": false},
+    "shell_allowed": {"const": false},
+    "remote_execution_allowed": {"const": false},
+    "pip_install_allowed": {"const": false},
+    "marketplace_enabled": {"const": false},
+    "permissions": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "permission_id",
+          "description",
+          "effect",
+          "risk_level",
+          "requires_approval",
+          "side_effect",
+          "policy_rule_ids"
+        ],
+        "properties": {
+          "permission_id": {"type": "string", "pattern": "^plugin\\.[a-z0-9][a-z0-9_.-]*$"},
+          "description": {"type": "string", "minLength": 1},
+          "effect": {"enum": ["allow", "deny"]},
+          "risk_level": {"enum": ["low", "medium", "medium_high", "high", "critical"]},
+          "requires_approval": {"type": "boolean"},
+          "blocked_until": {"enum": ["future-adr"]},
+          "side_effect": {"enum": ["none", "read", "report", "simulation", "execute", "network", "write", "install"]},
+          "aliases": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {"type": "string", "minLength": 1}
+          },
+          "policy_rule_ids": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {"type": "string", "minLength": 1}
+          },
+          "notes": {
+            "type": "array",
+            "items": {"type": "string", "minLength": 1}
+          }
+        },
+        "allOf": [
+          {
+            "if": {"properties": {"effect": {"const": "deny"}}},
+            "then": {"required": ["blocked_until"]}
+          }
+        ]
+      }
+    }
+  },
+  "x-devpilot-schema-id": "SCHEMA-DEVPL-PLUGIN-PERMISSION-MODEL-V1",
+  "x-devpilot-version": "1.0.0",
+  "x-devpilot-sprint": "POST-H-019-B",
+  "x-devpilot-status": "registered",
+  "x-devpilot-preliminary": true
+}

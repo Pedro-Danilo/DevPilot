@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://devpilot.local/schemas/SCHEMA-DEVPL-PLUGIN-MANIFEST-V1",
   "title": "DevPilot Plugin Manifest Registry v1",
-  "description": "Structural contract for .devpilot/plugins/plugin_registry.json. Sprint 93 defines plugin ecosystem metadata with deny-by-default permissions and no arbitrary code loading.",
+  "description": "Structural contract for .devpilot/plugins/plugin_registry.json. POST-H-019-B hardens manifests against the plugin permission model while keeping plugin execution disabled.",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -12,6 +12,7 @@
     "created_by",
     "updated",
     "owner",
+    "permission_model_path",
     "defaults",
     "security",
     "plugins"
@@ -55,7 +56,10 @@
         "require_observability",
         "require_eval",
         "deny_unregistered_plugins",
-        "executable_loading_default"
+        "executable_loading_default",
+        "permission_model_required",
+        "unknown_permissions_effect",
+        "critical_permissions_require_future_adr"
       ],
       "properties": {
         "plugin_default_effect": {
@@ -81,6 +85,15 @@
         },
         "executable_loading_default": {
           "const": false
+        },
+        "permission_model_required": {
+          "const": true
+        },
+        "unknown_permissions_effect": {
+          "const": "deny"
+        },
+        "critical_permissions_require_future_adr": {
+          "const": true
         }
       }
     },
@@ -95,7 +108,12 @@
         "shell_used",
         "remote_execution_used",
         "secrets_allowed",
-        "raw_outputs_allowed"
+        "raw_outputs_allowed",
+        "dynamic_import_allowed",
+        "subprocess_allowed",
+        "filesystem_write_allowed",
+        "pip_install_allowed",
+        "marketplace_enabled"
       ],
       "properties": {
         "plugin_code_loaded": {
@@ -120,6 +138,21 @@
           "const": false
         },
         "raw_outputs_allowed": {
+          "const": false
+        },
+        "dynamic_import_allowed": {
+          "const": false
+        },
+        "subprocess_allowed": {
+          "const": false
+        },
+        "filesystem_write_allowed": {
+          "const": false
+        },
+        "pip_install_allowed": {
+          "const": false
+        },
+        "marketplace_enabled": {
           "const": false
         }
       }
@@ -230,7 +263,7 @@
               "properties": {
                 "permission_id": {
                   "type": "string",
-                  "pattern": "^[a-z0-9][a-z0-9_.-]*$"
+                  "pattern": "^(plugin\\.[a-z0-9][a-z0-9_.-]*|metadata|connector\\.read)$"
                 },
                 "capability": {
                   "type": "string",
@@ -307,12 +340,15 @@
           }
         }
       }
+    },
+    "permission_model_path": {
+      "const": ".devpilot/plugins/plugin_permission_model.json"
     }
   },
   "x-devpilot-schema-id": "SCHEMA-DEVPL-PLUGIN-MANIFEST-V1",
-  "x-devpilot-version": "1.0.0",
-  "x-devpilot-sprint": "FUNC-SPRINT-93",
+  "x-devpilot-version": "1.1.0",
+  "x-devpilot-sprint": "POST-H-019-B",
   "x-devpilot-status": "registered",
   "x-devpilot-preliminary": true,
-  "x-devpilot-validation-enabled-sprint": "FUNC-SPRINT-93"
+  "x-devpilot-validation-enabled-sprint": "POST-H-019-B"
 }

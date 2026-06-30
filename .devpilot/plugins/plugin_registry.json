@@ -3,7 +3,7 @@
   "registry_id": "DEVPL-PLUGIN-REGISTRY-001",
   "status": "approved",
   "created_by": "FUNC-SPRINT-93",
-  "updated": "2026-06-19",
+  "updated": "2026-06-30",
   "owner": "Ordóñez",
   "defaults": {
     "plugin_default_effect": "deny",
@@ -13,7 +13,10 @@
     "require_observability": true,
     "require_eval": true,
     "deny_unregistered_plugins": true,
-    "executable_loading_default": false
+    "executable_loading_default": false,
+    "permission_model_required": true,
+    "unknown_permissions_effect": "deny",
+    "critical_permissions_require_future_adr": true
   },
   "security": {
     "plugin_code_loaded": false,
@@ -23,7 +26,12 @@
     "shell_used": false,
     "remote_execution_used": false,
     "secrets_allowed": false,
-    "raw_outputs_allowed": false
+    "raw_outputs_allowed": false,
+    "dynamic_import_allowed": false,
+    "subprocess_allowed": false,
+    "filesystem_write_allowed": false,
+    "pip_install_allowed": false,
+    "marketplace_enabled": false
   },
   "plugins": [
     {
@@ -40,7 +48,7 @@
       "loading_mode": "metadata-only",
       "permissions": [
         {
-          "permission_id": "metadata",
+          "permission_id": "plugin.metadata.read",
           "capability": "Inspect plugin metadata and policy bindings.",
           "description": "Return public plugin manifest metadata only.",
           "side_effect": "read",
@@ -51,7 +59,7 @@
           ]
         },
         {
-          "permission_id": "connector.read",
+          "permission_id": "plugin.connector.read",
           "capability": "Use local.docs connector metadata in dry-run evidence flows.",
           "description": "Declare read-only connector integration without invoking arbitrary plugin code.",
           "side_effect": "report",
@@ -95,7 +103,7 @@
       "loading_mode": "metadata-only",
       "permissions": [
         {
-          "permission_id": "metadata",
+          "permission_id": "plugin.metadata.read",
           "capability": "Inspect plugin metadata and planned policy bindings.",
           "description": "Return public planned plugin metadata only.",
           "side_effect": "read",
@@ -124,5 +132,6 @@
       "remote_execution_allowed": false,
       "execution_enabled": false
     }
-  ]
+  ],
+  "permission_model_path": ".devpilot/plugins/plugin_permission_model.json"
 }

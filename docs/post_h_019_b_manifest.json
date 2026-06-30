@@ -1,0 +1,101 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "SCHEMA-DEVPL-POST-H-MANIFEST-V1",
+  "doc_id": "POST-H-019-B-MANIFEST",
+  "post_h_id": "POST-H-019",
+  "title": "POST-H-019-B — Permission model y manifest hardening",
+  "status": "implemented-initial",
+  "version": "0.1.0",
+  "owner": "Ordóñez",
+  "updated": "2026-06-30",
+  "approval": "approved_by_owner",
+  "phase": "POST-FASE-H",
+  "implemented_at": "2026-06-30",
+  "created_by": "POST-H-019-B",
+  "implementation_status": "implemented-initial",
+  "hito_status": "active-implemented-initial",
+  "local_first": true,
+  "dry_run": true,
+  "network_used": false,
+  "external_api_used": false,
+  "remote_execution_enabled": false,
+  "connector_write_enabled": false,
+  "plugin_execution_enabled": false,
+  "source_mutations_performed": false,
+  "created_files": [
+    "docs/schemas/plugin_permission_model.schema.json",
+    ".devpilot/plugins/plugin_permission_model.json",
+    "src/devpilot_core/plugins/permission_model.py",
+    "tests/test_post_h_019_plugin_permission_model.py",
+    "docs/audits/post_h_019_b_plugin_permission_model_report.md",
+    "docs/post_h_019_b_manifest.json"
+  ],
+  "modified_files": [
+    "src/devpilot_core/plugins/registry.py",
+    "src/devpilot_core/plugins/__init__.py",
+    ".devpilot/plugins/plugin_registry.json",
+    "docs/schemas/plugin_manifest.schema.json",
+    "docs/schemas/schema_catalog.json",
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/backlogs/POST-H-019_plugin_sandbox_design.md",
+    "docs/POST-H-019_plugin_sandbox_design.md",
+    "docs/release/CHANGELOG.md",
+    ".devpilot/project_state.json",
+    ".devpilot/docs_governance/source_registry.json",
+    ".devpilot/testing/test_contract_registry.json",
+    ".devpilot/testing/test_contract_registry_v2.json",
+    "tests/test_post_h_019_plugin_sandbox_design.py",
+    "tests/test_schema_registry.py",
+    "tests/test_project_global_state.py",
+    "tests/test_post_h_018_connector_sandbox_policy.py"
+  ],
+  "commands": [
+    "python -m pytest -p no:ddtrace tests/test_post_h_019_plugin_permission_model.py tests/test_post_h_019_plugin_sandbox_design.py tests/test_plugin_registry.py tests/test_schema_registry.py tests/test_project_global_state.py tests/test_post_h_018_connector_sandbox_policy.py -q",
+    "python -m devpilot_core plugin validate --json",
+    "python -m devpilot_core schema validate --schema-id PluginPermissionModel --instance .devpilot/plugins/plugin_permission_model.json --json",
+    "python -m devpilot_core schema validate --schema-id PluginManifestRegistry --instance .devpilot/plugins/plugin_registry.json --json",
+    "python -m devpilot_core docs-governance validate --json",
+    "python -m devpilot_core test-contracts validate --json",
+    "python -m devpilot_core test-contracts validate-v2 --json",
+    "python -m devpilot_core project-state validate --json"
+  ],
+  "tests": [
+    "tests/test_post_h_019_plugin_permission_model.py",
+    "tests/test_post_h_019_plugin_sandbox_design.py",
+    "tests/test_plugin_registry.py",
+    "tests/test_schema_registry.py",
+    "tests/test_project_global_state.py",
+    "tests/test_post_h_018_connector_sandbox_policy.py"
+  ],
+  "risks": [
+    "Confundir un permiso declarado como autorización de ejecución.",
+    "Permitir permisos desconocidos por accidente en manifests de plugins.",
+    "Relajar dynamic_import/subprocess/network/filesystem_write antes de una ADR futura."
+  ],
+  "limitations": [
+    "POST-H-019-B valida permisos y manifests; no implementa install dry-run ni exposure report.",
+    "Plugin execution, importlib, subprocess, red, filesystem write, pip install y marketplace permanecen bloqueados.",
+    "Quality gate plugin-sandbox-design queda para POST-H-019-D y runbook final para POST-H-019-E."
+  ],
+  "notes": [
+    "Plugin execution remains blocked by design.",
+    "Any future executable plugin capability requires ADR, sandbox, RBAC, approvals, tests and rollback.",
+    "FIX-01: components package must include tests/test_post_h_019_plugin_sandbox_design.py because POST-H-019-B advances current_micro_sprint from A to B."
+  ],
+  "pass_criteria": [
+    "Threat model covers at least 10 plugin threats.",
+    "Sandbox design declares plugin_execution_allowed=false.",
+    "No-go gates are documented for importlib, subprocess, network, filesystem write, pip install and marketplace.",
+    "Documents have approved frontmatter and source registry/TCR synchronization.",
+    "Plugin registry validation remains metadata-only and non-executable."
+  ],
+  "block_criteria": [
+    "BLOCK if the design enables plugin execution.",
+    "BLOCK if dynamic import, subprocess, shell, network, external API or pip install are proposed as current capabilities.",
+    "BLOCK if manifests are treated as execution permission.",
+    "BLOCK if threats for secrets, red or filesystem are omitted."
+  ],
+  "next_sprint": "POST-H-019",
+  "next_micro_sprint": "POST-H-019-C"
+}

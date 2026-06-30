@@ -4,7 +4,7 @@ doc_id: "POST-H-019-IMPLEMENTATION"
 id: "POST-H-019"
 title: "POST-H-019 — Plugin sandbox design implementation"
 status: "approved"
-version: "0.2.0"
+version: "0.3.0"
 owner: "Ordóñez"
 updated: "2026-06-30"
 approval: "approved_by_owner"
@@ -18,8 +18,8 @@ no_external_apis_used: true
 no_connector_write_enabled: true
 no_plugin_execution_enabled: true
 implementation_status: "active"
-current_micro_sprint: "POST-H-019-A"
-next_micro_sprint: "POST-H-019-B"
+current_micro_sprint: "POST-H-019-B"
+next_micro_sprint: "POST-H-019-C"
 ---
 
 # POST-H-019 — Plugin sandbox design sin ejecución arbitraria
@@ -28,11 +28,13 @@ next_micro_sprint: "POST-H-019-B"
 
 Estado del backlog: `approved / active`.
 
-Micro-sprint actual: `POST-H-019-A — Threat model y sandbox design`.
+Micro-sprint actual: `POST-H-019-B — Permission model y manifest hardening`.
 
 Resultado POST-H-019-A: `implemented-initial`. Se aprueba el backlog para implementación y se agregan el threat model y el diseño arquitectónico metadata-only del sandbox de plugins. No se habilita ejecución de plugins, `importlib`, `subprocess`, red, APIs externas, marketplace ni instalación de dependencias.
 
-Siguiente micro-sprint: `POST-H-019-B — Permission model y manifest hardening`.
+Resultado POST-H-019-B: `implemented-initial`. Se agrega `PluginPermissionModel`, schema `PluginPermissionModel`, `.devpilot/plugins/plugin_permission_model.json` y binding al `PluginRegistry` para bloquear permisos desconocidos o deny/critical en manifests. No se habilita ejecución de plugins, dynamic import, subprocess, red, filesystem write, pip install, marketplace ni remote execution.
+
+Siguiente micro-sprint: `POST-H-019-C — Install dry-run y exposure report`.
 
 
 ## 1. Objetivo

@@ -122,8 +122,11 @@
     "POST-H-018 closes Connector sandbox avanzado as implemented-initial; future connector write or external integration requires ADR, threat model, approvals, RBAC, observability and additional quality gates.",
     "POST-H-019 is the next prioritized hito: Plugin sandbox design sin ejecución arbitraria.",
     "POST-H-019-A approves Plugin sandbox design sin ejecución arbitraria and adds plugin_sandbox_threat_model plus plugin_sandbox_design as metadata-only/validator-only architecture without enabling plugin execution, importlib, subprocess, network, external APIs, pip install, marketplace or remote execution.",
-    "POST-H-019-B is the next micro-sprint: Permission model y manifest hardening."
+    "POST-H-019-B is the next micro-sprint: Permission model y manifest hardening.",
+    "POST-H-019-B adds PluginPermissionModel schema and .devpilot/plugins/plugin_permission_model.json with deny-by-default allowlist/denylist semantics.",
+    "POST-H-019-B hardens Plugin Registry manifest validation so unknown permissions and denied execution permissions such as plugin.code.execute are blocked.",
+    "POST-H-019-C is the next micro-sprint: Install dry-run y exposure report."
   ],
-  "current_micro_sprint": "POST-H-019-A",
-  "next_micro_sprint": "POST-H-019-B"
+  "current_micro_sprint": "POST-H-019-B",
+  "next_micro_sprint": "POST-H-019-C"
 }

@@ -1915,7 +1915,7 @@ def plugin_validate_command(
         subject=registry_path,
         report_id="plugin_validate",
         write_report=write_report,
-        metadata={"sprint": "FUNC-SPRINT-93", "component": "PluginRegistry"},
+        metadata={"sprint": "POST-H-019-B", "component": "PluginRegistry"},
     )
     _emit_result_event(root, result, subject=registry_path)
     _persist_result(root, result, subject=registry_path)
@@ -1939,7 +1939,7 @@ def plugin_list_command(
         subject=registry_path,
         report_id="plugin_list",
         write_report=write_report,
-        metadata={"sprint": "FUNC-SPRINT-93", "component": "PluginRegistry"},
+        metadata={"sprint": "POST-H-019-B", "component": "PluginRegistry"},
     )
     _emit_result_event(root, result, subject=registry_path)
     _persist_result(root, result, subject=registry_path)
@@ -1976,7 +1976,7 @@ def plugin_dry_run_command(
         subject=f"{plugin}:{operation}",
         report_id=report_id,
         write_report=write_report,
-        metadata={"sprint": "FUNC-SPRINT-93", "component": "PluginRegistry"},
+        metadata={"sprint": "POST-H-019-B", "component": "PluginRegistry"},
     )
     _persist_result(root, result, subject=f"{plugin}:{operation}")
     print_result(result, json_output=json_output)

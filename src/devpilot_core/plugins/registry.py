@@ -12,10 +12,13 @@ from devpilot_core.connectors.registry import ConnectorRegistry
 from devpilot_core.observability import EventLogger
 from devpilot_core.policy import PathGuard, PolicyEffect, PolicyEngine, PolicyRequest, SecretGuard
 from devpilot_core.schemas import SchemaValidator
+from devpilot_core.plugins.permission_model import PluginPermissionModel, PluginPermissionModelOptions
 
 _DEFAULT_REGISTRY_PATH = ".devpilot/plugins/plugin_registry.json"
 _DEFAULT_SCHEMA_PATH = "docs/schemas/plugin_manifest.schema.json"
 _DEFAULT_CONNECTOR_REGISTRY_PATH = ".devpilot/connectors/connector_registry.json"
+_DEFAULT_PERMISSION_MODEL_PATH = ".devpilot/plugins/plugin_permission_model.json"
+_DEFAULT_PERMISSION_MODEL_SCHEMA = "docs/schemas/plugin_permission_model.schema.json"
 _VALID_PLUGIN_STATUSES = {"disabled", "planned", "implemented-initial", "implemented", "experimental"}
 _VALID_RISK_LEVELS = {"low", "medium", "medium_high", "high", "critical"}
 _SAFE_SIDE_EFFECTS = {"none", "read", "report", "simulation"}
@@ -30,6 +33,8 @@ class PluginRegistryOptions:
     registry_path: str = _DEFAULT_REGISTRY_PATH
     schema_path: str = _DEFAULT_SCHEMA_PATH
     connector_registry_path: str = _DEFAULT_CONNECTOR_REGISTRY_PATH
+    permission_model_path: str = _DEFAULT_PERMISSION_MODEL_PATH
+    permission_model_schema_path: str = _DEFAULT_PERMISSION_MODEL_SCHEMA
 
 
 @dataclass(frozen=True)
@@ -41,6 +46,8 @@ class PluginDryRunOptions:
     dry_run: bool = True
     registry_path: str = _DEFAULT_REGISTRY_PATH
     connector_registry_path: str = _DEFAULT_CONNECTOR_REGISTRY_PATH
+    permission_model_path: str = _DEFAULT_PERMISSION_MODEL_PATH
+    permission_model_schema_path: str = _DEFAULT_PERMISSION_MODEL_SCHEMA
 
 
 class PluginRegistry:
@@ -77,6 +84,7 @@ class PluginRegistry:
         registry_display = _rel(self.root, self.registry_path)
         schema_display = _rel(self.root, self.schema_path)
         connector_registry_display = _rel(self.root, self.connector_registry_path)
+        permission_model_display = self.options.permission_model_path
 
         for path, label in [(self.registry_path, "registry"), (self.schema_path, "schema")]:
             decision = self.path_guard.evaluate(path, action="read")
@@ -120,6 +128,18 @@ class PluginRegistry:
         if not schema_result.ok:
             findings.extend(schema_result.findings)
 
+        permission_model = PluginPermissionModel(
+            self.root,
+            options=PluginPermissionModelOptions(
+                model_path=self.options.permission_model_path,
+                schema_path=self.options.permission_model_schema_path,
+            ),
+        )
+        permission_model_result = permission_model.validate()
+        if not permission_model_result.ok:
+            findings.extend(permission_model_result.findings)
+        findings.extend(permission_model.validate_registry_permissions(registry, registry_path=registry_display))
+
         connector_result = ConnectorRegistry(self.root).validate()
         connector_registry_valid = connector_result.ok
         if not connector_result.ok:
@@ -155,9 +175,17 @@ class PluginRegistry:
             findings.append(Finding("UNREGISTERED_PLUGINS_NOT_DENIED", "Unregistered plugins must be denied.", Severity.BLOCK, path=registry_display))
         if defaults.get("executable_loading_default") is not False:
             findings.append(Finding("PLUGIN_EXECUTABLE_LOADING_DEFAULT_BLOCKED", "Executable plugin loading must be disabled by default.", Severity.BLOCK, path=registry_display))
+        if defaults.get("permission_model_required") is not True:
+            findings.append(Finding("PLUGIN_PERMISSION_MODEL_REQUIRED", "Plugin Registry must require the POST-H-019-B permission model.", Severity.BLOCK, path=registry_display))
+        if defaults.get("unknown_permissions_effect") != "deny":
+            findings.append(Finding("PLUGIN_UNKNOWN_PERMISSIONS_DENY_REQUIRED", "Unknown plugin permissions must be denied by default.", Severity.BLOCK, path=registry_display))
+        if defaults.get("critical_permissions_require_future_adr") is not True:
+            findings.append(Finding("PLUGIN_CRITICAL_PERMISSIONS_ADR_REQUIRED", "Critical plugin permissions must require a future ADR.", Severity.BLOCK, path=registry_display))
+        if registry.get("permission_model_path") != self.options.permission_model_path:
+            findings.append(Finding("PLUGIN_PERMISSION_MODEL_PATH_MISMATCH", "Plugin Registry must reference the canonical POST-H-019-B permission model path.", Severity.BLOCK, path=registry_display, metadata={"expected": self.options.permission_model_path, "actual": registry.get("permission_model_path")}))
         if security.get("plugin_code_loaded") is not False or security.get("arbitrary_code_execution_performed") is not False:
             findings.append(Finding("PLUGIN_CODE_LOADING_PERFORMED_BLOCKED", "Sprint 93 must not load or execute arbitrary plugin code.", Severity.BLOCK, path=registry_display))
-        for flag in ["network_used", "external_api_used", "shell_used", "remote_execution_used", "secrets_allowed"]:
+        for flag in ["network_used", "external_api_used", "shell_used", "remote_execution_used", "secrets_allowed", "dynamic_import_allowed", "subprocess_allowed", "filesystem_write_allowed", "pip_install_allowed", "marketplace_enabled"]:
             if security.get(flag) is not False:
                 findings.append(Finding("PLUGIN_SECURITY_FLAG_BLOCKED", f"Plugin registry security flag {flag} must remain false.", Severity.BLOCK, path=registry_display, metadata={"flag": flag}))
 
@@ -241,6 +269,10 @@ class PluginRegistry:
             "risk_counts": dict(sorted(risk_counts.items())),
             "policy_bindings_total": sum(len(plugin.get("policy_rule_ids", []) or []) for plugin in plugins if isinstance(plugin, dict)),
             "permission_bindings_total": sum(len(permission.get("policy_rule_ids", []) or []) for plugin in plugins if isinstance(plugin, dict) for permission in (plugin.get("permissions", []) or []) if isinstance(permission, dict)),
+            "permission_model_valid": permission_model_result.ok,
+            "permission_model_path": permission_model_display,
+            "permission_model_permissions_total": permission_model_result.data.get("summary", {}).get("permissions_total", 0),
+            "unknown_permissions_effect": permission_model_result.data.get("summary", {}).get("unknown_permissions_effect"),
             "blocked_findings_total": len(blocking),
             "plugin_code_loaded": False,
             "arbitrary_code_execution_performed": False,
@@ -283,7 +315,15 @@ class PluginRegistry:
     def dry_run(self, options: PluginDryRunOptions) -> CommandResult:
         plugin_id = _canonical_id(options.plugin)
         operation_id = _canonical_id(options.operation)
-        validation = PluginRegistry(self.root, options=PluginRegistryOptions(registry_path=options.registry_path, connector_registry_path=options.connector_registry_path)).validate()
+        validation = PluginRegistry(
+            self.root,
+            options=PluginRegistryOptions(
+                registry_path=options.registry_path,
+                connector_registry_path=options.connector_registry_path,
+                permission_model_path=self.options.permission_model_path,
+                permission_model_schema_path=self.options.permission_model_schema_path,
+            ),
+        ).validate()
         if not validation.ok:
             result = CommandResult(
                 command="plugin dry-run",
@@ -309,7 +349,15 @@ class PluginRegistry:
             return self._emit_plugin_event(result, plugin_id=plugin_id, operation_id=operation_id)
 
         permissions = [item for item in plugin.get("permissions", []) or [] if isinstance(item, dict)]
-        permission = next((item for item in permissions if item.get("permission_id") == operation_id), None)
+        permission_model = PluginPermissionModel(
+            self.root,
+            options=PluginPermissionModelOptions(
+                model_path=self.options.permission_model_path,
+                schema_path=self.options.permission_model_schema_path,
+            ),
+        )
+        canonical_operation_id = permission_model.resolve_permission_id(operation_id)
+        permission = next((item for item in permissions if item.get("permission_id") in {operation_id, canonical_operation_id}), None)
         if permission is None:
             result = CommandResult(
                 command="plugin dry-run",
@@ -317,7 +365,7 @@ class PluginRegistry:
                 exit_code=ExitCode.BLOCK,
                 message="Plugin dry-run blocked: operation is not declared as a permission.",
                 data={"summary": _dry_run_summary(plugin_id, operation_id, options.dry_run, registry_valid=True)},
-                findings=[Finding("PLUGIN_OPERATION_NOT_REGISTERED", "Plugin operation must be declared in the plugin permissions list.", Severity.BLOCK, metadata={"plugin_id": plugin_id, "operation_id": operation_id})],
+                findings=[Finding("PLUGIN_OPERATION_NOT_REGISTERED", "Plugin operation must be declared in the plugin permissions list or as a POST-H-019-B permission alias.", Severity.BLOCK, metadata={"plugin_id": plugin_id, "operation_id": operation_id, "canonical_operation_id": canonical_operation_id})],
             )
             return self._emit_plugin_event(result, plugin_id=plugin_id, operation_id=operation_id)
 
@@ -335,6 +383,7 @@ class PluginRegistry:
                     "sprint": "FUNC-SPRINT-93",
                     "plugin_id": plugin_id,
                     "operation_id": operation_id,
+                    "canonical_operation_id": canonical_operation_id,
                     "plugin_code_loaded": False,
                     "arbitrary_code_execution_performed": False,
                     "network_used": False,
@@ -371,6 +420,8 @@ class PluginRegistry:
                     "plugin_status": plugin.get("status"),
                     "loading_mode": plugin.get("loading_mode"),
                     "permission_side_effect": permission.get("side_effect"),
+                    "canonical_permission_id": permission.get("permission_id"),
+                    "permission_model_valid": True,
                 },
                 "plugin": _public_plugin(plugin),
                 "permission": _public_permission(permission),

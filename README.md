@@ -1,3 +1,32 @@
+## POST-H-019-B — Permission model y manifest hardening
+
+Estado: `implemented-initial / hito activo`.
+
+DevPilot agrega un modelo local de permisos de plugins y endurece el Plugin Registry para que los manifests sigan siendo metadata-only. Un manifest válido ahora debe referenciar `.devpilot/plugins/plugin_permission_model.json`, declarar solo permisos reconocidos por allowlist/denylist y mantener denegadas las capacidades críticas.
+
+Capacidades nuevas:
+
+- Schema `PluginPermissionModel` y fuente `.devpilot/plugins/plugin_permission_model.json`.
+- `PluginPermissionModel` en `src/devpilot_core/plugins/permission_model.py` para validar allow/deny, permisos críticos y future ADR requirements.
+- `plugin validate` ahora bloquea permisos desconocidos, permisos deny solicitados por manifests, execution permission, dynamic import, subprocess, network y filesystem write.
+- `plugin dry-run --operation metadata` conserva compatibilidad por alias y resuelve a `plugin.metadata.read` sin ejecutar código.
+
+Comandos principales:
+
+```powershell
+python -m pytest -p no:ddtrace tests/test_post_h_019_plugin_permission_model.py tests/test_post_h_019_plugin_sandbox_design.py tests/test_plugin_registry.py tests/test_schema_registry.py tests/test_project_global_state.py -q
+python -m devpilot_core plugin validate --json
+python -m devpilot_core schema validate --schema-id PluginPermissionModel --instance .devpilot/plugins/plugin_permission_model.json --json
+python -m devpilot_core docs-governance validate --json
+```
+
+Límite explícito: POST-H-019-B no implementa install dry-run, exposure report ni quality gate. No habilita ejecución de plugins, `importlib`, `subprocess`, red, APIs externas, `pip install`, marketplace, escritura de filesystem ni remote execution. El siguiente micro-sprint es `POST-H-019-C — Install dry-run y exposure report`.
+
+Último hito cerrado: `POST-H-018 — Connector sandbox avanzado`
+Hito activo: `POST-H-019 — Plugin sandbox design sin ejecución arbitraria`
+Último micro-sprint implementado: `POST-H-019-B — Permission model y manifest hardening`
+Siguiente micro-sprint: `POST-H-019-C — Install dry-run y exposure report`
+
 ## POST-H-019-A — Threat model y sandbox design
 
 Estado: `implemented-initial / hito activo`.

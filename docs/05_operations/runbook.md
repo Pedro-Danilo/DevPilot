@@ -2,17 +2,57 @@
 title: "Runbook — DevPilot Local"
 doc_id: "DEVPL-OPS-002"
 status: "approved"
-version: "1.67.0"
+version: "1.68.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "POST-H-019-A"
+phase: "POST-H-019-B"
 updated: "2026-06-30"
 approval: "approved_by_owner"
 source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved + 03_security approved"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "SPRINT-PRECODE-05 quality operations baseline"
 ---
+
+
+## POST-H-019-B — Permission model y manifest hardening
+
+Estado: `implemented-initial / hito activo`.
+
+Operación segura vigente para permisos de plugins:
+
+```powershell
+$env:PYTHONPATH="src"
+python -m pytest -p no:ddtrace tests/test_post_h_019_plugin_permission_model.py tests/test_post_h_019_plugin_sandbox_design.py tests/test_plugin_registry.py tests/test_schema_registry.py tests/test_project_global_state.py -q
+python -m devpilot_core plugin validate --json
+python -m devpilot_core schema validate --schema-id PluginPermissionModel --instance .devpilot/plugins/plugin_permission_model.json --json
+python -m devpilot_core schema validate --schema-id PluginManifestRegistry --instance .devpilot/plugins/plugin_registry.json --json
+python -m devpilot_core docs-governance validate --json
+python -m devpilot_core test-contracts validate --json
+python -m devpilot_core test-contracts validate-v2 --json
+python -m devpilot_core project-state validate --json
+```
+
+Criterios PASS:
+
+```text
+PASS si plugin.code.execute está effect=deny, risk_level=critical, requires_approval=true y blocked_until=future-adr.
+PASS si dynamic_import_allowed=false, subprocess_allowed=false, network_allowed=false y filesystem_write_allowed=false.
+PASS si plugin validate bloquea permisos desconocidos en manifests.
+PASS si plugin validate bloquea manifests que declaren permisos deny/critical como plugin.code.execute.
+PASS si dry-run solo opera sobre metadata y no carga código.
+```
+
+No-go gates:
+
+```text
+NO-GO si un manifest declara ejecución como permiso efectivo.
+NO-GO si un permiso desconocido pasa validación.
+NO-GO si se habilita importlib, subprocess, shell, pip install, marketplace, red o filesystem write.
+NO-GO si se interpreta schema validation como autorización para ejecutar plugins.
+```
+
+Límite: POST-H-019-B endurece permisos y manifests. Install dry-run, exposure report, quality gate y runbook metadata-only final quedan para POST-H-019-C/D/E.
 
 ## POST-H-019-A — Threat model y sandbox design
 
