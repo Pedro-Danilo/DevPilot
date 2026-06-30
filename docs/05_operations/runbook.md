@@ -2,17 +2,59 @@
 title: "Runbook — DevPilot Local"
 doc_id: "DEVPL-OPS-002"
 status: "approved"
-version: "1.64.0"
+version: "1.65.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "POST-H-018-B"
+phase: "POST-H-018-C"
 updated: "2026-06-30"
 approval: "approved_by_owner"
 source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved + 03_security approved"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "SPRINT-PRECODE-05 quality operations baseline"
 ---
+
+## POST-H-018-C — Replay fixtures y redacción
+
+Estado: `implemented-initial / hito activo`.
+
+Comandos principales:
+
+```powershell
+$env:PYTHONPATH="src"
+python -m devpilot_core connector sandbox run --mode replay --json --write-report
+python -m devpilot_core schema validate --schema-id ConnectorSandboxReport --instance outputs/reports/connector_sandbox_report.json --json
+python -m pytest -p no:ddtrace tests/test_post_h_018_connector_replay.py tests/test_post_h_018_connector_sandbox_runner.py tests/test_post_h_018_connector_sandbox_policy.py -q
+```
+
+Evidencia generada:
+
+```text
+outputs/reports/connector_sandbox_report.json
+outputs/reports/connector_sandbox_report.md
+outputs/reports/connector_replay_redaction_report.json
+outputs/reports/connector_replay_redaction_report.md
+```
+
+Criterios PASS:
+
+```text
+PASS si replay usa fixtures locales de evals/fixtures/connector_replay_cases.json.
+PASS si todos los fixtures pasan redaction checks.
+PASS si no hay secretos, URLs, tokens, referencias .env ni private keys en fixtures.
+PASS si los reportes indican fixtures_total, fixtures_passed, redaction_passed y deterministic_replay.
+PASS si network_used=false, external_api_used=false, mutations_performed=false y connector_write_used=false.
+```
+
+Criterios BLOCK:
+
+```text
+BLOCK si un fixture contiene secreto, token, URL sensible, bearer value, private key o referencia .env.
+BLOCK si replay intenta red, API externa, mutación, connector write, remote execution o plugin execution.
+BLOCK si no existe fixture local para el conector/operación solicitado en modo replay.
+```
+
+Límite: POST-H-018-C implementa replay fixture-backed y redacción como versión `implemented-initial`. No ejecuta conectores reales. Binding Policy/Approval/RBAC queda para POST-H-018-D y quality gate final para POST-H-018-E.
 
 ## POST-H-018-B — Sandbox runner read-only/dry-run
 

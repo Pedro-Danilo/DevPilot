@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://devpilot.local/schemas/SCHEMA-DEVPL-CONNECTOR-REPLAY-FIXTURE-V1",
   "title": "DevPilot Connector Replay Fixture v1",
-  "description": "Contract for deterministic local connector replay fixtures. POST-H-018-A registers the schema only; replay execution remains POST-H-018-C.",
+  "description": "Contract for deterministic local connector replay fixtures. POST-H-018-C implements fixture-backed replay and redaction checks without connector write, network or external APIs.",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -107,7 +107,7 @@
   },
   "x-devpilot-schema-id": "SCHEMA-DEVPL-CONNECTOR-REPLAY-FIXTURE-V1",
   "x-devpilot-version": "1.0.0",
-  "x-devpilot-sprint": "POST-H-018-A",
-  "x-devpilot-status": "registered",
+  "x-devpilot-sprint": "POST-H-018-C",
+  "x-devpilot-status": "implemented-initial",
   "x-devpilot-preliminary": true
 }

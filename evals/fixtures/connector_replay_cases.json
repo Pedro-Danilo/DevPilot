@@ -1,0 +1,148 @@
+{
+  "schema_version": "1.0",
+  "fixture_set_id": "devpilot-connector-replay-cases-post-h-018-c",
+  "created_by": "POST-H-018-C",
+  "status": "implemented-initial",
+  "updated": "2026-06-30",
+  "owner": "Ordóñez",
+  "redaction_required": true,
+  "safety": {
+    "secrets_included": false,
+    "network_used": false,
+    "external_api_used": false,
+    "mutations_performed": false,
+    "source_mutations_performed": false,
+    "connector_write_used": false,
+    "remote_execution_used": false,
+    "plugin_execution_used": false
+  },
+  "fixtures": [
+    {
+      "schema_version": "1.0",
+      "schema_id": "SCHEMA-DEVPL-CONNECTOR-REPLAY-FIXTURE-V1",
+      "fixture_id": "connector.local.docs.list_sources.basic",
+      "connector_id": "local.docs",
+      "operation": "list_sources",
+      "mode": "replay",
+      "input": {
+        "path": "docs",
+        "limit": 5,
+        "query": ""
+      },
+      "expected": {
+        "ok": true,
+        "mutations_performed": false,
+        "network_used": false,
+        "external_api_used": false,
+        "connector_write_used": false,
+        "items_total": 3,
+        "items": [
+          {
+            "path": "README.md",
+            "kind": "operator-status",
+            "redacted": true
+          },
+          {
+            "path": "docs/05_operations/runbook.md",
+            "kind": "operations-runbook",
+            "redacted": true
+          },
+          {
+            "path": "docs/backlogs/POST-H-018_connector_sandbox.md",
+            "kind": "connector-sandbox-backlog",
+            "redacted": true
+          }
+        ]
+      },
+      "redaction_required": true,
+      "safety": {
+        "secrets_included": false,
+        "network_used": false,
+        "external_api_used": false,
+        "mutations_performed": false
+      },
+      "notes": [
+        "Fixture uses local documentation metadata only.",
+        "No URLs, tokens, environment files or secret-like values are stored."
+      ]
+    },
+    {
+      "schema_version": "1.0",
+      "schema_id": "SCHEMA-DEVPL-CONNECTOR-REPLAY-FIXTURE-V1",
+      "fixture_id": "connector.local.docs.query_sources.basic",
+      "connector_id": "local.docs",
+      "operation": "query_sources",
+      "mode": "replay",
+      "input": {
+        "query": "connector sandbox",
+        "limit": 3
+      },
+      "expected": {
+        "ok": true,
+        "mutations_performed": false,
+        "network_used": false,
+        "external_api_used": false,
+        "connector_write_used": false,
+        "matches_total": 2,
+        "matches": [
+          {
+            "path": "docs/POST-H-018_connector_sandbox.md",
+            "score": 1.0,
+            "redacted": true
+          },
+          {
+            "path": "docs/backlogs/POST-H-018_connector_sandbox.md",
+            "score": 0.92,
+            "redacted": true
+          }
+        ]
+      },
+      "redaction_required": true,
+      "safety": {
+        "secrets_included": false,
+        "network_used": false,
+        "external_api_used": false,
+        "mutations_performed": false
+      },
+      "notes": [
+        "Fixture is deterministic and local-only.",
+        "Replay output is a recorded sanitized expectation, not live connector execution."
+      ]
+    },
+    {
+      "schema_version": "1.0",
+      "schema_id": "SCHEMA-DEVPL-CONNECTOR-REPLAY-FIXTURE-V1",
+      "fixture_id": "connector.local.git.readonly.status.basic",
+      "connector_id": "local.git.readonly",
+      "operation": "status_summary",
+      "mode": "replay",
+      "input": {
+        "scope": "metadata-only"
+      },
+      "expected": {
+        "ok": true,
+        "mutations_performed": false,
+        "network_used": false,
+        "external_api_used": false,
+        "connector_write_used": false,
+        "summary_kind": "git-metadata-placeholder",
+        "tracked_scope": "metadata-only"
+      },
+      "redaction_required": true,
+      "safety": {
+        "secrets_included": false,
+        "network_used": false,
+        "external_api_used": false,
+        "mutations_performed": false
+      },
+      "notes": [
+        "Planned connector fixture validates replay contract without invoking git.",
+        "No repository command is executed by POST-H-018-C."
+      ]
+    }
+  ],
+  "notes": [
+    "POST-H-018-C fixtures are sanitized local replay cases.",
+    "A replay fixture is not permission for connector write, network, external APIs, remote execution or plugin execution."
+  ]
+}

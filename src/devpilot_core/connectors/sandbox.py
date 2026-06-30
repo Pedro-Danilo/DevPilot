@@ -7,6 +7,14 @@ from pathlib import Path
 from typing import Any
 
 from devpilot_core.cli_models import CommandResult, ExitCode, Finding, Severity
+from devpilot_core.connectors.replay import (
+    DEFAULT_CONNECTOR_REDACTION_REPORT_JSON,
+    DEFAULT_CONNECTOR_REDACTION_REPORT_MD,
+    DEFAULT_CONNECTOR_REPLAY_FIXTURES_PATH,
+    ConnectorReplayOptions,
+    ConnectorReplayRequest,
+    ConnectorReplayRunner,
+)
 from devpilot_core.connectors.sandbox_policy import (
     DEFAULT_CONNECTOR_REGISTRY_PATH,
     DEFAULT_SANDBOX_POLICY_PATH,
@@ -25,7 +33,7 @@ _POLICY_CHECK_RISKS = {"medium", "medium_high", "high", "critical"}
 
 @dataclass(frozen=True)
 class ConnectorSandboxRequest:
-    """Input contract for the POST-H-018-B connector sandbox runner.
+    """Input contract for the POST-H-018-C connector sandbox runner.
 
     The request is intentionally small and safe. It selects a connector,
     operation label and sandbox mode, but it does not authorize real connector
@@ -47,6 +55,9 @@ class ConnectorSandboxOptions:
     registry_path: Path | str = DEFAULT_CONNECTOR_REGISTRY_PATH
     output_json: Path | str = DEFAULT_CONNECTOR_SANDBOX_REPORT_JSON
     output_markdown: Path | str = DEFAULT_CONNECTOR_SANDBOX_REPORT_MD
+    replay_fixtures_path: Path | str = DEFAULT_CONNECTOR_REPLAY_FIXTURES_PATH
+    redaction_output_json: Path | str = DEFAULT_CONNECTOR_REDACTION_REPORT_JSON
+    redaction_output_markdown: Path | str = DEFAULT_CONNECTOR_REDACTION_REPORT_MD
     write_report: bool = False
 
 
@@ -63,7 +74,7 @@ class ConnectorSandboxResult:
 class ConnectorSandboxRunner:
     """Run local read-only/dry-run connector sandbox validation.
 
-    POST-H-018-B deliberately implements a runner boundary, not connector write
+    POST-H-018-C extends the runner boundary, not connector write
     or a real external connector runtime. The runner validates the sandbox
     policy, checks per-connector mode permissions, invokes PolicyEngine for
     medium/high risk connectors before any simulated operation and materializes
@@ -90,6 +101,7 @@ class ConnectorSandboxRunner:
         mode = _normalize_mode(request.mode)
         findings: list[Finding] = []
         policy_result: CommandResult | None = None
+        replay_result: CommandResult | None = None
 
         policy_validator = ConnectorSandboxPolicyValidator(
             self.root,
@@ -117,6 +129,7 @@ class ConnectorSandboxRunner:
                 policy_connector=None,
                 policy_validation=policy_validation,
                 policy_result=None,
+                replay_result=None,
                 findings=findings,
                 reports_written=False,
             )
@@ -177,11 +190,35 @@ class ConnectorSandboxRunner:
                     )
 
         has_block = any(item.severity in {Severity.BLOCK, Severity.ERROR, Severity.FAIL} for item in findings)
+        if not has_block and mode == "replay":
+            replay_result = ConnectorReplayRunner(
+                self.root,
+                options=ConnectorReplayOptions(
+                    fixtures_path=self.options.replay_fixtures_path,
+                    output_json=self.options.redaction_output_json,
+                    output_markdown=self.options.redaction_output_markdown,
+                    write_report=self.options.write_report,
+                ),
+            ).run(
+                ConnectorReplayRequest(
+                    connector_id=connector_id,
+                    operation=operation,
+                    mode="replay",
+                    input_payload=request.input_payload,
+                )
+            )
+            findings.extend(_prefix_findings(replay_result.findings, prefix="REPLAY_"))
+            has_block = any(item.severity in {Severity.BLOCK, Severity.ERROR, Severity.FAIL} for item in findings)
         if not has_block:
+            pass_message = (
+                "Connector sandbox runner completed local fixture-backed replay and redaction without network, external APIs or mutations."
+                if mode == "replay"
+                else "Connector sandbox runner completed local validate/dry-run simulation without network, external APIs or mutations."
+            )
             findings.append(
                 Finding(
                     "CONNECTOR_SANDBOX_RUNNER_PASS",
-                    "Connector sandbox runner completed local validate/dry-run/replay simulation without network, external APIs or mutations.",
+                    pass_message,
                     Severity.INFO,
                     metadata={"connector_id": connector_id, "operation": operation, "mode": mode},
                 )
@@ -195,6 +232,7 @@ class ConnectorSandboxRunner:
             policy_connector=policy_connector,
             policy_validation=policy_validation,
             policy_result=policy_result,
+            replay_result=replay_result,
             findings=findings,
             reports_written=False,
         )
@@ -249,7 +287,7 @@ class ConnectorSandboxRunner:
                 command_id="connector.sandbox.run",
                 metadata={
                     "component": "ConnectorSandboxRunner",
-                    "sprint": "POST-H-018-B",
+                    "sprint": "POST-H-018-C",
                     "connector_id": connector_id,
                     "operation": operation,
                     "mode": mode,
@@ -275,6 +313,7 @@ class ConnectorSandboxRunner:
         policy_connector: dict[str, Any] | None,
         policy_validation: CommandResult,
         policy_result: CommandResult | None,
+        replay_result: CommandResult | None,
         findings: list[Finding],
         reports_written: bool,
     ) -> CommandResult:
@@ -282,12 +321,18 @@ class ConnectorSandboxRunner:
         ok = blocking == 0
         status = "passed" if ok else "blocked"
         policy_summary = (policy_result.data or {}).get("summary", {}) if policy_result is not None else {}
+        replay_summary = (replay_result.data or {}).get("summary", {}) if replay_result is not None else {}
         policy_checked = policy_result is not None
         policy_passed = bool(policy_result.ok) if policy_result is not None else (policy_connector is not None and ok)
         approval_required = bool(policy_connector.get("approval_required")) if isinstance(policy_connector, dict) else False
         rbac_required = bool(policy_connector.get("rbac_required")) if isinstance(policy_connector, dict) else False
+        created_by = "POST-H-018-C" if replay_result is not None else "POST-H-018-B"
+        fixtures_total = int(replay_summary.get("fixtures_total", 0)) if replay_result is not None else 0
+        fixtures_passed = int(replay_summary.get("fixtures_passed", 0)) if replay_result is not None else 0
+        redaction_passed = bool(replay_summary.get("redaction_passed", False)) if replay_result is not None else None
+        redaction_findings_total = int(replay_summary.get("redaction_findings_total", 0)) if replay_result is not None else 0
         summary: dict[str, Any] = {
-            "created_by": "POST-H-018-B",
+            "created_by": created_by,
             "status": "implemented-initial",
             "preliminary": True,
             "connector_id": connector_id,
@@ -307,8 +352,13 @@ class ConnectorSandboxRunner:
             "risk_level": policy_connector.get("risk_level") if isinstance(policy_connector, dict) else None,
             "side_effect": policy_connector.get("side_effect") if isinstance(policy_connector, dict) else None,
             "allowed_modes": policy_connector.get("allowed_modes", []) if isinstance(policy_connector, dict) else [],
-            "fixtures_total": 0,
-            "fixtures_passed": 0,
+            "fixtures_total": fixtures_total,
+            "fixtures_passed": fixtures_passed,
+            "redaction_passed": redaction_passed,
+            "redaction_findings_total": redaction_findings_total,
+            "deterministic_replay": bool(replay_summary.get("deterministic_replay", False)) if replay_result is not None else False,
+            "redaction_report_json": (replay_result.data.get("reports", {}) or {}).get("json") if replay_result is not None else None,
+            "redaction_report_markdown": (replay_result.data.get("reports", {}) or {}).get("markdown") if replay_result is not None else None,
             "blocking_findings_total": blocking,
             "findings_total": len(findings),
             "reports_written": reports_written,
@@ -330,7 +380,7 @@ class ConnectorSandboxRunner:
             "schema_version": "1.0",
             "schema_id": CONNECTOR_SANDBOX_REPORT_SCHEMA_ID,
             "report_id": _report_id(connector_id, operation, mode),
-            "created_by": "POST-H-018-B",
+            "created_by": created_by,
             "status": status,
             "connector_id": connector_id,
             "mode": mode,
@@ -348,9 +398,10 @@ class ConnectorSandboxRunner:
                 "policy_validation": (policy_validation.data or {}).get("summary", {}),
                 "policy_engine": policy_summary,
             },
+            "replay": (replay_result.data if replay_result is not None else {}),
             "notes": [
-                "POST-H-018-B runs local sandbox validation/dry-run/replay simulation only; it does not perform connector write, network, external APIs, remote execution or plugin execution.",
-                "Connector replay fixtures and redaction checks remain POST-H-018-C scope.",
+                "POST-H-018-C runs local sandbox replay with deterministic fixtures and redaction checks only; it does not perform connector write, network, external APIs, remote execution or plugin execution.",
+                "Policy/Approval/RBAC binding hardening and the final connector-sandbox quality gate remain POST-H-018-D/E scope.",
             ],
         }
         return CommandResult(
@@ -467,6 +518,10 @@ def _render_markdown(report: dict[str, Any]) -> str:
         f"- Network used: `{summary.get('network_used')}`",
         f"- External API used: `{summary.get('external_api_used')}`",
         f"- Mutations performed: `{summary.get('mutations_performed')}`",
+        f"- Fixtures total: `{summary.get('fixtures_total')}`",
+        f"- Fixtures passed: `{summary.get('fixtures_passed')}`",
+        f"- Redaction passed: `{summary.get('redaction_passed')}`",
+        f"- Redaction report JSON: `{summary.get('redaction_report_json')}`",
         f"- Blocking findings: `{summary.get('blocking_findings_total')}`",
         "",
         "## Findings",

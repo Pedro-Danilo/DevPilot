@@ -1,3 +1,18 @@
+## POST-H-018-C — Replay fixtures y redacción
+
+Estado: `implemented-initial / hito activo`.
+
+DevPilot integra replay determinístico de conectores mediante `ConnectorReplayRunner`, el fixture set `evals/fixtures/connector_replay_cases.json` y redaction reports generados desde `python -m devpilot_core connector sandbox run --mode replay --json --write-report`. El modo replay ahora valida fixtures locales sanitizados, bloquea tokens, referencias `.env`, claves privadas, bearer values y URLs, y reporta `fixtures_total`, `fixtures_passed`, `redaction_passed` y `deterministic_replay` dentro de `ConnectorSandboxReport`.
+
+Artefactos principales: `src/devpilot_core/connectors/replay.py`, `evals/fixtures/connector_replay_cases.json`, `tests/test_post_h_018_connector_replay.py`, `docs/audits/post_h_018_c_connector_replay_redaction_report.md`, `docs/post_h_018_c_manifest.json`, `src/devpilot_core/connectors/sandbox.py` y `src/devpilot_core/cli.py`.
+
+Límite explícito: POST-H-018-C no ejecuta conectores reales, no habilita `connector write`, no usa red, no llama APIs externas, no ejecuta remote runners ni plugins. El binding Policy/Approval/RBAC fuerte queda para POST-H-018-D y el quality gate final queda para POST-H-018-E.
+
+Último hito cerrado: `POST-H-017 — Release reproducibility pack`
+Hito activo: `POST-H-018 — Connector sandbox`
+Último micro-sprint implementado: `POST-H-018-C — Replay fixtures y redacción`
+Siguiente micro-sprint: `POST-H-018-D — Policy/approval/RBAC binding para conectores`
+
 ## POST-H-018-B — Sandbox runner read-only/dry-run
 
 Estado: `implemented-initial / hito activo`.

@@ -1765,7 +1765,8 @@
       "status_required": "approved",
       "criticality": "P2",
       "machine_readable_counterparts": [
-        ".devpilot/connectors/connector_sandbox_policy.json"
+        ".devpilot/connectors/connector_sandbox_policy.json",
+        "evals/fixtures/connector_replay_cases.json"
       ],
       "human_readable_counterparts": [
         "docs/backlogs/POST-H-018_connector_sandbox.md",
@@ -1775,12 +1776,15 @@
         "docs/post_h_018_a_manifest.json",
         "docs/audits/post_h_018_a_connector_sandbox_policy_report.md",
         "docs/post_h_018_b_manifest.json",
-        "docs/audits/post_h_018_b_connector_sandbox_runner_report.md"
+        "docs/audits/post_h_018_b_connector_sandbox_runner_report.md",
+        "docs/post_h_018_c_manifest.json",
+        "docs/audits/post_h_018_c_connector_replay_redaction_report.md"
       ],
       "required_tests": [
         "tests/test_post_h_018_connector_sandbox_policy.py",
         "tests/test_schema_registry.py",
-        "tests/test_project_global_state.py"
+        "tests/test_project_global_state.py",
+        "tests/test_post_h_018_connector_replay.py"
       ],
       "sync_rules": [
         "frontmatter_status_ownership"
@@ -1792,7 +1796,8 @@
       "lifecycle": "active",
       "notes": [
         "Canonical approved POST-H-018 hito document created for Connector sandbox avanzado.",
-        "POST-H-018-B adds sandbox runner and ConnectorSandboxReport generation while keeping replay fixtures/binding/gate for C/D/E."
+        "POST-H-018-B adds sandbox runner and ConnectorSandboxReport generation while keeping replay fixtures/binding/gate for C/D/E.",
+        "POST-H-018-C adds deterministic replay fixtures and redaction checks; replay remains local-only and does not execute connectors."
       ]
     },
     {
@@ -1916,6 +1921,76 @@
       ],
       "implementation_notes": [
         "POST-H-018-B manifest records runner, CLI, PASS/BLOCK and implemented-initial limits."
+      ],
+      "sync_rules": [
+        "required_tests_must_pass",
+        "owner_status_and_path_must_remain_current"
+      ]
+    },
+    {
+      "doc_id": "POST-H-018-CONNECTOR-REPLAY-CASES",
+      "path": "evals/fixtures/connector_replay_cases.json",
+      "classification": "machine-readable-source",
+      "domain": "integration.connectors",
+      "owner": "POST-H-018-C",
+      "status_required": "implemented-initial",
+      "criticality": "P2",
+      "required_tests": [
+        "tests/test_post_h_018_connector_replay.py"
+      ],
+      "related_files": [
+        "src/devpilot_core/connectors/replay.py",
+        "src/devpilot_core/connectors/sandbox.py",
+        "docs/schemas/connector_replay_fixture.schema.json"
+      ],
+      "implementation_notes": [
+        "POST-H-018-C fixture set provides sanitized deterministic replay cases; it is not permission for real connector execution."
+      ],
+      "sync_rules": [
+        "required_tests_must_pass",
+        "owner_status_and_path_must_remain_current"
+      ]
+    },
+    {
+      "doc_id": "POST-H-018-C-CONNECTOR-REPLAY-REDACTION-REPORT",
+      "path": "docs/audits/post_h_018_c_connector_replay_redaction_report.md",
+      "classification": "source-of-truth",
+      "domain": "integration.connectors",
+      "owner": "Ordóñez",
+      "status_required": "approved",
+      "criticality": "P2",
+      "required_tests": [
+        "tests/test_post_h_018_connector_replay.py"
+      ],
+      "related_files": [
+        "src/devpilot_core/connectors/replay.py",
+        "evals/fixtures/connector_replay_cases.json"
+      ],
+      "implementation_notes": [
+        "POST-H-018-C documents replay fixture redaction checks and no-go gates."
+      ],
+      "sync_rules": [
+        "required_tests_must_pass",
+        "owner_status_and_path_must_remain_current"
+      ]
+    },
+    {
+      "doc_id": "POST-H-018-C-MANIFEST",
+      "path": "docs/post_h_018_c_manifest.json",
+      "classification": "machine-readable-source",
+      "domain": "integration.connectors",
+      "owner": "Ordóñez",
+      "status_required": "implemented-initial",
+      "criticality": "P2",
+      "required_tests": [
+        "tests/test_post_h_018_connector_replay.py"
+      ],
+      "related_files": [
+        "src/devpilot_core/connectors/replay.py",
+        "tests/test_post_h_018_connector_replay.py"
+      ],
+      "implementation_notes": [
+        "POST-H-018-C manifest records replay fixtures, redaction, tests, PASS/BLOCK and implemented-initial limits."
       ],
       "sync_rules": [
         "required_tests_must_pass",

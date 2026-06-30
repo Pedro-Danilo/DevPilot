@@ -1804,16 +1804,19 @@ def connector_sandbox_run_command(
     registry_path: str = ".devpilot/connectors/connector_registry.json",
     output_json: str = "outputs/reports/connector_sandbox_report.json",
     output_markdown: str = "outputs/reports/connector_sandbox_report.md",
+    replay_fixtures_path: str = "evals/fixtures/connector_replay_cases.json",
+    redaction_output_json: str = "outputs/reports/connector_replay_redaction_report.json",
+    redaction_output_markdown: str = "outputs/reports/connector_replay_redaction_report.md",
     json_output: bool = False,
     write_report: bool = False,
 ) -> int:
-    """Run POST-H-018-B connector sandbox validation/dry-run/replay simulation.
+    """Run POST-H-018-C connector sandbox validation/dry-run/replay simulation.
 
     The runner is local-first and dry-run only. It validates connector sandbox
     policy, blocks unsafe modes before any operation, invokes PolicyEngine for
-    governed connector classifications and emits a ConnectorSandboxReport.
-    It does not perform connector write, network calls, external APIs, remote
-    execution or plugin execution.
+    governed connector classifications and, for replay mode, validates local
+    deterministic fixtures plus redaction evidence. It does not perform connector
+    write, network calls, external APIs, remote execution or plugin execution.
     """
 
     root = project_root()
@@ -1824,6 +1827,9 @@ def connector_sandbox_run_command(
             registry_path=registry_path,
             output_json=output_json,
             output_markdown=output_markdown,
+            replay_fixtures_path=replay_fixtures_path,
+            redaction_output_json=redaction_output_json,
+            redaction_output_markdown=redaction_output_markdown,
             write_report=write_report,
         ),
     ).run(
@@ -5678,7 +5684,7 @@ def build_parser() -> argparse.ArgumentParser:
 
     connector_sandbox = connector_sub.add_parser("sandbox", help="Run connector sandbox validate/dry-run/replay operations without write")
     connector_sandbox_sub = connector_sandbox.add_subparsers(dest="connector_sandbox_command")
-    connector_sandbox_run = connector_sandbox_sub.add_parser("run", help="Run POST-H-018-B local connector sandbox simulation")
+    connector_sandbox_run = connector_sandbox_sub.add_parser("run", help="Run POST-H-018-C local connector sandbox simulation/replay")
     connector_sandbox_run.add_argument("--connector", default="local.docs", help="Connector id, default local.docs")
     connector_sandbox_run.add_argument("--operation", default="list_sources", help="Operation label for sandbox policy traceability")
     connector_sandbox_run.add_argument("--mode", choices=["validate", "dry-run", "replay"], default="validate", help="Sandbox mode; write/execute modes are intentionally unavailable")
@@ -5686,6 +5692,9 @@ def build_parser() -> argparse.ArgumentParser:
     connector_sandbox_run.add_argument("--registry-path", default=".devpilot/connectors/connector_registry.json", help="Connector Registry JSON path")
     connector_sandbox_run.add_argument("--output-json", default="outputs/reports/connector_sandbox_report.json", help="ConnectorSandboxReport JSON output path")
     connector_sandbox_run.add_argument("--output-markdown", default="outputs/reports/connector_sandbox_report.md", help="ConnectorSandboxReport Markdown output path")
+    connector_sandbox_run.add_argument("--fixtures-path", default="evals/fixtures/connector_replay_cases.json", help="Connector replay fixture set path for mode=replay")
+    connector_sandbox_run.add_argument("--redaction-output-json", default="outputs/reports/connector_replay_redaction_report.json", help="Connector replay redaction JSON report path")
+    connector_sandbox_run.add_argument("--redaction-output-markdown", default="outputs/reports/connector_replay_redaction_report.md", help="Connector replay redaction Markdown report path")
     connector_sandbox_run.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     connector_sandbox_run.add_argument("--write-report", action="store_true", help="Persist ConnectorSandboxReport JSON/Markdown evidence")
 
@@ -6834,6 +6843,9 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
                 registry_path=args.registry_path,
                 output_json=args.output_json,
                 output_markdown=args.output_markdown,
+                replay_fixtures_path=args.fixtures_path,
+                redaction_output_json=args.redaction_output_json,
+                redaction_output_markdown=args.redaction_output_markdown,
                 json_output=args.json,
                 write_report=args.write_report,
             )

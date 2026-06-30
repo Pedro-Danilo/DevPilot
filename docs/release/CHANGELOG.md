@@ -1,3 +1,19 @@
+## post-h-018-c — Replay fixtures y redacción
+
+Estado de proyecto: `last_completed_sprint=POST-H-017`; `next_sprint=POST-H-018`; `current_micro_sprint=POST-H-018-C`; `next_micro_sprint=POST-H-018-D`.
+
+- Added `ConnectorReplayRunner` and deterministic local fixture set `evals/fixtures/connector_replay_cases.json`.
+- Integrated fixture-backed replay/redaction summary into `connector sandbox run --mode replay`.
+- Generates `ConnectorSandboxReport` plus `connector_replay_redaction_report` under `outputs/reports` when `--write-report` is explicit.
+- Blocks secret-like fixture keys/values, `.env` references, private keys, bearer values and URLs before replay evidence can pass.
+
+Safety:
+
+```text
+- POST-H-018-C does not execute real connector adapters, connector write, network, external APIs, remote execution or plugin execution.
+- Replay fixtures are sanitized local evidence only; Policy/Approval/RBAC binding and final connector-sandbox gate remain POST-H-018-D/E scope.
+```
+
 ## post-h-018-b — Sandbox runner read-only/dry-run
 
 Estado de proyecto: `last_completed_sprint=POST-H-017`; `next_sprint=POST-H-018`; `current_micro_sprint=POST-H-018-B`; `next_micro_sprint=POST-H-018-C`.

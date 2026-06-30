@@ -420,9 +420,9 @@ COMMAND_OVERRIDES: dict[str, DeclarativeCommandOverride] = {
         dry_run_supported=True,
         policy_check_required=True,
         recommended_tests=(
-            "python -m pytest tests/test_post_h_018_connector_sandbox_runner.py tests/test_post_h_018_connector_sandbox_policy.py -q",
+            "python -m pytest tests/test_post_h_018_connector_sandbox_runner.py tests/test_post_h_018_connector_replay.py tests/test_post_h_018_connector_sandbox_policy.py -q",
         ),
-        rationale="POST-H-018-B connector sandbox run validates/dry-runs/replays locally through policy and report generation only; it does not enable connector write, network, external APIs, remote execution or plugin execution.",
+        rationale="POST-H-018-C connector sandbox run validates/dry-runs/replays locally through policy, deterministic fixtures, redaction checks and report generation only; it does not enable connector write, network, external APIs, remote execution or plugin execution.",
     ),
     "cli-registry.guard": DeclarativeCommandOverride(
         command_id="cli-registry.guard",

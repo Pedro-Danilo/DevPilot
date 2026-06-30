@@ -21,7 +21,7 @@ def test_post_h_018_b_runner_accepts_replay_without_network_or_mutation() -> Non
     assert result.exit_code == ExitCode.PASS
     summary = result.data["summary"]
     report = result.data["report"]
-    assert summary["created_by"] == "POST-H-018-B"
+    assert summary["created_by"] == "POST-H-018-C"
     assert summary["mode"] == "replay"
     assert summary["policy_valid"] is True
     assert summary["policy_engine_invoked"] is True
@@ -31,9 +31,11 @@ def test_post_h_018_b_runner_accepts_replay_without_network_or_mutation() -> Non
     assert summary["mutations_performed"] is False
     assert summary["connector_write_used"] is False
     assert report["schema_id"] == "SCHEMA-DEVPL-CONNECTOR-SANDBOX-REPORT-V1"
-    assert report["created_by"] == "POST-H-018-B"
+    assert report["created_by"] == "POST-H-018-C"
     assert report["status"] == "passed"
-    assert report["summary"]["fixtures_total"] == 0
+    assert report["summary"]["fixtures_total"] == 1
+    assert report["summary"]["fixtures_passed"] == 1
+    assert report["summary"]["redaction_passed"] is True
 
 
 def test_post_h_018_b_runner_blocks_write_like_modes() -> None:
