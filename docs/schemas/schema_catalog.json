@@ -3,12 +3,12 @@
   "title": "DevPilot Local Schema Catalog",
   "schema_version": "1.0",
   "status": "approved",
-  "version": "1.14.0",
+  "version": "1.15.0",
   "owner": "Ordóñez",
   "updated": "2026-06-29",
-  "sprint": "POST-H-017-A",
+  "sprint": "POST-H-017-C",
   "preliminary": true,
-  "purpose": "Catalog of versioned JSON schemas registered by DevPilot. POST-H-002-A adds the MaturityDashboard contract for local, evidence-based maturity reporting without remote or production-overclaiming. POST-H-003-A adds the Test Contract Registry v2 design schema while preserving v1 compatibility. POST-H-004-A registers the MiasiSemanticReport contract for local, non-executing Policy/MIASI semantic validation reports. POST-H-005-A registers the ArchitectureMap contract for executable architecture inventory and dependency ownership baselines without running AST inventory yet. POST-H-007-B registers ApplicationOperationCatalog for declarative ApplicationService operation mapping, schema validation and test coverage metadata without changing runtime behavior. POST-H-008-A registers RuntimeStatePolicy and RuntimeStateInventory schemas for local lifecycle taxonomy, retention, clean ZIP hygiene and read-only inventory without enabling cleanup execution; POST-H-008-B expands RuntimeStateInventory for concrete scanner reports. POST-H-008-C registers RuntimeStateCleanupPlan for dry-run-first cleanup planning with explicit execute confirmation and source-of-truth never-delete safeguards. POST-H-009-A registers DocumentationSourceRegistry and DocumentationGovernanceReport schemas for local documentation governance, canonical source mapping and future drift validation without enabling LLM judge or remote documentation services. POST-H-010-A registers ObservabilityRetentionPolicy for local retention, rotation, redaction and clean ZIP hygiene defaults without enabling inventory, cleanup execution, remote export or external observability services. POST-H-010-E registers ObservabilityRetentionHygiene for local quality-gate integration of policy, inventory and clean ZIP checks without requiring runtime outputs, network or external APIs. POST-H-012-A registers SensitiveActionCatalog for local approval/RBAC hardening, sensitive action classification and blocked remote/plugin/connector execution without enabling dangerous capabilities. POST-H-012-C registers RbacExposureReport for local actor/role/action/interface exposure reporting across Identity Registry, SensitiveActionCatalog and MIASI policy matrix without enabling execution or mutating sources. POST-H-015-A registers OperatorDashboardSnapshot for the local read-only operator dashboard contract, mandatory source references and no-go flags before implementing the aggregator/API/UI.",
+  "purpose": "Catalog of versioned JSON schemas registered by DevPilot. POST-H-002-A adds the MaturityDashboard contract for local, evidence-based maturity reporting without remote or production-overclaiming. POST-H-003-A adds the Test Contract Registry v2 design schema while preserving v1 compatibility. POST-H-004-A registers the MiasiSemanticReport contract for local, non-executing Policy/MIASI semantic validation reports. POST-H-005-A registers the ArchitectureMap contract for executable architecture inventory and dependency ownership baselines without running AST inventory yet. POST-H-007-B registers ApplicationOperationCatalog for declarative ApplicationService operation mapping, schema validation and test coverage metadata without changing runtime behavior. POST-H-008-A registers RuntimeStatePolicy and RuntimeStateInventory schemas for local lifecycle taxonomy, retention, clean ZIP hygiene and read-only inventory without enabling cleanup execution; POST-H-008-B expands RuntimeStateInventory for concrete scanner reports. POST-H-008-C registers RuntimeStateCleanupPlan for dry-run-first cleanup planning with explicit execute confirmation and source-of-truth never-delete safeguards. POST-H-009-A registers DocumentationSourceRegistry and DocumentationGovernanceReport schemas for local documentation governance, canonical source mapping and future drift validation without enabling LLM judge or remote documentation services. POST-H-010-A registers ObservabilityRetentionPolicy for local retention, rotation, redaction and clean ZIP hygiene defaults without enabling inventory, cleanup execution, remote export or external observability services. POST-H-010-E registers ObservabilityRetentionHygiene for local quality-gate integration of policy, inventory and clean ZIP checks without requiring runtime outputs, network or external APIs. POST-H-012-A registers SensitiveActionCatalog for local approval/RBAC hardening, sensitive action classification and blocked remote/plugin/connector execution without enabling dangerous capabilities. POST-H-012-C registers RbacExposureReport for local actor/role/action/interface exposure reporting across Identity Registry, SensitiveActionCatalog and MIASI policy matrix without enabling execution or mutating sources. POST-H-015-A registers OperatorDashboardSnapshot for the local read-only operator dashboard contract, mandatory source references and no-go flags before implementing the aggregator/API/UI. POST-H-017-C registers ReleaseSourceArchiveManifest for source archive inventory and critical artifact checksums in a local, dry-run, secret-free release reproducibility workflow.",
   "schemas": [
     {
       "schema_id": "SCHEMA-DEVPL-FINDING-V1",
@@ -904,6 +904,20 @@
       "dialect": "https://json-schema.org/draft/2020-12/schema",
       "validates_instances": true,
       "validation_enabled_sprint": "POST-H-017-B"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-RELEASE-SOURCE-ARCHIVE-MANIFEST-V1",
+      "title": "DevPilot Release Source Archive Manifest v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/release_source_archive_manifest.schema.json",
+      "description": "POST-H-017-C schema for local source archive inventory, forbidden runtime entry detection and critical artifact SHA-256 checksums.",
+      "status": "registered",
+      "contract": "ReleaseSourceArchiveManifest",
+      "owner": "Ordóñez",
+      "sprint": "POST-H-017-C",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "POST-H-017-C"
     }
   ]
 }

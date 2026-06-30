@@ -32,6 +32,7 @@ APPLICATION_OPERATION_BY_COMMAND_ID: dict[str, str] = {
     "workspace.status": "workspace.status",
     "api.shell-gate": "api.shell_gate",
     "operator.dashboard": "operator.dashboard",
+    "portfolio.status": "portfolio.status",
 }
 
 POST_H_006_B_INITIAL_GROUPS: tuple[str, ...] = (
@@ -232,12 +233,26 @@ DECLARATIVE_GROUPS: dict[str, DeclarativeGroupDescriptor] = {
         recommended_tests=("python -m pytest tests/test_post_h_015_operator_dashboard_ready_gate.py tests/test_post_h_015_operator_dashboard_application_api.py -q",),
         rationale="POST-H-015-E exposes the local operator dashboard snapshot through the ApplicationService boundary and writes evidence only under outputs/reports when requested.",
     ),
+    "portfolio": DeclarativeGroupDescriptor(
+        group_id="portfolio",
+        domain="workspace.portfolio",
+        owner_module="src/devpilot_core/cli.py",
+        recommended_tests=("python -m pytest tests/test_post_h_016_portfolio_status_hardening.py tests/test_post_h_016_workspace_portfolio_hardening_gate.py -q",),
+        rationale="POST-H-016 portfolio commands inspect registered workspaces and run local hardening evidence without mutating workspace source files.",
+    ),
     "audit-pack": DeclarativeGroupDescriptor(
         group_id="audit-pack",
         domain="operations.audit",
         owner_module="src/devpilot_core/cli.py",
         recommended_tests=("python -m pytest tests/test_audit_pack_v2.py tests/test_audit_pack_integrity_gate.py -q",),
         rationale="POST-H-013 audit-pack v2 commands are governed local audit surfaces with explicit dry-run/execute semantics and must be registered before the no-growth gate runs.",
+    ),
+    "release": DeclarativeGroupDescriptor(
+        group_id="release",
+        domain="release",
+        owner_module="src/devpilot_core/cli.py",
+        recommended_tests=("python -m pytest tests/test_post_h_017_source_archive_manifest.py tests/test_release_verification.py tests/test_release_manifest.py -q",),
+        rationale="POST-H-017 release reproducibility commands are governed local dry-run evidence surfaces and must be registered before the no-growth gate runs.",
     ),
 }
 
@@ -293,6 +308,54 @@ COMMAND_OVERRIDES: dict[str, DeclarativeCommandOverride] = {
             "python -m pytest tests/test_post_h_015_operator_dashboard_ready_gate.py tests/test_post_h_015_operator_dashboard_application_api.py -q",
         ),
         rationale="POST-H-015-E operator dashboard is read-only by default and writes only operator_dashboard_snapshot JSON/Markdown under outputs/reports when --write-report is explicit.",
+    ),
+    "portfolio.status": DeclarativeCommandOverride(
+        command_id="portfolio.status",
+        risk_level=CommandRiskLevel.MEDIUM,
+        side_effects=(CommandSideEffect.WRITE_REPORT,),
+        writes_files=True,
+        dry_run_supported=True,
+        policy_check_required=True,
+        recommended_tests=(
+            "python -m pytest tests/test_post_h_016_portfolio_status_hardening.py -q",
+        ),
+        rationale="POST-H-016-C portfolio status is read-only over the workspace registry and writes evidence only when --write-report is explicit.",
+    ),
+    "portfolio.hardening-gate": DeclarativeCommandOverride(
+        command_id="portfolio.hardening-gate",
+        risk_level=CommandRiskLevel.HIGH,
+        side_effects=(CommandSideEffect.WRITE_REPORT,),
+        writes_files=True,
+        dry_run_supported=True,
+        policy_check_required=True,
+        recommended_tests=(
+            "python -m pytest tests/test_post_h_016_workspace_portfolio_hardening_gate.py -q",
+        ),
+        rationale="POST-H-016-E workspace portfolio hardening gate is a governed local read-only quality surface and writes evidence only when --write-report is explicit.",
+    ),
+    "release.environment-snapshot": DeclarativeCommandOverride(
+        command_id="release.environment-snapshot",
+        risk_level=CommandRiskLevel.MEDIUM,
+        side_effects=(CommandSideEffect.WRITE_REPORT,),
+        writes_files=True,
+        dry_run_supported=True,
+        policy_check_required=True,
+        recommended_tests=(
+            "python -m pytest tests/test_post_h_017_environment_snapshot.py tests/test_post_h_017_release_reproducibility_schema.py -q",
+        ),
+        rationale="POST-H-017-B reads local project manifests only and writes redacted environment evidence under outputs/release when --write-report is explicit.",
+    ),
+    "release.source-archive-manifest": DeclarativeCommandOverride(
+        command_id="release.source-archive-manifest",
+        risk_level=CommandRiskLevel.MEDIUM,
+        side_effects=(CommandSideEffect.WRITE_REPORT, CommandSideEffect.EXECUTE_SUBPROCESS),
+        writes_files=True,
+        dry_run_supported=True,
+        policy_check_required=True,
+        recommended_tests=(
+            "python -m pytest tests/test_post_h_017_source_archive_manifest.py tests/test_post_h_017_release_reproducibility_schema.py -q",
+        ),
+        rationale="POST-H-017-C optionally inspects git archive HEAD in memory and writes source archive/checksum evidence under outputs/release when --write-report is explicit.",
     ),
     "cli-registry.guard": DeclarativeCommandOverride(
         command_id="cli-registry.guard",

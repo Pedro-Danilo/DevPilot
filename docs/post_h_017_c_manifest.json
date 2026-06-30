@@ -1,0 +1,79 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "SCHEMA-DEVPL-POST-H-MANIFEST-V1",
+  "post_h_id": "POST-H-017",
+  "title": "POST-H-017-C — Source archive manifest y checksums",
+  "status": "implemented-initial",
+  "phase": "POST-FASE-H",
+  "implemented_at": "2026-06-30",
+  "created_files": [
+    "src/devpilot_core/release/archive_manifest.py",
+    "docs/schemas/release_source_archive_manifest.schema.json",
+    "tests/test_post_h_017_source_archive_manifest.py",
+    "tests/fixtures/release_source_archive_manifest.valid.json",
+    "docs/05_operations/release_reproducibility_runbook.md",
+    "docs/audits/post_h_017_c_source_archive_manifest_report.md",
+    "docs/post_h_017_c_manifest.json"
+  ],
+  "modified_files": [
+    "src/devpilot_core/release/__init__.py",
+    "src/devpilot_core/cli.py",
+    "src/devpilot_core/cli_registry/registry.py",
+    ".devpilot/cli_registry/legacy_command_allowlist.json",
+    "docs/schemas/schema_catalog.json",
+    "tests/test_post_h_006_b_declarative_registry.py",
+    "tests/test_post_h_017_release_reproducibility_schema.py",
+    "tests/test_post_h_017_environment_snapshot.py",
+    "tests/test_project_global_state.py",
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/backlogs/POST-H-017_release_reproducibility_pack.md",
+    "docs/POST-H-017_release_reproducibility_pack.md",
+    "docs/release/CHANGELOG.md",
+    ".devpilot/project_state.json",
+    ".devpilot/docs_governance/source_registry.json",
+    ".devpilot/testing/test_contract_registry.json",
+    ".devpilot/testing/test_contract_registry_v2.json"
+  ],
+  "commands": [
+    "python -m pytest -p no:ddtrace tests/test_post_h_017_source_archive_manifest.py tests/test_post_h_017_environment_snapshot.py tests/test_post_h_017_release_reproducibility_schema.py tests/test_schema_registry.py tests/test_documentation_governance_validator.py tests/test_project_global_state.py -q",
+    "python -m devpilot_core release source-archive-manifest --json --write-report",
+    "python -m devpilot_core schema validate --schema-id ReleaseSourceArchiveManifest --instance outputs/release/source_archive_manifest.json --json",
+    "python -m devpilot_core docs-governance validate --json",
+    "python -m devpilot_core test-contracts validate --json",
+    "python -m devpilot_core test-contracts validate-v2 --json",
+    "python -m devpilot_core cli-registry guard --json"
+  ],
+  "tests": [
+    "tests/test_post_h_017_source_archive_manifest.py",
+    "tests/test_post_h_017_environment_snapshot.py",
+    "tests/test_post_h_017_release_reproducibility_schema.py",
+    "tests/test_schema_registry.py",
+    "tests/test_documentation_governance_validator.py",
+    "tests/test_post_h_006_b_declarative_registry.py",
+    "tests/test_project_global_state.py"
+  ],
+  "pass_criteria": [
+    "ReleaseSourceArchiveManifest schema is registered and validates generated outputs.",
+    "Source archive manifest reports forbidden_entries_total=0 for the current clean source.",
+    "Git archive entries are normalized through the same runtime/build/cache exclusion policy used by deterministic-source-archive-plan.",
+    "Runtime/build/cache entries such as outputs/, .devpilot/devpilot.db, .venv/ and node_modules/ are declared as forbidden.",
+    "Critical artifact SHA-256 checksums are generated for present source-controlled files.",
+    "POST-H-017-C is synchronized across README, runbook, backlog, source registry, project state, CLI registry and TCR v1/v2."
+  ],
+  "block_criteria": [
+    "BLOCK if outputs/, .devpilot/devpilot.db, .devpilot/agent_sessions/, .venv/ or node_modules/ are included in the source archive manifest.",
+    "BLOCK if generated outputs/release/source_archive_manifest.json does not validate against ReleaseSourceArchiveManifest.",
+    "BLOCK if the command uses network, external APIs, remote execution, connector write or plugin execution.",
+    "BLOCK if POST-H-017-C is presented as the final verified release reproducibility pack before POST-H-017-D/E."
+  ],
+  "risks": [
+    "ZIPs without .git cannot prove git archive HEAD literally; they use deterministic-source-archive-plan as auditable fallback.",
+    "Checkouts with historically versioned runtime artifacts require source-archive normalization before evaluating forbidden_entries_total.",
+    "Checksums are local integrity evidence and do not replace signing or supply-chain certification.",
+    "Checksum tamper verification and dirty-repo enforcement are intentionally deferred to POST-H-017-D."
+  ],
+  "next_sprint": "POST-H-017",
+  "next_micro_sprint": "POST-H-017-D",
+  "preliminary": true
+}

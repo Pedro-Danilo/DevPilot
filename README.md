@@ -1,3 +1,13 @@
+## POST-H-017-C — Source archive manifest y checksums
+
+Estado: `implemented-initial / hito activo`.
+
+DevPilot ahora puede generar evidencia local del archivo fuente de release con `python -m devpilot_core release source-archive-manifest --json --write-report`. El manifest inspecciona `git archive HEAD` en memoria cuando existe `.git` y normaliza esa enumeración contra la policy de source archive limpio; en ZIPs limpios sin metadata Git usa un `deterministic-source-archive-plan` para auditar la fuente entregada. La evidencia excluye entradas prohibidas como `outputs/`, `.devpilot/devpilot.db`, `.devpilot/agent_sessions/`, `.devpilot/backups/`, `.venv/` y `node_modules/`, y calcula SHA-256 de artefactos críticos versionados.
+
+Artefactos principales: `src/devpilot_core/release/archive_manifest.py`, `docs/schemas/release_source_archive_manifest.schema.json`, `tests/test_post_h_017_source_archive_manifest.py`, `docs/05_operations/release_reproducibility_runbook.md`, `outputs/release/source_archive_manifest.json` generado localmente.
+
+Límite explícito: POST-H-017-C no implementa todavía el verifier local de reproducibilidad ni integra el quality gate final; eso queda para POST-H-017-D/E. Los checksums generados son evidencia de integridad local, no firma criptográfica ni certificación supply-chain.
+
 ## POST-H-017-B — Environment snapshot redactado
 
 Estado: `implemented-initial / hito activo`.
@@ -26,8 +36,8 @@ Límites: versión `implemented-initial`; no publica, no despliega, no firma rem
 Último hito: `POST-H-016 — Workspace portfolio hardening`
 Último hito cerrado: `POST-H-016 — Workspace portfolio hardening`
 Siguiente hito: `POST-H-017 — Release reproducibility pack`
-Último micro-sprint implementado: `POST-H-017-B — Environment snapshot redactado`
-Siguiente micro-sprint: `POST-H-017-C — Source archive manifest y checksums`
+Último micro-sprint implementado: `POST-H-017-C — Source archive manifest y checksums`
+Siguiente micro-sprint: `POST-H-017-D — Verifier local de reproducibilidad`
 
 ## POST-H-016-E — Quality gate y runbook
 

@@ -99,6 +99,8 @@ from .release import (
     ReleaseManifestOptions,
     ReleaseSbomBuilder,
     ReleaseSbomOptions,
+    SourceArchiveManifestBuilder,
+    SourceArchiveManifestOptions,
     ReleaseSmokeTestBuilder,
     ReleaseSmokeTestOptions,
     ReleaseVerifyBuilder,
@@ -2194,6 +2196,24 @@ def release_environment_snapshot_command(
     ).build()
     _emit_result_event(root, result, subject="release:environment-snapshot")
     _persist_result(root, result, subject="release:environment-snapshot")
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+
+def release_source_archive_manifest_command(
+    *,
+    json_output: bool = False,
+    write_report: bool = False,
+) -> int:
+    """Generate the POST-H-017-C source archive manifest and critical checksums."""
+
+    root = project_root()
+    result = SourceArchiveManifestBuilder(
+        root,
+        options=SourceArchiveManifestOptions(write_report=write_report),
+    ).build()
+    _emit_result_event(root, result, subject="release:source-archive-manifest")
+    _persist_result(root, result, subject="release:source-archive-manifest")
     print_result(result, json_output=json_output)
     return int(result.exit_code)
 
@@ -5633,6 +5653,10 @@ def build_parser() -> argparse.ArgumentParser:
     release_environment_snapshot.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     release_environment_snapshot.add_argument("--write-report", action="store_true", help="Persist outputs/release/environment_snapshot.{json,md}")
 
+    release_source_archive_manifest = release_sub.add_parser("source-archive-manifest", help="Generate source archive manifest and critical artifact checksums")
+    release_source_archive_manifest.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    release_source_archive_manifest.add_argument("--write-report", action="store_true", help="Persist outputs/release/source_archive_manifest.{json,md} and source_archive_checksums.sha256")
+
     release_checksum = release_sub.add_parser("checksum", help="Generate SHA256 evidence for one local release artifact")
     release_checksum.add_argument("--artifact", required=True, help="Local release artifact to checksum, for example dist/release/devpilot-local-0.1.0-source.zip")
     release_checksum.add_argument("--version", dest="release_version", default=None, help="Optional SemVer release version; defaults to pyproject.toml")
@@ -6742,6 +6766,8 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
             return release_sbom_command(version=args.release_version, json_output=args.json, write_report=args.write_report)
         if args.release_command == "environment-snapshot":
             return release_environment_snapshot_command(json_output=args.json, write_report=args.write_report)
+        if args.release_command == "source-archive-manifest":
+            return release_source_archive_manifest_command(json_output=args.json, write_report=args.write_report)
         if args.release_command == "checksum":
             return release_checksum_command(artifact=args.artifact, version=args.release_version, json_output=args.json, write_report=args.write_report)
         if args.release_command == "smoke-test":

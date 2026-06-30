@@ -4789,6 +4789,38 @@
         "python -m devpilot_core schema validate --schema-id ReleaseEnvironmentSnapshot --instance outputs/release/environment_snapshot.json --json",
         "python -m devpilot_core test-contracts validate --json"
       ]
+    },
+    {
+      "contract_id": "post-h-017-source-archive-manifest-checksums",
+      "scope": "integration",
+      "owner": "POST-H-017-C",
+      "phase": "POST-FASE-H",
+      "test_files": [
+        "tests/test_post_h_017_source_archive_manifest.py"
+      ],
+      "validates": [
+        "src/devpilot_core/release/archive_manifest.py",
+        "src/devpilot_core/cli.py",
+        "docs/schemas/release_source_archive_manifest.schema.json",
+        "tests/fixtures/release_source_archive_manifest.valid.json",
+        "docs/post_h_017_c_manifest.json"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/release/archive_manifest.py",
+        "src/devpilot_core/release/__init__.py",
+        "src/devpilot_core/cli.py",
+        "docs/schemas/release_source_archive_manifest.schema.json",
+        "tests/test_post_h_017_source_archive_manifest.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace tests/test_post_h_017_source_archive_manifest.py tests/test_post_h_017_environment_snapshot.py tests/test_post_h_017_release_reproducibility_schema.py tests/test_schema_registry.py tests/test_documentation_governance_validator.py tests/test_project_global_state.py -q",
+        "python -m devpilot_core release source-archive-manifest --json --write-report",
+        "python -m devpilot_core schema validate --schema-id ReleaseSourceArchiveManifest --instance outputs/release/source_archive_manifest.json --json",
+        "python -m devpilot_core test-contracts validate --json"
+      ]
     }
   ],
   "notes": [
@@ -4803,6 +4835,7 @@
     "POST-H-013-E registers audit-pack-integrity as a hardening quality-gate contract without executing external services or writing source files.",
     "POST-H-015-A registers operator-dashboard schema/config tests without generating runtime outputs or enabling write actions.",
     "POST-H-016-D registers secure CLI/API portfolio status integration and active-workspace non-mutation tests.",
-    "POST-H-016-E registers workspace-portfolio-hardening as the final quality gate contract for Workspace portfolio hardening."
+    "POST-H-016-E registers workspace-portfolio-hardening as the final quality gate contract for Workspace portfolio hardening.",
+    "POST-H-017-C registers source archive manifest and checksums contract without external services."
   ]
 }

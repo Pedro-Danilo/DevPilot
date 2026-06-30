@@ -84,7 +84,6 @@
     "plugin.validate",
     "policy.check",
     "policy.simulate",
-    "portfolio.status",
     "prompt.list",
     "prompt.show",
     "prompt.validate",
@@ -94,12 +93,6 @@
     "readiness-check",
     "refactor-plan",
     "refactor.sandbox",
-    "release.changelog",
-    "release.checksum",
-    "release.manifest",
-    "release.sbom",
-    "release.smoke-test",
-    "release.verify",
     "remote.runner.status",
     "repo-inventory",
     "repo.analyze",
@@ -134,6 +127,7 @@
     "POST-H-006-E fails when a public CLI command appears as legacy-unregistered and is not listed here.",
     "Do not add new commands to this allowlist as a shortcut; create a declarative descriptor or migrate the handler instead.",
     "POST-H-011-D adds rag.groundedness-eval as a governed temporary legacy CLI command until the rag group is moved into the declarative registry.",
-    "POST-H-015-C corrective patch registers api and audit-pack groups declaratively; api.serve, api.token, audit-pack.build and audit-pack.verify are removed from the temporary legacy allowlist as stale entries."
+    "POST-H-015-C corrective patch registers api and audit-pack groups declaratively; api.serve, api.token, audit-pack.build and audit-pack.verify are removed from the temporary legacy allowlist as stale entries.",
+    "POST-H-017-C registers portfolio and release groups declaratively; portfolio.status and release.* commands are removed from the temporary legacy allowlist as stale entries."
   ]
 }

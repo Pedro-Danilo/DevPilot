@@ -8809,17 +8809,76 @@
       "notes": [
         "POST-H-017-B captures redacted local environment diagnostics without reading .env files, secret values, network resources or external APIs."
       ]
+    },
+    {
+      "contract_id": "post-h-017-source-archive-manifest-checksums",
+      "schema_version": "2.0",
+      "source_contract_id": "post-h-017-source-archive-manifest-checksums",
+      "domain": "release",
+      "capability": "Release source archive manifest and checksums",
+      "criticality": "P2",
+      "risk_level": "medium",
+      "test_type": "security",
+      "execution_profile": "release",
+      "cost_class": "low",
+      "expected_duration_seconds": 15,
+      "test_files": [
+        "tests/test_post_h_017_source_archive_manifest.py"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/release/archive_manifest.py",
+        "src/devpilot_core/release/__init__.py",
+        "src/devpilot_core/cli.py",
+        "docs/schemas/release_source_archive_manifest.schema.json",
+        "tests/test_post_h_017_source_archive_manifest.py"
+      ],
+      "validates": [
+        "ReleaseSourceArchiveManifest generated output schema validity",
+        "Forbidden runtime/build/cache archive entry blocking",
+        "Critical artifact SHA-256 checksum generation",
+        "POST-H-017-C documentation/project-state/TCR synchronization"
+      ],
+      "trigger_hints": [
+        "release-source-archive",
+        "release-checksums",
+        "release-reproducibility",
+        "post-h-017"
+      ],
+      "impact_scope": [
+        "release-reproducibility",
+        "source-archive-manifest",
+        "release-cli"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "POST-H-017-C",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace tests/test_post_h_017_source_archive_manifest.py tests/test_post_h_017_environment_snapshot.py tests/test_post_h_017_release_reproducibility_schema.py tests/test_schema_registry.py tests/test_documentation_governance_validator.py tests/test_project_global_state.py -q",
+        "python -m devpilot_core release source-archive-manifest --json --write-report",
+        "python -m devpilot_core schema validate --schema-id ReleaseSourceArchiveManifest --instance outputs/release/source_archive_manifest.json --json",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ],
+      "classification_status": "explicit",
+      "notes": [
+        "POST-H-017-C generates local source archive manifest and critical checksums without publishing, signing, network, external APIs or secret reads.",
+        "Verifier and release-reproducibility quality gate remain POST-H-017-D/E scope."
+      ]
     }
   ],
   "migration_metadata": {
-    "source_contracts_total": 147,
+    "source_contracts_total": 148,
     "migrator": "TestContractRegistryV2Migrator",
     "source_registry_preserved": true,
     "tests_executed": false,
     "network_used": false,
     "external_api_used": false,
     "mutations_performed_by_default": false,
-    "contracts_total": 147,
-    "last_updated_by": "POST-H-017-B"
+    "contracts_total": 148,
+    "last_updated_by": "POST-H-017-C"
   }
 }

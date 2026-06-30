@@ -1,0 +1,176 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/SCHEMA-DEVPL-RELEASE-SOURCE-ARCHIVE-MANIFEST-V1",
+  "title": "DevPilot Release Source Archive Manifest v1",
+  "description": "POST-H-017-C contract for local source archive inventory and critical artifact SHA-256 checksums without publishing, deploying, reading secrets or using external services.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "schema_id",
+    "manifest_id",
+    "created_by",
+    "status",
+    "generated_at_utc",
+    "archive",
+    "exclusions",
+    "critical_artifacts",
+    "safety",
+    "preliminary"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "schema_id": {"const": "SCHEMA-DEVPL-RELEASE-SOURCE-ARCHIVE-MANIFEST-V1"},
+    "manifest_id": {"type": "string", "minLength": 8, "pattern": "^[a-z0-9_.:-]+$"},
+    "created_by": {"const": "POST-H-017-C"},
+    "status": {"enum": ["draft", "implemented-initial", "verified-local"]},
+    "generated_at_utc": {"type": "string", "minLength": 10},
+    "archive": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "method",
+        "git_metadata_available",
+        "git_archive_checked",
+        "fallback_used",
+        "entries_total",
+        "entries_sha256",
+        "entries"
+      ],
+      "properties": {
+        "method": {"enum": ["git-archive-head-in-memory", "deterministic-source-archive-plan", "test-override"]},
+        "git_metadata_available": {"type": "boolean"},
+        "git_archive_checked": {"type": "boolean"},
+        "fallback_used": {"type": "boolean"},
+        "entries_total": {"type": "integer", "minimum": 0},
+        "entries_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "entries": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "exclusions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "critical_exclusions",
+        "forbidden_archive_entries",
+        "forbidden_entries_detected",
+        "forbidden_entries_total"
+      ],
+      "properties": {
+        "critical_exclusions": {
+          "type": "array",
+          "minItems": 5,
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1},
+          "contains": {"const": "outputs/"}
+        },
+        "forbidden_archive_entries": {
+          "type": "array",
+          "minItems": 5,
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1},
+          "contains": {"const": ".devpilot/devpilot.db"}
+        },
+        "forbidden_entries_detected": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["path", "patterns"],
+            "properties": {
+              "path": {"type": "string", "minLength": 1},
+              "patterns": {
+                "type": "array",
+                "minItems": 1,
+                "items": {"type": "string", "minLength": 1}
+              }
+            }
+          }
+        },
+        "forbidden_entries_total": {"type": "integer", "minimum": 0}
+      }
+    },
+    "critical_artifacts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["required", "present_total", "missing_total", "sha256", "checksums_sha256"],
+      "properties": {
+        "required": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "present_total": {"type": "integer", "minimum": 0},
+        "missing_total": {"type": "integer", "minimum": 0},
+        "sha256": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["path", "exists", "included_in_archive", "sha256", "size_bytes"],
+            "properties": {
+              "path": {"type": "string", "minLength": 1},
+              "exists": {"type": "boolean"},
+              "included_in_archive": {"type": "boolean"},
+              "sha256": {"type": ["string", "null"], "pattern": "^[a-f0-9]{64}$"},
+              "size_bytes": {"type": ["integer", "null"], "minimum": 0}
+            }
+          }
+        },
+        "checksums_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+      }
+    },
+    "safety": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "local_first",
+        "dry_run",
+        "read_only",
+        "network_used",
+        "external_api_used",
+        "remote_execution_used",
+        "connector_write_used",
+        "plugin_execution_used",
+        "mutations_performed",
+        "source_mutations_performed",
+        "secrets_included",
+        "env_files_read",
+        "secret_values_read"
+      ],
+      "properties": {
+        "local_first": {"const": true},
+        "dry_run": {"const": true},
+        "read_only": {"const": true},
+        "network_used": {"const": false},
+        "external_api_used": {"const": false},
+        "remote_execution_used": {"const": false},
+        "connector_write_used": {"const": false},
+        "plugin_execution_used": {"const": false},
+        "mutations_performed": {"const": false},
+        "source_mutations_performed": {"const": false},
+        "secrets_included": {"const": false},
+        "env_files_read": {"const": false},
+        "secret_values_read": {"const": false}
+      }
+    },
+    "preliminary": {"const": true}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"status": {"const": "verified-local"}}},
+      "then": {"properties": {"exclusions": {"properties": {"forbidden_entries_total": {"const": 0}}}}}
+    }
+  ],
+  "x-devpilot-schema-id": "SCHEMA-DEVPL-RELEASE-SOURCE-ARCHIVE-MANIFEST-V1",
+  "x-devpilot-version": "1.0.0",
+  "x-devpilot-sprint": "POST-H-017-C",
+  "x-devpilot-status": "registered",
+  "x-devpilot-preliminary": true
+}

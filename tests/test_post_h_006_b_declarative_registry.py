@@ -22,7 +22,10 @@ CURRENT_DECLARATIVE_GROUPS = {
     "docs-governance",
     "observability",
     "api",
+    "operator",
+    "portfolio",
     "audit-pack",
+    "release",
 }
 
 
@@ -82,8 +85,13 @@ def test_post_h_006_b_declarative_overlay_registers_initial_groups_and_coverage(
         "observability.cleanup-plan",
         "observability.export",
         "api.shell-gate",
+        "operator.dashboard",
+        "portfolio.status",
+        "portfolio.hardening-gate",
         "audit-pack.build-v2",
         "audit-pack.verify-v2",
+        "release.environment-snapshot",
+        "release.source-archive-manifest",
     }
     for group_id in CURRENT_DECLARATIVE_GROUPS:
         assert group_id in groups

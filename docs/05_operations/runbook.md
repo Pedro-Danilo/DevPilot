@@ -2,17 +2,56 @@
 title: "Runbook — DevPilot Local"
 doc_id: "DEVPL-OPS-002"
 status: "approved"
-version: "1.59.0"
+version: "1.60.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "POST-H-017-B"
-updated: "2026-06-29"
+phase: "POST-H-017-C"
+updated: "2026-06-30"
 approval: "approved_by_owner"
 source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved + 03_security approved"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "SPRINT-PRECODE-05 quality operations baseline"
 ---
+
+## POST-H-017-C — Source archive manifest y checksums
+
+Estado: `implemented-initial`.
+
+Comando principal:
+
+```powershell
+python -m devpilot_core release source-archive-manifest --json --write-report
+python -m devpilot_core schema validate --schema-id ReleaseSourceArchiveManifest --instance outputs/release/source_archive_manifest.json --json
+```
+
+Evidencia generada:
+
+```text
+outputs/release/source_archive_manifest.json
+outputs/release/source_archive_manifest.md
+outputs/release/source_archive_checksums.sha256
+```
+
+Criterios PASS:
+
+```text
+PASS si forbidden_entries_total=0.
+PASS si outputs/ y .devpilot/devpilot.db están declarados como prohibidos.
+PASS si se generan checksums SHA-256 para artefactos críticos presentes.
+PASS si network_used=false, external_api_used=false y secrets_included=false.
+PASS si el reporte valida contra ReleaseSourceArchiveManifest.
+```
+
+Criterios BLOCK:
+
+```text
+BLOCK si el archivo fuente incluye outputs/, .devpilot/devpilot.db, .devpilot/agent_sessions/, .venv/ o node_modules/.
+BLOCK si no se puede validar el manifest contra schema.
+BLOCK si se usa red, API externa, remote execution, connector write o plugin execution.
+```
+
+Límite: POST-H-017-C produce manifest y checksums críticos; el verifier local y el subgate release-reproducibility quedan para POST-H-017-D/E.
 
 ## POST-H-017-B — Environment snapshot redactado
 
@@ -7876,7 +7915,7 @@ Reglas PASS/BLOCK:
 
 ```text
 PASS si quality-gate hardening incluye y pasa `runtime-state-hygiene`.
-PASS si `git archive HEAD` queda limpio cuando `.git` está disponible.
+PASS si la enumeración de `git archive HEAD` queda normalizada a un source archive limpio cuando `.git` está disponible.
 PASS si el source archive plan queda limpio cuando se valida desde ZIP sin `.git`.
 BLOCK si hay runtime artifacts no versionables rastreados por Git.
 BLOCK si outputs, devpilot.db, agent_sessions, caches o build artifacts aparecen en archive.

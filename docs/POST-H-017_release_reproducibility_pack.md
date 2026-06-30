@@ -4,9 +4,9 @@ doc_id: "POST-H-017-IMPLEMENTATION"
 id: "POST-H-017"
 title: "POST-H-017 — Release reproducibility pack"
 status: "approved"
-version: "0.3.0"
+version: "0.4.0"
 owner: "Ordóñez"
-updated: "2026-06-29"
+updated: "2026-06-30"
 approval: "approved_by_owner"
 phase: "POST-FASE-H"
 priority: "P2"
@@ -18,8 +18,8 @@ no_external_apis_used: true
 no_connector_write_enabled: true
 no_plugin_execution_enabled: true
 implementation_status: "active"
-current_micro_sprint: "POST-H-017-B"
-next_micro_sprint: "POST-H-017-C"
+current_micro_sprint: "POST-H-017-C"
+next_micro_sprint: "POST-H-017-D"
 ---
 
 # POST-H-017 — Release reproducibility pack
@@ -264,12 +264,17 @@ PASS si runbook explica cómo generar y verificar release local.
 ## 9. Comandos esperados
 
 ```powershell
+python -m devpilot_core release environment-snapshot --json --write-report
+python -m devpilot_core release source-archive-manifest --json --write-report
+python -m devpilot_core schema validate --schema-id ReleaseSourceArchiveManifest --instance outputs/release/source_archive_manifest.json --json
 python -m devpilot_core release reproducibility-pack --json --write-report
 python -m devpilot_core release reproducibility-verify --pack outputs/release/reproducibility_pack.json --json
 python -m pytest tests/test_post_h_017_release_reproducibility_pack.py -q
 python -m pytest tests/test_post_h_017_release_reproducibility_schema.py -q
 python -m devpilot_core quality-gate run --profile hardening --json
 ```
+
+Nota: `release reproducibility-pack` y `release reproducibility-verify` siguen definidos como comandos esperados para POST-H-017-D/E; hasta POST-H-017-C los comandos operativos son `environment-snapshot` y `source-archive-manifest`.
 
 ## 10. Criterios BLOCK
 
@@ -294,12 +299,12 @@ BLOCK si se presenta como release publicado.
 ## 12. Definition of Done
 
 ```text
-[ ] Schema pack validado.
-[ ] Environment snapshot redactado.
-[ ] Source archive manifest generado.
+[x] Schema pack validado.
+[x] Environment snapshot redactado.
+[x] Source archive manifest generado.
 [ ] Verifier local implementado.
 [ ] Quality gate integrado.
-[ ] Runbook aprobado.
+[x] Runbook aprobado en versión inicial A-C.
 ```
 
 ## 13. Estado de implementación acumulativo
@@ -329,5 +334,54 @@ Límites explícitos:
 - No publica, no despliega, no firma remoto, no usa red y no lee secretos.
 ```
 
-Evolución pendiente: POST-H-017-C/D/E implementarán source archive manifest/checksums, verifier local y gate/runbook de release reproducibility.
+Evolución pendiente: POST-H-017-D/E implementarán verifier local y gate final de release reproducibility.
+
+### POST-H-017-B — Environment snapshot redactado
+
+Estado: `implemented-initial`.
+
+Implementado:
+
+```text
+- ReleaseEnvironmentSnapshotBuilder genera outputs/release/environment_snapshot.json y .md cuando se solicita --write-report.
+- CLI release environment-snapshot agregado.
+- Snapshot captura Python, plataforma, package manager signal y dependencias declaradas sin leer .env ni valores de entorno.
+- Tests cubren redacción, caso sintético con .env secreto, schema y sincronía documental.
+```
+
+Límites explícitos:
+
+```text
+- No genera todavía el pack reproducible final.
+- No enumera source archive ni checksums; eso queda cubierto por POST-H-017-C.
+- No implementa verifier local ni quality gate final.
+```
+
+### POST-H-017-C — Source archive manifest y checksums
+
+Estado: `implemented-initial`.
+
+Implementado:
+
+```text
+- ReleaseSourceArchiveManifest schema registrado.
+- SourceArchiveManifestBuilder inspecciona git archive HEAD en memoria cuando .git está disponible y normaliza esa enumeración contra la policy de source archive limpio.
+- Fallback deterministic-source-archive-plan para ZIPs limpios sin metadata Git.
+- Detección de entradas prohibidas: outputs/, .devpilot/devpilot.db, .devpilot/agent_sessions/, .venv/, node_modules/ y caches.
+- Checksums SHA-256 de artefactos críticos de release reproducibility.
+- CLI release source-archive-manifest --json --write-report.
+- CLI registry declarativo sincronizado para `release` y `portfolio`; allowlist legacy limpiada de entradas stale.
+- Runbook específico docs/05_operations/release_reproducibility_runbook.md.
+- Tests focales de generación, schema, caso bloqueante y sincronía documental/TCR.
+```
+
+Límites explícitos:
+
+```text
+- Checksums son evidencia local, no firma criptográfica ni certificación supply-chain.
+- En ZIPs sin .git, la enumeración es un plan determinístico de fuente, no una ejecución real de git archive.
+- No valida todavía checksum alterado contra pack final; eso queda para POST-H-017-D.
+- No integra todavía quality-gate release-reproducibility; eso queda para POST-H-017-E.
+- No publica, no despliega, no firma remoto, no usa red, no usa APIs externas y no lee secretos.
+```
 

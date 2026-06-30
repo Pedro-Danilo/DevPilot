@@ -1,0 +1,82 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "SCHEMA-DEVPL-RELEASE-SOURCE-ARCHIVE-MANIFEST-V1",
+  "manifest_id": "devpilot-release-source-archive-manifest",
+  "created_by": "POST-H-017-C",
+  "status": "implemented-initial",
+  "generated_at_utc": "2026-06-30T00:00:00Z",
+  "archive": {
+    "method": "deterministic-source-archive-plan",
+    "git_metadata_available": false,
+    "git_archive_checked": false,
+    "fallback_used": true,
+    "entries_total": 3,
+    "entries_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "entries": [
+      "README.md",
+      "pyproject.toml",
+      "src/devpilot_core/release/archive_manifest.py"
+    ]
+  },
+  "exclusions": {
+    "critical_exclusions": [
+      "outputs/",
+      ".devpilot/devpilot.db",
+      ".devpilot/agent_sessions/",
+      ".devpilot/backups/",
+      ".venv/",
+      "node_modules/"
+    ],
+    "forbidden_archive_entries": [
+      "outputs/",
+      ".devpilot/devpilot.db",
+      ".devpilot/agent_sessions/",
+      ".devpilot/backups/",
+      ".venv/",
+      "node_modules/"
+    ],
+    "forbidden_entries_detected": [],
+    "forbidden_entries_total": 0
+  },
+  "critical_artifacts": {
+    "required": [
+      "README.md",
+      "pyproject.toml"
+    ],
+    "present_total": 2,
+    "missing_total": 0,
+    "sha256": [
+      {
+        "path": "README.md",
+        "exists": true,
+        "included_in_archive": true,
+        "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "size_bytes": 100
+      },
+      {
+        "path": "pyproject.toml",
+        "exists": true,
+        "included_in_archive": true,
+        "sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "size_bytes": 100
+      }
+    ],
+    "checksums_sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+  },
+  "safety": {
+    "local_first": true,
+    "dry_run": true,
+    "read_only": true,
+    "network_used": false,
+    "external_api_used": false,
+    "remote_execution_used": false,
+    "connector_write_used": false,
+    "plugin_execution_used": false,
+    "mutations_performed": false,
+    "source_mutations_performed": false,
+    "secrets_included": false,
+    "env_files_read": false,
+    "secret_values_read": false
+  },
+  "preliminary": true
+}

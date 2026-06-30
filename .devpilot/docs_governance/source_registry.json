@@ -1514,14 +1514,17 @@
         "docs/post_h_017_a_manifest.json",
         "docs/audits/post_h_017_a_release_reproducibility_schema_policy_report.md",
         "docs/post_h_017_b_manifest.json",
-        "docs/audits/post_h_017_b_environment_snapshot_report.md"
+        "docs/audits/post_h_017_b_environment_snapshot_report.md",
+        "docs/post_h_017_c_manifest.json",
+        "docs/audits/post_h_017_c_source_archive_manifest_report.md"
       ],
       "required_tests": [
         "tests/test_post_h_017_release_reproducibility_schema.py",
         "tests/test_schema_registry.py",
         "tests/test_documentation_governance_validator.py",
         "tests/test_project_global_state.py",
-        "tests/test_post_h_017_environment_snapshot.py"
+        "tests/test_post_h_017_environment_snapshot.py",
+        "tests/test_post_h_017_source_archive_manifest.py"
       ],
       "sync_rules": [
         "frontmatter_status_ownership"
@@ -1534,7 +1537,8 @@
       "notes": [
         "Canonical approved POST-H-017 hito document created for Release reproducibility pack.",
         "POST-H-017-A adds schemas and policy only; later micro-sprints generate and verify release packs.",
-        "POST-H-017-B adds a redacted environment snapshot builder and CLI that never reads .env files or secret values."
+        "POST-H-017-B adds a redacted environment snapshot builder and CLI that never reads .env files or secret values.",
+        "POST-H-017-C adds source archive manifest and critical artifact checksums while leaving verifier and quality gate to POST-H-017-D/E."
       ]
     },
     {
@@ -1547,7 +1551,8 @@
       "criticality": "P2",
       "machine_readable_counterparts": [
         "docs/schemas/release_reproducibility_pack.schema.json",
-        "docs/schemas/release_environment_snapshot.schema.json"
+        "docs/schemas/release_environment_snapshot.schema.json",
+        "docs/schemas/release_source_archive_manifest.schema.json"
       ],
       "human_readable_counterparts": [
         "docs/POST-H-017_release_reproducibility_pack.md",
@@ -1556,7 +1561,9 @@
       "derived_documents": [
         "tests/fixtures/release_reproducibility_pack.valid.json",
         "tests/fixtures/release_environment_snapshot.valid.json",
-        "outputs/release/environment_snapshot.json"
+        "outputs/release/environment_snapshot.json",
+        "tests/fixtures/release_source_archive_manifest.valid.json",
+        "outputs/release/source_archive_manifest.json"
       ],
       "required_tests": [
         "tests/test_post_h_017_release_reproducibility_schema.py"
@@ -1569,6 +1576,45 @@
       "lifecycle": "active",
       "notes": [
         "POST-H-017-A machine-readable policy for runtime exclusions, dirty repo blocking, dry-run mode and secret-free release reproducibility evidence."
+      ]
+    },
+    {
+      "doc_id": "DEVPL-OPS-RELEASE-REPRODUCIBILITY",
+      "path": "docs/05_operations/release_reproducibility_runbook.md",
+      "classification": "source-of-truth",
+      "domain": "release",
+      "owner": "Ordóñez",
+      "status_required": "approved",
+      "criticality": "P2",
+      "machine_readable_counterparts": [
+        "docs/schemas/release_source_archive_manifest.schema.json",
+        ".devpilot/release/reproducibility_policy.json"
+      ],
+      "human_readable_counterparts": [
+        "docs/POST-H-017_release_reproducibility_pack.md",
+        "docs/backlogs/POST-H-017_release_reproducibility_pack.md"
+      ],
+      "derived_documents": [
+        "docs/audits/post_h_017_c_source_archive_manifest_report.md",
+        "docs/post_h_017_c_manifest.json",
+        "outputs/release/source_archive_manifest.json",
+        "outputs/release/source_archive_checksums.sha256"
+      ],
+      "required_tests": [
+        "tests/test_post_h_017_source_archive_manifest.py",
+        "tests/test_documentation_governance_validator.py"
+      ],
+      "sync_rules": [
+        "frontmatter_status_ownership"
+      ],
+      "related_adrs": [],
+      "roadmap_milestones": [
+        "POST-H-017"
+      ],
+      "lifecycle": "active",
+      "notes": [
+        "Operational runbook for POST-H-017-A/B/C release reproducibility evidence.",
+        "Verifier and quality gate remain future POST-H-017-D/E scope."
       ]
     }
   ],
@@ -1596,20 +1642,20 @@
     "approved_backlogs_require_observability_retention_hygiene_gate": true
   },
   "summary": {
-    "documents_total": 43,
-    "source_of_truth_total": 13,
+    "documents_total": 44,
+    "source_of_truth_total": 14,
     "machine_readable_source_total": 6,
     "derived_total": 24,
     "generated_runtime_total": 0,
     "historical_total": 0,
     "deprecated_total": 0,
-    "critical_sources_total": 40,
+    "critical_sources_total": 41,
     "markdown_json_pairs_total": 29,
-    "documents_with_required_tests_total": 43,
+    "documents_with_required_tests_total": 44,
     "network_used": false,
     "external_api_used": false,
     "mutations_performed": false,
-    "last_updated_by": "POST-H-017-B",
+    "last_updated_by": "POST-H-017-C",
     "markdown_json_sync_checks_enabled": true,
     "sync_checks_scope": "version_match, milestones_match, decisions_match, closure_status_match, next_hito_match",
     "backlog_governance_enabled": true,
@@ -1648,13 +1694,13 @@
     "post_h_011_rag_groundedness_ready_gate_bound": true,
     "post_h_011_closed": true,
     "machine_readable_total": 5,
-    "required_tests_total": 110,
+    "required_tests_total": 52,
     "active_backlog": "POST-H-017",
-    "active_micro_sprint": "POST-H-017-A",
+    "active_micro_sprint": "POST-H-017-C",
     "sensitive_action_catalog_enabled": true,
     "sensitive_action_catalog_path": ".devpilot/approval/sensitive_action_catalog.json",
     "sensitive_action_catalog_schema": "docs/schemas/sensitive_action_catalog.schema.json",
-    "required_tests_checked_total": 110,
+    "required_tests_checked_total": 52,
     "post_h_012_policy_engine_enforcement_enabled": true,
     "post_h_012_current_micro_sprint": "POST-H-012-D",
     "ui_api_shell_report_schema_registered": true,
@@ -1706,8 +1752,8 @@
     "workspace_portfolio_hardening_cli_command": "python -m devpilot_core portfolio hardening-gate --json --write-report",
     "workspace_onboarding_checklist_path": "docs/05_operations/workspace_onboarding_checklist.md",
     "post_h_017_approved": true,
-    "post_h_017_current_micro_sprint": "POST-H-017-B",
-    "post_h_017_next_micro_sprint": "POST-H-017-C",
+    "post_h_017_current_micro_sprint": "POST-H-017-C",
+    "post_h_017_next_micro_sprint": "POST-H-017-D",
     "release_reproducibility_pack_schema_registered": true,
     "release_reproducibility_pack_schema_path": "docs/schemas/release_reproducibility_pack.schema.json",
     "release_environment_snapshot_schema_registered": true,
@@ -1721,7 +1767,16 @@
     "release_environment_snapshot_output_path": "outputs/release/environment_snapshot.json",
     "release_environment_snapshot_generated": true,
     "release_environment_snapshot_env_files_read": false,
-    "release_environment_snapshot_secret_values_read": false
+    "release_environment_snapshot_secret_values_read": false,
+    "release_source_archive_manifest_schema_registered": true,
+    "release_source_archive_manifest_schema": "docs/schemas/release_source_archive_manifest.schema.json",
+    "release_source_archive_manifest_schema_path": "docs/schemas/release_source_archive_manifest.schema.json",
+    "release_archive_manifest_module": "src/devpilot_core/release/archive_manifest.py",
+    "release_source_archive_manifest_cli_command": "python -m devpilot_core release source-archive-manifest --json --write-report",
+    "release_source_archive_manifest_output_path": "outputs/release/source_archive_manifest.json",
+    "release_source_archive_checksums_output_path": "outputs/release/source_archive_checksums.sha256",
+    "release_source_archive_manifest_generated": true,
+    "release_source_archive_forbidden_entries_expected": 0
   },
   "safety": {
     "local_first": true,
@@ -1765,6 +1820,8 @@
     "POST-H-017 becomes the next active backlog after POST-H-016 closure.",
     "POST-H-017-A approves Release reproducibility pack and registers schema/policy evidence contracts.",
     "POST-H-017-A does not generate release packs or read secrets; later micro-sprints implement snapshot, archive manifest, verifier and gate.",
-    "POST-H-017-B keeps docs-governance read-only while documenting generated outputs/release/environment_snapshot.json as runtime evidence, not a versioned source artifact."
+    "POST-H-017-B keeps docs-governance read-only while documenting generated outputs/release/environment_snapshot.json as runtime evidence, not a versioned source artifact.",
+    "POST-H-017-C registers ReleaseSourceArchiveManifest and release source-archive-manifest CLI as local dry-run evidence for source archive inventory and critical checksums.",
+    "POST-H-017-C keeps release verifier and quality gate pending for POST-H-017-D/E."
   ]
 }

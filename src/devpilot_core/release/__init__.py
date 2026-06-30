@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from .changelog import ReleaseChangelogBuilder, ReleaseChangelogOptions
 from .manifest import ReleaseManifestBuilder, ReleaseManifestOptions
+from .archive_manifest import SourceArchiveManifestBuilder, SourceArchiveManifestOptions
 from .environment import ReleaseEnvironmentSnapshotBuilder, ReleaseEnvironmentSnapshotOptions
 from .reproducibility_policy import ReleaseReproducibilityPolicy, ReleaseReproducibilityPolicyValidator
 from .package_builder import PackageBuildBuilder, PackageBuildOptions
@@ -24,6 +25,8 @@ __all__ = [
     "ReleaseChangelogOptions",
     "ReleaseManifestBuilder",
     "ReleaseManifestOptions",
+    "SourceArchiveManifestBuilder",
+    "SourceArchiveManifestOptions",
     "ReleaseEnvironmentSnapshotBuilder",
     "ReleaseEnvironmentSnapshotOptions",
     "ReleaseReproducibilityPolicy",

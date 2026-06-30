@@ -1,3 +1,18 @@
+## post-h-017-c — Source archive manifest y checksums
+
+- Agrega `SourceArchiveManifestBuilder` y CLI `release source-archive-manifest --json --write-report`.
+- Registra `ReleaseSourceArchiveManifest` para inventario de archivo fuente, exclusiones prohibidas y SHA-256 de artefactos críticos.
+- Usa `git archive HEAD` en memoria cuando hay `.git`; en ZIPs limpios usa `deterministic-source-archive-plan`.
+- Genera `outputs/release/source_archive_manifest.json`, `.md` y `source_archive_checksums.sha256` como evidencia runtime no versionable.
+- Sincroniza tests, fixture, manifest, auditoría, TCR v1/v2, README, runbook y backlog POST-H-017.
+
+Safety:
+
+```text
+- POST-H-017-C no publica, no despliega, no firma remoto, no llama red, no usa APIs externas y no lee secretos.
+- Verifier local y quality gate release-reproducibility permanecen como alcance POST-H-017-D/E.
+```
+
 ## post-h-017-b — Environment snapshot redactado
 
 - Agrega `ReleaseEnvironmentSnapshotBuilder` y CLI `release environment-snapshot --json --write-report`.
