@@ -1,3 +1,19 @@
+## post-h-018-b — Sandbox runner read-only/dry-run
+
+Estado de proyecto: `last_completed_sprint=POST-H-017`; `next_sprint=POST-H-018`; `current_micro_sprint=POST-H-018-B`; `next_micro_sprint=POST-H-018-C`.
+
+- Added `ConnectorSandboxRunner`, `ConnectorSandboxRequest`, `ConnectorSandboxResult` and CLI `connector sandbox run`.
+- Runner validates connector sandbox policy, checks allowed modes and invokes `PolicyEngine` before any simulated sandbox operation for governed connector risk classes.
+- Generates schema-compatible `ConnectorSandboxReport` evidence under `outputs/reports` when `--write-report` is explicit.
+- Registers connector CLI command metadata to keep no-growth gate stable.
+
+Safety:
+
+```text
+- POST-H-018-B does not execute real connector calls, replay fixtures, connector write, network, external APIs, remote execution or plugin execution.
+- Replay mode is a local simulation boundary until POST-H-018-C adds deterministic fixtures and redaction checks.
+```
+
 ## post-h-018-a — Connector sandbox policy y schemas
 
 Estado de proyecto: `last_completed_sprint=POST-H-017`; `next_sprint=POST-H-018`; `current_micro_sprint=POST-H-018-A`; `next_micro_sprint=POST-H-018-B`.

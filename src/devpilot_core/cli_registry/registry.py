@@ -254,6 +254,13 @@ DECLARATIVE_GROUPS: dict[str, DeclarativeGroupDescriptor] = {
         recommended_tests=("python -m pytest tests/test_post_h_017_release_reproducibility_pack.py tests/test_post_h_017_source_archive_manifest.py tests/test_release_verification.py tests/test_release_manifest.py -q",),
         rationale="POST-H-017 release reproducibility commands are governed local dry-run evidence surfaces and must be registered before the no-growth gate runs.",
     ),
+    "connector": DeclarativeGroupDescriptor(
+        group_id="connector",
+        domain="integration.connectors",
+        owner_module="src/devpilot_core/cli.py",
+        recommended_tests=("python -m pytest tests/test_post_h_018_connector_sandbox_runner.py tests/test_post_h_018_connector_sandbox_policy.py -q",),
+        rationale="POST-H-018 connector commands validate local deny-write connector contracts and run local sandbox simulation without connector write, network, external APIs, remote execution or plugin execution.",
+    ),
 }
 
 
@@ -380,6 +387,42 @@ COMMAND_OVERRIDES: dict[str, DeclarativeCommandOverride] = {
             "python -m pytest tests/test_post_h_017_release_reproducibility_pack.py tests/test_post_h_017_reproducibility_verify.py tests/test_post_h_017_release_reproducibility_schema.py -q",
         ),
         rationale="POST-H-017-E generates local reproducibility pack evidence under outputs/release and may invoke the local verifier; it never publishes, deploys, calls network/external APIs or mutates source files.",
+    ),
+    "connector.validate": DeclarativeCommandOverride(
+        command_id="connector.validate",
+        risk_level=CommandRiskLevel.MEDIUM,
+        side_effects=(CommandSideEffect.WRITE_REPORT,),
+        writes_files=True,
+        dry_run_supported=True,
+        policy_check_required=True,
+        recommended_tests=(
+            "python -m pytest tests/test_connector_registry.py tests/test_post_h_018_connector_sandbox_policy.py -q",
+        ),
+        rationale="Connector registry validation is local-first/read-only and writes evidence only when --write-report is explicit.",
+    ),
+    "connector.call": DeclarativeCommandOverride(
+        command_id="connector.call",
+        risk_level=CommandRiskLevel.HIGH,
+        side_effects=(CommandSideEffect.WRITE_REPORT,),
+        writes_files=True,
+        dry_run_supported=True,
+        policy_check_required=True,
+        recommended_tests=(
+            "python -m pytest tests/test_connector_adapter.py tests/test_post_h_018_connector_sandbox_policy.py -q",
+        ),
+        rationale="Existing connector call remains governed local read-only dry-run evidence; connector write, network and external APIs remain disabled.",
+    ),
+    "connector.sandbox.run": DeclarativeCommandOverride(
+        command_id="connector.sandbox.run",
+        risk_level=CommandRiskLevel.HIGH,
+        side_effects=(CommandSideEffect.WRITE_REPORT,),
+        writes_files=True,
+        dry_run_supported=True,
+        policy_check_required=True,
+        recommended_tests=(
+            "python -m pytest tests/test_post_h_018_connector_sandbox_runner.py tests/test_post_h_018_connector_sandbox_policy.py -q",
+        ),
+        rationale="POST-H-018-B connector sandbox run validates/dry-runs/replays locally through policy and report generation only; it does not enable connector write, network, external APIs, remote execution or plugin execution.",
     ),
     "cli-registry.guard": DeclarativeCommandOverride(
         command_id="cli-registry.guard",

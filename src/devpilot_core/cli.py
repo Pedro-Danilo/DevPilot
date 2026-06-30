@@ -29,7 +29,15 @@ from .cli_registry import (
     CliNoGrowthGateOptions,
 )
 from .cli_commands import handle_validate_scope, handle_workspace_init, handle_workspace_status
-from .connectors import ConnectorAdapter, ConnectorCallOptions, ConnectorRegistry, ConnectorRegistryOptions
+from .connectors import (
+    ConnectorAdapter,
+    ConnectorCallOptions,
+    ConnectorRegistry,
+    ConnectorRegistryOptions,
+    ConnectorSandboxOptions,
+    ConnectorSandboxRequest,
+    ConnectorSandboxRunner,
+)
 from .docs_governance import DocumentationGovernanceValidationOptions, DocumentationGovernanceValidator
 from .compliance import CompliancePackRegistry, ComplianceRegistryOptions, CompliancePackRunner, ComplianceRunOptions
 from .enterprise import EnterpriseReportBuilder, EnterpriseReportOptions
@@ -1785,6 +1793,53 @@ def connector_call_command(
     _persist_result(root, result, subject=f"{connector}:{operation}")
     print_result(result, json_output=json_output)
     return int(result.exit_code)
+
+
+def connector_sandbox_run_command(
+    *,
+    connector: str = "local.docs",
+    operation: str = "list_sources",
+    mode: str = "validate",
+    policy_path: str = ".devpilot/connectors/connector_sandbox_policy.json",
+    registry_path: str = ".devpilot/connectors/connector_registry.json",
+    output_json: str = "outputs/reports/connector_sandbox_report.json",
+    output_markdown: str = "outputs/reports/connector_sandbox_report.md",
+    json_output: bool = False,
+    write_report: bool = False,
+) -> int:
+    """Run POST-H-018-B connector sandbox validation/dry-run/replay simulation.
+
+    The runner is local-first and dry-run only. It validates connector sandbox
+    policy, blocks unsafe modes before any operation, invokes PolicyEngine for
+    governed connector classifications and emits a ConnectorSandboxReport.
+    It does not perform connector write, network calls, external APIs, remote
+    execution or plugin execution.
+    """
+
+    root = project_root()
+    result = ConnectorSandboxRunner(
+        root,
+        options=ConnectorSandboxOptions(
+            policy_path=policy_path,
+            registry_path=registry_path,
+            output_json=output_json,
+            output_markdown=output_markdown,
+            write_report=write_report,
+        ),
+    ).run(
+        ConnectorSandboxRequest(
+            connector_id=connector,
+            operation=operation,
+            mode=mode,
+            dry_run=True,
+            input_payload={"operation": operation},
+        )
+    )
+    _emit_result_event(root, result, subject=f"{connector}:{operation}:{mode}")
+    _persist_result(root, result, subject=f"{connector}:{operation}:{mode}")
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
 
 
 def plugin_validate_command(
@@ -5621,6 +5676,19 @@ def build_parser() -> argparse.ArgumentParser:
     connector_call.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     connector_call.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
 
+    connector_sandbox = connector_sub.add_parser("sandbox", help="Run connector sandbox validate/dry-run/replay operations without write")
+    connector_sandbox_sub = connector_sandbox.add_subparsers(dest="connector_sandbox_command")
+    connector_sandbox_run = connector_sandbox_sub.add_parser("run", help="Run POST-H-018-B local connector sandbox simulation")
+    connector_sandbox_run.add_argument("--connector", default="local.docs", help="Connector id, default local.docs")
+    connector_sandbox_run.add_argument("--operation", default="list_sources", help="Operation label for sandbox policy traceability")
+    connector_sandbox_run.add_argument("--mode", choices=["validate", "dry-run", "replay"], default="validate", help="Sandbox mode; write/execute modes are intentionally unavailable")
+    connector_sandbox_run.add_argument("--policy-path", default=".devpilot/connectors/connector_sandbox_policy.json", help="Connector sandbox policy path")
+    connector_sandbox_run.add_argument("--registry-path", default=".devpilot/connectors/connector_registry.json", help="Connector Registry JSON path")
+    connector_sandbox_run.add_argument("--output-json", default="outputs/reports/connector_sandbox_report.json", help="ConnectorSandboxReport JSON output path")
+    connector_sandbox_run.add_argument("--output-markdown", default="outputs/reports/connector_sandbox_report.md", help="ConnectorSandboxReport Markdown output path")
+    connector_sandbox_run.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    connector_sandbox_run.add_argument("--write-report", action="store_true", help="Persist ConnectorSandboxReport JSON/Markdown evidence")
+
     plugin = sub.add_parser("plugin", help="Validate and inspect governed local plugin registry")
     plugin_sub = plugin.add_subparsers(dest="plugin_command")
     plugin_validate = plugin_sub.add_parser("validate", help="Validate Plugin Registry and plugin manifest contracts")
@@ -5977,6 +6045,9 @@ def _command_name_from_args(args: argparse.Namespace) -> str:
         return f"multiagent {subcommand}" if subcommand else "multiagent"
     if command == "connector":
         subcommand = getattr(args, "connector_command", None)
+        sandbox_subcommand = getattr(args, "connector_sandbox_command", None)
+        if subcommand == "sandbox" and sandbox_subcommand:
+            return f"connector sandbox {sandbox_subcommand}"
         return f"connector {subcommand}" if subcommand else "connector"
     if command == "plugin":
         subcommand = getattr(args, "plugin_command", None)
@@ -6751,6 +6822,18 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
                 query=args.query,
                 limit=args.limit,
                 registry_path=args.registry_path,
+                json_output=args.json,
+                write_report=args.write_report,
+            )
+        if args.connector_command == "sandbox" and args.connector_sandbox_command == "run":
+            return connector_sandbox_run_command(
+                connector=args.connector,
+                operation=args.operation,
+                mode=args.mode,
+                policy_path=args.policy_path,
+                registry_path=args.registry_path,
+                output_json=args.output_json,
+                output_markdown=args.output_markdown,
                 json_output=args.json,
                 write_report=args.write_report,
             )

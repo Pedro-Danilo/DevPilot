@@ -2,17 +2,59 @@
 title: "Runbook — DevPilot Local"
 doc_id: "DEVPL-OPS-002"
 status: "approved"
-version: "1.63.0"
+version: "1.64.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "POST-H-018-A"
+phase: "POST-H-018-B"
 updated: "2026-06-30"
 approval: "approved_by_owner"
 source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved + 03_security approved"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "SPRINT-PRECODE-05 quality operations baseline"
 ---
+
+## POST-H-018-B — Sandbox runner read-only/dry-run
+
+Estado: `implemented-initial / hito activo`.
+
+Comandos principales:
+
+```powershell
+$env:PYTHONPATH="src"
+python -m devpilot_core connector sandbox run --mode validate --json
+python -m devpilot_core connector sandbox run --mode dry-run --json --write-report
+python -m devpilot_core connector sandbox run --mode replay --json --write-report
+python -m devpilot_core schema validate --schema-id ConnectorSandboxReport --instance outputs/reports/connector_sandbox_report.json --json
+python -m pytest -p no:ddtrace tests/test_post_h_018_connector_sandbox_runner.py tests/test_post_h_018_connector_sandbox_policy.py -q
+```
+
+Evidencia generada:
+
+```text
+outputs/reports/connector_sandbox_report.json
+outputs/reports/connector_sandbox_report.md
+```
+
+Criterios PASS:
+
+```text
+PASS si el runner solo acepta validate/dry-run/replay.
+PASS si PolicyEngine se invoca antes de cualquier operación simulada para conectores de riesgo medio/alto.
+PASS si ConnectorSandboxReport declara network_used=false, external_api_used=false, mutations_performed=false y connector_write_used=false.
+PASS si connector sandbox run --mode replay opera como simulación local sin ejecutar fixtures reales todavía.
+```
+
+Criterios BLOCK:
+
+```text
+BLOCK si se solicita write/execute o un modo no permitido por policy.
+BLOCK si una policy habilita network/external_api/mutation/write/execution.
+BLOCK si el conector no está cubierto por connector_sandbox_policy.json.
+BLOCK si se interpreta replay como ejecución real antes de POST-H-018-C.
+```
+
+Límite: POST-H-018-B implementa runner y reporte local únicamente. Replay fixtures con redacción quedan para POST-H-018-C; binding Policy/Approval/RBAC y quality gate quedan para POST-H-018-D/E.
 
 ## POST-H-018-A — Connector sandbox policy y schemas
 

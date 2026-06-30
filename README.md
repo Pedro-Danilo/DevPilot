@@ -1,3 +1,18 @@
+## POST-H-018-B — Sandbox runner read-only/dry-run
+
+Estado: `implemented-initial / hito activo`.
+
+DevPilot agrega el runner local `ConnectorSandboxRunner` y el comando preliminar `python -m devpilot_core connector sandbox run --mode validate|dry-run|replay --json`. El runner valida `connector_sandbox_policy.json`, bloquea modos peligrosos antes de cualquier operación, invoca `PolicyEngine` para conectores de riesgo medio/alto y produce un `ConnectorSandboxReport` schema-compatible cuando se usa `--write-report`.
+
+Artefactos principales: `src/devpilot_core/connectors/sandbox.py`, `tests/test_post_h_018_connector_sandbox_runner.py`, `docs/audits/post_h_018_b_connector_sandbox_runner_report.md`, `docs/post_h_018_b_manifest.json`, `src/devpilot_core/cli.py` y `src/devpilot_core/cli_registry/registry.py`.
+
+Límite explícito: POST-H-018-B no ejecuta conectores reales ni fixtures de replay, no habilita `connector write`, no usa red, no llama APIs externas, no ejecuta remote runners ni plugins. El replay determinístico con fixtures/redacción queda para POST-H-018-C y el binding Policy/Approval/RBAC fuerte queda para POST-H-018-D.
+
+Último hito cerrado: `POST-H-017 — Release reproducibility pack`
+Hito activo: `POST-H-018 — Connector sandbox`
+Último micro-sprint implementado: `POST-H-018-B — Sandbox runner read-only/dry-run`
+Siguiente micro-sprint: `POST-H-018-C — Replay fixtures y redacción`
+
 ## POST-H-018-A — Connector sandbox policy y schemas
 
 Estado: `implemented-initial / hito activo`.
@@ -7,11 +22,6 @@ DevPilot inicia `POST-H-018 — Connector sandbox avanzado` aprobando el backlog
 Artefactos principales: `docs/schemas/connector_sandbox_policy.schema.json`, `docs/schemas/connector_replay_fixture.schema.json`, `docs/schemas/connector_sandbox_report.schema.json`, `.devpilot/connectors/connector_sandbox_policy.json`, `src/devpilot_core/connectors/sandbox_policy.py`, `tests/test_post_h_018_connector_sandbox_policy.py`, `docs/audits/post_h_018_a_connector_sandbox_policy_report.md`, `docs/post_h_018_a_manifest.json`.
 
 Límite explícito: POST-H-018-A no ejecuta conectores, no implementa replay runner, no integra Policy/Approval/RBAC runtime ni agrega quality gate. `connector write`, red, APIs externas, OAuth/tokens, webhooks, mutaciones externas, remote execution y plugin execution siguen bloqueados por diseño.
-
-Último hito cerrado: `POST-H-017 — Release reproducibility pack`
-Hito activo: `POST-H-018 — Connector sandbox`
-Último micro-sprint implementado: `POST-H-018-A — Connector sandbox policy y schemas`
-Siguiente micro-sprint: `POST-H-018-B — Sandbox runner read-only/dry-run`
 
 ## POST-H-017-E — Quality gate y runbook release
 

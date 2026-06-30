@@ -113,8 +113,9 @@
     "POST-H-017-E adds ReleaseReproducibilityPackBuilder, release reproducibility-pack CLI and release-reproducibility quality subgate to generate and verify local dry-run release reproducibility evidence without publishing, deploying, network, external APIs, remote execution, connector write, plugin execution or source mutations.",
     "POST-H-017-E closes Release reproducibility pack as implemented-initial; future evolution may add formal local signing, attestation and release promotion workflow.",
     "POST-H-018 is the next prioritized hito: Connector sandbox avanzado.",
-    "POST-H-018-A approves Connector sandbox avanzado and adds ConnectorSandboxPolicy, ConnectorReplayFixture and ConnectorSandboxReport schemas plus deny-write connector_sandbox_policy.json without enabling connector write, network, external APIs, remote execution or plugin execution."
+    "POST-H-018-A approves Connector sandbox avanzado and adds ConnectorSandboxPolicy, ConnectorReplayFixture and ConnectorSandboxReport schemas plus deny-write connector_sandbox_policy.json without enabling connector write, network, external APIs, remote execution or plugin execution.",
+    "POST-H-018-B adds ConnectorSandboxRunner and connector sandbox run CLI for local validate/dry-run/replay simulation with PolicyEngine invocation and ConnectorSandboxReport evidence, without connector write, network, external APIs, remote execution or plugin execution."
   ],
-  "current_micro_sprint": "POST-H-018-A",
-  "next_micro_sprint": "POST-H-018-B"
+  "current_micro_sprint": "POST-H-018-B",
+  "next_micro_sprint": "POST-H-018-C"
 }

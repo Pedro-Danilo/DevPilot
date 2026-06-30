@@ -1773,7 +1773,9 @@
       ],
       "derived_documents": [
         "docs/post_h_018_a_manifest.json",
-        "docs/audits/post_h_018_a_connector_sandbox_policy_report.md"
+        "docs/audits/post_h_018_a_connector_sandbox_policy_report.md",
+        "docs/post_h_018_b_manifest.json",
+        "docs/audits/post_h_018_b_connector_sandbox_runner_report.md"
       ],
       "required_tests": [
         "tests/test_post_h_018_connector_sandbox_policy.py",
@@ -1790,7 +1792,7 @@
       "lifecycle": "active",
       "notes": [
         "Canonical approved POST-H-018 hito document created for Connector sandbox avanzado.",
-        "POST-H-018-A defines schemas and deny-write policy only; later micro-sprints implement runner/replay/binding/gate."
+        "POST-H-018-B adds sandbox runner and ConnectorSandboxReport generation while keeping replay fixtures/binding/gate for C/D/E."
       ]
     },
     {
@@ -1873,6 +1875,52 @@
         "required_tests_must_pass",
         "owner_status_and_path_must_remain_current"
       ]
+    },
+    {
+      "doc_id": "POST-H-018-B-CONNECTOR-SANDBOX-RUNNER-REPORT",
+      "path": "docs/audits/post_h_018_b_connector_sandbox_runner_report.md",
+      "classification": "source-of-truth",
+      "domain": "integration.connectors",
+      "owner": "Ordóñez",
+      "status_required": "approved",
+      "criticality": "P2",
+      "required_tests": [
+        "tests/test_post_h_018_connector_sandbox_runner.py"
+      ],
+      "related_files": [
+        "src/devpilot_core/connectors/sandbox.py",
+        "src/devpilot_core/cli.py"
+      ],
+      "implementation_notes": [
+        "POST-H-018-B implements local sandbox runner and schema-compatible ConnectorSandboxReport evidence without real connector execution."
+      ],
+      "sync_rules": [
+        "required_tests_must_pass",
+        "owner_status_and_path_must_remain_current"
+      ]
+    },
+    {
+      "doc_id": "POST-H-018-B-MANIFEST",
+      "path": "docs/post_h_018_b_manifest.json",
+      "classification": "machine-readable-source",
+      "domain": "integration.connectors",
+      "owner": "Ordóñez",
+      "status_required": "implemented-initial",
+      "criticality": "P2",
+      "required_tests": [
+        "tests/test_post_h_018_connector_sandbox_runner.py"
+      ],
+      "related_files": [
+        "src/devpilot_core/connectors/sandbox.py",
+        "tests/test_post_h_018_connector_sandbox_runner.py"
+      ],
+      "implementation_notes": [
+        "POST-H-018-B manifest records runner, CLI, PASS/BLOCK and implemented-initial limits."
+      ],
+      "sync_rules": [
+        "required_tests_must_pass",
+        "owner_status_and_path_must_remain_current"
+      ]
     }
   ],
   "rules": {
@@ -1899,20 +1947,20 @@
     "approved_backlogs_require_observability_retention_hygiene_gate": true
   },
   "summary": {
-    "documents_total": 44,
-    "source_of_truth_total": 14,
-    "machine_readable_source_total": 6,
+    "documents_total": 54,
+    "source_of_truth_total": 19,
+    "machine_readable_source_total": 11,
     "derived_total": 24,
     "generated_runtime_total": 0,
     "historical_total": 0,
     "deprecated_total": 0,
-    "critical_sources_total": 41,
+    "critical_sources_total": 51,
     "markdown_json_pairs_total": 29,
-    "documents_with_required_tests_total": 44,
+    "documents_with_required_tests_total": 54,
     "network_used": false,
     "external_api_used": false,
     "mutations_performed": false,
-    "last_updated_by": "POST-H-017-E",
+    "last_updated_by": "POST-H-018-B",
     "markdown_json_sync_checks_enabled": true,
     "sync_checks_scope": "version_match, milestones_match, decisions_match, closure_status_match, next_hito_match",
     "backlog_governance_enabled": true,
@@ -1952,12 +2000,12 @@
     "post_h_011_closed": true,
     "machine_readable_total": 5,
     "required_tests_total": 52,
-    "active_backlog": "POST-H-017",
-    "active_micro_sprint": "POST-H-017-C",
+    "active_backlog": "POST-H-018",
+    "active_micro_sprint": "POST-H-018-B",
     "sensitive_action_catalog_enabled": true,
     "sensitive_action_catalog_path": ".devpilot/approval/sensitive_action_catalog.json",
     "sensitive_action_catalog_schema": "docs/schemas/sensitive_action_catalog.schema.json",
-    "required_tests_checked_total": 52,
+    "required_tests_checked_total": 137,
     "post_h_012_policy_engine_enforcement_enabled": true,
     "post_h_012_current_micro_sprint": "POST-H-012-D",
     "ui_api_shell_report_schema_registered": true,
@@ -2044,7 +2092,14 @@
     "release_reproducibility_pack_builder_module": "src/devpilot_core/release/reproducibility_pack.py",
     "release_reproducibility_pack_cli_command": "python -m devpilot_core release reproducibility-pack --json --write-report --verify",
     "release_reproducibility_pack_output_path": "outputs/release/reproducibility_pack.json",
-    "release_reproducibility_quality_gate_subgate": "release-reproducibility"
+    "release_reproducibility_quality_gate_subgate": "release-reproducibility",
+    "post_h_018_approved": true,
+    "post_h_018_current_micro_sprint": "POST-H-018-B",
+    "post_h_018_next_micro_sprint": "POST-H-018-C",
+    "connector_sandbox_runner_module": "src/devpilot_core/connectors/sandbox.py",
+    "connector_sandbox_runner_cli_command": "python -m devpilot_core connector sandbox run --mode replay --json --write-report",
+    "connector_sandbox_report_output_path": "outputs/reports/connector_sandbox_report.json",
+    "connector_sandbox_runner_enabled": true
   },
   "safety": {
     "local_first": true,
