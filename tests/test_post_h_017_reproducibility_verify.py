@@ -150,8 +150,8 @@ def test_post_h_017_d_docs_state_and_contracts_are_synchronized() -> None:
     assert "release reproducibility-verify --pack outputs/release/reproducibility_pack.json --json" in runbook
     assert "ReleaseReproducibilityVerification" in release_runbook
     assert "post-h-017-d" in changelog
-    assert state["current_micro_sprint"] == "POST-H-017-E"
-    assert state["next_micro_sprint"] == "POST-H-018"
+    assert state["current_micro_sprint"] == "POST-H-018-A"
+    assert state["next_micro_sprint"] == "POST-H-018-B"
     assert "post-h-017-reproducibility-verifier" in tcr_v1
     assert "post-h-017-reproducibility-verifier" in tcr_v2
     assert "release_reproducibility_verifier_enabled" in source_registry

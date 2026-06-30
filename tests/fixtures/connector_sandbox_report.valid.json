@@ -1,0 +1,33 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "SCHEMA-DEVPL-CONNECTOR-SANDBOX-REPORT-V1",
+  "report_id": "connector-sandbox-report-local-docs-basic",
+  "created_by": "POST-H-018-A",
+  "status": "implemented-initial",
+  "connector_id": "local.docs",
+  "mode": "validate",
+  "ok": true,
+  "summary": {
+    "policy_passed": true,
+    "approval_required": false,
+    "network_used": false,
+    "external_api_used": false,
+    "mutations_performed": false,
+    "fixtures_total": 0,
+    "fixtures_passed": 0,
+    "blocking_findings_total": 0
+  },
+  "safety": {
+    "local_first": true,
+    "dry_run": true,
+    "network_used": false,
+    "external_api_used": false,
+    "mutations_performed": false,
+    "connector_write_used": false,
+    "remote_execution_used": false,
+    "plugin_execution_used": false,
+    "secrets_included": false
+  },
+  "findings": [],
+  "preliminary": true
+}

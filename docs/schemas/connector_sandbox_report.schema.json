@@ -1,0 +1,169 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/SCHEMA-DEVPL-CONNECTOR-SANDBOX-REPORT-V1",
+  "title": "DevPilot Connector Sandbox Report v1",
+  "description": "Report contract for local connector sandbox validation/replay/dry-run. POST-H-018-A defines the schema before runner/gate integration.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "schema_id",
+    "report_id",
+    "created_by",
+    "status",
+    "connector_id",
+    "mode",
+    "ok",
+    "summary",
+    "safety",
+    "findings"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "schema_id": {
+      "const": "SCHEMA-DEVPL-CONNECTOR-SANDBOX-REPORT-V1"
+    },
+    "report_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "created_by": {
+      "type": "string",
+      "enum": [
+        "POST-H-018-A",
+        "POST-H-018-B",
+        "POST-H-018-C",
+        "POST-H-018-D",
+        "POST-H-018-E"
+      ]
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "implemented-initial",
+        "passed",
+        "blocked",
+        "failed"
+      ]
+    },
+    "connector_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9_.-]*$"
+    },
+    "mode": {
+      "type": "string",
+      "enum": [
+        "validate",
+        "dry-run",
+        "replay"
+      ]
+    },
+    "ok": {
+      "type": "boolean"
+    },
+    "summary": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "policy_passed",
+        "approval_required",
+        "network_used",
+        "external_api_used",
+        "mutations_performed",
+        "fixtures_total",
+        "fixtures_passed",
+        "blocking_findings_total"
+      ],
+      "properties": {
+        "policy_passed": {
+          "type": "boolean"
+        },
+        "approval_required": {
+          "type": "boolean"
+        },
+        "network_used": {
+          "const": false
+        },
+        "external_api_used": {
+          "const": false
+        },
+        "mutations_performed": {
+          "const": false
+        },
+        "fixtures_total": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "fixtures_passed": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "blocking_findings_total": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "safety": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "local_first",
+        "dry_run",
+        "network_used",
+        "external_api_used",
+        "mutations_performed",
+        "connector_write_used",
+        "remote_execution_used",
+        "plugin_execution_used",
+        "secrets_included"
+      ],
+      "properties": {
+        "local_first": {
+          "const": true
+        },
+        "dry_run": {
+          "const": true
+        },
+        "network_used": {
+          "const": false
+        },
+        "external_api_used": {
+          "const": false
+        },
+        "mutations_performed": {
+          "const": false
+        },
+        "connector_write_used": {
+          "const": false
+        },
+        "remote_execution_used": {
+          "const": false
+        },
+        "plugin_execution_used": {
+          "const": false
+        },
+        "secrets_included": {
+          "const": false
+        }
+      }
+    },
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "preliminary": {
+      "type": "boolean"
+    }
+  },
+  "x-devpilot-schema-id": "SCHEMA-DEVPL-CONNECTOR-SANDBOX-REPORT-V1",
+  "x-devpilot-version": "1.0.0",
+  "x-devpilot-sprint": "POST-H-018-A",
+  "x-devpilot-status": "registered",
+  "x-devpilot-preliminary": true
+}

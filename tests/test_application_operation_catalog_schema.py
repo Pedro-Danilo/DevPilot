@@ -24,7 +24,9 @@ def test_application_operation_catalog_builder_covers_required_domains_and_contr
     assert catalog["created_by"] == POST_H_007_B_CREATED_BY
     assert catalog["status"] == "implemented-initial"
     assert catalog["required_initial_domains_missing"] == []
-    assert catalog["summary"]["required_initial_domains_covered_total"] == 10
+    assert catalog["summary"]["required_initial_domains_covered_total"] == len(catalog["required_initial_domains"])
+    assert catalog["summary"]["required_initial_domains_covered_total"] >= 10
+    assert "portfolio" in catalog["required_initial_domains"]
     assert catalog["summary"]["operations_total"] >= 30
     assert catalog["summary"]["direct_core_bypass_total"] > 0
     assert catalog["summary"]["operations_without_test_contracts_total"] == 0
@@ -46,6 +48,7 @@ def test_application_operation_catalog_builder_covers_required_domains_and_contr
         "refactor.plan",
         "model.providers",
         "observability.trace_report",
+        "portfolio.status",
     ]:
         assert operation_id in operations
         op = operations[operation_id]

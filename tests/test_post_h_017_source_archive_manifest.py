@@ -141,8 +141,8 @@ def test_post_h_017_c_docs_state_and_contracts_are_synchronized() -> None:
     assert "post-h-017-c" in changelog
     assert state["last_completed_sprint"] == "POST-H-017"
     assert state["next_sprint"] == "POST-H-018"
-    assert state["current_micro_sprint"] == "POST-H-017-E"
-    assert state["next_micro_sprint"] == "POST-H-018"
+    assert state["current_micro_sprint"] == "POST-H-018-A"
+    assert state["next_micro_sprint"] == "POST-H-018-B"
     assert "post-h-017-source-archive-manifest-checksums" in tcr_v1
     assert "post-h-017-source-archive-manifest-checksums" in tcr_v2
     assert "release_source_archive_manifest_schema" in source_registry

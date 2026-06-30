@@ -1,3 +1,20 @@
+## post-h-018-a — Connector sandbox policy y schemas
+
+Estado de proyecto: `last_completed_sprint=POST-H-017`; `next_sprint=POST-H-018`; `current_micro_sprint=POST-H-018-A`; `next_micro_sprint=POST-H-018-B`.
+
+- Approved `POST-H-018 — Connector sandbox avanzado` for implementation.
+- Added `ConnectorSandboxPolicy`, `ConnectorReplayFixture` and `ConnectorSandboxReport` schemas.
+- Added `.devpilot/connectors/connector_sandbox_policy.json` with deny-write defaults and per-connector side_effect/risk/data_sensitivity classification.
+- Added `ConnectorSandboxPolicyValidator` to check registry coverage, deny-write, no network, no external APIs and no mutations.
+- Kept sandbox runner, replay execution, Policy/Approval/RBAC binding and quality gate as POST-H-018-B/C/D/E scope.
+
+Safety:
+
+```text
+- POST-H-018-A does not execute connectors, call network, call external APIs, store tokens, mutate external systems, enable connector write, remote execution or plugin execution.
+- A Connector Registry entry remains metadata only; it is not permission to execute.
+```
+
 ## post-h-017-e — Quality gate y runbook release
 
 Estado de proyecto: `last_completed_sprint=POST-H-017`; `next_sprint=POST-H-018`; `current_micro_sprint=POST-H-017-E`; `next_micro_sprint=POST-H-018`.

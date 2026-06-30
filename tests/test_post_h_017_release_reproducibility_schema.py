@@ -135,8 +135,8 @@ def test_post_h_017_a_docs_state_and_contracts_are_synchronized() -> None:
     assert "release_reproducibility_pack.schema.json" in runbook
     assert state["last_completed_sprint"] == "POST-H-017"
     assert state["next_sprint"] == "POST-H-018"
-    assert state["current_micro_sprint"] == "POST-H-017-E"
-    assert state["next_micro_sprint"] == "POST-H-018"
+    assert state["current_micro_sprint"] == "POST-H-018-A"
+    assert state["next_micro_sprint"] == "POST-H-018-B"
     assert "post-h-017-release-reproducibility-schema-policy" in tcr_v1
     assert "post-h-017-release-reproducibility-schema-policy" in tcr_v2
     assert "post-h-017-release-reproducibility-gate" in tcr_v1

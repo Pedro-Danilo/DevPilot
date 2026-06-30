@@ -87,23 +87,17 @@
     "web_real_evolution_planned": true
   },
   "paths": {
-    "/api/v1/workspace/status": {
-      "get": {
-        "operationId": "workspace_status",
-        "summary": "API-WORKSPACE-STATUS: workspace.status",
-        "description": "Contract-only endpoint mapped to `WorkspaceApplicationService.status`. Sprint 67 implements this route in the local FastAPI MVP.",
+    "/api/v1/actions/dry-run": {
+      "post": {
         "tags": [
-          "workspace"
+          "actions"
         ],
-        "x-devpilot-api-id": "API-WORKSPACE-STATUS",
-        "x-devpilot-operation": "workspace.status",
-        "x-devpilot-domain-service": "WorkspaceApplicationService.status",
-        "x-devpilot-status": "secured-initial",
-        "x-devpilot-side-effect": "none",
+        "summary": "Run Dry-Run Action",
+        "operationId": "ui_actions_dry_run",
+        "x-devpilot-operation": "ui.actions.dry_run",
+        "x-devpilot-sprint": "FUNC-SPRINT-71",
+        "x-devpilot-side-effect": "dry_run_only",
         "x-devpilot-dry-run-default": true,
-        "x-devpilot-auth": "local-token-required",
-        "x-devpilot-policy": "PolicyEngine bound by API_ROUTE_POLICIES; read/dry-run/plan-only only.",
-        "x-devpilot-command-equivalent": "python -m devpilot_core workspace status --json",
         "responses": {
           "200": {
             "description": "ApplicationResponse wrapping CommandResult.",
@@ -166,1167 +160,37 @@
             }
           }
         },
-        "parameters": [],
+        "requestBody": {
+          "required": false,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApplicationRequest"
+              },
+              "example": {
+                "operation": "ui.actions.dry_run",
+                "payload": {
+                  "action_id": "readiness"
+                },
+                "client": "web-ui",
+                "dry_run": true
+              }
+            }
+          }
+        },
+        "x-devpilot-api-id": "API-ACTIONS-DRY-RUN",
+        "x-devpilot-domain-service": "ApplicationService.ui_action_dry_run",
+        "x-devpilot-status": "approval-center-initial",
+        "x-devpilot-auth": "local-token-required",
         "x-devpilot-cors": "restricted-local-allowlist",
         "x-devpilot-security-headers": true,
+        "x-devpilot-policy": "Policy/gate: token + CORS allowlist + API_ROUTE_POLICIES + PolicyEngine. Critical execution is blocked from Web UI.",
+        "x-devpilot-command-equivalent": "UI Action Launcher: readiness/code-review/refactor-plan",
         "security": [
           {
             "LocalTokenAuth": []
           }
-        ],
-        "x-devpilot-consumers": [
-          "ui/web dashboard"
         ]
-      }
-    },
-    "/api/v1/validation/frontmatter": {
-      "post": {
-        "operationId": "validation_frontmatter",
-        "summary": "API-VALIDATION-FRONTMATTER: validation.frontmatter",
-        "description": "Contract-only endpoint mapped to `ValidationApplicationService.validate_frontmatter`. Sprint 67 implements this route in the local FastAPI MVP.",
-        "tags": [
-          "validation"
-        ],
-        "x-devpilot-api-id": "API-VALIDATION-FRONTMATTER",
-        "x-devpilot-operation": "validation.frontmatter",
-        "x-devpilot-domain-service": "ValidationApplicationService.validate_frontmatter",
-        "x-devpilot-status": "secured-initial",
-        "x-devpilot-side-effect": "none",
-        "x-devpilot-dry-run-default": true,
-        "x-devpilot-auth": "local-token-required",
-        "x-devpilot-policy": "PolicyEngine bound by API_ROUTE_POLICIES; read/dry-run/plan-only only.",
-        "x-devpilot-command-equivalent": "python -m devpilot_core validate-frontmatter <path> --json",
-        "responses": {
-          "200": {
-            "description": "ApplicationResponse wrapping CommandResult.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApplicationResponse"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Invalid request envelope or unsupported parameter.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorApplicationResponse"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Policy/approval/security gate blocked the operation.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorApplicationResponse"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Contract validation failed.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorApplicationResponse"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Controlled internal error preserving response envelope.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorApplicationResponse"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Missing or invalid local API token.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorApplicationResponse"
-                }
-              }
-            }
-          }
-        },
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/ApplicationRequest"
-                  }
-                ],
-                "properties": {
-                  "operation": {
-                    "const": "validation.frontmatter"
-                  }
-                }
-              },
-              "example": {
-                "operation": "validation.frontmatter",
-                "payload": {},
-                "client": "api-local",
-                "dry_run": true
-              }
-            }
-          }
-        },
-        "x-devpilot-cors": "restricted-local-allowlist",
-        "x-devpilot-security-headers": true,
-        "security": [
-          {
-            "LocalTokenAuth": []
-          }
-        ],
-        "x-devpilot-consumers": []
-      }
-    },
-    "/api/v1/validation/artifact": {
-      "post": {
-        "operationId": "validation_artifact",
-        "summary": "API-VALIDATION-ARTIFACT: validation.artifact",
-        "description": "Contract-only endpoint mapped to `ValidationApplicationService.validate_artifact`. Sprint 67 implements this route in the local FastAPI MVP.",
-        "tags": [
-          "validation"
-        ],
-        "x-devpilot-api-id": "API-VALIDATION-ARTIFACT",
-        "x-devpilot-operation": "validation.artifact",
-        "x-devpilot-domain-service": "ValidationApplicationService.validate_artifact",
-        "x-devpilot-status": "secured-initial",
-        "x-devpilot-side-effect": "none",
-        "x-devpilot-dry-run-default": true,
-        "x-devpilot-auth": "local-token-required",
-        "x-devpilot-policy": "PolicyEngine bound by API_ROUTE_POLICIES; read/dry-run/plan-only only.",
-        "x-devpilot-command-equivalent": "python -m devpilot_core validate-artifact <path> --json",
-        "responses": {
-          "200": {
-            "description": "ApplicationResponse wrapping CommandResult.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApplicationResponse"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Invalid request envelope or unsupported parameter.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorApplicationResponse"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Policy/approval/security gate blocked the operation.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorApplicationResponse"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Contract validation failed.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorApplicationResponse"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Controlled internal error preserving response envelope.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorApplicationResponse"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Missing or invalid local API token.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorApplicationResponse"
-                }
-              }
-            }
-          }
-        },
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/ApplicationRequest"
-                  }
-                ],
-                "properties": {
-                  "operation": {
-                    "const": "validation.artifact"
-                  }
-                }
-              },
-              "example": {
-                "operation": "validation.artifact",
-                "payload": {},
-                "client": "api-local",
-                "dry_run": true
-              }
-            }
-          }
-        },
-        "x-devpilot-cors": "restricted-local-allowlist",
-        "x-devpilot-security-headers": true,
-        "security": [
-          {
-            "LocalTokenAuth": []
-          }
-        ],
-        "x-devpilot-consumers": []
-      }
-    },
-    "/api/v1/validation/readiness": {
-      "post": {
-        "operationId": "validation_readiness",
-        "summary": "API-VALIDATION-READINESS: validation.readiness",
-        "description": "Contract-only endpoint mapped to `ValidationApplicationService.readiness`. Sprint 67 implements this route in the local FastAPI MVP.",
-        "tags": [
-          "validation"
-        ],
-        "x-devpilot-api-id": "API-VALIDATION-READINESS",
-        "x-devpilot-operation": "validation.readiness",
-        "x-devpilot-domain-service": "ValidationApplicationService.readiness",
-        "x-devpilot-status": "secured-initial",
-        "x-devpilot-side-effect": "report_when_adapter_requests_it",
-        "x-devpilot-dry-run-default": true,
-        "x-devpilot-auth": "local-token-required",
-        "x-devpilot-policy": "PolicyEngine bound by API_ROUTE_POLICIES; read/dry-run/plan-only only.",
-        "x-devpilot-command-equivalent": "python -m devpilot_core readiness-check --strict --json",
-        "responses": {
-          "200": {
-            "description": "ApplicationResponse wrapping CommandResult.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApplicationResponse"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Invalid request envelope or unsupported parameter.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorApplicationResponse"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Policy/approval/security gate blocked the operation.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorApplicationResponse"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Contract validation failed.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorApplicationResponse"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Controlled internal error preserving response envelope.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorApplicationResponse"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Missing or invalid local API token.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorApplicationResponse"
-                }
-              }
-            }
-          }
-        },
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/ApplicationRequest"
-                  }
-                ],
-                "properties": {
-                  "operation": {
-                    "const": "validation.readiness"
-                  }
-                }
-              },
-              "example": {
-                "operation": "validation.readiness",
-                "payload": {},
-                "client": "api-local",
-                "dry_run": true
-              }
-            }
-          }
-        },
-        "x-devpilot-cors": "restricted-local-allowlist",
-        "x-devpilot-security-headers": true,
-        "security": [
-          {
-            "LocalTokenAuth": []
-          }
-        ],
-        "x-devpilot-consumers": [
-          "ui/web dashboard"
-        ]
-      }
-    },
-    "/api/v1/miasi/status": {
-      "get": {
-        "operationId": "miasi_validate",
-        "summary": "API-MIASI-STATUS: miasi.validate",
-        "description": "Contract-only endpoint mapped to `MiasiApplicationService.validate`. Sprint 67 implements this route in the local FastAPI MVP.",
-        "tags": [
-          "miasi"
-        ],
-        "x-devpilot-api-id": "API-MIASI-STATUS",
-        "x-devpilot-operation": "miasi.validate",
-        "x-devpilot-domain-service": "MiasiApplicationService.validate",
-        "x-devpilot-status": "secured-initial",
-        "x-devpilot-side-effect": "none",
-        "x-devpilot-dry-run-default": true,
-        "x-devpilot-auth": "local-token-required",
-        "x-devpilot-policy": "PolicyEngine bound by API_ROUTE_POLICIES; read/dry-run/plan-only only.",
-        "x-devpilot-command-equivalent": "python -m devpilot_core miasi validate --json",
-        "responses": {
-          "200": {
-            "description": "ApplicationResponse wrapping CommandResult.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApplicationResponse"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Invalid request envelope or unsupported parameter.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorApplicationResponse"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Policy/approval/security gate blocked the operation.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorApplicationResponse"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Contract validation failed.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorApplicationResponse"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Controlled internal error preserving response envelope.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorApplicationResponse"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Missing or invalid local API token.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorApplicationResponse"
-                }
-              }
-            }
-          }
-        },
-        "parameters": [],
-        "x-devpilot-cors": "restricted-local-allowlist",
-        "x-devpilot-security-headers": true,
-        "security": [
-          {
-            "LocalTokenAuth": []
-          }
-        ],
-        "x-devpilot-consumers": [
-          "ui/web dashboard"
-        ]
-      }
-    },
-    "/api/v1/repo/inventory": {
-      "get": {
-        "operationId": "repo_inventory",
-        "summary": "API-REPO-INVENTORY: repo.inventory",
-        "description": "Contract-only endpoint mapped to `RepoApplicationService.inventory`. Sprint 67 implements this route in the local FastAPI MVP.",
-        "tags": [
-          "repo"
-        ],
-        "x-devpilot-api-id": "API-REPO-INVENTORY",
-        "x-devpilot-operation": "repo.inventory",
-        "x-devpilot-domain-service": "RepoApplicationService.inventory",
-        "x-devpilot-status": "secured-initial",
-        "x-devpilot-side-effect": "none",
-        "x-devpilot-dry-run-default": true,
-        "x-devpilot-auth": "local-token-required",
-        "x-devpilot-policy": "PolicyEngine bound by API_ROUTE_POLICIES; read/dry-run/plan-only only.",
-        "x-devpilot-command-equivalent": "python -m devpilot_core repo inventory --json",
-        "responses": {
-          "200": {
-            "description": "ApplicationResponse wrapping CommandResult.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApplicationResponse"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Invalid request envelope or unsupported parameter.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorApplicationResponse"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Policy/approval/security gate blocked the operation.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorApplicationResponse"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Contract validation failed.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorApplicationResponse"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Controlled internal error preserving response envelope.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorApplicationResponse"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Missing or invalid local API token.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorApplicationResponse"
-                }
-              }
-            }
-          }
-        },
-        "parameters": [],
-        "x-devpilot-cors": "restricted-local-allowlist",
-        "x-devpilot-security-headers": true,
-        "security": [
-          {
-            "LocalTokenAuth": []
-          }
-        ],
-        "x-devpilot-consumers": []
-      }
-    },
-    "/api/v1/review/code": {
-      "post": {
-        "operationId": "review_code",
-        "summary": "API-REVIEW-CODE: review.code",
-        "description": "Contract-only endpoint mapped to `ReviewApplicationService.code_review`. Sprint 67 implements this route in the local FastAPI MVP.",
-        "tags": [
-          "review"
-        ],
-        "x-devpilot-api-id": "API-REVIEW-CODE",
-        "x-devpilot-operation": "review.code",
-        "x-devpilot-domain-service": "ReviewApplicationService.code_review",
-        "x-devpilot-status": "secured-initial",
-        "x-devpilot-side-effect": "none",
-        "x-devpilot-dry-run-default": true,
-        "x-devpilot-auth": "local-token-required",
-        "x-devpilot-policy": "PolicyEngine bound by API_ROUTE_POLICIES; read/dry-run/plan-only only.",
-        "x-devpilot-command-equivalent": "python -m devpilot_core code-review . --json",
-        "responses": {
-          "200": {
-            "description": "ApplicationResponse wrapping CommandResult.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApplicationResponse"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Invalid request envelope or unsupported parameter.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorApplicationResponse"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Policy/approval/security gate blocked the operation.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorApplicationResponse"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Contract validation failed.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorApplicationResponse"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Controlled internal error preserving response envelope.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorApplicationResponse"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Missing or invalid local API token.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorApplicationResponse"
-                }
-              }
-            }
-          }
-        },
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/ApplicationRequest"
-                  }
-                ],
-                "properties": {
-                  "operation": {
-                    "const": "review.code"
-                  }
-                }
-              },
-              "example": {
-                "operation": "review.code",
-                "payload": {},
-                "client": "api-local",
-                "dry_run": true
-              }
-            }
-          }
-        },
-        "x-devpilot-cors": "restricted-local-allowlist",
-        "x-devpilot-security-headers": true,
-        "security": [
-          {
-            "LocalTokenAuth": []
-          }
-        ],
-        "x-devpilot-consumers": []
-      }
-    },
-    "/api/v1/refactor/plan": {
-      "post": {
-        "operationId": "refactor_plan",
-        "summary": "API-REFACTOR-PLAN: refactor.plan",
-        "description": "Contract-only endpoint mapped to `RefactorApplicationService.plan`. Sprint 67 implements this route in the local FastAPI MVP.",
-        "tags": [
-          "refactor"
-        ],
-        "x-devpilot-api-id": "API-REFACTOR-PLAN",
-        "x-devpilot-operation": "refactor.plan",
-        "x-devpilot-domain-service": "RefactorApplicationService.plan",
-        "x-devpilot-status": "secured-initial",
-        "x-devpilot-side-effect": "none",
-        "x-devpilot-dry-run-default": true,
-        "x-devpilot-auth": "local-token-required",
-        "x-devpilot-policy": "PolicyEngine bound by API_ROUTE_POLICIES; read/dry-run/plan-only only.",
-        "x-devpilot-command-equivalent": "python -m devpilot_core refactor-plan . --json",
-        "responses": {
-          "200": {
-            "description": "ApplicationResponse wrapping CommandResult.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApplicationResponse"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Invalid request envelope or unsupported parameter.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorApplicationResponse"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Policy/approval/security gate blocked the operation.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorApplicationResponse"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Contract validation failed.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorApplicationResponse"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Controlled internal error preserving response envelope.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorApplicationResponse"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Missing or invalid local API token.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorApplicationResponse"
-                }
-              }
-            }
-          }
-        },
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/ApplicationRequest"
-                  }
-                ],
-                "properties": {
-                  "operation": {
-                    "const": "refactor.plan"
-                  }
-                }
-              },
-              "example": {
-                "operation": "refactor.plan",
-                "payload": {},
-                "client": "api-local",
-                "dry_run": true
-              }
-            }
-          }
-        },
-        "x-devpilot-cors": "restricted-local-allowlist",
-        "x-devpilot-security-headers": true,
-        "security": [
-          {
-            "LocalTokenAuth": []
-          }
-        ],
-        "x-devpilot-consumers": []
-      }
-    },
-    "/api/v1/model/providers": {
-      "get": {
-        "operationId": "model_providers",
-        "summary": "API-MODEL-PROVIDERS: model.providers",
-        "description": "Contract-only endpoint mapped to `ModelApplicationService.providers`. Sprint 67 implements this route in the local FastAPI MVP.",
-        "tags": [
-          "model"
-        ],
-        "x-devpilot-api-id": "API-MODEL-PROVIDERS",
-        "x-devpilot-operation": "model.providers",
-        "x-devpilot-domain-service": "ModelApplicationService.providers",
-        "x-devpilot-status": "secured-initial",
-        "x-devpilot-side-effect": "none",
-        "x-devpilot-dry-run-default": true,
-        "x-devpilot-auth": "local-token-required",
-        "x-devpilot-policy": "PolicyEngine bound by API_ROUTE_POLICIES; read/dry-run/plan-only only.",
-        "x-devpilot-command-equivalent": "python -m devpilot_core model providers --json",
-        "responses": {
-          "200": {
-            "description": "ApplicationResponse wrapping CommandResult.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApplicationResponse"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Invalid request envelope or unsupported parameter.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorApplicationResponse"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Policy/approval/security gate blocked the operation.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorApplicationResponse"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Contract validation failed.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorApplicationResponse"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Controlled internal error preserving response envelope.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorApplicationResponse"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Missing or invalid local API token.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorApplicationResponse"
-                }
-              }
-            }
-          }
-        },
-        "parameters": [],
-        "x-devpilot-cors": "restricted-local-allowlist",
-        "x-devpilot-security-headers": true,
-        "security": [
-          {
-            "LocalTokenAuth": []
-          }
-        ],
-        "x-devpilot-consumers": []
-      }
-    },
-    "/api/v1/observability/traces": {
-      "get": {
-        "operationId": "observability_trace_report",
-        "summary": "API-OBSERVABILITY-TRACES: observability.trace_report",
-        "description": "Contract-only endpoint mapped to `ObservabilityApplicationService.trace_report`. Sprint 67 implements this route in the local FastAPI MVP.",
-        "tags": [
-          "observability"
-        ],
-        "x-devpilot-api-id": "API-OBSERVABILITY-TRACES",
-        "x-devpilot-operation": "observability.trace_report",
-        "x-devpilot-domain-service": "ObservabilityApplicationService.trace_report",
-        "x-devpilot-status": "secured-initial",
-        "x-devpilot-side-effect": "none",
-        "x-devpilot-dry-run-default": true,
-        "x-devpilot-auth": "local-token-required",
-        "x-devpilot-policy": "PolicyEngine bound by API_ROUTE_POLICIES; read/dry-run/plan-only only.",
-        "x-devpilot-command-equivalent": "python -m devpilot_core trace report --json",
-        "responses": {
-          "200": {
-            "description": "ApplicationResponse wrapping CommandResult.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApplicationResponse"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Invalid request envelope or unsupported parameter.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorApplicationResponse"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Policy/approval/security gate blocked the operation.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorApplicationResponse"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Contract validation failed.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorApplicationResponse"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Controlled internal error preserving response envelope.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorApplicationResponse"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Missing or invalid local API token.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorApplicationResponse"
-                }
-              }
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "limit",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "minimum": 1,
-              "maximum": 200
-            },
-            "description": "Optional bounded read limit for endpoints that support it."
-          }
-        ],
-        "x-devpilot-cors": "restricted-local-allowlist",
-        "x-devpilot-security-headers": true,
-        "security": [
-          {
-            "LocalTokenAuth": []
-          }
-        ],
-        "x-devpilot-consumers": []
-      }
-    },
-    "/api/v1/observability/metrics": {
-      "get": {
-        "operationId": "observability_metrics_summary",
-        "summary": "API-OBSERVABILITY-METRICS: observability.metrics_summary",
-        "description": "Contract-only endpoint mapped to `ObservabilityApplicationService.metrics_summary`. Sprint 67 implements this route in the local FastAPI MVP.",
-        "tags": [
-          "observability"
-        ],
-        "x-devpilot-api-id": "API-OBSERVABILITY-METRICS",
-        "x-devpilot-operation": "observability.metrics_summary",
-        "x-devpilot-domain-service": "ObservabilityApplicationService.metrics_summary",
-        "x-devpilot-status": "secured-initial",
-        "x-devpilot-side-effect": "none",
-        "x-devpilot-dry-run-default": true,
-        "x-devpilot-auth": "local-token-required",
-        "x-devpilot-policy": "PolicyEngine bound by API_ROUTE_POLICIES; read/dry-run/plan-only only.",
-        "x-devpilot-command-equivalent": "python -m devpilot_core metrics summary --json",
-        "responses": {
-          "200": {
-            "description": "ApplicationResponse wrapping CommandResult.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApplicationResponse"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Invalid request envelope or unsupported parameter.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorApplicationResponse"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Policy/approval/security gate blocked the operation.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorApplicationResponse"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Contract validation failed.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorApplicationResponse"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Controlled internal error preserving response envelope.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorApplicationResponse"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Missing or invalid local API token.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorApplicationResponse"
-                }
-              }
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "limit",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "minimum": 1,
-              "maximum": 200
-            },
-            "description": "Optional bounded read limit for endpoints that support it."
-          }
-        ],
-        "x-devpilot-cors": "restricted-local-allowlist",
-        "x-devpilot-security-headers": true,
-        "security": [
-          {
-            "LocalTokenAuth": []
-          }
-        ],
-        "x-devpilot-consumers": []
-      }
-    },
-    "/api/v1/history/runs": {
-      "get": {
-        "operationId": "history_runs",
-        "summary": "API-HISTORY-RUNS: history.runs",
-        "description": "Contract-only endpoint mapped to `HistoryApplicationService.list_runs`. Sprint 67 implements this route in the local FastAPI MVP.",
-        "tags": [
-          "history"
-        ],
-        "x-devpilot-api-id": "API-HISTORY-RUNS",
-        "x-devpilot-operation": "history.runs",
-        "x-devpilot-domain-service": "HistoryApplicationService.list_runs",
-        "x-devpilot-status": "secured-initial",
-        "x-devpilot-side-effect": "none",
-        "x-devpilot-dry-run-default": true,
-        "x-devpilot-auth": "local-token-required",
-        "x-devpilot-policy": "PolicyEngine bound by API_ROUTE_POLICIES; read/dry-run/plan-only only.",
-        "x-devpilot-command-equivalent": "python -m devpilot_core history list --json",
-        "responses": {
-          "200": {
-            "description": "ApplicationResponse wrapping CommandResult.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApplicationResponse"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Invalid request envelope or unsupported parameter.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorApplicationResponse"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Policy/approval/security gate blocked the operation.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorApplicationResponse"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Contract validation failed.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorApplicationResponse"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Controlled internal error preserving response envelope.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorApplicationResponse"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Missing or invalid local API token.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorApplicationResponse"
-                }
-              }
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "limit",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "minimum": 1,
-              "maximum": 200
-            },
-            "description": "Optional bounded read limit for endpoints that support it."
-          }
-        ],
-        "x-devpilot-cors": "restricted-local-allowlist",
-        "x-devpilot-security-headers": true,
-        "security": [
-          {
-            "LocalTokenAuth": []
-          }
-        ],
-        "x-devpilot-consumers": []
       }
     },
     "/api/v1/application/contract": {
@@ -1419,563 +283,6 @@
         "x-devpilot-consumers": []
       }
     },
-    "/api/v1/standards/status": {
-      "get": {
-        "operationId": "standards_status",
-        "summary": "API-STANDARDS-STATUS: standards.status",
-        "description": "Implemented-initial endpoint mapped to `ValidationApplicationService.standards_status` through ApplicationService.",
-        "tags": [
-          "standards"
-        ],
-        "x-devpilot-api-id": "API-STANDARDS-STATUS",
-        "x-devpilot-operation": "standards.status",
-        "x-devpilot-domain-service": "ValidationApplicationService.standards_status",
-        "x-devpilot-status": "secured-initial",
-        "x-devpilot-side-effect": "none",
-        "x-devpilot-dry-run-default": true,
-        "x-devpilot-auth": "local-token-required",
-        "x-devpilot-policy": "PolicyEngine bound by API_ROUTE_POLICIES; read/dry-run/plan-only only.",
-        "x-devpilot-command-equivalent": "python -m devpilot_core standards status --json",
-        "responses": {
-          "200": {
-            "description": "ApplicationResponse wrapping CommandResult.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApplicationResponse"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Invalid request envelope or unsupported parameter.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorApplicationResponse"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Policy/approval/security gate blocked the operation.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorApplicationResponse"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Contract validation failed.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorApplicationResponse"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Controlled internal error preserving response envelope.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorApplicationResponse"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Missing or invalid local API token.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorApplicationResponse"
-                }
-              }
-            }
-          }
-        },
-        "parameters": [],
-        "x-devpilot-cors": "restricted-local-allowlist",
-        "x-devpilot-security-headers": true,
-        "security": [
-          {
-            "LocalTokenAuth": []
-          }
-        ],
-        "x-devpilot-consumers": [
-          "ui/web dashboard"
-        ]
-      }
-    },
-    "/api/v1/reports": {
-      "get": {
-        "summary": "Reports List",
-        "operationId": "api_reports_list",
-        "x-devpilot-api-id": "API-REPORTS-LIST",
-        "x-devpilot-operation": "reports.list",
-        "x-devpilot-domain-service": "ReportsApplicationService",
-        "x-devpilot-status": "report-trace-viewer-initial",
-        "x-devpilot-side-effect": "none",
-        "x-devpilot-dry-run-default": true,
-        "x-devpilot-auth": "local-token-required",
-        "x-devpilot-cors": "restricted-local-allowlist",
-        "x-devpilot-policy": "PolicyEngine bound",
-        "x-devpilot-security-headers": true,
-        "x-devpilot-command-equivalent": "python -m devpilot_core reports list --json",
-        "security": [
-          {
-            "LocalTokenAuth": []
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "ApplicationResponse success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApplicationResponse"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "ApplicationResponse failure",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorApplicationResponse"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Missing/invalid local token",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorApplicationResponse"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Policy or contract block",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorApplicationResponse"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Validation error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorApplicationResponse"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Unexpected error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorApplicationResponse"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/v1/reports/{report_id}": {
-      "get": {
-        "summary": "Reports Read",
-        "operationId": "api_reports_read",
-        "x-devpilot-api-id": "API-REPORTS-READ",
-        "x-devpilot-operation": "reports.read",
-        "x-devpilot-domain-service": "ReportsApplicationService",
-        "x-devpilot-status": "report-trace-viewer-initial",
-        "x-devpilot-side-effect": "none",
-        "x-devpilot-dry-run-default": true,
-        "x-devpilot-auth": "local-token-required",
-        "x-devpilot-cors": "restricted-local-allowlist",
-        "x-devpilot-policy": "PolicyEngine bound",
-        "x-devpilot-security-headers": true,
-        "x-devpilot-command-equivalent": "python -m devpilot_core reports read <report_id> --json",
-        "security": [
-          {
-            "LocalTokenAuth": []
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "ApplicationResponse success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApplicationResponse"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "ApplicationResponse failure",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorApplicationResponse"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Missing/invalid local token",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorApplicationResponse"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Policy or contract block",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorApplicationResponse"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Validation error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorApplicationResponse"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Unexpected error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorApplicationResponse"
-                }
-              }
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "report_id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "format",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "string",
-              "enum": [
-                "json",
-                "markdown",
-                "md"
-              ],
-              "default": "json"
-            }
-          }
-        ]
-      }
-    },
-    "/api/v1/traces": {
-      "get": {
-        "summary": "Observability Trace_Report",
-        "operationId": "api_traces_list",
-        "x-devpilot-api-id": "API-TRACES-LIST",
-        "x-devpilot-operation": "observability.trace_report",
-        "x-devpilot-domain-service": "ObservabilityApplicationService",
-        "x-devpilot-status": "report-trace-viewer-initial",
-        "x-devpilot-side-effect": "none",
-        "x-devpilot-dry-run-default": true,
-        "x-devpilot-auth": "local-token-required",
-        "x-devpilot-cors": "restricted-local-allowlist",
-        "x-devpilot-policy": "PolicyEngine bound",
-        "x-devpilot-security-headers": true,
-        "x-devpilot-command-equivalent": "python -m devpilot_core trace report --json",
-        "security": [
-          {
-            "LocalTokenAuth": []
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "ApplicationResponse success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApplicationResponse"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "ApplicationResponse failure",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorApplicationResponse"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Missing/invalid local token",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorApplicationResponse"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Policy or contract block",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorApplicationResponse"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Validation error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorApplicationResponse"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Unexpected error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorApplicationResponse"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/v1/traces/{trace_id}": {
-      "get": {
-        "summary": "Observability Trace_Inspect",
-        "operationId": "api_traces_inspect",
-        "x-devpilot-api-id": "API-TRACES-INSPECT",
-        "x-devpilot-operation": "observability.trace_inspect",
-        "x-devpilot-domain-service": "ObservabilityApplicationService",
-        "x-devpilot-status": "report-trace-viewer-initial",
-        "x-devpilot-side-effect": "none",
-        "x-devpilot-dry-run-default": true,
-        "x-devpilot-auth": "local-token-required",
-        "x-devpilot-cors": "restricted-local-allowlist",
-        "x-devpilot-policy": "PolicyEngine bound",
-        "x-devpilot-security-headers": true,
-        "x-devpilot-command-equivalent": "python -m devpilot_core trace inspect <trace_id> --json",
-        "security": [
-          {
-            "LocalTokenAuth": []
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "ApplicationResponse success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApplicationResponse"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "ApplicationResponse failure",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorApplicationResponse"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Missing/invalid local token",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorApplicationResponse"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Policy or contract block",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorApplicationResponse"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Validation error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorApplicationResponse"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Unexpected error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorApplicationResponse"
-                }
-              }
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "trace_id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "limit",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "default": 100,
-              "minimum": 1,
-              "maximum": 500
-            }
-          }
-        ]
-      }
-    },
-    "/api/v1/metrics/summary": {
-      "get": {
-        "summary": "Observability Metrics_Summary",
-        "operationId": "api_metrics_summary",
-        "x-devpilot-api-id": "API-METRICS-SUMMARY",
-        "x-devpilot-operation": "observability.metrics_summary",
-        "x-devpilot-domain-service": "ObservabilityApplicationService",
-        "x-devpilot-status": "report-trace-viewer-initial",
-        "x-devpilot-side-effect": "none",
-        "x-devpilot-dry-run-default": true,
-        "x-devpilot-auth": "local-token-required",
-        "x-devpilot-cors": "restricted-local-allowlist",
-        "x-devpilot-policy": "PolicyEngine bound",
-        "x-devpilot-security-headers": true,
-        "x-devpilot-command-equivalent": "python -m devpilot_core metrics summary --json",
-        "security": [
-          {
-            "LocalTokenAuth": []
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "ApplicationResponse success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApplicationResponse"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "ApplicationResponse failure",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorApplicationResponse"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Missing/invalid local token",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorApplicationResponse"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Policy or contract block",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorApplicationResponse"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Validation error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorApplicationResponse"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Unexpected error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorApplicationResponse"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/api/v1/approvals": {
       "get": {
         "tags": [
@@ -2057,104 +364,6 @@
         "x-devpilot-security-headers": true,
         "x-devpilot-policy": "Policy/gate: token + CORS allowlist + API_ROUTE_POLICIES + PolicyEngine. Critical execution is blocked from Web UI.",
         "x-devpilot-command-equivalent": "python -m devpilot_core approval list --json",
-        "security": [
-          {
-            "LocalTokenAuth": []
-          }
-        ]
-      }
-    },
-    "/api/v1/approvals/{approval_id}": {
-      "get": {
-        "tags": [
-          "approvals"
-        ],
-        "summary": "Show Approval",
-        "operationId": "approvals_show",
-        "x-devpilot-operation": "approvals.show",
-        "x-devpilot-sprint": "FUNC-SPRINT-71",
-        "x-devpilot-side-effect": "read_only",
-        "x-devpilot-dry-run-default": false,
-        "responses": {
-          "200": {
-            "description": "ApplicationResponse wrapping CommandResult.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApplicationResponse"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Invalid request envelope or unsupported parameter.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorApplicationResponse"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Policy/approval/security gate blocked the operation.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorApplicationResponse"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Contract validation failed.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorApplicationResponse"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Controlled internal error preserving response envelope.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorApplicationResponse"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Missing or invalid local API token.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorApplicationResponse"
-                }
-              }
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "approval_id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "x-devpilot-api-id": "API-APPROVALS-SHOW",
-        "x-devpilot-domain-service": "ApprovalApplicationService.show",
-        "x-devpilot-status": "approval-center-initial",
-        "x-devpilot-auth": "local-token-required",
-        "x-devpilot-cors": "restricted-local-allowlist",
-        "x-devpilot-security-headers": true,
-        "x-devpilot-policy": "Policy/gate: token + CORS allowlist + API_ROUTE_POLICIES + PolicyEngine. Critical execution is blocked from Web UI.",
-        "x-devpilot-command-equivalent": "python -m devpilot_core approval show <approval_id> --json",
         "security": [
           {
             "LocalTokenAuth": []
@@ -2259,6 +468,104 @@
         "x-devpilot-security-headers": true,
         "x-devpilot-policy": "Policy/gate: token + CORS allowlist + API_ROUTE_POLICIES + PolicyEngine. Critical execution is blocked from Web UI.",
         "x-devpilot-command-equivalent": "python -m devpilot_core approval request --tool tests.run --action execute --subject pytest --actor ui-local --reason \"...\" --json",
+        "security": [
+          {
+            "LocalTokenAuth": []
+          }
+        ]
+      }
+    },
+    "/api/v1/approvals/{approval_id}": {
+      "get": {
+        "tags": [
+          "approvals"
+        ],
+        "summary": "Show Approval",
+        "operationId": "approvals_show",
+        "x-devpilot-operation": "approvals.show",
+        "x-devpilot-sprint": "FUNC-SPRINT-71",
+        "x-devpilot-side-effect": "read_only",
+        "x-devpilot-dry-run-default": false,
+        "responses": {
+          "200": {
+            "description": "ApplicationResponse wrapping CommandResult.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request envelope or unsupported parameter.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Policy/approval/security gate blocked the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Contract validation failed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Controlled internal error preserving response envelope.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid local API token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "approval_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "x-devpilot-api-id": "API-APPROVALS-SHOW",
+        "x-devpilot-domain-service": "ApprovalApplicationService.show",
+        "x-devpilot-status": "approval-center-initial",
+        "x-devpilot-auth": "local-token-required",
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true,
+        "x-devpilot-policy": "Policy/gate: token + CORS allowlist + API_ROUTE_POLICIES + PolicyEngine. Critical execution is blocked from Web UI.",
+        "x-devpilot-command-equivalent": "python -m devpilot_core approval show <approval_id> --json",
         "security": [
           {
             "LocalTokenAuth": []
@@ -2494,17 +801,779 @@
         ]
       }
     },
-    "/api/v1/actions/dry-run": {
-      "post": {
+    "/api/v1/history/runs": {
+      "get": {
+        "operationId": "history_runs",
+        "summary": "API-HISTORY-RUNS: history.runs",
+        "description": "Contract-only endpoint mapped to `HistoryApplicationService.list_runs`. Sprint 67 implements this route in the local FastAPI MVP.",
         "tags": [
-          "actions"
+          "history"
         ],
-        "summary": "Run Dry-Run Action",
-        "operationId": "ui_actions_dry_run",
-        "x-devpilot-operation": "ui.actions.dry_run",
-        "x-devpilot-sprint": "FUNC-SPRINT-71",
-        "x-devpilot-side-effect": "dry_run_only",
+        "x-devpilot-api-id": "API-HISTORY-RUNS",
+        "x-devpilot-operation": "history.runs",
+        "x-devpilot-domain-service": "HistoryApplicationService.list_runs",
+        "x-devpilot-status": "secured-initial",
+        "x-devpilot-side-effect": "none",
         "x-devpilot-dry-run-default": true,
+        "x-devpilot-auth": "local-token-required",
+        "x-devpilot-policy": "PolicyEngine bound by API_ROUTE_POLICIES; read/dry-run/plan-only only.",
+        "x-devpilot-command-equivalent": "python -m devpilot_core history list --json",
+        "responses": {
+          "200": {
+            "description": "ApplicationResponse wrapping CommandResult.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request envelope or unsupported parameter.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Policy/approval/security gate blocked the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Contract validation failed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Controlled internal error preserving response envelope.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid local API token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 200
+            },
+            "description": "Optional bounded read limit for endpoints that support it."
+          }
+        ],
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true,
+        "security": [
+          {
+            "LocalTokenAuth": []
+          }
+        ],
+        "x-devpilot-consumers": []
+      }
+    },
+    "/api/v1/metrics/summary": {
+      "get": {
+        "summary": "Observability Metrics_Summary",
+        "operationId": "api_metrics_summary",
+        "x-devpilot-api-id": "API-METRICS-SUMMARY",
+        "x-devpilot-operation": "observability.metrics_summary",
+        "x-devpilot-domain-service": "ObservabilityApplicationService",
+        "x-devpilot-status": "report-trace-viewer-initial",
+        "x-devpilot-side-effect": "none",
+        "x-devpilot-dry-run-default": true,
+        "x-devpilot-auth": "local-token-required",
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-policy": "PolicyEngine bound",
+        "x-devpilot-security-headers": true,
+        "x-devpilot-command-equivalent": "python -m devpilot_core metrics summary --json",
+        "security": [
+          {
+            "LocalTokenAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ApplicationResponse success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "ApplicationResponse failure",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing/invalid local token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Policy or contract block",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/miasi/status": {
+      "get": {
+        "operationId": "miasi_validate",
+        "summary": "API-MIASI-STATUS: miasi.validate",
+        "description": "Contract-only endpoint mapped to `MiasiApplicationService.validate`. Sprint 67 implements this route in the local FastAPI MVP.",
+        "tags": [
+          "miasi"
+        ],
+        "x-devpilot-api-id": "API-MIASI-STATUS",
+        "x-devpilot-operation": "miasi.validate",
+        "x-devpilot-domain-service": "MiasiApplicationService.validate",
+        "x-devpilot-status": "secured-initial",
+        "x-devpilot-side-effect": "none",
+        "x-devpilot-dry-run-default": true,
+        "x-devpilot-auth": "local-token-required",
+        "x-devpilot-policy": "PolicyEngine bound by API_ROUTE_POLICIES; read/dry-run/plan-only only.",
+        "x-devpilot-command-equivalent": "python -m devpilot_core miasi validate --json",
+        "responses": {
+          "200": {
+            "description": "ApplicationResponse wrapping CommandResult.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request envelope or unsupported parameter.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Policy/approval/security gate blocked the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Contract validation failed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Controlled internal error preserving response envelope.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid local API token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [],
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true,
+        "security": [
+          {
+            "LocalTokenAuth": []
+          }
+        ],
+        "x-devpilot-consumers": [
+          "ui/web dashboard"
+        ]
+      }
+    },
+    "/api/v1/model/providers": {
+      "get": {
+        "operationId": "model_providers",
+        "summary": "API-MODEL-PROVIDERS: model.providers",
+        "description": "Contract-only endpoint mapped to `ModelApplicationService.providers`. Sprint 67 implements this route in the local FastAPI MVP.",
+        "tags": [
+          "model"
+        ],
+        "x-devpilot-api-id": "API-MODEL-PROVIDERS",
+        "x-devpilot-operation": "model.providers",
+        "x-devpilot-domain-service": "ModelApplicationService.providers",
+        "x-devpilot-status": "secured-initial",
+        "x-devpilot-side-effect": "none",
+        "x-devpilot-dry-run-default": true,
+        "x-devpilot-auth": "local-token-required",
+        "x-devpilot-policy": "PolicyEngine bound by API_ROUTE_POLICIES; read/dry-run/plan-only only.",
+        "x-devpilot-command-equivalent": "python -m devpilot_core model providers --json",
+        "responses": {
+          "200": {
+            "description": "ApplicationResponse wrapping CommandResult.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request envelope or unsupported parameter.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Policy/approval/security gate blocked the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Contract validation failed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Controlled internal error preserving response envelope.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid local API token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [],
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true,
+        "security": [
+          {
+            "LocalTokenAuth": []
+          }
+        ],
+        "x-devpilot-consumers": []
+      }
+    },
+    "/api/v1/observability/metrics": {
+      "get": {
+        "operationId": "observability_metrics_summary",
+        "summary": "API-OBSERVABILITY-METRICS: observability.metrics_summary",
+        "description": "Contract-only endpoint mapped to `ObservabilityApplicationService.metrics_summary`. Sprint 67 implements this route in the local FastAPI MVP.",
+        "tags": [
+          "observability"
+        ],
+        "x-devpilot-api-id": "API-OBSERVABILITY-METRICS",
+        "x-devpilot-operation": "observability.metrics_summary",
+        "x-devpilot-domain-service": "ObservabilityApplicationService.metrics_summary",
+        "x-devpilot-status": "secured-initial",
+        "x-devpilot-side-effect": "none",
+        "x-devpilot-dry-run-default": true,
+        "x-devpilot-auth": "local-token-required",
+        "x-devpilot-policy": "PolicyEngine bound by API_ROUTE_POLICIES; read/dry-run/plan-only only.",
+        "x-devpilot-command-equivalent": "python -m devpilot_core metrics summary --json",
+        "responses": {
+          "200": {
+            "description": "ApplicationResponse wrapping CommandResult.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request envelope or unsupported parameter.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Policy/approval/security gate blocked the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Contract validation failed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Controlled internal error preserving response envelope.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid local API token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 200
+            },
+            "description": "Optional bounded read limit for endpoints that support it."
+          }
+        ],
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true,
+        "security": [
+          {
+            "LocalTokenAuth": []
+          }
+        ],
+        "x-devpilot-consumers": []
+      }
+    },
+    "/api/v1/observability/traces": {
+      "get": {
+        "operationId": "observability_trace_report",
+        "summary": "API-OBSERVABILITY-TRACES: observability.trace_report",
+        "description": "Contract-only endpoint mapped to `ObservabilityApplicationService.trace_report`. Sprint 67 implements this route in the local FastAPI MVP.",
+        "tags": [
+          "observability"
+        ],
+        "x-devpilot-api-id": "API-OBSERVABILITY-TRACES",
+        "x-devpilot-operation": "observability.trace_report",
+        "x-devpilot-domain-service": "ObservabilityApplicationService.trace_report",
+        "x-devpilot-status": "secured-initial",
+        "x-devpilot-side-effect": "none",
+        "x-devpilot-dry-run-default": true,
+        "x-devpilot-auth": "local-token-required",
+        "x-devpilot-policy": "PolicyEngine bound by API_ROUTE_POLICIES; read/dry-run/plan-only only.",
+        "x-devpilot-command-equivalent": "python -m devpilot_core trace report --json",
+        "responses": {
+          "200": {
+            "description": "ApplicationResponse wrapping CommandResult.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request envelope or unsupported parameter.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Policy/approval/security gate blocked the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Contract validation failed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Controlled internal error preserving response envelope.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid local API token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 200
+            },
+            "description": "Optional bounded read limit for endpoints that support it."
+          }
+        ],
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true,
+        "security": [
+          {
+            "LocalTokenAuth": []
+          }
+        ],
+        "x-devpilot-consumers": []
+      }
+    },
+    "/api/v1/operator/dashboard": {
+      "get": {
+        "tags": [
+          "operator"
+        ],
+        "summary": "Operator Dashboard Snapshot",
+        "operationId": "operator_dashboard",
+        "security": [
+          {
+            "LocalTokenAuth": []
+          }
+        ],
+        "x-devpilot-api-id": "API-OPERATOR-DASHBOARD",
+        "x-devpilot-operation": "operator.dashboard",
+        "x-devpilot-status": "secured-initial",
+        "x-devpilot-side-effect": "read_only_optional_outputs_reports",
+        "x-devpilot-dry-run-default": true,
+        "x-devpilot-auth": "local-token-required",
+        "x-devpilot-policy": "PolicyEngine bound",
+        "responses": {
+          "200": {
+            "description": "ApplicationResponse",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid local token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Policy binding block",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          }
+        },
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true,
+        "x-devpilot-domain-service": "OperatorDashboardApplicationService",
+        "parameters": [
+          {
+            "name": "write_report",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": false
+            },
+            "description": "When true, writes operator dashboard snapshot evidence under outputs/reports. Default is read-only."
+          }
+        ]
+      }
+    },
+    "/api/v1/portfolio/status": {
+      "get": {
+        "tags": [
+          "portfolio"
+        ],
+        "summary": "Portfolio Status",
+        "operationId": "portfolio_status",
+        "security": [
+          {
+            "LocalTokenAuth": []
+          }
+        ],
+        "x-devpilot-api-id": "API-PORTFOLIO-STATUS",
+        "x-devpilot-operation": "portfolio.status",
+        "x-devpilot-status": "secured-initial",
+        "x-devpilot-domain-service": "PortfolioApplicationService",
+        "x-devpilot-side-effect": "read_only",
+        "x-devpilot-dry-run-default": true,
+        "x-devpilot-auth": "local-token-required",
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true,
+        "x-devpilot-policy": "Policy/gate: token + CORS + API_ROUTE_POLICIES + PolicyEngine; read-only registered-workspace portfolio status.",
+        "responses": {
+          "200": {
+            "description": "ApplicationResponse",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid local token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Policy binding block",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/refactor/plan": {
+      "post": {
+        "operationId": "refactor_plan",
+        "summary": "API-REFACTOR-PLAN: refactor.plan",
+        "description": "Contract-only endpoint mapped to `RefactorApplicationService.plan`. Sprint 67 implements this route in the local FastAPI MVP.",
+        "tags": [
+          "refactor"
+        ],
+        "x-devpilot-api-id": "API-REFACTOR-PLAN",
+        "x-devpilot-operation": "refactor.plan",
+        "x-devpilot-domain-service": "RefactorApplicationService.plan",
+        "x-devpilot-status": "secured-initial",
+        "x-devpilot-side-effect": "none",
+        "x-devpilot-dry-run-default": true,
+        "x-devpilot-auth": "local-token-required",
+        "x-devpilot-policy": "PolicyEngine bound by API_ROUTE_POLICIES; read/dry-run/plan-only only.",
+        "x-devpilot-command-equivalent": "python -m devpilot_core refactor-plan . --json",
         "responses": {
           "200": {
             "description": "ApplicationResponse wrapping CommandResult.",
@@ -2568,52 +1637,450 @@
           }
         },
         "requestBody": {
-          "required": false,
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/ApplicationRequest"
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/ApplicationRequest"
+                  }
+                ],
+                "properties": {
+                  "operation": {
+                    "const": "refactor.plan"
+                  }
+                }
               },
               "example": {
-                "operation": "ui.actions.dry_run",
-                "payload": {
-                  "action_id": "readiness"
-                },
-                "client": "web-ui",
+                "operation": "refactor.plan",
+                "payload": {},
+                "client": "api-local",
                 "dry_run": true
               }
             }
           }
         },
-        "x-devpilot-api-id": "API-ACTIONS-DRY-RUN",
-        "x-devpilot-domain-service": "ApplicationService.ui_action_dry_run",
-        "x-devpilot-status": "approval-center-initial",
-        "x-devpilot-auth": "local-token-required",
         "x-devpilot-cors": "restricted-local-allowlist",
         "x-devpilot-security-headers": true,
-        "x-devpilot-policy": "Policy/gate: token + CORS allowlist + API_ROUTE_POLICIES + PolicyEngine. Critical execution is blocked from Web UI.",
-        "x-devpilot-command-equivalent": "UI Action Launcher: readiness/code-review/refactor-plan",
         "security": [
           {
             "LocalTokenAuth": []
+          }
+        ],
+        "x-devpilot-consumers": []
+      }
+    },
+    "/api/v1/repo/inventory": {
+      "get": {
+        "operationId": "repo_inventory",
+        "summary": "API-REPO-INVENTORY: repo.inventory",
+        "description": "Contract-only endpoint mapped to `RepoApplicationService.inventory`. Sprint 67 implements this route in the local FastAPI MVP.",
+        "tags": [
+          "repo"
+        ],
+        "x-devpilot-api-id": "API-REPO-INVENTORY",
+        "x-devpilot-operation": "repo.inventory",
+        "x-devpilot-domain-service": "RepoApplicationService.inventory",
+        "x-devpilot-status": "secured-initial",
+        "x-devpilot-side-effect": "none",
+        "x-devpilot-dry-run-default": true,
+        "x-devpilot-auth": "local-token-required",
+        "x-devpilot-policy": "PolicyEngine bound by API_ROUTE_POLICIES; read/dry-run/plan-only only.",
+        "x-devpilot-command-equivalent": "python -m devpilot_core repo inventory --json",
+        "responses": {
+          "200": {
+            "description": "ApplicationResponse wrapping CommandResult.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request envelope or unsupported parameter.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Policy/approval/security gate blocked the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Contract validation failed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Controlled internal error preserving response envelope.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid local API token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [],
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true,
+        "security": [
+          {
+            "LocalTokenAuth": []
+          }
+        ],
+        "x-devpilot-consumers": []
+      }
+    },
+    "/api/v1/reports": {
+      "get": {
+        "summary": "Reports List",
+        "operationId": "api_reports_list",
+        "x-devpilot-api-id": "API-REPORTS-LIST",
+        "x-devpilot-operation": "reports.list",
+        "x-devpilot-domain-service": "ReportsApplicationService",
+        "x-devpilot-status": "report-trace-viewer-initial",
+        "x-devpilot-side-effect": "none",
+        "x-devpilot-dry-run-default": true,
+        "x-devpilot-auth": "local-token-required",
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-policy": "PolicyEngine bound",
+        "x-devpilot-security-headers": true,
+        "x-devpilot-command-equivalent": "python -m devpilot_core reports list --json",
+        "security": [
+          {
+            "LocalTokenAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ApplicationResponse success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "ApplicationResponse failure",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing/invalid local token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Policy or contract block",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/reports/{report_id}": {
+      "get": {
+        "summary": "Reports Read",
+        "operationId": "api_reports_read",
+        "x-devpilot-api-id": "API-REPORTS-READ",
+        "x-devpilot-operation": "reports.read",
+        "x-devpilot-domain-service": "ReportsApplicationService",
+        "x-devpilot-status": "report-trace-viewer-initial",
+        "x-devpilot-side-effect": "none",
+        "x-devpilot-dry-run-default": true,
+        "x-devpilot-auth": "local-token-required",
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-policy": "PolicyEngine bound",
+        "x-devpilot-security-headers": true,
+        "x-devpilot-command-equivalent": "python -m devpilot_core reports read <report_id> --json",
+        "security": [
+          {
+            "LocalTokenAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ApplicationResponse success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "ApplicationResponse failure",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing/invalid local token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Policy or contract block",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "report_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "format",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "json",
+                "markdown",
+                "md"
+              ],
+              "default": "json"
+            }
           }
         ]
       }
     },
-    "/api/v1/settings/workspace": {
-      "get": {
+    "/api/v1/review/code": {
+      "post": {
+        "operationId": "review_code",
+        "summary": "API-REVIEW-CODE: review.code",
+        "description": "Contract-only endpoint mapped to `ReviewApplicationService.code_review`. Sprint 67 implements this route in the local FastAPI MVP.",
         "tags": [
-          "settings"
+          "review"
         ],
-        "summary": "Workspace Settings",
-        "operationId": "settings_workspace",
+        "x-devpilot-api-id": "API-REVIEW-CODE",
+        "x-devpilot-operation": "review.code",
+        "x-devpilot-domain-service": "ReviewApplicationService.code_review",
+        "x-devpilot-status": "secured-initial",
+        "x-devpilot-side-effect": "none",
+        "x-devpilot-dry-run-default": true,
+        "x-devpilot-auth": "local-token-required",
+        "x-devpilot-policy": "PolicyEngine bound by API_ROUTE_POLICIES; read/dry-run/plan-only only.",
+        "x-devpilot-command-equivalent": "python -m devpilot_core code-review . --json",
+        "responses": {
+          "200": {
+            "description": "ApplicationResponse wrapping CommandResult.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request envelope or unsupported parameter.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Policy/approval/security gate blocked the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Contract validation failed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Controlled internal error preserving response envelope.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid local API token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/ApplicationRequest"
+                  }
+                ],
+                "properties": {
+                  "operation": {
+                    "const": "review.code"
+                  }
+                }
+              },
+              "example": {
+                "operation": "review.code",
+                "payload": {},
+                "client": "api-local",
+                "dry_run": true
+              }
+            }
+          }
+        },
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true,
         "security": [
           {
             "LocalTokenAuth": []
           }
         ],
-        "x-devpilot-api-id": "SETTINGS-WORKSPACE",
-        "x-devpilot-operation": "settings.workspace",
+        "x-devpilot-consumers": []
+      }
+    },
+    "/api/v1/settings/policy": {
+      "get": {
+        "tags": [
+          "settings"
+        ],
+        "summary": "Policy Settings",
+        "operationId": "settings_policy",
+        "security": [
+          {
+            "LocalTokenAuth": []
+          }
+        ],
+        "x-devpilot-api-id": "SETTINGS-POLICY",
+        "x-devpilot-operation": "settings.policy",
         "x-devpilot-status": "settings-ui-initial",
         "x-devpilot-side-effect": "none",
         "x-devpilot-dry-run-default": true,
@@ -2700,92 +2167,6 @@
         ],
         "x-devpilot-api-id": "SETTINGS-PROVIDERS",
         "x-devpilot-operation": "settings.providers",
-        "x-devpilot-status": "settings-ui-initial",
-        "x-devpilot-side-effect": "none",
-        "x-devpilot-dry-run-default": true,
-        "x-devpilot-auth": "local-token-required",
-        "x-devpilot-policy": "PolicyEngine bound",
-        "responses": {
-          "200": {
-            "description": "ApplicationResponse",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ApplicationResponse"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Missing or invalid local token",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorApplicationResponse"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Policy binding block",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorApplicationResponse"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorApplicationResponse"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorApplicationResponse"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Internal Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorApplicationResponse"
-                }
-              }
-            }
-          }
-        },
-        "x-devpilot-cors": "restricted-local-allowlist",
-        "x-devpilot-security-headers": true,
-        "x-devpilot-domain-service": "SettingsApplicationService"
-      }
-    },
-    "/api/v1/settings/policy": {
-      "get": {
-        "tags": [
-          "settings"
-        ],
-        "summary": "Policy Settings",
-        "operationId": "settings_policy",
-        "security": [
-          {
-            "LocalTokenAuth": []
-          }
-        ],
-        "x-devpilot-api-id": "SETTINGS-POLICY",
-        "x-devpilot-operation": "settings.policy",
         "x-devpilot-status": "settings-ui-initial",
         "x-devpilot-side-effect": "none",
         "x-devpilot-dry-run-default": true,
@@ -2965,22 +2346,22 @@
         }
       }
     },
-    "/api/v1/operator/dashboard": {
+    "/api/v1/settings/workspace": {
       "get": {
         "tags": [
-          "operator"
+          "settings"
         ],
-        "summary": "Operator Dashboard Snapshot",
-        "operationId": "operator_dashboard",
+        "summary": "Workspace Settings",
+        "operationId": "settings_workspace",
         "security": [
           {
             "LocalTokenAuth": []
           }
         ],
-        "x-devpilot-api-id": "API-OPERATOR-DASHBOARD",
-        "x-devpilot-operation": "operator.dashboard",
-        "x-devpilot-status": "secured-initial",
-        "x-devpilot-side-effect": "read_only_optional_outputs_reports",
+        "x-devpilot-api-id": "SETTINGS-WORKSPACE",
+        "x-devpilot-operation": "settings.workspace",
+        "x-devpilot-status": "settings-ui-initial",
+        "x-devpilot-side-effect": "none",
         "x-devpilot-dry-run-default": true,
         "x-devpilot-auth": "local-token-required",
         "x-devpilot-policy": "PolicyEngine bound",
@@ -3048,18 +2429,723 @@
         },
         "x-devpilot-cors": "restricted-local-allowlist",
         "x-devpilot-security-headers": true,
-        "x-devpilot-domain-service": "OperatorDashboardApplicationService",
+        "x-devpilot-domain-service": "SettingsApplicationService"
+      }
+    },
+    "/api/v1/standards/status": {
+      "get": {
+        "operationId": "standards_status",
+        "summary": "API-STANDARDS-STATUS: standards.status",
+        "description": "Implemented-initial endpoint mapped to `ValidationApplicationService.standards_status` through ApplicationService.",
+        "tags": [
+          "standards"
+        ],
+        "x-devpilot-api-id": "API-STANDARDS-STATUS",
+        "x-devpilot-operation": "standards.status",
+        "x-devpilot-domain-service": "ValidationApplicationService.standards_status",
+        "x-devpilot-status": "secured-initial",
+        "x-devpilot-side-effect": "none",
+        "x-devpilot-dry-run-default": true,
+        "x-devpilot-auth": "local-token-required",
+        "x-devpilot-policy": "PolicyEngine bound by API_ROUTE_POLICIES; read/dry-run/plan-only only.",
+        "x-devpilot-command-equivalent": "python -m devpilot_core standards status --json",
+        "responses": {
+          "200": {
+            "description": "ApplicationResponse wrapping CommandResult.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request envelope or unsupported parameter.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Policy/approval/security gate blocked the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Contract validation failed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Controlled internal error preserving response envelope.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid local API token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [],
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true,
+        "security": [
+          {
+            "LocalTokenAuth": []
+          }
+        ],
+        "x-devpilot-consumers": [
+          "ui/web dashboard"
+        ]
+      }
+    },
+    "/api/v1/traces": {
+      "get": {
+        "summary": "Observability Trace_Report",
+        "operationId": "api_traces_list",
+        "x-devpilot-api-id": "API-TRACES-LIST",
+        "x-devpilot-operation": "observability.trace_report",
+        "x-devpilot-domain-service": "ObservabilityApplicationService",
+        "x-devpilot-status": "report-trace-viewer-initial",
+        "x-devpilot-side-effect": "none",
+        "x-devpilot-dry-run-default": true,
+        "x-devpilot-auth": "local-token-required",
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-policy": "PolicyEngine bound",
+        "x-devpilot-security-headers": true,
+        "x-devpilot-command-equivalent": "python -m devpilot_core trace report --json",
+        "security": [
+          {
+            "LocalTokenAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ApplicationResponse success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "ApplicationResponse failure",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing/invalid local token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Policy or contract block",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/traces/{trace_id}": {
+      "get": {
+        "summary": "Observability Trace_Inspect",
+        "operationId": "api_traces_inspect",
+        "x-devpilot-api-id": "API-TRACES-INSPECT",
+        "x-devpilot-operation": "observability.trace_inspect",
+        "x-devpilot-domain-service": "ObservabilityApplicationService",
+        "x-devpilot-status": "report-trace-viewer-initial",
+        "x-devpilot-side-effect": "none",
+        "x-devpilot-dry-run-default": true,
+        "x-devpilot-auth": "local-token-required",
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-policy": "PolicyEngine bound",
+        "x-devpilot-security-headers": true,
+        "x-devpilot-command-equivalent": "python -m devpilot_core trace inspect <trace_id> --json",
+        "security": [
+          {
+            "LocalTokenAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ApplicationResponse success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "ApplicationResponse failure",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing/invalid local token",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Policy or contract block",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          }
+        },
         "parameters": [
           {
-            "name": "write_report",
+            "name": "trace_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
             "in": "query",
             "required": false,
             "schema": {
-              "type": "boolean",
-              "default": false
-            },
-            "description": "When true, writes operator dashboard snapshot evidence under outputs/reports. Default is read-only."
+              "type": "integer",
+              "default": 100,
+              "minimum": 1,
+              "maximum": 500
+            }
           }
+        ]
+      }
+    },
+    "/api/v1/validation/artifact": {
+      "post": {
+        "operationId": "validation_artifact",
+        "summary": "API-VALIDATION-ARTIFACT: validation.artifact",
+        "description": "Contract-only endpoint mapped to `ValidationApplicationService.validate_artifact`. Sprint 67 implements this route in the local FastAPI MVP.",
+        "tags": [
+          "validation"
+        ],
+        "x-devpilot-api-id": "API-VALIDATION-ARTIFACT",
+        "x-devpilot-operation": "validation.artifact",
+        "x-devpilot-domain-service": "ValidationApplicationService.validate_artifact",
+        "x-devpilot-status": "secured-initial",
+        "x-devpilot-side-effect": "none",
+        "x-devpilot-dry-run-default": true,
+        "x-devpilot-auth": "local-token-required",
+        "x-devpilot-policy": "PolicyEngine bound by API_ROUTE_POLICIES; read/dry-run/plan-only only.",
+        "x-devpilot-command-equivalent": "python -m devpilot_core validate-artifact <path> --json",
+        "responses": {
+          "200": {
+            "description": "ApplicationResponse wrapping CommandResult.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request envelope or unsupported parameter.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Policy/approval/security gate blocked the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Contract validation failed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Controlled internal error preserving response envelope.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid local API token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/ApplicationRequest"
+                  }
+                ],
+                "properties": {
+                  "operation": {
+                    "const": "validation.artifact"
+                  }
+                }
+              },
+              "example": {
+                "operation": "validation.artifact",
+                "payload": {},
+                "client": "api-local",
+                "dry_run": true
+              }
+            }
+          }
+        },
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true,
+        "security": [
+          {
+            "LocalTokenAuth": []
+          }
+        ],
+        "x-devpilot-consumers": []
+      }
+    },
+    "/api/v1/validation/frontmatter": {
+      "post": {
+        "operationId": "validation_frontmatter",
+        "summary": "API-VALIDATION-FRONTMATTER: validation.frontmatter",
+        "description": "Contract-only endpoint mapped to `ValidationApplicationService.validate_frontmatter`. Sprint 67 implements this route in the local FastAPI MVP.",
+        "tags": [
+          "validation"
+        ],
+        "x-devpilot-api-id": "API-VALIDATION-FRONTMATTER",
+        "x-devpilot-operation": "validation.frontmatter",
+        "x-devpilot-domain-service": "ValidationApplicationService.validate_frontmatter",
+        "x-devpilot-status": "secured-initial",
+        "x-devpilot-side-effect": "none",
+        "x-devpilot-dry-run-default": true,
+        "x-devpilot-auth": "local-token-required",
+        "x-devpilot-policy": "PolicyEngine bound by API_ROUTE_POLICIES; read/dry-run/plan-only only.",
+        "x-devpilot-command-equivalent": "python -m devpilot_core validate-frontmatter <path> --json",
+        "responses": {
+          "200": {
+            "description": "ApplicationResponse wrapping CommandResult.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request envelope or unsupported parameter.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Policy/approval/security gate blocked the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Contract validation failed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Controlled internal error preserving response envelope.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid local API token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/ApplicationRequest"
+                  }
+                ],
+                "properties": {
+                  "operation": {
+                    "const": "validation.frontmatter"
+                  }
+                }
+              },
+              "example": {
+                "operation": "validation.frontmatter",
+                "payload": {},
+                "client": "api-local",
+                "dry_run": true
+              }
+            }
+          }
+        },
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true,
+        "security": [
+          {
+            "LocalTokenAuth": []
+          }
+        ],
+        "x-devpilot-consumers": []
+      }
+    },
+    "/api/v1/validation/readiness": {
+      "post": {
+        "operationId": "validation_readiness",
+        "summary": "API-VALIDATION-READINESS: validation.readiness",
+        "description": "Contract-only endpoint mapped to `ValidationApplicationService.readiness`. Sprint 67 implements this route in the local FastAPI MVP.",
+        "tags": [
+          "validation"
+        ],
+        "x-devpilot-api-id": "API-VALIDATION-READINESS",
+        "x-devpilot-operation": "validation.readiness",
+        "x-devpilot-domain-service": "ValidationApplicationService.readiness",
+        "x-devpilot-status": "secured-initial",
+        "x-devpilot-side-effect": "report_when_adapter_requests_it",
+        "x-devpilot-dry-run-default": true,
+        "x-devpilot-auth": "local-token-required",
+        "x-devpilot-policy": "PolicyEngine bound by API_ROUTE_POLICIES; read/dry-run/plan-only only.",
+        "x-devpilot-command-equivalent": "python -m devpilot_core readiness-check --strict --json",
+        "responses": {
+          "200": {
+            "description": "ApplicationResponse wrapping CommandResult.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request envelope or unsupported parameter.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Policy/approval/security gate blocked the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Contract validation failed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Controlled internal error preserving response envelope.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid local API token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/ApplicationRequest"
+                  }
+                ],
+                "properties": {
+                  "operation": {
+                    "const": "validation.readiness"
+                  }
+                }
+              },
+              "example": {
+                "operation": "validation.readiness",
+                "payload": {},
+                "client": "api-local",
+                "dry_run": true
+              }
+            }
+          }
+        },
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true,
+        "security": [
+          {
+            "LocalTokenAuth": []
+          }
+        ],
+        "x-devpilot-consumers": [
+          "ui/web dashboard"
+        ]
+      }
+    },
+    "/api/v1/workspace/status": {
+      "get": {
+        "operationId": "workspace_status",
+        "summary": "API-WORKSPACE-STATUS: workspace.status",
+        "description": "Contract-only endpoint mapped to `WorkspaceApplicationService.status`. Sprint 67 implements this route in the local FastAPI MVP.",
+        "tags": [
+          "workspace"
+        ],
+        "x-devpilot-api-id": "API-WORKSPACE-STATUS",
+        "x-devpilot-operation": "workspace.status",
+        "x-devpilot-domain-service": "WorkspaceApplicationService.status",
+        "x-devpilot-status": "secured-initial",
+        "x-devpilot-side-effect": "none",
+        "x-devpilot-dry-run-default": true,
+        "x-devpilot-auth": "local-token-required",
+        "x-devpilot-policy": "PolicyEngine bound by API_ROUTE_POLICIES; read/dry-run/plan-only only.",
+        "x-devpilot-command-equivalent": "python -m devpilot_core workspace status --json",
+        "responses": {
+          "200": {
+            "description": "ApplicationResponse wrapping CommandResult.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request envelope or unsupported parameter.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Policy/approval/security gate blocked the operation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Contract validation failed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Controlled internal error preserving response envelope.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Missing or invalid local API token.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorApplicationResponse"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [],
+        "x-devpilot-cors": "restricted-local-allowlist",
+        "x-devpilot-security-headers": true,
+        "security": [
+          {
+            "LocalTokenAuth": []
+          }
+        ],
+        "x-devpilot-consumers": [
+          "ui/web dashboard"
         ]
       }
     }

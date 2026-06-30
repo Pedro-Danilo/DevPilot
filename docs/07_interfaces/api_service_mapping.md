@@ -150,3 +150,12 @@ POST-H-015-C extiende la superficie `/api/v1` sin habilitar capacidades remotas 
 | `API-OPERATOR-DASHBOARD` | `GET` | `/api/v1/operator/dashboard` | `operator.dashboard` | `OperatorDashboardApplicationService` | `read_only_optional_outputs_reports` | `local-token-required` | `Policy/gate: token + CORS + API_ROUTE_POLICIES + PolicyEngine` |
 
 Regla: `write_report=false` es el valor por defecto. `write_report=true` solo puede escribir evidencia regenerable bajo `outputs/reports/operator_dashboard_snapshot.json` y `.md`.
+
+## POST-H-016-D — Portfolio status API mapping
+
+POST-H-016-D agregó la ruta local/read-only de portfolio status mediante `ApplicationService`, sin selección activa de workspace, sin escritura cruzada y con `PolicyEngine`/token local.
+
+| API ID | Método | Path | Operation | Domain service | Side effect | Auth | Policy/gate |
+|---|---|---|---|---|---|---|---|
+| `API-PORTFOLIO-STATUS` | `GET` | `/api/v1/portfolio/status` | `portfolio.status` | `PortfolioApplicationService` | `read_only` | `local-token-required` | `Policy/gate: token + CORS + API_ROUTE_POLICIES + PolicyEngine; no workspace switch; no connector write` |
+

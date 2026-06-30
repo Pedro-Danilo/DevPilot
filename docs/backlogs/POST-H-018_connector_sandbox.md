@@ -3,11 +3,11 @@
 doc_id: "POST-H-018-BACKLOG"
 id: "POST-H-018"
 title: "POST-H-018 — Connector sandbox avanzado"
-status: "draft"
-version: "0.1.0"
+status: "approved"
+version: "0.2.0"
 owner: "Ordóñez"
-updated: "2026-06-23"
-approval: "pending_owner_review"
+updated: "2026-06-30"
+approval: "approved_by_owner"
 phase: "POST-FASE-H"
 priority: "P2"
 roadmap_source: "docs/backlogs/post_h_prioritized_roadmap.md"
@@ -17,9 +17,23 @@ no_remote_execution_enabled: true
 no_external_apis_used: true
 no_connector_write_enabled: true
 no_plugin_execution_enabled: true
+implementation_status: "active"
+current_micro_sprint: "POST-H-018-A"
+next_micro_sprint: "POST-H-018-B"
 ---
 
 # POST-H-018 — Connector sandbox avanzado
+
+
+## 0. Estado de implementación
+
+Estado del backlog: `approved / active`.
+
+Micro-sprint actual: `POST-H-018-A — Connector sandbox policy y schemas`.
+
+Resultado POST-H-018-A: `implemented-initial`. Se aprueba el backlog para implementación y se agregan schemas/policy de sandbox de conectores con deny-write por defecto. No se implementa todavía runner, replay real, binding Policy/Approval/RBAC ni quality gate final; eso queda para POST-H-018-B/C/D/E.
+
+Límites explícitos: no se habilita `connector write`, no se realizan llamadas de red, no se llaman APIs externas, no se almacenan tokens y no se mutan sistemas externos.
 
 ## 1. Objetivo
 

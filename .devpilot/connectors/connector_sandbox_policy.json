@@ -1,0 +1,165 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "SCHEMA-DEVPL-CONNECTOR-SANDBOX-POLICY-V1",
+  "policy_id": "DEVPL-CONNECTOR-SANDBOX-POLICY-001",
+  "created_by": "POST-H-018-A",
+  "status": "implemented-initial",
+  "updated": "2026-06-30",
+  "owner": "Ordóñez",
+  "default_mode": "deny-write",
+  "allowed_modes": [
+    "validate",
+    "dry-run",
+    "replay"
+  ],
+  "network_allowed_by_default": false,
+  "external_api_allowed_by_default": false,
+  "mutation_allowed_by_default": false,
+  "connector_write_enabled": false,
+  "replay_required": true,
+  "approval_required_for_side_effects": true,
+  "rbac_required_for_high_risk": true,
+  "connectors": [
+    {
+      "connector_id": "local.docs",
+      "status": "implemented",
+      "allowed_modes": [
+        "validate",
+        "dry-run",
+        "replay"
+      ],
+      "side_effect": "read",
+      "risk_level": "medium",
+      "data_sensitivity": "workspace-documentation-metadata",
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "write_allowed": false,
+      "execution_allowed": false,
+      "approval_required": false,
+      "rbac_required": false,
+      "policy_rules": [
+        "CONNECTOR_DISCOVERY_DENY_BY_DEFAULT",
+        "CONNECTOR_READ_ONLY_PLANNED_ALLOW",
+        "CONNECTOR_CALL_READ_ONLY_ALLOW"
+      ],
+      "operations": [
+        "list_sources",
+        "query_sources",
+        "inspect_metadata"
+      ],
+      "notes": [
+        "Policy classification only; it is not permission to execute connector write.",
+        "Network, external API and mutations remain denied in POST-H-018-A."
+      ]
+    },
+    {
+      "connector_id": "local.git.readonly",
+      "status": "planned",
+      "allowed_modes": [
+        "validate",
+        "dry-run",
+        "replay"
+      ],
+      "side_effect": "read",
+      "risk_level": "medium_high",
+      "data_sensitivity": "repository-metadata",
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "write_allowed": false,
+      "execution_allowed": false,
+      "approval_required": false,
+      "rbac_required": false,
+      "policy_rules": [
+        "CONNECTOR_DISCOVERY_DENY_BY_DEFAULT",
+        "GIT_READ_ALLOW"
+      ],
+      "operations": [
+        "status",
+        "diff"
+      ],
+      "notes": [
+        "Policy classification only; it is not permission to execute connector write.",
+        "Network, external API and mutations remain denied in POST-H-018-A."
+      ]
+    },
+    {
+      "connector_id": "mcp.local.prototype",
+      "status": "disabled",
+      "allowed_modes": [
+        "validate"
+      ],
+      "side_effect": "simulation",
+      "risk_level": "high",
+      "data_sensitivity": "tooling-metadata-disabled",
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "write_allowed": false,
+      "execution_allowed": false,
+      "approval_required": true,
+      "rbac_required": true,
+      "policy_rules": [
+        "MCP_EXECUTION_DENY",
+        "CONNECTOR_DISCOVERY_DENY_BY_DEFAULT"
+      ],
+      "operations": [
+        "discover_tools"
+      ],
+      "notes": [
+        "Policy classification only; it is not permission to execute connector write.",
+        "Network, external API and mutations remain denied in POST-H-018-A."
+      ]
+    },
+    {
+      "connector_id": "external.api.placeholder",
+      "status": "disabled",
+      "allowed_modes": [
+        "validate"
+      ],
+      "side_effect": "network_cost",
+      "risk_level": "critical",
+      "data_sensitivity": "external-endpoint-metadata-disabled",
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "write_allowed": false,
+      "execution_allowed": false,
+      "approval_required": true,
+      "rbac_required": true,
+      "policy_rules": [
+        "CONNECTOR_EXTERNAL_API_DENY",
+        "CONNECTOR_DISCOVERY_DENY_BY_DEFAULT"
+      ],
+      "operations": [
+        "call"
+      ],
+      "notes": [
+        "Policy classification only; it is not permission to execute connector write.",
+        "Network, external API and mutations remain denied in POST-H-018-A."
+      ]
+    }
+  ],
+  "no_go_gates": [
+    "NO-GO if connector write is enabled.",
+    "NO-GO if network_allowed=true by default.",
+    "NO-GO if external_api_allowed=true by default.",
+    "NO-GO if mutations_allowed=true for any connector.",
+    "NO-GO if a connector is missing side_effect, risk_level or policy_rules.",
+    "NO-GO if high-risk connectors do not require RBAC."
+  ],
+  "safety": {
+    "local_first": true,
+    "dry_run": true,
+    "network_used": false,
+    "external_api_used": false,
+    "mutations_performed": false,
+    "source_mutations_performed": false,
+    "connector_write_used": false,
+    "remote_execution_used": false,
+    "plugin_execution_used": false,
+    "secrets_included": false
+  },
+  "preliminary": true
+}

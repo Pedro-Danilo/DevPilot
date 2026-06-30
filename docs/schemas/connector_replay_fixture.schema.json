@@ -1,0 +1,113 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/SCHEMA-DEVPL-CONNECTOR-REPLAY-FIXTURE-V1",
+  "title": "DevPilot Connector Replay Fixture v1",
+  "description": "Contract for deterministic local connector replay fixtures. POST-H-018-A registers the schema only; replay execution remains POST-H-018-C.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "fixture_id",
+    "connector_id",
+    "operation",
+    "mode",
+    "input",
+    "expected",
+    "redaction_required",
+    "safety"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "schema_id": {
+      "const": "SCHEMA-DEVPL-CONNECTOR-REPLAY-FIXTURE-V1"
+    },
+    "fixture_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "connector_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9_.-]*$"
+    },
+    "operation": {
+      "type": "string",
+      "minLength": 1
+    },
+    "mode": {
+      "type": "string",
+      "enum": [
+        "validate",
+        "dry-run",
+        "replay"
+      ]
+    },
+    "input": {
+      "type": "object"
+    },
+    "expected": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "ok",
+        "mutations_performed",
+        "network_used",
+        "external_api_used"
+      ],
+      "properties": {
+        "ok": {
+          "type": "boolean"
+        },
+        "mutations_performed": {
+          "const": false
+        },
+        "network_used": {
+          "const": false
+        },
+        "external_api_used": {
+          "const": false
+        }
+      }
+    },
+    "redaction_required": {
+      "const": true
+    },
+    "safety": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "secrets_included",
+        "network_used",
+        "external_api_used",
+        "mutations_performed"
+      ],
+      "properties": {
+        "secrets_included": {
+          "const": false
+        },
+        "network_used": {
+          "const": false
+        },
+        "external_api_used": {
+          "const": false
+        },
+        "mutations_performed": {
+          "const": false
+        }
+      }
+    },
+    "notes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "x-devpilot-schema-id": "SCHEMA-DEVPL-CONNECTOR-REPLAY-FIXTURE-V1",
+  "x-devpilot-version": "1.0.0",
+  "x-devpilot-sprint": "POST-H-018-A",
+  "x-devpilot-status": "registered",
+  "x-devpilot-preliminary": true
+}

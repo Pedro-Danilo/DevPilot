@@ -1,0 +1,28 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "SCHEMA-DEVPL-CONNECTOR-REPLAY-FIXTURE-V1",
+  "fixture_id": "connector.local.docs.list_sources.basic",
+  "connector_id": "local.docs",
+  "operation": "list_sources",
+  "mode": "replay",
+  "input": {
+    "scope": "docs",
+    "limit": 3
+  },
+  "expected": {
+    "ok": true,
+    "mutations_performed": false,
+    "network_used": false,
+    "external_api_used": false
+  },
+  "redaction_required": true,
+  "safety": {
+    "secrets_included": false,
+    "network_used": false,
+    "external_api_used": false,
+    "mutations_performed": false
+  },
+  "notes": [
+    "Schema fixture only; POST-H-018-C implements replay fixtures and runner."
+  ]
+}

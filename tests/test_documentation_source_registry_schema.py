@@ -73,5 +73,13 @@ def test_documentation_source_registry_paths_exist() -> None:
         ):
             referenced_paths.update(item.get(key, []))
 
-    missing = sorted(path for path in referenced_paths if not (ROOT / path).exists())
+    # Runtime evidence under outputs/ is intentionally generated on demand and
+    # omitted from clean source ZIPs. Source registry path-existence checks must
+    # therefore cover versioned engineering artifacts while allowing reproducible
+    # runtime outputs to be absent before their corresponding commands run.
+    missing = sorted(
+        path
+        for path in referenced_paths
+        if not path.startswith("outputs/") and not (ROOT / path).exists()
+    )
     assert missing == []

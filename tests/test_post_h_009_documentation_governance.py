@@ -65,11 +65,10 @@ def test_post_h_009_a_registry_model_loads_expected_canonical_sources() -> None:
     assert "docs/backlogs/POST-H-009_documentation_governance.md" in by_path
     assert by_path["docs/backlogs/post_h_prioritized_roadmap.md"].is_source_of_truth
     assert by_path[".devpilot/project_state.json"].is_machine_readable_source
-    # POST-H-015 registers docs/05_operations/local_operator_dashboard_runbook.md,
-    # so the source registry now contains 39 governed documents. Keep this
-    # assertion aligned with the governance validator instead of the older
-    # POST-H-009-A/POST-H-010-E baseline counts.
-    assert len(registry.documents) == 39
+    # POST-H backlogs keep registering governed documents after POST-H-009.
+    # This assertion intentionally validates a lower bound plus canonical sources
+    # instead of freezing the registry at an obsolete historical count.
+    assert len(registry.documents) >= 39
     assert "docs/05_operations/observability_retention_runbook.md" in by_path
     assert by_path["docs/05_operations/observability_retention_runbook.md"].classification == "source-of-truth"
     assert "docs/backlogs/POST-H-025_production_ready_declaration_gate.md" in by_path

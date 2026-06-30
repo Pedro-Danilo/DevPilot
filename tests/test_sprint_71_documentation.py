@@ -60,7 +60,8 @@ def test_sprint_71_application_contract_reports_approval_center() -> None:
     assert summary["dry_run_action_launcher_implemented"] is True
     assert summary["web_ui_actions_dry_run_only"] is True
     assert summary["web_ui_critical_actions_blocked"] is True
-    assert summary["routes_total"] == 30
+    assert summary["routes_total"] >= 30
+    assert any(route["operation"] == "portfolio.status" for route in result.data["routes"])
 
 
 def test_sprint_71_audit_documents_limits() -> None:

@@ -1159,7 +1159,7 @@
       "classification": "derived",
       "domain": "roadmap-derived-backlog",
       "owner": "Ordóñez",
-      "status_required": "draft",
+      "status_required": "approved",
       "criticality": "P2",
       "machine_readable_counterparts": [
         ".devpilot/evals/post_h_eval_001_prioritized_roadmap.json"
@@ -1167,9 +1167,18 @@
       "human_readable_counterparts": [
         "docs/backlogs/post_h_prioritized_roadmap.md"
       ],
-      "derived_documents": [],
+      "derived_documents": [
+        "docs/POST-H-018_connector_sandbox.md",
+        ".devpilot/connectors/connector_sandbox_policy.json",
+        "docs/post_h_018_a_manifest.json",
+        "docs/audits/post_h_018_a_connector_sandbox_policy_report.md"
+      ],
       "required_tests": [
-        "tests/test_documentation_governance_backlogs.py"
+        "tests/test_documentation_governance_backlogs.py",
+        "tests/test_documentation_governance_validator.py",
+        "tests/test_post_h_018_connector_sandbox_policy.py",
+        "tests/test_schema_registry.py",
+        "tests/test_project_global_state.py"
       ],
       "sync_rules": [
         "backlog_naming",
@@ -1180,10 +1189,12 @@
       "roadmap_milestones": [
         "POST-H-018"
       ],
-      "lifecycle": "planned",
+      "lifecycle": "active",
       "notes": [
         "Roadmap-derived executable backlog governed by POST-H-009-D.",
-        "Missing future backlog files are informational planned items; existing files must pass naming and frontmatter checks."
+        "Missing future backlog files are informational planned items; existing files must pass naming and frontmatter checks.",
+        "POST-H-018 approved by POST-H-018-A for connector sandbox implementation.",
+        "POST-H-018-A adds static schemas/policy only; runner, replay, RBAC binding and quality gate remain later micro-sprints."
       ]
     },
     {
@@ -1548,7 +1559,7 @@
       "roadmap_milestones": [
         "POST-H-017"
       ],
-      "lifecycle": "closed-implemented-initial",
+      "lifecycle": "closed",
       "notes": [
         "Canonical approved POST-H-017 hito document created for Release reproducibility pack.",
         "POST-H-017-A adds schemas and policy only; later micro-sprints generate and verify release packs.",
@@ -1656,7 +1667,7 @@
     {
       "doc_id": "POST-H-017-D-REPRODUCIBILITY-VERIFIER-REPORT",
       "path": "docs/audits/post_h_017_d_reproducibility_verifier_report.md",
-      "classification": "audit-report",
+      "classification": "source-of-truth",
       "domain": "release",
       "owner": "Ordóñez",
       "status_required": "approved",
@@ -1670,12 +1681,16 @@
       ],
       "implementation_notes": [
         "POST-H-017-D registers ReleaseReproducibilityVerifier and release reproducibility-verify CLI as local dry-run verification for pack schema, dirty state, secret-free safety flags and critical checksums."
+      ],
+      "sync_rules": [
+        "required_tests_must_pass",
+        "owner_status_and_path_must_remain_current"
       ]
     },
     {
       "doc_id": "POST-H-017-D-MANIFEST",
       "path": "docs/post_h_017_d_manifest.json",
-      "classification": "machine-readable-manifest",
+      "classification": "machine-readable-source",
       "domain": "release",
       "owner": "Ordóñez",
       "status_required": "implemented-initial",
@@ -1688,12 +1703,16 @@
       ],
       "implementation_notes": [
         "POST-H-017-D registers ReleaseReproducibilityVerifier and release reproducibility-verify CLI as local dry-run verification for pack schema, dirty state, secret-free safety flags and critical checksums."
+      ],
+      "sync_rules": [
+        "required_tests_must_pass",
+        "owner_status_and_path_must_remain_current"
       ]
     },
     {
       "doc_id": "POST-H-017-E-QUALITY-GATE-RUNBOOK-REPORT",
       "path": "docs/audits/post_h_017_e_quality_gate_runbook_report.md",
-      "classification": "audit-report",
+      "classification": "source-of-truth",
       "domain": "release",
       "owner": "Ordóñez",
       "status_required": "approved",
@@ -1709,12 +1728,16 @@
       ],
       "implementation_notes": [
         "POST-H-017-E integrates release-reproducibility quality gate and closes the release reproducibility pack as implemented-initial."
+      ],
+      "sync_rules": [
+        "required_tests_must_pass",
+        "owner_status_and_path_must_remain_current"
       ]
     },
     {
       "doc_id": "POST-H-017-E-MANIFEST",
       "path": "docs/post_h_017_e_manifest.json",
-      "classification": "machine-readable-manifest",
+      "classification": "machine-readable-source",
       "domain": "release",
       "owner": "Ordóñez",
       "status_required": "implemented-initial",
@@ -1727,6 +1750,128 @@
       ],
       "implementation_notes": [
         "POST-H-017-E manifest records files, commands, PASS/BLOCK criteria and implemented-initial limits."
+      ],
+      "sync_rules": [
+        "required_tests_must_pass",
+        "owner_status_and_path_must_remain_current"
+      ]
+    },
+    {
+      "doc_id": "POST-H-018-IMPLEMENTATION",
+      "path": "docs/POST-H-018_connector_sandbox.md",
+      "classification": "source-of-truth",
+      "domain": "integration.connectors",
+      "owner": "Ordóñez",
+      "status_required": "approved",
+      "criticality": "P2",
+      "machine_readable_counterparts": [
+        ".devpilot/connectors/connector_sandbox_policy.json"
+      ],
+      "human_readable_counterparts": [
+        "docs/backlogs/POST-H-018_connector_sandbox.md",
+        "docs/backlogs/post_h_prioritized_roadmap.md"
+      ],
+      "derived_documents": [
+        "docs/post_h_018_a_manifest.json",
+        "docs/audits/post_h_018_a_connector_sandbox_policy_report.md"
+      ],
+      "required_tests": [
+        "tests/test_post_h_018_connector_sandbox_policy.py",
+        "tests/test_schema_registry.py",
+        "tests/test_project_global_state.py"
+      ],
+      "sync_rules": [
+        "frontmatter_status_ownership"
+      ],
+      "related_adrs": [],
+      "roadmap_milestones": [
+        "POST-H-018"
+      ],
+      "lifecycle": "active",
+      "notes": [
+        "Canonical approved POST-H-018 hito document created for Connector sandbox avanzado.",
+        "POST-H-018-A defines schemas and deny-write policy only; later micro-sprints implement runner/replay/binding/gate."
+      ]
+    },
+    {
+      "doc_id": "POST-H-018-CONNECTOR-SANDBOX-POLICY",
+      "path": ".devpilot/connectors/connector_sandbox_policy.json",
+      "classification": "machine-readable-source",
+      "domain": "integration.connectors",
+      "owner": "POST-H-018-A",
+      "status_required": "implemented-initial",
+      "criticality": "P2",
+      "machine_readable_counterparts": [
+        "docs/schemas/connector_sandbox_policy.schema.json",
+        "docs/schemas/connector_replay_fixture.schema.json",
+        "docs/schemas/connector_sandbox_report.schema.json",
+        ".devpilot/connectors/connector_registry.json"
+      ],
+      "human_readable_counterparts": [
+        "docs/POST-H-018_connector_sandbox.md",
+        "docs/backlogs/POST-H-018_connector_sandbox.md"
+      ],
+      "derived_documents": [
+        "tests/fixtures/connector_replay_fixture.valid.json",
+        "tests/fixtures/connector_sandbox_report.valid.json"
+      ],
+      "required_tests": [
+        "tests/test_post_h_018_connector_sandbox_policy.py"
+      ],
+      "sync_rules": [],
+      "related_adrs": [],
+      "roadmap_milestones": [
+        "POST-H-018"
+      ],
+      "lifecycle": "active",
+      "notes": [
+        "POST-H-018-A machine-readable deny-write connector sandbox policy; it does not authorize connector execution or writes."
+      ]
+    },
+    {
+      "doc_id": "POST-H-018-A-CONNECTOR-SANDBOX-POLICY-REPORT",
+      "path": "docs/audits/post_h_018_a_connector_sandbox_policy_report.md",
+      "classification": "source-of-truth",
+      "domain": "integration.connectors",
+      "owner": "Ordóñez",
+      "status_required": "approved",
+      "criticality": "P2",
+      "required_tests": [
+        "tests/test_post_h_018_connector_sandbox_policy.py"
+      ],
+      "related_files": [
+        "src/devpilot_core/connectors/sandbox_policy.py",
+        ".devpilot/connectors/connector_sandbox_policy.json"
+      ],
+      "implementation_notes": [
+        "POST-H-018-A validates connector sandbox policy coverage and deny-write/no-network/no-external-api semantics."
+      ],
+      "sync_rules": [
+        "required_tests_must_pass",
+        "owner_status_and_path_must_remain_current"
+      ]
+    },
+    {
+      "doc_id": "POST-H-018-A-MANIFEST",
+      "path": "docs/post_h_018_a_manifest.json",
+      "classification": "machine-readable-source",
+      "domain": "integration.connectors",
+      "owner": "Ordóñez",
+      "status_required": "implemented-initial",
+      "criticality": "P2",
+      "required_tests": [
+        "tests/test_post_h_018_connector_sandbox_policy.py"
+      ],
+      "related_files": [
+        "docs/schemas/connector_sandbox_policy.schema.json",
+        "src/devpilot_core/connectors/sandbox_policy.py"
+      ],
+      "implementation_notes": [
+        "POST-H-018-A manifest records schemas, policy, tests, PASS/BLOCK and future limits."
+      ],
+      "sync_rules": [
+        "required_tests_must_pass",
+        "owner_status_and_path_must_remain_current"
       ]
     }
   ],

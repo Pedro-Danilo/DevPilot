@@ -1,0 +1,285 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/SCHEMA-DEVPL-CONNECTOR-SANDBOX-POLICY-V1",
+  "title": "DevPilot Connector Sandbox Policy v1",
+  "description": "Local deny-write sandbox policy for connector validation/replay/dry-run. POST-H-018-A defines contracts only; it does not enable connector write, network or external APIs.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "schema_id",
+    "policy_id",
+    "created_by",
+    "status",
+    "updated",
+    "owner",
+    "default_mode",
+    "allowed_modes",
+    "network_allowed_by_default",
+    "external_api_allowed_by_default",
+    "mutation_allowed_by_default",
+    "connector_write_enabled",
+    "replay_required",
+    "approval_required_for_side_effects",
+    "rbac_required_for_high_risk",
+    "connectors",
+    "no_go_gates",
+    "safety"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "schema_id": {
+      "const": "SCHEMA-DEVPL-CONNECTOR-SANDBOX-POLICY-V1"
+    },
+    "policy_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "created_by": {
+      "const": "POST-H-018-A"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "implemented-initial",
+        "approved"
+      ]
+    },
+    "updated": {
+      "type": "string",
+      "minLength": 1
+    },
+    "owner": {
+      "type": "string",
+      "minLength": 1
+    },
+    "default_mode": {
+      "const": "deny-write"
+    },
+    "allowed_modes": {
+      "type": "array",
+      "minItems": 3,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "enum": [
+          "validate",
+          "dry-run",
+          "replay"
+        ]
+      }
+    },
+    "network_allowed_by_default": {
+      "const": false
+    },
+    "external_api_allowed_by_default": {
+      "const": false
+    },
+    "mutation_allowed_by_default": {
+      "const": false
+    },
+    "connector_write_enabled": {
+      "const": false
+    },
+    "replay_required": {
+      "const": true
+    },
+    "approval_required_for_side_effects": {
+      "const": true
+    },
+    "rbac_required_for_high_risk": {
+      "const": true
+    },
+    "connectors": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "connector_id",
+          "status",
+          "allowed_modes",
+          "side_effect",
+          "risk_level",
+          "data_sensitivity",
+          "network_allowed",
+          "external_api_allowed",
+          "mutations_allowed",
+          "write_allowed",
+          "execution_allowed",
+          "approval_required",
+          "rbac_required",
+          "policy_rules"
+        ],
+        "properties": {
+          "connector_id": {
+            "type": "string",
+            "pattern": "^[a-z0-9][a-z0-9_.-]*$"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "disabled",
+              "planned",
+              "implemented",
+              "experimental",
+              "implemented-initial"
+            ]
+          },
+          "allowed_modes": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "enum": [
+                "validate",
+                "dry-run",
+                "replay"
+              ]
+            }
+          },
+          "side_effect": {
+            "type": "string",
+            "enum": [
+              "none",
+              "read",
+              "report",
+              "simulation",
+              "controlled_write",
+              "controlled_execution",
+              "network_cost"
+            ]
+          },
+          "risk_level": {
+            "type": "string",
+            "enum": [
+              "low",
+              "medium",
+              "medium_high",
+              "high",
+              "critical"
+            ]
+          },
+          "data_sensitivity": {
+            "type": "string",
+            "minLength": 1
+          },
+          "network_allowed": {
+            "const": false
+          },
+          "external_api_allowed": {
+            "const": false
+          },
+          "mutations_allowed": {
+            "const": false
+          },
+          "write_allowed": {
+            "const": false
+          },
+          "execution_allowed": {
+            "const": false
+          },
+          "approval_required": {
+            "type": "boolean"
+          },
+          "rbac_required": {
+            "type": "boolean"
+          },
+          "policy_rules": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "operations": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "uniqueItems": true
+          },
+          "notes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "no_go_gates": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "safety": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "local_first",
+        "dry_run",
+        "network_used",
+        "external_api_used",
+        "mutations_performed",
+        "source_mutations_performed",
+        "connector_write_used",
+        "remote_execution_used",
+        "plugin_execution_used",
+        "secrets_included"
+      ],
+      "properties": {
+        "local_first": {
+          "const": true
+        },
+        "dry_run": {
+          "const": true
+        },
+        "network_used": {
+          "const": false
+        },
+        "external_api_used": {
+          "const": false
+        },
+        "mutations_performed": {
+          "const": false
+        },
+        "source_mutations_performed": {
+          "const": false
+        },
+        "connector_write_used": {
+          "const": false
+        },
+        "remote_execution_used": {
+          "const": false
+        },
+        "plugin_execution_used": {
+          "const": false
+        },
+        "secrets_included": {
+          "const": false
+        }
+      }
+    },
+    "preliminary": {
+      "type": "boolean"
+    }
+  },
+  "x-devpilot-schema-id": "SCHEMA-DEVPL-CONNECTOR-SANDBOX-POLICY-V1",
+  "x-devpilot-version": "1.0.0",
+  "x-devpilot-sprint": "POST-H-018-A",
+  "x-devpilot-status": "registered",
+  "x-devpilot-preliminary": true
+}

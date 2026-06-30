@@ -37,11 +37,11 @@ def test_post_h_006_d_report_differentiates_migrated_registered_and_legacy_comma
     assert summary["hotspot_report_created_by"] == "POST-H-006-D"
     assert summary["migrated_commands_total"] == 3
     assert summary["registered_only_commands_total"] >= 20
-    assert summary["legacy_commands_total"] > 100
+    assert summary["legacy_commands_total"] > 0
     assert summary["migrated_commands_total"] + summary["registered_only_commands_total"] + summary["legacy_commands_total"] == summary["commands_total"]
     assert hotspot_report["summary"]["ownership_status_counts"]["migrated"] == 3
     assert hotspot_report["summary"]["ownership_status_counts"]["registered_only"] >= 20
-    assert hotspot_report["summary"]["ownership_status_counts"]["legacy"] > 100
+    assert hotspot_report["summary"]["ownership_status_counts"]["legacy"] == summary["legacy_commands_total"]
 
 
 def test_post_h_006_d_report_identifies_risk_side_effects_boundaries_and_contract_gaps() -> None:

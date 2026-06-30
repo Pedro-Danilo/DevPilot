@@ -1,3 +1,18 @@
+## POST-H-018-A — Connector sandbox policy y schemas
+
+Estado: `implemented-initial / hito activo`.
+
+DevPilot inicia `POST-H-018 — Connector sandbox avanzado` aprobando el backlog y agregando contratos locales para gobernar conectores bajo sandbox deny-write: `ConnectorSandboxPolicy`, `ConnectorReplayFixture` y `ConnectorSandboxReport`. La policy `.devpilot/connectors/connector_sandbox_policy.json` clasifica todos los conectores registrados (`local.docs`, `local.git.readonly`, `mcp.local.prototype`, `external.api.placeholder`) por `side_effect`, `risk_level`, `data_sensitivity`, `allowed_modes` y reglas de policy.
+
+Artefactos principales: `docs/schemas/connector_sandbox_policy.schema.json`, `docs/schemas/connector_replay_fixture.schema.json`, `docs/schemas/connector_sandbox_report.schema.json`, `.devpilot/connectors/connector_sandbox_policy.json`, `src/devpilot_core/connectors/sandbox_policy.py`, `tests/test_post_h_018_connector_sandbox_policy.py`, `docs/audits/post_h_018_a_connector_sandbox_policy_report.md`, `docs/post_h_018_a_manifest.json`.
+
+Límite explícito: POST-H-018-A no ejecuta conectores, no implementa replay runner, no integra Policy/Approval/RBAC runtime ni agrega quality gate. `connector write`, red, APIs externas, OAuth/tokens, webhooks, mutaciones externas, remote execution y plugin execution siguen bloqueados por diseño.
+
+Último hito cerrado: `POST-H-017 — Release reproducibility pack`
+Hito activo: `POST-H-018 — Connector sandbox`
+Último micro-sprint implementado: `POST-H-018-A — Connector sandbox policy y schemas`
+Siguiente micro-sprint: `POST-H-018-B — Sandbox runner read-only/dry-run`
+
 ## POST-H-017-E — Quality gate y runbook release
 
 Estado: `implemented-initial / hito cerrado`.

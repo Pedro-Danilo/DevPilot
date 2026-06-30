@@ -8988,6 +8988,65 @@
       "notes": [
         "POST-H-017-E generates and verifies local release reproducibility pack evidence and integrates release-reproducibility into quality-gate without publishing, deploying, network or external APIs."
       ]
+    },
+    {
+      "contract_id": "post-h-018-connector-sandbox-policy-schemas",
+      "schema_version": "2.0",
+      "source_contract_id": "post-h-018-connector-sandbox-policy-schemas",
+      "domain": "integration.connectors",
+      "capability": "Connector sandbox policy and schemas",
+      "criticality": "P2",
+      "risk_level": "high",
+      "test_type": "security",
+      "execution_profile": "release",
+      "cost_class": "low",
+      "expected_duration_seconds": 20,
+      "test_files": [
+        "tests/test_post_h_018_connector_sandbox_policy.py"
+      ],
+      "watched_paths": [
+        "docs/schemas/connector_sandbox_policy.schema.json",
+        "docs/schemas/connector_replay_fixture.schema.json",
+        "docs/schemas/connector_sandbox_report.schema.json",
+        ".devpilot/connectors/connector_sandbox_policy.json",
+        "src/devpilot_core/connectors/sandbox_policy.py",
+        "tests/test_post_h_018_connector_sandbox_policy.py"
+      ],
+      "validates": [
+        "ConnectorSandboxPolicy schema validity",
+        "ConnectorReplayFixture and ConnectorSandboxReport schema registration",
+        "All Connector Registry entries covered by sandbox policy",
+        "Deny-write/no-network/no-external-api/no-mutation connector no-go semantics",
+        "POST-H-018-A documentation/project-state/TCR synchronization"
+      ],
+      "trigger_hints": [
+        "connector-sandbox",
+        "connector-policy",
+        "post-h-018",
+        "deny-write"
+      ],
+      "impact_scope": [
+        "integration.connectors",
+        "governance.policy",
+        "governance.schemas"
+      ],
+      "required_for_release": false,
+      "required_for_security_gate": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "POST-H-018-A",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace tests/test_post_h_018_connector_sandbox_policy.py tests/test_schema_registry.py tests/test_project_global_state.py -q",
+        "python -m devpilot_core schema validate --schema-id ConnectorSandboxPolicy --instance .devpilot/connectors/connector_sandbox_policy.json --json",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ],
+      "classification_status": "explicit",
+      "notes": [
+        "POST-H-018-A creates static connector sandbox contracts and deny-write policy only; runner/replay/binding/gate remain future micro-sprints."
+      ]
     }
   ],
   "migration_metadata": {

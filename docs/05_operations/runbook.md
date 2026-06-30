@@ -2,17 +2,61 @@
 title: "Runbook — DevPilot Local"
 doc_id: "DEVPL-OPS-002"
 status: "approved"
-version: "1.62.0"
+version: "1.63.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "POST-H-017-E"
+phase: "POST-H-018-A"
 updated: "2026-06-30"
 approval: "approved_by_owner"
 source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved + 03_security approved"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "SPRINT-PRECODE-05 quality operations baseline"
 ---
+
+## POST-H-018-A — Connector sandbox policy y schemas
+
+Estado: `implemented-initial / hito activo`.
+
+Comandos principales:
+
+```powershell
+$env:PYTHONPATH="src"
+python -m devpilot_core schema validate --schema-id ConnectorSandboxPolicy --instance .devpilot/connectors/connector_sandbox_policy.json --json
+python -m devpilot_core schema validate --schema-id ConnectorReplayFixture --instance tests/fixtures/connector_replay_fixture.valid.json --json
+python -m devpilot_core schema validate --schema-id ConnectorSandboxReport --instance tests/fixtures/connector_sandbox_report.valid.json --json
+python -m pytest -p no:ddtrace tests/test_post_h_018_connector_sandbox_policy.py tests/test_schema_registry.py tests/test_project_global_state.py -q
+```
+
+Evidencia versionable:
+
+```text
+docs/schemas/connector_sandbox_policy.schema.json
+docs/schemas/connector_replay_fixture.schema.json
+docs/schemas/connector_sandbox_report.schema.json
+.devpilot/connectors/connector_sandbox_policy.json
+src/devpilot_core/connectors/sandbox_policy.py
+```
+
+Criterios PASS:
+
+```text
+PASS si ConnectorSandboxPolicy valida contra schema y cubre todos los conectores del Connector Registry.
+PASS si network_allowed_by_default=false, external_api_allowed_by_default=false y mutation_allowed_by_default=false.
+PASS si connector_write_enabled=false y cada conector declara side_effect, risk_level, data_sensitivity y policy_rules.
+PASS si high/critical risk requiere RBAC y side-effecting connectors requieren approval.
+```
+
+Criterios BLOCK:
+
+```text
+BLOCK si se habilita connector write, network o external APIs por defecto.
+BLOCK si cualquier conector permite mutations/write/execution.
+BLOCK si falta cobertura de policy para un connector registrado.
+BLOCK si se interpreta registry/policy como permiso para ejecución real.
+```
+
+Límite: POST-H-018-A define contracts y policy solamente. Sandbox runner, replay fixtures ejecutables, Policy/Approval/RBAC binding y quality gate quedan para POST-H-018-B/C/D/E.
 
 ## POST-H-017-E — Quality gate y runbook release
 

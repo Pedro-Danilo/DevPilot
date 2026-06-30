@@ -54,7 +54,9 @@ def test_openapi_paths_match_application_service_route_contract() -> None:
     }
 
     assert openapi_routes == app_routes
-    assert len(openapi_routes) == app_contract["summary"]["routes_total"] == 30
+    assert len(openapi_routes) == app_contract["summary"]["routes_total"]
+    assert len(openapi_routes) >= 30
+    assert ("GET", "/api/v1/portfolio/status", "portfolio.status") in openapi_routes
     assert all(path.startswith("/api/v1/") for _, path, _ in openapi_routes)
 
 
