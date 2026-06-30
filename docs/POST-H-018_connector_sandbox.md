@@ -4,7 +4,7 @@ doc_id: "POST-H-018-IMPLEMENTATION"
 id: "POST-H-018"
 title: "POST-H-018 — Connector sandbox avanzado"
 status: "approved"
-version: "0.5.0"
+version: "1.0.0"
 owner: "Ordóñez"
 updated: "2026-06-30"
 approval: "approved_by_owner"
@@ -17,9 +17,9 @@ no_remote_execution_enabled: true
 no_external_apis_used: true
 no_connector_write_enabled: true
 no_plugin_execution_enabled: true
-implementation_status: "active"
-current_micro_sprint: "POST-H-018-D"
-next_micro_sprint: "POST-H-018-E"
+implementation_status: "closed"
+current_micro_sprint: "POST-H-018-E"
+next_micro_sprint: "POST-H-019"
 ---
 
 # POST-H-018 — Connector sandbox avanzado
@@ -42,6 +42,27 @@ Resultado POST-H-018-D: `implemented-initial`. Se agrega `ConnectorPolicyBinding
 Pendiente: el quality gate final, runbook operativo específico y cierre del backlog quedan para POST-H-018-E.
 
 Límites explícitos: no se habilita `connector write`, no se realizan llamadas de red, no se llaman APIs externas, no se almacenan tokens, no se mutan sistemas externos, no se ejecutan plugins y no se ejecutan conectores reales. POST-H-018-D agrega binding y exposure reporting local; no equivale a integración productiva ni autorización de escritura.
+
+## Estado de cierre POST-H-018-E
+
+Estado acumulativo: `closed / implemented-initial`.
+
+POST-H-018 queda cerrado con sandbox policy, replay fixtures/redacción, runner read-only/dry-run, binding Policy/Approval/RBAC y subgate `connector-sandbox` integrado en quality-gate hardening/industrial. El cierre no habilita `connector write`, red, APIs externas, OAuth, webhooks, mutaciones externas, remote execution ni plugin execution.
+
+Capacidades cerradas:
+
+```text
+- ConnectorSandboxPolicy validable y deny-write.
+- ConnectorSandboxRunner validate/dry-run/replay.
+- ConnectorReplayRunner con fixtures locales y redaction checks.
+- ConnectorPolicyBindingValidator con PolicyEngine, ApprovalPolicyChecker y RBAC.
+- ConnectorSandboxQualityGate como subgate crítico.
+- Runbook operativo y threat model aprobados.
+- Test contracts v1/v2 actualizados.
+```
+
+Evolución futura: cualquier conector write, OAuth, webhook, API externa o integración productiva requiere ADR nueva, threat model específico, Approval/RBAC reforzado, observabilidad, fixtures ampliados, tests de impacto y quality gates adicionales.
+
 
 ## 1. Objetivo
 

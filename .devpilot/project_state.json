@@ -5,11 +5,11 @@
   "phase_h_status": "closed_implemented_initial",
   "industrial_baseline_ready": true,
   "maturity_level": "industrial-baseline-ready",
-  "last_completed_sprint": "POST-H-017",
+  "last_completed_sprint": "POST-H-018",
   "last_functional_sprint": "FUNC-SPRINT-99",
-  "next_sprint": "POST-H-018",
-  "source_repo": "repo_DevPilot_Local_223_POST_H_018_C.zip",
-  "current_repo": "repo_DevPilot_Local_224_POST_H_018_D.zip",
+  "next_sprint": "POST-H-019",
+  "source_repo": "repo_DevPilot_Local_224_POST_H_018_D.zip",
+  "current_repo": "repo_DevPilot_Local_225_POST_H_018_E.zip",
   "global_state_owner": "tests/test_project_global_state.py",
   "mutable_global_state_fields": [
     "last_completed_sprint",
@@ -116,8 +116,12 @@
     "POST-H-018-A approves Connector sandbox avanzado and adds ConnectorSandboxPolicy, ConnectorReplayFixture and ConnectorSandboxReport schemas plus deny-write connector_sandbox_policy.json without enabling connector write, network, external APIs, remote execution or plugin execution.",
     "POST-H-018-B adds ConnectorSandboxRunner and connector sandbox run CLI for local validate/dry-run/replay simulation with PolicyEngine invocation and ConnectorSandboxReport evidence, without connector write, network, external APIs, remote execution or plugin execution.",
     "POST-H-018-C adds ConnectorReplayRunner, deterministic local connector_replay_cases fixtures, redaction checks and fixture-backed replay summaries in connector sandbox reports, without connector write, network, external APIs, remote execution, plugin execution or real connector execution.",
-    "POST-H-018-D adds ConnectorPolicyBindingValidator and connector sandbox exposure reporting: connector.validate/replay/write_future policy rules, ApprovalPolicyChecker checks for side-effecting connector classifications, RBAC evaluation for high/critical connectors and deny/block evidence for connector.write_future remain local-first and implemented-initial."
+    "POST-H-018-D adds ConnectorPolicyBindingValidator and connector sandbox exposure reporting: connector.validate/replay/write_future policy rules, ApprovalPolicyChecker checks for side-effecting connector classifications, RBAC evaluation for high/critical connectors and deny/block evidence for connector.write_future remain local-first and implemented-initial.",
+    "POST-H-018-E adds ConnectorSandboxQualityGate and integrates connector-sandbox into quality-gate hardening/industrial profiles without enabling connector write, network, external APIs, remote execution or plugin execution.",
+    "POST-H-018-E adds the approved connector sandbox runbook and threat model with no-go gates for read-only/replay/dry-run operation.",
+    "POST-H-018 closes Connector sandbox avanzado as implemented-initial; future connector write or external integration requires ADR, threat model, approvals, RBAC, observability and additional quality gates.",
+    "POST-H-019 is the next prioritized hito: Plugin sandbox design sin ejecución arbitraria."
   ],
-  "current_micro_sprint": "POST-H-018-D",
-  "next_micro_sprint": "POST-H-018-E"
+  "current_micro_sprint": "POST-H-018-E",
+  "next_micro_sprint": "POST-H-019"
 }

@@ -8,7 +8,6 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Callable
 
-from devpilot_core.application import ApplicationService
 from devpilot_core.cli_models import CommandResult, ExitCode, Finding, Severity
 from devpilot_core.evals import EvalRunner, EvalRunnerConfig
 
@@ -51,7 +50,16 @@ class QualityGate:
     def __init__(self, root: Path, *, options: QualityGateOptions | None = None) -> None:
         self.root = Path(root).resolve()
         self.options = options or QualityGateOptions()
-        self.service = ApplicationService(self.root)
+        self._service: Any | None = None
+
+
+    @property
+    def service(self) -> Any:
+        from devpilot_core.application import ApplicationService
+
+        if self._service is None:
+            self._service = ApplicationService(self.root)
+        return self._service
 
     def run(self) -> CommandResult:
         if self.options.profile not in self.SUPPORTED_PROFILES:
@@ -138,6 +146,7 @@ class QualityGate:
                     "POST-H-015-E adds operator-dashboard-ready to hardening/industrial profiles to validate the local operator snapshot, no-go gates, next actions and operational runbook without enabling remote control.",
                     "POST-H-016-E adds workspace-portfolio-hardening to hardening/industrial profiles to validate registry v2, isolation, portfolio status, API boundary and onboarding runbook without enabling cross-workspace writes.",
                     "POST-H-017-E adds release-reproducibility to hardening/industrial profiles to generate and verify local dry-run reproducibility pack evidence without publishing, deploying, network, external APIs or source mutations.",
+                    "POST-H-018-E adds connector-sandbox to hardening/industrial profiles to validate deny-write, replay, redaction and Policy/Approval/RBAC binding without connector write, network, external APIs, remote execution or plugins.",
                     "POST-H-008-E adds runtime-state-hygiene to hardening/industrial profiles to block dirty source/release archives.",
                     "POST-H-009-E adds docs-governance to hardening/industrial profiles to block canonical-source, sync and backlog-governance drift.",
                     "The default and ci profiles do not run pytest implicitly; CI workflows and local checklists run pytest as an explicit step, or use --include-pytest when desired.",
@@ -151,10 +160,10 @@ class QualityGate:
     def _subgates(self) -> list[QualitySubgate]:
         subgates = [
             QualitySubgate("readiness-strict", "Strict pre-code/readiness validation.", lambda: self.service.readiness(strict=True)),
-            QualitySubgate("standards-status", "Local MIPSoftware/MIASI standards registry status.", self.service.standards_status),
+            QualitySubgate("standards-status", "Local MIPSoftware/MIASI standards registry status.", lambda: self.service.standards_status()),
             QualitySubgate("miasi-validate", "MIASI agent/tool/policy matrix structural validation.", lambda: self.service.miasi_validate(scope="all")),
             QualitySubgate("eval-harness-ready", "Evaluation harness fixture readiness without executing eval workdir mutations.", self._eval_harness_ready),
-            QualitySubgate("app-contract", "ApplicationService v2 contract availability.", self.service.application_contract),
+            QualitySubgate("app-contract", "ApplicationService v2 contract availability.", lambda: self.service.application_contract()),
         ]
         if self.options.profile in {"full", "ci", "release", "industrial", "hardening"}:
             subgates.append(QualitySubgate("validation-gateway-all", "Unified docs/contracts validation gateway.", lambda: self.service.validation.gateway(scope="all")))
@@ -174,7 +183,7 @@ class QualityGate:
             subgates.append(QualitySubgate("test-contract-registry", "POST-H-001 test contract registry validation.", self._test_contract_registry))
             subgates.append(QualitySubgate("test-contract-registry-v2", "POST-H-003 Test Contract Registry v2 validation without executing tests.", self._test_contract_registry_v2))
             subgates.append(QualitySubgate("project-global-state", "Centralized mutable project state synchronization.", self._project_global_state))
-            subgates.append(QualitySubgate("maturity-dashboard", "POST-H-002 maturity dashboard quality gate.", self.service.maturity_dashboard_gate))
+            subgates.append(QualitySubgate("maturity-dashboard", "POST-H-002 maturity dashboard quality gate.", lambda: self.service.maturity_dashboard_gate()))
             subgates.append(QualitySubgate("miasi-semantic-validate", "POST-H-004 MIASI semantic validator quality gate.", self._miasi_semantic_validate))
             subgates.append(QualitySubgate("architecture-map", "POST-H-005 executable architecture map and ownership validation gate.", self._architecture_map))
             subgates.append(QualitySubgate("application-cli-boundary-integration", "POST-H-007-E CLI registry to ApplicationService operation mapping and API/UI contract gate.", self._application_cli_boundary_integration))
@@ -188,6 +197,7 @@ class QualityGate:
             subgates.append(QualitySubgate("operator-dashboard-ready", "POST-H-015 local operator dashboard snapshot, CLI, no-go gates and runbook readiness gate.", self._operator_dashboard_ready))
             subgates.append(QualitySubgate("workspace-portfolio-hardening", "POST-H-016 workspace registry, isolation, portfolio status, API boundary and onboarding runbook gate.", self._workspace_portfolio_hardening))
             subgates.append(QualitySubgate("release-reproducibility", "POST-H-017 local release reproducibility pack generation and verification gate.", self._release_reproducibility))
+            subgates.append(QualitySubgate("connector-sandbox", "POST-H-018 connector sandbox deny-write, replay, redaction and Policy/Approval/RBAC gate.", self._connector_sandbox))
         if self.options.profile == "industrial":
             subgates.append(QualitySubgate("industrial-readiness", "Fase H industrial readiness gate and maturity classification.", self._industrial_readiness))
         if self.options.profile == "hardening":
@@ -336,6 +346,11 @@ class QualityGate:
             self.root,
             options=ReleaseReproducibilityPackOptions(write_report=True, verify_after_build=True),
         ).build()
+
+    def _connector_sandbox(self) -> CommandResult:
+        from devpilot_core.connectors import ConnectorSandboxQualityGate
+
+        return ConnectorSandboxQualityGate(self.root).run()
 
     def _industrial_readiness(self) -> CommandResult:
         from devpilot_core.industrial import IndustrialReadinessGate

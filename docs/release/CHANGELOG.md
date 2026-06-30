@@ -1,3 +1,21 @@
+## post-h-018-e — Quality gate, runbook y cierre
+
+Estado de proyecto: `last_completed_sprint=POST-H-018`; `next_sprint=POST-H-019`; `current_micro_sprint=POST-H-018-E`; `next_micro_sprint=POST-H-019`.
+
+Cambios:
+
+- Added `ConnectorSandboxQualityGate` and integrated `connector-sandbox` into hardening/industrial quality-gate profiles.
+- Added connector sandbox runbook and threat model with no-go gates for read-only/replay/dry-run operation.
+- Added `post-h-018-connector-sandbox` test contract in TCR v1/v2.
+- Closed `POST-H-018 — Connector sandbox avanzado` as implemented-initial.
+
+Safety:
+
+```text
+- POST-H-018-E does not enable connector write, real connector execution, network, external APIs, remote execution or plugin execution.
+- Future connector write/external integrations require ADR, threat model, approvals, RBAC, observability and explicit backlog.
+```
+
 ## post-h-018-d — Policy/approval/RBAC binding para conectores
 
 Estado de proyecto: `last_completed_sprint=POST-H-017`; `next_sprint=POST-H-018`; `current_micro_sprint=POST-H-018-D`; `next_micro_sprint=POST-H-018-E`.

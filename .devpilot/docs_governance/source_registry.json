@@ -1189,12 +1189,15 @@
       "roadmap_milestones": [
         "POST-H-018"
       ],
-      "lifecycle": "active",
+      "lifecycle": "closed",
       "notes": [
         "Roadmap-derived executable backlog governed by POST-H-009-D.",
         "Missing future backlog files are informational planned items; existing files must pass naming and frontmatter checks.",
         "POST-H-018 approved by POST-H-018-A for connector sandbox implementation.",
         "POST-H-018-A adds static schemas/policy only; runner, replay, RBAC binding and quality gate remain later micro-sprints."
+      ],
+      "implementation_notes": [
+        "POST-H-018 closed as implemented-initial by POST-H-018-E connector-sandbox quality gate and runbook."
       ]
     },
     {
@@ -1793,11 +1796,14 @@
       "roadmap_milestones": [
         "POST-H-018"
       ],
-      "lifecycle": "active",
+      "lifecycle": "closed",
       "notes": [
         "Canonical approved POST-H-018 hito document created for Connector sandbox avanzado.",
         "POST-H-018-B adds sandbox runner and ConnectorSandboxReport generation while keeping replay fixtures/binding/gate for C/D/E.",
         "POST-H-018-C adds deterministic replay fixtures and redaction checks; replay remains local-only and does not execute connectors."
+      ],
+      "implementation_notes": [
+        "POST-H-018 closed as implemented-initial by POST-H-018-E connector-sandbox quality gate and runbook."
       ]
     },
     {
@@ -2038,6 +2044,99 @@
       "status_required": "implemented-initial",
       "frontmatter_required": false,
       "sync_rules": []
+    },
+    {
+      "doc_id": "POST-H-018-CONNECTOR-SANDBOX-RUNBOOK",
+      "path": "docs/05_operations/connector_sandbox_runbook.md",
+      "classification": "source-of-truth",
+      "domain": "integration.connectors",
+      "owner": "Ordóñez",
+      "status_required": "approved",
+      "criticality": "P2",
+      "required_tests": [
+        "tests/test_post_h_018_connector_sandbox_gate.py"
+      ],
+      "related_files": [
+        "src/devpilot_core/connectors/sandbox_gate.py",
+        "src/devpilot_core/quality/gate.py"
+      ],
+      "implementation_notes": [
+        "POST-H-018-E operational runbook documents read-only/replay/dry-run limits and connector sandbox no-go gates."
+      ],
+      "sync_rules": [
+        "required_tests_must_pass",
+        "owner_status_and_path_must_remain_current"
+      ]
+    },
+    {
+      "doc_id": "POST-H-018-CONNECTOR-SANDBOX-THREAT-MODEL",
+      "path": "docs/03_security/connector_sandbox_threat_model.md",
+      "classification": "source-of-truth",
+      "domain": "security.connectors",
+      "owner": "Ordóñez",
+      "status_required": "approved",
+      "criticality": "P2",
+      "required_tests": [
+        "tests/test_post_h_018_connector_sandbox_gate.py"
+      ],
+      "related_files": [
+        "src/devpilot_core/connectors/sandbox_gate.py",
+        "src/devpilot_core/connectors/policy_binding.py"
+      ],
+      "implementation_notes": [
+        "POST-H-018-E threat model records connector write, network/API and overclaiming no-go risks."
+      ],
+      "sync_rules": [
+        "required_tests_must_pass",
+        "owner_status_and_path_must_remain_current"
+      ]
+    },
+    {
+      "doc_id": "POST-H-018-E-CONNECTOR-SANDBOX-GATE-REPORT",
+      "path": "docs/audits/post_h_018_e_connector_sandbox_gate_report.md",
+      "classification": "source-of-truth",
+      "domain": "integration.connectors",
+      "owner": "Ordóñez",
+      "status_required": "approved",
+      "criticality": "P2",
+      "required_tests": [
+        "tests/test_post_h_018_connector_sandbox_gate.py"
+      ],
+      "related_files": [
+        "src/devpilot_core/connectors/sandbox_gate.py",
+        "src/devpilot_core/quality/gate.py",
+        "tests/test_post_h_018_connector_sandbox_gate.py"
+      ],
+      "implementation_notes": [
+        "POST-H-018-E report documents connector-sandbox quality gate integration and backlog closure."
+      ],
+      "sync_rules": [
+        "required_tests_must_pass",
+        "owner_status_and_path_must_remain_current"
+      ]
+    },
+    {
+      "doc_id": "POST-H-018-E-MANIFEST",
+      "path": "docs/post_h_018_e_manifest.json",
+      "classification": "machine-readable-source",
+      "domain": "integration.connectors",
+      "owner": "Ordóñez",
+      "status_required": "implemented-initial",
+      "criticality": "P2",
+      "required_tests": [
+        "tests/test_post_h_018_connector_sandbox_gate.py"
+      ],
+      "related_files": [
+        "src/devpilot_core/connectors/sandbox_gate.py",
+        "tests/test_post_h_018_connector_sandbox_gate.py"
+      ],
+      "implementation_notes": [
+        "POST-H-018-E manifest records quality gate, runbook, threat model and POST-H-018 closure evidence."
+      ],
+      "sync_rules": [
+        "required_tests_must_pass",
+        "owner_status_and_path_must_remain_current"
+      ]
     }
   ],
   "rules": {
@@ -2064,20 +2163,20 @@
     "approved_backlogs_require_observability_retention_hygiene_gate": true
   },
   "summary": {
-    "documents_total": 60,
-    "source_of_truth_total": 21,
-    "machine_readable_source_total": 11,
+    "documents_total": 64,
+    "source_of_truth_total": 24,
+    "machine_readable_source_total": 16,
     "derived_total": 24,
     "generated_runtime_total": 0,
     "historical_total": 0,
     "deprecated_total": 0,
-    "critical_sources_total": 51,
+    "critical_sources_total": 61,
     "markdown_json_pairs_total": 29,
-    "documents_with_required_tests_total": 54,
+    "documents_with_required_tests_total": 64,
     "network_used": false,
     "external_api_used": false,
     "mutations_performed": false,
-    "last_updated_by": "POST-H-018-B",
+    "last_updated_by": "POST-H-018-E",
     "markdown_json_sync_checks_enabled": true,
     "sync_checks_scope": "version_match, milestones_match, decisions_match, closure_status_match, next_hito_match",
     "backlog_governance_enabled": true,
@@ -2146,8 +2245,8 @@
     "operator_dashboard_ready_gate_module": "src/devpilot_core/portfolio/operator_dashboard_gate.py",
     "operator_dashboard_cli_command": "python -m devpilot_core operator dashboard --json --write-report",
     "post_h_015_closed": true,
-    "last_completed_sprint": "POST-H-017",
-    "next_sprint": "POST-H-018",
+    "last_completed_sprint": "POST-H-018",
+    "next_sprint": "POST-H-019",
     "post_h_016_approved": true,
     "post_h_016_current_micro_sprint": "POST-H-016-E",
     "post_h_016_next_micro_sprint": "POST-H-017",
@@ -2211,12 +2310,18 @@
     "release_reproducibility_pack_output_path": "outputs/release/reproducibility_pack.json",
     "release_reproducibility_quality_gate_subgate": "release-reproducibility",
     "post_h_018_approved": true,
-    "post_h_018_current_micro_sprint": "POST-H-018-B",
-    "post_h_018_next_micro_sprint": "POST-H-018-C",
+    "post_h_018_current_micro_sprint": "POST-H-018-E",
+    "post_h_018_next_micro_sprint": "POST-H-019",
     "connector_sandbox_runner_module": "src/devpilot_core/connectors/sandbox.py",
     "connector_sandbox_runner_cli_command": "python -m devpilot_core connector sandbox run --mode replay --json --write-report",
     "connector_sandbox_report_output_path": "outputs/reports/connector_sandbox_report.json",
-    "connector_sandbox_runner_enabled": true
+    "connector_sandbox_runner_enabled": true,
+    "post_h_018_closed": true,
+    "connector_sandbox_quality_gate_integrated": true,
+    "connector_sandbox_quality_gate_subgate": "connector-sandbox",
+    "connector_sandbox_runbook_path": "docs/05_operations/connector_sandbox_runbook.md",
+    "connector_sandbox_threat_model_path": "docs/03_security/connector_sandbox_threat_model.md",
+    "connector_sandbox_gate_module": "src/devpilot_core/connectors/sandbox_gate.py"
   },
   "safety": {
     "local_first": true,
@@ -2265,6 +2370,8 @@
     "POST-H-017-C keeps release verifier and quality gate pending for POST-H-017-D/E.",
     "POST-H-017-D registers ReleaseReproducibilityVerifier and release reproducibility-verify CLI as local dry-run verification for pack schema, dirty state, secret-free safety flags and critical checksums.",
     "POST-H-017-E closes Release reproducibility pack with local pack generation and quality-gate release-reproducibility integration as implemented-initial evidence.",
-    "POST-H-018-D registers connector policy exposure schema, audit report and manifest for local Policy/Approval/RBAC binding evidence."
+    "POST-H-018-D registers connector policy exposure schema, audit report and manifest for local Policy/Approval/RBAC binding evidence.",
+    "POST-H-018-E closes connector sandbox as implemented-initial with quality-gate connector-sandbox, runbook and threat model.",
+    "Connector write, external APIs, network, remote execution and plugin execution remain blocked by policy and quality gate."
   ]
 }

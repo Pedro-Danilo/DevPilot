@@ -111,19 +111,19 @@ def test_post_h_018_a_docs_state_and_contracts_are_synchronized() -> None:
 
     assert 'status: "approved"' in backlog
     assert 'approval: "approved_by_owner"' in backlog
-    assert 'implementation_status: "active"' in backlog
-    assert 'current_micro_sprint: "POST-H-018-D"' in backlog
-    assert 'next_micro_sprint: "POST-H-018-E"' in backlog
+    assert 'implementation_status: "closed"' in backlog
+    assert 'current_micro_sprint: "POST-H-018-E"' in backlog
+    assert 'next_micro_sprint: "POST-H-019"' in backlog
     assert 'status: "approved"' in post_doc
     assert "POST-H-018-A — Connector sandbox policy y schemas" in backlog
     assert "POST-H-018-A — Connector sandbox policy y schemas" in post_doc
     assert "ConnectorSandboxPolicy" in readme
     assert "connector_sandbox_policy.schema.json" in runbook
     assert "post-h-018-a" in changelog
-    assert state["last_completed_sprint"] == "POST-H-017"
-    assert state["next_sprint"] == "POST-H-018"
-    assert state["current_micro_sprint"] == "POST-H-018-D"
-    assert state["next_micro_sprint"] == "POST-H-018-E"
+    assert state["last_completed_sprint"] == "POST-H-018"
+    assert state["next_sprint"] == "POST-H-019"
+    assert state["current_micro_sprint"] == "POST-H-018-E"
+    assert state["next_micro_sprint"] == "POST-H-019"
     assert "post-h-018-connector-sandbox-policy-schemas" in tcr_v1
     assert "post-h-018-connector-sandbox-policy-schemas" in tcr_v2
     assert "post-h-018-connector-sandbox-runner" in tcr_v1
@@ -148,3 +148,12 @@ def test_post_h_018_a_docs_state_and_contracts_are_synchronized() -> None:
     assert "POST-H-018-D — Policy/approval/RBAC binding para conectores" in readme
     assert "POST-H-018-D — Policy/approval/RBAC binding para conectores" in runbook
     assert "post-h-018-d" in changelog
+    assert "POST-H-018-E — Quality gate, runbook y cierre" in readme
+    assert "POST-H-018-E — Quality gate, runbook y cierre" in runbook
+    assert "post-h-018-e" in changelog
+    assert "post-h-018-connector-sandbox" in tcr_v1
+    assert "post-h-018-connector-sandbox" in tcr_v2
+    assert "POST-H-018-CONNECTOR-SANDBOX-RUNBOOK" in source_registry
+    assert "POST-H-018-CONNECTOR-SANDBOX-THREAT-MODEL" in source_registry
+    assert "POST-H-018-E-CONNECTOR-SANDBOX-GATE-REPORT" in source_registry
+    assert "POST-H-018-E-MANIFEST" in source_registry

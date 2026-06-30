@@ -4,6 +4,7 @@ title: "POST-H-018-D — Connector Policy/Approval/RBAC binding report"
 status: "approved"
 owner: "Ordóñez"
 updated: "2026-06-30"
+approval: "approved_by_owner"
 version: "1.0.0"
 source_of_truth: true
 preliminary: true

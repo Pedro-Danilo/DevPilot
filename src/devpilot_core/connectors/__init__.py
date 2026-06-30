@@ -6,6 +6,7 @@ from .replay import ConnectorReplayOptions, ConnectorReplayRequest, ConnectorRep
 from .policy_binding import ConnectorPolicyBindingOptions, ConnectorPolicyBindingRequest, ConnectorPolicyBindingValidator
 from .sandbox_policy import ConnectorSandboxPolicyOptions, ConnectorSandboxPolicyValidator
 from .sandbox import ConnectorSandboxOptions, ConnectorSandboxRequest, ConnectorSandboxResult, ConnectorSandboxRunner
+from .sandbox_gate import ConnectorSandboxGateOptions, ConnectorSandboxQualityGate
 
 __all__ = [
     "ConnectorAdapter",
@@ -24,4 +25,6 @@ __all__ = [
     "ConnectorSandboxRequest",
     "ConnectorSandboxResult",
     "ConnectorSandboxRunner",
+    "ConnectorSandboxGateOptions",
+    "ConnectorSandboxQualityGate",
 ]

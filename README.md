@@ -1,3 +1,32 @@
+## POST-H-018-E — Quality gate, runbook y cierre
+
+Estado: `implemented-initial / hito cerrado`.
+
+DevPilot cierra `POST-H-018 — Connector sandbox avanzado` integrando el subgate crítico `connector-sandbox` en `quality-gate run --profile hardening` e `industrial`. El gate ejecuta evidencia local de sandbox: exposure report Policy/Approval/RBAC, replay determinístico fixture-backed, redaction checks y verificación deny-write sin ejecutar conectores reales.
+
+Capacidades nuevas:
+
+- `ConnectorSandboxQualityGate` valida policy coverage, RBAC para conectores high/critical, ApprovalPolicyChecker para side-effecting y bloqueo total de `connector.write_future`.
+- `quality-gate hardening` incluye `connector-sandbox` como subgate crítico.
+- Nuevo runbook `docs/05_operations/connector_sandbox_runbook.md` y threat model `docs/03_security/connector_sandbox_threat_model.md`.
+- Test contract `post-h-018-connector-sandbox` registrado en TCR v1/v2.
+
+Comandos principales:
+
+```powershell
+python -m devpilot_core quality-gate run --profile hardening --json
+python -m devpilot_core connector sandbox exposure --json --write-report
+python -m devpilot_core connector sandbox run --mode replay --json --write-report
+```
+
+Límite explícito: POST-H-018-E no habilita `connector write`, no ejecuta conectores reales, no usa red, no llama APIs externas, no ejecuta remote runners ni plugins. El cierre es `implemented-initial`; cualquier evolución hacia conectores write/OAuth/webhooks/API externa requiere ADR, threat model, Approval/RBAC fuerte, observabilidad y backlog posterior.
+
+Último hito: `POST-H-018 — Connector sandbox avanzado`
+Último hito cerrado: `POST-H-018 — Connector sandbox avanzado`
+Siguiente hito: `POST-H-019 — Plugin sandbox design sin ejecución arbitraria`
+Último micro-sprint implementado: `POST-H-018-E — Quality gate, runbook y cierre`
+Siguiente micro-sprint: `POST-H-019`
+
 ## POST-H-018-D — Policy/approval/RBAC binding para conectores
 
 Estado actual: `implemented-initial`. DevPilot agrega `ConnectorPolicyBindingValidator`, schema `ConnectorPolicyExposureReport`, CLI `connector sandbox exposure` e integración del binding en `connector sandbox run`.

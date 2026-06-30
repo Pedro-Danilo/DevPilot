@@ -2,17 +2,56 @@
 title: "Runbook — DevPilot Local"
 doc_id: "DEVPL-OPS-002"
 status: "approved"
-version: "1.65.0"
+version: "1.66.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "POST-H-018-D"
+phase: "POST-H-018-E"
 updated: "2026-06-30"
 approval: "approved_by_owner"
 source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved + 03_security approved"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "SPRINT-PRECODE-05 quality operations baseline"
 ---
+
+## POST-H-018-E — Quality gate, runbook y cierre
+
+Estado: `implemented-initial / hito cerrado`.
+
+Siguiente hito: `POST-H-019 — Plugin sandbox design sin ejecución arbitraria`.
+
+Operación segura del sandbox de conectores:
+
+```powershell
+$env:PYTHONPATH="src"
+python -m devpilot_core quality-gate run --profile hardening --json
+python -m devpilot_core connector sandbox exposure --json --write-report
+python -m devpilot_core connector sandbox run --mode replay --json --write-report
+python -m devpilot_core schema validate --schema-id ConnectorPolicyExposureReport --instance outputs/reports/connector_policy_exposure_report.json --json
+python -m devpilot_core schema validate --schema-id ConnectorSandboxReport --instance outputs/reports/connector_sandbox_report.json --json
+```
+
+Criterios PASS:
+
+```text
+PASS si el subgate connector-sandbox aparece y pasa en quality-gate hardening.
+PASS si network_used=false, external_api_used=false, mutations_performed=false y connector_write_used=false.
+PASS si write_future_blocked_total cubre todos los conectores.
+PASS si fixtures_total>0, fixtures_passed=fixtures_total, redaction_passed=true y deterministic_replay=true.
+PASS si test-contracts validate y validate-v2 reconocen post-h-018-connector-sandbox.
+```
+
+No-go gates:
+
+```text
+NO-GO si connector write queda habilitado.
+NO-GO si una operación usa red real o API externa.
+NO-GO si se almacenan secretos reales o tokens en fixtures/evidencia.
+NO-GO si se omite PolicyEngine, ApprovalPolicyChecker o RBAC donde corresponda.
+NO-GO si se declara capacidad productiva de integración externa.
+```
+
+Límite: el gate valida evidencia local y determinística. No autoriza writes, OAuth, webhooks, conectores reales de escritura, remote execution ni plugin execution.
 
 ## POST-H-018-D — Policy/approval/RBAC binding para conectores
 

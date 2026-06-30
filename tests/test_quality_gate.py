@@ -97,6 +97,7 @@ def test_quality_gate_hardening_profile_includes_post_h_subgates() -> None:
         "audit-pack-integrity",
         "ui-api-industrial-shell",
         "release-reproducibility",
+        "connector-sandbox",
     ]:
         assert expected in subgates
         assert subgates[expected].critical is True
@@ -107,3 +108,8 @@ def test_quality_gate_hardening_profile_includes_post_h_subgates() -> None:
     ui_api_result = subgates["ui-api-industrial-shell"].runner()
     assert ui_api_result.ok is True, ui_api_result.to_dict()
     assert ui_api_result.data["summary"]["quality_gate_subgate"] == "ui-api-industrial-shell"
+
+    connector_result = subgates["connector-sandbox"].runner()
+    assert connector_result.ok is True, connector_result.to_dict()
+    assert connector_result.data["summary"]["quality_gate_subgate"] == "connector-sandbox"
+    assert connector_result.data["summary"]["connector_write_used"] is False
