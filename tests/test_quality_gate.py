@@ -96,6 +96,7 @@ def test_quality_gate_hardening_profile_includes_post_h_subgates() -> None:
         "approval-rbac-hardening",
         "audit-pack-integrity",
         "ui-api-industrial-shell",
+        "release-reproducibility",
     ]:
         assert expected in subgates
         assert subgates[expected].critical is True

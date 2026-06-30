@@ -1,3 +1,19 @@
+## post-h-017-e — Quality gate y runbook release
+
+Estado de proyecto: `last_completed_sprint=POST-H-017`; `next_sprint=POST-H-018`; `current_micro_sprint=POST-H-017-E`; `next_micro_sprint=POST-H-018`.
+
+- Agrega `ReleaseReproducibilityPackBuilder` y CLI `release reproducibility-pack --json --write-report --verify`.
+- Integra el subgate `release-reproducibility` a `quality-gate run --profile hardening` e `industrial`.
+- Genera evidencia local dry-run: environment snapshot, source archive manifest, checksums críticos, reproducibility pack y verification report bajo `outputs/release`.
+- Cierra `POST-H-017 — Release reproducibility pack` como `implemented-initial`, sin publicar, desplegar, firmar remoto, usar red, APIs externas ni mutar fuentes.
+
+Safety:
+
+```text
+- El builder bloquea dirty Git state cuando se usa `--require-clean-git`; sin esa bandera genera evidencia implemented-initial y no debe promoverse como verified-local.
+- El pack no es attestation SLSA, firma criptográfica formal ni certificación supply-chain.
+```
+
 ## post-h-017-d — Verifier local de reproducibilidad
 
 - Agrega `ReleaseReproducibilityVerifier` y CLI `release reproducibility-verify --pack ... --json`.

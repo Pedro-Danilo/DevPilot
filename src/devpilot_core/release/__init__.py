@@ -5,6 +5,7 @@ from .manifest import ReleaseManifestBuilder, ReleaseManifestOptions
 from .archive_manifest import SourceArchiveManifestBuilder, SourceArchiveManifestOptions
 from .environment import ReleaseEnvironmentSnapshotBuilder, ReleaseEnvironmentSnapshotOptions
 from .reproducibility_policy import ReleaseReproducibilityPolicy, ReleaseReproducibilityPolicyValidator
+from .reproducibility_pack import ReleaseReproducibilityPackBuilder, ReleaseReproducibilityPackOptions
 from .reproducibility_verify import ReleaseReproducibilityVerifier, ReleaseReproducibilityVerifyOptions
 from .package_builder import PackageBuildBuilder, PackageBuildOptions
 from .sbom import ReleaseSbomBuilder, ReleaseSbomOptions
@@ -32,6 +33,8 @@ __all__ = [
     "ReleaseEnvironmentSnapshotOptions",
     "ReleaseReproducibilityPolicy",
     "ReleaseReproducibilityPolicyValidator",
+    "ReleaseReproducibilityPackBuilder",
+    "ReleaseReproducibilityPackOptions",
     "ReleaseReproducibilityVerifier",
     "ReleaseReproducibilityVerifyOptions",
     "PackageBuildBuilder",

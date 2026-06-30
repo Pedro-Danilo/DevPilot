@@ -4,7 +4,7 @@ doc_id: "POST-H-017-IMPLEMENTATION"
 id: "POST-H-017"
 title: "POST-H-017 — Release reproducibility pack"
 status: "approved"
-version: "0.5.0"
+version: "1.0.0"
 owner: "Ordóñez"
 updated: "2026-06-30"
 approval: "approved_by_owner"
@@ -17,9 +17,9 @@ no_remote_execution_enabled: true
 no_external_apis_used: true
 no_connector_write_enabled: true
 no_plugin_execution_enabled: true
-implementation_status: "active"
-current_micro_sprint: "POST-H-017-D"
-next_micro_sprint: "POST-H-017-E"
+implementation_status: "closed-implemented-initial"
+current_micro_sprint: "POST-H-017-E"
+next_micro_sprint: "POST-H-018"
 ---
 
 # POST-H-017 — Release reproducibility pack
@@ -274,7 +274,7 @@ python -m pytest tests/test_post_h_017_release_reproducibility_schema.py -q
 python -m devpilot_core quality-gate run --profile hardening --json
 ```
 
-Nota: `release reproducibility-pack` y `release reproducibility-verify` siguen definidos como comandos esperados para POST-H-017-D/E; hasta POST-H-017-C los comandos operativos son `environment-snapshot` y `source-archive-manifest`.
+Nota: `release reproducibility-pack --json --write-report --verify` y `release reproducibility-verify --pack outputs/release/reproducibility_pack.json --json --write-report` son comandos operativos desde POST-H-017-E; `environment-snapshot` y `source-archive-manifest` siguen siendo evidencia previa generada por el pack.
 
 ## 10. Criterios BLOCK
 
@@ -303,8 +303,8 @@ BLOCK si se presenta como release publicado.
 [x] Environment snapshot redactado.
 [x] Source archive manifest generado.
 [x] Verifier local implementado.
-[ ] Quality gate integrado.
-[x] Runbook aprobado en versión inicial A-C.
+[x] Quality gate integrado.
+[x] Runbook aprobado y actualizado hasta POST-H-017-E.
 ```
 
 ## 13. Estado de implementación acumulativo
@@ -409,5 +409,27 @@ Límites explícitos:
 - Los artifacts opcionales heredados de Fase G se reportan como warning si no existen; el cierre gate completo queda para POST-H-017-E.
 - No integra todavía quality-gate release-reproducibility.
 - No publica, no despliega, no firma remoto, no usa red, no usa APIs externas y no lee secretos.
+```
+### POST-H-017-E — Quality gate y runbook release
+
+Estado: `implemented-initial / hito cerrado`.
+
+Implementado:
+
+```text
+- ReleaseReproducibilityPackBuilder genera outputs/release/reproducibility_pack.json y .md cuando se solicita --write-report.
+- CLI release reproducibility-pack --json --write-report --verify.
+- Subgate release-reproducibility integrado a quality-gate hardening/industrial.
+- El gate genera environment snapshot, source archive manifest, checksums críticos, pack y verification report.
+- TCR v1/v2, README, runbooks, source registry y project_state sincronizados.
+```
+
+Límites explícitos:
+
+```text
+- La capacidad es implemented-initial y local dry-run.
+- No publica, no despliega, no firma remoto, no genera attestation SLSA ni certifica supply-chain.
+- En un checkout Git dirty, el builder bloquea cuando se usa `--require-clean-git`; sin esa bandera el pack queda como evidencia implemented-initial y no verified-local.
+- Una evolución futura puede materializar clean-source archive firmado y promotion workflow.
 ```
 

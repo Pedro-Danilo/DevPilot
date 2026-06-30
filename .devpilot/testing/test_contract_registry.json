@@ -4853,6 +4853,41 @@
         "python -m devpilot_core schema validate --schema-id ReleaseReproducibilityVerification --instance outputs/release/reproducibility_verification.json --json",
         "python -m devpilot_core test-contracts validate --json"
       ]
+    },
+    {
+      "contract_id": "post-h-017-release-reproducibility-gate",
+      "scope": "quality-gate",
+      "owner": "POST-H-017-E",
+      "phase": "POST-FASE-H",
+      "test_files": [
+        "tests/test_post_h_017_release_reproducibility_pack.py",
+        "tests/test_quality_gate.py"
+      ],
+      "validates": [
+        "src/devpilot_core/release/reproducibility_pack.py",
+        "src/devpilot_core/quality/gate.py",
+        "src/devpilot_core/cli.py",
+        "docs/05_operations/release_reproducibility_runbook.md",
+        "docs/post_h_017_e_manifest.json"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/release/reproducibility_pack.py",
+        "src/devpilot_core/release/__init__.py",
+        "src/devpilot_core/quality/gate.py",
+        "src/devpilot_core/cli.py",
+        "docs/05_operations/release_reproducibility_runbook.md",
+        "tests/test_post_h_017_release_reproducibility_pack.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace tests/test_post_h_017_release_reproducibility_pack.py tests/test_post_h_017_reproducibility_verify.py tests/test_post_h_017_source_archive_manifest.py tests/test_post_h_017_environment_snapshot.py tests/test_post_h_017_release_reproducibility_schema.py tests/test_quality_gate.py tests/test_project_global_state.py -q",
+        "python -m devpilot_core release reproducibility-pack --json --write-report --verify",
+        "python -m devpilot_core release reproducibility-verify --pack outputs/release/reproducibility_pack.json --json --write-report",
+        "python -m devpilot_core quality-gate run --profile hardening --json",
+        "python -m devpilot_core test-contracts validate --json"
+      ]
     }
   ],
   "notes": [
@@ -4868,6 +4903,7 @@
     "POST-H-015-A registers operator-dashboard schema/config tests without generating runtime outputs or enabling write actions.",
     "POST-H-016-D registers secure CLI/API portfolio status integration and active-workspace non-mutation tests.",
     "POST-H-016-E registers workspace-portfolio-hardening as the final quality gate contract for Workspace portfolio hardening.",
-    "POST-H-017-C registers source archive manifest and checksums contract without external services."
+    "POST-H-017-C registers source archive manifest and checksums contract without external services.",
+    "POST-H-017-E registers release-reproducibility quality gate and local pack generation contract."
   ]
 }

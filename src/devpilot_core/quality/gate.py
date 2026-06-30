@@ -137,6 +137,7 @@ class QualityGate:
                     "POST-H-014-E adds ui-api-industrial-shell to hardening/industrial profiles to validate API/UI contracts, local Web UI smoke, security posture and operational docs without enabling SaaS, remote execution, connector write or plugin execution.",
                     "POST-H-015-E adds operator-dashboard-ready to hardening/industrial profiles to validate the local operator snapshot, no-go gates, next actions and operational runbook without enabling remote control.",
                     "POST-H-016-E adds workspace-portfolio-hardening to hardening/industrial profiles to validate registry v2, isolation, portfolio status, API boundary and onboarding runbook without enabling cross-workspace writes.",
+                    "POST-H-017-E adds release-reproducibility to hardening/industrial profiles to generate and verify local dry-run reproducibility pack evidence without publishing, deploying, network, external APIs or source mutations.",
                     "POST-H-008-E adds runtime-state-hygiene to hardening/industrial profiles to block dirty source/release archives.",
                     "POST-H-009-E adds docs-governance to hardening/industrial profiles to block canonical-source, sync and backlog-governance drift.",
                     "The default and ci profiles do not run pytest implicitly; CI workflows and local checklists run pytest as an explicit step, or use --include-pytest when desired.",
@@ -186,6 +187,7 @@ class QualityGate:
             subgates.append(QualitySubgate("ui-api-industrial-shell", "POST-H-014 UI/API route registries, Web UI smoke, local security posture and operations docs gate.", self._ui_api_industrial_shell))
             subgates.append(QualitySubgate("operator-dashboard-ready", "POST-H-015 local operator dashboard snapshot, CLI, no-go gates and runbook readiness gate.", self._operator_dashboard_ready))
             subgates.append(QualitySubgate("workspace-portfolio-hardening", "POST-H-016 workspace registry, isolation, portfolio status, API boundary and onboarding runbook gate.", self._workspace_portfolio_hardening))
+            subgates.append(QualitySubgate("release-reproducibility", "POST-H-017 local release reproducibility pack generation and verification gate.", self._release_reproducibility))
         if self.options.profile == "industrial":
             subgates.append(QualitySubgate("industrial-readiness", "Fase H industrial readiness gate and maturity classification.", self._industrial_readiness))
         if self.options.profile == "hardening":
@@ -326,6 +328,14 @@ class QualityGate:
         from devpilot_core.interfaces.api import UiApiIndustrialShellGate, UiApiIndustrialShellGateOptions
 
         return UiApiIndustrialShellGate(self.root, UiApiIndustrialShellGateOptions(write_report=False)).run()
+
+    def _release_reproducibility(self) -> CommandResult:
+        from devpilot_core.release import ReleaseReproducibilityPackBuilder, ReleaseReproducibilityPackOptions
+
+        return ReleaseReproducibilityPackBuilder(
+            self.root,
+            options=ReleaseReproducibilityPackOptions(write_report=True, verify_after_build=True),
+        ).build()
 
     def _industrial_readiness(self) -> CommandResult:
         from devpilot_core.industrial import IndustrialReadinessGate

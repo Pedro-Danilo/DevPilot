@@ -99,18 +99,18 @@ def test_post_h_017_b_docs_state_and_contracts_are_synchronized() -> None:
     source_registry = (ROOT / ".devpilot/docs_governance/source_registry.json").read_text(encoding="utf-8")
 
     assert 'status: "approved"' in backlog
-    assert 'current_micro_sprint: "POST-H-017-D"' in backlog
-    assert 'next_micro_sprint: "POST-H-017-E"' in backlog
+    assert 'current_micro_sprint: "POST-H-017-E"' in backlog
+    assert 'next_micro_sprint: "POST-H-018"' in backlog
     assert "POST-H-017-A — Release reproducibility schema y policy" in backlog
     assert "POST-H-017-B — Environment snapshot redactado" in backlog
     assert "POST-H-017-B — Environment snapshot redactado" in post_doc
     assert "release environment-snapshot --json --write-report" in readme
     assert "release environment-snapshot --json --write-report" in runbook
     assert "post-h-017-b" in changelog
-    assert state["last_completed_sprint"] == "POST-H-016"
-    assert state["next_sprint"] == "POST-H-017"
-    assert state["current_micro_sprint"] == "POST-H-017-D"
-    assert state["next_micro_sprint"] == "POST-H-017-E"
+    assert state["last_completed_sprint"] == "POST-H-017"
+    assert state["next_sprint"] == "POST-H-018"
+    assert state["current_micro_sprint"] == "POST-H-017-E"
+    assert state["next_micro_sprint"] == "POST-H-018"
     assert "post-h-017-environment-snapshot-redacted" in tcr_v1
     assert "post-h-017-environment-snapshot-redacted" in tcr_v2
     assert "release_environment_module" in source_registry

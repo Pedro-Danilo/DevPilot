@@ -251,7 +251,7 @@ DECLARATIVE_GROUPS: dict[str, DeclarativeGroupDescriptor] = {
         group_id="release",
         domain="release",
         owner_module="src/devpilot_core/cli.py",
-        recommended_tests=("python -m pytest tests/test_post_h_017_source_archive_manifest.py tests/test_release_verification.py tests/test_release_manifest.py -q",),
+        recommended_tests=("python -m pytest tests/test_post_h_017_release_reproducibility_pack.py tests/test_post_h_017_source_archive_manifest.py tests/test_release_verification.py tests/test_release_manifest.py -q",),
         rationale="POST-H-017 release reproducibility commands are governed local dry-run evidence surfaces and must be registered before the no-growth gate runs.",
     ),
 }
@@ -368,6 +368,18 @@ COMMAND_OVERRIDES: dict[str, DeclarativeCommandOverride] = {
             "python -m pytest tests/test_post_h_017_reproducibility_verify.py tests/test_post_h_017_release_reproducibility_schema.py -q",
         ),
         rationale="POST-H-017-D verifies local reproducibility-pack evidence and critical checksums without publishing, deploying, network, external APIs or source mutations; --write-report writes only outputs/release evidence.",
+    ),
+    "release.reproducibility-pack": DeclarativeCommandOverride(
+        command_id="release.reproducibility-pack",
+        risk_level=CommandRiskLevel.HIGH,
+        side_effects=(CommandSideEffect.WRITE_REPORT, CommandSideEffect.EXECUTE_SUBPROCESS),
+        writes_files=True,
+        dry_run_supported=True,
+        policy_check_required=True,
+        recommended_tests=(
+            "python -m pytest tests/test_post_h_017_release_reproducibility_pack.py tests/test_post_h_017_reproducibility_verify.py tests/test_post_h_017_release_reproducibility_schema.py -q",
+        ),
+        rationale="POST-H-017-E generates local reproducibility pack evidence under outputs/release and may invoke the local verifier; it never publishes, deploys, calls network/external APIs or mutates source files.",
     ),
     "cli-registry.guard": DeclarativeCommandOverride(
         command_id="cli-registry.guard",

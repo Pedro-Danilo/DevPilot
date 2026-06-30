@@ -43,10 +43,15 @@ CRITICAL_ARTIFACTS = (
     "docs/schemas/release_reproducibility_pack.schema.json",
     "docs/schemas/release_environment_snapshot.schema.json",
     "docs/schemas/release_source_archive_manifest.schema.json",
+    "docs/schemas/release_reproducibility_verification.schema.json",
     "src/devpilot_core/cli.py",
     "src/devpilot_core/release/archive_manifest.py",
     "src/devpilot_core/release/environment.py",
+    "src/devpilot_core/release/reproducibility_pack.py",
     "src/devpilot_core/release/reproducibility_policy.py",
+    "src/devpilot_core/release/reproducibility_verify.py",
+    "tests/test_post_h_017_release_reproducibility_pack.py",
+    "tests/test_post_h_017_reproducibility_verify.py",
     "ui/web/package.json",
 )
 

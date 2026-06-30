@@ -5,11 +5,11 @@
   "phase_h_status": "closed_implemented_initial",
   "industrial_baseline_ready": true,
   "maturity_level": "industrial-baseline-ready",
-  "last_completed_sprint": "POST-H-016",
+  "last_completed_sprint": "POST-H-017",
   "last_functional_sprint": "FUNC-SPRINT-99",
-  "next_sprint": "POST-H-017",
-  "source_repo": "repo_DevPilot_Local_218_POST_H_017_C.zip",
-  "current_repo": "repo_DevPilot_Local_219_POST_H_017_D.zip",
+  "next_sprint": "POST-H-018",
+  "source_repo": "repo_DevPilot_Local_219_POST_H_017_D.zip",
+  "current_repo": "repo_DevPilot_Local_220_POST_H_017_E.zip",
   "global_state_owner": "tests/test_project_global_state.py",
   "mutable_global_state_fields": [
     "last_completed_sprint",
@@ -109,8 +109,10 @@
     "POST-H-017-B adds redacted ReleaseEnvironmentSnapshotBuilder and release environment-snapshot CLI without reading .env files, secret values, network resources or external APIs.",
     "POST-H-017-B was verified as closable based on focused tests, generated redacted environment snapshot, schema validation, docs governance, TCR v1/v2 and hardening quality gate evidence.",
     "POST-H-017-C adds SourceArchiveManifestBuilder, ReleaseSourceArchiveManifest schema and release source-archive-manifest CLI with critical artifact SHA-256 checksums and forbidden archive entry detection without network, external APIs, remote execution, connector write, plugin execution or secret reads.",
-    "POST-H-017-D adds ReleaseReproducibilityVerifier, ReleaseReproducibilityVerification schema and release reproducibility-verify CLI to validate local packs, dirty=false, secret-free safety flags, generated environment/source archive evidence and critical checksums without publishing, deploying, network, external APIs, remote execution, connector write or plugin execution."
+    "POST-H-017-D adds ReleaseReproducibilityVerifier, ReleaseReproducibilityVerification schema and release reproducibility-verify CLI to validate local packs, dirty=false, secret-free safety flags, generated environment/source archive evidence and critical checksums without publishing, deploying, network, external APIs, remote execution, connector write or plugin execution.",
+    "POST-H-017-E adds ReleaseReproducibilityPackBuilder, release reproducibility-pack CLI and release-reproducibility quality subgate to generate and verify local dry-run release reproducibility evidence without publishing, deploying, network, external APIs, remote execution, connector write, plugin execution or source mutations.",
+    "POST-H-017-E closes Release reproducibility pack as implemented-initial; future evolution may add formal local signing, attestation and release promotion workflow."
   ],
-  "current_micro_sprint": "POST-H-017-D",
-  "next_micro_sprint": "POST-H-017-E"
+  "current_micro_sprint": "POST-H-017-E",
+  "next_micro_sprint": "POST-H-018"
 }

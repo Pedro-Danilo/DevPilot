@@ -142,16 +142,16 @@ def test_post_h_017_d_docs_state_and_contracts_are_synchronized() -> None:
     tcr_v2 = (ROOT / ".devpilot/testing/test_contract_registry_v2.json").read_text(encoding="utf-8")
     source_registry = (ROOT / ".devpilot/docs_governance/source_registry.json").read_text(encoding="utf-8")
 
-    assert 'current_micro_sprint: "POST-H-017-D"' in backlog
-    assert 'next_micro_sprint: "POST-H-017-E"' in backlog
+    assert 'current_micro_sprint: "POST-H-017-E"' in backlog
+    assert 'next_micro_sprint: "POST-H-018"' in backlog
     assert "POST-H-017-D — Verifier local de reproducibilidad" in backlog
     assert "POST-H-017-D — Verifier local de reproducibilidad" in post_doc
     assert "release reproducibility-verify --pack outputs/release/reproducibility_pack.json --json" in readme
     assert "release reproducibility-verify --pack outputs/release/reproducibility_pack.json --json" in runbook
     assert "ReleaseReproducibilityVerification" in release_runbook
     assert "post-h-017-d" in changelog
-    assert state["current_micro_sprint"] == "POST-H-017-D"
-    assert state["next_micro_sprint"] == "POST-H-017-E"
+    assert state["current_micro_sprint"] == "POST-H-017-E"
+    assert state["next_micro_sprint"] == "POST-H-018"
     assert "post-h-017-reproducibility-verifier" in tcr_v1
     assert "post-h-017-reproducibility-verifier" in tcr_v2
     assert "release_reproducibility_verifier_enabled" in source_registry

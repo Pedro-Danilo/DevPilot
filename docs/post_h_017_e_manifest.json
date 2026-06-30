@@ -1,0 +1,76 @@
+{
+  "schema_version": "1.0",
+  "doc_id": "POST-H-017-E-MANIFEST",
+  "title": "POST-H-017-E — Quality gate y runbook release",
+  "status": "implemented-initial",
+  "version": "1.0.0",
+  "owner": "Ordóñez",
+  "updated": "2026-06-30",
+  "approval": "approved_by_owner",
+  "created_by": "POST-H-017-E",
+  "implementation_status": "implemented-initial",
+  "hito_status": "closed-implemented-initial",
+  "local_first": true,
+  "dry_run": true,
+  "network_used": false,
+  "external_api_used": false,
+  "remote_execution_enabled": false,
+  "connector_write_enabled": false,
+  "plugin_execution_enabled": false,
+  "published": false,
+  "deployed": false,
+  "source_mutations_performed": false,
+  "created_files": [
+    "src/devpilot_core/release/reproducibility_pack.py",
+    "tests/test_post_h_017_release_reproducibility_pack.py",
+    "docs/audits/post_h_017_e_quality_gate_runbook_report.md",
+    "docs/post_h_017_e_manifest.json"
+  ],
+  "modified_files": [
+    "src/devpilot_core/release/__init__.py",
+    "src/devpilot_core/release/archive_manifest.py",
+    "src/devpilot_core/cli.py",
+    "src/devpilot_core/cli_registry/registry.py",
+    "src/devpilot_core/quality/gate.py",
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/05_operations/release_reproducibility_runbook.md",
+    "docs/backlogs/POST-H-017_release_reproducibility_pack.md",
+    "docs/POST-H-017_release_reproducibility_pack.md",
+    "docs/release/CHANGELOG.md",
+    ".devpilot/project_state.json",
+    ".devpilot/docs_governance/source_registry.json",
+    ".devpilot/testing/test_contract_registry.json",
+    ".devpilot/testing/test_contract_registry_v2.json",
+    "tests/test_post_h_017_release_reproducibility_schema.py",
+    "tests/test_post_h_017_environment_snapshot.py",
+    "tests/test_post_h_017_source_archive_manifest.py",
+    "tests/test_post_h_017_reproducibility_verify.py",
+    "tests/test_project_global_state.py",
+    "tests/test_quality_gate.py"
+  ],
+  "commands": [
+    "python -m devpilot_core release reproducibility-pack --json --write-report --verify",
+    "python -m devpilot_core release reproducibility-verify --pack outputs/release/reproducibility_pack.json --json --write-report",
+    "python -m devpilot_core quality-gate run --profile hardening --json",
+    "python -m pytest -p no:ddtrace tests/test_post_h_017_release_reproducibility_pack.py tests/test_post_h_017_reproducibility_verify.py tests/test_post_h_017_source_archive_manifest.py tests/test_post_h_017_environment_snapshot.py tests/test_post_h_017_release_reproducibility_schema.py tests/test_quality_gate.py tests/test_project_global_state.py -q"
+  ],
+  "pass_criteria": [
+    "ReleaseReproducibilityPack is generated under outputs/release when --write-report is used.",
+    "Verifier confirms forbidden_entries_total=0 and checksum_mismatches_total=0.",
+    "quality-gate hardening includes release-reproducibility.",
+    "No publish, deploy, network, external API, remote execution, connector write or plugin execution is enabled."
+  ],
+  "block_criteria": [
+    "Dirty Git checkout when `--require-clean-git` is used for clean release-candidate declaration.",
+    "Secrets included in pack or generated evidence.",
+    "Forbidden runtime artifacts in source archive manifest.",
+    "Critical checksum mismatch.",
+    "Overclaiming implemented-initial evidence as external release certification."
+  ],
+  "risks": [
+    "Implemented-initial pack is local dry-run evidence, not a formal supply-chain attestation.",
+    "Operators must regenerate outputs locally; runtime outputs are intentionally excluded from clean ZIP deliverables."
+  ],
+  "next": "POST-H-018"
+}

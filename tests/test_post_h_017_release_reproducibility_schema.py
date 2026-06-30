@@ -119,8 +119,8 @@ def test_post_h_017_a_docs_state_and_contracts_are_synchronized() -> None:
     source_registry = (ROOT / ".devpilot/docs_governance/source_registry.json").read_text(encoding="utf-8")
 
     assert 'status: "approved"' in backlog
-    assert 'current_micro_sprint: "POST-H-017-D"' in backlog
-    assert 'next_micro_sprint: "POST-H-017-E"' in backlog
+    assert 'current_micro_sprint: "POST-H-017-E"' in backlog
+    assert 'next_micro_sprint: "POST-H-018"' in backlog
     assert 'status: "approved"' in post_doc
     assert "POST-H-017-A — Release reproducibility schema y policy" in backlog
     assert "POST-H-017-A — Release reproducibility schema y policy" in post_doc
@@ -128,14 +128,20 @@ def test_post_h_017_a_docs_state_and_contracts_are_synchronized() -> None:
     assert "POST-H-017-C — Source archive manifest y checksums" in post_doc
     assert "POST-H-017-D — Verifier local de reproducibilidad" in backlog
     assert "POST-H-017-D — Verifier local de reproducibilidad" in post_doc
+    assert "POST-H-017-E — Quality gate y runbook release" in backlog
+    assert "POST-H-017-E — Quality gate y runbook release" in post_doc
     assert "ReleaseReproducibilityPack" in readme
+    assert "release reproducibility-pack --json --write-report --verify" in readme
     assert "release_reproducibility_pack.schema.json" in runbook
-    assert state["last_completed_sprint"] == "POST-H-016"
-    assert state["next_sprint"] == "POST-H-017"
-    assert state["current_micro_sprint"] == "POST-H-017-D"
-    assert state["next_micro_sprint"] == "POST-H-017-E"
+    assert state["last_completed_sprint"] == "POST-H-017"
+    assert state["next_sprint"] == "POST-H-018"
+    assert state["current_micro_sprint"] == "POST-H-017-E"
+    assert state["next_micro_sprint"] == "POST-H-018"
     assert "post-h-017-release-reproducibility-schema-policy" in tcr_v1
     assert "post-h-017-release-reproducibility-schema-policy" in tcr_v2
+    assert "post-h-017-release-reproducibility-gate" in tcr_v1
+    assert "post-h-017-release-reproducibility-gate" in tcr_v2
     assert "POST-H-017-IMPLEMENTATION" in source_registry
     assert "POST-H-017-REPRODUCIBILITY-POLICY" in source_registry
     assert "release_reproducibility_verifier_enabled" in source_registry
+    assert "release_reproducibility_quality_gate_integrated" in source_registry

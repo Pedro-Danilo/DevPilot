@@ -131,18 +131,18 @@ def test_post_h_017_c_docs_state_and_contracts_are_synchronized() -> None:
     tcr_v2 = (ROOT / ".devpilot/testing/test_contract_registry_v2.json").read_text(encoding="utf-8")
     source_registry = (ROOT / ".devpilot/docs_governance/source_registry.json").read_text(encoding="utf-8")
 
-    assert 'current_micro_sprint: "POST-H-017-D"' in backlog
-    assert 'next_micro_sprint: "POST-H-017-E"' in backlog
+    assert 'current_micro_sprint: "POST-H-017-E"' in backlog
+    assert 'next_micro_sprint: "POST-H-018"' in backlog
     assert "POST-H-017-C — Source archive manifest y checksums" in backlog
     assert "POST-H-017-C — Source archive manifest y checksums" in post_doc
     assert "release source-archive-manifest --json --write-report" in readme
     assert "release source-archive-manifest --json --write-report" in runbook
     assert "ReleaseSourceArchiveManifest" in release_runbook
     assert "post-h-017-c" in changelog
-    assert state["last_completed_sprint"] == "POST-H-016"
-    assert state["next_sprint"] == "POST-H-017"
-    assert state["current_micro_sprint"] == "POST-H-017-D"
-    assert state["next_micro_sprint"] == "POST-H-017-E"
+    assert state["last_completed_sprint"] == "POST-H-017"
+    assert state["next_sprint"] == "POST-H-018"
+    assert state["current_micro_sprint"] == "POST-H-017-E"
+    assert state["next_micro_sprint"] == "POST-H-018"
     assert "post-h-017-source-archive-manifest-checksums" in tcr_v1
     assert "post-h-017-source-archive-manifest-checksums" in tcr_v2
     assert "release_source_archive_manifest_schema" in source_registry

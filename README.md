@@ -1,3 +1,13 @@
+## POST-H-017-E — Quality gate y runbook release
+
+Estado: `implemented-initial / hito cerrado`.
+
+DevPilot cierra `POST-H-017 — Release reproducibility pack` con el generador local `python -m devpilot_core release reproducibility-pack --json --write-report --verify` y el subgate `release-reproducibility` integrado en `python -m devpilot_core quality-gate run --profile hardening --json`. La capacidad genera `outputs/release/reproducibility_pack.json`, snapshot de ambiente redactado, source archive manifest, checksums críticos y verificación local del pack.
+
+Artefactos principales: `src/devpilot_core/release/reproducibility_pack.py`, `tests/test_post_h_017_release_reproducibility_pack.py`, `docs/audits/post_h_017_e_quality_gate_runbook_report.md`, `docs/post_h_017_e_manifest.json`, `docs/05_operations/release_reproducibility_runbook.md`.
+
+Límite explícito: POST-H-017-E no publica, no despliega, no firma remoto, no crea attestation supply-chain y no certifica SLSA. El pack y el gate son evidencia local dry-run `implemented-initial`; una evolución futura puede agregar firma local/attestation formal, clean-source archive materializado y release promotion workflow.
+
 ## POST-H-017-D — Verifier local de reproducibilidad
 
 Estado: `implemented-initial / hito activo`.
@@ -43,11 +53,11 @@ Capacidades:
 
 Límites: versión `implemented-initial`; no publica, no despliega, no firma remoto, no genera todavía `outputs/release/reproducibility_pack.json`, no calcula checksums/source archive manifest. Eso queda para POST-H-017-C/D/E; el snapshot redactado ya queda cubierto por POST-H-017-B.
 
-Último hito: `POST-H-016 — Workspace portfolio hardening`
-Último hito cerrado: `POST-H-016 — Workspace portfolio hardening`
-Siguiente hito: `POST-H-017 — Release reproducibility pack`
-Último micro-sprint implementado: `POST-H-017-D — Verifier local de reproducibilidad`
-Siguiente micro-sprint: `POST-H-017-E — Quality gate y runbook release`
+Último hito: `POST-H-017 — Release reproducibility pack`
+Último hito cerrado: `POST-H-017 — Release reproducibility pack`
+Siguiente hito: `POST-H-018 — Connector sandbox`
+Último micro-sprint implementado: `POST-H-017-E — Quality gate y runbook release`
+Siguiente micro-sprint: `POST-H-018`
 
 ## POST-H-016-E — Quality gate y runbook
 

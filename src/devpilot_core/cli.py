@@ -97,6 +97,8 @@ from .release import (
     ReleaseChecksumOptions,
     ReleaseManifestBuilder,
     ReleaseManifestOptions,
+    ReleaseReproducibilityPackBuilder,
+    ReleaseReproducibilityPackOptions,
     ReleaseReproducibilityVerifier,
     ReleaseReproducibilityVerifyOptions,
     ReleaseSbomBuilder,
@@ -2235,6 +2237,30 @@ def release_reproducibility_verify_command(
     ).verify()
     _emit_result_event(root, result, subject="release:reproducibility-verify")
     _persist_result(root, result, subject="release:reproducibility-verify")
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+
+def release_reproducibility_pack_command(
+    *,
+    json_output: bool = False,
+    write_report: bool = False,
+    verify: bool = False,
+    require_clean_git: bool = False,
+) -> int:
+    """Generate a POST-H-017-E local release reproducibility pack."""
+
+    root = project_root()
+    result = ReleaseReproducibilityPackBuilder(
+        root,
+        options=ReleaseReproducibilityPackOptions(
+            write_report=write_report,
+            verify_after_build=verify,
+            require_clean_git=require_clean_git,
+        ),
+    ).build()
+    _emit_result_event(root, result, subject="release:reproducibility-pack")
+    _persist_result(root, result, subject="release:reproducibility-pack")
     print_result(result, json_output=json_output)
     return int(result.exit_code)
 
@@ -5678,6 +5704,12 @@ def build_parser() -> argparse.ArgumentParser:
     release_source_archive_manifest.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     release_source_archive_manifest.add_argument("--write-report", action="store_true", help="Persist outputs/release/source_archive_manifest.{json,md} and source_archive_checksums.sha256")
 
+    release_reproducibility_pack = release_sub.add_parser("reproducibility-pack", help="Generate a local release reproducibility pack")
+    release_reproducibility_pack.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    release_reproducibility_pack.add_argument("--write-report", action="store_true", help="Persist outputs/release/reproducibility_pack.{json,md}")
+    release_reproducibility_pack.add_argument("--verify", action="store_true", help="Run reproducibility verifier after writing the pack")
+    release_reproducibility_pack.add_argument("--require-clean-git", action="store_true", help="Block if current Git checkout has uncommitted changes")
+
     release_reproducibility_verify = release_sub.add_parser("reproducibility-verify", help="Verify a local release reproducibility pack")
     release_reproducibility_verify.add_argument("--pack", required=True, help="Local ReleaseReproducibilityPack JSON path")
     release_reproducibility_verify.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
@@ -6794,6 +6826,13 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
             return release_environment_snapshot_command(json_output=args.json, write_report=args.write_report)
         if args.release_command == "source-archive-manifest":
             return release_source_archive_manifest_command(json_output=args.json, write_report=args.write_report)
+        if args.release_command == "reproducibility-pack":
+            return release_reproducibility_pack_command(
+                json_output=args.json,
+                write_report=args.write_report,
+                verify=args.verify,
+                require_clean_git=args.require_clean_git,
+            )
         if args.release_command == "reproducibility-verify":
             return release_reproducibility_verify_command(pack=args.pack, json_output=args.json, write_report=args.write_report)
         if args.release_command == "checksum":

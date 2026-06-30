@@ -2,17 +2,62 @@
 title: "Runbook — DevPilot Local"
 doc_id: "DEVPL-OPS-002"
 status: "approved"
-version: "1.61.0"
+version: "1.62.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "POST-H-017-D"
+phase: "POST-H-017-E"
 updated: "2026-06-30"
 approval: "approved_by_owner"
 source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved + 03_security approved"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "SPRINT-PRECODE-05 quality operations baseline"
 ---
+
+## POST-H-017-E — Quality gate y runbook release
+
+Estado: `implemented-initial / hito cerrado`.
+
+Comando principal:
+
+```powershell
+$env:PYTHONPATH="src"
+python -m devpilot_core release reproducibility-pack --json --write-report --verify
+python -m devpilot_core release reproducibility-verify --pack outputs/release/reproducibility_pack.json --json --write-report
+python -m devpilot_core quality-gate run --profile hardening --json --write-report
+```
+
+Evidencia generada:
+
+```text
+outputs/release/environment_snapshot.json
+outputs/release/source_archive_manifest.json
+outputs/release/source_archive_checksums.sha256
+outputs/release/reproducibility_pack.json
+outputs/release/reproducibility_verification.json
+```
+
+Criterios PASS:
+
+```text
+PASS si release reproducibility-pack genera pack local schema-compatible.
+PASS si --verify confirma dirty=false, secrets_included=false, forbidden_entries_total=0 y checksums críticos sin mismatch.
+PASS si quality-gate hardening incluye y ejecuta el subgate release-reproducibility.
+PASS si network_used=false, external_api_used=false, remote_execution_used=false, connector_write_used=false y plugin_execution_used=false.
+```
+
+Criterios BLOCK:
+
+```text
+BLOCK si el checkout Git está dirty y se usa `--require-clean-git` para declarar un release candidate limpio.
+BLOCK si falta snapshot, source archive manifest, pack o verification report.
+BLOCK si un checksum crítico no coincide o el source archive incluye outputs/, .devpilot/devpilot.db, .venv/ o node_modules/.
+BLOCK si se presenta el pack implemented-initial como publicación, despliegue, firma remota, attestation formal o certificación supply-chain.
+```
+
+Límite: POST-H-017-E cierra la capacidad local dry-run de release reproducibility. No materializa promoción de release, firma criptográfica formal, attestation SLSA ni distribución externa; esas capacidades requieren diseño futuro.
+
+Siguiente hito operativo: `POST-H-018 — Connector sandbox`.
 
 ## POST-H-017-D — Verifier local de reproducibilidad
 
