@@ -98,6 +98,7 @@ def test_quality_gate_hardening_profile_includes_post_h_subgates() -> None:
         "ui-api-industrial-shell",
         "release-reproducibility",
         "connector-sandbox",
+        "plugin-sandbox-design",
     ]:
         assert expected in subgates
         assert subgates[expected].critical is True
@@ -113,3 +114,9 @@ def test_quality_gate_hardening_profile_includes_post_h_subgates() -> None:
     assert connector_result.ok is True, connector_result.to_dict()
     assert connector_result.data["summary"]["quality_gate_subgate"] == "connector-sandbox"
     assert connector_result.data["summary"]["connector_write_used"] is False
+
+    plugin_result = subgates["plugin-sandbox-design"].runner()
+    assert plugin_result.ok is True, plugin_result.to_dict()
+    assert plugin_result.data["summary"]["quality_gate_subgate"] == "plugin-sandbox-design"
+    assert plugin_result.data["summary"]["plugin_execution_allowed"] is False
+    assert plugin_result.data["summary"]["network_used"] is False

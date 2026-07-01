@@ -39,14 +39,14 @@ def test_post_h_019_backlog_is_approved_and_tracks_micro_sprint() -> None:
     assert backlog_fm["status"] == "approved"
     assert backlog_fm["approval"] == "approved_by_owner"
     assert backlog_fm["implementation_status"] == "active"
-    assert backlog_fm["current_micro_sprint"] == "POST-H-019-C"
-    assert backlog_fm["next_micro_sprint"] == "POST-H-019-D"
+    assert backlog_fm["current_micro_sprint"] == "POST-H-019-D"
+    assert backlog_fm["next_micro_sprint"] == "POST-H-019-E"
     assert implementation_fm["doc_id"] == "POST-H-019-IMPLEMENTATION"
     assert implementation_fm["status"] == "approved"
     assert state["last_completed_sprint"] == "POST-H-018"
     assert state["next_sprint"] == "POST-H-019"
-    assert state["current_micro_sprint"] == "POST-H-019-C"
-    assert state["next_micro_sprint"] == "POST-H-019-D"
+    assert state["current_micro_sprint"] == "POST-H-019-D"
+    assert state["next_micro_sprint"] == "POST-H-019-E"
 
 
 def test_post_h_019_a_threat_model_covers_required_plugin_risks() -> None:

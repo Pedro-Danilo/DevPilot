@@ -1,3 +1,18 @@
+## post-h-019-d — Quality gate plugin safety
+
+- Adds `PluginSandboxQualityGate` for metadata-only plugin safety validation.
+- Integrates `plugin-sandbox-design` into hardening/industrial quality-gate profiles.
+- Composes plugin registry, permission model, exposure report and plugin-ecosystem fixture signal without loading plugin code.
+- Promotes `post-h-019-plugin-sandbox-design` test contract to quality-gate coverage.
+- Keeps no-go gates blocked: no plugin execution, dynamic loading, subprocess, network, external APIs, dependency install, marketplace, filesystem write or remote execution.
+
+Safety:
+
+```text
+- POST-H-019-D is quality-gate/report validation only.
+- The subgate is not a plugin runtime and does not grant execution authority.
+```
+
 ## post-h-019-c — Install dry-run y exposure report
 
 - Adds `PluginStaticValidator` for metadata-only install dry-run over registered plugin manifests.

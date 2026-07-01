@@ -1,3 +1,37 @@
+## POST-H-019-D — Quality gate plugin safety
+
+Estado: `implemented-initial / hito activo`.
+
+DevPilot integra la seguridad de plugins al quality gate local mediante el subgate `plugin-sandbox-design`. El subgate valida registry, permission model, exposure report y señal preliminar `plugin-ecosystem`, sin cargar código de plugins ni ejecutar instalación real.
+
+Capacidades nuevas:
+
+- `PluginSandboxQualityGate` en `src/devpilot_core/plugins/quality_gate.py`.
+- Subgate `plugin-sandbox-design` en perfiles `quality-gate run --profile hardening` e `industrial`.
+- Validación acumulada de `PluginRegistry`, `PluginPermissionModel` y `PluginExposureReporter(write_report=False)`.
+- Señal preliminar de `evals/fixtures/plugin_ecosystem_eval_cases.json` como fixture local determinístico, sin LLM judge.
+- Test contract `post-h-019-plugin-sandbox-design` actualizado para cubrir el quality gate.
+
+Comandos principales:
+
+```powershell
+python -m pytest -p no:ddtrace tests/test_post_h_019_plugin_quality_gate.py tests/test_post_h_019_plugin_static_validator.py tests/test_post_h_019_plugin_execution_blocked.py tests/test_post_h_019_plugin_permission_model.py tests/test_post_h_019_plugin_sandbox_design.py tests/test_quality_gate.py tests/test_plugin_registry.py tests/test_project_global_state.py tests/test_post_h_018_connector_sandbox_policy.py -q
+python -m devpilot_core quality-gate run --profile hardening --json
+python -m devpilot_core plugin dry-run --all --dry-run --json --write-report
+python -m devpilot_core plugin validate --json
+python -m devpilot_core docs-governance validate --json
+python -m devpilot_core test-contracts validate --json
+python -m devpilot_core test-contracts validate-v2 --json
+python -m devpilot_core project-state validate --json
+```
+
+Límite explícito: POST-H-019-D es quality-gate metadata-only. No habilita ejecución de plugins, carga dinámica, `subprocess`, red, APIs externas, instalación de dependencias, marketplace, escritura de filesystem ni remote execution. El siguiente micro-sprint es `POST-H-019-E — Runbook, ADR trigger y cierre`.
+
+Último hito cerrado: `POST-H-018 — Connector sandbox avanzado`
+Hito activo: `POST-H-019 — Plugin sandbox design sin ejecución arbitraria`
+Último micro-sprint implementado: `POST-H-019-D — Quality gate plugin safety`
+Siguiente micro-sprint: `POST-H-019-E — Runbook, ADR trigger y cierre`
+
 ## POST-H-019-C — Install dry-run y exposure report
 
 Estado: `implemented-initial / hito activo`.

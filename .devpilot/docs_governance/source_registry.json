@@ -1216,7 +1216,8 @@
       ],
       "derived_documents": [],
       "required_tests": [
-        "tests/test_post_h_019_plugin_sandbox_design.py"
+        "tests/test_post_h_019_plugin_sandbox_design.py",
+        "tests/test_post_h_019_plugin_quality_gate.py"
       ],
       "sync_rules": [
         "required_tests_must_pass",
@@ -1232,7 +1233,8 @@
         "Missing future backlog files are informational planned items; existing files must pass naming and frontmatter checks."
       ],
       "implementation_notes": [
-        "POST-H-019 is approved for implementation; POST-H-019-A starts with threat model and sandbox design without execution."
+        "POST-H-019 is approved for implementation; POST-H-019-A starts with threat model and sandbox design without execution.",
+        "POST-H-019-D integrates plugin-sandbox-design quality gate as metadata-only safety validation."
       ]
     },
     {
@@ -2149,7 +2151,8 @@
       "status_required": "approved",
       "criticality": "P2",
       "required_tests": [
-        "tests/test_post_h_019_plugin_sandbox_design.py"
+        "tests/test_post_h_019_plugin_sandbox_design.py",
+        "tests/test_post_h_019_plugin_quality_gate.py"
       ],
       "related_files": [
         "docs/backlogs/POST-H-019_plugin_sandbox_design.md",
@@ -2157,7 +2160,8 @@
         "docs/02_architecture/plugin_sandbox_design.md"
       ],
       "implementation_notes": [
-        "POST-H-019 implementation authority mirrors the approved backlog and records implemented-initial progress."
+        "POST-H-019 implementation authority mirrors the approved backlog and records implemented-initial progress.",
+        "POST-H-019-D integrates plugin-sandbox-design quality gate as metadata-only safety validation."
       ],
       "sync_rules": [
         "required_tests_must_pass",
@@ -2412,6 +2416,63 @@
         "required_tests_must_pass",
         "owner_status_and_path_must_remain_current"
       ]
+    },
+    {
+      "doc_id": "POST-H-019-D-PLUGIN-QUALITY-GATE-REPORT",
+      "path": "docs/audits/post_h_019_d_plugin_quality_gate_report.md",
+      "classification": "source-of-truth",
+      "domain": "extensibility.plugins",
+      "owner": "Ordóñez",
+      "status_required": "approved",
+      "criticality": "P2",
+      "frontmatter_required": true,
+      "status_checked": true,
+      "required_tests": [
+        "tests/test_post_h_019_plugin_quality_gate.py",
+        "tests/test_quality_gate.py"
+      ],
+      "related_files": [
+        "src/devpilot_core/plugins/quality_gate.py",
+        "src/devpilot_core/quality/gate.py"
+      ],
+      "implementation_notes": [
+        "POST-H-019-D report documents plugin-sandbox-design PASS/BLOCK criteria and no-go constraints."
+      ],
+      "source_of_truth": true,
+      "machine_readable": false,
+      "sync_rules": [
+        "required_tests_must_pass",
+        "owner_status_and_path_must_remain_current"
+      ]
+    },
+    {
+      "doc_id": "POST-H-019-D-MANIFEST",
+      "path": "docs/post_h_019_d_manifest.json",
+      "classification": "machine-readable-source",
+      "domain": "extensibility.plugins",
+      "owner": "Ordóñez",
+      "status_required": "implemented-initial",
+      "criticality": "P2",
+      "frontmatter_required": false,
+      "status_checked": true,
+      "required_tests": [
+        "tests/test_post_h_019_plugin_quality_gate.py",
+        "tests/test_project_global_state.py"
+      ],
+      "related_files": [
+        "src/devpilot_core/plugins/quality_gate.py",
+        "src/devpilot_core/quality/gate.py",
+        ".devpilot/testing/test_contract_registry.json"
+      ],
+      "implementation_notes": [
+        "POST-H-019-D manifest records quality gate integration evidence and safety constraints."
+      ],
+      "source_of_truth": true,
+      "machine_readable": true,
+      "sync_rules": [
+        "required_tests_must_pass",
+        "owner_status_and_path_must_remain_current"
+      ]
     }
   ],
   "rules": {
@@ -2438,20 +2499,20 @@
     "approved_backlogs_require_observability_retention_hygiene_gate": true
   },
   "summary": {
-    "documents_total": 76,
-    "source_of_truth_total": 30,
-    "machine_readable_source_total": 22,
+    "documents_total": 78,
+    "source_of_truth_total": 34,
+    "machine_readable_source_total": 23,
     "derived_total": 24,
     "generated_runtime_total": 0,
     "historical_total": 0,
     "deprecated_total": 0,
-    "critical_sources_total": 76,
+    "critical_sources_total": 78,
     "markdown_json_pairs_total": 29,
-    "documents_with_required_tests_total": 76,
+    "documents_with_required_tests_total": 78,
     "network_used": false,
     "external_api_used": false,
     "mutations_performed": false,
-    "last_updated_by": "POST-H-019-C",
+    "last_updated_by": "POST-H-019-D",
     "markdown_json_sync_checks_enabled": true,
     "sync_checks_scope": "version_match, milestones_match, decisions_match, closure_status_match, next_hito_match",
     "backlog_governance_enabled": true,
@@ -2492,7 +2553,7 @@
     "machine_readable_total": 15,
     "required_tests_total": 52,
     "active_backlog": "POST-H-019",
-    "active_micro_sprint": "POST-H-019-C",
+    "active_micro_sprint": "POST-H-019-D",
     "sensitive_action_catalog_enabled": true,
     "sensitive_action_catalog_path": ".devpilot/approval/sensitive_action_catalog.json",
     "sensitive_action_catalog_schema": "docs/schemas/sensitive_action_catalog.schema.json",
@@ -2597,8 +2658,8 @@
     "connector_sandbox_runbook_path": "docs/05_operations/connector_sandbox_runbook.md",
     "connector_sandbox_threat_model_path": "docs/03_security/connector_sandbox_threat_model.md",
     "connector_sandbox_gate_module": "src/devpilot_core/connectors/sandbox_gate.py",
-    "post_h_019_current_micro_sprint": "POST-H-019-C",
-    "post_h_019_next_micro_sprint": "POST-H-019-D",
+    "post_h_019_current_micro_sprint": "POST-H-019-D",
+    "post_h_019_next_micro_sprint": "POST-H-019-E",
     "plugin_static_validator_module": "src/devpilot_core/plugins/static_validator.py",
     "plugin_exposure_report_module": "src/devpilot_core/plugins/exposure_report.py",
     "plugin_sandbox_design_report_schema_registered": true,
@@ -2607,7 +2668,18 @@
     "plugin_install_dry_run_cli_command": "python -m devpilot_core plugin dry-run --all --dry-run --json --write-report",
     "plugin_execution_enabled": false,
     "plugin_install_dry_run_enabled": true,
-    "plugin_exposure_report_enabled": true
+    "plugin_exposure_report_enabled": true,
+    "next_micro_sprint": "POST-H-019-E",
+    "plugin_sandbox_quality_gate_registered": true,
+    "plugin_sandbox_quality_gate_subgate": "plugin-sandbox-design",
+    "plugin_sandbox_quality_gate_profiles": [
+      "hardening",
+      "industrial"
+    ],
+    "plugin_sandbox_quality_gate_metadata_only": true,
+    "post_h_019_plugin_quality_gate_registered": true,
+    "post_h_019_plugin_quality_gate_subgate": "plugin-sandbox-design",
+    "post_h_019_plugin_execution_enabled": false
   },
   "safety": {
     "local_first": true,

@@ -2,17 +2,56 @@
 title: "Runbook — DevPilot Local"
 doc_id: "DEVPL-OPS-002"
 status: "approved"
-version: "1.69.0"
+version: "1.70.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "POST-H-019-C"
+phase: "POST-H-019-D"
 updated: "2026-06-30"
 approval: "approved_by_owner"
 source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved + 03_security approved"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "SPRINT-PRECODE-05 quality operations baseline"
 ---
+
+## POST-H-019-D — Quality gate plugin safety
+
+Estado: `implemented-initial / hito activo`.
+
+Operación segura vigente para el quality gate de plugins:
+
+```powershell
+$env:PYTHONPATH="src"
+python -m pytest -p no:ddtrace tests/test_post_h_019_plugin_quality_gate.py tests/test_post_h_019_plugin_static_validator.py tests/test_post_h_019_plugin_execution_blocked.py tests/test_post_h_019_plugin_permission_model.py tests/test_post_h_019_plugin_sandbox_design.py tests/test_quality_gate.py tests/test_plugin_registry.py tests/test_project_global_state.py tests/test_post_h_018_connector_sandbox_policy.py -q
+python -m devpilot_core quality-gate run --profile hardening --json
+python -m devpilot_core plugin dry-run --all --dry-run --json --write-report
+python -m devpilot_core plugin validate --json
+python -m devpilot_core docs-governance validate --json
+python -m devpilot_core test-contracts validate --json
+python -m devpilot_core test-contracts validate-v2 --json
+python -m devpilot_core project-state validate --json
+```
+
+Criterios PASS:
+
+```text
+PASS si hardening/industrial incluyen el subgate plugin-sandbox-design.
+PASS si el subgate valida plugin registry, permission model y exposure report.
+PASS si plugin_ecosystem_eval_signal_present=true y suite_id=plugin-ecosystem.
+PASS si plugin_execution_allowed=false y execution_allowed_total=0.
+PASS si network_used=false, external_api_used=false, source_mutations_performed=false y dependencies_installed=false.
+```
+
+No-go gates:
+
+```text
+NO-GO si el quality gate carga código de plugin.
+NO-GO si usa importlib/subprocess/pip install/marketplace/red/API externa.
+NO-GO si permission model permite plugin.code.execute, dynamic import o filesystem write.
+NO-GO si el exposure report se interpreta como autorización de ejecución.
+```
+
+Límite: POST-H-019-D integra seguridad de plugins al quality gate como `implemented-initial`. Runbook metadata-only final, trigger ADR formal y cierre del hito quedan para POST-H-019-E.
 
 ## POST-H-019-C — Install dry-run y exposure report
 

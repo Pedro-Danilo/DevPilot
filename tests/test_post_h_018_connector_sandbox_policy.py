@@ -122,8 +122,8 @@ def test_post_h_018_a_docs_state_and_contracts_are_synchronized() -> None:
     assert "post-h-018-a" in changelog
     assert state["last_completed_sprint"] == "POST-H-018"
     assert state["next_sprint"] == "POST-H-019"
-    assert state["current_micro_sprint"] == "POST-H-019-C"
-    assert state["next_micro_sprint"] == "POST-H-019-D"
+    assert state["current_micro_sprint"] == "POST-H-019-D"
+    assert state["next_micro_sprint"] == "POST-H-019-E"
     assert "post-h-018-connector-sandbox-policy-schemas" in tcr_v1
     assert "post-h-018-connector-sandbox-policy-schemas" in tcr_v2
     assert "post-h-018-connector-sandbox-runner" in tcr_v1
@@ -162,3 +162,4 @@ def test_post_h_018_a_docs_state_and_contracts_are_synchronized() -> None:
     assert "POST-H-019-A-MANIFEST" in source_registry
     assert "POST-H-019-PLUGIN-SANDBOX-DESIGN-REPORT-SCHEMA" in source_registry
     assert "POST-H-019-C-MANIFEST" in source_registry
+    assert "POST-H-019-D-MANIFEST" in source_registry

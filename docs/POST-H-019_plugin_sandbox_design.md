@@ -4,7 +4,7 @@ doc_id: "POST-H-019-IMPLEMENTATION"
 id: "POST-H-019"
 title: "POST-H-019 — Plugin sandbox design implementation"
 status: "approved"
-version: "0.4.0"
+version: "0.5.0"
 owner: "Ordóñez"
 updated: "2026-06-30"
 approval: "approved_by_owner"
@@ -18,8 +18,8 @@ no_external_apis_used: true
 no_connector_write_enabled: true
 no_plugin_execution_enabled: true
 implementation_status: "active"
-current_micro_sprint: "POST-H-019-C"
-next_micro_sprint: "POST-H-019-D"
+current_micro_sprint: "POST-H-019-D"
+next_micro_sprint: "POST-H-019-E"
 ---
 
 # POST-H-019 — Plugin sandbox design sin ejecución arbitraria
@@ -28,7 +28,7 @@ next_micro_sprint: "POST-H-019-D"
 
 Estado del backlog: `approved / active`.
 
-Micro-sprint actual: `POST-H-019-C — Install dry-run y exposure report`.
+Micro-sprint actual: `POST-H-019-D — Quality gate plugin safety`.
 
 Resultado POST-H-019-A: `implemented-initial`. Se aprueba el backlog para implementación y se agregan el threat model y el diseño arquitectónico metadata-only del sandbox de plugins. No se habilita ejecución de plugins, `importlib`, `subprocess`, red, APIs externas, marketplace ni instalación de dependencias.
 
@@ -36,7 +36,9 @@ Resultado POST-H-019-B: `implemented-initial`. Se agrega `PluginPermissionModel`
 
 Resultado POST-H-019-C: `implemented-initial`. Se agrega `PluginStaticValidator`, `PluginExposureReporter`, schema `PluginSandboxDesignReport` y `plugin dry-run --all --dry-run --write-report` para simular instalación metadata-only y producir exposure report. No se habilita ejecución de plugins, carga dinámica, subprocess, red, APIs externas, filesystem write, pip install, marketplace ni remote execution.
 
-Siguiente micro-sprint: `POST-H-019-D — Quality gate plugin safety`.
+Resultado POST-H-019-D: `implemented-initial`. Se agrega `PluginSandboxQualityGate` y subgate `plugin-sandbox-design` a perfiles hardening/industrial para validar registry, permission model, exposure report y señal `plugin-ecosystem` sin cargar código de plugins ni ejecutar acciones externas.
+
+Siguiente micro-sprint: `POST-H-019-E — Runbook, ADR trigger y cierre`.
 
 
 ## 1. Objetivo

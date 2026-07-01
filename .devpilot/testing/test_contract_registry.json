@@ -5068,10 +5068,15 @@
     },
     {
       "contract_id": "post-h-019-plugin-sandbox-design",
-      "scope": "integration",
-      "owner": "POST-H-019-A",
+      "scope": "quality-gate",
+      "owner": "POST-H-019-D",
       "test_files": [
-        "tests/test_post_h_019_plugin_sandbox_design.py"
+        "tests/test_post_h_019_plugin_sandbox_design.py",
+        "tests/test_post_h_019_plugin_quality_gate.py",
+        "tests/test_quality_gate.py",
+        "tests/test_post_h_019_plugin_static_validator.py",
+        "tests/test_post_h_019_plugin_execution_blocked.py",
+        "tests/test_post_h_019_plugin_permission_model.py"
       ],
       "validates": [
         "docs/03_security/plugin_sandbox_threat_model.md",
@@ -5080,7 +5085,13 @@
         "docs/POST-H-019_plugin_sandbox_design.md",
         "src/devpilot_core/plugins/registry.py",
         ".devpilot/plugins/plugin_registry.json",
-        "docs/post_h_019_a_manifest.json"
+        "docs/post_h_019_a_manifest.json",
+        "src/devpilot_core/plugins/quality_gate.py",
+        "src/devpilot_core/quality/gate.py",
+        "docs/audits/post_h_019_d_plugin_quality_gate_report.md",
+        "docs/post_h_019_d_manifest.json",
+        "evals/fixtures/plugin_ecosystem_eval_cases.json",
+        "Plugin sandbox design quality gate remains metadata-only and blocks execution."
       ],
       "watched_paths": [
         "docs/03_security/plugin_sandbox_threat_model.md",
@@ -5089,16 +5100,31 @@
         "docs/POST-H-019_plugin_sandbox_design.md",
         "src/devpilot_core/plugins/",
         ".devpilot/plugins/",
-        "tests/test_post_h_019_plugin_sandbox_design.py"
+        "tests/test_post_h_019_plugin_sandbox_design.py",
+        "src/devpilot_core/plugins/quality_gate.py",
+        "src/devpilot_core/quality/gate.py",
+        "docs/audits/post_h_019_d_plugin_quality_gate_report.md",
+        "docs/post_h_019_d_manifest.json",
+        "evals/fixtures/plugin_ecosystem_eval_cases.json"
       ],
       "mutable_global_state_allowed": false,
       "global_state_source": null,
       "critical": true,
       "recommended_commands": [
-        "python -m pytest -p no:ddtrace tests/test_post_h_019_plugin_sandbox_design.py tests/test_plugin_registry.py -q",
+        "python -m pytest -p no:ddtrace tests/test_post_h_019_plugin_quality_gate.py tests/test_post_h_019_plugin_static_validator.py tests/test_post_h_019_plugin_execution_blocked.py tests/test_post_h_019_plugin_permission_model.py tests/test_post_h_019_plugin_sandbox_design.py tests/test_quality_gate.py tests/test_plugin_registry.py -q",
+        "python -m devpilot_core quality-gate run --profile hardening --json",
+        "python -m devpilot_core plugin dry-run --all --dry-run --json --write-report",
         "python -m devpilot_core plugin validate --json",
         "python -m devpilot_core docs-governance validate --json",
         "python -m devpilot_core test-contracts validate --json"
+      ],
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "notes": [
+        "POST-H-019-D promotes this contract to quality-gate coverage for plugin-sandbox-design.",
+        "The gate validates registry, permission model, exposure report and plugin-ecosystem fixture without plugin execution."
       ]
     },
     {
@@ -5189,6 +5215,7 @@
     "POST-H-016-D registers secure CLI/API portfolio status integration and active-workspace non-mutation tests.",
     "POST-H-016-E registers workspace-portfolio-hardening as the final quality gate contract for Workspace portfolio hardening.",
     "POST-H-017-C registers source archive manifest and checksums contract without external services.",
-    "POST-H-017-E registers release-reproducibility quality gate and local pack generation contract."
+    "POST-H-017-E registers release-reproducibility quality gate and local pack generation contract.",
+    "POST-H-019-D promotes post-h-019-plugin-sandbox-design to quality-gate coverage without enabling plugin execution."
   ]
 }
