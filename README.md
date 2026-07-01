@@ -1,3 +1,41 @@
+## POST-H-020-E — Runbook, disclaimers y cierre
+
+Estado: `implemented-initial / backlog cerrado`.
+
+DevPilot cierra `POST-H-020 — Compliance mapping packs ampliados` como capacidad local no-certificante. Se agregan el runbook `docs/05_operations/compliance_mapping_runbook.md`, los disclaimers `docs/03_security/compliance_mapping_disclaimers.md`, el reporte de cierre y el manifest E. La documentación define `mapped`, `partial`, `gap` y `not-applicable`, y mantiene explícitos los límites de no certificación, no asesoría legal y no auditoría externa.
+
+Capacidades cerradas:
+
+- Schemas y registries locales de compliance mapping.
+- Validator semántico de mappings.
+- Collector y report generator local.
+- CLI `compliance mapping report`.
+- Quality gate `compliance-mapping-pack`.
+- Summary `compliance_mapping` en AuditPackV2.
+- Runbook dedicado y disclaimers obligatorios.
+- Corrección de TCR v2 `classification_status=explicit` para contratos C/D.
+
+Comandos principales:
+
+```powershell
+python -m pytest -p no:ddtrace tests/test_post_h_020_compliance_runbook_disclaimers.py tests/test_post_h_020_compliance_quality_gate.py tests/test_post_h_020_compliance_evidence_report.py tests/test_post_h_020_compliance_mapping_validator.py tests/test_post_h_020_compliance_mapping_schema.py tests/test_post_h_020_compliance_evidence_mapping.py tests/test_post_h_020_compliance_no_certification.py tests/test_schema_registry.py tests/test_project_global_state.py tests/test_post_h_006_e_cli_no_growth_gate.py -q
+python -m devpilot_core compliance mapping report --json --write-report
+python -m devpilot_core quality-gate run --profile hardening --json
+python -m devpilot_core docs-governance validate --json
+python -m devpilot_core test-contracts validate --json
+python -m devpilot_core test-contracts validate-v2 --json
+python -m devpilot_core project-state validate --json
+python -m devpilot_core cli-registry guard --json
+```
+
+Límite explícito: POST-H-020 no habilita certificación compliance, asesoría legal, auditoría externa, envío de evidencias a terceros, ejecución de `source_command`, red/API externa, remote execution, connector write ni plugin execution.
+
+Último hito: `POST-H-020 — Compliance mapping packs ampliados`
+Último hito cerrado: `POST-H-020 — Compliance mapping packs ampliados`
+Siguiente hito: `POST-H-021`
+Último micro-sprint implementado: `POST-H-020-E — Runbook, disclaimers y cierre`
+Siguiente micro-sprint: `POST-H-021`
+
 ## POST-H-020-D — Integración con audit packs y quality gate
 
 Estado: `implemented-initial / hito activo`.

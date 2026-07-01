@@ -17,18 +17,18 @@ no_remote_execution_enabled: true
 no_external_apis_used: true
 no_connector_write_enabled: true
 no_plugin_execution_enabled: true
-implementation_status: "in-progress"
-current_micro_sprint: "POST-H-020-D"
-next_micro_sprint: "POST-H-020-E"
+implementation_status: "closed"
+current_micro_sprint: "POST-H-020-E"
+next_micro_sprint: "POST-H-021"
 ---
 
 # POST-H-020 — Compliance mapping packs ampliados
 
 ## 0. Estado de implementación
 
-Estado del backlog: `approved / in-progress`.
+Estado del backlog: `approved / closed`.
 
-Micro-sprint actual: `POST-H-020-D — Integración con audit packs y quality gate`.
+Micro-sprint actual: `POST-H-020-E — Runbook, disclaimers y cierre`.
 
 Resultado POST-H-020-A: `implemented-initial`. Se agregan schemas `ComplianceControlMapping`, `ComplianceEvidenceMapping` y `ComplianceMappingReport`, se registran en `schema_catalog.json`, y se crean los registries locales `.devpilot/compliance/control_mappings.json` y `.devpilot/compliance/evidence_mappings.json`. El hito permanece no-certificante: `certification_claimed=false`, `legal_advice_claimed=false`, sin red, APIs externas, conectores, remediación automática ni envío a terceros.
 
@@ -38,9 +38,11 @@ Resultado POST-H-020-C: `implemented-initial`. Se agregan `ComplianceEvidenceCol
 
 Resultado POST-H-020-D: `implemented-initial`. Se agrega `ComplianceMappingQualityGate`, se integra el subgate `compliance-mapping-pack` en `quality-gate` para perfiles `hardening` e `industrial`, se agrega un summary `compliance_mapping` no-certificante al manifest de AuditPackV2 y se consume la señal local `compliance-pack-integrity` desde `evals/fixtures/compliance_pack_integrity_eval_cases.json`. No se ejecutan `source_command`, no se escriben audit-pack ZIPs desde el subgate, no se usa red/API externa, no se envían evidencias a terceros y no se declara certificación ni asesoría legal.
 
+Resultado POST-H-020-E: `implemented-initial / cierre`. Se agregan `docs/05_operations/compliance_mapping_runbook.md`, `docs/03_security/compliance_mapping_disclaimers.md`, `tests/test_post_h_020_compliance_runbook_disclaimers.py`, `docs/audits/post_h_020_e_compliance_mapping_closure_report.md` y `docs/post_h_020_e_manifest.json`. El cierre documenta cómo interpretar `mapped`, `partial`, `gap` y `not-applicable`, refuerza `certification_claimed=false`, `legal_advice_claimed=false`, no auditoría externa y no envío de evidencias a terceros. También corrige la desincronización heredada de TCR v2 para que los contratos POST-H-020-C/D usen `classification_status=explicit`.
+
 Disclaimers obligatorios: este hito es `no certificación`, `no asesoría legal` y no auditoría externa.
 
-Siguiente micro-sprint: `POST-H-020-E — Runbook, disclaimers y cierre`.
+Siguiente hito: `POST-H-021`.
 
 ## 1. Objetivo
 
@@ -370,6 +372,8 @@ BLOCK si no se explica límite legal.
 BLOCK si no hay criterios para evidencia faltante.
 ```
 
+Resultado: `implemented-initial / cierre`. El backlog POST-H-020 queda cerrado como capacidad local no-certificante.
+
 ## 9. Comandos esperados de validación
 
 ```powershell
@@ -416,4 +420,7 @@ NO-GO si se usa red/API externa.
 - Test contract agregado.
 - Audit pack integration definida.
 - No claims de certificación.
+- Runbook operativo dedicado creado.
+- Disclaimers de seguridad creados.
+- Backlog POST-H-020 cerrado como implemented-initial.
 ```

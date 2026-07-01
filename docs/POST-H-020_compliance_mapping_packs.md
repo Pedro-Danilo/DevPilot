@@ -9,9 +9,9 @@ updated: "2026-07-01"
 approval: "approved_by_owner"
 phase: "POST-FASE-H"
 priority: "P2"
-implementation_status: "in-progress"
-current_micro_sprint: "POST-H-020-D"
-next_micro_sprint: "POST-H-020-E"
+implementation_status: "closed"
+current_micro_sprint: "POST-H-020-E"
+next_micro_sprint: "POST-H-021"
 local_first: true
 dry_run: true
 no_remote_execution_enabled: true
@@ -103,7 +103,7 @@ Capacidades:
 
 ## 5. Límites explícitos
 
-POST-H-020-D no implementa todavía documentación operativa final ni cierre del backlog. Eso corresponde a POST-H-020-E.
+POST-H-020-E cierra el backlog con documentación operativa final, disclaimers explícitos y tests de cierre documental. El hito queda como `implemented-initial`: apto para evidencia técnica local, no para certificación compliance, asesoría legal ni auditoría externa.
 
 No se habilita:
 
@@ -146,6 +146,32 @@ BLOCK si un source_command intenta red/API externa, instalación o mutación.
 BLOCK si se envían evidencias fuera del workspace.
 BLOCK si missing evidence se oculta.
 ```
+
+## POST-H-020-E — Runbook, disclaimers y cierre
+
+Estado: `implemented-initial / cierre`.
+
+DevPilot agrega el runbook dedicado `docs/05_operations/compliance_mapping_runbook.md` y los disclaimers `docs/03_security/compliance_mapping_disclaimers.md`. La documentación define cómo interpretar `mapped`, `partial`, `gap` y `not-applicable`; refuerza que los reportes son señales técnicas locales y no certificación, asesoría legal ni auditoría externa.
+
+También se agrega `tests/test_post_h_020_compliance_runbook_disclaimers.py` para bloquear sobreclaims documentales y verificar que el backlog queda cerrado. Durante el cierre se corrige la desincronización de TCR v2 detectada en POST-H-020-D: los contratos POST-H-020-C/D usan `classification_status=explicit`, valor permitido por el schema.
+
+Comandos principales:
+
+```powershell
+python -m pytest -p no:ddtrace tests/test_post_h_020_compliance_runbook_disclaimers.py tests/test_post_h_020_compliance_quality_gate.py tests/test_post_h_020_compliance_evidence_report.py tests/test_post_h_020_compliance_mapping_validator.py tests/test_post_h_020_compliance_mapping_schema.py tests/test_post_h_020_compliance_evidence_mapping.py tests/test_post_h_020_compliance_no_certification.py tests/test_schema_registry.py tests/test_project_global_state.py tests/test_post_h_006_e_cli_no_growth_gate.py -q
+python -m devpilot_core compliance mapping report --json --write-report
+python -m devpilot_core quality-gate run --profile hardening --json
+python -m devpilot_core docs-governance validate --json
+python -m devpilot_core test-contracts validate --json
+python -m devpilot_core test-contracts validate-v2 --json
+python -m devpilot_core project-state validate --json
+python -m devpilot_core cli-registry guard --json
+```
+
+Límite explícito: POST-H-020 queda cerrado como capacidad local no-certificante. No habilita certificación compliance, asesoría legal, auditoría externa, envío de evidencias a terceros, ejecución de `source_command`, red/API externa, remote execution, connector write ni plugin execution.
+
+Último hito cerrado: `POST-H-020 — Compliance mapping packs ampliados`
+Siguiente hito: `POST-H-021`
 
 ## POST-H-020-C — Evidence collector y report generator local
 
@@ -226,4 +252,4 @@ python -m devpilot_core project-state validate --json
 
 ## 9. Evolución pendiente
 
-POST-H-020-C debe implementar collector local y report generator. POST-H-020-D debe integrar audit packs y quality gate. POST-H-020-E debe cerrar con runbook y disclaimers finales.
+POST-H-020 queda cerrado como `implemented-initial`. Evoluciones futuras pueden agregar marcos externos específicos, exportadores o revisiones formales, pero cualquier salida con implicaciones regulatorias, certificantes o de terceros requiere ADR, RBAC, approvals, threat model y quality gates adicionales.

@@ -9711,7 +9711,7 @@
       "notes": [
         "POST-H-020-C is report-only/local metadata collection and does not claim certification or legal advice."
       ],
-      "classification_status": "manual"
+      "classification_status": "explicit"
     },
     {
       "contract_id": "post-h-020-compliance-mapping-quality-gate",
@@ -9776,7 +9776,71 @@
       "notes": [
         "POST-H-020-D integrates compliance mapping into quality gate and audit-pack metadata without certification, legal advice or evidence export."
       ],
-      "classification_status": "manual"
+      "classification_status": "explicit"
+    },
+    {
+      "contract_id": "post-h-020-compliance-runbook-disclaimers",
+      "schema_version": "2.0",
+      "source_contract_id": "post-h-020-compliance-runbook-disclaimers",
+      "domain": "governance.compliance",
+      "capability": "Compliance mapping runbook, disclaimers and backlog closure",
+      "criticality": "P2",
+      "risk_level": "high",
+      "test_type": "documentation",
+      "execution_profile": "release",
+      "cost_class": "low",
+      "expected_duration_seconds": 15,
+      "test_files": [
+        "tests/test_post_h_020_compliance_runbook_disclaimers.py"
+      ],
+      "watched_paths": [
+        "docs/05_operations/compliance_mapping_runbook.md",
+        "docs/03_security/compliance_mapping_disclaimers.md",
+        "docs/backlogs/POST-H-020_compliance_mapping_packs.md",
+        "docs/POST-H-020_compliance_mapping_packs.md",
+        "docs/audits/post_h_020_e_compliance_mapping_closure_report.md",
+        "docs/post_h_020_e_manifest.json",
+        ".devpilot/project_state.json",
+        ".devpilot/testing/test_contract_registry_v2.json",
+        "tests/test_post_h_020_compliance_runbook_disclaimers.py"
+      ],
+      "validates": [
+        "Runbook explains mapping versus certification",
+        "Disclaimers block certification, legal advice and external audit claims",
+        "Documents distinguish mapped, partial, gap and not-applicable states",
+        "POST-H-020 backlog closes as implemented-initial",
+        "TCR v2 classification_status values remain schema-valid"
+      ],
+      "trigger_hints": [
+        "post-h-020",
+        "compliance-mapping",
+        "runbook",
+        "disclaimers",
+        "closure",
+        "no-certification"
+      ],
+      "impact_scope": [
+        "governance.compliance",
+        "documentation.governance",
+        "testing.contracts"
+      ],
+      "required_for_release": false,
+      "required_for_security_gate": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "POST-H-020-E",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace tests/test_post_h_020_compliance_runbook_disclaimers.py tests/test_project_global_state.py -q",
+        "python -m devpilot_core docs-governance validate --json",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ],
+      "notes": [
+        "POST-H-020-E closes the compliance mapping pack backlog without certification, legal advice or external audit claims."
+      ],
+      "classification_status": "explicit"
     }
   ],
   "migration_metadata": {
@@ -9788,9 +9852,12 @@
     "external_api_used": false,
     "mutations_performed_by_default": false,
     "contracts_total": 162,
-    "last_updated_by": "POST-H-020-D"
+    "last_updated_by": "POST-H-020-E"
   },
   "notes": [
-    "POST-H-020-D fixes v2 contract classification_status for POST-H-020-C/D contracts to keep schema validation synchronized."
+    "POST-H-020-D fixes v2 contract classification_status for POST-H-020-C/D contracts to keep schema validation synchronized.",
+    "POST-H-020-E corrective sync changes POST-H-020-C/D v2 classification_status from invalid manual to explicit.",
+    "POST-H-020-E registers compliance runbook/disclaimer closure contract.",
+    "POST-H-020-E corrects POST-H-020-C/D classification_status values to explicit."
   ]
 }

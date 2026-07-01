@@ -1,0 +1,115 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "SCHEMA-DEVPL-POST-H-MANIFEST-V1",
+  "post_h_id": "POST-H-020",
+  "id": "POST-H-020-E",
+  "title": "Runbook, disclaimers y cierre",
+  "status": "implemented-initial",
+  "phase": "POST-FASE-H",
+  "implemented_at": "2026-07-01",
+  "created_by": "POST-H-020-E",
+  "updated": "2026-07-01",
+  "source_repo": "repo_DevPilot_Local_234_POST_H_020_D.zip",
+  "current_repo": "repo_DevPilot_Local_235_POST_H_020_E.zip",
+  "backlog": "docs/backlogs/POST-H-020_compliance_mapping_packs.md",
+  "implementation_doc": "docs/POST-H-020_compliance_mapping_packs.md",
+  "audit_report": "docs/audits/post_h_020_e_compliance_mapping_closure_report.md",
+  "created_files": [
+    "docs/05_operations/compliance_mapping_runbook.md",
+    "docs/03_security/compliance_mapping_disclaimers.md",
+    "tests/test_post_h_020_compliance_runbook_disclaimers.py",
+    "tests/test_post_h_020_compliance_mapping_quality_gate.py",
+    "tests/test_post_h_020_compliance_mapping_reporter.py",
+    "tests/test_post_h_020_compliance_mapping_schemas.py",
+    "docs/audits/post_h_020_e_compliance_mapping_closure_report.md",
+    "docs/post_h_020_e_manifest.json"
+  ],
+  "modified_files": [
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/backlogs/POST-H-020_compliance_mapping_packs.md",
+    "docs/POST-H-020_compliance_mapping_packs.md",
+    "docs/release/CHANGELOG.md",
+    ".devpilot/project_state.json",
+    ".devpilot/docs_governance/source_registry.json",
+    ".devpilot/testing/test_contract_registry.json",
+    ".devpilot/testing/test_contract_registry_v2.json",
+    "tests/test_project_global_state.py"
+  ],
+  "capabilities": [
+    "compliance mapping operational runbook",
+    "compliance mapping mandatory disclaimers",
+    "mapped/partial/gap/not-applicable interpretation guidance",
+    "POST-H-020 backlog closure",
+    "TCR v2 classification_status corrective sync",
+    "compatibility shims for historical POST-H-020-E pytest file names"
+  ],
+  "commands": [
+    "python -m pytest -p no:ddtrace tests/test_post_h_020_compliance_runbook_disclaimers.py tests/test_post_h_020_compliance_quality_gate.py tests/test_post_h_020_compliance_evidence_report.py tests/test_post_h_020_compliance_mapping_validator.py tests/test_post_h_020_compliance_mapping_schema.py tests/test_post_h_020_compliance_evidence_mapping.py tests/test_post_h_020_compliance_no_certification.py tests/test_schema_registry.py tests/test_project_global_state.py tests/test_post_h_006_e_cli_no_growth_gate.py -q",
+    "python -m devpilot_core compliance mapping report --json --write-report",
+    "python -m devpilot_core quality-gate run --profile hardening --json",
+    "python -m devpilot_core docs-governance validate --json",
+    "python -m devpilot_core test-contracts validate --json",
+    "python -m devpilot_core test-contracts validate-v2 --json",
+    "python -m devpilot_core project-state validate --json",
+    "python -m devpilot_core cli-registry guard --json"
+  ],
+  "tests": [
+    "tests/test_post_h_020_compliance_runbook_disclaimers.py",
+    "tests/test_post_h_020_compliance_mapping_quality_gate.py",
+    "tests/test_post_h_020_compliance_mapping_reporter.py",
+    "tests/test_post_h_020_compliance_mapping_schemas.py",
+    "tests/test_post_h_020_compliance_quality_gate.py",
+    "tests/test_post_h_020_compliance_evidence_report.py",
+    "tests/test_post_h_020_compliance_mapping_validator.py",
+    "tests/test_post_h_020_compliance_mapping_schema.py",
+    "tests/test_post_h_020_compliance_evidence_mapping.py",
+    "tests/test_post_h_020_compliance_no_certification.py",
+    "tests/test_schema_registry.py",
+    "tests/test_project_global_state.py",
+    "tests/test_post_h_006_e_cli_no_growth_gate.py"
+  ],
+  "pass_criteria": [
+    "Runbook explains mapping vs certification.",
+    "Disclaimers explicitly prohibit certification and legal advice claims.",
+    "Reports and docs distinguish mapped, partial, gap and not-applicable.",
+    "POST-H-020 backlog is closed as implemented-initial.",
+    "Test Contract Registry v2 contracts use schema-valid classification_status values."
+  ],
+  "block_criteria": [
+    "Documentation claims certified compliance.",
+    "Documentation offers legal advice.",
+    "Documentation claims external audit completion.",
+    "Evidence gaps are hidden or not explained.",
+    "TCR v2 schema validation is blocked by invalid classification_status."
+  ],
+  "safety": {
+    "local_first": true,
+    "dry_run": true,
+    "certification_claimed": false,
+    "legal_advice_claimed": false,
+    "external_audit_claimed": false,
+    "third_party_submission": false,
+    "source_command_values_executed": false,
+    "network_used": false,
+    "external_api_used": false,
+    "mutations_performed": false,
+    "source_mutations_performed": false,
+    "remote_execution_enabled": false,
+    "plugin_execution_enabled": false,
+    "connector_write_enabled": false
+  },
+  "closure": {
+    "backlog_closed": true,
+    "implementation_status": "closed",
+    "last_completed_sprint": "POST-H-020",
+    "next_sprint": "POST-H-021"
+  },
+  "limitations": [
+    "No certification, legal advice or external audit claim.",
+    "No evidence submission to third parties.",
+    "No source_command execution.",
+    "Future framework-specific compliance packs require additional review and may require ADR."
+  ],
+  "preliminary": true
+}

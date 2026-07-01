@@ -2,17 +2,51 @@
 title: "Runbook — DevPilot Local"
 doc_id: "DEVPL-OPS-002"
 status: "approved"
-version: "1.74.0"
+version: "1.75.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "POST-H-020-D"
+phase: "POST-H-020-E"
 updated: "2026-07-01"
 approval: "approved_by_owner"
 source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved + 03_security approved"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "SPRINT-PRECODE-05 quality operations baseline"
 ---
+
+## POST-H-020-E — Runbook, disclaimers y cierre
+
+Estado: `implemented-initial / backlog cerrado`.
+
+POST-H-020-E cierra `POST-H-020 — Compliance mapping packs ampliados`. La operación segura queda documentada en `docs/05_operations/compliance_mapping_runbook.md` y los límites obligatorios quedan en `docs/03_security/compliance_mapping_disclaimers.md`.
+
+Interpretación operacional:
+
+```text
+mapped: control con evidencia declarada y disponible localmente.
+partial: evidencia parcial; requiere revisión.
+gap: evidencia faltante o insuficiente; debe quedar visible.
+not-applicable: control fuera de alcance con justificación explícita.
+```
+
+Validación:
+
+```powershell
+python -m pytest -p no:ddtrace tests/test_post_h_020_compliance_runbook_disclaimers.py tests/test_post_h_020_compliance_quality_gate.py tests/test_post_h_020_compliance_evidence_report.py tests/test_post_h_020_compliance_mapping_validator.py tests/test_post_h_020_compliance_mapping_schema.py tests/test_post_h_020_compliance_evidence_mapping.py tests/test_post_h_020_compliance_no_certification.py tests/test_schema_registry.py tests/test_project_global_state.py tests/test_post_h_006_e_cli_no_growth_gate.py -q
+python -m devpilot_core compliance mapping report --json --write-report
+python -m devpilot_core quality-gate run --profile hardening --json
+python -m devpilot_core docs-governance validate --json
+python -m devpilot_core test-contracts validate --json
+python -m devpilot_core test-contracts validate-v2 --json
+python -m devpilot_core project-state validate --json
+python -m devpilot_core cli-registry guard --json
+```
+
+PASS si los reportes mantienen `certification_claimed=false`, `legal_advice_claimed=false`, `disclaimer_present=true`, gaps explícitos, `source_command_values_executed=false`, `network_used=false` y `external_api_used=false`.
+
+BLOCK si se afirma certificación, asesoría legal, auditoría externa completada, envío de evidencias a terceros, ejecución de `source_command`, red/API externa, remote execution, connector write o plugin execution.
+
+Último hito cerrado: `POST-H-020 — Compliance mapping packs ampliados`; siguiente hito: `POST-H-021`; último micro-sprint implementado: `POST-H-020-E — Runbook, disclaimers y cierre`.
 
 ## POST-H-020-D — Integración con audit packs y quality gate
 

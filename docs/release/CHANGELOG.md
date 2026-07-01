@@ -1,3 +1,13 @@
+## post-h-020-e — Runbook, disclaimers y cierre
+
+- Cierra `POST-H-020 — Compliance mapping packs ampliados` como `implemented-initial`.
+- Agrega `docs/05_operations/compliance_mapping_runbook.md`.
+- Agrega `docs/03_security/compliance_mapping_disclaimers.md`.
+- Agrega pruebas documentales para `mapped`, `partial`, `gap`, `not-applicable` y no-overclaim.
+- Corrige TCR v2 para que los contratos POST-H-020-C/D usen `classification_status=explicit`.
+- Mantiene el hito como local-first y no-certificante: sin asesoría legal, auditoría externa, envío a terceros, red/API externa, remote execution, connector write ni plugin execution.
+- Siguiente hito: `POST-H-021`.
+
 ## post-h-020-d — Integración con audit packs y quality gate
 
 - Agrega `ComplianceMappingQualityGate` como subgate `compliance-mapping-pack` para perfiles `hardening` e `industrial`.

@@ -5382,6 +5382,51 @@
       "notes": [
         "POST-H-020-D quality gate integration only; no certification, legal advice, external audit, network, external APIs or source mutations."
       ]
+    },
+    {
+      "contract_id": "post-h-020-compliance-runbook-disclaimers",
+      "scope": "documentation-governance",
+      "owner": "POST-H-020-E",
+      "phase": "POST-FASE-H",
+      "test_files": [
+        "tests/test_post_h_020_compliance_runbook_disclaimers.py"
+      ],
+      "validates": [
+        "docs/05_operations/compliance_mapping_runbook.md",
+        "docs/03_security/compliance_mapping_disclaimers.md",
+        "docs/backlogs/POST-H-020_compliance_mapping_packs.md",
+        "docs/POST-H-020_compliance_mapping_packs.md",
+        "docs/post_h_020_e_manifest.json",
+        "docs/audits/post_h_020_e_compliance_mapping_closure_report.md"
+      ],
+      "watched_paths": [
+        "docs/05_operations/compliance_mapping_runbook.md",
+        "docs/03_security/compliance_mapping_disclaimers.md",
+        "docs/backlogs/POST-H-020_compliance_mapping_packs.md",
+        "docs/POST-H-020_compliance_mapping_packs.md",
+        "docs/release/CHANGELOG.md",
+        ".devpilot/project_state.json",
+        ".devpilot/docs_governance/source_registry.json",
+        ".devpilot/testing/test_contract_registry.json",
+        ".devpilot/testing/test_contract_registry_v2.json",
+        "tests/test_post_h_020_compliance_runbook_disclaimers.py",
+        "tests/test_project_global_state.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace tests/test_post_h_020_compliance_runbook_disclaimers.py tests/test_post_h_020_compliance_quality_gate.py tests/test_post_h_020_compliance_evidence_report.py tests/test_post_h_020_compliance_mapping_validator.py tests/test_post_h_020_compliance_mapping_schema.py tests/test_post_h_020_compliance_evidence_mapping.py tests/test_post_h_020_compliance_no_certification.py tests/test_schema_registry.py tests/test_project_global_state.py tests/test_post_h_006_e_cli_no_growth_gate.py -q",
+        "python -m devpilot_core docs-governance validate --json",
+        "python -m devpilot_core test-contracts validate --json"
+      ],
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "notes": [
+        "POST-H-020-E closure contract; no certification, legal advice, external audit, network, external APIs or evidence submission."
+      ]
     }
   ],
   "notes": [
@@ -5403,6 +5448,8 @@
     "POST-H-019-E closes post-h-019-plugin-sandbox-design contract with runbook and ADR trigger.",
     "POST-H-019-D corrective patch carried into E: TCR v2 execution_profile uses schema-valid release.",
     "POST-H-020-C adds compliance evidence report contract.",
-    "POST-H-020-D registers compliance-mapping-pack as a hardening quality-gate contract without certification claims."
+    "POST-H-020-D registers compliance-mapping-pack as a hardening quality-gate contract without certification claims.",
+    "POST-H-020-E registers compliance runbook/disclaimer closure tests.",
+    "POST-H-020 closes Compliance mapping packs as implemented-initial and non-certifying."
   ]
 }
