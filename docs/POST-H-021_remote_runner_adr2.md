@@ -10,8 +10,8 @@ approval: "approved_by_owner"
 phase: "POST-FASE-H"
 priority: "P3"
 implementation_status: "active"
-current_micro_sprint: "POST-H-021-C"
-next_micro_sprint: "POST-H-021-D"
+current_micro_sprint: "POST-H-021-D"
+next_micro_sprint: "POST-H-021-E"
 local_first: true
 dry_run: true
 no_remote_execution_enabled: true
@@ -132,7 +132,41 @@ El artefacto no autoriza ejecución remota. Solo lee criterios, registry y schem
 
 ## 6. Límites explícitos
 
-POST-H-021-A/B/C no habilitan:
+## 6. Estado POST-H-021-D — Quality gate remote disabled
+
+Estado: `implemented-initial`.
+
+POST-H-021-D integra los invariantes remotos al quality gate:
+
+```text
+src/devpilot_core/remote/quality_gate.py
+tests/test_post_h_021_remote_quality_gate.py
+docs/audits/post_h_021_d_remote_quality_gate_report.md
+docs/post_h_021_d_manifest.json
+```
+
+El subgate `remote-readiness-design-only` se registra en `quality-gate run --profile hardening` y `quality-gate run --profile industrial`. Valida el readiness report, criteria, registry, schemas y la señal `remote-enterprise` sin habilitar ejecución remota ni escribir reportes.
+
+PASS esperado:
+
+```text
+readiness_level=remote-design-only
+decision_status=design-only
+remote_runner_enabled=false
+remote_execution_used=false
+network_used=false
+external_api_used=false
+credentials_required=false
+secrets_read=false
+remote_enterprise_eval_signal_present=true
+blocking_findings_total=0
+```
+
+BLOCK si cualquier flag remoto activo pasa inadvertido, si el report/schema/registry deja de validar o si el fixture remoto deja de ser local/determinístico.
+
+## 7. Límites explícitos
+
+POST-H-021-A/B/C/D no habilitan:
 
 ```text
 remote execution
@@ -150,12 +184,11 @@ connector write
 plugin execution
 ```
 
-## 7. Evolución pendiente
+## 8. Evolución pendiente
 
 POST-H-021 sigue activo. Las siguientes etapas previstas son:
 
 ```text
-POST-H-021-D — Quality gate remote disabled
 POST-H-021-E — Runbook, rollback y cierre
 ```
 

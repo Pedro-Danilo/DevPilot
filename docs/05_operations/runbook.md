@@ -6,13 +6,49 @@ version: "1.78.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "POST-H-021-C"
+phase: "POST-H-021-D"
 updated: "2026-07-01"
 approval: "approved_by_owner"
 source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved + 03_security approved"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "SPRINT-PRECODE-05 quality operations baseline"
 ---
+
+## POST-H-021-D — Quality gate remote disabled
+
+Estado: `implemented-initial / hito activo`.
+
+POST-H-021-D agrega el subgate crítico `remote-readiness-design-only` a los perfiles `hardening` e `industrial`. El operador debe interpretarlo como control de bloqueo: confirma que readiness remoto sigue siendo design-only y que cualquier enablement futuro requiere ADR posterior, POST-H-022/POST-H-023 y controles industriales adicionales.
+
+Artefactos:
+
+```text
+src/devpilot_core/remote/quality_gate.py
+tests/test_post_h_021_remote_quality_gate.py
+docs/audits/post_h_021_d_remote_quality_gate_report.md
+docs/post_h_021_d_manifest.json
+src/devpilot_core/quality/gate.py
+```
+
+Validación:
+
+```powershell
+python -m pytest -p no:ddtrace tests/test_post_h_021_remote_quality_gate.py tests/test_post_h_021_remote_readiness_report.py tests/test_post_h_021_remote_adr2.py tests/test_post_h_021_remote_disabled_invariants.py tests/test_schema_registry.py tests/test_project_global_state.py -q
+python -m devpilot_core quality-gate run --profile hardening --json
+python -m devpilot_core remote runner readiness --json --write-report
+python -m devpilot_core schema validate --schema-id RemoteReadinessReport --instance outputs/reports/remote_readiness_report.json --json
+python -m devpilot_core docs-governance validate --json
+python -m devpilot_core test-contracts validate --json
+python -m devpilot_core test-contracts validate-v2 --json
+python -m devpilot_core project-state validate --json
+python -m devpilot_core cli-registry guard --json
+```
+
+PASS si `quality-gate run --profile hardening` incluye `remote-readiness-design-only` y el subgate reporta `readiness_level=remote-design-only`, `decision_status=design-only`, `remote_runner_enabled=false`, `remote_execution_used=false`, `network_used=false`, `external_api_used=false`, `credentials_required=false`, `secrets_read=false`, `reports_written=false`, `remote_enterprise_eval_signal_present=true` y `blocking_findings_total=0`.
+
+BLOCK si cualquier flag remoto queda activo, si falta el schema/report/registry, si el fixture `remote-enterprise` deja de ser local, si se escribe reporte desde el subgate, si aparece transporte remoto o si se interpreta readiness como permiso de ejecución.
+
+Límite: POST-H-021-D no implementa ejecución remota ni transporte seguro. Es una versión inicial de enforcement de no-go gates; POST-H-021-E debe cerrar runbook/rollback del backlog.
 
 ## POST-H-021-C — Remote readiness report read-only
 

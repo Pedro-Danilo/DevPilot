@@ -80,16 +80,18 @@ def test_post_h_021_backlog_tracks_adr2_micro_sprint_state() -> None:
     state = json.loads(read(".devpilot/project_state.json"))
 
     for text in (backlog, implementation):
-        assert 'current_micro_sprint: "POST-H-021-C"' in text
-        assert 'next_micro_sprint: "POST-H-021-D"' in text
+        assert 'current_micro_sprint: "POST-H-021-D"' in text
+        assert 'next_micro_sprint: "POST-H-021-E"' in text
         assert "POST-H-021-B — ADR-2 de Remote Runner" in text
         assert "POST-H-021-C — Remote readiness report read-only" in text
+        assert "POST-H-021-D — Quality gate remote disabled" in text
         assert "ADR-POSTH-004-remote-runner-adr2.md" in text
 
-    assert state["current_micro_sprint"] == "POST-H-021-C"
-    assert state["next_micro_sprint"] == "POST-H-021-D"
+    assert state["current_micro_sprint"] == "POST-H-021-D"
+    assert state["next_micro_sprint"] == "POST-H-021-E"
     assert any("POST-H-021-B adds ADR-POSTH-004" in note for note in state["notes"])
     assert any("POST-H-021-C adds RemoteReadinessChecker" in note for note in state["notes"])
+    assert any("POST-H-021-D adds RemoteReadinessQualityGate" in note for note in state["notes"])
 
 
 def test_remote_runner_adr2_manifest_and_report_are_synchronized() -> None:

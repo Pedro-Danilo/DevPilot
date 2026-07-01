@@ -1,3 +1,39 @@
+## POST-H-021-D — Quality gate remote disabled
+
+Estado: `implemented-initial / hito activo`.
+
+DevPilot integra los invariantes de remote runner deshabilitado al quality gate de hardening/industrial mediante el subgate crítico `remote-readiness-design-only`. El gate compone el readiness report read-only, criteria/registry/schema y la señal local `remote-enterprise` sin habilitar ejecución remota.
+
+Capacidades nuevas:
+
+- `RemoteReadinessQualityGate` en `src/devpilot_core/remote/quality_gate.py`.
+- Subgate `remote-readiness-design-only` en `quality-gate run --profile hardening`.
+- Test `tests/test_post_h_021_remote_quality_gate.py`.
+- Contrato TCR `post-h-021-remote-readiness-quality-gate`.
+- Auditoría `docs/audits/post_h_021_d_remote_quality_gate_report.md`.
+- Manifest `docs/post_h_021_d_manifest.json`.
+
+Comandos principales:
+
+```powershell
+python -m pytest -p no:ddtrace tests/test_post_h_021_remote_quality_gate.py tests/test_post_h_021_remote_readiness_report.py tests/test_post_h_021_remote_adr2.py tests/test_post_h_021_remote_disabled_invariants.py tests/test_schema_registry.py tests/test_project_global_state.py -q
+python -m devpilot_core quality-gate run --profile hardening --json
+python -m devpilot_core remote runner readiness --json --write-report
+python -m devpilot_core schema validate --schema-id RemoteReadinessReport --instance outputs/reports/remote_readiness_report.json --json
+python -m devpilot_core docs-governance validate --json
+python -m devpilot_core test-contracts validate --json
+python -m devpilot_core test-contracts validate-v2 --json
+python -m devpilot_core project-state validate --json
+python -m devpilot_core cli-registry guard --json
+```
+
+Límite explícito: POST-H-021-D es quality-gate/report validation only. No habilita remote execution, transporte remoto, SSH, HTTP remote, gRPC, websockets, túneles, cloud control plane, workers, credenciales remotas, lectura de secretos, connector write ni plugin execution.
+
+Último hito cerrado: `POST-H-020 — Compliance mapping packs ampliados`
+Hito activo: `POST-H-021 — Remote Runner ADR-2`
+Último micro-sprint implementado: `POST-H-021-D — Quality gate remote disabled`
+Siguiente micro-sprint: `POST-H-021-E — Runbook y cierre`
+
 ## POST-H-021-C — Remote readiness report read-only
 
 Estado: `implemented-initial / hito activo`.

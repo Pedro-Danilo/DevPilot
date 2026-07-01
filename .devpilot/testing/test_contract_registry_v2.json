@@ -10034,24 +10034,94 @@
         "POST-H-021-C is read-only design evidence and cannot be used as remote execution enablement."
       ],
       "classification_status": "explicit"
+    },
+    {
+      "contract_id": "post-h-021-remote-readiness-quality-gate",
+      "schema_version": "2.0",
+      "source_contract_id": "post-h-021-remote-readiness-quality-gate",
+      "domain": "enterprise.remote",
+      "capability": "Remote readiness quality gate disabled invariants",
+      "criticality": "P1",
+      "risk_level": "critical",
+      "test_type": "security",
+      "execution_profile": "release",
+      "cost_class": "low",
+      "expected_duration_seconds": 30,
+      "test_files": [
+        "tests/test_post_h_021_remote_quality_gate.py"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/remote/quality_gate.py",
+        "src/devpilot_core/quality/gate.py",
+        "src/devpilot_core/remote/__init__.py",
+        "src/devpilot_core/remote/readiness.py",
+        "src/devpilot_core/remote/reports.py",
+        ".devpilot/remote/remote_readiness_criteria.json",
+        ".devpilot/remote/runner_registry.json",
+        "evals/fixtures/remote_enterprise_eval_cases.json",
+        "docs/backlogs/POST-H-021_remote_runner_adr2.md",
+        "docs/POST-H-021_remote_runner_adr2.md",
+        "docs/audits/post_h_021_d_remote_quality_gate_report.md",
+        "docs/post_h_021_d_manifest.json",
+        ".devpilot/project_state.json",
+        ".devpilot/testing/test_contract_registry_v2.json",
+        "tests/test_post_h_021_remote_quality_gate.py"
+      ],
+      "validates": [
+        "quality-gate hardening includes remote-readiness-design-only",
+        "RemoteReadinessQualityGate blocks enabled remote runner criteria",
+        "RemoteReadinessQualityGate consumes remote-enterprise local eval signal",
+        "RemoteReadinessQualityGate performs no remote execution, network, credentials, secrets or report writes"
+      ],
+      "trigger_hints": [
+        "post-h-021",
+        "remote-runner",
+        "quality-gate",
+        "remote-disabled",
+        "design-only"
+      ],
+      "impact_scope": [
+        "enterprise.remote",
+        "security.guards",
+        "quality.gate",
+        "testing.contracts"
+      ],
+      "required_for_release": false,
+      "required_for_security_gate": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "POST-H-021-D",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace tests/test_post_h_021_remote_quality_gate.py tests/test_post_h_021_remote_readiness_report.py tests/test_post_h_021_remote_adr2.py tests/test_post_h_021_remote_disabled_invariants.py tests/test_schema_registry.py tests/test_project_global_state.py -q",
+        "python -m devpilot_core quality-gate run --profile hardening --json",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ],
+      "notes": [
+        "POST-H-021-D is remote-disabled quality-gate enforcement and cannot be used as remote execution enablement."
+      ],
+      "classification_status": "explicit"
     }
   ],
   "migration_metadata": {
-    "source_contracts_total": 166,
+    "source_contracts_total": 167,
     "migrator": "TestContractRegistryV2Migrator",
     "source_registry_preserved": true,
     "tests_executed": false,
     "network_used": false,
     "external_api_used": false,
     "mutations_performed_by_default": false,
-    "contracts_total": 166,
-    "last_updated_by": "POST-H-021-C"
+    "contracts_total": 167,
+    "last_updated_by": "POST-H-021-D"
   },
   "notes": [
     "POST-H-020-D fixes v2 contract classification_status for POST-H-020-C/D contracts to keep schema validation synchronized.",
     "POST-H-020-E corrective sync changes POST-H-020-C/D v2 classification_status from invalid manual to explicit.",
     "POST-H-020-E registers compliance runbook/disclaimer closure contract.",
     "POST-H-020-E corrects POST-H-020-C/D classification_status values to explicit.",
-    "POST-H-021-C registers remote readiness report security contract."
+    "POST-H-021-C registers remote readiness report security contract.",
+    "POST-H-021-D registers remote-readiness-design-only quality gate security contract."
   ]
 }

@@ -8,8 +8,8 @@
   "last_completed_sprint": "POST-H-020",
   "last_functional_sprint": "FUNC-SPRINT-99",
   "next_sprint": "POST-H-021",
-  "source_repo": "repo_DevPilot_Local_237_POST_H_021_B.zip",
-  "current_repo": "repo_DevPilot_Local_238_POST_H_021_C.zip",
+  "source_repo": "repo_DevPilot_Local_238_POST_H_021_C.zip",
+  "current_repo": "repo_DevPilot_Local_239_POST_H_021_D.zip",
   "global_state_owner": "tests/test_project_global_state.py",
   "mutable_global_state_fields": [
     "last_completed_sprint",
@@ -160,10 +160,12 @@
     "POST-H-021-B rejects enable-now, SSH ad hoc, connector-as-runner and plugin-as-runner.",
     "POST-H-021-C adds RemoteReadinessChecker and RemoteReadinessReporter for local read-only readiness evidence.",
     "POST-H-021-C registers RemoteReadinessReport and remote runner readiness CLI without enabling remote execution.",
-    "POST-H-021-D is the next micro-sprint: Quality gate remote disabled."
+    "POST-H-021-D adds RemoteReadinessQualityGate and the remote-readiness-design-only subgate to hardening/industrial quality gates without enabling remote execution.",
+    "POST-H-021-D validates readiness report, criteria, disabled runner registry and remote-enterprise eval signal while keeping reports_written=false in the subgate.",
+    "POST-H-021-E is the next micro-sprint: Runbook y cierre."
   ],
-  "current_micro_sprint": "POST-H-021-C",
-  "next_micro_sprint": "POST-H-021-D",
+  "current_micro_sprint": "POST-H-021-D",
+  "next_micro_sprint": "POST-H-021-E",
   "post_h_020_current_micro_sprint": "POST-H-020-E",
   "post_h_020_next_micro_sprint": "POST-H-021",
   "compliance_evidence_collector_module": "src/devpilot_core/compliance/evidence.py",
@@ -185,8 +187,8 @@
   "remote_execution_enabled": false,
   "remote_runner_enabled": false,
   "remote_runner_adr2_path": "docs/adr/ADR-POSTH-004-remote-runner-adr2.md",
-  "post_h_021_current_micro_sprint": "POST-H-021-C",
-  "post_h_021_next_micro_sprint": "POST-H-021-D",
+  "post_h_021_current_micro_sprint": "POST-H-021-D",
+  "post_h_021_next_micro_sprint": "POST-H-021-E",
   "post_h_021_remote_adr2_approved": true,
   "post_h_021_remote_execution_enabled": false,
   "post_h_021_requires_future_adr": true,
@@ -204,5 +206,14 @@
   "credentials_required": false,
   "secrets_read": false,
   "connector_write_enabled": false,
-  "plugin_execution_enabled": false
+  "plugin_execution_enabled": false,
+  "remote_readiness_quality_gate_module": "src/devpilot_core/remote/quality_gate.py",
+  "remote_readiness_quality_gate_subgate": "remote-readiness-design-only",
+  "remote_readiness_quality_gate_profiles": [
+    "hardening",
+    "industrial"
+  ],
+  "post_h_021_remote_readiness_quality_gate_enabled": true,
+  "post_h_021_remote_readiness_quality_gate_reports_written": false,
+  "post_h_021_remote_enterprise_eval_signal_required": true
 }

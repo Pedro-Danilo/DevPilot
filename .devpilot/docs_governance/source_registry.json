@@ -3425,6 +3425,116 @@
         "test_must_pass"
       ],
       "preliminary": true
+    },
+    {
+      "doc_id": "POST-H-021-D-REMOTE-QUALITY-GATE-MODULE",
+      "path": "src/devpilot_core/remote/quality_gate.py",
+      "classification": "source_of_truth",
+      "domain": "enterprise.remote",
+      "owner": "POST-H-021-D",
+      "status_required": "current",
+      "criticality": "P1",
+      "frontmatter_required": false,
+      "status_checked": false,
+      "required_tests": [
+        "tests/test_post_h_021_remote_quality_gate.py"
+      ],
+      "related_files": [
+        "src/devpilot_core/quality/gate.py",
+        "src/devpilot_core/remote/readiness.py",
+        "evals/fixtures/remote_enterprise_eval_cases.json"
+      ],
+      "implementation_notes": [
+        "POST-H-021-D source of truth for remote-readiness-design-only quality gate."
+      ],
+      "source_of_truth": true,
+      "machine_readable": false,
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "preliminary": true
+    },
+    {
+      "doc_id": "POST-H-021-D-REMOTE-QUALITY-GATE-TEST",
+      "path": "tests/test_post_h_021_remote_quality_gate.py",
+      "classification": "derived",
+      "domain": "enterprise.remote",
+      "owner": "tests/test_post_h_021_remote_quality_gate.py",
+      "status_required": "current",
+      "criticality": "P1",
+      "frontmatter_required": false,
+      "status_checked": false,
+      "required_tests": [
+        "tests/test_post_h_021_remote_quality_gate.py"
+      ],
+      "related_files": [
+        "src/devpilot_core/remote/quality_gate.py",
+        "src/devpilot_core/quality/gate.py"
+      ],
+      "implementation_notes": [
+        "POST-H-021-D test enforces quality gate inclusion and disabled remote invariants."
+      ],
+      "source_of_truth": false,
+      "machine_readable": false,
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "preliminary": true
+    },
+    {
+      "doc_id": "POST-H-021-D-REMOTE-QUALITY-GATE-REPORT",
+      "path": "docs/audits/post_h_021_d_remote_quality_gate_report.md",
+      "classification": "source_of_truth",
+      "domain": "enterprise.remote",
+      "owner": "POST-H-021-D",
+      "status_required": "current",
+      "criticality": "P1",
+      "frontmatter_required": true,
+      "status_checked": true,
+      "required_tests": [
+        "tests/test_post_h_021_remote_quality_gate.py"
+      ],
+      "related_files": [
+        "docs/post_h_021_d_manifest.json",
+        "src/devpilot_core/remote/quality_gate.py"
+      ],
+      "implementation_notes": [
+        "POST-H-021-D audit report records remote disabled quality gate behavior and limits."
+      ],
+      "source_of_truth": true,
+      "machine_readable": false,
+      "sync_rules": [
+        "frontmatter_status_must_be_approved",
+        "test_must_pass"
+      ],
+      "preliminary": true
+    },
+    {
+      "doc_id": "POST-H-021-D-MANIFEST",
+      "path": "docs/post_h_021_d_manifest.json",
+      "classification": "source_of_truth",
+      "domain": "enterprise.remote",
+      "owner": "POST-H-021-D",
+      "status_required": "current",
+      "criticality": "P1",
+      "frontmatter_required": false,
+      "status_checked": false,
+      "required_tests": [
+        "tests/test_post_h_021_remote_quality_gate.py"
+      ],
+      "related_files": [
+        "docs/audits/post_h_021_d_remote_quality_gate_report.md",
+        "tests/test_post_h_021_remote_quality_gate.py"
+      ],
+      "implementation_notes": [
+        "POST-H-021-D manifest records created/modified files and disabled safety flags."
+      ],
+      "source_of_truth": true,
+      "machine_readable": true,
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "preliminary": true
     }
   ],
   "rules": {
@@ -3449,12 +3559,12 @@
     "approved_backlogs_require_runtime_policy_tests": true,
     "observability_inventory_is_read_only": true,
     "approved_backlogs_require_observability_retention_hygiene_gate": true,
-    "last_updated_by": "POST-H-021-A",
+    "last_updated_by": "POST-H-021-D",
     "critical_sources_total": 95,
     "documents_with_required_tests_total": 95,
     "required_tests_checked_total": 1,
-    "current_micro_sprint": "POST-H-021-B",
-    "next_micro_sprint": "POST-H-021-C",
+    "current_micro_sprint": "POST-H-021-D",
+    "next_micro_sprint": "POST-H-021-E",
     "post_h_020_current_micro_sprint": "POST-H-020-E",
     "post_h_020_next_micro_sprint": "POST-H-021",
     "compliance_mapping_quality_gate_registered": true,
@@ -3470,29 +3580,40 @@
       "POST-H-020-E registers compliance mapping runbook and disclaimers.",
       "POST-H-020-E closes POST-H-020 as implemented-initial and non-certifying.",
       "POST-H-020-E fixes TCR v2 classification_status drift for POST-H-020-C/D contracts.",
-      "POST-H-021-A registers remote readiness criteria and blocked remote baseline."
+      "POST-H-021-A registers remote readiness criteria and blocked remote baseline.",
+      "POST-H-021-D registers remote-readiness-design-only quality gate and remote quality gate test.",
+      "POST-H-021-D keeps remote runner disabled and does not authorize remote execution."
     ],
     "post_h_020_closed": true,
-    "post_h_021_current_micro_sprint": "POST-H-021-A",
-    "post_h_021_next_micro_sprint": "POST-H-021-B",
+    "post_h_021_current_micro_sprint": "POST-H-021-D",
+    "post_h_021_next_micro_sprint": "POST-H-021-E",
     "remote_readiness_criteria_registered": true,
-    "remote_execution_enabled": false
+    "remote_execution_enabled": false,
+    "active_micro_sprint": "POST-H-021-D",
+    "remote_readiness_quality_gate_registered": true,
+    "remote_readiness_quality_gate_subgate": "remote-readiness-design-only",
+    "remote_readiness_quality_gate_module": "src/devpilot_core/remote/quality_gate.py",
+    "remote_readiness_quality_gate_profiles": [
+      "hardening",
+      "industrial"
+    ],
+    "remote_runner_enabled": false
   },
   "summary": {
-    "documents_total": 112,
-    "source_of_truth_total": 47,
-    "machine_readable_source_total": 38,
-    "derived_total": 23,
+    "documents_total": 116,
+    "source_of_truth_total": 41,
+    "machine_readable_source_total": 21,
+    "derived_total": 25,
     "generated_runtime_total": 0,
     "historical_total": 0,
     "deprecated_total": 0,
-    "critical_sources_total": 106,
+    "critical_sources_total": 114,
     "markdown_json_pairs_total": 29,
-    "documents_with_required_tests_total": 108,
+    "documents_with_required_tests_total": 116,
     "network_used": false,
     "external_api_used": false,
     "mutations_performed": false,
-    "last_updated_by": "POST-H-021-C",
+    "last_updated_by": "POST-H-021-D",
     "markdown_json_sync_checks_enabled": true,
     "sync_checks_scope": "version_match, milestones_match, decisions_match, closure_status_match, next_hito_match",
     "backlog_governance_enabled": true,
@@ -3533,7 +3654,7 @@
     "machine_readable_total": 15,
     "required_tests_total": 52,
     "active_backlog": "POST-H-021",
-    "active_micro_sprint": "POST-H-021-C",
+    "active_micro_sprint": "POST-H-021-D",
     "sensitive_action_catalog_enabled": true,
     "sensitive_action_catalog_path": ".devpilot/approval/sensitive_action_catalog.json",
     "sensitive_action_catalog_schema": "docs/schemas/sensitive_action_catalog.schema.json",
@@ -3649,7 +3770,7 @@
     "plugin_execution_enabled": false,
     "plugin_install_dry_run_enabled": true,
     "plugin_exposure_report_enabled": true,
-    "next_micro_sprint": "POST-H-021-D",
+    "next_micro_sprint": "POST-H-021-E",
     "plugin_sandbox_quality_gate_registered": true,
     "plugin_sandbox_quality_gate_subgate": "plugin-sandbox-design",
     "plugin_sandbox_quality_gate_profiles": [
@@ -3663,7 +3784,7 @@
     "post_h_019_closed": true,
     "plugin_sandbox_metadata_runbook_registered": true,
     "plugin_sandbox_future_adr_trigger_registered": true,
-    "current_micro_sprint": "POST-H-021-C",
+    "current_micro_sprint": "POST-H-021-D",
     "post_h_020_current_micro_sprint": "POST-H-020-E",
     "post_h_020_next_micro_sprint": "POST-H-021",
     "post_h_020_compliance_mapping_schemas_registered": true,
@@ -3678,19 +3799,28 @@
     "notes": [
       "POST-H-020-E registers compliance mapping runbook and disclaimers.",
       "POST-H-020-E closes POST-H-020 as implemented-initial and non-certifying.",
-      "POST-H-020-E fixes TCR v2 classification_status drift for POST-H-020-C/D contracts."
+      "POST-H-020-E fixes TCR v2 classification_status drift for POST-H-020-C/D contracts.",
+      "POST-H-021-D registers remote-readiness-design-only quality gate and remote quality gate test.",
+      "POST-H-021-D keeps remote runner disabled and does not authorize remote execution."
     ],
     "remote_readiness_criteria_schema_registered": true,
     "remote_readiness_criteria_path": ".devpilot/remote/remote_readiness_criteria.json",
     "remote_execution_enabled": false,
-    "post_h_021_current_micro_sprint": "POST-H-021-C",
-    "post_h_021_next_micro_sprint": "POST-H-021-D",
+    "post_h_021_current_micro_sprint": "POST-H-021-D",
+    "post_h_021_next_micro_sprint": "POST-H-021-E",
     "remote_runner_adr2_path": "docs/adr/ADR-POSTH-004-remote-runner-adr2.md",
     "remote_runner_adr2_approved": true,
     "remote_readiness_report_schema_registered": true,
     "remote_readiness_report_path": "outputs/reports/remote_readiness_report.json",
     "remote_readiness_report_cli_command": "python -m devpilot_core remote runner readiness --json --write-report",
-    "remote_runner_enabled": false
+    "remote_runner_enabled": false,
+    "remote_readiness_quality_gate_registered": true,
+    "remote_readiness_quality_gate_subgate": "remote-readiness-design-only",
+    "remote_readiness_quality_gate_module": "src/devpilot_core/remote/quality_gate.py",
+    "remote_readiness_quality_gate_profiles": [
+      "hardening",
+      "industrial"
+    ]
   },
   "safety": {
     "local_first": true,

@@ -1,3 +1,11 @@
+## post-h-021-d — Quality gate remote disabled
+
+- Agrega `RemoteReadinessQualityGate` como subgate `remote-readiness-design-only`.
+- Integra el subgate en perfiles `hardening` e `industrial`.
+- Compone readiness report, criteria/registry/schema y fixture `remote-enterprise` sin ejecutar remoto ni escribir reportes.
+- Registra `post-h-021-remote-readiness-quality-gate` en TCR v1/v2.
+- Mantiene `remote_runner_enabled=false`, `remote_execution_used=false`, sin transporte remoto, red/API externa, credenciales, secretos, connector write ni plugin execution.
+
 ## post-h-021-c — Remote readiness report read-only
 
 - Agrega `RemoteReadinessChecker` y `RemoteReadinessReporter`.

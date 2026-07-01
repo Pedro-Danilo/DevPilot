@@ -18,8 +18,8 @@ no_external_apis_used: true
 no_connector_write_enabled: true
 no_plugin_execution_enabled: true
 implementation_status: "active"
-current_micro_sprint: "POST-H-021-C"
-next_micro_sprint: "POST-H-021-D"
+current_micro_sprint: "POST-H-021-D"
+next_micro_sprint: "POST-H-021-E"
 ---
 
 # POST-H-021 — Remote Runner ADR-2
@@ -42,7 +42,11 @@ Resultado POST-H-021-C: `implemented-initial`. Se crea `src/devpilot_core/remote
 
 El reporte read-only confirma `readiness_level=remote-design-only`, `remote_runner_enabled=false`, `remote_execution_used=false`, `network_used=false`, `external_api_used=false`, `credentials_required=false`, `secrets_read=false` y `blocking_findings_total=0`. La CLI `remote runner readiness --json --write-report` solo escribe evidencia runtime en `outputs/reports/` cuando se solicita explícitamente.
 
-Siguiente micro-sprint: `POST-H-021-D — Quality gate remote disabled`.
+Resultado POST-H-021-D: `implemented-initial`. Se crea `src/devpilot_core/remote/quality_gate.py`, `tests/test_post_h_021_remote_quality_gate.py`, `docs/audits/post_h_021_d_remote_quality_gate_report.md` y `docs/post_h_021_d_manifest.json`; se integra el subgate `remote-readiness-design-only` en `quality-gate run --profile hardening` y `industrial`.
+
+El quality gate confirma que remote runner sigue bloqueado: `readiness_level=remote-design-only`, `decision_status=design-only`, `remote_runner_enabled=false`, `remote_execution_used=false`, `network_used=false`, `external_api_used=false`, `credentials_required=false`, `secrets_read=false`, `reports_written=false` y `remote_enterprise_eval_signal_present=true`.
+
+Siguiente micro-sprint: `POST-H-021-E — Runbook y cierre`.
 
 ## 1. Objetivo
 
@@ -307,6 +311,12 @@ Criterios BLOCK:
 ### POST-H-021-D — Quality gate de remote disabled
 
 Objetivo: integrar invariantes remote al quality gate.
+
+Alias operativo sincronizado para pruebas y artefactos acumulativos:
+
+```text
+POST-H-021-D — Quality gate remote disabled
+```
 
 Tareas:
 
