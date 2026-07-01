@@ -1,3 +1,11 @@
+## post-h-020-b — Compliance mapping validator
+
+- Agrega `ComplianceMappingValidator` para validación semántica local de compliance mappings.
+- Valida unicidad de controles/evidencias, `required_evidence` mapeado, controles críticos con evidencia y cobertura mínima por dominio.
+- Amplía el baseline con dominio `agentic` mediante `DPL-AGT-001` y evidencias de RAG/evals.
+- Bloquea claims de certificación y asesoría legal desde el validator.
+- Mantiene el hito como local-first, no-certificante y sin red, APIs externas, collector, report generator, CLI de reporte, audit pack integration ni quality gate.
+
 ## post-h-020-a — Control mapping schemas y registry
 
 - Aprueba el hito `POST-H-020 — Compliance mapping packs ampliados` para implementación.

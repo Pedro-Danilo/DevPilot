@@ -9,7 +9,7 @@
   "certification_claimed": false,
   "legal_advice_claimed": false,
   "disclaimer": "This mapping is local engineering evidence for DevPilot governance. It is not a certification, legal opinion, external audit, or compliance guarantee.",
-  "scope": "Initial internal control mapping for local-first SDLC governance, security, tests, release evidence and observability.",
+  "scope": "Initial internal control mapping for local-first SDLC governance, security, tests, release evidence, observability and agentic safety.",
   "controls": [
     {
       "control_id": "DPL-SEC-001",
@@ -133,6 +133,24 @@
       ],
       "status": "mapped",
       "owner": "documentation"
+    },
+    {
+      "control_id": "DPL-AGT-001",
+      "title": "Agentic behavior is evaluated through local deterministic gates",
+      "description": "Agentic and RAG-related behavior must remain locally evaluated, grounded and policy-aware before broader automation is considered.",
+      "domain": "agentic",
+      "risk_level": "high",
+      "mapped_capabilities": [
+        "rag.groundedness.eval",
+        "eval.runner",
+        "policy.engine"
+      ],
+      "required_evidence": [
+        "rag-groundedness-ready",
+        "advanced-evals-safety"
+      ],
+      "status": "mapped",
+      "owner": "agentic-governance"
     }
   ],
   "safety": {

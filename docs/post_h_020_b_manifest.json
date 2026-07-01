@@ -1,0 +1,90 @@
+{
+  "schema_version": "1.0",
+  "manifest_id": "post-h-020-b-compliance-mapping-validator",
+  "sprint_id": "POST-H-020-B",
+  "title": "Compliance mapping validator",
+  "status": "implemented-initial",
+  "created_at": "2026-07-01",
+  "local_first": true,
+  "dry_run": true,
+  "certification_claimed": false,
+  "legal_advice_claimed": false,
+  "network_used": false,
+  "external_api_used": false,
+  "mutations_performed": false,
+  "created_files": [
+    "src/devpilot_core/compliance/mapping.py",
+    "tests/test_post_h_020_compliance_mapping_validator.py",
+    "docs/audits/post_h_020_b_compliance_mapping_validator_report.md",
+    "docs/post_h_020_b_manifest.json"
+  ],
+  "modified_files": [
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/backlogs/POST-H-020_compliance_mapping_packs.md",
+    "docs/POST-H-020_compliance_mapping_packs.md",
+    "docs/release/CHANGELOG.md",
+    ".devpilot/compliance/control_mappings.json",
+    ".devpilot/compliance/evidence_mappings.json",
+    ".devpilot/project_state.json",
+    ".devpilot/docs_governance/source_registry.json",
+    ".devpilot/testing/test_contract_registry.json",
+    ".devpilot/testing/test_contract_registry_v2.json",
+    "src/devpilot_core/compliance/__init__.py",
+    "tests/test_project_global_state.py"
+  ],
+  "capabilities": [
+    "semantic compliance mapping validation",
+    "required evidence coverage validation",
+    "critical control missing evidence blocking",
+    "minimum compliance domain coverage validation",
+    "certification and legal advice claim blocking",
+    "local source path validation",
+    "source command no-external/no-mutation guard"
+  ],
+  "explicit_limits": [
+    "no compliance certification",
+    "no legal advice",
+    "no external audit claim",
+    "no evidence collector",
+    "no final report generator",
+    "no compliance mapping report CLI",
+    "no audit pack integration",
+    "no quality gate integration",
+    "no network or external APIs",
+    "no connector write",
+    "no remote execution",
+    "no plugin execution"
+  ],
+  "verification_commands": [
+    "python -m pytest -p no:ddtrace tests/test_post_h_020_compliance_mapping_validator.py tests/test_post_h_020_compliance_mapping_schema.py tests/test_post_h_020_compliance_evidence_mapping.py tests/test_post_h_020_compliance_no_certification.py tests/test_schema_registry.py tests/test_project_global_state.py -q",
+    "python -m devpilot_core schema validate --schema-id ComplianceControlMapping --instance .devpilot/compliance/control_mappings.json --json",
+    "python -m devpilot_core schema validate --schema-id ComplianceEvidenceMapping --instance .devpilot/compliance/evidence_mappings.json --json",
+    "python -m devpilot_core docs-governance validate --json",
+    "python -m devpilot_core test-contracts validate --json",
+    "python -m devpilot_core test-contracts validate-v2 --json",
+    "python -m devpilot_core project-state validate --json"
+  ],
+  "pass_criteria": [
+    "control_id values are unique",
+    "evidence_id values are unique",
+    "required_evidence entries are mapped",
+    "critical controls have mapped evidence",
+    "minimum domains include security, testing, policy, release, observability and agentic",
+    "certification_claimed is false",
+    "legal_advice_claimed is false",
+    "network_used is false",
+    "external_api_used is false",
+    "mutations_performed is false"
+  ],
+  "block_criteria": [
+    "certification_claimed true",
+    "legal_advice_claimed true",
+    "critical control without mapped evidence",
+    "required_evidence without evidence mapping",
+    "duplicate control_id or evidence_id",
+    "missing required domain coverage",
+    "source command with network, external API, install or mutation tokens"
+  ],
+  "next_micro_sprint": "POST-H-020-C"
+}

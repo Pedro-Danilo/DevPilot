@@ -8,8 +8,8 @@
   "last_completed_sprint": "POST-H-019",
   "last_functional_sprint": "FUNC-SPRINT-99",
   "next_sprint": "POST-H-020",
-  "source_repo": "repo_DevPilot_Local_230_POST_H_019_E.zip",
-  "current_repo": "repo_DevPilot_Local_231_POST_H_020_A.zip",
+  "source_repo": "repo_DevPilot_Local_231_POST_H_020_A.zip",
+  "current_repo": "repo_DevPilot_Local_232_POST_H_020_B.zip",
   "global_state_owner": "tests/test_project_global_state.py",
   "mutable_global_state_fields": [
     "last_completed_sprint",
@@ -136,8 +136,11 @@
     "POST-H-020-A approves Compliance mapping packs ampliados and starts local non-certifying control/evidence mapping as implemented-initial.",
     "POST-H-020-A adds ComplianceControlMapping, ComplianceEvidenceMapping and ComplianceMappingReport schemas with certification_claimed=false and legal_advice_claimed=false.",
     "POST-H-020-A adds .devpilot/compliance/control_mappings.json and evidence_mappings.json for local engineering evidence without external audit, legal advice, network, APIs, remote execution or plugin execution.",
-    "POST-H-020-B is the next micro-sprint: Compliance mapping validator."
+    "POST-H-020-B is the next micro-sprint: Compliance mapping validator.",
+    "POST-H-020-B adds ComplianceMappingValidator for semantic validation of local compliance mappings without collecting evidence, generating reports, network, external APIs, certification or legal advice.",
+    "POST-H-020-B extends compliance mapping baseline with agentic domain coverage for RAG/evals safety evidence.",
+    "POST-H-020-C is the next micro-sprint: Evidence collector y report generator local."
   ],
-  "current_micro_sprint": "POST-H-020-A",
-  "next_micro_sprint": "POST-H-020-B"
+  "current_micro_sprint": "POST-H-020-B",
+  "next_micro_sprint": "POST-H-020-C"
 }

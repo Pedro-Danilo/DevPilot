@@ -9582,17 +9582,80 @@
       "classification_notes": [
         "POST-H-020-A schema/registry contract; no certification, legal advice, network, external APIs, source mutations, remote execution or plugin execution."
       ]
+    },
+    {
+      "contract_id": "post-h-020-compliance-mapping-validator",
+      "schema_version": "2.0",
+      "source_contract_id": "post-h-020-compliance-mapping-validator",
+      "domain": "governance.compliance",
+      "capability": "Compliance mapping semantic validator",
+      "criticality": "P2",
+      "risk_level": "high",
+      "test_type": "integration",
+      "execution_profile": "release",
+      "cost_class": "low",
+      "expected_duration_seconds": 20,
+      "test_files": [
+        "tests/test_post_h_020_compliance_mapping_validator.py"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/compliance/mapping.py",
+        "src/devpilot_core/compliance/__init__.py",
+        ".devpilot/compliance/control_mappings.json",
+        ".devpilot/compliance/evidence_mappings.json",
+        "docs/backlogs/POST-H-020_compliance_mapping_packs.md",
+        "docs/POST-H-020_compliance_mapping_packs.md",
+        "tests/test_post_h_020_compliance_mapping_validator.py"
+      ],
+      "validates": [
+        "ComplianceMappingValidator validates unique control/evidence identifiers",
+        "required_evidence entries have mapped evidence",
+        "critical controls without evidence are blocking",
+        "minimum domain coverage includes security/testing/policy/release/observability/agentic",
+        "certification_claimed=false and legal_advice_claimed=false remain enforced",
+        "source commands do not use network, external APIs, install or mutation tokens"
+      ],
+      "trigger_hints": [
+        "post-h-020",
+        "compliance-mapping",
+        "mapping-validator",
+        "no-certification",
+        "agentic"
+      ],
+      "impact_scope": [
+        "governance.compliance",
+        "documentation.governance",
+        "quality.evidence"
+      ],
+      "required_for_release": false,
+      "required_for_security_gate": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "POST-H-020-B",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace tests/test_post_h_020_compliance_mapping_validator.py tests/test_post_h_020_compliance_mapping_schema.py tests/test_post_h_020_compliance_evidence_mapping.py tests/test_post_h_020_compliance_no_certification.py tests/test_schema_registry.py -q",
+        "python -m devpilot_core schema validate --schema-id ComplianceControlMapping --instance .devpilot/compliance/control_mappings.json --json",
+        "python -m devpilot_core schema validate --schema-id ComplianceEvidenceMapping --instance .devpilot/compliance/evidence_mappings.json --json",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ],
+      "classification_status": "explicit",
+      "classification_notes": [
+        "POST-H-020-B is validator-only; no evidence collection, report generation, certification, legal advice, network, external APIs or source mutations."
+      ]
     }
   ],
   "migration_metadata": {
-    "source_contracts_total": 150,
+    "source_contracts_total": 160,
     "migrator": "TestContractRegistryV2Migrator",
     "source_registry_preserved": true,
     "tests_executed": false,
     "network_used": false,
     "external_api_used": false,
     "mutations_performed_by_default": false,
-    "contracts_total": 150,
-    "last_updated_by": "POST-H-018-B"
+    "contracts_total": 160,
+    "last_updated_by": "POST-H-020-B"
   }
 }

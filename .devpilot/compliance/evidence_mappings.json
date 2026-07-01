@@ -146,7 +146,7 @@
       "evidence_type": "manifest",
       "source_command": "python -m devpilot_core release reproducibility-pack --dry-run --json --write-report",
       "source_paths": [
-        "src/devpilot_core/release/pack.py",
+        "src/devpilot_core/release/reproducibility_pack.py",
         "docs/schemas/release_reproducibility_pack.schema.json"
       ],
       "required_fields": [
@@ -220,6 +220,49 @@
         "ok": true
       },
       "retention_class": "documentation-evidence"
+    },
+    {
+      "evidence_id": "rag-groundedness-ready",
+      "control_ids": [
+        "DPL-AGT-001"
+      ],
+      "evidence_type": "quality-gate",
+      "source_command": "python -m devpilot_core quality-gate run --profile hardening --json",
+      "source_paths": [
+        "src/devpilot_core/rag/",
+        "src/devpilot_core/evals/",
+        "evals/fixtures/rag_groundedness_post_h_cases.json"
+      ],
+      "required_fields": [
+        "rag_groundedness_ready",
+        "blocking_findings_total"
+      ],
+      "expected_values": {
+        "rag_groundedness_ready": true,
+        "blocking_findings_total": 0
+      },
+      "retention_class": "audit-evidence"
+    },
+    {
+      "evidence_id": "advanced-evals-safety",
+      "control_ids": [
+        "DPL-AGT-001"
+      ],
+      "evidence_type": "quality-gate",
+      "source_command": "python -m devpilot_core quality-gate run --profile hardening --json",
+      "source_paths": [
+        "src/devpilot_core/evals/safety.py",
+        "evals/fixtures/compliance_pack_integrity_eval_cases.json"
+      ],
+      "required_fields": [
+        "advanced_evals_safety_passed",
+        "blocking_findings_total"
+      ],
+      "expected_values": {
+        "advanced_evals_safety_passed": true,
+        "blocking_findings_total": 0
+      },
+      "retention_class": "audit-evidence"
     }
   ],
   "safety": {

@@ -6,7 +6,7 @@
   "status": "implemented-initial",
   "phase": "POST-FASE-H",
   "owner": "Ordóñez",
-  "updated": "2026-06-30",
+  "updated": "2026-07-01",
   "preliminary": true,
   "documents": [
     {
@@ -1258,7 +1258,8 @@
         "tests/test_documentation_governance_backlogs.py",
         "tests/test_post_h_020_compliance_evidence_mapping.py",
         "tests/test_post_h_020_compliance_mapping_schema.py",
-        "tests/test_post_h_020_compliance_no_certification.py"
+        "tests/test_post_h_020_compliance_no_certification.py",
+        "tests/test_post_h_020_compliance_mapping_validator.py"
       ],
       "sync_rules": [
         "backlog_naming",
@@ -1274,6 +1275,14 @@
         "Roadmap-derived executable backlog governed by POST-H-009-D.",
         "Missing future backlog files are informational planned items; existing files must pass naming and frontmatter checks.",
         "POST-H-020-A approves this backlog and starts non-certifying compliance mapping schemas and registries."
+      ],
+      "related_files": [
+        "src/devpilot_core/compliance/mapping.py",
+        "docs/post_h_020_b_manifest.json",
+        "docs/audits/post_h_020_b_compliance_mapping_validator_report.md"
+      ],
+      "implementation_notes": [
+        "POST-H-020-B adds semantic validator while leaving collector/report/gate for later micro-sprints."
       ]
     },
     {
@@ -2579,15 +2588,20 @@
       "required_tests": [
         "tests/test_post_h_020_compliance_mapping_schema.py",
         "tests/test_post_h_020_compliance_evidence_mapping.py",
-        "tests/test_post_h_020_compliance_no_certification.py"
+        "tests/test_post_h_020_compliance_no_certification.py",
+        "tests/test_post_h_020_compliance_mapping_validator.py"
       ],
       "related_files": [
         "docs/backlogs/POST-H-020_compliance_mapping_packs.md",
         ".devpilot/compliance/control_mappings.json",
-        ".devpilot/compliance/evidence_mappings.json"
+        ".devpilot/compliance/evidence_mappings.json",
+        "src/devpilot_core/compliance/mapping.py",
+        "docs/post_h_020_b_manifest.json",
+        "docs/audits/post_h_020_b_compliance_mapping_validator_report.md"
       ],
       "implementation_notes": [
-        "POST-H-020-A implementation source for non-certifying compliance mapping schemas and registries."
+        "POST-H-020-A implementation source for non-certifying compliance mapping schemas and registries.",
+        "POST-H-020-B adds semantic validator while leaving collector/report/gate for later micro-sprints."
       ],
       "source_of_truth": true,
       "machine_readable": false,
@@ -2670,12 +2684,16 @@
       "frontmatter_required": false,
       "status_checked": false,
       "required_tests": [
-        "tests/test_post_h_020_compliance_mapping_schema.py"
+        "tests/test_post_h_020_compliance_mapping_schema.py",
+        "tests/test_post_h_020_compliance_mapping_validator.py"
       ],
       "source_of_truth": true,
       "machine_readable": true,
       "sync_rules": [
         "required_tests_must_pass"
+      ],
+      "implementation_notes": [
+        "POST-H-020-B validator checks required evidence coverage, critical control coverage and domain coverage."
       ]
     },
     {
@@ -2689,12 +2707,16 @@
       "frontmatter_required": false,
       "status_checked": false,
       "required_tests": [
-        "tests/test_post_h_020_compliance_evidence_mapping.py"
+        "tests/test_post_h_020_compliance_evidence_mapping.py",
+        "tests/test_post_h_020_compliance_mapping_validator.py"
       ],
       "source_of_truth": true,
       "machine_readable": true,
       "sync_rules": [
         "required_tests_must_pass"
+      ],
+      "implementation_notes": [
+        "POST-H-020-B validator checks required evidence coverage, critical control coverage and domain coverage."
       ]
     },
     {
@@ -2750,6 +2772,61 @@
         "required_tests_must_pass",
         "owner_status_and_path_must_remain_current"
       ]
+    },
+    {
+      "doc_id": "POST-H-020-B-COMPLIANCE-MAPPING-VALIDATOR-REPORT",
+      "path": "docs/audits/post_h_020_b_compliance_mapping_validator_report.md",
+      "classification": "source-of-truth",
+      "domain": "governance.compliance",
+      "owner": "Ordóñez",
+      "status_required": "approved",
+      "criticality": "P2",
+      "frontmatter_required": true,
+      "status_checked": true,
+      "required_tests": [
+        "tests/test_post_h_020_compliance_mapping_validator.py"
+      ],
+      "related_files": [
+        "src/devpilot_core/compliance/mapping.py",
+        "docs/post_h_020_b_manifest.json"
+      ],
+      "implementation_notes": [
+        "POST-H-020-B audit report documents validator semantics and explicit no-certification/no-legal-advice limits."
+      ],
+      "source_of_truth": true,
+      "machine_readable": false,
+      "sync_rules": [
+        "required_tests_must_pass",
+        "owner_status_and_path_must_remain_current"
+      ]
+    },
+    {
+      "doc_id": "POST-H-020-B-MANIFEST",
+      "path": "docs/post_h_020_b_manifest.json",
+      "classification": "machine-readable-source",
+      "domain": "governance.compliance",
+      "owner": "Ordóñez",
+      "status_required": "implemented-initial",
+      "criticality": "P2",
+      "frontmatter_required": false,
+      "status_checked": true,
+      "required_tests": [
+        "tests/test_post_h_020_compliance_mapping_validator.py",
+        "tests/test_project_global_state.py"
+      ],
+      "related_files": [
+        "docs/POST-H-020_compliance_mapping_packs.md",
+        "docs/audits/post_h_020_b_compliance_mapping_validator_report.md"
+      ],
+      "implementation_notes": [
+        "POST-H-020-B manifest records validator capabilities, safety boundaries and next micro-sprint."
+      ],
+      "source_of_truth": true,
+      "machine_readable": true,
+      "sync_rules": [
+        "required_tests_must_pass",
+        "owner_status_and_path_must_remain_current"
+      ]
     }
   ],
   "rules": {
@@ -2776,20 +2853,20 @@
     "approved_backlogs_require_observability_retention_hygiene_gate": true
   },
   "summary": {
-    "documents_total": 89,
-    "source_of_truth_total": 46,
-    "machine_readable_source_total": 30,
+    "documents_total": 91,
+    "source_of_truth_total": 18,
+    "machine_readable_source_total": 11,
     "derived_total": 23,
     "generated_runtime_total": 0,
     "historical_total": 0,
     "deprecated_total": 0,
-    "critical_sources_total": 89,
+    "critical_sources_total": 91,
     "markdown_json_pairs_total": 29,
-    "documents_with_required_tests_total": 89,
+    "documents_with_required_tests_total": 91,
     "network_used": false,
     "external_api_used": false,
     "mutations_performed": false,
-    "last_updated_by": "POST-H-020-A",
+    "last_updated_by": "POST-H-020-B",
     "markdown_json_sync_checks_enabled": true,
     "sync_checks_scope": "version_match, milestones_match, decisions_match, closure_status_match, next_hito_match",
     "backlog_governance_enabled": true,
@@ -2946,7 +3023,7 @@
     "plugin_execution_enabled": false,
     "plugin_install_dry_run_enabled": true,
     "plugin_exposure_report_enabled": true,
-    "next_micro_sprint": "POST-H-020-B",
+    "next_micro_sprint": "POST-H-020-C",
     "plugin_sandbox_quality_gate_registered": true,
     "plugin_sandbox_quality_gate_subgate": "plugin-sandbox-design",
     "plugin_sandbox_quality_gate_profiles": [
@@ -2960,9 +3037,9 @@
     "post_h_019_closed": true,
     "plugin_sandbox_metadata_runbook_registered": true,
     "plugin_sandbox_future_adr_trigger_registered": true,
-    "current_micro_sprint": "POST-H-020-A",
-    "post_h_020_current_micro_sprint": "POST-H-020-A",
-    "post_h_020_next_micro_sprint": "POST-H-020-B",
+    "current_micro_sprint": "POST-H-020-B",
+    "post_h_020_current_micro_sprint": "POST-H-020-B",
+    "post_h_020_next_micro_sprint": "POST-H-020-C",
     "post_h_020_compliance_mapping_schemas_registered": true,
     "post_h_020_certification_claimed": false,
     "post_h_020_legal_advice_claimed": false
@@ -3018,6 +3095,8 @@
     "POST-H-018-E closes connector sandbox as implemented-initial with quality-gate connector-sandbox, runbook and threat model.",
     "Connector write, external APIs, network, remote execution and plugin execution remain blocked by policy and quality gate.",
     "POST-H-020-A registers compliance mapping schemas and local registries without certification or legal advice claims.",
-    "Compliance mapping documents are engineering evidence only and do not replace legal/compliance review."
+    "Compliance mapping documents are engineering evidence only and do not replace legal/compliance review.",
+    "POST-H-020-B registers ComplianceMappingValidator and validator evidence without claiming certification or legal advice.",
+    "POST-H-020-C remains responsible for collector/report generator work."
   ]
 }

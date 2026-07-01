@@ -2,17 +2,54 @@
 title: "Runbook — DevPilot Local"
 doc_id: "DEVPL-OPS-002"
 status: "approved"
-version: "1.72.0"
+version: "1.73.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "POST-H-020-A"
+phase: "POST-H-020-B"
 updated: "2026-07-01"
 approval: "approved_by_owner"
 source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved + 03_security approved"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "SPRINT-PRECODE-05 quality operations baseline"
 ---
+
+## POST-H-020-B — Compliance mapping validator
+
+Estado: `implemented-initial / hito activo`.
+
+POST-H-020-B agrega validación semántica local para los mappings de compliance. El validator no recolecta evidencias, no genera reportes finales y no ejecuta comandos declarados en los mappings; verifica consistencia, unicidad, cobertura mínima por dominio y ausencia de claims prohibidos.
+
+Artefactos:
+
+```text
+src/devpilot_core/compliance/mapping.py
+tests/test_post_h_020_compliance_mapping_validator.py
+docs/audits/post_h_020_b_compliance_mapping_validator_report.md
+docs/post_h_020_b_manifest.json
+.devpilot/compliance/control_mappings.json
+.devpilot/compliance/evidence_mappings.json
+```
+
+Validación:
+
+```powershell
+python -m pytest -p no:ddtrace tests/test_post_h_020_compliance_mapping_validator.py tests/test_post_h_020_compliance_mapping_schema.py tests/test_post_h_020_compliance_evidence_mapping.py tests/test_post_h_020_compliance_no_certification.py tests/test_schema_registry.py tests/test_project_global_state.py -q
+python -m devpilot_core schema validate --schema-id ComplianceControlMapping --instance .devpilot/compliance/control_mappings.json --json
+python -m devpilot_core schema validate --schema-id ComplianceEvidenceMapping --instance .devpilot/compliance/evidence_mappings.json --json
+python -m devpilot_core docs-governance validate --json
+python -m devpilot_core test-contracts validate --json
+python -m devpilot_core test-contracts validate-v2 --json
+python -m devpilot_core project-state validate --json
+```
+
+PASS si todos los `control_id`/`evidence_id` son únicos, cada `required_evidence` tiene mapping, ningún control crítico queda sin evidencia, la cobertura incluye `security`, `testing`, `policy`, `release`, `observability` y `agentic`, y `certification_claimed=false` / `legal_advice_claimed=false`.
+
+BLOCK si se declara certificación, asesoría legal, evidencia requerida sin mapping, duplicados, source commands externos o mutantes, red, APIs externas, remediación automática o envío de evidencias a terceros.
+
+Límite: esta sigue siendo una versión local, declarativa y no-certificante. El collector, report generator, CLI `compliance mapping report`, audit pack integration y quality gate quedan para POST-H-020-C/D/E.
+
+Último hito cerrado: `POST-H-019 — Plugin sandbox design sin ejecución arbitraria`; hito activo: `POST-H-020 — Compliance mapping packs ampliados`; último micro-sprint implementado: `POST-H-020-B — Compliance mapping validator`; siguiente micro-sprint: `POST-H-020-C — Evidence collector y report generator local`.
 
 ## POST-H-020-A — Control mapping schemas y registry
 
