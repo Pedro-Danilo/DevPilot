@@ -2,17 +2,51 @@
 title: "Runbook — DevPilot Local"
 doc_id: "DEVPL-OPS-002"
 status: "approved"
-version: "1.76.0"
+version: "1.77.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "POST-H-021-A"
+phase: "POST-H-021-B"
 updated: "2026-07-01"
 approval: "approved_by_owner"
 source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved + 03_security approved"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "SPRINT-PRECODE-05 quality operations baseline"
 ---
+
+## POST-H-021-B — ADR-2 de Remote Runner
+
+Estado: `implemented-initial / hito activo`.
+
+POST-H-021-B aprueba `docs/adr/ADR-POSTH-004-remote-runner-adr2.md` como decisión design-only. El operador debe interpretar la ADR como frontera de bloqueo, no como permiso de ejecución remota.
+
+Artefactos:
+
+```text
+docs/adr/ADR-POSTH-004-remote-runner-adr2.md
+tests/test_post_h_021_remote_adr2.py
+docs/audits/post_h_021_b_remote_adr2_report.md
+docs/post_h_021_b_manifest.json
+```
+
+Validación:
+
+```powershell
+python -m pytest -p no:ddtrace tests/test_post_h_021_remote_adr2.py tests/test_post_h_021_remote_disabled_invariants.py tests/test_schema_registry.py tests/test_project_global_state.py -q
+python -m devpilot_core remote runner status --json
+python -m devpilot_core schema validate --schema-id RemoteReadinessCriteria --instance .devpilot/remote/remote_readiness_criteria.json --json
+python -m devpilot_core docs-governance validate --json
+python -m devpilot_core test-contracts validate --json
+python -m devpilot_core test-contracts validate-v2 --json
+python -m devpilot_core project-state validate --json
+python -m devpilot_core schema list --json
+```
+
+PASS si la ADR mantiene `remote_execution_allowed=false`, `remote_runner_enabled=false`, rechaza `enable-now`, `SSH ad hoc`, `connector-as-runner` y `plugin-as-runner`, y explicita POST-H-022/POST-H-023, RBAC, Approval, sandbox, observabilidad, secretos, kill-switch, quality gate y dry-run.
+
+BLOCK si la ADR autoriza ejecución remota inmediata, agrega transporte remoto, credenciales, shell, red/API externa, connector write, plugin execution o elimina RBAC/Approval/sandbox/observabilidad de los prerrequisitos.
+
+Límite: POST-H-021-B no implementa readiness report CLI, quality gate remoto ni runbook dedicado. Es una versión inicial de decisión arquitectónica para sostener los sprints C/D/E.
 
 ## POST-H-021-A — Inventario remote y baseline de bloqueo
 

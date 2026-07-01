@@ -1,3 +1,11 @@
+## post-h-021-b — ADR-2 de Remote Runner
+
+- Agrega `docs/adr/ADR-POSTH-004-remote-runner-adr2.md`.
+- Formaliza Remote Runner ADR-2 como decisión `design-only`.
+- Rechaza `enable-now`, `SSH ad hoc`, `connector-as-runner` y `plugin-as-runner`.
+- Declara POST-H-022 y POST-H-023 como prerrequisitos de diseño para cualquier evaluación futura.
+- Mantiene `remote_execution_allowed=false`, `remote_runner_enabled=false`, sin transporte remoto, credenciales remotas, red/API externa, connector write ni plugin execution.
+
 ## post-h-021-a — Inventario remote y baseline de bloqueo
 
 - Aprueba `POST-H-021 — Remote Runner ADR-2` como hito activo.

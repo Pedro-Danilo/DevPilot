@@ -8,8 +8,8 @@
   "last_completed_sprint": "POST-H-020",
   "last_functional_sprint": "FUNC-SPRINT-99",
   "next_sprint": "POST-H-021",
-  "source_repo": "repo_DevPilot_Local_235_POST_H_020_E.zip",
-  "current_repo": "repo_DevPilot_Local_236_POST_H_021_A.zip",
+  "source_repo": "repo_DevPilot_Local_236_POST_H_021_A.zip",
+  "current_repo": "repo_DevPilot_Local_237_POST_H_021_B.zip",
   "global_state_owner": "tests/test_project_global_state.py",
   "mutable_global_state_fields": [
     "last_completed_sprint",
@@ -155,10 +155,13 @@
     "POST-H-021 is the next prioritized hito: Remote Runner ADR-2.",
     "POST-H-021-A approves Remote Runner ADR-2 as design-only and adds RemoteReadinessCriteria.",
     "POST-H-021-A inventories remote runner baseline and keeps remote execution disabled.",
-    "POST-H-021-B is the next micro-sprint: ADR-2 de Remote Runner."
+    "POST-H-021-B adds ADR-POSTH-004 Remote Runner ADR-2 as approved design-only decision.",
+    "POST-H-021-B keeps remote_execution_allowed=false and remote_runner_enabled=false.",
+    "POST-H-021-B rejects enable-now, SSH ad hoc, connector-as-runner and plugin-as-runner.",
+    "POST-H-021-C is the next micro-sprint: Remote readiness report read-only."
   ],
-  "current_micro_sprint": "POST-H-021-A",
-  "next_micro_sprint": "POST-H-021-B",
+  "current_micro_sprint": "POST-H-021-B",
+  "next_micro_sprint": "POST-H-021-C",
   "post_h_020_current_micro_sprint": "POST-H-020-E",
   "post_h_020_next_micro_sprint": "POST-H-021",
   "compliance_evidence_collector_module": "src/devpilot_core/compliance/evidence.py",
@@ -176,5 +179,13 @@
   "post_h_020_compliance_disclaimers_path": "docs/03_security/compliance_mapping_disclaimers.md",
   "post_h_020_certification_claimed": false,
   "post_h_020_legal_advice_claimed": false,
-  "post_h_020_external_audit_claimed": false
+  "post_h_020_external_audit_claimed": false,
+  "remote_execution_enabled": false,
+  "remote_runner_enabled": false,
+  "remote_runner_adr2_path": "docs/adr/ADR-POSTH-004-remote-runner-adr2.md",
+  "post_h_021_current_micro_sprint": "POST-H-021-B",
+  "post_h_021_next_micro_sprint": "POST-H-021-C",
+  "post_h_021_remote_adr2_approved": true,
+  "post_h_021_remote_execution_enabled": false,
+  "post_h_021_requires_future_adr": true
 }

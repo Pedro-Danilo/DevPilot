@@ -18,8 +18,8 @@ no_external_apis_used: true
 no_connector_write_enabled: true
 no_plugin_execution_enabled: true
 implementation_status: "active"
-current_micro_sprint: "POST-H-021-A"
-next_micro_sprint: "POST-H-021-B"
+current_micro_sprint: "POST-H-021-B"
+next_micro_sprint: "POST-H-021-C"
 ---
 
 # POST-H-021 — Remote Runner ADR-2
@@ -28,13 +28,17 @@ next_micro_sprint: "POST-H-021-B"
 
 Estado del backlog: `approved / active`.
 
-Micro-sprint actual: `POST-H-021-A — Inventario remote y baseline de bloqueo`.
+Micro-sprint actual: `POST-H-021-B — ADR-2 de Remote Runner`.
 
 Resultado POST-H-021-A: `implemented-initial`. Se inventaría `src/devpilot_core/remote/`, `.devpilot/remote/runner_registry.json` y `docs/schemas/remote_runner.schema.json`; se agrega `docs/schemas/remote_readiness_criteria.schema.json`, `.devpilot/remote/remote_readiness_criteria.json`, `tests/test_post_h_021_remote_disabled_invariants.py`, `docs/audits/post_h_021_a_remote_inventory_baseline_report.md` y `docs/post_h_021_a_manifest.json`.
 
 El baseline confirma que remote runner sigue bloqueado: `remote_execution_allowed=false`, `remote_runner_enabled=false`, `execution_allowed=false`, `network_used=false`, `external_api_used=false`, `credentials_required=false`, `secrets_read=false` y `requires_future_adr=true`.
 
-Siguiente micro-sprint: `POST-H-021-B — ADR-2 de Remote Runner`.
+Resultado POST-H-021-B: `implemented-initial`. Se crea `docs/adr/ADR-POSTH-004-remote-runner-adr2.md`, `tests/test_post_h_021_remote_adr2.py`, `docs/audits/post_h_021_b_remote_adr2_report.md` y `docs/post_h_021_b_manifest.json`.
+
+La ADR queda aprobada como decisión `design-only`: mantiene `remote_execution_allowed=false`, `remote_runner_enabled=false`, documenta alternativas rechazadas (`enable-now`, `SSH ad hoc`, `connector-as-runner`, `plugin-as-runner`) y define POST-H-022/POST-H-023 como prerrequisitos de diseño para cualquier evaluación futura.
+
+Siguiente micro-sprint: `POST-H-021-C — Remote readiness report read-only`.
 
 ## 1. Objetivo
 

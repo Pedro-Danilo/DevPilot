@@ -9905,6 +9905,69 @@
         "POST-H-021-A is inventory/baseline only and keeps remote execution blocked pending future ADR."
       ],
       "classification_status": "explicit"
+    },
+    {
+      "contract_id": "post-h-021-remote-adr2",
+      "schema_version": "2.0",
+      "source_contract_id": "post-h-021-remote-adr2",
+      "domain": "enterprise.remote",
+      "capability": "Remote Runner ADR-2 design-only decision and future enablement prerequisites",
+      "criticality": "P2",
+      "risk_level": "critical",
+      "test_type": "security",
+      "execution_profile": "release",
+      "cost_class": "low",
+      "expected_duration_seconds": 20,
+      "test_files": [
+        "tests/test_post_h_021_remote_adr2.py"
+      ],
+      "watched_paths": [
+        "docs/adr/ADR-POSTH-004-remote-runner-adr2.md",
+        "docs/backlogs/POST-H-021_remote_runner_adr2.md",
+        "docs/POST-H-021_remote_runner_adr2.md",
+        "docs/audits/post_h_021_b_remote_adr2_report.md",
+        "docs/post_h_021_b_manifest.json",
+        ".devpilot/project_state.json",
+        ".devpilot/testing/test_contract_registry_v2.json",
+        "tests/test_post_h_021_remote_adr2.py"
+      ],
+      "validates": [
+        "ADR-POSTH-004 status is approved and design-only",
+        "remote_execution_allowed=false and remote_runner_enabled=false remain explicit",
+        "enable-now, SSH ad hoc, connector-as-runner and plugin-as-runner are rejected",
+        "POST-H-022 and POST-H-023 are future prerequisites",
+        "RBAC, Approval, sandbox, observability, secrets, kill-switch, quality gate and dry-run are minimum future controls"
+      ],
+      "trigger_hints": [
+        "post-h-021",
+        "remote-runner",
+        "adr2",
+        "no-remote-execution",
+        "design-only"
+      ],
+      "impact_scope": [
+        "enterprise.remote",
+        "security.architecture",
+        "documentation.governance",
+        "testing.contracts"
+      ],
+      "required_for_release": false,
+      "required_for_security_gate": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "POST-H-021-B",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace tests/test_post_h_021_remote_adr2.py tests/test_post_h_021_remote_disabled_invariants.py tests/test_schema_registry.py tests/test_project_global_state.py -q",
+        "python -m devpilot_core docs-governance validate --json",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ],
+      "notes": [
+        "POST-H-021-B is design-only and cannot be used to enable remote execution."
+      ],
+      "classification_status": "explicit"
     }
   ],
   "migration_metadata": {

@@ -5474,6 +5474,55 @@
       "notes": [
         "POST-H-021-A blocks remote runner accidental enablement and does not implement transport, credentials, network or remote execution."
       ]
+    },
+    {
+      "contract_id": "post-h-021-remote-adr2",
+      "scope": "safety",
+      "owner": "POST-H-021-B",
+      "phase": "POST-FASE-H",
+      "test_files": [
+        "tests/test_post_h_021_remote_adr2.py"
+      ],
+      "validates": [
+        "docs/adr/ADR-POSTH-004-remote-runner-adr2.md",
+        "docs/backlogs/POST-H-021_remote_runner_adr2.md",
+        "docs/POST-H-021_remote_runner_adr2.md",
+        "docs/audits/post_h_021_b_remote_adr2_report.md",
+        "docs/post_h_021_b_manifest.json"
+      ],
+      "watched_paths": [
+        "docs/adr/ADR-POSTH-004-remote-runner-adr2.md",
+        "docs/backlogs/POST-H-021_remote_runner_adr2.md",
+        "docs/POST-H-021_remote_runner_adr2.md",
+        "docs/audits/post_h_021_b_remote_adr2_report.md",
+        "docs/post_h_021_b_manifest.json",
+        "README.md",
+        "docs/05_operations/runbook.md",
+        "docs/release/CHANGELOG.md",
+        ".devpilot/project_state.json",
+        ".devpilot/docs_governance/source_registry.json",
+        ".devpilot/testing/test_contract_registry.json",
+        ".devpilot/testing/test_contract_registry_v2.json",
+        "tests/test_post_h_021_remote_adr2.py",
+        "tests/test_post_h_021_remote_disabled_invariants.py",
+        "tests/test_project_global_state.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace tests/test_post_h_021_remote_adr2.py tests/test_post_h_021_remote_disabled_invariants.py tests/test_schema_registry.py tests/test_project_global_state.py -q",
+        "python -m devpilot_core remote runner status --json",
+        "python -m devpilot_core docs-governance validate --json",
+        "python -m devpilot_core test-contracts validate --json"
+      ],
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "notes": [
+        "POST-H-021-B is ADR/design-only and must not authorize immediate remote execution, transport, credentials, network or shell."
+      ]
     }
   ],
   "notes": [

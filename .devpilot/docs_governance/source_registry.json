@@ -3199,6 +3199,117 @@
         "manifest_must_track_created_and_modified_files"
       ],
       "preliminary": true
+    },
+    {
+      "doc_id": "ADR-POSTH-004",
+      "path": "docs/adr/ADR-POSTH-004-remote-runner-adr2.md",
+      "classification": "source-of-truth",
+      "domain": "enterprise.remote",
+      "owner": "Ordóñez",
+      "status_required": "approved",
+      "criticality": "P2",
+      "frontmatter_required": true,
+      "status_checked": true,
+      "required_tests": [
+        "tests/test_post_h_021_remote_adr2.py"
+      ],
+      "related_files": [
+        "docs/backlogs/POST-H-021_remote_runner_adr2.md",
+        ".devpilot/remote/remote_readiness_criteria.json"
+      ],
+      "implementation_notes": [
+        "POST-H-021-B ADR keeps remote execution disabled and defines future prerequisites."
+      ],
+      "source_of_truth": true,
+      "machine_readable": false,
+      "sync_rules": [
+        "required_tests_must_pass",
+        "owner_status_and_path_must_remain_synced"
+      ],
+      "preliminary": true
+    },
+    {
+      "doc_id": "POST-H-021-B-REMOTE-ADR2-REPORT",
+      "path": "docs/audits/post_h_021_b_remote_adr2_report.md",
+      "classification": "source-of-truth",
+      "domain": "enterprise.remote",
+      "owner": "Ordóñez",
+      "status_required": "approved",
+      "criticality": "P2",
+      "frontmatter_required": true,
+      "status_checked": true,
+      "required_tests": [
+        "tests/test_post_h_021_remote_adr2.py"
+      ],
+      "related_files": [
+        "docs/adr/ADR-POSTH-004-remote-runner-adr2.md",
+        "docs/post_h_021_b_manifest.json"
+      ],
+      "implementation_notes": [
+        "POST-H-021-B report records ADR-2 scope and no-go gates."
+      ],
+      "source_of_truth": true,
+      "machine_readable": false,
+      "sync_rules": [
+        "required_tests_must_pass",
+        "owner_status_and_path_must_remain_synced"
+      ],
+      "preliminary": true
+    },
+    {
+      "doc_id": "POST-H-021-B-MANIFEST",
+      "path": "docs/post_h_021_b_manifest.json",
+      "classification": "machine-readable-source",
+      "domain": "enterprise.remote",
+      "owner": "Ordóñez",
+      "status_required": "implemented-initial",
+      "criticality": "P2",
+      "frontmatter_required": false,
+      "status_checked": true,
+      "required_tests": [
+        "tests/test_post_h_021_remote_adr2.py",
+        "tests/test_project_global_state.py"
+      ],
+      "related_files": [
+        "docs/adr/ADR-POSTH-004-remote-runner-adr2.md",
+        "docs/audits/post_h_021_b_remote_adr2_report.md"
+      ],
+      "implementation_notes": [
+        "POST-H-021-B manifest records ADR deliverables and synchronized project-state updates."
+      ],
+      "source_of_truth": true,
+      "machine_readable": true,
+      "sync_rules": [
+        "required_tests_must_pass",
+        "manifest_must_track_created_and_modified_files"
+      ],
+      "preliminary": true
+    },
+    {
+      "doc_id": "POST-H-021-B-REMOTE-ADR2-TEST",
+      "path": "tests/test_post_h_021_remote_adr2.py",
+      "classification": "derived",
+      "domain": "enterprise.remote",
+      "owner": "tests/test_post_h_021_remote_adr2.py",
+      "status_required": "current",
+      "criticality": "P2",
+      "frontmatter_required": false,
+      "status_checked": false,
+      "required_tests": [
+        "tests/test_post_h_021_remote_adr2.py"
+      ],
+      "related_files": [
+        "docs/adr/ADR-POSTH-004-remote-runner-adr2.md"
+      ],
+      "implementation_notes": [
+        "POST-H-021-B test enforces ADR alternatives, prerequisites and no immediate remote execution."
+      ],
+      "source_of_truth": false,
+      "machine_readable": false,
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "preliminary": true
     }
   ],
   "rules": {
@@ -3227,8 +3338,8 @@
     "critical_sources_total": 95,
     "documents_with_required_tests_total": 95,
     "required_tests_checked_total": 1,
-    "current_micro_sprint": "POST-H-021-A",
-    "next_micro_sprint": "POST-H-021-B",
+    "current_micro_sprint": "POST-H-021-B",
+    "next_micro_sprint": "POST-H-021-C",
     "post_h_020_current_micro_sprint": "POST-H-020-E",
     "post_h_020_next_micro_sprint": "POST-H-021",
     "compliance_mapping_quality_gate_registered": true,
@@ -3253,20 +3364,20 @@
     "remote_execution_enabled": false
   },
   "summary": {
-    "documents_total": 104,
-    "source_of_truth_total": 15,
-    "machine_readable_source_total": 37,
-    "derived_total": 22,
+    "documents_total": 108,
+    "source_of_truth_total": 47,
+    "machine_readable_source_total": 38,
+    "derived_total": 23,
     "generated_runtime_total": 0,
     "historical_total": 0,
     "deprecated_total": 0,
-    "critical_sources_total": 102,
+    "critical_sources_total": 106,
     "markdown_json_pairs_total": 29,
-    "documents_with_required_tests_total": 104,
+    "documents_with_required_tests_total": 108,
     "network_used": false,
     "external_api_used": false,
     "mutations_performed": false,
-    "last_updated_by": "POST-H-021-A",
+    "last_updated_by": "POST-H-021-B",
     "markdown_json_sync_checks_enabled": true,
     "sync_checks_scope": "version_match, milestones_match, decisions_match, closure_status_match, next_hito_match",
     "backlog_governance_enabled": true,
@@ -3306,12 +3417,12 @@
     "post_h_011_closed": true,
     "machine_readable_total": 15,
     "required_tests_total": 52,
-    "active_backlog": "POST-H-020",
-    "active_micro_sprint": "POST-H-020",
+    "active_backlog": "POST-H-021",
+    "active_micro_sprint": "POST-H-021-B",
     "sensitive_action_catalog_enabled": true,
     "sensitive_action_catalog_path": ".devpilot/approval/sensitive_action_catalog.json",
     "sensitive_action_catalog_schema": "docs/schemas/sensitive_action_catalog.schema.json",
-    "required_tests_checked_total": 206,
+    "required_tests_checked_total": 228,
     "post_h_012_policy_engine_enforcement_enabled": true,
     "post_h_012_current_micro_sprint": "POST-H-012-D",
     "ui_api_shell_report_schema_registered": true,
@@ -3456,7 +3567,11 @@
     ],
     "remote_readiness_criteria_schema_registered": true,
     "remote_readiness_criteria_path": ".devpilot/remote/remote_readiness_criteria.json",
-    "remote_execution_enabled": false
+    "remote_execution_enabled": false,
+    "post_h_021_current_micro_sprint": "POST-H-021-B",
+    "post_h_021_next_micro_sprint": "POST-H-021-C",
+    "remote_runner_adr2_path": "docs/adr/ADR-POSTH-004-remote-runner-adr2.md",
+    "remote_runner_adr2_approved": true
   },
   "safety": {
     "local_first": true,

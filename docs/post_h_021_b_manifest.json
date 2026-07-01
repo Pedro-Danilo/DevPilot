@@ -1,0 +1,42 @@
+{
+  "schema_version": "1.0",
+  "manifest_id": "POST-H-021-B-MANIFEST",
+  "micro_sprint": "POST-H-021-B",
+  "title": "ADR-2 de Remote Runner",
+  "status": "implemented-initial",
+  "created_by": "POST-H-021-B",
+  "updated": "2026-07-01",
+  "source_repo": "repo_DevPilot_Local_236_POST_H_021_A.zip",
+  "target_repo": "repo_DevPilot_Local_237_POST_H_021_B.zip",
+  "created_files": [
+    "docs/adr/ADR-POSTH-004-remote-runner-adr2.md",
+    "tests/test_post_h_021_remote_adr2.py",
+    "docs/audits/post_h_021_b_remote_adr2_report.md",
+    "docs/post_h_021_b_manifest.json"
+  ],
+  "modified_files": [
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/backlogs/POST-H-021_remote_runner_adr2.md",
+    "docs/POST-H-021_remote_runner_adr2.md",
+    "docs/release/CHANGELOG.md",
+    ".devpilot/project_state.json",
+    ".devpilot/docs_governance/source_registry.json",
+    ".devpilot/testing/test_contract_registry.json",
+    ".devpilot/testing/test_contract_registry_v2.json",
+    "tests/test_project_global_state.py"
+  ],
+  "remote_execution_enabled": false,
+  "remote_runner_enabled": false,
+  "network_used": false,
+  "external_api_used": false,
+  "credentials_required": false,
+  "secrets_read": false,
+  "connector_write_enabled": false,
+  "plugin_execution_enabled": false,
+  "preliminary": true,
+  "notes": [
+    "POST-H-021-B is design-only and does not implement or authorize remote execution.",
+    "POST-H-022 and POST-H-023 are prerequisites for any future remote enablement discussion."
+  ]
+}
