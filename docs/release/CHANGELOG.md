@@ -1,3 +1,12 @@
+## post-h-021-e — Runbook y cierre
+
+- Cierra `POST-H-021 — Remote Runner ADR-2` como `implemented-initial`.
+- Agrega `docs/05_operations/remote_runner_design_runbook.md`.
+- Agrega checklist go/no-go futuro para cualquier evaluación de remote runner.
+- Agrega test documental de cierre y manifest `docs/post_h_021_e_manifest.json`.
+- Mantiene `remote_execution_allowed=false`, `remote_runner_enabled=false`, `remote_execution_used=false`, sin transporte remoto, red/API externa, credenciales, secretos, connector write ni plugin execution.
+- Siguiente hito: `POST-H-022`.
+
 ## post-h-021-d — Quality gate remote disabled
 
 - Agrega `RemoteReadinessQualityGate` como subgate `remote-readiness-design-only`.

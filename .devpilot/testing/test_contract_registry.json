@@ -5644,6 +5644,48 @@
         "POST-H-021-D quality gate contract; remote runner remains disabled and design-only.",
         "The subgate must not write reports or enable remote execution, network, credentials, secrets, connector write or plugin execution."
       ]
+    },
+    {
+      "contract_id": "post-h-021-remote-runbook-closure",
+      "scope": "safety",
+      "owner": "POST-H-021-E",
+      "phase": "POST-FASE-H",
+      "test_files": [
+        "tests/test_post_h_021_remote_runbook_closure.py"
+      ],
+      "validates": [
+        "docs/05_operations/remote_runner_design_runbook.md",
+        "docs/backlogs/POST-H-021_remote_runner_adr2.md",
+        "docs/POST-H-021_remote_runner_adr2.md",
+        "docs/audits/post_h_021_e_remote_runner_closure_report.md",
+        "docs/post_h_021_e_manifest.json"
+      ],
+      "watched_paths": [
+        "docs/05_operations/remote_runner_design_runbook.md",
+        "docs/backlogs/POST-H-021_remote_runner_adr2.md",
+        "docs/POST-H-021_remote_runner_adr2.md",
+        "docs/release/CHANGELOG.md",
+        "README.md",
+        "docs/05_operations/runbook.md",
+        ".devpilot/project_state.json",
+        ".devpilot/docs_governance/source_registry.json",
+        ".devpilot/testing/test_contract_registry.json",
+        ".devpilot/testing/test_contract_registry_v2.json",
+        "tests/test_post_h_021_remote_runbook_closure.py",
+        "tests/test_project_global_state.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace tests/test_post_h_021_remote_runbook_closure.py tests/test_post_h_021_remote_quality_gate.py tests/test_post_h_021_remote_readiness_report.py tests/test_post_h_021_remote_adr2.py tests/test_post_h_021_remote_disabled_invariants.py tests/test_schema_registry.py tests/test_project_global_state.py -q",
+        "python -m devpilot_core quality-gate run --profile hardening --json",
+        "python -m devpilot_core test-contracts validate --json"
+      ],
+      "notes": [
+        "Validates POST-H-021-E closure documentation and ensures remote execution remains disabled.",
+        "Does not execute remote commands and does not require network or credentials."
+      ]
     }
   ],
   "notes": [
@@ -5669,6 +5711,7 @@
     "POST-H-020-E registers compliance runbook/disclaimer closure tests.",
     "POST-H-020 closes Compliance mapping packs as implemented-initial and non-certifying.",
     "POST-H-021-C registers remote readiness report contract without enabling remote execution.",
-    "POST-H-021-D registers remote-readiness-design-only as a hardening quality-gate contract without enabling remote execution."
+    "POST-H-021-D registers remote-readiness-design-only as a hardening quality-gate contract without enabling remote execution.",
+    "POST-H-021-E registers remote runner runbook closure safety contract."
   ]
 }

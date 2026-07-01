@@ -1,0 +1,54 @@
+{
+  "schema_version": "1.0",
+  "manifest_id": "POST-H-021-E-MANIFEST",
+  "micro_sprint": "POST-H-021-E",
+  "title": "Runbook y cierre",
+  "status": "implemented-initial",
+  "created_by": "POST-H-021-E",
+  "updated": "2026-07-01",
+  "source_repo": "repo_DevPilot_Local_239_POST_H_021_D.zip",
+  "target_repo": "repo_DevPilot_Local_240_POST_H_021_E.zip",
+  "created_files": [
+    "docs/05_operations/remote_runner_design_runbook.md",
+    "tests/test_post_h_021_remote_runbook_closure.py",
+    "docs/audits/post_h_021_e_remote_runner_closure_report.md",
+    "docs/post_h_021_e_manifest.json"
+  ],
+  "modified_files": [
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/backlogs/POST-H-021_remote_runner_adr2.md",
+    "docs/POST-H-021_remote_runner_adr2.md",
+    "docs/release/CHANGELOG.md",
+    ".devpilot/project_state.json",
+    ".devpilot/docs_governance/source_registry.json",
+    ".devpilot/testing/test_contract_registry.json",
+    ".devpilot/testing/test_contract_registry_v2.json",
+    "tests/test_post_h_021_remote_adr2.py",
+    "tests/test_project_global_state.py",
+    "tests/test_post_h_020_compliance_runbook_disclaimers.py"
+  ],
+  "closure": {
+    "backlog_closed": true,
+    "implementation_status": "closed",
+    "last_completed_sprint": "POST-H-021",
+    "next_sprint": "POST-H-022"
+  },
+  "remote_execution_enabled": false,
+  "remote_execution_allowed": false,
+  "remote_runner_enabled": false,
+  "remote_execution_used": false,
+  "network_used": false,
+  "external_api_used": false,
+  "credentials_required": false,
+  "secrets_read": false,
+  "connector_write_enabled": false,
+  "plugin_execution_enabled": false,
+  "preliminary": true,
+  "notes": [
+    "POST-H-021-E closes the Remote Runner ADR-2 backlog as implemented-initial.",
+    "The closure is design-only and does not authorize or implement remote execution.",
+    "Future enablement remains blocked pending POST-H-022, POST-H-023 and a future ADR.",
+    "POST-H-021-E also syncs the historical POST-H-020-E closure test so it validates historical closure without blocking later hito advancement."
+  ]
+}

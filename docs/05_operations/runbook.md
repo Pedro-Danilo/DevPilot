@@ -2,17 +2,52 @@
 title: "Runbook — DevPilot Local"
 doc_id: "DEVPL-OPS-002"
 status: "approved"
-version: "1.78.0"
+version: "1.79.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "POST-H-021-D"
+phase: "POST-H-021-E"
 updated: "2026-07-01"
 approval: "approved_by_owner"
 source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved + 03_security approved"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "SPRINT-PRECODE-05 quality operations baseline"
 ---
+
+## POST-H-021-E — Runbook y cierre
+
+Estado: `implemented-initial / hito cerrado`.
+
+POST-H-021-E cierra Remote Runner ADR-2 con documentación operacional dedicada en `docs/05_operations/remote_runner_design_runbook.md`. El operador debe interpretar el hito como diseño bloqueado: readiness, registry, ADR y quality gate existen para demostrar que remote execution sigue deshabilitado, no para autorizar ejecución remota.
+
+Artefactos:
+
+```text
+docs/05_operations/remote_runner_design_runbook.md
+tests/test_post_h_021_remote_runbook_closure.py
+docs/audits/post_h_021_e_remote_runner_closure_report.md
+docs/post_h_021_e_manifest.json
+```
+
+Validación focal:
+
+```powershell
+python -m pytest -p no:ddtrace tests/test_post_h_021_remote_runbook_closure.py tests/test_post_h_021_remote_quality_gate.py tests/test_post_h_021_remote_readiness_report.py tests/test_post_h_021_remote_adr2.py tests/test_post_h_021_remote_disabled_invariants.py tests/test_schema_registry.py tests/test_project_global_state.py -q
+python -m devpilot_core remote runner readiness --json
+python -m devpilot_core quality-gate run --profile hardening --json
+python -m devpilot_core docs-governance validate --json
+python -m devpilot_core test-contracts validate --json
+python -m devpilot_core test-contracts validate-v2 --json
+python -m devpilot_core project-state validate --json
+python -m devpilot_core cli-registry guard --json
+```
+
+PASS si `remote_execution_allowed=false`, `remote_runner_enabled=false`, `remote_execution_used=false`, `network_used=false`, `external_api_used=false`, `credentials_required=false`, `secrets_read=false`, `blocking_findings_total=0` y el subgate `remote-readiness-design-only` permanece en perfiles `hardening` e `industrial`.
+
+BLOCK si cualquier artefacto interpreta readiness como permiso de ejecución o si aparece transporte remoto, credenciales, red/API externa, shell remoto, cloud control plane, connector write o plugin execution.
+
+Último hito cerrado: `POST-H-021`
+Siguiente hito: `POST-H-022`
 
 ## POST-H-021-D — Quality gate remote disabled
 

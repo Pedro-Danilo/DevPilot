@@ -3535,6 +3535,118 @@
         "test_must_pass"
       ],
       "preliminary": true
+    },
+    {
+      "doc_id": "POST-H-021-REMOTE-RUNNER-DESIGN-RUNBOOK",
+      "path": "docs/05_operations/remote_runner_design_runbook.md",
+      "classification": "source_of_truth",
+      "domain": "enterprise.remote",
+      "owner": "POST-H-021-E",
+      "status_required": "current",
+      "criticality": "P1",
+      "preliminary": true,
+      "frontmatter_required": true,
+      "status_checked": true,
+      "required_tests": [
+        "tests/test_post_h_021_remote_runbook_closure.py"
+      ],
+      "related_files": [
+        "docs/backlogs/POST-H-021_remote_runner_adr2.md",
+        "docs/POST-H-021_remote_runner_adr2.md"
+      ],
+      "implementation_notes": [
+        "POST-H-021-E runbook defines design-only interpretation, verification commands and future go/no-go checklist."
+      ],
+      "source_of_truth": true,
+      "machine_readable": false,
+      "sync_rules": [
+        "frontmatter_status_must_be_approved",
+        "test_must_pass"
+      ]
+    },
+    {
+      "doc_id": "POST-H-021-E-REMOTE-RUNNER-CLOSURE-REPORT",
+      "path": "docs/audits/post_h_021_e_remote_runner_closure_report.md",
+      "classification": "source_of_truth",
+      "domain": "enterprise.remote",
+      "owner": "POST-H-021-E",
+      "status_required": "current",
+      "criticality": "P1",
+      "preliminary": true,
+      "frontmatter_required": true,
+      "status_checked": true,
+      "required_tests": [
+        "tests/test_post_h_021_remote_runbook_closure.py"
+      ],
+      "related_files": [
+        "docs/post_h_021_e_manifest.json",
+        "docs/05_operations/remote_runner_design_runbook.md"
+      ],
+      "implementation_notes": [
+        "POST-H-021-E closure report records covered capabilities and explicit limits."
+      ],
+      "source_of_truth": true,
+      "machine_readable": false,
+      "sync_rules": [
+        "frontmatter_status_must_be_approved",
+        "test_must_pass"
+      ]
+    },
+    {
+      "doc_id": "POST-H-021-E-MANIFEST",
+      "path": "docs/post_h_021_e_manifest.json",
+      "classification": "source_of_truth",
+      "domain": "enterprise.remote",
+      "owner": "POST-H-021-E",
+      "status_required": "current",
+      "criticality": "P1",
+      "preliminary": true,
+      "frontmatter_required": false,
+      "status_checked": false,
+      "required_tests": [
+        "tests/test_post_h_021_remote_runbook_closure.py",
+        "tests/test_project_global_state.py"
+      ],
+      "related_files": [
+        "docs/audits/post_h_021_e_remote_runner_closure_report.md",
+        "docs/05_operations/remote_runner_design_runbook.md"
+      ],
+      "implementation_notes": [
+        "POST-H-021-E manifest records closure deliverables and disabled remote safety flags."
+      ],
+      "source_of_truth": true,
+      "machine_readable": true,
+      "sync_rules": [
+        "manifest_must_track_created_and_modified_files",
+        "test_must_pass"
+      ]
+    },
+    {
+      "doc_id": "POST-H-021-E-REMOTE-RUNBOOK-CLOSURE-TEST",
+      "path": "tests/test_post_h_021_remote_runbook_closure.py",
+      "classification": "derived",
+      "domain": "enterprise.remote",
+      "owner": "tests/test_post_h_021_remote_runbook_closure.py",
+      "status_required": "current",
+      "criticality": "P1",
+      "frontmatter_required": false,
+      "status_checked": false,
+      "required_tests": [
+        "tests/test_post_h_021_remote_runbook_closure.py"
+      ],
+      "related_files": [
+        "docs/05_operations/remote_runner_design_runbook.md",
+        "docs/post_h_021_e_manifest.json"
+      ],
+      "implementation_notes": [
+        "POST-H-021-E test enforces runbook, closure state, manifest and TCR synchronization."
+      ],
+      "source_of_truth": false,
+      "machine_readable": false,
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "preliminary": true
     }
   ],
   "rules": {
@@ -3559,12 +3671,12 @@
     "approved_backlogs_require_runtime_policy_tests": true,
     "observability_inventory_is_read_only": true,
     "approved_backlogs_require_observability_retention_hygiene_gate": true,
-    "last_updated_by": "POST-H-021-D",
+    "last_updated_by": "POST-H-021-E",
     "critical_sources_total": 95,
     "documents_with_required_tests_total": 95,
     "required_tests_checked_total": 1,
-    "current_micro_sprint": "POST-H-021-D",
-    "next_micro_sprint": "POST-H-021-E",
+    "current_micro_sprint": "POST-H-021-E",
+    "next_micro_sprint": "POST-H-022",
     "post_h_020_current_micro_sprint": "POST-H-020-E",
     "post_h_020_next_micro_sprint": "POST-H-021",
     "compliance_mapping_quality_gate_registered": true,
@@ -3582,14 +3694,16 @@
       "POST-H-020-E fixes TCR v2 classification_status drift for POST-H-020-C/D contracts.",
       "POST-H-021-A registers remote readiness criteria and blocked remote baseline.",
       "POST-H-021-D registers remote-readiness-design-only quality gate and remote quality gate test.",
-      "POST-H-021-D keeps remote runner disabled and does not authorize remote execution."
+      "POST-H-021-D keeps remote runner disabled and does not authorize remote execution.",
+      "POST-H-021-E registers remote runner design runbook and closure test.",
+      "POST-H-021 closes Remote Runner ADR-2 as design-only without enabling remote execution."
     ],
     "post_h_020_closed": true,
-    "post_h_021_current_micro_sprint": "POST-H-021-D",
-    "post_h_021_next_micro_sprint": "POST-H-021-E",
+    "post_h_021_current_micro_sprint": "POST-H-021-E",
+    "post_h_021_next_micro_sprint": "POST-H-022",
     "remote_readiness_criteria_registered": true,
     "remote_execution_enabled": false,
-    "active_micro_sprint": "POST-H-021-D",
+    "active_micro_sprint": "POST-H-021-E",
     "remote_readiness_quality_gate_registered": true,
     "remote_readiness_quality_gate_subgate": "remote-readiness-design-only",
     "remote_readiness_quality_gate_module": "src/devpilot_core/remote/quality_gate.py",
@@ -3597,23 +3711,27 @@
       "hardening",
       "industrial"
     ],
-    "remote_runner_enabled": false
+    "remote_runner_enabled": false,
+    "last_completed_sprint": "POST-H-021",
+    "next_sprint": "POST-H-022",
+    "post_h_021_closed": true,
+    "remote_runner_design_runbook_registered": true
   },
   "summary": {
-    "documents_total": 116,
-    "source_of_truth_total": 41,
-    "machine_readable_source_total": 21,
-    "derived_total": 25,
+    "documents_total": 120,
+    "source_of_truth_total": 44,
+    "machine_readable_source_total": 22,
+    "derived_total": 26,
     "generated_runtime_total": 0,
     "historical_total": 0,
     "deprecated_total": 0,
     "critical_sources_total": 114,
     "markdown_json_pairs_total": 29,
-    "documents_with_required_tests_total": 116,
+    "documents_with_required_tests_total": 120,
     "network_used": false,
     "external_api_used": false,
     "mutations_performed": false,
-    "last_updated_by": "POST-H-021-D",
+    "last_updated_by": "POST-H-021-E",
     "markdown_json_sync_checks_enabled": true,
     "sync_checks_scope": "version_match, milestones_match, decisions_match, closure_status_match, next_hito_match",
     "backlog_governance_enabled": true,
@@ -3654,7 +3772,7 @@
     "machine_readable_total": 15,
     "required_tests_total": 52,
     "active_backlog": "POST-H-021",
-    "active_micro_sprint": "POST-H-021-D",
+    "active_micro_sprint": "POST-H-021-E",
     "sensitive_action_catalog_enabled": true,
     "sensitive_action_catalog_path": ".devpilot/approval/sensitive_action_catalog.json",
     "sensitive_action_catalog_schema": "docs/schemas/sensitive_action_catalog.schema.json",
@@ -3682,8 +3800,8 @@
     "operator_dashboard_ready_gate_module": "src/devpilot_core/portfolio/operator_dashboard_gate.py",
     "operator_dashboard_cli_command": "python -m devpilot_core operator dashboard --json --write-report",
     "post_h_015_closed": true,
-    "last_completed_sprint": "POST-H-020",
-    "next_sprint": "POST-H-021",
+    "last_completed_sprint": "POST-H-021",
+    "next_sprint": "POST-H-022",
     "post_h_016_approved": true,
     "post_h_016_current_micro_sprint": "POST-H-016-E",
     "post_h_016_next_micro_sprint": "POST-H-017",
@@ -3770,7 +3888,7 @@
     "plugin_execution_enabled": false,
     "plugin_install_dry_run_enabled": true,
     "plugin_exposure_report_enabled": true,
-    "next_micro_sprint": "POST-H-021-E",
+    "next_micro_sprint": "POST-H-022",
     "plugin_sandbox_quality_gate_registered": true,
     "plugin_sandbox_quality_gate_subgate": "plugin-sandbox-design",
     "plugin_sandbox_quality_gate_profiles": [
@@ -3784,7 +3902,7 @@
     "post_h_019_closed": true,
     "plugin_sandbox_metadata_runbook_registered": true,
     "plugin_sandbox_future_adr_trigger_registered": true,
-    "current_micro_sprint": "POST-H-021-D",
+    "current_micro_sprint": "POST-H-021-E",
     "post_h_020_current_micro_sprint": "POST-H-020-E",
     "post_h_020_next_micro_sprint": "POST-H-021",
     "post_h_020_compliance_mapping_schemas_registered": true,
@@ -3801,13 +3919,15 @@
       "POST-H-020-E closes POST-H-020 as implemented-initial and non-certifying.",
       "POST-H-020-E fixes TCR v2 classification_status drift for POST-H-020-C/D contracts.",
       "POST-H-021-D registers remote-readiness-design-only quality gate and remote quality gate test.",
-      "POST-H-021-D keeps remote runner disabled and does not authorize remote execution."
+      "POST-H-021-D keeps remote runner disabled and does not authorize remote execution.",
+      "POST-H-021-E registers remote runner design runbook and closure test.",
+      "POST-H-021 closes Remote Runner ADR-2 as design-only without enabling remote execution."
     ],
     "remote_readiness_criteria_schema_registered": true,
     "remote_readiness_criteria_path": ".devpilot/remote/remote_readiness_criteria.json",
     "remote_execution_enabled": false,
-    "post_h_021_current_micro_sprint": "POST-H-021-D",
-    "post_h_021_next_micro_sprint": "POST-H-021-E",
+    "post_h_021_current_micro_sprint": "POST-H-021-E",
+    "post_h_021_next_micro_sprint": "POST-H-022",
     "remote_runner_adr2_path": "docs/adr/ADR-POSTH-004-remote-runner-adr2.md",
     "remote_runner_adr2_approved": true,
     "remote_readiness_report_schema_registered": true,
@@ -3820,7 +3940,9 @@
     "remote_readiness_quality_gate_profiles": [
       "hardening",
       "industrial"
-    ]
+    ],
+    "post_h_021_closed": true,
+    "remote_runner_design_runbook_registered": true
   },
   "safety": {
     "local_first": true,
@@ -3883,6 +4005,8 @@
     "POST-H-020-E keeps compliance mapping local-first, non-certifying and non-legal-advice.",
     "POST-H-021-A adds remote readiness criteria registry and disabled baseline documentation.",
     "POST-H-021-C registers RemoteReadinessReport schema and read-only readiness report CLI.",
-    "POST-H-021-C keeps remote runner disabled and does not authorize remote execution."
+    "POST-H-021-C keeps remote runner disabled and does not authorize remote execution.",
+    "POST-H-021-E registers the remote runner design runbook and closure report as design-only source documents.",
+    "POST-H-021 closes Remote Runner ADR-2 without enabling remote execution."
   ]
 }

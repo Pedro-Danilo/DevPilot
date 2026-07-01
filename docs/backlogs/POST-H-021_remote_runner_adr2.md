@@ -17,18 +17,18 @@ no_remote_execution_enabled: true
 no_external_apis_used: true
 no_connector_write_enabled: true
 no_plugin_execution_enabled: true
-implementation_status: "active"
-current_micro_sprint: "POST-H-021-D"
-next_micro_sprint: "POST-H-021-E"
+implementation_status: "closed"
+current_micro_sprint: "POST-H-021-E"
+next_micro_sprint: "POST-H-022"
 ---
 
 # POST-H-021 — Remote Runner ADR-2
 
 ## 0. Estado de implementación
 
-Estado del backlog: `approved / active`.
+Estado del backlog: `approved / closed`.
 
-Micro-sprint actual: `POST-H-021-C — Remote readiness report read-only`.
+Micro-sprint actual: `POST-H-021-E — Runbook y cierre`.
 
 Resultado POST-H-021-A: `implemented-initial`. Se inventaría `src/devpilot_core/remote/`, `.devpilot/remote/runner_registry.json` y `docs/schemas/remote_runner.schema.json`; se agrega `docs/schemas/remote_readiness_criteria.schema.json`, `.devpilot/remote/remote_readiness_criteria.json`, `tests/test_post_h_021_remote_disabled_invariants.py`, `docs/audits/post_h_021_a_remote_inventory_baseline_report.md` y `docs/post_h_021_a_manifest.json`.
 
@@ -46,7 +46,11 @@ Resultado POST-H-021-D: `implemented-initial`. Se crea `src/devpilot_core/remote
 
 El quality gate confirma que remote runner sigue bloqueado: `readiness_level=remote-design-only`, `decision_status=design-only`, `remote_runner_enabled=false`, `remote_execution_used=false`, `network_used=false`, `external_api_used=false`, `credentials_required=false`, `secrets_read=false`, `reports_written=false` y `remote_enterprise_eval_signal_present=true`.
 
-Siguiente micro-sprint: `POST-H-021-E — Runbook y cierre`.
+Resultado POST-H-021-E: `implemented-initial`. Se crea `docs/05_operations/remote_runner_design_runbook.md`, `tests/test_post_h_021_remote_runbook_closure.py`, `docs/audits/post_h_021_e_remote_runner_closure_report.md` y `docs/post_h_021_e_manifest.json`.
+
+POST-H-021 queda cerrado como diseño `implemented-initial`: inventario/baseline, ADR-2, readiness report read-only, quality gate `remote-readiness-design-only`, runbook operacional y checklist futuro quedan sincronizados sin habilitar ejecución remota.
+
+Siguiente hito: `POST-H-022`.
 
 ## 1. Objetivo
 
@@ -365,6 +369,35 @@ Entregables:
 
 ```text
 docs/05_operations/remote_runner_design_runbook.md
+```
+
+Resultado acumulativo: `implemented-initial / closed`.
+
+POST-H-021-E consolida la operación design-only de Remote Runner en un runbook dedicado, define interpretación operacional de readiness, rollback documental ante drift, checklist de go/no-go futuro y criterios explícitos de bloqueo. El cierre no habilita transporte remoto, credenciales, red, ejecución remota, connector write ni plugin execution.
+
+Capacidades cubiertas por POST-H-021:
+
+```text
+- Inventario local de remote runner y baseline de bloqueo.
+- RemoteReadinessCriteria schema y registry local.
+- ADR-POSTH-004 Remote Runner ADR-2 como decisión design-only.
+- RemoteReadinessReport read-only.
+- CLI remote runner readiness --json.
+- Quality gate remote-readiness-design-only en perfiles hardening/industrial.
+- Runbook operacional de interpretación design-only.
+- Checklist go/no-go futuro para cualquier evaluación de enablement.
+```
+
+Pendiente fuera de alcance:
+
+```text
+- Ejecución remota real.
+- Secure transport.
+- Modelo de credenciales/secretos remotos.
+- Sandbox remoto productivo.
+- Workers remotos o cloud control plane.
+- POST-H-022 y POST-H-023 como diseño previo obligatorio.
+- ADR futura para cualquier cambio de remote_execution_allowed=false.
 ```
 
 ## 9. Comandos de validación esperados

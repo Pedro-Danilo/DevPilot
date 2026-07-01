@@ -1,3 +1,25 @@
+## POST-H-021-E — Runbook y cierre
+
+Estado: `implemented-initial / hito cerrado`.
+
+POST-H-021 queda cerrado como `implemented-initial`. DevPilot consolida Remote Runner ADR-2 como capacidad de diseño bloqueado: inventario/baseline, ADR formal, readiness report read-only, quality gate `remote-readiness-design-only`, runbook operativo y checklist go/no-go futuro.
+
+No se habilita ejecución remota. Siguen en falso `remote_execution_allowed=false`, `remote_runner_enabled=false`, `remote_execution_used=false`, sin red, APIs externas, credenciales, secretos, connector write ni plugin execution.
+
+Artefactos nuevos:
+
+```text
+docs/05_operations/remote_runner_design_runbook.md
+tests/test_post_h_021_remote_runbook_closure.py
+docs/audits/post_h_021_e_remote_runner_closure_report.md
+docs/post_h_021_e_manifest.json
+```
+
+Último micro-sprint implementado: `POST-H-021-E — Runbook y cierre`
+Último hito: `POST-H-021`
+Último hito cerrado: `POST-H-021`
+Siguiente hito: `POST-H-022`
+
 ## POST-H-021-D — Quality gate remote disabled
 
 Estado: `implemented-initial / hito activo`.

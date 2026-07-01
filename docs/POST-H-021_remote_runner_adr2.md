@@ -9,9 +9,9 @@ updated: "2026-07-01"
 approval: "approved_by_owner"
 phase: "POST-FASE-H"
 priority: "P3"
-implementation_status: "active"
-current_micro_sprint: "POST-H-021-D"
-next_micro_sprint: "POST-H-021-E"
+implementation_status: "closed"
+current_micro_sprint: "POST-H-021-E"
+next_micro_sprint: "POST-H-022"
 local_first: true
 dry_run: true
 no_remote_execution_enabled: true
@@ -130,8 +130,6 @@ El reporte confirma `readiness_level=remote-design-only`, `future_adr_required=t
 
 El artefacto no autoriza ejecución remota. Solo lee criterios, registry y schemas locales; la escritura de reportes queda limitada a `outputs/reports/` bajo ejecución explícita.
 
-## 6. Límites explícitos
-
 ## 6. Estado POST-H-021-D — Quality gate remote disabled
 
 Estado: `implemented-initial`.
@@ -164,9 +162,26 @@ blocking_findings_total=0
 
 BLOCK si cualquier flag remoto activo pasa inadvertido, si el report/schema/registry deja de validar o si el fixture remoto deja de ser local/determinístico.
 
-## 7. Límites explícitos
+## 7. Estado POST-H-021-E — Runbook y cierre
 
-POST-H-021-A/B/C/D no habilitan:
+Estado: `implemented-initial / closed`.
+
+POST-H-021-E consolida la operación de Remote Runner como diseño bloqueado:
+
+```text
+docs/05_operations/remote_runner_design_runbook.md
+tests/test_post_h_021_remote_runbook_closure.py
+docs/audits/post_h_021_e_remote_runner_closure_report.md
+docs/post_h_021_e_manifest.json
+```
+
+El runbook documenta cómo interpretar `design-only`, qué comandos locales usar para verificar readiness y quality gate, qué flags producen BLOCK y qué condiciones mínimas deben existir antes de evaluar una habilitación futura.
+
+POST-H-021 queda cerrado como `implemented-initial`: habilita inventario, ADR-2, readiness report read-only, quality gate de remote disabled, checklist go/no-go y documentación operacional. No habilita ejecución remota.
+
+## 8. Límites explícitos
+
+POST-H-021-A/B/C/D/E no habilitan:
 
 ```text
 remote execution
@@ -184,12 +199,12 @@ connector write
 plugin execution
 ```
 
-## 8. Evolución pendiente
+## 9. Evolución pendiente
 
-POST-H-021 sigue activo. Las siguientes etapas previstas son:
+POST-H-021 queda cerrado. La siguiente etapa priorizada es:
 
 ```text
-POST-H-021-E — Runbook, rollback y cierre
+POST-H-022
 ```
 
 Cualquier cambio que pretenda activar ejecución remota requiere ADR futura, RBAC/Approval, secure transport, sandboxing, observabilidad, kill-switch, pruebas de seguridad y quality gate dedicado.
