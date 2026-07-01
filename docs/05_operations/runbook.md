@@ -2,17 +2,53 @@
 title: "Runbook — DevPilot Local"
 doc_id: "DEVPL-OPS-002"
 status: "approved"
-version: "1.75.0"
+version: "1.76.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "POST-H-020-E"
+phase: "POST-H-021-A"
 updated: "2026-07-01"
 approval: "approved_by_owner"
 source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved + 03_security approved"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "SPRINT-PRECODE-05 quality operations baseline"
 ---
+
+## POST-H-021-A — Inventario remote y baseline de bloqueo
+
+Estado: `implemented-initial / hito activo`.
+
+POST-H-021-A establece la línea base operativa de remote runner: todo artefacto remoto existente se interpreta como metadata/stub bloqueado, no como permiso de ejecución.
+
+Artefactos:
+
+```text
+docs/schemas/remote_readiness_criteria.schema.json
+.devpilot/remote/remote_readiness_criteria.json
+tests/test_post_h_021_remote_disabled_invariants.py
+docs/audits/post_h_021_a_remote_inventory_baseline_report.md
+docs/post_h_021_a_manifest.json
+docs/POST-H-021_remote_runner_adr2.md
+```
+
+Validación:
+
+```powershell
+python -m pytest -p no:ddtrace tests/test_post_h_021_remote_disabled_invariants.py tests/test_schema_registry.py tests/test_project_global_state.py -q
+python -m devpilot_core schema validate --schema-id RemoteReadinessCriteria --instance .devpilot/remote/remote_readiness_criteria.json --json
+python -m devpilot_core remote runner status --json
+python -m devpilot_core docs-governance validate --json
+python -m devpilot_core test-contracts validate --json
+python -m devpilot_core test-contracts validate-v2 --json
+python -m devpilot_core project-state validate --json
+python -m devpilot_core schema list --json
+```
+
+PASS si `remote_execution_allowed=false`, `remote_runner_enabled=false`, `execution_allowed=false`, `network_used=false`, `external_api_used=false`, `credentials_required=false`, `secrets_read=false` y `RemoteRunnerStub.execute()` retorna BLOCK.
+
+BLOCK si se activa ejecución remota, red/API externa, credenciales remotas, lectura de secretos, shell, cloud control plane, connector write o plugin execution.
+
+Límite: POST-H-021-A no implementa ADR formal, readiness report CLI, quality gate remoto ni runbook dedicado. Es una versión inicial de inventario y bloqueo para sostener la ADR-2 posterior.
 
 ## POST-H-020-E — Runbook, disclaimers y cierre
 

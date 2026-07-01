@@ -102,8 +102,8 @@ def test_project_global_state_schema_and_docs_are_synchronized() -> None:
     assert any("POST-H-013-D adds optional local crypto" in note for note in state["notes"])
     assert any("POST-H-013-E closes Audit pack integrity" in note for note in state["notes"])
     assert any("POST-H-014 is the next prioritized hito" in note for note in state["notes"])
-    assert state.get("current_micro_sprint") == "POST-H-020-E"
-    assert state.get("next_micro_sprint") == "POST-H-021"
+    assert state.get("current_micro_sprint") == "POST-H-021-A"
+    assert state.get("next_micro_sprint") == "POST-H-021-B"
     assert "POST-H-014-A — Route Contract Registry y API inventory" in readme
     assert "POST-H-014-B — Response mapping y errores homogéneos" in readme
     assert "POST-H-014-C — UI Route Contract y shell de producto" in readme
@@ -194,6 +194,10 @@ def test_project_global_state_schema_and_docs_are_synchronized() -> None:
     assert any("POST-H-020-D adds non-certifying compliance_mapping summary" in note for note in state["notes"])
     assert any("POST-H-020-E adds compliance mapping runbook" in note for note in state["notes"])
     assert any("POST-H-020 closes Compliance mapping packs" in note for note in state["notes"])
+    assert any("POST-H-021 is the next prioritized hito" in note for note in state["notes"])
+    assert any("POST-H-021-A approves Remote Runner ADR-2" in note for note in state["notes"])
+    assert any("POST-H-021-A inventories remote runner baseline" in note for note in state["notes"])
+    assert any("POST-H-021-B is the next micro-sprint" in note for note in state["notes"])
     assert "POST-H-019-A — Threat model y sandbox design" in readme
     assert "POST-H-019-A — Threat model y sandbox design" in runbook
     assert "post-h-019-a" in changelog
@@ -214,10 +218,13 @@ def test_project_global_state_schema_and_docs_are_synchronized() -> None:
     assert "POST-H-020-E — Runbook, disclaimers y cierre" in readme
     assert "POST-H-020-E — Runbook, disclaimers y cierre" in runbook
     assert "POST-H-020 — Compliance mapping packs ampliados" in readme
+    assert "POST-H-021-A — Inventario remote y baseline de bloqueo" in readme
+    assert "POST-H-021-A — Inventario remote y baseline de bloqueo" in runbook
     assert "post-h-020-a" in changelog
     assert "post-h-020-b" in changelog
     assert "post-h-020-c" in changelog
     assert "post-h-020-d" in changelog
+    assert "post-h-021-a" in changelog
     assert "post-h-019-b" in changelog
     assert "post-h-019-c" in changelog
     assert "POST-H-015-A — Dashboard snapshot schema y config" in readme

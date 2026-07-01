@@ -1,3 +1,37 @@
+## POST-H-021-A — Inventario remote y baseline de bloqueo
+
+Estado: `implemented-initial / hito activo`.
+
+DevPilot inicia `POST-H-021 — Remote Runner ADR-2` con un inventario local y una línea base de bloqueo. Se agrega `RemoteReadinessCriteria` y `.devpilot/remote/remote_readiness_criteria.json`; el runner remoto existente sigue siendo metadata/stub bloqueado, no runtime remoto.
+
+Capacidades nuevas:
+
+- Schema `RemoteReadinessCriteria`.
+- Criteria file local con `remote_execution_allowed=false` y `requires_future_adr=true`.
+- Inventario de `src/devpilot_core/remote/runner.py`, `.devpilot/remote/runner_registry.json` y `docs/schemas/remote_runner.schema.json`.
+- Test `tests/test_post_h_021_remote_disabled_invariants.py`.
+- Bloqueo de activación accidental de `remote_runner_enabled=true` o `execution_allowed=true`.
+
+Comandos principales:
+
+```powershell
+python -m pytest -p no:ddtrace tests/test_post_h_021_remote_disabled_invariants.py tests/test_schema_registry.py tests/test_project_global_state.py -q
+python -m devpilot_core schema validate --schema-id RemoteReadinessCriteria --instance .devpilot/remote/remote_readiness_criteria.json --json
+python -m devpilot_core remote runner status --json
+python -m devpilot_core docs-governance validate --json
+python -m devpilot_core test-contracts validate --json
+python -m devpilot_core test-contracts validate-v2 --json
+python -m devpilot_core project-state validate --json
+python -m devpilot_core schema list --json
+```
+
+Límite explícito: POST-H-021-A es inventario/baseline. No habilita ejecución remota, transporte remoto, SSH, HTTP remote, gRPC, websockets, túneles, cloud control plane, workers, credenciales remotas, connector write ni plugin execution.
+
+Último hito cerrado: `POST-H-020 — Compliance mapping packs ampliados`
+Hito activo: `POST-H-021 — Remote Runner ADR-2`
+Último micro-sprint implementado: `POST-H-021-A — Inventario remote y baseline de bloqueo`
+Siguiente micro-sprint: `POST-H-021-B — ADR-2 de Remote Runner`
+
 ## POST-H-020-E — Runbook, disclaimers y cierre
 
 Estado: `implemented-initial / backlog cerrado`.

@@ -3,11 +3,11 @@
 doc_id: "POST-H-021-BACKLOG"
 id: "POST-H-021"
 title: "POST-H-021 — Remote Runner ADR-2"
-status: "draft"
-version: "0.1.0"
+status: "approved"
+version: "1.0.0"
 owner: "Ordóñez"
-updated: "2026-06-23"
-approval: "pending_owner_review"
+updated: "2026-07-01"
+approval: "approved_by_owner"
 phase: "POST-FASE-H"
 priority: "P3"
 roadmap_source: "docs/backlogs/post_h_prioritized_roadmap.md"
@@ -17,9 +17,24 @@ no_remote_execution_enabled: true
 no_external_apis_used: true
 no_connector_write_enabled: true
 no_plugin_execution_enabled: true
+implementation_status: "active"
+current_micro_sprint: "POST-H-021-A"
+next_micro_sprint: "POST-H-021-B"
 ---
 
 # POST-H-021 — Remote Runner ADR-2
+
+## 0. Estado de implementación
+
+Estado del backlog: `approved / active`.
+
+Micro-sprint actual: `POST-H-021-A — Inventario remote y baseline de bloqueo`.
+
+Resultado POST-H-021-A: `implemented-initial`. Se inventaría `src/devpilot_core/remote/`, `.devpilot/remote/runner_registry.json` y `docs/schemas/remote_runner.schema.json`; se agrega `docs/schemas/remote_readiness_criteria.schema.json`, `.devpilot/remote/remote_readiness_criteria.json`, `tests/test_post_h_021_remote_disabled_invariants.py`, `docs/audits/post_h_021_a_remote_inventory_baseline_report.md` y `docs/post_h_021_a_manifest.json`.
+
+El baseline confirma que remote runner sigue bloqueado: `remote_execution_allowed=false`, `remote_runner_enabled=false`, `execution_allowed=false`, `network_used=false`, `external_api_used=false`, `credentials_required=false`, `secrets_read=false` y `requires_future_adr=true`.
+
+Siguiente micro-sprint: `POST-H-021-B — ADR-2 de Remote Runner`.
 
 ## 1. Objetivo
 

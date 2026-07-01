@@ -1,0 +1,152 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/SCHEMA-DEVPL-REMOTE-READINESS-CRITERIA-V1",
+  "title": "DevPilot Remote Readiness Criteria v1",
+  "description": "POST-H-021-A local-first criteria for keeping remote runner design-only and blocked until a future ADR explicitly authorizes enablement.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "schema_id",
+    "created_by",
+    "updated",
+    "status",
+    "decision_status",
+    "remote_execution_allowed",
+    "remote_runner_enabled",
+    "requires_future_adr",
+    "required_before_enablement",
+    "no_go_gates",
+    "inventoried_sources",
+    "baseline_findings",
+    "safety",
+    "notes"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "schema_id": {"const": "SCHEMA-DEVPL-REMOTE-READINESS-CRITERIA-V1"},
+    "created_by": {"const": "POST-H-021-A"},
+    "updated": {"type": "string", "minLength": 10},
+    "status": {"enum": ["implemented-initial", "design-only"]},
+    "decision_status": {"const": "design-only"},
+    "remote_execution_allowed": {"const": false},
+    "remote_runner_enabled": {"const": false},
+    "requires_future_adr": {"const": true},
+    "required_before_enablement": {
+      "type": "array",
+      "minItems": 6,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "enterprise_deployment_threat_model",
+          "secure_transport_design",
+          "approval_rbac_hardening",
+          "observability_retention",
+          "runtime_state_lifecycle_policy",
+          "test_contract_registry_2",
+          "remote_runner_adr2",
+          "kill_switch_and_rollback",
+          "remote_execution_quality_gate",
+          "secret_handling_model"
+        ]
+      }
+    },
+    "no_go_gates": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "remote_runner_enabled",
+        "remote_execution_used",
+        "network_required",
+        "external_api_required",
+        "secrets_required",
+        "credentials_required",
+        "mutations_performed",
+        "source_mutations_performed",
+        "connector_write_enabled",
+        "plugin_execution_enabled"
+      ],
+      "properties": {
+        "remote_runner_enabled": {"const": false},
+        "remote_execution_used": {"const": false},
+        "network_required": {"const": false},
+        "external_api_required": {"const": false},
+        "secrets_required": {"const": false},
+        "credentials_required": {"const": false},
+        "mutations_performed": {"const": false},
+        "source_mutations_performed": {"const": false},
+        "connector_write_enabled": {"const": false},
+        "plugin_execution_enabled": {"const": false}
+      }
+    },
+    "inventoried_sources": {
+      "type": "array",
+      "minItems": 3,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["path", "kind", "status", "remote_execution_allowed", "network_required", "notes"],
+        "properties": {
+          "path": {"type": "string", "minLength": 1},
+          "kind": {"enum": ["module", "registry", "schema", "document", "test"]},
+          "status": {"enum": ["existing-disabled", "created-baseline", "documented"]},
+          "remote_execution_allowed": {"const": false},
+          "network_required": {"const": false},
+          "notes": {"type": "array", "items": {"type": "string", "minLength": 1}}
+        }
+      }
+    },
+    "baseline_findings": {
+      "type": "array",
+      "minItems": 3,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["finding_id", "severity", "status", "evidence", "blocking"],
+        "properties": {
+          "finding_id": {"type": "string", "pattern": "^[A-Z0-9_]+$"},
+          "severity": {"enum": ["info", "warning", "block"]},
+          "status": {"enum": ["pass", "documented", "blocked"]},
+          "evidence": {"type": "string", "minLength": 1},
+          "blocking": {"type": "boolean"}
+        }
+      }
+    },
+    "safety": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "local_first",
+        "dry_run",
+        "read_only_baseline",
+        "network_used",
+        "external_api_used",
+        "remote_execution_used",
+        "mutations_performed",
+        "source_mutations_performed",
+        "credentials_required",
+        "secrets_read",
+        "connector_write_enabled",
+        "plugin_execution_enabled"
+      ],
+      "properties": {
+        "local_first": {"const": true},
+        "dry_run": {"const": true},
+        "read_only_baseline": {"const": true},
+        "network_used": {"const": false},
+        "external_api_used": {"const": false},
+        "remote_execution_used": {"const": false},
+        "mutations_performed": {"const": false},
+        "source_mutations_performed": {"const": false},
+        "credentials_required": {"const": false},
+        "secrets_read": {"const": false},
+        "connector_write_enabled": {"const": false},
+        "plugin_execution_enabled": {"const": false}
+      }
+    },
+    "notes": {"type": "array", "items": {"type": "string", "minLength": 1}}
+  },
+  "x-devpilot-schema-id": "SCHEMA-DEVPL-REMOTE-READINESS-CRITERIA-V1",
+  "x-devpilot-sprint": "POST-H-021-A",
+  "x-devpilot-status": "registered"
+}

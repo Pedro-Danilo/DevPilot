@@ -1,0 +1,108 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "SCHEMA-DEVPL-POST-H-MANIFEST-V1",
+  "post_h_id": "POST-H-021",
+  "id": "POST-H-021-A",
+  "title": "Inventario remote y baseline de bloqueo",
+  "status": "implemented-initial",
+  "phase": "POST-FASE-H",
+  "implemented_at": "2026-07-01",
+  "created_by": "POST-H-021-A",
+  "updated": "2026-07-01",
+  "source_repo": "repo_DevPilot_Local_235_POST_H_020_E.zip",
+  "current_repo": "repo_DevPilot_Local_236_POST_H_021_A.zip",
+  "backlog": "docs/backlogs/POST-H-021_remote_runner_adr2.md",
+  "implementation_doc": "docs/POST-H-021_remote_runner_adr2.md",
+  "audit_report": "docs/audits/post_h_021_a_remote_inventory_baseline_report.md",
+  "created_files": [
+    "docs/schemas/remote_readiness_criteria.schema.json",
+    ".devpilot/remote/remote_readiness_criteria.json",
+    "tests/test_post_h_021_remote_disabled_invariants.py",
+    "docs/audits/post_h_021_a_remote_inventory_baseline_report.md",
+    "docs/post_h_021_a_manifest.json",
+    "docs/POST-H-021_remote_runner_adr2.md"
+  ],
+  "modified_files": [
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/backlogs/POST-H-021_remote_runner_adr2.md",
+    "docs/release/CHANGELOG.md",
+    "docs/schemas/schema_catalog.json",
+    ".devpilot/project_state.json",
+    ".devpilot/docs_governance/source_registry.json",
+    ".devpilot/testing/test_contract_registry.json",
+    ".devpilot/testing/test_contract_registry_v2.json",
+    "tests/test_project_global_state.py",
+    "tests/test_schema_registry.py",
+    "docs/post_h_020_e_manifest.json",
+    "docs/audits/post_h_020_e_compliance_mapping_closure_report.md",
+    "tests/test_post_h_020_compliance_runbook_disclaimers.py"
+  ],
+  "capabilities": [
+    "remote runner inventory baseline",
+    "RemoteReadinessCriteria schema",
+    "remote readiness criteria local registry",
+    "remote disabled invariants test",
+    "remote runner accidental enablement regression block",
+    "POST-H-020-E TCR v1 scope corrective sync prerequisite",
+    "cumulative-safe POST-H-020-E closure test sync after POST-H-021-A activation"
+  ],
+  "commands": [
+    "python -m pytest -p no:ddtrace tests/test_post_h_021_remote_disabled_invariants.py tests/test_schema_registry.py tests/test_project_global_state.py -q",
+    "python -m devpilot_core schema validate --schema-id RemoteReadinessCriteria --instance .devpilot/remote/remote_readiness_criteria.json --json",
+    "python -m devpilot_core remote runner status --json",
+    "python -m devpilot_core docs-governance validate --json",
+    "python -m devpilot_core test-contracts validate --json",
+    "python -m devpilot_core test-contracts validate-v2 --json",
+    "python -m devpilot_core project-state validate --json",
+    "python -m devpilot_core schema list --json"
+  ],
+  "tests": [
+    "tests/test_post_h_021_remote_disabled_invariants.py",
+    "tests/test_schema_registry.py",
+    "tests/test_project_global_state.py"
+  ],
+  "pass_criteria": [
+    "RemoteReadinessCriteria schema is registered.",
+    "remote_readiness_criteria.json declares remote_execution_allowed=false.",
+    "remote_readiness_criteria.json declares remote_runner_enabled=false.",
+    "Remote runner registry remains disabled and local-only.",
+    "RemoteRunnerStub.execute returns BLOCK.",
+    "No network, external API, credentials, secrets or remote execution are required.",
+    "Historical POST-H-020-E closure test accepts POST-H-021 active micro-sprint while preserving POST-H-020 closure assertions."
+  ],
+  "block_criteria": [
+    "remote_runner_enabled=true.",
+    "execution_allowed=true.",
+    "remote_execution_used=true.",
+    "network_used=true or external_api_used=true.",
+    "credentials_required=true or secrets_read=true.",
+    "A remote transport or worker is introduced.",
+    "A closed-backlog historical test requires current_micro_sprint to remain on a prior micro-sprint after the next backlog starts."
+  ],
+  "safety": {
+    "local_first": true,
+    "dry_run": true,
+    "read_only_baseline": true,
+    "network_used": false,
+    "external_api_used": false,
+    "mutations_performed": false,
+    "source_mutations_performed": false,
+    "remote_execution_enabled": false,
+    "remote_execution_used": false,
+    "connector_write_enabled": false,
+    "plugin_execution_enabled": false,
+    "credentials_required": false,
+    "secrets_read": false
+  },
+  "next_sprint": "POST-H-021-B",
+  "limitations": [
+    "POST-H-021-A is inventory/baseline only.",
+    "ADR-2 formal decision remains POST-H-021-B scope.",
+    "Readiness report CLI remains POST-H-021-C scope.",
+    "Quality gate remote integration remains POST-H-021-D scope.",
+    "No remote execution or secure transport is implemented.",
+    "POST-H-020-E required a prerequisite TCR v1 scope fix before POST-H-021-A could proceed."
+  ],
+  "preliminary": true
+}

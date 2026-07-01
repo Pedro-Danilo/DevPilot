@@ -5385,7 +5385,7 @@
     },
     {
       "contract_id": "post-h-020-compliance-runbook-disclaimers",
-      "scope": "documentation-governance",
+      "scope": "safety",
       "owner": "POST-H-020-E",
       "phase": "POST-FASE-H",
       "test_files": [
@@ -5426,6 +5426,53 @@
       "source_mutations_allowed": false,
       "notes": [
         "POST-H-020-E closure contract; no certification, legal advice, external audit, network, external APIs or evidence submission."
+      ]
+    },
+    {
+      "contract_id": "post-h-021-remote-disabled-invariants",
+      "scope": "safety",
+      "owner": "POST-H-021-A",
+      "phase": "POST-FASE-H",
+      "test_files": [
+        "tests/test_post_h_021_remote_disabled_invariants.py"
+      ],
+      "validates": [
+        "docs/schemas/remote_readiness_criteria.schema.json",
+        ".devpilot/remote/remote_readiness_criteria.json",
+        ".devpilot/remote/runner_registry.json",
+        "src/devpilot_core/remote/runner.py",
+        "docs/backlogs/POST-H-021_remote_runner_adr2.md",
+        "docs/POST-H-021_remote_runner_adr2.md",
+        "docs/post_h_021_a_manifest.json"
+      ],
+      "watched_paths": [
+        "docs/schemas/remote_readiness_criteria.schema.json",
+        ".devpilot/remote/remote_readiness_criteria.json",
+        ".devpilot/remote/runner_registry.json",
+        "src/devpilot_core/remote/runner.py",
+        "docs/backlogs/POST-H-021_remote_runner_adr2.md",
+        "docs/POST-H-021_remote_runner_adr2.md",
+        "docs/audits/post_h_021_a_remote_inventory_baseline_report.md",
+        "docs/post_h_021_a_manifest.json",
+        "tests/test_post_h_021_remote_disabled_invariants.py",
+        "tests/test_schema_registry.py",
+        "tests/test_project_global_state.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace tests/test_post_h_021_remote_disabled_invariants.py tests/test_schema_registry.py tests/test_project_global_state.py -q",
+        "python -m devpilot_core schema validate --schema-id RemoteReadinessCriteria --instance .devpilot/remote/remote_readiness_criteria.json --json",
+        "python -m devpilot_core remote runner status --json",
+        "python -m devpilot_core test-contracts validate --json"
+      ],
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "notes": [
+        "POST-H-021-A blocks remote runner accidental enablement and does not implement transport, credentials, network or remote execution."
       ]
     }
   ],

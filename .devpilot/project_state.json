@@ -8,8 +8,8 @@
   "last_completed_sprint": "POST-H-020",
   "last_functional_sprint": "FUNC-SPRINT-99",
   "next_sprint": "POST-H-021",
-  "source_repo": "repo_DevPilot_Local_234_POST_H_020_D.zip",
-  "current_repo": "repo_DevPilot_Local_235_POST_H_020_E.zip",
+  "source_repo": "repo_DevPilot_Local_235_POST_H_020_E.zip",
+  "current_repo": "repo_DevPilot_Local_236_POST_H_021_A.zip",
   "global_state_owner": "tests/test_project_global_state.py",
   "mutable_global_state_fields": [
     "last_completed_sprint",
@@ -151,10 +151,14 @@
     "POST-H-020-E documents mapped/partial/gap/not-applicable interpretation and safe gap handling.",
     "POST-H-020-E fixes Test Contract Registry v2 classification_status values for POST-H-020-C/D contracts to explicit.",
     "POST-H-020 closes Compliance mapping packs ampliados as implemented-initial: schemas, registries, validator, collector, reporter, CLI, quality gate, AuditPackV2 summary, runbook and disclaimers are available locally without certification claims.",
-    "POST-H-021 is the next prioritized hito after compliance mapping closure."
+    "POST-H-021 is the next prioritized hito after compliance mapping closure.",
+    "POST-H-021 is the next prioritized hito: Remote Runner ADR-2.",
+    "POST-H-021-A approves Remote Runner ADR-2 as design-only and adds RemoteReadinessCriteria.",
+    "POST-H-021-A inventories remote runner baseline and keeps remote execution disabled.",
+    "POST-H-021-B is the next micro-sprint: ADR-2 de Remote Runner."
   ],
-  "current_micro_sprint": "POST-H-020-E",
-  "next_micro_sprint": "POST-H-021",
+  "current_micro_sprint": "POST-H-021-A",
+  "next_micro_sprint": "POST-H-021-B",
   "post_h_020_current_micro_sprint": "POST-H-020-E",
   "post_h_020_next_micro_sprint": "POST-H-021",
   "compliance_evidence_collector_module": "src/devpilot_core/compliance/evidence.py",

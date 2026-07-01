@@ -69,8 +69,8 @@ def test_post_h_020_e_backlog_is_closed_and_project_state_advances() -> None:
     assert 'current_micro_sprint: "POST-H-020-E"' in backlog
     assert state["last_completed_sprint"] == "POST-H-020"
     assert state["next_sprint"] == "POST-H-021"
-    assert state["current_micro_sprint"] == "POST-H-020-E"
-    assert state["next_micro_sprint"] == "POST-H-021"
+    assert state["current_micro_sprint"].startswith("POST-H-021")
+    assert state["next_micro_sprint"].startswith("POST-H-021")
     assert any("POST-H-020 closes Compliance mapping packs" in note for note in state["notes"])
 
 

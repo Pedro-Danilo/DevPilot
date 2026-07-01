@@ -9841,6 +9841,70 @@
         "POST-H-020-E closes the compliance mapping pack backlog without certification, legal advice or external audit claims."
       ],
       "classification_status": "explicit"
+    },
+    {
+      "contract_id": "post-h-021-remote-disabled-invariants",
+      "schema_version": "2.0",
+      "source_contract_id": "post-h-021-remote-disabled-invariants",
+      "domain": "enterprise.remote",
+      "capability": "Remote runner inventory and disabled baseline invariants",
+      "criticality": "P2",
+      "risk_level": "critical",
+      "test_type": "security",
+      "execution_profile": "release",
+      "cost_class": "low",
+      "expected_duration_seconds": 20,
+      "test_files": [
+        "tests/test_post_h_021_remote_disabled_invariants.py"
+      ],
+      "watched_paths": [
+        "docs/schemas/remote_readiness_criteria.schema.json",
+        ".devpilot/remote/remote_readiness_criteria.json",
+        ".devpilot/remote/runner_registry.json",
+        "src/devpilot_core/remote/runner.py",
+        "docs/backlogs/POST-H-021_remote_runner_adr2.md",
+        "docs/POST-H-021_remote_runner_adr2.md",
+        "docs/audits/post_h_021_a_remote_inventory_baseline_report.md",
+        "docs/post_h_021_a_manifest.json",
+        "tests/test_post_h_021_remote_disabled_invariants.py"
+      ],
+      "validates": [
+        "RemoteReadinessCriteria declares design-only and remote_execution_allowed=false",
+        "Remote runner registry remains disabled with network/external_api/credentials/secrets false",
+        "RemoteRunnerStub.execute returns BLOCK and does not run commands",
+        "Accidental remote_runner_enabled/execution_allowed changes are blocked"
+      ],
+      "trigger_hints": [
+        "post-h-021",
+        "remote-runner",
+        "remote-readiness",
+        "disabled-baseline",
+        "no-remote-execution"
+      ],
+      "impact_scope": [
+        "enterprise.remote",
+        "security.guards",
+        "governance.schemas",
+        "testing.contracts"
+      ],
+      "required_for_release": false,
+      "required_for_security_gate": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "POST-H-021-A",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace tests/test_post_h_021_remote_disabled_invariants.py tests/test_schema_registry.py tests/test_project_global_state.py -q",
+        "python -m devpilot_core schema validate --schema-id RemoteReadinessCriteria --instance .devpilot/remote/remote_readiness_criteria.json --json",
+        "python -m devpilot_core remote runner status --json",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ],
+      "notes": [
+        "POST-H-021-A is inventory/baseline only and keeps remote execution blocked pending future ADR."
+      ],
+      "classification_status": "explicit"
     }
   ],
   "migration_metadata": {

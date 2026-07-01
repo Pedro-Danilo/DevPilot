@@ -1,0 +1,130 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "SCHEMA-DEVPL-REMOTE-READINESS-CRITERIA-V1",
+  "created_by": "POST-H-021-A",
+  "updated": "2026-07-01",
+  "status": "implemented-initial",
+  "decision_status": "design-only",
+  "remote_execution_allowed": false,
+  "remote_runner_enabled": false,
+  "requires_future_adr": true,
+  "required_before_enablement": [
+    "enterprise_deployment_threat_model",
+    "secure_transport_design",
+    "approval_rbac_hardening",
+    "observability_retention",
+    "runtime_state_lifecycle_policy",
+    "test_contract_registry_2",
+    "remote_runner_adr2",
+    "kill_switch_and_rollback",
+    "remote_execution_quality_gate",
+    "secret_handling_model"
+  ],
+  "no_go_gates": {
+    "remote_runner_enabled": false,
+    "remote_execution_used": false,
+    "network_required": false,
+    "external_api_required": false,
+    "secrets_required": false,
+    "credentials_required": false,
+    "mutations_performed": false,
+    "source_mutations_performed": false,
+    "connector_write_enabled": false,
+    "plugin_execution_enabled": false
+  },
+  "inventoried_sources": [
+    {
+      "path": "src/devpilot_core/remote/runner.py",
+      "kind": "module",
+      "status": "existing-disabled",
+      "remote_execution_allowed": false,
+      "network_required": false,
+      "notes": [
+        "RemoteRunnerRegistry validates local metadata only.",
+        "RemoteRunnerStub.execute returns BLOCK and does not run commands."
+      ]
+    },
+    {
+      "path": ".devpilot/remote/runner_registry.json",
+      "kind": "registry",
+      "status": "existing-disabled",
+      "remote_execution_allowed": false,
+      "network_required": false,
+      "notes": [
+        "All security flags are false except governance requirements.",
+        "The only runner profile is disabled and max_autonomy=A0."
+      ]
+    },
+    {
+      "path": "docs/schemas/remote_runner.schema.json",
+      "kind": "schema",
+      "status": "existing-disabled",
+      "remote_execution_allowed": false,
+      "network_required": false,
+      "notes": [
+        "The existing schema constrains runner profiles to disabled status.",
+        "Execution, network, external APIs, credentials and shell are const false."
+      ]
+    },
+    {
+      "path": "docs/schemas/remote_readiness_criteria.schema.json",
+      "kind": "schema",
+      "status": "created-baseline",
+      "remote_execution_allowed": false,
+      "network_required": false,
+      "notes": [
+        "POST-H-021-A criteria schema records design-only readiness gates.",
+        "Any accidental enablement is represented as schema or invariant failure."
+      ]
+    }
+  ],
+  "baseline_findings": [
+    {
+      "finding_id": "REMOTE_REGISTRY_METADATA_ONLY",
+      "severity": "info",
+      "status": "pass",
+      "evidence": ".devpilot/remote/runner_registry.json keeps remote_runner_enabled=false and execution_allowed=false.",
+      "blocking": false
+    },
+    {
+      "finding_id": "REMOTE_STUB_EXECUTION_BLOCKED",
+      "severity": "block",
+      "status": "blocked",
+      "evidence": "RemoteRunnerStub.execute returns REMOTE_RUNNER_EXECUTION_BLOCKED.",
+      "blocking": true
+    },
+    {
+      "finding_id": "REMOTE_TRANSPORT_NOT_IMPLEMENTED",
+      "severity": "info",
+      "status": "documented",
+      "evidence": "No SSH, HTTP remote, gRPC, websocket, tunnel or cloud control plane implementation is present in src/devpilot_core/remote/.",
+      "blocking": false
+    },
+    {
+      "finding_id": "REMOTE_CREDENTIALS_NOT_REQUIRED",
+      "severity": "info",
+      "status": "pass",
+      "evidence": "Registry security.credentials_required=false and secrets_read=false.",
+      "blocking": false
+    }
+  ],
+  "safety": {
+    "local_first": true,
+    "dry_run": true,
+    "read_only_baseline": true,
+    "network_used": false,
+    "external_api_used": false,
+    "remote_execution_used": false,
+    "mutations_performed": false,
+    "source_mutations_performed": false,
+    "credentials_required": false,
+    "secrets_read": false,
+    "connector_write_enabled": false,
+    "plugin_execution_enabled": false
+  },
+  "notes": [
+    "POST-H-021-A is an inventory and blocked-baseline sprint only.",
+    "Remote readiness criteria is not remote execution permission.",
+    "Future enablement requires ADR-2, secure transport, RBAC/Approval hardening, observability, kill-switch and quality gate coverage."
+  ]
+}

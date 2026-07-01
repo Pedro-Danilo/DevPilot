@@ -1,3 +1,11 @@
+## post-h-021-a — Inventario remote y baseline de bloqueo
+
+- Aprueba `POST-H-021 — Remote Runner ADR-2` como hito activo.
+- Agrega `RemoteReadinessCriteria` y `.devpilot/remote/remote_readiness_criteria.json`.
+- Documenta el inventario de `src/devpilot_core/remote/runner.py`, `.devpilot/remote/runner_registry.json` y `docs/schemas/remote_runner.schema.json`.
+- Agrega `tests/test_post_h_021_remote_disabled_invariants.py` para bloquear activación accidental.
+- Mantiene `remote_execution_allowed=false`, `remote_runner_enabled=false`, `execution_allowed=false`, sin red, APIs externas, credenciales remotas, secretos, connector write ni plugin execution.
+
 ## post-h-020-e — Runbook, disclaimers y cierre
 
 - Cierra `POST-H-020 — Compliance mapping packs ampliados` como `implemented-initial`.

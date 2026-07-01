@@ -43,6 +43,8 @@ Corrección POST-H-020-E FIX-01: se agregan shims de compatibilidad para los nom
 `tests/test_post_h_020_compliance_mapping_schemas.py`.
 Estos archivos delegan en los tests canónicos existentes y evitan que pytest termine con `file or directory not found`.
 
+Corrección POST-H-020-E FIX-02: el contrato v1 `post-h-020-compliance-runbook-disclaimers` se clasifica con `scope=safety`, valor permitido por `docs/schemas/test_contract_registry.schema.json`. El valor anterior `documentation-governance` pertenece al dominio de TCR v2, no al enum de TCR v1, y bloqueaba `quality-gate hardening`.
+
 ## Capacidades cerradas
 
 ```text

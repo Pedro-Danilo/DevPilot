@@ -1301,35 +1301,30 @@
     {
       "doc_id": "POST-H-021-BACKLOG",
       "path": "docs/backlogs/POST-H-021_remote_runner_adr2.md",
-      "classification": "derived",
-      "domain": "roadmap-derived-backlog",
+      "classification": "source-of-truth",
+      "domain": "enterprise.remote",
       "owner": "Ordóñez",
-      "status_required": "draft",
-      "criticality": "P3",
-      "machine_readable_counterparts": [
-        ".devpilot/evals/post_h_eval_001_prioritized_roadmap.json"
-      ],
-      "human_readable_counterparts": [
-        "docs/backlogs/post_h_prioritized_roadmap.md"
-      ],
-      "derived_documents": [],
+      "status_required": "approved",
+      "criticality": "P2",
+      "frontmatter_required": true,
+      "status_checked": true,
       "required_tests": [
-        "tests/test_documentation_governance_backlogs.py"
+        "tests/test_post_h_021_remote_disabled_invariants.py"
       ],
+      "related_files": [
+        "docs/POST-H-021_remote_runner_adr2.md",
+        "docs/post_h_021_a_manifest.json"
+      ],
+      "implementation_notes": [
+        "POST-H-021 backlog approved for remote runner ADR-2 design without remote execution."
+      ],
+      "source_of_truth": true,
+      "machine_readable": false,
       "sync_rules": [
-        "backlog_naming",
-        "backlog_frontmatter_minimum",
-        "backlog_milestone_match"
+        "required_tests_must_pass",
+        "owner_status_and_path_must_remain_synced"
       ],
-      "related_adrs": [],
-      "roadmap_milestones": [
-        "POST-H-021"
-      ],
-      "lifecycle": "planned",
-      "notes": [
-        "Roadmap-derived executable backlog governed by POST-H-009-D.",
-        "Missing future backlog files are informational planned items; existing files must pass naming and frontmatter checks."
-      ]
+      "preliminary": true
     },
     {
       "doc_id": "POST-H-022-BACKLOG",
@@ -3064,6 +3059,146 @@
         "required_tests_must_pass",
         "owner_status_and_path_must_remain_current"
       ]
+    },
+    {
+      "doc_id": "POST-H-021-IMPLEMENTATION",
+      "path": "docs/POST-H-021_remote_runner_adr2.md",
+      "classification": "source-of-truth",
+      "domain": "enterprise.remote",
+      "owner": "Ordóñez",
+      "status_required": "approved",
+      "criticality": "P2",
+      "frontmatter_required": true,
+      "status_checked": true,
+      "required_tests": [
+        "tests/test_post_h_021_remote_disabled_invariants.py",
+        "tests/test_project_global_state.py"
+      ],
+      "related_files": [
+        "docs/backlogs/POST-H-021_remote_runner_adr2.md",
+        "docs/post_h_021_a_manifest.json"
+      ],
+      "implementation_notes": [
+        "POST-H-021-A implementation doc records design-only disabled remote baseline."
+      ],
+      "source_of_truth": true,
+      "machine_readable": false,
+      "sync_rules": [
+        "required_tests_must_pass",
+        "owner_status_and_path_must_remain_synced"
+      ],
+      "preliminary": true
+    },
+    {
+      "doc_id": "SCHEMA-DEVPL-REMOTE-READINESS-CRITERIA-V1",
+      "path": "docs/schemas/remote_readiness_criteria.schema.json",
+      "classification": "machine-readable-source",
+      "domain": "enterprise.remote",
+      "owner": "Ordóñez",
+      "status_required": "registered",
+      "criticality": "P2",
+      "frontmatter_required": false,
+      "status_checked": true,
+      "required_tests": [
+        "tests/test_post_h_021_remote_disabled_invariants.py",
+        "tests/test_schema_registry.py"
+      ],
+      "related_files": [
+        ".devpilot/remote/remote_readiness_criteria.json"
+      ],
+      "implementation_notes": [
+        "POST-H-021-A schema constrains remote readiness criteria to design-only and remote execution disabled."
+      ],
+      "source_of_truth": true,
+      "machine_readable": true,
+      "sync_rules": [
+        "schema_catalog_must_reference_schema",
+        "required_tests_must_pass"
+      ],
+      "preliminary": true
+    },
+    {
+      "doc_id": "POST-H-021-A-REMOTE-READINESS-CRITERIA",
+      "path": ".devpilot/remote/remote_readiness_criteria.json",
+      "classification": "machine-readable-source",
+      "domain": "enterprise.remote",
+      "owner": "Ordóñez",
+      "status_required": "implemented-initial",
+      "criticality": "P2",
+      "frontmatter_required": false,
+      "status_checked": true,
+      "required_tests": [
+        "tests/test_post_h_021_remote_disabled_invariants.py"
+      ],
+      "related_files": [
+        "docs/schemas/remote_readiness_criteria.schema.json"
+      ],
+      "implementation_notes": [
+        "POST-H-021-A criteria file declares remote_execution_allowed=false and requires_future_adr=true."
+      ],
+      "source_of_truth": true,
+      "machine_readable": true,
+      "sync_rules": [
+        "schema_instance_must_validate",
+        "required_tests_must_pass"
+      ],
+      "preliminary": true
+    },
+    {
+      "doc_id": "POST-H-021-A-REMOTE-INVENTORY-BASELINE-REPORT",
+      "path": "docs/audits/post_h_021_a_remote_inventory_baseline_report.md",
+      "classification": "source-of-truth",
+      "domain": "enterprise.remote",
+      "owner": "Ordóñez",
+      "status_required": "approved",
+      "criticality": "P2",
+      "frontmatter_required": true,
+      "status_checked": true,
+      "required_tests": [
+        "tests/test_post_h_021_remote_disabled_invariants.py"
+      ],
+      "related_files": [
+        "docs/post_h_021_a_manifest.json",
+        ".devpilot/remote/remote_readiness_criteria.json"
+      ],
+      "implementation_notes": [
+        "POST-H-021-A audit report documents real remote capabilities, stubs and blocked baseline risks."
+      ],
+      "source_of_truth": true,
+      "machine_readable": false,
+      "sync_rules": [
+        "required_tests_must_pass",
+        "owner_status_and_path_must_remain_synced"
+      ],
+      "preliminary": true
+    },
+    {
+      "doc_id": "POST-H-021-A-MANIFEST",
+      "path": "docs/post_h_021_a_manifest.json",
+      "classification": "machine-readable-source",
+      "domain": "enterprise.remote",
+      "owner": "Ordóñez",
+      "status_required": "implemented-initial",
+      "criticality": "P2",
+      "frontmatter_required": false,
+      "status_checked": true,
+      "required_tests": [
+        "tests/test_post_h_021_remote_disabled_invariants.py",
+        "tests/test_project_global_state.py"
+      ],
+      "related_files": [
+        "docs/audits/post_h_021_a_remote_inventory_baseline_report.md"
+      ],
+      "implementation_notes": [
+        "POST-H-021-A manifest records remote inventory and blocked baseline deliverables."
+      ],
+      "source_of_truth": true,
+      "machine_readable": true,
+      "sync_rules": [
+        "required_tests_must_pass",
+        "manifest_must_track_created_and_modified_files"
+      ],
+      "preliminary": true
     }
   ],
   "rules": {
@@ -3088,12 +3223,12 @@
     "approved_backlogs_require_runtime_policy_tests": true,
     "observability_inventory_is_read_only": true,
     "approved_backlogs_require_observability_retention_hygiene_gate": true,
-    "last_updated_by": "POST-H-020-E",
+    "last_updated_by": "POST-H-021-A",
     "critical_sources_total": 95,
     "documents_with_required_tests_total": 95,
     "required_tests_checked_total": 1,
-    "current_micro_sprint": "POST-H-020-E",
-    "next_micro_sprint": "POST-H-021",
+    "current_micro_sprint": "POST-H-021-A",
+    "next_micro_sprint": "POST-H-021-B",
     "post_h_020_current_micro_sprint": "POST-H-020-E",
     "post_h_020_next_micro_sprint": "POST-H-021",
     "compliance_mapping_quality_gate_registered": true,
@@ -3108,25 +3243,30 @@
       "POST-H-020-D fixes required classification_status fields for POST-H-020-C/D test_contract_registry_v2 contracts.",
       "POST-H-020-E registers compliance mapping runbook and disclaimers.",
       "POST-H-020-E closes POST-H-020 as implemented-initial and non-certifying.",
-      "POST-H-020-E fixes TCR v2 classification_status drift for POST-H-020-C/D contracts."
+      "POST-H-020-E fixes TCR v2 classification_status drift for POST-H-020-C/D contracts.",
+      "POST-H-021-A registers remote readiness criteria and blocked remote baseline."
     ],
-    "post_h_020_closed": true
+    "post_h_020_closed": true,
+    "post_h_021_current_micro_sprint": "POST-H-021-A",
+    "post_h_021_next_micro_sprint": "POST-H-021-B",
+    "remote_readiness_criteria_registered": true,
+    "remote_execution_enabled": false
   },
   "summary": {
-    "documents_total": 95,
-    "source_of_truth_total": 18,
-    "machine_readable_source_total": 11,
-    "derived_total": 23,
+    "documents_total": 104,
+    "source_of_truth_total": 15,
+    "machine_readable_source_total": 37,
+    "derived_total": 22,
     "generated_runtime_total": 0,
     "historical_total": 0,
     "deprecated_total": 0,
-    "critical_sources_total": 93,
+    "critical_sources_total": 102,
     "markdown_json_pairs_total": 29,
-    "documents_with_required_tests_total": 93,
+    "documents_with_required_tests_total": 104,
     "network_used": false,
     "external_api_used": false,
     "mutations_performed": false,
-    "last_updated_by": "POST-H-020-E",
+    "last_updated_by": "POST-H-021-A",
     "markdown_json_sync_checks_enabled": true,
     "sync_checks_scope": "version_match, milestones_match, decisions_match, closure_status_match, next_hito_match",
     "backlog_governance_enabled": true,
@@ -3283,7 +3423,7 @@
     "plugin_execution_enabled": false,
     "plugin_install_dry_run_enabled": true,
     "plugin_exposure_report_enabled": true,
-    "next_micro_sprint": "POST-H-021",
+    "next_micro_sprint": "POST-H-021-B",
     "plugin_sandbox_quality_gate_registered": true,
     "plugin_sandbox_quality_gate_subgate": "plugin-sandbox-design",
     "plugin_sandbox_quality_gate_profiles": [
@@ -3297,7 +3437,7 @@
     "post_h_019_closed": true,
     "plugin_sandbox_metadata_runbook_registered": true,
     "plugin_sandbox_future_adr_trigger_registered": true,
-    "current_micro_sprint": "POST-H-020-E",
+    "current_micro_sprint": "POST-H-021-A",
     "post_h_020_current_micro_sprint": "POST-H-020-E",
     "post_h_020_next_micro_sprint": "POST-H-021",
     "post_h_020_compliance_mapping_schemas_registered": true,
@@ -3313,7 +3453,10 @@
       "POST-H-020-E registers compliance mapping runbook and disclaimers.",
       "POST-H-020-E closes POST-H-020 as implemented-initial and non-certifying.",
       "POST-H-020-E fixes TCR v2 classification_status drift for POST-H-020-C/D contracts."
-    ]
+    ],
+    "remote_readiness_criteria_schema_registered": true,
+    "remote_readiness_criteria_path": ".devpilot/remote/remote_readiness_criteria.json",
+    "remote_execution_enabled": false
   },
   "safety": {
     "local_first": true,
@@ -3373,6 +3516,7 @@
     "POST-H-020-D registers compliance-mapping-pack quality gate and AuditPackV2 compliance_mapping summary.",
     "POST-H-020-D uses evals/fixtures/compliance_pack_integrity_eval_cases.json as the local compliance-pack integrity signal.",
     "POST-H-020-E closes Compliance mapping packs with runbook and disclaimers.",
-    "POST-H-020-E keeps compliance mapping local-first, non-certifying and non-legal-advice."
+    "POST-H-020-E keeps compliance mapping local-first, non-certifying and non-legal-advice.",
+    "POST-H-021-A adds remote readiness criteria registry and disabled baseline documentation."
   ]
 }
