@@ -41,7 +41,7 @@ from .connectors import (
     ConnectorSandboxRunner,
 )
 from .docs_governance import DocumentationGovernanceValidationOptions, DocumentationGovernanceValidator
-from .compliance import CompliancePackRegistry, ComplianceRegistryOptions, CompliancePackRunner, ComplianceRunOptions
+from .compliance import ComplianceMappingReporter, ComplianceMappingReportOptions, CompliancePackRegistry, ComplianceRegistryOptions, CompliancePackRunner, ComplianceRunOptions
 from .enterprise import EnterpriseReportBuilder, EnterpriseReportOptions
 from .errors import DevPilotError
 from .evals import EvalRunner
@@ -3365,6 +3365,33 @@ def compliance_run_command(
     return int(result.exit_code)
 
 
+def compliance_mapping_report_command(
+    *,
+    control_mappings_path: str = ".devpilot/compliance/control_mappings.json",
+    evidence_mappings_path: str = ".devpilot/compliance/evidence_mappings.json",
+    output_json: str = "outputs/reports/compliance_mapping_report.json",
+    output_markdown: str = "outputs/reports/compliance_mapping_report.md",
+    json_output: bool = False,
+    write_report: bool = False,
+) -> int:
+    """Generate a local, non-certifying compliance mapping report."""
+
+    root = project_root()
+    result = ComplianceMappingReporter(
+        root,
+        ComplianceMappingReportOptions(
+            control_mappings_path=control_mappings_path,
+            evidence_mappings_path=evidence_mappings_path,
+            output_json=output_json,
+            output_markdown=output_markdown,
+        ),
+    ).build(write_report=write_report)
+    _emit_result_event(root, result, subject="compliance:mapping-report")
+    _persist_result(root, result, subject="compliance:mapping-report")
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+
 def audit_pack_build_command(
     *,
     actor: str | None = "local-owner",
@@ -5170,6 +5197,15 @@ def build_parser() -> argparse.ArgumentParser:
     compliance_run.add_argument("--schema-path", default="docs/schemas/compliance_pack.schema.json", help="Compliance Pack Registry JSON Schema path")
     compliance_run.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     compliance_run.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+    compliance_mapping = compliance_sub.add_parser("mapping", help="Inspect local compliance control/evidence mappings")
+    compliance_mapping_sub = compliance_mapping.add_subparsers(dest="compliance_mapping_command")
+    compliance_mapping_report = compliance_mapping_sub.add_parser("report", help="Generate local non-certifying compliance mapping report")
+    compliance_mapping_report.add_argument("--control-mappings-path", default=".devpilot/compliance/control_mappings.json", help="Compliance control mappings JSON path")
+    compliance_mapping_report.add_argument("--evidence-mappings-path", default=".devpilot/compliance/evidence_mappings.json", help="Compliance evidence mappings JSON path")
+    compliance_mapping_report.add_argument("--output-json", default="outputs/reports/compliance_mapping_report.json", help="Report JSON output path")
+    compliance_mapping_report.add_argument("--output-markdown", default="outputs/reports/compliance_mapping_report.md", help="Report Markdown output path")
+    compliance_mapping_report.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    compliance_mapping_report.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
 
     industrial = sub.add_parser("industrial-readiness", help="Run Fase H industrial readiness and closure gate")
     industrial_sub = industrial.add_subparsers(dest="industrial_readiness_command")
@@ -6189,6 +6225,9 @@ def _command_name_from_args(args: argparse.Namespace) -> str:
         return f"remote {subcommand}" if subcommand else "remote"
     if command == "compliance":
         subcommand = getattr(args, "compliance_command", None)
+        if subcommand == "mapping":
+            mapping_command = getattr(args, "compliance_mapping_command", None)
+            return f"compliance mapping {mapping_command}" if mapping_command else "compliance mapping"
         return f"compliance {subcommand}" if subcommand else "compliance"
     if command == "industrial-readiness":
         subcommand = getattr(args, "industrial_readiness_command", None)
@@ -6385,6 +6424,18 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
                 json_output=args.json,
                 write_report=args.write_report,
             )
+        if args.compliance_command == "mapping":
+            if args.compliance_mapping_command == "report":
+                return compliance_mapping_report_command(
+                    control_mappings_path=args.control_mappings_path,
+                    evidence_mappings_path=args.evidence_mappings_path,
+                    output_json=args.output_json,
+                    output_markdown=args.output_markdown,
+                    json_output=args.json,
+                    write_report=args.write_report,
+                )
+            parser.print_help()
+            return int(ExitCode.FAIL)
         parser.print_help()
         return int(ExitCode.FAIL)
     if args.command == "industrial-readiness":

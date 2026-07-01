@@ -1,3 +1,40 @@
+## POST-H-020-C — Evidence collector y report generator local
+
+Estado: `implemented-initial / hito activo`.
+
+DevPilot agrega `ComplianceEvidenceCollector` y `ComplianceMappingReporter` para generar reportes locales de compliance mapping desde evidencias declaradas. La implementación inspecciona metadatos de `source_paths`, no ejecuta `source_command`, no usa red/APIs externas, no envía evidencias a terceros y no declara certificación ni asesoría legal.
+
+Capacidades nuevas:
+
+- Collector local metadata-only de evidencias declaradas.
+- Report generator `ComplianceMappingReport` schema-valid.
+- CLI `compliance mapping report --json --write-report`.
+- Reportes runtime `outputs/reports/compliance_mapping_report.json` y `.md`.
+- Findings explícitos para missing evidence.
+- Registro del nuevo comando en el CLI no-growth allowlist.
+
+Comandos principales:
+
+```powershell
+python -m pytest -p no:ddtrace tests/test_post_h_020_compliance_evidence_report.py tests/test_post_h_020_compliance_mapping_validator.py tests/test_post_h_020_compliance_mapping_schema.py tests/test_post_h_020_compliance_evidence_mapping.py tests/test_post_h_020_compliance_no_certification.py tests/test_schema_registry.py tests/test_project_global_state.py tests/test_post_h_006_e_cli_no_growth_gate.py -q
+python -m devpilot_core compliance mapping report --json --write-report
+python -m devpilot_core schema validate --schema-id ComplianceMappingReport --instance outputs/reports/compliance_mapping_report.json --json
+python -m devpilot_core docs-governance validate --json
+python -m devpilot_core test-contracts validate --json
+python -m devpilot_core test-contracts validate-v2 --json
+python -m devpilot_core project-state validate --json
+python -m devpilot_core cli-registry guard --json
+```
+
+Límite explícito: POST-H-020-C es una primera versión local y no-certificante. Audit pack integration y quality gate quedan para POST-H-020-D/E. No habilita certificación compliance, asesoría legal, conectores externos, red, APIs externas, remote execution, plugin execution ni envío de evidencias a terceros.
+
+Último hito: `POST-H-019 — Plugin sandbox design sin ejecución arbitraria`
+Último hito cerrado: `POST-H-019 — Plugin sandbox design sin ejecución arbitraria`
+Hito activo: `POST-H-020 — Compliance mapping packs ampliados`
+Siguiente hito: `POST-H-020 — Compliance mapping packs ampliados`
+Último micro-sprint implementado: `POST-H-020-C — Evidence collector y report generator local`
+Siguiente micro-sprint: `POST-H-020-D — Integración con audit packs y quality gate`
+
 ## POST-H-020-B — Compliance mapping validator
 
 Estado: `implemented-initial / hito activo`.

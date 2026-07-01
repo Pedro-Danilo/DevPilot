@@ -18,8 +18,8 @@ no_external_apis_used: true
 no_connector_write_enabled: true
 no_plugin_execution_enabled: true
 implementation_status: "in-progress"
-current_micro_sprint: "POST-H-020-B"
-next_micro_sprint: "POST-H-020-C"
+current_micro_sprint: "POST-H-020-C"
+next_micro_sprint: "POST-H-020-D"
 ---
 
 # POST-H-020 — Compliance mapping packs ampliados
@@ -28,15 +28,17 @@ next_micro_sprint: "POST-H-020-C"
 
 Estado del backlog: `approved / in-progress`.
 
-Micro-sprint actual: `POST-H-020-B — Compliance mapping validator`.
+Micro-sprint actual: `POST-H-020-C — Evidence collector y report generator local`.
 
 Resultado POST-H-020-A: `implemented-initial`. Se agregan schemas `ComplianceControlMapping`, `ComplianceEvidenceMapping` y `ComplianceMappingReport`, se registran en `schema_catalog.json`, y se crean los registries locales `.devpilot/compliance/control_mappings.json` y `.devpilot/compliance/evidence_mappings.json`. El hito permanece no-certificante: `certification_claimed=false`, `legal_advice_claimed=false`, sin red, APIs externas, conectores, remediación automática ni envío a terceros.
 
 Resultado POST-H-020-B: `implemented-initial`. Se agrega `ComplianceMappingValidator` para validar unicidad de controles/evidencias, cobertura de `required_evidence`, bloqueo de controles críticos sin evidencia, cobertura mínima por dominio (`security`, `testing`, `policy`, `release`, `observability`, `agentic`) y no-claims de certificación o asesoría legal. El validator no recolecta evidencias, no ejecuta `source_command` y no genera el reporte final.
 
+Resultado POST-H-020-C: `implemented-initial`. Se agregan `ComplianceEvidenceCollector`, `ComplianceMappingReporter` y CLI `compliance mapping report --json --write-report` para generar reportes locales de mapping desde evidencias declaradas. El collector inspecciona metadatos de `source_paths`, no ejecuta `source_command`, no lee contenido de evidencia, no usa red/API externa, no envía evidencias fuera del workspace y reporta missing evidence de forma explícita.
+
 Disclaimers obligatorios: este hito es `no certificación`, `no asesoría legal` y no auditoría externa.
 
-Siguiente micro-sprint: `POST-H-020-C — Evidence collector y report generator local`.
+Siguiente micro-sprint: `POST-H-020-D — Integración con audit packs y quality gate`.
 
 ## 1. Objetivo
 

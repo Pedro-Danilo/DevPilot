@@ -6,13 +6,50 @@ version: "1.73.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "POST-H-020-B"
+phase: "POST-H-020-C"
 updated: "2026-07-01"
 approval: "approved_by_owner"
 source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved + 03_security approved"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "SPRINT-PRECODE-05 quality operations baseline"
 ---
+
+## POST-H-020-C — Evidence collector y report generator local
+
+Estado: `implemented-initial / hito activo`.
+
+POST-H-020-C agrega generación local de reportes de compliance mapping desde evidencias declaradas. `ComplianceEvidenceCollector` inspecciona metadatos de `source_paths`; `ComplianceMappingReporter` produce un `ComplianceMappingReport` validable. Los comandos declarados en `source_command` no se ejecutan.
+
+Artefactos:
+
+```text
+src/devpilot_core/compliance/evidence.py
+src/devpilot_core/compliance/report.py
+tests/test_post_h_020_compliance_evidence_report.py
+docs/audits/post_h_020_c_compliance_evidence_report.md
+docs/post_h_020_c_manifest.json
+```
+
+Validación:
+
+```powershell
+python -m pytest -p no:ddtrace tests/test_post_h_020_compliance_evidence_report.py tests/test_post_h_020_compliance_mapping_validator.py tests/test_post_h_020_compliance_mapping_schema.py tests/test_post_h_020_compliance_evidence_mapping.py tests/test_post_h_020_compliance_no_certification.py tests/test_schema_registry.py tests/test_project_global_state.py tests/test_post_h_006_e_cli_no_growth_gate.py -q
+python -m devpilot_core compliance mapping report --json --write-report
+python -m devpilot_core schema validate --schema-id ComplianceMappingReport --instance outputs/reports/compliance_mapping_report.json --json
+python -m devpilot_core docs-governance validate --json
+python -m devpilot_core test-contracts validate --json
+python -m devpilot_core test-contracts validate-v2 --json
+python -m devpilot_core project-state validate --json
+python -m devpilot_core cli-registry guard --json
+```
+
+PASS si el reporte se genera localmente, `disclaimer_present=true`, `certification_claimed=false`, `legal_advice_claimed=false`, `commands_executed=false`, `network_used=false`, `external_api_used=false` y missing evidence queda como finding explícito.
+
+BLOCK si se envían evidencias fuera del workspace, se ocultan gaps, se ejecutan comandos declarados, se usa red/API externa, se declara certificación o se ofrece asesoría legal.
+
+Límite: esta sigue siendo una versión local, declarativa y no-certificante. Audit pack integration y quality gate quedan para POST-H-020-D/E.
+
+Último hito cerrado: `POST-H-019 — Plugin sandbox design sin ejecución arbitraria`; hito activo: `POST-H-020 — Compliance mapping packs ampliados`; último micro-sprint implementado: `POST-H-020-C — Evidence collector y report generator local`; siguiente micro-sprint: `POST-H-020-D — Integración con audit packs y quality gate`.
 
 ## POST-H-020-B — Compliance mapping validator
 

@@ -1,3 +1,12 @@
+## post-h-020-c — Evidence collector y report generator local
+
+- Agrega `ComplianceEvidenceCollector` para inspeccionar metadatos locales de evidencias declaradas.
+- Agrega `ComplianceMappingReporter` y CLI `compliance mapping report --json --write-report`.
+- Genera `outputs/reports/compliance_mapping_report.json` y `.md` bajo demanda.
+- Reporta missing evidence explícitamente y mantiene `source_command` como declaración no ejecutada.
+- Registra `compliance.mapping.report` en la allowlist del CLI no-growth gate.
+- Mantiene `certification_claimed=false`, `legal_advice_claimed=false`, sin red, APIs externas, envío a terceros, remote execution ni plugin execution.
+
 ## post-h-020-b — Compliance mapping validator
 
 - Agrega `ComplianceMappingValidator` para validación semántica local de compliance mappings.

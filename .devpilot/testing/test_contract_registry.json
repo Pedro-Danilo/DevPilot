@@ -5292,6 +5292,51 @@
       "notes": [
         "POST-H-020-B semantic validator only; no collector, report generator, certification, legal advice, network or external APIs."
       ]
+    },
+    {
+      "contract_id": "post-h-020-compliance-evidence-report",
+      "scope": "integration",
+      "owner": "POST-H-020-C",
+      "phase": "POST-FASE-H",
+      "test_files": [
+        "tests/test_post_h_020_compliance_evidence_report.py"
+      ],
+      "validates": [
+        "src/devpilot_core/compliance/evidence.py",
+        "src/devpilot_core/compliance/report.py",
+        "src/devpilot_core/cli.py",
+        "docs/POST-H-020_compliance_mapping_packs.md",
+        "docs/post_h_020_c_manifest.json",
+        "docs/audits/post_h_020_c_compliance_evidence_report.md"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/compliance/evidence.py",
+        "src/devpilot_core/compliance/report.py",
+        "src/devpilot_core/compliance/__init__.py",
+        "src/devpilot_core/cli.py",
+        ".devpilot/compliance/control_mappings.json",
+        ".devpilot/compliance/evidence_mappings.json",
+        ".devpilot/cli_registry/legacy_command_allowlist.json",
+        "docs/backlogs/POST-H-020_compliance_mapping_packs.md",
+        "docs/POST-H-020_compliance_mapping_packs.md",
+        "tests/test_post_h_020_compliance_evidence_report.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace tests/test_post_h_020_compliance_evidence_report.py tests/test_post_h_020_compliance_mapping_validator.py tests/test_post_h_020_compliance_mapping_schema.py tests/test_post_h_020_compliance_evidence_mapping.py tests/test_post_h_020_compliance_no_certification.py tests/test_schema_registry.py tests/test_project_global_state.py tests/test_post_h_006_e_cli_no_growth_gate.py -q",
+        "python -m devpilot_core compliance mapping report --json --write-report",
+        "python -m devpilot_core schema validate --schema-id ComplianceMappingReport --instance outputs/reports/compliance_mapping_report.json --json",
+        "python -m devpilot_core test-contracts validate --json"
+      ],
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "notes": [
+        "POST-H-020-C report generator writes only requested runtime reports under outputs/reports and does not execute source_command values."
+      ]
     }
   ],
   "notes": [
@@ -5311,6 +5356,7 @@
     "POST-H-017-E registers release-reproducibility quality gate and local pack generation contract.",
     "POST-H-019-D promotes post-h-019-plugin-sandbox-design to quality-gate coverage without enabling plugin execution.",
     "POST-H-019-E closes post-h-019-plugin-sandbox-design contract with runbook and ADR trigger.",
-    "POST-H-019-D corrective patch carried into E: TCR v2 execution_profile uses schema-valid release."
+    "POST-H-019-D corrective patch carried into E: TCR v2 execution_profile uses schema-valid release.",
+    "POST-H-020-C adds compliance evidence report contract."
   ]
 }

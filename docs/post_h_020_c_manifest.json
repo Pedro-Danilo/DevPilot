@@ -1,0 +1,116 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "SCHEMA-DEVPL-POST-H-MANIFEST-V1",
+  "post_h_id": "POST-H-020",
+  "id": "POST-H-020-C",
+  "title": "Evidence collector y report generator local",
+  "status": "implemented-initial",
+  "phase": "POST-FASE-H",
+  "implemented_at": "2026-07-01",
+  "created_by": "POST-H-020-C",
+  "updated": "2026-07-01",
+  "source_repo": "repo_DevPilot_Local_232_POST_H_020_B.zip",
+  "current_repo": "repo_DevPilot_Local_233_POST_H_020_C.zip",
+  "backlog": "docs/backlogs/POST-H-020_compliance_mapping_packs.md",
+  "implementation_doc": "docs/POST-H-020_compliance_mapping_packs.md",
+  "audit_report": "docs/audits/post_h_020_c_compliance_evidence_report.md",
+  "created_files": [
+    "src/devpilot_core/compliance/evidence.py",
+    "src/devpilot_core/compliance/report.py",
+    "tests/test_post_h_020_compliance_evidence_report.py",
+    "docs/audits/post_h_020_c_compliance_evidence_report.md",
+    "docs/post_h_020_c_manifest.json"
+  ],
+  "modified_files": [
+    "src/devpilot_core/compliance/__init__.py",
+    "src/devpilot_core/cli.py",
+    ".devpilot/cli_registry/legacy_command_allowlist.json",
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/backlogs/POST-H-020_compliance_mapping_packs.md",
+    "docs/POST-H-020_compliance_mapping_packs.md",
+    "docs/release/CHANGELOG.md",
+    ".devpilot/project_state.json",
+    ".devpilot/docs_governance/source_registry.json",
+    ".devpilot/testing/test_contract_registry.json",
+    ".devpilot/testing/test_contract_registry_v2.json",
+    "tests/test_project_global_state.py"
+  ],
+  "capabilities": [
+    "ComplianceEvidenceCollector",
+    "ComplianceMappingReporter",
+    "compliance mapping report CLI",
+    "local compliance mapping JSON/Markdown report",
+    "explicit missing evidence findings"
+  ],
+  "commands": [
+    "python -m devpilot_core compliance mapping report --json --write-report",
+    "python -m devpilot_core schema validate --schema-id ComplianceMappingReport --instance outputs/reports/compliance_mapping_report.json --json",
+    "python -m devpilot_core docs-governance validate --json",
+    "python -m devpilot_core test-contracts validate --json",
+    "python -m devpilot_core test-contracts validate-v2 --json",
+    "python -m devpilot_core project-state validate --json",
+    "python -m devpilot_core cli-registry guard --json"
+  ],
+  "tests": [
+    "tests/test_post_h_020_compliance_evidence_report.py",
+    "tests/test_post_h_020_compliance_mapping_validator.py",
+    "tests/test_post_h_020_compliance_mapping_schema.py",
+    "tests/test_post_h_020_compliance_evidence_mapping.py",
+    "tests/test_post_h_020_compliance_no_certification.py",
+    "tests/test_schema_registry.py",
+    "tests/test_project_global_state.py",
+    "tests/test_post_h_006_e_cli_no_growth_gate.py"
+  ],
+  "pass_criteria": [
+    "ComplianceEvidenceCollector inspects local evidence metadata without executing source_command values.",
+    "ComplianceMappingReporter generates a schema-valid ComplianceMappingReport.",
+    "compliance mapping report --json --write-report writes JSON/Markdown under outputs/reports by default and accepts explicit output paths.",
+    "Missing evidence is reported explicitly through findings.",
+    "certification_claimed=false and legal_advice_claimed=false remain enforced."
+  ],
+  "block_criteria": [
+    "Evidence is sent outside the workspace.",
+    "source_command values are executed.",
+    "Missing evidence is hidden.",
+    "Certification or legal advice is claimed.",
+    "Network or external APIs are used."
+  ],
+  "risks": [
+    "Reports may be misread as certification; mitigated by explicit non-certification fields and documentation.",
+    "Metadata-only collection cannot prove command output freshness; audit pack and quality-gate integration are deferred to POST-H-020-D/E.",
+    "Runtime reports under outputs/ must be regenerated locally and excluded from release ZIPs."
+  ],
+  "next_sprint": "POST-H-020",
+  "preliminary": true,
+  "safety": {
+    "local_first": true,
+    "dry_run": true,
+    "commands_executed": false,
+    "network_used": false,
+    "external_api_used": false,
+    "mutations_performed": false,
+    "source_mutations_performed": false,
+    "certification_claimed": false,
+    "legal_advice_claimed": false,
+    "remote_execution_enabled": false,
+    "plugin_execution_enabled": false,
+    "connector_write_enabled": false
+  },
+  "validation": {
+    "pytest_focal": "python -m pytest -p no:ddtrace tests/test_post_h_020_compliance_evidence_report.py tests/test_post_h_020_compliance_mapping_validator.py tests/test_post_h_020_compliance_mapping_schema.py tests/test_post_h_020_compliance_evidence_mapping.py tests/test_post_h_020_compliance_no_certification.py tests/test_schema_registry.py tests/test_project_global_state.py tests/test_post_h_006_e_cli_no_growth_gate.py -q",
+    "cli_report": "python -m devpilot_core compliance mapping report --json --write-report",
+    "schema_report": "python -m devpilot_core schema validate --schema-id ComplianceMappingReport --instance outputs/reports/compliance_mapping_report.json --json",
+    "docs_governance": "python -m devpilot_core docs-governance validate --json",
+    "test_contracts": "python -m devpilot_core test-contracts validate --json",
+    "test_contracts_v2": "python -m devpilot_core test-contracts validate-v2 --json",
+    "project_state": "python -m devpilot_core project-state validate --json",
+    "cli_registry_guard": "python -m devpilot_core cli-registry guard --json"
+  },
+  "limitations": [
+    "No audit pack integration yet.",
+    "No compliance mapping quality gate yet.",
+    "No certification, legal advice or external audit claim.",
+    "source_command values are not executed."
+  ]
+}
