@@ -23,9 +23,9 @@ def test_project_global_state_schema_and_docs_are_synchronized() -> None:
     changelog = read("docs/release/CHANGELOG.md")
 
     assert state["current_phase"] == "POST-FASE-H"
-    assert state["last_completed_sprint"] == "POST-H-018"
+    assert state["last_completed_sprint"] == "POST-H-019"
     assert state["last_functional_sprint"] == "FUNC-SPRINT-99"
-    assert state["next_sprint"] == "POST-H-019"
+    assert state["next_sprint"] == "POST-H-020"
     assert state["phase_h_status"] == "closed_implemented_initial"
     assert state["industrial_baseline_ready"] is True
     assert state["global_state_owner"] == "tests/test_project_global_state.py"
@@ -102,8 +102,8 @@ def test_project_global_state_schema_and_docs_are_synchronized() -> None:
     assert any("POST-H-013-D adds optional local crypto" in note for note in state["notes"])
     assert any("POST-H-013-E closes Audit pack integrity" in note for note in state["notes"])
     assert any("POST-H-014 is the next prioritized hito" in note for note in state["notes"])
-    assert state.get("current_micro_sprint") == "POST-H-019-D"
-    assert state.get("next_micro_sprint") == "POST-H-019-E"
+    assert state.get("current_micro_sprint") == "POST-H-019-E"
+    assert state.get("next_micro_sprint") == "POST-H-020"
     assert "POST-H-014-A — Route Contract Registry y API inventory" in readme
     assert "POST-H-014-B — Response mapping y errores homogéneos" in readme
     assert "POST-H-014-C — UI Route Contract y shell de producto" in readme
@@ -182,7 +182,8 @@ def test_project_global_state_schema_and_docs_are_synchronized() -> None:
     assert any("POST-H-019-B is the next micro-sprint" in note for note in state["notes"])
     assert any("POST-H-019-C adds PluginStaticValidator" in note for note in state["notes"])
     assert any("POST-H-019-D adds plugin-sandbox-design" in note for note in state["notes"])
-    assert any("POST-H-019-E is the next micro-sprint" in note for note in state["notes"])
+    assert any("POST-H-019-E closes Plugin sandbox design" in note for note in state["notes"])
+    assert any("POST-H-020 is the next prioritized hito" in note for note in state["notes"])
     assert "POST-H-019-A — Threat model y sandbox design" in readme
     assert "POST-H-019-A — Threat model y sandbox design" in runbook
     assert "post-h-019-a" in changelog
@@ -190,6 +191,9 @@ def test_project_global_state_schema_and_docs_are_synchronized() -> None:
     assert "POST-H-019-B — Permission model y manifest hardening" in runbook
     assert "POST-H-019-D — Quality gate plugin safety" in readme
     assert "POST-H-019-D — Quality gate plugin safety" in runbook
+    assert "POST-H-019-E — Runbook, ADR trigger y cierre" in readme
+    assert "POST-H-019-E — Runbook, ADR trigger y cierre" in runbook
+    assert "POST-H-020 — Compliance mapping packs ampliados" in readme
     assert "post-h-019-b" in changelog
     assert "post-h-019-c" in changelog
     assert "POST-H-015-A — Dashboard snapshot schema y config" in readme
@@ -222,6 +226,6 @@ def test_project_global_state_command_result_passes() -> None:
     result = TestContractRegistry(ROOT).project_state()
 
     assert result.ok, result.to_dict()
-    assert result.data["summary"]["last_completed_sprint"] == "POST-H-018"
-    assert result.data["summary"]["next_sprint"] == "POST-H-019"
+    assert result.data["summary"]["last_completed_sprint"] == "POST-H-019"
+    assert result.data["summary"]["next_sprint"] == "POST-H-020"
     assert result.data["summary"]["checks_passed"] == result.data["summary"]["checks_total"]

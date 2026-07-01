@@ -5,11 +5,11 @@
   "phase_h_status": "closed_implemented_initial",
   "industrial_baseline_ready": true,
   "maturity_level": "industrial-baseline-ready",
-  "last_completed_sprint": "POST-H-018",
+  "last_completed_sprint": "POST-H-019",
   "last_functional_sprint": "FUNC-SPRINT-99",
-  "next_sprint": "POST-H-019",
-  "source_repo": "repo_DevPilot_Local_228_POST_H_019_C.zip",
-  "current_repo": "repo_DevPilot_Local_229_POST_H_019_D.zip",
+  "next_sprint": "POST-H-020",
+  "source_repo": "repo_DevPilot_Local_229_POST_H_019_D.zip",
+  "current_repo": "repo_DevPilot_Local_230_POST_H_019_E.zip",
   "global_state_owner": "tests/test_project_global_state.py",
   "mutable_global_state_fields": [
     "last_completed_sprint",
@@ -129,8 +129,11 @@
     "POST-H-019-C adds PluginExposureReporter, PluginSandboxDesignReport schema and plugin dry-run --all --dry-run --write-report to produce exposure evidence with execution_allowed_total=0.",
     "POST-H-019-D adds plugin-sandbox-design quality subgate to hardening/industrial profiles without enabling plugin execution, importlib, subprocess, network, external APIs, pip install, marketplace or filesystem write.",
     "POST-H-019-D validates PluginRegistry, PluginPermissionModel, PluginExposureReporter and plugin-ecosystem fixture signal as implemented-initial quality-gate evidence.",
-    "POST-H-019-E is the next micro-sprint: Runbook, ADR trigger y cierre."
+    "POST-H-019-E closes Plugin sandbox design sin ejecución arbitraria as implemented-initial: metadata-only registry, permission model, static validator, dry-run exposure report, quality gate, runbook and ADR trigger are synchronized without enabling plugin execution.",
+    "POST-H-019 remains metadata-only; future plugin execution requires ADR, sandbox, RBAC, approvals, tests, observability and rollback.",
+    "POST-H-019-E fixes inherited TCR v2 enum drift: post-h-019-plugin-sandbox-design uses execution_profile=release instead of invalid hardening.",
+    "POST-H-020 is the next prioritized hito: Compliance mapping packs ampliados."
   ],
-  "current_micro_sprint": "POST-H-019-D",
-  "next_micro_sprint": "POST-H-019-E"
+  "current_micro_sprint": "POST-H-019-E",
+  "next_micro_sprint": "POST-H-020"
 }

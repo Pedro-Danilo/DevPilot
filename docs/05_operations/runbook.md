@@ -2,17 +2,65 @@
 title: "Runbook — DevPilot Local"
 doc_id: "DEVPL-OPS-002"
 status: "approved"
-version: "1.70.0"
+version: "1.71.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "POST-H-019-D"
+phase: "POST-H-019-E"
 updated: "2026-06-30"
 approval: "approved_by_owner"
 source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved + 03_security approved"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "SPRINT-PRECODE-05 quality operations baseline"
 ---
+
+## POST-H-019-E — Runbook, ADR trigger y cierre
+
+Estado: `closed / implemented-initial`.
+
+Operación de cierre del hito `POST-H-019`:
+
+```powershell
+$env:PYTHONPATH="src"
+python -m pytest -p no:ddtrace tests/test_post_h_019_plugin_metadata_runbook.py tests/test_post_h_019_plugin_quality_gate.py tests/test_post_h_019_plugin_static_validator.py tests/test_post_h_019_plugin_execution_blocked.py tests/test_post_h_019_plugin_permission_model.py tests/test_post_h_019_plugin_sandbox_design.py tests/test_quality_gate.py tests/test_project_global_state.py tests/test_post_h_018_connector_sandbox_policy.py -q
+python -m devpilot_core quality-gate run --profile hardening --json
+python -m devpilot_core plugin validate --json
+python -m devpilot_core plugin dry-run --all --dry-run --json --write-report
+python -m devpilot_core docs-governance validate --json
+python -m devpilot_core test-contracts validate --json
+python -m devpilot_core test-contracts validate-v2 --json
+python -m devpilot_core project-state validate --json
+python -m devpilot_core cli-registry guard --json
+```
+
+Artefactos de operación:
+
+```text
+docs/05_operations/plugin_metadata_runbook.md
+docs/audits/post_h_019_e_plugin_sandbox_closure_report.md
+docs/post_h_019_e_manifest.json
+```
+
+Criterios PASS:
+
+```text
+PASS si POST-H-019 queda closed / implemented-initial.
+PASS si plugin_metadata_runbook.md declara metadata-only y ADR trigger.
+PASS si TCR v1/v2 validan post-h-019-plugin-sandbox-design.
+PASS si quality-gate hardening incluye plugin-sandbox-design.
+PASS si project-state avanza a POST-H-020.
+```
+
+No-go gates:
+
+```text
+NO-GO si se declara plugin execution disponible.
+NO-GO si se sugieren pasos de ejecución real, pip install automático o marketplace.
+NO-GO si se omite ADR futura con sandbox, RBAC, approvals, tests y rollback.
+NO-GO si se relajan permisos críticos de plugins.
+```
+
+Límite: POST-H-019-E cierra el diseño de sandbox de plugins como metadata-only. POST-H-020 — Compliance mapping packs ampliados es el siguiente hito; no depende de habilitar plugins ejecutables.
 
 ## POST-H-019-D — Quality gate plugin safety
 

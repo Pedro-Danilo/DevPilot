@@ -1217,7 +1217,8 @@
       "derived_documents": [],
       "required_tests": [
         "tests/test_post_h_019_plugin_sandbox_design.py",
-        "tests/test_post_h_019_plugin_quality_gate.py"
+        "tests/test_post_h_019_plugin_quality_gate.py",
+        "tests/test_post_h_019_plugin_metadata_runbook.py"
       ],
       "sync_rules": [
         "required_tests_must_pass",
@@ -1234,7 +1235,8 @@
       ],
       "implementation_notes": [
         "POST-H-019 is approved for implementation; POST-H-019-A starts with threat model and sandbox design without execution.",
-        "POST-H-019-D integrates plugin-sandbox-design quality gate as metadata-only safety validation."
+        "POST-H-019-D integrates plugin-sandbox-design quality gate as metadata-only safety validation.",
+        "POST-H-019-E closes plugin sandbox design as implemented-initial metadata-only with runbook and ADR trigger."
       ]
     },
     {
@@ -2152,7 +2154,8 @@
       "criticality": "P2",
       "required_tests": [
         "tests/test_post_h_019_plugin_sandbox_design.py",
-        "tests/test_post_h_019_plugin_quality_gate.py"
+        "tests/test_post_h_019_plugin_quality_gate.py",
+        "tests/test_post_h_019_plugin_metadata_runbook.py"
       ],
       "related_files": [
         "docs/backlogs/POST-H-019_plugin_sandbox_design.md",
@@ -2161,7 +2164,8 @@
       ],
       "implementation_notes": [
         "POST-H-019 implementation authority mirrors the approved backlog and records implemented-initial progress.",
-        "POST-H-019-D integrates plugin-sandbox-design quality gate as metadata-only safety validation."
+        "POST-H-019-D integrates plugin-sandbox-design quality gate as metadata-only safety validation.",
+        "POST-H-019-E closes plugin sandbox design as implemented-initial metadata-only with runbook and ADR trigger."
       ],
       "sync_rules": [
         "required_tests_must_pass",
@@ -2473,6 +2477,90 @@
         "required_tests_must_pass",
         "owner_status_and_path_must_remain_current"
       ]
+    },
+    {
+      "doc_id": "POST-H-019-PLUGIN-METADATA-RUNBOOK",
+      "path": "docs/05_operations/plugin_metadata_runbook.md",
+      "classification": "source-of-truth",
+      "domain": "extensibility.plugins",
+      "owner": "Ordóñez",
+      "status_required": "approved",
+      "criticality": "P2",
+      "frontmatter_required": true,
+      "status_checked": true,
+      "required_tests": [
+        "tests/test_post_h_019_plugin_metadata_runbook.py"
+      ],
+      "related_files": [
+        "docs/backlogs/POST-H-019_plugin_sandbox_design.md",
+        "src/devpilot_core/plugins/quality_gate.py",
+        ".devpilot/plugins/plugin_permission_model.json"
+      ],
+      "implementation_notes": [
+        "POST-H-019-E runbook defines metadata-only operation, no-go gates and future ADR trigger."
+      ],
+      "source_of_truth": true,
+      "machine_readable": false,
+      "sync_rules": [
+        "required_tests_must_pass",
+        "owner_status_and_path_must_remain_current"
+      ]
+    },
+    {
+      "doc_id": "POST-H-019-E-PLUGIN-SANDBOX-CLOSURE-REPORT",
+      "path": "docs/audits/post_h_019_e_plugin_sandbox_closure_report.md",
+      "classification": "source-of-truth",
+      "domain": "extensibility.plugins",
+      "owner": "Ordóñez",
+      "status_required": "approved",
+      "criticality": "P2",
+      "frontmatter_required": true,
+      "status_checked": true,
+      "required_tests": [
+        "tests/test_post_h_019_plugin_metadata_runbook.py",
+        "tests/test_post_h_019_plugin_quality_gate.py"
+      ],
+      "related_files": [
+        "docs/05_operations/plugin_metadata_runbook.md",
+        "docs/post_h_019_e_manifest.json"
+      ],
+      "implementation_notes": [
+        "POST-H-019-E closure report separates implemented, implemented-initial, blocked-by-design and future plugin capabilities."
+      ],
+      "source_of_truth": true,
+      "machine_readable": false,
+      "sync_rules": [
+        "required_tests_must_pass",
+        "owner_status_and_path_must_remain_current"
+      ]
+    },
+    {
+      "doc_id": "POST-H-019-E-MANIFEST",
+      "path": "docs/post_h_019_e_manifest.json",
+      "classification": "machine-readable-source",
+      "domain": "extensibility.plugins",
+      "owner": "Ordóñez",
+      "status_required": "closed",
+      "criticality": "P2",
+      "frontmatter_required": false,
+      "status_checked": true,
+      "required_tests": [
+        "tests/test_post_h_019_plugin_metadata_runbook.py",
+        "tests/test_project_global_state.py"
+      ],
+      "related_files": [
+        "docs/05_operations/plugin_metadata_runbook.md",
+        "docs/audits/post_h_019_e_plugin_sandbox_closure_report.md"
+      ],
+      "implementation_notes": [
+        "POST-H-019-E manifest records closure evidence, D corrective patch and next hito POST-H-020."
+      ],
+      "source_of_truth": true,
+      "machine_readable": true,
+      "sync_rules": [
+        "required_tests_must_pass",
+        "owner_status_and_path_must_remain_current"
+      ]
     }
   ],
   "rules": {
@@ -2499,20 +2587,20 @@
     "approved_backlogs_require_observability_retention_hygiene_gate": true
   },
   "summary": {
-    "documents_total": 78,
-    "source_of_truth_total": 34,
-    "machine_readable_source_total": 23,
+    "documents_total": 81,
+    "source_of_truth_total": 37,
+    "machine_readable_source_total": 24,
     "derived_total": 24,
     "generated_runtime_total": 0,
     "historical_total": 0,
     "deprecated_total": 0,
-    "critical_sources_total": 78,
+    "critical_sources_total": 81,
     "markdown_json_pairs_total": 29,
-    "documents_with_required_tests_total": 78,
+    "documents_with_required_tests_total": 81,
     "network_used": false,
     "external_api_used": false,
     "mutations_performed": false,
-    "last_updated_by": "POST-H-019-D",
+    "last_updated_by": "POST-H-019-E",
     "markdown_json_sync_checks_enabled": true,
     "sync_checks_scope": "version_match, milestones_match, decisions_match, closure_status_match, next_hito_match",
     "backlog_governance_enabled": true,
@@ -2552,8 +2640,8 @@
     "post_h_011_closed": true,
     "machine_readable_total": 15,
     "required_tests_total": 52,
-    "active_backlog": "POST-H-019",
-    "active_micro_sprint": "POST-H-019-D",
+    "active_backlog": "POST-H-020",
+    "active_micro_sprint": "POST-H-020",
     "sensitive_action_catalog_enabled": true,
     "sensitive_action_catalog_path": ".devpilot/approval/sensitive_action_catalog.json",
     "sensitive_action_catalog_schema": "docs/schemas/sensitive_action_catalog.schema.json",
@@ -2581,8 +2669,8 @@
     "operator_dashboard_ready_gate_module": "src/devpilot_core/portfolio/operator_dashboard_gate.py",
     "operator_dashboard_cli_command": "python -m devpilot_core operator dashboard --json --write-report",
     "post_h_015_closed": true,
-    "last_completed_sprint": "POST-H-018",
-    "next_sprint": "POST-H-019",
+    "last_completed_sprint": "POST-H-019",
+    "next_sprint": "POST-H-020",
     "post_h_016_approved": true,
     "post_h_016_current_micro_sprint": "POST-H-016-E",
     "post_h_016_next_micro_sprint": "POST-H-017",
@@ -2658,8 +2746,8 @@
     "connector_sandbox_runbook_path": "docs/05_operations/connector_sandbox_runbook.md",
     "connector_sandbox_threat_model_path": "docs/03_security/connector_sandbox_threat_model.md",
     "connector_sandbox_gate_module": "src/devpilot_core/connectors/sandbox_gate.py",
-    "post_h_019_current_micro_sprint": "POST-H-019-D",
-    "post_h_019_next_micro_sprint": "POST-H-019-E",
+    "post_h_019_current_micro_sprint": "POST-H-019-E",
+    "post_h_019_next_micro_sprint": "POST-H-020",
     "plugin_static_validator_module": "src/devpilot_core/plugins/static_validator.py",
     "plugin_exposure_report_module": "src/devpilot_core/plugins/exposure_report.py",
     "plugin_sandbox_design_report_schema_registered": true,
@@ -2669,7 +2757,7 @@
     "plugin_execution_enabled": false,
     "plugin_install_dry_run_enabled": true,
     "plugin_exposure_report_enabled": true,
-    "next_micro_sprint": "POST-H-019-E",
+    "next_micro_sprint": "POST-H-020",
     "plugin_sandbox_quality_gate_registered": true,
     "plugin_sandbox_quality_gate_subgate": "plugin-sandbox-design",
     "plugin_sandbox_quality_gate_profiles": [
@@ -2679,7 +2767,11 @@
     "plugin_sandbox_quality_gate_metadata_only": true,
     "post_h_019_plugin_quality_gate_registered": true,
     "post_h_019_plugin_quality_gate_subgate": "plugin-sandbox-design",
-    "post_h_019_plugin_execution_enabled": false
+    "post_h_019_plugin_execution_enabled": false,
+    "post_h_019_closed": true,
+    "plugin_sandbox_metadata_runbook_registered": true,
+    "plugin_sandbox_future_adr_trigger_registered": true,
+    "current_micro_sprint": "POST-H-019-E"
   },
   "safety": {
     "local_first": true,

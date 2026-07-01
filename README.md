@@ -1,3 +1,43 @@
+## POST-H-019-E — Runbook, ADR trigger y cierre
+
+Estado: `closed / implemented-initial`.
+
+`POST-H-019 — Plugin sandbox design sin ejecución arbitraria queda cerrado` como una base industrial inicial para plugins metadata-only. El cierre agrega el runbook operativo `docs/05_operations/plugin_metadata_runbook.md`, formaliza el ADR trigger para cualquier ejecución futura y mantiene bloqueado todo runtime de plugins.
+
+Capacidades cerradas:
+
+- Threat model y sandbox design aprobados.
+- Permission model deny-by-default.
+- Manifest hardening para permisos críticos y desconocidos.
+- Static validator e install dry-run metadata-only.
+- Exposure report validable.
+- Quality gate `plugin-sandbox-design`.
+- Runbook metadata-only y ADR trigger.
+- TCR v1/v2 sincronizados.
+
+Patch correctivo heredado: `post-h-019-plugin-sandbox-design` en TCR v2 usa ahora `execution_profile="release"` en lugar de `hardening`, porque `hardening` no pertenece al enum del schema v2.
+
+Comandos principales:
+
+```powershell
+python -m pytest -p no:ddtrace tests/test_post_h_019_plugin_metadata_runbook.py tests/test_post_h_019_plugin_quality_gate.py tests/test_post_h_019_plugin_static_validator.py tests/test_post_h_019_plugin_execution_blocked.py tests/test_post_h_019_plugin_permission_model.py tests/test_post_h_019_plugin_sandbox_design.py tests/test_quality_gate.py tests/test_project_global_state.py tests/test_post_h_018_connector_sandbox_policy.py -q
+python -m devpilot_core quality-gate run --profile hardening --json
+python -m devpilot_core plugin validate --json
+python -m devpilot_core plugin dry-run --all --dry-run --json --write-report
+python -m devpilot_core docs-governance validate --json
+python -m devpilot_core test-contracts validate --json
+python -m devpilot_core test-contracts validate-v2 --json
+python -m devpilot_core project-state validate --json
+```
+
+Límite explícito: POST-H-019-E no habilita plugin execution real, dynamic import, `subprocess`, `pip install`, marketplace, red, APIs externas, filesystem write ni remote execution. Cualquier ejecución futura requiere ADR, sandbox, RBAC, approvals, tests, observabilidad y rollback.
+
+Último hito: `POST-H-019 — Plugin sandbox design sin ejecución arbitraria`
+Último hito cerrado: `POST-H-019 — Plugin sandbox design sin ejecución arbitraria`
+Siguiente hito: `POST-H-020 — Compliance mapping packs ampliados`
+Último micro-sprint implementado: `POST-H-019-E — Runbook, ADR trigger y cierre`
+Siguiente micro-sprint: `POST-H-020`
+
 ## POST-H-019-D — Quality gate plugin safety
 
 Estado: `implemented-initial / hito activo`.
