@@ -66,7 +66,7 @@ from .miasi import MiasiRegistryValidator, MiasiSemanticValidator
 from .modeling import BudgetLedger, CapabilityMatrix, ModelAdapterRouter, ModelEvalRunner, ModelEvalRunnerConfig, ModelHealthService, ModelRouterConfig
 from .multiagent import MultiAgentCoordinator, MultiAgentRunOptions, MultiAgentWorkflowRunner, MultiAgentWorkflowRunOptions
 from .policy import CostPolicy, PolicyEngine, PolicyRequest, load_cost_policy
-from .plugins import PluginDryRunOptions, PluginRegistry, PluginRegistryOptions
+from .plugins import PluginDryRunOptions, PluginExposureReporter, PluginExposureReportOptions, PluginRegistry, PluginRegistryOptions
 from .prompts import PromptRegistry
 from .quality import QualityGate, QualityGateOptions
 from .remote import RemoteRunnerStatusOptions, RemoteRunnerStub
@@ -1949,36 +1949,94 @@ def plugin_list_command(
 
 def plugin_dry_run_command(
     *,
-    plugin: str,
+    plugin: str | None = None,
+    plugin_id: str | None = None,
+    all_plugins: bool = False,
     operation: str = "metadata",
     dry_run: bool = False,
     registry_path: str = ".devpilot/plugins/plugin_registry.json",
     connector_registry_path: str = ".devpilot/connectors/connector_registry.json",
+    output_json: str = "outputs/reports/plugin_exposure_report.json",
+    output_markdown: str = "outputs/reports/plugin_exposure_report.md",
     json_output: bool = False,
     write_report: bool = False,
 ) -> int:
-    """Run the metadata-only FUNC-SPRINT-93 plugin loader dry-run."""
+    """Run the metadata-only plugin loader/install dry-run.
+
+    POST-H-019-C extends the historical single-plugin dry-run with ``--all``
+    exposure reporting. Both paths remain metadata-only and never load plugin
+    code, start shell/subprocess execution, install dependencies, call network,
+    mutate source files or treat manifests as executable authorization.
+    """
 
     root = project_root()
+    selected_plugin = plugin_id or plugin
+
+    if all_plugins:
+        if selected_plugin:
+            result = CommandResult(
+                command="plugin dry-run",
+                ok=False,
+                exit_code=ExitCode.BLOCK,
+                message="Plugin dry-run --all cannot be combined with --plugin/--plugin-id.",
+                data={"summary": {"created_by": "POST-H-019-C", "all_plugins": True, "dry_run": dry_run, "blocking_findings_total": 1, "plugin_code_loaded": False, "network_used": False, "external_api_used": False, "mutations_performed": False}},
+                findings=[Finding("PLUGIN_DRY_RUN_ALL_PLUGIN_CONFLICT", "Use either --all or one --plugin-id, not both.", Severity.BLOCK)],
+            )
+        elif not dry_run:
+            result = CommandResult(
+                command="plugin dry-run",
+                ok=False,
+                exit_code=ExitCode.BLOCK,
+                message="Plugin install dry-run requires --dry-run.",
+                data={"summary": {"created_by": "POST-H-019-C", "all_plugins": True, "dry_run": dry_run, "blocking_findings_total": 1, "plugin_code_loaded": False, "network_used": False, "external_api_used": False, "mutations_performed": False}},
+                findings=[Finding("PLUGIN_DRY_RUN_REQUIRED", "POST-H-019-C supports only metadata-only --dry-run install simulation.", Severity.BLOCK)],
+            )
+        else:
+            result = PluginExposureReporter(
+                root,
+                options=PluginExposureReportOptions(
+                    registry_path=registry_path,
+                    connector_registry_path=connector_registry_path,
+                    output_json=output_json,
+                    output_markdown=output_markdown,
+                ),
+            ).build(write_report=write_report)
+        _persist_result(root, result, subject="plugin:all")
+        print_result(result, json_output=json_output)
+        return int(result.exit_code)
+
+    if not selected_plugin:
+        result = CommandResult(
+            command="plugin dry-run",
+            ok=False,
+            exit_code=ExitCode.BLOCK,
+            message="Plugin dry-run requires --plugin-id/--plugin or --all.",
+            data={"summary": {"created_by": "POST-H-019-C", "dry_run": dry_run, "blocking_findings_total": 1, "plugin_code_loaded": False, "network_used": False, "external_api_used": False, "mutations_performed": False}},
+            findings=[Finding("PLUGIN_DRY_RUN_TARGET_REQUIRED", "Declare one plugin id or use --all for exposure reporting.", Severity.BLOCK)],
+        )
+        _persist_result(root, result, subject="plugin:missing")
+        print_result(result, json_output=json_output)
+        return int(result.exit_code)
+
     result = PluginRegistry(root).dry_run(
         PluginDryRunOptions(
-            plugin=plugin,
+            plugin=selected_plugin,
             operation=operation,
             dry_run=dry_run,
             registry_path=registry_path,
             connector_registry_path=connector_registry_path,
         )
     )
-    report_id = f"plugin_dry_run_{plugin.replace('.', '_').replace('-', '_')}_{operation.replace('.', '_').replace('-', '_')}"
+    report_id = f"plugin_dry_run_{selected_plugin.replace('.', '_').replace('-', '_')}_{operation.replace('.', '_').replace('-', '_')}"
     result = _write_optional_command_report(
         root,
         result,
-        subject=f"{plugin}:{operation}",
+        subject=f"{selected_plugin}:{operation}",
         report_id=report_id,
         write_report=write_report,
-        metadata={"sprint": "POST-H-019-B", "component": "PluginRegistry"},
+        metadata={"sprint": "POST-H-019-C", "component": "PluginRegistry"},
     )
-    _persist_result(root, result, subject=f"{plugin}:{operation}")
+    _persist_result(root, result, subject=f"{selected_plugin}:{operation}")
     print_result(result, json_output=json_output)
     return int(result.exit_code)
 
@@ -5758,12 +5816,16 @@ def build_parser() -> argparse.ArgumentParser:
     plugin_list.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     plugin_list.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
 
-    plugin_dry_run = plugin_sub.add_parser("dry-run", help="Run metadata-only plugin loader dry-run without importing plugin code")
-    plugin_dry_run.add_argument("--plugin", required=True, help="Plugin id, e.g. local.docs.plugin")
+    plugin_dry_run = plugin_sub.add_parser("dry-run", help="Run metadata-only plugin loader/install dry-run without importing plugin code")
+    plugin_dry_run.add_argument("--plugin", default=None, help="Plugin id, e.g. local.docs.plugin; kept for backward compatibility")
+    plugin_dry_run.add_argument("--plugin-id", default=None, help="Plugin id for POST-H-019-C metadata-only install dry-run")
+    plugin_dry_run.add_argument("--all", dest="all_plugins", action="store_true", help="Run install dry-run for all registered plugins and generate exposure report metadata")
     plugin_dry_run.add_argument("--operation", default="metadata", help="Permission/operation id, e.g. metadata")
-    plugin_dry_run.add_argument("--dry-run", action="store_true", help="Required for Sprint 93 plugin loader checks")
+    plugin_dry_run.add_argument("--dry-run", action="store_true", help="Required for plugin loader/install dry-run checks")
     plugin_dry_run.add_argument("--registry-path", default=".devpilot/plugins/plugin_registry.json", help="Plugin Registry JSON path")
     plugin_dry_run.add_argument("--connector-registry-path", default=".devpilot/connectors/connector_registry.json", help="Connector Registry JSON path")
+    plugin_dry_run.add_argument("--output-json", default="outputs/reports/plugin_exposure_report.json", help="Plugin exposure JSON report path for --all --write-report")
+    plugin_dry_run.add_argument("--output-markdown", default="outputs/reports/plugin_exposure_report.md", help="Plugin exposure Markdown report path for --all --write-report")
     plugin_dry_run.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     plugin_dry_run.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
 
@@ -6921,10 +6983,14 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
         if args.plugin_command == "dry-run":
             return plugin_dry_run_command(
                 plugin=args.plugin,
+                plugin_id=args.plugin_id,
+                all_plugins=args.all_plugins,
                 operation=args.operation,
                 dry_run=args.dry_run,
                 registry_path=args.registry_path,
                 connector_registry_path=args.connector_registry_path,
+                output_json=args.output_json,
+                output_markdown=args.output_markdown,
                 json_output=args.json,
                 write_report=args.write_report,
             )

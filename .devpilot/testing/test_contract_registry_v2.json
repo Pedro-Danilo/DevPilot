@@ -9415,6 +9415,67 @@
       "classification_notes": [
         "POST-H-019-B security contract; no network, external APIs, source mutations or plugin execution."
       ]
+    },
+    {
+      "contract_id": "post-h-019-plugin-install-dry-run-exposure",
+      "schema_version": "2.0",
+      "source_contract_id": "post-h-019-plugin-install-dry-run-exposure",
+      "domain": "extensibility.plugins",
+      "capability": "plugin-install-dry-run-exposure",
+      "criticality": "P2",
+      "risk_level": "high",
+      "test_type": "integration",
+      "execution_profile": "release",
+      "cost_class": "low",
+      "expected_duration_seconds": 20,
+      "test_files": [
+        "tests/test_post_h_019_plugin_static_validator.py",
+        "tests/test_post_h_019_plugin_execution_blocked.py"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/plugins/",
+        "src/devpilot_core/cli.py",
+        ".devpilot/plugins/",
+        "docs/schemas/plugin_sandbox_design_report.schema.json",
+        "docs/backlogs/POST-H-019_plugin_sandbox_design.md",
+        "docs/POST-H-019_plugin_sandbox_design.md",
+        "tests/test_post_h_019_plugin_static_validator.py",
+        "tests/test_post_h_019_plugin_execution_blocked.py"
+      ],
+      "validates": [
+        "PluginStaticValidator",
+        "PluginExposureReporter",
+        "PluginSandboxDesignReport",
+        "plugin dry-run --all --dry-run"
+      ],
+      "trigger_hints": [
+        "src/devpilot_core/plugins/**",
+        ".devpilot/plugins/**",
+        "docs/schemas/plugin_sandbox_design_report.schema.json"
+      ],
+      "impact_scope": [
+        "extensibility.plugins",
+        "security.plugins",
+        "governance.schemas",
+        "interface.cli"
+      ],
+      "required_for_release": false,
+      "required_for_security_gate": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "POST-H-019-C",
+      "recommended_commands": [
+        "python -m pytest tests/test_post_h_019_plugin_static_validator.py tests/test_post_h_019_plugin_execution_blocked.py -q",
+        "python -m devpilot_core plugin dry-run --all --dry-run --json --write-report",
+        "python -m devpilot_core schema validate --schema-id PluginSandboxDesignReport --instance outputs/reports/plugin_exposure_report.json --json"
+      ],
+      "classification_status": "explicit",
+      "classification_notes": [
+        "POST-H-019-C metadata-only install dry-run/exposure contract; no network, external APIs, source mutations, dependency install or plugin execution."
+      ]
     }
   ],
   "migration_metadata": {

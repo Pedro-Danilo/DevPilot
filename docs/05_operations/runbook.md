@@ -2,11 +2,11 @@
 title: "Runbook — DevPilot Local"
 doc_id: "DEVPL-OPS-002"
 status: "approved"
-version: "1.68.0"
+version: "1.69.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "POST-H-019-B"
+phase: "POST-H-019-C"
 updated: "2026-06-30"
 approval: "approved_by_owner"
 source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved + 03_security approved"
@@ -14,6 +14,46 @@ change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "SPRINT-PRECODE-05 quality operations baseline"
 ---
 
+## POST-H-019-C — Install dry-run y exposure report
+
+Estado: `implemented-initial / hito activo`.
+
+Operación segura vigente para install dry-run de plugins:
+
+```powershell
+$env:PYTHONPATH="src"
+python -m pytest -p no:ddtrace tests/test_post_h_019_plugin_static_validator.py tests/test_post_h_019_plugin_execution_blocked.py tests/test_post_h_019_plugin_permission_model.py tests/test_post_h_019_plugin_sandbox_design.py tests/test_plugin_registry.py tests/test_schema_registry.py tests/test_project_global_state.py -q
+python -m devpilot_core plugin dry-run --all --dry-run --json --write-report
+python -m devpilot_core schema validate --schema-id PluginSandboxDesignReport --instance outputs/reports/plugin_exposure_report.json --json
+python -m devpilot_core plugin dry-run --plugin-id local.docs.plugin --operation metadata --dry-run --json
+python -m devpilot_core plugin validate --json
+python -m devpilot_core docs-governance validate --json
+python -m devpilot_core test-contracts validate --json
+python -m devpilot_core test-contracts validate-v2 --json
+python -m devpilot_core project-state validate --json
+```
+
+Criterios PASS:
+
+```text
+PASS si dry-run valida solo metadata registrada.
+PASS si todos los plugins quedan install_state=metadata-only-simulated.
+PASS si exposure report muestra execution_allowed_total=0.
+PASS si plugin_code_loaded=false y arbitrary_code_execution_performed=false.
+PASS si network_used=false, external_api_used=false, mutations_performed=false y dependencies_installed=false.
+PASS si PluginSandboxDesignReport valida outputs/reports/plugin_exposure_report.json.
+```
+
+No-go gates:
+
+```text
+NO-GO si dry-run ejecuta código de plugin.
+NO-GO si se lee un manifest_path arbitrario fuera del registry metadata-only.
+NO-GO si se permite dependency install, marketplace, subprocess, shell, red o filesystem write.
+NO-GO si exposure report se interpreta como autorización de ejecución.
+```
+
+Límite: POST-H-019-C produce validación estática, install dry-run metadata-only y exposure report. Quality gate plugin-sandbox-design y runbook metadata-only final quedan para POST-H-019-D/E.
 
 ## POST-H-019-B — Permission model y manifest hardening
 

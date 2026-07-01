@@ -8,8 +8,8 @@
   "last_completed_sprint": "POST-H-018",
   "last_functional_sprint": "FUNC-SPRINT-99",
   "next_sprint": "POST-H-019",
-  "source_repo": "repo_DevPilot_Local_225_POST_H_018_E.zip",
-  "current_repo": "repo_DevPilot_Local_226_POST_H_019_A.zip",
+  "source_repo": "repo_DevPilot_Local_227_POST_H_019_B.zip",
+  "current_repo": "repo_DevPilot_Local_228_POST_H_019_C.zip",
   "global_state_owner": "tests/test_project_global_state.py",
   "mutable_global_state_fields": [
     "last_completed_sprint",
@@ -125,8 +125,11 @@
     "POST-H-019-B is the next micro-sprint: Permission model y manifest hardening.",
     "POST-H-019-B adds PluginPermissionModel schema and .devpilot/plugins/plugin_permission_model.json with deny-by-default allowlist/denylist semantics.",
     "POST-H-019-B hardens Plugin Registry manifest validation so unknown permissions and denied execution permissions such as plugin.code.execute are blocked.",
-    "POST-H-019-C is the next micro-sprint: Install dry-run y exposure report."
+    "POST-H-019-C is the next micro-sprint: Install dry-run y exposure report.",
+    "POST-H-019-C adds PluginStaticValidator for metadata-only install dry-run over registered plugin manifests without loading code or reading arbitrary entrypoints.",
+    "POST-H-019-C adds PluginExposureReporter, PluginSandboxDesignReport schema and plugin dry-run --all --dry-run --write-report to produce exposure evidence with execution_allowed_total=0.",
+    "POST-H-019-D is the next micro-sprint: Quality gate plugin safety."
   ],
-  "current_micro_sprint": "POST-H-019-B",
-  "next_micro_sprint": "POST-H-019-C"
+  "current_micro_sprint": "POST-H-019-C",
+  "next_micro_sprint": "POST-H-019-D"
 }

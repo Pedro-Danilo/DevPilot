@@ -5134,6 +5134,45 @@
         "python -m devpilot_core schema validate --schema-id PluginPermissionModel --instance .devpilot/plugins/plugin_permission_model.json --json",
         "python -m devpilot_core test-contracts validate --json"
       ]
+    },
+    {
+      "contract_id": "post-h-019-plugin-install-dry-run-exposure",
+      "scope": "integration",
+      "owner": "POST-H-019-C",
+      "phase": "POST-FASE-H",
+      "test_files": [
+        "tests/test_post_h_019_plugin_static_validator.py",
+        "tests/test_post_h_019_plugin_execution_blocked.py"
+      ],
+      "validates": [
+        "src/devpilot_core/plugins/static_validator.py",
+        "src/devpilot_core/plugins/exposure_report.py",
+        "src/devpilot_core/cli.py",
+        "docs/schemas/plugin_sandbox_design_report.schema.json",
+        "docs/backlogs/POST-H-019_plugin_sandbox_design.md",
+        "docs/audits/post_h_019_c_plugin_install_dry_run_exposure_report.md",
+        "docs/post_h_019_c_manifest.json"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/plugins/",
+        "src/devpilot_core/cli.py",
+        ".devpilot/plugins/",
+        "docs/schemas/plugin_sandbox_design_report.schema.json",
+        "docs/backlogs/POST-H-019_plugin_sandbox_design.md",
+        "docs/POST-H-019_plugin_sandbox_design.md",
+        "docs/audits/post_h_019_c_plugin_install_dry_run_exposure_report.md",
+        "tests/test_post_h_019_plugin_static_validator.py",
+        "tests/test_post_h_019_plugin_execution_blocked.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest tests/test_post_h_019_plugin_static_validator.py tests/test_post_h_019_plugin_execution_blocked.py -q",
+        "python -m devpilot_core plugin dry-run --all --dry-run --json --write-report",
+        "python -m devpilot_core schema validate --schema-id PluginSandboxDesignReport --instance outputs/reports/plugin_exposure_report.json --json",
+        "python -m devpilot_core test-contracts validate --json"
+      ]
     }
   ],
   "notes": [

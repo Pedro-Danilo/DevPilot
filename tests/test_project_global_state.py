@@ -102,8 +102,8 @@ def test_project_global_state_schema_and_docs_are_synchronized() -> None:
     assert any("POST-H-013-D adds optional local crypto" in note for note in state["notes"])
     assert any("POST-H-013-E closes Audit pack integrity" in note for note in state["notes"])
     assert any("POST-H-014 is the next prioritized hito" in note for note in state["notes"])
-    assert state.get("current_micro_sprint") == "POST-H-019-B"
-    assert state.get("next_micro_sprint") == "POST-H-019-C"
+    assert state.get("current_micro_sprint") == "POST-H-019-C"
+    assert state.get("next_micro_sprint") == "POST-H-019-D"
     assert "POST-H-014-A — Route Contract Registry y API inventory" in readme
     assert "POST-H-014-B — Response mapping y errores homogéneos" in readme
     assert "POST-H-014-C — UI Route Contract y shell de producto" in readme
@@ -180,9 +180,17 @@ def test_project_global_state_schema_and_docs_are_synchronized() -> None:
     assert "Siguiente hito: `POST-H-019" in readme
     assert any("POST-H-019-A approves Plugin sandbox design" in note for note in state["notes"])
     assert any("POST-H-019-B is the next micro-sprint" in note for note in state["notes"])
+    assert any("POST-H-019-C adds PluginStaticValidator" in note for note in state["notes"])
+    assert any("POST-H-019-D is the next micro-sprint" in note for note in state["notes"])
     assert "POST-H-019-A — Threat model y sandbox design" in readme
     assert "POST-H-019-A — Threat model y sandbox design" in runbook
     assert "post-h-019-a" in changelog
+    assert "POST-H-019-B — Permission model y manifest hardening" in readme
+    assert "POST-H-019-B — Permission model y manifest hardening" in runbook
+    assert "POST-H-019-C — Install dry-run y exposure report" in readme
+    assert "POST-H-019-C — Install dry-run y exposure report" in runbook
+    assert "post-h-019-b" in changelog
+    assert "post-h-019-c" in changelog
     assert "POST-H-015-A — Dashboard snapshot schema y config" in readme
     assert "POST-H-015-A — Dashboard snapshot schema y config" in runbook
     assert "POST-H-015-B — Aggregator read-only de señales operacionales" in readme

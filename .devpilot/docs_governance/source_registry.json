@@ -2349,6 +2349,69 @@
         "required_tests_must_pass",
         "owner_status_and_path_must_remain_current"
       ]
+    },
+    {
+      "doc_id": "POST-H-019-PLUGIN-SANDBOX-DESIGN-REPORT-SCHEMA",
+      "path": "docs/schemas/plugin_sandbox_design_report.schema.json",
+      "classification": "machine-readable-source",
+      "domain": "extensibility.plugins",
+      "owner": "POST-H-019-C",
+      "status_required": "implemented-initial",
+      "criticality": "P2",
+      "frontmatter_required": false,
+      "status_checked": false,
+      "required_tests": [
+        "tests/test_post_h_019_plugin_static_validator.py",
+        "tests/test_schema_registry.py"
+      ],
+      "source_of_truth": true,
+      "machine_readable": true,
+      "sync_rules": [
+        "required_tests_must_pass",
+        "owner_status_and_path_must_remain_current"
+      ]
+    },
+    {
+      "doc_id": "POST-H-019-C-PLUGIN-INSTALL-DRY-RUN-EXPOSURE-REPORT",
+      "path": "docs/audits/post_h_019_c_plugin_install_dry_run_exposure_report.md",
+      "classification": "source-of-truth",
+      "domain": "extensibility.plugins",
+      "owner": "Ordóñez",
+      "status_required": "approved",
+      "criticality": "P2",
+      "frontmatter_required": true,
+      "status_checked": true,
+      "required_tests": [
+        "tests/test_post_h_019_plugin_static_validator.py",
+        "tests/test_post_h_019_plugin_execution_blocked.py"
+      ],
+      "source_of_truth": true,
+      "machine_readable": false,
+      "sync_rules": [
+        "required_tests_must_pass",
+        "owner_status_and_path_must_remain_current"
+      ]
+    },
+    {
+      "doc_id": "POST-H-019-C-MANIFEST",
+      "path": "docs/post_h_019_c_manifest.json",
+      "classification": "machine-readable-source",
+      "domain": "extensibility.plugins",
+      "owner": "Ordóñez",
+      "status_required": "implemented-initial",
+      "criticality": "P2",
+      "frontmatter_required": false,
+      "status_checked": true,
+      "required_tests": [
+        "tests/test_post_h_019_plugin_static_validator.py",
+        "tests/test_project_global_state.py"
+      ],
+      "source_of_truth": true,
+      "machine_readable": true,
+      "sync_rules": [
+        "required_tests_must_pass",
+        "owner_status_and_path_must_remain_current"
+      ]
     }
   ],
   "rules": {
@@ -2375,20 +2438,20 @@
     "approved_backlogs_require_observability_retention_hygiene_gate": true
   },
   "summary": {
-    "documents_total": 73,
-    "source_of_truth_total": 28,
-    "machine_readable_source_total": 17,
+    "documents_total": 76,
+    "source_of_truth_total": 30,
+    "machine_readable_source_total": 22,
     "derived_total": 24,
     "generated_runtime_total": 0,
     "historical_total": 0,
     "deprecated_total": 0,
-    "critical_sources_total": 66,
+    "critical_sources_total": 76,
     "markdown_json_pairs_total": 29,
-    "documents_with_required_tests_total": 69,
+    "documents_with_required_tests_total": 76,
     "network_used": false,
     "external_api_used": false,
     "mutations_performed": false,
-    "last_updated_by": "POST-H-019-A",
+    "last_updated_by": "POST-H-019-C",
     "markdown_json_sync_checks_enabled": true,
     "sync_checks_scope": "version_match, milestones_match, decisions_match, closure_status_match, next_hito_match",
     "backlog_governance_enabled": true,
@@ -2428,8 +2491,8 @@
     "post_h_011_closed": true,
     "machine_readable_total": 15,
     "required_tests_total": 52,
-    "active_backlog": "POST-H-018",
-    "active_micro_sprint": "POST-H-018-B",
+    "active_backlog": "POST-H-019",
+    "active_micro_sprint": "POST-H-019-C",
     "sensitive_action_catalog_enabled": true,
     "sensitive_action_catalog_path": ".devpilot/approval/sensitive_action_catalog.json",
     "sensitive_action_catalog_schema": "docs/schemas/sensitive_action_catalog.schema.json",
@@ -2533,7 +2596,18 @@
     "connector_sandbox_quality_gate_subgate": "connector-sandbox",
     "connector_sandbox_runbook_path": "docs/05_operations/connector_sandbox_runbook.md",
     "connector_sandbox_threat_model_path": "docs/03_security/connector_sandbox_threat_model.md",
-    "connector_sandbox_gate_module": "src/devpilot_core/connectors/sandbox_gate.py"
+    "connector_sandbox_gate_module": "src/devpilot_core/connectors/sandbox_gate.py",
+    "post_h_019_current_micro_sprint": "POST-H-019-C",
+    "post_h_019_next_micro_sprint": "POST-H-019-D",
+    "plugin_static_validator_module": "src/devpilot_core/plugins/static_validator.py",
+    "plugin_exposure_report_module": "src/devpilot_core/plugins/exposure_report.py",
+    "plugin_sandbox_design_report_schema_registered": true,
+    "plugin_sandbox_design_report_schema_path": "docs/schemas/plugin_sandbox_design_report.schema.json",
+    "plugin_exposure_report_output_path": "outputs/reports/plugin_exposure_report.json",
+    "plugin_install_dry_run_cli_command": "python -m devpilot_core plugin dry-run --all --dry-run --json --write-report",
+    "plugin_execution_enabled": false,
+    "plugin_install_dry_run_enabled": true,
+    "plugin_exposure_report_enabled": true
   },
   "safety": {
     "local_first": true,

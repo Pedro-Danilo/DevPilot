@@ -1,3 +1,34 @@
+## POST-H-019-C — Install dry-run y exposure report
+
+Estado: `implemented-initial / hito activo`.
+
+DevPilot agrega install dry-run metadata-only para plugins registrados y un exposure report validable. La simulación distingue metadata declarada, validación estática, instalación simulada y estado ejecutable, sin cargar código de plugins ni leer entrypoints arbitrarios.
+
+Capacidades nuevas:
+
+- `PluginStaticValidator` valida manifests, permisos, entrypoints deshabilitados y referencias metadata-only sin ejecutar plugins.
+- `PluginExposureReporter` genera `outputs/reports/plugin_exposure_report.json` y `.md` cuando se usa `--write-report`.
+- Schema `PluginSandboxDesignReport` valida el exposure report de POST-H-019-C.
+- `plugin dry-run --all --dry-run --json --write-report` simula instalación metadata-only para todos los plugins registrados.
+- `plugin dry-run --plugin-id ...` complementa el alias histórico `--plugin` para dry-run unitario.
+
+Comandos principales:
+
+```powershell
+python -m pytest -p no:ddtrace tests/test_post_h_019_plugin_static_validator.py tests/test_post_h_019_plugin_execution_blocked.py tests/test_post_h_019_plugin_permission_model.py tests/test_post_h_019_plugin_sandbox_design.py tests/test_plugin_registry.py tests/test_schema_registry.py tests/test_project_global_state.py -q
+python -m devpilot_core plugin dry-run --all --dry-run --json --write-report
+python -m devpilot_core schema validate --schema-id PluginSandboxDesignReport --instance outputs/reports/plugin_exposure_report.json --json
+python -m devpilot_core plugin validate --json
+python -m devpilot_core docs-governance validate --json
+```
+
+Límite explícito: POST-H-019-C es install dry-run/report-only. No habilita ejecución de plugins, carga dinámica, `subprocess`, red, APIs externas, instalación de dependencias, marketplace, escritura de filesystem ni remote execution. El siguiente micro-sprint es `POST-H-019-D — Quality gate plugin safety`.
+
+Último hito cerrado: `POST-H-018 — Connector sandbox avanzado`
+Hito activo: `POST-H-019 — Plugin sandbox design sin ejecución arbitraria`
+Último micro-sprint implementado: `POST-H-019-C — Install dry-run y exposure report`
+Siguiente micro-sprint: `POST-H-019-D — Quality gate plugin safety`
+
 ## POST-H-019-B — Permission model y manifest hardening
 
 Estado: `implemented-initial / hito activo`.

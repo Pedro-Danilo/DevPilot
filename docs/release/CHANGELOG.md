@@ -1,3 +1,18 @@
+## post-h-019-c — Install dry-run y exposure report
+
+- Adds `PluginStaticValidator` for metadata-only install dry-run over registered plugin manifests.
+- Adds `PluginExposureReporter` and `PluginSandboxDesignReport` schema for local exposure evidence.
+- Extends `plugin dry-run` with `--plugin-id` and `--all --dry-run --write-report`.
+- Generates `outputs/reports/plugin_exposure_report.json` and `.md` without loading plugin code.
+- Preserves no-go gates: no plugin execution, dynamic loading, subprocess, network, external APIs, dependency install, marketplace, filesystem write or remote execution.
+
+Safety:
+
+```text
+- POST-H-019-C remains metadata-only/report-only.
+- Manifest validation and exposure reporting are not executable plugin authorization.
+```
+
 ## post-h-019-b — Permission model y manifest hardening
 
 - Adds `PluginPermissionModel` schema and `.devpilot/plugins/plugin_permission_model.json` with deny-by-default semantics.
