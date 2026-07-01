@@ -1,0 +1,74 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/SCHEMA-DEVPL-COMPLIANCE-MAPPING-REPORT-V1",
+  "x-devpilot-schema-id": "SCHEMA-DEVPL-COMPLIANCE-MAPPING-REPORT-V1",
+  "title": "DevPilot Compliance Mapping Report v1",
+  "version": "1.0.0",
+  "contract": "ComplianceMappingReport",
+  "description": "Schema for local compliance mapping coverage reports. Reports are evidence mapping aids and must not claim certification or legal advice.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "schema_id",
+    "created_by",
+    "report_id",
+    "generated_at_utc",
+    "pack_id",
+    "ok",
+    "certification_claimed",
+    "legal_advice_claimed",
+    "controls_total",
+    "controls_mapped",
+    "controls_with_evidence",
+    "controls_missing_evidence",
+    "blocking_findings_total",
+    "disclaimer_present",
+    "findings"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "schema_id": {"const": "SCHEMA-DEVPL-COMPLIANCE-MAPPING-REPORT-V1"},
+    "created_by": {"const": "POST-H-020-A"},
+    "report_id": {"type": "string", "minLength": 1},
+    "generated_at_utc": {"type": "string", "minLength": 1},
+    "pack_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9._-]*$"},
+    "ok": {"type": "boolean"},
+    "certification_claimed": {"const": false},
+    "legal_advice_claimed": {"const": false},
+    "controls_total": {"type": "integer", "minimum": 0},
+    "controls_mapped": {"type": "integer", "minimum": 0},
+    "controls_with_evidence": {"type": "integer", "minimum": 0},
+    "controls_missing_evidence": {"type": "integer", "minimum": 0},
+    "blocking_findings_total": {"type": "integer", "minimum": 0},
+    "disclaimer_present": {"const": true},
+    "domain_coverage": {
+      "type": "object",
+      "additionalProperties": {"type": "integer", "minimum": 0}
+    },
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": true,
+        "required": ["id", "message", "severity"],
+        "properties": {
+          "id": {"type": "string", "minLength": 1},
+          "message": {"type": "string", "minLength": 1},
+          "severity": {"enum": ["info", "warning", "fail", "block", "error"]}
+        }
+      }
+    },
+    "safety": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["local_first", "network_used", "external_api_used", "mutations_performed"],
+      "properties": {
+        "local_first": {"const": true},
+        "network_used": {"const": false},
+        "external_api_used": {"const": false},
+        "mutations_performed": {"const": false}
+      }
+    }
+  }
+}

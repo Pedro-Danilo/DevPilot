@@ -8,8 +8,8 @@
   "last_completed_sprint": "POST-H-019",
   "last_functional_sprint": "FUNC-SPRINT-99",
   "next_sprint": "POST-H-020",
-  "source_repo": "repo_DevPilot_Local_229_POST_H_019_D.zip",
-  "current_repo": "repo_DevPilot_Local_230_POST_H_019_E.zip",
+  "source_repo": "repo_DevPilot_Local_230_POST_H_019_E.zip",
+  "current_repo": "repo_DevPilot_Local_231_POST_H_020_A.zip",
   "global_state_owner": "tests/test_project_global_state.py",
   "mutable_global_state_fields": [
     "last_completed_sprint",
@@ -132,8 +132,12 @@
     "POST-H-019-E closes Plugin sandbox design sin ejecución arbitraria as implemented-initial: metadata-only registry, permission model, static validator, dry-run exposure report, quality gate, runbook and ADR trigger are synchronized without enabling plugin execution.",
     "POST-H-019 remains metadata-only; future plugin execution requires ADR, sandbox, RBAC, approvals, tests, observability and rollback.",
     "POST-H-019-E fixes inherited TCR v2 enum drift: post-h-019-plugin-sandbox-design uses execution_profile=release instead of invalid hardening.",
-    "POST-H-020 is the next prioritized hito: Compliance mapping packs ampliados."
+    "POST-H-020 is the next prioritized hito: Compliance mapping packs ampliados.",
+    "POST-H-020-A approves Compliance mapping packs ampliados and starts local non-certifying control/evidence mapping as implemented-initial.",
+    "POST-H-020-A adds ComplianceControlMapping, ComplianceEvidenceMapping and ComplianceMappingReport schemas with certification_claimed=false and legal_advice_claimed=false.",
+    "POST-H-020-A adds .devpilot/compliance/control_mappings.json and evidence_mappings.json for local engineering evidence without external audit, legal advice, network, APIs, remote execution or plugin execution.",
+    "POST-H-020-B is the next micro-sprint: Compliance mapping validator."
   ],
-  "current_micro_sprint": "POST-H-019-E",
-  "next_micro_sprint": "POST-H-020"
+  "current_micro_sprint": "POST-H-020-A",
+  "next_micro_sprint": "POST-H-020-B"
 }

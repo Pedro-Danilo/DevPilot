@@ -1,0 +1,110 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "SCHEMA-DEVPL-POST-H-MANIFEST-V1",
+  "doc_id": "POST-H-020-A-MANIFEST",
+  "post_h_id": "POST-H-020",
+  "sprint_id": "POST-H-020-A",
+  "title": "POST-H-020-A — Control mapping schemas y registry",
+  "status": "implemented-initial",
+  "phase": "POST-FASE-H",
+  "implemented_at": "2026-07-01",
+  "implementation_status": "implemented-initial",
+  "owner": "Ordóñez",
+  "updated": "2026-07-01",
+  "approval": "approved_by_owner",
+  "source_repo": "repo_DevPilot_Local_230_POST_H_019_E.zip",
+  "target_repo": "repo_DevPilot_Local_231_POST_H_020_A.zip",
+  "created_files": [
+    "docs/schemas/compliance_control_mapping.schema.json",
+    "docs/schemas/compliance_evidence_mapping.schema.json",
+    "docs/schemas/compliance_mapping_report.schema.json",
+    ".devpilot/compliance/control_mappings.json",
+    ".devpilot/compliance/evidence_mappings.json",
+    "docs/POST-H-020_compliance_mapping_packs.md",
+    "docs/audits/post_h_020_a_compliance_mapping_schema_registry_report.md",
+    "docs/post_h_020_a_manifest.json",
+    "tests/test_post_h_020_compliance_mapping_schema.py",
+    "tests/test_post_h_020_compliance_evidence_mapping.py",
+    "tests/test_post_h_020_compliance_no_certification.py"
+  ],
+  "modified_files": [
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/backlogs/POST-H-020_compliance_mapping_packs.md",
+    "docs/schemas/schema_catalog.json",
+    "docs/release/CHANGELOG.md",
+    ".devpilot/project_state.json",
+    ".devpilot/docs_governance/source_registry.json",
+    ".devpilot/testing/test_contract_registry.json",
+    ".devpilot/testing/test_contract_registry_v2.json",
+    "tests/test_schema_registry.py",
+    "tests/test_project_global_state.py"
+  ],
+  "capabilities_added": [
+    "ComplianceControlMapping schema",
+    "ComplianceEvidenceMapping schema",
+    "ComplianceMappingReport schema",
+    "Local control mapping registry",
+    "Local evidence mapping registry",
+    "No-certification contract flags"
+  ],
+  "safety": {
+    "local_first": true,
+    "dry_run": true,
+    "certification_claimed": false,
+    "legal_advice_claimed": false,
+    "network_used": false,
+    "external_api_used": false,
+    "connector_write_enabled": false,
+    "plugin_execution_enabled": false,
+    "remote_execution_enabled": false
+  },
+  "commands": [
+    "python -m pytest -p no:ddtrace tests/test_post_h_020_compliance_mapping_schema.py tests/test_post_h_020_compliance_evidence_mapping.py tests/test_post_h_020_compliance_no_certification.py tests/test_schema_registry.py tests/test_project_global_state.py -q",
+    "python -m devpilot_core schema validate --schema-id ComplianceControlMapping --instance .devpilot/compliance/control_mappings.json --json",
+    "python -m devpilot_core schema validate --schema-id ComplianceEvidenceMapping --instance .devpilot/compliance/evidence_mappings.json --json",
+    "python -m devpilot_core schema list --json",
+    "python -m devpilot_core docs-governance validate --json",
+    "python -m devpilot_core test-contracts validate --json",
+    "python -m devpilot_core test-contracts validate-v2 --json",
+    "python -m devpilot_core project-state validate --json"
+  ],
+  "verification_commands": [
+    "python -m pytest -p no:ddtrace tests/test_post_h_020_compliance_mapping_schema.py tests/test_post_h_020_compliance_evidence_mapping.py tests/test_post_h_020_compliance_no_certification.py tests/test_schema_registry.py tests/test_project_global_state.py -q",
+    "python -m devpilot_core schema validate --schema-id ComplianceControlMapping --instance .devpilot/compliance/control_mappings.json --json",
+    "python -m devpilot_core schema validate --schema-id ComplianceEvidenceMapping --instance .devpilot/compliance/evidence_mappings.json --json",
+    "python -m devpilot_core schema list --json",
+    "python -m devpilot_core docs-governance validate --json",
+    "python -m devpilot_core test-contracts validate --json",
+    "python -m devpilot_core test-contracts validate-v2 --json",
+    "python -m devpilot_core project-state validate --json"
+  ],
+  "tests": [
+    "tests/test_post_h_020_compliance_mapping_schema.py",
+    "tests/test_post_h_020_compliance_evidence_mapping.py",
+    "tests/test_post_h_020_compliance_no_certification.py",
+    "tests/test_schema_registry.py",
+    "tests/test_project_global_state.py"
+  ],
+  "pass_criteria": [
+    "Schemas validate local control and evidence mappings.",
+    "Schema catalog registers the three new compliance mapping schemas.",
+    "certification_claimed=false and legal_advice_claimed=false are enforced.",
+    "Controls include domain, risk_level and required_evidence.",
+    "Evidence includes source_command/source_paths or justification."
+  ],
+  "block_criteria": [
+    "Any schema permits certification_claimed=true.",
+    "Any schema permits legal_advice_claimed=true.",
+    "A control lacks required_evidence.",
+    "Evidence lacks source_command/source_paths/justification.",
+    "Documentation claims certification or legal advice."
+  ],
+  "risks": [
+    "POST-H-020-A is contractual and implemented-initial; semantic validation is planned for POST-H-020-B.",
+    "Mappings are local engineering evidence and do not constitute certification, legal advice or external audit.",
+    "Coverage is intentionally initial and must evolve through POST-H-020-B/C/D/E."
+  ],
+  "next_micro_sprint": "POST-H-020-B",
+  "next_sprint": "POST-H-020"
+}

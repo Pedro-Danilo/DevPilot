@@ -1,3 +1,12 @@
+## post-h-020-a — Control mapping schemas y registry
+
+- Aprueba el hito `POST-H-020 — Compliance mapping packs ampliados` para implementación.
+- Agrega `ComplianceControlMapping`, `ComplianceEvidenceMapping` y `ComplianceMappingReport`.
+- Crea `.devpilot/compliance/control_mappings.json` y `.devpilot/compliance/evidence_mappings.json`.
+- Registra los schemas en `docs/schemas/schema_catalog.json`.
+- Agrega pruebas focales para schema, evidencia y no-certification.
+- Mantiene `certification_claimed=false`, `legal_advice_claimed=false`, sin red, APIs externas, conectores externos, remediación automática, remote execution ni plugin execution.
+
 ## post-h-019-e — Runbook, ADR trigger y cierre
 
 - Closes `POST-H-019 — Plugin sandbox design sin ejecución arbitraria` as `implemented-initial`.

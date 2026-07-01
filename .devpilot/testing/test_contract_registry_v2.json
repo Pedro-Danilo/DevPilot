@@ -9513,6 +9513,75 @@
       "classification_notes": [
         "POST-H-019-C metadata-only install dry-run/exposure contract; no network, external APIs, source mutations, dependency install or plugin execution."
       ]
+    },
+    {
+      "contract_id": "post-h-020-compliance-mapping-schemas",
+      "schema_version": "2.0",
+      "source_contract_id": "post-h-020-compliance-mapping-schemas",
+      "domain": "governance.compliance",
+      "capability": "Compliance mapping schemas and local registries",
+      "criticality": "P2",
+      "risk_level": "high",
+      "test_type": "schema",
+      "execution_profile": "release",
+      "cost_class": "low",
+      "expected_duration_seconds": 20,
+      "test_files": [
+        "tests/test_post_h_020_compliance_mapping_schema.py",
+        "tests/test_post_h_020_compliance_evidence_mapping.py",
+        "tests/test_post_h_020_compliance_no_certification.py"
+      ],
+      "watched_paths": [
+        "docs/schemas/compliance_control_mapping.schema.json",
+        "docs/schemas/compliance_evidence_mapping.schema.json",
+        "docs/schemas/compliance_mapping_report.schema.json",
+        ".devpilot/compliance/control_mappings.json",
+        ".devpilot/compliance/evidence_mappings.json",
+        "docs/backlogs/POST-H-020_compliance_mapping_packs.md",
+        "docs/POST-H-020_compliance_mapping_packs.md",
+        "tests/test_post_h_020_compliance_mapping_schema.py",
+        "tests/test_post_h_020_compliance_evidence_mapping.py",
+        "tests/test_post_h_020_compliance_no_certification.py"
+      ],
+      "validates": [
+        "ComplianceControlMapping schema validates local control mappings",
+        "ComplianceEvidenceMapping schema validates local evidence mappings",
+        "ComplianceMappingReport schema blocks certification and legal advice claims",
+        "certification_claimed=false and legal_advice_claimed=false remain required",
+        "controls require domain, risk_level and required_evidence",
+        "evidence requires source_command/source_paths or justification"
+      ],
+      "trigger_hints": [
+        "post-h-020",
+        "compliance-mapping",
+        "compliance-control-mapping",
+        "compliance-evidence-mapping",
+        "no-certification"
+      ],
+      "impact_scope": [
+        "governance.compliance",
+        "governance.schemas",
+        "documentation.governance",
+        "quality.gate"
+      ],
+      "required_for_release": false,
+      "required_for_security_gate": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "POST-H-020-A",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace tests/test_post_h_020_compliance_mapping_schema.py tests/test_post_h_020_compliance_evidence_mapping.py tests/test_post_h_020_compliance_no_certification.py tests/test_schema_registry.py -q",
+        "python -m devpilot_core schema validate --schema-id ComplianceControlMapping --instance .devpilot/compliance/control_mappings.json --json",
+        "python -m devpilot_core schema validate --schema-id ComplianceEvidenceMapping --instance .devpilot/compliance/evidence_mappings.json --json",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ],
+      "classification_status": "explicit",
+      "classification_notes": [
+        "POST-H-020-A schema/registry contract; no certification, legal advice, network, external APIs, source mutations, remote execution or plugin execution."
+      ]
     }
   ],
   "migration_metadata": {

@@ -1,0 +1,231 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "SCHEMA-DEVPL-COMPLIANCE-EVIDENCE-MAPPING-V1",
+  "created_by": "POST-H-020-A",
+  "updated_at": "2026-07-01",
+  "pack_id": "devpilot.local.governance.baseline",
+  "status": "implemented-initial",
+  "certification_claimed": false,
+  "legal_advice_claimed": false,
+  "disclaimer": "This evidence mapping supports local engineering governance only. It is not certification, legal advice, an external audit, or a guarantee of regulatory compliance.",
+  "evidence": [
+    {
+      "evidence_id": "quality-gate-hardening",
+      "control_ids": [
+        "DPL-SEC-001",
+        "DPL-TST-001"
+      ],
+      "evidence_type": "quality-gate",
+      "source_command": "python -m devpilot_core quality-gate run --profile hardening --json",
+      "source_paths": [
+        "src/devpilot_core/quality/gate.py",
+        ".devpilot/testing/test_contract_registry.json",
+        ".devpilot/testing/test_contract_registry_v2.json"
+      ],
+      "required_fields": [
+        "ok",
+        "blocking_findings_total"
+      ],
+      "expected_values": {
+        "ok": true,
+        "blocking_findings_total": 0
+      },
+      "retention_class": "release-evidence"
+    },
+    {
+      "evidence_id": "industrial-readiness",
+      "control_ids": [
+        "DPL-SEC-001"
+      ],
+      "evidence_type": "command-output",
+      "source_command": "python -m devpilot_core industrial-readiness check --json",
+      "source_paths": [
+        "src/devpilot_core/industrial/readiness.py"
+      ],
+      "required_fields": [
+        "remote_execution_used",
+        "external_api_used"
+      ],
+      "expected_values": {
+        "remote_execution_used": false,
+        "external_api_used": false
+      },
+      "retention_class": "release-evidence"
+    },
+    {
+      "evidence_id": "plugin-sandbox-design-gate",
+      "control_ids": [
+        "DPL-SEC-002"
+      ],
+      "evidence_type": "quality-gate",
+      "source_command": "python -m devpilot_core quality-gate run --profile hardening --json",
+      "source_paths": [
+        "src/devpilot_core/plugins/quality_gate.py",
+        ".devpilot/plugins/plugin_permission_model.json",
+        ".devpilot/plugins/plugin_registry.json"
+      ],
+      "required_fields": [
+        "plugin_execution_allowed",
+        "blocking_findings_total"
+      ],
+      "expected_values": {
+        "plugin_execution_allowed": false,
+        "blocking_findings_total": 0
+      },
+      "retention_class": "audit-evidence"
+    },
+    {
+      "evidence_id": "plugin-exposure-report",
+      "control_ids": [
+        "DPL-SEC-002"
+      ],
+      "evidence_type": "command-output",
+      "source_command": "python -m devpilot_core plugin dry-run --all --dry-run --json --write-report",
+      "source_paths": [
+        "src/devpilot_core/plugins/exposure_report.py",
+        "docs/schemas/plugin_sandbox_design_report.schema.json"
+      ],
+      "required_fields": [
+        "execution_allowed_total",
+        "network_used",
+        "external_api_used"
+      ],
+      "expected_values": {
+        "execution_allowed_total": 0,
+        "network_used": false,
+        "external_api_used": false
+      },
+      "retention_class": "audit-evidence"
+    },
+    {
+      "evidence_id": "approval-rbac-hardening-gate",
+      "control_ids": [
+        "DPL-POL-001"
+      ],
+      "evidence_type": "quality-gate",
+      "source_command": "python -m devpilot_core quality-gate run --profile hardening --json",
+      "source_paths": [
+        "src/devpilot_core/policy/",
+        "src/devpilot_core/approval/",
+        "src/devpilot_core/identity/"
+      ],
+      "required_fields": [
+        "approval_rbac_hardening_passed"
+      ],
+      "expected_values": {
+        "approval_rbac_hardening_passed": true
+      },
+      "retention_class": "audit-evidence"
+    },
+    {
+      "evidence_id": "test-contract-registry-validation",
+      "control_ids": [
+        "DPL-TST-001"
+      ],
+      "evidence_type": "test-contract",
+      "source_command": "python -m devpilot_core test-contracts validate-v2 --json",
+      "source_paths": [
+        ".devpilot/testing/test_contract_registry.json",
+        ".devpilot/testing/test_contract_registry_v2.json"
+      ],
+      "required_fields": [
+        "ok",
+        "blocking_findings_total"
+      ],
+      "expected_values": {
+        "ok": true,
+        "blocking_findings_total": 0
+      },
+      "retention_class": "release-evidence"
+    },
+    {
+      "evidence_id": "release-reproducibility-pack",
+      "control_ids": [
+        "DPL-REL-001"
+      ],
+      "evidence_type": "manifest",
+      "source_command": "python -m devpilot_core release reproducibility-pack --dry-run --json --write-report",
+      "source_paths": [
+        "src/devpilot_core/release/pack.py",
+        "docs/schemas/release_reproducibility_pack.schema.json"
+      ],
+      "required_fields": [
+        "dirty_repo",
+        "secrets_detected",
+        "network_used"
+      ],
+      "expected_values": {
+        "dirty_repo": false,
+        "secrets_detected": false,
+        "network_used": false
+      },
+      "retention_class": "release-evidence"
+    },
+    {
+      "evidence_id": "observability-retention-hygiene",
+      "control_ids": [
+        "DPL-OBS-001"
+      ],
+      "evidence_type": "quality-gate",
+      "source_command": "python -m devpilot_core quality-gate run --profile hardening --json",
+      "source_paths": [
+        "src/devpilot_core/observability/",
+        ".devpilot/observability/retention_policy.json"
+      ],
+      "required_fields": [
+        "observability_retention_hygiene_passed"
+      ],
+      "expected_values": {
+        "observability_retention_hygiene_passed": true
+      },
+      "retention_class": "audit-evidence"
+    },
+    {
+      "evidence_id": "docs-governance-validation",
+      "control_ids": [
+        "DPL-DOC-001"
+      ],
+      "evidence_type": "documentation",
+      "source_command": "python -m devpilot_core docs-governance validate --json",
+      "source_paths": [
+        ".devpilot/docs_governance/source_registry.json"
+      ],
+      "required_fields": [
+        "ok",
+        "blocking_findings_total"
+      ],
+      "expected_values": {
+        "ok": true,
+        "blocking_findings_total": 0
+      },
+      "retention_class": "documentation-evidence"
+    },
+    {
+      "evidence_id": "project-state-validation",
+      "control_ids": [
+        "DPL-DOC-001"
+      ],
+      "evidence_type": "command-output",
+      "source_command": "python -m devpilot_core project-state validate --json",
+      "source_paths": [
+        ".devpilot/project_state.json",
+        "README.md",
+        "docs/05_operations/runbook.md"
+      ],
+      "required_fields": [
+        "ok",
+        "checks_passed"
+      ],
+      "expected_values": {
+        "ok": true
+      },
+      "retention_class": "documentation-evidence"
+    }
+  ],
+  "safety": {
+    "local_first": true,
+    "network_used": false,
+    "external_api_used": false,
+    "mutations_performed": false
+  }
+}

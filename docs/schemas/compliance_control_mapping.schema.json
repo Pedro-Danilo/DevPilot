@@ -1,0 +1,108 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/SCHEMA-DEVPL-COMPLIANCE-CONTROL-MAPPING-V1",
+  "x-devpilot-schema-id": "SCHEMA-DEVPL-COMPLIANCE-CONTROL-MAPPING-V1",
+  "title": "DevPilot Compliance Control Mapping v1",
+  "version": "1.0.0",
+  "contract": "ComplianceControlMapping",
+  "description": "Schema for local, non-certifying compliance control mappings. It maps DevPilot controls to capabilities and required evidence without legal or external audit claims.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "schema_id",
+    "created_by",
+    "updated_at",
+    "pack_id",
+    "framework",
+    "status",
+    "certification_claimed",
+    "legal_advice_claimed",
+    "disclaimer",
+    "controls"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "schema_id": {"const": "SCHEMA-DEVPL-COMPLIANCE-CONTROL-MAPPING-V1"},
+    "created_by": {"const": "POST-H-020-A"},
+    "updated_at": {"type": "string", "minLength": 1},
+    "pack_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9._-]*$"},
+    "framework": {"type": "string", "minLength": 1},
+    "status": {"enum": ["draft", "implemented-initial", "approved"]},
+    "certification_claimed": {"const": false},
+    "legal_advice_claimed": {"const": false},
+    "disclaimer": {"type": "string", "minLength": 40},
+    "scope": {"type": "string", "minLength": 1},
+    "controls": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "control_id",
+          "title",
+          "domain",
+          "risk_level",
+          "mapped_capabilities",
+          "required_evidence",
+          "status",
+          "owner"
+        ],
+        "properties": {
+          "control_id": {"type": "string", "pattern": "^[A-Z0-9][A-Z0-9._-]*$"},
+          "title": {"type": "string", "minLength": 1},
+          "description": {"type": "string", "minLength": 1},
+          "domain": {
+            "enum": [
+              "security",
+              "testing",
+              "policy",
+              "release",
+              "observability",
+              "agentic",
+              "architecture",
+              "documentation",
+              "operations",
+              "compliance"
+            ]
+          },
+          "risk_level": {"enum": ["low", "medium", "medium_high", "high", "critical"]},
+          "mapped_capabilities": {
+            "type": "array",
+            "minItems": 1,
+            "items": {"type": "string", "minLength": 1},
+            "uniqueItems": true
+          },
+          "required_evidence": {
+            "type": "array",
+            "minItems": 1,
+            "items": {"type": "string", "pattern": "^[a-z0-9][a-z0-9._-]*$"},
+            "uniqueItems": true
+          },
+          "status": {"enum": ["mapped", "partial", "gap", "not-applicable"]},
+          "owner": {"type": "string", "minLength": 1},
+          "gap_reason": {"type": "string", "minLength": 1},
+          "notes": {"type": "array", "items": {"type": "string"}}
+        },
+        "allOf": [
+          {
+            "if": {"properties": {"status": {"const": "gap"}}, "required": ["status"]},
+            "then": {"required": ["gap_reason"]}
+          }
+        ]
+      }
+    },
+    "safety": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["local_first", "network_used", "external_api_used", "mutations_performed"],
+      "properties": {
+        "local_first": {"const": true},
+        "network_used": {"const": false},
+        "external_api_used": {"const": false},
+        "mutations_performed": {"const": false}
+      }
+    }
+  }
+}

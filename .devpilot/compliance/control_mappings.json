@@ -1,0 +1,144 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "SCHEMA-DEVPL-COMPLIANCE-CONTROL-MAPPING-V1",
+  "created_by": "POST-H-020-A",
+  "updated_at": "2026-07-01",
+  "pack_id": "devpilot.local.governance.baseline",
+  "framework": "DevPilot Local Governance Baseline",
+  "status": "implemented-initial",
+  "certification_claimed": false,
+  "legal_advice_claimed": false,
+  "disclaimer": "This mapping is local engineering evidence for DevPilot governance. It is not a certification, legal opinion, external audit, or compliance guarantee.",
+  "scope": "Initial internal control mapping for local-first SDLC governance, security, tests, release evidence and observability.",
+  "controls": [
+    {
+      "control_id": "DPL-SEC-001",
+      "title": "Remote execution remains disabled by default",
+      "description": "Remote runner and arbitrary remote execution stay blocked unless a future ADR and explicit gates approve them.",
+      "domain": "security",
+      "risk_level": "critical",
+      "mapped_capabilities": [
+        "remote.runner.status",
+        "policy.engine",
+        "quality.gate"
+      ],
+      "required_evidence": [
+        "quality-gate-hardening",
+        "industrial-readiness"
+      ],
+      "status": "mapped",
+      "owner": "security"
+    },
+    {
+      "control_id": "DPL-SEC-002",
+      "title": "Plugin execution is blocked until future ADR",
+      "description": "Plugin manifests, permission model and dry-run reports must not enable plugin code execution.",
+      "domain": "security",
+      "risk_level": "critical",
+      "mapped_capabilities": [
+        "plugin.registry",
+        "plugin.permission.model",
+        "plugin.sandbox.quality_gate"
+      ],
+      "required_evidence": [
+        "plugin-sandbox-design-gate",
+        "plugin-exposure-report"
+      ],
+      "status": "mapped",
+      "owner": "security"
+    },
+    {
+      "control_id": "DPL-POL-001",
+      "title": "Policy, Approval and RBAC checks protect sensitive actions",
+      "description": "Sensitive operations require policy evaluation, scoped approval and RBAC evidence.",
+      "domain": "policy",
+      "risk_level": "high",
+      "mapped_capabilities": [
+        "policy.engine",
+        "approval.binding",
+        "rbac.exposure"
+      ],
+      "required_evidence": [
+        "approval-rbac-hardening-gate"
+      ],
+      "status": "mapped",
+      "owner": "governance"
+    },
+    {
+      "control_id": "DPL-TST-001",
+      "title": "Test contracts and quality gates remain traceable",
+      "description": "Critical capabilities must have test contract registry coverage and quality-gate evidence.",
+      "domain": "testing",
+      "risk_level": "high",
+      "mapped_capabilities": [
+        "test.contract.registry",
+        "test.contract.registry.v2",
+        "quality.gate"
+      ],
+      "required_evidence": [
+        "test-contract-registry-validation",
+        "quality-gate-hardening"
+      ],
+      "status": "mapped",
+      "owner": "quality"
+    },
+    {
+      "control_id": "DPL-REL-001",
+      "title": "Release reproducibility evidence is local and secret-free",
+      "description": "Release reproducibility packs must remain local, dry-run safe and secret-free.",
+      "domain": "release",
+      "risk_level": "high",
+      "mapped_capabilities": [
+        "release.reproducibility.pack",
+        "source.archive.manifest",
+        "environment.snapshot"
+      ],
+      "required_evidence": [
+        "release-reproducibility-pack"
+      ],
+      "status": "mapped",
+      "owner": "release"
+    },
+    {
+      "control_id": "DPL-OBS-001",
+      "title": "Observability retention is governed locally",
+      "description": "Observability evidence must use local retention, hygiene and redaction policies.",
+      "domain": "observability",
+      "risk_level": "medium_high",
+      "mapped_capabilities": [
+        "observability.retention",
+        "observability.hygiene",
+        "secret.redaction"
+      ],
+      "required_evidence": [
+        "observability-retention-hygiene"
+      ],
+      "status": "mapped",
+      "owner": "operations"
+    },
+    {
+      "control_id": "DPL-DOC-001",
+      "title": "Documentation governance prevents source-of-truth drift",
+      "description": "Canonical documents and machine-readable registries must stay synchronized.",
+      "domain": "documentation",
+      "risk_level": "medium_high",
+      "mapped_capabilities": [
+        "docs.governance",
+        "source.registry",
+        "project.state"
+      ],
+      "required_evidence": [
+        "docs-governance-validation",
+        "project-state-validation"
+      ],
+      "status": "mapped",
+      "owner": "documentation"
+    }
+  ],
+  "safety": {
+    "local_first": true,
+    "network_used": false,
+    "external_api_used": false,
+    "mutations_performed": false
+  }
+}

@@ -3,11 +3,11 @@
 doc_id: "POST-H-020-BACKLOG"
 id: "POST-H-020"
 title: "POST-H-020 — Compliance mapping packs ampliados"
-status: "draft"
-version: "0.1.0"
+status: "approved"
+version: "1.0.0"
 owner: "Ordóñez"
-updated: "2026-06-23"
-approval: "pending_owner_review"
+updated: "2026-07-01"
+approval: "approved_by_owner"
 phase: "POST-FASE-H"
 priority: "P2"
 roadmap_source: "docs/backlogs/post_h_prioritized_roadmap.md"
@@ -17,9 +17,24 @@ no_remote_execution_enabled: true
 no_external_apis_used: true
 no_connector_write_enabled: true
 no_plugin_execution_enabled: true
+implementation_status: "in-progress"
+current_micro_sprint: "POST-H-020-A"
+next_micro_sprint: "POST-H-020-B"
 ---
 
 # POST-H-020 — Compliance mapping packs ampliados
+
+## 0. Estado de implementación
+
+Estado del backlog: `approved / in-progress`.
+
+Micro-sprint actual: `POST-H-020-A — Control mapping schemas y registry`.
+
+Resultado POST-H-020-A: `implemented-initial`. Se agregan schemas `ComplianceControlMapping`, `ComplianceEvidenceMapping` y `ComplianceMappingReport`, se registran en `schema_catalog.json`, y se crean los registries locales `.devpilot/compliance/control_mappings.json` y `.devpilot/compliance/evidence_mappings.json`. El hito permanece no-certificante: `certification_claimed=false`, `legal_advice_claimed=false`, sin red, APIs externas, conectores, remediación automática ni envío a terceros.
+
+Disclaimers obligatorios: este hito es `no certificación`, `no asesoría legal` y no auditoría externa.
+
+Siguiente micro-sprint: `POST-H-020-B — Compliance mapping validator`.
 
 ## 1. Objetivo
 
