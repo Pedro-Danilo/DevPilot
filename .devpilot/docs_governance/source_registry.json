@@ -3310,6 +3310,121 @@
         "test_must_pass"
       ],
       "preliminary": true
+    },
+    {
+      "doc_id": "SCHEMA-DEVPL-REMOTE-READINESS-REPORT-V1",
+      "path": "docs/schemas/remote_readiness_report.schema.json",
+      "classification": "machine-readable-source",
+      "domain": "enterprise.remote",
+      "owner": "Ordóñez",
+      "status_required": "registered",
+      "criticality": "P2",
+      "frontmatter_required": false,
+      "status_checked": true,
+      "required_tests": [
+        "tests/test_post_h_021_remote_readiness_report.py",
+        "tests/test_schema_registry.py"
+      ],
+      "related_files": [
+        "src/devpilot_core/remote/readiness.py",
+        "src/devpilot_core/remote/reports.py"
+      ],
+      "implementation_notes": [
+        "POST-H-021-C schema constrains remote readiness reports to design-only and all remote execution flags false."
+      ],
+      "source_of_truth": true,
+      "machine_readable": true,
+      "sync_rules": [
+        "schema_catalog_must_reference_schema",
+        "required_tests_must_pass"
+      ],
+      "preliminary": true
+    },
+    {
+      "doc_id": "POST-H-021-C-REMOTE-READINESS-REPORT",
+      "path": "docs/audits/post_h_021_c_remote_readiness_report.md",
+      "classification": "source-of-truth",
+      "domain": "enterprise.remote",
+      "owner": "Ordóñez",
+      "status_required": "approved",
+      "criticality": "P2",
+      "frontmatter_required": true,
+      "status_checked": true,
+      "required_tests": [
+        "tests/test_post_h_021_remote_readiness_report.py"
+      ],
+      "related_files": [
+        "docs/post_h_021_c_manifest.json",
+        "docs/schemas/remote_readiness_report.schema.json"
+      ],
+      "implementation_notes": [
+        "POST-H-021-C audit report records read-only readiness evidence and explicit no-go limits."
+      ],
+      "source_of_truth": true,
+      "machine_readable": false,
+      "sync_rules": [
+        "required_tests_must_pass",
+        "owner_status_and_path_must_remain_synced"
+      ],
+      "preliminary": true
+    },
+    {
+      "doc_id": "POST-H-021-C-MANIFEST",
+      "path": "docs/post_h_021_c_manifest.json",
+      "classification": "machine-readable-source",
+      "domain": "enterprise.remote",
+      "owner": "Ordóñez",
+      "status_required": "implemented-initial",
+      "criticality": "P2",
+      "frontmatter_required": false,
+      "status_checked": true,
+      "required_tests": [
+        "tests/test_post_h_021_remote_readiness_report.py",
+        "tests/test_project_global_state.py"
+      ],
+      "related_files": [
+        "docs/audits/post_h_021_c_remote_readiness_report.md",
+        "src/devpilot_core/remote/readiness.py",
+        "src/devpilot_core/remote/reports.py"
+      ],
+      "implementation_notes": [
+        "POST-H-021-C manifest records readiness report deliverables and synchronized state updates."
+      ],
+      "source_of_truth": true,
+      "machine_readable": true,
+      "sync_rules": [
+        "required_tests_must_pass",
+        "manifest_must_track_created_and_modified_files"
+      ],
+      "preliminary": true
+    },
+    {
+      "doc_id": "POST-H-021-C-REMOTE-READINESS-TEST",
+      "path": "tests/test_post_h_021_remote_readiness_report.py",
+      "classification": "derived",
+      "domain": "enterprise.remote",
+      "owner": "tests/test_post_h_021_remote_readiness_report.py",
+      "status_required": "current",
+      "criticality": "P2",
+      "frontmatter_required": false,
+      "status_checked": false,
+      "required_tests": [
+        "tests/test_post_h_021_remote_readiness_report.py"
+      ],
+      "related_files": [
+        "src/devpilot_core/remote/readiness.py",
+        "src/devpilot_core/remote/reports.py",
+        "docs/schemas/remote_readiness_report.schema.json"
+      ],
+      "implementation_notes": [
+        "POST-H-021-C test enforces read-only readiness report behavior and absence of execution primitives."
+      ],
+      "source_of_truth": false,
+      "machine_readable": false,
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "preliminary": true
     }
   ],
   "rules": {
@@ -3364,7 +3479,7 @@
     "remote_execution_enabled": false
   },
   "summary": {
-    "documents_total": 108,
+    "documents_total": 112,
     "source_of_truth_total": 47,
     "machine_readable_source_total": 38,
     "derived_total": 23,
@@ -3377,7 +3492,7 @@
     "network_used": false,
     "external_api_used": false,
     "mutations_performed": false,
-    "last_updated_by": "POST-H-021-B",
+    "last_updated_by": "POST-H-021-C",
     "markdown_json_sync_checks_enabled": true,
     "sync_checks_scope": "version_match, milestones_match, decisions_match, closure_status_match, next_hito_match",
     "backlog_governance_enabled": true,
@@ -3418,7 +3533,7 @@
     "machine_readable_total": 15,
     "required_tests_total": 52,
     "active_backlog": "POST-H-021",
-    "active_micro_sprint": "POST-H-021-B",
+    "active_micro_sprint": "POST-H-021-C",
     "sensitive_action_catalog_enabled": true,
     "sensitive_action_catalog_path": ".devpilot/approval/sensitive_action_catalog.json",
     "sensitive_action_catalog_schema": "docs/schemas/sensitive_action_catalog.schema.json",
@@ -3446,8 +3561,8 @@
     "operator_dashboard_ready_gate_module": "src/devpilot_core/portfolio/operator_dashboard_gate.py",
     "operator_dashboard_cli_command": "python -m devpilot_core operator dashboard --json --write-report",
     "post_h_015_closed": true,
-    "last_completed_sprint": "POST-H-019",
-    "next_sprint": "POST-H-020",
+    "last_completed_sprint": "POST-H-020",
+    "next_sprint": "POST-H-021",
     "post_h_016_approved": true,
     "post_h_016_current_micro_sprint": "POST-H-016-E",
     "post_h_016_next_micro_sprint": "POST-H-017",
@@ -3534,7 +3649,7 @@
     "plugin_execution_enabled": false,
     "plugin_install_dry_run_enabled": true,
     "plugin_exposure_report_enabled": true,
-    "next_micro_sprint": "POST-H-021-B",
+    "next_micro_sprint": "POST-H-021-D",
     "plugin_sandbox_quality_gate_registered": true,
     "plugin_sandbox_quality_gate_subgate": "plugin-sandbox-design",
     "plugin_sandbox_quality_gate_profiles": [
@@ -3548,7 +3663,7 @@
     "post_h_019_closed": true,
     "plugin_sandbox_metadata_runbook_registered": true,
     "plugin_sandbox_future_adr_trigger_registered": true,
-    "current_micro_sprint": "POST-H-021-A",
+    "current_micro_sprint": "POST-H-021-C",
     "post_h_020_current_micro_sprint": "POST-H-020-E",
     "post_h_020_next_micro_sprint": "POST-H-021",
     "post_h_020_compliance_mapping_schemas_registered": true,
@@ -3568,10 +3683,14 @@
     "remote_readiness_criteria_schema_registered": true,
     "remote_readiness_criteria_path": ".devpilot/remote/remote_readiness_criteria.json",
     "remote_execution_enabled": false,
-    "post_h_021_current_micro_sprint": "POST-H-021-B",
-    "post_h_021_next_micro_sprint": "POST-H-021-C",
+    "post_h_021_current_micro_sprint": "POST-H-021-C",
+    "post_h_021_next_micro_sprint": "POST-H-021-D",
     "remote_runner_adr2_path": "docs/adr/ADR-POSTH-004-remote-runner-adr2.md",
-    "remote_runner_adr2_approved": true
+    "remote_runner_adr2_approved": true,
+    "remote_readiness_report_schema_registered": true,
+    "remote_readiness_report_path": "outputs/reports/remote_readiness_report.json",
+    "remote_readiness_report_cli_command": "python -m devpilot_core remote runner readiness --json --write-report",
+    "remote_runner_enabled": false
   },
   "safety": {
     "local_first": true,
@@ -3632,6 +3751,8 @@
     "POST-H-020-D uses evals/fixtures/compliance_pack_integrity_eval_cases.json as the local compliance-pack integrity signal.",
     "POST-H-020-E closes Compliance mapping packs with runbook and disclaimers.",
     "POST-H-020-E keeps compliance mapping local-first, non-certifying and non-legal-advice.",
-    "POST-H-021-A adds remote readiness criteria registry and disabled baseline documentation."
+    "POST-H-021-A adds remote readiness criteria registry and disabled baseline documentation.",
+    "POST-H-021-C registers RemoteReadinessReport schema and read-only readiness report CLI.",
+    "POST-H-021-C keeps remote runner disabled and does not authorize remote execution."
   ]
 }

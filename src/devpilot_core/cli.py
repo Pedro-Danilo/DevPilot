@@ -69,7 +69,7 @@ from .policy import CostPolicy, PolicyEngine, PolicyRequest, load_cost_policy
 from .plugins import PluginDryRunOptions, PluginExposureReporter, PluginExposureReportOptions, PluginRegistry, PluginRegistryOptions
 from .prompts import PromptRegistry
 from .quality import QualityGate, QualityGateOptions
-from .remote import RemoteRunnerStatusOptions, RemoteRunnerStub
+from .remote import RemoteReadinessReportOptions, RemoteReadinessReporter, RemoteRunnerStatusOptions, RemoteRunnerStub
 from .rag import (
     LocalRagIndexer,
     LocalRagRetriever,
@@ -3093,6 +3093,37 @@ def remote_runner_status_command(
     return int(result.exit_code)
 
 
+def remote_runner_readiness_command(
+    *,
+    criteria_path: str = ".devpilot/remote/remote_readiness_criteria.json",
+    criteria_schema_path: str = "docs/schemas/remote_readiness_criteria.schema.json",
+    registry_path: str = ".devpilot/remote/runner_registry.json",
+    schema_path: str = "docs/schemas/remote_runner.schema.json",
+    output_json: str = "outputs/reports/remote_readiness_report.json",
+    output_markdown: str = "outputs/reports/remote_readiness_report.md",
+    json_output: bool = False,
+    write_report: bool = False,
+) -> int:
+    """Generate POST-H-021-C read-only remote readiness evidence."""
+
+    root = project_root()
+    result = RemoteReadinessReporter(
+        root,
+        options=RemoteReadinessReportOptions(
+            criteria_path=criteria_path,
+            criteria_schema_path=criteria_schema_path,
+            registry_path=registry_path,
+            registry_schema_path=schema_path,
+            output_json=output_json,
+            output_markdown=output_markdown,
+        ),
+    ).build(write_report=write_report)
+    _emit_result_event(root, result, subject="remote:runner:readiness")
+    _persist_result(root, result, subject="remote:runner:readiness")
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+
 def industrial_readiness_check_command(
     *,
     minimum_score: float = 80.0,
@@ -5183,6 +5214,15 @@ def build_parser() -> argparse.ArgumentParser:
     remote_runner_status.add_argument("--schema-path", default="docs/schemas/remote_runner.schema.json", help="Remote runner registry schema path")
     remote_runner_status.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     remote_runner_status.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+    remote_runner_readiness = remote_runner_sub.add_parser("readiness", help="Generate read-only remote readiness report")
+    remote_runner_readiness.add_argument("--criteria-path", default=".devpilot/remote/remote_readiness_criteria.json", help="Remote readiness criteria path")
+    remote_runner_readiness.add_argument("--criteria-schema-path", default="docs/schemas/remote_readiness_criteria.schema.json", help="Remote readiness criteria schema path")
+    remote_runner_readiness.add_argument("--registry-path", default=".devpilot/remote/runner_registry.json", help="Remote runner registry path")
+    remote_runner_readiness.add_argument("--schema-path", default="docs/schemas/remote_runner.schema.json", help="Remote runner registry schema path")
+    remote_runner_readiness.add_argument("--output-json", default="outputs/reports/remote_readiness_report.json", help="Output JSON path when --write-report is used")
+    remote_runner_readiness.add_argument("--output-markdown", default="outputs/reports/remote_readiness_report.md", help="Output Markdown path when --write-report is used")
+    remote_runner_readiness.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    remote_runner_readiness.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
 
     compliance = sub.add_parser("compliance", help="List and run local declarative compliance/policy packs")
     compliance_sub = compliance.add_subparsers(dest="compliance_command")
@@ -6403,6 +6443,17 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
             return remote_runner_status_command(
                 registry_path=args.registry_path,
                 schema_path=args.schema_path,
+                json_output=args.json,
+                write_report=args.write_report,
+            )
+        if args.remote_command == "runner" and args.remote_runner_command == "readiness":
+            return remote_runner_readiness_command(
+                criteria_path=args.criteria_path,
+                criteria_schema_path=args.criteria_schema_path,
+                registry_path=args.registry_path,
+                schema_path=args.schema_path,
+                output_json=args.output_json,
+                output_markdown=args.output_markdown,
                 json_output=args.json,
                 write_report=args.write_report,
             )

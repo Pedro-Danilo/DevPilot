@@ -9968,23 +9968,90 @@
         "POST-H-021-B is design-only and cannot be used to enable remote execution."
       ],
       "classification_status": "explicit"
+    },
+    {
+      "contract_id": "post-h-021-remote-readiness-report",
+      "schema_version": "2.0",
+      "source_contract_id": "post-h-021-remote-readiness-report",
+      "domain": "enterprise.remote",
+      "capability": "Remote readiness report read-only evidence",
+      "criticality": "P2",
+      "risk_level": "critical",
+      "test_type": "security",
+      "execution_profile": "release",
+      "cost_class": "low",
+      "expected_duration_seconds": 25,
+      "test_files": [
+        "tests/test_post_h_021_remote_readiness_report.py"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/remote/readiness.py",
+        "src/devpilot_core/remote/reports.py",
+        "src/devpilot_core/cli.py",
+        "docs/schemas/remote_readiness_report.schema.json",
+        "docs/backlogs/POST-H-021_remote_runner_adr2.md",
+        "docs/POST-H-021_remote_runner_adr2.md",
+        "docs/audits/post_h_021_c_remote_readiness_report.md",
+        "docs/post_h_021_c_manifest.json",
+        ".devpilot/project_state.json",
+        ".devpilot/testing/test_contract_registry_v2.json",
+        "tests/test_post_h_021_remote_readiness_report.py"
+      ],
+      "validates": [
+        "RemoteReadinessReport schema keeps remote_runner_enabled=false and remote_execution_used=false",
+        "remote runner readiness CLI generates design-only read-only evidence",
+        "Readiness report does not use execution primitives, network, external APIs, secrets or credentials",
+        "Generated report remains preliminary and future_adr_required=true"
+      ],
+      "trigger_hints": [
+        "post-h-021",
+        "remote-runner",
+        "remote-readiness-report",
+        "read-only",
+        "no-remote-execution"
+      ],
+      "impact_scope": [
+        "enterprise.remote",
+        "security.guards",
+        "documentation.governance",
+        "testing.contracts"
+      ],
+      "required_for_release": false,
+      "required_for_security_gate": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "POST-H-021-C",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace tests/test_post_h_021_remote_readiness_report.py tests/test_schema_registry.py tests/test_project_global_state.py tests/test_post_h_006_e_cli_no_growth_gate.py -q",
+        "python -m devpilot_core remote runner readiness --json --write-report",
+        "python -m devpilot_core schema validate --schema-id RemoteReadinessReport --instance outputs/reports/remote_readiness_report.json --json",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ],
+      "notes": [
+        "POST-H-021-C is read-only design evidence and cannot be used as remote execution enablement."
+      ],
+      "classification_status": "explicit"
     }
   ],
   "migration_metadata": {
-    "source_contracts_total": 160,
+    "source_contracts_total": 166,
     "migrator": "TestContractRegistryV2Migrator",
     "source_registry_preserved": true,
     "tests_executed": false,
     "network_used": false,
     "external_api_used": false,
     "mutations_performed_by_default": false,
-    "contracts_total": 162,
-    "last_updated_by": "POST-H-020-E"
+    "contracts_total": 166,
+    "last_updated_by": "POST-H-021-C"
   },
   "notes": [
     "POST-H-020-D fixes v2 contract classification_status for POST-H-020-C/D contracts to keep schema validation synchronized.",
     "POST-H-020-E corrective sync changes POST-H-020-C/D v2 classification_status from invalid manual to explicit.",
     "POST-H-020-E registers compliance runbook/disclaimer closure contract.",
-    "POST-H-020-E corrects POST-H-020-C/D classification_status values to explicit."
+    "POST-H-020-E corrects POST-H-020-C/D classification_status values to explicit.",
+    "POST-H-021-C registers remote readiness report security contract."
   ]
 }

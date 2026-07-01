@@ -10,8 +10,8 @@ approval: "approved_by_owner"
 phase: "POST-FASE-H"
 priority: "P3"
 implementation_status: "active"
-current_micro_sprint: "POST-H-021-B"
-next_micro_sprint: "POST-H-021-C"
+current_micro_sprint: "POST-H-021-C"
+next_micro_sprint: "POST-H-021-D"
 local_first: true
 dry_run: true
 no_remote_execution_enabled: true
@@ -104,9 +104,35 @@ secrets_read=false
 requires_future_adr=true
 ```
 
-## 5. Límites explícitos
+## 5. Estado POST-H-021-C — Remote readiness report read-only
 
-POST-H-021-A no habilita:
+Estado: `implemented-initial`.
+
+POST-H-021-C implementa un reporte local read-only de readiness remoto:
+
+```text
+src/devpilot_core/remote/readiness.py
+src/devpilot_core/remote/reports.py
+docs/schemas/remote_readiness_report.schema.json
+tests/test_post_h_021_remote_readiness_report.py
+docs/audits/post_h_021_c_remote_readiness_report.md
+docs/post_h_021_c_manifest.json
+```
+
+La CLI operativa es:
+
+```powershell
+python -m devpilot_core remote runner readiness --json
+python -m devpilot_core remote runner readiness --json --write-report
+```
+
+El reporte confirma `readiness_level=remote-design-only`, `future_adr_required=true`, `remote_runner_enabled=false`, `remote_execution_used=false`, `network_used=false`, `external_api_used=false`, `credentials_required=false`, `secrets_read=false` y `blocking_findings_total=0`.
+
+El artefacto no autoriza ejecución remota. Solo lee criterios, registry y schemas locales; la escritura de reportes queda limitada a `outputs/reports/` bajo ejecución explícita.
+
+## 6. Límites explícitos
+
+POST-H-021-A/B/C no habilitan:
 
 ```text
 remote execution
@@ -124,12 +150,11 @@ connector write
 plugin execution
 ```
 
-## 6. Evolución pendiente
+## 7. Evolución pendiente
 
 POST-H-021 sigue activo. Las siguientes etapas previstas son:
 
 ```text
-POST-H-021-C — Remote readiness report read-only
 POST-H-021-D — Quality gate remote disabled
 POST-H-021-E — Runbook, rollback y cierre
 ```

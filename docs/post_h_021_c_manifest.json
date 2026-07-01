@@ -1,0 +1,52 @@
+{
+  "schema_version": "1.0",
+  "manifest_id": "POST-H-021-C-MANIFEST",
+  "micro_sprint": "POST-H-021-C",
+  "title": "Remote readiness report read-only",
+  "status": "implemented-initial",
+  "created_by": "POST-H-021-C",
+  "updated": "2026-07-01",
+  "source_repo": "repo_DevPilot_Local_237_POST_H_021_B.zip",
+  "target_repo": "repo_DevPilot_Local_238_POST_H_021_C.zip",
+  "created_files": [
+    "src/devpilot_core/remote/readiness.py",
+    "src/devpilot_core/remote/reports.py",
+    "docs/schemas/remote_readiness_report.schema.json",
+    "tests/test_post_h_021_remote_readiness_report.py",
+    "docs/audits/post_h_021_c_remote_readiness_report.md",
+    "docs/post_h_021_c_manifest.json"
+  ],
+  "modified_files": [
+    "src/devpilot_core/remote/__init__.py",
+    "src/devpilot_core/cli.py",
+    ".devpilot/cli_registry/legacy_command_allowlist.json",
+    "docs/schemas/schema_catalog.json",
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/backlogs/POST-H-021_remote_runner_adr2.md",
+    "docs/POST-H-021_remote_runner_adr2.md",
+    "docs/release/CHANGELOG.md",
+    ".devpilot/project_state.json",
+    ".devpilot/docs_governance/source_registry.json",
+    ".devpilot/testing/test_contract_registry.json",
+    ".devpilot/testing/test_contract_registry_v2.json",
+    "tests/test_post_h_021_remote_adr2.py",
+    "tests/test_schema_registry.py",
+    "tests/test_project_global_state.py"
+  ],
+  "remote_execution_enabled": false,
+  "remote_runner_enabled": false,
+  "remote_execution_used": false,
+  "network_used": false,
+  "external_api_used": false,
+  "credentials_required": false,
+  "secrets_read": false,
+  "connector_write_enabled": false,
+  "plugin_execution_enabled": false,
+  "preliminary": true,
+  "notes": [
+    "POST-H-021-C generates read-only local readiness evidence only.",
+    "Report generation does not authorize remote execution and does not open transports or read secrets.",
+    "Runtime reports under outputs/reports are excluded from clean delivery ZIPs."
+  ]
+}

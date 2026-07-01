@@ -2,17 +2,55 @@
 title: "Runbook — DevPilot Local"
 doc_id: "DEVPL-OPS-002"
 status: "approved"
-version: "1.77.0"
+version: "1.78.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "POST-H-021-B"
+phase: "POST-H-021-C"
 updated: "2026-07-01"
 approval: "approved_by_owner"
 source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved + 03_security approved"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "SPRINT-PRECODE-05 quality operations baseline"
 ---
+
+## POST-H-021-C — Remote readiness report read-only
+
+Estado: `implemented-initial / hito activo`.
+
+POST-H-021-C agrega una verificación local read-only de readiness remoto. El operador debe usarla como evidencia de bloqueo y preparación de diseño, no como permiso operativo para ejecutar remotamente.
+
+Artefactos:
+
+```text
+src/devpilot_core/remote/readiness.py
+src/devpilot_core/remote/reports.py
+docs/schemas/remote_readiness_report.schema.json
+tests/test_post_h_021_remote_readiness_report.py
+docs/audits/post_h_021_c_remote_readiness_report.md
+docs/post_h_021_c_manifest.json
+```
+
+Validación:
+
+```powershell
+python -m pytest -p no:ddtrace tests/test_post_h_021_remote_readiness_report.py tests/test_post_h_021_remote_adr2.py tests/test_post_h_021_remote_disabled_invariants.py tests/test_schema_registry.py tests/test_project_global_state.py -q
+python -m devpilot_core remote runner readiness --json --write-report
+python -m devpilot_core schema validate --schema-id RemoteReadinessReport --instance outputs/reports/remote_readiness_report.json --json
+python -m devpilot_core remote runner status --json
+python -m devpilot_core docs-governance validate --json
+python -m devpilot_core test-contracts validate --json
+python -m devpilot_core test-contracts validate-v2 --json
+python -m devpilot_core project-state validate --json
+python -m devpilot_core cli-registry guard --json
+python -m devpilot_core schema list --json
+```
+
+PASS si el reporte muestra `readiness_level=remote-design-only`, `future_adr_required=true`, `remote_runner_enabled=false`, `remote_execution_used=false`, `network_used=false`, `external_api_used=false`, `credentials_required=false`, `secrets_read=false` y `blocking_findings_total=0`.
+
+BLOCK si el reporte observa ejecución remota, transporte remoto, red, API externa, lectura de secretos, credenciales, mutaciones de fuente, connector write, plugin execution o si el schema `RemoteReadinessReport` deja de bloquear esas banderas.
+
+Límite: POST-H-021-C no implementa quality gate remoto ni habilitación. Es una versión inicial de evidencia read-only que debe evolucionar con POST-H-021-D/E.
 
 ## POST-H-021-B — ADR-2 de Remote Runner
 

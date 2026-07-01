@@ -5523,6 +5523,65 @@
       "notes": [
         "POST-H-021-B is ADR/design-only and must not authorize immediate remote execution, transport, credentials, network or shell."
       ]
+    },
+    {
+      "contract_id": "post-h-021-remote-readiness-report",
+      "scope": "safety",
+      "owner": "POST-H-021-C",
+      "phase": "POST-FASE-H",
+      "test_files": [
+        "tests/test_post_h_021_remote_readiness_report.py"
+      ],
+      "validates": [
+        "src/devpilot_core/remote/readiness.py",
+        "src/devpilot_core/remote/reports.py",
+        "docs/schemas/remote_readiness_report.schema.json",
+        "docs/backlogs/POST-H-021_remote_runner_adr2.md",
+        "docs/POST-H-021_remote_runner_adr2.md",
+        "docs/audits/post_h_021_c_remote_readiness_report.md",
+        "docs/post_h_021_c_manifest.json"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/remote/readiness.py",
+        "src/devpilot_core/remote/reports.py",
+        "src/devpilot_core/cli.py",
+        "src/devpilot_core/remote/__init__.py",
+        ".devpilot/cli_registry/legacy_command_allowlist.json",
+        "docs/schemas/remote_readiness_report.schema.json",
+        "docs/schemas/schema_catalog.json",
+        "docs/backlogs/POST-H-021_remote_runner_adr2.md",
+        "docs/POST-H-021_remote_runner_adr2.md",
+        "docs/audits/post_h_021_c_remote_readiness_report.md",
+        "docs/post_h_021_c_manifest.json",
+        "README.md",
+        "docs/05_operations/runbook.md",
+        "docs/release/CHANGELOG.md",
+        ".devpilot/project_state.json",
+        ".devpilot/docs_governance/source_registry.json",
+        ".devpilot/testing/test_contract_registry.json",
+        ".devpilot/testing/test_contract_registry_v2.json",
+        "tests/test_post_h_021_remote_readiness_report.py",
+        "tests/test_schema_registry.py",
+        "tests/test_project_global_state.py",
+        "tests/test_post_h_006_e_cli_no_growth_gate.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace tests/test_post_h_021_remote_readiness_report.py tests/test_post_h_021_remote_adr2.py tests/test_post_h_021_remote_disabled_invariants.py tests/test_schema_registry.py tests/test_project_global_state.py tests/test_post_h_006_e_cli_no_growth_gate.py -q",
+        "python -m devpilot_core remote runner readiness --json --write-report",
+        "python -m devpilot_core schema validate --schema-id RemoteReadinessReport --instance outputs/reports/remote_readiness_report.json --json",
+        "python -m devpilot_core docs-governance validate --json",
+        "python -m devpilot_core test-contracts validate --json"
+      ],
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "notes": [
+        "POST-H-021-C read-only readiness report contract; no remote execution, transport, credentials, secrets, network, connector write or plugin execution."
+      ]
     }
   ],
   "notes": [
@@ -5546,6 +5605,7 @@
     "POST-H-020-C adds compliance evidence report contract.",
     "POST-H-020-D registers compliance-mapping-pack as a hardening quality-gate contract without certification claims.",
     "POST-H-020-E registers compliance runbook/disclaimer closure tests.",
-    "POST-H-020 closes Compliance mapping packs as implemented-initial and non-certifying."
+    "POST-H-020 closes Compliance mapping packs as implemented-initial and non-certifying.",
+    "POST-H-021-C registers remote readiness report contract without enabling remote execution."
   ]
 }

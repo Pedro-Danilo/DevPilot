@@ -1,3 +1,11 @@
+## post-h-021-c — Remote readiness report read-only
+
+- Agrega `RemoteReadinessChecker` y `RemoteReadinessReporter`.
+- Registra el schema `RemoteReadinessReport`.
+- Agrega CLI `remote runner readiness --json`.
+- Genera reportes opcionales en `outputs/reports/remote_readiness_report.json` y `.md` solo con `--write-report`.
+- Mantiene `remote_runner_enabled=false`, `remote_execution_used=false`, sin transporte remoto, red/API externa, credenciales, secretos, connector write ni plugin execution.
+
 ## post-h-021-b — ADR-2 de Remote Runner
 
 - Agrega `docs/adr/ADR-POSTH-004-remote-runner-adr2.md`.

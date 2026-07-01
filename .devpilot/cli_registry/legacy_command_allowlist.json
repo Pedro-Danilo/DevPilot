@@ -92,6 +92,7 @@
     "readiness-check",
     "refactor-plan",
     "refactor.sandbox",
+    "remote.runner.readiness",
     "remote.runner.status",
     "repo-inventory",
     "repo.analyze",

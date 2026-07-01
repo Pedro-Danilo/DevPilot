@@ -1,3 +1,40 @@
+## POST-H-021-C — Remote readiness report read-only
+
+Estado: `implemented-initial / hito activo`.
+
+DevPilot agrega un reporte local read-only para evaluar readiness remoto sin habilitar ejecución remota. El reporte lee criterios, registry y schemas locales, confirma la línea base bloqueada y puede persistir evidencia runtime solo bajo `outputs/reports/`.
+
+Capacidades nuevas:
+
+- `RemoteReadinessChecker` en `src/devpilot_core/remote/readiness.py`.
+- `RemoteReadinessReporter` en `src/devpilot_core/remote/reports.py`.
+- Schema `RemoteReadinessReport`.
+- CLI `remote runner readiness --json`.
+- Reporte opcional `outputs/reports/remote_readiness_report.json` y `.md` con `--write-report`.
+- Test `tests/test_post_h_021_remote_readiness_report.py` para bloquear ejecución, red, secretos y transporte remoto.
+
+Comandos principales:
+
+```powershell
+python -m pytest -p no:ddtrace tests/test_post_h_021_remote_readiness_report.py tests/test_post_h_021_remote_adr2.py tests/test_post_h_021_remote_disabled_invariants.py tests/test_schema_registry.py tests/test_project_global_state.py -q
+python -m devpilot_core remote runner readiness --json --write-report
+python -m devpilot_core schema validate --schema-id RemoteReadinessReport --instance outputs/reports/remote_readiness_report.json --json
+python -m devpilot_core remote runner status --json
+python -m devpilot_core docs-governance validate --json
+python -m devpilot_core test-contracts validate --json
+python -m devpilot_core test-contracts validate-v2 --json
+python -m devpilot_core project-state validate --json
+python -m devpilot_core cli-registry guard --json
+python -m devpilot_core schema list --json
+```
+
+Límite explícito: POST-H-021-C es evidencia local design-only. No habilita ejecución remota, transporte remoto, SSH, HTTP remote, gRPC, websockets, túneles, cloud control plane, workers, credenciales remotas, connector write ni plugin execution.
+
+Último hito cerrado: `POST-H-020 — Compliance mapping packs ampliados`
+Hito activo: `POST-H-021 — Remote Runner ADR-2`
+Último micro-sprint implementado: `POST-H-021-C — Remote readiness report read-only`
+Siguiente micro-sprint: `POST-H-021-D — Quality gate remote disabled`
+
 ## POST-H-021-B — ADR-2 de Remote Runner
 
 Estado: `implemented-initial / hito activo`.
