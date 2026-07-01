@@ -1,3 +1,11 @@
+## post-h-020-d — Integración con audit packs y quality gate
+
+- Agrega `ComplianceMappingQualityGate` como subgate `compliance-mapping-pack` para perfiles `hardening` e `industrial`.
+- Agrega summary `compliance_mapping` no-certificante al manifest de AuditPackV2.
+- Integra la señal local `compliance-pack-integrity` desde `evals/fixtures/compliance_pack_integrity_eval_cases.json`.
+- Bloquea claims de certificación y asesoría legal desde quality gate.
+- Mantiene `source_command` como declaración no ejecutada, sin red, APIs externas, envío de evidencias a terceros, remote execution ni plugin execution.
+
 ## post-h-020-c — Evidence collector y report generator local
 
 - Agrega `ComplianceEvidenceCollector` para inspeccionar metadatos locales de evidencias declaradas.

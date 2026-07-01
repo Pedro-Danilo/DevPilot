@@ -9710,7 +9710,73 @@
       ],
       "notes": [
         "POST-H-020-C is report-only/local metadata collection and does not claim certification or legal advice."
-      ]
+      ],
+      "classification_status": "manual"
+    },
+    {
+      "contract_id": "post-h-020-compliance-mapping-quality-gate",
+      "schema_version": "2.0",
+      "source_contract_id": "post-h-020-compliance-mapping-quality-gate",
+      "domain": "governance.compliance",
+      "capability": "Compliance mapping audit-pack and quality-gate integration",
+      "criticality": "P2",
+      "risk_level": "high",
+      "test_type": "integration",
+      "execution_profile": "release",
+      "cost_class": "low",
+      "expected_duration_seconds": 45,
+      "test_files": [
+        "tests/test_post_h_020_compliance_quality_gate.py"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/compliance/quality_gate.py",
+        "src/devpilot_core/compliance/__init__.py",
+        "src/devpilot_core/quality/gate.py",
+        "src/devpilot_core/auditpack/manifest_v2.py",
+        ".devpilot/compliance/control_mappings.json",
+        ".devpilot/compliance/evidence_mappings.json",
+        "evals/fixtures/compliance_pack_integrity_eval_cases.json",
+        "docs/backlogs/POST-H-020_compliance_mapping_packs.md",
+        "docs/POST-H-020_compliance_mapping_packs.md",
+        "tests/test_post_h_020_compliance_quality_gate.py"
+      ],
+      "validates": [
+        "ComplianceMappingQualityGate composes validator, collector, reporter, audit-pack manifest and eval fixture signal",
+        "quality-gate hardening/industrial includes compliance-mapping-pack",
+        "AuditPackV2 manifest includes non-certifying compliance_mapping summary",
+        "certification_claimed=false and legal_advice_claimed=false remain enforced by gate",
+        "source_command values are not executed by the gate"
+      ],
+      "trigger_hints": [
+        "post-h-020",
+        "compliance-mapping",
+        "quality-gate",
+        "audit-pack",
+        "no-certification"
+      ],
+      "impact_scope": [
+        "governance.compliance",
+        "quality.gate",
+        "audit.pack",
+        "documentation.governance"
+      ],
+      "required_for_release": false,
+      "required_for_security_gate": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "POST-H-020-D",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace tests/test_post_h_020_compliance_quality_gate.py tests/test_post_h_020_compliance_evidence_report.py tests/test_post_h_020_compliance_mapping_validator.py tests/test_post_h_020_compliance_mapping_schema.py tests/test_post_h_020_compliance_evidence_mapping.py tests/test_post_h_020_compliance_no_certification.py tests/test_schema_registry.py tests/test_project_global_state.py tests/test_post_h_006_e_cli_no_growth_gate.py -q",
+        "python -m devpilot_core quality-gate run --profile hardening --json",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ],
+      "notes": [
+        "POST-H-020-D integrates compliance mapping into quality gate and audit-pack metadata without certification, legal advice or evidence export."
+      ],
+      "classification_status": "manual"
     }
   ],
   "migration_metadata": {
@@ -9721,7 +9787,10 @@
     "network_used": false,
     "external_api_used": false,
     "mutations_performed_by_default": false,
-    "contracts_total": 160,
-    "last_updated_by": "POST-H-020-C"
-  }
+    "contracts_total": 162,
+    "last_updated_by": "POST-H-020-D"
+  },
+  "notes": [
+    "POST-H-020-D fixes v2 contract classification_status for POST-H-020-C/D contracts to keep schema validation synchronized."
+  ]
 }

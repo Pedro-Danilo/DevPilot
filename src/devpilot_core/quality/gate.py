@@ -148,6 +148,7 @@ class QualityGate:
                     "POST-H-017-E adds release-reproducibility to hardening/industrial profiles to generate and verify local dry-run reproducibility pack evidence without publishing, deploying, network, external APIs or source mutations.",
                     "POST-H-018-E adds connector-sandbox to hardening/industrial profiles to validate deny-write, replay, redaction and Policy/Approval/RBAC binding without connector write, network, external APIs, remote execution or plugins.",
                     "POST-H-019-D adds plugin-sandbox-design to hardening/industrial profiles to validate metadata-only plugin registry, permission model, exposure report and plugin-ecosystem eval signal without plugin execution.",
+                    "POST-H-020-D adds compliance-mapping-pack to hardening/industrial profiles to validate mappings, evidence, report, audit-pack summary and compliance-pack eval signal without certification claims.",
                     "POST-H-008-E adds runtime-state-hygiene to hardening/industrial profiles to block dirty source/release archives.",
                     "POST-H-009-E adds docs-governance to hardening/industrial profiles to block canonical-source, sync and backlog-governance drift.",
                     "The default and ci profiles do not run pytest implicitly; CI workflows and local checklists run pytest as an explicit step, or use --include-pytest when desired.",
@@ -200,6 +201,7 @@ class QualityGate:
             subgates.append(QualitySubgate("release-reproducibility", "POST-H-017 local release reproducibility pack generation and verification gate.", self._release_reproducibility))
             subgates.append(QualitySubgate("connector-sandbox", "POST-H-018 connector sandbox deny-write, replay, redaction and Policy/Approval/RBAC gate.", self._connector_sandbox))
             subgates.append(QualitySubgate("plugin-sandbox-design", "POST-H-019 plugin registry, permission model, exposure report and eval fixture safety gate.", self._plugin_sandbox_design))
+            subgates.append(QualitySubgate("compliance-mapping-pack", "POST-H-020 compliance mapping validator, evidence report, audit-pack summary and compliance-pack eval gate.", self._compliance_mapping_pack))
         if self.options.profile == "industrial":
             subgates.append(QualitySubgate("industrial-readiness", "Fase H industrial readiness gate and maturity classification.", self._industrial_readiness))
         if self.options.profile == "hardening":
@@ -358,6 +360,11 @@ class QualityGate:
         from devpilot_core.plugins import PluginSandboxQualityGate
 
         return PluginSandboxQualityGate(self.root).run()
+
+    def _compliance_mapping_pack(self) -> CommandResult:
+        from devpilot_core.compliance import ComplianceMappingQualityGate
+
+        return ComplianceMappingQualityGate(self.root).run()
 
     def _industrial_readiness(self) -> CommandResult:
         from devpilot_core.industrial import IndustrialReadinessGate

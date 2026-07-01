@@ -1,0 +1,119 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "SCHEMA-DEVPL-POST-H-MANIFEST-V1",
+  "post_h_id": "POST-H-020",
+  "id": "POST-H-020-D",
+  "title": "Integración con audit packs y quality gate",
+  "status": "implemented-initial",
+  "phase": "POST-FASE-H",
+  "implemented_at": "2026-07-01",
+  "created_by": "POST-H-020-D",
+  "updated": "2026-07-01",
+  "source_repo": "repo_DevPilot_Local_233_POST_H_020_C.zip",
+  "current_repo": "repo_DevPilot_Local_234_POST_H_020_D.zip",
+  "backlog": "docs/backlogs/POST-H-020_compliance_mapping_packs.md",
+  "implementation_doc": "docs/POST-H-020_compliance_mapping_packs.md",
+  "audit_report": "docs/audits/post_h_020_d_compliance_mapping_quality_gate_report.md",
+  "created_files": [
+    "src/devpilot_core/compliance/quality_gate.py",
+    "tests/test_post_h_020_compliance_quality_gate.py",
+    "docs/audits/post_h_020_d_compliance_mapping_quality_gate_report.md",
+    "docs/post_h_020_d_manifest.json"
+  ],
+  "modified_files": [
+    "src/devpilot_core/compliance/__init__.py",
+    "src/devpilot_core/quality/gate.py",
+    "src/devpilot_core/auditpack/manifest_v2.py",
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/backlogs/POST-H-020_compliance_mapping_packs.md",
+    "docs/POST-H-020_compliance_mapping_packs.md",
+    "docs/release/CHANGELOG.md",
+    ".devpilot/project_state.json",
+    ".devpilot/docs_governance/source_registry.json",
+    ".devpilot/testing/test_contract_registry.json",
+    ".devpilot/testing/test_contract_registry_v2.json",
+    "tests/test_project_global_state.py"
+  ],
+  "capabilities": [
+    "ComplianceMappingQualityGate",
+    "quality-gate compliance-mapping-pack subgate",
+    "AuditPackV2 compliance_mapping manifest summary",
+    "compliance-pack-integrity eval fixture signal integration",
+    "no-certification/no-legal-advice gate enforcement",
+    "test_contract_registry_v2 classification_status sync for POST-H-020-C/D contracts"
+  ],
+  "commands": [
+    "python -m devpilot_core quality-gate run --profile hardening --json",
+    "python -m devpilot_core compliance mapping report --json --write-report",
+    "python -m devpilot_core docs-governance validate --json",
+    "python -m devpilot_core test-contracts validate --json",
+    "python -m devpilot_core test-contracts validate-v2 --json",
+    "python -m devpilot_core project-state validate --json",
+    "python -m devpilot_core cli-registry guard --json"
+  ],
+  "tests": [
+    "tests/test_post_h_020_compliance_quality_gate.py",
+    "tests/test_post_h_020_compliance_evidence_report.py",
+    "tests/test_post_h_020_compliance_mapping_validator.py",
+    "tests/test_post_h_020_compliance_mapping_schema.py",
+    "tests/test_post_h_020_compliance_evidence_mapping.py",
+    "tests/test_post_h_020_compliance_no_certification.py",
+    "tests/test_schema_registry.py",
+    "tests/test_project_global_state.py",
+    "tests/test_post_h_006_e_cli_no_growth_gate.py"
+  ],
+  "pass_criteria": [
+    "ComplianceMappingQualityGate passes with validator, collector, reporter, audit-pack dry-run and compliance-pack-integrity eval signal.",
+    "quality-gate hardening/industrial includes compliance-mapping-pack.",
+    "AuditPackV2 manifest includes compliance_mapping summary without certification or legal advice claims.",
+    "certification_claimed=false and legal_advice_claimed=false remain enforced.",
+    "source_command values are not executed by the gate.",
+    "test_contract_registry_v2 contracts declare required classification_status fields."
+  ],
+  "block_criteria": [
+    "Quality gate permits certification claims.",
+    "Quality gate permits legal advice claims.",
+    "Audit pack suggests external audit completion or certified compliance.",
+    "Disclaimers are missing.",
+    "Network, external APIs or source mutations are used."
+  ],
+  "risks": [
+    "Operators may misread audit-pack mapping metadata as certification; mitigated through non-certifying fields and gate findings.",
+    "The quality gate validates declared evidence and local metadata, not legal compliance.",
+    "Full operational runbook and dedicated disclaimers remain POST-H-020-E scope.",
+    "Contract registry v2 schema drift can block validation even when runtime behavior is correct; POST-H-020-D includes an explicit classification_status sync for the C/D contracts."
+  ],
+  "next_sprint": "POST-H-020",
+  "preliminary": true,
+  "safety": {
+    "local_first": true,
+    "dry_run": true,
+    "source_command_values_executed": false,
+    "network_used": false,
+    "external_api_used": false,
+    "mutations_performed": false,
+    "source_mutations_performed": false,
+    "certification_claimed": false,
+    "legal_advice_claimed": false,
+    "remote_execution_enabled": false,
+    "plugin_execution_enabled": false,
+    "connector_write_enabled": false
+  },
+  "validation": {
+    "pytest_focal": "python -m pytest -p no:ddtrace tests/test_post_h_020_compliance_quality_gate.py tests/test_post_h_020_compliance_evidence_report.py tests/test_post_h_020_compliance_mapping_validator.py tests/test_post_h_020_compliance_mapping_schema.py tests/test_post_h_020_compliance_evidence_mapping.py tests/test_post_h_020_compliance_no_certification.py tests/test_schema_registry.py tests/test_project_global_state.py tests/test_post_h_006_e_cli_no_growth_gate.py -q",
+    "quality_gate_hardening": "python -m devpilot_core quality-gate run --profile hardening --json",
+    "docs_governance": "python -m devpilot_core docs-governance validate --json",
+    "test_contracts": "python -m devpilot_core test-contracts validate --json",
+    "test_contracts_v2": "python -m devpilot_core test-contracts validate-v2 --json",
+    "project_state": "python -m devpilot_core project-state validate --json",
+    "cli_registry_guard": "python -m devpilot_core cli-registry guard --json",
+    "test_contract_registry_v2_classification_status_check": "local JSON check: every v2 contract has classification_status"
+  },
+  "limitations": [
+    "No certification, legal advice or external audit claim.",
+    "No evidence submission to third parties.",
+    "No source_command execution.",
+    "POST-H-020-E remains responsible for final runbook, disclaimers and backlog closure."
+  ]
+}

@@ -18,8 +18,8 @@ no_external_apis_used: true
 no_connector_write_enabled: true
 no_plugin_execution_enabled: true
 implementation_status: "in-progress"
-current_micro_sprint: "POST-H-020-C"
-next_micro_sprint: "POST-H-020-D"
+current_micro_sprint: "POST-H-020-D"
+next_micro_sprint: "POST-H-020-E"
 ---
 
 # POST-H-020 — Compliance mapping packs ampliados
@@ -28,7 +28,7 @@ next_micro_sprint: "POST-H-020-D"
 
 Estado del backlog: `approved / in-progress`.
 
-Micro-sprint actual: `POST-H-020-C — Evidence collector y report generator local`.
+Micro-sprint actual: `POST-H-020-D — Integración con audit packs y quality gate`.
 
 Resultado POST-H-020-A: `implemented-initial`. Se agregan schemas `ComplianceControlMapping`, `ComplianceEvidenceMapping` y `ComplianceMappingReport`, se registran en `schema_catalog.json`, y se crean los registries locales `.devpilot/compliance/control_mappings.json` y `.devpilot/compliance/evidence_mappings.json`. El hito permanece no-certificante: `certification_claimed=false`, `legal_advice_claimed=false`, sin red, APIs externas, conectores, remediación automática ni envío a terceros.
 
@@ -36,9 +36,11 @@ Resultado POST-H-020-B: `implemented-initial`. Se agrega `ComplianceMappingValid
 
 Resultado POST-H-020-C: `implemented-initial`. Se agregan `ComplianceEvidenceCollector`, `ComplianceMappingReporter` y CLI `compliance mapping report --json --write-report` para generar reportes locales de mapping desde evidencias declaradas. El collector inspecciona metadatos de `source_paths`, no ejecuta `source_command`, no lee contenido de evidencia, no usa red/API externa, no envía evidencias fuera del workspace y reporta missing evidence de forma explícita.
 
+Resultado POST-H-020-D: `implemented-initial`. Se agrega `ComplianceMappingQualityGate`, se integra el subgate `compliance-mapping-pack` en `quality-gate` para perfiles `hardening` e `industrial`, se agrega un summary `compliance_mapping` no-certificante al manifest de AuditPackV2 y se consume la señal local `compliance-pack-integrity` desde `evals/fixtures/compliance_pack_integrity_eval_cases.json`. No se ejecutan `source_command`, no se escriben audit-pack ZIPs desde el subgate, no se usa red/API externa, no se envían evidencias a terceros y no se declara certificación ni asesoría legal.
+
 Disclaimers obligatorios: este hito es `no certificación`, `no asesoría legal` y no auditoría externa.
 
-Siguiente micro-sprint: `POST-H-020-D — Integración con audit packs y quality gate`.
+Siguiente micro-sprint: `POST-H-020-E — Runbook, disclaimers y cierre`.
 
 ## 1. Objetivo
 
@@ -98,7 +100,7 @@ src/devpilot_core/quality/
 src/devpilot_core/testing/
 src/devpilot_core/policy/
 .devpilot/testing/test_contract_registry.json
-evals/fixtures/compliance_pack_integrity_cases.json
+evals/fixtures/compliance_pack_integrity_eval_cases.json
 ```
 
 ## 5. Entregables

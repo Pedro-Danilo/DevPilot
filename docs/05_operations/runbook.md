@@ -2,17 +2,54 @@
 title: "Runbook — DevPilot Local"
 doc_id: "DEVPL-OPS-002"
 status: "approved"
-version: "1.73.0"
+version: "1.74.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "POST-H-020-C"
+phase: "POST-H-020-D"
 updated: "2026-07-01"
 approval: "approved_by_owner"
 source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved + 03_security approved"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "SPRINT-PRECODE-05 quality operations baseline"
 ---
+
+## POST-H-020-D — Integración con audit packs y quality gate
+
+Estado: `implemented-initial / hito activo`.
+
+POST-H-020-D integra compliance mapping en audit packs y quality gate. `ComplianceMappingQualityGate` valida validator, collector, reporter, AuditPackV2 dry-run y la fixture `compliance-pack-integrity`. El subgate `compliance-mapping-pack` queda disponible para perfiles `hardening` e `industrial`.
+
+Artefactos:
+
+```text
+src/devpilot_core/compliance/quality_gate.py
+src/devpilot_core/auditpack/manifest_v2.py
+src/devpilot_core/quality/gate.py
+tests/test_post_h_020_compliance_quality_gate.py
+docs/audits/post_h_020_d_compliance_mapping_quality_gate_report.md
+docs/post_h_020_d_manifest.json
+```
+
+Validación:
+
+```powershell
+python -m pytest -p no:ddtrace tests/test_post_h_020_compliance_quality_gate.py tests/test_post_h_020_compliance_evidence_report.py tests/test_post_h_020_compliance_mapping_validator.py tests/test_post_h_020_compliance_mapping_schema.py tests/test_post_h_020_compliance_evidence_mapping.py tests/test_post_h_020_compliance_no_certification.py tests/test_schema_registry.py tests/test_project_global_state.py tests/test_post_h_006_e_cli_no_growth_gate.py -q
+python -m devpilot_core quality-gate run --profile hardening --json
+python -m devpilot_core docs-governance validate --json
+python -m devpilot_core test-contracts validate --json
+python -m devpilot_core test-contracts validate-v2 --json
+python -m devpilot_core project-state validate --json
+python -m devpilot_core cli-registry guard --json
+```
+
+PASS si el subgate bloquea claims certificables, mantiene `certification_claimed=false` y `legal_advice_claimed=false`, incluye summary `compliance_mapping` en AuditPackV2, conserva `source_command_values_executed=false` y no usa red/API externa.
+
+BLOCK si el gate permite certificación, asesoría legal, auditoría externa completada, omite disclaimers, ejecuta `source_command`, usa red/API externa o envía evidencias a terceros.
+
+Límite: esta sigue siendo una versión local y no-certificante. Runbook/disclaimers finales y cierre del backlog quedan para POST-H-020-E.
+
+Último hito cerrado: `POST-H-019 — Plugin sandbox design sin ejecución arbitraria`; hito activo: `POST-H-020 — Compliance mapping packs ampliados`; último micro-sprint implementado: `POST-H-020-D — Integración con audit packs y quality gate`; siguiente micro-sprint: `POST-H-020-E — Runbook, disclaimers y cierre`.
 
 ## POST-H-020-C — Evidence collector y report generator local
 

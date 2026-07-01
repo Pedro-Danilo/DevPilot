@@ -604,14 +604,56 @@ class AuditPackV2Builder:
                 "remote_kms_used": False,
                 "keys_in_repo_used": False,
             },
+            "compliance_mapping": self._compliance_mapping_summary(),
             "notes": [
                 "POST-H-013-B implements the first audit pack v2 builder with dry-run default and execute flag.",
                 "POST-H-013-D adds optional local signing/encryption planning and sidecar artifacts without remote KMS.",
+                "POST-H-020-D adds a non-certifying compliance mapping summary to audit pack manifests when local mappings are available.",
                 "This artifact is local evidence only and does not claim SOC2, ISO or enterprise compliance certification.",
             ],
         }
         base["integrity"]["manifest_hash"] = _sha256_bytes(_json_bytes(base))
         return base
+
+    def _compliance_mapping_summary(self) -> dict[str, Any]:
+        try:
+            from devpilot_core.compliance.evidence import ComplianceEvidenceCollector
+
+            result = ComplianceEvidenceCollector(self.root).collect()
+            source = result.data.get("summary", {}) if isinstance(result.data, dict) else {}
+            return {
+                "created_by": "POST-H-020-D",
+                "status": "implemented-initial",
+                "preliminary": True,
+                "available": bool(result.ok),
+                "pack_id": source.get("pack_id"),
+                "controls_total": int(source.get("controls_total", 0) or 0),
+                "controls_mapped": int(source.get("controls_mapped", 0) or 0),
+                "controls_with_evidence": int(source.get("controls_with_evidence", 0) or 0),
+                "controls_missing_evidence": int(source.get("controls_missing_evidence", 0) or 0),
+                "critical_controls_missing_evidence": int(source.get("critical_controls_missing_evidence", 0) or 0),
+                "evidence_total": int(source.get("evidence_total", 0) or 0),
+                "evidence_available_total": int(source.get("evidence_available_total", 0) or 0),
+                "missing_source_paths_total": int(source.get("missing_source_paths_total", 0) or 0),
+                "certification_claimed": False,
+                "legal_advice_claimed": False,
+                "disclaimer_present": source.get("disclaimer_present") is True,
+                "source_command_values_executed": False,
+                "network_used": False,
+                "external_api_used": False,
+                "mutations_performed": False,
+                "blocking_findings_total": int(source.get("blocking_findings_total", 0) or 0),
+            }
+        except Exception as exc:  # pragma: no cover - defensive optional manifest metadata
+            return {
+                "created_by": "POST-H-020-D",
+                "status": "unavailable",
+                "preliminary": True,
+                "available": False,
+                "certification_claimed": False,
+                "legal_advice_claimed": False,
+                "error": type(exc).__name__,
+            }
 
     def _rbac_check(self, actor: str | None, *, action: str, subject: str) -> CommandResult:
         from devpilot_core.identity import IdentityRegistry, IdentityRegistryOptions, RbacCheckInput

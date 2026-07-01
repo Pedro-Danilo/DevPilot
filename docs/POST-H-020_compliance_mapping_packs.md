@@ -10,8 +10,8 @@ approval: "approved_by_owner"
 phase: "POST-FASE-H"
 priority: "P2"
 implementation_status: "in-progress"
-current_micro_sprint: "POST-H-020-C"
-next_micro_sprint: "POST-H-020-D"
+current_micro_sprint: "POST-H-020-D"
+next_micro_sprint: "POST-H-020-E"
 local_first: true
 dry_run: true
 no_remote_execution_enabled: true
@@ -103,7 +103,7 @@ Capacidades:
 
 ## 5. Límites explícitos
 
-POST-H-020-C no implementa todavía audit pack integration ni quality gate. Eso corresponde a POST-H-020-D/E.
+POST-H-020-D no implementa todavía documentación operativa final ni cierre del backlog. Eso corresponde a POST-H-020-E.
 
 No se habilita:
 
@@ -174,6 +174,33 @@ Hito activo: `POST-H-020 — Compliance mapping packs ampliados`
 Siguiente hito: `POST-H-020 — Compliance mapping packs ampliados`
 Último micro-sprint implementado: `POST-H-020-C — Evidence collector y report generator local`
 Siguiente micro-sprint: `POST-H-020-D — Integración con audit packs y quality gate`
+
+## POST-H-020-D — Integración con audit packs y quality gate
+
+Estado: `implemented-initial / hito activo`.
+
+DevPilot agrega `ComplianceMappingQualityGate` y el subgate `compliance-mapping-pack` para los perfiles `hardening` e `industrial`. El subgate compone validator, collector, reporter, AuditPackV2 dry-run y la señal local `compliance-pack-integrity` sin ejecutar comandos de evidencia, sin escribir audit-pack ZIPs, sin red/API externa y sin claims de certificación o asesoría legal.
+
+También se agrega al manifest de AuditPackV2 un bloque `compliance_mapping` con resumen no-certificante de controles, evidencias y disclaimers.
+
+Comandos principales:
+
+```powershell
+python -m pytest -p no:ddtrace tests/test_post_h_020_compliance_quality_gate.py tests/test_post_h_020_compliance_evidence_report.py tests/test_post_h_020_compliance_mapping_validator.py tests/test_post_h_020_compliance_mapping_schema.py tests/test_post_h_020_compliance_evidence_mapping.py tests/test_post_h_020_compliance_no_certification.py tests/test_schema_registry.py tests/test_project_global_state.py tests/test_post_h_006_e_cli_no_growth_gate.py -q
+python -m devpilot_core quality-gate run --profile hardening --json
+python -m devpilot_core docs-governance validate --json
+python -m devpilot_core test-contracts validate --json
+python -m devpilot_core test-contracts validate-v2 --json
+python -m devpilot_core project-state validate --json
+python -m devpilot_core cli-registry guard --json
+```
+
+Límite explícito: POST-H-020-D es una primera integración local y no-certificante. No genera certificación compliance, no ofrece asesoría legal, no prueba cumplimiento legal, no ejecuta `source_command`, no usa red/APIs externas, no envía evidencias a terceros, no habilita remote execution ni plugin execution.
+
+Último hito cerrado: `POST-H-019 — Plugin sandbox design sin ejecución arbitraria`
+Hito activo: `POST-H-020 — Compliance mapping packs ampliados`
+Último micro-sprint implementado: `POST-H-020-D — Integración con audit packs y quality gate`
+Siguiente micro-sprint: `POST-H-020-E — Runbook, disclaimers y cierre`
 
 ## 8. Riesgos
 

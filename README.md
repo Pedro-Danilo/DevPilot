@@ -1,3 +1,38 @@
+## POST-H-020-D — Integración con audit packs y quality gate
+
+Estado: `implemented-initial / hito activo`.
+
+DevPilot integra compliance mapping con audit packs y quality gate sin declarar certificación, asesoría legal ni auditoría externa. Se agrega `ComplianceMappingQualityGate`, el subgate `compliance-mapping-pack` para perfiles `hardening` e `industrial`, un summary `compliance_mapping` no-certificante en AuditPackV2 y la señal local `compliance-pack-integrity`.
+
+Capacidades nuevas:
+
+- Quality gate `compliance-mapping-pack`.
+- AuditPackV2 manifest con summary `compliance_mapping`.
+- Validación de no-certificación/no-legal-advice desde quality gate.
+- Integración de fixture `evals/fixtures/compliance_pack_integrity_eval_cases.json`.
+- Bloqueo explícito de ejecución de `source_command`, red/API externa y envío de evidencias a terceros.
+
+Comandos principales:
+
+```powershell
+python -m pytest -p no:ddtrace tests/test_post_h_020_compliance_quality_gate.py tests/test_post_h_020_compliance_evidence_report.py tests/test_post_h_020_compliance_mapping_validator.py tests/test_post_h_020_compliance_mapping_schema.py tests/test_post_h_020_compliance_evidence_mapping.py tests/test_post_h_020_compliance_no_certification.py tests/test_schema_registry.py tests/test_project_global_state.py tests/test_post_h_006_e_cli_no_growth_gate.py -q
+python -m devpilot_core quality-gate run --profile hardening --json
+python -m devpilot_core docs-governance validate --json
+python -m devpilot_core test-contracts validate --json
+python -m devpilot_core test-contracts validate-v2 --json
+python -m devpilot_core project-state validate --json
+python -m devpilot_core cli-registry guard --json
+```
+
+Límite explícito: POST-H-020-D es una integración local y no-certificante. Runbook/disclaimers finales y cierre del backlog quedan para POST-H-020-E. No habilita certificación compliance, asesoría legal, auditoría externa, conectores externos, red, APIs externas, remote execution, plugin execution ni envío de evidencias a terceros.
+
+Último hito: `POST-H-019 — Plugin sandbox design sin ejecución arbitraria`
+Último hito cerrado: `POST-H-019 — Plugin sandbox design sin ejecución arbitraria`
+Hito activo: `POST-H-020 — Compliance mapping packs ampliados`
+Siguiente hito: `POST-H-020 — Compliance mapping packs ampliados`
+Último micro-sprint implementado: `POST-H-020-D — Integración con audit packs y quality gate`
+Siguiente micro-sprint: `POST-H-020-E — Runbook, disclaimers y cierre`
+
 ## POST-H-020-C — Evidence collector y report generator local
 
 Estado: `implemented-initial / hito activo`.

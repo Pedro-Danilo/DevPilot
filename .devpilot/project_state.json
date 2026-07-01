@@ -8,8 +8,8 @@
   "last_completed_sprint": "POST-H-019",
   "last_functional_sprint": "FUNC-SPRINT-99",
   "next_sprint": "POST-H-020",
-  "source_repo": "repo_DevPilot_Local_232_POST_H_020_B.zip",
-  "current_repo": "repo_DevPilot_Local_233_POST_H_020_C.zip",
+  "source_repo": "repo_DevPilot_Local_233_POST_H_020_C.zip",
+  "current_repo": "repo_DevPilot_Local_234_POST_H_020_D.zip",
   "global_state_owner": "tests/test_project_global_state.py",
   "mutable_global_state_fields": [
     "last_completed_sprint",
@@ -143,16 +143,23 @@
     "POST-H-020-C adds ComplianceEvidenceCollector for local metadata-only inspection of declared evidence source_paths without executing source_command values.",
     "POST-H-020-C adds ComplianceMappingReporter and compliance mapping report CLI to generate non-certifying local reports under outputs/reports by default, with explicit output paths supported.",
     "POST-H-020-C keeps certification_claimed=false, legal_advice_claimed=false, commands_executed=false, network_used=false and external_api_used=false.",
-    "POST-H-020-D is the next micro-sprint: Integración con audit packs y quality gate."
+    "POST-H-020-D is the next micro-sprint: Integración con audit packs y quality gate.",
+    "POST-H-020-D adds ComplianceMappingQualityGate and quality-gate compliance-mapping-pack subgate for hardening/industrial profiles.",
+    "POST-H-020-D adds non-certifying compliance_mapping summary metadata to AuditPackV2 manifests without exporting evidence or claiming certification.",
+    "POST-H-020-D integrates compliance-pack-integrity eval fixture signal into the compliance mapping quality gate."
   ],
-  "current_micro_sprint": "POST-H-020-C",
-  "next_micro_sprint": "POST-H-020-D",
-  "post_h_020_current_micro_sprint": "POST-H-020-C",
-  "post_h_020_next_micro_sprint": "POST-H-020-D",
+  "current_micro_sprint": "POST-H-020-D",
+  "next_micro_sprint": "POST-H-020-E",
+  "post_h_020_current_micro_sprint": "POST-H-020-D",
+  "post_h_020_next_micro_sprint": "POST-H-020-E",
   "compliance_evidence_collector_module": "src/devpilot_core/compliance/evidence.py",
   "compliance_mapping_reporter_module": "src/devpilot_core/compliance/report.py",
   "compliance_mapping_report_cli_command": "python -m devpilot_core compliance mapping report --json --write-report",
   "compliance_mapping_report_output_path": "outputs/reports/compliance_mapping_report.json",
   "post_h_020_compliance_mapping_report_enabled": true,
-  "post_h_020_compliance_mapping_report_certifying": false
+  "post_h_020_compliance_mapping_report_certifying": false,
+  "compliance_mapping_quality_gate_module": "src/devpilot_core/compliance/quality_gate.py",
+  "compliance_mapping_quality_gate_subgate": "compliance-mapping-pack",
+  "post_h_020_audit_pack_manifest_compliance_summary": true,
+  "post_h_020_compliance_mapping_quality_gate_enabled": true
 }
