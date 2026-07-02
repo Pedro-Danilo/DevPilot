@@ -1,3 +1,11 @@
+## post-h-023-d - Secure transport design validator and no-network invariant
+
+- Added `SecureTransportDesignValidator`, `SecureTransportDesignQualityGate` and the `secure-transport-design-only` hardening/industrial subgate.
+- Registered `SecureTransportValidationReport` schema for in-memory read-only validation evidence.
+- Added no-network invariant tests that fail on forbidden imports/calls such as `socket`, `ssl`, `urllib`, `http`, `requests`, `httpx`, `aiohttp`, `grpc`, `websocket` or `websockets` inside the remote package.
+- Kept secure transport as design-only: no sockets, no network, no TLS/mTLS, no SSH, no certificates, no CA, no raw secrets, no connector write, no plugin execution and no remote execution.
+- Deferred dedicated secure transport runbook and hito closure to POST-H-023-E.
+
 ## post-h-023-c - Key/certificate lifecycle design
 
 - Added `SecureTransportKeyLifecycle` schema and `.devpilot/remote/secure_transport_key_lifecycle.json`.

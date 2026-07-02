@@ -1368,7 +1368,7 @@
       "path": "docs/backlogs/POST-H-023_secure_transport_design.md",
       "classification": "derived",
       "domain": "roadmap-derived-backlog",
-      "owner": "POST-H-023-C",
+      "owner": "POST-H-023-D",
       "status_required": "approved",
       "criticality": "P3",
       "machine_readable_counterparts": [
@@ -1382,7 +1382,9 @@
         "tests/test_documentation_governance_backlogs.py",
         "tests/test_post_h_023_secure_transport_design.py",
         "tests/test_post_h_023_secure_transport_protocol_decision.py",
-        "tests/test_post_h_023_secure_transport_key_lifecycle.py"
+        "tests/test_post_h_023_secure_transport_key_lifecycle.py",
+        "tests/test_post_h_023_secure_transport_validator.py",
+        "tests/test_post_h_023_no_network_invariant.py"
       ],
       "sync_rules": [
         "backlog_naming",
@@ -4209,13 +4211,15 @@
       "path": "docs/03_security/secure_transport_design.md",
       "classification": "source-of-truth",
       "domain": "enterprise.remote",
-      "owner": "POST-H-023-C",
+      "owner": "POST-H-023-D",
       "status_required": "approved",
       "criticality": "P1",
       "frontmatter_required": true,
       "required_tests": [
         "tests/test_post_h_023_secure_transport_design.py",
-        "tests/test_post_h_023_secure_transport_key_lifecycle.py"
+        "tests/test_post_h_023_secure_transport_key_lifecycle.py",
+        "tests/test_post_h_023_secure_transport_validator.py",
+        "tests/test_post_h_023_no_network_invariant.py"
       ],
       "sync_rules": [
         "frontmatter_status",
@@ -4658,6 +4662,154 @@
       "notes": [
         "Focused test for POST-H-023-C key/certificate lifecycle design and no-material invariant."
       ]
+    },
+    {
+      "doc_id": "SCHEMA-DEVPL-SECURE-TRANSPORT-VALIDATION-REPORT-V1",
+      "path": "docs/schemas/secure_transport_validation_report.schema.json",
+      "classification": "machine-readable-source",
+      "owner": "POST-H-023-D",
+      "status_required": "registered",
+      "criticality": "P1",
+      "frontmatter_required": false,
+      "required_tests": [
+        "tests/test_post_h_023_secure_transport_validator.py",
+        "tests/test_schema_registry.py"
+      ],
+      "sync_rules": [
+        "schema_catalog_registered",
+        "secure_transport_validation_report_contract"
+      ],
+      "domain": "enterprise.remote",
+      "roadmap_milestones": [
+        "POST-H-023"
+      ],
+      "lifecycle": "active",
+      "notes": [
+        "Schema for SecureTransportValidationReport in-memory validator evidence."
+      ]
+    },
+    {
+      "doc_id": "POST-H-023-D-TRANSPORT-DESIGN-VALIDATOR-MODULE",
+      "path": "src/devpilot_core/remote/transport_design.py",
+      "classification": "machine-readable-source",
+      "owner": "POST-H-023-D",
+      "status_required": "implemented-initial",
+      "criticality": "P1",
+      "frontmatter_required": false,
+      "required_tests": [
+        "tests/test_post_h_023_secure_transport_validator.py",
+        "tests/test_post_h_023_no_network_invariant.py"
+      ],
+      "sync_rules": [
+        "secure_transport_validator_contract",
+        "no_network_static_scan"
+      ],
+      "domain": "enterprise.remote",
+      "roadmap_milestones": [
+        "POST-H-023"
+      ],
+      "lifecycle": "active",
+      "notes": [
+        "Read-only validator and quality gate for POST-H-023-D secure transport design invariants."
+      ]
+    },
+    {
+      "doc_id": "POST-H-023-D-TRANSPORT-DESIGN-VALIDATOR-REPORT",
+      "path": "docs/audits/post_h_023_d_transport_design_validator_report.md",
+      "classification": "source-of-truth",
+      "owner": "POST-H-023-D",
+      "status_required": "approved",
+      "criticality": "P1",
+      "frontmatter_required": true,
+      "required_tests": [
+        "tests/test_post_h_023_secure_transport_validator.py",
+        "tests/test_post_h_023_no_network_invariant.py"
+      ],
+      "sync_rules": [
+        "frontmatter_status",
+        "report_no_go_flags",
+        "quality_gate_subgate_alignment"
+      ],
+      "domain": "enterprise.remote",
+      "roadmap_milestones": [
+        "POST-H-023"
+      ],
+      "lifecycle": "active",
+      "notes": [
+        "Audit note for POST-H-023-D validator and no-network invariant implementation."
+      ]
+    },
+    {
+      "doc_id": "POST-H-023-D-MANIFEST",
+      "path": "docs/post_h_023_d_manifest.json",
+      "classification": "machine-readable-source",
+      "owner": "POST-H-023-D",
+      "status_required": "implemented-initial",
+      "criticality": "P1",
+      "frontmatter_required": false,
+      "required_tests": [
+        "tests/test_post_h_023_secure_transport_validator.py",
+        "tests/test_project_global_state.py"
+      ],
+      "sync_rules": [
+        "post_h_manifest_schema",
+        "created_modified_files_alignment",
+        "no_go_flags_alignment"
+      ],
+      "domain": "enterprise.remote",
+      "roadmap_milestones": [
+        "POST-H-023"
+      ],
+      "lifecycle": "active",
+      "notes": [
+        "Machine-readable implementation manifest for POST-H-023-D."
+      ]
+    },
+    {
+      "doc_id": "POST-H-023-D-TRANSPORT-DESIGN-VALIDATOR-TEST",
+      "path": "tests/test_post_h_023_secure_transport_validator.py",
+      "classification": "machine-readable-source",
+      "owner": "POST-H-023-D",
+      "status_required": "implemented-initial",
+      "criticality": "P1",
+      "frontmatter_required": false,
+      "required_tests": [
+        "tests/test_post_h_023_secure_transport_validator.py"
+      ],
+      "sync_rules": [
+        "secure_transport_validator_test_contract"
+      ],
+      "domain": "enterprise.remote",
+      "roadmap_milestones": [
+        "POST-H-023"
+      ],
+      "lifecycle": "active",
+      "notes": [
+        "Focused tests for SecureTransportDesignValidator, schema, exports and quality-gate registration."
+      ]
+    },
+    {
+      "doc_id": "POST-H-023-D-NO-NETWORK-INVARIANT-TEST",
+      "path": "tests/test_post_h_023_no_network_invariant.py",
+      "classification": "machine-readable-source",
+      "owner": "POST-H-023-D",
+      "status_required": "implemented-initial",
+      "criticality": "P1",
+      "frontmatter_required": false,
+      "required_tests": [
+        "tests/test_post_h_023_no_network_invariant.py"
+      ],
+      "sync_rules": [
+        "secure_transport_no_network_invariant_test_contract"
+      ],
+      "domain": "enterprise.remote",
+      "roadmap_milestones": [
+        "POST-H-023"
+      ],
+      "lifecycle": "active",
+      "notes": [
+        "Negative no-network tests that block forbidden imports/calls in the remote package."
+      ]
     }
   ],
   "rules": {
@@ -4729,20 +4881,20 @@
     "remote_runner_design_runbook_registered": true
   },
   "summary": {
-    "documents_total": 161,
-    "source_of_truth_total": 62,
-    "machine_readable_source_total": 62,
+    "documents_total": 167,
+    "source_of_truth_total": 63,
+    "machine_readable_source_total": 67,
     "derived_total": 32,
     "generated_runtime_total": 0,
     "historical_total": 0,
     "deprecated_total": 0,
-    "critical_sources_total": 74,
+    "critical_sources_total": 80,
     "markdown_json_pairs_total": 30,
-    "documents_with_required_tests_total": 161,
+    "documents_with_required_tests_total": 167,
     "network_used": false,
     "external_api_used": false,
     "mutations_performed": false,
-    "last_updated_by": "POST-H-023-C",
+    "last_updated_by": "POST-H-023-D",
     "markdown_json_sync_checks_enabled": true,
     "sync_checks_scope": "version_match, milestones_match, decisions_match, closure_status_match, next_hito_match",
     "roadmap_derived_backlog_governance_enabled": true,
@@ -4823,16 +4975,17 @@
     "Secure transport remains design-only; no network, sockets, certificates or secrets are enabled.",
     "POST-H-023-B registers protocol decision matrix and ADR as design-only.",
     "POST-H-023-C registers key/certificate lifecycle design without generating or storing material.",
-    "Secure transport remains design-only; no network, sockets, certificates, private keys, raw secrets or remote execution are enabled."
+    "Secure transport remains design-only; no network, sockets, certificates, private keys, raw secrets or remote execution are enabled.",
+    "POST-H-023-D registers secure transport validator, validation report schema and no-network invariant tests as canonical design-only evidence."
   ],
   "project_state_snapshot": {
-    "last_updated_by": "POST-H-023-C",
-    "current_micro_sprint": "POST-H-023-C",
-    "next_micro_sprint": "POST-H-023-D",
+    "last_updated_by": "POST-H-023-D",
+    "current_micro_sprint": "POST-H-023-D",
+    "next_micro_sprint": "POST-H-023-E",
     "last_completed_sprint": "POST-H-022",
     "next_sprint": "POST-H-023",
-    "post_h_023_current_micro_sprint": "POST-H-023-C",
-    "post_h_023_next_micro_sprint": "POST-H-023-D",
+    "post_h_023_current_micro_sprint": "POST-H-023-D",
+    "post_h_023_next_micro_sprint": "POST-H-023-E",
     "secure_transport_implemented": false,
     "transport_implemented": false,
     "network_allowed": false,
@@ -4841,6 +4994,8 @@
     "raw_secret_storage_allowed": false,
     "secrets_read": false,
     "secrets_stored": false,
-    "remote_execution_enabled": false
+    "remote_execution_enabled": false,
+    "network_used": false,
+    "sockets_opened": false
   }
 }

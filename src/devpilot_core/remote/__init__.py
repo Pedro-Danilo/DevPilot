@@ -4,6 +4,12 @@ from .quality_gate import RemoteReadinessQualityGate, RemoteReadinessQualityGate
 from .readiness import RemoteReadinessChecker, RemoteReadinessOptions
 from .reports import RemoteReadinessReportOptions, RemoteReadinessReporter
 from .runner import RemoteRunnerRegistry, RemoteRunnerStatusOptions, RemoteRunnerStub
+from .transport_design import (
+    SecureTransportDesignQualityGate,
+    SecureTransportDesignQualityGateOptions,
+    SecureTransportDesignValidationOptions,
+    SecureTransportDesignValidator,
+)
 
 __all__ = [
     "RemoteReadinessQualityGate",
@@ -15,4 +21,8 @@ __all__ = [
     "RemoteRunnerRegistry",
     "RemoteRunnerStatusOptions",
     "RemoteRunnerStub",
+    "SecureTransportDesignQualityGate",
+    "SecureTransportDesignQualityGateOptions",
+    "SecureTransportDesignValidationOptions",
+    "SecureTransportDesignValidator",
 ]

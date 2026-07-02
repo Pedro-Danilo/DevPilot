@@ -2,12 +2,12 @@
 doc_id: "POST-H-023-SECURE-TRANSPORT-DESIGN"
 title: "Secure transport design"
 status: "approved"
-version: "0.3.0"
+version: "0.4.0"
 owner: "Ordóñez"
 updated: "2026-07-02"
 approval: "approved_by_owner"
 phase: "POST-FASE-H"
-created_by: "POST-H-023-C"
+created_by: "POST-H-023-D"
 implementation_status: "implemented-initial"
 decision_status: "design-only"
 transport_implemented: false
@@ -49,6 +49,9 @@ La opción seleccionada para el estado actual sigue siendo `local-only-no-transp
 POST-H-023-B registra esta decisión en `ADR-POSTH-005` y en `.devpilot/remote/secure_transport_protocol_decision_matrix.json`.
 
 POST-H-023-C agrega `SecureTransportKeyLifecycle` y `docs/03_security/secure_transport_key_lifecycle.md` para lifecycle futuro de llaves/certificados sin generar material criptográfico ni almacenar secretos.
+
+
+POST-H-023-D agrega `SecureTransportDesignValidator`, `SecureTransportValidationReport` y el subgate `secure-transport-design-only` para convertir el diseño en invariant executable read-only. El validador no abre sockets, no importa clientes HTTP, no genera certificados y no escribe reportes por sí mismo.
 
 ## 3. Amenazas Críticas
 
@@ -117,6 +120,27 @@ future candidate != selected for execution
 ## 7. Límites del Micro-Sprint B
 
 POST-H-023-B no implementa transporte activo, no crea certificados, no requiere secretos y no habilita red. La decisión aprobada mantiene `selected_for_now=local-only-no-transport`; el lifecycle de claves/certificados queda para POST-H-023-C.
+
+
+## 8. Validator design-only y no-network invariant — POST-H-023-D
+
+`SecureTransportDesignValidator` valida de forma local y read-only:
+
+```text
+.devpilot/remote/secure_transport_requirements.json
+docs/schemas/secure_transport_requirements.schema.json
+.devpilot/remote/secure_transport_protocol_decision_matrix.json
+docs/schemas/secure_transport_design.schema.json
+.devpilot/remote/secure_transport_key_lifecycle.json
+docs/schemas/secure_transport_key_lifecycle.schema.json
+docs/schemas/secure_transport_validation_report.schema.json
+```
+
+El validador produce un `CommandResult` con evidencia `SecureTransportValidationReport` en memoria. Esa evidencia confirma `decision_status=design-only`, `selected_for_now=local-only-no-transport`, `lifecycle_status=design-only-no-material`, `report_schema_valid=true`, `no_network_static_scan_passed=true` y `forbidden_network_primitives_total=0`.
+
+El static scan bloquea imports o llamadas de red en `src/devpilot_core/remote`, incluyendo `socket`, `ssl`, `urllib`, `http`, `requests`, `httpx`, `aiohttp`, `grpc`, `websocket`, `websockets`, `socket.socket`, `socket.create_connection`, `ssl.create_default_context`, `http.client.HTTPConnection` y equivalentes definidos por el contrato POST-H-023-D.
+
+El subgate `secure-transport-design-only` integra este validator en perfiles `hardening` e `industrial`. PASS no autoriza implementación de transporte; solo confirma que la línea design-only/no-network sigue íntegra.
 
 ## 8. Key/Certificate Lifecycle Design
 

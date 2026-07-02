@@ -2,15 +2,15 @@
 doc_id: "POST-H-023-IMPLEMENTATION-DOC"
 title: "POST-H-023 — Secure transport design sin implementación activa"
 status: "approved"
-version: "0.4.0"
+version: "0.5.0"
 owner: "Ordóñez"
 updated: "2026-07-02"
 approval: "approved_by_owner"
 phase: "POST-FASE-H"
 priority: "P3"
 implementation_status: "active"
-current_micro_sprint: "POST-H-023-C"
-next_micro_sprint: "POST-H-023-D"
+current_micro_sprint: "POST-H-023-D"
+next_micro_sprint: "POST-H-023-E"
 local_first: true
 dry_run: true
 transport_implemented: false
@@ -18,6 +18,40 @@ network_allowed: false
 remote_execution_enabled: false
 secrets_required: false
 ---
+
+## POST-H-023-D — Validator de diseño y no-network invariant
+
+POST-H-023-D implementa un validador read-only para los artefactos de diseño de transporte seguro y lo integra al quality gate como subgate `secure-transport-design-only`. El validador consume los artefactos de POST-H-023-A/B/C, valida schemas, cruza invariantes semánticos y ejecuta un static scan no-network sobre el paquete remoto.
+
+Estado:
+
+```text
+implementation_status=implemented-initial
+validator_status=design-only-validator
+quality_gate_subgate=secure-transport-design-only
+transport_implemented=false
+secure_transport_implemented=false
+network_allowed=false
+network_used=false
+sockets_opened=false
+certificates_generated=false
+secrets_required=false
+remote_execution_enabled=false
+```
+
+Artefactos:
+
+```text
+src/devpilot_core/remote/transport_design.py
+docs/schemas/secure_transport_validation_report.schema.json
+docs/audits/post_h_023_d_transport_design_validator_report.md
+docs/post_h_023_d_manifest.json
+tests/test_post_h_023_secure_transport_validator.py
+tests/test_post_h_023_no_network_invariant.py
+```
+
+Límite: este micro-sprint no implementa transporte activo, TLS/mTLS, SSH, HTTP remoto, certificados reales, secretos, connector write, plugin execution ni remote execution. POST-H-023-E queda a cargo del runbook dedicado y cierre del hito.
+
 
 # POST-H-023 — Secure Transport Design
 

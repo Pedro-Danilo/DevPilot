@@ -122,8 +122,8 @@ def test_post_h_023_b_governance_artifacts_are_synchronized() -> None:
     changelog = read_text("docs/release/CHANGELOG.md")
     backlog = read_text("docs/backlogs/POST-H-023_secure_transport_design.md")
 
-    assert state["current_micro_sprint"] == "POST-H-023-C"
-    assert state["next_micro_sprint"] == "POST-H-023-D"
+    assert state["current_micro_sprint"] == "POST-H-023-D"
+    assert state["next_micro_sprint"] == "POST-H-023-E"
     assert state["post_h_023_secure_transport_design_schema_registered"] is True
     assert state["post_h_023_selected_transport_for_now"] == "local-only-no-transport"
     assert state["post_h_023_requires_future_enablement_adr"] is True
@@ -150,8 +150,8 @@ def test_post_h_023_b_governance_artifacts_are_synchronized() -> None:
     assert "post-h-023-secure-transport-protocol-decision" in contract_ids_v1
     assert "post-h-023-secure-transport-protocol-decision" in contract_ids_v2
 
-    assert 'current_micro_sprint: "POST-H-023-C"' in backlog
-    assert 'next_micro_sprint: "POST-H-023-D"' in backlog
+    assert 'current_micro_sprint: "POST-H-023-D"' in backlog
+    assert 'next_micro_sprint: "POST-H-023-E"' in backlog
     assert "POST-H-023-B — Protocol decision matrix y ADR" in readme
     assert "POST-H-023-B — Protocol decision matrix y ADR" in runbook
     assert "Siguiente micro-sprint: `POST-H-023-D — Validator de diseño y no-network invariant`" in readme

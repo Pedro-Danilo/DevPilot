@@ -117,8 +117,8 @@ def test_secure_transport_documents_do_not_claim_transport_enablement() -> None:
 
     assert 'status: "approved"' in backlog
     assert 'implementation_status: "active"' in backlog
-    assert 'current_micro_sprint: "POST-H-023-C"' in backlog
-    assert 'next_micro_sprint: "POST-H-023-D"' in backlog
+    assert 'current_micro_sprint: "POST-H-023-D"' in backlog
+    assert 'next_micro_sprint: "POST-H-023-E"' in backlog
 
 
 def test_project_state_manifest_source_registry_and_tcr_are_synchronized_for_post_h_023_requirements() -> None:
@@ -133,8 +133,8 @@ def test_project_state_manifest_source_registry_and_tcr_are_synchronized_for_pos
 
     assert state["last_completed_sprint"] == "POST-H-022"
     assert state["next_sprint"] == "POST-H-023"
-    assert state["current_micro_sprint"] == "POST-H-023-C"
-    assert state["next_micro_sprint"] == "POST-H-023-D"
+    assert state["current_micro_sprint"] == "POST-H-023-D"
+    assert state["next_micro_sprint"] == "POST-H-023-E"
     assert state["post_h_023_backlog_approved"] is True
     assert state["post_h_023_secure_transport_requirements_schema_registered"] is True
     assert state["post_h_023_secure_transport_design_schema_registered"] is True

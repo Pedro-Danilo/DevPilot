@@ -138,8 +138,8 @@ def test_key_lifecycle_documents_do_not_claim_generation_or_storage_enablement()
     for claim in forbidden_positive_claims:
         assert claim not in combined
 
-    assert 'current_micro_sprint: "POST-H-023-C"' in backlog
-    assert 'next_micro_sprint: "POST-H-023-D"' in backlog
+    assert 'current_micro_sprint: "POST-H-023-D"' in backlog
+    assert 'next_micro_sprint: "POST-H-023-E"' in backlog
 
 
 def test_key_lifecycle_governance_artifacts_are_synchronized() -> None:
@@ -152,8 +152,8 @@ def test_key_lifecycle_governance_artifacts_are_synchronized() -> None:
     runbook = read_text("docs/05_operations/runbook.md")
     changelog = read_text("docs/release/CHANGELOG.md")
 
-    assert state["current_micro_sprint"] == "POST-H-023-C"
-    assert state["next_micro_sprint"] == "POST-H-023-D"
+    assert state["current_micro_sprint"] == "POST-H-023-D"
+    assert state["next_micro_sprint"] == "POST-H-023-E"
     assert state["post_h_023_secure_transport_key_lifecycle_schema_registered"] is True
     assert state["post_h_023_certificates_generated"] is False
     assert state["post_h_023_private_key_material_present"] is False

@@ -10777,6 +10777,88 @@
         "Explicit POST-H-023-C security contract; no inference required.",
         "Safety-critical because key/certificate design must not generate or store secrets."
       ]
+    },
+    {
+      "contract_id": "post-h-023-secure-transport-design-validator",
+      "schema_version": "2.0",
+      "source_contract_id": "post-h-023-secure-transport-design-validator",
+      "domain": "enterprise.remote",
+      "capability": "Secure transport design validator and no-network invariant",
+      "criticality": "P1",
+      "risk_level": "critical",
+      "test_type": "security",
+      "execution_profile": "release",
+      "cost_class": "low",
+      "expected_duration_seconds": 25,
+      "test_files": [
+        "tests/test_post_h_023_secure_transport_validator.py",
+        "tests/test_post_h_023_no_network_invariant.py"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/remote/transport_design.py",
+        "src/devpilot_core/remote/__init__.py",
+        "src/devpilot_core/quality/gate.py",
+        "docs/schemas/secure_transport_validation_report.schema.json",
+        "docs/schemas/schema_catalog.json",
+        ".devpilot/remote/secure_transport_requirements.json",
+        ".devpilot/remote/secure_transport_protocol_decision_matrix.json",
+        ".devpilot/remote/secure_transport_key_lifecycle.json",
+        "docs/03_security/secure_transport_design.md",
+        "docs/backlogs/POST-H-023_secure_transport_design.md",
+        "docs/POST-H-023_secure_transport_design.md",
+        "docs/audits/post_h_023_d_transport_design_validator_report.md",
+        "docs/post_h_023_d_manifest.json",
+        "README.md",
+        "docs/05_operations/runbook.md",
+        "docs/release/CHANGELOG.md",
+        ".devpilot/project_state.json",
+        ".devpilot/docs_governance/source_registry.json",
+        ".devpilot/testing/test_contract_registry.json",
+        ".devpilot/testing/test_contract_registry_v2.json",
+        "tests/test_post_h_023_secure_transport_validator.py",
+        "tests/test_post_h_023_no_network_invariant.py",
+        "tests/test_project_global_state.py",
+        "tests/test_schema_registry.py"
+      ],
+      "validates": [
+        "SecureTransportDesignValidator read-only design-only PASS",
+        "SecureTransportValidationReport schema",
+        "secure-transport-design-only quality subgate",
+        "No-network invariant for src/devpilot_core/remote",
+        "No transport, certificates, secrets or remote execution enablement"
+      ],
+      "trigger_hints": [
+        "post-h-023",
+        "secure-transport",
+        "remote-package",
+        "quality-gate",
+        "schema-catalog"
+      ],
+      "impact_scope": [
+        "enterprise.remote",
+        "quality.gate",
+        "governance.schemas",
+        "security.guards"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "POST-H-023-D",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace tests/test_post_h_023_secure_transport_validator.py tests/test_post_h_023_no_network_invariant.py tests/test_post_h_023_secure_transport_key_lifecycle.py tests/test_post_h_023_secure_transport_protocol_decision.py tests/test_post_h_023_secure_transport_design.py -q",
+        "python -m devpilot_core quality-gate run --profile hardening --json",
+        "python -m devpilot_core test-contracts validate --json",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ],
+      "classification_status": "explicit",
+      "classification_notes": [
+        "Validator is deterministic and read-only.",
+        "No-network invariant is enforced through AST static scan and negative tests."
+      ]
     }
   ],
   "migration_metadata": {
@@ -10804,6 +10886,7 @@
     "POST-H-022-C adds enterprise control matrix v2 test contract.",
     "POST-H-022-E registers enterprise runbook closure contract.",
     "POST-H-022-E keeps enterprise deployment and enterprise-ready claims blocked.",
-    "POST-H-023-A registers secure transport requirements v2 safety contract."
+    "POST-H-023-A registers secure transport requirements v2 safety contract.",
+    "POST-H-023-D adds secure transport validator/no-network invariant contract as release/security gate evidence."
   ]
 }

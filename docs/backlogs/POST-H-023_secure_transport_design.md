@@ -4,7 +4,7 @@ doc_id: "POST-H-023-BACKLOG"
 id: "POST-H-023"
 title: "POST-H-023 — Secure transport design sin implementación activa"
 status: "approved"
-version: "0.4.0"
+version: "0.5.0"
 owner: "Ordóñez"
 updated: "2026-07-02"
 approval: "approved_by_owner"
@@ -14,8 +14,8 @@ roadmap_source: "docs/backlogs/post_h_prioritized_roadmap.md"
 local_first: true
 dry_run: true
 implementation_status: "active"
-current_micro_sprint: "POST-H-023-C"
-next_micro_sprint: "POST-H-023-D"
+current_micro_sprint: "POST-H-023-D"
+next_micro_sprint: "POST-H-023-E"
 no_remote_execution_enabled: true
 no_external_apis_used: true
 no_connector_write_enabled: true
@@ -29,9 +29,9 @@ secrets_required: false
 
 ## Estado de Implementación
 
-POST-H-023 queda **approved / active**. El micro-sprint actual es **POST-H-023-C — Key/certificate lifecycle design** y el siguiente micro-sprint es **POST-H-023-D — Validator de diseño y no-network invariant**.
+POST-H-023 queda **approved / active**. El micro-sprint actual es **POST-H-023-D — Validator de diseño y no-network invariant** y el siguiente micro-sprint es **POST-H-023-E — Runbook y cierre**.
 
-POST-H-023-A entrega `SecureTransportRequirements` schema/instancia y documentación inicial de amenazas. POST-H-023-B agrega `SecureTransportDesign`, matriz de decisión y `ADR-POSTH-005`; selecciona `local-only-no-transport` para el estado actual. POST-H-023-C agrega `SecureTransportKeyLifecycle` como diseño de lifecycle sin material criptográfico. No habilita transporte activo, red, sockets, certificados, llaves privadas, secretos ni remote execution.
+POST-H-023-A entrega `SecureTransportRequirements` schema/instancia y documentación inicial de amenazas. POST-H-023-B agrega `SecureTransportDesign`, matriz de decisión y `ADR-POSTH-005`; selecciona `local-only-no-transport` para el estado actual. POST-H-023-C agrega `SecureTransportKeyLifecycle` como diseño de lifecycle sin material criptográfico. POST-H-023-D agrega `SecureTransportDesignValidator` y el subgate `secure-transport-design-only` como invariant executable read-only. No habilita transporte activo, red, sockets, certificados, llaves privadas, secretos ni remote execution.
 
 ## 1. Objetivo
 
@@ -256,6 +256,61 @@ Criterios PASS:
 - Los tests confirman no network.
 ```
 
+### POST-H-023-D — Validator de diseño y no-network invariant
+
+Tareas:
+
+```text
+1. Crear src/devpilot_core/remote/transport_design.py.
+2. Crear validator read-only del diseño.
+3. Crear tests que fallen si se habilitan sockets/red.
+4. Integrar con quality gate.
+```
+
+Criterios PASS:
+
+```text
+- El validator produce design-only PASS.
+- Los tests confirman no network.
+```
+
+Estado POST-H-023-D:
+
+```text
+implementation_status=implemented-initial
+validator_status=design-only-validator
+quality_gate_subgate=secure-transport-design-only
+decision_status=design-only
+selected_for_now=local-only-no-transport
+lifecycle_status=design-only-no-material
+transport_implemented=false
+secure_transport_implemented=false
+network_allowed=false
+network_used=false
+sockets_opened=false
+certificates_generated=false
+certificate_authority_created=false
+private_key_material_present=false
+raw_secret_storage_allowed=false
+secrets_required=false
+secrets_stored=false
+secrets_read=false
+remote_execution_enabled=false
+connector_write_enabled=false
+plugin_execution_enabled=false
+```
+
+Artefactos POST-H-023-D:
+
+```text
+src/devpilot_core/remote/transport_design.py
+docs/schemas/secure_transport_validation_report.schema.json
+docs/audits/post_h_023_d_transport_design_validator_report.md
+docs/post_h_023_d_manifest.json
+tests/test_post_h_023_secure_transport_validator.py
+tests/test_post_h_023_no_network_invariant.py
+```
+
 ### POST-H-023-E — Runbook y cierre
 
 Tareas:
@@ -305,7 +360,7 @@ python -m devpilot_core validate-artifact docs/03_security/secure_transport_desi
 [x] ADR design-only aprobada.
 [x] Requirements JSON validado.
 [x] Key/certificate lifecycle design documentado sin material real.
-[ ] Validator/read-only implementado.
-[ ] Tests no-network pasan.
+[x] Validator/read-only implementado.
+[x] Tests no-network pasan.
 [ ] No se implementa transporte activo.
 ```

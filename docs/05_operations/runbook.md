@@ -2,17 +2,67 @@
 title: "Runbook — DevPilot Local"
 doc_id: "DEVPL-OPS-002"
 status: "approved"
-version: "1.85.0"
+version: "1.86.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "POST-H-023-C"
+phase: "POST-H-023-D"
 updated: "2026-07-02"
 approval: "approved_by_owner"
 source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved + 03_security approved"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "SPRINT-PRECODE-05 quality operations baseline"
 ---
+
+## POST-H-023-D — Validator de diseño y no-network invariant
+
+POST-H-023-D convierte los artefactos design-only de transporte seguro en un gate ejecutable read-only. El operador debe interpretar el PASS como evidencia de que el repo mantiene `local-only-no-transport`; no es autorización para habilitar TLS, SSH, HTTP remoto, certificados, secretos ni remote execution.
+
+Artefactos principales:
+
+```text
+src/devpilot_core/remote/transport_design.py
+docs/schemas/secure_transport_validation_report.schema.json
+docs/audits/post_h_023_d_transport_design_validator_report.md
+docs/post_h_023_d_manifest.json
+tests/test_post_h_023_secure_transport_validator.py
+tests/test_post_h_023_no_network_invariant.py
+```
+
+Verificación focal:
+
+```powershell
+python -m pytest -p no:ddtrace tests/test_post_h_023_secure_transport_validator.py tests/test_post_h_023_no_network_invariant.py tests/test_post_h_023_secure_transport_key_lifecycle.py tests/test_post_h_023_secure_transport_protocol_decision.py tests/test_post_h_023_secure_transport_design.py -q
+python -m devpilot_core schema list --json
+python -m devpilot_core schema validate --schema-id PostHManifest --instance docs/post_h_023_d_manifest.json --json
+python -m devpilot_core test-contracts validate --json
+python -m devpilot_core test-contracts validate-v2 --json
+python -m devpilot_core project-state validate --json
+python -m devpilot_core quality-gate run --profile hardening --json
+```
+
+Nota operacional: el comando de schema sobre `docs/post_h_023_d_manifest.json` debe ejecutarse contra `PostHManifest`, no contra `SecureTransportValidationReport`; `SecureTransportValidationReport` es evidencia in-memory producida por el validador y verificada en pruebas.
+
+Comando smoke directo del validador:
+
+```powershell
+python -c "import json; from pathlib import Path; from devpilot_core.remote import SecureTransportDesignValidator; r=SecureTransportDesignValidator(Path('.')).validate(); print(json.dumps(r.to_dict(), ensure_ascii=False, indent=2)); raise SystemExit(int(r.exit_code))"
+```
+
+PASS si `validator_status=design-only-validator`, `decision_status=design-only`, `selected_for_now=local-only-no-transport`, `lifecycle_status=design-only-no-material`, `report_schema_valid=true`, `no_network_static_scan_passed=true`, `forbidden_network_primitives_total=0` y todos los no-go gates permanecen en falso.
+
+BLOCK si se detecta import/call de red en `src/devpilot_core/remote`, se permite implementación actual de transporte, se habilitan sockets/red, se generan certificados/CA/llaves, se almacenan secretos raw, se habilita connector write/plugin execution o `remote_execution_enabled=true`.
+
+Último hito cerrado: `POST-H-022`
+
+Último hito: `POST-H-022`
+
+Hito activo: `POST-H-023`
+
+Siguiente hito: `POST-H-023`
+
+Siguiente micro-sprint: `POST-H-023-E — Runbook y cierre`
+
 
 ## POST-H-023-C — Key/certificate lifecycle design
 
