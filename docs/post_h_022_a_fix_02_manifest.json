@@ -1,0 +1,25 @@
+{
+  "manifest_id": "POST-H-022-A-FIX-02",
+  "created_by": "POST-H-022-A-FIX-02",
+  "status": "implemented",
+  "purpose": "Correct the two remaining general pytest failures after POST-H-022-A FIX-01.",
+  "root_cause_summary": [
+    "The FIX-01 source registry script used a closed doc_id list and did not guarantee normalization of every invalid classification.",
+    "The POST-H-006-B CLI registry test required enterprise.report before that command was registered by the actual CLI registry."
+  ],
+  "created_files": [
+    "docs/audits/post_h_022_a_general_pytest_regression_fix_02_report.md",
+    "docs/post_h_022_a_fix_02_manifest.json",
+    "README_POST_H_022_A_FIX_02.md"
+  ],
+  "modified_files": [
+    "scripts/post_h_022_a_fix_source_registry.py",
+    "tests/test_post_h_006_b_declarative_registry.py"
+  ],
+  "runtime_behavior_changed": false,
+  "network_used": false,
+  "external_api_used": false,
+  "remote_execution_used": false,
+  "destructive_actions_used": false,
+  "requires_repo_overlay": true
+}

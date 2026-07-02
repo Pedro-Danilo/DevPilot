@@ -1,0 +1,28 @@
+{
+  "manifest_id": "POST-H-022-A-FIX-03",
+  "created_by": "POST-H-022-A-FIX-03",
+  "status": "implemented",
+  "purpose": "Correct remaining DocumentationSourceRegistry schema failure after POST-H-022-A.",
+  "modified_files": [
+    ".devpilot/docs_governance/source_registry.json",
+    "scripts/post_h_022_a_fix_source_registry.py"
+  ],
+  "created_files": [
+    "docs/audits/post_h_022_a_general_pytest_regression_fix_03_report.md",
+    "docs/post_h_022_a_fix_03_manifest.json",
+    "README_POST_H_022_A_FIX_03.md"
+  ],
+  "validation": {
+    "invalid_classifications_total": 0,
+    "missing_required_total": 0,
+    "docs_governance_validate": "PASS",
+    "cli_registry_guard": "PASS",
+    "pytest_available_in_container": false,
+    "jsonschema_available_in_container": false
+  },
+  "runtime_behavior_changed": false,
+  "network_used": false,
+  "external_api_used": false,
+  "remote_execution_used": false,
+  "destructive_actions_used": false
+}

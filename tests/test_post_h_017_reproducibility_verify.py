@@ -20,6 +20,12 @@ ROOT = Path(__file__).resolve().parents[1]
 OUTPUTS = ROOT / "outputs" / "release"
 
 
+def _post_h_number(value: str) -> int:
+    marker = "POST-H-"
+    assert marker in value
+    return int(value.split(marker, 1)[1].split("-", 1)[0])
+
+
 def _prepare_pack(name: str = "test_reproducibility_pack.json") -> Path:
     ReleaseEnvironmentSnapshotBuilder(
         ROOT,
@@ -150,8 +156,8 @@ def test_post_h_017_d_docs_state_and_contracts_are_synchronized() -> None:
     assert "release reproducibility-verify --pack outputs/release/reproducibility_pack.json --json" in runbook
     assert "ReleaseReproducibilityVerification" in release_runbook
     assert "post-h-017-d" in changelog
-    assert state["current_micro_sprint"] == "POST-H-018-A"
-    assert state["next_micro_sprint"] == "POST-H-018-B"
+    assert _post_h_number(state["current_micro_sprint"]) >= 18
+    assert _post_h_number(state["next_micro_sprint"]) >= 18
     assert "post-h-017-reproducibility-verifier" in tcr_v1
     assert "post-h-017-reproducibility-verifier" in tcr_v2
     assert "release_reproducibility_verifier_enabled" in source_registry

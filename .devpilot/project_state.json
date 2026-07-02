@@ -8,8 +8,8 @@
   "last_completed_sprint": "POST-H-021",
   "last_functional_sprint": "FUNC-SPRINT-99",
   "next_sprint": "POST-H-022",
-  "source_repo": "repo_DevPilot_Local_239_POST_H_021_D.zip",
-  "current_repo": "repo_DevPilot_Local_240_POST_H_021_E.zip",
+  "source_repo": "repo_DevPilot_Local_240_POST_H_021_E.zip",
+  "current_repo": "repo_DevPilot_Local_241_POST_H_022_A.zip",
   "global_state_owner": "tests/test_project_global_state.py",
   "mutable_global_state_fields": [
     "last_completed_sprint",
@@ -164,10 +164,14 @@
     "POST-H-021-D validates readiness report, criteria, disabled runner registry and remote-enterprise eval signal while keeping reports_written=false in the subgate.",
     "POST-H-021-E adds remote runner design runbook, go/no-go checklist and closure report without enabling remote execution.",
     "POST-H-021-E closes Remote Runner ADR-2 as implemented-initial: inventory, ADR-2, readiness report, quality gate and operational runbook are synchronized as design-only.",
-    "POST-H-022 is the next prioritized hito after closing POST-H-021."
+    "POST-H-022 is the next prioritized hito after closing POST-H-021.",
+    "POST-H-022-A approves Enterprise deployment threat model as design-only.",
+    "POST-H-022-A adds EnterpriseThreatModel schema and machine-readable enterprise asset inventory.",
+    "POST-H-022-A enumerates assets, actors, trust boundaries and data flows with enterprise_deployment_enabled=false.",
+    "POST-H-022-B is the next micro-sprint: Threat catalog STRIDE/LINDDUN adaptado."
   ],
-  "current_micro_sprint": "POST-H-021-E",
-  "next_micro_sprint": "POST-H-022",
+  "current_micro_sprint": "POST-H-022-A",
+  "next_micro_sprint": "POST-H-022-B",
   "post_h_020_current_micro_sprint": "POST-H-020-E",
   "post_h_020_next_micro_sprint": "POST-H-021",
   "compliance_evidence_collector_module": "src/devpilot_core/compliance/evidence.py",
@@ -222,5 +226,16 @@
   "post_h_021_remote_runner_design_only": true,
   "remote_runner_design_runbook_path": "docs/05_operations/remote_runner_design_runbook.md",
   "remote_execution_allowed": false,
-  "remote_execution_used": false
+  "remote_execution_used": false,
+  "post_h_022_current_micro_sprint": "POST-H-022-A",
+  "post_h_022_next_micro_sprint": "POST-H-022-B",
+  "post_h_022_backlog_approved": true,
+  "post_h_022_enterprise_threat_model_schema_registered": true,
+  "post_h_022_enterprise_threat_model_path": "docs/03_security/enterprise_deployment_threat_model.md",
+  "post_h_022_enterprise_threat_model_instance_path": ".devpilot/enterprise/enterprise_threat_model.json",
+  "enterprise_deployment_enabled": false,
+  "production_multiuser_enabled": false,
+  "control_plane_enabled": false,
+  "secure_transport_implemented": false,
+  "compliance_certification_claim": false
 }

@@ -1,0 +1,436 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/SCHEMA-DEVPL-ENTERPRISE-THREAT-MODEL-V1",
+  "title": "DevPilot EnterpriseThreatModel v1",
+  "description": "Design-only contract for POST-H-022 enterprise deployment threat modeling. It inventories assets, actors, trust boundaries and no-go gates without enabling enterprise deployment, remote execution, network services, secure transport or compliance certification claims.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "schema_id",
+    "created_by",
+    "updated",
+    "status",
+    "decision_status",
+    "enterprise_deployment_enabled",
+    "production_multiuser_enabled",
+    "control_plane_enabled",
+    "remote_execution_enabled",
+    "secure_transport_implemented",
+    "compliance_certification_claim",
+    "assets",
+    "actors",
+    "trust_boundaries",
+    "data_flows",
+    "no_go_gates",
+    "safety"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0"
+    },
+    "schema_id": {
+      "type": "string",
+      "const": "SCHEMA-DEVPL-ENTERPRISE-THREAT-MODEL-V1"
+    },
+    "created_by": {
+      "type": "string",
+      "const": "POST-H-022-A"
+    },
+    "updated": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "implemented-initial",
+        "approved"
+      ]
+    },
+    "decision_status": {
+      "type": "string",
+      "const": "design-only"
+    },
+    "enterprise_deployment_enabled": {
+      "type": "boolean",
+      "const": false
+    },
+    "production_multiuser_enabled": {
+      "type": "boolean",
+      "const": false
+    },
+    "control_plane_enabled": {
+      "type": "boolean",
+      "const": false
+    },
+    "remote_execution_enabled": {
+      "type": "boolean",
+      "const": false
+    },
+    "secure_transport_implemented": {
+      "type": "boolean",
+      "const": false
+    },
+    "compliance_certification_claim": {
+      "type": "boolean",
+      "const": false
+    },
+    "assets": {
+      "type": "array",
+      "minItems": 8,
+      "items": {
+        "type": "object",
+        "required": [
+          "asset_id",
+          "title",
+          "category",
+          "sensitivity",
+          "current_location",
+          "enterprise_relevance",
+          "current_boundary",
+          "future_boundary",
+          "no_go_notes"
+        ],
+        "properties": {
+          "asset_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1
+          },
+          "category": {
+            "type": "string",
+            "enum": [
+              "workspace",
+              "source_code",
+              "state_store",
+              "reports",
+              "traces",
+              "approvals",
+              "secrets",
+              "identity",
+              "policy",
+              "compliance",
+              "audit",
+              "api",
+              "ui",
+              "release",
+              "remote_design"
+            ]
+          },
+          "sensitivity": {
+            "type": "string",
+            "enum": [
+              "public",
+              "internal",
+              "confidential",
+              "restricted"
+            ]
+          },
+          "current_location": {
+            "type": "string",
+            "minLength": 1
+          },
+          "enterprise_relevance": {
+            "type": "string",
+            "minLength": 1
+          },
+          "current_boundary": {
+            "type": "string",
+            "minLength": 1
+          },
+          "future_boundary": {
+            "type": "string",
+            "minLength": 1
+          },
+          "no_go_notes": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "actors": {
+      "type": "array",
+      "minItems": 6,
+      "items": {
+        "type": "object",
+        "required": [
+          "actor_id",
+          "title",
+          "actor_type",
+          "current_access",
+          "future_enterprise_risk",
+          "trust_level",
+          "approval_required"
+        ],
+        "properties": {
+          "actor_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1
+          },
+          "actor_type": {
+            "type": "string",
+            "enum": [
+              "internal",
+              "external",
+              "future",
+              "adversarial"
+            ]
+          },
+          "current_access": {
+            "type": "string",
+            "minLength": 1
+          },
+          "future_enterprise_risk": {
+            "type": "string",
+            "minLength": 1
+          },
+          "trust_level": {
+            "type": "string",
+            "enum": [
+              "trusted",
+              "limited",
+              "untrusted",
+              "future"
+            ]
+          },
+          "approval_required": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "trust_boundaries": {
+      "type": "array",
+      "minItems": 4,
+      "items": {
+        "type": "object",
+        "required": [
+          "boundary_id",
+          "title",
+          "boundary_type",
+          "current_state",
+          "future_state",
+          "crosses_network",
+          "requires_future_adr",
+          "no_go_gate"
+        ],
+        "properties": {
+          "boundary_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1
+          },
+          "boundary_type": {
+            "type": "string",
+            "enum": [
+              "current",
+              "future",
+              "prohibited"
+            ]
+          },
+          "current_state": {
+            "type": "string",
+            "minLength": 1
+          },
+          "future_state": {
+            "type": "string",
+            "minLength": 1
+          },
+          "crosses_network": {
+            "type": "boolean"
+          },
+          "requires_future_adr": {
+            "type": "boolean"
+          },
+          "no_go_gate": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "data_flows": {
+      "type": "array",
+      "minItems": 3,
+      "items": {
+        "type": "object",
+        "required": [
+          "flow_id",
+          "title",
+          "source",
+          "destination",
+          "data_classes",
+          "current_status",
+          "future_enterprise_status",
+          "network_used"
+        ],
+        "properties": {
+          "flow_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1
+          },
+          "source": {
+            "type": "string",
+            "minLength": 1
+          },
+          "destination": {
+            "type": "string",
+            "minLength": 1
+          },
+          "data_classes": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "current_status": {
+            "type": "string",
+            "minLength": 1
+          },
+          "future_enterprise_status": {
+            "type": "string",
+            "minLength": 1
+          },
+          "network_used": {
+            "type": "boolean",
+            "const": false
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "no_go_gates": {
+      "type": "object",
+      "required": [
+        "enterprise_deployment_enabled",
+        "production_multiuser_enabled",
+        "control_plane_enabled",
+        "remote_execution_enabled",
+        "secure_transport_implemented",
+        "compliance_certification_claim",
+        "secrets_introduced",
+        "network_dependency_introduced"
+      ],
+      "properties": {
+        "enterprise_deployment_enabled": {
+          "type": "boolean",
+          "const": false
+        },
+        "production_multiuser_enabled": {
+          "type": "boolean",
+          "const": false
+        },
+        "control_plane_enabled": {
+          "type": "boolean",
+          "const": false
+        },
+        "remote_execution_enabled": {
+          "type": "boolean",
+          "const": false
+        },
+        "secure_transport_implemented": {
+          "type": "boolean",
+          "const": false
+        },
+        "compliance_certification_claim": {
+          "type": "boolean",
+          "const": false
+        },
+        "secrets_introduced": {
+          "type": "boolean",
+          "const": false
+        },
+        "network_dependency_introduced": {
+          "type": "boolean",
+          "const": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "safety": {
+      "type": "object",
+      "required": [
+        "local_first",
+        "dry_run",
+        "network_used",
+        "external_api_used",
+        "mutations_performed",
+        "source_mutations_performed",
+        "remote_execution_enabled",
+        "connector_write_enabled",
+        "plugin_execution_enabled",
+        "secrets_read"
+      ],
+      "properties": {
+        "local_first": {
+          "type": "boolean",
+          "const": true
+        },
+        "dry_run": {
+          "type": "boolean",
+          "const": true
+        },
+        "network_used": {
+          "type": "boolean",
+          "const": false
+        },
+        "external_api_used": {
+          "type": "boolean",
+          "const": false
+        },
+        "mutations_performed": {
+          "type": "boolean",
+          "const": false
+        },
+        "source_mutations_performed": {
+          "type": "boolean",
+          "const": false
+        },
+        "remote_execution_enabled": {
+          "type": "boolean",
+          "const": false
+        },
+        "connector_write_enabled": {
+          "type": "boolean",
+          "const": false
+        },
+        "plugin_execution_enabled": {
+          "type": "boolean",
+          "const": false
+        },
+        "secrets_read": {
+          "type": "boolean",
+          "const": false
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": true,
+  "x-devpilot-schema-id": "SCHEMA-DEVPL-ENTERPRISE-THREAT-MODEL-V1",
+  "x-devpilot-sprint": "POST-H-022-A",
+  "x-devpilot-status": "registered",
+  "x-devpilot-preliminary": true,
+  "x-devpilot-validation-enabled-sprint": "POST-H-022-A",
+  "x-devpilot-note": "POST-H-022-A registers the enterprise deployment threat model as a design-only inventory. Runtime validators, control matrix and quality gate integration remain future POST-H-022-B/C/D work."
+}

@@ -1,3 +1,29 @@
+## POST-H-022-A — Asset inventory y trust boundaries
+
+Estado: `implemented-initial / hito activo`.
+
+DevPilot inicia `POST-H-022 — Enterprise deployment threat model` con un inventario enterprise design-only de activos, actores, trust boundaries y data flows. La nueva fuente estructurada `.devpilot/enterprise/enterprise_threat_model.json` queda validada por `EnterpriseThreatModel` y documentada en `docs/03_security/enterprise_deployment_threat_model.md`.
+
+No se habilita deployment enterprise real. Siguen en falso `enterprise_deployment_enabled=false`, `production_multiuser_enabled=false`, `control_plane_enabled=false`, `remote_execution_enabled=false`, `secure_transport_implemented=false`, `compliance_certification_claim=false`, sin red, APIs externas, secretos, connector write ni plugin execution.
+
+Artefactos nuevos:
+
+```text
+docs/schemas/enterprise_threat_model.schema.json
+.devpilot/enterprise/enterprise_threat_model.json
+docs/03_security/enterprise_deployment_threat_model.md
+docs/POST-H-022_enterprise_deployment_threat_model.md
+tests/test_post_h_022_enterprise_threat_model.py
+docs/audits/post_h_022_a_enterprise_asset_inventory_report.md
+docs/post_h_022_a_manifest.json
+```
+
+Último micro-sprint implementado: `POST-H-022-A — Asset inventory y trust boundaries`
+Último hito cerrado: `POST-H-021`
+Hito activo: `POST-H-022 — Enterprise deployment threat model`
+Siguiente hito: `POST-H-022`
+Siguiente micro-sprint: `POST-H-022-B — Threat catalog STRIDE/LINDDUN adaptado`
+
 ## POST-H-021-E — Runbook y cierre
 
 Estado: `implemented-initial / hito cerrado`.

@@ -1,0 +1,455 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "SCHEMA-DEVPL-ENTERPRISE-THREAT-MODEL-V1",
+  "created_by": "POST-H-022-A",
+  "updated": "2026-07-01",
+  "status": "implemented-initial",
+  "decision_status": "design-only",
+  "enterprise_deployment_enabled": false,
+  "production_multiuser_enabled": false,
+  "control_plane_enabled": false,
+  "remote_execution_enabled": false,
+  "secure_transport_implemented": false,
+  "compliance_certification_claim": false,
+  "assets": [
+    {
+      "asset_id": "workspace",
+      "title": "Workspace local de proyecto",
+      "category": "workspace",
+      "sensitivity": "confidential",
+      "current_location": "workspace root local",
+      "enterprise_relevance": "Contiene fuentes, configuraciones, reportes locales y artefactos de auditoria.",
+      "current_boundary": "local_machine",
+      "future_boundary": "enterprise_workspace_boundary",
+      "no_go_notes": "No se autoriza sincronizacion remota ni multiusuario en POST-H-022-A."
+    },
+    {
+      "asset_id": "source_code",
+      "title": "Codigo fuente DevPilot",
+      "category": "source_code",
+      "sensitivity": "confidential",
+      "current_location": "src/, tests/, docs/",
+      "enterprise_relevance": "Base ejecutable y contractual que en enterprise requeriria controles de integridad, revision y trazabilidad.",
+      "current_boundary": "workspace_root",
+      "future_boundary": "signed_release_boundary",
+      "no_go_notes": "No se agrega pipeline remoto ni firma productiva en este micro-sprint."
+    },
+    {
+      "asset_id": "local_store",
+      "title": "Estado local DevPilot",
+      "category": "state_store",
+      "sensitivity": "restricted",
+      "current_location": ".devpilot/",
+      "enterprise_relevance": "Contiene registries, politicas, contratos, compliance mappings y estado de gobierno.",
+      "current_boundary": "devpilot_state_boundary",
+      "future_boundary": "enterprise_state_store_boundary",
+      "no_go_notes": "No se habilita base de datos enterprise ni control plane."
+    },
+    {
+      "asset_id": "reports",
+      "title": "Reportes locales y auditables",
+      "category": "reports",
+      "sensitivity": "internal",
+      "current_location": "outputs/reports/ y docs/audits/",
+      "enterprise_relevance": "Evidencia de gates, inventarios y validaciones que en enterprise requeriria retencion, firma y acceso controlado.",
+      "current_boundary": "outputs_reports_boundary",
+      "future_boundary": "enterprise_audit_evidence_boundary",
+      "no_go_notes": "Los ZIP entregables no incluyen outputs; los reportes se regeneran localmente."
+    },
+    {
+      "asset_id": "traces",
+      "title": "Trazas y eventos operacionales",
+      "category": "traces",
+      "sensitivity": "restricted",
+      "current_location": "outputs/traces/ y .devpilot runtime local cuando exista",
+      "enterprise_relevance": "En enterprise serian evidencia sensible para auditoria, privacidad y no repudio.",
+      "current_boundary": "local_runtime_boundary",
+      "future_boundary": "enterprise_observability_boundary",
+      "no_go_notes": "No se exportan trazas ni se habilita observabilidad externa."
+    },
+    {
+      "asset_id": "approvals",
+      "title": "Aprobaciones, RBAC y decisiones de permiso",
+      "category": "approvals",
+      "sensitivity": "restricted",
+      "current_location": ".devpilot/approval/ y .devpilot/identity/",
+      "enterprise_relevance": "Enterprise requiere identidad fuerte, aprobaciones trazables y separacion de funciones.",
+      "current_boundary": "identity_approval_boundary",
+      "future_boundary": "enterprise_identity_boundary",
+      "no_go_notes": "No se implementa SSO, SAML, OIDC ni RBAC enterprise real."
+    },
+    {
+      "asset_id": "secrets",
+      "title": "Secretos y credenciales",
+      "category": "secrets",
+      "sensitivity": "restricted",
+      "current_location": "No deben introducirse ni leerse en POST-H-022-A",
+      "enterprise_relevance": "Enterprise deployment requiere vaulting, rotacion, scopes y auditoria antes de cualquier operacion remota.",
+      "current_boundary": "secrets_boundary",
+      "future_boundary": "enterprise_secret_management_boundary",
+      "no_go_notes": "secrets_read=false y secrets_introduced=false son invariantes de bloqueo."
+    },
+    {
+      "asset_id": "identity_registry",
+      "title": "Identity registry local",
+      "category": "identity",
+      "sensitivity": "restricted",
+      "current_location": ".devpilot/identity/",
+      "enterprise_relevance": "Base para modelar actores internos, operadores y auditores antes de multiusuario.",
+      "current_boundary": "identity_approval_boundary",
+      "future_boundary": "enterprise_identity_boundary",
+      "no_go_notes": "No equivale a autenticacion enterprise productiva."
+    },
+    {
+      "asset_id": "policy_matrix",
+      "title": "Politicas y no-go gates",
+      "category": "policy",
+      "sensitivity": "internal",
+      "current_location": ".devpilot/policy/ y src/devpilot_core/policy/",
+      "enterprise_relevance": "Define bloqueos para remote, connector, plugin y acciones sensibles.",
+      "current_boundary": "policy_boundary",
+      "future_boundary": "enterprise_policy_boundary",
+      "no_go_notes": "No se relajan politicas existentes."
+    },
+    {
+      "asset_id": "compliance_mappings",
+      "title": "Compliance mappings no certificantes",
+      "category": "compliance",
+      "sensitivity": "internal",
+      "current_location": ".devpilot/compliance/",
+      "enterprise_relevance": "Pueden informar controles futuros, pero no constituyen certificacion.",
+      "current_boundary": "compliance_mapping_boundary",
+      "future_boundary": "enterprise_compliance_boundary",
+      "no_go_notes": "compliance_certification_claim=false."
+    },
+    {
+      "asset_id": "audit_packs",
+      "title": "Audit packs locales",
+      "category": "audit",
+      "sensitivity": "confidential",
+      "current_location": "outputs/audit_packs/ cuando se generen",
+      "enterprise_relevance": "En enterprise requeririan cadena de custodia, firma y controles de acceso.",
+      "current_boundary": "audit_pack_boundary",
+      "future_boundary": "enterprise_audit_pack_boundary",
+      "no_go_notes": "No se distribuyen ni transmiten en POST-H-022-A."
+    },
+    {
+      "asset_id": "local_api",
+      "title": "API local / ApplicationService",
+      "category": "api",
+      "sensitivity": "internal",
+      "current_location": "src/devpilot_core/interfaces/api/",
+      "enterprise_relevance": "Podria convertirse en boundary de red futuro, pero hoy permanece local.",
+      "current_boundary": "api_localhost_boundary",
+      "future_boundary": "enterprise_api_boundary",
+      "no_go_notes": "No se expone red ni servicio remoto."
+    },
+    {
+      "asset_id": "web_ui",
+      "title": "UI web local",
+      "category": "ui",
+      "sensitivity": "internal",
+      "current_location": "ui/web/",
+      "enterprise_relevance": "Interfaz local que en enterprise requeriria auth, sesiones, CSRF, CSP y auditoria.",
+      "current_boundary": "browser_localhost_boundary",
+      "future_boundary": "enterprise_ui_boundary",
+      "no_go_notes": "No se habilita UI multiusuario."
+    },
+    {
+      "asset_id": "release_archives",
+      "title": "Archives reproducibles de release",
+      "category": "release",
+      "sensitivity": "confidential",
+      "current_location": "artifacts ZIP locales generados bajo demanda",
+      "enterprise_relevance": "Serian candidatos a firma, attestations y distribucion controlada.",
+      "current_boundary": "local_release_boundary",
+      "future_boundary": "enterprise_release_boundary",
+      "no_go_notes": "No se publica ni distribuye externamente."
+    },
+    {
+      "asset_id": "remote_runner_design",
+      "title": "Remote Runner ADR-2 design-only",
+      "category": "remote_design",
+      "sensitivity": "restricted",
+      "current_location": "docs/adr/ADR-POSTH-004-remote-runner-adr2.md",
+      "enterprise_relevance": "Define precondiciones futuras para remote runner; POST-H-022 no lo habilita.",
+      "current_boundary": "documentation_boundary",
+      "future_boundary": "future_remote_runner_boundary",
+      "no_go_notes": "remote_execution_enabled=false permanece bloqueante."
+    }
+  ],
+  "actors": [
+    {
+      "actor_id": "owner",
+      "title": "Owner del proyecto",
+      "actor_type": "internal",
+      "current_access": "Control local del repo, backlog y decisiones de cierre.",
+      "future_enterprise_risk": "Concentracion de privilegios sin separacion de funciones.",
+      "trust_level": "trusted",
+      "approval_required": true
+    },
+    {
+      "actor_id": "local_operator",
+      "title": "Operador local",
+      "actor_type": "internal",
+      "current_access": "Ejecuta CLI, tests y validadores locales.",
+      "future_enterprise_risk": "Podria ejecutar operaciones sensibles si no hay RBAC granular.",
+      "trust_level": "limited",
+      "approval_required": true
+    },
+    {
+      "actor_id": "developer",
+      "title": "Developer / maintainer",
+      "actor_type": "internal",
+      "current_access": "Modifica codigo, tests y artefactos documentales.",
+      "future_enterprise_risk": "Supply-chain interno, cambios no revisados o bypass de gates.",
+      "trust_level": "limited",
+      "approval_required": true
+    },
+    {
+      "actor_id": "auditor",
+      "title": "Auditor local",
+      "actor_type": "external",
+      "current_access": "Lee reportes, manifests, registries y evidencias generadas.",
+      "future_enterprise_risk": "Acceso excesivo a secretos, trazas o datos sensibles.",
+      "trust_level": "limited",
+      "approval_required": true
+    },
+    {
+      "actor_id": "malicious_local_user",
+      "title": "Usuario local malicioso",
+      "actor_type": "adversarial",
+      "current_access": "Puede intentar modificar archivos locales si obtiene acceso al workspace.",
+      "future_enterprise_risk": "Escalada a control plane o exfiltracion si enterprise se habilita sin aislamiento.",
+      "trust_level": "untrusted",
+      "approval_required": true
+    },
+    {
+      "actor_id": "compromised_dependency",
+      "title": "Dependencia comprometida",
+      "actor_type": "adversarial",
+      "current_access": "Riesgo latente durante imports o tooling local.",
+      "future_enterprise_risk": "Ejecucion remota o exfiltracion si se conectara a servicios enterprise.",
+      "trust_level": "untrusted",
+      "approval_required": true
+    },
+    {
+      "actor_id": "future_remote_worker",
+      "title": "Remote worker futuro",
+      "actor_type": "future",
+      "current_access": "Sin acceso. No existe como runtime habilitado.",
+      "future_enterprise_risk": "Ejecucion remota, suplantacion, tampering y abuso de credenciales.",
+      "trust_level": "future",
+      "approval_required": true
+    },
+    {
+      "actor_id": "future_enterprise_admin",
+      "title": "Administrador enterprise futuro",
+      "actor_type": "future",
+      "current_access": "Sin acceso. No hay modo enterprise.",
+      "future_enterprise_risk": "Privilegios de administracion sin SoD, auditoria y break-glass.",
+      "trust_level": "future",
+      "approval_required": true
+    }
+  ],
+  "trust_boundaries": [
+    {
+      "boundary_id": "local_machine",
+      "title": "Maquina local del operador",
+      "boundary_type": "current",
+      "current_state": "Limite primario de ejecucion local-first.",
+      "future_state": "Debe separarse de cualquier control plane o worker remoto.",
+      "crosses_network": false,
+      "requires_future_adr": false,
+      "no_go_gate": false
+    },
+    {
+      "boundary_id": "workspace_root",
+      "title": "Workspace root",
+      "boundary_type": "current",
+      "current_state": "Contiene repo, docs, tests y fuentes.",
+      "future_state": "Requiere aislamiento, integridad y control de cambios antes de enterprise.",
+      "crosses_network": false,
+      "requires_future_adr": false,
+      "no_go_gate": false
+    },
+    {
+      "boundary_id": "devpilot_state_boundary",
+      "title": ".devpilot state boundary",
+      "boundary_type": "current",
+      "current_state": "Almacena registries, estados y contratos locales.",
+      "future_state": "Requiere cifrado, retention, RBAC y auditoria antes de centralizar.",
+      "crosses_network": false,
+      "requires_future_adr": false,
+      "no_go_gate": false
+    },
+    {
+      "boundary_id": "outputs_reports_boundary",
+      "title": "Outputs y reportes regenerables",
+      "boundary_type": "current",
+      "current_state": "Evidencia local generada bajo demanda.",
+      "future_state": "Requiere retencion, redaccion, integridad y distribucion controlada.",
+      "crosses_network": false,
+      "requires_future_adr": false,
+      "no_go_gate": false
+    },
+    {
+      "boundary_id": "api_localhost",
+      "title": "API localhost",
+      "boundary_type": "current",
+      "current_state": "Interfaz local sin exposicion enterprise.",
+      "future_state": "Si se expone por red, requeriria secure transport, auth, rate limits y auditoria.",
+      "crosses_network": false,
+      "requires_future_adr": true,
+      "no_go_gate": true
+    },
+    {
+      "boundary_id": "browser_localhost",
+      "title": "Browser local hacia UI",
+      "boundary_type": "current",
+      "current_state": "Interaccion local con UI web.",
+      "future_state": "Enterprise requeriria sesiones, CSRF, CSP, auth y autorizacion.",
+      "crosses_network": false,
+      "requires_future_adr": true,
+      "no_go_gate": true
+    },
+    {
+      "boundary_id": "future_network_boundary",
+      "title": "Boundary de red enterprise futuro",
+      "boundary_type": "future",
+      "current_state": "No implementado.",
+      "future_state": "Solo podria existir tras POST-H-023 y ADR posterior de enablement.",
+      "crosses_network": false,
+      "requires_future_adr": true,
+      "no_go_gate": true
+    },
+    {
+      "boundary_id": "future_control_plane_boundary",
+      "title": "Control plane enterprise futuro",
+      "boundary_type": "prohibited",
+      "current_state": "No implementado y no autorizado.",
+      "future_state": "Requiere threat model completo, transport, auth, RBAC, approvals y quality gate dedicado.",
+      "crosses_network": false,
+      "requires_future_adr": true,
+      "no_go_gate": true
+    },
+    {
+      "boundary_id": "third_party_audit_boundary",
+      "title": "Boundary de auditoria externa futura",
+      "boundary_type": "future",
+      "current_state": "No hay exportacion automatica a terceros.",
+      "future_state": "Requiere redaccion, contratos de datos, retencion y aprobacion explicita.",
+      "crosses_network": false,
+      "requires_future_adr": true,
+      "no_go_gate": true
+    },
+    {
+      "boundary_id": "secrets_boundary",
+      "title": "Boundary de secretos",
+      "boundary_type": "prohibited",
+      "current_state": "No se leen ni introducen secretos en POST-H-022-A.",
+      "future_state": "Requiere vaulting, scopes, rotacion, auditoria y zero secret leakage tests.",
+      "crosses_network": false,
+      "requires_future_adr": true,
+      "no_go_gate": true
+    }
+  ],
+  "data_flows": [
+    {
+      "flow_id": "local_cli_to_core",
+      "title": "CLI local hacia core DevPilot",
+      "source": "local_operator",
+      "destination": "src/devpilot_core",
+      "data_classes": [
+        "commands",
+        "configuration",
+        "local evidence"
+      ],
+      "current_status": "Local-only.",
+      "future_enterprise_status": "Requeriria auth, authorization, audit y isolation.",
+      "network_used": false
+    },
+    {
+      "flow_id": "local_api_to_application_service",
+      "title": "API local hacia ApplicationService",
+      "source": "localhost API",
+      "destination": "ApplicationService",
+      "data_classes": [
+        "requests",
+        "responses",
+        "summaries"
+      ],
+      "current_status": "Local-only.",
+      "future_enterprise_status": "Requeriria secure transport, auth, session boundaries y rate limits.",
+      "network_used": false
+    },
+    {
+      "flow_id": "ui_to_local_api",
+      "title": "UI local hacia API local",
+      "source": "browser_localhost",
+      "destination": "api_localhost",
+      "data_classes": [
+        "operator views",
+        "report summaries"
+      ],
+      "current_status": "Local-only.",
+      "future_enterprise_status": "Requeriria CSP, CSRF, auth, session management y audit trails.",
+      "network_used": false
+    },
+    {
+      "flow_id": "report_generation_to_outputs",
+      "title": "Generacion local de reportes",
+      "source": "DevPilot validators",
+      "destination": "outputs/reports",
+      "data_classes": [
+        "audit evidence",
+        "test summaries",
+        "quality gate results"
+      ],
+      "current_status": "Local, regenerable y excluido de ZIPs entregables.",
+      "future_enterprise_status": "Requeriria retencion, redaccion, integridad y aprobacion antes de distribucion.",
+      "network_used": false
+    },
+    {
+      "flow_id": "future_remote_worker_control",
+      "title": "Control futuro hacia remote worker",
+      "source": "future_control_plane",
+      "destination": "future_remote_worker",
+      "data_classes": [
+        "commands",
+        "execution plans",
+        "status"
+      ],
+      "current_status": "No implementado.",
+      "future_enterprise_status": "Bloqueado hasta secure transport, ADR futura y quality gate dedicado.",
+      "network_used": false
+    }
+  ],
+  "no_go_gates": {
+    "enterprise_deployment_enabled": false,
+    "production_multiuser_enabled": false,
+    "control_plane_enabled": false,
+    "remote_execution_enabled": false,
+    "secure_transport_implemented": false,
+    "compliance_certification_claim": false,
+    "secrets_introduced": false,
+    "network_dependency_introduced": false
+  },
+  "safety": {
+    "local_first": true,
+    "dry_run": true,
+    "network_used": false,
+    "external_api_used": false,
+    "mutations_performed": false,
+    "source_mutations_performed": false,
+    "remote_execution_enabled": false,
+    "connector_write_enabled": false,
+    "plugin_execution_enabled": false,
+    "secrets_read": false
+  },
+  "notes": [
+    "POST-H-022-A is design-only and inventory-only.",
+    "Enterprise report does not mean enterprise readiness.",
+    "Threat catalog, control matrix, validator and quality gate are future POST-H-022-B/C/D work."
+  ]
+}

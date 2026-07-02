@@ -1332,7 +1332,7 @@
       "classification": "derived",
       "domain": "roadmap-derived-backlog",
       "owner": "Ordóñez",
-      "status_required": "draft",
+      "status_required": "approved",
       "criticality": "P3",
       "machine_readable_counterparts": [
         ".devpilot/evals/post_h_eval_001_prioritized_roadmap.json"
@@ -1340,9 +1340,13 @@
       "human_readable_counterparts": [
         "docs/backlogs/post_h_prioritized_roadmap.md"
       ],
-      "derived_documents": [],
+      "derived_documents": [
+        "docs/03_security/enterprise_deployment_threat_model.md",
+        "docs/POST-H-022_enterprise_deployment_threat_model.md"
+      ],
       "required_tests": [
-        "tests/test_documentation_governance_backlogs.py"
+        "tests/test_documentation_governance_backlogs.py",
+        "tests/test_post_h_022_enterprise_threat_model.py"
       ],
       "sync_rules": [
         "backlog_naming",
@@ -1353,10 +1357,10 @@
       "roadmap_milestones": [
         "POST-H-022"
       ],
-      "lifecycle": "planned",
+      "lifecycle": "active",
       "notes": [
-        "Roadmap-derived executable backlog governed by POST-H-009-D.",
-        "Missing future backlog files are informational planned items; existing files must pass naming and frontmatter checks."
+        "POST-H-022 backlog approved by POST-H-022-A.",
+        "POST-H-022-A is design-only and does not enable enterprise deployment."
       ]
     },
     {
@@ -3429,7 +3433,7 @@
     {
       "doc_id": "POST-H-021-D-REMOTE-QUALITY-GATE-MODULE",
       "path": "src/devpilot_core/remote/quality_gate.py",
-      "classification": "source_of_truth",
+      "classification": "source-of-truth",
       "domain": "enterprise.remote",
       "owner": "POST-H-021-D",
       "status_required": "current",
@@ -3484,7 +3488,7 @@
     {
       "doc_id": "POST-H-021-D-REMOTE-QUALITY-GATE-REPORT",
       "path": "docs/audits/post_h_021_d_remote_quality_gate_report.md",
-      "classification": "source_of_truth",
+      "classification": "source-of-truth",
       "domain": "enterprise.remote",
       "owner": "POST-H-021-D",
       "status_required": "current",
@@ -3512,7 +3516,7 @@
     {
       "doc_id": "POST-H-021-D-MANIFEST",
       "path": "docs/post_h_021_d_manifest.json",
-      "classification": "source_of_truth",
+      "classification": "source-of-truth",
       "domain": "enterprise.remote",
       "owner": "POST-H-021-D",
       "status_required": "current",
@@ -3539,7 +3543,7 @@
     {
       "doc_id": "POST-H-021-REMOTE-RUNNER-DESIGN-RUNBOOK",
       "path": "docs/05_operations/remote_runner_design_runbook.md",
-      "classification": "source_of_truth",
+      "classification": "source-of-truth",
       "domain": "enterprise.remote",
       "owner": "POST-H-021-E",
       "status_required": "current",
@@ -3567,7 +3571,7 @@
     {
       "doc_id": "POST-H-021-E-REMOTE-RUNNER-CLOSURE-REPORT",
       "path": "docs/audits/post_h_021_e_remote_runner_closure_report.md",
-      "classification": "source_of_truth",
+      "classification": "source-of-truth",
       "domain": "enterprise.remote",
       "owner": "POST-H-021-E",
       "status_required": "current",
@@ -3595,7 +3599,7 @@
     {
       "doc_id": "POST-H-021-E-MANIFEST",
       "path": "docs/post_h_021_e_manifest.json",
-      "classification": "source_of_truth",
+      "classification": "source-of-truth",
       "domain": "enterprise.remote",
       "owner": "POST-H-021-E",
       "status_required": "current",
@@ -3647,6 +3651,175 @@
         "test_must_pass"
       ],
       "preliminary": true
+    },
+    {
+      "doc_id": "SCHEMA-DEVPL-ENTERPRISE-THREAT-MODEL-V1",
+      "path": "docs/schemas/enterprise_threat_model.schema.json",
+      "classification": "machine-readable-source",
+      "domain": "enterprise-deployment-threat-model",
+      "owner": "Ordóñez",
+      "status_required": "registered",
+      "criticality": "P2",
+      "machine_readable_counterparts": [
+        ".devpilot/enterprise/enterprise_threat_model.json"
+      ],
+      "human_readable_counterparts": [
+        "docs/03_security/enterprise_deployment_threat_model.md"
+      ],
+      "required_tests": [
+        "tests/test_post_h_022_enterprise_threat_model.py"
+      ],
+      "sync_rules": [
+        "schema_catalog_entry_required",
+        "instance_must_remain_design_only",
+        "no_go_gates_must_remain_false"
+      ],
+      "roadmap_milestones": [
+        "POST-H-022"
+      ],
+      "lifecycle": "active",
+      "source_of_truth": true,
+      "machine_readable": true,
+      "preliminary": true,
+      "notes": [
+        "Schema registered by POST-H-022-A for design-only enterprise threat model inventory."
+      ]
+    },
+    {
+      "doc_id": "POST-H-022-ENTERPRISE-THREAT-MODEL",
+      "path": "docs/03_security/enterprise_deployment_threat_model.md",
+      "classification": "source-of-truth",
+      "domain": "enterprise-deployment-threat-model",
+      "owner": "Ordóñez",
+      "status_required": "approved",
+      "criticality": "P2",
+      "machine_readable_counterparts": [
+        ".devpilot/enterprise/enterprise_threat_model.json"
+      ],
+      "required_tests": [
+        "tests/test_post_h_022_enterprise_threat_model.py"
+      ],
+      "sync_rules": [
+        "frontmatter_required",
+        "enterprise_no_overclaim",
+        "required_assets_must_be_documented"
+      ],
+      "roadmap_milestones": [
+        "POST-H-022"
+      ],
+      "lifecycle": "active",
+      "source_of_truth": true,
+      "machine_readable": false,
+      "preliminary": true,
+      "notes": [
+        "Human-readable POST-H-022-A enterprise deployment threat model."
+      ]
+    },
+    {
+      "doc_id": "POST-H-022-A-ENTERPRISE-THREAT-MODEL-INSTANCE",
+      "path": ".devpilot/enterprise/enterprise_threat_model.json",
+      "classification": "machine-readable-source",
+      "domain": "enterprise-deployment-threat-model",
+      "owner": "Ordóñez",
+      "status_required": "implemented-initial",
+      "criticality": "P2",
+      "human_readable_counterparts": [
+        "docs/03_security/enterprise_deployment_threat_model.md"
+      ],
+      "required_tests": [
+        "tests/test_post_h_022_enterprise_threat_model.py"
+      ],
+      "sync_rules": [
+        "schema_validation",
+        "no_go_gates_must_remain_false"
+      ],
+      "roadmap_milestones": [
+        "POST-H-022"
+      ],
+      "lifecycle": "active",
+      "source_of_truth": true,
+      "machine_readable": true,
+      "preliminary": true,
+      "notes": [
+        "Machine-readable source for POST-H-022-A asset inventory and trust boundaries."
+      ]
+    },
+    {
+      "doc_id": "POST-H-022-A-ENTERPRISE-ASSET-INVENTORY-REPORT",
+      "path": "docs/audits/post_h_022_a_enterprise_asset_inventory_report.md",
+      "classification": "derived",
+      "domain": "enterprise-deployment-threat-model",
+      "owner": "POST-H-022-A",
+      "status_required": "approved",
+      "criticality": "P2",
+      "required_tests": [
+        "tests/test_post_h_022_enterprise_threat_model.py"
+      ],
+      "sync_rules": [
+        "frontmatter_required",
+        "safety_flags_must_remain_false"
+      ],
+      "roadmap_milestones": [
+        "POST-H-022"
+      ],
+      "lifecycle": "active",
+      "source_of_truth": false,
+      "machine_readable": false,
+      "preliminary": true,
+      "notes": [
+        "Records POST-H-022-A implementation evidence and limits."
+      ]
+    },
+    {
+      "doc_id": "POST-H-022-A-MANIFEST",
+      "path": "docs/post_h_022_a_manifest.json",
+      "classification": "machine-readable-source",
+      "domain": "enterprise-deployment-threat-model",
+      "owner": "POST-H-022-A",
+      "status_required": "implemented-initial",
+      "criticality": "P2",
+      "required_tests": [
+        "tests/test_post_h_022_enterprise_threat_model.py"
+      ],
+      "sync_rules": [
+        "schema_validation",
+        "created_modified_files_must_match_delivery"
+      ],
+      "roadmap_milestones": [
+        "POST-H-022"
+      ],
+      "lifecycle": "active",
+      "source_of_truth": false,
+      "machine_readable": true,
+      "preliminary": true,
+      "notes": [
+        "POST-H-022-A manifest tracks created/modified files and safety flags."
+      ]
+    },
+    {
+      "doc_id": "POST-H-022-A-ENTERPRISE-THREAT-MODEL-TEST",
+      "path": "tests/test_post_h_022_enterprise_threat_model.py",
+      "classification": "derived",
+      "domain": "enterprise-deployment-threat-model",
+      "owner": "POST-H-022-A",
+      "status_required": "implemented-initial",
+      "criticality": "P2",
+      "required_tests": [
+        "tests/test_post_h_022_enterprise_threat_model.py"
+      ],
+      "sync_rules": [
+        "required_test_must_exist"
+      ],
+      "roadmap_milestones": [
+        "POST-H-022"
+      ],
+      "lifecycle": "active",
+      "source_of_truth": false,
+      "machine_readable": false,
+      "preliminary": true,
+      "notes": [
+        "Validates POST-H-022-A schema, inventory, docs and registry sync."
+      ]
     }
   ],
   "rules": {
@@ -3731,7 +3904,7 @@
     "network_used": false,
     "external_api_used": false,
     "mutations_performed": false,
-    "last_updated_by": "POST-H-021-E",
+    "last_updated_by": "POST-H-022-A",
     "markdown_json_sync_checks_enabled": true,
     "sync_checks_scope": "version_match, milestones_match, decisions_match, closure_status_match, next_hito_match",
     "backlog_governance_enabled": true,
@@ -3772,7 +3945,7 @@
     "machine_readable_total": 15,
     "required_tests_total": 52,
     "active_backlog": "POST-H-021",
-    "active_micro_sprint": "POST-H-021-E",
+    "active_micro_sprint": "POST-H-022-A",
     "sensitive_action_catalog_enabled": true,
     "sensitive_action_catalog_path": ".devpilot/approval/sensitive_action_catalog.json",
     "sensitive_action_catalog_schema": "docs/schemas/sensitive_action_catalog.schema.json",
@@ -3888,7 +4061,7 @@
     "plugin_execution_enabled": false,
     "plugin_install_dry_run_enabled": true,
     "plugin_exposure_report_enabled": true,
-    "next_micro_sprint": "POST-H-022",
+    "next_micro_sprint": "POST-H-022-B",
     "plugin_sandbox_quality_gate_registered": true,
     "plugin_sandbox_quality_gate_subgate": "plugin-sandbox-design",
     "plugin_sandbox_quality_gate_profiles": [
@@ -3902,7 +4075,7 @@
     "post_h_019_closed": true,
     "plugin_sandbox_metadata_runbook_registered": true,
     "plugin_sandbox_future_adr_trigger_registered": true,
-    "current_micro_sprint": "POST-H-021-E",
+    "current_micro_sprint": "POST-H-022-A",
     "post_h_020_current_micro_sprint": "POST-H-020-E",
     "post_h_020_next_micro_sprint": "POST-H-021",
     "post_h_020_compliance_mapping_schemas_registered": true,
@@ -3942,7 +4115,11 @@
       "industrial"
     ],
     "post_h_021_closed": true,
-    "remote_runner_design_runbook_registered": true
+    "remote_runner_design_runbook_registered": true,
+    "post_h_022_current_micro_sprint": "POST-H-022-A",
+    "post_h_022_next_micro_sprint": "POST-H-022-B",
+    "enterprise_deployment_enabled": false,
+    "compliance_certification_claim": false
   },
   "safety": {
     "local_first": true,
@@ -4007,6 +4184,21 @@
     "POST-H-021-C registers RemoteReadinessReport schema and read-only readiness report CLI.",
     "POST-H-021-C keeps remote runner disabled and does not authorize remote execution.",
     "POST-H-021-E registers the remote runner design runbook and closure report as design-only source documents.",
-    "POST-H-021 closes Remote Runner ADR-2 without enabling remote execution."
-  ]
+    "POST-H-021 closes Remote Runner ADR-2 without enabling remote execution.",
+    "POST-H-022-A approves Enterprise deployment threat model and registers EnterpriseThreatModel.",
+    "POST-H-022-A keeps enterprise deployment design-only with no-go flags false."
+  ],
+  "project_state_snapshot": {
+    "last_updated_by": "POST-H-022-A",
+    "current_micro_sprint": "POST-H-022-A",
+    "next_micro_sprint": "POST-H-022-B",
+    "active_micro_sprint": "POST-H-022-A",
+    "last_completed_sprint": "POST-H-021",
+    "next_sprint": "POST-H-022",
+    "post_h_022_current_micro_sprint": "POST-H-022-A",
+    "post_h_022_next_micro_sprint": "POST-H-022-B",
+    "enterprise_deployment_enabled": false,
+    "remote_execution_enabled": false,
+    "compliance_certification_claim": false
+  }
 }

@@ -1,0 +1,36 @@
+{
+  "manifest_id": "POST-H-022-A-FIX-01",
+  "created_by": "POST-H-022-A-FIX-01",
+  "status": "implemented",
+  "purpose": "Correct general pytest regressions reported after POST-H-022-A without changing product runtime behavior.",
+  "root_cause_summary": [
+    "DocumentationSourceRegistry entries introduced by POST-H-022-A used classification values outside the registry schema enum.",
+    "CLI registry regression test did not include the enterprise declarative command group introduced by POST-H-022-A.",
+    "Historical POST-H-017/018/019 tests asserted exact mutable project_state values after the repo had advanced to POST-H-022-A.",
+    "Schema registry test did not include SCHEMA-DEVPL-ENTERPRISE-THREAT-MODEL-V1."
+  ],
+  "created_files": [
+    "scripts/post_h_022_a_fix_source_registry.py",
+    "docs/audits/post_h_022_a_general_pytest_regression_fix_report.md",
+    "docs/post_h_022_a_fix_01_manifest.json",
+    "README_POST_H_022_A_FIX_01.md"
+  ],
+  "modified_files": [
+    "tests/test_post_h_006_b_declarative_registry.py",
+    "tests/test_schema_registry.py",
+    "tests/test_post_h_017_environment_snapshot.py",
+    "tests/test_post_h_017_release_reproducibility_pack.py",
+    "tests/test_post_h_017_release_reproducibility_schema.py",
+    "tests/test_post_h_017_reproducibility_verify.py",
+    "tests/test_post_h_017_source_archive_manifest.py",
+    "tests/test_post_h_018_connector_sandbox_policy.py",
+    "tests/test_post_h_019_plugin_metadata_runbook.py",
+    "tests/test_post_h_019_plugin_sandbox_design.py"
+  ],
+  "runtime_behavior_changed": false,
+  "network_used": false,
+  "external_api_used": false,
+  "remote_execution_used": false,
+  "destructive_actions_used": false,
+  "requires_repo_overlay": true
+}

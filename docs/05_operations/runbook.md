@@ -2,17 +2,56 @@
 title: "Runbook — DevPilot Local"
 doc_id: "DEVPL-OPS-002"
 status: "approved"
-version: "1.79.0"
+version: "1.80.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "POST-H-021-E"
+phase: "POST-H-022-A"
 updated: "2026-07-01"
 approval: "approved_by_owner"
 source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved + 03_security approved"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "SPRINT-PRECODE-05 quality operations baseline"
 ---
+
+## POST-H-022-A — Asset inventory y trust boundaries
+
+Estado: `implemented-initial / hito activo`.
+
+POST-H-022-A inicia el threat model enterprise como diseno verificable. El operador debe interpretar el resultado como inventario y boundary model, no como autorizacion de despliegue enterprise.
+
+Artefactos:
+
+```text
+docs/schemas/enterprise_threat_model.schema.json
+.devpilot/enterprise/enterprise_threat_model.json
+docs/03_security/enterprise_deployment_threat_model.md
+docs/POST-H-022_enterprise_deployment_threat_model.md
+tests/test_post_h_022_enterprise_threat_model.py
+docs/audits/post_h_022_a_enterprise_asset_inventory_report.md
+docs/post_h_022_a_manifest.json
+```
+
+Validacion focal:
+
+```powershell
+python -m pytest -p no:ddtrace tests/test_post_h_022_enterprise_threat_model.py tests/test_project_global_state.py tests/test_post_h_021_remote_adr2.py tests/test_post_h_021_remote_runbook_closure.py -q
+python -m devpilot_core schema validate --schema-id EnterpriseThreatModel --instance .devpilot/enterprise/enterprise_threat_model.json --json
+python -m devpilot_core schema validate --schema-id PostHManifest --instance docs/post_h_022_a_manifest.json --json
+python -m devpilot_core docs-governance validate --json
+python -m devpilot_core test-contracts validate --json
+python -m devpilot_core test-contracts validate-v2 --json
+python -m devpilot_core project-state validate --json
+python -m devpilot_core cli-registry guard --json
+```
+
+PASS si activos, actores y boundaries estan enumerados; `secrets`, `traces` y `approvals` aparecen como activos; y `enterprise_deployment_enabled=false`, `remote_execution_enabled=false`, `secure_transport_implemented=false`, `compliance_certification_claim=false`.
+
+BLOCK si se propone deployment enterprise real, control plane, multiusuario productivo, red/API externa, remote execution, secretos productivos, connector write, plugin execution o claims enterprise/compliance.
+
+Último hito cerrado: `POST-H-021`
+Siguiente hito: `POST-H-022`
+Siguiente micro-sprint: `POST-H-022-B — Threat catalog STRIDE/LINDDUN adaptado`
 
 ## POST-H-021-E — Runbook y cierre
 

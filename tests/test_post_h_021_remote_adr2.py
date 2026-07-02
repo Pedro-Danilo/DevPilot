@@ -88,8 +88,10 @@ def test_post_h_021_backlog_tracks_adr2_micro_sprint_state() -> None:
         assert "POST-H-021-E — Runbook y cierre" in text
         assert "ADR-POSTH-004-remote-runner-adr2.md" in text
 
-    assert state["current_micro_sprint"] == "POST-H-021-E"
-    assert state["next_micro_sprint"] == "POST-H-022"
+    assert state["last_completed_sprint"] == "POST-H-021"
+    assert state["next_sprint"] == "POST-H-022"
+    assert state["current_micro_sprint"] in {"POST-H-021-E", "POST-H-022-A"}
+    assert state["next_micro_sprint"] in {"POST-H-022", "POST-H-022-B"}
     assert any("POST-H-021-B adds ADR-POSTH-004" in note for note in state["notes"])
     assert any("POST-H-021-C adds RemoteReadinessChecker" in note for note in state["notes"])
     assert any("POST-H-021-D adds RemoteReadinessQualityGate" in note for note in state["notes"])

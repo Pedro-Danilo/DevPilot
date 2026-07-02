@@ -54,8 +54,8 @@ def test_post_h_021_backlog_and_implementation_are_closed_and_synchronized() -> 
 
     assert state["last_completed_sprint"] == "POST-H-021"
     assert state["next_sprint"] == "POST-H-022"
-    assert state["current_micro_sprint"] == "POST-H-021-E"
-    assert state["next_micro_sprint"] == "POST-H-022"
+    assert state["current_micro_sprint"] in {"POST-H-021-E", "POST-H-022-A"}
+    assert state["next_micro_sprint"] in {"POST-H-022", "POST-H-022-B"}
     assert state["post_h_021_current_micro_sprint"] == "POST-H-021-E"
     assert state["post_h_021_next_micro_sprint"] == "POST-H-022"
     assert state["post_h_021_closed"] is True

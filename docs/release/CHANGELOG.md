@@ -1,3 +1,12 @@
+## post-h-022-a — Asset inventory y trust boundaries
+
+- Aprueba `POST-H-022 — Enterprise deployment threat model` como hito activo.
+- Registra `EnterpriseThreatModel` y la instancia `.devpilot/enterprise/enterprise_threat_model.json`.
+- Agrega `docs/03_security/enterprise_deployment_threat_model.md` con inventario de activos, actores, trust boundaries y data flows.
+- Incluye `secrets`, `traces` y `approvals` como activos sensibles obligatorios.
+- Mantiene `enterprise_deployment_enabled=false`, `production_multiuser_enabled=false`, `control_plane_enabled=false`, `remote_execution_enabled=false`, `secure_transport_implemented=false`, `compliance_certification_claim=false`, sin red, APIs externas, connector write ni plugin execution.
+- Siguiente micro-sprint: `POST-H-022-B — Threat catalog STRIDE/LINDDUN adaptado`.
+
 ## post-h-021-e — Runbook y cierre
 
 - Cierra `POST-H-021 — Remote Runner ADR-2` como `implemented-initial`.

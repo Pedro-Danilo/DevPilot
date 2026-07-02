@@ -3,14 +3,17 @@
 doc_id: "POST-H-022-BACKLOG"
 id: "POST-H-022"
 title: "POST-H-022 — Enterprise deployment threat model"
-status: "draft"
-version: "0.1.0"
+status: "approved"
+version: "1.0.0"
 owner: "Ordóñez"
-updated: "2026-06-23"
-approval: "pending_owner_review"
+updated: "2026-07-01"
+approval: "approved_by_owner"
 phase: "POST-FASE-H"
 priority: "P3"
 roadmap_source: "docs/backlogs/post_h_prioritized_roadmap.md"
+implementation_status: "active"
+current_micro_sprint: "POST-H-022-A"
+next_micro_sprint: "POST-H-022-B"
 local_first: true
 dry_run: true
 no_remote_execution_enabled: true
@@ -20,6 +23,25 @@ no_plugin_execution_enabled: true
 ---
 
 # POST-H-022 — Enterprise deployment threat model
+
+## 0. Estado de implementación
+
+POST-H-022 queda aprobado e inicia con **POST-H-022-A — Asset inventory y trust boundaries** como `implemented-initial / design-only`.
+
+POST-H-022-A entrega:
+
+```text
+docs/schemas/enterprise_threat_model.schema.json
+.devpilot/enterprise/enterprise_threat_model.json
+docs/03_security/enterprise_deployment_threat_model.md
+tests/test_post_h_022_enterprise_threat_model.py
+docs/audits/post_h_022_a_enterprise_asset_inventory_report.md
+docs/post_h_022_a_manifest.json
+```
+
+El siguiente micro-sprint es **POST-H-022-B — Threat catalog STRIDE/LINDDUN adaptado**.
+
+POST-H-022-A no habilita deployment enterprise real, control plane, multiusuario productivo, secure transport activo, remote execution, SSO/SAML/OIDC, red, APIs externas, secrets management productivo ni claims de compliance. La capacidad es preliminar y debe evolucionar antes de cualquier declaracion enterprise.
 
 ## 1. Objetivo
 

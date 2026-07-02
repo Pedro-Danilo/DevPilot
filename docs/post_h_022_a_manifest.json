@@ -1,0 +1,99 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "SCHEMA-DEVPL-POST-H-MANIFEST-V1",
+  "manifest_id": "POST-H-022-A-MANIFEST",
+  "post_h_id": "POST-H-022",
+  "micro_sprint": "POST-H-022-A",
+  "title": "Asset inventory y trust boundaries",
+  "status": "implemented-initial",
+  "phase": "POST-FASE-H",
+  "implemented_at": "2026-07-01",
+  "created_by": "POST-H-022-A",
+  "updated": "2026-07-01",
+  "source_repo": "repo_DevPilot_Local_240_POST_H_021_E.zip",
+  "target_repo": "repo_DevPilot_Local_241_POST_H_022_A.zip",
+  "backlog": "docs/backlogs/POST-H-022_enterprise_deployment_threat_model.md",
+  "implementation_doc": "docs/POST-H-022_enterprise_deployment_threat_model.md",
+  "audit_report": "docs/audits/post_h_022_a_enterprise_asset_inventory_report.md",
+  "created_files": [
+    "docs/schemas/enterprise_threat_model.schema.json",
+    ".devpilot/enterprise/enterprise_threat_model.json",
+    "docs/03_security/enterprise_deployment_threat_model.md",
+    "docs/POST-H-022_enterprise_deployment_threat_model.md",
+    "tests/test_post_h_022_enterprise_threat_model.py",
+    "docs/audits/post_h_022_a_enterprise_asset_inventory_report.md",
+    "docs/post_h_022_a_manifest.json"
+  ],
+  "modified_files": [
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/backlogs/POST-H-022_enterprise_deployment_threat_model.md",
+    "docs/release/CHANGELOG.md",
+    "docs/schemas/schema_catalog.json",
+    ".devpilot/project_state.json",
+    ".devpilot/docs_governance/source_registry.json",
+    ".devpilot/testing/test_contract_registry.json",
+    ".devpilot/testing/test_contract_registry_v2.json",
+    "tests/test_project_global_state.py",
+    "tests/test_post_h_021_remote_adr2.py",
+    "tests/test_post_h_021_remote_runbook_closure.py"
+  ],
+  "capabilities": [
+    "EnterpriseThreatModel schema registered",
+    "Enterprise design-only asset inventory",
+    "Enterprise actors and trust boundaries enumerated",
+    "Enterprise no-go gates made machine-readable",
+    "POST-H-022 backlog approved and started"
+  ],
+  "commands": [
+    "python -m pytest -p no:ddtrace tests/test_post_h_022_enterprise_threat_model.py tests/test_project_global_state.py tests/test_post_h_021_remote_adr2.py tests/test_post_h_021_remote_runbook_closure.py -q",
+    "python -m devpilot_core schema validate --schema-id EnterpriseThreatModel --instance .devpilot/enterprise/enterprise_threat_model.json --json",
+    "python -m devpilot_core schema validate --schema-id PostHManifest --instance docs/post_h_022_a_manifest.json --json",
+    "python -m devpilot_core docs-governance validate --json",
+    "python -m devpilot_core test-contracts validate --json",
+    "python -m devpilot_core test-contracts validate-v2 --json",
+    "python -m devpilot_core project-state validate --json",
+    "python -m devpilot_core cli-registry guard --json"
+  ],
+  "tests": [
+    "tests/test_post_h_022_enterprise_threat_model.py",
+    "tests/test_project_global_state.py",
+    "tests/test_post_h_021_remote_adr2.py",
+    "tests/test_post_h_021_remote_runbook_closure.py"
+  ],
+  "pass_criteria": [
+    "Assets, actors and trust boundaries are enumerated.",
+    "Secrets, traces and approvals are represented as assets.",
+    "enterprise_deployment_enabled=false.",
+    "remote_execution_enabled=false.",
+    "secure_transport_implemented=false.",
+    "compliance_certification_claim=false.",
+    "README, runbook, backlog, schema catalog, source registry and TCR are synchronized."
+  ],
+  "block_criteria": [
+    "Real enterprise deployment is proposed or enabled.",
+    "Control plane or productive multiuser mode is enabled.",
+    "Secrets, traces or approvals are omitted as assets.",
+    "Network dependency, external API, remote execution, connector write or plugin execution is introduced.",
+    "A compliance certification claim is made."
+  ],
+  "risks": [
+    "Threat catalog and control matrix are not yet implemented.",
+    "The asset inventory is a design baseline and must evolve through POST-H-022-B/C/D/E.",
+    "Enterprise readiness must not be inferred from this report."
+  ],
+  "next_sprint": "POST-H-022",
+  "next_micro_sprint": "POST-H-022-B",
+  "enterprise_deployment_enabled": false,
+  "production_multiuser_enabled": false,
+  "control_plane_enabled": false,
+  "remote_execution_enabled": false,
+  "secure_transport_implemented": false,
+  "compliance_certification_claim": false,
+  "network_used": false,
+  "external_api_used": false,
+  "connector_write_enabled": false,
+  "plugin_execution_enabled": false,
+  "secrets_read": false,
+  "preliminary": true
+}

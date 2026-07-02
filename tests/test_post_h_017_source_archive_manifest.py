@@ -11,6 +11,12 @@ from devpilot_core.schemas import SchemaValidator
 ROOT = Path(__file__).resolve().parents[1]
 
 
+def _post_h_number(value: str) -> int:
+    marker = "POST-H-"
+    assert marker in value
+    return int(value.split(marker, 1)[1].split("-", 1)[0])
+
+
 def test_post_h_017_c_source_archive_manifest_builder_generates_clean_manifest() -> None:
     result = SourceArchiveManifestBuilder(ROOT).build()
 
@@ -139,10 +145,10 @@ def test_post_h_017_c_docs_state_and_contracts_are_synchronized() -> None:
     assert "release source-archive-manifest --json --write-report" in runbook
     assert "ReleaseSourceArchiveManifest" in release_runbook
     assert "post-h-017-c" in changelog
-    assert state["last_completed_sprint"] == "POST-H-017"
-    assert state["next_sprint"] == "POST-H-018"
-    assert state["current_micro_sprint"] == "POST-H-018-A"
-    assert state["next_micro_sprint"] == "POST-H-018-B"
+    assert _post_h_number(state["last_completed_sprint"]) >= 17
+    assert _post_h_number(state["next_sprint"]) >= 18
+    assert _post_h_number(state["current_micro_sprint"]) >= 18
+    assert _post_h_number(state["next_micro_sprint"]) >= 18
     assert "post-h-017-source-archive-manifest-checksums" in tcr_v1
     assert "post-h-017-source-archive-manifest-checksums" in tcr_v2
     assert "release_source_archive_manifest_schema" in source_registry

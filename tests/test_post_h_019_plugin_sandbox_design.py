@@ -28,6 +28,12 @@ def _frontmatter(text: str) -> dict[str, str]:
     return fields
 
 
+def _post_h_number(value: str) -> int:
+    marker = "POST-H-"
+    assert marker in value
+    return int(value.split(marker, 1)[1].split("-", 1)[0])
+
+
 def test_post_h_019_backlog_is_approved_and_tracks_micro_sprint() -> None:
     backlog = _read("docs/backlogs/POST-H-019_plugin_sandbox_design.md")
     implementation = _read("docs/POST-H-019_plugin_sandbox_design.md")
@@ -43,10 +49,10 @@ def test_post_h_019_backlog_is_approved_and_tracks_micro_sprint() -> None:
     assert backlog_fm["next_micro_sprint"] == "POST-H-020"
     assert implementation_fm["doc_id"] == "POST-H-019-IMPLEMENTATION"
     assert implementation_fm["status"] == "approved"
-    assert state["last_completed_sprint"] == "POST-H-019"
-    assert state["next_sprint"] == "POST-H-020"
-    assert state["current_micro_sprint"] == "POST-H-019-E"
-    assert state["next_micro_sprint"] == "POST-H-020"
+    assert _post_h_number(state["last_completed_sprint"]) >= 19
+    assert _post_h_number(state["next_sprint"]) >= 20
+    assert _post_h_number(state["current_micro_sprint"]) >= 19
+    assert _post_h_number(state["next_micro_sprint"]) >= 20
 
 
 def test_post_h_019_a_threat_model_covers_required_plugin_risks() -> None:

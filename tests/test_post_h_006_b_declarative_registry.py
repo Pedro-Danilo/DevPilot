@@ -26,6 +26,7 @@ CURRENT_DECLARATIVE_GROUPS = {
     "portfolio",
     "audit-pack",
     "release",
+    "enterprise",
 }
 
 

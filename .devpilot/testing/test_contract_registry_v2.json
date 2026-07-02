@@ -10174,18 +10174,91 @@
         "Safety-critical because Remote Runner must remain design-only."
       ],
       "mutations_allowed": false
+    },
+    {
+      "contract_id": "post-h-022-enterprise-threat-model",
+      "schema_version": "2.0",
+      "source_contract_id": "post-h-022-enterprise-threat-model",
+      "domain": "enterprise.reporting",
+      "capability": "Enterprise deployment threat model asset inventory and trust boundaries",
+      "criticality": "P1",
+      "risk_level": "critical",
+      "test_type": "security",
+      "execution_profile": "release",
+      "cost_class": "low",
+      "expected_duration_seconds": 20,
+      "test_files": [
+        "tests/test_post_h_022_enterprise_threat_model.py"
+      ],
+      "watched_paths": [
+        "docs/schemas/enterprise_threat_model.schema.json",
+        ".devpilot/enterprise/enterprise_threat_model.json",
+        "docs/03_security/enterprise_deployment_threat_model.md",
+        "docs/POST-H-022_enterprise_deployment_threat_model.md",
+        "docs/backlogs/POST-H-022_enterprise_deployment_threat_model.md",
+        "docs/release/CHANGELOG.md",
+        "README.md",
+        "docs/05_operations/runbook.md",
+        ".devpilot/project_state.json",
+        ".devpilot/docs_governance/source_registry.json",
+        ".devpilot/testing/test_contract_registry.json",
+        ".devpilot/testing/test_contract_registry_v2.json",
+        "tests/test_post_h_022_enterprise_threat_model.py",
+        "tests/test_project_global_state.py"
+      ],
+      "validates": [
+        "EnterpriseThreatModel schema is registered and design-only",
+        "Assets include workspace, source_code, local_store, reports, traces, approvals and secrets",
+        "Actors and trust boundaries are enumerated",
+        "enterprise_deployment_enabled=false, remote_execution_enabled=false and compliance_certification_claim=false remain explicit",
+        "README, runbook, changelog, source registry, project_state and TCR stay synchronized"
+      ],
+      "required_fixtures": [],
+      "required_cli": [],
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "classification_status": "explicit",
+      "owner": "POST-H-022-A",
+      "phase": "POST-FASE-H",
+      "created_by": "POST-H-022-A",
+      "updated": "2026-07-01",
+      "preliminary": true,
+      "required_for_release": true,
+      "required_for_security_gate": true,
+      "requires_human_approval": false,
+      "source_mutations_allowed": false,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace tests/test_post_h_022_enterprise_threat_model.py tests/test_project_global_state.py tests/test_post_h_021_remote_adr2.py tests/test_post_h_021_remote_runbook_closure.py -q",
+        "python -m devpilot_core schema validate --schema-id EnterpriseThreatModel --instance .devpilot/enterprise/enterprise_threat_model.json --json",
+        "python -m devpilot_core docs-governance validate --json",
+        "python -m devpilot_core test-contracts validate --json"
+      ],
+      "trigger_hints": [
+        "docs/backlogs/POST-H-022_enterprise_deployment_threat_model.md",
+        "docs/03_security/enterprise_deployment_threat_model.md",
+        ".devpilot/enterprise/enterprise_threat_model.json"
+      ],
+      "impact_scope": [
+        "security",
+        "enterprise-design",
+        "governance"
+      ],
+      "classification_notes": [
+        "Explicit POST-H-022-A safety contract; no enterprise runtime enablement."
+      ],
+      "mutations_allowed": false
     }
   ],
   "migration_metadata": {
-    "source_contracts_total": 168,
+    "source_contracts_total": 169,
     "migrator": "TestContractRegistryV2Migrator",
     "source_registry_preserved": true,
     "tests_executed": false,
     "network_used": false,
     "external_api_used": false,
     "mutations_performed_by_default": false,
-    "contracts_total": 168,
-    "last_updated_by": "POST-H-021-E"
+    "contracts_total": 169,
+    "last_updated_by": "POST-H-022-A"
   },
   "notes": [
     "POST-H-020-D fixes v2 contract classification_status for POST-H-020-C/D contracts to keep schema validation synchronized.",
@@ -10194,6 +10267,7 @@
     "POST-H-020-E corrects POST-H-020-C/D classification_status values to explicit.",
     "POST-H-021-C registers remote readiness report security contract.",
     "POST-H-021-D registers remote-readiness-design-only quality gate security contract.",
-    "POST-H-021-E registers remote runner runbook closure contract."
+    "POST-H-021-E registers remote runner runbook closure contract.",
+    "POST-H-022-A registers enterprise threat model safety contract."
   ]
 }

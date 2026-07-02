@@ -22,6 +22,12 @@ def _frontmatter(text: str) -> dict[str, str]:
     return fields
 
 
+def _post_h_number(value: str) -> int:
+    marker = "POST-H-"
+    assert marker in value
+    return int(value.split(marker, 1)[1].split("-", 1)[0])
+
+
 def test_post_h_019_e_plugin_metadata_runbook_documents_metadata_only_and_adr_trigger() -> None:
     runbook = _read("docs/05_operations/plugin_metadata_runbook.md")
     fm = _frontmatter(runbook)
@@ -68,10 +74,10 @@ def test_post_h_019_e_closes_backlog_and_advances_project_state_to_post_h_020() 
         assert "POST-H-019 queda cerrado" in document
         assert "plugin execution real permanece bloqueado" in document
 
-    assert state["last_completed_sprint"] == "POST-H-019"
-    assert state["next_sprint"] == "POST-H-020"
-    assert state["current_micro_sprint"] == "POST-H-019-E"
-    assert state["next_micro_sprint"] == "POST-H-020"
+    assert _post_h_number(state["last_completed_sprint"]) >= 19
+    assert _post_h_number(state["next_sprint"]) >= 20
+    assert _post_h_number(state["current_micro_sprint"]) >= 19
+    assert _post_h_number(state["next_micro_sprint"]) >= 20
 
 
 def test_post_h_019_e_registry_and_contracts_reference_runbook_and_closure() -> None:
