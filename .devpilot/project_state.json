@@ -8,8 +8,8 @@
   "last_completed_sprint": "POST-H-023",
   "last_functional_sprint": "FUNC-SPRINT-99",
   "next_sprint": "POST-H-024",
-  "source_repo": "repo_DevPilot_Local_249_POST_H_023_D.zip",
-  "current_repo": "repo_DevPilot_Local_250_POST_H_023_E.zip",
+  "source_repo": "repo_DevPilot_Local_250_POST_H_023_E.zip",
+  "current_repo": "repo_DevPilot_Local_251_POST_H_024_A.zip",
   "global_state_owner": "tests/test_project_global_state.py",
   "mutable_global_state_fields": [
     "last_completed_sprint",
@@ -197,10 +197,13 @@
     "POST-H-023-E is the next micro-sprint: Runbook y cierre.",
     "POST-H-023-E adds secure transport design runbook and closure report for design-only secure transport.",
     "POST-H-023 closes Secure transport design sin implementación activa as implemented-initial/design-only; active transport, network, certificates, secrets and remote execution remain blocked.",
-    "POST-H-024 is the next prioritized hito: Operator onboarding bootstrap."
+    "POST-H-024 is the next prioritized hito: Operator onboarding bootstrap.",
+    "POST-H-024-A approves Operator onboarding bootstrap and adds an operator playbook for idea → workspace → docs → readiness → backlog without conversational memory dependency.",
+    "POST-H-024-A is implemented-initial/playbook-only: templates, bootstrap workflow, readiness preview and onboarding quality gate remain pending for POST-H-024-B/C/D/E.",
+    "POST-H-024-B is the next micro-sprint: Templates de proyecto nuevo."
   ],
-  "current_micro_sprint": "POST-H-023-E",
-  "next_micro_sprint": "POST-H-024",
+  "current_micro_sprint": "POST-H-024-A",
+  "next_micro_sprint": "POST-H-024-B",
   "post_h_020_current_micro_sprint": "POST-H-020-E",
   "post_h_020_next_micro_sprint": "POST-H-021",
   "compliance_evidence_collector_module": "src/devpilot_core/compliance/evidence.py",
@@ -337,5 +340,19 @@
   "post_h_023_closed": true,
   "post_h_023_secure_transport_design_closed": true,
   "post_h_023_secure_transport_design_runbook_path": "docs/05_operations/secure_transport_design_runbook.md",
-  "post_h_023_secure_transport_closure_report_path": "docs/audits/post_h_023_e_secure_transport_closure_report.md"
+  "post_h_023_secure_transport_closure_report_path": "docs/audits/post_h_023_e_secure_transport_closure_report.md",
+  "post_h_024_status": "approved-in-progress",
+  "post_h_024_current_micro_sprint": "POST-H-024-A",
+  "post_h_024_next_micro_sprint": "POST-H-024-B",
+  "post_h_024_operator_playbook_available": true,
+  "post_h_024_operator_playbook_path": "docs/05_operations/operator_onboarding_playbook.md",
+  "post_h_024_operator_playbook_status": "implemented-initial",
+  "post_h_024_templates_available": false,
+  "post_h_024_bootstrap_workflow_available": false,
+  "post_h_024_onboarding_quality_gate_available": false,
+  "post_h_024_network_used": false,
+  "post_h_024_external_api_used": false,
+  "post_h_024_remote_execution_enabled": false,
+  "post_h_024_connector_write_enabled": false,
+  "post_h_024_plugin_execution_enabled": false
 }

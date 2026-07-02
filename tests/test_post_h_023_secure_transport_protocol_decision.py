@@ -122,8 +122,9 @@ def test_post_h_023_b_governance_artifacts_are_synchronized() -> None:
     changelog = read_text("docs/release/CHANGELOG.md")
     backlog = read_text("docs/backlogs/POST-H-023_secure_transport_design.md")
 
-    assert state["current_micro_sprint"] == "POST-H-023-E"
-    assert state["next_micro_sprint"] == "POST-H-024"
+    assert state["post_h_023_current_micro_sprint"] == "POST-H-023-E"
+    assert state["current_micro_sprint"] == "POST-H-024-A"
+    assert state["post_h_023_next_micro_sprint"] == "POST-H-024"
     assert state["post_h_023_secure_transport_design_schema_registered"] is True
     assert state["post_h_023_selected_transport_for_now"] == "local-only-no-transport"
     assert state["post_h_023_requires_future_enablement_adr"] is True

@@ -6183,6 +6183,45 @@
         "Validates POST-H-023-E runbook, closure state and no-go secure transport flags.",
         "Does not enable transport, network, sockets, certificates, secrets, connector write, plugin execution or remote execution."
       ]
+    },
+    {
+      "contract_id": "post-h-024-operator-onboarding-playbook",
+      "scope": "integration",
+      "owner": "POST-H-024-A",
+      "phase": "POST-FASE-H",
+      "test_files": [
+        "tests/test_post_h_024_operator_onboarding.py"
+      ],
+      "validates": [
+        "docs/05_operations/operator_onboarding_playbook.md",
+        "docs/POST-H-024_operator_onboarding_bootstrap.md",
+        "docs/backlogs/POST-H-024_operator_onboarding_bootstrap.md",
+        "docs/audits/post_h_024_a_operator_playbook_report.md",
+        "docs/post_h_024_a_manifest.json",
+        ".devpilot/docs_governance/source_registry.json",
+        ".devpilot/project_state.json"
+      ],
+      "watched_paths": [
+        "docs/05_operations/operator_onboarding_playbook.md",
+        "docs/POST-H-024_operator_onboarding_bootstrap.md",
+        "docs/backlogs/POST-H-024_operator_onboarding_bootstrap.md",
+        "docs/audits/post_h_024_a_operator_playbook_report.md",
+        "docs/post_h_024_a_manifest.json",
+        ".devpilot/docs_governance/source_registry.json",
+        ".devpilot/project_state.json",
+        "README.md",
+        "docs/05_operations/runbook.md",
+        "tests/test_post_h_024_operator_onboarding.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_024_operator_onboarding.py tests/test_project_global_state.py -q"
+      ]
     }
   ],
   "notes": [
@@ -6216,6 +6255,7 @@
     "POST-H-022-E registers enterprise runbook closure contract.",
     "POST-H-022 closure contract keeps enterprise_ready_claimed=false and required-not-implemented blockers visible.",
     "POST-H-023-A registers secure transport requirements safety contract.",
-    "POST-H-023-D registers secure transport design validator and no-network invariant tests without enabling transport."
+    "POST-H-023-D registers secure transport design validator and no-network invariant tests without enabling transport.",
+    "POST-H-024-A adds operator onboarding playbook contract."
   ]
 }

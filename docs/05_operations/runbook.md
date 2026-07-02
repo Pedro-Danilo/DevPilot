@@ -2,17 +2,47 @@
 title: "Runbook — DevPilot Local"
 doc_id: "DEVPL-OPS-002"
 status: "approved"
-version: "1.87.0"
+version: "1.88.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "POST-H-023-E"
+phase: "POST-H-024-A"
 updated: "2026-07-02"
 approval: "approved_by_owner"
 source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved + 03_security approved"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "SPRINT-PRECODE-05 quality operations baseline"
 ---
+
+## POST-H-024-A — Playbook de operador
+
+Último hito cerrado: `POST-H-023`
+
+Hito activo: `POST-H-024 — Operator onboarding bootstrap`
+
+Último micro-sprint implementado: `POST-H-024-A — Playbook de operador`
+
+Siguiente micro-sprint: `POST-H-024-B — Templates de proyecto nuevo`
+
+Runbook dedicado: `docs/05_operations/operator_onboarding_playbook.md`.
+
+Propósito operacional: guiar a un operador desde una idea hasta workspace, documentación pre-code, readiness y backlog inicial usando comandos reales del repo actual.
+
+Verificación focal recomendada:
+
+```powershell
+python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_024_operator_onboarding.py tests/test_post_h_023_secure_transport_closure.py tests/test_project_global_state.py -q
+python -m devpilot_core schema validate --schema-id PostHManifest --instance docs/post_h_024_a_manifest.json --json
+python -m devpilot_core test-contracts validate --json
+python -m devpilot_core test-contracts validate-v2 --json
+python -m devpilot_core docs-governance validate --json
+python -m devpilot_core project-state validate --json
+```
+
+Criterio PASS: el playbook contiene el flujo `idea → workspace → docs → readiness → backlog`, ejemplo de ventas/inventario, reglas local-first/dry-run/no-remote y criterios BLOCK.
+
+Criterio BLOCK: comandos inexistentes declarados como actuales, dependencia de memoria conversacional, generación de secretos, red/API externa, connector write, plugin execution, remote execution o adelantar templates/bootstrap workflow dentro de POST-H-024-A.
+
 
 ## POST-H-023-E — Runbook y cierre
 

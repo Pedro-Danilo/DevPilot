@@ -1,3 +1,16 @@
+## post-h-024-a — Operator onboarding playbook
+
+### Added
+
+- Approved `docs/05_operations/operator_onboarding_playbook.md` for the operator flow `idea → workspace → docs → readiness → backlog`.
+- Added POST-H-024 implementation document, audit report, manifest and focused test for playbook governance.
+- Registered POST-H-024-A artifacts in documentation governance and TCR v1/v2.
+
+### Security
+
+- Playbook-only implementation: no templates, bootstrap workflow, network, external APIs, connector write, plugin execution or remote execution are enabled.
+- Future bootstrap automation remains constrained to local-first, dry-run-first, workspace-bounded and no-overwrite-by-default design.
+
 ## post-h-023-e — Secure transport runbook and closure
 
 ### Added

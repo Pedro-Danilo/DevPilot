@@ -3,11 +3,11 @@
 doc_id: "POST-H-024-BACKLOG"
 id: "POST-H-024"
 title: "POST-H-024 — Operator onboarding playbook y project bootstrap workflow"
-status: "draft"
-version: "0.1.0"
+status: "approved"
+version: "0.2.0"
 owner: "Ordóñez"
-updated: "2026-06-23"
-approval: "pending_owner_review"
+updated: "2026-07-02"
+approval: "approved_by_owner"
 phase: "POST-FASE-H"
 priority: "P1"
 roadmap_source: "docs/backlogs/post_h_prioritized_roadmap.md"
@@ -17,6 +17,9 @@ no_remote_execution_enabled: true
 no_external_apis_used: true
 no_connector_write_enabled: true
 no_plugin_execution_enabled: true
+implementation_status: "in-progress"
+current_micro_sprint: "POST-H-024-A"
+next_micro_sprint: "POST-H-024-B"
 ---
 
 # POST-H-024 — Operator onboarding playbook y project bootstrap workflow
@@ -172,14 +175,16 @@ docs/05_operations/runbook.md
 
 ### POST-H-024-A — Playbook de operador
 
+Estado: `implemented-initial`.
+
 Tareas:
 
 ```text
-1. Crear docs/05_operations/operator_onboarding_playbook.md.
-2. Incluir flujo idea → workspace → docs → readiness → backlog.
-3. Incluir ejemplo ventas/inventario microemprendimientos.
-4. Incluir comandos CLI reales.
-5. Definir errores frecuentes y criterios BLOCK.
+1. [x] Crear docs/05_operations/operator_onboarding_playbook.md.
+2. [x] Incluir flujo idea → workspace → docs → readiness → backlog.
+3. [x] Incluir ejemplo ventas/inventario microemprendimientos.
+4. [x] Incluir comandos CLI reales.
+5. [x] Definir errores frecuentes y criterios BLOCK.
 ```
 
 PASS:
@@ -308,7 +313,7 @@ BLOCK si se omite MIASI en proyectos agent-assisted.
 ## 12. Definition of Done
 
 ```text
-[ ] Playbook aprobado.
+[x] Playbook aprobado.
 [ ] Templates Markdown y JSON creados.
 [ ] Bootstrap dry-run implementado.
 [ ] Reporte bootstrap validable.

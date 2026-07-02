@@ -10939,6 +10939,69 @@
         "Explicit POST-H-023-E closure contract; no inference required.",
         "Safety-critical because closure must not be interpreted as transport enablement."
       ]
+    },
+    {
+      "contract_id": "post-h-024-operator-onboarding-playbook",
+      "schema_version": "2.0",
+      "source_contract_id": "post-h-024-operator-onboarding-playbook",
+      "domain": "documentation.governance",
+      "capability": "Operator onboarding playbook for idea-to-readiness flow",
+      "criticality": "P1",
+      "risk_level": "high",
+      "test_type": "documentation",
+      "execution_profile": "release",
+      "cost_class": "low",
+      "expected_duration_seconds": 15,
+      "test_files": [
+        "tests/test_post_h_024_operator_onboarding.py"
+      ],
+      "watched_paths": [
+        "docs/05_operations/operator_onboarding_playbook.md",
+        "docs/POST-H-024_operator_onboarding_bootstrap.md",
+        "docs/backlogs/POST-H-024_operator_onboarding_bootstrap.md",
+        "docs/audits/post_h_024_a_operator_playbook_report.md",
+        "docs/post_h_024_a_manifest.json",
+        ".devpilot/docs_governance/source_registry.json",
+        ".devpilot/project_state.json",
+        "README.md",
+        "docs/05_operations/runbook.md",
+        "tests/test_post_h_024_operator_onboarding.py"
+      ],
+      "validates": [
+        "Operator playbook is approved and self-contained",
+        "POST-H-024 backlog and implementation document are approved for POST-H-024-A only",
+        "Manifest, source registry and TCR remain synchronized",
+        "Local-first, dry-run and no-remote safety flags remain explicit"
+      ],
+      "required_fixtures": [],
+      "required_cli": [],
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "classification_status": "explicit",
+      "owner": "POST-H-024-A",
+      "phase": "POST-FASE-H",
+      "created_by": "POST-H-024-A",
+      "updated": "2026-07-02",
+      "preliminary": true,
+      "required_for_release": true,
+      "required_for_security_gate": false,
+      "requires_human_approval": false,
+      "source_mutations_allowed": false,
+      "mutations_allowed": false,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_024_operator_onboarding.py tests/test_project_global_state.py -q"
+      ],
+      "trigger_hints": [
+        "post-h-024",
+        "operator-onboarding",
+        "playbook",
+        "runbook"
+      ],
+      "impact_scope": [
+        "documentation.governance",
+        "governance.project_state",
+        "operations.workspace"
+      ]
     }
   ],
   "migration_metadata": {
@@ -10949,7 +11012,7 @@
     "network_used": false,
     "external_api_used": false,
     "mutations_performed_by_default": false,
-    "contracts_total": 169,
+    "contracts_total": 179,
     "last_updated_by": "POST-H-022-A"
   },
   "notes": [
@@ -10967,6 +11030,7 @@
     "POST-H-022-E registers enterprise runbook closure contract.",
     "POST-H-022-E keeps enterprise deployment and enterprise-ready claims blocked.",
     "POST-H-023-A registers secure transport requirements v2 safety contract.",
-    "POST-H-023-D adds secure transport validator/no-network invariant contract as release/security gate evidence."
+    "POST-H-023-D adds secure transport validator/no-network invariant contract as release/security gate evidence.",
+    "POST-H-024-A adds operator onboarding playbook contract."
   ]
 }

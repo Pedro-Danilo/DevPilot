@@ -1,0 +1,81 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "SCHEMA-DEVPL-POST-H-MANIFEST-V1",
+  "manifest_id": "post_h_024_a_manifest",
+  "post_h_id": "POST-H-024",
+  "hito": "POST-H-024",
+  "micro_sprint": "POST-H-024-A",
+  "title": "Playbook de operador",
+  "status": "implemented-initial",
+  "created_by": "POST-H-024-A",
+  "updated": "2026-07-02",
+  "implemented_at": "2026-07-02",
+  "phase": "POST-FASE-H",
+  "owner": "Ordóñez",
+  "approval": "approved_by_owner",
+  "next_sprint": "POST-H-024",
+  "next_micro_sprint": "POST-H-024-B",
+  "implementation_status": "implemented-initial",
+  "preliminary": true,
+  "local_first": true,
+  "dry_run": true,
+  "read_only": true,
+  "no_remote_execution_enabled": true,
+  "no_external_apis_used": true,
+  "no_connector_write_enabled": true,
+  "no_plugin_execution_enabled": true,
+  "created_files": [
+    "docs/05_operations/operator_onboarding_playbook.md",
+    "docs/POST-H-024_operator_onboarding_bootstrap.md",
+    "docs/audits/post_h_024_a_operator_playbook_report.md",
+    "docs/post_h_024_a_manifest.json",
+    "tests/test_post_h_024_operator_onboarding.py"
+  ],
+  "modified_files": [
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/backlogs/POST-H-024_operator_onboarding_bootstrap.md",
+    "docs/release/CHANGELOG.md",
+    ".devpilot/project_state.json",
+    ".devpilot/docs_governance/source_registry.json",
+    ".devpilot/testing/test_contract_registry.json",
+    ".devpilot/testing/test_contract_registry_v2.json",
+    "tests/test_project_global_state.py",
+    "tests/test_post_h_023_secure_transport_closure.py"
+  ],
+  "commands": [
+    "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_024_operator_onboarding.py tests/test_post_h_023_secure_transport_closure.py tests/test_project_global_state.py -q",
+    "python -m devpilot_core schema validate --schema-id PostHManifest --instance docs/post_h_024_a_manifest.json --json",
+    "python -m devpilot_core test-contracts validate --json",
+    "python -m devpilot_core test-contracts validate-v2 --json",
+    "python -m devpilot_core docs-governance validate --json",
+    "python -m devpilot_core project-state validate --json"
+  ],
+  "tests": [
+    "tests/test_post_h_024_operator_onboarding.py",
+    "tests/test_post_h_023_secure_transport_closure.py",
+    "tests/test_project_global_state.py"
+  ],
+  "pass_criteria": [
+    "POST-H-024 backlog and implementation document are approved.",
+    "Operator onboarding playbook exists, is approved and contains idea → workspace → docs → readiness → backlog.",
+    "Playbook contains local-first, dry-run, no-remote, no-external-api, no-connector-write and no-plugin-execution rules.",
+    "Playbook uses commands that exist in the current repo and marks future automation as pending.",
+    "TCR v1/v2 and documentation governance register POST-H-024-A artifacts."
+  ],
+  "block_criteria": [
+    "Playbook requires undocumented conversational knowledge.",
+    "Playbook suggests non-existing commands as current without marking them future.",
+    "Any red/external API/remote execution/connector write/plugin execution capability is enabled.",
+    "Templates or bootstrap workflow are partially implemented in POST-H-024-A instead of reserved for B/C."
+  ],
+  "risks": [
+    "POST-H-024-A is playbook-only and must not be interpreted as full project bootstrap automation.",
+    "Templates and workflow validation remain pending until POST-H-024-B/C/D/E.",
+    "Future execute mode must refuse overwrite by default and stay workspace-bounded."
+  ],
+  "notes": [
+    "POST-H-024-A converts onboarding guidance into an approved operator playbook.",
+    "No new dependency or external service is introduced."
+  ]
+}

@@ -1126,7 +1126,7 @@
       "classification": "derived",
       "domain": "roadmap-derived-backlog",
       "owner": "Ordóñez",
-      "status_required": "draft",
+      "status_required": "approved",
       "criticality": "P1",
       "machine_readable_counterparts": [
         ".devpilot/evals/post_h_eval_001_prioritized_roadmap.json"
@@ -1134,9 +1134,15 @@
       "human_readable_counterparts": [
         "docs/backlogs/post_h_prioritized_roadmap.md"
       ],
-      "derived_documents": [],
+      "derived_documents": [
+        "docs/05_operations/operator_onboarding_playbook.md",
+        "docs/POST-H-024_operator_onboarding_bootstrap.md",
+        "docs/audits/post_h_024_a_operator_playbook_report.md",
+        "docs/post_h_024_a_manifest.json"
+      ],
       "required_tests": [
-        "tests/test_documentation_governance_backlogs.py"
+        "tests/test_documentation_governance_backlogs.py",
+        "tests/test_post_h_024_operator_onboarding.py"
       ],
       "sync_rules": [
         "backlog_naming",
@@ -1147,10 +1153,10 @@
       "roadmap_milestones": [
         "POST-H-024"
       ],
-      "lifecycle": "planned",
+      "lifecycle": "active",
       "notes": [
-        "Roadmap-derived executable backlog governed by POST-H-009-D.",
-        "Missing future backlog files are informational planned items; existing files must pass naming and frontmatter checks."
+        "POST-H-024 is approved and active after POST-H-023 closure.",
+        "POST-H-024-A implements the operator playbook only; templates/bootstrap workflow remain pending."
       ]
     },
     {
@@ -4909,6 +4915,131 @@
       "notes": [
         "Focused closure tests for runbook, manifest, TCR, source registry and no-go gates."
       ]
+    },
+    {
+      "doc_id": "POST-H-024-IMPLEMENTATION-DOC",
+      "path": "docs/POST-H-024_operator_onboarding_bootstrap.md",
+      "classification": "source-of-truth",
+      "domain": "operator-onboarding",
+      "owner": "POST-H-024-A",
+      "status_required": "approved",
+      "criticality": "P1",
+      "frontmatter_required": true,
+      "required_tests": [
+        "tests/test_post_h_024_operator_onboarding.py",
+        "tests/test_project_global_state.py"
+      ],
+      "sync_rules": [
+        "frontmatter_status",
+        "micro_sprint_alignment",
+        "safety_flags_alignment"
+      ],
+      "roadmap_milestones": [
+        "POST-H-024"
+      ],
+      "lifecycle": "active",
+      "notes": [
+        "Implementation tracking document for POST-H-024."
+      ]
+    },
+    {
+      "doc_id": "POST-H-024-A-OPERATOR-ONBOARDING-PLAYBOOK",
+      "path": "docs/05_operations/operator_onboarding_playbook.md",
+      "classification": "source-of-truth",
+      "domain": "operator-onboarding",
+      "owner": "POST-H-024-A",
+      "status_required": "approved",
+      "criticality": "P1",
+      "frontmatter_required": true,
+      "required_tests": [
+        "tests/test_post_h_024_operator_onboarding.py",
+        "tests/test_project_global_state.py"
+      ],
+      "sync_rules": [
+        "frontmatter_status",
+        "playbook_flow_coverage",
+        "safety_flags_alignment"
+      ],
+      "roadmap_milestones": [
+        "POST-H-024"
+      ],
+      "lifecycle": "active",
+      "notes": [
+        "Operator playbook for idea-to-readiness onboarding."
+      ]
+    },
+    {
+      "doc_id": "POST-H-024-A-OPERATOR-PLAYBOOK-REPORT",
+      "path": "docs/audits/post_h_024_a_operator_playbook_report.md",
+      "classification": "audit-report",
+      "domain": "operator-onboarding",
+      "owner": "POST-H-024-A",
+      "status_required": "approved",
+      "criticality": "P1",
+      "frontmatter_required": true,
+      "required_tests": [
+        "tests/test_post_h_024_operator_onboarding.py",
+        "tests/test_project_global_state.py"
+      ],
+      "sync_rules": [
+        "frontmatter_status",
+        "scope_adjustment_documented"
+      ],
+      "roadmap_milestones": [
+        "POST-H-024"
+      ],
+      "lifecycle": "active",
+      "notes": [
+        "Audit report for POST-H-024-A operator playbook."
+      ]
+    },
+    {
+      "doc_id": "POST-H-024-A-MANIFEST",
+      "path": "docs/post_h_024_a_manifest.json",
+      "classification": "machine-readable-source",
+      "domain": "operator-onboarding",
+      "owner": "POST-H-024-A",
+      "status_required": "implemented-initial",
+      "criticality": "P1",
+      "frontmatter_required": false,
+      "required_tests": [
+        "tests/test_post_h_024_operator_onboarding.py",
+        "tests/test_project_global_state.py"
+      ],
+      "sync_rules": [
+        "post_h_manifest_schema",
+        "created_modified_files_alignment"
+      ],
+      "roadmap_milestones": [
+        "POST-H-024"
+      ],
+      "lifecycle": "active",
+      "notes": [
+        "Machine-readable manifest for POST-H-024-A."
+      ]
+    },
+    {
+      "doc_id": "POST-H-024-A-OPERATOR-ONBOARDING-TEST",
+      "path": "tests/test_post_h_024_operator_onboarding.py",
+      "classification": "machine-readable-source",
+      "domain": "operator-onboarding",
+      "owner": "POST-H-024-A",
+      "status_required": "implemented-initial",
+      "criticality": "P1",
+      "frontmatter_required": false,
+      "required_tests": [
+        "tests/test_post_h_024_operator_onboarding.py"
+      ],
+      "sync_rules": [
+        "operator_onboarding_test_contract"
+      ],
+      "roadmap_milestones": [
+        "POST-H-024"
+      ],
+      "lifecycle": "active",
+      "notes": [
+        "Focused regression test for POST-H-024-A playbook governance."
+      ]
     }
   ],
   "rules": {
@@ -4980,7 +5111,7 @@
     "remote_runner_design_runbook_registered": true
   },
   "summary": {
-    "documents_total": 171,
+    "documents_total": 176,
     "source_of_truth_total": 65,
     "machine_readable_source_total": 69,
     "derived_total": 32,
@@ -4998,7 +5129,8 @@
     "sync_checks_scope": "version_match, milestones_match, decisions_match, closure_status_match, next_hito_match",
     "roadmap_derived_backlog_governance_enabled": true,
     "backlog_governance_scope": "POST-H-002..POST-H-025",
-    "backlogs_missing_future_are_planned_info": true
+    "backlogs_missing_future_are_planned_info": true,
+    "preliminary": true
   },
   "safety": {
     "local_first": true,
@@ -5075,12 +5207,13 @@
     "POST-H-023-B registers protocol decision matrix and ADR as design-only.",
     "POST-H-023-C registers key/certificate lifecycle design without generating or storing material.",
     "Secure transport remains design-only; no network, sockets, certificates, private keys, raw secrets or remote execution are enabled.",
-    "POST-H-023-D registers secure transport validator, validation report schema and no-network invariant tests as canonical design-only evidence."
+    "POST-H-023-D registers secure transport validator, validation report schema and no-network invariant tests as canonical design-only evidence.",
+    "POST-H-024-A registers operator onboarding playbook, implementation doc, report, manifest and focused test."
   ],
   "project_state_snapshot": {
     "last_updated_by": "POST-H-023-E",
-    "current_micro_sprint": "POST-H-023-E",
-    "next_micro_sprint": "POST-H-024",
+    "current_micro_sprint": "POST-H-024-A",
+    "next_micro_sprint": "POST-H-024-B",
     "last_completed_sprint": "POST-H-023",
     "next_sprint": "POST-H-024",
     "post_h_023_current_micro_sprint": "POST-H-023-E",

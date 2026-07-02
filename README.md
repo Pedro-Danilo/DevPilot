@@ -1,3 +1,19 @@
+## POST-H-024-A — Playbook de operador
+
+Último hito cerrado: `POST-H-023`
+
+Hito activo: `POST-H-024 — Operator onboarding bootstrap`
+
+Último micro-sprint implementado: `POST-H-024-A — Playbook de operador`
+
+Siguiente micro-sprint: `POST-H-024-B — Templates de proyecto nuevo`
+
+POST-H-024-A agrega `docs/05_operations/operator_onboarding_playbook.md` como guía operacional aprobada para que un operador inicie proyectos nuevos con el flujo `idea → workspace → docs → readiness → backlog` sin depender de memoria conversacional.
+
+La capacidad es `implemented-initial / playbook-only`: no crea todavía templates formales, no implementa bootstrap workflow, no genera código, no habilita red, no usa APIs externas, no habilita connector write, plugin execution ni remote execution.
+
+Verificación focal recomendada: `python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_024_operator_onboarding.py tests/test_post_h_023_secure_transport_closure.py tests/test_project_global_state.py -q`.
+
 ## POST-H-023-E — Runbook y cierre
 
 Último hito cerrado: `POST-H-023`
