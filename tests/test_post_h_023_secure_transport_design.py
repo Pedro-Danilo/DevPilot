@@ -116,9 +116,9 @@ def test_secure_transport_documents_do_not_claim_transport_enablement() -> None:
     assert "bloquea el avance" in combined or "block if" in combined
 
     assert 'status: "approved"' in backlog
-    assert 'implementation_status: "active"' in backlog
-    assert 'current_micro_sprint: "POST-H-023-D"' in backlog
-    assert 'next_micro_sprint: "POST-H-023-E"' in backlog
+    assert 'implementation_status: "closed"' in backlog
+    assert 'current_micro_sprint: "POST-H-023-E"' in backlog
+    assert 'next_micro_sprint: "POST-H-024"' in backlog
 
 
 def test_project_state_manifest_source_registry_and_tcr_are_synchronized_for_post_h_023_requirements() -> None:
@@ -131,10 +131,10 @@ def test_project_state_manifest_source_registry_and_tcr_are_synchronized_for_pos
     runbook = read_text("docs/05_operations/runbook.md")
     changelog = read_text("docs/release/CHANGELOG.md")
 
-    assert state["last_completed_sprint"] == "POST-H-022"
-    assert state["next_sprint"] == "POST-H-023"
-    assert state["current_micro_sprint"] == "POST-H-023-D"
-    assert state["next_micro_sprint"] == "POST-H-023-E"
+    assert state["last_completed_sprint"] == "POST-H-023"
+    assert state["next_sprint"] == "POST-H-024"
+    assert state["current_micro_sprint"] == "POST-H-023-E"
+    assert state["next_micro_sprint"] == "POST-H-024"
     assert state["post_h_023_backlog_approved"] is True
     assert state["post_h_023_secure_transport_requirements_schema_registered"] is True
     assert state["post_h_023_secure_transport_design_schema_registered"] is True
@@ -179,7 +179,7 @@ def test_project_state_manifest_source_registry_and_tcr_are_synchronized_for_pos
     assert "POST-H-023-A — Requisitos y amenazas de transporte" in runbook
     assert "POST-H-023-C — Key/certificate lifecycle design" in readme
     assert "POST-H-023-C — Key/certificate lifecycle design" in runbook
-    assert "Siguiente micro-sprint: `POST-H-023-D — Validator de diseño y no-network invariant`" in readme
+    assert "Siguiente micro-sprint: `POST-H-023-E — Runbook y cierre`" in readme
     assert "post-h-023-a" in changelog
     assert "post-h-023-b" in changelog
     assert "post-h-023-c" in changelog

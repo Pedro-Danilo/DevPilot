@@ -1,3 +1,21 @@
+## POST-H-023-E — Runbook y cierre
+
+Último hito cerrado: `POST-H-023`
+
+Último hito: `POST-H-023`
+
+Siguiente hito: `POST-H-024 — Operator onboarding bootstrap`
+
+Último micro-sprint implementado: `POST-H-023-E — Runbook y cierre`
+
+Siguiente micro-sprint: `POST-H-024`
+
+POST-H-023 queda cerrado como `implemented-initial / design-only`. DevPilot incorpora diseño de transporte seguro futuro con requisitos, amenazas, matriz de decisión, ADR design-only, lifecycle de llaves/certificados, validator read-only, no-network invariant, quality subgate `secure-transport-design-only`, runbook dedicado y closure report.
+
+No-go gates conservados: `transport_implemented=false`, `secure_transport_implemented=false`, `network_allowed=false`, `network_used=false`, `sockets_opened=false`, `certificates_generated=false`, `certificate_authority_created=false`, `private_key_material_present=false`, `raw_secret_storage_allowed=false`, `secrets_required=false`, `secrets_stored=false`, `secrets_read=false`, `remote_execution_enabled=false`, sin red, APIs externas, connector write ni plugin execution.
+
+Límite explícito: POST-H-023 no implementa transporte activo, TLS/mTLS, SSH, HTTP remoto, HTTP/2, gRPC, WebSocket, certificados, CA, KMS/HSM, secret store, token binding productivo ni remote execution. Cualquier enablement futuro requiere ADR nueva, threat model activo, controles de identity/approval/RBAC, lifecycle real de secretos/llaves/certificados, replay protection, revocation/rotation, observabilidad y quality gate dedicado.
+
 ## POST-H-023-D — Validator de diseño y no-network invariant
 
 Último hito cerrado: `POST-H-022`

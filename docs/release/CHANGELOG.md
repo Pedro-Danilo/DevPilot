@@ -1,3 +1,23 @@
+## post-h-023-e — Secure transport runbook and closure
+
+### Added
+
+- Dedicated runbook `docs/05_operations/secure_transport_design_runbook.md` for design-only secure transport operation.
+- Closure report `docs/audits/post_h_023_e_secure_transport_closure_report.md` and manifest `docs/post_h_023_e_manifest.json`.
+- Focused closure test `tests/test_post_h_023_secure_transport_closure.py`.
+- TCR v1/v2 contract `post-h-023-secure-transport-runbook-closure`.
+
+### Changed
+
+- `POST-H-023_secure_transport_design.md` backlog and implementation document are closed as `implemented-initial / design-only`.
+- Project state advances to `last_completed_sprint=POST-H-023` and `next_sprint=POST-H-024`.
+- README and operations runbook now identify POST-H-023 as the latest closed hito.
+
+### Security
+
+- No active transport, network, sockets, TLS/mTLS, SSH, HTTP/gRPC/WebSocket, certificates, CA, private keys, secrets, connector write, plugin execution or remote execution are enabled.
+- Future transport enablement remains blocked pending ADR, threat model, lifecycle, replay/revocation controls and dedicated quality gate.
+
 ## post-h-023-d - Secure transport design validator and no-network invariant
 
 - Added `SecureTransportDesignValidator`, `SecureTransportDesignQualityGate` and the `secure-transport-design-only` hardening/industrial subgate.

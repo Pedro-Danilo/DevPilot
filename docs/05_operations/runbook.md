@@ -2,17 +2,45 @@
 title: "Runbook — DevPilot Local"
 doc_id: "DEVPL-OPS-002"
 status: "approved"
-version: "1.86.0"
+version: "1.87.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "POST-H-023-D"
+phase: "POST-H-023-E"
 updated: "2026-07-02"
 approval: "approved_by_owner"
 source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved + 03_security approved"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "SPRINT-PRECODE-05 quality operations baseline"
 ---
+
+## POST-H-023-E — Runbook y cierre
+
+Último hito cerrado: `POST-H-023`
+
+Último hito: `POST-H-023`
+
+Siguiente hito: `POST-H-024 — Operator onboarding bootstrap`
+
+Último micro-sprint implementado: `POST-H-023-E — Runbook y cierre`
+
+Siguiente micro-sprint: `POST-H-024`
+
+POST-H-023 queda cerrado como `implemented-initial / design-only`. El runbook dedicado está en `docs/05_operations/secure_transport_design_runbook.md` y establece la operación segura del diseño de transporte futuro sin activar red, sockets, certificados, secretos ni remote execution.
+
+Verificación focal recomendada:
+
+```powershell
+python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_023_secure_transport_closure.py tests/test_post_h_023_secure_transport_validator.py tests/test_post_h_023_no_network_invariant.py tests/test_post_h_023_secure_transport_key_lifecycle.py tests/test_post_h_023_secure_transport_protocol_decision.py tests/test_post_h_023_secure_transport_design.py tests/test_project_global_state.py tests/test_schema_registry.py -q
+python -m devpilot_core schema validate --schema-id PostHManifest --instance docs/post_h_023_e_manifest.json --json
+python -m devpilot_core test-contracts validate --json
+python -m devpilot_core test-contracts validate-v2 --json
+python -m devpilot_core docs-governance validate --json
+python -m devpilot_core project-state validate --json
+```
+
+Criterio BLOCK: cualquier señal `network_used=true`, `sockets_opened=true`, `certificates_generated=true`, `private_key_material_present=true`, `secrets_read=true`, `remote_execution_enabled=true`, `connector_write_enabled=true` o `plugin_execution_enabled=true` bloquea el avance.
+
 
 ## POST-H-023-D — Validator de diseño y no-network invariant
 

@@ -10859,6 +10859,86 @@
         "Validator is deterministic and read-only.",
         "No-network invariant is enforced through AST static scan and negative tests."
       ]
+    },
+    {
+      "contract_id": "post-h-023-secure-transport-runbook-closure",
+      "schema_version": "2.0",
+      "source_contract_id": "post-h-023-secure-transport-runbook-closure",
+      "domain": "enterprise.remote",
+      "capability": "Secure transport design runbook and closure",
+      "criticality": "P1",
+      "risk_level": "critical",
+      "test_type": "security",
+      "execution_profile": "release",
+      "cost_class": "low",
+      "expected_duration_seconds": 30,
+      "test_files": [
+        "tests/test_post_h_023_secure_transport_closure.py"
+      ],
+      "watched_paths": [
+        "docs/05_operations/secure_transport_design_runbook.md",
+        "docs/backlogs/POST-H-023_secure_transport_design.md",
+        "docs/POST-H-023_secure_transport_design.md",
+        "docs/03_security/secure_transport_design.md",
+        "docs/audits/post_h_023_e_secure_transport_closure_report.md",
+        "docs/post_h_023_e_manifest.json",
+        "docs/release/CHANGELOG.md",
+        "README.md",
+        "docs/05_operations/runbook.md",
+        ".devpilot/project_state.json",
+        ".devpilot/docs_governance/source_registry.json",
+        ".devpilot/testing/test_contract_registry.json",
+        ".devpilot/testing/test_contract_registry_v2.json",
+        "tests/test_post_h_023_secure_transport_closure.py",
+        "tests/test_post_h_023_secure_transport_validator.py",
+        "tests/test_post_h_023_no_network_invariant.py",
+        "tests/test_project_global_state.py",
+        "tests/test_schema_registry.py"
+      ],
+      "validates": [
+        "POST-H-023 backlog and implementation doc are closed as design-only",
+        "Secure transport design runbook and closure report preserve no-go gates",
+        "POST-H-023-E manifest validates against PostHManifest",
+        "Project state advances to POST-H-024 without enabling transport",
+        "SecureTransportDesignValidator remains ok=true and no-network"
+      ],
+      "required_fixtures": [],
+      "required_cli": [],
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "classification_status": "explicit",
+      "owner": "POST-H-023-E",
+      "phase": "POST-FASE-H",
+      "created_by": "POST-H-023-E",
+      "updated": "2026-07-02",
+      "preliminary": true,
+      "required_for_release": true,
+      "required_for_security_gate": true,
+      "requires_human_approval": false,
+      "source_mutations_allowed": false,
+      "mutations_allowed": false,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_023_secure_transport_closure.py tests/test_post_h_023_secure_transport_validator.py tests/test_post_h_023_no_network_invariant.py tests/test_post_h_023_secure_transport_key_lifecycle.py tests/test_post_h_023_secure_transport_protocol_decision.py tests/test_post_h_023_secure_transport_design.py tests/test_project_global_state.py tests/test_schema_registry.py -q",
+        "python -m devpilot_core schema validate --schema-id PostHManifest --instance docs/post_h_023_e_manifest.json --json",
+        "python -m devpilot_core docs-governance validate --json",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ],
+      "trigger_hints": [
+        "post-h-023",
+        "secure-transport",
+        "closure",
+        "runbook"
+      ],
+      "impact_scope": [
+        "enterprise.remote",
+        "security.guards",
+        "documentation.governance",
+        "governance.project_state"
+      ],
+      "classification_notes": [
+        "Explicit POST-H-023-E closure contract; no inference required.",
+        "Safety-critical because closure must not be interpreted as transport enablement."
+      ]
     }
   ],
   "migration_metadata": {

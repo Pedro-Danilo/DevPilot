@@ -2,13 +2,13 @@
 doc_id: "POST-H-023-SECURE-TRANSPORT-DESIGN"
 title: "Secure transport design"
 status: "approved"
-version: "0.4.0"
+version: "1.0.0"
 owner: "Ordóñez"
 updated: "2026-07-02"
 approval: "approved_by_owner"
 phase: "POST-FASE-H"
-created_by: "POST-H-023-D"
-implementation_status: "implemented-initial"
+created_by: "POST-H-023-E"
+implementation_status: "closed"
 decision_status: "design-only"
 transport_implemented: false
 network_allowed: false
@@ -184,4 +184,15 @@ docs/schemas/secure_transport_key_lifecycle.schema.json
 docs/post_h_023_a_manifest.json
 docs/post_h_023_b_manifest.json
 docs/post_h_023_c_manifest.json
+docs/post_h_023_d_manifest.json
+docs/post_h_023_e_manifest.json
 ```
+
+
+## 11. Cierre operacional — POST-H-023-E
+
+POST-H-023-E agrega `docs/05_operations/secure_transport_design_runbook.md`, `docs/audits/post_h_023_e_secure_transport_closure_report.md`, `docs/post_h_023_e_manifest.json` y `tests/test_post_h_023_secure_transport_closure.py`.
+
+El hito queda cerrado como `implemented-initial / design-only`. La opción actual sigue siendo `local-only-no-transport`; ningún artefacto de POST-H-023 autoriza TLS/mTLS, SSH, HTTP remoto, sockets, certificados, secretos ni remote execution.
+
+Cualquier implementación futura de transporte requiere una ADR futura de enablement, threat model activo, identity/approval/RBAC endurecidos, lifecycle real de secretos/llaves/certificados, replay protection, revocation/rotation operativas, observabilidad, kill switch, SAST/SCA focal y quality gate de implementación activa.

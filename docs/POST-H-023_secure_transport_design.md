@@ -2,129 +2,61 @@
 doc_id: "POST-H-023-IMPLEMENTATION-DOC"
 title: "POST-H-023 — Secure transport design sin implementación activa"
 status: "approved"
-version: "0.5.0"
+version: "1.0.0"
 owner: "Ordóñez"
 updated: "2026-07-02"
 approval: "approved_by_owner"
 phase: "POST-FASE-H"
 priority: "P3"
-implementation_status: "active"
-current_micro_sprint: "POST-H-023-D"
-next_micro_sprint: "POST-H-023-E"
+implementation_status: "closed"
+current_micro_sprint: "POST-H-023-E"
+next_micro_sprint: "POST-H-024"
 local_first: true
 dry_run: true
 transport_implemented: false
+secure_transport_implemented: false
 network_allowed: false
 remote_execution_enabled: false
 secrets_required: false
 ---
 
-## POST-H-023-D — Validator de diseño y no-network invariant
+# POST-H-023 — Secure Transport Design sin implementación activa
 
-POST-H-023-D implementa un validador read-only para los artefactos de diseño de transporte seguro y lo integra al quality gate como subgate `secure-transport-design-only`. El validador consume los artefactos de POST-H-023-A/B/C, valida schemas, cruza invariantes semánticos y ejecuta un static scan no-network sobre el paquete remoto.
+## 1. Estado
 
-Estado:
+POST-H-023 queda cerrado como **implemented-initial / design-only**.
 
-```text
-implementation_status=implemented-initial
-validator_status=design-only-validator
-quality_gate_subgate=secure-transport-design-only
-transport_implemented=false
-secure_transport_implemented=false
-network_allowed=false
-network_used=false
-sockets_opened=false
-certificates_generated=false
-secrets_required=false
-remote_execution_enabled=false
-```
+El hito diseña y gobierna un transporte seguro futuro para DevPilot, pero conserva la decisión actual `local-only-no-transport`. No implementa red ni transporte activo.
 
-Artefactos:
-
-```text
-src/devpilot_core/remote/transport_design.py
-docs/schemas/secure_transport_validation_report.schema.json
-docs/audits/post_h_023_d_transport_design_validator_report.md
-docs/post_h_023_d_manifest.json
-tests/test_post_h_023_secure_transport_validator.py
-tests/test_post_h_023_no_network_invariant.py
-```
-
-Límite: este micro-sprint no implementa transporte activo, TLS/mTLS, SSH, HTTP remoto, certificados reales, secretos, connector write, plugin execution ni remote execution. POST-H-023-E queda a cargo del runbook dedicado y cierre del hito.
-
-
-# POST-H-023 — Secure Transport Design
-
-## Estado
-
-POST-H-023 queda aprobado y activo. El micro-sprint actual es **POST-H-023-C — Key/certificate lifecycle design**.
-
-Alcance global del hito:
+Regla de interpretación:
 
 ```text
 secure transport design != secure transport implemented
 transport requirements != network allowed
-remote readiness != remote execution enabled
+protocol decision matrix != protocol implementation
 key lifecycle design != key generation
 certificate lifecycle design != certificate creation
-secret handling design != secret storage
+validator PASS != autorización de red
+remote readiness != remote execution enabled
 ```
 
-## POST-H-023-C — Key/certificate lifecycle design
+## 2. Capacidades implementadas por micro-sprint
 
-POST-H-023-C entrega `SecureTransportKeyLifecycle` como contrato e instancia design-only para lifecycle futuro de llaves, certificados, trust anchors y credenciales de transporte. El estado queda `design-only-no-material`.
+### POST-H-023-A — Requisitos y amenazas de transporte
 
-Artefactos principales:
+Entrega `SecureTransportRequirements` schema e instancia local design-only con amenazas críticas, controles previos y no-go gates.
 
 ```text
-docs/schemas/secure_transport_key_lifecycle.schema.json
-.devpilot/remote/secure_transport_key_lifecycle.json
-docs/03_security/secure_transport_key_lifecycle.md
-docs/audits/post_h_023_c_key_lifecycle_report.md
-docs/post_h_023_c_manifest.json
-tests/test_post_h_023_secure_transport_key_lifecycle.py
+docs/schemas/secure_transport_requirements.schema.json
+.devpilot/remote/secure_transport_requirements.json
+docs/audits/post_h_023_a_secure_transport_requirements_report.md
+docs/post_h_023_a_manifest.json
+tests/test_post_h_023_secure_transport_design.py
 ```
 
-Lifecycle cubierto:
+### POST-H-023-B — Protocol decision matrix y ADR
 
-```text
-generation-design
-storage-design
-distribution-design
-rotation-design
-revocation-design
-```
-
-PASS si:
-
-```text
-lifecycle_status=design-only-no-material
-certificates_generated=false
-certificate_authority_created=false
-private_key_material_present=false
-raw_secret_storage_allowed=false
-secrets_stored=false
-secrets_read=false
-network_used=false
-remote_execution_enabled=false
-```
-
-BLOCK si:
-
-```text
-Se genera certificado o llave privada real.
-Se crea CA real.
-Se guarda secreto raw en repo, logs, outputs o DB local.
-Se lee .env o secret store real.
-Se abre socket/red.
-Se habilita remote_execution_enabled=true.
-```
-
-## POST-H-023-B — Protocol decision matrix y ADR
-
-POST-H-023-B entrega `SecureTransportDesign` y `ADR-POSTH-005` como decisión design-only. La opción seleccionada para el estado actual es `local-only-no-transport`.
-
-Artefactos principales:
+Entrega `SecureTransportDesign`, matriz de decisión y `ADR-POSTH-005`, seleccionando `local-only-no-transport` para el estado actual.
 
 ```text
 docs/schemas/secure_transport_design.schema.json
@@ -135,92 +67,91 @@ docs/post_h_023_b_manifest.json
 tests/test_post_h_023_secure_transport_protocol_decision.py
 ```
 
-Decisión:
+### POST-H-023-C — Key/certificate lifecycle design
+
+Entrega `SecureTransportKeyLifecycle` como lifecycle futuro de generation, storage, distribution, rotation y revocation sin material criptográfico.
 
 ```text
-selected_for_now=local-only-no-transport
+docs/schemas/secure_transport_key_lifecycle.schema.json
+.devpilot/remote/secure_transport_key_lifecycle.json
+docs/03_security/secure_transport_key_lifecycle.md
+docs/audits/post_h_023_c_key_lifecycle_report.md
+docs/post_h_023_c_manifest.json
+tests/test_post_h_023_secure_transport_key_lifecycle.py
+```
+
+### POST-H-023-D — Validator de diseño y no-network invariant
+
+Entrega `SecureTransportDesignValidator`, `SecureTransportValidationReport`, static scan no-network y quality subgate `secure-transport-design-only`.
+
+```text
+src/devpilot_core/remote/transport_design.py
+docs/schemas/secure_transport_validation_report.schema.json
+docs/audits/post_h_023_d_transport_design_validator_report.md
+docs/post_h_023_d_manifest.json
+tests/test_post_h_023_secure_transport_validator.py
+tests/test_post_h_023_no_network_invariant.py
+```
+
+### POST-H-023-E — Runbook y cierre
+
+Entrega runbook dedicado, closure report, manifest de cierre y prueba contractual de cierre.
+
+```text
+docs/05_operations/secure_transport_design_runbook.md
+docs/audits/post_h_023_e_secure_transport_closure_report.md
+docs/post_h_023_e_manifest.json
+tests/test_post_h_023_secure_transport_closure.py
+```
+
+## 3. Estado permitido posterior al cierre
+
+```text
 decision_status=design-only
-requires_future_enablement_adr=true
+selected_for_now=local-only-no-transport
+lifecycle_status=design-only-no-material
+validator_status=design-only-validator
+quality_gate_subgate=secure-transport-design-only
 transport_implemented=false
+secure_transport_implemented=false
 network_allowed=false
-remote_execution_enabled=false
-```
-
-Alternativas evaluadas:
-
-```text
-mTLS-over-HTTP2: future_candidate_only, no implementación actual.
-HTTPS-token-bound: future_candidate_only, no implementación actual.
-SSH-restricted: rejected_now.
-local-only-no-transport: selected_current.
-```
-
-PASS si:
-
-```text
-ADR-POSTH-005 mantiene design-only.
-La matriz conserva implementation_allowed_now=false para todas las alternativas.
-No se habilita red, sockets, certificados, secretos ni remote execution.
-Futuro transporte queda condicionado a controles previos y future_enablement_adr.
-```
-
-BLOCK si:
-
-```text
-Se selecciona mTLS, SSH, HTTPS, gRPC o WebSocket para implementación inmediata.
-Se permite network_allowed=true o sockets_opened=true.
-Se generan certificados reales.
-Se requieren/guardan secretos.
-Se habilita remote_execution_enabled=true.
-```
-
-## POST-H-023-A — Requisitos y amenazas de transporte
-
-POST-H-023-A entrega una primera versión del contrato `SecureTransportRequirements` y una instancia local design-only con amenazas y controles mínimos antes de cualquier transporte futuro.
-
-Artefactos principales:
-
-```text
-docs/schemas/secure_transport_requirements.schema.json
-.devpilot/remote/secure_transport_requirements.json
-docs/03_security/secure_transport_design.md
-docs/post_h_023_a_manifest.json
-tests/test_post_h_023_secure_transport_design.py
-```
-
-PASS si:
-
-```text
-transport_implemented=false
-network_allowed=false
+network_used=false
 sockets_opened=false
 certificates_generated=false
+certificate_authority_created=false
+private_key_material_present=false
+raw_secret_storage_allowed=false
 secrets_required=false
+secrets_stored=false
+secrets_read=false
 remote_execution_enabled=false
-al menos 6 amenazas críticas/altas documentadas
-controles previos obligatorios definidos
-selected_for_now=local-only-no-transport
+connector_write_enabled=false
+plugin_execution_enabled=false
 ```
 
-BLOCK si:
+## 4. Criterios PASS/BLOCK
+
+PASS si el validator design-only retorna `ok=true`, el static scan no-network retorna `forbidden_network_primitives_total=0`, el runbook y reportes están aprobados, los TCR v1/v2 están sincronizados y los no-go gates permanecen en falso.
+
+BLOCK si se habilita red, sockets, transporte, certificados, CA, private key material, raw secret storage, secret read/storage, remote execution, connector write o plugin execution.
+
+## 5. Límites explícitos
+
+POST-H-023 no implementa:
 
 ```text
-transport_implemented=true
-network_allowed=true
-network_used=true
-sockets_opened=true
-certificates_generated=true
-secrets_required=true
-remote_execution_enabled=true
+TLS/mTLS real.
+HTTP/2, gRPC, WebSocket, SSH o túneles productivos.
+Certificados reales, CA o trust store productivo.
+Private key generation/storage.
+Secret lifecycle productivo.
+Token binding productivo.
+Replay protection ejecutable.
+Revocation/rotation operativas.
+Remote execution segura.
+Transport implementation quality gate.
 ```
 
-## Micro-Sprints Pendientes
+## 6. Siguiente hito
 
-```text
-POST-H-023-D — Validator de diseño y no-network invariant
-POST-H-023-E — Runbook y cierre
-```
-
-## Límites
-
-POST-H-023-C es `implemented-initial / design-only-no-material`. No implementa transporte activo, no crea secretos/certificados/CA, no genera llaves privadas, no lee `.env`, no habilita red ni remote execution. El validator de diseño y no-network invariant quedan para POST-H-023-D.
+El siguiente hito recomendado es `POST-H-024 — Operator onboarding bootstrap`.

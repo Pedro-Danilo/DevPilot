@@ -138,8 +138,8 @@ def test_key_lifecycle_documents_do_not_claim_generation_or_storage_enablement()
     for claim in forbidden_positive_claims:
         assert claim not in combined
 
-    assert 'current_micro_sprint: "POST-H-023-D"' in backlog
-    assert 'next_micro_sprint: "POST-H-023-E"' in backlog
+    assert 'current_micro_sprint: "POST-H-023-E"' in backlog
+    assert 'next_micro_sprint: "POST-H-024"' in backlog
 
 
 def test_key_lifecycle_governance_artifacts_are_synchronized() -> None:
@@ -152,8 +152,8 @@ def test_key_lifecycle_governance_artifacts_are_synchronized() -> None:
     runbook = read_text("docs/05_operations/runbook.md")
     changelog = read_text("docs/release/CHANGELOG.md")
 
-    assert state["current_micro_sprint"] == "POST-H-023-D"
-    assert state["next_micro_sprint"] == "POST-H-023-E"
+    assert state["current_micro_sprint"] == "POST-H-023-E"
+    assert state["next_micro_sprint"] == "POST-H-024"
     assert state["post_h_023_secure_transport_key_lifecycle_schema_registered"] is True
     assert state["post_h_023_certificates_generated"] is False
     assert state["post_h_023_private_key_material_present"] is False
@@ -187,5 +187,5 @@ def test_key_lifecycle_governance_artifacts_are_synchronized() -> None:
 
     assert "POST-H-023-C — Key/certificate lifecycle design" in readme
     assert "POST-H-023-C — Key/certificate lifecycle design" in runbook
-    assert "Siguiente micro-sprint: `POST-H-023-D — Validator de diseño y no-network invariant`" in readme
+    assert "Siguiente micro-sprint: `POST-H-023-E — Runbook y cierre`" in readme
     assert "post-h-023-c" in changelog

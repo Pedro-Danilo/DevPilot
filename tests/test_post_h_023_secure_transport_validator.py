@@ -84,8 +84,8 @@ def test_secure_transport_validation_report_schema_is_registered_and_exports_are
         for item in catalog["schemas"]
     )
 
-    assert state["current_micro_sprint"] == "POST-H-023-D"
-    assert state["next_micro_sprint"] == "POST-H-023-E"
+    assert state["current_micro_sprint"] == "POST-H-023-E"
+    assert state["next_micro_sprint"] == "POST-H-024"
     assert state["post_h_023_secure_transport_validation_report_schema_registered"] is True
     assert state["post_h_023_secure_transport_validator_available"] is True
     assert state["post_h_023_secure_transport_quality_gate_subgate"] == "secure-transport-design-only"

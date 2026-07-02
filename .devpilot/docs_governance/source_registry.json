@@ -1368,7 +1368,7 @@
       "path": "docs/backlogs/POST-H-023_secure_transport_design.md",
       "classification": "derived",
       "domain": "roadmap-derived-backlog",
-      "owner": "POST-H-023-D",
+      "owner": "POST-H-023-E",
       "status_required": "approved",
       "criticality": "P3",
       "machine_readable_counterparts": [
@@ -1396,7 +1396,7 @@
       "roadmap_milestones": [
         "POST-H-023"
       ],
-      "lifecycle": "active",
+      "lifecycle": "closed",
       "notes": [
         "POST-H-023 active backlog; current micro-sprint POST-H-023-C."
       ]
@@ -4179,7 +4179,7 @@
       "path": "docs/POST-H-023_secure_transport_design.md",
       "classification": "source-of-truth",
       "domain": "enterprise.remote",
-      "owner": "POST-H-023-C",
+      "owner": "POST-H-023-E",
       "status_required": "approved",
       "criticality": "P1",
       "frontmatter_required": true,
@@ -4201,7 +4201,7 @@
       "roadmap_milestones": [
         "POST-H-023"
       ],
-      "lifecycle": "active",
+      "lifecycle": "closed",
       "notes": [
         "Implementation tracker for secure transport design; no transport enablement."
       ]
@@ -4810,6 +4810,105 @@
       "notes": [
         "Negative no-network tests that block forbidden imports/calls in the remote package."
       ]
+    },
+    {
+      "doc_id": "POST-H-023-SECURE-TRANSPORT-DESIGN-RUNBOOK",
+      "path": "docs/05_operations/secure_transport_design_runbook.md",
+      "classification": "source-of-truth",
+      "owner": "POST-H-023-E",
+      "status_required": "approved",
+      "criticality": "P1",
+      "frontmatter_required": true,
+      "required_tests": [
+        "tests/test_post_h_023_secure_transport_closure.py"
+      ],
+      "sync_rules": [
+        "frontmatter_status",
+        "runbook_no_go_flags",
+        "future_enablement_conditions"
+      ],
+      "domain": "enterprise.remote",
+      "roadmap_milestones": [
+        "POST-H-023"
+      ],
+      "lifecycle": "active",
+      "notes": [
+        "Dedicated runbook for POST-H-023 secure transport design closure."
+      ]
+    },
+    {
+      "doc_id": "POST-H-023-E-SECURE-TRANSPORT-CLOSURE-REPORT",
+      "path": "docs/audits/post_h_023_e_secure_transport_closure_report.md",
+      "classification": "source-of-truth",
+      "owner": "POST-H-023-E",
+      "status_required": "approved",
+      "criticality": "P1",
+      "frontmatter_required": true,
+      "required_tests": [
+        "tests/test_post_h_023_secure_transport_closure.py"
+      ],
+      "sync_rules": [
+        "frontmatter_status",
+        "closure_no_go_flags",
+        "next_hito_alignment"
+      ],
+      "domain": "enterprise.remote",
+      "roadmap_milestones": [
+        "POST-H-023"
+      ],
+      "lifecycle": "active",
+      "notes": [
+        "Closure report for POST-H-023-E secure transport design."
+      ]
+    },
+    {
+      "doc_id": "POST-H-023-E-MANIFEST",
+      "path": "docs/post_h_023_e_manifest.json",
+      "classification": "machine-readable-source",
+      "owner": "POST-H-023-E",
+      "status_required": "closed",
+      "criticality": "P1",
+      "frontmatter_required": false,
+      "required_tests": [
+        "tests/test_post_h_023_secure_transport_closure.py",
+        "tests/test_project_global_state.py"
+      ],
+      "sync_rules": [
+        "post_h_manifest_schema",
+        "created_modified_files_alignment",
+        "no_go_flags_alignment"
+      ],
+      "domain": "enterprise.remote",
+      "roadmap_milestones": [
+        "POST-H-023"
+      ],
+      "lifecycle": "active",
+      "notes": [
+        "Machine-readable closure manifest for POST-H-023-E."
+      ]
+    },
+    {
+      "doc_id": "POST-H-023-E-SECURE-TRANSPORT-CLOSURE-TEST",
+      "path": "tests/test_post_h_023_secure_transport_closure.py",
+      "classification": "machine-readable-source",
+      "owner": "POST-H-023-E",
+      "status_required": "implemented-initial",
+      "criticality": "P1",
+      "frontmatter_required": false,
+      "required_tests": [
+        "tests/test_post_h_023_secure_transport_closure.py"
+      ],
+      "sync_rules": [
+        "secure_transport_closure_test_contract"
+      ],
+      "domain": "enterprise.remote",
+      "roadmap_milestones": [
+        "POST-H-023"
+      ],
+      "lifecycle": "active",
+      "notes": [
+        "Focused closure tests for runbook, manifest, TCR, source registry and no-go gates."
+      ]
     }
   ],
   "rules": {
@@ -4881,20 +4980,20 @@
     "remote_runner_design_runbook_registered": true
   },
   "summary": {
-    "documents_total": 167,
-    "source_of_truth_total": 63,
-    "machine_readable_source_total": 67,
+    "documents_total": 171,
+    "source_of_truth_total": 65,
+    "machine_readable_source_total": 69,
     "derived_total": 32,
     "generated_runtime_total": 0,
     "historical_total": 0,
     "deprecated_total": 0,
-    "critical_sources_total": 80,
+    "critical_sources_total": 84,
     "markdown_json_pairs_total": 30,
-    "documents_with_required_tests_total": 167,
+    "documents_with_required_tests_total": 171,
     "network_used": false,
     "external_api_used": false,
     "mutations_performed": false,
-    "last_updated_by": "POST-H-023-D",
+    "last_updated_by": "POST-H-023-E",
     "markdown_json_sync_checks_enabled": true,
     "sync_checks_scope": "version_match, milestones_match, decisions_match, closure_status_match, next_hito_match",
     "roadmap_derived_backlog_governance_enabled": true,
@@ -4979,22 +5078,26 @@
     "POST-H-023-D registers secure transport validator, validation report schema and no-network invariant tests as canonical design-only evidence."
   ],
   "project_state_snapshot": {
-    "last_updated_by": "POST-H-023-D",
-    "current_micro_sprint": "POST-H-023-D",
-    "next_micro_sprint": "POST-H-023-E",
-    "last_completed_sprint": "POST-H-022",
-    "next_sprint": "POST-H-023",
-    "post_h_023_current_micro_sprint": "POST-H-023-D",
-    "post_h_023_next_micro_sprint": "POST-H-023-E",
+    "last_updated_by": "POST-H-023-E",
+    "current_micro_sprint": "POST-H-023-E",
+    "next_micro_sprint": "POST-H-024",
+    "last_completed_sprint": "POST-H-023",
+    "next_sprint": "POST-H-024",
+    "post_h_023_current_micro_sprint": "POST-H-023-E",
+    "post_h_023_next_micro_sprint": "POST-H-024",
     "secure_transport_implemented": false,
     "transport_implemented": false,
     "network_allowed": false,
     "certificates_generated": false,
+    "certificate_authority_created": false,
     "private_key_material_present": false,
     "raw_secret_storage_allowed": false,
+    "secrets_required": false,
     "secrets_read": false,
     "secrets_stored": false,
     "remote_execution_enabled": false,
+    "connector_write_enabled": false,
+    "plugin_execution_enabled": false,
     "network_used": false,
     "sockets_opened": false
   }
