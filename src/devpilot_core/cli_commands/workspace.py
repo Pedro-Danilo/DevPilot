@@ -4,7 +4,7 @@ from pathlib import Path
 
 from devpilot_core.application import ApplicationService
 from devpilot_core.cli_models import CommandResult
-from devpilot_core.workspace import WorkspaceManager
+from devpilot_core.workspace import ProjectBootstrapOptions, ProjectBootstrapPlanner, WorkspaceManager
 
 
 def handle_workspace_init(
@@ -37,3 +37,36 @@ def handle_workspace_status(root: Path) -> CommandResult:
     """Build the result for ``workspace status`` without rendering CLI output."""
 
     return ApplicationService(root).workspace_status()
+
+
+def handle_workspace_bootstrap(
+    root: Path,
+    *,
+    project_id: str,
+    project_name: str,
+    project_type: str = "agent-assisted-sdlc",
+    target_root: str | None = None,
+    execute: bool = False,
+    write_report: bool = False,
+    output_json: str = "outputs/reports/project_bootstrap_report.json",
+    output_markdown: str = "outputs/reports/project_bootstrap_report.md",
+) -> CommandResult:
+    """Build or execute the POST-H-024-C project bootstrap workflow.
+
+    The handler remains policy-bounded and dry-run-first. Execute mode writes
+    only the planned starter files under the configured target workspace and
+    refuses existing files by default.
+    """
+
+    return ProjectBootstrapPlanner(root).run(
+        ProjectBootstrapOptions(
+            project_id=project_id,
+            project_name=project_name,
+            project_type=project_type,
+            target_root=target_root,
+            execute=execute,
+            write_report=write_report,
+            output_json=output_json,
+            output_markdown=output_markdown,
+        )
+    )

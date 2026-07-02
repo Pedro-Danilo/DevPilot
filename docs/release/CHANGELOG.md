@@ -1,3 +1,18 @@
+## post-h-024-c — Project bootstrap dry-run
+
+### Added
+
+- Added `ProjectBootstrapReport` schema and schema catalog registration.
+- Added `ProjectBootstrapPlanner` for local-first dry-run/execute onboarding bootstrap.
+- Added `workspace bootstrap` CLI command with dry-run default, explicit execute, target bounding and no-overwrite-by-default behavior.
+- Added POST-H-024-C audit report, manifest and focused bootstrap tests.
+
+### Security
+
+- Bootstrap uses no network, external APIs, connector write, plugin execution, remote execution or LLM calls.
+- Execute mode writes only bounded starter artifacts and refuses existing files by default.
+- Readiness preview and onboarding quality gate remain pending for POST-H-024-D/E.
+
 ## post-h-024-b — New project templates
 
 ### Added

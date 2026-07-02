@@ -2,17 +2,68 @@
 title: "Runbook — DevPilot Local"
 doc_id: "DEVPL-OPS-002"
 status: "approved"
-version: "1.89.0"
+version: "1.90.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "POST-H-024-B"
+phase: "POST-H-024-C"
 updated: "2026-07-02"
 approval: "approved_by_owner"
 source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved + 03_security approved"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "SPRINT-PRECODE-05 quality operations baseline"
 ---
+
+## POST-H-024-C — Bootstrap workflow dry-run
+
+Último hito cerrado: `POST-H-023`
+
+Hito activo: `POST-H-024 — Operator onboarding bootstrap`
+
+Último micro-sprint implementado: `POST-H-024-C — Bootstrap workflow dry-run`
+
+Siguiente micro-sprint: `POST-H-024-D — Onboarding validation y readiness preview`
+
+Artefactos principales:
+
+```text
+src/devpilot_core/workspace/bootstrap.py
+docs/schemas/project_bootstrap_report.schema.json
+tests/test_post_h_024_project_bootstrap.py
+outputs/reports/project_bootstrap_report.json       # generado con --write-report, no versionable
+```
+
+Propósito operacional: permitir que un operador convierta una idea de proyecto en un plan de workspace, documentos pre-code y registries MIASI iniciales, manteniendo dry-run por defecto y rechazo de overwrite.
+
+Comandos focales:
+
+```powershell
+python -m devpilot_core workspace bootstrap --project-id ventas-micro-local --project-name "Sistema agent-assisted de ventas e inventario para microemprendimientos locales" --dry-run --json --write-report
+python -m devpilot_core schema validate --schema-id ProjectBootstrapReport --instance outputs/reports/project_bootstrap_report.json --json
+python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_024_project_bootstrap.py tests/test_post_h_024_project_templates.py tests/test_post_h_024_operator_onboarding.py tests/test_project_global_state.py tests/test_schema_registry.py -q
+```
+
+Criterios PASS:
+
+```text
+dry-run no escribe archivos de workspace.
+execute escribe solo bajo target permitido.
+execute rechaza overwrite por defecto.
+ProjectBootstrapReport valida contra schema.
+network_used=false, external_api_used=false, remote_execution_used=false, connector_write_used=false, plugin_execution_used=false.
+```
+
+Criterios BLOCK:
+
+```text
+project_id inválido.
+target fuera de prefijos permitidos por PathGuard.
+archivo planificado existente.
+path planificado escapa del target workspace.
+SecretGuard detecta contenido tipo secreto.
+```
+
+Límite explícito: POST-H-024-C sigue siendo preliminar; no implementa readiness preview ni onboarding quality gate.
 
 ## POST-H-024-B — Templates de proyecto nuevo
 

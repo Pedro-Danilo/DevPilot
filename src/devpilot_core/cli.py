@@ -28,7 +28,7 @@ from .cli_registry import (
     CliNoGrowthGate,
     CliNoGrowthGateOptions,
 )
-from .cli_commands import handle_validate_scope, handle_workspace_init, handle_workspace_status
+from .cli_commands import handle_validate_scope, handle_workspace_bootstrap, handle_workspace_init, handle_workspace_status
 from .connectors import (
     ConnectorAdapter,
     ConnectorCallOptions,
@@ -2824,6 +2824,49 @@ def workspace_init_command(
     return int(result.exit_code)
 
 
+def workspace_bootstrap_command(
+    *,
+    json_output: bool = False,
+    dry_run: bool = True,
+    execute: bool = False,
+    write_report: bool = False,
+    project_id: str,
+    project_name: str,
+    project_type: str | None = None,
+    target_root: str | None = None,
+    output_json: str = "outputs/reports/project_bootstrap_report.json",
+    output_markdown: str = "outputs/reports/project_bootstrap_report.md",
+) -> int:
+    """Plan or materialize a bounded POST-H-024-C project bootstrap."""
+
+    root = project_root()
+    if dry_run and execute:
+        result = CommandResult(
+            command="workspace bootstrap",
+            ok=False,
+            exit_code=ExitCode.BLOCK,
+            message="Choose either --dry-run or --execute, not both.",
+            data={"summary": {"network_used": False, "external_api_used": False, "mutations_performed": False, "source_mutations_performed": False, "preliminary": True}},
+            findings=[Finding("PROJECT_BOOTSTRAP_MODE_CONFLICT", "--dry-run and --execute are mutually exclusive.", Severity.BLOCK)],
+        )
+    else:
+        result = handle_workspace_bootstrap(
+            root,
+            project_id=project_id,
+            project_name=project_name,
+            project_type=project_type or "agent-assisted-sdlc",
+            target_root=target_root,
+            execute=execute,
+            write_report=write_report,
+            output_json=output_json,
+            output_markdown=output_markdown,
+        )
+    _emit_result_event(root, result, subject=f"workspace-bootstrap:{project_id}")
+    _persist_result(root, result, subject=f"workspace-bootstrap:{project_id}")
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+
 def workspace_status_command(*, json_output: bool = False, write_report: bool = False) -> int:
     """Report the current DevPilot workspace status."""
 
@@ -5123,6 +5166,19 @@ def build_parser() -> argparse.ArgumentParser:
     workspace_status.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     workspace_status.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
 
+
+    workspace_bootstrap = workspace_sub.add_parser("bootstrap", help="Plan or materialize a bounded new-project bootstrap workflow")
+    workspace_bootstrap.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    workspace_bootstrap.add_argument("--dry-run", action="store_true", help="Preview bootstrap without writing workspace files; this is the default")
+    workspace_bootstrap.add_argument("--execute", action="store_true", help="Explicitly create starter files under the target workspace")
+    workspace_bootstrap.add_argument("--project-id", required=True, help="Lowercase project id for the new workspace")
+    workspace_bootstrap.add_argument("--project-name", required=True, help="Human-readable project name")
+    workspace_bootstrap.add_argument("--project-type", default="agent-assisted-sdlc", help="Project type; POST-H-024-C supports agent-assisted-sdlc")
+    workspace_bootstrap.add_argument("--target-root", default=None, help="Target workspace root; defaults to outputs/bootstrap_workspaces/<project-id>")
+    workspace_bootstrap.add_argument("--write-report", action="store_true", help="Persist project_bootstrap_report JSON/Markdown evidence")
+    workspace_bootstrap.add_argument("--output-json", default="outputs/reports/project_bootstrap_report.json", help="ProjectBootstrapReport JSON output path")
+    workspace_bootstrap.add_argument("--output-markdown", default="outputs/reports/project_bootstrap_report.md", help="ProjectBootstrapReport Markdown output path")
+
     workspace_register = workspace_sub.add_parser("register", help="Register a local DevPilot workspace in the multiworkspace registry")
     workspace_register.add_argument("--path", required=True, help="Workspace path to register; must pass PathGuard and contain .devpilot/project.yaml")
     workspace_register.add_argument("--workspace-id", default=None, help="Optional stable workspace id; defaults to project id from project.yaml")
@@ -6353,6 +6409,19 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
                 project_id=args.project_id,
                 project_name=args.project_name,
                 project_type=args.project_type,
+            )
+        if args.workspace_command == "bootstrap":
+            return workspace_bootstrap_command(
+                json_output=args.json,
+                dry_run=args.dry_run or not args.execute,
+                execute=args.execute,
+                write_report=args.write_report,
+                project_id=args.project_id,
+                project_name=args.project_name,
+                project_type=args.project_type,
+                target_root=args.target_root,
+                output_json=args.output_json,
+                output_markdown=args.output_markdown,
             )
         if args.workspace_command == "status":
             return workspace_status_command(json_output=args.json, write_report=args.write_report)

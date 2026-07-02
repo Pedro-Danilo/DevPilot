@@ -117,6 +117,16 @@ MIGRATED_HANDLERS: dict[str, MigratedHandlerDescriptor] = {
         ),
         rationale="Workspace status result-building logic migrated with CLI JSON parity tests.",
     ),
+    "workspace.bootstrap": MigratedHandlerDescriptor(
+        command_id="workspace.bootstrap",
+        owner_module="src/devpilot_core/cli_commands/workspace.py",
+        handler="handle_workspace_bootstrap",
+        wrapper="workspace_bootstrap_command",
+        recommended_tests=(
+            "python -m pytest tests/test_post_h_024_project_bootstrap.py -q",
+        ),
+        rationale="POST-H-024-C moves project bootstrap result-building logic into cli_commands/workspace.py while cli.py preserves parser, events and persistence.",
+    ),
     "validate": MigratedHandlerDescriptor(
         command_id="validate",
         owner_module="src/devpilot_core/cli_commands/validation.py",
@@ -273,6 +283,18 @@ COMMAND_OVERRIDES: dict[str, DeclarativeCommandOverride] = {
         dry_run_supported=True,
         policy_check_required=True,
         rationale="`workspace init --execute` can create local workspace files; dry-run remains default and policy metadata is mandatory.",
+    ),
+    "workspace.bootstrap": DeclarativeCommandOverride(
+        command_id="workspace.bootstrap",
+        risk_level=CommandRiskLevel.HIGH,
+        side_effects=(CommandSideEffect.WRITE_FILES, CommandSideEffect.WRITE_REPORT),
+        writes_files=True,
+        dry_run_supported=True,
+        policy_check_required=True,
+        recommended_tests=(
+            "python -m pytest tests/test_post_h_024_project_bootstrap.py -q",
+        ),
+        rationale="POST-H-024-C workspace bootstrap defaults to dry-run, writes only bounded starter files under explicit execute, emits reports only with --write-report and refuses overwrite by default.",
     ),
     "test-contracts.migrate-v2": DeclarativeCommandOverride(
         command_id="test-contracts.migrate-v2",

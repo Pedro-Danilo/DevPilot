@@ -4,7 +4,7 @@ doc_id: "POST-H-024-BACKLOG"
 id: "POST-H-024"
 title: "POST-H-024 — Operator onboarding playbook y project bootstrap workflow"
 status: "approved"
-version: "0.3.0"
+version: "0.4.0"
 owner: "Ordóñez"
 updated: "2026-07-02"
 approval: "approved_by_owner"
@@ -18,8 +18,8 @@ no_external_apis_used: true
 no_connector_write_enabled: true
 no_plugin_execution_enabled: true
 implementation_status: "in-progress"
-current_micro_sprint: "POST-H-024-B"
-next_micro_sprint: "POST-H-024-C"
+current_micro_sprint: "POST-H-024-C"
+next_micro_sprint: "POST-H-024-D"
 ---
 
 # POST-H-024 — Operator onboarding playbook y project bootstrap workflow
@@ -235,20 +235,38 @@ PASS si no contienen secretos ni vendor lock-in.
 
 ### POST-H-024-C — Bootstrap workflow dry-run
 
+Estado: `implemented-initial`.
+
 Tareas:
 
 ```text
-1. Implementar workspace/bootstrap.py.
-2. Generar plan de archivos a crear.
-3. Soportar --dry-run y --execute con límites.
-4. Producir project_bootstrap_report.json.
-5. No sobrescribir archivos existentes por defecto.
+1. [x] Implementar workspace/bootstrap.py.
+2. [x] Generar plan de archivos a crear.
+3. [x] Soportar --dry-run y --execute con límites.
+4. [x] Producir project_bootstrap_report.json.
+5. [x] No sobrescribir archivos existentes por defecto.
 ```
+
+
+Artefactos:
+
+```text
+docs/schemas/project_bootstrap_report.schema.json
+src/devpilot_core/workspace/bootstrap.py
+src/devpilot_core/cli_commands/workspace.py
+src/devpilot_core/cli.py
+docs/audits/post_h_024_c_project_bootstrap_report.md
+docs/post_h_024_c_manifest.json
+tests/test_post_h_024_project_bootstrap.py
+outputs/reports/project_bootstrap_report.json       # generado con --write-report, no versionable
+```
+
+Límite: `implemented-initial / bootstrap-dry-run`; materializa starters solo bajo target workspace permitido y no sobrescribe archivos existentes. No implementa todavía readiness preview ni quality gate de onboarding.
 
 PASS:
 
 ```text
-PASS si dry-run no muta.
+PASS si dry-run no muta archivos de workspace.
 PASS si execute rechaza overwrite por defecto.
 PASS si reporta comandos siguientes.
 ```
@@ -335,9 +353,9 @@ BLOCK si se omite MIASI en proyectos agent-assisted.
 ```text
 [x] Playbook aprobado.
 [x] Templates Markdown y JSON creados.
-[ ] Bootstrap dry-run implementado.
-[ ] Reporte bootstrap validable.
+[x] Bootstrap dry-run implementado.
+[x] Reporte bootstrap validable.
 [ ] Fixture piloto cubierto por tests.
 [ ] Quality gate integrado.
-[ ] Runbook actualizado.
+[x] Runbook actualizado.
 ```

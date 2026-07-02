@@ -1,3 +1,21 @@
+## POST-H-024-C — Bootstrap workflow dry-run
+
+Último hito cerrado: `POST-H-023`
+
+Hito activo: `POST-H-024 — Operator onboarding bootstrap`
+
+Último micro-sprint implementado: `POST-H-024-C — Bootstrap workflow dry-run`
+
+Siguiente micro-sprint: `POST-H-024-D — Onboarding validation y readiness preview`
+
+POST-H-024-C agrega `ProjectBootstrapPlanner`, schema `ProjectBootstrapReport` y el comando `python -m devpilot_core workspace bootstrap` para planificar el bootstrap de un proyecto nuevo y, con `--execute` explícito, materializar archivos starter bajo el target permitido.
+
+La capacidad es `implemented-initial / bootstrap-dry-run`: el modo por defecto no escribe archivos de workspace; `--execute` rechaza overwrite por defecto, no genera código productivo, no ejecuta modelos, no llama red ni APIs externas y no habilita connector write, plugin execution ni remote execution.
+
+Reporte runtime: `outputs/reports/project_bootstrap_report.json`, generado solo con `--write-report` y no versionable.
+
+Verificación focal recomendada: `python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_024_project_bootstrap.py tests/test_post_h_024_project_templates.py tests/test_post_h_024_operator_onboarding.py tests/test_project_global_state.py tests/test_schema_registry.py -q`.
+
 ## POST-H-024-B — Templates de proyecto nuevo
 
 Último hito cerrado: `POST-H-023`

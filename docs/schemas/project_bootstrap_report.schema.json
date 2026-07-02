@@ -1,0 +1,146 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/SCHEMA-DEVPL-PROJECT-BOOTSTRAP-REPORT-V1",
+  "title": "DevPilot Project Bootstrap Report v1",
+  "description": "Structural contract for POST-H-024-C local-first project bootstrap dry-run/execute evidence. The report records a bounded plan for a new project workspace, planned files, next commands and no-go safety flags without requiring network, external APIs, connector write, plugin execution or remote execution.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "schema_id",
+    "bootstrap_id",
+    "created_by",
+    "created_at",
+    "project",
+    "mode",
+    "status",
+    "target_root",
+    "steps",
+    "planned_files",
+    "safety",
+    "summary",
+    "findings",
+    "limitations"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "schema_id": {"const": "SCHEMA-DEVPL-PROJECT-BOOTSTRAP-REPORT-V1"},
+    "bootstrap_id": {"type": "string", "pattern": "^project-bootstrap-[a-z0-9][a-z0-9_-]{2,63}$"},
+    "created_by": {"const": "POST-H-024-C"},
+    "created_at": {"type": "string", "minLength": 10},
+    "project": {
+      "type": "object",
+      "required": ["project_id", "project_name", "project_type"],
+      "properties": {
+        "project_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9_-]{2,63}$"},
+        "project_name": {"type": "string", "minLength": 1},
+        "project_type": {"const": "agent-assisted-sdlc"}
+      },
+      "additionalProperties": false
+    },
+    "mode": {"enum": ["dry-run", "execute"]},
+    "status": {"enum": ["pass", "warning", "block"]},
+    "target_root": {"type": "string", "minLength": 1},
+    "steps": {
+      "type": "array",
+      "minItems": 4,
+      "items": {
+        "type": "object",
+        "required": ["step_id", "status", "mutations_performed"],
+        "properties": {
+          "step_id": {"enum": ["workspace-plan", "docs-template-plan", "miasi-template-plan", "readiness-preview"]},
+          "status": {"enum": ["pass", "warning", "block"]},
+          "mutations_performed": {"type": "boolean"},
+          "message": {"type": "string"}
+        },
+        "additionalProperties": true
+      }
+    },
+    "planned_files": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["path", "kind", "source_template", "exists", "action", "would_write", "content_included"],
+        "properties": {
+          "path": {"type": "string", "minLength": 1},
+          "kind": {"enum": ["workspace-project-yaml", "markdown-artifact", "miasi-json"]},
+          "source_template": {"type": ["string", "null"]},
+          "exists": {"type": "boolean"},
+          "action": {"enum": ["create"]},
+          "would_write": {"type": "boolean"},
+          "content_included": {"const": false}
+        },
+        "additionalProperties": false
+      }
+    },
+    "safety": {
+      "type": "object",
+      "required": [
+        "local_first",
+        "dry_run_default",
+        "network_used",
+        "external_api_used",
+        "remote_execution_used",
+        "connector_write_used",
+        "plugin_execution_used",
+        "secrets_included",
+        "source_mutations_performed",
+        "mutations_performed",
+        "overwrite_allowed"
+      ],
+      "properties": {
+        "local_first": {"const": true},
+        "dry_run_default": {"const": true},
+        "network_used": {"const": false},
+        "external_api_used": {"const": false},
+        "remote_execution_used": {"const": false},
+        "connector_write_used": {"const": false},
+        "plugin_execution_used": {"const": false},
+        "secrets_included": {"const": false},
+        "source_mutations_performed": {"const": false},
+        "mutations_performed": {"type": "boolean"},
+        "overwrite_allowed": {"const": false}
+      },
+      "additionalProperties": false
+    },
+    "summary": {
+      "type": "object",
+      "required": [
+        "status",
+        "mode",
+        "target_root",
+        "files_total",
+        "files_existing_total",
+        "files_would_write_total",
+        "mutations_performed",
+        "source_mutations_performed",
+        "network_used",
+        "external_api_used",
+        "report_written",
+        "next_commands"
+      ],
+      "properties": {
+        "status": {"enum": ["pass", "warning", "block"]},
+        "mode": {"enum": ["dry-run", "execute"]},
+        "target_root": {"type": "string"},
+        "files_total": {"type": "integer", "minimum": 0},
+        "files_existing_total": {"type": "integer", "minimum": 0},
+        "files_would_write_total": {"type": "integer", "minimum": 0},
+        "mutations_performed": {"type": "boolean"},
+        "source_mutations_performed": {"const": false},
+        "network_used": {"const": false},
+        "external_api_used": {"const": false},
+        "report_written": {"type": "boolean"},
+        "next_commands": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+        "reports": {"type": "object"}
+      },
+      "additionalProperties": true
+    },
+    "findings": {"type": "array", "items": {"$ref": "finding.schema.json"}},
+    "limitations": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+    "reports": {"type": "object"}
+  },
+  "additionalProperties": true,
+  "x-devpilot-schema-id": "SCHEMA-DEVPL-PROJECT-BOOTSTRAP-REPORT-V1",
+  "x-devpilot-sprint": "POST-H-024-C",
+  "x-devpilot-status": "registered"
+}

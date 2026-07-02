@@ -1,0 +1,85 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "SCHEMA-DEVPL-POST-H-MANIFEST-V1",
+  "manifest_id": "post_h_024_c_manifest",
+  "post_h_id": "POST-H-024",
+  "micro_sprint": "POST-H-024-C",
+  "title": "Bootstrap workflow dry-run",
+  "status": "implemented-initial",
+  "phase": "POST-FASE-H",
+  "implemented_at": "2026-07-02",
+  "implementation_status": "implemented-initial",
+  "preliminary": true,
+  "local_first": true,
+  "dry_run": true,
+  "read_only": false,
+  "no_remote_execution_enabled": true,
+  "no_external_apis_used": true,
+  "no_connector_write_enabled": true,
+  "no_plugin_execution_enabled": true,
+  "network_used": false,
+  "external_api_used": false,
+  "remote_execution_used": false,
+  "connector_write_used": false,
+  "plugin_execution_used": false,
+  "secrets_included": false,
+  "created_files": [
+    "docs/schemas/project_bootstrap_report.schema.json",
+    "src/devpilot_core/workspace/bootstrap.py",
+    "docs/audits/post_h_024_c_project_bootstrap_report.md",
+    "docs/post_h_024_c_manifest.json",
+    "tests/test_post_h_024_project_bootstrap.py"
+  ],
+  "modified_files": [
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/POST-H-024_operator_onboarding_bootstrap.md",
+    "docs/backlogs/POST-H-024_operator_onboarding_bootstrap.md",
+    "docs/release/CHANGELOG.md",
+    "docs/schemas/schema_catalog.json",
+    "src/devpilot_core/workspace/__init__.py",
+    "src/devpilot_core/cli_commands/__init__.py",
+    "src/devpilot_core/cli_commands/workspace.py",
+    "src/devpilot_core/cli.py",
+    ".devpilot/project_state.json",
+    ".devpilot/docs_governance/source_registry.json",
+    ".devpilot/testing/test_contract_registry.json",
+    ".devpilot/testing/test_contract_registry_v2.json",
+    "tests/test_post_h_024_operator_onboarding.py",
+    "tests/test_post_h_024_project_templates.py",
+    "tests/test_project_global_state.py"
+  ],
+  "commands": [
+    "python -m devpilot_core workspace bootstrap --project-id ventas-micro-local --project-name \"Sistema agent-assisted de ventas e inventario para microemprendimientos locales\" --dry-run --json --write-report",
+    "python -m devpilot_core schema validate --schema-id ProjectBootstrapReport --instance outputs/reports/project_bootstrap_report.json --json",
+    "python -m devpilot_core schema validate --schema-id PostHManifest --instance docs/post_h_024_c_manifest.json --json",
+    "python -m devpilot_core test-contracts validate --json",
+    "python -m devpilot_core test-contracts validate-v2 --json",
+    "python -m devpilot_core docs-governance validate --json",
+    "python -m devpilot_core project-state validate --json"
+  ],
+  "tests": [
+    "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_024_project_bootstrap.py -q",
+    "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_024_project_bootstrap.py tests/test_post_h_024_project_templates.py tests/test_post_h_024_operator_onboarding.py tests/test_project_global_state.py tests/test_schema_registry.py -q"
+  ],
+  "pass_criteria": [
+    "Dry-run does not write workspace files.",
+    "Execute writes only under target workspace and refuses overwrite by default.",
+    "ProjectBootstrapReport validates against schema.",
+    "No network, external APIs, connector write, plugin execution or remote execution is enabled."
+  ],
+  "block_criteria": [
+    "Invalid project id or unsupported project type.",
+    "Target path blocked by PathGuard.",
+    "Planned file escapes target workspace.",
+    "Existing target file detected.",
+    "SecretGuard detects secret-like planned content."
+  ],
+  "risks": [
+    "Bootstrap remains preliminary and must not be treated as production code generation.",
+    "Readiness preview is deferred to POST-H-024-D.",
+    "Onboarding quality gate and pilot fixture are deferred to POST-H-024-E."
+  ],
+  "next_sprint": "POST-H-024",
+  "next_micro_sprint": "POST-H-024-D"
+}

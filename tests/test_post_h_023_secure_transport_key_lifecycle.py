@@ -153,7 +153,7 @@ def test_key_lifecycle_governance_artifacts_are_synchronized() -> None:
     changelog = read_text("docs/release/CHANGELOG.md")
 
     assert state["post_h_023_current_micro_sprint"] == "POST-H-023-E"
-    assert state["current_micro_sprint"] == "POST-H-024-B"
+    assert state["current_micro_sprint"] == "POST-H-024-C"
     assert state["post_h_023_next_micro_sprint"] == "POST-H-024"
     assert state["post_h_023_secure_transport_key_lifecycle_schema_registered"] is True
     assert state["post_h_023_certificates_generated"] is False

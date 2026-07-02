@@ -2,15 +2,15 @@
 doc_id: "POST-H-024-IMPLEMENTATION-DOC"
 title: "POST-H-024 — Operator onboarding playbook y project bootstrap workflow"
 status: "approved"
-version: "0.3.0"
+version: "0.4.0"
 owner: "Ordóñez"
 updated: "2026-07-02"
 approval: "approved_by_owner"
 phase: "POST-FASE-H"
 priority: "P1"
 implementation_status: "in-progress"
-current_micro_sprint: "POST-H-024-B"
-next_micro_sprint: "POST-H-024-C"
+current_micro_sprint: "POST-H-024-C"
+next_micro_sprint: "POST-H-024-D"
 local_first: true
 dry_run: true
 no_remote_execution_enabled: true
@@ -23,7 +23,7 @@ no_plugin_execution_enabled: true
 
 ## 1. Estado
 
-POST-H-024 queda aprobado para implementación incremental. POST-H-024-A queda implementado como **implemented-initial / playbook-only** y POST-H-024-B queda implementado como **implemented-initial / templates-only**.
+POST-H-024 queda aprobado para implementación incremental. POST-H-024-A queda implementado como **implemented-initial / playbook-only**, POST-H-024-B queda implementado como **implemented-initial / templates-only** y POST-H-024-C queda implementado como **implemented-initial / bootstrap-dry-run**.
 
 El hito busca transformar el onboarding conversacional de DevPilot en un flujo reproducible para iniciar proyectos nuevos desde una idea hasta readiness y backlog ejecutable.
 
@@ -90,7 +90,31 @@ No implementa todavía materialización de workspace, comando bootstrap, project
 
 ### POST-H-024-C — Bootstrap workflow dry-run
 
-Estado: `pending`.
+Estado: `implemented-initial`.
+
+Artefactos:
+
+```text
+docs/schemas/project_bootstrap_report.schema.json
+src/devpilot_core/workspace/bootstrap.py
+src/devpilot_core/cli_commands/workspace.py
+src/devpilot_core/cli.py
+docs/audits/post_h_024_c_project_bootstrap_report.md
+docs/post_h_024_c_manifest.json
+tests/test_post_h_024_project_bootstrap.py
+```
+
+Capacidad añadida:
+
+```text
+Workflow local-first para planificar y, con --execute explícito, materializar un workspace inicial bajo target permitido. Genera plan de .devpilot/project.yaml, documentación pre-code y registries MIASI; produce ProjectBootstrapReport cuando --write-report es explícito.
+```
+
+Límite:
+
+```text
+implemented-initial / bootstrap-dry-run. No ejecuta readiness preview, no activa quality gate de onboarding, no genera código productivo, no llama modelos ni APIs externas y no sobrescribe archivos existentes.
+```
 
 ### POST-H-024-D — Onboarding validation y readiness preview
 
@@ -111,4 +135,4 @@ no_connector_write_enabled=true
 no_plugin_execution_enabled=true
 ```
 
-POST-H-024 no debe introducir generación mágica de código ni ejecución autónoma. La automatización futura debe ser plan-first, workspace-bounded y refusal-on-overwrite por defecto. POST-H-024-B conserva el alcance `templates-only`: cataloga y valida plantillas, pero no escribe proyectos de usuario.
+POST-H-024 no debe introducir generación mágica de código ni ejecución autónoma. La automatización futura debe ser plan-first, workspace-bounded y refusal-on-overwrite por defecto. POST-H-024-C conserva el alcance `bootstrap-dry-run`: el modo por defecto no escribe archivos de workspace; `--execute` está acotado al target permitido y rechaza overwrite por defecto.

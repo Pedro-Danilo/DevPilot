@@ -11071,6 +11071,81 @@
         "POST-H-024-B is templates-only and does not materialize workspace files.",
         "Safety-critical because templates seed future projects and must not include secrets or vendor lock-in."
       ]
+    },
+    {
+      "contract_id": "post-h-024-project-bootstrap",
+      "schema_version": "2.0",
+      "source_contract_id": "post-h-024-project-bootstrap",
+      "domain": "operations.workspace",
+      "capability": "Project bootstrap dry-run workflow",
+      "criticality": "P1",
+      "risk_level": "high",
+      "test_type": "integration",
+      "execution_profile": "release",
+      "cost_class": "low",
+      "expected_duration_seconds": 10,
+      "test_files": [
+        "tests/test_post_h_024_project_bootstrap.py",
+        "tests/test_post_h_024_project_templates.py",
+        "tests/test_project_global_state.py"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/workspace/bootstrap.py",
+        "src/devpilot_core/cli.py",
+        "src/devpilot_core/cli_commands/",
+        "docs/schemas/project_bootstrap_report.schema.json",
+        "docs/templates/new_project/",
+        ".devpilot/testing/",
+        ".devpilot/project_state.json",
+        "README.md",
+        "docs/05_operations/runbook.md",
+        "docs/backlogs/POST-H-024_operator_onboarding_bootstrap.md",
+        "tests/test_post_h_024_project_bootstrap.py"
+      ],
+      "validates": [
+        "src/devpilot_core/workspace/bootstrap.py",
+        "src/devpilot_core/cli.py",
+        "src/devpilot_core/cli_commands/workspace.py",
+        "docs/schemas/project_bootstrap_report.schema.json",
+        "docs/backlogs/POST-H-024_operator_onboarding_bootstrap.md",
+        "docs/post_h_024_c_manifest.json"
+      ],
+      "required_fixtures": [],
+      "required_cli": [
+        "python -m devpilot_core workspace bootstrap --project-id ventas-micro-local --project-name \"Sistema agent-assisted de ventas e inventario para microemprendimientos locales\" --dry-run --json --write-report"
+      ],
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "classification_status": "explicit",
+      "owner": "POST-H-024-C",
+      "phase": "POST-FASE-H",
+      "created_by": "POST-H-024-C",
+      "updated": "2026-07-02",
+      "preliminary": true,
+      "required_for_release": true,
+      "required_for_security_gate": false,
+      "requires_human_approval": false,
+      "source_mutations_allowed": false,
+      "mutations_allowed": false,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_024_project_bootstrap.py tests/test_post_h_024_project_templates.py tests/test_project_global_state.py -q",
+        "python -m devpilot_core schema validate --schema-id ProjectBootstrapReport --instance outputs/reports/project_bootstrap_report.json --json"
+      ],
+      "trigger_hints": [
+        "workspace-bootstrap",
+        "onboarding",
+        "project_bootstrap_report",
+        "docs/templates/new_project"
+      ],
+      "impact_scope": [
+        "src/devpilot_core/workspace/",
+        "src/devpilot_core/cli.py",
+        "docs/templates/new_project/",
+        "docs/schemas/project_bootstrap_report.schema.json"
+      ],
+      "classification_notes": [
+        "POST-H-024-C is high risk because execute mode creates files; default remains dry-run and overwrite is refused by default."
+      ]
     }
   ],
   "migration_metadata": {

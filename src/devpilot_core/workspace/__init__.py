@@ -32,6 +32,15 @@ from devpilot_core.workspace.registry_v2 import (
     WorkspaceRegistryV2Options,
 )
 
+from devpilot_core.workspace.bootstrap import (
+    DEFAULT_BOOTSTRAP_OUTPUT_JSON,
+    DEFAULT_BOOTSTRAP_OUTPUT_MARKDOWN,
+    PROJECT_BOOTSTRAP_REPORT_SCHEMA_ID,
+    PROJECT_BOOTSTRAP_REPORT_SCHEMA_PATH,
+    ProjectBootstrapOptions,
+    ProjectBootstrapPlanner,
+)
+
 __all__ = [
     "PROJECT_FILE_NAME",
     "WORKSPACE_DIR_NAME",
@@ -49,6 +58,12 @@ __all__ = [
     "WorkspaceRegistryOptions",
     "WorkspaceSelectOptions",
     "MultiworkspaceRegistryV2",
+    "ProjectBootstrapPlanner",
+    "ProjectBootstrapOptions",
+    "PROJECT_BOOTSTRAP_REPORT_SCHEMA_PATH",
+    "PROJECT_BOOTSTRAP_REPORT_SCHEMA_ID",
+    "DEFAULT_BOOTSTRAP_OUTPUT_MARKDOWN",
+    "DEFAULT_BOOTSTRAP_OUTPUT_JSON",
     "WorkspaceRegistryV2Options",
     "DEFAULT_WORKSPACE_REGISTRY_V2_SCHEMA",
     "WORKSPACE_REGISTRY_V2_SCHEMA_ID",

@@ -6272,6 +6272,53 @@
         "python -m devpilot_core schema validate --schema-id MiasiToolRegistry --instance docs/templates/new_project/miasi_tool_registry.template.json --json",
         "python -m devpilot_core schema validate --schema-id MiasiPolicyMatrix --instance docs/templates/new_project/miasi_policy_matrix.template.json --json"
       ]
+    },
+    {
+      "contract_id": "post-h-024-project-bootstrap",
+      "scope": "integration",
+      "owner": "POST-H-024-C",
+      "phase": "POST-FASE-H",
+      "test_files": [
+        "tests/test_post_h_024_project_bootstrap.py",
+        "tests/test_post_h_024_project_templates.py",
+        "tests/test_project_global_state.py"
+      ],
+      "validates": [
+        "src/devpilot_core/workspace/bootstrap.py",
+        "src/devpilot_core/cli.py",
+        "src/devpilot_core/cli_commands/workspace.py",
+        "docs/schemas/project_bootstrap_report.schema.json",
+        "docs/backlogs/POST-H-024_operator_onboarding_bootstrap.md",
+        "docs/post_h_024_c_manifest.json"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/workspace/bootstrap.py",
+        "src/devpilot_core/cli.py",
+        "src/devpilot_core/cli_commands/",
+        "docs/schemas/project_bootstrap_report.schema.json",
+        "docs/templates/new_project/",
+        ".devpilot/testing/",
+        ".devpilot/project_state.json",
+        "README.md",
+        "docs/05_operations/runbook.md",
+        "docs/backlogs/POST-H-024_operator_onboarding_bootstrap.md",
+        "tests/test_post_h_024_project_bootstrap.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_024_project_bootstrap.py tests/test_post_h_024_project_templates.py tests/test_project_global_state.py -q",
+        "python -m devpilot_core workspace bootstrap --project-id ventas-micro-local --project-name \"Sistema agent-assisted de ventas e inventario para microemprendimientos locales\" --dry-run --json --write-report",
+        "python -m devpilot_core schema validate --schema-id ProjectBootstrapReport --instance outputs/reports/project_bootstrap_report.json --json"
+      ],
+      "notes": [
+        "POST-H-024-C bootstrap can write only under target workspace in execute mode, refuses overwrite by default and keeps network/external APIs/remote/connectors/plugins disabled."
+      ]
     }
   ],
   "notes": [
