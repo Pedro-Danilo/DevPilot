@@ -1,3 +1,17 @@
+## post-h-024-b — New project templates
+
+### Added
+
+- Added Markdown templates for product vision, MVP scope, requirements, architecture, security threat model and test strategy under `docs/templates/new_project/`.
+- Added starter MIASI JSON templates for agent registry, tool registry and policy matrix.
+- Added read-only onboarding template catalog/validator module `src/devpilot_core/onboarding/templates.py`.
+- Added POST-H-024-B report, manifest and focused template tests.
+
+### Security
+
+- Templates are local-first and dry-run oriented; no secrets, API keys, provider-specific lock-in, network, external APIs, connector write, plugin execution or remote execution are enabled.
+- Bootstrap materialization remains pending for POST-H-024-C and must stay no-overwrite-by-default.
+
 ## post-h-024-a — Operator onboarding playbook
 
 ### Added

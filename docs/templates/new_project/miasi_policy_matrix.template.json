@@ -1,0 +1,44 @@
+{
+  "schema_version": "1.0",
+  "source_document": "docs/06_miasi/policy_matrix.md",
+  "created_by": "FUNC-SPRINT-23",
+  "description": "Starter MIASI policy matrix template for new DevPilot projects. It blocks external APIs, secrets and remote execution by default.",
+  "rules": [
+    {
+      "rule_id": "POLICY-LOCAL-FIRST",
+      "domain": "workspace",
+      "action": "operate_locally",
+      "default_effect": "allow",
+      "gate": "local-first-required",
+      "approval_required": false,
+      "observability_required": true
+    },
+    {
+      "rule_id": "POLICY-DRY-RUN",
+      "domain": "automation",
+      "action": "plan_before_execute",
+      "default_effect": "deny_unless_safe_output",
+      "gate": "dry-run-first",
+      "approval_required": false,
+      "observability_required": true
+    },
+    {
+      "rule_id": "POLICY-NO-SECRETS",
+      "domain": "security",
+      "action": "include_secret_material",
+      "default_effect": "block",
+      "gate": "no-secrets-in-artifacts",
+      "approval_required": true,
+      "observability_required": true
+    },
+    {
+      "rule_id": "POLICY-HUMAN-APPROVAL",
+      "domain": "sensitive-actions",
+      "action": "perform_destructive_action",
+      "default_effect": "deny",
+      "gate": "human-approval-required",
+      "approval_required": true,
+      "observability_required": true
+    }
+  ]
+}

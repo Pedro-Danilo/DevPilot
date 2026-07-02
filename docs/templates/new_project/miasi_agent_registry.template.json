@@ -1,0 +1,57 @@
+{
+  "schema_version": "1.0",
+  "source_document": "docs/06_miasi/agent_registry.md",
+  "created_by": "FUNC-SPRINT-23",
+  "description": "Starter MIASI agent registry template for a local-first DevPilot project. Created as a template by POST-H-024-B; it contains no secrets and no vendor-specific provider dependency.",
+  "agents": [
+    {
+      "agent_id": "project_planner_agent",
+      "name": "Project Planner Agent",
+      "phase": "MVP",
+      "max_autonomy": "A1",
+      "status": "planned",
+      "risk_level": "medium",
+      "allowed_tools": [
+        "workspace_read_tool",
+        "docs_template_tool"
+      ],
+      "required_artifacts": [
+        "docs/product_vision.md",
+        "docs/requirements_specification.md",
+        "docs/architecture_document.md",
+        "docs/security_threat_model.md",
+        "docs/test_strategy.md"
+      ],
+      "policy_rule_ids": [
+        "POLICY-LOCAL-FIRST",
+        "POLICY-DRY-RUN"
+      ],
+      "approval_required": false,
+      "observability_required": true,
+      "eval_required": true
+    },
+    {
+      "agent_id": "quality_reviewer_agent",
+      "name": "Quality Reviewer Agent",
+      "phase": "MVP",
+      "max_autonomy": "A1",
+      "status": "planned",
+      "risk_level": "medium_high",
+      "allowed_tools": [
+        "docs_template_tool",
+        "readiness_preview_tool"
+      ],
+      "required_artifacts": [
+        "docs/test_strategy.md",
+        "docs/security_threat_model.md"
+      ],
+      "policy_rule_ids": [
+        "POLICY-NO-SECRETS",
+        "POLICY-HUMAN-APPROVAL"
+      ],
+      "approval_required": true,
+      "observability_required": true,
+      "eval_required": true
+    }
+  ]
+}

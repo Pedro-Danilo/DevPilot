@@ -56,15 +56,15 @@ def test_post_h_024_backlog_and_implementation_are_approved_for_a_only() -> None
     for text in (backlog, implementation):
         assert 'status: "approved"' in text
         assert 'approval: "approved_by_owner"' in text
-        assert 'current_micro_sprint: "POST-H-024-A"' in text
-        assert 'next_micro_sprint: "POST-H-024-B"' in text
+        assert 'current_micro_sprint: "POST-H-024-B"' in text
+        assert 'next_micro_sprint: "POST-H-024-C"' in text
 
     assert 'Estado: `implemented-initial`.' in backlog
     assert '[x] Crear docs/05_operations/operator_onboarding_playbook.md.' in backlog
     assert '[x] Incluir flujo idea → workspace → docs → readiness → backlog.' in backlog
     assert '[x] Playbook aprobado.' in backlog
     assert 'POST-H-024-A queda implementado como **implemented-initial / playbook-only**' in implementation
-    assert 'No implementa todavía templates, bootstrap workflow' in implementation
+    assert 'No implementa todavía templates, bootstrap workflow' in implementation or 'No implementa todavía materialización de workspace' in implementation
     assert 'templates, bootstrap workflow, readiness preview y onboarding quality gate permanecen pendientes' in report or 'POST-H-024-B: templates' in report
 
 
@@ -98,8 +98,8 @@ def test_post_h_024_manifest_source_registry_and_tcr_are_registered() -> None:
     backlog_entry = next(item for item in source_registry["documents"] if item["doc_id"] == "POST-H-024-BACKLOG")
     assert backlog_entry["status_required"] == "approved"
     assert backlog_entry["lifecycle"] == "active"
-    assert source_registry["project_state_snapshot"]["current_micro_sprint"] == "POST-H-024-A"
-    assert source_registry["project_state_snapshot"]["next_micro_sprint"] == "POST-H-024-B"
+    assert source_registry["project_state_snapshot"]["current_micro_sprint"] == "POST-H-024-B"
+    assert source_registry["project_state_snapshot"]["next_micro_sprint"] == "POST-H-024-C"
 
     contract_ids_v1 = {item["contract_id"] for item in tcr_v1["contracts"]}
     contract_ids_v2 = {item["contract_id"] for item in tcr_v2["contracts"]}
@@ -121,10 +121,10 @@ def test_project_state_and_global_docs_point_to_post_h_024_a() -> None:
 
     assert state["last_completed_sprint"] == "POST-H-023"
     assert state["next_sprint"] == "POST-H-024"
-    assert state["current_micro_sprint"] == "POST-H-024-A"
-    assert state["next_micro_sprint"] == "POST-H-024-B"
+    assert state["current_micro_sprint"] == "POST-H-024-B"
+    assert state["next_micro_sprint"] == "POST-H-024-C"
     assert state["post_h_024_operator_playbook_available"] is True
-    assert state["post_h_024_templates_available"] is False
+    assert state["post_h_024_templates_available"] is True
     assert state["post_h_024_bootstrap_workflow_available"] is False
     assert state["post_h_024_onboarding_quality_gate_available"] is False
     assert state["post_h_024_network_used"] is False
@@ -134,10 +134,12 @@ def test_project_state_and_global_docs_point_to_post_h_024_a() -> None:
     assert state["post_h_024_plugin_execution_enabled"] is False
     assert any("POST-H-024-A approves Operator onboarding bootstrap" in note for note in state["notes"])
     assert any("POST-H-024-B is the next micro-sprint" in note for note in state["notes"])
+    assert any("POST-H-024-B adds versioned new-project" in note for note in state["notes"])
+    assert any("POST-H-024-C is the next micro-sprint" in note for note in state["notes"])
 
     for text in (readme, runbook):
         assert "POST-H-024-A — Playbook de operador" in text
-        assert "Siguiente micro-sprint: `POST-H-024-B — Templates de proyecto nuevo`" in text
+        assert "Siguiente micro-sprint: `POST-H-024-C — Bootstrap workflow dry-run`" in text or "Siguiente micro-sprint: `POST-H-024-B — Templates de proyecto nuevo`" in text
         assert "implemented-initial / playbook-only" in text or "Runbook dedicado" in text
 
     assert "post-h-024-a" in changelog

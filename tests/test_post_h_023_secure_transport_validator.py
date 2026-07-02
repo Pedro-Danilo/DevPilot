@@ -85,7 +85,7 @@ def test_secure_transport_validation_report_schema_is_registered_and_exports_are
     )
 
     assert state["post_h_023_current_micro_sprint"] == "POST-H-023-E"
-    assert state["current_micro_sprint"] == "POST-H-024-A"
+    assert state["current_micro_sprint"] == "POST-H-024-B"
     assert state["post_h_023_next_micro_sprint"] == "POST-H-024"
     assert state["post_h_023_secure_transport_validation_report_schema_registered"] is True
     assert state["post_h_023_secure_transport_validator_available"] is True

@@ -2,17 +2,55 @@
 title: "Runbook — DevPilot Local"
 doc_id: "DEVPL-OPS-002"
 status: "approved"
-version: "1.88.0"
+version: "1.89.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "POST-H-024-A"
+phase: "POST-H-024-B"
 updated: "2026-07-02"
 approval: "approved_by_owner"
 source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved + 03_security approved"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "SPRINT-PRECODE-05 quality operations baseline"
 ---
+
+## POST-H-024-B — Templates de proyecto nuevo
+
+Último hito cerrado: `POST-H-023`
+
+Hito activo: `POST-H-024 — Operator onboarding bootstrap`
+
+Último micro-sprint implementado: `POST-H-024-B — Templates de proyecto nuevo`
+
+Siguiente micro-sprint: `POST-H-024-C — Bootstrap workflow dry-run`
+
+Artefactos principales:
+
+```text
+docs/templates/new_project/*.template.md
+docs/templates/new_project/miasi_*.template.json
+src/devpilot_core/onboarding/templates.py
+```
+
+Propósito operacional: proveer una base versionada para que un operador cree la documentación pre-code mínima y los registries MIASI iniciales de un proyecto nuevo sin depender de memoria conversacional.
+
+Comandos focales:
+
+```powershell
+python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_024_project_templates.py tests/test_post_h_024_operator_onboarding.py tests/test_project_global_state.py -q
+python -m devpilot_core validate-frontmatter docs/templates/new_project/product_vision.template.md --strict --json
+python -m devpilot_core schema validate --schema-id MiasiAgentRegistry --instance docs/templates/new_project/miasi_agent_registry.template.json --json
+python -m devpilot_core schema validate --schema-id MiasiToolRegistry --instance docs/templates/new_project/miasi_tool_registry.template.json --json
+python -m devpilot_core schema validate --schema-id MiasiPolicyMatrix --instance docs/templates/new_project/miasi_policy_matrix.template.json --json
+python -m devpilot_core schema validate --schema-id PostHManifest --instance docs/post_h_024_b_manifest.json --json
+python -m devpilot_core docs-governance validate --json
+```
+
+PASS si todos los templates Markdown pasan frontmatter estricto, los templates JSON MIASI validan contra schema y no hay secretos ni vendor lock-in obligatorio.
+
+BLOCK si aparece cualquier secret/API key/private key, si un template exige proveedor único, si se habilita red/API externa/remote execution o si se intenta materializar un workspace antes de POST-H-024-C.
+
+Límite explícito: POST-H-024-B es `implemented-initial / templates-only`; `workspace bootstrap`, `project_bootstrap_report.json`, readiness preview y quality gate quedan pendientes.
 
 ## POST-H-024-A — Playbook de operador
 

@@ -1,0 +1,45 @@
+{
+  "schema_version": "1.0",
+  "source_document": "docs/06_miasi/tool_registry.md",
+  "created_by": "FUNC-SPRINT-23",
+  "description": "Starter MIASI tool registry template for local-first project onboarding. Tools are non-destructive, local and dry-run oriented.",
+  "tools": [
+    {
+      "tool_id": "workspace_read_tool",
+      "name": "Workspace Read Tool",
+      "phase": "MVP",
+      "side_effect": "read",
+      "risk_level": "low",
+      "status": "planned",
+      "requires_approval": false,
+      "policy_rule_ids": [
+        "POLICY-LOCAL-FIRST"
+      ]
+    },
+    {
+      "tool_id": "docs_template_tool",
+      "name": "Documentation Template Tool",
+      "phase": "MVP",
+      "side_effect": "report",
+      "risk_level": "medium",
+      "status": "planned",
+      "requires_approval": false,
+      "policy_rule_ids": [
+        "POLICY-DRY-RUN",
+        "POLICY-NO-SECRETS"
+      ]
+    },
+    {
+      "tool_id": "readiness_preview_tool",
+      "name": "Readiness Preview Tool",
+      "phase": "MVP+",
+      "side_effect": "simulation",
+      "risk_level": "medium",
+      "status": "planned",
+      "requires_approval": false,
+      "policy_rule_ids": [
+        "POLICY-DRY-RUN"
+      ]
+    }
+  ]
+}

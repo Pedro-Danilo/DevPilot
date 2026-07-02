@@ -2,7 +2,7 @@
   "schema_version": "1.0",
   "schema_id": "SCHEMA-DEVPL-DOCUMENTATION-SOURCE-REGISTRY-V1",
   "registry_id": "devpilot-documentation-source-registry",
-  "created_by": "POST-H-009-A",
+  "created_by": "POST-H-024-B",
   "status": "implemented-initial",
   "phase": "POST-FASE-H",
   "owner": "Ordóñez",
@@ -1138,11 +1138,23 @@
         "docs/05_operations/operator_onboarding_playbook.md",
         "docs/POST-H-024_operator_onboarding_bootstrap.md",
         "docs/audits/post_h_024_a_operator_playbook_report.md",
-        "docs/post_h_024_a_manifest.json"
+        "docs/audits/post_h_024_b_project_templates_report.md",
+        "docs/post_h_024_a_manifest.json",
+        "docs/post_h_024_b_manifest.json",
+        "docs/templates/new_project/architecture_document.template.md",
+        "docs/templates/new_project/miasi_agent_registry.template.json",
+        "docs/templates/new_project/miasi_policy_matrix.template.json",
+        "docs/templates/new_project/miasi_tool_registry.template.json",
+        "docs/templates/new_project/mvp_scope.template.md",
+        "docs/templates/new_project/product_vision.template.md",
+        "docs/templates/new_project/requirements_specification.template.md",
+        "docs/templates/new_project/security_threat_model.template.md",
+        "docs/templates/new_project/test_strategy.template.md"
       ],
       "required_tests": [
         "tests/test_documentation_governance_backlogs.py",
-        "tests/test_post_h_024_operator_onboarding.py"
+        "tests/test_post_h_024_operator_onboarding.py",
+        "tests/test_post_h_024_project_templates.py"
       ],
       "sync_rules": [
         "backlog_naming",
@@ -1156,7 +1168,9 @@
       "lifecycle": "active",
       "notes": [
         "POST-H-024 is approved and active after POST-H-023 closure.",
-        "POST-H-024-A implements the operator playbook only; templates/bootstrap workflow remain pending."
+        "POST-H-024-A implements the operator playbook only; templates/bootstrap workflow remain pending.",
+        "POST-H-024-B implements new-project templates only; bootstrap workflow remains pending.",
+        "POST-H-024-C is next: bootstrap workflow dry-run."
       ]
     },
     {
@@ -4921,12 +4935,13 @@
       "path": "docs/POST-H-024_operator_onboarding_bootstrap.md",
       "classification": "source-of-truth",
       "domain": "operator-onboarding",
-      "owner": "POST-H-024-A",
+      "owner": "POST-H-024-B",
       "status_required": "approved",
       "criticality": "P1",
       "frontmatter_required": true,
       "required_tests": [
         "tests/test_post_h_024_operator_onboarding.py",
+        "tests/test_post_h_024_project_templates.py",
         "tests/test_project_global_state.py"
       ],
       "sync_rules": [
@@ -4953,6 +4968,7 @@
       "frontmatter_required": true,
       "required_tests": [
         "tests/test_post_h_024_operator_onboarding.py",
+        "tests/test_post_h_024_project_templates.py",
         "tests/test_project_global_state.py"
       ],
       "sync_rules": [
@@ -5040,6 +5056,342 @@
       "notes": [
         "Focused regression test for POST-H-024-A playbook governance."
       ]
+    },
+    {
+      "domain": "operator-onboarding",
+      "criticality": "P1",
+      "roadmap_milestones": [
+        "POST-H-024"
+      ],
+      "lifecycle": "active",
+      "doc_id": "NEW-PROJECT-PRODUCT-VISION-TEMPLATE",
+      "path": "docs/templates/new_project/product_vision.template.md",
+      "classification": "source-of-truth",
+      "owner": "POST-H-024-B",
+      "status_required": "approved",
+      "frontmatter_required": true,
+      "required_tests": [
+        "tests/test_post_h_024_project_templates.py"
+      ],
+      "sync_rules": [
+        "frontmatter_status",
+        "template_local_first",
+        "template_no_secrets"
+      ],
+      "notes": [
+        "Product vision template for new local-first projects."
+      ]
+    },
+    {
+      "domain": "operator-onboarding",
+      "criticality": "P1",
+      "roadmap_milestones": [
+        "POST-H-024"
+      ],
+      "lifecycle": "active",
+      "doc_id": "NEW-PROJECT-MVP-SCOPE-TEMPLATE",
+      "path": "docs/templates/new_project/mvp_scope.template.md",
+      "classification": "source-of-truth",
+      "owner": "POST-H-024-B",
+      "status_required": "approved",
+      "frontmatter_required": true,
+      "required_tests": [
+        "tests/test_post_h_024_project_templates.py"
+      ],
+      "sync_rules": [
+        "frontmatter_status",
+        "template_local_first",
+        "template_no_secrets"
+      ],
+      "notes": [
+        "MVP scope template for new local-first projects."
+      ]
+    },
+    {
+      "domain": "operator-onboarding",
+      "criticality": "P1",
+      "roadmap_milestones": [
+        "POST-H-024"
+      ],
+      "lifecycle": "active",
+      "doc_id": "NEW-PROJECT-REQUIREMENTS-SPECIFICATION-TEMPLATE",
+      "path": "docs/templates/new_project/requirements_specification.template.md",
+      "classification": "source-of-truth",
+      "owner": "POST-H-024-B",
+      "status_required": "approved",
+      "frontmatter_required": true,
+      "required_tests": [
+        "tests/test_post_h_024_project_templates.py"
+      ],
+      "sync_rules": [
+        "frontmatter_status",
+        "template_local_first",
+        "template_no_secrets"
+      ],
+      "notes": [
+        "Requirements specification template for new local-first projects."
+      ]
+    },
+    {
+      "domain": "operator-onboarding",
+      "criticality": "P1",
+      "roadmap_milestones": [
+        "POST-H-024"
+      ],
+      "lifecycle": "active",
+      "doc_id": "NEW-PROJECT-ARCHITECTURE-DOCUMENT-TEMPLATE",
+      "path": "docs/templates/new_project/architecture_document.template.md",
+      "classification": "source-of-truth",
+      "owner": "POST-H-024-B",
+      "status_required": "approved",
+      "frontmatter_required": true,
+      "required_tests": [
+        "tests/test_post_h_024_project_templates.py"
+      ],
+      "sync_rules": [
+        "frontmatter_status",
+        "template_local_first",
+        "template_no_secrets"
+      ],
+      "notes": [
+        "Architecture document template with ModelAdapter guidance."
+      ]
+    },
+    {
+      "domain": "operator-onboarding",
+      "criticality": "P1",
+      "roadmap_milestones": [
+        "POST-H-024"
+      ],
+      "lifecycle": "active",
+      "doc_id": "NEW-PROJECT-SECURITY-THREAT-MODEL-TEMPLATE",
+      "path": "docs/templates/new_project/security_threat_model.template.md",
+      "classification": "source-of-truth",
+      "owner": "POST-H-024-B",
+      "status_required": "approved",
+      "frontmatter_required": true,
+      "required_tests": [
+        "tests/test_post_h_024_project_templates.py"
+      ],
+      "sync_rules": [
+        "frontmatter_status",
+        "template_local_first",
+        "template_no_secrets"
+      ],
+      "notes": [
+        "Security threat model template with no-go gates."
+      ]
+    },
+    {
+      "domain": "operator-onboarding",
+      "criticality": "P1",
+      "roadmap_milestones": [
+        "POST-H-024"
+      ],
+      "lifecycle": "active",
+      "doc_id": "NEW-PROJECT-TEST-STRATEGY-TEMPLATE",
+      "path": "docs/templates/new_project/test_strategy.template.md",
+      "classification": "source-of-truth",
+      "owner": "POST-H-024-B",
+      "status_required": "approved",
+      "frontmatter_required": true,
+      "required_tests": [
+        "tests/test_post_h_024_project_templates.py"
+      ],
+      "sync_rules": [
+        "frontmatter_status",
+        "template_local_first",
+        "template_no_secrets"
+      ],
+      "notes": [
+        "Test strategy template for local-first quality evidence."
+      ]
+    },
+    {
+      "domain": "operator-onboarding",
+      "criticality": "P1",
+      "roadmap_milestones": [
+        "POST-H-024"
+      ],
+      "lifecycle": "active",
+      "doc_id": "POST-H-024-B-MIASI-AGENT-TEMPLATE",
+      "path": "docs/templates/new_project/miasi_agent_registry.template.json",
+      "classification": "machine-readable-source",
+      "owner": "POST-H-024-B",
+      "status_required": "implemented-initial",
+      "frontmatter_required": false,
+      "required_tests": [
+        "tests/test_post_h_024_project_templates.py"
+      ],
+      "sync_rules": [
+        "post_h_024_b_template_contract"
+      ],
+      "notes": [
+        "Starter MIASI agent registry template."
+      ]
+    },
+    {
+      "domain": "operator-onboarding",
+      "criticality": "P1",
+      "roadmap_milestones": [
+        "POST-H-024"
+      ],
+      "lifecycle": "active",
+      "doc_id": "POST-H-024-B-MIASI-TOOL-TEMPLATE",
+      "path": "docs/templates/new_project/miasi_tool_registry.template.json",
+      "classification": "machine-readable-source",
+      "owner": "POST-H-024-B",
+      "status_required": "implemented-initial",
+      "frontmatter_required": false,
+      "required_tests": [
+        "tests/test_post_h_024_project_templates.py"
+      ],
+      "sync_rules": [
+        "post_h_024_b_template_contract"
+      ],
+      "notes": [
+        "Starter MIASI tool registry template."
+      ]
+    },
+    {
+      "domain": "operator-onboarding",
+      "criticality": "P1",
+      "roadmap_milestones": [
+        "POST-H-024"
+      ],
+      "lifecycle": "active",
+      "doc_id": "POST-H-024-B-MIASI-POLICY-TEMPLATE",
+      "path": "docs/templates/new_project/miasi_policy_matrix.template.json",
+      "classification": "machine-readable-source",
+      "owner": "POST-H-024-B",
+      "status_required": "implemented-initial",
+      "frontmatter_required": false,
+      "required_tests": [
+        "tests/test_post_h_024_project_templates.py"
+      ],
+      "sync_rules": [
+        "post_h_024_b_template_contract"
+      ],
+      "notes": [
+        "Starter MIASI policy matrix template."
+      ]
+    },
+    {
+      "domain": "operator-onboarding",
+      "criticality": "P1",
+      "roadmap_milestones": [
+        "POST-H-024"
+      ],
+      "lifecycle": "active",
+      "doc_id": "POST-H-024-B-MANIFEST",
+      "path": "docs/post_h_024_b_manifest.json",
+      "classification": "machine-readable-source",
+      "owner": "POST-H-024-B",
+      "status_required": "implemented-initial",
+      "frontmatter_required": false,
+      "required_tests": [
+        "tests/test_post_h_024_project_templates.py"
+      ],
+      "sync_rules": [
+        "post_h_024_b_template_contract"
+      ],
+      "notes": [
+        "Machine-readable manifest for POST-H-024-B."
+      ]
+    },
+    {
+      "domain": "operator-onboarding",
+      "criticality": "P1",
+      "roadmap_milestones": [
+        "POST-H-024"
+      ],
+      "lifecycle": "active",
+      "doc_id": "POST-H-024-B-ONBOARDING-TEMPLATES-MODULE",
+      "path": "src/devpilot_core/onboarding/templates.py",
+      "classification": "machine-readable-source",
+      "owner": "POST-H-024-B",
+      "status_required": "implemented-initial",
+      "frontmatter_required": false,
+      "required_tests": [
+        "tests/test_post_h_024_project_templates.py"
+      ],
+      "sync_rules": [
+        "post_h_024_b_template_contract"
+      ],
+      "notes": [
+        "Read-only catalog and validator helper for POST-H-024-B templates."
+      ]
+    },
+    {
+      "domain": "operator-onboarding",
+      "criticality": "P1",
+      "roadmap_milestones": [
+        "POST-H-024"
+      ],
+      "lifecycle": "active",
+      "doc_id": "POST-H-024-B-ONBOARDING-TEMPLATES-INIT",
+      "path": "src/devpilot_core/onboarding/__init__.py",
+      "classification": "machine-readable-source",
+      "owner": "POST-H-024-B",
+      "status_required": "implemented-initial",
+      "frontmatter_required": false,
+      "required_tests": [
+        "tests/test_post_h_024_project_templates.py"
+      ],
+      "sync_rules": [
+        "post_h_024_b_template_contract"
+      ],
+      "notes": [
+        "Onboarding package exports for template helper."
+      ]
+    },
+    {
+      "domain": "operator-onboarding",
+      "criticality": "P1",
+      "roadmap_milestones": [
+        "POST-H-024"
+      ],
+      "lifecycle": "active",
+      "doc_id": "POST-H-024-B-PROJECT-TEMPLATES-TEST",
+      "path": "tests/test_post_h_024_project_templates.py",
+      "classification": "machine-readable-source",
+      "owner": "POST-H-024-B",
+      "status_required": "implemented-initial",
+      "frontmatter_required": false,
+      "required_tests": [
+        "tests/test_post_h_024_project_templates.py"
+      ],
+      "sync_rules": [
+        "post_h_024_b_template_contract"
+      ],
+      "notes": [
+        "Focused regression test for POST-H-024-B templates."
+      ]
+    },
+    {
+      "domain": "operator-onboarding",
+      "criticality": "P1",
+      "roadmap_milestones": [
+        "POST-H-024"
+      ],
+      "lifecycle": "active",
+      "doc_id": "POST-H-024-B-PROJECT-TEMPLATES-REPORT",
+      "path": "docs/audits/post_h_024_b_project_templates_report.md",
+      "classification": "source-of-truth",
+      "owner": "POST-H-024-B",
+      "status_required": "approved",
+      "frontmatter_required": true,
+      "required_tests": [
+        "tests/test_post_h_024_project_templates.py",
+        "tests/test_project_global_state.py"
+      ],
+      "sync_rules": [
+        "frontmatter_status",
+        "scope_adjustment_documented"
+      ],
+      "notes": [
+        "Audit report for POST-H-024-B new-project templates."
+      ]
     }
   ],
   "rules": {
@@ -5111,20 +5463,20 @@
     "remote_runner_design_runbook_registered": true
   },
   "summary": {
-    "documents_total": 176,
-    "source_of_truth_total": 65,
-    "machine_readable_source_total": 69,
+    "documents_total": 190,
+    "source_of_truth_total": 74,
+    "machine_readable_source_total": 78,
     "derived_total": 32,
     "generated_runtime_total": 0,
     "historical_total": 0,
     "deprecated_total": 0,
-    "critical_sources_total": 84,
+    "critical_sources_total": 103,
     "markdown_json_pairs_total": 30,
-    "documents_with_required_tests_total": 171,
+    "documents_with_required_tests_total": 190,
     "network_used": false,
     "external_api_used": false,
     "mutations_performed": false,
-    "last_updated_by": "POST-H-023-E",
+    "last_updated_by": "POST-H-024-B",
     "markdown_json_sync_checks_enabled": true,
     "sync_checks_scope": "version_match, milestones_match, decisions_match, closure_status_match, next_hito_match",
     "roadmap_derived_backlog_governance_enabled": true,
@@ -5211,9 +5563,9 @@
     "POST-H-024-A registers operator onboarding playbook, implementation doc, report, manifest and focused test."
   ],
   "project_state_snapshot": {
-    "last_updated_by": "POST-H-023-E",
-    "current_micro_sprint": "POST-H-024-A",
-    "next_micro_sprint": "POST-H-024-B",
+    "last_updated_by": "POST-H-024-B",
+    "current_micro_sprint": "POST-H-024-B",
+    "next_micro_sprint": "POST-H-024-C",
     "last_completed_sprint": "POST-H-023",
     "next_sprint": "POST-H-024",
     "post_h_023_current_micro_sprint": "POST-H-023-E",
@@ -5232,6 +5584,19 @@
     "connector_write_enabled": false,
     "plugin_execution_enabled": false,
     "network_used": false,
-    "sockets_opened": false
+    "sockets_opened": false,
+    "post_h_024_current_micro_sprint": "POST-H-024-B",
+    "post_h_024_next_micro_sprint": "POST-H-024-C",
+    "post_h_024_operator_playbook_available": true,
+    "post_h_024_templates_available": true,
+    "post_h_024_bootstrap_workflow_available": false,
+    "post_h_024_readiness_preview_available": false,
+    "post_h_024_onboarding_quality_gate_available": false,
+    "post_h_024_network_used": false,
+    "post_h_024_external_api_used": false,
+    "post_h_024_remote_execution_enabled": false,
+    "post_h_024_connector_write_enabled": false,
+    "post_h_024_plugin_execution_enabled": false,
+    "post_h_024_secrets_included": false
   }
 }

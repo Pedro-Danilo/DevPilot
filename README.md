@@ -1,3 +1,21 @@
+## POST-H-024-B — Templates de proyecto nuevo
+
+Último hito cerrado: `POST-H-023`
+
+Hito activo: `POST-H-024 — Operator onboarding bootstrap`
+
+Último micro-sprint implementado: `POST-H-024-B — Templates de proyecto nuevo`
+
+Siguiente micro-sprint: `POST-H-024-C — Bootstrap workflow dry-run`
+
+POST-H-024-B agrega templates Markdown para producto, alcance MVP, requisitos, arquitectura, seguridad y estrategia de pruebas, además de templates JSON MIASI para agent registry, tool registry y policy matrix.
+
+La capacidad es `implemented-initial / templates-only`: los templates son versionados, validables y local-first, pero todavía no existe `workspace bootstrap`, no se materializan proyectos, no se genera `project_bootstrap_report.json`, no hay readiness preview automatizado y no se habilita quality gate de onboarding.
+
+No-go gates conservados: `network_used=false`, `external_api_used=false`, `remote_execution_enabled=false`, `connector_write_enabled=false`, `plugin_execution_enabled=false`, `secrets_included=false`.
+
+Verificación focal recomendada: `python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_024_project_templates.py tests/test_post_h_024_operator_onboarding.py tests/test_project_global_state.py -q`.
+
 ## POST-H-024-A — Playbook de operador
 
 Último hito cerrado: `POST-H-023`

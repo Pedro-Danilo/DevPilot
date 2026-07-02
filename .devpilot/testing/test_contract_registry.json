@@ -6222,6 +6222,56 @@
       "recommended_commands": [
         "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_024_operator_onboarding.py tests/test_project_global_state.py -q"
       ]
+    },
+    {
+      "contract_id": "post-h-024-project-templates",
+      "scope": "integration",
+      "owner": "POST-H-024-B",
+      "phase": "POST-FASE-H",
+      "test_files": [
+        "tests/test_post_h_024_project_templates.py"
+      ],
+      "validates": [
+        "docs/templates/new_project/product_vision.template.md",
+        "docs/templates/new_project/mvp_scope.template.md",
+        "docs/templates/new_project/requirements_specification.template.md",
+        "docs/templates/new_project/architecture_document.template.md",
+        "docs/templates/new_project/security_threat_model.template.md",
+        "docs/templates/new_project/test_strategy.template.md",
+        "docs/templates/new_project/miasi_agent_registry.template.json",
+        "docs/templates/new_project/miasi_tool_registry.template.json",
+        "docs/templates/new_project/miasi_policy_matrix.template.json",
+        "src/devpilot_core/onboarding/templates.py",
+        "docs/audits/post_h_024_b_project_templates_report.md",
+        "docs/post_h_024_b_manifest.json",
+        ".devpilot/docs_governance/source_registry.json",
+        ".devpilot/project_state.json"
+      ],
+      "watched_paths": [
+        "docs/templates/new_project/",
+        "src/devpilot_core/onboarding/",
+        "docs/POST-H-024_operator_onboarding_bootstrap.md",
+        "docs/backlogs/POST-H-024_operator_onboarding_bootstrap.md",
+        "docs/audits/post_h_024_b_project_templates_report.md",
+        "docs/post_h_024_b_manifest.json",
+        ".devpilot/docs_governance/source_registry.json",
+        ".devpilot/project_state.json",
+        "README.md",
+        "docs/05_operations/runbook.md",
+        "tests/test_post_h_024_project_templates.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_024_project_templates.py tests/test_post_h_024_operator_onboarding.py tests/test_project_global_state.py -q",
+        "python -m devpilot_core schema validate --schema-id MiasiAgentRegistry --instance docs/templates/new_project/miasi_agent_registry.template.json --json",
+        "python -m devpilot_core schema validate --schema-id MiasiToolRegistry --instance docs/templates/new_project/miasi_tool_registry.template.json --json",
+        "python -m devpilot_core schema validate --schema-id MiasiPolicyMatrix --instance docs/templates/new_project/miasi_policy_matrix.template.json --json"
+      ]
     }
   ],
   "notes": [

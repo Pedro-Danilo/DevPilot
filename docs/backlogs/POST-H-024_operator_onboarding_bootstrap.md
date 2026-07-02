@@ -4,7 +4,7 @@ doc_id: "POST-H-024-BACKLOG"
 id: "POST-H-024"
 title: "POST-H-024 — Operator onboarding playbook y project bootstrap workflow"
 status: "approved"
-version: "0.2.0"
+version: "0.3.0"
 owner: "Ordóñez"
 updated: "2026-07-02"
 approval: "approved_by_owner"
@@ -18,8 +18,8 @@ no_external_apis_used: true
 no_connector_write_enabled: true
 no_plugin_execution_enabled: true
 implementation_status: "in-progress"
-current_micro_sprint: "POST-H-024-A"
-next_micro_sprint: "POST-H-024-B"
+current_micro_sprint: "POST-H-024-B"
+next_micro_sprint: "POST-H-024-C"
 ---
 
 # POST-H-024 — Operator onboarding playbook y project bootstrap workflow
@@ -196,14 +196,34 @@ PASS si contiene local-first/dry-run/no-remote como reglas explícitas.
 
 ### POST-H-024-B — Templates de proyecto nuevo
 
+Estado: `implemented-initial`.
+
 Tareas:
 
 ```text
-1. Crear templates Markdown para producto, requisitos, arquitectura, seguridad y calidad.
-2. Crear templates JSON para MIASI registries mínimos.
-3. Agregar frontmatter compatible.
-4. Crear tests de validez de templates.
+1. [x] Crear templates Markdown para producto, requisitos, arquitectura, seguridad y calidad.
+2. [x] Crear templates JSON para MIASI registries mínimos.
+3. [x] Agregar frontmatter compatible.
+4. [x] Crear tests de validez de templates.
 ```
+
+Artefactos:
+
+```text
+docs/templates/new_project/product_vision.template.md
+docs/templates/new_project/mvp_scope.template.md
+docs/templates/new_project/requirements_specification.template.md
+docs/templates/new_project/architecture_document.template.md
+docs/templates/new_project/security_threat_model.template.md
+docs/templates/new_project/test_strategy.template.md
+docs/templates/new_project/miasi_agent_registry.template.json
+docs/templates/new_project/miasi_tool_registry.template.json
+docs/templates/new_project/miasi_policy_matrix.template.json
+src/devpilot_core/onboarding/templates.py
+tests/test_post_h_024_project_templates.py
+```
+
+Límite: `implemented-initial / templates-only`; no implementa todavía `workspace bootstrap`, `project_bootstrap_report.json`, readiness preview ni quality gate de onboarding.
 
 PASS:
 
@@ -314,7 +334,7 @@ BLOCK si se omite MIASI en proyectos agent-assisted.
 
 ```text
 [x] Playbook aprobado.
-[ ] Templates Markdown y JSON creados.
+[x] Templates Markdown y JSON creados.
 [ ] Bootstrap dry-run implementado.
 [ ] Reporte bootstrap validable.
 [ ] Fixture piloto cubierto por tests.

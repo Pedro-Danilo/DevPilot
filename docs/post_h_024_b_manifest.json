@@ -1,0 +1,92 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "SCHEMA-DEVPL-POST-H-MANIFEST-V1",
+  "manifest_id": "post_h_024_b_manifest",
+  "post_h_id": "POST-H-024",
+  "hito": "POST-H-024",
+  "micro_sprint": "POST-H-024-B",
+  "title": "Templates de proyecto nuevo",
+  "status": "implemented-initial",
+  "created_by": "POST-H-024-B",
+  "updated": "2026-07-02",
+  "implemented_at": "2026-07-02",
+  "phase": "POST-FASE-H",
+  "owner": "Ordóñez",
+  "approval": "approved_by_owner",
+  "next_sprint": "POST-H-024",
+  "next_micro_sprint": "POST-H-024-C",
+  "implementation_status": "implemented-initial",
+  "preliminary": true,
+  "local_first": true,
+  "dry_run": true,
+  "read_only": true,
+  "no_remote_execution_enabled": true,
+  "no_external_apis_used": true,
+  "no_connector_write_enabled": true,
+  "no_plugin_execution_enabled": true,
+  "created_files": [
+    "docs/templates/new_project/product_vision.template.md",
+    "docs/templates/new_project/mvp_scope.template.md",
+    "docs/templates/new_project/requirements_specification.template.md",
+    "docs/templates/new_project/architecture_document.template.md",
+    "docs/templates/new_project/security_threat_model.template.md",
+    "docs/templates/new_project/test_strategy.template.md",
+    "docs/templates/new_project/miasi_agent_registry.template.json",
+    "docs/templates/new_project/miasi_tool_registry.template.json",
+    "docs/templates/new_project/miasi_policy_matrix.template.json",
+    "src/devpilot_core/onboarding/__init__.py",
+    "src/devpilot_core/onboarding/templates.py",
+    "docs/audits/post_h_024_b_project_templates_report.md",
+    "docs/post_h_024_b_manifest.json",
+    "tests/test_post_h_024_project_templates.py"
+  ],
+  "modified_files": [
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/backlogs/POST-H-024_operator_onboarding_bootstrap.md",
+    "docs/POST-H-024_operator_onboarding_bootstrap.md",
+    "docs/release/CHANGELOG.md",
+    ".devpilot/project_state.json",
+    ".devpilot/docs_governance/source_registry.json",
+    ".devpilot/testing/test_contract_registry.json",
+    ".devpilot/testing/test_contract_registry_v2.json",
+    "tests/test_post_h_024_operator_onboarding.py",
+    "tests/test_project_global_state.py"
+  ],
+  "commands": [
+    "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_024_project_templates.py tests/test_post_h_024_operator_onboarding.py tests/test_project_global_state.py -q",
+    "python -m devpilot_core validate-frontmatter docs/templates/new_project/product_vision.template.md --strict --json",
+    "python -m devpilot_core schema validate --schema-id MiasiAgentRegistry --instance docs/templates/new_project/miasi_agent_registry.template.json --json",
+    "python -m devpilot_core schema validate --schema-id MiasiToolRegistry --instance docs/templates/new_project/miasi_tool_registry.template.json --json",
+    "python -m devpilot_core schema validate --schema-id MiasiPolicyMatrix --instance docs/templates/new_project/miasi_policy_matrix.template.json --json",
+    "python -m devpilot_core schema validate --schema-id PostHManifest --instance docs/post_h_024_b_manifest.json --json",
+    "python -m devpilot_core test-contracts validate --json",
+    "python -m devpilot_core test-contracts validate-v2 --json",
+    "python -m devpilot_core docs-governance validate --json",
+    "python -m devpilot_core project-state validate --json"
+  ],
+  "tests": [
+    "tests/test_post_h_024_project_templates.py",
+    "tests/test_post_h_024_operator_onboarding.py",
+    "tests/test_project_global_state.py"
+  ],
+  "pass_criteria": [
+    "Templates Markdown pasan frontmatter estricto.",
+    "Templates MIASI son válidos estructuralmente contra schemas existentes.",
+    "Templates no contienen secretos ni API keys conocidas.",
+    "Templates declaran local-first, dry-run, no-remote y no-vendor-lock-in.",
+    "TCR v1/v2 y documentation governance registran POST-H-024-B."
+  ],
+  "block_criteria": [
+    "Algún template Markdown no tiene frontmatter compatible.",
+    "Algún template MIASI viola schema estructural.",
+    "Aparecen secretos, API keys, private keys o vendor lock-in obligatorio.",
+    "Se implementa bootstrap workflow, escritura de workspace o CLI fuera de alcance de B.",
+    "Se habilita red, APIs externas, connector write, plugin execution o remote execution."
+  ],
+  "risks": [
+    "Primera versión de templates; requiere validación con fixture piloto en POST-H-024-E.",
+    "No hay materialización automática hasta POST-H-024-C.",
+    "La validación semántica profunda de readiness queda para POST-H-024-D."
+  ]
+}
