@@ -208,9 +208,9 @@ def test_enterprise_threat_model_documents_do_not_overclaim_enterprise_readiness
         assert claim not in combined
 
     assert 'status: "approved"' in backlog
-    assert 'implementation_status: "active"' in backlog
-    assert 'current_micro_sprint: "POST-H-022-D"' in backlog
-    assert 'next_micro_sprint: "POST-H-022-E"' in backlog
+    assert 'implementation_status: "closed"' in backlog
+    assert 'current_micro_sprint: "POST-H-022-E"' in backlog
+    assert 'next_micro_sprint: "POST-H-023"' in backlog
     assert "stride/linddun" in threat_model
     assert "critical_threats_have_controls=true" in threat_model
     assert "enterprise-threat-model-design-only" in threat_model
@@ -223,13 +223,14 @@ def test_project_state_and_historical_remote_closure_are_synchronized_for_post_h
     runbook = read_text("docs/05_operations/runbook.md")
     changelog = read_text("docs/release/CHANGELOG.md")
 
-    assert state["last_completed_sprint"] == "POST-H-021"
-    assert state["next_sprint"] == "POST-H-022"
-    assert state["current_micro_sprint"] == "POST-H-022-D"
-    assert state["next_micro_sprint"] == "POST-H-022-E"
+    assert state["last_completed_sprint"] == "POST-H-022"
+    assert state["next_sprint"] == "POST-H-023"
+    assert state["current_micro_sprint"] == "POST-H-022-E"
+    assert state["next_micro_sprint"] == "POST-H-023"
     assert state["post_h_021_closed"] is True
-    assert state["post_h_022_current_micro_sprint"] == "POST-H-022-D"
-    assert state["post_h_022_next_micro_sprint"] == "POST-H-022-E"
+    assert state["post_h_022_current_micro_sprint"] == "POST-H-022-E"
+    assert state["post_h_022_next_micro_sprint"] == "POST-H-023"
+    assert state["post_h_022_closed"] is True
     assert state["post_h_022_enterprise_threat_catalog_registered"] is True
     assert state["post_h_022_enterprise_critical_threats_have_controls"] is True
     assert state["post_h_022_enterprise_all_boundaries_have_threats"] is True
@@ -243,19 +244,23 @@ def test_project_state_and_historical_remote_closure_are_synchronized_for_post_h
     assert any("POST-H-022-A approves Enterprise deployment threat model" in note for note in state["notes"])
     assert any("POST-H-022-B adds STRIDE/LINDDUN threat catalog" in note for note in state["notes"])
     assert any("POST-H-022-C registers EnterpriseControlMatrix" in note for note in state["notes"])
+    assert any("POST-H-022-E adds enterprise design runbook" in note for note in state["notes"])
+    assert any("POST-H-022 closes Enterprise deployment threat model" in note for note in state["notes"])
 
     for text in (readme, runbook):
         assert "POST-H-022-A — Asset inventory y trust boundaries" in text
         assert "POST-H-022-B — Threat catalog STRIDE/LINDDUN adaptado" in text
         assert "POST-H-022-C — Enterprise control matrix" in text
         assert "POST-H-022-D — Validator/report read-only" in text
-        assert "Último hito cerrado: `POST-H-021`" in text
-        assert "Siguiente hito: `POST-H-022`" in text
+        assert "POST-H-022-E — Runbook y cierre" in text
+        assert "Último hito: `POST-H-022`" in text
+        assert "Siguiente hito: `POST-H-023`" in text
 
     assert "post-h-022-a" in changelog
     assert "post-h-022-b" in changelog
     assert "post-h-022-c" in changelog
     assert "post-h-022-d" in changelog
+    assert "post-h-022-e" in changelog
     assert "EnterpriseThreatModel" in changelog
 
 
@@ -317,6 +322,16 @@ def test_post_h_022_a_manifest_source_registry_and_tcr_are_registered() -> None:
     assert "POST-H-022-D-MANIFEST" in doc_ids
     assert "post-h-022-enterprise-threat-model-validator" in contract_ids_v1
     assert "post-h-022-enterprise-threat-model-validator" in contract_ids_v2
+
+    manifest_e = read_json("docs/post_h_022_e_manifest.json")
+    assert manifest_e["micro_sprint"] == "POST-H-022-E"
+    assert manifest_e["next_sprint"] == "POST-H-023"
+    assert manifest_e["enterprise_deployment_enabled"] is False
+    assert "POST-H-022-ENTERPRISE-DESIGN-RUNBOOK" in doc_ids
+    assert "POST-H-022-E-ENTERPRISE-CLOSURE-REPORT" in doc_ids
+    assert "POST-H-022-E-MANIFEST" in doc_ids
+    assert "post-h-022-enterprise-runbook-closure" in contract_ids_v1
+    assert "post-h-022-enterprise-runbook-closure" in contract_ids_v2
 
 
 def test_enterprise_threat_model_validator_report_and_quality_gate_are_design_only() -> None:

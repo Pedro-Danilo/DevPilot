@@ -23,9 +23,9 @@ def test_project_global_state_schema_and_docs_are_synchronized() -> None:
     changelog = read("docs/release/CHANGELOG.md")
 
     assert state["current_phase"] == "POST-FASE-H"
-    assert state["last_completed_sprint"] == "POST-H-021"
+    assert state["last_completed_sprint"] == "POST-H-022"
     assert state["last_functional_sprint"] == "FUNC-SPRINT-99"
-    assert state["next_sprint"] == "POST-H-022"
+    assert state["next_sprint"] == "POST-H-023"
     assert state["phase_h_status"] == "closed_implemented_initial"
     assert state["industrial_baseline_ready"] is True
     assert state["global_state_owner"] == "tests/test_project_global_state.py"
@@ -102,8 +102,8 @@ def test_project_global_state_schema_and_docs_are_synchronized() -> None:
     assert any("POST-H-013-D adds optional local crypto" in note for note in state["notes"])
     assert any("POST-H-013-E closes Audit pack integrity" in note for note in state["notes"])
     assert any("POST-H-014 is the next prioritized hito" in note for note in state["notes"])
-    assert state.get("current_micro_sprint") == "POST-H-022-D"
-    assert state.get("next_micro_sprint") == "POST-H-022-E"
+    assert state.get("current_micro_sprint") == "POST-H-022-E"
+    assert state.get("next_micro_sprint") == "POST-H-023"
     assert "POST-H-014-A — Route Contract Registry y API inventory" in readme
     assert "POST-H-014-B — Response mapping y errores homogéneos" in readme
     assert "POST-H-014-C — UI Route Contract y shell de producto" in readme
@@ -212,7 +212,9 @@ def test_project_global_state_schema_and_docs_are_synchronized() -> None:
     assert any("POST-H-022-D is the next micro-sprint" in note for note in state["notes"])
     assert any("POST-H-022-D adds EnterpriseThreatModelValidator" in note for note in state["notes"])
     assert any("POST-H-022-D adds enterprise-threat-model-design-only" in note for note in state["notes"])
-    assert any("POST-H-022-E is the next micro-sprint" in note for note in state["notes"])
+    assert any("POST-H-022-E adds enterprise design runbook" in note for note in state["notes"])
+    assert any("POST-H-022 closes Enterprise deployment threat model" in note for note in state["notes"])
+    assert any("POST-H-023 is the next prioritized hito" in note for note in state["notes"])
     assert "POST-H-019-A — Threat model y sandbox design" in readme
     assert "POST-H-019-A — Threat model y sandbox design" in runbook
     assert "post-h-019-a" in changelog
@@ -248,6 +250,10 @@ def test_project_global_state_schema_and_docs_are_synchronized() -> None:
     assert "POST-H-022-B — Threat catalog STRIDE/LINDDUN adaptado" in runbook
     assert "POST-H-022-C — Enterprise control matrix" in readme
     assert "POST-H-022-C — Enterprise control matrix" in runbook
+    assert "POST-H-022-D — Validator/report read-only" in readme
+    assert "POST-H-022-D — Validator/report read-only" in runbook
+    assert "POST-H-022-E — Runbook y cierre" in readme
+    assert "POST-H-022-E — Runbook y cierre" in runbook
     assert "post-h-021-a" in changelog
     assert "post-h-021-b" in changelog
     assert "post-h-021-c" in changelog
@@ -299,6 +305,6 @@ def test_project_global_state_command_result_passes() -> None:
     result = TestContractRegistry(ROOT).project_state()
 
     assert result.ok, result.to_dict()
-    assert result.data["summary"]["last_completed_sprint"] == "POST-H-021"
-    assert result.data["summary"]["next_sprint"] == "POST-H-022"
+    assert result.data["summary"]["last_completed_sprint"] == "POST-H-022"
+    assert result.data["summary"]["next_sprint"] == "POST-H-023"
     assert result.data["summary"]["checks_passed"] == result.data["summary"]["checks_total"]

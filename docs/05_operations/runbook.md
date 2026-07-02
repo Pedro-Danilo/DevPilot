@@ -2,17 +2,53 @@
 title: "Runbook — DevPilot Local"
 doc_id: "DEVPL-OPS-002"
 status: "approved"
-version: "1.81.0"
+version: "1.82.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "POST-H-022-D"
+phase: "POST-H-022-E"
 updated: "2026-07-02"
 approval: "approved_by_owner"
 source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved + 03_security approved"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "SPRINT-PRECODE-05 quality operations baseline"
 ---
+
+## POST-H-022-E — Runbook y cierre
+
+POST-H-022-E cierra Enterprise deployment threat model como diseño verificable. El runbook dedicado `docs/05_operations/enterprise_design_runbook.md` fija la interpretación operacional: validar y reportar es permitido; desplegar enterprise real sigue bloqueado.
+
+Artefactos principales:
+
+```text
+docs/05_operations/enterprise_design_runbook.md
+docs/audits/post_h_022_e_enterprise_closure_report.md
+docs/post_h_022_e_manifest.json
+tests/test_post_h_022_enterprise_closure.py
+```
+
+Verificación focal:
+
+```powershell
+python -m pytest -p no:ddtrace tests/test_post_h_022_enterprise_threat_model.py tests/test_post_h_022_enterprise_closure.py tests/test_project_global_state.py tests/test_schema_registry.py -q
+python -m devpilot_core quality-gate run --profile hardening --json
+python -m devpilot_core docs-governance validate --json
+python -m devpilot_core test-contracts validate --json
+python -m devpilot_core test-contracts validate-v2 --json
+python -m devpilot_core project-state validate --json
+python -m devpilot_core cli-registry guard --json
+```
+
+PASS si POST-H-022 queda `closed`, `last_completed_sprint=POST-H-022`, `next_sprint=POST-H-023` y permanecen en falso `enterprise_deployment_enabled`, `remote_execution_enabled`, `secure_transport_implemented`, `compliance_certification_claim` y `enterprise_ready_claimed`.
+
+BLOCK si se introduce deployment enterprise real, control plane, secure transport activo, red/API externa, lectura de secretos, remote execution o claim de certificación/readiness enterprise.
+
+Último hito cerrado: `POST-H-022`
+
+Último hito: `POST-H-022`
+
+Siguiente hito: `POST-H-023`
+
 
 ## POST-H-022-D — Validator/report read-only
 

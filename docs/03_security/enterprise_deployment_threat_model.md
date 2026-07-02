@@ -2,7 +2,7 @@
 doc_id: "POST-H-022-ENTERPRISE-THREAT-MODEL"
 title: "Enterprise deployment threat model"
 status: "approved"
-version: "0.3.0"
+version: "1.0.0"
 owner: "Ordóñez"
 updated: "2026-07-02"
 approval: "approved_by_owner"
@@ -22,7 +22,7 @@ compliance_certification_claim: false
 
 ## 1. Estado y alcance
 
-POST-H-022-D consolida la version design-only del threat model enterprise con validator/report read-only y quality gate. POST-H-022-B amplía la primera version del threat model enterprise de DevPilot con un catalogo de amenazas STRIDE/LINDDUN, controles requeridos y riesgos residuales. El alcance sigue siendo diseño. No habilita despliegue enterprise, multiusuario productivo, control plane, remote workers, secure transport activo, SSO/SAML/OIDC, APIs externas, red ni certificacion compliance.
+POST-H-022-E cierra el threat model enterprise como design-only con runbook operativo. POST-H-022-D consolida la version design-only del threat model enterprise con validator/report read-only y quality gate. POST-H-022-B amplía la primera version del threat model enterprise de DevPilot con un catalogo de amenazas STRIDE/LINDDUN, controles requeridos y riesgos residuales. El alcance sigue siendo diseño. No habilita despliegue enterprise, multiusuario productivo, control plane, remote workers, secure transport activo, SSO/SAML/OIDC, APIs externas, red ni certificacion compliance.
 
 La regla operativa es explicita:
 
@@ -191,12 +191,12 @@ docs/schemas/enterprise_threat_model.schema.json
 
 ## 11. Pendiente
 
-POST-H-022-D es una version preliminar `implemented-initial / design-only`. Queda para cierre:
+POST-H-022 queda cerrado como version preliminar `implemented-initial / design-only`:
 
 ```text
 POST-H-022-C — Enterprise control matrix implementado como matriz design-only.
 POST-H-022-D — Validator/report read-only y quality gate implementado como evidencia design-only.
-POST-H-022-E — Runbook, disclaimers y cierre.
+POST-H-022-E — Runbook, disclaimers y cierre implementado; siguiente hito POST-H-023 secure transport design.
 ```
 
 ## 12. Validator/report read-only y quality gate
@@ -215,3 +215,22 @@ required_not_implemented_total>0
 ```
 
 El reporte es un artefacto preliminar de diseño. Enterprise report != enterprise readiness y no sustituye una ADR futura, una implementación de identidad/transport/secrets ni auditoría enterprise externa.
+
+
+## 13. Cierre POST-H-022-E
+
+El runbook operativo vive en `docs/05_operations/enterprise_design_runbook.md`. El cierre mantiene `enterprise_deployment_enabled=false`, `remote_execution_enabled=false`, `secure_transport_implemented=false`, `compliance_certification_claim=false` y `enterprise_ready_claimed=false`.
+
+Gaps pendientes para hitos futuros:
+
+```text
+secure transport real
+enterprise identity lifecycle
+enterprise RBAC production-grade
+secrets management productivo
+control plane seguro
+multiusuario productivo
+remote worker isolation
+auditoría enterprise externa
+certificación compliance
+```

@@ -10479,6 +10479,80 @@
       "classification_notes": [
         "Explicit POST-H-022-D safety contract; no enterprise runtime enablement."
       ]
+    },
+    {
+      "contract_id": "post-h-022-enterprise-runbook-closure",
+      "schema_version": "2.0",
+      "source_contract_id": "post-h-022-enterprise-runbook-closure",
+      "domain": "enterprise.reporting",
+      "capability": "Enterprise deployment threat model runbook and backlog closure",
+      "criticality": "P1",
+      "risk_level": "critical",
+      "test_type": "documentation",
+      "execution_profile": "release",
+      "cost_class": "low",
+      "expected_duration_seconds": 20,
+      "test_files": [
+        "tests/test_post_h_022_enterprise_closure.py"
+      ],
+      "watched_paths": [
+        "docs/05_operations/enterprise_design_runbook.md",
+        "docs/backlogs/POST-H-022_enterprise_deployment_threat_model.md",
+        "docs/POST-H-022_enterprise_deployment_threat_model.md",
+        "docs/03_security/enterprise_deployment_threat_model.md",
+        "docs/release/CHANGELOG.md",
+        "README.md",
+        "docs/05_operations/runbook.md",
+        ".devpilot/project_state.json",
+        ".devpilot/docs_governance/source_registry.json",
+        ".devpilot/testing/test_contract_registry.json",
+        ".devpilot/testing/test_contract_registry_v2.json",
+        "tests/test_post_h_022_enterprise_closure.py",
+        "tests/test_post_h_022_enterprise_threat_model.py",
+        "tests/test_project_global_state.py"
+      ],
+      "validates": [
+        "POST-H-022 backlog and implementation doc are closed and point next_sprint to POST-H-023",
+        "Enterprise design runbook declares enterprise report != enterprise readiness",
+        "project_state, source registry, manifests and TCR stay synchronized",
+        "enterprise_deployment_enabled=false, secure_transport_implemented=false and enterprise_ready_claimed=false remain explicit"
+      ],
+      "required_fixtures": [],
+      "required_cli": [],
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "classification_status": "explicit",
+      "owner": "POST-H-022-E",
+      "phase": "POST-FASE-H",
+      "created_by": "POST-H-022-E",
+      "updated": "2026-07-02",
+      "preliminary": true,
+      "required_for_release": true,
+      "required_for_security_gate": true,
+      "requires_human_approval": false,
+      "source_mutations_allowed": false,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace tests/test_post_h_022_enterprise_closure.py tests/test_post_h_022_enterprise_threat_model.py tests/test_project_global_state.py tests/test_schema_registry.py -q",
+        "python -m devpilot_core quality-gate run --profile hardening --json",
+        "python -m devpilot_core docs-governance validate --json",
+        "python -m devpilot_core test-contracts validate-v2 --json",
+        "python -m devpilot_core project-state validate --json"
+      ],
+      "trigger_hints": [
+        "docs/05_operations/enterprise_design_runbook.md",
+        "docs/backlogs/POST-H-022_enterprise_deployment_threat_model.md"
+      ],
+      "impact_scope": [
+        "enterprise.reporting",
+        "documentation.governance",
+        "governance.project_state",
+        "governance.testing"
+      ],
+      "classification_notes": [
+        "Explicit POST-H-022-E closure contract; no inference required.",
+        "Safety-critical because enterprise deployment must remain blocked until future ADR and implementation."
+      ],
+      "mutations_allowed": false
     }
   ],
   "migration_metadata": {
@@ -10503,6 +10577,8 @@
     "POST-H-022-A registers enterprise threat model safety contract.",
     "POST-H-022-B registers enterprise threat catalog safety contract.",
     "POST-H-022-C fixes inherited TCR v2 schema drift by adding mutations_allowed=false to contracts missing the required field: post-h-022-enterprise-threat-catalog.",
-    "POST-H-022-C adds enterprise control matrix v2 test contract."
+    "POST-H-022-C adds enterprise control matrix v2 test contract.",
+    "POST-H-022-E registers enterprise runbook closure contract.",
+    "POST-H-022-E keeps enterprise deployment and enterprise-ready claims blocked."
   ]
 }

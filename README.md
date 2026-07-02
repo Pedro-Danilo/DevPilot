@@ -1,3 +1,21 @@
+## POST-H-022-E — Runbook y cierre
+
+Último hito cerrado: `POST-H-022`
+
+Último hito: `POST-H-022`
+
+Siguiente hito: `POST-H-023`
+
+Último micro-sprint implementado: `POST-H-022-E — Runbook y cierre`
+
+Siguiente micro-sprint: `POST-H-023 — Secure transport design sin implementación activa`
+
+POST-H-022 queda cerrado como `implemented-initial / design-only`. DevPilot incorpora threat model enterprise, matriz de controles, validator/report read-only, quality gate `enterprise-threat-model-design-only` y runbook operativo dedicado.
+
+La capacidad sigue siendo preliminar: `enterprise_deployment_enabled=false`, `remote_execution_enabled=false`, `secure_transport_implemented=false`, `compliance_certification_claim=false` y `enterprise_ready_claimed=false`. Enterprise report != enterprise readiness.
+
+POST-H-023 debe abordar secure transport design sin activar transporte remoto productivo.
+
 ## POST-H-022-D — Validator/report read-only
 
 Último hito cerrado: `POST-H-021`

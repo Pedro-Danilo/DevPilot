@@ -11,9 +11,9 @@ approval: "approved_by_owner"
 phase: "POST-FASE-H"
 priority: "P3"
 roadmap_source: "docs/backlogs/post_h_prioritized_roadmap.md"
-implementation_status: "active"
-current_micro_sprint: "POST-H-022-D"
-next_micro_sprint: "POST-H-022-E"
+implementation_status: "closed"
+current_micro_sprint: "POST-H-022-E"
+next_micro_sprint: "POST-H-023"
 local_first: true
 dry_run: true
 no_remote_execution_enabled: true
@@ -26,7 +26,7 @@ no_plugin_execution_enabled: true
 
 ## 0. Estado de implementación
 
-POST-H-022 queda activo con **POST-H-022-D — Validator/report read-only** como `implemented-initial / design-only`.
+POST-H-022 queda cerrado con **POST-H-022-E — Runbook y cierre** como `implemented-initial / design-only`.
 
 POST-H-022-A entrega:
 
@@ -39,7 +39,7 @@ docs/audits/post_h_022_a_enterprise_asset_inventory_report.md
 docs/post_h_022_a_manifest.json
 ```
 
-El siguiente micro-sprint es **POST-H-022-E — Runbook y cierre**.
+El siguiente hito es **POST-H-023 — Secure transport design sin implementación activa**.
 
 POST-H-022-B entrega un catalogo de amenazas STRIDE/LINDDUN por boundary, controles requeridos y riesgos residuales en `.devpilot/enterprise/enterprise_threat_model.json`, sin habilitar despliegue enterprise, control plane, red, ejecucion remota, secretos productivos ni claims de compliance.
 
@@ -47,7 +47,9 @@ POST-H-022-C entrega una matriz enterprise de controles requerida antes de cualq
 
 POST-H-022-D entrega validator/report read-only y subgate `enterprise-threat-model-design-only`. La validación confirma `decision_status=design-only`, conserva bloqueadores `required-not-implemented` y no habilita despliegue enterprise ni claims enterprise-ready.
 
-POST-H-022-A/B/C/D no habilitan deployment enterprise real, control plane, multiusuario productivo, secure transport activo, remote execution, SSO/SAML/OIDC, red, APIs externas, secrets management productivo ni claims de compliance. La capacidad es preliminar y debe evolucionar antes de cualquier declaracion enterprise.
+POST-H-022-E entrega runbook operativo, go/no-go enterprise y reporte de cierre. El backlog queda cerrado como `implemented-initial / design-only`; el siguiente hito es POST-H-023.
+
+POST-H-022-A/B/C/D/E no habilitan deployment enterprise real, control plane, multiusuario productivo, secure transport activo, remote execution, SSO/SAML/OIDC, red, APIs externas, secrets management productivo ni claims de compliance. La capacidad es preliminar y debe evolucionar antes de cualquier declaracion enterprise.
 
 ## 1. Objetivo
 
@@ -311,10 +313,10 @@ python -m devpilot_core validate-artifact docs/03_security/enterprise_deployment
 ## 12. Definition of Done
 
 ```text
-[ ] Threat model enterprise documentado.
-[ ] Control matrix creada y validada.
-[ ] Validator/report read-only implementado.
-[ ] Quality gate mantiene enterprise design-only.
-[ ] Tests pasan.
-[ ] No hay deployment enterprise real.
+[x] Threat model enterprise documentado.
+[x] Control matrix creada y validada.
+[x] Validator/report read-only implementado.
+[x] Quality gate mantiene enterprise design-only.
+[x] Tests pasan.
+[x] No hay deployment enterprise real.
 ```

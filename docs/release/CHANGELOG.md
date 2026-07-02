@@ -1,3 +1,11 @@
+## post-h-022-e - Enterprise deployment threat model closure
+
+- Closed POST-H-022 as implemented-initial/design-only.
+- Added `docs/05_operations/enterprise_design_runbook.md` with go/no-go enterprise interpretation.
+- Added closure report and manifest for POST-H-022-E.
+- Kept enterprise deployment, remote execution, secure transport activation, secrets, network and compliance certification claims disabled.
+- Set next prioritized hito to POST-H-023 secure transport design.
+
 ## post-h-022-d - Validator/report read-only enterprise design-only
 
 - Added `EnterpriseThreatModelValidator`, `EnterpriseThreatModelReporter` and `EnterpriseThreatModelQualityGate` for local read-only enterprise threat-model validation.

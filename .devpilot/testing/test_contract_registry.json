@@ -5887,6 +5887,52 @@
         "POST-H-022-D validates enterprise threat model and control matrix in read-only design-only mode.",
         "The quality subgate must not write reports or enable enterprise deployment, remote execution, network, secrets or compliance claims."
       ]
+    },
+    {
+      "contract_id": "post-h-022-enterprise-runbook-closure",
+      "scope": "safety",
+      "owner": "POST-H-022-E",
+      "phase": "POST-FASE-H",
+      "test_files": [
+        "tests/test_post_h_022_enterprise_closure.py"
+      ],
+      "validates": [
+        "docs/05_operations/enterprise_design_runbook.md",
+        "docs/backlogs/POST-H-022_enterprise_deployment_threat_model.md",
+        "docs/POST-H-022_enterprise_deployment_threat_model.md",
+        "docs/audits/post_h_022_e_enterprise_closure_report.md",
+        "docs/post_h_022_e_manifest.json",
+        ".devpilot/project_state.json"
+      ],
+      "watched_paths": [
+        "docs/05_operations/enterprise_design_runbook.md",
+        "docs/backlogs/POST-H-022_enterprise_deployment_threat_model.md",
+        "docs/POST-H-022_enterprise_deployment_threat_model.md",
+        "docs/03_security/enterprise_deployment_threat_model.md",
+        "docs/release/CHANGELOG.md",
+        "README.md",
+        "docs/05_operations/runbook.md",
+        ".devpilot/project_state.json",
+        ".devpilot/docs_governance/source_registry.json",
+        ".devpilot/testing/test_contract_registry.json",
+        ".devpilot/testing/test_contract_registry_v2.json",
+        "tests/test_post_h_022_enterprise_closure.py",
+        "tests/test_post_h_022_enterprise_threat_model.py",
+        "tests/test_project_global_state.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace tests/test_post_h_022_enterprise_closure.py tests/test_post_h_022_enterprise_threat_model.py tests/test_project_global_state.py tests/test_schema_registry.py -q",
+        "python -m devpilot_core quality-gate run --profile hardening --json",
+        "python -m devpilot_core docs-governance validate --json",
+        "python -m devpilot_core test-contracts validate --json"
+      ],
+      "notes": [
+        "Validates POST-H-022-E runbook, closure state and no-go enterprise flags.",
+        "Does not enable enterprise deployment, remote execution, secure transport, network, APIs or compliance certification."
+      ]
     }
   ],
   "notes": [
@@ -5916,6 +5962,8 @@
     "POST-H-021-E registers remote runner runbook closure safety contract.",
     "POST-H-022-A registers enterprise threat model safety contract.",
     "POST-H-022-B registers enterprise threat catalog safety contract.",
-    "POST-H-022-C adds enterprise control matrix test contract."
+    "POST-H-022-C adds enterprise control matrix test contract.",
+    "POST-H-022-E registers enterprise runbook closure contract.",
+    "POST-H-022 closure contract keeps enterprise_ready_claimed=false and required-not-implemented blockers visible."
   ]
 }

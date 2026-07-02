@@ -1,0 +1,96 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "SCHEMA-DEVPL-POST-H-MANIFEST-V1",
+  "manifest_id": "POST-H-022-E-MANIFEST",
+  "post_h_id": "POST-H-022",
+  "micro_sprint": "POST-H-022-E",
+  "title": "Runbook y cierre",
+  "status": "implemented-initial",
+  "phase": "POST-FASE-H",
+  "implemented_at": "2026-07-02",
+  "created_by": "POST-H-022-E",
+  "updated": "2026-07-02",
+  "source_repo": "repo_DevPilot_Local_244_POST_H_022_D.zip",
+  "target_repo": "repo_DevPilot_Local_245_POST_H_022_E.zip",
+  "backlog": "docs/backlogs/POST-H-022_enterprise_deployment_threat_model.md",
+  "implementation_doc": "docs/POST-H-022_enterprise_deployment_threat_model.md",
+  "audit_report": "docs/audits/post_h_022_e_enterprise_closure_report.md",
+  "created_files": [
+    "docs/05_operations/enterprise_design_runbook.md",
+    "docs/audits/post_h_022_e_enterprise_closure_report.md",
+    "docs/post_h_022_e_manifest.json",
+    "tests/test_post_h_022_enterprise_closure.py"
+  ],
+  "modified_files": [
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/03_security/enterprise_deployment_threat_model.md",
+    "docs/POST-H-022_enterprise_deployment_threat_model.md",
+    "docs/backlogs/POST-H-022_enterprise_deployment_threat_model.md",
+    "docs/release/CHANGELOG.md",
+    ".devpilot/project_state.json",
+    ".devpilot/docs_governance/source_registry.json",
+    ".devpilot/testing/test_contract_registry.json",
+    ".devpilot/testing/test_contract_registry_v2.json",
+    "tests/test_post_h_022_enterprise_threat_model.py",
+    "tests/test_project_global_state.py"
+  ],
+  "capabilities": [
+    "Enterprise design runbook",
+    "Enterprise go/no-go checklist",
+    "POST-H-022 closure report",
+    "Backlog closure synchronization",
+    "TCR v1/v2 closure contract",
+    "No-overclaim enterprise readiness guard"
+  ],
+  "commands": [
+    "python -m pytest -p no:ddtrace tests/test_post_h_022_enterprise_closure.py tests/test_post_h_022_enterprise_threat_model.py tests/test_project_global_state.py tests/test_schema_registry.py -q",
+    "python -m devpilot_core schema validate --schema-id PostHManifest --instance docs/post_h_022_e_manifest.json --json",
+    "python -m devpilot_core quality-gate run --profile hardening --json",
+    "python -m devpilot_core docs-governance validate --json",
+    "python -m devpilot_core test-contracts validate --json",
+    "python -m devpilot_core test-contracts validate-v2 --json",
+    "python -m devpilot_core project-state validate --json",
+    "python -m devpilot_core cli-registry guard --json"
+  ],
+  "tests": [
+    "tests/test_post_h_022_enterprise_closure.py",
+    "tests/test_post_h_022_enterprise_threat_model.py",
+    "tests/test_project_global_state.py",
+    "tests/test_schema_registry.py"
+  ],
+  "pass_criteria": [
+    "POST-H-022 backlog and implementation doc are closed.",
+    "project_state sets last_completed_sprint=POST-H-022 and next_sprint=POST-H-023.",
+    "Enterprise design runbook documents enterprise report != enterprise readiness.",
+    "No-go flags remain false for enterprise deployment, remote execution, secure transport and compliance certification.",
+    "Quality gate keeps enterprise-threat-model-design-only passing without writing reports or enabling enterprise execution."
+  ],
+  "block_criteria": [
+    "enterprise_deployment_enabled=true",
+    "remote_execution_enabled=true",
+    "secure_transport_implemented=true in POST-H-022",
+    "compliance_certification_claim=true",
+    "enterprise_ready_claimed=true",
+    "network or secrets introduced",
+    "required-not-implemented blockers removed without future ADR and implementation"
+  ],
+  "risks": [
+    "The capability is design-only and must not be treated as enterprise readiness.",
+    "Future secure transport, identity, RBAC, secrets, control plane and certification work remains required before production enterprise deployment."
+  ],
+  "next_sprint": "POST-H-023",
+  "preliminary": true,
+  "enterprise_deployment_enabled": false,
+  "production_multiuser_enabled": false,
+  "control_plane_enabled": false,
+  "remote_execution_enabled": false,
+  "secure_transport_implemented": false,
+  "compliance_certification_claim": false,
+  "enterprise_ready_claimed": false,
+  "network_used": false,
+  "external_api_used": false,
+  "secrets_read": false,
+  "mutations_performed": false,
+  "source_mutations_performed": false
+}

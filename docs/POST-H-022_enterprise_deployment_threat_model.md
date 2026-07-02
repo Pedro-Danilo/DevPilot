@@ -2,13 +2,13 @@
 doc_id: "POST-H-022"
 title: "POST-H-022 — Enterprise deployment threat model"
 status: "approved"
-version: "0.4.0"
+version: "1.0.0"
 owner: "Ordóñez"
 updated: "2026-07-02"
 phase: "POST-FASE-H"
-implementation_status: "active"
-current_micro_sprint: "POST-H-022-D"
-next_micro_sprint: "POST-H-022-E"
+implementation_status: "closed"
+current_micro_sprint: "POST-H-022-E"
+next_micro_sprint: "POST-H-023"
 enterprise_deployment_enabled: false
 production_multiuser_enabled: false
 control_plane_enabled: false
@@ -21,7 +21,7 @@ compliance_certification_claim: false
 
 ## Estado
 
-POST-H-022 queda activo con **POST-H-022-D — Validator/report read-only** como `implemented-initial / design-only`.
+POST-H-022 queda cerrado con **POST-H-022-E — Runbook y cierre** como `implemented-initial / design-only`.
 
 Este hito no habilita despliegue enterprise. Su funcion es convertir el dominio enterprise en un conjunto verificable de activos, actores, boundaries, data flows, controles futuros y criterios de bloqueo.
 
@@ -75,7 +75,7 @@ plugin_execution_enabled=false
 ## Pendiente
 
 ```text
-POST-H-022-E — Runbook, disclaimers y cierre.
+POST-H-022 cerrado; siguiente hito POST-H-023 — Secure transport design sin implementación activa.
 ```
 
 ## POST-H-022-B — Threat catalog STRIDE/LINDDUN adaptado
@@ -162,6 +162,32 @@ El validator/report es local, read-only y preliminar. El subgate de quality gate
 
 Ajuste correctivo aplicado: el contrato TCR v1 de POST-H-022-C fue sincronizado con el schema v1 para que `test-contracts validate` pase antes de cerrar C y avanzar a D.
 
+## POST-H-022-E — Runbook y cierre
+
+Entregables implementados:
+
+```text
+docs/05_operations/enterprise_design_runbook.md
+docs/audits/post_h_022_e_enterprise_closure_report.md
+docs/post_h_022_e_manifest.json
+tests/test_post_h_022_enterprise_closure.py
+```
+
+Cierre del backlog:
+
+```text
+implementation_status=closed
+last_completed_sprint=POST-H-022
+next_sprint=POST-H-023
+enterprise_deployment_enabled=false
+remote_execution_enabled=false
+secure_transport_implemented=false
+compliance_certification_claim=false
+enterprise_ready_claimed=false
+```
+
+POST-H-022 habilita capacidades de diseño, validación y documentación enterprise, pero no operación enterprise. Los gaps de secure transport, identidad enterprise, secrets management, control plane y auditoría externa quedan explícitos para hitos futuros.
+
 ## Limitacion explicita
 
-POST-H-022-A es una version preliminar de diseno. No declara a DevPilot como enterprise-ready, production-ready-enterprise, con certificacion compliance ni remote-ready. No implementa control plane, multiusuario productivo, red enterprise ni secure transport. Es insumo de seguridad para decisiones futuras, no autorizacion operativa.
+POST-H-022 es una version preliminar de diseno cerrada como implemented-initial. No declara a DevPilot como enterprise-ready, production-ready-enterprise, con certificacion compliance ni remote-ready. No implementa control plane, multiusuario productivo, red enterprise ni secure transport. Es insumo de seguridad para decisiones futuras, no autorizacion operativa.
