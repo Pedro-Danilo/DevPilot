@@ -22,7 +22,11 @@
     "trust_boundaries",
     "data_flows",
     "no_go_gates",
-    "safety"
+    "safety",
+    "threat_catalog_summary",
+    "threat_catalog",
+    "required_controls",
+    "residual_risks"
   ],
   "properties": {
     "schema_version": {
@@ -424,6 +428,401 @@
         }
       },
       "additionalProperties": false
+    },
+    "threat_catalog_summary": {
+      "type": "object",
+      "required": [
+        "created_by",
+        "methodologies",
+        "boundaries_total",
+        "threats_total",
+        "critical_threats_total",
+        "current_threats_total",
+        "future_threats_total",
+        "all_boundaries_have_threats",
+        "critical_threats_have_controls",
+        "network_used",
+        "external_api_used",
+        "enterprise_deployment_enabled",
+        "remote_execution_enabled"
+      ],
+      "properties": {
+        "created_by": {
+          "type": "string",
+          "const": "POST-H-022-B"
+        },
+        "methodologies": {
+          "type": "array",
+          "minItems": 2,
+          "items": {
+            "type": "string",
+            "enum": [
+              "STRIDE",
+              "LINDDUN"
+            ]
+          }
+        },
+        "boundaries_total": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "threats_total": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "critical_threats_total": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "current_threats_total": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "future_threats_total": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "all_boundaries_have_threats": {
+          "type": "boolean",
+          "const": true
+        },
+        "critical_threats_have_controls": {
+          "type": "boolean",
+          "const": true
+        },
+        "network_used": {
+          "type": "boolean",
+          "const": false
+        },
+        "external_api_used": {
+          "type": "boolean",
+          "const": false
+        },
+        "enterprise_deployment_enabled": {
+          "type": "boolean",
+          "const": false
+        },
+        "remote_execution_enabled": {
+          "type": "boolean",
+          "const": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "threat_catalog": {
+      "type": "array",
+      "minItems": 10,
+      "items": {
+        "type": "object",
+        "required": [
+          "threat_id",
+          "title",
+          "boundary_id",
+          "stride_categories",
+          "linddun_categories",
+          "risk_timing",
+          "severity",
+          "affected_assets",
+          "primary_actors",
+          "scenario",
+          "required_control_ids",
+          "residual_risk_ids",
+          "current_mitigation_status",
+          "introduced_by"
+        ],
+        "properties": {
+          "threat_id": {
+            "type": "string",
+            "pattern": "^ENT-T[0-9]{3}$"
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1
+          },
+          "boundary_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "stride_categories": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "enum": [
+                "spoofing",
+                "tampering",
+                "repudiation",
+                "information_disclosure",
+                "denial_of_service",
+                "elevation_of_privilege"
+              ]
+            }
+          },
+          "linddun_categories": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "enum": [
+                "linkability",
+                "identifiability",
+                "non_repudiation",
+                "detectability",
+                "disclosure_of_information",
+                "unawareness",
+                "non_compliance"
+              ]
+            }
+          },
+          "risk_timing": {
+            "type": "string",
+            "enum": [
+              "current",
+              "future"
+            ]
+          },
+          "severity": {
+            "type": "string",
+            "enum": [
+              "low",
+              "medium",
+              "high",
+              "critical"
+            ]
+          },
+          "affected_assets": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "primary_actors": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "scenario": {
+            "type": "string",
+            "minLength": 1
+          },
+          "required_control_ids": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "pattern": "^ENT-C[0-9]{3}$"
+            }
+          },
+          "residual_risk_ids": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "pattern": "^ENT-RR[0-9]{3}$"
+            }
+          },
+          "current_mitigation_status": {
+            "type": "string",
+            "enum": [
+              "implemented-design-only",
+              "partial-local-control",
+              "required-not-implemented",
+              "blocked-by-no-go"
+            ]
+          },
+          "introduced_by": {
+            "type": "string",
+            "const": "POST-H-022-B"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "required_controls": {
+      "type": "array",
+      "minItems": 8,
+      "items": {
+        "type": "object",
+        "required": [
+          "control_id",
+          "title",
+          "control_type",
+          "boundary_ids",
+          "mitigates_threat_ids",
+          "required_before",
+          "status",
+          "evidence_required",
+          "blocks_if_missing",
+          "introduced_by"
+        ],
+        "properties": {
+          "control_id": {
+            "type": "string",
+            "pattern": "^ENT-C[0-9]{3}$"
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1
+          },
+          "control_type": {
+            "type": "string",
+            "enum": [
+              "identity",
+              "rbac",
+              "approval",
+              "audit",
+              "secrets",
+              "transport",
+              "isolation",
+              "retention",
+              "rate_limit",
+              "quality_gate",
+              "compliance_review"
+            ]
+          },
+          "boundary_ids": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "mitigates_threat_ids": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "pattern": "^ENT-T[0-9]{3}$"
+            }
+          },
+          "required_before": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "enum": [
+                "enterprise_deployment",
+                "production_multiuser",
+                "control_plane",
+                "remote_runner",
+                "secure_transport",
+                "compliance_claim"
+              ]
+            }
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "implemented-design-only",
+              "partial-local-control",
+              "required-not-implemented"
+            ]
+          },
+          "evidence_required": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "blocks_if_missing": {
+            "type": "boolean"
+          },
+          "introduced_by": {
+            "type": "string",
+            "const": "POST-H-022-B"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "residual_risks": {
+      "type": "array",
+      "minItems": 6,
+      "items": {
+        "type": "object",
+        "required": [
+          "risk_id",
+          "title",
+          "related_threat_ids",
+          "severity",
+          "status",
+          "rationale",
+          "future_decision_required",
+          "no_go_until",
+          "introduced_by"
+        ],
+        "properties": {
+          "risk_id": {
+            "type": "string",
+            "pattern": "^ENT-RR[0-9]{3}$"
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1
+          },
+          "related_threat_ids": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "pattern": "^ENT-T[0-9]{3}$"
+            }
+          },
+          "severity": {
+            "type": "string",
+            "enum": [
+              "low",
+              "medium",
+              "high",
+              "critical"
+            ]
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "accepted-design-only",
+              "requires-future-control",
+              "blocked"
+            ]
+          },
+          "rationale": {
+            "type": "string",
+            "minLength": 1
+          },
+          "future_decision_required": {
+            "type": "string",
+            "minLength": 1
+          },
+          "no_go_until": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "enum": [
+                "enterprise_deployment",
+                "production_multiuser",
+                "control_plane",
+                "remote_runner",
+                "secure_transport",
+                "compliance_claim"
+              ]
+            }
+          },
+          "introduced_by": {
+            "type": "string",
+            "const": "POST-H-022-B"
+          }
+        },
+        "additionalProperties": false
+      }
     }
   },
   "additionalProperties": true,
@@ -431,6 +830,6 @@
   "x-devpilot-sprint": "POST-H-022-A",
   "x-devpilot-status": "registered",
   "x-devpilot-preliminary": true,
-  "x-devpilot-validation-enabled-sprint": "POST-H-022-A",
-  "x-devpilot-note": "POST-H-022-A registers the enterprise deployment threat model as a design-only inventory. Runtime validators, control matrix and quality gate integration remain future POST-H-022-B/C/D work."
+  "x-devpilot-validation-enabled-sprint": "POST-H-022-B",
+  "x-devpilot-note": "POST-H-022-B extends the design-only enterprise threat model with STRIDE/LINDDUN threat catalog, required controls and residual risk register. Runtime validators, control matrix and quality gate integration remain future POST-H-022-C/D work."
 }

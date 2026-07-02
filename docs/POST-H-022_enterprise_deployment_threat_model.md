@@ -2,13 +2,13 @@
 doc_id: "POST-H-022"
 title: "POST-H-022 — Enterprise deployment threat model"
 status: "approved"
-version: "0.1.0"
+version: "0.2.0"
 owner: "Ordóñez"
-updated: "2026-07-01"
+updated: "2026-07-02"
 phase: "POST-FASE-H"
 implementation_status: "active"
-current_micro_sprint: "POST-H-022-A"
-next_micro_sprint: "POST-H-022-B"
+current_micro_sprint: "POST-H-022-B"
+next_micro_sprint: "POST-H-022-C"
 enterprise_deployment_enabled: false
 production_multiuser_enabled: false
 control_plane_enabled: false
@@ -21,7 +21,7 @@ compliance_certification_claim: false
 
 ## Estado
 
-POST-H-022 queda aprobado e inicia con **POST-H-022-A — Asset inventory y trust boundaries** como `implemented-initial / design-only`.
+POST-H-022 queda activo con **POST-H-022-B — Threat catalog STRIDE/LINDDUN adaptado** como `implemented-initial / design-only`.
 
 Este hito no habilita despliegue enterprise. Su funcion es convertir el dominio enterprise en un conjunto verificable de activos, actores, boundaries, data flows, controles futuros y criterios de bloqueo.
 
@@ -75,11 +75,38 @@ plugin_execution_enabled=false
 ## Pendiente
 
 ```text
-POST-H-022-B — Threat catalog STRIDE/LINDDUN adaptado.
 POST-H-022-C — Enterprise control matrix.
 POST-H-022-D — Validator/report read-only y quality gate.
 POST-H-022-E — Runbook, disclaimers y cierre.
 ```
+
+## POST-H-022-B — Threat catalog STRIDE/LINDDUN adaptado
+
+Entregables implementados:
+
+```text
+.devpilot/enterprise/enterprise_threat_model.json
+docs/schemas/enterprise_threat_model.schema.json
+docs/03_security/enterprise_deployment_threat_model.md
+tests/test_post_h_022_enterprise_threat_model.py
+docs/audits/post_h_022_b_enterprise_threat_catalog_report.md
+docs/post_h_022_b_manifest.json
+```
+
+Invariantes de POST-H-022-B:
+
+```text
+STRIDE y LINDDUN quedan representados.
+Cada trust boundary tiene al menos una amenaza asociada.
+Cada amenaza critica tiene controles requeridos.
+Los riesgos residuales quedan explicitados.
+enterprise_deployment_enabled=false.
+remote_execution_enabled=false.
+secure_transport_implemented=false.
+compliance_certification_claim=false.
+```
+
+POST-H-022-B es preliminar y de diseno. No implementa enterprise control matrix, validator read-only, quality gate enterprise ni autorizacion de despliegue.
 
 ## Limitacion explicita
 

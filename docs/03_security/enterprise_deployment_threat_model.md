@@ -2,9 +2,9 @@
 doc_id: "POST-H-022-ENTERPRISE-THREAT-MODEL"
 title: "Enterprise deployment threat model"
 status: "approved"
-version: "0.1.0"
+version: "0.2.0"
 owner: "Ordóñez"
-updated: "2026-07-01"
+updated: "2026-07-02"
 approval: "approved_by_owner"
 phase: "POST-FASE-H"
 created_by: "POST-H-022-A"
@@ -22,7 +22,7 @@ compliance_certification_claim: false
 
 ## 1. Estado y alcance
 
-POST-H-022-A crea la primera version del threat model enterprise de DevPilot. El alcance es inventario de activos, actores, trust boundaries y data flows de diseno. No habilita despliegue enterprise, multiusuario productivo, control plane, remote workers, secure transport activo, SSO/SAML/OIDC, APIs externas, red ni certificacion compliance.
+POST-H-022-B amplía la primera version del threat model enterprise de DevPilot con un catalogo de amenazas STRIDE/LINDDUN, controles requeridos y riesgos residuales. El alcance sigue siendo diseño. No habilita despliegue enterprise, multiusuario productivo, control plane, remote workers, secure transport activo, SSO/SAML/OIDC, APIs externas, red ni certificacion compliance.
 
 La regla operativa es explicita:
 
@@ -95,7 +95,58 @@ plugin_execution_enabled=false
 | third_party_audit_boundary | future | Sin exportacion automatica | Contratos de datos, redaccion y aprobacion |
 | secrets_boundary | prohibited | Secretos no leidos ni introducidos | Vaulting, scopes, rotacion y tests anti-leak |
 
-## 6. Data flows de diseno
+## 6. Threat catalog STRIDE/LINDDUN
+
+POST-H-022-B usa STRIDE y LINDDUN como taxonomias complementarias. STRIDE cubre abuso tecnico de identidad, integridad, repudio, disclosure, disponibilidad y privilegios. LINDDUN cubre privacidad, trazabilidad indebida, detectabilidad, desconocimiento y no cumplimiento. El catalogo machine-readable vive en `.devpilot/enterprise/enterprise_threat_model.json`.
+
+```text
+methodologies=["STRIDE","LINDDUN"]
+all_boundaries_have_threats=true
+critical_threats_have_controls=true
+enterprise_deployment_enabled=false
+remote_execution_enabled=false
+```
+
+| Threat | Boundary | STRIDE | LINDDUN | Timing | Severidad | Controles requeridos |
+|---|---|---|---|---|---:|---|
+| ENT-T000 Local machine trust overextension | local_machine | elevation, tampering | unawareness, non_compliance | current | high | ENT-C002, ENT-C003, ENT-C008 |
+| ENT-T001 Actor spoofing | identity_approval_boundary | spoofing, elevation | identifiability, non_repudiation | current | critical | ENT-C001, ENT-C002 |
+| ENT-T002 Workspace/source tampering | workspace_root | tampering, elevation | non_repudiation, non_compliance | current | high | ENT-C002, ENT-C003 |
+| ENT-T003 Local state tampering | devpilot_state_boundary | tampering, repudiation | non_repudiation, detectability | current | high | ENT-C003, ENT-C004 |
+| ENT-T004 Audit evidence repudiation | outputs_reports_boundary | repudiation, tampering | non_repudiation, detectability | current | high | ENT-C004 |
+| ENT-T005 Secret disclosure | secrets_boundary | information_disclosure, elevation | disclosure_of_information, non_compliance | future | critical | ENT-C001, ENT-C005 |
+| ENT-T006 Localhost API promoted to network | api_localhost | spoofing, disclosure, elevation | identifiability, disclosure_of_information | future | critical | ENT-C002, ENT-C006 |
+| ENT-T007 UI/session abuse | browser_localhost | denial_of_service, disclosure | detectability, unawareness | future | high | ENT-C004, ENT-C007 |
+| ENT-T008 Future network endpoint spoofing | future_network_boundary | spoofing, disclosure, DoS | linkability, disclosure, detectability | future | critical | ENT-C001, ENT-C006, ENT-C008 |
+| ENT-T009 Compliance/audit overclaiming | third_party_audit_boundary | repudiation, tampering | non_compliance, unawareness | future | critical | ENT-C004, ENT-C008, ENT-C009 |
+| ENT-T010 Control plane command abuse | future_control_plane_boundary | elevation, tampering, disclosure | disclosure_of_information, non_compliance | future | critical | ENT-C005, ENT-C008, ENT-C010 |
+
+## 7. Controles requeridos y riesgos residuales
+
+```text
+ENT-C001 identity and anti-spoofing
+ENT-C002 RBAC and approval binding
+ENT-C003 tamper-evident integrity
+ENT-C004 audit retention/redaction/non-repudiation
+ENT-C005 secret management and vaulting
+ENT-C006 secure transport/session hardening
+ENT-C007 DoS/resource controls
+ENT-C008 enterprise quality gate no-go enforcement
+ENT-C009 human compliance/legal review
+ENT-C010 remote worker isolation and command sandboxing
+```
+
+```text
+ENT-RR001 local identity is not enterprise identity
+ENT-RR002 integrity and custody are incomplete for enterprise release/state
+ENT-RR003 audit evidence remains local and non-certifying
+ENT-RR004 secrets and remote worker credentials remain prohibited
+ENT-RR005 network/transport/session model is absent
+ENT-RR006 compliance overclaiming remains blocked
+ENT-RR007 control plane remains prohibited
+```
+
+## 8. Data flows de diseno
 
 ```mermaid
 flowchart LR
@@ -109,9 +160,9 @@ flowchart LR
 
 Todos los flujos actuales son locales. El flujo `future_control_plane -> future_remote_worker` existe solo como amenaza futura bloqueada; no esta implementado ni autorizado.
 
-## 7. No-go gates
+## 9. No-go gates
 
-POST-H-022-A se bloquea si ocurre cualquiera de estos eventos:
+POST-H-022-B se bloquea si ocurre cualquiera de estos eventos:
 
 ```text
 enterprise_deployment_enabled=true
@@ -124,7 +175,7 @@ secrets_introduced=true
 network_dependency_introduced=true
 ```
 
-## 8. Fuentes machine-readable
+## 10. Fuentes machine-readable
 
 La fuente estructurada de este documento es:
 
@@ -138,12 +189,11 @@ Su contrato estructural es:
 docs/schemas/enterprise_threat_model.schema.json
 ```
 
-## 9. Pendiente
+## 11. Pendiente
 
-POST-H-022-A es una primera version `implemented-initial / design-only`. Quedan para micro-sprints posteriores:
+POST-H-022-B es una version preliminar `implemented-initial / design-only`. Quedan para micro-sprints posteriores:
 
 ```text
-POST-H-022-B — Threat catalog STRIDE/LINDDUN adaptado.
 POST-H-022-C — Enterprise control matrix.
 POST-H-022-D — Validator/report read-only y quality gate.
 POST-H-022-E — Runbook, disclaimers y cierre.

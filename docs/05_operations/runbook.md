@@ -6,13 +6,52 @@ version: "1.80.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "POST-H-022-A"
-updated: "2026-07-01"
+phase: "POST-H-022-B"
+updated: "2026-07-02"
 approval: "approved_by_owner"
 source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved + 03_security approved"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "SPRINT-PRECODE-05 quality operations baseline"
 ---
+
+## POST-H-022-B — Threat catalog STRIDE/LINDDUN adaptado
+
+Estado: `implemented-initial / hito activo`.
+
+POST-H-022-B amplía el threat model enterprise con amenazas STRIDE/LINDDUN, controles requeridos y riesgos residuales. El operador debe interpretar el resultado como evidencia de diseño y no como autorización de despliegue enterprise.
+
+Artefactos:
+
+```text
+docs/schemas/enterprise_threat_model.schema.json
+.devpilot/enterprise/enterprise_threat_model.json
+docs/03_security/enterprise_deployment_threat_model.md
+docs/POST-H-022_enterprise_deployment_threat_model.md
+tests/test_post_h_022_enterprise_threat_model.py
+docs/audits/post_h_022_b_enterprise_threat_catalog_report.md
+docs/post_h_022_b_manifest.json
+```
+
+Validacion focal:
+
+```powershell
+python -m pytest -p no:ddtrace tests/test_post_h_022_enterprise_threat_model.py tests/test_project_global_state.py tests/test_schema_registry.py -q
+python -m devpilot_core schema validate --schema-id EnterpriseThreatModel --instance .devpilot/enterprise/enterprise_threat_model.json --json
+python -m devpilot_core schema validate --schema-id PostHManifest --instance docs/post_h_022_b_manifest.json --json
+python -m devpilot_core docs-governance validate --json
+python -m devpilot_core test-contracts validate --json
+python -m devpilot_core test-contracts validate-v2 --json
+python -m devpilot_core project-state validate --json
+python -m devpilot_core cli-registry guard --json
+```
+
+PASS si cada trust boundary tiene amenazas asociadas, toda amenaza crítica tiene controles requeridos y se mantienen `enterprise_deployment_enabled=false`, `remote_execution_enabled=false`, `secure_transport_implemented=false`, `compliance_certification_claim=false`.
+
+BLOCK si se habilita deployment enterprise real, control plane, multiusuario productivo, red/API externa, remote execution, secretos productivos, connector write, plugin execution o claims enterprise/compliance.
+
+Último hito cerrado: `POST-H-021`
+Siguiente hito: `POST-H-022`
+Siguiente micro-sprint: `POST-H-022-C — Enterprise control matrix`
 
 ## POST-H-022-A — Asset inventory y trust boundaries
 

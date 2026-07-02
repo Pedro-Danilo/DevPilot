@@ -1,3 +1,29 @@
+## POST-H-022-B — Threat catalog STRIDE/LINDDUN adaptado
+
+Estado: `implemented-initial / hito activo`.
+
+DevPilot amplía el threat model enterprise con un catálogo STRIDE/LINDDUN por trust boundary, controles requeridos y riesgos residuales. El catálogo queda en `.devpilot/enterprise/enterprise_threat_model.json` y sigue siendo `design-only`.
+
+No se habilita deployment enterprise real. Siguen en falso `enterprise_deployment_enabled=false`, `production_multiuser_enabled=false`, `control_plane_enabled=false`, `remote_execution_enabled=false`, `secure_transport_implemented=false`, `compliance_certification_claim=false`, sin red, APIs externas, secretos productivos, connector write ni plugin execution.
+
+Artefactos actualizados:
+
+```text
+docs/schemas/enterprise_threat_model.schema.json
+.devpilot/enterprise/enterprise_threat_model.json
+docs/03_security/enterprise_deployment_threat_model.md
+docs/POST-H-022_enterprise_deployment_threat_model.md
+tests/test_post_h_022_enterprise_threat_model.py
+docs/audits/post_h_022_b_enterprise_threat_catalog_report.md
+docs/post_h_022_b_manifest.json
+```
+
+Último micro-sprint implementado: `POST-H-022-B — Threat catalog STRIDE/LINDDUN adaptado`
+Último hito cerrado: `POST-H-021`
+Hito activo: `POST-H-022 — Enterprise deployment threat model`
+Siguiente hito: `POST-H-022`
+Siguiente micro-sprint: `POST-H-022-C — Enterprise control matrix`
+
 ## POST-H-022-A — Asset inventory y trust boundaries
 
 Estado: `implemented-initial / hito activo`.

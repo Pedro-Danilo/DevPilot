@@ -2,7 +2,7 @@
   "schema_version": "1.0",
   "schema_id": "SCHEMA-DEVPL-ENTERPRISE-THREAT-MODEL-V1",
   "created_by": "POST-H-022-A",
-  "updated": "2026-07-01",
+  "updated": "2026-07-02",
   "status": "implemented-initial",
   "decision_status": "design-only",
   "enterprise_deployment_enabled": false,
@@ -450,6 +450,810 @@
   "notes": [
     "POST-H-022-A is design-only and inventory-only.",
     "Enterprise report does not mean enterprise readiness.",
-    "Threat catalog, control matrix, validator and quality gate are future POST-H-022-B/C/D work."
+    "POST-H-022-B adds STRIDE/LINDDUN threat catalog, required controls and residual risk register without enabling enterprise deployment."
+  ],
+  "threat_catalog_summary": {
+    "created_by": "POST-H-022-B",
+    "methodologies": [
+      "STRIDE",
+      "LINDDUN"
+    ],
+    "boundaries_total": 10,
+    "threats_total": 11,
+    "critical_threats_total": 6,
+    "current_threats_total": 5,
+    "future_threats_total": 6,
+    "all_boundaries_have_threats": true,
+    "critical_threats_have_controls": true,
+    "network_used": false,
+    "external_api_used": false,
+    "enterprise_deployment_enabled": false,
+    "remote_execution_enabled": false
+  },
+  "threat_catalog": [
+    {
+      "threat_id": "ENT-T000",
+      "title": "Local machine trust boundary overextension",
+      "boundary_id": "local_machine",
+      "stride_categories": [
+        "elevation_of_privilege",
+        "tampering"
+      ],
+      "linddun_categories": [
+        "unawareness",
+        "non_compliance"
+      ],
+      "risk_timing": "current",
+      "severity": "high",
+      "affected_assets": [
+        "workspace",
+        "local_store",
+        "reports"
+      ],
+      "primary_actors": [
+        "owner",
+        "local_operator",
+        "malicious_local_user"
+      ],
+      "scenario": "Local-first authority can be overextended into enterprise assumptions if operator-machine trust is not separated from enterprise trust.",
+      "required_control_ids": [
+        "ENT-C002",
+        "ENT-C003",
+        "ENT-C008"
+      ],
+      "residual_risk_ids": [
+        "ENT-RR001",
+        "ENT-RR002"
+      ],
+      "current_mitigation_status": "partial-local-control",
+      "introduced_by": "POST-H-022-B"
+    },
+    {
+      "threat_id": "ENT-T001",
+      "title": "Actor spoofing across identity and approval boundary",
+      "boundary_id": "identity_approval_boundary",
+      "stride_categories": [
+        "spoofing",
+        "elevation_of_privilege"
+      ],
+      "linddun_categories": [
+        "identifiability",
+        "non_repudiation"
+      ],
+      "risk_timing": "current",
+      "severity": "critical",
+      "affected_assets": [
+        "approvals",
+        "identity_registry",
+        "policy_matrix"
+      ],
+      "primary_actors": [
+        "malicious_local_user",
+        "developer"
+      ],
+      "scenario": "A local actor could impersonate or overstate authority if enterprise identity is inferred from local metadata without strong binding.",
+      "required_control_ids": [
+        "ENT-C001",
+        "ENT-C002"
+      ],
+      "residual_risk_ids": [
+        "ENT-RR001"
+      ],
+      "current_mitigation_status": "partial-local-control",
+      "introduced_by": "POST-H-022-B"
+    },
+    {
+      "threat_id": "ENT-T002",
+      "title": "Workspace/source tampering before enterprise distribution",
+      "boundary_id": "workspace_root",
+      "stride_categories": [
+        "tampering",
+        "elevation_of_privilege"
+      ],
+      "linddun_categories": [
+        "non_repudiation",
+        "non_compliance"
+      ],
+      "risk_timing": "current",
+      "severity": "high",
+      "affected_assets": [
+        "workspace",
+        "source_code",
+        "release_artifacts"
+      ],
+      "primary_actors": [
+        "developer",
+        "malicious_local_user"
+      ],
+      "scenario": "Enterprise packaging without signed integrity evidence could ship altered sources, tests or policies.",
+      "required_control_ids": [
+        "ENT-C002",
+        "ENT-C003"
+      ],
+      "residual_risk_ids": [
+        "ENT-RR002"
+      ],
+      "current_mitigation_status": "partial-local-control",
+      "introduced_by": "POST-H-022-B"
+    },
+    {
+      "threat_id": "ENT-T003",
+      "title": "Local state registry tampering",
+      "boundary_id": "devpilot_state_boundary",
+      "stride_categories": [
+        "tampering",
+        "repudiation"
+      ],
+      "linddun_categories": [
+        "non_repudiation",
+        "detectability"
+      ],
+      "risk_timing": "current",
+      "severity": "high",
+      "affected_assets": [
+        "local_store",
+        "policy_matrix",
+        "compliance_mappings"
+      ],
+      "primary_actors": [
+        "developer",
+        "malicious_local_user"
+      ],
+      "scenario": "A registry or project state change could alter gates or claims if integrity and audit trails are incomplete.",
+      "required_control_ids": [
+        "ENT-C003",
+        "ENT-C004"
+      ],
+      "residual_risk_ids": [
+        "ENT-RR002"
+      ],
+      "current_mitigation_status": "partial-local-control",
+      "introduced_by": "POST-H-022-B"
+    },
+    {
+      "threat_id": "ENT-T004",
+      "title": "Audit evidence repudiation or missing custody",
+      "boundary_id": "outputs_reports_boundary",
+      "stride_categories": [
+        "repudiation",
+        "tampering"
+      ],
+      "linddun_categories": [
+        "non_repudiation",
+        "detectability"
+      ],
+      "risk_timing": "current",
+      "severity": "high",
+      "affected_assets": [
+        "reports",
+        "audit_packs",
+        "traces"
+      ],
+      "primary_actors": [
+        "local_operator",
+        "auditor"
+      ],
+      "scenario": "Local reports can support engineering decisions, but enterprise evidence needs retention, redaction and custody controls.",
+      "required_control_ids": [
+        "ENT-C004"
+      ],
+      "residual_risk_ids": [
+        "ENT-RR003"
+      ],
+      "current_mitigation_status": "partial-local-control",
+      "introduced_by": "POST-H-022-B"
+    },
+    {
+      "threat_id": "ENT-T005",
+      "title": "Secret disclosure through future enterprise workflows",
+      "boundary_id": "secrets_boundary",
+      "stride_categories": [
+        "information_disclosure",
+        "elevation_of_privilege"
+      ],
+      "linddun_categories": [
+        "disclosure_of_information",
+        "non_compliance"
+      ],
+      "risk_timing": "future",
+      "severity": "critical",
+      "affected_assets": [
+        "secrets",
+        "traces",
+        "approvals"
+      ],
+      "primary_actors": [
+        "future_enterprise_admin",
+        "future_remote_worker",
+        "malicious_local_user"
+      ],
+      "scenario": "Any future enterprise workflow that reads credentials without vaulting and scopes could expose secrets in reports or traces.",
+      "required_control_ids": [
+        "ENT-C001",
+        "ENT-C005"
+      ],
+      "residual_risk_ids": [
+        "ENT-RR004"
+      ],
+      "current_mitigation_status": "blocked-by-no-go",
+      "introduced_by": "POST-H-022-B"
+    },
+    {
+      "threat_id": "ENT-T006",
+      "title": "Localhost API promoted to enterprise network without transport model",
+      "boundary_id": "api_localhost",
+      "stride_categories": [
+        "spoofing",
+        "information_disclosure",
+        "elevation_of_privilege"
+      ],
+      "linddun_categories": [
+        "identifiability",
+        "disclosure_of_information"
+      ],
+      "risk_timing": "future",
+      "severity": "critical",
+      "affected_assets": [
+        "api_localhost",
+        "workspace",
+        "local_store"
+      ],
+      "primary_actors": [
+        "future_remote_worker",
+        "malicious_local_user"
+      ],
+      "scenario": "A localhost API cannot be treated as enterprise API without authentication, authorization, session and transport controls.",
+      "required_control_ids": [
+        "ENT-C002",
+        "ENT-C006"
+      ],
+      "residual_risk_ids": [
+        "ENT-RR005"
+      ],
+      "current_mitigation_status": "blocked-by-no-go",
+      "introduced_by": "POST-H-022-B"
+    },
+    {
+      "threat_id": "ENT-T007",
+      "title": "Browser/UI session abuse and denial of service",
+      "boundary_id": "browser_localhost",
+      "stride_categories": [
+        "denial_of_service",
+        "information_disclosure"
+      ],
+      "linddun_categories": [
+        "detectability",
+        "unawareness"
+      ],
+      "risk_timing": "future",
+      "severity": "high",
+      "affected_assets": [
+        "web_ui",
+        "traces",
+        "reports"
+      ],
+      "primary_actors": [
+        "future_remote_worker",
+        "malicious_local_user"
+      ],
+      "scenario": "A UI moved toward multiuser mode would require session, CSRF, CSP, rate-limit and observability controls.",
+      "required_control_ids": [
+        "ENT-C004",
+        "ENT-C007"
+      ],
+      "residual_risk_ids": [
+        "ENT-RR005"
+      ],
+      "current_mitigation_status": "blocked-by-no-go",
+      "introduced_by": "POST-H-022-B"
+    },
+    {
+      "threat_id": "ENT-T008",
+      "title": "Future network boundary endpoint spoofing",
+      "boundary_id": "future_network_boundary",
+      "stride_categories": [
+        "spoofing",
+        "information_disclosure",
+        "denial_of_service"
+      ],
+      "linddun_categories": [
+        "linkability",
+        "disclosure_of_information",
+        "detectability"
+      ],
+      "risk_timing": "future",
+      "severity": "critical",
+      "affected_assets": [
+        "api_localhost",
+        "reports",
+        "traces"
+      ],
+      "primary_actors": [
+        "future_remote_worker",
+        "malicious_external_actor"
+      ],
+      "scenario": "A future network boundary would expose identity, session and metadata surfaces that do not exist in local-only mode.",
+      "required_control_ids": [
+        "ENT-C001",
+        "ENT-C006",
+        "ENT-C008"
+      ],
+      "residual_risk_ids": [
+        "ENT-RR005"
+      ],
+      "current_mitigation_status": "blocked-by-no-go",
+      "introduced_by": "POST-H-022-B"
+    },
+    {
+      "threat_id": "ENT-T009",
+      "title": "Compliance or audit boundary overclaiming",
+      "boundary_id": "third_party_audit_boundary",
+      "stride_categories": [
+        "repudiation",
+        "tampering"
+      ],
+      "linddun_categories": [
+        "non_compliance",
+        "unawareness"
+      ],
+      "risk_timing": "future",
+      "severity": "critical",
+      "affected_assets": [
+        "compliance_mappings",
+        "audit_packs",
+        "reports"
+      ],
+      "primary_actors": [
+        "auditor",
+        "owner",
+        "future_enterprise_admin"
+      ],
+      "scenario": "Engineering evidence could be misrepresented as certification without external scope, legal review and approval records.",
+      "required_control_ids": [
+        "ENT-C004",
+        "ENT-C008",
+        "ENT-C009"
+      ],
+      "residual_risk_ids": [
+        "ENT-RR006"
+      ],
+      "current_mitigation_status": "blocked-by-no-go",
+      "introduced_by": "POST-H-022-B"
+    },
+    {
+      "threat_id": "ENT-T010",
+      "title": "Control plane to remote worker command abuse",
+      "boundary_id": "future_control_plane_boundary",
+      "stride_categories": [
+        "elevation_of_privilege",
+        "tampering",
+        "information_disclosure"
+      ],
+      "linddun_categories": [
+        "disclosure_of_information",
+        "non_compliance"
+      ],
+      "risk_timing": "future",
+      "severity": "critical",
+      "affected_assets": [
+        "remote_design",
+        "workspace",
+        "secrets",
+        "traces"
+      ],
+      "primary_actors": [
+        "future_remote_worker",
+        "malicious_external_actor"
+      ],
+      "scenario": "A future control plane could become a command execution path unless isolated, sandboxed, authenticated and explicitly approved.",
+      "required_control_ids": [
+        "ENT-C005",
+        "ENT-C008",
+        "ENT-C010"
+      ],
+      "residual_risk_ids": [
+        "ENT-RR004",
+        "ENT-RR007"
+      ],
+      "current_mitigation_status": "blocked-by-no-go",
+      "introduced_by": "POST-H-022-B"
+    }
+  ],
+  "required_controls": [
+    {
+      "control_id": "ENT-C001",
+      "title": "Strong actor identity and anti-spoofing baseline",
+      "control_type": "identity",
+      "boundary_ids": [
+        "identity_approval_boundary",
+        "api_localhost",
+        "browser_localhost",
+        "future_control_plane_boundary"
+      ],
+      "mitigates_threat_ids": [
+        "ENT-T001",
+        "ENT-T005",
+        "ENT-T008"
+      ],
+      "required_before": [
+        "enterprise_deployment",
+        "production_multiuser",
+        "control_plane"
+      ],
+      "status": "partial-local-control",
+      "evidence_required": [
+        "identity registry",
+        "actor binding tests",
+        "audit trail of active actor changes"
+      ],
+      "blocks_if_missing": true,
+      "introduced_by": "POST-H-022-B"
+    },
+    {
+      "control_id": "ENT-C002",
+      "title": "RBAC and approval binding for sensitive enterprise actions",
+      "control_type": "rbac",
+      "boundary_ids": [
+        "workspace_root",
+        "devpilot_state_boundary",
+        "identity_approval_boundary"
+      ],
+      "mitigates_threat_ids": [
+        "ENT-T002",
+        "ENT-T006",
+        "ENT-T009"
+      ],
+      "required_before": [
+        "enterprise_deployment",
+        "production_multiuser",
+        "remote_runner"
+      ],
+      "status": "partial-local-control",
+      "evidence_required": [
+        "RBAC matrix",
+        "approval policy",
+        "sensitive action catalog",
+        "quality-gate evidence"
+      ],
+      "blocks_if_missing": true,
+      "introduced_by": "POST-H-022-B"
+    },
+    {
+      "control_id": "ENT-C003",
+      "title": "Tamper-evident source and state integrity",
+      "control_type": "isolation",
+      "boundary_ids": [
+        "workspace_root",
+        "devpilot_state_boundary"
+      ],
+      "mitigates_threat_ids": [
+        "ENT-T002",
+        "ENT-T003"
+      ],
+      "required_before": [
+        "enterprise_deployment",
+        "control_plane"
+      ],
+      "status": "required-not-implemented",
+      "evidence_required": [
+        "signed release manifest",
+        "checksums",
+        "reproducibility verifier",
+        "state change audit log"
+      ],
+      "blocks_if_missing": true,
+      "introduced_by": "POST-H-022-B"
+    },
+    {
+      "control_id": "ENT-C004",
+      "title": "Audit log retention, redaction and non-repudiation",
+      "control_type": "audit",
+      "boundary_ids": [
+        "outputs_reports_boundary",
+        "third_party_audit_boundary"
+      ],
+      "mitigates_threat_ids": [
+        "ENT-T004",
+        "ENT-T007",
+        "ENT-T009"
+      ],
+      "required_before": [
+        "enterprise_deployment",
+        "compliance_claim"
+      ],
+      "status": "partial-local-control",
+      "evidence_required": [
+        "retention policy",
+        "redaction report",
+        "audit-pack integrity report",
+        "review workflow"
+      ],
+      "blocks_if_missing": true,
+      "introduced_by": "POST-H-022-B"
+    },
+    {
+      "control_id": "ENT-C005",
+      "title": "Enterprise secret management and vaulting precondition",
+      "control_type": "secrets",
+      "boundary_ids": [
+        "secrets_boundary",
+        "future_network_boundary",
+        "future_control_plane_boundary"
+      ],
+      "mitigates_threat_ids": [
+        "ENT-T005",
+        "ENT-T010"
+      ],
+      "required_before": [
+        "enterprise_deployment",
+        "remote_runner",
+        "secure_transport"
+      ],
+      "status": "required-not-implemented",
+      "evidence_required": [
+        "vault integration ADR",
+        "secret scope model",
+        "rotation policy",
+        "negative tests for secret reads"
+      ],
+      "blocks_if_missing": true,
+      "introduced_by": "POST-H-022-B"
+    },
+    {
+      "control_id": "ENT-C006",
+      "title": "Secure transport, session and endpoint hardening",
+      "control_type": "transport",
+      "boundary_ids": [
+        "future_network_boundary",
+        "future_control_plane_boundary",
+        "api_localhost",
+        "browser_localhost"
+      ],
+      "mitigates_threat_ids": [
+        "ENT-T006",
+        "ENT-T008"
+      ],
+      "required_before": [
+        "secure_transport",
+        "control_plane",
+        "remote_runner"
+      ],
+      "status": "required-not-implemented",
+      "evidence_required": [
+        "POST-H-023 secure transport design",
+        "TLS/session model",
+        "CSRF/CSP tests",
+        "rate limit tests"
+      ],
+      "blocks_if_missing": true,
+      "introduced_by": "POST-H-022-B"
+    },
+    {
+      "control_id": "ENT-C007",
+      "title": "DoS and resource abuse controls for enterprise boundaries",
+      "control_type": "rate_limit",
+      "boundary_ids": [
+        "api_localhost",
+        "browser_localhost",
+        "future_network_boundary"
+      ],
+      "mitigates_threat_ids": [
+        "ENT-T007"
+      ],
+      "required_before": [
+        "enterprise_deployment",
+        "production_multiuser",
+        "control_plane"
+      ],
+      "status": "required-not-implemented",
+      "evidence_required": [
+        "rate limits",
+        "quota policy",
+        "load test profile",
+        "operator kill-switch"
+      ],
+      "blocks_if_missing": true,
+      "introduced_by": "POST-H-022-B"
+    },
+    {
+      "control_id": "ENT-C008",
+      "title": "Enterprise design-only quality gate and no-go enforcement",
+      "control_type": "quality_gate",
+      "boundary_ids": [
+        "future_network_boundary",
+        "future_control_plane_boundary",
+        "third_party_audit_boundary",
+        "secrets_boundary"
+      ],
+      "mitigates_threat_ids": [
+        "ENT-T008",
+        "ENT-T009",
+        "ENT-T010"
+      ],
+      "required_before": [
+        "enterprise_deployment",
+        "control_plane",
+        "remote_runner",
+        "compliance_claim"
+      ],
+      "status": "required-not-implemented",
+      "evidence_required": [
+        "enterprise threat model validator",
+        "enterprise control matrix",
+        "quality gate subgate",
+        "go/no-go checklist"
+      ],
+      "blocks_if_missing": true,
+      "introduced_by": "POST-H-022-B"
+    },
+    {
+      "control_id": "ENT-C009",
+      "title": "Human compliance/legal review before enterprise claims",
+      "control_type": "compliance_review",
+      "boundary_ids": [
+        "third_party_audit_boundary"
+      ],
+      "mitigates_threat_ids": [
+        "ENT-T009"
+      ],
+      "required_before": [
+        "compliance_claim",
+        "enterprise_deployment"
+      ],
+      "status": "required-not-implemented",
+      "evidence_required": [
+        "legal review record",
+        "external audit scope",
+        "non-certification disclaimer",
+        "approval record"
+      ],
+      "blocks_if_missing": true,
+      "introduced_by": "POST-H-022-B"
+    },
+    {
+      "control_id": "ENT-C010",
+      "title": "Remote worker isolation and command sandboxing precondition",
+      "control_type": "isolation",
+      "boundary_ids": [
+        "future_control_plane_boundary",
+        "future_network_boundary"
+      ],
+      "mitigates_threat_ids": [
+        "ENT-T010"
+      ],
+      "required_before": [
+        "remote_runner",
+        "control_plane"
+      ],
+      "status": "required-not-implemented",
+      "evidence_required": [
+        "remote runner ADR after ADR-2",
+        "worker sandbox design",
+        "credential broker design",
+        "negative execution tests"
+      ],
+      "blocks_if_missing": true,
+      "introduced_by": "POST-H-022-B"
+    }
+  ],
+  "residual_risks": [
+    {
+      "risk_id": "ENT-RR001",
+      "title": "Local identity is not enterprise identity",
+      "related_threat_ids": [
+        "ENT-T000",
+        "ENT-T001"
+      ],
+      "severity": "critical",
+      "status": "requires-future-control",
+      "rationale": "Local metadata and actor selection are insufficient for enterprise authentication or SSO claims.",
+      "future_decision_required": "Define enterprise identity architecture, break-glass and SoD before production multiuser mode.",
+      "no_go_until": [
+        "enterprise_deployment",
+        "production_multiuser"
+      ],
+      "introduced_by": "POST-H-022-B"
+    },
+    {
+      "risk_id": "ENT-RR002",
+      "title": "Integrity and custody are incomplete for enterprise release/state",
+      "related_threat_ids": [
+        "ENT-T000",
+        "ENT-T002",
+        "ENT-T003"
+      ],
+      "severity": "high",
+      "status": "requires-future-control",
+      "rationale": "Current checks are local engineering controls, not enterprise signing or custody guarantees.",
+      "future_decision_required": "Introduce signed release/state integrity and audit trail before enterprise distribution.",
+      "no_go_until": [
+        "enterprise_deployment",
+        "control_plane"
+      ],
+      "introduced_by": "POST-H-022-B"
+    },
+    {
+      "risk_id": "ENT-RR003",
+      "title": "Audit evidence remains local and non-certifying",
+      "related_threat_ids": [
+        "ENT-T004"
+      ],
+      "severity": "high",
+      "status": "accepted-design-only",
+      "rationale": "Reports are useful engineering evidence but do not provide enterprise retention, non-repudiation or external audit scope.",
+      "future_decision_required": "Define retention, signing, redaction and review controls before compliance claims.",
+      "no_go_until": [
+        "compliance_claim"
+      ],
+      "introduced_by": "POST-H-022-B"
+    },
+    {
+      "risk_id": "ENT-RR004",
+      "title": "Secrets and remote worker credentials remain prohibited",
+      "related_threat_ids": [
+        "ENT-T005",
+        "ENT-T010"
+      ],
+      "severity": "critical",
+      "status": "blocked",
+      "rationale": "No vault, broker, rotation or scoped credential model exists in POST-H-022-B.",
+      "future_decision_required": "Create secrets ADR and vaulting design before remote runner or enterprise control plane work.",
+      "no_go_until": [
+        "remote_runner",
+        "control_plane",
+        "secure_transport"
+      ],
+      "introduced_by": "POST-H-022-B"
+    },
+    {
+      "risk_id": "ENT-RR005",
+      "title": "Network/transport/session model is absent",
+      "related_threat_ids": [
+        "ENT-T006",
+        "ENT-T007",
+        "ENT-T008"
+      ],
+      "severity": "critical",
+      "status": "blocked",
+      "rationale": "Localhost API/UI cannot be promoted to enterprise network surfaces without transport, sessions and endpoint controls.",
+      "future_decision_required": "Complete POST-H-023 secure transport design and gate before network exposure.",
+      "no_go_until": [
+        "secure_transport",
+        "enterprise_deployment",
+        "control_plane"
+      ],
+      "introduced_by": "POST-H-022-B"
+    },
+    {
+      "risk_id": "ENT-RR006",
+      "title": "Compliance overclaiming remains a governance risk",
+      "related_threat_ids": [
+        "ENT-T009"
+      ],
+      "severity": "critical",
+      "status": "blocked",
+      "rationale": "Compliance mappings and audit packs are engineering artifacts, not certification.",
+      "future_decision_required": "Require legal/compliance review and explicit external audit scope before claims.",
+      "no_go_until": [
+        "compliance_claim"
+      ],
+      "introduced_by": "POST-H-022-B"
+    },
+    {
+      "risk_id": "ENT-RR007",
+      "title": "Control plane remains prohibited",
+      "related_threat_ids": [
+        "ENT-T010"
+      ],
+      "severity": "critical",
+      "status": "blocked",
+      "rationale": "Remote command paths are explicitly out of scope until isolation, approvals, transport and sandboxing are designed and tested.",
+      "future_decision_required": "New ADR and POST-H quality gate are required before any control plane implementation.",
+      "no_go_until": [
+        "control_plane",
+        "remote_runner"
+      ],
+      "introduced_by": "POST-H-022-B"
+    }
   ]
 }

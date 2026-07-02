@@ -1,0 +1,92 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "SCHEMA-DEVPL-POST-H-MANIFEST-V1",
+  "manifest_id": "POST-H-022-B-MANIFEST",
+  "post_h_id": "POST-H-022",
+  "micro_sprint": "POST-H-022-B",
+  "title": "Threat catalog STRIDE/LINDDUN adaptado",
+  "status": "implemented-initial",
+  "phase": "POST-FASE-H",
+  "implemented_at": "2026-07-02",
+  "created_by": "POST-H-022-B",
+  "updated": "2026-07-02",
+  "source_repo": "repo_DevPilot_Local_241_POST_H_022_A.zip",
+  "target_repo": "repo_DevPilot_Local_242_POST_H_022_B.zip",
+  "backlog": "docs/backlogs/POST-H-022_enterprise_deployment_threat_model.md",
+  "implementation_doc": "docs/POST-H-022_enterprise_deployment_threat_model.md",
+  "audit_report": "docs/audits/post_h_022_b_enterprise_threat_catalog_report.md",
+  "created_files": [
+    "docs/audits/post_h_022_b_enterprise_threat_catalog_report.md",
+    "docs/post_h_022_b_manifest.json"
+  ],
+  "modified_files": [
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/03_security/enterprise_deployment_threat_model.md",
+    "docs/POST-H-022_enterprise_deployment_threat_model.md",
+    "docs/backlogs/POST-H-022_enterprise_deployment_threat_model.md",
+    "docs/release/CHANGELOG.md",
+    "docs/schemas/enterprise_threat_model.schema.json",
+    ".devpilot/enterprise/enterprise_threat_model.json",
+    ".devpilot/project_state.json",
+    ".devpilot/docs_governance/source_registry.json",
+    ".devpilot/testing/test_contract_registry.json",
+    ".devpilot/testing/test_contract_registry_v2.json",
+    "tests/test_post_h_022_enterprise_threat_model.py",
+    "tests/test_project_global_state.py"
+  ],
+  "capabilities": [
+    "Enterprise threat catalog STRIDE/LINDDUN",
+    "Threats mapped to trust boundaries",
+    "Critical threats mapped to required controls",
+    "Residual risk register added to EnterpriseThreatModel",
+    "No-go enterprise invariants preserved"
+  ],
+  "commands": [
+    "python -m pytest -p no:ddtrace tests/test_post_h_022_enterprise_threat_model.py tests/test_project_global_state.py tests/test_schema_registry.py -q",
+    "python -m devpilot_core schema validate --schema-id EnterpriseThreatModel --instance .devpilot/enterprise/enterprise_threat_model.json --json",
+    "python -m devpilot_core schema validate --schema-id PostHManifest --instance docs/post_h_022_b_manifest.json --json",
+    "python -m devpilot_core docs-governance validate --json",
+    "python -m devpilot_core test-contracts validate --json",
+    "python -m devpilot_core test-contracts validate-v2 --json",
+    "python -m devpilot_core project-state validate --json",
+    "python -m devpilot_core cli-registry guard --json"
+  ],
+  "tests": [
+    "tests/test_post_h_022_enterprise_threat_model.py",
+    "tests/test_project_global_state.py",
+    "tests/test_schema_registry.py"
+  ],
+  "pass_criteria": [
+    "Every trust boundary has associated threats.",
+    "Every critical threat has required controls.",
+    "STRIDE and LINDDUN are both represented.",
+    "Residual risks distinguish current and future enterprise risk.",
+    "No deployment enterprise, remote execution, network dependency or compliance certification claim is enabled."
+  ],
+  "block_criteria": [
+    "Threats of spoofing, elevation or secrets lack mitigation.",
+    "A trust boundary has no threat coverage.",
+    "A critical threat has no required control.",
+    "Enterprise deployment, control plane, remote execution, secure transport or compliance certification is enabled."
+  ],
+  "risks": [
+    "Control matrix is not yet formalized as a separate artifact.",
+    "Validator/report read-only and quality gate remain pending.",
+    "Enterprise readiness must not be inferred from this catalog."
+  ],
+  "next_sprint": "POST-H-022",
+  "next_micro_sprint": "POST-H-022-C",
+  "enterprise_deployment_enabled": false,
+  "production_multiuser_enabled": false,
+  "control_plane_enabled": false,
+  "remote_execution_enabled": false,
+  "secure_transport_implemented": false,
+  "compliance_certification_claim": false,
+  "network_used": false,
+  "external_api_used": false,
+  "connector_write_enabled": false,
+  "plugin_execution_enabled": false,
+  "secrets_read": false,
+  "preliminary": true
+}

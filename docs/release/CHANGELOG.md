@@ -1,3 +1,12 @@
+## post-h-022-b — Threat catalog STRIDE/LINDDUN adaptado
+
+- Amplía `EnterpriseThreatModel` con `threat_catalog_summary`, `threat_catalog`, `required_controls` y `residual_risks`.
+- Mapea amenazas STRIDE/LINDDUN por trust boundary.
+- Exige controles requeridos para amenazas críticas.
+- Separa riesgos actuales y futuros, y documenta riesgos residuales.
+- Mantiene `enterprise_deployment_enabled=false`, `production_multiuser_enabled=false`, `control_plane_enabled=false`, `remote_execution_enabled=false`, `secure_transport_implemented=false`, `compliance_certification_claim=false`, sin red, APIs externas, connector write ni plugin execution.
+- Siguiente micro-sprint: `POST-H-022-C — Enterprise control matrix`.
+
 ## post-h-022-a — Asset inventory y trust boundaries
 
 - Aprueba `POST-H-022 — Enterprise deployment threat model` como hito activo.

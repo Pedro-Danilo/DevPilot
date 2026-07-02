@@ -5731,6 +5731,50 @@
         "Validates POST-H-022-A design-only enterprise asset inventory and trust boundaries.",
         "Does not enable enterprise deployment, remote execution, network, secure transport or compliance certification."
       ]
+    },
+    {
+      "contract_id": "post-h-022-enterprise-threat-catalog",
+      "scope": "safety",
+      "owner": "POST-H-022-B",
+      "phase": "POST-FASE-H",
+      "test_files": [
+        "tests/test_post_h_022_enterprise_threat_model.py"
+      ],
+      "validates": [
+        ".devpilot/enterprise/enterprise_threat_model.json",
+        "docs/schemas/enterprise_threat_model.schema.json",
+        "docs/03_security/enterprise_deployment_threat_model.md",
+        "docs/post_h_022_b_manifest.json"
+      ],
+      "watched_paths": [
+        ".devpilot/enterprise/enterprise_threat_model.json",
+        "docs/schemas/enterprise_threat_model.schema.json",
+        "docs/03_security/enterprise_deployment_threat_model.md",
+        "docs/POST-H-022_enterprise_deployment_threat_model.md",
+        "docs/backlogs/POST-H-022_enterprise_deployment_threat_model.md",
+        "README.md",
+        "docs/05_operations/runbook.md",
+        "docs/release/CHANGELOG.md",
+        ".devpilot/project_state.json",
+        ".devpilot/docs_governance/source_registry.json",
+        ".devpilot/testing/test_contract_registry.json",
+        ".devpilot/testing/test_contract_registry_v2.json",
+        "tests/test_post_h_022_enterprise_threat_model.py",
+        "tests/test_project_global_state.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace tests/test_post_h_022_enterprise_threat_model.py tests/test_project_global_state.py tests/test_schema_registry.py -q",
+        "python -m devpilot_core schema validate --schema-id EnterpriseThreatModel --instance .devpilot/enterprise/enterprise_threat_model.json --json",
+        "python -m devpilot_core docs-governance validate --json",
+        "python -m devpilot_core test-contracts validate --json"
+      ],
+      "notes": [
+        "Validates POST-H-022-B STRIDE/LINDDUN threat catalog coverage.",
+        "Does not enable enterprise deployment, remote execution, network, secure transport or compliance certification."
+      ]
     }
   ],
   "notes": [
@@ -5758,6 +5802,7 @@
     "POST-H-021-C registers remote readiness report contract without enabling remote execution.",
     "POST-H-021-D registers remote-readiness-design-only as a hardening quality-gate contract without enabling remote execution.",
     "POST-H-021-E registers remote runner runbook closure safety contract.",
-    "POST-H-022-A registers enterprise threat model safety contract."
+    "POST-H-022-A registers enterprise threat model safety contract.",
+    "POST-H-022-B registers enterprise threat catalog safety contract."
   ]
 }
