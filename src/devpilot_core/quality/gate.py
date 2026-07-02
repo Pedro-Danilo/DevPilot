@@ -150,6 +150,7 @@ class QualityGate:
                     "POST-H-019-D adds plugin-sandbox-design to hardening/industrial profiles to validate metadata-only plugin registry, permission model, exposure report and plugin-ecosystem eval signal without plugin execution.",
                     "POST-H-020-D adds compliance-mapping-pack to hardening/industrial profiles to validate mappings, evidence, report, audit-pack summary and compliance-pack eval signal without certification claims.",
                     "POST-H-021-D adds remote-readiness-design-only to hardening/industrial profiles to validate remote runner disabled invariants, readiness report and remote-enterprise eval signal without remote execution.",
+                    "POST-H-022-D adds enterprise-threat-model-design-only to hardening/industrial profiles to validate enterprise threat model and control matrix blockers without enterprise deployment.",
                     "POST-H-008-E adds runtime-state-hygiene to hardening/industrial profiles to block dirty source/release archives.",
                     "POST-H-009-E adds docs-governance to hardening/industrial profiles to block canonical-source, sync and backlog-governance drift.",
                     "The default and ci profiles do not run pytest implicitly; CI workflows and local checklists run pytest as an explicit step, or use --include-pytest when desired.",
@@ -204,6 +205,7 @@ class QualityGate:
             subgates.append(QualitySubgate("plugin-sandbox-design", "POST-H-019 plugin registry, permission model, exposure report and eval fixture safety gate.", self._plugin_sandbox_design))
             subgates.append(QualitySubgate("compliance-mapping-pack", "POST-H-020 compliance mapping validator, evidence report, audit-pack summary and compliance-pack eval gate.", self._compliance_mapping_pack))
             subgates.append(QualitySubgate("remote-readiness-design-only", "POST-H-021 remote runner disabled readiness, ADR and eval-signal gate.", self._remote_readiness_design_only))
+            subgates.append(QualitySubgate("enterprise-threat-model-design-only", "POST-H-022 enterprise threat model, control matrix and readiness blocker gate.", self._enterprise_threat_model_design_only))
         if self.options.profile == "industrial":
             subgates.append(QualitySubgate("industrial-readiness", "Fase H industrial readiness gate and maturity classification.", self._industrial_readiness))
         if self.options.profile == "hardening":
@@ -372,6 +374,11 @@ class QualityGate:
         from devpilot_core.remote import RemoteReadinessQualityGate
 
         return RemoteReadinessQualityGate(self.root).run()
+
+    def _enterprise_threat_model_design_only(self) -> CommandResult:
+        from devpilot_core.enterprise import EnterpriseThreatModelQualityGate
+
+        return EnterpriseThreatModelQualityGate(self.root).run()
 
     def _industrial_readiness(self) -> CommandResult:
         from devpilot_core.industrial import IndustrialReadinessGate

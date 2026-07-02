@@ -2,7 +2,7 @@
 doc_id: "POST-H-022-ENTERPRISE-THREAT-MODEL"
 title: "Enterprise deployment threat model"
 status: "approved"
-version: "0.2.0"
+version: "0.3.0"
 owner: "Ordóñez"
 updated: "2026-07-02"
 approval: "approved_by_owner"
@@ -22,7 +22,7 @@ compliance_certification_claim: false
 
 ## 1. Estado y alcance
 
-POST-H-022-B amplía la primera version del threat model enterprise de DevPilot con un catalogo de amenazas STRIDE/LINDDUN, controles requeridos y riesgos residuales. El alcance sigue siendo diseño. No habilita despliegue enterprise, multiusuario productivo, control plane, remote workers, secure transport activo, SSO/SAML/OIDC, APIs externas, red ni certificacion compliance.
+POST-H-022-D consolida la version design-only del threat model enterprise con validator/report read-only y quality gate. POST-H-022-B amplía la primera version del threat model enterprise de DevPilot con un catalogo de amenazas STRIDE/LINDDUN, controles requeridos y riesgos residuales. El alcance sigue siendo diseño. No habilita despliegue enterprise, multiusuario productivo, control plane, remote workers, secure transport activo, SSO/SAML/OIDC, APIs externas, red ni certificacion compliance.
 
 La regla operativa es explicita:
 
@@ -191,11 +191,27 @@ docs/schemas/enterprise_threat_model.schema.json
 
 ## 11. Pendiente
 
-POST-H-022-B es una version preliminar `implemented-initial / design-only`. Quedan para micro-sprints posteriores:
+POST-H-022-D es una version preliminar `implemented-initial / design-only`. Queda para cierre:
 
 ```text
 POST-H-022-C — Enterprise control matrix implementado como matriz design-only.
-POST-H-022-D — Validator/report read-only.
-POST-H-022-D — Validator/report read-only y quality gate.
+POST-H-022-D — Validator/report read-only y quality gate implementado como evidencia design-only.
 POST-H-022-E — Runbook, disclaimers y cierre.
 ```
+
+## 12. Validator/report read-only y quality gate
+
+POST-H-022-D introduce `EnterpriseThreatModelValidator`, `EnterpriseThreatModelReporter` y `EnterpriseThreatModelQualityGate`. Estos componentes leen únicamente `.devpilot/enterprise/enterprise_threat_model.json` y `.devpilot/enterprise/enterprise_control_matrix.json`; no ejecutan despliegue, no usan red, no leen secretos y no escriben reportes cuando se invocan desde quality gate.
+
+```text
+quality_gate_subgate=enterprise-threat-model-design-only
+decision_status=design-only
+enterprise_deployment_enabled=false
+remote_execution_enabled=false
+secure_transport_implemented=false
+compliance_certification_claim=false
+enterprise_ready_claimed=false
+required_not_implemented_total>0
+```
+
+El reporte es un artefacto preliminar de diseño. Enterprise report != enterprise readiness y no sustituye una ADR futura, una implementación de identidad/transport/secrets ni auditoría enterprise externa.

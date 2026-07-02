@@ -12,8 +12,8 @@ phase: "POST-FASE-H"
 priority: "P3"
 roadmap_source: "docs/backlogs/post_h_prioritized_roadmap.md"
 implementation_status: "active"
-current_micro_sprint: "POST-H-022-C"
-next_micro_sprint: "POST-H-022-D"
+current_micro_sprint: "POST-H-022-D"
+next_micro_sprint: "POST-H-022-E"
 local_first: true
 dry_run: true
 no_remote_execution_enabled: true
@@ -26,7 +26,7 @@ no_plugin_execution_enabled: true
 
 ## 0. Estado de implementación
 
-POST-H-022 queda activo con **POST-H-022-C — Enterprise control matrix** como `implemented-initial / design-only`.
+POST-H-022 queda activo con **POST-H-022-D — Validator/report read-only** como `implemented-initial / design-only`.
 
 POST-H-022-A entrega:
 
@@ -39,14 +39,15 @@ docs/audits/post_h_022_a_enterprise_asset_inventory_report.md
 docs/post_h_022_a_manifest.json
 ```
 
-El siguiente micro-sprint es **POST-H-022-D — Validator/report read-only**.
+El siguiente micro-sprint es **POST-H-022-E — Runbook y cierre**.
 
 POST-H-022-B entrega un catalogo de amenazas STRIDE/LINDDUN por boundary, controles requeridos y riesgos residuales en `.devpilot/enterprise/enterprise_threat_model.json`, sin habilitar despliegue enterprise, control plane, red, ejecucion remota, secretos productivos ni claims de compliance.
 
-POST-H-022-C entrega una matriz enterprise de controles requerida antes de cualquier despliegue enterprise. La matriz distingue `implemented`, `partial` y `required-not-implemented`; los controles no implementados bloquean readiness y no autorizan claims enterprise-ready.
+POST-H-022-C entrega una matriz enterprise de controles requerida antes de cualquier despliegue enterprise. La matriz distingue `implemented`, `partial` y `required-not-implemented`; los controles no implementados bloquean readiness y no autorizan claims enterprise-ready. Su cierre requiere el patch correctivo aplicado en POST-H-022-D al contrato TCR v1 (`scope=safety`, `critical=true`, `mutable_global_state_allowed=false`).
 
+POST-H-022-D entrega validator/report read-only y subgate `enterprise-threat-model-design-only`. La validación confirma `decision_status=design-only`, conserva bloqueadores `required-not-implemented` y no habilita despliegue enterprise ni claims enterprise-ready.
 
-POST-H-022-A no habilita deployment enterprise real, control plane, multiusuario productivo, secure transport activo, remote execution, SSO/SAML/OIDC, red, APIs externas, secrets management productivo ni claims de compliance. La capacidad es preliminar y debe evolucionar antes de cualquier declaracion enterprise.
+POST-H-022-A/B/C/D no habilitan deployment enterprise real, control plane, multiusuario productivo, secure transport activo, remote execution, SSO/SAML/OIDC, red, APIs externas, secrets management productivo ni claims de compliance. La capacidad es preliminar y debe evolucionar antes de cualquier declaracion enterprise.
 
 ## 1. Objetivo
 

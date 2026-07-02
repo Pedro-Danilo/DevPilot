@@ -10394,6 +10394,91 @@
         "documentation.governance",
         "testing.contracts"
       ]
+    },
+    {
+      "contract_id": "post-h-022-enterprise-threat-model-validator",
+      "schema_version": "2.0",
+      "source_contract_id": "post-h-022-enterprise-threat-model-validator",
+      "domain": "enterprise.reporting",
+      "capability": "Enterprise threat model validator/report and quality-gate design-only enforcement",
+      "criticality": "P1",
+      "risk_level": "critical",
+      "test_type": "security",
+      "execution_profile": "release",
+      "cost_class": "low",
+      "expected_duration_seconds": 30,
+      "test_files": [
+        "tests/test_post_h_022_enterprise_threat_model.py",
+        "tests/test_project_global_state.py",
+        "tests/test_schema_registry.py"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/enterprise/threat_model.py",
+        "src/devpilot_core/enterprise/reports.py",
+        "src/devpilot_core/enterprise/quality_gate.py",
+        "src/devpilot_core/enterprise/__init__.py",
+        "src/devpilot_core/quality/gate.py",
+        ".devpilot/enterprise/enterprise_threat_model.json",
+        ".devpilot/enterprise/enterprise_control_matrix.json",
+        "docs/schemas/enterprise_threat_model_report.schema.json",
+        "docs/schemas/schema_catalog.json",
+        "docs/03_security/enterprise_deployment_threat_model.md",
+        "docs/POST-H-022_enterprise_deployment_threat_model.md",
+        "docs/backlogs/POST-H-022_enterprise_deployment_threat_model.md",
+        "docs/post_h_022_d_manifest.json",
+        "README.md",
+        "docs/05_operations/runbook.md",
+        ".devpilot/project_state.json",
+        ".devpilot/docs_governance/source_registry.json",
+        ".devpilot/testing/test_contract_registry.json",
+        ".devpilot/testing/test_contract_registry_v2.json",
+        "tests/test_post_h_022_enterprise_threat_model.py",
+        "tests/test_project_global_state.py",
+        "tests/test_schema_registry.py"
+      ],
+      "validates": [
+        "EnterpriseThreatModelValidator reports decision_status=design-only",
+        "EnterpriseThreatModelReporter produces schema-backed read-only report",
+        "quality-gate hardening includes enterprise-threat-model-design-only",
+        "enterprise deployment, remote execution, secure transport, secrets and certification claims remain disabled"
+      ],
+      "required_fixtures": [],
+      "required_cli": [
+        "quality-gate run --profile hardening --json"
+      ],
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "classification_status": "explicit",
+      "owner": "POST-H-022-D",
+      "phase": "POST-FASE-H",
+      "created_by": "POST-H-022-D",
+      "updated": "2026-07-02",
+      "preliminary": true,
+      "required_for_release": true,
+      "required_for_security_gate": true,
+      "requires_human_approval": false,
+      "source_mutations_allowed": false,
+      "mutations_allowed": false,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace tests/test_post_h_022_enterprise_threat_model.py tests/test_project_global_state.py tests/test_schema_registry.py -q",
+        "python -m devpilot_core quality-gate run --profile hardening --json",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ],
+      "trigger_hints": [
+        "post-h-022",
+        "enterprise-threat-model",
+        "enterprise-design-only",
+        "quality-gate"
+      ],
+      "impact_scope": [
+        "enterprise.reporting",
+        "security.guards",
+        "quality.gate",
+        "testing.contracts"
+      ],
+      "classification_notes": [
+        "Explicit POST-H-022-D safety contract; no enterprise runtime enablement."
+      ]
     }
   ],
   "migration_metadata": {

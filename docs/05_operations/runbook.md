@@ -2,17 +2,53 @@
 title: "Runbook — DevPilot Local"
 doc_id: "DEVPL-OPS-002"
 status: "approved"
-version: "1.80.0"
+version: "1.81.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "POST-H-022-C"
+phase: "POST-H-022-D"
 updated: "2026-07-02"
 approval: "approved_by_owner"
 source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved + 03_security approved"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "SPRINT-PRECODE-05 quality operations baseline"
 ---
+
+## POST-H-022-D — Validator/report read-only
+
+POST-H-022-D incorpora validación semántica enterprise de solo lectura. El operador debe usar este gate como evidencia de diseño bloqueado, no como autorización de despliegue enterprise.
+
+Artefactos principales:
+
+```text
+src/devpilot_core/enterprise/threat_model.py
+src/devpilot_core/enterprise/reports.py
+src/devpilot_core/enterprise/quality_gate.py
+docs/schemas/enterprise_threat_model_report.schema.json
+docs/audits/post_h_022_d_enterprise_validator_report.md
+docs/post_h_022_d_manifest.json
+```
+
+Verificación focal:
+
+```powershell
+python -m pytest -p no:ddtrace tests/test_post_h_022_enterprise_threat_model.py tests/test_project_global_state.py tests/test_schema_registry.py -q
+python -m devpilot_core quality-gate run --profile hardening --json
+python -m devpilot_core schema validate --schema-id EnterpriseThreatModelReport --instance outputs/reports/enterprise_threat_model_report.json --json
+python -m devpilot_core test-contracts validate --json
+python -m devpilot_core test-contracts validate-v2 --json
+```
+
+PASS si el validator/reporter devuelve `decision_status=design-only`, `enterprise_deployment_enabled=false`, `remote_execution_enabled=false`, `enterprise_ready_claimed=false`, `required_not_implemented_total>0` y el subgate `enterprise-threat-model-design-only` aparece en hardening/industrial.
+
+BLOCK si se introduce deployment enterprise real, control plane, secure transport activo, red/API externa, lectura de secretos, remote execution o claim de certificación/readiness enterprise.
+
+Último hito cerrado: `POST-H-021`
+
+Siguiente hito: `POST-H-022`
+
+Siguiente micro-sprint: `POST-H-022-E — Runbook y cierre`
+
 
 ## POST-H-022-C — Enterprise control matrix
 

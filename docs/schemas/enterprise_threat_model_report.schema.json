@@ -1,0 +1,156 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/SCHEMA-DEVPL-ENTERPRISE-THREAT-MODEL-REPORT-V1",
+  "title": "DevPilot EnterpriseThreatModelReport v1",
+  "description": "POST-H-022-D read-only enterprise threat-model report. It confirms design-only enterprise posture and forbids deployment, remote execution, network, secrets and certification claims.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "schema_id",
+    "report_id",
+    "created_by",
+    "status",
+    "generated_at_utc",
+    "ok",
+    "decision_status",
+    "enterprise_deployment_enabled",
+    "remote_execution_enabled",
+    "secure_transport_implemented",
+    "compliance_certification_claim",
+    "enterprise_ready_claimed",
+    "blocking_findings_total",
+    "summary",
+    "required_before_enterprise",
+    "no_go_gates",
+    "findings",
+    "safety",
+    "notes"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "schema_id": {"const": "SCHEMA-DEVPL-ENTERPRISE-THREAT-MODEL-REPORT-V1"},
+    "report_id": {"const": "devpilot-enterprise-threat-model-report"},
+    "created_by": {"const": "POST-H-022-D"},
+    "status": {"const": "implemented-initial"},
+    "generated_at_utc": {"type": "string", "minLength": 20},
+    "ok": {"type": "boolean"},
+    "decision_status": {"const": "design-only"},
+    "enterprise_deployment_enabled": {"const": false},
+    "remote_execution_enabled": {"const": false},
+    "secure_transport_implemented": {"const": false},
+    "compliance_certification_claim": {"const": false},
+    "enterprise_ready_claimed": {"const": false},
+    "blocking_findings_total": {"type": "integer", "minimum": 0},
+    "summary": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "created_by",
+        "decision_status",
+        "enterprise_deployment_enabled",
+        "remote_execution_enabled",
+        "secure_transport_implemented",
+        "compliance_certification_claim",
+        "enterprise_ready_claimed",
+        "required_not_implemented_total",
+        "network_used",
+        "external_api_used",
+        "mutations_performed",
+        "source_mutations_performed",
+        "secrets_read",
+        "remote_execution_used",
+        "blocking_findings_total"
+      ],
+      "properties": {
+        "created_by": {"const": "POST-H-022-D"},
+        "decision_status": {"const": "design-only"},
+        "enterprise_deployment_enabled": {"const": false},
+        "remote_execution_enabled": {"const": false},
+        "secure_transport_implemented": {"const": false},
+        "compliance_certification_claim": {"const": false},
+        "enterprise_ready_claimed": {"const": false},
+        "required_not_implemented_total": {"type": "integer", "minimum": 1},
+        "network_used": {"const": false},
+        "external_api_used": {"const": false},
+        "mutations_performed": {"const": false},
+        "source_mutations_performed": {"const": false},
+        "secrets_read": {"const": false},
+        "remote_execution_used": {"const": false},
+        "blocking_findings_total": {"type": "integer", "minimum": 0}
+      }
+    },
+    "required_before_enterprise": {
+      "type": "array",
+      "minItems": 6,
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "no_go_gates": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "enterprise_deployment_enabled",
+        "remote_execution_enabled",
+        "secure_transport_implemented",
+        "compliance_certification_claim",
+        "enterprise_ready_claimed",
+        "network_dependency_introduced",
+        "secrets_introduced",
+        "source_mutations_performed"
+      ],
+      "properties": {
+        "enterprise_deployment_enabled": {"const": false},
+        "remote_execution_enabled": {"const": false},
+        "secure_transport_implemented": {"const": false},
+        "compliance_certification_claim": {"const": false},
+        "enterprise_ready_claimed": {"const": false},
+        "network_dependency_introduced": {"const": false},
+        "secrets_introduced": {"const": false},
+        "source_mutations_performed": {"const": false}
+      }
+    },
+    "findings": {
+      "type": "array",
+      "items": {"type": "object"}
+    },
+    "safety": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "local_first",
+        "read_only",
+        "dry_run",
+        "enterprise_deployment_enabled",
+        "remote_execution_enabled",
+        "network_used",
+        "external_api_used",
+        "mutations_performed",
+        "source_mutations_performed",
+        "secrets_read",
+        "compliance_certification_claim"
+      ],
+      "properties": {
+        "local_first": {"const": true},
+        "read_only": {"const": true},
+        "dry_run": {"const": true},
+        "enterprise_deployment_enabled": {"const": false},
+        "remote_execution_enabled": {"const": false},
+        "network_used": {"const": false},
+        "external_api_used": {"const": false},
+        "mutations_performed": {"const": false},
+        "source_mutations_performed": {"const": false},
+        "secrets_read": {"const": false},
+        "compliance_certification_claim": {"const": false}
+      }
+    },
+    "notes": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"type": "string", "minLength": 1}
+    }
+  },
+  "x-devpilot-schema-id": "SCHEMA-DEVPL-ENTERPRISE-THREAT-MODEL-REPORT-V1",
+  "x-devpilot-sprint": "POST-H-022-D",
+  "x-devpilot-status": "registered"
+}

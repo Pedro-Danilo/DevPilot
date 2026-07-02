@@ -3,6 +3,12 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
+from devpilot_core.enterprise import (
+    EnterpriseThreatModelQualityGate,
+    EnterpriseThreatModelReporter,
+    EnterpriseThreatModelValidator,
+)
+
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -203,10 +209,12 @@ def test_enterprise_threat_model_documents_do_not_overclaim_enterprise_readiness
 
     assert 'status: "approved"' in backlog
     assert 'implementation_status: "active"' in backlog
-    assert 'current_micro_sprint: "POST-H-022-C"' in backlog
-    assert 'next_micro_sprint: "POST-H-022-D"' in backlog
+    assert 'current_micro_sprint: "POST-H-022-D"' in backlog
+    assert 'next_micro_sprint: "POST-H-022-E"' in backlog
     assert "stride/linddun" in threat_model
     assert "critical_threats_have_controls=true" in threat_model
+    assert "enterprise-threat-model-design-only" in threat_model
+    assert "validator/report read-only" in implementation.lower()
 
 
 def test_project_state_and_historical_remote_closure_are_synchronized_for_post_h_022_a() -> None:
@@ -217,16 +225,19 @@ def test_project_state_and_historical_remote_closure_are_synchronized_for_post_h
 
     assert state["last_completed_sprint"] == "POST-H-021"
     assert state["next_sprint"] == "POST-H-022"
-    assert state["current_micro_sprint"] == "POST-H-022-C"
-    assert state["next_micro_sprint"] == "POST-H-022-D"
+    assert state["current_micro_sprint"] == "POST-H-022-D"
+    assert state["next_micro_sprint"] == "POST-H-022-E"
     assert state["post_h_021_closed"] is True
-    assert state["post_h_022_current_micro_sprint"] == "POST-H-022-C"
-    assert state["post_h_022_next_micro_sprint"] == "POST-H-022-D"
+    assert state["post_h_022_current_micro_sprint"] == "POST-H-022-D"
+    assert state["post_h_022_next_micro_sprint"] == "POST-H-022-E"
     assert state["post_h_022_enterprise_threat_catalog_registered"] is True
     assert state["post_h_022_enterprise_critical_threats_have_controls"] is True
     assert state["post_h_022_enterprise_all_boundaries_have_threats"] is True
     assert state["post_h_022_enterprise_control_matrix_schema_registered"] is True
     assert state["post_h_022_enterprise_ready_claimed"] is False
+    assert state["post_h_022_enterprise_threat_model_report_schema_registered"] is True
+    assert state["post_h_022_enterprise_threat_model_validator_available"] is True
+    assert state["post_h_022_enterprise_threat_model_quality_gate_enabled"] is True
     assert state["enterprise_deployment_enabled"] is False
     assert state["remote_execution_enabled"] is False
     assert any("POST-H-022-A approves Enterprise deployment threat model" in note for note in state["notes"])
@@ -237,12 +248,14 @@ def test_project_state_and_historical_remote_closure_are_synchronized_for_post_h
         assert "POST-H-022-A — Asset inventory y trust boundaries" in text
         assert "POST-H-022-B — Threat catalog STRIDE/LINDDUN adaptado" in text
         assert "POST-H-022-C — Enterprise control matrix" in text
+        assert "POST-H-022-D — Validator/report read-only" in text
         assert "Último hito cerrado: `POST-H-021`" in text
         assert "Siguiente hito: `POST-H-022`" in text
 
     assert "post-h-022-a" in changelog
     assert "post-h-022-b" in changelog
     assert "post-h-022-c" in changelog
+    assert "post-h-022-d" in changelog
     assert "EnterpriseThreatModel" in changelog
 
 
@@ -288,3 +301,68 @@ def test_post_h_022_a_manifest_source_registry_and_tcr_are_registered() -> None:
     assert "POST-H-022-C-MANIFEST" in doc_ids
     assert "post-h-022-enterprise-control-matrix" in contract_ids_v1
     assert "post-h-022-enterprise-control-matrix" in contract_ids_v2
+
+    control_contract = next(item for item in tcr_v1["contracts"] if item["contract_id"] == "post-h-022-enterprise-control-matrix")
+    assert control_contract["scope"] == "safety"
+    assert control_contract["critical"] is True
+    assert control_contract["mutable_global_state_allowed"] is False
+
+    manifest_d = read_json("docs/post_h_022_d_manifest.json")
+    assert manifest_d["micro_sprint"] == "POST-H-022-D"
+    assert manifest_d["enterprise_deployment_enabled"] is False
+    assert "src/devpilot_core/enterprise/threat_model.py" in manifest_d["created_files"]
+    assert "docs/schemas/enterprise_threat_model_report.schema.json" in manifest_d["created_files"]
+    assert "SCHEMA-DEVPL-ENTERPRISE-THREAT-MODEL-REPORT-V1" in doc_ids
+    assert "POST-H-022-D-ENTERPRISE-THREAT-MODEL-VALIDATOR" in doc_ids
+    assert "POST-H-022-D-MANIFEST" in doc_ids
+    assert "post-h-022-enterprise-threat-model-validator" in contract_ids_v1
+    assert "post-h-022-enterprise-threat-model-validator" in contract_ids_v2
+
+
+def test_enterprise_threat_model_validator_report_and_quality_gate_are_design_only() -> None:
+    validator_result = EnterpriseThreatModelValidator(ROOT).validate()
+    assert validator_result.ok is True
+    summary = validator_result.data["summary"]
+    assert summary["decision_status"] == "design-only"
+    assert summary["enterprise_deployment_enabled"] is False
+    assert summary["remote_execution_enabled"] is False
+    assert summary["secure_transport_implemented"] is False
+    assert summary["compliance_certification_claim"] is False
+    assert summary["enterprise_ready_claimed"] is False
+    assert summary["required_not_implemented_total"] > 0
+    assert summary["network_used"] is False
+    assert summary["external_api_used"] is False
+    assert summary["mutations_performed"] is False
+    assert summary["secrets_read"] is False
+
+    report_result = EnterpriseThreatModelReporter(ROOT).build(write_report=False)
+    assert report_result.ok is True
+    report = report_result.data["report"]
+    assert report["schema_id"] == "SCHEMA-DEVPL-ENTERPRISE-THREAT-MODEL-REPORT-V1"
+    assert report["created_by"] == "POST-H-022-D"
+    assert report["decision_status"] == "design-only"
+    assert report["enterprise_deployment_enabled"] is False
+    assert report["enterprise_ready_claimed"] is False
+    assert report_result.data["summary"]["reports_written"] is False
+
+    gate_result = EnterpriseThreatModelQualityGate(ROOT).run()
+    assert gate_result.ok is True
+    gate_summary = gate_result.data["summary"]
+    assert gate_summary["quality_gate_subgate"] == "enterprise-threat-model-design-only"
+    assert gate_summary["reports_written"] is False
+    assert gate_summary["blocking_findings_total"] == 0
+
+
+def test_enterprise_threat_model_report_schema_is_registered_and_guarded() -> None:
+    schema = read_json("docs/schemas/enterprise_threat_model_report.schema.json")
+    catalog = read_json("docs/schemas/schema_catalog.json")
+    quality_gate = read_text("src/devpilot_core/quality/gate.py")
+
+    assert schema["x-devpilot-schema-id"] == "SCHEMA-DEVPL-ENTERPRISE-THREAT-MODEL-REPORT-V1"
+    assert schema["properties"]["enterprise_deployment_enabled"]["const"] is False
+    assert schema["properties"]["remote_execution_enabled"]["const"] is False
+    assert schema["properties"]["secure_transport_implemented"]["const"] is False
+    assert schema["properties"]["compliance_certification_claim"]["const"] is False
+    assert schema["properties"]["enterprise_ready_claimed"]["const"] is False
+    assert any(entry["schema_id"] == "SCHEMA-DEVPL-ENTERPRISE-THREAT-MODEL-REPORT-V1" for entry in catalog["schemas"])
+    assert "enterprise-threat-model-design-only" in quality_gate

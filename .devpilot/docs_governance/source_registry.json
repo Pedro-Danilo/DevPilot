@@ -3949,6 +3949,106 @@
       "related_files": [
         "docs/audits/post_h_022_c_enterprise_control_matrix_report.md"
       ]
+    },
+    {
+      "doc_id": "SCHEMA-DEVPL-ENTERPRISE-THREAT-MODEL-REPORT-V1",
+      "path": "docs/schemas/enterprise_threat_model_report.schema.json",
+      "classification": "schema",
+      "domain": "enterprise.reporting",
+      "owner": "POST-H-022-D",
+      "status_required": "registered",
+      "criticality": "P1",
+      "frontmatter_required": false,
+      "required_tests": [
+        "tests/test_post_h_022_enterprise_threat_model.py",
+        "tests/test_schema_registry.py"
+      ],
+      "related_files": [
+        "src/devpilot_core/enterprise/reports.py"
+      ]
+    },
+    {
+      "doc_id": "POST-H-022-D-ENTERPRISE-THREAT-MODEL-VALIDATOR",
+      "path": "src/devpilot_core/enterprise/threat_model.py",
+      "classification": "source-code",
+      "domain": "enterprise.reporting",
+      "owner": "POST-H-022-D",
+      "status_required": "implemented-initial",
+      "criticality": "P1",
+      "frontmatter_required": false,
+      "required_tests": [
+        "tests/test_post_h_022_enterprise_threat_model.py"
+      ],
+      "related_files": [
+        "src/devpilot_core/enterprise/reports.py",
+        "src/devpilot_core/enterprise/quality_gate.py"
+      ]
+    },
+    {
+      "doc_id": "POST-H-022-D-ENTERPRISE-THREAT-MODEL-REPORTER",
+      "path": "src/devpilot_core/enterprise/reports.py",
+      "classification": "source-code",
+      "domain": "enterprise.reporting",
+      "owner": "POST-H-022-D",
+      "status_required": "implemented-initial",
+      "criticality": "P1",
+      "frontmatter_required": false,
+      "required_tests": [
+        "tests/test_post_h_022_enterprise_threat_model.py"
+      ],
+      "related_files": [
+        "docs/schemas/enterprise_threat_model_report.schema.json"
+      ]
+    },
+    {
+      "doc_id": "POST-H-022-D-ENTERPRISE-THREAT-MODEL-QUALITY-GATE",
+      "path": "src/devpilot_core/enterprise/quality_gate.py",
+      "classification": "source-code",
+      "domain": "enterprise.reporting",
+      "owner": "POST-H-022-D",
+      "status_required": "implemented-initial",
+      "criticality": "P1",
+      "frontmatter_required": false,
+      "required_tests": [
+        "tests/test_post_h_022_enterprise_threat_model.py"
+      ],
+      "related_files": [
+        "src/devpilot_core/quality/gate.py"
+      ]
+    },
+    {
+      "doc_id": "POST-H-022-D-ENTERPRISE-VALIDATOR-REPORT",
+      "path": "docs/audits/post_h_022_d_enterprise_validator_report.md",
+      "classification": "audit-report",
+      "domain": "enterprise.reporting",
+      "owner": "POST-H-022-D",
+      "status_required": "approved",
+      "criticality": "P1",
+      "frontmatter_required": false,
+      "required_tests": [
+        "tests/test_post_h_022_enterprise_threat_model.py"
+      ],
+      "related_files": [
+        "docs/post_h_022_d_manifest.json"
+      ]
+    },
+    {
+      "doc_id": "POST-H-022-D-MANIFEST",
+      "path": "docs/post_h_022_d_manifest.json",
+      "classification": "machine-readable-source",
+      "domain": "enterprise.reporting",
+      "owner": "POST-H-022-D",
+      "status_required": "implemented-initial",
+      "criticality": "P1",
+      "frontmatter_required": false,
+      "required_tests": [
+        "tests/test_post_h_022_enterprise_threat_model.py",
+        "tests/test_project_global_state.py",
+        "tests/test_schema_registry.py"
+      ],
+      "related_files": [
+        "docs/audits/post_h_022_d_enterprise_validator_report.md"
+      ]
     }
   ],
   "rules": {

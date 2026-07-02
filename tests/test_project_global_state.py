@@ -102,8 +102,8 @@ def test_project_global_state_schema_and_docs_are_synchronized() -> None:
     assert any("POST-H-013-D adds optional local crypto" in note for note in state["notes"])
     assert any("POST-H-013-E closes Audit pack integrity" in note for note in state["notes"])
     assert any("POST-H-014 is the next prioritized hito" in note for note in state["notes"])
-    assert state.get("current_micro_sprint") == "POST-H-022-C"
-    assert state.get("next_micro_sprint") == "POST-H-022-D"
+    assert state.get("current_micro_sprint") == "POST-H-022-D"
+    assert state.get("next_micro_sprint") == "POST-H-022-E"
     assert "POST-H-014-A — Route Contract Registry y API inventory" in readme
     assert "POST-H-014-B — Response mapping y errores homogéneos" in readme
     assert "POST-H-014-C — UI Route Contract y shell de producto" in readme
@@ -210,6 +210,9 @@ def test_project_global_state_schema_and_docs_are_synchronized() -> None:
     assert any("POST-H-022-C is the next micro-sprint" in note for note in state["notes"])
     assert any("POST-H-022-C registers EnterpriseControlMatrix" in note for note in state["notes"])
     assert any("POST-H-022-D is the next micro-sprint" in note for note in state["notes"])
+    assert any("POST-H-022-D adds EnterpriseThreatModelValidator" in note for note in state["notes"])
+    assert any("POST-H-022-D adds enterprise-threat-model-design-only" in note for note in state["notes"])
+    assert any("POST-H-022-E is the next micro-sprint" in note for note in state["notes"])
     assert "POST-H-019-A — Threat model y sandbox design" in readme
     assert "POST-H-019-A — Threat model y sandbox design" in runbook
     assert "post-h-019-a" in changelog

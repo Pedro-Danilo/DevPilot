@@ -175,10 +175,14 @@
     "POST-H-022-C fixes inherited TCR v2 schema drift for required mutations_allowed fields.",
     "POST-H-022-C registers EnterpriseControlMatrix schema and design-only control matrix instance.",
     "POST-H-022-C distinguishes implemented, partial and required-not-implemented enterprise controls without enterprise readiness claims.",
-    "POST-H-022-D is the next micro-sprint: Validator/report read-only."
+    "POST-H-022-D is the next micro-sprint: Validator/report read-only.",
+    "POST-H-022-C fixes TCR v1 contract drift for EnterpriseControlMatrix scope and required fields.",
+    "POST-H-022-D adds EnterpriseThreatModelValidator and EnterpriseThreatModelReporter as read-only design artifacts.",
+    "POST-H-022-D adds enterprise-threat-model-design-only to hardening/industrial quality gates without enterprise deployment enablement.",
+    "POST-H-022-E is the next micro-sprint: Runbook y cierre."
   ],
-  "current_micro_sprint": "POST-H-022-C",
-  "next_micro_sprint": "POST-H-022-D",
+  "current_micro_sprint": "POST-H-022-D",
+  "next_micro_sprint": "POST-H-022-E",
   "post_h_020_current_micro_sprint": "POST-H-020-E",
   "post_h_020_next_micro_sprint": "POST-H-021",
   "compliance_evidence_collector_module": "src/devpilot_core/compliance/evidence.py",
@@ -234,8 +238,8 @@
   "remote_runner_design_runbook_path": "docs/05_operations/remote_runner_design_runbook.md",
   "remote_execution_allowed": false,
   "remote_execution_used": false,
-  "post_h_022_current_micro_sprint": "POST-H-022-C",
-  "post_h_022_next_micro_sprint": "POST-H-022-D",
+  "post_h_022_current_micro_sprint": "POST-H-022-D",
+  "post_h_022_next_micro_sprint": "POST-H-022-E",
   "post_h_022_backlog_approved": true,
   "post_h_022_enterprise_threat_model_schema_registered": true,
   "post_h_022_enterprise_threat_model_path": "docs/03_security/enterprise_deployment_threat_model.md",
@@ -256,5 +260,11 @@
   "post_h_022_enterprise_control_matrix_path": ".devpilot/enterprise/enterprise_control_matrix.json",
   "post_h_022_enterprise_control_matrix_controls_total": 12,
   "post_h_022_enterprise_control_matrix_required_not_implemented_total": 4,
-  "post_h_022_enterprise_ready_claimed": false
+  "post_h_022_enterprise_ready_claimed": false,
+  "post_h_022_enterprise_threat_model_report_schema_registered": true,
+  "post_h_022_enterprise_threat_model_validator_available": true,
+  "post_h_022_enterprise_threat_model_quality_gate_enabled": true,
+  "post_h_022_enterprise_design_only_quality_gate": true,
+  "post_h_022_enterprise_readiness_blockers_reported": true,
+  "enterprise_ready_claimed": false
 }

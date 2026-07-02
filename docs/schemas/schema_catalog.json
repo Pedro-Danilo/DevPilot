@@ -1112,6 +1112,20 @@
       "validates_instances": true,
       "contract": "EnterpriseControlMatrix",
       "validation_enabled_sprint": "POST-H-022-C"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-ENTERPRISE-THREAT-MODEL-REPORT-V1",
+      "title": "DevPilot EnterpriseThreatModelReport v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/enterprise_threat_model_report.schema.json",
+      "description": "POST-H-022-D read-only enterprise threat-model report schema confirming design-only posture and blocking enterprise deployment/readiness claims.",
+      "status": "registered",
+      "owner": "Ordóñez",
+      "sprint": "POST-H-022-D",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "contract": "EnterpriseThreatModelReport",
+      "validation_enabled_sprint": "POST-H-022-D"
     }
   ]
 }

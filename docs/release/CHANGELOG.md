@@ -1,3 +1,10 @@
+## post-h-022-d - Validator/report read-only enterprise design-only
+
+- Added `EnterpriseThreatModelValidator`, `EnterpriseThreatModelReporter` and `EnterpriseThreatModelQualityGate` for local read-only enterprise threat-model validation.
+- Registered `EnterpriseThreatModelReport` schema and `enterprise-threat-model-design-only` hardening/industrial subgate.
+- Corrected POST-H-022-C TCR v1 drift so `test-contracts validate` remains synchronized.
+- No enterprise deployment, remote execution, secure transport, network, secrets or compliance certification claim is enabled.
+
 ## post-h-022-c — Enterprise control matrix
 
 - Added `EnterpriseControlMatrix` schema and `.devpilot/enterprise/enterprise_control_matrix.json`.

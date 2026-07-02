@@ -1,3 +1,19 @@
+## POST-H-022-D — Validator/report read-only
+
+Último hito cerrado: `POST-H-021`
+
+Siguiente hito: `POST-H-022`
+
+Último micro-sprint implementado: `POST-H-022-D — Validator/report read-only`
+
+Siguiente micro-sprint: `POST-H-022-E — Runbook y cierre`
+
+POST-H-022-D agrega `EnterpriseThreatModelValidator`, `EnterpriseThreatModelReporter` y el subgate `enterprise-threat-model-design-only` al quality gate de hardening/industrial. El reporte es local, read-only y design-only: valida `.devpilot/enterprise/enterprise_threat_model.json` y `.devpilot/enterprise/enterprise_control_matrix.json`, confirma `enterprise_deployment_enabled=false`, `remote_execution_enabled=false`, `secure_transport_implemented=false`, `compliance_certification_claim=false` y conserva bloqueadores `required-not-implemented`.
+
+Ajuste correctivo aplicado antes de D: el contrato TCR v1 de POST-H-022-C fue sincronizado con el schema v1 (`scope=safety`, `critical=true`, `mutable_global_state_allowed=false`), porque la validación general de C detectó drift contractual. Con ese patch, C queda cerrable.
+
+La capacidad es preliminar: enterprise report != enterprise readiness. No se habilita deployment enterprise, control plane, multiusuario productivo, secure transport activo, red, APIs externas, secretos productivos ni certificación compliance.
+
 ## POST-H-022-C — Enterprise control matrix
 
 Último hito cerrado: `POST-H-021`

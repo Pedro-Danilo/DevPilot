@@ -2,13 +2,13 @@
 doc_id: "POST-H-022"
 title: "POST-H-022 — Enterprise deployment threat model"
 status: "approved"
-version: "0.3.0"
+version: "0.4.0"
 owner: "Ordóñez"
 updated: "2026-07-02"
 phase: "POST-FASE-H"
 implementation_status: "active"
-current_micro_sprint: "POST-H-022-C"
-next_micro_sprint: "POST-H-022-D"
+current_micro_sprint: "POST-H-022-D"
+next_micro_sprint: "POST-H-022-E"
 enterprise_deployment_enabled: false
 production_multiuser_enabled: false
 control_plane_enabled: false
@@ -21,7 +21,7 @@ compliance_certification_claim: false
 
 ## Estado
 
-POST-H-022 queda activo con **POST-H-022-C — Enterprise control matrix** como `implemented-initial / design-only`.
+POST-H-022 queda activo con **POST-H-022-D — Validator/report read-only** como `implemented-initial / design-only`.
 
 Este hito no habilita despliegue enterprise. Su funcion es convertir el dominio enterprise en un conjunto verificable de activos, actores, boundaries, data flows, controles futuros y criterios de bloqueo.
 
@@ -75,7 +75,6 @@ plugin_execution_enabled=false
 ## Pendiente
 
 ```text
-POST-H-022-D — Validator/report read-only y quality gate.
 POST-H-022-E — Runbook, disclaimers y cierre.
 ```
 
@@ -132,6 +131,36 @@ required-not-implemented bloquea readiness
 ```
 
 POST-H-022-C es preliminar y de diseno. No implementa validator/report read-only, quality gate enterprise, control plane, secure transport ni autorizacion de despliegue.
+
+## POST-H-022-D — Validator/report read-only
+
+Entregables implementados:
+
+```text
+src/devpilot_core/enterprise/threat_model.py
+src/devpilot_core/enterprise/reports.py
+src/devpilot_core/enterprise/quality_gate.py
+docs/schemas/enterprise_threat_model_report.schema.json
+docs/audits/post_h_022_d_enterprise_validator_report.md
+docs/post_h_022_d_manifest.json
+```
+
+Invariantes de POST-H-022-D:
+
+```text
+decision_status=design-only
+enterprise_deployment_enabled=false
+remote_execution_enabled=false
+secure_transport_implemented=false
+compliance_certification_claim=false
+enterprise_ready_claimed=false
+required_not_implemented_total>0
+quality_gate_subgate=enterprise-threat-model-design-only
+```
+
+El validator/report es local, read-only y preliminar. El subgate de quality gate consume el reporte en memoria (`write_report=false`) y no escribe outputs por defecto. Sigue prohibido habilitar deployment enterprise, control plane, secure transport activo, red, APIs externas, secretos productivos, remote execution o certificación compliance.
+
+Ajuste correctivo aplicado: el contrato TCR v1 de POST-H-022-C fue sincronizado con el schema v1 para que `test-contracts validate` pase antes de cerrar C y avanzar a D.
 
 ## Limitacion explicita
 
