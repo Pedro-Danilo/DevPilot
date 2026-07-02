@@ -1,3 +1,18 @@
+## post-h-024-d — Onboarding readiness preview
+
+### Added
+
+- Added `OnboardingReadinessPreviewReport` schema and schema catalog registration.
+- Added `OnboardingReadinessPreviewer` for read-only onboarding validation by phase.
+- Added `workspace readiness-preview` CLI command with optional JSON/Markdown evidence report under `outputs/reports`.
+- Added POST-H-024-D audit report, manifest and focused readiness preview tests.
+
+### Security
+
+- Preview is read-only and uses no network, external APIs, connector write, plugin execution, remote execution or LLM calls.
+- Missing MIASI, checklist, standards and approved readiness artifacts are reported as pending work, not as success.
+- Pilot fixture and onboarding quality gate remain pending for POST-H-024-E.
+
 ## post-h-024-c — Project bootstrap dry-run
 
 ### Added

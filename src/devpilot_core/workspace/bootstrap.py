@@ -482,7 +482,7 @@ class ProjectBootstrapPlanner:
             "python -m devpilot_core workspace status --json",
             f"python -m devpilot_core workspace bootstrap --project-id {options.project_id} --project-name \"{options.project_name}\" --dry-run --json --write-report",
             "python -m devpilot_core validate-frontmatter docs/00_product/product_vision.md --strict --json",
-            "python -m devpilot_core readiness-check --strict --json",
+            f"python -m devpilot_core workspace readiness-preview --target-root {_relative(target_root, self.root)} --json --write-report",
             "python -m devpilot_core miasi validate --json",
         ]
         report = {
@@ -499,7 +499,7 @@ class ProjectBootstrapPlanner:
                 {"step_id": "workspace-plan", "status": "pass" if planned_files else status, "mutations_performed": mode == "execute" and status == "pass"},
                 {"step_id": "docs-template-plan", "status": "pass" if planned_files else status, "mutations_performed": mode == "execute" and status == "pass"},
                 {"step_id": "miasi-template-plan", "status": "pass" if planned_files else status, "mutations_performed": mode == "execute" and status == "pass"},
-                {"step_id": "readiness-preview", "status": "warning", "mutations_performed": False, "message": "Readiness preview is deferred to POST-H-024-D."},
+                {"step_id": "readiness-preview", "status": "warning", "mutations_performed": False, "message": "Run workspace readiness-preview for POST-H-024-D onboarding validation evidence."},
             ],
             "planned_files": [item.to_report_dict() for item in planned_files],
             "safety": {
@@ -531,7 +531,7 @@ class ProjectBootstrapPlanner:
             },
             "findings": [finding.to_dict() for finding in findings],
             "limitations": [
-                "POST-H-024-C does not perform readiness preview; POST-H-024-D owns it.",
+                "POST-H-024-D provides onboarding readiness preview as a separate read-only command; bootstrap remains plan/materialization only.",
                 "POST-H-024-C does not integrate onboarding quality gate; POST-H-024-E owns it.",
                 "Bootstrap does not generate production code or call LLM/API providers.",
             ],

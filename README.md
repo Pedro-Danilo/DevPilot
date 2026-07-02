@@ -1,3 +1,23 @@
+## POST-H-024-D — Onboarding validation y readiness preview
+
+Último hito cerrado: `POST-H-023`
+
+Hito activo: `POST-H-024 — Operator onboarding bootstrap`
+
+Último micro-sprint implementado: `POST-H-024-D — Onboarding validation y readiness preview`
+
+Siguiente micro-sprint: `POST-H-024-E — Quality gate y proyecto piloto fixture`
+
+POST-H-024-D agrega el preview read-only de readiness de onboarding para proyectos nuevos: `python -m devpilot_core workspace readiness-preview --target-root <workspace> --json --write-report`.
+
+La capacidad integra validación de frontmatter, estructura de artefactos, checklist pre-code, strict readiness, StandardsRegistry y MIASI validate/schema checks. La salida no declara falsa readiness: los faltantes de MIASI, checklist, estándares, aprobación y artefactos se reportan como `pending`.
+
+La capacidad es `implemented-initial / readiness-preview-only`: no crea fixture piloto, no activa todavía `onboarding-bootstrap-ready`, no genera código productivo, no ejecuta modelos, no llama red ni APIs externas y no habilita connector write, plugin execution ni remote execution.
+
+Reporte runtime: `outputs/reports/onboarding_readiness_preview_report.json`, generado solo con `--write-report` y no versionable.
+
+Verificación focal recomendada: `python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_024_onboarding_readiness_preview.py tests/test_post_h_024_project_bootstrap.py tests/test_post_h_024_project_templates.py tests/test_post_h_024_operator_onboarding.py tests/test_project_global_state.py tests/test_schema_registry.py -q`.
+
 ## POST-H-024-C — Bootstrap workflow dry-run
 
 Último hito cerrado: `POST-H-023`

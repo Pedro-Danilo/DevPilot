@@ -11146,6 +11146,82 @@
       "classification_notes": [
         "POST-H-024-C is high risk because execute mode creates files; default remains dry-run and overwrite is refused by default."
       ]
+    },
+    {
+      "contract_id": "post-h-024-onboarding-readiness-preview",
+      "schema_version": "2.0",
+      "source_contract_id": "post-h-024-onboarding-readiness-preview",
+      "domain": "operations.workspace",
+      "capability": "Onboarding validation and readiness preview",
+      "criticality": "P1",
+      "risk_level": "high",
+      "test_type": "integration",
+      "execution_profile": "release",
+      "cost_class": "low",
+      "expected_duration_seconds": 12,
+      "test_files": [
+        "tests/test_post_h_024_onboarding_readiness_preview.py",
+        "tests/test_post_h_024_project_bootstrap.py",
+        "tests/test_project_global_state.py"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/onboarding/readiness_preview.py",
+        "src/devpilot_core/cli.py",
+        "src/devpilot_core/cli_commands/",
+        "src/devpilot_core/workspace/bootstrap.py",
+        "docs/schemas/onboarding_readiness_preview_report.schema.json",
+        "docs/templates/new_project/",
+        ".devpilot/testing/",
+        ".devpilot/project_state.json",
+        "README.md",
+        "docs/05_operations/runbook.md",
+        "docs/backlogs/POST-H-024_operator_onboarding_bootstrap.md",
+        "tests/test_post_h_024_onboarding_readiness_preview.py"
+      ],
+      "validates": [
+        "src/devpilot_core/onboarding/readiness_preview.py",
+        "src/devpilot_core/cli.py",
+        "src/devpilot_core/cli_commands/workspace.py",
+        "docs/schemas/onboarding_readiness_preview_report.schema.json",
+        "docs/backlogs/POST-H-024_operator_onboarding_bootstrap.md",
+        "docs/post_h_024_d_manifest.json"
+      ],
+      "required_fixtures": [],
+      "required_cli": [
+        "python -m devpilot_core workspace readiness-preview --target-root outputs/bootstrap_workspaces/ventas-micro-local --json --write-report"
+      ],
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "classification_status": "explicit",
+      "owner": "POST-H-024-D",
+      "phase": "POST-FASE-H",
+      "created_by": "POST-H-024-D",
+      "updated": "2026-07-02",
+      "preliminary": true,
+      "required_for_release": true,
+      "required_for_security_gate": false,
+      "requires_human_approval": false,
+      "source_mutations_allowed": false,
+      "mutations_allowed": false,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_024_onboarding_readiness_preview.py tests/test_post_h_024_project_bootstrap.py tests/test_project_global_state.py -q",
+        "python -m devpilot_core schema validate --schema-id OnboardingReadinessPreviewReport --instance outputs/reports/onboarding_readiness_preview_report.json --json"
+      ],
+      "trigger_hints": [
+        "workspace-readiness-preview",
+        "onboarding",
+        "readiness-preview",
+        "miasi-pending"
+      ],
+      "impact_scope": [
+        "src/devpilot_core/onboarding/",
+        "src/devpilot_core/cli.py",
+        "docs/templates/new_project/",
+        "docs/schemas/onboarding_readiness_preview_report.schema.json"
+      ],
+      "classification_notes": [
+        "POST-H-024-D is high risk because false readiness would mislead operators; missing MIASI/readiness evidence must remain pending, not success."
+      ]
     }
   ],
   "migration_metadata": {

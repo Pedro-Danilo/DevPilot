@@ -56,8 +56,8 @@ def test_post_h_024_backlog_and_implementation_are_approved_for_a_only() -> None
     for text in (backlog, implementation):
         assert 'status: "approved"' in text
         assert 'approval: "approved_by_owner"' in text
-        assert 'current_micro_sprint: "POST-H-024-C"' in text
-        assert 'next_micro_sprint: "POST-H-024-D"' in text
+        assert 'current_micro_sprint: "POST-H-024-D"' in text
+        assert 'next_micro_sprint: "POST-H-024-E"' in text
 
     assert 'Estado: `implemented-initial`.' in backlog
     assert '[x] Crear docs/05_operations/operator_onboarding_playbook.md.' in backlog
@@ -98,8 +98,8 @@ def test_post_h_024_manifest_source_registry_and_tcr_are_registered() -> None:
     backlog_entry = next(item for item in source_registry["documents"] if item["doc_id"] == "POST-H-024-BACKLOG")
     assert backlog_entry["status_required"] == "approved"
     assert backlog_entry["lifecycle"] == "active"
-    assert source_registry["project_state_snapshot"]["current_micro_sprint"] == "POST-H-024-C"
-    assert source_registry["project_state_snapshot"]["next_micro_sprint"] == "POST-H-024-D"
+    assert source_registry["project_state_snapshot"]["current_micro_sprint"] == "POST-H-024-D"
+    assert source_registry["project_state_snapshot"]["next_micro_sprint"] == "POST-H-024-E"
 
     contract_ids_v1 = {item["contract_id"] for item in tcr_v1["contracts"]}
     contract_ids_v2 = {item["contract_id"] for item in tcr_v2["contracts"]}
@@ -121,8 +121,8 @@ def test_project_state_and_global_docs_point_to_post_h_024_a() -> None:
 
     assert state["last_completed_sprint"] == "POST-H-023"
     assert state["next_sprint"] == "POST-H-024"
-    assert state["current_micro_sprint"] == "POST-H-024-C"
-    assert state["next_micro_sprint"] == "POST-H-024-D"
+    assert state["current_micro_sprint"] == "POST-H-024-D"
+    assert state["next_micro_sprint"] == "POST-H-024-E"
     assert state["post_h_024_operator_playbook_available"] is True
     assert state["post_h_024_templates_available"] is True
     assert state["post_h_024_bootstrap_workflow_available"] is True
@@ -140,7 +140,7 @@ def test_project_state_and_global_docs_point_to_post_h_024_a() -> None:
 
     for text in (readme, runbook):
         assert "POST-H-024-A — Playbook de operador" in text
-        assert "Siguiente micro-sprint: `POST-H-024-D — Onboarding validation y readiness preview`" in text or "Siguiente micro-sprint: `POST-H-024-C — Bootstrap workflow dry-run`" in text or "Siguiente micro-sprint: `POST-H-024-B — Templates de proyecto nuevo`" in text
+        assert "Siguiente micro-sprint: `POST-H-024-E — Quality gate y proyecto piloto fixture`" in text or "Siguiente micro-sprint: `POST-H-024-C — Bootstrap workflow dry-run`" in text or "Siguiente micro-sprint: `POST-H-024-B — Templates de proyecto nuevo`" in text
         assert "implemented-initial / playbook-only" in text or "Runbook dedicado" in text
 
     assert "post-h-024-a" in changelog

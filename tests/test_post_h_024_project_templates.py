@@ -171,8 +171,8 @@ def test_post_h_024_b_manifest_registry_and_contracts_are_synchronized() -> None
         "POST-H-024-B-PROJECT-TEMPLATES-TEST",
     }
     assert expected_doc_ids <= doc_ids
-    assert source_registry["project_state_snapshot"]["current_micro_sprint"] == "POST-H-024-C"
-    assert source_registry["project_state_snapshot"]["next_micro_sprint"] == "POST-H-024-D"
+    assert source_registry["project_state_snapshot"]["current_micro_sprint"] == "POST-H-024-D"
+    assert source_registry["project_state_snapshot"]["next_micro_sprint"] == "POST-H-024-E"
     assert source_registry["project_state_snapshot"]["post_h_024_templates_available"] is True
 
     contract_ids_v1 = {item["contract_id"] for item in tcr_v1["contracts"]}
@@ -196,15 +196,15 @@ def test_post_h_024_documents_and_global_state_advance_to_b_only() -> None:
     runbook = read_text("docs/05_operations/runbook.md")
     changelog = read_text("docs/release/CHANGELOG.md")
 
-    assert state["current_micro_sprint"] == "POST-H-024-C"
-    assert state["next_micro_sprint"] == "POST-H-024-D"
-    assert state["post_h_024_current_micro_sprint"] == "POST-H-024-C"
-    assert state["post_h_024_next_micro_sprint"] == "POST-H-024-D"
+    assert state["current_micro_sprint"] == "POST-H-024-D"
+    assert state["next_micro_sprint"] == "POST-H-024-E"
+    assert state["post_h_024_current_micro_sprint"] == "POST-H-024-D"
+    assert state["post_h_024_next_micro_sprint"] == "POST-H-024-E"
     assert state["post_h_024_operator_playbook_available"] is True
     assert state["post_h_024_templates_available"] is True
     assert state["post_h_024_bootstrap_workflow_available"] is True
     assert state["post_h_024_project_bootstrap_report_available"] is True
-    assert state["post_h_024_readiness_preview_available"] is False
+    assert state["post_h_024_readiness_preview_available"] is True
     assert state["post_h_024_onboarding_quality_gate_available"] is False
     assert state["post_h_024_network_used"] is False
     assert state["post_h_024_external_api_used"] is False
@@ -214,14 +214,14 @@ def test_post_h_024_documents_and_global_state_advance_to_b_only() -> None:
     assert state["post_h_024_secrets_included"] is False
 
     for text in (backlog, implementation):
-        assert 'current_micro_sprint: "POST-H-024-C"' in text
-        assert 'next_micro_sprint: "POST-H-024-D"' in text
+        assert 'current_micro_sprint: "POST-H-024-D"' in text
+        assert 'next_micro_sprint: "POST-H-024-E"' in text
         assert "POST-H-024-B" in text
         assert "implemented-initial" in text
         assert "templates-only" in text
 
     assert "POST-H-024-B — Templates de proyecto nuevo" in readme
     assert "POST-H-024-B — Templates de proyecto nuevo" in runbook
-    assert "Siguiente micro-sprint: `POST-H-024-D — Onboarding validation y readiness preview`" in readme
+    assert "Siguiente micro-sprint: `POST-H-024-E — Quality gate y proyecto piloto fixture`" in readme
     assert "workspace bootstrap" in report
     assert "post-h-024-b" in changelog

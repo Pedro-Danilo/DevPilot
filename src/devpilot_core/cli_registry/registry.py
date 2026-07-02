@@ -127,6 +127,16 @@ MIGRATED_HANDLERS: dict[str, MigratedHandlerDescriptor] = {
         ),
         rationale="POST-H-024-C moves project bootstrap result-building logic into cli_commands/workspace.py while cli.py preserves parser, events and persistence.",
     ),
+    "workspace.readiness-preview": MigratedHandlerDescriptor(
+        command_id="workspace.readiness-preview",
+        owner_module="src/devpilot_core/cli_commands/workspace.py",
+        handler="handle_workspace_readiness_preview",
+        wrapper="workspace_readiness_preview_command",
+        recommended_tests=(
+            "python -m pytest tests/test_post_h_024_onboarding_readiness_preview.py -q",
+        ),
+        rationale="POST-H-024-D moves onboarding readiness preview result-building logic into cli_commands/workspace.py while cli.py preserves parser, events and persistence.",
+    ),
     "validate": MigratedHandlerDescriptor(
         command_id="validate",
         owner_module="src/devpilot_core/cli_commands/validation.py",
@@ -295,6 +305,18 @@ COMMAND_OVERRIDES: dict[str, DeclarativeCommandOverride] = {
             "python -m pytest tests/test_post_h_024_project_bootstrap.py -q",
         ),
         rationale="POST-H-024-C workspace bootstrap defaults to dry-run, writes only bounded starter files under explicit execute, emits reports only with --write-report and refuses overwrite by default.",
+    ),
+    "workspace.readiness-preview": DeclarativeCommandOverride(
+        command_id="workspace.readiness-preview",
+        risk_level=CommandRiskLevel.MEDIUM,
+        side_effects=(CommandSideEffect.WRITE_REPORT,),
+        writes_files=True,
+        dry_run_supported=True,
+        policy_check_required=True,
+        recommended_tests=(
+            "python -m pytest tests/test_post_h_024_onboarding_readiness_preview.py -q",
+        ),
+        rationale="POST-H-024-D readiness preview is read-only with respect to project/workspace source and writes only optional evidence reports under outputs/reports.",
     ),
     "test-contracts.migrate-v2": DeclarativeCommandOverride(
         command_id="test-contracts.migrate-v2",

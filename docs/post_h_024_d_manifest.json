@@ -1,0 +1,88 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "SCHEMA-DEVPL-POST-H-MANIFEST-V1",
+  "manifest_id": "post_h_024_d_manifest",
+  "post_h_id": "POST-H-024",
+  "micro_sprint": "POST-H-024-D",
+  "title": "Onboarding validation y readiness preview",
+  "status": "implemented-initial",
+  "phase": "POST-FASE-H",
+  "implemented_at": "2026-07-02",
+  "implementation_status": "implemented-initial",
+  "preliminary": true,
+  "local_first": true,
+  "dry_run": true,
+  "read_only": true,
+  "no_remote_execution_enabled": true,
+  "no_external_apis_used": true,
+  "no_connector_write_enabled": true,
+  "no_plugin_execution_enabled": true,
+  "network_used": false,
+  "external_api_used": false,
+  "remote_execution_used": false,
+  "connector_write_used": false,
+  "plugin_execution_used": false,
+  "secrets_included": false,
+  "created_files": [
+    "docs/schemas/onboarding_readiness_preview_report.schema.json",
+    "src/devpilot_core/onboarding/readiness_preview.py",
+    "docs/audits/post_h_024_d_onboarding_readiness_preview_report.md",
+    "docs/post_h_024_d_manifest.json",
+    "tests/test_post_h_024_onboarding_readiness_preview.py"
+  ],
+  "modified_files": [
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/POST-H-024_operator_onboarding_bootstrap.md",
+    "docs/backlogs/POST-H-024_operator_onboarding_bootstrap.md",
+    "docs/release/CHANGELOG.md",
+    "docs/schemas/schema_catalog.json",
+    "src/devpilot_core/onboarding/__init__.py",
+    "src/devpilot_core/workspace/bootstrap.py",
+    "src/devpilot_core/cli.py",
+    "src/devpilot_core/cli_commands/__init__.py",
+    "src/devpilot_core/cli_commands/workspace.py",
+    "src/devpilot_core/cli_registry/registry.py",
+    ".devpilot/project_state.json",
+    ".devpilot/docs_governance/source_registry.json",
+    ".devpilot/testing/test_contract_registry.json",
+    ".devpilot/testing/test_contract_registry_v2.json",
+    "tests/test_post_h_024_project_bootstrap.py",
+    "tests/test_post_h_024_project_templates.py",
+    "tests/test_post_h_024_operator_onboarding.py",
+    "tests/test_project_global_state.py",
+    "tests/test_schema_registry.py"
+  ],
+  "commands": [
+    "python -m devpilot_core workspace readiness-preview --target-root outputs/bootstrap_workspaces/ventas-micro-local --json --write-report",
+    "python -m devpilot_core schema validate --schema-id OnboardingReadinessPreviewReport --instance outputs/reports/onboarding_readiness_preview_report.json --json",
+    "python -m devpilot_core schema validate --schema-id PostHManifest --instance docs/post_h_024_d_manifest.json --json",
+    "python -m devpilot_core test-contracts validate --json",
+    "python -m devpilot_core test-contracts validate-v2 --json",
+    "python -m devpilot_core docs-governance validate --json",
+    "python -m devpilot_core project-state validate --json"
+  ],
+  "tests": [
+    "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_024_onboarding_readiness_preview.py -q",
+    "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_024_onboarding_readiness_preview.py tests/test_post_h_024_project_bootstrap.py tests/test_post_h_024_project_templates.py tests/test_post_h_024_operator_onboarding.py tests/test_project_global_state.py tests/test_schema_registry.py -q"
+  ],
+  "pass_criteria": [
+    "Operator sees pending items grouped by onboarding phase.",
+    "Missing MIASI is reported as pending, not success.",
+    "OnboardingReadinessPreviewReport validates against schema.",
+    "Preview is read-only for source and target workspace and writes reports only when --write-report is explicit."
+  ],
+  "block_criteria": [
+    "Target path blocked by PathGuard.",
+    "Schema contract for readiness preview report is invalid.",
+    "Preview overclaims readiness when pending items exist.",
+    "Network, external APIs, remote execution, connector write or plugin execution is enabled."
+  ],
+  "risks": [
+    "Preview is implemented-initial and should not be treated as production-ready certification.",
+    "Quality gate integration remains deferred to POST-H-024-E.",
+    "Pilot fixture remains deferred to POST-H-024-E."
+  ],
+  "next_sprint": "POST-H-024",
+  "next_micro_sprint": "POST-H-024-E"
+}

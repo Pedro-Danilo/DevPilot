@@ -4,7 +4,7 @@ doc_id: "POST-H-024-BACKLOG"
 id: "POST-H-024"
 title: "POST-H-024 — Operator onboarding playbook y project bootstrap workflow"
 status: "approved"
-version: "0.4.0"
+version: "0.5.0"
 owner: "Ordóñez"
 updated: "2026-07-02"
 approval: "approved_by_owner"
@@ -18,8 +18,8 @@ no_external_apis_used: true
 no_connector_write_enabled: true
 no_plugin_execution_enabled: true
 implementation_status: "in-progress"
-current_micro_sprint: "POST-H-024-C"
-next_micro_sprint: "POST-H-024-D"
+current_micro_sprint: "POST-H-024-D"
+next_micro_sprint: "POST-H-024-E"
 ---
 
 # POST-H-024 — Operator onboarding playbook y project bootstrap workflow
@@ -281,20 +281,38 @@ BLOCK si crea secrets reales.
 
 ### POST-H-024-D — Onboarding validation y readiness preview
 
+Estado: `implemented-initial`.
+
 Tareas:
 
 ```text
-1. Integrar validadores frontmatter/artifact/checklist/readiness.
-2. Agregar readiness preview para proyecto nuevo.
-3. Generar lista de pendientes por fase.
-4. Integrar StandardsRegistry y MIASI validate.
+1. [x] Integrar validadores frontmatter/artifact/checklist/readiness.
+2. [x] Agregar readiness preview para proyecto nuevo.
+3. [x] Generar lista de pendientes por fase.
+4. [x] Integrar StandardsRegistry y MIASI validate.
 ```
+
+Artefactos:
+
+```text
+docs/schemas/onboarding_readiness_preview_report.schema.json
+src/devpilot_core/onboarding/readiness_preview.py
+src/devpilot_core/cli_commands/workspace.py
+src/devpilot_core/cli.py
+docs/audits/post_h_024_d_onboarding_readiness_preview_report.md
+docs/post_h_024_d_manifest.json
+tests/test_post_h_024_onboarding_readiness_preview.py
+outputs/reports/onboarding_readiness_preview_report.json       # generado con --write-report, no versionable
+```
+
+Límite: `implemented-initial / readiness-preview-only`; no crea todavía fixture piloto ni quality gate de onboarding. El preview no modifica workspace ni source; solo emite reporte opcional en outputs/.
 
 PASS:
 
 ```text
 PASS si el operador ve qué falta para readiness.
 PASS si MIASI faltante se reporta como pendiente, no como success.
+PASS si el reporte OnboardingReadinessPreviewReport valida contra schema.
 ```
 
 ### POST-H-024-E — Quality gate y proyecto piloto fixture
@@ -357,5 +375,6 @@ BLOCK si se omite MIASI en proyectos agent-assisted.
 [x] Reporte bootstrap validable.
 [ ] Fixture piloto cubierto por tests.
 [ ] Quality gate integrado.
+[x] Readiness preview implementado.
 [x] Runbook actualizado.
 ```

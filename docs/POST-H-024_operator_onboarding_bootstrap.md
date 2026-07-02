@@ -2,15 +2,15 @@
 doc_id: "POST-H-024-IMPLEMENTATION-DOC"
 title: "POST-H-024 — Operator onboarding playbook y project bootstrap workflow"
 status: "approved"
-version: "0.4.0"
+version: "0.5.0"
 owner: "Ordóñez"
 updated: "2026-07-02"
 approval: "approved_by_owner"
 phase: "POST-FASE-H"
 priority: "P1"
 implementation_status: "in-progress"
-current_micro_sprint: "POST-H-024-C"
-next_micro_sprint: "POST-H-024-D"
+current_micro_sprint: "POST-H-024-D"
+next_micro_sprint: "POST-H-024-E"
 local_first: true
 dry_run: true
 no_remote_execution_enabled: true
@@ -23,7 +23,7 @@ no_plugin_execution_enabled: true
 
 ## 1. Estado
 
-POST-H-024 queda aprobado para implementación incremental. POST-H-024-A queda implementado como **implemented-initial / playbook-only**, POST-H-024-B queda implementado como **implemented-initial / templates-only** y POST-H-024-C queda implementado como **implemented-initial / bootstrap-dry-run**.
+POST-H-024 queda aprobado para implementación incremental. POST-H-024-A queda implementado como **implemented-initial / playbook-only**, POST-H-024-B queda implementado como **implemented-initial / templates-only**, POST-H-024-C queda implementado como **implemented-initial / bootstrap-dry-run** y POST-H-024-D queda implementado como **implemented-initial / readiness-preview-only**.
 
 El hito busca transformar el onboarding conversacional de DevPilot en un flujo reproducible para iniciar proyectos nuevos desde una idea hasta readiness y backlog ejecutable.
 
@@ -118,7 +118,31 @@ implemented-initial / bootstrap-dry-run. No ejecuta readiness preview, no activa
 
 ### POST-H-024-D — Onboarding validation y readiness preview
 
-Estado: `pending`.
+Estado: `implemented-initial`.
+
+Artefactos:
+
+```text
+docs/schemas/onboarding_readiness_preview_report.schema.json
+src/devpilot_core/onboarding/readiness_preview.py
+src/devpilot_core/cli_commands/workspace.py
+src/devpilot_core/cli.py
+docs/audits/post_h_024_d_onboarding_readiness_preview_report.md
+docs/post_h_024_d_manifest.json
+tests/test_post_h_024_onboarding_readiness_preview.py
+```
+
+Capacidad añadida:
+
+```text
+Preview read-only de readiness por fases para proyectos nuevos, integrando validación de frontmatter, artifact, checklist, strict readiness, StandardsRegistry y MIASI schema/validate. Los faltantes quedan como pending, no como success.
+```
+
+Límite:
+
+```text
+implemented-initial / readiness-preview-only. No crea fixture piloto, no integra todavía el quality gate onboarding-bootstrap-ready, no genera código, no llama modelos ni APIs externas y no muta source/workspace salvo reporte opcional bajo outputs/.
+```
 
 ### POST-H-024-E — Quality gate y proyecto piloto fixture
 
@@ -135,4 +159,4 @@ no_connector_write_enabled=true
 no_plugin_execution_enabled=true
 ```
 
-POST-H-024 no debe introducir generación mágica de código ni ejecución autónoma. La automatización futura debe ser plan-first, workspace-bounded y refusal-on-overwrite por defecto. POST-H-024-C conserva el alcance `bootstrap-dry-run`: el modo por defecto no escribe archivos de workspace; `--execute` está acotado al target permitido y rechaza overwrite por defecto.
+POST-H-024 no debe introducir generación mágica de código ni ejecución autónoma. La automatización futura debe ser plan-first, workspace-bounded y refusal-on-overwrite por defecto. POST-H-024-C conserva el alcance `bootstrap-dry-run`: el modo por defecto no escribe archivos de workspace; `--execute` está acotado al target permitido y rechaza overwrite por defecto. POST-H-024-D conserva el alcance `readiness-preview-only`: inspecciona, reporta pendientes y evita falsa readiness sin activar quality gate todavía.

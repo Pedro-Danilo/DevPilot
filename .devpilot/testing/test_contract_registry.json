@@ -6319,6 +6319,54 @@
       "notes": [
         "POST-H-024-C bootstrap can write only under target workspace in execute mode, refuses overwrite by default and keeps network/external APIs/remote/connectors/plugins disabled."
       ]
+    },
+    {
+      "contract_id": "post-h-024-onboarding-readiness-preview",
+      "scope": "integration",
+      "owner": "POST-H-024-D",
+      "phase": "POST-FASE-H",
+      "test_files": [
+        "tests/test_post_h_024_onboarding_readiness_preview.py",
+        "tests/test_post_h_024_project_bootstrap.py",
+        "tests/test_project_global_state.py"
+      ],
+      "validates": [
+        "src/devpilot_core/onboarding/readiness_preview.py",
+        "src/devpilot_core/cli.py",
+        "src/devpilot_core/cli_commands/workspace.py",
+        "docs/schemas/onboarding_readiness_preview_report.schema.json",
+        "docs/backlogs/POST-H-024_operator_onboarding_bootstrap.md",
+        "docs/post_h_024_d_manifest.json"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/onboarding/readiness_preview.py",
+        "src/devpilot_core/cli.py",
+        "src/devpilot_core/cli_commands/",
+        "src/devpilot_core/workspace/bootstrap.py",
+        "docs/schemas/onboarding_readiness_preview_report.schema.json",
+        "docs/templates/new_project/",
+        ".devpilot/testing/",
+        ".devpilot/project_state.json",
+        "README.md",
+        "docs/05_operations/runbook.md",
+        "docs/backlogs/POST-H-024_operator_onboarding_bootstrap.md",
+        "tests/test_post_h_024_onboarding_readiness_preview.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_024_onboarding_readiness_preview.py tests/test_post_h_024_project_bootstrap.py tests/test_project_global_state.py -q",
+        "python -m devpilot_core workspace readiness-preview --target-root outputs/bootstrap_workspaces/ventas-micro-local --json --write-report",
+        "python -m devpilot_core schema validate --schema-id OnboardingReadinessPreviewReport --instance outputs/reports/onboarding_readiness_preview_report.json --json"
+      ],
+      "notes": [
+        "POST-H-024-D readiness preview is read-only for source/workspace and reports pending MIASI/readiness gaps without overclaiming success."
+      ]
     }
   ],
   "notes": [

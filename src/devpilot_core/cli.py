@@ -28,7 +28,7 @@ from .cli_registry import (
     CliNoGrowthGate,
     CliNoGrowthGateOptions,
 )
-from .cli_commands import handle_validate_scope, handle_workspace_bootstrap, handle_workspace_init, handle_workspace_status
+from .cli_commands import handle_validate_scope, handle_workspace_bootstrap, handle_workspace_init, handle_workspace_readiness_preview, handle_workspace_status
 from .connectors import (
     ConnectorAdapter,
     ConnectorCallOptions,
@@ -2867,6 +2867,34 @@ def workspace_bootstrap_command(
     return int(result.exit_code)
 
 
+
+def workspace_readiness_preview_command(
+    *,
+    json_output: bool = False,
+    target_root: str = "outputs/bootstrap_workspaces/ventas-micro-local",
+    project_id: str | None = None,
+    project_name: str | None = None,
+    write_report: bool = False,
+    output_json: str = "outputs/reports/onboarding_readiness_preview_report.json",
+    output_markdown: str = "outputs/reports/onboarding_readiness_preview_report.md",
+) -> int:
+    """Run POST-H-024-D onboarding validation and readiness preview."""
+
+    root = project_root()
+    result = handle_workspace_readiness_preview(
+        root,
+        target_root=target_root,
+        project_id=project_id,
+        project_name=project_name,
+        write_report=write_report,
+        output_json=output_json,
+        output_markdown=output_markdown,
+    )
+    _emit_result_event(root, result, subject=f"workspace-readiness-preview:{target_root}")
+    _persist_result(root, result, subject=f"workspace-readiness-preview:{target_root}")
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
 def workspace_status_command(*, json_output: bool = False, write_report: bool = False) -> int:
     """Report the current DevPilot workspace status."""
 
@@ -5179,6 +5207,15 @@ def build_parser() -> argparse.ArgumentParser:
     workspace_bootstrap.add_argument("--output-json", default="outputs/reports/project_bootstrap_report.json", help="ProjectBootstrapReport JSON output path")
     workspace_bootstrap.add_argument("--output-markdown", default="outputs/reports/project_bootstrap_report.md", help="ProjectBootstrapReport Markdown output path")
 
+    workspace_readiness = workspace_sub.add_parser("readiness-preview", help="Preview onboarding/readiness gaps for a new project workspace")
+    workspace_readiness.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    workspace_readiness.add_argument("--target-root", default="outputs/bootstrap_workspaces/ventas-micro-local", help="Target project workspace to inspect")
+    workspace_readiness.add_argument("--project-id", default=None, help="Optional project id override when .devpilot/project.yaml is absent")
+    workspace_readiness.add_argument("--project-name", default=None, help="Optional project name override when .devpilot/project.yaml is absent")
+    workspace_readiness.add_argument("--write-report", action="store_true", help="Persist onboarding readiness preview JSON/Markdown evidence")
+    workspace_readiness.add_argument("--output-json", default="outputs/reports/onboarding_readiness_preview_report.json", help="OnboardingReadinessPreviewReport JSON output path")
+    workspace_readiness.add_argument("--output-markdown", default="outputs/reports/onboarding_readiness_preview_report.md", help="OnboardingReadinessPreviewReport Markdown output path")
+
     workspace_register = workspace_sub.add_parser("register", help="Register a local DevPilot workspace in the multiworkspace registry")
     workspace_register.add_argument("--path", required=True, help="Workspace path to register; must pass PathGuard and contain .devpilot/project.yaml")
     workspace_register.add_argument("--workspace-id", default=None, help="Optional stable workspace id; defaults to project id from project.yaml")
@@ -6420,6 +6457,16 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
                 project_name=args.project_name,
                 project_type=args.project_type,
                 target_root=args.target_root,
+                output_json=args.output_json,
+                output_markdown=args.output_markdown,
+            )
+        if args.workspace_command == "readiness-preview":
+            return workspace_readiness_preview_command(
+                json_output=args.json,
+                target_root=args.target_root,
+                project_id=args.project_id,
+                project_name=args.project_name,
+                write_report=args.write_report,
                 output_json=args.output_json,
                 output_markdown=args.output_markdown,
             )

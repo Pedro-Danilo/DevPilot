@@ -1,0 +1,191 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/SCHEMA-DEVPL-ONBOARDING-READINESS-PREVIEW-REPORT-V1",
+  "title": "DevPilot Onboarding Readiness Preview Report v1",
+  "description": "Structural contract for POST-H-024-D local-first onboarding validation and readiness preview evidence. The report summarizes frontmatter, artifact, checklist, readiness, StandardsRegistry and MIASI validation status for a new project workspace without executing agents, contacting networks or mutating source files.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "schema_id",
+    "preview_id",
+    "created_by",
+    "created_at",
+    "target_root",
+    "status",
+    "project",
+    "phases",
+    "pending_items",
+    "validations",
+    "safety",
+    "summary",
+    "findings",
+    "limitations",
+    "next_commands"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "schema_id": {"const": "SCHEMA-DEVPL-ONBOARDING-READINESS-PREVIEW-REPORT-V1"},
+    "preview_id": {"type": "string", "pattern": "^onboarding-readiness-preview-[a-z0-9][a-z0-9_-]{2,63}$"},
+    "created_by": {"const": "POST-H-024-D"},
+    "created_at": {"type": "string", "minLength": 10},
+    "target_root": {"type": "string", "minLength": 1},
+    "status": {"enum": ["pass", "warning", "block"]},
+    "project": {
+      "type": "object",
+      "required": ["project_id", "project_name", "project_type", "project_yaml_exists"],
+      "properties": {
+        "project_id": {"type": "string", "minLength": 1},
+        "project_name": {"type": "string", "minLength": 1},
+        "project_type": {"type": "string", "minLength": 1},
+        "project_yaml_exists": {"type": "boolean"}
+      },
+      "additionalProperties": true
+    },
+    "phases": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["phase_id", "title", "status", "checks_total", "passed_total", "pending_total", "block_total", "checks"],
+        "properties": {
+          "phase_id": {"type": "string", "minLength": 1},
+          "title": {"type": "string", "minLength": 1},
+          "status": {"enum": ["pass", "pending", "block"]},
+          "checks_total": {"type": "integer", "minimum": 0},
+          "passed_total": {"type": "integer", "minimum": 0},
+          "pending_total": {"type": "integer", "minimum": 0},
+          "block_total": {"type": "integer", "minimum": 0},
+          "checks": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["check_id", "path", "status", "source_validator", "message"],
+              "properties": {
+                "check_id": {"type": "string", "minLength": 1},
+                "path": {"type": ["string", "null"]},
+                "status": {"enum": ["pass", "pending", "block"]},
+                "source_validator": {"type": "string", "minLength": 1},
+                "message": {"type": "string", "minLength": 1},
+                "metadata": {"type": "object"}
+              },
+              "additionalProperties": true
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "pending_items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "phase_id", "status", "source_validator", "message"],
+        "properties": {
+          "id": {"type": "string", "minLength": 1},
+          "phase_id": {"type": "string", "minLength": 1},
+          "path": {"type": ["string", "null"]},
+          "status": {"enum": ["pending", "block"]},
+          "source_validator": {"type": "string", "minLength": 1},
+          "message": {"type": "string", "minLength": 1},
+          "metadata": {"type": "object"}
+        },
+        "additionalProperties": true
+      }
+    },
+    "validations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["validator", "status", "ok", "findings_total"],
+        "properties": {
+          "validator": {"type": "string", "minLength": 1},
+          "status": {"enum": ["pass", "pending", "block"]},
+          "ok": {"type": "boolean"},
+          "path": {"type": ["string", "null"]},
+          "findings_total": {"type": "integer", "minimum": 0},
+          "summary": {"type": "object"}
+        },
+        "additionalProperties": true
+      }
+    },
+    "safety": {
+      "type": "object",
+      "required": [
+        "local_first",
+        "read_only",
+        "dry_run",
+        "network_used",
+        "external_api_used",
+        "remote_execution_used",
+        "connector_write_used",
+        "plugin_execution_used",
+        "secrets_included",
+        "mutations_performed",
+        "source_mutations_performed"
+      ],
+      "properties": {
+        "local_first": {"const": true},
+        "read_only": {"const": true},
+        "dry_run": {"const": true},
+        "network_used": {"const": false},
+        "external_api_used": {"const": false},
+        "remote_execution_used": {"const": false},
+        "connector_write_used": {"const": false},
+        "plugin_execution_used": {"const": false},
+        "secrets_included": {"const": false},
+        "mutations_performed": {"const": false},
+        "source_mutations_performed": {"const": false}
+      },
+      "additionalProperties": false
+    },
+    "summary": {
+      "type": "object",
+      "required": [
+        "status",
+        "target_root",
+        "target_exists",
+        "phases_total",
+        "checks_total",
+        "passed_total",
+        "pending_total",
+        "block_total",
+        "miasi_required",
+        "miasi_missing_reported_as_pending",
+        "readiness_success_overclaimed",
+        "network_used",
+        "external_api_used",
+        "mutations_performed",
+        "source_mutations_performed",
+        "report_written"
+      ],
+      "properties": {
+        "status": {"enum": ["pass", "warning", "block"]},
+        "target_root": {"type": "string"},
+        "target_exists": {"type": "boolean"},
+        "phases_total": {"type": "integer", "minimum": 0},
+        "checks_total": {"type": "integer", "minimum": 0},
+        "passed_total": {"type": "integer", "minimum": 0},
+        "pending_total": {"type": "integer", "minimum": 0},
+        "block_total": {"type": "integer", "minimum": 0},
+        "miasi_required": {"const": true},
+        "miasi_missing_reported_as_pending": {"type": "boolean"},
+        "readiness_success_overclaimed": {"const": false},
+        "network_used": {"const": false},
+        "external_api_used": {"const": false},
+        "mutations_performed": {"const": false},
+        "source_mutations_performed": {"const": false},
+        "report_written": {"type": "boolean"},
+        "reports": {"type": "object"}
+      },
+      "additionalProperties": true
+    },
+    "findings": {"type": "array", "items": {"$ref": "finding.schema.json"}},
+    "limitations": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+    "next_commands": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}},
+    "reports": {"type": "object"}
+  },
+  "additionalProperties": true,
+  "x-devpilot-schema-id": "SCHEMA-DEVPL-ONBOARDING-READINESS-PREVIEW-REPORT-V1",
+  "x-devpilot-sprint": "POST-H-024-D",
+  "x-devpilot-status": "registered"
+}

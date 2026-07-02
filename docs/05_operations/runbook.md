@@ -2,17 +2,67 @@
 title: "Runbook — DevPilot Local"
 doc_id: "DEVPL-OPS-002"
 status: "approved"
-version: "1.90.0"
+version: "1.91.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "POST-H-024-C"
+phase: "POST-H-024-D"
 updated: "2026-07-02"
 approval: "approved_by_owner"
 source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved + 03_security approved"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "SPRINT-PRECODE-05 quality operations baseline"
 ---
+
+## POST-H-024-D — Onboarding validation y readiness preview
+
+Último hito cerrado: `POST-H-023`
+
+Hito activo: `POST-H-024 — Operator onboarding bootstrap`
+
+Último micro-sprint implementado: `POST-H-024-D — Onboarding validation y readiness preview`
+
+Siguiente micro-sprint: `POST-H-024-E — Quality gate y proyecto piloto fixture`
+
+Artefactos principales:
+
+```text
+src/devpilot_core/onboarding/readiness_preview.py
+docs/schemas/onboarding_readiness_preview_report.schema.json
+tests/test_post_h_024_onboarding_readiness_preview.py
+outputs/reports/onboarding_readiness_preview_report.json       # generado con --write-report, no versionable
+```
+
+Propósito operacional: permitir que el operador inspeccione un proyecto recién bootstrapped y vea qué falta para readiness sin depender de conversación previa ni declarar éxito falso.
+
+Comandos focales:
+
+```powershell
+python -m devpilot_core workspace readiness-preview --target-root outputs/bootstrap_workspaces/ventas-micro-local --json --write-report
+python -m devpilot_core schema validate --schema-id OnboardingReadinessPreviewReport --instance outputs/reports/onboarding_readiness_preview_report.json --json
+python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_024_onboarding_readiness_preview.py tests/test_post_h_024_project_bootstrap.py tests/test_post_h_024_project_templates.py tests/test_project_global_state.py tests/test_schema_registry.py -q
+```
+
+Criterios PASS:
+
+```text
+El preview es read-only y no muta workspace ni source.
+El operador ve pendientes por fase.
+MIASI faltante o incompleto se reporta como pending, no como success.
+El reporte valida contra OnboardingReadinessPreviewReport.
+network_used=false, external_api_used=false, remote_execution_used=false, connector_write_used=false, plugin_execution_used=false.
+```
+
+Criterios BLOCK:
+
+```text
+Target fuera del workspace DevPilot.
+Reporte no validable contra schema.
+Preview oculta pendientes críticos o sobredeclara readiness.
+Se habilita red, APIs externas, connector write, plugin execution o remote execution.
+```
+
+Límite explícito: POST-H-024-D es `implemented-initial / readiness-preview-only`; el fixture piloto y el subgate `onboarding-bootstrap-ready` quedan pendientes para POST-H-024-E.
 
 ## POST-H-024-C — Bootstrap workflow dry-run
 

@@ -200,26 +200,26 @@ def test_post_h_024_c_governance_artifacts_are_synchronized() -> None:
         "POST-H-024-C-MANIFEST",
     }
     assert expected <= doc_ids
-    assert source_registry["project_state_snapshot"]["current_micro_sprint"] == "POST-H-024-C"
-    assert source_registry["project_state_snapshot"]["next_micro_sprint"] == "POST-H-024-D"
+    assert source_registry["project_state_snapshot"]["current_micro_sprint"] == "POST-H-024-D"
+    assert source_registry["project_state_snapshot"]["next_micro_sprint"] == "POST-H-024-E"
     assert source_registry["project_state_snapshot"]["post_h_024_bootstrap_workflow_available"] is True
 
     assert "post-h-024-project-bootstrap" in {item["contract_id"] for item in tcr_v1["contracts"]}
     assert "post-h-024-project-bootstrap" in {item["contract_id"] for item in tcr_v2["contracts"]}
 
-    assert state["current_micro_sprint"] == "POST-H-024-C"
-    assert state["next_micro_sprint"] == "POST-H-024-D"
+    assert state["current_micro_sprint"] == "POST-H-024-D"
+    assert state["next_micro_sprint"] == "POST-H-024-E"
     assert state["post_h_024_bootstrap_workflow_available"] is True
     assert state["post_h_024_project_bootstrap_report_available"] is True
-    assert state["post_h_024_readiness_preview_available"] is False
+    assert state["post_h_024_readiness_preview_available"] is True
     assert state["post_h_024_onboarding_quality_gate_available"] is False
     assert state["post_h_024_network_used"] is False
     assert state["post_h_024_external_api_used"] is False
     assert state["post_h_024_remote_execution_enabled"] is False
 
     for text in (backlog, implementation):
-        assert 'current_micro_sprint: "POST-H-024-C"' in text
-        assert 'next_micro_sprint: "POST-H-024-D"' in text
+        assert 'current_micro_sprint: "POST-H-024-D"' in text
+        assert 'next_micro_sprint: "POST-H-024-E"' in text
         assert "POST-H-024-C" in text
         assert "implemented-initial" in text
         assert "dry-run" in text
@@ -227,5 +227,5 @@ def test_post_h_024_c_governance_artifacts_are_synchronized() -> None:
     assert "workspace bootstrap" in report
     assert "POST-H-024-C — Bootstrap workflow dry-run" in readme
     assert "POST-H-024-C — Bootstrap workflow dry-run" in runbook
-    assert "Siguiente micro-sprint: `POST-H-024-D — Onboarding validation y readiness preview`" in readme
+    assert "Siguiente micro-sprint: `POST-H-024-E — Quality gate y proyecto piloto fixture`" in readme
     assert "post-h-024-c" in changelog
