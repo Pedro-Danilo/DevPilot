@@ -6026,6 +6026,57 @@
         "Validates POST-H-023-B protocol decision matrix and ADR design-only no-go flags.",
         "Does not enable network, sockets, certificates, secrets or remote execution."
       ]
+    },
+    {
+      "contract_id": "post-h-023-secure-transport-key-lifecycle",
+      "scope": "safety",
+      "owner": "POST-H-023-C",
+      "phase": "POST-FASE-H",
+      "test_files": [
+        "tests/test_post_h_023_secure_transport_key_lifecycle.py"
+      ],
+      "validates": [
+        "docs/schemas/secure_transport_key_lifecycle.schema.json",
+        ".devpilot/remote/secure_transport_key_lifecycle.json",
+        "docs/03_security/secure_transport_key_lifecycle.md",
+        "docs/backlogs/POST-H-023_secure_transport_design.md",
+        "docs/POST-H-023_secure_transport_design.md",
+        "docs/post_h_023_c_manifest.json"
+      ],
+      "watched_paths": [
+        "docs/schemas/secure_transport_key_lifecycle.schema.json",
+        ".devpilot/remote/secure_transport_key_lifecycle.json",
+        "docs/03_security/secure_transport_key_lifecycle.md",
+        "docs/03_security/secure_transport_design.md",
+        "docs/POST-H-023_secure_transport_design.md",
+        "docs/backlogs/POST-H-023_secure_transport_design.md",
+        "README.md",
+        "docs/05_operations/runbook.md",
+        "docs/release/CHANGELOG.md",
+        ".devpilot/project_state.json",
+        ".devpilot/docs_governance/source_registry.json",
+        ".devpilot/testing/test_contract_registry.json",
+        ".devpilot/testing/test_contract_registry_v2.json",
+        "tests/test_post_h_023_secure_transport_key_lifecycle.py",
+        "tests/test_project_global_state.py",
+        "tests/test_schema_registry.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace tests/test_post_h_023_secure_transport_key_lifecycle.py tests/test_post_h_023_secure_transport_protocol_decision.py tests/test_post_h_023_secure_transport_design.py tests/test_project_global_state.py tests/test_schema_registry.py -q",
+        "python -m devpilot_core schema validate --schema-id SecureTransportKeyLifecycle --instance .devpilot/remote/secure_transport_key_lifecycle.json --json",
+        "python -m devpilot_core docs-governance validate --json",
+        "python -m devpilot_core test-contracts validate --json"
+      ],
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "notes": [
+        "POST-H-023-C design-only key/certificate lifecycle contract; no certificates, private keys, raw secrets, network or remote execution."
+      ]
     }
   ],
   "notes": [

@@ -1,3 +1,23 @@
+## POST-H-023-C — Key/certificate lifecycle design
+
+Último hito cerrado: `POST-H-022`
+
+Último hito: `POST-H-022`
+
+Hito activo: `POST-H-023 — Secure transport design sin implementación activa`
+
+Siguiente hito: `POST-H-023`
+
+Último micro-sprint implementado: `POST-H-023-C — Key/certificate lifecycle design`
+
+Siguiente micro-sprint: `POST-H-023-D — Validator de diseño y no-network invariant`
+
+POST-H-023-C agrega `SecureTransportKeyLifecycle` como schema e instancia local design-only para modelar generación, almacenamiento, distribución, rotación y revocación futuras de llaves/certificados. El lifecycle queda como `design-only-no-material`.
+
+No-go gates conservados: `transport_implemented=false`, `secure_transport_implemented=false`, `network_allowed=false`, `network_used=false`, `sockets_opened=false`, `certificates_generated=false`, `certificate_authority_created=false`, `private_key_material_present=false`, `raw_secret_storage_allowed=false`, `secrets_required=false`, `secrets_stored=false`, `secrets_read=false`, `remote_execution_enabled=false`, sin red, APIs externas, connector write ni plugin execution.
+
+Límite explícito: POST-H-023-C no genera certificados, llaves privadas, CA, trust roots, secretos, KMS/HSM, secret store real, mTLS, SSH, HTTPS remoto ni token binding productivo. El validator de diseño y el no-network invariant quedan para POST-H-023-D.
+
 ## POST-H-023-B — Protocol decision matrix y ADR
 
 Último hito cerrado: `POST-H-022`

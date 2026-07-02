@@ -2,12 +2,12 @@
 doc_id: "POST-H-023-SECURE-TRANSPORT-DESIGN"
 title: "Secure transport design"
 status: "approved"
-version: "0.2.0"
+version: "0.3.0"
 owner: "Ordóñez"
 updated: "2026-07-02"
 approval: "approved_by_owner"
 phase: "POST-FASE-H"
-created_by: "POST-H-023-B"
+created_by: "POST-H-023-C"
 implementation_status: "implemented-initial"
 decision_status: "design-only"
 transport_implemented: false
@@ -47,6 +47,8 @@ plugin_execution_enabled=false
 La opción seleccionada para el estado actual sigue siendo `local-only-no-transport`.
 
 POST-H-023-B registra esta decisión en `ADR-POSTH-005` y en `.devpilot/remote/secure_transport_protocol_decision_matrix.json`.
+
+POST-H-023-C agrega `SecureTransportKeyLifecycle` y `docs/03_security/secure_transport_key_lifecycle.md` para lifecycle futuro de llaves/certificados sin generar material criptográfico ni almacenar secretos.
 
 ## 3. Amenazas Críticas
 
@@ -116,17 +118,46 @@ future candidate != selected for execution
 
 POST-H-023-B no implementa transporte activo, no crea certificados, no requiere secretos y no habilita red. La decisión aprobada mantiene `selected_for_now=local-only-no-transport`; el lifecycle de claves/certificados queda para POST-H-023-C.
 
-## 8. Límites del Micro-Sprint A
+## 8. Key/Certificate Lifecycle Design
+
+POST-H-023-C define el lifecycle futuro de generación, almacenamiento, distribución, rotación y revocación. La regla de interpretación es:
+
+```text
+key lifecycle design != key generation
+certificate lifecycle design != certificate creation
+secret handling design != secret storage
+transport lifecycle design != network allowed
+```
+
+No-go gates añadidos por POST-H-023-C:
+
+```text
+certificates_generated=false
+certificate_authority_created=false
+private_key_material_present=false
+raw_secret_storage_allowed=false
+secrets_stored=false
+secrets_read=false
+network_used=false
+remote_execution_enabled=false
+```
+
+La especificación permite únicamente referencias, fingerprints o hashes en reportes/auditoría. Valores raw de llaves privadas, tokens, CA secrets y cuerpos completos de certificados siguen bloqueados.
+
+## 9. Límites del Micro-Sprint A
 
 POST-H-023-A no crea ADR de protocolo, no selecciona mTLS/SSH/HTTPS token-bound como alternativa aprobada, no diseña lifecycle completo de certificados y no implementa validator ni quality gate. Es una primera versión de requisitos y amenazas para que POST-H-023-B/C/D puedan evolucionar de forma controlada.
 
-## 9. Fuentes Estructuradas
+## 10. Fuentes Estructuradas
 
 ```text
 docs/schemas/secure_transport_requirements.schema.json
 docs/schemas/secure_transport_design.schema.json
+docs/schemas/secure_transport_key_lifecycle.schema.json
 .devpilot/remote/secure_transport_requirements.json
 .devpilot/remote/secure_transport_protocol_decision_matrix.json
+.devpilot/remote/secure_transport_key_lifecycle.json
 docs/post_h_023_a_manifest.json
 docs/post_h_023_b_manifest.json
+docs/post_h_023_c_manifest.json
 ```

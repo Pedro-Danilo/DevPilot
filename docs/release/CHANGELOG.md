@@ -1,3 +1,11 @@
+## post-h-023-c - Key/certificate lifecycle design
+
+- Added `SecureTransportKeyLifecycle` schema and `.devpilot/remote/secure_transport_key_lifecycle.json`.
+- Documented future generation, storage, distribution, rotation and revocation phases without generating cryptographic material.
+- Added `docs/03_security/secure_transport_key_lifecycle.md` and POST-H-023-C audit report.
+- Kept certificates, CA creation, private key material, raw secret storage, network, sockets, connector write, plugin execution and remote execution disabled.
+- Deferred design validator and no-network invariant to POST-H-023-D.
+
 ## post-h-023-b - Protocol decision matrix and ADR
 
 - Added `SecureTransportDesign` schema and `.devpilot/remote/secure_transport_protocol_decision_matrix.json`.

@@ -2,15 +2,15 @@
 doc_id: "POST-H-023-IMPLEMENTATION-DOC"
 title: "POST-H-023 — Secure transport design sin implementación activa"
 status: "approved"
-version: "0.3.0"
+version: "0.4.0"
 owner: "Ordóñez"
 updated: "2026-07-02"
 approval: "approved_by_owner"
 phase: "POST-FASE-H"
 priority: "P3"
 implementation_status: "active"
-current_micro_sprint: "POST-H-023-B"
-next_micro_sprint: "POST-H-023-C"
+current_micro_sprint: "POST-H-023-C"
+next_micro_sprint: "POST-H-023-D"
 local_first: true
 dry_run: true
 transport_implemented: false
@@ -23,7 +23,7 @@ secrets_required: false
 
 ## Estado
 
-POST-H-023 queda aprobado y activo. El micro-sprint actual es **POST-H-023-B — Protocol decision matrix y ADR**.
+POST-H-023 queda aprobado y activo. El micro-sprint actual es **POST-H-023-C — Key/certificate lifecycle design**.
 
 Alcance global del hito:
 
@@ -31,6 +31,59 @@ Alcance global del hito:
 secure transport design != secure transport implemented
 transport requirements != network allowed
 remote readiness != remote execution enabled
+key lifecycle design != key generation
+certificate lifecycle design != certificate creation
+secret handling design != secret storage
+```
+
+## POST-H-023-C — Key/certificate lifecycle design
+
+POST-H-023-C entrega `SecureTransportKeyLifecycle` como contrato e instancia design-only para lifecycle futuro de llaves, certificados, trust anchors y credenciales de transporte. El estado queda `design-only-no-material`.
+
+Artefactos principales:
+
+```text
+docs/schemas/secure_transport_key_lifecycle.schema.json
+.devpilot/remote/secure_transport_key_lifecycle.json
+docs/03_security/secure_transport_key_lifecycle.md
+docs/audits/post_h_023_c_key_lifecycle_report.md
+docs/post_h_023_c_manifest.json
+tests/test_post_h_023_secure_transport_key_lifecycle.py
+```
+
+Lifecycle cubierto:
+
+```text
+generation-design
+storage-design
+distribution-design
+rotation-design
+revocation-design
+```
+
+PASS si:
+
+```text
+lifecycle_status=design-only-no-material
+certificates_generated=false
+certificate_authority_created=false
+private_key_material_present=false
+raw_secret_storage_allowed=false
+secrets_stored=false
+secrets_read=false
+network_used=false
+remote_execution_enabled=false
+```
+
+BLOCK si:
+
+```text
+Se genera certificado o llave privada real.
+Se crea CA real.
+Se guarda secreto raw en repo, logs, outputs o DB local.
+Se lee .env o secret store real.
+Se abre socket/red.
+Se habilita remote_execution_enabled=true.
 ```
 
 ## POST-H-023-B — Protocol decision matrix y ADR
@@ -130,11 +183,10 @@ remote_execution_enabled=true
 ## Micro-Sprints Pendientes
 
 ```text
-POST-H-023-C — Key/certificate lifecycle design
 POST-H-023-D — Validator de diseño y no-network invariant
 POST-H-023-E — Runbook y cierre
 ```
 
 ## Límites
 
-POST-H-023-B es `implemented-initial / design-only`. No implementa transporte activo, no crea secretos/certificados y no habilita red. El lifecycle de claves/certificados queda para POST-H-023-C.
+POST-H-023-C es `implemented-initial / design-only-no-material`. No implementa transporte activo, no crea secretos/certificados/CA, no genera llaves privadas, no lee `.env`, no habilita red ni remote execution. El validator de diseño y no-network invariant quedan para POST-H-023-D.

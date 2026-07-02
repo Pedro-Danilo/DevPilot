@@ -1154,6 +1154,20 @@
       "validates_instances": true,
       "contract": "SecureTransportDesign",
       "validation_enabled_sprint": "POST-H-023-B"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-SECURE-TRANSPORT-KEY-LIFECYCLE-V1",
+      "title": "DevPilot SecureTransportKeyLifecycle v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/secure_transport_key_lifecycle.schema.json",
+      "description": "POST-H-023-C design-only key/certificate lifecycle contract that forbids certificate generation, private key material, raw secret storage, network and remote execution.",
+      "status": "registered",
+      "owner": "Ordóñez",
+      "sprint": "POST-H-023-C",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "contract": "SecureTransportKeyLifecycle",
+      "validation_enabled_sprint": "POST-H-023-C"
     }
   ]
 }

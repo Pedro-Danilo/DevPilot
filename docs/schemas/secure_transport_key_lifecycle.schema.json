@@ -1,0 +1,384 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/SCHEMA-DEVPL-SECURE-TRANSPORT-KEY-LIFECYCLE-V1",
+  "title": "DevPilot SecureTransportKeyLifecycle v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "schema_id",
+    "created_by",
+    "updated",
+    "status",
+    "decision_status",
+    "lifecycle_status",
+    "transport_implemented",
+    "network_allowed",
+    "certificates_generated",
+    "raw_secret_storage_allowed",
+    "private_key_material_present",
+    "requires_future_enablement_adr",
+    "lifecycle_phases",
+    "credential_classes",
+    "redaction_audit_requirements",
+    "storage_policy",
+    "rotation_policy",
+    "revocation_policy",
+    "no_go_gates",
+    "safety",
+    "notes"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "schema_id": {
+      "const": "SCHEMA-DEVPL-SECURE-TRANSPORT-KEY-LIFECYCLE-V1"
+    },
+    "created_by": {
+      "const": "POST-H-023-C"
+    },
+    "updated": {
+      "type": "string"
+    },
+    "status": {
+      "const": "implemented-initial"
+    },
+    "decision_status": {
+      "const": "design-only"
+    },
+    "lifecycle_status": {
+      "const": "design-only-no-material"
+    },
+    "transport_implemented": {
+      "const": false
+    },
+    "network_allowed": {
+      "const": false
+    },
+    "certificates_generated": {
+      "const": false
+    },
+    "raw_secret_storage_allowed": {
+      "const": false
+    },
+    "private_key_material_present": {
+      "const": false
+    },
+    "requires_future_enablement_adr": {
+      "const": true
+    },
+    "lifecycle_phases": {
+      "type": "array",
+      "minItems": 5,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "phase_id",
+          "name",
+          "design_goal",
+          "implementation_allowed_now",
+          "material_generated_now",
+          "required_controls",
+          "audit_requirements",
+          "failure_mode"
+        ],
+        "properties": {
+          "phase_id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "design_goal": {
+            "type": "string"
+          },
+          "implementation_allowed_now": {
+            "const": false
+          },
+          "material_generated_now": {
+            "const": false
+          },
+          "required_controls": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "minItems": 1
+          },
+          "audit_requirements": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "minItems": 1
+          },
+          "failure_mode": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "credential_classes": {
+      "type": "array",
+      "minItems": 4,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "class_id",
+          "name",
+          "allowed_now",
+          "storage_allowed_now",
+          "raw_value_allowed",
+          "redaction_required",
+          "future_controls"
+        ],
+        "properties": {
+          "class_id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "allowed_now": {
+            "const": false
+          },
+          "storage_allowed_now": {
+            "const": false
+          },
+          "raw_value_allowed": {
+            "const": false
+          },
+          "redaction_required": {
+            "const": true
+          },
+          "future_controls": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "minItems": 1
+          }
+        }
+      }
+    },
+    "redaction_audit_requirements": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 5
+    },
+    "storage_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "raw_secret_storage_allowed",
+        "repo_storage_allowed",
+        "runtime_db_storage_allowed",
+        "logs_raw_secret_allowed",
+        "future_storage_requires"
+      ],
+      "properties": {
+        "raw_secret_storage_allowed": {
+          "const": false
+        },
+        "repo_storage_allowed": {
+          "const": false
+        },
+        "runtime_db_storage_allowed": {
+          "const": false
+        },
+        "logs_raw_secret_allowed": {
+          "const": false
+        },
+        "future_storage_requires": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 4
+        }
+      }
+    },
+    "rotation_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "implemented_now",
+        "requires_overlap_window",
+        "requires_revocation_test",
+        "future_controls"
+      ],
+      "properties": {
+        "implemented_now": {
+          "const": false
+        },
+        "requires_overlap_window": {
+          "const": true
+        },
+        "requires_revocation_test": {
+          "const": true
+        },
+        "future_controls": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 3
+        }
+      }
+    },
+    "revocation_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "implemented_now",
+        "fail_closed_required",
+        "requires_kill_switch",
+        "future_controls"
+      ],
+      "properties": {
+        "implemented_now": {
+          "const": false
+        },
+        "fail_closed_required": {
+          "const": true
+        },
+        "requires_kill_switch": {
+          "const": true
+        },
+        "future_controls": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 3
+        }
+      }
+    },
+    "no_go_gates": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "transport_implemented",
+        "secure_transport_implemented",
+        "network_allowed",
+        "network_used",
+        "sockets_opened",
+        "certificates_generated",
+        "certificate_authority_created",
+        "private_key_material_present",
+        "raw_secret_storage_allowed",
+        "secrets_required",
+        "secrets_stored",
+        "secrets_read",
+        "remote_execution_enabled",
+        "connector_write_enabled",
+        "plugin_execution_enabled"
+      ],
+      "properties": {
+        "transport_implemented": {
+          "const": false
+        },
+        "secure_transport_implemented": {
+          "const": false
+        },
+        "network_allowed": {
+          "const": false
+        },
+        "network_used": {
+          "const": false
+        },
+        "sockets_opened": {
+          "const": false
+        },
+        "certificates_generated": {
+          "const": false
+        },
+        "certificate_authority_created": {
+          "const": false
+        },
+        "private_key_material_present": {
+          "const": false
+        },
+        "raw_secret_storage_allowed": {
+          "const": false
+        },
+        "secrets_required": {
+          "const": false
+        },
+        "secrets_stored": {
+          "const": false
+        },
+        "secrets_read": {
+          "const": false
+        },
+        "remote_execution_enabled": {
+          "const": false
+        },
+        "connector_write_enabled": {
+          "const": false
+        },
+        "plugin_execution_enabled": {
+          "const": false
+        }
+      }
+    },
+    "safety": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "read_only",
+        "dry_run",
+        "network_used",
+        "external_api_used",
+        "mutations_performed",
+        "source_mutations_performed",
+        "secrets_read",
+        "certificates_generated",
+        "private_key_material_present"
+      ],
+      "properties": {
+        "read_only": {
+          "const": true
+        },
+        "dry_run": {
+          "const": true
+        },
+        "network_used": {
+          "const": false
+        },
+        "external_api_used": {
+          "const": false
+        },
+        "mutations_performed": {
+          "const": false
+        },
+        "source_mutations_performed": {
+          "const": false
+        },
+        "secrets_read": {
+          "const": false
+        },
+        "certificates_generated": {
+          "const": false
+        },
+        "private_key_material_present": {
+          "const": false
+        }
+      }
+    },
+    "notes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 2
+    }
+  },
+  "x-devpilot-schema-id": "SCHEMA-DEVPL-SECURE-TRANSPORT-KEY-LIFECYCLE-V1",
+  "x-devpilot-contract": "SecureTransportKeyLifecycle"
+}

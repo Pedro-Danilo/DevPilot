@@ -1,0 +1,241 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "SCHEMA-DEVPL-SECURE-TRANSPORT-KEY-LIFECYCLE-V1",
+  "created_by": "POST-H-023-C",
+  "updated": "2026-07-02",
+  "status": "implemented-initial",
+  "decision_status": "design-only",
+  "lifecycle_status": "design-only-no-material",
+  "transport_implemented": false,
+  "network_allowed": false,
+  "certificates_generated": false,
+  "raw_secret_storage_allowed": false,
+  "private_key_material_present": false,
+  "requires_future_enablement_adr": true,
+  "lifecycle_phases": [
+    {
+      "phase_id": "generation-design",
+      "name": "Generation design",
+      "design_goal": "Define future certificate/key generation prerequisites without generating material now.",
+      "implementation_allowed_now": false,
+      "material_generated_now": false,
+      "required_controls": [
+        "future_enablement_adr",
+        "approved_ca_model",
+        "entropy_source_policy",
+        "operator_approval_binding"
+      ],
+      "audit_requirements": [
+        "record generation request metadata",
+        "record approval id",
+        "never log generated private material"
+      ],
+      "failure_mode": "fail-closed if CA model, approval or entropy source is missing"
+    },
+    {
+      "phase_id": "storage-design",
+      "name": "Storage design",
+      "design_goal": "Define future storage boundaries and forbid raw secret storage in source, logs and local DB.",
+      "implementation_allowed_now": false,
+      "material_generated_now": false,
+      "required_controls": [
+        "secret_handling_model",
+        "encrypted_secret_store",
+        "rbac_secret_read_boundary",
+        "redaction_policy"
+      ],
+      "audit_requirements": [
+        "record secret reference only",
+        "record actor and role",
+        "redact raw values in reports"
+      ],
+      "failure_mode": "fail-closed if raw material would be persisted"
+    },
+    {
+      "phase_id": "distribution-design",
+      "name": "Distribution design",
+      "design_goal": "Define future credential distribution without network or worker provisioning now.",
+      "implementation_allowed_now": false,
+      "material_generated_now": false,
+      "required_controls": [
+        "secure_channel_after_enablement",
+        "endpoint_identity_binding",
+        "policy_engine_binding",
+        "approval_scope_binding"
+      ],
+      "audit_requirements": [
+        "record target identity",
+        "record fingerprint reference",
+        "record policy decision"
+      ],
+      "failure_mode": "fail-closed if target identity or policy binding cannot be verified"
+    },
+    {
+      "phase_id": "rotation-design",
+      "name": "Rotation design",
+      "design_goal": "Require planned overlap, bounded validity and rollback for future key/cert rotation.",
+      "implementation_allowed_now": false,
+      "material_generated_now": false,
+      "required_controls": [
+        "bounded_validity",
+        "overlap_window",
+        "rollback_plan",
+        "rotation_test_contract"
+      ],
+      "audit_requirements": [
+        "record old and new fingerprint references",
+        "record rotation window",
+        "record rollback outcome"
+      ],
+      "failure_mode": "fail-closed if rotation cannot prove continuity and revocation readiness"
+    },
+    {
+      "phase_id": "revocation-design",
+      "name": "Revocation design",
+      "design_goal": "Define future revocation and kill-switch behavior for compromised credentials.",
+      "implementation_allowed_now": false,
+      "material_generated_now": false,
+      "required_controls": [
+        "revocation_registry",
+        "kill_switch",
+        "incident_response_runbook",
+        "negative_acceptance_tests"
+      ],
+      "audit_requirements": [
+        "record revocation reason",
+        "record actor approval",
+        "record propagation status"
+      ],
+      "failure_mode": "fail-closed on stale, revoked or unverifiable credential state"
+    }
+  ],
+  "credential_classes": [
+    {
+      "class_id": "transport-cert",
+      "name": "Transport certificate",
+      "allowed_now": false,
+      "storage_allowed_now": false,
+      "raw_value_allowed": false,
+      "redaction_required": true,
+      "future_controls": [
+        "certificate_lifecycle",
+        "pinning_policy",
+        "revocation_rotation"
+      ]
+    },
+    {
+      "class_id": "private-key",
+      "name": "Private key material",
+      "allowed_now": false,
+      "storage_allowed_now": false,
+      "raw_value_allowed": false,
+      "redaction_required": true,
+      "future_controls": [
+        "secret_store",
+        "hardware_or_os_protection",
+        "no_log_policy"
+      ]
+    },
+    {
+      "class_id": "ca-root",
+      "name": "CA root or trust anchor",
+      "allowed_now": false,
+      "storage_allowed_now": false,
+      "raw_value_allowed": false,
+      "redaction_required": true,
+      "future_controls": [
+        "trust_root_governance",
+        "pinning_policy",
+        "rotation_and_expiry"
+      ]
+    },
+    {
+      "class_id": "token-binding-secret",
+      "name": "Token binding secret",
+      "allowed_now": false,
+      "storage_allowed_now": false,
+      "raw_value_allowed": false,
+      "redaction_required": true,
+      "future_controls": [
+        "short_lived_credentials",
+        "replay_protection",
+        "scope_binding"
+      ]
+    }
+  ],
+  "redaction_audit_requirements": [
+    "Only references, fingerprints or hashes may appear in reports",
+    "Raw private keys, tokens, CA secrets and certificate bodies remain forbidden",
+    "Audit events must bind actor, role, approval_id and policy decision",
+    "Revocation and rotation events must be traceable without exposing material",
+    "Failure paths must be logged as metadata only"
+  ],
+  "storage_policy": {
+    "raw_secret_storage_allowed": false,
+    "repo_storage_allowed": false,
+    "runtime_db_storage_allowed": false,
+    "logs_raw_secret_allowed": false,
+    "future_storage_requires": [
+      "secret_handling_model",
+      "encrypted_secret_store",
+      "access_audit",
+      "redaction_policy",
+      "backup_restore_secret_boundary"
+    ]
+  },
+  "rotation_policy": {
+    "implemented_now": false,
+    "requires_overlap_window": true,
+    "requires_revocation_test": true,
+    "future_controls": [
+      "bounded_validity",
+      "rotation_runbook",
+      "negative_acceptance_tests",
+      "rollback_plan"
+    ]
+  },
+  "revocation_policy": {
+    "implemented_now": false,
+    "fail_closed_required": true,
+    "requires_kill_switch": true,
+    "future_controls": [
+      "revocation_registry",
+      "kill_switch",
+      "incident_response_runbook",
+      "propagation_checks"
+    ]
+  },
+  "no_go_gates": {
+    "transport_implemented": false,
+    "secure_transport_implemented": false,
+    "network_allowed": false,
+    "network_used": false,
+    "sockets_opened": false,
+    "certificates_generated": false,
+    "certificate_authority_created": false,
+    "private_key_material_present": false,
+    "raw_secret_storage_allowed": false,
+    "secrets_required": false,
+    "secrets_stored": false,
+    "secrets_read": false,
+    "remote_execution_enabled": false,
+    "connector_write_enabled": false,
+    "plugin_execution_enabled": false
+  },
+  "safety": {
+    "read_only": true,
+    "dry_run": true,
+    "network_used": false,
+    "external_api_used": false,
+    "mutations_performed": false,
+    "source_mutations_performed": false,
+    "secrets_read": false,
+    "certificates_generated": false,
+    "private_key_material_present": false
+  },
+  "notes": [
+    "POST-H-023-C designs future key/certificate lifecycle without generating or storing material.",
+    "Raw secret storage remains forbidden in source, runtime DB, logs and reports.",
+    "Future enablement requires ADR, secret handling model, certificate lifecycle implementation, revocation tests and quality gate."
+  ]
+}

@@ -4,7 +4,7 @@ doc_id: "POST-H-023-BACKLOG"
 id: "POST-H-023"
 title: "POST-H-023 — Secure transport design sin implementación activa"
 status: "approved"
-version: "0.3.0"
+version: "0.4.0"
 owner: "Ordóñez"
 updated: "2026-07-02"
 approval: "approved_by_owner"
@@ -14,8 +14,8 @@ roadmap_source: "docs/backlogs/post_h_prioritized_roadmap.md"
 local_first: true
 dry_run: true
 implementation_status: "active"
-current_micro_sprint: "POST-H-023-B"
-next_micro_sprint: "POST-H-023-C"
+current_micro_sprint: "POST-H-023-C"
+next_micro_sprint: "POST-H-023-D"
 no_remote_execution_enabled: true
 no_external_apis_used: true
 no_connector_write_enabled: true
@@ -29,9 +29,9 @@ secrets_required: false
 
 ## Estado de Implementación
 
-POST-H-023 queda **approved / active**. El micro-sprint actual es **POST-H-023-B — Protocol decision matrix y ADR** y el siguiente micro-sprint es **POST-H-023-C — Key/certificate lifecycle design**.
+POST-H-023 queda **approved / active**. El micro-sprint actual es **POST-H-023-C — Key/certificate lifecycle design** y el siguiente micro-sprint es **POST-H-023-D — Validator de diseño y no-network invariant**.
 
-POST-H-023-A entrega `SecureTransportRequirements` schema/instancia y documentación inicial de amenazas. POST-H-023-B agrega `SecureTransportDesign`, matriz de decisión y `ADR-POSTH-005`; selecciona `local-only-no-transport` para el estado actual. No habilita transporte activo, red, sockets, certificados, secretos ni remote execution.
+POST-H-023-A entrega `SecureTransportRequirements` schema/instancia y documentación inicial de amenazas. POST-H-023-B agrega `SecureTransportDesign`, matriz de decisión y `ADR-POSTH-005`; selecciona `local-only-no-transport` para el estado actual. POST-H-023-C agrega `SecureTransportKeyLifecycle` como diseño de lifecycle sin material criptográfico. No habilita transporte activo, red, sockets, certificados, llaves privadas, secretos ni remote execution.
 
 ## 1. Objetivo
 
@@ -212,6 +212,32 @@ Criterios BLOCK:
 - Se guardan secretos reales.
 ```
 
+Estado POST-H-023-C:
+
+```text
+implementation_status=implemented-initial
+lifecycle_status=design-only-no-material
+certificates_generated=false
+certificate_authority_created=false
+private_key_material_present=false
+raw_secret_storage_allowed=false
+secrets_stored=false
+secrets_read=false
+network_used=false
+remote_execution_enabled=false
+```
+
+Artefactos POST-H-023-C:
+
+```text
+docs/schemas/secure_transport_key_lifecycle.schema.json
+.devpilot/remote/secure_transport_key_lifecycle.json
+docs/03_security/secure_transport_key_lifecycle.md
+docs/audits/post_h_023_c_key_lifecycle_report.md
+docs/post_h_023_c_manifest.json
+tests/test_post_h_023_secure_transport_key_lifecycle.py
+```
+
 ### POST-H-023-D — Validator de diseño y no-network invariant
 
 Tareas:
@@ -275,9 +301,10 @@ python -m devpilot_core validate-artifact docs/03_security/secure_transport_desi
 ## 12. Definition of Done
 
 ```text
-[ ] Secure transport design documentado.
-[ ] ADR design-only aprobada.
-[ ] Requirements JSON validado.
+[x] Secure transport design documentado.
+[x] ADR design-only aprobada.
+[x] Requirements JSON validado.
+[x] Key/certificate lifecycle design documentado sin material real.
 [ ] Validator/read-only implementado.
 [ ] Tests no-network pasan.
 [ ] No se implementa transporte activo.

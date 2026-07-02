@@ -2,17 +2,58 @@
 title: "Runbook — DevPilot Local"
 doc_id: "DEVPL-OPS-002"
 status: "approved"
-version: "1.84.0"
+version: "1.85.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "POST-H-023-B"
+phase: "POST-H-023-C"
 updated: "2026-07-02"
 approval: "approved_by_owner"
 source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved + 03_security approved"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "SPRINT-PRECODE-05 quality operations baseline"
 ---
+
+## POST-H-023-C — Key/certificate lifecycle design
+
+POST-H-023-C define el lifecycle futuro de llaves, certificados, trust anchors y credenciales de transporte sin generar material criptográfico real. El operador debe interpretar estos artefactos como diseño preliminar verificable, no como habilitación de certificados, secretos, red o transporte.
+
+Artefactos principales:
+
+```text
+docs/schemas/secure_transport_key_lifecycle.schema.json
+.devpilot/remote/secure_transport_key_lifecycle.json
+docs/03_security/secure_transport_key_lifecycle.md
+docs/audits/post_h_023_c_key_lifecycle_report.md
+docs/post_h_023_c_manifest.json
+tests/test_post_h_023_secure_transport_key_lifecycle.py
+```
+
+Verificación focal:
+
+```powershell
+python -m pytest -p no:ddtrace tests/test_post_h_023_secure_transport_key_lifecycle.py tests/test_post_h_023_secure_transport_protocol_decision.py tests/test_post_h_023_secure_transport_design.py tests/test_project_global_state.py tests/test_schema_registry.py -q
+python -m devpilot_core schema validate --schema-id SecureTransportKeyLifecycle --instance .devpilot/remote/secure_transport_key_lifecycle.json --json
+python -m devpilot_core schema validate --schema-id PostHManifest --instance docs/post_h_023_c_manifest.json --json
+python -m devpilot_core docs-governance validate --json
+python -m devpilot_core test-contracts validate --json
+python -m devpilot_core test-contracts validate-v2 --json
+python -m devpilot_core project-state validate --json
+```
+
+PASS si `lifecycle_status=design-only-no-material`, las fases generation/storage/distribution/rotation/revocation están documentadas y permanecen en falso `certificates_generated=false`, `certificate_authority_created=false`, `private_key_material_present=false`, `raw_secret_storage_allowed=false`, `secrets_stored=false`, `secrets_read=false`, `network_used=false` y `remote_execution_enabled=false`.
+
+BLOCK si se genera certificado o llave privada real, se crea CA, se guarda secreto raw en repo/logs/outputs/DB local, se lee `.env`/secret store real, se abre red/socket o se habilita remote execution.
+
+Último hito cerrado: `POST-H-022`
+
+Último hito: `POST-H-022`
+
+Hito activo: `POST-H-023`
+
+Siguiente hito: `POST-H-023`
+
+Siguiente micro-sprint: `POST-H-023-D — Validator de diseño y no-network invariant`
 
 ## POST-H-023-B — Protocol decision matrix y ADR
 
