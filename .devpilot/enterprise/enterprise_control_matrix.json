@@ -1,0 +1,550 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "SCHEMA-DEVPL-ENTERPRISE-CONTROL-MATRIX-V1",
+  "created_by": "POST-H-022-C",
+  "updated": "2026-07-02",
+  "status": "implemented-initial",
+  "decision_status": "design-only",
+  "enterprise_ready_claimed": false,
+  "enterprise_deployment_enabled": false,
+  "remote_execution_enabled": false,
+  "secure_transport_implemented": false,
+  "compliance_certification_claim": false,
+  "summary": {
+    "controls_total": 12,
+    "implemented_total": 3,
+    "partial_total": 5,
+    "required_not_implemented_total": 4,
+    "critical_controls_total": 7,
+    "all_critical_controls_block_enterprise": true,
+    "threats_mapped_total": 11,
+    "residual_risks_mapped_total": 7
+  },
+  "controls": [
+    {
+      "control_id": "ENT-C001",
+      "title": "Strong actor identity before enterprise deployment",
+      "domain": "identity",
+      "control_type": "preventive",
+      "status": "partial",
+      "criticality": "critical",
+      "required_before": [
+        "enterprise_deployment",
+        "multiuser_production",
+        "remote_runner"
+      ],
+      "mapped_threat_ids": [
+        "ENT-T001",
+        "ENT-T010"
+      ],
+      "mapped_residual_risk_ids": [
+        "ENT-RR006"
+      ],
+      "mapped_boundary_ids": [
+        "future_control_plane_boundary",
+        "api_localhost"
+      ],
+      "required_evidence": [
+        "identity registry with enterprise actor lifecycle",
+        "SSO/OIDC/SAML decision record",
+        "actor provisioning and deprovisioning tests",
+        "session binding tests"
+      ],
+      "current_evidence": [
+        ".devpilot/identity/identity_registry.json",
+        "approval binding tests from POST-H-012"
+      ],
+      "gap": "Local identity and approvals exist, but enterprise SSO/session lifecycle is not implemented.",
+      "blocks_enterprise_readiness": true,
+      "owner": "POST-H-022-C",
+      "introduced_by": "POST-H-022-C"
+    },
+    {
+      "control_id": "ENT-C002",
+      "title": "Enterprise RBAC and least privilege matrix",
+      "domain": "rbac",
+      "control_type": "preventive",
+      "status": "partial",
+      "criticality": "critical",
+      "required_before": [
+        "enterprise_deployment",
+        "control_plane",
+        "multiuser_production"
+      ],
+      "mapped_threat_ids": [
+        "ENT-T001",
+        "ENT-T010"
+      ],
+      "mapped_residual_risk_ids": [
+        "ENT-RR006"
+      ],
+      "mapped_boundary_ids": [
+        "api_localhost",
+        "future_control_plane_boundary"
+      ],
+      "required_evidence": [
+        "enterprise role matrix",
+        "negative authorization tests",
+        "interface exposure matrix",
+        "break-glass policy"
+      ],
+      "current_evidence": [
+        "RBAC exposure report from POST-H-012-C",
+        "PolicyEngine enforcement from POST-H-012-D/E"
+      ],
+      "gap": "RBAC is local and policy-backed, but not enterprise multiuser production RBAC.",
+      "blocks_enterprise_readiness": true,
+      "owner": "POST-H-022-C",
+      "introduced_by": "POST-H-022-C"
+    },
+    {
+      "control_id": "ENT-C003",
+      "title": "Approval binding for sensitive enterprise actions",
+      "domain": "approval",
+      "control_type": "preventive",
+      "status": "partial",
+      "criticality": "high",
+      "required_before": [
+        "enterprise_deployment",
+        "remote_runner",
+        "control_plane"
+      ],
+      "mapped_threat_ids": [
+        "ENT-T001",
+        "ENT-T004",
+        "ENT-T010"
+      ],
+      "mapped_residual_risk_ids": [
+        "ENT-RR005",
+        "ENT-RR006"
+      ],
+      "mapped_boundary_ids": [
+        "api_localhost",
+        "future_control_plane_boundary",
+        "outputs_reports_boundary"
+      ],
+      "required_evidence": [
+        "approval scope binding tests",
+        "admin action approval policy",
+        "audit trail for approval decisions"
+      ],
+      "current_evidence": [
+        "POST-H-012-B strong approval binding",
+        "POST-H-012-E approval/RBAC quality gate"
+      ],
+      "gap": "Approval binding exists locally but enterprise admin workflows and operator separation are not complete.",
+      "blocks_enterprise_readiness": true,
+      "owner": "POST-H-022-C",
+      "introduced_by": "POST-H-022-C"
+    },
+    {
+      "control_id": "ENT-C004",
+      "title": "Tamper-evident audit and trace retention",
+      "domain": "audit",
+      "control_type": "detective",
+      "status": "partial",
+      "criticality": "high",
+      "required_before": [
+        "enterprise_deployment",
+        "compliance_claim"
+      ],
+      "mapped_threat_ids": [
+        "ENT-T003",
+        "ENT-T004",
+        "ENT-T009"
+      ],
+      "mapped_residual_risk_ids": [
+        "ENT-RR002",
+        "ENT-RR005"
+      ],
+      "mapped_boundary_ids": [
+        "devpilot_state_boundary",
+        "outputs_reports_boundary",
+        "third_party_audit_boundary"
+      ],
+      "required_evidence": [
+        "retention policy",
+        "redacted export manifest",
+        "tamper evidence design",
+        "audit pack verification"
+      ],
+      "current_evidence": [
+        "POST-H-010 observability retention",
+        "POST-H-013 audit pack integrity",
+        "POST-H-020 non-certifying compliance mapping"
+      ],
+      "gap": "Local audit/evidence exists, but enterprise tamper-evident retention and external audit procedures are not implemented.",
+      "blocks_enterprise_readiness": true,
+      "owner": "POST-H-022-C",
+      "introduced_by": "POST-H-022-C"
+    },
+    {
+      "control_id": "ENT-C005",
+      "title": "Secrets vaulting, rotation and scoped access",
+      "domain": "secrets",
+      "control_type": "preventive",
+      "status": "required-not-implemented",
+      "criticality": "critical",
+      "required_before": [
+        "enterprise_deployment",
+        "remote_runner",
+        "control_plane"
+      ],
+      "mapped_threat_ids": [
+        "ENT-T005",
+        "ENT-T008",
+        "ENT-T010"
+      ],
+      "mapped_residual_risk_ids": [
+        "ENT-RR001",
+        "ENT-RR003",
+        "ENT-RR006"
+      ],
+      "mapped_boundary_ids": [
+        "secrets_boundary",
+        "future_network_boundary",
+        "future_control_plane_boundary"
+      ],
+      "required_evidence": [
+        "secrets threat model",
+        "vault/secret-broker ADR",
+        "rotation tests",
+        "no-secret logging tests"
+      ],
+      "current_evidence": [
+        "SecretGuard/redaction evidence only"
+      ],
+      "gap": "No production secrets vault, broker, rotation or scoped credential model exists.",
+      "blocks_enterprise_readiness": true,
+      "owner": "POST-H-022-C",
+      "introduced_by": "POST-H-022-C"
+    },
+    {
+      "control_id": "ENT-C006",
+      "title": "Secure transport and endpoint authentication",
+      "domain": "transport",
+      "control_type": "preventive",
+      "status": "required-not-implemented",
+      "criticality": "critical",
+      "required_before": [
+        "enterprise_deployment",
+        "remote_runner",
+        "secure_transport",
+        "control_plane"
+      ],
+      "mapped_threat_ids": [
+        "ENT-T006",
+        "ENT-T008",
+        "ENT-T010"
+      ],
+      "mapped_residual_risk_ids": [
+        "ENT-RR003",
+        "ENT-RR006"
+      ],
+      "mapped_boundary_ids": [
+        "api_localhost",
+        "future_network_boundary",
+        "future_control_plane_boundary"
+      ],
+      "required_evidence": [
+        "secure transport ADR",
+        "mTLS or equivalent design",
+        "endpoint auth tests",
+        "certificate/key lifecycle controls"
+      ],
+      "current_evidence": [],
+      "gap": "Secure transport is explicitly not implemented in POST-H-022.",
+      "blocks_enterprise_readiness": true,
+      "owner": "POST-H-022-C",
+      "introduced_by": "POST-H-022-C"
+    },
+    {
+      "control_id": "ENT-C007",
+      "title": "Network isolation and egress policy",
+      "domain": "network",
+      "control_type": "preventive",
+      "status": "required-not-implemented",
+      "criticality": "critical",
+      "required_before": [
+        "enterprise_deployment",
+        "remote_runner",
+        "control_plane"
+      ],
+      "mapped_threat_ids": [
+        "ENT-T008",
+        "ENT-T009",
+        "ENT-T010"
+      ],
+      "mapped_residual_risk_ids": [
+        "ENT-RR003",
+        "ENT-RR004",
+        "ENT-RR006"
+      ],
+      "mapped_boundary_ids": [
+        "future_network_boundary",
+        "third_party_audit_boundary",
+        "future_control_plane_boundary"
+      ],
+      "required_evidence": [
+        "network egress allowlist",
+        "offline-mode tests",
+        "third-party connector risk review",
+        "remote execution network gate"
+      ],
+      "current_evidence": [
+        "local-first no-network no-go gates"
+      ],
+      "gap": "No enterprise network policy or active secure network path exists.",
+      "blocks_enterprise_readiness": true,
+      "owner": "POST-H-022-C",
+      "introduced_by": "POST-H-022-C"
+    },
+    {
+      "control_id": "ENT-C008",
+      "title": "Workspace isolation and source mutation guard",
+      "domain": "workspace",
+      "control_type": "preventive",
+      "status": "implemented",
+      "criticality": "high",
+      "required_before": [
+        "enterprise_deployment",
+        "multiuser_production"
+      ],
+      "mapped_threat_ids": [
+        "ENT-T000",
+        "ENT-T002",
+        "ENT-T003"
+      ],
+      "mapped_residual_risk_ids": [
+        "ENT-RR002"
+      ],
+      "mapped_boundary_ids": [
+        "local_machine",
+        "workspace_root",
+        "devpilot_state_boundary"
+      ],
+      "required_evidence": [
+        "workspace isolation validator",
+        "source mutation policy",
+        "release archive hygiene"
+      ],
+      "current_evidence": [
+        "POST-H-016 workspace isolation validator",
+        "POST-H-017 release reproducibility clean archive policy",
+        "runtime state lifecycle policy"
+      ],
+      "gap": "Current control is local-first and source-controlled; enterprise multiuser isolation still needs dedicated design.",
+      "blocks_enterprise_readiness": true,
+      "owner": "POST-H-022-C",
+      "introduced_by": "POST-H-022-C"
+    },
+    {
+      "control_id": "ENT-C009",
+      "title": "Non-certifying compliance evidence governance",
+      "domain": "compliance",
+      "control_type": "governance",
+      "status": "implemented",
+      "criticality": "high",
+      "required_before": [
+        "compliance_claim",
+        "enterprise_deployment"
+      ],
+      "mapped_threat_ids": [
+        "ENT-T009"
+      ],
+      "mapped_residual_risk_ids": [
+        "ENT-RR004"
+      ],
+      "mapped_boundary_ids": [
+        "third_party_audit_boundary",
+        "outputs_reports_boundary"
+      ],
+      "required_evidence": [
+        "no-certification disclaimer",
+        "evidence mapping report",
+        "external audit decision record before claims"
+      ],
+      "current_evidence": [
+        "POST-H-020 compliance mapping disclaimers",
+        "ComplianceMappingQualityGate",
+        "audit pack compliance summary is non-certifying"
+      ],
+      "gap": "Control blocks claims today; external audit certification remains outside current scope.",
+      "blocks_enterprise_readiness": true,
+      "owner": "POST-H-022-C",
+      "introduced_by": "POST-H-022-C"
+    },
+    {
+      "control_id": "ENT-C010",
+      "title": "Remote runner disabled quality gate",
+      "domain": "remote",
+      "control_type": "preventive",
+      "status": "implemented",
+      "criticality": "critical",
+      "required_before": [
+        "remote_runner",
+        "enterprise_deployment"
+      ],
+      "mapped_threat_ids": [
+        "ENT-T008",
+        "ENT-T010"
+      ],
+      "mapped_residual_risk_ids": [
+        "ENT-RR003",
+        "ENT-RR006",
+        "ENT-RR007"
+      ],
+      "mapped_boundary_ids": [
+        "future_network_boundary",
+        "future_control_plane_boundary"
+      ],
+      "required_evidence": [
+        "remote readiness criteria",
+        "remote disabled registry",
+        "remote-readiness quality gate",
+        "future ADR before enablement"
+      ],
+      "current_evidence": [
+        "POST-H-021 remote readiness design-only gate",
+        "ADR-POSTH-004",
+        "remote_execution_enabled=false"
+      ],
+      "gap": "Remote execution remains disabled; enabling requires future ADR and additional controls.",
+      "blocks_enterprise_readiness": true,
+      "owner": "POST-H-022-C",
+      "introduced_by": "POST-H-022-C"
+    },
+    {
+      "control_id": "ENT-C011",
+      "title": "Control plane segmentation and admin safety",
+      "domain": "control-plane",
+      "control_type": "preventive",
+      "status": "required-not-implemented",
+      "criticality": "critical",
+      "required_before": [
+        "control_plane",
+        "enterprise_deployment",
+        "multiuser_production"
+      ],
+      "mapped_threat_ids": [
+        "ENT-T010"
+      ],
+      "mapped_residual_risk_ids": [
+        "ENT-RR006"
+      ],
+      "mapped_boundary_ids": [
+        "future_control_plane_boundary"
+      ],
+      "required_evidence": [
+        "control plane ADR",
+        "admin safety model",
+        "tenant/workspace separation tests",
+        "rollback and kill-switch plan"
+      ],
+      "current_evidence": [],
+      "gap": "No control plane exists and no admin safety model is implemented.",
+      "blocks_enterprise_readiness": true,
+      "owner": "POST-H-022-C",
+      "introduced_by": "POST-H-022-C"
+    },
+    {
+      "control_id": "ENT-C012",
+      "title": "Enterprise test contract and release gate coverage",
+      "domain": "testing",
+      "control_type": "governance",
+      "status": "partial",
+      "criticality": "high",
+      "required_before": [
+        "enterprise_deployment",
+        "compliance_claim"
+      ],
+      "mapped_threat_ids": [
+        "ENT-T000",
+        "ENT-T001",
+        "ENT-T002",
+        "ENT-T003",
+        "ENT-T004",
+        "ENT-T005",
+        "ENT-T006",
+        "ENT-T007",
+        "ENT-T008",
+        "ENT-T009",
+        "ENT-T010"
+      ],
+      "mapped_residual_risk_ids": [
+        "ENT-RR001",
+        "ENT-RR002",
+        "ENT-RR003",
+        "ENT-RR004",
+        "ENT-RR005",
+        "ENT-RR006",
+        "ENT-RR007"
+      ],
+      "mapped_boundary_ids": [
+        "local_machine",
+        "workspace_root",
+        "devpilot_state_boundary",
+        "outputs_reports_boundary",
+        "api_localhost",
+        "browser_localhost",
+        "future_network_boundary",
+        "future_control_plane_boundary",
+        "third_party_audit_boundary",
+        "secrets_boundary"
+      ],
+      "required_evidence": [
+        "test contract registry coverage",
+        "quality gate enterprise design-only subgate",
+        "schema validation",
+        "release verification"
+      ],
+      "current_evidence": [
+        "TCR v1/v2 coverage",
+        "docs-governance",
+        "schema catalog",
+        "project-state validation"
+      ],
+      "gap": "Coverage is design-time; runtime validator and quality gate enterprise are planned for POST-H-022-D.",
+      "blocks_enterprise_readiness": true,
+      "owner": "POST-H-022-C",
+      "introduced_by": "POST-H-022-C"
+    }
+  ],
+  "status_counts": {
+    "implemented": 3,
+    "partial": 5,
+    "required-not-implemented": 4
+  },
+  "go_no_go": {
+    "enterprise_ready": false,
+    "blockers": [
+      "required-not-implemented controls remain for secrets, secure transport, network isolation and control plane safety",
+      "runtime enterprise validator/report and quality gate are not implemented until POST-H-022-D",
+      "enterprise deployment, remote execution and compliance certification claims remain explicitly disabled"
+    ],
+    "required_future_work": [
+      "POST-H-022-D validator/report read-only",
+      "POST-H-022-E enterprise design runbook and closure",
+      "future secure transport ADR",
+      "future enterprise auth/secrets/control-plane ADRs"
+    ]
+  },
+  "safety": {
+    "local_first": true,
+    "design_only": true,
+    "network_used": false,
+    "external_api_used": false,
+    "remote_execution_used": false,
+    "mutations_performed": false,
+    "source_mutations_performed": false,
+    "secrets_read": false,
+    "connector_write_enabled": false,
+    "plugin_execution_enabled": false
+  },
+  "notes": [
+    "POST-H-022-C formalizes required enterprise controls as design-only evidence.",
+    "The matrix distinguishes implemented, partial and required-not-implemented controls.",
+    "Enterprise readiness is false while required-not-implemented controls remain.",
+    "No runtime enterprise deployment capability is enabled."
+  ]
+}

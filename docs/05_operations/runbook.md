@@ -6,13 +6,44 @@ version: "1.80.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "POST-H-022-B"
+phase: "POST-H-022-C"
 updated: "2026-07-02"
 approval: "approved_by_owner"
 source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved + 03_security approved"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "SPRINT-PRECODE-05 quality operations baseline"
 ---
+
+## POST-H-022-C — Enterprise control matrix
+
+POST-H-022-C formaliza la matriz de controles enterprise como evidencia de diseño. El operador debe tratar `required-not-implemented` como bloqueante para cualquier claim enterprise-ready.
+
+Artefactos principales:
+
+```text
+docs/schemas/enterprise_control_matrix.schema.json
+.devpilot/enterprise/enterprise_control_matrix.json
+docs/audits/post_h_022_c_enterprise_control_matrix_report.md
+docs/post_h_022_c_manifest.json
+```
+
+Verificacion focal:
+
+```powershell
+python -m pytest -p no:ddtrace tests/test_post_h_022_enterprise_threat_model.py tests/test_project_global_state.py tests/test_schema_registry.py -q
+python -m devpilot_core schema validate --schema-id EnterpriseControlMatrix --instance .devpilot/enterprise/enterprise_control_matrix.json --json
+python -m devpilot_core test-contracts validate-v2 --json
+```
+
+PASS si la matriz distingue `implemented`, `partial` y `required-not-implemented`, y si `enterprise_ready_claimed=false` permanece explícito.
+
+BLOCK si se introduce cualquier claim enterprise-ready o si controles requeridos para secretos, transporte seguro, red/control plane o remote runner dejan de bloquear readiness.
+
+Último hito cerrado: `POST-H-021`
+
+Siguiente hito: `POST-H-022`
+
+Siguiente micro-sprint: `POST-H-022-D — Validator/report read-only`
 
 ## POST-H-022-B — Threat catalog STRIDE/LINDDUN adaptado
 

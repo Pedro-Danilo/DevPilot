@@ -194,7 +194,8 @@ docs/schemas/enterprise_threat_model.schema.json
 POST-H-022-B es una version preliminar `implemented-initial / design-only`. Quedan para micro-sprints posteriores:
 
 ```text
-POST-H-022-C — Enterprise control matrix.
+POST-H-022-C — Enterprise control matrix implementado como matriz design-only.
+POST-H-022-D — Validator/report read-only.
 POST-H-022-D — Validator/report read-only y quality gate.
 POST-H-022-E — Runbook, disclaimers y cierre.
 ```

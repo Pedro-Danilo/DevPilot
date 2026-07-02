@@ -90,6 +90,42 @@ def test_enterprise_assets_actors_boundaries_cover_required_backlog_items() -> N
     assert all(value is False for value in model["no_go_gates"].values())
 
 
+
+
+def test_enterprise_control_matrix_distinguishes_status_and_blocks_readiness() -> None:
+    matrix = read_json(".devpilot/enterprise/enterprise_control_matrix.json")
+    schema = read_json("docs/schemas/enterprise_control_matrix.schema.json")
+    catalog = read_json("docs/schemas/schema_catalog.json")
+
+    assert schema["x-devpilot-schema-id"] == "SCHEMA-DEVPL-ENTERPRISE-CONTROL-MATRIX-V1"
+    assert matrix["schema_id"] == "SCHEMA-DEVPL-ENTERPRISE-CONTROL-MATRIX-V1"
+    assert matrix["created_by"] == "POST-H-022-C"
+    assert matrix["decision_status"] == "design-only"
+    assert matrix["enterprise_ready_claimed"] is False
+    assert matrix["enterprise_deployment_enabled"] is False
+    assert matrix["remote_execution_enabled"] is False
+    assert matrix["compliance_certification_claim"] is False
+
+    statuses = {item["status"] for item in matrix["controls"]}
+    assert {"implemented", "partial", "required-not-implemented"} <= statuses
+    assert matrix["status_counts"]["implemented"] >= 1
+    assert matrix["status_counts"]["partial"] >= 1
+    assert matrix["status_counts"]["required-not-implemented"] >= 1
+    assert matrix["go_no_go"]["enterprise_ready"] is False
+
+    required_not_implemented = [item for item in matrix["controls"] if item["status"] == "required-not-implemented"]
+    assert required_not_implemented
+    assert all(item["blocks_enterprise_readiness"] is True for item in required_not_implemented)
+    assert any(item["domain"] == "secrets" for item in required_not_implemented)
+    assert any(item["domain"] == "transport" for item in required_not_implemented)
+    assert any(item["domain"] == "control-plane" for item in required_not_implemented)
+
+    assert matrix["summary"]["all_critical_controls_block_enterprise"] is True
+    assert matrix["summary"]["threats_mapped_total"] >= 10
+    assert matrix["summary"]["residual_risks_mapped_total"] >= 6
+    assert all(item["introduced_by"] == "POST-H-022-C" for item in matrix["controls"])
+    assert any(entry["schema_id"] == "SCHEMA-DEVPL-ENTERPRISE-CONTROL-MATRIX-V1" for entry in catalog["schemas"])
+
 def test_enterprise_threat_catalog_covers_boundaries_controls_and_residual_risks() -> None:
     model = read_json(".devpilot/enterprise/enterprise_threat_model.json")
 
@@ -167,8 +203,8 @@ def test_enterprise_threat_model_documents_do_not_overclaim_enterprise_readiness
 
     assert 'status: "approved"' in backlog
     assert 'implementation_status: "active"' in backlog
-    assert 'current_micro_sprint: "POST-H-022-B"' in backlog
-    assert 'next_micro_sprint: "POST-H-022-C"' in backlog
+    assert 'current_micro_sprint: "POST-H-022-C"' in backlog
+    assert 'next_micro_sprint: "POST-H-022-D"' in backlog
     assert "stride/linddun" in threat_model
     assert "critical_threats_have_controls=true" in threat_model
 
@@ -181,27 +217,32 @@ def test_project_state_and_historical_remote_closure_are_synchronized_for_post_h
 
     assert state["last_completed_sprint"] == "POST-H-021"
     assert state["next_sprint"] == "POST-H-022"
-    assert state["current_micro_sprint"] == "POST-H-022-B"
-    assert state["next_micro_sprint"] == "POST-H-022-C"
+    assert state["current_micro_sprint"] == "POST-H-022-C"
+    assert state["next_micro_sprint"] == "POST-H-022-D"
     assert state["post_h_021_closed"] is True
-    assert state["post_h_022_current_micro_sprint"] == "POST-H-022-B"
-    assert state["post_h_022_next_micro_sprint"] == "POST-H-022-C"
+    assert state["post_h_022_current_micro_sprint"] == "POST-H-022-C"
+    assert state["post_h_022_next_micro_sprint"] == "POST-H-022-D"
     assert state["post_h_022_enterprise_threat_catalog_registered"] is True
     assert state["post_h_022_enterprise_critical_threats_have_controls"] is True
     assert state["post_h_022_enterprise_all_boundaries_have_threats"] is True
+    assert state["post_h_022_enterprise_control_matrix_schema_registered"] is True
+    assert state["post_h_022_enterprise_ready_claimed"] is False
     assert state["enterprise_deployment_enabled"] is False
     assert state["remote_execution_enabled"] is False
     assert any("POST-H-022-A approves Enterprise deployment threat model" in note for note in state["notes"])
     assert any("POST-H-022-B adds STRIDE/LINDDUN threat catalog" in note for note in state["notes"])
+    assert any("POST-H-022-C registers EnterpriseControlMatrix" in note for note in state["notes"])
 
     for text in (readme, runbook):
         assert "POST-H-022-A — Asset inventory y trust boundaries" in text
         assert "POST-H-022-B — Threat catalog STRIDE/LINDDUN adaptado" in text
+        assert "POST-H-022-C — Enterprise control matrix" in text
         assert "Último hito cerrado: `POST-H-021`" in text
         assert "Siguiente hito: `POST-H-022`" in text
 
     assert "post-h-022-a" in changelog
     assert "post-h-022-b" in changelog
+    assert "post-h-022-c" in changelog
     assert "EnterpriseThreatModel" in changelog
 
 
@@ -237,3 +278,13 @@ def test_post_h_022_a_manifest_source_registry_and_tcr_are_registered() -> None:
     assert "POST-H-022-B-MANIFEST" in doc_ids
     assert "post-h-022-enterprise-threat-catalog" in contract_ids_v1
     assert "post-h-022-enterprise-threat-catalog" in contract_ids_v2
+
+    manifest_c = read_json("docs/post_h_022_c_manifest.json")
+    assert manifest_c["micro_sprint"] == "POST-H-022-C"
+    assert manifest_c["enterprise_deployment_enabled"] is False
+    assert "docs/schemas/enterprise_control_matrix.schema.json" in manifest_c["created_files"]
+    assert "SCHEMA-DEVPL-ENTERPRISE-CONTROL-MATRIX-V1" in doc_ids
+    assert "POST-H-022-C-ENTERPRISE-CONTROL-MATRIX-INSTANCE" in doc_ids
+    assert "POST-H-022-C-MANIFEST" in doc_ids
+    assert "post-h-022-enterprise-control-matrix" in contract_ids_v1
+    assert "post-h-022-enterprise-control-matrix" in contract_ids_v2

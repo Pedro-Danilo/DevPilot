@@ -2,13 +2,13 @@
 doc_id: "POST-H-022"
 title: "POST-H-022 — Enterprise deployment threat model"
 status: "approved"
-version: "0.2.0"
+version: "0.3.0"
 owner: "Ordóñez"
 updated: "2026-07-02"
 phase: "POST-FASE-H"
 implementation_status: "active"
-current_micro_sprint: "POST-H-022-B"
-next_micro_sprint: "POST-H-022-C"
+current_micro_sprint: "POST-H-022-C"
+next_micro_sprint: "POST-H-022-D"
 enterprise_deployment_enabled: false
 production_multiuser_enabled: false
 control_plane_enabled: false
@@ -21,7 +21,7 @@ compliance_certification_claim: false
 
 ## Estado
 
-POST-H-022 queda activo con **POST-H-022-B — Threat catalog STRIDE/LINDDUN adaptado** como `implemented-initial / design-only`.
+POST-H-022 queda activo con **POST-H-022-C — Enterprise control matrix** como `implemented-initial / design-only`.
 
 Este hito no habilita despliegue enterprise. Su funcion es convertir el dominio enterprise en un conjunto verificable de activos, actores, boundaries, data flows, controles futuros y criterios de bloqueo.
 
@@ -75,7 +75,6 @@ plugin_execution_enabled=false
 ## Pendiente
 
 ```text
-POST-H-022-C — Enterprise control matrix.
 POST-H-022-D — Validator/report read-only y quality gate.
 POST-H-022-E — Runbook, disclaimers y cierre.
 ```
@@ -107,6 +106,32 @@ compliance_certification_claim=false.
 ```
 
 POST-H-022-B es preliminar y de diseno. No implementa enterprise control matrix, validator read-only, quality gate enterprise ni autorizacion de despliegue.
+
+
+## POST-H-022-C — Enterprise control matrix
+
+Entregables implementados:
+
+```text
+docs/schemas/enterprise_control_matrix.schema.json
+.devpilot/enterprise/enterprise_control_matrix.json
+docs/audits/post_h_022_c_enterprise_control_matrix_report.md
+docs/post_h_022_c_manifest.json
+```
+
+Invariantes de POST-H-022-C:
+
+```text
+enterprise_ready_claimed=false
+enterprise_deployment_enabled=false
+remote_execution_enabled=false
+secure_transport_implemented=false
+compliance_certification_claim=false
+implemented/partial/required-not-implemented diferenciados
+required-not-implemented bloquea readiness
+```
+
+POST-H-022-C es preliminar y de diseno. No implementa validator/report read-only, quality gate enterprise, control plane, secure transport ni autorizacion de despliegue.
 
 ## Limitacion explicita
 

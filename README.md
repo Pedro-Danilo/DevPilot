@@ -1,3 +1,17 @@
+## POST-H-022-C — Enterprise control matrix
+
+Último hito cerrado: `POST-H-021`
+
+Siguiente hito: `POST-H-022`
+
+Último micro-sprint implementado: `POST-H-022-C — Enterprise control matrix`
+
+Siguiente micro-sprint: `POST-H-022-D — Validator/report read-only`
+
+POST-H-022-C agrega `docs/schemas/enterprise_control_matrix.schema.json` y `.devpilot/enterprise/enterprise_control_matrix.json` como matriz enterprise de diseño. La matriz distingue controles `implemented`, `partial` y `required-not-implemented`, mantiene `enterprise_ready_claimed=false` y conserva bloqueados deployment enterprise, control plane, remote execution, secure transport activo, red, APIs externas, secretos productivos y certificacion compliance.
+
+La capacidad es preliminar: los controles implementados son evidencia local acumulada, no autorizacion de operacion enterprise. POST-H-022-D debe agregar validator/report read-only y quality gate de diseño.
+
 ## POST-H-022-B — Threat catalog STRIDE/LINDDUN adaptado
 
 Estado: `implemented-initial / hito activo`.

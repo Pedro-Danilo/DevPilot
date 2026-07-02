@@ -102,8 +102,8 @@ def test_project_global_state_schema_and_docs_are_synchronized() -> None:
     assert any("POST-H-013-D adds optional local crypto" in note for note in state["notes"])
     assert any("POST-H-013-E closes Audit pack integrity" in note for note in state["notes"])
     assert any("POST-H-014 is the next prioritized hito" in note for note in state["notes"])
-    assert state.get("current_micro_sprint") == "POST-H-022-B"
-    assert state.get("next_micro_sprint") == "POST-H-022-C"
+    assert state.get("current_micro_sprint") == "POST-H-022-C"
+    assert state.get("next_micro_sprint") == "POST-H-022-D"
     assert "POST-H-014-A — Route Contract Registry y API inventory" in readme
     assert "POST-H-014-B — Response mapping y errores homogéneos" in readme
     assert "POST-H-014-C — UI Route Contract y shell de producto" in readme
@@ -208,6 +208,8 @@ def test_project_global_state_schema_and_docs_are_synchronized() -> None:
     assert any("POST-H-022-B is the next micro-sprint" in note for note in state["notes"])
     assert any("POST-H-022-B adds STRIDE/LINDDUN threat catalog" in note for note in state["notes"])
     assert any("POST-H-022-C is the next micro-sprint" in note for note in state["notes"])
+    assert any("POST-H-022-C registers EnterpriseControlMatrix" in note for note in state["notes"])
+    assert any("POST-H-022-D is the next micro-sprint" in note for note in state["notes"])
     assert "POST-H-019-A — Threat model y sandbox design" in readme
     assert "POST-H-019-A — Threat model y sandbox design" in runbook
     assert "post-h-019-a" in changelog
@@ -241,12 +243,16 @@ def test_project_global_state_schema_and_docs_are_synchronized() -> None:
     assert "POST-H-022-A — Asset inventory y trust boundaries" in runbook
     assert "POST-H-022-B — Threat catalog STRIDE/LINDDUN adaptado" in readme
     assert "POST-H-022-B — Threat catalog STRIDE/LINDDUN adaptado" in runbook
+    assert "POST-H-022-C — Enterprise control matrix" in readme
+    assert "POST-H-022-C — Enterprise control matrix" in runbook
     assert "post-h-021-a" in changelog
     assert "post-h-021-b" in changelog
     assert "post-h-021-c" in changelog
     assert "post-h-021-d" in changelog
     assert "post-h-021-e" in changelog
     assert "post-h-022-a" in changelog
+    assert "post-h-022-b" in changelog
+    assert "post-h-022-c" in changelog
     assert "POST-H-020 — Compliance mapping packs ampliados" in readme
     assert "POST-H-021-A — Inventario remote y baseline de bloqueo" in readme
     assert "POST-H-021-A — Inventario remote y baseline de bloqueo" in runbook

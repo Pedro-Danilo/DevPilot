@@ -1,0 +1,384 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/SCHEMA-DEVPL-ENTERPRISE-CONTROL-MATRIX-V1",
+  "title": "DevPilot EnterpriseControlMatrix v1",
+  "version": "1.0.0",
+  "contract": "EnterpriseControlMatrix",
+  "description": "POST-H-022-C design-only enterprise control matrix. It maps required enterprise controls to threats, risks, evidence and implementation status without claiming enterprise readiness.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "schema_id",
+    "created_by",
+    "updated",
+    "status",
+    "decision_status",
+    "enterprise_ready_claimed",
+    "enterprise_deployment_enabled",
+    "remote_execution_enabled",
+    "secure_transport_implemented",
+    "compliance_certification_claim",
+    "summary",
+    "controls",
+    "status_counts",
+    "go_no_go",
+    "safety",
+    "notes"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "schema_id": {
+      "const": "SCHEMA-DEVPL-ENTERPRISE-CONTROL-MATRIX-V1"
+    },
+    "created_by": {
+      "const": "POST-H-022-C"
+    },
+    "updated": {
+      "type": "string",
+      "minLength": 10
+    },
+    "status": {
+      "enum": [
+        "implemented-initial",
+        "design-only"
+      ]
+    },
+    "decision_status": {
+      "const": "design-only"
+    },
+    "enterprise_ready_claimed": {
+      "const": false
+    },
+    "enterprise_deployment_enabled": {
+      "const": false
+    },
+    "remote_execution_enabled": {
+      "const": false
+    },
+    "secure_transport_implemented": {
+      "const": false
+    },
+    "compliance_certification_claim": {
+      "const": false
+    },
+    "summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "controls_total",
+        "implemented_total",
+        "partial_total",
+        "required_not_implemented_total",
+        "critical_controls_total",
+        "all_critical_controls_block_enterprise",
+        "threats_mapped_total",
+        "residual_risks_mapped_total"
+      ],
+      "properties": {
+        "controls_total": {
+          "type": "integer",
+          "minimum": 8
+        },
+        "implemented_total": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "partial_total": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "required_not_implemented_total": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "critical_controls_total": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "all_critical_controls_block_enterprise": {
+          "const": true
+        },
+        "threats_mapped_total": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "residual_risks_mapped_total": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    },
+    "controls": {
+      "type": "array",
+      "minItems": 8,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "control_id",
+          "title",
+          "domain",
+          "control_type",
+          "status",
+          "criticality",
+          "required_before",
+          "mapped_threat_ids",
+          "mapped_residual_risk_ids",
+          "mapped_boundary_ids",
+          "required_evidence",
+          "current_evidence",
+          "gap",
+          "blocks_enterprise_readiness",
+          "owner",
+          "introduced_by"
+        ],
+        "properties": {
+          "control_id": {
+            "type": "string",
+            "pattern": "^ENT-C[0-9]{3}$"
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1
+          },
+          "domain": {
+            "enum": [
+              "identity",
+              "approval",
+              "rbac",
+              "audit",
+              "secrets",
+              "transport",
+              "network",
+              "workspace",
+              "observability",
+              "compliance",
+              "remote",
+              "control-plane",
+              "policy",
+              "testing"
+            ]
+          },
+          "control_type": {
+            "enum": [
+              "preventive",
+              "detective",
+              "corrective",
+              "governance"
+            ]
+          },
+          "status": {
+            "enum": [
+              "implemented",
+              "partial",
+              "required-not-implemented"
+            ]
+          },
+          "criticality": {
+            "enum": [
+              "medium",
+              "high",
+              "critical"
+            ]
+          },
+          "required_before": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "enum": [
+                "enterprise_deployment",
+                "remote_runner",
+                "multiuser_production",
+                "secure_transport",
+                "control_plane",
+                "compliance_claim"
+              ]
+            }
+          },
+          "mapped_threat_ids": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "pattern": "^ENT-T[0-9]{3}$"
+            }
+          },
+          "mapped_residual_risk_ids": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "pattern": "^ENT-RR[0-9]{3}$"
+            }
+          },
+          "mapped_boundary_ids": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required_evidence": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "current_evidence": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "uniqueItems": true
+          },
+          "gap": {
+            "type": "string",
+            "minLength": 1
+          },
+          "blocks_enterprise_readiness": {
+            "const": true
+          },
+          "owner": {
+            "type": "string",
+            "minLength": 1
+          },
+          "introduced_by": {
+            "const": "POST-H-022-C"
+          },
+          "notes": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        }
+      }
+    },
+    "status_counts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "implemented",
+        "partial",
+        "required-not-implemented"
+      ],
+      "properties": {
+        "implemented": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "partial": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "required-not-implemented": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "go_no_go": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "enterprise_ready",
+        "blockers",
+        "required_future_work"
+      ],
+      "properties": {
+        "enterprise_ready": {
+          "const": false
+        },
+        "blockers": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required_future_work": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "safety": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "local_first",
+        "design_only",
+        "network_used",
+        "external_api_used",
+        "remote_execution_used",
+        "mutations_performed",
+        "source_mutations_performed",
+        "secrets_read",
+        "connector_write_enabled",
+        "plugin_execution_enabled"
+      ],
+      "properties": {
+        "local_first": {
+          "const": true
+        },
+        "design_only": {
+          "const": true
+        },
+        "network_used": {
+          "const": false
+        },
+        "external_api_used": {
+          "const": false
+        },
+        "remote_execution_used": {
+          "const": false
+        },
+        "mutations_performed": {
+          "const": false
+        },
+        "source_mutations_performed": {
+          "const": false
+        },
+        "secrets_read": {
+          "const": false
+        },
+        "connector_write_enabled": {
+          "const": false
+        },
+        "plugin_execution_enabled": {
+          "const": false
+        }
+      }
+    },
+    "notes": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  },
+  "x-devpilot-schema-id": "SCHEMA-DEVPL-ENTERPRISE-CONTROL-MATRIX-V1",
+  "x-devpilot-sprint": "POST-H-022-C",
+  "x-devpilot-status": "registered",
+  "x-devpilot-preliminary": true,
+  "x-devpilot-note": "POST-H-022-C registers a design-only enterprise control matrix. It does not claim enterprise readiness or enable deployment, control plane, remote execution, secure transport, network, external APIs or compliance certification."
+}

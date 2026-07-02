@@ -3874,6 +3874,81 @@
         "manifest_must_track_created_and_modified_files",
         "test_must_pass"
       ]
+    },
+    {
+      "doc_id": "SCHEMA-DEVPL-ENTERPRISE-CONTROL-MATRIX-V1",
+      "path": "docs/schemas/enterprise_control_matrix.schema.json",
+      "classification": "machine-readable-source",
+      "domain": "enterprise.reporting",
+      "owner": "POST-H-022-C",
+      "status_required": "registered",
+      "criticality": "P1",
+      "frontmatter_required": false,
+      "required_tests": [
+        "tests/test_post_h_022_enterprise_threat_model.py",
+        "tests/test_project_global_state.py",
+        "tests/test_schema_registry.py"
+      ],
+      "related_files": [
+        ".devpilot/enterprise/enterprise_control_matrix.json",
+        "docs/backlogs/POST-H-022_enterprise_deployment_threat_model.md"
+      ]
+    },
+    {
+      "doc_id": "POST-H-022-C-ENTERPRISE-CONTROL-MATRIX-INSTANCE",
+      "path": ".devpilot/enterprise/enterprise_control_matrix.json",
+      "classification": "machine-readable-source",
+      "domain": "enterprise.reporting",
+      "owner": "POST-H-022-C",
+      "status_required": "implemented-initial",
+      "criticality": "P1",
+      "frontmatter_required": false,
+      "required_tests": [
+        "tests/test_post_h_022_enterprise_threat_model.py",
+        "tests/test_project_global_state.py",
+        "tests/test_schema_registry.py"
+      ],
+      "related_files": [
+        "docs/schemas/enterprise_control_matrix.schema.json",
+        "docs/03_security/enterprise_deployment_threat_model.md"
+      ]
+    },
+    {
+      "doc_id": "POST-H-022-C-ENTERPRISE-CONTROL-MATRIX-REPORT",
+      "path": "docs/audits/post_h_022_c_enterprise_control_matrix_report.md",
+      "classification": "source-of-truth",
+      "domain": "enterprise.reporting",
+      "owner": "POST-H-022-C",
+      "status_required": "approved",
+      "criticality": "P1",
+      "frontmatter_required": true,
+      "required_tests": [
+        "tests/test_post_h_022_enterprise_threat_model.py",
+        "tests/test_project_global_state.py",
+        "tests/test_schema_registry.py"
+      ],
+      "related_files": [
+        ".devpilot/enterprise/enterprise_control_matrix.json",
+        "docs/post_h_022_c_manifest.json"
+      ]
+    },
+    {
+      "doc_id": "POST-H-022-C-MANIFEST",
+      "path": "docs/post_h_022_c_manifest.json",
+      "classification": "machine-readable-source",
+      "domain": "enterprise.reporting",
+      "owner": "POST-H-022-C",
+      "status_required": "implemented-initial",
+      "criticality": "P1",
+      "frontmatter_required": false,
+      "required_tests": [
+        "tests/test_post_h_022_enterprise_threat_model.py",
+        "tests/test_project_global_state.py",
+        "tests/test_schema_registry.py"
+      ],
+      "related_files": [
+        "docs/audits/post_h_022_c_enterprise_control_matrix_report.md"
+      ]
     }
   ],
   "rules": {
@@ -3945,7 +4020,7 @@
     "remote_runner_design_runbook_registered": true
   },
   "summary": {
-    "documents_total": 128,
+    "documents_total": 132,
     "source_of_truth_total": 44,
     "machine_readable_source_total": 22,
     "derived_total": 26,
@@ -4241,7 +4316,8 @@
     "POST-H-021 closes Remote Runner ADR-2 without enabling remote execution.",
     "POST-H-022-A approves Enterprise deployment threat model and registers EnterpriseThreatModel.",
     "POST-H-022-A keeps enterprise deployment design-only with no-go flags false.",
-    "POST-H-022-B registers enterprise threat catalog report and manifest."
+    "POST-H-022-B registers enterprise threat catalog report and manifest.",
+    "POST-H-022-C registers EnterpriseControlMatrix schema, instance, report and manifest."
   ],
   "project_state_snapshot": {
     "last_updated_by": "POST-H-022-A",

@@ -10318,6 +10318,81 @@
       ],
       "classification_notes": [
         "Explicit POST-H-022-B safety contract; no enterprise runtime enablement."
+      ],
+      "mutations_allowed": false
+    },
+    {
+      "contract_id": "post-h-022-enterprise-control-matrix",
+      "schema_version": "2.0",
+      "source_contract_id": "post-h-022-enterprise-control-matrix",
+      "domain": "enterprise.reporting",
+      "capability": "Enterprise control matrix design-only readiness blockers",
+      "criticality": "P1",
+      "risk_level": "critical",
+      "test_type": "security",
+      "execution_profile": "release",
+      "cost_class": "low",
+      "expected_duration_seconds": 25,
+      "test_files": [
+        "tests/test_post_h_022_enterprise_threat_model.py",
+        "tests/test_project_global_state.py",
+        "tests/test_schema_registry.py"
+      ],
+      "watched_paths": [
+        "docs/schemas/enterprise_control_matrix.schema.json",
+        ".devpilot/enterprise/enterprise_control_matrix.json",
+        "docs/schemas/schema_catalog.json",
+        "docs/03_security/enterprise_deployment_threat_model.md",
+        "docs/POST-H-022_enterprise_deployment_threat_model.md",
+        "docs/backlogs/POST-H-022_enterprise_deployment_threat_model.md",
+        "README.md",
+        "docs/05_operations/runbook.md",
+        ".devpilot/project_state.json",
+        ".devpilot/docs_governance/source_registry.json",
+        ".devpilot/testing/test_contract_registry.json",
+        ".devpilot/testing/test_contract_registry_v2.json",
+        "tests/test_post_h_022_enterprise_threat_model.py",
+        "tests/test_project_global_state.py",
+        "tests/test_schema_registry.py"
+      ],
+      "validates": [
+        "EnterpriseControlMatrix schema and instance are registered",
+        "control statuses include implemented, partial and required-not-implemented",
+        "required-not-implemented controls block enterprise readiness",
+        "enterprise_ready_claimed=false and enterprise_deployment_enabled=false remain explicit"
+      ],
+      "required_fixtures": [],
+      "required_cli": [],
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "classification_status": "explicit",
+      "owner": "POST-H-022-C",
+      "phase": "POST-FASE-H",
+      "created_by": "POST-H-022-C",
+      "updated": "2026-07-02",
+      "preliminary": true,
+      "required_for_release": true,
+      "required_for_security_gate": true,
+      "requires_human_approval": false,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace tests/test_post_h_022_enterprise_threat_model.py tests/test_project_global_state.py tests/test_schema_registry.py -q",
+        "python -m devpilot_core schema validate --schema-id EnterpriseControlMatrix --instance .devpilot/enterprise/enterprise_control_matrix.json --json",
+        "python -m devpilot_core test-contracts validate --json",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ],
+      "trigger_hints": [
+        "post-h-022",
+        "enterprise-control-matrix",
+        "enterprise-design-only",
+        "no-enterprise-ready-claim"
+      ],
+      "impact_scope": [
+        "enterprise.reporting",
+        "security.guards",
+        "documentation.governance",
+        "testing.contracts"
       ]
     }
   ],
@@ -10341,6 +10416,8 @@
     "POST-H-021-D registers remote-readiness-design-only quality gate security contract.",
     "POST-H-021-E registers remote runner runbook closure contract.",
     "POST-H-022-A registers enterprise threat model safety contract.",
-    "POST-H-022-B registers enterprise threat catalog safety contract."
+    "POST-H-022-B registers enterprise threat catalog safety contract.",
+    "POST-H-022-C fixes inherited TCR v2 schema drift by adding mutations_allowed=false to contracts missing the required field: post-h-022-enterprise-threat-catalog.",
+    "POST-H-022-C adds enterprise control matrix v2 test contract."
   ]
 }

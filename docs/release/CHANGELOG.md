@@ -1,3 +1,11 @@
+## post-h-022-c — Enterprise control matrix
+
+- Added `EnterpriseControlMatrix` schema and `.devpilot/enterprise/enterprise_control_matrix.json`.
+- Mapped enterprise controls to threats, residual risks, boundaries and required evidence.
+- Distinguished `implemented`, `partial` and `required-not-implemented` controls while keeping `enterprise_ready_claimed=false`.
+- Fixed inherited TCR v2 schema drift by adding missing `mutations_allowed=false` where required.
+- Kept enterprise deployment, control plane, secure transport, remote execution, network, external APIs and compliance certification disabled.
+
 ## post-h-022-b — Threat catalog STRIDE/LINDDUN adaptado
 
 - Amplía `EnterpriseThreatModel` con `threat_catalog_summary`, `threat_catalog`, `required_controls` y `residual_risks`.
