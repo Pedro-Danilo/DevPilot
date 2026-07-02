@@ -1,0 +1,274 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/SCHEMA-DEVPL-SECURE-TRANSPORT-DESIGN-V1",
+  "title": "DevPilot SecureTransportDesign v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "schema_id",
+    "created_by",
+    "updated",
+    "status",
+    "decision_status",
+    "selected_for_now",
+    "transport_implemented",
+    "network_allowed",
+    "remote_execution_enabled",
+    "secrets_required",
+    "requires_future_enablement_adr",
+    "adr",
+    "decision_matrix",
+    "rejected_alternatives",
+    "required_controls_before_transport",
+    "no_go_gates",
+    "safety",
+    "notes"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "schema_id": {
+      "const": "SCHEMA-DEVPL-SECURE-TRANSPORT-DESIGN-V1"
+    },
+    "created_by": {
+      "const": "POST-H-023-B"
+    },
+    "updated": {
+      "type": "string"
+    },
+    "status": {
+      "const": "implemented-initial"
+    },
+    "decision_status": {
+      "const": "design-only"
+    },
+    "selected_for_now": {
+      "const": "local-only-no-transport"
+    },
+    "transport_implemented": {
+      "const": false
+    },
+    "network_allowed": {
+      "const": false
+    },
+    "remote_execution_enabled": {
+      "const": false
+    },
+    "secrets_required": {
+      "const": false
+    },
+    "requires_future_enablement_adr": {
+      "const": true
+    },
+    "adr": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "doc_id",
+        "path",
+        "decision_state",
+        "decision_status"
+      ],
+      "properties": {
+        "doc_id": {
+          "const": "ADR-POSTH-005"
+        },
+        "path": {
+          "const": "docs/adr/ADR-POSTH-005-secure-transport-design-only.md"
+        },
+        "decision_state": {
+          "const": "accepted"
+        },
+        "decision_status": {
+          "const": "design-only"
+        }
+      }
+    },
+    "decision_matrix": {
+      "type": "array",
+      "minItems": 4,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "protocol_id",
+          "name",
+          "current_decision",
+          "rank",
+          "implementation_allowed_now",
+          "network_required_if_implemented",
+          "strengths",
+          "blockers_now",
+          "required_future_controls",
+          "rejection_reason_now"
+        ],
+        "properties": {
+          "protocol_id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "current_decision": {
+            "enum": [
+              "selected_current",
+              "rejected_now",
+              "future_candidate_only"
+            ]
+          },
+          "rank": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "implementation_allowed_now": {
+            "const": false
+          },
+          "network_required_if_implemented": {
+            "type": "boolean"
+          },
+          "strengths": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "minItems": 1
+          },
+          "blockers_now": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "minItems": 1
+          },
+          "required_future_controls": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "minItems": 1
+          },
+          "rejection_reason_now": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "rejected_alternatives": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 3
+    },
+    "required_controls_before_transport": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 10
+    },
+    "no_go_gates": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "transport_implemented",
+        "secure_transport_implemented",
+        "network_allowed",
+        "network_used",
+        "sockets_opened",
+        "certificates_generated",
+        "secrets_required",
+        "secrets_stored",
+        "remote_execution_enabled",
+        "connector_write_enabled",
+        "plugin_execution_enabled"
+      ],
+      "properties": {
+        "transport_implemented": {
+          "const": false
+        },
+        "secure_transport_implemented": {
+          "const": false
+        },
+        "network_allowed": {
+          "const": false
+        },
+        "network_used": {
+          "const": false
+        },
+        "sockets_opened": {
+          "const": false
+        },
+        "certificates_generated": {
+          "const": false
+        },
+        "secrets_required": {
+          "const": false
+        },
+        "secrets_stored": {
+          "const": false
+        },
+        "remote_execution_enabled": {
+          "const": false
+        },
+        "connector_write_enabled": {
+          "const": false
+        },
+        "plugin_execution_enabled": {
+          "const": false
+        }
+      }
+    },
+    "safety": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "read_only",
+        "dry_run",
+        "network_used",
+        "external_api_used",
+        "mutations_performed",
+        "source_mutations_performed",
+        "secrets_read",
+        "certificates_generated"
+      ],
+      "properties": {
+        "read_only": {
+          "const": true
+        },
+        "dry_run": {
+          "const": true
+        },
+        "network_used": {
+          "const": false
+        },
+        "external_api_used": {
+          "const": false
+        },
+        "mutations_performed": {
+          "const": false
+        },
+        "source_mutations_performed": {
+          "const": false
+        },
+        "secrets_read": {
+          "const": false
+        },
+        "certificates_generated": {
+          "const": false
+        }
+      }
+    },
+    "notes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 2
+    }
+  },
+  "x-devpilot-schema-id": "SCHEMA-DEVPL-SECURE-TRANSPORT-DESIGN-V1",
+  "x-devpilot-contract": "SecureTransportDesign"
+}

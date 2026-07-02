@@ -1,0 +1,81 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "SCHEMA-DEVPL-POST-H-MANIFEST-V1",
+  "post_h_id": "POST-H-023",
+  "title": "POST-H-023-B — Protocol decision matrix y ADR",
+  "status": "implemented-initial",
+  "phase": "POST-FASE-H",
+  "micro_sprint": "POST-H-023-B",
+  "implemented_at": "2026-07-02",
+  "created_files": [
+    "docs/schemas/secure_transport_design.schema.json",
+    ".devpilot/remote/secure_transport_protocol_decision_matrix.json",
+    "docs/adr/ADR-POSTH-005-secure-transport-design-only.md",
+    "docs/audits/post_h_023_b_protocol_decision_matrix_report.md",
+    "docs/post_h_023_b_manifest.json",
+    "tests/test_post_h_023_secure_transport_protocol_decision.py"
+  ],
+  "modified_files": [
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/backlogs/POST-H-023_secure_transport_design.md",
+    "docs/POST-H-023_secure_transport_design.md",
+    "docs/03_security/secure_transport_design.md",
+    "docs/release/CHANGELOG.md",
+    "docs/schemas/schema_catalog.json",
+    ".devpilot/project_state.json",
+    ".devpilot/docs_governance/source_registry.json",
+    ".devpilot/testing/test_contract_registry.json",
+    ".devpilot/testing/test_contract_registry_v2.json",
+    "tests/test_post_h_023_secure_transport_design.py",
+    "tests/test_project_global_state.py",
+    "tests/test_schema_registry.py"
+  ],
+  "commands": [
+    "python -m pytest -p no:ddtrace tests/test_post_h_023_secure_transport_protocol_decision.py tests/test_post_h_023_secure_transport_design.py tests/test_project_global_state.py tests/test_schema_registry.py -q",
+    "python -m devpilot_core schema validate --schema-id SecureTransportDesign --instance .devpilot/remote/secure_transport_protocol_decision_matrix.json --json",
+    "python -m devpilot_core docs-governance validate --json",
+    "python -m devpilot_core test-contracts validate --json",
+    "python -m devpilot_core test-contracts validate-v2 --json",
+    "python -m devpilot_core project-state validate --json",
+    "python -m devpilot_core cli-registry guard --json",
+    "python -m devpilot_core schema list --json"
+  ],
+  "tests": [
+    "tests/test_post_h_023_secure_transport_protocol_decision.py",
+    "tests/test_post_h_023_secure_transport_design.py",
+    "tests/test_project_global_state.py",
+    "tests/test_schema_registry.py"
+  ],
+  "pass_criteria": [
+    "selected_for_now=local-only-no-transport",
+    "ADR-POSTH-005 decision_status=design-only",
+    "mTLS/HTTPS token-bound/SSH are not implementation permissions",
+    "transport/network/sockets/certificates/secrets/remote execution remain disabled"
+  ],
+  "block_criteria": [
+    "network_allowed=true",
+    "sockets_opened=true",
+    "certificates_generated=true",
+    "secrets_required=true",
+    "remote_execution_enabled=true",
+    "transport_implemented=true"
+  ],
+  "risks": [
+    "Protocol matrix can be misread as implementation permission; ADR and tests explicitly block that interpretation."
+  ],
+  "next_sprint": "POST-H-023",
+  "next_micro_sprint": "POST-H-023-C",
+  "transport_implemented": false,
+  "secure_transport_implemented": false,
+  "network_allowed": false,
+  "network_used": false,
+  "sockets_opened": false,
+  "certificates_generated": false,
+  "secrets_required": false,
+  "secrets_stored": false,
+  "remote_execution_enabled": false,
+  "connector_write_enabled": false,
+  "plugin_execution_enabled": false,
+  "preliminary": true
+}

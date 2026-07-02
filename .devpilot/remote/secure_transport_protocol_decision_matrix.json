@@ -1,0 +1,176 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "SCHEMA-DEVPL-SECURE-TRANSPORT-DESIGN-V1",
+  "created_by": "POST-H-023-B",
+  "updated": "2026-07-02",
+  "status": "implemented-initial",
+  "decision_status": "design-only",
+  "selected_for_now": "local-only-no-transport",
+  "transport_implemented": false,
+  "network_allowed": false,
+  "remote_execution_enabled": false,
+  "secrets_required": false,
+  "requires_future_enablement_adr": true,
+  "adr": {
+    "doc_id": "ADR-POSTH-005",
+    "path": "docs/adr/ADR-POSTH-005-secure-transport-design-only.md",
+    "decision_state": "accepted",
+    "decision_status": "design-only"
+  },
+  "decision_matrix": [
+    {
+      "protocol_id": "local-only-no-transport",
+      "name": "Local-only without active transport",
+      "current_decision": "selected_current",
+      "rank": 1,
+      "implementation_allowed_now": false,
+      "network_required_if_implemented": false,
+      "strengths": [
+        "Preserves local-first posture",
+        "No sockets, certificates or secrets",
+        "Keeps remote execution disabled"
+      ],
+      "blockers_now": [
+        "Does not provide remote capability by design",
+        "Future enterprise transport remains unresolved"
+      ],
+      "required_future_controls": [
+        "ADR de enablement posterior",
+        "transport quality gate",
+        "no-network invariant until enablement"
+      ],
+      "rejection_reason_now": "Not rejected; selected as current safe state."
+    },
+    {
+      "protocol_id": "mtls-over-http2",
+      "name": "mTLS over HTTP/2",
+      "current_decision": "future_candidate_only",
+      "rank": 2,
+      "implementation_allowed_now": false,
+      "network_required_if_implemented": true,
+      "strengths": [
+        "Mutual endpoint authentication",
+        "Enterprise-compatible service identity",
+        "Strong basis for certificate pinning and revocation"
+      ],
+      "blockers_now": [
+        "No key/certificate lifecycle yet",
+        "No trust root or CA policy",
+        "No rotation/revocation design",
+        "No network quality gate"
+      ],
+      "required_future_controls": [
+        "key_certificate_lifecycle",
+        "revocation_rotation",
+        "certificate_pinning",
+        "transport_observability",
+        "kill_switch_and_rollback"
+      ],
+      "rejection_reason_now": "Rejected for current implementation because it would require active network, certificates and secrets before lifecycle controls exist."
+    },
+    {
+      "protocol_id": "https-token-bound",
+      "name": "HTTPS with token binding",
+      "current_decision": "future_candidate_only",
+      "rank": 3,
+      "implementation_allowed_now": false,
+      "network_required_if_implemented": true,
+      "strengths": [
+        "Operationally familiar HTTPS model",
+        "Can support short-lived scoped credentials",
+        "Compatible with gateway-style controls"
+      ],
+      "blockers_now": [
+        "No token lifecycle",
+        "No token theft/replay mitigation",
+        "No DPoP/mTLS binding decision",
+        "No secret storage model"
+      ],
+      "required_future_controls": [
+        "token_binding",
+        "short_lived_credentials",
+        "replay_protection",
+        "secret_handling_model",
+        "audit_correlation"
+      ],
+      "rejection_reason_now": "Rejected for current implementation because token-bound HTTPS would introduce secrets and replay risk without lifecycle controls."
+    },
+    {
+      "protocol_id": "ssh-restricted",
+      "name": "Restricted SSH",
+      "current_decision": "rejected_now",
+      "rank": 4,
+      "implementation_allowed_now": false,
+      "network_required_if_implemented": true,
+      "strengths": [
+        "Mature transport primitive",
+        "Can be constrained with forced commands",
+        "Well understood operational tooling"
+      ],
+      "blockers_now": [
+        "Shell semantics are too close to remote execution",
+        "Key sprawl risk",
+        "PolicyEngine and Approval binding are harder to guarantee",
+        "Audit parity is weaker"
+      ],
+      "required_future_controls": [
+        "no_shell_contract",
+        "forced_command_only",
+        "approval_bound_session",
+        "rbac_command_allowlist",
+        "transport_audit_parity"
+      ],
+      "rejection_reason_now": "Rejected now because SSH risks conflating secure transport with shell/remote execution and requires stronger isolation than currently available."
+    }
+  ],
+  "rejected_alternatives": [
+    "mtls-over-http2",
+    "https-token-bound",
+    "ssh-restricted"
+  ],
+  "required_controls_before_transport": [
+    "identity_hardening",
+    "approval_rbac_hardening",
+    "remote_runner_adr2",
+    "enterprise_threat_model",
+    "observability_retention",
+    "runtime_state_lifecycle",
+    "secret_handling_model",
+    "key_certificate_lifecycle",
+    "replay_protection",
+    "revocation_rotation",
+    "kill_switch_and_rollback",
+    "transport_quality_gate",
+    "policy_engine_binding",
+    "audit_correlation",
+    "future_enablement_adr"
+  ],
+  "no_go_gates": {
+    "transport_implemented": false,
+    "secure_transport_implemented": false,
+    "network_allowed": false,
+    "network_used": false,
+    "sockets_opened": false,
+    "certificates_generated": false,
+    "secrets_required": false,
+    "secrets_stored": false,
+    "remote_execution_enabled": false,
+    "connector_write_enabled": false,
+    "plugin_execution_enabled": false
+  },
+  "safety": {
+    "read_only": true,
+    "dry_run": true,
+    "network_used": false,
+    "external_api_used": false,
+    "mutations_performed": false,
+    "source_mutations_performed": false,
+    "secrets_read": false,
+    "certificates_generated": false
+  },
+  "notes": [
+    "POST-H-023-B selects local-only-no-transport for the current state.",
+    "mTLS/HTTP2 and HTTPS token-bound remain future candidates only; SSH restricted is rejected now.",
+    "No active secure transport, network, sockets, certificates, secrets or remote execution are enabled."
+  ]
+}

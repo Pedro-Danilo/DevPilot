@@ -2,12 +2,12 @@
 doc_id: "POST-H-023-SECURE-TRANSPORT-DESIGN"
 title: "Secure transport design"
 status: "approved"
-version: "0.1.0"
+version: "0.2.0"
 owner: "Ordóñez"
 updated: "2026-07-02"
 approval: "approved_by_owner"
 phase: "POST-FASE-H"
-created_by: "POST-H-023-A"
+created_by: "POST-H-023-B"
 implementation_status: "implemented-initial"
 decision_status: "design-only"
 transport_implemented: false
@@ -45,6 +45,8 @@ plugin_execution_enabled=false
 ```
 
 La opción seleccionada para el estado actual sigue siendo `local-only-no-transport`.
+
+POST-H-023-B registra esta decisión en `ADR-POSTH-005` y en `.devpilot/remote/secure_transport_protocol_decision_matrix.json`.
 
 ## 3. Amenazas Críticas
 
@@ -93,14 +95,38 @@ connector_write_enabled=true
 plugin_execution_enabled=true
 ```
 
-## 6. Límites del Micro-Sprint A
+## 6. Protocol Decision Matrix
+
+| Protocolo | Decisión actual | Razón |
+|---|---|---|
+| `local-only-no-transport` | Seleccionado | Mantiene local-first sin red, sockets, certificados, secretos ni remote execution. |
+| `mTLS-over-HTTP2` | Candidato futuro solamente | Requiere lifecycle de certificados, trust root, pinning, revocación, rotación y quality gate. |
+| `HTTPS-token-bound` | Candidato futuro solamente | Requiere token lifecycle, binding anti-robo, replay protection y modelo de secretos. |
+| `SSH-restricted` | Rechazado ahora | Riesgo de shell/remote execution, key sprawl y bypass de PolicyEngine. |
+
+Regla de interpretación:
+
+```text
+protocol decision matrix != protocol implementation
+ADR-POSTH-005 != network allowed
+future candidate != selected for execution
+```
+
+## 7. Límites del Micro-Sprint B
+
+POST-H-023-B no implementa transporte activo, no crea certificados, no requiere secretos y no habilita red. La decisión aprobada mantiene `selected_for_now=local-only-no-transport`; el lifecycle de claves/certificados queda para POST-H-023-C.
+
+## 8. Límites del Micro-Sprint A
 
 POST-H-023-A no crea ADR de protocolo, no selecciona mTLS/SSH/HTTPS token-bound como alternativa aprobada, no diseña lifecycle completo de certificados y no implementa validator ni quality gate. Es una primera versión de requisitos y amenazas para que POST-H-023-B/C/D puedan evolucionar de forma controlada.
 
-## 7. Fuentes Estructuradas
+## 9. Fuentes Estructuradas
 
 ```text
 docs/schemas/secure_transport_requirements.schema.json
+docs/schemas/secure_transport_design.schema.json
 .devpilot/remote/secure_transport_requirements.json
+.devpilot/remote/secure_transport_protocol_decision_matrix.json
 docs/post_h_023_a_manifest.json
+docs/post_h_023_b_manifest.json
 ```

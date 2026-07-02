@@ -117,8 +117,8 @@ def test_secure_transport_documents_do_not_claim_transport_enablement() -> None:
 
     assert 'status: "approved"' in backlog
     assert 'implementation_status: "active"' in backlog
-    assert 'current_micro_sprint: "POST-H-023-A"' in backlog
-    assert 'next_micro_sprint: "POST-H-023-B"' in backlog
+    assert 'current_micro_sprint: "POST-H-023-B"' in backlog
+    assert 'next_micro_sprint: "POST-H-023-C"' in backlog
 
 
 def test_project_state_manifest_source_registry_and_tcr_are_synchronized_for_post_h_023_a() -> None:
@@ -133,10 +133,11 @@ def test_project_state_manifest_source_registry_and_tcr_are_synchronized_for_pos
 
     assert state["last_completed_sprint"] == "POST-H-022"
     assert state["next_sprint"] == "POST-H-023"
-    assert state["current_micro_sprint"] == "POST-H-023-A"
-    assert state["next_micro_sprint"] == "POST-H-023-B"
+    assert state["current_micro_sprint"] == "POST-H-023-B"
+    assert state["next_micro_sprint"] == "POST-H-023-C"
     assert state["post_h_023_backlog_approved"] is True
     assert state["post_h_023_secure_transport_requirements_schema_registered"] is True
+    assert state["post_h_023_secure_transport_design_schema_registered"] is True
     assert state["transport_implemented"] is False
     assert state["network_allowed"] is False
     assert state["sockets_opened"] is False
@@ -158,6 +159,10 @@ def test_project_state_manifest_source_registry_and_tcr_are_synchronized_for_pos
     assert "SCHEMA-DEVPL-SECURE-TRANSPORT-REQUIREMENTS-V1" in doc_ids
     assert "POST-H-023-A-SECURE-TRANSPORT-REQUIREMENTS" in doc_ids
     assert "POST-H-023-A-MANIFEST" in doc_ids
+    assert "ADR-POSTH-005" in doc_ids
+    assert "SCHEMA-DEVPL-SECURE-TRANSPORT-DESIGN-V1" in doc_ids
+    assert "POST-H-023-B-PROTOCOL-DECISION-MATRIX" in doc_ids
+    assert "POST-H-023-B-MANIFEST" in doc_ids
 
     contract_ids_v1 = {item["contract_id"] for item in tcr_v1["contracts"]}
     contract_ids_v2 = {item["contract_id"] for item in tcr_v2["contracts"]}
@@ -168,3 +173,4 @@ def test_project_state_manifest_source_registry_and_tcr_are_synchronized_for_pos
     assert "POST-H-023-A — Requisitos y amenazas de transporte" in runbook
     assert "Siguiente micro-sprint: `POST-H-023-B — Protocol decision matrix y ADR`" in readme
     assert "post-h-023-a" in changelog
+    assert "post-h-023-b" in changelog

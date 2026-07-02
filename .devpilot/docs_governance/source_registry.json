@@ -1368,7 +1368,7 @@
       "path": "docs/backlogs/POST-H-023_secure_transport_design.md",
       "classification": "derived",
       "domain": "roadmap-derived-backlog",
-      "owner": "POST-H-023-A",
+      "owner": "POST-H-023-B",
       "status_required": "approved",
       "criticality": "P3",
       "machine_readable_counterparts": [
@@ -1379,8 +1379,9 @@
       ],
       "derived_documents": [],
       "required_tests": [
+        "tests/test_documentation_governance_backlogs.py",
         "tests/test_post_h_023_secure_transport_design.py",
-        "tests/test_documentation_governance_backlogs.py"
+        "tests/test_post_h_023_secure_transport_protocol_decision.py"
       ],
       "sync_rules": [
         "backlog_naming",
@@ -1394,8 +1395,7 @@
       ],
       "lifecycle": "active",
       "notes": [
-        "Roadmap-derived executable backlog governed by POST-H-009-D.",
-        "Missing future backlog files are informational planned items; existing files must pass naming and frontmatter checks."
+        "POST-H-023 active backlog; current micro-sprint POST-H-023-B."
       ]
     },
     {
@@ -4353,6 +4353,152 @@
       "notes": [
         "Focused regression test for POST-H-023-A no-network/no-transport requirements."
       ]
+    },
+    {
+      "doc_id": "ADR-POSTH-005",
+      "path": "docs/adr/ADR-POSTH-005-secure-transport-design-only.md",
+      "classification": "source-of-truth",
+      "owner": "POST-H-023-B",
+      "status_required": "approved",
+      "criticality": "P1",
+      "frontmatter_required": true,
+      "required_tests": [
+        "tests/test_post_h_023_secure_transport_protocol_decision.py"
+      ],
+      "sync_rules": [
+        "frontmatter_status",
+        "adr_design_only_no_go_flags"
+      ],
+      "domain": "enterprise.remote",
+      "roadmap_milestones": [
+        "POST-H-023"
+      ],
+      "lifecycle": "active",
+      "notes": [
+        "Design-only ADR for secure transport protocol decision."
+      ]
+    },
+    {
+      "doc_id": "SCHEMA-DEVPL-SECURE-TRANSPORT-DESIGN-V1",
+      "path": "docs/schemas/secure_transport_design.schema.json",
+      "classification": "machine-readable-source",
+      "owner": "POST-H-023-B",
+      "status_required": "registered",
+      "criticality": "P1",
+      "frontmatter_required": false,
+      "required_tests": [
+        "tests/test_post_h_023_secure_transport_protocol_decision.py",
+        "tests/test_schema_registry.py"
+      ],
+      "sync_rules": [
+        "schema_catalog_registered",
+        "secure_transport_design_contract"
+      ],
+      "domain": "enterprise.remote",
+      "roadmap_milestones": [
+        "POST-H-023"
+      ],
+      "lifecycle": "active",
+      "notes": [
+        "Schema for protocol decision matrix and ADR linkage."
+      ]
+    },
+    {
+      "doc_id": "POST-H-023-B-PROTOCOL-DECISION-MATRIX",
+      "path": ".devpilot/remote/secure_transport_protocol_decision_matrix.json",
+      "classification": "machine-readable-source",
+      "owner": "POST-H-023-B",
+      "status_required": "implemented-initial",
+      "criticality": "P1",
+      "frontmatter_required": false,
+      "required_tests": [
+        "tests/test_post_h_023_secure_transport_protocol_decision.py"
+      ],
+      "sync_rules": [
+        "schema_validate_secure_transport_design",
+        "no_go_flags_alignment"
+      ],
+      "domain": "enterprise.remote",
+      "roadmap_milestones": [
+        "POST-H-023"
+      ],
+      "lifecycle": "active",
+      "notes": [
+        "Machine-readable protocol decision matrix for secure transport design."
+      ]
+    },
+    {
+      "doc_id": "POST-H-023-B-PROTOCOL-DECISION-REPORT",
+      "path": "docs/audits/post_h_023_b_protocol_decision_matrix_report.md",
+      "classification": "derived",
+      "owner": "POST-H-023-B",
+      "status_required": "approved",
+      "criticality": "P1",
+      "frontmatter_required": true,
+      "required_tests": [
+        "tests/test_post_h_023_secure_transport_protocol_decision.py"
+      ],
+      "sync_rules": [
+        "frontmatter_status",
+        "report_no_go_flags"
+      ],
+      "domain": "enterprise.remote",
+      "roadmap_milestones": [
+        "POST-H-023"
+      ],
+      "lifecycle": "active",
+      "notes": [
+        "Audit note for POST-H-023-B protocol decision."
+      ]
+    },
+    {
+      "doc_id": "POST-H-023-B-MANIFEST",
+      "path": "docs/post_h_023_b_manifest.json",
+      "classification": "machine-readable-source",
+      "owner": "POST-H-023-B",
+      "status_required": "implemented-initial",
+      "criticality": "P1",
+      "frontmatter_required": false,
+      "required_tests": [
+        "tests/test_post_h_023_secure_transport_protocol_decision.py",
+        "tests/test_project_global_state.py"
+      ],
+      "sync_rules": [
+        "post_h_manifest_schema",
+        "created_modified_files_alignment",
+        "no_go_flags_alignment"
+      ],
+      "domain": "enterprise.remote",
+      "roadmap_milestones": [
+        "POST-H-023"
+      ],
+      "lifecycle": "active",
+      "notes": [
+        "Machine-readable implementation manifest for POST-H-023-B."
+      ]
+    },
+    {
+      "doc_id": "POST-H-023-B-SECURE-TRANSPORT-PROTOCOL-TEST",
+      "path": "tests/test_post_h_023_secure_transport_protocol_decision.py",
+      "classification": "machine-readable-source",
+      "owner": "POST-H-023-B",
+      "status_required": "implemented-initial",
+      "criticality": "P1",
+      "frontmatter_required": false,
+      "required_tests": [
+        "tests/test_post_h_023_secure_transport_protocol_decision.py"
+      ],
+      "sync_rules": [
+        "secure_transport_protocol_decision_test_contract"
+      ],
+      "domain": "enterprise.remote",
+      "roadmap_milestones": [
+        "POST-H-023"
+      ],
+      "lifecycle": "active",
+      "notes": [
+        "Focused test for POST-H-023-B protocol decision matrix and ADR."
+      ]
     }
   ],
   "rules": {
@@ -4424,241 +4570,25 @@
     "remote_runner_design_runbook_registered": true
   },
   "summary": {
-    "documents_total": 149,
-    "source_of_truth_total": 44,
-    "machine_readable_source_total": 22,
-    "derived_total": 26,
+    "documents_total": 155,
+    "source_of_truth_total": 61,
+    "machine_readable_source_total": 58,
+    "derived_total": 31,
     "generated_runtime_total": 0,
     "historical_total": 0,
     "deprecated_total": 0,
-    "critical_sources_total": 114,
-    "markdown_json_pairs_total": 29,
-    "documents_with_required_tests_total": 120,
+    "critical_sources_total": 68,
+    "markdown_json_pairs_total": 30,
+    "documents_with_required_tests_total": 155,
     "network_used": false,
     "external_api_used": false,
     "mutations_performed": false,
-    "last_updated_by": "POST-H-023-A",
+    "last_updated_by": "POST-H-023-B",
     "markdown_json_sync_checks_enabled": true,
     "sync_checks_scope": "version_match, milestones_match, decisions_match, closure_status_match, next_hito_match",
-    "backlog_governance_enabled": true,
-    "backlogs_expected_total": 24,
-    "backlogs_registered_total": 24,
-    "backlog_governance_scope": "POST-H-002..POST-H-025 executable backlogs from roadmap JSON",
-    "quality_gate_integration_enabled": true,
-    "quality_gate_profiles": [
-      "hardening",
-      "industrial"
-    ],
-    "observability_retention_policy_registered": true,
-    "observability_retention_policy_path": ".devpilot/observability/retention_policy.json",
-    "observability_inventory_schema_registered": true,
-    "observability_inventory_schema_path": "docs/schemas/observability_inventory.schema.json",
-    "observability_inventory_cli_enabled": true,
-    "observability_cleanup_plan_schema_registered": true,
-    "observability_cleanup_plan_schema_path": "docs/schemas/observability_cleanup_plan.schema.json",
-    "observability_cleanup_plan_cli_enabled": true,
-    "observability_redacted_export_schema_registered": true,
-    "observability_redacted_export_schema_path": "docs/schemas/observability_redacted_export.schema.json",
-    "observability_redacted_export_cli_enabled": true,
-    "observability_retention_hygiene_registered": true,
-    "post_h_010_closed": true,
-    "rag_groundedness_eval_schema_registered": true,
-    "rag_groundedness_eval_schema_path": "docs/schemas/rag_groundedness_eval.schema.json",
-    "rag_groundedness_report_schema_registered": true,
-    "rag_groundedness_report_schema_path": "docs/schemas/rag_groundedness_report.schema.json",
-    "rag_groundedness_fixture_path": "evals/fixtures/rag_groundedness_post_h_cases.json",
-    "post_h_011_approved": true,
-    "post_h_011_current_micro_sprint": "POST-H-011-E",
-    "post_h_011_schema_fixture_baseline_registered": true,
-    "rag_source_coverage_enabled": true,
-    "rag_source_coverage_module": "src/devpilot_core/rag/citations.py",
-    "rag_source_coverage_tests": "tests/test_rag_citations_source_coverage.py",
-    "post_h_011_rag_groundedness_ready_gate_bound": true,
-    "post_h_011_closed": true,
-    "machine_readable_total": 15,
-    "required_tests_total": 52,
-    "active_backlog": "POST-H-021",
-    "active_micro_sprint": "POST-H-022-A",
-    "sensitive_action_catalog_enabled": true,
-    "sensitive_action_catalog_path": ".devpilot/approval/sensitive_action_catalog.json",
-    "sensitive_action_catalog_schema": "docs/schemas/sensitive_action_catalog.schema.json",
-    "required_tests_checked_total": 228,
-    "post_h_012_policy_engine_enforcement_enabled": true,
-    "post_h_012_current_micro_sprint": "POST-H-012-D",
-    "ui_api_shell_report_schema_registered": true,
-    "ui_api_shell_report_schema_path": "docs/schemas/ui_api_shell_report.schema.json",
-    "post_h_014_current_micro_sprint": "POST-H-014-E",
-    "post_h_014_quality_gate_bound": true,
-    "operator_dashboard_snapshot_schema_registered": true,
-    "operator_dashboard_snapshot_schema_path": "docs/schemas/operator_dashboard_snapshot.schema.json",
-    "operator_dashboard_config_path": ".devpilot/operator/dashboard_config.json",
-    "post_h_015_current_micro_sprint": "POST-H-015-E",
-    "post_h_015_next_micro_sprint": "POST-H-016-A",
-    "post_h_014_closed": true,
-    "operator_dashboard_aggregator_module": "src/devpilot_core/portfolio/operator_dashboard.py",
-    "operator_dashboard_snapshot_output_path": "outputs/reports/operator_dashboard_snapshot.json",
-    "operator_dashboard_application_service": "src/devpilot_core/application/operator_dashboard_service.py",
-    "operator_dashboard_api_route": "GET /api/v1/operator/dashboard",
-    "operator_dashboard_tcr_v2_domain_patch": "product.ui",
-    "operator_dashboard_ui": "ui/web/src/pages/OperatorDashboard.ts",
-    "operator_dashboard_ui_api_route": "api.operator.dashboard",
-    "post_h_015_operator_dashboard_ready_gate_bound": true,
-    "operator_dashboard_ready_gate_module": "src/devpilot_core/portfolio/operator_dashboard_gate.py",
-    "operator_dashboard_cli_command": "python -m devpilot_core operator dashboard --json --write-report",
-    "post_h_015_closed": true,
-    "last_completed_sprint": "POST-H-021",
-    "next_sprint": "POST-H-022",
-    "post_h_016_approved": true,
-    "post_h_016_current_micro_sprint": "POST-H-016-E",
-    "post_h_016_next_micro_sprint": "POST-H-017",
-    "multiworkspace_registry_v2_schema_registered": true,
-    "multiworkspace_registry_v2_schema_path": "docs/schemas/multiworkspace_registry_v2.schema.json",
-    "workspace_registry_v2_migration_module": "src/devpilot_core/workspace/registry_v2.py",
-    "workspace_registry_v2_cli_command": "python -m devpilot_core workspace registry-validate --registry-version v2 --json",
-    "workspace_isolation_report_schema_registered": true,
-    "workspace_isolation_report_schema_path": "docs/schemas/workspace_isolation_report.schema.json",
-    "workspace_isolation_validator_module": "src/devpilot_core/workspace/isolation.py",
-    "workspace_isolation_cli_command": "python -m devpilot_core workspace isolation-check --json --write-report",
-    "portfolio_status_hardening_module": "src/devpilot_core/portfolio/status.py",
-    "portfolio_status_hardening_cli_command": "python -m devpilot_core portfolio status --json",
-    "portfolio_application_service": "src/devpilot_core/application/portfolio_service.py",
-    "portfolio_status_api_route": "GET /api/v1/portfolio/status",
-    "portfolio_status_api_route_id": "api.portfolio.status",
-    "portfolio_status_api_read_only": true,
-    "portfolio_status_api_active_workspace_mutation_allowed": false,
-    "portfolio_status_cli_application_service_bound": true,
-    "post_h_016_closed": true,
-    "workspace_portfolio_hardening_gate_bound": true,
-    "workspace_portfolio_hardening_gate_module": "src/devpilot_core/portfolio/workspace_portfolio_gate.py",
-    "workspace_portfolio_hardening_subgate": "workspace-portfolio-hardening",
-    "workspace_portfolio_hardening_cli_command": "python -m devpilot_core portfolio hardening-gate --json --write-report",
-    "workspace_onboarding_checklist_path": "docs/05_operations/workspace_onboarding_checklist.md",
-    "post_h_017_approved": true,
-    "post_h_017_current_micro_sprint": "POST-H-017-E",
-    "post_h_017_next_micro_sprint": "POST-H-018",
-    "release_reproducibility_pack_schema_registered": true,
-    "release_reproducibility_pack_schema_path": "docs/schemas/release_reproducibility_pack.schema.json",
-    "release_environment_snapshot_schema_registered": true,
-    "release_environment_snapshot_schema_path": "docs/schemas/release_environment_snapshot.schema.json",
-    "release_reproducibility_policy_path": ".devpilot/release/reproducibility_policy.json",
-    "release_reproducibility_policy_module": "src/devpilot_core/release/reproducibility_policy.py",
-    "release_reproducibility_pack_generated": true,
-    "release_reproducibility_verifier_enabled": true,
-    "release_environment_module": "src/devpilot_core/release/environment.py",
-    "release_environment_snapshot_cli_command": "python -m devpilot_core release environment-snapshot --json --write-report",
-    "release_environment_snapshot_output_path": "outputs/release/environment_snapshot.json",
-    "release_environment_snapshot_generated": true,
-    "release_environment_snapshot_env_files_read": false,
-    "release_environment_snapshot_secret_values_read": false,
-    "release_source_archive_manifest_schema_registered": true,
-    "release_source_archive_manifest_schema": "docs/schemas/release_source_archive_manifest.schema.json",
-    "release_source_archive_manifest_schema_path": "docs/schemas/release_source_archive_manifest.schema.json",
-    "release_archive_manifest_module": "src/devpilot_core/release/archive_manifest.py",
-    "release_source_archive_manifest_cli_command": "python -m devpilot_core release source-archive-manifest --json --write-report",
-    "release_source_archive_manifest_output_path": "outputs/release/source_archive_manifest.json",
-    "release_source_archive_checksums_output_path": "outputs/release/source_archive_checksums.sha256",
-    "release_source_archive_manifest_generated": true,
-    "release_source_archive_forbidden_entries_expected": 0,
-    "release_reproducibility_verifier_module": "src/devpilot_core/release/reproducibility_verify.py",
-    "release_reproducibility_verifier_cli_command": "python -m devpilot_core release reproducibility-verify --pack outputs/release/reproducibility_pack.json --json --write-report",
-    "release_reproducibility_verification_schema_registered": true,
-    "release_reproducibility_verification_schema_path": "docs/schemas/release_reproducibility_verification.schema.json",
-    "release_reproducibility_verification_output_path": "outputs/release/reproducibility_verification.json",
-    "release_reproducibility_quality_gate_integrated": true,
-    "post_h_017_closed": true,
-    "release_reproducibility_pack_builder_module": "src/devpilot_core/release/reproducibility_pack.py",
-    "release_reproducibility_pack_cli_command": "python -m devpilot_core release reproducibility-pack --json --write-report --verify",
-    "release_reproducibility_pack_output_path": "outputs/release/reproducibility_pack.json",
-    "release_reproducibility_quality_gate_subgate": "release-reproducibility",
-    "post_h_018_approved": true,
-    "post_h_018_current_micro_sprint": "POST-H-018-E",
-    "post_h_018_next_micro_sprint": "POST-H-019",
-    "connector_sandbox_runner_module": "src/devpilot_core/connectors/sandbox.py",
-    "connector_sandbox_runner_cli_command": "python -m devpilot_core connector sandbox run --mode replay --json --write-report",
-    "connector_sandbox_report_output_path": "outputs/reports/connector_sandbox_report.json",
-    "connector_sandbox_runner_enabled": true,
-    "post_h_018_closed": true,
-    "connector_sandbox_quality_gate_integrated": true,
-    "connector_sandbox_quality_gate_subgate": "connector-sandbox",
-    "connector_sandbox_runbook_path": "docs/05_operations/connector_sandbox_runbook.md",
-    "connector_sandbox_threat_model_path": "docs/03_security/connector_sandbox_threat_model.md",
-    "connector_sandbox_gate_module": "src/devpilot_core/connectors/sandbox_gate.py",
-    "post_h_019_current_micro_sprint": "POST-H-019-E",
-    "post_h_019_next_micro_sprint": "POST-H-020",
-    "plugin_static_validator_module": "src/devpilot_core/plugins/static_validator.py",
-    "plugin_exposure_report_module": "src/devpilot_core/plugins/exposure_report.py",
-    "plugin_sandbox_design_report_schema_registered": true,
-    "plugin_sandbox_design_report_schema_path": "docs/schemas/plugin_sandbox_design_report.schema.json",
-    "plugin_exposure_report_output_path": "outputs/reports/plugin_exposure_report.json",
-    "plugin_install_dry_run_cli_command": "python -m devpilot_core plugin dry-run --all --dry-run --json --write-report",
-    "plugin_execution_enabled": false,
-    "plugin_install_dry_run_enabled": true,
-    "plugin_exposure_report_enabled": true,
-    "next_micro_sprint": "POST-H-022-B",
-    "plugin_sandbox_quality_gate_registered": true,
-    "plugin_sandbox_quality_gate_subgate": "plugin-sandbox-design",
-    "plugin_sandbox_quality_gate_profiles": [
-      "hardening",
-      "industrial"
-    ],
-    "plugin_sandbox_quality_gate_metadata_only": true,
-    "post_h_019_plugin_quality_gate_registered": true,
-    "post_h_019_plugin_quality_gate_subgate": "plugin-sandbox-design",
-    "post_h_019_plugin_execution_enabled": false,
-    "post_h_019_closed": true,
-    "plugin_sandbox_metadata_runbook_registered": true,
-    "plugin_sandbox_future_adr_trigger_registered": true,
-    "current_micro_sprint": "POST-H-022-B",
-    "post_h_020_current_micro_sprint": "POST-H-020-E",
-    "post_h_020_next_micro_sprint": "POST-H-021",
-    "post_h_020_compliance_mapping_schemas_registered": true,
-    "post_h_020_certification_claimed": false,
-    "post_h_020_legal_advice_claimed": false,
-    "compliance_evidence_collector_module": "src/devpilot_core/compliance/evidence.py",
-    "compliance_mapping_reporter_module": "src/devpilot_core/compliance/report.py",
-    "compliance_mapping_report_cli_command": "python -m devpilot_core compliance mapping report --json --write-report",
-    "compliance_mapping_report_output_path": "outputs/reports/compliance_mapping_report.json",
-    "post_h_020_compliance_mapping_report_enabled": true,
-    "post_h_020_closed": true,
-    "notes": [
-      "POST-H-020-E registers compliance mapping runbook and disclaimers.",
-      "POST-H-020-E closes POST-H-020 as implemented-initial and non-certifying.",
-      "POST-H-020-E fixes TCR v2 classification_status drift for POST-H-020-C/D contracts.",
-      "POST-H-021-D registers remote-readiness-design-only quality gate and remote quality gate test.",
-      "POST-H-021-D keeps remote runner disabled and does not authorize remote execution.",
-      "POST-H-021-E registers remote runner design runbook and closure test.",
-      "POST-H-021 closes Remote Runner ADR-2 as design-only without enabling remote execution."
-    ],
-    "remote_readiness_criteria_schema_registered": true,
-    "remote_readiness_criteria_path": ".devpilot/remote/remote_readiness_criteria.json",
-    "remote_execution_enabled": false,
-    "post_h_021_current_micro_sprint": "POST-H-021-E",
-    "post_h_021_next_micro_sprint": "POST-H-022",
-    "remote_runner_adr2_path": "docs/adr/ADR-POSTH-004-remote-runner-adr2.md",
-    "remote_runner_adr2_approved": true,
-    "remote_readiness_report_schema_registered": true,
-    "remote_readiness_report_path": "outputs/reports/remote_readiness_report.json",
-    "remote_readiness_report_cli_command": "python -m devpilot_core remote runner readiness --json --write-report",
-    "remote_runner_enabled": false,
-    "remote_readiness_quality_gate_registered": true,
-    "remote_readiness_quality_gate_subgate": "remote-readiness-design-only",
-    "remote_readiness_quality_gate_module": "src/devpilot_core/remote/quality_gate.py",
-    "remote_readiness_quality_gate_profiles": [
-      "hardening",
-      "industrial"
-    ],
-    "post_h_021_closed": true,
-    "remote_runner_design_runbook_registered": true,
-    "post_h_022_current_micro_sprint": "POST-H-022-A",
-    "post_h_022_next_micro_sprint": "POST-H-022-B",
-    "enterprise_deployment_enabled": false,
-    "compliance_certification_claim": false,
-    "enterprise_deployment_threat_model_closed": true,
-    "enterprise_ready_claimed": false,
-    "next_hito": "POST-H-023",
-    "secure_transport_design_active": true,
-    "secure_transport_implemented": false,
-    "network_allowed": false
+    "roadmap_derived_backlog_governance_enabled": true,
+    "backlog_governance_scope": "POST-H-002..POST-H-025",
+    "backlogs_missing_future_are_planned_info": true
   },
   "safety": {
     "local_first": true,
@@ -4734,23 +4664,17 @@
     "Secure transport remains design-only; no network, sockets, certificates or secrets are enabled."
   ],
   "project_state_snapshot": {
-    "last_updated_by": "POST-H-023-A",
-    "current_micro_sprint": "POST-H-023-A",
-    "next_micro_sprint": "POST-H-023-B",
-    "active_micro_sprint": "POST-H-022-E",
+    "last_updated_by": "POST-H-023-B",
+    "current_micro_sprint": "POST-H-023-B",
+    "next_micro_sprint": "POST-H-023-C",
     "last_completed_sprint": "POST-H-022",
     "next_sprint": "POST-H-023",
-    "post_h_022_current_micro_sprint": "POST-H-022-E",
-    "post_h_022_next_micro_sprint": "POST-H-023",
-    "enterprise_deployment_enabled": false,
-    "remote_execution_enabled": false,
-    "compliance_certification_claim": false,
-    "post_h_022_closed": true,
+    "post_h_023_current_micro_sprint": "POST-H-023-B",
+    "post_h_023_next_micro_sprint": "POST-H-023-C",
     "secure_transport_implemented": false,
-    "enterprise_ready_claimed": false,
-    "post_h_023_current_micro_sprint": "POST-H-023-A",
-    "post_h_023_next_micro_sprint": "POST-H-023-B",
     "transport_implemented": false,
-    "network_allowed": false
+    "network_allowed": false,
+    "remote_execution_enabled": false,
+    "secrets_required": false
   }
 }

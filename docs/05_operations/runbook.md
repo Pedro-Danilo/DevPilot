@@ -2,17 +2,58 @@
 title: "Runbook — DevPilot Local"
 doc_id: "DEVPL-OPS-002"
 status: "approved"
-version: "1.83.0"
+version: "1.84.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "POST-H-023-A"
+phase: "POST-H-023-B"
 updated: "2026-07-02"
 approval: "approved_by_owner"
 source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved + 03_security approved"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "SPRINT-PRECODE-05 quality operations baseline"
 ---
+
+## POST-H-023-B — Protocol decision matrix y ADR
+
+POST-H-023-B decide el estado actual de transporte seguro como `local-only-no-transport` y registra `ADR-POSTH-005` como decisión design-only. El operador debe interpretar la matriz como decisión arquitectónica preliminar, no como autorización de red o transporte.
+
+Artefactos principales:
+
+```text
+docs/schemas/secure_transport_design.schema.json
+.devpilot/remote/secure_transport_protocol_decision_matrix.json
+docs/adr/ADR-POSTH-005-secure-transport-design-only.md
+docs/audits/post_h_023_b_protocol_decision_matrix_report.md
+docs/post_h_023_b_manifest.json
+tests/test_post_h_023_secure_transport_protocol_decision.py
+```
+
+Verificación focal:
+
+```powershell
+python -m pytest -p no:ddtrace tests/test_post_h_023_secure_transport_protocol_decision.py tests/test_post_h_023_secure_transport_design.py tests/test_project_global_state.py tests/test_schema_registry.py -q
+python -m devpilot_core schema validate --schema-id SecureTransportDesign --instance .devpilot/remote/secure_transport_protocol_decision_matrix.json --json
+python -m devpilot_core schema validate --schema-id PostHManifest --instance docs/post_h_023_b_manifest.json --json
+python -m devpilot_core docs-governance validate --json
+python -m devpilot_core test-contracts validate --json
+python -m devpilot_core test-contracts validate-v2 --json
+python -m devpilot_core project-state validate --json
+```
+
+PASS si `selected_for_now=local-only-no-transport`, `ADR-POSTH-005` queda `decision_status=design-only`, mTLS/HTTPS token-bound/SSH no quedan habilitados y permanecen en falso transporte, red, sockets, certificados, secretos y remote execution.
+
+BLOCK si se selecciona un protocolo remoto para implementación inmediata, se abre red/socket, se crean certificados reales, se requieren secretos o se habilita remote execution.
+
+Último hito cerrado: `POST-H-022`
+
+Último hito: `POST-H-022`
+
+Hito activo: `POST-H-023`
+
+Siguiente hito: `POST-H-023`
+
+Siguiente micro-sprint: `POST-H-023-C — Key/certificate lifecycle design`
 
 ## POST-H-023-A — Requisitos y amenazas de transporte
 

@@ -1140,6 +1140,20 @@
       "validates_instances": true,
       "contract": "SecureTransportRequirements",
       "validation_enabled_sprint": "POST-H-023-A"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-SECURE-TRANSPORT-DESIGN-V1",
+      "title": "DevPilot SecureTransportDesign v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/secure_transport_design.schema.json",
+      "description": "POST-H-023-B design-only protocol decision matrix contract that selects local-only-no-transport and forbids network, sockets, certificates, secrets and remote execution.",
+      "status": "registered",
+      "owner": "Ordóñez",
+      "sprint": "POST-H-023-B",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "contract": "SecureTransportDesign",
+      "validation_enabled_sprint": "POST-H-023-B"
     }
   ]
 }

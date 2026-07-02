@@ -1,3 +1,23 @@
+## POST-H-023-B — Protocol decision matrix y ADR
+
+Último hito cerrado: `POST-H-022`
+
+Último hito: `POST-H-022`
+
+Hito activo: `POST-H-023 — Secure transport design sin implementación activa`
+
+Siguiente hito: `POST-H-023`
+
+Último micro-sprint implementado: `POST-H-023-B — Protocol decision matrix y ADR`
+
+Siguiente micro-sprint: `POST-H-023-C — Key/certificate lifecycle design`
+
+POST-H-023-B agrega `SecureTransportDesign` como schema e instancia local design-only para comparar `mTLS-over-HTTP2`, `HTTPS-token-bound`, `SSH-restricted` y `local-only-no-transport`. La decisión aprobada por `ADR-POSTH-005` mantiene `selected_for_now=local-only-no-transport`.
+
+No-go gates conservados: `transport_implemented=false`, `secure_transport_implemented=false`, `network_allowed=false`, `network_used=false`, `sockets_opened=false`, `certificates_generated=false`, `secrets_required=false`, `secrets_stored=false`, `remote_execution_enabled=false`, sin red, APIs externas, connector write ni plugin execution.
+
+Límite explícito: POST-H-023-B no implementa TLS/mTLS, SSH, HTTPS remoto, HTTP/2, gRPC, WebSocket, túneles, certificados, secrets management ni remote execution. El lifecycle de claves/certificados queda para POST-H-023-C; validator/no-network invariant y quality gate quedan para POST-H-023-D.
+
 ## POST-H-023-A — Requisitos y amenazas de transporte
 
 Último hito cerrado: `POST-H-022`

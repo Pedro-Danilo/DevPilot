@@ -4,7 +4,7 @@ doc_id: "POST-H-023-BACKLOG"
 id: "POST-H-023"
 title: "POST-H-023 — Secure transport design sin implementación activa"
 status: "approved"
-version: "0.2.0"
+version: "0.3.0"
 owner: "Ordóñez"
 updated: "2026-07-02"
 approval: "approved_by_owner"
@@ -14,8 +14,8 @@ roadmap_source: "docs/backlogs/post_h_prioritized_roadmap.md"
 local_first: true
 dry_run: true
 implementation_status: "active"
-current_micro_sprint: "POST-H-023-A"
-next_micro_sprint: "POST-H-023-B"
+current_micro_sprint: "POST-H-023-B"
+next_micro_sprint: "POST-H-023-C"
 no_remote_execution_enabled: true
 no_external_apis_used: true
 no_connector_write_enabled: true
@@ -29,9 +29,9 @@ secrets_required: false
 
 ## Estado de Implementación
 
-POST-H-023 queda **approved / active**. El micro-sprint actual es **POST-H-023-A — Requisitos y amenazas de transporte** y el siguiente micro-sprint es **POST-H-023-B — Protocol decision matrix y ADR**.
+POST-H-023 queda **approved / active**. El micro-sprint actual es **POST-H-023-B — Protocol decision matrix y ADR** y el siguiente micro-sprint es **POST-H-023-C — Key/certificate lifecycle design**.
 
-POST-H-023-A entrega `SecureTransportRequirements` schema/instancia y documentación inicial de amenazas. No habilita transporte activo, red, sockets, certificados, secretos ni remote execution.
+POST-H-023-A entrega `SecureTransportRequirements` schema/instancia y documentación inicial de amenazas. POST-H-023-B agrega `SecureTransportDesign`, matriz de decisión y `ADR-POSTH-005`; selecciona `local-only-no-transport` para el estado actual. No habilita transporte activo, red, sockets, certificados, secretos ni remote execution.
 
 ## 1. Objetivo
 

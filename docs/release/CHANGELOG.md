@@ -1,3 +1,12 @@
+## post-h-023-b - Protocol decision matrix and ADR
+
+- Added `SecureTransportDesign` schema and `.devpilot/remote/secure_transport_protocol_decision_matrix.json`.
+- Added `ADR-POSTH-005 — Secure transport design-only`.
+- Selected `local-only-no-transport` as the current state.
+- Classified `mTLS-over-HTTP2` and `HTTPS-token-bound` as future candidates only, and rejected `SSH-restricted` for now.
+- Kept transport, secure transport, network, sockets, certificates, secrets, connector write, plugin execution and remote execution disabled.
+- Deferred key/certificate lifecycle to POST-H-023-C and validator/no-network invariant to POST-H-023-D.
+
 ## post-h-023-a - Secure transport requirements and threat baseline
 
 - Approved POST-H-023 as the active secure transport design hito.

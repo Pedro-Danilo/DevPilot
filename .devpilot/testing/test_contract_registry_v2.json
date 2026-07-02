@@ -10626,6 +10626,81 @@
         "Safety-critical because transport must remain design-only without network or secrets."
       ],
       "mutations_allowed": false
+    },
+    {
+      "contract_id": "post-h-023-secure-transport-protocol-decision",
+      "schema_version": "2.0",
+      "source_contract_id": "post-h-023-secure-transport-protocol-decision",
+      "domain": "enterprise.remote",
+      "capability": "Secure transport protocol decision matrix and ADR",
+      "criticality": "P1",
+      "risk_level": "critical",
+      "test_type": "security",
+      "execution_profile": "release",
+      "cost_class": "low",
+      "expected_duration_seconds": 20,
+      "test_files": [
+        "tests/test_post_h_023_secure_transport_protocol_decision.py"
+      ],
+      "watched_paths": [
+        "docs/schemas/secure_transport_design.schema.json",
+        ".devpilot/remote/secure_transport_protocol_decision_matrix.json",
+        "docs/adr/ADR-POSTH-005-secure-transport-design-only.md",
+        "docs/03_security/secure_transport_design.md",
+        "docs/POST-H-023_secure_transport_design.md",
+        "docs/backlogs/POST-H-023_secure_transport_design.md",
+        "README.md",
+        "docs/05_operations/runbook.md",
+        ".devpilot/project_state.json",
+        ".devpilot/docs_governance/source_registry.json",
+        ".devpilot/testing/test_contract_registry.json",
+        ".devpilot/testing/test_contract_registry_v2.json",
+        "tests/test_post_h_023_secure_transport_protocol_decision.py",
+        "tests/test_project_global_state.py",
+        "tests/test_schema_registry.py"
+      ],
+      "validates": [
+        "SecureTransportDesign schema and decision matrix are design-only",
+        "ADR-POSTH-005 selects local-only-no-transport for current state",
+        "mTLS, HTTPS token-bound and SSH do not become implementation permissions",
+        "transport/network/sockets/certificates/secrets/remote execution remain disabled"
+      ],
+      "required_fixtures": [],
+      "required_cli": [],
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "classification_status": "explicit",
+      "owner": "POST-H-023-B",
+      "phase": "POST-FASE-H",
+      "created_by": "POST-H-023-B",
+      "updated": "2026-07-02",
+      "preliminary": true,
+      "required_for_release": true,
+      "required_for_security_gate": true,
+      "requires_human_approval": false,
+      "source_mutations_allowed": false,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace tests/test_post_h_023_secure_transport_protocol_decision.py tests/test_project_global_state.py tests/test_schema_registry.py -q",
+        "python -m devpilot_core schema validate --schema-id SecureTransportDesign --instance .devpilot/remote/secure_transport_protocol_decision_matrix.json --json",
+        "python -m devpilot_core docs-governance validate --json",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ],
+      "trigger_hints": [
+        "docs/adr/ADR-POSTH-005-secure-transport-design-only.md",
+        ".devpilot/remote/secure_transport_protocol_decision_matrix.json"
+      ],
+      "impact_scope": [
+        "enterprise.remote",
+        "security.guards",
+        "documentation.governance",
+        "governance.schemas",
+        "governance.project_state"
+      ],
+      "classification_notes": [
+        "Explicit POST-H-023-B security contract; no inference required.",
+        "Safety-critical because protocol decisions must not enable transport."
+      ],
+      "mutations_allowed": false
     }
   ],
   "migration_metadata": {
