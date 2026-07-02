@@ -1,3 +1,23 @@
+## POST-H-023-A — Requisitos y amenazas de transporte
+
+Último hito cerrado: `POST-H-022`
+
+Último hito: `POST-H-022`
+
+Hito activo: `POST-H-023 — Secure transport design sin implementación activa`
+
+Siguiente hito: `POST-H-023`
+
+Último micro-sprint implementado: `POST-H-023-A — Requisitos y amenazas de transporte`
+
+Siguiente micro-sprint: `POST-H-023-B — Protocol decision matrix y ADR`
+
+POST-H-023-A agrega `SecureTransportRequirements` como schema e instancia local design-only para enumerar amenazas y controles previos de transporte. La opción actual permanece `local-only-no-transport`.
+
+No-go gates conservados: `transport_implemented=false`, `network_allowed=false`, `sockets_opened=false`, `certificates_generated=false`, `secrets_required=false`, `remote_execution_enabled=false`, sin red, APIs externas, connector write ni plugin execution.
+
+Límite explícito: POST-H-023-A no implementa TLS/mTLS, SSH, HTTP remoto, gRPC, WebSocket, túneles, certificados, secrets management ni remote execution. La decision matrix y ADR quedan para POST-H-023-B.
+
 ## POST-H-022-E — Runbook y cierre
 
 Último hito cerrado: `POST-H-022`

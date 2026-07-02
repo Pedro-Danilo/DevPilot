@@ -2,17 +2,57 @@
 title: "Runbook — DevPilot Local"
 doc_id: "DEVPL-OPS-002"
 status: "approved"
-version: "1.82.0"
+version: "1.83.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "POST-H-022-E"
+phase: "POST-H-023-A"
 updated: "2026-07-02"
 approval: "approved_by_owner"
 source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved + 03_security approved"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "SPRINT-PRECODE-05 quality operations baseline"
 ---
+
+## POST-H-023-A — Requisitos y amenazas de transporte
+
+POST-H-023-A inicia el diseño de secure transport sin implementación activa. El operador debe interpretar los artefactos como requisitos y threat baseline, no como transporte listo para uso.
+
+Artefactos principales:
+
+```text
+docs/schemas/secure_transport_requirements.schema.json
+.devpilot/remote/secure_transport_requirements.json
+docs/03_security/secure_transport_design.md
+docs/POST-H-023_secure_transport_design.md
+docs/post_h_023_a_manifest.json
+tests/test_post_h_023_secure_transport_design.py
+```
+
+Verificación focal:
+
+```powershell
+python -m pytest -p no:ddtrace tests/test_post_h_023_secure_transport_design.py tests/test_project_global_state.py tests/test_schema_registry.py -q
+python -m devpilot_core schema validate --schema-id SecureTransportRequirements --instance .devpilot/remote/secure_transport_requirements.json --json
+python -m devpilot_core docs-governance validate --json
+python -m devpilot_core test-contracts validate --json
+python -m devpilot_core test-contracts validate-v2 --json
+python -m devpilot_core project-state validate --json
+```
+
+PASS si `transport_implemented=false`, `network_allowed=false`, `sockets_opened=false`, `certificates_generated=false`, `secrets_required=false`, `remote_execution_enabled=false` y las amenazas MITM/replay/spoofing/token theft/downgrade/impersonation quedan documentadas.
+
+BLOCK si se abre red, socket, certificado real, secreto real o permiso de remote execution.
+
+Último hito cerrado: `POST-H-022`
+
+Último hito: `POST-H-022`
+
+Hito activo: `POST-H-023`
+
+Siguiente hito: `POST-H-023`
+
+Siguiente micro-sprint: `POST-H-023-B — Protocol decision matrix y ADR`
 
 ## POST-H-022-E — Runbook y cierre
 

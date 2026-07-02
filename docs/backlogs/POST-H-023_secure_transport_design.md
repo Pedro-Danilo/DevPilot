@@ -3,23 +3,35 @@
 doc_id: "POST-H-023-BACKLOG"
 id: "POST-H-023"
 title: "POST-H-023 — Secure transport design sin implementación activa"
-status: "draft"
-version: "0.1.0"
+status: "approved"
+version: "0.2.0"
 owner: "Ordóñez"
-updated: "2026-06-23"
-approval: "pending_owner_review"
+updated: "2026-07-02"
+approval: "approved_by_owner"
 phase: "POST-FASE-H"
 priority: "P3"
 roadmap_source: "docs/backlogs/post_h_prioritized_roadmap.md"
 local_first: true
 dry_run: true
+implementation_status: "active"
+current_micro_sprint: "POST-H-023-A"
+next_micro_sprint: "POST-H-023-B"
 no_remote_execution_enabled: true
 no_external_apis_used: true
 no_connector_write_enabled: true
 no_plugin_execution_enabled: true
+transport_implemented: false
+network_allowed: false
+secrets_required: false
 ---
 
 # POST-H-023 — Secure transport design sin implementación activa
+
+## Estado de Implementación
+
+POST-H-023 queda **approved / active**. El micro-sprint actual es **POST-H-023-A — Requisitos y amenazas de transporte** y el siguiente micro-sprint es **POST-H-023-B — Protocol decision matrix y ADR**.
+
+POST-H-023-A entrega `SecureTransportRequirements` schema/instancia y documentación inicial de amenazas. No habilita transporte activo, red, sockets, certificados, secretos ni remote execution.
 
 ## 1. Objetivo
 

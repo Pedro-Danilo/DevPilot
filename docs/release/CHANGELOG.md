@@ -1,3 +1,11 @@
+## post-h-023-a - Secure transport requirements and threat baseline
+
+- Approved POST-H-023 as the active secure transport design hito.
+- Added `SecureTransportRequirements` schema and local design-only instance.
+- Documented MITM, replay, spoofing, token theft, downgrade, impersonation, certificate mis-issuance and PolicyEngine bypass threats.
+- Kept `transport_implemented=false`, `network_allowed=false`, `sockets_opened=false`, `certificates_generated=false`, `secrets_required=false` and `remote_execution_enabled=false`.
+- Deferred protocol decision matrix and ADR to POST-H-023-B.
+
 ## post-h-022-e - Enterprise deployment threat model closure
 
 - Closed POST-H-022 as implemented-initial/design-only.

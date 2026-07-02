@@ -1126,6 +1126,20 @@
       "validates_instances": true,
       "contract": "EnterpriseThreatModelReport",
       "validation_enabled_sprint": "POST-H-022-D"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-SECURE-TRANSPORT-REQUIREMENTS-V1",
+      "title": "DevPilot SecureTransportRequirements v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/secure_transport_requirements.schema.json",
+      "description": "POST-H-023-A design-only requirements and transport threat contract that forbids network, sockets, certificates, secrets and remote execution.",
+      "status": "registered",
+      "owner": "Ordóñez",
+      "sprint": "POST-H-023-A",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "contract": "SecureTransportRequirements",
+      "validation_enabled_sprint": "POST-H-023-A"
     }
   ]
 }

@@ -1,0 +1,305 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/SCHEMA-DEVPL-SECURE-TRANSPORT-REQUIREMENTS-V1",
+  "title": "DevPilot SecureTransportRequirements v1",
+  "description": "POST-H-023-A design-only requirements and transport threat contract. It must not enable network, sockets, certificates, secrets or remote execution.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "schema_id",
+    "created_by",
+    "updated",
+    "status",
+    "decision_status",
+    "transport_implemented",
+    "network_allowed",
+    "selected_for_now",
+    "protocol_candidates",
+    "required_controls_before_implementation",
+    "threats",
+    "controls_required",
+    "no_go_gates",
+    "safety",
+    "notes"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "schema_id": {
+      "const": "SCHEMA-DEVPL-SECURE-TRANSPORT-REQUIREMENTS-V1"
+    },
+    "created_by": {
+      "const": "POST-H-023-A"
+    },
+    "updated": {
+      "type": "string",
+      "minLength": 10
+    },
+    "status": {
+      "enum": [
+        "implemented-initial",
+        "design-only",
+        "approved"
+      ]
+    },
+    "decision_status": {
+      "const": "design-only"
+    },
+    "transport_implemented": {
+      "const": false
+    },
+    "network_allowed": {
+      "const": false
+    },
+    "selected_for_now": {
+      "const": "local-only-no-transport"
+    },
+    "protocol_candidates": {
+      "type": "array",
+      "minItems": 3,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "mTLS-over-HTTP2",
+          "SSH-restricted",
+          "HTTPS-token-bound",
+          "local-only-no-transport"
+        ]
+      }
+    },
+    "required_controls_before_implementation": {
+      "type": "array",
+      "minItems": 8,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "identity_hardening",
+          "approval_rbac_hardening",
+          "remote_runner_adr2",
+          "enterprise_threat_model",
+          "observability_retention",
+          "runtime_state_lifecycle",
+          "secret_handling_model",
+          "key_certificate_lifecycle",
+          "replay_protection",
+          "revocation_rotation",
+          "kill_switch_and_rollback",
+          "transport_quality_gate"
+        ]
+      }
+    },
+    "threats": {
+      "type": "array",
+      "minItems": 6,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "threat_id",
+          "title",
+          "category",
+          "severity",
+          "attack_surface",
+          "impact",
+          "required_controls",
+          "status",
+          "blocks_enablement"
+        ],
+        "properties": {
+          "threat_id": {
+            "type": "string",
+            "pattern": "^ST-[0-9]{3}$"
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1
+          },
+          "category": {
+            "enum": [
+              "mitm",
+              "replay",
+              "spoofing",
+              "token_theft",
+              "downgrade",
+              "impersonation",
+              "certificate_misissuance",
+              "endpoint_compromise",
+              "policy_bypass"
+            ]
+          },
+          "severity": {
+            "enum": [
+              "medium",
+              "high",
+              "critical"
+            ]
+          },
+          "attack_surface": {
+            "type": "string",
+            "minLength": 1
+          },
+          "impact": {
+            "type": "string",
+            "minLength": 1
+          },
+          "required_controls": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "status": {
+            "const": "design-only"
+          },
+          "blocks_enablement": {
+            "const": true
+          }
+        }
+      }
+    },
+    "controls_required": {
+      "type": "array",
+      "minItems": 8,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "control_id",
+          "title",
+          "status",
+          "required_before_transport",
+          "implemented_now"
+        ],
+        "properties": {
+          "control_id": {
+            "type": "string",
+            "pattern": "^STC-[0-9]{3}$"
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1
+          },
+          "status": {
+            "enum": [
+              "required-not-implemented",
+              "documented-prerequisite"
+            ]
+          },
+          "required_before_transport": {
+            "const": true
+          },
+          "implemented_now": {
+            "const": false
+          }
+        }
+      }
+    },
+    "no_go_gates": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "transport_implemented",
+        "network_used",
+        "network_allowed",
+        "sockets_opened",
+        "certificates_generated",
+        "secrets_required",
+        "secrets_stored",
+        "remote_execution_enabled",
+        "connector_write_enabled",
+        "plugin_execution_enabled"
+      ],
+      "properties": {
+        "transport_implemented": {
+          "const": false
+        },
+        "network_used": {
+          "const": false
+        },
+        "network_allowed": {
+          "const": false
+        },
+        "sockets_opened": {
+          "const": false
+        },
+        "certificates_generated": {
+          "const": false
+        },
+        "secrets_required": {
+          "const": false
+        },
+        "secrets_stored": {
+          "const": false
+        },
+        "remote_execution_enabled": {
+          "const": false
+        },
+        "connector_write_enabled": {
+          "const": false
+        },
+        "plugin_execution_enabled": {
+          "const": false
+        }
+      }
+    },
+    "safety": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "local_first",
+        "dry_run",
+        "design_only",
+        "network_used",
+        "external_api_used",
+        "mutations_performed",
+        "source_mutations_performed",
+        "remote_execution_used",
+        "secrets_read"
+      ],
+      "properties": {
+        "local_first": {
+          "const": true
+        },
+        "dry_run": {
+          "const": true
+        },
+        "design_only": {
+          "const": true
+        },
+        "network_used": {
+          "const": false
+        },
+        "external_api_used": {
+          "const": false
+        },
+        "mutations_performed": {
+          "const": false
+        },
+        "source_mutations_performed": {
+          "const": false
+        },
+        "remote_execution_used": {
+          "const": false
+        },
+        "secrets_read": {
+          "const": false
+        }
+      }
+    },
+    "notes": {
+      "type": "array",
+      "minItems": 2,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  },
+  "x-devpilot-schema-id": "SCHEMA-DEVPL-SECURE-TRANSPORT-REQUIREMENTS-V1",
+  "x-devpilot-sprint": "POST-H-023-A",
+  "x-devpilot-status": "registered"
+}

@@ -1,0 +1,245 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "SCHEMA-DEVPL-SECURE-TRANSPORT-REQUIREMENTS-V1",
+  "created_by": "POST-H-023-A",
+  "updated": "2026-07-02",
+  "status": "implemented-initial",
+  "decision_status": "design-only",
+  "transport_implemented": false,
+  "network_allowed": false,
+  "selected_for_now": "local-only-no-transport",
+  "protocol_candidates": [
+    "mTLS-over-HTTP2",
+    "SSH-restricted",
+    "HTTPS-token-bound",
+    "local-only-no-transport"
+  ],
+  "required_controls_before_implementation": [
+    "identity_hardening",
+    "approval_rbac_hardening",
+    "remote_runner_adr2",
+    "enterprise_threat_model",
+    "observability_retention",
+    "runtime_state_lifecycle",
+    "secret_handling_model",
+    "key_certificate_lifecycle",
+    "replay_protection",
+    "revocation_rotation",
+    "kill_switch_and_rollback",
+    "transport_quality_gate"
+  ],
+  "threats": [
+    {
+      "threat_id": "ST-001",
+      "title": "Man-in-the-middle over future transport",
+      "category": "mitm",
+      "severity": "critical",
+      "attack_surface": "Any future remote channel between local DevPilot and a remote worker or control plane.",
+      "impact": "Command/data tampering, credential interception and false audit evidence.",
+      "required_controls": [
+        "mutual authentication",
+        "certificate pinning design",
+        "secure channel transcript logging"
+      ],
+      "status": "design-only",
+      "blocks_enablement": true
+    },
+    {
+      "threat_id": "ST-002",
+      "title": "Replay of approved transport messages",
+      "category": "replay",
+      "severity": "critical",
+      "attack_surface": "Future signed requests, approval decisions or remote execution envelopes.",
+      "impact": "Previously valid approvals or commands could be reused outside intended scope.",
+      "required_controls": [
+        "nonce/challenge design",
+        "short-lived envelopes",
+        "idempotency and replay cache"
+      ],
+      "status": "design-only",
+      "blocks_enablement": true
+    },
+    {
+      "threat_id": "ST-003",
+      "title": "Endpoint spoofing or runner impersonation",
+      "category": "spoofing",
+      "severity": "critical",
+      "attack_surface": "Future worker identity, operator endpoint and service discovery.",
+      "impact": "An attacker could impersonate a trusted runner or operator endpoint.",
+      "required_controls": [
+        "strong identity binding",
+        "runner attestation design",
+        "RBAC-bound endpoint registry"
+      ],
+      "status": "design-only",
+      "blocks_enablement": true
+    },
+    {
+      "threat_id": "ST-004",
+      "title": "Transport token or key theft",
+      "category": "token_theft",
+      "severity": "critical",
+      "attack_surface": "Future transport secrets, bearer credentials, signing keys or certificates.",
+      "impact": "Unauthorized access to transport plane and possible remote operation escalation.",
+      "required_controls": [
+        "no raw secret storage",
+        "external secret lifecycle design",
+        "rotation and revocation"
+      ],
+      "status": "design-only",
+      "blocks_enablement": true
+    },
+    {
+      "threat_id": "ST-005",
+      "title": "Protocol downgrade or weak cipher negotiation",
+      "category": "downgrade",
+      "severity": "high",
+      "attack_surface": "Future protocol selection between mTLS, SSH or HTTPS-like candidates.",
+      "impact": "Transport could silently fall back to insecure behavior.",
+      "required_controls": [
+        "protocol allowlist",
+        "version pinning",
+        "fail-closed negotiation"
+      ],
+      "status": "design-only",
+      "blocks_enablement": true
+    },
+    {
+      "threat_id": "ST-006",
+      "title": "Human or service impersonation across approval boundary",
+      "category": "impersonation",
+      "severity": "critical",
+      "attack_surface": "Future coupling between identity, approval, policy engine and transport messages.",
+      "impact": "Transport could bypass human approval or assume a role without valid binding.",
+      "required_controls": [
+        "ApprovalPolicyChecker binding",
+        "actor/role exact match",
+        "signed approval context"
+      ],
+      "status": "design-only",
+      "blocks_enablement": true
+    },
+    {
+      "threat_id": "ST-007",
+      "title": "Certificate mis-issuance or stale trust root",
+      "category": "certificate_misissuance",
+      "severity": "high",
+      "attack_surface": "Future certificate authority, trust store, pinning and renewal workflows.",
+      "impact": "A stale or incorrect trust root could make malicious endpoints trusted.",
+      "required_controls": [
+        "trust root inventory",
+        "certificate transparency/audit design",
+        "revocation checks"
+      ],
+      "status": "design-only",
+      "blocks_enablement": true
+    },
+    {
+      "threat_id": "ST-008",
+      "title": "Transport bypass of PolicyEngine",
+      "category": "policy_bypass",
+      "severity": "critical",
+      "attack_surface": "Future transport handlers or worker dispatch code.",
+      "impact": "Remote operations could execute without policy, RBAC or approval enforcement.",
+      "required_controls": [
+        "PolicyEngine before dispatch",
+        "deny-by-default remote actions",
+        "quality gate blocking"
+      ],
+      "status": "design-only",
+      "blocks_enablement": true
+    }
+  ],
+  "controls_required": [
+    {
+      "control_id": "STC-001",
+      "title": "Mutual authentication and endpoint identity binding",
+      "status": "required-not-implemented",
+      "required_before_transport": true,
+      "implemented_now": false
+    },
+    {
+      "control_id": "STC-002",
+      "title": "Replay protection with nonce, challenge and bounded TTL",
+      "status": "required-not-implemented",
+      "required_before_transport": true,
+      "implemented_now": false
+    },
+    {
+      "control_id": "STC-003",
+      "title": "Key/certificate lifecycle: generation, storage, rotation and revocation",
+      "status": "required-not-implemented",
+      "required_before_transport": true,
+      "implemented_now": false
+    },
+    {
+      "control_id": "STC-004",
+      "title": "Protocol allowlist and downgrade-resistant negotiation",
+      "status": "required-not-implemented",
+      "required_before_transport": true,
+      "implemented_now": false
+    },
+    {
+      "control_id": "STC-005",
+      "title": "PolicyEngine and Approval/RBAC enforcement before transport dispatch",
+      "status": "documented-prerequisite",
+      "required_before_transport": true,
+      "implemented_now": false
+    },
+    {
+      "control_id": "STC-006",
+      "title": "Transport audit trail and observability retention integration",
+      "status": "required-not-implemented",
+      "required_before_transport": true,
+      "implemented_now": false
+    },
+    {
+      "control_id": "STC-007",
+      "title": "Kill switch and safe rollback for transport plane",
+      "status": "required-not-implemented",
+      "required_before_transport": true,
+      "implemented_now": false
+    },
+    {
+      "control_id": "STC-008",
+      "title": "No raw secrets in repository, outputs or logs",
+      "status": "documented-prerequisite",
+      "required_before_transport": true,
+      "implemented_now": false
+    },
+    {
+      "control_id": "STC-009",
+      "title": "Quality gate that blocks sockets, network and secret requirements until enablement ADR",
+      "status": "required-not-implemented",
+      "required_before_transport": true,
+      "implemented_now": false
+    }
+  ],
+  "no_go_gates": {
+    "transport_implemented": false,
+    "network_used": false,
+    "network_allowed": false,
+    "sockets_opened": false,
+    "certificates_generated": false,
+    "secrets_required": false,
+    "secrets_stored": false,
+    "remote_execution_enabled": false,
+    "connector_write_enabled": false,
+    "plugin_execution_enabled": false
+  },
+  "safety": {
+    "local_first": true,
+    "dry_run": true,
+    "design_only": true,
+    "network_used": false,
+    "external_api_used": false,
+    "mutations_performed": false,
+    "source_mutations_performed": false,
+    "remote_execution_used": false,
+    "secrets_read": false
+  },
+  "notes": [
+    "POST-H-023-A defines requirements and threats only; protocol decision matrix and ADR are deferred to POST-H-023-B.",
+    "local-only-no-transport remains selected until a future ADR and implementation sprint satisfy all required controls."
+  ]
+}
