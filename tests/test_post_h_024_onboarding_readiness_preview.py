@@ -178,33 +178,33 @@ def test_post_h_024_d_governance_artifacts_are_synchronized() -> None:
         "POST-H-024-D-ONBOARDING-READINESS-PREVIEW-TEST",
     }
     assert expected <= doc_ids
-    assert source_registry["project_state_snapshot"]["current_micro_sprint"] == "POST-H-024-D"
-    assert source_registry["project_state_snapshot"]["next_micro_sprint"] == "POST-H-024-E"
+    assert source_registry["project_state_snapshot"]["current_micro_sprint"] == "POST-H-024-E"
+    assert source_registry["project_state_snapshot"]["next_micro_sprint"] == "POST-H-025"
     assert source_registry["project_state_snapshot"]["post_h_024_readiness_preview_available"] is True
-    assert source_registry["project_state_snapshot"]["post_h_024_onboarding_quality_gate_available"] is False
+    assert source_registry["project_state_snapshot"]["post_h_024_onboarding_quality_gate_available"] is True
 
     assert "post-h-024-onboarding-readiness-preview" in {item["contract_id"] for item in tcr_v1["contracts"]}
     assert "post-h-024-onboarding-readiness-preview" in {item["contract_id"] for item in tcr_v2["contracts"]}
     schema_ids = {item["schema_id"] for item in schema_catalog["schemas"]}
     assert ONBOARDING_READINESS_PREVIEW_SCHEMA_ID in schema_ids
 
-    assert state["current_micro_sprint"] == "POST-H-024-D"
-    assert state["next_micro_sprint"] == "POST-H-024-E"
-    assert state["post_h_024_current_micro_sprint"] == "POST-H-024-D"
-    assert state["post_h_024_next_micro_sprint"] == "POST-H-024-E"
+    assert state["current_micro_sprint"] == "POST-H-024-E"
+    assert state["next_micro_sprint"] == "POST-H-025"
+    assert state["post_h_024_current_micro_sprint"] == "POST-H-024-E"
+    assert state["post_h_024_next_micro_sprint"] == "POST-H-025"
     assert state["post_h_024_operator_playbook_available"] is True
     assert state["post_h_024_templates_available"] is True
     assert state["post_h_024_bootstrap_workflow_available"] is True
     assert state["post_h_024_project_bootstrap_report_available"] is True
     assert state["post_h_024_readiness_preview_available"] is True
-    assert state["post_h_024_onboarding_quality_gate_available"] is False
+    assert state["post_h_024_onboarding_quality_gate_available"] is True
     assert state["post_h_024_network_used"] is False
     assert state["post_h_024_external_api_used"] is False
     assert state["post_h_024_remote_execution_enabled"] is False
 
     for text in (backlog, implementation):
-        assert 'current_micro_sprint: "POST-H-024-D"' in text
-        assert 'next_micro_sprint: "POST-H-024-E"' in text
+        assert 'current_micro_sprint: "POST-H-024-E"' in text
+        assert 'next_micro_sprint: "POST-H-025"' in text
         assert "POST-H-024-D" in text
         assert "implemented-initial" in text
         assert "readiness-preview-only" in text
@@ -213,5 +213,5 @@ def test_post_h_024_d_governance_artifacts_are_synchronized() -> None:
     assert "MIASI faltante" in report or "Missing MIASI" in report
     assert "POST-H-024-D — Onboarding validation y readiness preview" in readme
     assert "POST-H-024-D — Onboarding validation y readiness preview" in runbook
-    assert "Siguiente micro-sprint: `POST-H-024-E — Quality gate y proyecto piloto fixture`" in readme
+    assert "Siguiente hito: `POST-H-025`" in readme
     assert "post-h-024-d" in changelog

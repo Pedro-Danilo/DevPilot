@@ -2,15 +2,15 @@
 doc_id: "POST-H-024-IMPLEMENTATION-DOC"
 title: "POST-H-024 — Operator onboarding playbook y project bootstrap workflow"
 status: "approved"
-version: "0.5.0"
+version: "0.6.0"
 owner: "Ordóñez"
 updated: "2026-07-02"
 approval: "approved_by_owner"
 phase: "POST-FASE-H"
 priority: "P1"
-implementation_status: "in-progress"
-current_micro_sprint: "POST-H-024-D"
-next_micro_sprint: "POST-H-024-E"
+implementation_status: "closed"
+current_micro_sprint: "POST-H-024-E"
+next_micro_sprint: "POST-H-025"
 local_first: true
 dry_run: true
 no_remote_execution_enabled: true
@@ -23,7 +23,7 @@ no_plugin_execution_enabled: true
 
 ## 1. Estado
 
-POST-H-024 queda aprobado para implementación incremental. POST-H-024-A queda implementado como **implemented-initial / playbook-only**, POST-H-024-B queda implementado como **implemented-initial / templates-only**, POST-H-024-C queda implementado como **implemented-initial / bootstrap-dry-run** y POST-H-024-D queda implementado como **implemented-initial / readiness-preview-only**.
+POST-H-024 queda aprobado para implementación incremental. POST-H-024-A queda implementado como **implemented-initial / playbook-only**, POST-H-024-B queda implementado como **implemented-initial / templates-only**, POST-H-024-C queda implementado como **implemented-initial / bootstrap-dry-run** y POST-H-024-D queda implementado como **implemented-initial / readiness-preview-only** y POST-H-024-E queda implementado como **implemented-initial / quality-gate-fixture-only**.
 
 El hito busca transformar el onboarding conversacional de DevPilot en un flujo reproducible para iniciar proyectos nuevos desde una idea hasta readiness y backlog ejecutable.
 
@@ -160,3 +160,8 @@ no_plugin_execution_enabled=true
 ```
 
 POST-H-024 no debe introducir generación mágica de código ni ejecución autónoma. La automatización futura debe ser plan-first, workspace-bounded y refusal-on-overwrite por defecto. POST-H-024-C conserva el alcance `bootstrap-dry-run`: el modo por defecto no escribe archivos de workspace; `--execute` está acotado al target permitido y rechaza overwrite por defecto. POST-H-024-D conserva el alcance `readiness-preview-only`: inspecciona, reporta pendientes y evita falsa readiness sin activar quality gate todavía.
+
+
+## 13. Cierre POST-H-024
+
+POST-H-024 queda cerrado en estado `implemented-initial` como hito de onboarding bootstrap local-first. El cierre incluye playbook, templates, bootstrap dry-run, readiness preview y subgate `onboarding-bootstrap-ready`. No se habilitan red, APIs externas, remote execution, connector write ni plugin execution. La declaración `production-ready-local` queda explícitamente pendiente para POST-H-025.

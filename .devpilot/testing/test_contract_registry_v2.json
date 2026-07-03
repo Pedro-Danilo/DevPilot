@@ -11222,6 +11222,81 @@
       "classification_notes": [
         "POST-H-024-D is high risk because false readiness would mislead operators; missing MIASI/readiness evidence must remain pending, not success."
       ]
+    },
+    {
+      "contract_id": "post-h-024-onboarding-bootstrap-ready",
+      "schema_version": "2.0",
+      "source_contract_id": "post-h-024-onboarding-bootstrap-ready",
+      "domain": "operations.workspace",
+      "capability": "Onboarding bootstrap quality gate and pilot fixture",
+      "criticality": "P1",
+      "risk_level": "high",
+      "test_type": "integration",
+      "execution_profile": "release",
+      "cost_class": "low",
+      "expected_duration_seconds": 12,
+      "test_files": [
+        "tests/test_post_h_024_onboarding_quality_gate.py",
+        "tests/test_post_h_024_project_bootstrap.py",
+        "tests/test_project_global_state.py"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/onboarding/",
+        "src/devpilot_core/quality/gate.py",
+        "docs/templates/new_project/",
+        "tests/fixtures/onboarding/",
+        ".devpilot/testing/",
+        ".devpilot/project_state.json",
+        "README.md",
+        "docs/05_operations/runbook.md",
+        "docs/backlogs/POST-H-024_operator_onboarding_bootstrap.md",
+        "tests/test_post_h_024_onboarding_quality_gate.py"
+      ],
+      "validates": [
+        "src/devpilot_core/onboarding/quality_gate.py",
+        "src/devpilot_core/quality/gate.py",
+        "tests/fixtures/onboarding/post_h_024_e_pilot_project.json",
+        "docs/backlogs/POST-H-024_operator_onboarding_bootstrap.md",
+        "docs/post_h_024_e_manifest.json"
+      ],
+      "required_fixtures": [
+        "tests/fixtures/onboarding/post_h_024_e_pilot_project.json"
+      ],
+      "required_cli": [
+        "python -m devpilot_core quality-gate run --profile hardening --json"
+      ],
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "classification_status": "explicit",
+      "owner": "POST-H-024-E",
+      "phase": "POST-FASE-H",
+      "created_by": "POST-H-024-E",
+      "updated": "2026-07-02",
+      "preliminary": true,
+      "required_for_release": true,
+      "required_for_security_gate": false,
+      "requires_human_approval": false,
+      "source_mutations_allowed": false,
+      "mutations_allowed": false,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_024_onboarding_quality_gate.py tests/test_post_h_024_project_bootstrap.py tests/test_project_global_state.py -q",
+        "python -m devpilot_core quality-gate run --profile hardening --json"
+      ],
+      "trigger_hints": [
+        "quality-gate",
+        "onboarding-bootstrap-ready",
+        "pilot-fixture",
+        "templates-missing"
+      ],
+      "impact_scope": [
+        "src/devpilot_core/onboarding/",
+        "src/devpilot_core/quality/gate.py",
+        "docs/templates/new_project/",
+        "tests/fixtures/onboarding/"
+      ],
+      "classification_notes": [
+        "POST-H-024-E is high risk because missing templates or false bootstrap readiness would mislead operators; the gate must block missing templates and stay dry-run."
+      ]
     }
   ],
   "migration_metadata": {
@@ -11232,7 +11307,7 @@
     "network_used": false,
     "external_api_used": false,
     "mutations_performed_by_default": false,
-    "contracts_total": 179,
+    "contracts_total": 183,
     "last_updated_by": "POST-H-022-A"
   },
   "notes": [
@@ -11251,6 +11326,7 @@
     "POST-H-022-E keeps enterprise deployment and enterprise-ready claims blocked.",
     "POST-H-023-A registers secure transport requirements v2 safety contract.",
     "POST-H-023-D adds secure transport validator/no-network invariant contract as release/security gate evidence.",
-    "POST-H-024-A adds operator onboarding playbook contract."
+    "POST-H-024-A adds operator onboarding playbook contract.",
+    "POST-H-024-E registers onboarding-bootstrap-ready v2 quality gate contract."
   ]
 }

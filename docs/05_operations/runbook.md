@@ -2,17 +2,69 @@
 title: "Runbook — DevPilot Local"
 doc_id: "DEVPL-OPS-002"
 status: "approved"
-version: "1.91.0"
+version: "1.92.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "POST-H-024-D"
+phase: "POST-H-024-E"
 updated: "2026-07-02"
 approval: "approved_by_owner"
 source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved + 03_security approved"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "SPRINT-PRECODE-05 quality operations baseline"
 ---
+
+## POST-H-024-E — Quality gate y proyecto piloto fixture
+
+Último hito cerrado: `POST-H-024`
+
+Hito activo siguiente: `POST-H-025 — Production-ready local declaration gate`
+
+Último micro-sprint implementado: `POST-H-024-E — Quality gate y proyecto piloto fixture`
+
+Artefactos principales:
+
+```text
+src/devpilot_core/onboarding/quality_gate.py
+tests/fixtures/onboarding/post_h_024_e_pilot_project.json
+tests/test_post_h_024_onboarding_quality_gate.py
+docs/audits/post_h_024_e_onboarding_quality_gate_report.md
+docs/post_h_024_e_manifest.json
+```
+
+Propósito operacional: convertir el onboarding bootstrap en un subgate de calidad verificable. El subgate `onboarding-bootstrap-ready` valida fixture piloto, templates y dry-run de `ProjectBootstrapPlanner` sin crear runtime artifacts versionables.
+
+Comandos focales:
+
+```powershell
+python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_024_onboarding_quality_gate.py tests/test_post_h_024_onboarding_readiness_preview.py tests/test_post_h_024_project_bootstrap.py tests/test_project_global_state.py tests/test_schema_registry.py -q
+python -m devpilot_core quality-gate run --profile hardening --json
+python -m devpilot_core test-contracts validate --json
+python -m devpilot_core test-contracts validate-v2 --json
+python -m devpilot_core docs-governance validate --json
+```
+
+Criterios PASS:
+
+```text
+El fixture piloto se carga desde tests/fixtures/onboarding/.
+El bootstrap genera plan dry-run con al menos 10 archivos starter.
+El subgate detecta ausencia o invalidez de templates como BLOCK.
+No se materializan runtime artifacts versionables.
+network_used=false, external_api_used=false, remote_execution_used=false, connector_write_used=false, plugin_execution_used=false.
+```
+
+Criterios BLOCK:
+
+```text
+Fixture piloto ausente o inválido.
+Templates ausentes, inválidos, con secretos o vendor lock-in.
+Bootstrap en modo execute o con mutaciones.
+Plan de bootstrap fuera del target_root del fixture.
+Se habilita red, APIs externas, connector write, plugin execution o remote execution.
+```
+
+Límite explícito: POST-H-024-E es `implemented-initial / quality-gate-fixture-only`; cierra el hito POST-H-024 para onboarding bootstrap local, pero no declara DevPilot production-ready ni enterprise-ready. Esa declaración queda reservada para POST-H-025.
 
 ## POST-H-024-D — Onboarding validation y readiness preview
 

@@ -1,0 +1,24 @@
+{
+  "fixture_id": "post-h-024-e-pilot-project-v1",
+  "created_by": "POST-H-024-E",
+  "description": "Minimal local-first pilot project fixture for onboarding bootstrap quality-gate dry-run validation.",
+  "project_id": "ventas-micro-local",
+  "project_name": "Sistema agent-assisted de ventas e inventario para microemprendimientos locales",
+  "project_type": "agent-assisted-sdlc",
+  "target_root": "outputs/test_post_h_024_e_gate/pilot-project",
+  "expected_mode": "dry-run",
+  "expected_planned_files_min": 10,
+  "no_go": {
+    "network_used": false,
+    "external_api_used": false,
+    "remote_execution_used": false,
+    "connector_write_used": false,
+    "plugin_execution_used": false,
+    "secrets_included": false,
+    "source_mutations_performed": false
+  },
+  "notes": [
+    "The quality subgate must consume this fixture without writing runtime artifacts to the repository source tree.",
+    "The target_root deliberately stays under outputs/ and is excluded from delivered ZIP archives."
+  ]
+}

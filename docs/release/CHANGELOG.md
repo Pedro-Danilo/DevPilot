@@ -1,3 +1,18 @@
+## post-h-024-e — Onboarding bootstrap quality gate and pilot fixture
+
+### Added
+
+- Added `OnboardingBootstrapReadyGate` and `onboarding-bootstrap-ready` subgate for hardening/industrial quality profiles.
+- Added versioned pilot fixture `tests/fixtures/onboarding/post_h_024_e_pilot_project.json`.
+- Added focused tests for fixture dry-run behavior, missing-template blocking and quality-gate registration.
+- Added POST-H-024-E audit report and manifest.
+
+### Security
+
+- The gate is local-first, read-only and dry-run; it does not create runtime artifacts, call network/external APIs, execute models, enable remote execution, connector write or plugin execution.
+- Missing or invalid onboarding templates block the quality gate instead of being reported as success.
+- POST-H-024 closes as onboarding-bootstrap implemented-initial; production-ready declaration remains reserved for POST-H-025.
+
 ## post-h-024-d — Onboarding readiness preview
 
 ### Added

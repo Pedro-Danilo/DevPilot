@@ -132,9 +132,9 @@ def test_project_state_manifest_source_registry_and_tcr_are_synchronized_for_pos
     changelog = read_text("docs/release/CHANGELOG.md")
 
     assert state["last_completed_sprint"] == "POST-H-023"
-    assert state["next_sprint"] == "POST-H-024"
+    assert state["next_sprint"] == "POST-H-025"
     assert state["post_h_023_current_micro_sprint"] == "POST-H-023-E"
-    assert state["current_micro_sprint"] == "POST-H-024-D"
+    assert state["current_micro_sprint"] == "POST-H-024-E"
     assert state["post_h_023_next_micro_sprint"] == "POST-H-024"
     assert state["post_h_023_backlog_approved"] is True
     assert state["post_h_023_secure_transport_requirements_schema_registered"] is True

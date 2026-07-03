@@ -152,6 +152,7 @@ class QualityGate:
                     "POST-H-021-D adds remote-readiness-design-only to hardening/industrial profiles to validate remote runner disabled invariants, readiness report and remote-enterprise eval signal without remote execution.",
                     "POST-H-022-D adds enterprise-threat-model-design-only to hardening/industrial profiles to validate enterprise threat model and control matrix blockers without enterprise deployment.",
                     "POST-H-023-D adds secure-transport-design-only to hardening/industrial profiles to validate the secure transport design artifacts and no-network invariant without enabling transport.",
+                    "POST-H-024-E adds onboarding-bootstrap-ready to hardening/industrial profiles to validate pilot fixture, templates and bootstrap dry-run without creating runtime artifacts or enabling remote capabilities.",
                     "POST-H-008-E adds runtime-state-hygiene to hardening/industrial profiles to block dirty source/release archives.",
                     "POST-H-009-E adds docs-governance to hardening/industrial profiles to block canonical-source, sync and backlog-governance drift.",
                     "The default and ci profiles do not run pytest implicitly; CI workflows and local checklists run pytest as an explicit step, or use --include-pytest when desired.",
@@ -208,6 +209,7 @@ class QualityGate:
             subgates.append(QualitySubgate("remote-readiness-design-only", "POST-H-021 remote runner disabled readiness, ADR and eval-signal gate.", self._remote_readiness_design_only))
             subgates.append(QualitySubgate("enterprise-threat-model-design-only", "POST-H-022 enterprise threat model, control matrix and readiness blocker gate.", self._enterprise_threat_model_design_only))
             subgates.append(QualitySubgate("secure-transport-design-only", "POST-H-023 secure transport design artifacts and no-network invariant gate.", self._secure_transport_design_only))
+            subgates.append(QualitySubgate("onboarding-bootstrap-ready", "POST-H-024 pilot fixture, templates and bootstrap dry-run onboarding quality gate.", self._onboarding_bootstrap_ready))
         if self.options.profile == "industrial":
             subgates.append(QualitySubgate("industrial-readiness", "Fase H industrial readiness gate and maturity classification.", self._industrial_readiness))
         if self.options.profile == "hardening":
@@ -387,6 +389,11 @@ class QualityGate:
         from devpilot_core.remote import SecureTransportDesignQualityGate
 
         return SecureTransportDesignQualityGate(self.root).run()
+
+    def _onboarding_bootstrap_ready(self) -> CommandResult:
+        from devpilot_core.onboarding.quality_gate import OnboardingBootstrapReadyGate
+
+        return OnboardingBootstrapReadyGate(self.root).run()
 
     def _industrial_readiness(self) -> CommandResult:
         from devpilot_core.industrial import IndustrialReadinessGate

@@ -5639,6 +5639,129 @@
       "notes": [
         "Focused regression test for POST-H-024-D readiness preview."
       ]
+    },
+    {
+      "domain": "operator-onboarding",
+      "roadmap_milestones": [
+        "POST-H-024"
+      ],
+      "lifecycle": "active",
+      "doc_id": "POST-H-024-E-ONBOARDING-QUALITY-GATE-MODULE",
+      "path": "src/devpilot_core/onboarding/quality_gate.py",
+      "classification": "machine-readable-source",
+      "owner": "POST-H-024-E",
+      "status_required": "implemented-initial",
+      "criticality": "P1",
+      "frontmatter_required": false,
+      "required_tests": [
+        "tests/test_post_h_024_onboarding_quality_gate.py"
+      ],
+      "sync_rules": [
+        "quality_subgate_registered",
+        "dry_run_no_mutation",
+        "missing_templates_block"
+      ],
+      "notes": [
+        "OnboardingBootstrapReadyGate validates pilot fixture, templates and bootstrap dry-run."
+      ]
+    },
+    {
+      "domain": "operator-onboarding",
+      "roadmap_milestones": [
+        "POST-H-024"
+      ],
+      "lifecycle": "active",
+      "doc_id": "POST-H-024-E-PILOT-FIXTURE",
+      "path": "tests/fixtures/onboarding/post_h_024_e_pilot_project.json",
+      "classification": "machine-readable-source",
+      "owner": "POST-H-024-E",
+      "status_required": "implemented-initial",
+      "criticality": "P1",
+      "frontmatter_required": false,
+      "required_tests": [
+        "tests/test_post_h_024_onboarding_quality_gate.py"
+      ],
+      "sync_rules": [
+        "fixture_present",
+        "outputs_target_only",
+        "no_go_flags_false"
+      ],
+      "notes": [
+        "Versioned pilot project fixture for onboarding bootstrap dry-run quality gate."
+      ]
+    },
+    {
+      "domain": "operator-onboarding",
+      "roadmap_milestones": [
+        "POST-H-024"
+      ],
+      "lifecycle": "active",
+      "doc_id": "POST-H-024-E-ONBOARDING-QUALITY-GATE-REPORT",
+      "path": "docs/audits/post_h_024_e_onboarding_quality_gate_report.md",
+      "classification": "audit-report",
+      "owner": "POST-H-024-E",
+      "status_required": "approved",
+      "criticality": "P1",
+      "frontmatter_required": true,
+      "required_tests": [
+        "tests/test_post_h_024_onboarding_quality_gate.py",
+        "tests/test_project_global_state.py"
+      ],
+      "sync_rules": [
+        "frontmatter_status",
+        "scope_adjustment_documented"
+      ],
+      "notes": [
+        "Audit report for POST-H-024-E onboarding quality gate and pilot fixture."
+      ]
+    },
+    {
+      "domain": "operator-onboarding",
+      "roadmap_milestones": [
+        "POST-H-024"
+      ],
+      "lifecycle": "active",
+      "doc_id": "POST-H-024-E-MANIFEST",
+      "path": "docs/post_h_024_e_manifest.json",
+      "classification": "machine-readable-source",
+      "owner": "POST-H-024-E",
+      "status_required": "implemented-initial",
+      "criticality": "P1",
+      "frontmatter_required": false,
+      "required_tests": [
+        "tests/test_post_h_024_onboarding_quality_gate.py"
+      ],
+      "sync_rules": [
+        "post_h_manifest_schema",
+        "hito_closure"
+      ],
+      "notes": [
+        "Machine-readable manifest for POST-H-024-E."
+      ]
+    },
+    {
+      "domain": "operator-onboarding",
+      "roadmap_milestones": [
+        "POST-H-024"
+      ],
+      "lifecycle": "active",
+      "doc_id": "POST-H-024-E-ONBOARDING-QUALITY-GATE-TEST",
+      "path": "tests/test_post_h_024_onboarding_quality_gate.py",
+      "classification": "machine-readable-source",
+      "owner": "POST-H-024-E",
+      "status_required": "implemented-initial",
+      "criticality": "P1",
+      "frontmatter_required": false,
+      "required_tests": [
+        "tests/test_post_h_024_onboarding_quality_gate.py"
+      ],
+      "sync_rules": [
+        "focused_regression",
+        "missing_templates_block"
+      ],
+      "notes": [
+        "Focused regression test for POST-H-024-E onboarding quality gate."
+      ]
     }
   ],
   "rules": {
@@ -5710,20 +5833,20 @@
     "remote_runner_design_runbook_registered": true
   },
   "summary": {
-    "documents_total": 200,
+    "documents_total": 205,
     "source_of_truth_total": 74,
-    "machine_readable_source_total": 86,
-    "derived_total": 32,
+    "machine_readable_source_total": 90,
+    "derived_total": 37,
     "generated_runtime_total": 0,
     "historical_total": 0,
     "deprecated_total": 0,
-    "critical_sources_total": 113,
+    "critical_sources_total": 118,
     "markdown_json_pairs_total": 30,
-    "documents_with_required_tests_total": 200,
+    "documents_with_required_tests_total": 205,
     "network_used": false,
     "external_api_used": false,
     "mutations_performed": false,
-    "last_updated_by": "POST-H-024-D",
+    "last_updated_by": "POST-H-024-E",
     "markdown_json_sync_checks_enabled": true,
     "sync_checks_scope": "version_match, milestones_match, decisions_match, closure_status_match, next_hito_match",
     "roadmap_derived_backlog_governance_enabled": true,
@@ -5813,11 +5936,11 @@
     "POST-H-024-D keeps quality gate and pilot fixture pending for POST-H-024-E."
   ],
   "project_state_snapshot": {
-    "last_updated_by": "POST-H-024-B",
-    "current_micro_sprint": "POST-H-024-D",
-    "next_micro_sprint": "POST-H-024-E",
+    "last_updated_by": "POST-H-024-E",
+    "current_micro_sprint": "POST-H-024-E",
+    "next_micro_sprint": "POST-H-025",
     "last_completed_sprint": "POST-H-023",
-    "next_sprint": "POST-H-024",
+    "next_sprint": "POST-H-025",
     "post_h_023_current_micro_sprint": "POST-H-023-E",
     "post_h_023_next_micro_sprint": "POST-H-024",
     "secure_transport_implemented": false,
@@ -5835,13 +5958,13 @@
     "plugin_execution_enabled": false,
     "network_used": false,
     "sockets_opened": false,
-    "post_h_024_current_micro_sprint": "POST-H-024-D",
-    "post_h_024_next_micro_sprint": "POST-H-024-E",
+    "post_h_024_current_micro_sprint": "POST-H-024-E",
+    "post_h_024_next_micro_sprint": "POST-H-025",
     "post_h_024_operator_playbook_available": true,
     "post_h_024_templates_available": true,
     "post_h_024_bootstrap_workflow_available": true,
     "post_h_024_readiness_preview_available": true,
-    "post_h_024_onboarding_quality_gate_available": false,
+    "post_h_024_onboarding_quality_gate_available": true,
     "post_h_024_network_used": false,
     "post_h_024_external_api_used": false,
     "post_h_024_remote_execution_enabled": false,

@@ -13,6 +13,28 @@ from devpilot_core.onboarding.readiness_preview import (
     OnboardingReadinessPreviewOptions,
     OnboardingReadinessPreviewer,
 )
+
+_QUALITY_GATE_EXPORTS = {
+    "OnboardingBootstrapReadyGateOptions",
+    "OnboardingBootstrapReadyGate",
+    "POST_H_024_E_CREATED_BY",
+    "ONBOARDING_BOOTSTRAP_READY_SUBGATE",
+    "DEFAULT_ONBOARDING_PILOT_FIXTURE",
+}
+
+
+def __getattr__(name: str):
+    """Lazily expose POST-H-024-E quality gate symbols.
+
+    The lazy import avoids a workspace -> onboarding -> quality_gate -> workspace
+    cycle when workspace bootstrap imports onboarding template metadata during CLI startup.
+    """
+    if name in _QUALITY_GATE_EXPORTS:
+        from devpilot_core.onboarding import quality_gate as _quality_gate
+
+        return getattr(_quality_gate, name)
+    raise AttributeError(f"module {__name__!r} has no attribute {name!r}")
+
 from devpilot_core.onboarding.templates import (
     MARKDOWN_TEMPLATE_PATHS,
     MIASI_TEMPLATE_PATHS,
@@ -22,6 +44,11 @@ from devpilot_core.onboarding.templates import (
 )
 
 __all__ = [
+    "OnboardingBootstrapReadyGateOptions",
+    "OnboardingBootstrapReadyGate",
+    "POST_H_024_E_CREATED_BY",
+    "ONBOARDING_BOOTSTRAP_READY_SUBGATE",
+    "DEFAULT_ONBOARDING_PILOT_FIXTURE",
     "MARKDOWN_TEMPLATE_PATHS",
     "MIASI_TEMPLATE_PATHS",
     "REQUIRED_TEMPLATE_PATHS",

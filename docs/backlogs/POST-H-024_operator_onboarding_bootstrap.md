@@ -4,7 +4,7 @@ doc_id: "POST-H-024-BACKLOG"
 id: "POST-H-024"
 title: "POST-H-024 — Operator onboarding playbook y project bootstrap workflow"
 status: "approved"
-version: "0.5.0"
+version: "0.6.0"
 owner: "Ordóñez"
 updated: "2026-07-02"
 approval: "approved_by_owner"
@@ -17,9 +17,9 @@ no_remote_execution_enabled: true
 no_external_apis_used: true
 no_connector_write_enabled: true
 no_plugin_execution_enabled: true
-implementation_status: "in-progress"
-current_micro_sprint: "POST-H-024-D"
-next_micro_sprint: "POST-H-024-E"
+implementation_status: "closed"
+current_micro_sprint: "POST-H-024-E"
+next_micro_sprint: "POST-H-025"
 ---
 
 # POST-H-024 — Operator onboarding playbook y project bootstrap workflow
@@ -317,13 +317,25 @@ PASS si el reporte OnboardingReadinessPreviewReport valida contra schema.
 
 ### POST-H-024-E — Quality gate y proyecto piloto fixture
 
+Estado: `implemented-initial / quality-gate-fixture-only`.
+
 Tareas:
 
 ```text
-1. Crear fixture de proyecto piloto mínimo.
-2. Crear tests del bootstrap contra fixture temporal.
-3. Agregar subgate onboarding-bootstrap-ready.
-4. Actualizar runbook y test contract registry.
+1. [x] Crear fixture de proyecto piloto mínimo.
+2. [x] Crear tests del bootstrap contra fixture temporal.
+3. [x] Agregar subgate onboarding-bootstrap-ready.
+4. [x] Actualizar runbook y test contract registry.
+```
+
+Artefactos:
+
+```text
+src/devpilot_core/onboarding/quality_gate.py
+tests/fixtures/onboarding/post_h_024_e_pilot_project.json
+tests/test_post_h_024_onboarding_quality_gate.py
+docs/audits/post_h_024_e_onboarding_quality_gate_report.md
+docs/post_h_024_e_manifest.json
 ```
 
 PASS:
@@ -333,6 +345,8 @@ PASS si el bootstrap genera un proyecto temporal válido en dry-run.
 PASS si quality gate detecta ausencia de templates.
 PASS si no se crean runtime artifacts versionables.
 ```
+
+Limitación explícita: `quality-gate-fixture-only`; el subgate valida onboarding bootstrap local con fixture y dry-run, pero no declara DevPilot production-ready ni enterprise-ready. POST-H-025 debe decidir la declaración production-ready-local con criterios más amplios.
 
 ## 9. Comandos esperados
 
@@ -378,3 +392,8 @@ BLOCK si se omite MIASI en proyectos agent-assisted.
 [x] Readiness preview implementado.
 [x] Runbook actualizado.
 ```
+
+
+## 13. Cierre POST-H-024
+
+POST-H-024 queda cerrado en estado `implemented-initial` como hito de onboarding bootstrap local-first. El cierre incluye playbook, templates, bootstrap dry-run, readiness preview y subgate `onboarding-bootstrap-ready`. No se habilitan red, APIs externas, remote execution, connector write ni plugin execution. La declaración `production-ready-local` queda explícitamente pendiente para POST-H-025.

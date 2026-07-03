@@ -6367,6 +6367,49 @@
       "notes": [
         "POST-H-024-D readiness preview is read-only for source/workspace and reports pending MIASI/readiness gaps without overclaiming success."
       ]
+    },
+    {
+      "contract_id": "post-h-024-onboarding-bootstrap-ready",
+      "scope": "quality-gate",
+      "owner": "POST-H-024-E",
+      "test_files": [
+        "tests/test_post_h_024_onboarding_quality_gate.py",
+        "tests/test_post_h_024_project_bootstrap.py",
+        "tests/test_project_global_state.py"
+      ],
+      "validates": [
+        "src/devpilot_core/onboarding/quality_gate.py",
+        "src/devpilot_core/quality/gate.py",
+        "tests/fixtures/onboarding/post_h_024_e_pilot_project.json",
+        "docs/backlogs/POST-H-024_operator_onboarding_bootstrap.md",
+        "docs/post_h_024_e_manifest.json"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/onboarding/",
+        "src/devpilot_core/quality/gate.py",
+        "docs/templates/new_project/",
+        "tests/fixtures/onboarding/",
+        ".devpilot/testing/",
+        ".devpilot/project_state.json",
+        "README.md",
+        "docs/05_operations/runbook.md",
+        "docs/backlogs/POST-H-024_operator_onboarding_bootstrap.md",
+        "tests/test_post_h_024_onboarding_quality_gate.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_024_onboarding_quality_gate.py tests/test_post_h_024_project_bootstrap.py tests/test_project_global_state.py -q",
+        "python -m devpilot_core quality-gate run --profile hardening --json"
+      ],
+      "notes": [
+        "POST-H-024-E onboarding-bootstrap-ready subgate validates pilot fixture, templates and bootstrap dry-run without writing runtime artifacts."
+      ]
     }
   ],
   "notes": [
@@ -6401,6 +6444,7 @@
     "POST-H-022 closure contract keeps enterprise_ready_claimed=false and required-not-implemented blockers visible.",
     "POST-H-023-A registers secure transport requirements safety contract.",
     "POST-H-023-D registers secure transport design validator and no-network invariant tests without enabling transport.",
-    "POST-H-024-A adds operator onboarding playbook contract."
+    "POST-H-024-A adds operator onboarding playbook contract.",
+    "POST-H-024-E registers onboarding-bootstrap-ready quality gate contract."
   ]
 }

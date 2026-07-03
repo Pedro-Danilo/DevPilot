@@ -1,3 +1,21 @@
+## POST-H-024-E — Quality gate y proyecto piloto fixture
+
+Último hito cerrado: `POST-H-024`
+
+Hito activo: `POST-H-025 — Production-ready local declaration gate`
+
+Último micro-sprint implementado: `POST-H-024-E — Quality gate y proyecto piloto fixture`
+
+Siguiente hito: `POST-H-025`
+
+POST-H-024-E agrega el subgate `onboarding-bootstrap-ready` al `quality-gate run --profile hardening/industrial`, junto con un fixture piloto mínimo versionado en `tests/fixtures/onboarding/post_h_024_e_pilot_project.json`. El subgate valida que las plantillas de proyecto nuevo existan y sean válidas, y que `ProjectBootstrapPlanner` pueda producir un plan dry-run de bootstrap para el proyecto piloto sin materializar runtime artifacts.
+
+La capacidad es `implemented-initial / quality-gate-fixture-only`: valida el flujo de onboarding bootstrap con fixture y dry-run, pero no declara producción enterprise, no genera código productivo, no ejecuta modelos, no llama red ni APIs externas y no habilita connector write, plugin execution ni remote execution.
+
+POST-H-024 queda cerrado como hito de onboarding bootstrap incremental: playbook, templates, bootstrap dry-run, readiness preview y quality subgate local-first quedan disponibles con evidencia versionada.
+
+Verificación focal recomendada: `python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_024_onboarding_quality_gate.py tests/test_post_h_024_onboarding_readiness_preview.py tests/test_post_h_024_project_bootstrap.py tests/test_post_h_024_project_templates.py tests/test_post_h_024_operator_onboarding.py tests/test_project_global_state.py tests/test_schema_registry.py -q`.
+
 ## POST-H-024-D — Onboarding validation y readiness preview
 
 Último hito cerrado: `POST-H-023`
