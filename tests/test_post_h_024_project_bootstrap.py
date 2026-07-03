@@ -200,15 +200,15 @@ def test_post_h_024_c_governance_artifacts_are_synchronized() -> None:
         "POST-H-024-C-MANIFEST",
     }
     assert expected <= doc_ids
-    assert source_registry["project_state_snapshot"]["current_micro_sprint"] == "POST-H-025-D"
-    assert source_registry["project_state_snapshot"]["next_micro_sprint"] == "POST-H-025-E"
+    assert source_registry["project_state_snapshot"]["current_micro_sprint"] == "POST-H-025-E"
+    assert source_registry["project_state_snapshot"]["next_micro_sprint"] == "POST-H-026"
     assert source_registry["project_state_snapshot"]["post_h_024_bootstrap_workflow_available"] is True
 
     assert "post-h-024-project-bootstrap" in {item["contract_id"] for item in tcr_v1["contracts"]}
     assert "post-h-024-project-bootstrap" in {item["contract_id"] for item in tcr_v2["contracts"]}
 
-    assert state["current_micro_sprint"] == "POST-H-025-D"
-    assert state["next_micro_sprint"] == "POST-H-025-E"
+    assert state["current_micro_sprint"] == "POST-H-025-E"
+    assert state["next_micro_sprint"] == "POST-H-026"
     assert state["post_h_024_bootstrap_workflow_available"] is True
     assert state["post_h_024_project_bootstrap_report_available"] is True
     assert state["post_h_024_readiness_preview_available"] is True

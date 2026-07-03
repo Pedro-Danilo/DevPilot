@@ -1,3 +1,23 @@
+## POST-H-025-E — Declaración final o BLOCK report
+
+Último hito: `POST-H-025`
+
+Último hito cerrado: `POST-H-025`
+
+Hito activo siguiente: `POST-H-026`
+
+Último micro-sprint implementado: `POST-H-025-E — Declaración final o BLOCK report`
+
+Siguiente hito: `POST-H-026`
+
+POST-H-025-E agrega `ProductionReadyFinalDeclaration`, el comando `python -m devpilot_core industrial-readiness production-ready-local-final --json`, el documento auditado `docs/audits/devpilot_local_production_ready_declaration.md` y el manifest `docs/post_h_025_e_manifest.json`.
+
+La capacidad queda `closed / production-ready-local-declaration`: DevPilot puede declararse `production-ready-local` con evidencia local versionada, zero blockers y no-go gates aprobados. La declaración no es enterprise-ready, no es compliance-certified, no es remote-ready y no es SaaS-ready.
+
+POST-H-025-E no habilita red, APIs externas, remote execution, connector write ni plugin execution. Los reportes runtime `outputs/reports/production_ready_local_report.json` y `.md` se generan con `--write-report` y no se versionan en ZIPs limpios.
+
+Verificación focal recomendada: `python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_025_production_ready_final_declaration.py tests/test_post_h_025_production_ready_claims_validator.py tests/test_post_h_025_production_ready_declaration_gate.py tests/test_post_h_025_production_ready_aggregator.py tests/test_post_h_025_production_ready_criteria.py tests/test_schema_registry.py tests/test_project_global_state.py tests/test_quality_gate.py -q`.
+
 ## POST-H-025-D — No-go gates y claims validator
 
 Último hito: `POST-H-024`

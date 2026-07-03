@@ -14,6 +14,7 @@ from devpilot_core.schemas import SchemaValidator
 DEFAULT_CRITERIA_PATH = Path(".devpilot/production/production_ready_local_criteria.json")
 DEFAULT_REPORT_JSON_PATH = Path("outputs/reports/production_ready_local_report.json")
 DEFAULT_REPORT_MARKDOWN_PATH = Path("outputs/reports/production_ready_local_report.md")
+DEFAULT_FINAL_AUDIT_MARKDOWN_PATH = Path("docs/audits/devpilot_local_production_ready_declaration.md")
 DEFAULT_CLAIMS_DOCUMENT_PATHS = (
     "README.md",
     "docs/05_operations/runbook.md",
@@ -48,6 +49,19 @@ class ProductionReadyClaimsValidatorOptions:
     report_path: str | None = None
     project_state_path: str | None = ".devpilot/project_state.json"
     include_gate_report: bool = True
+
+
+@dataclass(frozen=True)
+class ProductionReadyFinalDeclarationOptions:
+    """Options for the POST-H-025-E final PASS/BLOCK declaration package."""
+
+    criteria_path: str = str(DEFAULT_CRITERIA_PATH)
+    output_json: str = str(DEFAULT_REPORT_JSON_PATH)
+    output_markdown: str = str(DEFAULT_REPORT_MARKDOWN_PATH)
+    audit_markdown: str = str(DEFAULT_FINAL_AUDIT_MARKDOWN_PATH)
+    write_report: bool = False
+    write_audit_markdown: bool = False
+    report_id_suffix: str = "post_h_025_e"
 
 
 class ProductionReadyEvidenceAggregator:
@@ -981,6 +995,325 @@ class ProductionReadyDeclarationGate:
             resolved.relative_to(self.root)
         except ValueError as exc:
             raise ValueError(f"Report path escapes project root: {value}") from exc
+        return resolved
+
+    def _relative(self, path: Path) -> str:
+        try:
+            return path.resolve().relative_to(self.root).as_posix()
+        except ValueError:
+            return path.as_posix()
+
+    def _safety(self) -> dict[str, bool]:
+        return {
+            "local_first": True,
+            "read_only": True,
+            "network_used": False,
+            "external_api_used": False,
+            "mutations_performed": False,
+            "source_mutations_performed": False,
+        }
+
+
+class ProductionReadyFinalDeclaration:
+    """Build the POST-H-025-E final production-ready-local declaration package.
+
+    The final declaration is intentionally a wrapper over the POST-H-025-C
+    declaration gate and POST-H-025-D claims validator. It does not add new
+    evidence semantics; it makes the final PASS/BLOCK decision auditable,
+    reproducible and bounded to production-ready-local only.
+    """
+
+    def __init__(self, root: Path, *, options: ProductionReadyFinalDeclarationOptions | None = None) -> None:
+        self.root = Path(root).resolve()
+        self.options = options or ProductionReadyFinalDeclarationOptions()
+
+    def finalize(self) -> CommandResult:
+        gate_result = ProductionReadyDeclarationGate(
+            self.root,
+            options=ProductionReadyDeclarationGateOptions(
+                criteria_path=self.options.criteria_path,
+                report_id_suffix=self.options.report_id_suffix,
+            ),
+        ).check()
+        gate_report = self._clone_report((gate_result.data or {}).get("report"))
+        if not gate_report:
+            return CommandResult(
+                "industrial-readiness production-ready-local-final",
+                False,
+                ExitCode.ERROR,
+                "Final production-ready-local declaration could not build the base report.",
+                data={
+                    "summary": self._error_summary(),
+                    "gate": gate_result.data,
+                    "safety": self._safety(),
+                },
+                findings=gate_result.findings
+                or [
+                    Finding(
+                        "PRODUCTION_READY_FINAL_BASE_REPORT_MISSING",
+                        "The declaration gate did not return a report payload.",
+                        Severity.ERROR,
+                    )
+                ],
+            )
+
+        claims_result = ProductionReadyClaimsValidator(self.root).validate()
+        report = self._final_report(gate_report=gate_report, claims_result=claims_result)
+        validation = SchemaValidator(self.root).validate_payload(
+            schema="ProductionReadyLocalReport",
+            payload=report,
+            instance_label="in-memory:production-ready-local-final-report",
+        )
+        if not validation.ok:
+            return CommandResult(
+                "industrial-readiness production-ready-local-final",
+                False,
+                validation.exit_code,
+                "Final production-ready-local report failed schema validation.",
+                data={
+                    "summary": self._error_summary(decision=report.get("decision")),
+                    "report": report,
+                    "validation": validation.data,
+                    "claims_validation": claims_result.data,
+                    "safety": self._safety(),
+                },
+                findings=validation.findings,
+            )
+
+        report["summary"]["reports_written"] = bool(self.options.write_report)
+        report["summary"]["audit_markdown_written"] = bool(self.options.write_audit_markdown)
+        reports: dict[str, str] = {}
+        audit: dict[str, str | bool] = {"written": False, "path": self.options.audit_markdown}
+        if self.options.write_report:
+            reports = self._write_runtime_reports(report)
+        if self.options.write_audit_markdown:
+            audit_path = self._write_audit_markdown(report)
+            audit = {"written": True, "path": audit_path}
+
+        summary = dict(report["summary"])
+        ok = report["decision"] == "PASS"
+        findings = list(gate_result.findings) + list(claims_result.findings)
+        findings.append(
+            Finding(
+                "PRODUCTION_READY_LOCAL_FINAL_PASS" if ok else "PRODUCTION_READY_LOCAL_FINAL_BLOCK",
+                "Final production-ready-local declaration passed." if ok else "Final production-ready-local declaration blocked.",
+                Severity.INFO if ok else Severity.BLOCK,
+                metadata={
+                    "decision": report["decision"],
+                    "blocking_gaps_total": report["blocking_gaps_total"],
+                    "claims_valid": summary["claims_valid"],
+                },
+            )
+        )
+        return CommandResult(
+            "industrial-readiness production-ready-local-final",
+            ok,
+            ExitCode.PASS if ok else ExitCode.BLOCK,
+            "Final production-ready-local declaration passed." if ok else "Final production-ready-local declaration blocked.",
+            data={
+                "summary": summary,
+                "report": report,
+                "reports": reports,
+                "audit": audit,
+                "gate": gate_result.data,
+                "claims_validation": claims_result.data,
+                "safety": self._safety(),
+            },
+            findings=findings,
+        )
+
+    def _final_report(self, *, gate_report: dict[str, Any], claims_result: CommandResult) -> dict[str, Any]:
+        report = self._clone_report(gate_report)
+        report["report_id"] = f"production-ready-local-report-{self.options.report_id_suffix}"
+        report["created_by"] = "POST-H-025-E"
+        report["created_at"] = datetime.now(UTC).replace(microsecond=0).isoformat().replace("+00:00", "Z")
+
+        claim_gaps = self._claim_gaps(claims_result)
+        if not claims_result.ok:
+            report["decision"] = "BLOCK"
+            report["claims"]["production_ready_local"] = False
+            report["gaps"] = list(report.get("gaps") or []) + claim_gaps
+            report["blocking_gaps_total"] = int(report.get("blocking_gaps_total") or 0) + len(claim_gaps)
+
+        summary = dict(report.get("summary") or {})
+        summary.update(
+            {
+                "scope": "production-ready-local",
+                "decision": report["decision"],
+                "production_ready_local_declared": report["decision"] == "PASS",
+                "formal_audit_declaration_pending": False,
+                "final_declaration_artifact_available": True,
+                "claims_valid": claims_result.ok,
+                "claims_validator_command": claims_result.command,
+                "claims_validator_exit_code": int(claims_result.exit_code),
+                "claims_validator_findings_total": len(claims_result.findings),
+                "blocking_gaps_total": report["blocking_gaps_total"],
+                "gaps_total": len(report.get("gaps") or []),
+                "reports_written": False,
+                "audit_markdown_written": False,
+                "preliminary": False,
+            }
+        )
+        report["summary"] = summary
+        report["limitations"] = [
+            "This is a production-ready-local declaration only.",
+            "This is not an enterprise-ready, remote-ready, SaaS-ready or compliance-certified declaration.",
+            "Remote execution, connector write, plugin execution and external APIs remain disabled/not required.",
+            "The declaration is based on local versioned evidence and deterministic gates available in this repository.",
+        ]
+        return report
+
+    def _claim_gaps(self, claims_result: CommandResult) -> list[dict[str, Any]]:
+        gaps: list[dict[str, Any]] = []
+        for index, finding in enumerate(claims_result.findings, start=1):
+            if finding.severity not in {Severity.BLOCK, Severity.FAIL, Severity.ERROR}:
+                continue
+            gaps.append(
+                {
+                    "gap_id": f"post-h-025-claims-validator-{index}",
+                    "severity": "block",
+                    "message": finding.message,
+                    "path": finding.path,
+                    "action": "Remove or correct unsupported production/enterprise/compliance/remote/SaaS claims before final declaration.",
+                    "source_finding_id": finding.id,
+                }
+            )
+        if not claims_result.ok and not gaps:
+            gaps.append(
+                {
+                    "gap_id": "post-h-025-claims-validator-block",
+                    "severity": "block",
+                    "message": "Claims validator blocked final declaration.",
+                    "action": "Inspect claims validator result and correct unsupported no-go claims.",
+                }
+            )
+        return gaps
+
+    def _write_runtime_reports(self, report: dict[str, Any]) -> dict[str, str]:
+        json_path = self._resolve_inside_root(self.options.output_json)
+        markdown_path = self._resolve_inside_root(self.options.output_markdown)
+        json_path.parent.mkdir(parents=True, exist_ok=True)
+        markdown_path.parent.mkdir(parents=True, exist_ok=True)
+        json_path.write_text(json.dumps(report, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+        markdown_path.write_text(self._audit_markdown(report), encoding="utf-8")
+        return {"json": self._relative(json_path), "markdown": self._relative(markdown_path)}
+
+    def _write_audit_markdown(self, report: dict[str, Any]) -> str:
+        path = self._resolve_inside_root(self.options.audit_markdown)
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(self._audit_markdown(report), encoding="utf-8")
+        return self._relative(path)
+
+    def _audit_markdown(self, report: dict[str, Any]) -> str:
+        summary = report["summary"]
+        lines = [
+            "---",
+            'doc_id: "POST-H-025-E-PRODUCTION-READY-LOCAL-DECLARATION"',
+            'title: "DevPilot Local production-ready-local declaration"',
+            'status: "approved"',
+            'version: "1.0.0"',
+            'owner: "Ordóñez"',
+            'updated: "2026-07-03"',
+            'approval: "approved_by_owner"',
+            'created_by: "POST-H-025-E"',
+            'phase: "POST-FASE-H"',
+            "local_first: true",
+            "dry_run: true",
+            "read_only: true",
+            "---",
+            "",
+            "# DevPilot Local production-ready-local declaration",
+            "",
+            "## Decision",
+            "",
+            f"- Decision: `{report['decision']}`",
+            f"- Scope: `{report['scope']}`",
+            f"- Score: `{report['score']}` / minimum `{report['minimum_score']}`",
+            f"- Required hitos passed: `{report['passed_hitos_total']}/{report['required_hitos_total']}`",
+            f"- Blocking gaps: `{report['blocking_gaps_total']}`",
+            f"- No-go gates passed: `{report['no_go_gates_passed']}`",
+            f"- Claims validator passed: `{summary['claims_valid']}`",
+            "",
+            "## Claims",
+            "",
+        ]
+        for key, value in report["claims"].items():
+            lines.append(f"- `{key}`: `{value}`")
+        lines.extend(
+            [
+                "",
+                "## Explicit Limits",
+                "",
+                "- This declaration is limited to `production-ready-local`.",
+                "- It does not declare enterprise-ready, compliance-certified, remote-ready or SaaS-ready status.",
+                "- It does not enable remote execution, connector write, plugin execution or external APIs.",
+                "- It is based on local deterministic evidence and versioned engineering artifacts.",
+                "",
+                "## Evidence Summary",
+                "",
+            ]
+        )
+        for item in report.get("evidence_results", []):
+            lines.append(
+                f"- `{item.get('hito_id')}`: `{item.get('status')}` "
+                f"(required=`{item.get('required_for_pass')}`, findings=`{item.get('findings_total', 0)}`)"
+            )
+        lines.extend(["", "## Gaps", ""])
+        if report.get("gaps"):
+            for gap in report["gaps"]:
+                action = gap.get("action") or "Review mapped evidence and restore the missing artifact."
+                lines.append(f"- `{gap.get('severity')}` `{gap.get('gap_id')}`: {gap.get('message')} Action: {action}")
+        else:
+            lines.append("- No gaps reported.")
+        lines.extend(["", "## Limitations", ""])
+        for item in report["limitations"]:
+            lines.append(f"- {item}")
+        lines.extend(
+            [
+                "",
+                "## Reproducibility",
+                "",
+                "Recommended verification:",
+                "",
+                "```powershell",
+                "python -m devpilot_core industrial-readiness production-ready-local-final --json --write-report",
+                "python -m devpilot_core quality-gate run --profile hardening --json",
+                "python -m devpilot_core test-contracts validate --json",
+                "python -m devpilot_core docs-governance validate --json",
+                "```",
+                "",
+            ]
+        )
+        return "\n".join(lines)
+
+    def _error_summary(self, *, decision: str | None = None) -> dict[str, Any]:
+        return {
+            "scope": "production-ready-local",
+            "decision": decision or "ERROR",
+            "production_ready_local_declared": False,
+            "final_declaration_artifact_available": False,
+            "read_only": True,
+            "network_used": False,
+            "external_api_used": False,
+            "mutations_performed": False,
+            "source_mutations_performed": False,
+            "preliminary": False,
+        }
+
+    def _clone_report(self, payload: Any) -> dict[str, Any]:
+        if not isinstance(payload, dict):
+            return {}
+        return json.loads(json.dumps(payload))
+
+    def _resolve_inside_root(self, value: str) -> Path:
+        candidate = Path(value)
+        if not candidate.is_absolute():
+            candidate = self.root / candidate
+        resolved = candidate.resolve()
+        try:
+            resolved.relative_to(self.root)
+        except ValueError as exc:
+            raise ValueError(f"Final declaration path escapes project root: {value}") from exc
         return resolved
 
     def _relative(self, path: Path) -> str:

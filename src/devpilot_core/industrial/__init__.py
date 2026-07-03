@@ -7,6 +7,8 @@ from .production_ready import (
     ProductionReadyDeclarationGateOptions,
     ProductionReadyEvidenceAggregator,
     ProductionReadyEvidenceAggregatorOptions,
+    ProductionReadyFinalDeclaration,
+    ProductionReadyFinalDeclarationOptions,
 )
 from .readiness import IndustrialReadinessGate, IndustrialReadinessOptions
 
@@ -19,4 +21,6 @@ __all__ = [
     "ProductionReadyDeclarationGateOptions",
     "ProductionReadyEvidenceAggregator",
     "ProductionReadyEvidenceAggregatorOptions",
+    "ProductionReadyFinalDeclaration",
+    "ProductionReadyFinalDeclarationOptions",
 ]

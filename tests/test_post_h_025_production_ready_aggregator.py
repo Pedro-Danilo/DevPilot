@@ -102,8 +102,8 @@ def test_production_ready_evidence_aggregator_artifacts_are_synchronized() -> No
     assert (ROOT / "docs/post_h_025_b_manifest.json").exists()
     assert "POST-H-025-B — Evidence aggregator read-only" in readme
     assert "POST-H-025-B — Evidence aggregator read-only" in runbook
-    assert 'current_micro_sprint: "POST-H-025-D"' in backlog
-    assert 'next_micro_sprint: "POST-H-025-E"' in backlog
+    assert 'current_micro_sprint: "POST-H-025-E"' in backlog
+    assert 'next_micro_sprint: "POST-H-026"' in backlog
     assert "post-h-025-production-ready-evidence-aggregator" in tcr
     assert "post-h-025-production-ready-evidence-aggregator" in tcr_v2
     assert "production_ready_local_declared=false" in readme

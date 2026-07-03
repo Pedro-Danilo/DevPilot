@@ -348,6 +348,18 @@ COMMAND_OVERRIDES: dict[str, DeclarativeCommandOverride] = {
         ),
         rationale="POST-H-025-C exposes the production-ready-local declaration gate through ApplicationService; it reads local evidence and writes JSON/Markdown reports only when --write-report is explicit.",
     ),
+    "industrial-readiness.production-ready-local-final": DeclarativeCommandOverride(
+        command_id="industrial-readiness.production-ready-local-final",
+        risk_level=CommandRiskLevel.MEDIUM,
+        side_effects=(CommandSideEffect.WRITE_REPORT,),
+        writes_files=True,
+        dry_run_supported=True,
+        policy_check_required=True,
+        recommended_tests=(
+            "python -m pytest tests/test_post_h_025_production_ready_final_declaration.py -q",
+        ),
+        rationale="POST-H-025-E packages the final production-ready-local PASS/BLOCK declaration; it writes runtime reports and audit Markdown only when explicit flags are used.",
+    ),
     "api.shell-gate": DeclarativeCommandOverride(
         command_id="api.shell-gate",
         risk_level=CommandRiskLevel.HIGH,

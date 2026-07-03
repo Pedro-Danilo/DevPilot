@@ -146,6 +146,33 @@ class ApplicationService:
             ),
         ).check()
 
+    def production_ready_local_final_declaration(
+        self,
+        *,
+        write_report: bool = False,
+        write_audit_markdown: bool = False,
+        output_json: str = "outputs/reports/production_ready_local_report.json",
+        output_markdown: str = "outputs/reports/production_ready_local_report.md",
+        audit_markdown: str = "docs/audits/devpilot_local_production_ready_declaration.md",
+    ) -> CommandResult:
+        """Run the POST-H-025-E final production-ready-local declaration package."""
+
+        from devpilot_core.industrial.production_ready import (
+            ProductionReadyFinalDeclaration,
+            ProductionReadyFinalDeclarationOptions,
+        )
+
+        return ProductionReadyFinalDeclaration(
+            self.root,
+            options=ProductionReadyFinalDeclarationOptions(
+                write_report=write_report,
+                write_audit_markdown=write_audit_markdown,
+                output_json=output_json,
+                output_markdown=output_markdown,
+                audit_markdown=audit_markdown,
+            ),
+        ).finalize()
+
     def portfolio_status(self, *, registry_path: str = ".devpilot/workspaces/workspace_registry.json") -> CommandResult:
         return self.portfolio.status(registry_path=registry_path)
 

@@ -6,16 +6,16 @@ from pathlib import Path
 from devpilot_core import cli
 from devpilot_core.application import ApplicationService
 from devpilot_core.cli_models import ExitCode
-from devpilot_core.industrial import ProductionReadyDeclarationGate, ProductionReadyDeclarationGateOptions
+from devpilot_core.industrial import ProductionReadyFinalDeclaration, ProductionReadyFinalDeclarationOptions
 from devpilot_core.schemas import SchemaValidator
 
 ROOT = Path(__file__).resolve().parents[1]
 
 
-def test_production_ready_declaration_gate_passes_current_repo_without_source_mutation() -> None:
+def test_production_ready_final_declaration_passes_current_repo_without_source_mutation() -> None:
     before = _tracked_snapshot(ROOT)
 
-    result = ProductionReadyDeclarationGate(ROOT).check()
+    result = ProductionReadyFinalDeclaration(ROOT).finalize()
 
     after = _tracked_snapshot(ROOT)
     assert result.ok is True, result.to_dict()
@@ -24,10 +24,16 @@ def test_production_ready_declaration_gate_passes_current_repo_without_source_mu
     summary = result.data["summary"]
     report = result.data["report"]
     assert summary["decision"] == "PASS"
-    assert summary["blocking_gaps_total"] == 0
     assert summary["production_ready_local_declared"] is True
-    assert summary["formal_audit_declaration_pending"] is True
+    assert summary["final_declaration_artifact_available"] is True
+    assert summary["formal_audit_declaration_pending"] is False
+    assert summary["claims_valid"] is True
     assert summary["reports_written"] is False
+    assert summary["audit_markdown_written"] is False
+    assert summary["network_used"] is False
+    assert summary["external_api_used"] is False
+    assert summary["source_mutations_performed"] is False
+    assert report["created_by"] == "POST-H-025-E"
     assert report["claims"] == {
         "production_ready_local": True,
         "enterprise_ready": False,
@@ -35,111 +41,108 @@ def test_production_ready_declaration_gate_passes_current_repo_without_source_mu
         "compliance_certified": False,
         "saas_ready": False,
     }
-    assert report["decision"] == "PASS"
-    assert report["blocking_gaps_total"] == 0
-    assert report["no_go_gates_passed"] is True
     validation = SchemaValidator(ROOT).validate_payload(
         schema="ProductionReadyLocalReport",
         payload=report,
-        instance_label="in-memory:post-h-025-c-report",
+        instance_label="in-memory:post-h-025-e-final-report",
     )
     assert validation.ok, validation.to_dict()
 
 
-def test_production_ready_declaration_gate_blocks_missing_required_evidence(tmp_path: Path) -> None:
+def test_production_ready_final_declaration_writes_reports_and_audit_when_requested() -> None:
+    output_json = "outputs/test_post_h_025_e/production_ready_local_report.json"
+    output_markdown = "outputs/test_post_h_025_e/production_ready_local_report.md"
+    audit_markdown = "outputs/test_post_h_025_e/devpilot_local_production_ready_declaration.md"
+
+    result = ProductionReadyFinalDeclaration(
+        ROOT,
+        options=ProductionReadyFinalDeclarationOptions(
+            write_report=True,
+            write_audit_markdown=True,
+            output_json=output_json,
+            output_markdown=output_markdown,
+            audit_markdown=audit_markdown,
+        ),
+    ).finalize()
+
+    assert result.ok is True, result.to_dict()
+    assert result.data["summary"]["reports_written"] is True
+    assert result.data["summary"]["audit_markdown_written"] is True
+    assert result.data["reports"] == {"json": output_json, "markdown": output_markdown}
+    assert result.data["audit"] == {"written": True, "path": audit_markdown}
+    assert (ROOT / output_json).exists()
+    assert (ROOT / output_markdown).exists()
+    assert (ROOT / audit_markdown).exists()
+    payload = json.loads((ROOT / output_json).read_text(encoding="utf-8"))
+    assert payload["decision"] == "PASS"
+    assert payload["summary"]["reports_written"] is True
+    assert payload["summary"]["audit_markdown_written"] is True
+    audit_text = (ROOT / audit_markdown).read_text(encoding="utf-8")
+    assert "DevPilot Local production-ready-local declaration" in audit_text
+    assert "This declaration is limited to `production-ready-local`." in audit_text
+
+
+def test_production_ready_final_declaration_blocks_missing_required_evidence(tmp_path: Path) -> None:
     criteria_path = tmp_path / ".devpilot/production/production_ready_local_criteria.json"
     criteria_path.parent.mkdir(parents=True)
     criteria_path.write_text(json.dumps(_minimal_criteria(), indent=2), encoding="utf-8")
 
-    result = ProductionReadyDeclarationGate(
+    result = ProductionReadyFinalDeclaration(
         tmp_path,
-        options=ProductionReadyDeclarationGateOptions(
-            criteria_path=".devpilot/production/production_ready_local_criteria.json"
+        options=ProductionReadyFinalDeclarationOptions(
+            criteria_path=".devpilot/production/production_ready_local_criteria.json",
         ),
-    ).check()
+    ).finalize()
 
     assert result.ok is False
     assert result.exit_code == ExitCode.BLOCK
     report = result.data["report"]
     assert report["decision"] == "BLOCK"
     assert report["claims"]["production_ready_local"] is False
-    assert report["blocking_gaps_total"] == 1
-    assert report["gaps"][0]["severity"] == "block"
-    assert report["gaps"][0]["action"] == "Generate or restore the mapped local evidence artifact before final declaration."
-    validation = SchemaValidator(ROOT).validate_payload(
-        schema="ProductionReadyLocalReport",
-        payload=report,
-        instance_label="in-memory:post-h-025-c-block-report",
-    )
-    assert validation.ok, validation.to_dict()
+    assert report["blocking_gaps_total"] >= 1
+    assert result.data["summary"]["production_ready_local_declared"] is False
 
 
-def test_production_ready_declaration_gate_writes_schema_valid_reports_when_requested() -> None:
-    output_json = "outputs/test_post_h_025_c/production_ready_local_report.json"
-    output_markdown = "outputs/test_post_h_025_c/production_ready_local_report.md"
-
-    result = ProductionReadyDeclarationGate(
-        ROOT,
-        options=ProductionReadyDeclarationGateOptions(
-            write_report=True,
-            output_json=output_json,
-            output_markdown=output_markdown,
-        ),
-    ).check()
-
-    assert result.ok is True, result.to_dict()
-    assert result.data["summary"]["reports_written"] is True
-    assert result.data["reports"] == {"json": output_json, "markdown": output_markdown}
-    assert (ROOT / output_json).exists()
-    assert (ROOT / output_markdown).exists()
-    validation = SchemaValidator(ROOT).validate(
-        schema="ProductionReadyLocalReport",
-        instance=output_json,
-    )
-    assert validation.ok, validation.to_dict()
-    markdown = (ROOT / output_markdown).read_text(encoding="utf-8")
-    assert "Production-ready-local gate report" in markdown
-    assert "Formal audit declaration pending" in markdown
-
-
-def test_production_ready_declaration_gate_cli_and_application_service_are_synchronized(monkeypatch, capsys) -> None:
+def test_production_ready_final_declaration_cli_and_application_service_are_synchronized(monkeypatch, capsys) -> None:
     monkeypatch.chdir(ROOT)
 
-    api_result = ApplicationService(ROOT).production_ready_local_gate()
-    exit_code = cli.main(["industrial-readiness", "production-ready-local", "--json"])
+    api_result = ApplicationService(ROOT).production_ready_local_final_declaration()
+    exit_code = cli.main(["industrial-readiness", "production-ready-local-final", "--json"])
     payload = json.loads(capsys.readouterr().out)
 
     assert api_result.ok is True
     assert exit_code == 0
-    assert payload["command"] == "industrial-readiness production-ready-local"
+    assert payload["command"] == "industrial-readiness production-ready-local-final"
     assert payload["ok"] is True
     assert payload["data"]["summary"]["decision"] == api_result.data["summary"]["decision"]
+    assert payload["data"]["summary"]["claims_valid"] is True
     assert payload["data"]["summary"]["reports_written"] is False
-    assert payload["data"]["report"]["claims"]["enterprise_ready"] is False
+    assert payload["data"]["report"]["created_by"] == "POST-H-025-E"
 
 
-def test_production_ready_declaration_gate_artifacts_are_synchronized() -> None:
+def test_production_ready_final_declaration_artifacts_are_synchronized() -> None:
     readme = (ROOT / "README.md").read_text(encoding="utf-8")
     runbook = (ROOT / "docs/05_operations/runbook.md").read_text(encoding="utf-8")
     backlog = (ROOT / "docs/backlogs/POST-H-025_production_ready_declaration_gate.md").read_text(encoding="utf-8")
     tcr = (ROOT / ".devpilot/testing/test_contract_registry.json").read_text(encoding="utf-8")
     tcr_v2 = (ROOT / ".devpilot/testing/test_contract_registry_v2.json").read_text(encoding="utf-8")
 
-    assert "POST-H-025-C — Declaration gate CLI/API" in readme
-    assert "POST-H-025-C — Declaration gate CLI/API" in runbook
+    assert "POST-H-025-E — Declaración final o BLOCK report" in readme
+    assert "POST-H-025-E — Declaración final o BLOCK report" in runbook
     assert 'current_micro_sprint: "POST-H-025-E"' in backlog
     assert 'next_micro_sprint: "POST-H-026"' in backlog
-    assert "post-h-025-production-ready-declaration-gate" in tcr
-    assert "post-h-025-production-ready-declaration-gate" in tcr_v2
-    assert (ROOT / "docs/audits/post_h_025_c_declaration_gate_report.md").exists()
-    assert (ROOT / "docs/post_h_025_c_manifest.json").exists()
+    assert "post-h-025-production-ready-final-declaration" in tcr
+    assert "post-h-025-production-ready-final-declaration" in tcr_v2
+    assert (ROOT / "docs/audits/devpilot_local_production_ready_declaration.md").exists()
+    assert (ROOT / "docs/audits/post_h_025_e_final_declaration_report.md").exists()
+    assert (ROOT / "docs/post_h_025_e_manifest.json").exists()
 
 
 def _minimal_criteria() -> dict:
     return {
         "schema_version": "1.0",
         "schema_id": "SCHEMA-DEVPL-PRODUCTION-READY-LOCAL-CRITERIA-V1",
-        "criteria_id": "test-criteria",
+        "criteria_id": "test-final-criteria",
         "status": "implemented-initial",
         "scope": "production-ready-local",
         "minimum_score": 90,
@@ -173,7 +176,7 @@ def _minimal_criteria() -> dict:
                         "expected_status": "present",
                         "expected_schema_id": None,
                         "producer_sprint": "POST-H-999",
-                        "validation_command": "not executed by POST-H-025-C",
+                        "validation_command": "not executed by POST-H-025-E",
                         "notes": [],
                     }
                 ],

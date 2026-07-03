@@ -11609,6 +11609,92 @@
       "classification_notes": [
         "POST-H-025-D is P0 because unsupported readiness claims can invalidate the final production-ready-local declaration."
       ]
+    },
+    {
+      "contract_id": "post-h-025-production-ready-final-declaration",
+      "schema_version": "2.0",
+      "source_contract_id": "post-h-025-production-ready-final-declaration",
+      "domain": "quality.gate",
+      "capability": "Production-ready-local final PASS/BLOCK declaration",
+      "criticality": "P0",
+      "risk_level": "critical",
+      "test_type": "integration",
+      "execution_profile": "release",
+      "cost_class": "low",
+      "expected_duration_seconds": 12,
+      "test_files": [
+        "tests/test_post_h_025_production_ready_final_declaration.py",
+        "tests/test_post_h_025_production_ready_claims_validator.py",
+        "tests/test_post_h_025_production_ready_declaration_gate.py",
+        "tests/test_quality_gate.py",
+        "tests/test_project_global_state.py"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/industrial/",
+        "src/devpilot_core/application/services.py",
+        "src/devpilot_core/cli.py",
+        "src/devpilot_core/cli_registry/registry.py",
+        ".devpilot/production/",
+        "docs/backlogs/POST-H-025_production_ready_declaration_gate.md",
+        "docs/POST-H-025_production_ready_declaration_gate.md",
+        ".devpilot/testing/",
+        ".devpilot/project_state.json",
+        "README.md",
+        "docs/05_operations/runbook.md",
+        "docs/release/CHANGELOG.md",
+        "tests/test_post_h_025_production_ready_final_declaration.py"
+      ],
+      "validates": [
+        "src/devpilot_core/industrial/production_ready.py",
+        "src/devpilot_core/industrial/__init__.py",
+        "src/devpilot_core/application/services.py",
+        "src/devpilot_core/cli.py",
+        "src/devpilot_core/cli_registry/registry.py",
+        "docs/backlogs/POST-H-025_production_ready_declaration_gate.md",
+        "docs/POST-H-025_production_ready_declaration_gate.md",
+        "docs/audits/devpilot_local_production_ready_declaration.md",
+        "docs/audits/post_h_025_e_final_declaration_report.md",
+        "docs/post_h_025_e_manifest.json"
+      ],
+      "required_fixtures": [],
+      "required_cli": [
+        "industrial-readiness.production-ready-local-final"
+      ],
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "classification_status": "explicit",
+      "owner": "POST-H-025-E",
+      "phase": "POST-FASE-H",
+      "created_by": "POST-H-025-E",
+      "updated": "2026-07-03",
+      "preliminary": false,
+      "required_for_release": true,
+      "required_for_security_gate": true,
+      "requires_human_approval": false,
+      "source_mutations_allowed": false,
+      "mutations_allowed": false,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_025_production_ready_final_declaration.py tests/test_post_h_025_production_ready_claims_validator.py tests/test_post_h_025_production_ready_declaration_gate.py tests/test_post_h_025_production_ready_aggregator.py tests/test_post_h_025_production_ready_criteria.py tests/test_schema_registry.py tests/test_project_global_state.py tests/test_quality_gate.py -q",
+        "python -m devpilot_core industrial-readiness production-ready-local-final --json --write-report",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ],
+      "trigger_hints": [
+        "production-ready-local",
+        "final-declaration",
+        "pass-block",
+        "no-overclaim",
+        "post-h-025-closure"
+      ],
+      "impact_scope": [
+        "src/devpilot_core/industrial/",
+        "src/devpilot_core/application/services.py",
+        "src/devpilot_core/cli.py",
+        "docs/backlogs/POST-H-025_production_ready_declaration_gate.md",
+        "tests/test_post_h_025_production_ready_final_declaration.py"
+      ],
+      "classification_notes": [
+        "POST-H-025-E is P0 because it emits the final production-ready-local PASS/BLOCK declaration."
+      ]
     }
   ],
   "migration_metadata": {
@@ -11619,8 +11705,8 @@
     "network_used": false,
     "external_api_used": false,
     "mutations_performed_by_default": false,
-    "contracts_total": 187,
-    "last_updated_by": "POST-H-025-D"
+    "contracts_total": 188,
+    "last_updated_by": "POST-H-025-E"
   },
   "notes": [
     "POST-H-020-D fixes v2 contract classification_status for POST-H-020-C/D contracts to keep schema validation synchronized.",
@@ -11643,6 +11729,7 @@
     "POST-H-025-A adds v2 criteria/evidence map contract.",
     "POST-H-025-B adds v2 read-only evidence aggregator contract.",
     "POST-H-025-C adds v2 production-ready-local declaration gate CLI/API contract.",
-    "POST-H-025-D adds v2 production-ready-local no-go claims validator contract."
+    "POST-H-025-D adds v2 production-ready-local no-go claims validator contract.",
+    "POST-H-025-E adds v2 production-ready-local final declaration contract."
   ]
 }

@@ -1,3 +1,23 @@
+## post-h-025-e — Production-ready local final declaration
+
+### Added
+
+- Added `ProductionReadyFinalDeclaration` for final PASS/BLOCK packaging.
+- Added CLI command `industrial-readiness production-ready-local-final`.
+- Added final audit declaration `docs/audits/devpilot_local_production_ready_declaration.md`.
+- Added POST-H-025-E focused tests, manifest and final declaration report.
+
+### Changed
+
+- Closed POST-H-025 as `production-ready-local` with bounded claims.
+- Advanced project state to `last_completed_sprint=POST-H-025` and `next_sprint=POST-H-026`.
+
+### Security
+
+- The final declaration is local-only and does not declare enterprise-ready, compliance-certified, remote-ready or SaaS-ready status.
+- Remote execution, connector write, plugin execution and external APIs remain disabled/not required.
+- Runtime reports under `outputs/` remain regenerated evidence and are excluded from clean delivery ZIPs.
+
 ## post-h-025-d — Production-ready local no-go claims validator
 
 ### Added

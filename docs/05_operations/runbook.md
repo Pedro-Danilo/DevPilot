@@ -2,17 +2,78 @@
 title: "Runbook — DevPilot Local"
 doc_id: "DEVPL-OPS-002"
 status: "approved"
-version: "1.96.0"
+version: "1.97.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "POST-H-025-D"
+phase: "POST-H-025-E"
 updated: "2026-07-03"
 approval: "approved_by_owner"
 source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved + 03_security approved"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "SPRINT-PRECODE-05 quality operations baseline"
 ---
+
+## POST-H-025-E — Declaración final o BLOCK report
+
+Último hito cerrado: `POST-H-025`
+
+Hito activo siguiente: `POST-H-026`
+
+Último micro-sprint implementado: `POST-H-025-E — Declaración final o BLOCK report`
+
+Siguiente hito: `POST-H-026`
+
+Artefactos principales:
+
+```text
+src/devpilot_core/industrial/production_ready.py
+src/devpilot_core/application/services.py
+src/devpilot_core/cli.py
+tests/test_post_h_025_production_ready_final_declaration.py
+docs/audits/devpilot_local_production_ready_declaration.md
+docs/audits/post_h_025_e_final_declaration_report.md
+docs/post_h_025_e_manifest.json
+outputs/reports/production_ready_local_report.json
+outputs/reports/production_ready_local_report.md
+```
+
+Propósito operacional: emitir la declaración final `production-ready-local` o un `BLOCK` reproducible. La capa final ejecuta el declaration gate, ejecuta el claims validator, convierte cualquier overclaim/no-go en bloqueo y genera el reporte `ProductionReadyLocalReport` con `created_by=POST-H-025-E`.
+
+Comandos focales:
+
+```powershell
+python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_025_production_ready_final_declaration.py tests/test_post_h_025_production_ready_claims_validator.py tests/test_post_h_025_production_ready_declaration_gate.py tests/test_post_h_025_production_ready_aggregator.py tests/test_post_h_025_production_ready_criteria.py tests/test_schema_registry.py tests/test_project_global_state.py tests/test_quality_gate.py -q
+python -m devpilot_core industrial-readiness production-ready-local-final --json --write-report
+python -m devpilot_core schema validate --schema-id ProductionReadyLocalReport --instance outputs/reports/production_ready_local_report.json --json
+python -m devpilot_core quality-gate run --profile hardening --json
+python -m devpilot_core test-contracts validate --json
+python -m devpilot_core test-contracts validate-v2 --json
+python -m devpilot_core docs-governance validate --json
+```
+
+Criterios PASS:
+
+```text
+Decision PASS en production-ready-local-final.
+Claims validator pasa.
+blocking_gaps_total=0.
+production_ready_local=true.
+enterprise_ready=false, remote_ready=false, compliance_certified=false, saas_ready=false.
+remote_execution_enabled=false, connector_write_enabled=false, plugin_execution_enabled=false.
+Documento auditado final versionado y reporte runtime regenerable.
+```
+
+Criterios BLOCK:
+
+```text
+BLOCK si el declaration gate devuelve blockers.
+BLOCK si el claims validator detecta overclaims.
+BLOCK si se habilita cualquier no-go gate.
+BLOCK si el reporte final no valida contra ProductionReadyLocalReport.
+```
+
+Limitación: la declaración es local y debe revalidarse ante cambios relevantes. No es certificación compliance ni readiness enterprise/SaaS/remote/cloud. Es cierre industrial local-first del hito POST-H-025.
 
 ## POST-H-025-D — No-go gates y claims validator
 

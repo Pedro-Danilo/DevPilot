@@ -114,8 +114,8 @@ def test_production_ready_claims_validator_artifacts_are_synchronized() -> None:
 
     assert "POST-H-025-D — No-go gates y claims validator" in readme
     assert "POST-H-025-D — No-go gates y claims validator" in runbook
-    assert 'current_micro_sprint: "POST-H-025-D"' in backlog
-    assert 'next_micro_sprint: "POST-H-025-E"' in backlog
+    assert 'current_micro_sprint: "POST-H-025-E"' in backlog
+    assert 'next_micro_sprint: "POST-H-026"' in backlog
     assert "post-h-025-production-ready-claims-validator" in tcr
     assert "post-h-025-production-ready-claims-validator" in tcr_v2
     assert (ROOT / "docs/audits/post_h_025_d_claims_validator_report.md").exists()

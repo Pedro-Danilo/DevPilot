@@ -3246,6 +3246,31 @@ def industrial_readiness_production_ready_local_command(
     return int(result.exit_code)
 
 
+def industrial_readiness_production_ready_local_final_command(
+    *,
+    json_output: bool = False,
+    write_report: bool = False,
+    write_audit_markdown: bool = False,
+    output_json: str = "outputs/reports/production_ready_local_report.json",
+    output_markdown: str = "outputs/reports/production_ready_local_report.md",
+    audit_markdown: str = "docs/audits/devpilot_local_production_ready_declaration.md",
+) -> int:
+    """Run the POST-H-025-E final production-ready-local declaration package."""
+
+    root = project_root()
+    result = ApplicationService(root).production_ready_local_final_declaration(
+        write_report=write_report,
+        write_audit_markdown=write_audit_markdown,
+        output_json=output_json,
+        output_markdown=output_markdown,
+        audit_markdown=audit_markdown,
+    )
+    _emit_result_event(root, result, subject="industrial:production-ready-local-final")
+    _persist_result(root, result, subject="industrial:production-ready-local-final")
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+
 
 
 def test_contracts_validate_command(
@@ -5372,6 +5397,13 @@ def build_parser() -> argparse.ArgumentParser:
     industrial_prl.add_argument("--output-markdown", default="outputs/reports/production_ready_local_report.md", help="Production-ready-local report Markdown path")
     industrial_prl.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     industrial_prl.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+    industrial_prl_final = industrial_sub.add_parser("production-ready-local-final", help="Run the final local production-ready declaration package")
+    industrial_prl_final.add_argument("--output-json", default="outputs/reports/production_ready_local_report.json", help="Final production-ready-local report JSON path")
+    industrial_prl_final.add_argument("--output-markdown", default="outputs/reports/production_ready_local_report.md", help="Final production-ready-local report Markdown path")
+    industrial_prl_final.add_argument("--audit-markdown", default="docs/audits/devpilot_local_production_ready_declaration.md", help="Final audit declaration Markdown path")
+    industrial_prl_final.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    industrial_prl_final.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown runtime evidence report")
+    industrial_prl_final.add_argument("--write-audit", action="store_true", help="Persist final audit declaration Markdown")
 
     architecture = sub.add_parser("architecture", help="Build executable local architecture map evidence")
     architecture_sub = architecture.add_subparsers(dest="architecture_command")
@@ -6644,6 +6676,15 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
                 write_report=args.write_report,
                 output_json=args.output_json,
                 output_markdown=args.output_markdown,
+            )
+        if args.industrial_readiness_command == "production-ready-local-final":
+            return industrial_readiness_production_ready_local_final_command(
+                json_output=args.json,
+                write_report=args.write_report,
+                write_audit_markdown=args.write_audit,
+                output_json=args.output_json,
+                output_markdown=args.output_markdown,
+                audit_markdown=args.audit_markdown,
             )
         parser.print_help()
         return int(ExitCode.FAIL)

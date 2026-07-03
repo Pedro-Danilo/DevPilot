@@ -5,7 +5,7 @@ title: "Roadmap priorizado post-H y decisiones arquitectónicas"
 status: "approved"
 version: "1.1.0"
 owner: "Ordóñez"
-updated: "2026-06-23"
+updated: "2026-07-03"
 approval: "approved_by_owner"
 micro_sprint: "POST-H-EVAL-001-F"
 phase: "POST-FASE-H"
@@ -337,3 +337,9 @@ tests/test_post_h_eval_001_f_prioritized_roadmap.py
 ## 16. Estado de cierre del micro-sprint F
 
 `POST-H-EVAL-001-F` queda clasificado como `implemented` a nivel documental/metadata y `PASS focal` cuando pasan las pruebas documentales y los gates de no regresión definidos. El hito completo `POST-H-EVAL-001` no queda cerrado hasta ejecutar `POST-H-EVAL-001-G` con manifest final y prueba documental global.
+
+## 17. Transición posterior a POST-H-025
+
+POST-H-025 queda cerrado como gate de declaración `production-ready-local` basado en evidencia consolidada, con claims explícitamente acotados a operación local-first. El siguiente hito registrado para continuidad del roadmap es `POST-H-026`.
+
+Esta transición no habilita remote execution, connector write, plugin execution, APIs externas por defecto, SaaS, certificación compliance ni claim enterprise-ready. `POST-H-026` debe abrirse con backlog ejecutable propio antes de implementar nuevas capacidades.
