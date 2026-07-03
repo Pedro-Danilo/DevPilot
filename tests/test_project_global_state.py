@@ -102,8 +102,8 @@ def test_project_global_state_schema_and_docs_are_synchronized() -> None:
     assert any("POST-H-013-D adds optional local crypto" in note for note in state["notes"])
     assert any("POST-H-013-E closes Audit pack integrity" in note for note in state["notes"])
     assert any("POST-H-014 is the next prioritized hito" in note for note in state["notes"])
-    assert state.get("current_micro_sprint") == "POST-H-025-A"
-    assert state.get("next_micro_sprint") == "POST-H-025-B"
+    assert state.get("current_micro_sprint") == "POST-H-025-B"
+    assert state.get("next_micro_sprint") == "POST-H-025-C"
     assert "POST-H-014-A — Route Contract Registry y API inventory" in readme
     assert "POST-H-014-B — Response mapping y errores homogéneos" in readme
     assert "POST-H-014-C — UI Route Contract y shell de producto" in readme
@@ -345,11 +345,15 @@ def test_project_global_state_schema_and_docs_are_synchronized() -> None:
     assert any("POST-H-012-E closes Approval/RBAC hardening" in note for note in state["notes"])
 
     assert any("POST-H-025-A approves Production-ready local declaration gate" in note for note in state["notes"])
-    assert state["current_micro_sprint"] == "POST-H-025-A"
-    assert state["next_micro_sprint"] == "POST-H-025-B"
+    assert any("POST-H-025-B adds read-only production-ready-local evidence aggregation" in note for note in state["notes"])
+    assert state["current_micro_sprint"] == "POST-H-025-B"
+    assert state["next_micro_sprint"] == "POST-H-025-C"
     assert "POST-H-025-A — Criteria schema y evidence map" in readme
     assert "POST-H-025-A — Criteria schema y evidence map" in runbook
+    assert "POST-H-025-B — Evidence aggregator read-only" in readme
+    assert "POST-H-025-B — Evidence aggregator read-only" in runbook
     assert "post-h-025-a" in changelog
+    assert "post-h-025-b" in changelog
 
 
 def test_project_global_state_command_result_passes() -> None:

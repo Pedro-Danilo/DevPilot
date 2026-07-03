@@ -1,3 +1,18 @@
+## post-h-025-b — Production-ready local evidence aggregator
+
+### Added
+
+- Added `ProductionReadyEvidenceAggregator` for read-only production-ready-local evidence aggregation.
+- Added intermediate evidence model with score, hito results, evidence details, gaps, no-go gates and safety flags.
+- Added focused tests for current-repo aggregation, missing required evidence, schema-id mismatch and missing criteria handling.
+- Added POST-H-025-B audit report and manifest.
+
+### Security
+
+- POST-H-025-B does not declare production-ready-local and does not write `outputs/`.
+- The aggregator does not call network, external APIs, remote execution, connector write, plugin execution or validation commands from the evidence map.
+- Missing required evidence is classified as a blocking gap without mutating source files.
+
 ## post-h-025-a — Production-ready local criteria and evidence map
 
 ### Added

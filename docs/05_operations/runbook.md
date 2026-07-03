@@ -2,17 +2,70 @@
 title: "Runbook — DevPilot Local"
 doc_id: "DEVPL-OPS-002"
 status: "approved"
-version: "1.93.0"
+version: "1.94.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "POST-H-025-A"
+phase: "POST-H-025-B"
 updated: "2026-07-03"
 approval: "approved_by_owner"
 source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved + 03_security approved"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "SPRINT-PRECODE-05 quality operations baseline"
 ---
+
+## POST-H-025-B — Evidence aggregator read-only
+
+Último hito cerrado: `POST-H-024`
+
+Hito activo: `POST-H-025 — Production-ready local declaration gate`
+
+Último micro-sprint implementado: `POST-H-025-B — Evidence aggregator read-only`
+
+Siguiente micro-sprint: `POST-H-025-C — Declaration gate CLI/API`
+
+Artefactos principales:
+
+```text
+src/devpilot_core/industrial/production_ready.py
+tests/test_post_h_025_production_ready_aggregator.py
+docs/audits/post_h_025_b_evidence_aggregator_report.md
+docs/post_h_025_b_manifest.json
+.devpilot/production/production_ready_local_criteria.json
+```
+
+Propósito operacional: consolidar evidencia local de `production-ready-local` sin escribir reportes, sin ejecutar comandos externos y sin declarar produccion. El agregador produce un modelo intermedio con score, hitos requeridos, evidencias, gaps, no-go gates y banderas de seguridad para que POST-H-025-C/E puedan envolverlo como gate formal.
+
+Comandos focales:
+
+```powershell
+python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_025_production_ready_aggregator.py tests/test_post_h_025_production_ready_criteria.py tests/test_schema_registry.py tests/test_project_global_state.py -q
+python -m devpilot_core schema validate --schema-id PostHManifest --instance docs/post_h_025_b_manifest.json --json
+python -m devpilot_core test-contracts validate --json
+python -m devpilot_core test-contracts validate-v2 --json
+python -m devpilot_core docs-governance validate --json
+```
+
+Criterios PASS:
+
+```text
+El agregador carga criteria JSON y evidence map.
+Las evidencias requeridas presentes se clasifican como pass.
+Las fuentes faltantes se clasifican como gaps sin mutar archivos.
+La salida declara production_ready_local_declared=false.
+network_used=false, external_api_used=false, mutations_performed=false y reports_written=false.
+```
+
+Criterios BLOCK:
+
+```text
+El criteria JSON falta o no es JSON valido.
+Una evidencia requerida faltante produce gap severity=block.
+Un schema_id esperado no coincide con el schema_id del JSON local.
+Se intenta escribir reportes o declarar production-ready-local desde POST-H-025-B.
+```
+
+Limitación: esta es una primera versión del agregador read-only. No ejecuta validaciones CLI del evidence map ni escribe `outputs/reports/production_ready_local_report.json`; esas responsabilidades quedan para POST-H-025-C/E. El claims validator documental sigue pendiente para POST-H-025-D.
 
 ## POST-H-025-A — Criteria schema y evidence map
 

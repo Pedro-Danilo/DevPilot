@@ -1,3 +1,23 @@
+## POST-H-025-B — Evidence aggregator read-only
+
+Último hito: `POST-H-024`
+
+Último hito cerrado: `POST-H-024`
+
+Hito activo: `POST-H-025 — Production-ready local declaration gate`
+
+Último micro-sprint implementado: `POST-H-025-B — Evidence aggregator read-only`
+
+Siguiente micro-sprint: `POST-H-025-C — Declaration gate CLI/API`
+
+POST-H-025-B agrega `ProductionReadyEvidenceAggregator` en `src/devpilot_core/industrial/production_ready.py`. El agregador carga `.devpilot/production/production_ready_local_criteria.json`, evalua las evidencias locales mapeadas por hito, clasifica estados `pass`, `partial`, `missing` o `failed`, calcula score, gaps bloqueantes/advisory y produce un modelo intermedio read-only.
+
+La capacidad es `implemented-initial / evidence-aggregator-read-only`: no escribe `outputs/`, no ejecuta los comandos de validacion declarados en el evidence map, no expone CLI/API todavia y no declara `production-ready-local`. Un resultado `PASS_CANDIDATE` del agregador solo significa que las evidencias requeridas versionadas estan presentes; la declaracion formal queda reservada para POST-H-025-C/E y el claims validator para POST-H-025-D.
+
+POST-H-025-B mantiene `production_ready_local_declared=false`, no habilita red, APIs externas, remote execution, connector write ni plugin execution. Las fuentes faltantes se reportan como gaps sin mutar archivos.
+
+Verificacion focal recomendada: `python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_025_production_ready_aggregator.py tests/test_post_h_025_production_ready_criteria.py tests/test_schema_registry.py tests/test_project_global_state.py -q`.
+
 ## POST-H-025-A — Criteria schema y evidence map
 
 Último hito: `POST-H-024`

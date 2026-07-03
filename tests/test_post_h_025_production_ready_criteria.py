@@ -173,3 +173,5 @@ def test_versioned_artifacts_and_documentation_are_synchronized() -> None:
     assert "POST-H-025-A — Criteria schema y evidence map" in readme
     assert "POST-H-025-A — Criteria schema y evidence map" in runbook
     assert "post-h-025-a" in changelog
+    assert "POST-H-025-B — Evidence aggregator read-only" in readme
+    assert "POST-H-025-B — Evidence aggregator read-only" in runbook

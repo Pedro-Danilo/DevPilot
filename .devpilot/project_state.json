@@ -221,10 +221,13 @@
     "POST-H-025-A adds ProductionReadyLocalCriteria and ProductionReadyLocalReport schemas for auditable production-ready-local declaration gating.",
     "POST-H-025-A adds .devpilot/production/production_ready_local_criteria.json with required hitos, optional design hitos, evidence classes and no-go gates.",
     "POST-H-025-A is implemented-initial/criteria-schema-evidence-map-only: evidence aggregation, declaration CLI, claims validator and final PASS/BLOCK report remain pending for POST-H-025-B/C/D/E.",
-    "POST-H-025-B is the next micro-sprint: Evidence aggregator read-only."
+    "POST-H-025-B is the next micro-sprint: Evidence aggregator read-only.",
+    "POST-H-025-B adds read-only production-ready-local evidence aggregation.",
+    "POST-H-025-B produces an intermediate evidence model without declaring production-ready-local.",
+    "POST-H-025-C is the next micro-sprint: Declaration gate CLI/API."
   ],
-  "current_micro_sprint": "POST-H-025-A",
-  "next_micro_sprint": "POST-H-025-B",
+  "current_micro_sprint": "POST-H-025-B",
+  "next_micro_sprint": "POST-H-025-C",
   "post_h_020_current_micro_sprint": "POST-H-020-E",
   "post_h_020_next_micro_sprint": "POST-H-021",
   "compliance_evidence_collector_module": "src/devpilot_core/compliance/evidence.py",
@@ -400,8 +403,8 @@
   "post_h_024_closed": true,
   "post_h_024_closure_report_path": "docs/audits/post_h_024_e_onboarding_quality_gate_report.md",
   "post_h_025_status": "in-progress",
-  "post_h_025_current_micro_sprint": "POST-H-025-A",
-  "post_h_025_next_micro_sprint": "POST-H-025-B",
+  "post_h_025_current_micro_sprint": "POST-H-025-B",
+  "post_h_025_next_micro_sprint": "POST-H-025-C",
   "post_h_025_backlog_status": "approved",
   "post_h_025_criteria_schema_path": "docs/schemas/production_ready_local_criteria.schema.json",
   "post_h_025_report_schema_path": "docs/schemas/production_ready_local_report.schema.json",
@@ -414,7 +417,7 @@
   "post_h_025_blocking_gaps_allowed": 0,
   "post_h_025_evidence_map_available": true,
   "post_h_025_declaration_gate_available": false,
-  "post_h_025_evidence_aggregator_available": false,
+  "post_h_025_evidence_aggregator_available": true,
   "post_h_025_claims_validator_available": false,
   "post_h_025_production_ready_local_declared": false,
   "post_h_025_enterprise_ready_claimed": false,
@@ -424,5 +427,6 @@
   "post_h_025_remote_execution_enabled": false,
   "post_h_025_connector_write_enabled": false,
   "post_h_025_plugin_execution_enabled": false,
-  "post_h_025_external_apis_required": false
+  "post_h_025_external_apis_required": false,
+  "post_h_025_evidence_aggregator_read_only": true
 }

@@ -18,8 +18,8 @@ no_external_apis_used: true
 no_connector_write_enabled: true
 no_plugin_execution_enabled: true
 implementation_status: "in-progress"
-current_micro_sprint: "POST-H-025-A"
-next_micro_sprint: "POST-H-025-B"
+current_micro_sprint: "POST-H-025-B"
+next_micro_sprint: "POST-H-025-C"
 ---
 
 # POST-H-025 — DevPilot Local production-ready declaration gate
@@ -185,7 +185,7 @@ docs/05_operations/runbook.md
 
 ### POST-H-025-A — Criteria schema y evidence map
 
-Estado: `implemented-initial/criteria-schema-evidence-map-only`.
+Estado: `closed/criteria-schema-evidence-map-only`.
 
 Objetivo: definir los criterios formales de declaración.
 
@@ -216,16 +216,18 @@ Criterios BLOCK:
 
 ### POST-H-025-B — Evidence aggregator read-only
 
+Estado: `implemented-initial/evidence-aggregator-read-only`.
+
 Objetivo: implementar agregador local de evidencias.
 
 Tareas:
 
 ```text
-1. Crear src/devpilot_core/industrial/production_ready.py.
-2. Leer artefactos de madurez, testing, policy, architecture, docs, observability, RAG, approvals, UI/API, release y onboarding.
-3. Clasificar faltantes y gaps.
-4. No mutar archivos.
-5. Producir modelo intermedio de evidencia.
+1. [x] Crear src/devpilot_core/industrial/production_ready.py.
+2. [x] Leer artefactos de madurez, testing, policy, architecture, docs, observability, RAG, approvals, UI/API, release y onboarding desde el evidence map local.
+3. [x] Clasificar faltantes y gaps.
+4. [x] No mutar archivos.
+5. [x] Producir modelo intermedio de evidencia.
 ```
 
 Criterios PASS:
@@ -234,6 +236,15 @@ Criterios PASS:
 - El agregador funciona con fuentes faltantes marcadas como gaps.
 - No modifica archivos.
 - No requiere red.
+```
+
+Notas de alcance:
+
+```text
+- POST-H-025-B no ejecuta comandos de validacion del evidence map.
+- POST-H-025-B no escribe outputs/reports/production_ready_local_report.json.
+- POST-H-025-B no declara production-ready-local; solo produce PASS_CANDIDATE o BLOCK_CANDIDATE en modelo intermedio.
+- La exposicion CLI/API queda para POST-H-025-C.
 ```
 
 ### POST-H-025-C — Declaration gate CLI/API
@@ -337,9 +348,9 @@ python -m devpilot_core validate-artifact docs/audits/devpilot_local_production_
 ## 12. Definition of Done
 
 ```text
-[ ] Criteria y report schemas creados.
-[ ] Criteria JSON creado.
-[ ] Evidence aggregator implementado.
+[x] Criteria y report schemas creados.
+[x] Criteria JSON creado.
+[x] Evidence aggregator implementado.
 [ ] Gate CLI/API implementado.
 [ ] Claims validator implementado.
 [ ] Report PASS/BLOCK generado.

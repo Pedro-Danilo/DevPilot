@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "SCHEMA-DEVPL-POST-H-MANIFEST-V1",
+  "manifest_id": "POST-H-025-B-MANIFEST",
+  "post_h_id": "POST-H-025",
+  "micro_sprint": "POST-H-025-B",
+  "title": "POST-H-025-B — Evidence aggregator read-only",
+  "status": "implemented-initial",
+  "phase": "POST-FASE-H",
+  "implemented_at": "2026-07-03",
+  "implementation_status": "implemented-initial/evidence-aggregator-read-only",
+  "preliminary": true,
+  "local_first": true,
+  "dry_run": true,
+  "read_only": true,
+  "no_remote_execution_enabled": true,
+  "no_external_apis_used": true,
+  "no_connector_write_enabled": true,
+  "no_plugin_execution_enabled": true,
+  "network_used": false,
+  "external_api_used": false,
+  "remote_execution_used": false,
+  "connector_write_used": false,
+  "plugin_execution_used": false,
+  "secrets_included": false,
+  "created_files": [
+    "src/devpilot_core/industrial/production_ready.py",
+    "tests/test_post_h_025_production_ready_aggregator.py",
+    "docs/audits/post_h_025_b_evidence_aggregator_report.md",
+    "docs/post_h_025_b_manifest.json"
+  ],
+  "modified_files": [
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/POST-H-025_production_ready_declaration_gate.md",
+    "docs/backlogs/POST-H-025_production_ready_declaration_gate.md",
+    "docs/release/CHANGELOG.md",
+    ".devpilot/project_state.json",
+    ".devpilot/docs_governance/source_registry.json",
+    ".devpilot/testing/test_contract_registry.json",
+    ".devpilot/testing/test_contract_registry_v2.json",
+    "src/devpilot_core/industrial/__init__.py",
+    "tests/test_project_global_state.py"
+  ],
+  "commands": [
+    "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_025_production_ready_aggregator.py tests/test_post_h_025_production_ready_criteria.py tests/test_schema_registry.py tests/test_project_global_state.py -q",
+    "python -m devpilot_core schema validate --schema-id PostHManifest --instance docs/post_h_025_b_manifest.json --json",
+    "python -m devpilot_core test-contracts validate --json",
+    "python -m devpilot_core test-contracts validate-v2 --json",
+    "python -m devpilot_core docs-governance validate --json"
+  ],
+  "tests": [
+    "tests/test_post_h_025_production_ready_aggregator.py",
+    "tests/test_post_h_025_production_ready_criteria.py",
+    "tests/test_schema_registry.py",
+    "tests/test_project_global_state.py"
+  ],
+  "pass_criteria": [
+    "El agregador carga criteria JSON y evidence map.",
+    "Fuentes faltantes se reportan como gaps sin mutar archivos.",
+    "No requiere red ni APIs externas.",
+    "No declara production-ready-local."
+  ],
+  "block_criteria": [
+    "ERROR si criteria JSON falta o no es JSON valido.",
+    "Gap block si falta evidencia requerida blocker.",
+    "Gap block si una evidencia JSON requerida tiene schema_id incompatible.",
+    "BLOCK contractual si se intenta declarar production-ready-local desde POST-H-025-B."
+  ],
+  "risks": [
+    "El agregador no ejecuta comandos de validacion del evidence map; solo inspecciona artefactos locales.",
+    "Freshness/timestamps quedan pendientes para POST-H-025-C/E.",
+    "Claims validator queda pendiente para POST-H-025-D."
+  ],
+  "next_sprint": "POST-H-025",
+  "next_micro_sprint": "POST-H-025-C"
+}

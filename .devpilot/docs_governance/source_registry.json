@@ -2,7 +2,7 @@
   "schema_version": "1.0",
   "schema_id": "SCHEMA-DEVPL-DOCUMENTATION-SOURCE-REGISTRY-V1",
   "registry_id": "devpilot-documentation-source-registry",
-  "created_by": "POST-H-025-A",
+  "created_by": "POST-H-025-B",
   "status": "implemented-initial",
   "phase": "POST-FASE-H",
   "owner": "Ordóñez",
@@ -5938,6 +5938,105 @@
       "notes": [
         "Focused regression test for POST-H-025-A criteria and evidence map."
       ]
+    },
+    {
+      "doc_id": "POST-H-025-B-PRODUCTION-READY-MODULE",
+      "path": "src/devpilot_core/industrial/production_ready.py",
+      "classification": "machine-readable-source",
+      "domain": "production-ready-local",
+      "owner": "POST-H-025-B",
+      "status_required": "implemented-initial",
+      "criticality": "P0",
+      "frontmatter_required": false,
+      "required_tests": [
+        "tests/test_post_h_025_production_ready_aggregator.py"
+      ],
+      "sync_rules": [
+        "read_only_aggregation",
+        "no_report_write",
+        "no_production_claim"
+      ],
+      "roadmap_milestones": [
+        "POST-H-025"
+      ],
+      "lifecycle": "active",
+      "notes": [
+        "Read-only evidence aggregation module for production-ready-local gate."
+      ]
+    },
+    {
+      "doc_id": "POST-H-025-B-EVIDENCE-AGGREGATOR-REPORT",
+      "path": "docs/audits/post_h_025_b_evidence_aggregator_report.md",
+      "classification": "audit-report",
+      "domain": "production-ready-local",
+      "owner": "POST-H-025-B",
+      "status_required": "approved",
+      "criticality": "P0",
+      "frontmatter_required": true,
+      "required_tests": [
+        "tests/test_post_h_025_production_ready_aggregator.py",
+        "tests/test_project_global_state.py"
+      ],
+      "sync_rules": [
+        "frontmatter_status",
+        "scope_limitations_documented"
+      ],
+      "roadmap_milestones": [
+        "POST-H-025"
+      ],
+      "lifecycle": "active",
+      "notes": [
+        "Audit report for POST-H-025-B read-only evidence aggregator."
+      ]
+    },
+    {
+      "doc_id": "POST-H-025-B-MANIFEST",
+      "path": "docs/post_h_025_b_manifest.json",
+      "classification": "machine-readable-source",
+      "domain": "production-ready-local",
+      "owner": "POST-H-025-B",
+      "status_required": "implemented-initial",
+      "criticality": "P0",
+      "frontmatter_required": false,
+      "required_tests": [
+        "tests/test_post_h_025_production_ready_aggregator.py"
+      ],
+      "sync_rules": [
+        "post_h_manifest_schema",
+        "next_micro_sprint"
+      ],
+      "roadmap_milestones": [
+        "POST-H-025"
+      ],
+      "lifecycle": "active",
+      "notes": [
+        "Machine-readable manifest for POST-H-025-B."
+      ]
+    },
+    {
+      "doc_id": "POST-H-025-B-EVIDENCE-AGGREGATOR-TEST",
+      "path": "tests/test_post_h_025_production_ready_aggregator.py",
+      "classification": "machine-readable-source",
+      "domain": "production-ready-local",
+      "owner": "POST-H-025-B",
+      "status_required": "implemented-initial",
+      "criticality": "P0",
+      "frontmatter_required": false,
+      "required_tests": [
+        "tests/test_post_h_025_production_ready_aggregator.py"
+      ],
+      "sync_rules": [
+        "focused_regression",
+        "missing_evidence_gap",
+        "no_mutation"
+      ],
+      "roadmap_milestones": [
+        "POST-H-025"
+      ],
+      "lifecycle": "active",
+      "notes": [
+        "Focused regression test for POST-H-025-B evidence aggregation."
+      ]
     }
   ],
   "rules": {
@@ -6009,20 +6108,20 @@
     "remote_runner_design_runbook_registered": true
   },
   "summary": {
-    "documents_total": 212,
+    "documents_total": 216,
     "source_of_truth_total": 75,
-    "machine_readable_source_total": 95,
+    "machine_readable_source_total": 98,
     "derived_total": 32,
     "generated_runtime_total": 0,
     "historical_total": 0,
     "deprecated_total": 0,
-    "critical_sources_total": 125,
+    "critical_sources_total": 129,
     "markdown_json_pairs_total": 30,
-    "documents_with_required_tests_total": 212,
+    "documents_with_required_tests_total": 216,
     "network_used": false,
     "external_api_used": false,
     "mutations_performed": false,
-    "last_updated_by": "POST-H-025-A",
+    "last_updated_by": "POST-H-025-B",
     "markdown_json_sync_checks_enabled": true,
     "sync_checks_scope": "version_match, milestones_match, decisions_match, closure_status_match, next_hito_match",
     "roadmap_derived_backlog_governance_enabled": true,
@@ -6111,12 +6210,14 @@
     "POST-H-024-D registers onboarding readiness preview schema, module, manifest, audit report and focused tests.",
     "POST-H-024-D keeps quality gate and pilot fixture pending for POST-H-024-E.",
     "POST-H-025-A registers production-ready-local criteria/report schemas, criteria JSON, manifest, audit report and focused tests.",
-    "POST-H-025-A remains criteria-only; evidence aggregation and final declaration remain pending."
+    "POST-H-025-A remains criteria-only; evidence aggregation and final declaration remain pending.",
+    "POST-H-025-B registers production-ready-local evidence aggregator module, manifest, audit report and focused tests.",
+    "POST-H-025-B remains read-only and does not declare production-ready-local."
   ],
   "project_state_snapshot": {
-    "last_updated_by": "POST-H-025-A",
-    "current_micro_sprint": "POST-H-025-A",
-    "next_micro_sprint": "POST-H-025-B",
+    "last_updated_by": "POST-H-025-B",
+    "current_micro_sprint": "POST-H-025-B",
+    "next_micro_sprint": "POST-H-025-C",
     "last_completed_sprint": "POST-H-024",
     "next_sprint": "POST-H-025",
     "post_h_023_current_micro_sprint": "POST-H-023-E",
@@ -6151,11 +6252,12 @@
     "post_h_024_secrets_included": false,
     "post_h_024_project_bootstrap_report_available": true,
     "external_api_used": false,
-    "post_h_025_current_micro_sprint": "POST-H-025-A",
-    "post_h_025_next_micro_sprint": "POST-H-025-B",
+    "post_h_025_current_micro_sprint": "POST-H-025-B",
+    "post_h_025_next_micro_sprint": "POST-H-025-C",
     "post_h_025_criteria_path": ".devpilot/production/production_ready_local_criteria.json",
     "post_h_025_production_ready_local_declared": false,
     "post_h_025_enterprise_ready_claimed": false,
-    "post_h_025_compliance_certified_claimed": false
+    "post_h_025_compliance_certified_claimed": false,
+    "post_h_025_evidence_aggregator_available": true
   }
 }

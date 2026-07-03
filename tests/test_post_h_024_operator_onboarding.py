@@ -98,8 +98,8 @@ def test_post_h_024_manifest_source_registry_and_tcr_are_registered() -> None:
     backlog_entry = next(item for item in source_registry["documents"] if item["doc_id"] == "POST-H-024-BACKLOG")
     assert backlog_entry["status_required"] == "approved"
     assert backlog_entry["lifecycle"] == "active"
-    assert source_registry["project_state_snapshot"]["current_micro_sprint"] == "POST-H-025-A"
-    assert source_registry["project_state_snapshot"]["next_micro_sprint"] == "POST-H-025-B"
+    assert source_registry["project_state_snapshot"]["current_micro_sprint"] == "POST-H-025-B"
+    assert source_registry["project_state_snapshot"]["next_micro_sprint"] == "POST-H-025-C"
 
     contract_ids_v1 = {item["contract_id"] for item in tcr_v1["contracts"]}
     contract_ids_v2 = {item["contract_id"] for item in tcr_v2["contracts"]}
@@ -121,8 +121,8 @@ def test_project_state_and_global_docs_point_to_post_h_024_a() -> None:
 
     assert state["last_completed_sprint"] == "POST-H-024"
     assert state["next_sprint"] == "POST-H-025"
-    assert state["current_micro_sprint"] == "POST-H-025-A"
-    assert state["next_micro_sprint"] == "POST-H-025-B"
+    assert state["current_micro_sprint"] == "POST-H-025-B"
+    assert state["next_micro_sprint"] == "POST-H-025-C"
     assert state["post_h_024_operator_playbook_available"] is True
     assert state["post_h_024_templates_available"] is True
     assert state["post_h_024_bootstrap_workflow_available"] is True
