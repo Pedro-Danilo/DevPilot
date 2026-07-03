@@ -3,7 +3,7 @@
   "id": "POST-H-EVAL-001-F",
   "title": "Roadmap priorizado post-H y decisiones arquitectónicas",
   "status": "implemented",
-  "generated_at_utc": "2026-06-23T00:00:00Z",
+  "generated_at_utc": "2026-07-03T00:00:00Z",
   "policy": {
     "local_first": true,
     "dry_run": true,
@@ -100,6 +100,14 @@
       "priority_focus": "P0",
       "milestones": [
         "POST-H-025"
+      ]
+    },
+    {
+      "id": "wave-8",
+      "name": "Continuidad posterior al gate local",
+      "priority_focus": "P0",
+      "milestones": [
+        "POST-H-026"
       ]
     }
   ],
