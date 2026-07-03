@@ -2,7 +2,7 @@
   "schema_version": "1.0",
   "schema_id": "SCHEMA-DEVPL-DOCUMENTATION-SOURCE-REGISTRY-V1",
   "registry_id": "devpilot-documentation-source-registry",
-  "created_by": "POST-H-025-C",
+  "created_by": "POST-H-025-D",
   "status": "implemented-initial",
   "phase": "POST-FASE-H",
   "owner": "Ordóñez",
@@ -6138,6 +6138,107 @@
       "notes": [
         "Focused regression test for POST-H-025-C declaration gate CLI/API."
       ]
+    },
+    {
+      "classification": "machine-readable-source",
+      "domain": "production-ready-local",
+      "owner": "POST-H-025-D",
+      "status_required": "implemented-initial",
+      "criticality": "P0",
+      "frontmatter_required": false,
+      "roadmap_milestones": [
+        "POST-H-025"
+      ],
+      "lifecycle": "active",
+      "doc_id": "POST-H-025-D-PRODUCTION-READY-CLAIMS-VALIDATOR-MODULE",
+      "path": "src/devpilot_core/industrial/production_ready.py",
+      "required_tests": [
+        "tests/test_post_h_025_production_ready_claims_validator.py"
+      ],
+      "sync_rules": [
+        "claims_validator",
+        "no_go_gates",
+        "no_overclaim_claims"
+      ],
+      "notes": [
+        "Production-ready-local no-go claims validator module for POST-H-025-D."
+      ]
+    },
+    {
+      "classification": "audit-report",
+      "domain": "production-ready-local",
+      "owner": "POST-H-025-D",
+      "status_required": "approved",
+      "criticality": "P0",
+      "frontmatter_required": true,
+      "roadmap_milestones": [
+        "POST-H-025"
+      ],
+      "lifecycle": "active",
+      "doc_id": "POST-H-025-D-CLAIMS-VALIDATOR-REPORT",
+      "path": "docs/audits/post_h_025_d_claims_validator_report.md",
+      "required_tests": [
+        "tests/test_post_h_025_production_ready_claims_validator.py",
+        "tests/test_project_global_state.py"
+      ],
+      "sync_rules": [
+        "frontmatter_status",
+        "scope_limitations_documented",
+        "no_enterprise_overclaim"
+      ],
+      "notes": [
+        "Audit report for POST-H-025-D no-go gates and claims validator."
+      ]
+    },
+    {
+      "classification": "machine-readable-source",
+      "domain": "production-ready-local",
+      "owner": "POST-H-025-D",
+      "status_required": "implemented-initial",
+      "criticality": "P0",
+      "frontmatter_required": false,
+      "roadmap_milestones": [
+        "POST-H-025"
+      ],
+      "lifecycle": "active",
+      "doc_id": "POST-H-025-D-MANIFEST",
+      "path": "docs/post_h_025_d_manifest.json",
+      "required_tests": [
+        "tests/test_post_h_025_production_ready_claims_validator.py"
+      ],
+      "sync_rules": [
+        "post_h_manifest_schema",
+        "next_micro_sprint"
+      ],
+      "notes": [
+        "Machine-readable manifest for POST-H-025-D."
+      ]
+    },
+    {
+      "classification": "machine-readable-source",
+      "domain": "production-ready-local",
+      "owner": "POST-H-025-D",
+      "status_required": "implemented-initial",
+      "criticality": "P0",
+      "frontmatter_required": false,
+      "roadmap_milestones": [
+        "POST-H-025"
+      ],
+      "lifecycle": "active",
+      "doc_id": "POST-H-025-D-CLAIMS-VALIDATOR-TEST",
+      "path": "tests/test_post_h_025_production_ready_claims_validator.py",
+      "required_tests": [
+        "tests/test_post_h_025_production_ready_claims_validator.py"
+      ],
+      "sync_rules": [
+        "focused_regression",
+        "claims_validator",
+        "quality_gate_subgate",
+        "negative_overclaim_fixture"
+      ],
+      "notes": [
+        "Focused regression test for POST-H-025-D claims validator and quality-gate integration."
+      ]
     }
   ],
   "rules": {
@@ -6211,20 +6312,20 @@
     "POST-H-025-C keeps enterprise, remote, SaaS and compliance claims disabled.": true
   },
   "summary": {
-    "documents_total": 220,
+    "documents_total": 224,
     "source_of_truth_total": 75,
-    "machine_readable_source_total": 101,
+    "machine_readable_source_total": 104,
     "derived_total": 32,
     "generated_runtime_total": 0,
     "historical_total": 0,
     "deprecated_total": 0,
-    "critical_sources_total": 133,
+    "critical_sources_total": 137,
     "markdown_json_pairs_total": 30,
-    "documents_with_required_tests_total": 220,
+    "documents_with_required_tests_total": 224,
     "network_used": false,
     "external_api_used": false,
     "mutations_performed": false,
-    "last_updated_by": "POST-H-025-C",
+    "last_updated_by": "POST-H-025-D",
     "markdown_json_sync_checks_enabled": true,
     "sync_checks_scope": "version_match, milestones_match, decisions_match, closure_status_match, next_hito_match",
     "roadmap_derived_backlog_governance_enabled": true,
@@ -6317,12 +6418,14 @@
     "POST-H-025-B registers production-ready-local evidence aggregator module, manifest, audit report and focused tests.",
     "POST-H-025-B remains read-only and does not declare production-ready-local.",
     "POST-H-025-C registers production-ready-local declaration gate CLI/API, manifest, audit report and focused tests.",
-    "POST-H-025-C keeps production-ready-local bounded and leaves claims validator/final audit declaration for POST-H-025-D/E."
+    "POST-H-025-C keeps production-ready-local bounded and leaves claims validator/final audit declaration for POST-H-025-D/E.",
+    "POST-H-025-D adds no-go claims validator governance entries.",
+    "POST-H-025-D keeps production-ready-local bounded and leaves final declaration/BLOCK artifact for POST-H-025-E."
   ],
   "project_state_snapshot": {
-    "last_updated_by": "POST-H-025-C",
-    "current_micro_sprint": "POST-H-025-C",
-    "next_micro_sprint": "POST-H-025-D",
+    "last_updated_by": "POST-H-025-D",
+    "current_micro_sprint": "POST-H-025-D",
+    "next_micro_sprint": "POST-H-025-E",
     "last_completed_sprint": "POST-H-024",
     "next_sprint": "POST-H-025",
     "post_h_023_current_micro_sprint": "POST-H-023-E",
@@ -6357,8 +6460,8 @@
     "post_h_024_secrets_included": false,
     "post_h_024_project_bootstrap_report_available": true,
     "external_api_used": false,
-    "post_h_025_current_micro_sprint": "POST-H-025-C",
-    "post_h_025_next_micro_sprint": "POST-H-025-D",
+    "post_h_025_current_micro_sprint": "POST-H-025-D",
+    "post_h_025_next_micro_sprint": "POST-H-025-E",
     "post_h_025_criteria_path": ".devpilot/production/production_ready_local_criteria.json",
     "post_h_025_production_ready_local_declared": false,
     "post_h_025_enterprise_ready_claimed": false,
@@ -6367,9 +6470,13 @@
     "post_h_025_declaration_gate_available": true,
     "post_h_025_declaration_gate_cli_command": "python -m devpilot_core industrial-readiness production-ready-local --json --write-report",
     "post_h_025_declaration_gate_report_output_path": "outputs/reports/production_ready_local_report.json",
-    "post_h_025_claims_validator_available": false,
+    "post_h_025_claims_validator_available": true,
     "post_h_025_final_declaration_artifact_available": false,
     "post_h_025_remote_ready_claimed": false,
-    "post_h_025_saas_ready_claimed": false
+    "post_h_025_saas_ready_claimed": false,
+    "post_h_025_remote_execution_enabled": false,
+    "post_h_025_connector_write_enabled": false,
+    "post_h_025_plugin_execution_enabled": false,
+    "post_h_025_external_apis_required": false
   }
 }

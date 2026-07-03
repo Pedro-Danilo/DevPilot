@@ -102,8 +102,8 @@ def test_project_global_state_schema_and_docs_are_synchronized() -> None:
     assert any("POST-H-013-D adds optional local crypto" in note for note in state["notes"])
     assert any("POST-H-013-E closes Audit pack integrity" in note for note in state["notes"])
     assert any("POST-H-014 is the next prioritized hito" in note for note in state["notes"])
-    assert state.get("current_micro_sprint") == "POST-H-025-C"
-    assert state.get("next_micro_sprint") == "POST-H-025-D"
+    assert state.get("current_micro_sprint") == "POST-H-025-D"
+    assert state.get("next_micro_sprint") == "POST-H-025-E"
     assert "POST-H-014-A — Route Contract Registry y API inventory" in readme
     assert "POST-H-014-B — Response mapping y errores homogéneos" in readme
     assert "POST-H-014-C — UI Route Contract y shell de producto" in readme
@@ -346,14 +346,18 @@ def test_project_global_state_schema_and_docs_are_synchronized() -> None:
 
     assert any("POST-H-025-A approves Production-ready local declaration gate" in note for note in state["notes"])
     assert any("POST-H-025-C adds industrial-readiness production-ready-local CLI" in note for note in state["notes"])
-    assert state["current_micro_sprint"] == "POST-H-025-C"
-    assert state["next_micro_sprint"] == "POST-H-025-D"
+    assert any("POST-H-025-D adds ProductionReadyClaimsValidator" in note for note in state["notes"])
+    assert state["current_micro_sprint"] == "POST-H-025-D"
+    assert state["next_micro_sprint"] == "POST-H-025-E"
     assert "POST-H-025-A — Criteria schema y evidence map" in readme
     assert "POST-H-025-A — Criteria schema y evidence map" in runbook
     assert "POST-H-025-C — Declaration gate CLI/API" in readme
     assert "POST-H-025-C — Declaration gate CLI/API" in runbook
+    assert "POST-H-025-D — No-go gates y claims validator" in readme
+    assert "POST-H-025-D — No-go gates y claims validator" in runbook
     assert "post-h-025-a" in changelog
     assert "post-h-025-b" in changelog
+    assert "post-h-025-d" in changelog
 
 
 def test_project_global_state_command_result_passes() -> None:

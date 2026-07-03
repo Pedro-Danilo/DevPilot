@@ -227,10 +227,13 @@
     "POST-H-025-C is the next micro-sprint: Declaration gate CLI/API.",
     "POST-H-025-C adds industrial-readiness production-ready-local CLI and ApplicationService gate for deterministic PASS/BLOCK reports.",
     "POST-H-025-C writes ProductionReadyLocalReport JSON/Markdown only when --write-report is explicit.",
-    "POST-H-025-C is implemented-initial/declaration-gate-cli-api: claims validator and final declaration artifact remain pending for POST-H-025-D/E."
+    "POST-H-025-C is implemented-initial/declaration-gate-cli-api: claims validator and final declaration artifact remain pending for POST-H-025-D/E.",
+    "POST-H-025-D is the next micro-sprint: No-go gates y claims validator.",
+    "POST-H-025-D adds ProductionReadyClaimsValidator and production-ready-claims-validator quality subgate for hardening/industrial profiles.",
+    "POST-H-025-D is implemented-initial/no-go-claims-validator: final declaration or BLOCK report remains pending for POST-H-025-E."
   ],
-  "current_micro_sprint": "POST-H-025-C",
-  "next_micro_sprint": "POST-H-025-D",
+  "current_micro_sprint": "POST-H-025-D",
+  "next_micro_sprint": "POST-H-025-E",
   "post_h_020_current_micro_sprint": "POST-H-020-E",
   "post_h_020_next_micro_sprint": "POST-H-021",
   "compliance_evidence_collector_module": "src/devpilot_core/compliance/evidence.py",
@@ -406,8 +409,8 @@
   "post_h_024_closed": true,
   "post_h_024_closure_report_path": "docs/audits/post_h_024_e_onboarding_quality_gate_report.md",
   "post_h_025_status": "in-progress",
-  "post_h_025_current_micro_sprint": "POST-H-025-C",
-  "post_h_025_next_micro_sprint": "POST-H-025-D",
+  "post_h_025_current_micro_sprint": "POST-H-025-D",
+  "post_h_025_next_micro_sprint": "POST-H-025-E",
   "post_h_025_backlog_status": "approved",
   "post_h_025_criteria_schema_path": "docs/schemas/production_ready_local_criteria.schema.json",
   "post_h_025_report_schema_path": "docs/schemas/production_ready_local_report.schema.json",
@@ -421,7 +424,7 @@
   "post_h_025_evidence_map_available": true,
   "post_h_025_declaration_gate_available": true,
   "post_h_025_evidence_aggregator_available": true,
-  "post_h_025_claims_validator_available": false,
+  "post_h_025_claims_validator_available": true,
   "post_h_025_production_ready_local_declared": false,
   "post_h_025_enterprise_ready_claimed": false,
   "post_h_025_compliance_certified_claimed": false,
@@ -440,5 +443,19 @@
   "post_h_025_declaration_gate_report_output_path": "outputs/reports/production_ready_local_report.json",
   "post_h_025_declaration_gate_report_markdown_path": "outputs/reports/production_ready_local_report.md",
   "post_h_025_declaration_gate_reports_opt_in": true,
-  "post_h_025_final_declaration_artifact_available": false
+  "post_h_025_final_declaration_artifact_available": false,
+  "post_h_025_claims_validator_status": "implemented-initial/no-go-claims-validator",
+  "post_h_025_claims_validator_module": "src/devpilot_core/industrial/production_ready.py",
+  "post_h_025_claims_validator_subgate": "production-ready-claims-validator",
+  "post_h_025_claims_validator_profiles": [
+    "hardening",
+    "industrial"
+  ],
+  "post_h_025_claims_validator_documents": [
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/release/CHANGELOG.md"
+  ],
+  "post_h_025_claims_validator_report_path": "docs/audits/post_h_025_d_claims_validator_report.md",
+  "post_h_025_claims_validator_manifest_path": "docs/post_h_025_d_manifest.json"
 }

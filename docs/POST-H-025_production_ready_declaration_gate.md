@@ -4,7 +4,7 @@ doc_id: "POST-H-025-TOPLEVEL"
 id: "POST-H-025"
 title: "POST-H-025 — DevPilot Local production-ready declaration gate"
 status: "approved"
-version: "0.3.0"
+version: "0.5.0"
 owner: "Ordóñez"
 updated: "2026-07-03"
 approval: "approved_by_owner"
@@ -18,8 +18,8 @@ no_external_apis_used: true
 no_connector_write_enabled: true
 no_plugin_execution_enabled: true
 implementation_status: "in-progress"
-current_micro_sprint: "POST-H-025-C"
-next_micro_sprint: "POST-H-025-D"
+current_micro_sprint: "POST-H-025-D"
+next_micro_sprint: "POST-H-025-E"
 ---
 
 # POST-H-025 — DevPilot Local production-ready declaration gate
@@ -281,15 +281,17 @@ Notas de alcance:
 
 ### POST-H-025-D — No-go gates y claims validator
 
+Estado: `implemented-initial/no-go-claims-validator`.
+
 Objetivo: impedir declaraciones indebidas.
 
 Tareas:
 
 ```text
-1. Validar claims en README, runbook, changelog y report.
-2. Bloquear enterprise-ready/compliance-certified/remote-ready no sustentados.
-3. Validar que remote/connector-write/plugin-execution siguen deshabilitados.
-4. Integrar con quality-gate hardening.
+1. [x] Validar claims en README, runbook, changelog y report.
+2. [x] Bloquear enterprise-ready/compliance-certified/remote-ready no sustentados.
+3. [x] Validar que remote/connector-write/plugin-execution siguen deshabilitados.
+4. [x] Integrar con quality-gate hardening.
 ```
 
 Criterios BLOCK:
@@ -298,6 +300,14 @@ Criterios BLOCK:
 - Algún documento declara enterprise-ready.
 - Algún documento declara compliance-certified.
 - Remote execution aparece habilitado.
+```
+
+Notas de alcance:
+
+```text
+- POST-H-025-D es deterministico y no usa LLM judge.
+- Las menciones negativas, limitadas o design-only estan permitidas porque documentan no-go gates.
+- El artefacto final de declaracion o BLOCK report queda para POST-H-025-E.
 ```
 
 ### POST-H-025-E — Declaración final o BLOCK report
@@ -363,7 +373,7 @@ python -m devpilot_core validate-artifact docs/audits/devpilot_local_production_
 [x] Criteria JSON creado.
 [x] Evidence aggregator implementado.
 [x] Gate CLI/API implementado.
-[ ] Claims validator implementado.
+[x] Claims validator implementado.
 [x] Report PASS/BLOCK generado.
 [x] Tests focales pasan.
 [x] No se declaran enterprise/compliance/remote capabilities.

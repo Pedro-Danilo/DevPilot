@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import re
 from dataclasses import dataclass
 from datetime import UTC, datetime
 from pathlib import Path
@@ -13,6 +14,11 @@ from devpilot_core.schemas import SchemaValidator
 DEFAULT_CRITERIA_PATH = Path(".devpilot/production/production_ready_local_criteria.json")
 DEFAULT_REPORT_JSON_PATH = Path("outputs/reports/production_ready_local_report.json")
 DEFAULT_REPORT_MARKDOWN_PATH = Path("outputs/reports/production_ready_local_report.md")
+DEFAULT_CLAIMS_DOCUMENT_PATHS = (
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/release/CHANGELOG.md",
+)
 
 
 @dataclass(frozen=True)
@@ -32,6 +38,16 @@ class ProductionReadyDeclarationGateOptions:
     output_markdown: str = str(DEFAULT_REPORT_MARKDOWN_PATH)
     write_report: bool = False
     report_id_suffix: str = "post_h_025_c"
+
+
+@dataclass(frozen=True)
+class ProductionReadyClaimsValidatorOptions:
+    """Options for the POST-H-025-D no-go and claims validator."""
+
+    document_paths: tuple[str, ...] = DEFAULT_CLAIMS_DOCUMENT_PATHS
+    report_path: str | None = None
+    project_state_path: str | None = ".devpilot/project_state.json"
+    include_gate_report: bool = True
 
 
 class ProductionReadyEvidenceAggregator:
@@ -354,6 +370,370 @@ class ProductionReadyEvidenceAggregator:
             "mutations_performed": False,
             "source_mutations_performed": False,
         }
+
+
+class ProductionReadyClaimsValidator:
+    """Validate production-ready-local claims and no-go gates.
+
+    POST-H-025-D deliberately validates documentation and machine-readable report
+    claims without interpreting prose through a model. Affirmative enterprise,
+    compliance, remote or SaaS readiness claims block. Negative, bounded or
+    design-only statements are allowed because DevPilot must keep documenting
+    what is intentionally not enabled.
+    """
+
+    CLAIM_RULES: tuple[tuple[str, re.Pattern[str], str], ...] = (
+        (
+            "enterprise_ready",
+            re.compile(r"\benterprise[- ]ready\b|\benterprise production-ready\b|\bplataforma enterprise productiva completa\b", re.IGNORECASE),
+            "Enterprise-ready claims are out of scope for POST-H-025.",
+        ),
+        (
+            "compliance_certified",
+            re.compile(r"\bcompliance[- ]certified\b|\bcompliance certificado\b|\bcertificaci[oó]n compliance\b|\bcertification_claimed\s*[:=]\s*true\b|\bcompliance_certification_claim\s*[:=]\s*true\b", re.IGNORECASE),
+            "Compliance certification claims are out of scope for POST-H-025.",
+        ),
+        (
+            "remote_ready",
+            re.compile(r"\bremote[- ]ready\b|\bremote execution\s+(enabled|true|allowed|segura)\b|\bremote_execution_enabled\s*[:=]\s*true\b", re.IGNORECASE),
+            "Remote readiness and enabled remote execution are out of scope for POST-H-025.",
+        ),
+        (
+            "saas_ready",
+            re.compile(r"\bsaas[- ]ready\b|\bplataforma saas\b|\bsaas productiv", re.IGNORECASE),
+            "SaaS-ready claims are out of scope for POST-H-025.",
+        ),
+        (
+            "generic_production_ready",
+            re.compile(r"\bproduction-ready\b(?!-local)", re.IGNORECASE),
+            "Generic production-ready claims must be scoped as production-ready-local.",
+        ),
+    )
+    NEGATION_MARKERS = (
+        "no ",
+        "not ",
+        "never",
+        "nunca",
+        "sin ",
+        "false",
+        "disabled",
+        "deshabilitad",
+        "block",
+        "blocked",
+        "bloque",
+        "pendiente",
+        "design-only",
+        "does not",
+        "must not",
+        "not declare",
+        "!= ",
+        "queda para",
+        "reserved",
+        "limit",
+        "solo",
+        "only",
+        "local-only",
+        "no-certific",
+        "no certific",
+        "impedir",
+        "disallow",
+        "forbid",
+        "prohibit",
+        "fuera del alcance",
+        "out of scope",
+        "remain false",
+        "remains false",
+        "no-go",
+        "future",
+        "diferencia",
+    )
+    NO_GO_FIELDS = (
+        "remote_execution_enabled",
+        "connector_write_enabled",
+        "plugin_execution_enabled",
+        "external_apis_required",
+        "compliance_certification_claim",
+        "enterprise_ready_claim",
+        "remote_ready_claim",
+        "saas_ready_claim",
+    )
+    PROJECT_STATE_NO_GO_FIELDS = (
+        "remote_execution_enabled",
+        "connector_write_enabled",
+        "plugin_execution_enabled",
+        "post_h_025_remote_execution_enabled",
+        "post_h_025_connector_write_enabled",
+        "post_h_025_plugin_execution_enabled",
+        "post_h_025_external_apis_required",
+        "post_h_025_enterprise_ready_claimed",
+        "post_h_025_compliance_certified_claimed",
+        "post_h_025_remote_ready_claimed",
+        "post_h_025_saas_ready_claimed",
+    )
+
+    def __init__(self, root: Path, *, options: ProductionReadyClaimsValidatorOptions | None = None) -> None:
+        self.root = Path(root).resolve()
+        self.options = options or ProductionReadyClaimsValidatorOptions()
+
+    def validate(self) -> CommandResult:
+        findings: list[Finding] = []
+        document_results: list[dict[str, Any]] = []
+        for relative_path in self.options.document_paths:
+            result = self._scan_document(relative_path)
+            document_results.append(result)
+            for violation in result["violations"]:
+                findings.append(
+                    Finding(
+                        "PRODUCTION_READY_FORBIDDEN_DOCUMENT_CLAIM",
+                        violation["message"],
+                        Severity.BLOCK,
+                        path=relative_path,
+                        metadata=violation,
+                    )
+                )
+            if result["status"] == "missing":
+                findings.append(
+                    Finding(
+                        "PRODUCTION_READY_CLAIMS_DOCUMENT_MISSING",
+                        "Required claims document is missing.",
+                        Severity.BLOCK,
+                        path=relative_path,
+                    )
+                )
+
+        report_result = self._load_or_build_report()
+        report = report_result.get("report")
+        if report_result["status"] != "pass":
+            findings.append(
+                Finding(
+                    "PRODUCTION_READY_REPORT_UNAVAILABLE_FOR_CLAIMS_VALIDATION",
+                    "ProductionReadyLocalReport could not be loaded or built for claims validation.",
+                    Severity.BLOCK,
+                    metadata=report_result,
+                )
+            )
+        elif isinstance(report, dict):
+            findings.extend(self._report_findings(report))
+
+        project_state_result = self._validate_project_state_flags()
+        for violation in project_state_result["violations"]:
+            findings.append(
+                Finding(
+                    "PRODUCTION_READY_PROJECT_STATE_NO_GO_ENABLED",
+                    "Project state enables or claims a POST-H-025 no-go capability.",
+                    Severity.BLOCK,
+                    path=project_state_result.get("path"),
+                    metadata=violation,
+                )
+            )
+
+        blocking = [finding for finding in findings if finding.severity in {Severity.BLOCK, Severity.FAIL, Severity.ERROR}]
+        ok = not blocking
+        summary = {
+            "quality_gate_subgate": "production-ready-claims-validator",
+            "documents_scanned_total": len(document_results),
+            "documents_missing_total": sum(1 for item in document_results if item["status"] == "missing"),
+            "forbidden_document_claims_total": sum(len(item["violations"]) for item in document_results),
+            "report_validated": report_result["status"] == "pass",
+            "report_source": report_result.get("source"),
+            "report_claim_violations_total": report_result.get("claim_violations_total", 0),
+            "report_no_go_violations_total": report_result.get("no_go_violations_total", 0),
+            "project_state_validated": project_state_result["status"] == "pass",
+            "project_state_no_go_violations_total": len(project_state_result["violations"]),
+            "claims_valid": ok,
+            "no_go_gates_valid": ok,
+            "read_only": True,
+            "network_used": False,
+            "external_api_used": False,
+            "mutations_performed": False,
+            "source_mutations_performed": False,
+            "reports_written": False,
+            "preliminary": True,
+        }
+        return CommandResult(
+            "production-ready claims validate",
+            ok,
+            ExitCode.PASS if ok else ExitCode.BLOCK,
+            "Production-ready-local claims and no-go gates passed." if ok else "Production-ready-local claims validation blocked.",
+            data={
+                "summary": summary,
+                "documents": document_results,
+                "report": report_result,
+                "project_state": project_state_result,
+                "safety": {
+                    "local_first": True,
+                    "read_only": True,
+                    "network_used": False,
+                    "external_api_used": False,
+                    "mutations_performed": False,
+                    "source_mutations_performed": False,
+                },
+            },
+            findings=findings or [
+                Finding(
+                    "PRODUCTION_READY_CLAIMS_VALIDATOR_PASS",
+                    "Documentation, report claims and no-go flags stay within production-ready-local scope.",
+                    Severity.INFO,
+                    metadata={"documents_scanned_total": len(document_results)},
+                )
+            ],
+        )
+
+    def _scan_document(self, relative_path: str) -> dict[str, Any]:
+        path = self._resolve_inside_root(relative_path)
+        if not path.exists():
+            return {"path": relative_path, "status": "missing", "violations": [], "lines_scanned": 0}
+        text = path.read_text(encoding="utf-8")
+        violations: list[dict[str, Any]] = []
+        for index, line in enumerate(text.splitlines(), start=1):
+            normalized = line.strip()
+            if not normalized:
+                continue
+            for claim_type, pattern, message in self.CLAIM_RULES:
+                if not pattern.search(normalized):
+                    continue
+                lowered = normalized.lower()
+                if claim_type == "generic_production_ready" and (
+                    "production-ready-local" in lowered
+                    or "production-ready local" in lowered
+                    or "production-ready-claims-validator" in lowered
+                ):
+                    continue
+                if self._line_is_bounded_or_negated(normalized):
+                    continue
+                violations.append(
+                    {
+                        "claim_type": claim_type,
+                        "line": index,
+                        "message": message,
+                        "excerpt": normalized[:240],
+                    }
+                )
+        return {"path": relative_path, "status": "pass" if not violations else "block", "violations": violations, "lines_scanned": len(text.splitlines())}
+
+    def _load_or_build_report(self) -> dict[str, Any]:
+        if self.options.report_path:
+            path = self._resolve_inside_root(self.options.report_path)
+            if not path.exists():
+                return {"status": "missing", "source": self._relative(path), "reason": "report path does not exist"}
+            try:
+                report = json.loads(path.read_text(encoding="utf-8"))
+            except json.JSONDecodeError as exc:
+                return {"status": "failed", "source": self._relative(path), "reason": "invalid json", "error": str(exc)}
+            result = {"status": "pass", "source": self._relative(path), "report": report}
+            result.update(self._report_violation_counts(report))
+            return result
+        if not self.options.include_gate_report:
+            return {"status": "skipped", "source": "none", "reason": "include_gate_report=false"}
+        gate_result = ProductionReadyDeclarationGate(self.root).check()
+        if not gate_result.ok and "report" not in (gate_result.data or {}):
+            return {"status": "failed", "source": "ProductionReadyDeclarationGate", "reason": gate_result.message}
+        report = (gate_result.data or {}).get("report")
+        result = {"status": "pass", "source": "ProductionReadyDeclarationGate", "report": report}
+        result.update(self._report_violation_counts(report if isinstance(report, dict) else {}))
+        return result
+
+    def _report_findings(self, report: dict[str, Any]) -> list[Finding]:
+        findings: list[Finding] = []
+        claims = dict(report.get("claims") or {})
+        for key in ("enterprise_ready", "remote_ready", "compliance_certified", "saas_ready"):
+            if claims.get(key) is not False:
+                findings.append(
+                    Finding(
+                        "PRODUCTION_READY_REPORT_FORBIDDEN_CLAIM",
+                        f"ProductionReadyLocalReport claim must remain false: {key}.",
+                        Severity.BLOCK,
+                        metadata={"claim": key, "value": claims.get(key)},
+                    )
+                )
+        if claims.get("production_ready_local") is True:
+            if report.get("decision") != "PASS" or int(report.get("blocking_gaps_total") or 0) != 0 or report.get("no_go_gates_passed") is not True:
+                findings.append(
+                    Finding(
+                        "PRODUCTION_READY_LOCAL_REPORT_PASS_CONDITION_MISMATCH",
+                        "production_ready_local=true is allowed only for PASS reports with zero blockers and passed no-go gates.",
+                        Severity.BLOCK,
+                        metadata={
+                            "decision": report.get("decision"),
+                            "blocking_gaps_total": report.get("blocking_gaps_total"),
+                            "no_go_gates_passed": report.get("no_go_gates_passed"),
+                        },
+                    )
+                )
+        no_go_gates = dict(report.get("no_go_gates") or {})
+        safety = dict(report.get("safety") or {})
+        for field in self.NO_GO_FIELDS:
+            if no_go_gates.get(field) is not False:
+                findings.append(
+                    Finding(
+                        "PRODUCTION_READY_REPORT_NO_GO_ENABLED",
+                        f"ProductionReadyLocalReport no-go gate must remain false: {field}.",
+                        Severity.BLOCK,
+                        metadata={"field": field, "value": no_go_gates.get(field)},
+                    )
+                )
+        for field in ("network_used", "external_api_used", "mutations_performed", "source_mutations_performed"):
+            if safety.get(field) is not False:
+                findings.append(
+                    Finding(
+                        "PRODUCTION_READY_REPORT_SAFETY_FLAG_ENABLED",
+                        f"ProductionReadyLocalReport safety flag must remain false: {field}.",
+                        Severity.BLOCK,
+                        metadata={"field": field, "value": safety.get(field)},
+                    )
+                )
+        return findings
+
+    def _report_violation_counts(self, report: dict[str, Any]) -> dict[str, int]:
+        claim_violations = 0
+        no_go_violations = 0
+        claims = dict(report.get("claims") or {})
+        for key in ("enterprise_ready", "remote_ready", "compliance_certified", "saas_ready"):
+            if claims.get(key) is not False:
+                claim_violations += 1
+        no_go_gates = dict(report.get("no_go_gates") or {})
+        no_go_violations += sum(1 for field in self.NO_GO_FIELDS if no_go_gates.get(field) is not False)
+        safety = dict(report.get("safety") or {})
+        no_go_violations += sum(1 for field in ("network_used", "external_api_used", "mutations_performed", "source_mutations_performed") if safety.get(field) is not False)
+        return {"claim_violations_total": claim_violations, "no_go_violations_total": no_go_violations}
+
+    def _validate_project_state_flags(self) -> dict[str, Any]:
+        if not self.options.project_state_path:
+            return {"status": "skipped", "path": None, "violations": []}
+        path = self._resolve_inside_root(self.options.project_state_path)
+        if not path.exists():
+            return {"status": "missing", "path": self._relative(path), "violations": [{"field": "project_state", "value": "missing"}]}
+        try:
+            payload = json.loads(path.read_text(encoding="utf-8"))
+        except json.JSONDecodeError as exc:
+            return {"status": "failed", "path": self._relative(path), "violations": [{"field": "project_state", "value": "invalid_json", "error": str(exc)}]}
+        violations = [
+            {"field": field, "value": payload.get(field)}
+            for field in self.PROJECT_STATE_NO_GO_FIELDS
+            if payload.get(field) is not False
+        ]
+        return {"status": "pass" if not violations else "block", "path": self._relative(path), "violations": violations}
+
+    def _line_is_bounded_or_negated(self, line: str) -> bool:
+        lowered = line.lower()
+        return any(marker in lowered for marker in self.NEGATION_MARKERS)
+
+    def _resolve_inside_root(self, value: str) -> Path:
+        candidate = Path(value)
+        if not candidate.is_absolute():
+            candidate = self.root / candidate
+        resolved = candidate.resolve()
+        try:
+            resolved.relative_to(self.root)
+        except ValueError as exc:
+            raise ValueError(f"Claims validation path escapes project root: {value}") from exc
+        return resolved
+
+    def _relative(self, path: Path) -> str:
+        try:
+            return path.resolve().relative_to(self.root).as_posix()
+        except ValueError:
+            return path.as_posix()
 
 
 class ProductionReadyDeclarationGate:

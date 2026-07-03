@@ -1,3 +1,23 @@
+## POST-H-025-D — No-go gates y claims validator
+
+Último hito: `POST-H-024`
+
+Último hito cerrado: `POST-H-024`
+
+Hito activo: `POST-H-025 — Production-ready local declaration gate`
+
+Último micro-sprint implementado: `POST-H-025-D — No-go gates y claims validator`
+
+Siguiente micro-sprint: `POST-H-025-E — Declaración final o BLOCK report`
+
+POST-H-025-D agrega `ProductionReadyClaimsValidator` en `src/devpilot_core/industrial/production_ready.py` y el subgate `production-ready-claims-validator` en `quality-gate run --profile hardening/industrial`. El validador inspecciona README, runbook, changelog, el `ProductionReadyLocalReport` generado por el declaration gate y `.devpilot/project_state.json`.
+
+La capacidad es `implemented-initial / no-go-claims-validator`: bloquea claims afirmativos `enterprise-ready`, `compliance-certified`, `remote-ready`, `SaaS-ready` o `production-ready` genérico fuera del alcance `production-ready-local`; valida que remote execution, connector write, plugin execution y APIs externas sigan deshabilitados; y conserva la decisión final formal para POST-H-025-E.
+
+POST-H-025-D no habilita red, APIs externas, remote execution, connector write ni plugin execution. Las menciones negativas, limitadas o design-only siguen permitidas porque documentan límites de seguridad; las afirmaciones positivas no sustentadas bloquean.
+
+Verificacion focal recomendada: `python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_025_production_ready_claims_validator.py tests/test_post_h_025_production_ready_declaration_gate.py tests/test_post_h_025_production_ready_aggregator.py tests/test_post_h_025_production_ready_criteria.py tests/test_schema_registry.py tests/test_project_global_state.py tests/test_quality_gate.py -q`.
+
 ## POST-H-025-C — Declaration gate CLI/API
 
 Último hito: `POST-H-024`

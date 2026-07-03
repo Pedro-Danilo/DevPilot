@@ -2,17 +2,71 @@
 title: "Runbook — DevPilot Local"
 doc_id: "DEVPL-OPS-002"
 status: "approved"
-version: "1.95.0"
+version: "1.96.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "POST-H-025-C"
+phase: "POST-H-025-D"
 updated: "2026-07-03"
 approval: "approved_by_owner"
 source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved + 03_security approved"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "SPRINT-PRECODE-05 quality operations baseline"
 ---
+
+## POST-H-025-D — No-go gates y claims validator
+
+Último hito cerrado: `POST-H-024`
+
+Hito activo: `POST-H-025 — Production-ready local declaration gate`
+
+Último micro-sprint implementado: `POST-H-025-D — No-go gates y claims validator`
+
+Siguiente micro-sprint: `POST-H-025-E — Declaración final o BLOCK report`
+
+Artefactos principales:
+
+```text
+src/devpilot_core/industrial/production_ready.py
+tests/test_post_h_025_production_ready_claims_validator.py
+docs/audits/post_h_025_d_claims_validator_report.md
+docs/post_h_025_d_manifest.json
+README.md
+docs/05_operations/runbook.md
+docs/release/CHANGELOG.md
+```
+
+Propósito operacional: impedir que la declaración `production-ready-local` se convierta en un overclaim documental. El validador revisa README, runbook, changelog, el reporte del declaration gate y `.devpilot/project_state.json`, y bloquea claims afirmativos enterprise/compliance/remote/SaaS o flags no-go habilitados.
+
+Comandos focales:
+
+```powershell
+python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_025_production_ready_claims_validator.py tests/test_post_h_025_production_ready_declaration_gate.py tests/test_post_h_025_production_ready_aggregator.py tests/test_post_h_025_production_ready_criteria.py tests/test_schema_registry.py tests/test_project_global_state.py tests/test_quality_gate.py -q
+python -m devpilot_core quality-gate run --profile hardening --json
+python -m devpilot_core industrial-readiness production-ready-local --json --write-report
+python -m devpilot_core docs-governance validate --json
+python -m devpilot_core test-contracts validate --json
+python -m devpilot_core test-contracts validate-v2 --json
+```
+
+Criterios PASS:
+
+```text
+README, runbook y changelog no contienen claims afirmativos fuera de production-ready-local.
+ProductionReadyLocalReport mantiene enterprise_ready=false, remote_ready=false, compliance_certified=false y saas_ready=false.
+remote_execution_enabled=false, connector_write_enabled=false y plugin_execution_enabled=false.
+El subgate production-ready-claims-validator pasa dentro de quality-gate hardening/industrial.
+```
+
+Criterios BLOCK:
+
+```text
+BLOCK si algún documento declara enterprise-ready, compliance-certified, remote-ready o SaaS-ready.
+BLOCK si algún documento declara production-ready genérico sin alcance local.
+BLOCK si el reporte o project_state habilita remote execution, connector write, plugin execution o external APIs.
+```
+
+Limitación: esta es una primera versión determinística del claims validator. No usa LLM judge ni análisis semántico difuso; permite menciones negativas o design-only porque son necesarias para documentar límites. El artefacto formal final de declaración o BLOCK report queda para POST-H-025-E.
 
 ## POST-H-025-C — Declaration gate CLI/API
 
@@ -169,7 +223,7 @@ Criterios BLOCK:
 
 ```text
 Se omite un hito requerido en evidence_map.
-Se permite enterprise-ready, compliance-certified, remote-ready o SaaS-ready.
+BLOCK si se permite un claim afirmativo enterprise-ready, compliance-certified, remote-ready o SaaS-ready.
 Se omite remote_execution_enabled, connector_write_enabled o plugin_execution_enabled en no-go gates.
 Se intenta declarar production-ready-local en POST-H-025-A; este micro-sprint solo define criterios.
 ```

@@ -127,8 +127,8 @@ def test_production_ready_declaration_gate_artifacts_are_synchronized() -> None:
 
     assert "POST-H-025-C — Declaration gate CLI/API" in readme
     assert "POST-H-025-C — Declaration gate CLI/API" in runbook
-    assert 'current_micro_sprint: "POST-H-025-C"' in backlog
-    assert 'next_micro_sprint: "POST-H-025-D"' in backlog
+    assert 'current_micro_sprint: "POST-H-025-D"' in backlog
+    assert 'next_micro_sprint: "POST-H-025-E"' in backlog
     assert "post-h-025-production-ready-declaration-gate" in tcr
     assert "post-h-025-production-ready-declaration-gate" in tcr_v2
     assert (ROOT / "docs/audits/post_h_025_c_declaration_gate_report.md").exists()

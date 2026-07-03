@@ -1,3 +1,18 @@
+## post-h-025-d — Production-ready local no-go claims validator
+
+### Added
+
+- Added `ProductionReadyClaimsValidator` for deterministic documentation/report claim validation.
+- Added `production-ready-claims-validator` subgate to hardening/industrial quality-gate profiles.
+- Added focused tests for current-repo PASS, affirmative document overclaims, report no-go violations, project-state no-go flags and quality-gate registration.
+- Added POST-H-025-D audit report and manifest.
+
+### Security
+
+- Affirmative enterprise-ready, compliance-certified, remote-ready, SaaS-ready and generic production-ready claims block.
+- Negative, bounded and design-only statements remain allowed so DevPilot can document no-go limits clearly.
+- Remote execution, connector write, plugin execution and external API requirements remain disabled.
+
 ## post-h-025-c — Production-ready local declaration gate CLI/API
 
 ### Added

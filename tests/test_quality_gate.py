@@ -99,6 +99,7 @@ def test_quality_gate_hardening_profile_includes_post_h_subgates() -> None:
         "release-reproducibility",
         "connector-sandbox",
         "plugin-sandbox-design",
+        "production-ready-claims-validator",
     ]:
         assert expected in subgates
         assert subgates[expected].critical is True
@@ -120,3 +121,8 @@ def test_quality_gate_hardening_profile_includes_post_h_subgates() -> None:
     assert plugin_result.data["summary"]["quality_gate_subgate"] == "plugin-sandbox-design"
     assert plugin_result.data["summary"]["plugin_execution_allowed"] is False
     assert plugin_result.data["summary"]["network_used"] is False
+
+    claims_result = subgates["production-ready-claims-validator"].runner()
+    assert claims_result.ok is True, claims_result.to_dict()
+    assert claims_result.data["summary"]["quality_gate_subgate"] == "production-ready-claims-validator"
+    assert claims_result.data["summary"]["forbidden_document_claims_total"] == 0
