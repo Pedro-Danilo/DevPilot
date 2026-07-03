@@ -2,17 +2,70 @@
 title: "Runbook — DevPilot Local"
 doc_id: "DEVPL-OPS-002"
 status: "approved"
-version: "1.94.0"
+version: "1.95.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "POST-H-025-B"
+phase: "POST-H-025-C"
 updated: "2026-07-03"
 approval: "approved_by_owner"
 source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved + 03_security approved"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "SPRINT-PRECODE-05 quality operations baseline"
 ---
+
+## POST-H-025-C — Declaration gate CLI/API
+
+Último hito cerrado: `POST-H-024`
+
+Hito activo: `POST-H-025 — Production-ready local declaration gate`
+
+Último micro-sprint implementado: `POST-H-025-C — Declaration gate CLI/API`
+
+Siguiente micro-sprint: `POST-H-025-D — No-go gates y claims validator`
+
+Artefactos principales:
+
+```text
+src/devpilot_core/industrial/production_ready.py
+tests/test_post_h_025_production_ready_declaration_gate.py
+docs/audits/post_h_025_c_declaration_gate_report.md
+docs/post_h_025_c_manifest.json
+outputs/reports/production_ready_local_report.json
+outputs/reports/production_ready_local_report.md
+```
+
+Propósito operacional: exponer el gate local `production-ready-local` mediante CLI y ApplicationService. El gate consume el agregador read-only, genera una decision deterministica PASS/BLOCK, valida el contrato `ProductionReadyLocalReport` y escribe evidencia JSON/Markdown solo con `--write-report`.
+
+Comandos focales:
+
+```powershell
+python -m devpilot_core industrial-readiness production-ready-local --json
+python -m devpilot_core industrial-readiness production-ready-local --json --write-report
+python -m devpilot_core schema validate --schema-id ProductionReadyLocalReport --instance outputs/reports/production_ready_local_report.json --json
+python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_025_production_ready_declaration_gate.py tests/test_post_h_025_production_ready_aggregator.py tests/test_post_h_025_production_ready_criteria.py tests/test_schema_registry.py tests/test_project_global_state.py -q
+```
+
+Criterios PASS:
+
+```text
+El gate produce decision PASS o BLOCK deterministica.
+PASS solo ocurre con blocking_gaps_total=0, no_go_gates_passed=true y todos los hitos requeridos aprobados.
+El payload valida contra ProductionReadyLocalReport.
+El comando CLI y ApplicationService devuelven la misma decision.
+network_used=false, external_api_used=false, source_mutations_performed=false.
+```
+
+Criterios BLOCK:
+
+```text
+Una evidencia requerida blocker faltante devuelve exit_code BLOCK.
+BLOCK conserva claims.production_ready_local=false.
+Cada blocker incluye accion concreta de remediacion.
+El gate no declara enterprise-ready, remote-ready, SaaS-ready ni compliance-certified.
+```
+
+Limitación: esta es una primera versión del declaration gate CLI/API. No ejecuta todavia claims validator documental en README/runbook/changelog/report; esa responsabilidad queda para POST-H-025-D. El artefacto formal final de declaracion o BLOCK report de cierre queda para POST-H-025-E.
 
 ## POST-H-025-B — Evidence aggregator read-only
 

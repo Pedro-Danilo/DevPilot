@@ -1,3 +1,23 @@
+## POST-H-025-C — Declaration gate CLI/API
+
+Último hito: `POST-H-024`
+
+Último hito cerrado: `POST-H-024`
+
+Hito activo: `POST-H-025 — Production-ready local declaration gate`
+
+Último micro-sprint implementado: `POST-H-025-C — Declaration gate CLI/API`
+
+Siguiente micro-sprint: `POST-H-025-D — No-go gates y claims validator`
+
+POST-H-025-C agrega `ProductionReadyDeclarationGate` en `src/devpilot_core/industrial/production_ready.py` y expone el comando `python -m devpilot_core industrial-readiness production-ready-local --json`. El gate envuelve el agregador read-only de POST-H-025-B, convierte el modelo intermedio en una decision deterministica `PASS` o `BLOCK`, valida el payload contra `ProductionReadyLocalReport` y puede escribir `outputs/reports/production_ready_local_report.json` y `.md` solo cuando se solicita `--write-report`.
+
+La capacidad es `implemented-initial / declaration-gate-cli-api`: habilita CLI y ruta `ApplicationService.production_ready_local_gate()` para evaluar `production-ready-local` localmente, pero mantiene pendiente el claims validator documental de POST-H-025-D y el artefacto formal final de declaracion/auditoria de POST-H-025-E.
+
+POST-H-025-C no habilita red, APIs externas, remote execution, connector write ni plugin execution. Si hay blockers, retorna `exit_code=2` y conserva `production_ready_local=false`; si pasa, el claim queda limitado a `production_ready_local` y nunca declara enterprise-ready, compliance-certified, remote-ready ni SaaS-ready.
+
+Verificacion focal recomendada: `python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_025_production_ready_declaration_gate.py tests/test_post_h_025_production_ready_aggregator.py tests/test_post_h_025_production_ready_criteria.py tests/test_schema_registry.py tests/test_project_global_state.py -q`.
+
 ## POST-H-025-B — Evidence aggregator read-only
 
 Último hito: `POST-H-024`

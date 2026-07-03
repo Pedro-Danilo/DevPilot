@@ -118,15 +118,15 @@ def test_post_h_024_e_governance_artifacts_are_synchronized() -> None:
         "POST-H-024-E-ONBOARDING-QUALITY-GATE-TEST",
     }
     assert expected <= doc_ids
-    assert source_registry["project_state_snapshot"]["current_micro_sprint"] == "POST-H-025-B"
-    assert source_registry["project_state_snapshot"]["next_micro_sprint"] == "POST-H-025-C"
+    assert source_registry["project_state_snapshot"]["current_micro_sprint"] == "POST-H-025-C"
+    assert source_registry["project_state_snapshot"]["next_micro_sprint"] == "POST-H-025-D"
     assert source_registry["project_state_snapshot"]["post_h_024_onboarding_quality_gate_available"] is True
 
     assert "post-h-024-onboarding-bootstrap-ready" in {item["contract_id"] for item in tcr_v1["contracts"]}
     assert "post-h-024-onboarding-bootstrap-ready" in {item["contract_id"] for item in tcr_v2["contracts"]}
 
-    assert state["current_micro_sprint"] == "POST-H-025-B"
-    assert state["next_micro_sprint"] == "POST-H-025-C"
+    assert state["current_micro_sprint"] == "POST-H-025-C"
+    assert state["next_micro_sprint"] == "POST-H-025-D"
     assert state["post_h_024_current_micro_sprint"] == "POST-H-024-E"
     assert state["post_h_024_next_micro_sprint"] == "POST-H-025"
     assert state["post_h_024_onboarding_quality_gate_available"] is True

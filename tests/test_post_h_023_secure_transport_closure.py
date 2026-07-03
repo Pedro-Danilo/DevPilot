@@ -77,8 +77,8 @@ def test_post_h_023_backlog_and_implementation_are_closed_for_post_h_024() -> No
 
     assert state["last_completed_sprint"] == "POST-H-024"
     assert state["next_sprint"] == "POST-H-025"
-    assert state["current_micro_sprint"] == "POST-H-025-B"
-    assert state["next_micro_sprint"] == "POST-H-025-C"
+    assert state["current_micro_sprint"] == "POST-H-025-C"
+    assert state["next_micro_sprint"] == "POST-H-025-D"
     assert state["post_h_023_closed"] is True
     assert state["post_h_023_secure_transport_design_closed"] is True
     assert state["post_h_023_secure_transport_design_runbook_path"] == "docs/05_operations/secure_transport_design_runbook.md"

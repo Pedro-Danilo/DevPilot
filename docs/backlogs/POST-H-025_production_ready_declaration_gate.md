@@ -4,7 +4,7 @@ doc_id: "POST-H-025-BACKLOG"
 id: "POST-H-025"
 title: "POST-H-025 — DevPilot Local production-ready declaration gate"
 status: "approved"
-version: "0.2.0"
+version: "0.3.0"
 owner: "Ordóñez"
 updated: "2026-07-03"
 approval: "approved_by_owner"
@@ -18,8 +18,8 @@ no_external_apis_used: true
 no_connector_write_enabled: true
 no_plugin_execution_enabled: true
 implementation_status: "in-progress"
-current_micro_sprint: "POST-H-025-B"
-next_micro_sprint: "POST-H-025-C"
+current_micro_sprint: "POST-H-025-C"
+next_micro_sprint: "POST-H-025-D"
 ---
 
 # POST-H-025 — DevPilot Local production-ready declaration gate
@@ -249,15 +249,17 @@ Notas de alcance:
 
 ### POST-H-025-C — Declaration gate CLI/API
 
+Estado: `implemented-initial/declaration-gate-cli-api`.
+
 Objetivo: exponer el gate de declaración.
 
 Tareas:
 
 ```text
-1. Crear comando industrial-readiness production-ready-local o production-ready check.
-2. Integrar con ApplicationService.
-3. Generar report JSON/Markdown.
-4. Devolver exit_code BLOCK si hay gaps críticos.
+1. [x] Crear comando industrial-readiness production-ready-local.
+2. [x] Integrar con ApplicationService.
+3. [x] Generar report JSON/Markdown bajo outputs/reports cuando se solicita --write-report.
+4. [x] Devolver exit_code BLOCK si hay gaps críticos.
 ```
 
 Criterios PASS:
@@ -266,6 +268,15 @@ Criterios PASS:
 - El gate produce PASS o BLOCK determinístico.
 - BLOCK incluye acciones concretas.
 - PASS solo ocurre si no hay blockers.
+```
+
+Notas de alcance:
+
+```text
+- POST-H-025-C expone CLI/API local y valida ProductionReadyLocalReport.
+- POST-H-025-C no ejecuta claims validator documental; queda para POST-H-025-D.
+- POST-H-025-C no emite el artefacto formal final de declaración/auditoría; queda para POST-H-025-E.
+- El alcance del claim sigue limitado a production-ready-local, nunca enterprise/compliance/remote/SaaS.
 ```
 
 ### POST-H-025-D — No-go gates y claims validator
@@ -351,10 +362,10 @@ python -m devpilot_core validate-artifact docs/audits/devpilot_local_production_
 [x] Criteria y report schemas creados.
 [x] Criteria JSON creado.
 [x] Evidence aggregator implementado.
-[ ] Gate CLI/API implementado.
+[x] Gate CLI/API implementado.
 [ ] Claims validator implementado.
-[ ] Report PASS/BLOCK generado.
-[ ] Tests focales pasan.
-[ ] No se declaran enterprise/compliance/remote capabilities.
-[ ] production-ready-local solo se declara si no hay blockers.
+[x] Report PASS/BLOCK generado.
+[x] Tests focales pasan.
+[x] No se declaran enterprise/compliance/remote capabilities.
+[x] production-ready-local solo se declara si no hay blockers.
 ```

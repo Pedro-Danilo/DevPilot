@@ -1,3 +1,20 @@
+## post-h-025-c — Production-ready local declaration gate CLI/API
+
+### Added
+
+- Added `ProductionReadyDeclarationGate` for deterministic `PASS`/`BLOCK` decisions over the POST-H-025 evidence aggregator.
+- Added CLI command `industrial-readiness production-ready-local` with optional JSON/Markdown report writing under `outputs/reports`.
+- Added `ApplicationService.production_ready_local_gate()` as the local API boundary for future UI/API consumers.
+- Added focused tests for PASS, BLOCK, report schema validation, CLI/API synchronization and engineering artifact sync.
+- Added POST-H-025-C audit report and manifest.
+
+### Security
+
+- POST-H-025-C remains local-first and read-only over source evidence.
+- BLOCK keeps `production_ready_local=false` and includes concrete remediation actions.
+- Enterprise-ready, compliance-certified, remote-ready and SaaS-ready claims remain false.
+- Remote execution, connector write, plugin execution, network and external API usage remain disabled.
+
 ## post-h-025-b — Production-ready local evidence aggregator
 
 ### Added

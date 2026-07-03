@@ -126,6 +126,26 @@ class ApplicationService:
     def operator_dashboard_snapshot(self, *, write_report: bool = False) -> CommandResult:
         return self.operator_dashboard.dashboard(write_report=write_report)
 
+    def production_ready_local_gate(
+        self,
+        *,
+        write_report: bool = False,
+        output_json: str = "outputs/reports/production_ready_local_report.json",
+        output_markdown: str = "outputs/reports/production_ready_local_report.md",
+    ) -> CommandResult:
+        """Run the POST-H-025-C local production-ready declaration gate."""
+
+        from devpilot_core.industrial.production_ready import ProductionReadyDeclarationGate, ProductionReadyDeclarationGateOptions
+
+        return ProductionReadyDeclarationGate(
+            self.root,
+            options=ProductionReadyDeclarationGateOptions(
+                write_report=write_report,
+                output_json=output_json,
+                output_markdown=output_markdown,
+            ),
+        ).check()
+
     def portfolio_status(self, *, registry_path: str = ".devpilot/workspaces/workspace_registry.json") -> CommandResult:
         return self.portfolio.status(registry_path=registry_path)
 

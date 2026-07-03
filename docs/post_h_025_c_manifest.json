@@ -1,0 +1,85 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "SCHEMA-DEVPL-POST-H-MANIFEST-V1",
+  "manifest_id": "POST-H-025-C-MANIFEST",
+  "post_h_id": "POST-H-025",
+  "micro_sprint": "POST-H-025-C",
+  "title": "POST-H-025-C — Declaration gate CLI/API",
+  "status": "implemented-initial",
+  "phase": "POST-FASE-H",
+  "implemented_at": "2026-07-03",
+  "implementation_status": "implemented-initial/declaration-gate-cli-api",
+  "preliminary": true,
+  "local_first": true,
+  "dry_run": true,
+  "read_only": true,
+  "no_remote_execution_enabled": true,
+  "no_external_apis_used": true,
+  "no_connector_write_enabled": true,
+  "no_plugin_execution_enabled": true,
+  "network_used": false,
+  "external_api_used": false,
+  "remote_execution_used": false,
+  "connector_write_used": false,
+  "plugin_execution_used": false,
+  "secrets_included": false,
+  "created_files": [
+    "tests/test_post_h_025_production_ready_declaration_gate.py",
+    "docs/audits/post_h_025_c_declaration_gate_report.md",
+    "docs/post_h_025_c_manifest.json"
+  ],
+  "modified_files": [
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/POST-H-025_production_ready_declaration_gate.md",
+    "docs/backlogs/POST-H-025_production_ready_declaration_gate.md",
+    "docs/release/CHANGELOG.md",
+    ".devpilot/project_state.json",
+    ".devpilot/docs_governance/source_registry.json",
+    ".devpilot/testing/test_contract_registry.json",
+    ".devpilot/testing/test_contract_registry_v2.json",
+    "src/devpilot_core/application/services.py",
+    "src/devpilot_core/cli.py",
+    "src/devpilot_core/cli_registry/registry.py",
+    "src/devpilot_core/industrial/__init__.py",
+    "src/devpilot_core/industrial/production_ready.py",
+    "tests/test_project_global_state.py",
+    "src/devpilot_core/application/operation_catalog.py"
+  ],
+  "commands": [
+    "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_025_production_ready_declaration_gate.py tests/test_post_h_025_production_ready_aggregator.py tests/test_post_h_025_production_ready_criteria.py tests/test_schema_registry.py tests/test_project_global_state.py -q",
+    "python -m devpilot_core industrial-readiness production-ready-local --json",
+    "python -m devpilot_core industrial-readiness production-ready-local --json --write-report",
+    "python -m devpilot_core schema validate --schema-id ProductionReadyLocalReport --instance outputs/reports/production_ready_local_report.json --json",
+    "python -m devpilot_core schema validate --schema-id PostHManifest --instance docs/post_h_025_c_manifest.json --json",
+    "python -m devpilot_core test-contracts validate --json",
+    "python -m devpilot_core test-contracts validate-v2 --json",
+    "python -m devpilot_core docs-governance validate --json"
+  ],
+  "tests": [
+    "tests/test_post_h_025_production_ready_declaration_gate.py",
+    "tests/test_post_h_025_production_ready_aggregator.py",
+    "tests/test_post_h_025_production_ready_criteria.py",
+    "tests/test_schema_registry.py",
+    "tests/test_project_global_state.py"
+  ],
+  "pass_criteria": [
+    "El gate produce PASS o BLOCK deterministico.",
+    "PASS solo ocurre sin blockers y con no-go gates aprobados.",
+    "El payload valida contra ProductionReadyLocalReport.",
+    "CLI y ApplicationService devuelven decision equivalente."
+  ],
+  "block_criteria": [
+    "BLOCK si falta evidencia requerida blocker.",
+    "BLOCK conserva claims.production_ready_local=false.",
+    "Cada blocker incluye accion concreta de remediacion.",
+    "BLOCK si se intenta validar reportes que sobredeclaran enterprise, compliance, remote o SaaS readiness."
+  ],
+  "risks": [
+    "El claims validator documental queda pendiente para POST-H-025-D.",
+    "El artefacto formal final de declaracion/auditoria queda pendiente para POST-H-025-E.",
+    "Freshness/timestamps profundos de evidencias siguen como hardening posterior."
+  ],
+  "next_sprint": "POST-H-025",
+  "next_micro_sprint": "POST-H-025-D"
+}

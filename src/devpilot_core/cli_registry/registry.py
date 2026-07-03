@@ -336,6 +336,18 @@ COMMAND_OVERRIDES: dict[str, DeclarativeCommandOverride] = {
         policy_check_required=True,
         rationale="`quality-gate run --include-pytest` can invoke pytest; subprocess side effect is explicit even when the default path is bounded.",
     ),
+    "industrial-readiness.production-ready-local": DeclarativeCommandOverride(
+        command_id="industrial-readiness.production-ready-local",
+        risk_level=CommandRiskLevel.MEDIUM,
+        side_effects=(CommandSideEffect.WRITE_REPORT,),
+        writes_files=True,
+        dry_run_supported=True,
+        policy_check_required=True,
+        recommended_tests=(
+            "python -m pytest tests/test_post_h_025_production_ready_declaration_gate.py -q",
+        ),
+        rationale="POST-H-025-C exposes the production-ready-local declaration gate through ApplicationService; it reads local evidence and writes JSON/Markdown reports only when --write-report is explicit.",
+    ),
     "api.shell-gate": DeclarativeCommandOverride(
         command_id="api.shell-gate",
         risk_level=CommandRiskLevel.HIGH,

@@ -6502,6 +6502,60 @@
       "notes": [
         "POST-H-025-B is read-only and must not declare production-ready-local or write outputs/reports."
       ]
+    },
+    {
+      "contract_id": "post-h-025-production-ready-declaration-gate",
+      "scope": "integration",
+      "owner": "POST-H-025-C",
+      "phase": "POST-FASE-H",
+      "test_files": [
+        "tests/test_post_h_025_production_ready_declaration_gate.py",
+        "tests/test_post_h_025_production_ready_aggregator.py",
+        "tests/test_post_h_025_production_ready_criteria.py",
+        "tests/test_project_global_state.py"
+      ],
+      "validates": [
+        "src/devpilot_core/industrial/production_ready.py",
+        "src/devpilot_core/industrial/__init__.py",
+        "src/devpilot_core/application/services.py",
+        "src/devpilot_core/cli.py",
+        "src/devpilot_core/cli_registry/registry.py",
+        "docs/backlogs/POST-H-025_production_ready_declaration_gate.md",
+        "docs/POST-H-025_production_ready_declaration_gate.md",
+        "docs/audits/post_h_025_c_declaration_gate_report.md",
+        "docs/post_h_025_c_manifest.json"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/industrial/",
+        "src/devpilot_core/application/services.py",
+        "src/devpilot_core/cli.py",
+        "src/devpilot_core/cli_registry/registry.py",
+        ".devpilot/production/",
+        "docs/backlogs/POST-H-025_production_ready_declaration_gate.md",
+        "docs/POST-H-025_production_ready_declaration_gate.md",
+        ".devpilot/testing/",
+        ".devpilot/project_state.json",
+        "README.md",
+        "docs/05_operations/runbook.md",
+        "tests/test_post_h_025_production_ready_declaration_gate.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_025_production_ready_declaration_gate.py tests/test_post_h_025_production_ready_aggregator.py tests/test_post_h_025_production_ready_criteria.py tests/test_schema_registry.py tests/test_project_global_state.py -q",
+        "python -m devpilot_core industrial-readiness production-ready-local --json",
+        "python -m devpilot_core schema validate --schema-id PostHManifest --instance docs/post_h_025_c_manifest.json --json",
+        "python -m devpilot_core test-contracts validate --json"
+      ],
+      "notes": [
+        "POST-H-025-C exposes CLI/API declaration gate and optional report writing under outputs/reports only.",
+        "BLOCK must keep production_ready_local false and include concrete gap actions."
+      ]
     }
   ],
   "notes": [
@@ -6539,6 +6593,7 @@
     "POST-H-024-A adds operator onboarding playbook contract.",
     "POST-H-024-E registers onboarding-bootstrap-ready quality gate contract.",
     "POST-H-025-A adds criteria/evidence map test contract.",
-    "POST-H-025-B adds read-only evidence aggregator test contract."
+    "POST-H-025-B adds read-only evidence aggregator test contract.",
+    "POST-H-025-C adds production-ready-local declaration gate CLI/API contract."
   ]
 }

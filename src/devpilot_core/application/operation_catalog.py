@@ -431,4 +431,6 @@ def _test_contract_ids_for_operation(operation_id: str, domain: str) -> list[str
         ids.add("post-h-016-portfolio-status-hardening")
         ids.add("post-h-016-cli-api-integration-secure")
         ids.add("post-h-016-workspace-portfolio-hardening-gate")
+    if operation_id.startswith("production.") or domain == "production":
+        ids.add("post-h-025-production-ready-declaration-gate")
     return sorted(ids)

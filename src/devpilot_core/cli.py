@@ -3225,6 +3225,27 @@ def industrial_readiness_check_command(
     return int(result.exit_code)
 
 
+def industrial_readiness_production_ready_local_command(
+    *,
+    json_output: bool = False,
+    write_report: bool = False,
+    output_json: str = "outputs/reports/production_ready_local_report.json",
+    output_markdown: str = "outputs/reports/production_ready_local_report.md",
+) -> int:
+    """Run the POST-H-025-C production-ready-local declaration gate."""
+
+    root = project_root()
+    result = ApplicationService(root).production_ready_local_gate(
+        write_report=write_report,
+        output_json=output_json,
+        output_markdown=output_markdown,
+    )
+    _emit_result_event(root, result, subject="industrial:production-ready-local")
+    _persist_result(root, result, subject="industrial:production-ready-local")
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+
 
 
 def test_contracts_validate_command(
@@ -5346,6 +5367,11 @@ def build_parser() -> argparse.ArgumentParser:
     industrial_check.add_argument("--minimum-score", type=float, default=80.0, help="Minimum readiness score required to pass")
     industrial_check.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     industrial_check.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+    industrial_prl = industrial_sub.add_parser("production-ready-local", help="Run the local production-ready declaration gate")
+    industrial_prl.add_argument("--output-json", default="outputs/reports/production_ready_local_report.json", help="Production-ready-local report JSON path")
+    industrial_prl.add_argument("--output-markdown", default="outputs/reports/production_ready_local_report.md", help="Production-ready-local report Markdown path")
+    industrial_prl.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    industrial_prl.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
 
     architecture = sub.add_parser("architecture", help="Build executable local architecture map evidence")
     architecture_sub = architecture.add_subparsers(dest="architecture_command")
@@ -6611,6 +6637,13 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
                 minimum_score=args.minimum_score,
                 json_output=args.json,
                 write_report=args.write_report,
+            )
+        if args.industrial_readiness_command == "production-ready-local":
+            return industrial_readiness_production_ready_local_command(
+                json_output=args.json,
+                write_report=args.write_report,
+                output_json=args.output_json,
+                output_markdown=args.output_markdown,
             )
         parser.print_help()
         return int(ExitCode.FAIL)
