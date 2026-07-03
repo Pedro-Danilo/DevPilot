@@ -1,3 +1,18 @@
+## post-h-025-a — Production-ready local criteria and evidence map
+
+### Added
+
+- Added `ProductionReadyLocalCriteria` schema and registered it in the schema catalog.
+- Added `ProductionReadyLocalReport` schema for future PASS/BLOCK declaration reports.
+- Added `.devpilot/production/production_ready_local_criteria.json` with required hitos, optional design hitos, evidence map and no-go gates.
+- Added POST-H-025 top-level/backlog approval update, audit report, manifest and focused criteria tests.
+
+### Security
+
+- POST-H-025-A does not declare production-ready-local; it only defines the criteria contract.
+- Enterprise-ready, compliance-certified, remote-ready and SaaS-ready claims remain disallowed.
+- Remote execution, connector write, plugin execution and external APIs remain disabled/not required by the criteria.
+
 ## post-h-024-e — Onboarding bootstrap quality gate and pilot fixture
 
 ### Added

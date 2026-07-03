@@ -2,11 +2,11 @@
   "schema_version": "1.0",
   "schema_id": "SCHEMA-DEVPL-DOCUMENTATION-SOURCE-REGISTRY-V1",
   "registry_id": "devpilot-documentation-source-registry",
-  "created_by": "POST-H-024-D",
+  "created_by": "POST-H-025-A",
   "status": "implemented-initial",
   "phase": "POST-FASE-H",
   "owner": "Ordóñez",
-  "updated": "2026-07-02",
+  "updated": "2026-07-03",
   "preliminary": true,
   "documents": [
     {
@@ -1429,7 +1429,7 @@
       "classification": "derived",
       "domain": "roadmap-derived-backlog",
       "owner": "Ordóñez",
-      "status_required": "draft",
+      "status_required": "approved",
       "criticality": "P0",
       "machine_readable_counterparts": [
         ".devpilot/evals/post_h_eval_001_prioritized_roadmap.json"
@@ -1439,21 +1439,22 @@
       ],
       "derived_documents": [],
       "required_tests": [
+        "tests/test_post_h_025_production_ready_criteria.py",
         "tests/test_documentation_governance_backlogs.py"
       ],
       "sync_rules": [
         "backlog_naming",
         "backlog_frontmatter_minimum",
-        "backlog_milestone_match"
+        "backlog_milestone_match",
+        "approved_status"
       ],
       "related_adrs": [],
       "roadmap_milestones": [
         "POST-H-025"
       ],
-      "lifecycle": "planned",
+      "lifecycle": "active",
       "notes": [
-        "Roadmap-derived executable backlog governed by POST-H-009-D.",
-        "Missing future backlog files are informational planned items; existing files must pass naming and frontmatter checks."
+        "POST-H-025 executable backlog approved by owner for production-ready-local declaration gate implementation."
       ]
     },
     {
@@ -5762,6 +5763,181 @@
       "notes": [
         "Focused regression test for POST-H-024-E onboarding quality gate."
       ]
+    },
+    {
+      "doc_id": "POST-H-025-TOPLEVEL",
+      "path": "docs/POST-H-025_production_ready_declaration_gate.md",
+      "classification": "source-of-truth",
+      "domain": "production-ready-local",
+      "owner": "Ordóñez",
+      "status_required": "approved",
+      "criticality": "P0",
+      "frontmatter_required": true,
+      "required_tests": [
+        "tests/test_post_h_025_production_ready_criteria.py",
+        "tests/test_project_global_state.py"
+      ],
+      "sync_rules": [
+        "frontmatter_status",
+        "backlog_mirror",
+        "no_overclaim_claims"
+      ],
+      "roadmap_milestones": [
+        "POST-H-025"
+      ],
+      "lifecycle": "active",
+      "notes": [
+        "Top-level approved POST-H-025 production-ready-local declaration gate document."
+      ]
+    },
+    {
+      "doc_id": "POST-H-025-A-CRITERIA-SCHEMA",
+      "path": "docs/schemas/production_ready_local_criteria.schema.json",
+      "classification": "machine-readable-source",
+      "domain": "production-ready-local",
+      "owner": "POST-H-025-A",
+      "status_required": "registered",
+      "criticality": "P0",
+      "frontmatter_required": false,
+      "required_tests": [
+        "tests/test_post_h_025_production_ready_criteria.py",
+        "tests/test_schema_registry.py"
+      ],
+      "sync_rules": [
+        "schema_catalog_registered",
+        "criteria_schema_validation"
+      ],
+      "roadmap_milestones": [
+        "POST-H-025"
+      ],
+      "lifecycle": "active",
+      "notes": [
+        "Schema for production-ready-local criteria and evidence map."
+      ]
+    },
+    {
+      "doc_id": "POST-H-025-A-REPORT-SCHEMA",
+      "path": "docs/schemas/production_ready_local_report.schema.json",
+      "classification": "machine-readable-source",
+      "domain": "production-ready-local",
+      "owner": "POST-H-025-A",
+      "status_required": "registered",
+      "criticality": "P0",
+      "frontmatter_required": false,
+      "required_tests": [
+        "tests/test_post_h_025_production_ready_criteria.py",
+        "tests/test_schema_registry.py"
+      ],
+      "sync_rules": [
+        "schema_catalog_registered",
+        "report_schema_validation",
+        "claims_limits"
+      ],
+      "roadmap_milestones": [
+        "POST-H-025"
+      ],
+      "lifecycle": "active",
+      "notes": [
+        "Schema for future production-ready-local PASS/BLOCK reports."
+      ]
+    },
+    {
+      "doc_id": "POST-H-025-A-CRITERIA-JSON",
+      "path": ".devpilot/production/production_ready_local_criteria.json",
+      "classification": "machine-readable-source",
+      "domain": "production-ready-local",
+      "owner": "POST-H-025-A",
+      "status_required": "implemented-initial",
+      "criticality": "P0",
+      "frontmatter_required": false,
+      "required_tests": [
+        "tests/test_post_h_025_production_ready_criteria.py"
+      ],
+      "sync_rules": [
+        "criteria_schema_valid",
+        "required_hitos_mapped",
+        "no_go_gates_present"
+      ],
+      "roadmap_milestones": [
+        "POST-H-025"
+      ],
+      "lifecycle": "active",
+      "notes": [
+        "Versioned criteria and evidence map for production-ready-local declaration gate."
+      ]
+    },
+    {
+      "doc_id": "POST-H-025-A-CRITERIA-REPORT",
+      "path": "docs/audits/post_h_025_a_criteria_evidence_map_report.md",
+      "classification": "audit-report",
+      "domain": "production-ready-local",
+      "owner": "POST-H-025-A",
+      "status_required": "approved",
+      "criticality": "P0",
+      "frontmatter_required": true,
+      "required_tests": [
+        "tests/test_post_h_025_production_ready_criteria.py",
+        "tests/test_project_global_state.py"
+      ],
+      "sync_rules": [
+        "frontmatter_status",
+        "scope_limitations_documented"
+      ],
+      "roadmap_milestones": [
+        "POST-H-025"
+      ],
+      "lifecycle": "active",
+      "notes": [
+        "Audit report for POST-H-025-A criteria schema and evidence map."
+      ]
+    },
+    {
+      "doc_id": "POST-H-025-A-MANIFEST",
+      "path": "docs/post_h_025_a_manifest.json",
+      "classification": "machine-readable-source",
+      "domain": "production-ready-local",
+      "owner": "POST-H-025-A",
+      "status_required": "implemented-initial",
+      "criticality": "P0",
+      "frontmatter_required": false,
+      "required_tests": [
+        "tests/test_post_h_025_production_ready_criteria.py"
+      ],
+      "sync_rules": [
+        "post_h_manifest_schema",
+        "next_micro_sprint"
+      ],
+      "roadmap_milestones": [
+        "POST-H-025"
+      ],
+      "lifecycle": "active",
+      "notes": [
+        "Machine-readable manifest for POST-H-025-A."
+      ]
+    },
+    {
+      "doc_id": "POST-H-025-A-CRITERIA-TEST",
+      "path": "tests/test_post_h_025_production_ready_criteria.py",
+      "classification": "machine-readable-source",
+      "domain": "production-ready-local",
+      "owner": "POST-H-025-A",
+      "status_required": "implemented-initial",
+      "criticality": "P0",
+      "frontmatter_required": false,
+      "required_tests": [
+        "tests/test_post_h_025_production_ready_criteria.py"
+      ],
+      "sync_rules": [
+        "focused_regression",
+        "no_overclaim_claims"
+      ],
+      "roadmap_milestones": [
+        "POST-H-025"
+      ],
+      "lifecycle": "active",
+      "notes": [
+        "Focused regression test for POST-H-025-A criteria and evidence map."
+      ]
     }
   ],
   "rules": {
@@ -5833,20 +6009,20 @@
     "remote_runner_design_runbook_registered": true
   },
   "summary": {
-    "documents_total": 205,
-    "source_of_truth_total": 74,
-    "machine_readable_source_total": 90,
-    "derived_total": 37,
+    "documents_total": 212,
+    "source_of_truth_total": 75,
+    "machine_readable_source_total": 95,
+    "derived_total": 32,
     "generated_runtime_total": 0,
     "historical_total": 0,
     "deprecated_total": 0,
-    "critical_sources_total": 118,
+    "critical_sources_total": 125,
     "markdown_json_pairs_total": 30,
-    "documents_with_required_tests_total": 205,
+    "documents_with_required_tests_total": 212,
     "network_used": false,
     "external_api_used": false,
     "mutations_performed": false,
-    "last_updated_by": "POST-H-024-E",
+    "last_updated_by": "POST-H-025-A",
     "markdown_json_sync_checks_enabled": true,
     "sync_checks_scope": "version_match, milestones_match, decisions_match, closure_status_match, next_hito_match",
     "roadmap_derived_backlog_governance_enabled": true,
@@ -5933,13 +6109,15 @@
     "POST-H-024-A registers operator onboarding playbook, implementation doc, report, manifest and focused test.",
     "POST-H-024-C registers bootstrap workflow artifacts and ProjectBootstrapReport schema.",
     "POST-H-024-D registers onboarding readiness preview schema, module, manifest, audit report and focused tests.",
-    "POST-H-024-D keeps quality gate and pilot fixture pending for POST-H-024-E."
+    "POST-H-024-D keeps quality gate and pilot fixture pending for POST-H-024-E.",
+    "POST-H-025-A registers production-ready-local criteria/report schemas, criteria JSON, manifest, audit report and focused tests.",
+    "POST-H-025-A remains criteria-only; evidence aggregation and final declaration remain pending."
   ],
   "project_state_snapshot": {
-    "last_updated_by": "POST-H-024-E",
-    "current_micro_sprint": "POST-H-024-E",
-    "next_micro_sprint": "POST-H-025",
-    "last_completed_sprint": "POST-H-023",
+    "last_updated_by": "POST-H-025-A",
+    "current_micro_sprint": "POST-H-025-A",
+    "next_micro_sprint": "POST-H-025-B",
+    "last_completed_sprint": "POST-H-024",
     "next_sprint": "POST-H-025",
     "post_h_023_current_micro_sprint": "POST-H-023-E",
     "post_h_023_next_micro_sprint": "POST-H-024",
@@ -5972,6 +6150,12 @@
     "post_h_024_plugin_execution_enabled": false,
     "post_h_024_secrets_included": false,
     "post_h_024_project_bootstrap_report_available": true,
-    "external_api_used": false
+    "external_api_used": false,
+    "post_h_025_current_micro_sprint": "POST-H-025-A",
+    "post_h_025_next_micro_sprint": "POST-H-025-B",
+    "post_h_025_criteria_path": ".devpilot/production/production_ready_local_criteria.json",
+    "post_h_025_production_ready_local_declared": false,
+    "post_h_025_enterprise_ready_claimed": false,
+    "post_h_025_compliance_certified_claimed": false
   }
 }

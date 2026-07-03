@@ -1,3 +1,23 @@
+## POST-H-025-A — Criteria schema y evidence map
+
+Último hito: `POST-H-024`
+
+Último hito cerrado: `POST-H-024`
+
+Hito activo: `POST-H-025 — Production-ready local declaration gate`
+
+Último micro-sprint implementado: `POST-H-025-A — Criteria schema y evidence map`
+
+Siguiente micro-sprint: `POST-H-025-B — Evidence aggregator read-only`
+
+POST-H-025-A eleva el backlog POST-H-025 a `approved` y agrega los contratos `ProductionReadyLocalCriteria` y `ProductionReadyLocalReport`, junto con el criteria JSON versionado `.devpilot/production/production_ready_local_criteria.json`.
+
+La capacidad es `implemented-initial / criteria-schema-evidence-map-only`: define el contrato formal para una futura declaración `production-ready-local`, mapea evidencia por hito requerido, clasifica evidencias como `required`, `optional`, `blocker` o `advisory`, fija `minimum_score=90` y `blocking_gaps_allowed=0`, y establece no-go gates para impedir claims enterprise-ready, compliance-certified, remote-ready o SaaS-ready.
+
+POST-H-025-A no ejecuta agregación de evidencias, no genera la declaración final, no habilita red, APIs externas, remote execution, connector write ni plugin execution. El resultado PASS/BLOCK del gate queda para POST-H-025-B/C/E.
+
+Verificación focal recomendada: `python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_025_production_ready_criteria.py tests/test_schema_registry.py tests/test_project_global_state.py -q`.
+
 ## POST-H-024-E — Quality gate y proyecto piloto fixture
 
 Último hito cerrado: `POST-H-024`

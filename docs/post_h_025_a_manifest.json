@@ -1,0 +1,78 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "SCHEMA-DEVPL-POST-H-MANIFEST-V1",
+  "manifest_id": "POST-H-025-A-MANIFEST",
+  "post_h_id": "POST-H-025",
+  "micro_sprint": "POST-H-025-A",
+  "title": "POST-H-025-A — Criteria schema y evidence map",
+  "status": "implemented-initial",
+  "phase": "POST-FASE-H",
+  "implemented_at": "2026-07-03",
+  "implementation_status": "implemented-initial/criteria-schema-evidence-map-only",
+  "preliminary": true,
+  "local_first": true,
+  "dry_run": true,
+  "read_only": true,
+  "no_remote_execution_enabled": true,
+  "no_external_apis_used": true,
+  "no_connector_write_enabled": true,
+  "no_plugin_execution_enabled": true,
+  "network_used": false,
+  "external_api_used": false,
+  "remote_execution_used": false,
+  "connector_write_used": false,
+  "plugin_execution_used": false,
+  "secrets_included": false,
+  "created_files": [
+    "docs/schemas/production_ready_local_criteria.schema.json",
+    "docs/schemas/production_ready_local_report.schema.json",
+    ".devpilot/production/production_ready_local_criteria.json",
+    "docs/POST-H-025_production_ready_declaration_gate.md",
+    "docs/audits/post_h_025_a_criteria_evidence_map_report.md",
+    "docs/post_h_025_a_manifest.json",
+    "tests/test_post_h_025_production_ready_criteria.py"
+  ],
+  "modified_files": [
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/backlogs/POST-H-025_production_ready_declaration_gate.md",
+    "docs/release/CHANGELOG.md",
+    "docs/schemas/schema_catalog.json",
+    ".devpilot/project_state.json",
+    ".devpilot/docs_governance/source_registry.json",
+    ".devpilot/testing/test_contract_registry.json",
+    ".devpilot/testing/test_contract_registry_v2.json",
+    "tests/test_schema_registry.py",
+    "tests/test_project_global_state.py"
+  ],
+  "commands": [
+    "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_025_production_ready_criteria.py tests/test_schema_registry.py tests/test_project_global_state.py -q",
+    "python -m devpilot_core schema validate --schema-id ProductionReadyLocalCriteria --instance .devpilot/production/production_ready_local_criteria.json --json",
+    "python -m devpilot_core schema validate --schema-id PostHManifest --instance docs/post_h_025_a_manifest.json --json",
+    "python -m devpilot_core test-contracts validate --json",
+    "python -m devpilot_core test-contracts validate-v2 --json",
+    "python -m devpilot_core docs-governance validate --json"
+  ],
+  "tests": [
+    "tests/test_post_h_025_production_ready_criteria.py",
+    "tests/test_schema_registry.py",
+    "tests/test_project_global_state.py"
+  ],
+  "pass_criteria": [
+    "Criteria valida contra schema.",
+    "Cada hito requerido tiene evidencia mapeada.",
+    "No-go gates están presentes y bloquean remote/plugin/connector/external API/enterprise/compliance claims."
+  ],
+  "block_criteria": [
+    "BLOCK si se omiten remote/plugin/connector no-go gates.",
+    "BLOCK si se permite claim enterprise/compliance/remote/SaaS.",
+    "BLOCK si un hito requerido queda sin evidencia blocker."
+  ],
+  "risks": [
+    "El micro-sprint define criterios; no ejecuta aún agregación ni declaración.",
+    "Un evidence map incompleto generaría falsa confianza en POST-H-025-B/C.",
+    "Los reportes futuros deben bloquear por defecto ante evidencia faltante."
+  ],
+  "next_sprint": "POST-H-025",
+  "next_micro_sprint": "POST-H-025-B"
+}

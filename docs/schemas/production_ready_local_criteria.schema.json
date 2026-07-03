@@ -1,0 +1,379 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/SCHEMA-DEVPL-PRODUCTION-READY-LOCAL-CRITERIA-V1",
+  "title": "DevPilot ProductionReadyLocalCriteria v1",
+  "description": "Structural contract for POST-H-025-A production-ready-local criteria and evidence map. It defines required/optional hito evidence, no-go gates and allowed claims without declaring enterprise, compliance-certified, remote-ready or SaaS readiness.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "schema_id",
+    "criteria_id",
+    "created_by",
+    "updated",
+    "status",
+    "scope",
+    "preliminary",
+    "minimum_score",
+    "blocking_gaps_allowed",
+    "declaration_policy",
+    "required_hitos",
+    "optional_design_hitos",
+    "no_go_gates",
+    "claims_allowed",
+    "evidence_classes",
+    "evidence_map",
+    "safety",
+    "limitations",
+    "next_micro_sprint"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "schema_id": {
+      "const": "SCHEMA-DEVPL-PRODUCTION-READY-LOCAL-CRITERIA-V1"
+    },
+    "criteria_id": {
+      "type": "string",
+      "pattern": "^production-ready-local-criteria-v[0-9]+$"
+    },
+    "created_by": {
+      "const": "POST-H-025-A"
+    },
+    "updated": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+    },
+    "status": {
+      "enum": [
+        "implemented-initial",
+        "approved",
+        "draft"
+      ]
+    },
+    "scope": {
+      "const": "production-ready-local"
+    },
+    "preliminary": {
+      "const": true
+    },
+    "minimum_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "blocking_gaps_allowed": {
+      "const": 0
+    },
+    "declaration_policy": {
+      "type": "object",
+      "required": [
+        "evidence_before_declaration",
+        "block_by_default",
+        "pass_requires_zero_blocking_gaps",
+        "pass_requires_no_go_gates",
+        "pass_requires_required_hito_evidence",
+        "claim_scope"
+      ],
+      "properties": {
+        "evidence_before_declaration": {
+          "const": true
+        },
+        "block_by_default": {
+          "const": true
+        },
+        "pass_requires_zero_blocking_gaps": {
+          "const": true
+        },
+        "pass_requires_no_go_gates": {
+          "const": true
+        },
+        "pass_requires_required_hito_evidence": {
+          "const": true
+        },
+        "claim_scope": {
+          "const": "production-ready-local-only"
+        }
+      },
+      "additionalProperties": false
+    },
+    "required_hitos": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^POST-H-[0-9]{3}$"
+      }
+    },
+    "optional_design_hitos": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^POST-H-[0-9]{3}$"
+      }
+    },
+    "no_go_gates": {
+      "type": "object",
+      "required": [
+        "remote_execution_enabled",
+        "connector_write_enabled",
+        "plugin_execution_enabled",
+        "external_apis_required",
+        "compliance_certification_claim",
+        "enterprise_ready_claim",
+        "remote_ready_claim",
+        "saas_ready_claim"
+      ],
+      "properties": {
+        "remote_execution_enabled": {
+          "const": false
+        },
+        "connector_write_enabled": {
+          "const": false
+        },
+        "plugin_execution_enabled": {
+          "const": false
+        },
+        "external_apis_required": {
+          "const": false
+        },
+        "compliance_certification_claim": {
+          "const": false
+        },
+        "enterprise_ready_claim": {
+          "const": false
+        },
+        "remote_ready_claim": {
+          "const": false
+        },
+        "saas_ready_claim": {
+          "const": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "claims_allowed": {
+      "type": "object",
+      "required": [
+        "production_ready_local",
+        "enterprise_ready",
+        "remote_ready",
+        "compliance_certified",
+        "saas_ready"
+      ],
+      "properties": {
+        "production_ready_local": {
+          "type": "boolean"
+        },
+        "enterprise_ready": {
+          "const": false
+        },
+        "remote_ready": {
+          "const": false
+        },
+        "compliance_certified": {
+          "const": false
+        },
+        "saas_ready": {
+          "const": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "evidence_classes": {
+      "type": "array",
+      "minItems": 4,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "required",
+          "optional",
+          "blocker",
+          "advisory"
+        ]
+      }
+    },
+    "evidence_map": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "hito_id",
+          "classification",
+          "required_for_pass",
+          "weight",
+          "evidence"
+        ],
+        "properties": {
+          "hito_id": {
+            "type": "string",
+            "pattern": "^POST-H-[0-9]{3}$"
+          },
+          "classification": {
+            "enum": [
+              "required",
+              "optional"
+            ]
+          },
+          "required_for_pass": {
+            "type": "boolean"
+          },
+          "weight": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 100
+          },
+          "evidence": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "required": [
+                "evidence_id",
+                "title",
+                "path",
+                "category",
+                "requirement_level",
+                "blocker_on_missing",
+                "expected_status",
+                "validation_command"
+              ],
+              "properties": {
+                "evidence_id": {
+                  "type": "string",
+                  "pattern": "^[a-z0-9][a-z0-9_-]+$"
+                },
+                "title": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "path": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "category": {
+                  "enum": [
+                    "schema",
+                    "manifest",
+                    "report",
+                    "registry",
+                    "quality-gate",
+                    "test-contract",
+                    "runbook",
+                    "source-registry",
+                    "runtime-report",
+                    "policy",
+                    "audit",
+                    "backlog"
+                  ]
+                },
+                "requirement_level": {
+                  "enum": [
+                    "required",
+                    "optional",
+                    "blocker",
+                    "advisory"
+                  ]
+                },
+                "blocker_on_missing": {
+                  "type": "boolean"
+                },
+                "expected_status": {
+                  "enum": [
+                    "pass",
+                    "approved",
+                    "implemented",
+                    "implemented-initial",
+                    "present",
+                    "generated",
+                    "closed"
+                  ]
+                },
+                "expected_schema_id": {
+                  "type": "string"
+                },
+                "producer_sprint": {
+                  "type": "string"
+                },
+                "validation_command": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "notes": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              },
+              "additionalProperties": false
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "safety": {
+      "type": "object",
+      "required": [
+        "local_first",
+        "read_only",
+        "dry_run",
+        "network_used",
+        "external_api_used",
+        "remote_execution_enabled",
+        "connector_write_enabled",
+        "plugin_execution_enabled",
+        "secrets_included"
+      ],
+      "properties": {
+        "local_first": {
+          "const": true
+        },
+        "read_only": {
+          "const": true
+        },
+        "dry_run": {
+          "const": true
+        },
+        "network_used": {
+          "const": false
+        },
+        "external_api_used": {
+          "const": false
+        },
+        "remote_execution_enabled": {
+          "const": false
+        },
+        "connector_write_enabled": {
+          "const": false
+        },
+        "plugin_execution_enabled": {
+          "const": false
+        },
+        "secrets_included": {
+          "const": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "limitations": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "next_micro_sprint": {
+      "const": "POST-H-025-B"
+    }
+  },
+  "additionalProperties": true,
+  "x-devpilot-schema-id": "SCHEMA-DEVPL-PRODUCTION-READY-LOCAL-CRITERIA-V1",
+  "x-devpilot-sprint": "POST-H-025-A",
+  "x-devpilot-status": "registered"
+}

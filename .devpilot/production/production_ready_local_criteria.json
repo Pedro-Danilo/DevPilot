@@ -1,0 +1,590 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "SCHEMA-DEVPL-PRODUCTION-READY-LOCAL-CRITERIA-V1",
+  "criteria_id": "production-ready-local-criteria-v1",
+  "created_by": "POST-H-025-A",
+  "updated": "2026-07-03",
+  "status": "implemented-initial",
+  "scope": "production-ready-local",
+  "preliminary": true,
+  "minimum_score": 90,
+  "blocking_gaps_allowed": 0,
+  "declaration_policy": {
+    "evidence_before_declaration": true,
+    "block_by_default": true,
+    "pass_requires_zero_blocking_gaps": true,
+    "pass_requires_no_go_gates": true,
+    "pass_requires_required_hito_evidence": true,
+    "claim_scope": "production-ready-local-only"
+  },
+  "required_hitos": [
+    "POST-H-002",
+    "POST-H-003",
+    "POST-H-004",
+    "POST-H-005",
+    "POST-H-006",
+    "POST-H-007",
+    "POST-H-008",
+    "POST-H-009",
+    "POST-H-010",
+    "POST-H-011",
+    "POST-H-012",
+    "POST-H-013",
+    "POST-H-014",
+    "POST-H-015",
+    "POST-H-016",
+    "POST-H-017",
+    "POST-H-024"
+  ],
+  "optional_design_hitos": [
+    "POST-H-018",
+    "POST-H-019",
+    "POST-H-020",
+    "POST-H-021",
+    "POST-H-022",
+    "POST-H-023"
+  ],
+  "no_go_gates": {
+    "remote_execution_enabled": false,
+    "connector_write_enabled": false,
+    "plugin_execution_enabled": false,
+    "external_apis_required": false,
+    "compliance_certification_claim": false,
+    "enterprise_ready_claim": false,
+    "remote_ready_claim": false,
+    "saas_ready_claim": false
+  },
+  "claims_allowed": {
+    "production_ready_local": true,
+    "enterprise_ready": false,
+    "remote_ready": false,
+    "compliance_certified": false,
+    "saas_ready": false
+  },
+  "evidence_classes": [
+    "required",
+    "optional",
+    "blocker",
+    "advisory"
+  ],
+  "evidence_map": [
+    {
+      "hito_id": "POST-H-002",
+      "classification": "required",
+      "required_for_pass": true,
+      "weight": 5.882,
+      "evidence": [
+        {
+          "evidence_id": "post-h-002-post-h-002-e-manifest",
+          "title": "Maturity dashboard manifest",
+          "path": "docs/post_h_002_e_manifest.json",
+          "category": "manifest",
+          "requirement_level": "blocker",
+          "blocker_on_missing": true,
+          "expected_status": "present",
+          "expected_schema_id": "SCHEMA-DEVPL-POST-H-MANIFEST-V1",
+          "producer_sprint": "POST-H-002",
+          "validation_command": "python -m devpilot_core schema validate --schema-id PostHManifest --instance docs/post_h_002_e_manifest.json --json",
+          "notes": []
+        }
+      ]
+    },
+    {
+      "hito_id": "POST-H-003",
+      "classification": "required",
+      "required_for_pass": true,
+      "weight": 5.882,
+      "evidence": [
+        {
+          "evidence_id": "post-h-003-test-contract-registry-v2",
+          "title": "Test Contract Registry v2",
+          "path": ".devpilot/testing/test_contract_registry_v2.json",
+          "category": "test-contract",
+          "requirement_level": "blocker",
+          "blocker_on_missing": true,
+          "expected_status": "present",
+          "expected_schema_id": "SCHEMA-DEVPL-TEST-CONTRACT-REGISTRY-V2",
+          "producer_sprint": "POST-H-003",
+          "validation_command": "python -m devpilot_core test-contracts validate-v2 --json",
+          "notes": []
+        }
+      ]
+    },
+    {
+      "hito_id": "POST-H-004",
+      "classification": "required",
+      "required_for_pass": true,
+      "weight": 5.882,
+      "evidence": [
+        {
+          "evidence_id": "post-h-004-miasi-semantic-report-schema",
+          "title": "MIASI semantic report schema",
+          "path": "docs/schemas/miasi_semantic_report.schema.json",
+          "category": "schema",
+          "requirement_level": "blocker",
+          "blocker_on_missing": true,
+          "expected_status": "present",
+          "expected_schema_id": "SCHEMA-DEVPL-MIASI-SEMANTIC-REPORT-V1",
+          "producer_sprint": "POST-H-004",
+          "validation_command": "python -m devpilot_core schema list --json",
+          "notes": []
+        }
+      ]
+    },
+    {
+      "hito_id": "POST-H-005",
+      "classification": "required",
+      "required_for_pass": true,
+      "weight": 5.882,
+      "evidence": [
+        {
+          "evidence_id": "post-h-005-architecture-map-schema",
+          "title": "Architecture map schema",
+          "path": "docs/schemas/architecture_map.schema.json",
+          "category": "schema",
+          "requirement_level": "blocker",
+          "blocker_on_missing": true,
+          "expected_status": "present",
+          "expected_schema_id": "SCHEMA-DEVPL-ARCHITECTURE-MAP-V1",
+          "producer_sprint": "POST-H-005",
+          "validation_command": "python -m devpilot_core schema list --json",
+          "notes": []
+        }
+      ]
+    },
+    {
+      "hito_id": "POST-H-006",
+      "classification": "required",
+      "required_for_pass": true,
+      "weight": 5.882,
+      "evidence": [
+        {
+          "evidence_id": "post-h-006-cli-command-registry-schema",
+          "title": "CLI command registry schema",
+          "path": "docs/schemas/cli_command_registry.schema.json",
+          "category": "schema",
+          "requirement_level": "blocker",
+          "blocker_on_missing": true,
+          "expected_status": "present",
+          "expected_schema_id": "SCHEMA-DEVPL-CLI-COMMAND-REGISTRY-V1",
+          "producer_sprint": "POST-H-006",
+          "validation_command": "python -m devpilot_core cli-registry guard --json",
+          "notes": []
+        }
+      ]
+    },
+    {
+      "hito_id": "POST-H-007",
+      "classification": "required",
+      "required_for_pass": true,
+      "weight": 5.882,
+      "evidence": [
+        {
+          "evidence_id": "post-h-007-application-service-boundary-report-schema",
+          "title": "Application service boundary report schema",
+          "path": "docs/schemas/application_service_boundary_report.schema.json",
+          "category": "schema",
+          "requirement_level": "blocker",
+          "blocker_on_missing": true,
+          "expected_status": "present",
+          "expected_schema_id": "SCHEMA-DEVPL-APPLICATION-SERVICE-BOUNDARY-REPORT-V1",
+          "producer_sprint": "POST-H-007",
+          "validation_command": "python -m devpilot_core schema list --json",
+          "notes": []
+        }
+      ]
+    },
+    {
+      "hito_id": "POST-H-008",
+      "classification": "required",
+      "required_for_pass": true,
+      "weight": 5.882,
+      "evidence": [
+        {
+          "evidence_id": "post-h-008-runtime-state-policy",
+          "title": "Runtime state policy",
+          "path": ".devpilot/runtime_state_policy.json",
+          "category": "policy",
+          "requirement_level": "blocker",
+          "blocker_on_missing": true,
+          "expected_status": "present",
+          "expected_schema_id": "SCHEMA-DEVPL-RUNTIME-STATE-POLICY-V1",
+          "producer_sprint": "POST-H-008",
+          "validation_command": "python -m devpilot_core schema validate --schema-id RuntimeStatePolicy --instance .devpilot/runtime_state_policy.json --json",
+          "notes": []
+        }
+      ]
+    },
+    {
+      "hito_id": "POST-H-009",
+      "classification": "required",
+      "required_for_pass": true,
+      "weight": 5.882,
+      "evidence": [
+        {
+          "evidence_id": "post-h-009-source-registry",
+          "title": "Documentation source registry",
+          "path": ".devpilot/docs_governance/source_registry.json",
+          "category": "source-registry",
+          "requirement_level": "blocker",
+          "blocker_on_missing": true,
+          "expected_status": "present",
+          "expected_schema_id": "SCHEMA-DEVPL-DOCUMENTATION-SOURCE-REGISTRY-V1",
+          "producer_sprint": "POST-H-009",
+          "validation_command": "python -m devpilot_core docs-governance validate --json",
+          "notes": []
+        }
+      ]
+    },
+    {
+      "hito_id": "POST-H-010",
+      "classification": "required",
+      "required_for_pass": true,
+      "weight": 5.882,
+      "evidence": [
+        {
+          "evidence_id": "post-h-010-retention-policy",
+          "title": "Observability retention policy",
+          "path": ".devpilot/observability/retention_policy.json",
+          "category": "policy",
+          "requirement_level": "blocker",
+          "blocker_on_missing": true,
+          "expected_status": "present",
+          "expected_schema_id": "SCHEMA-DEVPL-OBSERVABILITY-RETENTION-POLICY-V1",
+          "producer_sprint": "POST-H-010",
+          "validation_command": "python -m devpilot_core schema validate --schema-id ObservabilityRetentionPolicy --instance .devpilot/observability/retention_policy.json --json",
+          "notes": []
+        }
+      ]
+    },
+    {
+      "hito_id": "POST-H-011",
+      "classification": "required",
+      "required_for_pass": true,
+      "weight": 5.882,
+      "evidence": [
+        {
+          "evidence_id": "post-h-011-rag-groundedness-report-schema",
+          "title": "RAG groundedness report schema",
+          "path": "docs/schemas/rag_groundedness_report.schema.json",
+          "category": "schema",
+          "requirement_level": "blocker",
+          "blocker_on_missing": true,
+          "expected_status": "present",
+          "expected_schema_id": "SCHEMA-DEVPL-RAG-GROUNDEDNESS-REPORT-V1",
+          "producer_sprint": "POST-H-011",
+          "validation_command": "python -m devpilot_core schema list --json",
+          "notes": []
+        }
+      ]
+    },
+    {
+      "hito_id": "POST-H-012",
+      "classification": "required",
+      "required_for_pass": true,
+      "weight": 5.882,
+      "evidence": [
+        {
+          "evidence_id": "post-h-012-sensitive-action-catalog",
+          "title": "Sensitive action catalog",
+          "path": ".devpilot/approval/sensitive_action_catalog.json",
+          "category": "policy",
+          "requirement_level": "blocker",
+          "blocker_on_missing": true,
+          "expected_status": "present",
+          "expected_schema_id": "SCHEMA-DEVPL-SENSITIVE-ACTION-CATALOG-V1",
+          "producer_sprint": "POST-H-012",
+          "validation_command": "python -m devpilot_core schema validate --schema-id SensitiveActionCatalog --instance .devpilot/approval/sensitive_action_catalog.json --json",
+          "notes": []
+        }
+      ]
+    },
+    {
+      "hito_id": "POST-H-013",
+      "classification": "required",
+      "required_for_pass": true,
+      "weight": 5.882,
+      "evidence": [
+        {
+          "evidence_id": "post-h-013-audit-pack-manifest-v2-schema",
+          "title": "Audit pack manifest v2 schema",
+          "path": "docs/schemas/audit_pack_manifest_v2.schema.json",
+          "category": "schema",
+          "requirement_level": "blocker",
+          "blocker_on_missing": true,
+          "expected_status": "present",
+          "expected_schema_id": "SCHEMA-DEVPL-AUDIT-PACK-MANIFEST-V2",
+          "producer_sprint": "POST-H-013",
+          "validation_command": "python -m devpilot_core schema list --json",
+          "notes": []
+        }
+      ]
+    },
+    {
+      "hito_id": "POST-H-014",
+      "classification": "required",
+      "required_for_pass": true,
+      "weight": 5.882,
+      "evidence": [
+        {
+          "evidence_id": "post-h-014-ui-api-shell-report-schema",
+          "title": "UI/API shell report schema",
+          "path": "docs/schemas/ui_api_shell_report.schema.json",
+          "category": "schema",
+          "requirement_level": "blocker",
+          "blocker_on_missing": true,
+          "expected_status": "present",
+          "expected_schema_id": "SCHEMA-DEVPL-UI-API-SHELL-REPORT-V1",
+          "producer_sprint": "POST-H-014",
+          "validation_command": "python -m devpilot_core schema list --json",
+          "notes": []
+        }
+      ]
+    },
+    {
+      "hito_id": "POST-H-015",
+      "classification": "required",
+      "required_for_pass": true,
+      "weight": 5.882,
+      "evidence": [
+        {
+          "evidence_id": "post-h-015-operator-dashboard-snapshot-schema",
+          "title": "Operator dashboard snapshot schema",
+          "path": "docs/schemas/operator_dashboard_snapshot.schema.json",
+          "category": "schema",
+          "requirement_level": "blocker",
+          "blocker_on_missing": true,
+          "expected_status": "present",
+          "expected_schema_id": "SCHEMA-DEVPL-OPERATOR-DASHBOARD-SNAPSHOT-V1",
+          "producer_sprint": "POST-H-015",
+          "validation_command": "python -m devpilot_core schema list --json",
+          "notes": []
+        }
+      ]
+    },
+    {
+      "hito_id": "POST-H-016",
+      "classification": "required",
+      "required_for_pass": true,
+      "weight": 5.882,
+      "evidence": [
+        {
+          "evidence_id": "post-h-016-workspace-isolation-report-schema",
+          "title": "Workspace isolation report schema",
+          "path": "docs/schemas/workspace_isolation_report.schema.json",
+          "category": "schema",
+          "requirement_level": "blocker",
+          "blocker_on_missing": true,
+          "expected_status": "present",
+          "expected_schema_id": "SCHEMA-DEVPL-WORKSPACE-ISOLATION-REPORT-V1",
+          "producer_sprint": "POST-H-016",
+          "validation_command": "python -m devpilot_core schema list --json",
+          "notes": []
+        }
+      ]
+    },
+    {
+      "hito_id": "POST-H-017",
+      "classification": "required",
+      "required_for_pass": true,
+      "weight": 5.882,
+      "evidence": [
+        {
+          "evidence_id": "post-h-017-release-reproducibility-pack-schema",
+          "title": "Release reproducibility pack schema",
+          "path": "docs/schemas/release_reproducibility_pack.schema.json",
+          "category": "schema",
+          "requirement_level": "blocker",
+          "blocker_on_missing": true,
+          "expected_status": "present",
+          "expected_schema_id": "SCHEMA-DEVPL-RELEASE-REPRODUCIBILITY-PACK-V1",
+          "producer_sprint": "POST-H-017",
+          "validation_command": "python -m devpilot_core schema list --json",
+          "notes": []
+        }
+      ]
+    },
+    {
+      "hito_id": "POST-H-024",
+      "classification": "required",
+      "required_for_pass": true,
+      "weight": 5.882,
+      "evidence": [
+        {
+          "evidence_id": "post-h-024-post-h-024-e-manifest",
+          "title": "Onboarding quality gate manifest",
+          "path": "docs/post_h_024_e_manifest.json",
+          "category": "manifest",
+          "requirement_level": "blocker",
+          "blocker_on_missing": true,
+          "expected_status": "present",
+          "expected_schema_id": "SCHEMA-DEVPL-POST-H-MANIFEST-V1",
+          "producer_sprint": "POST-H-024",
+          "validation_command": "python -m devpilot_core schema validate --schema-id PostHManifest --instance docs/post_h_024_e_manifest.json --json",
+          "notes": []
+        },
+        {
+          "evidence_id": "post-h-024-quality-gate",
+          "title": "Onboarding bootstrap quality gate",
+          "path": "src/devpilot_core/onboarding/quality_gate.py",
+          "category": "quality-gate",
+          "requirement_level": "blocker",
+          "blocker_on_missing": true,
+          "expected_status": "present",
+          "producer_sprint": "POST-H-024",
+          "validation_command": "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_024_onboarding_quality_gate.py -q",
+          "notes": []
+        }
+      ]
+    },
+    {
+      "hito_id": "POST-H-018",
+      "classification": "optional",
+      "required_for_pass": false,
+      "weight": 0,
+      "evidence": [
+        {
+          "evidence_id": "post-h-018-post-h-018-design-only-placeholder",
+          "title": "POST-H-018 design-only no-go evidence",
+          "path": "docs/backlogs/POST-H-018_design_only_placeholder.md",
+          "category": "backlog",
+          "requirement_level": "advisory",
+          "blocker_on_missing": false,
+          "expected_status": "present",
+          "producer_sprint": "POST-H-018",
+          "validation_command": "python -m devpilot_core docs-governance validate --json",
+          "notes": [
+            "Optional design hito; production-ready-local gate may use it as context but must not require active remote/enterprise/compliance capabilities."
+          ]
+        }
+      ]
+    },
+    {
+      "hito_id": "POST-H-019",
+      "classification": "optional",
+      "required_for_pass": false,
+      "weight": 0,
+      "evidence": [
+        {
+          "evidence_id": "post-h-019-post-h-019-design-only-placeholder",
+          "title": "POST-H-019 design-only no-go evidence",
+          "path": "docs/backlogs/POST-H-019_design_only_placeholder.md",
+          "category": "backlog",
+          "requirement_level": "advisory",
+          "blocker_on_missing": false,
+          "expected_status": "present",
+          "producer_sprint": "POST-H-019",
+          "validation_command": "python -m devpilot_core docs-governance validate --json",
+          "notes": [
+            "Optional design hito; production-ready-local gate may use it as context but must not require active remote/enterprise/compliance capabilities."
+          ]
+        }
+      ]
+    },
+    {
+      "hito_id": "POST-H-020",
+      "classification": "optional",
+      "required_for_pass": false,
+      "weight": 0,
+      "evidence": [
+        {
+          "evidence_id": "post-h-020-post-h-020-design-only-placeholder",
+          "title": "POST-H-020 design-only no-go evidence",
+          "path": "docs/backlogs/POST-H-020_design_only_placeholder.md",
+          "category": "backlog",
+          "requirement_level": "advisory",
+          "blocker_on_missing": false,
+          "expected_status": "present",
+          "producer_sprint": "POST-H-020",
+          "validation_command": "python -m devpilot_core docs-governance validate --json",
+          "notes": [
+            "Optional design hito; production-ready-local gate may use it as context but must not require active remote/enterprise/compliance capabilities."
+          ]
+        }
+      ]
+    },
+    {
+      "hito_id": "POST-H-021",
+      "classification": "optional",
+      "required_for_pass": false,
+      "weight": 0,
+      "evidence": [
+        {
+          "evidence_id": "post-h-021-post-h-021-design-only-placeholder",
+          "title": "POST-H-021 design-only no-go evidence",
+          "path": "docs/backlogs/POST-H-021_design_only_placeholder.md",
+          "category": "backlog",
+          "requirement_level": "advisory",
+          "blocker_on_missing": false,
+          "expected_status": "present",
+          "producer_sprint": "POST-H-021",
+          "validation_command": "python -m devpilot_core docs-governance validate --json",
+          "notes": [
+            "Optional design hito; production-ready-local gate may use it as context but must not require active remote/enterprise/compliance capabilities."
+          ]
+        }
+      ]
+    },
+    {
+      "hito_id": "POST-H-022",
+      "classification": "optional",
+      "required_for_pass": false,
+      "weight": 0,
+      "evidence": [
+        {
+          "evidence_id": "post-h-022-post-h-022-design-only-placeholder",
+          "title": "POST-H-022 design-only no-go evidence",
+          "path": "docs/backlogs/POST-H-022_design_only_placeholder.md",
+          "category": "backlog",
+          "requirement_level": "advisory",
+          "blocker_on_missing": false,
+          "expected_status": "present",
+          "producer_sprint": "POST-H-022",
+          "validation_command": "python -m devpilot_core docs-governance validate --json",
+          "notes": [
+            "Optional design hito; production-ready-local gate may use it as context but must not require active remote/enterprise/compliance capabilities."
+          ]
+        }
+      ]
+    },
+    {
+      "hito_id": "POST-H-023",
+      "classification": "optional",
+      "required_for_pass": false,
+      "weight": 0,
+      "evidence": [
+        {
+          "evidence_id": "post-h-023-post-h-023-design-only-placeholder",
+          "title": "POST-H-023 design-only no-go evidence",
+          "path": "docs/backlogs/POST-H-023_design_only_placeholder.md",
+          "category": "backlog",
+          "requirement_level": "advisory",
+          "blocker_on_missing": false,
+          "expected_status": "present",
+          "producer_sprint": "POST-H-023",
+          "validation_command": "python -m devpilot_core docs-governance validate --json",
+          "notes": [
+            "Optional design hito; production-ready-local gate may use it as context but must not require active remote/enterprise/compliance capabilities."
+          ]
+        }
+      ]
+    }
+  ],
+  "safety": {
+    "local_first": true,
+    "read_only": true,
+    "dry_run": true,
+    "network_used": false,
+    "external_api_used": false,
+    "remote_execution_enabled": false,
+    "connector_write_enabled": false,
+    "plugin_execution_enabled": false,
+    "secrets_included": false
+  },
+  "limitations": [
+    "POST-H-025-A defines criteria and evidence map only; it does not aggregate evidence or declare production-ready-local.",
+    "PASS/BLOCK execution is reserved for POST-H-025-B/C/E; missing evidence must block future PASS rather than being inferred as success.",
+    "Enterprise-ready, compliance-certified, remote-ready and SaaS-ready claims remain disallowed."
+  ],
+  "next_micro_sprint": "POST-H-025-B"
+}

@@ -1,0 +1,313 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/SCHEMA-DEVPL-PRODUCTION-READY-LOCAL-REPORT-V1",
+  "title": "DevPilot ProductionReadyLocalReport v1",
+  "description": "Structural contract for future POST-H-025 production-ready-local declaration reports. The report must distinguish PASS/BLOCK, evidence gaps, no-go gates and claims, and it must not allow enterprise-ready, remote-ready, SaaS-ready or compliance-certified claims.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "schema_id",
+    "report_id",
+    "created_by",
+    "created_at",
+    "scope",
+    "decision",
+    "score",
+    "minimum_score",
+    "blocking_gaps_total",
+    "passed_hitos_total",
+    "required_hitos_total",
+    "no_go_gates_passed",
+    "claims",
+    "no_go_gates",
+    "evidence_results",
+    "gaps",
+    "safety",
+    "summary",
+    "limitations"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "schema_id": {
+      "const": "SCHEMA-DEVPL-PRODUCTION-READY-LOCAL-REPORT-V1"
+    },
+    "report_id": {
+      "type": "string",
+      "pattern": "^production-ready-local-report-[a-z0-9_-]+$"
+    },
+    "created_by": {
+      "type": "string",
+      "pattern": "^POST-H-025-[B-E]$"
+    },
+    "created_at": {
+      "type": "string",
+      "minLength": 10
+    },
+    "scope": {
+      "const": "production-ready-local"
+    },
+    "decision": {
+      "enum": [
+        "PASS",
+        "BLOCK"
+      ]
+    },
+    "score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "minimum_score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "blocking_gaps_total": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "passed_hitos_total": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "required_hitos_total": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "no_go_gates_passed": {
+      "type": "boolean"
+    },
+    "claims": {
+      "type": "object",
+      "required": [
+        "production_ready_local",
+        "enterprise_ready",
+        "remote_ready",
+        "compliance_certified",
+        "saas_ready"
+      ],
+      "properties": {
+        "production_ready_local": {
+          "type": "boolean"
+        },
+        "enterprise_ready": {
+          "const": false
+        },
+        "remote_ready": {
+          "const": false
+        },
+        "compliance_certified": {
+          "const": false
+        },
+        "saas_ready": {
+          "const": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "no_go_gates": {
+      "type": "object",
+      "required": [
+        "remote_execution_enabled",
+        "connector_write_enabled",
+        "plugin_execution_enabled",
+        "external_apis_required",
+        "compliance_certification_claim",
+        "enterprise_ready_claim",
+        "remote_ready_claim",
+        "saas_ready_claim"
+      ],
+      "properties": {
+        "remote_execution_enabled": {
+          "const": false
+        },
+        "connector_write_enabled": {
+          "const": false
+        },
+        "plugin_execution_enabled": {
+          "const": false
+        },
+        "external_apis_required": {
+          "const": false
+        },
+        "compliance_certification_claim": {
+          "const": false
+        },
+        "enterprise_ready_claim": {
+          "const": false
+        },
+        "remote_ready_claim": {
+          "const": false
+        },
+        "saas_ready_claim": {
+          "const": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "evidence_results": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "hito_id",
+          "status",
+          "required_for_pass"
+        ],
+        "properties": {
+          "hito_id": {
+            "type": "string",
+            "pattern": "^POST-H-[0-9]{3}$"
+          },
+          "status": {
+            "enum": [
+              "pass",
+              "partial",
+              "missing",
+              "failed"
+            ]
+          },
+          "required_for_pass": {
+            "type": "boolean"
+          },
+          "findings_total": {
+            "type": "integer",
+            "minimum": 0
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "gaps": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "gap_id",
+          "severity",
+          "message"
+        ],
+        "properties": {
+          "gap_id": {
+            "type": "string"
+          },
+          "severity": {
+            "enum": [
+              "block",
+              "warning",
+              "info"
+            ]
+          },
+          "message": {
+            "type": "string",
+            "minLength": 1
+          },
+          "path": {
+            "type": "string"
+          },
+          "action": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "safety": {
+      "type": "object",
+      "required": [
+        "local_first",
+        "read_only",
+        "network_used",
+        "external_api_used",
+        "mutations_performed",
+        "source_mutations_performed"
+      ],
+      "properties": {
+        "local_first": {
+          "const": true
+        },
+        "read_only": {
+          "const": true
+        },
+        "network_used": {
+          "const": false
+        },
+        "external_api_used": {
+          "const": false
+        },
+        "mutations_performed": {
+          "const": false
+        },
+        "source_mutations_performed": {
+          "const": false
+        }
+      },
+      "additionalProperties": true
+    },
+    "summary": {
+      "type": "object"
+    },
+    "limitations": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "decision": {
+            "const": "BLOCK"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "claims": {
+            "properties": {
+              "production_ready_local": {
+                "const": false
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "decision": {
+            "const": "PASS"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "blocking_gaps_total": {
+            "const": 0
+          },
+          "no_go_gates_passed": {
+            "const": true
+          },
+          "claims": {
+            "properties": {
+              "production_ready_local": {
+                "const": true
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "additionalProperties": true,
+  "x-devpilot-schema-id": "SCHEMA-DEVPL-PRODUCTION-READY-LOCAL-REPORT-V1",
+  "x-devpilot-sprint": "POST-H-025-A",
+  "x-devpilot-status": "registered"
+}

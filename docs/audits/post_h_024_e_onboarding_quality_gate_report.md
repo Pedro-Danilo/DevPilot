@@ -5,6 +5,7 @@ status: "approved"
 version: "1.0.0"
 owner: "Ordóñez"
 updated: "2026-07-02"
+approval: "approved_by_owner"
 created_by: "POST-H-024-E"
 phase: "POST-FASE-H"
 local_first: true

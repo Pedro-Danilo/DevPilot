@@ -23,7 +23,7 @@ def test_project_global_state_schema_and_docs_are_synchronized() -> None:
     changelog = read("docs/release/CHANGELOG.md")
 
     assert state["current_phase"] == "POST-FASE-H"
-    assert state["last_completed_sprint"] == "POST-H-023"
+    assert state["last_completed_sprint"] == "POST-H-024"
     assert state["last_functional_sprint"] == "FUNC-SPRINT-99"
     assert state["next_sprint"] == "POST-H-025"
     assert state["phase_h_status"] == "closed_implemented_initial"
@@ -102,8 +102,8 @@ def test_project_global_state_schema_and_docs_are_synchronized() -> None:
     assert any("POST-H-013-D adds optional local crypto" in note for note in state["notes"])
     assert any("POST-H-013-E closes Audit pack integrity" in note for note in state["notes"])
     assert any("POST-H-014 is the next prioritized hito" in note for note in state["notes"])
-    assert state.get("current_micro_sprint") == "POST-H-024-E"
-    assert state.get("next_micro_sprint") == "POST-H-025"
+    assert state.get("current_micro_sprint") == "POST-H-025-A"
+    assert state.get("next_micro_sprint") == "POST-H-025-B"
     assert "POST-H-014-A — Route Contract Registry y API inventory" in readme
     assert "POST-H-014-B — Response mapping y errores homogéneos" in readme
     assert "POST-H-014-C — UI Route Contract y shell de producto" in readme
@@ -344,11 +344,18 @@ def test_project_global_state_schema_and_docs_are_synchronized() -> None:
     assert any("POST-H-012-D adds homogeneous PolicyEngine enforcement" in note for note in state["notes"])
     assert any("POST-H-012-E closes Approval/RBAC hardening" in note for note in state["notes"])
 
+    assert any("POST-H-025-A approves Production-ready local declaration gate" in note for note in state["notes"])
+    assert state["current_micro_sprint"] == "POST-H-025-A"
+    assert state["next_micro_sprint"] == "POST-H-025-B"
+    assert "POST-H-025-A — Criteria schema y evidence map" in readme
+    assert "POST-H-025-A — Criteria schema y evidence map" in runbook
+    assert "post-h-025-a" in changelog
+
 
 def test_project_global_state_command_result_passes() -> None:
     result = TestContractRegistry(ROOT).project_state()
 
     assert result.ok, result.to_dict()
-    assert result.data["summary"]["last_completed_sprint"] == "POST-H-023"
+    assert result.data["summary"]["last_completed_sprint"] == "POST-H-024"
     assert result.data["summary"]["next_sprint"] == "POST-H-025"
     assert result.data["summary"]["checks_passed"] == result.data["summary"]["checks_total"]

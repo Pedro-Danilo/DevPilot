@@ -2,17 +2,73 @@
 title: "Runbook — DevPilot Local"
 doc_id: "DEVPL-OPS-002"
 status: "approved"
-version: "1.92.0"
+version: "1.93.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "POST-H-024-E"
-updated: "2026-07-02"
+phase: "POST-H-025-A"
+updated: "2026-07-03"
 approval: "approved_by_owner"
 source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved + 03_security approved"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "SPRINT-PRECODE-05 quality operations baseline"
 ---
+
+## POST-H-025-A — Criteria schema y evidence map
+
+Último hito cerrado: `POST-H-024`
+
+Hito activo: `POST-H-025 — Production-ready local declaration gate`
+
+Último micro-sprint implementado: `POST-H-025-A — Criteria schema y evidence map`
+
+Siguiente micro-sprint: `POST-H-025-B — Evidence aggregator read-only`
+
+Artefactos principales:
+
+```text
+docs/schemas/production_ready_local_criteria.schema.json
+docs/schemas/production_ready_local_report.schema.json
+.devpilot/production/production_ready_local_criteria.json
+docs/POST-H-025_production_ready_declaration_gate.md
+docs/backlogs/POST-H-025_production_ready_declaration_gate.md
+docs/audits/post_h_025_a_criteria_evidence_map_report.md
+docs/post_h_025_a_manifest.json
+tests/test_post_h_025_production_ready_criteria.py
+```
+
+Propósito operacional: establecer el contrato auditable antes de permitir cualquier declaración `production-ready-local`. El criteria JSON define required hitos, optional design hitos, evidence map, no-go gates, claims permitidos y política BLOCK por defecto.
+
+Comandos focales:
+
+```powershell
+python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_025_production_ready_criteria.py tests/test_schema_registry.py tests/test_project_global_state.py -q
+python -m devpilot_core schema validate --schema-id ProductionReadyLocalCriteria --instance .devpilot/production/production_ready_local_criteria.json --json
+python -m devpilot_core schema validate --schema-id PostHManifest --instance docs/post_h_025_a_manifest.json --json
+python -m devpilot_core test-contracts validate --json
+python -m devpilot_core test-contracts validate-v2 --json
+python -m devpilot_core docs-governance validate --json
+```
+
+Criterios PASS:
+
+```text
+El criteria JSON valida contra ProductionReadyLocalCriteria.
+Cada hito requerido tiene evidencia mapeada y al menos una evidencia blocker.
+Los no-go gates de remote/plugin/connector/external APIs/enterprise/compliance/remote/SaaS están presentes y en false.
+El report schema futuro bloquea claims enterprise/compliance/remote/SaaS.
+```
+
+Criterios BLOCK:
+
+```text
+Se omite un hito requerido en evidence_map.
+Se permite enterprise-ready, compliance-certified, remote-ready o SaaS-ready.
+Se omite remote_execution_enabled, connector_write_enabled o plugin_execution_enabled en no-go gates.
+Se intenta declarar production-ready-local en POST-H-025-A; este micro-sprint solo define criterios.
+```
+
+Limitación: esta es una primera versión de criteria/evidence map. POST-H-025-B implementará agregación read-only; POST-H-025-C expondrá CLI/API; POST-H-025-D validará claims documentales; POST-H-025-E emitirá declaración final o BLOCK report.
 
 ## POST-H-024-E — Quality gate y proyecto piloto fixture
 

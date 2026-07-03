@@ -171,8 +171,8 @@ def test_post_h_024_b_manifest_registry_and_contracts_are_synchronized() -> None
         "POST-H-024-B-PROJECT-TEMPLATES-TEST",
     }
     assert expected_doc_ids <= doc_ids
-    assert source_registry["project_state_snapshot"]["current_micro_sprint"] == "POST-H-024-E"
-    assert source_registry["project_state_snapshot"]["next_micro_sprint"] == "POST-H-025"
+    assert source_registry["project_state_snapshot"]["current_micro_sprint"] == "POST-H-025-A"
+    assert source_registry["project_state_snapshot"]["next_micro_sprint"] == "POST-H-025-B"
     assert source_registry["project_state_snapshot"]["post_h_024_templates_available"] is True
 
     contract_ids_v1 = {item["contract_id"] for item in tcr_v1["contracts"]}
@@ -196,8 +196,8 @@ def test_post_h_024_documents_and_global_state_advance_to_b_only() -> None:
     runbook = read_text("docs/05_operations/runbook.md")
     changelog = read_text("docs/release/CHANGELOG.md")
 
-    assert state["current_micro_sprint"] == "POST-H-024-E"
-    assert state["next_micro_sprint"] == "POST-H-025"
+    assert state["current_micro_sprint"] == "POST-H-025-A"
+    assert state["next_micro_sprint"] == "POST-H-025-B"
     assert state["post_h_024_current_micro_sprint"] == "POST-H-024-E"
     assert state["post_h_024_next_micro_sprint"] == "POST-H-025"
     assert state["post_h_024_operator_playbook_available"] is True
