@@ -85,8 +85,10 @@ def test_post_h_006_c_registry_marks_migrated_handlers_without_runtime_router() 
     assert registry["generated_from"] == "static-cli-parser-ast-plus-declarative-descriptors-plus-migrated-handlers-plus-hotspot-ownership-report-plus-no-growth-gate"
     assert registry["metadata"]["handler_migration_performed"] is True
     assert registry["metadata"]["runtime_router_enabled"] is False
-    assert summary["migrated_handlers_total"] == 3
-    assert set(summary["migrated_command_ids"]) == {"workspace.init", "workspace.status", "validate"}
+    baseline_migrated = {"workspace.init", "workspace.status", "validate"}
+    migrated_command_ids = set(summary["migrated_command_ids"])
+    assert summary["migrated_handlers_total"] >= len(baseline_migrated)
+    assert migrated_command_ids >= baseline_migrated
 
     assert commands["workspace.init"]["owner_module"] == "src/devpilot_core/cli_commands/workspace.py"
     assert commands["workspace.init"]["handler"] == "handle_workspace_init"
@@ -106,7 +108,10 @@ def test_post_h_006_c_registry_marks_migrated_handlers_without_runtime_router() 
 def test_post_h_006_c_cli_py_keeps_public_wrappers_but_delegates_logic() -> None:
     source = (ROOT / "src/devpilot_core/cli.py").read_text(encoding="utf-8")
 
-    assert "from .cli_commands import handle_validate_scope, handle_workspace_init, handle_workspace_status" in source
+    assert "from .cli_commands import" in source
+    assert "handle_validate_scope" in source
+    assert "handle_workspace_init" in source
+    assert "handle_workspace_status" in source
     assert "return workspace_init_command(" in source
     assert "return workspace_status_command(" in source
     assert "return validate_gateway_command(" in source

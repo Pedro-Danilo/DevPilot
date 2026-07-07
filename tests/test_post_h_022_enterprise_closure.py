@@ -13,6 +13,10 @@ from devpilot_core.enterprise import (
 ROOT = Path(__file__).resolve().parents[1]
 
 
+def _post_h_number(value: str) -> int:
+    return int(value.split("POST-H-", 1)[1].split("-", 1)[0])
+
+
 def read_text(path: str) -> str:
     return (ROOT / path).read_text(encoding="utf-8")
 
@@ -32,10 +36,10 @@ def test_post_h_022_backlog_and_project_state_are_closed_for_post_h_023() -> Non
         assert 'next_micro_sprint: "POST-H-023"' in text
         assert "implemented-initial / design-only" in text
 
-    assert state["last_completed_sprint"] == "POST-H-022"
-    assert state["next_sprint"] == "POST-H-023"
-    assert state["current_micro_sprint"] == "POST-H-022-E"
-    assert state["next_micro_sprint"] == "POST-H-023"
+    assert _post_h_number(state["last_completed_sprint"]) >= 22
+    assert _post_h_number(state["next_sprint"]) >= 23
+    assert state["post_h_022_current_micro_sprint"] == "POST-H-022-E"
+    assert state["post_h_022_next_micro_sprint"] == "POST-H-023"
     assert state["post_h_022_closed"] is True
     assert state["post_h_022_enterprise_deployment_threat_model_closed"] is True
     assert state["post_h_022_enterprise_design_runbook_path"] == "docs/05_operations/enterprise_design_runbook.md"
@@ -99,8 +103,9 @@ def test_post_h_022_e_manifest_source_registry_and_tcr_are_registered() -> None:
     assert "POST-H-022-E-ENTERPRISE-CLOSURE-REPORT" in doc_ids
     assert "POST-H-022-E-MANIFEST" in doc_ids
     assert "POST-H-022-E-ENTERPRISE-CLOSURE-TEST" in doc_ids
-    assert source_registry["project_state_snapshot"]["last_completed_sprint"] == "POST-H-022"
-    assert source_registry["project_state_snapshot"]["next_sprint"] == "POST-H-023"
+    assert _post_h_number(source_registry["project_state_snapshot"]["last_completed_sprint"]) >= 22
+    assert _post_h_number(source_registry["project_state_snapshot"]["next_sprint"]) >= 23
+    assert source_registry["project_state_snapshot"]["post_h_022_next_micro_sprint"] == "POST-H-023"
 
     contract_ids_v1 = {item["contract_id"] for item in tcr_v1["contracts"]}
     contract_ids_v2 = {item["contract_id"] for item in tcr_v2["contracts"]}

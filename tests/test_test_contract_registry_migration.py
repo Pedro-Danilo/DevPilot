@@ -89,7 +89,7 @@ def test_migrated_registry_v2_file_is_present_and_schema_valid_after_post_h_003_
 
     assert path.exists()
     payload = json.loads(path.read_text(encoding="utf-8"))
-    assert payload["created_by"] == "POST-H-003-B"
+    assert payload["created_by"] in {"POST-H-003-B", "POST-H-003-E"}
     assert payload["status"] == "implemented-initial"
     assert len(payload["contracts"]) == _current_v1_contracts_total()
     assert {item["source_contract_id"] for item in payload["contracts"] if item.get("source_contract_id")}

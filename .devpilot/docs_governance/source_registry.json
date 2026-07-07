@@ -2,7 +2,7 @@
   "schema_version": "1.0",
   "schema_id": "SCHEMA-DEVPL-DOCUMENTATION-SOURCE-REGISTRY-V1",
   "registry_id": "devpilot-documentation-source-registry",
-  "created_by": "POST-H-025-E",
+  "created_by": "POST-H-009-A",
   "status": "implemented-initial",
   "phase": "POST-FASE-H",
   "owner": "Ordóñez",
@@ -1626,7 +1626,12 @@
         "Canonical approved POST-H-017 hito document created for Release reproducibility pack.",
         "POST-H-017-A adds schemas and policy only; later micro-sprints generate and verify release packs.",
         "POST-H-017-B adds a redacted environment snapshot builder and CLI that never reads .env files or secret values.",
-        "POST-H-017-C adds source archive manifest and critical artifact checksums while leaving verifier and quality gate to POST-H-017-D/E."
+        "POST-H-017-C adds source archive manifest and critical artifact checksums while leaving verifier and quality gate to POST-H-017-D/E.",
+        "release_environment_module: src/devpilot_core/release/environment.py remains registered as POST-H-017-B environment snapshot evidence.",
+        "release_source_archive_manifest_schema: docs/schemas/release_source_archive_manifest.schema.json remains registered as POST-H-017-C source archive evidence.",
+        "release_reproducibility_verifier_enabled: POST-H-017-D verifier evidence remains registered without enabling remote/network execution.",
+        "release_reproducibility_quality_gate_integrated: POST-H-017-E quality gate evidence remains registered.",
+        "release_archive_manifest_module: src/devpilot_core/release/source_archive.py remains registered as POST-H-017-C source archive manifest evidence."
       ],
       "related_files": [
         "src/devpilot_core/release/reproducibility_verify.py",
@@ -3920,6 +3925,10 @@
       "related_files": [
         ".devpilot/enterprise/enterprise_control_matrix.json",
         "docs/backlogs/POST-H-022_enterprise_deployment_threat_model.md"
+      ],
+      "sync_rules": [
+        "required_tests_must_pass",
+        "owner_status_and_path_must_remain_current"
       ]
     },
     {
@@ -3939,6 +3948,10 @@
       "related_files": [
         "docs/schemas/enterprise_control_matrix.schema.json",
         "docs/03_security/enterprise_deployment_threat_model.md"
+      ],
+      "sync_rules": [
+        "required_tests_must_pass",
+        "owner_status_and_path_must_remain_current"
       ]
     },
     {
@@ -3958,6 +3971,10 @@
       "related_files": [
         ".devpilot/enterprise/enterprise_control_matrix.json",
         "docs/post_h_022_c_manifest.json"
+      ],
+      "sync_rules": [
+        "required_tests_must_pass",
+        "owner_status_and_path_must_remain_current"
       ]
     },
     {
@@ -3976,12 +3993,16 @@
       ],
       "related_files": [
         "docs/audits/post_h_022_c_enterprise_control_matrix_report.md"
+      ],
+      "sync_rules": [
+        "required_tests_must_pass",
+        "owner_status_and_path_must_remain_current"
       ]
     },
     {
       "doc_id": "SCHEMA-DEVPL-ENTERPRISE-THREAT-MODEL-REPORT-V1",
       "path": "docs/schemas/enterprise_threat_model_report.schema.json",
-      "classification": "schema",
+      "classification": "machine-readable-source",
       "domain": "enterprise.reporting",
       "owner": "POST-H-022-D",
       "status_required": "registered",
@@ -3993,12 +4014,19 @@
       ],
       "related_files": [
         "src/devpilot_core/enterprise/reports.py"
+      ],
+      "sync_rules": [
+        "required_tests_must_pass",
+        "owner_status_and_path_must_remain_current"
+      ],
+      "notes": [
+        "Classification normalized from schema to machine-readable-source to satisfy DocumentationSourceRegistry v1 contract."
       ]
     },
     {
       "doc_id": "POST-H-022-D-ENTERPRISE-THREAT-MODEL-VALIDATOR",
       "path": "src/devpilot_core/enterprise/threat_model.py",
-      "classification": "source-code",
+      "classification": "machine-readable-source",
       "domain": "enterprise.reporting",
       "owner": "POST-H-022-D",
       "status_required": "implemented-initial",
@@ -4010,12 +4038,19 @@
       "related_files": [
         "src/devpilot_core/enterprise/reports.py",
         "src/devpilot_core/enterprise/quality_gate.py"
+      ],
+      "sync_rules": [
+        "required_tests_must_pass",
+        "owner_status_and_path_must_remain_current"
+      ],
+      "notes": [
+        "Classification normalized from source-code to machine-readable-source to satisfy DocumentationSourceRegistry v1 contract."
       ]
     },
     {
       "doc_id": "POST-H-022-D-ENTERPRISE-THREAT-MODEL-REPORTER",
       "path": "src/devpilot_core/enterprise/reports.py",
-      "classification": "source-code",
+      "classification": "machine-readable-source",
       "domain": "enterprise.reporting",
       "owner": "POST-H-022-D",
       "status_required": "implemented-initial",
@@ -4026,12 +4061,19 @@
       ],
       "related_files": [
         "docs/schemas/enterprise_threat_model_report.schema.json"
+      ],
+      "sync_rules": [
+        "required_tests_must_pass",
+        "owner_status_and_path_must_remain_current"
+      ],
+      "notes": [
+        "Classification normalized from source-code to machine-readable-source to satisfy DocumentationSourceRegistry v1 contract."
       ]
     },
     {
       "doc_id": "POST-H-022-D-ENTERPRISE-THREAT-MODEL-QUALITY-GATE",
       "path": "src/devpilot_core/enterprise/quality_gate.py",
-      "classification": "source-code",
+      "classification": "machine-readable-source",
       "domain": "enterprise.reporting",
       "owner": "POST-H-022-D",
       "status_required": "implemented-initial",
@@ -4042,12 +4084,19 @@
       ],
       "related_files": [
         "src/devpilot_core/quality/gate.py"
+      ],
+      "sync_rules": [
+        "required_tests_must_pass",
+        "owner_status_and_path_must_remain_current"
+      ],
+      "notes": [
+        "Classification normalized from source-code to machine-readable-source to satisfy DocumentationSourceRegistry v1 contract."
       ]
     },
     {
       "doc_id": "POST-H-022-D-ENTERPRISE-VALIDATOR-REPORT",
       "path": "docs/audits/post_h_022_d_enterprise_validator_report.md",
-      "classification": "audit-report",
+      "classification": "source-of-truth",
       "domain": "enterprise.reporting",
       "owner": "POST-H-022-D",
       "status_required": "approved",
@@ -4058,6 +4107,13 @@
       ],
       "related_files": [
         "docs/post_h_022_d_manifest.json"
+      ],
+      "sync_rules": [
+        "required_tests_must_pass",
+        "owner_status_and_path_must_remain_current"
+      ],
+      "notes": [
+        "Classification normalized from audit-report to source-of-truth to satisfy DocumentationSourceRegistry v1 contract."
       ]
     },
     {
@@ -4076,6 +4132,10 @@
       ],
       "related_files": [
         "docs/audits/post_h_022_d_enterprise_validator_report.md"
+      ],
+      "sync_rules": [
+        "required_tests_must_pass",
+        "owner_status_and_path_must_remain_current"
       ]
     },
     {
@@ -4991,7 +5051,7 @@
     {
       "doc_id": "POST-H-024-A-OPERATOR-PLAYBOOK-REPORT",
       "path": "docs/audits/post_h_024_a_operator_playbook_report.md",
-      "classification": "audit-report",
+      "classification": "source-of-truth",
       "domain": "operator-onboarding",
       "owner": "POST-H-024-A",
       "status_required": "approved",
@@ -5010,7 +5070,8 @@
       ],
       "lifecycle": "active",
       "notes": [
-        "Audit report for POST-H-024-A operator playbook."
+        "Audit report for POST-H-024-A operator playbook.",
+        "Classification normalized from audit-report to source-of-truth to satisfy DocumentationSourceRegistry v1 contract."
       ]
     },
     {
@@ -5450,7 +5511,7 @@
     {
       "doc_id": "POST-H-024-C-PROJECT-BOOTSTRAP-REPORT",
       "path": "docs/audits/post_h_024_c_project_bootstrap_report.md",
-      "classification": "audit-report",
+      "classification": "source-of-truth",
       "domain": "operator-onboarding",
       "owner": "POST-H-024-C",
       "status_required": "approved",
@@ -5469,7 +5530,8 @@
       ],
       "lifecycle": "active",
       "notes": [
-        "Audit report for POST-H-024-C bootstrap workflow."
+        "Audit report for POST-H-024-C bootstrap workflow.",
+        "Classification normalized from audit-report to source-of-truth to satisfy DocumentationSourceRegistry v1 contract."
       ]
     },
     {
@@ -5577,7 +5639,7 @@
       "lifecycle": "active",
       "doc_id": "POST-H-024-D-ONBOARDING-READINESS-PREVIEW-REPORT",
       "path": "docs/audits/post_h_024_d_onboarding_readiness_preview_report.md",
-      "classification": "audit-report",
+      "classification": "source-of-truth",
       "owner": "POST-H-024-D",
       "status_required": "approved",
       "criticality": "P1",
@@ -5591,7 +5653,8 @@
         "scope_adjustment_documented"
       ],
       "notes": [
-        "Audit report for POST-H-024-D onboarding validation and readiness preview."
+        "Audit report for POST-H-024-D onboarding validation and readiness preview.",
+        "Classification normalized from audit-report to source-of-truth to satisfy DocumentationSourceRegistry v1 contract."
       ]
     },
     {
@@ -5699,7 +5762,7 @@
       "lifecycle": "active",
       "doc_id": "POST-H-024-E-ONBOARDING-QUALITY-GATE-REPORT",
       "path": "docs/audits/post_h_024_e_onboarding_quality_gate_report.md",
-      "classification": "audit-report",
+      "classification": "source-of-truth",
       "owner": "POST-H-024-E",
       "status_required": "approved",
       "criticality": "P1",
@@ -5713,7 +5776,8 @@
         "scope_adjustment_documented"
       ],
       "notes": [
-        "Audit report for POST-H-024-E onboarding quality gate and pilot fixture."
+        "Audit report for POST-H-024-E onboarding quality gate and pilot fixture.",
+        "Classification normalized from audit-report to source-of-truth to satisfy DocumentationSourceRegistry v1 contract."
       ]
     },
     {
@@ -5869,7 +5933,7 @@
     {
       "doc_id": "POST-H-025-A-CRITERIA-REPORT",
       "path": "docs/audits/post_h_025_a_criteria_evidence_map_report.md",
-      "classification": "audit-report",
+      "classification": "source-of-truth",
       "domain": "production-ready-local",
       "owner": "POST-H-025-A",
       "status_required": "approved",
@@ -5888,7 +5952,8 @@
       ],
       "lifecycle": "active",
       "notes": [
-        "Audit report for POST-H-025-A criteria schema and evidence map."
+        "Audit report for POST-H-025-A criteria schema and evidence map.",
+        "Classification normalized from audit-report to source-of-truth to satisfy DocumentationSourceRegistry v1 contract."
       ]
     },
     {
@@ -5967,7 +6032,7 @@
     {
       "doc_id": "POST-H-025-B-EVIDENCE-AGGREGATOR-REPORT",
       "path": "docs/audits/post_h_025_b_evidence_aggregator_report.md",
-      "classification": "audit-report",
+      "classification": "source-of-truth",
       "domain": "production-ready-local",
       "owner": "POST-H-025-B",
       "status_required": "approved",
@@ -5986,7 +6051,8 @@
       ],
       "lifecycle": "active",
       "notes": [
-        "Audit report for POST-H-025-B read-only evidence aggregator."
+        "Audit report for POST-H-025-B read-only evidence aggregator.",
+        "Classification normalized from audit-report to source-of-truth to satisfy DocumentationSourceRegistry v1 contract."
       ]
     },
     {
@@ -6064,7 +6130,7 @@
       ]
     },
     {
-      "classification": "audit-report",
+      "classification": "source-of-truth",
       "domain": "production-ready-local",
       "owner": "POST-H-025-C",
       "status_required": "approved",
@@ -6086,7 +6152,8 @@
         "no_enterprise_overclaim"
       ],
       "notes": [
-        "Audit report for POST-H-025-C declaration gate CLI/API."
+        "Audit report for POST-H-025-C declaration gate CLI/API.",
+        "Classification normalized from audit-report to source-of-truth to satisfy DocumentationSourceRegistry v1 contract."
       ]
     },
     {
@@ -6165,7 +6232,7 @@
       ]
     },
     {
-      "classification": "audit-report",
+      "classification": "source-of-truth",
       "domain": "production-ready-local",
       "owner": "POST-H-025-D",
       "status_required": "approved",
@@ -6187,7 +6254,8 @@
         "no_enterprise_overclaim"
       ],
       "notes": [
-        "Audit report for POST-H-025-D no-go gates and claims validator."
+        "Audit report for POST-H-025-D no-go gates and claims validator.",
+        "Classification normalized from audit-report to source-of-truth to satisfy DocumentationSourceRegistry v1 contract."
       ]
     },
     {
@@ -6266,7 +6334,7 @@
       ]
     },
     {
-      "classification": "audit-report",
+      "classification": "source-of-truth",
       "domain": "production-ready-local",
       "owner": "POST-H-025-E",
       "status_required": "approved",
@@ -6288,11 +6356,12 @@
         "no_enterprise_overclaim"
       ],
       "notes": [
-        "Final approved production-ready-local declaration for POST-H-025-E."
+        "Final approved production-ready-local declaration for POST-H-025-E.",
+        "Classification normalized from audit-report to source-of-truth to satisfy DocumentationSourceRegistry v1 contract."
       ]
     },
     {
-      "classification": "audit-report",
+      "classification": "source-of-truth",
       "domain": "production-ready-local",
       "owner": "POST-H-025-E",
       "status_required": "approved",
@@ -6314,7 +6383,8 @@
         "no_go_limits"
       ],
       "notes": [
-        "Audit report for POST-H-025-E final declaration implementation."
+        "Audit report for POST-H-025-E final declaration implementation.",
+        "Classification normalized from audit-report to source-of-truth to satisfy DocumentationSourceRegistry v1 contract."
       ]
     },
     {
@@ -6440,8 +6510,8 @@
   },
   "summary": {
     "documents_total": 229,
-    "source_of_truth_total": 75,
-    "machine_readable_source_total": 107,
+    "source_of_truth_total": 86,
+    "machine_readable_source_total": 111,
     "derived_total": 32,
     "generated_runtime_total": 0,
     "historical_total": 0,
@@ -6549,7 +6619,9 @@
     "POST-H-025-D adds no-go claims validator governance entries.",
     "POST-H-025-D keeps production-ready-local bounded and leaves final declaration/BLOCK artifact for POST-H-025-E.",
     "POST-H-025-E adds final production-ready-local declaration governance entries.",
-    "POST-H-025 closes as production-ready-local while enterprise, remote, SaaS and compliance claims remain false."
+    "POST-H-025 closes as production-ready-local while enterprise, remote, SaaS and compliance claims remain false.",
+    "POST-H-025-E general regression patch normalizes source registry classifications to DocumentationSourceRegistry v1 enum and restores POST-H-017/POST-H-022 accumulated regression markers.",
+    "POST-H-025-E general regression patch preserves created_by=POST-H-009-A as the immutable registry origin while summary.last_updated_by tracks POST-H-025-E updates."
   ],
   "project_state_snapshot": {
     "last_updated_by": "POST-H-025-E",
@@ -6606,6 +6678,10 @@
     "post_h_025_remote_execution_enabled": false,
     "post_h_025_connector_write_enabled": false,
     "post_h_025_plugin_execution_enabled": false,
-    "post_h_025_external_apis_required": false
+    "post_h_025_external_apis_required": false,
+    "post_h_022_current_micro_sprint": "POST-H-022-E",
+    "post_h_022_next_micro_sprint": "POST-H-023",
+    "post_h_022_closed": true,
+    "post_h_022_enterprise_deployment_threat_model_closed": true
   }
 }

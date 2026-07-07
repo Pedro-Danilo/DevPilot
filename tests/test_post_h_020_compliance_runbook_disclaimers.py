@@ -6,6 +6,10 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 
 
+def _post_h_number(value: str) -> int:
+    return int(value.split("POST-H-", 1)[1].split("-", 1)[0])
+
+
 def _read(path: str) -> str:
     return (ROOT / path).read_text(encoding="utf-8")
 
@@ -67,8 +71,11 @@ def test_post_h_020_e_backlog_is_closed_and_project_state_advances() -> None:
     assert 'implementation_status: "closed"' in backlog
     assert 'implementation_status: "closed"' in implementation
     assert 'current_micro_sprint: "POST-H-020-E"' in backlog
-    assert state["last_completed_sprint"] in {"POST-H-020", "POST-H-021"}
-    assert state["next_sprint"] in {"POST-H-021", "POST-H-022"}
+    assert _post_h_number(state["last_completed_sprint"]) >= 20
+    assert _post_h_number(state["next_sprint"]) >= 21
+    assert state["post_h_020_current_micro_sprint"] == "POST-H-020-E"
+    assert state["post_h_020_next_micro_sprint"] == "POST-H-021"
+    assert state["post_h_020_closed"] is True
     assert not state["current_micro_sprint"].startswith("POST-H-020")
     assert any("POST-H-020 closes Compliance mapping packs" in note for note in state["notes"])
 

@@ -181,7 +181,9 @@ def test_post_h_source_reader_extracts_key_summaries() -> None:
     assert contracts is not None
     assert contracts.summary["contracts_total"] >= 86
     assert roadmap is not None
-    assert roadmap.summary["waves_total"] == 8
+    # The prioritized roadmap is cumulative. POST-H-025 adds a new wave while
+    # preserving the original POST-H-EVAL-001 baseline of at least eight waves.
+    assert roadmap.summary["waves_total"] >= 8
 
 
 def test_post_h_source_reader_reports_missing_critical_source_as_block(tmp_path: Path) -> None:

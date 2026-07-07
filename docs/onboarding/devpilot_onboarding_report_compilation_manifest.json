@@ -1,0 +1,249 @@
+{
+  "doc_id": "DEVPL-ONBOARDING-REPORT-COMPILATION-MANIFEST-V1",
+  "status": "compiled",
+  "compiled_at_utc": "2026-07-05T16:12:30+00:00",
+  "sources": {
+    "questionnaire": {
+      "path": "/workspace/.cache/01-onboarding_report_questionnaire_devpilot.md",
+      "sha256": "7667cf8e492c4ed2829d19e5c71ec3a1e2521bb305e7095b34bd9f24afdef134"
+    },
+    "blocks_zip": {
+      "path": "/workspace/.cache/02-Onbording_report_por_boque_de_preguntas.zip",
+      "sha256": "c1a162a990296661dcea1bb5f2729c8beff5fe630e4f05c552533252a222ada0"
+    }
+  },
+  "coverage": {
+    "expected_questions": "1-260",
+    "covered_questions_total": 260,
+    "missing_questions": [],
+    "duplicate_questions": [],
+    "source_markdown_files_total": 18
+  },
+  "chapter_order_applied": [
+    "1. Resumen ejecutivo.",
+    "2. Identidad y vision de producto.",
+    "3. Estado actual y declaracion production-ready-local.",
+    "4. Arquitectura real.",
+    "5. Arquitectura objetivo.",
+    "6. Modelo de dominio.",
+    "7. Runtime y flujos de ejecucion.",
+    "8. Workspace y onboarding.",
+    "9. Capacidades funcionales.",
+    "10. MIASI, agentes y politicas.",
+    "11. Seguridad y no-go gates.",
+    "12. Schemas, validators y evidence model.",
+    "13. Quality gates y testing.",
+    "14. UI/API local.",
+    "15. Observabilidad y operacion.",
+    "16. Release y reproducibilidad.",
+    "17. Gap analysis.",
+    "18. Roadmap recomendado.",
+    "19. Guia de operador.",
+    "20. Caso piloto.",
+    "21. Riesgos residuales.",
+    "22. Anexos de evidencia."
+  ],
+  "blocks": [
+    {
+      "block": "A",
+      "file": "onboarding_report_bloque_a_identidad_producto_vision.md",
+      "bytes": 21197,
+      "lines": 702,
+      "sha256": "57cfbdfa2b4cd5e45a48cca321ffa6bd979b41f5a08d4f891173c032e18cf2fa",
+      "questions": "1-10",
+      "question_count": 10,
+      "missing_inside": []
+    },
+    {
+      "block": "B",
+      "file": "onboarding_report_bloque_b_respuestas_literales_estado_claims_madurez.md",
+      "bytes": 45331,
+      "lines": 1331,
+      "sha256": "abbad6fa8ff83bab997d23e9bd65bdde3c719f5a9fa53041009f2faff291a1ca",
+      "questions": "11-22",
+      "question_count": 12,
+      "missing_inside": []
+    },
+    {
+      "block": "C",
+      "file": "devpl_onboarding_questionnaire_industrial_v1_bloque_c_estado_real_vs_planeado.md",
+      "bytes": 49884,
+      "lines": 634,
+      "sha256": "a5ea459a9ff2b1082b63c9ee3ee35f6a06ba0fad8c7e4ad7201d0de3d89aa941",
+      "questions": "23-30",
+      "question_count": 8,
+      "missing_inside": []
+    },
+    {
+      "block": "DE",
+      "file": "devpl_onboarding_questionnaire_industrial_v1_bloques_d_e_arquitectura_c4.md",
+      "bytes": 44713,
+      "lines": 535,
+      "sha256": "9cc336dd8e6f395067eb2c972dfe21f3148634275fa945b8ffc5f97a09609866",
+      "questions": "31-48",
+      "question_count": 18,
+      "missing_inside": []
+    },
+    {
+      "block": "F",
+      "file": "devpl_onboarding_questionnaire_industrial_v1_bloque_f_domain_driven_design.md",
+      "bytes": 30476,
+      "lines": 339,
+      "sha256": "3fb47fb5182f9ca0ab1d0d917f79506f75ee86f722fd93eb8b9a1d035f30c956",
+      "questions": "49-56",
+      "question_count": 8,
+      "missing_inside": []
+    },
+    {
+      "block": "G",
+      "file": "devpl_onboarding_questionnaire_industrial_v1_bloque_g_runtime_execution.md",
+      "bytes": 56752,
+      "lines": 1427,
+      "sha256": "66fbf968e0a485ae0c9624b50d586707b65c2c6ec1007bc04a32feb53601680e",
+      "questions": "57-66",
+      "question_count": 10,
+      "missing_inside": []
+    },
+    {
+      "block": "H",
+      "file": "devpl_onboarding_questionnaire_industrial_v1_bloque_h_workspace_onboarding.md",
+      "bytes": 45308,
+      "lines": 1369,
+      "sha256": "288607e9e802cb407e6acfca45c4616d41218188539ac839e293a1134ffa234b",
+      "questions": "67-78",
+      "question_count": 12,
+      "missing_inside": []
+    },
+    {
+      "block": "I",
+      "file": "devpl_onboarding_questionnaire_industrial_v1_bloque_i_capacidades_funcionales_p79_96.md",
+      "bytes": 77119,
+      "lines": 1165,
+      "sha256": "48b3dbf8cd8a57f5c7904b39930c7cc7ab4ce0d1a4ea5a1fcd63262fd60eb19d",
+      "questions": "79-96",
+      "question_count": 18,
+      "missing_inside": []
+    },
+    {
+      "block": "J",
+      "file": "devpl_onboarding_questionnaire_industrial_v1_bloque_j_validadores_schemas_evidence_model_p97_114.md",
+      "bytes": 60089,
+      "lines": 1635,
+      "sha256": "18d410addd810ae3c221af9b6bdc9add95e3ecd947076b7d1c1e3f24e703c5e0",
+      "questions": "97-114",
+      "question_count": 18,
+      "missing_inside": []
+    },
+    {
+      "block": "K",
+      "file": "devpl_onboarding_questionnaire_industrial_v1_bloque_k_miasi_agentes_policies_approvals_p115_132.md",
+      "bytes": 41851,
+      "lines": 1248,
+      "sha256": "79fb064d7288bf664b67e26ea381f838cfdb32674a9f78ba100be96a0cc22df4",
+      "questions": "115-132",
+      "question_count": 18,
+      "missing_inside": []
+    },
+    {
+      "block": "L",
+      "file": "devpl_onboarding_questionnaire_industrial_v1_bloque_l_seguridad_no_go_threat_model_p133_150.md",
+      "bytes": 37064,
+      "lines": 1149,
+      "sha256": "82f93385dff218c298a2bfc25449620ab272f6883870482d83fc7513974fed61",
+      "questions": "133-150",
+      "question_count": 18,
+      "missing_inside": []
+    },
+    {
+      "block": "M",
+      "file": "devpl_onboarding_questionnaire_industrial_v1_bloque_m_testing_tcr_quality_gates_p151_168.md",
+      "bytes": 59832,
+      "lines": 1921,
+      "sha256": "32f0e721c54f92024c484a8f541f1a34d07d0ded6341abdd2dd0a70d6a42761c",
+      "questions": "151-168",
+      "question_count": 18,
+      "missing_inside": []
+    },
+    {
+      "block": "N",
+      "file": "devpl_onboarding_questionnaire_industrial_v1_bloque_n_observabilidad_runtime_operacion_p169_184.md",
+      "bytes": 41832,
+      "lines": 1522,
+      "sha256": "fb3592e8f1dc99c8094c21bf616049a549dcb6d1df1721bb895ac586cbe3917b",
+      "questions": "169-184",
+      "question_count": 16,
+      "missing_inside": []
+    },
+    {
+      "block": "O",
+      "file": "devpl_onboarding_questionnaire_industrial_v1_bloque_o_release_reproducibilidad_distribucion_p185_200.md",
+      "bytes": 35327,
+      "lines": 1414,
+      "sha256": "02cc0292304a43d257f778465535750f9984a60453b3825b2d8364ddf01d0850",
+      "questions": "185-200",
+      "question_count": 16,
+      "missing_inside": []
+    },
+    {
+      "block": "P",
+      "file": "devpl_onboarding_questionnaire_industrial_v1_bloque_p_ui_api_local_p201_216.md",
+      "bytes": 48278,
+      "lines": 1576,
+      "sha256": "4cd94e0dcbb4cab42bdcbc35f2eee338d0a5e4816987de8e2ddadf2a56f4778a",
+      "questions": "201-216",
+      "question_count": 16,
+      "missing_inside": []
+    },
+    {
+      "block": "Q",
+      "file": "devpl_onboarding_questionnaire_industrial_v1_bloque_q_gap_analysis_roadmap_p217_232.md",
+      "bytes": 51676,
+      "lines": 934,
+      "sha256": "30deedc6ff9e084ce5c5be7a60c26fe7933db10376157c67111eb49cd799a311",
+      "questions": "217-232",
+      "question_count": 16,
+      "missing_inside": []
+    },
+    {
+      "block": "R",
+      "file": "devpl_onboarding_questionnaire_industrial_v1_bloque_r_guia_operador_caso_piloto_p233_248.md",
+      "bytes": 54649,
+      "lines": 1740,
+      "sha256": "82c7c47f6f31f79d81d81e201dbb44d2275304bf3b1055e9890eed353b6426d8",
+      "questions": "233-248",
+      "question_count": 16,
+      "missing_inside": []
+    },
+    {
+      "block": "S",
+      "file": "devpl_onboarding_questionnaire_industrial_v1_bloque_s_sintesis_compilacion_entrega_final_p249_260.md",
+      "bytes": 52733,
+      "lines": 892,
+      "sha256": "6299aec2910d283b27accd68dc4f74865d6ae07115aeaf3ecfb52718efd34d18",
+      "questions": "249-260",
+      "question_count": 12,
+      "missing_inside": []
+    }
+  ],
+  "outputs": {
+    "final_report": {
+      "path": "/workspace/onboarding_report_final/devpilot_onboarding_report_final_compilado.md",
+      "sha256": "33570d5b646d7788684969679b674add651ad1bbd8c5b9686bce7601e6dd9341",
+      "bytes": 871343,
+      "lines": 21893
+    },
+    "executive_report": {
+      "path": "/workspace/onboarding_report_final/devpilot_onboarding_report_ejecutivo.md",
+      "sha256": "8055e783810b170a8b68f19889823734a6837fa4e0bef1dce43fb8830071aff6",
+      "bytes": 2351,
+      "lines": 21
+    },
+    "manifest": {
+      "path": "/workspace/onboarding_report_final/devpilot_onboarding_report_compilation_manifest.json",
+      "self_sha256_recorded": null,
+      "note": "El hash del manifest se reporta fuera del JSON para evitar autorreferencia recursiva.",
+      "bytes": 8632,
+      "lines": 249
+    }
+  }
+}

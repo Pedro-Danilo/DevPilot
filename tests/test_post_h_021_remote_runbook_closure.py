@@ -7,6 +7,10 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 
 
+def _post_h_number(value: str) -> int:
+    return int(value.split("POST-H-", 1)[1].split("-", 1)[0])
+
+
 def read_text(path: str) -> str:
     return (ROOT / path).read_text(encoding="utf-8")
 
@@ -52,10 +56,8 @@ def test_post_h_021_backlog_and_implementation_are_closed_and_synchronized() -> 
         assert "POST-H-021-E — Runbook y cierre" in text
         assert "POST-H-021 queda cerrado" in text
 
-    assert state["last_completed_sprint"] == "POST-H-021"
-    assert state["next_sprint"] == "POST-H-022"
-    assert state["current_micro_sprint"] in {"POST-H-021-E", "POST-H-022-A"}
-    assert state["next_micro_sprint"] in {"POST-H-022", "POST-H-022-B"}
+    assert _post_h_number(state["last_completed_sprint"]) >= 21
+    assert _post_h_number(state["next_sprint"]) >= 22
     assert state["post_h_021_current_micro_sprint"] == "POST-H-021-E"
     assert state["post_h_021_next_micro_sprint"] == "POST-H-022"
     assert state["post_h_021_closed"] is True

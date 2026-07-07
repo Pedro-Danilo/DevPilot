@@ -13,6 +13,10 @@ from devpilot_core.enterprise import (
 ROOT = Path(__file__).resolve().parents[1]
 
 
+def _post_h_number(value: str) -> int:
+    return int(value.split("POST-H-", 1)[1].split("-", 1)[0])
+
+
 def read_text(path: str) -> str:
     return (ROOT / path).read_text(encoding="utf-8")
 
@@ -223,10 +227,10 @@ def test_project_state_and_historical_remote_closure_are_synchronized_for_post_h
     runbook = read_text("docs/05_operations/runbook.md")
     changelog = read_text("docs/release/CHANGELOG.md")
 
-    assert state["last_completed_sprint"] == "POST-H-022"
-    assert state["next_sprint"] == "POST-H-023"
-    assert state["current_micro_sprint"] == "POST-H-022-E"
-    assert state["next_micro_sprint"] == "POST-H-023"
+    assert _post_h_number(state["last_completed_sprint"]) >= 22
+    assert _post_h_number(state["next_sprint"]) >= 23
+    assert state["post_h_022_current_micro_sprint"] == "POST-H-022-E"
+    assert state["post_h_022_next_micro_sprint"] == "POST-H-023"
     assert state["post_h_021_closed"] is True
     assert state["post_h_022_current_micro_sprint"] == "POST-H-022-E"
     assert state["post_h_022_next_micro_sprint"] == "POST-H-023"
