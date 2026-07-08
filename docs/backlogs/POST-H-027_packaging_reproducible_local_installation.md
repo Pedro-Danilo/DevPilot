@@ -29,9 +29,9 @@ claims_forbidden:
   - "remote-ready"
   - "SaaS-ready"
   - "compliance-certified"
-implementation_status: "active/python-artifact-install-verification-implemented-initial"
-current_micro_sprint: "POST-H-027-B"
-next_micro_sprint: "POST-H-027-C"
+implementation_status: "active/artifact-manifest-checksums-implemented-initial"
+current_micro_sprint: "POST-H-027-C"
+next_micro_sprint: "POST-H-027-D"
 ---
 
 # POST-H-027 — Packaging reproducible e instalacion local
@@ -627,6 +627,16 @@ python -m devpilot_core release artifact-manifest --version 0.1.0 --json --write
 python -m devpilot_core release artifact-manifest --version 0.1.0 --verify-checksums --json
 python -m devpilot_core schema validate --schema-id ReleaseArtifactManifest --instance outputs/release/release_artifact_manifest.json --json
 ```
+
+## 11.1 Implementacion POST-H-027-C
+
+Estado: `implemented-initial / artifact-manifest-checksums`.
+
+POST-H-027-C agrega `ReleaseArtifactManifest`, la politica `.devpilot/release/local_artifact_manifest_policy.json`, el modulo `src/devpilot_core/release/artifact_manifest.py` y el comando `python -m devpilot_core release artifact-manifest --version 0.1.0 --json`. El manifest consolida source ZIP, wheel, sdist, release notes y evidencias opcionales con SHA-256, clasificacion `distributable` vs `generated-runtime-evidence` y safety flags local-first.
+
+Como ajuste correctivo previo al cierre de POST-H-027-B, `PythonArtifactInstallVerifier` ahora puentea dependencias locales de build backend via `PYTHONPATH` controlado para que `sdist` pueda resolver `setuptools` en entornos Windows/Python 3.12 sin descargar dependencias y sin exponer `src/devpilot_core` al venv temporal.
+
+Esta primera version no firma artefactos, no crea attestation SLSA, no publica ni despliega. Windows install smoke y upgrade/rollback dry-run permanecen en POST-H-027-D/E.
 
 ## 12. Micro-sprint POST-H-027-D — Windows install guide and smoke
 

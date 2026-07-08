@@ -10,6 +10,7 @@ from .reproducibility_verify import ReleaseReproducibilityVerifier, ReleaseRepro
 from .package_builder import PackageBuildBuilder, PackageBuildOptions
 from .source_zip_policy import SourceZipPolicyOptions, SourceZipReleasePolicyValidator
 from .python_artifact_verify import PythonArtifactInstallVerificationOptions, PythonArtifactInstallVerifier
+from .artifact_manifest import ReleaseArtifactManifestBuilder, ReleaseArtifactManifestOptions
 from .sbom import ReleaseSbomBuilder, ReleaseSbomOptions
 from .installation import InstallPlanBuilder, InstallPlanOptions
 from .backup import BackupCreateBuilder, BackupCreateOptions, BackupListBuilder, BackupListOptions, BackupRestoreBuilder, BackupRestoreOptions
@@ -45,6 +46,8 @@ __all__ = [
     "SourceZipReleasePolicyValidator",
     "PythonArtifactInstallVerificationOptions",
     "PythonArtifactInstallVerifier",
+    "ReleaseArtifactManifestBuilder",
+    "ReleaseArtifactManifestOptions",
     "InstallPlanBuilder",
     "InstallPlanOptions",
     "BackupCreateBuilder",

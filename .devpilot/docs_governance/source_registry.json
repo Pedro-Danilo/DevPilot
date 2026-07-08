@@ -6878,6 +6878,79 @@
       "required_tests": [
         "tests/test_post_h_027_python_artifact_install_verification.py"
       ]
+    },
+    {
+      "doc_id": "POST-H-027-C-ARTIFACT-MANIFEST-SCHEMA",
+      "path": "docs/schemas/release_artifact_manifest.schema.json",
+      "classification": "machine-readable-source",
+      "domain": "release",
+      "owner": "POST-H-027-C",
+      "status_required": "implemented-initial",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_027_artifact_manifest_checksums.py",
+        "tests/test_schema_registry.py"
+      ]
+    },
+    {
+      "doc_id": "POST-H-027-C-ARTIFACT-MANIFEST-POLICY",
+      "path": ".devpilot/release/local_artifact_manifest_policy.json",
+      "classification": "machine-readable-source",
+      "domain": "release",
+      "owner": "POST-H-027-C",
+      "status_required": "implemented-initial",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_027_artifact_manifest_checksums.py"
+      ]
+    },
+    {
+      "doc_id": "POST-H-027-C-ARTIFACT-MANIFEST-MODULE",
+      "path": "src/devpilot_core/release/artifact_manifest.py",
+      "classification": "source-of-truth",
+      "domain": "release",
+      "owner": "POST-H-027-C",
+      "status_required": "current",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_027_artifact_manifest_checksums.py"
+      ]
+    },
+    {
+      "doc_id": "POST-H-027-C-ARTIFACT-MANIFEST-CHECKSUMS-AUDIT",
+      "path": "docs/audits/post_h_027_c_artifact_manifest_checksums_report.md",
+      "classification": "source-of-truth",
+      "domain": "release",
+      "owner": "Ordóñez",
+      "status_required": "approved",
+      "criticality": "P1",
+      "required_tests": [
+        "tests/test_post_h_027_artifact_manifest_checksums.py"
+      ]
+    },
+    {
+      "doc_id": "POST-H-027-C-MANIFEST",
+      "path": "docs/post_h_027_c_manifest.json",
+      "classification": "machine-readable-source",
+      "domain": "release",
+      "owner": "Ordóñez",
+      "status_required": "implemented-initial",
+      "criticality": "P1",
+      "required_tests": [
+        "tests/test_post_h_027_artifact_manifest_checksums.py"
+      ]
+    },
+    {
+      "doc_id": "POST-H-027-C-ARTIFACT-MANIFEST-TEST",
+      "path": "tests/test_post_h_027_artifact_manifest_checksums.py",
+      "classification": "test-contract",
+      "domain": "release",
+      "owner": "POST-H-027-C",
+      "status_required": "current",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_027_artifact_manifest_checksums.py"
+      ]
     }
   ],
   "rules": {
@@ -6951,7 +7024,7 @@
     "POST-H-025-C keeps enterprise, remote, SaaS and compliance claims disabled.": true
   },
   "summary": {
-    "documents_total": 262,
+    "documents_total": 268,
     "source_of_truth_total": 86,
     "machine_readable_source_total": 111,
     "derived_total": 32,
@@ -7068,8 +7141,8 @@
   ],
   "project_state_snapshot": {
     "last_updated_by": "POST-H-025-E",
-    "current_micro_sprint": "POST-H-025-E",
-    "next_micro_sprint": "POST-H-026",
+    "current_micro_sprint": "POST-H-027-C",
+    "next_micro_sprint": "POST-H-027-D",
     "last_completed_sprint": "POST-H-025",
     "next_sprint": "POST-H-026",
     "post_h_023_current_micro_sprint": "POST-H-023-E",

@@ -100,8 +100,9 @@ class PythonArtifactInstallVerifier:
 
             venv_python = self._venv_python(venv_dir)
             dependency_bridge = self._write_dependency_bridge(venv_python)
+            command_env = self._env_with_dependency_bridge(env, dependency_bridge)
             pip_cmd = self._pip_install_command(venv_python, artifact_path, artifact_kind)
-            pip_result = self._run_command(pip_cmd, cwd=self.root, env=env, timeout=max(self.options.timeout_seconds, 120))
+            pip_result = self._run_command(pip_cmd, cwd=self.root, env=command_env, timeout=max(self.options.timeout_seconds, 120))
             commands.append(self._command_record("pip-install-artifact", pip_cmd, pip_result))
             pip_ok = pip_result["exit_code"] == 0
             self._record(checks, "pip-install-local-artifact", pip_ok, "pip installed the local artifact with --no-index and without publishing/downloading by design.", category="install", metadata={"artifact_kind": artifact_kind, "no_index": True, "no_deps": True, "no_build_isolation": artifact_kind == "sdist", "dependency_bridge": dependency_bridge})
@@ -110,7 +111,7 @@ class PythonArtifactInstallVerifier:
                 return self._result(started, artifact_path, artifact_kind, checks, commands, findings, temp_dir, venv_python, temp_cleaned)
 
             import_cmd = [str(venv_python), "-c", self._import_check_code()]
-            import_result = self._run_command(import_cmd, cwd=self.root, env=env, timeout=self.options.timeout_seconds)
+            import_result = self._run_command(import_cmd, cwd=self.root, env=command_env, timeout=self.options.timeout_seconds)
             commands.append(self._command_record("import-installed-package", import_cmd, import_result, redact_code=True))
             import_payload = self._json_from_stdout(import_result.get("stdout_full") or import_result["stdout_tail"])
             import_from_installed = bool(import_payload.get("import_from_installed_site_packages"))
@@ -123,7 +124,7 @@ class PythonArtifactInstallVerifier:
             post_install_passed = True
             for index, command_args in enumerate(_POST_INSTALL_COMMANDS, start=1):
                 cmd = [str(venv_python), *command_args]
-                cmd_result = self._run_command(cmd, cwd=self.root, env=env, timeout=max(self.options.timeout_seconds, 120))
+                cmd_result = self._run_command(cmd, cwd=self.root, env=command_env, timeout=max(self.options.timeout_seconds, 120))
                 command_id = f"post-install-{index}-{'-'.join(command_args).replace('--', '').replace(' ', '-')[:48]}"
                 commands.append(self._command_record(command_id, cmd, cmd_result))
                 ok = cmd_result["exit_code"] == 0
@@ -308,6 +309,45 @@ class PythonArtifactInstallVerifier:
             "paths": [self._display_path(Path(item)) for item in bridge_paths],
             "pth_path": self._display_path(pth_path),
         }
+
+
+    def _env_with_dependency_bridge(self, env: dict[str, str], dependency_bridge: dict[str, Any]) -> dict[str, str]:
+        """Add dependency-only host paths to PYTHONPATH for pip build hooks and CLI smoke.
+
+        The generated .pth file is enough for normal interpreter startup in the
+        temporary venv, but pip PEP 517 build hook subprocesses can fail before
+        that path is effective for build-backend imports on Python 3.12+ where
+        fresh venvs do not bundle setuptools.  This environment bridge keeps the
+        DevPilot source tree excluded while allowing local build/runtime
+        dependencies already installed in the operator environment.
+        """
+
+        paths = [str((self.root / item).resolve()) if not Path(str(item)).is_absolute() else str(Path(str(item)).resolve()) for item in dependency_bridge.get("paths", [])]
+        safe_paths: list[str] = []
+        workspace_src = (self.root / "src").resolve()
+        source_root = (self.root / "src" / "devpilot_core").resolve()
+        for item in paths:
+            path = Path(item).resolve()
+            if not path.exists() or not path.is_dir():
+                continue
+            if path == workspace_src:
+                continue
+            try:
+                source_root.relative_to(path)
+                continue
+            except ValueError:
+                pass
+            if (path / "devpilot_core" / "__init__.py").exists():
+                continue
+            rendered = str(path)
+            if rendered not in safe_paths:
+                safe_paths.append(rendered)
+        if not safe_paths:
+            return env
+        bridged = dict(env)
+        existing = bridged.get("PYTHONPATH")
+        bridged["PYTHONPATH"] = os.pathsep.join(safe_paths + ([existing] if existing else []))
+        return bridged
 
     def _venv_site_packages(self, venv_python: Path) -> Path:
         venv_dir = venv_python.parent.parent if venv_python.parent.name in {"Scripts", "bin"} else venv_python.parent

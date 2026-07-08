@@ -6,6 +6,7 @@ version: "1.0.0"
 owner: "POST-H-027-B"
 updated: "2026-07-08"
 source_of_truth: true
+approval: "approved_by_owner"
 machine_readable_pair: "docs/post_h_027_b_manifest.json"
 ---
 
@@ -55,3 +56,7 @@ python -m devpilot_core release python-artifact-verify --artifact dist\devpilot_
 python -m devpilot_core release python-artifact-verify --artifact dist\devpilot-local-0.1.0.tar.gz --json --write-report
 python -m devpilot_core schema validate --schema-id PythonArtifactInstallVerification --instance outputs/release/python_artifact_install_verification.json --json
 ```
+
+## Nota correctiva POST-H-027-C
+
+La validacion de operador detecto que `sdist` podia bloquear en Python 3.12 cuando el venv temporal no tenia `setuptools`. Se corrigio `PythonArtifactInstallVerifier` para añadir un bridge seguro de dependencias locales al `PYTHONPATH` del proceso de pip/build hook, sin incluir `src/devpilot_core` y sin habilitar red.

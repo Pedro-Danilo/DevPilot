@@ -1,0 +1,82 @@
+{
+  "schema_version": "1.0",
+  "policy_id": "devpilot-local-artifact-manifest-policy-v1",
+  "created_by": "POST-H-027-C",
+  "status": "implemented-initial",
+  "scope": "local-package",
+  "release_version_template": "{version}",
+  "required_artifacts": [
+    {
+      "artifact_id": "source-zip",
+      "artifact_type": "source_zip",
+      "path": "dist/release/devpilot-local-{version}-source.zip",
+      "classification": "distributable",
+      "source": "package build --kind all",
+      "notes": ["Clean source ZIP governed by POST-H-027-A SourceZipReleasePolicy."]
+    },
+    {
+      "artifact_id": "python-wheel",
+      "artifact_type": "python_wheel",
+      "path": "dist/devpilot_local-{version}-py3-none-any.whl",
+      "classification": "distributable",
+      "source": "package build --kind python|all",
+      "notes": ["Wheel install smoke governed by POST-H-027-B PythonArtifactInstallVerifier."]
+    },
+    {
+      "artifact_id": "python-sdist",
+      "artifact_type": "python_sdist",
+      "path": "dist/devpilot-local-{version}.tar.gz",
+      "classification": "distributable",
+      "source": "package build --kind python|all",
+      "notes": ["Sdist install smoke uses local build tooling only; no mandatory internet access."]
+    }
+  ],
+  "optional_artifacts": [
+    {
+      "artifact_id": "release-notes",
+      "artifact_type": "release_notes",
+      "path": "docs/release/CHANGELOG.md",
+      "classification": "source-documentation",
+      "source": "source-controlled",
+      "notes": ["Human-readable release history, not generated runtime output."]
+    },
+    {
+      "artifact_id": "source-zip-policy-report",
+      "artifact_type": "verification_report",
+      "path": "outputs/release/source_zip_release_report.json",
+      "classification": "generated-runtime-evidence",
+      "source": "package source-zip-policy --write-report",
+      "notes": ["Generated evidence; must not be committed as source."]
+    },
+    {
+      "artifact_id": "python-artifact-install-report",
+      "artifact_type": "verification_report",
+      "path": "outputs/release/python_artifact_install_verification.json",
+      "classification": "generated-runtime-evidence",
+      "source": "release python-artifact-verify --write-report",
+      "notes": ["Generated install evidence; must not be committed as source."]
+    },
+    {
+      "artifact_id": "sbom-baseline",
+      "artifact_type": "sbom",
+      "path": "outputs/reports/sbom.json",
+      "classification": "generated-runtime-evidence",
+      "source": "release sbom --write-report",
+      "notes": ["Optional local SBOM baseline if generated for release candidate."]
+    }
+  ],
+  "safety": {
+    "local_first": true,
+    "network_allowed": false,
+    "external_api_allowed": false,
+    "publish_allowed": false,
+    "deploy_allowed": false,
+    "signing_required": false,
+    "source_mutations_allowed": false
+  },
+  "limitations": [
+    "POST-H-027-C does not sign artifacts or create external attestations.",
+    "Required artifacts must be built explicitly before manifest generation.",
+    "Generated outputs/release evidence is runtime evidence and must not be committed."
+  ]
+}

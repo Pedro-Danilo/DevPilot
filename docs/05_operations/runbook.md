@@ -2,17 +2,39 @@
 title: "Runbook — DevPilot Local"
 doc_id: "DEVPL-OPS-002"
 status: "approved"
-version: "2.02.0"
+version: "2.03.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "POST-H-027-A"
+phase: "POST-H-027-C"
 updated: "2026-07-08"
 approval: "approved_by_owner"
 source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved + 03_security approved"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "SPRINT-PRECODE-05 quality operations baseline"
 ---
+
+## POST-H-027-C — Artifact manifest and checksums
+
+Estado: `implemented-initial / artifact-manifest-checksums`.
+
+Propósito operacional: consolidar los artefactos locales distribuibles y sus checksums SHA-256 en un contrato auditable `ReleaseArtifactManifest`, sin publicar, firmar, desplegar ni llamar red/APIs externas.
+
+Comandos de uso:
+
+```powershell
+$env:PYTHONPATH="src"
+python -m devpilot_core package build --kind all --version 0.1.0 --execute --json --write-report
+python -m devpilot_core release artifact-manifest --version 0.1.0 --verify-checksums --json --write-report
+python -m devpilot_core schema validate --schema-id ReleaseArtifactManifest --instance outputs/release/release_artifact_manifest.json --json
+```
+
+PASS: source ZIP, wheel y sdist existen, cada SHA-256 coincide con el archivo actual, `checksums.sha256` contiene todos los artefactos obligatorios y los no-go gates de publicación/deploy/firma/red permanecen inactivos.
+
+BLOCK: falta un artefacto obligatorio, el checksum no coincide, la política local está ausente/dañada, el manifest declara publicación/deploy/firma o intenta escribir fuera de `outputs/release`.
+
+Limitación: POST-H-027-C no instala artefactos, no valida Windows end-to-end y no ensaya upgrade/rollback. Es una primera versión local-first que debe evolucionar con firma/attestation solo después de ADR y controles explícitos.
+
 
 ## POST-H-027-B — Wheel/sdist install verification
 

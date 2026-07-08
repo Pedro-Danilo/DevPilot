@@ -83,7 +83,11 @@ def test_sdist_install_verification_uses_local_build_backend_bridge() -> None:
     assert "--no-build-isolation" in cmd
     assert str(sdist) in cmd
 
+    bridge = {"paths": verifier._dependency_bridge_paths()}
+    env = verifier._env_with_dependency_bridge({}, bridge)
 
+    assert env.get("PYTHONPATH")
+    assert str((ROOT / "src").resolve()) not in env["PYTHONPATH"]
 
 
 def test_dependency_bridge_keeps_operator_venv_dependencies_without_source_tree(monkeypatch, tmp_path: Path) -> None:
@@ -168,8 +172,8 @@ def test_post_h_027_b_documentation_is_synchronized() -> None:
     changelog = (ROOT / "docs/release/CHANGELOG.md").read_text(encoding="utf-8")
     manifest = json.loads((ROOT / "docs/post_h_027_b_manifest.json").read_text(encoding="utf-8"))
 
-    assert 'current_micro_sprint: "POST-H-027-B"' in backlog
-    assert 'next_micro_sprint: "POST-H-027-C"' in backlog
+    assert 'current_micro_sprint: "POST-H-027-C"' in backlog
+    assert 'next_micro_sprint: "POST-H-027-D"' in backlog
     assert "POST-H-027-B — Wheel/sdist install verification" in backlog
     assert "POST-H-027-B — Wheel/sdist install verification" in top_level
     assert "python-artifact-verify" in readme

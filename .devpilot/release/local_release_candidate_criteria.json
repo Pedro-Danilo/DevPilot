@@ -7,10 +7,10 @@
   "scope": "local-release-candidate",
   "preliminary": true,
   "expected_source_repo": "repo_DevPilot_Local_263_POST_H_025.zip",
-  "expected_current_repo": "repo_DevPilot_Local_270_POST_H_027_B.zip",
+  "expected_current_repo": "repo_DevPilot_Local_271_POST_H_027_C.zip",
   "expected_last_completed_sprint": "POST-H-026",
-  "expected_current_micro_sprint": "POST-H-027-B",
-  "expected_next_micro_sprint": "POST-H-027-C",
+  "expected_current_micro_sprint": "POST-H-027-C",
+  "expected_next_micro_sprint": "POST-H-027-D",
   "freshness_policy": "contextual-signature",
   "no_go_gates": {
     "remote_execution_enabled": false,
@@ -25,23 +25,23 @@
   "evidence": [
     {
       "evidence_id": "project-state-current-repo",
-      "title": "Project state source/current repo freshness for POST-H-027-B implementation",
+      "title": "Project state source/current repo freshness for POST-H-027-C implementation",
       "path": ".devpilot/project_state.json",
       "category": "project-state",
       "critical": true,
       "json_required": true,
       "expected_schema_id": "SCHEMA-DEVPL-PROJECT-STATE-V1",
-      "producer_sprint": "POST-H-027-B",
+      "producer_sprint": "POST-H-027-C",
       "freshness_policy": "contextual-field-match",
       "expected_fields": {
         "source_repo": "repo_DevPilot_Local_263_POST_H_025.zip",
-        "current_repo": "repo_DevPilot_Local_270_POST_H_027_B.zip",
+        "current_repo": "repo_DevPilot_Local_271_POST_H_027_C.zip",
         "last_completed_sprint": "POST-H-026",
         "next_sprint": "POST-H-027",
-        "current_micro_sprint": "POST-H-027-B",
-        "next_micro_sprint": "POST-H-027-C",
+        "current_micro_sprint": "POST-H-027-C",
+        "next_micro_sprint": "POST-H-027-D",
         "post_h_026_status": "closed/local-release-candidate-pass",
-        "post_h_027_status": "active/python-artifact-install-verification-implemented-initial"
+        "post_h_027_status": "active/artifact-manifest-checksums-implemented-initial"
       }
     },
     {
@@ -445,6 +445,47 @@
         "POST-H-027-B",
         "Wheel/sdist install verification",
         "python-artifact-verify"
+      ]
+    },
+    {
+      "evidence_id": "post-h-027-c-artifact-manifest-schema",
+      "title": "POST-H-027-C ReleaseArtifactManifest schema is present",
+      "path": "docs/schemas/release_artifact_manifest.schema.json",
+      "category": "schema",
+      "critical": true,
+      "producer_sprint": "POST-H-027-C",
+      "freshness_policy": "required-marker",
+      "required_markers": [
+        "SCHEMA-DEVPL-RELEASE-ARTIFACT-MANIFEST-V1",
+        "POST-H-027-C",
+        "ReleaseArtifactManifest"
+      ]
+    },
+    {
+      "evidence_id": "post-h-027-c-artifact-manifest-module",
+      "title": "POST-H-027-C artifact manifest module is present",
+      "path": "src/devpilot_core/release/artifact_manifest.py",
+      "category": "source",
+      "critical": true,
+      "producer_sprint": "POST-H-027-C",
+      "freshness_policy": "required-marker",
+      "required_markers": [
+        "ReleaseArtifactManifestBuilder",
+        "ReleaseArtifactManifestOptions",
+        "POST-H-027-C"
+      ]
+    },
+    {
+      "evidence_id": "post-h-027-c-artifact-manifest-test",
+      "title": "POST-H-027-C artifact manifest tests are present",
+      "path": "tests/test_post_h_027_artifact_manifest_checksums.py",
+      "category": "test",
+      "critical": true,
+      "producer_sprint": "POST-H-027-C",
+      "freshness_policy": "required-marker",
+      "required_markers": [
+        "test_release_artifact_manifest_passes_and_writes_checksums",
+        "test_release_artifact_manifest_detects_checksum_mismatch"
       ]
     }
   ],

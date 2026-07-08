@@ -1,4 +1,21 @@
 
+## POST-H-027-C — Artifact manifest and checksums
+
+DevPilot incorpora un manifest unificado de artefactos locales y checksums SHA-256 para el paquete local. El comando `python -m devpilot_core release artifact-manifest --version 0.1.0 --json --write-report` consolida source ZIP, wheel, sdist, release notes y evidencias opcionales en `ReleaseArtifactManifest`, y escribe `outputs/release/checksums.sha256` solo cuando `--write-report` es explícito.
+
+POST-H-027-C también corrige POST-H-027-B para que la verificación de `sdist` pueda resolver el build backend local (`setuptools`) desde dependencias ya instaladas, sin añadir `src/devpilot_core` al path del venv temporal y sin introducir internet obligatorio.
+
+Comandos:
+
+```powershell
+python -m devpilot_core package build --kind all --version 0.1.0 --execute --json --write-report
+python -m devpilot_core release artifact-manifest --version 0.1.0 --verify-checksums --json --write-report
+python -m devpilot_core schema validate --schema-id ReleaseArtifactManifest --instance outputs/release/release_artifact_manifest.json --json
+```
+
+Limitación: esta primera versión no firma artefactos, no crea attestation SLSA, no publica paquetes y no reemplaza el smoke Windows ni el flujo upgrade/rollback, que permanecen en POST-H-027-D/E.
+
+
 ## POST-H-027-B — Wheel/sdist install verification
 
 DevPilot incorpora verificacion local de instalacion para artefactos Python generados. El comando `python -m devpilot_core release python-artifact-verify --artifact dist/devpilot_local-0.1.0-py3-none-any.whl --json` crea un venv temporal bajo `outputs/tmp`, instala el wheel con `pip --no-index --no-deps`, valida que `devpilot_core` se importe desde `site-packages` y ejecuta smoke post-install: `--version`, `schema list`, `project-state validate` y `docs-governance validate`.

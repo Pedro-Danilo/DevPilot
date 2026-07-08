@@ -6973,6 +6973,56 @@
       "classification_notes": [
         "POST-H-027-B treats dist/outputs/tmp writes as explicit runtime evidence, not source mutation permission."
       ]
+    },
+    {
+      "contract_id": "post-h-027-artifact-manifest-checksums",
+      "scope": "integration",
+      "owner": "POST-H-027-C",
+      "test_files": [
+        "tests/test_post_h_027_artifact_manifest_checksums.py"
+      ],
+      "validates": [
+        "src/devpilot_core/release/artifact_manifest.py",
+        "docs/schemas/release_artifact_manifest.schema.json",
+        ".devpilot/release/local_artifact_manifest_policy.json",
+        "release artifact-manifest",
+        "docs/audits/post_h_027_c_artifact_manifest_checksums_report.md",
+        "docs/post_h_027_c_manifest.json",
+        "README.md",
+        "docs/05_operations/runbook.md"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/release/artifact_manifest.py",
+        "src/devpilot_core/release/package_builder.py",
+        "src/devpilot_core/release/python_artifact_verify.py",
+        "src/devpilot_core/cli.py",
+        ".devpilot/release/local_artifact_manifest_policy.json",
+        "docs/schemas/release_artifact_manifest.schema.json",
+        "docs/backlogs/POST-H-027_packaging_reproducible_local_installation.md",
+        "tests/test_post_h_027_artifact_manifest_checksums.py",
+        ".devpilot/testing/test_contract_registry.json",
+        ".devpilot/testing/test_contract_registry_v2.json"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_027_artifact_manifest_checksums.py tests/test_post_h_027_python_artifact_install_verification.py tests/test_package_builder.py tests/test_schema_registry.py tests/test_project_global_state.py -q",
+        "python -m devpilot_core package build --kind all --version 0.1.0 --execute --json --write-report",
+        "python -m devpilot_core release artifact-manifest --version 0.1.0 --verify-checksums --json --write-report",
+        "python -m devpilot_core schema validate --schema-id ReleaseArtifactManifest --instance outputs/release/release_artifact_manifest.json --json"
+      ],
+      "notes": [
+        "POST-H-027-C consolidates local source ZIP, wheel and sdist checksums in ReleaseArtifactManifest.",
+        "The command writes only runtime evidence under outputs/release when --write-report is explicit."
+      ],
+      "classification_notes": [
+        "dist/ and outputs/release are runtime/generated evidence; source mutations remain disallowed."
+      ]
     }
   ],
   "notes": [

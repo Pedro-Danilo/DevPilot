@@ -222,7 +222,7 @@ DECLARATIVE_GROUPS: dict[str, DeclarativeGroupDescriptor] = {
         group_id="package",
         domain="release",
         owner_module="src/devpilot_core/cli.py",
-        recommended_tests=("python -m pytest tests/test_post_h_027_source_zip_policy.py tests/test_post_h_027_python_artifact_install_verification.py tests/test_package_builder.py tests/test_post_h_006_b_declarative_registry.py -q",),
+        recommended_tests=("python -m pytest tests/test_post_h_027_source_zip_policy.py tests/test_post_h_027_python_artifact_install_verification.py tests/test_post_h_027_artifact_manifest_checksums.py tests/test_package_builder.py tests/test_post_h_006_b_declarative_registry.py -q",),
         rationale="POST-H-027-B keeps package build, source-zip-policy and python-artifact-verify as governed local release packaging commands before enforcing CLI no-growth gates.",
     ),
     "cli-registry": DeclarativeGroupDescriptor(
@@ -287,7 +287,7 @@ DECLARATIVE_GROUPS: dict[str, DeclarativeGroupDescriptor] = {
         group_id="release",
         domain="release",
         owner_module="src/devpilot_core/cli.py",
-        recommended_tests=("python -m pytest tests/test_post_h_017_release_reproducibility_pack.py tests/test_post_h_017_source_archive_manifest.py tests/test_release_verification.py tests/test_release_manifest.py -q",),
+        recommended_tests=("python -m pytest tests/test_post_h_017_release_reproducibility_pack.py tests/test_post_h_017_source_archive_manifest.py tests/test_post_h_027_artifact_manifest_checksums.py tests/test_release_verification.py tests/test_release_manifest.py -q",),
         rationale="POST-H-017 release reproducibility commands are governed local dry-run evidence surfaces and must be registered before the no-growth gate runs.",
     ),
     "connector": DeclarativeGroupDescriptor(
@@ -459,6 +459,18 @@ COMMAND_OVERRIDES: dict[str, DeclarativeCommandOverride] = {
             "python -m pytest tests/test_post_h_017_reproducibility_verify.py tests/test_post_h_017_release_reproducibility_schema.py -q",
         ),
         rationale="POST-H-017-D verifies local reproducibility-pack evidence and critical checksums without publishing, deploying, network, external APIs or source mutations; --write-report writes only outputs/release evidence.",
+    ),
+    "release.artifact-manifest": DeclarativeCommandOverride(
+        command_id="release.artifact-manifest",
+        risk_level=CommandRiskLevel.HIGH,
+        side_effects=(CommandSideEffect.WRITE_REPORT,),
+        writes_files=True,
+        dry_run_supported=True,
+        policy_check_required=True,
+        recommended_tests=(
+            "python -m pytest tests/test_post_h_027_artifact_manifest_checksums.py tests/test_schema_registry.py -q",
+        ),
+        rationale="POST-H-027-C writes local artifact manifest/checksum evidence under outputs/release when --write-report is explicit; it never publishes, deploys, signs, calls network/external APIs or mutates source files.",
     ),
     "release.reproducibility-pack": DeclarativeCommandOverride(
         command_id="release.reproducibility-pack",

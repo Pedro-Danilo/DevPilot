@@ -12219,6 +12219,79 @@
         "approved_by": "POST-H-027-B",
         "expires_at_utc": "2027-01-01T00:00:00Z"
       }
+    },
+    {
+      "contract_id": "post-h-027-artifact-manifest-checksums",
+      "schema_version": "2.0",
+      "source_contract_id": "post-h-027-artifact-manifest-checksums",
+      "domain": "release",
+      "capability": "artifact-manifest-checksums",
+      "criticality": "P0",
+      "risk_level": "critical",
+      "test_type": "release",
+      "execution_profile": "release",
+      "cost_class": "medium",
+      "expected_duration_seconds": 180,
+      "test_files": [
+        "tests/test_post_h_027_artifact_manifest_checksums.py"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/release/artifact_manifest.py",
+        "src/devpilot_core/release/package_builder.py",
+        "src/devpilot_core/release/python_artifact_verify.py",
+        "src/devpilot_core/cli.py",
+        ".devpilot/release/local_artifact_manifest_policy.json",
+        "docs/schemas/release_artifact_manifest.schema.json",
+        "docs/backlogs/POST-H-027_packaging_reproducible_local_installation.md"
+      ],
+      "validates": [
+        "release artifact-manifest",
+        "src/devpilot_core/release/artifact_manifest.py",
+        "docs/schemas/release_artifact_manifest.schema.json",
+        ".devpilot/release/local_artifact_manifest_policy.json",
+        "docs/audits/post_h_027_c_artifact_manifest_checksums_report.md"
+      ],
+      "trigger_hints": [
+        "POST-H-027-C",
+        "ReleaseArtifactManifest",
+        "artifact-manifest",
+        "checksums.sha256",
+        "source ZIP",
+        "wheel",
+        "sdist"
+      ],
+      "impact_scope": [
+        "release",
+        "packaging",
+        "checksums",
+        "schemas",
+        "docs-governance",
+        "testing"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "POST-H-027-C",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_027_artifact_manifest_checksums.py tests/test_post_h_027_python_artifact_install_verification.py tests/test_package_builder.py tests/test_schema_registry.py tests/test_project_global_state.py -q",
+        "python -m devpilot_core package build --kind all --version 0.1.0 --execute --json --write-report",
+        "python -m devpilot_core release artifact-manifest --version 0.1.0 --verify-checksums --json --write-report",
+        "python -m devpilot_core schema validate --schema-id ReleaseArtifactManifest --instance outputs/release/release_artifact_manifest.json --json"
+      ],
+      "classification_status": "explicit",
+      "classification_notes": [
+        "POST-H-027-C writes manifest/checksum runtime evidence only when requested.",
+        "No network, external APIs, publish, deploy, signing or source mutations are allowed."
+      ],
+      "safety_exception": {
+        "justification": "No exception: generated dist/outputs artifacts are explicit runtime evidence and not source mutations; sensitive no-go gates remain disabled.",
+        "approved_by": "POST-H-027-C",
+        "expires_at_utc": "2027-01-01T00:00:00Z"
+      }
     }
   ],
   "migration_metadata": {

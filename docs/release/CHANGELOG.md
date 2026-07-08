@@ -1,4 +1,13 @@
 
+## post-h-027-c — Artifact manifest and checksums
+
+- Added `ReleaseArtifactManifest` schema and `release artifact-manifest` CLI.
+- Added `.devpilot/release/local_artifact_manifest_policy.json` for required local source ZIP, wheel and sdist artifacts.
+- Added SHA-256 checksum generation and verification under `outputs/release/checksums.sha256`.
+- Corrected POST-H-027-B sdist verification by bridging local build-backend dependencies without adding the DevPilot source tree to the temporary install venv.
+- Kept publishing, deploy, signing, network, external APIs and source mutations disabled.
+
+
 ## post-h-027-b
 
 - Added `release python-artifact-verify` for local wheel/sdist temporary venv install verification.

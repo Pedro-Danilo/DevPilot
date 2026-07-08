@@ -101,6 +101,8 @@ from .release import (
     SourceZipReleasePolicyValidator,
     PythonArtifactInstallVerificationOptions,
     PythonArtifactInstallVerifier,
+    ReleaseArtifactManifestBuilder,
+    ReleaseArtifactManifestOptions,
     InstallPlanBuilder,
     InstallPlanOptions,
     ReleaseChangelogBuilder,
@@ -2690,6 +2692,29 @@ def upgrade_check_command(*, target_version: str | None = None, json_output: boo
     return int(result.exit_code)
 
 
+
+def release_artifact_manifest_command(
+    *,
+    version: str = "0.1.0",
+    verify_checksums: bool = False,
+    json_output: bool = False,
+    write_report: bool = False,
+) -> int:
+    """Generate POST-H-027-C local artifact manifest and SHA-256 checksums."""
+
+    root = project_root()
+    result = ReleaseArtifactManifestBuilder(
+        root,
+        options=ReleaseArtifactManifestOptions(
+            version=version,
+            verify_checksums=verify_checksums,
+            write_report=write_report,
+        ),
+    ).build()
+    _emit_result_event(root, result, subject="release:artifact-manifest")
+    _persist_result(root, result, subject="release:artifact-manifest")
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
 
 def release_python_artifact_verify_command(
     *,
@@ -6389,6 +6414,12 @@ def build_parser() -> argparse.ArgumentParser:
     release_python_artifact.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     release_python_artifact.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown install verification evidence under outputs/release")
 
+    release_artifact_manifest = release_sub.add_parser("artifact-manifest", help="Generate POST-H-027-C local artifact manifest and SHA-256 checksums")
+    release_artifact_manifest.add_argument("--version", dest="release_version", default="0.1.0", help="SemVer release version used for artifact path templates")
+    release_artifact_manifest.add_argument("--verify-checksums", action="store_true", help="Verify current artifact files against generated manifest checksums")
+    release_artifact_manifest.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    release_artifact_manifest.add_argument("--write-report", action="store_true", help="Persist outputs/release/release_artifact_manifest.{json,md} and checksums.sha256")
+
     install = sub.add_parser("install", help="Plan safe local DevPilot installation")
     install_sub = install.add_subparsers(dest="install_command")
     install_plan = install_sub.add_parser("plan", help="Generate local installation strategy and dry-run plan")
@@ -7662,6 +7693,13 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
                 artifact=args.artifact,
                 timeout_seconds=args.timeout_seconds,
                 keep_temp=args.keep_temp,
+                json_output=args.json,
+                write_report=args.write_report,
+            )
+        if args.release_command == "artifact-manifest":
+            return release_artifact_manifest_command(
+                version=args.release_version,
+                verify_checksums=args.verify_checksums,
                 json_output=args.json,
                 write_report=args.write_report,
             )

@@ -1,0 +1,72 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "SCHEMA-DEVPL-POST-H-MANIFEST-V1",
+  "post_h_id": "POST-H-027",
+  "title": "POST-H-027-C — Artifact manifest and checksums",
+  "status": "implemented-initial",
+  "phase": "POST-FASE-H",
+  "implemented_at": "2026-07-08T16:45:00Z",
+  "created_files": [
+    "docs/schemas/release_artifact_manifest.schema.json",
+    ".devpilot/release/local_artifact_manifest_policy.json",
+    "src/devpilot_core/release/artifact_manifest.py",
+    "tests/test_post_h_027_artifact_manifest_checksums.py",
+    "docs/audits/post_h_027_c_artifact_manifest_checksums_report.md",
+    "docs/post_h_027_c_manifest.json"
+  ],
+  "modified_files": [
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/backlogs/POST-H-027_packaging_reproducible_local_installation.md",
+    "docs/POST-H-027_packaging_reproducible_local_installation.md",
+    "docs/release/CHANGELOG.md",
+    "docs/schemas/schema_catalog.json",
+    ".devpilot/project_state.json",
+    ".devpilot/docs_governance/source_registry.json",
+    ".devpilot/testing/test_contract_registry.json",
+    ".devpilot/testing/test_contract_registry_v2.json",
+    "src/devpilot_core/cli.py",
+    "src/devpilot_core/release/__init__.py",
+    "src/devpilot_core/release/python_artifact_verify.py",
+    "src/devpilot_core/testing/impact_v2.py",
+    "src/devpilot_core/cli_registry/builders.py",
+    "src/devpilot_core/cli_registry/registry.py",
+    "tests/test_schema_registry.py",
+    "tests/test_project_global_state.py",
+    "tests/test_test_contract_registry_profiles_v2.py"
+  ],
+  "commands": [
+    "python -m devpilot_core package build --kind all --version 0.1.0 --execute --json --write-report",
+    "python -m devpilot_core release artifact-manifest --version 0.1.0 --verify-checksums --json --write-report",
+    "python -m devpilot_core schema validate --schema-id ReleaseArtifactManifest --instance outputs/release/release_artifact_manifest.json --json"
+  ],
+  "tests": [
+    "tests/test_post_h_027_artifact_manifest_checksums.py",
+    "tests/test_post_h_027_python_artifact_install_verification.py",
+    "tests/test_post_h_027_source_zip_policy.py",
+    "tests/test_package_builder.py",
+    "tests/test_schema_registry.py",
+    "tests/test_project_global_state.py"
+  ],
+  "pass_criteria": [
+    "ReleaseArtifactManifest validates against schema.",
+    "checksums.sha256 contains all required local artifacts.",
+    "Checksum mismatch fixture blocks as expected.",
+    "Manifest differentiates required, optional and generated-runtime evidence.",
+    "No network, external API, publish, deploy, signing or source mutation is required."
+  ],
+  "block_criteria": [
+    "Required source ZIP, wheel or sdist is missing.",
+    "Checksum mismatch is detected.",
+    "Policy is missing or invalid.",
+    "Manifest declares publication, deploy or signing as performed.",
+    "Generated outputs are treated as source artifacts."
+  ],
+  "risks": [
+    "Formal signing/attestation is not implemented in POST-H-027-C.",
+    "Windows install smoke and upgrade/rollback remain pending for POST-H-027-D/E.",
+    "Generated checksums are local integrity evidence and not a substitute for secure distribution controls."
+  ],
+  "next_sprint": "POST-H-027",
+  "preliminary": true
+}
