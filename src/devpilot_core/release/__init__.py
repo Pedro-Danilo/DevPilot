@@ -8,6 +8,7 @@ from .reproducibility_policy import ReleaseReproducibilityPolicy, ReleaseReprodu
 from .reproducibility_pack import ReleaseReproducibilityPackBuilder, ReleaseReproducibilityPackOptions
 from .reproducibility_verify import ReleaseReproducibilityVerifier, ReleaseReproducibilityVerifyOptions
 from .package_builder import PackageBuildBuilder, PackageBuildOptions
+from .source_zip_policy import SourceZipPolicyOptions, SourceZipReleasePolicyValidator
 from .sbom import ReleaseSbomBuilder, ReleaseSbomOptions
 from .installation import InstallPlanBuilder, InstallPlanOptions
 from .backup import BackupCreateBuilder, BackupCreateOptions, BackupListBuilder, BackupListOptions, BackupRestoreBuilder, BackupRestoreOptions
@@ -39,6 +40,8 @@ __all__ = [
     "ReleaseReproducibilityVerifyOptions",
     "PackageBuildBuilder",
     "PackageBuildOptions",
+    "SourceZipPolicyOptions",
+    "SourceZipReleasePolicyValidator",
     "InstallPlanBuilder",
     "InstallPlanOptions",
     "BackupCreateBuilder",

@@ -45,6 +45,7 @@ POST_H_006_B_INITIAL_GROUPS: tuple[str, ...] = (
     "quality-gate",
     "industrial-readiness",
     "release-candidate",
+    "package",
 )
 
 
@@ -216,6 +217,13 @@ DECLARATIVE_GROUPS: dict[str, DeclarativeGroupDescriptor] = {
         owner_module="src/devpilot_core/cli.py",
         recommended_tests=("python -m pytest tests/test_post_h_026_evidence_freshness.py tests/test_post_h_026_release_candidate_profile.py tests/test_post_h_026_ui_api_rc_smoke.py tests/test_post_h_026_ui_api_rc_smoke_contract.py tests/test_post_h_026_install_smoke.py tests/test_post_h_026_release_candidate_report.py tests/test_post_h_006_b_declarative_registry.py -q",),
         rationale="POST-H-026-D keeps local release candidate verification commands, including install-smoke, registered before enforcing CLI no-growth gates.",
+    ),
+    "package": DeclarativeGroupDescriptor(
+        group_id="package",
+        domain="release",
+        owner_module="src/devpilot_core/cli.py",
+        recommended_tests=("python -m pytest tests/test_post_h_027_source_zip_policy.py tests/test_package_builder.py tests/test_post_h_006_b_declarative_registry.py -q",),
+        rationale="POST-H-027-A registers package build and source-zip-policy as governed local release packaging commands before enforcing CLI no-growth gates.",
     ),
     "cli-registry": DeclarativeGroupDescriptor(
         group_id="cli-registry",

@@ -1,3 +1,27 @@
+## post-h-027-a — Source ZIP release policy hardening
+
+### Added
+
+- Approved POST-H-027 backlog for reproducible local packaging and installation.
+- Added `SourceZipReleasePolicy` and `SourceZipReleaseReport` schemas.
+- Added `.devpilot/release/source_zip_release_policy.json` as the versioned clean source ZIP policy.
+- Added `src/devpilot_core/release/source_zip_policy.py` and CLI command `package source-zip-policy`.
+- Added POST-H-027-A audit report, manifest and focused tests.
+
+### Changed
+
+- `package build` now exposes source ZIP release policy metadata and keeps dry-run default with explicit `--execute` for writes.
+- Project state advances to `current_micro_sprint=POST-H-027-A` and `next_micro_sprint=POST-H-027-B`.
+
+### Security
+
+- Blocks runtime/build artifacts and secret-like paths/content from source ZIP policy validation.
+- Keeps publish, deploy, signing, network, external APIs, remote execution, connector write and plugin execution disabled.
+
+### Deferred
+
+- Wheel/sdist install verification, artifact manifest/checksums, Windows install smoke and upgrade/rollback dry-run remain POST-H-027-B/C/D/E.
+
 
 ## post-h-026-e — RC PASS/BLOCK report
 

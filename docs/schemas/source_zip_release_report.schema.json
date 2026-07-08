@@ -1,0 +1,301 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "SCHEMA-DEVPL-SOURCE-ZIP-RELEASE-REPORT-V1",
+  "title": "DevPilot SourceZipReleaseReport v1",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema_version",
+    "schema_id",
+    "report_id",
+    "created_by",
+    "created_at",
+    "scope",
+    "decision",
+    "implemented_status",
+    "execution_mode",
+    "policy_path",
+    "policy_id",
+    "artifact_checked",
+    "checks_total",
+    "checks_passed_total",
+    "checks_failed_total",
+    "critical_checks_total",
+    "critical_checks_failed_total",
+    "required_missing_total",
+    "forbidden_present_total",
+    "secret_findings_total",
+    "artifact_result",
+    "checks",
+    "summary",
+    "safety",
+    "limitations"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "schema_id": {
+      "const": "SCHEMA-DEVPL-SOURCE-ZIP-RELEASE-REPORT-V1"
+    },
+    "report_id": {
+      "type": "string",
+      "minLength": 6
+    },
+    "created_by": {
+      "const": "POST-H-027-A"
+    },
+    "created_at": {
+      "type": "string"
+    },
+    "scope": {
+      "const": "local-source-zip-release"
+    },
+    "decision": {
+      "enum": [
+        "PASS",
+        "BLOCK"
+      ]
+    },
+    "implemented_status": {
+      "const": "implemented-initial"
+    },
+    "execution_mode": {
+      "const": "source-tree-and-optional-artifact-policy-validation"
+    },
+    "policy_path": {
+      "type": "string"
+    },
+    "policy_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "artifact": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "artifact_checked": {
+      "type": "boolean"
+    },
+    "checks_total": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "checks_passed_total": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "checks_failed_total": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "critical_checks_total": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "critical_checks_failed_total": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "included_files_total": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "excluded_files_total": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "required_missing_total": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "required_missing": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "forbidden_present_total": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "forbidden_present": {
+      "type": "array"
+    },
+    "secret_findings_total": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "secret_findings": {
+      "type": "array"
+    },
+    "artifact_result": {
+      "type": "object"
+    },
+    "checks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "check_id",
+          "category",
+          "status",
+          "critical",
+          "reason",
+          "metadata"
+        ],
+        "properties": {
+          "check_id": {
+            "type": "string"
+          },
+          "category": {
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "pass",
+              "block"
+            ]
+          },
+          "critical": {
+            "type": "boolean"
+          },
+          "reason": {
+            "type": "string"
+          },
+          "metadata": {
+            "type": "object"
+          }
+        }
+      }
+    },
+    "summary": {
+      "type": "object",
+      "required": [
+        "decision",
+        "created_by",
+        "clean_source_zip_policy_passed",
+        "no_runtime_artifacts_in_packages",
+        "no_secrets_in_packages",
+        "network_used",
+        "external_api_used",
+        "source_mutations",
+        "reports_written"
+      ],
+      "properties": {
+        "decision": {
+          "enum": [
+            "PASS",
+            "BLOCK"
+          ]
+        },
+        "created_by": {
+          "const": "POST-H-027-A"
+        },
+        "clean_source_zip_policy_passed": {
+          "type": "boolean"
+        },
+        "no_runtime_artifacts_in_packages": {
+          "type": "boolean"
+        },
+        "no_secrets_in_packages": {
+          "type": "boolean"
+        },
+        "network_used": {
+          "const": false
+        },
+        "external_api_used": {
+          "const": false
+        },
+        "source_mutations": {
+          "const": false
+        },
+        "reports_written": {
+          "type": "boolean"
+        }
+      }
+    },
+    "safety": {
+      "type": "object",
+      "required": [
+        "local_first",
+        "dry_run",
+        "artifact_extracted",
+        "subprocess_executed",
+        "pip_executed",
+        "npm_executed",
+        "socket_opened",
+        "network_used",
+        "external_api_used",
+        "publish_performed",
+        "deploy_performed",
+        "remote_execution_enabled",
+        "connector_write_enabled",
+        "plugin_execution_enabled",
+        "source_mutations",
+        "raw_secrets_exported"
+      ],
+      "properties": {
+        "local_first": {
+          "const": true
+        },
+        "dry_run": {
+          "const": true
+        },
+        "artifact_extracted": {
+          "const": false
+        },
+        "subprocess_executed": {
+          "const": false
+        },
+        "pip_executed": {
+          "const": false
+        },
+        "npm_executed": {
+          "const": false
+        },
+        "socket_opened": {
+          "const": false
+        },
+        "network_used": {
+          "const": false
+        },
+        "external_api_used": {
+          "const": false
+        },
+        "publish_performed": {
+          "const": false
+        },
+        "deploy_performed": {
+          "const": false
+        },
+        "remote_execution_enabled": {
+          "const": false
+        },
+        "connector_write_enabled": {
+          "const": false
+        },
+        "plugin_execution_enabled": {
+          "const": false
+        },
+        "source_mutations": {
+          "const": false
+        },
+        "raw_secrets_exported": {
+          "const": false
+        }
+      }
+    },
+    "limitations": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "x-devpilot-schema-id": "SCHEMA-DEVPL-SOURCE-ZIP-RELEASE-REPORT-V1"
+}

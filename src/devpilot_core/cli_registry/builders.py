@@ -30,6 +30,7 @@ DEFAULT_TOP_LEVEL_TESTS = {
     "project-state": "python -m pytest tests/test_project_global_state.py -q",
     "industrial-readiness": "python -m pytest tests/test_industrial_readiness.py -q",
     "release-candidate": "python -m pytest tests/test_post_h_026_evidence_freshness.py tests/test_post_h_026_release_candidate_profile.py tests/test_post_h_026_ui_api_rc_smoke.py tests/test_post_h_026_ui_api_rc_smoke_contract.py tests/test_post_h_026_install_smoke.py tests/test_post_h_026_release_candidate_report.py -q",
+    "package": "python -m pytest tests/test_post_h_027_source_zip_policy.py tests/test_package_builder.py -q",
 }
 
 DOMAIN_BY_GROUP = {

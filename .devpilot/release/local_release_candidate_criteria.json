@@ -7,10 +7,10 @@
   "scope": "local-release-candidate",
   "preliminary": true,
   "expected_source_repo": "repo_DevPilot_Local_263_POST_H_025.zip",
-  "expected_current_repo": "repo_DevPilot_Local_268_POST_H_026_E.zip",
+  "expected_current_repo": "repo_DevPilot_Local_269_POST_H_027_A.zip",
   "expected_last_completed_sprint": "POST-H-026",
-  "expected_current_micro_sprint": "POST-H-026-E",
-  "expected_next_micro_sprint": "POST-H-027",
+  "expected_current_micro_sprint": "POST-H-027-A",
+  "expected_next_micro_sprint": "POST-H-027-B",
   "freshness_policy": "contextual-signature",
   "no_go_gates": {
     "remote_execution_enabled": false,
@@ -25,22 +25,23 @@
   "evidence": [
     {
       "evidence_id": "project-state-current-repo",
-      "title": "Project state source/current repo freshness for POST-H-026 closure",
+      "title": "Project state source/current repo freshness for POST-H-027-A implementation",
       "path": ".devpilot/project_state.json",
       "category": "project-state",
       "critical": true,
       "json_required": true,
       "expected_schema_id": "SCHEMA-DEVPL-PROJECT-STATE-V1",
-      "producer_sprint": "POST-H-026-E",
+      "producer_sprint": "POST-H-027-A",
       "freshness_policy": "contextual-field-match",
       "expected_fields": {
         "source_repo": "repo_DevPilot_Local_263_POST_H_025.zip",
-        "current_repo": "repo_DevPilot_Local_268_POST_H_026_E.zip",
+        "current_repo": "repo_DevPilot_Local_269_POST_H_027_A.zip",
         "last_completed_sprint": "POST-H-026",
         "next_sprint": "POST-H-027",
-        "current_micro_sprint": "POST-H-026-E",
-        "next_micro_sprint": "POST-H-027",
-        "post_h_026_status": "closed/local-release-candidate-pass"
+        "current_micro_sprint": "POST-H-027-A",
+        "next_micro_sprint": "POST-H-027-B",
+        "post_h_026_status": "closed/local-release-candidate-pass",
+        "post_h_027_status": "active/source-zip-policy-hardening-implemented-initial"
       }
     },
     {
@@ -337,6 +338,74 @@
         "release-candidate final",
         "LocalReleaseCandidateReport",
         "PASS/BLOCK"
+      ]
+    },
+    {
+      "evidence_id": "source-zip-release-policy-schema",
+      "title": "SourceZipReleasePolicy schema registered source file",
+      "path": "docs/schemas/source_zip_release_policy.schema.json",
+      "category": "schema",
+      "critical": true,
+      "json_required": true,
+      "expected_schema_id": "SCHEMA-DEVPL-SOURCE-ZIP-RELEASE-POLICY-V1",
+      "producer_sprint": "POST-H-027-A",
+      "freshness_policy": "schema-id"
+    },
+    {
+      "evidence_id": "source-zip-release-report-schema",
+      "title": "SourceZipReleaseReport schema registered source file",
+      "path": "docs/schemas/source_zip_release_report.schema.json",
+      "category": "schema",
+      "critical": true,
+      "json_required": true,
+      "expected_schema_id": "SCHEMA-DEVPL-SOURCE-ZIP-RELEASE-REPORT-V1",
+      "producer_sprint": "POST-H-027-A",
+      "freshness_policy": "schema-id"
+    },
+    {
+      "evidence_id": "source-zip-release-policy-json",
+      "title": "Versioned source ZIP release policy",
+      "path": ".devpilot/release/source_zip_release_policy.json",
+      "category": "release-policy",
+      "critical": true,
+      "json_required": true,
+      "expected_schema_id": "SCHEMA-DEVPL-SOURCE-ZIP-RELEASE-POLICY-V1",
+      "producer_sprint": "POST-H-027-A",
+      "freshness_policy": "required-marker",
+      "required_markers": [
+        "POST-H-027-A",
+        "local-source-zip-release",
+        "SecretGuard"
+      ]
+    },
+    {
+      "evidence_id": "source-zip-release-policy-contract",
+      "title": "TCR registers POST-H-027-A source ZIP policy contract",
+      "path": ".devpilot/testing/test_contract_registry_v2.json",
+      "category": "test-contract",
+      "critical": true,
+      "json_required": true,
+      "expected_schema_id": "SCHEMA-DEVPL-TEST-CONTRACT-REGISTRY-V2",
+      "producer_sprint": "POST-H-027-A",
+      "freshness_policy": "required-marker",
+      "required_markers": [
+        "post-h-027-source-zip-policy",
+        "package source-zip-policy",
+        "SourceZipReleaseReport"
+      ]
+    },
+    {
+      "evidence_id": "source-zip-release-policy-docs",
+      "title": "Source ZIP policy audit and manifest are present",
+      "path": "docs/audits/post_h_027_a_source_zip_policy_report.md",
+      "category": "audit",
+      "critical": true,
+      "producer_sprint": "POST-H-027-A",
+      "freshness_policy": "required-marker",
+      "required_markers": [
+        "POST-H-027-A",
+        "Source ZIP release policy",
+        "implemented-initial"
       ]
     }
   ],

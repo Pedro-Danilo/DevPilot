@@ -6710,6 +6710,114 @@
       "required_tests": [
         "tests/test_post_h_026_release_candidate_report.py"
       ]
+    },
+    {
+      "doc_id": "POST-H-027-BACKLOG",
+      "path": "docs/backlogs/POST-H-027_packaging_reproducible_local_installation.md",
+      "classification": "source-of-truth",
+      "domain": "release",
+      "owner": "Ordonez",
+      "status_required": "approved",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_027_source_zip_policy.py"
+      ]
+    },
+    {
+      "doc_id": "POST-H-027-IMPLEMENTATION",
+      "path": "docs/POST-H-027_packaging_reproducible_local_installation.md",
+      "classification": "source-of-truth",
+      "domain": "release",
+      "owner": "Ordonez",
+      "status_required": "approved",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_027_source_zip_policy.py"
+      ]
+    },
+    {
+      "doc_id": "SCHEMA-DEVPL-SOURCE-ZIP-RELEASE-POLICY-V1",
+      "path": "docs/schemas/source_zip_release_policy.schema.json",
+      "classification": "machine-readable-source",
+      "domain": "release",
+      "owner": "POST-H-027-A",
+      "status_required": "registered",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_027_source_zip_policy.py"
+      ]
+    },
+    {
+      "doc_id": "SCHEMA-DEVPL-SOURCE-ZIP-RELEASE-REPORT-V1",
+      "path": "docs/schemas/source_zip_release_report.schema.json",
+      "classification": "machine-readable-source",
+      "domain": "release",
+      "owner": "POST-H-027-A",
+      "status_required": "registered",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_027_source_zip_policy.py"
+      ]
+    },
+    {
+      "doc_id": "POST-H-027-A-SOURCE-ZIP-POLICY",
+      "path": ".devpilot/release/source_zip_release_policy.json",
+      "classification": "machine-readable-source",
+      "domain": "release",
+      "owner": "POST-H-027-A",
+      "status_required": "implemented-initial",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_027_source_zip_policy.py"
+      ]
+    },
+    {
+      "doc_id": "POST-H-027-A-SOURCE-ZIP-POLICY-MODULE",
+      "path": "src/devpilot_core/release/source_zip_policy.py",
+      "classification": "machine-readable-source",
+      "domain": "release",
+      "owner": "POST-H-027-A",
+      "status_required": "current",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_027_source_zip_policy.py"
+      ]
+    },
+    {
+      "doc_id": "POST-H-027-A-SOURCE-ZIP-POLICY-REPORT",
+      "path": "docs/audits/post_h_027_a_source_zip_policy_report.md",
+      "classification": "source-of-truth",
+      "domain": "release",
+      "owner": "POST-H-027-A",
+      "status_required": "approved",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_027_source_zip_policy.py"
+      ]
+    },
+    {
+      "doc_id": "POST-H-027-A-MANIFEST",
+      "path": "docs/post_h_027_a_manifest.json",
+      "classification": "machine-readable-source",
+      "domain": "release",
+      "owner": "POST-H-027-A",
+      "status_required": "implemented-initial",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_027_source_zip_policy.py"
+      ]
+    },
+    {
+      "doc_id": "POST-H-027-A-SOURCE-ZIP-POLICY-TEST",
+      "path": "tests/test_post_h_027_source_zip_policy.py",
+      "classification": "derived",
+      "domain": "release",
+      "owner": "POST-H-027-A",
+      "status_required": "current",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_027_source_zip_policy.py"
+      ]
     }
   ],
   "rules": {

@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "SCHEMA-DEVPL-POST-H-MANIFEST-V1",
+  "post_h_id": "POST-H-027",
+  "micro_sprint": "POST-H-027-A",
+  "title": "POST-H-027-A — Source ZIP release policy hardening",
+  "status": "implemented-initial",
+  "phase": "POST-FASE-H",
+  "implemented_at": "2026-07-08",
+  "created_files": [
+    "docs/schemas/source_zip_release_policy.schema.json",
+    "docs/schemas/source_zip_release_report.schema.json",
+    ".devpilot/release/source_zip_release_policy.json",
+    "src/devpilot_core/release/source_zip_policy.py",
+    "tests/test_post_h_027_source_zip_policy.py",
+    "docs/audits/post_h_027_a_source_zip_policy_report.md",
+    "docs/post_h_027_a_manifest.json",
+    "docs/POST-H-027_packaging_reproducible_local_installation.md"
+  ],
+  "modified_files": [
+    "src/devpilot_core/release/__init__.py",
+    "src/devpilot_core/release/package_builder.py",
+    "src/devpilot_core/cli.py",
+    "src/devpilot_core/cli_registry/builders.py",
+    "src/devpilot_core/cli_registry/registry.py",
+    "src/devpilot_core/testing/impact_v2.py",
+    ".devpilot/project_state.json",
+    ".devpilot/release/local_release_candidate_criteria.json",
+    ".devpilot/testing/test_contract_registry.json",
+    ".devpilot/testing/test_contract_registry_v2.json",
+    ".devpilot/docs_governance/source_registry.json",
+    "docs/schemas/schema_catalog.json",
+    "docs/backlogs/POST-H-027_packaging_reproducible_local_installation.md",
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/release/CHANGELOG.md",
+    "tests/test_schema_registry.py",
+    "tests/test_project_global_state.py",
+    "tests/test_test_contract_registry_profiles_v2.py"
+  ],
+  "commands": [
+    "python -m devpilot_core schema validate --schema-id SourceZipReleasePolicy --instance .devpilot/release/source_zip_release_policy.json --json",
+    "python -m devpilot_core package source-zip-policy --json",
+    "python -m devpilot_core package build --kind repo-zip --version 0.1.0 --execute --json --write-report",
+    "python -m devpilot_core package source-zip-policy --artifact dist/release/devpilot-local-0.1.0-source.zip --json --write-report",
+    "python -m devpilot_core schema validate --schema-id SourceZipReleaseReport --instance outputs/release/source_zip_release_report.json --json"
+  ],
+  "tests": [
+    "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_027_source_zip_policy.py tests/test_package_builder.py tests/test_post_h_017_source_archive_manifest.py tests/test_post_h_017_release_reproducibility_pack.py tests/test_schema_registry.py -q"
+  ],
+  "pass_criteria": [
+    "Policy JSON validates against SourceZipReleasePolicy schema",
+    "Source tree and optional ZIP artifact comply with required includes and forbidden exclusions",
+    "SecretGuard does not detect material secrets in included text files",
+    "SourceZipReleaseReport validates against schema",
+    "TCR v1/v2 registers the POST-H-027-A contract"
+  ],
+  "block_criteria": [
+    "Runtime/build artifacts or secrets are included in source ZIP",
+    "pyproject.toml or src/devpilot_core is missing",
+    "Package build writes without explicit --execute",
+    "Report does not differentiate included, excluded, required_missing and forbidden_present"
+  ],
+  "risks": [
+    "SecretGuard is deterministic and not a full external secret scanning service",
+    "Wheel/sdist install verification remains POST-H-027-B",
+    "Artifact manifest/checksums remain POST-H-027-C"
+  ],
+  "next_sprint": "POST-H-027",
+  "next_micro_sprint": "POST-H-027-B",
+  "tests_execute_from_json": false,
+  "preliminary": true
+}

@@ -1,0 +1,141 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "SCHEMA-DEVPL-SOURCE-ZIP-RELEASE-POLICY-V1",
+  "policy_id": "devpilot-source-zip-release-policy-v1",
+  "created_by": "POST-H-027-A",
+  "status": "implemented-initial",
+  "scope": "local-source-zip-release",
+  "release_artifact_kind": "clean-source-zip",
+  "required_includes": [
+    "README.md",
+    "pyproject.toml",
+    "src/devpilot_core/__init__.py",
+    "src/devpilot_core/__main__.py",
+    "src/devpilot_core/release/package_builder.py",
+    "src/devpilot_core/release/source_zip_policy.py",
+    "docs/schemas/schema_catalog.json",
+    "docs/schemas/source_zip_release_policy.schema.json",
+    "docs/schemas/source_zip_release_report.schema.json",
+    "docs/backlogs/POST-H-027_packaging_reproducible_local_installation.md",
+    ".devpilot/release/source_zip_release_policy.json",
+    ".devpilot/testing/test_contract_registry.json",
+    ".devpilot/testing/test_contract_registry_v2.json",
+    ".devpilot/docs_governance/source_registry.json"
+  ],
+  "optional_includes": [
+    "docs/POST-H-027_packaging_reproducible_local_installation.md",
+    "docs/05_operations/release_policy.md",
+    "docs/05_operations/release_verification.md",
+    "docs/05_operations/install_guide.md",
+    "docs/05_operations/release_artifacts_matrix.md"
+  ],
+  "forbidden_entries": {
+    "exact": [
+      ".devpilot/devpilot.db",
+      ".devpilot/providers.yaml",
+      ".env"
+    ],
+    "prefixes": [
+      ".git/",
+      ".venv/",
+      "outputs/",
+      "dist/",
+      "node_modules/",
+      ".devpilot/backups/",
+      ".devpilot/agent_sessions/",
+      ".devpilot/rag/",
+      "ui/web/node_modules/",
+      "ui/web/dist/"
+    ],
+    "path_markers": [
+      ".git",
+      ".venv",
+      "node_modules",
+      "outputs",
+      "dist",
+      "__pycache__",
+      ".pytest_cache"
+    ],
+    "suffixes": [
+      ".pyc",
+      ".pyo",
+      ".pem",
+      ".key",
+      ".p12",
+      ".pfx"
+    ],
+    "glob_patterns": [
+      "repo_DevPilot_Local_*.zip",
+      "*.egg-info/*",
+      "*.whl",
+      "*.tar.gz"
+    ]
+  },
+  "secret_path_markers": [
+    "secrets",
+    ".secrets",
+    "private_key",
+    "id_rsa",
+    "credentials"
+  ],
+  "secret_scan": {
+    "enabled": true,
+    "scanner": "SecretGuard",
+    "block_on_detection": true,
+    "max_file_size_bytes": 262144,
+    "text_suffixes": [
+      ".cfg",
+      ".css",
+      ".csv",
+      ".html",
+      ".ini",
+      ".js",
+      ".json",
+      ".jsx",
+      ".md",
+      ".mjs",
+      ".py",
+      ".sha256",
+      ".toml",
+      ".ts",
+      ".tsx",
+      ".txt",
+      ".yaml",
+      ".yml"
+    ],
+    "excluded_prefixes": [
+      "tests/",
+      "outputs/test_fixtures/"
+    ],
+    "excluded_paths": [
+      "src/devpilot_core/policy/secrets.py",
+      "src/devpilot_core/auditpack/redaction.py",
+      "src/devpilot_core/auditpack/crypto.py",
+      "src/devpilot_core/prompts/registry.py"
+    ]
+  },
+  "package_build_requirements": {
+    "dry_run_default": true,
+    "execute_required_to_write": true,
+    "write_under_dist_only": true,
+    "publish_performed": false,
+    "deploy_performed": false,
+    "git_tagging_performed": false
+  },
+  "safety": {
+    "local_first": true,
+    "network_allowed": false,
+    "external_api_allowed": false,
+    "publish_allowed": false,
+    "deploy_allowed": false,
+    "remote_execution_enabled": false,
+    "connector_write_enabled": false,
+    "plugin_execution_enabled": false,
+    "source_mutations_allowed": false
+  },
+  "limitations": [
+    "POST-H-027-A governs clean source ZIP policy only; wheel/sdist install verification is POST-H-027-B.",
+    "The policy is local-first and does not publish, sign, deploy or upload artifacts.",
+    "SecretGuard scanning is deterministic and blocks obvious material secrets but is not a full external secret-scanning service."
+  ]
+}

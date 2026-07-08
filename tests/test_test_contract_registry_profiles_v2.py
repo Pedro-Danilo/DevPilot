@@ -65,6 +65,8 @@ def test_test_contract_registry_v2_profiles_select_contracts_without_execution()
     rc_contract_ids = {contract["contract_id"] for contract in rc.data["contracts"]}
     assert "post-h-026-install-smoke" in rc_contract_ids
     assert "post-h-026-release-candidate-report" in rc_contract_ids
+    release_contract_ids = {contract["contract_id"] for contract in release.data["contracts"]}
+    assert "post-h-027-source-zip-policy" in release_contract_ids
     assert p0.data["summary"]["tests_executed"] is False
     assert all("pytest" in cmd or cmd.startswith("python -m devpilot_core") or cmd == "npm --prefix ui/web test" for cmd in p0.data["recommended_commands"])
 

@@ -97,6 +97,8 @@ from .release import (
     BackupRestoreOptions,
     PackageBuildBuilder,
     PackageBuildOptions,
+    SourceZipPolicyOptions,
+    SourceZipReleasePolicyValidator,
     InstallPlanBuilder,
     InstallPlanOptions,
     ReleaseChangelogBuilder,
@@ -2732,6 +2734,35 @@ def package_build_command(
     print_result(result, json_output=json_output)
     return int(result.exit_code)
 
+
+
+def package_source_zip_policy_command(
+    *,
+    artifact: str | None = None,
+    policy_path: str = ".devpilot/release/source_zip_release_policy.json",
+    json_output: bool = False,
+    write_report: bool = False,
+) -> int:
+    """Validate POST-H-027-A source ZIP release policy and optional artifact.
+
+    The command is read-only by default and never builds, extracts, publishes,
+    deploys or signs packages. Report writing is explicit through
+    ``--write-report`` and goes under ``outputs/release``.
+    """
+
+    root = project_root()
+    result = SourceZipReleasePolicyValidator(
+        root,
+        SourceZipPolicyOptions(
+            artifact=artifact,
+            policy_path=policy_path,
+            write_report=write_report,
+        ),
+    ).run()
+    _emit_result_event(root, result, subject="package:source-zip-policy")
+    _persist_result(root, result, subject="package:source-zip-policy")
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
 
 def validate_frontmatter_command(
     path: str,
@@ -6363,6 +6394,11 @@ def build_parser() -> argparse.ArgumentParser:
     package_build.add_argument("--execute", action="store_true", help="Write local artifacts under dist/; default is dry-run")
     package_build.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     package_build.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+    package_source_zip_policy = package_sub.add_parser("source-zip-policy", help="Validate POST-H-027-A source ZIP release policy and optional artifact")
+    package_source_zip_policy.add_argument("--artifact", default=None, help="Optional candidate source ZIP artifact to inspect without extracting")
+    package_source_zip_policy.add_argument("--policy-path", default=".devpilot/release/source_zip_release_policy.json", help="Source ZIP release policy path")
+    package_source_zip_policy.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    package_source_zip_policy.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report under outputs/release")
 
     validate = sub.add_parser("validate", help="Run unified DevPilot validation gateway")
     validate.add_argument("scope", choices=["docs", "contracts", "all"], help="Validation group to execute")
@@ -7623,6 +7659,13 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
                 kind=args.kind,
                 version=args.package_version,
                 execute=args.execute,
+                json_output=args.json,
+                write_report=args.write_report,
+            )
+        if args.package_command == "source-zip-policy":
+            return package_source_zip_policy_command(
+                artifact=args.artifact,
+                policy_path=args.policy_path,
                 json_output=args.json,
                 write_report=args.write_report,
             )

@@ -1,3 +1,28 @@
+## POST-H-027-A — Source ZIP release policy hardening
+
+Último hito cerrado: `POST-H-026`
+
+Hito activo: `POST-H-027 — Packaging reproducible e instalacion local`
+
+Micro-sprint activo implementado: `POST-H-027-A — Source ZIP release policy hardening`
+
+POST-H-027-A aprueba el backlog POST-H-027 y agrega una política versionada para ZIP fuente limpio: `SourceZipReleasePolicy`, `SourceZipReleaseReport`, `.devpilot/release/source_zip_release_policy.json`, el módulo `src/devpilot_core/release/source_zip_policy.py` y el comando `python -m devpilot_core package source-zip-policy --json`.
+
+La capacidad queda `implemented-initial / source-zip-release-policy-hardening`: valida includes requeridos, exclusiones de `outputs/`, `dist/`, `.git/`, `.venv/`, caches, `node_modules`, `.devpilot/devpilot.db`, backups, agent sessions, RAG runtime, `providers.yaml`, secretos por path y SecretGuard textual. También verifica que `package build` siga dry-run por defecto y escriba artefactos solo con `--execute`.
+
+Comandos principales:
+
+```powershell
+$env:PYTHONPATH="src"
+python -m devpilot_core schema validate --schema-id SourceZipReleasePolicy --instance .devpilot/release/source_zip_release_policy.json --json
+python -m devpilot_core package source-zip-policy --json
+python -m devpilot_core package build --kind repo-zip --version 0.1.0 --execute --json --write-report
+python -m devpilot_core package source-zip-policy --artifact dist\release\devpilot-local-0.1.0-source.zip --json --write-report
+python -m devpilot_core schema validate --schema-id SourceZipReleaseReport --instance outputs/release/source_zip_release_report.json --json
+```
+
+Limitación: esta primera versión endurece el ZIP fuente. No instala wheel/sdist, no genera manifest/checksums unificado, no valida la guía Windows y no ejecuta upgrade/rollback; esas capacidades quedan para POST-H-027-B/C/D/E. No publica, no firma, no despliega, no usa red ni APIs externas.
+
 ## POST-H-026-E — RC PASS/BLOCK report
 
 Último hito: `POST-H-026`

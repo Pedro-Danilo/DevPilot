@@ -35,7 +35,7 @@ def test_package_build_repo_zip_dry_run_lists_inclusions_and_exclusions() -> Non
     assert package["outputs"][0]["id"] == "PKG-CLEAN-ZIP"
     assert package["outputs"][0]["status"] == "planned-dry-run"
     assert ".devpilot/devpilot.db" in package["excluded_files"]
-    assert ".devpilot/providers.yaml" in package["excluded_files"]
+    assert ".devpilot/providers.yaml" in package["exclusions"]["forbidden_exact"]
     assert "src/devpilot_core/policy/secrets.py" in package["included_files"]
     assert not (ROOT / "dist").exists()
 

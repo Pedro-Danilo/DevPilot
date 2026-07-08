@@ -1,0 +1,254 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "SCHEMA-DEVPL-SOURCE-ZIP-RELEASE-POLICY-V1",
+  "title": "DevPilot SourceZipReleasePolicy v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "schema_id",
+    "policy_id",
+    "created_by",
+    "status",
+    "scope",
+    "release_artifact_kind",
+    "required_includes",
+    "optional_includes",
+    "forbidden_entries",
+    "secret_path_markers",
+    "secret_scan",
+    "package_build_requirements",
+    "safety",
+    "limitations"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "schema_id": {
+      "const": "SCHEMA-DEVPL-SOURCE-ZIP-RELEASE-POLICY-V1"
+    },
+    "policy_id": {
+      "type": "string",
+      "minLength": 6
+    },
+    "created_by": {
+      "const": "POST-H-027-A"
+    },
+    "status": {
+      "enum": [
+        "implemented-initial",
+        "approved"
+      ]
+    },
+    "scope": {
+      "const": "local-source-zip-release"
+    },
+    "release_artifact_kind": {
+      "const": "clean-source-zip"
+    },
+    "required_includes": {
+      "type": "array",
+      "minItems": 5,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    },
+    "optional_includes": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    },
+    "forbidden_entries": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "exact",
+        "prefixes",
+        "path_markers",
+        "suffixes",
+        "glob_patterns"
+      ],
+      "properties": {
+        "exact": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true
+        },
+        "prefixes": {
+          "type": "array",
+          "minItems": 5,
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true
+        },
+        "path_markers": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true
+        },
+        "suffixes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true
+        },
+        "glob_patterns": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true
+        }
+      }
+    },
+    "secret_path_markers": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "secret_scan": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "enabled",
+        "scanner",
+        "block_on_detection",
+        "max_file_size_bytes",
+        "text_suffixes"
+      ],
+      "properties": {
+        "enabled": {
+          "const": true
+        },
+        "scanner": {
+          "const": "SecretGuard"
+        },
+        "block_on_detection": {
+          "const": true
+        },
+        "max_file_size_bytes": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "text_suffixes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true
+        },
+        "excluded_prefixes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true
+        },
+        "excluded_paths": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true
+        }
+      }
+    },
+    "package_build_requirements": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "dry_run_default",
+        "execute_required_to_write",
+        "write_under_dist_only",
+        "publish_performed",
+        "deploy_performed",
+        "git_tagging_performed"
+      ],
+      "properties": {
+        "dry_run_default": {
+          "const": true
+        },
+        "execute_required_to_write": {
+          "const": true
+        },
+        "write_under_dist_only": {
+          "const": true
+        },
+        "publish_performed": {
+          "const": false
+        },
+        "deploy_performed": {
+          "const": false
+        },
+        "git_tagging_performed": {
+          "const": false
+        }
+      }
+    },
+    "safety": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "local_first",
+        "network_allowed",
+        "external_api_allowed",
+        "publish_allowed",
+        "deploy_allowed",
+        "remote_execution_enabled",
+        "connector_write_enabled",
+        "plugin_execution_enabled",
+        "source_mutations_allowed"
+      ],
+      "properties": {
+        "local_first": {
+          "const": true
+        },
+        "network_allowed": {
+          "const": false
+        },
+        "external_api_allowed": {
+          "const": false
+        },
+        "publish_allowed": {
+          "const": false
+        },
+        "deploy_allowed": {
+          "const": false
+        },
+        "remote_execution_enabled": {
+          "const": false
+        },
+        "connector_write_enabled": {
+          "const": false
+        },
+        "plugin_execution_enabled": {
+          "const": false
+        },
+        "source_mutations_allowed": {
+          "const": false
+        }
+      }
+    },
+    "limitations": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "x-devpilot-schema-id": "SCHEMA-DEVPL-SOURCE-ZIP-RELEASE-POLICY-V1"
+}

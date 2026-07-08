@@ -12,6 +12,7 @@ from datetime import datetime, timezone
 from pathlib import Path, PurePosixPath
 from typing import Any
 
+from devpilot_core.release.source_zip_policy import DEFAULT_SOURCE_ZIP_POLICY_PATH, load_source_zip_release_policy, policy_forbidden_reason
 from devpilot_core.cli_models import CommandResult, ExitCode, Finding, Severity
 
 _SEMVER_RE = re.compile(r"^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:[-+][0-9A-Za-z.-]+)?$")
@@ -108,7 +109,8 @@ class PackageBuildBuilder:
                 findings=findings,
             )
 
-        included, excluded = self._classified_source_files()
+        policy = load_source_zip_release_policy(self.root)
+        included, excluded = self._classified_source_files(policy)
         secret_risks = [item for item in included if _looks_like_secret_path(item)]
         if secret_risks:
             findings.append(
@@ -162,10 +164,18 @@ class PackageBuildBuilder:
             "written_artifacts": written,
             "included_files": included,
             "excluded_files": excluded,
+            "source_zip_release_policy": {
+                "policy_path": DEFAULT_SOURCE_ZIP_POLICY_PATH,
+                "policy_loaded": policy is not None,
+                "policy_id": (policy or {}).get("policy_id"),
+                "created_by": (policy or {}).get("created_by"),
+                "status": (policy or {}).get("status"),
+            },
             "exclusions": {
-                "forbidden_markers": _FORBIDDEN_MARKERS,
-                "runtime_state_excluded": ".devpilot/devpilot.db" in excluded,
-                "local_provider_config_excluded": ".devpilot/providers.yaml" in excluded,
+                "forbidden_markers": (policy or {}).get("forbidden_entries", {}).get("prefixes", _FORBIDDEN_MARKERS),
+                "forbidden_exact": (policy or {}).get("forbidden_entries", {}).get("exact", [".devpilot/devpilot.db", ".devpilot/providers.yaml"]),
+                "runtime_state_excluded": ".devpilot/devpilot.db" in excluded or ".devpilot/devpilot.db" in (policy or {}).get("forbidden_entries", {}).get("exact", []),
+                "local_provider_config_excluded": ".devpilot/providers.yaml" in excluded or ".devpilot/providers.yaml" in (policy or {}).get("forbidden_entries", {}).get("exact", []),
                 "outputs_excluded": any(item.startswith("outputs/") for item in excluded),
                 "git_excluded": any(item.startswith(".git/") for item in excluded),
                 "venv_excluded": any(item.startswith(".venv/") for item in excluded),
@@ -189,8 +199,9 @@ class PackageBuildBuilder:
             },
             "limitations": [
                 "FUNC-SPRINT-79 creates local artifacts only when --execute is used.",
-                "The wheel/sdist builder is a first local implementation based on project metadata and source files.",
-                "Publication, signing, SBOM, checksums and smoke-install verification remain later Fase G steps.",
+                "POST-H-027-A adds schema-backed SourceZipReleasePolicy hardening for clean source ZIP contents.",
+                "The wheel/sdist builder remains a first local implementation; install verification is handled in POST-H-027-B.",
+                "Publication, signing and external distribution remain out of scope.",
             ],
         }
         summary = {
@@ -266,14 +277,14 @@ class PackageBuildBuilder:
         )
         return metadata
 
-    def _classified_source_files(self) -> tuple[list[str], list[str]]:
+    def _classified_source_files(self, policy: dict[str, Any] | None = None) -> tuple[list[str], list[str]]:
         included: list[str] = []
         excluded: list[str] = []
         for path in sorted(self.root.rglob("*")):
             if not path.is_file():
                 continue
             rel = _to_posix(path.relative_to(self.root))
-            if _is_excluded(rel):
+            if _is_excluded(rel, policy):
                 excluded.append(rel)
             else:
                 included.append(rel)
@@ -369,8 +380,10 @@ class PackageBuildBuilder:
         return "\n".join(lines) + "\n"
 
 
-def _is_excluded(rel: str) -> bool:
+def _is_excluded(rel: str, policy: dict[str, Any] | None = None) -> bool:
     rel = rel.replace("\\", "/")
+    if policy_forbidden_reason(rel, policy):
+        return True
     if rel in {".devpilot/devpilot.db", ".devpilot/providers.yaml"}:
         return True
     if rel.startswith((".devpilot/backups/", ".devpilot/agent_sessions/", ".devpilot/rag/")):

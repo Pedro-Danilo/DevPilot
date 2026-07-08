@@ -19,23 +19,69 @@
     "evidence"
   ],
   "properties": {
-    "schema_version": {"const": "1.0"},
-    "schema_id": {"const": "SCHEMA-DEVPL-LOCAL-RELEASE-CANDIDATE-CRITERIA-V1"},
-    "criteria_id": {"const": "local-release-candidate-criteria-v1"},
-    "created_by": {"enum": ["POST-H-026-A", "POST-H-026-B", "POST-H-026-C", "POST-H-026-D", "POST-H-026-E"]},
-    "updated": {"type": "string", "minLength": 8},
-    "status": {"enum": ["implemented-initial", "closed"]},
-    "scope": {"const": "local-release-candidate"},
-    "preliminary": {"type": "boolean"},
-    "expected_source_repo": {"type": "string", "minLength": 1},
-    "expected_current_repo": {"type": "string", "minLength": 1},
-    "expected_last_completed_sprint": {"type": "string", "minLength": 1},
-    "expected_current_micro_sprint": {"const": "POST-H-026-E"},
-    "expected_next_micro_sprint": {"const": "POST-H-027"},
-    "freshness_policy": {"type": "string", "minLength": 1},
+    "schema_version": {
+      "const": "1.0"
+    },
+    "schema_id": {
+      "const": "SCHEMA-DEVPL-LOCAL-RELEASE-CANDIDATE-CRITERIA-V1"
+    },
+    "criteria_id": {
+      "const": "local-release-candidate-criteria-v1"
+    },
+    "created_by": {
+      "enum": [
+        "POST-H-026-A",
+        "POST-H-026-B",
+        "POST-H-026-C",
+        "POST-H-026-D",
+        "POST-H-026-E"
+      ]
+    },
+    "updated": {
+      "type": "string",
+      "minLength": 8
+    },
+    "status": {
+      "enum": [
+        "implemented-initial",
+        "closed"
+      ]
+    },
+    "scope": {
+      "const": "local-release-candidate"
+    },
+    "preliminary": {
+      "type": "boolean"
+    },
+    "expected_source_repo": {
+      "type": "string",
+      "minLength": 1
+    },
+    "expected_current_repo": {
+      "type": "string",
+      "minLength": 1
+    },
+    "expected_last_completed_sprint": {
+      "type": "string",
+      "minLength": 1
+    },
+    "expected_current_micro_sprint": {
+      "type": "string",
+      "pattern": "^POST-H-[0-9]{3}(-[A-E])?$"
+    },
+    "expected_next_micro_sprint": {
+      "type": "string",
+      "pattern": "^POST-H-[0-9]{3}(-[A-E])?$"
+    },
+    "freshness_policy": {
+      "type": "string",
+      "minLength": 1
+    },
     "no_go_gates": {
       "type": "object",
-      "additionalProperties": {"type": "boolean"},
+      "additionalProperties": {
+        "type": "boolean"
+      },
       "required": [
         "remote_execution_enabled",
         "connector_write_enabled",
@@ -47,14 +93,30 @@
         "saas_ready_claim"
       ],
       "properties": {
-        "remote_execution_enabled": {"const": false},
-        "connector_write_enabled": {"const": false},
-        "plugin_execution_enabled": {"const": false},
-        "external_apis_required": {"const": false},
-        "compliance_certification_claim": {"const": false},
-        "enterprise_ready_claim": {"const": false},
-        "remote_ready_claim": {"const": false},
-        "saas_ready_claim": {"const": false}
+        "remote_execution_enabled": {
+          "const": false
+        },
+        "connector_write_enabled": {
+          "const": false
+        },
+        "plugin_execution_enabled": {
+          "const": false
+        },
+        "external_apis_required": {
+          "const": false
+        },
+        "compliance_certification_claim": {
+          "const": false
+        },
+        "enterprise_ready_claim": {
+          "const": false
+        },
+        "remote_ready_claim": {
+          "const": false
+        },
+        "saas_ready_claim": {
+          "const": false
+        }
       }
     },
     "evidence": {
@@ -63,20 +125,66 @@
       "items": {
         "type": "object",
         "additionalProperties": true,
-        "required": ["evidence_id", "title", "path", "category", "critical", "producer_sprint", "freshness_policy"],
+        "required": [
+          "evidence_id",
+          "title",
+          "path",
+          "category",
+          "critical",
+          "producer_sprint",
+          "freshness_policy"
+        ],
         "properties": {
-          "evidence_id": {"type": "string", "minLength": 1},
-          "title": {"type": "string", "minLength": 1},
-          "path": {"type": "string", "minLength": 1},
-          "category": {"type": "string", "minLength": 1},
-          "critical": {"type": "boolean"},
-          "runtime_optional": {"type": "boolean"},
-          "json_required": {"type": "boolean"},
-          "expected_schema_id": {"type": ["string", "null"]},
-          "producer_sprint": {"type": "string", "minLength": 1},
-          "freshness_policy": {"type": "string", "minLength": 1},
-          "required_markers": {"type": "array", "items": {"type": "string", "minLength": 1}},
-          "expected_fields": {"type": "object", "additionalProperties": true}
+          "evidence_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1
+          },
+          "path": {
+            "type": "string",
+            "minLength": 1
+          },
+          "category": {
+            "type": "string",
+            "minLength": 1
+          },
+          "critical": {
+            "type": "boolean"
+          },
+          "runtime_optional": {
+            "type": "boolean"
+          },
+          "json_required": {
+            "type": "boolean"
+          },
+          "expected_schema_id": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "producer_sprint": {
+            "type": "string",
+            "minLength": 1
+          },
+          "freshness_policy": {
+            "type": "string",
+            "minLength": 1
+          },
+          "required_markers": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "expected_fields": {
+            "type": "object",
+            "additionalProperties": true
+          }
         }
       }
     }

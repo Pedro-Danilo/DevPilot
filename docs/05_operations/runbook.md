@@ -2,17 +2,41 @@
 title: "Runbook — DevPilot Local"
 doc_id: "DEVPL-OPS-002"
 status: "approved"
-version: "2.01.0"
+version: "2.02.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "POST-H-026-E"
+phase: "POST-H-027-A"
 updated: "2026-07-08"
 approval: "approved_by_owner"
 source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved + 03_security approved"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "SPRINT-PRECODE-05 quality operations baseline"
 ---
+
+## POST-H-027-A — Source ZIP release policy hardening
+
+Estado: `implemented-initial / source-zip-release-policy-hardening`.
+
+Propósito operacional: validar que el ZIP fuente local se gobierna por una política versionada y no por exclusiones informales. El comando inspecciona el árbol fuente y, opcionalmente, un ZIP candidato sin extraerlo.
+
+Comandos de uso:
+
+```powershell
+$env:PYTHONPATH="src"
+python -m devpilot_core schema validate --schema-id SourceZipReleasePolicy --instance .devpilot/release/source_zip_release_policy.json --json
+python -m devpilot_core package source-zip-policy --json
+python -m devpilot_core package build --kind repo-zip --version 0.1.0 --execute --json --write-report
+python -m devpilot_core package source-zip-policy --artifact dist\release\devpilot-local-0.1.0-source.zip --json --write-report
+python -m devpilot_core schema validate --schema-id SourceZipReleaseReport --instance outputs/release/source_zip_release_report.json --json
+```
+
+PASS: política JSON válida, includes requeridos presentes, runtime/build artifacts excluidos, SecretGuard sin secretos materiales, `package build` dry-run por defecto y sin red/publicación/deploy.
+
+BLOCK: ZIP o árbol fuente con `outputs/`, `dist/`, `.git/`, `.venv/`, `node_modules/`, caches, `.devpilot/devpilot.db`, backups, agent sessions, RAG runtime, `providers.yaml`, secretos por path o secretos textuales.
+
+Limitación: POST-H-027-A no verifica wheel/sdist instalados, no crea manifest/checksums unificado, no valida la guía Windows y no ejecuta upgrade/rollback.
+
 
 ## POST-H-026-E — RC PASS/BLOCK report
 

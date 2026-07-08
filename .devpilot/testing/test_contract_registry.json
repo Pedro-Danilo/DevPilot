@@ -6873,6 +6873,55 @@
         "POST-H-026-E emits the final schema-backed local release candidate PASS/BLOCK report.",
         "The command preserves production-ready-local boundaries and does not publish, deploy or execute pytest."
       ]
+    },
+    {
+      "contract_id": "post-h-027-source-zip-policy",
+      "scope": "integration",
+      "owner": "POST-H-027-A",
+      "test_files": [
+        "tests/test_post_h_027_source_zip_policy.py"
+      ],
+      "validates": [
+        "src/devpilot_core/release/source_zip_policy.py",
+        "docs/schemas/source_zip_release_policy.schema.json",
+        "docs/schemas/source_zip_release_report.schema.json",
+        ".devpilot/release/source_zip_release_policy.json",
+        "docs/audits/post_h_027_a_source_zip_policy_report.md",
+        "docs/post_h_027_a_manifest.json",
+        "README.md",
+        "docs/05_operations/runbook.md"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/release/source_zip_policy.py",
+        "src/devpilot_core/release/package_builder.py",
+        "src/devpilot_core/cli.py",
+        ".devpilot/release/source_zip_release_policy.json",
+        ".devpilot/testing/test_contract_registry.json",
+        ".devpilot/testing/test_contract_registry_v2.json",
+        "docs/schemas/source_zip_release_policy.schema.json",
+        "docs/schemas/source_zip_release_report.schema.json",
+        "docs/backlogs/POST-H-027_packaging_reproducible_local_installation.md",
+        "tests/test_post_h_027_source_zip_policy.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_027_source_zip_policy.py tests/test_package_builder.py tests/test_post_h_017_source_archive_manifest.py tests/test_post_h_017_release_reproducibility_pack.py tests/test_schema_registry.py -q",
+        "python -m devpilot_core schema validate --schema-id SourceZipReleasePolicy --instance .devpilot/release/source_zip_release_policy.json --json",
+        "python -m devpilot_core package source-zip-policy --json",
+        "python -m devpilot_core package build --kind repo-zip --version 0.1.0 --execute --json --write-report",
+        "python -m devpilot_core package source-zip-policy --artifact dist/release/devpilot-local-0.1.0-source.zip --json --write-report",
+        "python -m devpilot_core schema validate --schema-id SourceZipReleaseReport --instance outputs/release/source_zip_release_report.json --json"
+      ],
+      "notes": [
+        "POST-H-027-A validates schema-backed clean source ZIP release policy and optional candidate ZIP artifacts.",
+        "No publication, signing, deploy, network, external APIs or package installation is enabled."
+      ]
     }
   ],
   "notes": [
