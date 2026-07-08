@@ -33,6 +33,8 @@ _REQUIRED_COMMANDS = (
 _REQUIRED_PYTEST_TARGETS = (
     "tests/test_post_h_026_evidence_freshness.py",
     "tests/test_post_h_026_release_candidate_profile.py",
+    "tests/test_post_h_026_ui_api_rc_smoke.py",
+    "tests/test_post_h_026_ui_api_rc_smoke_contract.py",
     "tests/test_post_h_025_production_ready_final_declaration.py",
     "tests/test_post_h_025_production_ready_claims_validator.py",
     "tests/test_quality_gate.py",

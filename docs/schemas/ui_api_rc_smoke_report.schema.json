@@ -1,0 +1,299 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/SCHEMA-DEVPL-UI-API-RC-SMOKE-REPORT-V1",
+  "title": "DevPilot UiApiRcSmokeReport v1",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema_version",
+    "schema_id",
+    "report_id",
+    "created_by",
+    "scope",
+    "decision",
+    "implemented_status",
+    "execution_mode",
+    "checks_total",
+    "checks_passed_total",
+    "checks_failed_total",
+    "critical_checks_failed_total",
+    "checks",
+    "safety",
+    "summary",
+    "limitations"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "schema_id": {
+      "const": "SCHEMA-DEVPL-UI-API-RC-SMOKE-REPORT-V1"
+    },
+    "report_id": {
+      "const": "ui-api-rc-smoke-post_h_026_c"
+    },
+    "created_by": {
+      "const": "POST-H-026-C"
+    },
+    "created_at": {
+      "type": "string",
+      "minLength": 10
+    },
+    "scope": {
+      "const": "local-release-candidate"
+    },
+    "decision": {
+      "enum": [
+        "PASS",
+        "BLOCK"
+      ]
+    },
+    "implemented_status": {
+      "enum": [
+        "implemented-initial"
+      ]
+    },
+    "base_url": {
+      "type": "string",
+      "pattern": "^https?://(127\\.0\\.0\\.1|localhost|\\[::1\\])(:[0-9]+)?$"
+    },
+    "ui_origin": {
+      "type": "string",
+      "pattern": "^https?://(127\\.0\\.0\\.1|localhost|\\[::1\\])(:[0-9]+)?$"
+    },
+    "execution_mode": {
+      "const": "in-process-api-and-static-ui-contract-smoke"
+    },
+    "checks_total": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "checks_passed_total": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "checks_failed_total": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "critical_checks_total": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "critical_checks_failed_total": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "api_checks_total": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "ui_checks_total": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "security_checks_total": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "route_contract_checks_total": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "checks": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": true,
+        "required": [
+          "check_id",
+          "category",
+          "status",
+          "critical",
+          "reason"
+        ],
+        "properties": {
+          "check_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "category": {
+            "enum": [
+              "api",
+              "ui",
+              "security",
+              "route-contract"
+            ]
+          },
+          "status": {
+            "enum": [
+              "pass",
+              "block"
+            ]
+          },
+          "critical": {
+            "type": "boolean"
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 1
+          },
+          "metadata": {
+            "type": "object"
+          }
+        }
+      }
+    },
+    "duration_ms": {
+      "type": "number",
+      "minimum": 0
+    },
+    "safety": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "local_first",
+        "read_only",
+        "dry_run",
+        "in_process_api_client",
+        "socket_opened",
+        "network_used",
+        "external_api_used",
+        "remote_execution_enabled",
+        "connector_write_enabled",
+        "plugin_execution_enabled",
+        "mutations_performed",
+        "source_mutations",
+        "reports_written",
+        "raw_token_persisted"
+      ],
+      "properties": {
+        "local_first": {
+          "const": true
+        },
+        "read_only": {
+          "const": true
+        },
+        "dry_run": {
+          "const": true
+        },
+        "in_process_api_client": {
+          "const": true
+        },
+        "socket_opened": {
+          "const": false
+        },
+        "network_used": {
+          "const": false
+        },
+        "external_api_used": {
+          "const": false
+        },
+        "remote_execution_enabled": {
+          "const": false
+        },
+        "connector_write_enabled": {
+          "const": false
+        },
+        "plugin_execution_enabled": {
+          "const": false
+        },
+        "mutations_performed": {
+          "const": false
+        },
+        "source_mutations": {
+          "const": false
+        },
+        "reports_written": {
+          "type": "boolean"
+        },
+        "raw_token_persisted": {
+          "const": false
+        }
+      }
+    },
+    "summary": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "decision",
+        "created_by",
+        "preliminary",
+        "api_localhost_only",
+        "api_token_required",
+        "cors_wildcard_enabled",
+        "ui_api_shell_static_smoke",
+        "browser_automation_used",
+        "playwright_required",
+        "ui_reads_filesystem_directly",
+        "no_go_action_blocked",
+        "remote_execution_enabled",
+        "connector_write_enabled",
+        "plugin_execution_enabled",
+        "external_apis_required"
+      ],
+      "properties": {
+        "decision": {
+          "enum": [
+            "PASS",
+            "BLOCK"
+          ]
+        },
+        "created_by": {
+          "const": "POST-H-026-C"
+        },
+        "preliminary": {
+          "const": true
+        },
+        "api_localhost_only": {
+          "const": true
+        },
+        "api_token_required": {
+          "const": true
+        },
+        "cors_wildcard_enabled": {
+          "const": false
+        },
+        "ui_api_shell_static_smoke": {
+          "const": true
+        },
+        "browser_automation_used": {
+          "const": false
+        },
+        "playwright_required": {
+          "const": false
+        },
+        "ui_reads_filesystem_directly": {
+          "const": false
+        },
+        "no_go_action_blocked": {
+          "const": true
+        },
+        "remote_execution_enabled": {
+          "const": false
+        },
+        "connector_write_enabled": {
+          "const": false
+        },
+        "plugin_execution_enabled": {
+          "const": false
+        },
+        "external_apis_required": {
+          "const": false
+        }
+      }
+    },
+    "limitations": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  },
+  "x-devpilot-schema-id": "SCHEMA-DEVPL-UI-API-RC-SMOKE-REPORT-V1",
+  "x-devpilot-sprint": "POST-H-026-C",
+  "x-devpilot-status": "registered"
+}

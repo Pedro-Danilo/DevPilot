@@ -3,7 +3,7 @@ doc_id: "POST-H-026-BACKLOG"
 id: "POST-H-026"
 title: "POST-H-026 — Release candidate local y verificacion de operador"
 status: "approved"
-version: "0.3.0"
+version: "0.4.0"
 owner: "Ordonez"
 created: "2026-07-07"
 phase: "POST-FASE-H"
@@ -29,8 +29,8 @@ claims_forbidden:
   - "SaaS-ready"
   - "compliance-certified"
 implementation_status: "active"
-current_micro_sprint: "POST-H-026-B"
-next_micro_sprint: "POST-H-026-C"
+current_micro_sprint: "POST-H-026-C"
+next_micro_sprint: "POST-H-026-D"
 approval: "approved_by_owner"
 updated: "2026-07-08"
 ---
@@ -678,6 +678,34 @@ python -m devpilot_core api serve --host 127.0.0.1 --port 8787 --execute
 python -m devpilot_core release-candidate ui-api-smoke --base-url http://127.0.0.1:8787 --json --write-report
 python -m devpilot_core schema validate --schema-id UiApiRcSmokeReport --instance outputs/reports/ui_api_rc_smoke_report.json --json
 ```
+
+
+## Estado implementado POST-H-026-C
+
+`POST-H-026-C — UI/API local smoke under RC` queda implementado como `implemented-initial / in-process-api-and-static-ui-contract-smoke`.
+
+Artefactos incorporados:
+
+```text
+src/devpilot_core/release_candidate/ui_api_smoke.py
+docs/schemas/ui_api_rc_smoke_report.schema.json
+tests/test_post_h_026_ui_api_rc_smoke.py
+tests/test_post_h_026_ui_api_rc_smoke_contract.py
+docs/audits/post_h_026_c_ui_api_rc_smoke_report.md
+docs/post_h_026_c_manifest.json
+```
+
+Comando principal:
+
+```powershell
+python -m devpilot_core release-candidate ui-api-smoke --base-url http://127.0.0.1:8787 --json
+python -m devpilot_core release-candidate ui-api-smoke --base-url http://127.0.0.1:8787 --json --write-report
+python -m devpilot_core schema validate --schema-id UiApiRcSmokeReport --instance outputs/reports/ui_api_rc_smoke_report.json --json
+```
+
+La primera versión valida condiciones RC sin abrir sockets ni requerir navegador real: `localhost/loopback`, bloqueo de bind no-local, token en rutas protegidas, CORS sin wildcard, security posture redacted, operator dashboard protegido, contratos API/UI, estados UI `loading/empty/error/BLOCK` y bloqueo de acción no-go simulada vía PolicyEngine. No habilita remote execution, connector write, plugin execution, external APIs ni acciones destructivas.
+
+Limitación explícita: Playwright o navegador visual real queda como hardening futuro opcional. POST-H-026-D sigue encargado de install smoke y POST-H-026-E del reporte final PASS/BLOCK.
 
 ## 12. Micro-sprint POST-H-026-D — Local install and run verification
 

@@ -2,18 +2,39 @@
 title: "Runbook — DevPilot Local"
 doc_id: "DEVPL-OPS-002"
 status: "approved"
-version: "1.98.0"
+version: "1.99.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "POST-H-026-B"
-updated: "2026-07-07"
+phase: "POST-H-026-C"
+updated: "2026-07-08"
 approval: "approved_by_owner"
 source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved + 03_security approved"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "SPRINT-PRECODE-05 quality operations baseline"
 ---
 
+## POST-H-026-C — UI/API local smoke under RC
+
+Estado: `implemented-initial / in-process-api-and-static-ui-contract-smoke`.
+
+Propósito operacional: verificar la superficie de operador UI/API bajo condiciones de release candidate local sin abrir sockets ni depender de navegador real por defecto. El smoke usa `FastAPI TestClient` para rutas críticas y checks estáticos sobre `ui/web/src` para confirmar estados visibles, endpoints locales y ausencia de lecturas directas a runtime artifacts.
+
+Comandos de uso:
+
+```powershell
+$env:PYTHONPATH="src"
+python -m devpilot_core release-candidate ui-api-smoke --base-url http://127.0.0.1:8787 --json
+python -m devpilot_core release-candidate ui-api-smoke --base-url http://127.0.0.1:8787 --json --write-report
+python -m devpilot_core schema validate --schema-id UiApiRcSmokeReport --instance outputs/reports/ui_api_rc_smoke_report.json --json
+npm --prefix ui/web test
+```
+
+PASS: base URL localhost/loopback, `0.0.0.0` bloqueado, rutas protegidas requieren token, CORS no admite wildcard ni origen remoto, `security posture` no expone token raw, `operator dashboard` responde protegido, contratos API/UI mantienen no-go flags en falso y la UI declara estados `loading/empty/error/BLOCK`.
+
+BLOCK: base URL no-local, CORS wildcard, ruta protegida sin token, secreto/token raw en respuestas, UI con lecturas directas de `.devpilot/outputs`, endpoint destructivo o acción no-go no bloqueada.
+
+Limitación: la versión actual no ejecuta Playwright ni navegador remoto. Es una primera versión local determinística; la validación visual real puede añadirse en hardening posterior sin cambiar el contrato `UiApiRcSmokeReport`.
 
 ## POST-H-026-B — Release candidate verification profile
 

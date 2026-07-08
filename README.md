@@ -1,3 +1,25 @@
+## POST-H-026-C — UI/API local smoke under RC
+
+Último micro-sprint implementado: `POST-H-026-C — UI/API local smoke under RC`
+
+POST-H-026-C agrega el contrato `UiApiRcSmokeReport`, el módulo `src/devpilot_core/release_candidate/ui_api_smoke.py`, el comando `python -m devpilot_core release-candidate ui-api-smoke --base-url http://127.0.0.1:8787 --json` y pruebas focales para verificar la superficie UI/API del release candidate local.
+
+La capacidad queda `implemented-initial / in-process-api-and-static-ui-contract-smoke`: valida localhost/loopback, bloqueo de `0.0.0.0`, token obligatorio en rutas protegidas, CORS sin wildcard, `security posture` redacted, `operator dashboard` protegido, contratos de rutas API/UI, estados UI `loading/empty/error/BLOCK` y bloqueo de una acción no-go simulada. No abre sockets, no ejecuta navegador real por defecto, no usa red ni APIs externas y no lee `.devpilot/outputs` desde la UI.
+
+Los reportes runtime `outputs/reports/ui_api_rc_smoke_report.json` y `.md` se generan solo con `--write-report`. Playwright/navegador real queda como evolución futura opcional; el smoke local actual mantiene dependencia cero adicional y se complementa con `npm --prefix ui/web test`.
+
+Comandos principales:
+
+```powershell
+$env:PYTHONPATH="src"
+python -m devpilot_core release-candidate ui-api-smoke --base-url http://127.0.0.1:8787 --json
+python -m devpilot_core release-candidate ui-api-smoke --base-url http://127.0.0.1:8787 --json --write-report
+python -m devpilot_core schema validate --schema-id UiApiRcSmokeReport --instance outputs/reports/ui_api_rc_smoke_report.json --json
+npm --prefix ui/web test
+```
+
+Limitación: POST-H-026-C no verifica instalación local ni emite el RC final PASS/BLOCK; esas actividades siguen planificadas para POST-H-026-D/E.
+
 ## POST-H-026-B — Release candidate verification profile
 
 Último micro-sprint implementado: `POST-H-026-B — Release candidate verification profile`

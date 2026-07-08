@@ -77,8 +77,9 @@ _RULES = (
         commands=(
             "python -m pytest tests/test_cli_core.py tests/test_application_services.py tests/test_api_contract.py tests/test_api_security.py -q",
             "python -m devpilot_core test-contracts validate-v2 --json",
+            "python -m devpilot_core release-candidate ui-api-smoke --json",
         ),
-        profiles=("impact",),
+        profiles=("impact", "release-candidate-local"),
     ),
     _HeuristicRule(
         id="agentic-runtime",
@@ -97,11 +98,18 @@ _RULES = (
         label="Release/packaging change",
         prefixes=("src/devpilot_core/release", "src/devpilot_core/release_candidate", "docs/release", "pyproject.toml", "package.json", "ui/web/package.json"),
         contract_ids=("schema-registry", "quality-gate-hardening", "test-contract-registry"),
-        tests=("tests/test_release_manifest.py", "tests/test_release_sbom.py", "tests/test_release_verification.py", "tests/test_package_builder.py"),
+        tests=(
+            "tests/test_release_manifest.py",
+            "tests/test_release_sbom.py",
+            "tests/test_release_verification.py",
+            "tests/test_package_builder.py",
+            "tests/test_post_h_026_ui_api_rc_smoke.py",
+        ),
         commands=(
             "python -m pytest tests/test_release_manifest.py tests/test_release_sbom.py tests/test_release_verification.py tests/test_package_builder.py -q",
             "python -m devpilot_core test-contracts profile --profile release --json",
             "python -m devpilot_core release-candidate profile --profile release-candidate-local --json",
+            "python -m devpilot_core release-candidate ui-api-smoke --json",
         ),
         profiles=("release", "release-candidate-local"),
     ),

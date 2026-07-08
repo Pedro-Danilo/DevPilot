@@ -11847,6 +11847,80 @@
         "approved_by": "POST-H-026-B",
         "expires_at_utc": "2027-01-01T00:00:00Z"
       }
+    },
+    {
+      "contract_id": "post-h-026-ui-api-rc-smoke",
+      "schema_version": "2.0",
+      "source_contract_id": "post-h-026-ui-api-rc-smoke",
+      "domain": "product.api",
+      "capability": "ui-api-rc-smoke",
+      "criticality": "P0",
+      "risk_level": "high",
+      "test_type": "ui-smoke",
+      "execution_profile": "release",
+      "cost_class": "low",
+      "expected_duration_seconds": 180,
+      "test_files": [
+        "tests/test_post_h_026_ui_api_rc_smoke.py",
+        "tests/test_post_h_026_ui_api_rc_smoke_contract.py"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/release_candidate/ui_api_smoke.py",
+        "src/devpilot_core/release_candidate/",
+        "src/devpilot_core/interfaces/api/",
+        ".devpilot/interfaces/api_route_contract_registry.json",
+        ".devpilot/interfaces/ui_route_contract_registry.json",
+        "ui/web/",
+        "docs/schemas/ui_api_rc_smoke_report.schema.json",
+        "docs/backlogs/POST-H-026_local_release_candidate_operator_verification.md"
+      ],
+      "validates": [
+        "release-candidate ui-api-smoke",
+        "src/devpilot_core/release_candidate/ui_api_smoke.py",
+        "docs/schemas/ui_api_rc_smoke_report.schema.json",
+        ".devpilot/interfaces/api_route_contract_registry.json",
+        ".devpilot/interfaces/ui_route_contract_registry.json",
+        "ui/web/src/"
+      ],
+      "trigger_hints": [
+        "release-candidate",
+        "ui-api",
+        "localhost",
+        "token",
+        "cors",
+        "operator-dashboard",
+        "web-ui"
+      ],
+      "impact_scope": [
+        "product.api",
+        "product.ui",
+        "release",
+        "security.guards"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "POST-H-026-C",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_026_ui_api_rc_smoke.py tests/test_post_h_026_ui_api_rc_smoke_contract.py tests/test_post_h_014_api_route_contracts.py tests/test_post_h_014_security_hardening.py -q",
+        "python -m devpilot_core release-candidate ui-api-smoke --json",
+        "python -m devpilot_core release-candidate ui-api-smoke --json --write-report",
+        "python -m devpilot_core schema validate --schema-id UiApiRcSmokeReport --instance outputs/reports/ui_api_rc_smoke_report.json --json",
+        "npm --prefix ui/web test"
+      ],
+      "classification_status": "explicit",
+      "classification_notes": [
+        "POST-H-026-C validates local UI/API RC smoke without opening sockets, remote browsers, network or external APIs."
+      ],
+      "safety_exception": {
+        "justification": "No exception: smoke is local-first, dry-run/read-only and uses in-process API plus static UI checks.",
+        "approved_by": "POST-H-026-C",
+        "expires_at_utc": "2027-01-01T00:00:00Z"
+      }
     }
   ],
   "migration_metadata": {

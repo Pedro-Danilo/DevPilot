@@ -6739,6 +6739,44 @@
         "python -m devpilot_core test-contracts validate --json",
         "python -m devpilot_core test-contracts validate-v2 --json"
       ]
+    },
+    {
+      "contract_id": "post-h-026-ui-api-rc-smoke",
+      "scope": "integration",
+      "owner": "POST-H-026-C",
+      "test_files": [
+        "tests/test_post_h_026_ui_api_rc_smoke.py",
+        "tests/test_post_h_026_ui_api_rc_smoke_contract.py"
+      ],
+      "validates": [
+        "src/devpilot_core/release_candidate/ui_api_smoke.py",
+        "docs/schemas/ui_api_rc_smoke_report.schema.json",
+        ".devpilot/interfaces/api_route_contract_registry.json",
+        ".devpilot/interfaces/ui_route_contract_registry.json",
+        "ui/web/src/",
+        "docs/audits/post_h_026_c_ui_api_rc_smoke_report.md",
+        "docs/post_h_026_c_manifest.json"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/release_candidate/ui_api_smoke.py",
+        "src/devpilot_core/interfaces/api/",
+        ".devpilot/interfaces/",
+        "ui/web/",
+        "docs/schemas/ui_api_rc_smoke_report.schema.json",
+        "docs/backlogs/POST-H-026_local_release_candidate_operator_verification.md",
+        "tests/test_post_h_026_ui_api_rc_smoke.py",
+        "tests/test_post_h_026_ui_api_rc_smoke_contract.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_026_ui_api_rc_smoke.py tests/test_post_h_026_ui_api_rc_smoke_contract.py tests/test_post_h_014_api_route_contracts.py tests/test_post_h_014_security_hardening.py -q",
+        "python -m devpilot_core release-candidate ui-api-smoke --json",
+        "python -m devpilot_core release-candidate ui-api-smoke --json --write-report",
+        "python -m devpilot_core schema validate --schema-id UiApiRcSmokeReport --instance outputs/reports/ui_api_rc_smoke_report.json --json",
+        "npm --prefix ui/web test"
+      ]
     }
   ],
   "notes": [

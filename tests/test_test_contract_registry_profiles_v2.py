@@ -124,19 +124,20 @@ def test_test_contract_registry_v2_cli_validate_and_profile_are_available() -> N
     assert validate_payload["ok"] is True
     assert validate_payload["data"]["summary"]["contracts_total"] >= 89
 
-    profile_proc = subprocess.run(
-        [sys.executable, "-m", "devpilot_core", "test-contracts", "profile", "--profile", "p0-critical", "--json"],
-        cwd=ROOT,
-        env=env,
-        check=False,
-        capture_output=True,
-        text=True,
-    )
-    assert profile_proc.returncode == 0, profile_proc.stderr + profile_proc.stdout
-    profile_payload = json.loads(profile_proc.stdout)
-    assert profile_payload["ok"] is True
-    assert profile_payload["data"]["summary"]["contracts_selected"] >= 5
-    assert profile_payload["data"]["summary"]["tests_executed"] is False
+    for profile_id in ("p0-critical", "release-candidate-local"):
+        profile_proc = subprocess.run(
+            [sys.executable, "-m", "devpilot_core", "test-contracts", "profile", "--profile", profile_id, "--json"],
+            cwd=ROOT,
+            env=env,
+            check=False,
+            capture_output=True,
+            text=True,
+        )
+        assert profile_proc.returncode == 0, profile_proc.stderr + profile_proc.stdout
+        profile_payload = json.loads(profile_proc.stdout)
+        assert profile_payload["ok"] is True
+        assert profile_payload["data"]["summary"]["contracts_selected"] >= 5
+        assert profile_payload["data"]["summary"]["tests_executed"] is False
 
 
 def test_post_h_003_c_documentation_is_synchronized() -> None:

@@ -123,7 +123,7 @@ from .release import (
     UpgradeCheckOptions,
     checksum_line,
 )
-from .release_candidate import EvidenceFreshnessOptions, EvidenceFreshnessScanner, ReleaseCandidateVerificationProfile, ReleaseCandidateVerificationProfileOptions
+from .release_candidate import EvidenceFreshnessOptions, EvidenceFreshnessScanner, ReleaseCandidateVerificationProfile, ReleaseCandidateVerificationProfileOptions, UiApiRcSmokeOptions, UiApiRcSmokeRunner
 from .reports import ReportEngine, build_report_id
 from .security import PolicySimulationSuite, SecurityReadiness
 from .schemas import BuiltinContractValidator, SchemaRegistry, SchemaValidator
@@ -3303,6 +3303,34 @@ def release_candidate_evidence_freshness_command(
 
 
 
+
+
+def release_candidate_ui_api_smoke_command(
+    *,
+    base_url: str = "http://127.0.0.1:8787",
+    ui_origin: str = "http://127.0.0.1:5173",
+    output_json: str = "outputs/reports/ui_api_rc_smoke_report.json",
+    output_markdown: str = "outputs/reports/ui_api_rc_smoke_report.md",
+    json_output: bool = False,
+    write_report: bool = False,
+) -> int:
+    """Run POST-H-026-C UI/API local RC smoke without opening sockets."""
+
+    root = project_root()
+    result = UiApiRcSmokeRunner(
+        root,
+        UiApiRcSmokeOptions(
+            base_url=base_url,
+            ui_origin=ui_origin,
+            output_json=output_json,
+            output_markdown=output_markdown,
+            write_report=write_report,
+        ),
+    ).run()
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+
 def test_contracts_validate_command(
     *,
     registry_path: str = ".devpilot/testing/test_contract_registry.json",
@@ -5480,6 +5508,14 @@ def build_parser() -> argparse.ArgumentParser:
     release_candidate_profile.add_argument("--write-report", action="store_true", help="Write RC verification profile JSON/Markdown under outputs/reports")
     release_candidate_profile.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
 
+    release_candidate_ui_api_smoke = release_candidate_sub.add_parser("ui-api-smoke", help="Run POST-H-026-C local UI/API RC smoke without opening sockets")
+    release_candidate_ui_api_smoke.add_argument("--base-url", default="http://127.0.0.1:8787", help="Local API base URL; localhost/loopback only")
+    release_candidate_ui_api_smoke.add_argument("--ui-origin", default="http://127.0.0.1:5173", help="Local Web UI origin used for restricted CORS checks")
+    release_candidate_ui_api_smoke.add_argument("--output-json", default="outputs/reports/ui_api_rc_smoke_report.json", help="UI/API RC smoke report JSON path")
+    release_candidate_ui_api_smoke.add_argument("--output-markdown", default="outputs/reports/ui_api_rc_smoke_report.md", help="UI/API RC smoke report Markdown path")
+    release_candidate_ui_api_smoke.add_argument("--write-report", action="store_true", help="Write UiApiRcSmokeReport JSON/Markdown under outputs/reports")
+    release_candidate_ui_api_smoke.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+
     architecture = sub.add_parser("architecture", help="Build executable local architecture map evidence")
     architecture_sub = architecture.add_subparsers(dest="architecture_command")
     architecture_inventory = architecture_sub.add_parser("inventory", help="Build read-only AST inventory of devpilot_core packages and modules")
@@ -5541,7 +5577,7 @@ def build_parser() -> argparse.ArgumentParser:
     test_contracts_validate_v2.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
 
     test_contracts_profile = test_contracts_sub.add_parser("profile", help="Select Test Contract Registry v2 contracts for one local execution profile without running tests")
-    test_contracts_profile.add_argument("--profile", choices=["p0-critical", "security", "release", "impact", "docs-historical"], required=True, help="TCR v2 selection profile")
+    test_contracts_profile.add_argument("--profile", choices=["p0-critical", "security", "release", "impact", "docs-historical", "release-candidate-local"], required=True, help="TCR v2 selection profile")
     test_contracts_profile.add_argument("--registry-path", default=".devpilot/testing/test_contract_registry_v2.json", help="Test Contract Registry v2 path")
     test_contracts_profile.add_argument("--schema-path", default="docs/schemas/test_contract_registry_v2.schema.json", help="Test Contract Registry v2 schema path")
     test_contracts_profile.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
@@ -6777,6 +6813,15 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
                 profile=args.profile,
                 test_profiles_path=args.test_profiles_path,
                 tcr_v2_path=args.tcr_v2_path,
+                output_json=args.output_json,
+                output_markdown=args.output_markdown,
+                json_output=args.json,
+                write_report=args.write_report,
+            )
+        if args.release_candidate_command == "ui-api-smoke":
+            return release_candidate_ui_api_smoke_command(
+                base_url=args.base_url,
+                ui_origin=args.ui_origin,
                 output_json=args.output_json,
                 output_markdown=args.output_markdown,
                 json_output=args.json,

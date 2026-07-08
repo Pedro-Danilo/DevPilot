@@ -6,7 +6,7 @@
   "status": "implemented-initial",
   "phase": "POST-FASE-H",
   "owner": "Ordóñez",
-  "updated": "2026-07-07",
+  "updated": "2026-07-08",
   "preliminary": true,
   "documents": [
     {
@@ -6554,6 +6554,42 @@
       "canonical": true,
       "updated": "2026-07-08",
       "status_required": "implemented-initial"
+    },
+    {
+      "doc_id": "SCHEMA-DEVPL-UI-API-RC-SMOKE-REPORT-V1",
+      "title": "UI/API RC smoke report schema",
+      "path": "docs/schemas/ui_api_rc_smoke_report.schema.json",
+      "status": "implemented-initial",
+      "owner": "Ordonez",
+      "source_type": "engineering-artifact",
+      "sprint": "POST-H-026-C",
+      "canonical": true,
+      "updated": "2026-07-08",
+      "status_required": "implemented-initial"
+    },
+    {
+      "doc_id": "DEVPL-AUDIT-POST-H-026-C-UI-API-RC-SMOKE",
+      "title": "POST-H-026-C audit report",
+      "path": "docs/audits/post_h_026_c_ui_api_rc_smoke_report.md",
+      "status": "implemented-initial",
+      "owner": "Ordonez",
+      "source_type": "engineering-artifact",
+      "sprint": "POST-H-026-C",
+      "canonical": true,
+      "updated": "2026-07-08",
+      "status_required": "implemented-initial"
+    },
+    {
+      "doc_id": "POST-H-026-C-MANIFEST",
+      "title": "POST-H-026-C manifest",
+      "path": "docs/post_h_026_c_manifest.json",
+      "status": "implemented-initial",
+      "owner": "Ordonez",
+      "source_type": "engineering-artifact",
+      "sprint": "POST-H-026-C",
+      "canonical": true,
+      "updated": "2026-07-08",
+      "status_required": "implemented-initial"
     }
   ],
   "rules": {
@@ -6627,7 +6663,7 @@
     "POST-H-025-C keeps enterprise, remote, SaaS and compliance claims disabled.": true
   },
   "summary": {
-    "documents_total": 229,
+    "documents_total": 238,
     "source_of_truth_total": 86,
     "machine_readable_source_total": 111,
     "derived_total": 32,

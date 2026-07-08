@@ -1,3 +1,11 @@
+## post-h-026-c — UI/API local RC smoke
+
+- Added `UiApiRcSmokeReport` schema and local RC smoke runner for API/UI operator flows.
+- Added CLI command `release-candidate ui-api-smoke` with opt-in report writing under `outputs/reports`.
+- Validates localhost-only API posture, token requirement, CORS wildcard blocking, protected operator dashboard, route contracts, UI visible states and no-go action blocking without opening sockets or using external APIs.
+- Registered POST-H-026-C in schema catalog, TCR v1/v2, source registry, project state, README and runbook.
+- Kept browser automation optional/future; current implementation is in-process API plus static Web UI contract smoke.
+
 ## post-h-026-b — Release candidate verification profile
 
 - Added `release-candidate-local` to `.devpilot/testing/test_profiles.json` as a local-only, approval-gated RC profile.

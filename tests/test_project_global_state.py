@@ -102,15 +102,17 @@ def test_project_global_state_schema_and_docs_are_synchronized() -> None:
     assert any("POST-H-013-D adds optional local crypto" in note for note in state["notes"])
     assert any("POST-H-013-E closes Audit pack integrity" in note for note in state["notes"])
     assert any("POST-H-014 is the next prioritized hito" in note for note in state["notes"])
-    assert state.get("current_micro_sprint") == "POST-H-026-B"
-    assert state.get("next_micro_sprint") == "POST-H-026-C"
+    assert state.get("current_micro_sprint") == "POST-H-026-C"
+    assert state.get("next_micro_sprint") == "POST-H-026-D"
     assert state.get("source_repo") == "repo_DevPilot_Local_263_POST_H_025.zip"
-    assert state.get("current_repo") == "repo_DevPilot_Local_265_POST_H_026_B.zip"
-    assert state.get("post_h_026_status") == "active/release-candidate-profile-implemented-initial"
-    assert "POST-H-026-B — Release candidate verification profile" in readme
-    assert "POST-H-026-B — Release candidate verification profile" in runbook
-    assert "post-h-026-a" in changelog
-    assert any("POST-H-026-B adds release-candidate-local" in note for note in state["notes"])
+    assert state.get("current_repo") == "repo_DevPilot_Local_266_POST_H_026_C.zip"
+    assert state.get("post_h_026_status") == "active/ui-api-rc-smoke-implemented-initial"
+    assert "POST-H-026-C — UI/API local smoke under RC" in readme
+    assert "POST-H-026-C — UI/API local smoke under RC" in runbook
+    assert "post-h-026-c" in changelog
+    assert state.get("post_h_026_c_ui_api_rc_smoke_available") is True
+    assert state.get("post_h_026_c_cors_wildcard_enabled") is False
+    assert any("POST-H-026-C adds UI/API local RC smoke" in note for note in state["notes"])
     assert "POST-H-014-A — Route Contract Registry y API inventory" in readme
     assert "POST-H-014-B — Response mapping y errores homogéneos" in readme
     assert "POST-H-014-C — UI Route Contract y shell de producto" in readme
@@ -355,8 +357,8 @@ def test_project_global_state_schema_and_docs_are_synchronized() -> None:
     assert any("POST-H-025-C adds industrial-readiness production-ready-local CLI" in note for note in state["notes"])
     assert any("POST-H-025-D adds ProductionReadyClaimsValidator" in note for note in state["notes"])
     assert any("POST-H-025-E adds ProductionReadyFinalDeclaration" in note for note in state["notes"])
-    assert state["current_micro_sprint"] == "POST-H-026-B"
-    assert state["next_micro_sprint"] == "POST-H-026-C"
+    assert state["current_micro_sprint"] == "POST-H-026-C"
+    assert state["next_micro_sprint"] == "POST-H-026-D"
     assert "POST-H-025-A — Criteria schema y evidence map" in readme
     assert "POST-H-025-A — Criteria schema y evidence map" in runbook
     assert "POST-H-025-C — Declaration gate CLI/API" in readme

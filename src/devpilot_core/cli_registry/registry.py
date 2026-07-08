@@ -214,8 +214,8 @@ DECLARATIVE_GROUPS: dict[str, DeclarativeGroupDescriptor] = {
         group_id="release-candidate",
         domain="release",
         owner_module="src/devpilot_core/cli.py",
-        recommended_tests=("python -m pytest tests/test_post_h_026_evidence_freshness.py tests/test_post_h_026_release_candidate_profile.py tests/test_post_h_006_b_declarative_registry.py -q",),
-        rationale="POST-H-026-A introduces local release candidate verification commands that must be registered before enforcing CLI no-growth gates.",
+        recommended_tests=("python -m pytest tests/test_post_h_026_evidence_freshness.py tests/test_post_h_026_release_candidate_profile.py tests/test_post_h_026_ui_api_rc_smoke.py tests/test_post_h_026_ui_api_rc_smoke_contract.py tests/test_post_h_006_b_declarative_registry.py -q",),
+        rationale="POST-H-026-C keeps local release candidate verification commands that must be registered before enforcing CLI no-growth gates.",
     ),
     "cli-registry": DeclarativeGroupDescriptor(
         group_id="cli-registry",

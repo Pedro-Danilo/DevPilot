@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
-  "created_by": "POST-H-026-B",
-  "description": "Controlled pytest profiles for DevPilot tests.run. POST-H-026-B adds release-candidate-local as an approval-gated, local-only RC profile without allowing arbitrary shell commands.",
+  "created_by": "POST-H-026-C",
+  "description": "Controlled pytest profiles for DevPilot tests.run. POST-H-026-B introduced release-candidate-local; POST-H-026-C extends it with UI/API RC smoke coverage while keeping execution approval-gated and local-only.",
   "profiles": [
     {
       "profile_id": "smoke",
@@ -35,7 +35,7 @@
     },
     {
       "profile_id": "release-candidate-local",
-      "description": "Focused local RC verification profile for operator release candidate checks. Plan-only by default; pytest execution remains tests.run approval-gated.",
+      "description": "Focused local RC verification profile for operator release candidate checks. Plan-only by default; pytest execution remains tests.run approval-gated. POST-H-026-C adds UI/API RC smoke targets.",
       "taxonomy": [
         "always",
         "impacted",
@@ -65,7 +65,9 @@
         "tests/test_post_h_025_production_ready_claims_validator.py",
         "tests/test_quality_gate.py",
         "tests/test_schema_registry.py",
-        "tests/test_project_global_state.py"
+        "tests/test_project_global_state.py",
+        "tests/test_post_h_026_ui_api_rc_smoke.py",
+        "tests/test_post_h_026_ui_api_rc_smoke_contract.py"
       ],
       "pytest_targets": [
         "tests/test_post_h_026_evidence_freshness.py",
@@ -79,7 +81,9 @@
         "tests/test_post_h_014_security_hardening.py",
         "tests/test_release_manifest.py",
         "tests/test_release_sbom.py",
-        "tests/test_release_verification.py"
+        "tests/test_release_verification.py",
+        "tests/test_post_h_026_ui_api_rc_smoke.py",
+        "tests/test_post_h_026_ui_api_rc_smoke_contract.py"
       ],
       "cwd": ".",
       "timeout_seconds": 900,

@@ -1,0 +1,76 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "SCHEMA-DEVPL-POST-H-MANIFEST-V1",
+  "post_h_id": "POST-H-026",
+  "micro_sprint": "POST-H-026-C",
+  "title": "POST-H-026-C — UI/API local smoke under RC",
+  "status": "implemented-initial",
+  "phase": "POST-FASE-H",
+  "implemented_at": "2026-07-08",
+  "created_files": [
+    "src/devpilot_core/release_candidate/ui_api_smoke.py",
+    "docs/schemas/ui_api_rc_smoke_report.schema.json",
+    "tests/test_post_h_026_ui_api_rc_smoke.py",
+    "tests/test_post_h_026_ui_api_rc_smoke_contract.py",
+    "docs/audits/post_h_026_c_ui_api_rc_smoke_report.md",
+    "docs/post_h_026_c_manifest.json"
+  ],
+  "modified_files": [
+    "src/devpilot_core/release_candidate/__init__.py",
+    "src/devpilot_core/release_candidate/verification_profile.py",
+    "src/devpilot_core/cli.py",
+    "src/devpilot_core/cli_registry/registry.py",
+    "src/devpilot_core/cli_registry/builders.py",
+    "src/devpilot_core/testing/impact_v2.py",
+    ".devpilot/release/local_release_candidate_criteria.json",
+    ".devpilot/testing/test_profiles.json",
+    ".devpilot/testing/test_contract_registry.json",
+    ".devpilot/testing/test_contract_registry_v2.json",
+    ".devpilot/project_state.json",
+    ".devpilot/docs_governance/source_registry.json",
+    "docs/schemas/schema_catalog.json",
+    "docs/backlogs/POST-H-026_local_release_candidate_operator_verification.md",
+    "docs/POST-H-026_local_release_candidate_operator_verification.md",
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/release/CHANGELOG.md",
+    "tests/test_schema_registry.py",
+    "tests/test_project_global_state.py",
+    "tests/test_test_contract_registry_profiles_v2.py"
+  ],
+  "commands": [
+    "python -m devpilot_core release-candidate ui-api-smoke --base-url http://127.0.0.1:8787 --json",
+    "python -m devpilot_core release-candidate ui-api-smoke --base-url http://127.0.0.1:8787 --json --write-report",
+    "python -m devpilot_core schema validate --schema-id UiApiRcSmokeReport --instance outputs/reports/ui_api_rc_smoke_report.json --json",
+    "python -m devpilot_core test-contracts profile --profile release-candidate-local --json",
+    "npm --prefix ui/web test"
+  ],
+  "tests": [
+    "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_026_ui_api_rc_smoke.py tests/test_post_h_026_ui_api_rc_smoke_contract.py tests/test_post_h_014_api_route_contracts.py tests/test_post_h_014_security_hardening.py -q"
+  ],
+  "pass_criteria": [
+    "API localhost/loopback only",
+    "0.0.0.0 blocked",
+    "Protected routes require token",
+    "CORS wildcard/non-local origin blocked",
+    "Web UI uses API client and visible loading/empty/error/BLOCK states",
+    "UiApiRcSmokeReport validates against schema",
+    "No network, external APIs, remote execution, connector write or plugin execution"
+  ],
+  "block_criteria": [
+    "API accepts non-local host",
+    "CORS wildcard enabled",
+    "Protected route responds without token",
+    "Raw token/secret exposed",
+    "UI reads runtime artifacts directly",
+    "No-go action is not blocked"
+  ],
+  "risks": [
+    "No browser/Playwright execution in this first version",
+    "Install smoke and final RC PASS/BLOCK remain pending"
+  ],
+  "next_sprint": "POST-H-026",
+  "next_micro_sprint": "POST-H-026-D",
+  "tests_execute_from_json": false,
+  "preliminary": true
+}
