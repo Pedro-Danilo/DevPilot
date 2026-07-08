@@ -7,10 +7,10 @@
   "scope": "local-release-candidate",
   "preliminary": true,
   "expected_source_repo": "repo_DevPilot_Local_263_POST_H_025.zip",
-  "expected_current_repo": "repo_DevPilot_Local_269_POST_H_027_A.zip",
+  "expected_current_repo": "repo_DevPilot_Local_270_POST_H_027_B.zip",
   "expected_last_completed_sprint": "POST-H-026",
-  "expected_current_micro_sprint": "POST-H-027-A",
-  "expected_next_micro_sprint": "POST-H-027-B",
+  "expected_current_micro_sprint": "POST-H-027-B",
+  "expected_next_micro_sprint": "POST-H-027-C",
   "freshness_policy": "contextual-signature",
   "no_go_gates": {
     "remote_execution_enabled": false,
@@ -25,23 +25,23 @@
   "evidence": [
     {
       "evidence_id": "project-state-current-repo",
-      "title": "Project state source/current repo freshness for POST-H-027-A implementation",
+      "title": "Project state source/current repo freshness for POST-H-027-B implementation",
       "path": ".devpilot/project_state.json",
       "category": "project-state",
       "critical": true,
       "json_required": true,
       "expected_schema_id": "SCHEMA-DEVPL-PROJECT-STATE-V1",
-      "producer_sprint": "POST-H-027-A",
+      "producer_sprint": "POST-H-027-B",
       "freshness_policy": "contextual-field-match",
       "expected_fields": {
         "source_repo": "repo_DevPilot_Local_263_POST_H_025.zip",
-        "current_repo": "repo_DevPilot_Local_269_POST_H_027_A.zip",
+        "current_repo": "repo_DevPilot_Local_270_POST_H_027_B.zip",
         "last_completed_sprint": "POST-H-026",
         "next_sprint": "POST-H-027",
-        "current_micro_sprint": "POST-H-027-A",
-        "next_micro_sprint": "POST-H-027-B",
+        "current_micro_sprint": "POST-H-027-B",
+        "next_micro_sprint": "POST-H-027-C",
         "post_h_026_status": "closed/local-release-candidate-pass",
-        "post_h_027_status": "active/source-zip-policy-hardening-implemented-initial"
+        "post_h_027_status": "active/python-artifact-install-verification-implemented-initial"
       }
     },
     {
@@ -406,6 +406,45 @@
         "POST-H-027-A",
         "Source ZIP release policy",
         "implemented-initial"
+      ]
+    },
+    {
+      "evidence_id": "post-h-027-b-python-artifact-install-schema",
+      "title": "POST-H-027-B Python artifact install verification schema is registered",
+      "path": "docs/schemas/python_artifact_install_verification.schema.json",
+      "category": "schema",
+      "critical": true,
+      "json_required": true,
+      "expected_schema_id": "SCHEMA-DEVPL-PYTHON-ARTIFACT-INSTALL-VERIFICATION-V1",
+      "producer_sprint": "POST-H-027-B",
+      "freshness_policy": "schema-id"
+    },
+    {
+      "evidence_id": "post-h-027-b-python-artifact-verify-module",
+      "title": "POST-H-027-B PythonArtifactInstallVerifier module is present",
+      "path": "src/devpilot_core/release/python_artifact_verify.py",
+      "category": "source",
+      "critical": true,
+      "producer_sprint": "POST-H-027-B",
+      "freshness_policy": "required-marker",
+      "required_markers": [
+        "PythonArtifactInstallVerifier",
+        "POST-H-027-B",
+        "--no-index"
+      ]
+    },
+    {
+      "evidence_id": "post-h-027-b-audit-report",
+      "title": "POST-H-027-B audit report documents limitations and verification commands",
+      "path": "docs/audits/post_h_027_b_python_artifact_install_report.md",
+      "category": "audit",
+      "critical": true,
+      "producer_sprint": "POST-H-027-B",
+      "freshness_policy": "required-marker",
+      "required_markers": [
+        "POST-H-027-B",
+        "Wheel/sdist install verification",
+        "python-artifact-verify"
       ]
     }
   ],

@@ -14,6 +14,21 @@ change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "SPRINT-PRECODE-05 quality operations baseline"
 ---
 
+## POST-H-027-B — Wheel/sdist install verification
+
+DevPilot incorpora verificacion local de instalacion para artefactos Python generados. El comando `python -m devpilot_core release python-artifact-verify --artifact dist/devpilot_local-0.1.0-py3-none-any.whl --json` crea un venv temporal bajo `outputs/tmp`, instala el wheel con `pip --no-index --no-deps`, valida que `devpilot_core` se importe desde `site-packages` y ejecuta smoke post-install: `--version`, `schema list`, `project-state validate` y `docs-governance validate`.
+
+Para sdist se usa `--no-build-isolation` con herramientas locales ya presentes; no se introduce internet obligatorio, publicacion, deploy, firma ni servicio persistente. Esta es una primera version industrial de verificacion Python local; manifest/checksums, guia Windows y upgrade/rollback quedan para POST-H-027-C/D/E.
+
+Comandos:
+
+```powershell
+python -m devpilot_core package build --kind python --version 0.1.0 --execute --json --write-report
+python -m devpilot_core release python-artifact-verify --artifact dist\devpilot_local-0.1.0-py3-none-any.whl --json --write-report
+python -m devpilot_core release python-artifact-verify --artifact dist\devpilot-local-0.1.0.tar.gz --json --write-report
+```
+
+
 ## POST-H-027-A — Source ZIP release policy hardening
 
 Estado: `implemented-initial / source-zip-release-policy-hardening`.

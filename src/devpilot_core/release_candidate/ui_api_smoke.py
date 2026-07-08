@@ -8,11 +8,7 @@ from time import perf_counter
 from typing import Any
 from urllib.parse import urlparse
 
-from fastapi.testclient import TestClient
-
 from devpilot_core.cli_models import CommandResult, ExitCode, Finding, Severity
-from devpilot_core.interfaces.api import API_TOKEN_HEADER, create_app, validate_api_bind_host
-from devpilot_core.interfaces.api.security import is_local_api_host
 from devpilot_core.policy import PolicyEngine, PolicyRequest
 
 DEFAULT_UI_API_RC_SMOKE_REPORT_JSON = Path("outputs/reports/ui_api_rc_smoke_report.json")
@@ -96,6 +92,22 @@ class UiApiRcSmokeRunner:
         findings: list[Finding] = []
         checks: list[dict[str, Any]] = []
 
+        try:
+            from fastapi.testclient import TestClient
+            from devpilot_core.interfaces.api import API_TOKEN_HEADER, create_app, validate_api_bind_host
+            from devpilot_core.interfaces.api.security import is_local_api_host
+        except Exception as exc:
+            findings.append(Finding("UI_API_RC_OPTIONAL_API_DEPENDENCY_BLOCK", "UI/API RC smoke requires optional API dependencies when this command is executed.", Severity.BLOCK, metadata={"error": str(exc)}))
+            report = self._dependency_block_report(checks, findings, started, str(exc))
+            return CommandResult(
+                command="release-candidate ui-api-smoke",
+                ok=False,
+                exit_code=ExitCode.BLOCK,
+                message="UI/API RC smoke blocked because optional API dependencies are unavailable.",
+                data={"summary": report["summary"], "report": report, "reports": {}},
+                findings=findings,
+            )
+
         parsed_url = urlparse(self.options.base_url)
         host = (parsed_url.hostname or "").strip()
         port = parsed_url.port or (443 if parsed_url.scheme == "https" else 80)
@@ -143,7 +155,7 @@ class UiApiRcSmokeRunner:
         if not cors_ok:
             findings.append(Finding("UI_API_RC_CORS_WILDCARD_BLOCK", "CORS wildcard or non-local origin was accepted during RC smoke.", Severity.BLOCK, metadata={"allowed_origins": security_summary.get("allowed_origins")}))
 
-        self._api_checks(client, checks, findings)
+        self._api_checks(client, API_TOKEN_HEADER, checks, findings)
         self._registry_checks(checks, findings)
         self._ui_static_checks(checks, findings)
         self._policy_no_go_check(checks, findings)
@@ -236,9 +248,87 @@ class UiApiRcSmokeRunner:
             findings=findings,
         )
 
-    def _api_checks(self, client: TestClient, checks: list[dict[str, Any]], findings: list[Finding]) -> None:
+
+    def _dependency_block_report(self, checks: list[dict[str, Any]], findings: list[Finding], started: float, error: str) -> dict[str, Any]:
+        self._record(
+            checks,
+            "optional-api-dependencies-available",
+            False,
+            "FastAPI/TestClient optional dependencies must be installed to execute UI/API RC smoke.",
+            critical=True,
+            metadata={"error": error},
+        )
+        duration_ms = round((perf_counter() - started) * 1000, 3)
+        return {
+            "schema_version": "1.0",
+            "schema_id": "SCHEMA-DEVPL-UI-API-RC-SMOKE-REPORT-V1",
+            "report_id": "ui-api-rc-smoke-post_h_026_c",
+            "created_by": "POST-H-026-C",
+            "created_at": self._now(),
+            "scope": "local-release-candidate",
+            "decision": "BLOCK",
+            "implemented_status": "implemented-initial",
+            "base_url": self.options.base_url,
+            "ui_origin": self.options.ui_origin,
+            "execution_mode": "in-process-api-and-static-ui-contract-smoke",
+            "checks_total": len(checks),
+            "checks_passed_total": 0,
+            "checks_failed_total": len(checks),
+            "critical_checks_total": len(checks),
+            "critical_checks_failed_total": len(checks),
+            "api_checks_total": 0,
+            "ui_checks_total": 0,
+            "security_checks_total": 1,
+            "route_contract_checks_total": 0,
+            "checks": checks,
+            "duration_ms": duration_ms,
+            "safety": {
+                "local_first": True,
+                "read_only": True,
+                "dry_run": True,
+                "in_process_api_client": False,
+                "socket_opened": False,
+                "network_used": False,
+                "external_api_used": False,
+                "remote_execution_enabled": False,
+                "connector_write_enabled": False,
+                "plugin_execution_enabled": False,
+                "mutations_performed": False,
+                "source_mutations": False,
+                "reports_written": False,
+                "raw_token_persisted": False,
+            },
+            "summary": {
+                "decision": "BLOCK",
+                "created_by": "POST-H-026-C",
+                "preliminary": True,
+                "api_localhost_only": False,
+                "api_token_required": False,
+                "cors_wildcard_enabled": False,
+                "ui_api_shell_static_smoke": False,
+                "browser_automation_used": False,
+                "playwright_required": False,
+                "ui_reads_filesystem_directly": False,
+                "no_go_action_blocked": False,
+                "remote_execution_enabled": False,
+                "connector_write_enabled": False,
+                "plugin_execution_enabled": False,
+                "external_apis_required": False,
+                "reports_written": False,
+                "network_used": False,
+                "external_api_used": False,
+                "mutations_performed": False,
+                "source_mutations": False,
+            },
+            "limitations": [
+                "POST-H-026-C uses optional FastAPI/TestClient dependencies only when the UI/API smoke command is executed.",
+                "Basic installed CLI commands should not fail merely because UI/API optional dependencies are absent.",
+            ],
+        }
+
+    def _api_checks(self, client: Any, api_token_header: str, checks: list[dict[str, Any]], findings: list[Finding]) -> None:
         origin_headers = {"Origin": self.options.ui_origin}
-        token_headers = {**origin_headers, API_TOKEN_HEADER: _TEST_TOKEN}
+        token_headers = {**origin_headers, api_token_header: _TEST_TOKEN}
 
         health = client.get("/api/v1/health", headers=origin_headers)
         self._record(checks, "api-health-public", health.status_code == 200 and health.json().get("ok") is True, "Health route is public and local.", category="api", critical=True, metadata={"status_code": health.status_code})

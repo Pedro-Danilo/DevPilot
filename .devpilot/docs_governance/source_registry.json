@@ -6818,6 +6818,66 @@
       "required_tests": [
         "tests/test_post_h_027_source_zip_policy.py"
       ]
+    },
+    {
+      "doc_id": "POST-H-027-B-PYTHON-ARTIFACT-INSTALL-SCHEMA",
+      "path": "docs/schemas/python_artifact_install_verification.schema.json",
+      "classification": "machine-readable-source",
+      "domain": "release",
+      "owner": "POST-H-027-B",
+      "status_required": "implemented-initial",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_027_python_artifact_install_verification.py"
+      ]
+    },
+    {
+      "doc_id": "POST-H-027-B-PYTHON-ARTIFACT-VERIFY-MODULE",
+      "path": "src/devpilot_core/release/python_artifact_verify.py",
+      "classification": "machine-readable-source",
+      "domain": "release",
+      "owner": "POST-H-027-B",
+      "status_required": "current",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_027_python_artifact_install_verification.py"
+      ]
+    },
+    {
+      "doc_id": "POST-H-027-B-PYTHON-ARTIFACT-INSTALL-AUDIT",
+      "path": "docs/audits/post_h_027_b_python_artifact_install_report.md",
+      "classification": "source-of-truth",
+      "domain": "release",
+      "owner": "POST-H-027-B",
+      "status_required": "approved",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_027_python_artifact_install_verification.py"
+      ]
+    },
+    {
+      "doc_id": "POST-H-027-B-MANIFEST",
+      "path": "docs/post_h_027_b_manifest.json",
+      "classification": "machine-readable-source",
+      "domain": "release",
+      "owner": "POST-H-027-B",
+      "status_required": "implemented-initial",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_027_python_artifact_install_verification.py"
+      ]
+    },
+    {
+      "doc_id": "POST-H-027-B-PYTHON-ARTIFACT-INSTALL-TEST",
+      "path": "tests/test_post_h_027_python_artifact_install_verification.py",
+      "classification": "derived",
+      "domain": "release",
+      "owner": "POST-H-027-B",
+      "status_required": "current",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_027_python_artifact_install_verification.py"
+      ]
     }
   ],
   "rules": {
@@ -6891,7 +6951,7 @@
     "POST-H-025-C keeps enterprise, remote, SaaS and compliance claims disabled.": true
   },
   "summary": {
-    "documents_total": 238,
+    "documents_total": 262,
     "source_of_truth_total": 86,
     "machine_readable_source_total": 111,
     "derived_total": 32,
@@ -6904,7 +6964,7 @@
     "network_used": false,
     "external_api_used": false,
     "mutations_performed": false,
-    "last_updated_by": "POST-H-025-E",
+    "last_updated_by": "POST-H-027-B",
     "markdown_json_sync_checks_enabled": true,
     "sync_checks_scope": "version_match, milestones_match, decisions_match, closure_status_match, next_hito_match",
     "roadmap_derived_backlog_governance_enabled": true,
@@ -7003,7 +7063,8 @@
     "POST-H-025-E adds final production-ready-local declaration governance entries.",
     "POST-H-025 closes as production-ready-local while enterprise, remote, SaaS and compliance claims remain false.",
     "POST-H-025-E general regression patch normalizes source registry classifications to DocumentationSourceRegistry v1 enum and restores POST-H-017/POST-H-022 accumulated regression markers.",
-    "POST-H-025-E general regression patch preserves created_by=POST-H-009-A as the immutable registry origin while summary.last_updated_by tracks POST-H-025-E updates."
+    "POST-H-025-E general regression patch preserves created_by=POST-H-009-A as the immutable registry origin while summary.last_updated_by tracks POST-H-025-E updates.",
+    "POST-H-027-B registers Python artifact install verification schema/module/audit/manifest/test for docs governance."
   ],
   "project_state_snapshot": {
     "last_updated_by": "POST-H-025-E",

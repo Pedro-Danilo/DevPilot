@@ -102,10 +102,10 @@ def test_project_global_state_schema_and_docs_are_synchronized() -> None:
     assert any("POST-H-013-D adds optional local crypto" in note for note in state["notes"])
     assert any("POST-H-013-E closes Audit pack integrity" in note for note in state["notes"])
     assert any("POST-H-014 is the next prioritized hito" in note for note in state["notes"])
-    assert state.get("current_micro_sprint") == "POST-H-027-A"
-    assert state.get("next_micro_sprint") == "POST-H-027-B"
+    assert state.get("current_micro_sprint") == "POST-H-027-B"
+    assert state.get("next_micro_sprint") == "POST-H-027-C"
     assert state.get("source_repo") == "repo_DevPilot_Local_263_POST_H_025.zip"
-    assert state.get("current_repo") == "repo_DevPilot_Local_269_POST_H_027_A.zip"
+    assert state.get("current_repo") == "repo_DevPilot_Local_270_POST_H_027_B.zip"
     assert state.get("post_h_026_status") == "closed/local-release-candidate-pass"
     assert "POST-H-026-C — UI/API local smoke under RC" in readme
     assert "POST-H-026-C — UI/API local smoke under RC" in runbook
@@ -129,7 +129,7 @@ def test_project_global_state_schema_and_docs_are_synchronized() -> None:
     assert state.get("post_h_026_e_no_go_gates_passed") is True
     assert state.get("post_h_026_release_candidate_declared") is True
     assert any("POST-H-026-E adds LocalReleaseCandidateReporter" in note for note in state["notes"])
-    assert state.get("post_h_027_status") == "active/source-zip-policy-hardening-implemented-initial"
+    assert state.get("post_h_027_status") == "active/python-artifact-install-verification-implemented-initial"
     assert state.get("post_h_027_source_zip_policy_schema_registered") is True
     assert state.get("post_h_027_source_zip_report_schema_registered") is True
     assert state.get("post_h_027_source_zip_policy_cli_command") == "python -m devpilot_core package source-zip-policy --json"
@@ -137,6 +137,16 @@ def test_project_global_state_schema_and_docs_are_synchronized() -> None:
     assert "POST-H-027-A — Source ZIP release policy hardening" in readme
     assert "POST-H-027-A — Source ZIP release policy hardening" in runbook
     assert "post-h-027-a" in changelog
+
+    assert state.get("post_h_027_python_artifact_install_schema_registered") is True
+    assert state.get("post_h_027_python_artifact_install_report_available") is True
+    assert state.get("post_h_027_wheel_install_verification_available") is True
+    assert state.get("post_h_027_sdist_install_verification_available") is True
+    assert state.get("post_h_027_python_artifact_verify_no_network_required") is True
+    assert "POST-H-027-B — Wheel/sdist install verification" in readme
+    assert "POST-H-027-B — Wheel/sdist install verification" in runbook
+    assert "post-h-027-b" in changelog
+    assert any("POST-H-027-B adds PythonArtifactInstallVerifier" in note for note in state["notes"])
     assert "POST-H-014-A — Route Contract Registry y API inventory" in readme
     assert "POST-H-014-B — Response mapping y errores homogéneos" in readme
     assert "POST-H-014-C — UI Route Contract y shell de producto" in readme
@@ -381,8 +391,8 @@ def test_project_global_state_schema_and_docs_are_synchronized() -> None:
     assert any("POST-H-025-C adds industrial-readiness production-ready-local CLI" in note for note in state["notes"])
     assert any("POST-H-025-D adds ProductionReadyClaimsValidator" in note for note in state["notes"])
     assert any("POST-H-025-E adds ProductionReadyFinalDeclaration" in note for note in state["notes"])
-    assert state["current_micro_sprint"] == "POST-H-027-A"
-    assert state["next_micro_sprint"] == "POST-H-027-B"
+    assert state["current_micro_sprint"] == "POST-H-027-B"
+    assert state["next_micro_sprint"] == "POST-H-027-C"
     assert "POST-H-025-A — Criteria schema y evidence map" in readme
     assert "POST-H-025-A — Criteria schema y evidence map" in runbook
     assert "POST-H-025-C — Declaration gate CLI/API" in readme

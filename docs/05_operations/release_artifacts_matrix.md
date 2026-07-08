@@ -1,3 +1,17 @@
+
+## POST-H-027-B — Verificacion local wheel/sdist
+
+Antes de entregar un paquete Python local, genere artefactos y ejecute el smoke de instalacion en venv temporal:
+
+```powershell
+python -m devpilot_core package build --kind python --version 0.1.0 --execute --json --write-report
+python -m devpilot_core release python-artifact-verify --artifact dist\devpilot_local-0.1.0-py3-none-any.whl --json --write-report
+python -m devpilot_core release python-artifact-verify --artifact dist\devpilot-local-0.1.0.tar.gz --json --write-report
+python -m devpilot_core schema validate --schema-id PythonArtifactInstallVerification --instance outputs\release\python_artifact_install_verification.json --json
+```
+
+El verificador no publica, no descarga por defecto y no usa APIs externas. Crea temporales bajo `outputs/tmp`, que son runtime artifacts no versionables.
+
 ---
 title: "Matriz de artefactos de release — DevPilot Local"
 doc_id: "DEVPL-OPS-RELEASE-ARTIFACTS-MATRIX-001"

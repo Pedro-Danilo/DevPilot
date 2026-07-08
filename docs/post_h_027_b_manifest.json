@@ -1,0 +1,72 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "SCHEMA-DEVPL-POST-H-MANIFEST-V1",
+  "post_h_id": "POST-H-027",
+  "title": "POST-H-027-B — Wheel/sdist install verification",
+  "status": "implemented-initial",
+  "phase": "POST-FASE-H",
+  "implemented_at": "2026-07-08T15:30:00Z",
+  "created_files": [
+    "docs/schemas/python_artifact_install_verification.schema.json",
+    "src/devpilot_core/release/python_artifact_verify.py",
+    "tests/test_post_h_027_python_artifact_install_verification.py",
+    "docs/audits/post_h_027_b_python_artifact_install_report.md",
+    "docs/post_h_027_b_manifest.json"
+  ],
+  "modified_files": [
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/backlogs/POST-H-027_packaging_reproducible_local_installation.md",
+    "docs/POST-H-027_packaging_reproducible_local_installation.md",
+    "docs/release/CHANGELOG.md",
+    "docs/schemas/schema_catalog.json",
+    ".devpilot/project_state.json",
+    ".devpilot/release/local_release_candidate_criteria.json",
+    ".devpilot/docs_governance/source_registry.json",
+    ".devpilot/testing/test_contract_registry.json",
+    ".devpilot/testing/test_contract_registry_v2.json",
+    "src/devpilot_core/cli.py",
+    "src/devpilot_core/release/__init__.py",
+    "src/devpilot_core/release_candidate/ui_api_smoke.py",
+    "src/devpilot_core/testing/impact_v2.py",
+    "src/devpilot_core/cli_registry/builders.py",
+    "src/devpilot_core/cli_registry/registry.py",
+    "tests/test_schema_registry.py",
+    "tests/test_project_global_state.py",
+    "tests/test_test_contract_registry_profiles_v2.py"
+  ],
+  "commands": [
+    "python -m devpilot_core package build --kind python --version 0.1.0 --execute --json --write-report",
+    "python -m devpilot_core release python-artifact-verify --artifact dist/devpilot_local-0.1.0-py3-none-any.whl --json --write-report",
+    "python -m devpilot_core release python-artifact-verify --artifact dist/devpilot-local-0.1.0.tar.gz --json --write-report",
+    "python -m devpilot_core schema validate --schema-id PythonArtifactInstallVerification --instance outputs/release/python_artifact_install_verification.json --json"
+  ],
+  "tests": [
+    "tests/test_post_h_027_python_artifact_install_verification.py",
+    "tests/test_package_builder.py",
+    "tests/test_installation_plan.py",
+    "tests/test_release_verification.py",
+    "tests/test_schema_registry.py"
+  ],
+  "pass_criteria": [
+    "Wheel install smoke passes from a temporary venv.",
+    "Sdist install smoke passes using local build tooling without mandatory network access.",
+    "Post-install CLI smoke validates --version, schema list, project-state and docs-governance.",
+    "Installed import does not depend on src/devpilot_core from the source tree.",
+    "Report validates against PythonArtifactInstallVerification schema."
+  ],
+  "block_criteria": [
+    "Artifact is missing, outside workspace or unsupported.",
+    "pip install fails in the temporary venv.",
+    "Post-install CLI smoke fails.",
+    "Source path dependency is detected.",
+    "Network, external API, publish, deploy or source mutation is required."
+  ],
+  "risks": [
+    "Dependency wheelhouse governance remains future work in POST-H-027-C/D.",
+    "This sprint does not validate a complete multi-OS matrix or installer UX.",
+    "Temporary venv creation is a runtime mutation under outputs/tmp and must not be committed."
+  ],
+  "next_sprint": "POST-H-027",
+  "preliminary": true
+}

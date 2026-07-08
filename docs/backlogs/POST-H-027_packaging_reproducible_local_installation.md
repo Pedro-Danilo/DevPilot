@@ -3,7 +3,7 @@ doc_id: "POST-H-027-BACKLOG"
 id: "POST-H-027"
 title: "POST-H-027 — Packaging reproducible e instalacion local"
 status: "approved"
-version: "0.2.0"
+version: "0.3.0"
 owner: "Ordonez"
 created: "2026-07-07"
 updated: "2026-07-08"
@@ -29,9 +29,9 @@ claims_forbidden:
   - "remote-ready"
   - "SaaS-ready"
   - "compliance-certified"
-implementation_status: "active/source-zip-policy-hardening-implemented-initial"
-current_micro_sprint: "POST-H-027-A"
-next_micro_sprint: "POST-H-027-B"
+implementation_status: "active/python-artifact-install-verification-implemented-initial"
+current_micro_sprint: "POST-H-027-B"
+next_micro_sprint: "POST-H-027-C"
 ---
 
 # POST-H-027 — Packaging reproducible e instalacion local
@@ -506,6 +506,14 @@ python -m devpilot_core release python-artifact-verify --artifact dist\devpilot_
 python -m devpilot_core release python-artifact-verify --artifact dist\devpilot-local-0.1.0.tar.gz --json --write-report
 python -m devpilot_core schema validate --schema-id PythonArtifactInstallVerification --instance outputs/release/python_artifact_install_verification.json --json
 ```
+
+## 10.1 Implementacion POST-H-027-B
+
+Estado: `implemented-initial / python-artifact-install-verification`.
+
+POST-H-027-B agrega `PythonArtifactInstallVerifier` y el comando `python -m devpilot_core release python-artifact-verify --artifact <wheel|sdist> --json`. El verificador crea un venv temporal bajo `outputs/tmp/python-artifact-install`, instala el artefacto local con `pip --no-index --no-deps`, ejecuta `devpilot_core --version`, `schema list`, `project-state validate` y `docs-governance validate`, y confirma que el import de `devpilot_core` proviene del entorno instalado, no de `src/devpilot_core`.
+
+La verificacion de `sdist` usa `--no-build-isolation` para aprovechar herramientas locales ya disponibles sin descargar build dependencies. Esta primera version no publica, no firma, no genera manifest/checksums unificados, no implementa instalador Windows ni upgrade/rollback; esos alcances permanecen en POST-H-027-C/D/E.
 
 ## 11. Micro-sprint POST-H-027-C — Artifact manifest and checksums
 

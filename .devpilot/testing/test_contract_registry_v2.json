@@ -12146,6 +12146,79 @@
         "approved_by": "POST-H-027-A",
         "expires_at_utc": "2027-01-01T00:00:00Z"
       }
+    },
+    {
+      "contract_id": "post-h-027-python-artifact-install-verification",
+      "schema_version": "2.0",
+      "source_contract_id": "post-h-027-python-artifact-install-verification",
+      "domain": "release",
+      "capability": "python-artifact-install-verification",
+      "criticality": "P0",
+      "risk_level": "critical",
+      "test_type": "release",
+      "execution_profile": "release",
+      "cost_class": "medium",
+      "expected_duration_seconds": 420,
+      "test_files": [
+        "tests/test_post_h_027_python_artifact_install_verification.py"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/release/python_artifact_verify.py",
+        "src/devpilot_core/release/package_builder.py",
+        "src/devpilot_core/release/installation.py",
+        "src/devpilot_core/release_candidate/ui_api_smoke.py",
+        "src/devpilot_core/cli.py",
+        "pyproject.toml",
+        "docs/schemas/python_artifact_install_verification.schema.json",
+        "docs/backlogs/POST-H-027_packaging_reproducible_local_installation.md"
+      ],
+      "validates": [
+        "release python-artifact-verify",
+        "src/devpilot_core/release/python_artifact_verify.py",
+        "docs/schemas/python_artifact_install_verification.schema.json",
+        "docs/audits/post_h_027_b_python_artifact_install_report.md"
+      ],
+      "trigger_hints": [
+        "POST-H-027-B",
+        "PythonArtifactInstallVerification",
+        "python-artifact-verify",
+        "wheel",
+        "sdist",
+        "pip --no-index"
+      ],
+      "impact_scope": [
+        "release",
+        "packaging",
+        "installation",
+        "schemas",
+        "docs-governance",
+        "testing"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "POST-H-027-B",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_027_python_artifact_install_verification.py tests/test_package_builder.py tests/test_installation_plan.py tests/test_release_verification.py tests/test_schema_registry.py -q",
+        "python -m devpilot_core package build --kind python --version 0.1.0 --execute --json --write-report",
+        "python -m devpilot_core release python-artifact-verify --artifact dist/devpilot_local-0.1.0-py3-none-any.whl --json --write-report",
+        "python -m devpilot_core release python-artifact-verify --artifact dist/devpilot-local-0.1.0.tar.gz --json --write-report",
+        "python -m devpilot_core schema validate --schema-id PythonArtifactInstallVerification --instance outputs/release/python_artifact_install_verification.json --json"
+      ],
+      "classification_status": "explicit",
+      "classification_notes": [
+        "POST-H-027-B performs controlled local temporary venv install smoke for Python wheel/sdist artifacts.",
+        "The contract is classified as no mutation_allowed in TCR terms: generated dist/outputs/tmp artifacts are explicit runtime evidence, not source or product-state mutation."
+      ],
+      "safety_exception": {
+        "justification": "No exception: verifier writes only explicit runtime evidence/temp artifacts when invoked; source mutations, network, external APIs, publish and deploy remain disabled.",
+        "approved_by": "POST-H-027-B",
+        "expires_at_utc": "2027-01-01T00:00:00Z"
+      }
     }
   ],
   "migration_metadata": {
@@ -12156,7 +12229,7 @@
     "network_used": false,
     "external_api_used": false,
     "mutations_performed_by_default": false,
-    "contracts_total": 189,
+    "contracts_total": 195,
     "last_updated_by": "POST-H-026-A"
   },
   "notes": [
@@ -12182,6 +12255,7 @@
     "POST-H-025-C adds v2 production-ready-local declaration gate CLI/API contract.",
     "POST-H-025-D adds v2 production-ready-local no-go claims validator contract.",
     "POST-H-025-E adds v2 production-ready-local final declaration contract.",
-    "POST-H-026-A adds v2 evidence freshness release contract."
+    "POST-H-026-A adds v2 evidence freshness release contract.",
+    "POST-H-027-B registers Python artifact install verification v2 release contract."
   ]
 }

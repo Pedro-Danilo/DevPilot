@@ -6922,6 +6922,57 @@
         "POST-H-027-A validates schema-backed clean source ZIP release policy and optional candidate ZIP artifacts.",
         "No publication, signing, deploy, network, external APIs or package installation is enabled."
       ]
+    },
+    {
+      "contract_id": "post-h-027-python-artifact-install-verification",
+      "scope": "integration",
+      "owner": "POST-H-027-B",
+      "test_files": [
+        "tests/test_post_h_027_python_artifact_install_verification.py"
+      ],
+      "validates": [
+        "src/devpilot_core/release/python_artifact_verify.py",
+        "docs/schemas/python_artifact_install_verification.schema.json",
+        "release python-artifact-verify",
+        "docs/audits/post_h_027_b_python_artifact_install_report.md",
+        "docs/post_h_027_b_manifest.json",
+        "README.md",
+        "docs/05_operations/runbook.md"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/release/python_artifact_verify.py",
+        "src/devpilot_core/release/package_builder.py",
+        "src/devpilot_core/release/installation.py",
+        "src/devpilot_core/release_candidate/ui_api_smoke.py",
+        "src/devpilot_core/cli.py",
+        "pyproject.toml",
+        "docs/schemas/python_artifact_install_verification.schema.json",
+        "docs/backlogs/POST-H-027_packaging_reproducible_local_installation.md",
+        "tests/test_post_h_027_python_artifact_install_verification.py",
+        ".devpilot/testing/test_contract_registry.json",
+        ".devpilot/testing/test_contract_registry_v2.json"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_027_python_artifact_install_verification.py tests/test_package_builder.py tests/test_installation_plan.py tests/test_release_verification.py tests/test_schema_registry.py -q",
+        "python -m devpilot_core package build --kind python --version 0.1.0 --execute --json --write-report",
+        "python -m devpilot_core release python-artifact-verify --artifact dist/devpilot_local-0.1.0-py3-none-any.whl --json --write-report",
+        "python -m devpilot_core release python-artifact-verify --artifact dist/devpilot-local-0.1.0.tar.gz --json --write-report",
+        "python -m devpilot_core schema validate --schema-id PythonArtifactInstallVerification --instance outputs/release/python_artifact_install_verification.json --json"
+      ],
+      "notes": [
+        "POST-H-027-B verifies local wheel/sdist install smoke in temporary venvs with pip --no-index and no source-tree imports.",
+        "Runtime mutations are limited to dist/ and outputs/tmp or outputs/release when explicit commands are used."
+      ],
+      "classification_notes": [
+        "POST-H-027-B treats dist/outputs/tmp writes as explicit runtime evidence, not source mutation permission."
+      ]
     }
   ],
   "notes": [
@@ -6963,6 +7014,7 @@
     "POST-H-025-C adds production-ready-local declaration gate CLI/API contract.",
     "POST-H-025-D adds production-ready-local no-go claims validator contract.",
     "POST-H-025-E adds production-ready-local final declaration contract.",
-    "POST-H-026-A registers evidence freshness test contract."
+    "POST-H-026-A registers evidence freshness test contract.",
+    "POST-H-027-B registers Python artifact install verification contract."
   ]
 }

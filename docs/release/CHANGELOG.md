@@ -1,3 +1,10 @@
+
+## post-h-027-b
+
+- Added `release python-artifact-verify` for local wheel/sdist temporary venv install verification.
+- Added `PythonArtifactInstallVerification` schema/report, audit and manifest.
+- Kept packaging local-first: no mandatory network, no external APIs, no publish/deploy and no source mutations.
+
 ## post-h-027-a — Source ZIP release policy hardening
 
 ### Added

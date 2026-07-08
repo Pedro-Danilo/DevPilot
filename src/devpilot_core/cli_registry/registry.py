@@ -222,8 +222,8 @@ DECLARATIVE_GROUPS: dict[str, DeclarativeGroupDescriptor] = {
         group_id="package",
         domain="release",
         owner_module="src/devpilot_core/cli.py",
-        recommended_tests=("python -m pytest tests/test_post_h_027_source_zip_policy.py tests/test_package_builder.py tests/test_post_h_006_b_declarative_registry.py -q",),
-        rationale="POST-H-027-A registers package build and source-zip-policy as governed local release packaging commands before enforcing CLI no-growth gates.",
+        recommended_tests=("python -m pytest tests/test_post_h_027_source_zip_policy.py tests/test_post_h_027_python_artifact_install_verification.py tests/test_package_builder.py tests/test_post_h_006_b_declarative_registry.py -q",),
+        rationale="POST-H-027-B keeps package build, source-zip-policy and python-artifact-verify as governed local release packaging commands before enforcing CLI no-growth gates.",
     ),
     "cli-registry": DeclarativeGroupDescriptor(
         group_id="cli-registry",

@@ -99,6 +99,8 @@ from .release import (
     PackageBuildOptions,
     SourceZipPolicyOptions,
     SourceZipReleasePolicyValidator,
+    PythonArtifactInstallVerificationOptions,
+    PythonArtifactInstallVerifier,
     InstallPlanBuilder,
     InstallPlanOptions,
     ReleaseChangelogBuilder,
@@ -2687,6 +2689,37 @@ def upgrade_check_command(*, target_version: str | None = None, json_output: boo
     print_result(result, json_output=json_output)
     return int(result.exit_code)
 
+
+
+def release_python_artifact_verify_command(
+    *,
+    artifact: str,
+    timeout_seconds: int = 60,
+    keep_temp: bool = False,
+    json_output: bool = False,
+    write_report: bool = False,
+) -> int:
+    """Verify POST-H-027-B wheel/sdist installation in a temporary local venv.
+
+    The verifier performs a real local install smoke from one Python artifact.
+    It uses pip --no-index/--no-deps, never publishes or downloads packages,
+    and writes evidence only when --write-report is explicit.
+    """
+
+    root = project_root()
+    result = PythonArtifactInstallVerifier(
+        root,
+        PythonArtifactInstallVerificationOptions(
+            artifact=artifact,
+            timeout_seconds=timeout_seconds,
+            keep_temp=keep_temp,
+            write_report=write_report,
+        ),
+    ).run()
+    _emit_result_event(root, result, subject="release:python-artifact-verify")
+    _persist_result(root, result, subject="release:python-artifact-verify")
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
 
 def package_build_command(
     *,
@@ -6349,6 +6382,12 @@ def build_parser() -> argparse.ArgumentParser:
     release_verify.add_argument("--timeout-seconds", type=int, default=30, help="Timeout for minimal local CLI smoke command")
     release_verify.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     release_verify.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown release verification evidence")
+    release_python_artifact = release_sub.add_parser("python-artifact-verify", help="Verify POST-H-027-B local wheel/sdist install smoke")
+    release_python_artifact.add_argument("--artifact", required=True, help="Local .whl or .tar.gz artifact to install in a temporary venv")
+    release_python_artifact.add_argument("--timeout-seconds", type=int, default=60, help="Timeout for each local subprocess command")
+    release_python_artifact.add_argument("--keep-temp", action="store_true", help="Keep temporary outputs/tmp venv for debugging; default cleans it")
+    release_python_artifact.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    release_python_artifact.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown install verification evidence under outputs/release")
 
     install = sub.add_parser("install", help="Plan safe local DevPilot installation")
     install_sub = install.add_subparsers(dest="install_command")
@@ -7615,6 +7654,14 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
                 artifact=args.artifact,
                 version=args.release_version,
                 timeout_seconds=args.timeout_seconds,
+                json_output=args.json,
+                write_report=args.write_report,
+            )
+        if args.release_command == "python-artifact-verify":
+            return release_python_artifact_verify_command(
+                artifact=args.artifact,
+                timeout_seconds=args.timeout_seconds,
+                keep_temp=args.keep_temp,
                 json_output=args.json,
                 write_report=args.write_report,
             )
