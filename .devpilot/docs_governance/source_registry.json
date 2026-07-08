@@ -6,7 +6,7 @@
   "status": "implemented-initial",
   "phase": "POST-FASE-H",
   "owner": "Ordóñez",
-  "updated": "2026-07-03",
+  "updated": "2026-07-07",
   "preliminary": true,
   "documents": [
     {
@@ -44,7 +44,9 @@
         "docs/backlogs/POST-H-021_remote_runner_adr2.md",
         "docs/backlogs/POST-H-022_enterprise_deployment_threat_model.md",
         "docs/backlogs/POST-H-023_secure_transport_design.md",
-        "docs/backlogs/POST-H-025_production_ready_declaration_gate.md"
+        "docs/backlogs/POST-H-025_production_ready_declaration_gate.md",
+        "docs/backlogs/POST-H-026_local_release_candidate_operator_verification.md",
+        "docs/POST-H-026_local_release_candidate_operator_verification.md"
       ],
       "required_tests": [
         "tests/test_post_h_roadmap_onboarding_adjustment.py",
@@ -86,7 +88,8 @@
         "POST-H-022",
         "POST-H-023",
         "POST-H-024",
-        "POST-H-025"
+        "POST-H-025",
+        "POST-H-026"
       ],
       "lifecycle": "active",
       "notes": [
@@ -6435,6 +6438,85 @@
       ],
       "notes": [
         "Focused regression test for POST-H-025-E final declaration package."
+      ]
+    },
+    {
+      "doc_id": "POST-H-026-BACKLOG",
+      "path": "docs/backlogs/POST-H-026_local_release_candidate_operator_verification.md",
+      "classification": "source-of-truth",
+      "domain": "release-candidate",
+      "owner": "Ordóñez",
+      "status_required": "approved",
+      "criticality": "P0",
+      "machine_readable_counterparts": [
+        ".devpilot/release/local_release_candidate_criteria.json"
+      ],
+      "derived_documents": [
+        "docs/POST-H-026_local_release_candidate_operator_verification.md",
+        "docs/audits/post_h_026_a_evidence_freshness_report.md"
+      ],
+      "required_tests": [
+        "tests/test_post_h_026_evidence_freshness.py",
+        "tests/test_project_global_state.py"
+      ],
+      "sync_rules": [
+        "frontmatter_required",
+        "current_micro_sprint_match",
+        "freshness_criteria_match"
+      ],
+      "lifecycle": "active",
+      "notes": [
+        "POST-H-026-A starts local release candidate operator verification."
+      ]
+    },
+    {
+      "doc_id": "POST-H-026-DOC",
+      "path": "docs/POST-H-026_local_release_candidate_operator_verification.md",
+      "classification": "human-readable-counterpart",
+      "domain": "release-candidate",
+      "owner": "Ordóñez",
+      "status_required": "approved",
+      "criticality": "P1",
+      "human_readable_counterparts": [
+        "docs/backlogs/POST-H-026_local_release_candidate_operator_verification.md"
+      ],
+      "machine_readable_counterparts": [
+        ".devpilot/release/local_release_candidate_criteria.json"
+      ],
+      "required_tests": [
+        "tests/test_post_h_026_evidence_freshness.py",
+        "tests/test_project_global_state.py"
+      ],
+      "sync_rules": [
+        "frontmatter_required",
+        "operator_commands_match"
+      ],
+      "lifecycle": "active",
+      "notes": [
+        "Operational top-level document for POST-H-026."
+      ]
+    },
+    {
+      "doc_id": "POST-H-026-A-EVIDENCE-FRESHNESS-REPORT",
+      "path": "docs/audits/post_h_026_a_evidence_freshness_report.md",
+      "classification": "audit-report",
+      "domain": "release-candidate",
+      "owner": "Ordóñez",
+      "status_required": "approved",
+      "criticality": "P1",
+      "machine_readable_counterparts": [
+        "docs/post_h_026_a_manifest.json"
+      ],
+      "required_tests": [
+        "tests/test_post_h_026_evidence_freshness.py"
+      ],
+      "sync_rules": [
+        "frontmatter_required",
+        "manifest_match"
+      ],
+      "lifecycle": "active",
+      "notes": [
+        "Audit report for POST-H-026-A implementation."
       ]
     }
   ],

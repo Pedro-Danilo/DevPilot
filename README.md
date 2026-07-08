@@ -1,3 +1,21 @@
+## POST-H-026-A — Evidence freshness model
+
+Último hito cerrado: `POST-H-025`
+
+Hito activo: `POST-H-026 — Release candidate local y verificación de operador`
+
+Último micro-sprint implementado: `POST-H-026-A — Evidence freshness model`
+
+Siguiente micro-sprint: `POST-H-026-B — Release candidate verification profile`
+
+POST-H-026-A agrega el contrato `EvidenceFreshnessReport`, el registry `.devpilot/release/local_release_candidate_criteria.json`, el módulo `src/devpilot_core/release_candidate/evidence_freshness.py` y el comando `python -m devpilot_core release-candidate evidence-freshness --json`.
+
+La capacidad queda `implemented-initial / evidence-freshness-read-only`: clasifica evidencia crítica como `fresh`, `stale`, `missing`, `invalid` o `not_applicable`; bloquea el release candidate local si evidencia crítica está stale/missing/invalid; detecta drift contextual de `source_repo/current_repo/current_micro_sprint`; y no regenera evidencia ni corrige documentos automáticamente.
+
+POST-H-026-A no declara RC final, no ejecuta pytest, no recalcula reportes POST-H-025, no habilita red, APIs externas, remote execution, connector write ni plugin execution. La escritura de `outputs/reports/evidence_freshness_report.json` y `.md` ocurre solo con `--write-report`; los outputs siguen siendo runtime evidence regenerable y no deben versionarse en ZIPs limpios.
+
+Verificación focal recomendada: `python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_026_evidence_freshness.py tests/test_post_h_025_production_ready_criteria.py tests/test_post_h_025_production_ready_aggregator.py tests/test_schema_registry.py tests/test_project_global_state.py -q`.
+
 ## POST-H-025-E — Declaración final o BLOCK report
 
 Último hito: `POST-H-025`

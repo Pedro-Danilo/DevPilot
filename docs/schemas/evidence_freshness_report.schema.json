@@ -1,0 +1,107 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/SCHEMA-DEVPL-EVIDENCE-FRESHNESS-REPORT-V1",
+  "title": "DevPilot EvidenceFreshnessReport v1",
+  "description": "Structural contract for POST-H-026-A local release candidate evidence freshness reports. The report classifies critical evidence as fresh, stale, missing, invalid or not_applicable without executing validation commands, using network or mutating source files.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "schema_id",
+    "report_id",
+    "created_by",
+    "created_at",
+    "scope",
+    "decision",
+    "evidence_total",
+    "fresh_total",
+    "stale_total",
+    "missing_total",
+    "critical_stale_total",
+    "critical_missing_total",
+    "critical_invalid_total",
+    "items",
+    "safety",
+    "summary",
+    "limitations"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "schema_id": {"const": "SCHEMA-DEVPL-EVIDENCE-FRESHNESS-REPORT-V1"},
+    "report_id": {"type": "string", "pattern": "^evidence-freshness-[a-z0-9_-]+$"},
+    "created_by": {"const": "POST-H-026-A"},
+    "created_at": {"type": "string", "minLength": 10},
+    "scope": {"const": "local-release-candidate"},
+    "decision": {"enum": ["PASS", "BLOCK"]},
+    "repo_version": {"type": ["string", "null"]},
+    "criteria_id": {"type": ["string", "null"]},
+    "criteria_path": {"type": "string"},
+    "evidence_total": {"type": "integer", "minimum": 0},
+    "fresh_total": {"type": "integer", "minimum": 0},
+    "stale_total": {"type": "integer", "minimum": 0},
+    "missing_total": {"type": "integer", "minimum": 0},
+    "invalid_total": {"type": "integer", "minimum": 0},
+    "not_applicable_total": {"type": "integer", "minimum": 0},
+    "critical_total": {"type": "integer", "minimum": 0},
+    "critical_stale_total": {"type": "integer", "minimum": 0},
+    "critical_missing_total": {"type": "integer", "minimum": 0},
+    "critical_invalid_total": {"type": "integer", "minimum": 0},
+    "no_go_gates_passed": {"type": "boolean"},
+    "no_go_gates": {"type": "object"},
+    "items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["evidence_id", "title", "path", "critical", "status", "reason"],
+        "properties": {
+          "evidence_id": {"type": "string", "minLength": 1},
+          "title": {"type": "string", "minLength": 1},
+          "path": {"type": "string", "minLength": 1},
+          "category": {"type": ["string", "null"]},
+          "critical": {"type": "boolean"},
+          "runtime_optional": {"type": "boolean"},
+          "expected_schema_id": {"type": ["string", "null"]},
+          "producer_sprint": {"type": ["string", "null"]},
+          "freshness_policy": {"type": "string"},
+          "status": {"enum": ["fresh", "stale", "missing", "invalid", "not_applicable"]},
+          "reason": {"type": "string", "minLength": 1},
+          "checks": {"type": "array"},
+          "metadata": {"type": "object"}
+        },
+        "additionalProperties": true
+      }
+    },
+    "summary": {"type": "object"},
+    "safety": {
+      "type": "object",
+      "required": ["local_first", "read_only", "network_used", "external_api_used", "source_mutations"],
+      "properties": {
+        "local_first": {"const": true},
+        "read_only": {"const": true},
+        "network_used": {"const": false},
+        "external_api_used": {"const": false},
+        "source_mutations": {"const": false},
+        "source_mutations_performed": {"const": false},
+        "mutations_performed": {"type": "boolean"},
+        "reports_written": {"type": "boolean"}
+      },
+      "additionalProperties": true
+    },
+    "limitations": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"decision": {"const": "PASS"}}},
+      "then": {
+        "properties": {
+          "critical_stale_total": {"const": 0},
+          "critical_missing_total": {"const": 0},
+          "critical_invalid_total": {"const": 0}
+        }
+      }
+    }
+  ],
+  "additionalProperties": true,
+  "x-devpilot-schema-id": "SCHEMA-DEVPL-EVIDENCE-FRESHNESS-REPORT-V1",
+  "x-devpilot-sprint": "POST-H-026-A",
+  "x-devpilot-status": "registered"
+}

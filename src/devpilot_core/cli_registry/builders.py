@@ -29,6 +29,7 @@ DEFAULT_TOP_LEVEL_TESTS = {
     "miasi": "python -m pytest tests/test_miasi_registry.py tests/test_miasi_semantic_validator.py -q",
     "project-state": "python -m pytest tests/test_project_global_state.py -q",
     "industrial-readiness": "python -m pytest tests/test_industrial_readiness.py -q",
+    "release-candidate": "python -m pytest tests/test_post_h_026_evidence_freshness.py -q",
 }
 
 DOMAIN_BY_GROUP = {
@@ -62,6 +63,7 @@ DOMAIN_BY_GROUP = {
     "rag": "knowledge.rag",
     "readiness-check": "documentation.governance",
     "release": "release",
+    "release-candidate": "release",
     "remote": "enterprise.remote",
     "repo": "quality.gate",
     "schema": "governance.schemas",
@@ -79,7 +81,7 @@ DOMAIN_BY_GROUP = {
     "workspace": "operations.workspace",
 }
 
-HIGH_RISK_GROUPS = {"backup", "package", "patch", "release", "remote", "connector", "plugin", "api", "tests"}
+HIGH_RISK_GROUPS = {"backup", "package", "patch", "release", "release-candidate", "remote", "connector", "plugin", "api", "tests"}
 CRITICAL_GROUPS = {"remote", "connector", "plugin"}
 POLICY_REQUIRED_GROUPS = {"policy", "approval", "security", "connector", "plugin", "remote", "patch", "backup", "package"}
 

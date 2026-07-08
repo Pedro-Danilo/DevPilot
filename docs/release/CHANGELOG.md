@@ -1,3 +1,23 @@
+## post-h-026-a — Evidence freshness model
+
+### Added
+
+- Added `EvidenceFreshnessReport` schema for local release candidate freshness/staleness reports.
+- Added `.devpilot/release/local_release_candidate_criteria.json` as the POST-H-026-A freshness criteria registry.
+- Added `EvidenceFreshnessScanner` and CLI command `release-candidate evidence-freshness`.
+- Added POST-H-026-A manifest, audit report and focused tests.
+
+### Changed
+
+- Corrected project-state source/current repo metadata drift for the active POST-H-026-A implementation.
+- Synchronized README, runbook, backlog, schema catalog and TCR v1/v2 with the new freshness contract.
+
+### Security
+
+- The scanner is local-first and does not execute validation commands, pytest, network calls or external APIs.
+- Default execution does not write outputs; `--write-report` writes only regenerable runtime evidence under `outputs/reports`.
+- Remote execution, connector write and plugin execution remain disabled.
+
 ## post-h-025-e — Production-ready local final declaration
 
 ### Added

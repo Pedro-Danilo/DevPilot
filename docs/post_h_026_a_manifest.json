@@ -1,0 +1,105 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "SCHEMA-DEVPL-POST-H-MANIFEST-V1",
+  "manifest_id": "POST-H-026-A-MANIFEST",
+  "post_h_id": "POST-H-026",
+  "micro_sprint": "POST-H-026-A",
+  "title": "POST-H-026-A — Evidence freshness model",
+  "status": "implemented-initial",
+  "phase": "POST-FASE-H",
+  "implemented_at": "2026-07-07",
+  "implementation_status": "implemented-initial/evidence-freshness-read-only/patch-1",
+  "preliminary": true,
+  "local_first": true,
+  "dry_run": true,
+  "read_only": true,
+  "no_remote_execution_enabled": true,
+  "no_external_apis_used": true,
+  "no_connector_write_enabled": true,
+  "no_plugin_execution_enabled": true,
+  "network_used": false,
+  "external_api_used": false,
+  "remote_execution_used": false,
+  "connector_write_used": false,
+  "plugin_execution_used": false,
+  "secrets_included": false,
+  "created_files": [
+    "docs/schemas/evidence_freshness_report.schema.json",
+    ".devpilot/release/local_release_candidate_criteria.json",
+    "src/devpilot_core/release_candidate/__init__.py",
+    "src/devpilot_core/release_candidate/evidence_freshness.py",
+    "docs/POST-H-026_local_release_candidate_operator_verification.md",
+    "docs/audits/post_h_026_a_evidence_freshness_report.md",
+    "docs/post_h_026_a_manifest.json",
+    "tests/test_post_h_026_evidence_freshness.py"
+  ],
+  "modified_files": [
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/backlogs/POST-H-026_local_release_candidate_operator_verification.md",
+    "docs/release/CHANGELOG.md",
+    "docs/schemas/schema_catalog.json",
+    ".devpilot/project_state.json",
+    ".devpilot/testing/test_contract_registry.json",
+    ".devpilot/testing/test_contract_registry_v2.json",
+    ".devpilot/docs_governance/source_registry.json",
+    "src/devpilot_core/cli.py",
+    "src/devpilot_core/cli_registry/builders.py",
+    "src/devpilot_core/cli_registry/registry.py",
+    "tests/test_schema_registry.py",
+    "tests/test_project_global_state.py"
+  ],
+  "commands": [
+    "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_026_evidence_freshness.py tests/test_post_h_025_production_ready_criteria.py tests/test_post_h_025_production_ready_aggregator.py tests/test_schema_registry.py tests/test_project_global_state.py -q",
+    "python -m devpilot_core release-candidate evidence-freshness --json",
+    "python -m devpilot_core release-candidate evidence-freshness --json --write-report",
+    "python -m devpilot_core schema validate --schema-id EvidenceFreshnessReport --instance outputs/reports/evidence_freshness_report.json --json",
+    "python -m devpilot_core schema validate --schema-id PostHManifest --instance docs/post_h_026_a_manifest.json --json",
+    "python -m devpilot_core test-contracts validate --json",
+    "python -m devpilot_core test-contracts validate-v2 --json",
+    "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_026_evidence_freshness.py tests/test_post_h_025_production_ready_criteria.py tests/test_post_h_025_production_ready_aggregator.py tests/test_schema_registry.py tests/test_project_global_state.py tests/test_post_h_006_e_cli_no_growth_gate.py -q"
+  ],
+  "tests": [
+    "tests/test_post_h_026_evidence_freshness.py",
+    "tests/test_post_h_025_production_ready_criteria.py",
+    "tests/test_post_h_025_production_ready_aggregator.py",
+    "tests/test_schema_registry.py",
+    "tests/test_project_global_state.py",
+    "tests/test_post_h_006_e_cli_no_growth_gate.py"
+  ],
+  "pass_criteria": [
+    "EvidenceFreshnessReport valida instancias PASS y BLOCK.",
+    "El scanner detecta fresh, stale, missing e invalid mediante fixtures.",
+    "Evidencia critica stale/missing/invalid produce BLOCK.",
+    "La ejecucion por defecto no escribe outputs.",
+    "--write-report escribe JSON/Markdown bajo outputs/reports.",
+    "La autovalidación del reporte no bloquea fixtures mínimos sin schema catalog; sí valida y bloquea en repos reales donde existe docs/schemas/evidence_freshness_report.schema.json."
+  ],
+  "block_criteria": [
+    "BLOCK si una evidencia critica stale no bloquea.",
+    "BLOCK si se usa mtime de outputs como unica fuente de verdad.",
+    "BLOCK si el reporte declara PASS sin criteria registry.",
+    "BLOCK si se versionan outputs runtime.",
+    "BLOCK si se altera evidence map POST-H-025 sin regresion focal."
+  ],
+  "risks": [
+    "Criteria registry puede producir falsos BLOCK si no se actualiza junto con project_state.",
+    "POST-H-026-A no reemplaza el RC PASS/BLOCK final.",
+    "Runtime outputs son evidencia regenerable y pueden estar ausentes en repos limpios."
+  ],
+  "next_sprint": "POST-H-026",
+  "next_micro_sprint": "POST-H-026-B",
+  "corrective_patches": [
+    {
+      "patch_id": "POST-H-026-A-P1",
+      "date": "2026-07-08",
+      "reason": "Avoid blocking freshness semantics tests in minimal synthetic workspaces without schema catalog and keep findings aligned with final report decision.",
+      "modified_files": [
+        "src/devpilot_core/release_candidate/evidence_freshness.py",
+        "docs/audits/post_h_026_a_evidence_freshness_report.md",
+        "docs/post_h_026_a_manifest.json"
+      ],
+      "verification": "29 passed in focal POST-H-026-A command set"
+    }
+  ]
+}

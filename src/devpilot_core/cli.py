@@ -123,6 +123,7 @@ from .release import (
     UpgradeCheckOptions,
     checksum_line,
 )
+from .release_candidate import EvidenceFreshnessOptions, EvidenceFreshnessScanner
 from .reports import ReportEngine, build_report_id
 from .security import PolicySimulationSuite, SecurityReadiness
 from .schemas import BuiltinContractValidator, SchemaRegistry, SchemaValidator
@@ -3271,6 +3272,35 @@ def industrial_readiness_production_ready_local_final_command(
     return int(result.exit_code)
 
 
+def release_candidate_evidence_freshness_command(
+    *,
+    criteria_path: str = ".devpilot/release/local_release_candidate_criteria.json",
+    output_json: str = "outputs/reports/evidence_freshness_report.json",
+    output_markdown: str = "outputs/reports/evidence_freshness_report.md",
+    json_output: bool = False,
+    write_report: bool = False,
+) -> int:
+    """Run POST-H-026-A evidence freshness checks for the local RC.
+
+    This command intentionally skips generic CLI event/history persistence so
+    the default invocation remains free of outputs/traces writes. Report writing
+    is opt-in and limited to outputs/reports.
+    """
+
+    root = project_root()
+    result = EvidenceFreshnessScanner(
+        root,
+        options=EvidenceFreshnessOptions(
+            criteria_path=criteria_path,
+            output_json=output_json,
+            output_markdown=output_markdown,
+            write_report=write_report,
+        ),
+    ).scan()
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+
 
 
 def test_contracts_validate_command(
@@ -5405,6 +5435,15 @@ def build_parser() -> argparse.ArgumentParser:
     industrial_prl_final.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown runtime evidence report")
     industrial_prl_final.add_argument("--write-audit", action="store_true", help="Persist final audit declaration Markdown")
 
+    release_candidate = sub.add_parser("release-candidate", help="Verify local release candidate evidence and operator readiness")
+    release_candidate_sub = release_candidate.add_subparsers(dest="release_candidate_command")
+    release_candidate_freshness = release_candidate_sub.add_parser("evidence-freshness", help="Run POST-H-026-A evidence freshness checks without regenerating evidence")
+    release_candidate_freshness.add_argument("--criteria-path", default=".devpilot/release/local_release_candidate_criteria.json", help="Local release candidate criteria JSON path")
+    release_candidate_freshness.add_argument("--output-json", default="outputs/reports/evidence_freshness_report.json", help="Evidence freshness report JSON path")
+    release_candidate_freshness.add_argument("--output-markdown", default="outputs/reports/evidence_freshness_report.md", help="Evidence freshness report Markdown path")
+    release_candidate_freshness.add_argument("--write-report", action="store_true", help="Write EvidenceFreshnessReport JSON/Markdown under outputs/reports")
+    release_candidate_freshness.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+
     architecture = sub.add_parser("architecture", help="Build executable local architecture map evidence")
     architecture_sub = architecture.add_subparsers(dest="architecture_command")
     architecture_inventory = architecture_sub.add_parser("inventory", help="Build read-only AST inventory of devpilot_core packages and modules")
@@ -6685,6 +6724,17 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
                 output_json=args.output_json,
                 output_markdown=args.output_markdown,
                 audit_markdown=args.audit_markdown,
+            )
+        parser.print_help()
+        return int(ExitCode.FAIL)
+    if args.command == "release-candidate":
+        if args.release_candidate_command == "evidence-freshness":
+            return release_candidate_evidence_freshness_command(
+                criteria_path=args.criteria_path,
+                output_json=args.output_json,
+                output_markdown=args.output_markdown,
+                json_output=args.json,
+                write_report=args.write_report,
             )
         parser.print_help()
         return int(ExitCode.FAIL)

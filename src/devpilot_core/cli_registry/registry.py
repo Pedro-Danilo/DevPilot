@@ -44,6 +44,7 @@ POST_H_006_B_INITIAL_GROUPS: tuple[str, ...] = (
     "test-contracts",
     "quality-gate",
     "industrial-readiness",
+    "release-candidate",
 )
 
 
@@ -208,6 +209,13 @@ DECLARATIVE_GROUPS: dict[str, DeclarativeGroupDescriptor] = {
         owner_module="src/devpilot_core/cli.py",
         recommended_tests=("python -m pytest tests/test_industrial_readiness.py tests/test_post_h_006_b_declarative_registry.py -q",),
         rationale="Industrial-readiness is deterministic and suitable for early declarative ownership.",
+    ),
+    "release-candidate": DeclarativeGroupDescriptor(
+        group_id="release-candidate",
+        domain="release",
+        owner_module="src/devpilot_core/cli.py",
+        recommended_tests=("python -m pytest tests/test_post_h_026_evidence_freshness.py tests/test_post_h_006_b_declarative_registry.py -q",),
+        rationale="POST-H-026-A introduces local release candidate verification commands that must be registered before enforcing CLI no-growth gates.",
     ),
     "cli-registry": DeclarativeGroupDescriptor(
         group_id="cli-registry",

@@ -2,17 +2,73 @@
 title: "Runbook — DevPilot Local"
 doc_id: "DEVPL-OPS-002"
 status: "approved"
-version: "1.97.0"
+version: "1.98.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "POST-H-025-E"
-updated: "2026-07-03"
+phase: "POST-H-026-A"
+updated: "2026-07-07"
 approval: "approved_by_owner"
 source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved + 03_security approved"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "SPRINT-PRECODE-05 quality operations baseline"
 ---
+
+## POST-H-026-A — Evidence freshness model
+
+Último hito cerrado: `POST-H-025`
+
+Hito activo: `POST-H-026 — Release candidate local y verificación de operador`
+
+Último micro-sprint implementado: `POST-H-026-A — Evidence freshness model`
+
+Siguiente micro-sprint: `POST-H-026-B — Release candidate verification profile`
+
+Artefactos principales:
+
+```text
+src/devpilot_core/release_candidate/evidence_freshness.py
+docs/schemas/evidence_freshness_report.schema.json
+.devpilot/release/local_release_candidate_criteria.json
+tests/test_post_h_026_evidence_freshness.py
+docs/audits/post_h_026_a_evidence_freshness_report.md
+docs/post_h_026_a_manifest.json
+outputs/reports/evidence_freshness_report.json
+outputs/reports/evidence_freshness_report.md
+```
+
+Propósito operacional: verificar si la evidencia crítica que sustenta `production-ready-local` y el futuro release candidate local corresponde al estado actual del repo. El scanner no ejecuta comandos, no regenera evidencia y no corrige documentos; solo lee artefactos locales versionados y clasifica freshness/staleness.
+
+Comandos focales:
+
+```powershell
+python -m devpilot_core release-candidate evidence-freshness --json
+python -m devpilot_core release-candidate evidence-freshness --json --write-report
+python -m devpilot_core schema validate --schema-id EvidenceFreshnessReport --instance outputs/reports/evidence_freshness_report.json --json
+python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_026_evidence_freshness.py tests/test_post_h_025_production_ready_criteria.py tests/test_post_h_025_production_ready_aggregator.py tests/test_schema_registry.py tests/test_project_global_state.py -q
+```
+
+Criterios PASS:
+
+```text
+critical_stale_total=0.
+critical_missing_total=0.
+critical_invalid_total=0.
+EvidenceFreshnessReport valida contra schema.
+project_state.source_repo/current_repo/current_micro_sprint están sincronizados.
+No se escriben outputs por defecto.
+```
+
+Criterios BLOCK:
+
+```text
+BLOCK si falta .devpilot/release/local_release_candidate_criteria.json.
+BLOCK si evidencia crítica está stale, missing o invalid.
+BLOCK si current_repo/source_repo no corresponden al repo vigente declarado.
+BLOCK si se intenta usar outputs runtime como única evidencia de verdad.
+```
+
+Limitación: esta es una primera versión `implemented-initial`; el perfil RC, install smoke, UI/API smoke y reporte RC final quedan para POST-H-026-B/C/D/E.
 
 ## POST-H-025-E — Declaración final o BLOCK report
 

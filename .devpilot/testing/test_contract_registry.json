@@ -6664,6 +6664,49 @@
         "POST-H-025-E packages the final production-ready-local declaration and BLOCK report semantics.",
         "The final declaration remains local-first and does not declare enterprise, compliance, remote or SaaS readiness."
       ]
+    },
+    {
+      "contract_id": "post-h-026-evidence-freshness",
+      "scope": "quality-gate",
+      "owner": "POST-H-026-A",
+      "phase": "POST-FASE-H",
+      "test_files": [
+        "tests/test_post_h_026_evidence_freshness.py"
+      ],
+      "validates": [
+        "src/devpilot_core/release_candidate/evidence_freshness.py",
+        "docs/schemas/evidence_freshness_report.schema.json",
+        ".devpilot/release/local_release_candidate_criteria.json",
+        "docs/audits/post_h_026_a_evidence_freshness_report.md",
+        "docs/post_h_026_a_manifest.json"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/release_candidate/",
+        "src/devpilot_core/cli.py",
+        "docs/schemas/evidence_freshness_report.schema.json",
+        ".devpilot/release/local_release_candidate_criteria.json",
+        ".devpilot/project_state.json",
+        "README.md",
+        "docs/05_operations/runbook.md",
+        "docs/backlogs/POST-H-026_local_release_candidate_operator_verification.md"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_026_evidence_freshness.py tests/test_post_h_025_production_ready_criteria.py tests/test_post_h_025_production_ready_aggregator.py tests/test_schema_registry.py -q",
+        "python -m devpilot_core release-candidate evidence-freshness --json",
+        "python -m devpilot_core release-candidate evidence-freshness --json --write-report",
+        "python -m devpilot_core schema validate --schema-id EvidenceFreshnessReport --instance outputs/reports/evidence_freshness_report.json --json"
+      ],
+      "notes": [
+        "POST-H-026-A validates evidence freshness/staleness for the future local release candidate.",
+        "Default execution is read-only and does not write outputs; --write-report is explicit."
+      ]
     }
   ],
   "notes": [
@@ -6704,6 +6747,7 @@
     "POST-H-025-B adds read-only evidence aggregator test contract.",
     "POST-H-025-C adds production-ready-local declaration gate CLI/API contract.",
     "POST-H-025-D adds production-ready-local no-go claims validator contract.",
-    "POST-H-025-E adds production-ready-local final declaration contract."
+    "POST-H-025-E adds production-ready-local final declaration contract.",
+    "POST-H-026-A registers evidence freshness test contract."
   ]
 }

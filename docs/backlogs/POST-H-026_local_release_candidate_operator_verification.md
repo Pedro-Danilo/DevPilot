@@ -2,8 +2,8 @@
 doc_id: "POST-H-026-BACKLOG"
 id: "POST-H-026"
 title: "POST-H-026 — Release candidate local y verificacion de operador"
-status: "proposed"
-version: "0.1.0"
+status: "approved"
+version: "0.2.0"
 owner: "Ordonez"
 created: "2026-07-07"
 phase: "POST-FASE-H"
@@ -11,7 +11,7 @@ priority: "P0"
 roadmap_wave: "Ola 1"
 roadmap_source: "devpilot_post_h_025_roadmap_detallado_v3_agentes_validadores.md"
 onboarding_report_source: "devpilot_onboarding_report_final_compilado.md"
-source_repo: "repo_DevPilot_Local_262_POST_H_025_E.zip"
+source_repo: "repo_DevPilot_Local_263_POST_H_025.zip"
 depends_on:
   - "POST-H-025"
 local_first: true
@@ -28,9 +28,11 @@ claims_forbidden:
   - "remote-ready"
   - "SaaS-ready"
   - "compliance-certified"
-implementation_status: "backlog-proposed"
+implementation_status: "active"
 current_micro_sprint: "POST-H-026-A"
-next_micro_sprint: "POST-H-026-A"
+next_micro_sprint: "POST-H-026-B"
+approval: "approved_by_owner"
+updated: "2026-07-07"
 ---
 
 # POST-H-026 — Release candidate local y verificacion de operador

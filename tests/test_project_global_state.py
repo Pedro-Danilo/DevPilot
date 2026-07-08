@@ -102,8 +102,15 @@ def test_project_global_state_schema_and_docs_are_synchronized() -> None:
     assert any("POST-H-013-D adds optional local crypto" in note for note in state["notes"])
     assert any("POST-H-013-E closes Audit pack integrity" in note for note in state["notes"])
     assert any("POST-H-014 is the next prioritized hito" in note for note in state["notes"])
-    assert state.get("current_micro_sprint") == "POST-H-025-E"
-    assert state.get("next_micro_sprint") == "POST-H-026"
+    assert state.get("current_micro_sprint") == "POST-H-026-A"
+    assert state.get("next_micro_sprint") == "POST-H-026-B"
+    assert state.get("source_repo") == "repo_DevPilot_Local_263_POST_H_025.zip"
+    assert state.get("current_repo") == "repo_DevPilot_Local_264_POST_H_026_A.zip"
+    assert state.get("post_h_026_status") == "active/evidence-freshness-implemented-initial"
+    assert "POST-H-026-A — Evidence freshness model" in readme
+    assert "POST-H-026-A — Evidence freshness model" in runbook
+    assert "post-h-026-a" in changelog
+    assert any("POST-H-026-A starts Release candidate local" in note for note in state["notes"])
     assert "POST-H-014-A — Route Contract Registry y API inventory" in readme
     assert "POST-H-014-B — Response mapping y errores homogéneos" in readme
     assert "POST-H-014-C — UI Route Contract y shell de producto" in readme
@@ -348,8 +355,8 @@ def test_project_global_state_schema_and_docs_are_synchronized() -> None:
     assert any("POST-H-025-C adds industrial-readiness production-ready-local CLI" in note for note in state["notes"])
     assert any("POST-H-025-D adds ProductionReadyClaimsValidator" in note for note in state["notes"])
     assert any("POST-H-025-E adds ProductionReadyFinalDeclaration" in note for note in state["notes"])
-    assert state["current_micro_sprint"] == "POST-H-025-E"
-    assert state["next_micro_sprint"] == "POST-H-026"
+    assert state["current_micro_sprint"] == "POST-H-026-A"
+    assert state["next_micro_sprint"] == "POST-H-026-B"
     assert "POST-H-025-A — Criteria schema y evidence map" in readme
     assert "POST-H-025-A — Criteria schema y evidence map" in runbook
     assert "POST-H-025-C — Declaration gate CLI/API" in readme

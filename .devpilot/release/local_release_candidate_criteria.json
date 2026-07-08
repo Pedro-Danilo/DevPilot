@@ -1,0 +1,177 @@
+{
+  "schema_version": "1.0",
+  "criteria_id": "local-release-candidate-criteria-v1",
+  "created_by": "POST-H-026-A",
+  "updated": "2026-07-07",
+  "status": "implemented-initial",
+  "scope": "local-release-candidate",
+  "preliminary": true,
+  "expected_source_repo": "repo_DevPilot_Local_263_POST_H_025.zip",
+  "expected_current_repo": "repo_DevPilot_Local_264_POST_H_026_A.zip",
+  "expected_last_completed_sprint": "POST-H-025",
+  "expected_current_micro_sprint": "POST-H-026-A",
+  "expected_next_micro_sprint": "POST-H-026-B",
+  "freshness_policy": "contextual-signature",
+  "no_go_gates": {
+    "remote_execution_enabled": false,
+    "connector_write_enabled": false,
+    "plugin_execution_enabled": false,
+    "external_apis_required": false,
+    "compliance_certification_claim": false,
+    "enterprise_ready_claim": false,
+    "remote_ready_claim": false,
+    "saas_ready_claim": false
+  },
+  "evidence": [
+    {
+      "evidence_id": "project-state-current-repo",
+      "title": "Project state source/current repo freshness",
+      "path": ".devpilot/project_state.json",
+      "category": "project-state",
+      "critical": true,
+      "json_required": true,
+      "expected_schema_id": "SCHEMA-DEVPL-PROJECT-STATE-V1",
+      "producer_sprint": "POST-H-026-A",
+      "freshness_policy": "contextual-field-match",
+      "expected_fields": {
+        "source_repo": "repo_DevPilot_Local_263_POST_H_025.zip",
+        "current_repo": "repo_DevPilot_Local_264_POST_H_026_A.zip",
+        "last_completed_sprint": "POST-H-025",
+        "next_sprint": "POST-H-026",
+        "current_micro_sprint": "POST-H-026-A",
+        "next_micro_sprint": "POST-H-026-B",
+        "post_h_026_status": "active/evidence-freshness-implemented-initial"
+      }
+    },
+    {
+      "evidence_id": "production-ready-local-criteria",
+      "title": "Production-ready-local criteria remain versioned and readable",
+      "path": ".devpilot/production/production_ready_local_criteria.json",
+      "category": "production-ready",
+      "critical": true,
+      "json_required": true,
+      "expected_schema_id": "SCHEMA-DEVPL-PRODUCTION-READY-LOCAL-CRITERIA-V1",
+      "producer_sprint": "POST-H-025-A",
+      "freshness_policy": "schema-id"
+    },
+    {
+      "evidence_id": "production-ready-local-final-audit",
+      "title": "Final production-ready-local declaration audit is present",
+      "path": "docs/audits/devpilot_local_production_ready_declaration.md",
+      "category": "audit",
+      "critical": true,
+      "producer_sprint": "POST-H-025-E",
+      "freshness_policy": "required-marker",
+      "required_markers": [
+        "production-ready-local",
+        "POST-H-025-E",
+        "`enterprise_ready`: `false`"
+      ]
+    },
+    {
+      "evidence_id": "post-h-026-backlog",
+      "title": "POST-H-026 backlog is approved and points to POST-H-026-A",
+      "path": "docs/backlogs/POST-H-026_local_release_candidate_operator_verification.md",
+      "category": "backlog",
+      "critical": true,
+      "producer_sprint": "POST-H-026-A",
+      "freshness_policy": "required-marker",
+      "required_markers": [
+        "current_micro_sprint: \"POST-H-026-A\"",
+        "next_micro_sprint: \"POST-H-026-B\"",
+        "implementation_status: \"active\""
+      ]
+    },
+    {
+      "evidence_id": "evidence-freshness-schema",
+      "title": "EvidenceFreshnessReport schema registered source file",
+      "path": "docs/schemas/evidence_freshness_report.schema.json",
+      "category": "schema",
+      "critical": true,
+      "json_required": true,
+      "expected_schema_id": "SCHEMA-DEVPL-EVIDENCE-FRESHNESS-REPORT-V1",
+      "producer_sprint": "POST-H-026-A",
+      "freshness_policy": "schema-id"
+    },
+    {
+      "evidence_id": "schema-catalog-registration",
+      "title": "Schema catalog includes EvidenceFreshnessReport",
+      "path": "docs/schemas/schema_catalog.json",
+      "category": "schema-catalog",
+      "critical": true,
+      "json_required": true,
+      "producer_sprint": "POST-H-026-A",
+      "freshness_policy": "required-marker",
+      "required_markers": [
+        "SCHEMA-DEVPL-EVIDENCE-FRESHNESS-REPORT-V1",
+        "EvidenceFreshnessReport"
+      ]
+    },
+    {
+      "evidence_id": "readme-runbook-sync",
+      "title": "README and runbook document POST-H-026-A",
+      "path": "README.md",
+      "category": "operator-docs",
+      "critical": true,
+      "producer_sprint": "POST-H-026-A",
+      "freshness_policy": "required-marker",
+      "required_markers": [
+        "POST-H-026-A — Evidence freshness model",
+        "release-candidate evidence-freshness"
+      ]
+    },
+    {
+      "evidence_id": "runbook-sync",
+      "title": "Operations runbook documents POST-H-026-A",
+      "path": "docs/05_operations/runbook.md",
+      "category": "operator-docs",
+      "critical": true,
+      "producer_sprint": "POST-H-026-A",
+      "freshness_policy": "required-marker",
+      "required_markers": [
+        "POST-H-026-A — Evidence freshness model",
+        "release-candidate evidence-freshness"
+      ]
+    },
+    {
+      "evidence_id": "tcr-v1-registration",
+      "title": "TCR v1 registers POST-H-026-A",
+      "path": ".devpilot/testing/test_contract_registry.json",
+      "category": "test-contract",
+      "critical": true,
+      "json_required": true,
+      "expected_schema_id": "SCHEMA-DEVPL-TEST-CONTRACT-REGISTRY-V1",
+      "producer_sprint": "POST-H-026-A",
+      "freshness_policy": "required-marker",
+      "required_markers": [
+        "post-h-026-evidence-freshness"
+      ]
+    },
+    {
+      "evidence_id": "tcr-v2-registration",
+      "title": "TCR v2 registers POST-H-026-A",
+      "path": ".devpilot/testing/test_contract_registry_v2.json",
+      "category": "test-contract",
+      "critical": true,
+      "json_required": true,
+      "expected_schema_id": "SCHEMA-DEVPL-TEST-CONTRACT-REGISTRY-V2",
+      "producer_sprint": "POST-H-026-A",
+      "freshness_policy": "required-marker",
+      "required_markers": [
+        "post-h-026-evidence-freshness"
+      ]
+    },
+    {
+      "evidence_id": "production-ready-runtime-report",
+      "title": "Production-ready-local runtime report if generated locally",
+      "path": "outputs/reports/production_ready_local_report.json",
+      "category": "runtime-report",
+      "critical": false,
+      "runtime_optional": true,
+      "json_required": true,
+      "expected_schema_id": "SCHEMA-DEVPL-PRODUCTION-READY-LOCAL-REPORT-V1",
+      "producer_sprint": "POST-H-025-E",
+      "freshness_policy": "optional-runtime-schema-id"
+    }
+  ]
+}

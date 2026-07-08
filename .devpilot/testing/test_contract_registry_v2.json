@@ -11695,6 +11695,77 @@
       "classification_notes": [
         "POST-H-025-E is P0 because it emits the final production-ready-local PASS/BLOCK declaration."
       ]
+    },
+    {
+      "contract_id": "post-h-026-evidence-freshness",
+      "schema_version": "2.0",
+      "source_contract_id": "post-h-026-evidence-freshness",
+      "domain": "release",
+      "capability": "Local release candidate evidence freshness model",
+      "criticality": "P0",
+      "risk_level": "critical",
+      "test_type": "release",
+      "execution_profile": "release",
+      "cost_class": "low",
+      "expected_duration_seconds": 10,
+      "test_files": [
+        "tests/test_post_h_026_evidence_freshness.py"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/release_candidate/",
+        "src/devpilot_core/cli.py",
+        "docs/schemas/evidence_freshness_report.schema.json",
+        ".devpilot/release/local_release_candidate_criteria.json",
+        ".devpilot/project_state.json",
+        "README.md",
+        "docs/05_operations/runbook.md",
+        "docs/backlogs/POST-H-026_local_release_candidate_operator_verification.md"
+      ],
+      "validates": [
+        "src/devpilot_core/release_candidate/evidence_freshness.py",
+        "docs/schemas/evidence_freshness_report.schema.json",
+        ".devpilot/release/local_release_candidate_criteria.json",
+        "docs/audits/post_h_026_a_evidence_freshness_report.md",
+        "docs/post_h_026_a_manifest.json"
+      ],
+      "required_fixtures": [],
+      "required_cli": [
+        "release-candidate.evidence-freshness"
+      ],
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "classification_status": "explicit",
+      "owner": "POST-H-026-A",
+      "phase": "POST-FASE-H",
+      "created_by": "POST-H-026-A",
+      "updated": "2026-07-07",
+      "preliminary": true,
+      "required_for_release": true,
+      "required_for_security_gate": true,
+      "requires_human_approval": false,
+      "source_mutations_allowed": false,
+      "mutations_allowed": false,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_026_evidence_freshness.py tests/test_post_h_025_production_ready_criteria.py tests/test_post_h_025_production_ready_aggregator.py tests/test_schema_registry.py -q",
+        "python -m devpilot_core release-candidate evidence-freshness --json",
+        "python -m devpilot_core release-candidate evidence-freshness --json --write-report",
+        "python -m devpilot_core schema validate --schema-id EvidenceFreshnessReport --instance outputs/reports/evidence_freshness_report.json --json"
+      ],
+      "trigger_hints": [
+        "release-candidate",
+        "evidence-freshness",
+        "staleness",
+        "production-ready-local"
+      ],
+      "impact_scope": [
+        "src/devpilot_core/release_candidate/",
+        ".devpilot/release/local_release_candidate_criteria.json",
+        "docs/schemas/evidence_freshness_report.schema.json",
+        ".devpilot/project_state.json"
+      ],
+      "classification_notes": [
+        "POST-H-026-A is P0 because stale critical evidence can produce a false release candidate PASS."
+      ]
     }
   ],
   "migration_metadata": {
@@ -11705,8 +11776,8 @@
     "network_used": false,
     "external_api_used": false,
     "mutations_performed_by_default": false,
-    "contracts_total": 188,
-    "last_updated_by": "POST-H-025-E"
+    "contracts_total": 189,
+    "last_updated_by": "POST-H-026-A"
   },
   "notes": [
     "POST-H-020-D fixes v2 contract classification_status for POST-H-020-C/D contracts to keep schema validation synchronized.",
@@ -11730,6 +11801,7 @@
     "POST-H-025-B adds v2 read-only evidence aggregator contract.",
     "POST-H-025-C adds v2 production-ready-local declaration gate CLI/API contract.",
     "POST-H-025-D adds v2 production-ready-local no-go claims validator contract.",
-    "POST-H-025-E adds v2 production-ready-local final declaration contract."
+    "POST-H-025-E adds v2 production-ready-local final declaration contract.",
+    "POST-H-026-A adds v2 evidence freshness release contract."
   ]
 }
