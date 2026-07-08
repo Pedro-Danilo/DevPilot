@@ -79,6 +79,7 @@ _RULES = (
             "python -m devpilot_core test-contracts validate-v2 --json",
             "python -m devpilot_core release-candidate ui-api-smoke --json",
             "python -m devpilot_core release-candidate install-smoke --json",
+            "python -m devpilot_core release-candidate final --json",
         ),
         profiles=("impact", "release-candidate-local"),
     ),
@@ -106,6 +107,7 @@ _RULES = (
             "tests/test_package_builder.py",
             "tests/test_post_h_026_ui_api_rc_smoke.py",
             "tests/test_post_h_026_install_smoke.py",
+            "tests/test_post_h_026_release_candidate_report.py",
         ),
         commands=(
             "python -m pytest tests/test_release_manifest.py tests/test_release_sbom.py tests/test_release_verification.py tests/test_package_builder.py -q",
@@ -113,6 +115,7 @@ _RULES = (
             "python -m devpilot_core release-candidate profile --profile release-candidate-local --json",
             "python -m devpilot_core release-candidate ui-api-smoke --json",
             "python -m devpilot_core release-candidate install-smoke --json",
+            "python -m devpilot_core release-candidate final --json",
         ),
         profiles=("release", "release-candidate-local"),
     ),

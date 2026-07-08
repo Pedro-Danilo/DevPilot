@@ -46,7 +46,7 @@ def test_evidence_freshness_scanner_reads_current_repo_without_writing_outputs()
     assert summary["critical_missing_total"] == 0
     assert summary["critical_invalid_total"] == 0
     assert summary["reports_written"] is False
-    assert result.data["report"]["repo_version"] == "repo_DevPilot_Local_267_POST_H_026_D.zip"
+    assert result.data["report"]["repo_version"] == "repo_DevPilot_Local_268_POST_H_026_E.zip"
     assert result.data["safety"]["network_used"] is False
     assert result.data["safety"]["external_api_used"] is False
     assert result.data["safety"]["source_mutations"] is False
@@ -63,7 +63,7 @@ def test_evidence_freshness_scanner_blocks_stale_missing_and_invalid_critical_ev
                 "critical": True,
                 "json_required": True,
                 "expected_schema_id": "SCHEMA-DEVPL-PROJECT-STATE-V1",
-                "expected_fields": {"current_repo": "repo_DevPilot_Local_267_POST_H_026_D.zip"},
+                "expected_fields": {"current_repo": "repo_DevPilot_Local_268_POST_H_026_E.zip"},
             },
             {
                 "evidence_id": "missing-critical",
@@ -104,7 +104,7 @@ def test_evidence_freshness_scanner_blocks_stale_missing_and_invalid_critical_ev
 
 
 def test_evidence_freshness_optional_runtime_absence_is_not_applicable(tmp_path: Path) -> None:
-    _write_minimal_workspace(tmp_path, current_repo="repo_DevPilot_Local_267_POST_H_026_D.zip")
+    _write_minimal_workspace(tmp_path, current_repo="repo_DevPilot_Local_268_POST_H_026_E.zip")
     criteria = _criteria(
         [
             {
@@ -172,8 +172,8 @@ def test_post_h_026_a_artifacts_are_synchronized() -> None:
     assert (ROOT / "docs/post_h_026_a_manifest.json").exists()
     assert "POST-H-026-A — Evidence freshness model" in readme
     assert "POST-H-026-A — Evidence freshness model" in runbook
-    assert 'implementation_status: "active"' in backlog
-    assert 'next_micro_sprint: "POST-H-026-E"' in backlog
+    assert 'implementation_status: "closed"' in backlog
+    assert 'next_micro_sprint: "POST-H-027"' in backlog
     assert "post-h-026-a" in changelog
     assert "post-h-026-evidence-freshness" in tcr
     assert "post-h-026-evidence-freshness" in tcr_v2
@@ -188,7 +188,7 @@ def _report_payload(*, decision: str) -> dict:
         "created_at": "2026-07-07T00:00:00Z",
         "scope": "local-release-candidate",
         "decision": decision,
-        "repo_version": "repo_DevPilot_Local_267_POST_H_026_D.zip",
+        "repo_version": "repo_DevPilot_Local_268_POST_H_026_E.zip",
         "criteria_id": "test",
         "criteria_path": ".devpilot/release/local_release_candidate_criteria.json",
         "evidence_total": 1,
@@ -232,7 +232,7 @@ def _criteria(evidence: list[dict]) -> dict:
     return {
         "schema_version": "1.0",
         "criteria_id": "test-criteria",
-        "expected_current_repo": "repo_DevPilot_Local_267_POST_H_026_D.zip",
+        "expected_current_repo": "repo_DevPilot_Local_268_POST_H_026_E.zip",
         "scope": "local-release-candidate",
         "no_go_gates": {
             "remote_execution_enabled": False,

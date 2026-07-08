@@ -4,6 +4,7 @@ from .evidence_freshness import EvidenceFreshnessOptions, EvidenceFreshnessScann
 from .verification_profile import ReleaseCandidateVerificationProfile, ReleaseCandidateVerificationProfileOptions
 from .ui_api_smoke import UiApiRcSmokeOptions, UiApiRcSmokeRunner
 from .install_smoke import LocalInstallSmokeOptions, LocalInstallSmokeRunner
+from .report import LocalReleaseCandidateOptions, LocalReleaseCandidateReporter
 
 __all__ = [
     "EvidenceFreshnessOptions",
@@ -14,4 +15,6 @@ __all__ = [
     "UiApiRcSmokeRunner",
     "LocalInstallSmokeOptions",
     "LocalInstallSmokeRunner",
+    "LocalReleaseCandidateOptions",
+    "LocalReleaseCandidateReporter",
 ]

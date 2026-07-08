@@ -29,6 +29,7 @@ _REQUIRED_COMMANDS = (
     "release-candidate evidence-freshness",
     "release-candidate ui-api-smoke",
     "release-candidate install-smoke",
+    "release-candidate final",
 )
 _REQUIRED_PYTEST_TARGETS = (
     "tests/test_post_h_026_evidence_freshness.py",
@@ -36,6 +37,7 @@ _REQUIRED_PYTEST_TARGETS = (
     "tests/test_post_h_026_ui_api_rc_smoke.py",
     "tests/test_post_h_026_ui_api_rc_smoke_contract.py",
     "tests/test_post_h_026_install_smoke.py",
+    "tests/test_post_h_026_release_candidate_report.py",
     "tests/test_post_h_025_production_ready_final_declaration.py",
     "tests/test_post_h_025_production_ready_claims_validator.py",
     "tests/test_quality_gate.py",

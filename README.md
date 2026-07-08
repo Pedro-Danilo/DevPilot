@@ -1,3 +1,29 @@
+## POST-H-026-E — RC PASS/BLOCK report
+
+Último hito: `POST-H-026`
+
+Último hito cerrado: `POST-H-026`
+
+Siguiente hito: `POST-H-027`
+
+Último micro-sprint implementado: `POST-H-026-E — RC PASS/BLOCK report`
+
+POST-H-026-E agrega los contratos `LocalReleaseCandidateCriteria` y `LocalReleaseCandidateReport`, el módulo `src/devpilot_core/release_candidate/report.py`, el método `ApplicationService.local_release_candidate_final`, el subgate `local-release-candidate` y el comando `python -m devpilot_core release-candidate final --json`.
+
+La capacidad queda `closed / local-release-candidate-pass`: el reporte final agrega EvidenceFreshness, `release-candidate-local`, UI/API RC smoke, install smoke, `production-ready-local-final`, docs-governance, TCR v1/v2 y schema registry. Emite `PASS` solo si A-D y los no-go gates pasan; emite `BLOCK` con acciones correctivas cuando cualquier componente crítico falla. No ejecuta `pytest`, no llama shell, no abre sockets, no publica paquetes, no usa red ni APIs externas y no amplía claims por encima de `production-ready-local`.
+
+Comandos principales:
+
+```powershell
+$env:PYTHONPATH="src"
+python -m devpilot_core release-candidate final --json
+python -m devpilot_core release-candidate final --json --write-report
+python -m devpilot_core schema validate --schema-id LocalReleaseCandidateReport --instance outputs/reports/local_release_candidate_report.json --json
+python -m devpilot_core quality-gate run --profile hardening --json
+```
+
+Limitación: esta primera versión cierra el RC local como evidencia operable y auditada, pero no sustituye el packaging reproducible ampliado, publicación wheel/sdist, firma formal, matriz OS ni upgrade/rollback; esas mejoras quedan para POST-H-027 y posteriores.
+
 ## POST-H-026-D — Local install and run verification
 
 Último micro-sprint implementado: `POST-H-026-D — Local install and run verification`

@@ -23,9 +23,11 @@ def test_release_candidate_profile_registry_is_local_only_and_approval_gated() -
     assert "release-candidate evidence-freshness" in profile["commands"]
     assert "release-candidate ui-api-smoke" in profile["commands"]
     assert "release-candidate install-smoke" in profile["commands"]
+    assert "release-candidate final" in profile["commands"]
     assert "industrial-readiness production-ready-local-final" in profile["commands"]
     assert "tests/test_post_h_026_release_candidate_profile.py" in profile["pytest_targets"]
     assert "tests/test_post_h_026_install_smoke.py" in profile["pytest_targets"]
+    assert "tests/test_post_h_026_release_candidate_report.py" in profile["pytest_targets"]
 
 
 def test_release_candidate_profile_inspector_is_plan_only_and_can_write_report(tmp_path: Path) -> None:

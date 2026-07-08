@@ -1,0 +1,191 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/SCHEMA-DEVPL-LOCAL-RELEASE-CANDIDATE-REPORT-V1",
+  "title": "DevPilot LocalReleaseCandidateReport v1",
+  "description": "Structural contract for POST-H-026-E final local release candidate PASS/BLOCK reports.",
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "schema_version",
+    "schema_id",
+    "report_id",
+    "created_by",
+    "scope",
+    "decision",
+    "implemented_status",
+    "execution_mode",
+    "production_ready_local_claim_preserved",
+    "forbidden_claims_detected_total",
+    "no_go_gates_passed",
+    "evidence_freshness_passed",
+    "release_candidate_profile_passed",
+    "ui_api_smoke_passed",
+    "install_smoke_passed",
+    "production_ready_local_final_passed",
+    "docs_governance_passed",
+    "tcr_v1_v2_passed",
+    "schemas_valid",
+    "clean_artifact_policy_passed",
+    "blocking_gaps_total",
+    "advisory_gaps_total",
+    "actions_required",
+    "blocking_gaps",
+    "advisory_gaps",
+    "components",
+    "summary",
+    "safety",
+    "limitations"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "schema_id": {"const": "SCHEMA-DEVPL-LOCAL-RELEASE-CANDIDATE-REPORT-V1"},
+    "report_id": {"const": "local-release-candidate-post_h_026_e"},
+    "created_by": {"const": "POST-H-026-E"},
+    "created_at": {"type": "string", "minLength": 10},
+    "scope": {"const": "local-release-candidate"},
+    "decision": {"enum": ["PASS", "BLOCK"]},
+    "implemented_status": {"enum": ["implemented-initial", "closed"]},
+    "execution_mode": {"const": "in-process-final-rc-aggregator"},
+    "criteria_path": {"type": "string", "minLength": 1},
+    "production_ready_local_claim_preserved": {"type": "boolean"},
+    "forbidden_claims_detected_total": {"type": "integer", "minimum": 0},
+    "forbidden_claims": {"type": "object", "additionalProperties": {"type": "boolean"}},
+    "no_go_gates_passed": {"type": "boolean"},
+    "no_go_gates": {"type": "object", "additionalProperties": {"type": "boolean"}},
+    "evidence_freshness_passed": {"type": "boolean"},
+    "release_candidate_profile_passed": {"type": "boolean"},
+    "ui_api_smoke_passed": {"type": "boolean"},
+    "install_smoke_passed": {"type": "boolean"},
+    "production_ready_local_final_passed": {"type": "boolean"},
+    "docs_governance_passed": {"type": "boolean"},
+    "tcr_v1_v2_passed": {"type": "boolean"},
+    "schemas_valid": {"type": "boolean"},
+    "clean_artifact_policy_passed": {"type": "boolean"},
+    "components_total": {"type": "integer", "minimum": 1},
+    "components_passed_total": {"type": "integer", "minimum": 0},
+    "components_failed_total": {"type": "integer", "minimum": 0},
+    "blocking_gaps_total": {"type": "integer", "minimum": 0},
+    "advisory_gaps_total": {"type": "integer", "minimum": 0},
+    "actions_required": {"type": "array", "items": {"type": "string", "minLength": 1}},
+    "blocking_gaps": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": true,
+        "required": ["gap_id", "severity", "component_id", "reason", "action"],
+        "properties": {
+          "gap_id": {"type": "string", "minLength": 1},
+          "severity": {"enum": ["block"]},
+          "component_id": {"type": "string", "minLength": 1},
+          "reason": {"type": "string", "minLength": 1},
+          "action": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "advisory_gaps": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": true,
+        "required": ["gap_id", "severity", "component_id", "reason", "action"],
+        "properties": {
+          "gap_id": {"type": "string", "minLength": 1},
+          "severity": {"enum": ["advisory"]},
+          "component_id": {"type": "string", "minLength": 1},
+          "reason": {"type": "string", "minLength": 1},
+          "action": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "components": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": true,
+        "required": ["component_id", "label", "status", "ok", "exit_code", "summary", "blocking_findings_total"],
+        "properties": {
+          "component_id": {"type": "string", "minLength": 1},
+          "label": {"type": "string", "minLength": 1},
+          "status": {"enum": ["pass", "block"]},
+          "ok": {"type": "boolean"},
+          "exit_code": {"type": "integer"},
+          "summary": {"type": "object"},
+          "blocking_findings_total": {"type": "integer", "minimum": 0}
+        }
+      }
+    },
+    "duration_ms": {"type": "number", "minimum": 0},
+    "summary": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "decision",
+        "created_by",
+        "preliminary",
+        "production_ready_local_claim_preserved",
+        "forbidden_claims_detected_total",
+        "no_go_gates_passed",
+        "blocking_gaps_total",
+        "reports_written",
+        "network_used",
+        "external_api_used",
+        "mutations_performed",
+        "source_mutations"
+      ],
+      "properties": {
+        "decision": {"enum": ["PASS", "BLOCK"]},
+        "created_by": {"const": "POST-H-026-E"},
+        "preliminary": {"type": "boolean"},
+        "production_ready_local_claim_preserved": {"type": "boolean"},
+        "forbidden_claims_detected_total": {"type": "integer", "minimum": 0},
+        "no_go_gates_passed": {"type": "boolean"},
+        "blocking_gaps_total": {"type": "integer", "minimum": 0},
+        "reports_written": {"type": "boolean"},
+        "network_used": {"const": false},
+        "external_api_used": {"const": false},
+        "mutations_performed": {"type": "boolean"},
+        "source_mutations": {"const": false}
+      }
+    },
+    "safety": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "local_first",
+        "read_only",
+        "dry_run",
+        "subprocess_executed",
+        "pytest_executed",
+        "network_used",
+        "external_api_used",
+        "remote_execution_enabled",
+        "connector_write_enabled",
+        "plugin_execution_enabled",
+        "source_mutations",
+        "reports_written"
+      ],
+      "properties": {
+        "local_first": {"const": true},
+        "read_only": {"const": true},
+        "dry_run": {"const": true},
+        "subprocess_executed": {"const": false},
+        "pytest_executed": {"const": false},
+        "pip_executed": {"const": false},
+        "npm_executed": {"const": false},
+        "socket_opened": {"const": false},
+        "network_used": {"const": false},
+        "external_api_used": {"const": false},
+        "remote_execution_enabled": {"const": false},
+        "connector_write_enabled": {"const": false},
+        "plugin_execution_enabled": {"const": false},
+        "source_mutations": {"const": false},
+        "reports_written": {"type": "boolean"}
+      }
+    },
+    "limitations": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}}
+  },
+  "x-devpilot-schema-id": "SCHEMA-DEVPL-LOCAL-RELEASE-CANDIDATE-REPORT-V1",
+  "x-devpilot-sprint": "POST-H-026-E",
+  "x-devpilot-status": "registered"
+}

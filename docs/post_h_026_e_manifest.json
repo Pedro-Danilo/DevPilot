@@ -1,0 +1,75 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "SCHEMA-DEVPL-POST-H-MANIFEST-V1",
+  "post_h_id": "POST-H-026",
+  "micro_sprint": "POST-H-026-E",
+  "title": "POST-H-026-E — RC PASS/BLOCK report",
+  "status": "closed",
+  "phase": "POST-FASE-H",
+  "implemented_at": "2026-07-08",
+  "created_files": [
+    "src/devpilot_core/release_candidate/report.py",
+    "docs/schemas/local_release_candidate_criteria.schema.json",
+    "docs/schemas/local_release_candidate_report.schema.json",
+    "tests/test_post_h_026_release_candidate_report.py",
+    "docs/audits/post_h_026_e_release_candidate_closure_report.md",
+    "docs/post_h_026_e_manifest.json"
+  ],
+  "modified_files": [
+    "src/devpilot_core/release_candidate/__init__.py",
+    "src/devpilot_core/application/services.py",
+    "src/devpilot_core/cli.py",
+    "src/devpilot_core/quality/gate.py",
+    "src/devpilot_core/cli_registry/registry.py",
+    "src/devpilot_core/cli_registry/builders.py",
+    "src/devpilot_core/testing/impact_v2.py",
+    "src/devpilot_core/release_candidate/verification_profile.py",
+    ".devpilot/release/local_release_candidate_criteria.json",
+    ".devpilot/testing/test_profiles.json",
+    ".devpilot/testing/test_contract_registry.json",
+    ".devpilot/testing/test_contract_registry_v2.json",
+    ".devpilot/project_state.json",
+    ".devpilot/docs_governance/source_registry.json",
+    "docs/schemas/schema_catalog.json",
+    "docs/backlogs/POST-H-026_local_release_candidate_operator_verification.md",
+    "docs/POST-H-026_local_release_candidate_operator_verification.md",
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/release/CHANGELOG.md",
+    "tests/test_schema_registry.py",
+    "tests/test_project_global_state.py",
+    "tests/test_test_contract_registry_profiles_v2.py"
+  ],
+  "commands": [
+    "python -m devpilot_core release-candidate final --json",
+    "python -m devpilot_core release-candidate final --json --write-report",
+    "python -m devpilot_core schema validate --schema-id LocalReleaseCandidateReport --instance outputs/reports/local_release_candidate_report.json --json",
+    "python -m devpilot_core quality-gate run --profile hardening --json"
+  ],
+  "tests": [
+    "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_026_release_candidate_report.py tests/test_post_h_026_evidence_freshness.py tests/test_post_h_026_release_candidate_profile.py tests/test_post_h_026_ui_api_rc_smoke.py tests/test_post_h_026_install_smoke.py tests/test_schema_registry.py tests/test_project_global_state.py -q"
+  ],
+  "pass_criteria": [
+    "LocalReleaseCandidateReport validates against schema",
+    "PASS requires EvidenceFreshness, RC profile, UI/API smoke, install smoke and production-ready-local-final to pass",
+    "Docs governance, TCR v1/v2 and schema registry pass",
+    "Forbidden claims remain false and no-go gates remain disabled",
+    "Report writing is explicit via --write-report"
+  ],
+  "block_criteria": [
+    "Any A-D component fails or is stale/missing/invalid",
+    "production-ready-local-final fails",
+    "UI/API smoke or install smoke fails",
+    "No-go gate or forbidden claim is enabled",
+    "Final report cannot validate against schema"
+  ],
+  "risks": [
+    "This sprint closes local RC evidence but does not publish or sign release packages",
+    "Full pytest -q remains deferred to backlog/checkpoint regression because of execution cost",
+    "Packaging reproducible, wheel/sdist, OS matrix and upgrade/rollback remain POST-H-027 scope"
+  ],
+  "next_sprint": "POST-H-027",
+  "next_micro_sprint": "POST-H-027",
+  "tests_execute_from_json": false,
+  "preliminary": true
+}

@@ -1,3 +1,27 @@
+
+## post-h-026-e — RC PASS/BLOCK report
+
+### Added
+
+- `LocalReleaseCandidateCriteria` y `LocalReleaseCandidateReport` schemas para cierre auditable del RC local.
+- `src/devpilot_core/release_candidate/report.py` y comando `python -m devpilot_core release-candidate final --json`.
+- Subgate `local-release-candidate` en quality-gate hardening/industrial.
+- Manifest `docs/post_h_026_e_manifest.json` y auditoría `docs/audits/post_h_026_e_release_candidate_closure_report.md`.
+
+### Changed
+
+- POST-H-026 queda cerrado como `local-release-candidate-pass`; project_state avanza a `last_completed_sprint=POST-H-026` y `next_sprint=POST-H-027`.
+- El perfil `release-candidate-local`, TCR v1/v2, schema catalog, source registry, README y runbook quedan sincronizados con el reporte final.
+
+### Security
+
+- No se habilita remote execution, connector write, plugin execution, APIs externas, red, publicación de paquetes ni claims enterprise/remote/SaaS/compliance.
+- El reporte final es in-process y solo escribe `outputs/reports/local_release_candidate_report.*` cuando `--write-report` es explícito.
+
+### Deferred
+
+- Packaging reproducible ampliado, wheel/sdist, firma formal, matriz OS y upgrade/rollback quedan para POST-H-027 o posterior.
+
 ## post-h-026-d — Local install and run verification
 
 - Added `LocalInstallSmokeReport` schema and read-only local install/run preflight runner.

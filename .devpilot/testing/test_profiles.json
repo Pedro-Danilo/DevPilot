@@ -1,7 +1,7 @@
 {
   "schema_version": "1.0",
-  "created_by": "POST-H-026-C",
-  "description": "Controlled pytest profiles for DevPilot tests.run. POST-H-026-B introduced release-candidate-local; POST-H-026-C extends it with UI/API RC smoke coverage while keeping execution approval-gated and local-only.",
+  "created_by": "POST-H-026-E",
+  "description": "Controlled pytest profiles for DevPilot tests.run. POST-H-026-E closes release-candidate-local with final PASS/BLOCK report coverage while keeping execution approval-gated and local-only.",
   "profiles": [
     {
       "profile_id": "smoke",
@@ -35,7 +35,7 @@
     },
     {
       "profile_id": "release-candidate-local",
-      "description": "Focused local RC verification profile for operator release candidate checks. Plan-only by default; pytest execution remains tests.run approval-gated. POST-H-026-D adds local install/run smoke targets.",
+      "description": "Focused local RC verification profile for operator release candidate checks. Plan-only by default; pytest execution remains tests.run approval-gated. POST-H-026-E adds final PASS/BLOCK report targets.",
       "taxonomy": [
         "always",
         "impacted",
@@ -52,7 +52,8 @@
         "industrial-readiness production-ready-local-final",
         "release-candidate evidence-freshness",
         "release-candidate ui-api-smoke",
-        "release-candidate install-smoke"
+        "release-candidate install-smoke",
+        "release-candidate final"
       ],
       "pytest_args": [
         "-p",
@@ -68,7 +69,8 @@
         "tests/test_project_global_state.py",
         "tests/test_post_h_026_ui_api_rc_smoke.py",
         "tests/test_post_h_026_ui_api_rc_smoke_contract.py",
-        "tests/test_post_h_026_install_smoke.py"
+        "tests/test_post_h_026_install_smoke.py",
+        "tests/test_post_h_026_release_candidate_report.py"
       ],
       "pytest_targets": [
         "tests/test_post_h_026_evidence_freshness.py",
@@ -85,7 +87,8 @@
         "tests/test_release_verification.py",
         "tests/test_post_h_026_ui_api_rc_smoke.py",
         "tests/test_post_h_026_ui_api_rc_smoke_contract.py",
-        "tests/test_post_h_026_install_smoke.py"
+        "tests/test_post_h_026_install_smoke.py",
+        "tests/test_post_h_026_release_candidate_report.py"
       ],
       "cwd": ".",
       "timeout_seconds": 900,

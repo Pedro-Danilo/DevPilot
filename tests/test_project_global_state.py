@@ -23,9 +23,9 @@ def test_project_global_state_schema_and_docs_are_synchronized() -> None:
     changelog = read("docs/release/CHANGELOG.md")
 
     assert state["current_phase"] == "POST-FASE-H"
-    assert state["last_completed_sprint"] == "POST-H-025"
+    assert state["last_completed_sprint"] == "POST-H-026"
     assert state["last_functional_sprint"] == "FUNC-SPRINT-99"
-    assert state["next_sprint"] == "POST-H-026"
+    assert state["next_sprint"] == "POST-H-027"
     assert state["phase_h_status"] == "closed_implemented_initial"
     assert state["industrial_baseline_ready"] is True
     assert state["global_state_owner"] == "tests/test_project_global_state.py"
@@ -102,11 +102,11 @@ def test_project_global_state_schema_and_docs_are_synchronized() -> None:
     assert any("POST-H-013-D adds optional local crypto" in note for note in state["notes"])
     assert any("POST-H-013-E closes Audit pack integrity" in note for note in state["notes"])
     assert any("POST-H-014 is the next prioritized hito" in note for note in state["notes"])
-    assert state.get("current_micro_sprint") == "POST-H-026-D"
-    assert state.get("next_micro_sprint") == "POST-H-026-E"
+    assert state.get("current_micro_sprint") == "POST-H-026-E"
+    assert state.get("next_micro_sprint") == "POST-H-027"
     assert state.get("source_repo") == "repo_DevPilot_Local_263_POST_H_025.zip"
-    assert state.get("current_repo") == "repo_DevPilot_Local_267_POST_H_026_D.zip"
-    assert state.get("post_h_026_status") == "active/install-smoke-implemented-initial"
+    assert state.get("current_repo") == "repo_DevPilot_Local_268_POST_H_026_E.zip"
+    assert state.get("post_h_026_status") == "closed/local-release-candidate-pass"
     assert "POST-H-026-C — UI/API local smoke under RC" in readme
     assert "POST-H-026-C — UI/API local smoke under RC" in runbook
     assert "post-h-026-c" in changelog
@@ -120,6 +120,15 @@ def test_project_global_state_schema_and_docs_are_synchronized() -> None:
     assert state.get("post_h_026_d_install_smoke_read_only") is True
     assert state.get("post_h_026_d_network_used") is False
     assert any("POST-H-026-D adds LocalInstallSmokeRunner" in note for note in state["notes"])
+
+    assert "POST-H-026-E — RC PASS/BLOCK report" in readme
+    assert "POST-H-026-E — RC PASS/BLOCK report" in runbook
+    assert "post-h-026-e" in changelog
+    assert state.get("post_h_026_e_local_release_candidate_report_available") is True
+    assert state.get("post_h_026_e_forbidden_claims_detected_total") == 0
+    assert state.get("post_h_026_e_no_go_gates_passed") is True
+    assert state.get("post_h_026_release_candidate_declared") is True
+    assert any("POST-H-026-E adds LocalReleaseCandidateReporter" in note for note in state["notes"])
     assert "POST-H-014-A — Route Contract Registry y API inventory" in readme
     assert "POST-H-014-B — Response mapping y errores homogéneos" in readme
     assert "POST-H-014-C — UI Route Contract y shell de producto" in readme
@@ -364,8 +373,8 @@ def test_project_global_state_schema_and_docs_are_synchronized() -> None:
     assert any("POST-H-025-C adds industrial-readiness production-ready-local CLI" in note for note in state["notes"])
     assert any("POST-H-025-D adds ProductionReadyClaimsValidator" in note for note in state["notes"])
     assert any("POST-H-025-E adds ProductionReadyFinalDeclaration" in note for note in state["notes"])
-    assert state["current_micro_sprint"] == "POST-H-026-D"
-    assert state["next_micro_sprint"] == "POST-H-026-E"
+    assert state["current_micro_sprint"] == "POST-H-026-E"
+    assert state["next_micro_sprint"] == "POST-H-027"
     assert "POST-H-025-A — Criteria schema y evidence map" in readme
     assert "POST-H-025-A — Criteria schema y evidence map" in runbook
     assert "POST-H-025-C — Declaration gate CLI/API" in readme
@@ -384,6 +393,6 @@ def test_project_global_state_command_result_passes() -> None:
     result = TestContractRegistry(ROOT).project_state()
 
     assert result.ok, result.to_dict()
-    assert result.data["summary"]["last_completed_sprint"] == "POST-H-025"
-    assert result.data["summary"]["next_sprint"] == "POST-H-026"
+    assert result.data["summary"]["last_completed_sprint"] == "POST-H-026"
+    assert result.data["summary"]["next_sprint"] == "POST-H-027"
     assert result.data["summary"]["checks_passed"] == result.data["summary"]["checks_total"]

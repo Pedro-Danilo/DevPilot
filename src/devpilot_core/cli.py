@@ -123,7 +123,7 @@ from .release import (
     UpgradeCheckOptions,
     checksum_line,
 )
-from .release_candidate import EvidenceFreshnessOptions, EvidenceFreshnessScanner, LocalInstallSmokeOptions, LocalInstallSmokeRunner, ReleaseCandidateVerificationProfile, ReleaseCandidateVerificationProfileOptions, UiApiRcSmokeOptions, UiApiRcSmokeRunner
+from .release_candidate import EvidenceFreshnessOptions, EvidenceFreshnessScanner, LocalInstallSmokeOptions, LocalInstallSmokeRunner, LocalReleaseCandidateOptions, LocalReleaseCandidateReporter, ReleaseCandidateVerificationProfile, ReleaseCandidateVerificationProfileOptions, UiApiRcSmokeOptions, UiApiRcSmokeRunner
 from .reports import ReportEngine, build_report_id
 from .security import PolicySimulationSuite, SecurityReadiness
 from .schemas import BuiltinContractValidator, SchemaRegistry, SchemaValidator
@@ -5022,6 +5022,31 @@ def release_candidate_install_smoke_command(
     print_result(result, json_output=json_output)
     return int(result.exit_code)
 
+
+
+def release_candidate_final_command(
+    *,
+    criteria_path: str = ".devpilot/release/local_release_candidate_criteria.json",
+    output_json: str = "outputs/reports/local_release_candidate_report.json",
+    output_markdown: str = "outputs/reports/local_release_candidate_report.md",
+    json_output: bool = False,
+    write_report: bool = False,
+) -> int:
+    """Run POST-H-026-E final local release candidate PASS/BLOCK report."""
+
+    root = project_root()
+    result = LocalReleaseCandidateReporter(
+        root,
+        LocalReleaseCandidateOptions(
+            criteria_path=criteria_path,
+            output_json=output_json,
+            output_markdown=output_markdown,
+            write_report=write_report,
+        ),
+    ).run()
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
 def architecture_inventory_command(
     *,
     source_root: str = "src/devpilot_core",
@@ -5546,6 +5571,13 @@ def build_parser() -> argparse.ArgumentParser:
     release_candidate_install_smoke.add_argument("--output-markdown", default="outputs/reports/local_install_smoke_report.md", help="Local install smoke report Markdown path")
     release_candidate_install_smoke.add_argument("--write-report", action="store_true", help="Write LocalInstallSmokeReport JSON/Markdown under outputs/reports")
     release_candidate_install_smoke.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+
+    release_candidate_final = release_candidate_sub.add_parser("final", help="Run POST-H-026-E final local release candidate PASS/BLOCK report")
+    release_candidate_final.add_argument("--criteria-path", default=".devpilot/release/local_release_candidate_criteria.json", help="Local release candidate criteria JSON path")
+    release_candidate_final.add_argument("--output-json", default="outputs/reports/local_release_candidate_report.json", help="Local release candidate final report JSON path")
+    release_candidate_final.add_argument("--output-markdown", default="outputs/reports/local_release_candidate_report.md", help="Local release candidate final report Markdown path")
+    release_candidate_final.add_argument("--write-report", action="store_true", help="Write LocalReleaseCandidateReport JSON/Markdown under outputs/reports")
+    release_candidate_final.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
 
     architecture = sub.add_parser("architecture", help="Build executable local architecture map evidence")
     architecture_sub = architecture.add_subparsers(dest="architecture_command")
@@ -6863,6 +6895,14 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
                 output_json=args.output_json,
                 output_markdown=args.output_markdown,
                 candidate_zip=args.candidate_zip,
+                json_output=args.json,
+                write_report=args.write_report,
+            )
+        if args.release_candidate_command == "final":
+            return release_candidate_final_command(
+                criteria_path=args.criteria_path,
+                output_json=args.output_json,
+                output_markdown=args.output_markdown,
                 json_output=args.json,
                 write_report=args.write_report,
             )

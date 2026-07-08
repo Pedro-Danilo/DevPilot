@@ -11998,6 +11998,81 @@
         "approved_by": "POST-H-026-D",
         "expires_at_utc": "2027-01-01T00:00:00Z"
       }
+    },
+    {
+      "contract_id": "post-h-026-release-candidate-report",
+      "schema_version": "2.0",
+      "source_contract_id": "post-h-026-release-candidate-report",
+      "domain": "release",
+      "capability": "local-release-candidate-final-report",
+      "criticality": "P0",
+      "risk_level": "critical",
+      "test_type": "release",
+      "execution_profile": "release",
+      "cost_class": "low",
+      "expected_duration_seconds": 240,
+      "test_files": [
+        "tests/test_post_h_026_release_candidate_report.py"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/release_candidate/report.py",
+        "src/devpilot_core/release_candidate/",
+        "src/devpilot_core/application/services.py",
+        "src/devpilot_core/cli.py",
+        "src/devpilot_core/quality/gate.py",
+        ".devpilot/release/local_release_candidate_criteria.json",
+        ".devpilot/testing/test_profiles.json",
+        ".devpilot/testing/test_contract_registry.json",
+        ".devpilot/testing/test_contract_registry_v2.json",
+        "docs/schemas/local_release_candidate_criteria.schema.json",
+        "docs/schemas/local_release_candidate_report.schema.json",
+        "docs/backlogs/POST-H-026_local_release_candidate_operator_verification.md"
+      ],
+      "validates": [
+        "release-candidate final",
+        "src/devpilot_core/release_candidate/report.py",
+        "docs/schemas/local_release_candidate_criteria.schema.json",
+        "docs/schemas/local_release_candidate_report.schema.json",
+        ".devpilot/release/local_release_candidate_criteria.json"
+      ],
+      "trigger_hints": [
+        "release-candidate",
+        "final",
+        "PASS/BLOCK",
+        "LocalReleaseCandidateReport",
+        "POST-H-026-E"
+      ],
+      "impact_scope": [
+        "release",
+        "testing",
+        "schemas",
+        "docs-governance",
+        "quality.gate",
+        "production-readiness"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "POST-H-026-E",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_026_release_candidate_report.py tests/test_post_h_026_evidence_freshness.py tests/test_post_h_026_release_candidate_profile.py tests/test_post_h_026_ui_api_rc_smoke.py tests/test_post_h_026_install_smoke.py tests/test_schema_registry.py tests/test_project_global_state.py -q",
+        "python -m devpilot_core release-candidate final --json",
+        "python -m devpilot_core release-candidate final --json --write-report",
+        "python -m devpilot_core schema validate --schema-id LocalReleaseCandidateReport --instance outputs/reports/local_release_candidate_report.json --json"
+      ],
+      "classification_status": "explicit",
+      "classification_notes": [
+        "POST-H-026-E aggregates A-D and production-ready-local final evidence into a local PASS/BLOCK report without executing pytest or shell commands."
+      ],
+      "safety_exception": {
+        "justification": "No exception: final RC report is in-process, read-only by default and writes outputs only when --write-report is explicit.",
+        "approved_by": "POST-H-026-E",
+        "expires_at_utc": "2027-01-01T00:00:00Z"
+      }
     }
   ],
   "migration_metadata": {

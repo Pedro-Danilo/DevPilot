@@ -1,5 +1,7 @@
 ---
 doc_id: "DEVPL-AUDIT-POST-H-026-D-INSTALL-SMOKE"
+title: "POST-H-026-D — Local install and run verification report"
+version: "1.0.0"
 status: "approved"
 owner: "Ordóñez"
 phase: "POST-FASE-H"

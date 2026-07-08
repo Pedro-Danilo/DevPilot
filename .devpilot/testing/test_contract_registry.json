@@ -6823,6 +6823,56 @@
         "POST-H-026-D validates local install/run readiness as a read-only dry-run preflight.",
         "The command does not create venvs, execute pip/npm or open sockets."
       ]
+    },
+    {
+      "contract_id": "post-h-026-release-candidate-report",
+      "scope": "integration",
+      "owner": "POST-H-026-E",
+      "test_files": [
+        "tests/test_post_h_026_release_candidate_report.py"
+      ],
+      "validates": [
+        "src/devpilot_core/release_candidate/report.py",
+        "docs/schemas/local_release_candidate_criteria.schema.json",
+        "docs/schemas/local_release_candidate_report.schema.json",
+        "docs/audits/post_h_026_e_release_candidate_closure_report.md",
+        "docs/post_h_026_e_manifest.json",
+        ".devpilot/release/local_release_candidate_criteria.json",
+        "README.md",
+        "docs/05_operations/runbook.md"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/release_candidate/report.py",
+        "src/devpilot_core/release_candidate/",
+        "src/devpilot_core/application/services.py",
+        "src/devpilot_core/cli.py",
+        "src/devpilot_core/quality/gate.py",
+        ".devpilot/release/local_release_candidate_criteria.json",
+        ".devpilot/testing/test_profiles.json",
+        ".devpilot/testing/test_contract_registry.json",
+        ".devpilot/testing/test_contract_registry_v2.json",
+        "docs/schemas/local_release_candidate_criteria.schema.json",
+        "docs/schemas/local_release_candidate_report.schema.json",
+        "docs/backlogs/POST-H-026_local_release_candidate_operator_verification.md",
+        "tests/test_post_h_026_release_candidate_report.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_026_release_candidate_report.py tests/test_post_h_026_evidence_freshness.py tests/test_post_h_026_release_candidate_profile.py tests/test_post_h_026_ui_api_rc_smoke.py tests/test_post_h_026_install_smoke.py tests/test_schema_registry.py tests/test_project_global_state.py -q",
+        "python -m devpilot_core release-candidate final --json",
+        "python -m devpilot_core release-candidate final --json --write-report",
+        "python -m devpilot_core schema validate --schema-id LocalReleaseCandidateReport --instance outputs/reports/local_release_candidate_report.json --json"
+      ],
+      "notes": [
+        "POST-H-026-E emits the final schema-backed local release candidate PASS/BLOCK report.",
+        "The command preserves production-ready-local boundaries and does not publish, deploy or execute pytest."
+      ]
     }
   ],
   "notes": [

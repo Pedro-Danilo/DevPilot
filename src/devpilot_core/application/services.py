@@ -173,6 +173,29 @@ class ApplicationService:
             ),
         ).finalize()
 
+
+    def local_release_candidate_final(
+        self,
+        *,
+        write_report: bool = False,
+        criteria_path: str = ".devpilot/release/local_release_candidate_criteria.json",
+        output_json: str = "outputs/reports/local_release_candidate_report.json",
+        output_markdown: str = "outputs/reports/local_release_candidate_report.md",
+    ) -> CommandResult:
+        """Run the POST-H-026-E final local release candidate PASS/BLOCK report."""
+
+        from devpilot_core.release_candidate import LocalReleaseCandidateOptions, LocalReleaseCandidateReporter
+
+        return LocalReleaseCandidateReporter(
+            self.root,
+            LocalReleaseCandidateOptions(
+                criteria_path=criteria_path,
+                output_json=output_json,
+                output_markdown=output_markdown,
+                write_report=write_report,
+            ),
+        ).run()
+
     def portfolio_status(self, *, registry_path: str = ".devpilot/workspaces/workspace_registry.json") -> CommandResult:
         return self.portfolio.status(registry_path=registry_path)
 

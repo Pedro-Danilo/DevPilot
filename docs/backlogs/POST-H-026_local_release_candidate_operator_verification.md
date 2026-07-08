@@ -3,7 +3,7 @@ doc_id: "POST-H-026-BACKLOG"
 id: "POST-H-026"
 title: "POST-H-026 — Release candidate local y verificacion de operador"
 status: "approved"
-version: "0.5.0"
+version: "1.0.0"
 owner: "Ordonez"
 created: "2026-07-07"
 phase: "POST-FASE-H"
@@ -28,9 +28,9 @@ claims_forbidden:
   - "remote-ready"
   - "SaaS-ready"
   - "compliance-certified"
-implementation_status: "active"
-current_micro_sprint: "POST-H-026-D"
-next_micro_sprint: "POST-H-026-E"
+implementation_status: "closed"
+current_micro_sprint: "POST-H-026-E"
+next_micro_sprint: "POST-H-027"
 approval: "approved_by_owner"
 updated: "2026-07-08"
 ---
@@ -961,6 +961,34 @@ python -m devpilot_core release-candidate final --json --write-report
 python -m devpilot_core schema validate --schema-id LocalReleaseCandidateReport --instance outputs/reports/local_release_candidate_report.json --json
 python -m devpilot_core quality-gate run --profile hardening --json
 ```
+
+## Estado implementado POST-H-026-E
+
+`POST-H-026-E — RC PASS/BLOCK report` queda implementado como `closed / local-release-candidate-pass`.
+
+Artefactos incorporados:
+
+```text
+src/devpilot_core/release_candidate/report.py
+docs/schemas/local_release_candidate_criteria.schema.json
+docs/schemas/local_release_candidate_report.schema.json
+tests/test_post_h_026_release_candidate_report.py
+docs/audits/post_h_026_e_release_candidate_closure_report.md
+docs/post_h_026_e_manifest.json
+```
+
+Comando principal:
+
+```powershell
+python -m devpilot_core release-candidate final --json
+python -m devpilot_core release-candidate final --json --write-report
+python -m devpilot_core schema validate --schema-id LocalReleaseCandidateReport --instance outputs/reports/local_release_candidate_report.json --json
+python -m devpilot_core quality-gate run --profile hardening --json
+```
+
+La primera versión agrega en proceso EvidenceFreshness, `release-candidate-local`, UI/API RC smoke, install smoke, `production-ready-local-final`, docs-governance, TCR v1/v2 y schema registry. `PASS` solo se emite si todos los componentes críticos pasan, los no-go gates siguen en false y no se detectan claims prohibidos. `BLOCK` incluye gaps y acciones correctivas.
+
+Limitación explícita: POST-H-026-E no publica paquetes, no firma releases, no despliega servicios y no reemplaza la verificación general completa de backlog. Packaging reproducible ampliado, wheel/sdist, matriz OS y upgrade/rollback quedan para POST-H-027 o posterior.
 
 ## 14. Secuencia recomendada de implementacion
 

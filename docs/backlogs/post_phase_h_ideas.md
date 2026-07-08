@@ -56,3 +56,7 @@ La prioridad inmediata es hardening y reducción de regresiones, no expansión d
 `POST-H-001` queda implementado como `implemented-initial`. El siguiente hito recomendado es `POST-H-002 — Maturity dashboard local`, basado en el reporte de `industrial-readiness` y en el nuevo estado global `.devpilot/project_state.json`.
 
 La línea post-H mantiene una regla: antes de nuevas capacidades agentic o remotas, los contratos de prueba, estado global, MIASI, schemas y gates deben permanecer sincronizados.
+
+## Estado posterior a POST-H-026
+
+`POST-H-026` queda cerrado como `local-release-candidate-pass`. El siguiente hito recomendado es `POST-H-027 — Packaging reproducible e instalación local robusta`, orientado a wheel/sdist, firma local opcional, matriz OS, upgrade/rollback y endurecimiento de artefactos distribuibles sin habilitar red, cloud, remote execution, connector write ni plugin execution por defecto.

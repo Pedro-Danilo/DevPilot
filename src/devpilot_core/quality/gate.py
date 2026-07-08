@@ -212,6 +212,7 @@ class QualityGate:
             subgates.append(QualitySubgate("secure-transport-design-only", "POST-H-023 secure transport design artifacts and no-network invariant gate.", self._secure_transport_design_only))
             subgates.append(QualitySubgate("onboarding-bootstrap-ready", "POST-H-024 pilot fixture, templates and bootstrap dry-run onboarding quality gate.", self._onboarding_bootstrap_ready))
             subgates.append(QualitySubgate("production-ready-claims-validator", "POST-H-025 documentation/report no-go claims validator.", self._production_ready_claims_validator))
+            subgates.append(QualitySubgate("local-release-candidate", "POST-H-026 local RC final PASS/BLOCK aggregator.", lambda: self.service.local_release_candidate_final()))
         if self.options.profile == "industrial":
             subgates.append(QualitySubgate("industrial-readiness", "Fase H industrial readiness gate and maturity classification.", self._industrial_readiness))
         if self.options.profile == "hardening":

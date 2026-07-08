@@ -2,17 +2,39 @@
 title: "Runbook — DevPilot Local"
 doc_id: "DEVPL-OPS-002"
 status: "approved"
-version: "2.00.0"
+version: "2.01.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "POST-H-026-D"
+phase: "POST-H-026-E"
 updated: "2026-07-08"
 approval: "approved_by_owner"
 source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved + 03_security approved"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "SPRINT-PRECODE-05 quality operations baseline"
 ---
+
+## POST-H-026-E — RC PASS/BLOCK report
+
+Estado: `closed / local-release-candidate-pass`.
+
+Propósito operacional: emitir un artefacto final auditable `LocalReleaseCandidateReport` con decisión `PASS` o `BLOCK`, componentes evaluados, gaps bloqueantes/advisory, acciones correctivas, no-go gates, claims permitidos/prohibidos y seguridad local-first.
+
+Comandos de uso:
+
+```powershell
+$env:PYTHONPATH="src"
+python -m devpilot_core release-candidate final --json
+python -m devpilot_core release-candidate final --json --write-report
+python -m devpilot_core schema validate --schema-id LocalReleaseCandidateReport --instance outputs/reports/local_release_candidate_report.json --json
+python -m devpilot_core quality-gate run --profile hardening --json
+```
+
+PASS: EvidenceFreshness, `release-candidate-local`, UI/API RC smoke, install smoke, `production-ready-local-final`, docs-governance, TCR v1/v2, schema registry y clean artifact policy pasan; no hay claims enterprise/remote/SaaS/compliance y no-go gates siguen en false.
+
+BLOCK: cualquier evidencia crítica stale/missing/invalid, fallo de UI/API smoke, fallo de install smoke, fallo de production-ready-local-final, schema inválido, TCR/docs-governance bloqueante, no-go gate activo o claim prohibido.
+
+Limitación: POST-H-026-E no publica paquetes, no firma releases, no despliega servicios, no ejecuta `pytest` y no reemplaza el checkpoint general de regresión. El siguiente hito POST-H-027 debe convertir este RC local en packaging reproducible más robusto.
 
 ## POST-H-026-D — Local install and run verification
 

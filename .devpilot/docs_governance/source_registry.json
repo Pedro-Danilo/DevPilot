@@ -6635,7 +6635,81 @@
       "owner": "POST-H-026-D",
       "status_required": "current",
       "criticality": "P0",
-      "required_tests": []
+      "required_tests": [
+        "tests/test_post_h_026_install_smoke.py"
+      ]
+    },
+    {
+      "doc_id": "SCHEMA-DEVPL-LOCAL-RELEASE-CANDIDATE-CRITERIA-V1",
+      "path": "docs/schemas/local_release_candidate_criteria.schema.json",
+      "classification": "machine-readable-source",
+      "domain": "release-candidate",
+      "owner": "POST-H-026-E",
+      "status_required": "registered",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_026_release_candidate_report.py"
+      ]
+    },
+    {
+      "doc_id": "SCHEMA-DEVPL-LOCAL-RELEASE-CANDIDATE-REPORT-V1",
+      "path": "docs/schemas/local_release_candidate_report.schema.json",
+      "classification": "machine-readable-source",
+      "domain": "release-candidate",
+      "owner": "POST-H-026-E",
+      "status_required": "registered",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_026_release_candidate_report.py"
+      ]
+    },
+    {
+      "doc_id": "DEVPL-AUDIT-POST-H-026-E-RC-CLOSURE",
+      "path": "docs/audits/post_h_026_e_release_candidate_closure_report.md",
+      "classification": "source-of-truth",
+      "domain": "release-candidate",
+      "owner": "POST-H-026-E",
+      "status_required": "approved",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_026_release_candidate_report.py"
+      ]
+    },
+    {
+      "doc_id": "POST-H-026-E-MANIFEST",
+      "path": "docs/post_h_026_e_manifest.json",
+      "classification": "machine-readable-source",
+      "domain": "release-candidate",
+      "owner": "POST-H-026-E",
+      "status_required": "closed",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_026_release_candidate_report.py"
+      ]
+    },
+    {
+      "doc_id": "POST-H-026-E-REPORTER",
+      "path": "src/devpilot_core/release_candidate/report.py",
+      "classification": "machine-readable-source",
+      "domain": "release-candidate",
+      "owner": "POST-H-026-E",
+      "status_required": "current",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_026_release_candidate_report.py"
+      ]
+    },
+    {
+      "doc_id": "POST-H-026-E-TEST",
+      "path": "tests/test_post_h_026_release_candidate_report.py",
+      "classification": "derived",
+      "domain": "release-candidate",
+      "owner": "POST-H-026-E",
+      "status_required": "current",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_026_release_candidate_report.py"
+      ]
     }
   ],
   "rules": {
