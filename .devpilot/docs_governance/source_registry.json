@@ -6518,6 +6518,42 @@
       "notes": [
         "Audit report for POST-H-026-A implementation."
       ]
+    },
+    {
+      "doc_id": "SCHEMA-DEVPL-RELEASE-CANDIDATE-VERIFICATION-PROFILE-V1",
+      "title": "Release candidate verification profile schema",
+      "path": "docs/schemas/release_candidate_verification_profile.schema.json",
+      "status": "implemented-initial",
+      "owner": "Ordonez",
+      "source_type": "engineering-artifact",
+      "sprint": "POST-H-026-B",
+      "canonical": true,
+      "updated": "2026-07-08",
+      "status_required": "implemented-initial"
+    },
+    {
+      "doc_id": "DEVPL-AUDIT-POST-H-026-B-RC-PROFILE",
+      "title": "POST-H-026-B audit report",
+      "path": "docs/audits/post_h_026_b_release_candidate_profile_report.md",
+      "status": "implemented-initial",
+      "owner": "Ordonez",
+      "source_type": "engineering-artifact",
+      "sprint": "POST-H-026-B",
+      "canonical": true,
+      "updated": "2026-07-08",
+      "status_required": "implemented-initial"
+    },
+    {
+      "doc_id": "POST-H-026-B-MANIFEST",
+      "title": "POST-H-026-B manifest",
+      "path": "docs/post_h_026_b_manifest.json",
+      "status": "implemented-initial",
+      "owner": "Ordonez",
+      "source_type": "engineering-artifact",
+      "sprint": "POST-H-026-B",
+      "canonical": true,
+      "updated": "2026-07-08",
+      "status_required": "implemented-initial"
     }
   ],
   "rules": {

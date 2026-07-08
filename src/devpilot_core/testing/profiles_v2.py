@@ -21,7 +21,7 @@ _SECURITY_DOMAINS = {
     "quality.gate",
 }
 
-_PROFILE_IDS = {"p0-critical", "security", "release", "impact", "docs-historical"}
+_PROFILE_IDS = {"p0-critical", "security", "release", "impact", "docs-historical", "release-candidate-local"}
 _DANGEROUS_SHELL_TOKENS = ("&&", "||", ";", "|", ">", "<", "`", "$(", "curl ", "wget ", "powershell", "pwsh", "cmd.exe")
 _ALLOWED_COMMAND_PREFIXES = ("python -m pytest ", "python -m devpilot_core ", "npm --prefix ui/web test")
 
@@ -277,6 +277,8 @@ class TestContractRegistryV2Validator:
             return contract.get("execution_profile") == "impact"
         if profile_id == "docs-historical":
             return contract.get("domain") == "documentation.historical" or contract.get("test_type") == "documentation"
+        if profile_id == "release-candidate-local":
+            return bool(contract.get("required_for_release")) or contract.get("execution_profile") == "release" or str(contract.get("contract_id", "")).startswith("post-h-026-")
         return False
 
     def _profile_result(self, ok: bool, exit_code: ExitCode, profile: str, selected: list[dict[str, Any]], findings: list[Finding], registry: dict[str, Any]) -> CommandResult:

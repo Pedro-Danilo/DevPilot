@@ -1,3 +1,11 @@
+## post-h-026-b — Release candidate verification profile
+
+- Added `release-candidate-local` to `.devpilot/testing/test_profiles.json` as a local-only, approval-gated RC profile.
+- Added `ReleaseCandidateVerificationProfile` schema, CLI command and plan-only report writer.
+- Registered the RC profile in TCR v1/v2 and Test Impact Analyzer v2 recommendations for release candidate changes.
+- Synchronized README, runbook, backlog, source registry and POST-H-026-B manifest.
+- No network, external APIs, remote execution, connector write, plugin execution or arbitrary shell execution enabled.
+
 ## post-h-026-a — Evidence freshness model
 
 ### Added

@@ -7,9 +7,9 @@
   "scope": "local-release-candidate",
   "preliminary": true,
   "expected_source_repo": "repo_DevPilot_Local_263_POST_H_025.zip",
-  "expected_current_repo": "repo_DevPilot_Local_264_POST_H_026_A.zip",
+  "expected_current_repo": "repo_DevPilot_Local_265_POST_H_026_B.zip",
   "expected_last_completed_sprint": "POST-H-025",
-  "expected_current_micro_sprint": "POST-H-026-A",
+  "expected_current_micro_sprint": "POST-H-026-B",
   "expected_next_micro_sprint": "POST-H-026-B",
   "freshness_policy": "contextual-signature",
   "no_go_gates": {
@@ -31,16 +31,16 @@
       "critical": true,
       "json_required": true,
       "expected_schema_id": "SCHEMA-DEVPL-PROJECT-STATE-V1",
-      "producer_sprint": "POST-H-026-A",
+      "producer_sprint": "POST-H-026-B",
       "freshness_policy": "contextual-field-match",
       "expected_fields": {
         "source_repo": "repo_DevPilot_Local_263_POST_H_025.zip",
-        "current_repo": "repo_DevPilot_Local_264_POST_H_026_A.zip",
+        "current_repo": "repo_DevPilot_Local_265_POST_H_026_B.zip",
         "last_completed_sprint": "POST-H-025",
         "next_sprint": "POST-H-026",
-        "current_micro_sprint": "POST-H-026-A",
-        "next_micro_sprint": "POST-H-026-B",
-        "post_h_026_status": "active/evidence-freshness-implemented-initial"
+        "current_micro_sprint": "POST-H-026-B",
+        "next_micro_sprint": "POST-H-026-C",
+        "post_h_026_status": "active/release-candidate-profile-implemented-initial"
       }
     },
     {
@@ -70,15 +70,15 @@
     },
     {
       "evidence_id": "post-h-026-backlog",
-      "title": "POST-H-026 backlog is approved and points to POST-H-026-A",
+      "title": "POST-H-026 backlog is approved and points to POST-H-026-B",
       "path": "docs/backlogs/POST-H-026_local_release_candidate_operator_verification.md",
       "category": "backlog",
       "critical": true,
-      "producer_sprint": "POST-H-026-A",
+      "producer_sprint": "POST-H-026-B",
       "freshness_policy": "required-marker",
       "required_markers": [
-        "current_micro_sprint: \"POST-H-026-A\"",
-        "next_micro_sprint: \"POST-H-026-B\"",
+        "current_micro_sprint: \"POST-H-026-B\"",
+        "next_micro_sprint: \"POST-H-026-C\"",
         "implementation_status: \"active\""
       ]
     },
@@ -172,6 +172,35 @@
       "expected_schema_id": "SCHEMA-DEVPL-PRODUCTION-READY-LOCAL-REPORT-V1",
       "producer_sprint": "POST-H-025-E",
       "freshness_policy": "optional-runtime-schema-id"
+    },
+    {
+      "evidence_id": "release-candidate-profile-schema",
+      "title": "ReleaseCandidateVerificationProfile schema registered source file",
+      "path": "docs/schemas/release_candidate_verification_profile.schema.json",
+      "category": "schema",
+      "critical": true,
+      "runtime_optional": false,
+      "expected_schema_id": "SCHEMA-DEVPL-RELEASE-CANDIDATE-VERIFICATION-PROFILE-V1",
+      "producer_sprint": "POST-H-026-B",
+      "freshness_policy": "schema-id",
+      "json_required": true
+    },
+    {
+      "evidence_id": "release-candidate-profile-contract",
+      "title": "RC profile command and docs are registered",
+      "path": ".devpilot/testing/test_profiles.json",
+      "category": "test-profile",
+      "critical": true,
+      "runtime_optional": false,
+      "expected_schema_id": null,
+      "producer_sprint": "POST-H-026-B",
+      "freshness_policy": "required-marker",
+      "json_required": true,
+      "required_markers": [
+        "release-candidate-local",
+        "requires_approval_for_pytest",
+        "allow_shell"
+      ]
     }
   ]
 }

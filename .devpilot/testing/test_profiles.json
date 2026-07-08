@@ -1,28 +1,97 @@
 {
   "schema_version": "1.0",
-  "created_by": "FUNC-SPRINT-32",
-  "description": "Controlled pytest profiles for DevPilot tests.run. Users select profiles; they cannot pass arbitrary shell commands.",
+  "created_by": "POST-H-026-B",
+  "description": "Controlled pytest profiles for DevPilot tests.run. POST-H-026-B adds release-candidate-local as an approval-gated, local-only RC profile without allowing arbitrary shell commands.",
   "profiles": [
     {
       "profile_id": "smoke",
       "description": "Very small synthetic smoke test used to validate the controlled tests.run pipeline.",
-      "pytest_args": ["-q", "tests/fixtures/smoke_pytest_project"],
+      "pytest_args": [
+        "-q",
+        "tests/fixtures/smoke_pytest_project"
+      ],
       "cwd": ".",
       "timeout_seconds": 60
     },
     {
       "profile_id": "unit",
       "description": "Focused local unit verification for CLI/policy core without running the full suite.",
-      "pytest_args": ["-q", "tests/test_cli_core.py", "tests/test_policy_engine.py"],
+      "pytest_args": [
+        "-q",
+        "tests/test_cli_core.py",
+        "tests/test_policy_engine.py"
+      ],
       "cwd": ".",
       "timeout_seconds": 120
     },
     {
       "profile_id": "all",
       "description": "Full local pytest suite. This can execute project tests and should remain approval-gated.",
-      "pytest_args": ["-q"],
+      "pytest_args": [
+        "-q"
+      ],
       "cwd": ".",
       "timeout_seconds": 120
+    },
+    {
+      "profile_id": "release-candidate-local",
+      "description": "Focused local RC verification profile for operator release candidate checks. Plan-only by default; pytest execution remains tests.run approval-gated.",
+      "taxonomy": [
+        "always",
+        "impacted",
+        "release-candidate",
+        "full"
+      ],
+      "commands": [
+        "project-state validate",
+        "docs-governance validate",
+        "schema list",
+        "test-contracts validate",
+        "test-contracts validate-v2",
+        "quality-gate run --profile hardening",
+        "industrial-readiness production-ready-local-final",
+        "release-candidate evidence-freshness",
+        "release-candidate ui-api-smoke",
+        "release-candidate install-smoke"
+      ],
+      "pytest_args": [
+        "-p",
+        "no:ddtrace",
+        "--assert=plain",
+        "-q",
+        "tests/test_post_h_026_evidence_freshness.py",
+        "tests/test_post_h_026_release_candidate_profile.py",
+        "tests/test_post_h_025_production_ready_final_declaration.py",
+        "tests/test_post_h_025_production_ready_claims_validator.py",
+        "tests/test_quality_gate.py",
+        "tests/test_schema_registry.py",
+        "tests/test_project_global_state.py"
+      ],
+      "pytest_targets": [
+        "tests/test_post_h_026_evidence_freshness.py",
+        "tests/test_post_h_026_release_candidate_profile.py",
+        "tests/test_post_h_025_production_ready_final_declaration.py",
+        "tests/test_post_h_025_production_ready_claims_validator.py",
+        "tests/test_quality_gate.py",
+        "tests/test_schema_registry.py",
+        "tests/test_project_global_state.py",
+        "tests/test_post_h_014_api_route_contracts.py",
+        "tests/test_post_h_014_security_hardening.py",
+        "tests/test_release_manifest.py",
+        "tests/test_release_sbom.py",
+        "tests/test_release_verification.py"
+      ],
+      "cwd": ".",
+      "timeout_seconds": 900,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_approval_for_pytest": true,
+      "allow_arbitrary_pytest_args": false,
+      "allow_shell": false,
+      "write_report_commands_require_explicit_flag": true,
+      "preliminary": true
     }
   ]
 }

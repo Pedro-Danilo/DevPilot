@@ -123,7 +123,7 @@ from .release import (
     UpgradeCheckOptions,
     checksum_line,
 )
-from .release_candidate import EvidenceFreshnessOptions, EvidenceFreshnessScanner
+from .release_candidate import EvidenceFreshnessOptions, EvidenceFreshnessScanner, ReleaseCandidateVerificationProfile, ReleaseCandidateVerificationProfileOptions
 from .reports import ReportEngine, build_report_id
 from .security import PolicySimulationSuite, SecurityReadiness
 from .schemas import BuiltinContractValidator, SchemaRegistry, SchemaValidator
@@ -4942,6 +4942,34 @@ def policy_simulate_command(
     return int(result.exit_code)
 
 
+
+def release_candidate_profile_command(
+    *,
+    profile: str,
+    test_profiles_path: str,
+    tcr_v2_path: str,
+    output_json: str,
+    output_markdown: str,
+    json_output: bool = False,
+    write_report: bool = False,
+) -> int:
+    root = project_root()
+    result = ReleaseCandidateVerificationProfile(
+        root,
+        ReleaseCandidateVerificationProfileOptions(
+            profile_id=profile,
+            test_profiles_path=test_profiles_path,
+            tcr_v2_path=tcr_v2_path,
+            output_json=output_json,
+            output_markdown=output_markdown,
+            write_report=write_report,
+        ),
+    ).inspect()
+    _emit_result_event(root, result, subject="release-candidate:profile")
+    _persist_result(root, result, subject="release-candidate:profile")
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
 def architecture_inventory_command(
     *,
     source_root: str = "src/devpilot_core",
@@ -5443,6 +5471,14 @@ def build_parser() -> argparse.ArgumentParser:
     release_candidate_freshness.add_argument("--output-markdown", default="outputs/reports/evidence_freshness_report.md", help="Evidence freshness report Markdown path")
     release_candidate_freshness.add_argument("--write-report", action="store_true", help="Write EvidenceFreshnessReport JSON/Markdown under outputs/reports")
     release_candidate_freshness.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    release_candidate_profile = release_candidate_sub.add_parser("profile", help="Inspect the POST-H-026-B release candidate verification profile without executing tests")
+    release_candidate_profile.add_argument("--profile", default="release-candidate-local", help="Profile id to inspect; defaults to release-candidate-local")
+    release_candidate_profile.add_argument("--test-profiles-path", default=".devpilot/testing/test_profiles.json", help="Controlled tests.run profile registry path")
+    release_candidate_profile.add_argument("--tcr-v2-path", default=".devpilot/testing/test_contract_registry_v2.json", help="Test Contract Registry v2 path")
+    release_candidate_profile.add_argument("--output-json", default="outputs/reports/release_candidate_verification_profile_report.json", help="RC profile report JSON path")
+    release_candidate_profile.add_argument("--output-markdown", default="outputs/reports/release_candidate_verification_profile_report.md", help="RC profile report Markdown path")
+    release_candidate_profile.add_argument("--write-report", action="store_true", help="Write RC verification profile JSON/Markdown under outputs/reports")
+    release_candidate_profile.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
 
     architecture = sub.add_parser("architecture", help="Build executable local architecture map evidence")
     architecture_sub = architecture.add_subparsers(dest="architecture_command")
@@ -6731,6 +6767,16 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
         if args.release_candidate_command == "evidence-freshness":
             return release_candidate_evidence_freshness_command(
                 criteria_path=args.criteria_path,
+                output_json=args.output_json,
+                output_markdown=args.output_markdown,
+                json_output=args.json,
+                write_report=args.write_report,
+            )
+        if args.release_candidate_command == "profile":
+            return release_candidate_profile_command(
+                profile=args.profile,
+                test_profiles_path=args.test_profiles_path,
+                tcr_v2_path=args.tcr_v2_path,
                 output_json=args.output_json,
                 output_markdown=args.output_markdown,
                 json_output=args.json,

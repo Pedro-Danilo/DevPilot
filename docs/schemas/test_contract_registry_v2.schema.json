@@ -203,7 +203,8 @@
             "release",
             "impact",
             "docs-historical",
-            "nightly-local"
+            "nightly-local",
+            "release-candidate-local"
           ]
         },
         "description": {

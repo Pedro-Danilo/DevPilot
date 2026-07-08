@@ -27,7 +27,7 @@ def test_test_contract_registry_v2_validator_passes_migrated_registry_without_ex
     assert result.ok, result.to_dict()
     summary = result.data["summary"]
     assert summary["contracts_total"] >= 89
-    assert summary["profiles_total"] == 5
+    assert summary["profiles_total"] == 6
     assert summary["p0_contracts_total"] >= 6
     assert summary["needs_review_total"] == 2
     assert summary["network_allowed_total"] == 0
@@ -47,18 +47,21 @@ def test_test_contract_registry_v2_profiles_select_contracts_without_execution()
     release = validator.profile("release")
     impact = validator.profile("impact")
     docs = validator.profile("docs-historical")
+    rc = validator.profile("release-candidate-local")
 
     assert p0.ok, p0.to_dict()
     assert security.ok, security.to_dict()
     assert release.ok, release.to_dict()
     assert impact.ok, impact.to_dict()
     assert docs.ok, docs.to_dict()
+    assert rc.ok, rc.to_dict()
 
     assert p0.data["summary"]["contracts_selected"] >= 6
     assert security.data["summary"]["contracts_selected"] >= 6
     assert release.data["summary"]["contracts_selected"] >= 5
     assert impact.data["summary"]["contracts_selected"] >= 80
     assert docs.data["summary"]["contracts_selected"] >= 78
+    assert rc.data["summary"]["contracts_selected"] >= 1
     assert p0.data["summary"]["tests_executed"] is False
     assert all("pytest" in cmd or cmd.startswith("python -m devpilot_core") or cmd == "npm --prefix ui/web test" for cmd in p0.data["recommended_commands"])
 

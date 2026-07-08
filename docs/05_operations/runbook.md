@@ -6,13 +6,37 @@ version: "1.98.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "POST-H-026-A"
+phase: "POST-H-026-B"
 updated: "2026-07-07"
 approval: "approved_by_owner"
 source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved + 03_security approved"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "SPRINT-PRECODE-05 quality operations baseline"
 ---
+
+
+## POST-H-026-B — Release candidate verification profile
+
+Estado: `implemented-initial / plan-only`.
+
+Propósito operacional: permitir al operador inspeccionar un perfil de verificación `release-candidate-local` más barato que `pytest -q`, sin ejecutar pruebas ni comandos durante la inspección. El perfil conserva `tests.run` con aprobación humana para cualquier ejecución pytest real.
+
+Comandos de uso:
+
+```powershell
+$env:PYTHONPATH="src"
+python -m devpilot_core release-candidate profile --profile release-candidate-local --json
+python -m devpilot_core release-candidate profile --profile release-candidate-local --json --write-report
+python -m devpilot_core tests profiles --json
+python -m devpilot_core test-contracts profile --profile release-candidate-local --json
+python -m devpilot_core test-impact analyze-v2 --changed-paths src/devpilot_core/release_candidate/verification_profile.py --json
+```
+
+PASS: el perfil contiene comandos RC obligatorios, pytest targets focales, taxonomía `always/impacted/release-candidate/full`, `network_allowed=false`, `external_api_allowed=false`, `requires_approval_for_pytest=true`, `allow_shell=false` y binding TCR v2 válido.
+
+BLOCK: el perfil omite `production-ready-local-final` o `release-candidate evidence-freshness`, habilita red/API externa, permite shell arbitrario, relaja aprobación de pytest o no está registrado en TCR v2.
+
+Limitación: esta inspección no ejecuta `pytest`, no levanta API/UI y no verifica instalación local; esos cierres corresponden a POST-H-026-C/D/E.
 
 ## POST-H-026-A — Evidence freshness model
 

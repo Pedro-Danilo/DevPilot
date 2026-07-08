@@ -1,3 +1,24 @@
+## POST-H-026-B — Release candidate verification profile
+
+Último micro-sprint implementado: `POST-H-026-B — Release candidate verification profile`
+
+POST-H-026-B agrega el perfil `release-candidate-local` en `.devpilot/testing/test_profiles.json`, el contrato `ReleaseCandidateVerificationProfile`, el módulo `src/devpilot_core/release_candidate/verification_profile.py` y el comando `python -m devpilot_core release-candidate profile --profile release-candidate-local --json`.
+
+La capacidad queda `implemented-initial / plan-only`: valida que el perfil RC sea local-only, sin red, sin APIs externas, sin shell arbitrario y con ejecución pytest approval-gated mediante `tests.run`. No ejecuta pruebas ni comandos; emite un plan verificable y puede escribir `outputs/reports/release_candidate_verification_profile_report.*` solo con `--write-report`.
+
+POST-H-026-B no reemplaza `pytest -q` completo como gate final del backlog, no ejecuta UI/API smoke ni install smoke, no declara RC final y no habilita remote execution, connector write, plugin execution ni APIs externas.
+
+Comandos principales:
+
+```powershell
+$env:PYTHONPATH="src"
+python -m devpilot_core release-candidate profile --profile release-candidate-local --json
+python -m devpilot_core release-candidate profile --profile release-candidate-local --json --write-report
+python -m devpilot_core tests profiles --json
+python -m devpilot_core test-contracts profile --profile release-candidate-local --json
+python -m devpilot_core test-impact analyze-v2 --changed-paths src/devpilot_core/release_candidate/verification_profile.py --json
+```
+
 ## POST-H-026-A — Evidence freshness model
 
 Último hito cerrado: `POST-H-025`

@@ -88,6 +88,21 @@
       ],
       "network_allowed": false,
       "external_api_allowed": false
+    },
+    {
+      "profile_id": "release-candidate-local",
+      "description": "Local release candidate profile selected by POST-H-026-B. It combines P0 release contracts, RC evidence freshness and profile tests without network or external APIs.",
+      "criticalities": [
+        "P0",
+        "P1"
+      ],
+      "execution_profiles": [
+        "always",
+        "impact",
+        "release"
+      ],
+      "network_allowed": false,
+      "external_api_allowed": false
     }
   ],
   "contracts": [
@@ -11766,6 +11781,72 @@
       "classification_notes": [
         "POST-H-026-A is P0 because stale critical evidence can produce a false release candidate PASS."
       ]
+    },
+    {
+      "contract_id": "post-h-026-release-candidate-profile",
+      "schema_version": "2.0",
+      "source_contract_id": "post-h-026-release-candidate-profile",
+      "domain": "release",
+      "capability": "release-candidate-verification-profile",
+      "criticality": "P0",
+      "risk_level": "high",
+      "test_type": "integration",
+      "execution_profile": "release",
+      "cost_class": "low",
+      "expected_duration_seconds": 120,
+      "test_files": [
+        "tests/test_post_h_026_release_candidate_profile.py"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/release_candidate/verification_profile.py",
+        "src/devpilot_core/cli.py",
+        "src/devpilot_core/cli_registry/registry.py",
+        "src/devpilot_core/cli_registry/builders.py",
+        ".devpilot/testing/test_profiles.json",
+        ".devpilot/testing/test_contract_registry_v2.json",
+        "docs/schemas/release_candidate_verification_profile.schema.json",
+        "docs/backlogs/POST-H-026_local_release_candidate_operator_verification.md"
+      ],
+      "validates": [
+        "release-candidate profile",
+        ".devpilot/testing/test_profiles.json",
+        ".devpilot/testing/test_contract_registry_v2.json",
+        "docs/schemas/release_candidate_verification_profile.schema.json"
+      ],
+      "trigger_hints": [
+        "release-candidate",
+        "test_profiles",
+        "test_contract_registry_v2",
+        "profile"
+      ],
+      "impact_scope": [
+        "release",
+        "testing",
+        "schemas",
+        "docs-governance"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": false,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "POST-H-026-B",
+      "recommended_commands": [
+        "python -m pytest tests/test_post_h_026_release_candidate_profile.py tests/test_test_contract_registry_profiles_v2.py tests/test_test_contract_registry_v2.py tests/test_test_impact_v2.py -q",
+        "python -m devpilot_core release-candidate profile --profile release-candidate-local --json",
+        "python -m devpilot_core test-contracts profile --profile release-candidate-local --json"
+      ],
+      "classification_status": "explicit",
+      "classification_notes": [
+        "POST-H-026-B RC profile contract; plan-only and local-first."
+      ],
+      "safety_exception": {
+        "justification": "No exception: profile is plan-only, local-first and does not execute tests or mutate state.",
+        "approved_by": "POST-H-026-B",
+        "expires_at_utc": "2027-01-01T00:00:00Z"
+      }
     }
   ],
   "migration_metadata": {

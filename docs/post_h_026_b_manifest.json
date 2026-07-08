@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "SCHEMA-DEVPL-POST-H-MANIFEST-V1",
+  "post_h_id": "POST-H-026",
+  "micro_sprint": "POST-H-026-B",
+  "title": "POST-H-026-B — Release candidate verification profile",
+  "status": "implemented-initial",
+  "phase": "POST-FASE-H",
+  "implemented_at": "2026-07-08",
+  "created_files": [
+    "src/devpilot_core/release_candidate/verification_profile.py",
+    "docs/schemas/release_candidate_verification_profile.schema.json",
+    "tests/test_post_h_026_release_candidate_profile.py",
+    "docs/audits/post_h_026_b_release_candidate_profile_report.md",
+    "docs/post_h_026_b_manifest.json"
+  ],
+  "modified_files": [
+    "src/devpilot_core/release_candidate/__init__.py",
+    "src/devpilot_core/cli.py",
+    "src/devpilot_core/cli_registry/registry.py",
+    "src/devpilot_core/cli_registry/builders.py",
+    "src/devpilot_core/testing/profiles_v2.py",
+    "src/devpilot_core/testing/impact_v2.py",
+    ".devpilot/testing/test_profiles.json",
+    ".devpilot/testing/test_contract_registry.json",
+    ".devpilot/testing/test_contract_registry_v2.json",
+    "docs/schemas/schema_catalog.json",
+    "docs/schemas/test_contract_registry_v2.schema.json",
+    "docs/backlogs/POST-H-026_local_release_candidate_operator_verification.md",
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/release/CHANGELOG.md",
+    ".devpilot/project_state.json",
+    ".devpilot/docs_governance/source_registry.json"
+  ],
+  "commands": [
+    "python -m devpilot_core release-candidate profile --profile release-candidate-local --json",
+    "python -m devpilot_core release-candidate profile --profile release-candidate-local --json --write-report",
+    "python -m devpilot_core test-contracts profile --profile release-candidate-local --json",
+    "python -m devpilot_core test-impact analyze-v2 --changed-paths src/devpilot_core/release_candidate/verification_profile.py --json"
+  ],
+  "tests": [
+    "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_026_release_candidate_profile.py tests/test_test_contract_registry_profiles_v2.py tests/test_test_contract_registry_v2.py tests/test_test_impact_v2.py -q"
+  ],
+  "pass_criteria": [
+    "Perfil RC versionado y validado",
+    "CLI lista perfil sin ejecutar comandos",
+    "Perfil distingue plan-only y pytest approval-gated",
+    "TCR v1/v2 registra contrato",
+    "Test Impact v2 recomienda release-candidate-local para cambios RC"
+  ],
+  "block_criteria": [
+    "Perfil omite production-ready-local-final o evidence freshness",
+    "Perfil permite shell arbitrario, network o external API",
+    "Se relaja approval de tests.run",
+    "TCR v2 no reconoce release-candidate-local"
+  ],
+  "risks": [
+    "No reemplaza pytest -q completo al cierre del backlog",
+    "UI/API smoke e install smoke siguen pendientes"
+  ],
+  "next_sprint": "POST-H-026",
+  "next_micro_sprint": "POST-H-026-C",
+  "tests_execute_from_json": false,
+  "preliminary": true
+}

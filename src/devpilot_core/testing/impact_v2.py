@@ -95,14 +95,15 @@ _RULES = (
     _HeuristicRule(
         id="release-packaging",
         label="Release/packaging change",
-        prefixes=("src/devpilot_core/release", "docs/release", "pyproject.toml", "package.json", "ui/web/package.json"),
+        prefixes=("src/devpilot_core/release", "src/devpilot_core/release_candidate", "docs/release", "pyproject.toml", "package.json", "ui/web/package.json"),
         contract_ids=("schema-registry", "quality-gate-hardening", "test-contract-registry"),
         tests=("tests/test_release_manifest.py", "tests/test_release_sbom.py", "tests/test_release_verification.py", "tests/test_package_builder.py"),
         commands=(
             "python -m pytest tests/test_release_manifest.py tests/test_release_sbom.py tests/test_release_verification.py tests/test_package_builder.py -q",
             "python -m devpilot_core test-contracts profile --profile release --json",
+            "python -m devpilot_core release-candidate profile --profile release-candidate-local --json",
         ),
-        profiles=("release",),
+        profiles=("release", "release-candidate-local"),
     ),
 )
 

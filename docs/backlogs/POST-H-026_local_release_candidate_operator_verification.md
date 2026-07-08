@@ -3,7 +3,7 @@ doc_id: "POST-H-026-BACKLOG"
 id: "POST-H-026"
 title: "POST-H-026 — Release candidate local y verificacion de operador"
 status: "approved"
-version: "0.2.0"
+version: "0.3.0"
 owner: "Ordonez"
 created: "2026-07-07"
 phase: "POST-FASE-H"
@@ -29,10 +29,10 @@ claims_forbidden:
   - "SaaS-ready"
   - "compliance-certified"
 implementation_status: "active"
-current_micro_sprint: "POST-H-026-A"
-next_micro_sprint: "POST-H-026-B"
+current_micro_sprint: "POST-H-026-B"
+next_micro_sprint: "POST-H-026-C"
 approval: "approved_by_owner"
-updated: "2026-07-07"
+updated: "2026-07-08"
 ---
 
 # POST-H-026 — Release candidate local y verificacion de operador
@@ -439,6 +439,11 @@ python -m devpilot_core schema validate --schema-id EvidenceFreshnessReport --in
 ```
 
 ## 10. Micro-sprint POST-H-026-B — Release candidate verification profile
+
+### Estado de implementación POST-H-026-B
+
+Implementado inicial en esta entrega. Se creó un verificador plan-only que inspecciona `release-candidate-local` sin ejecutar pytest ni shell; registra binding TCR v2, taxonomía RC y reportes opcionales bajo `--write-report`.
+
 
 ### Objetivo
 

@@ -6707,6 +6707,38 @@
         "POST-H-026-A validates evidence freshness/staleness for the future local release candidate.",
         "Default execution is read-only and does not write outputs; --write-report is explicit."
       ]
+    },
+    {
+      "contract_id": "post-h-026-release-candidate-profile",
+      "scope": "integration",
+      "owner": "POST-H-026-B",
+      "test_files": [
+        "tests/test_post_h_026_release_candidate_profile.py"
+      ],
+      "validates": [
+        "src/devpilot_core/release_candidate/verification_profile.py",
+        ".devpilot/testing/test_profiles.json",
+        ".devpilot/testing/test_contract_registry_v2.json",
+        "docs/schemas/release_candidate_verification_profile.schema.json",
+        "docs/post_h_026_b_manifest.json"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/release_candidate/",
+        "src/devpilot_core/cli.py",
+        "src/devpilot_core/cli_registry/",
+        ".devpilot/testing/",
+        "docs/schemas/release_candidate_verification_profile.schema.json",
+        "docs/backlogs/POST-H-026_local_release_candidate_operator_verification.md"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest tests/test_post_h_026_release_candidate_profile.py tests/test_test_contract_registry_profiles_v2.py tests/test_test_contract_registry_v2.py tests/test_test_impact_v2.py -q",
+        "python -m devpilot_core release-candidate profile --profile release-candidate-local --json",
+        "python -m devpilot_core test-contracts validate --json",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ]
     }
   ],
   "notes": [
