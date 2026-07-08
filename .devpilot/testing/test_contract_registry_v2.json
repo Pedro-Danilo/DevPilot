@@ -12367,6 +12367,238 @@
         "POST-H-027-D writes optional outputs/reports only with --write-report; source mutations are not allowed.",
         "The smoke is dry-run and does not execute pip/npm or open sockets."
       ]
+    },
+    {
+      "contract_id": "post-h-027-upgrade-rollback-dry-run",
+      "schema_version": "2.0",
+      "source_contract_id": "post-h-027-upgrade-rollback-dry-run",
+      "domain": "release",
+      "capability": "upgrade-rollback-dry-run",
+      "criticality": "P0",
+      "risk_level": "critical",
+      "test_type": "release",
+      "execution_profile": "release",
+      "cost_class": "low",
+      "expected_duration_seconds": 180,
+      "test_files": [
+        "tests/test_post_h_027_upgrade_rollback_dry_run.py"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/release/upgrade_rollback_dry_run.py",
+        "src/devpilot_core/release/backup.py",
+        "src/devpilot_core/release/upgrade.py",
+        "src/devpilot_core/release/artifact_manifest.py",
+        "src/devpilot_core/quality/gate.py",
+        "src/devpilot_core/cli.py",
+        "docs/schemas/upgrade_rollback_dry_run_report.schema.json",
+        "docs/05_operations/backup_restore_upgrade.md",
+        "docs/backlogs/POST-H-027_packaging_reproducible_local_installation.md",
+        "tests/test_post_h_027_upgrade_rollback_dry_run.py",
+        ".devpilot/testing/test_contract_registry.json",
+        ".devpilot/testing/test_contract_registry_v2.json"
+      ],
+      "validates": [
+        "src/devpilot_core/release/upgrade_rollback_dry_run.py",
+        "docs/schemas/upgrade_rollback_dry_run_report.schema.json",
+        "release upgrade-rollback-dry-run",
+        "packaging-local-ready",
+        "docs/05_operations/backup_restore_upgrade.md",
+        "docs/audits/post_h_027_e_upgrade_rollback_closure_report.md",
+        "docs/post_h_027_e_manifest.json",
+        "README.md",
+        "docs/05_operations/runbook.md"
+      ],
+      "trigger_hints": [
+        "POST-H-027-E",
+        "UpgradeRollbackDryRunReport",
+        "upgrade-rollback-dry-run",
+        "backup restore dry-run",
+        "packaging-local-ready"
+      ],
+      "impact_scope": [
+        "release",
+        "packaging",
+        "installation",
+        "backup",
+        "rollback",
+        "schemas",
+        "docs-governance",
+        "testing"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "POST-H-027-E",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_027_upgrade_rollback_dry_run.py tests/test_schema_registry.py tests/test_project_global_state.py -q",
+        "python -m devpilot_core release upgrade-rollback-dry-run --from-version 0.1.0 --to-version 0.1.1 --json --write-report",
+        "python -m devpilot_core schema validate --schema-id UpgradeRollbackDryRunReport --instance outputs/reports/upgrade_rollback_dry_run_report.json --json"
+      ],
+      "classification_status": "explicit",
+      "classification_notes": [
+        "POST-H-027-E writes optional outputs/reports only with --write-report; source mutations are not allowed.",
+        "The dry-run does not execute auto-update, restore, migrations, pip, npm, network or external APIs."
+      ]
+    },
+    {
+      "contract_id": "post-h-028-api-contract-drift-guard",
+      "schema_version": "2.0",
+      "source_contract_id": "post-h-028-api-contract-drift-guard",
+      "domain": "product.ui",
+      "capability": "api-contract-drift-guard",
+      "criticality": "P0",
+      "risk_level": "high",
+      "test_type": "integration",
+      "execution_profile": "release",
+      "cost_class": "low",
+      "expected_duration_seconds": 180,
+      "test_files": [
+        "tests/test_post_h_028_api_contract_drift_guard.py"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/interfaces/api/contract_drift.py",
+        "src/devpilot_core/interfaces/api/app.py",
+        "src/devpilot_core/interfaces/api/contracts.py",
+        "src/devpilot_core/interfaces/api/security.py",
+        "src/devpilot_core/quality/gate.py",
+        "src/devpilot_core/cli.py",
+        "src/devpilot_core/cli_registry/registry.py",
+        "docs/schemas/api_contract_drift_report.schema.json",
+        "docs/07_interfaces/openapi_v1.json",
+        ".devpilot/interfaces/api_route_contract_registry.json",
+        "tests/test_post_h_028_api_contract_drift_guard.py",
+        ".devpilot/testing/test_contract_registry.json",
+        ".devpilot/testing/test_contract_registry_v2.json"
+      ],
+      "validates": [
+        "src/devpilot_core/interfaces/api/contract_drift.py",
+        "docs/schemas/api_contract_drift_report.schema.json",
+        "api contract-drift",
+        "quality-gate api-contract-drift-guard",
+        "docs/07_interfaces/openapi_v1.json",
+        ".devpilot/interfaces/api_route_contract_registry.json",
+        "src/devpilot_core/interfaces/api/security.py",
+        "docs/audits/post_h_028_a_api_contract_drift_guard_report.md",
+        "docs/post_h_028_a_manifest.json",
+        "README.md",
+        "docs/05_operations/runbook.md"
+      ],
+      "trigger_hints": [
+        "POST-H-028-A",
+        "ApiContractDriftReport",
+        "api contract-drift",
+        "ApiRouteContractRegistry",
+        "API_ROUTE_POLICIES",
+        "OpenAPI drift"
+      ],
+      "impact_scope": [
+        "product.ui",
+        "product.api",
+        "interfaces",
+        "security",
+        "schemas",
+        "docs-governance",
+        "testing"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "POST-H-028-A",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_028_api_contract_drift_guard.py tests/test_api_contract.py tests/test_schema_registry.py tests/test_project_global_state.py -q",
+        "python -m devpilot_core api contract-drift --json --write-report",
+        "python -m devpilot_core schema validate --schema-id ApiContractDriftReport --instance outputs/reports/api_contract_drift_report.json --json"
+      ],
+      "classification_status": "explicit",
+      "classification_notes": [
+        "POST-H-028-A writes optional outputs/reports only with --write-report; source mutations are not allowed.",
+        "The guard does not execute HTTP requests, start FastAPI, open sockets, use network, external APIs or LLM judge."
+      ]
+    },
+    {
+      "contract_id": "post-h-028-local-auth-cors-hardening",
+      "schema_version": "2.0",
+      "source_contract_id": "post-h-028-local-auth-cors-hardening",
+      "domain": "product.ui",
+      "capability": "local-auth-cors-hardening",
+      "criticality": "P0",
+      "risk_level": "high",
+      "test_type": "integration",
+      "execution_profile": "release",
+      "cost_class": "low",
+      "expected_duration_seconds": 240,
+      "test_files": [
+        "tests/test_post_h_028_local_auth_cors_hardening.py"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/interfaces/api/security_hardening.py",
+        "src/devpilot_core/interfaces/api/security.py",
+        "src/devpilot_core/interfaces/api/app.py",
+        "src/devpilot_core/quality/gate.py",
+        "src/devpilot_core/cli.py",
+        "src/devpilot_core/cli_registry/registry.py",
+        "docs/schemas/local_api_security_hardening_report.schema.json",
+        "tests/test_post_h_028_local_auth_cors_hardening.py",
+        ".devpilot/testing/test_contract_registry.json",
+        ".devpilot/testing/test_contract_registry_v2.json"
+      ],
+      "validates": [
+        "src/devpilot_core/interfaces/api/security_hardening.py",
+        "docs/schemas/local_api_security_hardening_report.schema.json",
+        "api security-hardening",
+        "quality-gate local-api-security-hardening",
+        "src/devpilot_core/interfaces/api/security.py",
+        "src/devpilot_core/interfaces/api/app.py",
+        "docs/audits/post_h_028_b_local_auth_cors_hardening_report.md",
+        "docs/post_h_028_b_manifest.json",
+        "README.md",
+        "docs/05_operations/runbook.md",
+        "docs/05_operations/ui_api_local_runbook.md"
+      ],
+      "trigger_hints": [
+        "POST-H-028-B",
+        "LocalApiSecurityHardeningReport",
+        "api security-hardening",
+        "CORS",
+        "token auth",
+        "security headers",
+        "settings redaction"
+      ],
+      "impact_scope": [
+        "product.ui",
+        "product.api",
+        "interfaces",
+        "security",
+        "schemas",
+        "docs-governance",
+        "testing"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "POST-H-028-B",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_028_local_auth_cors_hardening.py tests/test_post_h_014_security_hardening.py tests/test_api_security.py tests/test_api_settings.py tests/test_api_approvals_actions.py tests/test_schema_registry.py tests/test_project_global_state.py -q",
+        "python -m devpilot_core api security-hardening --json --write-report",
+        "python -m devpilot_core schema validate --schema-id LocalApiSecurityHardeningReport --instance outputs/reports/local_api_security_hardening_report.json --json"
+      ],
+      "classification_status": "explicit",
+      "classification_notes": [
+        "POST-H-028-B writes optional outputs/reports only with --write-report; source mutations are not allowed.",
+        "The guard uses in-process TestClient only and does not start servers, bind sockets, use network, external APIs or LLM judge."
+      ]
     }
   ],
   "migration_metadata": {
@@ -12378,7 +12610,7 @@
     "external_api_used": false,
     "mutations_performed_by_default": false,
     "contracts_total": 197,
-    "last_updated_by": "POST-H-027-D"
+    "last_updated_by": "POST-H-027-E"
   },
   "notes": [
     "POST-H-020-D fixes v2 contract classification_status for POST-H-020-C/D contracts to keep schema validation synchronized.",
@@ -12405,6 +12637,9 @@
     "POST-H-025-E adds v2 production-ready-local final declaration contract.",
     "POST-H-026-A adds v2 evidence freshness release contract.",
     "POST-H-027-B registers Python artifact install verification v2 release contract.",
-    "POST-H-027-D registers windows-install-smoke as release/security gate evidence."
+    "POST-H-027-D registers windows-install-smoke as release/security gate evidence.",
+    "POST-H-027-E registers upgrade/rollback dry-run as release/security gate evidence.",
+    "POST-H-028-A adds the API contract drift guard contract to the release/security profile.",
+    "POST-H-028-B adds local-auth-cors-hardening to the release/security profile."
   ]
 }

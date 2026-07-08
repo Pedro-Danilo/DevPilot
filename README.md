@@ -1,3 +1,17 @@
+## POST-H-027-E — Upgrade/rollback dry-run
+
+POST-H-027-E cierra el hito de packaging local con el contrato `UpgradeRollbackDryRunReport`, el módulo `src/devpilot_core/release/upgrade_rollback_dry_run.py` y el comando `python -m devpilot_core release upgrade-rollback-dry-run --from-version 0.1.0 --to-version 0.1.1 --json --write-report`. El flujo valida que exista manifest/checksums de artefactos, que exista un backup local verificable, que `backup restore --dry-run` no escape del workspace, que `upgrade check` permanezca no mutante y que exista una receta explícita de smoke post-upgrade y rollback.
+
+Hito cerrado: `POST-H-027 — Packaging reproducible e instalacion local`
+
+Último hito: `POST-H-027`
+
+Micro-sprint cerrado: `POST-H-027-E — Upgrade/rollback dry-run`
+
+Siguiente hito: `POST-H-028`
+
+Limitación: esta primera versión no ejecuta auto-update, no restaura archivos, no corre migraciones destructivas, no publica paquetes, no descarga artefactos remotos y no reemplaza un instalador Windows formal. Para ejecutar un rollback real se mantiene el guardrail explícito `backup restore --execute --confirm-restore`.
+
 ## POST-H-027-D — Windows install guide and smoke
 
 POST-H-027-D agrega el contrato `WindowsInstallSmokeReport`, el módulo `src/devpilot_core/release/windows_install_smoke.py` y el comando `python -m devpilot_core install windows-smoke --mode editable --json --write-report`. El smoke valida la guía Windows editable/wheel/ZIP, artefactos locales bajo workspace, comandos CLI mínimos, token/API localhost `127.0.0.1`, clasificación advisory para `npm --prefix ui/web test` cuando Node/npm no están disponibles, y exclusión de `node_modules`, `outputs/`, `dist/`, `.venv/`, `.pytest_cache` y `__pycache__` del control de código.
@@ -5472,4 +5486,39 @@ Comandos principales:
 python -m devpilot_core connector validate --json
 python -m devpilot_core connector call --connector local-docs --operation list --dry-run --json
 python -m devpilot_core connector call --connector local-docs --operation query --query "readiness strict" --dry-run --json
+```
+
+### POST-H-028-A — API contract drift guard
+
+Estado: `implemented-initial`. DevPilot incorpora un guard local-first para bloquear drift entre FastAPI runtime/canonical routes, `ApiRouteContractRegistry`, `API_ROUTE_POLICIES` y `docs/07_interfaces/openapi_v1.json`.
+
+Comandos principales:
+
+```powershell
+$env:PYTHONPATH="src"
+python -m devpilot_core api contract-drift --json --write-report
+python -m devpilot_core schema validate --schema-id ApiContractDriftReport --instance outputs/reports/api_contract_drift_report.json --json
+```
+
+El guard no arranca servidor, no abre sockets, no llama APIs externas, no usa LLM judge y no muta fuente. POST-H-028-B/C/D/E quedan pendientes para auth/CORS hardening, visual smoke, error states y UI route enforcement.
+
+
+
+## POST-H-028-B — Local auth and CORS hardening
+
+Estado: `implemented-initial`. DevPilot agrega `python -m devpilot_core api security-hardening --json --write-report` para validar de forma local, read-only y dry-run que la API/UI mantiene token obligatorio, CORS restringido, bind local, security headers y redaccion de settings/tokens. No habilita OIDC, SSO, IAM enterprise, API remota publica ni rate limiting industrial.
+
+Verificacion focal:
+
+```powershell
+$env:PYTHONPATH="src"
+python -m pytest -p no:ddtrace --assert=plain `
+  tests/test_post_h_028_local_auth_cors_hardening.py `
+  tests/test_post_h_014_security_hardening.py `
+  tests/test_api_security.py `
+  tests/test_api_settings.py `
+  tests/test_api_approvals_actions.py `
+  tests/test_schema_registry.py `
+  tests/test_project_global_state.py `
+  -q
 ```

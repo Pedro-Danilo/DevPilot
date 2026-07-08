@@ -7,10 +7,10 @@
   "scope": "local-release-candidate",
   "preliminary": true,
   "expected_source_repo": "repo_DevPilot_Local_263_POST_H_025.zip",
-  "expected_current_repo": "repo_DevPilot_Local_272_POST_H_027_D.zip",
-  "expected_last_completed_sprint": "POST-H-026",
-  "expected_current_micro_sprint": "POST-H-027-D",
-  "expected_next_micro_sprint": "POST-H-027-E",
+  "expected_current_repo": "repo_DevPilot_Local_273_POST_H_027_E.zip",
+  "expected_last_completed_sprint": "POST-H-027",
+  "expected_current_micro_sprint": "POST-H-027-E",
+  "expected_next_micro_sprint": "POST-H-028",
   "freshness_policy": "contextual-signature",
   "no_go_gates": {
     "remote_execution_enabled": false,
@@ -25,23 +25,23 @@
   "evidence": [
     {
       "evidence_id": "project-state-current-repo",
-      "title": "Project state source/current repo freshness for POST-H-027-D implementation",
+      "title": "Project state source/current repo freshness for POST-H-027-E implementation",
       "path": ".devpilot/project_state.json",
       "category": "project-state",
       "critical": true,
       "json_required": true,
       "expected_schema_id": "SCHEMA-DEVPL-PROJECT-STATE-V1",
-      "producer_sprint": "POST-H-027-D",
+      "producer_sprint": "POST-H-027-E",
       "freshness_policy": "contextual-field-match",
       "expected_fields": {
         "source_repo": "repo_DevPilot_Local_263_POST_H_025.zip",
-        "current_repo": "repo_DevPilot_Local_272_POST_H_027_D.zip",
-        "last_completed_sprint": "POST-H-026",
-        "next_sprint": "POST-H-027",
-        "current_micro_sprint": "POST-H-027-D",
-        "next_micro_sprint": "POST-H-027-E",
+        "current_repo": "repo_DevPilot_Local_273_POST_H_027_E.zip",
+        "last_completed_sprint": "POST-H-027",
+        "next_sprint": "POST-H-028",
+        "current_micro_sprint": "POST-H-027-E",
+        "next_micro_sprint": "POST-H-028",
         "post_h_026_status": "closed/local-release-candidate-pass",
-        "post_h_027_status": "active/windows-install-smoke-implemented-initial"
+        "post_h_027_status": "closed/packaging-local-ready"
       }
     },
     {
@@ -496,7 +496,7 @@
       "critical": true,
       "runtime_optional": false,
       "expected_schema_id": "SCHEMA-DEVPL-WINDOWS-INSTALL-SMOKE-REPORT-V1",
-      "producer_sprint": "POST-H-027-D",
+      "producer_sprint": "POST-H-027-E",
       "freshness_policy": "contextual-signature",
       "checks": []
     },
@@ -508,7 +508,7 @@
       "critical": true,
       "runtime_optional": false,
       "expected_schema_id": null,
-      "producer_sprint": "POST-H-027-D",
+      "producer_sprint": "POST-H-027-E",
       "freshness_policy": "contextual-signature",
       "checks": []
     },
@@ -520,7 +520,7 @@
       "critical": true,
       "runtime_optional": false,
       "expected_schema_id": null,
-      "producer_sprint": "POST-H-027-D",
+      "producer_sprint": "POST-H-027-E",
       "freshness_policy": "contextual-signature",
       "checks": []
     },
@@ -532,7 +532,7 @@
       "critical": true,
       "runtime_optional": false,
       "expected_schema_id": null,
-      "producer_sprint": "POST-H-027-D",
+      "producer_sprint": "POST-H-027-E",
       "freshness_policy": "contextual-signature",
       "checks": []
     }

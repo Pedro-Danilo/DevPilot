@@ -1,0 +1,32 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "SCHEMA-DEVPL-POST-H-MANIFEST-V1",
+  "manifest_id": "post-h-028-b-local-auth-cors-hardening",
+  "sprint_id": "POST-H-028-B",
+  "title": "Local auth and CORS hardening",
+  "status": "implemented-initial",
+  "created_by": "POST-H-028-B",
+  "updated": "2026-07-08",
+  "artifacts": [
+    "docs/schemas/local_api_security_hardening_report.schema.json",
+    "src/devpilot_core/interfaces/api/security_hardening.py",
+    "tests/test_post_h_028_local_auth_cors_hardening.py",
+    "docs/audits/post_h_028_b_local_auth_cors_hardening_report.md"
+  ],
+  "commands": [
+    "python -m devpilot_core api security-hardening --json --write-report",
+    "python -m devpilot_core schema validate --schema-id LocalApiSecurityHardeningReport --instance outputs/reports/local_api_security_hardening_report.json --json"
+  ],
+  "safety": {
+    "local_first": true,
+    "read_only": true,
+    "dry_run": true,
+    "network_used": false,
+    "external_api_used": false,
+    "remote_execution_enabled": false,
+    "connector_write_enabled": false,
+    "plugin_execution_enabled": false,
+    "source_mutations_performed": false
+  },
+  "next_micro_sprint": "POST-H-028-C"
+}

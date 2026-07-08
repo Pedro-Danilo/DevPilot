@@ -40,6 +40,32 @@ from devpilot_core.interfaces.api.ui_contracts import (
     validate_ui_route_contract_registry,
 )
 
+
+from devpilot_core.interfaces.api.contract_drift import (
+    API_CONTRACT_DRIFT_COMMAND,
+    API_CONTRACT_DRIFT_REPORT_CONTRACT,
+    API_CONTRACT_DRIFT_REPORT_SCHEMA_ID,
+    DEFAULT_API_CONTRACT_DRIFT_REPORT_JSON,
+    DEFAULT_API_CONTRACT_DRIFT_REPORT_MARKDOWN,
+    POST_H_028_A_CREATED_BY,
+    ApiContractDriftGuard,
+    ApiContractDriftOptions,
+    run_api_contract_drift_guard,
+)
+
+
+from devpilot_core.interfaces.api.security_hardening import (
+    DEFAULT_LOCAL_API_SECURITY_HARDENING_REPORT_JSON,
+    DEFAULT_LOCAL_API_SECURITY_HARDENING_REPORT_MARKDOWN,
+    LOCAL_API_SECURITY_HARDENING_COMMAND,
+    LOCAL_API_SECURITY_HARDENING_REPORT_CONTRACT,
+    LOCAL_API_SECURITY_HARDENING_REPORT_SCHEMA_ID,
+    POST_H_028_B_CREATED_BY,
+    LocalApiSecurityHardeningOptions,
+    LocalApiSecurityHardeningRunner,
+    run_local_api_security_hardening,
+)
+
 from devpilot_core.interfaces.api.shell_gate import (
     DEFAULT_UI_API_SHELL_REPORT_JSON,
     DEFAULT_UI_API_SHELL_REPORT_MARKDOWN,
@@ -95,4 +121,14 @@ __all__ = [
     "redact_token",
     "sanitize_allowed_origins",
     "validate_api_bind_host",
+    "run_api_contract_drift_guard",
+    "ApiContractDriftOptions",
+    "ApiContractDriftGuard",
+    "POST_H_028_A_CREATED_BY",
+    "DEFAULT_API_CONTRACT_DRIFT_REPORT_MARKDOWN",
+    "DEFAULT_API_CONTRACT_DRIFT_REPORT_JSON",
+    "API_CONTRACT_DRIFT_REPORT_SCHEMA_ID",
+    "API_CONTRACT_DRIFT_REPORT_CONTRACT",
+    "API_CONTRACT_DRIFT_COMMAND",
+    "DEFAULT_LOCAL_API_SECURITY_HARDENING_REPORT_JSON",
 ]

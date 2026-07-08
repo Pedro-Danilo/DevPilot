@@ -1,0 +1,34 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "SCHEMA-DEVPL-POST-H-MANIFEST-V1",
+  "post_h_id": "POST-H-027",
+  "micro_sprint": "POST-H-027-E",
+  "title": "Upgrade/rollback dry-run",
+  "status": "closed",
+  "created_by": "POST-H-027-E",
+  "generated_at_utc": "2026-07-08T00:00:00Z",
+  "summary": "Adds local-first upgrade/rollback dry-run evidence and packaging-local-ready quality subgate.",
+  "artifacts": [
+    "src/devpilot_core/release/upgrade_rollback_dry_run.py",
+    "docs/schemas/upgrade_rollback_dry_run_report.schema.json",
+    "docs/audits/post_h_027_e_upgrade_rollback_closure_report.md",
+    "docs/post_h_027_e_manifest.json"
+  ],
+  "tests": [
+    "tests/test_post_h_027_upgrade_rollback_dry_run.py"
+  ],
+  "cli_commands": [
+    "python -m devpilot_core release upgrade-rollback-dry-run --from-version 0.1.0 --to-version 0.1.1 --json --write-report",
+    "python -m devpilot_core schema validate --schema-id UpgradeRollbackDryRunReport --instance outputs/reports/upgrade_rollback_dry_run_report.json --json"
+  ],
+  "safety": {
+    "local_first": true,
+    "dry_run": true,
+    "network_used": false,
+    "external_api_used": false,
+    "auto_update_enabled": false,
+    "restore_performed": false,
+    "source_mutations": false
+  },
+  "preliminary": true
+}

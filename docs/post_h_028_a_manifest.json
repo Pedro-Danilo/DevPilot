@@ -1,0 +1,88 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "SCHEMA-DEVPL-POST-H-MANIFEST-V1",
+  "post_h_id": "POST-H-028",
+  "micro_sprint": "POST-H-028-A",
+  "title": "API contract drift guard",
+  "status": "implemented-initial",
+  "phase": "POST-FASE-H",
+  "implemented_at": "2026-07-08",
+  "created_by": "POST-H-028-A",
+  "generated_at_utc": "2026-07-08T00:00:00Z",
+  "summary": "Adds a local-first deterministic API contract drift guard across FastAPI runtime/canonical routes, ApiRouteContractRegistry, API_ROUTE_POLICIES and static OpenAPI.",
+  "created_files": [
+    "src/devpilot_core/interfaces/api/contract_drift.py",
+    "docs/schemas/api_contract_drift_report.schema.json",
+    "tests/test_post_h_028_api_contract_drift_guard.py",
+    "docs/audits/post_h_028_a_api_contract_drift_guard_report.md",
+    "docs/post_h_028_a_manifest.json",
+    "docs/POST-H-028_ui_api_local_hardening.md"
+  ],
+  "modified_files": [
+    "README.md",
+    ".gitignore",
+    ".devpilot/project_state.json",
+    ".devpilot/docs_governance/source_registry.json",
+    ".devpilot/testing/test_contract_registry.json",
+    ".devpilot/testing/test_contract_registry_v2.json",
+    "docs/backlogs/POST-H-028_ui_api_local_hardening.md",
+    "docs/05_operations/runbook.md",
+    "docs/05_operations/ui_api_local_runbook.md",
+    "docs/07_interfaces/api_contract_v1.md",
+    "docs/07_interfaces/api_service_mapping.md",
+    "docs/07_interfaces/ui_api_industrial_shell.md",
+    "docs/07_interfaces/openapi_v1.json",
+    "docs/release/CHANGELOG.md",
+    "docs/schemas/schema_catalog.json",
+    "src/devpilot_core/cli.py",
+    "src/devpilot_core/cli_registry/registry.py",
+    "src/devpilot_core/interfaces/api/__init__.py",
+    "src/devpilot_core/quality/gate.py",
+    "tests/test_project_global_state.py"
+  ],
+  "commands": [
+    "python -m devpilot_core api contract-drift --json --write-report",
+    "python -m devpilot_core schema validate --schema-id ApiContractDriftReport --instance outputs/reports/api_contract_drift_report.json --json",
+    "python -m devpilot_core quality-gate run --profile hardening --json",
+    "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_028_api_contract_drift_guard.py tests/test_api_contract.py tests/test_schema_registry.py tests/test_project_global_state.py -q"
+  ],
+  "tests": [
+    "tests/test_post_h_028_api_contract_drift_guard.py",
+    "tests/test_api_contract.py",
+    "tests/test_schema_registry.py",
+    "tests/test_project_global_state.py"
+  ],
+  "pass_criteria": [
+    "No unregistered runtime API routes.",
+    "No stale registry routes.",
+    "Protected routes require token plus API_ROUTE_POLICIES binding.",
+    "ApplicationService routes declare ApplicationResponse.",
+    "Static OpenAPI has no extra or missing non-public paths.",
+    "No remote execution, connector write, plugin execution, external API or destructive route flags."
+  ],
+  "block_criteria": [
+    "Any runtime route is not registered.",
+    "Any protected route lacks auth/policy.",
+    "OpenAPI static contract contradicts non-public runtime contract.",
+    "Any no-go capability is exposed through API metadata."
+  ],
+  "risks": [
+    "Does not replace HTTP E2E or visual smoke tests.",
+    "Requires OpenAPI refresh when endpoints are added.",
+    "Public FastAPI transport docs/openapi routes are tracked as warnings."
+  ],
+  "next_sprint": "POST-H-028",
+  "next_micro_sprint": "POST-H-028-B",
+  "safety": {
+    "local_first": true,
+    "read_only": true,
+    "dry_run": true,
+    "network_used": false,
+    "external_api_used": false,
+    "remote_execution_enabled": false,
+    "connector_write_enabled": false,
+    "plugin_execution_enabled": false,
+    "source_mutations": false
+  },
+  "preliminary": true
+}

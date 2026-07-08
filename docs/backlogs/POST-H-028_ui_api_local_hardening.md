@@ -2,19 +2,19 @@
 doc_id: "POST-H-028-BACKLOG"
 id: "POST-H-028"
 title: "POST-H-028 — UI/API local hardening"
-status: "proposed"
-version: "0.1.0"
+status: "approved"
+version: "0.3.0"
 owner: "Ordonez"
 created: "2026-07-07"
+updated: "2026-07-08"
+approval: "approved"
 phase: "POST-FASE-H"
 priority: "P0"
 roadmap_wave: "Ola 3"
 roadmap_source: "devpilot_post_h_025_roadmap_detallado_v3_agentes_validadores.md"
 onboarding_report_source: "devpilot_onboarding_report_final_compilado.md"
-source_repo: "repo_DevPilot_Local_262_POST_H_025_E.zip"
-depends_on:
-  - "POST-H-026"
-  - "POST-H-027"
+source_repo: "repo_DevPilot_Local_273_POST_H_027-E.zip"
+depends_on: "POST-H-026, POST-H-027"
 local_first: true
 dry_run_default: true
 read_only_by_default: true
@@ -22,16 +22,11 @@ no_remote_execution_enabled: true
 no_external_apis_required: true
 no_connector_write_enabled: true
 no_plugin_execution_enabled: true
-claims_allowed:
-  - "production-ready-local"
-claims_forbidden:
-  - "enterprise-ready"
-  - "remote-ready"
-  - "SaaS-ready"
-  - "compliance-certified"
-implementation_status: "backlog-proposed"
-current_micro_sprint: "POST-H-028-A"
-next_micro_sprint: "POST-H-028-A"
+claims_allowed: "production-ready-local"
+claims_forbidden: "enterprise-ready, remote-ready, SaaS-ready, compliance-certified"
+implementation_status: "in-progress/post-h-028-b-implemented-initial"
+current_micro_sprint: "POST-H-028-B"
+next_micro_sprint: "POST-H-028-C"
 ---
 
 # POST-H-028 — UI/API local hardening
@@ -1007,3 +1002,28 @@ No permitido: enterprise auth, API publica, SaaS, remote, connector write, plugi
 ```
 
 La siguiente ola, POST-H-029, debe usar esta UI/API mas estable para mejorar testing tiers, impacto y costo de regresion sin sobrecargar al operador.
+
+
+## Implementacion POST-H-028-B — Local auth and CORS hardening
+
+Estado: `implemented-initial`.
+
+POST-H-028-B agrega un hardening local schema-backed para la seguridad API/UI. El comando principal es:
+
+```powershell
+python -m devpilot_core api security-hardening --json --write-report
+```
+
+El runner `LocalApiSecurityHardeningRunner` verifica token obligatorio en rutas protegidas, bloqueo de token invalido, PASS con token valido, CORS restringido a localhost/loopback, rechazo de wildcard, rechazo de origen no local, bloqueo de `0.0.0.0` incluso con `DEVPILOT_API_ALLOW_NON_LOCALHOST`, headers de seguridad y redaccion de settings/providers y token en reportes.
+
+Limites explicitos: no implementa OIDC, SSO, IAM enterprise, rate limiting industrial, TLS/mTLS activo, API publica remota ni sesiones persistentes. Es una primera version local robusta que prepara POST-H-028-C/D/E.
+
+Artefactos:
+
+```text
+docs/schemas/local_api_security_hardening_report.schema.json
+src/devpilot_core/interfaces/api/security_hardening.py
+tests/test_post_h_028_local_auth_cors_hardening.py
+docs/audits/post_h_028_b_local_auth_cors_hardening_report.md
+docs/post_h_028_b_manifest.json
+```

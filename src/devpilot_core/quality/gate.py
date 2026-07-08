@@ -156,6 +156,8 @@ class QualityGate:
                     "POST-H-025-D adds production-ready-claims-validator to hardening/industrial profiles to block enterprise, compliance, remote and SaaS overclaims before final declaration.",
                     "POST-H-008-E adds runtime-state-hygiene to hardening/industrial profiles to block dirty source/release archives.",
                     "POST-H-009-E adds docs-governance to hardening/industrial profiles to block canonical-source, sync and backlog-governance drift.",
+                    "POST-H-028-A adds api-contract-drift-guard to hardening/industrial profiles to block drift across FastAPI runtime/canonical routes, ApiRouteContractRegistry, API_ROUTE_POLICIES and OpenAPI without starting servers or mutating source files.",
+                    "POST-H-028-B adds local-api-security-hardening to hardening/industrial profiles to verify token enforcement, CORS, local bind, security headers and redaction without starting servers or mutating source files.",
                     "The default and ci profiles do not run pytest implicitly; CI workflows and local checklists run pytest as an explicit step, or use --include-pytest when desired.",
                     "The gate does not publish packages, deploy, write source files, call network services or use external APIs.",
                     "Optional --write-report is handled by the CLI and writes only under outputs/reports.",
@@ -213,6 +215,8 @@ class QualityGate:
             subgates.append(QualitySubgate("onboarding-bootstrap-ready", "POST-H-024 pilot fixture, templates and bootstrap dry-run onboarding quality gate.", self._onboarding_bootstrap_ready))
             subgates.append(QualitySubgate("production-ready-claims-validator", "POST-H-025 documentation/report no-go claims validator.", self._production_ready_claims_validator))
             subgates.append(QualitySubgate("local-release-candidate", "POST-H-026 local RC final PASS/BLOCK aggregator.", lambda: self.service.local_release_candidate_final()))
+            subgates.append(QualitySubgate("packaging-local-ready", "POST-H-027 local packaging, Windows install smoke and upgrade/rollback dry-run gate.", self._packaging_local_ready))
+            subgates.append(QualitySubgate("api-contract-drift-guard", "POST-H-028-A API runtime/registry/policy/OpenAPI drift guard.", self._api_contract_drift_guard))
         if self.options.profile == "industrial":
             subgates.append(QualitySubgate("industrial-readiness", "Fase H industrial readiness gate and maturity classification.", self._industrial_readiness))
         if self.options.profile == "hardening":
@@ -361,6 +365,21 @@ class QualityGate:
             self.root,
             options=ReleaseReproducibilityPackOptions(write_report=True, verify_after_build=True),
         ).build()
+
+    def _packaging_local_ready(self) -> CommandResult:
+        from devpilot_core.release import PackagingLocalReadyGate
+
+        return PackagingLocalReadyGate(self.root).run()
+
+    def _api_contract_drift_guard(self) -> CommandResult:
+        from devpilot_core.interfaces.api import ApiContractDriftGuard, ApiContractDriftOptions
+
+        return ApiContractDriftGuard(self.root, ApiContractDriftOptions(write_report=False)).run()
+
+    def _local_api_security_hardening(self) -> CommandResult:
+        from devpilot_core.interfaces.api import LocalApiSecurityHardeningOptions, LocalApiSecurityHardeningRunner
+
+        return LocalApiSecurityHardeningRunner(self.root, LocalApiSecurityHardeningOptions(write_report=False)).run()
 
     def _connector_sandbox(self) -> CommandResult:
         from devpilot_core.connectors import ConnectorSandboxQualityGate

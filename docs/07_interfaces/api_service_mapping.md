@@ -159,3 +159,12 @@ POST-H-016-D agregó la ruta local/read-only de portfolio status mediante `Appli
 |---|---|---|---|---|---|---|---|
 | `API-PORTFOLIO-STATUS` | `GET` | `/api/v1/portfolio/status` | `portfolio.status` | `PortfolioApplicationService` | `read_only` | `local-token-required` | `Policy/gate: token + CORS + API_ROUTE_POLICIES + PolicyEngine; no workspace switch; no connector write` |
 
+## POST-H-028-A — Mapping protegido contra drift
+
+Las rutas respaldadas por ApplicationService deben declarar `response_contract=ApplicationResponse` en el registro de rutas. POST-H-028-A bloquea rutas nuevas o stale que rompan este mapping.
+
+
+
+## POST-H-028-B — Local auth and CORS hardening
+
+`LocalApiSecurityHardeningRunner` valida la postura local de autenticacion y CORS: rutas protegidas requieren token, token invalido bloquea, token valido pasa, CORS no acepta wildcard, origen no local no recibe `Access-Control-Allow-Origin`, bind no local queda bloqueado, headers de seguridad se aplican y settings/providers no expone secretos raw.

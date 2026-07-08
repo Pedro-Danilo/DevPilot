@@ -1,0 +1,209 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/SCHEMA-DEVPL-UPGRADE-ROLLBACK-DRY-RUN-REPORT-V1",
+  "title": "DevPilot UpgradeRollbackDryRunReport v1",
+  "description": "POST-H-027-E contract for local-first upgrade/rollback dry-run evidence with backup, artifact manifest/checksum and restore-plan safety checks.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "schema_id",
+    "report_id",
+    "created_by",
+    "status",
+    "generated_at_utc",
+    "scope",
+    "from_version",
+    "to_version",
+    "artifact_manifest",
+    "backup",
+    "restore_dry_run",
+    "upgrade_plan",
+    "rollback_plan",
+    "checks_total",
+    "checks_passed_total",
+    "checks_failed_total",
+    "critical_checks_failed_total",
+    "checks",
+    "summary",
+    "safety",
+    "limitations",
+    "preliminary"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "schema_id": {"const": "SCHEMA-DEVPL-UPGRADE-ROLLBACK-DRY-RUN-REPORT-V1"},
+    "report_id": {"type": "string", "minLength": 8},
+    "created_by": {"const": "POST-H-027-E"},
+    "status": {"enum": ["draft", "implemented-initial", "verified-local", "closed"]},
+    "generated_at_utc": {"type": "string", "minLength": 10},
+    "scope": {"const": "local-upgrade-rollback-dry-run"},
+    "from_version": {"type": "string", "pattern": "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:[-+][0-9A-Za-z.-]+)?$"},
+    "to_version": {"type": "string", "pattern": "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:[-+][0-9A-Za-z.-]+)?$"},
+    "artifact_manifest": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["path", "exists", "inside_workspace", "valid", "checksums_verified", "checksums_file_exists"],
+      "properties": {
+        "path": {"type": "string"},
+        "exists": {"type": "boolean"},
+        "inside_workspace": {"type": "boolean"},
+        "valid": {"type": "boolean"},
+        "checksums_verified": {"type": "boolean"},
+        "checksums_file_exists": {"type": "boolean"}
+      }
+    },
+    "backup": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["backup_id", "manifest_path", "zip_path", "available", "manifest_exists", "zip_exists", "zip_sha256_matches_manifest", "restore_policy"],
+      "properties": {
+        "backup_id": {"type": ["string", "null"]},
+        "manifest_path": {"type": ["string", "null"]},
+        "zip_path": {"type": ["string", "null"]},
+        "available": {"type": "boolean"},
+        "manifest_exists": {"type": "boolean"},
+        "zip_exists": {"type": "boolean"},
+        "zip_sha256_matches_manifest": {"type": "boolean"},
+        "restore_policy": {"type": "object", "additionalProperties": true}
+      }
+    },
+    "restore_dry_run": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["safe", "backup_id", "dry_run", "restore_performed", "blocked_entries_total", "restore_entries_total", "restore_overwrites_require_confirmation"],
+      "properties": {
+        "safe": {"type": "boolean"},
+        "backup_id": {"type": ["string", "null"]},
+        "dry_run": {"const": true},
+        "restore_performed": {"const": false},
+        "blocked_entries_total": {"type": "integer", "minimum": 0},
+        "restore_entries_total": {"type": "integer", "minimum": 0},
+        "restore_overwrites_require_confirmation": {"type": "boolean"}
+      }
+    },
+    "upgrade_plan": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["upgrade_check_ok", "upgrade_check_summary", "steps", "post_upgrade_smoke"],
+      "properties": {
+        "upgrade_check_ok": {"type": "boolean"},
+        "upgrade_check_summary": {"type": ["object", "null"], "additionalProperties": true},
+        "steps": {"type": "array", "minItems": 1, "items": {"type": "object", "additionalProperties": true}},
+        "post_upgrade_smoke": {"type": "array", "minItems": 1, "items": {"type": "object", "additionalProperties": true}}
+      }
+    },
+    "rollback_plan": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["actions", "restore_execute_supported", "restore_execute_requires_confirmation", "real_restore_command_template"],
+      "properties": {
+        "actions": {"type": "array", "items": {"type": "object", "additionalProperties": true}},
+        "restore_execute_supported": {"type": "boolean"},
+        "restore_execute_requires_confirmation": {"const": true},
+        "real_restore_command_template": {"type": "string", "minLength": 1}
+      }
+    },
+    "checks_total": {"type": "integer", "minimum": 1},
+    "checks_passed_total": {"type": "integer", "minimum": 0},
+    "checks_failed_total": {"type": "integer", "minimum": 0},
+    "critical_checks_failed_total": {"type": "integer", "minimum": 0},
+    "checks": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["check_id", "category", "status", "critical", "reason", "metadata"],
+        "properties": {
+          "check_id": {"type": "string", "minLength": 2},
+          "category": {"type": "string", "minLength": 2},
+          "status": {"enum": ["pass", "block", "advisory"]},
+          "critical": {"type": "boolean"},
+          "reason": {"type": "string", "minLength": 1},
+          "metadata": {"type": "object", "additionalProperties": true}
+        }
+      }
+    },
+    "summary": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["decision", "created_by", "preliminary", "scope", "from_version", "to_version", "artifact_manifest_valid", "checksums_verified", "backup_plan_available", "restore_dry_run_safe", "rollback_actions_total", "packaging_local_ready", "network_used", "external_api_used", "publish_performed", "deploy_performed", "auto_update_enabled", "restore_performed", "migrations_performed", "source_mutations", "reports_written"],
+      "properties": {
+        "decision": {"enum": ["PASS", "BLOCK"]},
+        "created_by": {"const": "POST-H-027-E"},
+        "preliminary": {"const": true},
+        "scope": {"const": "local-upgrade-rollback-dry-run"},
+        "from_version": {"type": "string"},
+        "to_version": {"type": "string"},
+        "artifact_manifest_valid": {"type": "boolean"},
+        "checksums_verified": {"type": "boolean"},
+        "backup_plan_available": {"type": "boolean"},
+        "restore_dry_run_safe": {"type": "boolean"},
+        "rollback_actions_total": {"type": "integer", "minimum": 0},
+        "packaging_local_ready": {"type": "boolean"},
+        "network_used": {"const": false},
+        "external_api_used": {"const": false},
+        "publish_performed": {"const": false},
+        "deploy_performed": {"const": false},
+        "auto_update_enabled": {"const": false},
+        "restore_performed": {"const": false},
+        "migrations_performed": {"const": false},
+        "source_mutations": {"const": false},
+        "reports_written": {"type": "boolean"}
+      }
+    },
+    "safety": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["local_first", "read_only", "dry_run", "network_used", "external_api_used", "publish_performed", "deploy_performed", "git_tagging_performed", "auto_update_enabled", "restore_performed", "migrations_performed", "pip_executed", "npm_executed", "subprocess_executed", "remote_execution_enabled", "connector_write_enabled", "plugin_execution_enabled", "source_mutations", "reports_written"],
+      "properties": {
+        "local_first": {"const": true},
+        "read_only": {"const": true},
+        "dry_run": {"const": true},
+        "network_used": {"const": false},
+        "external_api_used": {"const": false},
+        "publish_performed": {"const": false},
+        "deploy_performed": {"const": false},
+        "git_tagging_performed": {"const": false},
+        "auto_update_enabled": {"const": false},
+        "restore_performed": {"const": false},
+        "migrations_performed": {"const": false},
+        "pip_executed": {"const": false},
+        "npm_executed": {"const": false},
+        "subprocess_executed": {"const": false},
+        "remote_execution_enabled": {"const": false},
+        "connector_write_enabled": {"const": false},
+        "plugin_execution_enabled": {"const": false},
+        "source_mutations": {"const": false},
+        "reports_written": {"type": "boolean"}
+      }
+    },
+    "limitations": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+    "preliminary": {"const": true}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"summary": {"properties": {"decision": {"const": "PASS"}}}}},
+      "then": {
+        "properties": {
+          "critical_checks_failed_total": {"const": 0},
+          "summary": {
+            "properties": {
+              "artifact_manifest_valid": {"const": true},
+              "checksums_verified": {"const": true},
+              "backup_plan_available": {"const": true},
+              "restore_dry_run_safe": {"const": true},
+              "packaging_local_ready": {"const": true}
+            }
+          }
+        }
+      }
+    }
+  ],
+  "x-devpilot-schema-id": "SCHEMA-DEVPL-UPGRADE-ROLLBACK-DRY-RUN-REPORT-V1",
+  "x-devpilot-version": "1.0.0",
+  "x-devpilot-sprint": "POST-H-027-E",
+  "x-devpilot-status": "registered",
+  "x-devpilot-preliminary": true
+}

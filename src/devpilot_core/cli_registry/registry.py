@@ -295,7 +295,7 @@ DECLARATIVE_GROUPS: dict[str, DeclarativeGroupDescriptor] = {
         group_id="release",
         domain="release",
         owner_module="src/devpilot_core/cli.py",
-        recommended_tests=("python -m pytest tests/test_post_h_017_release_reproducibility_pack.py tests/test_post_h_017_source_archive_manifest.py tests/test_post_h_027_artifact_manifest_checksums.py tests/test_release_verification.py tests/test_release_manifest.py -q",),
+        recommended_tests=("python -m pytest tests/test_post_h_017_release_reproducibility_pack.py tests/test_post_h_017_source_archive_manifest.py tests/test_post_h_027_artifact_manifest_checksums.py tests/test_post_h_027_upgrade_rollback_dry_run.py tests/test_release_verification.py tests/test_release_manifest.py -q",),
         rationale="POST-H-017 release reproducibility commands are governed local dry-run evidence surfaces and must be registered before the no-growth gate runs.",
     ),
     "connector": DeclarativeGroupDescriptor(
@@ -383,6 +383,31 @@ COMMAND_OVERRIDES: dict[str, DeclarativeCommandOverride] = {
             "python -m pytest tests/test_post_h_025_production_ready_final_declaration.py -q",
         ),
         rationale="POST-H-025-E packages the final production-ready-local PASS/BLOCK declaration; it writes runtime reports and audit Markdown only when explicit flags are used.",
+    ),
+
+    "api.contract-drift": DeclarativeCommandOverride(
+        command_id="api.contract-drift",
+        risk_level=CommandRiskLevel.HIGH,
+        side_effects=(CommandSideEffect.WRITE_REPORT,),
+        writes_files=True,
+        dry_run_supported=True,
+        policy_check_required=True,
+        recommended_tests=(
+            "python -m pytest tests/test_post_h_028_api_contract_drift_guard.py tests/test_api_contract.py tests/test_schema_registry.py -q",
+        ),
+        rationale="POST-H-028-A compares FastAPI runtime/canonical routes, ApiRouteContractRegistry, API_ROUTE_POLICIES and static OpenAPI without starting servers, opening sockets, network, external APIs or source mutations; --write-report writes only outputs/reports evidence.",
+    ),
+    "api.security-hardening": DeclarativeCommandOverride(
+        command_id="api.security-hardening",
+        risk_level=CommandRiskLevel.HIGH,
+        side_effects=(CommandSideEffect.WRITE_REPORT,),
+        writes_files=True,
+        dry_run_supported=True,
+        policy_check_required=True,
+        recommended_tests=(
+            "python -m pytest tests/test_post_h_028_local_auth_cors_hardening.py tests/test_post_h_014_security_hardening.py tests/test_api_security.py tests/test_api_settings.py tests/test_schema_registry.py -q",
+        ),
+        rationale="POST-H-028-B verifies local API token enforcement, restricted CORS, localhost bind refusal, security headers and redaction with in-process TestClient; --write-report writes only outputs/reports evidence.",
     ),
     "api.shell-gate": DeclarativeCommandOverride(
         command_id="api.shell-gate",
@@ -492,6 +517,18 @@ COMMAND_OVERRIDES: dict[str, DeclarativeCommandOverride] = {
             "python -m pytest tests/test_post_h_027_artifact_manifest_checksums.py tests/test_schema_registry.py -q",
         ),
         rationale="POST-H-027-C writes local artifact manifest/checksum evidence under outputs/release when --write-report is explicit; it never publishes, deploys, signs, calls network/external APIs or mutates source files.",
+    ),
+    "release.upgrade-rollback-dry-run": DeclarativeCommandOverride(
+        command_id="release.upgrade-rollback-dry-run",
+        risk_level=CommandRiskLevel.HIGH,
+        side_effects=(CommandSideEffect.WRITE_REPORT,),
+        writes_files=True,
+        dry_run_supported=True,
+        policy_check_required=True,
+        recommended_tests=(
+            "python -m pytest tests/test_post_h_027_upgrade_rollback_dry_run.py tests/test_backup_upgrade.py tests/test_quality_gate.py tests/test_schema_registry.py -q",
+        ),
+        rationale="POST-H-027-E writes optional upgrade/rollback dry-run evidence under outputs/reports when --write-report is explicit; it validates backup, artifact manifest/checksum and restore dry-run safety without auto-update, restore execution, migrations, publish, deploy, network or external APIs.",
     ),
     "release.reproducibility-pack": DeclarativeCommandOverride(
         command_id="release.reproducibility-pack",

@@ -148,8 +148,8 @@ def test_windows_install_smoke_docs_and_registries_are_synchronized() -> None:
     assert "127.0.0.1" in install_guide
     assert "npm --prefix ui/web test" in install_guide
     assert "Upgrade/rollback dry-run" in backlog
-    assert project_state["current_micro_sprint"] == "POST-H-027-D"
-    assert project_state["next_micro_sprint"] == "POST-H-027-E"
+    assert project_state["current_micro_sprint"] == "POST-H-027-E"
+    assert project_state["next_micro_sprint"] == "POST-H-028"
     assert project_state["post_h_027_windows_install_smoke_available"] is True
     assert "SCHEMA-DEVPL-WINDOWS-INSTALL-SMOKE-REPORT-V1" in schema_catalog
     assert "post-h-027-windows-install-smoke" in tcr_v2

@@ -103,6 +103,8 @@ from .release import (
     PythonArtifactInstallVerifier,
     ReleaseArtifactManifestBuilder,
     ReleaseArtifactManifestOptions,
+    UpgradeRollbackDryRunOptions,
+    UpgradeRollbackDryRunRunner,
     WindowsInstallSmokeOptions,
     WindowsInstallSmokeRunner,
     InstallPlanBuilder,
@@ -2748,6 +2750,38 @@ def release_artifact_manifest_command(
     print_result(result, json_output=json_output)
     return int(result.exit_code)
 
+def release_upgrade_rollback_dry_run_command(
+    *,
+    from_version: str,
+    to_version: str,
+    artifact_manifest: str = "outputs/release/release_artifact_manifest.json",
+    backup_id: str | None = None,
+    output_json: str = "outputs/reports/upgrade_rollback_dry_run_report.json",
+    output_markdown: str = "outputs/reports/upgrade_rollback_dry_run_report.md",
+    json_output: bool = False,
+    write_report: bool = False,
+) -> int:
+    """Run POST-H-027-E local upgrade/rollback dry-run validation."""
+
+    root = project_root()
+    result = UpgradeRollbackDryRunRunner(
+        root,
+        UpgradeRollbackDryRunOptions(
+            from_version=from_version,
+            to_version=to_version,
+            artifact_manifest=artifact_manifest,
+            backup_id=backup_id,
+            output_json=output_json,
+            output_markdown=output_markdown,
+            write_report=write_report,
+        ),
+    ).run()
+    _emit_result_event(root, result, subject=f"release:upgrade-rollback-dry-run:{from_version}:{to_version}")
+    _persist_result(root, result, subject="release:upgrade-rollback-dry-run")
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+
 def release_python_artifact_verify_command(
     *,
     artifact: str,
@@ -4909,6 +4943,45 @@ def api_token_command(*, json_output: bool = False) -> int:
 
 
 
+def api_contract_drift_command(*, json_output: bool = False, write_report: bool = False) -> int:
+    """Run POST-H-028-A API contract drift guard.
+
+    The guard is read-only: it compares FastAPI runtime/canonical routes,
+    ApiRouteContractRegistry, API_ROUTE_POLICIES and the static OpenAPI document
+    without starting a server, opening sockets, invoking route handlers or
+    mutating source files. Optional reports are written only under outputs/.
+    """
+
+    root = project_root()
+    from .interfaces.api import ApiContractDriftGuard, ApiContractDriftOptions
+
+    result = ApiContractDriftGuard(root, ApiContractDriftOptions(write_report=write_report)).run()
+    _emit_result_event(root, result, subject="api-contract-drift")
+    _persist_result(root, result, subject="api-contract-drift")
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+
+
+def api_security_hardening_command(*, json_output: bool = False, write_report: bool = False) -> int:
+    """Run POST-H-028-B local auth and CORS hardening guard.
+
+    The guard uses in-process FastAPI TestClient and static local-only checks to
+    verify token enforcement, restricted CORS, localhost bind refusal, security
+    headers and redaction. It does not start uvicorn, bind sockets, call network
+    services, use external APIs or mutate source files.
+    """
+
+    root = project_root()
+    from .interfaces.api import LocalApiSecurityHardeningOptions, LocalApiSecurityHardeningRunner
+
+    result = LocalApiSecurityHardeningRunner(root, LocalApiSecurityHardeningOptions(write_report=write_report)).run()
+    _emit_result_event(root, result, subject="api-security-hardening")
+    _persist_result(root, result, subject="api-security-hardening")
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+
 def api_shell_gate_command(*, json_output: bool = False, write_report: bool = False, run_ui_smoke: bool = True) -> int:
     """Run the POST-H-014-E local UI/API industrial shell quality subgate."""
 
@@ -6452,6 +6525,16 @@ def build_parser() -> argparse.ArgumentParser:
     release_artifact_manifest.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     release_artifact_manifest.add_argument("--write-report", action="store_true", help="Persist outputs/release/release_artifact_manifest.{json,md} and checksums.sha256")
 
+    release_upgrade_rollback = release_sub.add_parser("upgrade-rollback-dry-run", help="Run POST-H-027-E local upgrade/rollback dry-run validation")
+    release_upgrade_rollback.add_argument("--from-version", required=True, help="Current SemVer version before the planned upgrade")
+    release_upgrade_rollback.add_argument("--to-version", required=True, help="Target SemVer version for the planned upgrade")
+    release_upgrade_rollback.add_argument("--artifact-manifest", default="outputs/release/release_artifact_manifest.json", help="Generated ReleaseArtifactManifest JSON path")
+    release_upgrade_rollback.add_argument("--backup-id", default=None, help="Optional backup id; defaults to latest .devpilot/backups/*.manifest.json")
+    release_upgrade_rollback.add_argument("--output-json", default="outputs/reports/upgrade_rollback_dry_run_report.json", help="Upgrade/rollback dry-run report JSON path")
+    release_upgrade_rollback.add_argument("--output-markdown", default="outputs/reports/upgrade_rollback_dry_run_report.md", help="Upgrade/rollback dry-run report Markdown path")
+    release_upgrade_rollback.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    release_upgrade_rollback.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence under outputs/reports")
+
     install = sub.add_parser("install", help="Plan safe local DevPilot installation")
     install_sub = install.add_subparsers(dest="install_command")
     install_plan = install_sub.add_parser("plan", help="Generate local installation strategy and dry-run plan")
@@ -6613,6 +6696,14 @@ def build_parser() -> argparse.ArgumentParser:
     api_shell_gate.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     api_shell_gate.add_argument("--write-report", action="store_true", help="Persist outputs/reports/ui_api_shell_report.json and .md")
     api_shell_gate.add_argument("--no-ui-smoke", action="store_true", help="Skip npm UI smoke execution and keep only registry/docs checks")
+
+    api_contract_drift = api_sub.add_parser("contract-drift", help="Run POST-H-028-A API contract drift guard")
+    api_contract_drift.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    api_contract_drift.add_argument("--write-report", action="store_true", help="Persist outputs/reports/api_contract_drift_report.json and .md")
+
+    api_security_hardening = api_sub.add_parser("security-hardening", help="Run POST-H-028-B local auth and CORS hardening guard")
+    api_security_hardening.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    api_security_hardening.add_argument("--write-report", action="store_true", help="Persist outputs/reports/local_api_security_hardening_report.json and .md")
 
     policy = sub.add_parser("policy", help="Evaluate deterministic DevPilot safety policies")
     policy_sub = policy.add_subparsers(dest="policy_command")
@@ -7744,6 +7835,17 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
                 json_output=args.json,
                 write_report=args.write_report,
             )
+        if args.release_command == "upgrade-rollback-dry-run":
+            return release_upgrade_rollback_dry_run_command(
+                from_version=args.from_version,
+                to_version=args.to_version,
+                artifact_manifest=args.artifact_manifest,
+                backup_id=args.backup_id,
+                output_json=args.output_json,
+                output_markdown=args.output_markdown,
+                json_output=args.json,
+                write_report=args.write_report,
+            )
         parser.print_help()
         return int(ExitCode.FAIL)
     if args.command == "install":
@@ -7875,6 +7977,10 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
             return api_token_command(json_output=args.json)
         if args.api_command == "shell-gate":
             return api_shell_gate_command(json_output=args.json, write_report=args.write_report, run_ui_smoke=not args.no_ui_smoke)
+        if args.api_command == "contract-drift":
+            return api_contract_drift_command(json_output=args.json, write_report=args.write_report)
+        if args.api_command == "security-hardening":
+            return api_security_hardening_command(json_output=args.json, write_report=args.write_report)
         parser.print_help()
         return int(ExitCode.FAIL)
     if args.command == "policy":

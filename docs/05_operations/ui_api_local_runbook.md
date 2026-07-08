@@ -144,3 +144,19 @@ El reporte generado es `outputs/reports/ui_api_shell_report.json`. No debe versi
 
 Límites: versión `implemented-initial`; no habilita SaaS, OIDC, cloud deployment, remote execution, connector write, plugin execution ni APIs externas.
 
+## POST-H-028-A — Guard de drift API
+
+Antes de agregar o modificar endpoints locales se debe ejecutar:
+
+```powershell
+$env:PYTHONPATH="src"
+python -m devpilot_core api contract-drift --json --write-report
+```
+
+El comando compara rutas FastAPI runtime/canónicas, `ApiRouteContractRegistry`, `API_ROUTE_POLICIES` y OpenAPI estático. No inicia servidor ni abre sockets.
+
+
+
+## POST-H-028-B — Local auth and CORS hardening
+
+El operador puede ejecutar `python -m devpilot_core api security-hardening --json --write-report` antes de levantar UI/API para confirmar que la superficie local conserva token, CORS restringido, headers y redaccion. Este chequeo usa `TestClient` in-process y no inicia uvicorn.

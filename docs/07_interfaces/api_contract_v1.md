@@ -223,3 +223,22 @@ Nuevos endpoints protegidos: `/api/v1/reports`, `/api/v1/reports/{report_id}`, `
 ## FUNC-SPRINT-71 — Approval Center y Action Launcher
 
 Se agregan rutas `/api/v1/approvals*` y `/api/v1/actions/dry-run`. Approval Center puede listar/crear/aprobar/denegar approvals locales. Action Launcher solo permite readiness, code-review y refactor-plan en dry-run. Acciones críticas permanecen bloqueadas desde Web UI.
+
+## POST-H-028-A — Invariante de contrato API
+
+A partir de POST-H-028-A toda ruta API local debe permanecer sincronizada entre:
+
+```text
+- FastAPI runtime/canonical route inventory;
+- .devpilot/interfaces/api_route_contract_registry.json;
+- API_ROUTE_POLICIES para rutas protegidas;
+- docs/07_interfaces/openapi_v1.json para rutas documentadas no públicas.
+```
+
+El comando `python -m devpilot_core api contract-drift --json --write-report` bloquea drift antes de avanzar.
+
+
+
+## POST-H-028-B — Local auth and CORS hardening
+
+`LocalApiSecurityHardeningRunner` valida la postura local de autenticacion y CORS: rutas protegidas requieren token, token invalido bloquea, token valido pasa, CORS no acepta wildcard, origen no local no recibe `Access-Control-Allow-Origin`, bind no local queda bloqueado, headers de seguridad se aplican y settings/providers no expone secretos raw.

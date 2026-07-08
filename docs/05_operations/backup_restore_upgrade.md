@@ -4,11 +4,29 @@ title: DevPilot Local — Backup, restore y upgrade local
 status: approved
 version: 1.0.0
 owner: Ordóñez
-updated: 2026-06-17
+updated: 2026-07-08
 approval: approved_after_func_sprint_83_validation
-sprint: FUNC-SPRINT-83
-phase: FASE-G-PRODUCTIZACION-RELEASE
+sprint: POST-H-027-E
+phase: POST-FASE-H
 ---
+
+## POST-H-027-E — Upgrade/rollback dry-run
+
+POST-H-027-E formaliza un dry-run local de upgrade/rollback sobre la infraestructura existente de backup/restore y upgrade check. El flujo recomendado es:
+
+```powershell
+$env:PYTHONPATH="src"
+python -m devpilot_core package build --kind all --version 0.1.0 --execute --json --write-report
+python -m devpilot_core release artifact-manifest --version 0.1.0 --verify-checksums --json --write-report
+python -m devpilot_core backup create --execute --json --write-report
+python -m devpilot_core release upgrade-rollback-dry-run --from-version 0.1.0 --to-version 0.1.1 --json --write-report
+python -m devpilot_core backup restore --backup-id <backup-id> --dry-run --json
+```
+
+El reporte `UpgradeRollbackDryRunReport` exige manifest/checksums en PASS, backup ZIP con SHA-256 consistente, restore policy segura, restore dry-run sin entradas fuera del workspace, plan de upgrade no mutante y acciones explícitas de rollback. El dry-run no ejecuta restore real ni upgrade real; un restore efectivo sigue requiriendo `--execute --confirm-restore`.
+
+Esta versión es `implemented-initial`: suficiente para gate local de packaging, no suficiente para auto-update, migraciones automáticas, instalador empresarial, descargas remotas o recuperación ante desastre fuera del equipo local.
+
 
 # DevPilot Local — Backup, restore y upgrade local
 

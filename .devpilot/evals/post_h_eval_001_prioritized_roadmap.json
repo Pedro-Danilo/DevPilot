@@ -109,6 +109,17 @@
       "milestones": [
         "POST-H-026"
       ]
+    },
+    {
+      "id": "wave-post-025-continuity",
+      "name": "Continuidad post production-ready-local",
+      "priority_focus": "P0",
+      "milestones": [
+        "POST-H-026",
+        "POST-H-027",
+        "POST-H-028"
+      ],
+      "rationale": "Continuidad agregada después de POST-H-025 para mantener sincronización roadmap markdown/json y transición hacia packaging local y siguientes hitos."
     }
   ],
   "decisions": [
@@ -381,5 +392,11 @@
       "POST-H-017",
       "POST-H-024"
     ]
+  },
+  "post_h_027_transition": {
+    "milestone": "POST-H-027",
+    "status": "closed-packaging-local-ready",
+    "next_hito": "POST-H-028",
+    "notes": "Added after POST-H-027 packaging local closure to keep roadmap markdown/json sync for next hito continuity."
   }
 }

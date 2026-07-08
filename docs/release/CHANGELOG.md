@@ -1,3 +1,10 @@
+## post-h-027-e — Upgrade/rollback dry-run
+
+- Agrega `UpgradeRollbackDryRunReport` y `release upgrade-rollback-dry-run` para validar manifest/checksums, backup local, restore dry-run seguro, upgrade check no mutante, smoke post-upgrade esperado y acciones de rollback antes de cualquier upgrade real.
+- Integra el subgate `packaging-local-ready` en quality-gate hardening/industrial.
+- Cierra POST-H-027 como primera línea base local-first de packaging reproducible, instalación Windows smoke y rollback dry-run, sin auto-update, restore real, migraciones, red, APIs externas ni publish/deploy.
+- Siguiente hito: `POST-H-028`.
+
 ## post-h-027-d — Windows install guide and smoke
 
 - Agrega `WindowsInstallSmokeReport` y `install windows-smoke` para validar guía Windows editable/wheel/ZIP, artefactos locales, CLI mínima, API localhost y frontend advisory sin requerir admin, red, publish/deploy ni mutaciones fuente.
@@ -2436,3 +2443,18 @@ This section preserves exact sprint-title anchors used by documentation regressi
 - Cleanup plan: POST-H-008-C.
 - Export/redaction: POST-H-008-D.
 - Quality-gate runtime-state hygiene: POST-H-008-E.
+
+## post-h-028-a
+
+- Added `api contract-drift` local guard to compare FastAPI runtime/canonical routes, ApiRouteContractRegistry, API_ROUTE_POLICIES and static OpenAPI.
+- Registered `ApiContractDriftReport` schema and bound `api-contract-drift-guard` to hardening/industrial quality gates.
+- Corrected local packaging hygiene by excluding `.devpilot/backups/` runtime backup artifacts from source deliverables.
+
+
+
+## POST-H-028-B — Local auth and CORS hardening
+
+- Added `api security-hardening` local read-only guard.
+- Added `LocalApiSecurityHardeningReport` schema and report writer.
+- Added focused tests for token, CORS, localhost bind, security headers and settings/token redaction.
+- Integrated `local-api-security-hardening` into hardening/industrial quality profiles.

@@ -23,9 +23,9 @@ def test_project_global_state_schema_and_docs_are_synchronized() -> None:
     changelog = read("docs/release/CHANGELOG.md")
 
     assert state["current_phase"] == "POST-FASE-H"
-    assert state["last_completed_sprint"] == "POST-H-026"
+    assert state["last_completed_sprint"] == "POST-H-027"
     assert state["last_functional_sprint"] == "FUNC-SPRINT-99"
-    assert state["next_sprint"] == "POST-H-027"
+    assert state["next_sprint"] == "POST-H-028"
     assert state["phase_h_status"] == "closed_implemented_initial"
     assert state["industrial_baseline_ready"] is True
     assert state["global_state_owner"] == "tests/test_project_global_state.py"
@@ -102,10 +102,10 @@ def test_project_global_state_schema_and_docs_are_synchronized() -> None:
     assert any("POST-H-013-D adds optional local crypto" in note for note in state["notes"])
     assert any("POST-H-013-E closes Audit pack integrity" in note for note in state["notes"])
     assert any("POST-H-014 is the next prioritized hito" in note for note in state["notes"])
-    assert state.get("current_micro_sprint") == "POST-H-027-D"
-    assert state.get("next_micro_sprint") == "POST-H-027-E"
+    assert state.get("current_micro_sprint") == "POST-H-028-B"
+    assert state.get("next_micro_sprint") == "POST-H-028-C"
     assert state.get("source_repo") == "repo_DevPilot_Local_263_POST_H_025.zip"
-    assert state.get("current_repo") == "repo_DevPilot_Local_272_POST_H_027_D.zip"
+    assert state.get("current_repo") == "repo_DevPilot_Local_275_POST_H_028_B.zip"
     assert state.get("post_h_026_status") == "closed/local-release-candidate-pass"
     assert "POST-H-026-C — UI/API local smoke under RC" in readme
     assert "POST-H-026-C — UI/API local smoke under RC" in runbook
@@ -129,7 +129,7 @@ def test_project_global_state_schema_and_docs_are_synchronized() -> None:
     assert state.get("post_h_026_e_no_go_gates_passed") is True
     assert state.get("post_h_026_release_candidate_declared") is True
     assert any("POST-H-026-E adds LocalReleaseCandidateReporter" in note for note in state["notes"])
-    assert state.get("post_h_027_status") == "active/windows-install-smoke-implemented-initial"
+    assert state.get("post_h_027_status") == "closed/packaging-local-ready"
     assert state.get("post_h_027_source_zip_policy_schema_registered") is True
     assert state.get("post_h_027_source_zip_report_schema_registered") is True
     assert state.get("post_h_027_source_zip_policy_cli_command") == "python -m devpilot_core package source-zip-policy --json"
@@ -168,6 +168,44 @@ def test_project_global_state_schema_and_docs_are_synchronized() -> None:
     assert "POST-H-027-D — Windows install guide and smoke" in runbook
     assert "post-h-027-d" in changelog
     assert any("POST-H-027-D adds WindowsInstallSmokeRunner" in note for note in state["notes"])
+    assert state.get("post_h_027_upgrade_rollback_dry_run_schema_registered") is True
+    assert state.get("post_h_027_upgrade_rollback_dry_run_available") is True
+    assert state.get("post_h_027_upgrade_rollback_auto_update_enabled") is False
+    assert state.get("post_h_027_upgrade_rollback_restore_performed") is False
+    assert state.get("post_h_027_upgrade_rollback_network_used") is False
+    assert state.get("post_h_027_packaging_local_ready_quality_gate_enabled") is True
+    assert "POST-H-027-E — Upgrade/rollback dry-run" in readme
+    assert "POST-H-027-E — Upgrade/rollback dry-run" in runbook
+    assert "post-h-027-e" in changelog
+    assert any("POST-H-027-E adds UpgradeRollbackDryRunRunner" in note for note in state["notes"])
+    assert any("POST-H-027 closes Packaging reproducible" in note for note in state["notes"])
+    assert state.get("post_h_028_status") == "in-progress/ui-api-local-hardening"
+    assert state.get("post_h_028_backlog_approved") is True
+    assert state.get("post_h_028_current_micro_sprint") == "POST-H-028-B"
+    assert state.get("post_h_028_next_micro_sprint") == "POST-H-028-C"
+    assert state.get("post_h_028_api_contract_drift_schema_registered") is True
+    assert state.get("post_h_028_api_contract_drift_guard_available") is True
+    assert state.get("post_h_028_api_contract_drift_quality_gate_enabled") is True
+    assert state.get("post_h_028_api_contract_drift_network_used") is False
+    assert state.get("post_h_028_api_contract_drift_source_mutations") is False
+    assert state.get("post_h_028_a_backup_artifact_hygiene_corrected") is True
+    assert "POST-H-028-A — API contract drift guard" in readme
+    assert "POST-H-028-A — API contract drift guard" in runbook
+    assert "post-h-028-a" in changelog
+    assert any("POST-H-028-A approves UI/API local hardening" in note for note in state["notes"])
+    assert any("POST-H-028-A corrective packaging hygiene excludes .devpilot/backups/" in note for note in state["notes"])
+
+    assert state.get("post_h_028_local_api_security_hardening_schema_registered") is True
+    assert state.get("post_h_028_local_api_security_hardening_available") is True
+    assert state.get("post_h_028_local_api_security_hardening_quality_gate_enabled") is True
+    assert state.get("post_h_028_local_api_security_hardening_network_used") is False
+    assert state.get("post_h_028_local_api_security_hardening_source_mutations") is False
+    assert state.get("post_h_028_cors_wildcard_enabled") is False
+    assert state.get("post_h_028_non_local_bind_allowed") is False
+    assert "POST-H-028-B — Local auth and CORS hardening" in readme
+    assert "POST-H-028-B — Local auth and CORS hardening" in runbook
+    assert "post-h-028-b" in changelog.lower()
+    assert any("POST-H-028-B adds LocalApiSecurityHardeningRunner" in note for note in state["notes"])
     assert "POST-H-014-A — Route Contract Registry y API inventory" in readme
     assert "POST-H-014-B — Response mapping y errores homogéneos" in readme
     assert "POST-H-014-C — UI Route Contract y shell de producto" in readme
@@ -412,8 +450,8 @@ def test_project_global_state_schema_and_docs_are_synchronized() -> None:
     assert any("POST-H-025-C adds industrial-readiness production-ready-local CLI" in note for note in state["notes"])
     assert any("POST-H-025-D adds ProductionReadyClaimsValidator" in note for note in state["notes"])
     assert any("POST-H-025-E adds ProductionReadyFinalDeclaration" in note for note in state["notes"])
-    assert state["current_micro_sprint"] == "POST-H-027-D"
-    assert state["next_micro_sprint"] == "POST-H-027-E"
+    assert state["current_micro_sprint"] == "POST-H-028-B"
+    assert state["next_micro_sprint"] == "POST-H-028-C"
     assert "POST-H-025-A — Criteria schema y evidence map" in readme
     assert "POST-H-025-A — Criteria schema y evidence map" in runbook
     assert "POST-H-025-C — Declaration gate CLI/API" in readme
@@ -432,6 +470,6 @@ def test_project_global_state_command_result_passes() -> None:
     result = TestContractRegistry(ROOT).project_state()
 
     assert result.ok, result.to_dict()
-    assert result.data["summary"]["last_completed_sprint"] == "POST-H-026"
-    assert result.data["summary"]["next_sprint"] == "POST-H-027"
+    assert result.data["summary"]["last_completed_sprint"] == "POST-H-027"
+    assert result.data["summary"]["next_sprint"] == "POST-H-028"
     assert result.data["summary"]["checks_passed"] == result.data["summary"]["checks_total"]

@@ -3,7 +3,7 @@ doc_id: "POST-H-027-BACKLOG"
 id: "POST-H-027"
 title: "POST-H-027 — Packaging reproducible e instalacion local"
 status: "approved"
-version: "0.3.0"
+version: "0.4.0"
 owner: "Ordonez"
 created: "2026-07-07"
 updated: "2026-07-08"
@@ -29,9 +29,9 @@ claims_forbidden:
   - "remote-ready"
   - "SaaS-ready"
   - "compliance-certified"
-implementation_status: "active/windows-install-smoke-implemented-initial"
-current_micro_sprint: "POST-H-027-D"
-next_micro_sprint: "POST-H-027-E"
+implementation_status: "closed/packaging-local-ready"
+current_micro_sprint: "POST-H-027-E"
+next_micro_sprint: "POST-H-028"
 ---
 
 # POST-H-027 — Packaging reproducible e instalacion local
@@ -1006,3 +1006,12 @@ No permitido: publicar, auto-actualizar, instalar servicios, requerir admin, hab
 ```
 
 La siguiente ola, POST-H-028, deberia usar los paquetes locales verificables de POST-H-027 para endurecer UI/API local con mayor confianza operacional.
+
+
+## 13.1. Cierre POST-H-027-E
+
+Estado: `closed / packaging-local-ready`.
+
+POST-H-027-E implementa `UpgradeRollbackDryRunReport`, `src/devpilot_core/release/upgrade_rollback_dry_run.py`, el comando `python -m devpilot_core release upgrade-rollback-dry-run --from-version 0.1.0 --to-version 0.1.1 --json --write-report` y el subgate `packaging-local-ready`. El dry-run verifica manifest/checksums de artefactos, backup local con checksum consistente, restore dry-run seguro dentro del workspace, upgrade check no mutante, smoke post-upgrade esperado y acciones de rollback.
+
+No incluye auto-update, restore real por defecto, migraciones destructivas, publish/deploy, descargas remotas, ejecución de `pip`/`npm` ni modificación de código fuente. Es una primera versión industrial local-first para bloquear upgrades reales sin evidencia previa verificable.

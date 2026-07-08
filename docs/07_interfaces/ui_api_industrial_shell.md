@@ -187,3 +187,12 @@ POST-H-014-E agrega el subgate `ui-api-industrial-shell` a `quality-gate run --p
 
 La capacidad queda en estado `implemented-initial`: es evidencia de shell local industrial, no certificación de producción SaaS, OIDC, multiusuario, cloud, remote execution, connector write o plugin execution.
 
+## POST-H-028-A — Hardening inicial de drift API
+
+El shell UI/API queda protegido por un guard adicional que valida contrato API antes de ampliar flujos de operador. Este guard no agrega endpoints nuevos ni privilegios: solo bloquea drift.
+
+
+
+## POST-H-028-B — Local auth and CORS hardening
+
+`LocalApiSecurityHardeningRunner` valida la postura local de autenticacion y CORS: rutas protegidas requieren token, token invalido bloquea, token valido pasa, CORS no acepta wildcard, origen no local no recibe `Access-Control-Allow-Origin`, bind no local queda bloqueado, headers de seguridad se aplican y settings/providers no expone secretos raw.

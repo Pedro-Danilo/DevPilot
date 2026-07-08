@@ -2,17 +2,37 @@
 title: "Runbook — DevPilot Local"
 doc_id: "DEVPL-OPS-002"
 status: "approved"
-version: "2.03.0"
+version: "2.04.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "POST-H-027-D"
+phase: "POST-H-027-E"
 updated: "2026-07-08"
 approval: "approved_by_owner"
 source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved + 03_security approved"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "SPRINT-PRECODE-05 quality operations baseline"
 ---
+
+## POST-H-027-E — Upgrade/rollback dry-run
+
+Validación operacional de upgrade/rollback local-first:
+
+```powershell
+$env:PYTHONPATH="src"
+python -m devpilot_core package build --kind all --version 0.1.0 --execute --json --write-report
+python -m devpilot_core release artifact-manifest --version 0.1.0 --verify-checksums --json --write-report
+python -m devpilot_core backup create --execute --json --write-report
+python -m devpilot_core release upgrade-rollback-dry-run --from-version 0.1.0 --to-version 0.1.1 --json --write-report
+python -m devpilot_core schema validate --schema-id UpgradeRollbackDryRunReport --instance outputs\reports\upgrade_rollback_dry_run_report.json --json
+```
+
+El comando `release upgrade-rollback-dry-run` no ejecuta upgrade, restore, migraciones, `pip`, `npm`, publish/deploy ni descargas. Su función es bloquear cualquier upgrade real que no tenga artefactos verificados, backup local, restore dry-run seguro, smoke post-upgrade esperado y acciones de rollback documentadas.
+
+Siguiente hito: `POST-H-028`.
+
+Estado: `closed / packaging-local-ready` como primera versión industrial local-first. Evolución pendiente: instalador Windows formal, matriz de pruebas en máquinas limpias, firma/attestation y automatización controlada de upgrades con aprobación explícita.
+
 
 ## POST-H-027-D — Windows install guide and smoke
 
@@ -10690,3 +10710,37 @@ PASS operativo:
 ```
 
 Limitación explícita: no hay PKI enterprise, certificados, KMS cloud ni compliance certification claim. POST-H-013-E integra el gate final.
+
+## POST-H-028-A — API contract drift guard
+
+Objetivo operacional: validar que la superficie API local no tenga drift entre runtime, registro contractual, policies y OpenAPI antes de endurecer auth/CORS y flujos UI.
+
+```powershell
+$env:PYTHONPATH="src"
+python -m devpilot_core api contract-drift --json --write-report
+python -m devpilot_core schema validate --schema-id ApiContractDriftReport --instance outputs/reports/api_contract_drift_report.json --json
+python -m devpilot_core quality-gate run --profile hardening --json
+```
+
+PASS: no hay rutas runtime no registradas, rutas stale, rutas protegidas sin policy, contradicción OpenAPI no pública ni no-go capabilities expuestas.
+
+BLOCK: cualquier endpoint nuevo debe registrarse antes de continuar; ninguna excepción debe resolverse desde UI/API sin actualizar contrato, registry, OpenAPI, tests y documentación.
+
+
+
+## POST-H-028-B — Local auth and CORS hardening
+
+Ejecute el hardening local de seguridad API/UI sin levantar servidor ni abrir sockets:
+
+```powershell
+$env:PYTHONPATH="src"
+python -m devpilot_core api security-hardening --json --write-report
+python -m devpilot_core schema validate `
+  --schema-id LocalApiSecurityHardeningReport `
+  --instance outputs/reports/local_api_security_hardening_report.json `
+  --json
+```
+
+Criterios PASS: token ausente/invalido bloqueado, token valido permitido, wildcard CORS deshabilitado, origen local permitido, origen no local rechazado, host no local bloqueado incluso con `DEVPILOT_API_ALLOW_NON_LOCALHOST`, headers de seguridad presentes y secrets/tokens redactados.
+
+No objetivos: OIDC, SSO, auth enterprise, API remota publica, sesiones persistentes y rate limiting industrial.

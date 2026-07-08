@@ -3,7 +3,7 @@
   "schema_id": "SCHEMA-DEVPL-DOCUMENTATION-SOURCE-REGISTRY-V1",
   "registry_id": "devpilot-documentation-source-registry",
   "created_by": "POST-H-009-A",
-  "status": "implemented-initial",
+  "status": "current",
   "phase": "POST-FASE-H",
   "owner": "Ordóñez",
   "updated": "2026-07-08",
@@ -7012,6 +7012,213 @@
       "required_tests": [
         "tests/test_post_h_027_windows_install_smoke.py"
       ]
+    },
+    {
+      "doc_id": "POST-H-027-E-UPGRADE-ROLLBACK-DRY-RUN-SCHEMA",
+      "path": "docs/schemas/upgrade_rollback_dry_run_report.schema.json",
+      "classification": "machine-readable-source",
+      "domain": "release",
+      "owner": "POST-H-027-E",
+      "status_required": "implemented-initial",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_027_upgrade_rollback_dry_run.py",
+        "tests/test_schema_registry.py"
+      ]
+    },
+    {
+      "doc_id": "POST-H-027-E-UPGRADE-ROLLBACK-DRY-RUN-MODULE",
+      "path": "src/devpilot_core/release/upgrade_rollback_dry_run.py",
+      "classification": "source-of-truth",
+      "domain": "release",
+      "owner": "POST-H-027-E",
+      "status_required": "current",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_027_upgrade_rollback_dry_run.py"
+      ]
+    },
+    {
+      "doc_id": "POST-H-027-E-UPGRADE-ROLLBACK-CLOSURE-REPORT",
+      "path": "docs/audits/post_h_027_e_upgrade_rollback_closure_report.md",
+      "classification": "source-of-truth",
+      "domain": "release",
+      "owner": "Ordóñez",
+      "status_required": "approved",
+      "criticality": "P1",
+      "required_tests": [
+        "tests/test_post_h_027_upgrade_rollback_dry_run.py"
+      ]
+    },
+    {
+      "doc_id": "POST-H-027-E-MANIFEST",
+      "path": "docs/post_h_027_e_manifest.json",
+      "classification": "machine-readable-source",
+      "domain": "release",
+      "owner": "Ordóñez",
+      "status_required": "closed",
+      "criticality": "P1",
+      "required_tests": [
+        "tests/test_post_h_027_upgrade_rollback_dry_run.py"
+      ]
+    },
+    {
+      "doc_id": "POST-H-027-E-UPGRADE-ROLLBACK-DRY-RUN-TEST",
+      "path": "tests/test_post_h_027_upgrade_rollback_dry_run.py",
+      "classification": "test-contract",
+      "domain": "release",
+      "owner": "POST-H-027-E",
+      "status_required": "current",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_027_upgrade_rollback_dry_run.py"
+      ]
+    },
+    {
+      "doc_id": "POST-H-028-BACKLOG",
+      "path": "docs/backlogs/POST-H-028_ui_api_local_hardening.md",
+      "classification": "source-of-truth",
+      "domain": "product.ui",
+      "owner": "Ordóñez",
+      "status_required": "approved",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_028_api_contract_drift_guard.py"
+      ]
+    },
+    {
+      "doc_id": "POST-H-028-DOC",
+      "path": "docs/POST-H-028_ui_api_local_hardening.md",
+      "classification": "source-of-truth",
+      "domain": "product.ui",
+      "owner": "Ordóñez",
+      "status_required": "approved",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_028_api_contract_drift_guard.py"
+      ]
+    },
+    {
+      "doc_id": "POST-H-028-A-API-CONTRACT-DRIFT-SCHEMA",
+      "path": "docs/schemas/api_contract_drift_report.schema.json",
+      "classification": "machine-readable-source",
+      "domain": "product.api",
+      "owner": "POST-H-028-A",
+      "status_required": "registered",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_028_api_contract_drift_guard.py",
+        "tests/test_schema_registry.py"
+      ]
+    },
+    {
+      "doc_id": "POST-H-028-A-API-CONTRACT-DRIFT-MODULE",
+      "path": "src/devpilot_core/interfaces/api/contract_drift.py",
+      "classification": "source-of-truth",
+      "domain": "product.api",
+      "owner": "POST-H-028-A",
+      "status_required": "current",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_028_api_contract_drift_guard.py"
+      ]
+    },
+    {
+      "doc_id": "POST-H-028-A-API-CONTRACT-DRIFT-REPORT",
+      "path": "docs/audits/post_h_028_a_api_contract_drift_guard_report.md",
+      "classification": "source-of-truth",
+      "domain": "product.api",
+      "owner": "Ordóñez",
+      "status_required": "approved",
+      "criticality": "P1",
+      "required_tests": [
+        "tests/test_post_h_028_api_contract_drift_guard.py"
+      ]
+    },
+    {
+      "doc_id": "POST-H-028-A-MANIFEST",
+      "path": "docs/post_h_028_a_manifest.json",
+      "classification": "machine-readable-source",
+      "domain": "product.api",
+      "owner": "Ordóñez",
+      "status_required": "implemented-initial",
+      "criticality": "P1",
+      "required_tests": [
+        "tests/test_post_h_028_api_contract_drift_guard.py"
+      ]
+    },
+    {
+      "doc_id": "POST-H-028-A-API-CONTRACT-DRIFT-TEST",
+      "path": "tests/test_post_h_028_api_contract_drift_guard.py",
+      "classification": "test-contract",
+      "domain": "product.api",
+      "owner": "POST-H-028-A",
+      "status_required": "current",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_028_api_contract_drift_guard.py"
+      ]
+    },
+    {
+      "doc_id": "SCHEMA-DEVPL-LOCAL-API-SECURITY-HARDENING-REPORT-V1",
+      "path": "docs/schemas/local_api_security_hardening_report.schema.json",
+      "classification": "machine-readable-source",
+      "domain": "product.api",
+      "owner": "POST-H-028-B",
+      "status_required": "registered",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_028_local_auth_cors_hardening.py",
+        "tests/test_schema_registry.py"
+      ]
+    },
+    {
+      "doc_id": "POST-H-028-B-LOCAL-AUTH-CORS-HARDENING-MODULE",
+      "path": "src/devpilot_core/interfaces/api/security_hardening.py",
+      "classification": "source-of-truth",
+      "domain": "product.api",
+      "owner": "POST-H-028-B",
+      "status_required": "current",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_028_local_auth_cors_hardening.py"
+      ]
+    },
+    {
+      "doc_id": "POST-H-028-B-LOCAL-AUTH-CORS-HARDENING-REPORT",
+      "path": "docs/audits/post_h_028_b_local_auth_cors_hardening_report.md",
+      "classification": "source-of-truth",
+      "domain": "product.api",
+      "owner": "POST-H-028-B",
+      "status_required": "approved",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_028_local_auth_cors_hardening.py"
+      ]
+    },
+    {
+      "doc_id": "POST-H-028-B-MANIFEST",
+      "path": "docs/post_h_028_b_manifest.json",
+      "classification": "machine-readable-source",
+      "domain": "product.api",
+      "owner": "POST-H-028-B",
+      "status_required": "implemented-initial",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_028_local_auth_cors_hardening.py"
+      ]
+    },
+    {
+      "doc_id": "POST-H-028-B-LOCAL-AUTH-CORS-HARDENING-TEST",
+      "path": "tests/test_post_h_028_local_auth_cors_hardening.py",
+      "classification": "test-contract",
+      "domain": "product.api",
+      "owner": "POST-H-028-B",
+      "status_required": "current",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_028_local_auth_cors_hardening.py"
+      ]
     }
   ],
   "rules": {
@@ -7085,7 +7292,7 @@
     "POST-H-025-C keeps enterprise, remote, SaaS and compliance claims disabled.": true
   },
   "summary": {
-    "documents_total": 273,
+    "documents_total": 290,
     "source_of_truth_total": 97,
     "machine_readable_source_total": 130,
     "derived_total": 36,
@@ -7098,7 +7305,7 @@
     "network_used": false,
     "external_api_used": false,
     "mutations_performed": false,
-    "last_updated_by": "POST-H-027-D",
+    "last_updated_by": "POST-H-028-B",
     "markdown_json_sync_checks_enabled": true,
     "sync_checks_scope": "version_match, milestones_match, decisions_match, closure_status_match, next_hito_match",
     "roadmap_derived_backlog_governance_enabled": true,
@@ -7198,12 +7405,14 @@
     "POST-H-025 closes as production-ready-local while enterprise, remote, SaaS and compliance claims remain false.",
     "POST-H-025-E general regression patch normalizes source registry classifications to DocumentationSourceRegistry v1 enum and restores POST-H-017/POST-H-022 accumulated regression markers.",
     "POST-H-025-E general regression patch preserves created_by=POST-H-009-A as the immutable registry origin while summary.last_updated_by tracks POST-H-025-E updates.",
-    "POST-H-027-B registers Python artifact install verification schema/module/audit/manifest/test for docs governance."
+    "POST-H-027-B registers Python artifact install verification schema/module/audit/manifest/test for docs governance.",
+    "POST-H-028-A registers API contract drift guard docs, schema, module, manifest and tests as canonical UI/API hardening sources.",
+    "POST-H-028-B registers local auth/CORS hardening schema, module, report, manifest and tests as canonical UI/API hardening sources."
   ],
   "project_state_snapshot": {
     "last_updated_by": "POST-H-025-E",
-    "current_micro_sprint": "POST-H-027-C",
-    "next_micro_sprint": "POST-H-027-D",
+    "current_micro_sprint": "POST-H-027-E",
+    "next_micro_sprint": "POST-H-028",
     "last_completed_sprint": "POST-H-025",
     "next_sprint": "POST-H-026",
     "post_h_023_current_micro_sprint": "POST-H-023-E",

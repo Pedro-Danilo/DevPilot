@@ -153,8 +153,8 @@ def test_post_h_027_a_documentation_is_synchronized() -> None:
     manifest = json.loads((ROOT / "docs/post_h_027_a_manifest.json").read_text(encoding="utf-8"))
 
     assert 'status: "approved"' in backlog
-    assert 'implementation_status: "active/windows-install-smoke-implemented-initial"' in backlog
-    assert 'current_micro_sprint: "POST-H-027-D"' in backlog
+    assert 'implementation_status: "closed/packaging-local-ready"' in backlog
+    assert 'current_micro_sprint: "POST-H-027-E"' in backlog
     assert "POST-H-027-A — Source ZIP release policy hardening" in backlog
     assert "POST-H-027-A — Source ZIP release policy hardening" in top_level
     assert "package source-zip-policy" in readme

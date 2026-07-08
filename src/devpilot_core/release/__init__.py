@@ -12,6 +12,7 @@ from .source_zip_policy import SourceZipPolicyOptions, SourceZipReleasePolicyVal
 from .python_artifact_verify import PythonArtifactInstallVerificationOptions, PythonArtifactInstallVerifier
 from .artifact_manifest import ReleaseArtifactManifestBuilder, ReleaseArtifactManifestOptions
 from .windows_install_smoke import WindowsInstallSmokeOptions, WindowsInstallSmokeRunner
+from .upgrade_rollback_dry_run import PackagingLocalReadyGate, UpgradeRollbackDryRunOptions, UpgradeRollbackDryRunRunner
 from .sbom import ReleaseSbomBuilder, ReleaseSbomOptions
 from .installation import InstallPlanBuilder, InstallPlanOptions
 from .backup import BackupCreateBuilder, BackupCreateOptions, BackupListBuilder, BackupListOptions, BackupRestoreBuilder, BackupRestoreOptions
@@ -51,6 +52,9 @@ __all__ = [
     "ReleaseArtifactManifestOptions",
     "WindowsInstallSmokeOptions",
     "WindowsInstallSmokeRunner",
+    "PackagingLocalReadyGate",
+    "UpgradeRollbackDryRunOptions",
+    "UpgradeRollbackDryRunRunner",
     "InstallPlanBuilder",
     "InstallPlanOptions",
     "BackupCreateBuilder",
