@@ -1378,6 +1378,20 @@
       "validates_instances": true,
       "contract": "ReleaseArtifactManifest",
       "validation_enabled_sprint": "POST-H-027-C"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-WINDOWS-INSTALL-SMOKE-REPORT-V1",
+      "title": "DevPilot WindowsInstallSmokeReport v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/windows_install_smoke_report.schema.json",
+      "description": "POST-H-027-D structural contract for local-first Windows operator install guide and smoke validation without admin privileges, network, publish, deploy or source mutations.",
+      "status": "registered",
+      "owner": "Ordóñez",
+      "sprint": "POST-H-027-D",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "contract": "WindowsInstallSmokeReport",
+      "validation_enabled_sprint": "POST-H-027-D"
     }
   ]
 }

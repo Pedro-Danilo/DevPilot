@@ -29,9 +29,9 @@ claims_forbidden:
   - "remote-ready"
   - "SaaS-ready"
   - "compliance-certified"
-implementation_status: "active/artifact-manifest-checksums-implemented-initial"
-current_micro_sprint: "POST-H-027-C"
-next_micro_sprint: "POST-H-027-D"
+implementation_status: "active/windows-install-smoke-implemented-initial"
+current_micro_sprint: "POST-H-027-D"
+next_micro_sprint: "POST-H-027-E"
 ---
 
 # POST-H-027 — Packaging reproducible e instalacion local
@@ -724,6 +724,15 @@ python -m devpilot_core install windows-smoke --mode editable --json --write-rep
 python -m devpilot_core install windows-smoke --mode wheel --artifact dist\devpilot_local-0.1.0-py3-none-any.whl --json --write-report
 python -m devpilot_core schema validate --schema-id WindowsInstallSmokeReport --instance outputs/reports/windows_install_smoke_report.json --json
 ```
+
+
+## 12.1 Implementacion POST-H-027-D
+
+Estado: `implemented-initial / windows-install-guide-smoke`.
+
+POST-H-027-D agrega `WindowsInstallSmokeReport`, el modulo `src/devpilot_core/release/windows_install_smoke.py` y el comando `python -m devpilot_core install windows-smoke --mode <editable|wheel|zip> --json --write-report`. El smoke es local-first y dry-run: valida que la guía Windows documente flujo editable, wheel y ZIP; que los artefactos wheel/ZIP permanezcan dentro del workspace y existan cuando el modo los requiere; que la CLI minima y el artifact manifest esten documentados; que la API local use token y host `127.0.0.1`; y que `npm --prefix ui/web test` sea frontend advisory cuando Node/npm no estan disponibles.
+
+El comando no crea venvs, no ejecuta `pip`, no ejecuta `npm`, no abre sockets, no requiere admin, no publica, no despliega y no muta fuentes. Es una primera version operacional para Windows; instalador MSI, servicio Windows, auto-update y upgrade/rollback permanecen fuera de alcance.
 
 ## 13. Micro-sprint POST-H-027-E — Upgrade/rollback dry-run
 

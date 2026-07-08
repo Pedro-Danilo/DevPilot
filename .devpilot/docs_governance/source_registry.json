@@ -6951,6 +6951,67 @@
       "required_tests": [
         "tests/test_post_h_027_artifact_manifest_checksums.py"
       ]
+    },
+    {
+      "doc_id": "POST-H-027-D-WINDOWS-INSTALL-SMOKE-SCHEMA",
+      "path": "docs/schemas/windows_install_smoke_report.schema.json",
+      "classification": "machine-readable-source",
+      "domain": "release",
+      "owner": "POST-H-027-D",
+      "status_required": "implemented-initial",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_027_windows_install_smoke.py",
+        "tests/test_schema_registry.py"
+      ]
+    },
+    {
+      "doc_id": "POST-H-027-D-WINDOWS-INSTALL-SMOKE-MODULE",
+      "path": "src/devpilot_core/release/windows_install_smoke.py",
+      "classification": "source-of-truth",
+      "domain": "release",
+      "owner": "POST-H-027-D",
+      "status_required": "current",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_027_windows_install_smoke.py"
+      ]
+    },
+    {
+      "doc_id": "POST-H-027-D-WINDOWS-INSTALL-SMOKE-AUDIT",
+      "path": "docs/audits/post_h_027_d_windows_install_smoke_report.md",
+      "classification": "source-of-truth",
+      "domain": "release",
+      "owner": "Ordóñez",
+      "status_required": "approved",
+      "criticality": "P1",
+      "required_tests": [
+        "tests/test_post_h_027_windows_install_smoke.py"
+      ]
+    },
+    {
+      "doc_id": "POST-H-027-D-MANIFEST",
+      "path": "docs/post_h_027_d_manifest.json",
+      "classification": "machine-readable-source",
+      "domain": "release",
+      "owner": "Ordóñez",
+      "status_required": "implemented-initial",
+      "criticality": "P1",
+      "required_tests": [
+        "tests/test_post_h_027_windows_install_smoke.py"
+      ]
+    },
+    {
+      "doc_id": "POST-H-027-D-WINDOWS-INSTALL-SMOKE-TEST",
+      "path": "tests/test_post_h_027_windows_install_smoke.py",
+      "classification": "test-contract",
+      "domain": "release",
+      "owner": "POST-H-027-D",
+      "status_required": "current",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_027_windows_install_smoke.py"
+      ]
     }
   ],
   "rules": {
@@ -7024,20 +7085,20 @@
     "POST-H-025-C keeps enterprise, remote, SaaS and compliance claims disabled.": true
   },
   "summary": {
-    "documents_total": 268,
-    "source_of_truth_total": 86,
-    "machine_readable_source_total": 111,
-    "derived_total": 32,
+    "documents_total": 273,
+    "source_of_truth_total": 97,
+    "machine_readable_source_total": 130,
+    "derived_total": 36,
     "generated_runtime_total": 0,
     "historical_total": 0,
     "deprecated_total": 0,
-    "critical_sources_total": 36,
+    "critical_sources_total": 68,
     "markdown_json_pairs_total": 30,
-    "documents_with_required_tests_total": 229,
+    "documents_with_required_tests_total": 267,
     "network_used": false,
     "external_api_used": false,
     "mutations_performed": false,
-    "last_updated_by": "POST-H-027-B",
+    "last_updated_by": "POST-H-027-D",
     "markdown_json_sync_checks_enabled": true,
     "sync_checks_scope": "version_match, milestones_match, decisions_match, closure_status_match, next_hito_match",
     "roadmap_derived_backlog_governance_enabled": true,

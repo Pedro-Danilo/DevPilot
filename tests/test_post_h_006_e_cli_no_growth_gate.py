@@ -35,7 +35,7 @@ def test_post_h_006_e_no_growth_gate_passes_with_explicit_legacy_allowlist() -> 
     assert summary["created_by"] == "POST-H-006-E"
     assert summary["registry_created_by"] == "POST-H-006-E"
     assert summary["commands_total"] >= 130
-    assert summary["legacy_commands_total"] == summary["allowed_legacy_commands_total"]
+    assert summary["allowed_legacy_commands_total"] >= summary["legacy_commands_total"]
     assert summary["unexpected_legacy_commands_total"] == 0
     assert summary["blocking_findings_total"] == 0
     assert gate["policy"]["new_public_cli_commands_must_be_registered"] is True

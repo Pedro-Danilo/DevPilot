@@ -26,7 +26,10 @@ CURRENT_DECLARATIVE_GROUPS = {
     "portfolio",
     "audit-pack",
     "release",
-    "enterprise",
+    "release-candidate",
+    "package",
+    "connector",
+    "install",
 }
 
 
@@ -88,6 +91,7 @@ def test_post_h_006_b_declarative_overlay_registers_initial_groups_and_coverage(
         "api.shell-gate",
         "operator.dashboard",
         "portfolio.status",
+        "install.windows-smoke",
         "portfolio.hardening-gate",
         "audit-pack.build-v2",
         "audit-pack.verify-v2",

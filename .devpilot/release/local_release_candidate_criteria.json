@@ -7,10 +7,10 @@
   "scope": "local-release-candidate",
   "preliminary": true,
   "expected_source_repo": "repo_DevPilot_Local_263_POST_H_025.zip",
-  "expected_current_repo": "repo_DevPilot_Local_271_POST_H_027_C.zip",
+  "expected_current_repo": "repo_DevPilot_Local_272_POST_H_027_D.zip",
   "expected_last_completed_sprint": "POST-H-026",
-  "expected_current_micro_sprint": "POST-H-027-C",
-  "expected_next_micro_sprint": "POST-H-027-D",
+  "expected_current_micro_sprint": "POST-H-027-D",
+  "expected_next_micro_sprint": "POST-H-027-E",
   "freshness_policy": "contextual-signature",
   "no_go_gates": {
     "remote_execution_enabled": false,
@@ -25,23 +25,23 @@
   "evidence": [
     {
       "evidence_id": "project-state-current-repo",
-      "title": "Project state source/current repo freshness for POST-H-027-C implementation",
+      "title": "Project state source/current repo freshness for POST-H-027-D implementation",
       "path": ".devpilot/project_state.json",
       "category": "project-state",
       "critical": true,
       "json_required": true,
       "expected_schema_id": "SCHEMA-DEVPL-PROJECT-STATE-V1",
-      "producer_sprint": "POST-H-027-C",
+      "producer_sprint": "POST-H-027-D",
       "freshness_policy": "contextual-field-match",
       "expected_fields": {
         "source_repo": "repo_DevPilot_Local_263_POST_H_025.zip",
-        "current_repo": "repo_DevPilot_Local_271_POST_H_027_C.zip",
+        "current_repo": "repo_DevPilot_Local_272_POST_H_027_D.zip",
         "last_completed_sprint": "POST-H-026",
         "next_sprint": "POST-H-027",
-        "current_micro_sprint": "POST-H-027-C",
-        "next_micro_sprint": "POST-H-027-D",
+        "current_micro_sprint": "POST-H-027-D",
+        "next_micro_sprint": "POST-H-027-E",
         "post_h_026_status": "closed/local-release-candidate-pass",
-        "post_h_027_status": "active/artifact-manifest-checksums-implemented-initial"
+        "post_h_027_status": "active/windows-install-smoke-implemented-initial"
       }
     },
     {
@@ -487,6 +487,54 @@
         "test_release_artifact_manifest_passes_and_writes_checksums",
         "test_release_artifact_manifest_detects_checksum_mismatch"
       ]
+    },
+    {
+      "evidence_id": "post-h-027-d-windows-install-smoke-schema",
+      "title": "POST-H-027-D Windows install smoke schema",
+      "path": "docs/schemas/windows_install_smoke_report.schema.json",
+      "category": "schema",
+      "critical": true,
+      "runtime_optional": false,
+      "expected_schema_id": "SCHEMA-DEVPL-WINDOWS-INSTALL-SMOKE-REPORT-V1",
+      "producer_sprint": "POST-H-027-D",
+      "freshness_policy": "contextual-signature",
+      "checks": []
+    },
+    {
+      "evidence_id": "post-h-027-d-windows-install-smoke-module",
+      "title": "POST-H-027-D Windows install smoke module",
+      "path": "src/devpilot_core/release/windows_install_smoke.py",
+      "category": "implementation",
+      "critical": true,
+      "runtime_optional": false,
+      "expected_schema_id": null,
+      "producer_sprint": "POST-H-027-D",
+      "freshness_policy": "contextual-signature",
+      "checks": []
+    },
+    {
+      "evidence_id": "post-h-027-d-windows-install-guide",
+      "title": "POST-H-027-D Windows install guide",
+      "path": "docs/05_operations/install_guide.md",
+      "category": "documentation",
+      "critical": true,
+      "runtime_optional": false,
+      "expected_schema_id": null,
+      "producer_sprint": "POST-H-027-D",
+      "freshness_policy": "contextual-signature",
+      "checks": []
+    },
+    {
+      "evidence_id": "post-h-027-d-windows-install-smoke-test",
+      "title": "POST-H-027-D Windows install smoke tests",
+      "path": "tests/test_post_h_027_windows_install_smoke.py",
+      "category": "test",
+      "critical": true,
+      "runtime_optional": false,
+      "expected_schema_id": null,
+      "producer_sprint": "POST-H-027-D",
+      "freshness_policy": "contextual-signature",
+      "checks": []
     }
   ],
   "schema_id": "SCHEMA-DEVPL-LOCAL-RELEASE-CANDIDATE-CRITERIA-V1"

@@ -1,3 +1,9 @@
+## post-h-027-d — Windows install guide and smoke
+
+- Agrega `WindowsInstallSmokeReport` y `install windows-smoke` para validar guía Windows editable/wheel/ZIP, artefactos locales, CLI mínima, API localhost y frontend advisory sin requerir admin, red, publish/deploy ni mutaciones fuente.
+- Sincroniza install guide, runbook, README, backlog, schema catalog, TCR v1/v2, source registry y project_state.
+- Mantiene upgrade/rollback dry-run para POST-H-027-E.
+
 
 ## post-h-027-c — Artifact manifest and checksums
 

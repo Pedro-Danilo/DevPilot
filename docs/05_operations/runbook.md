@@ -6,13 +6,33 @@ version: "2.03.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "POST-H-027-C"
+phase: "POST-H-027-D"
 updated: "2026-07-08"
 approval: "approved_by_owner"
 source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved + 03_security approved"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "SPRINT-PRECODE-05 quality operations baseline"
 ---
+
+## POST-H-027-D — Windows install guide and smoke
+
+Validación operacional Windows local-first:
+
+```powershell
+$env:PYTHONPATH="src"
+python -m devpilot_core package build --kind all --version 0.1.0 --execute --json --write-report
+python -m devpilot_core release artifact-manifest --version 0.1.0 --verify-checksums --json --write-report
+python -m devpilot_core install windows-smoke --mode editable --json --write-report
+python -m devpilot_core install windows-smoke --mode wheel --artifact dist\devpilot_local-0.1.0-py3-none-any.whl --json --write-report
+python -m devpilot_core install windows-smoke --mode zip --artifact dist\release\devpilot-local-0.1.0-source.zip --json --write-report
+python -m devpilot_core schema validate --schema-id WindowsInstallSmokeReport --instance outputs\reports\windows_install_smoke_report.json --json
+```
+
+Criterio PASS: el reporte `WindowsInstallSmokeReport` confirma guía editable/wheel/ZIP, artefactos locales dentro del workspace, CLI mínima, API localhost `127.0.0.1`, sin admin, sin red, sin publish/deploy, sin sockets y sin mutaciones fuente. `npm --prefix ui/web test` es parte del flujo de frontend, pero la ausencia de Node/npm se reporta como advisory y no bloquea el core Python.
+
+No versionar runtime: `node_modules`, `outputs/`, `dist/`, `.venv/`, `.pytest_cache` y `__pycache__`.
+
+Limitación: POST-H-027-D no ejecuta upgrade/rollback ni instala dependencias automáticamente; POST-H-027-E debe cerrar el dry-run de upgrade/rollback.
 
 ## POST-H-027-C — Artifact manifest and checksums
 

@@ -7023,6 +7023,55 @@
       "classification_notes": [
         "dist/ and outputs/release are runtime/generated evidence; source mutations remain disallowed."
       ]
+    },
+    {
+      "contract_id": "post-h-027-windows-install-smoke",
+      "scope": "integration",
+      "owner": "POST-H-027-D",
+      "test_files": [
+        "tests/test_post_h_027_windows_install_smoke.py"
+      ],
+      "validates": [
+        "src/devpilot_core/release/windows_install_smoke.py",
+        "docs/schemas/windows_install_smoke_report.schema.json",
+        "install windows-smoke",
+        "docs/05_operations/install_guide.md",
+        "docs/audits/post_h_027_d_windows_install_smoke_report.md",
+        "docs/post_h_027_d_manifest.json",
+        "README.md",
+        "docs/05_operations/runbook.md"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/release/windows_install_smoke.py",
+        "src/devpilot_core/release/installation.py",
+        "src/devpilot_core/release/artifact_manifest.py",
+        "src/devpilot_core/cli.py",
+        "src/devpilot_core/interfaces/api/security.py",
+        "docs/05_operations/install_guide.md",
+        "docs/schemas/windows_install_smoke_report.schema.json",
+        "docs/backlogs/POST-H-027_packaging_reproducible_local_installation.md",
+        "tests/test_post_h_027_windows_install_smoke.py",
+        ".devpilot/testing/test_contract_registry.json",
+        ".devpilot/testing/test_contract_registry_v2.json"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_027_windows_install_smoke.py tests/test_installation_plan.py tests/test_api_security.py tests/test_post_h_014_security_hardening.py tests/test_schema_registry.py tests/test_project_global_state.py -q",
+        "python -m devpilot_core install windows-smoke --mode editable --json --write-report",
+        "python -m devpilot_core install windows-smoke --mode wheel --artifact dist/devpilot_local-0.1.0-py3-none-any.whl --json --write-report",
+        "python -m devpilot_core schema validate --schema-id WindowsInstallSmokeReport --instance outputs/reports/windows_install_smoke_report.json --json"
+      ],
+      "notes": [
+        "POST-H-027-D validates Windows operator install guide and smoke as local-first dry-run evidence.",
+        "Frontend npm prerequisites are advisory and must not block Python core install validation.",
+        "No admin, network, external APIs, publish/deploy, sockets or source mutations are allowed."
+      ]
     }
   ],
   "notes": [
@@ -7065,6 +7114,7 @@
     "POST-H-025-D adds production-ready-local no-go claims validator contract.",
     "POST-H-025-E adds production-ready-local final declaration contract.",
     "POST-H-026-A registers evidence freshness test contract.",
-    "POST-H-027-B registers Python artifact install verification contract."
+    "POST-H-027-B registers Python artifact install verification contract.",
+    "POST-H-027-D registers Windows install smoke contract."
   ]
 }

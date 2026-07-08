@@ -1,3 +1,15 @@
+## POST-H-027-D — Windows install guide and smoke
+
+POST-H-027-D agrega el contrato `WindowsInstallSmokeReport`, el módulo `src/devpilot_core/release/windows_install_smoke.py` y el comando `python -m devpilot_core install windows-smoke --mode editable --json --write-report`. El smoke valida la guía Windows editable/wheel/ZIP, artefactos locales bajo workspace, comandos CLI mínimos, token/API localhost `127.0.0.1`, clasificación advisory para `npm --prefix ui/web test` cuando Node/npm no están disponibles, y exclusión de `node_modules`, `outputs/`, `dist/`, `.venv/`, `.pytest_cache` y `__pycache__` del control de código.
+
+Hito activo: `POST-H-027 — Packaging reproducible e instalacion local`
+
+Micro-sprint activo implementado: `POST-H-027-D — Windows install guide and smoke`
+
+Siguiente micro-sprint: `POST-H-027-E — Upgrade/rollback dry-run`
+
+Limitación: esta primera versión no crea instalador MSI, no instala Python/Node, no crea servicio Windows y no ejecuta upgrade/rollback; se mantiene local-first, dry-run y sin privilegios elevados.
+
 
 ## POST-H-027-C — Artifact manifest and checksums
 

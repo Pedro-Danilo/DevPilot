@@ -1,3 +1,72 @@
+## POST-H-027-D — Windows install guide and smoke
+
+POST-H-027-D convierte esta guía en un flujo operacional verificable para Windows. La verificación es local-first, dry-run y no requiere privilegios de administrador: el comando `install windows-smoke` valida que los pasos editable, wheel y ZIP estén documentados, que los artefactos locales existan cuando corresponda, que la CLI mínima esté definida y que el frontend npm sea advisory cuando Node/npm no estén disponibles.
+
+### Flujo editable Windows
+
+```powershell
+py -3.12 -m venv .venv
+.\.venv\Scripts\Activate.ps1
+python -m pip install --upgrade pip
+python -m pip install -e .[dev]
+python -m devpilot_core --version
+python -m devpilot_core schema list --json
+python -m devpilot_core project-state validate --json
+python -m devpilot_core docs-governance validate --json
+python -m devpilot_core install windows-smoke --mode editable --json --write-report
+```
+
+### Flujo wheel Windows
+
+```powershell
+python -m devpilot_core package build --kind all --version 0.1.0 --execute --json --write-report
+python -m devpilot_core release artifact-manifest --version 0.1.0 --verify-checksums --json --write-report
+python -m devpilot_core release python-artifact-verify --artifact dist\devpilot_local-0.1.0-py3-none-any.whl --json --write-report
+python -m devpilot_core install windows-smoke --mode wheel --artifact dist\devpilot_local-0.1.0-py3-none-any.whl --json --write-report
+```
+
+### Flujo ZIP fuente Windows
+
+```powershell
+python -m devpilot_core package source-zip-policy --json
+python -m devpilot_core install windows-smoke --mode zip --artifact dist\release\devpilot-local-0.1.0-source.zip --json --write-report
+Expand-Archive -Path dist\release\devpilot-local-0.1.0-source.zip -DestinationPath .\install-smoke -Force
+cd .\install-smoke
+py -3.12 -m venv .venv
+.\.venv\Scripts\Activate.ps1
+python -m pip install --upgrade pip
+python -m pip install -e .[dev]
+python -m devpilot_core --version
+```
+
+### Smoke API/UI local y frontend opcional
+
+```powershell
+python -m devpilot_core api token --json
+python -m devpilot_core api serve --host 127.0.0.1 --port 8787 --execute
+python -m devpilot_core release-candidate ui-api-smoke --base-url http://127.0.0.1:8787 --json --write-report
+npm --prefix ui/web test
+```
+
+El host permitido para operador local es `127.0.0.1` o `localhost`; no se recomienda `0.0.0.0`, CORS wildcard ni exponer el token en reportes. Si `npm` o `node` no están disponibles, `install windows-smoke` clasifica la situación como advisory para el frontend y no bloquea el core Python.
+
+### Troubleshooting Windows
+
+- `ExecutionPolicy`: usar activación por sesión si PowerShell bloquea scripts, por ejemplo `Set-ExecutionPolicy -Scope Process -ExecutionPolicy RemoteSigned`. No usar politicas irrestrictas de ejecucion.
+- Rutas con espacios: ejecutar desde la raíz del repo y evitar interpolar rutas sin comillas.
+- Activación de venv: confirmar `python -c "import sys; print(sys.executable)"` dentro de `.venv`.
+- Cache pip: si se requiere limpiar, hacerlo fuera del repo; el smoke no descarga dependencias ni ejecuta `pip`.
+- Puerto en uso: cambiar puerto local o cerrar el proceso que usa `8787`; no abrir host remoto.
+- Runtime no versionable: `node_modules`, `outputs/`, `dist/`, `.venv/`, `.pytest_cache` y `__pycache__` son regenerables y no deben versionarse.
+
+Reporte esperado:
+
+```powershell
+python -m devpilot_core schema validate --schema-id WindowsInstallSmokeReport --instance outputs\reports\windows_install_smoke_report.json --json
+```
+
+Limitación: POST-H-027-D no crea instalador MSI, no instala Python/Node, no crea servicio Windows, no ejecuta auto-update y no cubre upgrade/rollback; ese alcance queda para POST-H-027-E.
+
 
 ## POST-H-027-B — Verificacion local wheel/sdist
 

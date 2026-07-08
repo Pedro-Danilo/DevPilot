@@ -1,0 +1,71 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "SCHEMA-DEVPL-POST-H-MANIFEST-V1",
+  "post_h_id": "POST-H-027",
+  "title": "POST-H-027-D — Windows install guide and smoke",
+  "status": "implemented-initial",
+  "phase": "POST-FASE-H",
+  "implemented_at": "2026-07-08T18:10:00Z",
+  "created_files": [
+    "docs/schemas/windows_install_smoke_report.schema.json",
+    "src/devpilot_core/release/windows_install_smoke.py",
+    "tests/test_post_h_027_windows_install_smoke.py",
+    "docs/audits/post_h_027_d_windows_install_smoke_report.md",
+    "docs/post_h_027_d_manifest.json"
+  ],
+  "modified_files": [
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/05_operations/install_guide.md",
+    "docs/backlogs/POST-H-027_packaging_reproducible_local_installation.md",
+    "docs/POST-H-027_packaging_reproducible_local_installation.md",
+    "docs/release/CHANGELOG.md",
+    "docs/schemas/schema_catalog.json",
+    ".devpilot/project_state.json",
+    ".devpilot/docs_governance/source_registry.json",
+    ".devpilot/release/local_release_candidate_criteria.json",
+    ".devpilot/testing/test_contract_registry.json",
+    ".devpilot/testing/test_contract_registry_v2.json",
+    "src/devpilot_core/cli.py",
+    "src/devpilot_core/release/__init__.py",
+    "src/devpilot_core/testing/impact_v2.py",
+    "src/devpilot_core/cli_registry/builders.py",
+    "src/devpilot_core/cli_registry/registry.py",
+    "tests/test_schema_registry.py",
+    "tests/test_project_global_state.py"
+  ],
+  "commands": [
+    "python -m devpilot_core install windows-smoke --mode editable --json --write-report",
+    "python -m devpilot_core install windows-smoke --mode wheel --artifact dist/devpilot_local-0.1.0-py3-none-any.whl --json --write-report",
+    "python -m devpilot_core install windows-smoke --mode zip --artifact dist/release/devpilot-local-0.1.0-source.zip --json --write-report",
+    "python -m devpilot_core schema validate --schema-id WindowsInstallSmokeReport --instance outputs/reports/windows_install_smoke_report.json --json"
+  ],
+  "tests": [
+    "tests/test_post_h_027_windows_install_smoke.py",
+    "tests/test_installation_plan.py",
+    "tests/test_schema_registry.py",
+    "tests/test_project_global_state.py"
+  ],
+  "pass_criteria": [
+    "WindowsInstallSmokeReport validates against schema.",
+    "Guide documents editable, wheel and ZIP Windows flows.",
+    "Artifact paths remain inside the workspace and required wheel/ZIP artifacts exist for those modes.",
+    "API localhost/token posture is documented without wildcard host/CORS.",
+    "Frontend npm prerequisite is advisory for Python core when Node/npm is absent.",
+    "No admin, network, external API, publish, deploy, sockets or source mutation is required."
+  ],
+  "block_criteria": [
+    "Guide points to non-existent CLI commands.",
+    "Artifact path escapes the workspace or required artifact is absent.",
+    "Guide recommends host 0.0.0.0, wildcard CORS or unrestricted execution policy.",
+    "Smoke hides frontend prerequisite failures instead of classifying them.",
+    "Smoke mutates source files or requires admin privileges."
+  ],
+  "risks": [
+    "This sprint does not create a Windows MSI or persistent service.",
+    "The smoke validates the operator recipe without executing pip/npm; real end-user install remains a manual or future automated path.",
+    "Upgrade/rollback dry-run remains pending for POST-H-027-E."
+  ],
+  "next_sprint": "POST-H-027",
+  "preliminary": true
+}

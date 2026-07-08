@@ -172,8 +172,8 @@ def test_post_h_027_b_documentation_is_synchronized() -> None:
     changelog = (ROOT / "docs/release/CHANGELOG.md").read_text(encoding="utf-8")
     manifest = json.loads((ROOT / "docs/post_h_027_b_manifest.json").read_text(encoding="utf-8"))
 
-    assert 'current_micro_sprint: "POST-H-027-C"' in backlog
-    assert 'next_micro_sprint: "POST-H-027-D"' in backlog
+    assert 'current_micro_sprint: "POST-H-027-D"' in backlog
+    assert 'next_micro_sprint: "POST-H-027-E"' in backlog
     assert "POST-H-027-B — Wheel/sdist install verification" in backlog
     assert "POST-H-027-B — Wheel/sdist install verification" in top_level
     assert "python-artifact-verify" in readme

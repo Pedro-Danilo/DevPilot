@@ -102,10 +102,10 @@ def test_project_global_state_schema_and_docs_are_synchronized() -> None:
     assert any("POST-H-013-D adds optional local crypto" in note for note in state["notes"])
     assert any("POST-H-013-E closes Audit pack integrity" in note for note in state["notes"])
     assert any("POST-H-014 is the next prioritized hito" in note for note in state["notes"])
-    assert state.get("current_micro_sprint") == "POST-H-027-C"
-    assert state.get("next_micro_sprint") == "POST-H-027-D"
+    assert state.get("current_micro_sprint") == "POST-H-027-D"
+    assert state.get("next_micro_sprint") == "POST-H-027-E"
     assert state.get("source_repo") == "repo_DevPilot_Local_263_POST_H_025.zip"
-    assert state.get("current_repo") == "repo_DevPilot_Local_271_POST_H_027_C.zip"
+    assert state.get("current_repo") == "repo_DevPilot_Local_272_POST_H_027_D.zip"
     assert state.get("post_h_026_status") == "closed/local-release-candidate-pass"
     assert "POST-H-026-C — UI/API local smoke under RC" in readme
     assert "POST-H-026-C — UI/API local smoke under RC" in runbook
@@ -129,7 +129,7 @@ def test_project_global_state_schema_and_docs_are_synchronized() -> None:
     assert state.get("post_h_026_e_no_go_gates_passed") is True
     assert state.get("post_h_026_release_candidate_declared") is True
     assert any("POST-H-026-E adds LocalReleaseCandidateReporter" in note for note in state["notes"])
-    assert state.get("post_h_027_status") == "active/artifact-manifest-checksums-implemented-initial"
+    assert state.get("post_h_027_status") == "active/windows-install-smoke-implemented-initial"
     assert state.get("post_h_027_source_zip_policy_schema_registered") is True
     assert state.get("post_h_027_source_zip_report_schema_registered") is True
     assert state.get("post_h_027_source_zip_policy_cli_command") == "python -m devpilot_core package source-zip-policy --json"
@@ -158,6 +158,16 @@ def test_project_global_state_schema_and_docs_are_synchronized() -> None:
     assert "POST-H-027-C — Artifact manifest and checksums" in runbook
     assert "post-h-027-c" in changelog
     assert any("POST-H-027-C adds ReleaseArtifactManifest" in note for note in state["notes"])
+
+    assert state.get("post_h_027_windows_install_smoke_schema_registered") is True
+    assert state.get("post_h_027_windows_install_smoke_available") is True
+    assert state.get("post_h_027_windows_install_smoke_admin_required") is False
+    assert state.get("post_h_027_windows_install_smoke_network_used") is False
+    assert state.get("post_h_027_windows_install_smoke_source_mutations") is False
+    assert "POST-H-027-D — Windows install guide and smoke" in readme
+    assert "POST-H-027-D — Windows install guide and smoke" in runbook
+    assert "post-h-027-d" in changelog
+    assert any("POST-H-027-D adds WindowsInstallSmokeRunner" in note for note in state["notes"])
     assert "POST-H-014-A — Route Contract Registry y API inventory" in readme
     assert "POST-H-014-B — Response mapping y errores homogéneos" in readme
     assert "POST-H-014-C — UI Route Contract y shell de producto" in readme
@@ -402,8 +412,8 @@ def test_project_global_state_schema_and_docs_are_synchronized() -> None:
     assert any("POST-H-025-C adds industrial-readiness production-ready-local CLI" in note for note in state["notes"])
     assert any("POST-H-025-D adds ProductionReadyClaimsValidator" in note for note in state["notes"])
     assert any("POST-H-025-E adds ProductionReadyFinalDeclaration" in note for note in state["notes"])
-    assert state["current_micro_sprint"] == "POST-H-027-C"
-    assert state["next_micro_sprint"] == "POST-H-027-D"
+    assert state["current_micro_sprint"] == "POST-H-027-D"
+    assert state["next_micro_sprint"] == "POST-H-027-E"
     assert "POST-H-025-A — Criteria schema y evidence map" in readme
     assert "POST-H-025-A — Criteria schema y evidence map" in runbook
     assert "POST-H-025-C — Declaration gate CLI/API" in readme

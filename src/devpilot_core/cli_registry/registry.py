@@ -218,12 +218,20 @@ DECLARATIVE_GROUPS: dict[str, DeclarativeGroupDescriptor] = {
         recommended_tests=("python -m pytest tests/test_post_h_026_evidence_freshness.py tests/test_post_h_026_release_candidate_profile.py tests/test_post_h_026_ui_api_rc_smoke.py tests/test_post_h_026_ui_api_rc_smoke_contract.py tests/test_post_h_026_install_smoke.py tests/test_post_h_026_release_candidate_report.py tests/test_post_h_006_b_declarative_registry.py -q",),
         rationale="POST-H-026-D keeps local release candidate verification commands, including install-smoke, registered before enforcing CLI no-growth gates.",
     ),
+
+    "install": DeclarativeGroupDescriptor(
+        group_id="install",
+        domain="release",
+        owner_module="src/devpilot_core/cli.py",
+        recommended_tests=("python -m pytest tests/test_post_h_027_windows_install_smoke.py tests/test_installation_plan.py tests/test_post_h_006_b_declarative_registry.py -q",),
+        rationale="POST-H-027-D registers Windows install smoke as a governed local release install command before enforcing CLI no-growth gates.",
+    ),
     "package": DeclarativeGroupDescriptor(
         group_id="package",
         domain="release",
         owner_module="src/devpilot_core/cli.py",
-        recommended_tests=("python -m pytest tests/test_post_h_027_source_zip_policy.py tests/test_post_h_027_python_artifact_install_verification.py tests/test_post_h_027_artifact_manifest_checksums.py tests/test_package_builder.py tests/test_post_h_006_b_declarative_registry.py -q",),
-        rationale="POST-H-027-B keeps package build, source-zip-policy and python-artifact-verify as governed local release packaging commands before enforcing CLI no-growth gates.",
+        recommended_tests=("python -m pytest tests/test_post_h_027_source_zip_policy.py tests/test_post_h_027_python_artifact_install_verification.py tests/test_post_h_027_artifact_manifest_checksums.py tests/test_post_h_027_windows_install_smoke.py tests/test_package_builder.py tests/test_post_h_006_b_declarative_registry.py -q",),
+        rationale="POST-H-027-D keeps package build, source-zip-policy, python-artifact-verify, artifact-manifest and windows-smoke as governed local release packaging commands before enforcing CLI no-growth gates.",
     ),
     "cli-registry": DeclarativeGroupDescriptor(
         group_id="cli-registry",
@@ -459,6 +467,19 @@ COMMAND_OVERRIDES: dict[str, DeclarativeCommandOverride] = {
             "python -m pytest tests/test_post_h_017_reproducibility_verify.py tests/test_post_h_017_release_reproducibility_schema.py -q",
         ),
         rationale="POST-H-017-D verifies local reproducibility-pack evidence and critical checksums without publishing, deploying, network, external APIs or source mutations; --write-report writes only outputs/release evidence.",
+    ),
+
+    "install.windows-smoke": DeclarativeCommandOverride(
+        command_id="install.windows-smoke",
+        risk_level=CommandRiskLevel.HIGH,
+        side_effects=(CommandSideEffect.WRITE_REPORT,),
+        writes_files=True,
+        dry_run_supported=True,
+        policy_check_required=True,
+        recommended_tests=(
+            "python -m pytest tests/test_post_h_027_windows_install_smoke.py tests/test_installation_plan.py tests/test_schema_registry.py -q",
+        ),
+        rationale="POST-H-027-D writes optional Windows install smoke evidence under outputs/reports when --write-report is explicit; it does not run pip/npm, open sockets, require admin, publish, deploy, call network/external APIs or mutate source files.",
     ),
     "release.artifact-manifest": DeclarativeCommandOverride(
         command_id="release.artifact-manifest",

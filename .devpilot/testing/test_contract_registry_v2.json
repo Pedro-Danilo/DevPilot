@@ -12292,6 +12292,81 @@
         "approved_by": "POST-H-027-C",
         "expires_at_utc": "2027-01-01T00:00:00Z"
       }
+    },
+    {
+      "contract_id": "post-h-027-windows-install-smoke",
+      "schema_version": "2.0",
+      "source_contract_id": "post-h-027-windows-install-smoke",
+      "domain": "release",
+      "capability": "windows-install-guide-smoke",
+      "criticality": "P0",
+      "risk_level": "critical",
+      "test_type": "release",
+      "execution_profile": "release",
+      "cost_class": "low",
+      "expected_duration_seconds": 180,
+      "test_files": [
+        "tests/test_post_h_027_windows_install_smoke.py"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/release/windows_install_smoke.py",
+        "src/devpilot_core/release/installation.py",
+        "src/devpilot_core/release/artifact_manifest.py",
+        "src/devpilot_core/cli.py",
+        "src/devpilot_core/interfaces/api/security.py",
+        "docs/05_operations/install_guide.md",
+        "docs/schemas/windows_install_smoke_report.schema.json",
+        "docs/backlogs/POST-H-027_packaging_reproducible_local_installation.md",
+        "tests/test_post_h_027_windows_install_smoke.py",
+        ".devpilot/testing/test_contract_registry.json",
+        ".devpilot/testing/test_contract_registry_v2.json"
+      ],
+      "validates": [
+        "src/devpilot_core/release/windows_install_smoke.py",
+        "docs/schemas/windows_install_smoke_report.schema.json",
+        "install windows-smoke",
+        "docs/05_operations/install_guide.md",
+        "docs/audits/post_h_027_d_windows_install_smoke_report.md",
+        "docs/post_h_027_d_manifest.json",
+        "README.md",
+        "docs/05_operations/runbook.md"
+      ],
+      "trigger_hints": [
+        "POST-H-027-D",
+        "WindowsInstallSmokeReport",
+        "windows-smoke",
+        "install guide",
+        "PowerShell",
+        "npm advisory"
+      ],
+      "impact_scope": [
+        "release",
+        "packaging",
+        "installation",
+        "windows",
+        "schemas",
+        "docs-governance",
+        "testing"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "POST-H-027-D",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_027_windows_install_smoke.py tests/test_installation_plan.py tests/test_api_security.py tests/test_post_h_014_security_hardening.py tests/test_schema_registry.py tests/test_project_global_state.py -q",
+        "python -m devpilot_core install windows-smoke --mode editable --json --write-report",
+        "python -m devpilot_core install windows-smoke --mode wheel --artifact dist/devpilot_local-0.1.0-py3-none-any.whl --json --write-report",
+        "python -m devpilot_core schema validate --schema-id WindowsInstallSmokeReport --instance outputs/reports/windows_install_smoke_report.json --json"
+      ],
+      "classification_status": "explicit",
+      "classification_notes": [
+        "POST-H-027-D writes optional outputs/reports only with --write-report; source mutations are not allowed.",
+        "The smoke is dry-run and does not execute pip/npm or open sockets."
+      ]
     }
   ],
   "migration_metadata": {
@@ -12302,8 +12377,8 @@
     "network_used": false,
     "external_api_used": false,
     "mutations_performed_by_default": false,
-    "contracts_total": 195,
-    "last_updated_by": "POST-H-026-A"
+    "contracts_total": 197,
+    "last_updated_by": "POST-H-027-D"
   },
   "notes": [
     "POST-H-020-D fixes v2 contract classification_status for POST-H-020-C/D contracts to keep schema validation synchronized.",
@@ -12329,6 +12404,7 @@
     "POST-H-025-D adds v2 production-ready-local no-go claims validator contract.",
     "POST-H-025-E adds v2 production-ready-local final declaration contract.",
     "POST-H-026-A adds v2 evidence freshness release contract.",
-    "POST-H-027-B registers Python artifact install verification v2 release contract."
+    "POST-H-027-B registers Python artifact install verification v2 release contract.",
+    "POST-H-027-D registers windows-install-smoke as release/security gate evidence."
   ]
 }

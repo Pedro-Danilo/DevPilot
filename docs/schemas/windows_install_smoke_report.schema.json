@@ -1,0 +1,162 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/SCHEMA-DEVPL-WINDOWS-INSTALL-SMOKE-REPORT-V1",
+  "title": "DevPilot WindowsInstallSmokeReport v1",
+  "description": "POST-H-027-D contract for local-first Windows operator install guide and smoke validation without admin privileges, network, publish, deploy or source mutation.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "schema_id",
+    "report_id",
+    "created_by",
+    "status",
+    "generated_at_utc",
+    "scope",
+    "mode",
+    "release_version",
+    "artifact",
+    "environment",
+    "checks_total",
+    "checks_passed_total",
+    "checks_advisory_total",
+    "checks_failed_total",
+    "critical_checks_failed_total",
+    "checks",
+    "summary",
+    "safety",
+    "limitations",
+    "preliminary"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "schema_id": {"const": "SCHEMA-DEVPL-WINDOWS-INSTALL-SMOKE-REPORT-V1"},
+    "report_id": {"type": "string", "minLength": 8},
+    "created_by": {"const": "POST-H-027-D"},
+    "status": {"enum": ["implemented-initial", "verified-local", "draft"]},
+    "generated_at_utc": {"type": "string", "minLength": 10},
+    "scope": {"const": "windows-local-install-smoke"},
+    "mode": {"enum": ["editable", "wheel", "zip"]},
+    "release_version": {"type": "string", "pattern": "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:[-+][0-9A-Za-z.-]+)?$"},
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["required", "provided", "resolved", "exists", "inside_workspace", "kind", "expected_suffix"],
+      "properties": {
+        "required": {"type": "boolean"},
+        "provided": {"type": ["string", "null"]},
+        "resolved": {"type": ["string", "null"]},
+        "exists": {"type": "boolean"},
+        "inside_workspace": {"type": "boolean"},
+        "kind": {"enum": ["editable", "wheel", "zip"]},
+        "expected_suffix": {"type": ["string", "null"]}
+      }
+    },
+    "environment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["os_name", "platform", "windows_host_detected", "python_executable", "python_version", "devpilot_version", "npm_available", "node_available"],
+      "properties": {
+        "os_name": {"type": "string"},
+        "platform": {"type": "string"},
+        "windows_host_detected": {"type": "boolean"},
+        "python_executable": {"type": "string"},
+        "python_version": {"type": "string"},
+        "devpilot_version": {"type": "string"},
+        "npm_available": {"type": "boolean"},
+        "node_available": {"type": "boolean"}
+      }
+    },
+    "checks_total": {"type": "integer", "minimum": 1},
+    "checks_passed_total": {"type": "integer", "minimum": 0},
+    "checks_advisory_total": {"type": "integer", "minimum": 0},
+    "checks_failed_total": {"type": "integer", "minimum": 0},
+    "critical_checks_failed_total": {"type": "integer", "minimum": 0},
+    "checks": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["check_id", "category", "status", "critical", "reason", "metadata"],
+        "properties": {
+          "check_id": {"type": "string", "minLength": 2},
+          "category": {"type": "string", "minLength": 2},
+          "status": {"enum": ["pass", "advisory", "block"]},
+          "critical": {"type": "boolean"},
+          "reason": {"type": "string", "minLength": 1},
+          "metadata": {"type": "object", "additionalProperties": true}
+        }
+      }
+    },
+    "summary": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": ["decision", "created_by", "preliminary", "scope", "mode", "release_version", "guide_has_editable_flow", "guide_has_wheel_flow", "guide_has_zip_flow", "core_cli_smoke_documented", "artifact_required", "artifact_exists", "frontend_prereq_advisory", "admin_required", "network_used", "external_api_used", "publish_performed", "deploy_performed", "pip_executed", "npm_executed", "socket_opened", "remote_execution_enabled", "connector_write_enabled", "plugin_execution_enabled", "source_mutations", "reports_written"],
+      "properties": {
+        "decision": {"enum": ["PASS", "BLOCK"]},
+        "created_by": {"const": "POST-H-027-D"},
+        "preliminary": {"const": true},
+        "scope": {"const": "windows-local-install-smoke"},
+        "mode": {"enum": ["editable", "wheel", "zip"]},
+        "release_version": {"type": "string"},
+        "guide_has_editable_flow": {"type": "boolean"},
+        "guide_has_wheel_flow": {"type": "boolean"},
+        "guide_has_zip_flow": {"type": "boolean"},
+        "core_cli_smoke_documented": {"type": "boolean"},
+        "artifact_required": {"type": "boolean"},
+        "artifact_exists": {"type": "boolean"},
+        "frontend_prereq_advisory": {"type": "boolean"},
+        "admin_required": {"const": false},
+        "network_used": {"const": false},
+        "external_api_used": {"const": false},
+        "publish_performed": {"const": false},
+        "deploy_performed": {"const": false},
+        "pip_executed": {"const": false},
+        "npm_executed": {"const": false},
+        "socket_opened": {"const": false},
+        "remote_execution_enabled": {"const": false},
+        "connector_write_enabled": {"const": false},
+        "plugin_execution_enabled": {"const": false},
+        "source_mutations": {"const": false},
+        "reports_written": {"type": "boolean"}
+      }
+    },
+    "safety": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["local_first", "read_only", "dry_run", "admin_required", "network_used", "external_api_used", "publish_performed", "deploy_performed", "pip_executed", "npm_executed", "socket_opened", "remote_execution_enabled", "connector_write_enabled", "plugin_execution_enabled", "source_mutations", "reports_written"],
+      "properties": {
+        "local_first": {"const": true},
+        "read_only": {"type": "boolean"},
+        "dry_run": {"const": true},
+        "admin_required": {"const": false},
+        "network_used": {"const": false},
+        "external_api_used": {"const": false},
+        "publish_performed": {"const": false},
+        "deploy_performed": {"const": false},
+        "pip_executed": {"const": false},
+        "npm_executed": {"const": false},
+        "socket_opened": {"const": false},
+        "remote_execution_enabled": {"const": false},
+        "connector_write_enabled": {"const": false},
+        "plugin_execution_enabled": {"const": false},
+        "source_mutations": {"const": false},
+        "reports_written": {"type": "boolean"}
+      }
+    },
+    "limitations": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+    "preliminary": {"const": true}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"summary": {"properties": {"decision": {"const": "PASS"}}}}},
+      "then": {"properties": {"critical_checks_failed_total": {"const": 0}, "summary": {"properties": {"admin_required": {"const": false}, "network_used": {"const": false}, "external_api_used": {"const": false}, "source_mutations": {"const": false}}}}}
+    }
+  ],
+  "x-devpilot-schema-id": "SCHEMA-DEVPL-WINDOWS-INSTALL-SMOKE-REPORT-V1",
+  "x-devpilot-version": "1.0.0",
+  "x-devpilot-sprint": "POST-H-027-D",
+  "x-devpilot-status": "registered",
+  "x-devpilot-preliminary": true
+}

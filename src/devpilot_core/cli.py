@@ -103,6 +103,8 @@ from .release import (
     PythonArtifactInstallVerifier,
     ReleaseArtifactManifestBuilder,
     ReleaseArtifactManifestOptions,
+    WindowsInstallSmokeOptions,
+    WindowsInstallSmokeRunner,
     InstallPlanBuilder,
     InstallPlanOptions,
     ReleaseChangelogBuilder,
@@ -2560,6 +2562,36 @@ def install_plan_command(
         )
     _emit_result_event(root, result, subject="install:plan")
     _persist_result(root, result, subject="install:plan")
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+
+def install_windows_smoke_command(
+    *,
+    mode: str,
+    version: str,
+    artifact: str | None = None,
+    output_json: str = "outputs/reports/windows_install_smoke_report.json",
+    output_markdown: str = "outputs/reports/windows_install_smoke_report.md",
+    json_output: bool = False,
+    write_report: bool = False,
+) -> int:
+    """Run POST-H-027-D Windows operator install smoke validation."""
+
+    root = project_root()
+    result = WindowsInstallSmokeRunner(
+        root,
+        WindowsInstallSmokeOptions(
+            mode=mode,
+            version=version,
+            artifact=artifact,
+            output_json=output_json,
+            output_markdown=output_markdown,
+            write_report=write_report,
+        ),
+    ).run()
+    _emit_result_event(root, result, subject=f"install:windows-smoke:{mode}:{version}")
+    _persist_result(root, result, subject=f"install:windows-smoke:{mode}:{version}")
     print_result(result, json_output=json_output)
     return int(result.exit_code)
 
@@ -6430,6 +6462,15 @@ def build_parser() -> argparse.ArgumentParser:
     install_plan.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     install_plan.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
 
+    install_windows_smoke = install_sub.add_parser("windows-smoke", help="Run POST-H-027-D Windows operator install smoke validation")
+    install_windows_smoke.add_argument("--mode", choices=["editable", "wheel", "zip"], default="editable", help="Windows install path to validate")
+    install_windows_smoke.add_argument("--version", dest="install_version", default="0.1.0", help="SemVer release version used for artifact path templates")
+    install_windows_smoke.add_argument("--artifact", default=None, help="Optional local wheel or source ZIP artifact path")
+    install_windows_smoke.add_argument("--output-json", default="outputs/reports/windows_install_smoke_report.json", help="Windows install smoke report JSON path")
+    install_windows_smoke.add_argument("--output-markdown", default="outputs/reports/windows_install_smoke_report.md", help="Windows install smoke report Markdown path")
+    install_windows_smoke.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    install_windows_smoke.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence under outputs/reports")
+
     backup = sub.add_parser("backup", help="Create, list and restore governed local backups")
     backup_sub = backup.add_subparsers(dest="backup_command")
     backup_create = backup_sub.add_parser("create", help="Create a backup plan or local backup artifact")
@@ -7712,6 +7753,17 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
                 version=args.install_version,
                 artifact=args.artifact,
                 python_executable=args.python_executable,
+                json_output=args.json,
+                write_report=args.write_report,
+            )
+
+        if args.install_command == "windows-smoke":
+            return install_windows_smoke_command(
+                mode=args.mode,
+                version=args.install_version,
+                artifact=args.artifact,
+                output_json=args.output_json,
+                output_markdown=args.output_markdown,
                 json_output=args.json,
                 write_report=args.write_report,
             )
