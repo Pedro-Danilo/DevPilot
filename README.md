@@ -1,3 +1,44 @@
+## POST-H-026-D — Local install and run verification
+
+Último micro-sprint implementado: `POST-H-026-D — Local install and run verification`
+
+POST-H-026-D agrega el contrato `LocalInstallSmokeReport`, el módulo `src/devpilot_core/release_candidate/install_smoke.py`, el comando `python -m devpilot_core release-candidate install-smoke --json` y pruebas focales para verificar la instalabilidad y el arranque local como release candidate.
+
+La capacidad queda `implemented-initial / read-only-install-run-preflight`: valida metadata Python (`pyproject.toml` y `python -m devpilot_core`), receta de instalación editable, checklist de operador, perfil `release-candidate-local`, script local de Web UI, exclusiones de paquete limpio y no-go gates. No crea venvs, no ejecuta `pip`, no ejecuta `npm`, no abre sockets y no usa red ni APIs externas.
+
+Checklist operador documentado:
+
+```powershell
+py -3.12 -m venv .venv
+.\.venv\Scripts\Activate.ps1
+python -m pip install --upgrade pip
+python -m pip install -e .[dev]
+$env:PYTHONPATH="src"
+python -m devpilot_core --version
+python -m devpilot_core project-state validate --json
+python -m devpilot_core docs-governance validate --json
+python -m devpilot_core schema list --json
+python -m devpilot_core test-contracts validate --json
+python -m devpilot_core test-contracts validate-v2 --json
+python -m devpilot_core industrial-readiness production-ready-local-final --json --write-report
+python -m devpilot_core api token --json
+python -m devpilot_core api serve --host 127.0.0.1 --port 8787 --execute
+npm --prefix ui/web test
+npm --prefix ui/web run dev -- --host 127.0.0.1 --port 5173
+python -m devpilot_core release-candidate ui-api-smoke --base-url http://127.0.0.1:8787 --json --write-report
+```
+
+Comandos principales:
+
+```powershell
+$env:PYTHONPATH="src"
+python -m devpilot_core release-candidate install-smoke --json
+python -m devpilot_core release-candidate install-smoke --json --write-report
+python -m devpilot_core schema validate --schema-id LocalInstallSmokeReport --instance outputs/reports/local_install_smoke_report.json --json
+```
+
+Limitación: POST-H-026-D no publica wheel/sdist definitivo ni cierra el RC final; packaging reproducible ampliado queda para POST-H-027 y el reporte PASS/BLOCK para POST-H-026-E.
+
 ## POST-H-026-C — UI/API local smoke under RC
 
 Último micro-sprint implementado: `POST-H-026-C — UI/API local smoke under RC`

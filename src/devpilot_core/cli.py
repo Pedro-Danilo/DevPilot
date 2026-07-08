@@ -123,7 +123,7 @@ from .release import (
     UpgradeCheckOptions,
     checksum_line,
 )
-from .release_candidate import EvidenceFreshnessOptions, EvidenceFreshnessScanner, ReleaseCandidateVerificationProfile, ReleaseCandidateVerificationProfileOptions, UiApiRcSmokeOptions, UiApiRcSmokeRunner
+from .release_candidate import EvidenceFreshnessOptions, EvidenceFreshnessScanner, LocalInstallSmokeOptions, LocalInstallSmokeRunner, ReleaseCandidateVerificationProfile, ReleaseCandidateVerificationProfileOptions, UiApiRcSmokeOptions, UiApiRcSmokeRunner
 from .reports import ReportEngine, build_report_id
 from .security import PolicySimulationSuite, SecurityReadiness
 from .schemas import BuiltinContractValidator, SchemaRegistry, SchemaValidator
@@ -4998,6 +4998,30 @@ def release_candidate_profile_command(
     print_result(result, json_output=json_output)
     return int(result.exit_code)
 
+
+def release_candidate_install_smoke_command(
+    *,
+    output_json: str,
+    output_markdown: str,
+    candidate_zip: str | None = None,
+    json_output: bool = False,
+    write_report: bool = False,
+) -> int:
+    root = project_root()
+    result = LocalInstallSmokeRunner(
+        root,
+        LocalInstallSmokeOptions(
+            output_json=output_json,
+            output_markdown=output_markdown,
+            candidate_zip=candidate_zip,
+            write_report=write_report,
+        ),
+    ).run()
+    _emit_result_event(root, result, subject="release-candidate:install-smoke")
+    _persist_result(root, result, subject="release-candidate:install-smoke")
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
 def architecture_inventory_command(
     *,
     source_root: str = "src/devpilot_core",
@@ -5515,6 +5539,13 @@ def build_parser() -> argparse.ArgumentParser:
     release_candidate_ui_api_smoke.add_argument("--output-markdown", default="outputs/reports/ui_api_rc_smoke_report.md", help="UI/API RC smoke report Markdown path")
     release_candidate_ui_api_smoke.add_argument("--write-report", action="store_true", help="Write UiApiRcSmokeReport JSON/Markdown under outputs/reports")
     release_candidate_ui_api_smoke.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+
+    release_candidate_install_smoke = release_candidate_sub.add_parser("install-smoke", help="Run POST-H-026-D local install/run verification without installing packages")
+    release_candidate_install_smoke.add_argument("--candidate-zip", default=None, help="Optional local candidate ZIP to inspect for forbidden runtime entries")
+    release_candidate_install_smoke.add_argument("--output-json", default="outputs/reports/local_install_smoke_report.json", help="Local install smoke report JSON path")
+    release_candidate_install_smoke.add_argument("--output-markdown", default="outputs/reports/local_install_smoke_report.md", help="Local install smoke report Markdown path")
+    release_candidate_install_smoke.add_argument("--write-report", action="store_true", help="Write LocalInstallSmokeReport JSON/Markdown under outputs/reports")
+    release_candidate_install_smoke.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
 
     architecture = sub.add_parser("architecture", help="Build executable local architecture map evidence")
     architecture_sub = architecture.add_subparsers(dest="architecture_command")
@@ -6824,6 +6855,14 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
                 ui_origin=args.ui_origin,
                 output_json=args.output_json,
                 output_markdown=args.output_markdown,
+                json_output=args.json,
+                write_report=args.write_report,
+            )
+        if args.release_candidate_command == "install-smoke":
+            return release_candidate_install_smoke_command(
+                output_json=args.output_json,
+                output_markdown=args.output_markdown,
+                candidate_zip=args.candidate_zip,
                 json_output=args.json,
                 write_report=args.write_report,
             )

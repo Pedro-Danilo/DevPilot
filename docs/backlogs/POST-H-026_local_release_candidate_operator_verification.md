@@ -3,7 +3,7 @@ doc_id: "POST-H-026-BACKLOG"
 id: "POST-H-026"
 title: "POST-H-026 — Release candidate local y verificacion de operador"
 status: "approved"
-version: "0.4.0"
+version: "0.5.0"
 owner: "Ordonez"
 created: "2026-07-07"
 phase: "POST-FASE-H"
@@ -29,8 +29,8 @@ claims_forbidden:
   - "SaaS-ready"
   - "compliance-certified"
 implementation_status: "active"
-current_micro_sprint: "POST-H-026-C"
-next_micro_sprint: "POST-H-026-D"
+current_micro_sprint: "POST-H-026-D"
+next_micro_sprint: "POST-H-026-E"
 approval: "approved_by_owner"
 updated: "2026-07-08"
 ---
@@ -810,6 +810,33 @@ python -m devpilot_core release-candidate install-smoke --json
 python -m devpilot_core release-candidate install-smoke --json --write-report
 python -m devpilot_core schema validate --schema-id LocalInstallSmokeReport --instance outputs/reports/local_install_smoke_report.json --json
 ```
+
+
+## Estado implementado POST-H-026-D
+
+`POST-H-026-D — Local install and run verification` queda implementado como `implemented-initial / read-only-install-run-preflight`.
+
+Artefactos incorporados:
+
+```text
+src/devpilot_core/release_candidate/install_smoke.py
+docs/schemas/local_install_smoke_report.schema.json
+tests/test_post_h_026_install_smoke.py
+docs/audits/post_h_026_d_install_smoke_report.md
+docs/post_h_026_d_manifest.json
+```
+
+Comando principal:
+
+```powershell
+python -m devpilot_core release-candidate install-smoke --json
+python -m devpilot_core release-candidate install-smoke --json --write-report
+python -m devpilot_core schema validate --schema-id LocalInstallSmokeReport --instance outputs/reports/local_install_smoke_report.json --json
+```
+
+La primera versión es un preflight local determinístico: valida metadata Python, `python -m devpilot_core`, receta editable `python -m pip install -e .[dev]`, checklist de operador, perfil `release-candidate-local`, smoke Web UI local, política de paquete limpio y no-go gates. No crea venvs, no ejecuta `pip`, no ejecuta `npm`, no abre sockets, no usa red ni APIs externas y no muta fuentes.
+
+Limitación explícita: la publicación wheel/sdist definitiva, matriz OS, upgrade/rollback y packaging reproducible completo quedan para POST-H-027; POST-H-026-E sigue encargado del reporte RC final PASS/BLOCK.
 
 ## 13. Micro-sprint POST-H-026-E — RC PASS/BLOCK report
 

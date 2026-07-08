@@ -35,7 +35,7 @@
     },
     {
       "profile_id": "release-candidate-local",
-      "description": "Focused local RC verification profile for operator release candidate checks. Plan-only by default; pytest execution remains tests.run approval-gated. POST-H-026-C adds UI/API RC smoke targets.",
+      "description": "Focused local RC verification profile for operator release candidate checks. Plan-only by default; pytest execution remains tests.run approval-gated. POST-H-026-D adds local install/run smoke targets.",
       "taxonomy": [
         "always",
         "impacted",
@@ -67,7 +67,8 @@
         "tests/test_schema_registry.py",
         "tests/test_project_global_state.py",
         "tests/test_post_h_026_ui_api_rc_smoke.py",
-        "tests/test_post_h_026_ui_api_rc_smoke_contract.py"
+        "tests/test_post_h_026_ui_api_rc_smoke_contract.py",
+        "tests/test_post_h_026_install_smoke.py"
       ],
       "pytest_targets": [
         "tests/test_post_h_026_evidence_freshness.py",
@@ -83,7 +84,8 @@
         "tests/test_release_sbom.py",
         "tests/test_release_verification.py",
         "tests/test_post_h_026_ui_api_rc_smoke.py",
-        "tests/test_post_h_026_ui_api_rc_smoke_contract.py"
+        "tests/test_post_h_026_ui_api_rc_smoke_contract.py",
+        "tests/test_post_h_026_install_smoke.py"
       ],
       "cwd": ".",
       "timeout_seconds": 900,

@@ -6777,6 +6777,52 @@
         "python -m devpilot_core schema validate --schema-id UiApiRcSmokeReport --instance outputs/reports/ui_api_rc_smoke_report.json --json",
         "npm --prefix ui/web test"
       ]
+    },
+    {
+      "contract_id": "post-h-026-install-smoke",
+      "scope": "integration",
+      "owner": "POST-H-026-D",
+      "test_files": [
+        "tests/test_post_h_026_install_smoke.py"
+      ],
+      "validates": [
+        "src/devpilot_core/release_candidate/install_smoke.py",
+        "docs/schemas/local_install_smoke_report.schema.json",
+        "docs/audits/post_h_026_d_install_smoke_report.md",
+        "docs/post_h_026_d_manifest.json",
+        ".devpilot/testing/test_profiles.json",
+        "README.md",
+        "docs/05_operations/runbook.md"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/release_candidate/install_smoke.py",
+        "src/devpilot_core/cli.py",
+        "src/devpilot_core/cli_registry/registry.py",
+        "pyproject.toml",
+        "ui/web/package.json",
+        ".gitignore",
+        ".devpilot/testing/",
+        "docs/schemas/local_install_smoke_report.schema.json",
+        "docs/backlogs/POST-H-026_local_release_candidate_operator_verification.md",
+        "tests/test_post_h_026_install_smoke.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_026_install_smoke.py tests/test_release_verification.py tests/test_release_manifest.py tests/test_project_global_state.py -q",
+        "python -m devpilot_core release-candidate install-smoke --json",
+        "python -m devpilot_core release-candidate install-smoke --json --write-report",
+        "python -m devpilot_core schema validate --schema-id LocalInstallSmokeReport --instance outputs/reports/local_install_smoke_report.json --json"
+      ],
+      "notes": [
+        "POST-H-026-D validates local install/run readiness as a read-only dry-run preflight.",
+        "The command does not create venvs, execute pip/npm or open sockets."
+      ]
     }
   ],
   "notes": [

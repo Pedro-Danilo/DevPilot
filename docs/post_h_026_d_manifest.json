@@ -1,0 +1,75 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "SCHEMA-DEVPL-POST-H-MANIFEST-V1",
+  "post_h_id": "POST-H-026",
+  "micro_sprint": "POST-H-026-D",
+  "title": "POST-H-026-D — Local install and run verification",
+  "status": "implemented-initial",
+  "phase": "POST-FASE-H",
+  "implemented_at": "2026-07-08",
+  "created_files": [
+    "src/devpilot_core/release_candidate/install_smoke.py",
+    "docs/schemas/local_install_smoke_report.schema.json",
+    "tests/test_post_h_026_install_smoke.py",
+    "docs/audits/post_h_026_d_install_smoke_report.md",
+    "docs/post_h_026_d_manifest.json"
+  ],
+  "modified_files": [
+    "src/devpilot_core/release_candidate/__init__.py",
+    "src/devpilot_core/release_candidate/verification_profile.py",
+    "src/devpilot_core/cli.py",
+    "src/devpilot_core/cli_registry/registry.py",
+    "src/devpilot_core/cli_registry/builders.py",
+    "src/devpilot_core/testing/impact_v2.py",
+    ".devpilot/release/local_release_candidate_criteria.json",
+    ".devpilot/testing/test_profiles.json",
+    ".devpilot/testing/test_contract_registry.json",
+    ".devpilot/testing/test_contract_registry_v2.json",
+    ".devpilot/project_state.json",
+    ".devpilot/docs_governance/source_registry.json",
+    "docs/schemas/schema_catalog.json",
+    "docs/backlogs/POST-H-026_local_release_candidate_operator_verification.md",
+    "docs/POST-H-026_local_release_candidate_operator_verification.md",
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/release/CHANGELOG.md",
+    "tests/test_schema_registry.py",
+    "tests/test_project_global_state.py",
+    "tests/test_test_contract_registry_profiles_v2.py"
+  ],
+  "commands": [
+    "python -m devpilot_core release-candidate install-smoke --json",
+    "python -m devpilot_core release-candidate install-smoke --json --write-report",
+    "python -m devpilot_core schema validate --schema-id LocalInstallSmokeReport --instance outputs/reports/local_install_smoke_report.json --json",
+    "python -m devpilot_core test-contracts profile --profile release-candidate-local --json"
+  ],
+  "tests": [
+    "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_026_install_smoke.py tests/test_release_verification.py tests/test_release_manifest.py tests/test_project_global_state.py -q"
+  ],
+  "pass_criteria": [
+    "Package metadata and python -m devpilot_core entrypoint are valid",
+    "Editable local install and operator checklist are documented",
+    "release-candidate-local includes install-smoke command and tests",
+    "Web UI local smoke script is available",
+    "Clean package exclusion policy covers runtime artifacts",
+    "Optional candidate ZIP inspection blocks runtime artifacts",
+    "No network, external APIs, pip/npm/subprocess execution or source mutations"
+  ],
+  "block_criteria": [
+    "Python package metadata is inconsistent",
+    "Operator checklist is undocumented",
+    "release-candidate-local omits install-smoke",
+    "Web UI local smoke script is missing",
+    "Candidate ZIP contains outputs, venv, caches, node_modules, dist or local DB",
+    "No-go gates or forbidden claims are enabled"
+  ],
+  "risks": [
+    "This first version is read-only preflight and does not create a clean venv automatically",
+    "Wheel/sdist reproducibility and OS matrix remain future POST-H-027 work",
+    "Final RC PASS/BLOCK remains pending for POST-H-026-E"
+  ],
+  "next_sprint": "POST-H-026",
+  "next_micro_sprint": "POST-H-026-E",
+  "tests_execute_from_json": false,
+  "preliminary": true
+}

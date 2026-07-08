@@ -62,6 +62,7 @@ def test_test_contract_registry_v2_profiles_select_contracts_without_execution()
     assert impact.data["summary"]["contracts_selected"] >= 80
     assert docs.data["summary"]["contracts_selected"] >= 78
     assert rc.data["summary"]["contracts_selected"] >= 1
+    assert "post-h-026-install-smoke" in {contract["contract_id"] for contract in rc.data["contracts"]}
     assert p0.data["summary"]["tests_executed"] is False
     assert all("pytest" in cmd or cmd.startswith("python -m devpilot_core") or cmd == "npm --prefix ui/web test" for cmd in p0.data["recommended_commands"])
 

@@ -6590,6 +6590,52 @@
       "canonical": true,
       "updated": "2026-07-08",
       "status_required": "implemented-initial"
+    },
+    {
+      "doc_id": "SCHEMA-DEVPL-LOCAL-INSTALL-SMOKE-REPORT-V1",
+      "path": "docs/schemas/local_install_smoke_report.schema.json",
+      "classification": "machine-readable-source",
+      "domain": "release-candidate",
+      "owner": "POST-H-026-D",
+      "status_required": "implemented-initial",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_026_install_smoke.py"
+      ]
+    },
+    {
+      "doc_id": "DEVPL-AUDIT-POST-H-026-D-INSTALL-SMOKE",
+      "path": "docs/audits/post_h_026_d_install_smoke_report.md",
+      "classification": "source-of-truth",
+      "domain": "release-candidate",
+      "owner": "POST-H-026-D",
+      "status_required": "approved",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_026_install_smoke.py"
+      ]
+    },
+    {
+      "doc_id": "POST-H-026-D-MANIFEST",
+      "path": "docs/post_h_026_d_manifest.json",
+      "classification": "machine-readable-source",
+      "domain": "release-candidate",
+      "owner": "POST-H-026-D",
+      "status_required": "implemented-initial",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_026_install_smoke.py"
+      ]
+    },
+    {
+      "doc_id": "POST-H-026-D-INSTALL-SMOKE-TEST",
+      "path": "tests/test_post_h_026_install_smoke.py",
+      "classification": "derived",
+      "domain": "release-candidate",
+      "owner": "POST-H-026-D",
+      "status_required": "current",
+      "criticality": "P0",
+      "required_tests": []
     }
   ],
   "rules": {

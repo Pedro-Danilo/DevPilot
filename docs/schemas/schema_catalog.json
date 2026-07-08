@@ -1280,6 +1280,20 @@
       "dialect": "https://json-schema.org/draft/2020-12/schema",
       "validates_instances": true,
       "validation_enabled_sprint": "POST-H-026-C"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-LOCAL-INSTALL-SMOKE-REPORT-V1",
+      "title": "DevPilot LocalInstallSmokeReport v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/local_install_smoke_report.schema.json",
+      "description": "Structural contract for POST-H-026-D local install and run verification reports.",
+      "status": "registered",
+      "contract": "LocalInstallSmokeReport",
+      "owner": "Ordóñez",
+      "sprint": "POST-H-026-D",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "POST-H-026-D"
     }
   ]
 }

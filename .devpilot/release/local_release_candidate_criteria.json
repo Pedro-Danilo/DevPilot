@@ -1,16 +1,16 @@
 {
   "schema_version": "1.0",
   "criteria_id": "local-release-candidate-criteria-v1",
-  "created_by": "POST-H-026-C",
+  "created_by": "POST-H-026-D",
   "updated": "2026-07-08",
   "status": "implemented-initial",
   "scope": "local-release-candidate",
   "preliminary": true,
   "expected_source_repo": "repo_DevPilot_Local_263_POST_H_025.zip",
-  "expected_current_repo": "repo_DevPilot_Local_266_POST_H_026_C.zip",
+  "expected_current_repo": "repo_DevPilot_Local_267_POST_H_026_D.zip",
   "expected_last_completed_sprint": "POST-H-025",
-  "expected_current_micro_sprint": "POST-H-026-C",
-  "expected_next_micro_sprint": "POST-H-026-D",
+  "expected_current_micro_sprint": "POST-H-026-D",
+  "expected_next_micro_sprint": "POST-H-026-E",
   "freshness_policy": "contextual-signature",
   "no_go_gates": {
     "remote_execution_enabled": false,
@@ -31,16 +31,16 @@
       "critical": true,
       "json_required": true,
       "expected_schema_id": "SCHEMA-DEVPL-PROJECT-STATE-V1",
-      "producer_sprint": "POST-H-026-C",
+      "producer_sprint": "POST-H-026-D",
       "freshness_policy": "contextual-field-match",
       "expected_fields": {
         "source_repo": "repo_DevPilot_Local_263_POST_H_025.zip",
-        "current_repo": "repo_DevPilot_Local_266_POST_H_026_C.zip",
+        "current_repo": "repo_DevPilot_Local_267_POST_H_026_D.zip",
         "last_completed_sprint": "POST-H-025",
         "next_sprint": "POST-H-026",
-        "current_micro_sprint": "POST-H-026-C",
-        "next_micro_sprint": "POST-H-026-D",
-        "post_h_026_status": "active/ui-api-rc-smoke-implemented-initial"
+        "current_micro_sprint": "POST-H-026-D",
+        "next_micro_sprint": "POST-H-026-E",
+        "post_h_026_status": "active/install-smoke-implemented-initial"
       }
     },
     {
@@ -70,15 +70,15 @@
     },
     {
       "evidence_id": "post-h-026-backlog",
-      "title": "POST-H-026 backlog is approved and points to POST-H-026-C",
+      "title": "POST-H-026 backlog is approved and points to POST-H-026-D",
       "path": "docs/backlogs/POST-H-026_local_release_candidate_operator_verification.md",
       "category": "backlog",
       "critical": true,
-      "producer_sprint": "POST-H-026-C",
+      "producer_sprint": "POST-H-026-D",
       "freshness_policy": "required-marker",
       "required_markers": [
-        "current_micro_sprint: \"POST-H-026-C\"",
-        "next_micro_sprint: \"POST-H-026-D\"",
+        "current_micro_sprint: \"POST-H-026-D\"",
+        "next_micro_sprint: \"POST-H-026-E\"",
         "implementation_status: \"active\""
       ]
     },
@@ -113,11 +113,11 @@
       "path": "README.md",
       "category": "operator-docs",
       "critical": true,
-      "producer_sprint": "POST-H-026-A",
+      "producer_sprint": "POST-H-026-D",
       "freshness_policy": "required-marker",
       "required_markers": [
-        "POST-H-026-A — Evidence freshness model",
-        "release-candidate evidence-freshness"
+        "POST-H-026-D — Local install and run verification",
+        "release-candidate install-smoke"
       ]
     },
     {
@@ -126,11 +126,11 @@
       "path": "docs/05_operations/runbook.md",
       "category": "operator-docs",
       "critical": true,
-      "producer_sprint": "POST-H-026-A",
+      "producer_sprint": "POST-H-026-D",
       "freshness_policy": "required-marker",
       "required_markers": [
-        "POST-H-026-A — Evidence freshness model",
-        "release-candidate evidence-freshness"
+        "POST-H-026-D — Local install and run verification",
+        "release-candidate install-smoke"
       ]
     },
     {
@@ -144,7 +144,8 @@
       "producer_sprint": "POST-H-026-A",
       "freshness_policy": "required-marker",
       "required_markers": [
-        "post-h-026-evidence-freshness"
+        "post-h-026-evidence-freshness",
+        "post-h-026-install-smoke"
       ]
     },
     {
@@ -158,7 +159,8 @@
       "producer_sprint": "POST-H-026-A",
       "freshness_policy": "required-marker",
       "required_markers": [
-        "post-h-026-evidence-freshness"
+        "post-h-026-evidence-freshness",
+        "post-h-026-install-smoke"
       ]
     },
     {
@@ -242,6 +244,46 @@
       "required_markers": [
         "POST-H-026-C — UI/API local smoke under RC",
         "release-candidate ui-api-smoke"
+      ]
+    },
+    {
+      "evidence_id": "local-install-smoke-schema",
+      "title": "LocalInstallSmokeReport schema registered source file",
+      "path": "docs/schemas/local_install_smoke_report.schema.json",
+      "category": "schema",
+      "critical": true,
+      "json_required": true,
+      "expected_schema_id": "SCHEMA-DEVPL-LOCAL-INSTALL-SMOKE-REPORT-V1",
+      "producer_sprint": "POST-H-026-D",
+      "freshness_policy": "schema-id"
+    },
+    {
+      "evidence_id": "local-install-smoke-contract",
+      "title": "TCR registers POST-H-026-D install smoke contract",
+      "path": ".devpilot/testing/test_contract_registry_v2.json",
+      "category": "test-contract",
+      "critical": true,
+      "json_required": true,
+      "expected_schema_id": "SCHEMA-DEVPL-TEST-CONTRACT-REGISTRY-V2",
+      "producer_sprint": "POST-H-026-D",
+      "freshness_policy": "required-marker",
+      "required_markers": [
+        "post-h-026-install-smoke",
+        "release-candidate install-smoke"
+      ]
+    },
+    {
+      "evidence_id": "local-install-smoke-docs",
+      "title": "Install smoke audit and manifest are present",
+      "path": "docs/audits/post_h_026_d_install_smoke_report.md",
+      "category": "audit",
+      "critical": true,
+      "producer_sprint": "POST-H-026-D",
+      "freshness_policy": "required-marker",
+      "required_markers": [
+        "POST-H-026-D",
+        "release-candidate install-smoke",
+        "implemented-initial"
       ]
     }
   ]

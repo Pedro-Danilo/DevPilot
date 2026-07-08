@@ -2,17 +2,60 @@
 title: "Runbook — DevPilot Local"
 doc_id: "DEVPL-OPS-002"
 status: "approved"
-version: "1.99.0"
+version: "2.00.0"
 owner: "Ordóñez"
 standard: "MIPSoftware"
 extension: "MIASI"
-phase: "POST-H-026-C"
+phase: "POST-H-026-D"
 updated: "2026-07-08"
 approval: "approved_by_owner"
 source_baseline: "00_product approved + 01_requirements approved + 02_architecture approved + 03_security approved"
 change_policy: "controlled_changes_allowed_via_docs_as_code"
 approval_scope: "SPRINT-PRECODE-05 quality operations baseline"
 ---
+
+## POST-H-026-D — Local install and run verification
+
+Estado: `implemented-initial / read-only-install-run-preflight`.
+
+Propósito operacional: verificar que un operador pueda preparar, instalar y ejecutar DevPilot localmente desde una copia limpia usando comandos documentados, sin depender de memoria conversacional ni outputs previos. El smoke no ejecuta instaladores; valida la receta, metadata del paquete, CLI mínima, Web UI local, política de paquete limpio y no-go gates.
+
+Comandos de uso:
+
+```powershell
+$env:PYTHONPATH="src"
+python -m devpilot_core release-candidate install-smoke --json
+python -m devpilot_core release-candidate install-smoke --json --write-report
+python -m devpilot_core schema validate --schema-id LocalInstallSmokeReport --instance outputs/reports/local_install_smoke_report.json --json
+```
+
+Checklist operador local:
+
+```powershell
+py -3.12 -m venv .venv
+.\.venv\Scripts\Activate.ps1
+python -m pip install --upgrade pip
+python -m pip install -e .[dev]
+$env:PYTHONPATH="src"
+python -m devpilot_core --version
+python -m devpilot_core project-state validate --json
+python -m devpilot_core docs-governance validate --json
+python -m devpilot_core schema list --json
+python -m devpilot_core test-contracts validate --json
+python -m devpilot_core test-contracts validate-v2 --json
+python -m devpilot_core industrial-readiness production-ready-local-final --json --write-report
+python -m devpilot_core api token --json
+python -m devpilot_core api serve --host 127.0.0.1 --port 8787 --execute
+npm --prefix ui/web test
+npm --prefix ui/web run dev -- --host 127.0.0.1 --port 5173
+python -m devpilot_core release-candidate ui-api-smoke --base-url http://127.0.0.1:8787 --json --write-report
+```
+
+PASS: paquete Python importable, instalación editable documentada, checklist completo, Web UI local con `npm --prefix ui/web test`, política limpia para excluir `outputs/`, `.venv/`, caches, `node_modules`, `dist` y `.devpilot/devpilot.db`, y no-go gates en false.
+
+BLOCK: metadata Python inconsistente, checklist no documentado, perfil RC sin install-smoke, Web UI sin smoke local, candidato ZIP con runtime artifacts o claims/no-go gates habilitados.
+
+Limitación: la primera versión es preflight read-only. No crea venvs, no ejecuta `pip`, no ejecuta `npm`, no abre sockets y no publica wheel/sdist; esos endurecimientos quedan para packaging reproducible POST-H-027.
 
 ## POST-H-026-C — UI/API local smoke under RC
 

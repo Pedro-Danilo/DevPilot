@@ -11921,6 +11921,83 @@
         "approved_by": "POST-H-026-C",
         "expires_at_utc": "2027-01-01T00:00:00Z"
       }
+    },
+    {
+      "contract_id": "post-h-026-install-smoke",
+      "schema_version": "2.0",
+      "source_contract_id": "post-h-026-install-smoke",
+      "domain": "release",
+      "capability": "local-install-run-verification",
+      "criticality": "P0",
+      "risk_level": "high",
+      "test_type": "release",
+      "execution_profile": "release",
+      "cost_class": "low",
+      "expected_duration_seconds": 180,
+      "test_files": [
+        "tests/test_post_h_026_install_smoke.py"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/release_candidate/install_smoke.py",
+        "src/devpilot_core/release_candidate/",
+        "src/devpilot_core/cli.py",
+        "src/devpilot_core/cli_registry/registry.py",
+        "src/devpilot_core/cli_registry/builders.py",
+        "pyproject.toml",
+        "ui/web/package.json",
+        ".gitignore",
+        ".devpilot/testing/test_profiles.json",
+        ".devpilot/testing/test_contract_registry.json",
+        ".devpilot/testing/test_contract_registry_v2.json",
+        "docs/schemas/local_install_smoke_report.schema.json",
+        "docs/backlogs/POST-H-026_local_release_candidate_operator_verification.md"
+      ],
+      "validates": [
+        "release-candidate install-smoke",
+        "src/devpilot_core/release_candidate/install_smoke.py",
+        "docs/schemas/local_install_smoke_report.schema.json",
+        "pyproject.toml",
+        "ui/web/package.json",
+        ".gitignore"
+      ],
+      "trigger_hints": [
+        "release-candidate",
+        "install-smoke",
+        "local install",
+        "clean package",
+        "operator checklist"
+      ],
+      "impact_scope": [
+        "release",
+        "testing",
+        "schemas",
+        "docs-governance",
+        "product.ui",
+        "product.api"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "POST-H-026-D",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_026_install_smoke.py tests/test_release_verification.py tests/test_release_manifest.py tests/test_project_global_state.py -q",
+        "python -m devpilot_core release-candidate install-smoke --json",
+        "python -m devpilot_core release-candidate install-smoke --json --write-report",
+        "python -m devpilot_core schema validate --schema-id LocalInstallSmokeReport --instance outputs/reports/local_install_smoke_report.json --json"
+      ],
+      "classification_status": "explicit",
+      "classification_notes": [
+        "POST-H-026-D validates local install/run readiness without executing installers, network calls or source mutations."
+      ],
+      "safety_exception": {
+        "justification": "No exception: install smoke is read-only/dry-run and does not execute pip, npm, subprocesses or network calls.",
+        "approved_by": "POST-H-026-D",
+        "expires_at_utc": "2027-01-01T00:00:00Z"
+      }
     }
   ],
   "migration_metadata": {

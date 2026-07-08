@@ -35,6 +35,7 @@ _REQUIRED_PYTEST_TARGETS = (
     "tests/test_post_h_026_release_candidate_profile.py",
     "tests/test_post_h_026_ui_api_rc_smoke.py",
     "tests/test_post_h_026_ui_api_rc_smoke_contract.py",
+    "tests/test_post_h_026_install_smoke.py",
     "tests/test_post_h_025_production_ready_final_declaration.py",
     "tests/test_post_h_025_production_ready_claims_validator.py",
     "tests/test_quality_gate.py",
@@ -153,7 +154,7 @@ class ReleaseCandidateVerificationProfile:
             },
             "limitations": [
                 "POST-H-026-B defines and validates the RC profile; it does not execute pytest or shell commands.",
-                "UI/API smoke, install smoke and final RC PASS/BLOCK are planned for later POST-H-026 micro-sprints.",
+                "Install smoke is available in POST-H-026-D; final RC PASS/BLOCK remains planned for POST-H-026-E.",
                 "The full pytest suite remains the final backlog-level regression gate; this profile is an operational accelerator, not a replacement.",
             ],
         }

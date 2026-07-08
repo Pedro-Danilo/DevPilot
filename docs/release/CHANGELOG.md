@@ -1,3 +1,11 @@
+## post-h-026-d — Local install and run verification
+
+- Added `LocalInstallSmokeReport` schema and read-only local install/run preflight runner.
+- Added CLI command `release-candidate install-smoke` with optional `--write-report` and optional `--candidate-zip` archive hygiene inspection.
+- Validates Python package metadata, `python -m devpilot_core` entrypoint, editable install documentation, operator checklist, Web UI local smoke script, clean package exclusion policy and no-go gates without executing pip/npm/subprocesses.
+- Registered POST-H-026-D in schema catalog, TCR v1/v2, source registry, project state, README and runbook.
+- Kept wheel/sdist publishing, OS matrix, upgrade/rollback and final RC PASS/BLOCK out of scope for POST-H-026-D.
+
 ## post-h-026-c — UI/API local RC smoke
 
 - Added `UiApiRcSmokeReport` schema and local RC smoke runner for API/UI operator flows.
