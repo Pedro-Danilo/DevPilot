@@ -1,0 +1,60 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "SCHEMA-DEVPL-POST-H-MANIFEST-V1",
+  "manifest_id": "post-h-029-e-historical-regression-guard",
+  "sprint": "POST-H-029",
+  "micro_sprint": "POST-H-029-E",
+  "title": "Historical regression guard",
+  "status": "implemented-initial",
+  "created_by": "POST-H-029-E",
+  "created_at_utc": "2026-07-09T00:00:00Z",
+  "artifacts": [
+    "docs/schemas/historical_regression_guard_report.schema.json",
+    "src/devpilot_core/testing/historical_regression_guard.py",
+    "tests/test_post_h_029_historical_regression_guard.py",
+    "docs/audits/post_h_029_e_historical_regression_guard_report.md"
+  ],
+  "modified_files": [
+    ".devpilot/testing/test_contract_registry.json",
+    ".devpilot/testing/test_contract_registry_v2.json",
+    ".devpilot/docs_governance/source_registry.json",
+    ".devpilot/project_state.json",
+    "docs/schemas/schema_catalog.json",
+    "src/devpilot_core/cli.py",
+    "src/devpilot_core/cli_registry/registry.py",
+    "src/devpilot_core/quality/gate.py",
+    "src/devpilot_core/testing/__init__.py",
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/04_quality/test_strategy.md",
+    "docs/04_quality/test_contract_registry_2_design.md",
+    "docs/backlogs/POST-H-029_testing_tiers_impact_regression_cost.md",
+    "docs/POST-H-029_testing_tiers_impact_regression_cost.md",
+    "docs/release/CHANGELOG.md"
+  ],
+  "safety": {
+    "local_first": true,
+    "read_only": true,
+    "dry_run_default": true,
+    "tests_executed_from_guard": false,
+    "network_used": false,
+    "external_api_used": false,
+    "remote_execution_enabled": false,
+    "connector_write_enabled": false,
+    "plugin_execution_enabled": false,
+    "source_mutations_performed": false
+  },
+  "closure": {
+    "post_h_029_closed": true,
+    "quality_gate_subgate": "testing-tiers-ready",
+    "full_regression_preserved": true,
+    "waiver_expiration_required": true,
+    "undecided_backlog_closure_blocked": true
+  },
+  "limitations": [
+    "Implemented-initial guard; it does not execute pytest -q.",
+    "Runtime logs are referenced as external evidence and must not be versioned in the repo.",
+    "Future evolution may add richer evidence ingestion, but not permanent waivers."
+  ],
+  "next_sprint": "POST-H-030"
+}

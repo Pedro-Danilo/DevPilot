@@ -225,6 +225,7 @@ class QualityGate:
             subgates.append(QualitySubgate("operator-flow-smoke", "POST-H-028-D operator flows and error states smoke report.", self._operator_flow_smoke))
             subgates.append(QualitySubgate("ui-route-enforcement", "POST-H-028-E blocking UI route registry enforcement.", self._ui_route_enforcement))
             subgates.append(QualitySubgate("ui-api-local-hardening", "POST-H-028-E aggregate UI/API local hardening gate.", self._ui_api_local_hardening))
+            subgates.append(QualitySubgate("testing-tiers-ready", "POST-H-029-E testing tiers, impact rules, RC profile and historical regression guard.", self._testing_tiers_ready))
         if self.options.profile == "industrial":
             subgates.append(QualitySubgate("industrial-readiness", "Fase H industrial readiness gate and maturity classification.", self._industrial_readiness))
         if self.options.profile == "hardening":
@@ -410,6 +411,18 @@ class QualityGate:
         from devpilot_core.interfaces.api import UiApiLocalHardeningGate
 
         return UiApiLocalHardeningGate(self.root).run()
+
+    def _testing_tiers_ready(self) -> CommandResult:
+        from devpilot_core.testing import HistoricalRegressionGuardOptions, HistoricalRegressionGuardRunner
+
+        return HistoricalRegressionGuardRunner(
+            self.root,
+            HistoricalRegressionGuardOptions(
+                context="micro-sprint",
+                regression_decision="focal-expanded",
+                write_report=False,
+            ),
+        ).run()
 
     def _connector_sandbox(self) -> CommandResult:
         from devpilot_core.connectors import ConnectorSandboxQualityGate

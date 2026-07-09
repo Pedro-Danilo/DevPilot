@@ -24,19 +24,19 @@ no_connector_write_enabled: true
 no_plugin_execution_enabled: true
 claims_allowed: "production-ready-local"
 claims_forbidden: "enterprise-ready, remote-ready, SaaS-ready, compliance-certified"
-implementation_status: "active/implemented-initial-post-h-029-d"
-current_micro_sprint: "POST-H-029-D"
-next_micro_sprint: "POST-H-029-E"
+implementation_status: "closed/testing-tiers-ready"
+current_micro_sprint: "POST-H-029-E"
+next_micro_sprint: "POST-H-030"
 ---
 
 # POST-H-029 — Testing tiers, impacto y costo de regresion
 
-POST-H-029-D queda implementado como `implemented-initial/local-first`: agrega `ReleaseCandidateTestProfileReport`, `.devpilot/testing/release_candidate_test_profile.json`, validador `tests release-candidate-profile`, sincronización con taxonomy/TCR/tests.run y reglas explícitas de escalamiento a full regression. POST-H-029-E queda pendiente para el guard histórico bloqueante.
+POST-H-029-E queda implementado como `implemented-initial/local-first` y cierra POST-H-029 como `closed/testing-tiers-ready`: agrega `HistoricalRegressionGuardReport`, `tests regression-guard` y el subgate `testing-tiers-ready` para hardening/industrial. El guard bloquea cierres sin decisión explícita de regresión, conserva full regression como obligación contextual y exige waivers temporales con owner, motivo, riesgo, pruebas ejecutadas y expiración.
 
 
 ## Estado de implementación
 
-POST-H-029 entra a implementación con status `approved`. POST-H-029-A queda implementado como `implemented-initial/local-first`: define la taxonomía operacional de perfiles, valida comandos permitidos y conserva `tests.run` approval-gated. POST-H-029-A/B/C/D quedan implementados como primeras versiones local-first. El micro-sprint POST-H-029-E permanece pendiente para regression guard histórico.
+POST-H-029 entra a implementación con status `approved`. POST-H-029-A queda implementado como `implemented-initial/local-first`: define la taxonomía operacional de perfiles, valida comandos permitidos y conserva `tests.run` approval-gated. POST-H-029-A/B/C/D/E quedan implementados como primeras versiones local-first. POST-H-029 queda cerrado como `testing-tiers-ready`; la suite completa `pytest -q` se conserva para cierres mayores, release candidate o escenarios P0/P1 definidos por el guard.
 
 ## 1. Dictamen ejecutivo
 
@@ -738,6 +738,12 @@ python -m devpilot_core tests regression-guard --context backlog-closure --json 
 python -m devpilot_core schema validate --schema-id HistoricalRegressionGuardReport --instance outputs/reports/historical_regression_guard_report.json --json
 python -m devpilot_core quality-gate run --profile hardening --json
 ```
+
+#### Estado de implementación POST-H-029-E
+
+Implementado como primera versión local-first. `HistoricalRegressionGuardReport` queda registrado en el catálogo de schemas y `tests regression-guard` evalúa contextos `micro-sprint`, `backlog-closure`, `release-candidate` y `major-hito` sin ejecutar pruebas. El guard bloquea backlog/release/hito mayor cuando no existe decisión explícita `full`, `focal-expanded` o `waiver`; para paths sensibles o no mapeados exige full regression o waiver válido. `testing-tiers-ready` queda integrado en `quality-gate run --profile hardening` y `quality-gate run --profile industrial`.
+
+Limitación explícita: el guard no almacena logs históricos pesados ni ejecuta `pytest -q`; solo formaliza la decisión y referencia evidencia externa cuando se suministra.
 
 ## 14. Quality gate propuesto
 

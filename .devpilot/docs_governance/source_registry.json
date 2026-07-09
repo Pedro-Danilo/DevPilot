@@ -8317,6 +8317,76 @@
         "tests/test_post_h_029_release_candidate_test_profile.py"
       ],
       "sync_rules": []
+    },
+    {
+      "doc_id": "SCHEMA-DEVPL-HISTORICAL-REGRESSION-GUARD-REPORT-V1",
+      "path": "docs/schemas/historical_regression_guard_report.schema.json",
+      "classification": "machine-readable-source",
+      "domain": "governance.testing",
+      "status_required": "registered",
+      "owner": "POST-H-029-E",
+      "criticality": "P0",
+      "lifecycle": "active",
+      "required_tests": [
+        "tests/test_post_h_029_historical_regression_guard.py"
+      ],
+      "sync_rules": []
+    },
+    {
+      "doc_id": "POST-H-029-E-HISTORICAL-REGRESSION-GUARD-MODULE",
+      "path": "src/devpilot_core/testing/historical_regression_guard.py",
+      "classification": "source-of-truth",
+      "domain": "governance.testing",
+      "status_required": "current",
+      "owner": "POST-H-029-E",
+      "criticality": "P0",
+      "lifecycle": "active",
+      "required_tests": [
+        "tests/test_post_h_029_historical_regression_guard.py"
+      ],
+      "sync_rules": []
+    },
+    {
+      "doc_id": "POST-H-029-E-HISTORICAL-REGRESSION-GUARD-REPORT",
+      "path": "docs/audits/post_h_029_e_historical_regression_guard_report.md",
+      "classification": "source-of-truth",
+      "domain": "governance.testing",
+      "status_required": "approved",
+      "owner": "POST-H-029-E",
+      "criticality": "P0",
+      "lifecycle": "active",
+      "required_tests": [
+        "tests/test_post_h_029_historical_regression_guard.py"
+      ],
+      "sync_rules": []
+    },
+    {
+      "doc_id": "POST-H-029-E-MANIFEST",
+      "path": "docs/post_h_029_e_manifest.json",
+      "classification": "machine-readable-source",
+      "domain": "governance.testing",
+      "status_required": "implemented-initial",
+      "owner": "POST-H-029-E",
+      "criticality": "P0",
+      "lifecycle": "active",
+      "required_tests": [
+        "tests/test_post_h_029_historical_regression_guard.py"
+      ],
+      "sync_rules": []
+    },
+    {
+      "doc_id": "POST-H-029-E-HISTORICAL-REGRESSION-GUARD-TEST",
+      "path": "tests/test_post_h_029_historical_regression_guard.py",
+      "classification": "derived",
+      "domain": "governance.testing",
+      "status_required": "current",
+      "owner": "POST-H-029-E",
+      "criticality": "P0",
+      "lifecycle": "active",
+      "required_tests": [
+        "tests/test_post_h_029_historical_regression_guard.py"
+      ],
+      "sync_rules": []
     }
   ],
   "rules": {
@@ -8390,16 +8460,16 @@
     "POST-H-025-C keeps enterprise, remote, SaaS and compliance claims disabled.": true
   },
   "summary": {
-    "documents_total": 336,
-    "source_of_truth_total": 129,
-    "machine_readable_source_total": 157,
-    "derived_total": 50,
+    "documents_total": 341,
+    "source_of_truth_total": 131,
+    "machine_readable_source_total": 159,
+    "derived_total": 51,
     "generated_runtime_total": 0,
     "historical_total": 0,
     "deprecated_total": 0,
     "critical_sources_total": 121,
     "markdown_json_pairs_total": 30,
-    "documents_with_required_tests_total": 336,
+    "documents_with_required_tests_total": 341,
     "network_used": false,
     "external_api_used": false,
     "mutations_performed": false,
@@ -8410,8 +8480,8 @@
     "backlog_governance_scope": "POST-H-002..POST-H-025",
     "backlogs_missing_future_are_planned_info": true,
     "preliminary": true,
-    "updated_by": "POST-H-028-E-regression-fix",
-    "last_registered_sprint": "POST-H-029-D"
+    "updated_by": "POST-H-029-E",
+    "last_registered_sprint": "POST-H-029-E"
   },
   "safety": {
     "local_first": true,
@@ -8519,11 +8589,11 @@
     "phase_h_status": "closed_implemented_initial",
     "industrial_baseline_ready": true,
     "maturity_level": "industrial-baseline-ready",
-    "last_completed_sprint": "POST-H-028",
+    "last_completed_sprint": "POST-H-029",
     "last_functional_sprint": "FUNC-SPRINT-99",
-    "next_sprint": "POST-H-029",
+    "next_sprint": "POST-H-030",
     "source_repo": "repo_DevPilot_Local_263_POST_H_025.zip",
-    "current_repo": "repo_DevPilot_Local_281_POST_H_029_C.zip",
+    "current_repo": "repo_DevPilot_Local_283_POST_H_029_E.zip",
     "global_state_owner": "tests/test_project_global_state.py",
     "mutable_global_state_fields": [
       "last_completed_sprint",
@@ -8773,10 +8843,13 @@
       "POST-H-028 closes UI/API local hardening as implemented-initial/local-first: API drift guard, local auth/CORS, visual smoke, operator flows and UI route registry enforcement are available and bound to hardening/industrial quality gates.",
       "POST-H-029-A starts Testing tiers, impacto y costo de regresion as approved and adds TestProfileTaxonomy, tests taxonomy CLI, controlled profile aliases and local-first safety flags without executing tests from JSON.",
       "POST-H-029-B adds TestImpactRuleRegistry and test-impact rules as implemented-initial: declarative TCR v2 impact rules map changed paths to domains, profiles, recommended tests and escalation while keeping tests non-executing, local-first and advisory.",
-      "POST-H-029-C adds TestImpactRecommendationReport and normalizes test-impact analyze-v2 output with matched contracts/rules, profiles, recommended tests/commands, residual risk, full-regression and waiver signals while keeping tests non-executing, local-first and advisory."
+      "POST-H-029-C adds TestImpactRecommendationReport and normalizes test-impact analyze-v2 output with matched contracts/rules, profiles, recommended tests/commands, residual risk, full-regression and waiver signals while keeping tests non-executing, local-first and advisory.",
+      "POST-H-029-D adds ReleaseCandidateTestProfileReport and formal release-candidate-local test profile: required/recommended/optional local verification commands, pytest targets, TCR/taxonomy/tests.run synchronization and explicit full-regression escalation are available without executing tests from JSON.",
+      "POST-H-029-E adds HistoricalRegressionGuard and testing-tiers-ready quality subgate: backlog/release/major-hito closures now require explicit full/focal/waiver regression decisions, waiver expiration and local-first evidence without executing pytest from the guard.",
+      "POST-H-029 closes Testing tiers, impacto y costo de regresion as implemented-initial/local-first: taxonomy, TCR v2 impact rules, CLI recommendations, release-candidate-local profile and historical regression guard are available with full regression preserved."
     ],
-    "current_micro_sprint": "POST-H-029-C",
-    "next_micro_sprint": "POST-H-029-D",
+    "current_micro_sprint": "POST-H-029-E",
+    "next_micro_sprint": "POST-H-030-A",
     "post_h_020_current_micro_sprint": "POST-H-020-E",
     "post_h_020_next_micro_sprint": "POST-H-021",
     "compliance_evidence_collector_module": "src/devpilot_core/compliance/evidence.py",
@@ -9238,9 +9311,9 @@
     "post_h_028_ui_route_enforcement_source_mutations": false,
     "post_h_028_operator_flow_smoke_windows_path_fixed": true,
     "post_h_028_closed": true,
-    "post_h_029_status": "active/implemented-initial-post-h-029-c",
-    "post_h_029_current_micro_sprint": "POST-H-029-C",
-    "post_h_029_next_micro_sprint": "POST-H-029-D",
+    "post_h_029_status": "closed/testing-tiers-ready",
+    "post_h_029_current_micro_sprint": "POST-H-029-E",
+    "post_h_029_next_micro_sprint": "POST-H-030",
     "post_h_029_backlog_approved": true,
     "post_h_029_test_profile_taxonomy_schema_registered": true,
     "post_h_029_test_profile_taxonomy_available": true,
@@ -9298,6 +9371,46 @@
     "post_h_029_test_impact_cli_recommendations_residual_risk_available": true,
     "post_h_029_test_impact_cli_recommendations_full_regression_signal_available": true,
     "post_h_029_test_impact_cli_recommendations_waiver_signal_available": true,
-    "post_h_029_test_impact_cli_recommendations_changed_paths_file_supported": true
+    "post_h_029_test_impact_cli_recommendations_changed_paths_file_supported": true,
+    "post_h_029_release_candidate_test_profile_schema_registered": true,
+    "post_h_029_release_candidate_test_profile_available": true,
+    "post_h_029_release_candidate_test_profile_path": ".devpilot/testing/release_candidate_test_profile.json",
+    "post_h_029_release_candidate_test_profile_module": "src/devpilot_core/testing/release_candidate_profile.py",
+    "post_h_029_release_candidate_test_profile_cli_command": "python -m devpilot_core tests release-candidate-profile --json --write-report",
+    "post_h_029_release_candidate_test_profile_report_schema_path": "docs/schemas/release_candidate_test_profile_report.schema.json",
+    "post_h_029_release_candidate_test_profile_report_output_path": "outputs/reports/release_candidate_test_profile_report.json",
+    "post_h_029_release_candidate_test_profile_report_markdown_path": "outputs/reports/release_candidate_test_profile_report.md",
+    "post_h_029_release_candidate_test_profile_required_commands_total": 17,
+    "post_h_029_release_candidate_test_profile_recommended_commands_total": 5,
+    "post_h_029_release_candidate_test_profile_optional_commands_total": 2,
+    "post_h_029_release_candidate_test_profile_full_regression_rules_total": 6,
+    "post_h_029_release_candidate_test_profile_tests_executed": false,
+    "post_h_029_release_candidate_test_profile_network_used": false,
+    "post_h_029_release_candidate_test_profile_external_api_used": false,
+    "post_h_029_release_candidate_test_profile_source_mutations": false,
+    "post_h_029_release_candidate_test_profile_tests_run_profile_synced": true,
+    "post_h_029_release_candidate_test_profile_taxonomy_profile_synced": true,
+    "post_h_029_release_candidate_test_profile_full_regression_preserved": true,
+    "post_h_029_closed": true,
+    "post_h_029_historical_regression_guard_schema_registered": true,
+    "post_h_029_historical_regression_guard_available": true,
+    "post_h_029_historical_regression_guard_module": "src/devpilot_core/testing/historical_regression_guard.py",
+    "post_h_029_historical_regression_guard_cli_command": "python -m devpilot_core tests regression-guard --context micro-sprint --json --write-report",
+    "post_h_029_historical_regression_guard_report_schema_path": "docs/schemas/historical_regression_guard_report.schema.json",
+    "post_h_029_historical_regression_guard_report_output_path": "outputs/reports/historical_regression_guard_report.json",
+    "post_h_029_historical_regression_guard_report_markdown_path": "outputs/reports/historical_regression_guard_report.md",
+    "post_h_029_historical_regression_guard_tests_executed": false,
+    "post_h_029_historical_regression_guard_network_used": false,
+    "post_h_029_historical_regression_guard_external_api_used": false,
+    "post_h_029_historical_regression_guard_source_mutations": false,
+    "post_h_029_historical_regression_guard_blocks_undecided_closure": true,
+    "post_h_029_historical_regression_guard_waiver_expiration_required": true,
+    "post_h_029_historical_regression_guard_full_regression_preserved": true,
+    "post_h_029_testing_tiers_ready_quality_gate_enabled": true,
+    "post_h_029_testing_tiers_ready_quality_gate_subgate": "testing-tiers-ready",
+    "post_h_029_testing_tiers_ready_profiles": [
+      "hardening",
+      "industrial"
+    ]
   }
 }

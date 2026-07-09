@@ -147,7 +147,7 @@ from .changes import RollbackManager
 from .standards.registry import build_standards_status_result
 from .store import LocalStore
 from .traceability import MarkdownTraceabilityExtractor, TraceabilityEngine
-from .testing import TestContractRegistry, TestContractRegistryV2MigrationOptions, TestContractRegistryV2Migrator, TestContractRegistryV2ValidationOptions, TestContractRegistryV2Validator, TestImpactAnalyzer, TestImpactAnalyzerV2, TestImpactOptions, TestImpactV2Options, TestImpactRuleRegistryOptions, TestImpactRuleRegistryRunner, TestProfileTaxonomyOptions, TestProfileTaxonomyRunner, ReleaseCandidateTestProfileOptions, ReleaseCandidateTestProfileRunner, TestsRunTool
+from .testing import TestContractRegistry, TestContractRegistryV2MigrationOptions, TestContractRegistryV2Migrator, TestContractRegistryV2ValidationOptions, TestContractRegistryV2Validator, TestImpactAnalyzer, TestImpactAnalyzerV2, TestImpactOptions, TestImpactV2Options, TestImpactRuleRegistryOptions, TestImpactRuleRegistryRunner, TestProfileTaxonomyOptions, TestProfileTaxonomyRunner, ReleaseCandidateTestProfileOptions, ReleaseCandidateTestProfileRunner, HistoricalRegressionGuardOptions, HistoricalRegressionGuardRunner, TestsRunTool
 from .validation import ValidationGateway
 from .workspace import (
     DEFAULT_WORKSPACE_ISOLATION_REPORT_JSON,
@@ -5565,6 +5565,43 @@ def tests_release_candidate_profile_command(*, json_output: bool = False, write_
     return int(result.exit_code)
 
 
+
+
+def tests_regression_guard_command(
+    *,
+    context: str = "micro-sprint",
+    changed_paths: list[str] | None = None,
+    changed_paths_file: str | None = None,
+    regression_decision: str = "auto",
+    full_regression_run: bool = False,
+    evidence_logs: list[str] | None = None,
+    evidence_reports: list[str] | None = None,
+    waiver_file: str | None = None,
+    json_output: bool = False,
+    write_report: bool = False,
+) -> int:
+    """Validate POST-H-029-E historical regression guard without executing tests."""
+
+    root = project_root()
+    result = HistoricalRegressionGuardRunner(
+        root,
+        HistoricalRegressionGuardOptions(
+            context=context,
+            changed_paths=tuple(changed_paths or ()),
+            changed_paths_file=changed_paths_file,
+            regression_decision=regression_decision,
+            full_regression_run=full_regression_run,
+            evidence_logs=tuple(evidence_logs or ()),
+            evidence_reports=tuple(evidence_reports or ()),
+            waiver_file=waiver_file,
+            write_report=write_report,
+        ),
+    ).run()
+    _emit_result_event(root, result, subject="testing:historical-regression-guard")
+    _persist_result(root, result, subject="testing:historical-regression-guard")
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
 def tests_profiles_command(*, json_output: bool = False, write_report: bool = False) -> int:
     """List configured tests.run profiles without executing subprocesses."""
 
@@ -6181,6 +6218,19 @@ def build_parser() -> argparse.ArgumentParser:
     tests_rc_profile = tests_sub.add_parser("release-candidate-profile", help="Validate POST-H-029-D formal release-candidate-local test profile without executing tests")
     tests_rc_profile.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     tests_rc_profile.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown release candidate test profile report")
+
+
+    tests_regression_guard = tests_sub.add_parser("regression-guard", help="Validate POST-H-029-E historical regression guard without executing tests")
+    tests_regression_guard.add_argument("--context", choices=["micro-sprint", "backlog-closure", "release-candidate", "major-hito"], default="micro-sprint", help="Closure context to evaluate")
+    tests_regression_guard.add_argument("--changed-paths", action="append", default=[], help="Changed path to classify; may be repeated")
+    tests_regression_guard.add_argument("--changed-paths-file", default=None, help="Text file with changed paths, one per line")
+    tests_regression_guard.add_argument("--regression-decision", choices=["auto", "full", "focal-expanded", "waiver", "pending"], default="auto", help="Explicit regression decision")
+    tests_regression_guard.add_argument("--full-regression-run", action="store_true", help="Declare that full regression was run externally by the operator")
+    tests_regression_guard.add_argument("--evidence-log", action="append", default=[], help="Validation log path used as evidence; may be repeated")
+    tests_regression_guard.add_argument("--evidence-report", action="append", default=[], help="Validation report path used as evidence; may be repeated")
+    tests_regression_guard.add_argument("--waiver-file", default=None, help="JSON waiver file for waiver decisions")
+    tests_regression_guard.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    tests_regression_guard.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown historical regression guard report")
 
     tests_profiles = tests_sub.add_parser("profiles", help="List configured tests.run profiles")
     tests_profiles.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
@@ -7575,6 +7625,19 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
             return tests_taxonomy_command(json_output=args.json, write_report=args.write_report)
         if args.tests_command == "release-candidate-profile":
             return tests_release_candidate_profile_command(json_output=args.json, write_report=args.write_report)
+        if args.tests_command == "regression-guard":
+            return tests_regression_guard_command(
+                context=args.context,
+                changed_paths=args.changed_paths,
+                changed_paths_file=args.changed_paths_file,
+                regression_decision=args.regression_decision,
+                full_regression_run=args.full_regression_run,
+                evidence_logs=args.evidence_log,
+                evidence_reports=args.evidence_report,
+                waiver_file=args.waiver_file,
+                json_output=args.json,
+                write_report=args.write_report,
+            )
         if args.tests_command == "profiles":
             return tests_profiles_command(json_output=args.json, write_report=args.write_report)
         if args.tests_command == "run":

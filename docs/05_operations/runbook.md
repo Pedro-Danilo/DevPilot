@@ -10859,3 +10859,21 @@ Pendiente: POST-H-029-D debe crear el perfil formal `release-candidate-local`; P
 Estado: `implemented-initial/local-first`. DevPilot ahora expone `python -m devpilot_core tests release-candidate-profile --json --write-report` para validar el perfil formal `release-candidate-local` sin ejecutar pruebas desde JSON. El perfil vive en `.devpilot/testing/release_candidate_test_profile.json`, valida `ReleaseCandidateTestProfileReport`, mantiene `tests.run` approval-gated y enumera comandos required/recommended/optional para RC local, UI/API hardening, production-ready-local, TCR, schemas, docs governance y packaging.
 
 Limitación explícita: este perfil reduce el costo operativo de selección, pero no reemplaza `pytest -q` completo cuando `full_regression_required_when` aplica. POST-H-029-E debe convertir esta política en guard histórico de cierre.
+
+## POST-H-029-E — Historical regression guard
+
+Para cierres de micro-sprint usar:
+
+```powershell
+python -m devpilot_core tests regression-guard --context micro-sprint --json --write-report
+```
+
+Para cierre de backlog, release candidate o hito mayor, el operador debe decidir explícitamente entre `full`, `focal-expanded` o `waiver`. El guard bloquea `backlog-closure` sin decisión:
+
+```powershell
+python -m devpilot_core tests regression-guard --context backlog-closure --json --write-report
+```
+
+`pytest -q` completo no se ejecuta desde el guard. Debe ejecutarse manualmente cuando el guard indique full regression por cierre mayor, release candidate, path no mapeado, schema catalog, project_state, quality gate, CLI core, API security, production-ready claims o TCR schema. Los logs generados son evidencia runtime y no deben versionarse en el repo.
+
+Siguiente hito: `POST-H-030`

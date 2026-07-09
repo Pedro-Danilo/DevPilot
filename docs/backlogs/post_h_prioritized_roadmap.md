@@ -350,3 +350,7 @@ Esta transición no habilita remote execution, connector write, plugin execution
 POST-H-027 queda cerrado como `packaging-local-ready` para empaquetado reproducible, verificación de instalación local y dry-run de upgrade/rollback. El siguiente hito registrado para continuidad del roadmap es `POST-H-028`.
 
 Esta transición no habilita auto-update, restore real por defecto, ejecución remota, connector write, plugin execution, APIs externas, SaaS, certificación compliance ni claim enterprise-ready. `POST-H-028` debe abrirse con backlog ejecutable propio antes de implementar nuevas capacidades.
+
+## POST-H-030 — Próximo hito
+
+POST-H-030 queda como siguiente hito después del cierre de POST-H-029 testing tiers.

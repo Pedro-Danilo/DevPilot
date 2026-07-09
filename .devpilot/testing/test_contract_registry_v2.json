@@ -13667,6 +13667,76 @@
       "classification_notes": [
         "POST-H-029-D formalizes the release-candidate-local testing profile while preserving approval-gated execution and full regression escalation."
       ]
+    },
+    {
+      "contract_id": "post-h-029-historical-regression-guard",
+      "schema_version": "2.0",
+      "source_contract_id": "post-h-029-historical-regression-guard",
+      "domain": "governance.testing",
+      "capability": "HistoricalRegressionGuardReport",
+      "criticality": "P0",
+      "risk_level": "high",
+      "test_type": "contract",
+      "execution_profile": "release",
+      "cost_class": "medium",
+      "expected_duration_seconds": 300,
+      "test_files": [
+        "tests/test_post_h_029_historical_regression_guard.py"
+      ],
+      "watched_paths": [
+        "docs/schemas/historical_regression_guard_report.schema.json",
+        "src/devpilot_core/testing/historical_regression_guard.py",
+        "src/devpilot_core/quality/gate.py",
+        "src/devpilot_core/cli.py",
+        "src/devpilot_core/testing/__init__.py",
+        ".devpilot/testing/test_contract_registry_v2.json",
+        ".devpilot/testing/test_profile_taxonomy.json",
+        ".devpilot/testing/test_impact_rules.json",
+        ".devpilot/project_state.json"
+      ],
+      "validates": [
+        "docs/schemas/historical_regression_guard_report.schema.json",
+        "src/devpilot_core/testing/historical_regression_guard.py",
+        "tests regression-guard",
+        "quality-gate testing-tiers-ready",
+        "HistoricalRegressionGuardReport"
+      ],
+      "trigger_hints": [
+        "historical-regression-guard-change",
+        "post-h-029-e",
+        "testing-tier-change",
+        "backlog-closure",
+        "release-candidate"
+      ],
+      "impact_scope": [
+        "testing",
+        "regression-cost",
+        "quality-gate",
+        "backlog-closure"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": false,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "POST-H-029-E",
+      "owner_domain": "governance.testing",
+      "service_boundary": "testing",
+      "subgate_id": "testing-tiers-ready",
+      "schema_ids": [
+        "SCHEMA-DEVPL-HISTORICAL-REGRESSION-GUARD-REPORT-V1"
+      ],
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_029_historical_regression_guard.py tests/test_post_h_029_release_candidate_test_profile.py tests/test_quality_gate.py tests/test_project_global_state.py -q",
+        "python -m devpilot_core tests regression-guard --context micro-sprint --json --write-report",
+        "python -m devpilot_core schema validate --schema-id HistoricalRegressionGuardReport --instance outputs/reports/historical_regression_guard_report.json --json"
+      ],
+      "classification_status": "explicit",
+      "classification_notes": [
+        "POST-H-029-E turns regression scope decisions into a schema-backed guard while preserving full regression and avoiding permanent waivers."
+      ]
     }
   ],
   "migration_metadata": {
@@ -13677,8 +13747,8 @@
     "network_used": false,
     "external_api_used": false,
     "mutations_performed_by_default": false,
-    "contracts_total": 206,
-    "last_updated_by": "POST-H-029-C"
+    "contracts_total": 208,
+    "last_updated_by": "POST-H-029-E"
   },
   "notes": [
     "POST-H-020-D fixes v2 contract classification_status for POST-H-020-C/D contracts to keep schema validation synchronized.",
@@ -13711,6 +13781,7 @@
     "POST-H-028-B adds local-auth-cors-hardening to the release/security profile.",
     "POST-H-028-D adds operator flows/error-states coverage to the UI/API local hardening wave.",
     "POST-H-029-B registers declarative impact rule contract and P0/P1 impact metadata enrichment without executing tests from registry data.",
-    "POST-H-029-D adds a formal release-candidate-local test profile contract without executing tests from JSON."
+    "POST-H-029-D adds a formal release-candidate-local test profile contract without executing tests from JSON.",
+    "POST-H-029-E registers historical regression guard and testing-tiers-ready quality subgate."
   ]
 }

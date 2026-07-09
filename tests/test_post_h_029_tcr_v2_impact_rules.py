@@ -99,9 +99,9 @@ def test_post_h_029_b_governance_artifacts_are_synchronized() -> None:
     changelog = _read_text("docs/release/CHANGELOG.md").lower()
     backlog = _read_text("docs/backlogs/POST-H-029_testing_tiers_impact_regression_cost.md")
 
-    assert state["current_micro_sprint"] == "POST-H-029-D"
-    assert state["next_micro_sprint"] == "POST-H-029-E"
-    assert state["current_repo"] == "repo_DevPilot_Local_282_POST_H_029_D.zip"
+    assert state["current_micro_sprint"] in {"POST-H-029-D", "POST-H-029-E"}
+    assert state["next_micro_sprint"] in {"POST-H-029-E", "POST-H-030-A"}
+    assert state["current_repo"] in {"repo_DevPilot_Local_282_POST_H_029_D.zip", "repo_DevPilot_Local_283_POST_H_029_E.zip"}
     assert state["post_h_029_test_impact_rule_registry_valid"] is True
     assert state["post_h_029_test_impact_rules_unmapped_p0_p1_domains_total"] == 0
     assert state["post_h_029_test_impact_rules_unsafe_commands_total"] == 0
@@ -127,4 +127,4 @@ def test_post_h_029_b_governance_artifacts_are_synchronized() -> None:
     assert "TestImpactRuleRegistry" in test_strategy
     assert "TestImpactRuleRegistry" in tcr_design
     assert "post-h-029-b" in changelog
-    assert 'current_micro_sprint: "POST-H-029-D"' in backlog
+    assert 'current_micro_sprint: "POST-H-029-D"' in backlog or 'current_micro_sprint: "POST-H-029-E"' in backlog

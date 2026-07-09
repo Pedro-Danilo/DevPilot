@@ -729,3 +729,8 @@ La recomendación no ejecuta pruebas y no sustituye el criterio de cierre. Para 
 Estado: `implemented-initial/local-first`. DevPilot ahora expone `python -m devpilot_core tests release-candidate-profile --json --write-report` para validar el perfil formal `release-candidate-local` sin ejecutar pruebas desde JSON. El perfil vive en `.devpilot/testing/release_candidate_test_profile.json`, valida `ReleaseCandidateTestProfileReport`, mantiene `tests.run` approval-gated y enumera comandos required/recommended/optional para RC local, UI/API hardening, production-ready-local, TCR, schemas, docs governance y packaging.
 
 Limitación explícita: este perfil reduce el costo operativo de selección, pero no reemplaza `pytest -q` completo cuando `full_regression_required_when` aplica. POST-H-029-E debe convertir esta política en guard histórico de cierre.
+
+## POST-H-029-E — HistoricalRegressionGuardReport
+
+`HistoricalRegressionGuardReport` formaliza la decisión de regresión para cierres. El guard distingue `micro-sprint`, `backlog-closure`, `release-candidate` y `major-hito`; bloquea cierres sin decisión explícita; conserva full regression como obligación contextual; y permite waivers solo si declaran owner, motivo, riesgo, pruebas ejecutadas y expiración. La primera versión es local-first y no ejecuta tests.
+

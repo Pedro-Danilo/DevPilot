@@ -1532,6 +1532,21 @@
       "dialect": "https://json-schema.org/draft/2020-12/schema",
       "validates_instances": true,
       "validation_enabled_sprint": "POST-H-029-D"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-HISTORICAL-REGRESSION-GUARD-REPORT-V1",
+      "contract": "HistoricalRegressionGuardReport",
+      "path": "docs/schemas/historical_regression_guard_report.schema.json",
+      "owner": "POST-H-029-E",
+      "status": "registered",
+      "description": "Schema for POST-H-029-E historical regression guard reports and closure regression decisions without executing tests.",
+      "title": "HistoricalRegressionGuardReport",
+      "version": "1.0.0",
+      "sprint": "POST-H-029-E",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "POST-H-029-E"
     }
-  ]
+  ],
+  "schemas_total": null
 }

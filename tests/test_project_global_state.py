@@ -23,9 +23,9 @@ def test_project_global_state_schema_and_docs_are_synchronized() -> None:
     changelog = read("docs/release/CHANGELOG.md")
 
     assert state["current_phase"] == "POST-FASE-H"
-    assert state["last_completed_sprint"] == "POST-H-028"
+    assert state["last_completed_sprint"] == "POST-H-029"
     assert state["last_functional_sprint"] == "FUNC-SPRINT-99"
-    assert state["next_sprint"] == "POST-H-029"
+    assert state["next_sprint"] == "POST-H-030"
     assert state["phase_h_status"] == "closed_implemented_initial"
     assert state["industrial_baseline_ready"] is True
     assert state["global_state_owner"] == "tests/test_project_global_state.py"
@@ -102,10 +102,10 @@ def test_project_global_state_schema_and_docs_are_synchronized() -> None:
     assert any("POST-H-013-D adds optional local crypto" in note for note in state["notes"])
     assert any("POST-H-013-E closes Audit pack integrity" in note for note in state["notes"])
     assert any("POST-H-014 is the next prioritized hito" in note for note in state["notes"])
-    assert state.get("current_micro_sprint") == "POST-H-029-D"
-    assert state.get("next_micro_sprint") == "POST-H-029-E"
+    assert state.get("current_micro_sprint") == "POST-H-029-E"
+    assert state.get("next_micro_sprint") == "POST-H-030-A"
     assert state.get("source_repo") == "repo_DevPilot_Local_263_POST_H_025.zip"
-    assert state.get("current_repo") == "repo_DevPilot_Local_282_POST_H_029_D.zip"
+    assert state.get("current_repo") == "repo_DevPilot_Local_283_POST_H_029_E.zip"
     assert state.get("post_h_026_status") == "closed/local-release-candidate-pass"
     assert "POST-H-026-C — UI/API local smoke under RC" in readme
     assert "POST-H-026-C — UI/API local smoke under RC" in runbook
@@ -531,8 +531,8 @@ def test_project_global_state_schema_and_docs_are_synchronized() -> None:
     assert any("POST-H-025-C adds industrial-readiness production-ready-local CLI" in note for note in state["notes"])
     assert any("POST-H-025-D adds ProductionReadyClaimsValidator" in note for note in state["notes"])
     assert any("POST-H-025-E adds ProductionReadyFinalDeclaration" in note for note in state["notes"])
-    assert state["current_micro_sprint"] == "POST-H-029-D"
-    assert state["next_micro_sprint"] == "POST-H-029-E"
+    assert state["current_micro_sprint"] == "POST-H-029-E"
+    assert state["next_micro_sprint"] == "POST-H-030-A"
     assert state.get("post_h_029_test_impact_rule_registry_valid") is True
     assert state.get("post_h_029_test_impact_rules_unknown_impact_escalates") is True
     assert state.get("post_h_029_test_impact_rules_unsafe_commands_total") == 0
@@ -554,6 +554,6 @@ def test_project_global_state_command_result_passes() -> None:
     result = TestContractRegistry(ROOT).project_state()
 
     assert result.ok, result.to_dict()
-    assert result.data["summary"]["last_completed_sprint"] == "POST-H-028"
-    assert result.data["summary"]["next_sprint"] == "POST-H-029"
+    assert result.data["summary"]["last_completed_sprint"] == "POST-H-029"
+    assert result.data["summary"]["next_sprint"] == "POST-H-030"
     assert result.data["summary"]["checks_passed"] == result.data["summary"]["checks_total"]

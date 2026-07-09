@@ -201,7 +201,7 @@ DECLARATIVE_GROUPS: dict[str, DeclarativeGroupDescriptor] = {
         group_id="tests",
         domain="governance.testing",
         owner_module="src/devpilot_core/cli.py",
-        recommended_tests=("python -m pytest tests/test_post_h_029_test_profile_taxonomy.py tests/test_post_h_029_release_candidate_test_profile.py tests/test_tests_run_tool.py -q",),
+        recommended_tests=("python -m pytest tests/test_post_h_029_test_profile_taxonomy.py tests/test_post_h_029_release_candidate_test_profile.py tests/test_post_h_029_historical_regression_guard.py tests/test_tests_run_tool.py -q",),
         rationale="POST-H-029 registers tests taxonomy/profiles/run/release-candidate-profile as governed local testing surfaces; taxonomy/profile validators are read-only and tests.run remains approval-gated.",
     ),
     "quality-gate": DeclarativeGroupDescriptor(
@@ -374,6 +374,18 @@ COMMAND_OVERRIDES: dict[str, DeclarativeCommandOverride] = {
         ),
         rationale="POST-H-029-D validates the formal release-candidate-local test profile and writes only outputs/reports evidence when --write-report is explicit; it never executes tests from JSON.",
     ),
+    "tests.regression-guard": DeclarativeCommandOverride(
+        command_id="tests.regression-guard",
+        risk_level=CommandRiskLevel.HIGH,
+        side_effects=(CommandSideEffect.WRITE_REPORT,),
+        writes_files=True,
+        dry_run_supported=True,
+        policy_check_required=True,
+        recommended_tests=(
+            "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_029_historical_regression_guard.py tests/test_post_h_029_release_candidate_test_profile.py tests/test_quality_gate.py tests/test_project_global_state.py -q",
+        ),
+        rationale="POST-H-029-E validates the historical regression closure guard and writes only outputs/reports evidence when --write-report is explicit; it never executes pytest or accepts permanent waivers.",
+    ),
     "tests.profiles": DeclarativeCommandOverride(
         command_id="tests.profiles",
         risk_level=CommandRiskLevel.LOW,
@@ -382,7 +394,7 @@ COMMAND_OVERRIDES: dict[str, DeclarativeCommandOverride] = {
         dry_run_supported=True,
         policy_check_required=False,
         recommended_tests=(
-            "python -m pytest tests/test_post_h_029_test_profile_taxonomy.py tests/test_post_h_029_release_candidate_test_profile.py tests/test_tests_run_tool.py -q",
+            "python -m pytest tests/test_post_h_029_test_profile_taxonomy.py tests/test_post_h_029_release_candidate_test_profile.py tests/test_post_h_029_historical_regression_guard.py tests/test_tests_run_tool.py -q",
         ),
         rationale="tests profiles remains a read-only listing command for configured approval-gated test profiles; --write-report writes only outputs/reports evidence.",
     ),

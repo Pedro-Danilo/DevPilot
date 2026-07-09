@@ -5620,3 +5620,14 @@ Límites: sigue siendo una primera versión `implemented-initial/local-first`. N
 Estado: `implemented-initial/local-first`. DevPilot ahora expone `python -m devpilot_core tests release-candidate-profile --json --write-report` para validar el perfil formal `release-candidate-local` sin ejecutar pruebas desde JSON. El perfil vive en `.devpilot/testing/release_candidate_test_profile.json`, valida `ReleaseCandidateTestProfileReport`, mantiene `tests.run` approval-gated y enumera comandos required/recommended/optional para RC local, UI/API hardening, production-ready-local, TCR, schemas, docs governance y packaging.
 
 Limitación explícita: este perfil reduce el costo operativo de selección, pero no reemplaza `pytest -q` completo cuando `full_regression_required_when` aplica. POST-H-029-E debe convertir esta política en guard histórico de cierre.
+
+### POST-H-029-E — Historical regression guard
+
+POST-H-029 queda cerrado como `closed/testing-tiers-ready`. Se agrega `HistoricalRegressionGuardReport`, el comando `python -m devpilot_core tests regression-guard --context micro-sprint --json --write-report` y el subgate `testing-tiers-ready` en hardening/industrial. La implementación es `implemented-initial/local-first`: no ejecuta `pytest -q`, no usa red, no usa APIs externas y no versiona logs runtime pesados. Bloquea cierres de backlog, release candidate o hito mayor sin decisión explícita de regresión (`full`, `focal-expanded` o `waiver`) y exige que los waivers tengan owner, motivo, riesgo, pruebas ejecutadas y expiración.
+
+## Estado actual POST-H-029-E
+
+Último hito: `POST-H-029`
+Siguiente hito: `POST-H-030`
+
+POST-H-029 está cerrado como `testing-tiers-ready`.

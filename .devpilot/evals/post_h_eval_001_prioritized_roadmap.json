@@ -117,7 +117,9 @@
       "milestones": [
         "POST-H-026",
         "POST-H-027",
-        "POST-H-028"
+        "POST-H-028",
+        "POST-H-029",
+        "POST-H-030"
       ],
       "rationale": "Continuidad agregada después de POST-H-025 para mantener sincronización roadmap markdown/json y transición hacia packaging local y siguientes hitos."
     }

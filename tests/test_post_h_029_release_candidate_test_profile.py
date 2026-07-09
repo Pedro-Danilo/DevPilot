@@ -118,9 +118,9 @@ def test_post_h_029_d_governance_artifacts_are_synchronized() -> None:
     changelog = _read_text("docs/release/CHANGELOG.md").lower()
     backlog = _read_text("docs/backlogs/POST-H-029_testing_tiers_impact_regression_cost.md")
 
-    assert state["current_micro_sprint"] == "POST-H-029-D"
-    assert state["next_micro_sprint"] == "POST-H-029-E"
-    assert state["current_repo"] == "repo_DevPilot_Local_282_POST_H_029_D.zip"
+    assert state["current_micro_sprint"] in {"POST-H-029-D", "POST-H-029-E"}
+    assert state["next_micro_sprint"] in {"POST-H-029-E", "POST-H-030-A"}
+    assert state["current_repo"] in {"repo_DevPilot_Local_282_POST_H_029_D.zip", "repo_DevPilot_Local_283_POST_H_029_E.zip"}
     assert state["post_h_029_release_candidate_test_profile_schema_registered"] is True
     assert state["post_h_029_release_candidate_test_profile_available"] is True
     assert state["post_h_029_release_candidate_test_profile_tests_executed"] is False
@@ -148,7 +148,7 @@ def test_post_h_029_d_governance_artifacts_are_synchronized() -> None:
     assert "ReleaseCandidateTestProfileReport" in test_strategy
     assert "ReleaseCandidateTestProfileReport" in tcr_design
     assert "post-h-029-d" in changelog
-    assert 'current_micro_sprint: "POST-H-029-D"' in backlog
+    assert 'current_micro_sprint: "POST-H-029-D"' in backlog or 'current_micro_sprint: "POST-H-029-E"' in backlog
 
 
 def test_post_h_029_d_existing_post_h_026_profile_remains_compatible() -> None:

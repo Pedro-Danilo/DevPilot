@@ -7545,6 +7545,51 @@
       "notes": [
         "POST-H-029-D validates the formal release-candidate-local test profile without executing tests from JSON."
       ]
+    },
+    {
+      "contract_id": "post-h-029-historical-regression-guard",
+      "scope": "integration",
+      "owner": "POST-H-029-E",
+      "phase": "POST-FASE-H",
+      "test_files": [
+        "tests/test_post_h_029_historical_regression_guard.py"
+      ],
+      "validates": [
+        "docs/schemas/historical_regression_guard_report.schema.json",
+        "src/devpilot_core/testing/historical_regression_guard.py",
+        "tests regression-guard",
+        "quality-gate testing-tiers-ready",
+        "README.md",
+        "docs/05_operations/runbook.md",
+        "docs/04_quality/test_strategy.md",
+        "docs/04_quality/test_contract_registry_2_design.md"
+      ],
+      "watched_paths": [
+        "docs/schemas/historical_regression_guard_report.schema.json",
+        "src/devpilot_core/testing/historical_regression_guard.py",
+        "src/devpilot_core/quality/gate.py",
+        "src/devpilot_core/cli.py",
+        "src/devpilot_core/testing/__init__.py",
+        "tests/test_post_h_029_historical_regression_guard.py",
+        ".devpilot/testing/test_contract_registry_v2.json",
+        ".devpilot/project_state.json",
+        "docs/backlogs/POST-H-029_testing_tiers_impact_regression_cost.md"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_029_historical_regression_guard.py tests/test_post_h_029_release_candidate_test_profile.py tests/test_quality_gate.py tests/test_project_global_state.py -q",
+        "python -m devpilot_core tests regression-guard --context micro-sprint --json --write-report",
+        "python -m devpilot_core schema validate --schema-id HistoricalRegressionGuardReport --instance outputs/reports/historical_regression_guard_report.json --json"
+      ],
+      "notes": [
+        "POST-H-029-E validates historical regression closure decisions without executing pytest or storing heavy runtime logs in source."
+      ]
     }
   ],
   "notes": [

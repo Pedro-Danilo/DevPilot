@@ -74,3 +74,9 @@ __all__ = [
     "RELEASE_CANDIDATE_TEST_PROFILE_CONTRACT",
     "RELEASE_CANDIDATE_TEST_PROFILE_SCHEMA_ID",
 ]
+
+from .historical_regression_guard import (
+    HistoricalRegressionGuardOptions,
+    HistoricalRegressionGuardRunner,
+    HISTORICAL_REGRESSION_GUARD_COMMAND,
+)

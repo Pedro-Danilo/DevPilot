@@ -2533,3 +2533,12 @@ Siguiente micro-sprint: `POST-H-029-C — Test impact CLI recommendations`.
 - Se mantiene `tests_executed=false`, sin red, sin APIs externas, sin ejecución remota, sin connector write y sin plugin execution.
 - Siguiente micro-sprint: `POST-H-029-D — Release candidate test profile`.
 
+## POST-H-029-E — Historical regression guard
+
+- Add `HistoricalRegressionGuardReport` schema.
+- Add `tests regression-guard` CLI for micro-sprint, backlog-closure, release-candidate and major-hito contexts.
+- Add `testing-tiers-ready` subgate to hardening/industrial quality profiles.
+- Block undecided backlog/release/hito closure and require temporary waiver metadata when full regression is skipped.
+- Close POST-H-029 as `closed/testing-tiers-ready` while preserving full regression for contextual closure.
+
+Siguiente hito: `POST-H-030`
