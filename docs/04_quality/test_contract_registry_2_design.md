@@ -240,3 +240,17 @@ BLOCK si se rompe v1, si v2 ejecuta pruebas automáticamente, si el subgate hace
 TCR v2 conserva su clasificación por dominio, criticidad, riesgo, costo y `execution_profile`. POST-H-029-A agrega una capa complementaria: `TestProfileTaxonomy`, orientada al operador y a la reducción controlada de costo.
 
 La taxonomía no reemplaza TCR v2. POST-H-029-B deberá conectar reglas declarativas de impacto entre TCR v2, watched paths, perfiles y escalamiento. Hasta entonces, la selección por impacto sigue siendo advisory y debe elevar la verificación ante paths no mapeados.
+
+
+## POST-H-029-B — TestImpactRuleRegistry
+
+POST-H-029-B agrega `.devpilot/testing/test_impact_rules.json` como registry declarativo de reglas de impacto. TCR v2 sigue siendo la fuente de contratos; el nuevo registry define cómo los paths cambiados escalan hacia dominios, perfiles, pruebas y comandos recomendados.
+
+El diseño separa responsabilidades:
+
+- TCR v2 declara contratos y metadata de costo/riesgo;
+- TestProfileTaxonomy declara perfiles operacionales;
+- TestImpactRuleRegistry declara reglas de mapeo y escalamiento;
+- TestImpactAnalyzerV2 interpreta esas reglas sin ejecutar pruebas.
+
+Limitación: el resultado aún es `implemented-initial`. POST-H-029-C debe normalizar el reporte de recomendación y POST-H-029-E debe hacer bloqueante el criterio de cierre/regresión.

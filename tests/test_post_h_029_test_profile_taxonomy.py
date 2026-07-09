@@ -117,9 +117,10 @@ def test_post_h_029_a_governance_artifacts_are_synchronized() -> None:
 
     assert state["last_completed_sprint"] == "POST-H-028"
     assert state["next_sprint"] == "POST-H-029"
-    assert state["current_micro_sprint"] == "POST-H-029-A"
-    assert state["next_micro_sprint"] == "POST-H-029-B"
-    assert state["current_repo"] == "repo_DevPilot_Local_279_POST_H_029_A.zip"
+    # POST-H-029-A is historical once B/C/D/E advance; do not bind this test to mutable global sprint pointers.
+    assert str(state["current_micro_sprint"]).startswith("POST-H-029-")
+    assert str(state["next_micro_sprint"]).startswith("POST-H-029-") or state["next_micro_sprint"] == "POST-H-030"
+    assert str(state["current_repo"]).startswith("repo_DevPilot_Local_")
     assert state["post_h_029_test_profile_taxonomy_valid"] is True
     assert state["post_h_029_tests_executed_from_taxonomy"] is False
     assert state["post_h_029_full_regression_preserved"] is True
@@ -148,7 +149,8 @@ def test_backlog_is_approved_and_top_level_doc_exists() -> None:
     backlog = _read_text("docs/backlogs/POST-H-029_testing_tiers_impact_regression_cost.md")
     top_level = _read_text("docs/POST-H-029_testing_tiers_impact_regression_cost.md")
     assert 'status: "approved"' in backlog
-    assert 'implementation_status: "active/implemented-initial-post-h-029-a"' in backlog
-    assert 'current_micro_sprint: "POST-H-029-A"' in backlog
-    assert 'next_micro_sprint: "POST-H-029-B"' in backlog
+    assert 'implementation_status: "active/implemented-initial-post-h-029-' in backlog
+    assert 'current_micro_sprint: "POST-H-029-' in backlog
+    assert 'next_micro_sprint: "POST-H-029-' in backlog or 'next_micro_sprint: "POST-H-030"' in backlog
+    assert 'POST-H-029-A' in backlog
     assert 'doc_id: "POST-H-029-DOC"' in top_level

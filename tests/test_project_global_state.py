@@ -102,10 +102,10 @@ def test_project_global_state_schema_and_docs_are_synchronized() -> None:
     assert any("POST-H-013-D adds optional local crypto" in note for note in state["notes"])
     assert any("POST-H-013-E closes Audit pack integrity" in note for note in state["notes"])
     assert any("POST-H-014 is the next prioritized hito" in note for note in state["notes"])
-    assert state.get("current_micro_sprint") == "POST-H-029-A"
-    assert state.get("next_micro_sprint") == "POST-H-029-B"
+    assert state.get("current_micro_sprint") == "POST-H-029-B"
+    assert state.get("next_micro_sprint") == "POST-H-029-C"
     assert state.get("source_repo") == "repo_DevPilot_Local_263_POST_H_025.zip"
-    assert state.get("current_repo") == "repo_DevPilot_Local_279_POST_H_029_A.zip"
+    assert state.get("current_repo") == "repo_DevPilot_Local_280_POST_H_029_B.zip"
     assert state.get("post_h_026_status") == "closed/local-release-candidate-pass"
     assert "POST-H-026-C — UI/API local smoke under RC" in readme
     assert "POST-H-026-C — UI/API local smoke under RC" in runbook
@@ -252,8 +252,19 @@ def test_project_global_state_schema_and_docs_are_synchronized() -> None:
     assert state.get("post_h_029_tests_executed_from_taxonomy") is False
     assert state.get("post_h_029_no_arbitrary_shell") is True
     assert state.get("post_h_029_full_regression_preserved") is True
+    assert state.get("post_h_029_test_impact_rule_registry_schema_registered") is True
+    assert state.get("post_h_029_test_impact_rule_registry_available") is True
+    assert state.get("post_h_029_test_impact_rule_registry_valid") is True
+    assert state.get("post_h_029_test_impact_rules_unmapped_p0_p1_domains_total") == 0
+    assert state.get("post_h_029_test_impact_rules_unsafe_commands_total") == 0
+    assert state.get("post_h_029_test_impact_rules_unknown_impact_escalates") is True
+    assert state.get("post_h_029_test_impact_analyzer_v2_uses_rule_registry") is True
     assert "POST-H-029-A — Test profile taxonomy" in readme
     assert "POST-H-029-A — Test profile taxonomy" in runbook
+    assert "POST-H-029-B — TCR v2 impact rules" in readme
+    assert "POST-H-029-B — TCR v2 impact rules" in runbook
+    assert "post-h-029-b" in changelog.lower()
+    assert any("POST-H-029-B adds TestImpactRuleRegistry" in note for note in state["notes"])
     assert "post-h-029-a" in changelog.lower()
     assert any("POST-H-029-A starts Testing tiers" in note for note in state["notes"])
     assert "POST-H-014-A — Route Contract Registry y API inventory" in readme
@@ -500,8 +511,11 @@ def test_project_global_state_schema_and_docs_are_synchronized() -> None:
     assert any("POST-H-025-C adds industrial-readiness production-ready-local CLI" in note for note in state["notes"])
     assert any("POST-H-025-D adds ProductionReadyClaimsValidator" in note for note in state["notes"])
     assert any("POST-H-025-E adds ProductionReadyFinalDeclaration" in note for note in state["notes"])
-    assert state["current_micro_sprint"] == "POST-H-029-A"
-    assert state["next_micro_sprint"] == "POST-H-029-B"
+    assert state["current_micro_sprint"] == "POST-H-029-B"
+    assert state["next_micro_sprint"] == "POST-H-029-C"
+    assert state.get("post_h_029_test_impact_rule_registry_valid") is True
+    assert state.get("post_h_029_test_impact_rules_unknown_impact_escalates") is True
+    assert state.get("post_h_029_test_impact_rules_unsafe_commands_total") == 0
     assert "POST-H-025-A — Criteria schema y evidence map" in readme
     assert "POST-H-025-A — Criteria schema y evidence map" in runbook
     assert "POST-H-025-C — Declaration gate CLI/API" in readme

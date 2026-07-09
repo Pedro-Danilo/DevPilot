@@ -1,0 +1,370 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/test_impact_rule_registry.schema.json",
+  "title": "DevPilot TestImpactRuleRegistry v1",
+  "description": "Schema-backed POST-H-029-B registry for declarative TCR v2 impact rules, path/domain/profile mappings, escalation and local safe recommended commands. It is read-only metadata and never executes tests from JSON.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "schema_id",
+    "registry_id",
+    "created_by",
+    "status",
+    "version",
+    "updated",
+    "rules",
+    "unmatched_path_policy",
+    "coverage_requirements",
+    "safety",
+    "notes"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "schema_id": {
+      "const": "SCHEMA-DEVPL-TEST-IMPACT-RULE-REGISTRY-V1"
+    },
+    "registry_id": {
+      "const": "devpilot-test-impact-rule-registry"
+    },
+    "created_by": {
+      "const": "POST-H-029-B"
+    },
+    "status": {
+      "enum": [
+        "implemented-initial"
+      ]
+    },
+    "version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "updated": {
+      "type": "string",
+      "minLength": 10
+    },
+    "rules": {
+      "type": "array",
+      "minItems": 10,
+      "items": {
+        "$ref": "#/$defs/rule"
+      }
+    },
+    "unmatched_path_policy": {
+      "type": "object",
+      "required": [
+        "unknown_path_escalates",
+        "generic_path_default",
+        "sensitive_path_default",
+        "p0_p1_unmatched_default",
+        "notes"
+      ],
+      "properties": {
+        "unknown_path_escalates": {
+          "const": true
+        },
+        "generic_path_default": {
+          "enum": [
+            "review-required",
+            "full-regression-required"
+          ]
+        },
+        "sensitive_path_default": {
+          "enum": [
+            "review-required",
+            "full-regression-required"
+          ]
+        },
+        "p0_p1_unmatched_default": {
+          "enum": [
+            "full-regression-required"
+          ]
+        },
+        "notes": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "additionalProperties": true
+    },
+    "coverage_requirements": {
+      "type": "object",
+      "required": [
+        "p0_p1_domains_must_be_mapped",
+        "sensitive_paths_must_escalate",
+        "recommended_commands_allowlist_only",
+        "cost_metadata_required_for_critical_contracts"
+      ],
+      "properties": {
+        "p0_p1_domains_must_be_mapped": {
+          "const": true
+        },
+        "sensitive_paths_must_escalate": {
+          "const": true
+        },
+        "recommended_commands_allowlist_only": {
+          "const": true
+        },
+        "cost_metadata_required_for_critical_contracts": {
+          "const": true
+        }
+      },
+      "additionalProperties": true
+    },
+    "safety": {
+      "type": "object",
+      "required": [
+        "local_first",
+        "read_only",
+        "dry_run_default",
+        "tests_executed_from_registry",
+        "network_used",
+        "external_api_used",
+        "remote_execution_enabled",
+        "connector_write_enabled",
+        "plugin_execution_enabled",
+        "source_mutations_performed",
+        "llm_judge_used"
+      ],
+      "properties": {
+        "local_first": {
+          "const": true
+        },
+        "read_only": {
+          "const": true
+        },
+        "dry_run_default": {
+          "const": true
+        },
+        "tests_executed_from_registry": {
+          "const": false
+        },
+        "network_used": {
+          "const": false
+        },
+        "external_api_used": {
+          "const": false
+        },
+        "remote_execution_enabled": {
+          "const": false
+        },
+        "connector_write_enabled": {
+          "const": false
+        },
+        "plugin_execution_enabled": {
+          "const": false
+        },
+        "source_mutations_performed": {
+          "const": false
+        },
+        "llm_judge_used": {
+          "const": false
+        }
+      },
+      "additionalProperties": true
+    },
+    "notes": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  },
+  "$defs": {
+    "profile_id": {
+      "enum": [
+        "always-fast",
+        "p0-critical",
+        "security",
+        "impact",
+        "release",
+        "release-candidate-local",
+        "docs-historical",
+        "full",
+        "manual",
+        "nightly-local"
+      ]
+    },
+    "severity": {
+      "enum": [
+        "info",
+        "review-required",
+        "full-regression-required",
+        "release-candidate-required",
+        "security-review-required"
+      ]
+    },
+    "rule": {
+      "type": "object",
+      "required": [
+        "rule_id",
+        "title",
+        "description",
+        "path_patterns",
+        "domains",
+        "profiles",
+        "criticalities",
+        "risk_levels",
+        "recommended_tests",
+        "recommended_commands",
+        "escalation",
+        "unmatched_behavior",
+        "cost_class",
+        "owner",
+        "safety"
+      ],
+      "properties": {
+        "rule_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9-]*$"
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1
+        },
+        "description": {
+          "type": "string",
+          "minLength": 1
+        },
+        "path_patterns": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1
+        },
+        "domains": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1
+        },
+        "profiles": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/profile_id"
+          },
+          "minItems": 1
+        },
+        "criticalities": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "P0",
+              "P1",
+              "P2",
+              "P3"
+            ]
+          },
+          "minItems": 1
+        },
+        "risk_levels": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "critical",
+              "high",
+              "medium",
+              "low"
+            ]
+          },
+          "minItems": 1
+        },
+        "recommended_tests": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "recommended_commands": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "escalation": {
+          "type": "object",
+          "required": [
+            "level",
+            "full_regression_required",
+            "manual_review_required",
+            "waiver_allowed_before_post_h_029_e"
+          ],
+          "properties": {
+            "level": {
+              "$ref": "#/$defs/severity"
+            },
+            "full_regression_required": {
+              "type": "boolean"
+            },
+            "manual_review_required": {
+              "type": "boolean"
+            },
+            "waiver_allowed_before_post_h_029_e": {
+              "type": "boolean"
+            }
+          },
+          "additionalProperties": true
+        },
+        "unmatched_behavior": {
+          "enum": [
+            "review-required",
+            "full-regression-required"
+          ]
+        },
+        "cost_class": {
+          "enum": [
+            "low",
+            "medium",
+            "high",
+            "very-high"
+          ]
+        },
+        "owner": {
+          "type": "string",
+          "minLength": 1
+        },
+        "safety": {
+          "type": "object",
+          "required": [
+            "network_allowed",
+            "external_api_allowed",
+            "mutations_allowed",
+            "source_mutations_allowed",
+            "tests_executed_from_rule"
+          ],
+          "properties": {
+            "network_allowed": {
+              "const": false
+            },
+            "external_api_allowed": {
+              "const": false
+            },
+            "mutations_allowed": {
+              "const": false
+            },
+            "source_mutations_allowed": {
+              "const": false
+            },
+            "tests_executed_from_rule": {
+              "const": false
+            }
+          },
+          "additionalProperties": true
+        }
+      },
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": true
+}

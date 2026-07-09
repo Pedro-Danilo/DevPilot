@@ -147,7 +147,7 @@ from .changes import RollbackManager
 from .standards.registry import build_standards_status_result
 from .store import LocalStore
 from .traceability import MarkdownTraceabilityExtractor, TraceabilityEngine
-from .testing import TestContractRegistry, TestContractRegistryV2MigrationOptions, TestContractRegistryV2Migrator, TestContractRegistryV2ValidationOptions, TestContractRegistryV2Validator, TestImpactAnalyzer, TestImpactAnalyzerV2, TestImpactOptions, TestImpactV2Options, TestProfileTaxonomyOptions, TestProfileTaxonomyRunner, TestsRunTool
+from .testing import TestContractRegistry, TestContractRegistryV2MigrationOptions, TestContractRegistryV2Migrator, TestContractRegistryV2ValidationOptions, TestContractRegistryV2Validator, TestImpactAnalyzer, TestImpactAnalyzerV2, TestImpactOptions, TestImpactV2Options, TestImpactRuleRegistryOptions, TestImpactRuleRegistryRunner, TestProfileTaxonomyOptions, TestProfileTaxonomyRunner, TestsRunTool
 from .validation import ValidationGateway
 from .workspace import (
     DEFAULT_WORKSPACE_ISOLATION_REPORT_JSON,
@@ -3648,6 +3648,7 @@ def test_impact_analyze_v2_command(
     changed_paths: list[str] | None = None,
     registry_path: str = ".devpilot/testing/test_contract_registry_v2.json",
     schema_path: str = "docs/schemas/test_contract_registry_v2.schema.json",
+    rules_path: str = ".devpilot/testing/test_impact_rules.json",
     json_output: bool = False,
     write_report: bool = False,
 ) -> int:
@@ -3657,6 +3658,7 @@ def test_impact_analyze_v2_command(
     options = TestImpactV2Options(
         registry_path=registry_path,
         schema_path=schema_path,
+        rules_path=rules_path,
         changed_paths_file=changed_paths_file,
         changed_paths=tuple(changed_paths or ()),
     )
@@ -3671,6 +3673,30 @@ def test_impact_analyze_v2_command(
     )
     _emit_result_event(root, result, subject="testing:test-impact-v2")
     _persist_result(root, result, subject="testing:test-impact-v2")
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+
+
+
+def test_impact_rules_command(
+    *,
+    registry_path: str = ".devpilot/testing/test_impact_rules.json",
+    schema_path: str = "docs/schemas/test_impact_rule_registry.schema.json",
+    json_output: bool = False,
+    write_report: bool = False,
+) -> int:
+    """Validate POST-H-029-B declarative TCR v2 impact rules without executing tests."""
+
+    root = project_root()
+    options = TestImpactRuleRegistryOptions(
+        registry_path=registry_path,
+        schema_path=schema_path,
+        write_report=write_report,
+    )
+    result = TestImpactRuleRegistryRunner(root, options).validate()
+    _emit_result_event(root, result, subject="testing:test-impact-rules")
+    _persist_result(root, result, subject="testing:test-impact-rules")
     print_result(result, json_output=json_output)
     return int(result.exit_code)
 
@@ -5994,8 +6020,15 @@ def build_parser() -> argparse.ArgumentParser:
     test_impact_analyze_v2.add_argument("--changed-paths-file", default=None, help="Path to a newline-delimited changed-paths file")
     test_impact_analyze_v2.add_argument("--registry-path", default=".devpilot/testing/test_contract_registry_v2.json", help="Test Contract Registry v2 path")
     test_impact_analyze_v2.add_argument("--schema-path", default="docs/schemas/test_contract_registry_v2.schema.json", help="Test Contract Registry v2 schema path")
+    test_impact_analyze_v2.add_argument("--rules-path", default=".devpilot/testing/test_impact_rules.json", help="POST-H-029-B impact rule registry path")
     test_impact_analyze_v2.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     test_impact_analyze_v2.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
+
+    test_impact_rules = test_impact_sub.add_parser("rules", help="Validate POST-H-029-B declarative TCR v2 impact rules without running tests")
+    test_impact_rules.add_argument("--registry-path", default=".devpilot/testing/test_impact_rules.json", help="Test impact rule registry path")
+    test_impact_rules.add_argument("--schema-path", default="docs/schemas/test_impact_rule_registry.schema.json", help="Test impact rule registry schema path")
+    test_impact_rules.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    test_impact_rules.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
 
     audit_pack = sub.add_parser("audit-pack", help="Build and verify local collaboration audit packs")
     audit_pack_sub = audit_pack.add_subparsers(dest="audit_pack_command")
@@ -7126,6 +7159,7 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
             return remote_runner_status_command(
                 registry_path=args.registry_path,
                 schema_path=args.schema_path,
+                rules_path=args.rules_path,
                 json_output=args.json,
                 write_report=args.write_report,
             )
@@ -7378,6 +7412,13 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
             return test_impact_analyze_v2_command(
                 changed_paths_file=args.changed_paths_file,
                 changed_paths=args.changed_paths,
+                registry_path=args.registry_path,
+                schema_path=args.schema_path,
+                json_output=args.json,
+                write_report=args.write_report,
+            )
+        if args.test_impact_command == "rules":
+            return test_impact_rules_command(
                 registry_path=args.registry_path,
                 schema_path=args.schema_path,
                 json_output=args.json,

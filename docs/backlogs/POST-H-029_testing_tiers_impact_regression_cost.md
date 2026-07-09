@@ -24,12 +24,14 @@ no_connector_write_enabled: true
 no_plugin_execution_enabled: true
 claims_allowed: "production-ready-local"
 claims_forbidden: "enterprise-ready, remote-ready, SaaS-ready, compliance-certified"
-implementation_status: "active/implemented-initial-post-h-029-a"
-current_micro_sprint: "POST-H-029-A"
-next_micro_sprint: "POST-H-029-B"
+implementation_status: "active/implemented-initial-post-h-029-b"
+current_micro_sprint: "POST-H-029-B"
+next_micro_sprint: "POST-H-029-C"
 ---
 
 # POST-H-029 — Testing tiers, impacto y costo de regresion
+
+POST-H-029-B queda implementado como `implemented-initial/local-first`: agrega `TestImpactRuleRegistry`, `.devpilot/testing/test_impact_rules.json`, CLI `test-impact rules`, integración inicial con `TestImpactAnalyzerV2` y enriquecimiento de TCR v2 para dominios P0/P1. POST-H-029-C queda pendiente para recomendaciones CLI normalizadas.
 
 
 ## Estado de implementación
@@ -448,6 +450,11 @@ python -m devpilot_core schema validate --schema-id TestImpactRuleRegistry --ins
 python -m devpilot_core test-contracts validate-v2 --json
 python -m devpilot_core test-impact rules --json
 ```
+
+#### Estado de implementación POST-H-029-B
+
+Implementado como primera versión local-first. El registry contiene 12 reglas declarativas, cubre todos los dominios P0/P1 actuales de TCR v2, bloquea comandos fuera de allowlist y mantiene `tests_executed=false`. El uso sigue siendo advisory hasta POST-H-029-C/E.
+
 
 ## 11. Micro-sprint POST-H-029-C — Test impact CLI recommendations
 

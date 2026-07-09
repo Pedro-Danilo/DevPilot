@@ -7407,6 +7407,51 @@
         "python -m pytest tests/test_post_h_029_test_profile_taxonomy.py -q",
         "python -m devpilot_core tests taxonomy --json"
       ]
+    },
+    {
+      "contract_id": "post-h-029-tcr-v2-impact-rules",
+      "scope": "integration",
+      "owner": "POST-H-029-B",
+      "test_files": [
+        "tests/test_post_h_029_tcr_v2_impact_rules.py"
+      ],
+      "validates": [
+        "docs/schemas/test_impact_rule_registry.schema.json",
+        ".devpilot/testing/test_impact_rules.json",
+        "src/devpilot_core/testing/impact_rules.py",
+        "test-impact rules",
+        "TestImpactAnalyzerV2 rule-registry integration",
+        "README.md",
+        "docs/05_operations/runbook.md",
+        "docs/04_quality/test_strategy.md",
+        "docs/04_quality/test_contract_registry_2_design.md"
+      ],
+      "watched_paths": [
+        "docs/schemas/test_impact_rule_registry.schema.json",
+        ".devpilot/testing/test_impact_rules.json",
+        "src/devpilot_core/testing/impact_rules.py",
+        "src/devpilot_core/testing/impact_v2.py",
+        "src/devpilot_core/cli.py",
+        "src/devpilot_core/testing/__init__.py",
+        "tests/test_post_h_029_tcr_v2_impact_rules.py",
+        ".devpilot/testing/test_contract_registry_v2.json",
+        ".devpilot/project_state.json"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_029_tcr_v2_impact_rules.py tests/test_post_h_029_test_profile_taxonomy.py tests/test_test_contract_registry_v2.py tests/test_test_contract_registry_profiles_v2.py tests/test_test_impact_v2.py tests/test_schema_registry.py tests/test_project_global_state.py -q",
+        "python -m devpilot_core test-impact rules --json --write-report",
+        "python -m devpilot_core schema validate --schema-id TestImpactRuleRegistry --instance .devpilot/testing/test_impact_rules.json --json"
+      ],
+      "notes": [
+        "POST-H-029-B validates declarative impact rules and maps P0/P1 domains to profiles and escalation without executing tests."
+      ]
     }
   ],
   "notes": [

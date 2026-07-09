@@ -8052,6 +8052,105 @@
         "test_must_pass"
       ],
       "lifecycle": "active"
+    },
+    {
+      "doc_id": "SCHEMA-DEVPL-TEST-IMPACT-RULE-REGISTRY-V1",
+      "path": "docs/schemas/test_impact_rule_registry.schema.json",
+      "classification": "machine-readable-source",
+      "domain": "governance.testing",
+      "owner": "POST-H-029-B",
+      "status_required": "registered",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_029_tcr_v2_impact_rules.py",
+        "tests/test_schema_registry.py"
+      ],
+      "sync_rules": [
+        "schema_must_validate",
+        "test_must_pass"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "POST-H-029-B-TEST-IMPACT-RULES",
+      "path": ".devpilot/testing/test_impact_rules.json",
+      "classification": "machine-readable-source",
+      "domain": "governance.testing",
+      "owner": "POST-H-029-B",
+      "status_required": "implemented-initial",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_029_tcr_v2_impact_rules.py"
+      ],
+      "sync_rules": [
+        "schema_must_validate",
+        "test_must_pass"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "POST-H-029-B-IMPACT-RULES-MODULE",
+      "path": "src/devpilot_core/testing/impact_rules.py",
+      "classification": "source-of-truth",
+      "domain": "governance.testing",
+      "owner": "POST-H-029-B",
+      "status_required": "current",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_029_tcr_v2_impact_rules.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "POST-H-029-B-IMPACT-RULES-REPORT",
+      "path": "docs/audits/post_h_029_b_tcr_v2_impact_rules_report.md",
+      "classification": "source-of-truth",
+      "domain": "governance.testing",
+      "owner": "Ordóñez",
+      "status_required": "approved",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_029_tcr_v2_impact_rules.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "POST-H-029-B-MANIFEST",
+      "path": "docs/post_h_029_b_manifest.json",
+      "classification": "machine-readable-source",
+      "domain": "governance.testing",
+      "owner": "POST-H-029-B",
+      "status_required": "implemented-initial",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_029_tcr_v2_impact_rules.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "lifecycle": "active"
+    },
+    {
+      "doc_id": "POST-H-029-B-IMPACT-RULES-TEST",
+      "path": "tests/test_post_h_029_tcr_v2_impact_rules.py",
+      "classification": "derived",
+      "domain": "governance.testing",
+      "owner": "POST-H-029-B",
+      "status_required": "current",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_029_tcr_v2_impact_rules.py"
+      ],
+      "sync_rules": [
+        "test_must_pass"
+      ],
+      "lifecycle": "active"
     }
   ],
   "rules": {
@@ -8125,7 +8224,7 @@
     "POST-H-025-C keeps enterprise, remote, SaaS and compliance claims disabled.": true
   },
   "summary": {
-    "documents_total": 319,
+    "documents_total": 325,
     "source_of_truth_total": 123,
     "machine_readable_source_total": 149,
     "derived_total": 47,
@@ -8145,7 +8244,8 @@
     "backlog_governance_scope": "POST-H-002..POST-H-025",
     "backlogs_missing_future_are_planned_info": true,
     "preliminary": true,
-    "updated_by": "POST-H-028-E-regression-fix"
+    "updated_by": "POST-H-028-E-regression-fix",
+    "last_registered_sprint": "POST-H-029-B"
   },
   "safety": {
     "local_first": true,
@@ -8242,7 +8342,8 @@
     "POST-H-027-B registers Python artifact install verification schema/module/audit/manifest/test for docs governance.",
     "POST-H-028-A registers API contract drift guard docs, schema, module, manifest and tests as canonical UI/API hardening sources.",
     "POST-H-028-B registers local auth/CORS hardening schema, module, report, manifest and tests as canonical UI/API hardening sources.",
-    "POST-H-029-A registers TestProfileTaxonomy and controlled test profile aliases without executing tests from JSON."
+    "POST-H-029-A registers TestProfileTaxonomy and controlled test profile aliases without executing tests from JSON.",
+    "POST-H-029-B registers TestImpactRuleRegistry and declarative TCR v2 impact rules without executing tests from JSON."
   ],
   "project_state_snapshot": {
     "last_completed_sprint": "POST-H-028",

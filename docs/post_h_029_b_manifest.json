@@ -1,0 +1,75 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "SCHEMA-DEVPL-POST-H-MANIFEST-V1",
+  "post_h_id": "POST-H-029",
+  "micro_sprint": "POST-H-029-B",
+  "title": "POST-H-029-B — TCR v2 impact rules",
+  "status": "implemented-initial",
+  "phase": "POST-FASE-H",
+  "implemented_at": "2026-07-09",
+  "created_files": [
+    "docs/schemas/test_impact_rule_registry.schema.json",
+    ".devpilot/testing/test_impact_rules.json",
+    "src/devpilot_core/testing/impact_rules.py",
+    "tests/test_post_h_029_tcr_v2_impact_rules.py",
+    "docs/audits/post_h_029_b_tcr_v2_impact_rules_report.md",
+    "docs/post_h_029_b_manifest.json"
+  ],
+  "modified_files": [
+    "src/devpilot_core/testing/impact_v2.py",
+    "src/devpilot_core/testing/__init__.py",
+    "src/devpilot_core/cli.py",
+    ".devpilot/cli_registry/legacy_command_allowlist.json",
+    ".devpilot/testing/test_contract_registry.json",
+    ".devpilot/testing/test_contract_registry_v2.json",
+    "docs/schemas/schema_catalog.json",
+    ".devpilot/docs_governance/source_registry.json",
+    ".devpilot/project_state.json",
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/04_quality/test_strategy.md",
+    "docs/04_quality/test_contract_registry_2_design.md",
+    "docs/release/CHANGELOG.md",
+    "docs/backlogs/POST-H-029_testing_tiers_impact_regression_cost.md",
+    "docs/POST-H-029_testing_tiers_impact_regression_cost.md",
+    "tests/test_schema_registry.py",
+    "tests/test_project_global_state.py"
+  ],
+  "commands": [
+    "python -m devpilot_core test-impact rules --json --write-report",
+    "python -m devpilot_core schema validate --schema-id TestImpactRuleRegistry --instance .devpilot/testing/test_impact_rules.json --json",
+    "python -m devpilot_core test-impact analyze-v2 --changed-paths src/devpilot_core/policy/engine.py --json",
+    "python -m devpilot_core test-contracts validate-v2 --json"
+  ],
+  "tests": [
+    "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_029_tcr_v2_impact_rules.py tests/test_post_h_029_test_profile_taxonomy.py tests/test_test_contract_registry_v2.py tests/test_test_contract_registry_profiles_v2.py tests/test_test_impact_v2.py tests/test_schema_registry.py tests/test_project_global_state.py -q"
+  ],
+  "pass_criteria": [
+    "Rules registry validates against schema",
+    "All required rules exist",
+    "Every P0/P1 TCR v2 domain is mapped",
+    "Unsafe recommended commands total is zero",
+    "Unknown impact escalates instead of reducing verification",
+    "TestImpactAnalyzerV2 can apply rule-registry mappings"
+  ],
+  "block_criteria": [
+    "P0/P1 domain remains unmapped",
+    "Security/policy path does not escalate",
+    "Recommended command is outside the local allowlist",
+    "Registry executes tests or enables network/external APIs",
+    "TCR v2 stops validating"
+  ],
+  "safety": {
+    "local_first": true,
+    "dry_run": true,
+    "tests_executed": false,
+    "network_used": false,
+    "external_api_used": false,
+    "remote_execution_enabled": false,
+    "connector_write_enabled": false,
+    "plugin_execution_enabled": false,
+    "source_mutations_performed": false
+  },
+  "next_micro_sprint": "POST-H-029-C",
+  "preliminary": true
+}

@@ -703,3 +703,15 @@ La estrategia de pruebas incorpora una primera taxonomía operacional para separ
 La taxonomía no ejecuta pruebas. Sirve como contrato validable para que el operador reduzca costo de regresión con trazabilidad, preservando `pytest -q` completo para cierres, release candidate, cambios P0 no mapeados o drift transversal.
 
 Perfiles mínimos versionados: `always-fast`, `p0-critical`, `security`, `impact`, `release`, `release-candidate-local`, `docs-historical`, `full`, `manual`, `nightly-local`. Los perfiles legacy `smoke`, `unit` y `all` se conservan como alias controlados.
+
+
+## POST-H-029-B — Reglas declarativas de impacto TCR v2
+
+`TestImpactRuleRegistry` introduce una capa declarativa para mapear cambios a dominios, perfiles, pruebas recomendadas y escalamiento. La finalidad es reducir costo de regresión sin crear falsa confianza.
+
+Principios:
+
+- un path P0/P1 no mapeado no reduce verificación; escala a revisión o regresión completa;
+- comandos recomendados son datos allowlisted, no ejecución automática;
+- la taxonomía POST-H-029-A sigue siendo la fuente de perfiles operacionales;
+- `TestImpactAnalyzerV2` puede usar el registry de reglas y conserva heurísticas fallback hasta POST-H-029-C/D/E.

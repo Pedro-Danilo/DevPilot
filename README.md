@@ -5582,3 +5582,20 @@ python -m devpilot_core tests profiles --json
 Capacidades: perfiles `always-fast`, `p0-critical`, `security`, `impact`, `release`, `release-candidate-local`, `docs-historical`, `full`, `manual` y `nightly-local`; alias legacy `smoke`, `unit` y `all` preservados; `tests.run` sigue approval-gated; no se ejecutan tests desde JSON ni se habilita shell arbitrario.
 
 Limitación: POST-H-029-A solo define y valida taxonomía. Las reglas de impacto, recomendaciones CLI, perfil release candidate formal y regression guard histórico quedan para POST-H-029-B/C/D/E.
+
+
+## POST-H-029-B — TCR v2 impact rules
+
+Estado: `implemented-initial / local-first`. Este micro-sprint agrega reglas declarativas de impacto para TCR v2 mediante `TestImpactRuleRegistry`, reduciendo dependencia de heurísticas hardcodeadas.
+
+Artefactos principales:
+
+```powershell
+python -m devpilot_core test-impact rules --json --write-report
+python -m devpilot_core schema validate --schema-id TestImpactRuleRegistry --instance .devpilot/testing/test_impact_rules.json --json
+python -m devpilot_core test-impact analyze-v2 --changed-paths src/devpilot_core/policy/engine.py --json
+```
+
+Garantías: el registry no ejecuta pruebas desde JSON, no abre red, no usa APIs externas, no habilita remote execution, connector write ni plugin execution. Los paths no mapeados escalan a revisión o regresión completa; no se interpretan como "sin pruebas".
+
+Limitación: POST-H-029-B aún no produce el reporte de recomendación final de operador. POST-H-029-C debe convertir estas reglas en recomendaciones CLI accionables; POST-H-029-D formaliza el perfil release candidate local y POST-H-029-E agrega el guard histórico de regresión.

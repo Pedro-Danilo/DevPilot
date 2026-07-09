@@ -7,6 +7,7 @@ from typing import Any
 from devpilot_core.cli_models import CommandResult, ExitCode, Finding, Severity, exit_code_for_findings
 
 from .profiles_v2 import DEFAULT_V2_REGISTRY_PATH, DEFAULT_V2_SCHEMA_PATH, TestContractRegistryV2ValidationOptions, TestContractRegistryV2Validator
+from .impact_rules import DEFAULT_TEST_IMPACT_RULES_PATH, load_impact_rule_registry, match_impact_rules
 
 __test__ = False
 
@@ -21,6 +22,7 @@ class TestImpactV2Options:
 
     registry_path: str | Path = DEFAULT_V2_REGISTRY_PATH
     schema_path: str | Path = DEFAULT_V2_SCHEMA_PATH
+    rules_path: str | Path = DEFAULT_TEST_IMPACT_RULES_PATH
     changed_paths_file: str | Path | None = None
     changed_paths: tuple[str, ...] = ()
 
@@ -148,6 +150,7 @@ class TestImpactAnalyzerV2:
         self.options = options or TestImpactV2Options()
         self.registry_path = self._resolve(self.options.registry_path)
         self.schema_path = self._resolve(self.options.schema_path)
+        self.rules_path = self._resolve(self.options.rules_path)
 
     def analyze(self) -> CommandResult:
         findings: list[Finding] = []
@@ -162,6 +165,7 @@ class TestImpactAnalyzerV2:
 
         registry = validation.data.get("registry", {}) if isinstance(validation.data, dict) else {}
         contracts = [item for item in registry.get("contracts", []) if isinstance(item, dict)]
+        rule_registry = load_impact_rule_registry(self.root, self.rules_path)
         changed_paths = self._load_changed_paths(findings)
         if not changed_paths:
             findings.append(
@@ -177,8 +181,14 @@ class TestImpactAnalyzerV2:
         unmatched: list[str] = []
         for changed in changed_paths:
             direct_matches = self._direct_matches(changed, contracts)
+            rule_matches = self._rule_registry_matches(changed, contracts, rule_registry, findings)
             heuristic_matches = self._heuristic_matches(changed, contracts, findings)
-            combined = direct_matches + [item for item in heuristic_matches if item["contract"]["contract_id"] not in {match["contract"]["contract_id"] for match in direct_matches}]
+            combined = direct_matches
+            seen_contract_ids = {match["contract"]["contract_id"] for match in combined}
+            for match in rule_matches + heuristic_matches:
+                if match["contract"]["contract_id"] not in seen_contract_ids:
+                    combined.append(match)
+                    seen_contract_ids.add(match["contract"]["contract_id"])
             if not combined:
                 unmatched.append(changed)
                 continue
@@ -200,7 +210,7 @@ class TestImpactAnalyzerV2:
                     if reason not in entry["match_reasons"]:
                         entry["match_reasons"].append(reason)
 
-        recommendations = self._heuristic_recommendations(changed_paths)
+        recommendations = self._rule_registry_recommendations(changed_paths, rule_registry) + self._heuristic_recommendations(changed_paths)
         recommended_tests = self._unique(
             [path for entry in matched_by_id.values() for path in self._clean_list(entry["contract"].get("test_files", []))]
             + [item for recommendation in recommendations for item in recommendation["tests"] if self._path_exists(item)]
@@ -279,6 +289,34 @@ class TestImpactAnalyzerV2:
                 matches.append({"contract": contract, "reasons": sorted(set(reasons))})
         return matches
 
+    def _rule_registry_matches(
+        self,
+        changed: str,
+        contracts: list[dict[str, Any]],
+        rule_registry: dict[str, Any],
+        findings: list[Finding],
+    ) -> list[dict[str, Any]]:
+        matches: list[dict[str, Any]] = []
+        for rule in match_impact_rules(changed, rule_registry):
+            domains = set(self._clean_list(rule.get("domains", [])))
+            selected = [contract for contract in contracts if contract.get("domain") in domains]
+            selected = self._unique_contracts(selected)
+            for contract in selected:
+                matches.append({"contract": contract, "reasons": [f"rule-registry:{rule.get('rule_id')}"]})
+            findings.append(
+                Finding(
+                    id="TEST_IMPACT_V2_RULE_REGISTRY_APPLIED",
+                    message="Applied POST-H-029-B declarative impact rule registry.",
+                    severity=Severity.INFO,
+                    metadata={
+                        "rule_id": rule.get("rule_id"),
+                        "changed_path": changed,
+                        "contracts_selected": len(selected),
+                    },
+                )
+            )
+        return matches
+
     def _heuristic_matches(self, changed: str, contracts: list[dict[str, Any]], findings: list[Finding]) -> list[dict[str, Any]]:
         matches: list[dict[str, Any]] = []
         for rule in _RULES:
@@ -304,6 +342,28 @@ class TestImpactAnalyzerV2:
                 )
             )
         return matches
+
+    def _rule_registry_recommendations(self, changed_paths: list[str], rule_registry: dict[str, Any]) -> list[dict[str, Any]]:
+        recommendations: list[dict[str, Any]] = []
+        seen: set[str] = set()
+        for changed in changed_paths:
+            for rule in match_impact_rules(changed, rule_registry):
+                rule_id = str(rule.get("rule_id", ""))
+                if not rule_id or rule_id in seen:
+                    continue
+                seen.add(rule_id)
+                recommendations.append(
+                    {
+                        "rule_id": rule_id,
+                        "label": str(rule.get("title") or rule_id),
+                        "source": "test_impact_rule_registry",
+                        "tests": [test for test in self._clean_list(rule.get("recommended_tests", [])) if self._path_exists(test)],
+                        "commands": self._clean_list(rule.get("recommended_commands", [])),
+                        "profiles": self._clean_list(rule.get("profiles", [])),
+                        "escalation": rule.get("escalation", {}),
+                    }
+                )
+        return recommendations
 
     def _heuristic_recommendations(self, changed_paths: list[str]) -> list[dict[str, Any]]:
         recommendations: list[dict[str, Any]] = []
@@ -363,6 +423,7 @@ class TestImpactAnalyzerV2:
         summary = {
             "registry_path": self.relative(self.registry_path),
             "schema_path": self.relative(self.schema_path),
+            "rules_path": self.relative(self.rules_path),
             "changed_paths_total": len(changed_paths),
             "contracts_total": len([item for item in registry.get("contracts", []) if isinstance(item, dict)]) if isinstance(registry, dict) else 0,
             "matched_contracts_total": len(matched_contracts),

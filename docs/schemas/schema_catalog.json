@@ -1490,6 +1490,20 @@
       "dialect": "https://json-schema.org/draft/2020-12/schema",
       "validates_instances": true,
       "validation_enabled_sprint": "POST-H-029-A"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-TEST-IMPACT-RULE-REGISTRY-V1",
+      "title": "Test Impact Rule Registry v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/test_impact_rule_registry.schema.json",
+      "description": "Schema-backed POST-H-029-B registry for declarative TCR v2 impact rules, path/domain/profile mappings, escalation and local safe recommended commands without executing tests from JSON.",
+      "status": "registered",
+      "contract": "TestImpactRuleRegistry",
+      "owner": "Ordóñez",
+      "sprint": "POST-H-029-B",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "POST-H-029-B"
     }
   ]
 }

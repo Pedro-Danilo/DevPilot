@@ -51,3 +51,5 @@ __all__ = [
     "TEST_PROFILE_TAXONOMY_SCHEMA_ID",
     "run_test_profile_taxonomy",
 ]
+
+from .impact_rules import TestImpactRuleRegistryOptions, TestImpactRuleRegistryRunner

@@ -1,0 +1,723 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "SCHEMA-DEVPL-TEST-IMPACT-RULE-REGISTRY-V1",
+  "registry_id": "devpilot-test-impact-rule-registry",
+  "created_by": "POST-H-029-B",
+  "status": "implemented-initial",
+  "version": "1.0.0",
+  "updated": "2026-07-09",
+  "rules": [
+    {
+      "rule_id": "policy-security",
+      "title": "policy, approval, RBAC and security guards",
+      "description": "Declarative POST-H-029-B impact rule for policy, approval, RBAC and security guards.",
+      "path_patterns": [
+        "src/devpilot_core/policy",
+        ".devpilot/policy",
+        ".devpilot/miasi/policy_matrix",
+        "docs/03_security",
+        "src/devpilot_core/approval",
+        "src/devpilot_core/rbac"
+      ],
+      "domains": [
+        "governance.policy",
+        "governance.miasi",
+        "security.approval",
+        "security.rbac",
+        "security.guards",
+        "quality.gate"
+      ],
+      "profiles": [
+        "p0-critical",
+        "security"
+      ],
+      "criticalities": [
+        "P0",
+        "P1"
+      ],
+      "risk_levels": [
+        "critical",
+        "high"
+      ],
+      "recommended_tests": [
+        "tests/test_policy_engine.py",
+        "tests/test_security_readiness.py",
+        "tests/test_miasi_registry.py",
+        "tests/test_quality_gate.py"
+      ],
+      "recommended_commands": [
+        "python -m pytest tests/test_policy_engine.py tests/test_security_readiness.py tests/test_miasi_registry.py tests/test_quality_gate.py -q",
+        "python -m devpilot_core quality-gate run --profile hardening --json",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ],
+      "escalation": {
+        "level": "security-review-required",
+        "full_regression_required": true,
+        "manual_review_required": true,
+        "waiver_allowed_before_post_h_029_e": false
+      },
+      "unmatched_behavior": "full-regression-required",
+      "cost_class": "high",
+      "owner": "POST-H-029-B",
+      "safety": {
+        "network_allowed": false,
+        "external_api_allowed": false,
+        "mutations_allowed": false,
+        "source_mutations_allowed": false,
+        "tests_executed_from_rule": false
+      }
+    },
+    {
+      "rule_id": "schema-contracts",
+      "title": "schema catalog and validators",
+      "description": "Declarative POST-H-029-B impact rule for schema catalog and validators.",
+      "path_patterns": [
+        "docs/schemas",
+        "src/devpilot_core/schemas"
+      ],
+      "domains": [
+        "governance.schemas",
+        "governance.testing"
+      ],
+      "profiles": [
+        "p0-critical",
+        "impact"
+      ],
+      "criticalities": [
+        "P0",
+        "P1"
+      ],
+      "risk_levels": [
+        "critical",
+        "high"
+      ],
+      "recommended_tests": [
+        "tests/test_schema_registry.py",
+        "tests/test_schema_validator.py",
+        "tests/test_contract_schemas.py",
+        "tests/test_test_contract_registry_v2.py"
+      ],
+      "recommended_commands": [
+        "python -m pytest tests/test_schema_registry.py tests/test_schema_validator.py tests/test_contract_schemas.py tests/test_test_contract_registry_v2.py -q",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ],
+      "escalation": {
+        "level": "review-required",
+        "full_regression_required": true,
+        "manual_review_required": true,
+        "waiver_allowed_before_post_h_029_e": false
+      },
+      "unmatched_behavior": "full-regression-required",
+      "cost_class": "high",
+      "owner": "POST-H-029-B",
+      "safety": {
+        "network_allowed": false,
+        "external_api_allowed": false,
+        "mutations_allowed": false,
+        "source_mutations_allowed": false,
+        "tests_executed_from_rule": false
+      }
+    },
+    {
+      "rule_id": "project-state-docs-governance",
+      "title": "project state and docs governance",
+      "description": "Declarative POST-H-029-B impact rule for project state and docs governance.",
+      "path_patterns": [
+        ".devpilot/project_state.json",
+        "README.md",
+        "docs/05_operations",
+        "docs/backlogs",
+        "docs/release",
+        ".devpilot/docs_governance"
+      ],
+      "domains": [
+        "governance.project_state",
+        "documentation.governance"
+      ],
+      "profiles": [
+        "p0-critical",
+        "docs-historical"
+      ],
+      "criticalities": [
+        "P0",
+        "P1"
+      ],
+      "risk_levels": [
+        "critical",
+        "high"
+      ],
+      "recommended_tests": [
+        "tests/test_project_global_state.py",
+        "tests/test_documentation_governance_validator.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "recommended_commands": [
+        "python -m pytest tests/test_project_global_state.py tests/test_documentation_governance_validator.py tests/test_documentation_source_registry_schema.py -q",
+        "python -m devpilot_core project-state validate --json",
+        "python -m devpilot_core docs-governance validate --json",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ],
+      "escalation": {
+        "level": "review-required",
+        "full_regression_required": true,
+        "manual_review_required": true,
+        "waiver_allowed_before_post_h_029_e": false
+      },
+      "unmatched_behavior": "full-regression-required",
+      "cost_class": "high",
+      "owner": "POST-H-029-B",
+      "safety": {
+        "network_allowed": false,
+        "external_api_allowed": false,
+        "mutations_allowed": false,
+        "source_mutations_allowed": false,
+        "tests_executed_from_rule": false
+      }
+    },
+    {
+      "rule_id": "cli-application-boundary",
+      "title": "CLI and ApplicationService boundaries",
+      "description": "Declarative POST-H-029-B impact rule for CLI and ApplicationService boundaries.",
+      "path_patterns": [
+        "src/devpilot_core/cli.py",
+        "src/devpilot_core/application",
+        "src/devpilot_core/cli_registry",
+        "docs/02_architecture",
+        "docs/07_interfaces"
+      ],
+      "domains": [
+        "interface.cli",
+        "application.service"
+      ],
+      "profiles": [
+        "impact",
+        "p0-critical"
+      ],
+      "criticalities": [
+        "P0",
+        "P1"
+      ],
+      "risk_levels": [
+        "critical",
+        "high"
+      ],
+      "recommended_tests": [
+        "tests/test_cli_core.py",
+        "tests/test_application_services.py",
+        "tests/test_post_h_006_b_declarative_registry.py",
+        "tests/test_quality_gate.py"
+      ],
+      "recommended_commands": [
+        "python -m pytest tests/test_cli_core.py tests/test_application_services.py tests/test_post_h_006_b_declarative_registry.py tests/test_quality_gate.py -q",
+        "python -m devpilot_core cli-registry guard --json",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ],
+      "escalation": {
+        "level": "review-required",
+        "full_regression_required": false,
+        "manual_review_required": true,
+        "waiver_allowed_before_post_h_029_e": false
+      },
+      "unmatched_behavior": "review-required",
+      "cost_class": "medium",
+      "owner": "POST-H-029-B",
+      "safety": {
+        "network_allowed": false,
+        "external_api_allowed": false,
+        "mutations_allowed": false,
+        "source_mutations_allowed": false,
+        "tests_executed_from_rule": false
+      }
+    },
+    {
+      "rule_id": "ui-api-local-hardening",
+      "title": "local UI/API hardening and route contracts",
+      "description": "Declarative POST-H-029-B impact rule for local UI/API hardening and route contracts.",
+      "path_patterns": [
+        "src/devpilot_core/interfaces/api",
+        "docs/07_interfaces",
+        ".devpilot/interfaces",
+        "ui/web/src",
+        "ui/web/scripts"
+      ],
+      "domains": [
+        "product.api",
+        "product.ui"
+      ],
+      "profiles": [
+        "impact",
+        "release-candidate-local"
+      ],
+      "criticalities": [
+        "P0",
+        "P1"
+      ],
+      "risk_levels": [
+        "critical",
+        "high"
+      ],
+      "recommended_tests": [
+        "tests/test_post_h_028_api_contract_drift_guard.py",
+        "tests/test_post_h_028_local_auth_cors_hardening.py",
+        "tests/test_post_h_028_visual_smoke_contract.py",
+        "tests/test_post_h_028_operator_flows_error_states.py",
+        "tests/test_post_h_028_ui_route_registry_enforcement.py"
+      ],
+      "recommended_commands": [
+        "python -m pytest tests/test_post_h_028_api_contract_drift_guard.py tests/test_post_h_028_local_auth_cors_hardening.py tests/test_post_h_028_visual_smoke_contract.py tests/test_post_h_028_operator_flows_error_states.py tests/test_post_h_028_ui_route_registry_enforcement.py -q",
+        "python -m devpilot_core api ui-route-enforcement --json",
+        "python -m devpilot_core api shell-gate --json",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ],
+      "escalation": {
+        "level": "release-candidate-required",
+        "full_regression_required": false,
+        "manual_review_required": true,
+        "waiver_allowed_before_post_h_029_e": false
+      },
+      "unmatched_behavior": "review-required",
+      "cost_class": "high",
+      "owner": "POST-H-029-B",
+      "safety": {
+        "network_allowed": false,
+        "external_api_allowed": false,
+        "mutations_allowed": false,
+        "source_mutations_allowed": false,
+        "tests_executed_from_rule": false
+      }
+    },
+    {
+      "rule_id": "release-packaging-rc",
+      "title": "release, packaging and local RC evidence",
+      "description": "Declarative POST-H-029-B impact rule for release, packaging and local RC evidence.",
+      "path_patterns": [
+        "src/devpilot_core/release",
+        "src/devpilot_core/release_candidate",
+        "docs/release",
+        "pyproject.toml",
+        "ui/web/package.json",
+        "package.json",
+        ".devpilot/release"
+      ],
+      "domains": [
+        "release",
+        "operations.audit"
+      ],
+      "profiles": [
+        "release",
+        "release-candidate-local"
+      ],
+      "criticalities": [
+        "P0",
+        "P1"
+      ],
+      "risk_levels": [
+        "critical",
+        "high"
+      ],
+      "recommended_tests": [
+        "tests/test_post_h_026_evidence_freshness.py",
+        "tests/test_post_h_026_release_candidate_report.py",
+        "tests/test_post_h_027_source_zip_policy.py",
+        "tests/test_post_h_027_python_artifact_install_verification.py",
+        "tests/test_post_h_027_artifact_manifest_checksums.py",
+        "tests/test_post_h_027_windows_install_smoke.py",
+        "tests/test_post_h_027_upgrade_rollback_dry_run.py"
+      ],
+      "recommended_commands": [
+        "python -m pytest tests/test_post_h_026_evidence_freshness.py tests/test_post_h_026_release_candidate_report.py tests/test_post_h_027_source_zip_policy.py tests/test_post_h_027_python_artifact_install_verification.py tests/test_post_h_027_artifact_manifest_checksums.py tests/test_post_h_027_windows_install_smoke.py tests/test_post_h_027_upgrade_rollback_dry_run.py -q",
+        "python -m devpilot_core release-candidate final --json",
+        "python -m devpilot_core quality-gate run --profile hardening --json",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ],
+      "escalation": {
+        "level": "release-candidate-required",
+        "full_regression_required": true,
+        "manual_review_required": true,
+        "waiver_allowed_before_post_h_029_e": false
+      },
+      "unmatched_behavior": "full-regression-required",
+      "cost_class": "very-high",
+      "owner": "POST-H-029-B",
+      "safety": {
+        "network_allowed": false,
+        "external_api_allowed": false,
+        "mutations_allowed": false,
+        "source_mutations_allowed": false,
+        "tests_executed_from_rule": false
+      }
+    },
+    {
+      "rule_id": "runtime-observability-workspace",
+      "title": "runtime state, observability and workspace operations",
+      "description": "Declarative POST-H-029-B impact rule for runtime state, observability and workspace operations.",
+      "path_patterns": [
+        "src/devpilot_core/runtime",
+        "src/devpilot_core/observability",
+        "src/devpilot_core/workspace",
+        ".devpilot/runtime_state_policy.json",
+        ".devpilot/observability",
+        "docs/05_operations/observability",
+        "docs/05_operations/workspace"
+      ],
+      "domains": [
+        "operations.observability",
+        "operations.workspace"
+      ],
+      "profiles": [
+        "impact",
+        "release"
+      ],
+      "criticalities": [
+        "P0",
+        "P1"
+      ],
+      "risk_levels": [
+        "critical",
+        "high"
+      ],
+      "recommended_tests": [
+        "tests/test_runtime_state_policy_schema.py",
+        "tests/test_runtime_state_hygiene.py",
+        "tests/test_observability_hygiene_gate.py",
+        "tests/test_post_h_016_workspace_portfolio_hardening_gate.py"
+      ],
+      "recommended_commands": [
+        "python -m pytest tests/test_runtime_state_policy_schema.py tests/test_runtime_state_hygiene.py tests/test_observability_hygiene_gate.py tests/test_post_h_016_workspace_portfolio_hardening_gate.py -q",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ],
+      "escalation": {
+        "level": "review-required",
+        "full_regression_required": false,
+        "manual_review_required": true,
+        "waiver_allowed_before_post_h_029_e": false
+      },
+      "unmatched_behavior": "review-required",
+      "cost_class": "medium",
+      "owner": "POST-H-029-B",
+      "safety": {
+        "network_allowed": false,
+        "external_api_allowed": false,
+        "mutations_allowed": false,
+        "source_mutations_allowed": false,
+        "tests_executed_from_rule": false
+      }
+    },
+    {
+      "rule_id": "agentic-rag-governance",
+      "title": "agentic runtime, MIASI and RAG groundedness",
+      "description": "Declarative POST-H-029-B impact rule for agentic runtime, MIASI and RAG groundedness.",
+      "path_patterns": [
+        "src/devpilot_core/agents",
+        "src/devpilot_core/multiagent",
+        "src/devpilot_core/modeling",
+        "src/devpilot_core/miasi",
+        "src/devpilot_core/rag",
+        "evals/fixtures/rag",
+        ".devpilot/miasi"
+      ],
+      "domains": [
+        "knowledge.rag",
+        "governance.miasi"
+      ],
+      "profiles": [
+        "security",
+        "impact"
+      ],
+      "criticalities": [
+        "P0",
+        "P1"
+      ],
+      "risk_levels": [
+        "critical",
+        "high"
+      ],
+      "recommended_tests": [
+        "tests/test_miasi_registry.py",
+        "tests/test_quality_gate.py",
+        "tests/test_rag_groundedness_eval_runner.py",
+        "tests/test_rag_groundedness_ready_gate.py"
+      ],
+      "recommended_commands": [
+        "python -m pytest tests/test_miasi_registry.py tests/test_quality_gate.py tests/test_rag_groundedness_eval_runner.py tests/test_rag_groundedness_ready_gate.py -q",
+        "python -m devpilot_core miasi validate --json",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ],
+      "escalation": {
+        "level": "security-review-required",
+        "full_regression_required": false,
+        "manual_review_required": true,
+        "waiver_allowed_before_post_h_029_e": false
+      },
+      "unmatched_behavior": "review-required",
+      "cost_class": "high",
+      "owner": "POST-H-029-B",
+      "safety": {
+        "network_allowed": false,
+        "external_api_allowed": false,
+        "mutations_allowed": false,
+        "source_mutations_allowed": false,
+        "tests_executed_from_rule": false
+      }
+    },
+    {
+      "rule_id": "connectors-plugins-sandbox",
+      "title": "connector and plugin sandbox design",
+      "description": "Declarative POST-H-029-B impact rule for connector and plugin sandbox design.",
+      "path_patterns": [
+        "src/devpilot_core/connectors",
+        "src/devpilot_core/plugins",
+        ".devpilot/connectors",
+        ".devpilot/plugins",
+        "docs/03_security/connector",
+        "docs/03_security/plugin",
+        "docs/02_architecture/plugin"
+      ],
+      "domains": [
+        "integration.connectors",
+        "extensibility.plugins"
+      ],
+      "profiles": [
+        "security",
+        "impact"
+      ],
+      "criticalities": [
+        "P0",
+        "P1"
+      ],
+      "risk_levels": [
+        "critical",
+        "high"
+      ],
+      "recommended_tests": [
+        "tests/test_post_h_018_connector_sandbox_gate.py",
+        "tests/test_post_h_019_plugin_quality_gate.py",
+        "tests/test_quality_gate.py"
+      ],
+      "recommended_commands": [
+        "python -m pytest tests/test_post_h_018_connector_sandbox_gate.py tests/test_post_h_019_plugin_quality_gate.py tests/test_quality_gate.py -q",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ],
+      "escalation": {
+        "level": "security-review-required",
+        "full_regression_required": false,
+        "manual_review_required": true,
+        "waiver_allowed_before_post_h_029_e": false
+      },
+      "unmatched_behavior": "review-required",
+      "cost_class": "medium",
+      "owner": "POST-H-029-B",
+      "safety": {
+        "network_allowed": false,
+        "external_api_allowed": false,
+        "mutations_allowed": false,
+        "source_mutations_allowed": false,
+        "tests_executed_from_rule": false
+      }
+    },
+    {
+      "rule_id": "remote-enterprise-design",
+      "title": "remote runner and enterprise design-only controls",
+      "description": "Declarative POST-H-029-B impact rule for remote runner and enterprise design-only controls.",
+      "path_patterns": [
+        "src/devpilot_core/remote",
+        "src/devpilot_core/enterprise",
+        ".devpilot/remote",
+        ".devpilot/enterprise",
+        "docs/adr/ADR-POSTH-004",
+        "docs/adr/ADR-POSTH-005",
+        "docs/03_security/enterprise",
+        "docs/05_operations/remote"
+      ],
+      "domains": [
+        "enterprise.remote",
+        "enterprise.reporting"
+      ],
+      "profiles": [
+        "security",
+        "impact"
+      ],
+      "criticalities": [
+        "P0",
+        "P1"
+      ],
+      "risk_levels": [
+        "critical",
+        "high"
+      ],
+      "recommended_tests": [
+        "tests/test_post_h_021_remote_quality_gate.py",
+        "tests/test_post_h_022_enterprise_closure.py",
+        "tests/test_post_h_023_secure_transport_validator.py",
+        "tests/test_quality_gate.py"
+      ],
+      "recommended_commands": [
+        "python -m pytest tests/test_post_h_021_remote_quality_gate.py tests/test_post_h_022_enterprise_closure.py tests/test_post_h_023_secure_transport_validator.py tests/test_quality_gate.py -q",
+        "python -m devpilot_core quality-gate run --profile hardening --json",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ],
+      "escalation": {
+        "level": "security-review-required",
+        "full_regression_required": true,
+        "manual_review_required": true,
+        "waiver_allowed_before_post_h_029_e": false
+      },
+      "unmatched_behavior": "full-regression-required",
+      "cost_class": "high",
+      "owner": "POST-H-029-B",
+      "safety": {
+        "network_allowed": false,
+        "external_api_allowed": false,
+        "mutations_allowed": false,
+        "source_mutations_allowed": false,
+        "tests_executed_from_rule": false
+      }
+    },
+    {
+      "rule_id": "production-readiness-claims",
+      "title": "production-ready-local claims and quality gates",
+      "description": "Declarative POST-H-029-B impact rule for production-ready-local claims and quality gates.",
+      "path_patterns": [
+        "src/devpilot_core/industrial",
+        "docs/audits/devpilot_local_production_ready_declaration.md",
+        "docs/POST-H-025",
+        ".devpilot/production",
+        "src/devpilot_core/quality"
+      ],
+      "domains": [
+        "quality.gate",
+        "release",
+        "governance.project_state"
+      ],
+      "profiles": [
+        "p0-critical",
+        "release-candidate-local"
+      ],
+      "criticalities": [
+        "P0",
+        "P1"
+      ],
+      "risk_levels": [
+        "critical",
+        "high"
+      ],
+      "recommended_tests": [
+        "tests/test_post_h_025_production_ready_final_declaration.py",
+        "tests/test_post_h_025_production_ready_claims_validator.py",
+        "tests/test_quality_gate.py",
+        "tests/test_project_global_state.py"
+      ],
+      "recommended_commands": [
+        "python -m pytest tests/test_post_h_025_production_ready_final_declaration.py tests/test_post_h_025_production_ready_claims_validator.py tests/test_quality_gate.py tests/test_project_global_state.py -q",
+        "python -m devpilot_core industrial-readiness production-ready-local-final --json",
+        "python -m devpilot_core quality-gate run --profile hardening --json",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ],
+      "escalation": {
+        "level": "release-candidate-required",
+        "full_regression_required": true,
+        "manual_review_required": true,
+        "waiver_allowed_before_post_h_029_e": false
+      },
+      "unmatched_behavior": "full-regression-required",
+      "cost_class": "high",
+      "owner": "POST-H-029-B",
+      "safety": {
+        "network_allowed": false,
+        "external_api_allowed": false,
+        "mutations_allowed": false,
+        "source_mutations_allowed": false,
+        "tests_executed_from_rule": false
+      }
+    },
+    {
+      "rule_id": "testing-infra",
+      "title": "testing registries, profiles and impact tooling",
+      "description": "Declarative POST-H-029-B impact rule for testing registries, profiles and impact tooling.",
+      "path_patterns": [
+        "src/devpilot_core/testing",
+        ".devpilot/testing",
+        "docs/04_quality",
+        "tests/test_test_contract_registry",
+        "tests/test_post_h_029"
+      ],
+      "domains": [
+        "governance.testing",
+        "quality.gate"
+      ],
+      "profiles": [
+        "p0-critical",
+        "impact"
+      ],
+      "criticalities": [
+        "P0",
+        "P1"
+      ],
+      "risk_levels": [
+        "critical",
+        "high"
+      ],
+      "recommended_tests": [
+        "tests/test_test_contract_registry.py",
+        "tests/test_test_contract_registry_v2.py",
+        "tests/test_test_contract_registry_profiles_v2.py",
+        "tests/test_test_contract_registry_migration.py",
+        "tests/test_post_h_029_test_profile_taxonomy.py"
+      ],
+      "recommended_commands": [
+        "python -m pytest tests/test_test_contract_registry.py tests/test_test_contract_registry_v2.py tests/test_test_contract_registry_profiles_v2.py tests/test_test_contract_registry_migration.py tests/test_post_h_029_test_profile_taxonomy.py -q",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ],
+      "escalation": {
+        "level": "review-required",
+        "full_regression_required": false,
+        "manual_review_required": true,
+        "waiver_allowed_before_post_h_029_e": false
+      },
+      "unmatched_behavior": "review-required",
+      "cost_class": "medium",
+      "owner": "POST-H-029-B",
+      "safety": {
+        "network_allowed": false,
+        "external_api_allowed": false,
+        "mutations_allowed": false,
+        "source_mutations_allowed": false,
+        "tests_executed_from_rule": false
+      }
+    }
+  ],
+  "unmatched_path_policy": {
+    "unknown_path_escalates": true,
+    "generic_path_default": "review-required",
+    "sensitive_path_default": "full-regression-required",
+    "p0_p1_unmatched_default": "full-regression-required",
+    "notes": [
+      "Unmatched paths are never treated as no-test changes.",
+      "POST-H-029-C will expose this policy in richer recommendations; POST-H-029-E will add closure blocking/waiver semantics."
+    ]
+  },
+  "coverage_requirements": {
+    "p0_p1_domains_must_be_mapped": true,
+    "sensitive_paths_must_escalate": true,
+    "recommended_commands_allowlist_only": true,
+    "cost_metadata_required_for_critical_contracts": true
+  },
+  "safety": {
+    "local_first": true,
+    "read_only": true,
+    "dry_run_default": true,
+    "tests_executed_from_registry": false,
+    "network_used": false,
+    "external_api_used": false,
+    "remote_execution_enabled": false,
+    "connector_write_enabled": false,
+    "plugin_execution_enabled": false,
+    "source_mutations_performed": false,
+    "llm_judge_used": false
+  },
+  "notes": [
+    "POST-H-029-B moves impact-selection knowledge into source-controlled declarative rules.",
+    "The registry is advisory and non-executing; tests.run or explicit operator commands remain approval-gated.",
+    "Heuristic fallback may remain until POST-H-029-C/D/E complete the recommendation and regression guard layers."
+  ]
+}

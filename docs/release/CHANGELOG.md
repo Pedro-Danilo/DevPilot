@@ -2513,3 +2513,14 @@ Siguiente hito: `POST-H-029 — Testing tiers, impacto y costo de regresion`
 ### Deferred
 
 - Reglas declarativas de impacto, recomendaciones CLI, perfil release candidate formal y historical regression guard quedan para POST-H-029-B/C/D/E.
+
+
+### post-h-029-b
+
+- Agregado `TestImpactRuleRegistry` y `.devpilot/testing/test_impact_rules.json`.
+- Agregado CLI `python -m devpilot_core test-impact rules --json --write-report`.
+- Integrado `TestImpactAnalyzerV2` con reglas declarativas POST-H-029-B, conservando heurísticas fallback.
+- Enriquecido TCR v2 con metadata `owner_domain`, `service_boundary`, `subgate_id` y `schema_ids` para contratos P0/P1 cuando aplica.
+- Seguridad preservada: no se ejecutan pruebas desde JSON, no hay red, APIs externas, remote execution, connector write ni plugin execution.
+
+Siguiente micro-sprint: `POST-H-029-C — Test impact CLI recommendations`.

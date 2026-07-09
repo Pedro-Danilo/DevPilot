@@ -10809,3 +10809,31 @@ python -m devpilot_core tests profiles --json
 Reglas: la taxonomía es metadata read-only; `tests.run` mantiene aprobación humana; los comandos permitidos son allowlisted; red, APIs externas, remote execution, connector write y plugin execution permanecen deshabilitados.
 
 Pendiente: POST-H-029-B/C/D/E deben agregar reglas de impacto, recomendaciones CLI accionables, perfil RC formal y guard de regresión histórica antes de cerrar el backlog.
+
+
+## POST-H-029-B — TCR v2 impact rules
+
+Validación específica:
+
+```powershell
+$env:PYTHONPATH="src"
+python -m devpilot_core test-impact rules --json --write-report
+python -m devpilot_core schema validate --schema-id TestImpactRuleRegistry --instance .devpilot/testing/test_impact_rules.json --json
+python -m devpilot_core test-impact analyze-v2 --changed-paths src/devpilot_core/policy/engine.py --json
+```
+
+Validación focal recomendada:
+
+```powershell
+python -m pytest -p no:ddtrace --assert=plain `
+  tests/test_post_h_029_tcr_v2_impact_rules.py `
+  tests/test_post_h_029_test_profile_taxonomy.py `
+  tests/test_test_contract_registry_v2.py `
+  tests/test_test_contract_registry_profiles_v2.py `
+  tests/test_test_impact_v2.py `
+  tests/test_schema_registry.py `
+  tests/test_project_global_state.py `
+  -q
+```
+
+Regla operacional: estas reglas son advisory y no ejecutan pruebas. El operador debe ejecutar explícitamente los comandos recomendados o usar `tests.run` bajo approval.
