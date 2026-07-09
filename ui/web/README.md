@@ -100,3 +100,10 @@ npm --prefix ui/web run test:operator-flows
 ```
 
 El smoke verifica marcadores de API down, 401/403, empty reports/traces, approval pending, BLOCK visible, settings plan-only/redacted y Operator Dashboard con next actions. No sustituye Playwright/E2E industrial completo.
+
+
+## POST-H-028-E — UI route registry enforcement
+
+POST-H-028-E agrega enforcement bloqueante del `UiRouteContractRegistry`. Las vistas criticas deben declarar sus fuentes, estados visuales y `allowed_api_routes`; esas rutas deben existir en `ApiRouteContractRegistry`. La UI conserva frontera API-only: no importa core Python, no lee `.devpilot/` ni `outputs/`, y no muestra controles para `patch/apply`, rollback execute, refactor execute, tests/run, git push o deploy.
+
+El script `npm --prefix ui/web run test:route-enforcement` es dependency-light y complementa el CLI `python -m devpilot_core api ui-route-enforcement --json --write-report`.

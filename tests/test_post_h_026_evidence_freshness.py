@@ -46,7 +46,8 @@ def test_evidence_freshness_scanner_reads_current_repo_without_writing_outputs()
     assert summary["critical_missing_total"] == 0
     assert summary["critical_invalid_total"] == 0
     assert summary["reports_written"] is False
-    assert result.data["report"]["repo_version"] == "repo_DevPilot_Local_271_POST_H_027_C.zip"
+    criteria = json.loads((ROOT / ".devpilot/release/local_release_candidate_criteria.json").read_text(encoding="utf-8"))
+    assert result.data["report"]["repo_version"] == criteria["expected_current_repo"]
     assert result.data["safety"]["network_used"] is False
     assert result.data["safety"]["external_api_used"] is False
     assert result.data["safety"]["source_mutations"] is False

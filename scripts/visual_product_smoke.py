@@ -185,7 +185,7 @@ def run_gate(root: Path, *, run_npm: bool = False) -> dict[str, Any]:
     package_version = str(package_json.get("version", ""))
     package_declares_sprint_73_lineage = (
         package_version == "0.5.0-sprint-73"
-        or package_version.startswith("0.6.0-post-h-")
+        or re.match(r"^0\.6\.\d+-post-h-", package_version) is not None
     ) and devpilot.get("sprint") == "FUNC-SPRINT-73"
     checks.append(_check(
         package_declares_sprint_73_lineage,
@@ -195,7 +195,7 @@ def run_gate(root: Path, *, run_npm: bool = False) -> dict[str, Any]:
         {
             "version": package_json.get("version"),
             "sprint": devpilot.get("sprint"),
-            "post_h_evolution": package_version.startswith("0.6.0-post-h-"),
+            "post_h_evolution": re.match(r"^0\.6\.\d+-post-h-", package_version) is not None,
         },
     ))
     checks.append(_check(not flag_mismatches, "UI_SAFETY_FLAGS", "Web UI safety flags are set for API-only local MVP.", "Web UI safety flags are missing or unsafe.", {"mismatches": flag_mismatches}))

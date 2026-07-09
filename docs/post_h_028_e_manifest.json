@@ -1,0 +1,42 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "SCHEMA-DEVPL-POST-H-MANIFEST-V1",
+  "manifest_id": "post-h-028-e-ui-route-registry-enforcement",
+  "status": "implemented-initial",
+  "created_by": "POST-H-028-E",
+  "sprint": "POST-H-028-E",
+  "title": "UI route registry enforcement",
+  "artifacts": [
+    "docs/schemas/ui_route_enforcement_report.schema.json",
+    "src/devpilot_core/interfaces/api/ui_route_enforcement.py",
+    "tests/test_post_h_028_ui_route_registry_enforcement.py",
+    "docs/audits/post_h_028_e_ui_route_registry_enforcement_report.md",
+    "docs/post_h_028_e_manifest.json",
+    "ui/web/scripts/route-enforcement-smoke.mjs"
+  ],
+  "corrective_patches": [
+    "ui/web/scripts/operator-flow-smoke.mjs Windows fileURLToPath path fix",
+    ".devpilot/interfaces/ui_route_contract_registry.json shared ReportTraceView API bindings"
+  ],
+  "commands": [
+    "python -m devpilot_core api ui-route-enforcement --json --write-report",
+    "python -m devpilot_core schema validate --schema-id UiRouteEnforcementReport --instance outputs/reports/ui_route_enforcement_report.json --json",
+    "npm --prefix ui/web run test:route-enforcement"
+  ],
+  "safety": {
+    "local_first": true,
+    "dry_run": true,
+    "read_only": true,
+    "network_used": false,
+    "external_api_used": false,
+    "remote_execution_enabled": false,
+    "connector_write_enabled": false,
+    "plugin_execution_enabled": false,
+    "source_mutations_performed": false
+  },
+  "limitations": [
+    "implemented-initial; not a full browser E2E/cross-browser suite",
+    "no enterprise/multiuser/OIDC enabled",
+    "route enforcement is static/contractual and should evolve with POST-H-029 testing tiers"
+  ]
+}

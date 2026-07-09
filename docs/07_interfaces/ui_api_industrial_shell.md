@@ -207,3 +207,10 @@ Estado: `implemented-initial`. No es aún cobertura visual industrial completa: 
 ## POST-H-028-D — Operator flows and error states
 
 La shell UI/API incorpora smoke operacional para flujos de operador: errores de conexion/token, empty states, Approval Center, Action Launcher dry-run, settings redacted/plan-only y Operator Dashboard con no-go gates. La superficie sigue siendo local-first e `implemented-initial`; no constituye consola enterprise ni habilita acciones sensibles.
+
+
+## POST-H-028-E — UI route registry enforcement
+
+POST-H-028-E agrega enforcement bloqueante del `UiRouteContractRegistry`. Las vistas criticas deben declarar sus fuentes, estados visuales y `allowed_api_routes`; esas rutas deben existir en `ApiRouteContractRegistry`. La UI conserva frontera API-only: no importa core Python, no lee `.devpilot/` ni `outputs/`, y no muestra controles para `patch/apply`, rollback execute, refactor execute, tests/run, git push o deploy.
+
+El script `npm --prefix ui/web run test:route-enforcement` es dependency-light y complementa el CLI `python -m devpilot_core api ui-route-enforcement --json --write-report`.

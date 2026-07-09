@@ -177,3 +177,10 @@ El smoke visual verifica que Dashboard, Reports, Traces, Approvals, Settings y O
 ## POST-H-028-D — Operator flows mapping
 
 `OperatorFlowSmokeRunner` comprueba que la UI consuma ApplicationService/API para flujos de operador sin leer filesystem desde frontend y sin duplicar logica core. La cobertura es `implemented-initial` y prepara POST-H-028-E para enforcement del UI route registry.
+
+
+## POST-H-028-E — UI route registry enforcement
+
+POST-H-028-E agrega enforcement bloqueante del `UiRouteContractRegistry`. Las vistas criticas deben declarar sus fuentes, estados visuales y `allowed_api_routes`; esas rutas deben existir en `ApiRouteContractRegistry`. La UI conserva frontera API-only: no importa core Python, no lee `.devpilot/` ni `outputs/`, y no muestra controles para `patch/apply`, rollback execute, refactor execute, tests/run, git push o deploy.
+
+El script `npm --prefix ui/web run test:route-enforcement` es dependency-light y complementa el CLI `python -m devpilot_core api ui-route-enforcement --json --write-report`.

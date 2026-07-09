@@ -7,7 +7,7 @@
   "scope": "local-release-candidate",
   "preliminary": true,
   "expected_source_repo": "repo_DevPilot_Local_263_POST_H_025.zip",
-  "expected_current_repo": "repo_DevPilot_Local_273_POST_H_027_E.zip",
+  "expected_current_repo": "repo_DevPilot_Local_278_POST_H_028_E.zip",
   "expected_last_completed_sprint": "POST-H-027",
   "expected_current_micro_sprint": "POST-H-027-E",
   "expected_next_micro_sprint": "POST-H-028",
@@ -25,23 +25,24 @@
   "evidence": [
     {
       "evidence_id": "project-state-current-repo",
-      "title": "Project state source/current repo freshness for POST-H-027-E implementation",
+      "title": "Project state source/current repo freshness for current local implementation",
       "path": ".devpilot/project_state.json",
       "category": "project-state",
       "critical": true,
       "json_required": true,
       "expected_schema_id": "SCHEMA-DEVPL-PROJECT-STATE-V1",
-      "producer_sprint": "POST-H-027-E",
+      "producer_sprint": "POST-H-028-E",
       "freshness_policy": "contextual-field-match",
       "expected_fields": {
         "source_repo": "repo_DevPilot_Local_263_POST_H_025.zip",
-        "current_repo": "repo_DevPilot_Local_273_POST_H_027_E.zip",
-        "last_completed_sprint": "POST-H-027",
-        "next_sprint": "POST-H-028",
-        "current_micro_sprint": "POST-H-027-E",
-        "next_micro_sprint": "POST-H-028",
+        "current_repo": "repo_DevPilot_Local_278_POST_H_028_E.zip",
+        "last_completed_sprint": "POST-H-028",
+        "next_sprint": "POST-H-029",
+        "current_micro_sprint": "POST-H-028-E",
+        "next_micro_sprint": "POST-H-029",
         "post_h_026_status": "closed/local-release-candidate-pass",
-        "post_h_027_status": "closed/packaging-local-ready"
+        "post_h_027_status": "closed/packaging-local-ready",
+        "post_h_028_status": "closed/ui-api-local-hardening"
       }
     },
     {

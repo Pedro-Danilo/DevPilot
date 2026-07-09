@@ -4,7 +4,7 @@
   "registry_id": "devpilot-ui-route-contract-registry",
   "status": "implemented-initial",
   "created_by": "POST-H-014-C",
-  "updated": "2026-06-29",
+  "updated": "2026-07-09",
   "routes": [
     {
       "route_id": "ui.dashboard",
@@ -69,7 +69,8 @@
       "allowed_api_routes": [
         "api.reports.list",
         "api.reports.read",
-        "api.metrics.summary"
+        "api.metrics.summary",
+        "api.traces.list"
       ],
       "critical": true,
       "local_only": true,
@@ -96,7 +97,8 @@
       "external_api_allowed": false,
       "owner": "ui.web",
       "notes": [
-        "Read-only local report index/detail viewer; it never reads outputs directly."
+        "Read-only local report index/detail viewer; it never reads outputs directly.",
+        "POST-H-028-E: ReportTraceView is shared with ui.traces, so the route contract explicitly allows the trace list call made by the shared component."
       ]
     },
     {
@@ -111,7 +113,8 @@
       "allowed_api_routes": [
         "api.traces.list",
         "api.traces.inspect",
-        "api.metrics.summary"
+        "api.metrics.summary",
+        "api.reports.list"
       ],
       "critical": true,
       "local_only": true,
@@ -138,7 +141,8 @@
       "external_api_allowed": false,
       "owner": "ui.web",
       "notes": [
-        "Read-only trace list/detail viewer backed by local API only."
+        "Read-only trace list/detail viewer backed by local API only.",
+        "POST-H-028-E: ReportTraceView is shared with ui.reports, so the route contract explicitly allows the report list call made by the shared component."
       ]
     },
     {

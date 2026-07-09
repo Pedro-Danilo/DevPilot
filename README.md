@@ -5535,3 +5535,32 @@ Límites: el core pytest no requiere navegador ni Playwright; el modo browser qu
 POST-H-028-D agrega `OperatorFlowSmokeRunner`, schema `OperatorFlowSmokeReport`, CLI `python -m devpilot_core api operator-flow-smoke --json --write-report` y script `npm --prefix ui/web run test:operator-flows`. Valida flujos de operador locales: API down, token missing/invalid, empty reports/traces, Approval Center, Action Launcher dry-run, accion prohibida como `BLOCK`, settings redacted/plan-only y Operator Dashboard con no-go gates y next actions.
 
 Limites: es una version `implemented-initial` de smoke operacional, no una suite E2E browser industrial ni una UI enterprise. No habilita login/RBAC multiusuario, OIDC/SSO, sesiones persistentes, remote execution, connector write, plugin execution ni acciones sensibles. POST-H-028-E queda pendiente para enforcement bloqueante del UI route registry.
+
+
+## POST-H-028-E — UI route registry enforcement
+
+POST-H-028 queda cerrado como `implemented-initial/local-first`. Se agrega `UiRouteEnforcementRunner`, schema `UiRouteEnforcementReport`, CLI `python -m devpilot_core api ui-route-enforcement --json --write-report`, script `npm --prefix ui/web run test:route-enforcement` y subgates `ui-route-enforcement` / `ui-api-local-hardening` para hardening/industrial.
+
+Verificacion focal:
+
+```powershell
+$env:PYTHONPATH="src"
+python -m pytest -p no:ddtrace --assert=plain `
+  tests/test_post_h_028_ui_route_registry_enforcement.py `
+  tests/test_post_h_014_ui_shell_contract.py `
+  tests/test_post_h_014_ui_api_shell_gate.py `
+  tests/test_web_ui_mvp.py `
+  tests/test_quality_gate.py `
+  tests/test_schema_registry.py `
+  tests/test_project_global_state.py `
+  -q
+python -m devpilot_core api ui-route-enforcement --json --write-report
+python -m devpilot_core schema validate --schema-id UiRouteEnforcementReport --instance outputs/reports/ui_route_enforcement_report.json --json
+npm --prefix ui/web run test:route-enforcement
+```
+
+POST-H-028-E tambien corrige `npm --prefix ui/web run test:operator-flows` para Windows usando `fileURLToPath(import.meta.url)`. Siguiente hito: `POST-H-029 — Testing tiers, impacto y costo de regresion`.
+
+
+Último hito: `POST-H-028 — UI/API local hardening`
+Siguiente hito: `POST-H-029 — Testing tiers, impacto y costo de regresion`

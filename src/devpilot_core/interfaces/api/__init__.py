@@ -93,6 +93,21 @@ from devpilot_core.interfaces.api.operator_flow_smoke import (
     run_operator_flow_smoke,
 )
 
+
+from devpilot_core.interfaces.api.ui_route_enforcement import (
+    DEFAULT_UI_ROUTE_ENFORCEMENT_REPORT_JSON,
+    DEFAULT_UI_ROUTE_ENFORCEMENT_REPORT_MARKDOWN,
+    POST_H_028_E_CREATED_BY,
+    UI_API_LOCAL_HARDENING_SUBGATE,
+    UI_ROUTE_ENFORCEMENT_COMMAND,
+    UI_ROUTE_ENFORCEMENT_REPORT_CONTRACT,
+    UI_ROUTE_ENFORCEMENT_REPORT_SCHEMA_ID,
+    UiApiLocalHardeningGate,
+    UiRouteEnforcementOptions,
+    UiRouteEnforcementRunner,
+    run_ui_route_enforcement,
+)
+
 from devpilot_core.interfaces.api.shell_gate import (
     DEFAULT_UI_API_SHELL_REPORT_JSON,
     DEFAULT_UI_API_SHELL_REPORT_MARKDOWN,
@@ -183,5 +198,16 @@ __all__ = [
     "OperatorFlowSmokeOptions",
     "OperatorFlowSmokeRunner",
     "run_operator_flow_smoke",
+    "DEFAULT_UI_ROUTE_ENFORCEMENT_REPORT_JSON",
+    "DEFAULT_UI_ROUTE_ENFORCEMENT_REPORT_MARKDOWN",
+    "POST_H_028_E_CREATED_BY",
+    "UI_API_LOCAL_HARDENING_SUBGATE",
+    "UI_ROUTE_ENFORCEMENT_COMMAND",
+    "UI_ROUTE_ENFORCEMENT_REPORT_CONTRACT",
+    "UI_ROUTE_ENFORCEMENT_REPORT_SCHEMA_ID",
+    "UiApiLocalHardeningGate",
+    "UiRouteEnforcementOptions",
+    "UiRouteEnforcementRunner",
+    "run_ui_route_enforcement",
     "run_ui_visual_smoke_report",
 ]

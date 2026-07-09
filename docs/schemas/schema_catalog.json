@@ -1462,6 +1462,20 @@
       "dialect": "https://json-schema.org/draft/2020-12/schema",
       "validates_instances": true,
       "validation_enabled_sprint": "POST-H-028-D"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-UI-ROUTE-ENFORCEMENT-REPORT-V1",
+      "title": "UI Route Enforcement Report v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/ui_route_enforcement_report.schema.json",
+      "description": "Schema-backed POST-H-028-E report for blocking enforcement of UiRouteContractRegistry, UI/API bindings, critical view registration, state contracts, forbidden UI actions and API-only boundaries.",
+      "status": "registered",
+      "contract": "UiRouteEnforcementReport",
+      "owner": "Ordóñez",
+      "sprint": "POST-H-028-E",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "POST-H-028-E"
     }
   ]
 }

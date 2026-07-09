@@ -3,10 +3,10 @@ doc_id: "POST-H-028-DOC"
 id: "POST-H-028"
 title: "POST-H-028 — UI/API local hardening"
 status: "approved"
-version: "0.4.0"
+version: "1.0.0"
 owner: "Ordonez"
 created: "2026-07-07"
-updated: "2026-07-08"
+updated: "2026-07-09"
 approval: "approved"
 phase: "POST-FASE-H"
 priority: "P0"
@@ -24,9 +24,9 @@ no_connector_write_enabled: true
 no_plugin_execution_enabled: true
 claims_allowed: "production-ready-local"
 claims_forbidden: "enterprise-ready, remote-ready, SaaS-ready, compliance-certified"
-implementation_status: "in-progress/post-h-028-c-implemented-initial"
-current_micro_sprint: "POST-H-028-D"
-next_micro_sprint: "POST-H-028-E"
+implementation_status: "closed/implemented-initial-local-first"
+current_micro_sprint: "POST-H-028-E"
+next_micro_sprint: "POST-H-029"
 ---
 
 # POST-H-028 — UI/API local hardening
@@ -1096,3 +1096,18 @@ Flujos cubiertos en modo implemented-initial:
 Correccion aplicada: Approval Center pasa de `actor: ui-local` a `actor: local-owner` para que el flujo demo sea coherente con RBAC local y con las pruebas API existentes.
 
 Limites explicitos: no es una suite browser E2E industrial completa; no implementa login/RBAC multiusuario, OIDC/SSO, sesiones persistentes ni ejecucion real de acciones sensibles. POST-H-028-E queda pendiente para enforcement bloqueante del UI route registry.
+
+
+## POST-H-028-E — UI route registry enforcement — cierre
+
+Estado: `implemented-initial/local-first`.
+
+POST-H-028-E agrega `UiRouteEnforcementReport`, `UiRouteEnforcementRunner` y el CLI `python -m devpilot_core api ui-route-enforcement --json --write-report`. El enforcement convierte `UiRouteContractRegistry` en una señal bloqueante: cada vista critica debe estar registrada, sus `allowed_api_routes` deben existir en `ApiRouteContractRegistry`, los estados `loading/empty/error/BLOCK` deben estar declarados, las acciones UI prohibidas deben permanecer ausentes y la UI no puede importar core Python ni leer `.devpilot/`/`outputs/` directamente.
+
+Tambien se agregan los subgates `ui-route-enforcement` y `ui-api-local-hardening` a hardening/industrial. El segundo compone A-E y `api shell-gate` como cierre de la ola POST-H-028.
+
+Patch correctivo aplicado: `ui/web/scripts/operator-flow-smoke.mjs` usa `fileURLToPath(import.meta.url)` para evitar el bug Windows `D:\D:\...` observado en el log de POST-H-028-D.
+
+Ajuste de registry aplicado: `ReportTraceView` es compartido por `ui.reports` y `ui.traces`; se declaran explicitamente las llamadas cruzadas `api.traces.list` y `api.reports.list` para que el enforcement sea estricto pero no genere falsos positivos.
+
+Limite: esta version no es una suite E2E browser industrial ni cross-browser. Esa evolucion queda para POST-H-029 y posteriores, cuando el repo tenga tiers/costos de regresion mas gobernados.

@@ -185,3 +185,15 @@ npm --prefix ui/web run test:operator-flows
 ```
 
 La UI debe distinguir loading, empty, error, BLOCK, unauthorized/forbidden 401/403 y API local down. Las acciones criticas no deben aparecer como disponibles ni ejecutables desde la UI.
+
+
+## POST-H-028-E — UI route registry enforcement
+
+El cierre de POST-H-028 exige ejecutar `api ui-route-enforcement` para validar `UiRouteContractRegistry` contra `ApiRouteContractRegistry`, fuentes UI y no-go gates. El comando no levanta servidor, no abre sockets y no usa red.
+
+```powershell
+python -m devpilot_core api ui-route-enforcement --json --write-report
+npm --prefix ui/web run test:route-enforcement
+```
+
+El operador debe tratar cualquier `BLOCK` como drift de contrato UI/API: pagina nueva sin registro, API no permitida por ruta, estado visual faltante, accion prohibida o ruptura de frontera UI/API-only.

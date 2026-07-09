@@ -5025,6 +5025,29 @@ def api_operator_flow_smoke_command(*, json_output: bool = False, write_report: 
     print_result(result, json_output=json_output)
     return int(result.exit_code)
 
+
+def api_ui_route_enforcement_command(*, json_output: bool = False, write_report: bool = False, run_npm_smoke: bool = False) -> int:
+    """Run POST-H-028-E blocking UI route registry enforcement.
+
+    The guard verifies UiRouteContractRegistry, critical UI views, route-level
+    API bindings, state contracts, forbidden UI actions and API-only boundaries.
+    It does not start servers, open sockets, call network/external APIs or
+    mutate source files. Optional reports are written only under outputs/reports.
+    """
+
+    root = project_root()
+    from .interfaces.api import UiRouteEnforcementOptions, UiRouteEnforcementRunner
+
+    result = UiRouteEnforcementRunner(
+        root,
+        UiRouteEnforcementOptions(write_report=write_report, run_npm_smoke=run_npm_smoke),
+    ).run()
+    _emit_result_event(root, result, subject="api-ui-route-enforcement")
+    _persist_result(root, result, subject="api-ui-route-enforcement")
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+
 def api_shell_gate_command(*, json_output: bool = False, write_report: bool = False, run_ui_smoke: bool = True) -> int:
     """Run the POST-H-014-E local UI/API industrial shell quality subgate."""
 
@@ -6757,6 +6780,11 @@ def build_parser() -> argparse.ArgumentParser:
     api_operator_flow.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     api_operator_flow.add_argument("--write-report", action="store_true", help="Persist outputs/reports/operator_flow_smoke_report.json and .md")
 
+    api_ui_route_enforcement = api_sub.add_parser("ui-route-enforcement", help="Run POST-H-028-E blocking UI route registry enforcement")
+    api_ui_route_enforcement.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    api_ui_route_enforcement.add_argument("--write-report", action="store_true", help="Persist outputs/reports/ui_route_enforcement_report.json and .md")
+    api_ui_route_enforcement.add_argument("--run-npm-smoke", action="store_true", help="Also run npm --prefix ui/web test inside the enforcement command")
+
     policy = sub.add_parser("policy", help="Evaluate deterministic DevPilot safety policies")
     policy_sub = policy.add_subparsers(dest="policy_command")
     policy_check = policy_sub.add_parser("check", help="Evaluate a simulated action through PolicyEngine")
@@ -8037,6 +8065,8 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
             return api_visual_smoke_report_command(json_output=args.json, write_report=args.write_report, require_browser_tooling=args.require_browser_tooling)
         if args.api_command == "operator-flow-smoke":
             return api_operator_flow_smoke_command(json_output=args.json, write_report=args.write_report)
+        if args.api_command == "ui-route-enforcement":
+            return api_ui_route_enforcement_command(json_output=args.json, write_report=args.write_report, run_npm_smoke=args.run_npm_smoke)
         parser.print_help()
         return int(ExitCode.FAIL)
     if args.command == "policy":

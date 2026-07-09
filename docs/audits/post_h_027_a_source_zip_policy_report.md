@@ -2,6 +2,7 @@
 doc_id: "POST-H-027-A-SOURCE-ZIP-POLICY-REPORT"
 title: "POST-H-027-A — Source ZIP release policy hardening report"
 status: "approved"
+approval: "approved"
 version: "1.0.0"
 owner: "Ordonez"
 phase: "POST-FASE-H"

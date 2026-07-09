@@ -116,8 +116,8 @@ def test_operator_flow_schema_and_registries_are_registered() -> None:
     assert any(doc["doc_id"] == "POST-H-028-D-OPERATOR-FLOW-SMOKE-REPORT" for doc in source_registry["documents"])
     assert "post-h-028-operator-flows-error-states" in tcr_v1
     assert "post-h-028-operator-flows-error-states" in tcr_v2
-    assert state["current_micro_sprint"] == "POST-H-028-D"
-    assert state["next_micro_sprint"] == "POST-H-028-E"
+    assert state["current_micro_sprint"] == "POST-H-028-E"
+    assert state["next_micro_sprint"] == "POST-H-029"
     assert state["post_h_028_operator_flow_smoke_available"] is True
     assert state["post_h_028_operator_flow_smoke_quality_gate_enabled"] is True
     assert state["post_h_028_operator_flow_smoke_runtime_sandbox_used"] is True

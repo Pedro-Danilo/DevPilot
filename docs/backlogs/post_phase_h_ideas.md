@@ -60,3 +60,8 @@ La línea post-H mantiene una regla: antes de nuevas capacidades agentic o remot
 ## Estado posterior a POST-H-026
 
 `POST-H-026` queda cerrado como `local-release-candidate-pass`. El siguiente hito recomendado es `POST-H-027 — Packaging reproducible e instalación local robusta`, orientado a wheel/sdist, firma local opcional, matriz OS, upgrade/rollback y endurecimiento de artefactos distribuibles sin habilitar red, cloud, remote execution, connector write ni plugin execution por defecto.
+
+
+## POST-H-029 — Testing tiers, impacto y costo de regresion
+
+Siguiente hito despues del cierre de POST-H-028. Debe gobernar tiers de pruebas, impacto y costo de regresion antes de ampliar la UI/API local.

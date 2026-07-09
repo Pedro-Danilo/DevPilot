@@ -1,8 +1,9 @@
 #!/usr/bin/env node
-import { readFileSync, existsSync } from 'node:fs';
-import { join } from 'node:path';
+import { readFileSync } from 'node:fs';
+import { dirname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
 
-const root = new URL('..', import.meta.url).pathname;
+const root = dirname(dirname(fileURLToPath(import.meta.url)));
 const files = [
   'src/api/client.ts',
   'src/pages/Dashboard.ts',
@@ -33,6 +34,7 @@ const violations = forbidden.filter((marker) => source.includes(marker));
 const payload = {
   status: missing.length === 0 && violations.length === 0 ? 'PASS' : 'BLOCK',
   created_by: 'POST-H-028-D',
+  path_mode: 'fileURLToPath-cross-platform',
   required_markers_total: required.length,
   missing_markers: missing,
   forbidden_markers_found: violations,

@@ -178,8 +178,8 @@ def test_post_h_024_d_governance_artifacts_are_synchronized() -> None:
         "POST-H-024-D-ONBOARDING-READINESS-PREVIEW-TEST",
     }
     assert expected <= doc_ids
-    assert source_registry["project_state_snapshot"]["current_micro_sprint"] == "POST-H-025-E"
-    assert source_registry["project_state_snapshot"]["next_micro_sprint"] == "POST-H-026"
+    assert source_registry["project_state_snapshot"]["post_h_025_current_micro_sprint"] == "POST-H-025-E"
+    assert source_registry["project_state_snapshot"]["post_h_025_next_micro_sprint"] == "POST-H-026"
     assert source_registry["project_state_snapshot"]["post_h_024_readiness_preview_available"] is True
     assert source_registry["project_state_snapshot"]["post_h_024_onboarding_quality_gate_available"] is True
 
@@ -188,8 +188,8 @@ def test_post_h_024_d_governance_artifacts_are_synchronized() -> None:
     schema_ids = {item["schema_id"] for item in schema_catalog["schemas"]}
     assert ONBOARDING_READINESS_PREVIEW_SCHEMA_ID in schema_ids
 
-    assert state["current_micro_sprint"] == "POST-H-025-E"
-    assert state["next_micro_sprint"] == "POST-H-026"
+    assert state["post_h_025_current_micro_sprint"] == "POST-H-025-E"
+    assert state["post_h_025_next_micro_sprint"] == "POST-H-026"
     assert state["post_h_024_current_micro_sprint"] == "POST-H-024-E"
     assert state["post_h_024_next_micro_sprint"] == "POST-H-025"
     assert state["post_h_024_operator_playbook_available"] is True

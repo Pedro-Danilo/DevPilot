@@ -5,6 +5,7 @@ version: "1.0.0"
 updated: "2026-07-08"
 owner: Ordóñez
 status: approved
+approval: "approved"
 source_of_truth: true
 created_by: POST-H-028-C
 ---

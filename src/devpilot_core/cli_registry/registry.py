@@ -437,6 +437,20 @@ COMMAND_OVERRIDES: dict[str, DeclarativeCommandOverride] = {
         ),
         rationale="POST-H-028-D creates a local operator flow and error-state smoke report for API down, missing/invalid token, empty states, approvals, dry-run actions, forbidden action BLOCK, settings redaction and operator dashboard next actions; --write-report writes only outputs/reports evidence.",
     ),
+
+    "api.ui-route-enforcement": DeclarativeCommandOverride(
+        command_id="api.ui-route-enforcement",
+        risk_level=CommandRiskLevel.HIGH,
+        side_effects=(CommandSideEffect.WRITE_REPORT,),
+        writes_files=True,
+        dry_run_supported=True,
+        policy_check_required=True,
+        recommended_tests=(
+            "python -m pytest tests/test_post_h_028_ui_route_registry_enforcement.py tests/test_post_h_014_ui_shell_contract.py tests/test_post_h_014_ui_api_shell_gate.py tests/test_web_ui_mvp.py tests/test_schema_registry.py tests/test_project_global_state.py -q",
+            "python -m devpilot_core api ui-route-enforcement --json --write-report",
+        ),
+        rationale="POST-H-028-E enforces UiRouteContractRegistry, UI/API route bindings, critical view registration, forbidden UI actions and API-only boundaries; --write-report writes only outputs/reports evidence.",
+    ),
     "api.shell-gate": DeclarativeCommandOverride(
         command_id="api.shell-gate",
         risk_level=CommandRiskLevel.HIGH,

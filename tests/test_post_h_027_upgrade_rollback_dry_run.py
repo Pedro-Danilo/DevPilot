@@ -254,7 +254,7 @@ def test_post_h_027_e_documentation_and_registries_are_synchronized() -> None:
     assert "POST-H-027-E — Upgrade/rollback dry-run" in runbook
     assert "python -m devpilot_core release upgrade-rollback-dry-run --from-version 0.1.0 --to-version 0.1.1 --json --write-report" in backup_runbook
     assert "Estado: `closed / packaging-local-ready`" in backlog
-    assert project_state["current_micro_sprint"] == "POST-H-027-E"
+    assert project_state["post_h_027_current_micro_sprint"] == "POST-H-027-E"
     assert project_state["post_h_027_upgrade_rollback_dry_run_available"] is True
     assert project_state["post_h_027_packaging_local_ready_quality_gate_enabled"] is True
     assert "SCHEMA-DEVPL-UPGRADE-ROLLBACK-DRY-RUN-REPORT-V1" in schema_catalog

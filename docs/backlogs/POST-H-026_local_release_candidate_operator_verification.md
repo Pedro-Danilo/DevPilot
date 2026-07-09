@@ -12,8 +12,7 @@ roadmap_wave: "Ola 1"
 roadmap_source: "devpilot_post_h_025_roadmap_detallado_v3_agentes_validadores.md"
 onboarding_report_source: "devpilot_onboarding_report_final_compilado.md"
 source_repo: "repo_DevPilot_Local_263_POST_H_025.zip"
-depends_on:
-  - "POST-H-025"
+depends_on: "POST-H-025"
 local_first: true
 dry_run_default: true
 read_only_by_default: true
@@ -21,13 +20,8 @@ no_remote_execution_enabled: true
 no_external_apis_required: true
 no_connector_write_enabled: true
 no_plugin_execution_enabled: true
-claims_allowed:
-  - "production-ready-local"
-claims_forbidden:
-  - "enterprise-ready"
-  - "remote-ready"
-  - "SaaS-ready"
-  - "compliance-certified"
+claims_allowed: "production-ready-local"
+claims_forbidden: "enterprise-ready, remote-ready, SaaS-ready, compliance-certified"
 implementation_status: "closed"
 current_micro_sprint: "POST-H-026-E"
 next_micro_sprint: "POST-H-027"

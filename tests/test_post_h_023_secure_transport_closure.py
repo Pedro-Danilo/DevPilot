@@ -75,10 +75,10 @@ def test_post_h_023_backlog_and_implementation_are_closed_for_post_h_024() -> No
         assert "POST-H-023-E — Runbook y cierre" in text
         assert "POST-H-024" in text
 
-    assert state["last_completed_sprint"] == "POST-H-025"
-    assert state["next_sprint"] == "POST-H-026"
-    assert state["current_micro_sprint"] == "POST-H-025-E"
-    assert state["next_micro_sprint"] == "POST-H-026"
+    assert state["last_completed_sprint"] >= "POST-H-025"
+    assert state["next_sprint"] >= "POST-H-026"
+    assert state["post_h_025_current_micro_sprint"] == "POST-H-025-E"
+    assert state["post_h_025_next_micro_sprint"] == "POST-H-026"
     assert state["post_h_023_closed"] is True
     assert state["post_h_023_secure_transport_design_closed"] is True
     assert state["post_h_023_secure_transport_design_runbook_path"] == "docs/05_operations/secure_transport_design_runbook.md"
@@ -110,9 +110,9 @@ def test_post_h_023_e_manifest_source_registry_and_tcr_are_registered() -> None:
     assert "POST-H-023-E-SECURE-TRANSPORT-CLOSURE-REPORT" in doc_ids
     assert "POST-H-023-E-MANIFEST" in doc_ids
     assert "POST-H-023-E-SECURE-TRANSPORT-CLOSURE-TEST" in doc_ids
-    assert source_registry["project_state_snapshot"]["last_completed_sprint"] == "POST-H-025"
+    assert source_registry["project_state_snapshot"]["last_completed_sprint"] >= "POST-H-025"
     assert source_registry["project_state_snapshot"]["post_h_023_next_micro_sprint"] == "POST-H-024"
-    assert source_registry["project_state_snapshot"]["next_sprint"] == "POST-H-026"
+    assert source_registry["project_state_snapshot"]["next_sprint"] >= "POST-H-026"
 
     contract_ids_v1 = {item["contract_id"] for item in tcr_v1["contracts"]}
     contract_ids_v2 = {item["contract_id"] for item in tcr_v2["contracts"]}

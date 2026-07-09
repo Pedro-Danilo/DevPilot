@@ -10772,3 +10772,23 @@ npm --prefix ui/web run test:operator-flows
 ```
 
 El smoke valida API down, token missing/invalid, empty reports/traces, approval lifecycle en sandbox temporal, acciones dry-run permitidas, accion prohibida como `BLOCK`, settings redacted/plan-only y Operator Dashboard con no-go gates/next actions. Es evidencia `implemented-initial`; no reemplaza una suite browser E2E completa.
+
+
+## POST-H-028-E — UI route registry enforcement
+
+Objetivo operacional: verificar que la Web UI local solo consuma rutas API registradas, mantenga estados visibles y no exponga acciones prohibidas.
+
+Comandos Windows:
+
+```powershell
+$env:PYTHONPATH="src"
+python -m devpilot_core api ui-route-enforcement --json --write-report
+python -m devpilot_core schema validate --schema-id UiRouteEnforcementReport --instance outputs/reports/ui_route_enforcement_report.json --json
+npm --prefix ui/web run test:operator-flows
+npm --prefix ui/web run test:route-enforcement
+```
+
+PASS: `ui_route_registry_enforcement_passed=true`, `forbidden_ui_actions_total=0`, `unregistered_api_refs_total=0`, `filesystem_core_imports_total=0`, sin red/API externa/remote execution/connector write/plugin execution. La version es `implemented-initial`; pruebas browser E2E industriales quedan para evolucion posterior.
+
+
+Siguiente hito: `POST-H-029 — Testing tiers, impacto y costo de regresion`

@@ -251,3 +251,10 @@ El contrato API queda complementado por `UiVisualSmokeReport`: las rutas consumi
 ## POST-H-028-D — Operator flow smoke
 
 El contrato API queda complementado por `api operator-flow-smoke`, que valida flujos de operador sobre endpoints locales protegidos sin arrancar servidor ni abrir sockets: `/operator/dashboard`, `/reports`, `/traces`, `/approvals`, `/actions/dry-run`, `/settings/providers` y `/security/posture`.
+
+
+## POST-H-028-E — UI route registry enforcement
+
+POST-H-028-E agrega enforcement bloqueante del `UiRouteContractRegistry`. Las vistas criticas deben declarar sus fuentes, estados visuales y `allowed_api_routes`; esas rutas deben existir en `ApiRouteContractRegistry`. La UI conserva frontera API-only: no importa core Python, no lee `.devpilot/` ni `outputs/`, y no muestra controles para `patch/apply`, rollback execute, refactor execute, tests/run, git push o deploy.
+
+El script `npm --prefix ui/web run test:route-enforcement` es dependency-light y complementa el CLI `python -m devpilot_core api ui-route-enforcement --json --write-report`.

@@ -7328,6 +7328,56 @@
         "POST-H-028-D validates local operator flows and user-facing error states without starting servers, opening sockets, network, external APIs or source mutations.",
         "Approval lifecycle is exercised in a temporary runtime sandbox, not in the real repository operational store."
       ]
+    },
+    {
+      "contract_id": "post-h-028-ui-route-registry-enforcement",
+      "scope": "ui-smoke",
+      "owner": "POST-H-028-E",
+      "test_files": [
+        "tests/test_post_h_028_ui_route_registry_enforcement.py"
+      ],
+      "validates": [
+        "src/devpilot_core/interfaces/api/ui_route_enforcement.py",
+        "docs/schemas/ui_route_enforcement_report.schema.json",
+        "api ui-route-enforcement",
+        "quality-gate ui-route-enforcement",
+        "quality-gate ui-api-local-hardening",
+        ".devpilot/interfaces/ui_route_contract_registry.json",
+        "ui/web/scripts/route-enforcement-smoke.mjs",
+        "README.md",
+        "docs/05_operations/runbook.md",
+        "docs/05_operations/ui_api_local_runbook.md"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/interfaces/api/ui_route_enforcement.py",
+        "src/devpilot_core/quality/gate.py",
+        "src/devpilot_core/cli.py",
+        "src/devpilot_core/cli_registry/registry.py",
+        "docs/schemas/ui_route_enforcement_report.schema.json",
+        ".devpilot/interfaces/ui_route_contract_registry.json",
+        "ui/web/package.json",
+        "ui/web/scripts/route-enforcement-smoke.mjs",
+        "ui/web/src/",
+        "tests/test_post_h_028_ui_route_registry_enforcement.py",
+        ".devpilot/testing/test_contract_registry.json",
+        ".devpilot/testing/test_contract_registry_v2.json"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_028_ui_route_registry_enforcement.py tests/test_post_h_014_ui_shell_contract.py tests/test_post_h_014_ui_api_shell_gate.py tests/test_web_ui_mvp.py tests/test_quality_gate.py tests/test_schema_registry.py tests/test_project_global_state.py -q",
+        "python -m devpilot_core api ui-route-enforcement --json --write-report",
+        "python -m devpilot_core schema validate --schema-id UiRouteEnforcementReport --instance outputs/reports/ui_route_enforcement_report.json --json",
+        "npm --prefix ui/web run test:route-enforcement"
+      ],
+      "notes": [
+        "POST-H-028-E enforces UI route registry, allowed API routes, required states, action allowlists and UI/API-only boundaries without network, external APIs or source mutations."
+      ]
     }
   ],
   "notes": [

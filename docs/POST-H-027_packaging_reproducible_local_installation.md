@@ -3,6 +3,7 @@ doc_id: "POST-H-027-IMPLEMENTATION"
 id: "POST-H-027"
 title: "POST-H-027 — Packaging reproducible e instalacion local"
 status: "approved"
+approval: "approved"
 version: "0.4.0"
 owner: "Ordonez"
 created: "2026-07-07"
@@ -13,8 +14,7 @@ roadmap_wave: "Ola 2"
 roadmap_source: "devpilot_post_h_025_roadmap_detallado_v3_agentes_validadores.md"
 onboarding_report_source: "devpilot_onboarding_report_final_compilado.md"
 source_repo: "repo_DevPilot_Local_262_POST_H_025_E.zip"
-depends_on:
-  - "POST-H-026"
+depends_on: "POST-H-026"
 local_first: true
 dry_run_default: true
 read_only_by_default: true
@@ -22,13 +22,8 @@ no_remote_execution_enabled: true
 no_external_apis_required: true
 no_connector_write_enabled: true
 no_plugin_execution_enabled: true
-claims_allowed:
-  - "production-ready-local"
-claims_forbidden:
-  - "enterprise-ready"
-  - "remote-ready"
-  - "SaaS-ready"
-  - "compliance-certified"
+claims_allowed: "production-ready-local"
+claims_forbidden: "enterprise-ready, remote-ready, SaaS-ready, compliance-certified"
 implementation_status: "closed/packaging-local-ready"
 current_micro_sprint: "POST-H-027-E"
 next_micro_sprint: "POST-H-028"

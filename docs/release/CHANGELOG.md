@@ -2476,3 +2476,16 @@ This section preserves exact sprint-title anchors used by documentation regressi
 - Valida API down, token missing/invalid, empty reports/traces, Approval Center, Action Launcher dry-run, forbidden action `BLOCK`, settings redacted/plan-only y Operator Dashboard next actions.
 - Corrige actor de Approval Center demo a `local-owner` para alinearlo con RBAC local.
 - Mantiene alcance `implemented-initial`, local-first, sin browser E2E obligatorio, sin network/external APIs y sin source mutations.
+
+
+## POST-H-028-E — UI route registry enforcement
+
+- Added `UiRouteEnforcementReport`, `UiRouteEnforcementRunner` and `api ui-route-enforcement`.
+- Added hardening/industrial subgates `ui-route-enforcement` and `ui-api-local-hardening`.
+- Added dependency-light `npm --prefix ui/web run test:route-enforcement`.
+- Fixed POST-H-028-D Windows path handling in `operator-flow-smoke.mjs` with `fileURLToPath(import.meta.url)`.
+- Updated `UiRouteContractRegistry` for shared `ReportTraceView` API calls.
+- Closed POST-H-028 as implemented-initial/local-first without enabling remote execution, connector write, plugin execution, external APIs, CORS wildcard or non-local bind.
+
+
+Siguiente hito: `POST-H-029 — Testing tiers, impacto y costo de regresion`

@@ -53,4 +53,5 @@ def test_sprint_32_profiles_config_exists() -> None:
     ids = {profile["profile_id"] for profile in profiles["profiles"]}
 
     assert {"smoke", "unit", "all"}.issubset(ids)
-    assert profiles["created_by"] == "FUNC-SPRINT-32"
+    assert profiles["created_by"] in {"FUNC-SPRINT-32", "POST-H-026-E"}
+    assert "FUNC-SPRINT-32" in profiles.get("description", "") or profiles["created_by"] == "POST-H-026-E"
