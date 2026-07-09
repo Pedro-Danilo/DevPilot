@@ -202,3 +202,8 @@ El shell UI/API queda protegido por un guard adicional que valida contrato API a
 La shell UI/API incorpora `UiVisualSmokeReport` como evidencia inicial de calidad visual local. Se validan vistas críticas, badges local-first/no-remote/dry-run, estados `loading`, `empty`, `error`, `BLOCK`, `401/403`, `API local down`, settings redacted y Operator Dashboard embebido.
 
 Estado: `implemented-initial`. No es aún cobertura visual industrial completa: Playwright/browser real, screenshots comparables, accesibilidad y cross-browser quedan como evolución futura.
+
+
+## POST-H-028-D — Operator flows and error states
+
+La shell UI/API incorpora smoke operacional para flujos de operador: errores de conexion/token, empty states, Approval Center, Action Launcher dry-run, settings redacted/plan-only y Operator Dashboard con no-go gates. La superficie sigue siendo local-first e `implemented-initial`; no constituye consola enterprise ni habilita acciones sensibles.

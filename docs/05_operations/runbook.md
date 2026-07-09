@@ -10758,3 +10758,17 @@ npm --prefix ui/web run test:visual
 ```
 
 El reporte valida seis superficies visuales críticas y estados mínimos sin abrir sockets ni requerir browser tooling en pytest. Si se instala Playwright en el futuro, usar `ui/web/playwright.config.ts` y mantener screenshots bajo `outputs/ui-smoke/`, `ui/web/test-results/` o `ui/web/playwright-report/`; nunca versionarlos.
+
+
+## POST-H-028-D — Operator flows and error states
+
+Verificacion operacional local:
+
+```powershell
+$env:PYTHONPATH="src"
+python -m devpilot_core api operator-flow-smoke --json --write-report
+python -m devpilot_core schema validate --schema-id OperatorFlowSmokeReport --instance outputs/reports/operator_flow_smoke_report.json --json
+npm --prefix ui/web run test:operator-flows
+```
+
+El smoke valida API down, token missing/invalid, empty reports/traces, approval lifecycle en sandbox temporal, acciones dry-run permitidas, accion prohibida como `BLOCK`, settings redacted/plan-only y Operator Dashboard con no-go gates/next actions. Es evidencia `implemented-initial`; no reemplaza una suite browser E2E completa.

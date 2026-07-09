@@ -89,3 +89,14 @@ npm run test:visual
 ```
 
 `npm run test:visual` es dependency-light y valida marcadores visuales críticos sin Playwright. El scaffold `playwright.config.ts` y `tests/visual-smoke.spec.ts` queda disponible para una ejecución browser opt-in futura. No versionar `test-results/`, `playwright-report/` ni screenshots.
+
+
+## POST-H-028-D — Operator flows and error states
+
+La Web UI incluye smoke de flujos de operador dependency-light:
+
+```powershell
+npm --prefix ui/web run test:operator-flows
+```
+
+El smoke verifica marcadores de API down, 401/403, empty reports/traces, approval pending, BLOCK visible, settings plan-only/redacted y Operator Dashboard con next actions. No sustituye Playwright/E2E industrial completo.

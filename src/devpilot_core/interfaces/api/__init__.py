@@ -79,6 +79,20 @@ from devpilot_core.interfaces.api.visual_smoke_report import (
     run_ui_visual_smoke_report,
 )
 
+
+
+from devpilot_core.interfaces.api.operator_flow_smoke import (
+    DEFAULT_OPERATOR_FLOW_SMOKE_REPORT_JSON,
+    DEFAULT_OPERATOR_FLOW_SMOKE_REPORT_MARKDOWN,
+    OPERATOR_FLOW_SMOKE_COMMAND,
+    OPERATOR_FLOW_SMOKE_REPORT_CONTRACT,
+    OPERATOR_FLOW_SMOKE_REPORT_SCHEMA_ID,
+    POST_H_028_D_CREATED_BY,
+    OperatorFlowSmokeOptions,
+    OperatorFlowSmokeRunner,
+    run_operator_flow_smoke,
+)
+
 from devpilot_core.interfaces.api.shell_gate import (
     DEFAULT_UI_API_SHELL_REPORT_JSON,
     DEFAULT_UI_API_SHELL_REPORT_MARKDOWN,
@@ -160,5 +174,14 @@ __all__ = [
     "UI_VISUAL_SMOKE_REPORT_SCHEMA_ID",
     "UiVisualSmokeOptions",
     "UiVisualSmokeReporter",
+    "DEFAULT_OPERATOR_FLOW_SMOKE_REPORT_JSON",
+    "DEFAULT_OPERATOR_FLOW_SMOKE_REPORT_MARKDOWN",
+    "OPERATOR_FLOW_SMOKE_COMMAND",
+    "OPERATOR_FLOW_SMOKE_REPORT_CONTRACT",
+    "OPERATOR_FLOW_SMOKE_REPORT_SCHEMA_ID",
+    "POST_H_028_D_CREATED_BY",
+    "OperatorFlowSmokeOptions",
+    "OperatorFlowSmokeRunner",
+    "run_operator_flow_smoke",
     "run_ui_visual_smoke_report",
 ]

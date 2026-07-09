@@ -7316,6 +7316,79 @@
       "required_tests": [
         "tests/test_post_h_028_visual_smoke_contract.py"
       ]
+    },
+    {
+      "doc_id": "SCHEMA-DEVPL-OPERATOR-FLOW-SMOKE-REPORT-V1",
+      "path": "docs/schemas/operator_flow_smoke_report.schema.json",
+      "classification": "machine-readable-source",
+      "domain": "product.ui",
+      "owner": "POST-H-028-D",
+      "status_required": "registered",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_028_operator_flows_error_states.py",
+        "tests/test_schema_registry.py"
+      ]
+    },
+    {
+      "doc_id": "POST-H-028-D-OPERATOR-FLOW-SMOKE-MODULE",
+      "path": "src/devpilot_core/interfaces/api/operator_flow_smoke.py",
+      "classification": "source-of-truth",
+      "domain": "product.ui",
+      "owner": "POST-H-028-D",
+      "status_required": "current",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_028_operator_flows_error_states.py"
+      ]
+    },
+    {
+      "doc_id": "POST-H-028-D-OPERATOR-FLOW-SMOKE-REPORT",
+      "path": "docs/audits/post_h_028_d_operator_flows_error_states_report.md",
+      "classification": "source-of-truth",
+      "domain": "product.ui",
+      "owner": "POST-H-028-D",
+      "status_required": "approved",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_028_operator_flows_error_states.py"
+      ]
+    },
+    {
+      "doc_id": "POST-H-028-D-MANIFEST",
+      "path": "docs/post_h_028_d_manifest.json",
+      "classification": "machine-readable-source",
+      "domain": "product.ui",
+      "owner": "POST-H-028-D",
+      "status_required": "implemented-initial",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_028_operator_flows_error_states.py"
+      ]
+    },
+    {
+      "doc_id": "POST-H-028-D-OPERATOR-FLOW-TEST",
+      "path": "tests/test_post_h_028_operator_flows_error_states.py",
+      "classification": "test-contract",
+      "domain": "product.ui",
+      "owner": "POST-H-028-D",
+      "status_required": "current",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_028_operator_flows_error_states.py"
+      ]
+    },
+    {
+      "doc_id": "POST-H-028-D-WEB-OPERATOR-FLOW-SCRIPT",
+      "path": "ui/web/scripts/operator-flow-smoke.mjs",
+      "classification": "source-of-truth",
+      "domain": "product.ui",
+      "owner": "POST-H-028-D",
+      "status_required": "current",
+      "criticality": "P1",
+      "required_tests": [
+        "tests/test_post_h_028_operator_flows_error_states.py"
+      ]
     }
   ],
   "rules": {

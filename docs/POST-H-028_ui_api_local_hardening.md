@@ -25,8 +25,8 @@ no_plugin_execution_enabled: true
 claims_allowed: "production-ready-local"
 claims_forbidden: "enterprise-ready, remote-ready, SaaS-ready, compliance-certified"
 implementation_status: "in-progress/post-h-028-c-implemented-initial"
-current_micro_sprint: "POST-H-028-C"
-next_micro_sprint: "POST-H-028-D"
+current_micro_sprint: "POST-H-028-D"
+next_micro_sprint: "POST-H-028-E"
 ---
 
 # POST-H-028 — UI/API local hardening
@@ -1063,3 +1063,36 @@ docs/post_h_028_c_manifest.json
 ```
 
 Limites explicitos: no es cobertura visual industrial completa; no hay pixel-perfect assertions, cross-browser completo, accesibilidad formal ni screenshots comparables. Es una primera version robusta y local-first que prepara POST-H-028-D/E.
+
+
+## Implementacion POST-H-028-D — Operator flows and error states
+
+POST-H-028-D agrega un smoke report local y schema-backed para validar flujos operacionales de operador y estados de error visibles. El comando principal es:
+
+```powershell
+python -m devpilot_core api operator-flow-smoke --json --write-report
+```
+
+Artefactos implementados:
+
+- `docs/schemas/operator_flow_smoke_report.schema.json` (`OperatorFlowSmokeReport`).
+- `src/devpilot_core/interfaces/api/operator_flow_smoke.py` (`OperatorFlowSmokeRunner`).
+- `tests/test_post_h_028_operator_flows_error_states.py`.
+- `docs/audits/post_h_028_d_operator_flows_error_states_report.md`.
+- `docs/post_h_028_d_manifest.json`.
+- `ui/web/scripts/operator-flow-smoke.mjs`.
+
+Flujos cubiertos en modo implemented-initial:
+
+- API down con troubleshooting seguro orientado a localhost.
+- Token missing e invalid con estados `401/403` visibles.
+- Report Viewer y Trace Viewer con empty states explicitos.
+- Approval Center con create/list/show/decision en sandbox runtime temporal.
+- Action Launcher con allowlist `readiness`, `code-review`, `refactor-plan`.
+- Accion prohibida `patch-apply` visible como `BLOCK`.
+- Settings providers/security posture con secretos redactados y cambios plan-only.
+- Operator Dashboard con no-go gates y recommended next actions visibles.
+
+Correccion aplicada: Approval Center pasa de `actor: ui-local` a `actor: local-owner` para que el flujo demo sea coherente con RBAC local y con las pruebas API existentes.
+
+Limites explicitos: no es una suite browser E2E industrial completa; no implementa login/RBAC multiusuario, OIDC/SSO, sesiones persistentes ni ejecucion real de acciones sensibles. POST-H-028-E queda pendiente para enforcement bloqueante del UI route registry.

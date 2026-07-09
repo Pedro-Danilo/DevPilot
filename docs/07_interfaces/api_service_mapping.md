@@ -172,3 +172,8 @@ Las rutas respaldadas por ApplicationService deben declarar `response_contract=A
 ## POST-H-028-C — Mapping visual hacia API local
 
 El smoke visual verifica que Dashboard, Reports, Traces, Approvals, Settings y Operator Dashboard consuman solamente rutas permitidas por `UiRouteContractRegistry` y respaldadas por `ApiRouteContractRegistry`. No introduce nuevas operaciones de ApplicationService; solo agrega evidencia de renderabilidad y estados visuales mínimos.
+
+
+## POST-H-028-D — Operator flows mapping
+
+`OperatorFlowSmokeRunner` comprueba que la UI consuma ApplicationService/API para flujos de operador sin leer filesystem desde frontend y sin duplicar logica core. La cobertura es `implemented-initial` y prepara POST-H-028-E para enforcement del UI route registry.

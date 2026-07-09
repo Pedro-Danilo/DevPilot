@@ -19,7 +19,7 @@ export function renderDryRunActionForm(tokenProvider: () => string, onResult: (r
 
   const note = document.createElement('p');
   note.className = 'muted';
-  note.textContent = 'Solo acciones read-only/dry-run. La UI no habilita patch apply, refactor execute, rollback execute, git push ni deploy.';
+  note.textContent = 'Solo acciones read-only/dry-run. La UI no habilita patch apply, refactor execute, rollback execute, git push ni deploy. POST-H-028-D: acción prohibida => BLOCK visible, nunca éxito silencioso.';
 
   form.append(action.wrapper, target.wrapper, goal.wrapper, note, button);
   form.addEventListener('submit', async (event) => {

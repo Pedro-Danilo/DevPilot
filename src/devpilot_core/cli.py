@@ -5004,6 +5004,27 @@ def api_visual_smoke_report_command(*, json_output: bool = False, write_report: 
     print_result(result, json_output=json_output)
     return int(result.exit_code)
 
+
+
+def api_operator_flow_smoke_command(*, json_output: bool = False, write_report: bool = False) -> int:
+    """Run POST-H-028-D local operator flows and error-state smoke report.
+
+    The report validates API-down/token error UX, empty report/trace states,
+    approval lifecycle, dry-run allowlist, forbidden action BLOCK, settings
+    redaction and operator dashboard next actions. It uses TestClient and a
+    temporary approval runtime sandbox; it does not start servers, open sockets,
+    use network/external APIs or mutate source files.
+    """
+
+    root = project_root()
+    from .interfaces.api import OperatorFlowSmokeOptions, OperatorFlowSmokeRunner
+
+    result = OperatorFlowSmokeRunner(root, OperatorFlowSmokeOptions(write_report=write_report)).run()
+    _emit_result_event(root, result, subject="api-operator-flow-smoke")
+    _persist_result(root, result, subject="api-operator-flow-smoke")
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
 def api_shell_gate_command(*, json_output: bool = False, write_report: bool = False, run_ui_smoke: bool = True) -> int:
     """Run the POST-H-014-E local UI/API industrial shell quality subgate."""
 
@@ -6732,6 +6753,10 @@ def build_parser() -> argparse.ArgumentParser:
     api_visual_smoke.add_argument("--write-report", action="store_true", help="Persist outputs/reports/ui_visual_smoke_report.json and .md")
     api_visual_smoke.add_argument("--require-browser-tooling", action="store_true", help="BLOCK if optional browser tooling such as Playwright is not installed")
 
+    api_operator_flow = api_sub.add_parser("operator-flow-smoke", help="Run POST-H-028-D operator flows and error-state smoke report")
+    api_operator_flow.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    api_operator_flow.add_argument("--write-report", action="store_true", help="Persist outputs/reports/operator_flow_smoke_report.json and .md")
+
     policy = sub.add_parser("policy", help="Evaluate deterministic DevPilot safety policies")
     policy_sub = policy.add_subparsers(dest="policy_command")
     policy_check = policy_sub.add_parser("check", help="Evaluate a simulated action through PolicyEngine")
@@ -8010,6 +8035,8 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
             return api_security_hardening_command(json_output=args.json, write_report=args.write_report)
         if args.api_command == "visual-smoke-report":
             return api_visual_smoke_report_command(json_output=args.json, write_report=args.write_report, require_browser_tooling=args.require_browser_tooling)
+        if args.api_command == "operator-flow-smoke":
+            return api_operator_flow_smoke_command(json_output=args.json, write_report=args.write_report)
         parser.print_help()
         return int(ExitCode.FAIL)
     if args.command == "policy":

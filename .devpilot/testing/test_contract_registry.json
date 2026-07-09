@@ -7277,6 +7277,57 @@
         "POST-H-028-C validates critical UI visual smoke contracts without requiring browser tooling for core pytest.",
         "Optional browser scaffold exists; screenshots remain non-versioned under outputs/ui-smoke or ui/web/test-results."
       ]
+    },
+    {
+      "contract_id": "post-h-028-operator-flows-error-states",
+      "scope": "ui-smoke",
+      "owner": "POST-H-028-D",
+      "test_files": [
+        "tests/test_post_h_028_operator_flows_error_states.py"
+      ],
+      "validates": [
+        "src/devpilot_core/interfaces/api/operator_flow_smoke.py",
+        "docs/schemas/operator_flow_smoke_report.schema.json",
+        "api operator-flow-smoke",
+        "quality-gate operator-flow-smoke",
+        "ui/web/scripts/operator-flow-smoke.mjs",
+        "ui/web/src/api/client.ts",
+        "ui/web/src/pages/ApprovalCenterView.ts",
+        "ui/web/src/components/DryRunActionForm.ts",
+        "README.md",
+        "docs/05_operations/runbook.md",
+        "docs/05_operations/ui_api_local_runbook.md"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/interfaces/api/operator_flow_smoke.py",
+        "src/devpilot_core/quality/gate.py",
+        "src/devpilot_core/cli.py",
+        "src/devpilot_core/cli_registry/registry.py",
+        "docs/schemas/operator_flow_smoke_report.schema.json",
+        "ui/web/package.json",
+        "ui/web/scripts/operator-flow-smoke.mjs",
+        "ui/web/src/",
+        "tests/test_post_h_028_operator_flows_error_states.py",
+        ".devpilot/testing/test_contract_registry.json",
+        ".devpilot/testing/test_contract_registry_v2.json"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_028_operator_flows_error_states.py tests/test_api_reports_traces.py tests/test_api_approvals_actions.py tests/test_api_settings.py tests/test_post_h_015_operator_dashboard_application_api.py tests/test_post_h_015_operator_dashboard_ui.py tests/test_web_ui_mvp.py tests/test_schema_registry.py tests/test_project_global_state.py -q",
+        "python -m devpilot_core api operator-flow-smoke --json --write-report",
+        "python -m devpilot_core schema validate --schema-id OperatorFlowSmokeReport --instance outputs/reports/operator_flow_smoke_report.json --json",
+        "npm --prefix ui/web run test:operator-flows"
+      ],
+      "notes": [
+        "POST-H-028-D validates local operator flows and user-facing error states without starting servers, opening sockets, network, external APIs or source mutations.",
+        "Approval lifecycle is exercised in a temporary runtime sandbox, not in the real repository operational store."
+      ]
     }
   ],
   "notes": [
@@ -7323,6 +7374,8 @@
     "POST-H-027-D registers Windows install smoke contract.",
     "POST-H-027-E registers upgrade/rollback dry-run and packaging-local-ready contract.",
     "POST-H-028-A adds the API contract drift guard contract.",
-    "POST-H-028-B adds the local auth and CORS hardening contract."
+    "POST-H-028-B adds the local auth and CORS hardening contract.",
+    "POST-H-028-C adds the UI visual smoke contract.",
+    "POST-H-028-D adds the operator flows and error states contract."
   ]
 }

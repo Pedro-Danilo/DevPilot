@@ -5528,3 +5528,10 @@ python -m pytest -p no:ddtrace --assert=plain `
 POST-H-028-C agrega smoke visual local en modo `implemented-initial`: `UiVisualSmokeReporter`, schema `UiVisualSmokeReport`, CLI `python -m devpilot_core api visual-smoke-report --json --write-report`, script `npm --prefix ui/web run test:visual` y scaffold opcional de Playwright. Valida Dashboard, Report Viewer, Trace Viewer, Approval Center, Settings y Operator Dashboard embebido, además de estados `loading`, `empty`, `error`, `BLOCK`, `401/403` y `API local down`.
 
 Límites: el core pytest no requiere navegador ni Playwright; el modo browser queda como advisory/opt-in. Screenshots y test-results son runtime outputs no versionables. POST-H-028-D/E siguen pendientes para flujos operacionales profundos y enforcement bloqueante del UI route registry.
+
+
+## POST-H-028-D — Operator flows and error states
+
+POST-H-028-D agrega `OperatorFlowSmokeRunner`, schema `OperatorFlowSmokeReport`, CLI `python -m devpilot_core api operator-flow-smoke --json --write-report` y script `npm --prefix ui/web run test:operator-flows`. Valida flujos de operador locales: API down, token missing/invalid, empty reports/traces, Approval Center, Action Launcher dry-run, accion prohibida como `BLOCK`, settings redacted/plan-only y Operator Dashboard con no-go gates y next actions.
+
+Limites: es una version `implemented-initial` de smoke operacional, no una suite E2E browser industrial ni una UI enterprise. No habilita login/RBAC multiusuario, OIDC/SSO, sesiones persistentes, remote execution, connector write, plugin execution ni acciones sensibles. POST-H-028-E queda pendiente para enforcement bloqueante del UI route registry.

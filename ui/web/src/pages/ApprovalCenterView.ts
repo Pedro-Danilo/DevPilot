@@ -46,7 +46,7 @@ export function renderApprovalCenterView(tokenProvider: () => string): HTMLEleme
   async function decide(approvalId: string, decision: 'approve' | 'deny'): Promise<void> {
     try {
       const client = new DevPilotApiClient({ token: tokenProvider() });
-      state.selected = await client.decideApproval(approvalId, decision, { actor: 'ui-local', reason: `${decision} from Approval Center` });
+      state.selected = await client.decideApproval(approvalId, decision, { actor: 'local-owner', reason: `${decision} from Approval Center` });
       await refresh();
     } catch (error) {
       state.errors.selected = error instanceof Error ? error.message : String(error);
@@ -61,8 +61,8 @@ export function renderApprovalCenterView(tokenProvider: () => string): HTMLEleme
         tool_id: 'tests.run',
         action: 'execute',
         subject: 'pytest',
-        actor: 'ui-local',
-        reason: 'Sample approval request generated from Sprint 71 Approval Center.',
+        actor: 'local-owner',
+        reason: 'Sample approval request generated from POST-H-028-D Approval Center operator flow.',
         ttl_minutes: 60,
       });
       await refresh();
@@ -80,7 +80,7 @@ export function renderApprovalCenterView(tokenProvider: () => string): HTMLEleme
     const title = document.createElement('h2');
     title.textContent = 'Approval Center y Action Launcher';
     const subtitle = document.createElement('p');
-    subtitle.textContent = 'POST-H-014-C · ui.approvals · approvals locales · action launcher dry-run · no-remote · BLOCK/ERROR visibles.';
+    subtitle.textContent = 'POST-H-028-D · ui.approvals · approvals locales · action launcher dry-run · no-remote · approval pending/approved/denied · BLOCK/ERROR visibles.';
     titleBlock.append(title, subtitle, renderContractBadges('ui.approvals', { warning: 'Mutaciones limitadas al lifecycle local de approvals; ejecución destructiva bloqueada.' }));
 
     const controls = document.createElement('div');
@@ -114,7 +114,9 @@ export function renderApprovalCenterView(tokenProvider: () => string): HTMLEleme
     grid.append(renderApprovalsPanel(state, selectApproval, decide));
     grid.append(renderActionPanel(state, tokenProvider));
     section.append(grid);
-    if (state.loading) section.append(renderUiStateNotice('loading', 'POST-H-014-C ui.approvals loading state: consultando approvals por API local.'));
+    if (state.loading) section.append(renderUiStateNotice('loading', 'POST-H-028-D ui.approvals loading state: consultando approvals por API local.'));
+    section.append(renderUiStateNotice('block', 'POST-H-028-D ui.approvals block state: acciones críticas se muestran como BLOCK y no como éxito.'));
+    section.append(renderUiStateNotice('empty', 'POST-H-028-D ui.approvals pending state: approval pending/requested aparece con acciones Approve/Deny cuando aplica.'));
     if (state.errors.approvals || state.errors.selected || state.errors.requestResult) section.append(renderUiStateNotice('error', 'POST-H-014-C ui.approvals error state: BLOCK/ERROR se mantiene visible.'));
     section.append(renderDetailPanel('Approval seleccionado', state.selected, state.errors.selected));
     section.append(renderDetailPanel('Última solicitud approval', state.requestResult, state.errors.requestResult));

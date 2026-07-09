@@ -153,7 +153,7 @@ export class DevPilotApiClient {
       });
     } catch (error) {
       throw new DevPilotApiError(
-        'API local down o inaccesible: verifica que DevPilot API esté levantada en localhost y que el token local esté configurado.',
+        'API local down o inaccesible: verifica que DevPilot API esté levantada en localhost, conserva 127.0.0.1 y configura el token local; no uses bind no-local como solución.',
         0,
         { error: error instanceof Error ? error.message : String(error), state: 'api_down' }
       );

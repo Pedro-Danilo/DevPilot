@@ -142,8 +142,8 @@ def test_ui_visual_smoke_schema_and_registries_are_registered() -> None:
     assert any(doc["doc_id"] == "POST-H-028-C-VISUAL-SMOKE-REPORT" for doc in source_registry["documents"])
     assert "post-h-028-visual-smoke-tests" in tcr_v1
     assert "post-h-028-visual-smoke-tests" in tcr_v2
-    assert state["current_micro_sprint"] == "POST-H-028-C"
-    assert state["next_micro_sprint"] == "POST-H-028-D"
+    assert state["current_micro_sprint"] == "POST-H-028-D"
+    assert state["next_micro_sprint"] == "POST-H-028-E"
     assert state["post_h_028_ui_visual_smoke_available"] is True
     assert state["post_h_028_ui_visual_smoke_browser_required_for_core"] is False
 

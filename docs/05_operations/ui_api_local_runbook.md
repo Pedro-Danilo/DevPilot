@@ -173,3 +173,15 @@ npm --prefix ui/web run test:visual
 ```
 
 Playwright queda como scaffold opcional. No debe convertirse en requisito del core pytest hasta que se defina un perfil CI/browser separado.
+
+
+## POST-H-028-D — Operator flows and error states
+
+El operador debe verificar los flujos locales con:
+
+```powershell
+python -m devpilot_core api operator-flow-smoke --json --write-report
+npm --prefix ui/web run test:operator-flows
+```
+
+La UI debe distinguir loading, empty, error, BLOCK, unauthorized/forbidden 401/403 y API local down. Las acciones criticas no deben aparecer como disponibles ni ejecutables desde la UI.

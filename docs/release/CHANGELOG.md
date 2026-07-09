@@ -2467,3 +2467,12 @@ This section preserves exact sprint-title anchors used by documentation regressi
 - Added `LocalApiSecurityHardeningReport` schema and report writer.
 - Added focused tests for token, CORS, localhost bind, security headers and settings/token redaction.
 - Integrated `local-api-security-hardening` into hardening/industrial quality profiles.
+
+
+## POST-H-028-D — Operator flows and error states
+
+- Agrega `OperatorFlowSmokeReport`, `OperatorFlowSmokeRunner` y CLI `api operator-flow-smoke`.
+- Agrega script UI dependency-light `npm --prefix ui/web run test:operator-flows`.
+- Valida API down, token missing/invalid, empty reports/traces, Approval Center, Action Launcher dry-run, forbidden action `BLOCK`, settings redacted/plan-only y Operator Dashboard next actions.
+- Corrige actor de Approval Center demo a `local-owner` para alinearlo con RBAC local.
+- Mantiene alcance `implemented-initial`, local-first, sin browser E2E obligatorio, sin network/external APIs y sin source mutations.

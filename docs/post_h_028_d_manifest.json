@@ -1,0 +1,42 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "SCHEMA-DEVPL-POST-H-MANIFEST-V1",
+  "sprint": "POST-H-028-D",
+  "title": "Operator flows and error states",
+  "status": "implemented-initial",
+  "created_by": "POST-H-028-D",
+  "summary": {
+    "operator_flow_smoke_report_available": true,
+    "minimal_operator_flows_total": 10,
+    "error_states_checked_total": 6,
+    "approval_runtime_sandbox_used": true,
+    "safe_dry_run_actions_total": 3,
+    "forbidden_actions_blocked": true,
+    "settings_redacted": true,
+    "network_used": false,
+    "external_api_used": false,
+    "remote_execution_enabled": false,
+    "connector_write_enabled": false,
+    "plugin_execution_enabled": false,
+    "source_mutations_performed": false,
+    "preliminary": true
+  },
+  "artifacts": {
+    "schema": "docs/schemas/operator_flow_smoke_report.schema.json",
+    "module": "src/devpilot_core/interfaces/api/operator_flow_smoke.py",
+    "test": "tests/test_post_h_028_operator_flows_error_states.py",
+    "audit_report": "docs/audits/post_h_028_d_operator_flows_error_states_report.md",
+    "npm_operator_flow_script": "ui/web/scripts/operator-flow-smoke.mjs",
+    "runtime_report": "outputs/reports/operator_flow_smoke_report.json"
+  },
+  "commands": [
+    "python -m devpilot_core api operator-flow-smoke --json --write-report",
+    "python -m devpilot_core schema validate --schema-id OperatorFlowSmokeReport --instance outputs/reports/operator_flow_smoke_report.json --json",
+    "npm --prefix ui/web run test:operator-flows"
+  ],
+  "notes": [
+    "Operator flow smoke is implemented-initial and local-first.",
+    "Approval lifecycle uses a temporary runtime sandbox, not the real operational DB.",
+    "Future POST-H-028-E must enforce UI route registry coverage as a blocking gate."
+  ]
+}

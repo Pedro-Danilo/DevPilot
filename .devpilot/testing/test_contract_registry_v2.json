@@ -12679,6 +12679,83 @@
         "POST-H-028-C writes optional outputs/reports only with --write-report; source mutations are not allowed.",
         "Browser tooling is optional/advisory for the core gate and must not make baseline pytest depend on Node or Playwright."
       ]
+    },
+    {
+      "contract_id": "post-h-028-operator-flows-error-states",
+      "schema_version": "2.0",
+      "source_contract_id": "post-h-028-operator-flows-error-states",
+      "domain": "product.ui",
+      "capability": "operator-flows-error-states",
+      "criticality": "P0",
+      "risk_level": "medium",
+      "test_type": "ui-smoke",
+      "execution_profile": "release",
+      "cost_class": "low",
+      "expected_duration_seconds": 300,
+      "test_files": [
+        "tests/test_post_h_028_operator_flows_error_states.py"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/interfaces/api/operator_flow_smoke.py",
+        "src/devpilot_core/quality/gate.py",
+        "src/devpilot_core/cli.py",
+        "src/devpilot_core/cli_registry/registry.py",
+        "docs/schemas/operator_flow_smoke_report.schema.json",
+        "ui/web/package.json",
+        "ui/web/scripts/operator-flow-smoke.mjs",
+        "ui/web/src/",
+        "tests/test_post_h_028_operator_flows_error_states.py",
+        ".devpilot/testing/test_contract_registry.json",
+        ".devpilot/testing/test_contract_registry_v2.json"
+      ],
+      "validates": [
+        "src/devpilot_core/interfaces/api/operator_flow_smoke.py",
+        "docs/schemas/operator_flow_smoke_report.schema.json",
+        "api operator-flow-smoke",
+        "quality-gate operator-flow-smoke",
+        "ui/web/scripts/operator-flow-smoke.mjs",
+        "ui/web/src/api/client.ts",
+        "ui/web/src/pages/ApprovalCenterView.ts",
+        "ui/web/src/components/DryRunActionForm.ts",
+        "README.md",
+        "docs/05_operations/runbook.md",
+        "docs/05_operations/ui_api_local_runbook.md"
+      ],
+      "trigger_hints": [
+        "POST-H-028-D",
+        "OperatorFlowSmokeReport",
+        "api operator-flow-smoke",
+        "operator flows",
+        "error states",
+        "Approval Center",
+        "Action Launcher"
+      ],
+      "impact_scope": [
+        "product.ui",
+        "product.api",
+        "interfaces",
+        "schemas",
+        "docs-governance",
+        "testing"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "POST-H-028-D",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_028_operator_flows_error_states.py tests/test_api_reports_traces.py tests/test_api_approvals_actions.py tests/test_api_settings.py tests/test_post_h_015_operator_dashboard_application_api.py tests/test_post_h_015_operator_dashboard_ui.py tests/test_web_ui_mvp.py tests/test_schema_registry.py tests/test_project_global_state.py -q",
+        "python -m devpilot_core api operator-flow-smoke --json --write-report",
+        "python -m devpilot_core schema validate --schema-id OperatorFlowSmokeReport --instance outputs/reports/operator_flow_smoke_report.json --json"
+      ],
+      "classification_status": "explicit",
+      "classification_notes": [
+        "POST-H-028-D writes optional outputs/reports only with --write-report; source mutations are not allowed.",
+        "The runner uses in-process TestClient and a temporary approval runtime sandbox; it does not start servers, open sockets, use network, external APIs or mutate source files."
+      ]
     }
   ],
   "migration_metadata": {
@@ -12720,6 +12797,7 @@
     "POST-H-027-D registers windows-install-smoke as release/security gate evidence.",
     "POST-H-027-E registers upgrade/rollback dry-run as release/security gate evidence.",
     "POST-H-028-A adds the API contract drift guard contract to the release/security profile.",
-    "POST-H-028-B adds local-auth-cors-hardening to the release/security profile."
+    "POST-H-028-B adds local-auth-cors-hardening to the release/security profile.",
+    "POST-H-028-D adds operator flows/error-states coverage to the UI/API local hardening wave."
   ]
 }

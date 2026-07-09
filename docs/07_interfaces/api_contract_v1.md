@@ -246,3 +246,8 @@ El comando `python -m devpilot_core api contract-drift --json --write-report` bl
 ## POST-H-028-C — Smoke visual UI/API
 
 El contrato API queda complementado por `UiVisualSmokeReport`: las rutas consumidas por las vistas críticas deben permanecer registradas en `ApiRouteContractRegistry` y visibles desde `UiRouteContractRegistry`. El smoke visual no llama APIs remotas ni abre servidor; verifica que la UI siga siendo API-only y que no agregue referencias a rutas destructivas o no contractadas.
+
+
+## POST-H-028-D — Operator flow smoke
+
+El contrato API queda complementado por `api operator-flow-smoke`, que valida flujos de operador sobre endpoints locales protegidos sin arrancar servidor ni abrir sockets: `/operator/dashboard`, `/reports`, `/traces`, `/approvals`, `/actions/dry-run`, `/settings/providers` y `/security/posture`.
