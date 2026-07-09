@@ -24,19 +24,19 @@ no_connector_write_enabled: true
 no_plugin_execution_enabled: true
 claims_allowed: "production-ready-local"
 claims_forbidden: "enterprise-ready, remote-ready, SaaS-ready, compliance-certified"
-implementation_status: "active/implemented-initial-post-h-029-c"
-current_micro_sprint: "POST-H-029-C"
-next_micro_sprint: "POST-H-029-D"
+implementation_status: "active/implemented-initial-post-h-029-d"
+current_micro_sprint: "POST-H-029-D"
+next_micro_sprint: "POST-H-029-E"
 ---
 
 # POST-H-029 — Testing tiers, impacto y costo de regresion
 
-POST-H-029-C queda implementado como `implemented-initial/local-first`: agrega `TestImpactRecommendationReport`, normalización de `test-impact analyze-v2`, reporte con riesgo residual, señal de full regression y señal de waiver. POST-H-029-D queda pendiente para perfil release candidate local formal.
+POST-H-029-D queda implementado como `implemented-initial/local-first`: agrega `ReleaseCandidateTestProfileReport`, `.devpilot/testing/release_candidate_test_profile.json`, validador `tests release-candidate-profile`, sincronización con taxonomy/TCR/tests.run y reglas explícitas de escalamiento a full regression. POST-H-029-E queda pendiente para el guard histórico bloqueante.
 
 
 ## Estado de implementación
 
-POST-H-029 entra a implementación con status `approved`. POST-H-029-A queda implementado como `implemented-initial/local-first`: define la taxonomía operacional de perfiles, valida comandos permitidos y conserva `tests.run` approval-gated. POST-H-029-A/B/C quedan implementados como primeras versiones local-first. Los micro-sprints POST-H-029-D/E permanecen pendientes para perfil release candidate formal y regression guard histórico.
+POST-H-029 entra a implementación con status `approved`. POST-H-029-A queda implementado como `implemented-initial/local-first`: define la taxonomía operacional de perfiles, valida comandos permitidos y conserva `tests.run` approval-gated. POST-H-029-A/B/C/D quedan implementados como primeras versiones local-first. El micro-sprint POST-H-029-E permanece pendiente para regression guard histórico.
 
 ## 1. Dictamen ejecutivo
 
@@ -544,7 +544,7 @@ python -m devpilot_core schema validate --schema-id TestImpactRecommendationRepo
 
 #### Estado de implementación POST-H-029-C
 
-Implementado como primera versión local-first. `test-impact analyze-v2` emite `TestImpactRecommendationReport` con contratos/reglas matcheadas, perfiles recomendados, pruebas, comandos, riesgo residual, señal de regresión completa y señal de waiver si se omite full regression. No ejecuta pruebas; los comandos recomendados son datos y deben ser ejecutados explícitamente por el operador. POST-H-029-D/E quedan pendientes para perfil release candidate formal y guard histórico bloqueante.
+Implementado como primera versión local-first. `test-impact analyze-v2` emite `TestImpactRecommendationReport` con contratos/reglas matcheadas, perfiles recomendados, pruebas, comandos, riesgo residual, señal de regresión completa y señal de waiver si se omite full regression. No ejecuta pruebas; los comandos recomendados son datos y deben ser ejecutados explícitamente por el operador. POST-H-029-D queda implementado como perfil release candidate formal; POST-H-029-E queda pendiente para guard histórico bloqueante.
 
 ## 12. Micro-sprint POST-H-029-D — Release candidate test profile
 
@@ -648,6 +648,11 @@ python -m devpilot_core tests release-candidate-profile --json
 python -m devpilot_core tests release-candidate-profile --json --write-report
 python -m devpilot_core schema validate --schema-id ReleaseCandidateTestProfileReport --instance outputs/reports/release_candidate_test_profile_report.json --json
 ```
+
+#### Estado de implementación POST-H-029-D
+
+Implementado como primera versión local-first. `release-candidate-local` queda formalizado en `.devpilot/testing/release_candidate_test_profile.json` y se valida mediante `python -m devpilot_core tests release-candidate-profile --json --write-report`. El perfil distingue comandos `required`, `recommended` y `optional`, declara prerequisitos, timeouts, targets P0/P1 y condiciones `full_regression_required_when`. No ejecuta pruebas desde JSON, conserva `tests.run` approval-gated y mantiene `pytest -q` completo como obligación explícita cuando aplique. POST-H-029-E queda pendiente para convertir estas decisiones de regresión histórica en guard de cierre.
+
 
 ## 13. Micro-sprint POST-H-029-E — Historical regression guard
 

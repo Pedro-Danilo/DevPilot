@@ -102,10 +102,10 @@ def test_project_global_state_schema_and_docs_are_synchronized() -> None:
     assert any("POST-H-013-D adds optional local crypto" in note for note in state["notes"])
     assert any("POST-H-013-E closes Audit pack integrity" in note for note in state["notes"])
     assert any("POST-H-014 is the next prioritized hito" in note for note in state["notes"])
-    assert state.get("current_micro_sprint") == "POST-H-029-C"
-    assert state.get("next_micro_sprint") == "POST-H-029-D"
+    assert state.get("current_micro_sprint") == "POST-H-029-D"
+    assert state.get("next_micro_sprint") == "POST-H-029-E"
     assert state.get("source_repo") == "repo_DevPilot_Local_263_POST_H_025.zip"
-    assert state.get("current_repo") == "repo_DevPilot_Local_281_POST_H_029_C.zip"
+    assert state.get("current_repo") == "repo_DevPilot_Local_282_POST_H_029_D.zip"
     assert state.get("post_h_026_status") == "closed/local-release-candidate-pass"
     assert "POST-H-026-C — UI/API local smoke under RC" in readme
     assert "POST-H-026-C — UI/API local smoke under RC" in runbook
@@ -531,8 +531,8 @@ def test_project_global_state_schema_and_docs_are_synchronized() -> None:
     assert any("POST-H-025-C adds industrial-readiness production-ready-local CLI" in note for note in state["notes"])
     assert any("POST-H-025-D adds ProductionReadyClaimsValidator" in note for note in state["notes"])
     assert any("POST-H-025-E adds ProductionReadyFinalDeclaration" in note for note in state["notes"])
-    assert state["current_micro_sprint"] == "POST-H-029-C"
-    assert state["next_micro_sprint"] == "POST-H-029-D"
+    assert state["current_micro_sprint"] == "POST-H-029-D"
+    assert state["next_micro_sprint"] == "POST-H-029-E"
     assert state.get("post_h_029_test_impact_rule_registry_valid") is True
     assert state.get("post_h_029_test_impact_rules_unknown_impact_escalates") is True
     assert state.get("post_h_029_test_impact_rules_unsafe_commands_total") == 0

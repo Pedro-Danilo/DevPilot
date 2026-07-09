@@ -13599,6 +13599,74 @@
       "notes": [
         "POST-H-029-C emits normalized recommendations with residual risk, full-regression and waiver signals while keeping tests_executed=false."
       ]
+    },
+    {
+      "contract_id": "post-h-029-release-candidate-test-profile",
+      "schema_version": "2.0",
+      "source_contract_id": "post-h-029-release-candidate-test-profile",
+      "domain": "governance.testing",
+      "capability": "ReleaseCandidateTestProfileReport",
+      "criticality": "P0",
+      "risk_level": "high",
+      "test_type": "contract",
+      "execution_profile": "release",
+      "cost_class": "medium",
+      "expected_duration_seconds": 300,
+      "test_files": [
+        "tests/test_post_h_029_release_candidate_test_profile.py"
+      ],
+      "watched_paths": [
+        "docs/schemas/release_candidate_test_profile_report.schema.json",
+        ".devpilot/testing/release_candidate_test_profile.json",
+        ".devpilot/testing/test_profiles.json",
+        "src/devpilot_core/testing/release_candidate_profile.py",
+        "src/devpilot_core/cli.py",
+        "src/devpilot_core/testing/__init__.py",
+        ".devpilot/testing/test_contract_registry_v2.json",
+        ".devpilot/testing/test_profile_taxonomy.json",
+        ".devpilot/project_state.json"
+      ],
+      "validates": [
+        "docs/schemas/release_candidate_test_profile_report.schema.json",
+        ".devpilot/testing/release_candidate_test_profile.json",
+        "src/devpilot_core/testing/release_candidate_profile.py",
+        "tests release-candidate-profile",
+        "ReleaseCandidateTestProfileReport"
+      ],
+      "trigger_hints": [
+        "release-candidate-test-profile-change",
+        "post-h-029-d",
+        "testing-tier-change"
+      ],
+      "impact_scope": [
+        "testing",
+        "release-candidate",
+        "regression-cost",
+        "operator-profile"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": false,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "POST-H-029-D",
+      "owner_domain": "governance.testing",
+      "service_boundary": "testing",
+      "subgate_id": "release-candidate-test-profile",
+      "schema_ids": [
+        "SCHEMA-DEVPL-RELEASE-CANDIDATE-TEST-PROFILE-REPORT-V1"
+      ],
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_029_release_candidate_test_profile.py tests/test_post_h_026_release_candidate_profile.py tests/test_quality_gate.py tests/test_project_global_state.py -q",
+        "python -m devpilot_core tests release-candidate-profile --json --write-report",
+        "python -m devpilot_core schema validate --schema-id ReleaseCandidateTestProfileReport --instance outputs/reports/release_candidate_test_profile_report.json --json"
+      ],
+      "classification_status": "explicit",
+      "classification_notes": [
+        "POST-H-029-D formalizes the release-candidate-local testing profile while preserving approval-gated execution and full regression escalation."
+      ]
     }
   ],
   "migration_metadata": {
@@ -13642,6 +13710,7 @@
     "POST-H-028-A adds the API contract drift guard contract to the release/security profile.",
     "POST-H-028-B adds local-auth-cors-hardening to the release/security profile.",
     "POST-H-028-D adds operator flows/error-states coverage to the UI/API local hardening wave.",
-    "POST-H-029-B registers declarative impact rule contract and P0/P1 impact metadata enrichment without executing tests from registry data."
+    "POST-H-029-B registers declarative impact rule contract and P0/P1 impact metadata enrichment without executing tests from registry data.",
+    "POST-H-029-D adds a formal release-candidate-local test profile contract without executing tests from JSON."
   ]
 }

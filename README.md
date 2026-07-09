@@ -5613,3 +5613,10 @@ python -m devpilot_core schema validate --schema-id TestImpactRecommendationRepo
 
 Límites: sigue siendo una primera versión `implemented-initial/local-first`. No ejecuta pruebas, no aprueba waivers y no reemplaza `pytest -q` cuando el cierre de backlog, release candidate, cambio P0 no mapeado o guard histórico lo exijan. POST-H-029-D debe formalizar el perfil release candidate local y POST-H-029-E debe hacer bloqueantes las reglas de cierre/regresión.
 
+
+
+## POST-H-029-D — Release candidate test profile
+
+Estado: `implemented-initial/local-first`. DevPilot ahora expone `python -m devpilot_core tests release-candidate-profile --json --write-report` para validar el perfil formal `release-candidate-local` sin ejecutar pruebas desde JSON. El perfil vive en `.devpilot/testing/release_candidate_test_profile.json`, valida `ReleaseCandidateTestProfileReport`, mantiene `tests.run` approval-gated y enumera comandos required/recommended/optional para RC local, UI/API hardening, production-ready-local, TCR, schemas, docs governance y packaging.
+
+Limitación explícita: este perfil reduce el costo operativo de selección, pero no reemplaza `pytest -q` completo cuando `full_regression_required_when` aplica. POST-H-029-E debe convertir esta política en guard histórico de cierre.

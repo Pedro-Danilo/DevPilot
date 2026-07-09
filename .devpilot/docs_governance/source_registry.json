@@ -8233,6 +8233,90 @@
         "test_must_pass"
       ],
       "lifecycle": "active"
+    },
+    {
+      "doc_id": "SCHEMA-DEVPL-RELEASE-CANDIDATE-TEST-PROFILE-REPORT-V1",
+      "path": "docs/schemas/release_candidate_test_profile_report.schema.json",
+      "classification": "machine-readable-source",
+      "domain": "governance.testing",
+      "status_required": "registered",
+      "owner": "POST-H-029-D",
+      "criticality": "P0",
+      "lifecycle": "active",
+      "required_tests": [
+        "tests/test_post_h_029_release_candidate_test_profile.py"
+      ],
+      "sync_rules": []
+    },
+    {
+      "doc_id": "POST-H-029-D-RELEASE-CANDIDATE-TEST-PROFILE",
+      "path": ".devpilot/testing/release_candidate_test_profile.json",
+      "classification": "machine-readable-source",
+      "domain": "governance.testing",
+      "status_required": "implemented-initial",
+      "owner": "POST-H-029-D",
+      "criticality": "P0",
+      "lifecycle": "active",
+      "required_tests": [
+        "tests/test_post_h_029_release_candidate_test_profile.py"
+      ],
+      "sync_rules": []
+    },
+    {
+      "doc_id": "POST-H-029-D-RELEASE-CANDIDATE-PROFILE-MODULE",
+      "path": "src/devpilot_core/testing/release_candidate_profile.py",
+      "classification": "source-of-truth",
+      "domain": "governance.testing",
+      "status_required": "current",
+      "owner": "POST-H-029-D",
+      "criticality": "P0",
+      "lifecycle": "active",
+      "required_tests": [
+        "tests/test_post_h_029_release_candidate_test_profile.py"
+      ],
+      "sync_rules": []
+    },
+    {
+      "doc_id": "POST-H-029-D-RELEASE-CANDIDATE-PROFILE-REPORT",
+      "path": "docs/audits/post_h_029_d_release_candidate_test_profile_report.md",
+      "classification": "source-of-truth",
+      "domain": "governance.testing",
+      "status_required": "approved",
+      "owner": "POST-H-029-D",
+      "criticality": "P0",
+      "lifecycle": "active",
+      "required_tests": [
+        "tests/test_post_h_029_release_candidate_test_profile.py"
+      ],
+      "sync_rules": []
+    },
+    {
+      "doc_id": "POST-H-029-D-MANIFEST",
+      "path": "docs/post_h_029_d_manifest.json",
+      "classification": "machine-readable-source",
+      "domain": "governance.testing",
+      "status_required": "implemented-initial",
+      "owner": "POST-H-029-D",
+      "criticality": "P0",
+      "lifecycle": "active",
+      "required_tests": [
+        "tests/test_post_h_029_release_candidate_test_profile.py"
+      ],
+      "sync_rules": []
+    },
+    {
+      "doc_id": "POST-H-029-D-RELEASE-CANDIDATE-PROFILE-TEST",
+      "path": "tests/test_post_h_029_release_candidate_test_profile.py",
+      "classification": "derived",
+      "domain": "governance.testing",
+      "status_required": "current",
+      "owner": "POST-H-029-D",
+      "criticality": "P0",
+      "lifecycle": "active",
+      "required_tests": [
+        "tests/test_post_h_029_release_candidate_test_profile.py"
+      ],
+      "sync_rules": []
     }
   ],
   "rules": {
@@ -8306,16 +8390,16 @@
     "POST-H-025-C keeps enterprise, remote, SaaS and compliance claims disabled.": true
   },
   "summary": {
-    "documents_total": 325,
-    "source_of_truth_total": 123,
-    "machine_readable_source_total": 149,
-    "derived_total": 47,
+    "documents_total": 336,
+    "source_of_truth_total": 129,
+    "machine_readable_source_total": 157,
+    "derived_total": 50,
     "generated_runtime_total": 0,
     "historical_total": 0,
     "deprecated_total": 0,
-    "critical_sources_total": 104,
+    "critical_sources_total": 121,
     "markdown_json_pairs_total": 30,
-    "documents_with_required_tests_total": 319,
+    "documents_with_required_tests_total": 336,
     "network_used": false,
     "external_api_used": false,
     "mutations_performed": false,
@@ -8327,7 +8411,7 @@
     "backlogs_missing_future_are_planned_info": true,
     "preliminary": true,
     "updated_by": "POST-H-028-E-regression-fix",
-    "last_registered_sprint": "POST-H-029-B"
+    "last_registered_sprint": "POST-H-029-D"
   },
   "safety": {
     "local_first": true,
@@ -8425,7 +8509,8 @@
     "POST-H-028-A registers API contract drift guard docs, schema, module, manifest and tests as canonical UI/API hardening sources.",
     "POST-H-028-B registers local auth/CORS hardening schema, module, report, manifest and tests as canonical UI/API hardening sources.",
     "POST-H-029-A registers TestProfileTaxonomy and controlled test profile aliases without executing tests from JSON.",
-    "POST-H-029-B registers TestImpactRuleRegistry and declarative TCR v2 impact rules without executing tests from JSON."
+    "POST-H-029-B registers TestImpactRuleRegistry and declarative TCR v2 impact rules without executing tests from JSON.",
+    "POST-H-029-D registers ReleaseCandidateTestProfileReport and formal release-candidate-local profile artifacts."
   ],
   "project_state_snapshot": {
     "schema_version": "1.0",

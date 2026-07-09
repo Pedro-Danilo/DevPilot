@@ -1,0 +1,488 @@
+{
+  "schema_version": "1.0",
+  "profile_id": "release-candidate-local",
+  "created_by": "POST-H-029-D",
+  "status": "implemented-initial",
+  "version": "1.0.0",
+  "updated": "2026-07-09",
+  "description": "Formal POST-H-029-D local release-candidate test profile. It groups required, recommended and optional verification commands without executing tests from JSON.",
+  "taxonomy_profile_id": "release-candidate-local",
+  "test_profile_taxonomy_path": ".devpilot/testing/test_profile_taxonomy.json",
+  "tests_run_profile_path": ".devpilot/testing/test_profiles.json",
+  "tcr_v2_path": ".devpilot/testing/test_contract_registry_v2.json",
+  "recommendation_report_schema": "SCHEMA-DEVPL-TEST-IMPACT-RECOMMENDATION-REPORT-V1",
+  "report_schema": "SCHEMA-DEVPL-RELEASE-CANDIDATE-TEST-PROFILE-REPORT-V1",
+  "execution_mode": "plan-only",
+  "requires_approval_for_execution": true,
+  "required_commands": [
+    {
+      "id": "project-state",
+      "command": "python -m devpilot_core project-state validate --json",
+      "category": "governance",
+      "required": true,
+      "write_report": false,
+      "read_only": true,
+      "approval_required_for_execution": false,
+      "description": "Validate source-controlled global state."
+    },
+    {
+      "id": "docs-governance",
+      "command": "python -m devpilot_core docs-governance validate --json",
+      "category": "documentation",
+      "required": true,
+      "write_report": false,
+      "read_only": true,
+      "approval_required_for_execution": false,
+      "description": "Validate canonical documentation registry and backlog governance."
+    },
+    {
+      "id": "schema-list",
+      "command": "python -m devpilot_core schema list --json",
+      "category": "schemas",
+      "required": true,
+      "write_report": false,
+      "read_only": true,
+      "approval_required_for_execution": false,
+      "description": "Validate schema catalog coverage."
+    },
+    {
+      "id": "tcr-v1",
+      "command": "python -m devpilot_core test-contracts validate --json",
+      "category": "testing",
+      "required": true,
+      "write_report": false,
+      "read_only": true,
+      "approval_required_for_execution": false,
+      "description": "Validate Test Contract Registry v1."
+    },
+    {
+      "id": "tcr-v2",
+      "command": "python -m devpilot_core test-contracts validate-v2 --json",
+      "category": "testing",
+      "required": true,
+      "write_report": false,
+      "read_only": true,
+      "approval_required_for_execution": false,
+      "description": "Validate Test Contract Registry v2."
+    },
+    {
+      "id": "test-profile-taxonomy",
+      "command": "python -m devpilot_core tests taxonomy --json",
+      "category": "testing",
+      "required": true,
+      "write_report": false,
+      "read_only": true,
+      "approval_required_for_execution": false,
+      "description": "Validate POST-H-029-A taxonomy."
+    },
+    {
+      "id": "test-impact-rules",
+      "command": "python -m devpilot_core test-impact rules --json",
+      "category": "testing",
+      "required": true,
+      "write_report": false,
+      "read_only": true,
+      "approval_required_for_execution": false,
+      "description": "Validate POST-H-029-B impact rules."
+    },
+    {
+      "id": "quality-gate-hardening",
+      "command": "python -m devpilot_core quality-gate run --profile hardening --json",
+      "category": "quality-gate",
+      "required": true,
+      "write_report": false,
+      "read_only": true,
+      "approval_required_for_execution": false,
+      "description": "Run local hardening gate."
+    },
+    {
+      "id": "production-ready-final",
+      "command": "python -m devpilot_core industrial-readiness production-ready-local-final --json",
+      "category": "production",
+      "required": true,
+      "write_report": false,
+      "read_only": true,
+      "approval_required_for_execution": false,
+      "description": "Validate local production-ready final declaration."
+    },
+    {
+      "id": "api-shell-gate",
+      "command": "python -m devpilot_core api shell-gate --json --write-report",
+      "category": "ui-api",
+      "required": true,
+      "write_report": true,
+      "read_only": true,
+      "approval_required_for_execution": false,
+      "description": "Generate UI/API shell gate evidence."
+    },
+    {
+      "id": "api-contract-drift",
+      "command": "python -m devpilot_core api contract-drift --json --write-report",
+      "category": "ui-api",
+      "required": true,
+      "write_report": true,
+      "read_only": true,
+      "approval_required_for_execution": false,
+      "description": "Validate API contract drift."
+    },
+    {
+      "id": "api-security-hardening",
+      "command": "python -m devpilot_core api security-hardening --json --write-report",
+      "category": "ui-api",
+      "required": true,
+      "write_report": true,
+      "read_only": true,
+      "approval_required_for_execution": false,
+      "description": "Validate local API auth/CORS hardening."
+    },
+    {
+      "id": "api-ui-route-enforcement",
+      "command": "python -m devpilot_core api ui-route-enforcement --json --write-report",
+      "category": "ui-api",
+      "required": true,
+      "write_report": true,
+      "read_only": true,
+      "approval_required_for_execution": false,
+      "description": "Validate UI route registry enforcement."
+    },
+    {
+      "id": "release-candidate-final",
+      "command": "python -m devpilot_core release-candidate final --json",
+      "category": "release-candidate",
+      "required": true,
+      "write_report": false,
+      "read_only": true,
+      "approval_required_for_execution": false,
+      "description": "Run local RC PASS/BLOCK aggregation."
+    },
+    {
+      "id": "release-source-zip-policy",
+      "command": "python -m devpilot_core package source-zip-policy --json",
+      "category": "packaging",
+      "required": true,
+      "write_report": false,
+      "read_only": true,
+      "approval_required_for_execution": false,
+      "description": "Validate source ZIP policy."
+    },
+    {
+      "id": "release-artifact-manifest",
+      "command": "python -m devpilot_core release artifact-manifest --version 0.1.0 --json --write-report",
+      "category": "packaging",
+      "required": true,
+      "write_report": true,
+      "read_only": true,
+      "approval_required_for_execution": false,
+      "description": "Generate artifact manifest/checksum evidence when artifacts exist."
+    },
+    {
+      "id": "release-upgrade-rollback-dry-run",
+      "command": "python -m devpilot_core release upgrade-rollback-dry-run --from-version 0.1.0 --to-version 0.1.1 --json --write-report",
+      "category": "release",
+      "required": true,
+      "write_report": true,
+      "read_only": true,
+      "approval_required_for_execution": false,
+      "description": "Validate upgrade/rollback dry-run safety."
+    }
+  ],
+  "recommended_commands": [
+    {
+      "id": "test-impact-current",
+      "command": "python -m devpilot_core test-impact analyze-v2 --changed-paths src/devpilot_core/testing/release_candidate_profile.py --json --write-report",
+      "category": "testing",
+      "required": false,
+      "write_report": true,
+      "read_only": true,
+      "approval_required_for_execution": false,
+      "description": "Produce impact recommendations for this profile implementation."
+    },
+    {
+      "id": "release-candidate-profile-legacy",
+      "command": "python -m devpilot_core release-candidate profile --profile release-candidate-local --json",
+      "category": "release-candidate",
+      "required": false,
+      "write_report": false,
+      "read_only": true,
+      "approval_required_for_execution": false,
+      "description": "Validate POST-H-026-B RC profile compatibility."
+    },
+    {
+      "id": "release-candidate-evidence-freshness",
+      "command": "python -m devpilot_core release-candidate evidence-freshness --json",
+      "category": "release-candidate",
+      "required": false,
+      "write_report": false,
+      "read_only": true,
+      "approval_required_for_execution": false,
+      "description": "Check local RC evidence freshness."
+    },
+    {
+      "id": "release-candidate-ui-api-smoke",
+      "command": "python -m devpilot_core release-candidate ui-api-smoke --json",
+      "category": "release-candidate",
+      "required": false,
+      "write_report": false,
+      "read_only": true,
+      "approval_required_for_execution": false,
+      "description": "Validate RC UI/API local smoke."
+    },
+    {
+      "id": "release-candidate-install-smoke",
+      "command": "python -m devpilot_core release-candidate install-smoke --json",
+      "category": "release-candidate",
+      "required": false,
+      "write_report": false,
+      "read_only": true,
+      "approval_required_for_execution": false,
+      "description": "Validate local install smoke preconditions."
+    }
+  ],
+  "optional_commands": [
+    {
+      "id": "full-pytest",
+      "command": "python -m pytest -q",
+      "category": "full-regression",
+      "required": false,
+      "write_report": false,
+      "read_only": true,
+      "approval_required_for_execution": false,
+      "description": "Full local regression; required for backlog closure when POST-H-029-E policy says so."
+    },
+    {
+      "id": "ui-visual-smoke",
+      "command": "python -m devpilot_core api visual-smoke-report --json --write-report",
+      "category": "ui-api",
+      "required": false,
+      "write_report": true,
+      "read_only": true,
+      "approval_required_for_execution": false,
+      "description": "Optional visual smoke report if UI assets changed."
+    }
+  ],
+  "pytest_targets": [
+    {
+      "path": "tests/test_post_h_029_release_candidate_test_profile.py",
+      "domain": "governance.testing",
+      "criticality": "P0",
+      "required": true,
+      "reason": "POST-H-029-D profile validator."
+    },
+    {
+      "path": "tests/test_post_h_029_test_impact_cli_recommendations.py",
+      "domain": "governance.testing",
+      "criticality": "P0",
+      "required": true,
+      "reason": "POST-H-029-C recommendation compatibility."
+    },
+    {
+      "path": "tests/test_post_h_029_tcr_v2_impact_rules.py",
+      "domain": "governance.testing",
+      "criticality": "P0",
+      "required": true,
+      "reason": "POST-H-029-B impact rules compatibility."
+    },
+    {
+      "path": "tests/test_post_h_029_test_profile_taxonomy.py",
+      "domain": "governance.testing",
+      "criticality": "P0",
+      "required": true,
+      "reason": "POST-H-029-A taxonomy compatibility."
+    },
+    {
+      "path": "tests/test_post_h_026_release_candidate_profile.py",
+      "domain": "release",
+      "criticality": "P0",
+      "required": true,
+      "reason": "POST-H-026-B legacy RC profile compatibility."
+    },
+    {
+      "path": "tests/test_post_h_026_release_candidate_report.py",
+      "domain": "release",
+      "criticality": "P0",
+      "required": true,
+      "reason": "POST-H-026-E RC final aggregation."
+    },
+    {
+      "path": "tests/test_post_h_026_evidence_freshness.py",
+      "domain": "release",
+      "criticality": "P1",
+      "required": true,
+      "reason": "POST-H-026-A evidence freshness."
+    },
+    {
+      "path": "tests/test_post_h_026_ui_api_rc_smoke.py",
+      "domain": "product.api",
+      "criticality": "P1",
+      "required": true,
+      "reason": "POST-H-026-C UI/API RC smoke."
+    },
+    {
+      "path": "tests/test_post_h_026_ui_api_rc_smoke_contract.py",
+      "domain": "product.api",
+      "criticality": "P1",
+      "required": true,
+      "reason": "POST-H-026-C UI/API RC schema contract."
+    },
+    {
+      "path": "tests/test_post_h_026_install_smoke.py",
+      "domain": "release",
+      "criticality": "P1",
+      "required": true,
+      "reason": "POST-H-026-D local install smoke."
+    },
+    {
+      "path": "tests/test_post_h_027_source_zip_policy.py",
+      "domain": "release",
+      "criticality": "P1",
+      "required": true,
+      "reason": "POST-H-027-A source ZIP policy."
+    },
+    {
+      "path": "tests/test_post_h_027_python_artifact_install_verification.py",
+      "domain": "release",
+      "criticality": "P1",
+      "required": true,
+      "reason": "POST-H-027-B Python artifact install verification."
+    },
+    {
+      "path": "tests/test_post_h_027_artifact_manifest_checksums.py",
+      "domain": "release",
+      "criticality": "P1",
+      "required": true,
+      "reason": "POST-H-027-C artifact manifest/checksums."
+    },
+    {
+      "path": "tests/test_post_h_027_windows_install_smoke.py",
+      "domain": "release",
+      "criticality": "P1",
+      "required": true,
+      "reason": "POST-H-027-D Windows install smoke."
+    },
+    {
+      "path": "tests/test_post_h_027_upgrade_rollback_dry_run.py",
+      "domain": "release",
+      "criticality": "P1",
+      "required": true,
+      "reason": "POST-H-027-E upgrade/rollback dry-run."
+    },
+    {
+      "path": "tests/test_post_h_028_api_contract_drift_guard.py",
+      "domain": "product.api",
+      "criticality": "P1",
+      "required": true,
+      "reason": "POST-H-028-A API contract drift."
+    },
+    {
+      "path": "tests/test_post_h_028_local_auth_cors_hardening.py",
+      "domain": "product.api",
+      "criticality": "P1",
+      "required": true,
+      "reason": "POST-H-028-B auth/CORS hardening."
+    },
+    {
+      "path": "tests/test_post_h_028_visual_smoke_contract.py",
+      "domain": "product.ui",
+      "criticality": "P1",
+      "required": true,
+      "reason": "POST-H-028-C visual smoke contract."
+    },
+    {
+      "path": "tests/test_post_h_028_operator_flows_error_states.py",
+      "domain": "product.ui",
+      "criticality": "P1",
+      "required": true,
+      "reason": "POST-H-028-D operator flows."
+    },
+    {
+      "path": "tests/test_post_h_028_ui_route_registry_enforcement.py",
+      "domain": "product.ui",
+      "criticality": "P1",
+      "required": true,
+      "reason": "POST-H-028-E route enforcement."
+    },
+    {
+      "path": "tests/test_post_h_025_production_ready_final_declaration.py",
+      "domain": "quality.gate",
+      "criticality": "P0",
+      "required": true,
+      "reason": "Production-ready final declaration."
+    },
+    {
+      "path": "tests/test_quality_gate.py",
+      "domain": "quality.gate",
+      "criticality": "P0",
+      "required": true,
+      "reason": "Quality gate integration."
+    },
+    {
+      "path": "tests/test_test_contract_registry_v2.py",
+      "domain": "governance.testing",
+      "criticality": "P0",
+      "required": true,
+      "reason": "TCR v2 validation."
+    },
+    {
+      "path": "tests/test_schema_registry.py",
+      "domain": "governance.schemas",
+      "criticality": "P0",
+      "required": true,
+      "reason": "Schema catalog validation."
+    },
+    {
+      "path": "tests/test_project_global_state.py",
+      "domain": "governance.project_state",
+      "criticality": "P0",
+      "required": true,
+      "reason": "Project state sync."
+    },
+    {
+      "path": "tests/test_documentation_governance_validator.py",
+      "domain": "documentation.governance",
+      "criticality": "P1",
+      "required": true,
+      "reason": "Docs governance."
+    }
+  ],
+  "prerequisites": [
+    "POST-H-026 closed as local-release-candidate-pass.",
+    "POST-H-027 closed as packaging-local-ready.",
+    "POST-H-028 closed as ui-api-local-hardening.",
+    "POST-H-029-A/B/C implemented-initial and synchronized.",
+    "Operator explicitly executes recommended commands; JSON profile does not execute tests."
+  ],
+  "timeouts": {
+    "profile_timeout_seconds": 2700,
+    "recommended_max_seconds_before_full_regression": 3600,
+    "full_regression_timeout_seconds": 10800
+  },
+  "full_regression_required_when": [
+    "backlog closure for POST-H-029 or later major hito",
+    "release candidate PASS/BLOCK decision with P0/P1 source changes",
+    "unmapped changed path or unknown impact",
+    "schema catalog, project_state, quality gate, TCR schema or CLI core change",
+    "production-ready claims, API security, packaging or release report change",
+    "operator cannot execute one required command or applies waiver before POST-H-029-E"
+  ],
+  "safety": {
+    "local_first": true,
+    "read_only": true,
+    "dry_run_default": true,
+    "tests_executed_from_profile": false,
+    "network_used": false,
+    "external_api_used": false,
+    "remote_execution_enabled": false,
+    "connector_write_enabled": false,
+    "plugin_execution_enabled": false,
+    "mutations_performed": false,
+    "source_mutations_performed": false,
+    "llm_judge_used": false,
+    "allow_shell": false,
+    "allow_arbitrary_pytest_args": false
+  },
+  "notes": [
+    "This is a formal operator profile, not an execution engine.",
+    "Full regression remains preserved and is made explicit by full_regression_required_when.",
+    "POST-H-029-E will turn historical regression decisions into a stronger closure guard."
+  ]
+}

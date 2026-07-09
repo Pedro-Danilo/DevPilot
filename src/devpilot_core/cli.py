@@ -147,7 +147,7 @@ from .changes import RollbackManager
 from .standards.registry import build_standards_status_result
 from .store import LocalStore
 from .traceability import MarkdownTraceabilityExtractor, TraceabilityEngine
-from .testing import TestContractRegistry, TestContractRegistryV2MigrationOptions, TestContractRegistryV2Migrator, TestContractRegistryV2ValidationOptions, TestContractRegistryV2Validator, TestImpactAnalyzer, TestImpactAnalyzerV2, TestImpactOptions, TestImpactV2Options, TestImpactRuleRegistryOptions, TestImpactRuleRegistryRunner, TestProfileTaxonomyOptions, TestProfileTaxonomyRunner, TestsRunTool
+from .testing import TestContractRegistry, TestContractRegistryV2MigrationOptions, TestContractRegistryV2Migrator, TestContractRegistryV2ValidationOptions, TestContractRegistryV2Validator, TestImpactAnalyzer, TestImpactAnalyzerV2, TestImpactOptions, TestImpactV2Options, TestImpactRuleRegistryOptions, TestImpactRuleRegistryRunner, TestProfileTaxonomyOptions, TestProfileTaxonomyRunner, ReleaseCandidateTestProfileOptions, ReleaseCandidateTestProfileRunner, TestsRunTool
 from .validation import ValidationGateway
 from .workspace import (
     DEFAULT_WORKSPACE_ISOLATION_REPORT_JSON,
@@ -5554,6 +5554,17 @@ def tests_taxonomy_command(*, json_output: bool = False, write_report: bool = Fa
     return int(result.exit_code)
 
 
+def tests_release_candidate_profile_command(*, json_output: bool = False, write_report: bool = False) -> int:
+    """Validate POST-H-029-D release-candidate-local test profile without executing tests."""
+
+    root = project_root()
+    result = ReleaseCandidateTestProfileRunner(root, ReleaseCandidateTestProfileOptions(write_report=write_report)).run()
+    _emit_result_event(root, result, subject="testing:release-candidate-profile")
+    _persist_result(root, result, subject="testing:release-candidate-profile")
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+
 def tests_profiles_command(*, json_output: bool = False, write_report: bool = False) -> int:
     """List configured tests.run profiles without executing subprocesses."""
 
@@ -6165,6 +6176,11 @@ def build_parser() -> argparse.ArgumentParser:
     tests_taxonomy = tests_sub.add_parser("taxonomy", help="Validate POST-H-029-A test profile taxonomy without executing tests")
     tests_taxonomy.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     tests_taxonomy.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown taxonomy report")
+
+
+    tests_rc_profile = tests_sub.add_parser("release-candidate-profile", help="Validate POST-H-029-D formal release-candidate-local test profile without executing tests")
+    tests_rc_profile.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    tests_rc_profile.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown release candidate test profile report")
 
     tests_profiles = tests_sub.add_parser("profiles", help="List configured tests.run profiles")
     tests_profiles.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
@@ -7557,6 +7573,8 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
     if args.command == "tests":
         if args.tests_command == "taxonomy":
             return tests_taxonomy_command(json_output=args.json, write_report=args.write_report)
+        if args.tests_command == "release-candidate-profile":
+            return tests_release_candidate_profile_command(json_output=args.json, write_report=args.write_report)
         if args.tests_command == "profiles":
             return tests_profiles_command(json_output=args.json, write_report=args.write_report)
         if args.tests_command == "run":

@@ -28,6 +28,12 @@ from .recommendations import (
     TEST_IMPACT_RECOMMENDATION_CONTRACT,
     TEST_IMPACT_RECOMMENDATION_SCHEMA_ID,
 )
+from .release_candidate_profile import (
+    ReleaseCandidateTestProfileOptions,
+    ReleaseCandidateTestProfileRunner,
+    RELEASE_CANDIDATE_TEST_PROFILE_CONTRACT,
+    RELEASE_CANDIDATE_TEST_PROFILE_SCHEMA_ID,
+)
 from .tests_run import TestsRunTool
 
 __all__ = [
@@ -63,4 +69,8 @@ __all__ = [
     "TestImpactRecommendationReportOptions",
     "TEST_IMPACT_RECOMMENDATION_CONTRACT",
     "TEST_IMPACT_RECOMMENDATION_SCHEMA_ID",
+    "ReleaseCandidateTestProfileOptions",
+    "ReleaseCandidateTestProfileRunner",
+    "RELEASE_CANDIDATE_TEST_PROFILE_CONTRACT",
+    "RELEASE_CANDIDATE_TEST_PROFILE_SCHEMA_ID",
 ]

@@ -7499,6 +7499,52 @@
       "notes": [
         "POST-H-029-C normalizes TestImpactAnalyzerV2 recommendations without executing tests or replacing full regression."
       ]
+    },
+    {
+      "contract_id": "post-h-029-release-candidate-test-profile",
+      "scope": "integration",
+      "owner": "POST-H-029-D",
+      "phase": "POST-FASE-H",
+      "test_files": [
+        "tests/test_post_h_029_release_candidate_test_profile.py"
+      ],
+      "validates": [
+        "docs/schemas/release_candidate_test_profile_report.schema.json",
+        ".devpilot/testing/release_candidate_test_profile.json",
+        "src/devpilot_core/testing/release_candidate_profile.py",
+        "tests release-candidate-profile",
+        "README.md",
+        "docs/05_operations/runbook.md",
+        "docs/04_quality/test_strategy.md",
+        "docs/04_quality/test_contract_registry_2_design.md"
+      ],
+      "watched_paths": [
+        "docs/schemas/release_candidate_test_profile_report.schema.json",
+        ".devpilot/testing/release_candidate_test_profile.json",
+        ".devpilot/testing/test_profiles.json",
+        "src/devpilot_core/testing/release_candidate_profile.py",
+        "src/devpilot_core/cli.py",
+        "src/devpilot_core/testing/__init__.py",
+        "tests/test_post_h_029_release_candidate_test_profile.py",
+        ".devpilot/testing/test_contract_registry_v2.json",
+        ".devpilot/project_state.json",
+        "docs/backlogs/POST-H-029_testing_tiers_impact_regression_cost.md"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_029_release_candidate_test_profile.py tests/test_post_h_026_release_candidate_profile.py tests/test_quality_gate.py tests/test_project_global_state.py -q",
+        "python -m devpilot_core tests release-candidate-profile --json --write-report",
+        "python -m devpilot_core schema validate --schema-id ReleaseCandidateTestProfileReport --instance outputs/reports/release_candidate_test_profile_report.json --json"
+      ],
+      "notes": [
+        "POST-H-029-D validates the formal release-candidate-local test profile without executing tests from JSON."
+      ]
     }
   ],
   "notes": [

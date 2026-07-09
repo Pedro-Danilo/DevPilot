@@ -722,3 +722,10 @@ Principios:
 
 La recomendación no ejecuta pruebas y no sustituye el criterio de cierre. Para cambios P0, paths sensibles o cierres de backlog/release candidate, el resultado puede requerir `full` antes del cierre.
 
+
+
+## POST-H-029-D — Release candidate test profile
+
+Estado: `implemented-initial/local-first`. DevPilot ahora expone `python -m devpilot_core tests release-candidate-profile --json --write-report` para validar el perfil formal `release-candidate-local` sin ejecutar pruebas desde JSON. El perfil vive en `.devpilot/testing/release_candidate_test_profile.json`, valida `ReleaseCandidateTestProfileReport`, mantiene `tests.run` approval-gated y enumera comandos required/recommended/optional para RC local, UI/API hardening, production-ready-local, TCR, schemas, docs governance y packaging.
+
+Limitación explícita: este perfil reduce el costo operativo de selección, pero no reemplaza `pytest -q` completo cuando `full_regression_required_when` aplica. POST-H-029-E debe convertir esta política en guard histórico de cierre.
