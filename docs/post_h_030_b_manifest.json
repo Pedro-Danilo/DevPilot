@@ -1,0 +1,47 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "SCHEMA-DEVPL-POST-H-MANIFEST-V1",
+  "manifest_id": "post-h-030-b-industrial-readiness-command-extraction",
+  "created_by": "POST-H-030-B",
+  "status": "implemented-initial",
+  "sprint": "POST-H-030-B",
+  "version": "1.0.0",
+  "updated": "2026-07-09",
+  "summary": "POST-H-030-B extracts industrial-readiness CLI result-building handlers into a domain-owned module while preserving public CLI behavior and ApplicationService production-ready boundaries.",
+  "artifacts": [
+    "src/devpilot_core/cli_commands/industrial_readiness.py",
+    "src/devpilot_core/cli_commands/__init__.py",
+    "src/devpilot_core/cli.py",
+    "src/devpilot_core/cli_registry/registry.py",
+    "src/devpilot_core/cli_registry/ownership.py",
+    ".devpilot/cli_registry/command_ownership_matrix.json",
+    ".devpilot/cli_registry/cli_extraction_plan.json",
+    "tests/test_post_h_030_industrial_readiness_command_extraction.py",
+    "docs/audits/post_h_030_b_industrial_readiness_command_extraction_report.md"
+  ],
+  "commands_migrated": [
+    "industrial-readiness check",
+    "industrial-readiness production-ready-local",
+    "industrial-readiness production-ready-local-final"
+  ],
+  "safety": {
+    "local_first": true,
+    "public_behavior_changed": false,
+    "dynamic_handler_loading_enabled": false,
+    "runtime_router_enabled": false,
+    "network_used": false,
+    "external_api_used": false,
+    "remote_execution_enabled": false,
+    "connector_write_enabled": false,
+    "plugin_execution_enabled": false,
+    "source_mutations_performed": false
+  },
+  "validation_commands": [
+    "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_030_industrial_readiness_command_extraction.py -q",
+    "python -m pytest -p no:ddtrace --assert=plain tests/test_industrial_readiness.py tests/test_post_h_025_production_ready_declaration_gate.py tests/test_post_h_025_production_ready_final_declaration.py -q",
+    "python -m devpilot_core cli-registry guard --json",
+    "python -m devpilot_core test-contracts validate --json",
+    "python -m devpilot_core test-contracts validate-v2 --json"
+  ],
+  "next_micro_sprint": "POST-H-030-C"
+}

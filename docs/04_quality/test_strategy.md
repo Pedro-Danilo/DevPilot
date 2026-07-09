@@ -743,3 +743,23 @@ POST-H-030 queda aprobado e inicia con `POST-H-030-A — CLI command ownership m
 La capacidad es `implemented-initial/local-first`: cubre la superficie CLI registrada, asigna owner/dominio/target module/contrato de compatibilidad por comando y planifica extracciones por familias sin migrar handlers todavía. No cambia nombres de comandos, argumentos, JSON output, exit codes ni comportamiento operativo. No introduce router dinámico, red, APIs externas, remote execution, connector write ni plugin execution.
 
 Siguiente micro-sprint: `POST-H-030-B — Industrial readiness command extraction`.
+
+
+## POST-H-030-B — Industrial readiness command extraction
+
+POST-H-030-B agrega pruebas focales de compatibilidad para la extracción de la familia `industrial-readiness`. La estrategia valida equivalencia entre handlers extraídos y CLI pública para JSON envelope, `decision`, claims production-ready-local, no-go gates, safety flags y metadata de registry.
+
+Pruebas focales principales:
+
+```powershell
+python -m pytest -p no:ddtrace --assert=plain `
+  tests/test_post_h_030_industrial_readiness_command_extraction.py `
+  tests/test_industrial_readiness.py `
+  tests/test_post_h_025_production_ready_declaration_gate.py `
+  tests/test_post_h_025_production_ready_final_declaration.py `
+  tests/test_application_cli_boundary_integration.py `
+  tests/test_cli_core.py `
+  -q
+```
+
+`pytest -q` completo queda reservado para cierre de backlog por costo operativo.

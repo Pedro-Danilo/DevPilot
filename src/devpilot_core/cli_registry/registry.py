@@ -22,6 +22,7 @@ POST_H_008_B_CREATED_BY = "POST-H-008-B"
 POST_H_010_B_CREATED_BY = "POST-H-010-B"
 POST_H_010_C_CREATED_BY = "POST-H-010-C"
 POST_H_010_D_CREATED_BY = "POST-H-010-D"
+POST_H_030_B_CREATED_BY = "POST-H-030-B"
 
 # POST-H-007-E keeps this metadata static to avoid coupling CLI registry
 # generation to ApplicationOperationCatalog imports. The runtime integration
@@ -83,7 +84,7 @@ class DeclarativeCommandOverride:
 
 @dataclass(frozen=True)
 class MigratedHandlerDescriptor:
-    """POST-H-006-C explicit handler migration metadata.
+    """Explicit handler migration metadata.
 
     This is not a dynamic loader descriptor. It documents migrated, statically
     imported Python handlers while the public parser/dispatch remains in
@@ -96,6 +97,7 @@ class MigratedHandlerDescriptor:
     wrapper: str
     recommended_tests: tuple[str, ...]
     rationale: str
+    migrated_by: str = POST_H_006_C_CREATED_BY
 
 
 MIGRATED_HANDLERS: dict[str, MigratedHandlerDescriptor] = {
@@ -148,6 +150,40 @@ MIGRATED_HANDLERS: dict[str, MigratedHandlerDescriptor] = {
             "python -m pytest tests/test_validation_gateway.py tests/test_post_h_006_c_handler_migration.py -q",
         ),
         rationale="Validation gateway scope handler migrated for docs/contracts/all while preserving public UX.",
+    ),
+
+    "industrial-readiness.check": MigratedHandlerDescriptor(
+        command_id="industrial-readiness.check",
+        owner_module="src/devpilot_core/cli_commands/industrial_readiness.py",
+        handler="handle_industrial_readiness_check",
+        wrapper="industrial_readiness_check_command",
+        recommended_tests=(
+            "python -m pytest tests/test_post_h_030_industrial_readiness_command_extraction.py tests/test_industrial_readiness.py -q",
+        ),
+        rationale="POST-H-030-B moves industrial readiness result-building logic into cli_commands/industrial_readiness.py while cli.py preserves parser, optional reports, events, persistence and rendering.",
+        migrated_by=POST_H_030_B_CREATED_BY,
+    ),
+    "industrial-readiness.production-ready-local": MigratedHandlerDescriptor(
+        command_id="industrial-readiness.production-ready-local",
+        owner_module="src/devpilot_core/cli_commands/industrial_readiness.py",
+        handler="handle_industrial_readiness_production_ready_local",
+        wrapper="industrial_readiness_production_ready_local_command",
+        recommended_tests=(
+            "python -m pytest tests/test_post_h_030_industrial_readiness_command_extraction.py tests/test_post_h_025_production_ready_declaration_gate.py -q",
+        ),
+        rationale="POST-H-030-B moves production-ready-local CLI result-building into a domain-owned module while preserving the ApplicationService boundary and output contract.",
+        migrated_by=POST_H_030_B_CREATED_BY,
+    ),
+    "industrial-readiness.production-ready-local-final": MigratedHandlerDescriptor(
+        command_id="industrial-readiness.production-ready-local-final",
+        owner_module="src/devpilot_core/cli_commands/industrial_readiness.py",
+        handler="handle_industrial_readiness_production_ready_local_final",
+        wrapper="industrial_readiness_production_ready_local_final_command",
+        recommended_tests=(
+            "python -m pytest tests/test_post_h_030_industrial_readiness_command_extraction.py tests/test_post_h_025_production_ready_final_declaration.py -q",
+        ),
+        rationale="POST-H-030-B moves final production-ready-local declaration CLI result-building into a domain-owned module while preserving claims/no-go behavior.",
+        migrated_by=POST_H_030_B_CREATED_BY,
     ),
 }
 
@@ -214,9 +250,9 @@ DECLARATIVE_GROUPS: dict[str, DeclarativeGroupDescriptor] = {
     "industrial-readiness": DeclarativeGroupDescriptor(
         group_id="industrial-readiness",
         domain="quality.gate",
-        owner_module="src/devpilot_core/cli.py",
-        recommended_tests=("python -m pytest tests/test_industrial_readiness.py tests/test_post_h_006_b_declarative_registry.py -q",),
-        rationale="Industrial-readiness is deterministic and suitable for early declarative ownership.",
+        owner_module="src/devpilot_core/cli_commands/industrial_readiness.py",
+        recommended_tests=("python -m pytest tests/test_post_h_030_industrial_readiness_command_extraction.py tests/test_industrial_readiness.py tests/test_post_h_006_b_declarative_registry.py -q",),
+        rationale="Industrial-readiness handlers are extracted to a domain-owned CLI module in POST-H-030-B while public parser/dispatch compatibility remains in cli.py.",
     ),
     "release-candidate": DeclarativeGroupDescriptor(
         group_id="release-candidate",
@@ -1020,7 +1056,7 @@ class DeclarativeCliRegistryBuilder:
             "registration_status": "handler-migrated" if migration else "registered-declarative",
             "declarative_registered": True,
             "declarative_descriptor_source": DECLARATIVE_DESCRIPTOR_SOURCE,
-            "declared_by": POST_H_006_C_CREATED_BY if migration else POST_H_006_B_CREATED_BY,
+            "declared_by": migration.migrated_by if migration else POST_H_006_B_CREATED_BY,
             "handler_migration_performed": bool(migration),
             "group_rationale": group_declaration.rationale,
             "application_service_boundary_present": bool(operation_id),
@@ -1045,7 +1081,7 @@ class DeclarativeCliRegistryBuilder:
         if migration:
             metadata.update(
                 {
-                    "migrated_by": POST_H_006_C_CREATED_BY,
+                    "migrated_by": migration.migrated_by,
                     "migration_source": migration.owner_module,
                     "cli_wrapper": migration.wrapper,
                     "wrapper_module": "src/devpilot_core/cli.py",

@@ -282,3 +282,10 @@ POST-H-030 queda aprobado e inicia con `POST-H-030-A — CLI command ownership m
 La capacidad es `implemented-initial/local-first`: cubre la superficie CLI registrada, asigna owner/dominio/target module/contrato de compatibilidad por comando y planifica extracciones por familias sin migrar handlers todavía. No cambia nombres de comandos, argumentos, JSON output, exit codes ni comportamiento operativo. No introduce router dinámico, red, APIs externas, remote execution, connector write ni plugin execution.
 
 Siguiente micro-sprint: `POST-H-030-B — Industrial readiness command extraction`.
+
+
+## POST-H-030-B — Industrial readiness command extraction
+
+Se registra el contrato `post-h-030-industrial-readiness-command-extraction` en TCR v1/v2. Este contrato cubre la extracción de handlers `industrial-readiness`, preservación del boundary `ApplicationService`, salida JSON, exit codes, claims bounded production-ready-local y ausencia de router dinámico.
+
+El contrato es `P0/high` porque una regresión en esta familia puede producir overclaim de madurez local o falsos PASS/BLOCK en no-go gates.

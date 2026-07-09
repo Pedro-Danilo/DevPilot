@@ -13807,6 +13807,77 @@
       "classification_notes": [
         "POST-H-030-A creates a read-only ownership baseline before handler extraction and compatibility snapshots."
       ]
+    },
+    {
+      "contract_id": "post-h-030-industrial-readiness-command-extraction",
+      "schema_version": "2.0",
+      "source_contract_id": "post-h-030-industrial-readiness-command-extraction",
+      "domain": "interface.cli",
+      "capability": "IndustrialReadinessCommandExtraction",
+      "criticality": "P0",
+      "risk_level": "high",
+      "test_type": "integration",
+      "execution_profile": "impact",
+      "cost_class": "medium",
+      "expected_duration_seconds": 300,
+      "test_files": [
+        "tests/test_post_h_030_industrial_readiness_command_extraction.py"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/cli_commands/industrial_readiness.py",
+        "src/devpilot_core/cli_commands/__init__.py",
+        "src/devpilot_core/cli.py",
+        "src/devpilot_core/cli_registry/registry.py",
+        "src/devpilot_core/cli_registry/ownership.py",
+        ".devpilot/cli_registry/command_ownership_matrix.json",
+        ".devpilot/cli_registry/cli_extraction_plan.json",
+        ".devpilot/project_state.json"
+      ],
+      "validates": [
+        "POST-H-030-B industrial-readiness handler extraction",
+        "CLI JSON envelope compatibility",
+        "ApplicationService production-ready boundary preservation",
+        "Production-ready-local claims/no-go behavior preservation",
+        "No dynamic CLI router introduced"
+      ],
+      "trigger_hints": [
+        "post-h-030-b",
+        "industrial-readiness-command-change",
+        "cli-handler-migration",
+        "production-ready-local-boundary"
+      ],
+      "impact_scope": [
+        "cli",
+        "application-boundary",
+        "quality-gate",
+        "production-ready-local",
+        "test-contracts"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": false,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "POST-H-030-B",
+      "owner_domain": "interface.cli",
+      "service_boundary": "cli-commands.industrial-readiness",
+      "subgate_id": "cli-boundary-hotspot-reduction",
+      "schema_ids": [
+        "SCHEMA-DEVPL-CLI-COMMAND-OWNERSHIP-MATRIX-V1",
+        "SCHEMA-DEVPL-CLI-EXTRACTION-PLAN-V1"
+      ],
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_030_industrial_readiness_command_extraction.py -q",
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_industrial_readiness.py tests/test_post_h_025_production_ready_declaration_gate.py tests/test_post_h_025_production_ready_final_declaration.py -q",
+        "python -m devpilot_core cli-registry guard --json",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ],
+      "classification_status": "explicit",
+      "classification_notes": [
+        "POST-H-030-B extracts industrial readiness handlers while preserving public CLI behavior and ApplicationService production-ready boundaries."
+      ]
     }
   ],
   "migration_metadata": {

@@ -9,7 +9,7 @@
   "last_functional_sprint": "FUNC-SPRINT-99",
   "next_sprint": "POST-H-030",
   "source_repo": "repo_DevPilot_Local_263_POST_H_025.zip",
-  "current_repo": "repo_DevPilot_Local_284_POST_H_030_A.zip",
+  "current_repo": "repo_DevPilot_Local_285_POST_H_030_B.zip",
   "global_state_owner": "tests/test_project_global_state.py",
   "mutable_global_state_fields": [
     "last_completed_sprint",
@@ -263,10 +263,11 @@
     "POST-H-029-D adds ReleaseCandidateTestProfileReport and formal release-candidate-local test profile: required/recommended/optional local verification commands, pytest targets, TCR/taxonomy/tests.run synchronization and explicit full-regression escalation are available without executing tests from JSON.",
     "POST-H-029-E adds HistoricalRegressionGuard and testing-tiers-ready quality subgate: backlog/release/major-hito closures now require explicit full/focal/waiver regression decisions, waiver expiration and local-first evidence without executing pytest from the guard.",
     "POST-H-029 closes Testing tiers, impacto y costo de regresion as implemented-initial/local-first: taxonomy, TCR v2 impact rules, CLI recommendations, release-candidate-local profile and historical regression guard are available with full regression preserved.",
-    "POST-H-030-A approves CLI hotspot reduction and adds CliCommandOwnershipMatrix/CliExtractionPlan as read-only ownership and extraction planning artifacts without migrating handlers, changing public CLI behavior, dynamic router, network, external APIs or source mutations."
+    "POST-H-030-A approves CLI hotspot reduction and adds CliCommandOwnershipMatrix/CliExtractionPlan as read-only ownership and extraction planning artifacts without migrating handlers, changing public CLI behavior, dynamic router, network, external APIs or source mutations.",
+    "POST-H-030-B extracts industrial-readiness check, production-ready-local and production-ready-local-final result-building handlers into src/devpilot_core/cli_commands/industrial_readiness.py while preserving public CLI wrappers, ApplicationService boundaries, JSON envelope, exit codes, no-go claims behavior, no dynamic router, network/external APIs disabled and no source mutations at runtime."
   ],
-  "current_micro_sprint": "POST-H-030-A",
-  "next_micro_sprint": "POST-H-030-B",
+  "current_micro_sprint": "POST-H-030-B",
+  "next_micro_sprint": "POST-H-030-C",
   "post_h_020_current_micro_sprint": "POST-H-020-E",
   "post_h_020_next_micro_sprint": "POST-H-021",
   "compliance_evidence_collector_module": "src/devpilot_core/compliance/evidence.py",
@@ -829,10 +830,10 @@
     "hardening",
     "industrial"
   ],
-  "post_h_030_status": "active/implemented-initial-post-h-030-a",
+  "post_h_030_status": "active/implemented-initial-post-h-030-b",
   "post_h_030_backlog_approved": true,
-  "post_h_030_current_micro_sprint": "POST-H-030-A",
-  "post_h_030_next_micro_sprint": "POST-H-030-B",
+  "post_h_030_current_micro_sprint": "POST-H-030-B",
+  "post_h_030_next_micro_sprint": "POST-H-030-C",
   "post_h_030_cli_command_ownership_matrix_schema_registered": true,
   "post_h_030_cli_extraction_plan_schema_registered": true,
   "post_h_030_cli_command_ownership_matrix_available": true,
@@ -851,5 +852,21 @@
   "post_h_030_cli_public_behavior_changed": false,
   "post_h_030_cli_network_used": false,
   "post_h_030_cli_external_api_used": false,
-  "post_h_030_cli_source_mutations_runtime": false
+  "post_h_030_cli_source_mutations_runtime": false,
+  "post_h_030_industrial_readiness_cli_module": "src/devpilot_core/cli_commands/industrial_readiness.py",
+  "post_h_030_industrial_readiness_commands_migrated_total": 3,
+  "post_h_030_industrial_readiness_command_ids": [
+    "industrial-readiness.check",
+    "industrial-readiness.production-ready-local",
+    "industrial-readiness.production-ready-local-final"
+  ],
+  "post_h_030_industrial_readiness_application_service_preserved": true,
+  "post_h_030_industrial_readiness_no_go_claims_preserved": true,
+  "post_h_030_industrial_readiness_cli_wrappers_preserved": true,
+  "post_h_030_industrial_readiness_runtime_router_enabled": false,
+  "post_h_030_industrial_readiness_dynamic_handler_loading_enabled": false,
+  "post_h_030_industrial_readiness_public_behavior_changed": false,
+  "post_h_030_industrial_readiness_network_used": false,
+  "post_h_030_industrial_readiness_external_api_used": false,
+  "post_h_030_industrial_readiness_source_mutations_runtime": false
 }

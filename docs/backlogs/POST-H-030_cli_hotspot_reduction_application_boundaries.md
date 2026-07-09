@@ -20,9 +20,9 @@ onboarding_report_source: "devpilot_onboarding_report_final_compilado.md"
 target_repo_path: "docs/backlogs/POST-H-030_cli_hotspot_reduction_application_boundaries.md"
 created_for: "DevPilot Local"
 scope: "local-first / deterministic / compatibility-preserving CLI refactor"
-implementation_status: "active/implemented-initial-post-h-030-a"
-current_micro_sprint: "POST-H-030-A"
-next_micro_sprint: "POST-H-030-B"
+implementation_status: "active/implemented-initial-post-h-030-b"
+current_micro_sprint: "POST-H-030-B"
+next_micro_sprint: "POST-H-030-C"
 ```
 
 ## 1. Proposito del backlog
@@ -717,3 +717,38 @@ Limitaciones de esta primera versión:
 - no ejecuta handlers ni comandos públicos desde la matriz;
 - no habilita red, APIs externas, remote execution, connector write ni plugin execution;
 - las extracciones reales quedan planificadas para POST-H-030-B/C/D y los contratos de compatibilidad runtime para POST-H-030-E.
+
+
+## Estado de implementación POST-H-030-B
+
+Estado: `implemented-initial/local-first` para `POST-H-030-B - Industrial readiness command extraction`.
+
+POST-H-030-B extrae la familia `industrial-readiness` hacia `src/devpilot_core/cli_commands/industrial_readiness.py` sin cambiar nombres de comandos, argumentos públicos, salida JSON, códigos de salida, mensajes operativos, eventos, persistencia ni rutas de reportes. `src/devpilot_core/cli.py` conserva el parser y los wrappers públicos, pero delega la construcción de resultados al módulo propietario.
+
+Comandos migrados:
+
+- `industrial-readiness check` -> `handle_industrial_readiness_check`.
+- `industrial-readiness production-ready-local` -> `handle_industrial_readiness_production_ready_local`.
+- `industrial-readiness production-ready-local-final` -> `handle_industrial_readiness_production_ready_local_final`.
+
+La extracción preserva el boundary `ApplicationService` para `production-ready-local` y `production-ready-local-final`; no duplica reglas de claims, no relaja no-go gates y no habilita overclaim de producción, enterprise, remote, SaaS ni certificación compliance.
+
+Artefactos nuevos o actualizados:
+
+- `src/devpilot_core/cli_commands/industrial_readiness.py`
+- `src/devpilot_core/cli_commands/__init__.py`
+- `src/devpilot_core/cli_registry/registry.py`
+- `src/devpilot_core/cli_registry/ownership.py`
+- `.devpilot/cli_registry/command_ownership_matrix.json`
+- `.devpilot/cli_registry/cli_extraction_plan.json`
+- `tests/test_post_h_030_industrial_readiness_command_extraction.py`
+- `docs/audits/post_h_030_b_industrial_readiness_command_extraction_report.md`
+- `docs/post_h_030_b_manifest.json`
+
+Limitaciones de esta versión:
+
+- no reduce todavía todas las familias grandes de `cli.py`;
+- no introduce router dinámico ni runtime registry routing;
+- no crea snapshots completos de compatibilidad CLI, que quedan para POST-H-030-E;
+- no migra release, package, install, workspace ni onboarding, que quedan para POST-H-030-C/D;
+- no habilita red, APIs externas, remote execution, connector write ni plugin execution.

@@ -28,7 +28,16 @@ from .cli_registry import (
     CliNoGrowthGate,
     CliNoGrowthGateOptions,
 )
-from .cli_commands import handle_validate_scope, handle_workspace_bootstrap, handle_workspace_init, handle_workspace_readiness_preview, handle_workspace_status
+from .cli_commands import (
+    handle_industrial_readiness_check,
+    handle_industrial_readiness_production_ready_local,
+    handle_industrial_readiness_production_ready_local_final,
+    handle_validate_scope,
+    handle_workspace_bootstrap,
+    handle_workspace_init,
+    handle_workspace_readiness_preview,
+    handle_workspace_status,
+)
 from .connectors import (
     ConnectorAdapter,
     ConnectorCallOptions,
@@ -46,7 +55,6 @@ from .enterprise import EnterpriseReportBuilder, EnterpriseReportOptions
 from .errors import DevPilotError
 from .evals import EvalRunner
 from .identity import IdentityRegistry, IdentityRegistryOptions, RbacCheckInput, RbacExposureOptions, RbacExposureReporter
-from .industrial import IndustrialReadinessGate, IndustrialReadinessOptions
 from .observability import (
     AgentOpsGateOptions,
     AgentOpsQualityGate,
@@ -3360,7 +3368,7 @@ def industrial_readiness_check_command(
     """Run FUNC-SPRINT-99 industrial readiness gate and Fase H closure check."""
 
     root = project_root()
-    result = IndustrialReadinessGate(root, options=IndustrialReadinessOptions(minimum_score=minimum_score)).check()
+    result = handle_industrial_readiness_check(root, minimum_score=minimum_score)
     result = _write_optional_command_report(
         root,
         result,
@@ -3391,7 +3399,8 @@ def industrial_readiness_production_ready_local_command(
     """Run the POST-H-025-C production-ready-local declaration gate."""
 
     root = project_root()
-    result = ApplicationService(root).production_ready_local_gate(
+    result = handle_industrial_readiness_production_ready_local(
+        root,
         write_report=write_report,
         output_json=output_json,
         output_markdown=output_markdown,
@@ -3414,7 +3423,8 @@ def industrial_readiness_production_ready_local_final_command(
     """Run the POST-H-025-E final production-ready-local declaration package."""
 
     root = project_root()
-    result = ApplicationService(root).production_ready_local_final_declaration(
+    result = handle_industrial_readiness_production_ready_local_final(
+        root,
         write_report=write_report,
         write_audit_markdown=write_audit_markdown,
         output_json=output_json,

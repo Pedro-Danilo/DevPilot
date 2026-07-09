@@ -8527,6 +8527,62 @@
         "tests/test_post_h_030_cli_command_ownership_matrix.py"
       ],
       "sync_rules": []
+    },
+    {
+      "doc_id": "POST-H-030-B-INDUSTRIAL-READINESS-CLI-MODULE",
+      "path": "src/devpilot_core/cli_commands/industrial_readiness.py",
+      "classification": "source-of-truth",
+      "domain": "interface.cli",
+      "status_required": "current",
+      "owner": "POST-H-030-B",
+      "criticality": "P0",
+      "lifecycle": "active",
+      "required_tests": [
+        "tests/test_post_h_030_industrial_readiness_command_extraction.py"
+      ],
+      "sync_rules": []
+    },
+    {
+      "doc_id": "POST-H-030-B-INDUSTRIAL-READINESS-EXTRACTION-REPORT",
+      "path": "docs/audits/post_h_030_b_industrial_readiness_command_extraction_report.md",
+      "classification": "source-of-truth",
+      "domain": "interface.cli",
+      "status_required": "approved",
+      "owner": "POST-H-030-B",
+      "criticality": "P0",
+      "lifecycle": "active",
+      "required_tests": [
+        "tests/test_post_h_030_industrial_readiness_command_extraction.py"
+      ],
+      "sync_rules": []
+    },
+    {
+      "doc_id": "POST-H-030-B-MANIFEST",
+      "path": "docs/post_h_030_b_manifest.json",
+      "classification": "machine-readable-source",
+      "domain": "interface.cli",
+      "status_required": "implemented-initial",
+      "owner": "POST-H-030-B",
+      "criticality": "P0",
+      "lifecycle": "active",
+      "required_tests": [
+        "tests/test_post_h_030_industrial_readiness_command_extraction.py"
+      ],
+      "sync_rules": []
+    },
+    {
+      "doc_id": "POST-H-030-B-INDUSTRIAL-READINESS-TEST",
+      "path": "tests/test_post_h_030_industrial_readiness_command_extraction.py",
+      "classification": "derived",
+      "domain": "interface.cli",
+      "status_required": "current",
+      "owner": "POST-H-030-B",
+      "criticality": "P0",
+      "lifecycle": "active",
+      "required_tests": [
+        "tests/test_post_h_030_industrial_readiness_command_extraction.py"
+      ],
+      "sync_rules": []
     }
   ],
   "rules": {

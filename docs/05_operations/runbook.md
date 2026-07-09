@@ -10886,3 +10886,25 @@ POST-H-030 queda aprobado e inicia con `POST-H-030-A — CLI command ownership m
 La capacidad es `implemented-initial/local-first`: cubre la superficie CLI registrada, asigna owner/dominio/target module/contrato de compatibilidad por comando y planifica extracciones por familias sin migrar handlers todavía. No cambia nombres de comandos, argumentos, JSON output, exit codes ni comportamiento operativo. No introduce router dinámico, red, APIs externas, remote execution, connector write ni plugin execution.
 
 Siguiente micro-sprint: `POST-H-030-B — Industrial readiness command extraction`.
+
+
+## POST-H-030-B — Industrial readiness command extraction
+
+Estado operativo: `implemented-initial/local-first`. Los comandos `industrial-readiness check`, `industrial-readiness production-ready-local` y `industrial-readiness production-ready-local-final` mantienen la misma invocación pública, pero la construcción de resultados vive ahora en `src/devpilot_core/cli_commands/industrial_readiness.py`.
+
+Verificación recomendada:
+
+```powershell
+$env:PYTHONPATH="src"
+python -m pytest -p no:ddtrace --assert=plain `
+  tests/test_post_h_030_industrial_readiness_command_extraction.py `
+  tests/test_industrial_readiness.py `
+  tests/test_post_h_025_production_ready_declaration_gate.py `
+  tests/test_post_h_025_production_ready_final_declaration.py `
+  -q
+python -m devpilot_core cli-registry guard --json
+```
+
+La implementación no introduce router dinámico, no ejecuta red, no habilita APIs externas, remote execution, connector write ni plugin execution.
+
+Siguiente micro-sprint: `POST-H-030-C — Release command extraction`.

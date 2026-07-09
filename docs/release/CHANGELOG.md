@@ -2552,3 +2552,12 @@ Siguiente hito: `POST-H-030`
 - Added `src/devpilot_core/cli_registry/ownership.py` as a read-only ownership/plan validator.
 - Preserved CLI behavior: no handler migration, no dynamic router, no public command rename and no external APIs.
 - Next micro-sprint: POST-H-030-B industrial readiness command extraction.
+
+
+## post-h-030-b
+
+- Extracted `industrial-readiness` result-building handlers into `src/devpilot_core/cli_commands/industrial_readiness.py`.
+- Preserved public CLI invocations, JSON envelope, exit codes, event/persistence wrappers and report behavior.
+- Preserved `ApplicationService` boundary for `production-ready-local` and `production-ready-local-final`.
+- Updated CLI registry migrated-handler metadata, ownership matrix, extraction plan, TCR v1/v2, project state and documentation governance.
+- Next micro-sprint: POST-H-030-C release command extraction.

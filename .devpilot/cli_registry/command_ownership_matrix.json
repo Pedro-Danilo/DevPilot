@@ -14,14 +14,14 @@
     "commands_covered_total": 179,
     "coverage_complete": true,
     "registry_phase_counts": {
-      "declarative-initial": 79,
-      "handler-migrated-incremental": 5,
+      "declarative-initial": 76,
+      "handler-migrated-incremental": 8,
       "legacy-unregistered": 95
     },
     "migration_state_counts": {
-      "already-migrated": 5,
+      "already-migrated": 8,
       "deferred-cli-only": 91,
-      "planned": 36,
+      "planned": 33,
       "registered-only": 47
     },
     "high_or_critical_commands_total": 54,
@@ -1866,21 +1866,21 @@
       ],
       "public_name": "python -m devpilot_core industrial-readiness check",
       "domain_owner": "quality.gate",
-      "current_handler": "industrial_readiness_check_command",
+      "current_handler": "handle_industrial_readiness_check",
       "target_handler": "handle_industrial_readiness_check",
-      "current_module": "src/devpilot_core/cli.py",
+      "current_module": "src/devpilot_core/cli_commands/industrial_readiness.py",
       "target_module": "src/devpilot_core/cli_commands/industrial_readiness.py",
-      "registry_phase": "declarative-initial",
-      "migration_state": "planned",
+      "registry_phase": "handler-migrated-incremental",
+      "migration_state": "already-migrated",
       "application_operation_id": null,
-      "cli_only_reason": "ApplicationService mapping is not required yet; command will first move to a domain-owned CLI module with compatibility tests.",
+      "cli_only_reason": "No existing ApplicationOperation mapping is registered; keep explicit CLI-only rationale until a future boundary story or ADR introduces one.",
       "risk_level": "medium",
       "compatibility_contract_id": "cli-compat:industrial-readiness.check",
       "json_output_contract": "Preserve CommandResult JSON envelope: command, ok, exit_code, message, data and findings when --json is supported.",
       "exit_code_contract": "Preserve PASS=0, FAIL=1 and BLOCK=2 semantics exposed by existing CommandResult/ExitCode mapping.",
       "human_output_contract": "Preserve current command name, operator-facing PASS/BLOCK/FAIL wording and help surface unless POST-H-030-E contract explicitly approves a change.",
       "test_coverage_refs": [
-        "python -m pytest tests/test_industrial_readiness.py tests/test_post_h_006_b_declarative_registry.py -q"
+        "python -m pytest tests/test_post_h_030_industrial_readiness_command_extraction.py tests/test_industrial_readiness.py -q"
       ],
       "planned_micro_sprint": "POST-H-030-B",
       "side_effects": [
@@ -1890,8 +1890,7 @@
       "dry_run_supported": false,
       "policy_check_required": false,
       "notes": [
-        "No runtime behavior change in POST-H-030-A.",
-        "Handler extraction is planned but not performed in POST-H-030-A."
+        "No runtime behavior change in POST-H-030-A."
       ]
     },
     {
@@ -1902,21 +1901,21 @@
       ],
       "public_name": "python -m devpilot_core industrial-readiness production-ready-local",
       "domain_owner": "quality.gate",
-      "current_handler": "industrial_readiness_production_ready_local_command",
+      "current_handler": "handle_industrial_readiness_production_ready_local",
       "target_handler": "handle_industrial_readiness_production_ready_local",
-      "current_module": "src/devpilot_core/cli.py",
+      "current_module": "src/devpilot_core/cli_commands/industrial_readiness.py",
       "target_module": "src/devpilot_core/cli_commands/industrial_readiness.py",
-      "registry_phase": "declarative-initial",
-      "migration_state": "planned",
+      "registry_phase": "handler-migrated-incremental",
+      "migration_state": "already-migrated",
       "application_operation_id": null,
-      "cli_only_reason": "ApplicationService mapping is not required yet; command will first move to a domain-owned CLI module with compatibility tests.",
+      "cli_only_reason": "No existing ApplicationOperation mapping is registered; keep explicit CLI-only rationale until a future boundary story or ADR introduces one.",
       "risk_level": "medium",
       "compatibility_contract_id": "cli-compat:industrial-readiness.production-ready-local",
       "json_output_contract": "Preserve CommandResult JSON envelope: command, ok, exit_code, message, data and findings when --json is supported.",
       "exit_code_contract": "Preserve PASS=0, FAIL=1 and BLOCK=2 semantics exposed by existing CommandResult/ExitCode mapping.",
       "human_output_contract": "Preserve current command name, operator-facing PASS/BLOCK/FAIL wording and help surface unless POST-H-030-E contract explicitly approves a change.",
       "test_coverage_refs": [
-        "python -m pytest tests/test_post_h_025_production_ready_declaration_gate.py -q"
+        "python -m pytest tests/test_post_h_030_industrial_readiness_command_extraction.py tests/test_post_h_025_production_ready_declaration_gate.py -q"
       ],
       "planned_micro_sprint": "POST-H-030-B",
       "side_effects": [
@@ -1926,8 +1925,7 @@
       "dry_run_supported": true,
       "policy_check_required": true,
       "notes": [
-        "No runtime behavior change in POST-H-030-A.",
-        "Handler extraction is planned but not performed in POST-H-030-A."
+        "No runtime behavior change in POST-H-030-A."
       ]
     },
     {
@@ -1938,21 +1936,21 @@
       ],
       "public_name": "python -m devpilot_core industrial-readiness production-ready-local-final",
       "domain_owner": "quality.gate",
-      "current_handler": "industrial_readiness_production_ready_local_final_command",
+      "current_handler": "handle_industrial_readiness_production_ready_local_final",
       "target_handler": "handle_industrial_readiness_production_ready_local_final",
-      "current_module": "src/devpilot_core/cli.py",
+      "current_module": "src/devpilot_core/cli_commands/industrial_readiness.py",
       "target_module": "src/devpilot_core/cli_commands/industrial_readiness.py",
-      "registry_phase": "declarative-initial",
-      "migration_state": "planned",
+      "registry_phase": "handler-migrated-incremental",
+      "migration_state": "already-migrated",
       "application_operation_id": null,
-      "cli_only_reason": "ApplicationService mapping is not required yet; command will first move to a domain-owned CLI module with compatibility tests.",
+      "cli_only_reason": "No existing ApplicationOperation mapping is registered; keep explicit CLI-only rationale until a future boundary story or ADR introduces one.",
       "risk_level": "medium",
       "compatibility_contract_id": "cli-compat:industrial-readiness.production-ready-local-final",
       "json_output_contract": "Preserve CommandResult JSON envelope: command, ok, exit_code, message, data and findings when --json is supported.",
       "exit_code_contract": "Preserve PASS=0, FAIL=1 and BLOCK=2 semantics exposed by existing CommandResult/ExitCode mapping.",
       "human_output_contract": "Preserve current command name, operator-facing PASS/BLOCK/FAIL wording and help surface unless POST-H-030-E contract explicitly approves a change.",
       "test_coverage_refs": [
-        "python -m pytest tests/test_post_h_025_production_ready_final_declaration.py -q"
+        "python -m pytest tests/test_post_h_030_industrial_readiness_command_extraction.py tests/test_post_h_025_production_ready_final_declaration.py -q"
       ],
       "planned_micro_sprint": "POST-H-030-B",
       "side_effects": [
@@ -1962,8 +1960,7 @@
       "dry_run_supported": true,
       "policy_check_required": true,
       "notes": [
-        "No runtime behavior change in POST-H-030-A.",
-        "Handler extraction is planned but not performed in POST-H-030-A."
+        "No runtime behavior change in POST-H-030-A."
       ]
     },
     {

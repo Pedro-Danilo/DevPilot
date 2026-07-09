@@ -318,6 +318,9 @@ def _target_for(command: dict[str, Any]) -> tuple[str, str, str]:
     phase = command.get("metadata", {}).get("registry_phase")
     if phase == "handler-migrated-incremental":
         module = command.get("owner_module") or "src/devpilot_core/cli.py"
+        migrated_by = command.get("metadata", {}).get("migrated_by")
+        if migrated_by == "POST-H-030-B":
+            return module, "POST-H-030-B", command.get("domain", "interface.cli")
         return module, "POST-H-030-A", command.get("domain", "interface.cli")
     if group in POST_H_030_TARGET_MODULES:
         return POST_H_030_TARGET_MODULES[group]
