@@ -14,14 +14,13 @@
     "commands_covered_total": 179,
     "coverage_complete": true,
     "registry_phase_counts": {
-      "declarative-initial": 54,
-      "handler-migrated-incremental": 34,
+      "declarative-initial": 47,
+      "handler-migrated-incremental": 41,
       "legacy-unregistered": 91
     },
     "migration_state_counts": {
-      "already-migrated": 34,
+      "already-migrated": 41,
       "deferred-cli-only": 91,
-      "planned": 7,
       "registered-only": 47
     },
     "high_or_critical_commands_total": 54,
@@ -3212,22 +3211,22 @@
         "hardening-gate"
       ],
       "public_name": "python -m devpilot_core portfolio hardening-gate",
-      "domain_owner": "operations.workspace",
-      "current_handler": "portfolio_hardening_gate_command",
+      "domain_owner": "workspace.portfolio",
+      "current_handler": "handle_portfolio_hardening_gate",
       "target_handler": "handle_portfolio_hardening_gate",
-      "current_module": "src/devpilot_core/cli.py",
+      "current_module": "src/devpilot_core/cli_commands/workspace_onboarding.py",
       "target_module": "src/devpilot_core/cli_commands/workspace_onboarding.py",
-      "registry_phase": "declarative-initial",
-      "migration_state": "planned",
+      "registry_phase": "handler-migrated-incremental",
+      "migration_state": "already-migrated",
       "application_operation_id": null,
-      "cli_only_reason": "ApplicationService mapping is not required yet; command will first move to a domain-owned CLI module with compatibility tests.",
+      "cli_only_reason": "No existing ApplicationOperation mapping is registered; keep explicit CLI-only rationale until a future boundary story or ADR introduces one.",
       "risk_level": "high",
       "compatibility_contract_id": "cli-compat:portfolio.hardening-gate",
       "json_output_contract": "Preserve CommandResult JSON envelope: command, ok, exit_code, message, data and findings when --json is supported.",
       "exit_code_contract": "Preserve PASS=0, FAIL=1 and BLOCK=2 semantics exposed by existing CommandResult/ExitCode mapping.",
       "human_output_contract": "Preserve current command name, operator-facing PASS/BLOCK/FAIL wording and help surface unless POST-H-030-E contract explicitly approves a change.",
       "test_coverage_refs": [
-        "python -m pytest tests/test_post_h_016_workspace_portfolio_hardening_gate.py -q"
+        "python -m pytest tests/test_post_h_016_workspace_portfolio_hardening_gate.py tests/test_post_h_030_workspace_onboarding_command_extraction.py -q"
       ],
       "planned_micro_sprint": "POST-H-030-D",
       "side_effects": [
@@ -3238,7 +3237,6 @@
       "policy_check_required": true,
       "notes": [
         "No runtime behavior change in POST-H-030-A.",
-        "Handler extraction is planned but not performed in POST-H-030-A.",
         "High/critical command requires explicit compatibility contract before migration."
       ]
     },
@@ -3249,13 +3247,13 @@
         "status"
       ],
       "public_name": "python -m devpilot_core portfolio status",
-      "domain_owner": "operations.workspace",
-      "current_handler": "portfolio_status_command",
+      "domain_owner": "workspace.portfolio",
+      "current_handler": "handle_portfolio_status",
       "target_handler": "handle_portfolio_status",
-      "current_module": "src/devpilot_core/cli.py",
+      "current_module": "src/devpilot_core/cli_commands/workspace_onboarding.py",
       "target_module": "src/devpilot_core/cli_commands/workspace_onboarding.py",
-      "registry_phase": "declarative-initial",
-      "migration_state": "planned",
+      "registry_phase": "handler-migrated-incremental",
+      "migration_state": "already-migrated",
       "application_operation_id": "portfolio.status",
       "cli_only_reason": null,
       "risk_level": "medium",
@@ -3264,7 +3262,7 @@
       "exit_code_contract": "Preserve PASS=0, FAIL=1 and BLOCK=2 semantics exposed by existing CommandResult/ExitCode mapping.",
       "human_output_contract": "Preserve current command name, operator-facing PASS/BLOCK/FAIL wording and help surface unless POST-H-030-E contract explicitly approves a change.",
       "test_coverage_refs": [
-        "python -m pytest tests/test_post_h_016_portfolio_status_hardening.py -q"
+        "python -m pytest tests/test_post_h_016_portfolio_status_hardening.py tests/test_post_h_030_workspace_onboarding_command_extraction.py -q"
       ],
       "planned_micro_sprint": "POST-H-030-D",
       "side_effects": [
@@ -3274,8 +3272,7 @@
       "dry_run_supported": true,
       "policy_check_required": true,
       "notes": [
-        "No runtime behavior change in POST-H-030-A.",
-        "Handler extraction is planned but not performed in POST-H-030-A."
+        "No runtime behavior change in POST-H-030-A."
       ]
     },
     {
@@ -6157,21 +6154,21 @@
       ],
       "public_name": "python -m devpilot_core workspace isolation-check",
       "domain_owner": "operations.workspace",
-      "current_handler": "workspace_isolation_check_command",
+      "current_handler": "handle_workspace_isolation_check",
       "target_handler": "handle_workspace_isolation_check",
-      "current_module": "src/devpilot_core/cli.py",
+      "current_module": "src/devpilot_core/cli_commands/workspace.py",
       "target_module": "src/devpilot_core/cli_commands/workspace.py",
-      "registry_phase": "declarative-initial",
-      "migration_state": "planned",
+      "registry_phase": "handler-migrated-incremental",
+      "migration_state": "already-migrated",
       "application_operation_id": null,
-      "cli_only_reason": "ApplicationService mapping is not required yet; command will first move to a domain-owned CLI module with compatibility tests.",
+      "cli_only_reason": "No existing ApplicationOperation mapping is registered; keep explicit CLI-only rationale until a future boundary story or ADR introduces one.",
       "risk_level": "medium",
       "compatibility_contract_id": "cli-compat:workspace.isolation-check",
       "json_output_contract": "Preserve CommandResult JSON envelope: command, ok, exit_code, message, data and findings when --json is supported.",
       "exit_code_contract": "Preserve PASS=0, FAIL=1 and BLOCK=2 semantics exposed by existing CommandResult/ExitCode mapping.",
       "human_output_contract": "Preserve current command name, operator-facing PASS/BLOCK/FAIL wording and help surface unless POST-H-030-E contract explicitly approves a change.",
       "test_coverage_refs": [
-        "python -m pytest tests/test_workspace_manager.py tests/test_post_h_006_b_declarative_registry.py -q"
+        "python -m pytest tests/test_post_h_016_workspace_isolation_check.py tests/test_post_h_030_workspace_onboarding_command_extraction.py -q"
       ],
       "planned_micro_sprint": "POST-H-030-D",
       "side_effects": [
@@ -6181,8 +6178,7 @@
       "dry_run_supported": false,
       "policy_check_required": false,
       "notes": [
-        "No runtime behavior change in POST-H-030-A.",
-        "Handler extraction is planned but not performed in POST-H-030-A."
+        "No runtime behavior change in POST-H-030-A."
       ]
     },
     {
@@ -6193,21 +6189,21 @@
       ],
       "public_name": "python -m devpilot_core workspace list",
       "domain_owner": "operations.workspace",
-      "current_handler": "workspace_list_command",
+      "current_handler": "handle_workspace_list",
       "target_handler": "handle_workspace_list",
-      "current_module": "src/devpilot_core/cli.py",
+      "current_module": "src/devpilot_core/cli_commands/workspace.py",
       "target_module": "src/devpilot_core/cli_commands/workspace.py",
-      "registry_phase": "declarative-initial",
-      "migration_state": "planned",
+      "registry_phase": "handler-migrated-incremental",
+      "migration_state": "already-migrated",
       "application_operation_id": null,
-      "cli_only_reason": "ApplicationService mapping is not required yet; command will first move to a domain-owned CLI module with compatibility tests.",
+      "cli_only_reason": "No existing ApplicationOperation mapping is registered; keep explicit CLI-only rationale until a future boundary story or ADR introduces one.",
       "risk_level": "medium",
       "compatibility_contract_id": "cli-compat:workspace.list",
       "json_output_contract": "Preserve CommandResult JSON envelope: command, ok, exit_code, message, data and findings when --json is supported.",
       "exit_code_contract": "Preserve PASS=0, FAIL=1 and BLOCK=2 semantics exposed by existing CommandResult/ExitCode mapping.",
       "human_output_contract": "Preserve current command name, operator-facing PASS/BLOCK/FAIL wording and help surface unless POST-H-030-E contract explicitly approves a change.",
       "test_coverage_refs": [
-        "python -m pytest tests/test_workspace_manager.py tests/test_post_h_006_b_declarative_registry.py -q"
+        "python -m pytest tests/test_post_h_016_workspace_registry_v2.py tests/test_post_h_030_workspace_onboarding_command_extraction.py -q"
       ],
       "planned_micro_sprint": "POST-H-030-D",
       "side_effects": [
@@ -6217,8 +6213,7 @@
       "dry_run_supported": false,
       "policy_check_required": false,
       "notes": [
-        "No runtime behavior change in POST-H-030-A.",
-        "Handler extraction is planned but not performed in POST-H-030-A."
+        "No runtime behavior change in POST-H-030-A."
       ]
     },
     {
@@ -6264,21 +6259,21 @@
       ],
       "public_name": "python -m devpilot_core workspace register",
       "domain_owner": "operations.workspace",
-      "current_handler": "workspace_register_command",
+      "current_handler": "handle_workspace_register",
       "target_handler": "handle_workspace_register",
-      "current_module": "src/devpilot_core/cli.py",
+      "current_module": "src/devpilot_core/cli_commands/workspace.py",
       "target_module": "src/devpilot_core/cli_commands/workspace.py",
-      "registry_phase": "declarative-initial",
-      "migration_state": "planned",
+      "registry_phase": "handler-migrated-incremental",
+      "migration_state": "already-migrated",
       "application_operation_id": null,
-      "cli_only_reason": "ApplicationService mapping is not required yet; command will first move to a domain-owned CLI module with compatibility tests.",
+      "cli_only_reason": "No existing ApplicationOperation mapping is registered; keep explicit CLI-only rationale until a future boundary story or ADR introduces one.",
       "risk_level": "medium",
       "compatibility_contract_id": "cli-compat:workspace.register",
       "json_output_contract": "Preserve CommandResult JSON envelope: command, ok, exit_code, message, data and findings when --json is supported.",
       "exit_code_contract": "Preserve PASS=0, FAIL=1 and BLOCK=2 semantics exposed by existing CommandResult/ExitCode mapping.",
       "human_output_contract": "Preserve current command name, operator-facing PASS/BLOCK/FAIL wording and help surface unless POST-H-030-E contract explicitly approves a change.",
       "test_coverage_refs": [
-        "python -m pytest tests/test_workspace_manager.py tests/test_post_h_006_b_declarative_registry.py -q"
+        "python -m pytest tests/test_post_h_016_workspace_registry_v2.py tests/test_post_h_030_workspace_onboarding_command_extraction.py -q"
       ],
       "planned_micro_sprint": "POST-H-030-D",
       "side_effects": [
@@ -6288,8 +6283,7 @@
       "dry_run_supported": false,
       "policy_check_required": false,
       "notes": [
-        "No runtime behavior change in POST-H-030-A.",
-        "Handler extraction is planned but not performed in POST-H-030-A."
+        "No runtime behavior change in POST-H-030-A."
       ]
     },
     {
@@ -6300,21 +6294,21 @@
       ],
       "public_name": "python -m devpilot_core workspace registry-validate",
       "domain_owner": "operations.workspace",
-      "current_handler": "workspace_registry_validate_command",
+      "current_handler": "handle_workspace_registry_validate",
       "target_handler": "handle_workspace_registry_validate",
-      "current_module": "src/devpilot_core/cli.py",
+      "current_module": "src/devpilot_core/cli_commands/workspace.py",
       "target_module": "src/devpilot_core/cli_commands/workspace.py",
-      "registry_phase": "declarative-initial",
-      "migration_state": "planned",
+      "registry_phase": "handler-migrated-incremental",
+      "migration_state": "already-migrated",
       "application_operation_id": null,
-      "cli_only_reason": "ApplicationService mapping is not required yet; command will first move to a domain-owned CLI module with compatibility tests.",
+      "cli_only_reason": "No existing ApplicationOperation mapping is registered; keep explicit CLI-only rationale until a future boundary story or ADR introduces one.",
       "risk_level": "medium",
       "compatibility_contract_id": "cli-compat:workspace.registry-validate",
       "json_output_contract": "Preserve CommandResult JSON envelope: command, ok, exit_code, message, data and findings when --json is supported.",
       "exit_code_contract": "Preserve PASS=0, FAIL=1 and BLOCK=2 semantics exposed by existing CommandResult/ExitCode mapping.",
       "human_output_contract": "Preserve current command name, operator-facing PASS/BLOCK/FAIL wording and help surface unless POST-H-030-E contract explicitly approves a change.",
       "test_coverage_refs": [
-        "python -m pytest tests/test_workspace_manager.py tests/test_post_h_006_b_declarative_registry.py -q"
+        "python -m pytest tests/test_post_h_016_workspace_registry_v2.py tests/test_post_h_030_workspace_onboarding_command_extraction.py -q"
       ],
       "planned_micro_sprint": "POST-H-030-D",
       "side_effects": [
@@ -6324,8 +6318,7 @@
       "dry_run_supported": false,
       "policy_check_required": false,
       "notes": [
-        "No runtime behavior change in POST-H-030-A.",
-        "Handler extraction is planned but not performed in POST-H-030-A."
+        "No runtime behavior change in POST-H-030-A."
       ]
     },
     {
@@ -6336,21 +6329,21 @@
       ],
       "public_name": "python -m devpilot_core workspace select",
       "domain_owner": "operations.workspace",
-      "current_handler": "workspace_select_command",
+      "current_handler": "handle_workspace_select",
       "target_handler": "handle_workspace_select",
-      "current_module": "src/devpilot_core/cli.py",
+      "current_module": "src/devpilot_core/cli_commands/workspace.py",
       "target_module": "src/devpilot_core/cli_commands/workspace.py",
-      "registry_phase": "declarative-initial",
-      "migration_state": "planned",
+      "registry_phase": "handler-migrated-incremental",
+      "migration_state": "already-migrated",
       "application_operation_id": null,
-      "cli_only_reason": "ApplicationService mapping is not required yet; command will first move to a domain-owned CLI module with compatibility tests.",
+      "cli_only_reason": "No existing ApplicationOperation mapping is registered; keep explicit CLI-only rationale until a future boundary story or ADR introduces one.",
       "risk_level": "medium",
       "compatibility_contract_id": "cli-compat:workspace.select",
       "json_output_contract": "Preserve CommandResult JSON envelope: command, ok, exit_code, message, data and findings when --json is supported.",
       "exit_code_contract": "Preserve PASS=0, FAIL=1 and BLOCK=2 semantics exposed by existing CommandResult/ExitCode mapping.",
       "human_output_contract": "Preserve current command name, operator-facing PASS/BLOCK/FAIL wording and help surface unless POST-H-030-E contract explicitly approves a change.",
       "test_coverage_refs": [
-        "python -m pytest tests/test_workspace_manager.py tests/test_post_h_006_b_declarative_registry.py -q"
+        "python -m pytest tests/test_post_h_016_workspace_registry_v2.py tests/test_post_h_030_workspace_onboarding_command_extraction.py -q"
       ],
       "planned_micro_sprint": "POST-H-030-D",
       "side_effects": [
@@ -6360,8 +6353,7 @@
       "dry_run_supported": false,
       "policy_check_required": false,
       "notes": [
-        "No runtime behavior change in POST-H-030-A.",
-        "Handler extraction is planned but not performed in POST-H-030-A."
+        "No runtime behavior change in POST-H-030-A."
       ]
     },
     {

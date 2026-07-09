@@ -9,7 +9,7 @@
   "last_functional_sprint": "FUNC-SPRINT-99",
   "next_sprint": "POST-H-030",
   "source_repo": "repo_DevPilot_Local_263_POST_H_025.zip",
-  "current_repo": "repo_DevPilot_Local_286_POST_H_030_C.zip",
+  "current_repo": "repo_DevPilot_Local_287_POST_H_030_D.zip",
   "global_state_owner": "tests/test_project_global_state.py",
   "mutable_global_state_fields": [
     "last_completed_sprint",
@@ -265,10 +265,11 @@
     "POST-H-029 closes Testing tiers, impacto y costo de regresion as implemented-initial/local-first: taxonomy, TCR v2 impact rules, CLI recommendations, release-candidate-local profile and historical regression guard are available with full regression preserved.",
     "POST-H-030-A approves CLI hotspot reduction and adds CliCommandOwnershipMatrix/CliExtractionPlan as read-only ownership and extraction planning artifacts without migrating handlers, changing public CLI behavior, dynamic router, network, external APIs or source mutations.",
     "POST-H-030-B extracts industrial-readiness check, production-ready-local and production-ready-local-final result-building handlers into src/devpilot_core/cli_commands/industrial_readiness.py while preserving public CLI wrappers, ApplicationService boundaries, JSON envelope, exit codes, no-go claims behavior, no dynamic router, network/external APIs disabled and no source mutations at runtime.",
-    "POST-H-030-C extracts release, release-candidate, package, install, backup and upgrade result-building handlers into src/devpilot_core/cli_commands/release.py while preserving public CLI wrappers, optional report wiring, local-first dry-run contracts, JSON envelope, exit codes, no dynamic router, network/external APIs disabled and no source mutations at runtime."
+    "POST-H-030-C extracts release, release-candidate, package, install, backup and upgrade result-building handlers into src/devpilot_core/cli_commands/release.py while preserving public CLI wrappers, optional report wiring, local-first dry-run contracts, JSON envelope, exit codes, no dynamic router, network/external APIs disabled and no source mutations at runtime.",
+    "POST-H-030-D extracts workspace registry/isolation and portfolio readiness result-building handlers into src/devpilot_core/cli_commands/workspace.py and src/devpilot_core/cli_commands/workspace_onboarding.py while preserving public CLI wrappers, dry-run bootstrap semantics, readiness preview pending classification, ApplicationService boundaries, no dynamic router, network/external APIs disabled and no source mutations at runtime."
   ],
-  "current_micro_sprint": "POST-H-030-C",
-  "next_micro_sprint": "POST-H-030-D",
+  "current_micro_sprint": "POST-H-030-D",
+  "next_micro_sprint": "POST-H-030-E",
   "post_h_020_current_micro_sprint": "POST-H-020-E",
   "post_h_020_next_micro_sprint": "POST-H-021",
   "compliance_evidence_collector_module": "src/devpilot_core/compliance/evidence.py",
@@ -831,10 +832,10 @@
     "hardening",
     "industrial"
   ],
-  "post_h_030_status": "active/implemented-initial-post-h-030-c",
+  "post_h_030_status": "active/implemented-initial-post-h-030-d",
   "post_h_030_backlog_approved": true,
-  "post_h_030_current_micro_sprint": "POST-H-030-C",
-  "post_h_030_next_micro_sprint": "POST-H-030-D",
+  "post_h_030_current_micro_sprint": "POST-H-030-D",
+  "post_h_030_next_micro_sprint": "POST-H-030-E",
   "post_h_030_cli_command_ownership_matrix_schema_registered": true,
   "post_h_030_cli_extraction_plan_schema_registered": true,
   "post_h_030_cli_command_ownership_matrix_available": true,
@@ -906,5 +907,27 @@
   "post_h_030_release_dynamic_handler_loading_enabled": false,
   "post_h_030_release_network_used": false,
   "post_h_030_release_external_api_used": false,
-  "post_h_030_release_source_mutations_runtime": false
+  "post_h_030_release_source_mutations_runtime": false,
+  "post_h_030_workspace_cli_module": "src/devpilot_core/cli_commands/workspace.py",
+  "post_h_030_workspace_onboarding_cli_module": "src/devpilot_core/cli_commands/workspace_onboarding.py",
+  "post_h_030_workspace_onboarding_commands_migrated_total": 7,
+  "post_h_030_workspace_onboarding_command_ids": [
+    "workspace.isolation-check",
+    "workspace.list",
+    "workspace.register",
+    "workspace.registry-validate",
+    "workspace.select",
+    "portfolio.hardening-gate",
+    "portfolio.status"
+  ],
+  "post_h_030_workspace_boundary_commands_total": 11,
+  "post_h_030_workspace_onboarding_application_service_preserved": true,
+  "post_h_030_workspace_onboarding_dry_run_preserved": true,
+  "post_h_030_workspace_onboarding_cli_wrappers_preserved": true,
+  "post_h_030_workspace_onboarding_public_behavior_changed": false,
+  "post_h_030_workspace_onboarding_runtime_router_enabled": false,
+  "post_h_030_workspace_onboarding_dynamic_handler_loading_enabled": false,
+  "post_h_030_workspace_onboarding_network_used": false,
+  "post_h_030_workspace_onboarding_external_api_used": false,
+  "post_h_030_workspace_onboarding_source_mutations_runtime": false
 }

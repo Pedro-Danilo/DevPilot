@@ -24,6 +24,7 @@ POST_H_010_C_CREATED_BY = "POST-H-010-C"
 POST_H_010_D_CREATED_BY = "POST-H-010-D"
 POST_H_030_B_CREATED_BY = "POST-H-030-B"
 POST_H_030_C_CREATED_BY = "POST-H-030-C"
+POST_H_030_D_CREATED_BY = "POST-H-030-D"
 
 # POST-H-007-E keeps this metadata static to avoid coupling CLI registry
 # generation to ApplicationOperationCatalog imports. The runtime integration
@@ -142,6 +143,84 @@ MIGRATED_HANDLERS: dict[str, MigratedHandlerDescriptor] = {
         ),
         rationale="POST-H-024-D moves onboarding readiness preview result-building logic into cli_commands/workspace.py while cli.py preserves parser, events and persistence.",
     ),
+    "workspace.register": MigratedHandlerDescriptor(
+        command_id="workspace.register",
+        owner_module="src/devpilot_core/cli_commands/workspace.py",
+        handler="handle_workspace_register",
+        wrapper="workspace_register_command",
+        recommended_tests=(
+            "python -m pytest tests/test_post_h_016_workspace_registry_v2.py tests/test_post_h_030_workspace_onboarding_command_extraction.py -q",
+        ),
+        rationale="POST-H-030-D moves workspace register result-building into cli_commands/workspace.py while cli.py preserves parser, optional reports, events, persistence and rendering.",
+        migrated_by=POST_H_030_D_CREATED_BY,
+    ),
+    "workspace.list": MigratedHandlerDescriptor(
+        command_id="workspace.list",
+        owner_module="src/devpilot_core/cli_commands/workspace.py",
+        handler="handle_workspace_list",
+        wrapper="workspace_list_command",
+        recommended_tests=(
+            "python -m pytest tests/test_post_h_016_workspace_registry_v2.py tests/test_post_h_030_workspace_onboarding_command_extraction.py -q",
+        ),
+        rationale="POST-H-030-D moves workspace list result-building into cli_commands/workspace.py while preserving read-only registry inspection semantics.",
+        migrated_by=POST_H_030_D_CREATED_BY,
+    ),
+    "workspace.select": MigratedHandlerDescriptor(
+        command_id="workspace.select",
+        owner_module="src/devpilot_core/cli_commands/workspace.py",
+        handler="handle_workspace_select",
+        wrapper="workspace_select_command",
+        recommended_tests=(
+            "python -m pytest tests/test_post_h_016_workspace_registry_v2.py tests/test_post_h_030_workspace_onboarding_command_extraction.py -q",
+        ),
+        rationale="POST-H-030-D moves workspace select result-building into cli_commands/workspace.py while preserving explicit CLI-only active workspace mutation semantics.",
+        migrated_by=POST_H_030_D_CREATED_BY,
+    ),
+    "workspace.registry-validate": MigratedHandlerDescriptor(
+        command_id="workspace.registry-validate",
+        owner_module="src/devpilot_core/cli_commands/workspace.py",
+        handler="handle_workspace_registry_validate",
+        wrapper="workspace_registry_validate_command",
+        recommended_tests=(
+            "python -m pytest tests/test_post_h_016_workspace_registry_v2.py tests/test_post_h_030_workspace_onboarding_command_extraction.py -q",
+        ),
+        rationale="POST-H-030-D moves workspace registry validation result-building into cli_commands/workspace.py while preserving v1/v2 validation behavior.",
+        migrated_by=POST_H_030_D_CREATED_BY,
+    ),
+    "workspace.isolation-check": MigratedHandlerDescriptor(
+        command_id="workspace.isolation-check",
+        owner_module="src/devpilot_core/cli_commands/workspace.py",
+        handler="handle_workspace_isolation_check",
+        wrapper="workspace_isolation_check_command",
+        recommended_tests=(
+            "python -m pytest tests/test_post_h_016_workspace_isolation_check.py tests/test_post_h_030_workspace_onboarding_command_extraction.py -q",
+        ),
+        rationale="POST-H-030-D moves workspace isolation-check result-building into cli_commands/workspace.py while preserving read-only isolation report semantics.",
+        migrated_by=POST_H_030_D_CREATED_BY,
+    ),
+    "portfolio.status": MigratedHandlerDescriptor(
+        command_id="portfolio.status",
+        owner_module="src/devpilot_core/cli_commands/workspace_onboarding.py",
+        handler="handle_portfolio_status",
+        wrapper="portfolio_status_command",
+        recommended_tests=(
+            "python -m pytest tests/test_post_h_016_portfolio_status_hardening.py tests/test_post_h_030_workspace_onboarding_command_extraction.py -q",
+        ),
+        rationale="POST-H-030-D moves portfolio status result-building into workspace_onboarding.py while preserving the ApplicationService boundary.",
+        migrated_by=POST_H_030_D_CREATED_BY,
+    ),
+    "portfolio.hardening-gate": MigratedHandlerDescriptor(
+        command_id="portfolio.hardening-gate",
+        owner_module="src/devpilot_core/cli_commands/workspace_onboarding.py",
+        handler="handle_portfolio_hardening_gate",
+        wrapper="portfolio_hardening_gate_command",
+        recommended_tests=(
+            "python -m pytest tests/test_post_h_016_workspace_portfolio_hardening_gate.py tests/test_post_h_030_workspace_onboarding_command_extraction.py -q",
+        ),
+        rationale="POST-H-030-D moves portfolio hardening gate result-building into workspace_onboarding.py while preserving local-first no-go and report behavior.",
+        migrated_by=POST_H_030_D_CREATED_BY,
+    ),
+
     "validate": MigratedHandlerDescriptor(
         command_id="validate",
         owner_module="src/devpilot_core/cli_commands/validation.py",
@@ -504,10 +583,10 @@ DECLARATIVE_GROUPS: dict[str, DeclarativeGroupDescriptor] = {
     "workspace": DeclarativeGroupDescriptor(
         group_id="workspace",
         domain="operations.workspace",
-        owner_module="src/devpilot_core/cli.py",
+        owner_module="src/devpilot_core/cli_commands/workspace.py",
         application_service_required=True,
-        recommended_tests=("python -m pytest tests/test_workspace_manager.py tests/test_post_h_006_b_declarative_registry.py -q",),
-        rationale="Workspace commands are a priority ApplicationService boundary candidate, but handlers remain legacy-owned in POST-H-006-B.",
+        recommended_tests=("python -m pytest tests/test_post_h_030_workspace_onboarding_command_extraction.py tests/test_workspace_manager.py tests/test_post_h_024_project_bootstrap.py tests/test_post_h_024_onboarding_readiness_preview.py tests/test_post_h_016_workspace_registry_v2.py -q",),
+        rationale="POST-H-030-D consolidates workspace/onboarding handlers in a domain-owned CLI module while cli.py preserves parser, wrappers, events, reports and rendering.",
     ),
     "standards": DeclarativeGroupDescriptor(
         group_id="standards",
@@ -651,9 +730,10 @@ DECLARATIVE_GROUPS: dict[str, DeclarativeGroupDescriptor] = {
     "portfolio": DeclarativeGroupDescriptor(
         group_id="portfolio",
         domain="workspace.portfolio",
-        owner_module="src/devpilot_core/cli.py",
-        recommended_tests=("python -m pytest tests/test_post_h_016_portfolio_status_hardening.py tests/test_post_h_016_workspace_portfolio_hardening_gate.py -q",),
-        rationale="POST-H-016 portfolio commands inspect registered workspaces and run local hardening evidence without mutating workspace source files.",
+        owner_module="src/devpilot_core/cli_commands/workspace_onboarding.py",
+        application_service_required=True,
+        recommended_tests=("python -m pytest tests/test_post_h_030_workspace_onboarding_command_extraction.py tests/test_post_h_016_portfolio_status_hardening.py tests/test_post_h_016_workspace_portfolio_hardening_gate.py -q",),
+        rationale="POST-H-030-D extracts portfolio/workspace readiness result-building into workspace_onboarding.py while preserving ApplicationService and hardening-gate boundaries.",
     ),
     "audit-pack": DeclarativeGroupDescriptor(
         group_id="audit-pack",

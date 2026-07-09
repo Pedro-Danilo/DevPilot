@@ -55,9 +55,9 @@
     {
       "module_path": "src/devpilot_core/cli_commands/workspace_onboarding.py",
       "planned_micro_sprint": "POST-H-030-D",
-      "exists_now": false,
-      "creation_required": true,
-      "domain_owner": "operations.workspace",
+      "exists_now": true,
+      "creation_required": false,
+      "domain_owner": "workspace.portfolio",
       "purpose": "Own workspace/onboarding CLI handlers while preserving dry-run and ApplicationService boundary candidates."
     }
   ],
@@ -164,12 +164,12 @@
       "compatibility_strategy": "Keep command names, arguments, JSON envelope, exit codes and operator-facing messages stable; POST-H-030-E will snapshot observable contracts.",
       "application_boundary_strategy": "Use existing ApplicationService/ApplicationOperation mapping when present; otherwise keep CLI-only rationale explicit until a later ADR or boundary story exists.",
       "risk_level": "medium",
-      "status": "planned"
+      "status": "already-started"
     },
     {
       "plan_id": "post-h-030-d:src/devpilot_core/cli_commands/workspace_onboarding.py",
       "planned_micro_sprint": "POST-H-030-D",
-      "domain_owner": "operations.workspace",
+      "domain_owner": "workspace.portfolio",
       "target_module": "src/devpilot_core/cli_commands/workspace_onboarding.py",
       "command_ids": [
         "portfolio.hardening-gate",
@@ -179,7 +179,7 @@
       "compatibility_strategy": "Keep command names, arguments, JSON envelope, exit codes and operator-facing messages stable; POST-H-030-E will snapshot observable contracts.",
       "application_boundary_strategy": "Use existing ApplicationService/ApplicationOperation mapping when present; otherwise keep CLI-only rationale explicit until a later ADR or boundary story exists.",
       "risk_level": "high",
-      "status": "planned"
+      "status": "already-started"
     }
   ],
   "safety": {

@@ -5639,7 +5639,7 @@ POST-H-030 queda aprobado e inicia con `POST-H-030-A — CLI command ownership m
 
 La capacidad es `implemented-initial/local-first`: cubre la superficie CLI registrada, asigna owner/dominio/target module/contrato de compatibilidad por comando y planifica extracciones por familias sin migrar handlers todavía. No cambia nombres de comandos, argumentos, JSON output, exit codes ni comportamiento operativo. No introduce router dinámico, red, APIs externas, remote execution, connector write ni plugin execution.
 
-Siguiente micro-sprint: `POST-H-030-D — Workspace/onboarding command extraction`.
+Siguiente micro-sprint: `POST-H-030-B — Industrial readiness command extraction`.
 
 
 ## POST-H-030-B — Industrial readiness command extraction
@@ -5658,3 +5658,14 @@ POST-H-030-C queda en estado `implemented-initial/local-first`. La familia relea
 `cli.py` conserva parser, dispatch, eventos, persistencia, escritura opcional de reportes y renderizado JSON/humano. El nuevo módulo solo construye `CommandResult` por dominio, sin router dinámico, sin carga dinámica de handlers, sin red, sin APIs externas, sin publicación/despliegue y sin mutaciones de fuente en runtime.
 
 Esta es una primera versión de extracción release. La compatibilidad observable por snapshots/tiered contracts se formalizará en POST-H-030-E.
+
+
+## POST-H-030-D — Workspace/onboarding command extraction
+
+POST-H-030-D queda en estado `implemented-initial/local-first`. La familia workspace/onboarding se consolida en `src/devpilot_core/cli_commands/workspace.py` y `src/devpilot_core/cli_commands/workspace_onboarding.py`, cubriendo los comandos `workspace register`, `workspace list`, `workspace select`, `workspace registry-validate`, `workspace isolation-check`, `portfolio status` y `portfolio hardening-gate`.
+
+`cli.py` conserva parser, dispatch, wrappers públicos, eventos, persistencia, escritura opcional de reportes y renderizado JSON/humano. Los handlers extraídos solo construyen `CommandResult` y delegan en `WorkspaceManager`, `MultiworkspaceRegistry`, `WorkspaceIsolationValidator`, `ApplicationService` y `WorkspacePortfolioHardeningGate` según corresponda.
+
+Se preservan dry-run por defecto para bootstrap, execute explícito, readiness preview con clasificación pending ante evidencia faltante, validación de registry v1/v2 read-only y portfolio status vía `ApplicationService`. No se introduce router dinámico, carga dinámica de handlers, red, APIs externas, remote execution, connector write, plugin execution ni nuevas dependencias.
+
+Esta es una extracción incremental. La compatibilidad observable completa mediante snapshots/tiered contracts se formalizará en POST-H-030-E.

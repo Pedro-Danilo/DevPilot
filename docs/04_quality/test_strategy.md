@@ -770,3 +770,16 @@ python -m pytest -p no:ddtrace --assert=plain `
 POST-H-030-C agrega pruebas focales para la extracción de la familia release hacia `src/devpilot_core/cli_commands/release.py`. La estrategia verifica metadata de registry, matriz de ownership, plan de extracción, equivalencia JSON en comandos representativos, safety flags local-first y sincronización TCR/source_registry/project_state.
 
 No reemplaza la futura suite de contratos snapshot de POST-H-030-E.
+
+
+## POST-H-030-D — Workspace/onboarding command extraction
+
+POST-H-030-D agrega pruebas focales para la extracción workspace/onboarding hacia `src/devpilot_core/cli_commands/workspace.py` y `src/devpilot_core/cli_commands/workspace_onboarding.py`. La estrategia verifica metadata de registry, matriz de ownership, plan de extracción, equivalencia JSON en comandos representativos, dry-run/pending classification, safety flags local-first y sincronización TCR/source_registry/project_state.
+
+Prueba principal:
+
+```powershell
+python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_030_workspace_onboarding_command_extraction.py -q
+```
+
+Regresión focal recomendada: incluir `tests/test_post_h_024_project_bootstrap.py`, `tests/test_post_h_024_onboarding_readiness_preview.py`, `tests/test_post_h_024_onboarding_quality_gate.py`, `tests/test_post_h_016_workspace_registry_v2.py` y los tests POST-H-030-A/B/C. No se requiere `pytest -q` completo para este micro-sprint; se preserva para cierre mayor del backlog o release candidate.

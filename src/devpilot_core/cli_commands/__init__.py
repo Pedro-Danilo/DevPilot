@@ -39,7 +39,18 @@ from .release import (
     handle_release_verify,
     handle_upgrade_check,
 )
-from .workspace import handle_workspace_bootstrap, handle_workspace_init, handle_workspace_readiness_preview, handle_workspace_status
+from .workspace import (
+    handle_workspace_bootstrap,
+    handle_workspace_init,
+    handle_workspace_isolation_check,
+    handle_workspace_list,
+    handle_workspace_readiness_preview,
+    handle_workspace_register,
+    handle_workspace_registry_validate,
+    handle_workspace_select,
+    handle_workspace_status,
+)
+from .workspace_onboarding import handle_portfolio_hardening_gate, handle_portfolio_status
 from .validation import handle_validate_scope
 
 __all__ = [
@@ -73,8 +84,15 @@ __all__ = [
     "handle_industrial_readiness_production_ready_local",
     "handle_industrial_readiness_production_ready_local_final",
     "handle_validate_scope",
+    "handle_portfolio_hardening_gate",
+    "handle_portfolio_status",
     "handle_workspace_bootstrap",
     "handle_workspace_init",
+    "handle_workspace_isolation_check",
+    "handle_workspace_list",
     "handle_workspace_readiness_preview",
+    "handle_workspace_register",
+    "handle_workspace_registry_validate",
+    "handle_workspace_select",
     "handle_workspace_status",
 ]

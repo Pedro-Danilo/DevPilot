@@ -207,16 +207,16 @@ def test_post_h_030_c_governance_artifacts_are_synchronized() -> None:
     backlog = (ROOT / "docs/backlogs/POST-H-030_cli_hotspot_reduction_application_boundaries.md").read_text(encoding="utf-8")
     changelog = (ROOT / "docs/release/CHANGELOG.md").read_text(encoding="utf-8")
 
-    assert state["current_micro_sprint"] == "POST-H-030-C"
-    assert state["next_micro_sprint"] == "POST-H-030-D"
-    assert state["current_repo"] == "repo_DevPilot_Local_286_POST_H_030_C.zip"
-    assert state["post_h_030_status"] == "active/implemented-initial-post-h-030-c"
+    assert state["current_micro_sprint"] in {"POST-H-030-C", "POST-H-030-D"}
+    assert state["next_micro_sprint"] in {"POST-H-030-D", "POST-H-030-E"}
+    assert state["current_repo"] in {"repo_DevPilot_Local_286_POST_H_030_C.zip", "repo_DevPilot_Local_287_POST_H_030_D.zip"}
+    assert state["post_h_030_status"] in {"active/implemented-initial-post-h-030-c", "active/implemented-initial-post-h-030-d"}
     assert state["post_h_030_release_cli_module"] == "src/devpilot_core/cli_commands/release.py"
     assert state["post_h_030_release_commands_migrated_total"] == len(POST_H_030_C_COMMANDS)
     assert state["post_h_030_release_public_behavior_changed"] is False
 
-    assert 'current_micro_sprint: "POST-H-030-C"' in backlog
-    assert 'next_micro_sprint: "POST-H-030-D"' in backlog
+    assert any(marker in backlog for marker in ['current_micro_sprint: "POST-H-030-C"', 'current_micro_sprint: "POST-H-030-D"'])
+    assert any(marker in backlog for marker in ['next_micro_sprint: "POST-H-030-D"', 'next_micro_sprint: "POST-H-030-E"'])
     assert "POST-H-030-C — Release command extraction" in readme
     assert "POST-H-030-C — Release command extraction" in runbook
     assert "post-h-030-c" in changelog.lower()

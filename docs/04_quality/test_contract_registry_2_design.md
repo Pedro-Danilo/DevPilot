@@ -296,3 +296,12 @@ El contrato es `P0/high` porque una regresión en esta familia puede producir ov
 TCR v2 registra `post-h-030-release-command-extraction` como contrato P0 de `interface.cli`/`release`, asociado a los comandos `release`, `release-candidate`, `package`, `install`, `backup` y `upgrade` migrados a `src/devpilot_core/cli_commands/release.py`.
 
 El contrato preserva local-first, dry-run/opt-in reports, no network, no external APIs, no remote execution, no connector write y no plugin execution.
+
+
+## POST-H-030-D — Workspace/onboarding command extraction
+
+Contrato v2 agregado: `post-h-030-workspace-onboarding-command-extraction`.
+
+Dominio: `interface.cli`; capability: `WorkspaceOnboardingCommandExtraction`; subgate: `cli-boundary-hotspot-reduction`; perfil de ejecución: `impact`; criticidad `P0`.
+
+El contrato cubre `src/devpilot_core/cli_commands/workspace.py`, `src/devpilot_core/cli_commands/workspace_onboarding.py`, wrappers públicos en `src/devpilot_core/cli.py`, metadata de `cli_registry`, matriz de ownership y plan de extracción. Mantiene `network_allowed=false`, `external_api_allowed=false`, `mutations_allowed=false` y `source_mutations_allowed=false`.

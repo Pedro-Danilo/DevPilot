@@ -10952,3 +10952,50 @@ python -m devpilot_core project-state validate --json
 ```
 
 La extracción conserva `cli.py` como boundary público. No activa router dinámico, red, APIs externas, publicación, despliegue, remote execution, connector write ni plugin execution. Los snapshots de compatibilidad observables quedan pendientes para POST-H-030-E.
+
+
+## POST-H-030-D — Workspace/onboarding command extraction
+
+Estado: `implemented-initial/local-first`.
+
+Comandos de verificación focal:
+
+```powershell
+$env:PYTHONPATH="src"
+$env:PYTEST_DISABLE_PLUGIN_AUTOLOAD="1"
+python -m pytest -p no:ddtrace --assert=plain `
+  tests/test_post_h_030_workspace_onboarding_command_extraction.py `
+  tests/test_post_h_030_release_command_extraction.py `
+  tests/test_post_h_030_industrial_readiness_command_extraction.py `
+  tests/test_post_h_030_cli_command_ownership_matrix.py `
+  tests/test_post_h_024_project_bootstrap.py `
+  tests/test_post_h_024_onboarding_readiness_preview.py `
+  tests/test_post_h_024_onboarding_quality_gate.py `
+  tests/test_post_h_016_workspace_registry_v2.py `
+  tests/test_project_global_state.py `
+  tests/test_test_contract_registry.py `
+  tests/test_test_contract_registry_v2.py `
+  -q
+```
+
+Comandos CLI de verificación:
+
+```powershell
+python -m devpilot_core workspace status --json
+python -m devpilot_core workspace list --json
+python -m devpilot_core workspace registry-validate --registry-version v2 --json
+python -m devpilot_core workspace isolation-check --json
+python -m devpilot_core workspace bootstrap --project-id post-h-030-d-demo --project-name "POST-H-030-D Demo" --target-root outputs/test_post_h_030_d/demo-project --dry-run --json
+python -m devpilot_core workspace readiness-preview --json
+python -m devpilot_core portfolio status --json
+python -m devpilot_core portfolio hardening-gate --json
+python -m devpilot_core cli-registry guard --json
+python -m devpilot_core project-state validate --json
+python -m devpilot_core docs-governance validate --json
+python -m devpilot_core test-contracts validate --json
+python -m devpilot_core test-contracts validate-v2 --json
+```
+
+La implementación preserva los wrappers públicos en `cli.py` y mueve construcción de resultados a módulos propietarios. No habilita red, APIs externas, router dinámico, ejecución remota, connector write ni plugin execution. Los outputs generados por bootstrap/readiness/reportes siguen siendo runtime artifacts y no deben versionarse ni incluirse en ZIP de entrega.
+
+Siguiente micro-sprint: `POST-H-030-E — CLI compatibility contract tests`.

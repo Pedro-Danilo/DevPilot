@@ -59,9 +59,16 @@ from .cli_commands import (
     handle_release_verify,
     handle_upgrade_check,
     handle_validate_scope,
+    handle_portfolio_hardening_gate,
+    handle_portfolio_status,
     handle_workspace_bootstrap,
     handle_workspace_init,
+    handle_workspace_isolation_check,
+    handle_workspace_list,
     handle_workspace_readiness_preview,
+    handle_workspace_register,
+    handle_workspace_registry_validate,
+    handle_workspace_select,
     handle_workspace_status,
 )
 from .connectors import (
@@ -3086,8 +3093,12 @@ def workspace_register_command(
     """Register a local DevPilot workspace in the FUNC-SPRINT-94 registry."""
 
     root = project_root()
-    result = MultiworkspaceRegistry(root, options=WorkspaceRegistryOptions(registry_path=registry_path)).register(
-        WorkspaceRegisterOptions(path=path, workspace_id=workspace_id, name=name, registry_path=registry_path)
+    result = handle_workspace_register(
+        root,
+        path=path,
+        workspace_id=workspace_id,
+        name=name,
+        registry_path=registry_path,
     )
     result = _write_optional_command_report(
         root,
@@ -3112,7 +3123,7 @@ def workspace_list_command(
     """List governed local workspaces from the FUNC-SPRINT-94 registry."""
 
     root = project_root()
-    result = MultiworkspaceRegistry(root, options=WorkspaceRegistryOptions(registry_path=registry_path)).list()
+    result = handle_workspace_list(root, registry_path=registry_path)
     result = _write_optional_command_report(
         root,
         result,
@@ -3137,9 +3148,7 @@ def workspace_select_command(
     """Select the active local workspace in the FUNC-SPRINT-94 registry."""
 
     root = project_root()
-    result = MultiworkspaceRegistry(root, options=WorkspaceRegistryOptions(registry_path=registry_path)).select(
-        WorkspaceSelectOptions(workspace_id=workspace_id, registry_path=registry_path)
-    )
+    result = handle_workspace_select(root, workspace_id=workspace_id, registry_path=registry_path)
     result = _write_optional_command_report(
         root,
         result,
@@ -3166,18 +3175,13 @@ def workspace_registry_validate_command(
 
     root = project_root()
     normalized_version = registry_version.strip().lower()
-    if normalized_version == "v2":
-        effective_schema_path = DEFAULT_WORKSPACE_REGISTRY_V2_SCHEMA if schema_path == "docs/schemas/multiworkspace_registry.schema.json" else schema_path
-        result = MultiworkspaceRegistryV2(
-            root,
-            options=WorkspaceRegistryV2Options(registry_path=registry_path, schema_path=effective_schema_path),
-        ).validate()
-        component = "MultiworkspaceRegistryV2"
-        sprint = "POST-H-016-A"
-    else:
-        result = MultiworkspaceRegistry(root, options=WorkspaceRegistryOptions(registry_path=registry_path, schema_path=schema_path)).validate()
-        component = "MultiworkspaceRegistry"
-        sprint = "FUNC-SPRINT-94"
+    result = handle_workspace_registry_validate(
+        root,
+        registry_path=registry_path,
+        schema_path=schema_path,
+        registry_version=registry_version,
+    )
+    component = "MultiworkspaceRegistryV2" if normalized_version == "v2" else "MultiworkspaceRegistry"
     result = _write_optional_command_report(
         root,
         result,
@@ -3203,15 +3207,13 @@ def workspace_isolation_check_command(
     """Validate POST-H-016-B workspace isolation boundaries in read-only mode."""
 
     root = project_root()
-    result = WorkspaceIsolationValidator(
+    result = handle_workspace_isolation_check(
         root,
-        options=WorkspaceIsolationOptions(
-            registry_path=registry_path,
-            write_report=write_report,
-            output_json=output_json,
-            output_markdown=output_markdown,
-        ),
-    ).run()
+        registry_path=registry_path,
+        write_report=write_report,
+        output_json=output_json,
+        output_markdown=output_markdown,
+    )
     _emit_result_event(root, result, subject=registry_path)
     _persist_result(root, result, subject=registry_path)
     print_result(result, json_output=json_output)
@@ -3227,7 +3229,7 @@ def portfolio_status_command(
     """Build hardened local portfolio status through ApplicationService."""
 
     root = project_root()
-    result = ApplicationService(root).portfolio_status(registry_path=registry_path)
+    result = handle_portfolio_status(root, registry_path=registry_path)
     result = _write_optional_command_report(
         root,
         result,
@@ -3250,13 +3252,8 @@ def portfolio_hardening_gate_command(
 ) -> int:
     """Run the POST-H-016-E workspace portfolio hardening gate."""
 
-    from devpilot_core.portfolio import WorkspacePortfolioHardeningGate, WorkspacePortfolioHardeningGateOptions
-
     root = project_root()
-    result = WorkspacePortfolioHardeningGate(
-        root,
-        WorkspacePortfolioHardeningGateOptions(registry_path=registry_path, write_report=write_report),
-    ).run()
+    result = handle_portfolio_hardening_gate(root, registry_path=registry_path, write_report=write_report)
     _emit_result_event(root, result, subject="portfolio:hardening-gate")
     _persist_result(root, result, subject="portfolio:hardening-gate")
     print_result(result, json_output=json_output)

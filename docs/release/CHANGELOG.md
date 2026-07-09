@@ -2570,3 +2570,13 @@ Siguiente hito: `POST-H-030`
 - Preserved public CLI wrappers, optional report wiring, JSON envelope, exit codes, local-first dry-run semantics and safety flags.
 - Updated ownership matrix, extraction plan, TCR v1/v2, source registry, project state, README, runbook and test strategy.
 - No dynamic router, network, external APIs, publishing, deployment, remote execution, connector write or plugin execution were enabled.
+
+
+## POST-H-030-D — Workspace/onboarding command extraction
+
+- Extracted workspace registry/isolation result builders into `src/devpilot_core/cli_commands/workspace.py`.
+- Added `src/devpilot_core/cli_commands/workspace_onboarding.py` for portfolio/workspace readiness handlers.
+- Covered `workspace register`, `workspace list`, `workspace select`, `workspace registry-validate`, `workspace isolation-check`, `portfolio status` and `portfolio hardening-gate`.
+- Preserved public CLI wrappers, optional report wiring, JSON envelope, exit codes, dry-run defaults, readiness-preview pending classification and ApplicationService boundaries.
+- Updated ownership matrix, extraction plan, TCR v1/v2, source registry, project state, README, runbook and test strategy.
+- No dynamic router, network, external APIs, remote execution, connector write or plugin execution were enabled.

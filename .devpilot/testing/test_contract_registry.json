@@ -7718,6 +7718,52 @@
       "notes": [
         "POST-H-030-C extracts release-family handlers while preserving public CLI behavior, optional reports and local-first dry-run release contracts."
       ]
+    },
+    {
+      "contract_id": "post-h-030-workspace-onboarding-command-extraction",
+      "scope": "integration",
+      "owner": "POST-H-030-D",
+      "phase": "POST-FASE-H",
+      "test_files": [
+        "tests/test_post_h_030_workspace_onboarding_command_extraction.py"
+      ],
+      "validates": [
+        "src/devpilot_core/cli_commands/workspace.py extended workspace/onboarding handlers",
+        "src/devpilot_core/cli_commands/workspace_onboarding.py portfolio/workspace readiness handlers",
+        "src/devpilot_core/cli.py workspace and portfolio public wrappers",
+        "src/devpilot_core/cli_registry/registry.py migrated handler metadata",
+        ".devpilot/cli_registry/command_ownership_matrix.json",
+        ".devpilot/cli_registry/cli_extraction_plan.json",
+        "POST-H-024 onboarding bootstrap/readiness contracts",
+        "POST-H-016 workspace portfolio contracts"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/cli_commands/workspace.py",
+        "src/devpilot_core/cli_commands/workspace_onboarding.py",
+        "src/devpilot_core/cli.py",
+        "src/devpilot_core/cli_commands/__init__.py",
+        "src/devpilot_core/cli_registry/registry.py",
+        "src/devpilot_core/cli_registry/ownership.py",
+        ".devpilot/cli_registry/command_ownership_matrix.json",
+        ".devpilot/cli_registry/cli_extraction_plan.json",
+        ".devpilot/project_state.json",
+        ".devpilot/docs_governance/source_registry.json"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_030_workspace_onboarding_command_extraction.py tests/test_post_h_024_project_bootstrap.py tests/test_post_h_024_onboarding_readiness_preview.py tests/test_post_h_024_onboarding_quality_gate.py tests/test_post_h_016_workspace_registry_v2.py -q",
+        "python -m devpilot_core cli-registry guard --json",
+        "python -m devpilot_core test-contracts validate --json"
+      ],
+      "notes": [
+        "POST-H-030-D extracts workspace/onboarding and portfolio readiness handlers while preserving public CLI behavior, dry-run defaults and local-first workspace safety contracts."
+      ]
     }
   ],
   "notes": [

@@ -13950,6 +13950,80 @@
       "classification_notes": [
         "POST-H-030-C extracts release-family handlers while preserving public CLI behavior, local release dry-run boundaries and no-publish/no-deploy constraints."
       ]
+    },
+    {
+      "contract_id": "post-h-030-workspace-onboarding-command-extraction",
+      "schema_version": "2.0",
+      "source_contract_id": "post-h-030-workspace-onboarding-command-extraction",
+      "domain": "interface.cli",
+      "capability": "WorkspaceOnboardingCommandExtraction",
+      "criticality": "P0",
+      "risk_level": "critical",
+      "test_type": "integration",
+      "execution_profile": "impact",
+      "cost_class": "medium",
+      "expected_duration_seconds": 420,
+      "test_files": [
+        "tests/test_post_h_030_workspace_onboarding_command_extraction.py"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/cli_commands/workspace.py",
+        "src/devpilot_core/cli_commands/workspace_onboarding.py",
+        "src/devpilot_core/cli_commands/__init__.py",
+        "src/devpilot_core/cli.py",
+        "src/devpilot_core/cli_registry/registry.py",
+        "src/devpilot_core/cli_registry/ownership.py",
+        ".devpilot/cli_registry/command_ownership_matrix.json",
+        ".devpilot/cli_registry/cli_extraction_plan.json",
+        ".devpilot/project_state.json"
+      ],
+      "validates": [
+        "POST-H-030-D workspace/onboarding command extraction",
+        "CLI JSON envelope compatibility for workspace and portfolio commands",
+        "Workspace registry/readiness wrappers preservation",
+        "Onboarding dry-run and pending-classification safety invariants",
+        "No dynamic CLI router introduced"
+      ],
+      "trigger_hints": [
+        "post-h-030-d",
+        "workspace-command-change",
+        "onboarding-boundary",
+        "portfolio-readiness-boundary",
+        "cli-handler-migration"
+      ],
+      "impact_scope": [
+        "cli",
+        "workspace",
+        "onboarding",
+        "portfolio",
+        "test-contracts",
+        "documentation-governance"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": false,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "POST-H-030-D",
+      "owner_domain": "operations.workspace",
+      "service_boundary": "cli-commands.workspace-onboarding",
+      "subgate_id": "cli-boundary-hotspot-reduction",
+      "schema_ids": [
+        "SCHEMA-DEVPL-CLI-COMMAND-OWNERSHIP-MATRIX-V1",
+        "SCHEMA-DEVPL-CLI-EXTRACTION-PLAN-V1"
+      ],
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_030_workspace_onboarding_command_extraction.py -q",
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_024_project_bootstrap.py tests/test_post_h_024_onboarding_readiness_preview.py tests/test_post_h_024_onboarding_quality_gate.py tests/test_post_h_016_workspace_registry_v2.py -q",
+        "python -m devpilot_core cli-registry guard --json",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ],
+      "classification_status": "explicit",
+      "classification_notes": [
+        "POST-H-030-D extracts workspace/onboarding handlers while preserving dry-run and ApplicationService boundaries for local workspace operation."
+      ]
     }
   ],
   "migration_metadata": {

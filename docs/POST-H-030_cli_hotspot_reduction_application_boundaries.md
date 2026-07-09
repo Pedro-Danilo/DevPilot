@@ -20,9 +20,9 @@ onboarding_report_source: "devpilot_onboarding_report_final_compilado.md"
 target_repo_path: "docs/backlogs/POST-H-030_cli_hotspot_reduction_application_boundaries.md"
 created_for: "DevPilot Local"
 scope: "local-first / deterministic / compatibility-preserving CLI refactor"
-implementation_status: "active/implemented-initial-post-h-030-c"
-current_micro_sprint: "POST-H-030-C"
-next_micro_sprint: "POST-H-030-D"
+implementation_status: "active/implemented-initial-post-h-030-d"
+current_micro_sprint: "POST-H-030-D"
+next_micro_sprint: "POST-H-030-E"
 ```
 
 ## 1. Proposito del backlog
@@ -484,6 +484,16 @@ python -m pytest -p no:ddtrace --assert=plain `
 python -m devpilot_core cli-registry guard --json
 python -m devpilot_core project-state validate --json
 ```
+
+
+
+## Estado de implementación POST-H-030-D
+
+POST-H-030-D queda como `implemented-initial/local-first` para workspace/onboarding. Se extiende `src/devpilot_core/cli_commands/workspace.py` con handlers para `workspace register`, `workspace list`, `workspace select`, `workspace registry-validate` y `workspace isolation-check`; además se crea `src/devpilot_core/cli_commands/workspace_onboarding.py` para `portfolio status` y `portfolio hardening-gate`.
+
+La extracción preserva parser público, nombres de comandos, flags, salida JSON, códigos de salida, escritura opcional de reportes, eventos y persistencia desde `cli.py`. Bootstrap sigue dry-run por defecto, readiness preview mantiene clasificación pending cuando falta evidencia, registry v2 se valida en memoria/read-only y portfolio status conserva `ApplicationService`.
+
+La implementación no introduce router dinámico, carga dinámica de handlers, red, APIs externas, ejecución remota, connector write, plugin execution ni dependencias nuevas. La reducción sigue siendo incremental: `cli.py` conserva wrappers públicos y la validación fuerte de contratos observables queda pendiente para POST-H-030-E.
 
 ## POST-H-030-E - CLI compatibility contract tests
 

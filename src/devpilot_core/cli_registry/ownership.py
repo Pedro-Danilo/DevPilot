@@ -323,6 +323,8 @@ def _target_for(command: dict[str, Any]) -> tuple[str, str, str]:
             return module, "POST-H-030-B", command.get("domain", "interface.cli")
         if migrated_by == "POST-H-030-C":
             return module, "POST-H-030-C", command.get("domain", "interface.cli")
+        if migrated_by == "POST-H-030-D":
+            return module, "POST-H-030-D", command.get("domain", "interface.cli")
         return module, "POST-H-030-A", command.get("domain", "interface.cli")
     if group in POST_H_030_TARGET_MODULES:
         return POST_H_030_TARGET_MODULES[group]
