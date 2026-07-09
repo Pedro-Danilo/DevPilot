@@ -8583,6 +8583,62 @@
         "tests/test_post_h_030_industrial_readiness_command_extraction.py"
       ],
       "sync_rules": []
+    },
+    {
+      "doc_id": "POST-H-030-C-RELEASE-CLI-MODULE",
+      "path": "src/devpilot_core/cli_commands/release.py",
+      "classification": "source-of-truth",
+      "domain": "release",
+      "status_required": "current",
+      "owner": "POST-H-030-C",
+      "criticality": "P0",
+      "lifecycle": "active",
+      "required_tests": [
+        "tests/test_post_h_030_release_command_extraction.py"
+      ],
+      "sync_rules": []
+    },
+    {
+      "doc_id": "POST-H-030-C-RELEASE-COMMAND-EXTRACTION-REPORT",
+      "path": "docs/audits/post_h_030_c_release_command_extraction_report.md",
+      "classification": "source-of-truth",
+      "domain": "release",
+      "status_required": "approved",
+      "owner": "POST-H-030-C",
+      "criticality": "P0",
+      "lifecycle": "active",
+      "required_tests": [
+        "tests/test_post_h_030_release_command_extraction.py"
+      ],
+      "sync_rules": []
+    },
+    {
+      "doc_id": "POST-H-030-C-MANIFEST",
+      "path": "docs/post_h_030_c_manifest.json",
+      "classification": "machine-readable-source",
+      "domain": "release",
+      "status_required": "implemented-initial",
+      "owner": "POST-H-030-C",
+      "criticality": "P0",
+      "lifecycle": "active",
+      "required_tests": [
+        "tests/test_post_h_030_release_command_extraction.py"
+      ],
+      "sync_rules": []
+    },
+    {
+      "doc_id": "POST-H-030-C-RELEASE-COMMAND-EXTRACTION-TEST",
+      "path": "tests/test_post_h_030_release_command_extraction.py",
+      "classification": "derived",
+      "domain": "release",
+      "status_required": "current",
+      "owner": "POST-H-030-C",
+      "criticality": "P0",
+      "lifecycle": "active",
+      "required_tests": [
+        "tests/test_post_h_030_release_command_extraction.py"
+      ],
+      "sync_rules": []
     }
   ],
   "rules": {
@@ -8656,16 +8712,16 @@
     "POST-H-025-C keeps enterprise, remote, SaaS and compliance claims disabled.": true
   },
   "summary": {
-    "documents_total": 351,
-    "source_of_truth_total": 135,
-    "machine_readable_source_total": 164,
-    "derived_total": 52,
+    "documents_total": 359,
+    "source_of_truth_total": 139,
+    "machine_readable_source_total": 166,
+    "derived_total": 54,
     "generated_runtime_total": 0,
     "historical_total": 0,
     "deprecated_total": 0,
-    "critical_sources_total": 121,
+    "critical_sources_total": 144,
     "markdown_json_pairs_total": 30,
-    "documents_with_required_tests_total": 341,
+    "documents_with_required_tests_total": 359,
     "network_used": false,
     "external_api_used": false,
     "mutations_performed": false,
@@ -8676,8 +8732,8 @@
     "backlog_governance_scope": "POST-H-002..POST-H-025",
     "backlogs_missing_future_are_planned_info": true,
     "preliminary": true,
-    "updated_by": "POST-H-030-A",
-    "last_registered_sprint": "POST-H-030-A"
+    "updated_by": "POST-H-030-C",
+    "last_registered_sprint": "POST-H-030-C"
   },
   "safety": {
     "local_first": true,
@@ -8781,9 +8837,8 @@
   "project_state_snapshot": {
     "last_completed_sprint": "POST-H-029",
     "next_sprint": "POST-H-030",
-    "current_micro_sprint": "POST-H-030-A",
-    "next_micro_sprint": "POST-H-030-B",
-    "current_repo": "repo_DevPilot_Local_284_POST_H_030_A.zip",
-    "post_h_030_status": "active/implemented-initial-post-h-030-a"
+    "current_micro_sprint": "POST-H-030-C",
+    "next_micro_sprint": "POST-H-030-D",
+    "current_repo": "repo_DevPilot_Local_286_POST_H_030_C.zip"
   }
 }

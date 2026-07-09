@@ -29,9 +29,35 @@ from .cli_registry import (
     CliNoGrowthGateOptions,
 )
 from .cli_commands import (
+    handle_backup_create,
+    handle_backup_list,
+    handle_backup_restore,
+    handle_install_plan,
+    handle_install_windows_smoke,
     handle_industrial_readiness_check,
     handle_industrial_readiness_production_ready_local,
     handle_industrial_readiness_production_ready_local_final,
+    handle_package_build,
+    handle_package_source_zip_policy,
+    handle_release_artifact_manifest,
+    handle_release_candidate_evidence_freshness,
+    handle_release_candidate_final,
+    handle_release_candidate_install_smoke,
+    handle_release_candidate_profile,
+    handle_release_candidate_ui_api_smoke,
+    handle_release_changelog,
+    handle_release_checksum,
+    handle_release_environment_snapshot,
+    handle_release_manifest,
+    handle_release_python_artifact_verify,
+    handle_release_reproducibility_pack,
+    handle_release_reproducibility_verify,
+    handle_release_sbom,
+    handle_release_smoke_test,
+    handle_release_source_archive_manifest,
+    handle_release_upgrade_rollback_dry_run,
+    handle_release_verify,
+    handle_upgrade_check,
     handle_validate_scope,
     handle_workspace_bootstrap,
     handle_workspace_init,
@@ -2223,7 +2249,7 @@ def release_manifest_command(
     """Generate the FUNC-SPRINT-77 local release manifest."""
 
     root = project_root()
-    result = ReleaseManifestBuilder(root, options=ReleaseManifestOptions(version=version)).build()
+    result = handle_release_manifest(root, version=version)
     result = _write_optional_command_report(
         root,
         result,
@@ -2263,10 +2289,7 @@ def release_changelog_command(
     """Generate the FUNC-SPRINT-78 local release changelog."""
 
     root = project_root()
-    result = ReleaseChangelogBuilder(
-        root,
-        options=ReleaseChangelogOptions(version=version, from_sprint=from_sprint, to_sprint=to_sprint),
-    ).build()
+    result = handle_release_changelog(root, version=version, from_sprint=from_sprint, to_sprint=to_sprint)
     result = _write_optional_command_report(
         root,
         result,
@@ -2303,7 +2326,7 @@ def release_sbom_command(
     """Generate the FUNC-SPRINT-80 local SBOM and supply-chain baseline."""
 
     root = project_root()
-    result = ReleaseSbomBuilder(root, options=ReleaseSbomOptions(version=version)).build()
+    result = handle_release_sbom(root, version=version)
     effective_version = ((result.data or {}).get("summary") or {}).get("version") or version or "unknown"
     result = _write_optional_command_report(
         root,
@@ -2369,10 +2392,7 @@ def release_environment_snapshot_command(
     """Generate the POST-H-017-B redacted local environment snapshot."""
 
     root = project_root()
-    result = ReleaseEnvironmentSnapshotBuilder(
-        root,
-        options=ReleaseEnvironmentSnapshotOptions(write_report=write_report),
-    ).build()
+    result = handle_release_environment_snapshot(root, write_report=write_report)
     _emit_result_event(root, result, subject="release:environment-snapshot")
     _persist_result(root, result, subject="release:environment-snapshot")
     print_result(result, json_output=json_output)
@@ -2387,10 +2407,7 @@ def release_source_archive_manifest_command(
     """Generate the POST-H-017-C source archive manifest and critical checksums."""
 
     root = project_root()
-    result = SourceArchiveManifestBuilder(
-        root,
-        options=SourceArchiveManifestOptions(write_report=write_report),
-    ).build()
+    result = handle_release_source_archive_manifest(root, write_report=write_report)
     _emit_result_event(root, result, subject="release:source-archive-manifest")
     _persist_result(root, result, subject="release:source-archive-manifest")
     print_result(result, json_output=json_output)
@@ -2406,10 +2423,7 @@ def release_reproducibility_verify_command(
     """Verify a POST-H-017-D local release reproducibility pack."""
 
     root = project_root()
-    result = ReleaseReproducibilityVerifier(
-        root,
-        options=ReleaseReproducibilityVerifyOptions(pack=pack, write_report=write_report),
-    ).verify()
+    result = handle_release_reproducibility_verify(root, pack=pack, write_report=write_report)
     _emit_result_event(root, result, subject="release:reproducibility-verify")
     _persist_result(root, result, subject="release:reproducibility-verify")
     print_result(result, json_output=json_output)
@@ -2426,14 +2440,12 @@ def release_reproducibility_pack_command(
     """Generate a POST-H-017-E local release reproducibility pack."""
 
     root = project_root()
-    result = ReleaseReproducibilityPackBuilder(
+    result = handle_release_reproducibility_pack(
         root,
-        options=ReleaseReproducibilityPackOptions(
-            write_report=write_report,
-            verify_after_build=verify,
-            require_clean_git=require_clean_git,
-        ),
-    ).build()
+        write_report=write_report,
+        verify=verify,
+        require_clean_git=require_clean_git,
+    )
     _emit_result_event(root, result, subject="release:reproducibility-pack")
     _persist_result(root, result, subject="release:reproducibility-pack")
     print_result(result, json_output=json_output)
@@ -2451,7 +2463,7 @@ def release_checksum_command(
     """Generate FUNC-SPRINT-81 SHA256 evidence for one local release artifact."""
 
     root = project_root()
-    result = ReleaseChecksumBuilder(root, options=ReleaseChecksumOptions(artifact=artifact, version=version)).build()
+    result = handle_release_checksum(root, artifact=artifact, version=version)
     effective_version = ((result.data or {}).get("summary") or {}).get("version") or version or "unknown"
     result = _write_optional_command_report(
         root,
@@ -2480,7 +2492,7 @@ def release_smoke_test_command(
     """Run FUNC-SPRINT-81 local smoke checks for one release artifact."""
 
     root = project_root()
-    result = ReleaseSmokeTestBuilder(root, options=ReleaseSmokeTestOptions(artifact=artifact, version=version, timeout_seconds=timeout_seconds)).build()
+    result = handle_release_smoke_test(root, artifact=artifact, version=version, timeout_seconds=timeout_seconds)
     effective_version = ((result.data or {}).get("summary") or {}).get("version") or version or "unknown"
     result = _write_optional_command_report(
         root,
@@ -2508,7 +2520,7 @@ def release_verify_command(
     """Consolidate FUNC-SPRINT-81 checksum and smoke-test release evidence."""
 
     root = project_root()
-    result = ReleaseVerifyBuilder(root, options=ReleaseVerifyOptions(artifact=artifact, version=version, timeout_seconds=timeout_seconds)).build()
+    result = handle_release_verify(root, artifact=artifact, version=version, timeout_seconds=timeout_seconds)
     effective_version = ((result.data or {}).get("summary") or {}).get("version") or version or "unknown"
     result = _write_optional_command_report(
         root,
@@ -2539,15 +2551,13 @@ def install_plan_command(
     """Generate the FUNC-SPRINT-82 local installation strategy and dry-run plan."""
 
     root = project_root()
-    result = InstallPlanBuilder(
+    result = handle_install_plan(
         root,
-        options=InstallPlanOptions(
-            mode=mode,
-            version=version,
-            artifact=artifact,
-            python_executable=python_executable,
-        ),
-    ).build()
+        mode=mode,
+        version=version,
+        artifact=artifact,
+        python_executable=python_executable,
+    )
     effective_version = ((result.data or {}).get("summary") or {}).get("version") or version or "unknown"
     result = _write_optional_command_report(
         root,
@@ -2589,17 +2599,15 @@ def install_windows_smoke_command(
     """Run POST-H-027-D Windows operator install smoke validation."""
 
     root = project_root()
-    result = WindowsInstallSmokeRunner(
+    result = handle_install_windows_smoke(
         root,
-        WindowsInstallSmokeOptions(
-            mode=mode,
-            version=version,
-            artifact=artifact,
-            output_json=output_json,
-            output_markdown=output_markdown,
-            write_report=write_report,
-        ),
-    ).run()
+        mode=mode,
+        version=version,
+        artifact=artifact,
+        output_json=output_json,
+        output_markdown=output_markdown,
+        write_report=write_report,
+    )
     _emit_result_event(root, result, subject=f"install:windows-smoke:{mode}:{version}")
     _persist_result(root, result, subject=f"install:windows-smoke:{mode}:{version}")
     print_result(result, json_output=json_output)
@@ -2620,7 +2628,7 @@ def backup_create_command(
     """Create a FUNC-SPRINT-83 local backup plan or artifact."""
 
     root = project_root()
-    result = BackupCreateBuilder(root, options=BackupCreateOptions(dry_run=dry_run, execute=execute)).build()
+    result = handle_backup_create(root, dry_run=dry_run, execute=execute)
     backup_id = ((result.data or {}).get("summary") or {}).get("backup_id") or "unknown"
     result = _write_optional_command_report(
         root,
@@ -2646,7 +2654,7 @@ def backup_list_command(*, limit: int = 50, json_output: bool = False, write_rep
     """List local FUNC-SPRINT-83 backups."""
 
     root = project_root()
-    result = BackupListBuilder(root, options=BackupListOptions(limit=limit)).build()
+    result = handle_backup_list(root, limit=limit)
     result = _write_optional_command_report(
         root,
         result,
@@ -2679,15 +2687,13 @@ def backup_restore_command(
     """Plan or execute a controlled FUNC-SPRINT-83 local restore."""
 
     root = project_root()
-    result = BackupRestoreBuilder(
+    result = handle_backup_restore(
         root,
-        options=BackupRestoreOptions(
-            backup_id=backup_id,
-            dry_run=dry_run,
-            execute=execute,
-            confirm_restore=confirm_restore,
-        ),
-    ).build()
+        backup_id=backup_id,
+        dry_run=dry_run,
+        execute=execute,
+        confirm_restore=confirm_restore,
+    )
     result = _write_optional_command_report(
         root,
         result,
@@ -2712,7 +2718,7 @@ def upgrade_check_command(*, target_version: str | None = None, json_output: boo
     """Generate a FUNC-SPRINT-83 local upgrade readiness plan."""
 
     root = project_root()
-    result = UpgradeCheckBuilder(root, options=UpgradeCheckOptions(target_version=target_version)).build()
+    result = handle_upgrade_check(root, target_version=target_version)
     effective_target = ((result.data or {}).get("summary") or {}).get("target_version") or target_version or "unknown"
     result = _write_optional_command_report(
         root,
@@ -2745,14 +2751,12 @@ def release_artifact_manifest_command(
     """Generate POST-H-027-C local artifact manifest and SHA-256 checksums."""
 
     root = project_root()
-    result = ReleaseArtifactManifestBuilder(
+    result = handle_release_artifact_manifest(
         root,
-        options=ReleaseArtifactManifestOptions(
-            version=version,
-            verify_checksums=verify_checksums,
-            write_report=write_report,
-        ),
-    ).build()
+        version=version,
+        verify_checksums=verify_checksums,
+        write_report=write_report,
+    )
     _emit_result_event(root, result, subject="release:artifact-manifest")
     _persist_result(root, result, subject="release:artifact-manifest")
     print_result(result, json_output=json_output)
@@ -2772,18 +2776,16 @@ def release_upgrade_rollback_dry_run_command(
     """Run POST-H-027-E local upgrade/rollback dry-run validation."""
 
     root = project_root()
-    result = UpgradeRollbackDryRunRunner(
+    result = handle_release_upgrade_rollback_dry_run(
         root,
-        UpgradeRollbackDryRunOptions(
-            from_version=from_version,
-            to_version=to_version,
-            artifact_manifest=artifact_manifest,
-            backup_id=backup_id,
-            output_json=output_json,
-            output_markdown=output_markdown,
-            write_report=write_report,
-        ),
-    ).run()
+        from_version=from_version,
+        to_version=to_version,
+        artifact_manifest=artifact_manifest,
+        backup_id=backup_id,
+        output_json=output_json,
+        output_markdown=output_markdown,
+        write_report=write_report,
+    )
     _emit_result_event(root, result, subject=f"release:upgrade-rollback-dry-run:{from_version}:{to_version}")
     _persist_result(root, result, subject="release:upgrade-rollback-dry-run")
     print_result(result, json_output=json_output)
@@ -2806,15 +2808,13 @@ def release_python_artifact_verify_command(
     """
 
     root = project_root()
-    result = PythonArtifactInstallVerifier(
+    result = handle_release_python_artifact_verify(
         root,
-        PythonArtifactInstallVerificationOptions(
-            artifact=artifact,
-            timeout_seconds=timeout_seconds,
-            keep_temp=keep_temp,
-            write_report=write_report,
-        ),
-    ).run()
+        artifact=artifact,
+        timeout_seconds=timeout_seconds,
+        keep_temp=keep_temp,
+        write_report=write_report,
+    )
     _emit_result_event(root, result, subject="release:python-artifact-verify")
     _persist_result(root, result, subject="release:python-artifact-verify")
     print_result(result, json_output=json_output)
@@ -2836,10 +2836,7 @@ def package_build_command(
     """
 
     root = project_root()
-    result = PackageBuildBuilder(
-        root,
-        options=PackageBuildOptions(version=version, kind=kind, execute=execute),
-    ).build()
+    result = handle_package_build(root, version=version, kind=kind, execute=execute)
     result = _write_optional_command_report(
         root,
         result,
@@ -2883,14 +2880,12 @@ def package_source_zip_policy_command(
     """
 
     root = project_root()
-    result = SourceZipReleasePolicyValidator(
+    result = handle_package_source_zip_policy(
         root,
-        SourceZipPolicyOptions(
-            artifact=artifact,
-            policy_path=policy_path,
-            write_report=write_report,
-        ),
-    ).run()
+        artifact=artifact,
+        policy_path=policy_path,
+        write_report=write_report,
+    )
     _emit_result_event(root, result, subject="package:source-zip-policy")
     _persist_result(root, result, subject="package:source-zip-policy")
     print_result(result, json_output=json_output)
@@ -3453,15 +3448,13 @@ def release_candidate_evidence_freshness_command(
     """
 
     root = project_root()
-    result = EvidenceFreshnessScanner(
+    result = handle_release_candidate_evidence_freshness(
         root,
-        options=EvidenceFreshnessOptions(
-            criteria_path=criteria_path,
-            output_json=output_json,
-            output_markdown=output_markdown,
-            write_report=write_report,
-        ),
-    ).scan()
+        criteria_path=criteria_path,
+        output_json=output_json,
+        output_markdown=output_markdown,
+        write_report=write_report,
+    )
     print_result(result, json_output=json_output)
     return int(result.exit_code)
 
@@ -3482,16 +3475,14 @@ def release_candidate_ui_api_smoke_command(
     """Run POST-H-026-C UI/API local RC smoke without opening sockets."""
 
     root = project_root()
-    result = UiApiRcSmokeRunner(
+    result = handle_release_candidate_ui_api_smoke(
         root,
-        UiApiRcSmokeOptions(
-            base_url=base_url,
-            ui_origin=ui_origin,
-            output_json=output_json,
-            output_markdown=output_markdown,
-            write_report=write_report,
-        ),
-    ).run()
+        base_url=base_url,
+        ui_origin=ui_origin,
+        output_json=output_json,
+        output_markdown=output_markdown,
+        write_report=write_report,
+    )
     print_result(result, json_output=json_output)
     return int(result.exit_code)
 
@@ -5271,17 +5262,15 @@ def release_candidate_profile_command(
     write_report: bool = False,
 ) -> int:
     root = project_root()
-    result = ReleaseCandidateVerificationProfile(
+    result = handle_release_candidate_profile(
         root,
-        ReleaseCandidateVerificationProfileOptions(
-            profile_id=profile,
-            test_profiles_path=test_profiles_path,
-            tcr_v2_path=tcr_v2_path,
-            output_json=output_json,
-            output_markdown=output_markdown,
-            write_report=write_report,
-        ),
-    ).inspect()
+        profile=profile,
+        test_profiles_path=test_profiles_path,
+        tcr_v2_path=tcr_v2_path,
+        output_json=output_json,
+        output_markdown=output_markdown,
+        write_report=write_report,
+    )
     _emit_result_event(root, result, subject="release-candidate:profile")
     _persist_result(root, result, subject="release-candidate:profile")
     print_result(result, json_output=json_output)
@@ -5297,15 +5286,13 @@ def release_candidate_install_smoke_command(
     write_report: bool = False,
 ) -> int:
     root = project_root()
-    result = LocalInstallSmokeRunner(
+    result = handle_release_candidate_install_smoke(
         root,
-        LocalInstallSmokeOptions(
-            output_json=output_json,
-            output_markdown=output_markdown,
-            candidate_zip=candidate_zip,
-            write_report=write_report,
-        ),
-    ).run()
+        output_json=output_json,
+        output_markdown=output_markdown,
+        candidate_zip=candidate_zip,
+        write_report=write_report,
+    )
     _emit_result_event(root, result, subject="release-candidate:install-smoke")
     _persist_result(root, result, subject="release-candidate:install-smoke")
     print_result(result, json_output=json_output)
@@ -5324,15 +5311,13 @@ def release_candidate_final_command(
     """Run POST-H-026-E final local release candidate PASS/BLOCK report."""
 
     root = project_root()
-    result = LocalReleaseCandidateReporter(
+    result = handle_release_candidate_final(
         root,
-        LocalReleaseCandidateOptions(
-            criteria_path=criteria_path,
-            output_json=output_json,
-            output_markdown=output_markdown,
-            write_report=write_report,
-        ),
-    ).run()
+        criteria_path=criteria_path,
+        output_json=output_json,
+        output_markdown=output_markdown,
+        write_report=write_report,
+    )
     print_result(result, json_output=json_output)
     return int(result.exit_code)
 

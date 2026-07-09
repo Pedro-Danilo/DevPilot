@@ -39,8 +39,8 @@
     {
       "module_path": "src/devpilot_core/cli_commands/release.py",
       "planned_micro_sprint": "POST-H-030-C",
-      "exists_now": false,
-      "creation_required": true,
+      "exists_now": true,
+      "creation_required": false,
       "domain_owner": "release",
       "purpose": "Own release, package, install and reproducibility CLI handlers while preserving local-first release contracts."
     },
@@ -146,7 +146,7 @@
       "compatibility_strategy": "Keep command names, arguments, JSON envelope, exit codes and operator-facing messages stable; POST-H-030-E will snapshot observable contracts.",
       "application_boundary_strategy": "Use existing ApplicationService/ApplicationOperation mapping when present; otherwise keep CLI-only rationale explicit until a later ADR or boundary story exists.",
       "risk_level": "high",
-      "status": "planned"
+      "status": "already-started"
     },
     {
       "plan_id": "post-h-030-d:src/devpilot_core/cli_commands/workspace.py",

@@ -20,9 +20,9 @@ onboarding_report_source: "devpilot_onboarding_report_final_compilado.md"
 target_repo_path: "docs/backlogs/POST-H-030_cli_hotspot_reduction_application_boundaries.md"
 created_for: "DevPilot Local"
 scope: "local-first / deterministic / compatibility-preserving CLI refactor"
-implementation_status: "active/implemented-initial-post-h-030-b"
-current_micro_sprint: "POST-H-030-B"
-next_micro_sprint: "POST-H-030-C"
+implementation_status: "active/implemented-initial-post-h-030-c"
+current_micro_sprint: "POST-H-030-C"
+next_micro_sprint: "POST-H-030-D"
 ```
 
 ## 1. Proposito del backlog
@@ -404,6 +404,13 @@ python -m pytest -p no:ddtrace --assert=plain `
 python -m devpilot_core cli-registry guard --json
 python -m devpilot_core schema list --json
 ```
+
+
+## Estado de implementación POST-H-030-C
+
+POST-H-030-C queda como `implemented-initial/local-first` para la familia release. Se extraen handlers de construcción de resultado hacia `src/devpilot_core/cli_commands/release.py` para comandos `release`, `release-candidate`, `package`, `install`, `backup` y `upgrade`, preservando el parser público, nombres de comandos, flags, salida JSON, códigos de salida, escritura opcional de reportes, eventos y persistencia desde `cli.py`.
+
+La implementación no introduce router dinámico, carga dinámica de handlers, red, APIs externas, publicación, despliegue, firma obligatoria, remote execution, connector write ni plugin execution. La reducción es incremental: `cli.py` conserva wrappers públicos y la validación fuerte de contratos observables queda pendiente para POST-H-030-E.
 
 ## POST-H-030-D - Workspace/onboarding command extraction
 

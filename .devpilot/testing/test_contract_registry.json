@@ -7675,6 +7675,49 @@
         "python -m devpilot_core cli-registry guard --json",
         "python -m devpilot_core test-contracts validate --json"
       ]
+    },
+    {
+      "contract_id": "post-h-030-release-command-extraction",
+      "scope": "integration",
+      "owner": "POST-H-030-C",
+      "phase": "POST-FASE-H",
+      "test_files": [
+        "tests/test_post_h_030_release_command_extraction.py"
+      ],
+      "validates": [
+        "src/devpilot_core/cli_commands/release.py",
+        "src/devpilot_core/cli.py release/package/install/backup/upgrade wrappers",
+        "src/devpilot_core/cli_registry/registry.py migrated handler metadata",
+        ".devpilot/cli_registry/command_ownership_matrix.json",
+        ".devpilot/cli_registry/cli_extraction_plan.json",
+        "POST-H-017/026/027 release and packaging contracts"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/cli_commands/release.py",
+        "src/devpilot_core/cli.py",
+        "src/devpilot_core/cli_commands/__init__.py",
+        "src/devpilot_core/cli_registry/registry.py",
+        "src/devpilot_core/cli_registry/ownership.py",
+        ".devpilot/cli_registry/command_ownership_matrix.json",
+        ".devpilot/cli_registry/cli_extraction_plan.json",
+        ".devpilot/project_state.json",
+        ".devpilot/docs_governance/source_registry.json"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_030_release_command_extraction.py tests/test_release_manifest.py tests/test_release_changelog.py tests/test_release_sbom.py tests/test_release_verification.py tests/test_post_h_017_release_reproducibility_pack.py tests/test_post_h_027_artifact_manifest_checksums.py -q",
+        "python -m devpilot_core cli-registry guard --json",
+        "python -m devpilot_core test-contracts validate --json"
+      ],
+      "notes": [
+        "POST-H-030-C extracts release-family handlers while preserving public CLI behavior, optional reports and local-first dry-run release contracts."
+      ]
     }
   ],
   "notes": [

@@ -23,6 +23,7 @@ POST_H_010_B_CREATED_BY = "POST-H-010-B"
 POST_H_010_C_CREATED_BY = "POST-H-010-C"
 POST_H_010_D_CREATED_BY = "POST-H-010-D"
 POST_H_030_B_CREATED_BY = "POST-H-030-B"
+POST_H_030_C_CREATED_BY = "POST-H-030-C"
 
 # POST-H-007-E keeps this metadata static to avoid coupling CLI registry
 # generation to ApplicationOperationCatalog imports. The runtime integration
@@ -185,6 +186,317 @@ MIGRATED_HANDLERS: dict[str, MigratedHandlerDescriptor] = {
         rationale="POST-H-030-B moves final production-ready-local declaration CLI result-building into a domain-owned module while preserving claims/no-go behavior.",
         migrated_by=POST_H_030_B_CREATED_BY,
     ),
+    "release.manifest": MigratedHandlerDescriptor(
+        command_id="release.manifest",
+        owner_module="src/devpilot_core/cli_commands/release.py",
+        handler="handle_release_manifest",
+        wrapper="release_manifest_command",
+        recommended_tests=(
+            "python -m pytest tests/test_release_manifest.py tests/test_post_h_030_release_command_extraction.py -q",
+        ),
+        rationale="POST-H-030-C moves release-family result-building logic into cli_commands/release.py while cli.py preserves parser, events, persistence, optional report wiring, JSON rendering and exit codes.",
+        migrated_by=POST_H_030_C_CREATED_BY,
+    ),
+
+    "release.changelog": MigratedHandlerDescriptor(
+        command_id="release.changelog",
+        owner_module="src/devpilot_core/cli_commands/release.py",
+        handler="handle_release_changelog",
+        wrapper="release_changelog_command",
+        recommended_tests=(
+            "python -m pytest tests/test_release_changelog.py tests/test_post_h_030_release_command_extraction.py -q",
+        ),
+        rationale="POST-H-030-C moves release-family result-building logic into cli_commands/release.py while cli.py preserves parser, events, persistence, optional report wiring, JSON rendering and exit codes.",
+        migrated_by=POST_H_030_C_CREATED_BY,
+    ),
+
+    "release.sbom": MigratedHandlerDescriptor(
+        command_id="release.sbom",
+        owner_module="src/devpilot_core/cli_commands/release.py",
+        handler="handle_release_sbom",
+        wrapper="release_sbom_command",
+        recommended_tests=(
+            "python -m pytest tests/test_release_sbom.py tests/test_post_h_030_release_command_extraction.py -q",
+        ),
+        rationale="POST-H-030-C moves release-family result-building logic into cli_commands/release.py while cli.py preserves parser, events, persistence, optional report wiring, JSON rendering and exit codes.",
+        migrated_by=POST_H_030_C_CREATED_BY,
+    ),
+
+    "release.environment-snapshot": MigratedHandlerDescriptor(
+        command_id="release.environment-snapshot",
+        owner_module="src/devpilot_core/cli_commands/release.py",
+        handler="handle_release_environment_snapshot",
+        wrapper="release_environment_snapshot_command",
+        recommended_tests=(
+            "python -m pytest tests/test_post_h_017_release_reproducibility_pack.py tests/test_post_h_030_release_command_extraction.py -q",
+        ),
+        rationale="POST-H-030-C moves release-family result-building logic into cli_commands/release.py while cli.py preserves parser, events, persistence, optional report wiring, JSON rendering and exit codes.",
+        migrated_by=POST_H_030_C_CREATED_BY,
+    ),
+
+    "release.source-archive-manifest": MigratedHandlerDescriptor(
+        command_id="release.source-archive-manifest",
+        owner_module="src/devpilot_core/cli_commands/release.py",
+        handler="handle_release_source_archive_manifest",
+        wrapper="release_source_archive_manifest_command",
+        recommended_tests=(
+            "python -m pytest tests/test_post_h_017_source_archive_manifest.py tests/test_post_h_030_release_command_extraction.py -q",
+        ),
+        rationale="POST-H-030-C moves release-family result-building logic into cli_commands/release.py while cli.py preserves parser, events, persistence, optional report wiring, JSON rendering and exit codes.",
+        migrated_by=POST_H_030_C_CREATED_BY,
+    ),
+
+    "release.reproducibility-verify": MigratedHandlerDescriptor(
+        command_id="release.reproducibility-verify",
+        owner_module="src/devpilot_core/cli_commands/release.py",
+        handler="handle_release_reproducibility_verify",
+        wrapper="release_reproducibility_verify_command",
+        recommended_tests=(
+            "python -m pytest tests/test_post_h_017_release_reproducibility_pack.py tests/test_post_h_030_release_command_extraction.py -q",
+        ),
+        rationale="POST-H-030-C moves release-family result-building logic into cli_commands/release.py while cli.py preserves parser, events, persistence, optional report wiring, JSON rendering and exit codes.",
+        migrated_by=POST_H_030_C_CREATED_BY,
+    ),
+
+    "release.reproducibility-pack": MigratedHandlerDescriptor(
+        command_id="release.reproducibility-pack",
+        owner_module="src/devpilot_core/cli_commands/release.py",
+        handler="handle_release_reproducibility_pack",
+        wrapper="release_reproducibility_pack_command",
+        recommended_tests=(
+            "python -m pytest tests/test_post_h_017_release_reproducibility_pack.py tests/test_post_h_030_release_command_extraction.py -q",
+        ),
+        rationale="POST-H-030-C moves release-family result-building logic into cli_commands/release.py while cli.py preserves parser, events, persistence, optional report wiring, JSON rendering and exit codes.",
+        migrated_by=POST_H_030_C_CREATED_BY,
+    ),
+
+    "release.checksum": MigratedHandlerDescriptor(
+        command_id="release.checksum",
+        owner_module="src/devpilot_core/cli_commands/release.py",
+        handler="handle_release_checksum",
+        wrapper="release_checksum_command",
+        recommended_tests=(
+            "python -m pytest tests/test_release_verification.py tests/test_post_h_030_release_command_extraction.py -q",
+        ),
+        rationale="POST-H-030-C moves release-family result-building logic into cli_commands/release.py while cli.py preserves parser, events, persistence, optional report wiring, JSON rendering and exit codes.",
+        migrated_by=POST_H_030_C_CREATED_BY,
+    ),
+
+    "release.smoke-test": MigratedHandlerDescriptor(
+        command_id="release.smoke-test",
+        owner_module="src/devpilot_core/cli_commands/release.py",
+        handler="handle_release_smoke_test",
+        wrapper="release_smoke_test_command",
+        recommended_tests=(
+            "python -m pytest tests/test_release_verification.py tests/test_post_h_030_release_command_extraction.py -q",
+        ),
+        rationale="POST-H-030-C moves release-family result-building logic into cli_commands/release.py while cli.py preserves parser, events, persistence, optional report wiring, JSON rendering and exit codes.",
+        migrated_by=POST_H_030_C_CREATED_BY,
+    ),
+
+    "release.verify": MigratedHandlerDescriptor(
+        command_id="release.verify",
+        owner_module="src/devpilot_core/cli_commands/release.py",
+        handler="handle_release_verify",
+        wrapper="release_verify_command",
+        recommended_tests=(
+            "python -m pytest tests/test_release_verification.py tests/test_post_h_030_release_command_extraction.py -q",
+        ),
+        rationale="POST-H-030-C moves release-family result-building logic into cli_commands/release.py while cli.py preserves parser, events, persistence, optional report wiring, JSON rendering and exit codes.",
+        migrated_by=POST_H_030_C_CREATED_BY,
+    ),
+
+    "release.artifact-manifest": MigratedHandlerDescriptor(
+        command_id="release.artifact-manifest",
+        owner_module="src/devpilot_core/cli_commands/release.py",
+        handler="handle_release_artifact_manifest",
+        wrapper="release_artifact_manifest_command",
+        recommended_tests=(
+            "python -m pytest tests/test_post_h_027_artifact_manifest_checksums.py tests/test_post_h_030_release_command_extraction.py -q",
+        ),
+        rationale="POST-H-030-C moves release-family result-building logic into cli_commands/release.py while cli.py preserves parser, events, persistence, optional report wiring, JSON rendering and exit codes.",
+        migrated_by=POST_H_030_C_CREATED_BY,
+    ),
+
+    "release.upgrade-rollback-dry-run": MigratedHandlerDescriptor(
+        command_id="release.upgrade-rollback-dry-run",
+        owner_module="src/devpilot_core/cli_commands/release.py",
+        handler="handle_release_upgrade_rollback_dry_run",
+        wrapper="release_upgrade_rollback_dry_run_command",
+        recommended_tests=(
+            "python -m pytest tests/test_post_h_027_upgrade_rollback_dry_run.py tests/test_post_h_030_release_command_extraction.py -q",
+        ),
+        rationale="POST-H-030-C moves release-family result-building logic into cli_commands/release.py while cli.py preserves parser, events, persistence, optional report wiring, JSON rendering and exit codes.",
+        migrated_by=POST_H_030_C_CREATED_BY,
+    ),
+
+    "release.python-artifact-verify": MigratedHandlerDescriptor(
+        command_id="release.python-artifact-verify",
+        owner_module="src/devpilot_core/cli_commands/release.py",
+        handler="handle_release_python_artifact_verify",
+        wrapper="release_python_artifact_verify_command",
+        recommended_tests=(
+            "python -m pytest tests/test_post_h_027_python_artifact_install_verification.py tests/test_post_h_030_release_command_extraction.py -q",
+        ),
+        rationale="POST-H-030-C moves release-family result-building logic into cli_commands/release.py while cli.py preserves parser, events, persistence, optional report wiring, JSON rendering and exit codes.",
+        migrated_by=POST_H_030_C_CREATED_BY,
+    ),
+
+    "install.plan": MigratedHandlerDescriptor(
+        command_id="install.plan",
+        owner_module="src/devpilot_core/cli_commands/release.py",
+        handler="handle_install_plan",
+        wrapper="install_plan_command",
+        recommended_tests=(
+            "python -m pytest tests/test_installation_plan.py tests/test_post_h_030_release_command_extraction.py -q",
+        ),
+        rationale="POST-H-030-C moves release-family result-building logic into cli_commands/release.py while cli.py preserves parser, events, persistence, optional report wiring, JSON rendering and exit codes.",
+        migrated_by=POST_H_030_C_CREATED_BY,
+    ),
+
+    "install.windows-smoke": MigratedHandlerDescriptor(
+        command_id="install.windows-smoke",
+        owner_module="src/devpilot_core/cli_commands/release.py",
+        handler="handle_install_windows_smoke",
+        wrapper="install_windows_smoke_command",
+        recommended_tests=(
+            "python -m pytest tests/test_post_h_027_windows_install_smoke.py tests/test_post_h_030_release_command_extraction.py -q",
+        ),
+        rationale="POST-H-030-C moves release-family result-building logic into cli_commands/release.py while cli.py preserves parser, events, persistence, optional report wiring, JSON rendering and exit codes.",
+        migrated_by=POST_H_030_C_CREATED_BY,
+    ),
+
+    "backup.create": MigratedHandlerDescriptor(
+        command_id="backup.create",
+        owner_module="src/devpilot_core/cli_commands/release.py",
+        handler="handle_backup_create",
+        wrapper="backup_create_command",
+        recommended_tests=(
+            "python -m pytest tests/test_backup_upgrade.py tests/test_post_h_030_release_command_extraction.py -q",
+        ),
+        rationale="POST-H-030-C moves release-family result-building logic into cli_commands/release.py while cli.py preserves parser, events, persistence, optional report wiring, JSON rendering and exit codes.",
+        migrated_by=POST_H_030_C_CREATED_BY,
+    ),
+
+    "backup.list": MigratedHandlerDescriptor(
+        command_id="backup.list",
+        owner_module="src/devpilot_core/cli_commands/release.py",
+        handler="handle_backup_list",
+        wrapper="backup_list_command",
+        recommended_tests=(
+            "python -m pytest tests/test_backup_upgrade.py tests/test_post_h_030_release_command_extraction.py -q",
+        ),
+        rationale="POST-H-030-C moves release-family result-building logic into cli_commands/release.py while cli.py preserves parser, events, persistence, optional report wiring, JSON rendering and exit codes.",
+        migrated_by=POST_H_030_C_CREATED_BY,
+    ),
+
+    "backup.restore": MigratedHandlerDescriptor(
+        command_id="backup.restore",
+        owner_module="src/devpilot_core/cli_commands/release.py",
+        handler="handle_backup_restore",
+        wrapper="backup_restore_command",
+        recommended_tests=(
+            "python -m pytest tests/test_backup_upgrade.py tests/test_post_h_030_release_command_extraction.py -q",
+        ),
+        rationale="POST-H-030-C moves release-family result-building logic into cli_commands/release.py while cli.py preserves parser, events, persistence, optional report wiring, JSON rendering and exit codes.",
+        migrated_by=POST_H_030_C_CREATED_BY,
+    ),
+
+    "upgrade.check": MigratedHandlerDescriptor(
+        command_id="upgrade.check",
+        owner_module="src/devpilot_core/cli_commands/release.py",
+        handler="handle_upgrade_check",
+        wrapper="upgrade_check_command",
+        recommended_tests=(
+            "python -m pytest tests/test_backup_upgrade.py tests/test_post_h_030_release_command_extraction.py -q",
+        ),
+        rationale="POST-H-030-C moves release-family result-building logic into cli_commands/release.py while cli.py preserves parser, events, persistence, optional report wiring, JSON rendering and exit codes.",
+        migrated_by=POST_H_030_C_CREATED_BY,
+    ),
+
+    "package.build": MigratedHandlerDescriptor(
+        command_id="package.build",
+        owner_module="src/devpilot_core/cli_commands/release.py",
+        handler="handle_package_build",
+        wrapper="package_build_command",
+        recommended_tests=(
+            "python -m pytest tests/test_package_builder.py tests/test_post_h_030_release_command_extraction.py -q",
+        ),
+        rationale="POST-H-030-C moves release-family result-building logic into cli_commands/release.py while cli.py preserves parser, events, persistence, optional report wiring, JSON rendering and exit codes.",
+        migrated_by=POST_H_030_C_CREATED_BY,
+    ),
+
+    "package.source-zip-policy": MigratedHandlerDescriptor(
+        command_id="package.source-zip-policy",
+        owner_module="src/devpilot_core/cli_commands/release.py",
+        handler="handle_package_source_zip_policy",
+        wrapper="package_source_zip_policy_command",
+        recommended_tests=(
+            "python -m pytest tests/test_post_h_027_source_zip_policy.py tests/test_post_h_030_release_command_extraction.py -q",
+        ),
+        rationale="POST-H-030-C moves release-family result-building logic into cli_commands/release.py while cli.py preserves parser, events, persistence, optional report wiring, JSON rendering and exit codes.",
+        migrated_by=POST_H_030_C_CREATED_BY,
+    ),
+
+    "release-candidate.evidence-freshness": MigratedHandlerDescriptor(
+        command_id="release-candidate.evidence-freshness",
+        owner_module="src/devpilot_core/cli_commands/release.py",
+        handler="handle_release_candidate_evidence_freshness",
+        wrapper="release_candidate_evidence_freshness_command",
+        recommended_tests=(
+            "python -m pytest tests/test_post_h_026_evidence_freshness.py tests/test_post_h_030_release_command_extraction.py -q",
+        ),
+        rationale="POST-H-030-C moves release-family result-building logic into cli_commands/release.py while cli.py preserves parser, events, persistence, optional report wiring, JSON rendering and exit codes.",
+        migrated_by=POST_H_030_C_CREATED_BY,
+    ),
+
+    "release-candidate.profile": MigratedHandlerDescriptor(
+        command_id="release-candidate.profile",
+        owner_module="src/devpilot_core/cli_commands/release.py",
+        handler="handle_release_candidate_profile",
+        wrapper="release_candidate_profile_command",
+        recommended_tests=(
+            "python -m pytest tests/test_post_h_026_release_candidate_profile.py tests/test_post_h_030_release_command_extraction.py -q",
+        ),
+        rationale="POST-H-030-C moves release-family result-building logic into cli_commands/release.py while cli.py preserves parser, events, persistence, optional report wiring, JSON rendering and exit codes.",
+        migrated_by=POST_H_030_C_CREATED_BY,
+    ),
+
+    "release-candidate.ui-api-smoke": MigratedHandlerDescriptor(
+        command_id="release-candidate.ui-api-smoke",
+        owner_module="src/devpilot_core/cli_commands/release.py",
+        handler="handle_release_candidate_ui_api_smoke",
+        wrapper="release_candidate_ui_api_smoke_command",
+        recommended_tests=(
+            "python -m pytest tests/test_post_h_026_ui_api_rc_smoke.py tests/test_post_h_030_release_command_extraction.py -q",
+        ),
+        rationale="POST-H-030-C moves release-family result-building logic into cli_commands/release.py while cli.py preserves parser, events, persistence, optional report wiring, JSON rendering and exit codes.",
+        migrated_by=POST_H_030_C_CREATED_BY,
+    ),
+
+    "release-candidate.install-smoke": MigratedHandlerDescriptor(
+        command_id="release-candidate.install-smoke",
+        owner_module="src/devpilot_core/cli_commands/release.py",
+        handler="handle_release_candidate_install_smoke",
+        wrapper="release_candidate_install_smoke_command",
+        recommended_tests=(
+            "python -m pytest tests/test_post_h_026_install_smoke.py tests/test_post_h_030_release_command_extraction.py -q",
+        ),
+        rationale="POST-H-030-C moves release-family result-building logic into cli_commands/release.py while cli.py preserves parser, events, persistence, optional report wiring, JSON rendering and exit codes.",
+        migrated_by=POST_H_030_C_CREATED_BY,
+    ),
+
+    "release-candidate.final": MigratedHandlerDescriptor(
+        command_id="release-candidate.final",
+        owner_module="src/devpilot_core/cli_commands/release.py",
+        handler="handle_release_candidate_final",
+        wrapper="release_candidate_final_command",
+        recommended_tests=(
+            "python -m pytest tests/test_post_h_026_release_candidate_report.py tests/test_post_h_030_release_command_extraction.py -q",
+        ),
+        rationale="POST-H-030-C moves release-family result-building logic into cli_commands/release.py while cli.py preserves parser, events, persistence, optional report wiring, JSON rendering and exit codes.",
+        migrated_by=POST_H_030_C_CREATED_BY,
+    ),
 }
 
 
@@ -257,25 +569,41 @@ DECLARATIVE_GROUPS: dict[str, DeclarativeGroupDescriptor] = {
     "release-candidate": DeclarativeGroupDescriptor(
         group_id="release-candidate",
         domain="release",
-        owner_module="src/devpilot_core/cli.py",
+        owner_module="src/devpilot_core/cli_commands/release.py",
         recommended_tests=("python -m pytest tests/test_post_h_026_evidence_freshness.py tests/test_post_h_026_release_candidate_profile.py tests/test_post_h_026_ui_api_rc_smoke.py tests/test_post_h_026_ui_api_rc_smoke_contract.py tests/test_post_h_026_install_smoke.py tests/test_post_h_026_release_candidate_report.py tests/test_post_h_006_b_declarative_registry.py -q",),
-        rationale="POST-H-026-D keeps local release candidate verification commands, including install-smoke, registered before enforcing CLI no-growth gates.",
+        rationale="POST-H-030-C extracts local release-candidate result builders to cli_commands/release.py while preserving RC evidence contracts and local-first behavior.",
     ),
 
     "install": DeclarativeGroupDescriptor(
         group_id="install",
         domain="release",
-        owner_module="src/devpilot_core/cli.py",
+        owner_module="src/devpilot_core/cli_commands/release.py",
         recommended_tests=("python -m pytest tests/test_post_h_027_windows_install_smoke.py tests/test_installation_plan.py tests/test_post_h_006_b_declarative_registry.py -q",),
-        rationale="POST-H-027-D registers Windows install smoke as a governed local release install command before enforcing CLI no-growth gates.",
+        rationale="POST-H-030-C extracts install release-family handlers to cli_commands/release.py while preserving local-first smoke and plan semantics.",
     ),
     "package": DeclarativeGroupDescriptor(
         group_id="package",
         domain="release",
-        owner_module="src/devpilot_core/cli.py",
+        owner_module="src/devpilot_core/cli_commands/release.py",
         recommended_tests=("python -m pytest tests/test_post_h_027_source_zip_policy.py tests/test_post_h_027_python_artifact_install_verification.py tests/test_post_h_027_artifact_manifest_checksums.py tests/test_post_h_027_windows_install_smoke.py tests/test_package_builder.py tests/test_post_h_006_b_declarative_registry.py -q",),
-        rationale="POST-H-027-D keeps package build, source-zip-policy, python-artifact-verify, artifact-manifest and windows-smoke as governed local release packaging commands before enforcing CLI no-growth gates.",
+        rationale="POST-H-030-C extracts package/release packaging handlers to cli_commands/release.py while preserving dry-run, no-publish and no-deploy contracts.",
     ),
+
+    "backup": DeclarativeGroupDescriptor(
+        group_id="backup",
+        domain="release",
+        owner_module="src/devpilot_core/cli_commands/release.py",
+        recommended_tests=("python -m pytest tests/test_post_h_030_release_command_extraction.py -q",),
+        rationale="POST-H-030-C registers and extracts backup lifecycle handlers as release-family local safety commands while preserving dry-run/approval semantics.",
+    ),
+    "upgrade": DeclarativeGroupDescriptor(
+        group_id="upgrade",
+        domain="release",
+        owner_module="src/devpilot_core/cli_commands/release.py",
+        recommended_tests=("python -m pytest tests/test_post_h_030_release_command_extraction.py -q",),
+        rationale="POST-H-030-C registers and extracts upgrade readiness handlers as release-family local safety commands while preserving dry-run semantics.",
+    ),
+
     "cli-registry": DeclarativeGroupDescriptor(
         group_id="cli-registry",
         domain="interface.cli",
@@ -337,9 +665,9 @@ DECLARATIVE_GROUPS: dict[str, DeclarativeGroupDescriptor] = {
     "release": DeclarativeGroupDescriptor(
         group_id="release",
         domain="release",
-        owner_module="src/devpilot_core/cli.py",
+        owner_module="src/devpilot_core/cli_commands/release.py",
         recommended_tests=("python -m pytest tests/test_post_h_017_release_reproducibility_pack.py tests/test_post_h_017_source_archive_manifest.py tests/test_post_h_027_artifact_manifest_checksums.py tests/test_post_h_027_upgrade_rollback_dry_run.py tests/test_release_verification.py tests/test_release_manifest.py -q",),
-        rationale="POST-H-017 release reproducibility commands are governed local dry-run evidence surfaces and must be registered before the no-growth gate runs.",
+        rationale="POST-H-030-C extracts release-family handlers to a domain-owned CLI module while preserving parser, optional reports and local dry-run evidence semantics.",
     ),
     "connector": DeclarativeGroupDescriptor(
         group_id="connector",

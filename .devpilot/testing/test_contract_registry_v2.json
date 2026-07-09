@@ -13878,6 +13878,78 @@
       "classification_notes": [
         "POST-H-030-B extracts industrial readiness handlers while preserving public CLI behavior and ApplicationService production-ready boundaries."
       ]
+    },
+    {
+      "contract_id": "post-h-030-release-command-extraction",
+      "schema_version": "2.0",
+      "source_contract_id": "post-h-030-release-command-extraction",
+      "domain": "release",
+      "capability": "ReleaseCommandExtraction",
+      "criticality": "P0",
+      "risk_level": "critical",
+      "test_type": "integration",
+      "execution_profile": "impact",
+      "cost_class": "medium",
+      "expected_duration_seconds": 420,
+      "test_files": [
+        "tests/test_post_h_030_release_command_extraction.py"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/cli_commands/release.py",
+        "src/devpilot_core/cli_commands/__init__.py",
+        "src/devpilot_core/cli.py",
+        "src/devpilot_core/cli_registry/registry.py",
+        "src/devpilot_core/cli_registry/ownership.py",
+        ".devpilot/cli_registry/command_ownership_matrix.json",
+        ".devpilot/cli_registry/cli_extraction_plan.json",
+        ".devpilot/project_state.json"
+      ],
+      "validates": [
+        "POST-H-030-C release command extraction",
+        "CLI JSON envelope compatibility",
+        "Release/package/install/backup/upgrade wrapper preservation",
+        "Local-first release safety invariants",
+        "No dynamic CLI router introduced"
+      ],
+      "trigger_hints": [
+        "post-h-030-c",
+        "release-command-change",
+        "cli-handler-migration",
+        "release-packaging-boundary"
+      ],
+      "impact_scope": [
+        "cli",
+        "release",
+        "packaging",
+        "release-candidate",
+        "test-contracts",
+        "documentation-governance"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": false,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "POST-H-030-C",
+      "owner_domain": "release",
+      "service_boundary": "cli-commands.release",
+      "subgate_id": "cli-boundary-hotspot-reduction",
+      "schema_ids": [
+        "SCHEMA-DEVPL-CLI-COMMAND-OWNERSHIP-MATRIX-V1",
+        "SCHEMA-DEVPL-CLI-EXTRACTION-PLAN-V1"
+      ],
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_030_release_command_extraction.py -q",
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_release_manifest.py tests/test_release_changelog.py tests/test_release_sbom.py tests/test_release_verification.py -q",
+        "python -m devpilot_core cli-registry guard --json",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ],
+      "classification_status": "explicit",
+      "classification_notes": [
+        "POST-H-030-C extracts release-family handlers while preserving public CLI behavior, local release dry-run boundaries and no-publish/no-deploy constraints."
+      ]
     }
   ],
   "migration_metadata": {

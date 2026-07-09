@@ -14,14 +14,14 @@
     "commands_covered_total": 179,
     "coverage_complete": true,
     "registry_phase_counts": {
-      "declarative-initial": 76,
-      "handler-migrated-incremental": 8,
-      "legacy-unregistered": 95
+      "declarative-initial": 54,
+      "handler-migrated-incremental": 34,
+      "legacy-unregistered": 91
     },
     "migration_state_counts": {
-      "already-migrated": 8,
+      "already-migrated": 34,
       "deferred-cli-only": 91,
-      "planned": 33,
+      "planned": 7,
       "registered-only": 47
     },
     "high_or_critical_commands_total": 54,
@@ -871,21 +871,21 @@
       ],
       "public_name": "python -m devpilot_core backup create",
       "domain_owner": "release",
-      "current_handler": "backup_create_command",
+      "current_handler": "handle_backup_create",
       "target_handler": "handle_backup_create",
-      "current_module": "src/devpilot_core/cli.py",
+      "current_module": "src/devpilot_core/cli_commands/release.py",
       "target_module": "src/devpilot_core/cli_commands/release.py",
-      "registry_phase": "legacy-unregistered",
-      "migration_state": "planned",
+      "registry_phase": "handler-migrated-incremental",
+      "migration_state": "already-migrated",
       "application_operation_id": null,
-      "cli_only_reason": "ApplicationService mapping is not required yet; command will first move to a domain-owned CLI module with compatibility tests.",
+      "cli_only_reason": "No existing ApplicationOperation mapping is registered; keep explicit CLI-only rationale until a future boundary story or ADR introduces one.",
       "risk_level": "high",
       "compatibility_contract_id": "cli-compat:backup.create",
       "json_output_contract": "Preserve CommandResult JSON envelope: command, ok, exit_code, message, data and findings when --json is supported.",
       "exit_code_contract": "Preserve PASS=0, FAIL=1 and BLOCK=2 semantics exposed by existing CommandResult/ExitCode mapping.",
       "human_output_contract": "Preserve current command name, operator-facing PASS/BLOCK/FAIL wording and help surface unless POST-H-030-E contract explicitly approves a change.",
       "test_coverage_refs": [
-        "python -m pytest tests/test_post_h_006_cli_command_registry.py -q"
+        "python -m pytest tests/test_backup_upgrade.py tests/test_post_h_030_release_command_extraction.py -q"
       ],
       "planned_micro_sprint": "POST-H-030-C",
       "side_effects": [
@@ -898,7 +898,6 @@
       "policy_check_required": true,
       "notes": [
         "No runtime behavior change in POST-H-030-A.",
-        "Handler extraction is planned but not performed in POST-H-030-A.",
         "High/critical command requires explicit compatibility contract before migration."
       ]
     },
@@ -910,21 +909,21 @@
       ],
       "public_name": "python -m devpilot_core backup list",
       "domain_owner": "release",
-      "current_handler": "backup_list_command",
+      "current_handler": "handle_backup_list",
       "target_handler": "handle_backup_list",
-      "current_module": "src/devpilot_core/cli.py",
+      "current_module": "src/devpilot_core/cli_commands/release.py",
       "target_module": "src/devpilot_core/cli_commands/release.py",
-      "registry_phase": "legacy-unregistered",
-      "migration_state": "planned",
+      "registry_phase": "handler-migrated-incremental",
+      "migration_state": "already-migrated",
       "application_operation_id": null,
-      "cli_only_reason": "ApplicationService mapping is not required yet; command will first move to a domain-owned CLI module with compatibility tests.",
+      "cli_only_reason": "No existing ApplicationOperation mapping is registered; keep explicit CLI-only rationale until a future boundary story or ADR introduces one.",
       "risk_level": "high",
       "compatibility_contract_id": "cli-compat:backup.list",
       "json_output_contract": "Preserve CommandResult JSON envelope: command, ok, exit_code, message, data and findings when --json is supported.",
       "exit_code_contract": "Preserve PASS=0, FAIL=1 and BLOCK=2 semantics exposed by existing CommandResult/ExitCode mapping.",
       "human_output_contract": "Preserve current command name, operator-facing PASS/BLOCK/FAIL wording and help surface unless POST-H-030-E contract explicitly approves a change.",
       "test_coverage_refs": [
-        "python -m pytest tests/test_post_h_006_cli_command_registry.py -q"
+        "python -m pytest tests/test_backup_upgrade.py tests/test_post_h_030_release_command_extraction.py -q"
       ],
       "planned_micro_sprint": "POST-H-030-C",
       "side_effects": [
@@ -936,7 +935,6 @@
       "policy_check_required": true,
       "notes": [
         "No runtime behavior change in POST-H-030-A.",
-        "Handler extraction is planned but not performed in POST-H-030-A.",
         "High/critical command requires explicit compatibility contract before migration."
       ]
     },
@@ -948,21 +946,21 @@
       ],
       "public_name": "python -m devpilot_core backup restore",
       "domain_owner": "release",
-      "current_handler": "backup_restore_command",
+      "current_handler": "handle_backup_restore",
       "target_handler": "handle_backup_restore",
-      "current_module": "src/devpilot_core/cli.py",
+      "current_module": "src/devpilot_core/cli_commands/release.py",
       "target_module": "src/devpilot_core/cli_commands/release.py",
-      "registry_phase": "legacy-unregistered",
-      "migration_state": "planned",
+      "registry_phase": "handler-migrated-incremental",
+      "migration_state": "already-migrated",
       "application_operation_id": null,
-      "cli_only_reason": "ApplicationService mapping is not required yet; command will first move to a domain-owned CLI module with compatibility tests.",
+      "cli_only_reason": "No existing ApplicationOperation mapping is registered; keep explicit CLI-only rationale until a future boundary story or ADR introduces one.",
       "risk_level": "high",
       "compatibility_contract_id": "cli-compat:backup.restore",
       "json_output_contract": "Preserve CommandResult JSON envelope: command, ok, exit_code, message, data and findings when --json is supported.",
       "exit_code_contract": "Preserve PASS=0, FAIL=1 and BLOCK=2 semantics exposed by existing CommandResult/ExitCode mapping.",
       "human_output_contract": "Preserve current command name, operator-facing PASS/BLOCK/FAIL wording and help surface unless POST-H-030-E contract explicitly approves a change.",
       "test_coverage_refs": [
-        "python -m pytest tests/test_post_h_006_cli_command_registry.py -q"
+        "python -m pytest tests/test_backup_upgrade.py tests/test_post_h_030_release_command_extraction.py -q"
       ],
       "planned_micro_sprint": "POST-H-030-C",
       "side_effects": [
@@ -975,7 +973,6 @@
       "policy_check_required": true,
       "notes": [
         "No runtime behavior change in POST-H-030-A.",
-        "Handler extraction is planned but not performed in POST-H-030-A.",
         "High/critical command requires explicit compatibility contract before migration."
       ]
     },
@@ -1971,21 +1968,21 @@
       ],
       "public_name": "python -m devpilot_core install plan",
       "domain_owner": "release",
-      "current_handler": "install_plan_command",
+      "current_handler": "handle_install_plan",
       "target_handler": "handle_install_plan",
-      "current_module": "src/devpilot_core/cli.py",
+      "current_module": "src/devpilot_core/cli_commands/release.py",
       "target_module": "src/devpilot_core/cli_commands/release.py",
-      "registry_phase": "declarative-initial",
-      "migration_state": "planned",
+      "registry_phase": "handler-migrated-incremental",
+      "migration_state": "already-migrated",
       "application_operation_id": null,
-      "cli_only_reason": "ApplicationService mapping is not required yet; command will first move to a domain-owned CLI module with compatibility tests.",
+      "cli_only_reason": "No existing ApplicationOperation mapping is registered; keep explicit CLI-only rationale until a future boundary story or ADR introduces one.",
       "risk_level": "medium",
       "compatibility_contract_id": "cli-compat:install.plan",
       "json_output_contract": "Preserve CommandResult JSON envelope: command, ok, exit_code, message, data and findings when --json is supported.",
       "exit_code_contract": "Preserve PASS=0, FAIL=1 and BLOCK=2 semantics exposed by existing CommandResult/ExitCode mapping.",
       "human_output_contract": "Preserve current command name, operator-facing PASS/BLOCK/FAIL wording and help surface unless POST-H-030-E contract explicitly approves a change.",
       "test_coverage_refs": [
-        "python -m pytest tests/test_post_h_027_windows_install_smoke.py tests/test_installation_plan.py tests/test_post_h_006_b_declarative_registry.py -q"
+        "python -m pytest tests/test_installation_plan.py tests/test_post_h_030_release_command_extraction.py -q"
       ],
       "planned_micro_sprint": "POST-H-030-C",
       "side_effects": [
@@ -1995,8 +1992,7 @@
       "dry_run_supported": false,
       "policy_check_required": false,
       "notes": [
-        "No runtime behavior change in POST-H-030-A.",
-        "Handler extraction is planned but not performed in POST-H-030-A."
+        "No runtime behavior change in POST-H-030-A."
       ]
     },
     {
@@ -2007,21 +2003,21 @@
       ],
       "public_name": "python -m devpilot_core install windows-smoke",
       "domain_owner": "release",
-      "current_handler": "install_windows_smoke_command",
+      "current_handler": "handle_install_windows_smoke",
       "target_handler": "handle_install_windows_smoke",
-      "current_module": "src/devpilot_core/cli.py",
+      "current_module": "src/devpilot_core/cli_commands/release.py",
       "target_module": "src/devpilot_core/cli_commands/release.py",
-      "registry_phase": "declarative-initial",
-      "migration_state": "planned",
+      "registry_phase": "handler-migrated-incremental",
+      "migration_state": "already-migrated",
       "application_operation_id": null,
-      "cli_only_reason": "ApplicationService mapping is not required yet; command will first move to a domain-owned CLI module with compatibility tests.",
+      "cli_only_reason": "No existing ApplicationOperation mapping is registered; keep explicit CLI-only rationale until a future boundary story or ADR introduces one.",
       "risk_level": "high",
       "compatibility_contract_id": "cli-compat:install.windows-smoke",
       "json_output_contract": "Preserve CommandResult JSON envelope: command, ok, exit_code, message, data and findings when --json is supported.",
       "exit_code_contract": "Preserve PASS=0, FAIL=1 and BLOCK=2 semantics exposed by existing CommandResult/ExitCode mapping.",
       "human_output_contract": "Preserve current command name, operator-facing PASS/BLOCK/FAIL wording and help surface unless POST-H-030-E contract explicitly approves a change.",
       "test_coverage_refs": [
-        "python -m pytest tests/test_post_h_027_windows_install_smoke.py tests/test_installation_plan.py tests/test_schema_registry.py -q"
+        "python -m pytest tests/test_post_h_027_windows_install_smoke.py tests/test_post_h_030_release_command_extraction.py -q"
       ],
       "planned_micro_sprint": "POST-H-030-C",
       "side_effects": [
@@ -2032,7 +2028,6 @@
       "policy_check_required": true,
       "notes": [
         "No runtime behavior change in POST-H-030-A.",
-        "Handler extraction is planned but not performed in POST-H-030-A.",
         "High/critical command requires explicit compatibility contract before migration."
       ]
     },
@@ -2854,21 +2849,21 @@
       ],
       "public_name": "python -m devpilot_core package build",
       "domain_owner": "release",
-      "current_handler": "package_build_command",
+      "current_handler": "handle_package_build",
       "target_handler": "handle_package_build",
-      "current_module": "src/devpilot_core/cli.py",
+      "current_module": "src/devpilot_core/cli_commands/release.py",
       "target_module": "src/devpilot_core/cli_commands/release.py",
-      "registry_phase": "declarative-initial",
-      "migration_state": "planned",
+      "registry_phase": "handler-migrated-incremental",
+      "migration_state": "already-migrated",
       "application_operation_id": null,
-      "cli_only_reason": "ApplicationService mapping is not required yet; command will first move to a domain-owned CLI module with compatibility tests.",
+      "cli_only_reason": "No existing ApplicationOperation mapping is registered; keep explicit CLI-only rationale until a future boundary story or ADR introduces one.",
       "risk_level": "high",
       "compatibility_contract_id": "cli-compat:package.build",
       "json_output_contract": "Preserve CommandResult JSON envelope: command, ok, exit_code, message, data and findings when --json is supported.",
       "exit_code_contract": "Preserve PASS=0, FAIL=1 and BLOCK=2 semantics exposed by existing CommandResult/ExitCode mapping.",
       "human_output_contract": "Preserve current command name, operator-facing PASS/BLOCK/FAIL wording and help surface unless POST-H-030-E contract explicitly approves a change.",
       "test_coverage_refs": [
-        "python -m pytest tests/test_post_h_027_source_zip_policy.py tests/test_post_h_027_python_artifact_install_verification.py tests/test_post_h_027_artifact_manifest_checksums.py tests/test_post_h_027_windows_install_smoke.py tests/test_package_builder.py tests/test_post_h_006_b_declarative_registry.py -q"
+        "python -m pytest tests/test_package_builder.py tests/test_post_h_030_release_command_extraction.py -q"
       ],
       "planned_micro_sprint": "POST-H-030-C",
       "side_effects": [
@@ -2881,7 +2876,6 @@
       "policy_check_required": true,
       "notes": [
         "No runtime behavior change in POST-H-030-A.",
-        "Handler extraction is planned but not performed in POST-H-030-A.",
         "High/critical command requires explicit compatibility contract before migration."
       ]
     },
@@ -2893,21 +2887,21 @@
       ],
       "public_name": "python -m devpilot_core package source-zip-policy",
       "domain_owner": "release",
-      "current_handler": "package_source_zip_policy_command",
+      "current_handler": "handle_package_source_zip_policy",
       "target_handler": "handle_package_source_zip_policy",
-      "current_module": "src/devpilot_core/cli.py",
+      "current_module": "src/devpilot_core/cli_commands/release.py",
       "target_module": "src/devpilot_core/cli_commands/release.py",
-      "registry_phase": "declarative-initial",
-      "migration_state": "planned",
+      "registry_phase": "handler-migrated-incremental",
+      "migration_state": "already-migrated",
       "application_operation_id": null,
-      "cli_only_reason": "ApplicationService mapping is not required yet; command will first move to a domain-owned CLI module with compatibility tests.",
+      "cli_only_reason": "No existing ApplicationOperation mapping is registered; keep explicit CLI-only rationale until a future boundary story or ADR introduces one.",
       "risk_level": "high",
       "compatibility_contract_id": "cli-compat:package.source-zip-policy",
       "json_output_contract": "Preserve CommandResult JSON envelope: command, ok, exit_code, message, data and findings when --json is supported.",
       "exit_code_contract": "Preserve PASS=0, FAIL=1 and BLOCK=2 semantics exposed by existing CommandResult/ExitCode mapping.",
       "human_output_contract": "Preserve current command name, operator-facing PASS/BLOCK/FAIL wording and help surface unless POST-H-030-E contract explicitly approves a change.",
       "test_coverage_refs": [
-        "python -m pytest tests/test_post_h_027_source_zip_policy.py tests/test_post_h_027_python_artifact_install_verification.py tests/test_post_h_027_artifact_manifest_checksums.py tests/test_post_h_027_windows_install_smoke.py tests/test_package_builder.py tests/test_post_h_006_b_declarative_registry.py -q"
+        "python -m pytest tests/test_post_h_027_source_zip_policy.py tests/test_post_h_030_release_command_extraction.py -q"
       ],
       "planned_micro_sprint": "POST-H-030-C",
       "side_effects": [
@@ -2919,7 +2913,6 @@
       "policy_check_required": true,
       "notes": [
         "No runtime behavior change in POST-H-030-A.",
-        "Handler extraction is planned but not performed in POST-H-030-A.",
         "High/critical command requires explicit compatibility contract before migration."
       ]
     },
@@ -3678,21 +3671,21 @@
       ],
       "public_name": "python -m devpilot_core release artifact-manifest",
       "domain_owner": "release",
-      "current_handler": "release_artifact_manifest_command",
+      "current_handler": "handle_release_artifact_manifest",
       "target_handler": "handle_release_artifact_manifest",
-      "current_module": "src/devpilot_core/cli.py",
+      "current_module": "src/devpilot_core/cli_commands/release.py",
       "target_module": "src/devpilot_core/cli_commands/release.py",
-      "registry_phase": "declarative-initial",
-      "migration_state": "planned",
+      "registry_phase": "handler-migrated-incremental",
+      "migration_state": "already-migrated",
       "application_operation_id": null,
-      "cli_only_reason": "ApplicationService mapping is not required yet; command will first move to a domain-owned CLI module with compatibility tests.",
+      "cli_only_reason": "No existing ApplicationOperation mapping is registered; keep explicit CLI-only rationale until a future boundary story or ADR introduces one.",
       "risk_level": "high",
       "compatibility_contract_id": "cli-compat:release.artifact-manifest",
       "json_output_contract": "Preserve CommandResult JSON envelope: command, ok, exit_code, message, data and findings when --json is supported.",
       "exit_code_contract": "Preserve PASS=0, FAIL=1 and BLOCK=2 semantics exposed by existing CommandResult/ExitCode mapping.",
       "human_output_contract": "Preserve current command name, operator-facing PASS/BLOCK/FAIL wording and help surface unless POST-H-030-E contract explicitly approves a change.",
       "test_coverage_refs": [
-        "python -m pytest tests/test_post_h_027_artifact_manifest_checksums.py tests/test_schema_registry.py -q"
+        "python -m pytest tests/test_post_h_027_artifact_manifest_checksums.py tests/test_post_h_030_release_command_extraction.py -q"
       ],
       "planned_micro_sprint": "POST-H-030-C",
       "side_effects": [
@@ -3703,7 +3696,6 @@
       "policy_check_required": true,
       "notes": [
         "No runtime behavior change in POST-H-030-A.",
-        "Handler extraction is planned but not performed in POST-H-030-A.",
         "High/critical command requires explicit compatibility contract before migration."
       ]
     },
@@ -3715,21 +3707,21 @@
       ],
       "public_name": "python -m devpilot_core release changelog",
       "domain_owner": "release",
-      "current_handler": "release_changelog_command",
+      "current_handler": "handle_release_changelog",
       "target_handler": "handle_release_changelog",
-      "current_module": "src/devpilot_core/cli.py",
+      "current_module": "src/devpilot_core/cli_commands/release.py",
       "target_module": "src/devpilot_core/cli_commands/release.py",
-      "registry_phase": "declarative-initial",
-      "migration_state": "planned",
+      "registry_phase": "handler-migrated-incremental",
+      "migration_state": "already-migrated",
       "application_operation_id": null,
-      "cli_only_reason": "ApplicationService mapping is not required yet; command will first move to a domain-owned CLI module with compatibility tests.",
+      "cli_only_reason": "No existing ApplicationOperation mapping is registered; keep explicit CLI-only rationale until a future boundary story or ADR introduces one.",
       "risk_level": "high",
       "compatibility_contract_id": "cli-compat:release.changelog",
       "json_output_contract": "Preserve CommandResult JSON envelope: command, ok, exit_code, message, data and findings when --json is supported.",
       "exit_code_contract": "Preserve PASS=0, FAIL=1 and BLOCK=2 semantics exposed by existing CommandResult/ExitCode mapping.",
       "human_output_contract": "Preserve current command name, operator-facing PASS/BLOCK/FAIL wording and help surface unless POST-H-030-E contract explicitly approves a change.",
       "test_coverage_refs": [
-        "python -m pytest tests/test_post_h_017_release_reproducibility_pack.py tests/test_post_h_017_source_archive_manifest.py tests/test_post_h_027_artifact_manifest_checksums.py tests/test_post_h_027_upgrade_rollback_dry_run.py tests/test_release_verification.py tests/test_release_manifest.py -q"
+        "python -m pytest tests/test_release_changelog.py tests/test_post_h_030_release_command_extraction.py -q"
       ],
       "planned_micro_sprint": "POST-H-030-C",
       "side_effects": [
@@ -3740,7 +3732,6 @@
       "policy_check_required": false,
       "notes": [
         "No runtime behavior change in POST-H-030-A.",
-        "Handler extraction is planned but not performed in POST-H-030-A.",
         "High/critical command requires explicit compatibility contract before migration."
       ]
     },
@@ -3752,21 +3743,21 @@
       ],
       "public_name": "python -m devpilot_core release checksum",
       "domain_owner": "release",
-      "current_handler": "release_checksum_command",
+      "current_handler": "handle_release_checksum",
       "target_handler": "handle_release_checksum",
-      "current_module": "src/devpilot_core/cli.py",
+      "current_module": "src/devpilot_core/cli_commands/release.py",
       "target_module": "src/devpilot_core/cli_commands/release.py",
-      "registry_phase": "declarative-initial",
-      "migration_state": "planned",
+      "registry_phase": "handler-migrated-incremental",
+      "migration_state": "already-migrated",
       "application_operation_id": null,
-      "cli_only_reason": "ApplicationService mapping is not required yet; command will first move to a domain-owned CLI module with compatibility tests.",
+      "cli_only_reason": "No existing ApplicationOperation mapping is registered; keep explicit CLI-only rationale until a future boundary story or ADR introduces one.",
       "risk_level": "high",
       "compatibility_contract_id": "cli-compat:release.checksum",
       "json_output_contract": "Preserve CommandResult JSON envelope: command, ok, exit_code, message, data and findings when --json is supported.",
       "exit_code_contract": "Preserve PASS=0, FAIL=1 and BLOCK=2 semantics exposed by existing CommandResult/ExitCode mapping.",
       "human_output_contract": "Preserve current command name, operator-facing PASS/BLOCK/FAIL wording and help surface unless POST-H-030-E contract explicitly approves a change.",
       "test_coverage_refs": [
-        "python -m pytest tests/test_post_h_017_release_reproducibility_pack.py tests/test_post_h_017_source_archive_manifest.py tests/test_post_h_027_artifact_manifest_checksums.py tests/test_post_h_027_upgrade_rollback_dry_run.py tests/test_release_verification.py tests/test_release_manifest.py -q"
+        "python -m pytest tests/test_release_verification.py tests/test_post_h_030_release_command_extraction.py -q"
       ],
       "planned_micro_sprint": "POST-H-030-C",
       "side_effects": [
@@ -3777,7 +3768,6 @@
       "policy_check_required": false,
       "notes": [
         "No runtime behavior change in POST-H-030-A.",
-        "Handler extraction is planned but not performed in POST-H-030-A.",
         "High/critical command requires explicit compatibility contract before migration."
       ]
     },
@@ -3789,21 +3779,21 @@
       ],
       "public_name": "python -m devpilot_core release environment-snapshot",
       "domain_owner": "release",
-      "current_handler": "release_environment_snapshot_command",
+      "current_handler": "handle_release_environment_snapshot",
       "target_handler": "handle_release_environment_snapshot",
-      "current_module": "src/devpilot_core/cli.py",
+      "current_module": "src/devpilot_core/cli_commands/release.py",
       "target_module": "src/devpilot_core/cli_commands/release.py",
-      "registry_phase": "declarative-initial",
-      "migration_state": "planned",
+      "registry_phase": "handler-migrated-incremental",
+      "migration_state": "already-migrated",
       "application_operation_id": null,
-      "cli_only_reason": "ApplicationService mapping is not required yet; command will first move to a domain-owned CLI module with compatibility tests.",
+      "cli_only_reason": "No existing ApplicationOperation mapping is registered; keep explicit CLI-only rationale until a future boundary story or ADR introduces one.",
       "risk_level": "medium",
       "compatibility_contract_id": "cli-compat:release.environment-snapshot",
       "json_output_contract": "Preserve CommandResult JSON envelope: command, ok, exit_code, message, data and findings when --json is supported.",
       "exit_code_contract": "Preserve PASS=0, FAIL=1 and BLOCK=2 semantics exposed by existing CommandResult/ExitCode mapping.",
       "human_output_contract": "Preserve current command name, operator-facing PASS/BLOCK/FAIL wording and help surface unless POST-H-030-E contract explicitly approves a change.",
       "test_coverage_refs": [
-        "python -m pytest tests/test_post_h_017_environment_snapshot.py tests/test_post_h_017_release_reproducibility_schema.py -q"
+        "python -m pytest tests/test_post_h_017_release_reproducibility_pack.py tests/test_post_h_030_release_command_extraction.py -q"
       ],
       "planned_micro_sprint": "POST-H-030-C",
       "side_effects": [
@@ -3813,8 +3803,7 @@
       "dry_run_supported": true,
       "policy_check_required": true,
       "notes": [
-        "No runtime behavior change in POST-H-030-A.",
-        "Handler extraction is planned but not performed in POST-H-030-A."
+        "No runtime behavior change in POST-H-030-A."
       ]
     },
     {
@@ -3825,21 +3814,21 @@
       ],
       "public_name": "python -m devpilot_core release manifest",
       "domain_owner": "release",
-      "current_handler": "release_manifest_command",
+      "current_handler": "handle_release_manifest",
       "target_handler": "handle_release_manifest",
-      "current_module": "src/devpilot_core/cli.py",
+      "current_module": "src/devpilot_core/cli_commands/release.py",
       "target_module": "src/devpilot_core/cli_commands/release.py",
-      "registry_phase": "declarative-initial",
-      "migration_state": "planned",
+      "registry_phase": "handler-migrated-incremental",
+      "migration_state": "already-migrated",
       "application_operation_id": null,
-      "cli_only_reason": "ApplicationService mapping is not required yet; command will first move to a domain-owned CLI module with compatibility tests.",
+      "cli_only_reason": "No existing ApplicationOperation mapping is registered; keep explicit CLI-only rationale until a future boundary story or ADR introduces one.",
       "risk_level": "high",
       "compatibility_contract_id": "cli-compat:release.manifest",
       "json_output_contract": "Preserve CommandResult JSON envelope: command, ok, exit_code, message, data and findings when --json is supported.",
       "exit_code_contract": "Preserve PASS=0, FAIL=1 and BLOCK=2 semantics exposed by existing CommandResult/ExitCode mapping.",
       "human_output_contract": "Preserve current command name, operator-facing PASS/BLOCK/FAIL wording and help surface unless POST-H-030-E contract explicitly approves a change.",
       "test_coverage_refs": [
-        "python -m pytest tests/test_post_h_017_release_reproducibility_pack.py tests/test_post_h_017_source_archive_manifest.py tests/test_post_h_027_artifact_manifest_checksums.py tests/test_post_h_027_upgrade_rollback_dry_run.py tests/test_release_verification.py tests/test_release_manifest.py -q"
+        "python -m pytest tests/test_release_manifest.py tests/test_post_h_030_release_command_extraction.py -q"
       ],
       "planned_micro_sprint": "POST-H-030-C",
       "side_effects": [
@@ -3850,7 +3839,6 @@
       "policy_check_required": false,
       "notes": [
         "No runtime behavior change in POST-H-030-A.",
-        "Handler extraction is planned but not performed in POST-H-030-A.",
         "High/critical command requires explicit compatibility contract before migration."
       ]
     },
@@ -3862,21 +3850,21 @@
       ],
       "public_name": "python -m devpilot_core release python-artifact-verify",
       "domain_owner": "release",
-      "current_handler": "release_python_artifact_verify_command",
+      "current_handler": "handle_release_python_artifact_verify",
       "target_handler": "handle_release_python_artifact_verify",
-      "current_module": "src/devpilot_core/cli.py",
+      "current_module": "src/devpilot_core/cli_commands/release.py",
       "target_module": "src/devpilot_core/cli_commands/release.py",
-      "registry_phase": "declarative-initial",
-      "migration_state": "planned",
+      "registry_phase": "handler-migrated-incremental",
+      "migration_state": "already-migrated",
       "application_operation_id": null,
-      "cli_only_reason": "ApplicationService mapping is not required yet; command will first move to a domain-owned CLI module with compatibility tests.",
+      "cli_only_reason": "No existing ApplicationOperation mapping is registered; keep explicit CLI-only rationale until a future boundary story or ADR introduces one.",
       "risk_level": "high",
       "compatibility_contract_id": "cli-compat:release.python-artifact-verify",
       "json_output_contract": "Preserve CommandResult JSON envelope: command, ok, exit_code, message, data and findings when --json is supported.",
       "exit_code_contract": "Preserve PASS=0, FAIL=1 and BLOCK=2 semantics exposed by existing CommandResult/ExitCode mapping.",
       "human_output_contract": "Preserve current command name, operator-facing PASS/BLOCK/FAIL wording and help surface unless POST-H-030-E contract explicitly approves a change.",
       "test_coverage_refs": [
-        "python -m pytest tests/test_post_h_017_release_reproducibility_pack.py tests/test_post_h_017_source_archive_manifest.py tests/test_post_h_027_artifact_manifest_checksums.py tests/test_post_h_027_upgrade_rollback_dry_run.py tests/test_release_verification.py tests/test_release_manifest.py -q"
+        "python -m pytest tests/test_post_h_027_python_artifact_install_verification.py tests/test_post_h_030_release_command_extraction.py -q"
       ],
       "planned_micro_sprint": "POST-H-030-C",
       "side_effects": [
@@ -3887,7 +3875,6 @@
       "policy_check_required": false,
       "notes": [
         "No runtime behavior change in POST-H-030-A.",
-        "Handler extraction is planned but not performed in POST-H-030-A.",
         "High/critical command requires explicit compatibility contract before migration."
       ]
     },
@@ -3899,21 +3886,21 @@
       ],
       "public_name": "python -m devpilot_core release reproducibility-pack",
       "domain_owner": "release",
-      "current_handler": "release_reproducibility_pack_command",
+      "current_handler": "handle_release_reproducibility_pack",
       "target_handler": "handle_release_reproducibility_pack",
-      "current_module": "src/devpilot_core/cli.py",
+      "current_module": "src/devpilot_core/cli_commands/release.py",
       "target_module": "src/devpilot_core/cli_commands/release.py",
-      "registry_phase": "declarative-initial",
-      "migration_state": "planned",
+      "registry_phase": "handler-migrated-incremental",
+      "migration_state": "already-migrated",
       "application_operation_id": null,
-      "cli_only_reason": "ApplicationService mapping is not required yet; command will first move to a domain-owned CLI module with compatibility tests.",
+      "cli_only_reason": "No existing ApplicationOperation mapping is registered; keep explicit CLI-only rationale until a future boundary story or ADR introduces one.",
       "risk_level": "high",
       "compatibility_contract_id": "cli-compat:release.reproducibility-pack",
       "json_output_contract": "Preserve CommandResult JSON envelope: command, ok, exit_code, message, data and findings when --json is supported.",
       "exit_code_contract": "Preserve PASS=0, FAIL=1 and BLOCK=2 semantics exposed by existing CommandResult/ExitCode mapping.",
       "human_output_contract": "Preserve current command name, operator-facing PASS/BLOCK/FAIL wording and help surface unless POST-H-030-E contract explicitly approves a change.",
       "test_coverage_refs": [
-        "python -m pytest tests/test_post_h_017_release_reproducibility_pack.py tests/test_post_h_017_reproducibility_verify.py tests/test_post_h_017_release_reproducibility_schema.py -q"
+        "python -m pytest tests/test_post_h_017_release_reproducibility_pack.py tests/test_post_h_030_release_command_extraction.py -q"
       ],
       "planned_micro_sprint": "POST-H-030-C",
       "side_effects": [
@@ -3925,7 +3912,6 @@
       "policy_check_required": true,
       "notes": [
         "No runtime behavior change in POST-H-030-A.",
-        "Handler extraction is planned but not performed in POST-H-030-A.",
         "High/critical command requires explicit compatibility contract before migration."
       ]
     },
@@ -3937,21 +3923,21 @@
       ],
       "public_name": "python -m devpilot_core release reproducibility-verify",
       "domain_owner": "release",
-      "current_handler": "release_reproducibility_verify_command",
+      "current_handler": "handle_release_reproducibility_verify",
       "target_handler": "handle_release_reproducibility_verify",
-      "current_module": "src/devpilot_core/cli.py",
+      "current_module": "src/devpilot_core/cli_commands/release.py",
       "target_module": "src/devpilot_core/cli_commands/release.py",
-      "registry_phase": "declarative-initial",
-      "migration_state": "planned",
+      "registry_phase": "handler-migrated-incremental",
+      "migration_state": "already-migrated",
       "application_operation_id": null,
-      "cli_only_reason": "ApplicationService mapping is not required yet; command will first move to a domain-owned CLI module with compatibility tests.",
+      "cli_only_reason": "No existing ApplicationOperation mapping is registered; keep explicit CLI-only rationale until a future boundary story or ADR introduces one.",
       "risk_level": "high",
       "compatibility_contract_id": "cli-compat:release.reproducibility-verify",
       "json_output_contract": "Preserve CommandResult JSON envelope: command, ok, exit_code, message, data and findings when --json is supported.",
       "exit_code_contract": "Preserve PASS=0, FAIL=1 and BLOCK=2 semantics exposed by existing CommandResult/ExitCode mapping.",
       "human_output_contract": "Preserve current command name, operator-facing PASS/BLOCK/FAIL wording and help surface unless POST-H-030-E contract explicitly approves a change.",
       "test_coverage_refs": [
-        "python -m pytest tests/test_post_h_017_reproducibility_verify.py tests/test_post_h_017_release_reproducibility_schema.py -q"
+        "python -m pytest tests/test_post_h_017_release_reproducibility_pack.py tests/test_post_h_030_release_command_extraction.py -q"
       ],
       "planned_micro_sprint": "POST-H-030-C",
       "side_effects": [
@@ -3963,7 +3949,6 @@
       "policy_check_required": true,
       "notes": [
         "No runtime behavior change in POST-H-030-A.",
-        "Handler extraction is planned but not performed in POST-H-030-A.",
         "High/critical command requires explicit compatibility contract before migration."
       ]
     },
@@ -3975,21 +3960,21 @@
       ],
       "public_name": "python -m devpilot_core release sbom",
       "domain_owner": "release",
-      "current_handler": "release_sbom_command",
+      "current_handler": "handle_release_sbom",
       "target_handler": "handle_release_sbom",
-      "current_module": "src/devpilot_core/cli.py",
+      "current_module": "src/devpilot_core/cli_commands/release.py",
       "target_module": "src/devpilot_core/cli_commands/release.py",
-      "registry_phase": "declarative-initial",
-      "migration_state": "planned",
+      "registry_phase": "handler-migrated-incremental",
+      "migration_state": "already-migrated",
       "application_operation_id": null,
-      "cli_only_reason": "ApplicationService mapping is not required yet; command will first move to a domain-owned CLI module with compatibility tests.",
+      "cli_only_reason": "No existing ApplicationOperation mapping is registered; keep explicit CLI-only rationale until a future boundary story or ADR introduces one.",
       "risk_level": "high",
       "compatibility_contract_id": "cli-compat:release.sbom",
       "json_output_contract": "Preserve CommandResult JSON envelope: command, ok, exit_code, message, data and findings when --json is supported.",
       "exit_code_contract": "Preserve PASS=0, FAIL=1 and BLOCK=2 semantics exposed by existing CommandResult/ExitCode mapping.",
       "human_output_contract": "Preserve current command name, operator-facing PASS/BLOCK/FAIL wording and help surface unless POST-H-030-E contract explicitly approves a change.",
       "test_coverage_refs": [
-        "python -m pytest tests/test_post_h_017_release_reproducibility_pack.py tests/test_post_h_017_source_archive_manifest.py tests/test_post_h_027_artifact_manifest_checksums.py tests/test_post_h_027_upgrade_rollback_dry_run.py tests/test_release_verification.py tests/test_release_manifest.py -q"
+        "python -m pytest tests/test_release_sbom.py tests/test_post_h_030_release_command_extraction.py -q"
       ],
       "planned_micro_sprint": "POST-H-030-C",
       "side_effects": [
@@ -4000,7 +3985,6 @@
       "policy_check_required": false,
       "notes": [
         "No runtime behavior change in POST-H-030-A.",
-        "Handler extraction is planned but not performed in POST-H-030-A.",
         "High/critical command requires explicit compatibility contract before migration."
       ]
     },
@@ -4012,21 +3996,21 @@
       ],
       "public_name": "python -m devpilot_core release smoke-test",
       "domain_owner": "release",
-      "current_handler": "release_smoke_test_command",
+      "current_handler": "handle_release_smoke_test",
       "target_handler": "handle_release_smoke_test",
-      "current_module": "src/devpilot_core/cli.py",
+      "current_module": "src/devpilot_core/cli_commands/release.py",
       "target_module": "src/devpilot_core/cli_commands/release.py",
-      "registry_phase": "declarative-initial",
-      "migration_state": "planned",
+      "registry_phase": "handler-migrated-incremental",
+      "migration_state": "already-migrated",
       "application_operation_id": null,
-      "cli_only_reason": "ApplicationService mapping is not required yet; command will first move to a domain-owned CLI module with compatibility tests.",
+      "cli_only_reason": "No existing ApplicationOperation mapping is registered; keep explicit CLI-only rationale until a future boundary story or ADR introduces one.",
       "risk_level": "high",
       "compatibility_contract_id": "cli-compat:release.smoke-test",
       "json_output_contract": "Preserve CommandResult JSON envelope: command, ok, exit_code, message, data and findings when --json is supported.",
       "exit_code_contract": "Preserve PASS=0, FAIL=1 and BLOCK=2 semantics exposed by existing CommandResult/ExitCode mapping.",
       "human_output_contract": "Preserve current command name, operator-facing PASS/BLOCK/FAIL wording and help surface unless POST-H-030-E contract explicitly approves a change.",
       "test_coverage_refs": [
-        "python -m pytest tests/test_post_h_017_release_reproducibility_pack.py tests/test_post_h_017_source_archive_manifest.py tests/test_post_h_027_artifact_manifest_checksums.py tests/test_post_h_027_upgrade_rollback_dry_run.py tests/test_release_verification.py tests/test_release_manifest.py -q"
+        "python -m pytest tests/test_release_verification.py tests/test_post_h_030_release_command_extraction.py -q"
       ],
       "planned_micro_sprint": "POST-H-030-C",
       "side_effects": [
@@ -4037,7 +4021,6 @@
       "policy_check_required": false,
       "notes": [
         "No runtime behavior change in POST-H-030-A.",
-        "Handler extraction is planned but not performed in POST-H-030-A.",
         "High/critical command requires explicit compatibility contract before migration."
       ]
     },
@@ -4049,21 +4032,21 @@
       ],
       "public_name": "python -m devpilot_core release source-archive-manifest",
       "domain_owner": "release",
-      "current_handler": "release_source_archive_manifest_command",
+      "current_handler": "handle_release_source_archive_manifest",
       "target_handler": "handle_release_source_archive_manifest",
-      "current_module": "src/devpilot_core/cli.py",
+      "current_module": "src/devpilot_core/cli_commands/release.py",
       "target_module": "src/devpilot_core/cli_commands/release.py",
-      "registry_phase": "declarative-initial",
-      "migration_state": "planned",
+      "registry_phase": "handler-migrated-incremental",
+      "migration_state": "already-migrated",
       "application_operation_id": null,
-      "cli_only_reason": "ApplicationService mapping is not required yet; command will first move to a domain-owned CLI module with compatibility tests.",
+      "cli_only_reason": "No existing ApplicationOperation mapping is registered; keep explicit CLI-only rationale until a future boundary story or ADR introduces one.",
       "risk_level": "medium",
       "compatibility_contract_id": "cli-compat:release.source-archive-manifest",
       "json_output_contract": "Preserve CommandResult JSON envelope: command, ok, exit_code, message, data and findings when --json is supported.",
       "exit_code_contract": "Preserve PASS=0, FAIL=1 and BLOCK=2 semantics exposed by existing CommandResult/ExitCode mapping.",
       "human_output_contract": "Preserve current command name, operator-facing PASS/BLOCK/FAIL wording and help surface unless POST-H-030-E contract explicitly approves a change.",
       "test_coverage_refs": [
-        "python -m pytest tests/test_post_h_017_source_archive_manifest.py tests/test_post_h_017_release_reproducibility_schema.py -q"
+        "python -m pytest tests/test_post_h_017_source_archive_manifest.py tests/test_post_h_030_release_command_extraction.py -q"
       ],
       "planned_micro_sprint": "POST-H-030-C",
       "side_effects": [
@@ -4074,8 +4057,7 @@
       "dry_run_supported": true,
       "policy_check_required": true,
       "notes": [
-        "No runtime behavior change in POST-H-030-A.",
-        "Handler extraction is planned but not performed in POST-H-030-A."
+        "No runtime behavior change in POST-H-030-A."
       ]
     },
     {
@@ -4086,21 +4068,21 @@
       ],
       "public_name": "python -m devpilot_core release upgrade-rollback-dry-run",
       "domain_owner": "release",
-      "current_handler": "release_upgrade_rollback_dry_run_command",
+      "current_handler": "handle_release_upgrade_rollback_dry_run",
       "target_handler": "handle_release_upgrade_rollback_dry_run",
-      "current_module": "src/devpilot_core/cli.py",
+      "current_module": "src/devpilot_core/cli_commands/release.py",
       "target_module": "src/devpilot_core/cli_commands/release.py",
-      "registry_phase": "declarative-initial",
-      "migration_state": "planned",
+      "registry_phase": "handler-migrated-incremental",
+      "migration_state": "already-migrated",
       "application_operation_id": null,
-      "cli_only_reason": "ApplicationService mapping is not required yet; command will first move to a domain-owned CLI module with compatibility tests.",
+      "cli_only_reason": "No existing ApplicationOperation mapping is registered; keep explicit CLI-only rationale until a future boundary story or ADR introduces one.",
       "risk_level": "high",
       "compatibility_contract_id": "cli-compat:release.upgrade-rollback-dry-run",
       "json_output_contract": "Preserve CommandResult JSON envelope: command, ok, exit_code, message, data and findings when --json is supported.",
       "exit_code_contract": "Preserve PASS=0, FAIL=1 and BLOCK=2 semantics exposed by existing CommandResult/ExitCode mapping.",
       "human_output_contract": "Preserve current command name, operator-facing PASS/BLOCK/FAIL wording and help surface unless POST-H-030-E contract explicitly approves a change.",
       "test_coverage_refs": [
-        "python -m pytest tests/test_post_h_027_upgrade_rollback_dry_run.py tests/test_backup_upgrade.py tests/test_quality_gate.py tests/test_schema_registry.py -q"
+        "python -m pytest tests/test_post_h_027_upgrade_rollback_dry_run.py tests/test_post_h_030_release_command_extraction.py -q"
       ],
       "planned_micro_sprint": "POST-H-030-C",
       "side_effects": [
@@ -4111,7 +4093,6 @@
       "policy_check_required": true,
       "notes": [
         "No runtime behavior change in POST-H-030-A.",
-        "Handler extraction is planned but not performed in POST-H-030-A.",
         "High/critical command requires explicit compatibility contract before migration."
       ]
     },
@@ -4123,21 +4104,21 @@
       ],
       "public_name": "python -m devpilot_core release verify",
       "domain_owner": "release",
-      "current_handler": "release_verify_command",
+      "current_handler": "handle_release_verify",
       "target_handler": "handle_release_verify",
-      "current_module": "src/devpilot_core/cli.py",
+      "current_module": "src/devpilot_core/cli_commands/release.py",
       "target_module": "src/devpilot_core/cli_commands/release.py",
-      "registry_phase": "declarative-initial",
-      "migration_state": "planned",
+      "registry_phase": "handler-migrated-incremental",
+      "migration_state": "already-migrated",
       "application_operation_id": null,
-      "cli_only_reason": "ApplicationService mapping is not required yet; command will first move to a domain-owned CLI module with compatibility tests.",
+      "cli_only_reason": "No existing ApplicationOperation mapping is registered; keep explicit CLI-only rationale until a future boundary story or ADR introduces one.",
       "risk_level": "high",
       "compatibility_contract_id": "cli-compat:release.verify",
       "json_output_contract": "Preserve CommandResult JSON envelope: command, ok, exit_code, message, data and findings when --json is supported.",
       "exit_code_contract": "Preserve PASS=0, FAIL=1 and BLOCK=2 semantics exposed by existing CommandResult/ExitCode mapping.",
       "human_output_contract": "Preserve current command name, operator-facing PASS/BLOCK/FAIL wording and help surface unless POST-H-030-E contract explicitly approves a change.",
       "test_coverage_refs": [
-        "python -m pytest tests/test_post_h_017_release_reproducibility_pack.py tests/test_post_h_017_source_archive_manifest.py tests/test_post_h_027_artifact_manifest_checksums.py tests/test_post_h_027_upgrade_rollback_dry_run.py tests/test_release_verification.py tests/test_release_manifest.py -q"
+        "python -m pytest tests/test_release_verification.py tests/test_post_h_030_release_command_extraction.py -q"
       ],
       "planned_micro_sprint": "POST-H-030-C",
       "side_effects": [
@@ -4148,7 +4129,6 @@
       "policy_check_required": false,
       "notes": [
         "No runtime behavior change in POST-H-030-A.",
-        "Handler extraction is planned but not performed in POST-H-030-A.",
         "High/critical command requires explicit compatibility contract before migration."
       ]
     },
@@ -4160,21 +4140,21 @@
       ],
       "public_name": "python -m devpilot_core release-candidate evidence-freshness",
       "domain_owner": "release",
-      "current_handler": "release_candidate_evidence_freshness_command",
+      "current_handler": "handle_release_candidate_evidence_freshness",
       "target_handler": "handle_release_candidate_evidence_freshness",
-      "current_module": "src/devpilot_core/cli.py",
+      "current_module": "src/devpilot_core/cli_commands/release.py",
       "target_module": "src/devpilot_core/cli_commands/release.py",
-      "registry_phase": "declarative-initial",
-      "migration_state": "planned",
+      "registry_phase": "handler-migrated-incremental",
+      "migration_state": "already-migrated",
       "application_operation_id": null,
-      "cli_only_reason": "ApplicationService mapping is not required yet; command will first move to a domain-owned CLI module with compatibility tests.",
+      "cli_only_reason": "No existing ApplicationOperation mapping is registered; keep explicit CLI-only rationale until a future boundary story or ADR introduces one.",
       "risk_level": "high",
       "compatibility_contract_id": "cli-compat:release-candidate.evidence-freshness",
       "json_output_contract": "Preserve CommandResult JSON envelope: command, ok, exit_code, message, data and findings when --json is supported.",
       "exit_code_contract": "Preserve PASS=0, FAIL=1 and BLOCK=2 semantics exposed by existing CommandResult/ExitCode mapping.",
       "human_output_contract": "Preserve current command name, operator-facing PASS/BLOCK/FAIL wording and help surface unless POST-H-030-E contract explicitly approves a change.",
       "test_coverage_refs": [
-        "python -m pytest tests/test_post_h_026_evidence_freshness.py tests/test_post_h_026_release_candidate_profile.py tests/test_post_h_026_ui_api_rc_smoke.py tests/test_post_h_026_ui_api_rc_smoke_contract.py tests/test_post_h_026_install_smoke.py tests/test_post_h_026_release_candidate_report.py tests/test_post_h_006_b_declarative_registry.py -q"
+        "python -m pytest tests/test_post_h_026_evidence_freshness.py tests/test_post_h_030_release_command_extraction.py -q"
       ],
       "planned_micro_sprint": "POST-H-030-C",
       "side_effects": [
@@ -4185,7 +4165,6 @@
       "policy_check_required": false,
       "notes": [
         "No runtime behavior change in POST-H-030-A.",
-        "Handler extraction is planned but not performed in POST-H-030-A.",
         "High/critical command requires explicit compatibility contract before migration."
       ]
     },
@@ -4197,21 +4176,21 @@
       ],
       "public_name": "python -m devpilot_core release-candidate final",
       "domain_owner": "release",
-      "current_handler": "release_candidate_final_command",
+      "current_handler": "handle_release_candidate_final",
       "target_handler": "handle_release_candidate_final",
-      "current_module": "src/devpilot_core/cli.py",
+      "current_module": "src/devpilot_core/cli_commands/release.py",
       "target_module": "src/devpilot_core/cli_commands/release.py",
-      "registry_phase": "declarative-initial",
-      "migration_state": "planned",
+      "registry_phase": "handler-migrated-incremental",
+      "migration_state": "already-migrated",
       "application_operation_id": null,
-      "cli_only_reason": "ApplicationService mapping is not required yet; command will first move to a domain-owned CLI module with compatibility tests.",
+      "cli_only_reason": "No existing ApplicationOperation mapping is registered; keep explicit CLI-only rationale until a future boundary story or ADR introduces one.",
       "risk_level": "high",
       "compatibility_contract_id": "cli-compat:release-candidate.final",
       "json_output_contract": "Preserve CommandResult JSON envelope: command, ok, exit_code, message, data and findings when --json is supported.",
       "exit_code_contract": "Preserve PASS=0, FAIL=1 and BLOCK=2 semantics exposed by existing CommandResult/ExitCode mapping.",
       "human_output_contract": "Preserve current command name, operator-facing PASS/BLOCK/FAIL wording and help surface unless POST-H-030-E contract explicitly approves a change.",
       "test_coverage_refs": [
-        "python -m pytest tests/test_post_h_026_evidence_freshness.py tests/test_post_h_026_release_candidate_profile.py tests/test_post_h_026_ui_api_rc_smoke.py tests/test_post_h_026_ui_api_rc_smoke_contract.py tests/test_post_h_026_install_smoke.py tests/test_post_h_026_release_candidate_report.py tests/test_post_h_006_b_declarative_registry.py -q"
+        "python -m pytest tests/test_post_h_026_release_candidate_report.py tests/test_post_h_030_release_command_extraction.py -q"
       ],
       "planned_micro_sprint": "POST-H-030-C",
       "side_effects": [
@@ -4222,7 +4201,6 @@
       "policy_check_required": false,
       "notes": [
         "No runtime behavior change in POST-H-030-A.",
-        "Handler extraction is planned but not performed in POST-H-030-A.",
         "High/critical command requires explicit compatibility contract before migration."
       ]
     },
@@ -4234,21 +4212,21 @@
       ],
       "public_name": "python -m devpilot_core release-candidate install-smoke",
       "domain_owner": "release",
-      "current_handler": "release_candidate_install_smoke_command",
+      "current_handler": "handle_release_candidate_install_smoke",
       "target_handler": "handle_release_candidate_install_smoke",
-      "current_module": "src/devpilot_core/cli.py",
+      "current_module": "src/devpilot_core/cli_commands/release.py",
       "target_module": "src/devpilot_core/cli_commands/release.py",
-      "registry_phase": "declarative-initial",
-      "migration_state": "planned",
+      "registry_phase": "handler-migrated-incremental",
+      "migration_state": "already-migrated",
       "application_operation_id": null,
-      "cli_only_reason": "ApplicationService mapping is not required yet; command will first move to a domain-owned CLI module with compatibility tests.",
+      "cli_only_reason": "No existing ApplicationOperation mapping is registered; keep explicit CLI-only rationale until a future boundary story or ADR introduces one.",
       "risk_level": "high",
       "compatibility_contract_id": "cli-compat:release-candidate.install-smoke",
       "json_output_contract": "Preserve CommandResult JSON envelope: command, ok, exit_code, message, data and findings when --json is supported.",
       "exit_code_contract": "Preserve PASS=0, FAIL=1 and BLOCK=2 semantics exposed by existing CommandResult/ExitCode mapping.",
       "human_output_contract": "Preserve current command name, operator-facing PASS/BLOCK/FAIL wording and help surface unless POST-H-030-E contract explicitly approves a change.",
       "test_coverage_refs": [
-        "python -m pytest tests/test_post_h_026_evidence_freshness.py tests/test_post_h_026_release_candidate_profile.py tests/test_post_h_026_ui_api_rc_smoke.py tests/test_post_h_026_ui_api_rc_smoke_contract.py tests/test_post_h_026_install_smoke.py tests/test_post_h_026_release_candidate_report.py tests/test_post_h_006_b_declarative_registry.py -q"
+        "python -m pytest tests/test_post_h_026_install_smoke.py tests/test_post_h_030_release_command_extraction.py -q"
       ],
       "planned_micro_sprint": "POST-H-030-C",
       "side_effects": [
@@ -4259,7 +4237,6 @@
       "policy_check_required": false,
       "notes": [
         "No runtime behavior change in POST-H-030-A.",
-        "Handler extraction is planned but not performed in POST-H-030-A.",
         "High/critical command requires explicit compatibility contract before migration."
       ]
     },
@@ -4271,21 +4248,21 @@
       ],
       "public_name": "python -m devpilot_core release-candidate profile",
       "domain_owner": "release",
-      "current_handler": "release_candidate_profile_command",
+      "current_handler": "handle_release_candidate_profile",
       "target_handler": "handle_release_candidate_profile",
-      "current_module": "src/devpilot_core/cli.py",
+      "current_module": "src/devpilot_core/cli_commands/release.py",
       "target_module": "src/devpilot_core/cli_commands/release.py",
-      "registry_phase": "declarative-initial",
-      "migration_state": "planned",
+      "registry_phase": "handler-migrated-incremental",
+      "migration_state": "already-migrated",
       "application_operation_id": null,
-      "cli_only_reason": "ApplicationService mapping is not required yet; command will first move to a domain-owned CLI module with compatibility tests.",
+      "cli_only_reason": "No existing ApplicationOperation mapping is registered; keep explicit CLI-only rationale until a future boundary story or ADR introduces one.",
       "risk_level": "high",
       "compatibility_contract_id": "cli-compat:release-candidate.profile",
       "json_output_contract": "Preserve CommandResult JSON envelope: command, ok, exit_code, message, data and findings when --json is supported.",
       "exit_code_contract": "Preserve PASS=0, FAIL=1 and BLOCK=2 semantics exposed by existing CommandResult/ExitCode mapping.",
       "human_output_contract": "Preserve current command name, operator-facing PASS/BLOCK/FAIL wording and help surface unless POST-H-030-E contract explicitly approves a change.",
       "test_coverage_refs": [
-        "python -m pytest tests/test_post_h_026_evidence_freshness.py tests/test_post_h_026_release_candidate_profile.py tests/test_post_h_026_ui_api_rc_smoke.py tests/test_post_h_026_ui_api_rc_smoke_contract.py tests/test_post_h_026_install_smoke.py tests/test_post_h_026_release_candidate_report.py tests/test_post_h_006_b_declarative_registry.py -q"
+        "python -m pytest tests/test_post_h_026_release_candidate_profile.py tests/test_post_h_030_release_command_extraction.py -q"
       ],
       "planned_micro_sprint": "POST-H-030-C",
       "side_effects": [
@@ -4296,7 +4273,6 @@
       "policy_check_required": false,
       "notes": [
         "No runtime behavior change in POST-H-030-A.",
-        "Handler extraction is planned but not performed in POST-H-030-A.",
         "High/critical command requires explicit compatibility contract before migration."
       ]
     },
@@ -4308,21 +4284,21 @@
       ],
       "public_name": "python -m devpilot_core release-candidate ui-api-smoke",
       "domain_owner": "release",
-      "current_handler": "release_candidate_ui_api_smoke_command",
+      "current_handler": "handle_release_candidate_ui_api_smoke",
       "target_handler": "handle_release_candidate_ui_api_smoke",
-      "current_module": "src/devpilot_core/cli.py",
+      "current_module": "src/devpilot_core/cli_commands/release.py",
       "target_module": "src/devpilot_core/cli_commands/release.py",
-      "registry_phase": "declarative-initial",
-      "migration_state": "planned",
+      "registry_phase": "handler-migrated-incremental",
+      "migration_state": "already-migrated",
       "application_operation_id": null,
-      "cli_only_reason": "ApplicationService mapping is not required yet; command will first move to a domain-owned CLI module with compatibility tests.",
+      "cli_only_reason": "No existing ApplicationOperation mapping is registered; keep explicit CLI-only rationale until a future boundary story or ADR introduces one.",
       "risk_level": "high",
       "compatibility_contract_id": "cli-compat:release-candidate.ui-api-smoke",
       "json_output_contract": "Preserve CommandResult JSON envelope: command, ok, exit_code, message, data and findings when --json is supported.",
       "exit_code_contract": "Preserve PASS=0, FAIL=1 and BLOCK=2 semantics exposed by existing CommandResult/ExitCode mapping.",
       "human_output_contract": "Preserve current command name, operator-facing PASS/BLOCK/FAIL wording and help surface unless POST-H-030-E contract explicitly approves a change.",
       "test_coverage_refs": [
-        "python -m pytest tests/test_post_h_026_evidence_freshness.py tests/test_post_h_026_release_candidate_profile.py tests/test_post_h_026_ui_api_rc_smoke.py tests/test_post_h_026_ui_api_rc_smoke_contract.py tests/test_post_h_026_install_smoke.py tests/test_post_h_026_release_candidate_report.py tests/test_post_h_006_b_declarative_registry.py -q"
+        "python -m pytest tests/test_post_h_026_ui_api_rc_smoke.py tests/test_post_h_030_release_command_extraction.py -q"
       ],
       "planned_micro_sprint": "POST-H-030-C",
       "side_effects": [
@@ -4333,7 +4309,6 @@
       "policy_check_required": false,
       "notes": [
         "No runtime behavior change in POST-H-030-A.",
-        "Handler extraction is planned but not performed in POST-H-030-A.",
         "High/critical command requires explicit compatibility contract before migration."
       ]
     },
@@ -5970,21 +5945,21 @@
       ],
       "public_name": "python -m devpilot_core upgrade check",
       "domain_owner": "release",
-      "current_handler": "upgrade_check_command",
+      "current_handler": "handle_upgrade_check",
       "target_handler": "handle_upgrade_check",
-      "current_module": "src/devpilot_core/cli.py",
+      "current_module": "src/devpilot_core/cli_commands/release.py",
       "target_module": "src/devpilot_core/cli_commands/release.py",
-      "registry_phase": "legacy-unregistered",
-      "migration_state": "planned",
+      "registry_phase": "handler-migrated-incremental",
+      "migration_state": "already-migrated",
       "application_operation_id": null,
-      "cli_only_reason": "ApplicationService mapping is not required yet; command will first move to a domain-owned CLI module with compatibility tests.",
+      "cli_only_reason": "No existing ApplicationOperation mapping is registered; keep explicit CLI-only rationale until a future boundary story or ADR introduces one.",
       "risk_level": "medium",
       "compatibility_contract_id": "cli-compat:upgrade.check",
       "json_output_contract": "Preserve CommandResult JSON envelope: command, ok, exit_code, message, data and findings when --json is supported.",
       "exit_code_contract": "Preserve PASS=0, FAIL=1 and BLOCK=2 semantics exposed by existing CommandResult/ExitCode mapping.",
       "human_output_contract": "Preserve current command name, operator-facing PASS/BLOCK/FAIL wording and help surface unless POST-H-030-E contract explicitly approves a change.",
       "test_coverage_refs": [
-        "python -m pytest tests/test_post_h_006_cli_command_registry.py -q"
+        "python -m pytest tests/test_backup_upgrade.py tests/test_post_h_030_release_command_extraction.py -q"
       ],
       "planned_micro_sprint": "POST-H-030-C",
       "side_effects": [
@@ -5994,8 +5969,7 @@
       "dry_run_supported": false,
       "policy_check_required": false,
       "notes": [
-        "No runtime behavior change in POST-H-030-A.",
-        "Handler extraction is planned but not performed in POST-H-030-A."
+        "No runtime behavior change in POST-H-030-A."
       ]
     },
     {

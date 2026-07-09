@@ -10885,7 +10885,7 @@ POST-H-030 queda aprobado e inicia con `POST-H-030-A — CLI command ownership m
 
 La capacidad es `implemented-initial/local-first`: cubre la superficie CLI registrada, asigna owner/dominio/target module/contrato de compatibilidad por comando y planifica extracciones por familias sin migrar handlers todavía. No cambia nombres de comandos, argumentos, JSON output, exit codes ni comportamiento operativo. No introduce router dinámico, red, APIs externas, remote execution, connector write ni plugin execution.
 
-Siguiente micro-sprint: `POST-H-030-B — Industrial readiness command extraction`.
+Siguiente micro-sprint: `POST-H-030-D — Workspace/onboarding command extraction`.
 
 
 ## POST-H-030-B — Industrial readiness command extraction
@@ -10908,3 +10908,47 @@ python -m devpilot_core cli-registry guard --json
 La implementación no introduce router dinámico, no ejecuta red, no habilita APIs externas, remote execution, connector write ni plugin execution.
 
 Siguiente micro-sprint: `POST-H-030-C — Release command extraction`.
+
+
+## POST-H-030-C — Release command extraction
+
+Estado: `implemented-initial/local-first`.
+
+Comandos de verificación focal:
+
+```powershell
+$env:PYTHONPATH="src"
+$env:PYTEST_DISABLE_PLUGIN_AUTOLOAD="1"
+python -m pytest -p no:ddtrace --assert=plain `
+  tests/test_post_h_030_release_command_extraction.py `
+  tests/test_post_h_030_industrial_readiness_command_extraction.py `
+  tests/test_post_h_030_cli_command_ownership_matrix.py `
+  tests/test_release_manifest.py `
+  tests/test_release_changelog.py `
+  tests/test_release_sbom.py `
+  tests/test_release_verification.py `
+  tests/test_post_h_017_release_reproducibility_pack.py `
+  tests/test_post_h_017_source_archive_manifest.py `
+  tests/test_post_h_027_artifact_manifest_checksums.py `
+  tests/test_post_h_027_source_zip_policy.py `
+  tests/test_post_h_027_upgrade_rollback_dry_run.py `
+  tests/test_post_h_026_release_candidate_profile.py `
+  tests/test_project_global_state.py `
+  tests/test_test_contract_registry.py `
+  tests/test_test_contract_registry_v2.py `
+  -q
+```
+
+Validación CLI/documental:
+
+```powershell
+python -m devpilot_core cli-registry guard --json
+python -m devpilot_core schema validate --schema-id CliCommandOwnershipMatrix --instance .devpilot/cli_registry/command_ownership_matrix.json --json
+python -m devpilot_core schema validate --schema-id CliExtractionPlan --instance .devpilot/cli_registry/cli_extraction_plan.json --json
+python -m devpilot_core test-contracts validate --json
+python -m devpilot_core test-contracts validate-v2 --json
+python -m devpilot_core docs-governance validate --json
+python -m devpilot_core project-state validate --json
+```
+
+La extracción conserva `cli.py` como boundary público. No activa router dinámico, red, APIs externas, publicación, despliegue, remote execution, connector write ni plugin execution. Los snapshots de compatibilidad observables quedan pendientes para POST-H-030-E.

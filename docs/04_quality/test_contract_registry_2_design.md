@@ -281,7 +281,7 @@ POST-H-030 queda aprobado e inicia con `POST-H-030-A — CLI command ownership m
 
 La capacidad es `implemented-initial/local-first`: cubre la superficie CLI registrada, asigna owner/dominio/target module/contrato de compatibilidad por comando y planifica extracciones por familias sin migrar handlers todavía. No cambia nombres de comandos, argumentos, JSON output, exit codes ni comportamiento operativo. No introduce router dinámico, red, APIs externas, remote execution, connector write ni plugin execution.
 
-Siguiente micro-sprint: `POST-H-030-B — Industrial readiness command extraction`.
+Siguiente micro-sprint: `POST-H-030-D — Workspace/onboarding command extraction`.
 
 
 ## POST-H-030-B — Industrial readiness command extraction
@@ -289,3 +289,10 @@ Siguiente micro-sprint: `POST-H-030-B — Industrial readiness command extractio
 Se registra el contrato `post-h-030-industrial-readiness-command-extraction` en TCR v1/v2. Este contrato cubre la extracción de handlers `industrial-readiness`, preservación del boundary `ApplicationService`, salida JSON, exit codes, claims bounded production-ready-local y ausencia de router dinámico.
 
 El contrato es `P0/high` porque una regresión en esta familia puede producir overclaim de madurez local o falsos PASS/BLOCK en no-go gates.
+
+
+## POST-H-030-C — Release command extraction
+
+TCR v2 registra `post-h-030-release-command-extraction` como contrato P0 de `interface.cli`/`release`, asociado a los comandos `release`, `release-candidate`, `package`, `install`, `backup` y `upgrade` migrados a `src/devpilot_core/cli_commands/release.py`.
+
+El contrato preserva local-first, dry-run/opt-in reports, no network, no external APIs, no remote execution, no connector write y no plugin execution.

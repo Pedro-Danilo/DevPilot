@@ -742,7 +742,7 @@ POST-H-030 queda aprobado e inicia con `POST-H-030-A — CLI command ownership m
 
 La capacidad es `implemented-initial/local-first`: cubre la superficie CLI registrada, asigna owner/dominio/target module/contrato de compatibilidad por comando y planifica extracciones por familias sin migrar handlers todavía. No cambia nombres de comandos, argumentos, JSON output, exit codes ni comportamiento operativo. No introduce router dinámico, red, APIs externas, remote execution, connector write ni plugin execution.
 
-Siguiente micro-sprint: `POST-H-030-B — Industrial readiness command extraction`.
+Siguiente micro-sprint: `POST-H-030-D — Workspace/onboarding command extraction`.
 
 
 ## POST-H-030-B — Industrial readiness command extraction
@@ -763,3 +763,10 @@ python -m pytest -p no:ddtrace --assert=plain `
 ```
 
 `pytest -q` completo queda reservado para cierre de backlog por costo operativo.
+
+
+## POST-H-030-C — Release command extraction
+
+POST-H-030-C agrega pruebas focales para la extracción de la familia release hacia `src/devpilot_core/cli_commands/release.py`. La estrategia verifica metadata de registry, matriz de ownership, plan de extracción, equivalencia JSON en comandos representativos, safety flags local-first y sincronización TCR/source_registry/project_state.
+
+No reemplaza la futura suite de contratos snapshot de POST-H-030-E.

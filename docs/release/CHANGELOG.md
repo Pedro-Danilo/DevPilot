@@ -2551,7 +2551,7 @@ Siguiente hito: `POST-H-030`
 - Added `.devpilot/cli_registry/command_ownership_matrix.json` and `.devpilot/cli_registry/cli_extraction_plan.json`.
 - Added `src/devpilot_core/cli_registry/ownership.py` as a read-only ownership/plan validator.
 - Preserved CLI behavior: no handler migration, no dynamic router, no public command rename and no external APIs.
-- Next micro-sprint: POST-H-030-B industrial readiness command extraction.
+- Next micro-sprint: POST-H-030-D workspace/onboarding command extraction.
 
 
 ## post-h-030-b
@@ -2561,3 +2561,12 @@ Siguiente hito: `POST-H-030`
 - Preserved `ApplicationService` boundary for `production-ready-local` and `production-ready-local-final`.
 - Updated CLI registry migrated-handler metadata, ownership matrix, extraction plan, TCR v1/v2, project state and documentation governance.
 - Next micro-sprint: POST-H-030-C release command extraction.
+
+
+## POST-H-030-C — Release command extraction
+
+- Extracted release-family result builders into `src/devpilot_core/cli_commands/release.py`.
+- Covered `release`, `release-candidate`, `package`, `install`, `backup` and `upgrade` command families.
+- Preserved public CLI wrappers, optional report wiring, JSON envelope, exit codes, local-first dry-run semantics and safety flags.
+- Updated ownership matrix, extraction plan, TCR v1/v2, source registry, project state, README, runbook and test strategy.
+- No dynamic router, network, external APIs, publishing, deployment, remote execution, connector write or plugin execution were enabled.
