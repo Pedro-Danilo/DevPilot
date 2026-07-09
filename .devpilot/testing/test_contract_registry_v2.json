@@ -13737,6 +13737,76 @@
       "classification_notes": [
         "POST-H-029-E turns regression scope decisions into a schema-backed guard while preserving full regression and avoiding permanent waivers."
       ]
+    },
+    {
+      "contract_id": "post-h-030-cli-command-ownership-matrix",
+      "schema_version": "2.0",
+      "source_contract_id": "post-h-030-cli-command-ownership-matrix",
+      "domain": "interface.cli",
+      "capability": "CliCommandOwnershipMatrix",
+      "criticality": "P0",
+      "risk_level": "high",
+      "test_type": "contract",
+      "execution_profile": "impact",
+      "cost_class": "medium",
+      "expected_duration_seconds": 240,
+      "test_files": [
+        "tests/test_post_h_030_cli_command_ownership_matrix.py"
+      ],
+      "watched_paths": [
+        "docs/schemas/cli_command_ownership_matrix.schema.json",
+        "docs/schemas/cli_extraction_plan.schema.json",
+        ".devpilot/cli_registry/command_ownership_matrix.json",
+        ".devpilot/cli_registry/cli_extraction_plan.json",
+        "src/devpilot_core/cli_registry/ownership.py",
+        "src/devpilot_core/cli_registry/registry.py",
+        "src/devpilot_core/cli.py",
+        ".devpilot/project_state.json"
+      ],
+      "validates": [
+        "CliCommandOwnershipMatrix",
+        "CliExtractionPlan",
+        "POST-H-030-A ownership coverage",
+        "CLI no-growth compatibility",
+        "ApplicationOperation mapping policy"
+      ],
+      "trigger_hints": [
+        "cli-ownership-matrix-change",
+        "post-h-030-a",
+        "cli-registry-change",
+        "application-boundary-change"
+      ],
+      "impact_scope": [
+        "cli",
+        "application-boundary",
+        "test-contracts",
+        "documentation-governance"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": false,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "POST-H-030-A",
+      "owner_domain": "interface.cli",
+      "service_boundary": "cli-registry",
+      "subgate_id": "cli-boundary-hotspot-reduction",
+      "schema_ids": [
+        "SCHEMA-DEVPL-CLI-COMMAND-OWNERSHIP-MATRIX-V1",
+        "SCHEMA-DEVPL-CLI-EXTRACTION-PLAN-V1"
+      ],
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_030_cli_command_ownership_matrix.py -q",
+        "python -m devpilot_core cli-registry guard --json",
+        "python -m devpilot_core schema validate --schema-id CliCommandOwnershipMatrix --instance .devpilot/cli_registry/command_ownership_matrix.json --json",
+        "python -m devpilot_core schema validate --schema-id CliExtractionPlan --instance .devpilot/cli_registry/cli_extraction_plan.json --json"
+      ],
+      "classification_status": "explicit",
+      "classification_notes": [
+        "POST-H-030-A creates a read-only ownership baseline before handler extraction and compatibility snapshots."
+      ]
     }
   ],
   "migration_metadata": {
@@ -13747,8 +13817,8 @@
     "network_used": false,
     "external_api_used": false,
     "mutations_performed_by_default": false,
-    "contracts_total": 208,
-    "last_updated_by": "POST-H-029-E"
+    "contracts_total": 209,
+    "last_updated_by": "POST-H-030-A"
   },
   "notes": [
     "POST-H-020-D fixes v2 contract classification_status for POST-H-020-C/D contracts to keep schema validation synchronized.",

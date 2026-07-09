@@ -1,5 +1,5 @@
 ---
-doc_id: POST-H-030-BACKLOG
+doc_id: POST-H-030-IMPLEMENTATION
 title: "POST-H-030 - CLI hotspot reduction y boundaries de aplicacion"
 status: approved
 version: "1.0.0"

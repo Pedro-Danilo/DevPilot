@@ -2542,3 +2542,13 @@ Siguiente micro-sprint: `POST-H-029-C — Test impact CLI recommendations`.
 - Close POST-H-029 as `closed/testing-tiers-ready` while preserving full regression for contextual closure.
 
 Siguiente hito: `POST-H-030`
+
+
+## post-h-030-a
+
+- Approved POST-H-030 CLI hotspot reduction/application boundaries backlog.
+- Added `CliCommandOwnershipMatrix` and `CliExtractionPlan` schemas.
+- Added `.devpilot/cli_registry/command_ownership_matrix.json` and `.devpilot/cli_registry/cli_extraction_plan.json`.
+- Added `src/devpilot_core/cli_registry/ownership.py` as a read-only ownership/plan validator.
+- Preserved CLI behavior: no handler migration, no dynamic router, no public command rename and no external APIs.
+- Next micro-sprint: POST-H-030-B industrial readiness command extraction.

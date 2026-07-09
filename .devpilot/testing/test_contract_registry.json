@@ -7590,6 +7590,51 @@
       "notes": [
         "POST-H-029-E validates historical regression closure decisions without executing pytest or storing heavy runtime logs in source."
       ]
+    },
+    {
+      "contract_id": "post-h-030-cli-command-ownership-matrix",
+      "scope": "integration",
+      "owner": "POST-H-030-A",
+      "phase": "POST-FASE-H",
+      "test_files": [
+        "tests/test_post_h_030_cli_command_ownership_matrix.py"
+      ],
+      "validates": [
+        "docs/schemas/cli_command_ownership_matrix.schema.json",
+        "docs/schemas/cli_extraction_plan.schema.json",
+        ".devpilot/cli_registry/command_ownership_matrix.json",
+        ".devpilot/cli_registry/cli_extraction_plan.json",
+        "src/devpilot_core/cli_registry/ownership.py",
+        "POST-H-030 backlog approval",
+        "cli-registry guard compatibility"
+      ],
+      "watched_paths": [
+        "docs/schemas/cli_command_ownership_matrix.schema.json",
+        "docs/schemas/cli_extraction_plan.schema.json",
+        ".devpilot/cli_registry/command_ownership_matrix.json",
+        ".devpilot/cli_registry/cli_extraction_plan.json",
+        "src/devpilot_core/cli_registry/ownership.py",
+        "docs/backlogs/POST-H-030_cli_hotspot_reduction_application_boundaries.md",
+        "docs/POST-H-030_cli_hotspot_reduction_application_boundaries.md",
+        ".devpilot/project_state.json",
+        ".devpilot/docs_governance/source_registry.json"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_030_cli_command_ownership_matrix.py tests/test_post_h_006_cli_command_registry.py tests/test_post_h_006_d_cli_hotspot_ownership.py tests/test_post_h_006_e_cli_no_growth_gate.py tests/test_application_operation_catalog_schema.py -q",
+        "python -m devpilot_core cli-registry guard --json",
+        "python -m devpilot_core schema validate --schema-id CliCommandOwnershipMatrix --instance .devpilot/cli_registry/command_ownership_matrix.json --json",
+        "python -m devpilot_core schema validate --schema-id CliExtractionPlan --instance .devpilot/cli_registry/cli_extraction_plan.json --json"
+      ],
+      "notes": [
+        "POST-H-030-A validates CLI ownership and extraction planning without migrating handlers or executing public commands."
+      ]
     }
   ],
   "notes": [

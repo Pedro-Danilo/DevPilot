@@ -1,0 +1,287 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/cli_extraction_plan.schema.json",
+  "title": "DevPilot CliExtractionPlan v1",
+  "description": "POST-H-030-A extraction plan for CLI handler families. The plan is metadata-only and never loads handlers dynamically.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "schema_id",
+    "plan_id",
+    "created_by",
+    "status",
+    "version",
+    "updated",
+    "summary",
+    "target_modules",
+    "plan_items",
+    "safety",
+    "notes"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "schema_id": {
+      "const": "SCHEMA-DEVPL-CLI-EXTRACTION-PLAN-V1"
+    },
+    "plan_id": {
+      "const": "devpilot-cli-extraction-plan"
+    },
+    "created_by": {
+      "const": "POST-H-030-A"
+    },
+    "status": {
+      "enum": [
+        "implemented-initial"
+      ]
+    },
+    "version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "updated": {
+      "type": "string",
+      "minLength": 10
+    },
+    "summary": {
+      "type": "object",
+      "required": [
+        "planned_items_total",
+        "target_modules_total",
+        "commands_referenced_total",
+        "dynamic_handler_loading_enabled",
+        "public_behavior_changes_allowed",
+        "tests_executed",
+        "network_used",
+        "external_api_used",
+        "source_mutations_performed",
+        "preliminary"
+      ],
+      "properties": {
+        "planned_items_total": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "target_modules_total": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "commands_referenced_total": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "dynamic_handler_loading_enabled": {
+          "const": false
+        },
+        "public_behavior_changes_allowed": {
+          "const": false
+        },
+        "tests_executed": {
+          "const": false
+        },
+        "network_used": {
+          "const": false
+        },
+        "external_api_used": {
+          "const": false
+        },
+        "source_mutations_performed": {
+          "const": false
+        },
+        "preliminary": {
+          "const": true
+        }
+      },
+      "additionalProperties": true
+    },
+    "target_modules": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/target_module"
+      }
+    },
+    "plan_items": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/plan_item"
+      }
+    },
+    "safety": {
+      "type": "object",
+      "required": [
+        "local_first",
+        "read_only",
+        "dry_run",
+        "commands_executed",
+        "dynamic_handler_loading_enabled",
+        "runtime_router_enabled",
+        "network_used",
+        "external_api_used",
+        "remote_execution_enabled",
+        "connector_write_enabled",
+        "plugin_execution_enabled",
+        "source_mutations_performed"
+      ],
+      "properties": {
+        "local_first": {
+          "const": true
+        },
+        "read_only": {
+          "const": true
+        },
+        "dry_run": {
+          "const": true
+        },
+        "commands_executed": {
+          "const": false
+        },
+        "dynamic_handler_loading_enabled": {
+          "const": false
+        },
+        "runtime_router_enabled": {
+          "const": false
+        },
+        "network_used": {
+          "const": false
+        },
+        "external_api_used": {
+          "const": false
+        },
+        "remote_execution_enabled": {
+          "const": false
+        },
+        "connector_write_enabled": {
+          "const": false
+        },
+        "plugin_execution_enabled": {
+          "const": false
+        },
+        "source_mutations_performed": {
+          "const": false
+        }
+      },
+      "additionalProperties": true
+    },
+    "notes": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  },
+  "$defs": {
+    "target_module": {
+      "type": "object",
+      "required": [
+        "module_path",
+        "planned_micro_sprint",
+        "exists_now",
+        "creation_required",
+        "domain_owner",
+        "purpose"
+      ],
+      "properties": {
+        "module_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "planned_micro_sprint": {
+          "type": "string",
+          "minLength": 1
+        },
+        "exists_now": {
+          "type": "boolean"
+        },
+        "creation_required": {
+          "type": "boolean"
+        },
+        "domain_owner": {
+          "type": "string",
+          "minLength": 1
+        },
+        "purpose": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": true
+    },
+    "plan_item": {
+      "type": "object",
+      "required": [
+        "plan_id",
+        "planned_micro_sprint",
+        "domain_owner",
+        "target_module",
+        "command_ids",
+        "migration_goal",
+        "compatibility_strategy",
+        "application_boundary_strategy",
+        "risk_level",
+        "status"
+      ],
+      "properties": {
+        "plan_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "planned_micro_sprint": {
+          "type": "string",
+          "minLength": 1
+        },
+        "domain_owner": {
+          "type": "string",
+          "minLength": 1
+        },
+        "target_module": {
+          "type": "string",
+          "minLength": 1
+        },
+        "command_ids": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "migration_goal": {
+          "type": "string",
+          "minLength": 1
+        },
+        "compatibility_strategy": {
+          "type": "string",
+          "minLength": 1
+        },
+        "application_boundary_strategy": {
+          "type": "string",
+          "minLength": 1
+        },
+        "risk_level": {
+          "enum": [
+            "low",
+            "medium",
+            "high",
+            "critical"
+          ]
+        },
+        "status": {
+          "enum": [
+            "planned",
+            "already-started",
+            "deferred"
+          ]
+        }
+      },
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": true,
+  "x-devpilot-schema-id": "SCHEMA-DEVPL-CLI-EXTRACTION-PLAN-V1",
+  "x-devpilot-sprint": "POST-H-030-A",
+  "x-devpilot-status": "registered"
+}

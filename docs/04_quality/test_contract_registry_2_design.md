@@ -273,3 +273,12 @@ Limitación explícita: este perfil reduce el costo operativo de selección, per
 
 TCR v2 registra `post-h-029-historical-regression-guard` como contrato P0 de `governance.testing`. El contrato valida `HistoricalRegressionGuardReport`, `tests regression-guard` y el subgate `testing-tiers-ready`. Esta capa cierra POST-H-029 porque convierte taxonomy, impact rules, CLI recommendations y release-candidate-local profile en una política de cierre auditable sin ejecutar tests desde JSON.
 
+
+
+## POST-H-030-A — CLI command ownership matrix
+
+POST-H-030 queda aprobado e inicia con `POST-H-030-A — CLI command ownership matrix`. Se agregan los contratos `CliCommandOwnershipMatrix` y `CliExtractionPlan`, la matriz `.devpilot/cli_registry/command_ownership_matrix.json`, el plan `.devpilot/cli_registry/cli_extraction_plan.json` y el módulo `src/devpilot_core/cli_registry/ownership.py`.
+
+La capacidad es `implemented-initial/local-first`: cubre la superficie CLI registrada, asigna owner/dominio/target module/contrato de compatibilidad por comando y planifica extracciones por familias sin migrar handlers todavía. No cambia nombres de comandos, argumentos, JSON output, exit codes ni comportamiento operativo. No introduce router dinámico, red, APIs externas, remote execution, connector write ni plugin execution.
+
+Siguiente micro-sprint: `POST-H-030-B — Industrial readiness command extraction`.

@@ -1,0 +1,205 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "SCHEMA-DEVPL-CLI-EXTRACTION-PLAN-V1",
+  "plan_id": "devpilot-cli-extraction-plan",
+  "created_by": "POST-H-030-A",
+  "status": "implemented-initial",
+  "version": "1.0.0",
+  "updated": "2026-07-09",
+  "summary": {
+    "planned_items_total": 6,
+    "target_modules_total": 5,
+    "commands_referenced_total": 41,
+    "dynamic_handler_loading_enabled": false,
+    "runtime_router_enabled": false,
+    "public_behavior_changes_allowed": false,
+    "tests_executed": false,
+    "network_used": false,
+    "external_api_used": false,
+    "source_mutations_performed": false,
+    "preliminary": true
+  },
+  "target_modules": [
+    {
+      "module_path": "src/devpilot_core/cli_commands/validation.py",
+      "planned_micro_sprint": "POST-H-030-A",
+      "exists_now": true,
+      "creation_required": false,
+      "domain_owner": "documentation.governance",
+      "purpose": "Existing or future compatibility boundary for CLI command ownership."
+    },
+    {
+      "module_path": "src/devpilot_core/cli_commands/industrial_readiness.py",
+      "planned_micro_sprint": "POST-H-030-B",
+      "exists_now": false,
+      "creation_required": true,
+      "domain_owner": "quality.gate",
+      "purpose": "Own industrial/production readiness CLI handlers while preserving claims/no-go behavior."
+    },
+    {
+      "module_path": "src/devpilot_core/cli_commands/release.py",
+      "planned_micro_sprint": "POST-H-030-C",
+      "exists_now": false,
+      "creation_required": true,
+      "domain_owner": "release",
+      "purpose": "Own release, package, install and reproducibility CLI handlers while preserving local-first release contracts."
+    },
+    {
+      "module_path": "src/devpilot_core/cli_commands/workspace.py",
+      "planned_micro_sprint": "POST-H-030-D",
+      "exists_now": true,
+      "creation_required": false,
+      "domain_owner": "operations.workspace",
+      "purpose": "Own workspace/onboarding CLI handlers while preserving dry-run and ApplicationService boundary candidates."
+    },
+    {
+      "module_path": "src/devpilot_core/cli_commands/workspace_onboarding.py",
+      "planned_micro_sprint": "POST-H-030-D",
+      "exists_now": false,
+      "creation_required": true,
+      "domain_owner": "operations.workspace",
+      "purpose": "Own workspace/onboarding CLI handlers while preserving dry-run and ApplicationService boundary candidates."
+    }
+  ],
+  "plan_items": [
+    {
+      "plan_id": "post-h-030-a:src/devpilot_core/cli_commands/validation.py",
+      "planned_micro_sprint": "POST-H-030-A",
+      "domain_owner": "documentation.governance",
+      "target_module": "src/devpilot_core/cli_commands/validation.py",
+      "command_ids": [
+        "validate"
+      ],
+      "migration_goal": "Document already migrated handlers and keep them in the ownership baseline.",
+      "compatibility_strategy": "Keep command names, arguments, JSON envelope, exit codes and operator-facing messages stable; POST-H-030-E will snapshot observable contracts.",
+      "application_boundary_strategy": "Use existing ApplicationService/ApplicationOperation mapping when present; otherwise keep CLI-only rationale explicit until a later ADR or boundary story exists.",
+      "risk_level": "medium",
+      "status": "already-started"
+    },
+    {
+      "plan_id": "post-h-030-a:src/devpilot_core/cli_commands/workspace.py",
+      "planned_micro_sprint": "POST-H-030-A",
+      "domain_owner": "operations.workspace",
+      "target_module": "src/devpilot_core/cli_commands/workspace.py",
+      "command_ids": [
+        "workspace.bootstrap",
+        "workspace.init",
+        "workspace.readiness-preview",
+        "workspace.status"
+      ],
+      "migration_goal": "Document already migrated handlers and keep them in the ownership baseline.",
+      "compatibility_strategy": "Keep command names, arguments, JSON envelope, exit codes and operator-facing messages stable; POST-H-030-E will snapshot observable contracts.",
+      "application_boundary_strategy": "Use existing ApplicationService/ApplicationOperation mapping when present; otherwise keep CLI-only rationale explicit until a later ADR or boundary story exists.",
+      "risk_level": "high",
+      "status": "already-started"
+    },
+    {
+      "plan_id": "post-h-030-b:src/devpilot_core/cli_commands/industrial_readiness.py",
+      "planned_micro_sprint": "POST-H-030-B",
+      "domain_owner": "quality.gate",
+      "target_module": "src/devpilot_core/cli_commands/industrial_readiness.py",
+      "command_ids": [
+        "industrial-readiness.check",
+        "industrial-readiness.production-ready-local",
+        "industrial-readiness.production-ready-local-final"
+      ],
+      "migration_goal": "Extract industrial readiness handlers from cli.py into a domain-owned module.",
+      "compatibility_strategy": "Keep command names, arguments, JSON envelope, exit codes and operator-facing messages stable; POST-H-030-E will snapshot observable contracts.",
+      "application_boundary_strategy": "Use existing ApplicationService/ApplicationOperation mapping when present; otherwise keep CLI-only rationale explicit until a later ADR or boundary story exists.",
+      "risk_level": "medium",
+      "status": "planned"
+    },
+    {
+      "plan_id": "post-h-030-c:src/devpilot_core/cli_commands/release.py",
+      "planned_micro_sprint": "POST-H-030-C",
+      "domain_owner": "release",
+      "target_module": "src/devpilot_core/cli_commands/release.py",
+      "command_ids": [
+        "backup.create",
+        "backup.list",
+        "backup.restore",
+        "install.plan",
+        "install.windows-smoke",
+        "package.build",
+        "package.source-zip-policy",
+        "release-candidate.evidence-freshness",
+        "release-candidate.final",
+        "release-candidate.install-smoke",
+        "release-candidate.profile",
+        "release-candidate.ui-api-smoke",
+        "release.artifact-manifest",
+        "release.changelog",
+        "release.checksum",
+        "release.environment-snapshot",
+        "release.manifest",
+        "release.python-artifact-verify",
+        "release.reproducibility-pack",
+        "release.reproducibility-verify",
+        "release.sbom",
+        "release.smoke-test",
+        "release.source-archive-manifest",
+        "release.upgrade-rollback-dry-run",
+        "release.verify",
+        "upgrade.check"
+      ],
+      "migration_goal": "Extract release/package/install handlers from cli.py into a domain-owned release module.",
+      "compatibility_strategy": "Keep command names, arguments, JSON envelope, exit codes and operator-facing messages stable; POST-H-030-E will snapshot observable contracts.",
+      "application_boundary_strategy": "Use existing ApplicationService/ApplicationOperation mapping when present; otherwise keep CLI-only rationale explicit until a later ADR or boundary story exists.",
+      "risk_level": "high",
+      "status": "planned"
+    },
+    {
+      "plan_id": "post-h-030-d:src/devpilot_core/cli_commands/workspace.py",
+      "planned_micro_sprint": "POST-H-030-D",
+      "domain_owner": "operations.workspace",
+      "target_module": "src/devpilot_core/cli_commands/workspace.py",
+      "command_ids": [
+        "workspace.isolation-check",
+        "workspace.list",
+        "workspace.register",
+        "workspace.registry-validate",
+        "workspace.select"
+      ],
+      "migration_goal": "Extract workspace/onboarding handlers or consolidate existing workspace command ownership.",
+      "compatibility_strategy": "Keep command names, arguments, JSON envelope, exit codes and operator-facing messages stable; POST-H-030-E will snapshot observable contracts.",
+      "application_boundary_strategy": "Use existing ApplicationService/ApplicationOperation mapping when present; otherwise keep CLI-only rationale explicit until a later ADR or boundary story exists.",
+      "risk_level": "medium",
+      "status": "planned"
+    },
+    {
+      "plan_id": "post-h-030-d:src/devpilot_core/cli_commands/workspace_onboarding.py",
+      "planned_micro_sprint": "POST-H-030-D",
+      "domain_owner": "operations.workspace",
+      "target_module": "src/devpilot_core/cli_commands/workspace_onboarding.py",
+      "command_ids": [
+        "portfolio.hardening-gate",
+        "portfolio.status"
+      ],
+      "migration_goal": "Extract workspace/onboarding handlers or consolidate existing workspace command ownership.",
+      "compatibility_strategy": "Keep command names, arguments, JSON envelope, exit codes and operator-facing messages stable; POST-H-030-E will snapshot observable contracts.",
+      "application_boundary_strategy": "Use existing ApplicationService/ApplicationOperation mapping when present; otherwise keep CLI-only rationale explicit until a later ADR or boundary story exists.",
+      "risk_level": "high",
+      "status": "planned"
+    }
+  ],
+  "safety": {
+    "local_first": true,
+    "read_only": true,
+    "dry_run": true,
+    "commands_executed": false,
+    "dynamic_handler_loading_enabled": false,
+    "runtime_router_enabled": false,
+    "network_used": false,
+    "external_api_used": false,
+    "remote_execution_enabled": false,
+    "connector_write_enabled": false,
+    "plugin_execution_enabled": false,
+    "source_mutations_performed": false,
+    "preliminary": true
+  },
+  "notes": [
+    "POST-H-030-A creates an extraction plan only; behavior migration starts in POST-H-030-B.",
+    "Missing target modules are acceptable only when listed as creation_required in this plan.",
+    "No dynamic router or handler-loading mechanism is introduced by this plan."
+  ]
+}

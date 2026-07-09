@@ -102,10 +102,10 @@ def test_project_global_state_schema_and_docs_are_synchronized() -> None:
     assert any("POST-H-013-D adds optional local crypto" in note for note in state["notes"])
     assert any("POST-H-013-E closes Audit pack integrity" in note for note in state["notes"])
     assert any("POST-H-014 is the next prioritized hito" in note for note in state["notes"])
-    assert state.get("current_micro_sprint") == "POST-H-029-E"
-    assert state.get("next_micro_sprint") == "POST-H-030-A"
+    assert state.get("current_micro_sprint") == "POST-H-030-A"
+    assert state.get("next_micro_sprint") == "POST-H-030-B"
     assert state.get("source_repo") == "repo_DevPilot_Local_263_POST_H_025.zip"
-    assert state.get("current_repo") == "repo_DevPilot_Local_283_POST_H_029_E.zip"
+    assert state.get("current_repo") == "repo_DevPilot_Local_284_POST_H_030_A.zip"
     assert state.get("post_h_026_status") == "closed/local-release-candidate-pass"
     assert "POST-H-026-C — UI/API local smoke under RC" in readme
     assert "POST-H-026-C — UI/API local smoke under RC" in runbook
@@ -531,8 +531,22 @@ def test_project_global_state_schema_and_docs_are_synchronized() -> None:
     assert any("POST-H-025-C adds industrial-readiness production-ready-local CLI" in note for note in state["notes"])
     assert any("POST-H-025-D adds ProductionReadyClaimsValidator" in note for note in state["notes"])
     assert any("POST-H-025-E adds ProductionReadyFinalDeclaration" in note for note in state["notes"])
-    assert state["current_micro_sprint"] == "POST-H-029-E"
-    assert state["next_micro_sprint"] == "POST-H-030-A"
+
+    assert state.get("post_h_030_status") == "active/implemented-initial-post-h-030-a"
+    assert state.get("post_h_030_cli_command_ownership_matrix_schema_registered") is True
+    assert state.get("post_h_030_cli_extraction_plan_schema_registered") is True
+    assert state.get("post_h_030_cli_command_ownership_matrix_available") is True
+    assert state.get("post_h_030_cli_extraction_plan_available") is True
+    assert state.get("post_h_030_cli_ownership_coverage_complete") is True
+    assert state.get("post_h_030_cli_ownership_missing_owner_total") == 0
+    assert state.get("post_h_030_cli_ownership_missing_compatibility_contract_total") == 0
+    assert state.get("post_h_030_cli_dynamic_handler_loading_enabled") is False
+    assert "POST-H-030-A — CLI command ownership matrix" in readme
+    assert "POST-H-030-A — CLI command ownership matrix" in runbook
+    assert "post-h-030-a" in changelog.lower()
+    assert any("POST-H-030-A approves CLI hotspot reduction" in note for note in state["notes"])
+    assert state["current_micro_sprint"] == "POST-H-030-A"
+    assert state["next_micro_sprint"] == "POST-H-030-B"
     assert state.get("post_h_029_test_impact_rule_registry_valid") is True
     assert state.get("post_h_029_test_impact_rules_unknown_impact_escalates") is True
     assert state.get("post_h_029_test_impact_rules_unsafe_commands_total") == 0

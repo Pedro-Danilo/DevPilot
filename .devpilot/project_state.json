@@ -9,7 +9,7 @@
   "last_functional_sprint": "FUNC-SPRINT-99",
   "next_sprint": "POST-H-030",
   "source_repo": "repo_DevPilot_Local_263_POST_H_025.zip",
-  "current_repo": "repo_DevPilot_Local_283_POST_H_029_E.zip",
+  "current_repo": "repo_DevPilot_Local_284_POST_H_030_A.zip",
   "global_state_owner": "tests/test_project_global_state.py",
   "mutable_global_state_fields": [
     "last_completed_sprint",
@@ -262,10 +262,11 @@
     "POST-H-029-C adds TestImpactRecommendationReport and normalizes test-impact analyze-v2 output with matched contracts/rules, profiles, recommended tests/commands, residual risk, full-regression and waiver signals while keeping tests non-executing, local-first and advisory.",
     "POST-H-029-D adds ReleaseCandidateTestProfileReport and formal release-candidate-local test profile: required/recommended/optional local verification commands, pytest targets, TCR/taxonomy/tests.run synchronization and explicit full-regression escalation are available without executing tests from JSON.",
     "POST-H-029-E adds HistoricalRegressionGuard and testing-tiers-ready quality subgate: backlog/release/major-hito closures now require explicit full/focal/waiver regression decisions, waiver expiration and local-first evidence without executing pytest from the guard.",
-    "POST-H-029 closes Testing tiers, impacto y costo de regresion as implemented-initial/local-first: taxonomy, TCR v2 impact rules, CLI recommendations, release-candidate-local profile and historical regression guard are available with full regression preserved."
+    "POST-H-029 closes Testing tiers, impacto y costo de regresion as implemented-initial/local-first: taxonomy, TCR v2 impact rules, CLI recommendations, release-candidate-local profile and historical regression guard are available with full regression preserved.",
+    "POST-H-030-A approves CLI hotspot reduction and adds CliCommandOwnershipMatrix/CliExtractionPlan as read-only ownership and extraction planning artifacts without migrating handlers, changing public CLI behavior, dynamic router, network, external APIs or source mutations."
   ],
-  "current_micro_sprint": "POST-H-029-E",
-  "next_micro_sprint": "POST-H-030-A",
+  "current_micro_sprint": "POST-H-030-A",
+  "next_micro_sprint": "POST-H-030-B",
   "post_h_020_current_micro_sprint": "POST-H-020-E",
   "post_h_020_next_micro_sprint": "POST-H-021",
   "compliance_evidence_collector_module": "src/devpilot_core/compliance/evidence.py",
@@ -827,5 +828,28 @@
   "post_h_029_testing_tiers_ready_profiles": [
     "hardening",
     "industrial"
-  ]
+  ],
+  "post_h_030_status": "active/implemented-initial-post-h-030-a",
+  "post_h_030_backlog_approved": true,
+  "post_h_030_current_micro_sprint": "POST-H-030-A",
+  "post_h_030_next_micro_sprint": "POST-H-030-B",
+  "post_h_030_cli_command_ownership_matrix_schema_registered": true,
+  "post_h_030_cli_extraction_plan_schema_registered": true,
+  "post_h_030_cli_command_ownership_matrix_available": true,
+  "post_h_030_cli_command_ownership_matrix_path": ".devpilot/cli_registry/command_ownership_matrix.json",
+  "post_h_030_cli_extraction_plan_available": true,
+  "post_h_030_cli_extraction_plan_path": ".devpilot/cli_registry/cli_extraction_plan.json",
+  "post_h_030_cli_ownership_module": "src/devpilot_core/cli_registry/ownership.py",
+  "post_h_030_cli_ownership_commands_total": 179,
+  "post_h_030_cli_ownership_coverage_complete": true,
+  "post_h_030_cli_ownership_missing_owner_total": 0,
+  "post_h_030_cli_ownership_missing_compatibility_contract_total": 0,
+  "post_h_030_cli_extraction_plan_items_total": 6,
+  "post_h_030_cli_extraction_target_modules_total": 5,
+  "post_h_030_cli_dynamic_handler_loading_enabled": false,
+  "post_h_030_cli_runtime_router_enabled": false,
+  "post_h_030_cli_public_behavior_changed": false,
+  "post_h_030_cli_network_used": false,
+  "post_h_030_cli_external_api_used": false,
+  "post_h_030_cli_source_mutations_runtime": false
 }

@@ -10877,3 +10877,12 @@ python -m devpilot_core tests regression-guard --context backlog-closure --json 
 `pytest -q` completo no se ejecuta desde el guard. Debe ejecutarse manualmente cuando el guard indique full regression por cierre mayor, release candidate, path no mapeado, schema catalog, project_state, quality gate, CLI core, API security, production-ready claims o TCR schema. Los logs generados son evidencia runtime y no deben versionarse en el repo.
 
 Siguiente hito: `POST-H-030`
+
+
+## POST-H-030-A — CLI command ownership matrix
+
+POST-H-030 queda aprobado e inicia con `POST-H-030-A — CLI command ownership matrix`. Se agregan los contratos `CliCommandOwnershipMatrix` y `CliExtractionPlan`, la matriz `.devpilot/cli_registry/command_ownership_matrix.json`, el plan `.devpilot/cli_registry/cli_extraction_plan.json` y el módulo `src/devpilot_core/cli_registry/ownership.py`.
+
+La capacidad es `implemented-initial/local-first`: cubre la superficie CLI registrada, asigna owner/dominio/target module/contrato de compatibilidad por comando y planifica extracciones por familias sin migrar handlers todavía. No cambia nombres de comandos, argumentos, JSON output, exit codes ni comportamiento operativo. No introduce router dinámico, red, APIs externas, remote execution, connector write ni plugin execution.
+
+Siguiente micro-sprint: `POST-H-030-B — Industrial readiness command extraction`.

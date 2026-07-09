@@ -10,14 +10,28 @@ from .models import (
     CommandRiskLevel,
     CommandSideEffect,
 )
+from .ownership import (
+    CLI_COMMAND_OWNERSHIP_MATRIX_CONTRACT,
+    CLI_COMMAND_OWNERSHIP_MATRIX_SCHEMA_ID,
+    CLI_EXTRACTION_PLAN_CONTRACT,
+    CLI_EXTRACTION_PLAN_SCHEMA_ID,
+    CliCommandOwnershipMatrixBuilder,
+    CliCommandOwnershipOptions,
+)
 from .report import CliCommandRegistryReportBuilder, CliCommandRegistryReportOptions
 
 __all__ = [
     "CLI_REGISTRY_CONTRACT",
     "CLI_REGISTRY_SCHEMA_ID",
+    "CLI_COMMAND_OWNERSHIP_MATRIX_CONTRACT",
+    "CLI_COMMAND_OWNERSHIP_MATRIX_SCHEMA_ID",
+    "CLI_EXTRACTION_PLAN_CONTRACT",
+    "CLI_EXTRACTION_PLAN_SCHEMA_ID",
     "CliCommandRegistry",
     "CliCommandRegistryReportBuilder",
     "CliCommandRegistryReportOptions",
+    "CliCommandOwnershipMatrixBuilder",
+    "CliCommandOwnershipOptions",
     "CliHotspotOwnershipReportBuilder",
     "CliNoGrowthGate",
     "CliNoGrowthGateOptions",
