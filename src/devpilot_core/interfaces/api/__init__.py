@@ -66,6 +66,19 @@ from devpilot_core.interfaces.api.security_hardening import (
     run_local_api_security_hardening,
 )
 
+
+from devpilot_core.interfaces.api.visual_smoke_report import (
+    DEFAULT_UI_VISUAL_SMOKE_REPORT_JSON,
+    DEFAULT_UI_VISUAL_SMOKE_REPORT_MARKDOWN,
+    POST_H_028_C_CREATED_BY,
+    UI_VISUAL_SMOKE_COMMAND,
+    UI_VISUAL_SMOKE_REPORT_CONTRACT,
+    UI_VISUAL_SMOKE_REPORT_SCHEMA_ID,
+    UiVisualSmokeOptions,
+    UiVisualSmokeReporter,
+    run_ui_visual_smoke_report,
+)
+
 from devpilot_core.interfaces.api.shell_gate import (
     DEFAULT_UI_API_SHELL_REPORT_JSON,
     DEFAULT_UI_API_SHELL_REPORT_MARKDOWN,
@@ -131,4 +144,21 @@ __all__ = [
     "API_CONTRACT_DRIFT_REPORT_CONTRACT",
     "API_CONTRACT_DRIFT_COMMAND",
     "DEFAULT_LOCAL_API_SECURITY_HARDENING_REPORT_JSON",
+    "DEFAULT_LOCAL_API_SECURITY_HARDENING_REPORT_MARKDOWN",
+    "LOCAL_API_SECURITY_HARDENING_COMMAND",
+    "LOCAL_API_SECURITY_HARDENING_REPORT_CONTRACT",
+    "LOCAL_API_SECURITY_HARDENING_REPORT_SCHEMA_ID",
+    "POST_H_028_B_CREATED_BY",
+    "LocalApiSecurityHardeningOptions",
+    "LocalApiSecurityHardeningRunner",
+    "run_local_api_security_hardening",
+    "DEFAULT_UI_VISUAL_SMOKE_REPORT_JSON",
+    "DEFAULT_UI_VISUAL_SMOKE_REPORT_MARKDOWN",
+    "POST_H_028_C_CREATED_BY",
+    "UI_VISUAL_SMOKE_COMMAND",
+    "UI_VISUAL_SMOKE_REPORT_CONTRACT",
+    "UI_VISUAL_SMOKE_REPORT_SCHEMA_ID",
+    "UiVisualSmokeOptions",
+    "UiVisualSmokeReporter",
+    "run_ui_visual_smoke_report",
 ]

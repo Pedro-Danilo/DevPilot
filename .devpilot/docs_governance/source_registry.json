@@ -7219,6 +7219,103 @@
       "required_tests": [
         "tests/test_post_h_028_local_auth_cors_hardening.py"
       ]
+    },
+    {
+      "doc_id": "SCHEMA-DEVPL-UI-VISUAL-SMOKE-REPORT-V1",
+      "path": "docs/schemas/ui_visual_smoke_report.schema.json",
+      "classification": "machine-readable-source",
+      "domain": "product.ui",
+      "owner": "POST-H-028-C",
+      "status_required": "registered",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_028_visual_smoke_contract.py",
+        "tests/test_schema_registry.py"
+      ]
+    },
+    {
+      "doc_id": "POST-H-028-C-VISUAL-SMOKE-MODULE",
+      "path": "src/devpilot_core/interfaces/api/visual_smoke_report.py",
+      "classification": "source-of-truth",
+      "domain": "product.ui",
+      "owner": "POST-H-028-C",
+      "status_required": "current",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_028_visual_smoke_contract.py"
+      ]
+    },
+    {
+      "doc_id": "POST-H-028-C-VISUAL-SMOKE-REPORT",
+      "path": "docs/audits/post_h_028_c_visual_smoke_report.md",
+      "classification": "source-of-truth",
+      "domain": "product.ui",
+      "owner": "POST-H-028-C",
+      "status_required": "approved",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_028_visual_smoke_contract.py"
+      ]
+    },
+    {
+      "doc_id": "POST-H-028-C-MANIFEST",
+      "path": "docs/post_h_028_c_manifest.json",
+      "classification": "machine-readable-source",
+      "domain": "product.ui",
+      "owner": "POST-H-028-C",
+      "status_required": "implemented-initial",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_028_visual_smoke_contract.py"
+      ]
+    },
+    {
+      "doc_id": "POST-H-028-C-VISUAL-SMOKE-TEST",
+      "path": "tests/test_post_h_028_visual_smoke_contract.py",
+      "classification": "test-contract",
+      "domain": "product.ui",
+      "owner": "POST-H-028-C",
+      "status_required": "current",
+      "criticality": "P0",
+      "required_tests": [
+        "tests/test_post_h_028_visual_smoke_contract.py"
+      ]
+    },
+    {
+      "doc_id": "POST-H-028-C-WEB-VISUAL-SMOKE-SCRIPT",
+      "path": "ui/web/scripts/visual-smoke.mjs",
+      "classification": "source-of-truth",
+      "domain": "product.ui",
+      "owner": "POST-H-028-C",
+      "status_required": "current",
+      "criticality": "P1",
+      "required_tests": [
+        "tests/test_post_h_028_visual_smoke_contract.py"
+      ]
+    },
+    {
+      "doc_id": "POST-H-028-C-PLAYWRIGHT-CONFIG",
+      "path": "ui/web/playwright.config.ts",
+      "classification": "derived",
+      "domain": "product.ui",
+      "owner": "POST-H-028-C",
+      "status_required": "current",
+      "criticality": "P2",
+      "required_tests": [
+        "tests/test_post_h_028_visual_smoke_contract.py"
+      ]
+    },
+    {
+      "doc_id": "POST-H-028-C-PLAYWRIGHT-SPEC",
+      "path": "ui/web/tests/visual-smoke.spec.ts",
+      "classification": "derived",
+      "domain": "product.ui",
+      "owner": "POST-H-028-C",
+      "status_required": "current",
+      "criticality": "P2",
+      "required_tests": [
+        "tests/test_post_h_028_visual_smoke_contract.py"
+      ]
     }
   ],
   "rules": {
@@ -7292,20 +7389,20 @@
     "POST-H-025-C keeps enterprise, remote, SaaS and compliance claims disabled.": true
   },
   "summary": {
-    "documents_total": 290,
-    "source_of_truth_total": 97,
-    "machine_readable_source_total": 130,
-    "derived_total": 36,
+    "documents_total": 298,
+    "source_of_truth_total": 108,
+    "machine_readable_source_total": 138,
+    "derived_total": 38,
     "generated_runtime_total": 0,
     "historical_total": 0,
     "deprecated_total": 0,
-    "critical_sources_total": 68,
+    "critical_sources_total": 203,
     "markdown_json_pairs_total": 30,
-    "documents_with_required_tests_total": 267,
+    "documents_with_required_tests_total": 292,
     "network_used": false,
     "external_api_used": false,
     "mutations_performed": false,
-    "last_updated_by": "POST-H-028-B",
+    "last_updated_by": "POST-H-028-C",
     "markdown_json_sync_checks_enabled": true,
     "sync_checks_scope": "version_match, milestones_match, decisions_match, closure_status_match, next_hito_match",
     "roadmap_derived_backlog_governance_enabled": true,

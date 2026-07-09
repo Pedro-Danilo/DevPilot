@@ -242,3 +242,7 @@ El comando `python -m devpilot_core api contract-drift --json --write-report` bl
 ## POST-H-028-B — Local auth and CORS hardening
 
 `LocalApiSecurityHardeningRunner` valida la postura local de autenticacion y CORS: rutas protegidas requieren token, token invalido bloquea, token valido pasa, CORS no acepta wildcard, origen no local no recibe `Access-Control-Allow-Origin`, bind no local queda bloqueado, headers de seguridad se aplican y settings/providers no expone secretos raw.
+
+## POST-H-028-C — Smoke visual UI/API
+
+El contrato API queda complementado por `UiVisualSmokeReport`: las rutas consumidas por las vistas críticas deben permanecer registradas en `ApiRouteContractRegistry` y visibles desde `UiRouteContractRegistry`. El smoke visual no llama APIs remotas ni abre servidor; verifica que la UI siga siendo API-only y que no agregue referencias a rutas destructivas o no contractadas.

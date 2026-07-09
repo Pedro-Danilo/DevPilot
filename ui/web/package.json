@@ -1,14 +1,15 @@
 {
   "name": "devpilot-local-web-ui",
-  "version": "0.6.0-post-h-014-e",
+  "version": "0.6.1-post-h-028-c",
   "private": true,
   "type": "module",
-  "description": "DevPilot Local Web UI visual MVP for Fase F closure: dashboard, report/trace viewers, Approval Center and Settings UI.",
+  "description": "DevPilot Local Web UI for local operator console: dashboard, reports, traces, approvals, settings, operator dashboard and POST-H-028 visual smoke contracts.",
   "scripts": {
     "dev": "vite --host 127.0.0.1 --port 5173",
     "build": "vite build",
     "preview": "vite preview --host 127.0.0.1 --port 5173",
-    "test": "node scripts/smoke-test.mjs"
+    "test": "node scripts/smoke-test.mjs",
+    "test:visual": "node scripts/visual-smoke.mjs"
   },
   "dependencies": {},
   "devDependencies": {
@@ -67,6 +68,24 @@
     "operatorDashboardUi": true,
     "operatorDashboardApiRoute": "api.operator.dashboard",
     "uiApiShellQualityGate": true,
-    "uiApiShellReport": "outputs/reports/ui_api_shell_report.json"
+    "uiApiShellReport": "outputs/reports/ui_api_shell_report.json",
+    "postH028C": true,
+    "uiVisualSmoke": true,
+    "uiVisualSmokeScript": "node scripts/visual-smoke.mjs",
+    "browserVisualSmokeOptional": true,
+    "playwrightScaffold": true,
+    "browserRequiredForCorePytest": false,
+    "screenshotsVersioned": false,
+    "visualSmokeReport": "outputs/reports/ui_visual_smoke_report.json",
+    "criticalVisualViews": [
+      "ui.dashboard",
+      "ui.reports",
+      "ui.traces",
+      "ui.approvals",
+      "ui.settings",
+      "ui.operator-dashboard-embedded"
+    ],
+    "unauthorizedErrorVisible": true,
+    "apiDownErrorVisible": true
   }
 }

@@ -10744,3 +10744,17 @@ python -m devpilot_core schema validate `
 Criterios PASS: token ausente/invalido bloqueado, token valido permitido, wildcard CORS deshabilitado, origen local permitido, origen no local rechazado, host no local bloqueado incluso con `DEVPILOT_API_ALLOW_NON_LOCALHOST`, headers de seguridad presentes y secrets/tokens redactados.
 
 No objetivos: OIDC, SSO, auth enterprise, API remota publica, sesiones persistentes y rate limiting industrial.
+
+## POST-H-028-C — Visual smoke tests
+
+Comando operativo local:
+
+```powershell
+$env:PYTHONPATH="src"
+python -m devpilot_core api visual-smoke-report --json --write-report
+python -m devpilot_core schema validate --schema-id UiVisualSmokeReport --instance outputs/reports/ui_visual_smoke_report.json --json
+npm --prefix ui/web test
+npm --prefix ui/web run test:visual
+```
+
+El reporte valida seis superficies visuales críticas y estados mínimos sin abrir sockets ni requerir browser tooling en pytest. Si se instala Playwright en el futuro, usar `ui/web/playwright.config.ts` y mantener screenshots bajo `outputs/ui-smoke/`, `ui/web/test-results/` o `ui/web/playwright-report/`; nunca versionarlos.

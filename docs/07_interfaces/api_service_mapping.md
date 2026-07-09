@@ -168,3 +168,7 @@ Las rutas respaldadas por ApplicationService deben declarar `response_contract=A
 ## POST-H-028-B — Local auth and CORS hardening
 
 `LocalApiSecurityHardeningRunner` valida la postura local de autenticacion y CORS: rutas protegidas requieren token, token invalido bloquea, token valido pasa, CORS no acepta wildcard, origen no local no recibe `Access-Control-Allow-Origin`, bind no local queda bloqueado, headers de seguridad se aplican y settings/providers no expone secretos raw.
+
+## POST-H-028-C — Mapping visual hacia API local
+
+El smoke visual verifica que Dashboard, Reports, Traces, Approvals, Settings y Operator Dashboard consuman solamente rutas permitidas por `UiRouteContractRegistry` y respaldadas por `ApiRouteContractRegistry`. No introduce nuevas operaciones de ApplicationService; solo agrega evidencia de renderabilidad y estados visuales mínimos.

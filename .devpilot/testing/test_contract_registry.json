@@ -7223,6 +7223,60 @@
       "notes": [
         "POST-H-028-B verifies local token/CORS/bind/header/redaction hardening with in-process TestClient and no network."
       ]
+    },
+    {
+      "contract_id": "post-h-028-visual-smoke-tests",
+      "scope": "ui-smoke",
+      "owner": "POST-H-028-C",
+      "test_files": [
+        "tests/test_post_h_028_visual_smoke_contract.py"
+      ],
+      "validates": [
+        "src/devpilot_core/interfaces/api/visual_smoke_report.py",
+        "docs/schemas/ui_visual_smoke_report.schema.json",
+        "api visual-smoke-report",
+        "quality-gate ui-visual-smoke",
+        "ui/web/scripts/visual-smoke.mjs",
+        "ui/web/playwright.config.ts",
+        "ui/web/tests/visual-smoke.spec.ts",
+        "ui/web/package.json",
+        "README.md",
+        "docs/05_operations/runbook.md",
+        "docs/05_operations/ui_api_local_runbook.md"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/interfaces/api/visual_smoke_report.py",
+        "src/devpilot_core/quality/gate.py",
+        "src/devpilot_core/cli.py",
+        "src/devpilot_core/cli_registry/registry.py",
+        "docs/schemas/ui_visual_smoke_report.schema.json",
+        "ui/web/package.json",
+        "ui/web/scripts/visual-smoke.mjs",
+        "ui/web/src/",
+        "ui/web/playwright.config.ts",
+        "ui/web/tests/visual-smoke.spec.ts",
+        "tests/test_post_h_028_visual_smoke_contract.py",
+        ".devpilot/interfaces/ui_route_contract_registry.json",
+        ".devpilot/testing/test_contract_registry.json",
+        ".devpilot/testing/test_contract_registry_v2.json"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_028_visual_smoke_contract.py tests/test_web_ui_mvp.py tests/test_web_ui_report_trace_viewer.py tests/test_web_ui_approval_center.py tests/test_web_ui_settings.py tests/test_post_h_015_operator_dashboard_ui.py tests/test_schema_registry.py tests/test_project_global_state.py -q",
+        "python -m devpilot_core api visual-smoke-report --json --write-report",
+        "python -m devpilot_core schema validate --schema-id UiVisualSmokeReport --instance outputs/reports/ui_visual_smoke_report.json --json",
+        "npm --prefix ui/web test"
+      ],
+      "notes": [
+        "POST-H-028-C validates critical UI visual smoke contracts without requiring browser tooling for core pytest.",
+        "Optional browser scaffold exists; screenshots remain non-versioned under outputs/ui-smoke or ui/web/test-results."
+      ]
     }
   ],
   "notes": [

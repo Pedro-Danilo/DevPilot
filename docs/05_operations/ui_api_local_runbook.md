@@ -160,3 +160,16 @@ El comando compara rutas FastAPI runtime/canónicas, `ApiRouteContractRegistry`,
 ## POST-H-028-B — Local auth and CORS hardening
 
 El operador puede ejecutar `python -m devpilot_core api security-hardening --json --write-report` antes de levantar UI/API para confirmar que la superficie local conserva token, CORS restringido, headers y redaccion. Este chequeo usa `TestClient` in-process y no inicia uvicorn.
+
+## POST-H-028-C — Visual smoke tests
+
+`api visual-smoke-report` complementa el smoke contractual de `npm test` con un reporte JSON/Markdown schema-backed. El objetivo es impedir falsos PASS donde la UI existe pero no muestra vistas críticas o estados `empty/error/BLOCK/401/403/API down`.
+
+Modo recomendado:
+
+```powershell
+python -m devpilot_core api visual-smoke-report --json --write-report
+npm --prefix ui/web run test:visual
+```
+
+Playwright queda como scaffold opcional. No debe convertirse en requisito del core pytest hasta que se defina un perfil CI/browser separado.

@@ -2452,6 +2452,15 @@ This section preserves exact sprint-title anchors used by documentation regressi
 
 
 
+
+## POST-H-028-C — Visual smoke tests
+
+- Agrega `UiVisualSmokeReport`, `UiVisualSmokeReporter` y CLI `api visual-smoke-report`.
+- Agrega `npm --prefix ui/web run test:visual` dependency-light y scaffold opcional de Playwright.
+- Verifica vistas críticas, estados visuales `empty/error/BLOCK/401/403/API down`, screenshot hygiene y frontera API-only.
+- Corrige integración heredada de POST-H-028-B agregando `local-api-security-hardening` al quality-gate hardening/industrial.
+- Mantiene browser tooling como opt-in/advisory y sin dependencia de red externa.
+
 ## POST-H-028-B — Local auth and CORS hardening
 
 - Added `api security-hardening` local read-only guard.

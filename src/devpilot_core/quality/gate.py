@@ -158,6 +158,7 @@ class QualityGate:
                     "POST-H-009-E adds docs-governance to hardening/industrial profiles to block canonical-source, sync and backlog-governance drift.",
                     "POST-H-028-A adds api-contract-drift-guard to hardening/industrial profiles to block drift across FastAPI runtime/canonical routes, ApiRouteContractRegistry, API_ROUTE_POLICIES and OpenAPI without starting servers or mutating source files.",
                     "POST-H-028-B adds local-api-security-hardening to hardening/industrial profiles to verify token enforcement, CORS, local bind, security headers and redaction without starting servers or mutating source files.",
+                    "POST-H-028-C adds ui-visual-smoke to hardening/industrial profiles to validate dependency-light critical UI visual contracts, state visibility and screenshot hygiene without requiring browser tooling in core pytest.",
                     "The default and ci profiles do not run pytest implicitly; CI workflows and local checklists run pytest as an explicit step, or use --include-pytest when desired.",
                     "The gate does not publish packages, deploy, write source files, call network services or use external APIs.",
                     "Optional --write-report is handled by the CLI and writes only under outputs/reports.",
@@ -217,6 +218,8 @@ class QualityGate:
             subgates.append(QualitySubgate("local-release-candidate", "POST-H-026 local RC final PASS/BLOCK aggregator.", lambda: self.service.local_release_candidate_final()))
             subgates.append(QualitySubgate("packaging-local-ready", "POST-H-027 local packaging, Windows install smoke and upgrade/rollback dry-run gate.", self._packaging_local_ready))
             subgates.append(QualitySubgate("api-contract-drift-guard", "POST-H-028-A API runtime/registry/policy/OpenAPI drift guard.", self._api_contract_drift_guard))
+            subgates.append(QualitySubgate("local-api-security-hardening", "POST-H-028-B local token/CORS/bind/header/redaction guard.", self._local_api_security_hardening))
+            subgates.append(QualitySubgate("ui-visual-smoke", "POST-H-028-C dependency-light critical UI visual smoke report.", self._ui_visual_smoke))
         if self.options.profile == "industrial":
             subgates.append(QualitySubgate("industrial-readiness", "Fase H industrial readiness gate and maturity classification.", self._industrial_readiness))
         if self.options.profile == "hardening":
@@ -380,6 +383,12 @@ class QualityGate:
         from devpilot_core.interfaces.api import LocalApiSecurityHardeningOptions, LocalApiSecurityHardeningRunner
 
         return LocalApiSecurityHardeningRunner(self.root, LocalApiSecurityHardeningOptions(write_report=False)).run()
+
+
+    def _ui_visual_smoke(self) -> CommandResult:
+        from devpilot_core.interfaces.api import UiVisualSmokeOptions, UiVisualSmokeReporter
+
+        return UiVisualSmokeReporter(self.root, UiVisualSmokeOptions(write_report=False)).run()
 
     def _connector_sandbox(self) -> CommandResult:
         from devpilot_core.connectors import ConnectorSandboxQualityGate

@@ -4982,6 +4982,28 @@ def api_security_hardening_command(*, json_output: bool = False, write_report: b
     return int(result.exit_code)
 
 
+
+def api_visual_smoke_report_command(*, json_output: bool = False, write_report: bool = False, require_browser_tooling: bool = False) -> int:
+    """Run POST-H-028-C local UI visual smoke report.
+
+    The report performs dependency-light static visual contract checks for the
+    local Web UI and keeps Playwright/browser execution optional. It does not
+    start servers, open sockets, use network/external APIs or mutate source
+    files. Optional reports are written only under outputs/reports.
+    """
+
+    root = project_root()
+    from .interfaces.api import UiVisualSmokeOptions, UiVisualSmokeReporter
+
+    result = UiVisualSmokeReporter(
+        root,
+        UiVisualSmokeOptions(write_report=write_report, require_browser_tooling=require_browser_tooling),
+    ).run()
+    _emit_result_event(root, result, subject="api-visual-smoke-report")
+    _persist_result(root, result, subject="api-visual-smoke-report")
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
 def api_shell_gate_command(*, json_output: bool = False, write_report: bool = False, run_ui_smoke: bool = True) -> int:
     """Run the POST-H-014-E local UI/API industrial shell quality subgate."""
 
@@ -6705,6 +6727,11 @@ def build_parser() -> argparse.ArgumentParser:
     api_security_hardening.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     api_security_hardening.add_argument("--write-report", action="store_true", help="Persist outputs/reports/local_api_security_hardening_report.json and .md")
 
+    api_visual_smoke = api_sub.add_parser("visual-smoke-report", help="Run POST-H-028-C UI visual smoke report")
+    api_visual_smoke.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    api_visual_smoke.add_argument("--write-report", action="store_true", help="Persist outputs/reports/ui_visual_smoke_report.json and .md")
+    api_visual_smoke.add_argument("--require-browser-tooling", action="store_true", help="BLOCK if optional browser tooling such as Playwright is not installed")
+
     policy = sub.add_parser("policy", help="Evaluate deterministic DevPilot safety policies")
     policy_sub = policy.add_subparsers(dest="policy_command")
     policy_check = policy_sub.add_parser("check", help="Evaluate a simulated action through PolicyEngine")
@@ -7981,6 +8008,8 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
             return api_contract_drift_command(json_output=args.json, write_report=args.write_report)
         if args.api_command == "security-hardening":
             return api_security_hardening_command(json_output=args.json, write_report=args.write_report)
+        if args.api_command == "visual-smoke-report":
+            return api_visual_smoke_report_command(json_output=args.json, write_report=args.write_report, require_browser_tooling=args.require_browser_tooling)
         parser.print_help()
         return int(ExitCode.FAIL)
     if args.command == "policy":

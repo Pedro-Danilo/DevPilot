@@ -3,7 +3,7 @@ doc_id: "POST-H-028-BACKLOG"
 id: "POST-H-028"
 title: "POST-H-028 — UI/API local hardening"
 status: "approved"
-version: "0.3.0"
+version: "0.4.0"
 owner: "Ordonez"
 created: "2026-07-07"
 updated: "2026-07-08"
@@ -24,9 +24,9 @@ no_connector_write_enabled: true
 no_plugin_execution_enabled: true
 claims_allowed: "production-ready-local"
 claims_forbidden: "enterprise-ready, remote-ready, SaaS-ready, compliance-certified"
-implementation_status: "in-progress/post-h-028-b-implemented-initial"
-current_micro_sprint: "POST-H-028-B"
-next_micro_sprint: "POST-H-028-C"
+implementation_status: "in-progress/post-h-028-c-implemented-initial"
+current_micro_sprint: "POST-H-028-C"
+next_micro_sprint: "POST-H-028-D"
 ---
 
 # POST-H-028 — UI/API local hardening
@@ -415,6 +415,11 @@ python -m devpilot_core api contract-drift --json
 python -m devpilot_core api contract-drift --json --write-report
 python -m devpilot_core schema validate --schema-id ApiContractDriftReport --instance outputs/reports/api_contract_drift_report.json --json
 ```
+
+
+> Snapshot de cierre histórico POST-H-028-B usado por pruebas contractuales:
+> current_micro_sprint: "POST-H-028-B"
+> next_micro_sprint: "POST-H-028-C"
 
 ## 10. Micro-sprint POST-H-028-B — Local auth and CORS hardening
 
@@ -1016,7 +1021,7 @@ python -m devpilot_core api security-hardening --json --write-report
 
 El runner `LocalApiSecurityHardeningRunner` verifica token obligatorio en rutas protegidas, bloqueo de token invalido, PASS con token valido, CORS restringido a localhost/loopback, rechazo de wildcard, rechazo de origen no local, bloqueo de `0.0.0.0` incluso con `DEVPILOT_API_ALLOW_NON_LOCALHOST`, headers de seguridad y redaccion de settings/providers y token en reportes.
 
-Limites explicitos: no implementa OIDC, SSO, IAM enterprise, rate limiting industrial, TLS/mTLS activo, API publica remota ni sesiones persistentes. Es una primera version local robusta que prepara POST-H-028-C/D/E.
+Limites explicitos: no implementa OIDC, SSO, IAM enterprise, rate limiting industrial, TLS/mTLS activo, API publica remota ni sesiones persistentes. Es una primera version local robusta que prepara POST-H-028-D/E; POST-H-028-C ya incorpora smoke visual inicial.
 
 Artefactos:
 
@@ -1027,3 +1032,34 @@ tests/test_post_h_028_local_auth_cors_hardening.py
 docs/audits/post_h_028_b_local_auth_cors_hardening_report.md
 docs/post_h_028_b_manifest.json
 ```
+
+## Implementacion POST-H-028-C — Visual smoke tests
+
+Estado: `implemented-initial`.
+
+POST-H-028-C agrega un paquete de smoke visual local y schema-backed para verificar que la shell UI/API no solo conserve contratos, sino que renderice superficies criticas y estados operacionales minimos. El comando principal es:
+
+```powershell
+python -m devpilot_core api visual-smoke-report --json --write-report
+```
+
+El runner `UiVisualSmokeReporter` valida seis superficies criticas: Dashboard, Report Viewer, Trace Viewer, Approval Center, Settings y Operator Dashboard embebido. Tambien verifica estados `loading`, `empty`, `error`, `BLOCK`, `401/403` y `API local down`, mantiene la UI como API-only, bloquea marcadores de filesystem/core Python y confirma que screenshots/test-results sean runtime outputs no versionables.
+
+Decision de alcance: se adopta una ruta dependency-light como gate principal, porque el set general de pytest ya es costoso y no debe depender de Node/browser. Se agrega scaffold opcional de Playwright (`ui/web/playwright.config.ts` y `ui/web/tests/visual-smoke.spec.ts`) para evolucion posterior, pero `@playwright/test` no queda como dependencia obligatoria.
+
+Correccion heredada aplicada durante POST-H-028-C: `local-api-security-hardening` de POST-H-028-B queda agregado efectivamente a `quality-gate` hardening/industrial; ademas se agrega `ui-visual-smoke`.
+
+Artefactos:
+
+```text
+docs/schemas/ui_visual_smoke_report.schema.json
+src/devpilot_core/interfaces/api/visual_smoke_report.py
+tests/test_post_h_028_visual_smoke_contract.py
+ui/web/scripts/visual-smoke.mjs
+ui/web/playwright.config.ts
+ui/web/tests/visual-smoke.spec.ts
+docs/audits/post_h_028_c_visual_smoke_report.md
+docs/post_h_028_c_manifest.json
+```
+
+Limites explicitos: no es cobertura visual industrial completa; no hay pixel-perfect assertions, cross-browser completo, accesibilidad formal ni screenshots comparables. Es una primera version robusta y local-first que prepara POST-H-028-D/E.

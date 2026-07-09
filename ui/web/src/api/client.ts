@@ -142,16 +142,28 @@ export class DevPilotApiClient {
   }
 
   private async request(path: string, init: RequestInit): Promise<DevPilotApplicationResponse> {
-    const response = await fetch(`${this.baseUrl}${path}`, {
-      ...init,
-      headers: {
-        ...(init.headers ?? {}),
-        ...this.authHeaders(),
-      },
-    });
+    let response: Response;
+    try {
+      response = await fetch(`${this.baseUrl}${path}`, {
+        ...init,
+        headers: {
+          ...(init.headers ?? {}),
+          ...this.authHeaders(),
+        },
+      });
+    } catch (error) {
+      throw new DevPilotApiError(
+        'API local down o inaccesible: verifica que DevPilot API esté levantada en localhost y que el token local esté configurado.',
+        0,
+        { error: error instanceof Error ? error.message : String(error), state: 'api_down' }
+      );
+    }
     const payload = await response.json().catch(() => ({}));
     if (!response.ok) {
-      throw new DevPilotApiError(`DevPilot API respondió HTTP ${response.status}`, response.status, payload);
+      const authHint = response.status === 401 || response.status === 403
+        ? 'Unauthorized/Forbidden 401/403: token local faltante o inválido.'
+        : 'Error HTTP de API local.';
+      throw new DevPilotApiError(`DevPilot API respondió HTTP ${response.status}. ${authHint}`, response.status, payload);
     }
     return payload as DevPilotApplicationResponse;
   }

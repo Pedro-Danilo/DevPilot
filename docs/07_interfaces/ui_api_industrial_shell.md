@@ -196,3 +196,9 @@ El shell UI/API queda protegido por un guard adicional que valida contrato API a
 ## POST-H-028-B — Local auth and CORS hardening
 
 `LocalApiSecurityHardeningRunner` valida la postura local de autenticacion y CORS: rutas protegidas requieren token, token invalido bloquea, token valido pasa, CORS no acepta wildcard, origen no local no recibe `Access-Control-Allow-Origin`, bind no local queda bloqueado, headers de seguridad se aplican y settings/providers no expone secretos raw.
+
+## POST-H-028-C — Visual smoke tests
+
+La shell UI/API incorpora `UiVisualSmokeReport` como evidencia inicial de calidad visual local. Se validan vistas críticas, badges local-first/no-remote/dry-run, estados `loading`, `empty`, `error`, `BLOCK`, `401/403`, `API local down`, settings redacted y Operator Dashboard embebido.
+
+Estado: `implemented-initial`. No es aún cobertura visual industrial completa: Playwright/browser real, screenshots comparables, accesibilidad y cross-browser quedan como evolución futura.

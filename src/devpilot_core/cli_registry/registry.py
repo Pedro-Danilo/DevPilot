@@ -409,6 +409,20 @@ COMMAND_OVERRIDES: dict[str, DeclarativeCommandOverride] = {
         ),
         rationale="POST-H-028-B verifies local API token enforcement, restricted CORS, localhost bind refusal, security headers and redaction with in-process TestClient; --write-report writes only outputs/reports evidence.",
     ),
+
+    "api.visual-smoke-report": DeclarativeCommandOverride(
+        command_id="api.visual-smoke-report",
+        risk_level=CommandRiskLevel.MEDIUM,
+        side_effects=(CommandSideEffect.WRITE_REPORT,),
+        writes_files=True,
+        dry_run_supported=True,
+        policy_check_required=True,
+        recommended_tests=(
+            "python -m pytest tests/test_post_h_028_visual_smoke_contract.py tests/test_web_ui_mvp.py tests/test_web_ui_report_trace_viewer.py tests/test_web_ui_approval_center.py tests/test_web_ui_settings.py tests/test_post_h_015_operator_dashboard_ui.py -q",
+            "npm --prefix ui/web test",
+        ),
+        rationale="POST-H-028-C creates a dependency-light UI visual smoke report for critical local operator surfaces; --write-report writes only outputs/reports evidence and browser tooling remains optional/advisory for the core gate.",
+    ),
     "api.shell-gate": DeclarativeCommandOverride(
         command_id="api.shell-gate",
         risk_level=CommandRiskLevel.HIGH,

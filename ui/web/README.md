@@ -78,3 +78,14 @@ El smoke test es deliberadamente dependency-light y no requiere instalar paquete
 - No persiste token fuera de `sessionStorage` del navegador.
 - No habilita `patch apply`, `refactor execute`, `rollback execute`, `git push` ni `deploy` desde UI.
 - Approval Center es una primera versión local; la correlación avanzada approval↔trace↔report debe evolucionar en sprints posteriores.
+
+## POST-H-028-C — Visual smoke local
+
+Comandos:
+
+```bash
+npm test
+npm run test:visual
+```
+
+`npm run test:visual` es dependency-light y valida marcadores visuales críticos sin Playwright. El scaffold `playwright.config.ts` y `tests/visual-smoke.spec.ts` queda disponible para una ejecución browser opt-in futura. No versionar `test-results/`, `playwright-report/` ni screenshots.

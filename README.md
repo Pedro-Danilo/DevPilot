@@ -5500,7 +5500,7 @@ python -m devpilot_core api contract-drift --json --write-report
 python -m devpilot_core schema validate --schema-id ApiContractDriftReport --instance outputs/reports/api_contract_drift_report.json --json
 ```
 
-El guard no arranca servidor, no abre sockets, no llama APIs externas, no usa LLM judge y no muta fuente. POST-H-028-B/C/D/E quedan pendientes para auth/CORS hardening, visual smoke, error states y UI route enforcement.
+El guard no arranca servidor, no abre sockets, no llama APIs externas, no usa LLM judge y no muta fuente. POST-H-028-B y POST-H-028-C ya cuentan con hardening local y smoke visual inicial; POST-H-028-D/E quedan pendientes para error states/flujos de operador y UI route enforcement.
 
 
 
@@ -5522,3 +5522,9 @@ python -m pytest -p no:ddtrace --assert=plain `
   tests/test_project_global_state.py `
   -q
 ```
+
+## POST-H-028-C — Visual smoke tests
+
+POST-H-028-C agrega smoke visual local en modo `implemented-initial`: `UiVisualSmokeReporter`, schema `UiVisualSmokeReport`, CLI `python -m devpilot_core api visual-smoke-report --json --write-report`, script `npm --prefix ui/web run test:visual` y scaffold opcional de Playwright. Valida Dashboard, Report Viewer, Trace Viewer, Approval Center, Settings y Operator Dashboard embebido, además de estados `loading`, `empty`, `error`, `BLOCK`, `401/403` y `API local down`.
+
+Límites: el core pytest no requiere navegador ni Playwright; el modo browser queda como advisory/opt-in. Screenshots y test-results son runtime outputs no versionables. POST-H-028-D/E siguen pendientes para flujos operacionales profundos y enforcement bloqueante del UI route registry.

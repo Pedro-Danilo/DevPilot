@@ -1,0 +1,44 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "SCHEMA-DEVPL-POST-H-MANIFEST-V1",
+  "sprint": "POST-H-028-C",
+  "title": "Visual smoke tests",
+  "status": "implemented-initial",
+  "created_by": "POST-H-028-C",
+  "summary": {
+    "ui_visual_smoke_report_available": true,
+    "critical_visual_views_total": 6,
+    "visual_states_checked_total": 6,
+    "browser_tooling_required_for_core": false,
+    "playwright_scaffold_available": true,
+    "screenshots_versioned": false,
+    "network_used": false,
+    "external_api_used": false,
+    "remote_execution_enabled": false,
+    "connector_write_enabled": false,
+    "plugin_execution_enabled": false,
+    "source_mutations_performed": false,
+    "preliminary": true
+  },
+  "artifacts": {
+    "schema": "docs/schemas/ui_visual_smoke_report.schema.json",
+    "module": "src/devpilot_core/interfaces/api/visual_smoke_report.py",
+    "test": "tests/test_post_h_028_visual_smoke_contract.py",
+    "audit_report": "docs/audits/post_h_028_c_visual_smoke_report.md",
+    "npm_visual_script": "ui/web/scripts/visual-smoke.mjs",
+    "playwright_config": "ui/web/playwright.config.ts",
+    "playwright_spec": "ui/web/tests/visual-smoke.spec.ts",
+    "runtime_report": "outputs/reports/ui_visual_smoke_report.json"
+  },
+  "commands": [
+    "python -m devpilot_core api visual-smoke-report --json --write-report",
+    "python -m devpilot_core schema validate --schema-id UiVisualSmokeReport --instance outputs/reports/ui_visual_smoke_report.json --json",
+    "npm --prefix ui/web test",
+    "npm --prefix ui/web run test:visual"
+  ],
+  "notes": [
+    "Browser tooling is optional/advisory for POST-H-028-C core gates.",
+    "Screenshots are runtime evidence and must not be committed.",
+    "Future POST-H-028-D/E should deepen operator flow and route enforcement coverage."
+  ]
+}

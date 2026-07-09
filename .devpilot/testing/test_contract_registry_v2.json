@@ -12599,6 +12599,86 @@
         "POST-H-028-B writes optional outputs/reports only with --write-report; source mutations are not allowed.",
         "The guard uses in-process TestClient only and does not start servers, bind sockets, use network, external APIs or LLM judge."
       ]
+    },
+    {
+      "contract_id": "post-h-028-visual-smoke-tests",
+      "schema_version": "2.0",
+      "source_contract_id": "post-h-028-visual-smoke-tests",
+      "domain": "product.ui",
+      "capability": "ui-visual-smoke-tests",
+      "criticality": "P0",
+      "risk_level": "medium",
+      "test_type": "ui-smoke",
+      "execution_profile": "release",
+      "cost_class": "low",
+      "expected_duration_seconds": 240,
+      "test_files": [
+        "tests/test_post_h_028_visual_smoke_contract.py"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/interfaces/api/visual_smoke_report.py",
+        "src/devpilot_core/quality/gate.py",
+        "src/devpilot_core/cli.py",
+        "src/devpilot_core/cli_registry/registry.py",
+        "docs/schemas/ui_visual_smoke_report.schema.json",
+        "ui/web/package.json",
+        "ui/web/scripts/visual-smoke.mjs",
+        "ui/web/src/",
+        "ui/web/playwright.config.ts",
+        "ui/web/tests/visual-smoke.spec.ts",
+        "tests/test_post_h_028_visual_smoke_contract.py",
+        ".devpilot/interfaces/ui_route_contract_registry.json",
+        ".devpilot/testing/test_contract_registry.json",
+        ".devpilot/testing/test_contract_registry_v2.json"
+      ],
+      "validates": [
+        "src/devpilot_core/interfaces/api/visual_smoke_report.py",
+        "docs/schemas/ui_visual_smoke_report.schema.json",
+        "api visual-smoke-report",
+        "quality-gate ui-visual-smoke",
+        "ui/web/scripts/visual-smoke.mjs",
+        "ui/web/playwright.config.ts",
+        "ui/web/tests/visual-smoke.spec.ts",
+        "ui/web/package.json",
+        "README.md",
+        "docs/05_operations/runbook.md",
+        "docs/05_operations/ui_api_local_runbook.md"
+      ],
+      "trigger_hints": [
+        "POST-H-028-C",
+        "UiVisualSmokeReport",
+        "api visual-smoke-report",
+        "visual smoke",
+        "ui/web",
+        "Playwright scaffold"
+      ],
+      "impact_scope": [
+        "product.ui",
+        "product.api",
+        "interfaces",
+        "schemas",
+        "docs-governance",
+        "testing"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "POST-H-028-C",
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_028_visual_smoke_contract.py tests/test_web_ui_mvp.py tests/test_web_ui_report_trace_viewer.py tests/test_web_ui_approval_center.py tests/test_web_ui_settings.py tests/test_post_h_015_operator_dashboard_ui.py tests/test_schema_registry.py tests/test_project_global_state.py -q",
+        "python -m devpilot_core api visual-smoke-report --json --write-report",
+        "python -m devpilot_core schema validate --schema-id UiVisualSmokeReport --instance outputs/reports/ui_visual_smoke_report.json --json",
+        "npm --prefix ui/web test"
+      ],
+      "classification_status": "explicit",
+      "classification_notes": [
+        "POST-H-028-C writes optional outputs/reports only with --write-report; source mutations are not allowed.",
+        "Browser tooling is optional/advisory for the core gate and must not make baseline pytest depend on Node or Playwright."
+      ]
     }
   ],
   "migration_metadata": {
