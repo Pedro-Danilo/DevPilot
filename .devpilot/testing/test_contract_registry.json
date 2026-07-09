@@ -7452,6 +7452,53 @@
       "notes": [
         "POST-H-029-B validates declarative impact rules and maps P0/P1 domains to profiles and escalation without executing tests."
       ]
+    },
+    {
+      "contract_id": "post-h-029-test-impact-cli-recommendations",
+      "scope": "integration",
+      "owner": "POST-H-029-C",
+      "test_files": [
+        "tests/test_post_h_029_test_impact_cli_recommendations.py"
+      ],
+      "validates": [
+        "docs/schemas/test_impact_recommendation_report.schema.json",
+        "src/devpilot_core/testing/recommendations.py",
+        "src/devpilot_core/testing/impact_v2.py",
+        "test-impact analyze-v2 --write-report",
+        "outputs/reports/test_impact_recommendation_report.json",
+        "README.md",
+        "docs/05_operations/runbook.md",
+        "docs/04_quality/test_strategy.md",
+        "docs/04_quality/test_contract_registry_2_design.md"
+      ],
+      "watched_paths": [
+        "docs/schemas/test_impact_recommendation_report.schema.json",
+        "src/devpilot_core/testing/recommendations.py",
+        "src/devpilot_core/testing/impact_v2.py",
+        "src/devpilot_core/cli.py",
+        "src/devpilot_core/testing/__init__.py",
+        "tests/test_post_h_029_test_impact_cli_recommendations.py",
+        ".devpilot/testing/test_contract_registry.json",
+        ".devpilot/testing/test_contract_registry_v2.json",
+        ".devpilot/docs_governance/source_registry.json",
+        ".devpilot/project_state.json",
+        "docs/backlogs/POST-H-029_testing_tiers_impact_regression_cost.md"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_029_test_impact_cli_recommendations.py tests/test_post_h_029_tcr_v2_impact_rules.py tests/test_post_h_029_test_profile_taxonomy.py tests/test_test_contract_registry_v2.py tests/test_schema_registry.py tests/test_project_global_state.py -q",
+        "python -m devpilot_core test-impact analyze-v2 --changed-paths src/devpilot_core/testing/impact_v2.py --json --write-report",
+        "python -m devpilot_core schema validate --schema-id TestImpactRecommendationReport --instance outputs/reports/test_impact_recommendation_report.json --json"
+      ],
+      "notes": [
+        "POST-H-029-C normalizes TestImpactAnalyzerV2 recommendations without executing tests or replacing full regression."
+      ]
     }
   ],
   "notes": [

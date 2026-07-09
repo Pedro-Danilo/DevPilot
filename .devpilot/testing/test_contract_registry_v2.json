@@ -13533,6 +13533,72 @@
       "notes": [
         "POST-H-029-B adds declarative impact rules. Rules are advisory/non-executing and unmatched impact escalates instead of reducing verification."
       ]
+    },
+    {
+      "contract_id": "post-h-029-test-impact-cli-recommendations",
+      "schema_version": "2.0",
+      "source_contract_id": "post-h-029-test-impact-cli-recommendations",
+      "domain": "governance.testing",
+      "capability": "TestImpactRecommendationReport",
+      "criticality": "P0",
+      "risk_level": "high",
+      "test_type": "contract",
+      "execution_profile": "impact",
+      "cost_class": "medium",
+      "expected_duration_seconds": 240,
+      "test_files": [
+        "tests/test_post_h_029_test_impact_cli_recommendations.py"
+      ],
+      "watched_paths": [
+        "docs/schemas/test_impact_recommendation_report.schema.json",
+        "src/devpilot_core/testing/recommendations.py",
+        "src/devpilot_core/testing/impact_v2.py",
+        "src/devpilot_core/cli.py",
+        "src/devpilot_core/testing/__init__.py",
+        ".devpilot/testing/test_contract_registry_v2.json",
+        ".devpilot/testing/test_impact_rules.json",
+        ".devpilot/testing/test_profile_taxonomy.json",
+        ".devpilot/project_state.json"
+      ],
+      "validates": [
+        "docs/schemas/test_impact_recommendation_report.schema.json",
+        "src/devpilot_core/testing/recommendations.py",
+        "test-impact analyze-v2 --write-report",
+        "TestImpactRecommendationReport"
+      ],
+      "trigger_hints": [
+        "testing-impact-recommendations-change",
+        "test-impact-cli-output-change"
+      ],
+      "impact_scope": [
+        "testing",
+        "impact-analysis",
+        "regression-cost",
+        "operator-recommendations"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": false,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "POST-H-029-C",
+      "owner_domain": "governance.testing",
+      "service_boundary": "testing",
+      "subgate_id": "test-impact-recommendations",
+      "schema_ids": [
+        "SCHEMA-DEVPL-TEST-IMPACT-RECOMMENDATION-REPORT-V1"
+      ],
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_029_test_impact_cli_recommendations.py tests/test_post_h_029_tcr_v2_impact_rules.py tests/test_post_h_029_test_profile_taxonomy.py tests/test_test_contract_registry_v2.py tests/test_schema_registry.py tests/test_project_global_state.py -q",
+        "python -m devpilot_core test-impact analyze-v2 --changed-paths src/devpilot_core/testing/impact_v2.py --json --write-report",
+        "python -m devpilot_core schema validate --schema-id TestImpactRecommendationReport --instance outputs/reports/test_impact_recommendation_report.json --json"
+      ],
+      "classification_status": "explicit",
+      "notes": [
+        "POST-H-029-C emits normalized recommendations with residual risk, full-regression and waiver signals while keeping tests_executed=false."
+      ]
     }
   ],
   "migration_metadata": {
@@ -13543,8 +13609,8 @@
     "network_used": false,
     "external_api_used": false,
     "mutations_performed_by_default": false,
-    "contracts_total": 205,
-    "last_updated_by": "POST-H-029-B"
+    "contracts_total": 206,
+    "last_updated_by": "POST-H-029-C"
   },
   "notes": [
     "POST-H-020-D fixes v2 contract classification_status for POST-H-020-C/D contracts to keep schema validation synchronized.",

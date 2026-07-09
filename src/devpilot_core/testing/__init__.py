@@ -21,6 +21,13 @@ from .profile_taxonomy import (
     TEST_PROFILE_TAXONOMY_SCHEMA_ID,
     run_test_profile_taxonomy,
 )
+from .impact_rules import TestImpactRuleRegistryOptions, TestImpactRuleRegistryRunner
+from .recommendations import (
+    TestImpactRecommendationReportBuilder,
+    TestImpactRecommendationReportOptions,
+    TEST_IMPACT_RECOMMENDATION_CONTRACT,
+    TEST_IMPACT_RECOMMENDATION_SCHEMA_ID,
+)
 from .tests_run import TestsRunTool
 
 __all__ = [
@@ -50,6 +57,10 @@ __all__ = [
     "TEST_PROFILE_TAXONOMY_CONTRACT",
     "TEST_PROFILE_TAXONOMY_SCHEMA_ID",
     "run_test_profile_taxonomy",
+    "TestImpactRuleRegistryOptions",
+    "TestImpactRuleRegistryRunner",
+    "TestImpactRecommendationReportBuilder",
+    "TestImpactRecommendationReportOptions",
+    "TEST_IMPACT_RECOMMENDATION_CONTRACT",
+    "TEST_IMPACT_RECOMMENDATION_SCHEMA_ID",
 ]
-
-from .impact_rules import TestImpactRuleRegistryOptions, TestImpactRuleRegistryRunner

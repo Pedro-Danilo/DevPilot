@@ -254,3 +254,10 @@ El diseño separa responsabilidades:
 - TestImpactAnalyzerV2 interpreta esas reglas sin ejecutar pruebas.
 
 Limitación: el resultado aún es `implemented-initial`. POST-H-029-C debe normalizar el reporte de recomendación y POST-H-029-E debe hacer bloqueante el criterio de cierre/regresión.
+
+## POST-H-029-C — TestImpactRecommendationReport
+
+POST-H-029-C agrega `TestImpactRecommendationReport` como capa de salida operacional sobre TCR v2 + `TestImpactRuleRegistry`. TCR v2 conserva los contratos; el registry B define reglas; C presenta una recomendación normalizada para operador con `matched_contracts`, `matched_rules`, `recommended_profiles`, `recommended_tests`, `recommended_commands`, `residual_risk`, `full_regression_required` y `waiver_required_if_full_regression_skipped`.
+
+La salida sigue siendo advisory y `tests_executed=false`. POST-H-029-E debe convertir la decisión de cierre/regresión en guard bloqueante.
+

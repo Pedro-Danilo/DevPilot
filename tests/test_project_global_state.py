@@ -102,10 +102,10 @@ def test_project_global_state_schema_and_docs_are_synchronized() -> None:
     assert any("POST-H-013-D adds optional local crypto" in note for note in state["notes"])
     assert any("POST-H-013-E closes Audit pack integrity" in note for note in state["notes"])
     assert any("POST-H-014 is the next prioritized hito" in note for note in state["notes"])
-    assert state.get("current_micro_sprint") == "POST-H-029-B"
-    assert state.get("next_micro_sprint") == "POST-H-029-C"
+    assert state.get("current_micro_sprint") == "POST-H-029-C"
+    assert state.get("next_micro_sprint") == "POST-H-029-D"
     assert state.get("source_repo") == "repo_DevPilot_Local_263_POST_H_025.zip"
-    assert state.get("current_repo") == "repo_DevPilot_Local_280_POST_H_029_B.zip"
+    assert state.get("current_repo") == "repo_DevPilot_Local_281_POST_H_029_C.zip"
     assert state.get("post_h_026_status") == "closed/local-release-candidate-pass"
     assert "POST-H-026-C — UI/API local smoke under RC" in readme
     assert "POST-H-026-C — UI/API local smoke under RC" in runbook
@@ -265,6 +265,26 @@ def test_project_global_state_schema_and_docs_are_synchronized() -> None:
     assert "POST-H-029-B — TCR v2 impact rules" in runbook
     assert "post-h-029-b" in changelog.lower()
     assert any("POST-H-029-B adds TestImpactRuleRegistry" in note for note in state["notes"])
+
+    assert state.get("post_h_029_test_impact_cli_recommendations_available") is True
+    assert state.get("post_h_029_test_impact_recommendation_report_schema_registered") is True
+    assert state.get("post_h_029_test_impact_cli_recommendations_tests_executed") is False
+    assert state.get("post_h_029_test_impact_cli_recommendations_unsafe_commands_total") == 0
+    assert state.get("post_h_029_test_impact_cli_recommendations_full_regression_signal_available") is True
+    assert "POST-H-029-C — Test impact CLI recommendations" in readme
+    assert "POST-H-029-C — Test impact CLI recommendations" in runbook
+    assert "post-h-029-c" in changelog.lower()
+    assert any("POST-H-029-C adds TestImpactRecommendationReport" in note for note in state["notes"])
+
+    assert state.get("post_h_029_test_impact_cli_recommendations_available") is True
+    assert state.get("post_h_029_test_impact_recommendation_report_schema_registered") is True
+    assert state.get("post_h_029_test_impact_cli_recommendations_tests_executed") is False
+    assert state.get("post_h_029_test_impact_cli_recommendations_unsafe_commands_total") == 0
+    assert state.get("post_h_029_test_impact_cli_recommendations_full_regression_signal_available") is True
+    assert "POST-H-029-C — Test impact CLI recommendations" in readme
+    assert "POST-H-029-C — Test impact CLI recommendations" in runbook
+    assert "post-h-029-c" in changelog.lower()
+    assert any("POST-H-029-C adds TestImpactRecommendationReport" in note for note in state["notes"])
     assert "post-h-029-a" in changelog.lower()
     assert any("POST-H-029-A starts Testing tiers" in note for note in state["notes"])
     assert "POST-H-014-A — Route Contract Registry y API inventory" in readme
@@ -511,8 +531,8 @@ def test_project_global_state_schema_and_docs_are_synchronized() -> None:
     assert any("POST-H-025-C adds industrial-readiness production-ready-local CLI" in note for note in state["notes"])
     assert any("POST-H-025-D adds ProductionReadyClaimsValidator" in note for note in state["notes"])
     assert any("POST-H-025-E adds ProductionReadyFinalDeclaration" in note for note in state["notes"])
-    assert state["current_micro_sprint"] == "POST-H-029-B"
-    assert state["next_micro_sprint"] == "POST-H-029-C"
+    assert state["current_micro_sprint"] == "POST-H-029-C"
+    assert state["next_micro_sprint"] == "POST-H-029-D"
     assert state.get("post_h_029_test_impact_rule_registry_valid") is True
     assert state.get("post_h_029_test_impact_rules_unknown_impact_escalates") is True
     assert state.get("post_h_029_test_impact_rules_unsafe_commands_total") == 0

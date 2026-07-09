@@ -24,19 +24,19 @@ no_connector_write_enabled: true
 no_plugin_execution_enabled: true
 claims_allowed: "production-ready-local"
 claims_forbidden: "enterprise-ready, remote-ready, SaaS-ready, compliance-certified"
-implementation_status: "active/implemented-initial-post-h-029-b"
-current_micro_sprint: "POST-H-029-B"
-next_micro_sprint: "POST-H-029-C"
+implementation_status: "active/implemented-initial-post-h-029-c"
+current_micro_sprint: "POST-H-029-C"
+next_micro_sprint: "POST-H-029-D"
 ---
 
 # POST-H-029 — Testing tiers, impacto y costo de regresion
 
-POST-H-029-B queda implementado como `implemented-initial/local-first`: agrega `TestImpactRuleRegistry`, `.devpilot/testing/test_impact_rules.json`, CLI `test-impact rules`, integración inicial con `TestImpactAnalyzerV2` y enriquecimiento de TCR v2 para dominios P0/P1. POST-H-029-C queda pendiente para recomendaciones CLI normalizadas.
+POST-H-029-C queda implementado como `implemented-initial/local-first`: agrega `TestImpactRecommendationReport`, normalización de `test-impact analyze-v2`, reporte con riesgo residual, señal de full regression y señal de waiver. POST-H-029-D queda pendiente para perfil release candidate local formal.
 
 
 ## Estado de implementación
 
-POST-H-029 entra a implementación con status `approved`. POST-H-029-A queda implementado como `implemented-initial/local-first`: define la taxonomía operacional de perfiles, valida comandos permitidos y conserva `tests.run` approval-gated. Los micro-sprints POST-H-029-B/C/D/E permanecen pendientes para reglas de impacto, recomendaciones CLI, perfil release candidate formal y regression guard histórico.
+POST-H-029 entra a implementación con status `approved`. POST-H-029-A queda implementado como `implemented-initial/local-first`: define la taxonomía operacional de perfiles, valida comandos permitidos y conserva `tests.run` approval-gated. POST-H-029-A/B/C quedan implementados como primeras versiones local-first. Los micro-sprints POST-H-029-D/E permanecen pendientes para perfil release candidate formal y regression guard histórico.
 
 ## 1. Dictamen ejecutivo
 
@@ -540,6 +540,11 @@ python -m devpilot_core test-impact analyze-v2 --changed-paths src/devpilot_core
 python -m devpilot_core test-impact analyze-v2 --changed-paths src/devpilot_core/testing/impact_v2.py --json --write-report
 python -m devpilot_core schema validate --schema-id TestImpactRecommendationReport --instance outputs/reports/test_impact_recommendation_report.json --json
 ```
+
+
+#### Estado de implementación POST-H-029-C
+
+Implementado como primera versión local-first. `test-impact analyze-v2` emite `TestImpactRecommendationReport` con contratos/reglas matcheadas, perfiles recomendados, pruebas, comandos, riesgo residual, señal de regresión completa y señal de waiver si se omite full regression. No ejecuta pruebas; los comandos recomendados son datos y deben ser ejecutados explícitamente por el operador. POST-H-029-D/E quedan pendientes para perfil release candidate formal y guard histórico bloqueante.
 
 ## 12. Micro-sprint POST-H-029-D — Release candidate test profile
 

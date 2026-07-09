@@ -3661,16 +3661,9 @@ def test_impact_analyze_v2_command(
         rules_path=rules_path,
         changed_paths_file=changed_paths_file,
         changed_paths=tuple(changed_paths or ()),
+        write_report=write_report,
     )
     result = TestImpactAnalyzerV2(root, options).analyze()
-    result = _write_optional_command_report(
-        root,
-        result,
-        subject="testing:test-impact-v2",
-        report_id="test_impact_v2",
-        write_report=write_report,
-        metadata={"sprint": "POST-H-003-D", "component": "TestImpactAnalyzerV2"},
-    )
     _emit_result_event(root, result, subject="testing:test-impact-v2")
     _persist_result(root, result, subject="testing:test-impact-v2")
     print_result(result, json_output=json_output)

@@ -5599,3 +5599,17 @@ python -m devpilot_core test-impact analyze-v2 --changed-paths src/devpilot_core
 Garantías: el registry no ejecuta pruebas desde JSON, no abre red, no usa APIs externas, no habilita remote execution, connector write ni plugin execution. Los paths no mapeados escalan a revisión o regresión completa; no se interpretan como "sin pruebas".
 
 Limitación: POST-H-029-B aún no produce el reporte de recomendación final de operador. POST-H-029-C debe convertir estas reglas en recomendaciones CLI accionables; POST-H-029-D formaliza el perfil release candidate local y POST-H-029-E agrega el guard histórico de regresión.
+
+## POST-H-029-C — Test impact CLI recommendations
+
+POST-H-029-C agrega `TestImpactRecommendationReport` y normaliza la salida de `test-impact analyze-v2` para que el operador pueda distinguir `run now`, `run before closure`, `manual review`, `full_regression_required`, `residual_risk` y señal de waiver si se omite regresión completa.
+
+Comandos principales:
+
+```powershell
+python -m devpilot_core test-impact analyze-v2 --changed-paths src/devpilot_core/testing/impact_v2.py --json --write-report
+python -m devpilot_core schema validate --schema-id TestImpactRecommendationReport --instance outputs/reports/test_impact_recommendation_report.json --json
+```
+
+Límites: sigue siendo una primera versión `implemented-initial/local-first`. No ejecuta pruebas, no aprueba waivers y no reemplaza `pytest -q` cuando el cierre de backlog, release candidate, cambio P0 no mapeado o guard histórico lo exijan. POST-H-029-D debe formalizar el perfil release candidate local y POST-H-029-E debe hacer bloqueantes las reglas de cierre/regresión.
+

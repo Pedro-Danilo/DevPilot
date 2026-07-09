@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
@@ -8,6 +9,12 @@ from devpilot_core.cli_models import CommandResult, ExitCode, Finding, Severity,
 
 from .profiles_v2 import DEFAULT_V2_REGISTRY_PATH, DEFAULT_V2_SCHEMA_PATH, TestContractRegistryV2ValidationOptions, TestContractRegistryV2Validator
 from .impact_rules import DEFAULT_TEST_IMPACT_RULES_PATH, load_impact_rule_registry, match_impact_rules
+from .recommendations import (
+    DEFAULT_TEST_IMPACT_RECOMMENDATION_REPORT_JSON,
+    DEFAULT_TEST_IMPACT_RECOMMENDATION_REPORT_MD,
+    TestImpactRecommendationReportBuilder,
+    TestImpactRecommendationReportOptions,
+)
 
 __test__ = False
 
@@ -25,6 +32,9 @@ class TestImpactV2Options:
     rules_path: str | Path = DEFAULT_TEST_IMPACT_RULES_PATH
     changed_paths_file: str | Path | None = None
     changed_paths: tuple[str, ...] = ()
+    write_report: bool = False
+    output_json: str | Path = DEFAULT_TEST_IMPACT_RECOMMENDATION_REPORT_JSON
+    output_markdown: str | Path = DEFAULT_TEST_IMPACT_RECOMMENDATION_REPORT_MD
 
 
 @dataclass(frozen=True)
@@ -442,26 +452,38 @@ class TestImpactAnalyzerV2:
             "source_mutations_performed": False,
             "preliminary": True,
         }
+        data = {
+            "summary": summary,
+            "changed_paths": changed_paths,
+            "matched_contracts": matched_contracts,
+            "heuristic_recommendations": heuristic_recommendations,
+            "unmatched_paths": unmatched,
+            "recommended_tests": recommended_tests,
+            "recommended_commands": recommended_commands,
+            "execution_plan": {
+                "tests_executed": False,
+                "operator_must_run_commands_manually": True,
+                "recommended_profiles": recommended_profiles,
+                "commands": recommended_commands,
+            },
+        }
+        report_builder = TestImpactRecommendationReportBuilder(
+            self.root,
+            TestImpactRecommendationReportOptions(output_json=self.options.output_json, output_markdown=self.options.output_markdown),
+        )
+        recommendation_report = report_builder.build(analyzer_data=data, findings=findings, ok=ok)
+        reports: dict[str, str] = {}
+        if self.options.write_report:
+            reports = report_builder.write_reports(recommendation_report)
+            recommendation_report = json.loads((self.root / reports["json"]).read_text(encoding="utf-8"))
+        data["recommendation_report"] = recommendation_report
+        data["reports"] = reports
         return CommandResult(
             command="test-impact analyze-v2",
             ok=ok,
             exit_code=exit_code,
             message=("Test Impact Analyzer v2 completed without executing tests." if ok else "Test Impact Analyzer v2 failed or requires blocking review."),
-            data={
-                "summary": summary,
-                "changed_paths": changed_paths,
-                "matched_contracts": matched_contracts,
-                "heuristic_recommendations": heuristic_recommendations,
-                "unmatched_paths": unmatched,
-                "recommended_tests": recommended_tests,
-                "recommended_commands": recommended_commands,
-                "execution_plan": {
-                    "tests_executed": False,
-                    "operator_must_run_commands_manually": True,
-                    "recommended_profiles": recommended_profiles,
-                    "commands": recommended_commands,
-                },
-            },
+            data=data,
             findings=findings,
         )
 

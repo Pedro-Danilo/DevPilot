@@ -715,3 +715,10 @@ Principios:
 - comandos recomendados son datos allowlisted, no ejecución automática;
 - la taxonomía POST-H-029-A sigue siendo la fuente de perfiles operacionales;
 - `TestImpactAnalyzerV2` puede usar el registry de reglas y conserva heurísticas fallback hasta POST-H-029-C/D/E.
+
+## POST-H-029-C — Recomendaciones CLI normalizadas de impacto
+
+`test-impact analyze-v2` ahora emite un `TestImpactRecommendationReport` cuando se usa `--write-report`. El reporte consolida contratos y reglas matcheadas, perfiles recomendados, comandos permitidos, pruebas sugeridas, riesgo residual, necesidad de regresión completa y señal de waiver si el operador pretende omitir esa regresión.
+
+La recomendación no ejecuta pruebas y no sustituye el criterio de cierre. Para cambios P0, paths sensibles o cierres de backlog/release candidate, el resultado puede requerir `full` antes del cierre.
+

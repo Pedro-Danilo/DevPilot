@@ -1,0 +1,212 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/test_impact_recommendation_report.schema.json",
+  "title": "DevPilot TestImpactRecommendationReport v1",
+  "description": "Schema-backed POST-H-029-C report for normalized test-impact CLI recommendations. The report is advisory, local-first and never executes tests.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "schema_id",
+    "report_id",
+    "created_by",
+    "status",
+    "generated_at_utc",
+    "summary",
+    "changed_paths",
+    "matched_contracts",
+    "matched_rules",
+    "unmatched_paths",
+    "recommended_profiles",
+    "recommended_tests",
+    "recommended_commands",
+    "recommendation_groups",
+    "residual_risk",
+    "execution_plan",
+    "waiver",
+    "safety",
+    "findings",
+    "notes"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "schema_id": {"const": "SCHEMA-DEVPL-TEST-IMPACT-RECOMMENDATION-REPORT-V1"},
+    "report_id": {"const": "devpilot-test-impact-recommendation-report"},
+    "created_by": {"const": "POST-H-029-C"},
+    "status": {"enum": ["pass", "review-required", "blocked"]},
+    "generated_at_utc": {"type": "string", "minLength": 10},
+    "summary": {
+      "type": "object",
+      "required": [
+        "created_by",
+        "status",
+        "decision",
+        "changed_paths_total",
+        "matched_contracts_total",
+        "matched_rules_total",
+        "recommended_profiles_total",
+        "recommended_tests_total",
+        "recommended_commands_total",
+        "unmatched_paths_total",
+        "manual_review_required",
+        "full_regression_required",
+        "waiver_required",
+        "waiver_required_if_full_regression_skipped",
+        "residual_risk",
+        "unsafe_commands_total",
+        "tests_executed",
+        "dry_run",
+        "network_used",
+        "external_api_used",
+        "mutations_performed",
+        "source_mutations_performed",
+        "reports_written",
+        "preliminary"
+      ],
+      "properties": {
+        "created_by": {"const": "POST-H-029-C"},
+        "status": {"const": "implemented-initial"},
+        "decision": {"enum": ["PASS", "REVIEW_REQUIRED", "BLOCK"]},
+        "changed_paths_total": {"type": "integer", "minimum": 0},
+        "matched_contracts_total": {"type": "integer", "minimum": 0},
+        "matched_rules_total": {"type": "integer", "minimum": 0},
+        "recommended_profiles_total": {"type": "integer", "minimum": 0},
+        "recommended_tests_total": {"type": "integer", "minimum": 0},
+        "recommended_commands_total": {"type": "integer", "minimum": 0},
+        "unmatched_paths_total": {"type": "integer", "minimum": 0},
+        "manual_review_required": {"type": "boolean"},
+        "full_regression_required": {"type": "boolean"},
+        "waiver_required": {"type": "boolean"},
+        "waiver_required_if_full_regression_skipped": {"type": "boolean"},
+        "residual_risk": {"enum": ["low", "medium", "high", "critical"]},
+        "unsafe_commands_total": {"type": "integer", "minimum": 0},
+        "tests_executed": {"const": false},
+        "dry_run": {"const": true},
+        "network_used": {"const": false},
+        "external_api_used": {"const": false},
+        "mutations_performed": {"const": false},
+        "source_mutations_performed": {"const": false},
+        "reports_written": {"type": "boolean"},
+        "preliminary": {"const": true}
+      },
+      "additionalProperties": true
+    },
+    "changed_paths": {"type": "array", "items": {"type": "string", "minLength": 1}},
+    "matched_contracts": {"type": "array", "items": {"$ref": "#/$defs/matched_contract"}},
+    "matched_rules": {"type": "array", "items": {"$ref": "#/$defs/matched_rule"}},
+    "unmatched_paths": {"type": "array", "items": {"type": "string", "minLength": 1}},
+    "recommended_profiles": {"type": "array", "items": {"type": "string", "minLength": 1}},
+    "recommended_tests": {"type": "array", "items": {"type": "string", "minLength": 1}},
+    "recommended_commands": {"type": "array", "items": {"type": "string", "minLength": 1}},
+    "recommendation_groups": {
+      "type": "object",
+      "required": ["run_now", "run_before_closure", "manual_review"],
+      "properties": {
+        "run_now": {"$ref": "#/$defs/recommendation_group"},
+        "run_before_closure": {"type": "object", "required": ["profiles", "full_regression_required", "purpose"], "properties": {"profiles": {"type": "array", "items": {"type": "string"}}, "full_regression_required": {"type": "boolean"}, "purpose": {"type": "string"}}, "additionalProperties": true},
+        "manual_review": {"type": "object", "required": ["required", "purpose"], "properties": {"required": {"type": "boolean"}, "purpose": {"type": "string"}}, "additionalProperties": true}
+      },
+      "additionalProperties": false
+    },
+    "residual_risk": {
+      "type": "object",
+      "required": ["level", "full_regression_required", "manual_review_required", "waiver_required_if_full_regression_skipped", "reasons"],
+      "properties": {
+        "level": {"enum": ["low", "medium", "high", "critical"]},
+        "full_regression_required": {"type": "boolean"},
+        "manual_review_required": {"type": "boolean"},
+        "waiver_required_if_full_regression_skipped": {"type": "boolean"},
+        "reasons": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}}
+      },
+      "additionalProperties": false
+    },
+    "execution_plan": {
+      "type": "object",
+      "required": ["tests_executed", "operator_must_run_commands_manually", "run_now_profiles", "run_before_closure_profiles", "commands"],
+      "properties": {
+        "tests_executed": {"const": false},
+        "operator_must_run_commands_manually": {"const": true},
+        "run_now_profiles": {"type": "array", "items": {"type": "string"}},
+        "run_before_closure_profiles": {"type": "array", "items": {"type": "string"}},
+        "commands": {"type": "array", "items": {"type": "string"}}
+      },
+      "additionalProperties": true
+    },
+    "waiver": {
+      "type": "object",
+      "required": ["required_if_full_regression_skipped", "allowed_before_post_h_029_e", "required_fields_future", "note"],
+      "properties": {
+        "required_if_full_regression_skipped": {"type": "boolean"},
+        "allowed_before_post_h_029_e": {"const": false},
+        "required_fields_future": {"type": "array", "items": {"type": "string", "minLength": 1}},
+        "note": {"type": "string", "minLength": 1}
+      },
+      "additionalProperties": false
+    },
+    "unsafe_commands": {"type": "array", "items": {"type": "string"}},
+    "safety": {
+      "type": "object",
+      "required": ["local_first", "read_only", "dry_run", "tests_executed", "network_used", "external_api_used", "remote_execution_enabled", "connector_write_enabled", "plugin_execution_enabled", "source_mutations_performed", "llm_judge_used"],
+      "properties": {
+        "local_first": {"const": true},
+        "read_only": {"const": true},
+        "dry_run": {"const": true},
+        "tests_executed": {"const": false},
+        "network_used": {"const": false},
+        "external_api_used": {"const": false},
+        "remote_execution_enabled": {"const": false},
+        "connector_write_enabled": {"const": false},
+        "plugin_execution_enabled": {"const": false},
+        "source_mutations_performed": {"const": false},
+        "llm_judge_used": {"const": false}
+      },
+      "additionalProperties": false
+    },
+    "findings": {"type": "array", "items": {"type": "object"}},
+    "notes": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}}
+  },
+  "$defs": {
+    "matched_contract": {
+      "type": "object",
+      "required": ["contract_id", "domain", "criticality", "risk_level", "matched_paths", "match_reasons", "recommended_commands", "test_files", "priority_score"],
+      "properties": {
+        "contract_id": {"type": "string", "minLength": 1},
+        "domain": {"type": ["string", "null"]},
+        "criticality": {"type": ["string", "null"]},
+        "risk_level": {"type": ["string", "null"]},
+        "test_type": {"type": ["string", "null"]},
+        "matched_paths": {"type": "array", "items": {"type": "string"}},
+        "match_reasons": {"type": "array", "items": {"type": "string"}},
+        "recommended_commands": {"type": "array", "items": {"type": "string"}},
+        "test_files": {"type": "array", "items": {"type": "string"}},
+        "priority_score": {"type": "integer"}
+      },
+      "additionalProperties": true
+    },
+    "matched_rule": {
+      "type": "object",
+      "required": ["rule_id", "label", "source", "profiles", "recommended_tests", "recommended_commands", "escalation"],
+      "properties": {
+        "rule_id": {"type": "string", "minLength": 1},
+        "label": {"type": "string", "minLength": 1},
+        "source": {"const": "test_impact_rule_registry"},
+        "profiles": {"type": "array", "items": {"type": "string"}},
+        "recommended_tests": {"type": "array", "items": {"type": "string"}},
+        "recommended_commands": {"type": "array", "items": {"type": "string"}},
+        "escalation": {"type": "object"}
+      },
+      "additionalProperties": true
+    },
+    "recommendation_group": {
+      "type": "object",
+      "required": ["profiles", "tests", "commands", "purpose"],
+      "properties": {
+        "profiles": {"type": "array", "items": {"type": "string"}},
+        "tests": {"type": "array", "items": {"type": "string"}},
+        "commands": {"type": "array", "items": {"type": "string"}},
+        "purpose": {"type": "string", "minLength": 1}
+      },
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": false
+}

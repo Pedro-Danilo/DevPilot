@@ -2524,3 +2524,12 @@ Siguiente hito: `POST-H-029 — Testing tiers, impacto y costo de regresion`
 - Seguridad preservada: no se ejecutan pruebas desde JSON, no hay red, APIs externas, remote execution, connector write ni plugin execution.
 
 Siguiente micro-sprint: `POST-H-029-C — Test impact CLI recommendations`.
+
+## post-h-029-c
+
+- Agregado `TestImpactRecommendationReport` y schema `SCHEMA-DEVPL-TEST-IMPACT-RECOMMENDATION-REPORT-V1`.
+- `test-impact analyze-v2 --write-report` escribe `outputs/reports/test_impact_recommendation_report.json` y `.md` con recomendaciones normalizadas.
+- La salida incluye contratos/reglas matcheadas, perfiles, pruebas, comandos, riesgo residual, señal `full_regression_required` y `waiver_required_if_full_regression_skipped`.
+- Se mantiene `tests_executed=false`, sin red, sin APIs externas, sin ejecución remota, sin connector write y sin plugin execution.
+- Siguiente micro-sprint: `POST-H-029-D — Release candidate test profile`.
+

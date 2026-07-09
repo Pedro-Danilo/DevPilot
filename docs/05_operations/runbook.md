@@ -10837,3 +10837,18 @@ python -m pytest -p no:ddtrace --assert=plain `
 ```
 
 Regla operacional: estas reglas son advisory y no ejecutan pruebas. El operador debe ejecutar explícitamente los comandos recomendados o usar `tests.run` bajo approval.
+
+## POST-H-029-C — Test impact CLI recommendations
+
+Para obtener una recomendación normalizada de impacto sin ejecutar pruebas:
+
+```powershell
+$env:PYTHONPATH="src"
+python -m devpilot_core test-impact analyze-v2 --changed-paths src/devpilot_core/testing/impact_v2.py --json --write-report
+python -m devpilot_core schema validate --schema-id TestImpactRecommendationReport --instance outputs/reports/test_impact_recommendation_report.json --json
+```
+
+El reporte se escribe en `outputs/reports/test_impact_recommendation_report.json` y `.md` solo con `--write-report`. La salida es advisory: los comandos recomendados son datos; el operador debe ejecutarlos explícitamente. Si `full_regression_required=true`, omitir la regresión completa requiere justificación y quedará formalizado por POST-H-029-E.
+
+Pendiente: POST-H-029-D debe crear el perfil formal `release-candidate-local`; POST-H-029-E debe agregar el guard histórico y la estructura de waiver vencible.
+
