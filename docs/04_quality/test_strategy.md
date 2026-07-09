@@ -695,3 +695,11 @@ python -m devpilot_core miasi validate --json
 ```
 
 Criterio PASS: no hay mutaciones, no hay APIs externas, no se exponen secretos crudos y los evals pasan con `mock`.
+
+## POST-H-029-A — Taxonomía de perfiles de prueba
+
+La estrategia de pruebas incorpora una primera taxonomía operacional para separar pruebas rápidas, P0, seguridad, impacto, release, release-candidate-local, documentación histórica, full regression, manual y nightly-local.
+
+La taxonomía no ejecuta pruebas. Sirve como contrato validable para que el operador reduzca costo de regresión con trazabilidad, preservando `pytest -q` completo para cierres, release candidate, cambios P0 no mapeados o drift transversal.
+
+Perfiles mínimos versionados: `always-fast`, `p0-critical`, `security`, `impact`, `release`, `release-candidate-local`, `docs-historical`, `full`, `manual`, `nightly-local`. Los perfiles legacy `smoke`, `unit` y `all` se conservan como alias controlados.

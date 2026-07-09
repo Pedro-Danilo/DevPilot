@@ -14,6 +14,13 @@ from .profiles_v2 import TestContractRegistryV2ValidationOptions, TestContractRe
 from .impact import TestImpactAnalyzer, TestImpactOptions
 from .impact_v2 import TestImpactAnalyzerV2, TestImpactV2Options
 from .profiles import TestProfile, TestProfileRegistry
+from .profile_taxonomy import (
+    TestProfileTaxonomyOptions,
+    TestProfileTaxonomyRunner,
+    TEST_PROFILE_TAXONOMY_CONTRACT,
+    TEST_PROFILE_TAXONOMY_SCHEMA_ID,
+    run_test_profile_taxonomy,
+)
 from .tests_run import TestsRunTool
 
 __all__ = [
@@ -38,4 +45,9 @@ __all__ = [
     "TestProfile",
     "TestProfileRegistry",
     "TestsRunTool",
+    "TestProfileTaxonomyOptions",
+    "TestProfileTaxonomyRunner",
+    "TEST_PROFILE_TAXONOMY_CONTRACT",
+    "TEST_PROFILE_TAXONOMY_SCHEMA_ID",
+    "run_test_profile_taxonomy",
 ]

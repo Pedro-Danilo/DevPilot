@@ -147,7 +147,7 @@ from .changes import RollbackManager
 from .standards.registry import build_standards_status_result
 from .store import LocalStore
 from .traceability import MarkdownTraceabilityExtractor, TraceabilityEngine
-from .testing import TestContractRegistry, TestContractRegistryV2MigrationOptions, TestContractRegistryV2Migrator, TestContractRegistryV2ValidationOptions, TestContractRegistryV2Validator, TestImpactAnalyzer, TestImpactAnalyzerV2, TestImpactOptions, TestImpactV2Options, TestsRunTool
+from .testing import TestContractRegistry, TestContractRegistryV2MigrationOptions, TestContractRegistryV2Migrator, TestContractRegistryV2ValidationOptions, TestContractRegistryV2Validator, TestImpactAnalyzer, TestImpactAnalyzerV2, TestImpactOptions, TestImpactV2Options, TestProfileTaxonomyOptions, TestProfileTaxonomyRunner, TestsRunTool
 from .validation import ValidationGateway
 from .workspace import (
     DEFAULT_WORKSPACE_ISOLATION_REPORT_JSON,
@@ -5522,6 +5522,19 @@ def cli_registry_guard_command(
     return int(result.exit_code)
 
 
+
+
+def tests_taxonomy_command(*, json_output: bool = False, write_report: bool = False) -> int:
+    """Validate POST-H-029-A test profile taxonomy without executing tests."""
+
+    root = project_root()
+    result = TestProfileTaxonomyRunner(root, TestProfileTaxonomyOptions(write_report=write_report)).run()
+    _emit_result_event(root, result, subject="testing:test-profile-taxonomy")
+    _persist_result(root, result, subject="testing:test-profile-taxonomy")
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+
 def tests_profiles_command(*, json_output: bool = False, write_report: bool = False) -> int:
     """List configured tests.run profiles without executing subprocesses."""
 
@@ -6123,12 +6136,16 @@ def build_parser() -> argparse.ArgumentParser:
 
     tests_parser = sub.add_parser("tests", help="Run controlled local test profiles through MIASI tests.run")
     tests_sub = tests_parser.add_subparsers(dest="tests_command")
+    tests_taxonomy = tests_sub.add_parser("taxonomy", help="Validate POST-H-029-A test profile taxonomy without executing tests")
+    tests_taxonomy.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    tests_taxonomy.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown taxonomy report")
+
     tests_profiles = tests_sub.add_parser("profiles", help="List configured tests.run profiles")
     tests_profiles.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     tests_profiles.add_argument("--write-report", action="store_true", help="Persist JSON/Markdown evidence report")
 
     tests_run = tests_sub.add_parser("run", help="Execute one approval-gated pytest profile")
-    tests_run.add_argument("--profile", choices=["smoke", "unit", "all"], default="smoke", help="Configured pytest profile to execute")
+    tests_run.add_argument("--profile", choices=["smoke", "unit", "all", "always-fast", "p0-critical", "security", "impact", "release", "release-candidate-local", "docs-historical", "full", "manual", "nightly-local"], default="smoke", help="Configured pytest profile to execute")
     tests_run.add_argument("--approval-id", required=True, help="Approved approval_id scoped to tests.run/execute/<profile>")
     tests_run.add_argument("--timeout-seconds", type=int, default=None, help="Optional timeout not exceeding profile/allowlist maximum")
     tests_run.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
@@ -7504,6 +7521,8 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
         parser.print_help()
         return int(ExitCode.FAIL)
     if args.command == "tests":
+        if args.tests_command == "taxonomy":
+            return tests_taxonomy_command(json_output=args.json, write_report=args.write_report)
         if args.tests_command == "profiles":
             return tests_profiles_command(json_output=args.json, write_report=args.write_report)
         if args.tests_command == "run":

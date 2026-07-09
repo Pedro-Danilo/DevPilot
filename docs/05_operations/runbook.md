@@ -10792,3 +10792,20 @@ PASS: `ui_route_registry_enforcement_passed=true`, `forbidden_ui_actions_total=0
 
 
 Siguiente hito: `POST-H-029 — Testing tiers, impacto y costo de regresion`
+
+## POST-H-029-A — Test profile taxonomy
+
+Estado operativo: `implemented-initial / local-first`. Use este perfilado para seleccionar validaciones focales con menor costo, sin tratarlo como sustituto automático de `pytest -q` en cierres de backlog o release candidate.
+
+Comandos de verificación:
+
+```powershell
+$env:PYTHONPATH="src"
+python -m devpilot_core schema validate --schema-id TestProfileTaxonomy --instance .devpilot/testing/test_profile_taxonomy.json --json
+python -m devpilot_core tests taxonomy --json --write-report
+python -m devpilot_core tests profiles --json
+```
+
+Reglas: la taxonomía es metadata read-only; `tests.run` mantiene aprobación humana; los comandos permitidos son allowlisted; red, APIs externas, remote execution, connector write y plugin execution permanecen deshabilitados.
+
+Pendiente: POST-H-029-B/C/D/E deben agregar reglas de impacto, recomendaciones CLI accionables, perfil RC formal y guard de regresión histórica antes de cerrar el backlog.

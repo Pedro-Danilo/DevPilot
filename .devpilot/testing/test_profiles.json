@@ -1,60 +1,220 @@
 {
   "schema_version": "1.0",
-  "created_by": "POST-H-026-E",
-  "description": "Controlled pytest profiles for DevPilot tests.run. POST-H-026-E closes release-candidate-local with final PASS/BLOCK report coverage while keeping execution approval-gated and local-only.",
+  "created_by": "POST-H-029-A",
+  "description": "Controlled pytest profiles for DevPilot tests.run. POST-H-029-A maps legacy smoke/unit/all to an industrial test profile taxonomy while keeping execution approval-gated, local-only and non-shell-arbitrary.",
+  "taxonomy_path": ".devpilot/testing/test_profile_taxonomy.json",
   "profiles": [
     {
       "profile_id": "smoke",
-      "description": "Very small synthetic smoke test used to validate the controlled tests.run pipeline.",
+      "description": "Legacy smoke profile preserved and mapped to always-fast. Approval-gated when executed by tests.run.",
+      "taxonomy_profile_id": "always-fast",
       "pytest_args": [
         "-q",
         "tests/fixtures/smoke_pytest_project"
       ],
       "cwd": ".",
-      "timeout_seconds": 60
+      "timeout_seconds": 60,
+      "requires_approval_for_pytest": true,
+      "allow_shell": false,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false
     },
     {
       "profile_id": "unit",
-      "description": "Focused local unit verification for CLI/policy core without running the full suite.",
+      "description": "Legacy unit profile preserved and mapped to always-fast. Approval-gated when executed by tests.run.",
+      "taxonomy_profile_id": "always-fast",
       "pytest_args": [
         "-q",
         "tests/test_cli_core.py",
         "tests/test_policy_engine.py"
       ],
       "cwd": ".",
-      "timeout_seconds": 120
+      "timeout_seconds": 120,
+      "requires_approval_for_pytest": true,
+      "allow_shell": false,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false
     },
     {
       "profile_id": "all",
-      "description": "Full local pytest suite. This can execute project tests and should remain approval-gated.",
+      "description": "Legacy all profile preserved and mapped to full. Full local pytest suite; approval-gated.",
+      "taxonomy_profile_id": "full",
       "pytest_args": [
         "-q"
       ],
       "cwd": ".",
-      "timeout_seconds": 120
+      "timeout_seconds": 10800,
+      "requires_approval_for_pytest": true,
+      "allow_shell": false,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false
+    },
+    {
+      "profile_id": "always-fast",
+      "description": "Low-cost checks that can run frequently during development without replacing impact or release validation.",
+      "taxonomy_profile_id": "always-fast",
+      "pytest_args": [
+        "-q",
+        "tests/test_cli_core.py",
+        "tests/test_policy_engine.py"
+      ],
+      "pytest_targets": [
+        "tests/test_cli_core.py",
+        "tests/test_policy_engine.py"
+      ],
+      "allowed_commands": [
+        "python -m pytest tests/test_cli_core.py tests/test_policy_engine.py -q",
+        "python -m devpilot_core project-state validate --json",
+        "python -m devpilot_core schema list --json"
+      ],
+      "cwd": ".",
+      "timeout_seconds": 180,
+      "requires_approval_for_pytest": false,
+      "allow_arbitrary_pytest_args": false,
+      "allow_shell": false,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "write_report_commands_require_explicit_flag": true,
+      "preliminary": true
+    },
+    {
+      "profile_id": "p0-critical",
+      "description": "P0 contracts for project state, schemas, TCR and quality gates when critical governed artifacts change.",
+      "taxonomy_profile_id": "p0-critical",
+      "pytest_args": [
+        "-q",
+        "tests/test_project_global_state.py",
+        "tests/test_schema_registry.py",
+        "tests/test_test_contract_registry.py",
+        "tests/test_test_contract_registry_v2.py"
+      ],
+      "pytest_targets": [
+        "tests/test_project_global_state.py",
+        "tests/test_schema_registry.py",
+        "tests/test_test_contract_registry.py",
+        "tests/test_test_contract_registry_v2.py"
+      ],
+      "allowed_commands": [
+        "python -m pytest tests/test_project_global_state.py tests/test_schema_registry.py tests/test_test_contract_registry.py tests/test_test_contract_registry_v2.py -q",
+        "python -m devpilot_core project-state validate --json",
+        "python -m devpilot_core test-contracts validate --json",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ],
+      "cwd": ".",
+      "timeout_seconds": 600,
+      "requires_approval_for_pytest": true,
+      "allow_arbitrary_pytest_args": false,
+      "allow_shell": false,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "write_report_commands_require_explicit_flag": true,
+      "preliminary": true
+    },
+    {
+      "profile_id": "security",
+      "description": "Security-sensitive checks for policy, approvals, RBAC, guards, UI/API hardening and no-go gates.",
+      "taxonomy_profile_id": "security",
+      "pytest_args": [
+        "-q",
+        "tests/test_policy_engine.py",
+        "tests/test_approval_rbac_hardening_gate.py",
+        "tests/test_post_h_028_local_auth_cors_hardening.py"
+      ],
+      "pytest_targets": [
+        "tests/test_policy_engine.py",
+        "tests/test_approval_rbac_hardening_gate.py",
+        "tests/test_post_h_028_local_auth_cors_hardening.py"
+      ],
+      "allowed_commands": [
+        "python -m pytest tests/test_policy_engine.py tests/test_approval_rbac_hardening_gate.py tests/test_post_h_028_local_auth_cors_hardening.py -q",
+        "python -m devpilot_core quality-gate run --profile hardening --json",
+        "python -m devpilot_core api security-hardening --json"
+      ],
+      "cwd": ".",
+      "timeout_seconds": 900,
+      "requires_approval_for_pytest": true,
+      "allow_arbitrary_pytest_args": false,
+      "allow_shell": false,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "write_report_commands_require_explicit_flag": true,
+      "preliminary": true
+    },
+    {
+      "profile_id": "impact",
+      "description": "Advisory focused tests selected from changed paths, TCR v2 and future impact rules.",
+      "taxonomy_profile_id": "impact",
+      "pytest_args": [
+        "-q",
+        "tests/test_test_contract_registry_profiles_v2.py",
+        "tests/test_test_contract_registry_v2.py"
+      ],
+      "pytest_targets": [
+        "tests/test_test_contract_registry_profiles_v2.py",
+        "tests/test_test_contract_registry_v2.py"
+      ],
+      "allowed_commands": [
+        "python -m devpilot_core test-impact analyze-v2 --changed-paths src/devpilot_core/testing/profile_taxonomy.py --json",
+        "python -m pytest tests/test_test_contract_registry_profiles_v2.py tests/test_test_contract_registry_v2.py -q"
+      ],
+      "cwd": ".",
+      "timeout_seconds": 900,
+      "requires_approval_for_pytest": false,
+      "allow_arbitrary_pytest_args": false,
+      "allow_shell": false,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "write_report_commands_require_explicit_flag": true,
+      "preliminary": true
+    },
+    {
+      "profile_id": "release",
+      "description": "Release, packaging, source hygiene and production-ready-local evidence checks before candidate promotion.",
+      "taxonomy_profile_id": "release",
+      "pytest_args": [
+        "-q",
+        "tests/test_post_h_026_release_candidate_report.py",
+        "tests/test_post_h_027_upgrade_rollback_dry_run.py",
+        "tests/test_quality_gate.py"
+      ],
+      "pytest_targets": [
+        "tests/test_post_h_026_release_candidate_report.py",
+        "tests/test_post_h_027_upgrade_rollback_dry_run.py",
+        "tests/test_quality_gate.py"
+      ],
+      "allowed_commands": [
+        "python -m devpilot_core release-candidate final --json",
+        "python -m devpilot_core industrial-readiness production-ready-local-final --json",
+        "python -m devpilot_core quality-gate run --profile hardening --json",
+        "python -m pytest tests/test_post_h_026_release_candidate_report.py tests/test_post_h_027_upgrade_rollback_dry_run.py tests/test_quality_gate.py -q"
+      ],
+      "cwd": ".",
+      "timeout_seconds": 1800,
+      "requires_approval_for_pytest": true,
+      "allow_arbitrary_pytest_args": false,
+      "allow_shell": false,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "write_report_commands_require_explicit_flag": true,
+      "preliminary": true
     },
     {
       "profile_id": "release-candidate-local",
-      "description": "Focused local RC verification profile for operator release candidate checks. Plan-only by default; pytest execution remains tests.run approval-gated. POST-H-026-E adds final PASS/BLOCK report targets.",
-      "taxonomy": [
-        "always",
-        "impacted",
-        "release-candidate",
-        "full"
-      ],
-      "commands": [
-        "project-state validate",
-        "docs-governance validate",
-        "schema list",
-        "test-contracts validate",
-        "test-contracts validate-v2",
-        "quality-gate run --profile hardening",
-        "industrial-readiness production-ready-local-final",
-        "release-candidate evidence-freshness",
-        "release-candidate ui-api-smoke",
-        "release-candidate install-smoke",
-        "release-candidate final"
-      ],
+      "description": "Stricter local RC profile combining governance, schemas, TCR, quality gate, production-ready-local, packaging and UI/API evidence.",
+      "taxonomy_profile_id": "release-candidate-local",
       "pytest_args": [
         "-p",
         "no:ddtrace",
@@ -70,37 +230,147 @@
         "tests/test_post_h_026_ui_api_rc_smoke.py",
         "tests/test_post_h_026_ui_api_rc_smoke_contract.py",
         "tests/test_post_h_026_install_smoke.py",
-        "tests/test_post_h_026_release_candidate_report.py"
+        "tests/test_post_h_026_release_candidate_report.py",
+        "tests/test_post_h_028_ui_route_registry_enforcement.py"
       ],
       "pytest_targets": [
-        "tests/test_post_h_026_evidence_freshness.py",
-        "tests/test_post_h_026_release_candidate_profile.py",
-        "tests/test_post_h_025_production_ready_final_declaration.py",
-        "tests/test_post_h_025_production_ready_claims_validator.py",
-        "tests/test_quality_gate.py",
-        "tests/test_schema_registry.py",
-        "tests/test_project_global_state.py",
-        "tests/test_post_h_014_api_route_contracts.py",
-        "tests/test_post_h_014_security_hardening.py",
-        "tests/test_release_manifest.py",
-        "tests/test_release_sbom.py",
-        "tests/test_release_verification.py",
-        "tests/test_post_h_026_ui_api_rc_smoke.py",
-        "tests/test_post_h_026_ui_api_rc_smoke_contract.py",
-        "tests/test_post_h_026_install_smoke.py",
-        "tests/test_post_h_026_release_candidate_report.py"
+        "tests/test_post_h_026_release_candidate_report.py",
+        "tests/test_post_h_028_ui_route_registry_enforcement.py",
+        "tests/test_quality_gate.py"
+      ],
+      "allowed_commands": [
+        "python -m devpilot_core project-state validate --json",
+        "python -m devpilot_core docs-governance validate --json",
+        "python -m devpilot_core test-contracts validate --json",
+        "python -m devpilot_core test-contracts validate-v2 --json",
+        "python -m devpilot_core quality-gate run --profile hardening --json",
+        "python -m pytest tests/test_post_h_026_release_candidate_report.py tests/test_post_h_028_ui_route_registry_enforcement.py tests/test_quality_gate.py -q"
       ],
       "cwd": ".",
-      "timeout_seconds": 900,
+      "timeout_seconds": 2700,
+      "requires_approval_for_pytest": true,
+      "allow_arbitrary_pytest_args": false,
+      "allow_shell": false,
       "network_allowed": false,
       "external_api_allowed": false,
       "mutations_allowed": false,
       "source_mutations_allowed": false,
+      "write_report_commands_require_explicit_flag": true,
+      "preliminary": true
+    },
+    {
+      "profile_id": "docs-historical",
+      "description": "Documentation history and governance tests that preserve prior sprint continuity without pretending to be runtime coverage.",
+      "taxonomy_profile_id": "docs-historical",
+      "pytest_args": [
+        "-q",
+        "tests/test_documentation_governance_validator.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "pytest_targets": [
+        "tests/test_documentation_governance_validator.py",
+        "tests/test_documentation_source_registry_schema.py"
+      ],
+      "allowed_commands": [
+        "python -m devpilot_core docs-governance validate --json",
+        "python -m pytest tests/test_documentation_governance_validator.py tests/test_documentation_source_registry_schema.py -q"
+      ],
+      "cwd": ".",
+      "timeout_seconds": 1200,
+      "requires_approval_for_pytest": false,
+      "allow_arbitrary_pytest_args": false,
+      "allow_shell": false,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "write_report_commands_require_explicit_flag": true,
+      "preliminary": true
+    },
+    {
+      "profile_id": "full",
+      "description": "Complete pytest regression suite used for backlog closure, release candidate, high-risk drift or unmapped P0 changes.",
+      "taxonomy_profile_id": "full",
+      "pytest_args": [
+        "-q"
+      ],
+      "pytest_targets": [
+        "tests"
+      ],
+      "allowed_commands": [
+        "python -m pytest -q"
+      ],
+      "cwd": ".",
+      "timeout_seconds": 10800,
       "requires_approval_for_pytest": true,
       "allow_arbitrary_pytest_args": false,
       "allow_shell": false,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "write_report_commands_require_explicit_flag": true,
+      "preliminary": true
+    },
+    {
+      "profile_id": "manual",
+      "description": "Human review bucket for tests or validations that cannot be safely auto-recommended yet.",
+      "taxonomy_profile_id": "manual",
+      "pytest_args": [
+        "--version"
+      ],
+      "pytest_targets": [],
+      "allowed_commands": [
+        "python -m devpilot_core test-impact analyze-v2 --changed-paths README.md --json"
+      ],
+      "cwd": ".",
+      "timeout_seconds": 1800,
+      "requires_approval_for_pytest": false,
+      "allow_arbitrary_pytest_args": false,
+      "allow_shell": false,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "write_report_commands_require_explicit_flag": true,
+      "preliminary": true
+    },
+    {
+      "profile_id": "nightly-local",
+      "description": "Extended local regression bucket for slower suites that should not block every micro-sprint by default.",
+      "taxonomy_profile_id": "nightly-local",
+      "pytest_args": [
+        "-q",
+        "tests/test_quality_gate.py",
+        "tests/test_release_agent.py"
+      ],
+      "pytest_targets": [
+        "tests/test_quality_gate.py",
+        "tests/test_release_agent.py"
+      ],
+      "allowed_commands": [
+        "python -m pytest tests/test_quality_gate.py tests/test_release_agent.py -q",
+        "npm --prefix ui/web run test:visual"
+      ],
+      "cwd": ".",
+      "timeout_seconds": 7200,
+      "requires_approval_for_pytest": true,
+      "allow_arbitrary_pytest_args": false,
+      "allow_shell": false,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
       "write_report_commands_require_explicit_flag": true,
       "preliminary": true
     }
-  ]
+  ],
+  "safety": {
+    "local_first": true,
+    "tests_run_approval_gated": true,
+    "allow_shell": false,
+    "network_used": false,
+    "external_api_used": false,
+    "tests_executed_from_json": false
+  }
 }

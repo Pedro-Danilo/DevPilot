@@ -2489,3 +2489,27 @@ This section preserves exact sprint-title anchors used by documentation regressi
 
 
 Siguiente hito: `POST-H-029 — Testing tiers, impacto y costo de regresion`
+
+## post-h-029-a — Test profile taxonomy
+
+### Added
+
+- `TestProfileTaxonomy` schema y `.devpilot/testing/test_profile_taxonomy.json`.
+- `src/devpilot_core/testing/profile_taxonomy.py` y comando `python -m devpilot_core tests taxonomy --json`.
+- Perfiles operacionales: always-fast, p0-critical, security, impact, release, release-candidate-local, docs-historical, full, manual y nightly-local.
+- Alias legacy smoke/unit/all preservados y mapeados a la nueva taxonomía.
+
+### Changed
+
+- `test_profiles.json` queda sincronizado con la taxonomía sin habilitar shell arbitrario.
+- POST-H-029 queda aprobado e inicia en POST-H-029-A; POST-H-029-B queda como siguiente micro-sprint.
+
+### Security
+
+- La taxonomía no ejecuta tests desde JSON.
+- `tests.run` sigue approval-gated.
+- No se habilitan red, APIs externas, remote execution, connector write ni plugin execution.
+
+### Deferred
+
+- Reglas declarativas de impacto, recomendaciones CLI, perfil release candidate formal y historical regression guard quedan para POST-H-029-B/C/D/E.

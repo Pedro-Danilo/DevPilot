@@ -197,6 +197,13 @@ DECLARATIVE_GROUPS: dict[str, DeclarativeGroupDescriptor] = {
         recommended_tests=("python -m pytest tests/test_test_contract_registry.py tests/test_test_contract_registry_v2.py tests/test_test_contract_registry_profiles_v2.py tests/test_post_h_006_b_declarative_registry.py -q",),
         rationale="Test contract commands govern impact selection and must be explicit before handler migration.",
     ),
+    "tests": DeclarativeGroupDescriptor(
+        group_id="tests",
+        domain="governance.testing",
+        owner_module="src/devpilot_core/cli.py",
+        recommended_tests=("python -m pytest tests/test_post_h_029_test_profile_taxonomy.py tests/test_tests_run_tool.py -q",),
+        rationale="POST-H-029-A registers tests taxonomy/profiles/run as governed local testing surfaces; taxonomy/profiles are read-only and tests.run remains approval-gated.",
+    ),
     "quality-gate": DeclarativeGroupDescriptor(
         group_id="quality-gate",
         domain="quality.gate",
@@ -341,6 +348,42 @@ COMMAND_OVERRIDES: dict[str, DeclarativeCommandOverride] = {
             "python -m pytest tests/test_post_h_024_onboarding_readiness_preview.py -q",
         ),
         rationale="POST-H-024-D readiness preview is read-only with respect to project/workspace source and writes only optional evidence reports under outputs/reports.",
+    ),
+    "tests.taxonomy": DeclarativeCommandOverride(
+        command_id="tests.taxonomy",
+        risk_level=CommandRiskLevel.MEDIUM,
+        side_effects=(CommandSideEffect.WRITE_REPORT,),
+        writes_files=True,
+        dry_run_supported=True,
+        policy_check_required=True,
+        recommended_tests=(
+            "python -m pytest tests/test_post_h_029_test_profile_taxonomy.py -q",
+        ),
+        rationale="POST-H-029-A validates the local TestProfileTaxonomy and writes only outputs/reports evidence when --write-report is explicit; it never executes pytest/npm from taxonomy metadata.",
+    ),
+    "tests.profiles": DeclarativeCommandOverride(
+        command_id="tests.profiles",
+        risk_level=CommandRiskLevel.LOW,
+        side_effects=(CommandSideEffect.WRITE_REPORT,),
+        writes_files=True,
+        dry_run_supported=True,
+        policy_check_required=False,
+        recommended_tests=(
+            "python -m pytest tests/test_post_h_029_test_profile_taxonomy.py tests/test_tests_run_tool.py -q",
+        ),
+        rationale="tests profiles remains a read-only listing command for configured approval-gated test profiles; --write-report writes only outputs/reports evidence.",
+    ),
+    "tests.run": DeclarativeCommandOverride(
+        command_id="tests.run",
+        risk_level=CommandRiskLevel.HIGH,
+        side_effects=(CommandSideEffect.EXECUTE_SUBPROCESS, CommandSideEffect.WRITE_REPORT),
+        writes_files=True,
+        dry_run_supported=False,
+        policy_check_required=True,
+        recommended_tests=(
+            "python -m pytest tests/test_tests_run_tool.py -q",
+        ),
+        rationale="tests.run executes only fixed configured pytest profiles after PolicyEngine approval; POST-H-029-A expands profile ids without allowing arbitrary shell or user-provided pytest args.",
     ),
     "test-contracts.migrate-v2": DeclarativeCommandOverride(
         command_id="test-contracts.migrate-v2",

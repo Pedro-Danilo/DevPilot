@@ -5564,3 +5564,21 @@ POST-H-028-E tambien corrige `npm --prefix ui/web run test:operator-flows` para 
 
 Último hito: `POST-H-028 — UI/API local hardening`
 Siguiente hito: `POST-H-029 — Testing tiers, impacto y costo de regresion`
+
+## POST-H-029-A — Test profile taxonomy
+
+Estado: `implemented-initial / local-first`. POST-H-029 queda aprobado y entra a implementación. Este micro-sprint agrega una taxonomía operacional de perfiles de prueba para reducir costo de regresión sin eliminar la regresión completa.
+
+Comandos principales:
+
+```powershell
+$env:PYTHONPATH="src"
+python -m devpilot_core schema validate --schema-id TestProfileTaxonomy --instance .devpilot/testing/test_profile_taxonomy.json --json
+python -m devpilot_core tests taxonomy --json
+python -m devpilot_core tests taxonomy --json --write-report
+python -m devpilot_core tests profiles --json
+```
+
+Capacidades: perfiles `always-fast`, `p0-critical`, `security`, `impact`, `release`, `release-candidate-local`, `docs-historical`, `full`, `manual` y `nightly-local`; alias legacy `smoke`, `unit` y `all` preservados; `tests.run` sigue approval-gated; no se ejecutan tests desde JSON ni se habilita shell arbitrario.
+
+Limitación: POST-H-029-A solo define y valida taxonomía. Las reglas de impacto, recomendaciones CLI, perfil release candidate formal y regression guard histórico quedan para POST-H-029-B/C/D/E.

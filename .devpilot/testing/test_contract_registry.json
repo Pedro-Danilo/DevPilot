@@ -3,7 +3,7 @@
   "schema_id": "SCHEMA-DEVPL-TEST-CONTRACT-REGISTRY-V1",
   "created_by": "POST-H-001",
   "status": "implemented-initial",
-  "description": "Declarative registry classifying DevPilot tests by contract layer after POST-H-001. POST-H-010-A adds observability retention policy tests. POST-H-012-A adds sensitive action catalog validation. POST-H-013-A adds audit pack manifest v2 and local policy validation. POST-H-013-B adds audit pack builder v2 dry-run/execute validation.",
+  "description": "Declarative registry classifying DevPilot tests by contract layer after POST-H-001. POST-H-010-A adds observability retention policy tests. POST-H-012-A adds sensitive action catalog validation. POST-H-013-A adds audit pack manifest v2 and local policy validation. POST-H-013-B adds audit pack builder v2 dry-run/execute validation. POST-H-029-A adds test profile taxonomy validation.",
   "contracts": [
     {
       "contract_id": "project-global-state",
@@ -7377,6 +7377,35 @@
       ],
       "notes": [
         "POST-H-028-E enforces UI route registry, allowed API routes, required states, action allowlists and UI/API-only boundaries without network, external APIs or source mutations."
+      ]
+    },
+    {
+      "contract_id": "post-h-029-test-profile-taxonomy",
+      "scope": "quality-gate",
+      "owner": "POST-H-029-A",
+      "phase": "POST-FASE-H",
+      "test_files": [
+        "tests/test_post_h_029_test_profile_taxonomy.py"
+      ],
+      "validates": [
+        "docs/schemas/test_profile_taxonomy.schema.json",
+        ".devpilot/testing/test_profile_taxonomy.json",
+        ".devpilot/testing/test_profiles.json",
+        "src/devpilot_core/testing/profile_taxonomy.py"
+      ],
+      "watched_paths": [
+        "docs/schemas/test_profile_taxonomy.schema.json",
+        ".devpilot/testing/test_profile_taxonomy.json",
+        ".devpilot/testing/test_profiles.json",
+        "src/devpilot_core/testing/profile_taxonomy.py",
+        "src/devpilot_core/cli.py"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "recommended_commands": [
+        "python -m pytest tests/test_post_h_029_test_profile_taxonomy.py -q",
+        "python -m devpilot_core tests taxonomy --json"
       ]
     }
   ],

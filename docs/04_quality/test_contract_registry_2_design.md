@@ -234,3 +234,9 @@ El hito queda cerrado como `implemented-initial`: el registry v2 está disponibl
 PASS si v1 y v2 validan, `quality-gate hardening` incluye `test-contract-registry-v2`, el contrato `post-h-003-test-contract-registry-2` existe y no se habilitan red, APIs externas, remote execution, connector write ni plugin execution.
 
 BLOCK si se rompe v1, si v2 ejecuta pruebas automáticamente, si el subgate hace mutaciones de fuentes, si se ocultan contratos `needs-review` o si se declara madurez productiva local completa antes de `POST-H-025`.
+
+## POST-H-029-A — Relación con TestProfileTaxonomy
+
+TCR v2 conserva su clasificación por dominio, criticidad, riesgo, costo y `execution_profile`. POST-H-029-A agrega una capa complementaria: `TestProfileTaxonomy`, orientada al operador y a la reducción controlada de costo.
+
+La taxonomía no reemplaza TCR v2. POST-H-029-B deberá conectar reglas declarativas de impacto entre TCR v2, watched paths, perfiles y escalamiento. Hasta entonces, la selección por impacto sigue siendo advisory y debe elevar la verificación ante paths no mapeados.

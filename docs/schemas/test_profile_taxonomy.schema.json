@@ -1,0 +1,167 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/test_profile_taxonomy.schema.json",
+  "title": "DevPilot TestProfileTaxonomy v1",
+  "description": "Schema-backed POST-H-029-A taxonomy for operational test profiles, cost tiers, allowed commands, legacy aliases and safety flags. It is read-only metadata and never executes tests from JSON.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "schema_id",
+    "taxonomy_id",
+    "created_by",
+    "status",
+    "version",
+    "updated",
+    "profiles",
+    "legacy_aliases",
+    "policy",
+    "safety",
+    "notes"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "schema_id": {"const": "SCHEMA-DEVPL-TEST-PROFILE-TAXONOMY-V1"},
+    "taxonomy_id": {"const": "devpilot-test-profile-taxonomy"},
+    "created_by": {"const": "POST-H-029-A"},
+    "status": {"enum": ["implemented-initial"]},
+    "version": {"type": "string", "minLength": 1},
+    "updated": {"type": "string", "minLength": 10},
+    "profiles": {
+      "type": "array",
+      "minItems": 10,
+      "items": {"$ref": "#/$defs/profile"}
+    },
+    "legacy_aliases": {
+      "type": "array",
+      "minItems": 3,
+      "items": {"$ref": "#/$defs/legacy_alias"}
+    },
+    "policy": {
+      "type": "object",
+      "required": [
+        "impact_selection_advisory",
+        "full_regression_preserved",
+        "unknown_impact_escalates",
+        "tests_run_approval_gated",
+        "no_arbitrary_shell"
+      ],
+      "properties": {
+        "impact_selection_advisory": {"const": true},
+        "full_regression_preserved": {"const": true},
+        "unknown_impact_escalates": {"const": true},
+        "tests_run_approval_gated": {"const": true},
+        "no_arbitrary_shell": {"const": true},
+        "full_regression_required_when": {"type": "array", "items": {"type": "string", "minLength": 1}, "minItems": 1}
+      },
+      "additionalProperties": true
+    },
+    "safety": {
+      "type": "object",
+      "required": [
+        "local_first",
+        "read_only",
+        "dry_run_default",
+        "network_used",
+        "external_api_used",
+        "remote_execution_enabled",
+        "connector_write_enabled",
+        "plugin_execution_enabled",
+        "tests_executed_from_taxonomy",
+        "source_mutations_performed",
+        "llm_judge_used"
+      ],
+      "properties": {
+        "local_first": {"const": true},
+        "read_only": {"const": true},
+        "dry_run_default": {"const": true},
+        "network_used": {"const": false},
+        "external_api_used": {"const": false},
+        "remote_execution_enabled": {"const": false},
+        "connector_write_enabled": {"const": false},
+        "plugin_execution_enabled": {"const": false},
+        "tests_executed_from_taxonomy": {"const": false},
+        "source_mutations_performed": {"const": false},
+        "llm_judge_used": {"const": false}
+      },
+      "additionalProperties": true
+    },
+    "notes": {"type": "array", "items": {"type": "string", "minLength": 1}}
+  },
+  "$defs": {
+    "profile_id": {
+      "enum": [
+        "always-fast",
+        "p0-critical",
+        "security",
+        "impact",
+        "release",
+        "release-candidate-local",
+        "docs-historical",
+        "full",
+        "manual",
+        "nightly-local"
+      ]
+    },
+    "cost_class": {"enum": ["very-low", "low", "medium", "high", "very-high"]},
+    "risk_level": {"enum": ["low", "medium", "high", "critical"]},
+    "profile": {
+      "type": "object",
+      "required": [
+        "profile_id",
+        "title",
+        "purpose",
+        "cost_class",
+        "expected_duration_seconds",
+        "timeout_seconds",
+        "risk_level",
+        "recommended_use",
+        "allowed_commands",
+        "pytest_targets",
+        "requires_approval_for_execution",
+        "network_allowed",
+        "external_api_allowed",
+        "mutations_allowed",
+        "source_mutations_allowed",
+        "allow_shell",
+        "tests_executed_from_taxonomy",
+        "full_regression_rules"
+      ],
+      "properties": {
+        "profile_id": {"$ref": "#/$defs/profile_id"},
+        "title": {"type": "string", "minLength": 1},
+        "purpose": {"type": "string", "minLength": 1},
+        "cost_class": {"$ref": "#/$defs/cost_class"},
+        "expected_duration_seconds": {"type": "integer", "minimum": 1},
+        "timeout_seconds": {"type": "integer", "minimum": 1},
+        "risk_level": {"$ref": "#/$defs/risk_level"},
+        "recommended_use": {"type": "array", "items": {"type": "string", "minLength": 1}, "minItems": 1},
+        "allowed_commands": {"type": "array", "items": {"type": "string", "minLength": 1}},
+        "pytest_targets": {"type": "array", "items": {"type": "string", "minLength": 1}},
+        "requires_approval_for_execution": {"type": "boolean"},
+        "network_allowed": {"const": false},
+        "external_api_allowed": {"const": false},
+        "mutations_allowed": {"const": false},
+        "source_mutations_allowed": {"const": false},
+        "allow_shell": {"const": false},
+        "tests_executed_from_taxonomy": {"const": false},
+        "full_regression_rules": {"type": "array", "items": {"type": "string", "minLength": 1}}
+      },
+      "additionalProperties": true
+    },
+    "legacy_alias": {
+      "type": "object",
+      "required": ["legacy_profile_id", "maps_to_profile_id", "compatibility_status", "requires_approval_for_execution"],
+      "properties": {
+        "legacy_profile_id": {"enum": ["smoke", "unit", "all"]},
+        "maps_to_profile_id": {"$ref": "#/$defs/profile_id"},
+        "compatibility_status": {"enum": ["preserved"]},
+        "requires_approval_for_execution": {"type": "boolean"}
+      },
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": true,
+  "x-devpilot-schema-id": "SCHEMA-DEVPL-TEST-PROFILE-TAXONOMY-V1",
+  "x-devpilot-sprint": "POST-H-029-A",
+  "x-devpilot-status": "registered"
+}

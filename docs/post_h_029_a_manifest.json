@@ -1,0 +1,59 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "SCHEMA-DEVPL-POST-H-MANIFEST-V1",
+  "manifest_id": "post-h-029-a-test-profile-taxonomy",
+  "status": "implemented-initial",
+  "created_by": "POST-H-029-A",
+  "sprint": "POST-H-029-A",
+  "post_h_id": "POST-H-029",
+  "micro_sprint": "POST-H-029-A",
+  "title": "Test profile taxonomy",
+  "artifacts": [
+    "docs/schemas/test_profile_taxonomy.schema.json",
+    ".devpilot/testing/test_profile_taxonomy.json",
+    "src/devpilot_core/testing/profile_taxonomy.py",
+    "tests/test_post_h_029_test_profile_taxonomy.py",
+    "docs/audits/post_h_029_a_test_profile_taxonomy_report.md",
+    "docs/post_h_029_a_manifest.json"
+  ],
+  "modified_files": [
+    ".devpilot/testing/test_profiles.json",
+    "src/devpilot_core/testing/__init__.py",
+    "src/devpilot_core/cli.py",
+    "src/devpilot_core/cli_registry/registry.py",
+    "docs/schemas/schema_catalog.json",
+    ".devpilot/docs_governance/source_registry.json",
+    ".devpilot/testing/test_contract_registry.json",
+    ".devpilot/testing/test_contract_registry_v2.json",
+    ".devpilot/project_state.json",
+    "README.md",
+    "docs/05_operations/runbook.md",
+    "docs/04_quality/test_strategy.md",
+    "docs/04_quality/test_contract_registry_2_design.md",
+    "docs/release/CHANGELOG.md"
+  ],
+  "commands": [
+    "python -m devpilot_core schema validate --schema-id TestProfileTaxonomy --instance .devpilot/testing/test_profile_taxonomy.json --json",
+    "python -m devpilot_core tests taxonomy --json",
+    "python -m devpilot_core tests profiles --json"
+  ],
+  "safety": {
+    "local_first": true,
+    "dry_run": true,
+    "read_only": true,
+    "network_used": false,
+    "external_api_used": false,
+    "remote_execution_enabled": false,
+    "connector_write_enabled": false,
+    "plugin_execution_enabled": false,
+    "tests_executed_from_taxonomy": false,
+    "source_mutations_performed": false
+  },
+  "limitations": [
+    "implemented-initial taxonomy only; impact rule registry remains POST-H-029-B",
+    "does not execute tests from taxonomy JSON",
+    "does not replace full regression; historical regression guard remains POST-H-029-E"
+  ],
+  "next_micro_sprint": "POST-H-029-B",
+  "preliminary": true
+}
