@@ -2601,3 +2601,13 @@ Siguiente hito: `POST-H-031`
 - Los reportes JSON/Markdown se escriben solo con `--write-report` bajo `outputs/reports`.
 
 Siguiente micro-sprint: `POST-H-031-B — Operator health summary`.
+
+## post-h-031-b — Operator health summary
+
+- Agrega `OperatorHealthSummary` como vista operacional local/read-only derivada de EvidenceGraph y metadatos versionados.
+- Registra `SCHEMA-DEVPL-OPERATOR-HEALTH-SUMMARY-V1`, `.devpilot/operator/operator_health_config.json`, `src/devpilot_core/evidence_graph/health.py`, `ApplicationService.operator_health_summary(...)`, `python -m devpilot_core evidence health --json` y `GET /api/v1/operator/health`.
+- El summary sintetiza estado global, dominios, evidencia faltante, claims, no-go gates y acciones prioritarias sin ejecutar comandos recomendados.
+- Mantiene red, APIs externas, remote execution, connector write, plugin execution, lectura de secretos y lectura de `.devpilot/devpilot.db` deshabilitadas.
+- Los reportes JSON/Markdown se escriben solo con `--write-report` bajo `outputs/reports`.
+
+Siguiente micro-sprint: `POST-H-031-C — Gap-to-action mapping`.

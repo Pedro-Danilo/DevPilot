@@ -20,9 +20,9 @@ onboarding_report_source: "devpilot_onboarding_report_final_compilado.md"
 target_repo_path: "docs/backlogs/POST-H-031_observability_evidence_graph_operator.md"
 created_for: "DevPilot Local"
 scope: "local-first / read-only by default / operator evidence UX / no overclaims"
-implementation_status: "active/implemented-initial-post-h-031-a"
-current_micro_sprint: "POST-H-031-A"
-next_micro_sprint: "POST-H-031-B"
+implementation_status: "active/implemented-initial-post-h-031-b"
+current_micro_sprint: "POST-H-031-B"
+next_micro_sprint: "POST-H-031-C"
 ```
 
 ## 1. Proposito del backlog
@@ -372,6 +372,15 @@ python -m pytest -p no:ddtrace --assert=plain `
   tests/test_quality_gate.py `
   -q
 ```
+
+
+## Estado de implementación POST-H-031-B
+
+`POST-H-031-B` queda implementado como versión inicial (`implemented-initial/local-first`). El micro-sprint crea `OperatorHealthSummary`, su schema, configuración, builder local/read-only, método de `ApplicationService`, comando CLI `python -m devpilot_core evidence health --json`, ruta API local protegida `GET /api/v1/operator/health`, pruebas focales y artefactos de auditoría.
+
+El summary sintetiza estado global, estado por dominios, evidencia disponible/faltante, claims permitidos/prohibidos, no-go gates, calidad de evidencia y top actions. Las acciones son recomendaciones operator-facing y no son ejecutadas por el builder.
+
+No reemplaza quality gates, no declara readiness por sí mismo, no ejecuta comandos, no lee secretos, no lee `.devpilot/devpilot.db`, no usa red, no usa APIs externas, no habilita telemetría remota, no activa connector write ni plugin execution. Los reportes se escriben únicamente bajo `outputs/reports` cuando se usa `--write-report`.
 
 ## POST-H-031-C - Gap-to-action mapping
 

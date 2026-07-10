@@ -22,4 +22,25 @@ __all__ = [
     "EvidenceGraphBuilder",
     "EvidenceGraphOptions",
     "render_evidence_graph_markdown",
+    "DEFAULT_OPERATOR_HEALTH_CONFIG",
+    "DEFAULT_OPERATOR_HEALTH_OUTPUT_JSON",
+    "DEFAULT_OPERATOR_HEALTH_OUTPUT_MARKDOWN",
+    "OPERATOR_HEALTH_CONTRACT",
+    "OPERATOR_HEALTH_SCHEMA_ID",
+    "POST_H_031_B_CREATED_BY",
+    "OperatorHealthOptions",
+    "OperatorHealthSummaryBuilder",
+    "render_operator_health_markdown",
 ]
+
+from .health import (
+    DEFAULT_OPERATOR_HEALTH_CONFIG,
+    DEFAULT_OPERATOR_HEALTH_OUTPUT_JSON,
+    DEFAULT_OPERATOR_HEALTH_OUTPUT_MARKDOWN,
+    OPERATOR_HEALTH_CONTRACT,
+    OPERATOR_HEALTH_SCHEMA_ID,
+    POST_H_031_B_CREATED_BY,
+    OperatorHealthOptions,
+    OperatorHealthSummaryBuilder,
+    render_operator_health_markdown,
+)

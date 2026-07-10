@@ -5704,3 +5704,22 @@ python -m devpilot_core schema validate --schema-id EvidenceGraph --instance out
 Límites: no ejecuta comandos, no lee secretos, no lee `.devpilot/devpilot.db`, no usa red, no usa APIs externas, no activa remote execution, connector write ni plugin execution. `--write-report` escribe únicamente evidencia regenerable bajo `outputs/reports`, que no debe incluirse en ZIPs limpios.
 
 Siguiente micro-sprint: `POST-H-031-B — Operator health summary`.
+
+## POST-H-031-B — Operator health summary
+
+POST-H-031-B amplía `POST-H-031 — Observabilidad, evidence graph y operador` como `implemented-initial/local-first`. Agrega el schema `OperatorHealthSummary`, la configuración `.devpilot/operator/operator_health_config.json`, el módulo `src/devpilot_core/evidence_graph/health.py`, el método `ApplicationService.operator_health_summary(...)`, el comando `python -m devpilot_core evidence health --json` y la ruta local protegida `GET /api/v1/operator/health`.
+
+El resumen sintetiza estado global, dominios operacionales, evidencia disponible/faltante, claims permitidos/prohibidos, no-go gates, calidad de evidencia y acciones prioritarias para el operador. La salud se deriva de `EvidenceGraph` y metadatos versionados; no se hardcodea como green, no ejecuta comandos recomendados y no reemplaza quality gates ni declaraciones `production-ready-local`.
+
+Comandos principales:
+
+```powershell
+$env:PYTHONPATH="src"
+python -m devpilot_core evidence health --json
+python -m devpilot_core evidence health --json --write-report
+python -m devpilot_core schema validate --schema-id OperatorHealthSummary --instance outputs/reports/operator_health_summary.json --json
+```
+
+Límites: es una primera versión de lectura operacional. Las `top_actions` son instrucciones accionables para el operador, no ejecución automática. No lee secretos, no lee `.devpilot/devpilot.db`, no usa red, no usa APIs externas, no activa remote execution, connector write ni plugin execution. `--write-report` escribe únicamente evidencia regenerable bajo `outputs/reports`, que no debe incluirse en ZIPs limpios.
+
+Siguiente micro-sprint: `POST-H-031-C — Gap-to-action mapping`.

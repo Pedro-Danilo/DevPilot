@@ -84,7 +84,8 @@
     "settings_secrets_redacted": true,
     "phase_f_closed": true,
     "visual_product_mvp_release": true,
-    "web_real_evolution_planned": true
+    "web_real_evolution_planned": true,
+    "post_h_031_b_operator_health_route": true
   },
   "paths": {
     "/api/v1/actions/dry-run": {
@@ -1469,6 +1470,42 @@
             "description": "When true, writes operator dashboard snapshot evidence under outputs/reports. Default is read-only."
           }
         ]
+      }
+    },
+    "/api/v1/operator/health": {
+      "get": {
+        "tags": [
+          "operator"
+        ],
+        "summary": "Operator health summary",
+        "operationId": "operatorHealth",
+        "parameters": [
+          {
+            "name": "write_report",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": false
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ApplicationResponse with OperatorHealthSummary payload"
+          },
+          "401": {
+            "description": "Missing or invalid local API token"
+          },
+          "403": {
+            "description": "PolicyEngine blocked the local API request"
+          }
+        },
+        "x-devpilot-operation": "operator.health",
+        "x-devpilot-application-service-required": true,
+        "x-devpilot-local-only": true,
+        "x-devpilot-read-only": true,
+        "x-devpilot-no-network": true
       }
     },
     "/api/v1/portfolio/status": {

@@ -5605,6 +5605,37 @@ def evidence_graph_command(
     return int(result.exit_code)
 
 
+def evidence_health_command(
+    *,
+    config_path: str = ".devpilot/operator/operator_health_config.json",
+    json_output: bool = False,
+    write_report: bool = False,
+    output_json: str = "outputs/reports/operator_health_summary.json",
+    output_markdown: str = "outputs/reports/operator_health_summary.md",
+) -> int:
+    """Build the POST-H-031-B local read-only operator health summary."""
+
+    root = project_root()
+    result = ApplicationService(root).operator_health_summary(
+        config_path=config_path,
+        write_report=write_report,
+        output_json=output_json,
+        output_markdown=output_markdown,
+    )
+    summary_result = CommandResult(
+        command=result.command,
+        ok=result.ok,
+        exit_code=result.exit_code,
+        message=result.message,
+        data={"summary": (result.data or {}).get("summary", {})},
+        findings=result.findings,
+    )
+    _emit_result_event(root, summary_result, subject="evidence:health")
+    _persist_result(root, summary_result, subject="evidence:health")
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+
 def tests_taxonomy_command(*, json_output: bool = False, write_report: bool = False) -> int:
     """Validate POST-H-029-A test profile taxonomy without executing tests."""
 
@@ -6114,6 +6145,12 @@ def build_parser() -> argparse.ArgumentParser:
     evidence_graph.add_argument("--write-report", action="store_true", help="Persist evidence_graph.json/.md under outputs/reports")
     evidence_graph.add_argument("--output-json", default="outputs/reports/evidence_graph.json", help="EvidenceGraph JSON output path when --write-report is used")
     evidence_graph.add_argument("--output-markdown", default="outputs/reports/evidence_graph.md", help="EvidenceGraph Markdown output path when --write-report is used")
+    evidence_health = evidence_sub.add_parser("health", help="Build POST-H-031-B read-only operator health summary")
+    evidence_health.add_argument("--config", default=".devpilot/operator/operator_health_config.json", help="Operator health summary config path")
+    evidence_health.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    evidence_health.add_argument("--write-report", action="store_true", help="Persist operator_health_summary.json/.md under outputs/reports")
+    evidence_health.add_argument("--output-json", default="outputs/reports/operator_health_summary.json", help="OperatorHealthSummary JSON output path when --write-report is used")
+    evidence_health.add_argument("--output-markdown", default="outputs/reports/operator_health_summary.md", help="OperatorHealthSummary Markdown output path when --write-report is used")
 
     docs_governance = sub.add_parser("docs-governance", help="Validate documentation governance and canonical source metadata")
     docs_governance_sub = docs_governance.add_subparsers(dest="docs_governance_command")
@@ -7544,6 +7581,14 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
         if args.evidence_command == "graph":
             return evidence_graph_command(
                 sources_path=args.sources,
+                json_output=args.json,
+                write_report=args.write_report,
+                output_json=args.output_json,
+                output_markdown=args.output_markdown,
+            )
+        if args.evidence_command == "health":
+            return evidence_health_command(
+                config_path=args.config,
                 json_output=args.json,
                 write_report=args.write_report,
                 output_json=args.output_json,

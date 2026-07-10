@@ -11040,3 +11040,39 @@ python -m devpilot_core schema validate --schema-id EvidenceGraph --instance out
 Límites: no ejecuta comandos, no lee secretos, no lee `.devpilot/devpilot.db`, no usa red, no usa APIs externas, no activa remote execution, connector write ni plugin execution. `--write-report` escribe únicamente evidencia regenerable bajo `outputs/reports`, que no debe incluirse en ZIPs limpios.
 
 Siguiente micro-sprint: `POST-H-031-B — Operator health summary`.
+
+## POST-H-031-B — Operator health summary
+
+POST-H-031-B agrega una vista local/read-only de salud operacional para que el operador pueda entender rápidamente estado, riesgos, gaps, claims, no-go gates, calidad de evidencia y acciones prioritarias sin leer manualmente todos los artefactos del repo.
+
+Comandos recomendados:
+
+```powershell
+$env:PYTHONPATH="src"
+python -m devpilot_core evidence health --json
+python -m devpilot_core evidence health --json --write-report
+python -m devpilot_core schema validate --schema-id OperatorHealthSummary --instance outputs/reports/operator_health_summary.json --json
+```
+
+Verificación focal:
+
+```powershell
+$env:PYTEST_DISABLE_PLUGIN_AUTOLOAD="1"
+python -m pytest -p no:ddtrace --assert=plain `
+  tests/test_post_h_031_operator_health_summary.py `
+  tests/test_post_h_031_evidence_graph_model.py `
+  tests/test_post_h_015_operator_dashboard_application_api.py `
+  tests/test_schema_registry.py `
+  tests/test_test_contract_registry.py `
+  tests/test_test_contract_registry_v2.py `
+  tests/test_documentation_governance_validator.py `
+  tests/test_documentation_source_registry_schema.py `
+  tests/test_project_global_state.py `
+  -q
+```
+
+Criterio PASS: el summary valida contra schema, refleja gaps bloqueantes como red/BLOCK, no promueve claims prohibidos, mantiene no-go gates seguros, expone `operator.health` por ApplicationService/API local protegida, conserva salida JSON estable y solo escribe reportes bajo `outputs/reports` cuando `--write-report` es explícito.
+
+Criterio BLOCK: salud global green con blocking gaps, claims prohibidos marcados como disponibles, lectura obligatoria de outputs inexistentes, mutación no solicitada, lectura de secretos o recomendaciones que relajen no-go gates.
+
+Estado: `implemented-initial/local-first`. Evolución pendiente: POST-H-031-C debe convertir gaps en reglas completas gap-to-action; POST-H-031-D debe consolidar claims/no-go dashboard; POST-H-031-E debe mejorar UX de export redactado de evidencia.

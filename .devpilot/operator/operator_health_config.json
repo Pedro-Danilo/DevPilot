@@ -1,0 +1,71 @@
+{
+  "schema_version": "1.0",
+  "schema_id": "CONFIG-DEVPL-OPERATOR-HEALTH-SUMMARY-V1",
+  "created_by": "POST-H-031-B",
+  "status": "implemented-initial",
+  "description": "Local read-only operator health summary configuration. It defines stable runtime-evidence actions and safety constraints without executing commands.",
+  "evidence_graph_sources_path": ".devpilot/evidence/evidence_graph_sources.json",
+  "output_json": "outputs/reports/operator_health_summary.json",
+  "output_markdown": "outputs/reports/operator_health_summary.md",
+  "status_policy": {
+    "red_when_blocking_gaps_total_gt": 0,
+    "red_when_no_go_violations_gt": 0,
+    "red_when_forbidden_claims_available_gt": 0,
+    "yellow_when_missing_expected_total_gt": 0,
+    "yellow_when_runtime_evidence_missing": true
+  },
+  "recommended_runtime_actions": {
+    "runtime-production-ready-report": {
+      "priority": "P1",
+      "category": "production-readiness",
+      "title": "Regenerar reporte production-ready-local",
+      "command": "python -m devpilot_core industrial-readiness production-ready-local-final --json --write-report",
+      "verification": "python -m devpilot_core schema validate --schema-id ProductionReadyLocalReport --instance outputs/reports/production_ready_local_report.json --json"
+    },
+    "runtime-operator-dashboard-snapshot": {
+      "priority": "P1",
+      "category": "operator-dashboard",
+      "title": "Regenerar snapshot de operador",
+      "command": "python -m devpilot_core operator dashboard --json --write-report",
+      "verification": "python -m devpilot_core schema validate --schema-id OperatorDashboardSnapshot --instance outputs/reports/operator_dashboard_snapshot.json --json"
+    },
+    "runtime-observability-redacted-export": {
+      "priority": "P2",
+      "category": "observability",
+      "title": "Generar export redactado de observabilidad",
+      "command": "python -m devpilot_core observability export --redacted --json --write-report",
+      "verification": "python -m devpilot_core schema validate --schema-id ObservabilityRedactedExport --instance outputs/reports/observability_redacted_export.json --json"
+    },
+    "runtime-observability-inventory": {
+      "priority": "P2",
+      "category": "observability",
+      "title": "Regenerar inventario de observabilidad",
+      "command": "python -m devpilot_core observability inventory --json --write-report",
+      "verification": "python -m devpilot_core schema validate --schema-id ObservabilityInventory --instance outputs/reports/observability_inventory.json --json"
+    },
+    "runtime-state-inventory": {
+      "priority": "P2",
+      "category": "runtime-state",
+      "title": "Regenerar inventario de runtime state",
+      "command": "python -m devpilot_core runtime-state inventory --json --write-report",
+      "verification": "python -m devpilot_core schema validate --schema-id RuntimeStateInventory --instance outputs/reports/runtime_state_inventory.json --json"
+    }
+  },
+  "safety": {
+    "local_first": true,
+    "read_only": true,
+    "dry_run": true,
+    "commands_executed": false,
+    "network_allowed": false,
+    "external_api_allowed": false,
+    "remote_execution_allowed": false,
+    "connector_write_allowed": false,
+    "plugin_execution_allowed": false,
+    "source_mutations_allowed": false,
+    "reports_only_under_outputs": true
+  },
+  "notes": [
+    "POST-H-031-B derives operator health from evidence graph and source-controlled metadata; it does not execute recommended commands.",
+    "POST-H-031-C will expand gap-to-action mapping. This config only supports top operator actions needed for the health summary."
+  ]
+}

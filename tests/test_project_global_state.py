@@ -102,10 +102,10 @@ def test_project_global_state_schema_and_docs_are_synchronized() -> None:
     assert any("POST-H-013-D adds optional local crypto" in note for note in state["notes"])
     assert any("POST-H-013-E closes Audit pack integrity" in note for note in state["notes"])
     assert any("POST-H-014 is the next prioritized hito" in note for note in state["notes"])
-    assert state.get("current_micro_sprint") == "POST-H-031-A"
-    assert state.get("next_micro_sprint") == "POST-H-031-B"
+    assert state.get("current_micro_sprint") == "POST-H-031-B"
+    assert state.get("next_micro_sprint") == "POST-H-031-C"
     assert state.get("source_repo") == "repo_DevPilot_Local_263_POST_H_025.zip"
-    assert state.get("current_repo") == "repo_DevPilot_Local_289_POST_H_031_A.zip"
+    assert state.get("current_repo") == "repo_DevPilot_Local_290_POST_H_031_B.zip"
     assert state.get("post_h_026_status") == "closed/local-release-candidate-pass"
     assert "POST-H-026-C — UI/API local smoke under RC" in readme
     assert "POST-H-026-C — UI/API local smoke under RC" in runbook
@@ -564,8 +564,8 @@ def test_project_global_state_schema_and_docs_are_synchronized() -> None:
     assert state.get("post_h_030_workspace_onboarding_cli_module") == "src/devpilot_core/cli_commands/workspace_onboarding.py"
     assert state.get("post_h_030_workspace_onboarding_commands_migrated_total") == 7
     assert state.get("post_h_030_workspace_onboarding_public_behavior_changed") is False
-    assert state["current_micro_sprint"] == "POST-H-031-A"
-    assert state["next_micro_sprint"] == "POST-H-031-B"
+    assert state["current_micro_sprint"] == "POST-H-031-B"
+    assert state["next_micro_sprint"] == "POST-H-031-C"
     assert state.get("post_h_029_test_impact_rule_registry_valid") is True
     assert state.get("post_h_029_test_impact_rules_unknown_impact_escalates") is True
     assert state.get("post_h_029_test_impact_rules_unsafe_commands_total") == 0
@@ -614,10 +614,10 @@ def test_post_h_031_a_project_state_starts_evidence_graph_model() -> None:
     changelog = read("docs/release/CHANGELOG.md")
     backlog = read("docs/backlogs/POST-H-031_observability_evidence_graph_operator.md")
 
-    assert state.get("post_h_031_status") == "active/implemented-initial-post-h-031-a"
+    assert state.get("post_h_031_status") == "active/implemented-initial-post-h-031-b"
     assert state.get("post_h_031_backlog_approved") is True
-    assert state.get("post_h_031_current_micro_sprint") == "POST-H-031-A"
-    assert state.get("post_h_031_next_micro_sprint") == "POST-H-031-B"
+    assert state.get("post_h_031_current_micro_sprint") == "POST-H-031-B"
+    assert state.get("post_h_031_next_micro_sprint") == "POST-H-031-C"
     assert state.get("post_h_031_evidence_graph_schema_registered") is True
     assert state.get("post_h_031_evidence_graph_available") is True
     assert state.get("post_h_031_evidence_graph_declares_readiness") is False
@@ -631,5 +631,31 @@ def test_post_h_031_a_project_state_starts_evidence_graph_model() -> None:
     assert "POST-H-031-A — Evidence graph model" in runbook
     assert "post-h-031-a" in changelog.lower()
     assert 'status: approved' in backlog
-    assert 'implementation_status: "active/implemented-initial-post-h-031-a"' in backlog
+    assert 'implementation_status: "active/implemented-initial-post-h-031-b"' in backlog
     assert any("POST-H-031-A starts Observabilidad" in note for note in state["notes"])
+
+
+def test_post_h_031_b_project_state_adds_operator_health_summary() -> None:
+    state = json.loads(read(".devpilot/project_state.json"))
+    readme = read("README.md")
+    runbook = read("docs/05_operations/runbook.md")
+    changelog = read("docs/release/CHANGELOG.md")
+    backlog = read("docs/backlogs/POST-H-031_observability_evidence_graph_operator.md")
+
+    assert state.get("post_h_031_status") == "active/implemented-initial-post-h-031-b"
+    assert state.get("post_h_031_current_micro_sprint") == "POST-H-031-B"
+    assert state.get("post_h_031_next_micro_sprint") == "POST-H-031-C"
+    assert state.get("post_h_031_operator_health_schema_registered") is True
+    assert state.get("post_h_031_operator_health_available") is True
+    assert state.get("post_h_031_operator_health_read_only") is True
+    assert state.get("post_h_031_operator_health_network_used") is False
+    assert state.get("post_h_031_operator_health_external_api_used") is False
+    assert state.get("post_h_031_operator_health_commands_executed") is False
+    assert state.get("post_h_031_operator_health_secret_reads") is False
+    assert state.get("post_h_031_operator_health_devpilot_db_read") is False
+    assert state.get("post_h_031_operator_health_replaces_quality_gates") is False
+    assert "POST-H-031-B — Operator health summary" in readme
+    assert "POST-H-031-B — Operator health summary" in runbook
+    assert "post-h-031-b" in changelog.lower()
+    assert 'implementation_status: "active/implemented-initial-post-h-031-b"' in backlog
+    assert any("POST-H-031-B adds OperatorHealthSummary" in note for note in state["notes"])

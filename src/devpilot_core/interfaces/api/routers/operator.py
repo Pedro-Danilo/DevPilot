@@ -29,3 +29,17 @@ def operator_dashboard(
             payload={"write_report": write_report},
         )
     )
+
+
+@router.get("/api/v1/operator/health")
+def operator_health(
+    write_report: bool = Query(default=False),
+    service: ApplicationService = Depends(get_application_service),
+) -> JSONResponse:
+    return _json(
+        *dispatch_application_request(
+            service,
+            operation="operator.health",
+            payload={"write_report": write_report},
+        )
+    )

@@ -102,6 +102,33 @@ class ApplicationService:
             ),
         ).build()
 
+
+    def operator_health_summary(
+        self,
+        *,
+        config_path: str = ".devpilot/operator/operator_health_config.json",
+        write_report: bool = False,
+        output_json: str = "outputs/reports/operator_health_summary.json",
+        output_markdown: str = "outputs/reports/operator_health_summary.md",
+    ) -> CommandResult:
+        """Build the POST-H-031-B local operator health summary.
+
+        The summary is read-only and derives health from EvidenceGraph and
+        source-controlled metadata. It does not execute recommended commands.
+        """
+
+        from devpilot_core.evidence_graph import OperatorHealthOptions, OperatorHealthSummaryBuilder
+
+        return OperatorHealthSummaryBuilder(
+            self.root,
+            OperatorHealthOptions(
+                config_path=Path(config_path),
+                write_report=write_report,
+                output_json=Path(output_json),
+                output_markdown=Path(output_markdown),
+            ),
+        ).build()
+
     # Backward-compatible validator facade from Sprint 18.
     def validate_frontmatter(self, path: str | Path, *, strict: bool = False) -> CommandResult:
         return self.validation.validate_frontmatter(path, strict=strict)
@@ -634,6 +661,18 @@ def _operation_dispatch(service: ApplicationService) -> dict[str, OperationHandl
         "maturity.dashboard": lambda payload: service.maturity_dashboard(write_report=bool(payload.get("write_report", False))),
         "maturity.dashboard_gate": lambda payload: service.maturity_dashboard_gate(write_report=bool(payload.get("write_report", False))),
         "operator.dashboard": lambda payload: service.operator_dashboard_snapshot(write_report=bool(payload.get("write_report", False))),
+        "evidence.graph": lambda payload: service.evidence_graph(
+            sources_path=str(payload.get("sources_path", ".devpilot/evidence/evidence_graph_sources.json")),
+            write_report=bool(payload.get("write_report", False)),
+            output_json=str(payload.get("output_json", "outputs/reports/evidence_graph.json")),
+            output_markdown=str(payload.get("output_markdown", "outputs/reports/evidence_graph.md")),
+        ),
+        "operator.health": lambda payload: service.operator_health_summary(
+            config_path=str(payload.get("config_path", ".devpilot/operator/operator_health_config.json")),
+            write_report=bool(payload.get("write_report", False)),
+            output_json=str(payload.get("output_json", "outputs/reports/operator_health_summary.json")),
+            output_markdown=str(payload.get("output_markdown", "outputs/reports/operator_health_summary.md")),
+        ),
         "portfolio.status": lambda payload: service.portfolio_status(registry_path=str(payload.get("registry_path", ".devpilot/workspaces/workspace_registry.json"))),
         "evals.documentation.run": lambda payload: service.eval_run(suite=str(payload.get("suite", "documentation")), case_id=payload.get("case_id")),
         "repo.inventory": lambda payload: service.repo_inventory(),

@@ -1,0 +1,191 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/operator_health_summary.schema.json",
+  "title": "DevPilot OperatorHealthSummary v1",
+  "description": "POST-H-031-B local read-only operator health summary derived from EvidenceGraph, project state, claims/no-go gates, testing and documentation governance signals. It is an operator view and does not replace formal quality gates.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "schema_id",
+    "summary_id",
+    "created_by",
+    "status",
+    "generated_at_utc",
+    "overall_status",
+    "decision",
+    "health_score",
+    "sections",
+    "evidence_quality",
+    "claims",
+    "no_go_gates",
+    "top_actions",
+    "safety",
+    "limitations",
+    "findings",
+    "notes"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "schema_id": {"const": "SCHEMA-DEVPL-OPERATOR-HEALTH-SUMMARY-V1"},
+    "summary_id": {"const": "devpilot-operator-health-summary"},
+    "created_by": {"const": "POST-H-031-B"},
+    "status": {"enum": ["pass", "warn", "blocked"]},
+    "generated_at_utc": {"type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"},
+    "overall_status": {"enum": ["green", "yellow", "red", "unknown", "not_applicable"]},
+    "decision": {"enum": ["PASS", "BLOCK"]},
+    "health_score": {"type": "integer", "minimum": 0, "maximum": 100},
+    "sections": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/health_section"}
+    },
+    "evidence_quality": {
+      "type": "object",
+      "required": [
+        "graph_nodes_total",
+        "graph_edges_total",
+        "versioned_sources_available_total",
+        "runtime_generated_available_total",
+        "missing_expected_total",
+        "blocking_gaps_total",
+        "blocking_findings_total",
+        "reports_written"
+      ],
+      "additionalProperties": true,
+      "properties": {
+        "graph_nodes_total": {"type": "integer", "minimum": 0},
+        "graph_edges_total": {"type": "integer", "minimum": 0},
+        "versioned_sources_available_total": {"type": "integer", "minimum": 0},
+        "runtime_generated_available_total": {"type": "integer", "minimum": 0},
+        "missing_expected_total": {"type": "integer", "minimum": 0},
+        "blocking_gaps_total": {"type": "integer", "minimum": 0},
+        "blocking_findings_total": {"type": "integer", "minimum": 0},
+        "reports_written": {"type": "boolean"}
+      }
+    },
+    "claims": {
+      "type": "object",
+      "required": ["allowed", "prohibited", "forbidden_available_total"],
+      "additionalProperties": false,
+      "properties": {
+        "allowed": {"type": "array", "items": {"type": "string"}},
+        "prohibited": {"type": "array", "items": {"type": "string"}},
+        "forbidden_available_total": {"type": "integer", "minimum": 0}
+      }
+    },
+    "no_go_gates": {
+      "type": "object",
+      "required": ["active_total", "violations_total", "gates"],
+      "additionalProperties": false,
+      "properties": {
+        "active_total": {"type": "integer", "minimum": 0},
+        "violations_total": {"type": "integer", "minimum": 0},
+        "gates": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/no_go_gate"}
+        }
+      }
+    },
+    "top_actions": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/top_action"}
+    },
+    "safety": {
+      "type": "object",
+      "required": [
+        "local_first",
+        "read_only",
+        "dry_run",
+        "network_used",
+        "external_api_used",
+        "mutations_performed",
+        "source_mutations_performed",
+        "commands_executed",
+        "secrets_read",
+        "raw_payloads_exported",
+        "devpilot_db_read",
+        "reports_written"
+      ],
+      "additionalProperties": true,
+      "properties": {
+        "local_first": {"const": true},
+        "read_only": {"const": true},
+        "dry_run": {"const": true},
+        "network_used": {"const": false},
+        "external_api_used": {"const": false},
+        "mutations_performed": {"const": false},
+        "source_mutations_performed": {"const": false},
+        "commands_executed": {"const": false},
+        "secrets_read": {"const": false},
+        "raw_payloads_exported": {"const": false},
+        "devpilot_db_read": {"const": false},
+        "reports_written": {"type": "boolean"}
+      }
+    },
+    "limitations": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+    "findings": {"type": "array", "items": {"type": "object", "additionalProperties": true}},
+    "notes": {"type": "array", "items": {"type": "string"}}
+  },
+  "$defs": {
+    "traffic_light": {"enum": ["green", "yellow", "red", "unknown", "not_applicable"]},
+    "source_ref": {
+      "type": "object",
+      "required": ["path", "kind", "required", "available", "description"],
+      "additionalProperties": false,
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "kind": {"enum": ["json", "markdown", "python", "command", "schema", "generated-report", "directory", "unknown"]},
+        "required": {"type": "boolean"},
+        "available": {"type": "boolean"},
+        "description": {"type": "string"}
+      }
+    },
+    "health_section": {
+      "type": "object",
+      "required": ["section_id", "title", "status", "summary", "metrics", "source_refs", "blocking_findings_total", "warnings_total"],
+      "additionalProperties": false,
+      "properties": {
+        "section_id": {"type": "string", "minLength": 1},
+        "title": {"type": "string", "minLength": 1},
+        "status": {"$ref": "#/$defs/traffic_light"},
+        "summary": {"type": "string", "minLength": 1},
+        "metrics": {"type": "object", "additionalProperties": true},
+        "source_refs": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/source_ref"}},
+        "blocking_findings_total": {"type": "integer", "minimum": 0},
+        "warnings_total": {"type": "integer", "minimum": 0}
+      }
+    },
+    "no_go_gate": {
+      "type": "object",
+      "required": ["gate_id", "status", "safe", "expected", "actual"],
+      "additionalProperties": false,
+      "properties": {
+        "gate_id": {"type": "string", "minLength": 1},
+        "status": {"type": "string", "minLength": 1},
+        "safe": {"type": "boolean"},
+        "expected": {},
+        "actual": {}
+      }
+    },
+    "top_action": {
+      "type": "object",
+      "required": ["action_id", "priority", "category", "title", "command", "reason", "dry_run", "verification", "source_refs"],
+      "additionalProperties": false,
+      "properties": {
+        "action_id": {"type": "string", "minLength": 1},
+        "priority": {"enum": ["P0", "P1", "P2", "P3"]},
+        "category": {"type": "string", "minLength": 1},
+        "title": {"type": "string", "minLength": 1},
+        "command": {"type": "string", "minLength": 1},
+        "reason": {"type": "string", "minLength": 1},
+        "dry_run": {"const": true},
+        "verification": {"type": "string", "minLength": 1},
+        "source_refs": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/source_ref"}}
+      }
+    }
+  },
+  "x-devpilot-schema-id": "SCHEMA-DEVPL-OPERATOR-HEALTH-SUMMARY-V1",
+  "x-devpilot-sprint": "POST-H-031-B",
+  "x-devpilot-status": "registered"
+}

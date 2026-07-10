@@ -712,8 +712,8 @@ DECLARATIVE_GROUPS: dict[str, DeclarativeGroupDescriptor] = {
         domain="operations.observability",
         owner_module="src/devpilot_core/evidence_graph/builder.py",
         application_service_required=True,
-        recommended_tests=("python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_031_evidence_graph_model.py tests/test_schema_registry.py -q",),
-        rationale="POST-H-031-A registers the local read-only evidence graph model as an operator evidence surface; it writes only optional outputs/reports evidence and does not declare readiness.",
+        recommended_tests=("python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_031_evidence_graph_model.py tests/test_post_h_031_operator_health_summary.py tests/test_schema_registry.py -q",),
+        rationale="POST-H-031 registers local read-only evidence graph and operator health surfaces; they write only optional outputs/reports evidence and do not replace formal readiness gates.",
     ),
     "docs-governance": DeclarativeGroupDescriptor(
         group_id="docs-governance",
@@ -793,6 +793,18 @@ COMMAND_OVERRIDES: dict[str, DeclarativeCommandOverride] = {
             "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_031_evidence_graph_model.py -q",
         ),
         rationale="POST-H-031-A builds a local read-only EvidenceGraph and writes reports only under outputs/reports when --write-report is explicit; it does not execute commands or declare readiness.",
+    ),
+    "evidence.health": DeclarativeCommandOverride(
+        command_id="evidence.health",
+        risk_level=CommandRiskLevel.MEDIUM,
+        side_effects=(CommandSideEffect.WRITE_REPORT,),
+        writes_files=True,
+        dry_run_supported=True,
+        policy_check_required=True,
+        recommended_tests=(
+            "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_031_operator_health_summary.py -q",
+        ),
+        rationale="POST-H-031-B builds a local read-only OperatorHealthSummary derived from EvidenceGraph and source-controlled metadata; top actions are advisory and no commands are executed.",
     ),
 
     "workspace.init": DeclarativeCommandOverride(
