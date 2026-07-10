@@ -5669,3 +5669,19 @@ POST-H-030-D queda en estado `implemented-initial/local-first`. La familia works
 Se preservan dry-run por defecto para bootstrap, execute explícito, readiness preview con clasificación pending ante evidencia faltante, validación de registry v1/v2 read-only y portfolio status vía `ApplicationService`. No se introduce router dinámico, carga dinámica de handlers, red, APIs externas, remote execution, connector write, plugin execution ni nuevas dependencias.
 
 Esta es una extracción incremental. La compatibilidad observable completa mediante snapshots/tiered contracts se formalizará en POST-H-030-E.
+
+## POST-H-030-E — CLI compatibility contract tests
+
+POST-H-030-E cierra `POST-H-030 — CLI hotspot reduction y boundaries de aplicacion` como `implemented-initial/local-first`. Agrega el schema `CliCompatibilityReport`, el fixture versionado `.devpilot/cli_registry/cli_compatibility_contracts.json`, el módulo `src/devpilot_core/cli_registry/compatibility.py`, el comando `python -m devpilot_core cli-registry compatibility --json` y el subgate `cli-boundary-hotspot-reduction`.
+
+La capacidad cubre comandos migrados, high/critical y comandos de gobernanza clave con contratos observables para JSON envelope, exit codes, help esencial, normalización de campos volátiles y seguridad local-first. La actualización de snapshots requiere justificación auditada; no debe usarse para ocultar breaking changes.
+
+Hito cerrado: `POST-H-030 — CLI hotspot reduction y boundaries de aplicacion`.
+
+Siguiente hito: `POST-H-031 — Observabilidad, evidence graph y operador`.
+
+Limitación: esta primera versión no snapshottea todos los comandos legacy de baja criticidad ni reemplaza `pytest -q` completo. La validación inicial es tiered para controlar costo y debe ampliarse por dominio en futuros refactors.
+
+Último hito: `POST-H-030`
+
+Siguiente hito: `POST-H-031`

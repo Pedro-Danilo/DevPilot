@@ -25,6 +25,7 @@ POST_H_010_D_CREATED_BY = "POST-H-010-D"
 POST_H_030_B_CREATED_BY = "POST-H-030-B"
 POST_H_030_C_CREATED_BY = "POST-H-030-C"
 POST_H_030_D_CREATED_BY = "POST-H-030-D"
+POST_H_030_E_CREATED_BY = "POST-H-030-E"
 
 # POST-H-007-E keeps this metadata static to avoid coupling CLI registry
 # generation to ApplicationOperationCatalog imports. The runtime integration
@@ -687,8 +688,8 @@ DECLARATIVE_GROUPS: dict[str, DeclarativeGroupDescriptor] = {
         group_id="cli-registry",
         domain="interface.cli",
         owner_module="src/devpilot_core/cli.py",
-        recommended_tests=("python -m pytest tests/test_post_h_006_e_cli_no_growth_gate.py tests/test_post_h_006_d_cli_hotspot_ownership.py tests/test_post_h_006_cli_command_registry.py -q",),
-        rationale="CLI registry commands govern the command surface and must be registered before enforcing no-growth gates.",
+        recommended_tests=("python -m pytest tests/test_post_h_006_e_cli_no_growth_gate.py tests/test_post_h_006_d_cli_hotspot_ownership.py tests/test_post_h_006_cli_command_registry.py tests/test_post_h_030_cli_compatibility_contracts.py -q",),
+        rationale="CLI registry commands govern the command surface, no-growth gates and POST-H-030-E compatibility contracts.",
     ),
     "runtime-state": DeclarativeGroupDescriptor(
         group_id="runtime-state",
@@ -760,6 +761,18 @@ DECLARATIVE_GROUPS: dict[str, DeclarativeGroupDescriptor] = {
 
 
 COMMAND_OVERRIDES: dict[str, DeclarativeCommandOverride] = {
+    "cli-registry.compatibility": DeclarativeCommandOverride(
+        command_id="cli-registry.compatibility",
+        risk_level=CommandRiskLevel.HIGH,
+        side_effects=(CommandSideEffect.WRITE_REPORT,),
+        writes_files=True,
+        dry_run_supported=True,
+        policy_check_required=True,
+        recommended_tests=(
+            "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_030_cli_compatibility_contracts.py -q",
+        ),
+        rationale="POST-H-030-E validates source-controlled CLI compatibility contracts and writes only optional reports under outputs/reports.",
+    ),
     "workspace.init": DeclarativeCommandOverride(
         command_id="workspace.init",
         risk_level=CommandRiskLevel.HIGH,
@@ -1486,6 +1499,9 @@ class DeclarativeCliRegistryBuilder:
             )
         if override:
             metadata["command_rationale"] = override.rationale
+        if command.command_id == "cli-registry.compatibility":
+            metadata["declared_by"] = POST_H_030_E_CREATED_BY
+            metadata["compatibility_contract_runner"] = "src/devpilot_core/cli_registry/compatibility.py"
         if migration:
             metadata.update(
                 {

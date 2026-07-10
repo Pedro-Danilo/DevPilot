@@ -2580,3 +2580,15 @@ Siguiente hito: `POST-H-030`
 - Preserved public CLI wrappers, optional report wiring, JSON envelope, exit codes, dry-run defaults, readiness-preview pending classification and ApplicationService boundaries.
 - Updated ownership matrix, extraction plan, TCR v1/v2, source registry, project state, README, runbook and test strategy.
 - No dynamic router, network, external APIs, remote execution, connector write or plugin execution were enabled.
+
+## post-h-030-e — CLI compatibility contract tests
+
+- Added `CliCompatibilityReport` schema and source-controlled fixture `.devpilot/cli_registry/cli_compatibility_contracts.json`.
+- Added `src/devpilot_core/cli_registry/compatibility.py` and `cli-registry compatibility` to validate migrated/high-risk CLI contracts without dynamic routing.
+- Added the `cli-boundary-hotspot-reduction` quality subgate to hardening/industrial profiles.
+- Closed POST-H-030 as implemented-initial/local-first with compatibility coverage for migrated commands, high/critical commands and key governance commands.
+- Documented the snapshot update rule: expected differences require audited fixture updates and must not hide breaking changes.
+- Kept network, external APIs, remote execution, connector write, plugin execution and destructive execution disabled.
+
+
+Siguiente hito: `POST-H-031`

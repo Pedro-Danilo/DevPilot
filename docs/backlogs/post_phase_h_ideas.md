@@ -65,3 +65,8 @@ La línea post-H mantiene una regla: antes de nuevas capacidades agentic o remot
 ## POST-H-029 — Testing tiers, impacto y costo de regresion
 
 Siguiente hito despues del cierre de POST-H-028. Debe gobernar tiers de pruebas, impacto y costo de regresion antes de ampliar la UI/API local.
+
+
+## POST-H-031 — Observabilidad, evidence graph y operador
+
+Siguiente hito posterior al cierre de POST-H-030. Inicio recomendado: `POST-H-031-A — Evidence graph model`.

@@ -10999,3 +10999,25 @@ python -m devpilot_core test-contracts validate-v2 --json
 La implementación preserva los wrappers públicos en `cli.py` y mueve construcción de resultados a módulos propietarios. No habilita red, APIs externas, router dinámico, ejecución remota, connector write ni plugin execution. Los outputs generados por bootstrap/readiness/reportes siguen siendo runtime artifacts y no deben versionarse ni incluirse en ZIP de entrega.
 
 Siguiente micro-sprint: `POST-H-030-E — CLI compatibility contract tests`.
+
+## POST-H-030-E — CLI compatibility contract tests
+
+Validación operacional de compatibilidad CLI local-first:
+
+```powershell
+$env:PYTHONPATH="src"
+python -m devpilot_core cli-registry compatibility --json
+python -m devpilot_core cli-registry compatibility --json --write-report
+python -m devpilot_core schema validate --schema-id CliCompatibilityReport --instance outputs\reports\cli_compatibility_report.json --json
+python -m devpilot_core cli-registry guard --json
+python -m devpilot_core quality-gate run --profile hardening --json
+```
+
+Criterio PASS: todos los comandos migrados y high/critical tienen contrato `cli-compat:<command_id>`, conservan JSON envelope (`command`, `ok`, `exit_code`, `message`, `data`, `findings`), exit code semantics, help esencial y normalización de timestamps/rutas/duraciones/campos volátiles. El subgate `cli-boundary-hotspot-reduction` debe permanecer en hardening/industrial.
+
+Para actualizar snapshots o contratos: documentar la diferencia esperada, actualizar fixture, manifest y reporte de auditoría. No actualizar snapshots para ocultar breaking changes en nombre público, argumentos, JSON output, exit codes o semántica PASS/BLOCK.
+
+Estado: `closed / cli-boundary-hotspot-reduction` como primera versión industrial local-first. Evolución pendiente: extender contratos tier_1/tier_2, incorporar comparación before/after automatizada más granular y asociar contratos con futuras extracciones por dominio.
+
+
+Siguiente hito: `POST-H-031`

@@ -27,6 +27,8 @@ from .cli_registry import (
     CliCommandRegistryReportOptions,
     CliNoGrowthGate,
     CliNoGrowthGateOptions,
+    CliCompatibilityContractRunner,
+    CliCompatibilityOptions,
 )
 from .cli_commands import (
     handle_backup_create,
@@ -5535,6 +5537,42 @@ def cli_registry_guard_command(
 
 
 
+def cli_registry_compatibility_command(
+    *,
+    contracts_path: str = ".devpilot/cli_registry/cli_compatibility_contracts.json",
+    matrix_path: str = ".devpilot/cli_registry/command_ownership_matrix.json",
+    json_output: bool = False,
+    write_report: bool = False,
+    run_smoke: bool = False,
+) -> int:
+    """Validate POST-H-030-E source-controlled CLI compatibility contracts."""
+
+    root = project_root()
+    result = CliCompatibilityContractRunner(
+        root,
+        CliCompatibilityOptions(
+            contracts_path=Path(contracts_path),
+            matrix_path=Path(matrix_path),
+            write_report=write_report,
+            run_smoke=run_smoke,
+        ),
+    ).run()
+    summary_result = CommandResult(
+        command=result.command,
+        ok=result.ok,
+        exit_code=result.exit_code,
+        message=result.message,
+        data={"summary": (result.data or {}).get("summary", {})},
+        findings=result.findings,
+    )
+    _emit_result_event(root, summary_result, subject="cli-registry:compatibility")
+    _persist_result(root, summary_result, subject="cli-registry:compatibility")
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+
+
+
 def tests_taxonomy_command(*, json_output: bool = False, write_report: bool = False) -> int:
     """Validate POST-H-029-A test profile taxonomy without executing tests."""
 
@@ -5949,6 +5987,12 @@ def build_parser() -> argparse.ArgumentParser:
     cli_registry_guard.add_argument("--allowlist", default=".devpilot/cli_registry/legacy_command_allowlist.json", help="Temporary legacy CLI command allowlist path")
     cli_registry_guard.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     cli_registry_guard.add_argument("--write-report", action="store_true", help="Write cli_command_registry_no_growth_gate.json/.md under outputs/reports")
+    cli_registry_compatibility = cli_registry_sub.add_parser("compatibility", help="Validate POST-H-030-E CLI compatibility contract fixtures")
+    cli_registry_compatibility.add_argument("--contracts", default=".devpilot/cli_registry/cli_compatibility_contracts.json", help="Source-controlled CLI compatibility contracts fixture")
+    cli_registry_compatibility.add_argument("--matrix", default=".devpilot/cli_registry/command_ownership_matrix.json", help="CLI ownership matrix path")
+    cli_registry_compatibility.add_argument("--run-smoke", action="store_true", help="Run only safe smoke argv declared in the compatibility fixture")
+    cli_registry_compatibility.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    cli_registry_compatibility.add_argument("--write-report", action="store_true", help="Write cli_compatibility_report.json/.md under outputs/reports")
 
     test_contracts = sub.add_parser("test-contracts", help="Validate POST-H-001 test contract registry")
     test_contracts_sub = test_contracts.add_subparsers(dest="test_contracts_command")
@@ -7370,6 +7414,14 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
             return cli_registry_report_command(json_output=args.json, write_report=args.write_report)
         if args.cli_registry_command == "guard":
             return cli_registry_guard_command(allowlist_path=args.allowlist, json_output=args.json, write_report=args.write_report)
+        if args.cli_registry_command == "compatibility":
+            return cli_registry_compatibility_command(
+                contracts_path=args.contracts,
+                matrix_path=args.matrix,
+                json_output=args.json,
+                write_report=args.write_report,
+                run_smoke=args.run_smoke,
+            )
         parser.print_help()
         return int(ExitCode.FAIL)
     if args.command == "test-contracts":

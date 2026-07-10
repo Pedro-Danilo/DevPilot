@@ -1574,7 +1574,21 @@
       "dialect": "https://json-schema.org/draft/2020-12/schema",
       "validates_instances": true,
       "validation_enabled_sprint": "POST-H-030-A"
+    },
+    {
+      "schema_id": "SCHEMA-DEVPL-CLI-COMPATIBILITY-REPORT-V1",
+      "title": "DevPilot CliCompatibilityReport v1",
+      "version": "1.0.0",
+      "path": "docs/schemas/cli_compatibility_report.schema.json",
+      "description": "Schema-backed POST-H-030-E report for CLI compatibility contracts, migrated/high-risk command coverage, normalization and local-first safety invariants.",
+      "status": "registered",
+      "contract": "CliCompatibilityReport",
+      "owner": "POST-H-030-E",
+      "sprint": "POST-H-030-E",
+      "dialect": "https://json-schema.org/draft/2020-12/schema",
+      "validates_instances": true,
+      "validation_enabled_sprint": "POST-H-030-E"
     }
   ],
-  "schemas_total": null
+  "schemas_total": 109
 }

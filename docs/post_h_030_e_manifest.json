@@ -1,0 +1,42 @@
+{
+  "schema_version": "1.0",
+  "manifest_id": "post-h-030-e-cli-compatibility-contracts",
+  "created_by": "POST-H-030-E",
+  "status": "closed",
+  "backlog": "POST-H-030_cli_hotspot_reduction_application_boundaries",
+  "current_repo": "repo_DevPilot_Local_288_POST_H_030_E.zip",
+  "next_micro_sprint": "POST-H-031-A",
+  "artifacts": {
+    "schema": "docs/schemas/cli_compatibility_report.schema.json",
+    "contracts_fixture": ".devpilot/cli_registry/cli_compatibility_contracts.json",
+    "module": "src/devpilot_core/cli_registry/compatibility.py",
+    "test": "tests/test_post_h_030_cli_compatibility_contracts.py",
+    "audit_report": "docs/audits/post_h_030_e_cli_compatibility_contracts_report.md"
+  },
+  "summary": {
+    "contracts_total": 72,
+    "tier_0_contracts_total": 71,
+    "tier_1_contracts_total": 1,
+    "smoke_contracts_total": 16,
+    "covers_migrated_commands": true,
+    "covers_high_or_critical_commands": true,
+    "missing_required_contracts_total": 0,
+    "quality_gate_subgate": "cli-boundary-hotspot-reduction"
+  },
+  "safety": {
+    "local_first": true,
+    "network_used": false,
+    "external_api_used": false,
+    "remote_execution_enabled": false,
+    "connector_write_enabled": false,
+    "plugin_execution_enabled": false,
+    "dynamic_handler_loading_enabled": false,
+    "runtime_router_enabled": false,
+    "source_mutations_runtime": false
+  },
+  "notes": [
+    "POST-H-030-E closes POST-H-030 as implemented-initial/local-first.",
+    "Fixture updates require audit justification and must not hide breaking changes."
+  ],
+  "implementation_status": "closed/cli-boundary-hotspot-reduction"
+}

@@ -105,15 +105,15 @@ def test_post_h_030_a_governance_artifacts_are_synchronized() -> None:
     backlog = (ROOT / "docs/backlogs/POST-H-030_cli_hotspot_reduction_application_boundaries.md").read_text(encoding="utf-8")
     changelog = (ROOT / "docs/release/CHANGELOG.md").read_text(encoding="utf-8")
 
-    assert state["current_micro_sprint"] in {"POST-H-030-B", "POST-H-030-C", "POST-H-030-D"}
-    assert state["next_micro_sprint"] in {"POST-H-030-C", "POST-H-030-D", "POST-H-030-E"}
-    assert state["current_repo"] in {"repo_DevPilot_Local_285_POST_H_030_B.zip", "repo_DevPilot_Local_286_POST_H_030_C.zip", "repo_DevPilot_Local_287_POST_H_030_D.zip"}
-    assert state["post_h_030_status"] in {"active/implemented-initial-post-h-030-b", "active/implemented-initial-post-h-030-c", "active/implemented-initial-post-h-030-d"}
+    assert state["current_micro_sprint"] in {"POST-H-030-B", "POST-H-030-C", "POST-H-030-D", "POST-H-030-E"}
+    assert state["next_micro_sprint"] in {"POST-H-030-C", "POST-H-030-D", "POST-H-030-E", "POST-H-031-A"}
+    assert state["current_repo"] in {"repo_DevPilot_Local_285_POST_H_030_B.zip", "repo_DevPilot_Local_286_POST_H_030_C.zip", "repo_DevPilot_Local_287_POST_H_030_D.zip", "repo_DevPilot_Local_288_POST_H_030_E.zip"}
+    assert state["post_h_030_status"] in {"active/implemented-initial-post-h-030-b", "active/implemented-initial-post-h-030-c", "active/implemented-initial-post-h-030-d", "closed/cli-boundary-hotspot-reduction"}
     assert state["post_h_030_cli_ownership_coverage_complete"] is True
     assert state["post_h_030_cli_dynamic_handler_loading_enabled"] is False
 
     assert 'status: approved' in backlog
-    assert any(marker in backlog for marker in ['implementation_status: "active/implemented-initial-post-h-030-b"', 'implementation_status: "active/implemented-initial-post-h-030-c"', 'implementation_status: "active/implemented-initial-post-h-030-d"'])
+    assert any(marker in backlog for marker in ['implementation_status: "active/implemented-initial-post-h-030-b"', 'implementation_status: "active/implemented-initial-post-h-030-c"', 'implementation_status: "active/implemented-initial-post-h-030-d"', 'implementation_status: "closed/cli-boundary-hotspot-reduction"'])
     assert "POST-H-030-A — CLI command ownership matrix" in readme
     assert "POST-H-030-B — Industrial readiness command extraction" in readme
     assert "POST-H-030-C — Release command extraction" in readme

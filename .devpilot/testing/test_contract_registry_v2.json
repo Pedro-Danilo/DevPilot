@@ -14024,6 +14024,80 @@
       "classification_notes": [
         "POST-H-030-D extracts workspace/onboarding handlers while preserving dry-run and ApplicationService boundaries for local workspace operation."
       ]
+    },
+    {
+      "contract_id": "post-h-030-cli-compatibility-contracts",
+      "schema_version": "2.0",
+      "source_contract_id": "post-h-030-cli-compatibility-contracts",
+      "domain": "interface.cli",
+      "capability": "CliCompatibilityContracts",
+      "criticality": "P0",
+      "risk_level": "critical",
+      "test_type": "integration",
+      "execution_profile": "impact",
+      "cost_class": "medium",
+      "expected_duration_seconds": 300,
+      "test_files": [
+        "tests/test_post_h_030_cli_compatibility_contracts.py"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/cli_registry/compatibility.py",
+        "src/devpilot_core/cli_registry/__init__.py",
+        "src/devpilot_core/cli_registry/registry.py",
+        "src/devpilot_core/quality/gate.py",
+        "src/devpilot_core/cli.py",
+        ".devpilot/cli_registry/cli_compatibility_contracts.json",
+        ".devpilot/cli_registry/command_ownership_matrix.json",
+        "docs/schemas/cli_compatibility_report.schema.json",
+        ".devpilot/project_state.json"
+      ],
+      "validates": [
+        "POST-H-030-E CLI compatibility contracts",
+        "Migrated/high-risk command contract coverage",
+        "CommandResult JSON envelope compatibility",
+        "Exit code semantics preservation",
+        "Snapshot normalization policy",
+        "No dynamic CLI router introduced"
+      ],
+      "trigger_hints": [
+        "post-h-030-e",
+        "cli-compatibility-contract-change",
+        "cli-handler-migration",
+        "high-risk-cli-command-change"
+      ],
+      "impact_scope": [
+        "cli",
+        "application-boundary",
+        "quality-gate",
+        "testing-contracts",
+        "documentation-governance"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": false,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "POST-H-030-E",
+      "owner_domain": "interface.cli",
+      "service_boundary": "cli-registry.compatibility",
+      "subgate_id": "cli-boundary-hotspot-reduction",
+      "schema_ids": [
+        "SCHEMA-DEVPL-CLI-COMPATIBILITY-REPORT-V1",
+        "SCHEMA-DEVPL-CLI-COMMAND-OWNERSHIP-MATRIX-V1",
+        "SCHEMA-DEVPL-CLI-EXTRACTION-PLAN-V1"
+      ],
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_030_cli_compatibility_contracts.py -q",
+        "python -m devpilot_core cli-registry compatibility --json",
+        "python -m devpilot_core cli-registry guard --json",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ],
+      "classification_status": "explicit",
+      "classification_notes": [
+        "POST-H-030-E closes the initial CLI hotspot reduction backlog with compatibility fixtures and a quality subgate."
+      ]
     }
   ],
   "migration_metadata": {
@@ -14034,8 +14108,8 @@
     "network_used": false,
     "external_api_used": false,
     "mutations_performed_by_default": false,
-    "contracts_total": 209,
-    "last_updated_by": "POST-H-030-A"
+    "contracts_total": 213,
+    "last_updated_by": "POST-H-030-E"
   },
   "notes": [
     "POST-H-020-D fixes v2 contract classification_status for POST-H-020-C/D contracts to keep schema validation synchronized.",

@@ -20,9 +20,9 @@ onboarding_report_source: "devpilot_onboarding_report_final_compilado.md"
 target_repo_path: "docs/backlogs/POST-H-030_cli_hotspot_reduction_application_boundaries.md"
 created_for: "DevPilot Local"
 scope: "local-first / deterministic / compatibility-preserving CLI refactor"
-implementation_status: "active/implemented-initial-post-h-030-d"
-current_micro_sprint: "POST-H-030-D"
-next_micro_sprint: "POST-H-030-E"
+implementation_status: "closed/cli-boundary-hotspot-reduction"
+current_micro_sprint: "POST-H-030-E"
+next_micro_sprint: "POST-H-031-A"
 ```
 
 ## 1. Proposito del backlog
@@ -570,6 +570,17 @@ python -m devpilot_core test-contracts validate --json
 python -m devpilot_core test-contracts validate-v2 --json
 ```
 
+
+## Estado de implementación POST-H-030-E
+
+POST-H-030-E queda como `implemented-initial/local-first` y cierra el backlog POST-H-030 como `closed/cli-boundary-hotspot-reduction`. Se agrega el schema `CliCompatibilityReport`, el fixture versionado `.devpilot/cli_registry/cli_compatibility_contracts.json`, el módulo `src/devpilot_core/cli_registry/compatibility.py`, el comando `python -m devpilot_core cli-registry compatibility --json` y el subgate `cli-boundary-hotspot-reduction` para perfiles hardening/industrial.
+
+La capa de contratos cubre comandos migrados en POST-H-030-B/C/D, comandos high/critical de la ownership matrix y comandos de gobernanza relevantes como `cli-registry guard` y `quality-gate run`. La validación normaliza timestamps, rutas absolutas, duraciones, metadatos volátiles y outputs runtime para evitar snapshots frágiles.
+
+Política para actualizar snapshots: cualquier diferencia esperada debe actualizar el fixture de compatibilidad junto con una justificación en reporte/manifest y revisión del owner. Está prohibido actualizar snapshots para no ocultar breaking changes; cambios de nombre público, argumentos, exit code, JSON envelope o semántica PASS/BLOCK deben tratarse como breaking changes salvo aprobación explícita y versionada.
+
+La implementación no introduce router dinámico, importlib de handlers, carga de plugins, red, APIs externas, remote execution, connector write ni plugin execution. La ejecución de smoke es opt-in y solo usa argv curado/dry-run/read-only declarado en el fixture.
+
 ## 9. Definition of Done del backlog POST-H-030
 
 El backlog completo se puede cerrar solo si:
@@ -580,6 +591,7 @@ El backlog completo se puede cerrar solo si:
 - `cli.py` queda reducido en responsabilidades de handler para las familias migradas.
 - No se introducen comandos legacy nuevos fuera de registry/no-growth gate.
 - Los comandos criticos tienen tests de compatibilidad.
+- POST-H-030-E registra `CliCompatibilityReport`, fixture de contratos y subgate `cli-boundary-hotspot-reduction`.
 - `ApplicationService` queda como boundary preferente para operaciones consumibles por API/UI.
 - Los comandos CLI-only quedan justificados.
 - README, runbook, backlog, manifests, TCR y source registry quedan sincronizados.
