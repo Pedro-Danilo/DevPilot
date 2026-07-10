@@ -7809,6 +7809,55 @@
       "notes": [
         "POST-H-030-E closes CLI hotspot reduction with source-controlled compatibility contracts and local-first safety invariants."
       ]
+    },
+    {
+      "contract_id": "post-h-031-evidence-graph-model",
+      "scope": "integration",
+      "owner": "POST-H-031-A",
+      "phase": "POST-FASE-H",
+      "test_files": [
+        "tests/test_post_h_031_evidence_graph_model.py"
+      ],
+      "validates": [
+        "src/devpilot_core/evidence_graph/models.py",
+        "src/devpilot_core/evidence_graph/builder.py",
+        ".devpilot/evidence/evidence_graph_sources.json",
+        "docs/schemas/evidence_graph.schema.json",
+        "ApplicationService.evidence_graph",
+        "evidence graph CLI",
+        "POST-H-031-A evidence graph local-first safety invariants"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/evidence_graph/__init__.py",
+        "src/devpilot_core/evidence_graph/models.py",
+        "src/devpilot_core/evidence_graph/builder.py",
+        "src/devpilot_core/application/services.py",
+        "src/devpilot_core/cli.py",
+        "src/devpilot_core/cli_registry/registry.py",
+        ".devpilot/evidence/evidence_graph_sources.json",
+        "docs/schemas/evidence_graph.schema.json",
+        "docs/schemas/schema_catalog.json",
+        ".devpilot/project_state.json",
+        ".devpilot/docs_governance/source_registry.json",
+        "docs/backlogs/POST-H-031_observability_evidence_graph_operator.md"
+      ],
+      "mutable_global_state_allowed": false,
+      "global_state_source": null,
+      "critical": true,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_031_evidence_graph_model.py -q",
+        "python -m devpilot_core evidence graph --json",
+        "python -m devpilot_core evidence graph --json --write-report",
+        "python -m devpilot_core schema validate --schema-id EvidenceGraph --instance outputs/reports/evidence_graph.json --json",
+        "python -m devpilot_core test-contracts validate --json"
+      ],
+      "notes": [
+        "POST-H-031-A starts the operator evidence graph as implemented-initial/local-first without declaring readiness or executing commands."
+      ]
     }
   ],
   "notes": [

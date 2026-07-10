@@ -1,0 +1,144 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://devpilot.local/schemas/evidence_graph.schema.json",
+  "title": "DevPilot EvidenceGraph v1",
+  "description": "POST-H-031-A local read-only evidence graph model for sources, reports, claims, gaps, no-go gates, runtime signals and evidence relationships. It does not declare readiness.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "schema_id",
+    "graph_id",
+    "created_by",
+    "status",
+    "generated_at_utc",
+    "summary",
+    "nodes",
+    "edges",
+    "safety",
+    "limitations",
+    "findings",
+    "notes"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "schema_id": {"const": "SCHEMA-DEVPL-EVIDENCE-GRAPH-V1"},
+    "graph_id": {"const": "devpilot-evidence-graph"},
+    "created_by": {"const": "POST-H-031-A"},
+    "status": {"enum": ["pass", "blocked"]},
+    "generated_at_utc": {"type": "string", "minLength": 10},
+    "summary": {
+      "type": "object",
+      "required": [
+        "created_by",
+        "status",
+        "decision",
+        "nodes_total",
+        "edges_total",
+        "nodes_by_type",
+        "nodes_by_evidence_class",
+        "nodes_by_status",
+        "missing_evidence_total",
+        "blocking_gaps_total",
+        "no_go_gates_total",
+        "claims_total",
+        "blocking_findings_total",
+        "graph_declares_readiness",
+        "read_only",
+        "network_used",
+        "external_api_used",
+        "mutations_performed",
+        "source_mutations_performed",
+        "reports_written",
+        "preliminary"
+      ],
+      "properties": {
+        "created_by": {"const": "POST-H-031-A"},
+        "status": {"const": "implemented-initial"},
+        "decision": {"enum": ["PASS", "BLOCK"]},
+        "nodes_total": {"type": "integer", "minimum": 1},
+        "edges_total": {"type": "integer", "minimum": 1},
+        "nodes_by_type": {"type": "object", "additionalProperties": {"type": "integer", "minimum": 0}},
+        "nodes_by_evidence_class": {"type": "object", "additionalProperties": {"type": "integer", "minimum": 0}},
+        "nodes_by_status": {"type": "object", "additionalProperties": {"type": "integer", "minimum": 0}},
+        "missing_evidence_total": {"type": "integer", "minimum": 0},
+        "blocking_gaps_total": {"type": "integer", "minimum": 0},
+        "no_go_gates_total": {"type": "integer", "minimum": 1},
+        "claims_total": {"type": "integer", "minimum": 1},
+        "findings_total": {"type": "integer", "minimum": 0},
+        "blocking_findings_total": {"type": "integer", "minimum": 0},
+        "graph_declares_readiness": {"const": false},
+        "read_only": {"const": true},
+        "network_used": {"const": false},
+        "external_api_used": {"const": false},
+        "mutations_performed": {"const": false},
+        "source_mutations_performed": {"const": false},
+        "reports_written": {"type": "boolean"},
+        "preliminary": {"const": true}
+      },
+      "additionalProperties": true
+    },
+    "nodes": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["node_id", "node_type", "title", "status", "evidence_class", "metadata"],
+        "properties": {
+          "node_id": {"type": "string", "minLength": 1},
+          "node_type": {"enum": ["evidence", "claim", "gate", "gap", "report", "schema", "test", "backlog", "command", "runtime_signal"]},
+          "title": {"type": "string", "minLength": 1},
+          "status": {"type": "string", "minLength": 1},
+          "evidence_class": {"enum": ["versioned_source", "runtime_generated", "operator_supplied", "derived_summary", "missing_expected", "blocked_or_forbidden"]},
+          "path": {"type": ["string", "null"]},
+          "source_id": {"type": ["string", "null"]},
+          "category": {"type": ["string", "null"]},
+          "required": {"type": ["boolean", "null"]},
+          "expected_schema_id": {"type": ["string", "null"]},
+          "metadata": {"type": "object", "additionalProperties": true},
+          "tags": {"type": "array", "items": {"type": "string"}},
+          "notes": {"type": "array", "items": {"type": "string"}}
+        },
+        "additionalProperties": true
+      }
+    },
+    "edges": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["edge_id", "source", "target", "edge_type", "rationale"],
+        "properties": {
+          "edge_id": {"type": "string", "minLength": 1},
+          "source": {"type": "string", "minLength": 1},
+          "target": {"type": "string", "minLength": 1},
+          "edge_type": {"enum": ["supports", "blocks", "requires", "generated_by", "validates_against", "derived_from", "remediated_by", "supersedes"]},
+          "rationale": {"type": "string", "minLength": 1}
+        },
+        "additionalProperties": true
+      }
+    },
+    "safety": {
+      "type": "object",
+      "required": ["local_first", "read_only", "dry_run", "network_used", "external_api_used", "mutations_performed", "source_mutations_performed", "commands_executed", "secrets_read", "raw_payloads_exported", "devpilot_db_read", "reports_written"],
+      "properties": {
+        "local_first": {"const": true},
+        "read_only": {"const": true},
+        "dry_run": {"const": true},
+        "network_used": {"const": false},
+        "external_api_used": {"const": false},
+        "mutations_performed": {"const": false},
+        "source_mutations_performed": {"const": false},
+        "commands_executed": {"const": false},
+        "secrets_read": {"const": false},
+        "raw_payloads_exported": {"const": false},
+        "devpilot_db_read": {"const": false},
+        "reports_written": {"type": "boolean"}
+      },
+      "additionalProperties": true
+    },
+    "limitations": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+    "findings": {"type": "array", "items": {"type": "object", "additionalProperties": true}},
+    "notes": {"type": "array", "items": {"type": "string"}}
+  },
+  "additionalProperties": false
+}

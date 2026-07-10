@@ -76,6 +76,32 @@ class ApplicationService:
         self.portfolio = PortfolioApplicationService(self.root)
         self.boundary_policy = ApplicationBoundaryPolicy(self.root)
 
+    def evidence_graph(
+        self,
+        *,
+        sources_path: str = ".devpilot/evidence/evidence_graph_sources.json",
+        write_report: bool = False,
+        output_json: str = "outputs/reports/evidence_graph.json",
+        output_markdown: str = "outputs/reports/evidence_graph.md",
+    ) -> CommandResult:
+        """Build the POST-H-031-A local evidence graph model.
+
+        The graph is read-only by default and does not declare readiness. It
+        models evidence, gaps, claims and no-go gates for operator visibility.
+        """
+
+        from devpilot_core.evidence_graph import EvidenceGraphBuilder, EvidenceGraphOptions
+
+        return EvidenceGraphBuilder(
+            self.root,
+            EvidenceGraphOptions(
+                sources_path=Path(sources_path),
+                write_report=write_report,
+                output_json=Path(output_json),
+                output_markdown=Path(output_markdown),
+            ),
+        ).build()
+
     # Backward-compatible validator facade from Sprint 18.
     def validate_frontmatter(self, path: str | Path, *, strict: bool = False) -> CommandResult:
         return self.validation.validate_frontmatter(path, strict=strict)

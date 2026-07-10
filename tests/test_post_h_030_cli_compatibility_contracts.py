@@ -115,9 +115,9 @@ def test_post_h_030_e_governance_artifacts_are_synchronized() -> None:
     backlog = (ROOT / "docs/backlogs/POST-H-030_cli_hotspot_reduction_application_boundaries.md").read_text(encoding="utf-8")
     changelog = (ROOT / "docs/release/CHANGELOG.md").read_text(encoding="utf-8")
 
-    assert state["current_micro_sprint"] == "POST-H-030-E"
-    assert state["next_micro_sprint"] == "POST-H-031-A"
-    assert state["current_repo"] == "repo_DevPilot_Local_288_POST_H_030_E.zip"
+    assert state["current_micro_sprint"] == "POST-H-031-A"
+    assert state["next_micro_sprint"] == "POST-H-031-B"
+    assert state["current_repo"] == "repo_DevPilot_Local_289_POST_H_031_A.zip"
     assert state["post_h_030_status"] == "closed/cli-boundary-hotspot-reduction"
     assert state["post_h_030_cli_compatibility_contracts_available"] is True
     assert state["post_h_030_cli_compatibility_quality_gate_enabled"] is True

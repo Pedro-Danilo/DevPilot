@@ -5573,6 +5573,38 @@ def cli_registry_compatibility_command(
 
 
 
+
+def evidence_graph_command(
+    *,
+    sources_path: str = ".devpilot/evidence/evidence_graph_sources.json",
+    json_output: bool = False,
+    write_report: bool = False,
+    output_json: str = "outputs/reports/evidence_graph.json",
+    output_markdown: str = "outputs/reports/evidence_graph.md",
+) -> int:
+    """Build the POST-H-031-A local read-only evidence graph model."""
+
+    root = project_root()
+    result = ApplicationService(root).evidence_graph(
+        sources_path=sources_path,
+        write_report=write_report,
+        output_json=output_json,
+        output_markdown=output_markdown,
+    )
+    summary_result = CommandResult(
+        command=result.command,
+        ok=result.ok,
+        exit_code=result.exit_code,
+        message=result.message,
+        data={"summary": (result.data or {}).get("summary", {})},
+        findings=result.findings,
+    )
+    _emit_result_event(root, summary_result, subject="evidence:graph")
+    _persist_result(root, summary_result, subject="evidence:graph")
+    print_result(result, json_output=json_output)
+    return int(result.exit_code)
+
+
 def tests_taxonomy_command(*, json_output: bool = False, write_report: bool = False) -> int:
     """Validate POST-H-029-A test profile taxonomy without executing tests."""
 
@@ -6073,6 +6105,15 @@ def build_parser() -> argparse.ArgumentParser:
     observability_export.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
     observability_export.add_argument("--write-report", action="store_true", help="Persist redacted export JSON/Markdown and audit export evidence")
     observability_export.add_argument("--limit", type=int, default=100, help="Bounded sample size for events, spans and metrics, capped at 500")
+
+    evidence = sub.add_parser("evidence", help="Build local operator evidence graph models")
+    evidence_sub = evidence.add_subparsers(dest="evidence_command")
+    evidence_graph = evidence_sub.add_parser("graph", help="Build POST-H-031-A read-only evidence graph model")
+    evidence_graph.add_argument("--sources", default=".devpilot/evidence/evidence_graph_sources.json", help="Evidence graph source configuration path")
+    evidence_graph.add_argument("--json", action="store_true", help="Emit normalized JSON command result")
+    evidence_graph.add_argument("--write-report", action="store_true", help="Persist evidence_graph.json/.md under outputs/reports")
+    evidence_graph.add_argument("--output-json", default="outputs/reports/evidence_graph.json", help="EvidenceGraph JSON output path when --write-report is used")
+    evidence_graph.add_argument("--output-markdown", default="outputs/reports/evidence_graph.md", help="EvidenceGraph Markdown output path when --write-report is used")
 
     docs_governance = sub.add_parser("docs-governance", help="Validate documentation governance and canonical source metadata")
     docs_governance_sub = docs_governance.add_subparsers(dest="docs_governance_command")
@@ -7075,6 +7116,9 @@ def _command_name_from_args(args: argparse.Namespace) -> str:
     if command == "traceability":
         subcommand = getattr(args, "traceability_command", None)
         return f"traceability {subcommand}" if subcommand else "traceability"
+    if command == "evidence":
+        subcommand = getattr(args, "evidence_command", None)
+        return f"evidence {subcommand}" if subcommand else "evidence"
     if command == "schema":
         subcommand = getattr(args, "schema_command", None)
         return f"schema {subcommand}" if subcommand else "schema"
@@ -7494,6 +7538,17 @@ def _dispatch(args: argparse.Namespace, parser: argparse.ArgumentParser) -> int:
             return observability_cleanup_plan_command(json_output=args.json, write_report=args.write_report, execute=args.execute)
         if args.observability_command == "export":
             return observability_export_command(json_output=args.json, write_report=args.write_report, redacted=args.redacted, limit=args.limit)
+        parser.print_help()
+        return int(ExitCode.FAIL)
+    if args.command == "evidence":
+        if args.evidence_command == "graph":
+            return evidence_graph_command(
+                sources_path=args.sources,
+                json_output=args.json,
+                write_report=args.write_report,
+                output_json=args.output_json,
+                output_markdown=args.output_markdown,
+            )
         parser.print_help()
         return int(ExitCode.FAIL)
     if args.command == "docs-governance":

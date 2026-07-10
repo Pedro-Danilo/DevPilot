@@ -2592,3 +2592,12 @@ Siguiente hito: `POST-H-030`
 
 
 Siguiente hito: `POST-H-031`
+
+## post-h-031-a — Evidence graph model
+
+- Agrega el modelo inicial `EvidenceGraph` como capa local/read-only para operador.
+- Registra `SCHEMA-DEVPL-EVIDENCE-GRAPH-V1`, `.devpilot/evidence/evidence_graph_sources.json`, `src/devpilot_core/evidence_graph/`, `ApplicationService.evidence_graph(...)` y `python -m devpilot_core evidence graph --json`.
+- Mantiene `graph_declares_readiness=false`; no ejecuta comandos, no lee secretos, no usa red ni APIs externas y no muta fuentes.
+- Los reportes JSON/Markdown se escriben solo con `--write-report` bajo `outputs/reports`.
+
+Siguiente micro-sprint: `POST-H-031-B — Operator health summary`.

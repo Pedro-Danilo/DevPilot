@@ -6,7 +6,7 @@
   "status": "implemented-initial",
   "phase": "POST-FASE-H",
   "owner": "Ordóñez",
-  "updated": "2026-07-09",
+  "updated": "2026-07-10",
   "preliminary": true,
   "documents": [
     {
@@ -8779,6 +8779,117 @@
         "tests/test_post_h_030_cli_compatibility_contracts.py"
       ],
       "sync_rules": []
+    },
+    {
+      "doc_id": "POST-H-031-BACKLOG",
+      "path": "docs/backlogs/POST-H-031_observability_evidence_graph_operator.md",
+      "classification": "source-of-truth",
+      "domain": "operations.observability",
+      "status_required": "approved",
+      "owner": "POST-H-031-A",
+      "criticality": "P0",
+      "lifecycle": "active",
+      "required_tests": [
+        "tests/test_post_h_031_evidence_graph_model.py"
+      ],
+      "sync_rules": [
+        "frontmatter_required",
+        "backlog_status_match",
+        "micro_sprint_status_match"
+      ]
+    },
+    {
+      "doc_id": "POST-H-031-BACKLOG-ROOT-COPY",
+      "path": "docs/POST-H-031_observability_evidence_graph_operator.md",
+      "classification": "derived",
+      "domain": "operations.observability",
+      "status_required": "current",
+      "owner": "POST-H-031-A",
+      "criticality": "P1",
+      "lifecycle": "active",
+      "required_tests": [
+        "tests/test_post_h_031_evidence_graph_model.py"
+      ],
+      "sync_rules": [
+        "frontmatter_required"
+      ]
+    },
+    {
+      "doc_id": "POST-H-031-A-EVIDENCE-GRAPH-MODEL-REPORT",
+      "path": "docs/audits/post_h_031_a_evidence_graph_model_report.md",
+      "classification": "source-of-truth",
+      "domain": "operations.observability",
+      "status_required": "approved",
+      "owner": "POST-H-031-A",
+      "criticality": "P0",
+      "lifecycle": "active",
+      "required_tests": [
+        "tests/test_post_h_031_evidence_graph_model.py"
+      ],
+      "sync_rules": [
+        "frontmatter_required"
+      ]
+    },
+    {
+      "doc_id": "POST-H-031-A-MANIFEST",
+      "path": "docs/post_h_031_a_manifest.json",
+      "classification": "machine-readable-source",
+      "domain": "operations.observability",
+      "status_required": "implemented-initial",
+      "owner": "POST-H-031-A",
+      "criticality": "P0",
+      "lifecycle": "active",
+      "required_tests": [
+        "tests/test_post_h_031_evidence_graph_model.py"
+      ],
+      "sync_rules": []
+    },
+    {
+      "doc_id": "SCHEMA-DEVPL-EVIDENCE-GRAPH-V1",
+      "path": "docs/schemas/evidence_graph.schema.json",
+      "classification": "machine-readable-source",
+      "domain": "governance.schemas",
+      "status_required": "registered",
+      "owner": "POST-H-031-A",
+      "criticality": "P0",
+      "lifecycle": "active",
+      "required_tests": [
+        "tests/test_post_h_031_evidence_graph_model.py",
+        "tests/test_schema_registry.py"
+      ],
+      "sync_rules": [
+        "schema_catalog_registered"
+      ]
+    },
+    {
+      "doc_id": "POST-H-031-A-EVIDENCE-GRAPH-SOURCES",
+      "path": ".devpilot/evidence/evidence_graph_sources.json",
+      "classification": "machine-readable-source",
+      "domain": "operations.observability",
+      "status_required": "implemented-initial",
+      "owner": "POST-H-031-A",
+      "criticality": "P0",
+      "lifecycle": "active",
+      "required_tests": [
+        "tests/test_post_h_031_evidence_graph_model.py"
+      ],
+      "sync_rules": [
+        "source_paths_exist_or_runtime_expected"
+      ]
+    },
+    {
+      "doc_id": "POST-H-031-A-EVIDENCE-GRAPH-TEST",
+      "path": "tests/test_post_h_031_evidence_graph_model.py",
+      "classification": "derived",
+      "domain": "operations.observability",
+      "status_required": "current",
+      "owner": "POST-H-031-A",
+      "criticality": "P0",
+      "lifecycle": "active",
+      "required_tests": [
+        "tests/test_post_h_031_evidence_graph_model.py"
+      ],
+      "sync_rules": []
     }
   ],
   "rules": {
@@ -8852,16 +8963,16 @@
     "POST-H-025-C keeps enterprise, remote, SaaS and compliance claims disabled.": true
   },
   "summary": {
-    "documents_total": 369,
-    "source_of_truth_total": 143,
-    "machine_readable_source_total": 170,
-    "derived_total": 56,
+    "documents_total": 376,
+    "source_of_truth_total": 145,
+    "machine_readable_source_total": 173,
+    "derived_total": 58,
     "generated_runtime_total": 0,
     "historical_total": 0,
     "deprecated_total": 0,
-    "critical_sources_total": 274,
+    "critical_sources_total": 281,
     "markdown_json_pairs_total": 30,
-    "documents_with_required_tests_total": 369,
+    "documents_with_required_tests_total": 376,
     "network_used": false,
     "external_api_used": false,
     "mutations_performed": false,
@@ -8872,8 +8983,8 @@
     "backlog_governance_scope": "POST-H-002..POST-H-025",
     "backlogs_missing_future_are_planned_info": true,
     "preliminary": true,
-    "updated_by": "POST-H-030-E",
-    "last_registered_sprint": "POST-H-030-E"
+    "updated_by": "POST-H-031-A",
+    "last_registered_sprint": "POST-H-031-A"
   },
   "safety": {
     "local_first": true,
@@ -8972,7 +9083,8 @@
     "POST-H-028-B registers local auth/CORS hardening schema, module, report, manifest and tests as canonical UI/API hardening sources.",
     "POST-H-029-A registers TestProfileTaxonomy and controlled test profile aliases without executing tests from JSON.",
     "POST-H-029-B registers TestImpactRuleRegistry and declarative TCR v2 impact rules without executing tests from JSON.",
-    "POST-H-029-D registers ReleaseCandidateTestProfileReport and formal release-candidate-local profile artifacts."
+    "POST-H-029-D registers ReleaseCandidateTestProfileReport and formal release-candidate-local profile artifacts.",
+    "POST-H-031-A registers evidence graph model sources, schema, manifest, audit report and focal test as governed documentation/evidence sources."
   ],
   "project_state_snapshot": {
     "current_micro_sprint": "POST-H-030-E",

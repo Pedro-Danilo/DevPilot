@@ -47,6 +47,7 @@ POST_H_006_B_INITIAL_GROUPS: tuple[str, ...] = (
     "project-state",
     "test-contracts",
     "quality-gate",
+    "evidence",
     "industrial-readiness",
     "release-candidate",
     "package",
@@ -706,6 +707,14 @@ DECLARATIVE_GROUPS: dict[str, DeclarativeGroupDescriptor] = {
         recommended_tests=("python -m pytest tests/test_observability_inventory.py tests/test_observability_cleanup_plan.py tests/test_observability_export.py tests/test_post_h_010_observability_retention.py -q",),
         rationale="POST-H-010 observability commands inspect local retention targets, generate dry-run cleanup plans and export local redacted evidence without enabling destructive cleanup or remote export.",
     ),
+    "evidence": DeclarativeGroupDescriptor(
+        group_id="evidence",
+        domain="operations.observability",
+        owner_module="src/devpilot_core/evidence_graph/builder.py",
+        application_service_required=True,
+        recommended_tests=("python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_031_evidence_graph_model.py tests/test_schema_registry.py -q",),
+        rationale="POST-H-031-A registers the local read-only evidence graph model as an operator evidence surface; it writes only optional outputs/reports evidence and does not declare readiness.",
+    ),
     "docs-governance": DeclarativeGroupDescriptor(
         group_id="docs-governance",
         domain="documentation.governance",
@@ -773,6 +782,19 @@ COMMAND_OVERRIDES: dict[str, DeclarativeCommandOverride] = {
         ),
         rationale="POST-H-030-E validates source-controlled CLI compatibility contracts and writes only optional reports under outputs/reports.",
     ),
+    "evidence.graph": DeclarativeCommandOverride(
+        command_id="evidence.graph",
+        risk_level=CommandRiskLevel.MEDIUM,
+        side_effects=(CommandSideEffect.WRITE_REPORT,),
+        writes_files=True,
+        dry_run_supported=True,
+        policy_check_required=True,
+        recommended_tests=(
+            "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_031_evidence_graph_model.py -q",
+        ),
+        rationale="POST-H-031-A builds a local read-only EvidenceGraph and writes reports only under outputs/reports when --write-report is explicit; it does not execute commands or declare readiness.",
+    ),
+
     "workspace.init": DeclarativeCommandOverride(
         command_id="workspace.init",
         risk_level=CommandRiskLevel.HIGH,

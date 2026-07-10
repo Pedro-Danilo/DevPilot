@@ -14098,6 +14098,83 @@
       "classification_notes": [
         "POST-H-030-E closes the initial CLI hotspot reduction backlog with compatibility fixtures and a quality subgate."
       ]
+    },
+    {
+      "contract_id": "post-h-031-evidence-graph-model",
+      "schema_version": "2.0",
+      "source_contract_id": "post-h-031-evidence-graph-model",
+      "domain": "operations.observability",
+      "capability": "EvidenceGraphModel",
+      "criticality": "P0",
+      "risk_level": "high",
+      "test_type": "integration",
+      "execution_profile": "impact",
+      "cost_class": "medium",
+      "expected_duration_seconds": 240,
+      "test_files": [
+        "tests/test_post_h_031_evidence_graph_model.py"
+      ],
+      "watched_paths": [
+        "src/devpilot_core/evidence_graph/__init__.py",
+        "src/devpilot_core/evidence_graph/models.py",
+        "src/devpilot_core/evidence_graph/builder.py",
+        "src/devpilot_core/application/services.py",
+        "src/devpilot_core/cli.py",
+        "src/devpilot_core/cli_registry/registry.py",
+        ".devpilot/evidence/evidence_graph_sources.json",
+        "docs/schemas/evidence_graph.schema.json",
+        "docs/schemas/schema_catalog.json",
+        ".devpilot/project_state.json",
+        ".devpilot/docs_governance/source_registry.json",
+        "docs/backlogs/POST-H-031_observability_evidence_graph_operator.md"
+      ],
+      "validates": [
+        "POST-H-031-A EvidenceGraph schema-backed model",
+        "Source config classification and forbidden source blocking",
+        "Versioned source and runtime missing_expected modeling",
+        "Claims and no-go gates represented without readiness overclaims",
+        "ApplicationService.evidence_graph boundary",
+        "evidence graph CLI JSON/report contract"
+      ],
+      "trigger_hints": [
+        "post-h-031-a",
+        "evidence-graph-change",
+        "operator-evidence-source-change",
+        "observability-evidence-contract-change"
+      ],
+      "impact_scope": [
+        "observability",
+        "evidence",
+        "operator",
+        "schemas",
+        "application-boundary",
+        "documentation-governance"
+      ],
+      "required_for_release": true,
+      "required_for_security_gate": false,
+      "network_allowed": false,
+      "external_api_allowed": false,
+      "mutations_allowed": false,
+      "source_mutations_allowed": false,
+      "requires_human_approval": false,
+      "owner": "POST-H-031-A",
+      "owner_domain": "operations.observability",
+      "service_boundary": "evidence_graph",
+      "subgate_id": "evidence-graph-model",
+      "schema_ids": [
+        "SCHEMA-DEVPL-EVIDENCE-GRAPH-V1"
+      ],
+      "recommended_commands": [
+        "python -m pytest -p no:ddtrace --assert=plain tests/test_post_h_031_evidence_graph_model.py -q",
+        "python -m devpilot_core evidence graph --json",
+        "python -m devpilot_core evidence graph --json --write-report",
+        "python -m devpilot_core schema validate --schema-id EvidenceGraph --instance outputs/reports/evidence_graph.json --json",
+        "python -m devpilot_core test-contracts validate-v2 --json"
+      ],
+      "classification_status": "explicit",
+      "classification_notes": [
+        "POST-H-031-A implements the initial evidence graph model as local-first/read-only and non-readiness-declaring."
+      ]
     }
   ],
   "migration_metadata": {
@@ -14143,6 +14220,7 @@
     "POST-H-028-D adds operator flows/error-states coverage to the UI/API local hardening wave.",
     "POST-H-029-B registers declarative impact rule contract and P0/P1 impact metadata enrichment without executing tests from registry data.",
     "POST-H-029-D adds a formal release-candidate-local test profile contract without executing tests from JSON.",
-    "POST-H-029-E registers historical regression guard and testing-tiers-ready quality subgate."
+    "POST-H-029-E registers historical regression guard and testing-tiers-ready quality subgate.",
+    "POST-H-031-A registers EvidenceGraphModel as an explicit operations.observability impact contract."
   ]
 }

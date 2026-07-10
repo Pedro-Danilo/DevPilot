@@ -5685,3 +5685,22 @@ Limitación: esta primera versión no snapshottea todos los comandos legacy de b
 Último hito: `POST-H-030`
 
 Siguiente hito: `POST-H-031`
+
+## POST-H-031-A — Evidence graph model
+
+POST-H-031-A inicia `POST-H-031 — Observabilidad, evidence graph y operador` como `implemented-initial/local-first`. Agrega el schema `EvidenceGraph`, la configuración `.devpilot/evidence/evidence_graph_sources.json`, el bounded context `src/devpilot_core/evidence_graph/`, el método `ApplicationService.evidence_graph(...)` y el comando `python -m devpilot_core evidence graph --json`.
+
+El grafo representa evidencia versionada, evidencia runtime regenerable, claims permitidos/prohibidos, no-go gates, gaps y relaciones para futuras vistas de operador. No declara readiness por sí mismo; los PASS/BLOCK siguen perteneciendo a gates formales como production-ready-local y quality-gate.
+
+Comandos principales:
+
+```powershell
+$env:PYTHONPATH="src"
+python -m devpilot_core evidence graph --json
+python -m devpilot_core evidence graph --json --write-report
+python -m devpilot_core schema validate --schema-id EvidenceGraph --instance outputs/reports/evidence_graph.json --json
+```
+
+Límites: no ejecuta comandos, no lee secretos, no lee `.devpilot/devpilot.db`, no usa red, no usa APIs externas, no activa remote execution, connector write ni plugin execution. `--write-report` escribe únicamente evidencia regenerable bajo `outputs/reports`, que no debe incluirse en ZIPs limpios.
+
+Siguiente micro-sprint: `POST-H-031-B — Operator health summary`.

@@ -9,7 +9,7 @@
   "last_functional_sprint": "FUNC-SPRINT-99",
   "next_sprint": "POST-H-031",
   "source_repo": "repo_DevPilot_Local_263_POST_H_025.zip",
-  "current_repo": "repo_DevPilot_Local_288_POST_H_030_E.zip",
+  "current_repo": "repo_DevPilot_Local_289_POST_H_031_A.zip",
   "global_state_owner": "tests/test_project_global_state.py",
   "mutable_global_state_fields": [
     "last_completed_sprint",
@@ -267,10 +267,11 @@
     "POST-H-030-B extracts industrial-readiness check, production-ready-local and production-ready-local-final result-building handlers into src/devpilot_core/cli_commands/industrial_readiness.py while preserving public CLI wrappers, ApplicationService boundaries, JSON envelope, exit codes, no-go claims behavior, no dynamic router, network/external APIs disabled and no source mutations at runtime.",
     "POST-H-030-C extracts release, release-candidate, package, install, backup and upgrade result-building handlers into src/devpilot_core/cli_commands/release.py while preserving public CLI wrappers, optional report wiring, local-first dry-run contracts, JSON envelope, exit codes, no dynamic router, network/external APIs disabled and no source mutations at runtime.",
     "POST-H-030-D extracts workspace registry/isolation and portfolio readiness result-building handlers into src/devpilot_core/cli_commands/workspace.py and src/devpilot_core/cli_commands/workspace_onboarding.py while preserving public CLI wrappers, dry-run bootstrap semantics, readiness preview pending classification, ApplicationService boundaries, no dynamic router, network/external APIs disabled and no source mutations at runtime.",
-    "POST-H-030-E closes CLI hotspot reduction as implemented-initial/local-first: CliCompatibilityReport schema, source-controlled CLI compatibility contracts, cli-registry compatibility CLI, cli-boundary-hotspot-reduction quality subgate and focal contract tests cover migrated/high-risk commands without dynamic router, network, external APIs or destructive execution."
+    "POST-H-030-E closes CLI hotspot reduction as implemented-initial/local-first: CliCompatibilityReport schema, source-controlled CLI compatibility contracts, cli-registry compatibility CLI, cli-boundary-hotspot-reduction quality subgate and focal contract tests cover migrated/high-risk commands without dynamic router, network, external APIs or destructive execution.",
+    "POST-H-031-A starts Observabilidad, evidence graph y operador as implemented-initial: EvidenceGraph schema, source config, builder, ApplicationService method and evidence graph CLI are available locally/read-only without declaring readiness, executing commands, reading secrets, network, external APIs or source mutations."
   ],
-  "current_micro_sprint": "POST-H-030-E",
-  "next_micro_sprint": "POST-H-031-A",
+  "current_micro_sprint": "POST-H-031-A",
+  "next_micro_sprint": "POST-H-031-B",
   "post_h_020_current_micro_sprint": "POST-H-020-E",
   "post_h_020_next_micro_sprint": "POST-H-021",
   "compliance_evidence_collector_module": "src/devpilot_core/compliance/evidence.py",
@@ -956,5 +957,23 @@
   "post_h_030_cli_compatibility_source_mutations_runtime": false,
   "post_h_030_closed": true,
   "post_h_030_closed_status": "closed/implemented-initial/local-first",
-  "post_h_030_backlog_closure_report_path": "docs/audits/post_h_030_e_cli_compatibility_contracts_report.md"
+  "post_h_030_backlog_closure_report_path": "docs/audits/post_h_030_e_cli_compatibility_contracts_report.md",
+  "post_h_031_status": "active/implemented-initial-post-h-031-a",
+  "post_h_031_backlog_approved": true,
+  "post_h_031_current_micro_sprint": "POST-H-031-A",
+  "post_h_031_next_micro_sprint": "POST-H-031-B",
+  "post_h_031_evidence_graph_schema_registered": true,
+  "post_h_031_evidence_graph_sources_path": ".devpilot/evidence/evidence_graph_sources.json",
+  "post_h_031_evidence_graph_module": "src/devpilot_core/evidence_graph/builder.py",
+  "post_h_031_evidence_graph_cli_command": "python -m devpilot_core evidence graph --json",
+  "post_h_031_evidence_graph_output_path": "outputs/reports/evidence_graph.json",
+  "post_h_031_evidence_graph_available": true,
+  "post_h_031_evidence_graph_declares_readiness": false,
+  "post_h_031_evidence_graph_read_only": true,
+  "post_h_031_evidence_graph_network_used": false,
+  "post_h_031_evidence_graph_external_api_used": false,
+  "post_h_031_evidence_graph_commands_executed": false,
+  "post_h_031_evidence_graph_source_mutations": false,
+  "post_h_031_evidence_graph_secret_reads": false,
+  "post_h_031_evidence_graph_devpilot_db_read": false
 }

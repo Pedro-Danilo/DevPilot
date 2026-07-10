@@ -1,0 +1,47 @@
+{
+  "schema_version": "1.0",
+  "manifest_id": "post-h-031-a-evidence-graph-model",
+  "created_by": "POST-H-031-A",
+  "status": "implemented-initial",
+  "backlog": "POST-H-031_observability_evidence_graph_operator",
+  "current_repo": "repo_DevPilot_Local_289_POST_H_031_A.zip",
+  "next_micro_sprint": "POST-H-031-B",
+  "artifacts": {
+    "schema": "docs/schemas/evidence_graph.schema.json",
+    "sources": ".devpilot/evidence/evidence_graph_sources.json",
+    "module_models": "src/devpilot_core/evidence_graph/models.py",
+    "module_builder": "src/devpilot_core/evidence_graph/builder.py",
+    "application_service": "src/devpilot_core/application/services.py::ApplicationService.evidence_graph",
+    "cli_command": "python -m devpilot_core evidence graph --json",
+    "test": "tests/test_post_h_031_evidence_graph_model.py",
+    "audit_report": "docs/audits/post_h_031_a_evidence_graph_model_report.md"
+  },
+  "summary": {
+    "schema_id": "SCHEMA-DEVPL-EVIDENCE-GRAPH-V1",
+    "graph_declares_readiness": false,
+    "required_versioned_sources_configured": 8,
+    "optional_runtime_sources_configured": 5,
+    "claim_nodes_included": 5,
+    "no_go_gate_nodes_included": 8,
+    "write_report_explicit": true
+  },
+  "safety": {
+    "local_first": true,
+    "read_only_default": true,
+    "network_used": false,
+    "external_api_used": false,
+    "commands_executed": false,
+    "secrets_read": false,
+    "devpilot_db_read": false,
+    "remote_execution_enabled": false,
+    "connector_write_enabled": false,
+    "plugin_execution_enabled": false,
+    "source_mutations_runtime": false,
+    "reports_only_under_outputs": true
+  },
+  "notes": [
+    "POST-H-031-A creates the initial evidence graph model; it does not replace formal PASS/BLOCK gates.",
+    "Runtime outputs are intentionally omitted from clean source ZIPs and represented as missing_expected when absent."
+  ],
+  "implementation_status": "active/implemented-initial-post-h-031-a"
+}
